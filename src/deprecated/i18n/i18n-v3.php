@@ -49,8 +49,6 @@ class Yoast_I18n_v3 {
 	 * @deprecated 19.12
 	 * @codeCoverageIgnore
 	 *
-	 * @access public
-	 *
 	 * @return string The i18n promo message.
 	 */
 	public function get_promo_message() {
@@ -64,8 +62,6 @@ class Yoast_I18n_v3 {
 	 * @deprecated 19.12
 	 * @codeCoverageIgnore
 	 *
-	 * @access private
-	 *
 	 * @return string
 	 */
 	public function get_dismiss_i18n_message_button() {
@@ -78,8 +74,6 @@ class Yoast_I18n_v3 {
 	 *
 	 * @deprecated 19.12
 	 * @codeCoverageIgnore
-	 *
-	 * @access public
 	 */
 	public function promo() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
