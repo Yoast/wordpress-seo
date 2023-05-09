@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
-use Exception;
 use WP_Post_Type;
 use WP_Taxonomy;
 use WPSEO_Admin_Asset_Manager;

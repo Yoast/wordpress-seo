@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
-use Yoast\WP\SEO\Conditionals\The_Events_Calendar_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**

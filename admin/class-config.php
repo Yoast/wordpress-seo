@@ -5,7 +5,6 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
 

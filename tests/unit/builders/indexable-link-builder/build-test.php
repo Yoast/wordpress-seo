@@ -6,7 +6,6 @@ use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;

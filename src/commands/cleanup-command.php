@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Commands;
 use WP_CLI\ExitException;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Main;
-use function get_sites;
 use function WP_CLI\Utils\make_progress_bar;
 
 /**
