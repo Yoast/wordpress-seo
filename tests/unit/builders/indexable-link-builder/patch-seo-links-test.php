@@ -88,10 +88,10 @@ class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @dataProvider patch_seo_links_provider
 	 *
-	 * @param int|null $indexable_id The indexable id.
-	 * @param int|null $object_id The object id.
-	 * @param int      $links_times The times that find_all_by_target_post_id is executed.
-	 * @param array    $links The links.
+	 * @param int|null $indexable_id                     The indexable id.
+	 * @param int|null $object_id                        The object id.
+	 * @param int      $links_times                      The times that find_all_by_target_post_id is executed.
+	 * @param array    $links                            The links.
 	 * @param int      $update_target_indexable_id_times The times that update_target_indexable_id is executed.
 	 */
 	public function test_patch_seo_links( $indexable_id, $object_id, $links_times, $links, $update_target_indexable_id_times ) {

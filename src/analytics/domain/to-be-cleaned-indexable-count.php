@@ -25,7 +25,7 @@ class To_Be_Cleaned_Indexable_Count {
 	 * The constructor.
 	 *
 	 * @param string $cleanup_name The indexable type that is represented by this.
-	 * @param int    $count          The amount of missing indexables.
+	 * @param int    $count        The amount of missing indexables.
 	 */
 	public function __construct( string $cleanup_name, int $count ) {
 		$this->cleanup_name = $cleanup_name;

@@ -50,7 +50,7 @@ class Last_Completed_Indexation_Integration implements Integration_Interface {
 	 * Saves a timestamp option when there are no unindexed indexables.
 	 *
 	 * @param string $indexable_name The name of the indexable that is being checked.
-	 * @param int    $count The amount of missing indexables.
+	 * @param int    $count          The amount of missing indexables.
 	 *
 	 * @return void
 	 */

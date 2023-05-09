@@ -91,10 +91,10 @@ class Get_Permalink_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @dataProvider data_provider_get_permalink
 	 *
-	 * @param string $link The link to test.
-	 * @param array  $home_url The home URL schema and host.
+	 * @param string $link           The link to test.
+	 * @param array  $home_url       The home URL schema and host.
 	 * @param string $set_url_scheme The URL scheme.
-	 * @param string $expected The expected permalink.
+	 * @param string $expected       The expected permalink.
 	 */
 	public function test_get_permalink( $link, $home_url, $set_url_scheme, $expected ) {
 

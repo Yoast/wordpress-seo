@@ -182,7 +182,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	/**
 	 * Print the settings sections.
 	 *
-	 * @param Yoast_Form $yform      The Yoast form class.
+	 * @param Yoast_Form $yform The Yoast form class.
 	 *
 	 * @return void
 	 */
@@ -223,11 +223,11 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	/**
 	 * Prints a list of toggles for an array of settings with labels.
 	 *
-	 * @param array      $settings    The settings being displayed.
-	 * @param Yoast_Form $yform       The Yoast form class.
-	 * @param string     $title       Optional title for the settings being displayed.
-	 * @param array      $toggles     Optional naming of the toggle buttons.
-	 * @param string     $warning     Optional warning to be displayed above the toggles.
+	 * @param array      $settings The settings being displayed.
+	 * @param Yoast_Form $yform    The Yoast form class.
+	 * @param string     $title    Optional title for the settings being displayed.
+	 * @param array      $toggles  Optional naming of the toggle buttons.
+	 * @param string     $warning  Optional warning to be displayed above the toggles.
 	 *
 	 * @return void
 	 */

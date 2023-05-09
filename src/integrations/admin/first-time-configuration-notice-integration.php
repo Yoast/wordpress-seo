@@ -45,9 +45,9 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 	/**
 	 * First_Time_Configuration_Notice_Integration constructor.
 	 *
-	 * @param Options_Helper                         $options_helper      The options helper.
-	 * @param First_Time_Configuration_Notice_Helper $first_time_configuration_notice_helper      The first time configuration notice helper.
-	 * @param WPSEO_Admin_Asset_Manager              $admin_asset_manager The admin asset manager.
+	 * @param Options_Helper                         $options_helper                         The options helper.
+	 * @param First_Time_Configuration_Notice_Helper $first_time_configuration_notice_helper The first time configuration notice helper.
+	 * @param WPSEO_Admin_Asset_Manager              $admin_asset_manager                    The admin asset manager.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,

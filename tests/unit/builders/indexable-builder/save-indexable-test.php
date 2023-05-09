@@ -104,11 +104,11 @@ class Save_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
 	 *
 	 * @dataProvider save_indexable_provider
 	 *
-	 * @param Indexable_Mock $indexable_before The indexable to expect.
-	 * @param bool           $should_index The return value of should_index_indexables method.
+	 * @param Indexable_Mock $indexable_before  The indexable to expect.
+	 * @param bool           $should_index      The return value of should_index_indexables method.
 	 * @param bool           $wpseo_should_save The return value for wpseo_should_save_indexable.
-	 * @param int            $save_times The times save method should be executed.
-	 * @param int            $action_times The times wpseo_save_indexable action should be executed.
+	 * @param int            $save_times        The times save method should be executed.
+	 * @param int            $action_times      The times wpseo_save_indexable action should be executed.
 	 * @return void
 	 */
 	public function test_save_indexable( $indexable_before, $should_index, $wpseo_should_save, $save_times, $action_times ) {

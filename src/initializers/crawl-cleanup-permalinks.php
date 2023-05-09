@@ -44,9 +44,9 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	/**
 	 * Crawl Cleanup Basic integration constructor.
 	 *
-	 * @param Options_Helper       $options_helper      The option helper.
-	 * @param Url_Helper           $url_helper          The URL helper.
-	 * @param Redirect_Helper      $redirect_helper     The Redirect Helper.
+	 * @param Options_Helper       $options_helper       The option helper.
+	 * @param Url_Helper           $url_helper           The URL helper.
+	 * @param Redirect_Helper      $redirect_helper      The Redirect Helper.
 	 * @param Crawl_Cleanup_Helper $crawl_cleanup_helper The Crawl_Cleanup_Helper.
 	 */
 	public function __construct(

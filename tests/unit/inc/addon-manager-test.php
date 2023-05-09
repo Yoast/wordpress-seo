@@ -1026,11 +1026,11 @@ class Addon_Manager_Test extends TestCase {
 	 *
 	 * @covers ::get_myyoast_site_information
 	 *
-	 * @param string $pagenow_new What the value of global pagenow should be.
-	 * @param mixed  $page What the value of $_GET['page'] should be.
-	 * @param bool   $call_quick Whether the quick transient will be used.
+	 * @param string $pagenow_new      What the value of global pagenow should be.
+	 * @param mixed  $page             What the value of $_GET['page'] should be.
+	 * @param bool   $call_quick       Whether the quick transient will be used.
 	 * @param mixed  $transient_return The value the transient should return.
-	 * @param mixed  $return_value The return value.
+	 * @param mixed  $return_value     The return value.
 	 */
 	public function test_get_myyoast_site_information( $pagenow_new, $page, $call_quick, $transient_return, $return_value ) {
 		global $pagenow;

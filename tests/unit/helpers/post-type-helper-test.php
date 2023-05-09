@@ -44,10 +44,10 @@ class Post_Type_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider post_type_archive_provider
 	 *
-	 * @param stdClass $return_object The object returned by the get_post_type_object function.
-	 * @param array    $post_types A list of post_types.
+	 * @param stdClass $return_object      The object returned by the get_post_type_object function.
+	 * @param array    $post_types         A list of post_types.
 	 * @param string   $post_type_to_check The post type to check.
-	 * @param bool     $expected_result The expected result if the archive is indexable.
+	 * @param bool     $expected_result    The expected result if the archive is indexable.
 	 *
 	 * @return void
 	 */
@@ -91,8 +91,8 @@ class Post_Type_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider post_type_archive_object_provider
 	 *
-	 * @param stdClass $return_object The object returned by the get_post_type_object function.
-	 * @param array    $post_types A list of post_types.
+	 * @param stdClass $return_object   The object returned by the get_post_type_object function.
+	 * @param array    $post_types      A list of post_types.
 	 * @param array    $expected_result The expected list of indexable post archives.
 	 *
 	 * @return void

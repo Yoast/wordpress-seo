@@ -314,10 +314,10 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	/**
 	 * Expectation for update_related_indexables.
 	 *
-	 * @param object $indexable The indexable object.
+	 * @param object $indexable    The indexable object.
 	 * @param array  $new_seo_link The new seo link.
 	 * @param array  $old_seo_link The old seo link.
-	 * @param array  $delete_ids The delete ids.
+	 * @param array  $delete_ids   The delete ids.
 	 */
 	public function expect_update_related_indexables( $indexable, $new_seo_link, $old_seo_link, $delete_ids ) {
 

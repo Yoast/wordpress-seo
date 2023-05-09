@@ -97,10 +97,10 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @dataProvider register_hooks_provider
 	 *
-	 * @param string $permalink_structure permalink_structure value returned from get_option.
-	 * @param string $campaign_tracking_urls Returned value from option_helper.
-	 * @param string $clean_permalinks Returned value from option_helper.
-	 * @param int    $expected_utm_redirect Is action fired.
+	 * @param string $permalink_structure       permalink_structure value returned from get_option.
+	 * @param string $campaign_tracking_urls    Returned value from option_helper.
+	 * @param string $clean_permalinks          Returned value from option_helper.
+	 * @param int    $expected_utm_redirect     Is action fired.
 	 * @param int    $expected_clean_permalinks Is action fired.
 	 */
 	public function test_register_hooks( $permalink_structure, $campaign_tracking_urls, $clean_permalinks, $expected_utm_redirect, $expected_clean_permalinks ) {
@@ -166,8 +166,8 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @dataProvider utm_redirect_provider
 	 *
-	 * @param string $request_uri $_SERVER['REQUEST_URI'].
-	 * @param array  $wp_parse_url wp_parse_url return value.
+	 * @param string $request_uri         $_SERVER['REQUEST_URI'].
+	 * @param array  $wp_parse_url        wp_parse_url return value.
 	 * @param int    $is_wp_safe_redirect Is wp_safe_redirect called.
 	 */
 	public function test_utm_redirect( $request_uri, $wp_parse_url, $is_wp_safe_redirect ) {
@@ -229,11 +229,11 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @dataProvider clean_permalinks_no_redirect_provider
 	 *
-	 * @param bool   $avoid_redirect should avoid redirect.
+	 * @param bool   $avoid_redirect             should avoid redirect.
 	 * @param int    $recreate_current_url_times times recreate_current_url is called.
-	 * @param string $current_url current url.
-	 * @param array  $allowed_params allowed params.
-	 * @param int    $expected times redirect is done.
+	 * @param string $current_url                current url.
+	 * @param array  $allowed_params             allowed params.
+	 * @param int    $expected                   times redirect is done.
 	 */
 	public function test_clean_permalinks_no_redirect( $avoid_redirect, $recreate_current_url_times, $current_url, $allowed_params, $expected ) {
 
@@ -284,11 +284,11 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @dataProvider clean_permalinks_provider
 	 *
-	 * @param string $current_url current url.
+	 * @param string $current_url    current url.
 	 * @param array  $allowed_params allowed params.
-	 * @param string $url_type is url type and the function name in the helper.
-	 * @param string $proper_url proper url.
-	 * @param int    $expected times redirect is done.
+	 * @param string $url_type       is url type and the function name in the helper.
+	 * @param string $proper_url     proper url.
+	 * @param int    $expected       times redirect is done.
 	 */
 	public function test_clean_permalinks( $current_url, $allowed_params, $url_type, $proper_url, $expected ) {
 
@@ -399,10 +399,10 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @dataProvider clean_permalinks_with_page_var_provider
 	 *
-	 * @param string $current_url current url.
+	 * @param string $current_url    current url.
 	 * @param array  $allowed_params allowed params.
-	 * @param string $proper_url proper url.
-	 * @param int    $expected times redirect is done.
+	 * @param string $proper_url     proper url.
+	 * @param int    $expected       times redirect is done.
 	 */
 	public function test_clean_permalinks_with_page_var( $current_url, $allowed_params, $proper_url, $expected ) {
 

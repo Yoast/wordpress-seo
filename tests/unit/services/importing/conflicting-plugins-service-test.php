@@ -119,8 +119,8 @@ class Conflicting_Plugins_Service_Test extends TestCase {
 	 *
 	 * @covers ::ignore_deactivating_plugin
 	 *
-	 * @param mixed $action The value of $_GET['action'].
-	 * @param mixed $plugin The value of $_GET['plugin'].
+	 * @param mixed $action   The value of $_GET['action'].
+	 * @param mixed $plugin   The value of $_GET['plugin'].
 	 * @param array $expected The expected return value of detect_conflicting_plugins.
 	 */
 	public function test_detect_deactivating_conflicting_plugins_plugin_is_int( $action, $plugin, $expected ) {

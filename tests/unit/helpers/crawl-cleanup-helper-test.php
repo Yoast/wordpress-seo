@@ -85,11 +85,11 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider should_avoid_redirect_provider
 	 *
-	 * @param boolean $is_robots is_robots return value.
-	 * @param string  $sitemap get_query_var return value.
-	 * @param array   $get_response get_response value.
+	 * @param boolean $is_robots         is_robots return value.
+	 * @param string  $sitemap           get_query_var return value.
+	 * @param array   $get_response      get_response value.
 	 * @param boolean $is_user_logged_in is_user_logged_in return value.
-	 * @param int     $expected The return value from the should_avoid_redirect function.
+	 * @param int     $expected          The return value from the should_avoid_redirect function.
 	 */
 	public function test_should_avoid_redirect( $is_robots, $sitemap, $get_response, $is_user_logged_in, $expected ) {
 
@@ -142,8 +142,8 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 * @dataProvider get_allowed_extravars_provider
 	 *
 	 * @param string $clean_permalinks_extra_variables return value.
-	 * @param array  $permalink_vars The return value from the filter to add extra vars.
-	 * @param array  $expeted The allowed extra vars (is set in settings under 'Additional URL parameters to allow').
+	 * @param array  $permalink_vars                   The return value from the filter to add extra vars.
+	 * @param array  $expeted                          The allowed extra vars (is set in settings under 'Additional URL parameters to allow').
 	 */
 	public function test_get_allowed_extravars( $clean_permalinks_extra_variables, $permalink_vars, $expeted ) {
 
@@ -182,12 +182,12 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider front_page_url_provider
 	 *
-	 * @param boolean $is_home_posts_page is_home_posts_page return value.
+	 * @param boolean $is_home_posts_page  is_home_posts_page return value.
 	 * @param boolean $is_home_static_page is_home_static_page return value.
-	 * @param int     $static_times The times is_home_static_page function is called.
-	 * @param int     $home_url_times home_url times called.
-	 * @param int     $permalink_times get_permalink times called.
-	 * @param string  $expected expected return value.
+	 * @param int     $static_times        The times is_home_static_page function is called.
+	 * @param int     $home_url_times      home_url times called.
+	 * @param int     $permalink_times     get_permalink times called.
+	 * @param string  $expected            expected return value.
 	 */
 	public function test_front_page_url( $is_home_posts_page, $is_home_static_page, $static_times, $home_url_times, $permalink_times, $expected ) {
 
@@ -236,16 +236,16 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider page_not_found_url_provider
 	 *
-	 * @param bool   $is_multisite is_multisite return value.
-	 * @param bool   $is_subdomain_install is_subdomain_install return value.
-	 * @param bool   $is_main_site is_main_site return value.
-	 * @param string $home_url home_url return value.
-	 * @param bool   $is_home_static_page The return value from is_home_static_page function.
+	 * @param bool   $is_multisite           is_multisite return value.
+	 * @param bool   $is_subdomain_install   is_subdomain_install return value.
+	 * @param bool   $is_main_site           is_main_site return value.
+	 * @param string $home_url               home_url return value.
+	 * @param bool   $is_home_static_page    The return value from is_home_static_page function.
 	 * @param int    $home_static_page_times The times is_home_static_page function is called.
-	 * @param int    $get_permalink_times get_permalink times called.
-	 * @param int    $page_for_posts_times times get_option(page_for_posts) is called.
-	 * @param string $current_url current_url return value.
-	 * @param string $expected expected return value.
+	 * @param int    $get_permalink_times    get_permalink times called.
+	 * @param int    $page_for_posts_times   times get_option(page_for_posts) is called.
+	 * @param string $current_url            current_url return value.
+	 * @param string $expected               expected return value.
 	 */
 	public function test_page_not_found_url( $is_multisite, $is_subdomain_install, $is_main_site, $home_url, $is_home_static_page, $home_static_page_times, $get_permalink_times, $page_for_posts_times, $current_url, $expected ) {
 
@@ -300,10 +300,10 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider taxonomy_url_provider
 	 *
-	 * @param bool   $is_feed is_feed return value.
+	 * @param bool   $is_feed                  is_feed return value.
 	 * @param int    $get_term_feed_link_times times get_term_feed_link is called.
-	 * @param int    $get_term_link_times times get_term_link is called.
-	 * @param string $expected expected return value.
+	 * @param int    $get_term_link_times      times get_term_link is called.
+	 * @param string $expected                 expected return value.
 	 */
 	public function test_taxonomy_url( $is_feed, $get_term_feed_link_times, $get_term_link_times, $expected ) {
 
@@ -378,11 +378,11 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider query_var_page_url_provider
 	 *
-	 * @param bool   $is_search is_search return value.
-	 * @param string $proper_url proper url.
-	 * @param int    $home_url times home_url is called.
+	 * @param bool   $is_search        is_search return value.
+	 * @param string $proper_url       proper url.
+	 * @param int    $home_url         times home_url is called.
 	 * @param int    $get_search_query times get_search_query is called.
-	 * @param string $expected expected return value.
+	 * @param string $expected         expected return value.
 	 */
 	public function test_query_var_page_url( $is_search, $proper_url, $home_url, $get_search_query, $expected ) {
 		global $wp_query;
@@ -426,10 +426,10 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider is_query_var_page_provider
 	 *
-	 * @param string $proper_url proper url.
+	 * @param string $proper_url       proper url.
 	 * @param string $query_vars_paged query_vars_paged.
-	 * @param int    $post_count post_count.
-	 * @param bool   $expected expected return value.
+	 * @param int    $post_count       post_count.
+	 * @param bool   $expected         expected return value.
 	 */
 	public function test_is_query_var_page( $proper_url, $query_vars_paged, $post_count, $expected ) {
 		global $wp_query;
@@ -484,16 +484,16 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider get_url_type_provider
 	 *
-	 * @param bool   $singular is_singular return value.
-	 * @param bool   $front is_front_page return value.
-	 * @param bool   $category is_category return value.
-	 * @param bool   $tag is_tag return value.
-	 * @param bool   $tax is_tax return value.
-	 * @param bool   $search is_search return value.
-	 * @param bool   $is404 is_404 return value.
-	 * @param bool   $post_page is_posts_page return value.
+	 * @param bool   $singular        is_singular return value.
+	 * @param bool   $front           is_front_page return value.
+	 * @param bool   $category        is_category return value.
+	 * @param bool   $tag             is_tag return value.
+	 * @param bool   $tax             is_tax return value.
+	 * @param bool   $search          is_search return value.
+	 * @param bool   $is404           is_404 return value.
+	 * @param bool   $post_page       is_posts_page return value.
 	 * @param int    $post_page_times times is_posts_page is called.
-	 * @param string $expected expected return value.
+	 * @param string $expected        expected return value.
 	 */
 	public function test_get_url_type( $singular, $front, $category, $tag, $tax, $search, $is404, $post_page, $post_page_times, $expected ) {
 
