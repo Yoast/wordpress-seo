@@ -97,11 +97,11 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @dataProvider register_hooks_provider
 	 *
-	 * @param string $permalink_structure       permalink_structure value returned from get_option.
-	 * @param string $campaign_tracking_urls    Returned value from option_helper.
-	 * @param string $clean_permalinks          Returned value from option_helper.
-	 * @param int    $expected_utm_redirect     Is action fired.
-	 * @param int    $expected_clean_permalinks Is action fired.
+	 * @param string $permalink_structure       Mock return value for get_option(permalink_structure).
+	 * @param string $campaign_tracking_urls    Mock return value for option_helper.
+	 * @param string $clean_permalinks          Mock return value for option_helper.
+	 * @param int    $expected_utm_redirect     The number of times the utm_redirect action is expected to be added.
+	 * @param int    $expected_clean_permalinks The number of times the clean_permalinks action is expected to be added.
 	 */
 	public function test_register_hooks( $permalink_structure, $campaign_tracking_urls, $clean_permalinks, $expected_utm_redirect, $expected_clean_permalinks ) {
 
@@ -166,9 +166,9 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @dataProvider utm_redirect_provider
 	 *
-	 * @param string $request_uri         $_SERVER['REQUEST_URI'].
-	 * @param array  $wp_parse_url        wp_parse_url return value.
-	 * @param int    $is_wp_safe_redirect Is wp_safe_redirect called.
+	 * @param string $request_uri         Mock $_SERVER['REQUEST_URI'] data.
+	 * @param array  $wp_parse_url        Mock return value for wp_parse_url().
+	 * @param int    $is_wp_safe_redirect The number of times wp_safe_redirect() is expected to be called.
 	 */
 	public function test_utm_redirect( $request_uri, $wp_parse_url, $is_wp_safe_redirect ) {
 		$_SERVER['REQUEST_URI'] = $request_uri;
@@ -229,11 +229,11 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @dataProvider clean_permalinks_no_redirect_provider
 	 *
-	 * @param bool   $avoid_redirect             should avoid redirect.
-	 * @param int    $recreate_current_url_times times recreate_current_url is called.
-	 * @param string $current_url                current url.
-	 * @param array  $allowed_params             allowed params.
-	 * @param int    $expected                   times redirect is done.
+	 * @param bool   $avoid_redirect             Mock return value for should avoid redirect().
+	 * @param int    $recreate_current_url_times The number of times recreate_current_url() is expected to be called.
+	 * @param string $current_url                Mock return value for recreate_current_url().
+	 * @param array  $allowed_params             Mock return value for allowed_params().
+	 * @param int    $expected                   The number of times do_clean_redirect() is expected to be called.
 	 */
 	public function test_clean_permalinks_no_redirect( $avoid_redirect, $recreate_current_url_times, $current_url, $allowed_params, $expected ) {
 
@@ -284,11 +284,11 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @dataProvider clean_permalinks_provider
 	 *
-	 * @param string $current_url    current url.
-	 * @param array  $allowed_params allowed params.
-	 * @param string $url_type       is url type and the function name in the helper.
-	 * @param string $proper_url     proper url.
-	 * @param int    $expected       times redirect is done.
+	 * @param string $current_url    Mock return value for recreate_current_url().
+	 * @param array  $allowed_params Mock return value for allowed_params().
+	 * @param string $url_type       Mock return value for get_url_type() and the function name in the helper.
+	 * @param string $proper_url     Mock return value for helper.
+	 * @param int    $expected       The number of times do_clean_redirect() is expected to be called.
 	 */
 	public function test_clean_permalinks( $current_url, $allowed_params, $url_type, $proper_url, $expected ) {
 
@@ -399,10 +399,10 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @dataProvider clean_permalinks_with_page_var_provider
 	 *
-	 * @param string $current_url    current url.
-	 * @param array  $allowed_params allowed params.
-	 * @param string $proper_url     proper url.
-	 * @param int    $expected       times redirect is done.
+	 * @param string $current_url    Mock return value for recreate_current_url().
+	 * @param array  $allowed_params Mock return value for allowed_params().
+	 * @param string $proper_url     Mock return value for query_var_page_url().
+	 * @param int    $expected       The number of times do_clean_redirect() is expected to be called.
 	 */
 	public function test_clean_permalinks_with_page_var( $current_url, $allowed_params, $proper_url, $expected ) {
 
