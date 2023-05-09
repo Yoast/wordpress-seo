@@ -16,7 +16,6 @@ import FormikPostSelectField from "../components/formik-post-select-field";
 import {ASYNC_ACTION_STATUS} from "../constants";
 
 const FormikWithErrorFieldWithDummy = withFormikDummyField( FormikWithErrorField );
-const FormikSelectPostsWithDummy = withFormikDummyField( FormikPostSelectField );
 
 /**
  * @returns {JSX.Element} The site representation route.
@@ -45,19 +44,14 @@ const SiteRepresentation = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const mastodonPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-mastodon-integration" );
-	const PublishingPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-publishing-principles" );
 	const mastodonUrlLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-mastodon" );
-	const { fetchPosts } = useDispatchSettings();
 
 	const handleAddProfile = useCallback( async( arrayHelpers ) => {
 		await arrayHelpers.push( "" );
 		document.getElementById( `input-wpseo_social-other_social_urls-${ otherSocialUrls.length }` )?.focus();
 	}, [ otherSocialUrls ] );
 
-	useEffect( () => {
-		// Get initial options.
-		fetchPosts();
-	}, [] );
+
 
 	return (
 		<RouteLayout
@@ -348,126 +342,6 @@ const SiteRepresentation = () => {
 									disabled={ ! companyOrPersonId }
 								/>
 							</FieldsetLayout>
-						</AnimateHeight>
-						<hr className="yst-my-8" />
-						<AnimateHeight
-							easing="ease-out"
-							duration={ 300 }
-							delay={ 300 }
-							height={ "auto"}
-							animateOpacity={ true }
-						>
-							<FieldsetLayout
-								title={ __( "General information", "wordpress-seo" ) }
-								description={ __( "Description needed", "wordpress-seo" ) }
-							>
-								<FeatureUpsell
-									shouldUpsell={ ! isPremium }
-									variant="card"
-									cardLink={ PublishingPremiumLink }
-									cardText={ sprintf(
-										/* translators: %1$s expands to Premium. */
-										__( "Unlock with %1$s", "wordpress-seo" ),
-										"Premium"
-									) }
-									{ ...premiumUpsellConfig }
-								>
-								<FormikSelectPostsWithDummy
-									name="wpseo_titles.publishing_principles_id"
-									id="input-wpseo_titles-publishing_principles_id"
-									label={ __( "Publishing principles", "wordpress-seo" ) }
-									className="yst-max-w-sm"
-									description={ __( "Description needed", "wordpress-seo" ) }
-									isDummy={ ! isPremium }
-								/>
-								<FormikSelectPostsWithDummy
-									name="wpseo_titles.ownership_funding_info_id"
-									id="input-wpseo_titles-ownership_funding_info_id"
-									label={ __( "Ownership / Funding info", "wordpress-seo" ) }
-									className="yst-max-w-sm"
-									description={ __( "Description needed", "wordpress-seo" ) }
-									isDummy={ ! isPremium }
-								/>
-								</FeatureUpsell>
-							</FieldsetLayout>
-							<hr className="yst-my-8" />
-							<FieldsetLayout
-								title={ __( "Feedback policies", "wordpress-seo" ) }
-								description={ __( "Description needed", "wordpress-seo" ) }
-							>
-								<FeatureUpsell
-									shouldUpsell={ ! isPremium }
-									variant="card"
-									cardLink={ PublishingPremiumLink }
-									cardText={ sprintf(
-										/* translators: %1$s expands to Premium. */
-										__( "Unlock with %1$s", "wordpress-seo" ),
-										"Premium"
-									) }
-									{ ...premiumUpsellConfig }
-								>
-								<FormikSelectPostsWithDummy
-									name="wpseo_titles.actionable_feedback_policy_id"
-									id="input-wpseo_titles-actionable_feedback_policy_id"
-									label={ __( "Actionable feedback policy", "wordpress-seo" ) }
-									className="yst-max-w-sm"
-									description={ __( "Description needed", "wordpress-seo" ) }
-									isDummy={ ! isPremium }
-								/>
-								<FormikSelectPostsWithDummy
-									name="wpseo_titles.corrections_policy_id"
-									id="input-wpseo_titles-corrections_policy_id"
-									label={ __( "Corrections policy", "wordpress-seo" ) }
-									className="yst-max-w-sm"
-									description={ __( "Description needed", "wordpress-seo" ) }
-									isDummy={ ! isPremium }
-								/>
-								</FeatureUpsell>
-							</FieldsetLayout>
-							<hr className="yst-my-8" />
-							<FieldsetLayout
-								title={ __( "Organization policies and reports", "wordpress-seo" ) }
-								description={ __( "Setting the diversity & ethics reports for your company makes it possible for crawlers to easily recognize these important pages.", "wordpress-seo" ) }
-							>
-
-								<FeatureUpsell
-									shouldUpsell={ ! isPremium }
-									variant="card"
-									cardLink={ PublishingPremiumLink }
-									cardText={ sprintf(
-										/* translators: %1$s expands to Premium. */
-										__( "Unlock with %1$s", "wordpress-seo" ),
-										"Premium"
-									) }
-									{ ...premiumUpsellConfig }
-								>
-									<FormikSelectPostsWithDummy
-										name="wpseo_titles.ethics_policy_id"
-										id="input-wpseo_titles-ethics_policy_id"
-										label={ __( "Ethics policy", "wordpress-seo" ) }
-										className="yst-max-w-sm"
-										description={ __( "Describe your company's ethics, for instance, journalistic practices, or where you're sourcing your raw materials etc.", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
-									/>
-									<FormikSelectPostsWithDummy
-										name="wpseo_titles.diversity_policy_id"
-										id="input-wpseo_titles-diversity_policy_id"
-										label={ __( "Diversity policy", "wordpress-seo" ) }
-										className="yst-max-w-sm"
-										description={ __( "Statement on your company's diversity policy, often linking to the staffing report as well.", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
-									/>
-									<FormikSelectPostsWithDummy
-										name="wpseo_titles.diversity_staffing_report_id"
-										id="input-wpseo_titles-diversity_staffing_report_id"
-										label={ __( "Diversity staffing report", "wordpress-seo" ) }
-										className="yst-max-w-sm"
-										description={ __( "A report on staffing diversity, including any issues.", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
-									/>
-								</FeatureUpsell>
-							</FieldsetLayout>
-
 						</AnimateHeight>
 					</div>
 				</div>
