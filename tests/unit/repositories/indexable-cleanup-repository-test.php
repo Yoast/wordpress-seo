@@ -379,7 +379,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 		$this->wpdb->posts = 'wp_posts';
 		$this->wpdb->users = 'wp_users';
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- This is a WordPress constant.
-		define( 'OBJECT_K', 'OBJECT_K' );
+		\define( 'OBJECT_K', 'OBJECT_K' );
 
 		$this->wpdb->shouldReceive( 'prepare' )
 			->once()

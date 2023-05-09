@@ -78,12 +78,12 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->once()
-			->with( ( time() + \DAY_IN_SECONDS ), Cleanup_Integration::START_HOOK );
+			->with( ( \time() + \DAY_IN_SECONDS ), Cleanup_Integration::START_HOOK );
 
 		$this->options_helper->expects( 'get' )
 			->once()
 			->with( 'first_activated_on', false )
-			->andReturn( ( time() - ( \HOUR_IN_SECONDS * 5 ) ) );
+			->andReturn( ( \time() - ( \HOUR_IN_SECONDS * 5 ) ) );
 
 		$this->instance->register_cleanup_routine();
 	}
@@ -105,7 +105,7 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 		$this->options_helper->expects( 'get' )
 			->once()
 			->with( 'first_activated_on', false )
-			->andReturn( ( time() - ( \HOUR_IN_SECONDS * 5 ) ) );
+			->andReturn( ( \time() - ( \HOUR_IN_SECONDS * 5 ) ) );
 
 		$this->instance->register_cleanup_routine();
 	}
@@ -120,7 +120,7 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 		$this->options_helper->expects( 'get' )
 			->once()
 			->with( 'first_activated_on', false )
-			->andReturn( time() );
+			->andReturn( \time() );
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
 			->never()

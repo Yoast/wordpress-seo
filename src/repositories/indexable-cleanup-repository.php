@@ -690,6 +690,6 @@ class Indexable_Cleanup_Repository {
 			$wpdb->query( $query );
 		}
 
-		return count( $reassigned_authors );
+		return \count( $reassigned_authors );
 	}
 }
