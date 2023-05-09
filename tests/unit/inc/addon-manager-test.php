@@ -860,7 +860,7 @@ class Addon_Manager_Test extends TestCase {
 							'new_version'      => '10.0',
 							'name'             => 'Extension',
 							'slug'             => 'yoast-seo-wordpress-premium',
-							'plugin'           => '',
+							'plugin'           => 'wp-seo-premium.php',
 							'url'              => 'https://example.org/store',
 							'last_update'      => 'yesterday',
 							'homepage'         => 'https://example.org/store',
