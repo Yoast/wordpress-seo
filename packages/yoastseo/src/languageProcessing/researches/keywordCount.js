@@ -1,14 +1,12 @@
 import { flatten, uniq } from "lodash-es";
 import matchTextWithArray from "../helpers/match/matchTextWithArray";
 import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
-import Mark from "../../values/Mark";
 import { tokenizerSplitter } from "../../parse/language/LanguageProcessor";
 import { normalizeSingle } from "../helpers/sanitize/quotes";
 import Token from "../../parse/structure/Token";
-import { getLanguage } from "../index";
 import removeConsecutiveKeyphraseFromResult from "../helpers/keywordCount/removeConsecutiveKeyphraseMatches";
 import matchTokenWithWordForms from "../helpers/keywordCount/matchTokenWithWordForms";
-
+import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
 
 /**
  * (re-)Tokenizes the keyphrase forms in the same way that the tokens in the text are splitted.
@@ -228,119 +226,6 @@ function getMatchesInSentence( sentence, keyphraseForms, locale,  matchWordCusto
 	matches = getMatchesInTokens( newKeyphraseForms, tokens, locale );
 
 	return matches;
-}
-
-const markStart = "<yoastmark class='yoast-text-mark'>";
-const markEnd = "</yoastmark>";
-
-/**
- * Create marks for a sentence. This function creates marks for the (old) search based highlighting.
- * @param {Sentence[]} sentence The sentence to which to apply the marks.
- * @param {{}[]} matches The matches to apply.
- * @returns {string} The sentence with marks applied.
- */
-const createMarksForSentence = ( sentence, matches ) => {
-	const reference = sentence.sourceCodeRange.startOffset;
-	let sentenceText = sentence.text;
-
-	let allMatches = flatten( matches.primaryMatches );
-	if ( matches.primaryMatches.length > 0 ) {
-		allMatches = allMatches.concat( flatten( matches.secondaryMatches ) ).sort( function( a, b ) {
-			return a.sourceCodeRange.startOffset - b.sourceCodeRange.startOffset;
-		} );
-	}
-
-	for ( let i = allMatches.length - 1; i >= 0; i-- ) {
-		const match = allMatches[ i ];
-
-		sentenceText = sentenceText.substring( 0, match.sourceCodeRange.endOffset - reference ) + markEnd +
-			sentenceText.substring( match.sourceCodeRange.endOffset - reference );
-		sentenceText = sentenceText.substring( 0, match.sourceCodeRange.startOffset - reference ) + markStart +
-			sentenceText.substring( match.sourceCodeRange.startOffset - reference );
-	}
-
-	sentenceText = sentenceText.replace( new RegExp( "</yoastmark>( ?)<yoastmark class='yoast-text-mark'>", "ig" ), "$1" );
-
-	return sentenceText;
-};
-
-/**
- * Merges consecutive markings into one marking.
- * @param {{}[]} markings An array of markings to merge.
- * @param {boolean} isJapanese Whether the text is Japanese.
- *
- * @returns {{}[]} An array of markings where consecutive markings are merged.
- */
-const mergeConsecutiveMarkings = ( markings, isJapanese = false ) => {
-	const newMarkings = [];
-	markings.forEach( ( marking ) => {
-		let actionDone = false;
-		newMarkings.forEach( ( newMarking, newMarkingIndex ) => {
-			// If the markings are consecutive, merge them.
-			if ( newMarking.getPositionEnd() + ( isJapanese ? 0 : 1 ) === marking.getPositionStart() ) {
-				newMarkings[ newMarkingIndex ]._properties.position.endOffset = marking.getPositionEnd();
-				actionDone = true;
-			// if the markings are overlapping, merge them.
-			} else if ( newMarking.getPositionEnd() >= marking.getPositionStart() && newMarking.getPositionStart() <= marking.getPositionEnd() ) {
-				// eslint-disable-next-line max-len
-				newMarkings[ newMarkingIndex ]._properties.position.startOffset = Math.min( newMarking.getPositionStart(), marking.getPositionStart() );
-				newMarkings[ newMarkingIndex ]._properties.position.endOffset = Math.max( newMarking.getPositionEnd(), marking.getPositionEnd() );
-				actionDone = true;
-			// If the markings are consecutive, merge them.
-			} else if ( newMarking.getPositionStart() === marking.getPositionEnd() + ( isJapanese ? 0 : 1 ) ) {
-				newMarkings[ newMarkingIndex ]._properties.position.startOffset = marking.getPositionStart();
-				actionDone = true;
-			}
-		} );
-		if ( ! actionDone ) {
-			newMarkings.push( marking );
-		}
-	} );
-	return newMarkings;
-};
-
-
-/**
- * Gets the Mark objects of all keyphrase matches.
- *
- * @param {string} sentence The sentence to check.
- * @param {Array} matchesInSentence The array of keyphrase matches in the sentence.
- * @param {function} matchWordCustomHelper  A custom helper to match words with a text.
- * @param {string} locale The locale used in the analysis.
- *
- * @returns {Mark[]}    The array of Mark objects of the keyphrase matches.
- */
-function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale ) {
-	const markedSentence = createMarksForSentence( sentence, matchesInSentence );
-	const markings = matchesInSentence.primaryMatches.flatMap( match => {
-		return  match.map( token => {
-			return new Mark( {
-				position: {
-					startOffset: token.sourceCodeRange.startOffset,
-					endOffset: token.sourceCodeRange.endOffset,
-				},
-				marked: markedSentence,
-				original: sentence.text,
-			} );
-		} );
-	} );
-
-	if ( matchesInSentence.primaryMatches.length > 0 ) {
-		flatten( matchesInSentence.secondaryMatches ).forEach( match =>{
-			markings.push( new Mark( {
-				position: {
-					startOffset: match.sourceCodeRange.startOffset,
-					endOffset: match.sourceCodeRange.endOffset,
-				},
-				marked: markedSentence,
-				original: sentence.text,
-
-			} ) );
-		}
-		);
-	}
-	const mergedMarkings = mergeConsecutiveMarkings( markings, getLanguage( locale ) === "ja" );
-	return mergedMarkings;
 }
 
 
