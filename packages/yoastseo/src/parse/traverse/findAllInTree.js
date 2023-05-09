@@ -46,10 +46,10 @@ export default function findAllInTree( tree, condition, recurseFoundNodes = fals
 		if ( condition( child ) ) {
 			nodes.push( child );
 			if ( recurseFoundNodes ) {
-				nodes.push( ...findAllInTree( child, condition ) );
+				nodes.push( ...findAllInTree( child, condition, recurseFoundNodes ) );
 			}
 		} else {
-			nodes.push( ...findAllInTree( child, condition ) );
+			nodes.push( ...findAllInTree( child, condition, recurseFoundNodes ) );
 		}
 	} );
 
