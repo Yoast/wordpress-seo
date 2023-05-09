@@ -35,15 +35,15 @@ class Elementor_Edit_Conditional_Test extends TestCase {
 	/**
 	 * Tests that the condition is not met when the Elementor plugin is not active.
 	 *
+	 * @dataProvider is_met_dataprovider
+	 *
+	 * @covers ::is_met
+	 *
 	 * @param string    $pagenow_new  The value of global pagenow.
 	 * @param mixed     $get_action   The value of action in $_GET['action'].
 	 * @param mixed     $post_action  The value of action in $_POST['action'].
 	 * @param bool|null $doing_ajax   What wp_doing_ajax should return, if false it should not be called.
 	 * @param bool      $return_value The expected return value.
-	 *
-	 * @dataProvider is_met_dataprovider
-	 *
-	 * @covers ::is_met
 	 */
 	public function test_is_met( $pagenow_new, $get_action, $post_action, $doing_ajax, $return_value ) {
 		global $pagenow;
