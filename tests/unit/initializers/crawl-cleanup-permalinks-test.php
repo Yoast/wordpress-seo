@@ -154,7 +154,7 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 * Tests get_conditionals.
 	 *
 	 * @covers ::get_conditionals
-	 **/
+	 */
 	public function test_get_conditionals() {
 		$this->assertEquals( [ Front_End_Conditional::class ], $this->instance->get_conditionals() );
 	}

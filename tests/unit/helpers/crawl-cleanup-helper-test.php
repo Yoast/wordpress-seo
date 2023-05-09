@@ -110,7 +110,6 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	}
 
 	/**
-	 *
 	 * Data provider for test_clean_permalinks_avoid_redirect.
 	 *
 	 * @return array is_robots, get_query_var( 'sitemap' ), $_GET, is_user_logged_in(), $expected.
@@ -162,7 +161,6 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	}
 
 	/**
-	 *
 	 * Data provider for test_clean_permalinks.
 	 *
 	 * @return array avoid_redirect, expected.
@@ -342,7 +340,6 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	}
 
 	/**
-	 *
 	 * Data provider for test_taxonomy_url.
 	 *
 	 * @return array $is_feed, $get_term_feed_link_times, $get_term_link_times, $expected
