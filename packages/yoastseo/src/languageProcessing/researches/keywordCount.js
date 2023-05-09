@@ -35,6 +35,7 @@ const tokenizeKeyphraseForms = ( keyphraseForms ) => {
  * Matches the keyphrase forms in an array of tokens.
  * @param {array[]} keyphraseForms The keyphrase forms to match.
  * @param {Token[]} tokens The tokens to match the keyphrase forms in.
+ * @param {string} locale The locale used in the analysis.
  * @returns {{primaryMatches: *[], secondaryMatches: *[]}} The matches.
  */
 const getMatchesInTokens = ( keyphraseForms, tokens, locale ) => {
