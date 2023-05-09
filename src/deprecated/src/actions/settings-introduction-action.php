@@ -7,6 +7,9 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
  * Settings_Introduction_Action class.
+ *
+ * @deprecated 20.7
+ * @codeCoverageIgnore
  */
 class Settings_Introduction_Action {
 
@@ -28,8 +31,13 @@ class Settings_Introduction_Action {
 	 * Constructs Settings_Introduction_Action.
 	 *
 	 * @param User_Helper $user_helper The User_Helper.
+	 *
+	 * @deprecated 20.7
+	 * @codeCoverageIgnore
 	 */
 	public function __construct( User_Helper $user_helper ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
+
 		$this->user_helper = $user_helper;
 	}
 
@@ -38,9 +46,14 @@ class Settings_Introduction_Action {
 	 *
 	 * @throws Exception If an invalid user ID is supplied.
 	 *
+	 * @deprecated 20.7
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool The value of the Wistia embed permission.
 	 */
 	public function get_wistia_embed_permission() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
+
 		$user_id = $this->user_helper->get_current_user_id();
 		$values  = $this->get_values_for_user( $user_id );
 
@@ -54,9 +67,14 @@ class Settings_Introduction_Action {
 	 *
 	 * @throws Exception If an invalid user ID is supplied.
 	 *
+	 * @deprecated 20.7
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool Whether the update was successful.
 	 */
 	public function set_wistia_embed_permission( $value ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
+
 		$user_id = $this->user_helper->get_current_user_id();
 		$values  = $this->get_values_for_user( $user_id );
 
@@ -75,9 +93,14 @@ class Settings_Introduction_Action {
 	 *
 	 * @throws Exception If an invalid user ID is supplied.
 	 *
+	 * @deprecated 20.7
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool The value of show.
 	 */
 	public function get_show() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
+
 		$user_id = $this->user_helper->get_current_user_id();
 		$values  = $this->get_values_for_user( $user_id );
 
@@ -91,9 +114,14 @@ class Settings_Introduction_Action {
 	 *
 	 * @throws Exception If an invalid user ID is supplied.
 	 *
+	 * @deprecated 20.7
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool Whether the update was successful.
 	 */
 	public function set_show( $value ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
+
 		$user_id = $this->user_helper->get_current_user_id();
 		$values  = $this->get_values_for_user( $user_id );
 

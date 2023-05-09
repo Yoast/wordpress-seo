@@ -1,5 +1,4 @@
 import { updateCategory } from "@wordpress/blocks";
-import { Slot } from "@wordpress/components";
 import { dispatch, select } from "@wordpress/data";
 import {
 	PluginDocumentSettingPanel,
@@ -155,7 +154,6 @@ function registerFills( store ) {
 				icon={ <Fragment /> }
 			>
 				<PostPublish />
-				{ isPremium && <Slot name="YoastZapierPostPublish" /> }
 				{ showWincherPanel && <WincherPostPublish /> }
 			</PluginPostPublishPanel>
 			{ analysesEnabled && <PluginDocumentSettingPanel
