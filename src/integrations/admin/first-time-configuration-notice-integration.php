@@ -31,7 +31,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 	/**
 	 * The first time configuration notice helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\First_Time_Configuration_Notice_Helper
+	 * @var First_Time_Configuration_Notice_Helper
 	 */
 	private $first_time_configuration_notice_helper;
 

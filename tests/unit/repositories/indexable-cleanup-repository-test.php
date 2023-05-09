@@ -276,13 +276,13 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_clean_indexables_for_non_publicly_viewable_post_type_archives() {
-		$my_cpt                  = new \stdClass();
+		$my_cpt                  = new stdClass();
 		$my_cpt->name            = 'my_cpt';
 		$my_cpt->has_archive     = true;
-		$post                    = new \stdClass();
+		$post                    = new stdClass();
 		$post->name              = 'post';
 		$post->has_archive       = true;
-		$attachment              = new \stdClass();
+		$attachment              = new stdClass();
 		$attachment->name        = 'attachment';
 		$attachment->has_archive = true;
 
@@ -480,13 +480,13 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_count_indexables_for_non_publicly_post_type_archive_pages() {
-		$my_cpt                  = new \stdClass();
+		$my_cpt                  = new stdClass();
 		$my_cpt->name            = 'my_cpt';
 		$my_cpt->has_archive     = true;
-		$post                    = new \stdClass();
+		$post                    = new stdClass();
 		$post->name              = 'post';
 		$post->has_archive       = true;
-		$attachment              = new \stdClass();
+		$attachment              = new stdClass();
 		$attachment->name        = 'attachment';
 		$attachment->has_archive = true;
 
@@ -523,13 +523,13 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_count_indexables_for_non_publicly_post_type_archive_pages_no_archives() {
-		$my_cpt                  = new \stdClass();
+		$my_cpt                  = new stdClass();
 		$my_cpt->name            = 'my_cpt';
 		$my_cpt->has_archive     = true;
-		$post                    = new \stdClass();
+		$post                    = new stdClass();
 		$post->name              = 'post';
 		$post->has_archive       = true;
-		$attachment              = new \stdClass();
+		$attachment              = new stdClass();
 		$attachment->name        = 'attachment';
 		$attachment->has_archive = true;
 

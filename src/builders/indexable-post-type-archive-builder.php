@@ -82,7 +82,7 @@ class Indexable_Post_Type_Archive_Builder {
 	 * @param Indexable $indexable The indexable to format.
 	 *
 	 * @return Indexable The extended indexable.
-	 * @throws \Yoast\WP\SEO\Exceptions\Indexable\Post_Type_Not_Built_Exception Throws exception if the post type is excluded.
+	 * @throws Post_Type_Not_Built_Exception Throws exception if the post type is excluded.
 	 */
 	public function build( $post_type, Indexable $indexable ) {
 		if ( ! $this->post_type_helper->is_post_type_archive_indexable( $post_type ) ) {

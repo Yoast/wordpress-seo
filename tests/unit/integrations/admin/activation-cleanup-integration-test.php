@@ -29,7 +29,7 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 	/**
 	 * Holds the activation indexation integration.
 	 *
-	 * @var \Yoast\WP\SEO\Integrations\Admin\Activation_Cleanup_Integration
+	 * @var Activation_Cleanup_Integration
 	 */
 	private $instance;
 
