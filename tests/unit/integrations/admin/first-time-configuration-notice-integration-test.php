@@ -260,14 +260,14 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	/**
 	 * Expects function in should_display_first_time_configuration_notice.
 	 *
-	 * @param bool $return The expected return value of the function.
+	 * @param bool $return_value The expected return value of the function.
 	 * @return void
 	 */
-	public function expect_should_display_first_time_configuration_notice( $return ) {
+	public function expect_should_display_first_time_configuration_notice( $return_value ) {
 		$this->first_time_configuration_notice_helper
 			->expects( 'should_display_first_time_configuration_notice' )
 			->once()
-			->andReturn( $return );
+			->andReturn( $return_value );
 	}
 
 	/**
