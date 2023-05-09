@@ -4,9 +4,9 @@ namespace Yoast\WP\SEO\Commands;
 
 use WP_CLI;
 use WP_CLI\ExitException;
+use WP_CLI\Utils;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Main;
-use function WP_CLI\Utils\make_progress_bar;
 
 /**
  * A WP CLI command that helps with cleaning up unwanted records from our custom tables.
@@ -157,7 +157,7 @@ final class Cleanup_Command implements Command_Interface {
 
 		/* translators: %1$s is the site url of the site that is cleaned up. %2$s is the name of the cleanup task that is currently running. */
 		$progress_bar_title_format = \__( 'Cleaning up %1$s [%2$s]', 'wordpress-seo' );
-		$progress                  = make_progress_bar( \sprintf( $progress_bar_title_format, $site_url, \key( $tasks ) ), count( $tasks ) );
+		$progress                  = Utils\make_progress_bar( \sprintf( $progress_bar_title_format, $site_url, \key( $tasks ) ), count( $tasks ) );
 
 		foreach ( $tasks as $task_name => $task ) {
 			// Update the progressbar title with the current task name.
