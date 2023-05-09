@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Integrations\Admin\First_Time_Configuration_Notice_Integration;
 use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-
 /**
  * Class First_Time_Configuration_Notice_Integration_Test.
  *

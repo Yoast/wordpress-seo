@@ -117,7 +117,6 @@ class Importing_Route_Test extends TestCase {
 	public function test_execute_import_aioseo_posts( $plugin, $type, $is_enabled, $index_times, $expected_response ) {
 		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-
 		$this->importable_detector->expects( 'filter_actions' )
 			->once()
 			->with( $this->importers, $plugin, $type )

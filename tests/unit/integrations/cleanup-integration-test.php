@@ -242,11 +242,9 @@ class Cleanup_Integration_Test extends TestCase {
 
 		$this->indexable_repository->shouldReceive( 'cleanup_orphaned_from_table' )->once()->andReturn( 0 );
 
-
 		Monkey\Functions\expect( 'delete_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION );
-
 
 		Monkey\Functions\expect( 'wp_unschedule_hook' )
 			->once()

@@ -212,7 +212,6 @@ class WPSEO_Option_MS extends WPSEO_Option {
 					}
 					break;
 
-
 				case 'defaultblog':
 					if ( isset( $dirty[ $key ] ) && ( $dirty[ $key ] !== '' && $dirty[ $key ] !== '-' ) ) {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );

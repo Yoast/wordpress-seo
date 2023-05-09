@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-
 /**
  * Class Crawl_Cleanup_Helper_Test.
  *
@@ -394,13 +393,13 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 			->with( $proper_url )
 			->andReturn( $is_search );
 
-			Monkey\Functions\expect( 'home_url' )
-				->times( $home_url )
-				->andReturn( 'http://basic.wordpress.test' );
+		Monkey\Functions\expect( 'home_url' )
+			->times( $home_url )
+			->andReturn( 'http://basic.wordpress.test' );
 
-			Monkey\Functions\expect( 'get_search_query' )
-				->times( $get_search_query )
-				->andReturn( 'test' );
+		Monkey\Functions\expect( 'get_search_query' )
+			->times( $get_search_query )
+			->andReturn( 'test' );
 
 		$this->assertSame( $expected, $this->instance->query_var_page_url( $proper_url ) );
 	}
@@ -513,7 +512,6 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 			->expects( 'is_posts_page' )
 			->times( $post_page_times )
 			->andReturn( $post_page );
-
 
 		$this->assertSame( $expected, $this->instance->get_url_type() );
 	}

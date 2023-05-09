@@ -95,7 +95,6 @@ class Open_Graph_OEmbed implements Integration_Interface {
 			$this->set_image();
 		}
 
-
 		return $this->data;
 	}
 

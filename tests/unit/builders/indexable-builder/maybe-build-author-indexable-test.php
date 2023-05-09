@@ -57,7 +57,6 @@ class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder_TestC
 		$author_indexable->object_type = 'user';
 		$author_indexable->object_id   = $author_id;
 
-
 		$author_defaults = [
 			'object_type' => 'user',
 			'object_id'   => $author_id,

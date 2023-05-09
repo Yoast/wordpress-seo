@@ -126,7 +126,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$this->open_graph_image = Mockery::mock( OG_Image_Helper::class );
 		$this->twitter_image    = Mockery::mock( Twitter_Image_Helper::class );
 
-
 		$this->instance->set_social_image_helpers(
 			$this->image,
 			$this->open_graph_image,

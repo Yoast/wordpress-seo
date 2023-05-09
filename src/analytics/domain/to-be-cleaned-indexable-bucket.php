@@ -46,5 +46,3 @@ class To_Be_Cleaned_Indexable_Bucket {
 		);
 	}
 }
-
-

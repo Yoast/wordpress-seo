@@ -46,5 +46,3 @@ class Missing_Indexable_Bucket {
 		);
 	}
 }
-
-

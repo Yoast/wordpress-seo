@@ -285,4 +285,3 @@ class Cleanup_Integration implements Integration_Interface {
 		}
 	}
 }
-

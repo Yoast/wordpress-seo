@@ -409,7 +409,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 			return $tax_meta;
 		}
 
-
 		if ( isset( $tax_meta[ 'wpseo_' . $meta ] ) ) {
 			return $tax_meta[ 'wpseo_' . $meta ];
 		}
@@ -476,7 +475,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 */
 	public static function get_keyword_usage( $keyword, $current_term_id, $current_taxonomy ) {
 		$tax_meta = self::get_tax_meta();
-
 
 		$found = [];
 		// @todo Check for terms of all taxonomies, not only the current taxonomy.
