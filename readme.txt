@@ -246,6 +246,28 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 20.8 =
+
+Release date: 2023-05-23
+
+#### Enhancements
+
+* Fixes a bug where indexables were created when using the `wp yoast index` WP CLI command on a staging site
+* Improves feedback strings for _keyphrase density_ assessment by referring to the keyphrase in general instead of the focus keyphrase.
+* Improves the accuracy of the content analysis by excluding texts within textarea tags from the analysis.
+* Sets up background indexation via WP Cron
+
+#### Bugfixes
+
+* Fixes a bug where an entry in the indexable table would be created when an archive of a non-public but publicly queryable post type would be visited.
+* Fixes a bug where a warning about a missing key in a component would be thrown in the console in the Yoast SEO Settings page.
+* Fixes a bug where entries in the indexable table would be created for archives of excluded post types.
+* Fixes a bug where the score icon for the SEO and Readability tabs would not show a sad emoji when the post is empty or there is no set keyphrase.
+
+#### Other
+
+* Renames \"SEO Framework\" to \"The SEO Framework\".
+
 = 20.7 =
 
 Release date: 2023-05-09
@@ -269,16 +291,6 @@ Yoast SEO 20.7 is out now! With this release, our team has rolled out essential 
 * Removes the Zapier post-publish slot and network admin integration toggle.
 * Sets the minimum supported WooCommerce version to 7.1.
 * Sets the minimum supported WordPress version to 6.1
-
-= 20.6 =
-
-Release date: 2023-04-26
-
-Today's release of Yoast SEO 20.6 has enhancements and fixes to improve your SEO work. The update features a new readability analysis — a helpful addition alerting you whenever you use too much center-aligned text. Check out more details now! Find out more about what's new in Yoast SEO 20.6 in [our release post](https://yoa.st/release-26-4-23)!
-
-#### Enhancements
-
-* Improves performance when the SEO data optimization has not been completed. Props to @PypWalters.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
