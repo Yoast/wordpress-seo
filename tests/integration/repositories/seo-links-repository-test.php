@@ -162,8 +162,6 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 * @covers ::find_all_by_indexable_id
 	 */
 	public function test_find_all_by_indexable_id_no_results_found() {
-		$indexable_id = '1';
-
 		$result = $this->instance->find_all_by_indexable_id( 3 );
 
 		$this->assertIsArray( $result, 'The result should be an array when there are no result.' );
