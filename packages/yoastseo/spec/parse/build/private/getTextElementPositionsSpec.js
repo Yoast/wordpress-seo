@@ -141,7 +141,7 @@ describe( "A test for getting positions of sentences", () => {
 
 	it( "gets the sentence positions from a node that has a `span` and an `em` descendant node when the em-tags are directly bordering a word ",
 		function() {
-		// HTML: <p>Hello, <span>world!</span> Hello, <em>yoast</em>!</p>.
+			// HTML: <p>Hello, <span>world!</span> Hello, <em>yoast</em>!</p>.
 			const html = "<p>Hello, <span>world!</span> Hello, <em>yoast</em>!</p>";
 			const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 			const paragraph = tree.childNodes[ 0 ];
@@ -215,10 +215,13 @@ describe( "A test for getting positions of sentences", () => {
 	} );
 
 	it.skip( "should get the correct sentence position for a sentence in an image caption", function() {
-		// html: "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
-		// 			"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
-		// 			"A flamboyant cat with a toy<br></br>\n" +
-		// 			"</p>"
+		/* eslint-disable max-len */
+		// html: 	"<p>
+		// 				<img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'>
+		// 				</img>
+		// 				A flamboyant cat with a toy<br></br>\n
+		// 			</p>
+		/* eslint-enable max-len */
 
 		// eslint-disable-next-line max-len
 		const html = "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img>A flamboyant cat with a toy<br></br>\n</p>";
