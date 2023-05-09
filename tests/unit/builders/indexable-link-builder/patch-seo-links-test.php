@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder;
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
-use Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder\Abstract_Indexable_Link_Builder_TestCase;
 
 /**
  * Class Patch_Seo_Links_Test.

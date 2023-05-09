@@ -2,11 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Url_Helper;
-use Yoast\WP\SEO\Helpers\Redirect_Helper;
-
 /**
  * Class Crawl_Cleanup_Helper.
  *
