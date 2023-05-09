@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use Closure;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 
 /**
@@ -111,6 +112,9 @@ class Cleanup_Integration implements Integration_Interface {
 				},
 				'clean_indexables_for_non_publicly_viewable_taxonomies' => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_for_non_publicly_viewable_taxonomies( $limit );
+				},
+				'clean_indexables_for_non_publicly_viewable_post_type_archive_pages' => function ( $limit ) {
+					return $this->cleanup_repository->clean_indexables_for_non_publicly_viewable_post_type_archive_pages( $limit );
 				},
 				'clean_indexables_for_authors_archive_disabled' => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_for_authors_archive_disabled( $limit );
