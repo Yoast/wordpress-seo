@@ -255,25 +255,25 @@ describe( "Test for counting the keyword in a text", function() {
 					"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
 					"class='yoast-text-mark'>word</yoastmark>.",
 				original: "A string with three keys (key and another key) and one word.",
-				position: { endOffset: 48, startOffset: 45 } } ),
-			new Mark( {
-				marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
-					"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
-					"class='yoast-text-mark'>word</yoastmark>.",
-				original: "A string with three keys (key and another key) and one word.",
-				position: { endOffset: 62, startOffset: 58 } } ),
-			new Mark( {
-				marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
-					"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
-					"class='yoast-text-mark'>word</yoastmark>.",
-				original: "A string with three keys (key and another key) and one word.",
 				position: { endOffset: 27, startOffset: 23 } } ),
+			new Mark( {
+				marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
+					"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
+					"class='yoast-text-mark'>word</yoastmark>.",
+				original: "A string with three keys (key and another key) and one word.",
+				position: { endOffset: 32, startOffset: 29 } } ),
+			new Mark( {
+				marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
+					"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
+					"class='yoast-text-mark'>word</yoastmark>.",
+				original: "A string with three keys (key and another key) and one word.",
+				position: { endOffset: 48, startOffset: 45 } } ),
 			new Mark( {
 				marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
 						"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
 						"class='yoast-text-mark'>word</yoastmark>.",
 				original: "A string with three keys (key and another key) and one word.",
-				position: { endOffset: 32, startOffset: 29 } } ),
+				position: { endOffset: 62, startOffset: 58 } } ),
 		]
 		);
 	} );
