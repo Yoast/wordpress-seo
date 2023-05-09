@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Repositories;
 
+use mysqli_result;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
@@ -422,7 +423,7 @@ class Indexable_Cleanup_Repository {
 	/**
 	 * Counts total amount of indexables for authors without archives.
 	 *
-	 * @return bool|int|\mysqli_result|resource|null
+	 * @return bool|int|mysqli_result|resource|null
 	 */
 	public function count_indexables_for_authors_without_archive() {
 		global $wpdb;

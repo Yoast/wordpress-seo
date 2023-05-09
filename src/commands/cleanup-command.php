@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Commands;
 
+use WP_CLI;
 use WP_CLI\ExitException;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Main;
@@ -77,10 +78,10 @@ final class Cleanup_Command implements Command_Interface {
 	 */
 	public function cleanup( $args = null, $assoc_args = null ) {
 		if ( isset( $assoc_args['interval'] ) && (int) $assoc_args['interval'] < 0 ) {
-			\WP_CLI::error( __( 'The value for \'interval\' must be a positive integer.', 'wordpress-seo' ) );
+			WP_CLI::error( __( 'The value for \'interval\' must be a positive integer.', 'wordpress-seo' ) );
 		}
 		if ( isset( $assoc_args['batch-size'] ) && (int) $assoc_args['batch-size'] < 1 ) {
-			\WP_CLI::error( __( 'The value for \'batch-size\' must be a positive integer higher than equal to 1.', 'wordpress-seo' ) );
+			WP_CLI::error( __( 'The value for \'batch-size\' must be a positive integer higher than equal to 1.', 'wordpress-seo' ) );
 		}
 
 		if ( isset( $assoc_args['network'] ) && \is_multisite() ) {
@@ -90,7 +91,7 @@ final class Cleanup_Command implements Command_Interface {
 			$total_removed = $this->cleanup_current_site( $assoc_args );
 		}
 
-		\WP_CLI::success(
+		WP_CLI::success(
 			\sprintf(
 			/* translators: %1$d is the number of records that are removed. */
 				\_n(
@@ -142,7 +143,7 @@ final class Cleanup_Command implements Command_Interface {
 
 		if ( ! \is_plugin_active( WPSEO_BASENAME ) ) {
 			/* translators: %1$s is the site url of the site that is skipped. %2$s is Yoast SEO. */
-			\WP_CLI::warning( \sprintf( \__( 'Skipping %1$s. %2$s is not active on this site.', 'wordpress-seo' ), $site_url, 'Yoast SEO' ) );
+			WP_CLI::warning( \sprintf( \__( 'Skipping %1$s. %2$s is not active on this site.', 'wordpress-seo' ), $site_url, 'Yoast SEO' ) );
 
 			return $total_removed;
 		}
@@ -176,7 +177,7 @@ final class Cleanup_Command implements Command_Interface {
 		$progress->finish();
 
 		$this->cleanup_integration->reset_cleanup();
-		\WP_CLI::log(
+		WP_CLI::log(
 			\sprintf(
 			/* translators: %1$d is the number of records that were removed. %2$s is the site url. */
 				\_n(

@@ -2,6 +2,10 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use Easy_Digital_Downloads;
+use SeriouslySimplePodcasting\Integrations\Yoast\Schema\PodcastEpisode;
+use TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema;
+use WP_Recipe_Maker;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Plugin_Availability;
 use WPSEO_Shortlinker;
@@ -123,13 +127,13 @@ class Integrations_Page implements Integration_Interface {
 		$acf_seo_github_active             = $wpseo_plugin_availability_checker->is_active( $acf_seo_file_github );
 		$acf_active                        = \class_exists( 'acf' );
 		$algolia_active                    = $wpseo_plugin_availability_checker->is_active( $algolia_file );
-		$edd_active                        = \class_exists( \Easy_Digital_Downloads::class );
+		$edd_active                        = \class_exists( Easy_Digital_Downloads::class );
 		$jetpack_boost_active              = $jetpack_boost_active_conditional->is_met();
 		$jetpack_boost_premium             = ( ! $jetpack_boost_not_premium_conditional->is_met() );
 		$old_algolia_active                = $wpseo_plugin_availability_checker->is_active( $old_algolia_file );
-		$tec_active                        = \class_exists( \TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema::class );
-		$ssp_active                        = \class_exists( \SeriouslySimplePodcasting\Integrations\Yoast\Schema\PodcastEpisode::class );
-		$wp_recipe_maker_active            = \class_exists( \WP_Recipe_Maker::class );
+		$tec_active                        = \class_exists( Events_Schema::class );
+		$ssp_active                        = \class_exists( PodcastEpisode::class );
+		$wp_recipe_maker_active            = \class_exists( WP_Recipe_Maker::class );
 		$mastodon_active                   = $this->is_mastodon_active();
 
 		$woocommerce_seo_activate_url = \wp_nonce_url(

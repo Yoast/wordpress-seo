@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
+use stdClass;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -68,11 +69,11 @@ class Post_Type_Helper_Test extends TestCase {
 	 * @return array
 	 */
 	public function post_type_archive_provider() {
-		$book              = new \stdClass();
+		$book              = new stdClass();
 		$book->name        = 'books';
 		$book->has_archive = true;
 
-		$book_no              = new \stdClass();
+		$book_no              = new stdClass();
 		$book_no->name        = 'books';
 		$book_no->has_archive = false;
 
@@ -112,11 +113,11 @@ class Post_Type_Helper_Test extends TestCase {
 	 * @return array
 	 */
 	public function post_type_archive_object_provider() {
-		$book              = new \stdClass();
+		$book              = new stdClass();
 		$book->name        = 'books';
 		$book->has_archive = true;
 
-		$book_no              = new \stdClass();
+		$book_no              = new stdClass();
 		$book_no->name        = 'books';
 		$book_no->has_archive = false;
 
