@@ -44,58 +44,39 @@ const createMarksForSentence = ( sentence, matches ) => {
 };
 
 /**
- * Merges consecutive markings into one marking.
+ * Merges consecutive and overlapping markings into one marking.
  * This is a helper for position based highlighting.
- *
  * @param {Mark[]} markings An array of markings to merge.
- * @param {boolean} useSpace Whether words are separated by a space. In Japanese, for example, words are not separated by a space.
- *
- * @returns {Mark[]} An array of markings where consecutive markings are merged.
+ * @param {Boolean} useSpace Whether words are separated by a space. In Japanese, for example, words are not separated by a space.
+ * @returns {Mark[]} An array of markings where consecutive and overlapping markings are merged.
  */
-const mergeConsecutiveMarkings = ( markings, useSpace = true ) => {
+const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace = true ) => {
 	const newMarkings = [];
 
-	/**
-	 * The first iteration, newMarkings is empty, so the first marking is always added.
-	 * After that, the newMarkings array is iterated over,
-	 * and for each marking it is checked whether it is consecutive to any of the markings in the newMarkings array.
-	 * If the newMarking and the current marking are consecutive, the current marking is merged into the newMarking.
-	 * If the current marking precedes the newMarking, the start of the newMarking is set to the start of the current marking.
-	 * The actionDone flag is set to false, such that the newMarking is not added to the newMarkings array.
-	 * If the current marking succeeds the newMarking, the end of the newMarking is set to the end of the current marking.
-	 * The actionDone flag is set to true, such that the newMarking is added to the newMarkings array.
-	 * In the (theoretical and unlikely) edge case that the current marking is overlapping with the newMarking,
-	 * the start of the newMarking is set to the minimum of the start of the newMarking and the current marking.
-	 * The end of the newMarking is set to the maximum of the end of the newMarking and the current marking.
-	 * The actionDone flag is set to true, such that the newMarking is added to the newMarkings array.
-	 *
-	 * If the actionDone flag is false, the current marking is added to the newMarkings array,
-	 * because it is not found to be consecutive to any of the markings in the newMarkings array.
-	 */
+	// Sort markings by start offset. This is probably redundant, but for extra safety.
+	markings.sort( function( a, b ) {
+		return a.getPositionStart() - b.getPositionStart();
+	} );
 
 	markings.forEach( ( marking ) => {
-		let actionDone = false;
-		newMarkings.forEach( ( newMarking, newMarkingIndex ) => {
-			// If the markings are consecutive, merge them.
-			if ( newMarking.getPositionEnd() + ( useSpace ? 1 : 0 ) === marking.getPositionStart() ) {
-				newMarkings[ newMarkingIndex ]._properties.position.endOffset = marking.getPositionEnd();
-				actionDone = true;
-				// if the markings are overlapping, merge them.
-			} else if ( newMarking.getPositionEnd() >= marking.getPositionStart() && newMarking.getPositionStart() <= marking.getPositionEnd() ) {
-				// eslint-disable-next-line max-len
-				newMarkings[ newMarkingIndex ]._properties.position.startOffset = Math.min( newMarking.getPositionStart(), marking.getPositionStart() );
-				newMarkings[ newMarkingIndex ]._properties.position.endOffset = Math.max( newMarking.getPositionEnd(), marking.getPositionEnd() );
-				actionDone = true;
-				// If the markings are consecutive, merge them.
-			} else if ( newMarking.getPositionStart() === marking.getPositionEnd() + ( useSpace ? 1 : 0 ) ) {
-				newMarkings[ newMarkingIndex ]._properties.position.startOffset = marking.getPositionStart();
-				actionDone = true;
-			}
-		} );
-		if ( ! actionDone ) {
+		if ( newMarkings.length === 0 ) {
+			newMarkings.push( marking );
+			return;
+		}
+
+		const lastMarking = newMarkings[ newMarkings.length - 1 ];
+		if ( lastMarking.getPositionEnd() + ( useSpace ? 1 : 0 ) === marking.getPositionStart() ) {
+			// The marking is consecutive to the last marking, so we extend the last marking to include the new marking.
+			lastMarking.setPositionEnd( marking.getPositionEnd() );
+		} else if ( marking.getPositionStart() <= lastMarking.getPositionEnd() ) {
+			// The marking overlaps with the last marking, so we extend the last marking to include the new marking.
+			lastMarking.setPositionEnd( marking.getPositionEnd() );
+		} else {
+			// The marking is not consecutive to the last marking, so we add it to the array by itself.
 			newMarkings.push( marking );
 		}
 	} );
+
 	return newMarkings;
 };
 
