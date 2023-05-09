@@ -98,8 +98,8 @@ class Indexable_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			]
 		);
 
-		$parent_indexable = \current( $this->get_indexables_for( $parent ) );
-		$child_indexable  = \current( $this->get_indexables_for( $child ) );
+		$parent_indexable = current( $this->get_indexables_for( $parent ) );
+		$child_indexable  = current( $this->get_indexables_for( $child ) );
 
 		$parent_hierarchy = $this->get_hierarchy_for( $parent_indexable );
 		$child_hierarchy  = $this->get_hierarchy_for( $child_indexable );
@@ -128,8 +128,8 @@ class Indexable_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			]
 		);
 
-		$parent_indexable = \current( $this->get_indexables_for( $parent ) );
-		$child_indexable  = \current( $this->get_indexables_for( $child ) );
+		$parent_indexable = current( $this->get_indexables_for( $parent ) );
+		$child_indexable  = current( $this->get_indexables_for( $child ) );
 
 		wp_delete_post( $parent->ID, true );
 
