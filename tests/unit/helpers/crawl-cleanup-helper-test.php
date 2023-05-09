@@ -85,11 +85,11 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider should_avoid_redirect_provider
 	 *
-	 * @param boolean $is_robots         is_robots return value.
-	 * @param string  $sitemap           get_query_var return value.
-	 * @param array   $get_response      get_response value.
-	 * @param boolean $is_user_logged_in is_user_logged_in return value.
-	 * @param int     $expected          The return value from the should_avoid_redirect function.
+	 * @param bool   $is_robots         is_robots return value.
+	 * @param string $sitemap           get_query_var return value.
+	 * @param array  $get_response      get_response value.
+	 * @param bool   $is_user_logged_in is_user_logged_in return value.
+	 * @param int    $expected          The return value from the should_avoid_redirect function.
 	 */
 	public function test_should_avoid_redirect( $is_robots, $sitemap, $get_response, $is_user_logged_in, $expected ) {
 
@@ -180,12 +180,12 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider front_page_url_provider
 	 *
-	 * @param boolean $is_home_posts_page  is_home_posts_page return value.
-	 * @param boolean $is_home_static_page is_home_static_page return value.
-	 * @param int     $static_times        The times is_home_static_page function is called.
-	 * @param int     $home_url_times      home_url times called.
-	 * @param int     $permalink_times     get_permalink times called.
-	 * @param string  $expected            expected return value.
+	 * @param bool   $is_home_posts_page  is_home_posts_page return value.
+	 * @param bool   $is_home_static_page is_home_static_page return value.
+	 * @param int    $static_times        The times is_home_static_page function is called.
+	 * @param int    $home_url_times      home_url times called.
+	 * @param int    $permalink_times     get_permalink times called.
+	 * @param string $expected            expected return value.
 	 */
 	public function test_front_page_url( $is_home_posts_page, $is_home_static_page, $static_times, $home_url_times, $permalink_times, $expected ) {
 
