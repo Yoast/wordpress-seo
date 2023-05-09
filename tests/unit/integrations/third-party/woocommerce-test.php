@@ -232,7 +232,6 @@ class WooCommerce_Test extends TestCase {
 	 * Tests the situation where the WooCommerce function doesn't exist (for some reason).
 	 *
 	 * @covers ::get_page_id
-	 * @covers ::get_shop_page_id
 	 */
 	public function test_get_page_id_when_woocommerce_function_does_not_exist() {
 		// Sets the stubs.
@@ -250,7 +249,6 @@ class WooCommerce_Test extends TestCase {
 	 * Tests the happy path where we have a page id.
 	 *
 	 * @covers ::get_page_id
-	 * @covers ::get_shop_page_id
 	 */
 	public function test_get_page_id() {
 		$this->woocommerce_helper->expects( 'is_shop_page' )
@@ -270,8 +268,6 @@ class WooCommerce_Test extends TestCase {
 	 * @dataProvider meta_value_provider
 	 *
 	 * @covers ::title
-	 * @covers ::is_shop_page
-	 * @covers ::get_shop_page_id
 	 *
 	 * @param string   $expected       The expected value.
 	 * @param string   $model_value    Value that is set as indexable title.
@@ -315,8 +311,6 @@ class WooCommerce_Test extends TestCase {
 	 * @dataProvider meta_value_provider
 	 *
 	 * @covers ::description
-	 * @covers ::is_shop_page
-	 * @covers ::get_shop_page_id
 	 *
 	 * @param string   $expected       The expected value.
 	 * @param string   $model_value    Value that is set as indexable title.
