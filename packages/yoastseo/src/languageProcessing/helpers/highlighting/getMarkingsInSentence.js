@@ -45,9 +45,10 @@ const mergeConsecutiveAndOverlappingMatches = ( matches, useSpace = true ) => {
  * Ideally this function becomes obsolete when position based highlighting is implemented everywhere.
  * @param {Sentence} sentence The sentence to which to apply the marks.
  * @param {Object} matches The matches to apply.
+ * @param {string} locale The locale of the text.
  * @returns {string} The sentence with marks applied.
  */
-const createMarksForSentence = ( sentence, matches ) => {
+const createMarksForSentence = ( sentence, matches, locale ) => {
 	let sentenceText = sentence.text;
 
 	// Create one array with both primary and secondary matches, sorted by start offset.
@@ -59,7 +60,7 @@ const createMarksForSentence = ( sentence, matches ) => {
 	}
 
 	// Merge consecutive and overlapping matches.
-	allMatches = mergeConsecutiveAndOverlappingMatches( allMatches );
+	allMatches = mergeConsecutiveAndOverlappingMatches( allMatches, getLanguage( locale ) !== "ja" );
 
 	const sentenceStartOffset = sentence.sourceCodeRange.startOffset;
 	// Loop through the matches backwards, so that the reference is not affected by the changes.
@@ -131,7 +132,7 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace = true ) => 
  */
 function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale ) {
 	// Create the marked sentence that is used for search based highlighting.
-	const markedSentence = createMarksForSentence( sentence, matchesInSentence );
+	const markedSentence = createMarksForSentence( sentence, matchesInSentence, locale );
 
 	// Create the markings for the primary matches.
 	// Note that there is a paradigm shift:
