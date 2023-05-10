@@ -171,14 +171,16 @@ const CrawlOptimization = () => {
 		),
 		denySearchCrawling: createInterpolateElement(
 			sprintf(
-				/* translators: %1$s and %2$s expand to example parts of a URL, surrounded by <code> tags. */
-				__( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling of %1$s and %2$s URLs.", "wordpress-seo" ),
+				/* translators: %1$s, %2$s and %3$s expand to example parts of a URL, surrounded by <code> tags. */
+				__( "Add a 'disallow' rule to your robots.txt file to prevent crawling of URLs like %1$s, %2$s and %3$s.", "wordpress-seo" ),
 				"<code1/>",
-				"<code2/>"
+				"<code2/>",
+				"<code3/>"
 			),
 			{
 				code1: <Code>?s=</Code>,
 				code2: <Code>/search/</Code>,
+				code3: <Code>/page/*/?s=</Code>,
 			}
 		),
 
