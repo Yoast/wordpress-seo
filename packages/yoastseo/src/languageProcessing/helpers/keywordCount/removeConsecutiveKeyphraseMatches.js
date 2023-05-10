@@ -25,7 +25,7 @@ const isConsecutiveKeyphrase = ( currentMatch, firstPreviousMatch, secondPreviou
 /**
  * Matches the keyphrase forms in an array of tokens.
  * @param {Object} result The result object.
- * @returns {Object} The result object with the consecutive keyphrase removed.
+ * @returns {{primaryMatches: *[], secondaryMatches: *[], position: number}} The result object with the consecutive keyphrase removed.
  */
 const removeConsecutiveKeyphraseFromResult = ( result ) => {
 	const newResult = { ...result, primaryMatches: [] };
