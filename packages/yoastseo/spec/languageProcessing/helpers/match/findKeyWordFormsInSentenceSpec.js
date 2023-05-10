@@ -4,7 +4,7 @@ import JapaneseCustomHelper from "../../../../src/languageProcessing/languages/j
 /* eslint-disable max-len */
 const testCases = [
 	{
-		testDescription: "No markings in sentence",
+		testDescription: "No matches in sentence",
 		sentence: {
 			text: "A sentence with notthekeyphrase.",
 			tokens: [
@@ -24,7 +24,7 @@ const testCases = [
 		expectedResult: { primaryMatches: [], secondaryMatches: [] },
 	},
 	{
-		testDescription: "return empty result if KeyphraseForms is empty",
+		testDescription: "should return empty result if KeyphraseForms is empty",
 		sentence: {
 			text: "A sentence with notthekeyphrase.",
 			tokens: [
@@ -45,7 +45,7 @@ const testCases = [
 
 	},
 	{
-		testDescription: "One marking in sentence of a single-word keyphrase",
+		testDescription: "One match in sentence of a single-word keyphrase",
 		sentence: {
 			text: "A sentence with the keyword.",
 			tokens: [
@@ -69,7 +69,7 @@ const testCases = [
 			secondaryMatches: [] },
 	},
 	{
-		testDescription: "One marking in sentence of a multi word keyphrase",
+		testDescription: "One match in sentence of a multi word keyphrase",
 		sentence: {
 			text: "A sentence with the key words.",
 			tokens: [
@@ -97,7 +97,7 @@ const testCases = [
 			secondaryMatches: [] },
 	},
 	{
-		testDescription: "Two markings of multi word keyphrase in sentence",
+		testDescription: "Two matches of multi word keyphrase in sentence",
 		sentence: {
 			text: "A sentence with the key words and the key word.",
 			tokens: [
@@ -135,7 +135,7 @@ const testCases = [
 		},
 	},
 	{
-		testDescription: "One primary and one secondary marking of multi word keyphrase in sentence",
+		testDescription: "One primary and one secondary match of multi word keyphrase in sentence",
 		sentence: {
 			text: "A key sentence with a key word.",
 			tokens: [
