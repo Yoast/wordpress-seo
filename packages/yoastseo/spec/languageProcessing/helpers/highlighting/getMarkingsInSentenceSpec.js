@@ -93,6 +93,15 @@ const testCases = [
 			} ),
 		],
 	},
+	{
+		testDescription: "No secondary match if a multi word keyphrase is separated with an underscore in the sentence.",
+		sentence: { text: "A key sentence with a key_word.", sourceCodeRange: { startOffset: 0, endOffset: 31 } },
+		matchesInSentence: { primaryMatches: [ ], secondaryMatches: [ [ { sourceCodeRange: { startOffset: 2, endOffset: 5 } } ] ] },
+		matchWordCustomHelper: false,
+		locale: "en_US",
+		expectedResult: [],
+	},
+
 ];
 /* eslint-enable max-len */
 
