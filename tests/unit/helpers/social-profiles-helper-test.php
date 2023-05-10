@@ -208,8 +208,7 @@ class Social_Profiles_Helper_Test extends TestCase {
 	 * @param array $expected                    The expected field names which failed to be saved in the db.
 	 */
 	public function test_set_organization_social_profiles( $social_profiles, $validate_social_url_results, $validate_social_url_times, $validate_twitter_id_results, $validate_twitter_id_times, $set_option_times, $expected ) {
-		$person_id = 123;
-		$fields    = [
+		$fields = [
 			'facebook_site',
 			'twitter_site',
 			'other_social_urls',

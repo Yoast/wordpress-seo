@@ -1574,7 +1574,7 @@ class WPSEO_Upgrade {
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: No user input, just a table name.
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
-		$delete_query = $wpdb->query(
+		$wpdb->query(
 			"DELETE FROM $indexable_table
 			WHERE post_status = 'unindexed'
 			AND object_type NOT IN ( 'home-page', 'date-archive', 'post-type-archive', 'system-page' )

@@ -386,8 +386,8 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 */
 	public function test_query_var_page_url( $is_search, $proper_url, $home_url, $get_search_query, $expected ) {
 		global $wp_query;
-		$wp_query = Mockery::mock( WP_Query::class );
-
+		$wp_query                      = Mockery::mock( WP_Query::class );
+		$wp_query->query_vars['paged'] = 'test';
 
 		Monkey\Functions\expect( 'is_search' )
 			->once()
@@ -401,12 +401,6 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 			Monkey\Functions\expect( 'get_search_query' )
 				->times( $get_search_query )
 				->andReturn( 'test' );
-
-		global $wp_query;
-
-		$wp_query = Mockery::mock( WP_Query::class );
-
-		$wp_query->query_vars['paged'] = 'test';
 
 		$this->assertSame( $expected, $this->instance->query_var_page_url( $proper_url ) );
 	}
