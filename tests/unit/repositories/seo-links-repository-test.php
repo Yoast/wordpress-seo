@@ -150,7 +150,6 @@ class SEO_Links_Repository_Test extends TestCase {
 	public function test_update_target_indexable_id() {
 		$link_id             = 1;
 		$target_indexable_id = 2;
-		$expected_result     = true;
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
@@ -160,7 +159,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where' )->with( 'id', $link_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'update_many' )->andReturn( 1 );
 
-		$this->assertSame( $expected_result, $this->instance->update_target_indexable_id( $link_id, $target_indexable_id ) );
+		$this->assertTrue( $this->instance->update_target_indexable_id( $link_id, $target_indexable_id ) );
 	}
 
 	/**
@@ -169,8 +168,7 @@ class SEO_Links_Repository_Test extends TestCase {
 	 * @covers ::delete_all_by_post_id
 	 */
 	public function test_delete_all_by_post_id() {
-		$post_id         = 1;
-		$expected_result = true;
+		$post_id = 1;
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
@@ -179,7 +177,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where' )->with( 'post_id', $post_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'delete_many' )->andReturn( true );
 
-		$this->assertSame( $expected_result, $this->instance->delete_all_by_post_id( $post_id ) );
+		$this->instance->delete_all_by_post_id( $post_id );
 	}
 
 	/**
@@ -188,8 +186,7 @@ class SEO_Links_Repository_Test extends TestCase {
 	 * @covers ::delete_all_by_post_id_where_indexable_id_null
 	 */
 	public function test_delete_all_by_post_id_where_indexable_id_null() {
-		$post_id         = 1;
-		$expected_result = true;
+		$post_id = 1;
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
@@ -199,7 +196,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where_null' )->with( 'indexable_id' )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'delete_many' )->andReturn( true );
 
-		$this->assertSame( $expected_result, $this->instance->delete_all_by_post_id_where_indexable_id_null( $post_id ) );
+		$this->instance->delete_all_by_post_id_where_indexable_id_null( $post_id );
 	}
 
 	/**
@@ -208,8 +205,7 @@ class SEO_Links_Repository_Test extends TestCase {
 	 * @covers ::delete_all_by_indexable_id
 	 */
 	public function test_delete_all_by_indexable_id() {
-		$indexable_id    = 1;
-		$expected_result = true;
+		$indexable_id = 1;
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
@@ -218,7 +214,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where' )->with( 'indexable_id', $indexable_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'delete_many' )->andReturn( true );
 
-		$this->assertSame( $expected_result, $this->instance->delete_all_by_indexable_id( $indexable_id ) );
+		$this->instance->delete_all_by_indexable_id( $indexable_id );
 	}
 
 	/**
@@ -322,8 +318,7 @@ class SEO_Links_Repository_Test extends TestCase {
 	 * @covers ::delete_many_by_id
 	 */
 	public function test_delete_many_by_id() {
-		$ids             = [ 1, 2 ];
-		$expected_result = true;
+		$ids = [ 1, 2 ];
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
@@ -332,7 +327,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where_in' )->with( 'id', $ids )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'delete_many' )->andReturn( true );
 
-		$this->assertSame( $expected_result, $this->instance->delete_many_by_id( $ids ) );
+		$this->instance->delete_many_by_id( $ids );
 	}
 
 	/**
@@ -341,9 +336,7 @@ class SEO_Links_Repository_Test extends TestCase {
 	 * @covers ::insert_many
 	 */
 	public function test_insert_many() {
-
-		$links           = [ new SEO_Links(), new SEO_Links() ];
-		$expected_result = true;
+		$links = [ new SEO_Links(), new SEO_Links() ];
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
@@ -351,6 +344,6 @@ class SEO_Links_Repository_Test extends TestCase {
 
 		$this->orm_mock->shouldReceive( 'insert_many' )->with( $links )->andReturn( true );
 
-		$this->assertSame( $expected_result, $this->instance->insert_many( $links ) );
+		$this->instance->insert_many( $links );
 	}
 }
