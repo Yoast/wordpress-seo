@@ -1,29 +1,24 @@
 import { isEmpty } from "lodash-es";
 
 /**
- * Filters out 'text' child nodes and startTag and endTag properties of the sourceCodeLocation property of a node.
+ * Filters out all child nodes and the startTag and endTag properties of the sourceCodeLocation property of a node.
  *
  * @param {Node}	node	The node to filter.
  *
  * @returns {Node} The node without a `text` child node and without startTag and endTag properties.
  */
 function filterNode( node ) {
-	node.childNodes = node.childNodes.filter( childNode => childNode.name !== "#text" );
+	node.childNodes = [];
 	delete node.sourceCodeLocation.startTag;
 	delete node.sourceCodeLocation.endTag;
-
-	// Also delete the 'text' node and startTag and endTag properties of any of the node's children.
-	if ( ! isEmpty( node.childNodes ) ) {
-		node.childNodes.map( filterNode );
-	}
 
 	return node;
 }
 /**
- * Removes the 'text' child nodes from 'code' and 'script' nodes, and the startTag and endTag properties of the
+ * Removes all child nodes from 'code' and 'script' nodes, and the startTag and endTag properties of the
  * sourceCodeLocation of 'code' and 'script' nodes.
  *
- * The text child nodes are removed because we don't want to include text between 'code' and 'script' nodes in the analysis.
+ * The child nodes are removed because we don't want to include any text between 'code' and 'script' nodes in the analysis.
  * If we don't remove them here, the text between 'code' and 'script' nodes will be considered as part of the paragraph's
  * inner text and will be tokenized.
  *

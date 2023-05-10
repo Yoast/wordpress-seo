@@ -126,7 +126,7 @@ describe( "A test for filterBeforeTokenizing", () => {
 
 		expect( tree ).toEqual( expectedTree );
 	} );
-	it( "should filter the text child node and the startTag and endTag properties also from code's child node", () => {
+	it( "should remove other child nodes of a code node, in addition to removing the text child node", () => {
 		const html = "<p>Some text and code <code><strong>console.log</strong>( code )</code></p>";
 
 		let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
@@ -148,17 +148,7 @@ describe( "A test for filterBeforeTokenizing", () => {
 						{
 							name: "code",
 							attributes: {},
-							childNodes: [
-								{
-									name: "strong",
-									attributes: {},
-									childNodes: [],
-									sourceCodeLocation: {
-										endOffset: 56,
-										startOffset: 28,
-									},
-								},
-							],
+							childNodes: [],
 							sourceCodeLocation: {
 								endOffset: 71,
 								startOffset: 22,
@@ -183,7 +173,7 @@ describe( "A test for filterBeforeTokenizing", () => {
 
 		expect( tree ).toEqual( expectedTree );
 	} );
-	it( "should filter the text child node and the startTag and endTag properties also from code's grandchild node", () => {
+	it( "should remove grandchildren of a code node", () => {
 		const html = "<p>Some text and code <code><strong><span>console</span>.log</strong>( code )</code></p>";
 
 		let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
@@ -205,27 +195,7 @@ describe( "A test for filterBeforeTokenizing", () => {
 						{
 							name: "code",
 							attributes: {},
-							childNodes: [
-								{
-									name: "strong",
-									attributes: {},
-									childNodes: [
-										{
-											name: "span",
-											attributes: {},
-											childNodes: [],
-											sourceCodeLocation: {
-												startOffset: 36,
-												endOffset: 56,
-											},
-										},
-									],
-									sourceCodeLocation: {
-										startOffset: 28,
-										endOffset: 69,
-									},
-								},
-							],
+							childNodes: [],
 							sourceCodeLocation: {
 								startOffset: 22,
 								endOffset: 84,
