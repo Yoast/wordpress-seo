@@ -174,7 +174,7 @@ class Short_Link_Helper_Test extends TestCase {
 			->andReturn( $locale );
 
 		$query_params     = $this->instance->get_query_params();
-		$query_param_keys = array_keys( $query_params );
+		$query_param_keys = \array_keys( $query_params );
 
 		$this->assertContains( 'php_version', $query_param_keys );
 		$this->assertContains( 'platform_version', $query_param_keys );
@@ -184,7 +184,7 @@ class Short_Link_Helper_Test extends TestCase {
 		$this->assertEquals( $query_params['software'], $expected['software'] );
 		$this->assertEquals( $query_params['platform'], $expected['platform'] );
 
-		if ( ! is_null( $page ) ) {
+		if ( ! \is_null( $page ) ) {
 			$this->assertContains( 'screen', $query_param_keys );
 		}
 	}

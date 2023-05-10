@@ -127,7 +127,7 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	protected function set_image() {
 		$images = $this->post_meta->open_graph_images;
 
-		if ( ! is_array( $images ) ) {
+		if ( ! \is_array( $images ) ) {
 			return;
 		}
 

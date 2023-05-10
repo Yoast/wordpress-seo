@@ -218,7 +218,7 @@ function _wpseo_activate() {
 		WPSEO_Options::set( 'should_redirect_after_install_free', true );
 	}
 	else {
-		WPSEO_Options::set( 'activation_redirect_timestamp_free', \time() );
+		WPSEO_Options::set( 'activation_redirect_timestamp_free', time() );
 	}
 
 	// Reset tracking to be disabled by default.
