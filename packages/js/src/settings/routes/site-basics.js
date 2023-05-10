@@ -229,7 +229,7 @@ const SiteBasics = () => {
 					</FieldsetLayout>
 					<hr className="yst-my-8"/>
 					<FieldsetLayout
-						title={__("General information", "wordpress-seo")}
+						title={__("Site policies", "wordpress-seo")}
 						description={__("Description needed", "wordpress-seo")}
 					>
 						<FeatureUpsell
@@ -259,24 +259,6 @@ const SiteBasics = () => {
 								description={__("Description needed", "wordpress-seo")}
 								isDummy={!isPremium}
 							/>
-						</FeatureUpsell>
-					</FieldsetLayout>
-					<hr className="yst-my-8"/>
-					<FieldsetLayout
-						title={__("Feedback policies", "wordpress-seo")}
-						description={__("Description needed", "wordpress-seo")}
-					>
-						<FeatureUpsell
-							shouldUpsell={!isPremium}
-							variant="card"
-							cardLink={PublishingPremiumLink}
-							cardText={sprintf(
-								/* translators: %1$s expands to Premium. */
-								__("Unlock with %1$s", "wordpress-seo"),
-								"Premium"
-							)}
-							{...premiumUpsellConfig}
-						>
 							<FormikSelectPostsWithDummy
 								name="wpseo_titles.actionable_feedback_policy_id"
 								id="input-wpseo_titles-actionable_feedback_policy_id"
@@ -293,25 +275,6 @@ const SiteBasics = () => {
 								description={__("Description needed", "wordpress-seo")}
 								isDummy={!isPremium}
 							/>
-						</FeatureUpsell>
-					</FieldsetLayout>
-					<hr className="yst-my-8"/>
-					<FieldsetLayout
-						title={__("Organization policies and reports", "wordpress-seo")}
-						description={__("Setting the diversity & ethics reports for your company makes it possible for crawlers to easily recognize these important pages.", "wordpress-seo")}
-					>
-
-						<FeatureUpsell
-							shouldUpsell={!isPremium}
-							variant="card"
-							cardLink={PublishingPremiumLink}
-							cardText={sprintf(
-								/* translators: %1$s expands to Premium. */
-								__("Unlock with %1$s", "wordpress-seo"),
-								"Premium"
-							)}
-							{...premiumUpsellConfig}
-						>
 							<FormikSelectPostsWithDummy
 								name="wpseo_titles.ethics_policy_id"
 								id="input-wpseo_titles-ethics_policy_id"
