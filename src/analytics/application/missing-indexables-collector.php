@@ -15,7 +15,7 @@ class Missing_Indexables_Collector implements WPSEO_Collection {
 	/**
 	 * All the indexation actions.
 	 *
-	 * @var array<Indexation_Action_Interface> $indexation_actions
+	 * @var array<Indexation_Action_Interface>
 	 */
 	private $indexation_actions;
 

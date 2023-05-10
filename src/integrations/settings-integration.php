@@ -166,17 +166,17 @@ class Settings_Integration implements Integration_Interface {
 	/**
 	 * Constructs Settings_Integration.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager                The WPSEO_Admin_Asset_Manager.
-	 * @param WPSEO_Replace_Vars        $replace_vars                 The WPSEO_Replace_Vars.
-	 * @param Schema_Types              $schema_types                 The Schema_Types.
-	 * @param Current_Page_Helper       $current_page_helper          The Current_Page_Helper.
-	 * @param Post_Type_Helper          $post_type_helper             The Post_Type_Helper.
-	 * @param Language_Helper           $language_helper              The Language_Helper.
-	 * @param Taxonomy_Helper           $taxonomy_helper              The Taxonomy_Helper.
-	 * @param Product_Helper            $product_helper               The Product_Helper.
-	 * @param Woocommerce_Helper        $woocommerce_helper           The Woocommerce_Helper.
-	 * @param Article_Helper            $article_helper               The Article_Helper.
-	 * @param User_Helper               $user_helper                  The User_Helper.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
+	 * @param WPSEO_Replace_Vars        $replace_vars        The WPSEO_Replace_Vars.
+	 * @param Schema_Types              $schema_types        The Schema_Types.
+	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
+	 * @param Post_Type_Helper          $post_type_helper    The Post_Type_Helper.
+	 * @param Language_Helper           $language_helper     The Language_Helper.
+	 * @param Taxonomy_Helper           $taxonomy_helper     The Taxonomy_Helper.
+	 * @param Product_Helper            $product_helper      The Product_Helper.
+	 * @param Woocommerce_Helper        $woocommerce_helper  The Woocommerce_Helper.
+	 * @param Article_Helper            $article_helper      The Article_Helper.
+	 * @param User_Helper               $user_helper         The User_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,

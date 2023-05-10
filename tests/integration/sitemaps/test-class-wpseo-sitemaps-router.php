@@ -58,11 +58,11 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests retrieval of the base url.
 	 *
-	 * @param string $home_url The home URL to set.
-	 * @param string $expected The expected test result.
-	 *
 	 * @covers WPSEO_Sitemaps_Router::get_base_url
 	 * @dataProvider data_get_base_url
+	 *
+	 * @param string $home_url The home URL to set.
+	 * @param string $expected The expected test result.
 	 */
 	public function test_get_base_url( $home_url, $expected ) {
 		update_option( 'home', $home_url );

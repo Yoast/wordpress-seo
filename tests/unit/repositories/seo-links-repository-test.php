@@ -255,7 +255,7 @@ class SEO_Links_Repository_Test extends TestCase {
 	/**
 	 * Data provider for test_get_incoming_link_counts_for_indexable_ids method.
 	 *
-	 * @return array $indexable_counts, $expected_return.
+	 * @return array
 	 */
 	public function get_incoming_link_counts_for_indexable_ids_provider() {
 		return [
@@ -298,7 +298,7 @@ class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @dataProvider get_incoming_link_counts_for_indexable_ids_provider
 	 * @param array $indexable_counts The indexable counts.
-	 * @param array $expected The expected result.
+	 * @param array $expected         The expected result.
 	 */
 	public function test_get_incoming_link_counts_for_indexable_ids( $indexable_counts, $expected ) {
 		$indexable_ids = [ 1, 2 ];

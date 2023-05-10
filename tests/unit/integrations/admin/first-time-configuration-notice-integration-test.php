@@ -133,7 +133,7 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	 *
 	 * @dataProvider dismiss_first_time_configuration_notice_provider
 	 *
-	 * @param bool $check_ajax_referer The value for the check_ajax_referer function.
+	 * @param bool $check_ajax_referer                         The value for the check_ajax_referer function.
 	 * @param int  $dismiss_configuration_workout_notice_times The value for the dismiss_configuration_workout_notice option.
 	 */
 	public function test_dismiss_first_time_configuration_notice( $check_ajax_referer, $dismiss_configuration_workout_notice_times ) {
@@ -220,7 +220,7 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	 *
 	 * @dataProvider first_time_configuration_notice_provider
 	 * @param bool   $should_show_alternate_message Indicate what message to render.
-	 * @param string $message The string that will be rendered.
+	 * @param string $message                       The string that will be rendered.
 	 */
 	public function test_first_time_configuration_notice( $should_show_alternate_message, $message ) {
 		$this->expect_should_display_first_time_configuration_notice( true );

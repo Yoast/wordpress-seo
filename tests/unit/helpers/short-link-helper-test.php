@@ -67,12 +67,12 @@ class Short_Link_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider build_dataprovider
 	 *
-	 * @param bool   $is_premium Whether the plugin is premium or not.
+	 * @param bool   $is_premium         Whether the plugin is premium or not.
 	 * @param string $first_activated_on The date (in days) the plugin was first activated.
-	 * @param string $locale The locale of the user.
-	 * @param string $link The link to build upon.
-	 * @param array  $args_list The list of arguments to add to the link.
-	 * @param string $expected The expected url.
+	 * @param string $locale             The locale of the user.
+	 * @param string $link               The link to build upon.
+	 * @param array  $args_list          The list of arguments to add to the link.
+	 * @param string $expected           The expected url.
 	 */
 	public function test_build( $is_premium, $first_activated_on, $locale, $link, $args_list, $expected ) {
 		$this->product_helper
@@ -149,11 +149,11 @@ class Short_Link_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider get_query_params_dataprovider
 	 *
-	 * @param bool   $is_premium Whether the plugin is premium or not.
+	 * @param bool   $is_premium         Whether the plugin is premium or not.
 	 * @param string $first_activated_on The date (in days) the plugin was first activated.
-	 * @param string $locale The locale of the user.
-	 * @param string $page The page to get the query params for.
-	 * @param array  $expected The expected query params values.
+	 * @param string $locale             The locale of the user.
+	 * @param string $page               The page to get the query params for.
+	 * @param array  $expected           The expected query params values.
 	 */
 	public function test_get_query_params( $is_premium, $first_activated_on, $locale, $page, $expected ) {
 		$_GET['page'] = $page;

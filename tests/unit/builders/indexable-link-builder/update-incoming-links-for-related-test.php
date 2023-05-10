@@ -81,8 +81,8 @@ class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Link_Bui
 	 *
 	 * @dataProvider data_provider_update_incoming_links_for_related_indexables
 	 *
-	 * @param int[] $related_indexable_ids The IDs of all related indexables.
-	 * @param array $expected_counts The expected counts.
+	 * @param int[] $related_indexable_ids                            The IDs of all related indexables.
+	 * @param array $expected_counts                                  The expected counts.
 	 * @param int   $get_incoming_link_counts_for_indexable_ids_times The number of times the method should be called.
 	 */
 	public function test_update_incoming_links_for_related_indexables( $related_indexable_ids, $expected_counts, $get_incoming_link_counts_for_indexable_ids_times ) {

@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO;
 
-use Exception;
 use Throwable;
 use WP_CLI;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
@@ -284,7 +283,6 @@ class Loader {
 	 * @return object|null The class or, in production environments, null if it does not exist.
 	 *
 	 * @throws Throwable If the class does not exist in development environments.
-	 * @throws Exception If the class does not exist in development environments.
 	 */
 	protected function get_class( $class_name ) {
 		try {

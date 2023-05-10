@@ -248,7 +248,7 @@ class Crawl_Cleanup_Helper {
 	 * Redirects clean permalink.
 	 *
 	 * @param string $proper_url The proper URL.
-	 * @return void.
+	 * @return void
 	 */
 	public function do_clean_redirect( $proper_url ) {
 		$this->redirect_helper->set_header( 'Content-Type: redirect', true );

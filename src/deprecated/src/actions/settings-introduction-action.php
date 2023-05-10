@@ -30,10 +30,10 @@ class Settings_Introduction_Action {
 	/**
 	 * Constructs Settings_Introduction_Action.
 	 *
-	 * @param User_Helper $user_helper The User_Helper.
-	 *
 	 * @deprecated 20.7
 	 * @codeCoverageIgnore
+	 *
+	 * @param User_Helper $user_helper The User_Helper.
 	 */
 	public function __construct( User_Helper $user_helper ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
@@ -44,12 +44,12 @@ class Settings_Introduction_Action {
 	/**
 	 * Retrieves the Wistia embed permission value.
 	 *
-	 * @throws Exception If an invalid user ID is supplied.
-	 *
 	 * @deprecated 20.7
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool The value of the Wistia embed permission.
+	 *
+	 * @throws Exception If an invalid user ID is supplied.
 	 */
 	public function get_wistia_embed_permission() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
@@ -63,14 +63,14 @@ class Settings_Introduction_Action {
 	/**
 	 * Sets the Wistia embed permission value.
 	 *
-	 * @param bool $value The value.
-	 *
-	 * @throws Exception If an invalid user ID is supplied.
-	 *
 	 * @deprecated 20.7
 	 * @codeCoverageIgnore
 	 *
+	 * @param bool $value The value.
+	 *
 	 * @return bool Whether the update was successful.
+	 *
+	 * @throws Exception If an invalid user ID is supplied.
 	 */
 	public function set_wistia_embed_permission( $value ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
@@ -91,12 +91,12 @@ class Settings_Introduction_Action {
 	/**
 	 * Retrieves the show value.
 	 *
-	 * @throws Exception If an invalid user ID is supplied.
-	 *
 	 * @deprecated 20.7
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool The value of show.
+	 *
+	 * @throws Exception If an invalid user ID is supplied.
 	 */
 	public function get_show() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
@@ -110,14 +110,14 @@ class Settings_Introduction_Action {
 	/**
 	 * Sets the show value.
 	 *
-	 * @param bool $value The value.
-	 *
-	 * @throws Exception If an invalid user ID is supplied.
-	 *
 	 * @deprecated 20.7
 	 * @codeCoverageIgnore
 	 *
+	 * @param bool $value The value.
+	 *
 	 * @return bool Whether the update was successful.
+	 *
+	 * @throws Exception If an invalid user ID is supplied.
 	 */
 	public function set_show( $value ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
@@ -140,9 +140,9 @@ class Settings_Introduction_Action {
 	 *
 	 * @param int $user_id User ID.
 	 *
-	 * @throws Exception If an invalid user ID is supplied.
-	 *
 	 * @return array The (meta) values.
+	 *
+	 * @throws Exception If an invalid user ID is supplied.
 	 */
 	private function get_values_for_user( $user_id ) {
 		$values = $this->user_helper->get_meta( $user_id, self::USER_META_KEY, true );

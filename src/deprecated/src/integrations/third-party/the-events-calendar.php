@@ -44,11 +44,11 @@ class The_Events_Calendar implements Integration_Interface {
 	/**
 	 * Adds the events graph pieces to the schema collector.
 	 *
-	 * @param array  $pieces  The current graph pieces.
-	 * @param string $context The current context.
-	 *
 	 * @deprecated 19.12
 	 * @codeCoverageIgnore
+	 *
+	 * @param array  $pieces  The current graph pieces.
+	 * @param string $context The current context.
 	 *
 	 * @return array Extended graph pieces.
 	 */

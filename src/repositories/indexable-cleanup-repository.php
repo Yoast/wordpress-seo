@@ -38,9 +38,9 @@ class Indexable_Cleanup_Repository {
 	/**
 	 * The constructor.
 	 *
-	 * @param Taxonomy_Helper       $taxonomy             A helper for taxonomies.
-	 * @param Post_Type_Helper      $post_type            A helper for post types.
-	 * @param Author_Archive_Helper $author_archive       A helper for author archives.
+	 * @param Taxonomy_Helper       $taxonomy       A helper for taxonomies.
+	 * @param Post_Type_Helper      $post_type      A helper for post types.
+	 * @param Author_Archive_Helper $author_archive A helper for author archives.
 	 */
 	public function __construct( Taxonomy_Helper $taxonomy, Post_Type_Helper $post_type, Author_Archive_Helper $author_archive ) {
 		$this->taxonomy       = $taxonomy;
@@ -81,7 +81,7 @@ class Indexable_Cleanup_Repository {
 	/**
 	 * Counts amount of indexables by object type and object sub type.
 	 *
-	 * @param string $object_type The object type to check.
+	 * @param string $object_type     The object type to check.
 	 * @param string $object_sub_type The object sub type to check.
 	 *
 	 * @return float|int
