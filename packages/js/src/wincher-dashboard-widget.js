@@ -174,8 +174,10 @@ class WincherDashboardWidget extends Component {
 
 		const { url } = await getAuthorizationUrl();
 
-		if ( ! url ) {
+		// eslint-disable-next-line no-undefined
+		if ( ! url || ( url === undefined ) ) {
 			this.onNetworkDisconnectionError();
+			return;
 		}
 
 		this.loginPopup = new LoginPopup(
