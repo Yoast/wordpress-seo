@@ -100,7 +100,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * Tests getting the total unindexed.
 	 *
 	 * @covers ::get_count_query
-	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
+	 * @covers \Yoast\WP\SEO\Actions\Indexing\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed() {
 		Functions\expect( 'get_transient' )
@@ -117,7 +117,6 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->expects( 'get_indexable_post_types' )
 			->once()
 			->andReturn( [ 'post', 'page' ] );
-
 
 		$expected_query = "SELECT COUNT(P.ID)
 			FROM wp_posts AS P
@@ -156,7 +155,6 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * @covers ::get_count_query
 	 * @covers ::get_total_unindexed
 	 * @covers ::get_limited_unindexed_count
-	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_limited_unindexed_count() {
 		Functions\expect( 'get_transient' )
@@ -173,7 +171,6 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->expects( 'get_indexable_post_types' )
 			->once()
 			->andReturn( [ 'post', 'page' ] );
-
 
 		$expected_query = "SELECT COUNT(P.ID)
 			FROM wp_posts AS P
@@ -283,7 +280,6 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * Tests the index function.
 	 *
 	 * @covers ::get_objects
-	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::index
 	 */
 	public function test_index_without_link_count() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );

@@ -114,7 +114,6 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 		$validated_aioseo_settings = $this->validate_aioseo_settings();
 		$validated_robot_settings  = $this->validate_robot_settings();
 
-
 		if ( $validated_aioseo_table === false || $validated_aioseo_settings === false || $validated_robot_settings === false ) {
 			throw new Aioseo_Validation_Exception();
 		}

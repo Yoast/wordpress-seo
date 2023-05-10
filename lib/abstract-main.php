@@ -113,7 +113,7 @@ abstract class Abstract_Main {
 	 *
 	 * @throws Forbidden_Property_Mutation_Exception Set is never meant to be called.
 	 */
-	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- __set must have a name and value.
+	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- __set must have a name and value - PHPCS #3715.
 		throw Forbidden_Property_Mutation_Exception::cannot_set_because_property_is_immutable( $name );
 	}
 
@@ -163,7 +163,7 @@ abstract class Abstract_Main {
 		try {
 			return \WPSEO_Utils::is_development_mode();
 		}
-		catch ( \Exception $exception ) {
+		catch ( Exception $exception ) {
 			// E.g. when WordPress and/or WordPress SEO are not loaded.
 			return \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT === 'development';
 		}

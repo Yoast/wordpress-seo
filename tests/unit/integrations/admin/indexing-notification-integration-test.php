@@ -116,7 +116,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		$this->addon_manager       = Mockery::mock( WPSEO_Addon_Manager::class );
 		$this->environment_helper  = Mockery::mock( Environment_Helper::class );
 
-
 		$this->instance = new Indexing_Notification_Integration(
 			$this->notification_center,
 			$this->product_helper,

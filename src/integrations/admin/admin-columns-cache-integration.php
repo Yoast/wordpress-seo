@@ -168,7 +168,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 				$pages_map[ $page->ID ] = $page;
 			}
 
-			$pages = &$top_level_pages;
+			$pages = $top_level_pages;
 		}
 
 		$count      = 0;

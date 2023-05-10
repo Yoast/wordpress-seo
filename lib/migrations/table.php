@@ -224,7 +224,6 @@ class Table {
 	 * @return string The SQL.
 	 */
 	private function columns_to_str() {
-		$str    = '';
 		$fields = [];
 		$len    = \count( $this->columns );
 		for ( $i = 0; $i < $len; $i++ ) {

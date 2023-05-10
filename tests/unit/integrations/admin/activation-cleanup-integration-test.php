@@ -2,12 +2,12 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
-use Mockery;
 use Brain\Monkey;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Activation_Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Admin_Columns_Cache_Integration_Test.
@@ -29,7 +29,7 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 	/**
 	 * Holds the activation indexation integration.
 	 *
-	 * @var \Yoast\WP\SEO\Integrations\Admin\Activation_Cleanup_Integration
+	 * @var Activation_Cleanup_Integration
 	 */
 	private $instance;
 
@@ -78,12 +78,12 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->once()
-			->with( ( time() + DAY_IN_SECONDS ), Cleanup_Integration::START_HOOK );
+			->with( ( \time() + \DAY_IN_SECONDS ), Cleanup_Integration::START_HOOK );
 
 		$this->options_helper->expects( 'get' )
 			->once()
 			->with( 'first_activated_on', false )
-			->andReturn( ( time() - ( HOUR_IN_SECONDS * 5 ) ) );
+			->andReturn( ( \time() - ( \HOUR_IN_SECONDS * 5 ) ) );
 
 		$this->instance->register_cleanup_routine();
 	}
@@ -105,7 +105,7 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 		$this->options_helper->expects( 'get' )
 			->once()
 			->with( 'first_activated_on', false )
-			->andReturn( ( time() - ( HOUR_IN_SECONDS * 5 ) ) );
+			->andReturn( ( \time() - ( \HOUR_IN_SECONDS * 5 ) ) );
 
 		$this->instance->register_cleanup_routine();
 	}
@@ -120,7 +120,7 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 		$this->options_helper->expects( 'get' )
 			->once()
 			->with( 'first_activated_on', false )
-			->andReturn( time() );
+			->andReturn( \time() );
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
 			->never()
@@ -129,7 +129,6 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->never();
-
 
 		$this->instance->register_cleanup_routine();
 	}

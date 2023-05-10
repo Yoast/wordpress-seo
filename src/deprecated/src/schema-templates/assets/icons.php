@@ -7,10 +7,10 @@ namespace Yoast\WP\SEO\Schema_Templates\Assets;
 /**
  * Class Icons.
  *
+ * Provides SVG icons as strings.
+ *
  * @deprecated 20.5
  * @codeCoverageIgnore
- *
- * Provides SVG icons as strings.
  */
 class Icons {
 

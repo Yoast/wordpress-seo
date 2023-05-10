@@ -119,8 +119,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * Tests the robots filter for a public site, with sitemaps.
 	 *
 	 * @covers ::filter_robots
-	 * @covers ::change_default_robots
-	 * @covers ::add_xml_sitemap
+	 * @covers ::maybe_add_xml_sitemap
 	 */
 	public function test_public_site_with_sitemaps() {
 		global $wp_rewrite;
@@ -174,8 +173,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * @dataProvider multisite_provider
 	 *
 	 * @covers ::filter_robots
-	 * @covers ::change_default_robots
-	 * @covers ::add_xml_sitemap
+	 * @covers ::maybe_add_xml_sitemap
 	 * @covers ::add_subdirectory_multisite_xml_sitemaps
 	 * @covers ::get_xml_sitemaps_enabled
 	 * @covers ::is_sitemap_allowed
@@ -300,8 +298,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * Tests the robots filter for multisite installations, other site without Yoast SEO activated.
 	 *
 	 * @covers ::filter_robots
-	 * @covers ::change_default_robots
-	 * @covers ::add_xml_sitemap
+	 * @covers ::maybe_add_xml_sitemap
 	 * @covers ::add_subdirectory_multisite_xml_sitemaps
 	 * @covers ::get_xml_sitemaps_enabled
 	 * @covers ::is_sitemap_allowed
@@ -382,8 +379,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * Tests the robots filter for a multisite subdirectory installation without any existing option rows.
 	 *
 	 * @covers ::filter_robots
-	 * @covers ::change_default_robots
-	 * @covers ::add_xml_sitemap
+	 * @covers ::maybe_add_xml_sitemap
 	 * @covers ::add_subdirectory_multisite_xml_sitemaps
 	 * @covers ::get_xml_sitemaps_enabled
 	 * @covers ::is_sitemap_allowed
@@ -463,8 +459,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * Tests the robots filter for a public site, without sitemaps.
 	 *
 	 * @covers ::filter_robots
-	 * @covers ::change_default_robots
-	 * @covers ::add_xml_sitemap
+	 * @covers ::maybe_add_xml_sitemap
 	 */
 	public function test_public_site_without_sitemaps() {
 		$this->options_helper
@@ -564,6 +559,12 @@ class Robots_Txt_Integration_Test extends TestCase {
 		$robots_txt_helper
 			->expects( 'add_disallow' )
 			->with( '*', '/?s=' )
+			->once()
+			->andReturn();
+
+		$robots_txt_helper
+			->expects( 'add_disallow' )
+			->with( '*', '/page/*/?s=' )
 			->once()
 			->andReturn();
 

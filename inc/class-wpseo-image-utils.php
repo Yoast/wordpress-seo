@@ -202,7 +202,7 @@ class WPSEO_Image_Utils {
 	 * Find the right version of an image based on size.
 	 *
 	 * @param int          $attachment_id Attachment ID.
-	 * @param string|array $size     Size name, or array of width and height in pixels (e.g [800,400]).
+	 * @param string|array $size          Size name, or array of width and height in pixels (e.g [800,400]).
 	 *
 	 * @return array|false Returns an array with image data on success, false on failure.
 	 */
