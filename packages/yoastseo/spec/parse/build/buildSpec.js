@@ -98,12 +98,12 @@ describe( "The parse function", () => {
 					attributes: {},
 					sentences: [ {
 						text: "Hello World!",
-						sourceCodeRange: { startOffset: 5, endOffset: 30 },
+						sourceCodeRange: { startOffset: 5, endOffset: 23 },
 						tokens: [
 							{ text: "Hello", sourceCodeRange: { startOffset: 5, endOffset: 10 } },
 							{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
-							{ text: "World", sourceCodeRange: { startOffset: 11, endOffset: 22 } },
-							{ text: "!", sourceCodeRange: { startOffset: 22, endOffset: 30 } },
+							{ text: "World", sourceCodeRange: { startOffset: 17, endOffset: 22 } },
+							{ text: "!", sourceCodeRange: { startOffset: 22, endOffset: 23 } },
 						],
 					} ],
 					childNodes: [
@@ -337,7 +337,7 @@ describe( "The parse function", () => {
 								tokens: [
 									{ text: "So", sourceCodeRange: { startOffset: 5, endOffset: 7 } },
 									{ text: " ", sourceCodeRange: { startOffset: 7, endOffset: 8 } },
-									{ text: "long", sourceCodeRange: { startOffset: 8, endOffset: 21 } },
+									{ text: "long", sourceCodeRange: { startOffset: 12, endOffset: 16 } },
 									{ text: ",", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
 									{ text: " ", sourceCodeRange: { startOffset: 22, endOffset: 23 } },
 									{ text: "and", sourceCodeRange: { startOffset: 23, endOffset: 26 } },
@@ -476,7 +476,7 @@ describe( "The parse function", () => {
 									{ text: " ", sourceCodeRange: { startOffset: 55, endOffset: 56 } },
 									{ text: "the", sourceCodeRange: { startOffset: 56, endOffset: 59 } },
 									{ text: " ", sourceCodeRange: { startOffset: 59, endOffset: 60 } },
-									{ text: "fish", sourceCodeRange: { startOffset: 60, endOffset: 81 } },
+									{ text: "fish", sourceCodeRange: { startOffset: 68, endOffset: 72 } },
 									{ text: "!", sourceCodeRange: { startOffset: 81, endOffset: 82 } },
 								],
 							} ],
