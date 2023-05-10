@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Crawl_Cleanup_Helper_Test.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Initializers\Crawl_Cleanup_Helper
+ * @coversDefaultClass \Yoast\WP\SEO\Helpers\Crawl_Cleanup_Helper
  *
  * @group integrations
  */

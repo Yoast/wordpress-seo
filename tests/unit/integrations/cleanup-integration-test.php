@@ -86,9 +86,6 @@ class Cleanup_Integration_Test extends TestCase {
 	 *
 	 * @covers ::run_cleanup
 	 * @covers ::get_cleanup_tasks
-	 * @covers ::clean_indexables_with_object_type_and_object_sub_type
-	 * @covers ::clean_indexables_with_post_status
-	 * @covers ::cleanup_orphaned_from_table
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
 	 */
@@ -125,9 +122,6 @@ class Cleanup_Integration_Test extends TestCase {
 	 *
 	 * @covers ::run_cleanup
 	 * @covers ::get_cleanup_tasks
-	 * @covers ::clean_indexables_with_object_type_and_object_sub_type
-	 * @covers ::clean_indexables_with_post_status
-	 * @covers ::cleanup_orphaned_from_table
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
 	 */
@@ -157,7 +151,6 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
-	 * @covers ::clean_indexables_with_object_type_and_object_sub_type
 	 * @covers ::start_cron_job
 	 */
 	public function test_run_cleanup_starts_cron_job() {
@@ -226,7 +219,6 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::run_cleanup_cron
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
-	 * @covers ::cleanup_orphaned_from_table
 	 * @covers ::start_cron_job
 	 */
 	public function test_run_cleanup_cron_last_task() {
