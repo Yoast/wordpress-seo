@@ -75,7 +75,7 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 
 		add_filter(
 			'locale',
-			function () use ( $locale ) {
+			static function () use ( $locale ) {
 				return $locale;
 			}
 		);

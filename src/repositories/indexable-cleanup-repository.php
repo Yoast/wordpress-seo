@@ -665,7 +665,7 @@ class Indexable_Cleanup_Repository {
 
 		// This is a workaround for the fact that the array_column function does not work on objects in PHP 5.6.
 		$reassigned_authors_array = \array_map(
-			function ( $obj ) {
+			static function ( $obj ) {
 				return (array) $obj;
 			},
 			$reassigned_authors_objs
