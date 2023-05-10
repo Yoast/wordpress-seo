@@ -163,7 +163,7 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 				'wp_next_scheduled'        => null,
 				'schedule_event_times'     => 0,
 			],
-			'Old and new values have disable-attachment key, old false, new true' => [
+			'Old and new values have disable-attachment key, old false, new true, next_scheduled: true' => [
 				'old_value'                => [ 'disable-attachment' => false ],
 				'new_value'                => [ 'disable-attachment' => true ],
 				'delete_transient_times'   => 1,
@@ -172,7 +172,7 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 				'wp_next_scheduled'        => true,
 				'schedule_event_times'     => 0,
 			],
-			'Old and new values have disable-attachment key, old false, new true' => [
+			'Old and new values have disable-attachment key, old false, new true, next_scheduled: false' => [
 				'old_value'                => [ 'disable-attachment' => false ],
 				'new_value'                => [ 'disable-attachment' => true ],
 				'delete_transient_times'   => 1,

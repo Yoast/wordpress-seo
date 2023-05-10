@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Models\Indexable_Hierarchy;
  * - Building author indexables
  * - Unhappy paths
  */
-class Test_Class_Indexable_Post_Watcher extends WPSEO_UnitTestCase {
+class Indexable_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * An indexable should be created whenever a post is created.
