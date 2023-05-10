@@ -49,10 +49,10 @@ class Settings_Introduction_Route implements Route_Interface {
 	/**
 	 * Constructs Settings_Introduction_Route.
 	 *
-	 * @param Settings_Introduction_Action $settings_introduction_action The $settings_introduction_action.
-	 *
 	 * @deprecated 20.7
 	 * @codeCoverageIgnore
+	 *
+	 * @param Settings_Introduction_Action $settings_introduction_action The $settings_introduction_action.
 	 */
 	public function __construct( Settings_Introduction_Action $settings_introduction_action ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
@@ -177,10 +177,10 @@ class Settings_Introduction_Route implements Route_Interface {
 	/**
 	 * Sets the value of the wistia embed permission.
 	 *
-	 * @param WP_REST_Request $request The request object.
-	 *
 	 * @deprecated 20.7
 	 * @codeCoverageIgnore
+	 *
+	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
@@ -243,10 +243,10 @@ class Settings_Introduction_Route implements Route_Interface {
 	/**
 	 * Sets the value of show.
 	 *
-	 * @param WP_REST_Request $request The request object.
-	 *
 	 * @deprecated 20.7
 	 * @codeCoverageIgnore
+	 *
+	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */

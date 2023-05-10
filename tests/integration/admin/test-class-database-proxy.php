@@ -431,7 +431,6 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		global $wpdb;
 
 		$proxy_table_name = self::$proxy_table_name . '_duplicate';
-		$proxy            = new WPSEO_Database_Proxy( $wpdb, $proxy_table_name, true );
 
 		$this->assertTrue( in_array( $proxy_table_name, $wpdb->tables, true ) );
 	}
@@ -445,7 +444,6 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		global $wpdb;
 
 		$proxy_table_name = self::$proxy_table_name . '_duplicate';
-		$proxy            = new WPSEO_Database_Proxy( $wpdb, $proxy_table_name, true, true );
 
 		$this->assertTrue( in_array( $proxy_table_name, $wpdb->ms_global_tables, true ) );
 	}

@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use Closure;
-use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 
 /**
@@ -36,7 +35,7 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Indexable_Cleanup_Repository $cleanup_repository   The cleanup repository.
+	 * @param Indexable_Cleanup_Repository $cleanup_repository The cleanup repository.
 	 */
 	public function __construct( Indexable_Cleanup_Repository $cleanup_repository ) {
 		$this->cleanup_repository = $cleanup_repository;
@@ -286,4 +285,3 @@ class Cleanup_Integration implements Integration_Interface {
 		}
 	}
 }
-

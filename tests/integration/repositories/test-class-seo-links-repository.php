@@ -5,9 +5,8 @@
  * @package Yoast\Tests\Repositories
  */
 
-use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 use Yoast\WP\SEO\Models\SEO_Links;
-
+use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 
 /**
  * Class SEO_Links_Repository_Test.
@@ -162,8 +161,6 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 * @covers ::find_all_by_indexable_id
 	 */
 	public function test_find_all_by_indexable_id_no_results_found() {
-		$indexable_id = '1';
-
 		$result = $this->instance->find_all_by_indexable_id( 3 );
 
 		$this->assertIsArray( $result, 'The result should be an array when there are no result.' );
@@ -251,10 +248,10 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider data_provider_test_update_target_indexable_id
 	 *
-	 * @param int  $link_id The link id.
+	 * @param int  $link_id             The link id.
 	 * @param int  $target_indexable_id The target indexable id to update.
-	 * @param bool $expected_result The expected result.
-	 * @param int  $in_db The expected result in the database.
+	 * @param bool $expected_result     The expected result.
+	 * @param int  $in_db               The expected result in the database.
 	 */
 	public function test_update_target_indexable_id( $link_id, $target_indexable_id, $expected_result, $in_db ) {
 		global $wpdb;
@@ -292,7 +289,7 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider data_provider_test_delete_all_by_post_id
 	 *
-	 * @param int $post_id The post id.
+	 * @param int $post_id         The post id.
 	 * @param int $expected_result The expected result.
 	 */
 	public function test_delete_all_by_post_id( $post_id, $expected_result ) {
@@ -345,7 +342,7 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider data_provider_test_delete_all_by_post_id_where_indexable_id_null
 	 *
-	 * @param int $post_id The post id.
+	 * @param int $post_id         The post id.
 	 * @param int $expected_result The number of links deleted.
 	 */
 	public function test_delete_all_by_post_id_where_indexable_id_null( $post_id, $expected_result ) {
@@ -409,7 +406,7 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider data_provider_test_delete_all_by_indexable_id
 	 *
-	 * @param int $indexable_id The indexable id.
+	 * @param int $indexable_id    The indexable id.
 	 * @param int $expected_result The number of links deleted.
 	 */
 	public function test_delete_all_by_indexable_id( $indexable_id, $expected_result ) {
@@ -479,7 +476,7 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider data_provider_get_incoming_link_counts_for_post_ids
 	 *
-	 * @param array $post_ids The post ids.
+	 * @param array $post_ids        The post ids.
 	 * @param array $expected_result The expected result.
 	 */
 	public function test_get_incoming_link_counts_for_post_ids( $post_ids, $expected_result ) {
@@ -527,7 +524,7 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider data_provider_test_delete_many_by_id
 	 *
-	 * @param array $ids The ids.
+	 * @param array $ids             The ids.
 	 * @param int   $expected_result The number of links deleted.
 	 */
 	public function test_delete_many_by_id( $ids, $expected_result ) {
@@ -608,7 +605,7 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider data_provider_test_get_incoming_link_counts_for_indexable_ids
 	 *
-	 * @param array $indexable_ids The indexable ids.
+	 * @param array $indexable_ids   The indexable ids.
 	 * @param array $expected_result The expected result.
 	 */
 	public function test_get_incoming_link_counts_for_indexable_ids( $indexable_ids, $expected_result ) {

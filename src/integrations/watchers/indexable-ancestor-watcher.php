@@ -129,7 +129,6 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 			$child_indexables_for_term = $this->get_children_for_term( $indexable->object_id, $child_indexables );
 
 			\array_walk( $child_indexables_for_term, [ $this, 'update_hierarchy_and_permalink' ] );
-
 		}
 
 		return true;

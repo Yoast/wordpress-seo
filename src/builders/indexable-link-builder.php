@@ -572,7 +572,6 @@ class Indexable_Link_Builder {
 		foreach ( $counts as $count ) {
 
 			$this->indexable_repository->update_incoming_link_count( $count['target_indexable_id'], $count['incoming'] );
-
 		}
 	}
 }

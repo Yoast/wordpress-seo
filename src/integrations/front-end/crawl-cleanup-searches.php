@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Integrations\Front_End;
 use WP_Query;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Class Crawl_Cleanup_Searches.

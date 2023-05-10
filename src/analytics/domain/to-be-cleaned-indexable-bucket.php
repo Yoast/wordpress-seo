@@ -10,7 +10,7 @@ class To_Be_Cleaned_Indexable_Bucket {
 	/**
 	 * All the to be cleaned indexable count objects.
 	 *
-	 * @var array<To_Be_Cleaned_Indexable_Count> $to_be_cleaned_indexable_counts
+	 * @var array<To_Be_Cleaned_Indexable_Count>
 	 */
 	private $to_be_cleaned_indexable_counts;
 
@@ -39,12 +39,10 @@ class To_Be_Cleaned_Indexable_Bucket {
 	 */
 	public function to_array(): array {
 		return \array_map(
-			function ( $item ) {
+			static function ( $item ) {
 				return $item->to_array();
 			},
 			$this->to_be_cleaned_indexable_counts
 		);
 	}
 }
-
-

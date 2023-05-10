@@ -118,7 +118,6 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'post', 'page' ] );
 
-
 		$expected_query = "SELECT COUNT(P.ID)
 			FROM wp_posts AS P
 			LEFT JOIN wp_yoast_indexable AS I
@@ -172,7 +171,6 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->expects( 'get_indexable_post_types' )
 			->once()
 			->andReturn( [ 'post', 'page' ] );
-
 
 		$expected_query = "SELECT COUNT(P.ID)
 			FROM wp_posts AS P

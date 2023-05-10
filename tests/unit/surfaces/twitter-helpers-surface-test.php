@@ -73,7 +73,7 @@ class Twitter_Helpers_Surface_Test extends TestCase {
 	public function test_get_invalid_service( $helper_name ) {
 		$this->expectException( ServiceNotFoundException::class );
 
-		$_ = $this->instance->$helper_name;
+		$this->instance->$helper_name;
 	}
 
 	/**

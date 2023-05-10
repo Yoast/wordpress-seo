@@ -45,7 +45,7 @@ class Redirect_Helper {
 	 * @param string $header The header to set.
 	 */
 	public function set_header( $header ) {
-		header( $header );
+		\header( $header );
 	}
 
 	/**
@@ -57,6 +57,6 @@ class Redirect_Helper {
 	 * @param string $header The header to remove.
 	 */
 	public function remove_header( $header ) {
-		header_remove( $header );
+		\header_remove( $header );
 	}
 }

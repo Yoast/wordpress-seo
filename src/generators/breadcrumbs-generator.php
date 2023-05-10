@@ -149,7 +149,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		$indexables = \is_array( $indexables ) ? $indexables : [];
 		$indexables = \array_filter(
 			$indexables,
-			function ( $indexable ) {
+			static function ( $indexable ) {
 				return \is_a( $indexable, Indexable::class );
 			}
 		);

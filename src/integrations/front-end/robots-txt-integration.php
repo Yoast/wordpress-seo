@@ -116,6 +116,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 */
 	public function add_disallow_search_to_robots( Robots_Txt_Helper $robots_txt_helper ) {
 		$robots_txt_helper->add_disallow( '*', '/?s=' );
+		$robots_txt_helper->add_disallow( '*', '/page/*/?s=' );
 		$robots_txt_helper->add_disallow( '*', '/search/' );
 	}
 
