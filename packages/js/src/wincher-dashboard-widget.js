@@ -24,12 +24,14 @@ class WincherDashboardWidget extends Component {
 			wincherIsLoggedIn: wpseoWincherDashboardWidgetL10n.wincher_is_logged_in === "1",
 			isDataFetched: false,
 			isConnectSuccess: false,
+			isNetworkError: false,
 		};
 
 		this.onConnect = this.onConnect.bind( this );
 		this.getWincherData = this.getWincherData.bind( this );
 		this.performAuthenticationRequest = this.performAuthenticationRequest.bind( this );
 		this.onConnectSuccess = this.onConnectSuccess.bind( this );
+		this.onNetworkDisconnectionError = this.onNetworkDisconnectionError.bind( this );
 	}
 
 	/**
@@ -141,9 +143,22 @@ class WincherDashboardWidget extends Component {
 	async onConnectSuccess( data ) {
 		this.setState( {
 			isConnectSuccess: true,
+			isNetworkError: false,
 		} );
 
 		await this.performAuthenticationRequest( data );
+	}
+
+	/**
+	 * Handles network disconnection errors.
+	 *
+	 * @returns {void}
+	 */
+	async onNetworkDisconnectionError() {
+		this.setState( {
+			isConnectSuccess: false,
+			isNetworkError: true,
+		} );
 	}
 
 	/**
@@ -158,6 +173,10 @@ class WincherDashboardWidget extends Component {
 		}
 
 		const { url } = await getAuthorizationUrl();
+
+		if ( ! url ) {
+			this.onNetworkDisconnectionError();
+		}
 
 		this.loginPopup = new LoginPopup(
 			url,
@@ -193,6 +212,7 @@ class WincherDashboardWidget extends Component {
 			websiteId={ this.state.wincherWebsiteId }
 			isLoggedIn={ this.state.wincherIsLoggedIn }
 			isConnectSuccess={ this.state.isConnectSuccess }
+			isNetworkError={ this.state.isNetworkError }
 			onConnectAction={ this.onConnect }
 		/>;
 	}
