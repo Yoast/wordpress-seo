@@ -484,6 +484,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 			'source' => 'first-content-image',
 		];
 		$actual   = $this->instance->find_alternative_image( $indexable_mock );
+
+		$this->assertSame( $expected, $actual );
 	}
 
 	/**
