@@ -39,4 +39,3 @@ class Postname_Permalink_Runner implements Runner_Interface {
 		return $this->permalinks_contain_postname;
 	}
 }
-

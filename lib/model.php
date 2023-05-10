@@ -402,7 +402,7 @@ class Model implements JsonSerializable {
 		$associated_table_name = static::get_table_name_for_class( static::$auto_prefix_models . $associated_class_name );
 		$foreign_key_name      = static::build_foreign_key_name( $foreign_key_name, $associated_table_name );
 		$associated_object_id  = $this->{$foreign_key_name};
-		$desired_record        = null;
+
 		if ( $foreign_key_name_in_associated_models_table === null ) {
 			/*
 			 * Comparison: "{$associated_table_name}.primary_key = {$associated_object_id}".

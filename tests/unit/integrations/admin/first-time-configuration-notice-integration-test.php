@@ -6,12 +6,11 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
 use Yoast\WP\SEO\Helpers\First_Time_Configuration_Notice_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\First_Time_Configuration_Notice_Integration;
+use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-
 
 /**
  * Class First_Time_Configuration_Notice_Integration_Test.
@@ -40,7 +39,7 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	/**
 	 * The first time configuration notice helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\First_Time_Configuration_Notice_Helper
+	 * @var First_Time_Configuration_Notice_Helper
 	 */
 	private $first_time_configuration_notice_helper;
 
@@ -60,8 +59,6 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
-	 *
-	 * @covers __construct
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -135,7 +132,7 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	 *
 	 * @dataProvider dismiss_first_time_configuration_notice_provider
 	 *
-	 * @param bool $check_ajax_referer The value for the check_ajax_referer function.
+	 * @param bool $check_ajax_referer                         The value for the check_ajax_referer function.
 	 * @param int  $dismiss_configuration_workout_notice_times The value for the dismiss_configuration_workout_notice option.
 	 */
 	public function test_dismiss_first_time_configuration_notice( $check_ajax_referer, $dismiss_configuration_workout_notice_times ) {
@@ -222,7 +219,7 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	 *
 	 * @dataProvider first_time_configuration_notice_provider
 	 * @param bool   $should_show_alternate_message Indicate what message to render.
-	 * @param string $message The string that will be rendered.
+	 * @param string $message                       The string that will be rendered.
 	 */
 	public function test_first_time_configuration_notice( $should_show_alternate_message, $message ) {
 		$this->expect_should_display_first_time_configuration_notice( true );
@@ -260,14 +257,14 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	/**
 	 * Expects function in should_display_first_time_configuration_notice.
 	 *
-	 * @param bool $return The expected return value of the function.
+	 * @param bool $return_value The expected return value of the function.
 	 * @return void
 	 */
-	public function expect_should_display_first_time_configuration_notice( $return ) {
+	public function expect_should_display_first_time_configuration_notice( $return_value ) {
 		$this->first_time_configuration_notice_helper
 			->expects( 'should_display_first_time_configuration_notice' )
 			->once()
-			->andReturn( $return );
+			->andReturn( $return_value );
 	}
 
 	/**

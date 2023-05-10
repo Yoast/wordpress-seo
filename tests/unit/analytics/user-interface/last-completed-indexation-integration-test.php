@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Analytics\User_Interface;
 
+use Mockery;
 use Yoast\WP\SEO\Analytics\User_Interface\Last_Completed_Indexation_Integration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -25,7 +26,7 @@ class Last_Completed_Indexation_Integration_Test extends TestCase {
 	/**
 	 * The options helper mock.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper $options_helper_mock
+	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper_mock;
 
@@ -37,7 +38,7 @@ class Last_Completed_Indexation_Integration_Test extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->options_helper_mock = \Mockery::mock( Options_Helper::class );
+		$this->options_helper_mock = Mockery::mock( Options_Helper::class );
 
 		$this->sut = new Last_Completed_Indexation_Integration( $this->options_helper_mock );
 	}

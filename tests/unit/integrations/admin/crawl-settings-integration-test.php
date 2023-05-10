@@ -88,8 +88,8 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	 * @dataProvider enqueue_assets_provider
 	 *
 	 * @param bool   $is_network_admin Whether the current page is a network admin page.
-	 * @param string $get_response The response of the GET request.
-	 * @param int    $expected The times admin_asset_manager->enqueue_script( 'crawl-settings' ) is called.
+	 * @param string $get_response     The response of the GET request.
+	 * @param int    $expected         The times admin_asset_manager->enqueue_script( 'crawl-settings' ) is called.
 	 */
 	public function test_enqueue_assets( $is_network_admin, $get_response, $expected ) {
 

@@ -85,7 +85,10 @@ class WPSEO_Tracking_Addon_Data implements WPSEO_Collection {
 	 * @return array
 	 */
 	public function get_addon_settings( array $addon_settings, $source_name, $slug, $option_include_list ) {
-		$source_options          = \get_option( $source_name );
+		$source_options = \get_option( $source_name, [] );
+		if ( ! \is_array( $source_options ) || empty( $source_options ) ) {
+			return $addon_settings;
+		}
 		$addon_settings[ $slug ] = \array_intersect_key( $source_options, \array_flip( $option_include_list ) );
 
 		return $addon_settings;
@@ -117,7 +120,6 @@ class WPSEO_Tracking_Addon_Data implements WPSEO_Collection {
 		if ( ! ( new WooCommerce_Conditional() )->is_met() ) {
 			unset( $addon_settings[ $slug ]['woocommerce_local_pickup_setting'] );
 		}
-
 
 		return $addon_settings;
 	}
