@@ -18,8 +18,10 @@ const paper = new Paper( content, {
 const expectedResults = {
 	introductionKeyword: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Your keyphrase or its " +
+			"synonyms do not appear in the first paragraph. <a href='https://yoa.st/33f' target='_blank'>Make sure the " +
+			"topic is clear immediately</a>.",
 	},
 	keyphraseLength: {
 		isApplicable: true,
@@ -58,7 +60,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 602 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 633 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -120,7 +122,7 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 16.7% of the sentences contain " +
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 15.1% of the sentences contain " +
 			"transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
