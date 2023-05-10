@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
 use Brain\Monkey;
-use Mockery;
 use WPSEO_Admin_User_Profile;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

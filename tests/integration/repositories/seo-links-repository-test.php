@@ -5,8 +5,8 @@
  * @package Yoast\Tests\Repositories
  */
 
-use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 use Yoast\WP\SEO\Models\SEO_Links;
+use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 
 
 /**

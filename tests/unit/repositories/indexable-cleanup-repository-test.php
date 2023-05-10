@@ -4,15 +4,15 @@ namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
 use Brain\Monkey;
 use Mockery;
-use wpdb;
-use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
-use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 use stdClass;
+use wpdb;
+use Yoast\WP\Lib\Model;
+use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Cleanup_Repository_Test.
@@ -276,13 +276,13 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_clean_indexables_for_non_publicly_viewable_post_type_archives() {
-		$my_cpt                  = new \stdClass();
+		$my_cpt                  = new stdClass();
 		$my_cpt->name            = 'my_cpt';
 		$my_cpt->has_archive     = true;
-		$post                    = new \stdClass();
+		$post                    = new stdClass();
 		$post->name              = 'post';
 		$post->has_archive       = true;
-		$attachment              = new \stdClass();
+		$attachment              = new stdClass();
 		$attachment->name        = 'attachment';
 		$attachment->has_archive = true;
 
@@ -480,13 +480,13 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_count_indexables_for_non_publicly_post_type_archive_pages() {
-		$my_cpt                  = new \stdClass();
+		$my_cpt                  = new stdClass();
 		$my_cpt->name            = 'my_cpt';
 		$my_cpt->has_archive     = true;
-		$post                    = new \stdClass();
+		$post                    = new stdClass();
 		$post->name              = 'post';
 		$post->has_archive       = true;
-		$attachment              = new \stdClass();
+		$attachment              = new stdClass();
 		$attachment->name        = 'attachment';
 		$attachment->has_archive = true;
 
@@ -523,13 +523,13 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_count_indexables_for_non_publicly_post_type_archive_pages_no_archives() {
-		$my_cpt                  = new \stdClass();
+		$my_cpt                  = new stdClass();
 		$my_cpt->name            = 'my_cpt';
 		$my_cpt->has_archive     = true;
-		$post                    = new \stdClass();
+		$post                    = new stdClass();
 		$post->name              = 'post';
 		$post->has_archive       = true;
-		$attachment              = new \stdClass();
+		$attachment              = new stdClass();
 		$attachment->name        = 'attachment';
 		$attachment->has_archive = true;
 

@@ -2,11 +2,12 @@
 
 namespace Yoast\WP\SEO\Repositories;
 
-use Yoast\WP\Lib\ORM;
+use mysqli_result;
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
 /**
  * Repository containing all cleanup queries.
@@ -422,7 +423,7 @@ class Indexable_Cleanup_Repository {
 	/**
 	 * Counts total amount of indexables for authors without archives.
 	 *
-	 * @return bool|int|\mysqli_result|resource|null
+	 * @return bool|int|mysqli_result|resource|null
 	 */
 	public function count_indexables_for_authors_without_archive() {
 		global $wpdb;

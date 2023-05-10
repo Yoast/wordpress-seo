@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use Closure;
-use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 
 /**

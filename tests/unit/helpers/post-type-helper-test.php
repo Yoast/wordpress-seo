@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
+use stdClass;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -43,10 +44,10 @@ class Post_Type_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider post_type_archive_provider
 	 *
-	 * @param \StdClass $return_object The object returned by the get_post_type_object function.
-	 * @param array     $post_types A list of post_types.
-	 * @param string    $post_type_to_check The post type to check.
-	 * @param bool      $expected_result The expected result if the archive is indexable.
+	 * @param stdClass $return_object The object returned by the get_post_type_object function.
+	 * @param array    $post_types A list of post_types.
+	 * @param string   $post_type_to_check The post type to check.
+	 * @param bool     $expected_result The expected result if the archive is indexable.
 	 *
 	 * @return void
 	 */
@@ -68,11 +69,11 @@ class Post_Type_Helper_Test extends TestCase {
 	 * @return array
 	 */
 	public function post_type_archive_provider() {
-		$book              = new \stdClass();
+		$book              = new stdClass();
 		$book->name        = 'books';
 		$book->has_archive = true;
 
-		$book_no              = new \stdClass();
+		$book_no              = new stdClass();
 		$book_no->name        = 'books';
 		$book_no->has_archive = false;
 
@@ -90,9 +91,9 @@ class Post_Type_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider post_type_archive_object_provider
 	 *
-	 * @param \StdClass $return_object The object returned by the get_post_type_object function.
-	 * @param array     $post_types A list of post_types.
-	 * @param array     $expected_result The expected list of indexable post archives.
+	 * @param stdClass $return_object The object returned by the get_post_type_object function.
+	 * @param array    $post_types A list of post_types.
+	 * @param array    $expected_result The expected list of indexable post archives.
 	 *
 	 * @return void
 	 */
@@ -112,11 +113,11 @@ class Post_Type_Helper_Test extends TestCase {
 	 * @return array
 	 */
 	public function post_type_archive_object_provider() {
-		$book              = new \stdClass();
+		$book              = new stdClass();
 		$book->name        = 'books';
 		$book->has_archive = true;
 
-		$book_no              = new \stdClass();
+		$book_no              = new stdClass();
 		$book_no->name        = 'books';
 		$book_no->has_archive = false;
 

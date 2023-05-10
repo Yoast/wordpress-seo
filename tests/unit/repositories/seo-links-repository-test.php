@@ -4,10 +4,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
 use Mockery;
 use wpdb;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\Lib\ORM;
 
 /**
  * Class SEO_Links_Repository_Test.

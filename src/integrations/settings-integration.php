@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
-use Exception;
 use WP_Post_Type;
 use WP_Taxonomy;
+use WP_User;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Editor_Specific_Replace_Vars;
 use WPSEO_Admin_Recommended_Replace_Vars;
@@ -472,7 +472,7 @@ class Settings_Integration implements Integration_Interface {
 		if ( isset( $settings['wpseo_titles']['company_or_person_user_id'] ) ) {
 			$person['id'] = $settings['wpseo_titles']['company_or_person_user_id'];
 			$user         = \get_userdata( $person['id'] );
-			if ( $user instanceof \WP_User ) {
+			if ( $user instanceof WP_User ) {
 				$person['name'] = $user->get( 'display_name' );
 			}
 		}
