@@ -27,6 +27,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
 			assessVariants: true,
 			productIdentifierOrBarcode: "Product identifier",
+			shouldShowEditButton: true,
 		};
 
 		this.identifier = "productIdentifier";
@@ -53,7 +54,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			assessmentResult.setText( result.text );
 		}
 
-		if ( assessmentResult.getScore() < 9  ) {
+		if ( assessmentResult.getScore() < 9 && this._config.shouldShowEditButton ) {
 			assessmentResult.setHasJumps( true );
 			assessmentResult.setEditFieldName( __( "Product identifiers", "yoast-woo-seo" ) );
 		}

@@ -127,12 +127,14 @@ const ProductSEOAssessor = function( researcher, options ) {
 			urlCallToAction: createAnchorOpeningTag( options.productIdentifierCTAUrl ),
 			assessVariants: options.assessVariants,
 			productIdentifierOrBarcode: options.productIdentifierOrBarcode,
+			shouldShowEditButton: options.shouldShowEditButtons,
 		} ),
 		new ProductSKUAssessment( {
 			urlTitle: createAnchorOpeningTag( options.productSKUUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.productSKUCTAUrl ),
 			assessVariants: options.assessVariants,
 			addSKULocation: options.addSKULocation,
+			shouldShowEditButton: options.shouldShowEditButtons,
 		} ),
 	];
 };
