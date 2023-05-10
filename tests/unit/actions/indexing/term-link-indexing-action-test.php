@@ -171,7 +171,6 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
 
-
 		$this->wpdb
 			->expects( 'prepare' )
 			->once()

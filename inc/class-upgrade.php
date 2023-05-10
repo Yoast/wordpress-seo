@@ -441,7 +441,6 @@ class WPSEO_Upgrade {
 		// Move one XML sitemap setting, then delete the option.
 		$this->save_option_setting( $wpseo_xml, 'enablexmlsitemap', 'enable_xml_sitemap' );
 
-
 		// Move the RSS settings to the search appearance settings, then delete the RSS option.
 		$this->save_option_setting( $wpseo_rss, 'rssbefore' );
 		$this->save_option_setting( $wpseo_rss, 'rssafter' );
@@ -1427,8 +1426,8 @@ class WPSEO_Upgrade {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
-			$delete_query =
-				"DELETE FROM $indexable_table
+			$delete_query = "
+				DELETE FROM $indexable_table
 				WHERE object_type = 'post'
 				AND object_sub_type IS NOT NULL";
 		}
@@ -1509,8 +1508,8 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$query =
-			"SELECT
+		$query = "
+			SELECT
 				MAX(id) as newest_id,
 				object_id,
 				object_type

@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Initializers\Crawl_Cleanup_Permalinks;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-
 /**
  * Class Crawl_Cleanup_Permalinks_Test.
  *
@@ -85,8 +84,8 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 */
 	public function test_initialize() {
 		Monkey\Actions\expectAdded( 'plugins_loaded' )
-				->with( [ $this->instance, 'register_hooks' ] )
-				->times( 1 );
+			->with( [ $this->instance, 'register_hooks' ] )
+			->times( 1 );
 		$this->instance->initialize();
 	}
 
@@ -125,10 +124,9 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 			->with( [ $this->instance, 'utm_redirect' ] )
 			->times( $expected_utm_redirect );
 
-			Monkey\Actions\expectAdded( 'template_redirect' )
-				->with( [ $this->instance, 'clean_permalinks' ] )
-				->times( $expected_clean_permalinks );
-
+		Monkey\Actions\expectAdded( 'template_redirect' )
+			->with( [ $this->instance, 'clean_permalinks' ] )
+			->times( $expected_clean_permalinks );
 
 		$this->instance->register_hooks();
 	}
@@ -253,7 +251,6 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 			->with( $current_url )
 			->andReturn( $allowed_params );
 
-
 		$this->crawl_cleanup_helper
 			->expects( 'do_clean_redirect' )
 			->times( $expected );
@@ -353,6 +350,7 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 			'allowed_query' => [ 'utm_medium' => 'allowed' ],
 		];
 		$base_url       = 'http://www.example.com';
+
 		return [
 			[
 				$base_url . '/product/?unknown=123&utm_medium=allowed',
@@ -423,19 +421,19 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 			->andReturn( $allowed_params );
 
 		$this->crawl_cleanup_helper
-				->expects( 'get_url_type' )
-				->once()
-				->andReturn( '' );
+			->expects( 'get_url_type' )
+			->once()
+			->andReturn( '' );
 
 		$this->crawl_cleanup_helper
 			->expects( 'is_query_var_page' )
 			->once()
 			->andReturn( true );
 
-			$this->crawl_cleanup_helper
-				->expects( 'query_var_page_url' )
-				->once()
-				->andReturn( $proper_url );
+		$this->crawl_cleanup_helper
+			->expects( 'query_var_page_url' )
+			->once()
+			->andReturn( $proper_url );
 
 		Monkey\Functions\expect( 'add_query_arg' )
 			->once()
@@ -465,6 +463,7 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 			'allowed_query' => [ 'utm_medium' => 'allowed' ],
 		];
 		$base_url       = 'http://www.example.com';
+
 		return [
 			[
 				$base_url . '/page/?unknown=123&utm_medium=allowed',

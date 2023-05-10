@@ -48,24 +48,21 @@ class Save_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
 	public function save_indexable_provider() {
 		$before = Mockery::mock( Indexable::class );
 		return [
-			'Should index and save' =>
-			[
+			'Should index and save' => [
 				'indexable_before'            => null,
 				'should_index_indexables'     => true,
 				'wpseo_should_save_indexable' => true,
 				'save_times'                  => 1,
 				'action_times'                => 0,
 			],
-			'Should not index and not save' =>
-			[
+			'Should not index and not save' => [
 				'indexable_before'            => null,
 				'should_index_indexables'     => false,
 				'wpseo_should_save_indexable' => false,
 				'save_times'                  => 0,
 				'action_times'                => 0,
 			],
-			'Should not index but wpseo_should_save_indexable filter is true, should save' =>
-			[
+			'Should not index but wpseo_should_save_indexable filter is true, should save' => [
 				'indexable_before'            => null,
 				'should_index_indexables'     => false,
 				'wpseo_should_save_indexable' => true,
@@ -86,8 +83,7 @@ class Save_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
 				'save_times'                  => 1,
 				'action_times'                => 1,
 			],
-			'Updating existing indexable when should_index_indexables is false' =>
-			[
+			'Updating existing indexable when should_index_indexables is false' => [
 				'indexable_before'            => $before,
 				'should_index_indexables'     => false,
 				'wpseo_should_save_indexable' => true,
@@ -118,7 +114,6 @@ class Save_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
 			->once()
 			->withNoArgs()
 			->andReturn( $should_index );
-
 
 		Monkey\Filters\expectApplied( 'wpseo_should_save_indexable' )
 			->once()

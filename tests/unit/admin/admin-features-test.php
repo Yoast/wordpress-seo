@@ -10,9 +10,7 @@ use WPSEO_Primary_Term_Admin;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-
 use Yoast\WP\SEO\Helpers\Url_Helper;
-
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Dashboard_Widget;
 

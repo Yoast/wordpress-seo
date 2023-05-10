@@ -41,7 +41,6 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 		$model       = new SEO_Links_Mock();
 		$model->type = SEO_Links::TYPE_INTERNAL_IMAGE;
 
-
 		Functions\stubs(
 			[
 				// Executed in build->create_links->create_internal_link.
@@ -87,7 +86,6 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 			->with( 'http://basic.wordpress.test' )
 			->andReturn( 0 );
 
-
 		$this->expect_update_related_indexables_with_links_to_add( $indexable->id, [ $model ] );
 
 		$this->instance->build( $indexable, '<img width="640" height="480" src="' . $this->image_url . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
@@ -116,7 +114,6 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 		$model                 = new SEO_Links_Mock();
 		$model->type           = SEO_Links::TYPE_INTERNAL_IMAGE;
 		$model->target_post_id = 2;
-
 
 		// Executed in build->create_links->create_internal_link.
 		Functions\stubs(
@@ -331,7 +328,6 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 		$model                 = new SEO_Links_Mock();
 		$model->type           = SEO_Links::TYPE_INTERNAL_IMAGE;
 		$model->target_post_id = 2;
-
 
 		Functions\stubs(
 			[

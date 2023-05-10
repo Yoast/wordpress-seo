@@ -453,7 +453,6 @@ class WPSEO_Meta {
 				}
 				break;
 
-
 			case ( $field_def['type'] === 'select' || $field_def['type'] === 'radio' ):
 				// Only allow value if it's one of the predefined options.
 				if ( isset( $field_def['options'][ $meta_value ] ) ) {
@@ -461,11 +460,9 @@ class WPSEO_Meta {
 				}
 				break;
 
-
 			case ( $field_def['type'] === 'hidden' && $meta_key === self::$meta_prefix . 'meta-robots-adv' ):
 				$clean = self::validate_meta_robots_adv( $meta_value );
 				break;
-
 
 			case ( $field_def['type'] === 'url' || $meta_key === self::$meta_prefix . 'canonical' ):
 				// Validate as url(-part).
@@ -474,7 +471,6 @@ class WPSEO_Meta {
 					$clean = $url;
 				}
 				break;
-
 
 			case ( $field_def['type'] === 'upload' && in_array( $meta_key, [ self::$meta_prefix . 'opengraph-image', self::$meta_prefix . 'twitter-image' ], true ) ):
 				// Validate as url.
@@ -515,7 +511,6 @@ class WPSEO_Meta {
 			case ( $field_def['type'] === 'multiselect' ):
 				$clean = $meta_value;
 				break;
-
 
 			case ( $field_def['type'] === 'text' ):
 			default:

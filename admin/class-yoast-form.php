@@ -913,7 +913,6 @@ class Yoast_Form {
 			'<span aria-hidden="true" class="yoast-button--buy__caret"></span></a>';
 		}
 
-
 		echo '<a></a></div></fieldset><div class="clear"></div>' . $upsell_button . '</div>' . PHP_EOL . PHP_EOL;
 	}
 

@@ -83,7 +83,6 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 		$this->indexable_repository        = Mockery::mock( Indexable_Repository::class );
 		$this->indexable_hierarchy_builder = Mockery::mock( Indexable_Hierarchy_Builder::class );
 
-
 		$this->instance = new Primary_Category_Quick_Edit_Watcher(
 			$this->options_helper,
 			$this->primary_term_repository,

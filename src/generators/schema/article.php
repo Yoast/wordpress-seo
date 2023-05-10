@@ -226,9 +226,6 @@ class Article extends Abstract_Schema_Piece {
 			$characters .= \mb_strtoupper( $characters );
 		}
 
-
-
-
 		// Remove characters from HTML entities.
 		$post_content = \preg_replace( '@&[a-z0-9]+;@i', ' ', \htmlentities( $post_content ) );
 

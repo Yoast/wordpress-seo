@@ -213,7 +213,6 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			'</a>'
 		);
 
-
 		$this->print_toggles( $this->permalink_cleanup_settings, $yform, \__( 'Permalink cleanup settings', 'wordpress-seo' ), [], $permalink_warning );
 
 		// Add the original option as hidden, so as not to lose any values if it's disabled and the form is saved.

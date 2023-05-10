@@ -14,7 +14,6 @@ use Yoast\WP\SEO\Integrations\Watchers\Indexable_Attachment_Watcher;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Notification_Center;
 
-
 /**
  * Class Indexable_Attachment_Watcher_Test.
  *

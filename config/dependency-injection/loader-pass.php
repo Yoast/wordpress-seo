@@ -64,7 +64,6 @@ class Loader_Pass implements CompilerPassInterface {
 			// Catch all for non-existing classes.
 		}
 
-
 		if ( \is_subclass_of( $class, Initializer_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_initializer', [ $class ] );
 		}

@@ -118,7 +118,6 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		$utms       = [];
 		$other_args = [];
 
-
 		foreach ( $query as $query_arg ) {
 			if ( \stripos( $query_arg, 'utm_' ) === 0 ) {
 				$utms[] = $query_arg;

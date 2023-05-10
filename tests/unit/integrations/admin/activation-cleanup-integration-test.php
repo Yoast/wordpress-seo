@@ -130,7 +130,6 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->never();
 
-
 		$this->instance->register_cleanup_routine();
 	}
 }

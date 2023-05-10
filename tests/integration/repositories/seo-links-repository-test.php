@@ -8,7 +8,6 @@
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 
-
 /**
  * Class SEO_Links_Repository_Test.
  *

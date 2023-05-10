@@ -312,5 +312,3 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 		];
 	}
 }
-
-

@@ -984,7 +984,6 @@ class Schema_Generator_Test extends TestCase {
 		Monkey\Functions\expect( 'is_search' )
 			->andReturn( true );
 
-
 		Monkey\Functions\expect( 'get_search_query' )
 			->andReturn( 'searchterm' );
 

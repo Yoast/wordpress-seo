@@ -238,7 +238,6 @@ class WPSEO_Admin {
 			array_unshift( $links, $ftc_link );
 		}
 
-
 		$addon_manager = new WPSEO_Addon_Manager();
 		if ( YoastSEO()->helpers->product->is_premium() ) {
 
