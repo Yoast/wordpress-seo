@@ -25,7 +25,15 @@ jobs:
 
     strategy:
       matrix:
-        php_version: ["7.2", "7.4", "8.0", "8.1", "8.2"]
+        php_version: ["7.4", "8.0", "8.1"]
+        coverage: [false]
+
+        # Run code coverage only on high/low PHP.
+        include:
+        - php_version: 7.2
+          coverage: true
+        - php_version: 8.2
+          coverage: true
 
     name: "Unit Test: PHP ${{ matrix.php_version }}"
 
@@ -59,7 +67,7 @@ jobs:
         with:
           php-version: ${{ matrix.php_version }}
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
-          coverage: none
+          coverage: ${{ matrix.coverage == true && 'xdebug' || 'none' }}
 
       # The PHP platform requirement would prevent updating the test utilities to the appropriate versions.
       # As long as the `composer update` is run selectively to only update the test utils, removing this is fine.
@@ -81,7 +89,25 @@ jobs:
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
 
       - name: Run unit tests
+        if: ${{ matrix.coverage == false }}
         run: composer test
+
+      - name: Run the unit tests with code coverage
+        if: ${{ matrix.coverage == true }}
+        run: composer coverage
+
+      # Global install is used to prevent a conflict with the local composer.lock in PHP 8.0+.
+      - name: Install Coveralls
+        if: ${{ success() && matrix.coverage == true }}
+        run: composer global require php-coveralls/php-coveralls:"^2.5.3" --no-interaction
+
+      - name: Upload coverage results to Coveralls
+        if: ${{ success() && matrix.coverage == true }}
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: unit-php-${{ matrix.php_version }}
+        run: php-coveralls -v -x build/logs/clover.xml
 
   integration-test:
     runs-on: ubuntu-latest
@@ -92,29 +118,35 @@ jobs:
           - php_version: "7.2"
             wp_version: "6.1"
             multisite: true
+            coverage: true
 
           - php_version: "7.3"
             wp_version: "trunk"
             multisite: true
+            coverage: false
 
           - php_version: "7.4"
             wp_version: "latest"
             multisite: false
+            coverage: false
 
           # WP 5.6 is the earliest version which (sort of) supports PHP 8.0.
           - php_version: "8.0"
             wp_version: "6.1"
             multisite: false
+            coverage: false
 
           # WP 5.9 is the earliest version which (sort of) supports PHP 8.1.
           - php_version: "8.1"
             wp_version: "latest"
             multisite: true
+            coverage: false
 
           # WP 6.1 is the earliest version which supports PHP 8.2.
           - php_version: "8.2"
             wp_version: "6.2"
             multisite: true
+            coverage: true
 
     name: "Integration Test: PHP ${{ matrix.php_version }} | WP ${{ matrix.wp_version }}${{ matrix.multisite == true && ' (+ ms)' || '' }}"
 
@@ -162,7 +194,7 @@ jobs:
         with:
           php-version: ${{ matrix.php_version }}
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
-          coverage: none
+          coverage: ${{ matrix.coverage == true && 'xdebug' || 'none' }}
 
       # The PHP platform requirement would prevent updating the test utilities to the appropriate versions.
       # As long as the `composer update` is run selectively to only update the test utils, removing this is fine.
@@ -184,10 +216,53 @@ jobs:
         run: config/scripts/install-wp-tests.sh wordpress_test root '' 127.0.0.1:3306 ${{ matrix.wp_version }}
 
       - name: Run unit tests - single site
+        if: ${{ matrix.coverage == false }}
         run: composer integration-test
 
       - name: Run unit tests - multisite
-        if: ${{ matrix.multisite == true }}
+        if: ${{ matrix.multisite == true && matrix.coverage == false }}
         run: composer integration-test
         env:
           WP_MULTISITE: 1
+
+      - name: Run unit tests with code coverage - single site
+        if: ${{ matrix.coverage == true }}
+        run: composer integration-coverage
+
+      - name: Run unit tests with code coverage - multisite
+        if: ${{ matrix.multisite == true && matrix.coverage == true }}
+        run: composer integration-coverage -- --coverage-clover build/logs/clover-integration-ms.xml
+        env:
+          WP_MULTISITE: 1
+
+      # Global install is used to prevent a conflict with the local composer.lock in PHP 8.0+.
+      - name: Install Coveralls
+        if: ${{ success() && matrix.coverage == true }}
+        run: composer global require php-coveralls/php-coveralls:"^2.5.3" --no-interaction
+
+      - name: Upload coverage results to Coveralls - single site
+        if: ${{ success() && matrix.coverage == true }}
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: intgr-php-${{ matrix.php_version }}-wp-${{ matrix.wp_version }}
+        run: php-coveralls -v -x build/logs/clover-integration.xml
+
+      - name: Upload coverage results to Coveralls - multisite
+        if: ${{ success() && matrix.multisite == true && matrix.coverage == true }}
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: intgr-php-${{ matrix.php_version }}-wp-${{ matrix.wp_version }}-ms
+        run: php-coveralls -v -x build/logs/clover-integration-ms.xml
+
+  coveralls-finish:
+    needs: [unit-test, integration-test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.COVERALLS_TOKEN }}
+          parallel-finished: true
