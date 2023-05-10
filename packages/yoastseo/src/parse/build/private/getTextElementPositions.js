@@ -34,14 +34,13 @@ function getDescendantPositions( descendantNodes ) {
  * For example, if the text is "<span><em>Hello</em>, world!</span>", the length of all tags except for the closing
  * </span> tag should be added to the end position of the sentence.
  *
- * @param {Node[]}				descendantNodes			The descendant nodes.
  * @param {SourceCodeRange[]}	descendantTagPositions	The positions of the descendant nodes' tags.
  * @param {number}				textElementStart		The start position of a text element.
  * @param {number}				textElementEnd			The end position of a text element.
  *
  * @returns {number}	The adjusted end position of the text element.
  */
-function adjustElementEnd( descendantNodes, descendantTagPositions, textElementStart, textElementEnd ) {
+function adjustElementEnd( descendantTagPositions, textElementStart, textElementEnd ) {
 	/*
 	 * If the start position of a descendant's node tag is between the start and end position of the text element, or is
 	 * the same as the start position of the text element, add the tag's length to the end position of the text element.
@@ -130,7 +129,7 @@ export default function getTextElementPositions( node, textElements, startOffset
 		 * tags preceding the text.
 		 */
 		if ( descendantTagPositions.length > 0 ) {
-			textElementEnd = adjustElementEnd( descendantNodes, descendantTagPositions, textElementStart, textElementEnd );
+			textElementEnd = adjustElementEnd( descendantTagPositions, textElementStart, textElementEnd );
 
 			textElementStart = adjustTextElementStart( descendantTagPositions, textElementStart );
 		}

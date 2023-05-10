@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -116,11 +117,11 @@ class Academy_Integration_Test extends TestCase {
 	public function register_hooks_provider() {
 		return [
 			'Not on academy page' => [
-				'current_page'          => 'not academy page',
+				'current_page' => 'not academy page',
 				'action_times' => 0,
 			],
 			'On academy page' => [
-				'current_page'          => 'wpseo_page_academy',
+				'current_page' => 'wpseo_page_academy',
 				'action_times' => 1,
 			],
 		];
@@ -287,11 +288,14 @@ class Academy_Integration_Test extends TestCase {
 	 * @covers ::get_script_data
 	 */
 	public function test_get_script_data() {
-		$link_params = $this->expect_get_script_data();
+		$link_params   = $this->expect_get_script_data();
+		$addon_manager = new WPSEO_Addon_Manager();
 
 		$expected = [
 			'preferences' => [
 				'isPremium'      => false,
+				'isWooActive'    => $addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ),
+				'isLocalActive'  => $addon_manager->is_installed( WPSEO_Addon_Manager::LOCAL_SLUG ),
 				'isRtl'          => false,
 				'pluginUrl'      => 'http://basic.wordpress.test/wp-content/worspress-seo',
 				'upsellSettings' => [
