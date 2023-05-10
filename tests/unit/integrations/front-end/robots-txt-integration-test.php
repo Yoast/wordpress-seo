@@ -569,6 +569,12 @@ class Robots_Txt_Integration_Test extends TestCase {
 
 		$robots_txt_helper
 			->expects( 'add_disallow' )
+			->with( '*', '/page/*/?s=' )
+			->once()
+			->andReturn();
+
+		$robots_txt_helper
+			->expects( 'add_disallow' )
 			->with( '*', '/search/' )
 			->once()
 			->andReturn();
