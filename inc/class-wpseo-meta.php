@@ -1029,12 +1029,7 @@ class WPSEO_Meta {
 			->find_array();
 
 		// Get object_id from each subarray in $post_ids.
-		$post_ids = array_map(
-			function( $row ) {
-				return $row['object_id'];
-			},
-			$post_ids
-		);
+		$post_ids = array_column( $post_ids, 'object_id' );
 
 		/*
 		 * If Premium is installed, get the additional keywords as well.
@@ -1081,12 +1076,7 @@ class WPSEO_Meta {
 				->find_array();
 
 			// Get object_sub_type from each subarray in $post_ids.
-			$post_types = array_map(
-				function( $row ) {
-					return $row['object_sub_type'];
-				},
-				$post_types
-			);
+			$post_types = array_column( $post_types, 'object_sub_type' );
 		}
 		else {
 			$post_types = [];
