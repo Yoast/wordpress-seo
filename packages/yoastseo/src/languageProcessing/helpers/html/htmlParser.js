@@ -84,6 +84,15 @@ const parser = new htmlparser.Parser( {
 }, { decodeEntities: true } );
 
 /**
+ * Reset parser to the initial state.
+ *
+ * @returns {void}
+ */
+export function resetParser() {
+	parser.reset();
+}
+
+/**
  * Calls the htmlparser and returns the text without the HTML blocks as defined in the ignoredTags array.
  *
  * @param {string} text The text to parse.
