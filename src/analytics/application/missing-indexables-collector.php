@@ -41,7 +41,7 @@ class Missing_Indexables_Collector implements WPSEO_Collection {
 			$missing_indexable_bucket->add_missing_indexable_count( $missing_indexable_count );
 		}
 
-		return $missing_indexable_bucket->to_array();
+		return [ 'missing_indexables' => $missing_indexable_bucket->to_array() ];
 	}
 
 	/**

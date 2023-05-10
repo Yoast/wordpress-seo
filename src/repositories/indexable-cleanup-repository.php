@@ -240,6 +240,54 @@ class Indexable_Cleanup_Repository {
 	}
 
 	/**
+	 * Cleans up any indexables that belong to post type archive page that are not/no longer publicly viewable.
+	 *
+	 * @param int $limit The limit we'll apply to the queries.
+	 *
+	 * @return bool|int The number of deleted rows, false if the query fails.
+	 */
+	public function clean_indexables_for_non_publicly_viewable_post_type_archive_pages( $limit ) {
+		global $wpdb;
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		$included_post_types = $this->post_type->get_indexable_post_archives();
+
+		$post_archives = [];
+
+		foreach ( $included_post_types as $post_type ) {
+			$post_archives[] = $post_type->name;
+		}
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		if ( empty( $post_archives ) ) {
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'post-type-archive'
+				AND object_sub_type IS NOT NULL
+				LIMIT %d",
+				$limit
+			);
+		}
+		else {
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'post-type-archive'
+				AND object_sub_type IS NOT NULL
+				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $post_archives ), '%s' ) ) . ' )
+				LIMIT %d',
+				\array_merge( $post_archives, [ $limit ] )
+			);
+		}
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		return $wpdb->query( $delete_query );
+		// phpcs:enable
+	}
+
+	/**
 	 * Counts indexables for non publicly viewable taxonomies.
 	 *
 	 * @return float|int
@@ -261,6 +309,35 @@ class Indexable_Cleanup_Repository {
 				->where_not_in( 'object_sub_type', $included_taxonomies )
 				->count();
 		}
+	}
+
+	/**
+	 * Counts indexables for non publicly viewable taxonomies.
+	 *
+	 * @return float|int
+	 */
+	public function count_indexables_for_non_publicly_post_type_archive_pages() {
+		$included_post_types = $this->post_type->get_indexable_post_archives();
+
+		$post_archives = [];
+
+		foreach ( $included_post_types as $post_type ) {
+			$post_archives[] = $post_type->name;
+		}
+		if ( empty( $post_archives ) ) {
+			return $this
+				->query()
+				->where( 'object_type', 'post-type-archive' )
+				->where_not_equal( 'object_sub_type', 'null' )
+				->count();
+		}
+
+		return $this
+			->query()
+			->where( 'object_type', 'post-type-archive' )
+			->where_not_equal( 'object_sub_type', 'null' )
+			->where_not_in( 'object_sub_type', $post_archives )
+			->count();
 	}
 
 	/**

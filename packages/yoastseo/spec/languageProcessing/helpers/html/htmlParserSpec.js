@@ -45,4 +45,7 @@ describe( "A function to remove the entire HTML style/script tag block.", functi
 		expect( htmlParser( "This quote:<blockquote>Time spent with <strong>cats</strong> is never wasted." +
 			"<cite>Sigmund Freud</cite></blockquote> is great." ) ).toEqual( "This quote: is great." );
 	} );
+	it( "filters out all textareas", function() {
+		expect( htmlParser( "Hi, this is a <textarea>Test</textarea>test." ) ).toEqual( "Hi, this is a test." );
+	} );
 } );

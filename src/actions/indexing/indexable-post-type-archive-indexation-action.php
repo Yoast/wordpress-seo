@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  */
 class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action_Interface, Limited_Indexing_Action_Interface {
 
+
 	/**
 	 * The transient cache key.
 	 */
@@ -52,9 +53,9 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	 * Indexation_Post_Type_Archive_Action constructor.
 	 *
 	 * @param Indexable_Repository       $repository The indexable repository.
-	 * @param Indexable_Builder          $builder    The indexable builder.
-	 * @param Post_Type_Helper           $post_type  The post type helper.
-	 * @param Indexable_Builder_Versions $versions   The current versions of all indexable builders.
+	 * @param Indexable_Builder          $builder The indexable builder.
+	 * @param Post_Type_Helper           $post_type The post type helper.
+	 * @param Indexable_Builder_Versions $versions The current versions of all indexable builders.
 	 */
 	public function __construct(
 		Indexable_Repository $repository,
@@ -164,8 +165,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	 */
 	protected function get_post_types_with_archive_pages() {
 		// We only want to index archive pages of public post types that have them.
-		$public_post_types       = $this->post_type->get_public_post_types( 'object' );
-		$post_types_with_archive = \array_filter( $public_post_types, [ $this->post_type, 'has_archive' ] );
+		$post_types_with_archive = $this->post_type->get_indexable_post_archives();
 
 		// We only need the post type names, not the objects.
 		$post_types = [];

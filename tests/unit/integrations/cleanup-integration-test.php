@@ -117,6 +117,7 @@ class Cleanup_Integration_Test extends TestCase {
 		$this->indexable_repository->shouldReceive( 'clean_indexables_with_post_status' )->once();
 		$this->indexable_repository->shouldReceive( 'clean_indexables_for_non_publicly_viewable_post' )->once();
 		$this->indexable_repository->shouldReceive( 'clean_indexables_for_non_publicly_viewable_taxonomies' )->once();
+		$this->indexable_repository->shouldReceive( 'clean_indexables_for_non_publicly_viewable_post_type_archive_pages' )->once();
 		$this->indexable_repository->shouldReceive( 'clean_indexables_for_authors_archive_disabled' )->once();
 		$this->indexable_repository->shouldReceive( 'clean_indexables_for_authors_without_archive' )->once();
 		$this->indexable_repository->shouldReceive( 'update_indexables_author_to_reassigned' )->once();
