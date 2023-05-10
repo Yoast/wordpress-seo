@@ -60,8 +60,6 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
-	 *
-	 * @covers __construct
 	 */
 	protected function set_up() {
 		parent::set_up();
