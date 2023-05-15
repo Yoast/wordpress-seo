@@ -1,4 +1,5 @@
 import { Paragraph } from "../../structure";
+import { canBeChildOfParagraph as excludeFromAnalysis } from "./alwaysFilterElements";
 
 /**
  * Gets the start and end positions of all descendant nodes' tags and stores them in an array.
@@ -18,10 +19,10 @@ function getDescendantPositions( descendantNodes ) {
 	const descendantTagPositions = [];
 	descendantNodes.forEach( ( node ) => {
 		/*
-		 * Some nodes, such as the 'comment' node, don't have start and end tags. In those cases, add the full
-		 * sourceCodeLocation object to the array, which then only contains the startOffset and endOffset properties.
+		 * For nodes whose content we don't want to analyze, we should add the length of the full node to the array, to
+		 * still take into account the whole element's length when calculating positions.
 		 */
-		if ( ! node.sourceCodeLocation.hasOwnProperty( "startTag" ) && ! node.sourceCodeLocation.hasOwnProperty( "endTag" ) ) {
+		if ( excludeFromAnalysis.includes( node.name ) ) {
 			descendantTagPositions.push( node.sourceCodeLocation );
 		} else {
 			if ( node.sourceCodeLocation.startTag ) {

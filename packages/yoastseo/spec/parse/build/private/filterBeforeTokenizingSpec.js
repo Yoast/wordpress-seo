@@ -27,8 +27,16 @@ describe( "A test for filterBeforeTokenizing", () => {
 							attributes: {},
 							childNodes: [],
 							sourceCodeLocation: {
-								endOffset: 54,
 								startOffset: 22,
+								endOffset: 54,
+								startTag: {
+									startOffset: 22,
+									endOffset: 28,
+								},
+								endTag: {
+									startOffset: 47,
+									endOffset: 54,
+								},
 							},
 						},
 					],
@@ -75,6 +83,14 @@ describe( "A test for filterBeforeTokenizing", () => {
 									sourceCodeLocation: {
 										startOffset: 5,
 										endOffset: 50,
+										startTag: {
+											startOffset: 5,
+											endOffset: 13,
+										},
+										endTag: {
+											startOffset: 41,
+											endOffset: 50,
+										},
 									},
 								},
 							],
@@ -152,6 +168,14 @@ describe( "A test for filterBeforeTokenizing", () => {
 							sourceCodeLocation: {
 								endOffset: 71,
 								startOffset: 22,
+								startTag: {
+									startOffset: 22,
+									endOffset: 28,
+								},
+								endTag: {
+									startOffset: 64,
+									endOffset: 71,
+								},
 							},
 						},
 					],
@@ -199,6 +223,14 @@ describe( "A test for filterBeforeTokenizing", () => {
 							sourceCodeLocation: {
 								startOffset: 22,
 								endOffset: 84,
+								startTag: {
+									startOffset: 22,
+									endOffset: 28,
+								},
+								endTag: {
+									startOffset: 77,
+									endOffset: 84,
+								},
 							},
 						},
 					],
