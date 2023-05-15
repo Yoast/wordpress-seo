@@ -268,7 +268,7 @@ const testCases = [
 		},
 	},
 	{
-		testDescription: "A primary and seconday match in a language that uses a custom helper to match words.",
+		testDescription: "A primary and secondary match in a language that uses a custom helper to match words.",
 		sentence: {
 			text: "私の猫はかわいいですかわいい。",
 			tokens: [
@@ -302,6 +302,26 @@ const testCases = [
 			position: -1,
 			primaryMatches: [],
 			secondaryMatches: [],
+		},
+	},
+	{
+		testDescription: "A primary match and a secondary match that is in front of the primary match in a language that uses a custom helper to match words.",
+		sentence: {
+			text: "私猫の猫はかわいいです。iiii",
+			tokens: [
+				{ text: "私猫の猫はかわいいです。", sourceCodeRange: { startOffset: 0, endOffset: 12 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 12 } },
+		keyphraseForms: [ [ "猫" ], [ "かわいい" ] ],
+		locale: "ja",
+		matchWordCustomHelper: JapaneseCustomHelper,
+		expectedResult: {
+			position: 0,
+			primaryMatches: [ [
+				{ sourceCodeRange: { startOffset: 3, endOffset: 4 }, text: "猫" },
+				{ sourceCodeRange: { startOffset: 5, endOffset: 9 }, text: "かわいい" } ] ],
+			secondaryMatches: [ [
+				{ sourceCodeRange: { startOffset: 1, endOffset: 2 }, text: "猫" } ] ],
 		},
 	},
 
