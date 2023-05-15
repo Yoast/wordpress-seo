@@ -111,6 +111,59 @@ class Score_Icon_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the inclusive language icon is as expected.
+	 *
+	 * @dataProvider inclusive_language_provider
+	 *
+	 * @covers ::for_inclusive_language
+	 *
+	 * @param int    $score       The score.
+	 * @param string $extra_class The extra class.
+	 * @param string $expected    The expected present output.
+	 */
+	public function test_for_inclusive_language( $score, $extra_class, $expected ) {
+		$actual = $this->instance->for_inclusive_language( $score, $extra_class );
+
+		$this->assertInstanceOf( Score_Icon_Presenter::class, $actual );
+		$this->assertSame( $expected, $actual->present() );
+	}
+
+	/**
+	 * Provides the inclusive language test data.
+	 *
+	 * @return array The inclusive language data.
+	 */
+	public function inclusive_language_provider() {
+		return [
+			'not available' => [
+				'score'       => 0,
+				'extra_class' => '',
+				'expected'    => '<div aria-hidden="true" title="Not available" class="wpseo-score-icon na"><span class="wpseo-score-text screen-reader-text">Not available</span></div>',
+			],
+			'bad'           => [
+				'score'       => 30,
+				'extra_class' => '',
+				'expected'    => '<div aria-hidden="true" title="Needs improvement" class="wpseo-score-icon bad"><span class="wpseo-score-text screen-reader-text">Needs improvement</span></div>',
+			],
+			'ok'            => [
+				'score'       => 60,
+				'extra_class' => '',
+				'expected'    => '<div aria-hidden="true" title="Potentially non-inclusive" class="wpseo-score-icon ok"><span class="wpseo-score-text screen-reader-text">Potentially non-inclusive</span></div>',
+			],
+			'good'          => [
+				'score'       => 90,
+				'extra_class' => '',
+				'expected'    => '<div aria-hidden="true" title="Good" class="wpseo-score-icon good"><span class="wpseo-score-text screen-reader-text">Good</span></div>',
+			],
+			'with_class'    => [
+				'score'       => 60,
+				'extra_class' => 'FOO',
+				'expected'    => '<div aria-hidden="true" title="Potentially non-inclusive" class="wpseo-score-icon ok FOO"><span class="wpseo-score-text screen-reader-text">Potentially non-inclusive</span></div>',
+			],
+		];
+	}
+
+	/**
 	 * Tests that the SEO icon is as expected.
 	 *
 	 * @dataProvider seo_provider

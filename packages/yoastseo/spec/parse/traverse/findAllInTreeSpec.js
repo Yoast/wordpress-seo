@@ -97,4 +97,17 @@ describe( "A test for findAllInTree", () => {
 
 		expect( searchResult ).toEqual( [] );
 	} );
+
+	it( "should return all sub-nodes if recurseFoundNodes is true", function() {
+		const html = "<div><div><div>foo</div></div></div>";
+		const tree = build( html, languageProcessor );
+
+		const searchResult = findAllInTree( tree, treeNode => treeNode.name === "div", true );
+
+		expect( searchResult.length ).toEqual( 3 );
+
+		const searchResultNoRecurse = findAllInTree( tree, treeNode => treeNode.name === "div", false );
+
+		expect( searchResultNoRecurse.length ).toEqual( 1 );
+	} );
 } );
