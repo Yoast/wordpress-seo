@@ -1087,7 +1087,7 @@ export default class AnalysisWebWorker {
 			 * We only remove the unwanted elements from the Paper after the HTML tree is built. Removing these elements
 			 * before can lead to incorrectly calculating the positions of sentences and tokens in the tree.
 			 */
-			paper._text = removeHtmlBlocks( paper._text );
+			this._paper._text = removeHtmlBlocks( this._paper._text );
 
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
