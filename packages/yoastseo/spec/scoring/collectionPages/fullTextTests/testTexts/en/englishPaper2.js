@@ -29,10 +29,8 @@ const expectedResults = {
 	},
 	keywordDensity: {
 		isApplicable: true,
-		score: -50,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The keyphrase was found 5 times. " +
-			"That's way more than the recommended maximum of 4 times for a text of this length. <a href='https://yoa.st/shopify13'" +
-			" target='_blank'>Don't overoptimize</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The keyphrase was found 4 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
