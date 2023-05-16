@@ -117,7 +117,7 @@ const samplesWithOneOccurrence = [
 	},
 	{
 		element: "meter",
-		html: "<!DOCTYPE html><html lang=\"en-US\"><meter id=\"dire straits\"\n min=\"-100\" max=\"100\"\n </meter>\n <div>A div</div></html>",
+		html: "<!DOCTYPE html><html lang=\"en-US\"><div><meter id=\"dire straits\"\n min=\"-100\" max=\"100\"\n </meter>A div</div></html>",
 	},
 	{
 		element: "noscript",
@@ -126,15 +126,15 @@ const samplesWithOneOccurrence = [
 	},
 	{
 		element: "object",
-		html: "<html lang=\"en-US\"><h3>A</h3><p><object type=\"icon/svg\"\n data=\"/score/icons/sad.svg\"</object>\n<div>A div</div>\n</p></html>",
+		html: "<html lang=\"en-US\"><h3>A</h3><div><p><object type=\"icon/svg\"\n data=\"/score/icons/sad.svg\"</object>\n</p></div></html>",
 	},
 	{
 		element: "portal",
-		html: "<!DOCTYPE html><html lang=\"en-US\"><p><portal src=\"https://halva.com/\"></portal>\n<div>A div</div>\n </p></html>",
+		html: "<!DOCTYPE html><html lang=\"en-US\"><div><p><portal src=\"https://halva.com/\"></portal>\n</p>/div></html>",
 	},
 	{
 		element: "pre",
-		html: "<html lang=\"en-US\"><p><pre> wIth                 PRE you do ~WHST!!! you want :)))</pre>\n<div>A div</div>\n </p></html>",
+		html: "<html lang=\"en-US\"><div><p><pre> wIth                 PRE you do ~WHST!!! you want :)))</pre>\n </p></div></html>",
 	},
 	{
 		element: "progress",
@@ -142,16 +142,16 @@ const samplesWithOneOccurrence = [
 	},
 	{
 		element: "q",
-		html: "<body><p>And the Fool said, <q cite=\"https://www.folger.edu/explore/shakespeares-works/king-lear/read/3/6/\">" +
-			"Prithee, nuncle, tell me whether a madman be a\n gentleman or a yeoman.\n</q>\n<div>A div</div>\n </p></body>",
+		html: "<body><div><p>And the Fool said, <q cite=\"https://www.folger.edu/explore/shakespeares-works/king-lear/read/3/6/\">" +
+			"Prithee, nuncle, tell me whether a madman be a\n gentleman or a yeoman.\n</q>\n</p></div></body>",
 	},
 	{
 		element: "samp",
-		html: "<body><p><samp>Welcome to the blue screen of death.<br>Kiss your computer goodbye.</samp><div>A div</div></p></body>",
+		html: "<body><div><p><samp>Welcome to the blue screen of death.<br>Kiss your computer goodbye.</samp></p></div></body>",
 	},
 	{
 		element: "script",
-		html: "<html lang=\"en-US\"><body><p><script>console.log(\"Hello, world!\")</script><div>A div</div></p></body></html>",
+		html: "<html lang=\"en-US\"><body><div><p><script>console.log(\"Hello, world!\")</script></p></div></body></html>",
 	},
 	{
 		element: "slot",
@@ -159,12 +159,12 @@ const samplesWithOneOccurrence = [
 	},
 	{
 		element: "style",
-		html: "<html lang=\"en-US\"><p><style>div { color: #FF00FF}</style><div>A div</div></p></html>",
+		html: "<html lang=\"en-US\"><head><style>div { color: #FF00FF}</style></head><div>Bongo</div></html>",
 	},
 	{
 		element: "svg",
-		html: "<body><p>Here's one of our icons, simplified<svg>\n <circle\n key=\"5\" className=\"path\" fill=\"none\" " +
-			"strokeWidth=\"6\" strokeLinecap=\"round\" cx=\"33\"\n</svg><div>A div</div></p></body>",
+		html: "<body><p>Here's one of our icons, simplified:<svg>\n <circle\n key=\"5\" className=\"path\" fill=\"none\" " +
+			"strokeWidth=\"6\" strokeLinecap=\"round\" cx=\"33\"\n</svg></p><div>A div</div></body>",
 	},
 	{
 		element: "template",
@@ -178,7 +178,7 @@ const samplesWithOneOccurrence = [
 	},
 	{
 		element: "title",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n <head>\n<title>News and gossip</title>\n </head><p>A paragraph</p></html>",
+		html: "<!DOCTYPE html><html lang=\"en-US\">\n <head>\n<title>News and gossip</title>\n </head><p>A paragraph</p></html>",
 	},
 ];
 
@@ -209,7 +209,7 @@ const samplesWithTwoOccurrences = [
 	{
 		element: "var",
 		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>If a triangle has one <var>90</var> degrees angle and one <var>30</var>" +
-			"degrees angle, how big is the remaining angle?</p><p>Fun for everyone</p></body></html>",
+			"degrees angle, how big is the remaining angle?</p><p>Fun for the whole family</p></body></html>",
 	},
 ];
 
@@ -241,6 +241,15 @@ describe( "Miscellaneous tests", () => {
 		expect( filteredTree.findAll( child => child.name === "strong" ) ).toHaveLength( 0 );
 	} );
 
+	it( "should filter elements like <strong> when nested within a regular element, which is nested in an excluded element", () => {
+		const html = "<p><samp>Welcome to the blue screen of<span>Argh!<strong>death</strong></span>.<br>Kiss your computer goodbye.</samp></p>";
+
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.name === "strong" ) ).toHaveLength( 1 );
+		const filteredTree = filterTree( tree, permanentFilters );
+		expect( filteredTree.findAll( child => child.name === "strong" ) ).toHaveLength( 0 );
+	} );
+
 	it( "should filter head elements", () => {
 		// The head element seems to be removed by the parser we employ.
 		const html = "<!DOCTYPE html>\n<head>\n<title>This is what dreams are made of</title>\n</head>\n</html>";
@@ -256,6 +265,24 @@ describe( "Miscellaneous tests", () => {
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		expect( tree.findAll( child => child.attributes && child.attributes[ "data-type" ] === "yoast-seo/siblings" ) ).toHaveLength( 0 );
+	} );
+
+	it( "should filter the whole <div> element containing the Estimated reading time, including the nested paragraph with the class name", () => {
+		const html = "<html lang=\"en-US\"><body><div tabindex=\"0\" id=\"block-62462faa-6047-481b-b3fc-8603369c08f6\" role=\"document\" " +
+			"aria-label=\"Block: Yoast Estimated Reading Time\" data-block=\"62462faa-6047-481b-b3fc-8603369c08f6\" " +
+			"data-type=\"yoast-seo/estimated-reading-time\" data-title=\"Yoast Estimated Reading Time\" " +
+			"class=\"block-editor-block-list__block wp-block is-selected\"><div><p class=\"yoast-reading-time" +
+			"__wrapper\"><span class=\"yoast-reading-time__icon\"><svg aria-hidden=\"true\" focusable=\"false\" " +
+			"data-icon=\"clock\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" role=\"img\"> " +
+			"</svg><span class=\"yoast-reading-time__descriptive-text\">Estimated reading time:  </span></p></div></div>" +
+			"<h2>A Heading</h2></body></html>";
+
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		// eslint-disable-next-line max-len
+		expect( tree.findAll( child => child.attributes && child.attributes.class && child.attributes.class.has( "yoast-reading-time__wrapper" ) ) ).toHaveLength( 1 );
+		const filteredTree = filterTree( tree, permanentFilters );
+		// eslint-disable-next-line max-len
+		expect( filteredTree.findAll( child => child.attributes && child.attributes.class && child.attributes.class.has( "yoast-reading-time__wrapper" ) ) ).toHaveLength( 0 );
 	} );
 } );
 
