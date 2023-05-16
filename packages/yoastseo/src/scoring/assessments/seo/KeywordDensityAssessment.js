@@ -7,6 +7,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
@@ -110,7 +111,9 @@ class KeywordDensityAssessment extends Assessment {
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
-		this.setBoundaries( paper.getText(), keyphraseLength, customGetWords );
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+		this.setBoundaries( text, keyphraseLength, customGetWords );
 
 		this._keywordDensity = this._keywordDensity * keyphraseLengthFactor( keyphraseLength );
 		const calculatedScore = this.calculateResult();
@@ -328,7 +331,9 @@ class KeywordDensityAssessment extends Assessment {
 		if ( customApplicabilityConfig ) {
 			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 		}
-		const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" ).count;
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+		const textLength = customCountLength ? customCountLength( text ) : researcher.getResearch( "wordCountInText" ).count;
 
 		return paper.hasText() && paper.hasKeyword() && textLength >= this._config.applicableIfTextLongerThan;
 	}
