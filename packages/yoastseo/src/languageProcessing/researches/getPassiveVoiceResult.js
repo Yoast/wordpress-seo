@@ -3,7 +3,6 @@ import { stripFullTags as stripHTMLTags } from "../helpers/sanitize/stripHTMLTag
 import Sentence from "../../languageProcessing/values/Sentence.js";
 
 import { forEach } from "lodash-es";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
 
 /**
  * Looks for morphological passive voice.
@@ -15,7 +14,6 @@ import removeHtmlBlocks from "../helpers/html/htmlParser";
  * @returns {Object} The found passive sentences.
  */
 export const getMorphologicalPassives = function( paper, researcher ) {
-	paper._text = removeHtmlBlocks( paper.getText() );
 	const isPassiveSentence = researcher.getHelper( "isPassiveSentence" );
 	const text = paper.getText();
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );

@@ -1,5 +1,4 @@
 import getSentences from "../helpers/sentence/getSentences";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
 
 /**
  * Returns the sentences from a paper.
@@ -11,7 +10,6 @@ import removeHtmlBlocks from "../helpers/html/htmlParser";
  */
 export default function( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
-	paper._text = removeHtmlBlocks( paper.getText() );
 
 	return getSentences( paper.getText(), memoizedTokenizer );
 }
