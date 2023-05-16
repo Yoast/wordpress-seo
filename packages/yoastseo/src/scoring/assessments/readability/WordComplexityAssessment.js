@@ -2,6 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
 import { AssessmentResult, helpers, languageProcessing, Assessment, values } from "yoastseo";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 const { createAnchorOpeningTag } = helpers;
 const { collectMarkingsInSentence } = languageProcessing;
@@ -54,6 +55,7 @@ export default class WordComplexityAssessment extends Assessment {
 	 * @returns {object} The Assessment result.
 	 */
 	getResult( paper, researcher ) {
+		paper._text = removeHtmlBlocks( paper.getText() );
 		this._wordComplexity = researcher.getResearch( "wordComplexity" );
 
 		const calculatedScore = this.calculateResult();
@@ -120,6 +122,7 @@ export default class WordComplexityAssessment extends Assessment {
 	 * @returns {Array<Mark>} A list of marks that should be applied.
 	 */
 	getMarks( paper, researcher ) {
+		paper._text = removeHtmlBlocks( paper.getText() );
 		const wordComplexityResults = researcher.getResearch( "wordComplexity" ).complexWords;
 		const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 		const markings = [];

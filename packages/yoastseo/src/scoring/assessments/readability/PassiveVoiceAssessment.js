@@ -9,6 +9,7 @@ import { stripIncompleteTags as stripTags } from "../../../languageProcessing/he
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 /**
  * Represents the assessment that checks whether there are passive sentences in the text.
@@ -111,6 +112,8 @@ export default class PassiveVoiceAssessment extends Assessment {
 	 * @returns {object} All marked sentences.
 	 */
 	getMarks( paper, researcher ) {
+		paper._text = removeHtmlBlocks( paper.getText() );
+
 		const passiveVoice = researcher.getResearch( "getPassiveVoiceResult" );
 		return map( passiveVoice.passives, function( sentence ) {
 			sentence = stripTags( sentence );
@@ -131,6 +134,8 @@ export default class PassiveVoiceAssessment extends Assessment {
 	 * @returns {object} the Assessmentresult
 	 */
 	getResult( paper, researcher ) {
+		paper._text = removeHtmlBlocks( paper.getText() );
+
 		const passiveVoice = researcher.getResearch( "getPassiveVoiceResult" );
 
 		const passiveVoiceResult = this.calculatePassiveVoiceResult( passiveVoice );

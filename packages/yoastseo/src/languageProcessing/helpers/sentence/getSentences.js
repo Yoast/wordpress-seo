@@ -9,7 +9,6 @@ import excludeEstimatedReadingTime from "../sanitize/excludeEstimatedReadingTime
 import { stripBlockTagsAtStartEnd } from "../sanitize/stripHTMLTags";
 import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace";
 import defaultSentenceTokenizer from "./memoizedSentenceTokenizer";
-import removeHTMLBlocks from "../html/htmlParser";
 
 // Character classes.
 const newLines = "\n\r|\n|\r";
@@ -27,7 +26,6 @@ const paragraphTagsRegex = new RegExp( "^(<p>|</p>)$" );
  * @returns {Array} Sentences found in the text.
  */
 export default function( text, memoizedTokenizer = defaultSentenceTokenizer ) {
-	text = removeHTMLBlocks( text );
 	// We don't remove the other HTML tags here since removing them might lead to incorrect results when running the sentence tokenizer.
 	// Remove Table of Contents.
 	text = excludeTableOfContentsTag( text );

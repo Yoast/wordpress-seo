@@ -10,6 +10,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 /**
  * Represents the assessment that will calculate the length of sentences in the text.
@@ -53,6 +54,8 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {AssessmentResult} The Assessment result.
 	 */
 	getResult( paper, researcher ) {
+		paper._text = removeHtmlBlocks( paper.getText() );
+
 		const sentences = researcher.getResearch( "countSentencesFromText" );
 		if	( researcher.getConfig( "sentenceLength" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
@@ -95,6 +98,8 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {Array} Array with all the marked sentences.
 	 */
 	getMarks( paper, researcher ) {
+		paper._text = removeHtmlBlocks( paper.getText() );
+
 		const sentenceCount = researcher.getResearch( "countSentencesFromText" );
 		if ( researcher.getConfig( "sentenceLength" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );

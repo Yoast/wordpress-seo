@@ -7,6 +7,7 @@ import { stripIncompleteTags as stripTags } from "../../../languageProcessing/he
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 const maximumConsecutiveDuplicates = 2;
 
@@ -112,6 +113,8 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	 * @returns {object} All marked sentences.
 	 */
 	getMarks( paper, researcher ) {
+		paper._text = removeHtmlBlocks( paper.getText() );
+
 		let sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
 		sentenceBeginnings = filter( sentenceBeginnings, function( sentenceBeginning ) {
 			return sentenceBeginning.count > maximumConsecutiveDuplicates;
@@ -140,6 +143,8 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	 * @returns {object} The Assessment result
 	 */
 	getResult( paper, researcher ) {
+		paper._text = removeHtmlBlocks( paper.getText() );
+
 		const sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
 		const groupedSentenceBeginnings = this.groupSentenceBeginnings( sentenceBeginnings );
 		const sentenceBeginningsResult = this.calculateSentenceBeginningsResult( groupedSentenceBeginnings );
