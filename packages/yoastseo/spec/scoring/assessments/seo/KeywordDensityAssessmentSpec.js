@@ -233,7 +233,7 @@ describe( "A test for marking the keyword", function() {
 
 	it( "returns markers for a keyphrase containing numbers", function() {
 		const keywordDensityAssessment = new KeywordDensityAssessment();
-		const paper = new Paper( "This is the release of YoastSEO 9.3.", { keyword: "YoastSEO 9.3" }  );
+		const paper = new Paper( "<p>This is the release of YoastSEO 9.3.</p>", { keyword: "YoastSEO 9.3" }  );
 
 		const researcher = new DefaultResearcher( paper );
 		buildTree( paper, researcher );
@@ -241,7 +241,8 @@ describe( "A test for marking the keyword", function() {
 		keywordDensityAssessment.getResult( paper, researcher );
 		const expected = [
 			new Mark( { marked: "This is the release of <yoastmark class='yoast-text-mark'>YoastSEO 9.3</yoastmark>.",
-				original: "This is the release of YoastSEO 9.3." } ) ];
+				original: "This is the release of YoastSEO 9.3.",
+				position: { startOffset: 26, endOffset: 38 } } ) ];
 		expect( keywordDensityAssessment.getMarks() ).toEqual( expected );
 	} );
 
