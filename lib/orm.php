@@ -1964,7 +1964,7 @@ class ORM implements \ArrayAccess {
 	protected function run() {
 		global $wpdb;
 
-		$query   = $this->build_select();
+		$query = $this->build_select();
 
 		// Generate a unique cache key for this query.
 		$cache_key = 'query_' . md5( $query . json_encode( $this->values ) ); // phpcs:ignore Yoast.Yoast.AlternativeFunctions
@@ -1974,7 +1974,7 @@ class ORM implements \ArrayAccess {
 		if ( $cached !== false ) {
 			return $cached;
 		}
-		
+
 		$success = self::execute( $query, $this->values );
 
 		if ( $success === false ) {
@@ -2611,22 +2611,13 @@ class ORM implements \ArrayAccess {
 		// Defensive coding - cover all bases.
 		// This will prevent errors below if WP_CONTENT_DIR is not defined.
 		if ( ! defined( 'WP_CONTENT_DIR' ) ) {
-				return false;
-			}
+			return false;
+		}
 
 		// Check if the site is using a persistent drop-in (object-cache.php).
 		// This _should_ be covered by the `wp_using_ext_object_cache()` check,
 		// but sometimes isn't depending on the timing of the cache.
 		if ( \file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
-			self::$has_persistent_cache = true;
-			return true;
-		}
-
-		// Check if the site is using a persistent drop-in (advanced-cache.php),
-		// and that the drop-in is enabled.
-		if ( \file_exists( WP_CONTENT_DIR . '/advanced-cache.php' )
-			&& \apply_filters( 'enable_loading_advanced_cache_dropin', true )
-		) {
 			self::$has_persistent_cache = true;
 			return true;
 		}
