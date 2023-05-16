@@ -74,6 +74,22 @@ class SubheadingsDistributionTooLong extends Assessment {
 	}
 
 	/**
+	 * Gets the text length from the paper. Remove unwanted element first before calculating.
+	 *
+	 * @param { Paper } paper The Paper object to analyse.
+	 * @param { Researcher } researcher The researcher to use.
+	 * @returns {number} The length of the text.
+	 */
+	getTextLength( paper, researcher ) {
+		// Give specific feedback for cases where the post starts with a long text without subheadings.
+		const customCountLength = researcher.getHelper( "customCountLength" );
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+
+		return customCountLength ? customCountLength( text ) : getWords( text ).length;
+	}
+
+	/**
 	 * Runs the getSubheadingTextLength research and checks scores based on length.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
@@ -105,12 +121,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		this._hasSubheadings = this.hasSubheadings( paper );
 
-		// Give specific feedback for cases where the post starts with a long text without subheadings.
-		const customCountLength = researcher.getHelper( "customCountLength" );
-
 		this._tooLongTextsNumber = this.getTooLongSubheadingTexts().length;
 
-		this._textLength = customCountLength ? customCountLength( paper.getText() ) : getWords( paper.getText() ).length;
+		this._textLength = this.getTextLength( paper, researcher );
 
 		const calculatedResult = this.calculateResult( textBeforeFirstSubheading );
 
@@ -160,11 +173,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 				this._config = this.getLanguageSpecificConfig( researcher );
 			}
 
-			const customCountLength = researcher.getHelper( "customCountLength" );
-			paper._text = removeHtmlBlocks( paper.getText() );
-			const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" ).count;
 			// Do not use hasEnoughContentForAssessment as it is redundant with textLength > this._config.applicableIfTextLongerThan.
-			return  textLength > this._config.applicableIfTextLongerThan;
+			return  this._textLength > this._config.applicableIfTextLongerThan;
 		}
 
 		return this.hasEnoughContentForAssessment( paper );
