@@ -15,7 +15,6 @@ import convertToPositionResult from "./convertMatchToPositionResult";
 const tokenizeKeyphraseForms = ( keyphraseForms ) => {
 	const newKeyphraseForms = [];
 	keyphraseForms.forEach( word => {
-		// const newWord = []
 		const tokenizedWord = word.map( form => {
 			return form.split( tokenizerSplitter );
 		} );
@@ -24,6 +23,20 @@ const tokenizeKeyphraseForms = ( keyphraseForms ) => {
 
 		tokenizedWordTransposed.forEach( newWord => newKeyphraseForms.push( newWord ) );
 	} );
+
+	// if a token ends with a single \ then prepend the \ to the next token and remove the \ it from the current token.
+	// This is a fix because the tokenization does not work well for a situation where a fullstop is escaped.
+	// For example: yoastseo 9.3 would be tokenized as ["yoastseo", "9\", ".", "3"]. This fix corrects this to ["yoastseo", "9", "\.", "3"].
+	for ( let i = 0; i < newKeyphraseForms.length; i++ ) {
+		if ( newKeyphraseForms[ i ][ 0 ].endsWith( "\\" ) && ! newKeyphraseForms[ i ][ 0 ].endsWith( "\\\\" )  ) {
+			// Remove the \ from the current token.
+			newKeyphraseForms[ i ][ 0 ] = newKeyphraseForms[ i ][ 0 ].slice( 0, -1 );
+			// Prepend the \ to the next token.
+			newKeyphraseForms[ i + 1 ][ 0 ] = "\\" + newKeyphraseForms[ i + 1 ][ 0 ];
+		}
+	}
+
+
 	return newKeyphraseForms;
 };
 
