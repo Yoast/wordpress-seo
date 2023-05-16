@@ -43,10 +43,11 @@ export default class ListAssessment extends Assessment {
 	 */
 	findList( paper ) {
 		const regex = /<[uo]l.*>[\s\S]*<\/[uo]l>/;
+		let text = paper.getText();
 
-		paper._text = removeHtmlBlocks( paper.getText() );
+		text = removeHtmlBlocks( text );
 
-		return regex.test( paper );
+		return regex.test( text );
 	}
 
 	/**
