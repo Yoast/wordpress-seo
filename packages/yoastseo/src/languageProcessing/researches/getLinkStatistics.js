@@ -1,7 +1,7 @@
 import checkNofollow from "../helpers/link/checkNofollow.js";
 import getAnchors from "../helpers/link/getAnchorsFromText.js";
 import getLinkType from "../helpers/link/getLinkType.js";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
+
 /**
  * Counts the links found in the text.
  *
@@ -20,9 +20,7 @@ import removeHtmlBlocks from "../helpers/html/htmlParser";
  * otherNofollow: other links with a nofollow attribute.
  */
 export default function( paper ) {
-	let text = paper.getText();
-	text = removeHtmlBlocks( text );
-	const anchors = getAnchors( text );
+	const anchors = getAnchors( paper.getText() );
 	/*
 	 * We get the site's URL (e.g., https://yoast.com) or domain (e.g., yoast.com) from the paper.
 	 * In case of WordPress, the variable is a URL. In case of Shopify, it is a domain.

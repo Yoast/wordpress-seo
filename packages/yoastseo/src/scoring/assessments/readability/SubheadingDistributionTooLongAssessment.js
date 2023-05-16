@@ -172,9 +172,12 @@ class SubheadingsDistributionTooLong extends Assessment {
 			if ( researcher.getConfig( "subheadingsTooLong" ) ) {
 				this._config = this.getLanguageSpecificConfig( researcher );
 			}
+			paper._text = removeHtmlBlocks( paper.getText() );
+
+			const textLength = this.getTextLength( paper, researcher );
 
 			// Do not use hasEnoughContentForAssessment as it is redundant with textLength > this._config.applicableIfTextLongerThan.
-			return  this.getTextLength( removeHtmlBlocks( paper.getText() ), researcher ) > this._config.applicableIfTextLongerThan;
+			return textLength > this._config.applicableIfTextLongerThan;
 		}
 
 		return this.hasEnoughContentForAssessment( paper );
