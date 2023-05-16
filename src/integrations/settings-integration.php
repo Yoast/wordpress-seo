@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
-use Exception;
 use WP_Post_Type;
 use WP_Taxonomy;
 use WPSEO_Admin_Asset_Manager;
@@ -456,7 +455,7 @@ class Settings_Integration implements Integration_Interface {
 			'showForceRewriteTitlesSetting' => ! \current_theme_supports( 'title-tag' ) && ! ( \function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ),
 			'upsellSettings'                => $this->get_upsell_settings(),
 			'siteRepresentsPerson'          => $this->get_site_represents_person( $settings ),
-			'siteBasicsPolicies'            => $this->get_site_basics_policies($settings)
+			'siteBasicsPolicies'            => $this->get_site_basics_policies( $settings ),
 		];
 	}
 
@@ -484,31 +483,35 @@ class Settings_Integration implements Integration_Interface {
 		return $person;
 	}
 
-	private function get_site_basics_policies($settings){
+	private function get_site_basics_policies( $settings ) {
 		$policies = [];
 
 
-		$policies = $this->maybe_add_policy($policies,$settings['wpseo_titles']['publishing_principles_id'],'publishing_principles_id');
-		$policies = $this->maybe_add_policy($policies,$settings['wpseo_titles']['ownership_funding_info_id'],'ownership_funding_info_id');
-		$policies = $this->maybe_add_policy($policies,$settings['wpseo_titles']['actionable_feedback_policy_id'],'actionable_feedback_policy_id');
-		$policies = $this->maybe_add_policy($policies,$settings['wpseo_titles']['corrections_policy_id'],'corrections_policy_id');
-		$policies = $this->maybe_add_policy($policies,$settings['wpseo_titles']['ethics_policy_id'],'ethics_policy_id');
-		$policies = $this->maybe_add_policy($policies,$settings['wpseo_titles']['diversity_policy_id'],'diversity_policy_id');
-		$policies = $this->maybe_add_policy($policies,$settings['wpseo_titles']['diversity_staffing_report_id'],'diversity_staffing_report_id');
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['publishing_principles_id'], 'publishing_principles_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['ownership_funding_info_id'], 'ownership_funding_info_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['actionable_feedback_policy_id'], 'actionable_feedback_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['corrections_policy_id'], 'corrections_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['ethics_policy_id'], 'ethics_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['diversity_policy_id'], 'diversity_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['diversity_staffing_report_id'], 'diversity_staffing_report_id' );
 
 		return $policies;
 	}
 
-	private function maybe_add_policy($policies, $policy,$key){
-		$policy_array = [];
+	private function maybe_add_policy( $policies, $policy, $key ) {
+		$policy_array = [
+			'id'   => false,
+			'name' => '',
+		];
 		if ( isset( $policy ) ) {
 			$policy_array['id'] = $policy;
-			$post         = \get_post( $policy );
+			$post               = \get_post( $policy );
 			if ( $post instanceof \WP_Post ) {
 				$policy_array['name'] = $post->post_title;
 			}
 		}
-		$policies[$key]= $policy_array;
+		$policies[ $key ] = $policy_array;
+
 		return $policies;
 	}
 

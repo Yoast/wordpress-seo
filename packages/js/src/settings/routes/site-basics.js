@@ -30,7 +30,7 @@ const SiteBasics = () => {
 	const replacementVariablesLink = useSelectSettings("selectLink", [], "https://yoa.st/site-basics-replacement-variables");
 	const usageTrackingLink = useSelectSettings("selectLink", [], "https://yoa.st/usage-tracking-2");
 	const siteTitle = useSelectSettings("selectPreference", [], "siteTitle", "");
-	const PublishingPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-publishing-principles" );
+	const PublishingPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-policies-upsell" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const { fetchPosts } = useDispatchSettings();

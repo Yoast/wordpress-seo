@@ -38,7 +38,8 @@ PostSelectOptionsContent.propTypes = {
  * @returns {JSX.Element} The post select component.
  */
 const FormikPostSelectField = ({name, id, className = "", ...props}) => {
-	const posts = useSelectSettings("selectPosts");
+	const siteBasicsPolicies = useSelectSettings( "selectPreference", [], "siteBasicsPolicies", {} );
+	const posts = useSelectSettings( "selectPostsWith", [ siteBasicsPolicies ], values(siteBasicsPolicies) );
 	const {addManyPosts, fetchPosts} = useDispatchSettings();
 	const [{value, ...field}, , {setTouched, setValue}] = useField({type: "select", name, id, ...props});
 	const [status, setStatus] = useState(ASYNC_ACTION_STATUS.idle);

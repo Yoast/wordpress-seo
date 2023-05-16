@@ -82,9 +82,25 @@ export const postsSelectors = {
 	selectPostIds: postAdapterSelectors.selectIds,
 	selectPostById: postAdapterSelectors.selectById,
 	selectPosts: postAdapterSelectors.selectEntities,
-	selectPostsFetchStatus: state => get( state, "posts.status", {} ),
+	selectPostsFetchStatus: state => get(state, "posts.status", {}),
 };
+postsSelectors.selectPostsWith = createSelector(
+	[
+		postsSelectors.selectPosts,
+		(state, additionalPost = {}) => additionalPost
+	],
+	(posts, additionalPost) => {
+		let additionalPosts = {};
+		additionalPost.forEach(post => {
+			if (post?.id && !posts[post.id]) {
+				// Add the additional user.
+				additionalPosts[post.id] = {...post};
+			}
+		})
 
+		return {...additionalPosts,...posts};
+	}
+);
 export const postsActions = {
 	...postsSlice.actions,
 	fetchPosts,
