@@ -69,6 +69,24 @@ Mark.prototype.getPositionEnd = function() {
 };
 
 /**
+ * Returns the start position inside block.
+ *
+ * @returns {number} The start position inside block.
+ */
+Mark.prototype.getBlockPositionStart = function() {
+	return this._properties.position && this._properties.position.startOffsetBlock;
+};
+
+/**
+ * Returns the end position inside block.
+ *
+ * @returns {number} The end position inside block.
+ */
+Mark.prototype.getBlockPositionEnd = function() {
+	return this._properties.position && this._properties.position.endOffsetBlock;
+};
+
+/**
  * Applies this mark to the given text with replacement-based highlighting.
  *
  * @param {string} text The original text without the mark applied.
@@ -139,6 +157,14 @@ Mark.prototype.hasPosition = function() {
 	return !! this.getPositionStart && this.getPositionStart();
 };
 
+
+/**
+ * Checks if a mark has block position information available.
+ * @returns {boolean} Returns true if the Mark object has block position information, false otherwise.
+ */
+Mark.prototype.hasBlockPosition = function() {
+	return !! this.getBlockPositionEnd() && this.getBlockPositionStart();
+};
 /**
  * Parses the object to a Mark.
  *

@@ -7,6 +7,7 @@ import {
 	getAnnotationsFromBlock,
 	hasInnerBlocks,
 	getAnnotationsForYoastBlocks,
+	getAnnotationsForBlockAttribute, crateAnnotationsFromPositionBasedMarks,
 } from "../../src/decorator/gutenberg";
 
 jest.mock( "@wordpress/rich-text", () => ( {
@@ -16,6 +17,7 @@ jest.mock( "@wordpress/rich-text", () => ( {
 import { create } from "@wordpress/rich-text";
 
 import { select } from "@wordpress/data";
+import { Mark } from "yoastseo/src/values";
 
 jest.mock( "@wordpress/data" );
 
@@ -179,6 +181,32 @@ describe( "calculateAnnotationsForTextFormat", () => {
 			text,
 			mark
 		);
+
+		expect( actual ).toEqual( expected );
+	} );
+} );
+
+describe( "crateAnnotationsFromPositionBasedMarks", () => {
+	it( "create annotation from block position based mark", () => {
+		const mark = new Mark( {
+			position: {
+				startOffsetBlock: 22,
+				endOffsetBlock: 26,
+			},
+		} );
+
+		/*
+		 * "A long text. A marked text."
+		 *                     22 ^   ^ 26
+		 */
+		const expected = [
+			{
+				startOffset: 22,
+				endOffset: 26,
+			},
+		];
+
+		const actual = crateAnnotationsFromPositionBasedMarks( mark );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -435,5 +463,51 @@ describe( "tests for the hasInnerBlocks helper", () => {
 			fakeData: "fakeData",
 		};
 		expect( hasInnerBlocks( mockBlockWithoutInnerblocks ) ).toBeFalsy();
+	} );
+} );
+
+describe( "test getAnnotationsForBlockAttribute", () => {
+	it( "returns an annotation if there is an applicable marker for the text", () => {
+		create.mockImplementation( () => {
+			return { text: "An item about lingo" };
+		} );
+
+		const mockBlock = {
+			clientId: "34f61542-0902-44f7-ab48-d9f88a022b43",
+			name: "core/list-item",
+			isValid: true,
+			attributes: {
+				content: "An item about lingo",
+			},
+			innerBlocks: [],
+		};
+
+		const mark = new Mark( {
+			position: {
+				startOffsetBlock: 14,
+				endOffsetBlock: 19,
+			},
+		} );
+
+		const attribute = {
+			key: "content",
+		};
+
+		select.mockReturnValue( {
+			getActiveMarker: jest.fn( () => "keyphraseDensity" ),
+		} );
+
+		const annotations = getAnnotationsForBlockAttribute( attribute, mockBlock, [ mark ] );
+
+		const resultWithAnnotation =     [
+			{
+				startOffset: 14,
+				endOffset: 19,
+				block: "34f61542-0902-44f7-ab48-d9f88a022b43",
+				richTextIdentifier: "content",
+			},
+		];
+
+		expect( annotations ).toEqual( resultWithAnnotation );
 	} );
 } );

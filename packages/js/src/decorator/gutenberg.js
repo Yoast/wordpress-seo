@@ -312,6 +312,22 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
 }
 
 /**
+ * Create an annotation if the given mark is position based.
+ *
+ * @param {Mark}   mark The mark to apply to the content.
+ *
+ * @returns {Array} The annotations to apply.
+ */
+export function crateAnnotationsFromPositionBasedMarks( mark ) {
+	return [
+		{
+			startOffset: mark.getBlockPositionStart(),
+			endOffset: mark.getBlockPositionEnd(),
+		},
+	];
+}
+
+/**
  * Returns an array of all the attributes of which we can annotate text for, for a specific block type name.
  *
  * @param {string} blockTypeName The name of the block type.
@@ -350,10 +366,15 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks ) 
 	const text = record.text;
 
 	return flatMap( marks, ( ( mark ) => {
-		const annotations = calculateAnnotationsForTextFormat(
-			text,
-			mark
-		);
+		let annotations;
+		if ( marks[ 0 ].hasBlockPosition && marks[ 0 ].hasBlockPosition() ) {
+			annotations = crateAnnotationsFromPositionBasedMarks( mark );
+		} else {
+			annotations = calculateAnnotationsForTextFormat(
+				text,
+				mark
+			);
+		}
 
 		if ( ! annotations ) {
 			return [];
@@ -426,7 +447,7 @@ export function getAnnotationsForYoastBlocks( attribute, block, marks ) {
  *
  * @returns {Array} The annotations to apply.
  */
-function getAnnotationsForBlockAttribute( attribute, block, marks ) {
+export function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 	const attributeKey = attribute.key;
 	const { attributes: blockAttributes } = block;
 
@@ -510,7 +531,7 @@ export function hasInnerBlocks( block ) {
  *
  * @returns {Object[]} An array of annotation objects.
  */
-function getAnnotationsForBlocks( blocks, marks ) {
+export function getAnnotationsForBlocks( blocks, marks ) {
 	return flatMap( blocks, ( ( block ) => {
 		// If a block has innerblocks, get annotations for those blocks as well.
 		const innerBlockAnnotations = hasInnerBlocks( block ) ?  getAnnotationsForBlocks( block.innerBlocks, marks ) : [];
@@ -526,6 +547,7 @@ function getAnnotationsForBlocks( blocks, marks ) {
  * @returns {void}
  */
 export function applyAsAnnotations( marks ) {
+	console.log( "applyAsAnnotations" );
 	// Do this always to allow people to select a different eye marker while another one is active.
 	removeAllAnnotations();
 	const fieldsToMark = getFieldsToMarkHelper(  marks  );
@@ -555,6 +577,8 @@ export function applyAsAnnotations( marks ) {
  * @returns {void}
  */
 function removeAllAnnotationsFromBlock( blockClientId ) {
+	console.log( "removeAllAnnotationsFromBlock", blockClientId );
+
 	const annotationsInBlock = select( "core/annotations" )
 		.__experimentalGetAnnotations()
 		.filter( annotation => annotation.blockClientId === blockClientId && annotation.source === ANNOTATION_SOURCE );
