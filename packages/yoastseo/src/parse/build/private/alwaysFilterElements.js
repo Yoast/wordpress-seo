@@ -10,7 +10,6 @@ const permanentFilters = [
 	elementHasDataType( "yoast-seo/table-of-contents" ),
 	elementHasDataType( "yoast-seo/breadcrumbs" ),
 	elementHasDataType( "yoast-seo/estimated-reading-time" ),
-	elementHasDataType( "yoast-seo/related-links" ),
 	elementHasDataType( "yoast-seo/siblings" ),
 	elementHasDataType( "yoast-seo/subpages" ),
 	// Filters out HTML elements.

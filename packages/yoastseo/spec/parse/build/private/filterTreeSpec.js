@@ -44,16 +44,6 @@ const samplesWithYoastBlocks = [
 			"<h2>A Heading</h2></body></html>",
 	},
 	{
-		element: "yoast-seo/related-links",
-		html: "<html lang=\"en-US\"><body><div tabindex=\"0\" id=\"block-f5979f6b-5b08-4162-96d5-9854c526145a\" role=\"document\"" +
-			"aria-label=\"Block: Yoast Related Links\" data-block=\"f5979f6b-5b08-4162-96d5-9854c526145a\" " +
-			"data-type=\"yoast-seo/related-links\" data-title=\"Yoast Related Links\" class=\"block-editor-block-list__block " +
-			"wp-block is-selected\"><ul role=\"textbox\" aria-multiline=\"true\" aria-label=\"Write list…\" contenteditable " +
-			"=\"true\" class=\"block-editor-rich-text__editable rich-text\" style=\"white-space: pre-wrap; min-width: 1px;\">" +
-			"<li><a href=\"https://one.wordpress.test/transition-words-v-2/\" data-rich-text-format-boundary=\"true\">" +
-			"Transition words v.2</a> text added to the Related links block</li></ul></div><h2>A Heading</h2></body></html>",
-	},
-	{
 		element: "yoast-seo/siblings",
 		html: "<!DOCTYPE html><html lang=\"en-US\"><body><p>Mmm whatcha say</p><div tabindex=\"0\" id=\"block-f1d3baad-" +
 			"2b41-4a49-b57c-df3b83227d88\" role=\"document\" aria-label=\"Block: " +
