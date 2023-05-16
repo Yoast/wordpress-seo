@@ -13,7 +13,6 @@ import TaxonomyAssessor from "../scoring/taxonomyAssessor";
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
 import RelatedKeywordAssessor from "../scoring/relatedKeywordAssessor";
-import removeHtmlBlocks from "../languageProcessing/helpers/html/htmlParser";
 import InclusiveLanguageAssessor from "../scoring/inclusiveLanguageAssessor";
 
 import { build } from "../parse/build";

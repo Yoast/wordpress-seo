@@ -4,6 +4,7 @@ import { inRange, merge } from "lodash-es";
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 /**
  * Assessment that will test if the text is long enough.
@@ -56,6 +57,7 @@ export default class TextLengthAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher ) {
+		paper._text = removeHtmlBlocks( paper.getText() );
 		const wordCount = researcher.getResearch( "wordCountInText" );
 
 		if	( researcher.getConfig( "textLength" ) ) {

@@ -102,5 +102,6 @@ export function resetParser() {
 export default function( text ) {
 	textArray = [];
 	parser.write( text );
+	parser.parseComplete();
 	return textArray.join( "" );
 }
