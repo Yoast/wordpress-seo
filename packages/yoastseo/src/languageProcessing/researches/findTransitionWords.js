@@ -4,6 +4,7 @@ import { normalizeSingle as normalizeSingleQuotes } from "../helpers/sanitize/qu
 import { isWordInSentence as matchWordInSentence } from "../helpers/word/matchWordInSentence.js";
 
 import { flattenDeep } from "lodash-es";
+import removeHtmlBlocks from "../helpers/html/htmlParser";
 
 let regexFromDoubleArray = null;
 let regexFromDoubleArrayCacheKey = "";
@@ -107,6 +108,7 @@ export default function( paper, researcher ) {
 	const twoPartTransitionWords = researcher.getConfig( "twoPartTransitionWords" );
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
+	paper._text = removeHtmlBlocks( paper.getText() );
 	const sentences = getSentences( paper.getText(), memoizedTokenizer );
 	const sentenceResults = checkSentencesForTransitionWords( sentences, transitionWords, twoPartTransitionWords, matchTransitionWordsHelper );
 

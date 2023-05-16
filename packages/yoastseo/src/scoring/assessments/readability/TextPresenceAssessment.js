@@ -3,6 +3,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Assessment from "../assessment";
 import { merge } from "lodash-es";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 
 /**
@@ -36,6 +37,7 @@ export default class TextPresenceAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of this assessment.
 	 */
 	getResult( paper ) {
+		paper._text = removeHtmlBlocks( paper.getText() );
 		if ( ! this.hasEnoughContentForAssessment( paper ) ) {
 			const result = new AssessmentResult();
 

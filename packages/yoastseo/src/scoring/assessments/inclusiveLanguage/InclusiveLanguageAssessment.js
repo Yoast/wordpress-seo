@@ -8,6 +8,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { getWords, sanitizeString } from "../../../languageProcessing";
 
 import { includesConsecutiveWords } from "./helpers/includesConsecutiveWords";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 /**
  * An inclusive language assessment.
@@ -125,6 +126,7 @@ export default class InclusiveLanguageAssessment {
 	 * @returns {boolean} true if the text is of the required length, false otherwise.
 	 */
 	hasEnoughContentForAssessment( paper, contentNeededForAssessment = 50 ) {
+		paper._text = removeHtmlBlocks( paper.getText() );
 		// The isUndefined check is necessary, because if paper is undefined .getText will throw a typeError.
 		return  ! isUndefined( paper ) && sanitizeString( paper.getText() ).length >= contentNeededForAssessment;
 	}

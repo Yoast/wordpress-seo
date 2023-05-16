@@ -2,6 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
 import { Assessment, AssessmentResult, helpers } from "yoastseo";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 const { createAnchorOpeningTag } = helpers;
 
@@ -43,7 +44,9 @@ export default class ListAssessment extends Assessment {
 	findList( paper ) {
 		const regex = /<[uo]l.*>[\s\S]*<\/[uo]l>/;
 
-		return regex.test( paper.getText() );
+		paper._text = removeHtmlBlocks( paper.getText() );
+
+		return regex.test( paper );
 	}
 
 	/**

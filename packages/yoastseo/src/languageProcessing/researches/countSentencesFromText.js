@@ -1,5 +1,6 @@
 import getSentences from "../helpers/sentence/getSentences";
 import sentencesLength from "../helpers/sentence/sentencesLength.js";
+import removeHtmlBlocks from "../helpers/html/htmlParser";
 
 /**
  * Count sentences in the text.
@@ -8,6 +9,7 @@ import sentencesLength from "../helpers/sentence/sentencesLength.js";
  * @returns {Array} The sentences from the text.
  */
 export default function( paper, researcher ) {
+	paper._text = removeHtmlBlocks( paper.getText() );
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const sentences = getSentences( paper.getText(), memoizedTokenizer );
 	return sentencesLength( sentences, researcher );
