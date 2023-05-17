@@ -23,9 +23,15 @@ export function elementHasName( name ) {
  */
 export function elementHasDataType( blockName ) {
 	return ( blockElement ) => {
-		if ( blockElement.attributes[ "data-type" ] ) {
-			return blockElement.attributes[ "data-type" ] === blockName;
+		if ( blockElement.attributes[ "data-type" ] || blockElement.attributes[ "data-widget_type" ] ) {
+			return blockElement.attributes[ "data-type" ] && blockElement.attributes[ "data-widget_type" ] === blockName;
 		}
 		return false;
+	};
+}
+
+export function elementHasID( id ) {
+	return ( elem ) => {
+		return elem.attributes.id === id;
 	};
 }

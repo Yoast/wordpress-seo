@@ -2,7 +2,7 @@
  * A config file that contains filters that should always apply.
  */
 
-import { elementHasName, elementHasDataType } from "./filterHelpers";
+import { elementHasName, elementHasDataType, elementHasID } from "./filterHelpers";
 
 const permanentFilters = [
 	// Filters out Yoast blocks that don't need to be part of the analysis.
@@ -12,6 +12,9 @@ const permanentFilters = [
 	elementHasDataType( "yoast-seo/estimated-reading-time" ),
 	elementHasDataType( "yoast-seo/siblings" ),
 	elementHasDataType( "yoast-seo/subpages" ),
+	// Filters for the Elementor widget Yoast Breadcrumbs.
+	elementHasDataType( "breadcrumbs.default" ),
+	elementHasID( "breadcrumbs" ),
 	// Filters out HTML elements.
 	/* Elements are filtered out when: they contain content outside of the author's control (incl. quotes and embedded
 	content); their content isn't natural language (e.g. code); they contain metadata hidden from the page visitor

@@ -257,7 +257,7 @@ describe( "Miscellaneous tests", () => {
 		expect( tree.findAll( child => child.attributes && child.attributes[ "data-type" ] === "yoast-seo/siblings" ) ).toHaveLength( 0 );
 	} );
 
-	it( "should filter the whole <div> element containing the Estimated reading time, including the nested paragraph with the class name", () => {
+	it( "should filter the whole element containing the Estimated reading time block, including the nested paragraph with the class name", () => {
 		const html = "<html lang=\"en-US\"><body><div tabindex=\"0\" id=\"block-62462faa-6047-481b-b3fc-8603369c08f6\" role=\"document\" " +
 			"aria-label=\"Block: Yoast Estimated Reading Time\" data-block=\"62462faa-6047-481b-b3fc-8603369c08f6\" " +
 			"data-type=\"yoast-seo/estimated-reading-time\" data-title=\"Yoast Estimated Reading Time\" " +
@@ -273,6 +273,23 @@ describe( "Miscellaneous tests", () => {
 		const filteredTree = filterTree( tree, permanentFilters );
 		// eslint-disable-next-line max-len
 		expect( filteredTree.findAll( child => child.attributes && child.attributes.class && child.attributes.class.has( "yoast-reading-time__wrapper" ) ) ).toHaveLength( 0 );
+	} );
+
+	it( "should filter the Elementor Yoast Breadcrumbs widget ", () => {
+		const html = "<div data-id=\"a2d018a\" data-element_type=\"widget\" class=\"elementor-element elementor-element-edit-" +
+			"mode elementor-element-a2d018a elementor-element--toggle-edit-tools elementor-widget elementor-widget-breadcrumbs ui-resizable\" " +
+			"data-model-cid=\"c2810\" id=\"\" data-widget_type=\"breadcrumbs.default\"><div class=\"elementor-element-overlay\"> " +
+			"<ul class=\"elementor-editor-element-settings elementor-editor-widget-settings\"><li class=\"elementor-editor-element-setting " +
+			"elementor-editor-element-edit\" title=\"Edit Breadcrumbs\"><i class=\"eicon-edit\" aria-hidden=\"true\"></i><span " +
+			"class=\"elementor-screen-only\">Edit Breadcrumbs</span></li></ul></div><div class=\"elementor-widget-container\">" +
+			"<p id=\"breadcrumbs\"><span><span><a href=\"https://one.wordpress.test/\">Home</a></span></span></p></div>";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.attributes && child.attributes.id === "breadcrumbs" ) ).toHaveLength( 1 );
+		expect( tree.findAll( child => child.attributes && child.attributes[ "data-widget_type" ] === "breadcrumbs.default" ) ).toHaveLength( 1 );
+		const filteredTree = filterTree( tree, permanentFilters );
+		// eslint-disable-next-line max-len
+		expect( filteredTree.findAll( child => child.attributes && child.attributes[ "data-widget_type" ] === "breadcrumbs.default" ) ).toHaveLength( 0 );
+		expect( filteredTree.findAll( child => child.attributes && child.attributes.id === "breadcrumbs" ) ).toHaveLength( 0 );
 	} );
 } );
 
