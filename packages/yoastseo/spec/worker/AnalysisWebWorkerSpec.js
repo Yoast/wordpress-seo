@@ -25,7 +25,6 @@ import getMorphologyData from "../specHelpers/getMorphologyData";
 import TestAssessment from "../specHelpers/tree/TestAssessment";
 
 import EnglishResearcher from "../../src/languageProcessing/languages/en/Researcher";
-import { resetParser } from "../../src/languageProcessing/helpers/html/htmlParser";
 let researcher = new EnglishResearcher();
 const morphologyData = getMorphologyData( "en" );
 
