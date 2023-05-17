@@ -31,7 +31,6 @@ function applyMarksTinyMCE( paper, marks ) {
  * @returns {void}
  */
 function applyMarks( paper, marks ) {
-	console.log( "applyMarks" );
 	let decorator;
 
 	// Classic editor
