@@ -42,7 +42,7 @@ const WincherSEOPerformanceTableWrapper = styled.div`
 	overflow-y: auto;
 `;
 
-const WincherSEOPerformanceTableBlurredCell = styled.p`
+const WincherSEOPerformanceTableBlurredCell = styled.div`
 	margin: 0;
     -webkit-filter: blur(4px);
     -moz-filter: blur(4px);
@@ -128,7 +128,11 @@ const Cell = ( { isBlurred, children } ) => {
 
 Cell.propTypes = {
 	isBlurred: PropTypes.bool,
-	children: PropTypes.object,
+	children: PropTypes.oneOfType( [
+		PropTypes.string,
+		PropTypes.number,
+		PropTypes.object,
+	] ),
 };
 
 /**
@@ -426,7 +430,7 @@ const WincherSEOPerformanceTable = ( { isBlurred, children } ) => {
 };
 
 WincherSEOPerformanceTable.propTypes = {
-	isBlurred: PropTypes.object,
+	isBlurred: PropTypes.bool,
 	children: PropTypes.any,
 };
 
