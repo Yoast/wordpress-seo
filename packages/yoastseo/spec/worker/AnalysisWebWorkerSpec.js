@@ -670,7 +670,6 @@ describe( "AnalysisWebWorker", () => {
 			} );
 
 			it( "correctly calculate the position of the image with a caption", async() => {
-				// One paragraph, with one sentence.
 				const html = "<!-- wp:image -->\n" +
 					"<figure class=\"wp-block-image size-large\"><img src=\"https://example.com\" alt=\"\" class=\"wp-image-8\"/>" +
 					"<figcaption class=\"wp-element-caption\">A cute cat</figcaption></figure>\n" +
