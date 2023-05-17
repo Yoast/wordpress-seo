@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
 use Brain\Monkey;
 use Mockery;
+use Wincher_Dashboard_Widget;
 use WP_User;
 use WPSEO_Admin;
 use WPSEO_Primary_Term_Admin;
@@ -93,8 +94,9 @@ class Admin_Features_Test extends TestCase {
 		$class_instance = $this->get_admin_with_expectations();
 
 		$admin_features = [
-			'primary_category' => new WPSEO_Primary_Term_Admin(),
-			'dashboard_widget' => new Yoast_Dashboard_Widget(),
+			'primary_category'         => new WPSEO_Primary_Term_Admin(),
+			'dashboard_widget'         => new Yoast_Dashboard_Widget(),
+			'wincher_dashboard_widget' => new Wincher_Dashboard_Widget(),
 		];
 
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );
@@ -114,7 +116,8 @@ class Admin_Features_Test extends TestCase {
 		$class_instance = $this->get_admin_with_expectations();
 
 		$admin_features = [
-			'dashboard_widget' => new Yoast_Dashboard_Widget(),
+			'dashboard_widget'         => new Yoast_Dashboard_Widget(),
+			'wincher_dashboard_widget' => new Wincher_Dashboard_Widget(),
 		];
 
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );
