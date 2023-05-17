@@ -442,7 +442,6 @@ describe( "AnalysisWebWorker", () => {
 
 		describe( "analyze", () => {
 			beforeEach( () => {
-				resetParser();
 				scope = createScope();
 				worker = new AnalysisWebWorker( scope, researcher );
 				worker.register();
