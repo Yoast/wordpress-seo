@@ -9,7 +9,6 @@ import excludeEstimatedReadingTime from "../sanitize/excludeEstimatedReadingTime
 import { stripBlockTagsAtStartEnd } from "../sanitize/stripHTMLTags";
 import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace";
 import defaultSentenceTokenizer from "./memoizedSentenceTokenizer";
-import removeHTMLBlocks from "../html/htmlParser";
 
 // Character classes.
 const newLines = "\n\r|\n|\r";

@@ -4,7 +4,6 @@ import { inRange, merge } from "lodash-es";
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
-import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 /**
  * Assessment that will test if the text is long enough.
