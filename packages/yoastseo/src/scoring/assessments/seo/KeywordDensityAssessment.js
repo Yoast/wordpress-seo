@@ -8,6 +8,7 @@ import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } 
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
 import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
+import getWords from "../../../languageProcessing/helpers/word/getWords";
 
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
@@ -332,7 +333,7 @@ class KeywordDensityAssessment extends Assessment {
 		}
 		let text = paper.getText();
 		text = removeHtmlBlocks( text );
-		const textLength = customCountLength ? customCountLength( text ) : researcher.getResearch( "wordCountInText" ).count;
+		const textLength = customCountLength ? customCountLength( text ) : getWords( text ).length;
 
 		return paper.hasText() && paper.hasKeyword() && textLength >= this._config.applicableIfTextLongerThan;
 	}

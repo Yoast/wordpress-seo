@@ -31,7 +31,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 8 times. This is great!",
+			"The keyphrase was found 7 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -59,7 +59,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 1044 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 978 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -111,13 +111,14 @@ const expectedResults = {
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain more than the recommended " +
+			"maximum of 150 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 29.6% of the sentences contain " +
+		score: 3,
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 34.8% of the sentences contain " +
 			"more than 25 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>" +
 			"Try to shorten the sentences</a>.",
 	},
