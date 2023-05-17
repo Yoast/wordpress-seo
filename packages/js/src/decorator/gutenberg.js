@@ -547,7 +547,6 @@ export function getAnnotationsForBlocks( blocks, marks ) {
  * @returns {void}
  */
 export function applyAsAnnotations( marks ) {
-	console.log( "applyAsAnnotations" );
 	// Do this always to allow people to select a different eye marker while another one is active.
 	removeAllAnnotations();
 	const fieldsToMark = getFieldsToMarkHelper(  marks  );
@@ -577,8 +576,6 @@ export function applyAsAnnotations( marks ) {
  * @returns {void}
  */
 function removeAllAnnotationsFromBlock( blockClientId ) {
-	console.log( "removeAllAnnotationsFromBlock", blockClientId );
-
 	const annotationsInBlock = select( "core/annotations" )
 		.__experimentalGetAnnotations()
 		.filter( annotation => annotation.blockClientId === blockClientId && annotation.source === ANNOTATION_SOURCE );
