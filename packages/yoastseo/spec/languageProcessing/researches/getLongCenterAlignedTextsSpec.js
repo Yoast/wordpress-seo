@@ -6,7 +6,7 @@ describe( "a test for getting elements of too long center aligned text", functio
 		const mockPaper = new Paper( "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters." +
 			"</p><p class=\"has-text-align-center\">This is a short text.</p>" );
 		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [
-			{ text: "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>", elementType: "paragraph" },
+			{ text: "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters.</p>", elementType: "paragraph" },
 		] );
 	} );
 	it( "returns one object for each too long paragraph", function() {
@@ -14,11 +14,11 @@ describe( "a test for getting elements of too long center aligned text", functio
 			"</p><p class=\"has-text-align-center\">This is another paragraph with a bit more than fifty characters.</p>" );
 		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [
 			{
-				text: "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>",
+				text: "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters.</p>",
 				elementType: "paragraph",
 			},
 			{
-				text: "<p class=\"has-text-align-center\">This is another paragraph with a bit more than fifty characters.</p>",
+				text: "<p class='has-text-align-center'>This is another paragraph with a bit more than fifty characters.</p>",
 				elementType: "paragraph",
 			},
 		] );
@@ -27,7 +27,7 @@ describe( "a test for getting elements of too long center aligned text", functio
 		const mockPaper = new Paper( "<h2 class=\"has-text-align-center\">This is a heading with a bit more than fifty characters." +
 			"</h2><h2 class=\"has-text-align-center\">This is a short heading.</h2>" );
 		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [
-			{ text: "<h2 class=\"has-text-align-center\">This is a heading with a bit more than fifty characters.</h2>", elementType: "heading" },
+			{ text: "<h2 class='has-text-align-center'>This is a heading with a bit more than fifty characters.</h2>", elementType: "heading" },
 		] );
 	} );
 	it( "returns one object for each too long heading", function() {
@@ -35,11 +35,11 @@ describe( "a test for getting elements of too long center aligned text", functio
 			"</h3><h4 class=\"has-text-align-center\">This is another heading with a bit more than fifty characters.</h4>" );
 		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [
 			{
-				text: "<h3 class=\"has-text-align-center\">This is a heading with a bit more than fifty characters.</h3>",
+				text: "<h3 class='has-text-align-center'>This is a heading with a bit more than fifty characters.</h3>",
 				elementType: "heading",
 			},
 			{
-				text: "<h4 class=\"has-text-align-center\">This is another heading with a bit more than fifty characters.</h4>",
+				text: "<h4 class='has-text-align-center'>This is another heading with a bit more than fifty characters.</h4>",
 				elementType: "heading",
 			},
 		] );
@@ -48,8 +48,8 @@ describe( "a test for getting elements of too long center aligned text", functio
 		const mockPaper = new Paper( "<h5 class=\"has-text-align-center\">This is a heading with a bit more than fifty characters." +
 			"</h5><p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>" );
 		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [
-			{ text: "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>", elementType: "paragraph" },
-			{ text: "<h5 class=\"has-text-align-center\">This is a heading with a bit more than fifty characters.</h5>", elementType: "heading" },
+			{ text: "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters.</p>", elementType: "paragraph" },
+			{ text: "<h5 class='has-text-align-center'>This is a heading with a bit more than fifty characters.</h5>", elementType: "heading" },
 		] );
 	} );
 	it( "also detects the center-aligned elements if the class name is in single quotes", function() {
