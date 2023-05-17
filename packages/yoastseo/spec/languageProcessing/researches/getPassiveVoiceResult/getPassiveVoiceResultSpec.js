@@ -44,4 +44,10 @@ describe( "detecting passive voice in sentences", function() {
 		const researcher = new HungarianResearcher( paper );
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 1 );
 	} );
+
+	it( "ignores passive voice inside an element we want to exclude from the analysis", function() {
+		const paper = new Paper( "<blockquote>Every cat should be worshipped</blockquote>" );
+		const researcher = new EnglishResearcher( paper );
+		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 0 );
+	} );
 } );

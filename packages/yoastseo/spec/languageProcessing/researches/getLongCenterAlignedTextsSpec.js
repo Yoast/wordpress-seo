@@ -76,6 +76,10 @@ describe( "a test for getting elements of too long center aligned text", functio
 		const mockPaper = new Paper( "<p>Lorem ipsum</p><h3>heading</h3>" );
 		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [] );
 	} );
+	it( "returns an empty array if a long center aligned text is found inside a blockquote", function() {
+		const mockPaper = new Paper( "<blockquote><p class=\"has-text-align-center\">Lorem ipsum</p></blockquote>" );
+		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [] );
+	} );
 	it( "returns an empty array if an element with short center aligned text is found", function() {
 		const mockPaper = new Paper( "<p class=\"has-text-align-center\">Lorem ipsum</p><h4 class=\"has-text-align-center\">Lorem ipsum</h4>" );
 		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [] );

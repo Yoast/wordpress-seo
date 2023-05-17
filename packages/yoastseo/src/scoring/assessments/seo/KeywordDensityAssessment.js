@@ -72,8 +72,7 @@ class KeywordDensityAssessment extends Assessment {
 
 
 	/**
-	 * Determines correct boundaries depending on the availability
-	 * of morphological forms.
+	 * Determines correct boundaries depending on the availability of morphological forms.
 	 *
 	 * @param {string} text The paper text.
 	 * @param {number} keyphraseLength The length of the keyphrase in words.

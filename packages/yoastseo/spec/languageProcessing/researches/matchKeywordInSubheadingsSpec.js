@@ -39,6 +39,11 @@ describe( "Matching keyphrase in subheadings", () => {
 		const result = matchKeywordInSubheadings( paper, new Researcher( paper ) );
 		expect( result.count ).toBe( 0 );
 	} );
+
+	it( "does not count keyphrase instances inside an element we want to exclude from the analysis", () => {
+		const paper = new Paper( "<h2>Hello<code>code</code></h2>", { keyword: "code" } );
+		expect( matchKeywordInSubheadings( paper, new Researcher( paper ) ).matches ).toBe( 0 );
+	} );
 } );
 
 /**
