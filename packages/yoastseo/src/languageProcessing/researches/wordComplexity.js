@@ -80,8 +80,8 @@ const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
  */
 export default function wordComplexity( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
-	paper._text = removeHtmlBlocks( paper.getText() );
-	const text = paper.getText();
+	let text = paper.getText();
+	text = removeHtmlBlocks( text );
 	const sentences = getSentences( text, memoizedTokenizer );
 
 	// Find the complex words in each sentence.

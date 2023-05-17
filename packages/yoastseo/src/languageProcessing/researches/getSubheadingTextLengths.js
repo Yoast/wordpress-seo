@@ -13,8 +13,9 @@ import removeHtmlBlocks from "../helpers/html/htmlParser";
  * @returns {Object} The object containing the array of found subheadings and the length of the text before the first subheading.
  */
 export default function( paper, researcher ) {
-	paper._text = removeHtmlBlocks( paper.getText() );
-	const text = excludeTableOfContentsTag( paper.getText() );
+	let text = paper.getText();
+	text = removeHtmlBlocks( text );
+	text = excludeTableOfContentsTag( text );
 	const matches = getSubheadingTexts( text );
 
 	// An optional custom helper to count length to use instead of countWords.

@@ -27,7 +27,6 @@ const paragraphTagsRegex = new RegExp( "^(<p>|</p>)$" );
  * @returns {Array} Sentences found in the text.
  */
 export default function( text, memoizedTokenizer = defaultSentenceTokenizer ) {
-	text = removeHTMLBlocks( text );
 	// We don't remove the other HTML tags here since removing them might lead to incorrect results when running the sentence tokenizer.
 	// Remove Table of Contents.
 	text = excludeTableOfContentsTag( text );
