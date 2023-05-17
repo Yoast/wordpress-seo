@@ -716,6 +716,8 @@ class WPSEO_Meta_Columns {
 		if ( $meta ) {
 			return $this->score_icon_helper->for_seo( $meta->indexable, '', __( 'Post is set to noindex.', 'wordpress-seo' ) );
 		}
+		// No score has been saved yet, default to 0 (no score).
+		return $this->score_icon_helper->for_seo( 0 );
 	}
 
 	/**
@@ -730,6 +732,8 @@ class WPSEO_Meta_Columns {
 		if ( $meta ) {
 			return $this->score_icon_helper->for_readability( $meta->indexable->readability_score );
 		}
+		// No score has been saved yet, default to 0 (no score).
+		return $this->score_icon_helper->for_readability( 0 );
 	}
 
 	/**
