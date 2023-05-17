@@ -7,7 +7,6 @@ import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRang
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
-import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 /**
  * Represents the assessment that will look if the text has too long paragraphs.
@@ -175,7 +174,6 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	 * @returns {Array} An array with marked paragraphs.
 	 */
 	getMarks( paper, researcher ) {
-		paper._text = removeHtmlBlocks( paper.getText() );
 		const paragraphsLength = researcher.getResearch( "getParagraphLength" );
 		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength, this.getConfig( researcher ) );
 		return map( tooLongParagraphs, function( paragraph ) {
@@ -197,7 +195,6 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	 * @returns {object} The assessment result.
 	 */
 	getResult( paper, researcher ) {
-		paper._text = removeHtmlBlocks( paper.getText() );
 		let paragraphsLength = researcher.getResearch( "getParagraphLength" );
 		const countTextInCharacters = researcher.getConfig( "countCharacters" );
 		if ( countTextInCharacters ) {

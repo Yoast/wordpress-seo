@@ -2,6 +2,7 @@ import getSubheadingTexts from "../helpers/html/getSubheadingTexts";
 import excludeTableOfContentsTag from "../helpers/sanitize/excludeTableOfContentsTag";
 import countWords from "../helpers/word/countWords";
 import { forEach } from "lodash-es";
+import removeHtmlBlocks from "../helpers/html/htmlParser";
 
 /**
  * Gets the subheadings from the text and returns the length of these subheading in an array.
@@ -12,6 +13,7 @@ import { forEach } from "lodash-es";
  * @returns {Object} The object containing the array of found subheadings and the length of the text before the first subheading.
  */
 export default function( paper, researcher ) {
+	paper._text = removeHtmlBlocks( paper.getText() );
 	const text = excludeTableOfContentsTag( paper.getText() );
 	const matches = getSubheadingTexts( text );
 

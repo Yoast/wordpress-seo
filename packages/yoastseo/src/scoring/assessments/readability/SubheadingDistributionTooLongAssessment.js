@@ -74,7 +74,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	}
 
 	/**
-	 * Gets the text length from the paper.
+	 * Gets the text length from the paper. Remove unwanted element first before calculating.
 	 *
 	 * @param { Paper } paper The Paper object to analyse.
 	 * @param { Researcher } researcher The researcher to use.
@@ -83,7 +83,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 	getTextLength( paper, researcher ) {
 		// Give specific feedback for cases where the post starts with a long text without subheadings.
 		const customCountLength = researcher.getHelper( "customCountLength" );
-		const text = paper.getText();
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
 
 		return customCountLength ? customCountLength( text ) : getWords( text ).length;
 	}
@@ -97,7 +98,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher ) {
-		paper._text = removeHtmlBlocks( paper.getText() );
 		this._subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
 		if ( researcher.getConfig( "subheadingsTooLong" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
@@ -172,7 +172,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 			if ( researcher.getConfig( "subheadingsTooLong" ) ) {
 				this._config = this.getLanguageSpecificConfig( researcher );
 			}
-			paper._text = removeHtmlBlocks( paper.getText() );
 
 			const textLength = this.getTextLength( paper, researcher );
 

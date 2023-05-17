@@ -146,7 +146,6 @@ export default class TransitionWordsAssessment extends Assessment {
 	 * @returns {object} The Assessment result.
 	 */
 	getResult( paper, researcher ) {
-		paper._text = removeHtmlBlocks( paper.getText() );
 		const transitionWordSentences = researcher.getResearch( "findTransitionWords" );
 		const transitionWordResult = this.calculateTransitionWordResult( transitionWordSentences );
 		const assessmentResult = new AssessmentResult();
@@ -167,7 +166,6 @@ export default class TransitionWordsAssessment extends Assessment {
 	 * @returns {Array<Mark>} A list of marks that should be applied.
 	 */
 	getMarks( paper, researcher ) {
-		paper._text = removeHtmlBlocks( paper.getText() );
 		const transitionWordSentences = researcher.getResearch( "findTransitionWords" );
 
 		return map( transitionWordSentences.sentenceResults, function( sentenceResult ) {

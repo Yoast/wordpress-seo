@@ -5,6 +5,7 @@ import sanitizeLineBreakTag from "../helpers/sanitize/sanitizeLineBreakTag";
 import countWords from "../helpers/word/countWords.js";
 import matchParagraphs from "../helpers/html/matchParagraphs.js";
 import { filter } from "lodash-es";
+import removeHtmlBlocks from "../helpers/html/htmlParser";
 
 /**
  * Gets all paragraphs and their word counts or character counts from the text.
@@ -16,6 +17,7 @@ import { filter } from "lodash-es";
  */
 export default function( paper, researcher ) {
 	let text = paper.getText();
+	text = removeHtmlBlocks( text );
 
 	text = excludeTableOfContentsTag( text );
 	// Exclude the Estimated Reading time text from the research

@@ -1,7 +1,6 @@
 import { _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 import { Assessment, AssessmentResult, helpers, languageProcessing, values, markers } from "yoastseo";
-import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 const { createAnchorOpeningTag } = helpers;
 const {  stripBlockTagsAtStartEnd } = languageProcessing;
 
@@ -44,8 +43,6 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher ) {
-		paper._text = removeHtmlBlocks( paper.getText() );
-
 		const longCenterAlignedTexts = researcher.getResearch( "getLongCenterAlignedTexts" );
 		const numberOfLongCenterAlignedTexts = longCenterAlignedTexts.length;
 
@@ -74,7 +71,6 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @returns {object} Mark objects for all long center-aligned texts.
 	 */
 	getMarks( paper, researcher ) {
-		paper._text = removeHtmlBlocks( paper.getText() );
 		const longCenterAlignedTexts = researcher.getResearch( "getLongCenterAlignedTexts" );
 		// For example: [ {text: "abc", elementType: "heading"}, {text: "123", elementType: "paragraph"} ].
 		return longCenterAlignedTexts.map( longCenterAlignedText => {
