@@ -40,6 +40,24 @@ describe( "Matching keyphrase in subheadings", () => {
 		expect( result.count ).toBe( 0 );
 	} );
 
+	it( "should not match text within script tags", () => {
+		const paper = new Paper( "<h2 class=\"wp-block-heading\" id=\"h-what-is-a-console-log\">" +
+			"What is a <script>console.log( \"calico cat?\" )</script></h2>A beautiful dog.", { keyword: "calico cat" } );
+		const result = matchKeywordInSubheadings( paper, new Researcher( paper ) );
+		expect( result.count ).toBe( 1 );
+		expect( result.matches ).toBe( 0 );
+	} );
+
+	// This unit test is skipped for now because it returns an incorrect result. Result.matches should return 0, instead it returns 1.
+	// When this research is adapted to use HTML Parser 5, please unskip this test and make sure that it passes.
+	xit( "should not match text within heading attributes", () => {
+		const paper = new Paper( "<h2 class=\"wp-block-heading\" id=\"h-what-is-a-console-log-calico-cat\">" +
+			"What is a <script>console.log( \"corgi dog?\" )</script></h2>A beautiful dog.", { keyword: "calico cat" } );
+		const result = matchKeywordInSubheadings( paper, new Researcher( paper ) );
+		expect( result.count ).toBe( 1 );
+		expect( result.matches ).toBe( 0 );
+	} );
+
 	it( "does not count keyphrase instances inside an element we want to exclude from the analysis", () => {
 		const paper = new Paper( "<h2>Hello<code>code</code></h2>", { keyword: "code" } );
 		expect( matchKeywordInSubheadings( paper, new Researcher( paper ) ).matches ).toBe( 0 );
