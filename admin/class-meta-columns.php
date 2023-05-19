@@ -364,7 +364,7 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @return bool Whether the filter is considered valid.
 	 */
-	public static function is_valid_filter( $filter ) {
+	protected function is_valid_filter( $filter ) {
 		return ! empty( $filter ) && is_string( $filter );
 	}
 
