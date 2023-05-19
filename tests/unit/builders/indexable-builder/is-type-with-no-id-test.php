@@ -75,7 +75,7 @@ class Is_Type_With_No_Id_Test extends Abstract_Indexable_Builder_TestCase {
 	 *
 	 * @dataProvider is_type_with_no_id_provider
 	 *
-	 * @param string $type The type to test.
+	 * @param string $type     The type to test.
 	 * @param bool   $expected The expected result.
 	 * @return void
 	 */

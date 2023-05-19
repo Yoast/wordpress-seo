@@ -4,18 +4,11 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
 use Mockery;
-use stdClass;
 use wpdb;
-use Yoast\WP\Lib\Model;
-
-use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Cleanup_Integration_Test.
@@ -93,9 +86,6 @@ class Cleanup_Integration_Test extends TestCase {
 	 *
 	 * @covers ::run_cleanup
 	 * @covers ::get_cleanup_tasks
-	 * @covers ::clean_indexables_with_object_type_and_object_sub_type
-	 * @covers ::clean_indexables_with_post_status
-	 * @covers ::cleanup_orphaned_from_table
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
 	 */
@@ -132,9 +122,6 @@ class Cleanup_Integration_Test extends TestCase {
 	 *
 	 * @covers ::run_cleanup
 	 * @covers ::get_cleanup_tasks
-	 * @covers ::clean_indexables_with_object_type_and_object_sub_type
-	 * @covers ::clean_indexables_with_post_status
-	 * @covers ::cleanup_orphaned_from_table
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
 	 */
@@ -164,7 +151,6 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
-	 * @covers ::clean_indexables_with_object_type_and_object_sub_type
 	 * @covers ::start_cron_job
 	 */
 	public function test_run_cleanup_starts_cron_job() {
@@ -233,7 +219,6 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::run_cleanup_cron
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
-	 * @covers ::cleanup_orphaned_from_table
 	 * @covers ::start_cron_job
 	 */
 	public function test_run_cleanup_cron_last_task() {
@@ -249,11 +234,9 @@ class Cleanup_Integration_Test extends TestCase {
 
 		$this->indexable_repository->shouldReceive( 'cleanup_orphaned_from_table' )->once()->andReturn( 0 );
 
-
 		Monkey\Functions\expect( 'delete_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION );
-
 
 		Monkey\Functions\expect( 'wp_unschedule_hook' )
 			->once()

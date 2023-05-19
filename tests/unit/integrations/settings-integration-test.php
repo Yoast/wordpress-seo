@@ -83,7 +83,7 @@ class Settings_Integration_Test extends TestCase {
 	/**
 	 * Tests the addition of a submenu page.
 	 *
-	 * @covers ::add_submenu_page
+	 * @covers ::add_settings_saved_page
 	 */
 	public function test_add_submenu_page() {
 

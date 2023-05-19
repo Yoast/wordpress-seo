@@ -4,10 +4,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
 use Mockery;
 use wpdb;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\Lib\ORM;
 
 /**
  * Class SEO_Links_Repository_Test.
@@ -150,7 +150,6 @@ class SEO_Links_Repository_Test extends TestCase {
 	public function test_update_target_indexable_id() {
 		$link_id             = 1;
 		$target_indexable_id = 2;
-		$expected_result     = true;
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
@@ -160,7 +159,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where' )->with( 'id', $link_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'update_many' )->andReturn( 1 );
 
-		$this->instance->update_target_indexable_id( $link_id, $target_indexable_id );
+		$this->assertTrue( $this->instance->update_target_indexable_id( $link_id, $target_indexable_id ) );
 	}
 
 	/**
@@ -169,8 +168,7 @@ class SEO_Links_Repository_Test extends TestCase {
 	 * @covers ::delete_all_by_post_id
 	 */
 	public function test_delete_all_by_post_id() {
-		$post_id         = 1;
-		$expected_result = true;
+		$post_id = 1;
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
@@ -188,8 +186,7 @@ class SEO_Links_Repository_Test extends TestCase {
 	 * @covers ::delete_all_by_post_id_where_indexable_id_null
 	 */
 	public function test_delete_all_by_post_id_where_indexable_id_null() {
-		$post_id         = 1;
-		$expected_result = true;
+		$post_id = 1;
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
@@ -208,8 +205,7 @@ class SEO_Links_Repository_Test extends TestCase {
 	 * @covers ::delete_all_by_indexable_id
 	 */
 	public function test_delete_all_by_indexable_id() {
-		$indexable_id    = 1;
-		$expected_result = true;
+		$indexable_id = 1;
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
@@ -255,7 +251,7 @@ class SEO_Links_Repository_Test extends TestCase {
 	/**
 	 * Data provider for test_get_incoming_link_counts_for_indexable_ids method.
 	 *
-	 * @return array $indexable_counts, $expected_return.
+	 * @return array
 	 */
 	public function get_incoming_link_counts_for_indexable_ids_provider() {
 		return [
@@ -298,7 +294,7 @@ class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @dataProvider get_incoming_link_counts_for_indexable_ids_provider
 	 * @param array $indexable_counts The indexable counts.
-	 * @param array $expected The expected result.
+	 * @param array $expected         The expected result.
 	 */
 	public function test_get_incoming_link_counts_for_indexable_ids( $indexable_counts, $expected ) {
 		$indexable_ids = [ 1, 2 ];
@@ -313,7 +309,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'group_by' )->with( 'target_indexable_id' )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'find_array' )->andReturn( $indexable_counts );
 
-		$this->instance->get_incoming_link_counts_for_indexable_ids( $indexable_ids );
+		$this->assertSame( $expected, $this->instance->get_incoming_link_counts_for_indexable_ids( $indexable_ids ) );
 	}
 
 	/**
@@ -322,8 +318,7 @@ class SEO_Links_Repository_Test extends TestCase {
 	 * @covers ::delete_many_by_id
 	 */
 	public function test_delete_many_by_id() {
-		$ids             = [ 1, 2 ];
-		$expected_result = true;
+		$ids = [ 1, 2 ];
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
@@ -341,9 +336,7 @@ class SEO_Links_Repository_Test extends TestCase {
 	 * @covers ::insert_many
 	 */
 	public function test_insert_many() {
-
-		$links           = [ new SEO_Links(), new SEO_Links() ];
-		$expected_result = true;
+		$links = [ new SEO_Links(), new SEO_Links() ];
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )

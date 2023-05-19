@@ -275,8 +275,6 @@ class Wincher_Keyphrases_Action {
 	 * @return array
 	 */
 	protected function collect_all_keyphrases() {
-		global $wpdb;
-
 		// Collect primary keyphrases first.
 		$keyphrases = \array_column(
 			$this->indexable_repository

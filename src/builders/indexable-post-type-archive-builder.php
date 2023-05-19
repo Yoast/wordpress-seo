@@ -55,11 +55,11 @@ class Indexable_Post_Type_Archive_Builder {
 	/**
 	 * Indexable_Post_Type_Archive_Builder constructor.
 	 *
-	 * @param Options_Helper             $options The options helper.
-	 * @param Indexable_Builder_Versions $versions The latest version of each Indexable builder.
-	 * @param Post_Helper                $post_helper The post helper.
+	 * @param Options_Helper             $options          The options helper.
+	 * @param Indexable_Builder_Versions $versions         The latest version of each Indexable builder.
+	 * @param Post_Helper                $post_helper      The post helper.
 	 * @param Post_Type_Helper           $post_type_helper The post type helper.
-	 * @param wpdb                       $wpdb The WPDB instance.
+	 * @param wpdb                       $wpdb             The WPDB instance.
 	 */
 	public function __construct(
 		Options_Helper $options,
@@ -82,7 +82,7 @@ class Indexable_Post_Type_Archive_Builder {
 	 * @param Indexable $indexable The indexable to format.
 	 *
 	 * @return Indexable The extended indexable.
-	 * @throws \Yoast\WP\SEO\Exceptions\Indexable\Post_Type_Not_Built_Exception Throws exception if the post type is excluded.
+	 * @throws Post_Type_Not_Built_Exception Throws exception if the post type is excluded.
 	 */
 	public function build( $post_type, Indexable $indexable ) {
 		if ( ! $this->post_type_helper->is_post_type_archive_indexable( $post_type ) ) {

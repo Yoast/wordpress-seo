@@ -56,4 +56,3 @@ class AddInclusiveLanguageScore extends Migration {
 		return Model::get_table_name( 'Indexable' );
 	}
 }
-
