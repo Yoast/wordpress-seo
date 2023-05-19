@@ -121,7 +121,6 @@ class WPSEO_Tracking_Addon_Data implements WPSEO_Collection {
 			unset( $addon_settings[ $slug ]['woocommerce_local_pickup_setting'] );
 		}
 
-
 		return $addon_settings;
 	}
 }

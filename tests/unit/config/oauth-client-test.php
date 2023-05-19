@@ -315,7 +315,6 @@ class OAuth_Client_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-
 		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[

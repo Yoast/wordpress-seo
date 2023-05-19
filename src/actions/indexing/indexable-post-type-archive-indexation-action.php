@@ -53,9 +53,9 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	 * Indexation_Post_Type_Archive_Action constructor.
 	 *
 	 * @param Indexable_Repository       $repository The indexable repository.
-	 * @param Indexable_Builder          $builder The indexable builder.
-	 * @param Post_Type_Helper           $post_type The post type helper.
-	 * @param Indexable_Builder_Versions $versions The current versions of all indexable builders.
+	 * @param Indexable_Builder          $builder    The indexable builder.
+	 * @param Post_Type_Helper           $post_type  The post type helper.
+	 * @param Indexable_Builder_Versions $versions   The current versions of all indexable builders.
 	 */
 	public function __construct(
 		Indexable_Repository $repository,

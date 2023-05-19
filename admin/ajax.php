@@ -367,6 +367,7 @@ new WPSEO_Shortcode_Filter();
 new WPSEO_Taxonomy_Columns();
 
 /* ********************* DEPRECATED FUNCTIONS ********************* */
+
 /**
  * Retrieves the keyword for the keyword doubles.
  */

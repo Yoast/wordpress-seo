@@ -331,7 +331,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		}
 		unset( $old_option );
 
-
 		return $option_value;
 	}
 }

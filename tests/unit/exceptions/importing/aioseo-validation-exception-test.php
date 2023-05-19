@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group exceptions
  *
- * @coversDefaultClass \Yoast\WP\SEO\Exceptions\Indexable\Aioseo_Validation_Exception
+ * @coversDefaultClass \Yoast\WP\SEO\Exceptions\Importing\Aioseo_Validation_Exception
  */
 class Aioseo_Validation_Exception_Test extends TestCase {
 

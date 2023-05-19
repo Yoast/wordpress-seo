@@ -56,14 +56,13 @@ class Loader_Pass implements CompilerPassInterface {
 		try {
 			$reflect = new ReflectionClass( $class );
 			$path    = $reflect->getFileName();
-			if ( strpos( $path, 'src' . DIRECTORY_SEPARATOR . 'analytics' ) && ! strpos( $path, 'missing-indexables-collector' ) && ! strpos( $path, 'to-be-cleaned-indexables-collector' )
+			if ( \strpos( $path, 'src' . \DIRECTORY_SEPARATOR . 'analytics' ) && ! \strpos( $path, 'missing-indexables-collector' ) && ! \strpos( $path, 'to-be-cleaned-indexables-collector' )
 			) {
 				$definition->setPublic( false );
 			}
 		} catch ( \Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 			// Catch all for non-existing classes.
 		}
-
 
 		if ( \is_subclass_of( $class, Initializer_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_initializer', [ $class ] );

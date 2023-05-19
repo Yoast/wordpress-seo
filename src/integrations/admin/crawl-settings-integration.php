@@ -98,7 +98,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * Enqueue the workouts app.
 	 */
 	public function enqueue_assets() {
-		if ( ! is_network_admin() ) {
+		if ( ! \is_network_admin() ) {
 			return;
 		}
 
@@ -166,8 +166,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @param Yoast_Form $yform The yoast form object.
 	 */
 	public function add_crawl_settings_tab_content( $yform ) {
-		_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
-		$this->add_crawl_settings( $yform, false );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+		$this->add_crawl_settings( $yform );
 	}
 
 	/**
@@ -176,13 +176,13 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @param Yoast_Form $yform The yoast form object.
 	 */
 	public function add_crawl_settings_tab_content_network( $yform ) {
-		$this->add_crawl_settings( $yform, true );
+		$this->add_crawl_settings( $yform );
 	}
 
 	/**
 	 * Print the settings sections.
 	 *
-	 * @param Yoast_Form $yform      The Yoast form class.
+	 * @param Yoast_Form $yform The Yoast form class.
 	 *
 	 * @return void
 	 */
@@ -213,7 +213,6 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			'</a>'
 		);
 
-
 		$this->print_toggles( $this->permalink_cleanup_settings, $yform, \__( 'Permalink cleanup settings', 'wordpress-seo' ), [], $permalink_warning );
 
 		// Add the original option as hidden, so as not to lose any values if it's disabled and the form is saved.
@@ -223,11 +222,11 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	/**
 	 * Prints a list of toggles for an array of settings with labels.
 	 *
-	 * @param array      $settings    The settings being displayed.
-	 * @param Yoast_Form $yform       The Yoast form class.
-	 * @param string     $title       Optional title for the settings being displayed.
-	 * @param array      $toggles     Optional naming of the toggle buttons.
-	 * @param string     $warning     Optional warning to be displayed above the toggles.
+	 * @param array      $settings The settings being displayed.
+	 * @param Yoast_Form $yform    The Yoast form class.
+	 * @param string     $title    Optional title for the settings being displayed.
+	 * @param array      $toggles  Optional naming of the toggle buttons.
+	 * @param string     $warning  Optional warning to be displayed above the toggles.
 	 *
 	 * @return void
 	 */

@@ -130,7 +130,7 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @param array $step        The step block data.
 	 */
 	private function add_step_image( &$schema_step, $step ) {
-		if ( isset( $step['text'] ) && is_array( $step['text'] ) ) {
+		if ( isset( $step['text'] ) && \is_array( $step['text'] ) ) {
 			foreach ( $step['text'] as $line ) {
 				if ( \is_array( $line ) && isset( $line['type'] ) && $line['type'] === 'img' ) {
 					$schema_step['image'] = $this->get_image_schema( \esc_url( $line['props']['src'] ) );
