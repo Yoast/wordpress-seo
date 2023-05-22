@@ -4,7 +4,7 @@ import { AdjustmentsIcon, ArrowNarrowRightIcon, ColorSwatchIcon, DesktopComputer
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, ChildrenLimiter, ErrorBoundary, Paper, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
+import { Badge, Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
@@ -95,11 +95,14 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			>
 				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
 					<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
-					{ map( postTypes, ( { name, route, label } ) => (
+					{ map( postTypes, ( { name, route, label, needsReview } ) => (
 						<SidebarNavigation.SubmenuItem
 							key={ `link-post-type-${ name }` }
 							to={ `/post-type/${ route }` }
-							label={ label }
+							label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
+								{ label }
+								{ needsReview && <Badge variant="info">{ __( "Review", "wordpress-seo" ) }</Badge> }
+							</span> }
 							idSuffix={ idSuffix }
 						/>
 					) ) }
@@ -115,7 +118,10 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 						<SidebarNavigation.SubmenuItem
 							key={ `link-taxonomy-${ taxonomy.name }` }
 							to={ `/taxonomy/${ taxonomy.route }` }
-							label={ taxonomy.label }
+							label={ 	<span className="yst-inline-flex yst-items-center yst-gap-1.5">
+								{ taxonomy.label }
+								{ taxonomy.needsReview && <Badge variant="info">{ __( "Review", "wordpress-seo" ) }</Badge> }
+							</span> }
 							idSuffix={ idSuffix }
 						/>
 					) ) }
