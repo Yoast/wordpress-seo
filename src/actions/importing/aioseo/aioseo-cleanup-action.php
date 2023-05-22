@@ -109,7 +109,6 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 		$aioseo_table_truncate_done = $this->wpdb->query( $this->truncate_query() );
 		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
-
 		if ( $meta_data === false && $aioseo_table_truncate_done === false ) {
 			return false;
 		}

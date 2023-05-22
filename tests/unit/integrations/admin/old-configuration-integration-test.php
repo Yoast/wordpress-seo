@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Integrations\Admin\Old_Configuration_Integration;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Old_Configuration_Integration

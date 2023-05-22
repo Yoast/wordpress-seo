@@ -4,16 +4,15 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast_Notification_Center;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
+use Yoast\WP\SEO\Helpers\Attachment_Cleanup_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
-use Yoast\WP\SEO\Helpers\Attachment_Cleanup_Helper;
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Attachment_Watcher;
-
+use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * Class Indexable_Attachment_Watcher_Test.
@@ -95,7 +94,7 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	/**
 	 * Data provider for test_check_option.
 	 *
-	 * @return array $old_value,$new_value, $delete_transient_times, $set_reason_times, $attachment_cleanup_times, wp_next_scheduled, $schedule_event_times.
+	 * @return array
 	 */
 	public function check_option_provider() {
 		return [
@@ -163,7 +162,7 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 				'wp_next_scheduled'        => null,
 				'schedule_event_times'     => 0,
 			],
-			'Old and new values have disable-attachment key, old false, new true' => [
+			'Old and new values have disable-attachment key, old false, new true, next_scheduled: true' => [
 				'old_value'                => [ 'disable-attachment' => false ],
 				'new_value'                => [ 'disable-attachment' => true ],
 				'delete_transient_times'   => 1,
@@ -172,7 +171,7 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 				'wp_next_scheduled'        => true,
 				'schedule_event_times'     => 0,
 			],
-			'Old and new values have disable-attachment key, old false, new true' => [
+			'Old and new values have disable-attachment key, old false, new true, next_scheduled: false' => [
 				'old_value'                => [ 'disable-attachment' => false ],
 				'new_value'                => [ 'disable-attachment' => true ],
 				'delete_transient_times'   => 1,
@@ -230,7 +229,7 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 			->andReturn( $wp_next_scheduled );
 
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
-			->with( ( time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK )
+			->with( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK )
 			->times( $schedule_event_times );
 
 		$this->instance->check_option( $old_value, $new_value );

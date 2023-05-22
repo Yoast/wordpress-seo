@@ -41,4 +41,3 @@ class Replace_Vars_Object_Test extends TestCase {
 		$this->assertEquals( 'Example term', $this->instance->generate_source() );
 	}
 }
-

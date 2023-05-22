@@ -27,6 +27,7 @@ phpcs.xml
 phpunit.xml
 phpunit-integration.xml
 .phpunit.result.cache
+build/
 
 ############
 ## OSes

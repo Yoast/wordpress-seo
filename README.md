@@ -4,9 +4,10 @@
 [![Lint](https://github.com/Yoast/wordpress-seo/actions/workflows/lint.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/lint.yml)
 [![LintJS](https://github.com/Yoast/wordpress-seo/actions/workflows/jslint.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/jslint.yml)
 [![TestJS](https://github.com/Yoast/wordpress-seo/actions/workflows/jstest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/jstest.yml)
-[![Unit Tests](https://github.com/Yoast/wordpress-seo/actions/workflows/unittest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/unittest.yml)
-[![Integration Tests](https://github.com/Yoast/wordpress-seo/actions/workflows/integrationtest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/integrationtest.yml)
+[![Test](https://github.com/Yoast/wordpress-seo/actions/workflows/test.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/test.yml)
 [![Deployment](https://github.com/Yoast/wordpress-seo/actions/workflows/deploy.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/deploy.yml)
+[![Coverage Status](https://coveralls.io/repos/github/Yoast/wordpress-seo/badge.svg?branch=trunk)](https://coveralls.io/github/Yoast/wordpress-seo?branch=trunk)
+
 [![Stable Version](https://poser.pugx.org/yoast/wordpress-seo/v/stable.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 [![License](https://poser.pugx.org/yoast/wordpress-seo/license.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 

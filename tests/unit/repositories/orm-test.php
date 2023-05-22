@@ -43,9 +43,7 @@ class Orm_Test extends TestCase {
 		$this->expectException( InvalidArgumentException::class );
 
 		// Act.
-		$result = $this->instance->insert_many( $models );
-
-		// Assert.
+		$this->instance->insert_many( $models );
 	}
 
 	/**
@@ -85,8 +83,6 @@ class Orm_Test extends TestCase {
 		$this->expectException( InvalidArgumentException::class );
 
 		// Act.
-		$result = $this->instance->insert_many( $models );
-
-		// Assert.
+		$this->instance->insert_many( $models );
 	}
 }

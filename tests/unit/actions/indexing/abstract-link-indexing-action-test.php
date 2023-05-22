@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group actions
  * @group indexing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Abstract_Link_Indexing_Action
  */
 class Abstract_Link_Indexing_Action_Test extends TestCase {
 

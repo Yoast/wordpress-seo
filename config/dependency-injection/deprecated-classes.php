@@ -71,5 +71,5 @@ if ( ! function_exists( '_deprecated_file' ) ) {
 	function _deprecated_file( $file, $version, $replacement = '', $message = '' ) {}
 }
 if ( ! function_exists( '_deprecated_function' ) ) {
-	function _deprecated_function( $function, $version, $replacement = '' ) {}
+	function _deprecated_function( $function_name, $version, $replacement = '' ) {}
 }

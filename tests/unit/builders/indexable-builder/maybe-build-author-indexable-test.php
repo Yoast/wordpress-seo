@@ -57,7 +57,6 @@ class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder_TestC
 		$author_indexable->object_type = 'user';
 		$author_indexable->object_id   = $author_id;
 
-
 		$author_defaults = [
 			'object_type' => 'user',
 			'object_id'   => $author_id,
@@ -99,12 +98,6 @@ class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder_TestC
 		$author_indexable              = Mockery::mock( Indexable_Mock::class );
 		$author_indexable->object_type = 'user';
 		$author_indexable->object_id   = $author_id;
-
-
-		$author_defaults = [
-			'object_type' => 'user',
-			'object_id'   => $author_id,
-		];
 
 		$this->indexable_repository
 			->expects( 'find_by_id_and_type' )

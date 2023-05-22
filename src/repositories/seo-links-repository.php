@@ -152,6 +152,10 @@ class SEO_Links_Repository {
 	 * @return array An array of associative arrays, each containing a indexable id and incoming property.
 	 */
 	public function get_incoming_link_counts_for_indexable_ids( $indexable_ids ) {
+		if ( empty( $indexable_ids ) ) {
+			return [];
+		}
+
 		// This query only returns ID's with an incoming count > 0. We need to restore any ID's with 0 incoming links later.
 		$indexable_counts = $this->query()
 			->select_expr( 'COUNT( id )', 'incoming' )
