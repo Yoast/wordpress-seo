@@ -519,7 +519,14 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-deny_wp_json_crawling",
 			fieldLabel: __( "Remove WP-JSON API", "wordpress-seo" ),
-			keywords: [],
+			keywords: [ 'robots' ],
+		},
+		deny_adsbot_crawling: {
+			route: "/crawl-optimization",
+			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
+			fieldId: "input-wpseo-deny_adsbot_crawling",
+			fieldLabel: __( "Prevent Google AdsBot from crawling", "wordpress-seo" ),
+			keywords: [ 'robots' ],
 		},
 		search_cleanup: {
 			route: "/crawl-optimization",
@@ -561,7 +568,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-deny_search_crawling",
 			fieldLabel: __( "Prevent crawling of internal site search URLs", "wordpress-seo" ),
-			keywords: [],
+			keywords: [ 'robots' ],
 		},
 		clean_campaign_tracking_urls: {
 			route: "/crawl-optimization",
