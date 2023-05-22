@@ -153,6 +153,27 @@ class Robots_Txt_Presenter_Test extends TestCase {
 				. '# END YOAST BLOCK',
 		];
 
+		$user_agent_list   = new User_Agent_List();
+		$adsbot_user_agent = $user_agent_list->get_user_agent( 'AdsBot' );
+		$adsbot_user_agent->add_disallow_directive( '/' );
+
+		$no_disallows_for_default_agent_with_disallow_for_specific_agent = [
+			'robots_txt_user_agents' => $user_agent_list->get_user_agents(),
+			'sitemaps'               => [
+				'http://example.com/sitemap_index.html',
+			],
+			'expected'               => '# START YOAST BLOCK' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. 'User-agent: *' . \PHP_EOL
+				. 'Disallow:' . \PHP_EOL . \PHP_EOL
+				. 'User-agent: AdsBot' . \PHP_EOL
+				. 'Disallow: /' . \PHP_EOL
+				. \PHP_EOL
+				. 'Sitemap: http://example.com/sitemap_index.html' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. '# END YOAST BLOCK',
+		];
+
 		$user_agent_list = new User_Agent_List();
 		$user_agent      = $user_agent_list->get_user_agent( '*' );
 		$user_agent->add_disallow_directive( '/wp-json/' );
@@ -223,13 +244,14 @@ class Robots_Txt_Presenter_Test extends TestCase {
 		];
 
 		return [
-			'No disallow and allow directives registered' => $no_disallow_allow_directives_registered,
-			'Only disallow directives registered'         => $only_disallow_directives,
-			'Multiple disallow directives registered'     => $multiple_disallow_directives,
+			'No disallow and allow directives registered'     => $no_disallow_allow_directives_registered,
+			'Only disallow directives registered'             => $only_disallow_directives,
+			'Multiple disallow directives registered'         => $multiple_disallow_directives,
 			'One allow and one disallow directive for the same user agent' => $one_allow_and_one_disallow_directive_for_same_user_agent,
+			'No disallows for default agent, with disallow for specific agent' => $no_disallows_for_default_agent_with_disallow_for_specific_agent,
 			'Multiple allow and disallow directives for multiple user agents' => $multiple_allow_and_disallow_directives_for_multiple_user_agents,
-			'Single allow directive'                      => $single_allow_directive,
-			'Multiple sitemaps'                           => $multiple_sitemaps,
+			'Single allow directive'                          => $single_allow_directive,
+			'Multiple sitemaps'                               => $multiple_sitemaps,
 		];
 	}
 }
