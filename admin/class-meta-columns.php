@@ -423,7 +423,7 @@ class WPSEO_Meta_Columns {
 		 *
 		 * @internal
 		 *
-		 * @api array $active_filters The current applicable filters.
+		 * @param array $active_filters The current applicable filters.
 		 */
 		return \apply_filters( 'wpseo_change_applicable_filters', $active_filters );
 	}
@@ -448,8 +448,8 @@ class WPSEO_Meta_Columns {
 			 *
 			 * @internal
 			 *
-			 * @api array $order_by The current order by.
-			 * @api string $order_by_column The current order by column.
+			 * @param array  $order_by        The current order by.
+			 * @param string $order_by_column The current order by column.
 			 */
 			$order_by = \apply_filters( 'wpseo_change_order_by', $order_by, $order_by_column );
 
