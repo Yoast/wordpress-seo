@@ -136,6 +136,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'last_known_public_post_types'             => [],
 		'last_known_public_taxonomies'             => [],
 		'last_known_no_unindexed'                  => [],
+		'needs_review_post_types'                  => [],
+		'needs_review_taxonomies'                  => [],
 	];
 
 	/**
@@ -408,6 +410,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'indexables_page_reading_list':
 				case 'last_known_public_post_types':
 				case 'last_known_public_taxonomies':
+				case 'needs_review_post_types':
+				case 'needs_review_taxonomies':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
