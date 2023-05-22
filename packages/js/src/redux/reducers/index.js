@@ -1,4 +1,4 @@
-import { analysis } from "yoast-components";
+import analysis from "../reducers/contentAnalysis";
 import insights from "../../insights/redux/reducer";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";

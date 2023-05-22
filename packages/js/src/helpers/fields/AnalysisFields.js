@@ -5,46 +5,46 @@ export default class AnalysisFields {
 	/**
 	 * Getter for the keyphraseElement.
 	 *
-	 * @returns {HTMLElement} The keyphraseElement.
+	 * @returns {HTMLElement|null} The keyphraseElement.
 	 */
 	static get keyphraseElement() {
-		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_focuskw" : "hidden_wpseo_focuskw" );
+		return document.getElementById( window.wpseoScriptData?.isPost ? "yoast_wpseo_focuskw" : "hidden_wpseo_focuskw" );
 	}
 
 	/**
 	 * Getter for the isCornerstoneElement.
 	 *
-	 * @returns {HTMLElement} The isCornerstoneElement.
+	 * @returns {HTMLElement|null} The isCornerstoneElement.
 	 */
 	static get isCornerstoneElement() {
-		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_is_cornerstone" : "hidden_wpseo_is_cornerstone" );
+		return document.getElementById( window.wpseoScriptData?.isPost ? "yoast_wpseo_is_cornerstone" : "hidden_wpseo_is_cornerstone" );
 	}
 
 	/**
 	 * Getter for the SEO (overall) score hidden field.
 	 *
-	 * @returns {HTMLElement} The SEO score hidden field.
+	 * @returns {HTMLElement|null} The SEO score hidden field.
 	 */
 	static get seoScoreElement() {
-		return document.getElementById( "yoast_wpseo_linkdex" );
+		return document.getElementById( window.wpseoScriptData?.isPost ? "yoast_wpseo_linkdex" : "hidden_wpseo_linkdex" );
 	}
 
 	/**
 	 * Getter for the Readability (overall) score hidden field.
 	 *
-	 * @returns {HTMLElement} The Readability score hidden field.
+	 * @returns {HTMLElement|null} The Readability score hidden field.
 	 */
 	static get readabilityScoreElement() {
-		return document.getElementById( "yoast_wpseo_content_score" );
+		return document.getElementById( window.wpseoScriptData?.isPost ? "yoast_wpseo_content_score" : "hidden_wpseo_content_score" );
 	}
 
 	/**
 	 * Getter for the inclusive language (overall) score hidden field.
 	 *
-	 * @returns {HTMLElement} The inclusive language score hidden field.
+	 * @returns {HTMLElement|null} The inclusive language score hidden field.
 	 */
 	static get inclusiveLanguageScoreElement() {
-		return document.getElementById( "yoast_wpseo_inclusive_language_score" );
+		return document.getElementById( window.wpseoScriptData?.isPost ? "yoast_wpseo_inclusive_language_score" : "hidden_wpseo_inclusive_language_score" );
 	}
 
 	/**
@@ -55,7 +55,9 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set keyphrase( value ) {
-		AnalysisFields.keyphraseElement.value = value;
+		if ( AnalysisFields.keyphraseElement ) {
+			AnalysisFields.keyphraseElement.value = value;
+		}
 	}
 
 	/**
@@ -64,7 +66,7 @@ export default class AnalysisFields {
 	 * @returns {string} The keyphrase.
 	 */
 	static get keyphrase() {
-		return AnalysisFields.keyphraseElement.value;
+		return AnalysisFields.keyphraseElement?.value ?? "";
 	}
 
 	/**
@@ -75,7 +77,9 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set isCornerstone( value ) {
-		AnalysisFields.isCornerstoneElement.value = value ? "1" : "0";
+		if ( AnalysisFields.isCornerstoneElement ) {
+			AnalysisFields.isCornerstoneElement.value = value ? "1" : "0";
+		}
 	}
 
 	/**
@@ -84,7 +88,7 @@ export default class AnalysisFields {
 	 * @returns {boolean} The isCornerstone.
 	 */
 	static get isCornerstone() {
-		return AnalysisFields.isCornerstoneElement.value === "1";
+		return AnalysisFields.isCornerstoneElement?.value === "1";
 	}
 
 	/**
@@ -95,7 +99,9 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set seoScore( value ) {
-		AnalysisFields.seoScoreElement.value = value;
+		if ( AnalysisFields.seoScoreElement ) {
+			AnalysisFields.seoScoreElement.value = value;
+		}
 	}
 
 	/**
@@ -104,7 +110,7 @@ export default class AnalysisFields {
 	 * @returns {string} The SEO (overall) score.
 	 */
 	static get seoScore() {
-		return AnalysisFields.seoScoreElement.value;
+		return AnalysisFields.seoScoreElement?.value ?? "";
 	}
 
 	/**
@@ -115,7 +121,9 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set readabilityScore( value ) {
-		AnalysisFields.readabilityScoreElement.value = value;
+		if ( AnalysisFields.readabilityScoreElement ) {
+			AnalysisFields.readabilityScoreElement.value = value;
+		}
 	}
 
 	/**
@@ -124,7 +132,7 @@ export default class AnalysisFields {
 	 * @returns {string} The Readability (overall) score.
 	 */
 	static get readabilityScore() {
-		return AnalysisFields.readabilityScoreElement.value;
+		return AnalysisFields.readabilityScoreElement?.value ?? "";
 	}
 
 	/**
@@ -135,7 +143,9 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set inclusiveLanguageScore( value ) {
-		AnalysisFields.inclusiveLanguageScoreElement.value = value;
+		if ( AnalysisFields.inclusiveLanguageScoreElement ) {
+			AnalysisFields.inclusiveLanguageScoreElement.value = value;
+		}
 	}
 
 	/**
@@ -144,6 +154,6 @@ export default class AnalysisFields {
 	 * @returns {string} The inclusive language (overall) score.
 	 */
 	static get inclusiveLanguageScore() {
-		return AnalysisFields.inclusiveLanguageScoreElement.value;
+		return AnalysisFields.inclusiveLanguageScoreElement?.value ?? "";
 	}
 }
