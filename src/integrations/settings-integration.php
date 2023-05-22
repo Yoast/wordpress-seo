@@ -24,6 +24,7 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast_Notification_Center;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Class Settings_Integration.
@@ -165,6 +166,13 @@ class Settings_Integration implements Integration_Interface {
 	protected $user_helper;
 
 	/**
+	 * Holds the Options_Helper instance.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
@@ -178,6 +186,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @param Woocommerce_Helper        $woocommerce_helper  The Woocommerce_Helper.
 	 * @param Article_Helper            $article_helper      The Article_Helper.
 	 * @param User_Helper               $user_helper         The User_Helper.
+	 * @param Options_Helper            $options             The options helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -190,7 +199,8 @@ class Settings_Integration implements Integration_Interface {
 		Product_Helper $product_helper,
 		Woocommerce_Helper $woocommerce_helper,
 		Article_Helper $article_helper,
-		User_Helper $user_helper
+		User_Helper $user_helper,
+		Options_Helper $options
 	) {
 		$this->asset_manager       = $asset_manager;
 		$this->replace_vars        = $replace_vars;
@@ -203,6 +213,7 @@ class Settings_Integration implements Integration_Interface {
 		$this->woocommerce_helper  = $woocommerce_helper;
 		$this->article_helper      = $article_helper;
 		$this->user_helper         = $user_helper;
+		$this->options             = $options;
 	}
 
 	/**
@@ -695,7 +706,8 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The post types.
 	 */
 	protected function transform_post_types( $post_types ) {
-		$transformed = [];
+		$transformed  = [];
+		$needs_review = $this->options->get( 'needs_review_post_types', [] );
 		foreach ( $post_types as $post_type ) {
 			$transformed[ $post_type->name ] = [
 				'name'                 => $post_type->name,
@@ -705,6 +717,7 @@ class Settings_Integration implements Integration_Interface {
 				'hasArchive'           => $this->post_type_helper->has_archive( $post_type ),
 				'hasSchemaArticleType' => $this->article_helper->is_article_post_type( $post_type->name ),
 				'menuPosition'         => $post_type->menu_position,
+				'needsReview'          => \in_array( $post_type->name, $needs_review ),
 			];
 		}
 
@@ -746,7 +759,8 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The taxonomies.
 	 */
 	protected function transform_taxonomies( $taxonomies, $post_type_names ) {
-		$transformed = [];
+		$transformed  = [];
+		$needs_review = $this->options->get( 'needs_review_taxonomies', [] );
 		foreach ( $taxonomies as $taxonomy ) {
 			$transformed[ $taxonomy->name ] = [
 				'name'          => $taxonomy->name,
@@ -760,6 +774,7 @@ class Settings_Integration implements Integration_Interface {
 						return \in_array( $object_type, $post_type_names, true );
 					}
 				),
+				'needsReview'   => \in_array( $taxonomy->name, $needs_review ),
 			];
 		}
 
