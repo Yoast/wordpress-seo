@@ -132,7 +132,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
 			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_TAXONOMY_MADE_PUBLIC );
-
+			$this->options->set( 'needs_review_taxonomies', $newly_made_public_taxonomies );
 			$this->maybe_add_notification();
 		}
 
@@ -142,6 +142,13 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			$cleanup_not_yet_scheduled = ! \wp_next_scheduled( Cleanup_Integration::START_HOOK );
 			if ( $cleanup_not_yet_scheduled ) {
 				\wp_schedule_single_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+			}
+
+			// See if taxonomies that needs review were removed from public.
+			$needs_review     = $this->options->get( 'needs_review_taxonomies', [] );
+			$new_needs_review = \array_diff( $needs_review, $newly_made_non_public_taxonomies );
+			if ( count( $new_needs_review ) !== count( $needs_review ) ) {
+				$this->options->set( 'needs_review_taxonomies', $new_needs_review );
 			}
 		}
 	}
