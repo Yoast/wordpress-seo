@@ -57,7 +57,7 @@ $deprecated_classes = [
 	Schema_Blocks_Conditional::class            => '20.5',
 	Schema_Blocks::class                        => '20.5',
 	Icons::class                                => '20.5',
-	Old_Premium_Integration::class              => '20.7',
+	Old_Premium_Integration::class              => '20.10',
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {
