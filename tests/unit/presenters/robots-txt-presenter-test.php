@@ -48,6 +48,8 @@ class Robots_Txt_Presenter_Test extends TestCase {
 	 * @dataProvider present_dataprovider
 	 *
 	 * @covers ::present
+	 * @covers ::handle_user_agents
+	 * @covers ::handle_site_maps
 	 *
 	 * @param array  $robots_txt_user_agents Output for the registered user agents.
 	 * @param array  $sitemaps               Output for the registered sitemaps.
