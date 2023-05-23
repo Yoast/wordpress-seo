@@ -40,12 +40,12 @@ const SiteBasics = () => {
 			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
 			__( "Usage tracking allows us to track some data about your site to improve our plugin. %1$sLearn more about which data we track and why%2$s.", "wordpress-seo" ),
 			"<a>",
-			"</a>",
+			"</a>"
 		),
 		{
 			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
 			a: <a id="link-usage-tracking" href={ usageTrackingLink } target="_blank" rel="noopener" />,
-		},
+		}
 	), [] );
 
 	const siteInfoDescription = useMemo( () => createInterpolateElement(
@@ -55,23 +55,25 @@ const SiteBasics = () => {
 			"<em>",
 			"</em>",
 			"<a>",
-			"</a>",
+			"</a>"
 		),
 		{
 			em: <em />,
 			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
-			a: <a id="site-basics-replacement-variables" href={ replacementVariablesLink } target="_blank"
-			      rel="noopener" />,
-		},
+			a: <a
+				id="site-basics-replacement-variables" href={ replacementVariablesLink } target="_blank"
+				rel="noopener"
+			/>,
+		}
 	), [] );
 	const canNotManageOptionsAlertText = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
 			__( "We're sorry, you're not allowed to edit the %1$swebsite name%2$s and %1$stagline%2$s.", "wordpress-seo" ),
 			"<em>",
-			"</em>",
+			"</em>"
 		),
-		{ em: <em /> },
+		{ em: <em /> }
 	), [] );
 	const siteImageRecommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -83,11 +85,11 @@ const SiteBasics = () => {
 			__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 			"<strong>",
 			"</strong>",
-			"1200x675px",
+			"1200x675px"
 		),
 		{
 			strong: <strong className="yst-font-semibold" />,
-		},
+		}
 	), [] );
 	const taglineDescription = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -97,12 +99,12 @@ const SiteBasics = () => {
 			 */
 			__( "This field updates the %1$stagline in your WordPress settings%2$s.", "wordpress-seo" ),
 			"<a>",
-			"</a>",
+			"</a>"
 		),
 		{
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
 			a: <a href={ `${ generalSettingsUrl }#blogdescription` } target="_blank" rel="noopener noreferrer" />,
-		},
+		}
 	), [] );
 
 	const { values } = useFormikContext();
@@ -199,7 +201,7 @@ const SiteBasics = () => {
 								description={ sprintf(
 									/* translators: %1$s expands to "Yoast SEO" */
 									__( "%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it's wrong and you know what you're doing, you can change the setting here.", "wordpress-seo" ),
-									"Yoast SEO",
+									"Yoast SEO"
 								) }
 								className="yst-max-w-sm"
 							/>
@@ -213,7 +215,7 @@ const SiteBasics = () => {
 							description={ sprintf(
 								/* translators: %1$s expands to "Yoast SEO" */
 								__( "By default only editors and administrators can access the Advanced and Schema section of the %1$s sidebar or metabox. Disabling this allows access to all users.", "wordpress-seo" ),
-								"Yoast SEO",
+								"Yoast SEO"
 							) }
 							className="yst-max-w-sm"
 						/>
@@ -239,7 +241,7 @@ const SiteBasics = () => {
 							cardText={ sprintf(
 								/* translators: %1$s expands to Premium. */
 								__( "Unlock with %1$s", "wordpress-seo" ),
-								"Premium",
+								"Premium"
 							) }
 							{ ...premiumUpsellConfig }
 						>

@@ -90,7 +90,7 @@ postsSelectors.selectPostsWith = createSelector(
 		( state, additionalPost = {} ) => additionalPost,
 	],
 	( posts, additionalPost ) => {
-		let additionalPosts = {};
+		const additionalPosts = {};
 		additionalPost.forEach( post => {
 			if ( post?.id && ! posts[ post.id ] ) {
 				// Add the additional user.
@@ -99,7 +99,7 @@ postsSelectors.selectPostsWith = createSelector(
 		} );
 
 		return { ...additionalPosts, ...posts };
-	},
+	}
 );
 export const postsActions = {
 	...postsSlice.actions,
@@ -107,7 +107,7 @@ export const postsActions = {
 };
 
 export const postsControls = {
-	[ FETCH_POSTS_ACTION_NAME ]: async ( { payload } ) => apiFetch( {
+	[ FETCH_POSTS_ACTION_NAME ]: async( { payload } ) => apiFetch( {
 		path: `/wp/v2/posts?${ buildQueryString( payload ) }`,
 	} ),
 };

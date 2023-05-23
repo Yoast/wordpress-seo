@@ -13,6 +13,7 @@ import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParams
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
 import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
+import posts, { createInitialPostsState, postsActions, postsControls, postsSelectors } from "./posts";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import replacementVariables, {
 	createInitialReplacementVariablesState,
@@ -23,7 +24,6 @@ import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from
 import search, { createInitialSearchState, searchActions, searchSelectors } from "./search";
 import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors } from "./taxonomies";
 import users, { createInitialUsersState, usersActions, usersControls, usersSelectors } from "./users";
-import posts, {createInitialPostsState, postsActions, postsControls, postsSelectors} from "./posts";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 

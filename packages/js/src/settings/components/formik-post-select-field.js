@@ -66,7 +66,7 @@ const FormikPostSelectField = ( { name, id, className = "", ...props } ) => {
 			const response = await fetchPosts( { search, per_page: 20 } );
 
 			setQueriedPostIds( map( response.payload, "id" ) );
-			//addManyPosts( response );
+			// addManyPosts( response );
 			setStatus( ASYNC_ACTION_STATUS.success );
 		} catch ( error ) {
 			if ( error instanceof DOMException && error.name === "AbortError" ) {
@@ -132,7 +132,8 @@ const FormikPostSelectField = ( { name, id, className = "", ...props } ) => {
 									className="yst-relative yst-w-full yst-flex yst-items-center yst-py-4 yst-px-3 yst-gap-2 yst-no-underline yst-text-sm yst-text-left yst-bg-white yst-text-slate-700 group-hover:yst-text-white group-hover:yst-bg-primary-500 yst-border-t yst-border-slate-200"
 								>
 									<DocumentAddIcon
-										className="yst-w-5 yst-h-5 yst-text-slate-400 group-hover:yst-text-white" />
+										className="yst-w-5 yst-h-5 yst-text-slate-400 group-hover:yst-text-white"
+									/>
 									<span>{ __( "Add new post...", "wordpress-seo" ) }</span>
 								</a>
 							</li>

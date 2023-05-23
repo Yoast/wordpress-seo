@@ -44,7 +44,7 @@ const SiteRepresentation = () => {
 	const mastodonPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-mastodon-integration" );
 	const mastodonUrlLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-mastodon" );
 
-	const handleAddProfile = useCallback( async ( arrayHelpers ) => {
+	const handleAddProfile = useCallback( async( arrayHelpers ) => {
 		await arrayHelpers.push( "" );
 		document.getElementById( `input-wpseo_social-other_social_urls-${ otherSocialUrls.length }` )?.focus();
 	}, [ otherSocialUrls ] );
@@ -58,10 +58,10 @@ const SiteRepresentation = () => {
 					// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 					__( "This info is intended to appear in %1$sGoogle's Knowledge Graph%2$s.", "wordpress-seo" ),
 					"<a>",
-					"</a>",
+					"</a>"
 				),
 				googleKnowledgeGraphLink,
-				"link-google-knowledge-graph",
+				"link-google-knowledge-graph"
 			) }
 		>
 			<FormLayout>
@@ -73,10 +73,10 @@ const SiteRepresentation = () => {
 								// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 								__( "Choose whether your site represents an organization or a person. %1$sLearn more about the differences and choosing between Organization and Person%2$s.", "wordpress-seo" ),
 								"<a>",
-								"</a>",
+								"</a>"
 							),
 							organizationPersonLink,
-							"link-site-representation-organization-person",
+							"link-site-representation-organization-person"
 						) }
 					>
 						{ isLocalSeoActive && (
@@ -126,10 +126,10 @@ const SiteRepresentation = () => {
 												// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 												__( "An organization name and logo need to be set for structured data to work properly. Since you haven’t set these yet, we are using the site name and logo as default values. %1$sLearn more about the importance of structured data%2$s.", "wordpress-seo" ),
 												"<a>",
-												"</a>",
+												"</a>"
 											),
 											structuredDataLink,
-											"link-structured-data",
+											"link-structured-data"
 										) }
 									</Alert>
 								) }
@@ -159,7 +159,7 @@ const SiteRepresentation = () => {
 											__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 											"<strong>",
 											"</strong>",
-											"696x696px",
+											"696x696px"
 										), {
 											strong: <strong className="yst-font-semibold" />,
 										} ) }
@@ -195,7 +195,7 @@ const SiteRepresentation = () => {
 									cardText={ sprintf(
 										/* translators: %1$s expands to Premium. */
 										__( "Unlock with %1$s", "wordpress-seo" ),
-										"Premium",
+										"Premium"
 									) }
 									{ ...premiumUpsellConfig }
 								>
@@ -256,8 +256,10 @@ const SiteRepresentation = () => {
 												</Transition>
 											) ) }
 											{ /* eslint-disable-next-line react/jsx-no-bind */ }
-											<Button id="button-add-social-profile" variant="secondary"
-											        onClick={ () => handleAddProfile( arrayHelpers ) }>
+											<Button
+												id="button-add-social-profile" variant="secondary"
+												onClick={ () => handleAddProfile( arrayHelpers ) }
+											>
 												<PlusIcon className="yst--ml-1 yst-mr-1 yst-h-5 yst-w-5 yst-text-slate-400" />
 												{ __( "Add another profile", "wordpress-seo" ) }
 											</Button>
@@ -295,7 +297,7 @@ const SiteRepresentation = () => {
 												"</strong>",
 												"<a>",
 												"</a>",
-												personUser?.name,
+												personUser?.name
 											), {
 												strong: <strong className="yst-font-medium" />,
 												// eslint-disable-next-line jsx-a11y/anchor-has-content
@@ -311,7 +313,7 @@ const SiteRepresentation = () => {
 												__( "You have selected the user %1$s%3$s%2$s as the person this site represents. Their user profile information will now be used in search results. We're sorry, you're not allowed to edit this user's profile. Please contact your admin or %1$s%3$s%2$s to check and/or update the profile.", "wordpress-seo" ),
 												"<strong>",
 												"</strong>",
-												personUser?.name,
+												personUser?.name
 											), {
 												strong: <strong className="yst-font-medium" />,
 											} ) }
@@ -330,7 +332,7 @@ const SiteRepresentation = () => {
 											__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 											"<strong>",
 											"</strong>",
-											"696x696px",
+											"696x696px"
 										), {
 											strong: <strong className="yst-font-semibold" />,
 										} ) }
