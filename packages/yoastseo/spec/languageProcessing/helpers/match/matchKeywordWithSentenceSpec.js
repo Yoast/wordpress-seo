@@ -586,32 +586,6 @@ const japaneseTestCases = [
 			secondaryMatches: [],
 		},
 	},
-
-
-	// {
-	// 	testDescription: "One marking in sentence with two consecutive matches",
-	// },
-	// {
-	// 	testDescription: "Two markings that are not consecutive in sentence",
-	// },
-	// {
-	// 	testDescription: "One marking in a sentence that has a non-zero startOffset",
-	// },
-	// {
-	// 	testDescription: "One primary and one secondary marking in a sentence",
-	// },
-	// {
-	// 	testDescription: "One primary and two secondary markings in a sentence",
-	// },
-	// {
-	// 	testDescription: "One marking in a sentence in a language that does not have spaces between words",
-	// },
-	// {
-	// 	testDescription: "One marking in a sentence in a language that does not have spaces between words with two consecutive matches",
-	// },
-	// {
-	// 	testDescription: "Two markings that are not consecutive in a sentence in a language that does not have spaces between words",
-	// },
 ];
 // eslint-enable max-len
 
