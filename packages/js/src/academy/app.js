@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+import { isEmpty } from "lodash";
 import { LockOpenIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
@@ -6,6 +7,33 @@ import { addQueryArgs } from "@wordpress/url";
 import { Badge, Button, Card, Link, Title, useSvgAria } from "@yoast/ui-library";
 import { useSelectAcademy } from "./hooks";
 import { ArrowSmRightIcon } from "@heroicons/react/solid";
+
+/**
+ * @param {Object} [dependencies] The dependencies of a course specified as DEPENDENCY_NAME : value.
+ * @param {boolean} [isPremium] Whether the user has a premium subscription.
+ * @returns {boolean} Whether course dependencies are met.
+ */
+const areDependenciesMet = ( dependencies, isPremium ) => {
+	if ( isEmpty( dependencies ) || isPremium ) {
+		return true;
+	}
+
+	return Object.values( dependencies ).every( item => item === true );
+};
+
+/**
+ * @param {Object} [dependencies] The dependencies of a course specified as DEPENDENCY_NAME : value.
+ * @param {boolean} [isPremium] Whether the user has a premium subscription.
+ * @returns {boolean} Whether a premium badge should be shown.
+ */
+const shouldShowPremiumBadge = ( dependencies, isPremium ) => {
+	if ( isEmpty( dependencies ) ) {
+		return false;
+	}
+
+	return isPremium || dependencies.WOO || dependencies.LOCAL;
+};
+
 /**
  * @returns {JSX.Element} The app component.
  */
@@ -13,6 +41,8 @@ const App = () => {
 	const linkParams = useSelectAcademy( "selectLinkParams" );
 	const pluginUrl = useSelectAcademy( "selectPreference", [], "pluginUrl", "" );
 	const isPremium = useSelectAcademy( "selectPreference", [], "isPremium", "" );
+	const isWooActive = useSelectAcademy( "selectPreference", [], "isWooActive", "" );
+	const isLocalActive = useSelectAcademy( "selectPreference", [], "isLocalActive", "" );
 	const premiumUpsellConfig = useSelectAcademy( "selectUpsellSettingsAsProps" );
 	const svgAriaProps = useSvgAria();
 
@@ -23,7 +53,7 @@ const App = () => {
 			description: __( "In this free course, you'll get quick wins to make your site rank higher in Google, Bing, and Yahoo.", "wordpress-seo" ),
 			image: `${ pluginUrl }/images/academy/seo_for_beginners.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-seo-beginners-start", linkParams ),
-			isPremium: false,
+			dependencies: {},
 			hasTrial: true,
 		},
 		{
@@ -36,7 +66,7 @@ const App = () => {
 			),
 			image: `${ pluginUrl }/images/academy/seo_for_wp.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-seo-wordpress-block-editor-start", linkParams ),
-			isPremium: false,
+			dependencies: {},
 			hasTrial: true,
 		},
 		{
@@ -46,7 +76,7 @@ const App = () => {
 			image: `${ pluginUrl }/images/academy/all_around_seo.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-all-around-seo-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-all-around-seo-unlock", linkParams ),
-			isPremium: true,
+			dependencies: { PREMIUM: isPremium },
 			hasTrial: true,
 		},
 		{
@@ -55,7 +85,7 @@ const App = () => {
 			description: __( "Do you want to set up your own WordPress site? This course will teach you the ins and outs of creating and maintaining a WordPress website!", "wordpress-seo" ),
 			image: `${ pluginUrl }/images/academy/wp_for_beginners.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-wordpress-beginners-start", linkParams ),
-			isPremium: false,
+			dependencies: {},
 			hasTrial: true,
 		},
 		{
@@ -65,7 +95,7 @@ const App = () => {
 			image: `${ pluginUrl }/images/academy/copywriting.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-seo-copywriting-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-seo-copywriting-unlock", linkParams ),
-			isPremium: true,
+			dependencies: { PREMIUM: isPremium },
 			hasTrial: true,
 		},
 		{
@@ -74,7 +104,7 @@ const App = () => {
 			description: __( "Learn how to make your site stand out from the crowd by adding structured data!", "wordpress-seo" ),
 			image: `${ pluginUrl }/images/academy/structured_data_for_beginners.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-structured-data-beginners-start", linkParams ),
-			isPremium: false,
+			dependencies: {},
 			hasTrial: true,
 		},
 
@@ -85,7 +115,7 @@ const App = () => {
 			image: `${ pluginUrl }/images/academy/keyword_research.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-keyword-research-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-keyword-research-unlock", linkParams ),
-			isPremium: true,
+			dependencies: { PREMIUM: isPremium },
 			hasTrial: true,
 		},
 		{
@@ -94,7 +124,7 @@ const App = () => {
 			description: __( "Start creating block-tastic content with the new WordPress block editor! Learn all about the block editor and what you can do with it.", "wordpress-seo" ),
 			image: `${ pluginUrl }/images/academy/block_editor.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-block-editor-start", linkParams ),
-			isPremium: false,
+			dependencies: {},
 			hasTrial: true,
 		},
 		{
@@ -104,7 +134,7 @@ const App = () => {
 			image: `${ pluginUrl }/images/academy/site_structure.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-site-structure-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-site-structure-unlock", linkParams ),
-			isPremium: true,
+			dependencies: { PREMIUM: isPremium },
 			hasTrial: true,
 		},
 		{
@@ -114,7 +144,7 @@ const App = () => {
 			image: `${ pluginUrl }/images/academy/local.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-local-seo-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-local-seo-unlock", linkParams ),
-			isPremium: true,
+			dependencies: { LOCAL: isLocalActive },
 			hasTrial: true,
 		},
 		{
@@ -124,7 +154,7 @@ const App = () => {
 			image: `${ pluginUrl }/images/academy/ecommerce.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-ecommerce-seo-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-ecommerce-seo-unlock", linkParams ),
-			isPremium: true,
+			dependencies: { WOO: isWooActive },
 			hasTrial: true,
 		},
 		{
@@ -134,7 +164,7 @@ const App = () => {
 			image: `${ pluginUrl }/images/academy/understanding_structured_data.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-understanding-structured-data-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-understanding-structured-data-unlock", linkParams ),
-			isPremium: true,
+			dependencies: { PREMIUM: isPremium },
 			hasTrial: false,
 		},
 		{
@@ -144,7 +174,7 @@ const App = () => {
 			image: `${ pluginUrl }/images/academy/multilingual.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-international-seo-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-international-seo-unlock", linkParams ),
-			isPremium: true,
+			dependencies: { PREMIUM: isPremium },
 			hasTrial: true,
 		},
 		{
@@ -154,7 +184,7 @@ const App = () => {
 			image: `${ pluginUrl }/images/academy/crawlability.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-technical-seo-crawlability-indexability-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-technical-seo-crawlability-indexability-unlock", linkParams ),
-			isPremium: true,
+			dependencies: { PREMIUM: isPremium },
 			hasTrial: true,
 		},
 		{
@@ -164,7 +194,7 @@ const App = () => {
 			image: `${ pluginUrl }/images/academy/hosting_and_server.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-technical-seo-hosting-server-configuration-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-technical-seo-hosting-server-configuration-unlock", linkParams ),
-			isPremium: true,
+			dependencies: { PREMIUM: isPremium },
 			hasTrial: false,
 		},
 	] ), [ linkParams ] );
@@ -191,7 +221,11 @@ const App = () => {
 									"Yoast SEO"
 								) }
 								{ " " }
-								<Link href="https://yoa.st/academy-page-upsell/" target="_blank">
+								<Link
+									href={ addQueryArgs( "https://yoa.st/academy-page-upsell/", linkParams ) }
+									target="_blank"
+									{ ...premiumUpsellConfig }
+								>
 									{ sprintf(
 										// translators: %s for Yoast SEO Premium.
 										__( "Maximize your SEO game by purchasing %s, which grants you unlimited access to all courses.", "wordpress-seo" ),
@@ -222,66 +256,74 @@ const App = () => {
 										decoding="async"
 									/>
 
-									{ course.isPremium && isPremium && <div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
-										 <Badge size="small" variant="upsell">{ __( "Premium", "wordpress-seo" ) }</Badge>
-									</div> }
-
+									{
+										shouldShowPremiumBadge( course.dependencies, isPremium ) && <div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+											<Badge size="small" variant="upsell">{ __( "Premium", "wordpress-seo" ) }</Badge>
+										</div>
+									}
 								</Card.Header>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">{ course.title }</Title>
 
 									{ course.description }
 
-									{	( course.isPremium && ! isPremium ) && <Link
-										href={ course.startLink }
-										className="yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium yst-text-primary-500"
-										target="_blank"
-									>
-										{ __( "Start free trial lesson", "wordpress-seo" ) }
-										<span className="yst-sr-only">
-											{
-												__( "(Opens in a new browser tab)", "wordpress-seo" )
-											}
-										</span>
-										<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
-									</Link> }
+									{
+										! areDependenciesMet( course.dependencies, isPremium ) &&
+										<Link
+											href={ course.startLink }
+											className="yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium yst-text-primary-500"
+											target="_blank"
+										>
+											{ __( "Start free trial lesson", "wordpress-seo" ) }
+											<span className="yst-sr-only">
+												{
+													__( "(Opens in a new browser tab)", "wordpress-seo" )
+												}
+											</span>
+											<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
+										</Link> }
 								</Card.Content>
 								<Card.Footer>
 									<>
-										{ ( course.isPremium && ! isPremium ) && (
-											<Button
-												as="a"
-												id={ `button-get-course-${ course.id }` }
-												className="yst-gap-2 yst-w-full yst-px-2"
-												variant="upsell"
-												href={ course?.upsellLink }
-												target="_blank"
-												rel="noopener"
-												{ ...premiumUpsellConfig }
-											>
-												<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
-												{ sprintf(
-													/* translators: %1$s expands to Premium. */
-													__( "Unlock with %1$s", "wordpress-seo" ),
-													"Premium"
-												) }
-											</Button>
-
-										) }
-										{ ( ! course.isPremium || isPremium ) && (
-											<Button
-												as="a"
-												id={ `button-start-course-${ course.id }` }
-												className="yst-gap-2 yst-w-full yst-px-2 yst-leading-5"
-												variant="primary"
-												href={ course.startLink }
-												target="_blank"
-												rel="noopener"
-											>
-												{ __( "Start the course", "wordpress-seo" ) }
-												<ExternalLinkIcon className="yst--mr-1 yst-ml-1 yst-h-5 yst-w-5 yst-text-white" />
-											</Button>
-										) }
+										{
+											! areDependenciesMet( course.dependencies, isPremium ) &&
+											(
+												<Button
+													as="a"
+													id={ `button-get-course-${ course.id }` }
+													className="yst-gap-2 yst-w-full yst-px-2"
+													variant="upsell"
+													href={ course?.upsellLink }
+													target="_blank"
+													rel="noopener"
+													{ ...premiumUpsellConfig }
+												>
+													<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
+													{ sprintf(
+														/* translators: %1$s expands to Premium. */
+														__( "Unlock with %1$s", "wordpress-seo" ),
+														"Premium"
+													) }
+												</Button>
+											)
+										}
+										{
+											areDependenciesMet( course.dependencies, isPremium ) &&
+											(
+												<Button
+													as="a"
+													id={ `button-start-course-${ course.id }` }
+													className="yst-gap-2 yst-w-full yst-px-2 yst-leading-5"
+													variant="primary"
+													href={ course.startLink }
+													target="_blank"
+													rel="noopener"
+												>
+													{ __( "Start the course", "wordpress-seo" ) }
+													<ExternalLinkIcon className="yst--mr-1 yst-ml-1 yst-h-5 yst-w-5 yst-text-white" />
+												</Button>
+											)
+										}
 									</>
 								</Card.Footer>
 							</Card>

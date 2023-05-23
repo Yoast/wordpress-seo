@@ -123,7 +123,6 @@ class Indexable_To_Postmeta_Helper_Test extends TestCase {
 			->with( 'meta-robots-adv', 'noimageindex,noarchive,nosnippet', 123 )
 			->andReturn( true );
 
-
 		$this->instance->map_to_postmeta( $indexable );
 	}
 

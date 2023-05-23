@@ -11,10 +11,10 @@ use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\Lib\Migrations\Adapter;
+use Yoast\WP\SEO\Presenters\Robots_Txt_Presenter;
 use Yoast\WP\SEO\WordPress\Wrapper;
 use Yoast_Notification_Center;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
-use Yoast\WP\SEO\Presenters\Robots_Txt_Presenter;
 
 /**
  * Holds the dependency injection container.
@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Presenters\Robots_Txt_Presenter;
  * @phpcs:disable PEAR.Files.IncludingFile.UseRequire
  */
 // WordPress factory functions.
-$container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] );
+$container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] )->setPublic( true );
 
 // Legacy classes.
 $container->register( WPSEO_Replace_Vars::class, WPSEO_Replace_Vars::class )->setFactory( [ Wrapper::class, 'get_replace_vars' ] )->setPublic( true );

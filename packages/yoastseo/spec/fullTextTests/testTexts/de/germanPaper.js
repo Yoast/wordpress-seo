@@ -32,7 +32,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 4,
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The focus keyphrase was found 0 times. That's less than the recommended minimum of 3 times for a text of this length." +
+			"The keyphrase was found 0 times. That's less than the recommended minimum of 3 times for a text of this length." +
 			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
 	},
 	metaDescriptionKeyword: {

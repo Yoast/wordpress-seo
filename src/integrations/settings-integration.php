@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
-use Exception;
 use WP_Post_Type;
 use WP_Taxonomy;
+use WP_User;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Editor_Specific_Replace_Vars;
 use WPSEO_Admin_Recommended_Replace_Vars;
@@ -166,17 +166,17 @@ class Settings_Integration implements Integration_Interface {
 	/**
 	 * Constructs Settings_Integration.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager                The WPSEO_Admin_Asset_Manager.
-	 * @param WPSEO_Replace_Vars        $replace_vars                 The WPSEO_Replace_Vars.
-	 * @param Schema_Types              $schema_types                 The Schema_Types.
-	 * @param Current_Page_Helper       $current_page_helper          The Current_Page_Helper.
-	 * @param Post_Type_Helper          $post_type_helper             The Post_Type_Helper.
-	 * @param Language_Helper           $language_helper              The Language_Helper.
-	 * @param Taxonomy_Helper           $taxonomy_helper              The Taxonomy_Helper.
-	 * @param Product_Helper            $product_helper               The Product_Helper.
-	 * @param Woocommerce_Helper        $woocommerce_helper           The Woocommerce_Helper.
-	 * @param Article_Helper            $article_helper               The Article_Helper.
-	 * @param User_Helper               $user_helper                  The User_Helper.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
+	 * @param WPSEO_Replace_Vars        $replace_vars        The WPSEO_Replace_Vars.
+	 * @param Schema_Types              $schema_types        The Schema_Types.
+	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
+	 * @param Post_Type_Helper          $post_type_helper    The Post_Type_Helper.
+	 * @param Language_Helper           $language_helper     The Language_Helper.
+	 * @param Taxonomy_Helper           $taxonomy_helper     The Taxonomy_Helper.
+	 * @param Product_Helper            $product_helper      The Product_Helper.
+	 * @param Woocommerce_Helper        $woocommerce_helper  The Woocommerce_Helper.
+	 * @param Article_Helper            $article_helper      The Article_Helper.
+	 * @param User_Helper               $user_helper         The User_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -472,7 +472,7 @@ class Settings_Integration implements Integration_Interface {
 		if ( isset( $settings['wpseo_titles']['company_or_person_user_id'] ) ) {
 			$person['id'] = $settings['wpseo_titles']['company_or_person_user_id'];
 			$user         = \get_userdata( $person['id'] );
-			if ( $user instanceof \WP_User ) {
+			if ( $user instanceof WP_User ) {
 				$person['name'] = $user->get( 'display_name' );
 			}
 		}

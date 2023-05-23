@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Shortlinker;
-use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Migration_Error_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;

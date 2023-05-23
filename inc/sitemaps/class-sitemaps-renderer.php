@@ -232,7 +232,7 @@ class WPSEO_Sitemaps_Renderer {
 			$output .= "\t\t\t<image:loc>" . $this->encode_and_escape( $img['src'] ) . "</image:loc>\n";
 			$output .= "\t\t</image:image>\n";
 		}
-		unset( $img, $title, $alt );
+		unset( $img );
 
 		$output .= "\t</url>\n";
 

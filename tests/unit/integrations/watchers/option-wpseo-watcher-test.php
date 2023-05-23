@@ -68,7 +68,6 @@ class Option_Wpseo_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
-
 		$this->assertTrue( $this->instance->check_semrush_option_disabled( null, [ 'semrush_integration_active' => false ] ) );
 	}
 }

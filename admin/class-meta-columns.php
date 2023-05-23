@@ -418,7 +418,14 @@ class WPSEO_Meta_Columns {
 			}
 		}
 
-		return $active_filters;
+		/**
+		 * Adapt the active applicable filters on the posts overview.
+		 *
+		 * @internal
+		 *
+		 * @param array $active_filters The current applicable filters.
+		 */
+		return \apply_filters( 'wpseo_change_applicable_filters', $active_filters );
 	}
 
 	/**
@@ -431,8 +438,22 @@ class WPSEO_Meta_Columns {
 	public function column_sort_orderby( $vars ) {
 		$collected_filters = $this->collect_filters();
 
-		if ( isset( $vars['orderby'] ) ) {
-			$vars = array_merge( $vars, $this->filter_order_by( $vars['orderby'] ) );
+		$order_by_column = $vars['orderby'];
+		if ( isset( $order_by_column ) ) {
+			// Based on the selected column, create a meta query.
+			$order_by = $this->filter_order_by( $order_by_column );
+
+			/**
+			 * Adapt the order by part of the query on the posts overview.
+			 *
+			 * @internal
+			 *
+			 * @param array  $order_by        The current order by.
+			 * @param string $order_by_column The current order by column.
+			 */
+			$order_by = \apply_filters( 'wpseo_change_order_by', $order_by, $order_by_column );
+
+			$vars = array_merge( $vars, $order_by );
 		}
 
 		return $this->build_filter_query( $vars, $collected_filters );
