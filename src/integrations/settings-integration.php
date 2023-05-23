@@ -508,7 +508,7 @@ class Settings_Integration implements Integration_Interface {
 	/**
 	 * Adds policy data if it is present.
 	 *
-	 * @param array $policies The existing policy data.
+	 * @param array  $policies The existing policy data.
 	 * @param string $policy The policy id to check.
 	 * @param string $key The option key name.
 	 *
