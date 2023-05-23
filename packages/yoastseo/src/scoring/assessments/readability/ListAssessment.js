@@ -2,9 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
 import { Assessment, AssessmentResult, helpers } from "yoastseo";
-import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
-
-const { createAnchorOpeningTag } = helpers;
+const { createAnchorOpeningTag, removeHtmlBlocks } = helpers;
 
 /**
  * Represents the assessment that will look if the text has a list (only applicable for product pages).
