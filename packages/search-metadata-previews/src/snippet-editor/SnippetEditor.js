@@ -221,7 +221,8 @@ class SnippetEditor extends React.Component {
 			const data = this.mapDataToMeasurements( nextProps.data, nextProps.replacementVariables );
 			this.setState(
 				{
-					titleLengthProgress: getTitleProgress( data.title ),
+					// Here we use the filtered SEO title for the SEO title progress calculation.
+					titleLengthProgress: getTitleProgress( data.filteredSEOTitle ),
 					descriptionLengthProgress: getDescriptionProgress(
 						data.description,
 						nextProps.date,
@@ -466,10 +467,17 @@ class SnippetEditor extends React.Component {
 
 		const shortenedBaseUrl = baseUrl.replace( /^https?:\/\//i, "" );
 
+		// The regex of the variables we want to exclude from the title.
+		const excludedVars = new RegExp( "(%%sep%%|%%sitename%%)", "g" );
+		// The filtered title is the SEO title without separator and site title.
+		// This data will be used in calculating the SEO title width.
+		const filteredTitle = originalData.title.replaceAll( excludedVars, "" );
+
 		const mappedData = {
 			title: this.processReplacementVariables( originalData.title, replacementVariables ),
 			url: baseUrl + originalData.slug,
 			description: description,
+			filteredSEOTitle: this.processReplacementVariables( filteredTitle, replacementVariables ),
 		};
 
 		const context = {
@@ -480,7 +488,6 @@ class SnippetEditor extends React.Component {
 		if ( mapEditorDataToPreview ) {
 			return mapEditorDataToPreview( mappedData, context );
 		}
-
 
 		return mappedData;
 	}
