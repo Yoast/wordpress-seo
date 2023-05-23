@@ -52,7 +52,8 @@ export function getWincherTrackableKeyphrases( state ) {
 	const keyphrases = [ state.focusKeyword.trim(), ...tracked ];
 
 	if ( isPremium && premiumStore ) {
-		keyphrases.push( ...premiumStore.getKeywords().map( k => k.keyword.trim() ) );
+		// eslint-disable-next-line no-undefined
+		keyphrases.push( ...premiumStore.getKeywords().filter( k => k.keyword !== undefined ).map( k => k.keyword.trim() ) );
 	}
 
 	return uniq( keyphrases.filter( k => !! k ).map(
