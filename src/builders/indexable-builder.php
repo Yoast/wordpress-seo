@@ -257,7 +257,7 @@ class Indexable_Builder {
 	 *
 	 * @return Indexable The indexable.
 	 */
-	private function ensure_indexable( $indexable, $defaults = [] ) {
+	protected function ensure_indexable( $indexable, $defaults = [] ) {
 		if ( ! $indexable ) {
 			return $this->indexable_repository->query()->create( $defaults );
 		}
@@ -341,7 +341,7 @@ class Indexable_Builder {
 	 *
 	 * @return bool Whether the indexable type is one that is not supposed to have object ID for.
 	 */
-	private function is_type_with_no_id( $type ) {
+	protected function is_type_with_no_id( $type ) {
 		return \in_array( $type, [ 'home-page', 'date-archive', 'post-type-archive', 'system-page' ], true );
 	}
 
@@ -370,10 +370,6 @@ class Indexable_Builder {
 
 				case 'post':
 					$indexable = $this->post_builder->build( $indexable->object_id, $indexable );
-					if ( ! $indexable ) {
-						// Indexable for this Post was not built for a reason; e.g. if its post type is excluded.
-						return $indexable;
-					}
 
 					// Save indexable, to make sure it can be queried when building related objects like the author indexable and hierarchy.
 					$indexable = $this->save_indexable( $indexable, $indexable_before );

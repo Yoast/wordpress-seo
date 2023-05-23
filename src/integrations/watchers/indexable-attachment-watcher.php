@@ -119,8 +119,6 @@ class Indexable_Attachment_Watcher implements Integration_Interface {
 						\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 					}
 					return;
-				default:
-					return;
 			}
 		}
 	}

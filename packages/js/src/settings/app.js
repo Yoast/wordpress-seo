@@ -108,6 +108,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
 					{ map( taxonomies, taxonomy => (
 						<SidebarNavigation.SubmenuItem
+							key={ `link-taxonomy-${ taxonomy.name }` }
 							to={ `/taxonomy/${ taxonomy.route }` }
 							label={ taxonomy.label }
 							idSuffix={ idSuffix }

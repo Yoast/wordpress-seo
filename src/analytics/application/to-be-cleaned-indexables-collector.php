@@ -38,6 +38,7 @@ class To_Be_Cleaned_Indexables_Collector implements WPSEO_Collection {
 			'indexables_with_auto-draft_post_status'            => $this->indexable_cleanup_repository->count_indexables_with_post_status( 'auto-draft' ),
 			'indexables_for_non_publicly_viewable_post'         => $this->indexable_cleanup_repository->count_indexables_for_non_publicly_viewable_post(),
 			'indexables_for_non_publicly_viewable_taxonomies'   => $this->indexable_cleanup_repository->count_indexables_for_non_publicly_viewable_taxonomies(),
+			'indexables_for_non_publicly_viewable_post_type_archive_pages' => $this->indexable_cleanup_repository->count_indexables_for_non_publicly_post_type_archive_pages(),
 			'indexables_for_authors_archive_disabled'           => $this->indexable_cleanup_repository->count_indexables_for_authors_archive_disabled(),
 			'indexables_for_authors_without_archive'            => $this->indexable_cleanup_repository->count_indexables_for_authors_without_archive(),
 			'indexables_for_object_type_and_source_table_users' => $this->indexable_cleanup_repository->count_indexables_for_object_type_and_source_table( 'users', 'ID', 'user' ),

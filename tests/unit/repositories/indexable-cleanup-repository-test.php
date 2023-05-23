@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 use Brain\Monkey;
 use Mockery;
 use wpdb;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -75,16 +76,20 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 		$this->post_type      = Mockery::mock( Post_Type_Helper::class );
 		$this->author_archive = Mockery::mock( Author_Archive_Helper::class );
 
-		$this->instance = new Indexable_Cleanup_Repository(
-			$this->taxonomy,
-			$this->post_type,
-			$this->author_archive
-		);
+		$this->instance = Mockery::mock(
+			Indexable_Cleanup_Repository::class,
+			[
+				$this->taxonomy,
+				$this->post_type,
+				$this->author_archive,
+			]
+		)->makePartial();
 
 		global $wpdb;
 
-		$wpdb         = Mockery::mock( wpdb::class );
-		$wpdb->prefix = 'wp_';
+		$wpdb              = Mockery::mock( wpdb::class );
+		$wpdb->prefix      = 'wp_';
+		$wpdb->show_errors = false;
 
 		$this->wpdb = $wpdb;
 	}
@@ -265,6 +270,44 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the clean_indexables_for_non_publicly_viewable_taxonomies cleanup task.
+	 *
+	 * @covers ::clean_indexables_for_non_publicly_viewable_post_type_archive_pages
+	 * @return void
+	 */
+	public function test_clean_indexables_for_non_publicly_viewable_post_type_archives() {
+		$my_cpt                  = new \stdClass();
+		$my_cpt->name            = 'my_cpt';
+		$my_cpt->has_archive     = true;
+		$post                    = new \stdClass();
+		$post->name              = 'post';
+		$post->has_archive       = true;
+		$attachment              = new \stdClass();
+		$attachment->name        = 'attachment';
+		$attachment->has_archive = true;
+
+		$this->post_type->expects( 'get_indexable_post_archives' )->once()->andReturns( [ $my_cpt, $post, $attachment ] );
+		$this->wpdb->shouldReceive( 'prepare' )
+				->once()
+				->with(
+					'DELETE FROM wp_yoast_indexable
+				WHERE object_type = \'post-type-archive\'
+				AND object_sub_type IS NOT NULL
+				AND object_sub_type NOT IN ( %s, %s, %s )
+				LIMIT %d',
+					[ 'my_cpt', 'post', 'attachment', $this->limit ]
+				)
+				->andReturn( 'prepared_clean_query' );
+
+		$this->wpdb->expects( 'query' )
+				->once()
+				->with( 'prepared_clean_query' )
+				->andReturn( 50 );
+
+		$this->instance->clean_indexables_for_non_publicly_viewable_post_type_archive_pages( $this->limit );
+	}
+
+	/**
 	 * Sets up expectations for the clean_indexables_for_authors_archive_disabled cleanup task.
 	 *
 	 * @covers ::clean_indexables_for_authors_archive_disabled
@@ -428,6 +471,91 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 			->andReturn( $return_value );
 
 		$this->instance->clean_indexables_for_object_type_and_source_table( $source_table, $source_identifier, $object_type, $this->limit );
+	}
+
+	/**
+	 * Tests if the count query returns data when there are indexable archives.
+	 *
+	 * @covers ::count_indexables_for_non_publicly_post_type_archive_pages
+	 * @return void
+	 */
+	public function test_count_indexables_for_non_publicly_post_type_archive_pages() {
+		$my_cpt                  = new \stdClass();
+		$my_cpt->name            = 'my_cpt';
+		$my_cpt->has_archive     = true;
+		$post                    = new \stdClass();
+		$post->name              = 'post';
+		$post->has_archive       = true;
+		$attachment              = new \stdClass();
+		$attachment->name        = 'attachment';
+		$attachment->has_archive = true;
+
+		$this->post_type->expects( 'get_indexable_post_archives' )->once()->andReturns( [ $my_cpt, $post, $attachment ] );
+		$orm_object = Mockery::mock( ORM::class );
+
+		$orm_object
+			->expects()->where( 'object_type', 'post-type-archive' )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects()->where_not_equal( 'object_sub_type', 'null' )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects()->where_not_in( 'object_sub_type', [ 'my_cpt', 'post', 'attachment' ] )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects( 'count' )
+			->once()
+			->andReturn( 0 );
+
+		$this->instance
+			->expects( 'query' )
+			->andReturn( $orm_object );
+		$this->instance->count_indexables_for_non_publicly_post_type_archive_pages();
+	}
+
+	/**
+	 * Tests if the count query returns data when there are no indexable archives.
+	 *
+	 * @covers ::count_indexables_for_non_publicly_post_type_archive_pages
+	 * @return void
+	 */
+	public function test_count_indexables_for_non_publicly_post_type_archive_pages_no_archives() {
+		$my_cpt                  = new \stdClass();
+		$my_cpt->name            = 'my_cpt';
+		$my_cpt->has_archive     = true;
+		$post                    = new \stdClass();
+		$post->name              = 'post';
+		$post->has_archive       = true;
+		$attachment              = new \stdClass();
+		$attachment->name        = 'attachment';
+		$attachment->has_archive = true;
+
+		$this->post_type->expects( 'get_indexable_post_archives' )->once()->andReturns( [] );
+		$orm_object = Mockery::mock( ORM::class );
+
+		$orm_object
+			->expects()->where( 'object_type', 'post-type-archive' )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects()->where_not_equal( 'object_sub_type', 'null' )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects()->where_not_in( 'object_sub_type', [] )->never();
+
+		$orm_object
+			->expects( 'count' )
+			->once()
+			->andReturn( 0 );
+
+		$this->instance
+			->expects( 'query' )
+			->andReturn( $orm_object );
+		$this->instance->count_indexables_for_non_publicly_post_type_archive_pages();
 	}
 
 	/**

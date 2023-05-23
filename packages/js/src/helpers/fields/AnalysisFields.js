@@ -39,6 +39,15 @@ export default class AnalysisFields {
 	}
 
 	/**
+	 * Getter for the inclusive language (overall) score hidden field.
+	 *
+	 * @returns {HTMLElement} The inclusive language score hidden field.
+	 */
+	static get inclusiveLanguageScoreElement() {
+		return document.getElementById( "yoast_wpseo_inclusive_language_score" );
+	}
+
+	/**
 	 * Setter for the keyphrase.
 	 *
 	 * @param {string} value The keyphrase.
@@ -99,9 +108,9 @@ export default class AnalysisFields {
 	}
 
 	/**
-	 * Setter for the Readbility (overall) score.
+	 * Setter for the Readability (overall) score.
 	 *
-	 * @param {string} value The Readbility (overall) score.
+	 * @param {string} value The Readability (overall) score.
 	 *
 	 * @returns {void}
 	 */
@@ -110,11 +119,31 @@ export default class AnalysisFields {
 	}
 
 	/**
-	 * Getter for the Readbility (overall) score.
+	 * Getter for the Readability (overall) score.
 	 *
-	 * @returns {string} The Readbility (overall) score.
+	 * @returns {string} The Readability (overall) score.
 	 */
 	static get readabilityScore() {
 		return AnalysisFields.readabilityScoreElement.value;
+	}
+
+	/**
+	 * Setter for the inclusive language (overall) score.
+	 *
+	 * @param {string} value The inclusive language (overall) score.
+	 *
+	 * @returns {void}
+	 */
+	static set inclusiveLanguageScore( value ) {
+		AnalysisFields.inclusiveLanguageScoreElement.value = value;
+	}
+
+	/**
+	 * Getter for the inclusive language (overall) score.
+	 *
+	 * @returns {string} The inclusive language (overall) score.
+	 */
+	static get inclusiveLanguageScore() {
+		return AnalysisFields.inclusiveLanguageScoreElement.value;
 	}
 }

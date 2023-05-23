@@ -42,6 +42,9 @@ class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
 		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_non_publicly_viewable_taxonomies' )
 				->once()
 					->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_non_publicly_post_type_archive_pages' )
+				->once()
+					->andReturn( 0 );
 		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_authors_archive_disabled' )
 				->once()
 					->andReturn( 0 );
@@ -73,6 +76,10 @@ class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
 					],
 					[
 						'cleanup_name' => 'indexables_for_non_publicly_viewable_taxonomies',
+						'count'        => 0,
+					],
+					[
+						'cleanup_name' => 'indexables_for_non_publicly_viewable_post_type_archive_pages',
 						'count'        => 0,
 					],
 					[
