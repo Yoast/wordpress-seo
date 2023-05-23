@@ -143,7 +143,7 @@ class SnippetEditor extends React.Component {
 			isOpen: ! props.showCloseButton,
 			activeField: null,
 			hoveredField: null,
-			titleLengthProgress: getTitleProgress( measurementData.title ),
+			titleLengthProgress: getTitleProgress( measurementData.filteredSEOTitle ),
 			descriptionLengthProgress: getDescriptionProgress(
 				measurementData.description,
 				this.props.date,
