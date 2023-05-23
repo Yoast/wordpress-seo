@@ -210,6 +210,7 @@ const App = () => {
 	const postTypes = useSelectSettings( "selectPostTypes" );
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+
 	useRouterScrollRestore();
 
 	const { dirty } = useFormikContext();
@@ -288,7 +289,7 @@ const App = () => {
 							</main>
 							{ ! isPremium && <PremiumUpsellList /> }
 						</div>
-						{ ! isPremium && <SidebarRecommendations /> }
+						<SidebarRecommendations />
 					</div>
 				</div>
 			</SidebarNavigation>
