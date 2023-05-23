@@ -390,7 +390,7 @@ const testCases = [
 		expectedResult: [ ],
 	},
 	{
-		testDescription: "A match with a dash and a match without a dash",
+		testDescription: "A keyphrase without a dash matches only with the keyphrase without a dash in the text.",
 		sentence: {
 			text: "A sentence with a key-word and a key word.",
 			tokens: [
@@ -480,7 +480,7 @@ const testCases = [
 	},
 	{
 		testDescription: "When the sentence contains the keyphrase with a dash but in the wrong order and the keyphrase does not contain a dash," +
-			" there should be a match.",
+			" there should not be a match.",
 		sentence: {
 			text: "A sentence with a word-key.",
 			tokens: [
