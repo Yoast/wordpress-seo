@@ -23,7 +23,6 @@ const wordCouplers = [ "_", "-" ];
  * tokenizes it as [ "key-word" ].
  * This function corrects for these differences by combining tokens that are separated by a word coupler (e.g. "-") into one token: the matchToken.
  * This matchToken is then compared with the keyword forms.
- * If the wordcoupler is a "-", it also individually matches the tokens that are separated by the "-" with the keyword forms.
  */
 const matchKeywordWithSentence = ( keywordForms, sentence ) => {
 	const tokens = sentence.tokens.slice();
@@ -34,26 +33,20 @@ const matchKeywordWithSentence = ( keywordForms, sentence ) => {
 	// Iterate over all tokens in the sentence.
 	for ( let i = 0; i < tokens.length; i++ ) {
 		const matchToken = cloneDeep( tokens[ i ] );
-		// const matchToken2 = Object.assign( {}, tokens[ i ] );
+
+		// An array to keep track of all tokens that are combined into the matchtoken.
 		const matchTokens = [ ];
-
-		// An array of tokens that need to be matched.
-		// const tokensToMatch = [];
-
-		// matchTokens.push( matchToken2 );
 		matchTokens.push( cloneDeep( tokens[ i ] ) );
 
-		// while the next token is a word coupler, add it to the current token as well as the next token.
+		// while the next token is a word coupler, add it to the current token
 		while ( tokens[ i + 1 ] && wordCouplers.includes( tokens[ i + 1 ].text ) ) {
-			// if ( tokens[ i + 1 ].text === "-" && tokens[ i + 2 ] ) {
-			// 	tokensToMatch.push( tokens[ i ] );
-			// }
-
+			// Add the word coupler to the matchtoken.
 			i++;
-
 			matchToken.text += tokens[ i ].text;
 			matchToken.sourceCodeRange.endOffset = tokens[ i ].sourceCodeRange.endOffset;
 			matchTokens.push( tokens[ i ] );
+
+			// If there is a token after the word coupler, add it to the matchtoken as well.
 			i++;
 			if ( ! tokens[ i ] ) {
 				break;
@@ -61,23 +54,13 @@ const matchKeywordWithSentence = ( keywordForms, sentence ) => {
 			matchToken.text = matchToken.text + tokens[ i ].text;
 			matchToken.sourceCodeRange.endOffset = tokens[ i ].sourceCodeRange.endOffset;
 			matchTokens.push( tokens[ i ] );
-
-			// if ( tokens[ i - 1 ].text === "-" ) {
-			// 	tokensToMatch.push( tokens[ i ] );
-			// }
 		}
-		// tokensToMatch.push( matchToken );
-		// let exitAllLoops = false;
-		// console.log( tokensToMatch );
+
+		// Compare the matchtoken with the keyword forms.
 		keywordForms.forEach( ( keywordForm ) => {
-			// if ( exitAllLoops ) {
-			// 	return;
-			// }
 			keywordForm.forEach( ( keywordFormPart ) => {
 				if ( matchToken.text.toLowerCase() === keywordFormPart.toLowerCase() ) {
 					matches.push( ...matchTokens );
-					// exitAllLoops = true;
-					// return is implicit
 				}
 			} );
 		} );
