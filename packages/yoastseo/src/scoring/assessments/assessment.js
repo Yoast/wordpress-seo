@@ -41,11 +41,11 @@ class Assessment {
 	 * @returns {boolean} true if the text is of the required length, false otherwise.
 	 */
 	hasEnoughContentForAssessment( paper, contentNeededForAssessment = 50 ) {
-		let text = paper.getText();
+		let text = isUndefined( paper ) ? "" : paper.getText();
 		text = removeHtmlBlocks( text );
 
 		// The isUndefined check is necessary, because if paper is undefined .getText will throw a typeError.
-		return  ! isUndefined( paper ) && sanitizeString( text ).length >= contentNeededForAssessment;
+		return  sanitizeString( text ).length >= contentNeededForAssessment;
 	}
 }
 
