@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
+import { createInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkParamsReducer, linkParamsSelectors } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
 import { breadcrumbsSelectors } from "./breadcrumbs";
 import defaultSettingValues, {
@@ -9,7 +10,6 @@ import defaultSettingValues, {
 	defaultSettingValuesSelectors,
 } from "./default-setting-values";
 import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
-import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
 import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
@@ -66,7 +66,7 @@ const createStore = ( { initialState } ) => {
 			{
 				defaultSettingValues: createInitialDefaultSettingValuesState(),
 				fallbacks: createInitialFallbacksState(),
-				linkParams: createInitialLinkParamsState(),
+				[ LINK_PARAMS_NAME ]: createInitialLinkParamsState(),
 				media: createInitialMediaState(),
 				notifications: createInitialNotificationsState(),
 				postTypes: createInitialPostTypesState(),
@@ -82,7 +82,7 @@ const createStore = ( { initialState } ) => {
 		reducer: combineReducers( {
 			defaultSettingValues,
 			fallbacks,
-			linkParams,
+			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			media,
 			notifications,
 			postTypes,
