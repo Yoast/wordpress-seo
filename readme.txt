@@ -251,7 +251,6 @@ Release date: 2023-06-06
 
 #### Enhancements
 
-* Fixes a bug where indexables were created when using the wp yoast index WP CLI command on a staging site.
 * Sets up background indexation via WP Cron.
 * Tightens crawl optimization site search blocking rules.
 
@@ -259,10 +258,6 @@ Release date: 2023-06-06
 
 * Fixes a bug where the link popover position in the block editor would be positioned incorrectly when adding or creating links.
 * Fixes a bug where the Yoast SEO metabox would crash in conjunction with Yoast SEO Premium when additional keyphrases are stored in the DB in a malformed way.
-
-#### Other
-
-* Code quality
 
 = 20.8 =
 
