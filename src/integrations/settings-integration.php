@@ -483,6 +483,13 @@ class Settings_Integration implements Integration_Interface {
 		return $person;
 	}
 
+	/**
+	 * Get site policy data.
+	 *
+	 * @param array $settings The settings.
+	 *
+	 * @return array The policy data.
+	 */
 	private function get_site_basics_policies( $settings ) {
 		$policies = [];
 
@@ -498,6 +505,15 @@ class Settings_Integration implements Integration_Interface {
 		return $policies;
 	}
 
+	/**
+	 * Adds policy data if it is present.
+	 *
+	 * @param array $policies The existing policy data.
+	 * @param string $policy The policy id to check.
+	 * @param string $key The option key name.
+	 *
+	 * @return array The policy data.
+	 */
 	private function maybe_add_policy( $policies, $policy, $key ) {
 		$policy_array = [
 			'id'   => false,

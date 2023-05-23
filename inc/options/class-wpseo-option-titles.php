@@ -100,6 +100,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'ethics_policy_id'                 => false,
 		'diversity_policy_id'              => false,
 		'diversity_staffing_report_id'     => false,
+
 		/*
 		 * Uses enrich_defaults to add more along the lines of:
 		 * - 'title-' . $pt->name                => ''; // Text field.
