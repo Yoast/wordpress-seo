@@ -4,7 +4,7 @@ import { AdjustmentsIcon, ArrowNarrowRightIcon, ColorSwatchIcon, DesktopComputer
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
+import { Button, ChildrenLimiter, ErrorBoundary, Paper, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
@@ -63,7 +63,12 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 
 	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
-			<Link id={ `link-yoast-logo${ idSuffix }` } to="/" className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500" aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }>
+			<Link
+				id={ `link-yoast-logo${ idSuffix }` }
+				to="/"
+				className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500"
+				aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }
+			>
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 			</Link>
 			<Search buttonId={ `button-search${ idSuffix }` } />
@@ -153,7 +158,7 @@ const PremiumUpsellList = () => {
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 
 	return (
-		<div className="yst-p-6 xl:yst-max-w-3xl yst-rounded-lg yst-bg-white yst-shadow">
+		<Paper as="div" className="yst-p-6 xl:yst-max-w-3xl">
 			<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
 				{ sprintf(
 					/* translators: %s expands to "Yoast SEO" Premium */
@@ -198,7 +203,7 @@ const PremiumUpsellList = () => {
 				) }
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
-		</div>
+		</Paper>
 	);
 };
 
@@ -240,7 +245,7 @@ const App = () => {
 					</aside>
 					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[17.5rem]" ) }>
 						<div className="yst-grow yst-space-y-6 yst-mb-8 xl:yst-mb-0">
-							<main className="yst-rounded-lg yst-bg-white yst-shadow">
+							<Paper as="main">
 								<ErrorBoundary FallbackComponent={ ErrorFallback }>
 									<Transition
 										key={ pathname }
@@ -286,7 +291,7 @@ const App = () => {
 										</Routes>
 									</Transition>
 								</ErrorBoundary>
-							</main>
+							</Paper>
 							{ ! isPremium && <PremiumUpsellList /> }
 						</div>
 						<SidebarRecommendations />
