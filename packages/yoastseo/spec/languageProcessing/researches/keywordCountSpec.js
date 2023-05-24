@@ -143,15 +143,11 @@ describe( "Test for counting the keyword in a text", function() {
 		);
 	} );
 
-	it( "counts a string with a keyword with a '-' in it", function() {
+	it( "does count a string with a keyword with a '-' in it if the focus keyphrase does have a '-' in it", function() {
 		const mockPaper = new Paper( "<h2>A string with a key-word.</h2>" );
 		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherMinus ).count ).toBe( 1 );
-		expect( keyphraseCount( mockPaper, mockResearcherMinus ).markings ).toEqual( [
-			new Mark( {
-				marked: "A string with a <yoastmark class='yoast-text-mark'>key-word</yoastmark>.",
-				original: "A string with a key-word.",
-				position: { endOffset: 28, startOffset: 20 } } ) ]
+		expect( keyphraseCount( mockPaper, mockResearcherMinus ).markings ).toEqual( [ ]
 		);
 	} );
 
