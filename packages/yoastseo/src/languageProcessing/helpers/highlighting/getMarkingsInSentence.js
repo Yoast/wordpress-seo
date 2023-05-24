@@ -52,20 +52,16 @@ const createMarksForSentence = ( sentence, matches, locale ) => {
 	let sentenceText = sentence.text;
 
 	// Create one array with both primary and secondary matches, sorted by start offset.
-	let allMatches = flatten( matches.primaryMatches );
-	if ( matches.primaryMatches.length > 0 ) {
-		allMatches = allMatches.concat( flatten( matches.secondaryMatches ) ).sort( function( a, b ) {
-			return a.sourceCodeRange.startOffset - b.sourceCodeRange.startOffset;
-		} );
-	}
 
 	// Merge consecutive and overlapping matches.
-	allMatches = mergeConsecutiveAndOverlappingMatches( allMatches, getLanguage( locale ) !== "ja" );
+	// TODO adapt last argument once japanese tokenization is implemented.
+	const mergedMatches = mergeConsecutiveAndOverlappingMatches( matches, getLanguage( locale ) !== "ja" );
+	console.log( mergedMatches );
 
 	const sentenceStartOffset = sentence.sourceCodeRange.startOffset;
 	// Loop through the matches backwards, so that the reference is not affected by the changes.
-	for ( let i = allMatches.length - 1; i >= 0; i-- ) {
-		const match = allMatches[ i ];
+	for ( let i = mergedMatches.length - 1; i >= 0; i-- ) {
+		const match = mergedMatches[ i ];
 
 		// Apply the mark to the sentence.
 		// sentenceStartOffset is subtracted because the start and end offsets are relative to the start of the source code.
@@ -133,7 +129,7 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace = true ) => 
 function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale ) {
 	// Create the marked sentence that is used for search based highlighting.
 	const markedSentence = createMarksForSentence( sentence, matchesInSentence, locale );
-
+	console.log( markedSentence );
 	// Create the markings for the primary matches.
 	// Note that there is a paradigm shift:
 	// With search based highlighting there would be one marking for the entire sentence.
@@ -141,34 +137,18 @@ function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelp
 	// In order to be backwards compatible with search based highlighting,
 	// all markings for a sentence have the same markedSentence.
 	// ...
-	const markings = matchesInSentence.primaryMatches.flatMap( match => {
-		return  match.map( token => {
-			return new Mark( {
-				position: {
-					startOffset: token.sourceCodeRange.startOffset,
-					endOffset: token.sourceCodeRange.endOffset,
-				},
-				marked: markedSentence,
-				original: sentence.text,
-			} );
+	const markings = matchesInSentence.map( token => {
+		return new Mark( {
+			position: {
+				startOffset: token.sourceCodeRange.startOffset,
+				endOffset: token.sourceCodeRange.endOffset,
+			},
+			marked: markedSentence,
+			original: sentence.text,
 		} );
 	} );
+	console.log( markings );
 
-	// Only if there are primary matches, add the secondary matches.
-	if ( matchesInSentence.primaryMatches.length > 0 ) {
-		flatten( matchesInSentence.secondaryMatches ).forEach( match =>{
-			markings.push( new Mark( {
-				position: {
-					startOffset: match.sourceCodeRange.startOffset,
-					endOffset: match.sourceCodeRange.endOffset,
-				},
-				marked: markedSentence,
-				original: sentence.text,
-
-			} ) );
-		}
-		);
-	}
 	return mergeConsecutiveAndOverlappingMarkings( markings, getLanguage( locale ) !== "ja" );
 }
 
