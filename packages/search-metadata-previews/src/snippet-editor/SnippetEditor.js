@@ -449,8 +449,9 @@ class SnippetEditor extends React.Component {
 	 * Maps the data from to be suitable for measurement.
 	 *
 	 * The data that is measured is not exactly the same as the data that
-	 * is in the preview, because the metadescription placeholder shouldn't
-	 * be measured.
+	 * is in the preview, because the meta description placeholder shouldn't
+	 * be measured. Additionally, the separator and site title should also be filtered out of the SEO title
+	 * before the width is measured.
 	 *
 	 * @param {Object} originalData         The data from the form.
 	 * @param {array}  replacementVariables The replacement variables to use. Taken from the props by default.
@@ -471,7 +472,7 @@ class SnippetEditor extends React.Component {
 		const excludedVars = new RegExp( "(%%sep%%|%%sitename%%)", "g" );
 		// The filtered title is the SEO title without separator and site title.
 		// This data will be used in calculating the SEO title width.
-		const filteredTitle = originalData.title.replaceAll( excludedVars, "" );
+		const filteredTitle = originalData.title.replace( excludedVars, "" );
 
 		const mappedData = {
 			title: this.processReplacementVariables( originalData.title, replacementVariables ),
