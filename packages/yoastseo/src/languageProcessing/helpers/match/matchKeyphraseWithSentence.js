@@ -32,7 +32,7 @@ const matchKeyphraseWithSentence = ( keywordForms, sentence ) => {
 
 	// Iterate over all tokens in the sentence.
 	for ( let i = 0; i < tokens.length; i++ ) {
-		const matchToken = cloneDeep( tokens[ i ] );
+		const tokenForMatching = cloneDeep( tokens[ i ] );
 
 		// An array to keep track of all tokens that are combined into the matchtoken.
 		const matchTokens = [ ];
@@ -40,27 +40,27 @@ const matchKeyphraseWithSentence = ( keywordForms, sentence ) => {
 
 		// While the next token is a word coupler, add it to the current token.
 		while ( tokens[ i + 1 ] && wordCouplers.includes( tokens[ i + 1 ].text ) ) {
-			// Add the word coupler to the matchtoken.
+			// Add the word coupler to the token for matching.
 			i++;
-			matchToken.text += tokens[ i ].text;
-			matchToken.sourceCodeRange.endOffset = tokens[ i ].sourceCodeRange.endOffset;
-			matchTokens.push( tokens[ i ] );
+			tokenForMatching.text += tokens[ i ].text;
+			tokenForMatching.sourceCodeRange.endOffset = tokens[ i ].sourceCodeRange.endOffset;
+			tokensForMatching.push( tokens[ i ] );
 
-			// If there is a token after the word coupler, add it to the matchtoken as well.
+			// If there is a token after the word coupler, add it to the token for matching. as well.
 			i++;
 			if ( ! tokens[ i ] ) {
 				break;
 			}
-			matchToken.text = matchToken.text + tokens[ i ].text;
-			matchToken.sourceCodeRange.endOffset = tokens[ i ].sourceCodeRange.endOffset;
-			matchTokens.push( tokens[ i ] );
+			tokenForMatching.text += tokens[ i ].text;
+			tokenForMatching.sourceCodeRange.endOffset = tokens[ i ].sourceCodeRange.endOffset;
+			tokensForMatching.push( tokens[ i ] );
 		}
 
 		// Compare the matchtoken with the keyword forms.
 		keywordForms.forEach( ( keywordForm ) => {
 			keywordForm.forEach( ( keywordFormPart ) => {
-				if ( matchToken.text.toLowerCase() === keywordFormPart.toLowerCase() ) {
-					matches.push( ...matchTokens );
+				if ( tokenForMatching.text.toLowerCase() === keywordFormPart.toLowerCase() ) {
+					matches.push( ...tokensForMatching );
 				}
 			} );
 		} );
