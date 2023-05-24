@@ -1,6 +1,6 @@
 import { cloneDeep } from "lodash-es";
 
-const wordCouplers = [ "_", "-" ];
+const wordCouplers = [ "_", "-", "'" ];
 
 /**
  * Matches a keyword with a sentence object from the html parser.
