@@ -34,9 +34,13 @@ const matchKeyphraseWithSentence = ( keywordForms, sentence ) => {
 	for ( let i = 0; i < tokens.length; i++ ) {
 		const tokenForMatching = cloneDeep( tokens[ i ] );
 
-		// An array to keep track of all tokens that are combined into the matchtoken.
-		const matchTokens = [ ];
-		matchTokens.push( cloneDeep( tokens[ i ] ) );
+		// The token used for matching (tokenForMatching) may consist of multiple tokens combined,
+		// since we want to combine words separated by a hyphen/underscore into one token.
+		// This array keeps track of all tokens that are combined into the token used for matching
+		// and is later used to add all individual tokens to the array of matches.
+		const tokensForMatching = [ ];
+		// Add the current token to the tokens for matching.
+		tokensForMatching.push( cloneDeep( tokens[ i ] ) );
 
 		// While the next token is a word coupler, add it to the current token.
 		while ( tokens[ i + 1 ] && wordCouplers.includes( tokens[ i + 1 ].text ) ) {
