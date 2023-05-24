@@ -46,6 +46,9 @@ const CloseEditorButton = styled( SnippetEditorButton )`
 	margin-top: 24px;
 `;
 
+// The regex of the variables we want to exclude from the SEO title.
+const excludedVars = new RegExp( "(%%sep%%|%%sitename%%)", "g" );
+
 /**
  * Gets the title progress.
  *
@@ -84,7 +87,7 @@ function getTitleProgress( title ) {
 function getDescriptionProgress( description, date, isCornerstone, isTaxonomy, locale ) {
 	const descriptionLength = languageProcessing.countMetaDescriptionLength( date, description );
 
-	// Override the default config if the cornerstone content toggle is on and it is not a taxonomy page.
+	// Override the default config if the cornerstone content toggle is on, and it is not a taxonomy page.
 	const metaDescriptionLengthAssessment = ( isCornerstone && ! isTaxonomy ) ? new MetaDescriptionLengthAssessment( {
 		scores: {
 			tooLong: 3,
@@ -234,7 +237,7 @@ class SnippetEditor extends React.Component {
 
 			if ( this.haveReplaceVarsChanged( this.props.replacementVariables, nextProps.replacementVariables ) ) {
 				/*
-				 * Make sure that changes to the replace vars (e.g. title, category, tags) get reflected on the
+				 * Make sure that changes to the replacement vars (e.g. title, category, tags) get reflected on the
 				 * analysis data on the store (used in, among other things, the SEO analysis).
 				 */
 				this.props.onChangeAnalysisData( data );
@@ -468,8 +471,6 @@ class SnippetEditor extends React.Component {
 
 		const shortenedBaseUrl = baseUrl.replace( /^https?:\/\//i, "" );
 
-		// The regex of the variables we want to exclude from the title.
-		const excludedVars = new RegExp( "(%%sep%%|%%sitename%%)", "g" );
 		// The filtered title is the SEO title without separator and site title.
 		// This data will be used in calculating the SEO title width.
 		const filteredTitle = originalData.title.replace( excludedVars, "" );
@@ -497,7 +498,7 @@ class SnippetEditor extends React.Component {
 	 * Maps the passed data to be suitable for the preview.
 	 *
 	 * The data that is in the preview is not exactly the same as the data
-	 * that is measured (see above), because the metadescription placeholder
+	 * that is measured (see above), because the meta description placeholder
 	 * shouldn't be measured.
 	 *
 	 * @param {Object} originalData         The data from the form.
@@ -541,7 +542,7 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Sets a reference to the edit button so we can move focus to it.
+	 * Sets a reference to the edit button, so we can move focus to it.
 	 *
 	 * @param {Object} ref The edit button element.
 	 *
