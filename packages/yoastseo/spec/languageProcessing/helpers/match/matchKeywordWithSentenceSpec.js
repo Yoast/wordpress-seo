@@ -17,12 +17,12 @@ const testCases = [
 				{ text: "notthekeyphrase", sourceCodeRange: { startOffset: 16, endOffset: 31 } },
 				{ text: ".", sourceCodeRange: { startOffset: 31, endOffset: 32 } },
 			],
-			sourceCodeRange: { startOffset: 0, endOffset: 18 } },
+			sourceCodeRange: { startOffset: 0, endOffset: 32 } },
 		keyphraseForms: [ [ "keyword", "keywords" ] ],
 		expectedResult: [],
 	},
 	{
-		testDescription: "should return empty result if KeyphraseForms is empty",
+		testDescription: "should return empty result if keyphraseForms is empty",
 		sentence: {
 			text: "A sentence with notthekeyphrase.",
 			tokens: [
@@ -38,7 +38,6 @@ const testCases = [
 			sourceCodeRange: { startOffset: 0, endOffset: 32 } },
 		keyphraseForms: [ [] ],
 		expectedResult: [],
-
 	},
 	{
 		testDescription: "One match in sentence of a single-word keyphrase",
@@ -56,7 +55,7 @@ const testCases = [
 				{ text: "keyword", sourceCodeRange: { startOffset: 20, endOffset: 27 } },
 				{ text: ".", sourceCodeRange: { startOffset: 27, endOffset: 28 } },
 			],
-			sourceCodeRange: { startOffset: 0, endOffset: 18 } },
+			sourceCodeRange: { startOffset: 0, endOffset: 28 } },
 		keyphraseForms: [ [ "keyword", "keywords" ] ],
 		expectedResult: [ { sourceCodeRange: { startOffset: 20, endOffset: 27 }, text: "keyword" } ],
 	},
@@ -81,6 +80,26 @@ const testCases = [
 			sourceCodeRange: { startOffset: 0, endOffset: 30 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
 		expectedResult: [ { sourceCodeRange: { endOffset: 23, startOffset: 20 }, text: "key" }, { sourceCodeRange: { endOffset: 29, startOffset: 24 }, text: "words" } ],
+	},
+	{
+		testDescription: "Disregards word order of multi word keyphrases",
+		sentence: {
+			text: "A word that is key.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "word", sourceCodeRange: { startOffset: 2, endOffset: 6 } },
+				{ text: " ", sourceCodeRange: { startOffset: 6, endOffset: 7 } },
+				{ text: "that", sourceCodeRange: { startOffset: 7, endOffset: 11 } },
+				{ text: " ", sourceCodeRange: { startOffset: 11, endOffset: 12 } },
+				{ text: "is", sourceCodeRange: { startOffset: 12, endOffset: 14 } },
+				{ text: " ", sourceCodeRange: { startOffset: 14, endOffset: 15 } },
+				{ text: "key", sourceCodeRange: { startOffset: 15, endOffset: 18 } },
+				{ text: ".", sourceCodeRange: { startOffset: 18, endOffset: 19 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 19 } },
+		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		expectedResult: [ { sourceCodeRange: { endOffset: 6, startOffset: 2 }, text: "word" }, { sourceCodeRange: { endOffset: 18, startOffset: 15 }, text: "key" } ],
 	},
 	{
 		testDescription: "Two matches of multi word keyphrase in sentence",
@@ -256,10 +275,9 @@ const testCases = [
 			sourceCodeRange: { startOffset: 0, endOffset: 21 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
 		expectedResult: [ { sourceCodeRange: { endOffset: 21, startOffset: 18 }, text: "key" } ],
-
 	},
 	{
-		testDescription: "Correctly matches if the sentence ends with an underscore.",
+		testDescription: "Doesn't return a match if the keyphrase in the text ends with an underscore.",
 		sentence: {
 			text: "A sentence with a key_",
 			tokens: [
@@ -276,11 +294,10 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 22 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
-		expectedResult: [ ],
-
+		expectedResult: [],
 	},
 	{
-		testDescription: "Correctly matches if the sentence ends with a dash.",
+		testDescription: "Doesn't return a match if the keyphrase in the text ends with a dash.",
 		sentence: {
 			text: "A sentence with a key-",
 			tokens: [
@@ -297,7 +314,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 22 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
-		expectedResult: [ ],
+		expectedResult: [],
 	},
 	{
 		testDescription: "Correctly matches if the sentence ends with an exclamation mark.",
@@ -523,10 +540,67 @@ const testCases = [
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
 		expectedResult: [],
 	},
+	{
+		testDescription: "Returns a match when the words from the keyphrase are separated by a dash and spaces.",
+		sentence: {
+			text: "A sentence with a key - phrase.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
+				{ text: " ", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
+				{ text: "-", sourceCodeRange: { startOffset: 22, endOffset: 23 } },
+				{ text: " ", sourceCodeRange: { startOffset: 23, endOffset: 24 } },
+				{ text: "phrase", sourceCodeRange: { startOffset: 24, endOffset: 30 } },
+				{ text: ".", sourceCodeRange: { startOffset: 30, endOffset: 31 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
+		keyphraseForms: [ [ "key", "keys" ], [ "phrase", "phrases" ] ],
+		expectedResult: [
+			{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
+			{ text: "phrase", sourceCodeRange: { startOffset: 24, endOffset: 30 } },
+		],
+	},
+	{
+		testDescription: "Matches a keyphrase with an apostrophe.",
+		sentence: {
+			text: "All the keyphrase's forms should be matched.",
+			tokens: [
+				{ text: "All", sourceCodeRange: { startOffset: 0, endOffset: 3 } },
+				{ text: " ", sourceCodeRange: { startOffset: 3, endOffset: 4 } },
+				{ text: "the", sourceCodeRange: { startOffset: 4, endOffset: 7 } },
+				{ text: " ", sourceCodeRange: { startOffset: 7, endOffset: 8 } },
+				{ text: "keyphrase", sourceCodeRange: { startOffset: 8, endOffset: 17 } },
+				{ text: "'", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "s", sourceCodeRange: { startOffset: 18, endOffset: 19 } },
+				{ text: " ", sourceCodeRange: { startOffset: 19, endOffset: 20 } },
+				{ text: "forms", sourceCodeRange: { startOffset: 20, endOffset: 25 } },
+				{ text: " ", sourceCodeRange: { startOffset: 25, endOffset: 26 } },
+				{ text: "should", sourceCodeRange: { startOffset: 26, endOffset: 32 } },
+				{ text: " ", sourceCodeRange: { startOffset: 32, endOffset: 33 } },
+				{ text: "be", sourceCodeRange: { startOffset: 34, endOffset: 36 } },
+				{ text: " ", sourceCodeRange: { startOffset: 36, endOffset: 37 } },
+				{ text: "matched", sourceCodeRange: { startOffset: 37, endOffset: 44 } },
+				{ text: ".", sourceCodeRange: { startOffset: 44, endOffset: 45 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 45 } },
+		keyphraseForms: [ [ "keyphrase", "keyphrases", "keyphrase's" ] ],
+		expectedResult: [
+			{ text: "keyphrase", sourceCodeRange: { startOffset: 8, endOffset: 17 } },
+			{ text: "'", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+			{ text: "s", sourceCodeRange: { startOffset: 18, endOffset: 19 } },
+		],
+	},
 ];
 // eslint-enable max-len
 
-// The japanese testcases need to be adapted once japanese tokenization is implemented.
+// The japanese test cases need to be adapted once japanese tokenization is implemented.
 // eslint-disable-next-line max-len
 const japaneseTestCases = [
 	{
@@ -550,7 +624,7 @@ const japaneseTestCases = [
 		},
 	},
 	{
-		testDescription: "A primary and seconday match in a language that uses a custom helper to match words.",
+		testDescription: "A primary and secondary match in a language that uses a custom helper to match words.",
 		sentence: {
 			text: "私の猫はかわいいですかわいい。",
 			tokens: [
@@ -593,7 +667,6 @@ const japaneseTestCases = [
 // eslint-disable-next-line max-len
 describe.each( testCases )( "findKeyWordFormsInSentence", ( { testDescription, sentence, keyphraseForms, expectedResult } ) => {
 	it( testDescription, () => {
-		// expect( findKeyWordFormsInSentence( sentence, keyphraseForms, locale, matchWordCustomHelper ) ).toEqual( expectedResult );
 		expect( matchKeywordWithSentence( keyphraseForms, sentence ) ).toEqual( expectedResult );
 	} );
 } );
