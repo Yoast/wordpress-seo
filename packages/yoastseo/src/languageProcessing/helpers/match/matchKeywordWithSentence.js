@@ -7,7 +7,7 @@ const wordCouplers = [ "_", "-" ];
  *
  * @param {(string[])[]} keywordForms The keyword forms.
  * E.g. If the keyphrase is "key word", then (if premium is activated) this will be [ [ "key", "keys" ], [ "word", "words" ] ]
- * The forms are retrieved higher up (a.o. in keywordCount.js) with researcher.getResearch( "morphology" ).
+ * The forms are retrieved higher up (among others in keywordCount.js) with researcher.getResearch( "morphology" ).
  * @param {Sentence} sentence The sentence to match against the keywordForms.
  *
  * @returns {Token[]} The tokens that match the keywordForms.
@@ -17,7 +17,7 @@ const wordCouplers = [ "_", "-" ];
  * It iterates over all tokens in the sentence. It compares the current token with the keyword forms.
  * If it matches, it adds the token to the matches array.
  *
- * The keyword forms are tokenized differenty than the sentence.
+ * The keyword forms are tokenized differently than the sentence.
  * The keyword forms are tokenized with researcher.getResearch( "morphology" ) and the sentence is tokenized with the html parser.
  * This leads to differences in tokenization. For example, the html parser tokenizes "key-word" as [ "key", "-", "word" ]. The morphology
  * tokenizes it as [ "key-word" ].
@@ -27,7 +27,7 @@ const wordCouplers = [ "_", "-" ];
 const matchKeywordWithSentence = ( keywordForms, sentence ) => {
 	const tokens = sentence.tokens.slice();
 
-	// filter out all tokens that do not match the keyword forms
+	// Filter out all tokens that do not match the keyphrase forms.
 	const matches = [];
 
 	// Iterate over all tokens in the sentence.
@@ -38,7 +38,7 @@ const matchKeywordWithSentence = ( keywordForms, sentence ) => {
 		const matchTokens = [ ];
 		matchTokens.push( cloneDeep( tokens[ i ] ) );
 
-		// while the next token is a word coupler, add it to the current token
+		// While the next token is a word coupler, add it to the current token.
 		while ( tokens[ i + 1 ] && wordCouplers.includes( tokens[ i + 1 ].text ) ) {
 			// Add the word coupler to the matchtoken.
 			i++;
