@@ -1,5 +1,5 @@
 import JapaneseCustomHelper from "../../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
-import matchKeywordWithSentence from "../../../../src/languageProcessing/helpers/match/matchKeywordWithSentence";
+import matchKeyphraseWithSentence from "../../../../src/languageProcessing/helpers/match/matchKeyphraseWithSentence";
 
 /* eslint-disable max-len */
 const testCases = [
@@ -667,13 +667,13 @@ const japaneseTestCases = [
 // eslint-disable-next-line max-len
 describe.each( testCases )( "findKeyWordFormsInSentence", ( { testDescription, sentence, keyphraseForms, expectedResult } ) => {
 	it( testDescription, () => {
-		expect( matchKeywordWithSentence( keyphraseForms, sentence ) ).toEqual( expectedResult );
+		expect( matchKeyphraseWithSentence( keyphraseForms, sentence ) ).toEqual( expectedResult );
 	} );
 } );
 
 // eslint-disable-next-line max-len
 describe.each( japaneseTestCases )( "findKeyWordFormsInSentence for japanese", ( { testDescription, sentence, keyphraseForms, locale, matchWordCustomHelper, expectedResult } ) => {
 	it.skip( testDescription, () => {
-		expect( matchKeywordWithSentence( sentence, keyphraseForms, locale, matchWordCustomHelper ) ).toEqual( expectedResult );
+		expect( matchKeyphraseWithSentence( sentence, keyphraseForms, locale, matchWordCustomHelper ) ).toEqual( expectedResult );
 	} );
 } );
