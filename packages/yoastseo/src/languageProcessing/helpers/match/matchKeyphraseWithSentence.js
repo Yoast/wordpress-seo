@@ -24,7 +24,7 @@ const wordCouplers = [ "_", "-", "'" ];
  * This function corrects for these differences by combining tokens that are separated by a word coupler (e.g. "-") into one token: the matchToken.
  * This matchToken is then compared with the keyword forms.
  */
-const matchKeywordWithSentence = ( keywordForms, sentence ) => {
+const matchKeyphraseWithSentence = ( keywordForms, sentence ) => {
 	const tokens = sentence.tokens.slice();
 
 	// Filter out all tokens that do not match the keyphrase forms.
@@ -69,4 +69,4 @@ const matchKeywordWithSentence = ( keywordForms, sentence ) => {
 	return matches;
 };
 
-export default matchKeywordWithSentence;
+export default matchKeyphraseWithSentence;
