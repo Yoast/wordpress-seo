@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast_Notification;
 use Yoast_Notification_Center;
 
 /**
@@ -130,8 +129,8 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
 			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_POST_TYPE_MADE_PUBLIC );
-			$this->options->set( 'needs_review_post_types', $newly_made_public_post_types );
-			$this->maybe_add_notification();
+
+			do_action( 'new_public_post_type_notifications', $newly_made_public_post_types );
 		}
 
 		// There are post types that have been made private.
@@ -142,50 +141,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 				\wp_schedule_single_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 			}
 
-			// See if post_types that needs review were removed from public.
-			$needs_review     = $this->options->get( 'needs_review_post_types', [] );
-			$new_needs_review = \array_diff( $needs_review, $newly_made_non_public_post_types );
-			if ( count( $new_needs_review ) !== count( $needs_review ) ) {
-				$this->options->set( 'needs_review_post_types', $new_needs_review );
-			}
+			do_action( 'clean_new_public_post_type_notifications', $newly_made_non_public_post_types );
 		}
-	}
-
-	/**
-	 * Decides if a notification should be added in the notification center.
-	 *
-	 * @return void
-	 */
-	private function maybe_add_notification() {
-		$notification = $this->notification_center->get_notification_by_id( 'post-types-made-public' );
-		if ( \is_null( $notification ) ) {
-			$this->add_notification();
-		}
-	}
-
-	/**
-	 * Adds a notification to be shown on the next page request since posts are updated in an ajax request.
-	 *
-	 * @return void
-	 */
-	private function add_notification() {
-		$message = \sprintf(
-			/* translators: 1: Opening tag of the link to the Search appearance settings page, 2: Link closing tag. */
-			\esc_html__( 'It looks like you\'ve added a new type of content to your website. We recommend that you review your %1$sSettings%2$s under Content types.', 'wordpress-seo' ),
-			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_page_settings' ) ) . '">',
-			'</a>'
-		);
-
-		$notification = new Yoast_Notification(
-			$message,
-			[
-				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'post-types-made-public',
-				'capabilities' => 'wpseo_manage_options',
-				'priority'     => 0.8,
-			]
-		);
-
-		$this->notification_center->add_notification( $notification );
 	}
 }
