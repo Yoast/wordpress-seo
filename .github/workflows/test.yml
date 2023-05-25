@@ -90,6 +90,8 @@ jobs:
           php-version: ${{ matrix.php_version }}
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           coverage: ${{ matrix.coverage == true && 'xdebug' || 'none' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.YOASTBOT_CI_PAT_DIST }}
 
       # The PHP platform requirement would prevent updating the test utilities to the appropriate versions.
       # As long as the `composer update` is run selectively to only update the test utils, removing this is fine.
@@ -121,7 +123,9 @@ jobs:
       # Global install is used to prevent a conflict with the local composer.lock in PHP 8.0+.
       - name: Install Coveralls
         if: ${{ success() && matrix.coverage == true }}
-        run: composer global require php-coveralls/php-coveralls:"^2.5.3" --no-interaction
+        run: |
+          composer global config repositories.foo vcs https://github.com/jrfnl/php-coveralls
+          composer global require php-coveralls/php-coveralls:"dev-feature/fix-php-8.1-compatibility" --no-interaction
 
       - name: Upload coverage results to Coveralls
         if: ${{ success() && matrix.coverage == true }}
@@ -217,6 +221,8 @@ jobs:
           php-version: ${{ matrix.php_version }}
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           coverage: ${{ matrix.coverage == true && 'xdebug' || 'none' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.YOASTBOT_CI_PAT_DIST }}
 
       # The PHP platform requirement would prevent updating the test utilities to the appropriate versions.
       # As long as the `composer update` is run selectively to only update the test utils, removing this is fine.
@@ -260,7 +266,9 @@ jobs:
       # Global install is used to prevent a conflict with the local composer.lock in PHP 8.0+.
       - name: Install Coveralls
         if: ${{ success() && matrix.coverage == true }}
-        run: composer global require php-coveralls/php-coveralls:"^2.5.3" --no-interaction
+        run: |
+          composer global config repositories.foo vcs https://github.com/jrfnl/php-coveralls
+          composer global require php-coveralls/php-coveralls:"dev-feature/fix-php-8.1-compatibility" --no-interaction
 
       - name: Upload coverage results to Coveralls - single site
         if: ${{ success() && matrix.coverage == true }}
