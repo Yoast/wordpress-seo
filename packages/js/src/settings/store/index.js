@@ -13,7 +13,7 @@ import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParams
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
 import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
-import posts, { createInitialPostsState, postsActions, postsControls, postsSelectors } from "./posts";
+import pages, { createInitialPagesState, pageActions, pageControls, pageSelectors } from "./pages";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import replacementVariables, {
 	createInitialReplacementVariablesState,
@@ -46,7 +46,7 @@ const createStore = ( { initialState } ) => {
 			...searchActions,
 			...taxonomiesActions,
 			...usersActions,
-			...postsActions,
+			...pageActions,
 		},
 		selectors: {
 			...breadcrumbsSelectors,
@@ -62,7 +62,7 @@ const createStore = ( { initialState } ) => {
 			...searchSelectors,
 			...taxonomiesSelectors,
 			...usersSelectors,
-			...postsSelectors,
+			...pageSelectors,
 		},
 		initialState: merge(
 			{},
@@ -79,7 +79,7 @@ const createStore = ( { initialState } ) => {
 				search: createInitialSearchState(),
 				taxonomies: createInitialTaxonomiesState(),
 				users: createInitialUsersState(),
-				posts: createInitialPostsState(),
+				posts: createInitialPagesState(),
 			},
 			initialState
 		),
@@ -96,12 +96,12 @@ const createStore = ( { initialState } ) => {
 			search,
 			taxonomies,
 			users,
-			posts,
+			pages,
 		} ),
 		controls: {
 			...mediaControls,
 			...usersControls,
-			...postsControls,
+			...pageControls,
 		},
 	} );
 };

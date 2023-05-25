@@ -12,12 +12,12 @@ import {
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../components";
-import FormikPostSelectField from "../components/formik-post-select-field";
+import FormikPageSelectField from "../components/formik-page-select-field";
 import { withDisabledMessageSupport, withFormikDummyField } from "../hocs";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 const ToggleFieldWithDisabledMessageSupport = withDisabledMessageSupport( ToggleField );
-const FormikSelectPostsWithDummy = withFormikDummyField( FormikPostSelectField );
+const FormikSelectPageWithDummy = withFormikDummyField( FormikPageSelectField );
 
 /**
  * @returns {JSX.Element} The site defaults route.
@@ -29,11 +29,12 @@ const SiteBasics = () => {
 	const showForceRewriteTitlesSetting = useSelectSettings( "selectPreference", [], "showForceRewriteTitlesSetting", false );
 	const replacementVariablesLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-basics-replacement-variables" );
 	const usageTrackingLink = useSelectSettings( "selectLink", [], "https://yoa.st/usage-tracking-2" );
+	const sitePoliciesLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-policies-learn-more" );
 	const siteTitle = useSelectSettings( "selectPreference", [], "siteTitle", "" );
 	const PublishingPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-policies-upsell" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
-	const { fetchPosts } = useDispatchSettings();
+	const { fetchPages } = useDispatchSettings();
 
 	const usageTrackingDescription = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -48,6 +49,18 @@ const SiteBasics = () => {
 		}
 	), [] );
 
+	const sitePoliciesDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+			__( "Set specific site policy pages. By defining your site policies, you provide Google with an important indicator of your site's trustworthiness. %1$sLearn more about why setting your site policies is important%2$s.", "wordpress-seo" ),
+			"<a>",
+			"</a>"
+		),
+		{
+			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
+			a: <a id="link-site-policies" href={ sitePoliciesLink } target="_blank" rel="noopener" />,
+		}
+	), [] );
 	const siteInfoDescription = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to an opening and closing emphasis tag. %3$s and %4$s expand to an opening and closing anchor tag. */
@@ -112,7 +125,7 @@ const SiteBasics = () => {
 
 	useEffect( () => {
 		// Get initial options.
-		fetchPosts();
+		fetchPages();
 	}, [] );
 	return (
 		<RouteLayout
@@ -232,7 +245,7 @@ const SiteBasics = () => {
 					<hr className="yst-my-8" />
 					<FieldsetLayout
 						title={ __( "Site policies", "wordpress-seo" ) }
-						description={ __( "Description needed", "wordpress-seo" ) }
+						description={ sitePoliciesDescription }
 					>
 						<FeatureUpsell
 							shouldUpsell={ ! isPremium }
@@ -245,60 +258,60 @@ const SiteBasics = () => {
 							) }
 							{ ...premiumUpsellConfig }
 						>
-							<FormikSelectPostsWithDummy
+							<FormikSelectPageWithDummy
 								name="wpseo_titles.publishing_principles_id"
 								id="input-wpseo_titles-publishing_principles_id"
 								label={ __( "Publishing principles", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								description={ __( "Description needed", "wordpress-seo" ) }
+								description={ __( "The publishing principles describe the editorial principles of your organization.", "wordpress-seo" ) }
 								isDummy={ ! isPremium }
 							/>
-							<FormikSelectPostsWithDummy
+							<FormikSelectPageWithDummy
 								name="wpseo_titles.ownership_funding_info_id"
 								id="input-wpseo_titles-ownership_funding_info_id"
 								label={ __( "Ownership / Funding info", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								description={ __( "Description needed", "wordpress-seo" ) }
+								description={ __( "Ownership/funding info describes the ownership structure of your organization. It should include information about funding and grants. This information is a relevant signal relating to editorial independence.", "wordpress-seo" ) }
 								isDummy={ ! isPremium }
 							/>
-							<FormikSelectPostsWithDummy
+							<FormikSelectPageWithDummy
 								name="wpseo_titles.actionable_feedback_policy_id"
 								id="input-wpseo_titles-actionable_feedback_policy_id"
 								label={ __( "Actionable feedback policy", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								description={ __( "Description needed", "wordpress-seo" ) }
+								description={ __( "The actionable feedback policy provides insight into your organization's commitment to actively listening to public feedback. It showcases your organization's efforts to engage the public, rectify errors promptly, and prioritize transparency.", "wordpress-seo" ) }
 								isDummy={ ! isPremium }
 							/>
-							<FormikSelectPostsWithDummy
+							<FormikSelectPageWithDummy
 								name="wpseo_titles.corrections_policy_id"
 								id="input-wpseo_titles-corrections_policy_id"
 								label={ __( "Corrections policy", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								description={ __( "Description needed", "wordpress-seo" ) }
+								description={ __( "The corrections policy should clearly outline the procedure for addressing errors.", "wordpress-seo" ) }
 								isDummy={ ! isPremium }
 							/>
-							<FormikSelectPostsWithDummy
+							<FormikSelectPageWithDummy
 								name="wpseo_titles.ethics_policy_id"
 								id="input-wpseo_titles-ethics_policy_id"
 								label={ __( "Ethics policy", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								description={ __( "Describe your company's ethics, for instance, journalistic practices, or where you're sourcing your raw materials etc.", "wordpress-seo" ) }
+								description={ __( "The ethics policy describes the personal, organizational, and corporate standards of behavior expected by your organization.", "wordpress-seo" ) }
 								isDummy={ ! isPremium }
 							/>
-							<FormikSelectPostsWithDummy
+							<FormikSelectPageWithDummy
 								name="wpseo_titles.diversity_policy_id"
 								id="input-wpseo_titles-diversity_policy_id"
 								label={ __( "Diversity policy", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								description={ __( "Statement on your company's diversity policy, often linking to the staffing report as well.", "wordpress-seo" ) }
+								description={ __( "This page should provide comprehensive information on diversity policies, covering aspects such as staffing diversity and diversity in sourcing information.", "wordpress-seo" ) }
 								isDummy={ ! isPremium }
 							/>
-							<FormikSelectPostsWithDummy
+							<FormikSelectPageWithDummy
 								name="wpseo_titles.diversity_staffing_report_id"
 								id="input-wpseo_titles-diversity_staffing_report_id"
 								label={ __( "Diversity staffing report", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								description={ __( "A report on staffing diversity, including any issues.", "wordpress-seo" ) }
+								description={ __( "This page should address the topic of staffing diversity, outlining relevant issues and considerations.", "wordpress-seo" ) }
 								isDummy={ ! isPremium }
 							/>
 						</FeatureUpsell>
