@@ -11,8 +11,8 @@ import defaultSettingValues, {
 } from "./default-setting-values";
 import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
-import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
-import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
+import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors, removeNewContentNotificationControls } from "./notifications";
+import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors, updatePostTypeReviewControls } from "./post-types";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import replacementVariables, {
 	createInitialReplacementVariablesState,
@@ -21,7 +21,7 @@ import replacementVariables, {
 } from "./replacement-variables";
 import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from "./schema";
 import search, { createInitialSearchState, searchActions, searchSelectors } from "./search";
-import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors } from "./taxonomies";
+import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors, updateTaxonomyReviewControls } from "./taxonomies";
 import users, { createInitialUsersState, usersActions, usersControls, usersSelectors } from "./users";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
@@ -96,6 +96,9 @@ const createStore = ( { initialState } ) => {
 		controls: {
 			...mediaControls,
 			...usersControls,
+			...updatePostTypeReviewControls,
+			...updateTaxonomyReviewControls,
+			...removeNewContentNotificationControls,
 		},
 	} );
 };
