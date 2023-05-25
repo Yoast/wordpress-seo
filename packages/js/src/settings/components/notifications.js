@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { useEffect, useMemo } from "@wordpress/element";
+import { useEffect, useMemo, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Notifications as NotificationsUi } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
@@ -73,14 +73,18 @@ ValidationErrorsNotification.propTypes = {
  */
 const Notifications = () => {
 	useValidationErrorsNotification();
-	const { removeNotification } = useDispatchSettings();
+	const { removeNotification, removeNewContentNotification } = useDispatchSettings();
+	const onDismissNewContentType = useCallback( () => {
+		removeNewContentNotification();
+	}, [] );
 	const notifications = useSelectSettings( "selectNotifications" );
 	const enrichedNotifications = useMemo( () => map( notifications, notification => ( {
 		...notification,
-		onDismiss: removeNotification,
+		onDismiss: notification.id === "new-content-type" ? onDismissNewContentType : removeNotification,
 		autoDismiss: notification.variant === "success" ? 5000 : null,
 		dismissScreenReaderLabel: __( "Dismiss", "wordpress-seo" ),
 	} ) ), [ notifications ] );
+
 
 	return (
 		<NotificationsUi notifications={ enrichedNotifications } position="bottom-left">
