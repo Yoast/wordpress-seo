@@ -23,7 +23,6 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
-use Yoast_Notification_Center;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
@@ -258,9 +257,6 @@ class Settings_Integration implements Integration_Interface {
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
 
-			// Remove the post types and taxonomies made public notifications (if any).
-			$this->remove_post_types_made_public_notification();
-			$this->remove_taxonomies_made_public_notification();
 		}
 	}
 
@@ -414,6 +410,7 @@ class Settings_Integration implements Integration_Interface {
 			'postTypes'            => $transformed_post_types,
 			'taxonomies'           => $transformed_taxonomies,
 			'fallbacks'            => $this->get_fallbacks(),
+			'isNewContentType'     => $this->options->get( 'is_new_content_type', false ),
 		];
 	}
 
@@ -707,7 +704,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function transform_post_types( $post_types ) {
 		$transformed  = [];
-		$needs_review = $this->options->get( 'needs_review_post_types', [] );
+		$needs_review = $this->options->get( 'new_post_types', [] );
 		foreach ( $post_types as $post_type ) {
 			$transformed[ $post_type->name ] = [
 				'name'                 => $post_type->name,
@@ -760,7 +757,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function transform_taxonomies( $taxonomies, $post_type_names ) {
 		$transformed  = [];
-		$needs_review = $this->options->get( 'needs_review_taxonomies', [] );
+		$needs_review = $this->options->get( 'new_taxonomies', [] );
 		foreach ( $taxonomies as $taxonomy ) {
 			$transformed[ $taxonomy->name ] = [
 				'name'          => $taxonomy->name,
@@ -830,25 +827,5 @@ class Settings_Integration implements Integration_Interface {
 		return [
 			'siteLogoId' => $site_logo_id,
 		];
-	}
-
-	/**
-	 * Removes the notification related to the post types which have been made public.
-	 *
-	 * @return void
-	 */
-	private function remove_post_types_made_public_notification() {
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification_by_id( 'post-types-made-public' );
-	}
-
-	/**
-	 * Removes the notification related to the taxonomies which have been made public.
-	 *
-	 * @return void
-	 */
-	private function remove_taxonomies_made_public_notification() {
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification_by_id( 'taxonomies-made-public' );
 	}
 }
