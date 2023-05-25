@@ -7,7 +7,6 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast_Notification;
 use Yoast_Notification_Center;
 use Brain\Monkey;
 use Mockery;
@@ -56,6 +55,25 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 		$this->instance = new Content_Type_Visibility_Notifications(
 			$this->options,
 			$this->notification_center
+		);
+	}
+
+	/**
+	 * Tests the __construct method.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct() {
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options' ),
+			'Options helper is not set correctly.'
+		);
+
+		$this->assertInstanceOf(
+			Yoast_Notification_Center::class,
+			$this->getPropertyValue( $this->instance, 'notification_center' ),
+			'Notification center is not set correctly.'
 		);
 	}
 
