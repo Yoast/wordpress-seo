@@ -14,16 +14,7 @@ use Yoast_Notification_Center;
  * Notifications for new content types.
  * This class is responsible for showing notifications for new content types.
  */
-class Content_Types_Visibility_Notifications implements Integration_Interface {
-
-		/**
-		 * Returns the conditionals based on which this loadable should be active.
-		 *
-		 * @return array
-		 */
-	public static function get_conditionals() {
-		return [ Not_Admin_Ajax_Conditional::class, Admin_Conditional::class, Migrations_Conditional::class ];
-	}
+class Content_Type_Visibility_Notifications implements Integration_Interface {
 
 	/**
 	 * Holds the Options_Helper instance.
@@ -51,6 +42,15 @@ class Content_Types_Visibility_Notifications implements Integration_Interface {
 	) {
 		$this->options             = $options;
 		$this->notification_center = $notification_center;
+	}
+
+	/**
+	 * Returns the conditionals based on which this loadable should be active.
+	 *
+	 * @return array
+	 */
+	public static function get_conditionals() {
+		return [ Not_Admin_Ajax_Conditional::class, Admin_Conditional::class, Migrations_Conditional::class ];
 	}
 
 	/**
@@ -129,7 +129,7 @@ class Content_Types_Visibility_Notifications implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	private function maybe_add_notification() {
+	public function maybe_add_notification() {
 		$notification = $this->notification_center->get_notification_by_id( 'content-types-made-public' );
 		if ( \is_null( $notification ) ) {
 			$this->add_notification();
