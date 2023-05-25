@@ -1,4 +1,4 @@
-import { createInterpolateElement, useMemo, useCallback } from "@wordpress/element";
+import { createInterpolateElement, useMemo, useCallback, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
@@ -16,7 +16,7 @@ import {
 } from "../../components";
 import { safeToLocaleLower } from "../../helpers";
 import { withFormikDummyField } from "../../hocs";
-import { useSelectSettings } from "../../hooks";
+import { useSelectSettings, useDispatchSettings } from "../../hooks";
 
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
@@ -26,7 +26,7 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  * @param {string[]} postTypes The connected post types.
  * @returns {JSX.Element} The taxonomy element.
  */
-const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
+const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, needsReview } ) => {
 	const postTypes = useSelectSettings( "selectPostTypes", [ postTypeNames ], postTypeNames );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
@@ -42,6 +42,13 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 	const postTypeValues = useMemo( () => values( postTypes ), [ postTypes ] );
 	const initialPostTypeValues = useMemo( () => initial( postTypeValues ), [ postTypeValues ] );
 	const lastPostTypeValue = useMemo( () => last( postTypeValues ), [ postTypeValues ] );
+	const { updateTaxonomyReviewStatus } = useDispatchSettings();
+
+	useEffect( () => {
+		if ( needsReview ) {
+			updateTaxonomyReviewStatus( name );
+		}
+	}, [ name ] );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -296,6 +303,7 @@ Taxonomy.propTypes = {
 	label: PropTypes.string.isRequired,
 	postTypes: PropTypes.arrayOf( PropTypes.string ).isRequired,
 	showUi: PropTypes.bool.isRequired,
+	needsReview: PropTypes.bool.isRequired,
 };
 
 export default Taxonomy;
