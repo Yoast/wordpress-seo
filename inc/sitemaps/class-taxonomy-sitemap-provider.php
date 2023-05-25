@@ -249,7 +249,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$canonical  = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
 			$url['loc'] = get_term_link( $term, $term->taxonomy );
 
-			if ( $canonical !== '' && $canonical !== $url['loc'] ) {
+			if ( is_string( $canonical ) && $canonical !== '' && $canonical !== $url['loc'] ) {
 				continue;
 			}
 
