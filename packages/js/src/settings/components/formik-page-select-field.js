@@ -62,11 +62,10 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 				abortController?.abort();
 			}
 			abortController = new AbortController();
-
+			// eslint-disable-next-line camelcase
 			const response = await fetchPages( { search, per_page: 20 } );
 
 			setQueriedPageIds( map( response.payload, "id" ) );
-			// addManyPages( response );
 			setStatus( ASYNC_ACTION_STATUS.success );
 		} catch ( error ) {
 			if ( error instanceof DOMException && error.name === "AbortError" ) {
@@ -160,6 +159,7 @@ FormikPageSelectField.propTypes = {
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	className: PropTypes.string,
+	disabled: PropTypes.bool,
 	description: PropTypes.string,
 };
 
