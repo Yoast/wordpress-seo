@@ -1,25 +1,17 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Builders;
+namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder;
 
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
-use Yoast\WP\SEO\Helpers\Image_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Post_Helper;
-use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\SEO_Links;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexable_Author_Test.
+ * Class Build_Test.
  *
  * @group indexables
  * @group builders
@@ -27,88 +19,32 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  */
-class Indexable_Link_Builder_Test extends TestCase {
+class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 
 	/**
-	 * The SEO links repository.
+	 * Data provider to test the build.
 	 *
-	 * @var Mockery\MockInterface|SEO_Links_Repository
+	 * @return array The test data.
 	 */
-	protected $seo_links_repository;
-
-	/**
-	 * The url helper.
-	 *
-	 * @var Mockery\MockInterface|Url_Helper
-	 */
-	protected $url_helper;
-
-	/**
-	 * The image helper.
-	 *
-	 * @var Mockery\MockInterface|Image_Helper
-	 */
-	protected $image_helper;
-
-	/**
-	 * The post helper.
-	 *
-	 * @var Mockery\MockInterface|Post_Helper
-	 */
-	protected $post_helper;
-
-	/**
-	 * The options helper.
-	 *
-	 * @var Mockery\MockInterface|Options_Helper
-	 */
-	protected $options_helper;
-
-	/**
-	 * The indexable repository.
-	 *
-	 * @var Mockery\MockInterface|Indexable_Repository
-	 */
-	protected $indexable_repository;
-
-	/**
-	 * The test instance.
-	 *
-	 * @var Indexable_Link_Builder
-	 */
-	protected $instance;
-
-	/**
-	 * Sets up the tests.
-	 */
-	protected function set_up() {
-		parent::set_up();
-
-		$this->seo_links_repository = Mockery::mock( SEO_Links_Repository::class );
-		$this->url_helper           = Mockery::mock( Url_Helper::class );
-		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
-		$this->image_helper         = Mockery::mock( Image_Helper::class );
-		$this->post_helper          = Mockery::mock( Post_Helper::class );
-		$this->options_helper       = Mockery::mock( Options_Helper::class );
-
-		$this->instance = new Indexable_Link_Builder(
-			$this->seo_links_repository,
-			$this->url_helper,
-			$this->post_helper,
-			$this->options_helper
-		);
-		$this->instance->set_dependencies( $this->indexable_repository, $this->image_helper );
-
-		Functions\expect( 'wp_list_pluck' )->andReturnUsing(
-			static function ( $haystack, $prop ) {
-				return \array_map(
-					static function ( $e ) use ( $prop ) {
-						return $e->{$prop};
-					},
-					$haystack
-				);
-			}
-		);
+	public function build_provider() {
+		return [
+			[
+				'
+					<a href="https://link.com/newly-added-in-post">link</a>
+					<a href="https://link.com/already-existed-in-post">link</a>
+				',
+				SEO_Links::TYPE_EXTERNAL,
+				false,
+			],
+			[
+				'
+					<img src="https://link.com/newly-added-in-post" />
+					<img src="https://link.com/already-existed-in-post" />
+				',
+				SEO_Links::TYPE_EXTERNAL_IMAGE,
+				true,
+			],
+		];
 	}
 
 	/**
@@ -117,6 +53,8 @@ class Indexable_Link_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::set_dependencies
 	 * @covers ::build
+	 * @covers ::create_links
+	 * @covers ::create_internal_link
 	 *
 	 * @dataProvider build_provider
 	 *
@@ -156,12 +94,14 @@ class Indexable_Link_Builder_Test extends TestCase {
 			'path'   => 'newly-added-in-post',
 		];
 
+		// Inside create_links method.
 		Functions\expect( 'home_url' )->once()->andReturn( 'https://site.com' );
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com' )->andReturn( $parsed_home_url );
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com/page' )->andReturn( $parsed_page_url );
+
+		// Inside create_links->create_internal_link method.
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://link.com/newly-added-in-post' )->andReturn( $parsed_new_link_url );
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://link.com/already-existed-in-post' )->andReturn( $parsed_existing_link_url );
-
 		$this->url_helper->expects( 'get_link_type' )->with( $parsed_new_link_url, $parsed_home_url, $is_image )->andReturn( $link_type );
 		$this->url_helper->expects( 'get_link_type' )->with( $parsed_existing_link_url, $parsed_home_url, $is_image )->andReturn( $link_type );
 
@@ -178,6 +118,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$existing_seo_link->indexable_id = $indexable->id;
 		$existing_seo_link->post_id      = $indexable->object_id;
 
+		// Inside create_links->create_internal_link method.
 		$this->seo_links_repository->expects( 'query' )->twice()->andReturn( $query_mock );
 		$query_mock->expects( 'create' )->once()->with(
 			[
@@ -200,10 +141,10 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$old_seo_link->target_indexable_id = 3;
 		$old_seo_link->url                 = 'https://link.com/no-longer-in-post/';
 		$old_seo_link->id                  = 567;
-		$this->seo_links_repository->expects( 'find_all_by_indexable_id' )->once()->with( $indexable->id )->andReturn( [ $old_seo_link, $existing_seo_link ] );
-		$this->seo_links_repository->expects( 'delete_many_by_id' )->once()->with( [ 567 ] );
-		$this->seo_links_repository->expects( 'delete_all_by_post_id_where_indexable_id_null' )->once()->with( $indexable->object_id );
-		$this->seo_links_repository->expects( 'insert_many' )->once()->with( [ $new_seo_link ] );
+
+		$this->expect_update_related_indexables( $indexable, [ $new_seo_link ], [ $old_seo_link, $existing_seo_link ], [ 567 ] );
+
+		// Inside update_related_indexables->update_incoming_links_for_related_indexables method.
 		$this->seo_links_repository
 			->expects( 'get_incoming_link_counts_for_indexable_ids' )
 			->once()
@@ -290,7 +231,8 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$seo_link->target_post_id      = $target_indexable->object_id;
 
 		$this->seo_links_repository->expects( 'query' )->once()->andReturn( $query_mock );
-		$this->seo_links_repository->expects( 'delete_many_by_id' )->once()->with( [ 567 ] );
+
+		// Inside create_links->create_internal_link method.
 		$query_mock->expects( 'create' )->once()->with(
 			[
 				'url'          => $target_indexable->permalink,
@@ -304,9 +246,10 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$old_seo_link->target_indexable_id = 3;
 		$old_seo_link->url                 = 'https://link.com/no-longer-in-post/';
 		$old_seo_link->id                  = 567;
-		$this->seo_links_repository->expects( 'find_all_by_indexable_id' )->once()->with( $indexable->id )->andReturn( [ $old_seo_link ] );
-		$this->seo_links_repository->expects( 'delete_all_by_post_id_where_indexable_id_null' )->once()->with( $indexable->object_id );
-		$this->seo_links_repository->expects( 'insert_many' )->once()->with( [ $seo_link ] );
+
+		$this->expect_update_related_indexables( $indexable, [ $seo_link ], [ $old_seo_link ], [ 567 ] );
+
+		// Inside update_related_indexables->update_incoming_links_for_related_indexables method.
 		$this->seo_links_repository->expects( 'get_incoming_link_counts_for_indexable_ids' )
 			->with( [ 2, 3 ] )
 			->andReturn(
@@ -321,9 +264,10 @@ class Indexable_Link_Builder_Test extends TestCase {
 					],
 				]
 			);
-
 		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 2, 0 );
 		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 3, 0 );
+
+		// Inside create_links->create_internal_link->enhance_link_from_indexable method.
 		$this->indexable_repository->expects( 'find_by_permalink' )
 			->once()
 			->with( $target_indexable->permalink )
@@ -332,6 +276,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 			->with( 3, 'post' )
 			->andReturn( $target_indexable );
 
+		// Inside create_links->create_internal_link->enhance_link_from_indexable->get_post_id method.
 		Functions\expect( 'url_to_postid' )
 			->with( $target_indexable->permalink )
 			->andReturn( $target_indexable->object_id );
@@ -345,28 +290,39 @@ class Indexable_Link_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Data provider to test the build.
+	 * Tests the build method with no links.
 	 *
-	 * @return array The test data.
+	 * @covers ::build
 	 */
-	public function build_provider() {
-		return [
-			[
-				'
-					<a href="https://link.com/newly-added-in-post">link</a>
-					<a href="https://link.com/already-existed-in-post">link</a>
-				',
-				SEO_Links::TYPE_EXTERNAL,
-				false,
-			],
-			[
-				'
-					<img src="https://link.com/newly-added-in-post" />
-					<img src="https://link.com/already-existed-in-post" />
-				',
-				SEO_Links::TYPE_EXTERNAL_IMAGE,
-				true,
-			],
-		];
+	public function test_build_no_links() {
+
+		$indexable              = Mockery::mock( Indexable_Mock::class );
+		$indexable->id          = 1;
+		$indexable->object_id   = 2;
+		$indexable->object_type = 'page';
+		$indexable->permalink   = 'https://site.com/page';
+
+		$this->seo_links_repository
+			->expects( 'find_all_by_indexable_id' )
+			->with( $indexable->id )
+			->once()
+			->andReturn( [] );
+
+		$this->assertSame( [], $this->instance->build( $indexable, '' ) );
+	}
+
+	/**
+	 * Expectation for update_related_indexables.
+	 *
+	 * @param object $indexable    The indexable object.
+	 * @param array  $new_seo_link The new seo link.
+	 * @param array  $old_seo_link The old seo link.
+	 * @param array  $delete_ids   The delete ids.
+	 */
+	public function expect_update_related_indexables( $indexable, $new_seo_link, $old_seo_link, $delete_ids ) {
+
+		$this->seo_links_repository->expects( 'delete_all_by_post_id_where_indexable_id_null' )->once()->with( $indexable->object_id );
+		$this->seo_links_repository->expects( 'delete_many_by_id' )->once()->with( $delete_ids );
+		$this->expect_update_related_indexables_with_links_to_add( $indexable->id, $new_seo_link, $old_seo_link );
 	}
 }

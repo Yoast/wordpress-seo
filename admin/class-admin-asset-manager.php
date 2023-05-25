@@ -243,6 +243,7 @@ class WPSEO_Admin_Asset_Manager {
 			'api-client'               => [ 'wp-api' ],
 			'crawl-settings'           => [ 'jquery' ],
 			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
+			'wincher-dashboard-widget' => [ self::PREFIX . 'api-client' ],
 			'editor-modules'           => [ 'jquery' ],
 			'elementor'                => [
 				self::PREFIX . 'api-client',
@@ -573,10 +574,6 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'admin-global',
 				'src'  => 'admin-global-' . $flat_version,
-			],
-			[
-				'name' => 'yoast-components',
-				'src'  => 'yoast-components-' . $flat_version,
 			],
 			[
 				'name' => 'extensions',

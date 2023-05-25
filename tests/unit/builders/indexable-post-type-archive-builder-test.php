@@ -7,8 +7,10 @@ use Mockery;
 use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Type_Archive_Builder;
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Type_Not_Built_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
@@ -25,6 +27,18 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
+
+	/**
+	 * Set up function stubs.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+	}
 
 	/**
 	 * Tests the formatting of the indexable data.
@@ -47,6 +61,9 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 
 		$post_helper = Mockery::mock( Post_Helper::class );
 		$post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
+		$post_type_helper = Mockery::mock( Post_Type_Helper::class );
+		$post_type_helper->expects( 'is_post_type_archive_indexable' )->andReturnTrue();
 
 		$wpdb        = Mockery::mock( wpdb::class );
 		$wpdb->posts = 'wp_posts';
@@ -85,7 +102,32 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 00:00:00' );
 
-		$builder = new Indexable_Post_Type_Archive_Builder( $options_mock, $versions, $post_helper, $wpdb );
+		$builder = new Indexable_Post_Type_Archive_Builder( $options_mock, $versions, $post_helper, $post_type_helper, $wpdb );
+		$builder->build( 'my-post-type', $indexable_mock );
+	}
+
+	/**
+	 * Tests the formatting of the indexable data.
+	 *
+	 * @covers ::build
+	 */
+	public function test_build_not_indexed() {
+		Monkey\Functions\expect( 'get_post_type_archive_link' )->never();
+		$post_type_helper = Mockery::mock( Post_Type_Helper::class );
+		$post_type_helper->expects( 'is_post_type_archive_indexable' )->andReturnFalse();
+
+		$versions = Mockery::mock( Indexable_Builder_Versions::class );
+		$versions
+			->expects( 'get_latest_version_for_type' )
+			->with( 'post-type-archive' )
+			->andReturn( 1 );
+
+		$post_helper    = Mockery::mock( Post_Helper::class );
+		$wpdb           = Mockery::mock( wpdb::class );
+		$options_mock   = Mockery::mock( Options_Helper::class );
+		$indexable_mock = Mockery::mock( Indexable::class );
+		$builder        = new Indexable_Post_Type_Archive_Builder( $options_mock, $versions, $post_helper, $post_type_helper, $wpdb );
+		$this->expectException( Post_Type_Not_Built_Exception::class );
 		$builder->build( 'my-post-type', $indexable_mock );
 	}
 }

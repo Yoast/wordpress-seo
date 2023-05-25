@@ -35,7 +35,7 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Indexable_Cleanup_Repository $cleanup_repository   The cleanup repository.
+	 * @param Indexable_Cleanup_Repository $cleanup_repository The cleanup repository.
 	 */
 	public function __construct( Indexable_Cleanup_Repository $cleanup_repository ) {
 		$this->cleanup_repository = $cleanup_repository;
@@ -111,6 +111,9 @@ class Cleanup_Integration implements Integration_Interface {
 				},
 				'clean_indexables_for_non_publicly_viewable_taxonomies' => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_for_non_publicly_viewable_taxonomies( $limit );
+				},
+				'clean_indexables_for_non_publicly_viewable_post_type_archive_pages' => function ( $limit ) {
+					return $this->cleanup_repository->clean_indexables_for_non_publicly_viewable_post_type_archive_pages( $limit );
 				},
 				'clean_indexables_for_authors_archive_disabled' => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_for_authors_archive_disabled( $limit );
@@ -282,4 +285,3 @@ class Cleanup_Integration implements Integration_Interface {
 		}
 	}
 }
-

@@ -32,7 +32,7 @@ class WPSEO_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_SEO_Framework::get_plugin_name
 	 */
 	public function test_plugin_name() {
-		$this->assertEquals( 'SEO Framework', $this->class_instance->get_plugin_name() );
+		$this->assertEquals( 'The SEO Framework', $this->class_instance->get_plugin_name() );
 	}
 
 	/**

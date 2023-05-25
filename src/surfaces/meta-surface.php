@@ -134,7 +134,6 @@ class Meta_Surface {
 			return false;
 		}
 
-
 		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Home_Page' ) );
 	}
 
@@ -185,7 +184,6 @@ class Meta_Surface {
 		if ( ! $indexable ) {
 			return false;
 		}
-
 
 		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Error_Page' ) );
 	}

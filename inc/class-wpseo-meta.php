@@ -383,8 +383,6 @@ class WPSEO_Meta {
 					unset( $field_defs['bctitle'] );
 				}
 
-				global $post;
-
 				if ( empty( $post->ID ) || ( ! empty( $post->ID ) && self::get_value( 'redirect', $post->ID ) === '' ) ) {
 					unset( $field_defs['redirect'] );
 				}
@@ -455,7 +453,6 @@ class WPSEO_Meta {
 				}
 				break;
 
-
 			case ( $field_def['type'] === 'select' || $field_def['type'] === 'radio' ):
 				// Only allow value if it's one of the predefined options.
 				if ( isset( $field_def['options'][ $meta_value ] ) ) {
@@ -463,11 +460,9 @@ class WPSEO_Meta {
 				}
 				break;
 
-
 			case ( $field_def['type'] === 'hidden' && $meta_key === self::$meta_prefix . 'meta-robots-adv' ):
 				$clean = self::validate_meta_robots_adv( $meta_value );
 				break;
-
 
 			case ( $field_def['type'] === 'url' || $meta_key === self::$meta_prefix . 'canonical' ):
 				// Validate as url(-part).
@@ -476,7 +471,6 @@ class WPSEO_Meta {
 					$clean = $url;
 				}
 				break;
-
 
 			case ( $field_def['type'] === 'upload' && in_array( $meta_key, [ self::$meta_prefix . 'opengraph-image', self::$meta_prefix . 'twitter-image' ], true ) ):
 				// Validate as url.
@@ -517,7 +511,6 @@ class WPSEO_Meta {
 			case ( $field_def['type'] === 'multiselect' ):
 				$clean = $meta_value;
 				break;
-
 
 			case ( $field_def['type'] === 'text' ):
 			default:
@@ -1029,12 +1022,7 @@ class WPSEO_Meta {
 			->find_array();
 
 		// Get object_id from each subarray in $post_ids.
-		$post_ids = array_map(
-			function( $row ) {
-				return $row['object_id'];
-			},
-			$post_ids
-		);
+		$post_ids = array_column( $post_ids, 'object_id' );
 
 		/*
 		 * If Premium is installed, get the additional keywords as well.
@@ -1081,12 +1069,7 @@ class WPSEO_Meta {
 				->find_array();
 
 			// Get object_sub_type from each subarray in $post_ids.
-			$post_types = array_map(
-				function( $row ) {
-					return $row['object_sub_type'];
-				},
-				$post_types
-			);
+			$post_types = array_column( $post_types, 'object_sub_type' );
 		}
 		else {
 			$post_types = [];

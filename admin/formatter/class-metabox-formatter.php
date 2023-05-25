@@ -209,6 +209,7 @@ class WPSEO_Metabox_Formatter {
 			'wincherAutoAddKeyphrases'          => WPSEO_Options::get( 'wincher_automatically_add_keyphrases', false ),
 			'wordproofIntegrationActive'        => YoastSEO()->helpers->wordproof->is_active() ? 1 : 0,
 			'multilingualPluginActive'          => $this->multilingual_plugin_active(),
+
 			/**
 			 * Filter to determine whether the PreviouslyUsedKeyword assessment should run.
 			 *

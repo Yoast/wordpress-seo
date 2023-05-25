@@ -2,11 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Url_Helper;
-use Yoast\WP\SEO\Helpers\Redirect_Helper;
-
 /**
  * Class Crawl_Cleanup_Helper.
  *
@@ -253,7 +248,7 @@ class Crawl_Cleanup_Helper {
 	 * Redirects clean permalink.
 	 *
 	 * @param string $proper_url The proper URL.
-	 * @return void.
+	 * @return void
 	 */
 	public function do_clean_redirect( $proper_url ) {
 		$this->redirect_helper->set_header( 'Content-Type: redirect', true );

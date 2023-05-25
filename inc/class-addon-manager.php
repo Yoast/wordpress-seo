@@ -455,7 +455,6 @@ class WPSEO_Addon_Manager {
 			return;
 		}
 
-
 		foreach ( $this->addon_details as $slug => $addon_info ) {
 			$notification = $this->create_notification( $addon_info['name'], $addon_info['short_link_activation'] );
 

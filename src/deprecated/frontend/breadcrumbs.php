@@ -132,6 +132,7 @@ class WPSEO_Breadcrumbs {
 	private function render() {
 		$presenter = new Breadcrumbs_Presenter();
 		$context   = $this->context_memoizer->for_current_page();
+
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$presentation            = apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
 		$presenter->presentation = $presentation;

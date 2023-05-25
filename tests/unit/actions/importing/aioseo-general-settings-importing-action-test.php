@@ -209,7 +209,7 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function test_map( $setting, $setting_value, $times, $transform_times, $image_times, $set_image_times ) {
 		$this->mock_instance->build_mapping();
-		$aioseo_options_to_yoast_map = $this->mock_instance->get_aioseo_options_to_yoast_map();
+		$this->mock_instance->get_aioseo_options_to_yoast_map();
 
 		$this->options->shouldReceive( 'get_default' )
 			->times( $times )
