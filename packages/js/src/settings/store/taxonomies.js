@@ -1,5 +1,6 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { get, omit, reduce, values } from "lodash";
+import apiFetch from "@wordpress/api-fetch";
 
 /**
  * @returns {Object} The initial state.
@@ -16,11 +17,35 @@ export const createInitialTaxonomiesState = () => reduce( get( window, "wpseoScr
 	},
 } ), {} );
 
+const UPDATE_REVIEW_ACTION_NAME = "updateTaxonomyReviewStatus";
+
+/**
+ * @param {String} taxonomyName The query data.
+ * @returns {Object} Success or error action object.
+ */
+export function* updateTaxonomyReviewStatus( taxonomyName ) {
+	try {
+		yield{
+			type: UPDATE_REVIEW_ACTION_NAME,
+			payload: taxonomyName,
+		};
+	} catch ( error ) {
+		// Empty.
+	}
+	return { type: `${ UPDATE_REVIEW_ACTION_NAME }/result`, payload: taxonomyName };
+}
+
 const slice = createSlice( {
 	name: "taxonomies",
 	initialState: createInitialTaxonomiesState(),
 	reducers: {},
+	extraReducers: ( builder ) => {
+		builder.addCase( `${ UPDATE_REVIEW_ACTION_NAME }/result`, ( state, { payload } ) => {
+			state[ payload ].needsReview = false;
+		} );
+	},
 } );
+
 
 const taxonomiesSelectors = {
 	selectTaxonomy: ( state, taxonomyName, defaultValue = {} ) => get( state, `taxonomies.${ taxonomyName }`, defaultValue ),
@@ -34,6 +59,17 @@ taxonomiesSelectors.selectTaxonomies = createSelector(
 
 export { taxonomiesSelectors };
 
-export const taxonomiesActions = slice.actions;
+export const updateTaxonomyReviewControls = {
+	[ UPDATE_REVIEW_ACTION_NAME ]: async( { payload } ) => apiFetch( {
+		path: "/yoast/v1/needs-review/dismiss-taxonomy",
+		method: "POST",
+		data: { taxonomyName: payload },
+	} ),
+};
+
+export const taxonomiesActions = {
+	...slice.actions,
+	updateTaxonomyReviewStatus,
+};
 
 export default slice.reducer;
