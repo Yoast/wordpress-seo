@@ -21,7 +21,7 @@
 | Green   	      | 9	     | All content words from the keyphrase or synonym phrase are within one sentence in the first paragraph	 | **Keyphrase in introduction**: Well done! |
 
 ### 2) Keyphrase length
-**What it does**: Checks whether the number of ( content ) words in the keyphrase is within the recommended limit. For languages with function word support only content words are considered. For languages without function word support all words are considered.
+**What it does**: Checks whether the number of (content) words in the keyphrase is within the recommended limit. For languages with function word support only content words are considered. For languages without function word support all words are considered.
 
 **Uses synonyms**: no
 
