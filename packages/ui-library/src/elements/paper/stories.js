@@ -1,5 +1,6 @@
 // eslint-disable react/display-name
-import { StoryComponent } from ".";
+import Paper, { StoryComponent } from ".";
+import { StoryComponent as Title } from "../title";
 
 export default {
 	title: "1) Elements/Paper",
@@ -27,4 +28,28 @@ Factory.parameters = {
 Factory.args = {
 	children: "Paper factory",
 	className: "yst-p-6",
+};
+
+export const WithHeaderAndContent = {
+	component: Factory.bind( {} ),
+	parameters: {
+		docs: {
+			description: {
+				story: "Using the `Paper.Header` and `Paper.Content` to give the Paper structure.",
+			},
+		},
+	},
+	args: {
+		children: (
+			<>
+				<Paper.Header>
+					<Title>Title</Title>
+					<span>Description</span>
+				</Paper.Header>
+				<Paper.Content>
+					<span>Content</span>
+				</Paper.Content>
+			</>
+		),
+	},
 };
