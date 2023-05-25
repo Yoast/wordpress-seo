@@ -16,6 +16,8 @@ class Support_Integration implements Integration_Interface {
 
 	const PAGE = 'wpseo_page_support';
 
+	const CAPABILITY = 'wpseo_manage_options';
+
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
 	 *
@@ -103,7 +105,7 @@ class Support_Integration implements Integration_Interface {
 			'wpseo_dashboard',
 			'',
 			\__( 'Support', 'wordpress-seo' ),
-			'wpseo_manage_options',
+			self::CAPABILITY,
 			self::PAGE,
 			[ $this, 'display_page' ],
 		];
