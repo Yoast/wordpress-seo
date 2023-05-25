@@ -350,6 +350,70 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			fieldLabel: __( "Usage tracking", "wordpress-seo" ),
 			keywords: [],
 		},
+		publishing_principles_id: {
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-publishing_principles_id",
+			fieldLabel: __( "Publishing principles", "wordpress-seo" ),
+			keywords: [
+				__( "Publishing policies", "wordpress-seo" ),
+			],
+		},
+		ownership_funding_info_id: {
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-ownership_funding_info_id",
+			fieldLabel: __( "Ownership / Funding info", "wordpress-seo" ),
+			keywords: [
+				__( "Publishing policies", "wordpress-seo" ),
+
+			],
+		},
+		actionable_feedback_policy_id: {
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-actionable_feedback_policy_id",
+			fieldLabel: __( "Actionable feedback policy", "wordpress-seo" ),
+			keywords: [
+				__( "Publishing policies", "wordpress-seo" ),
+			],
+		},
+		corrections_policy_id: {
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-corrections_policy_id",
+			fieldLabel: __( "Corrections policy", "wordpress-seo" ),
+			keywords: [
+				__( "Publishing policies", "wordpress-seo" ),
+			],
+		},
+		ethics_policy_id: {
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-ethics_policy_id",
+			fieldLabel: __( "Ethics policy", "wordpress-seo" ),
+			keywords: [
+				__( "Publishing policies", "wordpress-seo" ),
+			],
+		},
+		diversity_policy_id: {
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-diversity_policy_id",
+			fieldLabel: __( "Diversity policy", "wordpress-seo" ),
+			keywords: [
+				__( "Publishing policies", "wordpress-seo" ),
+			],
+		},
+		diversity_staffing_report_id: {
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-diversity_staffing_report_id",
+			fieldLabel: __( "Diversity staffing report", "wordpress-seo" ),
+			keywords: [
+				__( "Publishing policies", "wordpress-seo" ),
+			],
+		},
 		baiduverify: {
 			route: "/site-connections",
 			routeLabel: __( "Site connections", "wordpress-seo" ),
