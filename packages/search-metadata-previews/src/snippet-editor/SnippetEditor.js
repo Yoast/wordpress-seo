@@ -46,7 +46,7 @@ const CloseEditorButton = styled( SnippetEditorButton )`
 	margin-top: 24px;
 `;
 
-// The regex of the variables we want to exclude from the SEO title.
+// The regex for the replacement variables we want to exclude from the SEO title before we measure the width.
 const excludedVars = new RegExp( "(%%sep%%|%%sitename%%)", "g" );
 
 /**
