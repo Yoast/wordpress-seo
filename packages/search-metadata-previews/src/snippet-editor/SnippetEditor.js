@@ -50,11 +50,11 @@ const CloseEditorButton = styled( SnippetEditorButton )`
 const excludedVars = new RegExp( "(%%sep%%|%%sitename%%)", "g" );
 
 /**
- * Gets the title progress.
+ * Gets the SEO title progress.
  *
- * @param {string} title The title.
+ * @param {string} title The SEO title.
  *
- * @returns {Object} The title progress.
+ * @returns {Object} The SEO title progress.
  */
 function getTitleProgress( title ) {
 	const titleWidth = measureTextWidth( title );
@@ -117,7 +117,7 @@ class SnippetEditor extends React.Component {
 	 * @param {Object[]} props.recommendedReplacementVariables   The recommended replacement variables for this editor.
 	 * @param {Object}   props.data                              The initial editor data.
 	 * @param {string}   props.keyword                           The focus keyword.
-	 * @param {string}   props.data.title                        The initial title.
+	 * @param {string}   props.data.title                        The initial SEO title.
 	 * @param {string}   props.data.slug                         The initial slug.
 	 * @param {string}   props.data.description                  The initial description.
 	 * @param {bool}     props.isCornerstone                     Whether the cornerstone content toggle is on or off.
@@ -125,7 +125,7 @@ class SnippetEditor extends React.Component {
 	 * @param {string}   props.baseUrl                           The base URL to use for the preview.
 	 * @param {string}   props.mode                              The mode the editor should be in.
 	 * @param {Function} props.onChange                          Called when the data changes.
-	 * @param {Object}   props.titleLengthProgress               The values for the title length assessment.
+	 * @param {Object}   props.titleLengthProgress               The values for the SEO title length assessment.
 	 * @param {Object}   props.descriptionLengthProgress         The values for the description length assessment.
 	 * @param {Function} props.mapEditorDataToPreview            Function to map the editor data to data for the preview.
 	 * @param {Function} props.applyReplacementVariables         Function that overrides default replacement variables application with a custom one.
