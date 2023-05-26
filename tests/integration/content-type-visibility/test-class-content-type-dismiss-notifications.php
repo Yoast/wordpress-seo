@@ -38,21 +38,28 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 	 *
 	 * @var Options_Helper
 	 */
-	protected $options;
+	private $options;
 
 	/**
 	 * The mock Options_Helper.
 	 *
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
-	protected $mock_options;
+	private $mock_options;
+
+	/**
+	 * The instance to test with mock options helper.
+	 *
+	 * @var Content_Type_Visibility_Dismiss_Notifications
+	 */
+	private $instance_mock_options;
 
 	/**
 	 * The notifications center.
 	 *
 	 * @var Yoast_Notification_Center
 	 */
-	protected $notification_center;
+	private $notification_center;
 
 	/**
 	 * Gets the initialized notification center.
