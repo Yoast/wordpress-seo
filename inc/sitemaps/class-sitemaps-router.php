@@ -5,6 +5,8 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+use Yoast\WP\SEO\Conditionals\Deactivating_Yoast_Seo_Conditional;
+
 /**
  * Rewrite setup and handling for sitemaps functionality.
  */
@@ -30,6 +32,10 @@ class WPSEO_Sitemaps_Router {
 		$wp->add_query_var( 'sitemap' );
 		$wp->add_query_var( 'sitemap_n' );
 		$wp->add_query_var( 'yoast-sitemap-xsl' );
+
+		if ( YoastSEO()->classes->get( Deactivating_Yoast_Seo_Conditional::class )->is_met() ) {
+			return;
+		}
 
 		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
 		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
