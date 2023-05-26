@@ -175,7 +175,7 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 			->times( $schedule_cleanup_times );
 
 		Functions\expect( 'do_action' )
-		   ->times( $delete_transient_times );
+			->times( $delete_transient_times );
 
 		$this->instance->check_taxonomy_public_availability();
 	}

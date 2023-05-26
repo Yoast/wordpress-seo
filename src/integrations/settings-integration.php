@@ -714,7 +714,7 @@ class Settings_Integration implements Integration_Interface {
 				'hasArchive'           => $this->post_type_helper->has_archive( $post_type ),
 				'hasSchemaArticleType' => $this->article_helper->is_article_post_type( $post_type->name ),
 				'menuPosition'         => $post_type->menu_position,
-				'needsReview'          => \in_array( $post_type->name, $needs_review ),
+				'needsReview'          => \in_array( $post_type->name, $needs_review, true ),
 			];
 		}
 
@@ -771,7 +771,7 @@ class Settings_Integration implements Integration_Interface {
 						return \in_array( $object_type, $post_type_names, true );
 					}
 				),
-				'needsReview'   => \in_array( $taxonomy->name, $needs_review ),
+				'needsReview'   => \in_array( $taxonomy->name, $needs_review, true ),
 			];
 		}
 

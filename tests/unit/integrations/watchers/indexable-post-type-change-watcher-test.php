@@ -173,9 +173,9 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 
 		Functions\expect( 'do_action' )
 			->times( $schedule_cleanup_times );
-			
+
 		Functions\expect( 'do_action' )
-		   ->times( $delete_transient_times );
+			->times( $delete_transient_times );
 
 		$this->instance->check_post_types_public_availability();
 	}
