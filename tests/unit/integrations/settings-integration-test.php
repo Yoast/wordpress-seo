@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -50,6 +51,7 @@ class Settings_Integration_Test extends TestCase {
 		$woocommerce_helper  = Mockery::mock( Woocommerce_Helper::class );
 		$article_helper      = Mockery::mock( Article_Helper::class );
 		$user_helper         = Mockery::mock( User_Helper::class );
+		$options			 = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Settings_Integration(
 			$asset_manager,
@@ -62,7 +64,8 @@ class Settings_Integration_Test extends TestCase {
 			$product_helper,
 			$woocommerce_helper,
 			$article_helper,
-			$user_helper
+			$user_helper,
+			$options
 		);
 	}
 
