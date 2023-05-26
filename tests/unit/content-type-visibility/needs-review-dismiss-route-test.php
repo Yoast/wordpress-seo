@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Content_Type_Visibility;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Needs_Review_Dismiss_Route;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 use Mockery;
 use Brain\Monkey;
 
@@ -16,9 +17,9 @@ class Needs_Review_Dismiss_Route_Test extends TestCase {
 	/**
 	 * Holds the Options_Helper instance.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper
+	 * @var Mockery\MockInterface|Content_Type_Visibility_Dismiss_Notifications
 	 */
-	protected $options;
+	protected $dismiss_notifications;
 
 	/**
 	 * The Content_Type_Visibility_Notifications.
@@ -33,9 +34,9 @@ class Needs_Review_Dismiss_Route_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options = Mockery::mock( Options_Helper::class );
+		$this->dismiss_notifications = Mockery::mock( Content_Type_Visibility_Dismiss_Notifications::class );
 
-		$this->instance = new Needs_Review_Dismiss_Route( $this->options );
+		$this->instance = new Needs_Review_Dismiss_Route( $this->dismiss_notifications );
 	}
 
 	/**
@@ -45,9 +46,9 @@ class Needs_Review_Dismiss_Route_Test extends TestCase {
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
-			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options' ),
-			'Options helper is not set correctly.'
+			Content_Type_Visibility_Dismiss_Notifications::class,
+			$this->getPropertyValue( $this->instance, 'dismiss_notifications' ),
+			'Content_Type_Visibility_Dismiss_Notifications is set correctly.'
 		);
 	}
 
@@ -63,7 +64,7 @@ class Needs_Review_Dismiss_Route_Test extends TestCase {
 				'needs-review/dismiss-post-type',
 				[
 					'methods'             => 'POST',
-					'callback'            => [ $this->instance, 'post_type_dismiss' ],
+					'callback'            => [ $this->dismiss_notifications, 'post_type_dismiss' ],
 					'permission_callback' => [ $this->instance, 'can_dismiss' ],
 					'args'                => [
 						'postTypeName' => [
@@ -82,7 +83,7 @@ class Needs_Review_Dismiss_Route_Test extends TestCase {
 					'needs-review/dismiss-taxonomy',
 					[
 						'methods'             => 'POST',
-						'callback'            => [ $this->instance, 'taxonomy_dismiss' ],
+						'callback'            => [ $this->dismiss_notifications, 'taxonomy_dismiss' ],
 						'permission_callback' => [ $this->instance, 'can_dismiss' ],
 						'args'                => [
 							'taxonomyName' => [
@@ -101,12 +102,26 @@ class Needs_Review_Dismiss_Route_Test extends TestCase {
 					'needs-review/dismiss-notification',
 					[
 						'methods'             => 'POST',
-						'callback'            => [ $this->instance, 'new_content_dismiss' ],
+						'callback'            => [ $this->dismiss_notifications, 'new_content_dismiss' ],
 						'permission_callback' => [ $this->instance, 'can_dismiss' ],
 					]
 				)
 				->once();
 
 		$this->instance->register_routes();
+	}
+
+	/**
+	 * Tests the can_dismiss method.
+	 *
+	 * @covers ::can_dismiss
+	 */
+	public function test_can_dismiss() {
+		Monkey\Functions\expect( 'current_user_can' )
+			->with( 'edit_posts' )
+			->once()
+			->andReturn( true );
+
+		$this->assertTrue( $this->instance->can_dismiss() );
 	}
 }
