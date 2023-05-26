@@ -51,7 +51,7 @@ class Settings_Integration_Test extends TestCase {
 		$woocommerce_helper  = Mockery::mock( Woocommerce_Helper::class );
 		$article_helper      = Mockery::mock( Article_Helper::class );
 		$user_helper         = Mockery::mock( User_Helper::class );
-		$options			 = Mockery::mock( Options_Helper::class );
+		$options             = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Settings_Integration(
 			$asset_manager,
