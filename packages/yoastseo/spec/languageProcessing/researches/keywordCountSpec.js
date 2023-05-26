@@ -4,6 +4,8 @@ import factory from "../../specHelpers/factory";
 import Mark from "../../../src/values/Mark";
 import wordsCountHelper from "../../../src/languageProcessing/languages/ja/helpers/wordsCharacterCount";
 import matchWordsHelper from "../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
+import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
+import japaneseMemoizedSentenceTokenizer from "../../../src/languageProcessing/languages/ja/helpers/memoizedSentenceTokenizer";
 
 /**
  * Adds morphological forms to the mock researcher.
@@ -17,7 +19,7 @@ const buildMorphologyMockResearcher = function( keyphraseForms ) {
 		morphology: {
 			keyphraseForms: keyphraseForms,
 		},
-	}, true );
+	}, true, false, false, { memoizedTokenizer: memoizedSentenceTokenizer } );
 };
 
 const mockResearcher = buildMorphologyMockResearcher( [ [ "keyword", "keywords" ] ] );
@@ -198,6 +200,7 @@ const buildJapaneseMockResearcher = function( keyphraseForms, helper1, helper2 )
 	{
 		wordsCharacterCount: helper1,
 		matchWordCustomHelper: helper2,
+		memoizedTokenizer: japaneseMemoizedSentenceTokenizer,
 	} );
 };
 

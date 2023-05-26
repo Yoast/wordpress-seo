@@ -3,6 +3,7 @@ import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
+import buildTree from "../../specHelpers/parse/buildTree";
 
 describe( "Calculates the reading time for the paper (rounded up to the next highest full minute), using words per minute formula", function() {
 	it( "calculates the reading time for a paper with a short text", function() {
@@ -51,6 +52,8 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 			"sollicitudin volutpat. Suspendisse potenti. Maecenas malesuada." );
 		const researcher = new EnglishResearcher( mockPaper );
 
+		buildTree( mockPaper, researcher );
+
 		expect( readingTime( mockPaper, researcher ) ).toEqual( 2 );
 	} );
 
@@ -70,6 +73,8 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 			"<h2 id='h-food-that-are-cooked'>Food that are cooked</h2> " +
 			"<p>Has an natum errem, vix oratio mediocrem an, pro ponderum senserit dignissim ut.</p>", { locale: "en_US" } );
 		const researcher = new EnglishResearcher( mockPaper );
+
+		buildTree( mockPaper, researcher );
 
 		expect( readingTime( mockPaper, researcher ) ).toEqual( 1 );
 	} );
@@ -91,6 +96,8 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 			"vel sodales. Aenean vulputate mauris augue. In et lorem at velit sollicitudin volutpat. Suspendisse potenti. Maecenas malesuada.",
 		{ locale: "en_US" } );
 		const researcher = new EnglishResearcher( mockPaper );
+
+		buildTree( mockPaper, researcher );
 
 		expect( readingTime( mockPaper, researcher ) ).toEqual( 2 );
 	} );
@@ -114,6 +121,8 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 		{ locale: "en_US" } );
 		const researcher = new EnglishResearcher( mockPaper );
 
+		buildTree( mockPaper, researcher );
+
 		expect( readingTime( mockPaper, researcher ) ).toEqual( 1 );
 	} );
 
@@ -130,6 +139,8 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 			"ing Wikipédia iki. Sapréné, wis ana 50.378 akun lan 64.537 artikel ing Wikipédia basa Jawa. Ayo ngéwangi mbecikaké Wikipédia Jawa iki!",
 		{ locale: "jv_ID" } );
 		const researcher = new DefaultResearcher( mockPaper );
+
+		buildTree( mockPaper, researcher );
 
 		expect( readingTime( mockPaper, researcher ) ).toEqual( 2 );
 	} );
@@ -163,6 +174,8 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 		{ locale: "ja" } );
 		const researcher = new JapaneseResearcher( mockPaper );
 
+		buildTree( mockPaper, researcher );
+
 		expect( readingTime( mockPaper, researcher ) ).toEqual( 4 );
 	} );
 
@@ -170,6 +183,8 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 		const mockPaper = new Paper( "これは画像付きの短いテキストです。 <img src='http://plaatje1' alt='かわいい猫' /> <img src='http://plaatje2' alt='かわいい猫' />",
 			{ locale: "ja" } );
 		const researcher = new JapaneseResearcher( mockPaper );
+
+		buildTree( mockPaper, researcher );
 
 		expect( readingTime( mockPaper, researcher ) ).toEqual( 1 );
 	} );
@@ -192,6 +207,8 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 			"畑や集落周辺には猛毒を持つハブが棲息しており、餌となるネズミを求めて人の生活圏にも出没する。そのため、ネコを放し飼いにしてネズミを獲らせ、ハブが近づかないようにした。" +
 			"このように人が持ち込んだネコが放し飼いにされ、自力で小動物を捕食して生きていけるようになったネコが「ノネコ」と言われる[7]。", { locale: "ja" } );
 		const researcher = new JapaneseResearcher( mockPaper );
+
+		buildTree( mockPaper, researcher );
 
 		expect( readingTime( mockPaper, researcher ) ).toEqual( 4 );
 	} );
@@ -216,6 +233,8 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 			"このように人が持ち込んだネコが放し飼いにされ、自力で小動物を捕食して生きていけるようになったネコが「ノネコ」と言われる[7]。", { locale: "ja" } );
 		const researcher = new JapaneseResearcher( mockPaper );
 
+		buildTree( mockPaper, researcher );
+
 		expect( readingTime( mockPaper, researcher ) ).toEqual( 5 );
 	} );
 
@@ -239,6 +258,8 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 			"初出本の題名にもあるとおり青木自身は「唱歌」であるとし、「学校や家庭で」歌ってもらえれば本懐であるとしている。しかし発表当時の教育現場では、" +
 			"本作品を歌うことは原則上はできなかった。</p>", { locale: "ja" } );
 		const researcher = new JapaneseResearcher( mockPaper );
+
+		buildTree( mockPaper, researcher );
 
 		expect( readingTime( mockPaper, researcher ) ).toEqual( 3 );
 	} );
