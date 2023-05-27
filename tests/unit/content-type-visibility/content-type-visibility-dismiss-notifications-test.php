@@ -42,6 +42,19 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the constructor.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct() {
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options' ),
+			'Options helper is not set correctly.'
+		);
+	}
+
+	/**
 	 * Data provider for test_dismiss_notification.
 	 *
 	 * @return array
