@@ -136,6 +136,132 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 	}
 
 	/**
+	 * Data provider for test_clean_new_public_taxonomy.
+	 *
+	 * @return array
+	 */
+	public function data_provider_test_clean_new_public_taxonomy() {
+		return [
+			'no new taxonomies' => [
+				'newly_made_none_public' => [],
+				'new_taxonomies'         => [],
+				'cleaned_taxonomies'     => [],
+				'clean_times'            => 0,
+			],
+			'new removed taxonomies' => [
+				'newly_made_none_public' => [ 'category' ],
+				'new_taxonomies'         => [ 'post_tag', 'category' ],
+				'cleaned_taxonomies'     => [ 0 => 'post_tag' ],
+				'clean_times'            => 1,
+			],
+		];
+	}
+
+	/**
+	 * Test clean_new_public_taxonomy method.
+	 *
+	 * @covers ::clean_new_public_taxonomy
+	 * @dataProvider data_provider_test_clean_new_public_taxonomy
+	 *
+	 * @param array $newly_made_none_public The newly made none public taxonomies.
+	 * @param array $new_taxonomies         The new taxonomies.
+	 * @param array $cleaned_taxonomies     The cleaned taxonomies.
+	 * @param int   $clean_times            The amount of times the options helper should be called.
+	 */
+	public function test_clean_new_public_taxonomy( $newly_made_none_public, $new_taxonomies, $cleaned_taxonomies, $clean_times ) {
+
+		$this->options
+			->expects( 'get' )
+			->with( 'new_taxonomies', [] )
+			->once()
+			->andReturn( $new_taxonomies );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'new_taxonomies', $cleaned_taxonomies )
+			->times( $clean_times );
+
+		$this->instance->clean_new_public_taxonomy( $newly_made_none_public );
+	}
+
+	/**
+	 * Data provider for test_clean_new_public_post_type.
+	 *
+	 * @return array The data.
+	 */
+	public function data_provider_test_clean_new_public_post_type() {
+		return [
+			'no new post types' => [
+				'newly_made_none_public' => [],
+				'new_post types'         => [],
+				'cleaned_post types'     => [],
+				'clean_times'            => 0,
+			],
+			'new removed post types' => [
+				'newly_made_none_public' => [ 'book' ],
+				'new_post types'         => [ 'post', 'book' ],
+				'cleaned_post types'     => [ 0 => 'post' ],
+				'clean_times'            => 1,
+			],
+		];
+	}
+
+	/**
+	 * Test clean_new_public_post_type method.
+	 *
+	 * @covers ::clean_new_public_post_type
+	 * @dataProvider data_provider_test_clean_new_public_post_type
+	 *
+	 * @param array $newly_made_none_public The new post types.
+	 * @param array $new_post_types         The new post types.
+	 * @param array $cleaned_post_types     The cleaned post types.
+	 * @param int   $clean_times            The number of times the options should be cleaned.
+	 */
+	public function test_clean_new_public_post_type( $newly_made_none_public, $new_post_types, $cleaned_post_types, $clean_times ) {
+
+		$this->options
+			->expects( 'get' )
+			->with( 'new_post_types', [] )
+			->once()
+			->andReturn( $new_post_types );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'new_post_types', $cleaned_post_types )
+			->times( $clean_times );
+
+		$this->instance->clean_new_public_post_type( $newly_made_none_public );
+	}
+
+	/**
+	 * Test new_taxonomy method.
+	 *
+	 * @covers ::new_taxonomy
+	 * @covers ::maybe_add_notification
+	 */
+	public function test_new_taxonomy() {
+
+		$newly_made_public_taxonomies = [ 'category' ];
+
+		$this->options
+			->expects( 'set' )
+			->with( 'new_taxonomies', $newly_made_public_taxonomies )
+			->once();
+
+		$this->options
+			->expects( 'set' )
+			->with( 'is_new_content_type', true )
+			->once();
+
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->with( 'content-types-made-public' )
+			->andReturns( true );
+
+		$this->instance->new_taxonomy( $newly_made_public_taxonomies );
+	}
+
+	/**
 	 * Test maybe_add_notification method.
 	 *
 	 * @covers ::maybe_add_notification
