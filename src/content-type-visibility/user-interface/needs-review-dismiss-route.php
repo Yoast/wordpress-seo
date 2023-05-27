@@ -71,9 +71,7 @@ class Needs_Review_Dismiss_Route implements Route_Interface {
 			'permission_callback' => [ $this, 'can_dismiss' ],
 			'args'                => [
 				'postTypeName' => [
-					'validate_callback' => function( $param, $request, $key ) {
-						return post_type_exists( $param );
-					},
+					'validate_callback' => [ $this, 'validate_post_type' ],
 				],
 			],
 		];
@@ -84,9 +82,7 @@ class Needs_Review_Dismiss_Route implements Route_Interface {
 			'permission_callback' => [ $this, 'can_dismiss' ],
 			'args'                => [
 				'taxonomyName' => [
-					'validate_callback' => function( $param, $request, $key ) {
-						return taxonomy_exists( $param );
-					},
+					'validate_callback' => [ $this, 'validate_taxonomy' ],
 				],
 			],
 		];
@@ -109,5 +105,27 @@ class Needs_Review_Dismiss_Route implements Route_Interface {
 	 */
 	public function can_dismiss() {
 		return \current_user_can( 'edit_posts' );
+	}
+
+	/**
+	 * Validates post type.
+	 *
+	 * @param string          $param   The parameter.
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @param string          $key     The key.
+	 */
+	public function validate_post_type( $param, $request, $key ) {
+		return post_type_exists( $param );
+	}
+
+	/**
+	 * Validates taxonomy.
+	 *
+	 * @param string          $param   The parameter.
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @param string          $key     The key.
+	 */
+	public function validate_taxonomy( $param, $request, $key ) {
+		return taxonomy_exists( $param );
 	}
 }

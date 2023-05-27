@@ -124,4 +124,36 @@ class Needs_Review_Dismiss_Route_Test extends TestCase {
 
 		$this->assertTrue( $this->instance->can_dismiss() );
 	}
+
+	/**
+	 * Tests the validate_taxonomy method.
+	 *
+	 * @covers ::validate_taxonomy
+	 */
+	public function test_validate_taxonomy() {
+		$taxonomy = 'category';
+
+		Monkey\Functions\expect( 'taxonomy_exists' )
+			->with( $taxonomy )
+			->once()
+			->andReturn( true );
+
+		$this->assertTrue( $this->instance->validate_taxonomy( $taxonomy, 'request', 'key' ) );
+	}
+
+	/**
+	 * Tests the validate_post_type method.
+	 *
+	 * @covers ::validate_post_type
+	 */
+	public function test_validate_post_type() {
+		$post_type = 'book';
+
+		Monkey\Functions\expect( 'post_type_exists' )
+			->with( $post_type )
+			->once()
+			->andReturn( true );
+
+		$this->assertTrue( $this->instance->validate_post_type( $post_type, 'request', 'key' ) );
+	}
 }
