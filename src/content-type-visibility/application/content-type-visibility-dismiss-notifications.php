@@ -126,4 +126,37 @@ class Content_Type_Visibility_Dismiss_Notifications {
 			$status
 		);
 	}
+
+	/**
+	 * Dismisses all new content notfications and badges.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	public function bulk_dismiss() {
+		$success_post_types     = $this->options->set( 'new_post_types', [] );
+		$success_taxonomies     = $this->options->set( 'new_taxonomies', [] );
+		$success_is_new_content = $this->options->set( 'is_new_content_type', false );
+
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'content-types-made-public' );
+
+		$success = (
+					$success_post_types === ( true ) &&
+					$success_taxonomies === ( true ) &&
+					$success_is_new_content === ( true )
+				) ? true : false;
+
+		$status = $success === ( true ) ? 200 : 400;
+
+		return new WP_REST_Response(
+			(object) [
+				'success_post_type'      => $success_post_types,
+				'success_taxonomy'       => $success_taxonomies,
+				'success_is_new_content' => $success_is_new_content,
+				'success'                => $success,
+				'status'                 => $status,
+			],
+			$status
+		);
+	}
 }
