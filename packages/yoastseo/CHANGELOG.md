@@ -146,7 +146,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Implements the consecutive sentence beginnings assessment for Slovak to ensure variety in a text.
 * Implements the passive voice assessment for Slovak.
 * Implements the transition words assessment for Slovak.
-* Improves keyphrase recognition in Slovak by filtering out function words such as `some, a, jedna, že`.
+* Improves keyphrase recognition in Slovak by filtering out function words such as `som, a, jedna, že`.
 * Adds external stemmer for Slovak.
 * Improves keyword detection for Norwegian by expanding the list of function words.
 * Implements the passive voice assessment for Norwegian.
@@ -296,7 +296,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds an exception check for irregular Italian diminutives to the Italian stemmer.
 * Adds a check for exception lists of full forms and words with multiple stems to the Russian stemmer.
 * Adds specs for irregular verbs for the Italian full forms exception list.
-* Adds check for French verbs on -ions before stemming the verb suffix -owns and does not stem -owns if the word ends on -ions (for these words, the suffix is most likely -s, not -owns).
+* Adds check for French verbs on -ions before stemming the verb suffix -ons and does not stem -ons if the word ends on -ions (for these words, the suffix is most likely -s, not -ons).
 * Adds Indonesian function words.
 * Changes the `getProminentWordsForInternalLinking` research so that it only runs for texts over 400 words or texts over 300 words with a title and/or a metadescription specified.
 * Changes the output of the research so that it not only returns the list of prominent words but also information about the presence of metadescription and title, as well as the length of text. This information is later used to return a customized message to the user, within the internal linking suggestions container.
@@ -315,7 +315,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ## 1.77.0 June 22nd, 2020
 ### Enhancements
-* Adds check for stemming -owns suffix in French, and for the exception list of words where only -s should be stemmed in French.
+* Adds check for stemming -ons suffix in French, and for the exception list of words where only -s should be stemmed in French.
 * Adds check for nouns in Russian on _ость_ before removing verb suffixes (including the newly added suffix _ть_).
 
 ## 1.76.0 June 8th, 2020
