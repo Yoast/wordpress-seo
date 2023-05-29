@@ -16,8 +16,8 @@ const {
 /**
  * Creates the Assessor
  *
- * @param {object} researcher   The researcher to use for the analysis.
- * @param {Object} options      The options for this assessor.
+ * @param {Researcher} researcher   The researcher to use for the analysis.
+ * @param {Object?} options         The options for this assessor.
  *
  * @constructor
  */
