@@ -43,6 +43,14 @@ class Needs_Review_Dismiss_Route implements Route_Interface {
 	 */
 	const NEW_CONTENT_DISMISS_ROUTE = self::ROUTE_PREFIX . '/dismiss-notification';
 
+
+	/**
+	 * Represents bulk new content notification and badges dismiss route.
+	 *
+	 * @var string
+	 */
+	const BULK_DISMISS_ROUTE = self::ROUTE_PREFIX . '/bulk-dismiss';
+
 	/**
 	 * Holds the Options_Helper instance.
 	 *
@@ -93,9 +101,16 @@ class Needs_Review_Dismiss_Route implements Route_Interface {
 			'permission_callback' => [ $this, 'can_dismiss' ],
 		];
 
+		$bulk_dismiss_new_content_route_args = [
+			'methods'             => 'POST',
+			'callback'            => [ $this->dismiss_notifications, 'bulk_dismiss' ],
+			'permission_callback' => [ $this, 'can_dismiss' ],
+		];
+
 		\register_rest_route( Main::API_V1_NAMESPACE, self::POST_TYPE_DISMISS_ROUTE, $post_type_dismiss_route_args );
 		\register_rest_route( Main::API_V1_NAMESPACE, self::TAXONOMY_DISMISS_ROUTE, $taxonomy_dismiss_route_args );
 		\register_rest_route( Main::API_V1_NAMESPACE, self::NEW_CONTENT_DISMISS_ROUTE, $dismiss_new_content_route_args );
+		\register_rest_route( Main::API_V1_NAMESPACE, self::BULK_DISMISS_ROUTE, $bulk_dismiss_new_content_route_args );
 	}
 
 	/**

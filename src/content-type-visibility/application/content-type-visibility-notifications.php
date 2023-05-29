@@ -148,9 +148,13 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_page_settings' ) ) . '">',
 			'</a>'
 		);
+		$notification_text = '<p>' . $message . '</p>';
+		$notification_text .= '<span class="button" onclick="clearNewContentTypes()">';
+		$notification_text .= \esc_html__( 'Ignore', 'wordpress-seo' );
+		$notification_text .= '</span>';
 
 		$notification = new Yoast_Notification(
-			$message,
+			$notification_text,
 			[
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => 'content-types-made-public',
