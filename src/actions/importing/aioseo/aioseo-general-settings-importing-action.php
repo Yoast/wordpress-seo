@@ -61,7 +61,7 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 	 * @param Image_Helper                      $image              The image helper.
 	 * @param Aioseo_Replacevar_Service         $replacevar_handler The replacevar handler.
 	 * @param Aioseo_Robots_Provider_Service    $robots_provider    The robots provider service.
-	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots transfomer service.
+	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots transformer service.
 	 */
 	public function __construct(
 		Import_Cursor_Helper $import_cursor,

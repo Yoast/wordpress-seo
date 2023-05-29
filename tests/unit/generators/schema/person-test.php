@@ -442,7 +442,7 @@ class Person_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether generate returns the expected schema when duplicated URLs are provded.
+	 * Tests whether generate returns the expected schema when duplicated URLs are provided.
 	 *
 	 * @covers ::generate
 	 * @covers ::determine_user_id

@@ -86,7 +86,7 @@ class WPSEO_Gutenberg_Compatibility {
 	/**
 	 * Gets the minimum supported version of Gutenberg.
 	 *
-	 * @return string The minumum supported release.
+	 * @return string The minimum supported release.
 	 */
 	protected function get_minimum_supported_version() {
 		return self::MINIMUM_SUPPORTED;

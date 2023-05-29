@@ -133,7 +133,7 @@ export function getKeyphrasePosition( keyphrase ) {
 }
 
 /**
- * Gets the positional data based on the current UI state and returns the appropiate UI element.
+ * Gets the positional data based on the current UI state and returns the appropriate UI element.
  *
  * @param {Object} props The props to use.
  *

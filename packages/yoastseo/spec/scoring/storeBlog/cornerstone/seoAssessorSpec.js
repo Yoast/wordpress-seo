@@ -21,7 +21,7 @@ describe( "has the correct configuration overrides", () => {
 		expect( assessment._config.scores.tooShort ).toBe( 3 );
 	} );
 
-	test( "PageTitleWidthAssesment", () => {
+	test( "PageTitleWidthAssessment", () => {
 		const assessment = assessor.getAssessment( "titleWidth" );
 
 		expect( assessment ).toBeDefined();

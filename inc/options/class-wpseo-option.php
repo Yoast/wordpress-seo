@@ -24,7 +24,7 @@
  * - For multisite site_options, please use the WPSEO_Options::update_site_option() method.
  * - For normal options, use the normal add/update_option() functions. As long a the classes here
  *   are instantiated, validation for all options and their subkeys will be automatic.
- * - On (succesfull) update of a couple of options, certain related actions will be run automatically.
+ * - On (successful) update of a couple of options, certain related actions will be run automatically.
  *   Some examples:
  *   - on change of wpseo[yoast_tracking], the cron schedule will be adjusted accordingly
  *   - on change of wpseo and wpseo_title, some caches will be cleared
@@ -41,7 +41,7 @@
  *   translate_defaults() method.
  * - When you remove an array key from an option: if it's important that the option is really removed,
  *   add the WPSEO_Option::clean_up( $option_name ) method to the upgrade run.
- *   This will re-save the option and automatically remove the array key no longer in existance.
+ *   This will re-save the option and automatically remove the array key no longer in existence.
  * - When you rename a sub-option: add it to the clean_option() routine and run that in the upgrade run.
  * - When you change the default for an option sub-key, make sure you verify that the validation routine will
  *   still work the way it should.
@@ -75,7 +75,7 @@ abstract class WPSEO_Option {
 	 *
 	 * Will be set automagically if not set in concrete class (i.e.
 	 * if it confirm to the normal pattern 'yoast' . $option_name . 'options',
-	 * only set in conrete class if it doesn't).
+	 * only set in concrete class if it doesn't).
 	 *
 	 * @var string
 	 */
@@ -645,7 +645,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @param mixed $value The new value for the option.
 	 *
-	 * @return bool Whether the update was succesfull.
+	 * @return bool Whether the update was successful.
 	 */
 	public function update_site_option( $value ) {
 		if ( $this->multisite_only === true && is_multisite() ) {

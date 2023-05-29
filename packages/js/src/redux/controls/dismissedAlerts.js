@@ -10,6 +10,6 @@ export function DISMISS_ALERT( { alertKey } ) {
 	return new Promise( ( resolve ) =>
 		wpseoApi.post( "alerts/dismiss", { key: alertKey }, () => resolve() )
 		// We want the Alert to always hide on dismiss.
-		// So when the POST isn't succesfull, we still resolve.
+		// So when the POST isn't successful, we still resolve.
 	);
 }

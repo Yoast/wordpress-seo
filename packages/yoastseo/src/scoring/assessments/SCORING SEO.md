@@ -228,7 +228,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Bullet   	      | Score	     | Criterion | Feedback |
 |------------	|------------------	|---------------------	|---------------	|
 | Grey	| 0	| Keyphrase was not set or not used in the text		| **Keyphrase distribution**: **Include your keyphrase or its synonyms in the text so that we can check keyword distribution.** |
-| Red	| 1	| The resulting score is >0.6	| **Keyphrase distribution**: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. **Distibute them more evenly.** |
+| Red	| 1	| The resulting score is >0.6	| **Keyphrase distribution**: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. **Distribute them more evenly.** |
 | Orange	| 6	| The resulting score is between 0.4 and 0.6		|  between 0.4 and 0.6	**Keyphrase distribution**: Uneven. Some parts of your text do not contain your keyphrase or its synonyms. **Distribute them more evenly.**	|
 | Green	| 9	| The resulting score is <0.4		| **Keyphrase distribution**: Good job! |
 
@@ -293,7 +293,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **When it applies**: Always.
 
-**Name in code**: PageTitleWidthAssesment
+**Name in code**: PageTitleWidthAssessment
 
 **Title URL**: [https://yoa.st/34h](https://yoast.com/page-titles-seo/#utm_source=yoast-seo&utm_medium=software&utm_term=title-width-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 

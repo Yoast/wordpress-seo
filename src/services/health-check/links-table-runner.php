@@ -76,7 +76,7 @@ class Links_Table_Runner implements Runner_Interface {
 	/**
 	 * Returns true if the links table is accessible
 	 *
-	 * @return bool The boolean indicating if the health check was succesful.
+	 * @return bool The boolean indicating if the health check was successful.
 	 */
 	public function is_successful() {
 		return $this->links_table_accessible;

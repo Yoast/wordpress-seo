@@ -285,7 +285,7 @@ class Adapter {
 	 *
 	 * @param string $query The query to run.
 	 *
-	 * @return bool Whether or not the query was performed succesfully.
+	 * @return bool Whether or not the query was performed successfully.
 	 */
 	public function query( $query ) {
 		global $wpdb;
@@ -365,7 +365,7 @@ class Adapter {
 	 *
 	 * @param string $table The table name.
 	 *
-	 * @return bool Whether or not the table was succesfully dropped.
+	 * @return bool Whether or not the table was successfully dropped.
 	 */
 	public function drop_table( $table ) {
 		$ddl = \sprintf( 'DROP TABLE IF EXISTS %s', $this->identifier( $table ) );
@@ -779,7 +779,7 @@ class Adapter {
 			return $native_type;
 		}
 		if ( $type === 'decimal' || $type === 'float' ) {
-			// Ignore limit, use precison and scale.
+			// Ignore limit, use precision and scale.
 			if ( $precision === null && \array_key_exists( 'precision', $native_type ) ) {
 				$precision = $native_type['precision'];
 			}
@@ -904,7 +904,7 @@ class Adapter {
 	 *
 	 * @param string $version The version.
 	 *
-	 * @return bool Whether or not the version was succesfully set.
+	 * @return bool Whether or not the version was successfully set.
 	 */
 	public function add_version( $version ) {
 		$sql = \sprintf( "INSERT INTO %s (version) VALUES ('%s')", $this->get_schema_version_table_name(), $version );
@@ -917,7 +917,7 @@ class Adapter {
 	 *
 	 * @param string $version The version.
 	 *
-	 * @return bool Whether or not the version was succesfully removed.
+	 * @return bool Whether or not the version was successfully removed.
 	 */
 	public function remove_version( $version ) {
 		$sql = \sprintf( "DELETE FROM %s WHERE version = '%s'", $this->get_schema_version_table_name(), $version );

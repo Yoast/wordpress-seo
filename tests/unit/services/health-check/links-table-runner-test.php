@@ -118,7 +118,7 @@ class Links_Table_Runner_Test extends TestCase {
 	 * @covers ::is_successful
 	 * @covers ::should_run
 	 */
-	public function test_retuns_not_successful() {
+	public function test_returns_not_successful() {
 		$this->options
 			->shouldReceive( 'get' )
 			->with( 'enable_text_link_counter' )

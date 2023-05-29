@@ -33,7 +33,7 @@ New components:
 - Introduces the `ErrorBoundary` [element](https://ui-library.yoast.com/?path=/docs/1-elements-error-boundary--factory) for catching unforeseen errors in the component tree and displaying a fallback UI.
 - Introduces the `FileInput` [element](https://ui-library.yoast.com/?path=/docs/1-elements-file-input--factory) for a richer interface for `type="file"` inputs.
 - Introduces the `Table` [element](https://ui-library.yoast.com/?path=/docs/1-elements-table--factory).
-- Introduces the `ValidationIcon` and `ValidationMessage` elements for diplaying icons and text based on a validation variant.
+- Introduces the `ValidationIcon` and `ValidationMessage` elements for displaying icons and text based on a validation variant.
 
 Other changes:
 - Adds `disabled` prop support to the `CheckboxGroup` [component](https://ui-library.yoast.com/?path=/docs/2-components-checkbox-group--factory).

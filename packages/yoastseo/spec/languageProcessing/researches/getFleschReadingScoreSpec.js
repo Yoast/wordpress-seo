@@ -52,12 +52,12 @@ describe( "A test that returns a question mark if there is not enough textual da
 /*
 describe( "A test that uses the Dutch Flesch Reading", function() {
 	it( "returns a score", function() {
-		const mockPaper = new Paper( "Een kort stukje tekst in het Nederlands om te testen.", { locale: "nl_NL" } );
+		const mockPaper = new Paper( "Een kort stukje text in het Nederlands om te testen.", { locale: "nl_NL" } );
 		expect( fleschFunction( mockPaper, new DutchResearcher( mockPaper ) ) ).toBe( 89.7 );
 	} );
 
 	it( "returns a score", function() {
-		const mockPaper = new Paper( "Dit is wat meer tekst om te testen. Het bestaat uit meerdere zinnen waardoor we een " +
+		const mockPaper = new Paper( "Dit is wat meer text om te testen. Het bestaat uit meerdere zinnen waardoor we een " +
 			"andere score moeten krijgen.", { locale: "nl_NL" } );
 		expect( fleschFunction( mockPaper, new DutchResearcher( mockPaper ) ) ).toBe( 78.2 );
 	} );

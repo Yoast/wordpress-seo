@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Wrappers\WP_Remote_Handler;
 class Wincher_Client_Test extends TestCase {
 
 	/**
-	 * The optins helper.
+	 * The options helper.
 	 *
 	 * @var LegacyMockInterface|MockInterface|Options_Helper
 	 */

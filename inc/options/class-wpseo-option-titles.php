@@ -770,7 +770,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		}
 
 		/*
-		 * Renaming these options to avoid ever overwritting these if a (bloody stupid) user /
+		 * Renaming these options to avoid ever overwriting these if a (bloody stupid) user /
 		 * programmer would use any of the following as a custom post type or custom taxonomy:
 		 * 'home', 'author', 'archive', 'search', '404', 'subpages'.
 		 *

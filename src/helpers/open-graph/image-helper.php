@@ -65,7 +65,7 @@ class Image_Helper {
 	/**
 	 * Retrieves the overridden image size value.
 	 *
-	 * @return string|null The image size when overriden by filter or null when not.
+	 * @return string|null The image size when overridden by filter or null when not.
 	 */
 	public function get_override_image_size() {
 		/**

@@ -142,7 +142,7 @@ class FacebookPreview extends Component {
 
 		// Calculate new description line count.
 		let maxDescriptionLineCount = maxLineCount - titleLineCount;
-		// Exceptions for portait image mode.
+		// Exceptions for portrait image mode.
 		if ( imageMode === "portrait" ) {
 			maxDescriptionLineCount = titleLineCount === 5 ? 0 : 4;
 		}

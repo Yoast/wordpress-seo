@@ -77,7 +77,7 @@ worker.initialize( {
     console.log( 'Analysis results:' );
     console.log( results );
 } ).catch( ( error ) => {
-    console.error( 'An error occured while analyzing the text:' );
+    console.error( 'An error occurred while analyzing the text:' );
     console.error( error );
 } );
 ```

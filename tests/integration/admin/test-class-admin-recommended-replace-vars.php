@@ -64,7 +64,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that a homepage is succesfully determined.
+	 * Tests that a homepage is successfully determined.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::is_homepage
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post

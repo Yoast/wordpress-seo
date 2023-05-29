@@ -214,7 +214,7 @@ class SnippetEditorFields extends React.Component {
 	}
 
 	/**
-	 * Focusses the slug element.
+	 * Focuses the slug element.
 	 *
 	 * @returns {void}
 	 */

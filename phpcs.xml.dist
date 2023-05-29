@@ -238,7 +238,7 @@
 		<exclude-pattern>/tests/*</exclude-pattern>
 	</rule>
 
-	<!-- The unit tests are not run within the context of a WP install, so overwritting globals is fine. -->
+	<!-- The unit tests are not run within the context of a WP install, so overwriting globals is fine. -->
 	<rule ref="WordPress.WP.GlobalVariablesOverride">
 		<exclude-pattern>/tests/unit/*</exclude-pattern>
 	</rule>

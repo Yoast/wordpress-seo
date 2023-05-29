@@ -8,14 +8,14 @@ const options1 = {
 	Clause: Clause,
 	regexes: {
 		auxiliaryRegex: arrayToRegex( [ "word", "wordt", "worden", "werd" ] ),
-		stopwordRegex: arrayToRegex( [ "als", "dan", "zodra", "hoewel", "omdat" ] ),
+		stopwordRegex: arrayToRegex( [ "also", "dan", "zodra", "hoewel", "omdat" ] ),
 	},
 };
 
 const options2 = {
 	Clause: Clause,
 	regexes: {
-		stopwordRegex: arrayToRegex( [ "als", "dan", "doordat", "hoewel", "omdat" ] ),
+		stopwordRegex: arrayToRegex( [ "also", "dan", "doordat", "hoewel", "omdat" ] ),
 	},
 };
 
@@ -46,8 +46,8 @@ describe( "splits sentences into parts", function() {
 	} );
 
 	it( "returns a clause that starts with a stopword", function() {
-		const sentence = "Als ik rijk wordt ga ik je iets kopen.";
-		expect( getClausesSplitOnStopwords( sentence, options1 )[ 0 ].getClauseText() ).toBe( "Als ik rijk wordt ga ik je iets kopen." );
+		const sentence = "Also ik rijk wordt ga ik je iets kopen.";
+		expect( getClausesSplitOnStopwords( sentence, options1 )[ 0 ].getClauseText() ).toBe( "Also ik rijk wordt ga ik je iets kopen." );
 		expect( getClausesSplitOnStopwords( sentence, options1 )[ 0 ].getAuxiliaries() ).toEqual( [ "wordt" ] );
 		expect( getClausesSplitOnStopwords( sentence, options1 ).length ).toBe( 1 );
 	} );

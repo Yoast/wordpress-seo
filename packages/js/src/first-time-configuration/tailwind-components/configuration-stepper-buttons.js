@@ -114,7 +114,7 @@ BackButton.defaultProps = {
  *
  * @param {Object}   props                The props for the StepButtons.
  * @param {string}   props.stepId         The step id.
- * @param {function} props.beforeContinue A function to call before continueing. Should return true when ready to continue.
+ * @param {function} props.beforeContinue A function to call before continuing. Should return true when ready to continue.
  * @param {function} props.beforeBack     A function to call before going back. Should return true when ready to go back.
  * @param {string}   props.continueLabel  A label to display on the Continue Button.
  * @param {string}   props.backLabel      A label to display on the Back Button.
@@ -157,11 +157,11 @@ StepButtons.defaultProps = {
  */
 export function ConfigurationStepButtons( { stepId, stepperFinishedOnce, saveFunction, setEditState } ) {
 	const onSaveClick = useCallback( async() => {
-		const saveSuccesful = await saveFunction();
+		const saveSuccessful = await saveFunction();
 
-		// If save is not succesful: we are still editing
-		setEditState( ! saveSuccesful );
-		return saveSuccesful;
+		// If save is not successful: we are still editing
+		setEditState( ! saveSuccessful );
+		return saveSuccessful;
 	} );
 
 	if ( stepperFinishedOnce ) {

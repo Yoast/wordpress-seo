@@ -6,7 +6,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ## Future Release
 ### Other
-* Adds a way to change the link in the `WordOccurenceInsights` component.
+* Adds a way to change the link in the `WordOccurrenceInsights` component.
 
 ### Non user facing
 * Changes the `imageAltText` prop from the `ImageSelect` component to no longer be required.
@@ -119,7 +119,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * Adds `type="button"` to all buttons to make sure the default submit behavior is prevented.
 * Adds focus styling to button, input, textarea, select and toggle switch components for accessibility.
 * Adds the correct border colors for active, hover and focus to the IconLabeledButton.
-* Adds `VariableEditorInputCotainer` to add caret styles since Draft.js (un)mounts on every focus change.
+* Adds `VariableEditorInputContainer` to add caret styles since Draft.js (un)mounts on every focus change.
 * Changes all the css variables of the button component to use the Yoast namespacing correctly.
 * Removes border-bottom and margin-top hack from the collapsible.
 

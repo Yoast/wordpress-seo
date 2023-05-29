@@ -203,7 +203,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 			return [];
 		}
 
-		// We specifically want the setttings of the tab we're working with, eg. postTypes, taxonomies, etc.
+		// We specifically want the settings of the tab we're working with, eg. postTypes, taxonomies, etc.
 		$settings_values = $aioseo_settings['searchAppearance'][ $this->settings_tab ];
 		if ( ! \is_array( $settings_values ) ) {
 			return [];
@@ -298,7 +298,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 
 		// Check if we're supposed to save the setting.
 		if ( $this->options->get_default( 'wpseo_titles', $yoast_key ) !== null ) {
-			// Then, do any needed data transfomation before actually saving the incoming data.
+			// Then, do any needed data transformation before actually saving the incoming data.
 			$transformed_data = \call_user_func( [ $this, $setting_mapping['transform_method'] ], $setting_value, $setting_mapping );
 
 			$this->options->set( $yoast_key, $transformed_data );

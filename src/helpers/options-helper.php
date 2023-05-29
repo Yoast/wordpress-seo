@@ -59,18 +59,18 @@ class Options_Helper {
 
 		// Get the titles option and the separator options.
 		$separator         = $this->get( 'separator' );
-		$seperator_options = $this->get_separator_options();
+		$separator_options = $this->get_separator_options();
 
 		// This should always be set, but just to be sure.
-		if ( isset( $seperator_options[ $separator ] ) ) {
+		if ( isset( $separator_options[ $separator ] ) ) {
 			// Set the new replacement.
-			$replacement = $seperator_options[ $separator ];
+			$replacement = $separator_options[ $separator ];
 		}
-		elseif ( isset( $seperator_options[ $default ] ) ) {
-			$replacement = $seperator_options[ $default ];
+		elseif ( isset( $separator_options[ $default ] ) ) {
+			$replacement = $separator_options[ $default ];
 		}
 		else {
-			$replacement = \reset( $seperator_options );
+			$replacement = \reset( $separator_options );
 		}
 
 		/**

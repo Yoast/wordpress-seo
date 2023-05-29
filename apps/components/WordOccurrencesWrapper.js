@@ -13,7 +13,7 @@ const initialWords = [
 	new ProminentWord( "test", "test", 10 ),
 	new ProminentWord( "apps", "app", 6 ),
 	new ProminentWord( "teletubbies", "teletubby", 11 ),
-	new ProminentWord( "strange", "stange", 4 ),
+	new ProminentWord( "strange", "strange", 4 ),
 	new ProminentWord( "improvisation", "improvisation", 4 ),
 	new ProminentWord( "ranking", "rank", 5 ),
 	new ProminentWord( "google", "google", 5 ),

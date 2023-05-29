@@ -114,8 +114,8 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "returns passive voice (infinitive)", function() {
-		// Passive: ser comida.
-		const paper = new Paper( "Una manzana debe ser comida por mí." );
+		// Passive: set comida.
+		const paper = new Paper( "Una manzana debe set comida por mí." );
 		const researcher = new SpanishResearcher( paper );
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 1 );
 	} );

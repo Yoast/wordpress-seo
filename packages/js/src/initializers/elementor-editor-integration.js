@@ -188,7 +188,7 @@ function detectChange( input ) {
  * @returns {void}
  */
 function sendFormData( form ) {
-	// Assume the save will be succesful, to prevent a flashing warning due to the post status listener.
+	// Assume the save will be successful, to prevent a flashing warning due to the post status listener.
 	hasUnsavedSeoChanges = false;
 
 	const data = jQuery( form ).serializeArray().reduce( ( result, { name, value } ) => {

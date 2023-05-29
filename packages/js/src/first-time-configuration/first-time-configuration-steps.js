@@ -197,7 +197,7 @@ export default function FirstTimeConfigurationSteps() {
 					allCounters.forEach( ( counterNode => {
 						// The classList replace will return false if the class was not present (and thus an adminbar counter).
 						const isAdminBarCounter = ! counterNode.classList.replace( "count-" + oldCount, "count-" + newCount );
-						// If the count reaches zero because of this, remove the red dot alltogether.
+						// If the count reaches zero because of this, remove the red dot altogether.
 						if ( isAdminBarCounter && newCount === "0" ) {
 							counterNode.style.display = "none";
 						} else {

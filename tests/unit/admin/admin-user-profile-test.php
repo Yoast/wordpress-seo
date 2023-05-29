@@ -124,7 +124,7 @@ class WPSEO_Admin_User_Profile_Test extends TestCase {
 				],
 			],
 		];
-		$title_emtpy_string                    = [
+		$title_empty_string                    = [
 			[
 				'wpseo_author_title' => [
 					'save_as' => 'wpseo_title',
@@ -343,7 +343,7 @@ class WPSEO_Admin_User_Profile_Test extends TestCase {
 		return [
 			'All set'                               => $all_set,
 			'Title not set'                         => $title_not_set,
-			'Title empty string'                    => $title_emtpy_string,
+			'Title empty string'                    => $title_empty_string,
 			'Meta description not set'              => $metadesc_not_set,
 			'Meta description empty string'         => $metadesc_empty_string,
 			'No index not set'                      => $noindex_not_set,

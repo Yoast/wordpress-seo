@@ -30,11 +30,11 @@ describe( setSocialPreviewDescription, () => {
 		const expected = {
 			type: SET_SOCIAL_DESCRIPTION,
 			platform: "facebook",
-			description: "This is a great descripton for my facebook post.",
+			description: "This is a great description for my facebook post.",
 		};
 
 		const actual = setSocialPreviewDescription(
-			"This is a great descripton for my facebook post.",
+			"This is a great description for my facebook post.",
 			"facebook"
 		);
 

@@ -119,8 +119,8 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "returns passive voice with an irregular participle ending in -s", function() {
-		// Passive: été promis.
-		const paper = new Paper( "Il a été promis trois choses.", { locale: "fr_FR" } );
+		// Passive: été promise.
+		const paper = new Paper( "Il a été promise trois choses.", { locale: "fr_FR" } );
 		const researcher = new Researcher( paper );
 
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 1 );
@@ -159,8 +159,8 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "returns active voice with an irregular participle ending in -s.", function() {
-		// Irregular participle: promis.
-		const paper = new Paper( "J'ai promis.", { locale: "fr_FR" } );
+		// Irregular participle: promise.
+		const paper = new Paper( "J'ai promise.", { locale: "fr_FR" } );
 		const researcher = new Researcher( paper );
 
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 0 );

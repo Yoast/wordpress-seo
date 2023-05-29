@@ -54,7 +54,7 @@ class Get_Permalink_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				'set_url_scheme' => 'http://example.com/page',
 				'expected'       => 'http://example.com/page',
 			],
-			'No www with param and achor' => [
+			'No www with param and anchor' => [
 				'link'           => 'https://example.com/page?test=value#section',
 				'home_url'       => [
 					'scheme' => 'http',

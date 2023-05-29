@@ -218,8 +218,8 @@ describe( "the meta description keyphrase match research for keyphrases that con
 
 	xit( "returns 1 for Turkish when the keyphrase has an apostrophe and starts with an uppercase letter and a match " +
 		"with a different form is found in the meta description (this unit test is skipped for now " +
-		"since the word 'universite' is overstemmed, hence no match is found)", function() {
-		const paper = new Paper( "", { keyword: "universite", locale: "tr_TR",
+		"since the word 'universities' is overstemmed, hence no match is found)", function() {
+		const paper = new Paper( "", { keyword: "universities", locale: "tr_TR",
 			synonyms: "",
 			description: "Universitesi'ne büyük araştırmalar yapılıyor." } );
 		const researcher = new TurkishResearcher( paper );

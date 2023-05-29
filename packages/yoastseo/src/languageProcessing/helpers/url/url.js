@@ -120,7 +120,7 @@ function isInternalLink( anchorUrl, siteUrlOrDomain ) {
 		return true;
 	}
 
-	// If the siteUrlOrDomain variable is a domain, it would be idential to the anchor URL's hostname in case of an internal link.
+	// If the siteUrlOrDomain variable is a domain, it would be identical to the anchor URL's hostname in case of an internal link.
 	if ( anchorUrlHostName === siteUrlOrDomain ) {
 		return true;
 	}

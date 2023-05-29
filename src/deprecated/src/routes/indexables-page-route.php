@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Main;
 class Indexables_Page_Route implements Route_Interface {
 
 	/**
-	 * Represents the route that retrieves the neccessary information for setting up the Indexables Page.
+	 * Represents the route that retrieves the necessary information for setting up the Indexables Page.
 	 *
 	 * @var string
 	 */
@@ -325,7 +325,7 @@ class Indexables_Page_Route implements Route_Interface {
 	 * @deprecated 20.4
 	 * @codeCoverageIgnore
 	 *
-	 * @return WP_REST_Response The neccessary information to set up the indexables page.
+	 * @return WP_REST_Response The necessary information to set up the indexables page.
 	 */
 	public function get_setup_info() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );

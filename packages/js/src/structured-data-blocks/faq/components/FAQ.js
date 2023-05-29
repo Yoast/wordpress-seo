@@ -43,7 +43,7 @@ export default class FAQ extends Component {
 	 *
 	 * @param {string} prefix An (optional) prefix to use.
 	 *
-	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the curent time in milliseconds.
+	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the current time in milliseconds.
 	 */
 	static generateId( prefix ) {
 		return `${ prefix }-${ new Date().getTime() }`;

@@ -93,7 +93,7 @@ class WPSEO_Replace_Vars {
 	 * @param string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'.
 	 * @param string $help_text        Help text to be added to the help tab for this variable.
 	 *
-	 * @return bool Whether the replacement function was succesfully registered.
+	 * @return bool Whether the replacement function was successfully registered.
 	 */
 	public static function register_replacement( $var_to_replace, $replace_function, $type = 'advanced', $help_text = '' ) {
 		$success = false;

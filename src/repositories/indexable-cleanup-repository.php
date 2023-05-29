@@ -396,7 +396,7 @@ class Indexable_Cleanup_Repository {
 
 		$indexable_table           = Model::get_table_name( 'Indexable' );
 		$author_archive_post_types = $this->author_archive->get_author_archive_post_types();
-		$viewable_post_stati       = \array_filter( \get_post_stati(), 'is_post_status_viewable' );
+		$viewable_post_statuses       = \array_filter( \get_post_stati(), 'is_post_status_viewable' );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
@@ -407,9 +407,9 @@ class Indexable_Cleanup_Repository {
 					SELECT DISTINCT post_author
 					FROM $wpdb->posts
 					WHERE post_type IN ( " . \implode( ', ', \array_fill( 0, \count( $author_archive_post_types ), '%s' ) ) . ' )
-					AND post_status IN ( ' . \implode( ', ', \array_fill( 0, \count( $viewable_post_stati ), '%s' ) ) . ' )
+					AND post_status IN ( ' . \implode( ', ', \array_fill( 0, \count( $viewable_post_statuses ), '%s' ) ) . ' )
 				) LIMIT %d',
-			\array_merge( $author_archive_post_types, $viewable_post_stati, [ $limit ] )
+			\array_merge( $author_archive_post_types, $viewable_post_statuses, [ $limit ] )
 		);
 		// phpcs:enable
 
@@ -430,7 +430,7 @@ class Indexable_Cleanup_Repository {
 
 		$indexable_table           = Model::get_table_name( 'Indexable' );
 		$author_archive_post_types = $this->author_archive->get_author_archive_post_types();
-		$viewable_post_stati       = \array_filter( \get_post_stati(), 'is_post_status_viewable' );
+		$viewable_post_statuses       = \array_filter( \get_post_stati(), 'is_post_status_viewable' );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
@@ -441,9 +441,9 @@ class Indexable_Cleanup_Repository {
 					SELECT DISTINCT post_author
 					FROM $wpdb->posts
 					WHERE post_type IN ( " . \implode( ', ', \array_fill( 0, \count( $author_archive_post_types ), '%s' ) ) . ' )
-					AND post_status IN ( ' . \implode( ', ', \array_fill( 0, \count( $viewable_post_stati ), '%s' ) ) . ' )
+					AND post_status IN ( ' . \implode( ', ', \array_fill( 0, \count( $viewable_post_statuses ), '%s' ) ) . ' )
 				)',
-			\array_merge( $author_archive_post_types, $viewable_post_stati )
+			\array_merge( $author_archive_post_types, $viewable_post_statuses )
 		);
 		// phpcs:enable
 

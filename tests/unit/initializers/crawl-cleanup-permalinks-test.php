@@ -259,7 +259,7 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	}
 
 	/**
-	 * Data provider for clean_permalinks when there is no redirect in the begining of the function.
+	 * Data provider for clean_permalinks when there is no redirect in the beginning of the function.
 	 *
 	 * Checks:
 	 * 1. If avoid_redirect is true then do_clean_redirect shouldn't be called.

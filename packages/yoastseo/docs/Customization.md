@@ -40,7 +40,7 @@ YoastSEO.js has a synchronous modification mechanism that operates much like the
 * `data_page_title`
 * `data_meta_desc`
 
-The modifications that are supported by us are applyed in the following way:
+The modifications that are supported by us are applied in the following way:
 
 ```JS
 var modifiedData = YoastSEO.app.pluggable._applyModifications( 'content', 'The content to modify' );

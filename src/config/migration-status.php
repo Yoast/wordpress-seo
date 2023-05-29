@@ -118,7 +118,7 @@ class Migration_Status {
 	 *
 	 * @param string $name The name of the migration.
 	 *
-	 * @return bool Whether or not the migration was succesfully locked.
+	 * @return bool Whether or not the migration was successfully locked.
 	 */
 	public function lock_migration( $name ) {
 		$migration_status         = $this->get_migration_status( $name );
@@ -158,7 +158,7 @@ class Migration_Status {
 	 * @param string $name             The name of the migration.
 	 * @param array  $migration_status The migration status.
 	 *
-	 * @return bool True if the status was succesfully updated, false otherwise.
+	 * @return bool True if the status was successfully updated, false otherwise.
 	 */
 	protected function set_migration_status( $name, $migration_status ) {
 		if ( ! \is_array( $migration_status ) || ! isset( $migration_status['version'] ) ) {

@@ -41,7 +41,7 @@ class Wpdb_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the checking of the table existance.
+	 * Tests the checking of the table existence.
 	 *
 	 * @covers ::table_exists
 	 */

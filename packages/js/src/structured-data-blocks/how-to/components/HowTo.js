@@ -125,7 +125,7 @@ export default class HowTo extends Component {
 	 *
 	 * @param {string} [prefix] The prefix to use.
 	 *
-	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the curent time in milliseconds.
+	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the current time in milliseconds.
 	 */
 	static generateId( prefix ) {
 		return `${ prefix }-${ new Date().getTime() }`;
@@ -282,7 +282,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Sets the focus to an element within teh specified step.
+	 * Sets the focus to an element within the specified step.
 	 *
 	 * @param {number} stepIndex      Index of the step to focus.
 	 * @param {string} elementToFocus Name of the element to focus.

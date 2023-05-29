@@ -299,7 +299,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Moves the content-analysis-active and keyword-analysis-acive options from wpseo-titles to wpseo.
+	 * Moves the content-analysis-active and keyword-analysis-active options from wpseo-titles to wpseo.
 	 */
 	private function upgrade_44() {
 		$wpseo_titles = $this->get_option_from_database( 'wpseo_titles' );
@@ -819,7 +819,7 @@ class WPSEO_Upgrade {
 	private function upgrade_1591() {
 		$enabled_auto_updates = \get_option( 'auto_update_plugins' );
 		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
-		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', [], $enabled_auto_updates );
+		$addon_update_watcher->toggle_auto_updates_for_add_owns( 'auto_update_plugins', [], $enabled_auto_updates );
 	}
 
 	/**
@@ -828,7 +828,7 @@ class WPSEO_Upgrade {
 	private function upgrade_162() {
 		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
 		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
-		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
+		$addon_update_watcher->toggle_auto_updates_for_add_owns( 'auto_update_plugins', $enabled_auto_updates, [] );
 	}
 
 	/**
@@ -863,7 +863,7 @@ class WPSEO_Upgrade {
 	private function upgrade_1771() {
 		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
 		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
-		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
+		$addon_update_watcher->toggle_auto_updates_for_add_owns( 'auto_update_plugins', $enabled_auto_updates, [] );
 	}
 
 	/**
@@ -1086,7 +1086,7 @@ class WPSEO_Upgrade {
 	private function reset_permalinks_of_attachments_for_141() {
 		global $wpdb;
 
-		// If migrations haven't been completed succesfully the following may give false errors. So suppress them.
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 

@@ -137,7 +137,7 @@ describe( "test with different language specific helper and config", () => {
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 
-		paper = new Paper( "Nach der von Erzbischof Hinkmar von Reims gebildeten Legende hat gegen Ende des 5. Wahrscheinlichkeit verhältnismäßig." );
+		paper = new Paper( "Nach der von Erzbischof Hinkmar von Reims gebildeten Legende hat gegen End des 5. Wahrscheinlichkeit verhältnismäßig." );
 		researcher = new GermanResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperGerman );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigGerman );
@@ -148,7 +148,7 @@ describe( "test with different language specific helper and config", () => {
 
 	it( "should not recognize German function words to be complex, no matter whether they are capitalized or not", () => {
 		// eslint-disable-next-line max-len
-		const paper = new Paper( "Nach der von Erzbischof Hinkmar von Reims gebildeten Legende hat gegen Ende des 5. Wahrscheinlichkeit verhältnismäßig." );
+		const paper = new Paper( "Nach der von Erzbischof Hinkmar von Reims gebildeten Legende hat gegen End des 5. Wahrscheinlichkeit verhältnismäßig." );
 		const researcher = new GermanResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperGerman );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigGerman );

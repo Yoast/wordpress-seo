@@ -91,7 +91,7 @@ class Twitter_Description_Test extends TestCase {
 	 *
 	 * @covers ::generate_twitter_description
 	 */
-	public function test_with_term_description_with_open_graph_disbled_and_have_open_graph_description() {
+	public function test_with_term_description_with_open_graph_disabled_and_have_open_graph_description() {
 		$this->indexable->twitter_description = '';
 		$this->instance->meta_description     = '';
 		$this->context->open_graph_enabled    = false;

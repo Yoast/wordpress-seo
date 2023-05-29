@@ -414,7 +414,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 		];
 
 		return [
-			'Capabilites are right'  => $success,
+			'Capabilities are right'  => $success,
 			'Capabilities are wrong' => $failed,
 		];
 	}

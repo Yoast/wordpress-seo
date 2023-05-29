@@ -96,7 +96,7 @@ class PrimaryTaxonomyPicker extends Component {
 	 *
 	 * @param {number} termId The term's id.
 	 *
-	 * @returns {boolean} Whther the term is available.
+	 * @returns {boolean} Whether the term is available.
 	 */
 	termIsAvailable( termId ) {
 		return !! this.state.terms.find( term => term.id === termId );

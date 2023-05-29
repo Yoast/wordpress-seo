@@ -22,7 +22,7 @@ export default function( clause, participle, auxiliaries, cannotBeBetweenPassive
 	const auxiliaryIndices = getIndicesByWordListSorted( auxiliariesUnique, clause );
 
 	const participleIndex = clause.indexOf( participle );
-	const nonDirectParticiplePrecendenceExceptionRegex = arrayToRegex( cannotBeBetweenPassiveAuxiliaryAndParticiple );
+	const nonDirectParticiplePrecedenceExceptionRegex = arrayToRegex( cannotBeBetweenPassiveAuxiliaryAndParticiple );
 
 	// This exception is only applicable for passive constructions in which the auxiliary precedes the participle.
 	const matches = auxiliaryIndices.filter( auxiliaryIndex => auxiliaryIndex.index < participleIndex );
@@ -35,9 +35,9 @@ export default function( clause, participle, auxiliaries, cannotBeBetweenPassive
 	// We pick the auxiliary closest to the participle, since that is most likely the one belonging to the participle.
 	const participleAuxiliary = matches[ matches.length - 1 ];
 
-	const precedenceExceptionIndices = getWordIndices( clause, nonDirectParticiplePrecendenceExceptionRegex );
+	const precedenceExceptionIndices = getWordIndices( clause, nonDirectParticiplePrecedenceExceptionRegex );
 
-	// Check whether there are any precendence words between the auxiliary and the participle.
+	// Check whether there are any precedence words between the auxiliary and the participle.
 	const remainingPrecedenceExceptionIndices = precedenceExceptionIndices.filter( precedenceExceptionIndex =>
 		( precedenceExceptionIndex.index > participleAuxiliary.index && precedenceExceptionIndex.index < participleIndex ) );
 

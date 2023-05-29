@@ -103,7 +103,7 @@ ImageSelectButtons.propTypes = {
  * @param {string[]} props.warnings             An array of warnings that detail why the image cannot be used.
  * @param {function} props.onClick              Callback called when the "Select image" or "Replace image" button is clicked.
  * @param {function} props.onRemoveImageClick   Callback called when the "Remove image" button is clicked.
- * @param {string}   props.imageUrl             The Url adress of the image
+ * @param {string}   props.imageUrl             The Url address of the image
  * @param {bool}     props.isPremium            States if premium is installed.
  * @param {string}   props.imageUrlInputId      The ID for the image URL input.
  * @param {string}   props.selectImageButtonId  The ID for the select image button.

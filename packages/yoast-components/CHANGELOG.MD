@@ -445,7 +445,7 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Breaking changes
 * Upgraded peer dependency of React to `16.2`.
 * Removed `.svg` files in favour of `SvgIcon` component, as a result `svg-react-loader` is no longer required.
-* Removed `composites/SnippetPreview/components/SnippetPreview.js` that ensured backwards compatability to the new `SnippetPreview` component.
+* Removed `composites/SnippetPreview/components/SnippetPreview.js` that ensured backwards compatibility to the new `SnippetPreview` component.
 * Changed `StyledSection` props.
 
 ### Added
@@ -457,7 +457,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * Changed default translation `Good` to `Good results` in `Content Analysis`.
 * Refactored `StyledSection` to use `styled-components`.
 * Removed `.svg` files. Use `SvgIcon` instead.
-* Removed `composites/SnippetPreview/components/SnippetPreview.js` that ensured backwards compatability to the new `SnippetPreview` component.
+* Removed `composites/SnippetPreview/components/SnippetPreview.js` that ensured backwards compatibility to the new `SnippetPreview` component.
 
 ## 2.11.7 December 15th, 2017
 

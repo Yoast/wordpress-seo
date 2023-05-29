@@ -164,7 +164,7 @@ export function serializeSelection( contentState, selection, blockDelimiter = " 
 /**
  * Determines the variable label for a given variable name.
  *
- * @param {Array} replacementVariables All the available replacment variables.
+ * @param {Array} replacementVariables All the available replacement variables.
  * @param {string} name The name to find the label for.
  *
  * @returns {string} The label for this replacement variable.

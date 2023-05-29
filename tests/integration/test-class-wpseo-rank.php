@@ -26,8 +26,8 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Rank::__construct
 	 */
 	public function test_constructor() {
-		$rank_non_existant = new WPSEO_Rank( 100000 );
-		$this->assertEquals( WPSEO_Rank::BAD, $rank_non_existant->get_rank() );
+		$rank_non_existent = new WPSEO_Rank( 100000 );
+		$this->assertEquals( WPSEO_Rank::BAD, $rank_non_existent->get_rank() );
 	}
 
 	/**
