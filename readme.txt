@@ -265,7 +265,7 @@ Today, we're launching Yoast SEO 20.8. In this release, you'll find improvements
 
 #### Other
 
-* Renames \"SEO Framework\" to \"The SEO Framework\".
+* Renames "SEO Framework" to "The SEO Framework".
 
 = 20.7 =
 
