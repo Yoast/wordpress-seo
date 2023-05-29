@@ -77,7 +77,7 @@ class Deactivating_Yoast_Seo_Conditional_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the conditional is not met when the GET var doesn't contain a yoast seo plugin.
+	 * Tests that the conditional is met when the Yoast SEO plugin is getting deactivated.
 	 *
 	 * @covers ::is_met
 	 */
