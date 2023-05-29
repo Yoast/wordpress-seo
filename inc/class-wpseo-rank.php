@@ -146,6 +146,19 @@ class WPSEO_Rank {
 	}
 
 	/**
+	 * Returns an inclusive language label for this rank.
+	 * The only difference with get_label above is that we return "Potentially non-inclusive" for an OK rank.
+	 *
+	 * @return string
+	 */
+	public function get_inclusive_language_label() {
+		if ( $this->rank === self::OK ) {
+			return __( 'Potentially non-inclusive', 'wordpress-seo' );
+		}
+		return $this->get_label();
+	}
+
+	/**
 	 * Returns a label for use in a drop down.
 	 *
 	 * @return mixed
@@ -202,6 +215,33 @@ class WPSEO_Rank {
 			self::GOOD => sprintf(
 				/* translators: %s expands to the readability score */
 				__( 'Readability: %s', 'wordpress-seo' ),
+				__( 'Good', 'wordpress-seo' )
+			),
+		];
+
+		return $labels[ $this->rank ];
+	}
+
+	/**
+	 * Gets the drop down labels for the inclusive language score.
+	 *
+	 * @return string The inclusive language rank label.
+	 */
+	public function get_drop_down_inclusive_language_labels() {
+		$labels = [
+			self::BAD => sprintf(
+			/* translators: %s expands to the inclusive language score */
+				__( 'Inclusive language: %s', 'wordpress-seo' ),
+				__( 'Needs improvement', 'wordpress-seo' )
+			),
+			self::OK => sprintf(
+			/* translators: %s expands to the inclusive language score */
+				__( 'Inclusive language: %s', 'wordpress-seo' ),
+				__( 'Potentially non-inclusive', 'wordpress-seo' )
+			),
+			self::GOOD => sprintf(
+			/* translators: %s expands to the inclusive language score */
+				__( 'Inclusive language: %s', 'wordpress-seo' ),
 				__( 'Good', 'wordpress-seo' )
 			),
 		];
@@ -273,6 +313,15 @@ class WPSEO_Rank {
 	 * @return WPSEO_Rank[]
 	 */
 	public static function get_all_readability_ranks() {
+		return array_map( [ 'WPSEO_Rank', 'create_rank' ], [ self::BAD, self::OK, self::GOOD ] );
+	}
+
+	/**
+	 * Returns a list of all possible Inclusive Language Ranks.
+	 *
+	 * @return WPSEO_Rank[]
+	 */
+	public static function get_all_inclusive_language_ranks() {
 		return array_map( [ 'WPSEO_Rank', 'create_rank' ], [ self::BAD, self::OK, self::GOOD ] );
 	}
 

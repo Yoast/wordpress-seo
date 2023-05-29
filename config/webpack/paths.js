@@ -20,6 +20,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"classic-editor": `${ sourceDirectory }/classic-editor.js`,
 	"crawl-settings": `${ sourceDirectory }/crawl-settings.js`,
 	"dashboard-widget": `${ sourceDirectory }/dashboard-widget.js`,
+	"wincher-dashboard-widget": `${ sourceDirectory }/wincher-dashboard-widget.js`,
 	"dynamic-blocks": `${ sourceDirectory }/dynamic-blocks.js`,
 	"edit-page": `${ sourceDirectory }/edit-page.js`,
 	"editor-modules": `${ sourceDirectory }/editor-modules.js`,

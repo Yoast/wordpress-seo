@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.2
-Stable tag: 20.6
+Stable tag: 20.8
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -87,7 +87,6 @@ Did you know that [Yoast SEO Premium](https://yoa.st/1v8) contains a lot of extr
 * **Internal linking suggestions** while you’re writing.
 * Preview your content to see what it will look like in the search results and when shared on social media using the **Google preview** and **social preview**.
 * **Cornerstone content checks** that point search engines to your most important pages.
-* Connect Yoast SEO to Zapier to easily **create zaps that instantly share your published posts** with 2000+ destinations like Twitter, Facebook, and much more.
 
 If you are serious about your WordPress SEO, install the [Yoast SEO Premium plugin](https://yoa.st/1v8)! **Costs a little, saves a lot of time!**
 
@@ -112,7 +111,6 @@ Yoast SEO integrates seamlessly into a range of themes and plugins. We work part
 * Google’s [Web Stories](https://wordpress.org/plugins/web-stories/) plugin, which helps you to create ‘[web stories](https://amp.dev/about/stories/)’.
 * The [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/) plugin, when you also activate the [ACF Content Analysis for Yoast SEO](https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/) plugin.
 * The [Elementor](https://wordpress.org/plugins/elementor/) website builder.
-* [Zapier](https://zapier.com/apps/yoast-seo/integrations), which helps you automate your publishing flow.
 * [Algolia](https://wordpress.org/plugins/wp-search-with-algolia/) integration to improve the quality of your site search.
 * [WordProof](https://wordproof.com/), which helps you prove ownership by adding timestamps.
 
@@ -247,37 +245,42 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 20.7 =
+= 20.9 =
 
-Release date: 2023-05-09
+Release date: 2023-06-06
 
 #### Enhancements
 
-* Adds a link to a taxonomy edit page in its settings section when the taxonomy has no public post types associated.
-* Adds an academy page in the Yoast menu for easy access to all of Yoast’s e-learning modules.
-* Ensures compatibility with upcoming Elementor accessibility improvements.
+* Sets up background indexation via WP Cron.
+* Tightens crawl optimization site search blocking rules.
 
 #### Bugfixes
 
-* Fixes a bug where a fatal error would be thrown when visiting Yoast SEO admin pages while Yoast SEO for WooCommerce is active but never executed.
+* Fixes a bug where indexables would be created when using the `wp yoast index` WP CLI command on a staging site.
+* Fixes a bug where the link popover position in the block editor would be positioned incorrectly when adding or creating links.
+* Fixes a bug where the Yoast SEO metabox would crash in conjunction with Yoast SEO Premium when additional keyphrases are stored in the DB in a malformed way.
 
-#### Other
+= 20.8 =
 
-* Removes the introductory modal for the settings page.
-* Removes the Zapier integration card.
-* Removes the Zapier post-publish slot and network admin integration toggle.
-* Sets the minimum supported WooCommerce version to 7.1.
-* Sets the minimum supported WordPress version to 6.1
+Release date: 2023-05-23
 
-= 20.6 =
-
-Release date: 2023-04-26
-
-Today's release of Yoast SEO 20.6 has enhancements and fixes to improve your SEO work. The update features a new readability analysis — a helpful addition alerting you whenever you use too much center-aligned text. Check out more details now! Find out more about what's new in Yoast SEO 20.6 in [our release post](https://yoa.st/release-26-4-23)!
+Today, we're launching Yoast SEO 20.8. In this release, you'll find improvements to our content analyses and regular fixes and enhancements. Find out more about what's new in Yoast SEO 20.8 in [our release post](https://yoa.st/release-23-5-23)!
 
 #### Enhancements
 
-* Improves performance when the SEO data optimization has not been completed. Props to @PypWalters.
+* Improves feedback strings for the _keyphrase density_ assessment by referring to the keyphrase in general instead of the focus keyphrase.
+* Improves the accuracy of the content analysis by excluding texts within textarea tags from the analysis.
+
+#### Bugfixes
+
+* Fixes a bug where an entry in the indexable table would be created when an archive of a non-public but publicly queryable post type would be visited.
+* Fixes a bug where a warning about a missing key in a component would be thrown in the console in the Yoast SEO Settings page.
+* Fixes a bug where entries in the indexable table would be created for archives of excluded post types.
+* Fixes a bug where the score icon for the SEO and Readability tabs would not show a sad emoji when the post is empty or there is no set keyphrase.
+
+#### Other
+
+* Renames \"SEO Framework\" to \"The SEO Framework\".
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

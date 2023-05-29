@@ -86,7 +86,8 @@ class WPSEO_Admin {
 		}
 
 		$this->admin_features = [
-			'dashboard_widget' => new Yoast_Dashboard_Widget(),
+			'dashboard_widget'         => new Yoast_Dashboard_Widget(),
+			'wincher_dashboard_widget' => new Wincher_Dashboard_Widget(),
 		];
 
 		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
@@ -237,7 +238,6 @@ class WPSEO_Admin {
 			$ftc_link = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '" target="_blank">' . $message . '</a>';
 			array_unshift( $links, $ftc_link );
 		}
-
 
 		$addon_manager = new WPSEO_Addon_Manager();
 		if ( YoastSEO()->helpers->product->is_premium() ) {

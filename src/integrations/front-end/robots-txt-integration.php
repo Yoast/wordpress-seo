@@ -73,6 +73,9 @@ class Robots_Txt_Integration implements Integration_Interface {
 		if ( $this->options_helper->get( 'deny_wp_json_crawling' ) && ! \is_multisite() ) {
 			\add_action( 'Yoast\WP\SEO\register_robots_rules', [ $this, 'add_disallow_wp_json_to_robots' ], 10, 1 );
 		}
+		if ( $this->options_helper->get( 'deny_adsbot_crawling' ) && ! \is_multisite() ) {
+			\add_action( 'Yoast\WP\SEO\register_robots_rules', [ $this, 'add_disallow_adsbot' ], 10, 1 );
+		}
 	}
 
 	/**
@@ -116,6 +119,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 */
 	public function add_disallow_search_to_robots( Robots_Txt_Helper $robots_txt_helper ) {
 		$robots_txt_helper->add_disallow( '*', '/?s=' );
+		$robots_txt_helper->add_disallow( '*', '/page/*/?s=' );
 		$robots_txt_helper->add_disallow( '*', '/search/' );
 	}
 
@@ -129,6 +133,17 @@ class Robots_Txt_Integration implements Integration_Interface {
 	public function add_disallow_wp_json_to_robots( Robots_Txt_Helper $robots_txt_helper ) {
 		$robots_txt_helper->add_disallow( '*', '/wp-json/' );
 		$robots_txt_helper->add_disallow( '*', '/?rest_route=' );
+	}
+
+	/**
+	 * Add a disallow rule for AdsBot agents to robots.txt.
+	 *
+	 * @param Robots_Txt_Helper $robots_txt_helper The robots txt helper.
+	 *
+	 * @return void
+	 */
+	public function add_disallow_adsbot( Robots_Txt_Helper $robots_txt_helper ) {
+		$robots_txt_helper->add_disallow( 'AdsBot', '/' );
 	}
 
 	/**

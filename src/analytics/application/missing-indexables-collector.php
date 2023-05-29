@@ -15,7 +15,7 @@ class Missing_Indexables_Collector implements WPSEO_Collection {
 	/**
 	 * All the indexation actions.
 	 *
-	 * @var array<Indexation_Action_Interface> $indexation_actions
+	 * @var array<Indexation_Action_Interface>
 	 */
 	private $indexation_actions;
 
@@ -37,11 +37,11 @@ class Missing_Indexables_Collector implements WPSEO_Collection {
 	public function get(): array {
 		$missing_indexable_bucket = new Missing_Indexable_Bucket();
 		foreach ( $this->indexation_actions as $indexation_action ) {
-			$missing_indexable_count = new Missing_Indexable_Count( get_class( $indexation_action ), $indexation_action->get_total_unindexed() );
+			$missing_indexable_count = new Missing_Indexable_Count( \get_class( $indexation_action ), $indexation_action->get_total_unindexed() );
 			$missing_indexable_bucket->add_missing_indexable_count( $missing_indexable_count );
 		}
 
-		return $missing_indexable_bucket->to_array();
+		return [ 'missing_indexables' => $missing_indexable_bucket->to_array() ];
 	}
 
 	/**

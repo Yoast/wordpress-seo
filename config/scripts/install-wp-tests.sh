@@ -3,9 +3,9 @@
 ########################################################################
 # Script to download and install WordPress for use in automated testing.
 #
-# Source: https://github.com/wp-cli/scaffold-command/blob/master/templates/install-wp-tests.sh
-# Last updated based on commit https://github.com/wp-cli/scaffold-command/commit/acf73159e1773a052d43a13cb63b5040e1f43c8f
-# dated March 11 2021.
+# Source: https://github.com/wp-cli/scaffold-command/blob/main/templates/install-wp-tests.sh
+# Last updated based on commit https://github.com/wp-cli/scaffold-command/commit/503ac569875d3665a0b28b9a5b7e8d136112b6d6
+# dated December 15 2022.
 ########################################################################
 
 if [ $# -lt 3 ]; then
@@ -100,7 +100,7 @@ install_wp() {
 		tar --strip-components=1 -zxmf $TMPDIR/wordpress.tar.gz -C $WP_CORE_DIR
 	fi
 
-	download https://raw.github.com/markoheijnen/wp-mysqli/master/db.php $WP_CORE_DIR/wp-content/db.php
+	download https://raw.githubusercontent.com/markoheijnen/wp-mysqli/master/db.php $WP_CORE_DIR/wp-content/db.php
 }
 
 install_test_suite() {

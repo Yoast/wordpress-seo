@@ -3,7 +3,9 @@ import getResearcher from "../specHelpers/getResearcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
 import getWordComplexityConfig from "../specHelpers/getWordComplexityConfig";
 import getWordComplexityHelper from "../specHelpers/getWordComplexityHelper";
-// Import SEO assessments.
+import buildTree from "../specHelpers/parse/buildTree";
+
+// Import SEO assessments
 import IntroductionKeywordAssessment from "../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "../../src/scoring/assessments/seo/KeywordDensityAssessment";
@@ -21,6 +23,7 @@ import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/K
 import ImageKeyphraseAssessment from "../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAssessment";
 import TextTitleAssessment from "../../src/scoring/assessments/seo/TextTitleAssessment";
+
 // Import readability/content assessments.
 import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
 import ParagraphTooLongAssessment from "../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
@@ -59,6 +62,8 @@ testPapers.forEach( function( testPaper ) {
 			researcher.addConfig( "wordComplexity", getWordComplexityConfig( language ) );
 		}
 		researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
+
+		buildTree( paper, researcher );
 
 		const expectedResults = testPaper.expectedResults;
 

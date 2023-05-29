@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Generators\Schema;
 use Brain\Monkey;
 use Mockery;
 use stdClass;
+use WP_User;
 use Yoast\WP\SEO\Generators\Schema\Article;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
@@ -257,7 +258,7 @@ class Article_Test extends TestCase {
 			->once()
 			->andReturn( $values_to_test['categories'] );
 
-		$user               = new \WP_User( 3 );
+		$user               = new WP_User( 3 );
 		$user->display_name = 'John Doe';
 		Monkey\Functions\expect( 'get_userdata' )
 			->with( 3 )

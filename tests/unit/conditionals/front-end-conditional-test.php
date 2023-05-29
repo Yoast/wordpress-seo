@@ -32,15 +32,6 @@ class Front_End_Conditional_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the needed attributes are set correctly.
-	 *
-	 * @covers ::__construct
-	 */
-	public function test_construct() {
-		$this->assertInstanceOf( Front_End_Conditional::class, $this->instance );
-	}
-
-	/**
 	 * Tests that the conditional is met when is_admin is false.
 	 *
 	 * @covers ::is_met

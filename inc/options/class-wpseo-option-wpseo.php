@@ -126,6 +126,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'search_character_limit'                   => 50,
 		'deny_search_crawling'                     => false,
 		'deny_wp_json_crawling'                    => false,
+		'deny_adsbot_crawling'                     => false,
 		'redirect_search_pretty_urls'              => false,
 		'least_readability_ignore_list'            => [],
 		'least_seo_score_ignore_list'              => [],
@@ -505,6 +506,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'search_cleanup_emoji'
 				 *  'search_cleanup_patterns'
 				 *  'deny_wp_json_crawling'
+				 *  'deny_adsbot_crawling'
 				 *  'redirect_search_pretty_urls'
 				 *  'should_redirect_after_install_free'
 				 *  and most of the feature variables.

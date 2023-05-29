@@ -10,6 +10,7 @@ import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagrap
 import findKeyphraseInSEOTitle from "./researches/findKeyphraseInSEOTitle";
 import findTransitionWords from "./researches/findTransitionWords";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
+import getAnchorsWithKeyphrase from "./researches/getAnchorsWithKeyphrase";
 import getFleschReadingScore from "./researches/getFleschReadingScore";
 import getKeywordDensity from "./researches/getKeywordDensity.js";
 import getLinks from "./researches/getLinks.js";
@@ -35,6 +36,9 @@ import sentences from "./researches/sentences";
 import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
 
+// All helpers.
+import memoizedTokenizer from "./helpers/sentence/memoizedSentenceTokenizer";
+
 /**
  * The researches contains all the researches
  */
@@ -56,6 +60,7 @@ export default class AbstractResearcher {
 			findKeyphraseInSEOTitle,
 			findTransitionWords,
 			functionWordsInKeyphrase,
+			getAnchorsWithKeyphrase,
 			getFleschReadingScore,
 			getKeywordDensity,
 			getLinks,
@@ -87,7 +92,9 @@ export default class AbstractResearcher {
 
 		this.customResearches = {};
 
-		this.helpers = {};
+		this.helpers = {
+			memoizedTokenizer,
+		};
 
 		this.config = {};
 	}

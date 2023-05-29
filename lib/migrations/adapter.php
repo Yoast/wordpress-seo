@@ -542,7 +542,7 @@ class Adapter {
 			}
 
 			return $result;
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			return null;
 		}
 	}

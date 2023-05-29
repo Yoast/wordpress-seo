@@ -10,14 +10,14 @@ class Missing_Indexable_Count {
 	/**
 	 * The indexable type that is represented by this.
 	 *
-	 * @var string $indexable_type
+	 * @var string
 	 */
 	private $indexable_type;
 
 	/**
 	 * The amount of missing indexables.
 	 *
-	 * @var int $count
+	 * @var int
 	 */
 	private $count;
 

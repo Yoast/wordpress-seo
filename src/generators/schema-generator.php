@@ -184,6 +184,7 @@ class Schema_Generator implements Generator_Interface {
 		foreach ( $context->blocks as $block_type => $blocks ) {
 			foreach ( $blocks as $block ) {
 				$block_type = \strtolower( $block['blockName'] );
+
 				/**
 				 * Filter: 'wpseo_schema_block_<block-type>'.
 				 * This filter is documented in the `generate_graph()` function in this class.

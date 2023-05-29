@@ -2,11 +2,12 @@
 
 namespace Yoast\WP\SEO\Repositories;
 
-use Yoast\WP\Lib\ORM;
+use mysqli_result;
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
 /**
  * Repository containing all cleanup queries.
@@ -37,9 +38,9 @@ class Indexable_Cleanup_Repository {
 	/**
 	 * The constructor.
 	 *
-	 * @param Taxonomy_Helper       $taxonomy             A helper for taxonomies.
-	 * @param Post_Type_Helper      $post_type            A helper for post types.
-	 * @param Author_Archive_Helper $author_archive       A helper for author archives.
+	 * @param Taxonomy_Helper       $taxonomy       A helper for taxonomies.
+	 * @param Post_Type_Helper      $post_type      A helper for post types.
+	 * @param Author_Archive_Helper $author_archive A helper for author archives.
 	 */
 	public function __construct( Taxonomy_Helper $taxonomy, Post_Type_Helper $post_type, Author_Archive_Helper $author_archive ) {
 		$this->taxonomy       = $taxonomy;
@@ -80,7 +81,7 @@ class Indexable_Cleanup_Repository {
 	/**
 	 * Counts amount of indexables by object type and object sub type.
 	 *
-	 * @param string $object_type The object type to check.
+	 * @param string $object_type     The object type to check.
 	 * @param string $object_sub_type The object sub type to check.
 	 *
 	 * @return float|int
@@ -422,7 +423,7 @@ class Indexable_Cleanup_Repository {
 	/**
 	 * Counts total amount of indexables for authors without archives.
 	 *
-	 * @return bool|int|\mysqli_result|resource|null
+	 * @return bool|int|mysqli_result|resource|null
 	 */
 	public function count_indexables_for_authors_without_archive() {
 		global $wpdb;
@@ -664,7 +665,7 @@ class Indexable_Cleanup_Repository {
 
 		// This is a workaround for the fact that the array_column function does not work on objects in PHP 5.6.
 		$reassigned_authors_array = \array_map(
-			function ( $obj ) {
+			static function ( $obj ) {
 				return (array) $obj;
 			},
 			$reassigned_authors_objs
@@ -689,6 +690,6 @@ class Indexable_Cleanup_Repository {
 			$wpdb->query( $query );
 		}
 
-		return count( $reassigned_authors );
+		return \count( $reassigned_authors );
 	}
 }

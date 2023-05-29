@@ -1,8 +1,8 @@
 <?php
 namespace Yoast\WP\SEO\Tests\Unit\Admin\Import;
 
-use WPSEO_Import_Settings;
 use Brain\Monkey;
+use WPSEO_Import_Settings;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

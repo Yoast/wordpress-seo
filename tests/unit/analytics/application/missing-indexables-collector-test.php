@@ -25,8 +25,8 @@ class Missing_Indexables_Collector_Test extends TestCase {
 	 * @dataProvider collector_get_data
 	 *
 	 * @param array                           $additional_indexation_actions All the indexations actions that are added via the filter.
-	 * @param Abstract_Indexing_Action_Double $initial_indexation_actions The initial indexation actions available in free.
-	 * @param array                           $expected_result The expected result.
+	 * @param Abstract_Indexing_Action_Double $initial_indexation_actions    The initial indexation actions available in free.
+	 * @param array                           $expected_result               The expected result.
 	 *
 	 * @return void
 	 */
@@ -53,13 +53,15 @@ class Missing_Indexables_Collector_Test extends TestCase {
 				[ $indexation_action, $indexation_action ],
 				$indexation_action,
 				[
-					[
-						'indexable_type' => Abstract_Indexing_Action_Double::class,
-						'count'          => 15,
-					],
-					[
-						'indexable_type' => Abstract_Indexing_Action_Double::class,
-						'count'          => 15,
+					'missing_indexables' => [
+						[
+							'indexable_type' => Abstract_Indexing_Action_Double::class,
+							'count'          => 15,
+						],
+						[
+							'indexable_type' => Abstract_Indexing_Action_Double::class,
+							'count'          => 15,
+						],
 					],
 				],
 			],
@@ -68,9 +70,11 @@ class Missing_Indexables_Collector_Test extends TestCase {
 				[ $indexation_action, 'somerandomobject' ],
 				$indexation_action,
 				[
-					[
-						'indexable_type' => Abstract_Indexing_Action_Double::class,
-						'count'          => 15,
+					'missing_indexables' => [
+						[
+							'indexable_type' => Abstract_Indexing_Action_Double::class,
+							'count'          => 15,
+						],
 					],
 				],
 
@@ -79,7 +83,7 @@ class Missing_Indexables_Collector_Test extends TestCase {
 
 				null,
 				$indexation_action,
-				[],
+				[ 'missing_indexables' => [] ],
 
 			],
 		];

@@ -157,7 +157,7 @@ class Abstract_Aioseo_Importing_Action_Test extends TestCase {
 			->once()
 			->with( 'importing_completed', $expected_arg );
 
-		$completed = $this->mock_instance->set_completed( false );
+		$this->mock_instance->set_completed( false );
 	}
 
 	/**
@@ -182,6 +182,6 @@ class Abstract_Aioseo_Importing_Action_Test extends TestCase {
 			->once()
 			->with( 'importing_completed', $expected_arg );
 
-		$completed = $this->mock_instance->set_completed( true );
+		$this->mock_instance->set_completed( true );
 	}
 }

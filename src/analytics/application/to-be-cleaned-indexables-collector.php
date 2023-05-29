@@ -56,7 +56,7 @@ class To_Be_Cleaned_Indexables_Collector implements WPSEO_Collection {
 
 		$this->add_additional_counts( $to_be_cleaned_indexable_bucket );
 
-		return $to_be_cleaned_indexable_bucket->to_array();
+		return [ 'to_be_cleaned_indexables' => $to_be_cleaned_indexable_bucket->to_array() ];
 	}
 
 	/**

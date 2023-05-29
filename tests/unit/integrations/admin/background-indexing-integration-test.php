@@ -655,94 +655,228 @@ class Background_Indexing_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the schedule_cron_indexing function schedules a cron job that performs the wpseo_indexable_index_batch action.
+	 * Tests schedule_cron_indexing.
 	 *
+	 * @dataProvider data_schedule_cron_indexing
 	 * @covers ::schedule_cron_indexing
-	 */
-	public function test_schedule_cron_indexing() {
-		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( false );
-		$this->indexing_helper->expects( 'get_limited_filtered_unindexed_count_background' )->once()->andReturn( 1 );
-		Monkey\Functions\expect( 'wp_schedule_event' )->once()->with( ( \time() + \HOUR_IN_SECONDS ), 'fifteen_minutes', 'wpseo_indexable_index_batch' );
-
-		$this->instance->schedule_cron_indexing();
-	}
-
-	/**
-	 * Tests that no cron job is scheduled when the cron job is already scheduled.
+	 * @covers ::should_index_on_cron
 	 *
-	 * @covers ::schedule_cron_indexing
+	 * @param bool $admin_dashboard_conditional_result Whether we're on the right pages.
+	 * @param int  $get_conditional_times              Times we'll look whether we're on a GET request.
+	 * @param bool $get_conditional_result             Whether we're on a GET request.
+	 * @param int  $next_scheduled_times               Times we'll check whether there's a scheduled action already.
+	 * @param bool $next_scheduled_result              Whether there's a scheduled action already.
+	 * @param int  $should_index_times                 Times we'll check whether indexing is enabled on the site.
+	 * @param bool $should_index_result                Whether indexing is enabled on the site.
+	 * @param bool $query_filter_result                Whether queries have ran via filter.
+	 * @param int  $enable_filter_times                Times we'll check whether indexing is disabled via filter.
+	 * @param bool $enable_filter_result               Whether indexing is disabled via filter.
+	 * @param int  $get_unindexed_count_times          Times we'll calculate the unindexed objects count.
+	 * @param int  $get_unindexed_count_result         The unindexed objects count.
+	 * @param int  $schedule_event_times               Times we'll schedule a cron event.
 	 */
-	public function test_schedule_cron_indexing_already_scheduled() {
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 987654321 );
-		Monkey\Functions\expect( 'wp_schedule_event' )->never();
+	public function test_schedule_cron_indexing( $admin_dashboard_conditional_result, $get_conditional_times, $get_conditional_result, $next_scheduled_times, $next_scheduled_result, $should_index_times, $should_index_result, $query_filter_result, $enable_filter_times, $enable_filter_result, $get_unindexed_count_times, $get_unindexed_count_result, $schedule_event_times ) {
+		$this->yoast_admin_and_dashboard_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( $admin_dashboard_conditional_result );
 
-		$this->instance->schedule_cron_indexing();
-	}
+		$this->get_request_conditional
+			->expects( 'is_met' )
+			->times( $get_conditional_times )
+			->andReturn( $get_conditional_result );
 
-	/**
-	 * Tests that no cron job is scheduled when the cron indexing is disabled through the Yoast\WP\SEO\enable_cron_indexing filter.
-	 *
-	 * @covers ::schedule_cron_indexing
-	 */
-	public function test_schedule_cron_indexing_cron_indexing_disabled() {
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( false );
-		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
-		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )->with( true )->andReturn( false );
-		Monkey\Functions\expect( 'wp_schedule_event' )->never();
+		Monkey\Functions\expect( 'wp_next_scheduled' )
+			->times( $next_scheduled_times )
+			->with( 'wpseo_indexable_index_batch' )
+			->andReturn( $next_scheduled_result );
 
-		$this->instance->schedule_cron_indexing();
-	}
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->times( $should_index_times )
+			->andReturn( $should_index_result );
 
-	/**
-	 * Tests that no cron job is scheduled when indexing is disabled through on the site.
-	 *
-	 * @covers ::schedule_cron_indexing
-	 */
-	public function test_schedule_cron_indexing_with_indexing_disabled() {
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( false );
-		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( false );
-		Monkey\Functions\expect( 'wp_schedule_event' )->never();
+		Monkey\Filters\expectApplied( 'wpseo_unindexed_count_queries_ran' )
+			->once()
+			->with( false )
+			->andReturn( $query_filter_result );
 
-		$this->instance->schedule_cron_indexing();
-	}
-
-	/**
-	 * Tests that no cron job is scheduled when on admin and the indexing process is already complete.
-	 *
-	 * @covers ::schedule_cron_indexing
-	 */
-	public function test_schedule_cron_indexing_index_complete_on_admin() {
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( false );
-		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
-		Monkey\Functions\expect( 'wp_schedule_event' )->never();
+		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )
+			->times( $enable_filter_times )
+			->with( true )
+			->andReturn( $enable_filter_result );
 
 		$this->indexing_helper
 			->expects( 'get_limited_filtered_unindexed_count_background' )
+			->times( $get_unindexed_count_times )
 			->with( 1 )
-			->once()
-			->andReturn( 0 );
+			->andReturn( $get_unindexed_count_result );
+
+		Monkey\Functions\expect( 'wp_schedule_event' )
+			->times( $schedule_event_times )
+			->with( ( \time() + \HOUR_IN_SECONDS ), 'fifteen_minutes', 'wpseo_indexable_index_batch' );
 
 		$this->instance->schedule_cron_indexing();
 	}
 
 	/**
-	 * Tests that no cron job is scheduled when on admin and the indexing process is not complete yet.
+	 * Provides data to test_schedule_cron_indexing.
 	 *
-	 * @covers ::schedule_cron_indexing
+	 * @return array The test data.
 	 */
-	public function test_schedule_cron_indexing_index_not_complete_on_admin() {
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( false );
-		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
-		Monkey\Functions\expect( 'wp_schedule_event' )->once();
-
-		$this->indexing_helper
-			->expects( 'get_limited_filtered_unindexed_count_background' )
-			->with( 1 )
-			->once()
-			->andReturn( 1 );
-
-		$this->instance->schedule_cron_indexing();
+	public function data_schedule_cron_indexing() {
+		return [
+			'Cron job is not scheduled when not on the right pages' => [
+				'admin_dashboard_conditional_result' => false,
+				'get_conditional_times'              => 0,
+				'get_conditional_result'             => 'irrelevant',
+				'next_scheduled_times'               => 0,
+				'next_scheduled_result'              => 'irrelevant',
+				'should_index_times'                 => 0,
+				'should_index_result'                => 'irrelevant',
+				'query_filter_result'                => false,
+				'enable_filter_times'                => 0,
+				'enable_filter_result'               => 'irrelevant',
+				'get_unindexed_count_times'          => 0,
+				'get_unindexed_count_result'         => 'irrelevant',
+				'schedule_event_times'               => 0,
+			],
+			'Cron job is not scheduled when not on a GET request' => [
+				'admin_dashboard_conditional_result' => true,
+				'get_conditional_times'              => 1,
+				'get_conditional_result'             => false,
+				'next_scheduled_times'               => 0,
+				'next_scheduled_result'              => 'irrelevant',
+				'should_index_times'                 => 0,
+				'should_index_result'                => 'irrelevant',
+				'query_filter_result'                => false,
+				'enable_filter_times'                => 0,
+				'enable_filter_result'               => 'irrelevant',
+				'get_unindexed_count_times'          => 0,
+				'get_unindexed_count_result'         => 'irrelevant',
+				'schedule_event_times'               => 0,
+			],
+			'Cron job is not scheduled when the cron job is already scheduled' => [
+				'admin_dashboard_conditional_result' => true,
+				'get_conditional_times'              => 1,
+				'get_conditional_result'             => true,
+				'next_scheduled_times'               => 1,
+				'next_scheduled_result'              => true,
+				'should_index_times'                 => 0,
+				'should_index_result'                => 'irrelevant',
+				'query_filter_result'                => false,
+				'enable_filter_times'                => 0,
+				'enable_filter_result'               => 'irrelevant',
+				'get_unindexed_count_times'          => 0,
+				'get_unindexed_count_result'         => 'irrelevant',
+				'schedule_event_times'               => 0,
+			],
+			'Cron job is not scheduled when cron indexing is disabled through the filter' => [
+				'admin_dashboard_conditional_result' => true,
+				'get_conditional_times'              => 1,
+				'get_conditional_result'             => true,
+				'next_scheduled_times'               => 1,
+				'next_scheduled_result'              => false,
+				'should_index_times'                 => 1,
+				'should_index_result'                => true,
+				'query_filter_result'                => false,
+				'enable_filter_times'                => 1,
+				'enable_filter_result'               => false,
+				'get_unindexed_count_times'          => 0,
+				'get_unindexed_count_result'         => 'irrelevant',
+				'schedule_event_times'               => 0,
+			],
+			'Cron job is not scheduled when indexing is disabled on the site' => [
+				'admin_dashboard_conditional_result' => true,
+				'get_conditional_times'              => 1,
+				'get_conditional_result'             => true,
+				'next_scheduled_times'               => 1,
+				'next_scheduled_result'              => false,
+				'should_index_times'                 => 1,
+				'should_index_result'                => false,
+				'query_filter_result'                => false,
+				'enable_filter_times'                => 0,
+				'enable_filter_result'               => 'irrelevant',
+				'get_unindexed_count_times'          => 0,
+				'get_unindexed_count_result'         => 'irrelevant',
+				'schedule_event_times'               => 0,
+			],
+			'Cron job is not scheduled when the indexing process is complete yet' => [
+				'admin_dashboard_conditional_result' => true,
+				'get_conditional_times'              => 1,
+				'get_conditional_result'             => true,
+				'next_scheduled_times'               => 1,
+				'next_scheduled_result'              => false,
+				'should_index_times'                 => 1,
+				'should_index_result'                => true,
+				'query_filter_result'                => false,
+				'enable_filter_times'                => 1,
+				'enable_filter_result'               => true,
+				'get_unindexed_count_times'          => 1,
+				'get_unindexed_count_result'         => 0,
+				'schedule_event_times'               => 0,
+			],
+			'Cron job is scheduled even if we are not on the right page, because queries have ran' => [
+				'admin_dashboard_conditional_result' => false,
+				'get_conditional_times'              => 0,
+				'get_conditional_result'             => 'irrelevant',
+				'next_scheduled_times'               => 1,
+				'next_scheduled_result'              => false,
+				'should_index_times'                 => 1,
+				'should_index_result'                => true,
+				'query_filter_result'                => true,
+				'enable_filter_times'                => 1,
+				'enable_filter_result'               => true,
+				'get_unindexed_count_times'          => 1,
+				'get_unindexed_count_result'         => 1,
+				'schedule_event_times'               => 1,
+			],
+			'Cron job is scheduled even if we are not on a GET request, because queries have ran' => [
+				'admin_dashboard_conditional_result' => true,
+				'get_conditional_times'              => 1,
+				'get_conditional_result'             => false,
+				'next_scheduled_times'               => 1,
+				'next_scheduled_result'              => false,
+				'should_index_times'                 => 1,
+				'should_index_result'                => true,
+				'query_filter_result'                => true,
+				'enable_filter_times'                => 1,
+				'enable_filter_result'               => true,
+				'get_unindexed_count_times'          => 1,
+				'get_unindexed_count_result'         => 1,
+				'schedule_event_times'               => 1,
+			],
+			'Cron job is not scheduled because indexing is not enabled, even if we are not on a GET request or in the right page' => [
+				'admin_dashboard_conditional_result' => false,
+				'get_conditional_times'              => 0,
+				'get_conditional_result'             => 'irrelevant',
+				'next_scheduled_times'               => 1,
+				'next_scheduled_result'              => false,
+				'should_index_times'                 => 1,
+				'should_index_result'                => false,
+				'query_filter_result'                => true,
+				'enable_filter_times'                => 0,
+				'enable_filter_result'               => 'irrelevant',
+				'get_unindexed_count_times'          => 0,
+				'get_unindexed_count_result'         => 'irrelevant',
+				'schedule_event_times'               => 0,
+			],
+			'Cron job is scheduled when on the right pages and the indexing process is not complete yet' => [
+				'admin_dashboard_conditional_result' => true,
+				'get_conditional_times'              => 1,
+				'get_conditional_result'             => true,
+				'next_scheduled_times'               => 1,
+				'next_scheduled_result'              => false,
+				'should_index_times'                 => 1,
+				'should_index_result'                => true,
+				'query_filter_result'                => false,
+				'enable_filter_times'                => 1,
+				'enable_filter_result'               => true,
+				'get_unindexed_count_times'          => 1,
+				'get_unindexed_count_result'         => 1,
+				'schedule_event_times'               => 1,
+			],
+		];
 	}
 
 	/**

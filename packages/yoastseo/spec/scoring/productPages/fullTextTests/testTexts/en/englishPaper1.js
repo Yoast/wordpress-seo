@@ -37,7 +37,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 4 times. This is great!",
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The keyphrase was found 4 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
