@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Integrations\Settings_Integration_Double;
 
 /**
  * Class Settings_Integration_Test.
@@ -37,35 +38,57 @@ class Settings_Integration_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * The class under test.
+	 *
+	 * @var Settings_Integration_Double
+	 */
+	protected $instance_double;
+
+	/**
 	 * Runs the setup to prepare the needed instance
 	 */
 	public function set_up() {
-		$asset_manager       = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$replace_vars        = Mockery::mock( WPSEO_Replace_Vars::class );
-		$schema_types        = Mockery::mock( Schema_Types::class );
-		$current_page_helper = Mockery::mock( Current_Page_Helper::class );
-		$post_type_helper    = Mockery::mock( Post_Type_Helper::class );
-		$language_helper     = Mockery::mock( Language_Helper::class );
-		$taxonomy_helper     = Mockery::mock( Taxonomy_Helper::class );
-		$product_helper      = Mockery::mock( Product_Helper::class );
-		$woocommerce_helper  = Mockery::mock( Woocommerce_Helper::class );
-		$article_helper      = Mockery::mock( Article_Helper::class );
-		$user_helper         = Mockery::mock( User_Helper::class );
-		$options             = Mockery::mock( Options_Helper::class );
+		$asset_manager          = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$replace_vars           = Mockery::mock( WPSEO_Replace_Vars::class );
+		$schema_types           = Mockery::mock( Schema_Types::class );
+		$current_page_helper    = Mockery::mock( Current_Page_Helper::class );
+		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
+		$language_helper        = Mockery::mock( Language_Helper::class );
+		$taxonomy_helper        = Mockery::mock( Taxonomy_Helper::class );
+		$product_helper         = Mockery::mock( Product_Helper::class );
+		$woocommerce_helper     = Mockery::mock( Woocommerce_Helper::class );
+		$this->article_helper   = Mockery::mock( Article_Helper::class );
+		$user_helper            = Mockery::mock( User_Helper::class );
+		$this->options          = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Settings_Integration(
 			$asset_manager,
 			$replace_vars,
 			$schema_types,
 			$current_page_helper,
-			$post_type_helper,
+			$this->post_type_helper,
 			$language_helper,
 			$taxonomy_helper,
 			$product_helper,
 			$woocommerce_helper,
-			$article_helper,
+			$this->article_helper,
 			$user_helper,
-			$options
+			$this->options
+		);
+
+		$this->instance_double = new Settings_Integration_Double(
+			$asset_manager,
+			$replace_vars,
+			$schema_types,
+			$current_page_helper,
+			$this->post_type_helper,
+			$language_helper,
+			$taxonomy_helper,
+			$product_helper,
+			$woocommerce_helper,
+			$this->article_helper,
+			$user_helper,
+			$this->options
 		);
 	}
 
@@ -102,5 +125,254 @@ class Settings_Integration_Test extends TestCase {
 		];
 
 		$this->assertSame( $submenu_pages, $this->instance->add_settings_saved_page( $submenu_pages ) );
+	}
+
+	/**
+	 * Tests construct method.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct() {
+		$this->assertInstanceOf(
+			WPSEO_Admin_Asset_Manager::class,
+			$this->getPropertyValue( $this->instance, 'asset_manager' ),
+			'asset_manager is set.'
+		);
+		$this->assertInstanceOf(
+			WPSEO_Replace_Vars::class,
+			$this->getPropertyValue( $this->instance, 'replace_vars' ),
+			'replace_vars is set.'
+		);
+		$this->assertInstanceOf(
+			Schema_Types::class,
+			$this->getPropertyValue( $this->instance, 'schema_types' ),
+			'schema_types is set.'
+		);
+		$this->assertInstanceOf(
+			Current_Page_Helper::class,
+			$this->getPropertyValue( $this->instance, 'current_page_helper' ),
+			'current_page_helper is set.'
+		);
+		$this->assertInstanceOf(
+			Post_Type_Helper::class,
+			$this->getPropertyValue( $this->instance, 'post_type_helper' ),
+			'post_type_helper is set.'
+		);
+		$this->assertInstanceOf(
+			Language_Helper::class,
+			$this->getPropertyValue( $this->instance, 'language_helper' ),
+			'language_helper is set.'
+		);
+		$this->assertInstanceOf(
+			Taxonomy_Helper::class,
+			$this->getPropertyValue( $this->instance, 'taxonomy_helper' ),
+			'taxonomy_helper is set.'
+		);
+		$this->assertInstanceOf(
+			Product_Helper::class,
+			$this->getPropertyValue( $this->instance, 'product_helper' ),
+			'product_helper is set.'
+		);
+		$this->assertInstanceOf(
+			Woocommerce_Helper::class,
+			$this->getPropertyValue( $this->instance, 'woocommerce_helper' ),
+			'woocommerce_helper is set.'
+		);
+		$this->assertInstanceOf(
+			Article_Helper::class,
+			$this->getPropertyValue( $this->instance, 'article_helper' ),
+			'article_helper is set.'
+		);
+		$this->assertInstanceOf(
+			User_Helper::class,
+			$this->getPropertyValue( $this->instance, 'user_helper' ),
+			'user_helper is set.'
+		);
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options' ),
+			'Options helper is set.'
+		);
+	}
+
+	/**
+	 * Data provider for test_transform_post_types.
+	 *
+	 * @return array
+	 */
+	public function transform_post_types_provider() {
+		return [
+			'New post type' => [
+				'post_types'     => [
+					'book' => (object) [
+						'name'          => 'book',
+						'label'         => 'Books',
+						'rewrite'       => [ 'slug' => 'books' ],
+						'rest_base'     => 'books',
+						'labels'        => (object) [ 'singular_name' => 'Book' ],
+						'singularLabel' => 'Book',
+						'menu_position' => 5,
+					],
+				],
+				'new_post_types' => [ 'book' ],
+				'expected'       => [
+					'book' => [
+						'name'                 => 'book',
+						'route'                => 'books',
+						'label'                => 'Books',
+						'singularLabel'        => 'Book',
+						'hasArchive'           => true,
+						'hasSchemaArticleType' => false,
+						'menuPosition'         => 5,
+						'needsReview'          => true,
+					],
+				],
+			],
+			'Not new post type' => [
+				'post_types'     => [
+					'book' => (object) [
+						'name'          => 'book',
+						'label'         => 'Books',
+						'rewrite'       => [ 'slug' => 'books' ],
+						'rest_base'     => 'books',
+						'labels'        => (object) [ 'singular_name' => 'Book' ],
+						'singularLabel' => 'Book',
+						'menu_position' => 5,
+					],
+				],
+				'new_post_types' => [],
+				'expected'       => [
+					'book' => [
+						'name'                 => 'book',
+						'route'                => 'books',
+						'label'                => 'Books',
+						'singularLabel'        => 'Book',
+						'hasArchive'           => true,
+						'hasSchemaArticleType' => false,
+						'menuPosition'         => 5,
+						'needsReview'          => false,
+					],
+				],
+			],
+		];
+	}
+
+	/**
+	 * Tests transform_post_types method.
+	 *
+	 * @covers ::transform_post_types
+	 *
+	 * @dataProvider transform_post_types_provider
+	 *
+	 * @param array $post_types The post types to transform.
+	 * @param array $new_post_types The new post types.
+	 * @param array $expected   The expected result.
+	 */
+	public function test_transform_post_types( $post_types, $new_post_types, $expected ) {
+
+		$this->options
+			->expects( 'get' )
+			->with( 'new_post_types', [] )
+			->andReturn( $new_post_types );
+
+		$this->post_type_helper
+			->expects( 'has_archive' )
+			->with( $post_types['book'] )
+			->andReturn( true );
+
+		$this->article_helper
+			->expects( 'is_article_post_type' )
+			->with( 'book' )
+			->andReturn( false );
+
+		$result = $this->instance_double->transform_post_types( $post_types );
+
+		$this->assertSame( $expected, $result );
+	}
+
+	/**
+	 * Data provider for test_transform_taxonomies.
+	 *
+	 * @return array
+	 */
+	public function transform_taxonomies_provider() {
+		return [
+			'New taxonomy' => [
+				'taxonomies'      => [
+					'book_category' => (object) [
+						'name'          => 'book_category',
+						'label'         => 'Categories',
+						'rewrite'       => [ 'slug' => 'yoast-test-book-category' ],
+						'rest_base'     => false,
+						'labels'        => (object) [ 'singular_name' => 'Category' ],
+						'show_ui'       => true,
+						'object_type'   => [ 'book' ],
+					],
+				],
+				'post_type_names' => [ 'book' ],
+				'new_taxonomies'  => [ 'book_category' ],
+				'expected'        => [
+					'book_category' => [
+						'name'                 => 'book_category',
+						'route'                => 'yoast-test-book-category',
+						'label'                => 'Categories',
+						'showUi'               => true,
+						'singularLabel'        => 'Category',
+						'postTypes'            => [ 'book' ],
+						'needsReview'          => true,
+					],
+				],
+			],
+			'Not new taxonomy' => [
+				'taxonomies'      => [
+					'book_category' => (object) [
+						'name'          => 'book_category',
+						'label'         => 'Categories',
+						'rewrite'       => [ 'slug' => 'yoast-test-book-category' ],
+						'rest_base'     => false,
+						'labels'        => (object) [ 'singular_name' => 'Category' ],
+						'show_ui'       => true,
+						'object_type'   => [ 'book' ],
+					],
+				],
+				'post_type_names' => [ 'book' ],
+				'new_taxonomies'  => [],
+				'expected'        => [
+					'book_category' => [
+						'name'                 => 'book_category',
+						'route'                => 'yoast-test-book-category',
+						'label'                => 'Categories',
+						'showUi'               => true,
+						'singularLabel'        => 'Category',
+						'postTypes'            => [ 'book' ],
+						'needsReview'          => false,
+					],
+				],
+			],
+		];
+	}
+
+	/**
+	 * Tests transform_taxonomies method.
+	 *
+	 * @covers ::transform_taxonomies
+	 *
+	 * @dataProvider transform_taxonomies_provider
+	 *
+	 * @param array $taxonomies The taxonomies to transform.
+	 * @param array $post_type_names The post type names.
+	 * @param array $new_taxonomies The new taxonomies.
+	 * @param array $expected   The expected result.
+	 */
+	public function test_transform_taxonomies( $taxonomies, $post_type_names, $new_taxonomies, $expected ) {
+
+		$this->options
+			->expects( 'get' )
+			->with( 'new_taxonomies', [] )
+			->andReturn( $new_taxonomies );
+
+		$result = $this->instance_double->transform_taxonomies( $taxonomies, $post_type_names );
+
+		$this->assertSame( $expected, $result );
 	}
 }
