@@ -16,6 +16,10 @@ class WPSEO_Sitemaps_Router {
 	 * Sets up init logic.
 	 */
 	public function __construct() {
+		// If we add rewrite rules during the plugin's deactivation, the flush_rewrite_rules that we perform afterwards won't properly flush those new rules.
+		if ( YoastSEO()->classes->get( Deactivating_Yoast_Seo_Conditional::class )->is_met() ) {
+			return;
+		}
 
 		add_action( 'init', [ $this, 'init' ], 1 );
 		add_filter( 'redirect_canonical', [ $this, 'redirect_canonical' ] );
@@ -26,16 +30,11 @@ class WPSEO_Sitemaps_Router {
 	 * Sets up rewrite rules.
 	 */
 	public function init() {
-
 		global $wp;
 
 		$wp->add_query_var( 'sitemap' );
 		$wp->add_query_var( 'sitemap_n' );
 		$wp->add_query_var( 'yoast-sitemap-xsl' );
-
-		if ( YoastSEO()->classes->get( Deactivating_Yoast_Seo_Conditional::class )->is_met() ) {
-			return;
-		}
 
 		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
 		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
