@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Content_Type_Visibility;
 
-use Yoast\WP\SEO\Conditionals\Not_Admin_Ajax_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -84,7 +83,6 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$expected = [
-			Not_Admin_Ajax_Conditional::class,
 			Admin_Conditional::class,
 			Migrations_Conditional::class,
 		];

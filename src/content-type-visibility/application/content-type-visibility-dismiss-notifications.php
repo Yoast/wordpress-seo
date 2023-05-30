@@ -130,9 +130,16 @@ class Content_Type_Visibility_Dismiss_Notifications {
 	/**
 	 * Dismisses all new content notfications and badges.
 	 *
+	 * @param WP_REST_Request $request The request. This request should have a key param set.
+	 *
 	 * @return WP_REST_Response The response.
 	 */
 	public function bulk_dismiss() {
+
+		// Check for nonce.
+		if ( ! \check_ajax_referer( 'new-content-type-bulk-dismiss', 'nonce', false ) ) {
+			return false;
+		}
 		$success_post_types     = $this->options->set( 'new_post_types', [] );
 		$success_taxonomies     = $this->options->set( 'new_taxonomies', [] );
 		$success_is_new_content = $this->options->set( 'is_new_content_type', false );

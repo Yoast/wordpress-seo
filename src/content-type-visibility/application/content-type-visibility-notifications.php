@@ -2,13 +2,13 @@
 
 namespace Yoast\WP\SEO\Content_Type_Visibility\Application;
 
-use Yoast\WP\SEO\Conditionals\Not_Admin_Ajax_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Notification;
 use Yoast_Notification_Center;
+use  Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 
 /**
  * Notifications for new content types.
@@ -30,18 +30,28 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 	 */
 	private $notification_center;
 
+		/**
+		 * The notifications center.
+		 *
+		 * @var Content_Type_Visibility_Dismiss_Notifications
+		 */
+	private $content_type_dismiss_notifications;
+
 	/**
 	 * Indexable_Post_Type_Change_Watcher constructor.
 	 *
-	 * @param Options_Helper            $options             The options helper.
-	 * @param Yoast_Notification_Center $notification_center The notification center.
+	 * @param Options_Helper                                $options             The options helper.
+	 * @param Yoast_Notification_Center                     $notification_center The notification center.
+	 * @param Content_Type_Visibility_Dismiss_Notifications $content_type_dismiss_notifications The content type dismiss notifications.
 	 */
 	public function __construct(
 		Options_Helper $options,
-		Yoast_Notification_Center $notification_center
+		Yoast_Notification_Center $notification_center,
+		Content_Type_Visibility_Dismiss_Notifications $content_type_dismiss_notifications
 	) {
-		$this->options             = $options;
-		$this->notification_center = $notification_center;
+		$this->options                            = $options;
+		$this->notification_center                = $notification_center;
+		$this->content_type_dismiss_notifications = $content_type_dismiss_notifications;
 	}
 
 	/**
@@ -50,7 +60,7 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Not_Admin_Ajax_Conditional::class, Admin_Conditional::class, Migrations_Conditional::class ];
+		return [ Admin_Conditional::class, Migrations_Conditional::class ];
 	}
 
 	/**
@@ -68,6 +78,8 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 		// Used in Idexable_Taxonomy_Change_Watcher class.
 		\add_action( 'new_public_taxonomy_notifications', [ $this, 'new_taxonomy' ], 10, 1 );
 		\add_action( 'clean_new_public_taxonomy_notifications', [ $this, 'clean_new_public_taxonomy' ], 10, 1 );
+
+		\add_action( 'wp_ajax_new_content_type_bulk_dismiss', [ $this->content_type_dismiss_notifications, 'bulk_dismiss' ] );
 	}
 
 	/**
@@ -94,6 +106,7 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 		$new_needs_review = \array_diff( $needs_review, $newly_made_non_public_post_types );
 		if ( count( $new_needs_review ) !== count( $needs_review ) ) {
 			$this->options->set( 'new_post_types', $new_needs_review );
+			$this->content_type_dismiss_notifications->dismiss_notification();
 		}
 	}
 
@@ -121,6 +134,7 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 		$new_needs_review = \array_diff( $needs_review, $newly_made_non_public_taxonomies );
 		if ( count( $new_needs_review ) !== count( $needs_review ) ) {
 			$this->options->set( 'new_taxonomies', $new_needs_review );
+			$this->content_type_dismiss_notifications->dismiss_notification();
 		}
 	}
 
@@ -144,14 +158,29 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 	private function add_notification() {
 		$message = \sprintf(
 			/* translators: 1: Opening tag of the link to the Search appearance settings page, 2: Link closing tag. */
-			\esc_html__( 'you\'ve added a new type of content. We recommend that you review the corresponding %1$sSearch appearance settings%2$s.', 'wordpress-seo' ),
+			\esc_html__( 'You\'ve added a new type of content. We recommend that you review the corresponding %1$sSearch appearance settings%2$s.', 'wordpress-seo' ),
 			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_page_settings' ) ) . '">',
 			'</a>'
 		);
 		$notification_text  = '<p>' . $message . '</p>';
-		$notification_text .= '<span class="button" onclick="clearNewContentTypes()">';
+		$notification_text .= '<span class="button">';
 		$notification_text .= \esc_html__( 'Ignore', 'wordpress-seo' );
 		$notification_text .= '</span>';
+
+		$notification_text .= '<script>
+				jQuery( document ).ready( function() {
+					jQuery( "body" ).on( "click", "#content-types-made-public .button", function() {
+						const data = {
+							"action": "new_content_type_bulk_dismiss",
+							"nonce": "' . \esc_js( \wp_create_nonce( 'new-content-type-bulk-dismiss' ) ) . '"
+						};
+						jQuery.post( ajaxurl, data, function( response ) {
+							jQuery( "#content-types-made-public" ).remove();
+						});
+					} );
+				} );
+				</script>';
+
 
 		$notification = new Yoast_Notification(
 			$notification_text,
