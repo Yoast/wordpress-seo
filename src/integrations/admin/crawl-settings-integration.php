@@ -154,6 +154,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		$this->unused_resources_settings = [
 			'remove_emoji_scripts'  => \__( 'Emoji scripts', 'wordpress-seo' ),
 			'deny_wp_json_crawling' => \__( 'Prevent search engines from crawling /wp-json/', 'wordpress-seo' ),
+			'deny_adsbot_crawling'  => \__( 'Prevent Google AdsBot from crawling', 'wordpress-seo' ),
 		];
 	}
 
@@ -323,7 +324,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 */
 	protected function should_feature_be_disabled_multisite( $setting ) {
 		return (
-			\in_array( $setting, [ 'deny_search_crawling', 'deny_wp_json_crawling' ], true )
+			\in_array( $setting, [ 'deny_search_crawling', 'deny_wp_json_crawling', 'deny_adsbot_crawling' ], true )
 			&& \is_multisite()
 		);
 	}

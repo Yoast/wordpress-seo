@@ -27,6 +27,7 @@ jest.mock( "@wordpress/data", () => {
 			};
 		},
 		subscribe: () => {},
+		combineReducers: jest.requireActual( "@wordpress/data" ).combineReducers,
 	};
 } );
 

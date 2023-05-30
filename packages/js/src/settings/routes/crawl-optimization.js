@@ -518,6 +518,15 @@ const CrawlOptimization = () => {
 								&nbsp;
 							{ descriptions.denyWpJsonCrawling }
 						</FormikValueChangeFieldWithDisabledMessage>
+						<FormikValueChangeFieldWithDisabledMessage
+							as={ ToggleField }
+							type="checkbox"
+							name="wpseo.deny_adsbot_crawling"
+							id="input-wpseo-deny_adsbot_crawling"
+							label={ __( "Prevent Google AdsBot from crawling", "wordpress-seo" ) }
+							description={ __( "Add a 'disallow' rule to your robots.txt file to prevent crawling by Google's AdsBot. You should only enable this setting if you're not using Google Ads on your site.", "wordpress-seo" ) }
+							className="yst-max-w-2xl"
+						/>
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
 					<FieldsetLayout
