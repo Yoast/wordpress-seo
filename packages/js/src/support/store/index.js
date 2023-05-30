@@ -3,7 +3,7 @@ import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkParamsReducer, linkParamsSelectors } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
-import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
+import { getInitialPreferencesState, PREFERENCES_NAME, preferencesActions, preferencesReducer, preferencesSelectors } from "./preferences";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -25,13 +25,13 @@ const createStore = ( { initialState } ) => {
 			{},
 			{
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
-				preferences: createInitialPreferencesState(),
+				[ PREFERENCES_NAME ]: getInitialPreferencesState(),
 			},
 			initialState
 		),
 		reducer: combineReducers( {
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
-			preferences,
+			[ PREFERENCES_NAME ]: preferencesReducer,
 		} ),
 
 	} );

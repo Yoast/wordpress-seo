@@ -1,22 +1,19 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
 
-/**
- * @returns {Object} The initial state.
- */
-export const createInitialPreferencesState = () => ( {
-	...get( window, "wpseoScriptData.preferences", {} ),
-} );
+export const PREFERENCES_NAME = "preferences";
 
 const slice = createSlice( {
-	name: "preferences",
-	initialState: createInitialPreferencesState(),
+	name: PREFERENCES_NAME,
+	initialState: {},
 	reducers: {},
 } );
 
+export const getInitialPreferencesState = slice.getInitialState;
+
 export const preferencesSelectors = {
-	selectPreference: ( state, preference, defaultValue = {} ) => get( state, `preferences.${ preference }`, defaultValue ),
-	selectPreferences: state => get( state, "preferences", {} ),
+	selectPreference: ( state, preference, defaultValue = {} ) => get( state, `${ PREFERENCES_NAME }.${ preference }`, defaultValue ),
+	selectPreferences: state => get( state, PREFERENCES_NAME, {} ),
 };
 preferencesSelectors.selectUpsellSettingsAsProps = createSelector(
 	[
@@ -31,4 +28,4 @@ preferencesSelectors.selectUpsellSettingsAsProps = createSelector(
 
 export const preferencesActions = slice.actions;
 
-export default slice.reducer;
+export const preferencesReducer = slice.reducer;

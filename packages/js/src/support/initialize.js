@@ -9,6 +9,7 @@ import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import { App } from "./app";
 import { STORE_NAME } from "./constants";
 import { registerStore } from "./store";
+import { PREFERENCES_NAME } from "./store/preferences";
 
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-support" );
@@ -18,6 +19,7 @@ domReady( () => {
 	registerStore( {
 		initialState: {
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
+			[ PREFERENCES_NAME ]: get( window, "wpseoScriptData.preferences", {} ),
 		},
 	} );
 	fixWordPressMenuScrolling();
