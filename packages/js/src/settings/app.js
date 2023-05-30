@@ -95,13 +95,13 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			>
 				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
 					<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
-					{ map( postTypes, ( { name, route, label, needsReview } ) => (
+					{ map( postTypes, ( { name, route, label, isNew } ) => (
 						<SidebarNavigation.SubmenuItem
 							key={ `link-post-type-${ name }` }
 							to={ `/post-type/${ route }` }
 							label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
 								{ label }
-								{ needsReview && <Badge variant="info">{ __( "Review", "wordpress-seo" ) }</Badge> }
+								{ isNew && <Badge variant="info">{ __( "New", "wordpress-seo" ) }</Badge> }
 							</span> }
 							idSuffix={ idSuffix }
 						/>
@@ -120,7 +120,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 							to={ `/taxonomy/${ taxonomy.route }` }
 							label={ 	<span className="yst-inline-flex yst-items-center yst-gap-1.5">
 								{ taxonomy.label }
-								{ taxonomy.needsReview && <Badge variant="info">{ __( "Review", "wordpress-seo" ) }</Badge> }
+								{ taxonomy.isNew && <Badge variant="info">{ __( "New", "wordpress-seo" ) }</Badge> }
 							</span> }
 							idSuffix={ idSuffix }
 						/>

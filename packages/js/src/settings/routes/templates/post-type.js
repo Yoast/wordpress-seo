@@ -33,7 +33,7 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  * @param {boolean} hasSchemaArticleType Whether the post type has schema article type support.
  * @returns {JSX.Element} The post type element.
  */
-const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleType, needsReview } ) => {
+const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleType, isNew } ) => {
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
@@ -55,7 +55,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const { updatePostTypeReviewStatus } = useDispatchSettings();
 
 	useEffect( () => {
-		if ( needsReview ) {
+		if ( isNew ) {
 			updatePostTypeReviewStatus( name );
 		}
 	}, [ name ] );

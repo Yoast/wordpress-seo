@@ -703,8 +703,8 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The post types.
 	 */
 	protected function transform_post_types( $post_types ) {
-		$transformed  = [];
-		$needs_review = $this->options->get( 'new_post_types', [] );
+		$transformed    = [];
+		$new_post_types = $this->options->get( 'new_post_types', [] );
 		foreach ( $post_types as $post_type ) {
 			$transformed[ $post_type->name ] = [
 				'name'                 => $post_type->name,
@@ -714,7 +714,7 @@ class Settings_Integration implements Integration_Interface {
 				'hasArchive'           => $this->post_type_helper->has_archive( $post_type ),
 				'hasSchemaArticleType' => $this->article_helper->is_article_post_type( $post_type->name ),
 				'menuPosition'         => $post_type->menu_position,
-				'needsReview'          => \in_array( $post_type->name, $needs_review, true ),
+				'isNew'                => \in_array( $post_type->name, $new_post_types, true ),
 			];
 		}
 
@@ -756,8 +756,8 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The taxonomies.
 	 */
 	protected function transform_taxonomies( $taxonomies, $post_type_names ) {
-		$transformed  = [];
-		$needs_review = $this->options->get( 'new_taxonomies', [] );
+		$transformed    = [];
+		$new_taxonomies = $this->options->get( 'new_taxonomies', [] );
 		foreach ( $taxonomies as $taxonomy ) {
 			$transformed[ $taxonomy->name ] = [
 				'name'          => $taxonomy->name,
@@ -771,7 +771,7 @@ class Settings_Integration implements Integration_Interface {
 						return \in_array( $object_type, $post_type_names, true );
 					}
 				),
-				'needsReview'   => \in_array( $taxonomy->name, $needs_review, true ),
+				'isNew'         => \in_array( $taxonomy->name, $new_taxonomies, true ),
 			];
 		}
 

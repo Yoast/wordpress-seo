@@ -26,7 +26,7 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  * @param {string[]} postTypes The connected post types.
  * @returns {JSX.Element} The taxonomy element.
  */
-const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, needsReview } ) => {
+const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) => {
 	const postTypes = useSelectSettings( "selectPostTypes", [ postTypeNames ], postTypeNames );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
@@ -45,7 +45,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, needsReview 
 	const { updateTaxonomyReviewStatus } = useDispatchSettings();
 
 	useEffect( () => {
-		if ( needsReview ) {
+		if ( isNew ) {
 			updateTaxonomyReviewStatus( name );
 		}
 	}, [ name ] );

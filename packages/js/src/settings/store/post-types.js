@@ -31,7 +31,7 @@ const slice = createSlice( {
 	reducers: {},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ UPDATE_REVIEW_ACTION_NAME }/result`, ( state, { payload } ) => {
-			state[ payload ].needsReview = false;
+			state[ payload ].isNew = false;
 		} );
 	},
 } );
