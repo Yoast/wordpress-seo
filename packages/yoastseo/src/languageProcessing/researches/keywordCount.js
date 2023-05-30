@@ -3,7 +3,8 @@ import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
 import { normalizeSingle } from "../helpers/sanitize/quotes";
 import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
 import findKeyWordFormsInSentence  from "../helpers/match/findKeyWordFormsInSentence";
-import matchKeywordWithSentence from "../helpers/match/matchKeywordWithSentence";
+// import matchKeywordWithSentence from "../helpers/match/matchKeywordWithSentence";
+import matchKeyphraseWithSentence from "../helpers/match/matchKeyphraseWithSentence";
 
 const countMatches = ( matches, keyphraseForms ) => {
 	// the count is the number of complete matches.
@@ -64,7 +65,7 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 
 	sentences.forEach( sentence => {
 		// const matchesInSentence = findKeyWordFormsInSentence( sentence, topicForms.keyphraseForms, locale, matchWordCustomHelper );
-		const matchesInSentence = matchKeywordWithSentence( topicForms.keyphraseForms, sentence );
+		const matchesInSentence = matchKeyphraseWithSentence( topicForms.keyphraseForms, sentence );
 		console.log( matchesInSentence);
 		const matchesCount = countMatches( matchesInSentence, topicForms.keyphraseForms );
 		const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale );
