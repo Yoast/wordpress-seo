@@ -1,25 +1,12 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { get, omit } from "lodash";
-import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 
 /**
  * @returns {Object} The initial state.
  */
-export const createInitialNotificationsState = () => {
-	const isNewContentType = get( window, "wpseoScriptData.isNewContentType", false );
-	if ( isNewContentType ) {
-		return { newContentType: {
-			id: "new-content-type",
-			variant: "info",
-			size: "large",
-			title: __( "New type of content added to your site! Please see the “Review” badges and review the Search appearance settings", "wordpress-seo" ),
-		 } };
-	}
-	return {};
-};
 
-const NEW_CONTENT_ACTION_NAME = "updateReviewStatus";
+const NEW_CONTENT_ACTION_NAME = "removeNewContentNotification";
 
 /**
  * @returns {Object} Success or error action object.
@@ -37,7 +24,7 @@ export function* removeNewContentNotification() {
 
 const slice = createSlice( {
 	name: "notifications",
-	initialState: createInitialNotificationsState(),
+	initialState: {},
 	reducers: {
 		addNotification: {
 			reducer: ( state, { payload } ) => {

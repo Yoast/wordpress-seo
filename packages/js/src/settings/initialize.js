@@ -13,6 +13,7 @@ import App from "./app";
 import { STORE_NAME } from "./constants";
 import { createValidationSchema, handleSubmit } from "./helpers";
 import registerStore from "./store";
+import { __ } from "@wordpress/i18n";
 
 /**
  * @param {Object} settings The settings.
@@ -89,11 +90,23 @@ domReady( () => {
 	const postTypes = get( window, "wpseoScriptData.postTypes", {} );
 	const taxonomies = get( window, "wpseoScriptData.taxonomies", {} );
 
+	const isNewContentType = get( window, "wpseoScriptData.isNewContentType", false );
+	const notifications = ( isNewContentType )
+		? { newContentType: {
+			id: "new-content-type",
+			variant: "info",
+			size: "large",
+			title: __( "New type of content added to your site! Please see the “New” badges and review the Search appearance settings", "wordpress-seo" ),
+			 } } : {};
+
+
 	registerStore( {
 		initialState: {
-			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
+			notifications: notifications,
+            [ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
 		},
 	} );
+			
 	preloadMedia( { settings, fallbacks } );
 	preloadUsers( { settings } );
 	fixFocusLinkCompatibility();
