@@ -251,7 +251,7 @@ Release date: 2023-06-06
 
 #### Enhancements
 
-* Sets up background indexation via WP Cron.
+* We now automatically schedule background performance optimization processes (via WP Cron).
 * Tightens crawl optimization site search blocking rules.
 
 #### Bugfixes
