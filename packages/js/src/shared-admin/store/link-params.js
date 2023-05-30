@@ -4,18 +4,15 @@ import { get } from "lodash";
 
 export const LINK_PARAMS_NAME = "linkParams";
 
-/**
- * @returns {Object} The initial state.
- */
-export const createInitialLinkParamsState = () => get( window, "wpseoScriptData.linkParams", {} );
-
 const slice = createSlice( {
 	name: LINK_PARAMS_NAME,
-	initialState: createInitialLinkParamsState(),
+	initialState: {},
 	reducers: {},
 } );
 
-const linkParamsSelectors = {
+export const getInitialLinkParamsState = slice.getInitialState;
+
+export const linkParamsSelectors = {
 	selectLinkParam: ( state, linkParam, defaultValue = {} ) => get( state, `${ LINK_PARAMS_NAME }.${ linkParam }`, defaultValue ),
 	selectLinkParams: state => get( state, LINK_PARAMS_NAME, {} ),
 };
@@ -26,8 +23,6 @@ linkParamsSelectors.selectLink = createSelector(
 	],
 	( linkParams, link ) => addQueryArgs( link, linkParams )
 );
-
-export { linkParamsSelectors };
 
 export const linkParamsActions = slice.actions;
 

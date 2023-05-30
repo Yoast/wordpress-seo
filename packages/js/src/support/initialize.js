@@ -3,7 +3,9 @@ import { select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
+import { get } from "lodash";
 import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
+import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import { App } from "./app";
 import { STORE_NAME } from "./constants";
 import { registerStore } from "./store";
@@ -13,7 +15,11 @@ domReady( () => {
 	if ( ! root ) {
 		return;
 	}
-	registerStore();
+	registerStore( {
+		initialState: {
+			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
+		},
+	} );
 	fixWordPressMenuScrolling();
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );

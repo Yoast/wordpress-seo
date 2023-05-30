@@ -8,6 +8,7 @@ import { chunk, filter, forEach, get, includes, reduce } from "lodash";
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
+import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
 import { STORE_NAME } from "./constants";
 import { createValidationSchema, handleSubmit } from "./helpers";
@@ -88,7 +89,11 @@ domReady( () => {
 	const postTypes = get( window, "wpseoScriptData.postTypes", {} );
 	const taxonomies = get( window, "wpseoScriptData.taxonomies", {} );
 
-	registerStore();
+	registerStore( {
+		initialState: {
+			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
+		},
+	} );
 	preloadMedia( { settings, fallbacks } );
 	preloadUsers( { settings } );
 	fixFocusLinkCompatibility();
