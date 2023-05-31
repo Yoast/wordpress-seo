@@ -10,9 +10,6 @@ import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS } from "../constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
-let abortController;
-
-
 /**
  * @param {JSX.node} children The children.
  * @param {string} [className] The className.
@@ -57,13 +54,8 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 	const debouncedFetchPages = useCallback( debounce( async search => {
 		try {
 			setStatus( ASYNC_ACTION_STATUS.loading );
-			// Cleanup previous running request.
-			if ( abortController ) {
-				abortController?.abort();
-			}
-			abortController = new AbortController();
 			// eslint-disable-next-line camelcase
-			const response = await fetchPages( { search, per_page: 20 } );
+			const response = await fetchPages( { search, per_page: 10 } );
 
 			setQueriedPageIds( map( response.payload, "id" ) );
 			setStatus( ASYNC_ACTION_STATUS.success );
@@ -75,7 +67,7 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 			setQueriedPageIds( [] );
 			setStatus( ASYNC_ACTION_STATUS.error );
 		}
-	}, 200 ), [ setQueriedPageIds, addManyPages, setStatus ] );
+	}, 200 ), [ setQueriedPageIds, setStatus ] );
 
 
 	const handleChange = useCallback( newValue => {

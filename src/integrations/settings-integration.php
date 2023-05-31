@@ -423,7 +423,6 @@ class Settings_Integration implements Integration_Interface {
 			$page_on_front = $page_for_posts;
 		}
 
-
 		return [
 			'isPremium'                     => $this->product_helper->is_premium(),
 			'isRtl'                         => \is_rtl(),

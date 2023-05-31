@@ -49,7 +49,6 @@ const SiteRepresentation = () => {
 		document.getElementById( `input-wpseo_social-other_social_urls-${ otherSocialUrls.length }` )?.focus();
 	}, [ otherSocialUrls ] );
 
-
 	return (
 		<RouteLayout
 			title={ __( "Site representation", "wordpress-seo" ) }

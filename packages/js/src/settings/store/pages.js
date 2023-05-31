@@ -93,7 +93,7 @@ pageSelectors.selectPagesWith = createSelector(
 		const additionalPages = {};
 		additionalPage.forEach( page => {
 			if ( page?.id && ! pages[ page.id ] ) {
-				// Add the additional user.
+				// Add the additional page.
 				additionalPages[ page.id ] = { ...page };
 			}
 		} );

@@ -79,7 +79,7 @@ const createStore = ( { initialState } ) => {
 				search: createInitialSearchState(),
 				taxonomies: createInitialTaxonomiesState(),
 				users: createInitialUsersState(),
-				posts: createInitialPagesState(),
+				pages: createInitialPagesState(),
 			},
 			initialState
 		),
