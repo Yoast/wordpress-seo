@@ -34,49 +34,53 @@ export const App = () => {
 	const pluginUrl = useSelectSupport( "selectPreference", [], "pluginUrl", "" );
 	const linkParams = useSelectSupport( "selectLinkParams" );
 
-	const premiumLink = useSelectSupport( "selectLink", [], "https://yoa.st/" );
-	const academyLink = useSelectSupport( "selectLink", [], "https://yoa.st/" );
-	const helpCenterLink = useSelectSupport( "selectLink", [], "https://yoa.st/" );
-	const supportForumsLink = useSelectSupport( "selectLink", [], "https://yoa.st/" );
-	const githubLink = useSelectSupport( "selectLink", [], "https://yoa.st/" );
-	const contactSupportLink = useSelectSupport( "selectLink", [], "https://yoa.st/" );
+	const premiumLink = useSelectSupport( "selectLink", [], "https://yoa.st/get-premium-support-sidebar" );
+	const academyLink = useSelectSupport( "selectLink", [], "https://yoa.st/get-academy-support-sidebar" );
+	const helpCenterLink = useSelectSupport( "selectLink", [], "https://yoa.st/help-center-support-card" );
+	const supportForumsLink = useSelectSupport( "selectLink", [], "https://yoa.st/support-forums-support-card" );
+	const githubLink = useSelectSupport( "selectLink", [], "https://yoa.st/github-repository-support-card" );
+	const contactSupportLink = useSelectSupport( "selectLink", [], "https://yoa.st/contact-support-to-unlock-premium-support-section" );
 
 	const faq = useMemo( () => ( [
 		{
 			text: "What are transition words in my own language?",
-			link: addQueryArgs( "https://yoa.st/", linkParams ),
+			link: addQueryArgs( "https://yoa.st/transition-words-support-faq", linkParams ),
 		},
 		{
 			text: "How do I set up canonical URLs in Yoast SEO?",
-			link: addQueryArgs( "https://yoa.st/", linkParams ),
+			link: addQueryArgs( "https://yoa.st/canonical-urls-support-faq", linkParams ),
 		},
 		{
 			text: "How to use  XML sitemaps in Yoast SEO?",
-			link: addQueryArgs( "https://yoa.st/", linkParams ),
+			link: addQueryArgs( "https://yoa.st/xml-sitemaps-support-faq", linkParams ),
 		},
 		{
 			text: "How do I implement breadcrumbs in Yoast SEO?",
-			link: addQueryArgs( "https://yoa.st/", linkParams ),
+			link: addQueryArgs( "https://yoa.st/implement-breadcrumbs-support-faq", linkParams ),
 		},
 		{
 			text: "Where can I find an overview of essential SEO terms and vocabulary?",
-			link: addQueryArgs( "https://yoa.st/", linkParams ),
+			link: addQueryArgs( "https://yoa.st/seo-terms-vocabulary-support-faq", linkParams ),
 		},
 		{
 			text: "How do I customize the breadcrumbs title setting in Yoast SEO?",
-			link: addQueryArgs( "https://yoa.st/", linkParams ),
+			link: addQueryArgs( "https://yoa.st/customize-breadcrumbs-title-support-faq", linkParams ),
 		},
 		{
 			text: "What are the meta robots advanced settings in Yoast SEO and what can I do with these settings?",
-			link: addQueryArgs( "https://yoa.st/", linkParams ),
+			link: addQueryArgs( "https://yoa.st/meta-robots-settings-support-faq", linkParams ),
+		},
+		{
+			text: "How do I submit my sitemap to search engines?",
+			link: addQueryArgs( "https://yoa.st/submit-sitemap-support-faq", linkParams ),
 		},
 		{
 			text: "Why do I get a notification telling me that I am not receiving updates or support for Yoast SEO?",
-			link: addQueryArgs( "https://yoa.st/", linkParams ),
+			link: addQueryArgs( "https://yoa.st/no-updates-notification-support-faq", linkParams ),
 		},
 		{
 			text: "How do I edit robots.txt through Yoast SEO?",
-			link: addQueryArgs( "https://yoa.st/", linkParams ),
+			link: addQueryArgs( "https://yoa.st/edit-robots-txt-support-faq", linkParams ),
 		},
 	] ), [] );
 
