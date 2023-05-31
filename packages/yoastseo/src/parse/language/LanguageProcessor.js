@@ -1,5 +1,6 @@
 import Sentence from "../structure/Sentence";
 import Token from "../structure/Token";
+import countWords from "../../languageProcessing/helpers/word/countWords";
 
 const whitespaceRegex = /^\s+$/;
 /**
@@ -49,12 +50,22 @@ class LanguageProcessor {
 	 * Split sentence into tokens.
 	 *
 	 * @param {Sentence} sentence The sentence to split.
+	 * @param {paper} paper The paper containing the keyword and text.
+	 * @param {researcher} researcher The researcher.
 	 *
 	 * @returns {Token[]} The tokens.
 	 */
-	splitIntoTokens( sentence ) {
+	splitIntoTokens( sentence, paper, researcher ) {
 		// Retrieve sentence from sentence class
 		const sentenceText = sentence.text;
+		// If there is a custom getWords helper use its output for retrieving words/tokens.
+		const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
+		let wordCount = countWords( paper.getText() );
+		if ( getWordsCustomHelper ) {
+			wordCount =  getWordsCustomHelper( paper.getText() ).length;
+			const tokenTextsCustom = wordCount;
+			return tokenTextsCustom.map( tokenText => new Token( tokenText ) );
+		}
 		// Split the sentence string into tokens
 		const tokenTexts = sentenceText.split( /([\s,.!?;:([\]'"¡¿)/])/g ).filter( x => x !== "" );
 		return tokenTexts.map( tokenText => new Token( tokenText ) );
