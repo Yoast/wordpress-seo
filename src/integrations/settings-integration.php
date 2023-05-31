@@ -503,6 +503,34 @@ class Settings_Integration implements Integration_Interface {
 		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['diversity_policy_id'], 'diversity_policy_id' );
 		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['diversity_staffing_report_id'], 'diversity_staffing_report_id' );
 
+		$policies = $this->append_newest_posts( $policies );
+
+		return $policies;
+	}
+
+	/**
+	 * This adds 10 pages to the policy options.
+	 *
+	 * @param array $policies The current list of policy options.
+	 *
+	 * @return mixed
+	 */
+	private function append_newest_posts( $policies ) {
+		$posts = get_pages(
+			[
+				'post_type'   => 'page',
+				'post_status' => 'publish',
+				'number'      => 10,
+			]
+		);
+
+		foreach ( $posts as $post ) {
+			$formatted_post         = [];
+			$formatted_post['id']   = $post->ID;
+			$formatted_post['name'] = $post->post_title;
+			$policies[]             = $formatted_post;
+		}
+
 		return $policies;
 	}
 
@@ -510,8 +538,8 @@ class Settings_Integration implements Integration_Interface {
 	 * Adds policy data if it is present.
 	 *
 	 * @param array  $policies The existing policy data.
-	 * @param string $policy The policy id to check.
-	 * @param string $key The option key name.
+	 * @param string $policy   The policy id to check.
+	 * @param string $key      The option key name.
 	 *
 	 * @return array The policy data.
 	 */

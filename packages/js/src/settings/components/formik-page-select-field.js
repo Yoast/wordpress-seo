@@ -36,8 +36,9 @@ PageSelectOptionsContent.propTypes = {
  */
 const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 	const siteBasicsPolicies = useSelectSettings( "selectPreference", [], "siteBasicsPolicies", {} );
+	const preLoadSitePages = useSelectSettings( "selectPreference", [], "preLoadSitePages", {} );
 	const pages = useSelectSettings( "selectPagesWith", [ siteBasicsPolicies ], values( siteBasicsPolicies ) );
-	const { addManyPages, fetchPages } = useDispatchSettings();
+	const { fetchPages } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const [ status, setStatus ] = useState( ASYNC_ACTION_STATUS.idle );
 	const [ initialPagesFound, setInitialPagesFound ] = useState( false );
