@@ -251,8 +251,10 @@ Release date: 2023-06-06
 
 #### Enhancements
 
-* We now automatically schedule background performance optimization processes (via WP Cron).
+* Renders Wincher-related information in a separate dashboard widget.
+* Shows a widget in the WordPress dashboard with a connection button in case a user has not connected to their Wincher account.
 * Tightens crawl optimization site search blocking rules.
+* We now automatically schedule background performance optimization processes (via WP Cron).
 
 #### Bugfixes
 
