@@ -28,6 +28,8 @@
     "node": ">=8.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.21.5",
+    "@babel/core": "^7.22.1",
     "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
     "@lodder/grunt-postcss": "^3.1.1",
     "@yoast/browserslist-config": "^1.2.2",
