@@ -1,6 +1,13 @@
 # Overview of the SEO assessments scoring criteria
 
 ## Keyphrase-based SEO assessments
+### How is the overall score calculated?
+
+* Overall score = ( ( sum of individual scores * 100 ) / (number of results * 9 ) ) / 10
+* Round this number.
+* Example with three individual scores of 3, 6, and 9:
+
+( ( ( 3 + 6 + 9 ) * 100 ) / ( 3 * 9 ) ) / 10 = **6.67** ---> rounded to **7**
 ### 1) Keyphrase in introduction
 **What it does**: Checks whether words from the keyphrase can be found in the first paragraph of the text.
 
