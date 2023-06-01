@@ -59,10 +59,9 @@ class LanguageProcessor {
 		// Retrieve sentence from sentence class
 		const sentenceText = sentence.text;
 		// If there is a custom getWords helper use its output for retrieving words/tokens.
-		const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
-		let wordCount = countWords( paper.getText() );
+		const getWordsCustomHelper = researcher && researcher.getHelper( "getWordsCustomHelper" );
 		if ( getWordsCustomHelper ) {
-			wordCount =  getWordsCustomHelper( paper.getText() ).length;
+			const wordCount =  getWordsCustomHelper( paper.getText() ).length;
 			const tokenTextsCustom = wordCount;
 			return tokenTextsCustom.map( tokenText => new Token( tokenText ) );
 		}
