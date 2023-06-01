@@ -46,7 +46,9 @@ class Content_Type_Visibility_Dismiss_Notifications {
 			$new_needs_review = \array_diff( $post_types_needs_review, [ $request['postTypeName'] ] );
 			$success          = $this->options->set( 'new_post_types', $new_needs_review );
 			$message          = ( $success ) ? 'Post type is no longer new.' : 'Error: Post type was not removed from new_post_types list.';
-			$this->dismiss_notification();
+			if ( $this->is_new_content_type_taxonomy() ) {
+				$this->dismiss_notifications();
+			}
 		}
 
 		$status = $success === ( true ) ? 200 : 400;
@@ -79,7 +81,9 @@ class Content_Type_Visibility_Dismiss_Notifications {
 			$new_needs_review = \array_diff( $taxonomies_needs_review, [ $request['taxonomyName'] ] );
 			$success          = $this->options->set( 'new_taxonomies', $new_needs_review );
 			$message          = ( $success ) ? 'Taxonomy is no longer new.' : 'Error: Taxonomy was not removed from new_taxonomies list.';
-			$this->dismiss_notification();
+			if ( $this->is_new_content_type_taxonomy() ) {
+				$this->dismiss_notifications();
+			}
 		}
 
 		$status = $success === ( true ) ? 200 : 400;
@@ -95,18 +99,28 @@ class Content_Type_Visibility_Dismiss_Notifications {
 	}
 
 	/**
-	 * Dismisses the notification in the notification center when there are no more new content types.
+	 * Checks if there are new content types or taxonomies.
 	 *
-	 * @return void
+	 * @return bool
 	 */
-	public function dismiss_notification() {
+	public function is_new_content_type() {
 		$taxonomies_needs_review = $this->options->get( 'new_taxonomies', [] );
 		$post_types_needs_review = $this->options->get( 'new_post_types', [] );
 		if ( $post_types_needs_review || $taxonomies_needs_review ) {
-			return;
+			return false;
 		}
+		return true;
+	}
+
+	/**
+	 * Dismisses the notification in the notification center when there are no more new content types.
+	 *
+	 * @return bool
+	 */
+	public function dismiss_notifications() {
 		$notification_center = Yoast_Notification_Center::get();
 		$notification_center->remove_notification_by_id( 'content-types-made-public' );
+		return $this->options->set( 'is_new_content_type', false );
 	}
 
 	/**
@@ -115,53 +129,14 @@ class Content_Type_Visibility_Dismiss_Notifications {
 	 * @return WP_REST_Response The response.
 	 */
 	public function new_content_dismiss() {
-		$success = $this->options->set( 'is_new_content_type', false );
-		$status  = $success === ( true ) ? 200 : 400;
-
-		return new WP_REST_Response(
-			(object) [
-				'success' => $success,
-				'status'  => $status,
-			],
-			$status
-		);
-	}
-
-	/**
-	 * Dismisses all new content notfications and badges.
-	 *
-	 * @param WP_REST_Request $request The request. This request should have a key param set.
-	 *
-	 * @return WP_REST_Response The response.
-	 */
-	public function bulk_dismiss() {
-
-		// Check for nonce.
-		if ( ! \check_ajax_referer( 'new-content-type-bulk-dismiss', 'nonce', false ) ) {
-			return false;
-		}
-		$success_post_types     = $this->options->set( 'new_post_types', [] );
-		$success_taxonomies     = $this->options->set( 'new_taxonomies', [] );
-		$success_is_new_content = $this->options->set( 'is_new_content_type', false );
-
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification_by_id( 'content-types-made-public' );
-
-		$success = (
-					$success_post_types === ( true ) &&
-					$success_taxonomies === ( true ) &&
-					$success_is_new_content === ( true )
-				) ? true : false;
+		$success = $this->dismiss_notifications();
 
 		$status = $success === ( true ) ? 200 : 400;
 
 		return new WP_REST_Response(
 			(object) [
-				'success_post_type'      => $success_post_types,
-				'success_taxonomy'       => $success_taxonomies,
-				'success_is_new_content' => $success_is_new_content,
-				'success'                => $success,
-				'status'                 => $status,
+				'success' => $success,
+				'status'  => $status,
 			],
 			$status
 		);
