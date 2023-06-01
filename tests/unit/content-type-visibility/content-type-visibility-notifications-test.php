@@ -11,6 +11,7 @@ use Brain\Monkey;
 use Mockery;
 use WP_User;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Notifications;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 
 /**
  * Class Content_Type_Visibility_Notifications_Test
@@ -34,6 +35,13 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 	private $notification_center;
 
 	/**
+	 * The new content type dismiss notifications.
+	 *
+	 * @var Mockery\MockInterface|Content_Type_Visibility_Dismiss_Notifications
+	 */
+	private $content_type_dismiss_notifications;
+
+	/**
 	 * The Content_Type_Visibility_Notifications.
 	 *
 	 * @var Content_Type_Visibility_Notifications
@@ -48,12 +56,14 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->options             = Mockery::mock( Options_Helper::class );
-		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
+		$this->options                            = Mockery::mock( Options_Helper::class );
+		$this->notification_center                = Mockery::mock( Yoast_Notification_Center::class );
+		$this->content_type_dismiss_notifications = Mockery::mock( Content_Type_Visibility_Dismiss_Notifications::class );
 
 		$this->instance = new Content_Type_Visibility_Notifications(
 			$this->options,
-			$this->notification_center
+			$this->notification_center,
+			$this->content_type_dismiss_notifications
 		);
 	}
 
@@ -66,13 +76,19 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 		$this->assertInstanceOf(
 			Options_Helper::class,
 			$this->getPropertyValue( $this->instance, 'options' ),
-			'Options helper is not set correctly.'
+			'Options helper is set correctly.'
 		);
 
 		$this->assertInstanceOf(
 			Yoast_Notification_Center::class,
 			$this->getPropertyValue( $this->instance, 'notification_center' ),
-			'Notification center is not set correctly.'
+			'Notification center is set correctly.'
+		);
+
+		$this->assertInstanceOf(
+			Content_Type_Visibility_Dismiss_Notifications::class,
+			$this->getPropertyValue( $this->instance, 'content_type_dismiss_notifications' ),
+			'Content type dismiss notifications is set correctly.'
 		);
 	}
 
@@ -82,10 +98,7 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		$expected = [
-			Admin_Conditional::class,
-			Migrations_Conditional::class,
-		];
+		$expected = [ Admin_Conditional::class ];
 
 		$this->assertEquals( $expected, $this->instance->get_conditionals() );
 	}
@@ -141,16 +154,28 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 	public function data_provider_test_clean_new_public_taxonomy() {
 		return [
 			'no new taxonomies' => [
-				'newly_made_none_public' => [],
-				'new_taxonomies'         => [],
-				'cleaned_taxonomies'     => [],
-				'clean_times'            => 0,
+				'newly_made_none_public'      => [],
+				'new_taxonomies'              => [],
+				'cleaned_taxonomies'          => [],
+				'clean_times'                 => 0,
+				'is_new_content_type'         => false,
+				'dismiss_notifications_times' => 0,
 			],
 			'new removed taxonomies' => [
-				'newly_made_none_public' => [ 'category' ],
-				'new_taxonomies'         => [ 'post_tag', 'category' ],
-				'cleaned_taxonomies'     => [ 0 => 'post_tag' ],
-				'clean_times'            => 1,
+				'newly_made_none_public'      => [ 'category' ],
+				'new_taxonomies'              => [ 'post_tag', 'category' ],
+				'cleaned_taxonomies'          => [ 0 => 'post_tag' ],
+				'clean_times'                 => 1,
+				'is_new_content_type'         => false,
+				'dismiss_notifications_times' => 0,
+			],
+			'new removed taxonomies' => [
+				'newly_made_none_public'      => [ 'category' ],
+				'new_taxonomies'              => [ 'category' ],
+				'cleaned_taxonomies'          => [],
+				'clean_times'                 => 1,
+				'is_new_content_type'         => true,
+				'dismiss_notifications_times' => 1,
 			],
 		];
 	}
@@ -165,8 +190,10 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 	 * @param array $new_taxonomies         The new taxonomies.
 	 * @param array $cleaned_taxonomies     The cleaned taxonomies.
 	 * @param int   $clean_times            The amount of times the options helper should be called.
+	 * @param bool  $is_new_content_type    Whether the content type is new.
+	 * @param int   $dismiss_notifications_times  The amount of times the dismiss notifications method should be called.
 	 */
-	public function test_clean_new_public_taxonomy( $newly_made_none_public, $new_taxonomies, $cleaned_taxonomies, $clean_times ) {
+	public function test_clean_new_public_taxonomy( $newly_made_none_public, $new_taxonomies, $cleaned_taxonomies, $clean_times, $is_new_content_type, $dismiss_notifications_times ) {
 
 		$this->options
 			->expects( 'get' )
@@ -179,6 +206,15 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 			->with( 'new_taxonomies', $cleaned_taxonomies )
 			->times( $clean_times );
 
+		$this->content_type_dismiss_notifications
+			->expects( 'is_new_content_type' )
+			->times( $clean_times )
+			->andReturn( $is_new_content_type );
+
+		$this->content_type_dismiss_notifications
+			->expects( 'dismiss_notifications' )
+			->times( $dismiss_notifications_times );
+
 		$this->instance->clean_new_public_taxonomy( $newly_made_none_public );
 	}
 
@@ -190,16 +226,28 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 	public function data_provider_test_clean_new_public_post_type() {
 		return [
 			'no new post types' => [
-				'newly_made_none_public' => [],
-				'new_post types'         => [],
-				'cleaned_post types'     => [],
-				'clean_times'            => 0,
+				'newly_made_none_public'      => [],
+				'new_post types'              => [],
+				'cleaned_post types'          => [],
+				'clean_times'                 => 0,
+				'is_new_content_type'         => false,
+				'dismiss_notifications_times' => 0,
 			],
 			'new removed post types' => [
-				'newly_made_none_public' => [ 'book' ],
-				'new_post types'         => [ 'post', 'book' ],
-				'cleaned_post types'     => [ 0 => 'post' ],
-				'clean_times'            => 1,
+				'newly_made_none_public'      => [ 'book' ],
+				'new_post types'              => [ 'post', 'book' ],
+				'cleaned_post types'          => [ 0 => 'post' ],
+				'clean_times'                 => 1,
+				'is_new_content_type'         => false,
+				'dismiss_notifications_times' => 0,
+			],
+			'new removed post types' => [
+				'newly_made_none_public'      => [ 'book' ],
+				'new_post types'              => [ 'book' ],
+				'cleaned_post types'          => [],
+				'clean_times'                 => 1,
+				'is_new_content_type'         => true,
+				'dismiss_notifications_times' => 1,
 			],
 		];
 	}
@@ -214,8 +262,10 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 	 * @param array $new_post_types         The new post types.
 	 * @param array $cleaned_post_types     The cleaned post types.
 	 * @param int   $clean_times            The number of times the options should be cleaned.
+	 * @param bool  $is_new_content_type    Whether the content type is new.
+	 * @param int   $dismiss_notifications_times  The amount of times the dismiss notifications method should be called.
 	 */
-	public function test_clean_new_public_post_type( $newly_made_none_public, $new_post_types, $cleaned_post_types, $clean_times ) {
+	public function test_clean_new_public_post_type( $newly_made_none_public, $new_post_types, $cleaned_post_types, $clean_times, $is_new_content_type, $dismiss_notifications_times ) {
 
 		$this->options
 			->expects( 'get' )
@@ -227,6 +277,15 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 			->expects( 'set' )
 			->with( 'new_post_types', $cleaned_post_types )
 			->times( $clean_times );
+
+		$this->content_type_dismiss_notifications
+			->expects( 'is_new_content_type' )
+			->times( $clean_times )
+			->andReturn( $is_new_content_type );
+
+		$this->content_type_dismiss_notifications
+			->expects( 'dismiss_notifications' )
+			->times( $dismiss_notifications_times );
 
 		$this->instance->clean_new_public_post_type( $newly_made_none_public );
 	}
