@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use WP_HTML_Tag_Processor;
 use WPSEO_Image_Utils;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -218,7 +219,33 @@ class Indexable_Link_Builder {
 	 *
 	 * @return string[] An array of urls.
 	 */
+	protected function gather_images_ids_tags( $content ) {
+		$processor = new WP_HTML_Tag_Processor( $content );
+		$images    = [];
+
+		$query = [
+			'tag_name' => 'img',
+		];
+
+		while ( $processor->next_tag( $query ) ) {
+			$images[] = $processor->get_attribute( 'src' );
+		}
+
+		return $images;
+	}
+
+	/**
+	 * Gathers all images from content.
+	 *
+	 * @param string $content The content.
+	 *
+	 * @return string[] An array of urls.
+	 */
 	protected function gather_images( $content ) {
+		if ( class_exists( WP_HTML_Tag_Processor::class ) ) {
+			return $this->gather_images_ids_tags( $content );
+		}
+
 		if ( \strpos( $content, 'src' ) === false ) {
 			// Nothing to do.
 			return [];
