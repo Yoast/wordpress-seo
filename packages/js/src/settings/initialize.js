@@ -92,12 +92,12 @@ domReady( () => {
 
 	const isNewContentType = get( window, "wpseoScriptData.isNewContentType", false );
 	const notifications = ( isNewContentType )
-		? { newContentType: {
+		? { [ "new-content-type" ]: {
 			id: "new-content-type",
 			variant: "info",
 			size: "large",
 			title: __( "New type of content added to your site! Please see the “New” badges and review the Search appearance settings", "wordpress-seo" ),
-			 } } : {};
+		} } : {};
 
 
 	registerStore( {
