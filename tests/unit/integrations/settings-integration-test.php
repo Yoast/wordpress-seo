@@ -45,6 +45,27 @@ class Settings_Integration_Test extends TestCase {
 	protected $instance_double;
 
 	/**
+	 * Holds the Post_Type_Helper instance.
+	 *
+	 * @var Mockery\MockInterface|Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
+	 * Holds the Article_Helper instance.
+	 *
+	 * @var Mockery\MockInterface|Article_Helper
+	 */
+	private $article_helper;
+
+	/**
+	 * Holds the Options_Helper instance.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	private $options;
+
+	/**
 	 * Runs the setup to prepare the needed instance
 	 */
 	public function set_up() {
@@ -200,7 +221,7 @@ class Settings_Integration_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function transform_post_types_provider() {
+	public static function data_provider_transform_post_types() {
 		return [
 			'New post type' => [
 				'post_types'     => [
@@ -262,7 +283,7 @@ class Settings_Integration_Test extends TestCase {
 	 *
 	 * @covers ::transform_post_types
 	 *
-	 * @dataProvider transform_post_types_provider
+	 * @dataProvider data_provider_transform_post_types
 	 *
 	 * @param array $post_types The post types to transform.
 	 * @param array $new_post_types The new post types.
@@ -295,7 +316,7 @@ class Settings_Integration_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function transform_taxonomies_provider() {
+	public static function data_provider_transform_taxonomies() {
 		return [
 			'New taxonomy' => [
 				'taxonomies'      => [
@@ -357,7 +378,7 @@ class Settings_Integration_Test extends TestCase {
 	 *
 	 * @covers ::transform_taxonomies
 	 *
-	 * @dataProvider transform_taxonomies_provider
+	 * @dataProvider data_provider_transform_taxonomies
 	 *
 	 * @param array $taxonomies The taxonomies to transform.
 	 * @param array $post_type_names The post type names.
