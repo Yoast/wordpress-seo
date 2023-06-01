@@ -55,31 +55,31 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	}
 
 	/**
-	 * Data provider for test_dismiss_notification.
+	 * Data provider for test_maybe_dismiss_notifications.
 	 *
 	 * @return array
 	 */
-	public static function data_provider_is_new_content_types() {
+	public static function data_provider_maybe_dismiss_notifications() {
 		return [
 			'No new content types' => [
-				'new_post_types'            => [],
-				'new_taxonomies'            => [],
-				'expected'                  => true,
+				'new_post_types'              => [],
+				'new_taxonomies'              => [],
+				'dismiss_notifications_times' => 1,
 			],
 			'New post types and taxonomies' => [
-				'new_post_types'            => [ 'book', 'movie' ],
-				'new_taxonomies'            => [ 'books-category', 'movie-category' ],
-				'expected'                  => false,
+				'new_post_types'              => [ 'book', 'movie' ],
+				'new_taxonomies'              => [ 'books-category', 'movie-category' ],
+				'dismiss_notifications_times' => 0,
 			],
 			'New post types' => [
-				'new_post_types'            => [ 'book', 'movie' ],
-				'new_taxonomies'            => [],
-				'expected'                  => false,
+				'new_post_types'              => [ 'book', 'movie' ],
+				'new_taxonomies'              => [],
+				'dismiss_notifications_times' => 0,
 			],
 			'New taxonomies' => [
-				'new_post_types'            => [],
-				'new_taxonomies'            => [ 'books-category', 'movie-category' ],
-				'expected'                  => false,
+				'new_post_types'              => [],
+				'new_taxonomies'              => [ 'books-category', 'movie-category' ],
+				'dismiss_notifications_times' => 0,
 			],
 
 		];
@@ -88,16 +88,17 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	/**
 	 * Dismisses the notification in the notification center when there are no more new content types.
 	 *
-	 * @covers ::is_new_content_type
+	 * @covers ::maybe_dismiss_notifications
+	 * @uses ::dismiss_notifications
 	 *
-	 * @dataProvider data_provider_is_new_content_types
+	 * @dataProvider data_provider_maybe_dismiss_notifications
 	 *
 	 * @param array $new_post_types The new post types.
 	 * @param array $new_taxonomies The new taxonomies.
-	 * @param bool  $expected       The expected result.
+	 * @param int   $dismiss_notifications_times The number of times the dismiss_notifications method should be called.
 	 * @return void
 	 */
-	public function test_is_new_content_types( $new_post_types, $new_taxonomies, $expected ) {
+	public function test_maybe_dismiss_notifications( $new_post_types, $new_taxonomies, $dismiss_notifications_times ) {
 
 		$this->options
 			->expects( 'get' )
@@ -111,10 +112,9 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 			->once()
 			->andReturn( $new_taxonomies );
 
+		$this->expect_dismiss_notifications( $dismiss_notifications_times );
 
-
-		$result = $this->instance->is_new_content_types();
-		$this->assertSame( $expected, $result );
+		$this->instance->maybe_dismiss_notifications();
 	}
 
 	/**
@@ -124,17 +124,28 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 */
 	public function test_dismiss_notifications() {
 
+		$this->expect_dismiss_notifications( $times );
+
+		$this->instance->dismiss_notifications();
+	}
+
+	/**
+	 * Expects the dismiss_notifications method to be called a certain number of times.
+	 *
+	 * @param int $times The number of times the dismiss_notifications method should be called.
+	 * @return void
+	 */
+	public function expect_dismiss_notifications( $times ) {
+
 		$this->options
 			->expects( 'set' )
 			->with( 'is_new_content_type', false )
-			->once()
+			->times( $times )
 			->andReturn( true );
 
 		// Executes inside Yoast_Notification_Center.
 		Monkey\Functions\expect( 'get_current_user_id' )
-			->once()
+			->times( $times )
 			->andReturn( 0 );
-
-		$this->instance->dismiss_notifications();
 	}
 }

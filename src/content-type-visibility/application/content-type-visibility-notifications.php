@@ -103,9 +103,7 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 		$new_needs_review = \array_diff( $needs_review, $newly_made_non_public_post_types );
 		if ( count( $new_needs_review ) !== count( $needs_review ) ) {
 			$this->options->set( 'new_post_types', $new_needs_review );
-			if ( $this->content_type_dismiss_notifications->is_new_content_types() ) {
-				$this->content_type_dismiss_notifications->dismiss_notifications();
-			}
+			$this->content_type_dismiss_notifications->maybe_dismiss_notifications();
 		}
 	}
 
@@ -133,9 +131,7 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 		$new_needs_review = \array_diff( $needs_review, $newly_made_non_public_taxonomies );
 		if ( count( $new_needs_review ) !== count( $needs_review ) ) {
 			$this->options->set( 'new_taxonomies', $new_needs_review );
-			if ( $this->content_type_dismiss_notifications->is_new_content_types() ) {
-				$this->content_type_dismiss_notifications->dismiss_notifications();
-			}
+			$this->content_type_dismiss_notifications->maybe_dismiss_notifications();
 		}
 	}
 
