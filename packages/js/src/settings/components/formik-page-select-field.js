@@ -97,6 +97,7 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 			selectedLabel={ selectedPage?.name }
 			onQueryChange={ handleQueryChange }
 			className={ className && props.disabled && "yst-autocomplete--disabled" }
+			nullable={ true }
 			{ ...props }
 		>
 			<>
