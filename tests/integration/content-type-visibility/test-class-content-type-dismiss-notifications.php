@@ -96,7 +96,7 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 	 *
 	 * @return array
 	 */
-	public function post_type_dismiss_provider() {
+	public static function data_provider_post_type_dismiss() {
 		return [
 			'Not a new post type' => [
 				'new_post_types' => [],
@@ -116,7 +116,7 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 	 *
 	 * @covers ::post_type_dismiss
 	 *
-	 * @dataProvider post_type_dismiss_provider
+	 * @dataProvider data_provider_post_type_dismiss
 	 *
 	 * @param array  $new_post_types The new post types.
 	 * @param string $post_type_name The post type name.
@@ -148,7 +148,7 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 	 *
 	 * @return array
 	 */
-	public function taxonomy_dismiss_provider() {
+	public static function data_provider_taxonomy_dismiss() {
 		return [
 			'Not a new taxonomy' => [
 				'new_taxonomies' => [],
@@ -168,7 +168,7 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 	 *
 	 * @covers ::taxonomy_dismiss
 	 *
-	 * @dataProvider taxonomy_dismiss_provider
+	 * @dataProvider data_provider_taxonomy_dismiss
 	 *
 	 * @param array  $new_taxonomies The new post types.
 	 * @param string $taxonomy_name The post type name.
