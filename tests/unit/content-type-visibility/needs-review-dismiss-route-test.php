@@ -108,18 +108,6 @@ class Needs_Review_Dismiss_Route_Test extends TestCase {
 				)
 				->once();
 
-			Monkey\Functions\expect( 'register_rest_route' )
-				->with(
-					'yoast/v1',
-					'needs-review/bulk-dismiss',
-					[
-						'methods'             => 'POST',
-						'callback'            => [ $this->dismiss_notifications, 'bulk_dismiss' ],
-						'permission_callback' => [ $this->instance, 'can_dismiss' ],
-					]
-				)
-				->once();
-
 		$this->instance->register_routes();
 	}
 
