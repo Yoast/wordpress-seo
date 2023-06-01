@@ -123,18 +123,12 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 	 * @param string $message The message.
 	 */
 	public function test_post_type_dismiss( $new_post_types, $post_type_name, $message ) {
-		$this->content_type_visibility_notifications->maybe_add_notification();
 		$this->content_type_visibility_notifications->new_post_type( $new_post_types );
 
 		$request                 = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/dismiss-post-type' );
 		$request['postTypeName'] = $post_type_name;
 
-
 		$result = $this->instance->post_type_dismiss( $request );
-
-		$notification_center = Yoast_Notification_Center::get();
-		$notification        = $notification_center->get_notifications_for_user( 'content-types-made-public' );
-		var_dump( $notification );
 
 		$this->assertInstanceOf(
 			WP_REST_Response::class,
