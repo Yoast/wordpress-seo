@@ -43,3 +43,16 @@ describe( "A test for the splitIntoTokens method", () => {
 		] );
 	} );
 } );
+
+describe( "A test for the splitIntoTokens method in Japanese", () => {
+	it( "should return an array of tokens", function() {
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		const tokens = languageProcessor.splitIntoTokens( new Sentence( "こんにちは世界！" ) );
+		expect( tokens ).toEqual( [
+			{ text: "こんにちは", sourceCodeRange: {} },
+			{ text: "世界", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+		] );
+	} );
+} );

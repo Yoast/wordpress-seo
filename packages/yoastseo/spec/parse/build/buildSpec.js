@@ -2,6 +2,7 @@ import build from "../../../src/parse/build/build";
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
 import Factory from "../../specHelpers/factory";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
+import splitIntoTokensJapanese from "../../../src/parse/structure/languages/ja/SplitIntoTokensJapanese";
 
 describe( "The parse function", () => {
 	it( "parses a basic HTML text", () => {
@@ -49,6 +50,66 @@ describe( "The parse function", () => {
 					childNodes: [ {
 						name: "#text",
 						value: "Hello, world!",
+					} ],
+					sourceCodeLocation: {
+						startOffset: 5,
+						endOffset: 39,
+						startTag: {
+							startOffset: 5,
+							endOffset: 22,
+						},
+						endTag: {
+							startOffset: 35,
+							endOffset: 39,
+						},
+					},
+				} ],
+			} ],
+		} );
+	} );
+
+	it( "parses a basic Japanese HTML text", () => {
+		const html = "<div><p class='yoast'>こんにちは世界！</p></div>";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ splitIntoTokensJapanese: splitIntoTokensJapanese } );
+		const languageProcessor = new LanguageProcessor( researcher );
+		expect( build( html, languageProcessor ) ).toEqual( {
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [ {
+				name: "div",
+				sourceCodeLocation: {
+					startOffset: 0,
+					endOffset: 45,
+					startTag: {
+						startOffset: 0,
+						endOffset: 5,
+					},
+					endTag: {
+						startOffset: 39,
+						endOffset: 45,
+					},
+				},
+				attributes: {},
+				childNodes: [ {
+					name: "p",
+					isImplicit: false,
+					attributes: {
+						"class": new Set( [ "yoast" ] ),
+					},
+					sentences: [ {
+						text: "こんにちは世界！",
+						sourceCodeRange: { startOffset: 22, endOffset: 35 },
+						tokens: [
+							{ text: "こんにちは", sourceCodeRange: { startOffset: 22, endOffset: 27 } },
+							{ text: "世界", sourceCodeRange: { startOffset: 29, endOffset: 34 } },
+							{ text: "!", sourceCodeRange: { startOffset: 34, endOffset: 35 } },
+						],
+					} ],
+					childNodes: [ {
+						name: "#text",
+						value: "こんにちは世界！",
 					} ],
 					sourceCodeLocation: {
 						startOffset: 5,
