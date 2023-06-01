@@ -151,7 +151,7 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_test_clean_new_public_taxonomy() {
+	public static function data_provider_test_clean_new_public_taxonomy() {
 		return [
 			'no new taxonomies' => [
 				'newly_made_none_public'      => [],
@@ -207,7 +207,7 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 			->times( $clean_times );
 
 		$this->content_type_dismiss_notifications
-			->expects( 'is_new_content_type' )
+			->expects( 'is_new_content_types' )
 			->times( $clean_times )
 			->andReturn( $is_new_content_type );
 
@@ -223,7 +223,7 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 	 *
 	 * @return array The data.
 	 */
-	public function data_provider_test_clean_new_public_post_type() {
+	public static function data_provider_test_clean_new_public_post_type() {
 		return [
 			'no new post types' => [
 				'newly_made_none_public'      => [],
@@ -279,7 +279,7 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 			->times( $clean_times );
 
 		$this->content_type_dismiss_notifications
-			->expects( 'is_new_content_type' )
+			->expects( 'is_new_content_types' )
 			->times( $clean_times )
 			->andReturn( $is_new_content_type );
 

@@ -59,27 +59,27 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function dismiss_notification_provider() {
+	public static function data_provider_is_new_content_types() {
 		return [
 			'No new content types' => [
 				'new_post_types'            => [],
 				'new_taxonomies'            => [],
-				'remove_notification_times' => 1,
+				'expected'                  => true,
 			],
 			'New post types and taxonomies' => [
 				'new_post_types'            => [ 'book', 'movie' ],
 				'new_taxonomies'            => [ 'books-category', 'movie-category' ],
-				'remove_notification_times' => 0,
+				'expected'                  => false,
 			],
 			'New post types' => [
 				'new_post_types'            => [ 'book', 'movie' ],
 				'new_taxonomies'            => [],
-				'remove_notification_times' => 0,
+				'expected'                  => false,
 			],
 			'New taxonomies' => [
 				'new_post_types'            => [],
 				'new_taxonomies'            => [ 'books-category', 'movie-category' ],
-				'remove_notification_times' => 0,
+				'expected'                  => false,
 			],
 
 		];
@@ -88,16 +88,16 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	/**
 	 * Dismisses the notification in the notification center when there are no more new content types.
 	 *
-	 * @covers ::dismiss_notification
+	 * @covers ::is_new_content_type
 	 *
-	 * @dataProvider dismiss_notification_provider
+	 * @dataProvider data_provider_is_new_content_types
 	 *
 	 * @param array $new_post_types The new post types.
 	 * @param array $new_taxonomies The new taxonomies.
-	 * @param int   $remove_notification_times The number of times the remove_notification method should be called.
+	 * @param bool  $expected       The expected result.
 	 * @return void
 	 */
-	public function test_dismiss_notification( $new_post_types, $new_taxonomies, $remove_notification_times ) {
+	public function test_is_new_content_types( $new_post_types, $new_taxonomies, $expected ) {
 
 		$this->options
 			->expects( 'get' )
@@ -111,11 +111,30 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 			->once()
 			->andReturn( $new_taxonomies );
 
+
+
+		$result = $this->instance->is_new_content_types();
+		$this->assertSame( $expected, $result );
+	}
+
+	/**
+	 * Tests the dismiss_notifications method.
+	 *
+	 * @covers ::dismiss_notifications
+	 */
+	public function test_dismiss_notifications() {
+
+		$this->options
+			->expects( 'set' )
+			->with( 'is_new_content_type', false )
+			->once()
+			->andReturn( true );
+
 		// Executes inside Yoast_Notification_Center.
 		Monkey\Functions\expect( 'get_current_user_id' )
-			->times( $remove_notification_times )
+			->once()
 			->andReturn( 0 );
 
-		$this->instance->dismiss_notification();
+		$this->instance->dismiss_notifications();
 	}
 }

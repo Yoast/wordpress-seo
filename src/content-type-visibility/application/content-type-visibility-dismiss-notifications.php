@@ -46,7 +46,7 @@ class Content_Type_Visibility_Dismiss_Notifications {
 			$new_needs_review = \array_diff( $post_types_needs_review, [ $request['postTypeName'] ] );
 			$success          = $this->options->set( 'new_post_types', $new_needs_review );
 			$message          = ( $success ) ? 'Post type is no longer new.' : 'Error: Post type was not removed from new_post_types list.';
-			if ( $this->is_new_content_type() ) {
+			if ( $this->is_new_content_types() ) {
 				$this->dismiss_notifications();
 			}
 		}
@@ -81,7 +81,7 @@ class Content_Type_Visibility_Dismiss_Notifications {
 			$new_needs_review = \array_diff( $taxonomies_needs_review, [ $request['taxonomyName'] ] );
 			$success          = $this->options->set( 'new_taxonomies', $new_needs_review );
 			$message          = ( $success ) ? 'Taxonomy is no longer new.' : 'Error: Taxonomy was not removed from new_taxonomies list.';
-			if ( $this->is_new_content_type() ) {
+			if ( $this->is_new_content_types() ) {
 				$this->dismiss_notifications();
 			}
 		}
@@ -103,7 +103,7 @@ class Content_Type_Visibility_Dismiss_Notifications {
 	 *
 	 * @return bool
 	 */
-	public function is_new_content_type() {
+	public function is_new_content_types() {
 		$taxonomies_needs_review = $this->options->get( 'new_taxonomies', [] );
 		$post_types_needs_review = $this->options->get( 'new_post_types', [] );
 		if ( $post_types_needs_review || $taxonomies_needs_review ) {
