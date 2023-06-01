@@ -19,7 +19,7 @@ export function* removeNewContentNotification() {
 	} catch ( error ) {
 		// Empty.
 	}
-	return { type: `${ NEW_CONTENT_ACTION_NAME }/result` };
+	return { type: "notifications/removeNotification", payload: "new-content-type" };
 }
 
 const slice = createSlice( {
@@ -48,12 +48,9 @@ const slice = createSlice( {
 		},
 		removeNotification: ( state, { payload } ) => omit( state, payload ),
 	},
-	extraReducers: ( builder ) => {
-		builder.addCase( `${ NEW_CONTENT_ACTION_NAME }/result`, ( state ) => {
-			delete state.newContentType;
-		} );
-	},
 } );
+
+export const getInitialNotificationsState = slice.getInitialState;
 
 export const notificationsSelectors = {
 	selectNotifications: ( state ) => get( state, "notifications", {} ),
