@@ -124,7 +124,7 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 */
 	public function test_dismiss_notifications() {
 
-		$this->expect_dismiss_notifications( $times );
+		$this->expect_dismiss_notifications( 1 );
 
 		$this->instance->dismiss_notifications();
 	}
