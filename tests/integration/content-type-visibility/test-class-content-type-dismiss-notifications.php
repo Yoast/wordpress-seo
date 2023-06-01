@@ -82,8 +82,10 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 		$this->options             = new Options_Helper();
 		$this->notification_center = $this->get_notification_center();
 
-		$this->content_type_visibility_notifications = new Content_Type_Visibility_Notifications( $this->options, $this->notification_center );
-		$this->instance                              = new Content_Type_Visibility_Dismiss_Notifications( $this->options );
+
+		$this->instance = new Content_Type_Visibility_Dismiss_Notifications( $this->options );
+
+		$this->content_type_visibility_notifications = new Content_Type_Visibility_Notifications( $this->options, $this->notification_center, $this->instance );
 
 		$this->mock_options          = Mockery::mock( Options_Helper::class );
 		$this->instance_mock_options = new Content_Type_Visibility_Dismiss_Notifications( $this->mock_options );
@@ -299,35 +301,5 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 		);
 
 		$this->assertSame( 200, $result->data->status, 'new_content_dismiss returns correct status' );
-	}
-
-	/**
-	 * Test bulk_dismiss method.
-	 *
-	 * @covers ::bulk_dismiss
-	 */
-	public function test_bulk_dismiss() {
-		$this->options->set( 'new_post_types', [ 'book' ] );
-		$this->options->set( 'new_taxonomies', [ 'category-book' ] );
-		$this->options->set( 'is_new_content_type', true );
-
-		$request = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/bulk-dismiss' );
-
-		$result = $this->instance->bulk_dismiss( $request );
-
-		$this->assertInstanceOf(
-			WP_REST_Response::class,
-			$result,
-			'bulk_dismiss returns WP_REST_Response object'
-		);
-
-		$this->assertSame( 200, $result->data->status, 'bulk_dismiss returns correct status' );
-
-		$new_post_types = $this->options->get( 'new_post_types', [] );
-		$this->assertSame( [], $new_post_types, 'No new post types' );
-		$new_taxonomies = $this->options->get( 'new_taxonomies', [] );
-		$this->assertSame( [], $new_taxonomies, 'no new ptaxonomies' );
-		$is_new_content_type = $this->options->get( 'is_new_content_type', false );
-		$this->assertSame( false, $is_new_content_type, 'No new content' );
 	}
 }
