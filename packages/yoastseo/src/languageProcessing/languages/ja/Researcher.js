@@ -10,7 +10,7 @@ import customCountLength from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 import getContentWords from "./helpers/getContentWords";
 import memoizedTokenizer from "./helpers/memoizedSentenceTokenizer";
-import splitIntoTokensJapanese from "yoastseo/src/parse/structure/languages/ja/SplitIntoTokensJapanese";
+import splitIntoTokensJapanese from "../../../parse/structure/languages/ja/SplitIntoTokensJapanese";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
@@ -30,7 +30,6 @@ import morphology from "./customResearches/getWordForms";
 import getKeyphraseLength from "./customResearches/getKeyphraseLength";
 import textLengthResearch from "./customResearches/textLength";
 import findKeyphraseInSEOTitle from "./customResearches/findKeyphraseInSEOTitle";
-import SplitIntoTokensJapanese from "../../../parse/structure/languages/ja/SplitIntoTokensJapanese";
 
 /**
  * The researches contains all the researches
