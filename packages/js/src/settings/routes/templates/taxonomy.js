@@ -303,7 +303,7 @@ Taxonomy.propTypes = {
 	label: PropTypes.string.isRequired,
 	postTypes: PropTypes.arrayOf( PropTypes.string ).isRequired,
 	showUi: PropTypes.bool.isRequired,
-	needsReview: PropTypes.bool.isRequired,
+	isNew: PropTypes.bool.isRequired,
 };
 
 export default Taxonomy;

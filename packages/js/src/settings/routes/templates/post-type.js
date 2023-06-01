@@ -469,7 +469,7 @@ PostType.propTypes = {
 	singularLabel: PropTypes.string.isRequired,
 	hasArchive: PropTypes.bool.isRequired,
 	hasSchemaArticleType: PropTypes.bool.isRequired,
-	needsReview: PropTypes.bool.isRequired,
+	isNew: PropTypes.bool.isRequired,
 };
 
 export default PostType;
