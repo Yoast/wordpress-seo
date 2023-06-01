@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Content_Type_Visibility\Application;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Notification;
@@ -60,7 +59,7 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class, Migrations_Conditional::class ];
+		return [ Admin_Conditional::class ];
 	}
 
 	/**
@@ -78,8 +77,6 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 		// Used in Idexable_Taxonomy_Change_Watcher class.
 		\add_action( 'new_public_taxonomy_notifications', [ $this, 'new_taxonomy' ], 10, 1 );
 		\add_action( 'clean_new_public_taxonomy_notifications', [ $this, 'clean_new_public_taxonomy' ], 10, 1 );
-
-		\add_action( 'wp_ajax_new_content_type_bulk_dismiss', [ $this->content_type_dismiss_notifications, 'bulk_dismiss' ] );
 	}
 
 	/**
@@ -106,7 +103,9 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 		$new_needs_review = \array_diff( $needs_review, $newly_made_non_public_post_types );
 		if ( count( $new_needs_review ) !== count( $needs_review ) ) {
 			$this->options->set( 'new_post_types', $new_needs_review );
-			$this->content_type_dismiss_notifications->dismiss_notification();
+			if ( $this->content_type_dismiss_notifications->is_new_content_type() ) {
+				$this->content_type_dismiss_notifications->dismiss_notifications();
+			}
 		}
 	}
 
@@ -134,7 +133,9 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 		$new_needs_review = \array_diff( $needs_review, $newly_made_non_public_taxonomies );
 		if ( count( $new_needs_review ) !== count( $needs_review ) ) {
 			$this->options->set( 'new_taxonomies', $new_needs_review );
-			$this->content_type_dismiss_notifications->dismiss_notification();
+			if ( $this->content_type_dismiss_notifications->is_new_content_type() ) {
+				$this->content_type_dismiss_notifications->dismiss_notifications();
+			}
 		}
 	}
 
@@ -162,28 +163,9 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_page_settings' ) ) . '">',
 			'</a>'
 		);
-		$notification_text  = '<p>' . $message . '</p>';
-		$notification_text .= '<span class="button">';
-		$notification_text .= \esc_html__( 'Ignore', 'wordpress-seo' );
-		$notification_text .= '</span>';
-
-		$notification_text .= '<script>
-				jQuery( document ).ready( function() {
-					jQuery( "body" ).on( "click", "#content-types-made-public .button", function() {
-						const data = {
-							"action": "new_content_type_bulk_dismiss",
-							"nonce": "' . \esc_js( \wp_create_nonce( 'new-content-type-bulk-dismiss' ) ) . '"
-						};
-						jQuery.post( ajaxurl, data, function( response ) {
-							jQuery( "#content-types-made-public" ).remove();
-						});
-					} );
-				} );
-				</script>';
-
 
 		$notification = new Yoast_Notification(
-			$notification_text,
+			$message,
 			[
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => 'content-types-made-public',
