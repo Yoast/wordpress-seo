@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { useEffect, useMemo, useCallback } from "@wordpress/element";
+import { useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Notifications as NotificationsUi } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 import { flattenObject } from "../utils";
+import NewContentTypeNotificationForm from "./new-content-type-notification-form";
 
 /**
  * @returns {void}
@@ -73,14 +74,11 @@ ValidationErrorsNotification.propTypes = {
  */
 const Notifications = () => {
 	useValidationErrorsNotification();
-	const { removeNotification, removeNewContentNotification } = useDispatchSettings();
-	const onDismissNewContentType = useCallback( () => {
-		removeNewContentNotification();
-	}, [] );
+	const { removeNotification } = useDispatchSettings();
 	const notifications = useSelectSettings( "selectNotifications" );
 	const enrichedNotifications = useMemo( () => map( notifications, notification => ( {
 		...notification,
-		onDismiss: notification.id === "new-content-type" ? onDismissNewContentType : removeNotification,
+		onDismiss: removeNotification,
 		autoDismiss: notification.variant === "success" ? 5000 : null,
 		dismissScreenReaderLabel: __( "Dismiss", "wordpress-seo" ),
 	} ) ), [ notifications ] );
@@ -91,6 +89,11 @@ const Notifications = () => {
 			{ enrichedNotifications.map( ( notification ) => {
 				if ( notification.id === "validation-errors" ) {
 					return <ValidationErrorsNotification key={ notification.id } { ...notification } />;
+				}
+				if ( notification.id === "new-content-type" ) {
+					return <NotificationsUi.Notification key={ notification.id } { ...notification }>
+						<NewContentTypeNotificationForm />
+					</NotificationsUi.Notification>;
 				}
 				return <NotificationsUi.Notification key={ notification.id } { ...notification } />;
 			} ) }
