@@ -35,14 +35,6 @@ class Needs_Review_Dismiss_Route implements Route_Interface {
 	 */
 	const TAXONOMY_DISMISS_ROUTE = self::ROUTE_PREFIX . '/dismiss-taxonomy';
 
-
-	/**
-	 * Represents new content dismiss route.
-	 *
-	 * @var string
-	 */
-	const NEW_CONTENT_DISMISS_ROUTE = self::ROUTE_PREFIX . '/dismiss-notification';
-
 	/**
 	 * Holds the Options_Helper instance.
 	 *
@@ -87,15 +79,8 @@ class Needs_Review_Dismiss_Route implements Route_Interface {
 			],
 		];
 
-		$dismiss_new_content_route_args = [
-			'methods'             => 'POST',
-			'callback'            => [ $this->dismiss_notifications, 'new_content_dismiss' ],
-			'permission_callback' => [ $this, 'can_dismiss' ],
-		];
-
 		\register_rest_route( Main::API_V1_NAMESPACE, self::POST_TYPE_DISMISS_ROUTE, $post_type_dismiss_route_args );
 		\register_rest_route( Main::API_V1_NAMESPACE, self::TAXONOMY_DISMISS_ROUTE, $taxonomy_dismiss_route_args );
-		\register_rest_route( Main::API_V1_NAMESPACE, self::NEW_CONTENT_DISMISS_ROUTE, $dismiss_new_content_route_args );
 	}
 
 	/**

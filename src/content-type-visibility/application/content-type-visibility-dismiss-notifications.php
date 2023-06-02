@@ -118,23 +118,4 @@ class Content_Type_Visibility_Dismiss_Notifications {
 		$notification_center->remove_notification_by_id( 'content-types-made-public' );
 		return $this->options->set( 'is_new_content_type', false );
 	}
-
-	/**
-	 * Dismisses the JS notification on settings page.
-	 *
-	 * @return WP_REST_Response The response.
-	 */
-	public function new_content_dismiss() {
-		$success = $this->dismiss_notifications();
-
-		$status = $success === ( true ) ? 200 : 400;
-
-		return new WP_REST_Response(
-			(object) [
-				'success' => $success,
-				'status'  => $status,
-			],
-			$status
-		);
-	}
 }

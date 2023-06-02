@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 import { flattenObject } from "../utils";
-import NewContentTypeNotificationForm from "./new-content-type-notification-form";
 
 /**
  * @returns {void}
@@ -76,6 +75,9 @@ const Notifications = () => {
 	useValidationErrorsNotification();
 	const { removeNotification } = useDispatchSettings();
 	const notifications = useSelectSettings( "selectNotifications" );
+	const postTypes = useSelectSettings( "selectPostTypes" );
+	const taxonomies = useSelectSettings( "selectTaxonomies" );
+
 	const enrichedNotifications = useMemo( () => map( notifications, notification => ( {
 		...notification,
 		onDismiss: removeNotification,
@@ -83,17 +85,19 @@ const Notifications = () => {
 		dismissScreenReaderLabel: __( "Dismiss", "wordpress-seo" ),
 	} ) ), [ notifications ] );
 
+	useEffect( () => {
+		const newPostTypes = Object.values( postTypes ).filter( ( postType ) => postType.isNew );
+		const newTaxonomies = Object.values( taxonomies ).filter( ( taxonomy ) => taxonomy.isNew );
+	   if ( ! newPostTypes.length && ! newTaxonomies.length ) {
+		   removeNotification( "new-content-type" );
+	   }
+	}, [ postTypes, taxonomies ] );
 
 	return (
 		<NotificationsUi notifications={ enrichedNotifications } position="bottom-left">
 			{ enrichedNotifications.map( ( notification ) => {
 				if ( notification.id === "validation-errors" ) {
 					return <ValidationErrorsNotification key={ notification.id } { ...notification } />;
-				}
-				if ( notification.id === "new-content-type" ) {
-					return <NotificationsUi.Notification key={ notification.id } { ...notification }>
-						<NewContentTypeNotificationForm />
-					</NotificationsUi.Notification>;
 				}
 				return <NotificationsUi.Notification key={ notification.id } { ...notification } />;
 			} ) }

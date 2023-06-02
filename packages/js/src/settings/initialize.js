@@ -96,7 +96,8 @@ domReady( () => {
 			id: "new-content-type",
 			variant: "info",
 			size: "large",
-			title: __( "New type of content added to your site! Please see the “New” badges and review the Search appearance settings", "wordpress-seo" ),
+			title: __( "New type of content added to your site!", "wordpress-seo" ),
+			description: __( "Please see the “New” badges and review the Search appearance settings.", "wordpress-seo" ),
 		} } : {};
 
 

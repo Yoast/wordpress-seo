@@ -284,22 +284,4 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 			'post_type_dismiss_returns correct message'
 		);
 	}
-
-	/**
-	 * Test new_content_dismiss method.
-	 *
-	 * @covers ::new_content_dismiss
-	 */
-	public function test_new_content_dismiss() {
-		$request = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/dismiss-new-content' );
-
-		$result = $this->instance->new_content_dismiss( $request );
-		$this->assertInstanceOf(
-			WP_REST_Response::class,
-			$result,
-			'new_content_dismiss returns WP_REST_Response object'
-		);
-
-		$this->assertSame( 200, $result->data->status, 'new_content_dismiss returns correct status' );
-	}
 }

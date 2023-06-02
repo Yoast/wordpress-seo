@@ -11,7 +11,7 @@ import defaultSettingValues, {
 } from "./default-setting-values";
 import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
-import notifications, { getInitialNotificationsState, notificationsActions, notificationsSelectors, removeNewContentNotificationControls } from "./notifications";
+import notifications, { getInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
 import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors, updatePostTypeReviewControls } from "./post-types";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import replacementVariables, {
@@ -98,7 +98,6 @@ const createStore = ( { initialState } ) => {
 			...usersControls,
 			...updatePostTypeReviewControls,
 			...updateTaxonomyReviewControls,
-			...removeNewContentNotificationControls,
 		},
 	} );
 };

@@ -396,6 +396,12 @@ class Settings_Integration implements Integration_Interface {
 		$transformed_post_types = $this->transform_post_types( $post_types );
 		$transformed_taxonomies = $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) );
 
+		// Check if there is a new content type to show notification only once in the settings.
+		$is_new_content_type = $this->options->get( 'is_new_content_type', false );
+		if ( $is_new_content_type ) {
+			$this->options->set( 'is_new_content_type', false );
+		}
+
 		return [
 			'settings'             => $this->transform_settings( $settings ),
 			'defaultSettingValues' => $default_setting_values,
@@ -410,7 +416,7 @@ class Settings_Integration implements Integration_Interface {
 			'postTypes'            => $transformed_post_types,
 			'taxonomies'           => $transformed_taxonomies,
 			'fallbacks'            => $this->get_fallbacks(),
-			'isNewContentType'     => $this->options->get( 'is_new_content_type', false ),
+			'isNewContentType'     => $is_new_content_type,
 		];
 	}
 
