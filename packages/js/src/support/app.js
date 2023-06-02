@@ -111,7 +111,7 @@ export const App = () => {
 										<Fragment key={ `faq-${ index }` }>
 											{ index > 0 && <hr className="yst-my-3" /> }
 											<li>
-												<Link href={ link } className="yst-flex yst-items-center yst-font-medium yst-no-underline">
+												<Link href={ link } className="yst-flex yst-items-center yst-font-medium yst-no-underline" target="_blank">
 													{ text }
 													<ArrowNarrowRightIcon className="yst-inline-block yst-ml-1.5 yst-h-3 yst-w-3 yst-icon-rtl" />
 												</Link>
