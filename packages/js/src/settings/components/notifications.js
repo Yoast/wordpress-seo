@@ -88,7 +88,7 @@ const Notifications = () => {
 	useEffect( () => {
 		const newPostTypes = Object.values( postTypes ).filter( ( postType ) => postType.isNew );
 		const newTaxonomies = Object.values( taxonomies ).filter( ( taxonomy ) => taxonomy.isNew );
-	   if ( ! newPostTypes.length && ! newTaxonomies.length ) {
+	   if ( notifications[ "new-content-type" ] && ! newPostTypes.length && ! newTaxonomies.length ) {
 		   removeNotification( "new-content-type" );
 	   }
 	}, [ postTypes, taxonomies ] );
