@@ -15,17 +15,16 @@ class Schedule_Verification_Cron_Integration implements Integration_Interface {
 
 	use Admin_Conditional_Trait;
 
-
 	private $options_helper;
 
 	/**
 	 * The constructor.
+	 *
 	 * @param Options_Helper $options_helper The options helper.
 	 */
-	public function __construct(Options_Helper $options_helper) {
+	public function __construct( Options_Helper $options_helper ) {
 		$this->options_helper = $options_helper;
 	}
-
 
 	/**
 	 * @inheritDoc

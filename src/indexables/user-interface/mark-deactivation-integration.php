@@ -15,6 +15,8 @@ class Mark_Deactivation_Integration implements Integration_Interface {
 
 	use Admin_Conditional_Trait;
 
+	public const PLUGIN_DEACTIVATED_AT_OPTION = 'plugin_deactivated_at';
+
 	/**
 	 * The options helper.
 	 *
@@ -44,6 +46,6 @@ class Mark_Deactivation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_deactivation(): void {
-		$this->options_helper->set( 'plugin_deactivated_at', time() );
+		$this->options_helper->set( self::PLUGIN_DEACTIVATED_AT_OPTION, \time() );
 	}
 }
