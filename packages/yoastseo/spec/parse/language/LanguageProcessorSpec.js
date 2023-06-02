@@ -407,6 +407,19 @@ const splitIntoTokensTestCases = [
 		],
 		skip: true,
 	},
+	{
+		description: "should correctly tokenize a sentence that contains multiple consecutive spaces",
+		sentence: "Hello,   world!",
+		expectedTokens: [
+			{ text: "Hello", sourceCodeRange: {} },
+			{ text: ",", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "world", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+		],
+	},
 ];
 
 describe.each( splitIntoTokensTestCases )( "A test for the tokenize method", ( { description, sentence, expectedTokens, skip } ) => {
