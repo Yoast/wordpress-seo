@@ -5,13 +5,15 @@
 
 
 /**
- * A function that returns true if the element has a specific name.
+ * Creates a callback that checks if an element has a specific name.
+ *
  * @param {string} name The name to check.
+ *
  * @returns {function(*)} A function that returns true if the element has a specific name.
  */
 export function elementHasName( name ) {
-	return ( elem ) => {
-		return elem.name === name;
+	return ( element ) => {
+		return element.name === name;
 	};
 }
 
@@ -32,8 +34,15 @@ export function elementHasDataType( blockName ) {
 	};
 }
 
+/**
+ * Creates a callback that checks if an element has a certain ID.
+ *
+ * @param {string} id The ID we want to check against.
+ *
+ * @returns {function(*): boolean}  A function that returns true if an element has a certain ID.
+ */
 export function elementHasID( id ) {
-	return ( elem ) => {
-		return elem.attributes.id === id;
+	return ( element ) => {
+		return element.attributes.id === id;
 	};
 }
