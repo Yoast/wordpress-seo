@@ -49,19 +49,16 @@ class LanguageProcessor {
 	 * Split sentence into tokens.
 	 *
 	 * @param {Sentence} sentence The sentence to split.
-	 * @param {paper} paper The paper containing the keyword and text.
-	 * @param {researcher} researcher The researcher.
 	 *
 	 * @returns {Token[]} The tokens.
 	 */
-	splitIntoTokens( sentence, paper, researcher ) {
+	splitIntoTokens( sentence ) {
 		// Retrieve sentence from sentence class
 		const sentenceText = sentence.text;
 		// If there is a custom getWords helper use its output for retrieving words/tokens.
-		const getWordsCustomHelper = researcher && researcher.getHelper( "getWordsCustomHelper" );
+		const getWordsCustomHelper = this.researcher.getHelper( "getWordsCustomHelper" );
 		if ( getWordsCustomHelper ) {
-			const tokenTextsCustom = researcher.getHelper( "splitIntoTokensJapanese" );
-
+			const tokenTextsCustom = this.researcher.getHelper( "splitIntoTokensJapanese" );
 			return tokenTextsCustom.map( tokenText => new Token( tokenText ) );
 		}
 		// Split the sentence string into tokens
