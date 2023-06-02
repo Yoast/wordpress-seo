@@ -16,7 +16,6 @@ const whitespaceRegex = /^\s+$/;
  * A tab is a word separator because it separates two words if it occurs between two words. For example: "foo	bar"
  * A non-breaking space is a word separator because it separates two words if it occurs between two words. For example: "foo\u00A0bar"
  */
-// TODO: create enhancement?? task for adding slashes to this array.
 const wordSeparatorsRegex = /([\s\t\u00A0])/;
 
 /**
