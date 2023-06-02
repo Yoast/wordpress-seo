@@ -58,7 +58,7 @@ class LanguageProcessor {
 		// If there is a custom getWords helper use its output for retrieving words/tokens.
 		const tokenTextsCustom = this.researcher.getHelper( "splitIntoTokensCustom" );
 		if ( tokenTextsCustom ) {
-			const tokensCustom = tokenTextsCustom( sentenceText );
+			const tokensCustom = tokenTextsCustom( sentence );
 			return tokensCustom.map( tokenText => new Token( tokenText ) );
 		}
 		// Split the sentence string into tokens
