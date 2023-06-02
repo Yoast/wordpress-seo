@@ -27,10 +27,7 @@ export function elementHasName( name ) {
  */
 export function elementHasDataType( blockName ) {
 	return ( blockElement ) => {
-		if ( blockElement.attributes[ "data-type" ] && blockElement.attributes[ "data-type" ] === blockName ) {
-			return true;
-		}
-		return !! ( blockElement.attributes[ "data-widget_type" ] && blockElement.attributes[ "data-widget_type" ] === blockName );
+		return !! ( blockElement.attributes[ "data-type" ] && blockElement.attributes[ "data-type" ] === blockName );
 	};
 }
 

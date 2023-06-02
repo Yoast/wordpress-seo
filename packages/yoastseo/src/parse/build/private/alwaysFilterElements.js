@@ -16,7 +16,6 @@ const permanentFilters = [
 	elementHasDataType( "yoast-seo/siblings" ),
 	elementHasDataType( "yoast-seo/subpages" ),
 	// Filters for the Elementor widget Yoast Breadcrumbs.
-	elementHasDataType( "breadcrumbs.default" ),
 	elementHasID( "breadcrumbs" ),
 	// Filters out HTML elements.
 	/* Elements are filtered out when: they contain content outside of the author's control (incl. quotes and embedded
