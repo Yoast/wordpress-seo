@@ -56,14 +56,14 @@ class LanguageProcessor {
 		// Retrieve sentence from sentence class
 		const sentenceText = sentence.text;
 		// If there is a custom getWords helper use its output for retrieving words/tokens.
-		const getWordsCustomHelper = this.researcher.getHelper( "getWordsCustomHelper" );
-		if ( getWordsCustomHelper ) {
-			const tokenTextsCustom = this.researcher.getHelper( "splitIntoTokensJapanese" );
-			return tokenTextsCustom.map( tokenText => new Token( tokenText ) );
+		const tokenTextsCustom = this.researcher.getHelper( "splitIntoTokensCustom" );
+		if ( tokenTextsCustom ) {
+			const tokensCustom = tokenTextsCustom( sentenceText );
+			return tokensCustom.map( tokenText => new Token( tokenText ) );
 		}
 		// Split the sentence string into tokens
-		const tokenTexts = sentenceText.split( /([\s,.!?;:([\]'"¡¿)/])/g ).filter( x => x !== "" );
-		return tokenTexts.map( tokenText => new Token( tokenText ) );
+		const tokens = sentenceText.split( /([\s,.!?;:([\]'"¡¿)/])/g ).filter( x => x !== "" );
+		return tokens.map( tokenText => new Token( tokenText ) );
 	}
 }
 export default LanguageProcessor;

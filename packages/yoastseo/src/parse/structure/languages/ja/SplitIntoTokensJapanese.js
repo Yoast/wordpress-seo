@@ -16,7 +16,7 @@ function splitIntoTokensJapanese( sentence ) {
 		return [];
 	}
 	// Split sentences into words that are also tokens
-	const words = TinySegmenter.segment( sentenceText );
+	const words = new TinySegmenter().segment( sentenceText );
 	return map( words );
 }
 export default splitIntoTokensJapanese;
