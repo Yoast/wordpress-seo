@@ -1,24 +1,40 @@
 import { Paragraph } from "../../structure";
+import { canBeChildOfParagraph as excludeFromAnalysis } from "./alwaysFilterElements";
 
 /**
  * Gets the start and end positions of all descendant nodes' tags and stores them in an array.
- * Each object in the array represents an opening or closing tag.
- * The startOffset and endOffset properties of the objects correspond to the start and end positions of the tags.
+ * Each object in the array represents an opening or closing tag for nodes that have tags, or the full node for nodes
+ * without tags (such as 'comment' nodes).
+ * The startOffset and endOffset properties of the objects correspond to the start and end positions of the tags, or the
+ * start and end positions of the full node for nodes without tags.
  * Extracting this data into a separate array makes it easier to work with it (e.g. sort it and loop over it).
  *
- * @param {Node[]} descendantNodes	The descendant nodes to get tag positions from.
+ * @param {Node[]} descendantNodes	The descendant nodes to get positions from.
  *
- * @returns {SourceCodeRange[]}	An array of the locations of each start and end tag in the source code.
+ * @returns {SourceCodeRange[]}	An array of the locations of each start and end tag in the source code, or the start and
+ * 								end locations of the full node for nodes without tags.
  *
  */
 function getDescendantPositions( descendantNodes ) {
 	const descendantTagPositions = [];
 	descendantNodes.forEach( ( node ) => {
-		if ( node.sourceCodeLocation.startTag ) {
-			descendantTagPositions.push( node.sourceCodeLocation.startTag );
-		}
-		if ( node.sourceCodeLocation.endTag ) {
-			descendantTagPositions.push( node.sourceCodeLocation.endTag );
+		/*
+		 * For nodes whose content we don't want to analyze, we should add the length of the full node to the array, to
+		 * still take into account the whole element's length when calculating positions.
+		 */
+		if ( excludeFromAnalysis.includes( node.name ) ) {
+			descendantTagPositions.push( node.sourceCodeLocation );
+		} else {
+			if ( node.sourceCodeLocation.startTag ) {
+				descendantTagPositions.push( node.sourceCodeLocation.startTag );
+			}
+			/*
+			 * Check whether node has an end tag before adding it to the array.
+			 * Some nodes, such as the 'img' node, only have a start tag.
+			 */
+			if ( node.sourceCodeLocation.endTag ) {
+				descendantTagPositions.push( node.sourceCodeLocation.endTag );
+			}
 		}
 	} );
 	// Sort the tag position objects by the start tag position in ascending order.
