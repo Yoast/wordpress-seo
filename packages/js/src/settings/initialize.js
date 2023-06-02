@@ -103,8 +103,8 @@ domReady( () => {
 
 	registerStore( {
 		initialState: {
-			notifications: notifications,
-            [ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
+			notifications,
+			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
 		},
 	} );
 			
