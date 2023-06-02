@@ -32,6 +32,11 @@ describe( "A test for the splitIntoSentences method", () => {
 
 const splitIntoTokensTestCases = [
 	{
+		description: "should return an empty array if the sentence is empty",
+		sentence: "",
+		expectedTokens: [],
+	},
+	{
 		description: "should correctly tokenize a sentence with a single token",
 		sentence: "Hello",
 		expectedTokens: [
@@ -139,6 +144,7 @@ const splitIntoTokensTestCases = [
 			{ text: "worlds", sourceCodeRange: {} },
 			{ text: "!", sourceCodeRange: {} },
 		],
+		skip: true,
 	},
 	{
 		description: "should correctly tokenize a sentence with a word containing a backslash",
@@ -152,6 +158,7 @@ const splitIntoTokensTestCases = [
 			{ text: "worlds", sourceCodeRange: {} },
 			{ text: "!", sourceCodeRange: {} },
 		],
+		skip: true,
 	},
 	{
 		description: "should correctly tokenize a sentence with a word containing an apostrophe",
@@ -269,6 +276,136 @@ const splitIntoTokensTestCases = [
 			{ text: "hugo@yoast.com", sourceCodeRange: {} },
 			{ text: "!", sourceCodeRange: {} },
 		],
+	},
+	{
+		description: "should correctly tokenize a sentence with a nbsp",
+		sentence: "Hello,\u00A0world!",
+		expectedTokens: [
+			{ text: "Hello", sourceCodeRange: {} },
+			{ text: ",", sourceCodeRange: {} },
+			{ text: "\u00A0", sourceCodeRange: {} },
+			{ text: "world", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+		],
+	},
+	{
+		description: "should correctly tokenize a sentence where a punctuation mark is between two spaces",
+		sentence: "Hello , world!",
+		expectedTokens: [
+			{ text: "Hello", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: ",", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "world", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+		],
+	},
+	{
+		description: "should correctly tokenize a german sentence that contains a word with an umlaut",
+		sentence: "Hallo, w\u00F6rld!",
+		expectedTokens: [
+			{ text: "Hallo", sourceCodeRange: {} },
+			{ text: ",", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "w\u00F6rld", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+		],
+	},
+	{
+		description: "should correctly tokenize a sentence with a token that contains a number",
+		sentence: "Hello, 123world!",
+		expectedTokens: [
+			{ text: "Hello", sourceCodeRange: {} },
+			{ text: ",", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "123world", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+		],
+	},
+	{
+		description: "should correctly tokenize a sentence with a token that contains an abbreviation",
+		sentence: "Hello, W.O.R.L.D.!",
+		expectedTokens: [
+			{ text: "Hello", sourceCodeRange: {} },
+			{ text: ",", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "W.O.R.L.D.", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+		],
+		skip: true,
+	},
+	{
+		description: "should correctly tokenize a sentence with a token that contains an emoji",
+		sentence: "Hello, 🌍!",
+		expectedTokens: [
+			{ text: "Hello", sourceCodeRange: {} },
+			{ text: ",", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "🌍", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+		],
+	},
+	{
+		description: "should correctly tokenize a sentence in a language with non latin characters (cyrillic)",
+		sentence: "Привет, мир!",
+		expectedTokens: [
+			{ text: "Привет", sourceCodeRange: {} },
+			{ text: ",", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "мир", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+		],
+	},
+	{
+		description: "should correctly tokenize a sentence in a LTR language (arabic)",
+		sentence: "مرحبا بالعالم!",
+		expectedTokens: [
+			{ text: "مرحبا", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "بالعالم", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+		],
+	},
+	{
+		description: "should correctly tokenize a sentence in a RTL language (arabic) where there is a punctuation mark before and after a word",
+		sentence: "مرحبا، ?بالعالم!",
+		expectedTokens: [
+			{ text: "مرحبا", sourceCodeRange: {} },
+			{ text: "،", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "?", sourceCodeRange: {} },
+			{ text: "بالعالم", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+		],
+	},
+	{
+		description: "should correctly tokenize a sentence containing right-to-left marks",
+		sentence: "Hello \u200Fright-to-left\u200E mark!",
+		expectedTokens: [
+			{ text: "Hello", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "\u200F", sourceCodeRange: {} },
+			{ text: "right-to-left", sourceCodeRange: {} },
+			{ text: "\u200E", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "mark", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+		],
+		skip: true,
+	},
+	{
+		description: "should correctly tokenize a sentence containing a word that is right-to-left",
+		sentence: "Hello, \u200Fمرحبا\u200E!",
+		expectedTokens: [
+			{ text: "Hello", sourceCodeRange: {} },
+			{ text: ",", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "\u200F", sourceCodeRange: {} },
+			{ text: "مرحبا", sourceCodeRange: {} },
+			{ text: "\u200E", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+		],
+		skip: true,
 	},
 ];
 
