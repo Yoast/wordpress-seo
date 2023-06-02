@@ -33,9 +33,8 @@ export const App = () => {
 	const premiumUpsellConfig = useSelectSupport( "selectUpsellSettingsAsProps" );
 	const pluginUrl = useSelectSupport( "selectPreference", [], "pluginUrl", "" );
 	const linkParams = useSelectSupport( "selectLinkParams" );
-
-	const premiumLink = useSelectSupport( "selectLink", [], "https://yoa.st/get-premium-support-sidebar" );
-	const academyLink = useSelectSupport( "selectLink", [], "https://yoa.st/get-academy-support-sidebar" );
+	const academyLink = useSelectSupport( "selectLink", [], "https://yoa.st/3t6" );
+	const premiumLink = useSelectSupport( "selectLink", [], "https://yoa.st/jj" );
 	const helpCenterLink = useSelectSupport( "selectLink", [], "https://yoa.st/help-center-support-card" );
 	const supportForumsLink = useSelectSupport( "selectLink", [], "https://yoa.st/support-forums-support-card" );
 	const githubLink = useSelectSupport( "selectLink", [], "https://yoa.st/github-repository-support-card" );
