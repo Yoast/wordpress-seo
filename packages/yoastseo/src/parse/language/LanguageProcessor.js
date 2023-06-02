@@ -1,13 +1,7 @@
 import Sentence from "../structure/Sentence";
 import Token from "../structure/Token";
-import { punctuationRegexString } from "../../languageProcessing/helpers/sanitize/removePunctuation";
+import { punctuationRegexStart, punctuationRegexEnd } from "../../languageProcessing/helpers/sanitize/removePunctuation";
 
-
-// TODO: see if I can import this from removePunctuation
-const punctuationRegexStart = new RegExp( "^[" + punctuationRegexString + "]+" );
-const punctuationRegexEnd = new RegExp( "[" + punctuationRegexString +  "]+$" );
-
-// TODO see if I can remove whitespaceRegex
 const whitespaceRegex = /^\s+$/;
 
 /*
@@ -22,7 +16,7 @@ const whitespaceRegex = /^\s+$/;
  * A tab is a word separator because it separates two words if it occurs between two words. For example: "foo	bar"
  * A non-breaking space is a word separator because it separates two words if it occurs between two words. For example: "foo\u00A0bar"
  */
-// TODO: create enhancement?? issue for adding slashes to this array.
+// TODO: create enhancement?? task for adding slashes to this array.
 const wordSeparatorsRegex = /([\s\t\u00A0])/;
 
 /**
