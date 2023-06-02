@@ -622,6 +622,92 @@ describe( "The parse function", () => {
 			],
 		} );
 	} );
+	it( "parses an HTML text with a Yoast breadcrumbs widget in Elementor, which should be filtered out", () => {
+		// HTML: <p id="breadcrumbs"><span><span><a href="https://one.wordpress.test/">Home</a></span></span></p><p>The first sentence</p>
+		const html = "<p id=\"breadcrumbs\"><span><span><a href=\"https://one.wordpress.test/\">Home</a></span></span></p><p>The first sentence</p>";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual(
+			{
+				name: "#document-fragment",
+				attributes: {},
+				childNodes: [
+					{
+						attributes: {},
+						childNodes: [
+							{
+								name: "#text",
+								value: "The first sentence",
+							},
+						],
+						isImplicit: false,
+						name: "p",
+						sentences: [
+							{
+								sourceCodeRange: {
+									endOffset: 117,
+									startOffset: 99,
+								},
+								text: "The first sentence",
+								tokens: [
+									{
+										sourceCodeRange: {
+											endOffset: 102,
+											startOffset: 99,
+										},
+										text: "The",
+									},
+									{
+										sourceCodeRange: {
+											endOffset: 103,
+											startOffset: 102,
+										},
+										text: " ",
+									},
+									{
+										sourceCodeRange: {
+											endOffset: 108,
+											startOffset: 103,
+										},
+										text: "first",
+									},
+									{
+										sourceCodeRange: {
+											endOffset: 109,
+											startOffset: 108,
+										},
+										text: " ",
+									},
+									{
+										sourceCodeRange: {
+											endOffset: 117,
+											startOffset: 109,
+										},
+										text: "sentence",
+									},
+								],
+							},
+						],
+						sourceCodeLocation: {
+							endOffset: 121,
+							endTag: {
+								endOffset: 121,
+								startOffset: 117,
+							},
+							startOffset: 96,
+							startTag: {
+								endOffset: 99,
+								startOffset: 96,
+							},
+						},
+					},
+				],
+			}
+		);
+	} );
 	it( "parses an HTML text with a script element inside a paragraph", () => {
 		const html = "<div><p><script>console.log(\"Hello, world!\")</script> Hello, world!</p></div>";
 

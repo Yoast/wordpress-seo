@@ -276,13 +276,27 @@ describe( "Miscellaneous tests", () => {
 	} );
 
 	it( "should filter the Elementor Yoast Breadcrumbs widget ", () => {
-		// When the HTML enters the paper, the breadcrumbs wigdet doesn't include the div tag.
-		const html = "<p id=\"breadcrumbs\"><span><span><a href=\"https://basic.wordpress.test/\">Home</a></span></span></p><div " +
+		// When the HTML enters the paper, the breadcrumbs widget doesn't include the div tag.
+		let html = "<p id=\"breadcrumbs\"><span><span><a href=\"https://basic.wordpress.test/\">Home</a></span></span></p><div " +
 			"class=\"elementor-text-editor elementor-clearfix elementor-inline-editing\" data-elementor-setting-key=\"editor\"" +
 			" data-elementor-inline-editing-toolbar=\"advanced\"><p>Lorem ipsum dolor sit amet</p>";
-		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		expect( tree.findAll( child => child.attributes && child.attributes.id === "breadcrumbs" ) ).toHaveLength( 1 );
-		const filteredTree = filterTree( tree, permanentFilters );
+		let filteredTree = filterTree( tree, permanentFilters );
+		expect( filteredTree.findAll( child => child.attributes && child.attributes.id === "breadcrumbs" ) ).toHaveLength( 0 );
+
+		// It should still be able to filter the breadcrumbs even when it's wrapped inside a div.
+		html = "<div data-id=\"a2d018a\" data-element_type=\"widget\" class=\"elementor-element elementor-element-edit-" +
+			"mode elementor-element-a2d018a elementor-element--toggle-edit-tools elementor-widget elementor-widget-breadcrumbs ui-resizable\" " +
+			"data-model-cid=\"c2810\" id=\"\" data-widget_type=\"breadcrumbs.default\"><div class=\"elementor-element-overlay\"> " +
+			"<ul class=\"elementor-editor-element-settings elementor-editor-widget-settings\"><li class=\"elementor-editor-element-setting " +
+			"elementor-editor-element-edit\" title=\"Edit Breadcrumbs\"><i class=\"eicon-edit\" aria-hidden=\"true\"></i><span " +
+			"class=\"elementor-screen-only\">Edit Breadcrumbs</span></li></ul></div><div class=\"elementor-widget-container\">" +
+			"<p id=\"breadcrumbs\"><span><span><a href=\"https://one.wordpress.test/\">Home</a></span></span></p></div>";
+
+		tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.attributes && child.attributes.id === "breadcrumbs" ) ).toHaveLength( 1 );
+		filteredTree = filterTree( tree, permanentFilters );
 		expect( filteredTree.findAll( child => child.attributes && child.attributes.id === "breadcrumbs" ) ).toHaveLength( 0 );
 	} );
 } );
