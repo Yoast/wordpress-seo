@@ -320,7 +320,7 @@ class First_Time_Configuration_Route implements Route_Interface {
 		return new WP_REST_Response( $data, $data->status );
 	}
 
-	/*** DEPRECATED METHODS ***/
+	/* DEPRECATED METHODS */
 
 	/**
 	 * Gets a person's social profiles values.

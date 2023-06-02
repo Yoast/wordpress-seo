@@ -1,0 +1,290 @@
+name: Test
+
+on:
+  # Run on relevant pushes to select branches and on all relevant pull requests.
+  push:
+    branches:
+      - main
+      - trunk
+      - "release/**"
+      - "hotfix/[0-9]+.[0-9]+*"
+      - "feature/**"
+    paths:
+      - '**.php' # Includes config/*.php and lib/*.php files.
+      - '**.xsl'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpunit.xml.dist'
+      - 'phpunit-integration.xml.dist'
+      - 'wpml-config.xml'
+      - '.github/workflows/test.yml'
+      - 'config/scripts/install-wp-tests.sh'
+      - 'tests/**'
+  pull_request:
+    paths:
+      - '**.php' # Includes config/*.php and lib/*.php files.
+      - '**.xsl'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpunit.xml.dist'
+      - 'phpunit-integration.xml.dist'
+      - 'wpml-config.xml'
+      - '.github/workflows/test.yml'
+      - 'config/scripts/install-wp-tests.sh'
+      - 'tests/**'
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php_version: ["7.4", "8.0", "8.1"]
+        coverage: [false]
+
+        # Run code coverage only on high/low PHP.
+        include:
+        - php_version: 7.2
+          coverage: true
+        - php_version: 8.2
+          coverage: true
+
+    name: "Unit Test: PHP ${{ matrix.php_version }}"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # The prefix-dependencies task makes use of reflection-based PHP code that only works on PHP > 7.2.
+      - name: Install PHP 7.x for generating the vendor_prefixed directory and dependency injection
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.2
+          coverage: none
+
+      - name: Install Composer dependencies, generate vendor_prefixed directory and run dependency injection
+        uses: ramsey/composer-install@v2
+        with:
+          # Bust the cache at least once a week - output format: YYYY-MM-DD.
+          custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
+
+      # Remove packages which are not PHP cross-version compatible and only used for the prefixing.
+      # - humbug/php-scoper is only needed to actually do the prefixing, so won't be shipped anyway.
+      - name: Delete dev dependencies which are not cross-version compatible
+        run: composer remove --dev --no-scripts humbug/php-scoper
+
+      - name: Remove vendor directory
+        run: rm -rf vendor/*
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+          ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
+          coverage: ${{ matrix.coverage == true && 'xdebug' || 'none' }}
+
+      # The PHP platform requirement would prevent updating the test utilities to the appropriate versions.
+      # As long as the `composer update` is run selectively to only update the test utils, removing this is fine.
+      - name: "Composer: remove the PHP platform requirement"
+        run: composer config --unset platform.php
+
+      # Install dependencies and handle caching in one go.
+      # - Updates the test utilities (and only those!) to the most appropriate version
+      #   for the PHP version on which the tests will be run.
+      # @link https://github.com/marketplace/actions/install-composer-dependencies
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v2
+        with:
+          # Force a `composer update` run.
+          dependency-versions: "highest"
+          # But make it selective.
+          composer-options: "yoast/wp-test-utils --with-dependencies --no-scripts"
+          # Bust the cache at least once a week - output format: YYYY-MM-DD.
+          custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
+
+      - name: Run unit tests
+        if: ${{ matrix.coverage == false }}
+        run: composer test
+
+      - name: Run the unit tests with code coverage
+        if: ${{ matrix.coverage == true }}
+        run: composer coverage
+
+      # Global install is used to prevent a conflict with the local composer.lock in PHP 8.0+.
+      - name: Install Coveralls
+        if: ${{ success() && matrix.coverage == true }}
+        run: composer global require php-coveralls/php-coveralls:"^2.5.3" --no-interaction
+
+      - name: Upload coverage results to Coveralls
+        if: ${{ success() && matrix.coverage == true }}
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: unit-php-${{ matrix.php_version }}
+        run: php-coveralls -v -x build/logs/clover.xml
+
+  integration-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - php_version: "7.2"
+            wp_version: "6.1"
+            multisite: true
+            coverage: true
+
+          - php_version: "7.3"
+            wp_version: "trunk"
+            multisite: true
+            coverage: false
+
+          - php_version: "7.4"
+            wp_version: "latest"
+            multisite: false
+            coverage: false
+
+          # WP 5.6 is the earliest version which (sort of) supports PHP 8.0.
+          - php_version: "8.0"
+            wp_version: "6.1"
+            multisite: false
+            coverage: false
+
+          # WP 5.9 is the earliest version which (sort of) supports PHP 8.1.
+          - php_version: "8.1"
+            wp_version: "latest"
+            multisite: true
+            coverage: false
+
+          # WP 6.1 is the earliest version which supports PHP 8.2.
+          - php_version: "8.2"
+            wp_version: "6.2"
+            multisite: true
+            coverage: true
+
+    name: "Integration Test: PHP ${{ matrix.php_version }} | WP ${{ matrix.wp_version }}${{ matrix.multisite == true && ' (+ ms)' || '' }}"
+
+    # Allow builds to fail on as-of-yet unreleased WordPress versions.
+    continue-on-error: ${{ matrix.wp_version == 'trunk' }}
+
+    services:
+      mysql:
+        # Use MySQL 5.6 for PHP 7.2, use MySQL 5.7 for PHP 7.3 < 7.4, otherwise MySQL 8.0.
+        # Also see: https://core.trac.wordpress.org/ticket/52496
+        image: mysql:${{ ( matrix.php_version == '7.2' && '5.6' ) || ( matrix.php_version < '7.4' && '5.7' ) || '8.0' }}
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # The prefix-dependencies task makes use of reflection-based PHP code that only works on PHP > 7.2.
+      - name: Install PHP 7.x for generating the vendor_prefixed directory and dependency injection
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.2
+          coverage: none
+
+      - name: Install Composer dependencies, generate vendor_prefixed directory and run dependency injection
+        uses: ramsey/composer-install@v2
+        with:
+          # Bust the cache at least once a week - output format: YYYY-MM-DD.
+          custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
+
+      # Remove packages which are not PHP cross-version compatible and only used for the prefixing.
+      # - humbug/php-scoper is only needed to actually do the prefixing, so won't be shipped anyway.
+      - name: Delete dev dependencies which are not cross-version compatible
+        run: composer remove --dev --no-scripts humbug/php-scoper
+
+      - name: Remove vendor directory
+        run: rm -rf vendor/*
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+          ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
+          coverage: ${{ matrix.coverage == true && 'xdebug' || 'none' }}
+
+      # The PHP platform requirement would prevent updating the test utilities to the appropriate versions.
+      # As long as the `composer update` is run selectively to only update the test utils, removing this is fine.
+      - name: "Composer: remove the PHP platform requirement"
+        run: composer config --unset platform.php
+
+      - name: "Install Composer dependencies"
+        uses: ramsey/composer-install@v2
+        with:
+          # Force a `composer update` run.
+          dependency-versions: "highest"
+          # But make it selective.
+          composer-options: "yoast/wp-test-utils --with-dependencies --no-scripts"
+          # Bust the cache at least once a week - output format: YYYY-MM-DD.
+          custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
+
+      - name: Install WP
+        shell: bash
+        run: config/scripts/install-wp-tests.sh wordpress_test root '' 127.0.0.1:3306 ${{ matrix.wp_version }}
+
+      - name: Run unit tests - single site
+        if: ${{ matrix.coverage == false }}
+        run: composer integration-test
+
+      - name: Run unit tests - multisite
+        if: ${{ matrix.multisite == true && matrix.coverage == false }}
+        run: composer integration-test
+        env:
+          WP_MULTISITE: 1
+
+      - name: Run unit tests with code coverage - single site
+        if: ${{ matrix.coverage == true }}
+        run: composer integration-coverage
+
+      - name: Run unit tests with code coverage - multisite
+        if: ${{ matrix.multisite == true && matrix.coverage == true }}
+        run: composer integration-coverage -- --coverage-clover build/logs/clover-integration-ms.xml
+        env:
+          WP_MULTISITE: 1
+
+      # Global install is used to prevent a conflict with the local composer.lock in PHP 8.0+.
+      - name: Install Coveralls
+        if: ${{ success() && matrix.coverage == true }}
+        run: composer global require php-coveralls/php-coveralls:"^2.5.3" --no-interaction
+
+      - name: Upload coverage results to Coveralls - single site
+        if: ${{ success() && matrix.coverage == true }}
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: intgr-php-${{ matrix.php_version }}-wp-${{ matrix.wp_version }}
+        run: php-coveralls -v -x build/logs/clover-integration.xml
+
+      - name: Upload coverage results to Coveralls - multisite
+        if: ${{ success() && matrix.multisite == true && matrix.coverage == true }}
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: intgr-php-${{ matrix.php_version }}-wp-${{ matrix.wp_version }}-ms
+        run: php-coveralls -v -x build/logs/clover-integration-ms.xml
+
+  coveralls-finish:
+    needs: [unit-test, integration-test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.COVERALLS_TOKEN }}
+          parallel-finished: true

@@ -5,8 +5,6 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Presenters\Admin\Beta_Badge_Presenter;
-
 /**
  * Generates and displays the React root element for a metabox section.
  */

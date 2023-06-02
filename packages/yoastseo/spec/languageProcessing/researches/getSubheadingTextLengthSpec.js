@@ -56,6 +56,17 @@ describe( "gets the length of text segments", function() {
 		);
 		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 2 ].countLength ).toBe( 10 );
 	} );
+
+	it( "does not count text inside elements we want to exclude from the analysis ", function() {
+		const mockPaper = new Paper( "<h1>test</h1>one two three<code>one two three</code>" );
+		const englishResearcher = new EnglishResearcher( mockPaper );
+		// Check the total number of subheading blocks.
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).length ).toBe( 1 );
+		// Check the content and length of each individual text segment.
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 0 ].subheading ).toBe( "<h1>test</h1>" );
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 0 ].text ).toBe( "one two three" );
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 0 ].countLength ).toBe( 3 );
+	} );
 } );
 
 describe( "gets the length of text segments expressed in characters " +

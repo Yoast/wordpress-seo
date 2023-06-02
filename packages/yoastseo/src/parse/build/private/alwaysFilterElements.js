@@ -4,6 +4,9 @@
 
 import { elementHasName, elementHasDataType, elementHasID } from "./filterHelpers";
 
+// These are elements that we don't want to include in the analysis and that can be child nodes of paragraphs or headings.
+export const canBeChildOfParagraph = [ "code", "script", "#comment" ];
+
 const permanentFilters = [
 	// Filters out Yoast blocks that don't need to be part of the analysis.
 	// The only Yoast blocks that are not filtered out are the FAQ and the How-to block.

@@ -120,13 +120,14 @@ function markTinyMCEPositionBased( marks, html ) {
  * @returns {void}
  */
 export default function markTinyMCE( editor, paper, marks ) {
-	if ( isEmpty( marks ) ) {
-		return;
-	}
-
 	const dom = editor.dom;
 	let html = editor.getContent();
 	html = markers.removeMarks( html );
+
+	if ( isEmpty( marks ) ) {
+		editor.setContent( html );
+		return;
+	}
 
 	if ( marks[ 0 ].hasPosition() ) {
 		html = markTinyMCEPositionBased( marks, html );

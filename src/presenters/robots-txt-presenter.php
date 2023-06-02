@@ -121,13 +121,12 @@ class Robots_Txt_Presenter extends Abstract_Presenter {
 	private function handle_user_agents( $robots_txt_content ) {
 		$user_agents = $this->robots_txt_helper->get_robots_txt_user_agents();
 
-		if ( \count( $user_agents ) !== 0 ) {
-			$robots_txt_content = $this->add_user_agent_directives( $user_agents, $robots_txt_content );
-		}
-		else {
+		if ( ! isset( $user_agents['*'] ) ) {
 			$robots_txt_content .= 'User-agent: *' . \PHP_EOL;
 			$robots_txt_content .= 'Disallow:' . \PHP_EOL . \PHP_EOL;
 		}
+
+		$robots_txt_content = $this->add_user_agent_directives( $user_agents, $robots_txt_content );
 
 		return $robots_txt_content;
 	}

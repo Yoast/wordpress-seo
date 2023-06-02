@@ -131,6 +131,17 @@ describe( "Checks if the assessment is applicable", function() {
 		expect( isAssessmentApplicable ).toBe( false );
 	} );
 
+	it( "is not applicable to papers with more than 15 sentences when the sentences are inside an element that should" +
+		"be excluded from the analysis", function() {
+		const mockPaper = new Paper( "<blockquote>" + "Lorem ipsum dolor sit amet. ".repeat( 16 ) + "</blockquote>",
+			{ keyword: "keyword" } );
+		researcher.setPaper( mockPaper );
+
+		const isAssessmentApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
+
+		expect( isAssessmentApplicable ).toBe( false );
+	} );
+
 	it( "is not applicable when the researcher doesn't have the research", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, vim illum aeque" +
 			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +

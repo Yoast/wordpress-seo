@@ -1,22 +1,40 @@
 import { Paragraph } from "../../structure";
+import { canBeChildOfParagraph as excludeFromAnalysis } from "./alwaysFilterElements";
 
 /**
  * Gets the start and end positions of all descendant nodes' tags and stores them in an array.
- * Each object in the array represents an opening or closing tag.
- * The startOffset and endOffset properties of the objects correspond to the start and end positions of the tags.
+ * Each object in the array represents an opening or closing tag for nodes that have tags, or the full node for nodes
+ * without tags (such as 'comment' nodes).
+ * The startOffset and endOffset properties of the objects correspond to the start and end positions of the tags, or the
+ * start and end positions of the full node for nodes without tags.
  * Extracting this data into a separate array makes it easier to work with it (e.g. sort it and loop over it).
  *
- * @param {Node[]} descendantNodes	The descendant nodes to get tag positions from.
+ * @param {Node[]} descendantNodes	The descendant nodes to get positions from.
  *
- * @returns {SourceCodeRange[]}	An array of the locations of each start and end tag in the source code.
+ * @returns {SourceCodeRange[]}	An array of the locations of each start and end tag in the source code, or the start and
+ * 								end locations of the full node for nodes without tags.
  *
  */
 function getDescendantPositions( descendantNodes ) {
 	const descendantTagPositions = [];
 	descendantNodes.forEach( ( node ) => {
-		descendantTagPositions.push( node.sourceCodeLocation.startTag );
-		if ( node.sourceCodeLocation.endTag ) {
-			descendantTagPositions.push( node.sourceCodeLocation.endTag );
+		/*
+		 * For nodes whose content we don't want to analyze, we should add the length of the full node to the array, to
+		 * still take into account the whole element's length when calculating positions.
+		 */
+		if ( excludeFromAnalysis.includes( node.name ) ) {
+			descendantTagPositions.push( node.sourceCodeLocation );
+		} else {
+			if ( node.sourceCodeLocation.startTag ) {
+				descendantTagPositions.push( node.sourceCodeLocation.startTag );
+			}
+			/*
+			 * Check whether node has an end tag before adding it to the array.
+			 * Some nodes, such as the 'img' node, only have a start tag.
+			 */
+			if ( node.sourceCodeLocation.endTag ) {
+				descendantTagPositions.push( node.sourceCodeLocation.endTag );
+			}
 		}
 	} );
 	// Sort the tag position objects by the start tag position in ascending order.
@@ -26,43 +44,53 @@ function getDescendantPositions( descendantNodes ) {
 }
 
 /**
+ * Adjusts the end position of the text element to account for descendant node tags that overlap with the text element.
+ * We want to add the length of tags that are directly preceding the start of the text, or that are between the start
+ * and end of the text, to the end position of the text element.
+ * For example, if the text is "<span><em>Hello</em>, world!</span>", the length of all tags except for the closing
+ * </span> tag should be added to the end position of the sentence.
  *
- * Adjusts the end position of the text element to account for any descendant node tags that overlap with the text element.
- * We want to add the length of any tags that are within the text element, as well as start tags at the beginning of the
- * text element and end tags at the end of the text element, to the end position of the text element.
- * We don't want to include start tags at the end of the text element in order to reduce the risk of invalid HTML after
- * adding mark tags around the text element. (Same goes for end tags at the start of the text element, but this should already
- * never happen, as these tags should be added to the end position of the previous text element).
- *
- * @param {Node[]}				descendantNodes			The descendant nodes.
  * @param {SourceCodeRange[]}	descendantTagPositions	The positions of the descendant nodes' tags.
  * @param {number}				textElementStart		The start position of a text element.
  * @param {number}				textElementEnd			The end position of a text element.
  *
  * @returns {number}	The adjusted end position of the text element.
  */
-function adjustElementEnd( descendantNodes, descendantTagPositions, textElementStart, textElementEnd ) {
+function adjustElementEnd( descendantTagPositions, textElementStart, textElementEnd ) {
+	/*
+	 * If the start position of a descendant's node tag is between the start and end position of the text element, or is
+	 * the same as the start position of the text element, add the tag's length to the end position of the text element.
+	 */
+	descendantTagPositions.forEach( ( position ) => {
+		if ( position.startOffset >= textElementStart && position.startOffset < textElementEnd ) {
+			textElementEnd += ( position.endOffset - position.startOffset );
+		}
+	} );
+
+	return textElementEnd;
+}
+
+/**
+ * Adjusts the start position of the text element to exclude descendant node tags at the beginning of the text element.
+ * For example, the start position of the text element `<span>Hello!</span>`
+ * should be adjusted to start at the `H`, not at the start tag of the opening `<span>` tag.
+ * @param {SourceCodeRange[]} descendantTagPositions The positions of the descendant nodes' tags.
+ * @param {Number} textElementStart The start position of a text element.
+ *
+ * @returns {Number} The adjusted start position of the text element.
+ */
+function adjustTextElementStart( descendantTagPositions, textElementStart ) {
 	/*
 	 * If the start position of a descendant's node tag is between the start and end position of the text element, or is
 	 * the same as the start/end position of the text element, add the tag's length to the end position of the text element.
 	 */
 	descendantTagPositions.forEach( ( position ) => {
-		if ( position.startOffset >= textElementStart && position.startOffset <= textElementEnd ) {
-			textElementEnd += ( position.endOffset - position.startOffset );
+		if ( position.startOffset === textElementStart ) {
+			textElementStart += ( position.endOffset - position.startOffset );
 		}
 	} );
-	/*
-	 * If the length of a start tag at the end of the text element was added to the textElementEnd in the step above,
-	 * remove it. We are using the data from the original descendantNodes array for this check, as the
-	 * descendantTagPositions array doesn't specify whether each tag is an opening or closing tag.
-	 */
-	const startTagAtEndOfTextElement = descendantNodes.find( node => node.sourceCodeLocation.startTag.endOffset === textElementEnd );
-	if ( startTagAtEndOfTextElement ) {
-		const startTagLocation = startTagAtEndOfTextElement.sourceCodeLocation.startTag;
-		textElementEnd = textElementEnd - ( startTagLocation.endOffset - startTagLocation.startOffset );
-	}
 
-	return textElementEnd;
+	return textElementStart;
 }
 
 /**
@@ -100,7 +128,7 @@ export default function getTextElementPositions( node, textElements, startOffset
 	 * should have this property). If such nodes exist, store the positions of each node's opening and closing tags in
 	 * an array. These positions will have to be taken into account when calculating the position of the text elements.
 	 */
-	const descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation );
+	const descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation, true );
 	if ( descendantNodes.length > 0 ) {
 		descendantTagPositions = getDescendantPositions( descendantNodes );
 	}
@@ -109,9 +137,17 @@ export default function getTextElementPositions( node, textElements, startOffset
 		// Set the end position to the start position + the length of the textElement.
 		textElementEnd = textElementStart + textElement.text.length;
 
-		// If there are descendant tags, possibly adjust the textElementEnd to account for tags within/next to the text element.
+		/*
+		 * If there are descendant tags, possibly adjust the textElementEnd and textElementStart.
+		 * The textElementEnd should be adjusted to include the length of any descendant tags until the end of the text, in
+		 * addition to the length of the text itself. Descendant tags AFTER the end of the text should not be included.
+		 * The textElementStart should be adjusted so that it is where the actual text starts, not including any descendant
+		 * tags preceding the text.
+		 */
 		if ( descendantTagPositions.length > 0 ) {
-			textElementEnd = adjustElementEnd( descendantNodes, descendantTagPositions, textElementStart, textElementEnd );
+			textElementEnd = adjustElementEnd( descendantTagPositions, textElementStart, textElementEnd );
+
+			textElementStart = adjustTextElementStart( descendantTagPositions, textElementStart );
 		}
 
 		// Add the start and end positions to the textElement object.

@@ -491,7 +491,6 @@ class Person_Test extends TestCase {
 			'wikipedia',
 		];
 
-
 		$expected = [
 			'@type'       => [ 'Person', 'Organization' ],
 			'@id'         => 'person_id',

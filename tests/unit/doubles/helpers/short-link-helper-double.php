@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Helpers;
 
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+
 /**
  * Class Short_Link_Helper_Double.
  */

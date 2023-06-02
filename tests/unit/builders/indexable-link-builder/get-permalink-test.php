@@ -2,9 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder;
 
-use Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder\Abstract_Indexable_Link_Builder_TestCase;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Link_Builder_Double;
 use Brain\Monkey\Functions;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Link_Builder_Double;
 
 /**
  * Class Get_Permalink_Test.
@@ -92,10 +91,10 @@ class Get_Permalink_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @dataProvider data_provider_get_permalink
 	 *
-	 * @param string $link The link to test.
-	 * @param array  $home_url The home URL schema and host.
+	 * @param string $link           The link to test.
+	 * @param array  $home_url       The home URL schema and host.
 	 * @param string $set_url_scheme The URL scheme.
-	 * @param string $expected The expected permalink.
+	 * @param string $expected       The expected permalink.
 	 */
 	public function test_get_permalink( $link, $home_url, $set_url_scheme, $expected ) {
 

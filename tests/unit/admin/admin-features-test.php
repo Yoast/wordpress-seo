@@ -4,17 +4,14 @@ namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
 use Brain\Monkey;
 use Mockery;
+use Wincher_Dashboard_Widget;
 use WP_User;
 use WPSEO_Admin;
 use WPSEO_Primary_Term_Admin;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-
 use Yoast\WP\SEO\Helpers\Url_Helper;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Helpers\Short_Link_Helper_Double;
-
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Dashboard_Widget;
 
@@ -26,40 +23,11 @@ use Yoast_Dashboard_Widget;
 class Admin_Features_Test extends TestCase {
 
 	/**
-	 * The options helper.
-	 *
-	 * @var Mockery\MockInterface
-	 */
-	private $options_helper;
-
-	/**
-	 * The product helper.
-	 *
-	 * @var Mockery\MockInterface
-	 */
-	private $product_helper;
-
-	/**
-	 * Sets up the class under test and mock objects.
-	 */
-	public function set_up() {
-		parent::set_up();
-
-		$this->options_helper = Mockery::mock( Options_Helper::class );
-		$this->product_helper = Mockery::mock( Product_Helper::class );
-	}
-
-	/**
 	 * Returns an instance with set expectations for the dependencies.
 	 *
 	 * @return WPSEO_Admin Instance to test against.
 	 */
 	private function get_admin_with_expectations() {
-		$shortlinker = new Short_Link_Helper_Double(
-			$this->options_helper,
-			$this->product_helper
-		);
-
 		Monkey\Functions\expect( 'admin_url' )
 			->once()
 			->with( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' )
@@ -126,8 +94,9 @@ class Admin_Features_Test extends TestCase {
 		$class_instance = $this->get_admin_with_expectations();
 
 		$admin_features = [
-			'primary_category' => new WPSEO_Primary_Term_Admin(),
-			'dashboard_widget' => new Yoast_Dashboard_Widget(),
+			'primary_category'         => new WPSEO_Primary_Term_Admin(),
+			'dashboard_widget'         => new Yoast_Dashboard_Widget(),
+			'wincher_dashboard_widget' => new Wincher_Dashboard_Widget(),
 		];
 
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );
@@ -147,7 +116,8 @@ class Admin_Features_Test extends TestCase {
 		$class_instance = $this->get_admin_with_expectations();
 
 		$admin_features = [
-			'dashboard_widget' => new Yoast_Dashboard_Widget(),
+			'dashboard_widget'         => new Yoast_Dashboard_Widget(),
+			'wincher_dashboard_widget' => new Wincher_Dashboard_Widget(),
 		];
 
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );

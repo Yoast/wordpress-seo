@@ -45,7 +45,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	protected function import() {
 		// Query for all the posts that have an _seop_settings meta set.
 		$query_posts = new WP_Query( 'post_type=any&meta_key=_seop_settings&order=ASC&fields=ids&nopaging=true' );
-		foreach ( $query_posts->posts as $key => $post_id ) {
+		foreach ( $query_posts->posts as $post_id ) {
 			$this->import_post_focus_keywords( $post_id );
 			$this->import_seopressor_post_settings( $post_id );
 		}
