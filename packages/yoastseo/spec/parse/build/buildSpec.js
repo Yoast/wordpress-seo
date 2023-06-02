@@ -503,6 +503,7 @@ describe( "The parse function", () => {
 		} );
 	} );
 	it( "parses an HTML text with a Yoast table of contents block, which should be filtered out", () => {
+		// HTML: <div data-type="yoast-seo/table-of-contents">Hey, this is a table of contents.</div><p>And this is a paragraph.</p>
 		const html = "<div data-type=\"yoast-seo/table-of-contents\">Hey, this is a table of contents.</div>" +
 			"<p>And this is a paragraph.</p>";
 
@@ -515,106 +516,106 @@ describe( "The parse function", () => {
 			attributes: {},
 			childNodes: [
 				{
-					name: "p",
-					isImplicit: false,
 					attributes: {},
-					sentences: [
-						{
-							text: "And this is a paragraph.",
-							sourceCodeRange: {
-								startOffset: 116,
-								endOffset: 140,
-							},
-							tokens: [
-								{
-									text: "And",
-									sourceCodeRange: {
-										startOffset: 116,
-										endOffset: 119,
-									},
-								},
-								{
-									text: " ",
-									sourceCodeRange: {
-										endOffset: 120,
-										startOffset: 119,
-									},
-								},
-								{
-									text: "this",
-									sourceCodeRange: {
-										endOffset: 124,
-										startOffset: 120,
-									},
-								},
-								{
-									text: " ",
-									sourceCodeRange: {
-										endOffset: 125,
-										startOffset: 124,
-									},
-								},
-								{
-									text: "is",
-									sourceCodeRange: {
-										endOffset: 127,
-										startOffset: 125,
-									},
-								},
-								{
-									text: " ",
-									sourceCodeRange: {
-										endOffset: 128,
-										startOffset: 127,
-									},
-								},
-								{
-									text: "a",
-									sourceCodeRange: {
-										endOffset: 129,
-										startOffset: 128,
-									},
-								},
-								{
-									text: " ",
-									sourceCodeRange: {
-										endOffset: 130,
-										startOffset: 129,
-									},
-								},
-								{
-									text: "paragraph",
-									sourceCodeRange: {
-										endOffset: 139,
-										startOffset: 130,
-									},
-								},
-								{
-									text: ".",
-									sourceCodeRange: {
-										endOffset: 140,
-										startOffset: 139,
-									},
-								},
-							],
-						},
-					],
 					childNodes: [
 						{
 							name: "#text",
 							value: "And this is a paragraph.",
 						},
 					],
-					sourceCodeLocation: {
-						endOffset: 144,
-						endTag: {
-							endOffset: 144,
-							startOffset: 140,
+					isImplicit: false,
+					name: "p",
+					sentences: [
+						{
+							sourceCodeRange: {
+								endOffset: 111,
+								startOffset: 87,
+							},
+							text: "And this is a paragraph.",
+							tokens: [
+								{
+									sourceCodeRange: {
+										endOffset: 90,
+										startOffset: 87,
+									},
+									text: "And",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 91,
+										startOffset: 90,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 95,
+										startOffset: 91,
+									},
+									text: "this",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 96,
+										startOffset: 95,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 98,
+										startOffset: 96,
+									},
+									text: "is",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 99,
+										startOffset: 98,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 100,
+										startOffset: 99,
+									},
+									text: "a",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 101,
+										startOffset: 100,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 110,
+										startOffset: 101,
+									},
+									text: "paragraph",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 111,
+										startOffset: 110,
+									},
+									text: ".",
+								},
+							],
 						},
-						startOffset: 113,
+					],
+					sourceCodeLocation: {
+						endOffset: 115,
+						endTag: {
+							endOffset: 115,
+							startOffset: 111,
+						},
+						startOffset: 84,
 						startTag: {
-							endOffset: 116,
-							startOffset: 113,
+							endOffset: 87,
+							startOffset: 84,
 						},
 					},
 				},
