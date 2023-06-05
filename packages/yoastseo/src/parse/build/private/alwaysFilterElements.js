@@ -10,11 +10,13 @@ export const canBeChildOfParagraph = [ "code", "script", "#comment" ];
 const permanentFilters = [
 	// Filters out Yoast blocks that don't need to be part of the analysis.
 	// The only Yoast blocks that are not filtered out are the FAQ and the How-to block.
-	elementHasDataType( "yoast-seo/table-of-contents" ),
-	elementHasDataType( "yoast-seo/breadcrumbs" ),
-	elementHasDataType( "yoast-seo/estimated-reading-time" ),
-	elementHasDataType( "yoast-seo/siblings" ),
-	elementHasDataType( "yoast-seo/subpages" ),
+	elementHasDataType( "yoast-table-of-contents" ),
+	elementHasDataType( "yoast-reading-time__wrapper" ),
+	// eslint-disable-next-line no-warning-comments
+	// TODO: check if these blocks always enter the Paper as html comments in all editors.
+	// elementHasDataType( "yoast-seo/breadcrumbs" ),
+	// elementHasDataType( "yoast-seo/siblings" ),
+	// elementHasDataType( "yoast-seo/subpages" ),
 	// Filters for the Elementor widget Yoast Breadcrumbs.
 	elementHasID( "breadcrumbs" ),
 	// Filters out HTML elements.
