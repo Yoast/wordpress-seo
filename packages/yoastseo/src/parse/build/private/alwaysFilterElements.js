@@ -10,6 +10,8 @@ export const canBeChildOfParagraph = [ "code", "script", "#comment" ];
 const permanentFilters = [
 	// Filters out Yoast blocks that don't need to be part of the analysis.
 	// The only Yoast blocks that are not filtered out are the FAQ and the How-to block.
+	// The other Yoast blocks we want to filter (i.e. Yoast siblings, Yoast subpages, Yoast breadcrumbs) enter the Paper as HTML comments.
+	// Comments are filtered out in `filterBeforeTokenizing.js` step.
 	elementHasClass( "yoast-table-of-contents" ),
 	elementHasClass( "yoast-reading-time__wrapper" ),
 	// Filters for the Elementor widget Yoast Breadcrumbs.
