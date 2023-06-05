@@ -18,6 +18,9 @@ export const punctuationRegexString = "\\–\\-\\(\\)_\\[\\]’‘“”〝〞�
  */
 export const punctuationList = punctuationRegexString.split( "" );
 
+export const punctuationRegexStart = new RegExp( "^[" + punctuationRegexString + "]+" );
+export const punctuationRegexEnd = new RegExp( "[" + punctuationRegexString +  "]+$" );
+
 /*
  * \u2014 - em-dash
  * \u00d7 - multiplication sign
@@ -43,9 +46,6 @@ export default function( text ) {
 	// Remove &amp from the string. In some editors (a.o. Block and Elementor) the ampersand (&) is transformed into &amp.
 	// If it is not removed, then it is returned as "amp" and counted as a word in assessments downstream.
 	text = text.replace( "\u0026amp", "" );
-
-	const punctuationRegexStart = new RegExp( "^[" + punctuationRegexString + "]+" );
-	const punctuationRegexEnd = new RegExp( "[" + punctuationRegexString +  "]+$" );
 
 	/*
 	 * Remove backslash from the beginning and end of a word/text.

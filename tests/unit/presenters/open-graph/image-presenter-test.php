@@ -205,7 +205,6 @@ class Image_Presenter_Test extends TestCase {
 			->with( $wp->request )
 			->andReturnFirstArg();
 
-
 		$this->assertEquals(
 			'<meta property="og:image" content="https://example.com/image" class="yoast-seo-meta-tag" />' . \PHP_EOL . "\t" . '<meta property="og:image:width" content="100" class="yoast-seo-meta-tag" />' . \PHP_EOL . "\t" . '<meta property="og:image:height" content="100" class="yoast-seo-meta-tag" />',
 			$this->instance->present()

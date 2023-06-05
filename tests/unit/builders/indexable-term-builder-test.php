@@ -4,8 +4,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
-use wpdb;
 use WP_Error;
+use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
@@ -125,7 +125,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$this->image            = Mockery::mock( Image_Helper::class );
 		$this->open_graph_image = Mockery::mock( OG_Image_Helper::class );
 		$this->twitter_image    = Mockery::mock( Twitter_Image_Helper::class );
-
 
 		$this->instance->set_social_image_helpers(
 			$this->image,
@@ -485,6 +484,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 			'source' => 'first-content-image',
 		];
 		$actual   = $this->instance->find_alternative_image( $indexable_mock );
+
+		$this->assertSame( $expected, $actual );
 	}
 
 	/**

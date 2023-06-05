@@ -3,11 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder;
 
 use Mockery;
-use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
-use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
-use Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder\Abstract_Indexable_Link_Builder_TestCase;
 
 /**
  * Class Patch_Seo_Links_Test.
@@ -22,7 +19,7 @@ class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	/**
 	 * Data provider for test_patch_seo_links;
 	 *
-	 * @return array $indexable_id, $object_id, $links_times, $links, $update_target_indexable_id_times.
+	 * @return array
 	 */
 	public function patch_seo_links_provider() {
 		$object                                  = (object) [ 'type' => 'not SEO_Links' ];
@@ -91,10 +88,10 @@ class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @dataProvider patch_seo_links_provider
 	 *
-	 * @param int|null $indexable_id The indexable id.
-	 * @param int|null $object_id The object id.
-	 * @param int      $links_times The times that find_all_by_target_post_id is executed.
-	 * @param array    $links The links.
+	 * @param int|null $indexable_id                     The indexable id.
+	 * @param int|null $object_id                        The object id.
+	 * @param int      $links_times                      The times that find_all_by_target_post_id is executed.
+	 * @param array    $links                            The links.
 	 * @param int      $update_target_indexable_id_times The times that update_target_indexable_id is executed.
 	 */
 	public function test_patch_seo_links( $indexable_id, $object_id, $links_times, $links, $update_target_indexable_id_times ) {

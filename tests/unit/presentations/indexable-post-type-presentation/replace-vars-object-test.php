@@ -40,4 +40,3 @@ class Replace_Vars_Object_Test extends TestCase {
 		$this->assertEquals( 'Example post', $this->instance->generate_source() );
 	}
 }
-

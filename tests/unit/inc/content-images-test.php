@@ -79,4 +79,3 @@ class Content_Images_Test extends TestCase {
 		$this->assertEquals( $expected, $images_array );
 	}
 }
-

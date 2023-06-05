@@ -116,7 +116,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		$this->addon_manager       = Mockery::mock( WPSEO_Addon_Manager::class );
 		$this->environment_helper  = Mockery::mock( Environment_Helper::class );
 
-
 		$this->instance = new Indexing_Notification_Integration(
 			$this->notification_center,
 			$this->product_helper,
@@ -323,6 +322,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		$this->indexing_helper
 			->expects( 'get_started' )
 			->andReturn( 0 );
+
+		Monkey\Filters\expectAdded( 'wpseo_unindexed_count_queries_ran' )
+			->once()
+			->with( '__return_true' );
 
 		$this->indexing_helper
 			->expects( 'get_limited_filtered_unindexed_count' )

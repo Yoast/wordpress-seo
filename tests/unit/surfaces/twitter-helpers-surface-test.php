@@ -65,7 +65,7 @@ class Twitter_Helpers_Surface_Test extends TestCase {
 	/**
 	 * The get method should rethrow exceptions from the container.
 	 *
-	 * @covers ::get
+	 * @covers ::__get
 	 * @dataProvider provide_classes
 	 *
 	 * @param string $helper_name Helper name.
@@ -73,7 +73,7 @@ class Twitter_Helpers_Surface_Test extends TestCase {
 	public function test_get_invalid_service( $helper_name ) {
 		$this->expectException( ServiceNotFoundException::class );
 
-		$_ = $this->instance->$helper_name;
+		$this->instance->$helper_name;
 	}
 
 	/**

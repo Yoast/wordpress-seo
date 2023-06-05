@@ -3,13 +3,14 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
 use Brain\Monkey;
+use Generator;
 use Mockery;
+use WP_Query;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Integrations\Front_End\Crawl_Cleanup_Searches;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Helpers\Redirect_Helper;
-use WP_Query;
 
 /**
  * Class Crawl_Cleanup_Searches_Test.
@@ -263,7 +264,7 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 	/**
 	 * Provides test data for the redirect length test.
 	 *
-	 * @return \Generator
+	 * @return Generator
 	 */
 	public function provide_query_string_parameters() {
 		yield 'Redirects because there are more then 5 characters' => [
@@ -311,5 +312,3 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 		];
 	}
 }
-
-

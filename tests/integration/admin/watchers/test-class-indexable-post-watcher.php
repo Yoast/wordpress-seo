@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Models\Indexable_Hierarchy;
  * - Building author indexables
  * - Unhappy paths
  */
-class Test_Class_Indexable_Post_Watcher extends WPSEO_UnitTestCase {
+class Indexable_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * An indexable should be created whenever a post is created.
@@ -98,8 +98,8 @@ class Test_Class_Indexable_Post_Watcher extends WPSEO_UnitTestCase {
 			]
 		);
 
-		$parent_indexable = \current( $this->get_indexables_for( $parent ) );
-		$child_indexable  = \current( $this->get_indexables_for( $child ) );
+		$parent_indexable = current( $this->get_indexables_for( $parent ) );
+		$child_indexable  = current( $this->get_indexables_for( $child ) );
 
 		$parent_hierarchy = $this->get_hierarchy_for( $parent_indexable );
 		$child_hierarchy  = $this->get_hierarchy_for( $child_indexable );
@@ -128,8 +128,8 @@ class Test_Class_Indexable_Post_Watcher extends WPSEO_UnitTestCase {
 			]
 		);
 
-		$parent_indexable = \current( $this->get_indexables_for( $parent ) );
-		$child_indexable  = \current( $this->get_indexables_for( $child ) );
+		$parent_indexable = current( $this->get_indexables_for( $parent ) );
+		$child_indexable  = current( $this->get_indexables_for( $child ) );
 
 		wp_delete_post( $parent->ID, true );
 

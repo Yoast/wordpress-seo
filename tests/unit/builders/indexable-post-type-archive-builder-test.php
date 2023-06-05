@@ -7,13 +7,13 @@ use Mockery;
 use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Type_Archive_Builder;
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Type_Not_Built_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
-use Yoast\WP\SEO\Exceptions\Indexable\Post_Type_Not_Built_Exception;
 
 /**
  * Class Indexable_Author_Test.

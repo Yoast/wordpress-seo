@@ -17,6 +17,6 @@ class Post_Type_Not_Built_Exception extends Not_Built_Exception {
 	 */
 	public static function because_not_indexable( $post_type ) {
 		/* translators: %s: expands to the post type */
-		return new Post_Type_Not_Built_Exception( \sprintf( \__( 'The post type %s could not be indexed because it does not meet indexing requirements.', 'wordpress-seo' ), $post_type ) );
+		return new self( \sprintf( \__( 'The post type %s could not be indexed because it does not meet indexing requirements.', 'wordpress-seo' ), $post_type ) );
 	}
 }

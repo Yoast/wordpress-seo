@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Primary_Category_Quick_Edit_Watcher;
-use Yoast\WP\SEO\Models\Primary_Term;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -83,7 +82,6 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 		$this->post_type_helper            = Mockery::mock( Post_Type_Helper::class );
 		$this->indexable_repository        = Mockery::mock( Indexable_Repository::class );
 		$this->indexable_hierarchy_builder = Mockery::mock( Indexable_Hierarchy_Builder::class );
-
 
 		$this->instance = new Primary_Category_Quick_Edit_Watcher(
 			$this->options_helper,

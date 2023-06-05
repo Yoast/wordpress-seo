@@ -32,11 +32,11 @@ class Build_For_Id_And_Type_Test extends Abstract_Indexable_Builder_TestCase {
 		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'post' ) );
 	}
 
-		/**
-		 * Expectation for build method.
-		 *
-		 * @param array $defaults The defaults to expect.
-		 */
+	/**
+	 * Expectation for build method.
+	 *
+	 * @param array $defaults The defaults to expect.
+	 */
 	public function expect_build( $defaults ) {
 		$this->expect_ensure_indexable( $defaults, $this->indexable );
 

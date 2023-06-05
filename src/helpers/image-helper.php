@@ -297,8 +297,8 @@ class Image_Helper {
 	/**
 	 * Find an attachment ID for a given URL.
 	 *
-	 * @param string $url             The URL to find the attachment for.
-	 * @param bool   $use_link_table  Whether the SEO Links table will be used to retrieve the id.
+	 * @param string $url            The URL to find the attachment for.
+	 * @param bool   $use_link_table Whether the SEO Links table will be used to retrieve the id.
 	 *
 	 * @return int The found attachment ID, or 0 if none was found.
 	 */
