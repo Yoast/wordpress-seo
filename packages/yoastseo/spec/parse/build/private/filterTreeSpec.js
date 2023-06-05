@@ -275,6 +275,23 @@ describe( "Miscellaneous tests", () => {
 		expect( filteredTree.findAll( child => child.attributes && child.attributes.class && child.attributes.class.has( "yoast-reading-time__wrapper" ) ) ).toHaveLength( 0 );
 	} );
 
+	it( "should filter the whole element containing the Estimated reading time block, including the nested paragraph with the class name", () => {
+		// <!-- wp:yoast-seo/table-of-contents -->
+		// 	<div class="wp-block-yoast-seo-table-of-contents yoast-table-of-contents"><h2>Table of contents</h2><ul><li><a href="#h-test-subh" data-level="2">TEST subh</a></li><li><a href="#h-a-diff-subh" data-level="2">A diff subh</a></li></ul></div>
+		// 	<!-- /wp:yoast-seo/table-of-contents -->
+		const html = "<!-- wp:yoast-seo/table-of-contents -->\n<div class=\"wp-block-yoast-seo-table-of-contents yoast-table-of-contents\">" +
+			"<h2>Table of contents</h2><ul><li><a href=\"#h-test-subh\" data-level=\"2\">TEST subh</a></li><li><a href=\"#h-a-diff-subh\" " +
+			"data-level=\"2\">A diff subh</a></li></ul></div>\n<!-- /wp:yoast-seo/table-of-contents -->";
+
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		// eslint-disable-next-line max-len
+		expect( tree.findAll( child => child.attributes && child.attributes.class && child.attributes.class.has( "yoast-table-of-contents" ) ) ).toHaveLength( 1 );
+		const filteredTree = filterTree( tree, permanentFilters );
+		// eslint-disable-next-line max-len
+		expect( filteredTree.findAll( child => child.attributes && child.attributes.class && child.attributes.class.has( "yoast-table-of-contents" ) ) ).toHaveLength( 0 );
+	} );
+
+
 	it( "should filter the Elementor Yoast Breadcrumbs widget ", () => {
 		// When the HTML enters the paper, the breadcrumbs widget doesn't include the div tag.
 		let html = "<p id=\"breadcrumbs\"><span><span><a href=\"https://basic.wordpress.test/\">Home</a></span></span></p><div " +

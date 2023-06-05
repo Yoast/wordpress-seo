@@ -27,7 +27,7 @@ export function elementHasName( name ) {
  */
 export function elementHasDataType( blockName ) {
 	return ( blockElement ) => {
-		return !! ( blockElement.attributes[ "data-type" ] && blockElement.attributes[ "data-type" ] === blockName );
+		return !! blockElement.attributes.class && blockElement.attributes.class.has( blockName );
 	};
 }
 
