@@ -2,7 +2,7 @@ import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
 import Factory from "../../specHelpers/factory";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 import Sentence from "../../../src/parse/structure/Sentence";
-import splitIntoTokensCustom from "../../../src/parse/structure/languages/ja/SplitIntoTokensJapanese";
+import splitIntoTokensCustom from "../../../src/languageProcessing/languages/ja/helpers/splitIntoTokensJapanese";
 
 const researcher = Factory.buildMockResearcher( {}, true, false, false,
 	{ memoizedTokenizer: memoizedSentenceTokenizer } );
