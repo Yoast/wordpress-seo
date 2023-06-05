@@ -503,9 +503,13 @@ describe( "The parse function", () => {
 		} );
 	} );
 	it( "parses an HTML text with a Yoast table of contents block, which should be filtered out", () => {
-		// HTML: <div data-type="yoast-seo/table-of-contents">Hey, this is a table of contents.</div><p>And this is a paragraph.</p>
-		const html = "<div data-type=\"yoast-seo/table-of-contents\">Hey, this is a table of contents.</div>" +
-			"<p>And this is a paragraph.</p>";
+		// <!-- wp:yoast-seo/table-of-contents -->\n
+		// 	<div class="wp-block-yoast-seo-table-of-contents yoast-table-of-contents"><h2>Table of contents</h2><ul><li>
+		// 	<a href="#h-test-subh" data-level="2">TEST subh</a></li><li><a href="#h-a-diff-subh" data-level="2">A diff subh</a></li></ul></div>\n
+		// 	<!-- /wp:yoast-seo/table-of-contents --><p>This is the first sentence.</p>
+		const html = "<!-- wp:yoast-seo/table-of-contents -->\n<div class=\"wp-block-yoast-seo-table-of-contents yoast-table-of-contents\">" +
+			"<h2>Table of contents</h2><ul><li><a href=\"#h-test-subh\" data-level=\"2\">TEST subh</a></li><li><a href=\"#h-a-diff-subh\" " +
+			"data-level=\"2\">A diff subh</a></li></ul></div>\n<!-- /wp:yoast-seo/table-of-contents --><p>This is the first sentence.</p>";
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
@@ -517,10 +521,36 @@ describe( "The parse function", () => {
 			childNodes: [
 				{
 					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 39,
+						startOffset: 0,
+					},
+				},
+				{
+					name: "#text",
+					value: "\n",
+				},
+				{
+					name: "#text",
+					value: "\n",
+				},
+				{
+					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 320,
+						startOffset: 280,
+					},
+				},
+				{
+					attributes: {},
 					childNodes: [
 						{
 							name: "#text",
-							value: "And this is a paragraph.",
+							value: "This is the first sentence.",
 						},
 					],
 					isImplicit: false,
@@ -528,78 +558,78 @@ describe( "The parse function", () => {
 					sentences: [
 						{
 							sourceCodeRange: {
-								endOffset: 111,
-								startOffset: 87,
+								endOffset: 350,
+								startOffset: 323,
 							},
-							text: "And this is a paragraph.",
+							text: "This is the first sentence.",
 							tokens: [
 								{
 									sourceCodeRange: {
-										endOffset: 90,
-										startOffset: 87,
+										endOffset: 327,
+										startOffset: 323,
 									},
-									text: "And",
+									text: "This",
 								},
 								{
 									sourceCodeRange: {
-										endOffset: 91,
-										startOffset: 90,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 95,
-										startOffset: 91,
-									},
-									text: "this",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 96,
-										startOffset: 95,
+										endOffset: 328,
+										startOffset: 327,
 									},
 									text: " ",
 								},
 								{
 									sourceCodeRange: {
-										endOffset: 98,
-										startOffset: 96,
+										endOffset: 330,
+										startOffset: 328,
 									},
 									text: "is",
 								},
 								{
 									sourceCodeRange: {
-										endOffset: 99,
-										startOffset: 98,
+										endOffset: 331,
+										startOffset: 330,
 									},
 									text: " ",
 								},
 								{
 									sourceCodeRange: {
-										endOffset: 100,
-										startOffset: 99,
+										endOffset: 334,
+										startOffset: 331,
 									},
-									text: "a",
+									text: "the",
 								},
 								{
 									sourceCodeRange: {
-										endOffset: 101,
-										startOffset: 100,
+										endOffset: 335,
+										startOffset: 334,
 									},
 									text: " ",
 								},
 								{
 									sourceCodeRange: {
-										endOffset: 110,
-										startOffset: 101,
+										endOffset: 340,
+										startOffset: 335,
 									},
-									text: "paragraph",
+									text: "first",
 								},
 								{
 									sourceCodeRange: {
-										endOffset: 111,
-										startOffset: 110,
+										endOffset: 341,
+										startOffset: 340,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 349,
+										startOffset: 341,
+									},
+									text: "sentence",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 350,
+										startOffset: 349,
 									},
 									text: ".",
 								},
@@ -607,20 +637,21 @@ describe( "The parse function", () => {
 						},
 					],
 					sourceCodeLocation: {
-						endOffset: 115,
+						endOffset: 354,
 						endTag: {
-							endOffset: 115,
-							startOffset: 111,
+							endOffset: 354,
+							startOffset: 350,
 						},
-						startOffset: 84,
+						startOffset: 320,
 						startTag: {
-							endOffset: 87,
-							startOffset: 84,
+							endOffset: 323,
+							startOffset: 320,
 						},
 					},
 				},
 			],
-		} );
+		}
+		);
 	} );
 	it( "parses an HTML text with a Yoast breadcrumbs widget in Elementor, which should be filtered out", () => {
 		// HTML: <p id="breadcrumbs"><span><span><a href="https://one.wordpress.test/">Home</a></span></span></p><p>The first sentence</p>
