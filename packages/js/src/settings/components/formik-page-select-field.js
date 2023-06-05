@@ -77,11 +77,7 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 	const handleQueryChange = useCallback( event => debouncedFetchPages( event.target.value ), [ debouncedFetchPages ] );
 
 	useEffect( () => {
-		// Get initial options.
-		if ( ! initialPagesFound && ! isEmpty( pages ) ) {
 			setQueriedPageIds( map( pages, page => page.id ) );
-			setInitialPagesFound( true );
-		}
 	}, [ pages, initialPagesFound ] );
 
 	return (
