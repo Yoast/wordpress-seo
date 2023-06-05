@@ -15,56 +15,41 @@ import permanentFilters from "../../../../src/parse/build/private/alwaysFilterEl
 // Object containing samples of Yoast blocks we filter out from the tree.
 const samplesWithYoastBlocks = [
 	{
-		element: "yoast-seo/table-of-contents",
-		html: "<!DOCTYPE html><html class=\"wp-toolbar-interface-skeleton__html-container\" lang=\"en-US\"><body><div tabindex=\"0\" " +
-			"id=\"block-0d6afe90-788b-4cf6-91d9-f3f9f0c122ec\" role=\"document\" " +
-			"aria-label=\"Block: Yoast Table of Contents\" data-block=\"0d6afe90-788b-4cf6-91d9-f3f9f0c122ec\" " +
-			"data-type=\"yoast-seo/table-of-contents\" data-title=\"Yoast Table of Contents\" " +
-			"class=\"block-editor-block-list__block wp-block is-selected\"><div class=\"yoast-table-of-contents\">" +
-			"<h2 role=\"textbox\" aria-multiline=\"true\" contenteditable=\"true\" class=\"block-editor-rich-text" +
-			"__editable rich-text\" style=\"white-space: pre-wrap; min-width: 1px;\">Table of contents</h2><ul></ul>" +
-			"</div></div><h2>A Heading</h2></body></html>",
+		description: "Should filter out Yoast Table of Contents block",
+		element: "yoast-table-of-contents",
+		html: "<!DOCTYPE html><html class=\"wp-toolbar-interface-skeleton__html-container\" lang=\"en-US\"><body>" +
+			"<!-- wp:yoast-seo/table-of-contents -->\n<div class=\"wp-block-yoast-seo-table-of-contents yoast-table-of-contents\">" +
+			"<h2>Table of contents</h2><ul><li><a href=\"#h-test-subh\" data-level=\"2\">TEST subh</a></li><li><a href=\"#h-a-diff-subh\" " +
+			"data-level=\"2\">A diff subh</a></li></ul></div>\n<!-- /wp:yoast-seo/table-of-contents --><p>This is the first sentence.</p>" +
+			"</body></html>",
 	},
 	{
-		element: "yoast-seo/breadcrumbs",
-		html: "<!DOCTYPE html><html lang=\"en-US\"><body><div tabindex=\"0\" id=\"block-ba03f640-2b86-4e6f-9e98-efc657db729b\" " +
-			"role=\"document\" aria-label=\"Block: Yoast Breadcrumbs\" data-block=\"ba03f640-2b86-4e6f-9e98-efc657db729b\" " +
-			"data-type=\"yoast-seo/breadcrumbs\" data-title=\"Yoast Breadcrumbs\" class=\"block-editor-block-list__block wp-block is-selected\" " +
-			"style=\"transform-origin: center center; transform: translate3d(0px, -1px, 0px);\"></div><h2>A Heading</h2></body></html>",
-	},
-	{
-		element: "yoast-seo/estimated-reading-time",
-		html: "<html lang=\"en-US\"><body><div tabindex=\"0\" id=\"block-62462faa-6047-481b-b3fc-8603369c08f6\" role=\"document\" " +
-			"aria-label=\"Block: Yoast Estimated Reading Time\" data-block=\"62462faa-6047-481b-b3fc-8603369c08f6\" " +
-			"data-type=\"yoast-seo/estimated-reading-time\" data-title=\"Yoast Estimated Reading Time\" " +
-			"class=\"block-editor-block-list__block wp-block is-selected\"><div><p class=\"yoast-reading-time" +
-			"__wrapper\"><span class=\"yoast-reading-time__icon\"><svg aria-hidden=\"true\" focusable=\"false\" " +
-			"data-icon=\"clock\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" role=\"img\"> " +
-			"</svg><span class=\"yoast-reading-time__descriptive-text\">Estimated reading time:  </span></p></div></div>" +
+		description: "Should filter out Yoast reading time block",
+		element: "yoast-reading-time__wrapper",
+		html: "<html lang=\"en-US\"><body>" +
+			"<!-- wp:yoast-seo/estimated-reading-time {\"estimatedReadingTime\":3} -->\n" +
+			"<p class=\"yoast-reading-time__wrapper\"><span class=\"yoast-reading-time__icon\"></span><span " +
+			"class=\"yoast-reading-time__descriptive-text\">Estimated reading time:  </span><span class=\"yoast-reading-time__reading-time\">" +
+			"3</span><span class=\"yoast-reading-time__time-unit\"> minutes</span></p>\n" +
+		    "<!-- /wp:yoast-seo/estimated-reading-time -->" +
 			"<h2>A Heading</h2></body></html>",
-	},
-	{
-		element: "yoast-seo/siblings",
-		html: "<!DOCTYPE html><html lang=\"en-US\"><body><p>Mmm whatcha say</p><div tabindex=\"0\" id=\"block-f1d3baad-" +
-			"2b41-4a49-b57c-df3b83227d88\" role=\"document\" aria-label=\"Block: " +
-			"Yoast Siblings\" data-block=\"f1d3baad-2b41-4a49-b57c-df3b83227d88\" data-type=\"yoast-seo/siblings\" " +
-			"data-title=\"Yoast Siblings\" class=\"block-editor-block-list__block wp-block is-selected\"></div></body></html>",
-	},
-	{
-		element: "yoast-seo/subpages",
-		html: "<!DOCTYPE html><html lang=\"en-US\"><body><p>Perfunctory gobbledygook</p><div tabindex=\"0\" id=\"block-" +
-			"89a61532-41f5-49b5-ab04-bb36f60b2ca9\" role=\"document\" aria-label=\"Block: Yoast Subpages\" data-block=\"89" +
-			"a61532-41f5-49b5-ab04-bb36f60b2ca9\" data-type=\"yoast-seo/subpages\" data-title=\"Yoast Subpages\" " +
-			"class=\"block-editor-block-list__block wp-block is-selected\"></div></body></html>",
 	},
 ];
 
 describe.each( samplesWithYoastBlocks )( "Tests all Yoast blocks we exclude", ( htmlElement ) => {
-	it( "tests html samples of Yoast blocks", () => {
+	it( htmlElement.description, () => {
 		const tree = adapt( parseFragment( htmlElement.html, { sourceCodeLocationInfo: true } ) );
-		expect( tree.findAll( child => child.attributes && child.attributes[ "data-type" ] === htmlElement.element ) ).toHaveLength( 1 );
+		expect( tree.findAll( child =>
+			child.attributes &&
+			child.attributes.class &&
+			child.attributes.class.has( htmlElement.element )
+		) ).toHaveLength( 1 );
 		const filteredTree = filterTree( tree, permanentFilters );
-		expect( filteredTree.findAll( child => child.attributes && child.attributes[ "data-type" ] === htmlElement.element ) ).toHaveLength( 0 );
+		expect( filteredTree.findAll( child =>
+			child.attributes &&
+			child.attributes.class &&
+			child.attributes.class.has( htmlElement.element )
+		) ).toHaveLength( 0 );
 	} );
 } );
 
@@ -277,7 +262,8 @@ describe( "Miscellaneous tests", () => {
 
 	it( "should filter the whole element containing the Estimated reading time block, including the nested paragraph with the class name", () => {
 		// <!-- wp:yoast-seo/table-of-contents -->
-		// 	<div class="wp-block-yoast-seo-table-of-contents yoast-table-of-contents"><h2>Table of contents</h2><ul><li><a href="#h-test-subh" data-level="2">TEST subh</a></li><li><a href="#h-a-diff-subh" data-level="2">A diff subh</a></li></ul></div>
+		// 	<div class="wp-block-yoast-seo-table-of-contents yoast-table-of-contents"><h2>Table of contents</h2><ul><li>
+		// 	<a href="#h-test-subh" data-level="2">TEST subh</a></li><li><a href="#h-a-diff-subh" data-level="2">A diff subh</a></li></ul></div>
 		// 	<!-- /wp:yoast-seo/table-of-contents -->
 		const html = "<!-- wp:yoast-seo/table-of-contents -->\n<div class=\"wp-block-yoast-seo-table-of-contents yoast-table-of-contents\">" +
 			"<h2>Table of contents</h2><ul><li><a href=\"#h-test-subh\" data-level=\"2\">TEST subh</a></li><li><a href=\"#h-a-diff-subh\" " +
@@ -319,11 +305,12 @@ describe( "Miscellaneous tests", () => {
 } );
 
 describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast block", () => {
-	it( "tests filtered tree of Yoast Breadcrumbs block", () => {
-		const html = "<div tabindex=\"0\" id=\"block-ba03f640-2b86-4e6f-9e98-efc657db729b\" role=\"document\" aria-label=\"Block: " +
-		"Yoast Breadcrumbs\" data-block=\"ba03f640-2b86-4e6f-9e98-efc657db729b\" data-type=\"yoast-seo/breadcrumbs\" " +
-		"data-title=\"Yoast Breadcrumbs\" class=\"block-editor-block-list__block wp-block is-selected\" " +
-		"style=\"transform-origin: center center; transform: translate3d(0px, -1px, 0px);\"></div><div>Hello world!</div>";
+	it( "tests filtered tree of Yoast Breadcrumbs block: the next element should receive correct position information", () => {
+		// Yoast Breadcrumbs block enters the Paper as html comment.
+		const html = "<!-- wp:yoast-seo/breadcrumbs /-->" +
+			"<!-- wp:paragraph -->\n" +
+			"<p>Cats rule!. But dogs too!</p>\n" +
+			"<!-- /wp:paragraph -->";
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		const filteredTree = filterTree( tree, permanentFilters );
@@ -331,50 +318,73 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 		expect( filteredTree ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
-			childNodes: [ {
-				name: "div",
-				attributes: {},
-				childNodes: [
-					{
-						name: "p",
-						isImplicit: true,
-						attributes: {},
-						childNodes: [
-							{
-								name: "#text",
-								value: "Hello world!",
-							},
-						],
-						sourceCodeLocation: {
-							startOffset: 387,
-							endOffset: 399,
-						},
-					},
-				],
-				sourceCodeLocation: {
-					startOffset: 382,
-					endOffset: 405,
-					startTag: {
-						startOffset: 382,
-						endOffset: 387,
-					},
-					endTag: {
-						startOffset: 399,
-						endOffset: 405,
+			childNodes: [
+				{
+					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 34,
+						startOffset: 0,
 					},
 				},
-			} ],
+				{
+					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 55,
+						startOffset: 34,
+					},
+				},
+				{
+					name: "#text",
+					value: "\n",
+				},
+				{
+					attributes: {},
+					childNodes: [
+						{
+							name: "#text",
+							value: "Cats rule!. But dogs too!",
+						},
+					],
+					isImplicit: false,
+					name: "p",
+					sourceCodeLocation: {
+						endOffset: 88,
+						endTag: {
+							endOffset: 88,
+							startOffset: 84,
+						},
+						startOffset: 56,
+						startTag: {
+							endOffset: 59,
+							startOffset: 56,
+						},
+					},
+				},
+				{
+					name: "#text",
+					value: "\n",
+				},
+				{
+					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 111,
+						startOffset: 89,
+					},
+				},
+			],
 		} );
 	} );
 
 	it( "tests filtered tree of Yoast Table of Contents block", () => {
-		const html = "<div tabindex=\"0\" id=\"block-0d6afe90-788b-4cf6-91d9-f3f9f0c122ec\" role=\"document\" " +
-			"aria-label=\"Block: Yoast Table of Contents\" data-block=\"0d6afe90-788b-4cf6-91d9-f3f9f0c122ec\" " +
-			"data-type=\"yoast-seo/table-of-contents\" data-title=\"Yoast Table of Contents\" " +
-			"class=\"block-editor-block-list__block wp-block is-selected\"><div class=\"yoast-table-of-contents\">" +
-			"<h2 role=\"textbox\" aria-multiline=\"true\" contenteditable=\"true\" class=\"block-editor-rich-text" +
-			"__editable rich-text\" style=\"white-space: pre-wrap; min-width: 1px;\">Table of contents</h2><ul></ul>" +
-			"</div></div><div>A div</div>";
+		const html = "<!-- wp:yoast-seo/table-of-contents -->\n<div class=\"wp-block-yoast-seo-table-of-contents yoast-table-of-contents\">" +
+			"<h2>Table of contents</h2><ul><li><a href=\"#h-test-subh\" data-level=\"2\">Subheading 1</a></li><li><a href=\"#h-a-diff-subh\" " +
+			"data-level=\"2\">Subheading 2</a></li></ul></div>\n<!-- /wp:yoast-seo/table-of-contents --><p>This is the first sentence.</p>";
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		const filteredTree = filterTree( tree, permanentFilters );
@@ -382,47 +392,67 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 		expect( filteredTree ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
-			childNodes: [ {
-				name: "div",
-				attributes: {},
-				childNodes: [ {
-					name: "p",
-					isImplicit: true,
+			childNodes: [
+				{
+					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 39,
+						startOffset: 0,
+					},
+				},
+				{
+					name: "#text",
+					value: "\n",
+				},
+				{
+					name: "#text",
+					value: "\n",
+				},
+				{
+					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 324,
+						startOffset: 284,
+					},
+				},
+				{
 					attributes: {},
 					childNodes: [
 						{
 							name: "#text",
-							value: "A div",
+							value: "This is the first sentence.",
 						},
 					],
+					isImplicit: false,
+					name: "p",
 					sourceCodeLocation: {
-						startOffset: 560,
-						endOffset: 565,
-					},
-				} ],
-				sourceCodeLocation: {
-					startOffset: 555,
-					endOffset: 571,
-					startTag: {
-						startOffset: 555,
-						endOffset: 560,
-					},
-					endTag: {
-						startOffset: 565,
-						endOffset: 571,
+						endOffset: 358,
+						endTag: {
+							endOffset: 358,
+							startOffset: 354,
+						},
+						startOffset: 324,
+						startTag: {
+							endOffset: 327,
+							startOffset: 324,
+						},
 					},
 				},
-			} ],
+			],
 		} );
 	} );
 
 	it( "tests filtered tree of Yoast Estimated reading time block", () => {
-		const html = "<div tabindex=\"0\" id=\"block-62462faa-6047-481b-b3fc-8603369c08f6\" role=\"document\" " +
-			"aria-label=\"Block: Yoast Estimated Reading Time\" data-block=\"62462faa-6047-481b-b3fc-8603369c08f6\" " +
-			"data-type=\"yoast-seo/estimated-reading-time\" data-title=\"Yoast Estimated Reading Time\" " +
-			"class=\"block-editor-block-list__block wp-block is-selected\"><div><p class=\"yoast-reading-time" +
-			"__wrapper\"><span class=\"yoast-reading-time__icon\"><span class=\"yoast-reading-time__descriptive-text\"> " +
-			"Estimated reading time:  </span></p></div></div><div>A div</div>";
+		const html = "<!-- wp:yoast-seo/estimated-reading-time {\"estimatedReadingTime\":3} -->\n" +
+			"<p class=\"yoast-reading-time__wrapper\"><span class=\"yoast-reading-time__icon\"></span><span " +
+			"class=\"yoast-reading-time__descriptive-text\">Estimated reading time:  </span><span class=\"yoast-reading-time__reading-time\">" +
+			"3</span><span class=\"yoast-reading-time__time-unit\"> minutes</span></p>\n" +
+			"<!-- /wp:yoast-seo/estimated-reading-time -->" +
+			"<h2>A Heading</h2";
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		const filteredTree = filterTree( tree, permanentFilters );
@@ -430,37 +460,53 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 		expect( filteredTree ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
-			childNodes: [ {
-				name: "div",
-				attributes: {},
-				childNodes: [ {
-					name: "p",
-					isImplicit: true,
+			childNodes: [
+				{
+					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 71,
+						startOffset: 0,
+					},
+				},
+				{
+					name: "#text",
+					value: "\n",
+				},
+				{
+					name: "#text",
+					value: "\n",
+				},
+				{
+					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 404,
+						startOffset: 359,
+					},
+				},
+				{
 					attributes: {},
 					childNodes: [
 						{
 							name: "#text",
-							value: "A div",
+							value: "A Heading",
 						},
 					],
+					level: 2,
+					name: "h2",
 					sourceCodeLocation: {
-						startOffset: 516,
-						endOffset: 521,
-					},
-				} ],
-				sourceCodeLocation: {
-					startOffset: 511,
-					endOffset: 527,
-					startTag: {
-						startOffset: 511,
-						endOffset: 516,
-					},
-					endTag: {
-						startOffset: 521,
-						endOffset: 527,
+						endOffset: 421,
+						startOffset: 404,
+						startTag: {
+							endOffset: 408,
+							startOffset: 404,
+						},
 					},
 				},
-			} ],
+			],
 		} );
 	} );
 
