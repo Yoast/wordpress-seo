@@ -1,8 +1,8 @@
 // eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
+import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkParamsReducer, linkParamsSelectors } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
-import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
@@ -24,13 +24,13 @@ const createStore = ( { initialState } ) => {
 		initialState: merge(
 			{},
 			{
-				linkParams: createInitialLinkParamsState(),
+				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				preferences: createInitialPreferencesState(),
 			},
 			initialState
 		),
 		reducer: combineReducers( {
-			linkParams,
+			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			preferences,
 		} ),
 
