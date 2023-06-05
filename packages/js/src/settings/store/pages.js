@@ -2,12 +2,14 @@
 import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
 import apiFetch from "@wordpress/api-fetch";
 import { buildQueryString } from "@wordpress/url";
-import { get, map, trim } from "lodash";
+import { map, trim } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
 
 const pagesAdapter = createEntityAdapter();
 
 export const FETCH_PAGES_ACTION_NAME = "fetchPages";
+// Global abort controller for this reducer to abort requests made by multiple selects.
+let abortController;
 
 /**
  * @param {Object} queryData The query data.
@@ -82,7 +84,6 @@ export const pageSelectors = {
 	selectPageIds: pageAdapterSelectors.selectIds,
 	selectPageById: pageAdapterSelectors.selectById,
 	selectPages: pageAdapterSelectors.selectEntities,
-	selectPagesFetchStatus: state => get( state, "pages.status", {} ),
 };
 pageSelectors.selectPagesWith = createSelector(
 	[
@@ -106,10 +107,19 @@ export const pageActions = {
 	fetchPages,
 };
 
+
 export const pageControls = {
-	[ FETCH_PAGES_ACTION_NAME ]: async( { payload } ) => apiFetch( {
-		path: `/wp/v2/pages?${ buildQueryString( payload ) }`,
-	} ),
+	[ FETCH_PAGES_ACTION_NAME ]: async( { payload } ) => {
+		if ( abortController ) {
+			abortController?.abort();
+		}
+
+		abortController = new AbortController();
+		await apiFetch( {
+			path: `/wp/v2/pages?${ buildQueryString( payload ) }`,
+			signal: abortController?.signal,
+		} );
+	},
 };
 
 export default pagesSlice.reducer;

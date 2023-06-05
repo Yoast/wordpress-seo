@@ -40,7 +40,6 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 	const { fetchPages } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const [ status, setStatus ] = useState( ASYNC_ACTION_STATUS.idle );
-	const [ initialPagesFound, setInitialPagesFound ] = useState( false );
 	const [ queriedPageIds, setQueriedPageIds ] = useState( [] );
 	const canCreatePages = useSelectSettings( "selectPreference", [], "canCreatePages", false );
 	const createPageUrl = useSelectSettings( "selectPreference", [], "createPageUrl", "" );
@@ -77,8 +76,8 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 	const handleQueryChange = useCallback( event => debouncedFetchPages( event.target.value ), [ debouncedFetchPages ] );
 
 	useEffect( () => {
-			setQueriedPageIds( map( pages, page => page.id ) );
-	}, [ pages, initialPagesFound ] );
+		setQueriedPageIds( map( pages, page => page.id ) );
+	}, [ pages ] );
 
 	return (
 		<AutocompleteField
