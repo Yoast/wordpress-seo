@@ -18,16 +18,15 @@ export function elementHasName( name ) {
 }
 
 /**
- * Creates a callback that checks the data type of an element that is a Yoast block.
- * The reason why we filter by the data-type attribute and not by the class attribute is that not all Yoast blocks have class attributes.
+ * Creates a callback that checks the class of an element.
  *
- * @param {string} blockName The Yoast block type to filter out.
+ * @param {string} className The classname to filter out.
  *
- * @returns {function(*): boolean} A function that returns true if a Node has a certain attribute.
+ * @returns {function(*): boolean} A function that returns true if a Node has a certain class.
  */
-export function elementHasDataType( blockName ) {
+export function elementHasClass( className ) {
 	return ( blockElement ) => {
-		return !! blockElement.attributes.class && blockElement.attributes.class.has( blockName );
+		return !! blockElement.attributes.class && blockElement.attributes.class.has( className );
 	};
 }
 
