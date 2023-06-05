@@ -42,44 +42,36 @@ export const App = () => {
 
 	const faq = useMemo( () => ( [
 		{
-			text: "What are transition words in my own language?",
-			link: addQueryArgs( "https://yoa.st/transition-words-support-faq", linkParams ),
-		},
-		{
-			text: "How do I set up canonical URLs in Yoast SEO?",
+			title: <span>How do I set up <strong>canonical URLs</strong>?</span>,
 			link: addQueryArgs( "https://yoa.st/canonical-urls-support-faq", linkParams ),
 		},
 		{
-			text: "How to use  XML sitemaps in Yoast SEO?",
+			title: <span>How do I use <strong>XML sitemaps</strong>?</span>,
 			link: addQueryArgs( "https://yoa.st/xml-sitemaps-support-faq", linkParams ),
 		},
 		{
-			text: "How do I implement breadcrumbs in Yoast SEO?",
+			title: <span>How do I implement <strong>breadcrumbs</strong>?</span>,
 			link: addQueryArgs( "https://yoa.st/implement-breadcrumbs-support-faq", linkParams ),
 		},
 		{
-			text: "Where can I find an overview of essential SEO terms and vocabulary?",
-			link: addQueryArgs( "https://yoa.st/seo-terms-vocabulary-support-faq", linkParams ),
-		},
-		{
-			text: "How do I customize the breadcrumbs title setting in Yoast SEO?",
-			link: addQueryArgs( "https://yoa.st/customize-breadcrumbs-title-support-faq", linkParams ),
-		},
-		{
-			text: "What are the meta robots advanced settings in Yoast SEO and what can I do with these settings?",
-			link: addQueryArgs( "https://yoa.st/meta-robots-settings-support-faq", linkParams ),
-		},
-		{
-			text: "How do I submit my sitemap to search engines?",
+			title: <span>How do I <strong>submit my sitemap</strong> to search engines?</span>,
 			link: addQueryArgs( "https://yoa.st/submit-sitemap-support-faq", linkParams ),
 		},
 		{
-			text: "Why do I get a notification telling me that I am not receiving updates or support for Yoast SEO?",
-			link: addQueryArgs( "https://yoa.st/no-updates-notification-support-faq", linkParams ),
+			title: <span>How do I edit my <strong>robots.txt file</strong>?</span>,
+			link: addQueryArgs( "https://yoa.st/edit-robots-txt-support-faq", linkParams ),
 		},
 		{
-			text: "How do I edit robots.txt through Yoast SEO?",
-			link: addQueryArgs( "https://yoa.st/edit-robots-txt-support-faq", linkParams ),
+			title: <span>What are the <strong>meta robots advanced settings</strong>?</span>,
+			link: addQueryArgs( "https://yoa.st/meta-robots-settings-support-faq", linkParams ),
+		},
+		{
+			title: <span>Where can I find a <strong>glossary</strong> of SEO terms?</span>,
+			link: addQueryArgs( "https://yoa.st/seo-terms-vocabulary-support-faq", linkParams ),
+		},
+		{
+			title: <span>What are <strong>transition words</strong>?</span>,
+			link: addQueryArgs( "https://yoa.st/transition-words-support-faq", linkParams ),
 		},
 	] ), [] );
 
@@ -106,12 +98,12 @@ export const App = () => {
 								) }
 							>
 								<ul>
-									{ faq.map( ( { text, link }, index ) => (
+									{ faq.map( ( { title, link }, index ) => (
 										<Fragment key={ `faq-${ index }` }>
 											{ index > 0 && <hr className="yst-my-3" /> }
 											<li>
 												<Link href={ link } className="yst-flex yst-items-center yst-font-medium yst-no-underline" target="_blank">
-													{ text }
+													{ title }
 													<ArrowNarrowRightIcon className="yst-inline-block yst-ml-1.5 yst-h-3 yst-w-3 yst-icon-rtl" />
 												</Link>
 											</li>
