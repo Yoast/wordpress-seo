@@ -8,7 +8,7 @@ import TinySegmenter from "tiny-segmenter";
  *
  * @returns {Token[]} The tokens.
  */
-function splitIntoTokensJapanese( sentence ) {
+function splitIntoTokensCustom( sentence ) {
 	// Retrieve sentence from sentence class
 	const sentenceText = sentence.text;
 	// Return empty string if sentence is empty
@@ -19,4 +19,4 @@ function splitIntoTokensJapanese( sentence ) {
 	const words = new TinySegmenter().segment( sentenceText );
 	return map( words );
 }
-export default splitIntoTokensJapanese;
+export default splitIntoTokensCustom;

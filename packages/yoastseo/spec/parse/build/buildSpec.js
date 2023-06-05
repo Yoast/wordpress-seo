@@ -2,7 +2,7 @@ import build from "../../../src/parse/build/build";
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
 import Factory from "../../specHelpers/factory";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
-import splitIntoTokensJapanese from "../../../src/parse/structure/languages/ja/SplitIntoTokensJapanese";
+import splitIntoTokensCustom from "../../../src/languageProcessing/languages/ja/helpers/splitIntoTokensJapanese";
 
 describe( "The parse function", () => {
 	it( "parses a basic HTML text", () => {
@@ -72,7 +72,7 @@ describe( "The parse function", () => {
 		const html = "<div><p class='yoast'>こんにちは世界！</p></div>";
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
-			{ splitIntoTokensJapanese: splitIntoTokensJapanese } );
+			{ splitIntoTokensCustom: splitIntoTokensCustom } );
 		const languageProcessor = new LanguageProcessor( researcher );
 		expect( build( html, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",

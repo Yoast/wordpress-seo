@@ -2,6 +2,7 @@ import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
 import Factory from "../../specHelpers/factory";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 import Sentence from "../../../src/parse/structure/Sentence";
+import splitIntoTokensCustom from "../../../src/parse/structure/languages/ja/SplitIntoTokensJapanese";
 
 const researcher = Factory.buildMockResearcher( {}, true, false, false,
 	{ memoizedTokenizer: memoizedSentenceTokenizer } );
@@ -46,13 +47,16 @@ describe( "A test for the splitIntoTokens method", () => {
 
 describe( "A test for the splitIntoTokens method in Japanese", () => {
 	it( "should return an array of tokens", function() {
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ splitIntoTokensCustom: splitIntoTokensCustom } );
 		const languageProcessor = new LanguageProcessor( researcher );
-
 		const tokens = languageProcessor.splitIntoTokens( new Sentence( "こんにちは世界！" ) );
 		expect( tokens ).toEqual( [
-			{ text: "こんにちは", sourceCodeRange: {} },
+			{ text: "こん", sourceCodeRange: {} },
+			{ text: "にち", sourceCodeRange: {} },
+			{ text: "は", sourceCodeRange: {} },
 			{ text: "世界", sourceCodeRange: {} },
-			{ text: "!", sourceCodeRange: {} },
+			{ text: "！", sourceCodeRange: {} },
 		] );
 	} );
 } );
