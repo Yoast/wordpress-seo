@@ -10,8 +10,8 @@ use Yoast_Notification_Center;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 
 /**
- * Notifications for new content types.
- * This class is responsible for showing notifications for new content types.
+ * Handles showing notifications for new content types.
+ * Actions are used in the indexable taxonomy and post type change watchers.
  */
 class Content_Type_Visibility_Watcher_Actions implements Integration_Interface {
 

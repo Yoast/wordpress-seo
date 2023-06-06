@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 
 /**
- * Class Needs_Review_Dismiss_Route.
+ * Handles the dismiss route for "New" badges of new content types in settings menu.
  */
 class Needs_Review_Dismiss_Route implements Route_Interface {
 

@@ -8,8 +8,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast_Notification_Center;
 
 /**
- * Notifications for new content types.
- * This class is responsible for showing notifications for new content types.
+ * Handles dismissing notifications and "New" badges for new content types.
  */
 class Content_Type_Visibility_Dismiss_Notifications {
 
