@@ -30,7 +30,7 @@ export function* updateTaxonomyReviewStatus( taxonomyName ) {
 			payload: taxonomyName,
 		};
 	} catch ( error ) {
-		// Empty.
+		console.error( `Error: Failed to remove "New" badge for ${taxonomyName}, ${error}` );
 	}
 	return { type: `${ UPDATE_REVIEW_ACTION_NAME }/result`, payload: taxonomyName };
 }

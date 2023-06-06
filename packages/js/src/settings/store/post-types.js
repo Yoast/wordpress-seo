@@ -20,7 +20,7 @@ export function* updatePostTypeReviewStatus( postTypeName ) {
 			payload: postTypeName,
 		};
 	} catch ( error ) {
-		// Empty.
+		console.error( `Error: Failed to remove "New" badge for ${postTypeName}, ${error}` );
 	}
 	return { type: `${ UPDATE_REVIEW_ACTION_NAME }/result`, payload: postTypeName };
 }
