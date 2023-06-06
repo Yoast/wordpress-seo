@@ -202,6 +202,17 @@ class Yoast_Feature_Toggles {
 				'premium_upsell_url' => 'https://yoa.st/get-indexnow',
 				'order'              => 110,
 			],
+			(object) [
+				'name'               => __( 'AI title & description generator', 'wordpress-seo' ),
+				'premium'            => true,
+				'setting'            => 'enable_ai_generator',
+				'label'              => __( 'Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.', 'wordpress-seo' ),
+				'read_more_label'    => __( 'TODO: Find out how AI can help your site.', 'wordpress-seo' ),
+				'read_more_url'      => 'https://yoa.st/ai-generator-read-more',
+				'premium_url'        => 'https://yoa.st/ai-generator-feature',
+				'premium_upsell_url' => 'https://yoa.st/get-ai-generator',
+				'order'              => 115,
+			],
 		];
 
 		/**
