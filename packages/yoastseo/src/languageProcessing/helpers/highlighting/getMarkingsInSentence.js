@@ -1,4 +1,3 @@
-import { flatten } from "lodash-es";
 import Mark from "../../../../src/values/Mark";
 import { getLanguage } from "../../../../src/languageProcessing";
 
@@ -54,7 +53,6 @@ const createMarksForSentence = ( sentence, matches, locale ) => {
 	// Create one array with both primary and secondary matches, sorted by start offset.
 
 	// Merge consecutive and overlapping matches.
-	// TODO adapt last argument once japanese tokenization is implemented.
 	const mergedMatches = mergeConsecutiveAndOverlappingMatches( matches, getLanguage( locale ) !== "ja" );
 
 	const sentenceStartOffset = sentence.sourceCodeRange.startOffset;
