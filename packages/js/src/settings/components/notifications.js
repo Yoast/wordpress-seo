@@ -6,7 +6,7 @@ import { useFormikContext } from "formik";
 import { get, map } from "lodash";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useDispatchSettings, useSelectSettings } from "../hooks";
+import { useDispatchSettings, useSelectSettings, useNewContentTypeNotification } from "../hooks";
 import { flattenObject } from "../utils";
 
 /**
@@ -73,10 +73,9 @@ ValidationErrorsNotification.propTypes = {
  */
 const Notifications = () => {
 	useValidationErrorsNotification();
+	useNewContentTypeNotification();
 	const { removeNotification } = useDispatchSettings();
 	const notifications = useSelectSettings( "selectNotifications" );
-	const postTypes = useSelectSettings( "selectPostTypes" );
-	const taxonomies = useSelectSettings( "selectTaxonomies" );
 
 	const enrichedNotifications = useMemo( () => map( notifications, notification => ( {
 		...notification,
@@ -84,14 +83,6 @@ const Notifications = () => {
 		autoDismiss: notification.variant === "success" ? 5000 : null,
 		dismissScreenReaderLabel: __( "Dismiss", "wordpress-seo" ),
 	} ) ), [ notifications ] );
-
-	useEffect( () => {
-		const newPostTypes = Object.values( postTypes ).filter( ( postType ) => postType.isNew );
-		const newTaxonomies = Object.values( taxonomies ).filter( ( taxonomy ) => taxonomy.isNew );
-	   if ( notifications[ "new-content-type" ] && ! newPostTypes.length && ! newTaxonomies.length ) {
-		   removeNotification( "new-content-type" );
-	   }
-	}, [ postTypes, taxonomies ] );
 
 	return (
 		<NotificationsUi notifications={ enrichedNotifications } position="bottom-left">
