@@ -147,14 +147,17 @@ describe( "Test for counting the keyword in a text", function() {
 		const mockPaper = new Paper( "<h2>A string with a key-word.</h2>" );
 		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherMinus ).count ).toBe( 1 );
-		expect( keyphraseCount( mockPaper, mockResearcherMinus ).markings ).toEqual( [ ]
+		expect( keyphraseCount( mockPaper, mockResearcherMinus ).markings ).toEqual( [ new Mark( {
+			marked: "A string with a <yoastmark class='yoast-text-mark'>key-word</yoastmark>.",
+			original: "A string with a key-word.",
+			position: { startOffset: 20, endOffset: 28 } } ) ]
 		);
 	} );
 
-	it( "counts 'key word' in 'key-word'.", function() {
+	it( "Does not count 'key word' in 'key-word'.", function() {
 		const mockPaper = new Paper( "<span>A string with a key-word.</span>" );
 		buildTree( mockPaper, mockResearcher );
-		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
+		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 0 );
 	} );
 
 	it( "counts a string with a keyword with a '_' in it", function() {
@@ -220,18 +223,18 @@ describe( "Test for counting the keyword in a text", function() {
 		);
 	} );
 
-	it( "counts can count dollar sign as in '$keyword'.", function() {
+	it( "counts dollar sign as in '$keyword'.", function() {
 		const mockPaper = new Paper( "A string with a $keyword." );
 		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherDollarSign ).count ).toBe( 1 );
 		// Markings do not currently work in this condition.
 	} );
 
-	it( "counts 'key word' also in 'key-word'.)", function() {
+	it( "does not count 'key word' in 'key-word' but counts key word.)", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, key word consectetur key-word adipiscing elit." );
 		buildTree( mockPaper, mockResearcher );
-		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 2 );
-		// Note: this behavior might change in in the future.
+		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
+		// Note: this behavior might change in the future.
 	} );
 
 	it( "doesn't count 'key-word' in 'key word'.", function() {
@@ -239,6 +242,12 @@ describe( "Test for counting the keyword in a text", function() {
 		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherMinus ).count ).toBe( 1 );
 		// Note: this behavior might change in in the future.
+	} );
+
+	it( "Does not count a third consecutive keyword in a sentence.", function() {
+		const mockPaper = new Paper( "<p>A string with keyword keyword keyword.</p>" );
+		buildTree( mockPaper, mockResearcher );
+		expect( keyphraseCount( mockPaper, mockResearcher ).count ).toBe( 2 );
 	} );
 
 	it( "only counts full key phrases (when all keywords are in the sentence once, twice etc.) as matches.", function() {
@@ -281,8 +290,9 @@ describe( "Test for counting the keyword in a text", function() {
 		// Note: this behavior might change in the future.
 	} );
 
-	it.skip( "doesn't match singular forms in reduplicated plurals in Indonesian", function() {
-		const mockPaper = new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.</p>", { locale: "id_ID" } );
+	it( "doesn't match singular forms in reduplicated plurals in Indonesian", function() {
+		const mockPaper = new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.</p>",
+			{ locale: "id_ID" } );
 		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcher ).count ).toBe( 1 );
 	} );
