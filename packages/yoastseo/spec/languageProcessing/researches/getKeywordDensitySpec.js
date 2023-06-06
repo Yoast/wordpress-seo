@@ -67,13 +67,13 @@ describe( "Test for counting the keyword density in a text with an English resea
 		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
 	} );
 
-	it( "should recognize a multiword keyphrase when it is occurs hyphenated", function() {
+	it( "should not recognize a multiword keyphrase when it is occurs hyphenated", function() {
 		const mockPaper = new Paper( "a string of text with the key-word in it, density should be 7.7%", { keyword: "key word" } );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 
 		buildTree( mockPaper, mockResearcher );
 		// This behavior might change in the future.
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
 	} );
 
 	it( "should recognize a keyphrase with an ampersand in it", function() {
