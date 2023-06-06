@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Integrations\Settings_Integration_Double;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Notifications;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions;
 
 /**
  * Class Settings_Integration_Test.
@@ -82,7 +82,7 @@ class Settings_Integration_Test extends TestCase {
 		$this->article_helper                  = Mockery::mock( Article_Helper::class );
 		$user_helper                           = Mockery::mock( User_Helper::class );
 		$this->options                         = Mockery::mock( Options_Helper::class );
-		$content_type_visibility_notifications = Mockery::mock( Content_Type_Visibility_Notifications::class );
+		$content_type_visibility_notifications = Mockery::mock( Content_Type_Visibility_Watcher_Actions::class );
 
 		$this->instance = new Settings_Integration(
 			$asset_manager,
@@ -219,7 +219,7 @@ class Settings_Integration_Test extends TestCase {
 			'Options helper is set.'
 		);
 		$this->assertInstanceOf(
-			Content_Type_Visibility_Notifications::class,
+			Content_Type_Visibility_Watcher_Actions::class,
 			$this->getPropertyValue( $this->instance, 'content_type_visibility_notifications' ),
 			'Content type visibility notifications is set.'
 		);

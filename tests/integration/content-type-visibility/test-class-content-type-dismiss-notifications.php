@@ -8,7 +8,7 @@
 use Mockery;
 use Yoast_Notification_Center;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Notifications;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 
 /**
@@ -29,7 +29,7 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 	/**
 	 * The instance to test.
 	 *
-	 * @var Content_Type_Visibility_Notifications
+	 * @var Content_Type_Visibility_Watcher_Actions
 	 */
 	private $content_type_visibility_notifications;
 
@@ -85,7 +85,7 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 
 		$this->instance = new Content_Type_Visibility_Dismiss_Notifications( $this->options );
 
-		$this->content_type_visibility_notifications = new Content_Type_Visibility_Notifications( $this->options, $this->notification_center, $this->instance );
+		$this->content_type_visibility_notifications = new Content_Type_Visibility_Watcher_Actions( $this->options, $this->notification_center, $this->instance );
 
 		$this->mock_options          = Mockery::mock( Options_Helper::class );
 		$this->instance_mock_options = new Content_Type_Visibility_Dismiss_Notifications( $this->mock_options );

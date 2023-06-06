@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dis
  * Notifications for new content types.
  * This class is responsible for showing notifications for new content types.
  */
-class Content_Type_Visibility_Notifications implements Integration_Interface {
+class Content_Type_Visibility_Watcher_Actions implements Integration_Interface {
 
 	/**
 	 * Holds the Options_Helper instance.
@@ -144,18 +144,6 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 		$notification = $this->notification_center->get_notification_by_id( 'content-types-made-public' );
 		if ( \is_null( $notification ) ) {
 			$this->add_notification();
-		}
-	}
-
-	/**
-	 * Check if there is a new content type to show notification only once in the settings.
-	 *
-	 * @return void
-	 */
-	public function maybe_add_settings_notification() {
-		$show_new_content_type_notification = $this->options->get( 'show_new_content_type_notification', false );
-		if ( $show_new_content_type_notification ) {
-			$this->options->set( 'show_new_content_type_notification', false );
 		}
 	}
 

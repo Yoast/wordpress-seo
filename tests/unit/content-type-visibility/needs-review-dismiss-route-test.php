@@ -22,7 +22,7 @@ class Needs_Review_Dismiss_Route_Test extends TestCase {
 	protected $dismiss_notifications;
 
 	/**
-	 * The Content_Type_Visibility_Notifications.
+	 * The Content_Type_Visibility_Watcher_Actions.
 	 *
 	 * @var Needs_Review_Dismiss_Route
 	 */

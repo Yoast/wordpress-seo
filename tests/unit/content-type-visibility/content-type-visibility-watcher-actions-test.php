@@ -9,15 +9,15 @@ use Yoast_Notification_Center;
 use Brain\Monkey;
 use Mockery;
 use WP_User;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Notifications;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 
 /**
- * Class Content_Type_Visibility_Notifications_Test
+ * Class Content_Type_Visibility_Watcher_Actions_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Notifications
+ * @coversDefaultClass \Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions
  */
-class Content_Type_Visibility_Notifications_Test extends TestCase {
+class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 
 	/**
 	 * Holds the Options_Helper instance.
@@ -41,9 +41,9 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 	private $content_type_dismiss_notifications;
 
 	/**
-	 * The Content_Type_Visibility_Notifications.
+	 * The Content_Type_Visibility_Watcher_Actions.
 	 *
-	 * @var Content_Type_Visibility_Notifications
+	 * @var Content_Type_Visibility_Watcher_Actions
 	 */
 	private $instance;
 
@@ -59,7 +59,7 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 		$this->notification_center                = Mockery::mock( Yoast_Notification_Center::class );
 		$this->content_type_dismiss_notifications = Mockery::mock( Content_Type_Visibility_Dismiss_Notifications::class );
 
-		$this->instance = new Content_Type_Visibility_Notifications(
+		$this->instance = new Content_Type_Visibility_Watcher_Actions(
 			$this->options,
 			$this->notification_center,
 			$this->content_type_dismiss_notifications
@@ -317,49 +317,5 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 			->once();
 
 		$this->instance->maybe_add_notification();
-	}
-
-	/**
-	 * Data provider for maybe_add_settings_notification.
-	 *
-	 * @return array
-	 */
-	public static function data_provider_maybe_add_settings_notification() {
-		return [
-			'Show notification and reset' => [
-				'show_new_content_type_notification' => true,
-				'reset_notification'                 => 1,
-			],
-			'No new content type notification to show' => [
-				'show_new_content_type_notification' => false,
-				'reset_notification'                 => 0,
-			],
-		];
-	}
-
-	/**
-	 * Test maybe_add_settings_notification method.
-	 *
-	 * @covers ::maybe_add_settings_notification
-	 *
-	 * @dataProvider data_provider_maybe_add_settings_notification
-	 *
-	 * @param bool $show_new_content_type_notification Shouls show notification.
-	 * @param int  $reset_notification                 The reset notification times.
-	 */
-	public function test_maybe_add_settings_notification( $show_new_content_type_notification, $reset_notification ) {
-
-		$this->options
-			->expects( 'get' )
-			->with( 'show_new_content_type_notification', false )
-			->once()
-			->andReturn( $show_new_content_type_notification );
-
-		$this->options
-			->expects( 'set' )
-			->with( 'show_new_content_type_notification', false )
-			->times( $reset_notification );
-
-		$this->instance->maybe_add_settings_notification();
 	}
 }
