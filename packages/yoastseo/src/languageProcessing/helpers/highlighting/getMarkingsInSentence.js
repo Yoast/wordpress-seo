@@ -56,7 +56,6 @@ const createMarksForSentence = ( sentence, matches, locale ) => {
 	// Merge consecutive and overlapping matches.
 	// TODO adapt last argument once japanese tokenization is implemented.
 	const mergedMatches = mergeConsecutiveAndOverlappingMatches( matches, getLanguage( locale ) !== "ja" );
-	console.log( mergedMatches );
 
 	const sentenceStartOffset = sentence.sourceCodeRange.startOffset;
 	// Loop through the matches backwards, so that the reference is not affected by the changes.
@@ -127,9 +126,13 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace = true ) => 
  * @returns {Mark[]}    The array of Mark objects of the keyphrase matches.
  */
 function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale ) {
+	if ( matchesInSentence.length === 0 ) {
+		return [];
+	}
+
 	// Create the marked sentence that is used for search based highlighting.
 	const markedSentence = createMarksForSentence( sentence, matchesInSentence, locale );
-	console.log( markedSentence );
+
 	// Create the markings for the primary matches.
 	// Note that there is a paradigm shift:
 	// With search based highlighting there would be one marking for the entire sentence.
@@ -147,7 +150,6 @@ function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelp
 			original: sentence.text,
 		} );
 	} );
-	console.log( markings );
 
 	return mergeConsecutiveAndOverlappingMarkings( markings, getLanguage( locale ) !== "ja" );
 }

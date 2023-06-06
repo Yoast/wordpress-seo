@@ -7,7 +7,7 @@ const testCases = [
 	{
 		testDescription: "No markings in sentence",
 		sentence: { text: "This is a sentence.", sourceCodeRange: { startOffset: 0, endOffset: 18 } },
-		matchesInSentence: { primaryMatches: [], secondaryMatches: [] },
+		matchesInSentence: [],
 		matchWordCustomHelper: false,
 		locale: "en_US",
 		expectedResult: [],
@@ -15,7 +15,7 @@ const testCases = [
 	{
 		testDescription: "One marking in sentence",
 		sentence: { text: "This is a sentence.", sourceCodeRange: { startOffset: 0, endOffset: 18 } },
-		matchesInSentence: { primaryMatches: [ [ { sourceCodeRange: { startOffset: 0, endOffset: 4 } } ] ], secondaryMatches: [] },
+		matchesInSentence: [ { sourceCodeRange: { startOffset: 0, endOffset: 4 } } ],
 		matchWordCustomHelper: false,
 		locale: "en_US",
 		expectedResult: [ new Mark( {
@@ -27,7 +27,7 @@ const testCases = [
 	{
 		testDescription: "One marking in sentence with two consecutive matches",
 		sentence: { text: "This is a sentence.", sourceCodeRange: { startOffset: 0, endOffset: 18 } },
-		matchesInSentence: { primaryMatches: [ [ { sourceCodeRange: { startOffset: 0, endOffset: 4 } }, { sourceCodeRange: { startOffset: 5, endOffset: 7 } } ] ], secondaryMatches: [] },
+		matchesInSentence: [ { sourceCodeRange: { startOffset: 0, endOffset: 4 } }, { sourceCodeRange: { startOffset: 5, endOffset: 7 } } ],
 		matchWordCustomHelper: false,
 		locale: "en_US",
 		expectedResult: [ new Mark( {
@@ -39,7 +39,7 @@ const testCases = [
 	{
 		testDescription: "Two markings that are not consecutive in sentence",
 		sentence: { text: "This is a sentence.", sourceCodeRange: { startOffset: 0, endOffset: 18 } },
-		matchesInSentence: { primaryMatches: [ [ { sourceCodeRange: { startOffset: 0, endOffset: 4 } } ], [ { sourceCodeRange: { startOffset: 10, endOffset: 18 } } ] ], secondaryMatches: [] },
+		matchesInSentence: [ { sourceCodeRange: { startOffset: 0, endOffset: 4 } }, { sourceCodeRange: { startOffset: 10, endOffset: 18 } } ],
 		matchWordCustomHelper: false,
 		locale: "en_US",
 		expectedResult: [
@@ -58,7 +58,7 @@ const testCases = [
 	{
 		testDescription: "One marking in a sentence that has a non-zero startOffset",
 		sentence: { text: "This is a sentence.", sourceCodeRange: { startOffset: 10, endOffset: 38 } },
-		matchesInSentence: { primaryMatches: [ [ { sourceCodeRange: { startOffset: 10, endOffset: 14 } } ] ], secondaryMatches: [] },
+		matchesInSentence: [ { sourceCodeRange: { startOffset: 10, endOffset: 14 } } ],
 		matchWordCustomHelper: false,
 		locale: "en_US",
 		expectedResult: [ new Mark( {
@@ -70,7 +70,7 @@ const testCases = [
 	{
 		testDescription: "One marking in a sentence of a language that does not use spaces",
 		sentence: { text: "これは文です.", sourceCodeRange: { startOffset: 0, endOffset: 7 } },
-		matchesInSentence: { primaryMatches: [ [ { sourceCodeRange: { startOffset: 3, endOffset: 4 } } ] ], secondaryMatches: [] },
+		matchesInSentence: [ { sourceCodeRange: { startOffset: 3, endOffset: 4 } } ],
 		matchWordCustomHelper: JapaneseCustomHelper,
 		locale: "ja",
 		expectedResult: [ new Mark( {
@@ -82,7 +82,7 @@ const testCases = [
 	{
 		testDescription: "Two markings that overlap",
 		sentence: { text: "This is a sentence.", sourceCodeRange: { startOffset: 0, endOffset: 18 } },
-		matchesInSentence: { primaryMatches: [ [ { sourceCodeRange: { startOffset: 0, endOffset: 7 } } ], [ { sourceCodeRange: { startOffset: 5, endOffset: 9 } } ] ], secondaryMatches: [] },
+		matchesInSentence: [ { sourceCodeRange: { startOffset: 0, endOffset: 7 } }, { sourceCodeRange: { startOffset: 5, endOffset: 9 } } ],
 		matchWordCustomHelper: false,
 		locale: "en_US",
 		expectedResult: [
@@ -93,14 +93,14 @@ const testCases = [
 			} ),
 		],
 	},
-	{
-		testDescription: "No secondary match if a multi word keyphrase is separated with an underscore in the sentence.",
-		sentence: { text: "A key sentence with a key_word.", sourceCodeRange: { startOffset: 0, endOffset: 31 } },
-		matchesInSentence: { primaryMatches: [ ], secondaryMatches: [ [ { sourceCodeRange: { startOffset: 2, endOffset: 5 } } ] ] },
-		matchWordCustomHelper: false,
-		locale: "en_US",
-		expectedResult: [],
-	},
+	// {
+	// 	testDescription: "No secondary match if a multi word keyphrase is separated with an underscore in the sentence.",
+	// 	sentence: { text: "A key sentence with a key_word.", sourceCodeRange: { startOffset: 0, endOffset: 31 } },
+	// 	matchesInSentence: [ { sourceCodeRange: { startOffset: 2, endOffset: 5 } } ] ] },
+	// 	matchWordCustomHelper: false,
+	// 	locale: "en_US",
+	// 	expectedResult: [],
+	// },
 
 ];
 /* eslint-enable max-len */
