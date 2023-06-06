@@ -116,6 +116,6 @@ class Content_Type_Visibility_Dismiss_Notifications {
 	public function dismiss_notifications() {
 		$notification_center = Yoast_Notification_Center::get();
 		$notification_center->remove_notification_by_id( 'content-types-made-public' );
-		return $this->options->set( 'is_new_content_type', false );
+		return $this->options->set( 'show_new_content_type_notification', false );
 	}
 }

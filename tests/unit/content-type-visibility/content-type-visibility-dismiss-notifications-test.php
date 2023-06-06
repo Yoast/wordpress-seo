@@ -139,7 +139,7 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 
 		$this->options
 			->expects( 'set' )
-			->with( 'is_new_content_type', false )
+			->with( 'show_new_content_type_notification', false )
 			->times( $times )
 			->andReturn( true );
 

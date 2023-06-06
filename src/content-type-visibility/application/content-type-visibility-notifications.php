@@ -87,7 +87,7 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 	 */
 	public function new_post_type( $newly_made_public_post_types ) {
 		$this->options->set( 'new_post_types', $newly_made_public_post_types );
-		$this->options->set( 'is_new_content_type', true );
+		$this->options->set( 'show_new_content_type_notification', true );
 		$this->maybe_add_notification();
 	}
 
@@ -115,7 +115,7 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 	 */
 	public function new_taxonomy( $newly_made_public_taxonomies ) {
 		$this->options->set( 'new_taxonomies', $newly_made_public_taxonomies );
-		$this->options->set( 'is_new_content_type', true );
+		$this->options->set( 'show_new_content_type_notification', true );
 		$this->maybe_add_notification();
 	}
 
@@ -144,6 +144,18 @@ class Content_Type_Visibility_Notifications implements Integration_Interface {
 		$notification = $this->notification_center->get_notification_by_id( 'content-types-made-public' );
 		if ( \is_null( $notification ) ) {
 			$this->add_notification();
+		}
+	}
+
+	/**
+	 * Check if there is a new content type to show notification only once in the settings.
+	 *
+	 * @return void
+	 */
+	public function maybe_add_settings_notification() {
+		$show_new_content_type_notification = $this->options->get( 'show_new_content_type_notification', false );
+		if ( $show_new_content_type_notification ) {
+			$this->options->set( 'show_new_content_type_notification', false );
 		}
 	}
 

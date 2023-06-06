@@ -134,7 +134,7 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 
 		$this->options
 			->expects( 'set' )
-			->with( 'is_new_content_type', true )
+			->with( 'show_new_content_type_notification', true )
 			->once();
 
 		$this->notification_center
@@ -280,7 +280,7 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 
 		$this->options
 			->expects( 'set' )
-			->with( 'is_new_content_type', true )
+			->with( 'show_new_content_type_notification', true )
 			->once();
 
 		$this->notification_center
@@ -317,5 +317,49 @@ class Content_Type_Visibility_Notifications_Test extends TestCase {
 			->once();
 
 		$this->instance->maybe_add_notification();
+	}
+
+	/**
+	 * Data provider for maybe_add_settings_notification.
+	 *
+	 * @return array
+	 */
+	public static function data_provider_maybe_add_settings_notification() {
+		return [
+			'Show notification and reset' => [
+				'show_new_content_type_notification' => true,
+				'reset_notification'                 => 1,
+			],
+			'No new content type notification to show' => [
+				'show_new_content_type_notification' => false,
+				'reset_notification'                 => 0,
+			],
+		];
+	}
+
+	/**
+	 * Test maybe_add_settings_notification method.
+	 *
+	 * @covers ::maybe_add_settings_notification
+	 *
+	 * @dataProvider data_provider_maybe_add_settings_notification
+	 *
+	 * @param bool $show_new_content_type_notification Shouls show notification.
+	 * @param int  $reset_notification                 The reset notification times.
+	 */
+	public function test_maybe_add_settings_notification( $show_new_content_type_notification, $reset_notification ) {
+
+		$this->options
+			->expects( 'get' )
+			->with( 'show_new_content_type_notification', false )
+			->once()
+			->andReturn( $show_new_content_type_notification );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'show_new_content_type_notification', false )
+			->times( $reset_notification );
+
+		$this->instance->maybe_add_settings_notification();
 	}
 }

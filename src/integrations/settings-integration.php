@@ -24,6 +24,7 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Notifications;
 
 /**
  * Class Settings_Integration.
@@ -172,6 +173,13 @@ class Settings_Integration implements Integration_Interface {
 	protected $options;
 
 	/**
+	 * Holds the Content_Type_Visibility_Notifications instance.
+	 *
+	 * @var Content_Type_Visibility_Notifications
+	 */
+	protected $content_type_visibility_notifications;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
@@ -199,20 +207,22 @@ class Settings_Integration implements Integration_Interface {
 		Woocommerce_Helper $woocommerce_helper,
 		Article_Helper $article_helper,
 		User_Helper $user_helper,
-		Options_Helper $options
+		Options_Helper $options,
+		Content_Type_Visibility_Notifications $content_type_visibility_notifications
 	) {
-		$this->asset_manager       = $asset_manager;
-		$this->replace_vars        = $replace_vars;
-		$this->schema_types        = $schema_types;
-		$this->current_page_helper = $current_page_helper;
-		$this->taxonomy_helper     = $taxonomy_helper;
-		$this->post_type_helper    = $post_type_helper;
-		$this->language_helper     = $language_helper;
-		$this->product_helper      = $product_helper;
-		$this->woocommerce_helper  = $woocommerce_helper;
-		$this->article_helper      = $article_helper;
-		$this->user_helper         = $user_helper;
-		$this->options             = $options;
+		$this->asset_manager                         = $asset_manager;
+		$this->replace_vars                          = $replace_vars;
+		$this->schema_types                          = $schema_types;
+		$this->current_page_helper                   = $current_page_helper;
+		$this->taxonomy_helper                       = $taxonomy_helper;
+		$this->post_type_helper                      = $post_type_helper;
+		$this->language_helper                       = $language_helper;
+		$this->product_helper                        = $product_helper;
+		$this->woocommerce_helper                    = $woocommerce_helper;
+		$this->article_helper                        = $article_helper;
+		$this->user_helper                           = $user_helper;
+		$this->options                               = $options;
+		$this->content_type_visibility_notifications = $content_type_visibility_notifications;
 	}
 
 	/**
@@ -397,10 +407,7 @@ class Settings_Integration implements Integration_Interface {
 		$transformed_taxonomies = $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) );
 
 		// Check if there is a new content type to show notification only once in the settings.
-		$is_new_content_type = $this->options->get( 'is_new_content_type', false );
-		if ( $is_new_content_type ) {
-			$this->options->set( 'is_new_content_type', false );
-		}
+		$this->content_type_visibility_notifications->maybe_add_settings_notification();
 
 		return [
 			'settings'             => $this->transform_settings( $settings ),
@@ -416,7 +423,7 @@ class Settings_Integration implements Integration_Interface {
 			'postTypes'            => $transformed_post_types,
 			'taxonomies'           => $transformed_taxonomies,
 			'fallbacks'            => $this->get_fallbacks(),
-			'isNewContentType'     => $is_new_content_type,
+			'isNewContentType'     => $show_new_content_type_notification,
 		];
 	}
 
