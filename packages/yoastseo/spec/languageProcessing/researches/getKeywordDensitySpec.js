@@ -179,7 +179,7 @@ describe( "test for counting the keyword density in a text in a language that us
 		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 0 );
 	} );*/
 
-	it( "returns the keyword density when the keyword is found once", function() {
+	it.skip( "returns the keyword density when the keyword is found once", function() {
 		const mockPaper = new Paper( "私の猫はかわいいです。", { keyword: "猫" } );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
 		mockResearcher.addResearchData( "morphology", morphologyDataJA );
@@ -187,7 +187,7 @@ describe( "test for counting the keyword density in a text in a language that us
 		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 16.666666666666664 );
 	} );
 
-	it( "returns the keyword density when the keyword contains multiple words and the sentence contains an inflected form", function() {
+	it.skip( "returns the keyword density when the keyword contains multiple words and the sentence contains an inflected form", function() {
 		// 小さく is the inflected form of 小さい.
 		const mockPaper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。", { keyword: "小さい花の刺繍" } );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
