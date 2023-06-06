@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { DocumentAddIcon } from "@heroicons/react/outline";
-import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
+import { useCallback, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import classNames from "classnames";
@@ -31,7 +31,6 @@ PageSelectOptionsContent.propTypes = {
  * @param {string} props.name The field name.
  * @param {string} props.id The field id.
  * @param {string} props.className The className.
- * @param {string} props.description The description.
  * @returns {JSX.Element} The page select component.
  */
 const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
@@ -49,12 +48,11 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 		return find( pageObjects, [ "id", value ] );
 	}, [ value, pages ] );
 
-
 	const debouncedFetchPages = useCallback( debounce( async search => {
 		try {
 			setStatus( ASYNC_ACTION_STATUS.loading );
 			// eslint-disable-next-line camelcase
-			const response = await fetchPages( { search, per_page: 10 } );
+			const response = await fetchPages( { search } );
 
 			setQueriedPageIds( map( response.payload, "id" ) );
 			setStatus( ASYNC_ACTION_STATUS.success );
@@ -66,18 +64,15 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 			setQueriedPageIds( [] );
 			setStatus( ASYNC_ACTION_STATUS.error );
 		}
-	}, 200 ), [ setQueriedPageIds, setStatus ] );
-
+	}, 200 ), [ setQueriedPageIds, setStatus, fetchPages ] );
 
 	const handleChange = useCallback( newValue => {
 		setTouched( true, false );
 		setValue( newValue );
-	}, [ setValue ] );
+	}, [ setValue, setTouched ] );
 	const handleQueryChange = useCallback( event => debouncedFetchPages( event.target.value ), [ debouncedFetchPages ] );
-
-	useEffect( () => {
-		setQueriedPageIds( map( pages, page => page.id ) );
-	}, [ pages ] );
+	const selectablePages = useMemo( () => isEmpty( queriedPageIds ) ? map( pages, "id" ) : queriedPageIds, [ queriedPageIds, pages ] );
+	const hasNoPages = useMemo( () => ( status === ASYNC_ACTION_STATUS.success && isEmpty( queriedPageIds ) ), [ queriedPageIds, status ] );
 
 	return (
 		<AutocompleteField
@@ -97,11 +92,11 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 			<>
 				{ ( status === ASYNC_ACTION_STATUS.idle || status === ASYNC_ACTION_STATUS.success ) && (
 					<>
-						{ isEmpty( queriedPageIds ) ? (
+						{ hasNoPages ? (
 							<PageSelectOptionsContent>
 								{ __( "No pages found.", "wordpress-seo" ) }
 							</PageSelectOptionsContent>
-						) : map( queriedPageIds, pageId => {
+						) : map( selectablePages, pageId => {
 							const page = pages?.[ pageId ];
 							return page ? (
 								<AutocompleteField.Option key={ page?.id } value={ page?.id }>
@@ -148,7 +143,6 @@ FormikPageSelectField.propTypes = {
 	id: PropTypes.string.isRequired,
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
-	description: PropTypes.string,
 };
 
 export default FormikPageSelectField;

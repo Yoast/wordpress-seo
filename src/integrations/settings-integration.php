@@ -510,7 +510,7 @@ class Settings_Integration implements Integration_Interface {
 	 * Adds policy data if it is present.
 	 *
 	 * @param array  $policies The existing policy data.
-	 * @param string $policy   The policy id to check.
+	 * @param int    $policy   The policy id to check.
 	 * @param string $key      The option key name.
 	 *
 	 * @return array The policy data.
@@ -520,7 +520,8 @@ class Settings_Integration implements Integration_Interface {
 			'id'   => false,
 			'name' => '',
 		];
-		if ( isset( $policy ) ) {
+
+		if ( isset( $policy ) && \is_int( $policy ) ) {
 			$policy_array['id'] = $policy;
 			$post               = \get_post( $policy );
 			if ( $post instanceof \WP_Post ) {

@@ -8,6 +8,7 @@ import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
 const pagesAdapter = createEntityAdapter();
 
 export const FETCH_PAGES_ACTION_NAME = "fetchPages";
+export const PAGE_NAME = "pages";
 // Global abort controller for this reducer to abort requests made by multiple selects.
 let abortController;
 
@@ -30,14 +31,6 @@ export function* fetchPages( queryData ) {
 }
 
 /**
- * @returns {Object} The initial state.
- */
-export const createInitialPagesState = () => pagesAdapter.getInitialState( {
-	status: ASYNC_ACTION_STATUS.idle,
-	error: "",
-} );
-
-/**
  * @param {Object} page The page.
  * @returns {Object} The prepared and predictable user.
  */
@@ -45,13 +38,16 @@ const preparePage = page => (
 	{
 		id: page?.id,
 		// Fallbacks for page title, because we always need something to show.
-		name: trim( page?.title.rendered ) || page?.slug || page?.id,
+		name: trim( page?.title.rendered ) || page?.slug || page.id,
 		slug: page?.slug,
 	} );
 
 const pagesSlice = createSlice( {
 	name: "pages",
-	initialState: createInitialPagesState(),
+	initialState: pagesAdapter.getInitialState( {
+		status: ASYNC_ACTION_STATUS.idle,
+		error: "",
+	} ),
 	reducers: {
 		addOnePage: {
 			reducer: pagesAdapter.addOne,
@@ -77,6 +73,7 @@ const pagesSlice = createSlice( {
 	},
 } );
 
+export const getPageInitialState = pagesSlice.getInitialState;
 // Prefix selectors
 const pageAdapterSelectors = pagesAdapter.getSelectors( state => state.pages );
 
@@ -107,7 +104,6 @@ export const pageActions = {
 	fetchPages,
 };
 
-
 export const pageControls = {
 	[ FETCH_PAGES_ACTION_NAME ]: async( { payload } ) => {
 		if ( abortController ) {
@@ -115,7 +111,7 @@ export const pageControls = {
 		}
 
 		abortController = new AbortController();
-		await apiFetch( {
+		return apiFetch( {
 			path: `/wp/v2/pages?${ buildQueryString( payload ) }`,
 			signal: abortController?.signal,
 		} );

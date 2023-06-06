@@ -13,7 +13,7 @@ import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParams
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
 import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
-import pages, { createInitialPagesState, pageActions, pageControls, pageSelectors } from "./pages";
+import pageReducer, { getPageInitialState, PAGE_NAME, pageActions, pageControls, pageSelectors } from "./pages";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import replacementVariables, {
 	createInitialReplacementVariablesState,
@@ -39,6 +39,7 @@ const createStore = ( { initialState } ) => {
 			...linkParamsActions,
 			...mediaActions,
 			...notificationsActions,
+			...pageActions,
 			...postTypesActions,
 			...preferencesActions,
 			...replacementVariablesActions,
@@ -46,7 +47,6 @@ const createStore = ( { initialState } ) => {
 			...searchActions,
 			...taxonomiesActions,
 			...usersActions,
-			...pageActions,
 		},
 		selectors: {
 			...breadcrumbsSelectors,
@@ -55,6 +55,7 @@ const createStore = ( { initialState } ) => {
 			...linkParamsSelectors,
 			...mediaSelectors,
 			...notificationsSelectors,
+			...pageSelectors,
 			...postTypesSelectors,
 			...preferencesSelectors,
 			...replacementVariablesSelectors,
@@ -62,7 +63,6 @@ const createStore = ( { initialState } ) => {
 			...searchSelectors,
 			...taxonomiesSelectors,
 			...usersSelectors,
-			...pageSelectors,
 		},
 		initialState: merge(
 			{},
@@ -72,6 +72,7 @@ const createStore = ( { initialState } ) => {
 				linkParams: createInitialLinkParamsState(),
 				media: createInitialMediaState(),
 				notifications: createInitialNotificationsState(),
+				[ PAGE_NAME ]: getPageInitialState(),
 				postTypes: createInitialPostTypesState(),
 				preferences: createInitialPreferencesState(),
 				replacementVariables: createInitialReplacementVariablesState(),
@@ -79,7 +80,6 @@ const createStore = ( { initialState } ) => {
 				search: createInitialSearchState(),
 				taxonomies: createInitialTaxonomiesState(),
 				users: createInitialUsersState(),
-				pages: createInitialPagesState(),
 			},
 			initialState
 		),
@@ -89,6 +89,7 @@ const createStore = ( { initialState } ) => {
 			linkParams,
 			media,
 			notifications,
+			[ PAGE_NAME ]: pageReducer,
 			postTypes,
 			preferences,
 			replacementVariables,
@@ -96,7 +97,6 @@ const createStore = ( { initialState } ) => {
 			search,
 			taxonomies,
 			users,
-			pages,
 		} ),
 		controls: {
 			...mediaControls,

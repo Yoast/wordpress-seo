@@ -52,7 +52,7 @@ const SiteBasics = () => {
 	const sitePoliciesDescription = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-			__( "Set specific site policy pages. By defining your site policies, you provide Google with an important indicator of your site's trustworthiness. %1$sLearn more about why setting your site policies is important%2$s.", "wordpress-seo" ),
+			__( "Select the pages on your website which contain information about your organizational and publishing policies. Some of these might not apply to your site, and you can select the same page for multiple policies. %1$sLearn more about why setting your site policies is important%2$s.", "wordpress-seo" ),
 			"<a>",
 			"</a>"
 		),
@@ -120,6 +120,108 @@ const SiteBasics = () => {
 		}
 	), [] );
 
+	const publishingPrinciplesDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening italics tag.
+			 * %2$s expands to a closing italics tag.
+			 */
+			__( "Select a page which describes the editorial principles of your organization. %1$sWhat%2$s do you write about, %1$swho%2$s do you write for, and %1$swhy%2$s?", "wordpress-seo" ),
+			"<i>",
+			"</i>"
+		),
+		{
+			i: <i />,
+		}
+	), [] );
+	const ownershipDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening italics tag.
+			 * %2$s expands to a closing italics tag.
+			 */
+			__( "Select a page which describes the ownership structure of your organization. It should include information about  %1$sfunding%2$s and %1$sgrants%2$s.", "wordpress-seo" ),
+			"<i>",
+			"</i>"
+		),
+		{
+			i: <i />,
+		}
+	), [] );
+
+	const actionableFeedbackDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening italics tag.
+			 * %2$s expands to a closing italics tag.
+			 */
+			__( "Select a page which describes how your organization collects and responds to %1$sfeedback%2$s, engages with the %1$spublic%2$s, and prioritizes %1$stransparency%2$s.", "wordpress-seo" ),
+			"<i>",
+			"</i>"
+		),
+		{
+			i: <i />,
+		}
+	), [] );
+
+	const correctionsDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening italics tag.
+			 * %2$s expands to a closing italics tag.
+			 */
+			__( "Select a page which outlines your procedure for addressing %1$serrors%2$s (e.g., publishing retractions or corrections).", "wordpress-seo" ),
+			"<i>",
+			"</i>"
+		),
+		{
+			i: <i />,
+		}
+	), [] );
+
+	const ethicsDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening italics tag.
+			 * %2$s expands to a closing italics tag.
+			 */
+			__( "Select a page which describes the personal, organizational, and corporate %1$sstandards%2$s of %1$sbehavior%2$s expected by your organization.", "wordpress-seo" ),
+			"<i>",
+			"</i>"
+		),
+		{
+			i: <i />,
+		}
+	), [] );
+
+	const diversityDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening italics tag.
+			 * %2$s expands to a closing italics tag.
+			 */
+			__( "Select a page which provides information on your diversity policies for %1$seditorial%2$s content.", "wordpress-seo" ),
+			"<i>",
+			"</i>"
+		),
+		{
+			i: <i />,
+		}
+	), [] );
+	const diversityStaffingDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening italics tag.
+			 * %2$s expands to a closing italics tag.
+			 */
+			__( "Select a page which provides information about your diversity policies for %1$sstaffing%2$s, %1$shiring%2$s and %1$semployment%2$s.", "wordpress-seo" ),
+			"<i>",
+			"</i>"
+		),
+		{
+			i: <i />,
+		}
+	), [] );
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
 
@@ -263,7 +365,7 @@ const SiteBasics = () => {
 								id="input-wpseo_titles-publishing_principles_id"
 								label={ __( "Publishing principles", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								description={ __( "The publishing principles describe the editorial principles of your organization.", "wordpress-seo" ) }
+								description={ publishingPrinciplesDescription }
 								isDummy={ ! isPremium }
 							/>
 							<FormikSelectPageWithDummy
@@ -271,7 +373,7 @@ const SiteBasics = () => {
 								id="input-wpseo_titles-ownership_funding_info_id"
 								label={ __( "Ownership / Funding info", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								description={ __( "Ownership/funding info describes the ownership structure of your organization. It should include information about funding and grants. This information is a relevant signal relating to editorial independence.", "wordpress-seo" ) }
+								description={ ownershipDescription }
 								isDummy={ ! isPremium }
 							/>
 							<FormikSelectPageWithDummy
@@ -279,7 +381,7 @@ const SiteBasics = () => {
 								id="input-wpseo_titles-actionable_feedback_policy_id"
 								label={ __( "Actionable feedback policy", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								description={ __( "The actionable feedback policy provides insight into your organization's commitment to actively listening to public feedback. It showcases your organization's efforts to engage the public, rectify errors promptly, and prioritize transparency.", "wordpress-seo" ) }
+								description={ actionableFeedbackDescription }
 								isDummy={ ! isPremium }
 							/>
 							<FormikSelectPageWithDummy
@@ -287,7 +389,7 @@ const SiteBasics = () => {
 								id="input-wpseo_titles-corrections_policy_id"
 								label={ __( "Corrections policy", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								description={ __( "The corrections policy should clearly outline the procedure for addressing errors.", "wordpress-seo" ) }
+								description={ correctionsDescription }
 								isDummy={ ! isPremium }
 							/>
 							<FormikSelectPageWithDummy
@@ -295,7 +397,7 @@ const SiteBasics = () => {
 								id="input-wpseo_titles-ethics_policy_id"
 								label={ __( "Ethics policy", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								description={ __( "The ethics policy describes the personal, organizational, and corporate standards of behavior expected by your organization.", "wordpress-seo" ) }
+								description={ ethicsDescription }
 								isDummy={ ! isPremium }
 							/>
 							<FormikSelectPageWithDummy
@@ -303,7 +405,7 @@ const SiteBasics = () => {
 								id="input-wpseo_titles-diversity_policy_id"
 								label={ __( "Diversity policy", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								description={ __( "This page should provide comprehensive information on diversity policies, covering aspects such as staffing diversity and diversity in sourcing information.", "wordpress-seo" ) }
+								description={ diversityDescription }
 								isDummy={ ! isPremium }
 							/>
 							<FormikSelectPageWithDummy
@@ -311,7 +413,7 @@ const SiteBasics = () => {
 								id="input-wpseo_titles-diversity_staffing_report_id"
 								label={ __( "Diversity staffing report", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								description={ __( "This page should address the topic of staffing diversity, outlining relevant issues and considerations.", "wordpress-seo" ) }
+								description={ diversityStaffingDescription }
 								isDummy={ ! isPremium }
 							/>
 						</FeatureUpsell>
