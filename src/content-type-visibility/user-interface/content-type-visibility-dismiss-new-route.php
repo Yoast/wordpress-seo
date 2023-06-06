@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dis
 
 /**
  * Handles the dismiss route for "New" badges of new content types in settings menu.
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 
