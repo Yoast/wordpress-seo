@@ -118,7 +118,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 						<SidebarNavigation.SubmenuItem
 							key={ `link-taxonomy-${ taxonomy.name }` }
 							to={ `/taxonomy/${ taxonomy.route }` }
-							label={ 	<span className="yst-inline-flex yst-items-center yst-gap-1.5">
+							label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
 								{ taxonomy.label }
 								{ taxonomy.isNew && <Badge variant="info">{ __( "New", "wordpress-seo" ) }</Badge> }
 							</span> }
