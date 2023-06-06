@@ -4,15 +4,15 @@ namespace Yoast\WP\SEO\Tests\Unit\Content_Type_Visibility;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Needs_Review_Dismiss_Route;
+use Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_Dismiss_New_Route;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 use Mockery;
 use Brain\Monkey;
 
 /**
- * Class Needs_Review_Dismiss_Route.
+ * Class Content_Type_Visibility_Dismiss_New_Route.
  */
-class Needs_Review_Dismiss_Route_Test extends TestCase {
+class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 
 	/**
 	 * Holds the Options_Helper instance.
@@ -24,7 +24,7 @@ class Needs_Review_Dismiss_Route_Test extends TestCase {
 	/**
 	 * The Content_Type_Visibility_Watcher_Actions.
 	 *
-	 * @var Needs_Review_Dismiss_Route
+	 * @var Content_Type_Visibility_Dismiss_New_Route
 	 */
 	protected $instance;
 
@@ -36,7 +36,7 @@ class Needs_Review_Dismiss_Route_Test extends TestCase {
 
 		$this->dismiss_notifications = Mockery::mock( Content_Type_Visibility_Dismiss_Notifications::class );
 
-		$this->instance = new Needs_Review_Dismiss_Route( $this->dismiss_notifications );
+		$this->instance = new Content_Type_Visibility_Dismiss_New_Route( $this->dismiss_notifications );
 	}
 
 	/**

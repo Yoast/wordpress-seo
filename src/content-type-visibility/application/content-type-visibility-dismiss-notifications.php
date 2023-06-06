@@ -20,7 +20,7 @@ class Content_Type_Visibility_Dismiss_Notifications {
 	private $options;
 
 	/**
-	 * Constructs Needs_Review_Dismiss_Route.
+	 * Constructs Content_Type_Visibility_Dismiss_New_Route.
 	 *
 	 * @param Options_Helper $options The options helper.
 	 */
