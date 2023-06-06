@@ -518,6 +518,12 @@ const CrawlOptimization = () => {
 								&nbsp;
 							{ descriptions.denyWpJsonCrawling }
 						</FormikValueChangeFieldWithDisabledMessage>
+					</FieldsetLayout>
+					<hr className="yst-my-8" />
+					<FieldsetLayout
+						title={ __( "Block unwanted bots", "wordpress-seo" ) }
+						description={ __( "Lots of web traffic comes from bots crawling the web. Some of these can be beneficial to your site or to your business, but some just waste resources. Blocking unwanted bots can save energy and help with site performance.", "wordpress-seo" ) }
+					>
 						<FormikValueChangeFieldWithDisabledMessage
 							as={ ToggleField }
 							type="checkbox"
