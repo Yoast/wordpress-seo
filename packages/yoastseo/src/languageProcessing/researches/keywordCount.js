@@ -2,13 +2,16 @@ import { flatten } from "lodash-es";
 import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
 import { normalizeSingle } from "../helpers/sanitize/quotes";
 import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
-import findKeyWordFormsInSentence  from "../helpers/match/findKeyWordFormsInSentence";
-// import matchKeywordWithSentence from "../helpers/match/matchKeywordWithSentence";
 import matchKeyphraseWithSentence from "../helpers/match/matchKeyphraseWithSentence";
 
+/**
+ * Counts the number of matches for a keyphrase in a sentence.
+ * @param {Token[]} matches The matches to count.
+ * @param {(string[])[]} keyphraseForms Keyphraseforms that were used for matching.
+ * @returns {number} The number of matches.
+ */
 const countMatches = ( matches, keyphraseForms ) => {
 	// the count is the number of complete matches.
-
 	const matchesCopy = [ ...matches ];
 
 	let nrMatches = 0;
@@ -25,7 +28,8 @@ const countMatches = ( matches, keyphraseForms ) => {
 			// check if any of the keyphrase forms is in the matches.
 			const foundMatch = matchesCopy.find( match =>{
 				return keyphraseForm.some( keyphraseFormWord => {
-					return match.text.toLowerCase() === keyphraseFormWord.toLowerCase();
+					const theRegex = new RegExp( `^${keyphraseFormWord}$`, "ig" );
+					return match.text.match( theRegex );
 				} );
 			} );
 			//
@@ -36,18 +40,46 @@ const countMatches = ( matches, keyphraseForms ) => {
 		}
 		if ( nrKeyphraseFormsWithMatch === keyphraseForms.length ) {
 			nrMatches += 1;
-
-			// const match = matches.find(match => match === keyphraseForm);
-			// if (match) {
-			// 	matches.splice(matches.indexOf(match), 1);
-			// } else {
-			// 	return matches.length;
-			// }
 		} else {
 			return nrMatches;
 		}
 	}
 	return nrMatches;
+};
+
+/**
+ * Creates a new array in which consecutive matches are removed. A consecutive match occures if the same keyphrase occurs more than twice in a row.
+ * The first and second match are kept, the rest is removed.
+ * @param {Token[]} matches An array of all matches. (Including consecutive matches).
+ * @returns {Token[]} An array of matches without consecutive matches.
+ */
+const removeConsecutiveMatches = ( matches ) => {
+	// If there are three or more matches in a row, remove all but the first and the second.
+
+	const matchesCopy = [ ...matches ];
+	// const matchesCopy = cloneDeep( matches );
+	let nrConsecutiveMatches = 0;
+	let previousMatch = null;
+	const result = [];
+
+	for ( let i = 0; i < matchesCopy.length; i++ ) {
+		const match = matchesCopy[ i ];
+
+		if ( previousMatch && match.sourceCodeRange.startOffset === previousMatch.sourceCodeRange.endOffset + 1 &&
+			match.text.toLowerCase() === previousMatch.text.toLowerCase() ) {
+			nrConsecutiveMatches += 1;
+		} else {
+			nrConsecutiveMatches = 0;
+		}
+
+		if ( nrConsecutiveMatches < 2 ) {
+			result.push( match );
+		}
+
+		previousMatch = match;
+	}
+
+	return result;
 };
 
 /**
@@ -66,9 +98,10 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 	sentences.forEach( sentence => {
 		// const matchesInSentence = findKeyWordFormsInSentence( sentence, topicForms.keyphraseForms, locale, matchWordCustomHelper );
 		const matchesInSentence = matchKeyphraseWithSentence( topicForms.keyphraseForms, sentence );
-		console.log( matchesInSentence);
-		const matchesCount = countMatches( matchesInSentence, topicForms.keyphraseForms );
+		const matchesInSentenceWithoutConsecutiveMatches = removeConsecutiveMatches( matchesInSentence );
+		const matchesCount = countMatches( matchesInSentenceWithoutConsecutiveMatches, topicForms.keyphraseForms );
 		const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale );
+		// const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale );
 
 		result.markings.push( markings );
 		result.count += matchesCount;
