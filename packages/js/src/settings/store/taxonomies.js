@@ -59,7 +59,7 @@ taxonomiesSelectors.selectTaxonomies = createSelector(
 
 export { taxonomiesSelectors };
 
-export const updateTaxonomyReviewControls = {
+export const taxonomyControls = {
 	[ UPDATE_REVIEW_ACTION_NAME ]: async( { payload } ) => apiFetch( {
 		path: "/yoast/v1/needs-review/dismiss-taxonomy",
 		method: "POST",

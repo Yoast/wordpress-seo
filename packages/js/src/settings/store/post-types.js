@@ -49,7 +49,7 @@ postTypesSelectors.selectPostTypes = createSelector(
 	postTypes => omit( postTypes, [ "attachment" ] )
 );
 
-export const updatePostTypeReviewControls = {
+export const postTypeControls = {
 	[ UPDATE_REVIEW_ACTION_NAME ]: async( { payload } ) => apiFetch( {
 		path: "/yoast/v1/needs-review/dismiss-post-type",
 		method: "POST",

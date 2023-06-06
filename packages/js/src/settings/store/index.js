@@ -12,7 +12,7 @@ import defaultSettingValues, {
 import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import notifications, { getInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
-import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors, updatePostTypeReviewControls } from "./post-types";
+import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors, postTypeControls } from "./post-types";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import replacementVariables, {
 	createInitialReplacementVariablesState,
@@ -21,7 +21,7 @@ import replacementVariables, {
 } from "./replacement-variables";
 import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from "./schema";
 import search, { createInitialSearchState, searchActions, searchSelectors } from "./search";
-import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors, updateTaxonomyReviewControls } from "./taxonomies";
+import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors, taxonomyControls } from "./taxonomies";
 import users, { createInitialUsersState, usersActions, usersControls, usersSelectors } from "./users";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
@@ -96,8 +96,8 @@ const createStore = ( { initialState } ) => {
 		controls: {
 			...mediaControls,
 			...usersControls,
-			...updatePostTypeReviewControls,
-			...updateTaxonomyReviewControls,
+			...postTypeControls,
+			...taxonomyControls,
 		},
 	} );
 };
