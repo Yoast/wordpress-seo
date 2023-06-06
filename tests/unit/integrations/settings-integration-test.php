@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Integrations\Settings_Integration_Double;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 
 /**
  * Class Settings_Integration_Test.
@@ -70,19 +70,19 @@ class Settings_Integration_Test extends TestCase {
 	 * Runs the setup to prepare the needed instance
 	 */
 	public function set_up() {
-		$asset_manager                         = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$replace_vars                          = Mockery::mock( WPSEO_Replace_Vars::class );
-		$schema_types                          = Mockery::mock( Schema_Types::class );
-		$current_page_helper                   = Mockery::mock( Current_Page_Helper::class );
-		$this->post_type_helper                = Mockery::mock( Post_Type_Helper::class );
-		$language_helper                       = Mockery::mock( Language_Helper::class );
-		$taxonomy_helper                       = Mockery::mock( Taxonomy_Helper::class );
-		$product_helper                        = Mockery::mock( Product_Helper::class );
-		$woocommerce_helper                    = Mockery::mock( Woocommerce_Helper::class );
-		$this->article_helper                  = Mockery::mock( Article_Helper::class );
-		$user_helper                           = Mockery::mock( User_Helper::class );
-		$this->options                         = Mockery::mock( Options_Helper::class );
-		$content_type_visibility_notifications = Mockery::mock( Content_Type_Visibility_Watcher_Actions::class );
+		$asset_manager           = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$replace_vars            = Mockery::mock( WPSEO_Replace_Vars::class );
+		$schema_types            = Mockery::mock( Schema_Types::class );
+		$current_page_helper     = Mockery::mock( Current_Page_Helper::class );
+		$this->post_type_helper  = Mockery::mock( Post_Type_Helper::class );
+		$language_helper         = Mockery::mock( Language_Helper::class );
+		$taxonomy_helper         = Mockery::mock( Taxonomy_Helper::class );
+		$product_helper          = Mockery::mock( Product_Helper::class );
+		$woocommerce_helper      = Mockery::mock( Woocommerce_Helper::class );
+		$this->article_helper    = Mockery::mock( Article_Helper::class );
+		$user_helper             = Mockery::mock( User_Helper::class );
+		$this->options           = Mockery::mock( Options_Helper::class );
+		$content_type_visibility = Mockery::mock( Content_Type_Visibility_Dismiss_Notifications::class );
 
 		$this->instance = new Settings_Integration(
 			$asset_manager,
@@ -97,7 +97,7 @@ class Settings_Integration_Test extends TestCase {
 			$this->article_helper,
 			$user_helper,
 			$this->options,
-			$content_type_visibility_notifications
+			$content_type_visibility
 		);
 
 		$this->instance_double = new Settings_Integration_Double(
@@ -113,7 +113,7 @@ class Settings_Integration_Test extends TestCase {
 			$this->article_helper,
 			$user_helper,
 			$this->options,
-			$content_type_visibility_notifications
+			$content_type_visibility
 		);
 	}
 
@@ -219,8 +219,8 @@ class Settings_Integration_Test extends TestCase {
 			'Options helper is set.'
 		);
 		$this->assertInstanceOf(
-			Content_Type_Visibility_Watcher_Actions::class,
-			$this->getPropertyValue( $this->instance, 'content_type_visibility_notifications' ),
+			Content_Type_Visibility_Dismiss_Notifications::class,
+			$this->getPropertyValue( $this->instance, 'content_type_visibility' ),
 			'Content type visibility notifications is set.'
 		);
 	}
