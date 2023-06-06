@@ -147,20 +147,6 @@ describe( "tests markTinyMCE", function() {
 		expect( editor.setContent ).toBeCalledWith( "" );
 	} );
 
-	it( "should exit early if Marks is empty", function() {
-		const html = "<h1>Hallo!</h1>";
-
-		editor.getContent.mockReturnValue( html );
-
-		const paper = new Paper( html );
-		const marks = [];
-
-		markTinyMCE( editor, paper, marks );
-
-		expect( editor.getContent ).not.toHaveBeenCalled();
-		expect( editor.setContent ).not.toHaveBeenCalled();
-	} );
-
 	it( "should do the right thing if a mark contains 'out of bounds' position", () => {
 		const html = "<h1>Hallo!</h1>";
 

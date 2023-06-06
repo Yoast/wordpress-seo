@@ -24,7 +24,7 @@ describe( "A test for filterTree", () => {
 		expect( filteredTree.findAll( child => child.name === "style" ) ).toHaveLength( 0 );
 	} );
 
-	it( "should filter style elements", () => {
+	it( "should filter blockquote elements", () => {
 		const html = "<blockquote cite=\"http://www.worldwildlife.org/who/index.html\">\n" +
 			"For 50 years, WWF has been protecting the future of nature. The world's leading conservation organization, " +
 			"WWF works in 100 countries and is supported by 1.2 million members in the United States and close to 5 million globally.\n" +

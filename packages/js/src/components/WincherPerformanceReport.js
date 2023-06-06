@@ -75,6 +75,14 @@ const viewLinkUrl = ( props ) => {
 };
 
 /**
+ * Checks if the request has failed or not.
+ *
+ * @param {Object} data The response data object.
+ * @returns {Boolean} Whether the request has failed or not.
+ */
+const checkFailedRequest = ( data ) => data && [ 401, 403, 404 ].includes( data.status );
+
+/**
  * Creates the Connect to Wincher button.
  *
  * @param {Object} props The props to use.
@@ -251,7 +259,7 @@ WincherConnectSuccessAlert.propTypes = {
  * @returns {null|wp.Element} The connection alert.
  */
 const GetConnectionAlert = ( props ) => {
-	const { data, onConnectAction, isConnectSuccess, isNetworkError } = props;
+	const { data, onConnectAction, isConnectSuccess, isNetworkError, isFailedRequest } = props;
 
 	if ( isNetworkError ) {
 		return <WincherNetworkErrorAlert data={ data } />;
@@ -261,7 +269,7 @@ const GetConnectionAlert = ( props ) => {
 		return <WincherConnectSuccessAlert data={ data } />;
 	}
 
-	if ( data && [ 401, 403, 404 ].includes( data.status ) ) {
+	if ( isFailedRequest ) {
 		return <WincherReconnectAlert
 			onReconnect={ onConnectAction }
 			className={ "wincher-performance-report-alert" }
@@ -276,6 +284,7 @@ GetConnectionAlert.propTypes = {
 	onConnectAction: PropTypes.func.isRequired,
 	isConnectSuccess: PropTypes.bool.isRequired,
 	isNetworkError: PropTypes.bool.isRequired,
+	isFailedRequest: PropTypes.bool.isRequired,
 };
 
 /**
@@ -286,12 +295,12 @@ GetConnectionAlert.propTypes = {
  * @returns {wp.Element} The user message.
  */
 const GetUserMessage = ( props ) => {
-	const { data } = props;
+	const { data, isNetworkError, isConnectSuccess } = props;
 
-	const connectionAlert = <GetConnectionAlert { ...props } />;
+	const isFailedRequest = checkFailedRequest( data );
 
-	if ( connectionAlert ) {
-		return connectionAlert;
+	if ( isNetworkError || isConnectSuccess || isFailedRequest ) {
+		return <GetConnectionAlert { ...props } isFailedRequest={ isFailedRequest } />;
 	}
 
 	if ( ! data || isEmpty( data.results ) ) {

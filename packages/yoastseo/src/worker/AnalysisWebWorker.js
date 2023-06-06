@@ -13,7 +13,6 @@ import TaxonomyAssessor from "../scoring/taxonomyAssessor";
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
 import RelatedKeywordAssessor from "../scoring/relatedKeywordAssessor";
-import removeHtmlBlocks from "../languageProcessing/helpers/html/htmlParser";
 import InclusiveLanguageAssessor from "../scoring/inclusiveLanguageAssessor";
 
 import { build } from "../parse/build";
@@ -1071,7 +1070,6 @@ export default class AnalysisWebWorker {
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
 	async analyze( id, { paper, relatedKeywords = {} } ) {
-		paper._text = removeHtmlBlocks( paper._text );
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
 		const shouldInclusiveLanguageUpdate = this.shouldInclusiveLanguageUpdate( paper );
@@ -1083,6 +1081,7 @@ export default class AnalysisWebWorker {
 			this._researcher.setPaper( this._paper );
 
 			const languageProcessor = new LanguageProcessor( this._researcher );
+
 			this._paper.setTree( build( this._paper.getText(), languageProcessor ) );
 
 			// Update the configuration locale to the paper locale.

@@ -1,7 +1,7 @@
 import { flatMap } from "lodash-es";
 import { languageProcessing } from "yoastseo";
 
-const { getWords, getSentences } = languageProcessing;
+const { getWords, getSentences, helpers } = languageProcessing;
 
 /**
  * An object containing the results of the complex words research for a single sentence.
@@ -79,7 +79,8 @@ const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
  */
 export default function wordComplexity( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
-	const text = paper.getText();
+	let text = paper.getText();
+	text = helpers.removeHtmlBlocks( text );
 	const sentences = getSentences( text, memoizedTokenizer );
 
 	// Find the complex words in each sentence.
