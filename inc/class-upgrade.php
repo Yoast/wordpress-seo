@@ -89,6 +89,7 @@ class WPSEO_Upgrade {
 			'20.5-RC0'   => 'upgrade_205',
 			'20.7-RC0'   => 'upgrade_207',
 			'20.8-RC0'   => 'upgrade_208',
+			'20.9-RC0'   => 'upgrade_209',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -1012,6 +1013,15 @@ class WPSEO_Upgrade {
 			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
+
+	/**
+	 * Performs the 20.9 upgrade routine.
+	 */
+	private function upgrade_209() {
+			if ( empty( get_option( 'wpseo_premium', [] ) ) ) {
+				WPSEO_Options::set( 'enable_ai_generator', true );
+			}
+		}
 
 	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
