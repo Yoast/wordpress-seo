@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
+import { applyFilters } from "@wordpress/hooks";
 // External dependencies.
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
@@ -87,6 +88,7 @@ class ReplacementVariableEditor extends React.Component {
 			hasNewBadge,
 			isDisabled,
 			hasPremiumBadge,
+			type,
 		} = this.props;
 
 		const InputContainer = this.InputContainer;
@@ -98,6 +100,8 @@ class ReplacementVariableEditor extends React.Component {
 		>
 			{ __( "Insert variable", "wordpress-seo" ) }
 		</TriggerReplacementVariableSuggestionsButton>;
+
+		const buttons = applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId, type } );
 
 		return (
 			<FormSection
@@ -112,10 +116,19 @@ class ReplacementVariableEditor extends React.Component {
 				>
 					{ label }
 				</SimulatedLabel>
+
 				{ hasPremiumBadge && <PremiumBadge inLabel={ true } /> }
-				<Slot key={ `PluginComponent-${ fieldId }` } name={ `PluginComponent-${ fieldId }` } />
 				{ hasNewBadge && <NewBadge inLabel={ true } /> }
+
+				<Slot name={ `yoast.replacementVariableEditor.additionalButtons.${ fieldId }` } />
+				{ buttons.map( ( button, index ) => (
+					<Fragment key={ `additional-button-${ index }-${ fieldId }` }>
+						{ button }
+					</Fragment>
+				) ) }
+				<Slot key={ `PluginComponent-${ fieldId }` } name={ `PluginComponent-${ fieldId }` } />
 				{ addVariableButton }
+
 				<InputContainer
 					className="yst-replacevar__editor"
 					onClick={ onFocus }
