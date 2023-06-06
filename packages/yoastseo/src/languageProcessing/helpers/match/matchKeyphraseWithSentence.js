@@ -63,7 +63,8 @@ const matchKeyphraseWithSentence = ( keywordForms, sentence ) => {
 		// Compare the matchtoken with the keyword forms.
 		keywordForms.forEach( ( keywordForm ) => {
 			keywordForm.forEach( ( keywordFormPart ) => {
-				if ( tokenForMatching.text.toLowerCase() === keywordFormPart.toLowerCase() ) {
+				const keywordFormPartRegex = new RegExp( `^${keywordFormPart}$`, "ig" );
+				if ( tokenForMatching.text.match( keywordFormPartRegex ) ) {
 					matches.push( ...tokensForMatching );
 				}
 			} );
