@@ -345,23 +345,9 @@ describe( "A test for the tokenize function",
 										},
 									},
 									{
-										text: "9",
+										text: "9.3",
 										sourceCodeRange: {
 											startOffset: 35,
-											endOffset: 36,
-										},
-									},
-									{
-										text: ".",
-										sourceCodeRange: {
-											startOffset: 36,
-											endOffset: 37,
-										},
-									},
-									{
-										text: "3",
-										sourceCodeRange: {
-											startOffset: 37,
 											endOffset: 38,
 										},
 									},
