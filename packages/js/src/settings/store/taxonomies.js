@@ -61,7 +61,7 @@ export { taxonomiesSelectors };
 
 export const taxonomyControls = {
 	[ UPDATE_REVIEW_ACTION_NAME ]: async( { payload } ) => apiFetch( {
-		path: "/yoast/v1/needs-review/dismiss-taxonomy",
+		path: "/yoast/v1/new-content-type-visibility/dismiss-taxonomy",
 		method: "POST",
 		data: { taxonomyName: payload },
 	} ),

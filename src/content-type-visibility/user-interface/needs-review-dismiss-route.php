@@ -19,7 +19,7 @@ class Needs_Review_Dismiss_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const ROUTE_PREFIX = 'needs-review';
+	const ROUTE_PREFIX = 'new-content-type-visibility';
 
 	/**
 	 * Represents post type dismiss route.

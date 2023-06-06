@@ -51,7 +51,7 @@ postTypesSelectors.selectPostTypes = createSelector(
 
 export const postTypeControls = {
 	[ UPDATE_REVIEW_ACTION_NAME ]: async( { payload } ) => apiFetch( {
-		path: "/yoast/v1/needs-review/dismiss-post-type",
+		path: "/yoast/v1/new-content-type-visibility/dismiss-post-type",
 		method: "POST",
 		data: { postTypeName: payload },
 	} ),

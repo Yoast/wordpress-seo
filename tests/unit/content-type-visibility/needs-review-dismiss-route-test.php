@@ -61,7 +61,7 @@ class Needs_Review_Dismiss_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'needs-review/dismiss-post-type',
+				'new-content-type-visibility/dismiss-post-type',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->dismiss_notifications, 'post_type_dismiss' ],
@@ -80,7 +80,7 @@ class Needs_Review_Dismiss_Route_Test extends TestCase {
 			Monkey\Functions\expect( 'register_rest_route' )
 				->with(
 					'yoast/v1',
-					'needs-review/dismiss-taxonomy',
+					'new-content-type-visibility/dismiss-taxonomy',
 					[
 						'methods'             => 'POST',
 						'callback'            => [ $this->dismiss_notifications, 'taxonomy_dismiss' ],
