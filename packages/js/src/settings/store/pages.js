@@ -106,14 +106,13 @@ export const pageActions = {
 
 export const pageControls = {
 	[ FETCH_PAGES_ACTION_NAME ]: async( { payload } ) => {
-		if ( abortController ) {
-			abortController?.abort();
-		}
+		abortController?.abort();
+
 
 		abortController = new AbortController();
 		return apiFetch( {
 			path: `/wp/v2/pages?${ buildQueryString( payload ) }`,
-			signal: abortController?.signal,
+			signal: abortController.signal,
 		} );
 	},
 };

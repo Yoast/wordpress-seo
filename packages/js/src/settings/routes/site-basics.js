@@ -7,12 +7,12 @@ import {
 	FieldsetLayout,
 	FormikMediaSelectField,
 	FormikValueChangeField,
+	FormikPageSelectField,
 	FormikWithErrorField,
 	FormLayout,
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../components";
-import FormikPageSelectField from "../components/formik-page-select-field";
 import { withDisabledMessageSupport, withFormikDummyField } from "../hocs";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
@@ -31,7 +31,7 @@ const SiteBasics = () => {
 	const usageTrackingLink = useSelectSettings( "selectLink", [], "https://yoa.st/usage-tracking-2" );
 	const sitePoliciesLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-policies-learn-more" );
 	const siteTitle = useSelectSettings( "selectPreference", [], "siteTitle", "" );
-	const PublishingPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-policies-upsell" );
+	const publishingPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-policies-upsell" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const { fetchPages } = useDispatchSettings();
@@ -60,7 +60,7 @@ const SiteBasics = () => {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
 			a: <a id="link-site-policies" href={ sitePoliciesLink } target="_blank" rel="noopener" />,
 		}
-	), [] );
+	), [ sitePoliciesLink ] );
 	const siteInfoDescription = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to an opening and closing emphasis tag. %3$s and %4$s expand to an opening and closing anchor tag. */
@@ -228,7 +228,7 @@ const SiteBasics = () => {
 	useEffect( () => {
 		// Get initial options.
 		fetchPages();
-	}, [] );
+	}, [ fetchPages ] );
 	return (
 		<RouteLayout
 			title={ __( "Site basics", "wordpress-seo" ) }
@@ -352,7 +352,7 @@ const SiteBasics = () => {
 						<FeatureUpsell
 							shouldUpsell={ ! isPremium }
 							variant="card"
-							cardLink={ PublishingPremiumLink }
+							cardLink={ publishingPremiumLink }
 							cardText={ sprintf(
 								/* translators: %1$s expands to Premium. */
 								__( "Unlock with %1$s", "wordpress-seo" ),
