@@ -87,6 +87,7 @@ class Wincher_Helper {
 			'links.wincher.about'   => WPSEO_Shortlinker::get( 'https://yoa.st/dashboard-about-wincher' ),
 			'links.wincher.pricing' => WPSEO_Shortlinker::get( 'https://yoa.st/wincher-popup-pricing' ),
 			'links.wincher.website' => WPSEO_Shortlinker::get( 'https://yoa.st/wincher-popup' ),
+			'links.wincher.upgrade' => WPSEO_Shortlinker::get( 'https://yoa.st/wincher-upgrade' ),
 		];
 	}
 }
