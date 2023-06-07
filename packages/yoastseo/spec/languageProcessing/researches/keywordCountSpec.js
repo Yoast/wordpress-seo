@@ -32,6 +32,7 @@ const mockResearcherKeyWord = buildMorphologyMockResearcher( [ [ "key", "keys" ]
 const mockResearcherKaplaki = buildMorphologyMockResearcher( [ [ "kapaklı" ] ] );
 const mockResearcherAmpersand = buildMorphologyMockResearcher( [ [ "key&word" ] ] );
 const mockResearcherApostrophe = buildMorphologyMockResearcher( [ [ "key`word" ] ] );
+const mockResearcherDubbelQuotedKeyphrase = buildMorphologyMockResearcher( [ [ "key word" ] ] );
 // Escape, since the morphology researcher escapes regex as well.
 const mockResearcherDollarSign = buildMorphologyMockResearcher( [ [ "\\$keyword" ] ] );
 
@@ -228,6 +229,18 @@ describe( "Test for counting the keyword in a text", function() {
 		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherDollarSign ).count ).toBe( 1 );
 		// Markings do not currently work in this condition.
+	} );
+
+	it( "can recognize a focus keyphrase that is double quoted", function() {
+		const mockPaper = new Paper( "A string with a key word." );
+		buildTree( mockPaper, mockResearcher );
+		expect( keyphraseCount( mockPaper, mockResearcherDubbelQuotedKeyphrase ).count ).toBe( 1 );
+	} );
+
+	it( "can recognize multiple focus keyphrases that are double quoted", function() {
+		const mockPaper = new Paper( "A string with a key word and a key word." );
+		buildTree( mockPaper, mockResearcher );
+		expect( keyphraseCount( mockPaper, mockResearcherDubbelQuotedKeyphrase ).count ).toBe( 2 );
 	} );
 
 	it( "does not count 'key word' in 'key-word' but counts key word.)", function() {

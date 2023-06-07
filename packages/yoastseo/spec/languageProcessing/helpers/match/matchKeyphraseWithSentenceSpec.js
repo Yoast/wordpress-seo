@@ -597,6 +597,105 @@ const testCases = [
 			{ text: "s", sourceCodeRange: { startOffset: 18, endOffset: 19 } },
 		],
 	},
+	{
+		testDescription: "Matches a single word keyphrase if keyphrase is doubleQuoted.",
+		sentence: {
+			text: "A sentence with a keyphrase.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "keyphrase", sourceCodeRange: { startOffset: 18, endOffset: 27 } },
+				{ text: ".", sourceCodeRange: { startOffset: 27, endOffset: 28 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 28 } },
+		keyphraseForms: [ [ "keyphrase" ] ],
+		expectedResult: [
+			{ text: "keyphrase", sourceCodeRange: { startOffset: 18, endOffset: 27 } },
+		],
+	},
+	{
+		testDescription: "Matches a multi word keyphrase with a space as result of the keyphrase being double quoted.",
+		sentence: {
+			text: "A sentence with a key phrase.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
+				{ text: " ", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
+				{ text: "phrase", sourceCodeRange: { startOffset: 22, endOffset: 28 } },
+				{ text: ".", sourceCodeRange: { startOffset: 28, endOffset: 29 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
+		keyphraseForms: [ [ "key phrase" ] ],
+		expectedResult: [
+			{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
+			{ text: " ", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
+			{ text: "phrase", sourceCodeRange: { startOffset: 22, endOffset: 28 } },
+		],
+	},
+	{
+		testDescription: "Does not match multiword keyphrase in opposite order if keyphrase is doubleQuoted.",
+		sentence: {
+			text: "A sentence with a phrase key.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "phrase", sourceCodeRange: { startOffset: 18, endOffset: 24 } },
+				{ text: " ", sourceCodeRange: { startOffset: 24, endOffset: 25 } },
+				{ text: "key", sourceCodeRange: { startOffset: 25, endOffset: 28 } },
+				{ text: ".", sourceCodeRange: { startOffset: 28, endOffset: 29 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
+		keyphraseForms: [ [ "key phrase" ] ],
+		expectedResult: [],
+	},
+	{
+		testDescription: "Does not match plural if singular keyphrase is doubleQuoted.",
+		sentence: {
+			text: "A sentence with keyphrases.",
+		},
+		keyphraseForms: [ [ "keyphrase" ] ],
+		expectedResult: [],
+	},
+	{
+		testDescription: "Does not match singular if plural keyphrase is doubleQuoted.",
+		sentence: {
+			text: "A sentence with a keyphrase.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "keyphrase", sourceCodeRange: { startOffset: 18, endOffset: 27 } },
+				{ text: ".", sourceCodeRange: { startOffset: 27, endOffset: 28 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 28 } },
+		keyphraseForms: [ [ "keyphrases" ] ],
+		expectedResult: [],
+	},
+
 ];
 // eslint-enable max-len
 
