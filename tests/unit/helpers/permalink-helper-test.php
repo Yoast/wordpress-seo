@@ -134,7 +134,6 @@ class Permalink_Helper_Test extends TestCase {
 			->with( 2 )
 			->andReturn( null );
 
-
 		$this->assertNull(
 			$this->instance->get_permalink_for_indexable( $indexable )
 		);

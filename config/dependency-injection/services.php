@@ -11,10 +11,10 @@ use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\Lib\Migrations\Adapter;
+use Yoast\WP\SEO\Presenters\Robots_Txt_Presenter;
 use Yoast\WP\SEO\WordPress\Wrapper;
 use Yoast_Notification_Center;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
-use Yoast\WP\SEO\Presenters\Robots_Txt_Presenter;
 
 /**
  * Holds the dependency injection container.

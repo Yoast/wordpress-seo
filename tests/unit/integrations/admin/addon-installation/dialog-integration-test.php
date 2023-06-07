@@ -83,7 +83,6 @@ class Dialog_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $owned_subscriptions );
 
-
 		$this->instance->start_addon_installation();
 
 		$this->assertSame( 10, \has_action( 'admin_notices', [ $this->instance, 'throw_no_owned_addons_warning' ] ) );
@@ -116,7 +115,6 @@ class Dialog_Integration_Test extends TestCase {
 			->expects( 'get_myyoast_site_information' )
 			->once()
 			->andReturn( $owned_subscriptions );
-
 
 		$this->instance->start_addon_installation();
 

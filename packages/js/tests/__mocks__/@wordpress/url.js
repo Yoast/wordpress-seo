@@ -1,3 +1,6 @@
 module.exports = {
-	addQueryArgs: input => input,
+	addQueryArgs: ( url, args ) => {
+		const link = new URLSearchParams( args );
+		return `${ url }?${ link.toString() }`;
+	},
 };

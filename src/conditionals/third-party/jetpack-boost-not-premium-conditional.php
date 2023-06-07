@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Conditionals\Third_Party;
 
+use Automattic\Jetpack_Boost\Lib\Premium_Features;
 use Yoast\WP\SEO\Conditionals\Conditional;
 
 /**
@@ -25,8 +26,8 @@ class Jetpack_Boost_Not_Premium_Conditional implements Conditional {
 	 */
 	private function is_premium() {
 		if ( \class_exists( '\Automattic\Jetpack_Boost\Lib\Premium_Features', false ) ) {
-			return \Automattic\Jetpack_Boost\Lib\Premium_Features::has_feature(
-				\Automattic\Jetpack_Boost\Lib\Premium_Features::PRIORITY_SUPPORT
+			return Premium_Features::has_feature(
+				Premium_Features::PRIORITY_SUPPORT
 			);
 		}
 
