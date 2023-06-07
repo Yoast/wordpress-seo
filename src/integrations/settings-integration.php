@@ -68,6 +68,9 @@ class Settings_Integration implements Integration_Interface {
 			'most_linked_ignore_list',
 			'least_linked_ignore_list',
 			'indexables_page_reading_list',
+			'show_new_content_type_notification',
+			'new_post_types',
+			'new_taxonomies',
 		],
 		'wpseo_titles' => [
 			'company_logo_meta',
