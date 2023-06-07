@@ -39,5 +39,9 @@ module.exports = {
 		"sm:yst-ml-3",
 		"sm:yst-flex",
 		"sm:yst-flex-row-reverse",
+
+		"yst-ml-1.5",
+		"yst-my-8",
+		"yst-mx--6",
 	],
 };
