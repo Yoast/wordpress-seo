@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Content_Type_Visibility;
+namespace Yoast\WP\SEO\Tests\Unit\Content_Type_Visibility\User_Interface;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
