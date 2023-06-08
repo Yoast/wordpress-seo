@@ -13,11 +13,11 @@ import {
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../components";
-import { withDisabledMessageSupport, withFormikDummyField } from "../hocs";
+import { withDisabledMessageSupport, withFormikDummySelectField } from "../hocs";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 const ToggleFieldWithDisabledMessageSupport = withDisabledMessageSupport( ToggleField );
-const FormikSelectPageWithDummy = withFormikDummyField( FormikPageSelectField );
+const FormikSelectPageWithDummy = withFormikDummySelectField( FormikPageSelectField );
 
 /**
  * @returns {JSX.Element} The site defaults route.
