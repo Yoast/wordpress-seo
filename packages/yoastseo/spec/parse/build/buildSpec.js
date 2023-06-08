@@ -1038,8 +1038,8 @@ describe( "The parse function", () => {
 			} ],
 		} );
 	} );
-	// Currently the token offsets for the second sentence are not calculated correctly.
-	xit( "parses an HTML text with a code element within a paragraph", () => {
+
+	it( "parses an HTML text with a code element within a paragraph", () => {
 		const html = "<div><p>Hello code! <code>array.push( something )</code> Hello world!</p></div>";
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
@@ -1528,24 +1528,10 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 								},
 								{
 									sourceCodeRange: {
-										endOffset: 112,
+										endOffset: 114,
 										startOffset: 106,
 									},
-									text: "Norway",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 113,
-										startOffset: 112,
-									},
-									text: "'",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 114,
-										startOffset: 113,
-									},
-									text: "s",
+									text: "Norway's",
 								},
 								{
 									sourceCodeRange: {
@@ -1614,6 +1600,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 			],
 		} );
 	} );
+
 	it( "parses an HTML text with a Yoast siblings block", () => {
 		const html = "<p>Hello, world!</p><!-- wp:yoast-seo/siblings /-->";
 
@@ -1706,6 +1693,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 			],
 		} );
 	} );
+
 	it( "parses an HTML text with a Yoast subpages block", () => {
 		const html = "<div>The Norwegian Forest cat is strongly built and larger than an average cat.</div><!-- wp:yoast-seo/subpages /-->";
 

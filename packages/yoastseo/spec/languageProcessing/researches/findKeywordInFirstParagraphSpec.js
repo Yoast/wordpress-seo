@@ -264,15 +264,14 @@ describe( "tests for edge cases", function() {
 		} );
 	} );
 
-	it( "skips the first paragraph if there is an estimated reading time element", function() {
+	it( "skips the first paragraph if the document starts with the Estimated reading time block", function() {
 		const paper = new Paper(
-			"<div tabindex=\"0\" id=\"block-62462faa-6047-481b-b3fc-8603369c08f6\" role=\"document\" " +
-			"aria-label=\"Block: Yoast Estimated Reading Time\" data-block=\"62462faa-6047-481b-b3fc-8603369c08f6\" " +
-			"data-type=\"yoast-seo/estimated-reading-time\" data-title=\"Yoast Estimated Reading Time\" " +
-			"class=\"block-editor-block-list__block wp-block is-selected\"><div><p class=\"yoast-reading-time" +
-			"__wrapper\"><span class=\"yoast-reading-time__icon\"><span class=\"yoast-reading-time__descriptive-text\"> " +
-			"Estimated reading time:  </span></p></div></div>" +
-			"<p>A sentence with a keyword</p>",
+			"<!-- wp:yoast-seo/estimated-reading-time {\"estimatedReadingTime\":3} -->\n" +
+			"<p class=\"yoast-reading-time__wrapper\"><span class=\"yoast-reading-time__icon\"></span><span " +
+			"class=\"yoast-reading-time__descriptive-text\">Estimated reading time:  </span><span class=\"yoast-reading-time__reading-time\">" +
+			"3</span><span class=\"yoast-reading-time__time-unit\"> minutes</span></p>\n" +
+			"<!-- /wp:yoast-seo/estimated-reading-time --><!-- wp:paragraph -->" +
+			"<p>A sentence with a keyword</p><!-- /wp:paragraph -->",
 			{
 				keyword: "keyword",
 				synonyms: "",

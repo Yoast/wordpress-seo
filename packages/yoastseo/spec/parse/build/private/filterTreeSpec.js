@@ -9,13 +9,13 @@ import permanentFilters from "../../../../src/parse/build/private/alwaysFilterEl
 // 1: Tests the filtering out of Yoast blocks.
 // 2: Tests the filtering out of HTML elements when they occur only once.
 // 3: Tests the filtering out of HTML elements when they occur twice.
-// 4: Miscellaneous tests.
+// 4: Miscellaneous tests, incl. one for the Elementor Breadcrumbs widget.
 // 5: Tests the filtered trees of Yoast blocks and of a made-up block.
 
 // Object containing samples of Yoast blocks we filter out from the tree.
 const samplesWithYoastBlocks = [
 	{
-		description: "Should filter out Yoast Table of Contents block",
+		description: "Should filter out the Table of Contents block",
 		element: "yoast-table-of-contents",
 		html: "<!DOCTYPE html><html class=\"wp-toolbar-interface-skeleton__html-container\" lang=\"en-US\"><body>" +
 			"<!-- wp:yoast-seo/table-of-contents -->\n<div class=\"wp-block-yoast-seo-table-of-contents yoast-table-of-contents\">" +
@@ -24,7 +24,7 @@ const samplesWithYoastBlocks = [
 			"</body></html>",
 	},
 	{
-		description: "Should filter out Yoast reading time block",
+		description: "Should filter out the Estimated reading time block",
 		element: "yoast-reading-time__wrapper",
 		html: "<html lang=\"en-US\"><body>" +
 			"<!-- wp:yoast-seo/estimated-reading-time {\"estimatedReadingTime\":3} -->\n" +
@@ -32,6 +32,18 @@ const samplesWithYoastBlocks = [
 			"class=\"yoast-reading-time__descriptive-text\">Estimated reading time:  </span><span class=\"yoast-reading-time__reading-time\">" +
 			"3</span><span class=\"yoast-reading-time__time-unit\"> minutes</span></p>\n" +
 		    "<!-- /wp:yoast-seo/estimated-reading-time -->" +
+			"<h2>A Heading</h2></body></html>",
+	},
+	{
+		description: "Should filter out the Estimated reading time block even using the raw HTML where it's encased in a div element",
+		element: "yoast-reading-time__wrapper",
+		html: "<html lang=\"en-US\"><body><div tabindex=\"0\" id=\"block-62462faa-6047-481b-b3fc-8603369c08f6\" role=\"document\" " +
+			"aria-label=\"Block: Yoast Estimated Reading Time\" data-block=\"62462faa-6047-481b-b3fc-8603369c08f6\" " +
+			"data-type=\"yoast-seo/estimated-reading-time\" data-title=\"Yoast Estimated Reading Time\" " +
+			"class=\"block-editor-block-list__block wp-block is-selected\"><div><p class=\"yoast-reading-time" +
+			"__wrapper\"><span class=\"yoast-reading-time__icon\"><svg aria-hidden=\"true\" focusable=\"false\" " +
+			"data-icon=\"clock\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" role=\"img\"> " +
+			"</svg><span class=\"yoast-reading-time__descriptive-text\">Estimated reading time:  </span></p></div></div>" +
 			"<h2>A Heading</h2></body></html>",
 	},
 ];
@@ -166,7 +178,7 @@ describe.each( samplesWithOneOccurrence )( "Tests HTML elements, part 1 ", ( htm
 	} );
 } );
 
-// In this object the excluded HTML elements occur twice in the given HTML sample.
+// In this object, the excluded HTML elements occur twice in the given HTML sample.
 // Also, each sample includes at least 2 types of html elements, in order to resemble more closely a real-life tree ⍋.
 const samplesWithTwoOccurrences = [
 	{
@@ -198,7 +210,7 @@ describe.each( samplesWithTwoOccurrences )( "Tests HTML elements, part 2", ( htm
 } );
 
 describe( "Miscellaneous tests", () => {
-	it( "shouldn't filter elements like <strong>, which are not included in the list of excluded elements", () => {
+	it( "shouldn't filter out elements like <strong>, which are not included in the list of excluded elements", () => {
 		const html = "<p>Welcome to the blue screen of <strong>death</strong>.</p>";
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
@@ -207,7 +219,7 @@ describe( "Miscellaneous tests", () => {
 		expect( filteredTree.findAll( child => child.name === "strong" ) ).toHaveLength( 1 );
 	} );
 
-	it( "should filter elements like <strong> when nested within excluded elements, e.g. <samp>", () => {
+	it( "should filter out elements like <strong> when nested within excluded elements, e.g. <samp>", () => {
 		const html = "<p><samp>Welcome to the blue screen of <strong>death</strong>.<br>Kiss your computer goodbye.</samp></p>";
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
@@ -216,7 +228,7 @@ describe( "Miscellaneous tests", () => {
 		expect( filteredTree.findAll( child => child.name === "strong" ) ).toHaveLength( 0 );
 	} );
 
-	it( "should filter elements like <strong> when nested within a regular element, which is nested in an excluded element", () => {
+	it( "should filter out elements like <strong> when nested within a regular element, which is nested in an excluded element", () => {
 		const html = "<p><samp>Welcome to the blue screen of<span>Argh!<strong>death</strong></span>.<br>Kiss your computer goodbye.</samp></p>";
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
@@ -225,61 +237,15 @@ describe( "Miscellaneous tests", () => {
 		expect( filteredTree.findAll( child => child.name === "strong" ) ).toHaveLength( 0 );
 	} );
 
-	it( "should filter head elements", () => {
+	it( "should filter out head elements", () => {
 		// The head element seems to be removed by the parser we employ.
 		const html = "<!DOCTYPE html>\n<head>\n<title>This is what dreams are made of</title>\n</head>\n</html>";
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		expect( tree.findAll( child => child.name === "head" ) ).toHaveLength( 0 );
 	} );
 
-	it( "should not recognize a Yoast block that has a wrong data-type attribute", () => {
-		const html = "<!DOCTYPE html><html lang=\"en-US\"><body><p>Mmm whatcha say</p><div tabindex=\"0\" id=\"block-f1d3baad-" +
-			"2b41-4a49-b57c-df3b83227d88\" role=\"document\" aria-label=\"Block: " +
-			"Yoast Siblings\" data-block=\"f1d3baad-2b41-4a49-b57c-df3b83227d88\" data-type=\"yoast-seo/nonsense\" " +
-			"data-title=\"Yoast Siblings\" class=\"block-editor-block-list__block wp-block is-selected\"></div></body></html>";
-
-		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		expect( tree.findAll( child => child.attributes && child.attributes[ "data-type" ] === "yoast-seo/siblings" ) ).toHaveLength( 0 );
-	} );
-
-	it( "should filter the whole element containing the Estimated reading time block, including the nested paragraph with the class name", () => {
-		const html = "<html lang=\"en-US\"><body><div tabindex=\"0\" id=\"block-62462faa-6047-481b-b3fc-8603369c08f6\" role=\"document\" " +
-			"aria-label=\"Block: Yoast Estimated Reading Time\" data-block=\"62462faa-6047-481b-b3fc-8603369c08f6\" " +
-			"data-type=\"yoast-seo/estimated-reading-time\" data-title=\"Yoast Estimated Reading Time\" " +
-			"class=\"block-editor-block-list__block wp-block is-selected\"><div><p class=\"yoast-reading-time" +
-			"__wrapper\"><span class=\"yoast-reading-time__icon\"><svg aria-hidden=\"true\" focusable=\"false\" " +
-			"data-icon=\"clock\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" role=\"img\"> " +
-			"</svg><span class=\"yoast-reading-time__descriptive-text\">Estimated reading time:  </span></p></div></div>" +
-			"<h2>A Heading</h2></body></html>";
-
-		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		// eslint-disable-next-line max-len
-		expect( tree.findAll( child => child.attributes && child.attributes.class && child.attributes.class.has( "yoast-reading-time__wrapper" ) ) ).toHaveLength( 1 );
-		const filteredTree = filterTree( tree, permanentFilters );
-		// eslint-disable-next-line max-len
-		expect( filteredTree.findAll( child => child.attributes && child.attributes.class && child.attributes.class.has( "yoast-reading-time__wrapper" ) ) ).toHaveLength( 0 );
-	} );
-
-	it( "should filter the whole element containing the Estimated reading time block, including the nested paragraph with the class name", () => {
-		// <!-- wp:yoast-seo/table-of-contents -->
-		// 	<div class="wp-block-yoast-seo-table-of-contents yoast-table-of-contents"><h2>Table of contents</h2><ul><li>
-		// 	<a href="#h-test-subh" data-level="2">TEST subh</a></li><li><a href="#h-a-diff-subh" data-level="2">A diff subh</a></li></ul></div>
-		// 	<!-- /wp:yoast-seo/table-of-contents -->
-		const html = "<!-- wp:yoast-seo/table-of-contents -->\n<div class=\"wp-block-yoast-seo-table-of-contents yoast-table-of-contents\">" +
-			"<h2>Table of contents</h2><ul><li><a href=\"#h-test-subh\" data-level=\"2\">TEST subh</a></li><li><a href=\"#h-a-diff-subh\" " +
-			"data-level=\"2\">A diff subh</a></li></ul></div>\n<!-- /wp:yoast-seo/table-of-contents -->";
-
-		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		// eslint-disable-next-line max-len
-		expect( tree.findAll( child => child.attributes && child.attributes.class && child.attributes.class.has( "yoast-table-of-contents" ) ) ).toHaveLength( 1 );
-		const filteredTree = filterTree( tree, permanentFilters );
-		// eslint-disable-next-line max-len
-		expect( filteredTree.findAll( child => child.attributes && child.attributes.class && child.attributes.class.has( "yoast-table-of-contents" ) ) ).toHaveLength( 0 );
-	} );
-
-
-	it( "should filter the Elementor Yoast Breadcrumbs widget ", () => {
-		// When the HTML enters the paper, the breadcrumbs widget doesn't include the div tag.
+	it( "should filter out the Elementor Yoast Breadcrumbs widget ", () => {
+		// When the HTML enters the paper, the Breadcrumbs widget doesn't include the div tag.
 		let html = "<p id=\"breadcrumbs\"><span><span><a href=\"https://basic.wordpress.test/\">Home</a></span></span></p><div " +
 			"class=\"elementor-text-editor elementor-clearfix elementor-inline-editing\" data-elementor-setting-key=\"editor\"" +
 			" data-elementor-inline-editing-toolbar=\"advanced\"><p>Lorem ipsum dolor sit amet</p>";
@@ -288,7 +254,7 @@ describe( "Miscellaneous tests", () => {
 		let filteredTree = filterTree( tree, permanentFilters );
 		expect( filteredTree.findAll( child => child.attributes && child.attributes.id === "breadcrumbs" ) ).toHaveLength( 0 );
 
-		// It should still be able to filter the breadcrumbs even when it's wrapped inside a div.
+		// It should still be able to filter out the Breadcrumbs widget even when the widget is wrapped inside a div.
 		html = "<div data-id=\"a2d018a\" data-element_type=\"widget\" class=\"elementor-element elementor-element-edit-" +
 			"mode elementor-element-a2d018a elementor-element--toggle-edit-tools elementor-widget elementor-widget-breadcrumbs ui-resizable\" " +
 			"data-model-cid=\"c2810\" id=\"\" data-widget_type=\"breadcrumbs.default\"><div class=\"elementor-element-overlay\"> " +
@@ -510,7 +476,7 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 		} );
 	} );
 
-	it( "should correctly filter a tree when a custom filter is provided.", function() {
+	it( "should correctly filter out a tree when a custom filter out is provided.", function() {
 		const html = "<div data-test='blah'></div><div>Hello world!</div>";
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
