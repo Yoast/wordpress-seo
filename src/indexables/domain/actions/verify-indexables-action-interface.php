@@ -7,7 +7,6 @@ use Yoast\WP\SEO\Models\Indexable;
 
 interface Verify_Indexables_Action_Interface {
 
-
 	/**
 	 * @param Last_Batch_Count $last_batch_count
 	 *
@@ -15,4 +14,12 @@ interface Verify_Indexables_Action_Interface {
 	 */
 	public function re_build_indexables( Last_Batch_Count $last_batch_count):bool;
 
+
+	/**
+	 * @param \wpdb $wpdb
+	 *
+	 * @return mixed
+	 * @required
+	 */
+	public function setWpdb( \wpdb $wpdb);
 }
