@@ -14,6 +14,10 @@ abstract class Abstract_Indexables_Command {
 	 */
 	protected $plugin_deactivated_at;
 
+	/**
+	 * @param int    $last_batch The last batch count.
+	 * @param string $plugin_deactivated_at The plugin deactivated at timestamp.
+	 */
 	public function __construct( int $last_batch, string $plugin_deactivated_at ) {
 		$this->last_batch_count      = new Last_Batch_Count( $last_batch );
 		$this->plugin_deactivated_at = new Plugin_Deactivated_Timestamp( $plugin_deactivated_at );
