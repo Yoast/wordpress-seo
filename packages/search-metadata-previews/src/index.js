@@ -16,3 +16,6 @@ export { default as SnippetEditor } from "./snippet-editor/SnippetEditor";
 export {
 	lengthProgressShape,
 } from "./snippet-editor/constants";
+
+// Helper exports.
+export { getDescriptionProgress, getTitleProgress } from "./helpers/progress";
