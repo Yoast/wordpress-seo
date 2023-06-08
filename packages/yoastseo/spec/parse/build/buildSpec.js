@@ -69,10 +69,10 @@ describe( "The parse function", () => {
 	} );
 
 	it( "parses a basic Japanese HTML text", () => {
-		const html = "<div><p class='yoast'>こんにちは世界！</p></div>";
+		const html = "<div><p class='yoast'>犬が大好き</p></div>";
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
-			{ splitIntoTokensCustom: splitIntoTokensCustom } );
+			{ splitIntoTokensCustom: splitIntoTokensCustom, memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 		expect( build( html, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
@@ -81,14 +81,14 @@ describe( "The parse function", () => {
 				name: "div",
 				sourceCodeLocation: {
 					startOffset: 0,
-					endOffset: 45,
+					endOffset: 37,
 					startTag: {
 						startOffset: 0,
 						endOffset: 5,
 					},
 					endTag: {
-						startOffset: 39,
-						endOffset: 45,
+						startOffset: 31,
+						endOffset: 37,
 					},
 				},
 				attributes: {},
@@ -99,28 +99,28 @@ describe( "The parse function", () => {
 						"class": new Set( [ "yoast" ] ),
 					},
 					sentences: [ {
-						text: "こんにちは世界！",
-						sourceCodeRange: { startOffset: 22, endOffset: 35 },
+						text: "犬が大好き",
+						sourceCodeRange: { startOffset: 22, endOffset: 27 },
 						tokens: [
-							{ text: "こんにちは", sourceCodeRange: { startOffset: 22, endOffset: 27 } },
-							{ text: "世界", sourceCodeRange: { startOffset: 29, endOffset: 34 } },
-							{ text: "!", sourceCodeRange: { startOffset: 34, endOffset: 35 } },
+							{ text: "犬", sourceCodeRange: { startOffset: 22, endOffset: 23 } },
+							{ text: "が", sourceCodeRange: { startOffset: 23, endOffset: 24 } },
+							{ text: "大好き", sourceCodeRange: { startOffset: 24, endOffset: 27 } },
 						],
 					} ],
 					childNodes: [ {
 						name: "#text",
-						value: "こんにちは世界！",
+						value: "犬が大好き",
 					} ],
 					sourceCodeLocation: {
 						startOffset: 5,
-						endOffset: 39,
+						endOffset: 31,
 						startTag: {
 							startOffset: 5,
 							endOffset: 22,
 						},
 						endTag: {
-							startOffset: 35,
-							endOffset: 39,
+							startOffset: 27,
+							endOffset: 31,
 						},
 					},
 				} ],
