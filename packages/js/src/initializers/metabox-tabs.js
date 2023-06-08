@@ -157,12 +157,6 @@ export default function initTabs( jQuery ) {
 	 * @returns {void}
 	 */
 	function wpseoInitTabs() {
-		// When there's only one add-on tab, change its link to a span element.
-		var addonsTabsLinks = jQuery( "#wpseo-meta-section-addons .wpseo_tablink" );
-		if ( addonsTabsLinks.length === 1 ) {
-			addonsTabsLinks.replaceWith( "<span class='" + addonsTabsLinks[ 0 ].className + "'>" + addonsTabsLinks.text() + "</span>" );
-		}
-
 		// Tabs within the main tabs, e.g.: Facebook, Twitter, Video, and News.
 		if ( jQuery( ".wpseo-metabox-tabs-div" ).length > 0 ) {
 			jQuery( ".wpseo-metabox-tabs" )
