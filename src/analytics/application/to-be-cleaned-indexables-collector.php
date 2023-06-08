@@ -31,7 +31,7 @@ class To_Be_Cleaned_Indexables_Collector implements WPSEO_Collection {
 	/**
 	 * Gets the data for the collector.
 	 */
-	public function get(): array {
+	public function get() {
 		$to_be_cleaned_indexable_bucket = new To_Be_Cleaned_Indexable_Bucket();
 		$cleanup_tasks                  = [
 			'indexables_with_post_object_type_and_shop_order_object_sub_type' => $this->indexable_cleanup_repository->count_indexables_with_object_type_and_object_sub_type( 'post', 'shop_order' ),
@@ -68,7 +68,7 @@ class To_Be_Cleaned_Indexables_Collector implements WPSEO_Collection {
 	 *
 	 * @return void
 	 */
-	private function add_additional_counts( To_Be_Cleaned_Indexable_Bucket $to_be_cleaned_indexable_bucket ): void {
+	private function add_additional_counts( $to_be_cleaned_indexable_bucket ) {
 		/**
 		 * Action: Adds the possibility to add additional to be cleaned objects.
 		 *
