@@ -93,7 +93,6 @@ This PR affects the following parts of the plugin, which may require extra testi
 
 * [ ] No innovation project is applicable for this PR.
 * [ ] This PR falls under an innovation project. I have attached the `innovation` label and noted the work hours.
-* [ ] I have added my hours to the [wbso](http://yoa.st/wbso)
-   document
+* [ ] I have added my hours to the [wbso](http://yoa.st/wbso) document
 
 Fixes #
