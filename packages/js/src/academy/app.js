@@ -1,12 +1,12 @@
 /* eslint-disable complexity */
-import { isEmpty } from "lodash";
-import { LockOpenIcon, ExternalLinkIcon } from "@heroicons/react/outline";
+import { ExternalLinkIcon, LockOpenIcon } from "@heroicons/react/outline";
+import { ArrowSmRightIcon } from "@heroicons/react/solid";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
-import { Badge, Button, Card, Link, Title, useSvgAria } from "@yoast/ui-library";
+import { Badge, Button, Card, Link, Paper, Title, useSvgAria } from "@yoast/ui-library";
+import { isEmpty } from "lodash";
 import { useSelectAcademy } from "./hooks";
-import { ArrowSmRightIcon } from "@heroicons/react/solid";
 
 /**
  * @param {Object} [dependencies] The dependencies of a course specified as DEPENDENCY_NAME : value.
@@ -201,22 +201,22 @@ const App = () => {
 
 	return (
 		<div className="yst-p-4 min-[783px]:yst-p-8 yst-mb-8 xl:yst-mb-0">
-			<main className="yst-rounded-lg yst-bg-white yst-shadow">
+			<Paper as="main">
 				<header className="yst-p-8 yst-border-b yst-border-slate-200">
 					<div className="yst-max-w-screen-sm">
 						<Title>{ __( "Academy", "wordpress-seo" ) }</Title>
 						<p className="yst-text-tiny yst-mt-3">
 							{ isPremium &&
-							sprintf(
-								// translators: %s for Yoast SEO Premium.
-								 __( "Learn vital SEO skills that you can apply at once! Let us take you by the hand and give you practical SEO tips to help you outrank your competitors. Maximize your SEO game! Because your %s subscription gives you unlimited access to all courses.", "wordpress-seo" ),
-								 "Yoast SEO Premium"
-								 )
+								sprintf(
+									// translators: %s for Yoast SEO Premium.
+									__( "Learn vital SEO skills that you can apply at once! Let us take you by the hand and give you practical SEO tips to help you outrank your competitors. Maximize your SEO game! Because your %s subscription gives you unlimited access to all courses.", "wordpress-seo" ),
+									"Yoast SEO Premium"
+								)
 							}
 
 							{ ! isPremium && <>
 								{ sprintf(
-								// translators: %s for Yoast SEO.
+									// translators: %s for Yoast SEO.
 									__( "Learn vital SEO skills that you can apply at once! Let us take you by the hand and give you practical SEO tips to help you outrank your competitors. %s comes with five free courses.", "wordpress-seo" ),
 									"Yoast SEO"
 								) }
@@ -256,11 +256,11 @@ const App = () => {
 										decoding="async"
 									/>
 
-									{
-										shouldShowPremiumBadge( course.dependencies, isPremium ) && <div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+									{ shouldShowPremiumBadge( course.dependencies, isPremium ) && (
+										<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
 											<Badge size="small" variant="upsell">{ __( "Premium", "wordpress-seo" ) }</Badge>
 										</div>
-									}
+									) }
 								</Card.Header>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">{ course.title }</Title>
@@ -330,7 +330,7 @@ const App = () => {
 						) ) }
 					</div>
 				</div>
-			</main>
+			</Paper>
 		</div>
 	);
 };
