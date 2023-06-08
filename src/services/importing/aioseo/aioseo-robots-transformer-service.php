@@ -9,7 +9,7 @@ namespace Yoast\WP\SEO\Services\Importing\Aioseo;
 class Aioseo_Robots_Transformer_Service {
 
 	/**
-	 * The robots transfomer service.
+	 * The robots transformer service.
 	 *
 	 * @var Aioseo_Robots_Provider_Service
 	 */

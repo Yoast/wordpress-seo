@@ -41,9 +41,9 @@ class WPSEO_Role_Manager_Mock extends WPSEO_Abstract_Role_Manager {
 	 * @param string $role         The role to check against.
 	 * @param array  $capabilities The capabilities that should be set.
 	 *
-	 * @return array Capabilties that can be safely set.
+	 * @return array Capabilities that can be safely set.
 	 */
-	public function filter_existing_capabilties( $role, array $capabilities ) {
+	public function filter_existing_capabilities( $role, array $capabilities ) {
 		return parent::filter_existing_capabilities( $role, $capabilities );
 	}
 

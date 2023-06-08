@@ -79,7 +79,7 @@ class Wincher_Keyphrases_Action {
 	 * @param string|array $keyphrases One or more keyphrases that should be tracked.
 	 * @param Object       $limits     The limits API call response data.
 	 *
-	 * @return Object The reponse object.
+	 * @return Object The response object.
 	 */
 	public function track_keyphrases( $keyphrases, $limits ) {
 		try {
@@ -88,7 +88,7 @@ class Wincher_Keyphrases_Action {
 				$this->options_helper->get( 'wincher_website_id' )
 			);
 
-			// Enforce arrrays to ensure a consistent way of preparing the request.
+			// Enforce arrays to ensure a consistent way of preparing the request.
 			if ( ! \is_array( $keyphrases ) ) {
 				$keyphrases = [ $keyphrases ];
 			}

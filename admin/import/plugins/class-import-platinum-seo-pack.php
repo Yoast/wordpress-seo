@@ -76,7 +76,7 @@ class WPSEO_Import_Platinum_SEO extends WPSEO_Plugin_Importer {
 	 * Finds all the robotsmeta fields to import and deals with them.
 	 *
 	 * There are four potential values that Platinum SEO stores:
-	 * - index,folllow
+	 * - index,follow
 	 * - index,nofollow
 	 * - noindex,follow
 	 * - noindex,nofollow

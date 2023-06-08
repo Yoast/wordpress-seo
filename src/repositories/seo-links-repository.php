@@ -93,7 +93,7 @@ class SEO_Links_Repository {
 	 *
 	 * @param int $post_id The post ID.
 	 *
-	 * @return bool Whether or not the delete was succesfull.
+	 * @return bool Whether or not the delete was successful.
 	 */
 	public function delete_all_by_post_id( $post_id ) {
 		return $this->query()
@@ -106,7 +106,7 @@ class SEO_Links_Repository {
 	 *
 	 * @param int $post_id The post ID.
 	 *
-	 * @return bool Whether or not the delete was succesfull.
+	 * @return bool Whether or not the delete was successful.
 	 */
 	public function delete_all_by_post_id_where_indexable_id_null( $post_id ) {
 		return $this->query()
@@ -120,7 +120,7 @@ class SEO_Links_Repository {
 	 *
 	 * @param int $indexable_id The indexable ID.
 	 *
-	 * @return bool Whether or not the delete was succesfull.
+	 * @return bool Whether or not the delete was successful.
 	 */
 	public function delete_all_by_indexable_id( $indexable_id ) {
 		return $this->query()
@@ -192,7 +192,7 @@ class SEO_Links_Repository {
 	 *
 	 * @param int[] $ids The seo link ids.
 	 *
-	 * @return bool Whether or not the delete was succesfull.
+	 * @return bool Whether or not the delete was successful.
 	 */
 	public function delete_many_by_id( $ids ) {
 		return $this->query()
@@ -205,7 +205,7 @@ class SEO_Links_Repository {
 	 *
 	 * @param SEO_Links[] $links The seo links to be inserted.
 	 *
-	 * @return bool Whether or not the insert was succesfull.
+	 * @return bool Whether or not the insert was successful.
 	 */
 	public function insert_many( $links ) {
 		return $this->query()

@@ -1179,7 +1179,7 @@ class ORM implements \ArrayAccess {
 
 	/**
 	 * Add a WHERE column = value clause to your query. Each time this is called in the chain, an additional WHERE will
-	 * be added, and these will be ANDed together when the final query is built.
+	 * be added, and these will be ANDead together when the final query is built.
 	 *
 	 * If you use an array in $column_name, a new clause will be added for each element. In this case, $value is
 	 * ignored.
@@ -1234,7 +1234,7 @@ class ORM implements \ArrayAccess {
 	 * Allows adding a WHERE clause that matches any of the conditions specified in the array. Each element in the
 	 * associative array will be a different condition, where the key will be the column name.
 	 *
-	 * By default, an equal operator will be used against all columns, but it can be overriden for any or every column
+	 * By default, an equal operator will be used against all columns, but it can be overridden for any or every column
 	 * using the second parameter.
 	 *
 	 * Each condition will be ORed together when added to the final query.
@@ -1529,7 +1529,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Adds a HAVING column = value clause to your query.
 	 *
-	 * Each time this is called in the chain, an additional HAVING will be added, and these will be ANDed together when
+	 * Each time this is called in the chain, an additional HAVING will be added, and these will be ANDead together when
 	 * the final query is built.
 	 *
 	 * If you use an array in $column_name, a new clause will be added for each element. In this case, $value is
@@ -2294,7 +2294,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Updates many records in the database.
 	 *
-	 * @return int|bool The number of rows changed if the query was succesful. False otherwise.
+	 * @return int|bool The number of rows changed if the query was successful. False otherwise.
 	 */
 	public function update_many() {
 		// Remove any expression fields as they are already baked into the query.

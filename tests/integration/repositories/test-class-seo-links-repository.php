@@ -220,13 +220,13 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 */
 	public function data_provider_test_update_target_indexable_id() {
 		return [
-			'The update should be succesful, with no change' => [
+			'The update should be successful, with no change' => [
 				'link_id'             => 113,
 				'target_indexable_id' => '112',
 				'expected_result'     => true,
 				'in_db'               => 1,
 			],
-			'The update should be succesful with update' => [
+			'The update should be successful with update' => [
 				'link_id'             => 113,
 				'target_indexable_id' => '155',
 				'expected_result'     => true,
@@ -271,7 +271,7 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 */
 	public function data_provider_test_delete_all_by_post_id() {
 		return [
-			'The delete should be succesful' => [
+			'The delete should be successful' => [
 				'post_id'         => 110,
 				'expected_result' => 2,
 			],
@@ -324,7 +324,7 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 */
 	public function data_provider_test_delete_all_by_post_id_where_indexable_id_null() {
 		return [
-			'The delete should be succesful' => [
+			'The delete should be successful' => [
 				'post_id'         => 110,
 				'expected_result' => 2,
 			],
@@ -388,7 +388,7 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 */
 	public function data_provider_test_delete_all_by_indexable_id() {
 		return [
-			'The delete should be succesful' => [
+			'The delete should be successful' => [
 				'indexable_id'    => 101,
 				'expected_result' => 2,
 			],
@@ -506,7 +506,7 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 */
 	public function data_provider_test_delete_many_by_id() {
 		return [
-			'The delete should be succesful' => [
+			'The delete should be successful' => [
 				'ids'             => [ 222, 113 ],
 				'expected_result' => 2,
 			],

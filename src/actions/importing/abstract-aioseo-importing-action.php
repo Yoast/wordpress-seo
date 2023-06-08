@@ -87,7 +87,7 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	 * @param Sanitization_Helper               $sanitization       The sanitization helper.
 	 * @param Aioseo_Replacevar_Service         $replacevar_handler The replacevar handler.
 	 * @param Aioseo_Robots_Provider_Service    $robots_provider    The robots provider service.
-	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots transfomer service.
+	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots transformer service.
 	 */
 	public function __construct(
 		Import_Cursor_Helper $import_cursor,

@@ -174,11 +174,11 @@ describe( "A test for marking the sentences", function() {
 			"Eu usu eripuit dissentiet, duo ei perfecto argumentum. Diceret forensibus cu has, quo alia nihil et, convenire adversarium " +
 			"efficiantur per id. His mazim virtute ornatus ei, has id vocibus docendi percipitur. Wisi nusquam pri no, putent menandri " +
 			"ad duo. Nullam nostrum salutandi eum id, per agam exerci an.<br data-mce-fragment=\"1\"></br><br data-mce-fragment=\"1\"></br>" +
-			"Sadipscing neglegentur in vim. Et vero zril nec. Utinam sententiae percipitur ius no, pri ornatus facilisi vulputate ut. " +
+			"Sadipscing neglegentur in vim. Et vero zril nec. Utinam sententiae percipitur ius no, pri ornatus facilities vulputate ut. " +
 			"Velit tractatos consequat ea duo, ad duo sanctus vituperata, eos cu augue delenit liberavisse. Sit ut viris " +
 			"vocibus rationibus, ex eruditi copiosae evertitur nam. Mei veniam mentitum definitiones ex, harum maluisset " +
 			"cu usu.<br data-mce-fragment=\"1\"></br><br data-mce-fragment=\"1\"></br>Ne mel consetetur incorrupte, id habemus omittantur " +
-			"efficiantur est. Delenit facilisi neglegentur est cu, eam ut viris vocent aliquam. Copiosae senserit ut vix, " +
+			"efficiantur est. Delenit facilities neglegentur est cu, eam ut viris vocent aliquam. Copiosae senserit ut vix, " +
 			"epicuri perfecto eam ne. Vis summo delicatissimi in, cu porro facete phaedrum nam. <br data-mce-fragment=\"1\"></br>" +
 			"<br data-mce-fragment=\"1\"></br>Utamur discere phaedrum eu nam. Ne quidam placerat per, qui inani diceret cu, " +
 			"at nec quot petentium efficiendi. Sea te persius vulputate. Docendi temporibus et quo. Ad duo appareat lobortis definitionem.!</p>" );
@@ -219,11 +219,11 @@ describe( "A test for marking the sentences", function() {
 			"Eu usu eripuit dissentiet, duo ei perfecto argumentum. Diceret forensibus cu has, quo alia nihil et, convenire adversarium " +
 			"efficiantur per id. His mazim virtute ornatus ei, has id vocibus docendi percipitur. Wisi nusquam pri no, putent menandri " +
 			"ad duo. Nullam nostrum salutandi eum id, per agam exerci an.<br data-mce-fragment=\"1\"><br data-mce-fragment=\"1\">" +
-			"Sadipscing neglegentur in vim. Et vero zril nec. Utinam sententiae percipitur ius no, pri ornatus facilisi vulputate ut. " +
+			"Sadipscing neglegentur in vim. Et vero zril nec. Utinam sententiae percipitur ius no, pri ornatus facilities vulputate ut. " +
 			"Velit tractatos consequat ea duo, ad duo sanctus vituperata, eos cu augue delenit liberavisse. Sit ut viris " +
 			"vocibus rationibus, ex eruditi copiosae evertitur nam. Mei veniam mentitum definitiones ex, harum maluisset " +
 			"cu usu.<br data-mce-fragment=\"1\"><br data-mce-fragment=\"1\">Ne mel consetetur incorrupte, id habemus omittantur " +
-			"efficiantur est. Delenit facilisi neglegentur est cu, eam ut viris vocent aliquam. Copiosae senserit ut vix, " +
+			"efficiantur est. Delenit facilities neglegentur est cu, eam ut viris vocent aliquam. Copiosae senserit ut vix, " +
 			"epicuri perfecto eam ne. Vis summo delicatissimi in, cu porro facete phaedrum nam. <br data-mce-fragment=\"1\">" +
 			"<br data-mce-fragment=\"1\">Utamur discere phaedrum eu nam. Ne quidam placerat per, qui inani diceret cu, " +
 			"at nec quot petentium efficiendi. Sea te persius vulputate. Docendi temporibus et quo. Ad duo appareat lobortis definitionem.!</p>" );

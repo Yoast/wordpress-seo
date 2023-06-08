@@ -63,7 +63,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 	 * @param Post_Type_Helper                  $post_type          The post type helper.
 	 * @param Aioseo_Replacevar_Service         $replacevar_handler The replacevar handler.
 	 * @param Aioseo_Robots_Provider_Service    $robots_provider    The robots provider service.
-	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots transfomer service.
+	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots transformer service.
 	 */
 	public function __construct(
 		Import_Cursor_Helper $import_cursor,

@@ -57,7 +57,7 @@ class WPML_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the result where our home url filter has been calld.
+	 * Tests the result where our home url filter has been called.
 	 *
 	 * @covers ::filter_home_url_before
 	 */

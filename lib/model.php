@@ -33,7 +33,7 @@ class Model implements JsonSerializable {
 
 	/**
 	 * Set a prefix for model names. This can be a namespace or any other
-	 * abitrary prefix such as the PEAR naming convention.
+	 * arbitrary prefix such as the PEAR naming convention.
 	 *
 	 * @example Model::$auto_prefix_models = 'MyProject_MyModels_'; //PEAR
 	 * @example Model::$auto_prefix_models = '\MyProject\MyModels\'; //Namespaces

@@ -27,11 +27,11 @@ class Main_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * Aliasses set in the DI container.
+	 * Aliases set in the DI container.
 	 *
 	 * @var array
 	 */
-	private $aliasses = [
+	private $aliases = [
 		'service_container' => 'YoastSEO_Vendor\\YoastSEO_Vendor\\Symfony\\Component\\DependencyInjection\\ContainerInterface',
 	];
 
@@ -78,8 +78,8 @@ class Main_Test extends TestCase {
 			if ( \in_array( $service_id, $this->excluded_classes, true ) ) {
 				continue;
 			}
-			if ( isset( $this->aliasses[ $service_id ] ) ) {
-				$service_id = $this->aliasses[ $service_id ];
+			if ( isset( $this->aliases[ $service_id ] ) ) {
+				$service_id = $this->aliases[ $service_id ];
 			}
 			if ( \strpos( $service_id, 'YoastSEO_Vendor' ) === 0 ) {
 				continue;

@@ -95,7 +95,7 @@ class WPSEO_Import_Settings_Test extends TestCase {
 	}
 
 	/**
-	 * Test the import function when post variable is emtpy string.
+	 * Test the import function when post variable is empty string.
 	 *
 	 * @covers ::import
 	 */

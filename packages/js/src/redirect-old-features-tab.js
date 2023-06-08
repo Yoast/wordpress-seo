@@ -1,5 +1,5 @@
 /**
- * Redirects requests to the old features dashboard tab to the new settins page.
+ * Redirects requests to the old features dashboard tab to the new settings page.
  *
  * @returns {void}
  */

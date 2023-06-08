@@ -32,7 +32,7 @@ class WPSEO_Statistics_Service {
 	protected $labels;
 
 	/**
-	 * WPSEO_Statistics_Service contructor.
+	 * WPSEO_Statistics_Service constructor.
 	 *
 	 * @param WPSEO_Statistics $statistics The statistics class to retrieve statistics from.
 	 */

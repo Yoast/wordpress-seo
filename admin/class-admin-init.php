@@ -194,7 +194,7 @@ class WPSEO_Admin_Init {
 	private function load_admin_page_class() {
 
 		if ( $this->on_wpseo_admin_page() ) {
-			// For backwards compatabilty, this still needs a global, for now...
+			// For backwards compatibility, this still needs a global, for now...
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages();
 
 			$page = null;

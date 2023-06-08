@@ -87,7 +87,7 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that set_primary_term succesfully updates the primary_term.
+	 * Test that set_primary_term successfully updates the primary_term.
 	 *
 	 * @covers WPSEO_Primary_Term::set_primary_term
 	 */

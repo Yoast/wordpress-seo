@@ -45,8 +45,8 @@ describe( "Matching keyphrase in subheadings", () => {
  * Mocks Japanese Researcher.
  * @param {Array} keyphraseForms        The morphological forms of the kyphrase to be added to the researcher.
  * @param {Array} synonymsForms         The morphological forms of the synonyms to be added to the researcher.
- * @param {function} matchWords         A helper needed for the assesment.
- * @param {Object} functionWordsConfig  Function words config needed for the assesment.
+ * @param {function} matchWords         A helper needed for the assessment.
+ * @param {Object} functionWordsConfig  Function words config needed for the assessment.
  * @returns {Researcher} The mock researcher with added morphological forms and custom helper.
 const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, matchWords, functionWordsConfig ) {
 	return factory.buildMockResearcher( {

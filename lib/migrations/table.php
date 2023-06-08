@@ -176,7 +176,7 @@ class Table {
 	 *
 	 * @return bool|string
 	 *
-	 * @throws Exception If the table definition has not been intialized.
+	 * @throws Exception If the table definition has not been initialized.
 	 */
 	public function finish( $wants_sql = false ) {
 		if ( ! $this->initialized ) {

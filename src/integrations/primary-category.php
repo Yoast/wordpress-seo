@@ -59,7 +59,7 @@ class Primary_Category implements Integration_Interface {
 	/**
 	 * Get the id of the primary category.
 	 *
-	 * @codeCoverageIgnore It justs wraps a dependency.
+	 * @codeCoverageIgnore It just wraps a dependency.
 	 *
 	 * @param WP_Post $post The post in question.
 	 *

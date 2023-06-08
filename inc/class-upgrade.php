@@ -299,7 +299,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Moves the content-analysis-active and keyword-analysis-acive options from wpseo-titles to wpseo.
+	 * Moves the content-analysis-active and keyword-analysis-active options from wpseo-titles to wpseo.
 	 */
 	private function upgrade_44() {
 		$wpseo_titles = $this->get_option_from_database( 'wpseo_titles' );
@@ -1086,7 +1086,7 @@ class WPSEO_Upgrade {
 	private function reset_permalinks_of_attachments_for_141() {
 		global $wpdb;
 
-		// If migrations haven't been completed succesfully the following may give false errors. So suppress them.
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 

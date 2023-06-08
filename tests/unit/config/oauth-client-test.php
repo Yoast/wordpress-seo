@@ -50,7 +50,7 @@ class OAuth_Client_Test extends TestCase {
 	protected $provider;
 
 	/**
-	 * The optins helper.
+	 * The options helper.
 	 *
 	 * @var LegacyMockInterface|MockInterface|Options_Helper
 	 */

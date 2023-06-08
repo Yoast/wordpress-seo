@@ -298,7 +298,7 @@ class WPSEO_Taxonomy {
 	 * Determines the scope based on the current taxonomy.
 	 * This can be used by the replacevar plugin to determine if a replacement needs to be executed.
 	 *
-	 * @return string String decribing the current scope.
+	 * @return string String describing the current scope.
 	 */
 	private function determine_scope() {
 		$taxonomy = $this::get_taxonomy();

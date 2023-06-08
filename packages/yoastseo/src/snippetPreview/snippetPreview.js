@@ -721,7 +721,7 @@ SnippetPreview.prototype.getIndexMatches = function() {
 		i
 	);
 
-	// Runs the loop untill no more indexes are found, and match returns -1.
+	// Runs the loop until no more indexes are found, and match returns -1.
 	while ( match > -1 ) {
 		indexMatches.push( match );
 
@@ -883,7 +883,7 @@ SnippetPreview.prototype.checkTextLength = function( event ) {
  * Get the unformatted text.
  *
  * When clicking on an element in the Snippet Preview, this checks and fills the textContent with the data from the
- * unformatted text. This removes the keyword highlighting and modified data so the original content can be editted.
+ * unformatted text. This removes the keyword highlighting and modified data so the original content can be edited.
  *
  * @param {Object} event The event to get the unformatted text from.
  *
@@ -900,7 +900,7 @@ SnippetPreview.prototype.getUnformattedText = function( event ) {
  * Sets the unformatted text.
  *
  * When text is entered into the snippetPreview elements, the text is set in the unformattedText object.
- * This allows the visible data to be editted in the snippetPreview.
+ * This allows the visible data to be edited in the snippetPreview.
  *
  * @param {Object} event The event to set the unformatted text from.
  *

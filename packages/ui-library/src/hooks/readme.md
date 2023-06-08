@@ -123,7 +123,7 @@ const Component = () => {
 The `useToggleState` hook creates a toggle state. 
 Accepts boolean value the initial state, defaults to true, returns the state, toggleState, setState, setTrue and setFalse in that order.
 
-The order of the returned values is significant. If you use only some values and they are not in the begining of the array, you have to leave empty space for the unused values. 
+The order of the returned values is significant. If you use only some values and they are not in the beginning of the array, you have to leave empty space for the unused values. 
 
 Correct usage  example:
 

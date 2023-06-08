@@ -22,7 +22,7 @@ class First_Time_Configuration_Notice_Helper {
 	private $indexing_helper;
 
 	/**
-	 * Whether we show the alternate mesage.
+	 * Whether we show the alternate message.
 	 *
 	 * @var bool
 	 */

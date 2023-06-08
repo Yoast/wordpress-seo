@@ -50,7 +50,7 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	public function add() {
 		foreach ( $this->roles as $role => $data ) {
 			$capabilities = $this->get_capabilities( $data->template );
-			$capabilities = $this->filter_existing_capabilties( $role, $capabilities );
+			$capabilities = $this->filter_existing_capabilities( $role, $capabilities );
 
 			$this->add_role( $role, $data->display_name, $capabilities );
 		}
@@ -106,9 +106,9 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	 * @param string $role         The role to check against.
 	 * @param array  $capabilities The capabilities that should be set.
 	 *
-	 * @return array Capabilties that can be safely set.
+	 * @return array Capabilities that can be safely set.
 	 */
-	protected function filter_existing_capabilties( $role, array $capabilities ) {
+	protected function filter_existing_capabilities( $role, array $capabilities ) {
 		if ( $capabilities === [] ) {
 			return $capabilities;
 		}

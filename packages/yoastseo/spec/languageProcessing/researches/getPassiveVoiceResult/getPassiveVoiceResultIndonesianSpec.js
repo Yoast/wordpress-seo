@@ -58,8 +58,8 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "does not return passive voice if the word is found in the non-passive exception list", function() {
-		// Non passive: dinosaurus.
-		const paper = new Paper( "Saya melihat dinosaurus", { locale: "id_ID" } );
+		// Non passive: dinosaurs.
+		const paper = new Paper( "Saya melihat dinosaurs", { locale: "id_ID" } );
 		const researcher = new Researcher( paper );
 
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 0 );

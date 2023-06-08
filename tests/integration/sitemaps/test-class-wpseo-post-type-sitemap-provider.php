@@ -336,7 +336,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 			]
 		);
 
-		// Expect the attchment to be in the list.
+		// Expect the attachment to be in the list.
 		$this->assertCount( 1, self::$class_instance->get_sitemap_links( 'attachment', 100, 0 ) );
 	}
 

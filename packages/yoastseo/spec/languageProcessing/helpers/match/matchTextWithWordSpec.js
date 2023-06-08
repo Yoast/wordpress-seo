@@ -1,7 +1,7 @@
 import wordMatch from "../../../../src/languageProcessing/helpers/match/matchTextWithWord.js";
 import matchWordCustomHelper from "../../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
 
-describe( "Counts the occurences of a word in a string", function() {
+describe( "Counts the occurrences of a word in a string", function() {
 	it( "returns number", function() {
 		expect( wordMatch( "this is a test string", "test", "nl_NL" ).count ).toBe( 1 );
 		// This fails now because the regex isn't working properly for wordboundaries.

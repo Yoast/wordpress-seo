@@ -60,7 +60,7 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Aioseo_Importing_Ac
 	 * @param Sanitization_Helper               $sanitization                The sanitization helper.
 	 * @param Aioseo_Replacevar_Service         $replacevar_handler          The replacevar handler.
 	 * @param Aioseo_Robots_Provider_Service    $robots_provider             The robots provider service.
-	 * @param Aioseo_Robots_Transformer_Service $robots_transformer          The robots transfomer service.
+	 * @param Aioseo_Robots_Transformer_Service $robots_transformer          The robots transformer service.
 	 * @param Conflicting_Plugins_Service       $conflicting_plugins_service The Conflicting plugins Service.
 	 */
 	public function __construct(

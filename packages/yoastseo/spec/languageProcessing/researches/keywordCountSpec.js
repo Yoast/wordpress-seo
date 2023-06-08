@@ -183,8 +183,8 @@ describe( "Test for counting the keyword in a text", function() {
 /**
  * Mocks Japanese Researcher.
  * @param {Array} keyphraseForms    The morphological forms to be added to the researcher.
- * @param {function} helper1        A helper needed for the assesment.
- * @param {function} helper2        A helper needed for the assesment.
+ * @param {function} helper1        A helper needed for the assessment.
+ * @param {function} helper2        A helper needed for the assessment.
  *
  * @returns {Researcher} The mock researcher with added morphological forms and custom helper.
  */

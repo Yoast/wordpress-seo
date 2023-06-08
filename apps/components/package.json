@@ -1,7 +1,7 @@
 {
   "name": "@yoast/example-component-app",
   "version": "1.9.0",
-  "description": "This app demonstrates the possibilites of our components",
+  "description": "This app demonstrates the possibilities of our components",
   "main": "index.js",
   "author": "Yoast",
   "license": "GPL",

@@ -71,7 +71,7 @@ function cleanupProgress( count ) { // eslint-disable-line no-unused-vars
 }
 
 /**
- * Function called when importing/cleanup is completed succesfully.
+ * Function called when importing/cleanup is completed successfully.
  *
  * @param {string} action The action it's being performed, import or cleanup.
  *
@@ -110,7 +110,7 @@ function showSuccess( action ) {
 }
 
 /**
- * Function called when import is completed succesfully.
+ * Function called when import is completed successfully.
  *
  * @returns {void}
  */
@@ -119,7 +119,7 @@ function importingSuccess() {
 }
 
 /**
- * Function called when cleanup is completed succesfully.
+ * Function called when cleanup is completed successfully.
  *
  * @returns {void}
  */
@@ -128,7 +128,7 @@ function cleanupSuccess() {
 }
 
 /**
- * Function called when importing/cleanup is completed succesfully.
+ * Function called when importing/cleanup is completed successfully.
  *
  * @param {string} e The failure string.
  * @param {string} action The action it's being performed, import or cleanup.
@@ -172,7 +172,7 @@ function showFailure( e, action ) {
 }
 
 /**
- * Function called when importing is completed succesfully.
+ * Function called when importing is completed successfully.
  *
  * @param {string} e The failure string.
  *
@@ -183,7 +183,7 @@ function importingFailure( e ) {
 }
 
 /**
- * Function called when cleanup is completed succesfully.
+ * Function called when cleanup is completed successfully.
  *
  * @param {string} e The failure string.
  *

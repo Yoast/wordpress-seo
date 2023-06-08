@@ -37,7 +37,7 @@ describe( "has the correct configuration overrides", () => {
 		expect( assessment._config.cornerstoneContent ).toBeTruthy();
 	} );
 
-	test( "PageTitleWidthAssesment", () => {
+	test( "PageTitleWidthAssessment", () => {
 		const assessment = assessor.getAssessment( "titleWidth" );
 
 		expect( assessment ).toBeDefined();

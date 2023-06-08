@@ -92,13 +92,13 @@ describe( "getOffsets", () => {
 } );
 
 describe( "getIndicesOf", () => {
-	it( "finds a single case sensitive occurence", () => {
+	it( "finds a single case sensitive occurrence", () => {
 		const expected = [ 3 ];
 
 		expect( getIndicesOf( "la LA", "LA" ) ).toEqual( expected );
 	} );
 
-	it( "finds multiple case insensitive occurences", () => {
+	it( "finds multiple case insensitive occurrences", () => {
 		const expected = [ 0, 3 ];
 
 		expect( getIndicesOf( "la LA", "LA", false ) ).toEqual( expected );

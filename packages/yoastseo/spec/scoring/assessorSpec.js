@@ -68,7 +68,7 @@ describe( "an assessor object", function() {
 
 			expect( result ).toEqual( mockAssessment );
 		} );
-		it( "overides the existing assessment if the newly added assessment has the same identifier", function() {
+		it( "overrides the existing assessment if the newly added assessment has the same identifier", function() {
 			var assessor = new Assessor( new DefaultResearcher() );
 			assessor.addAssessment( "testname", mockAssessment );
 

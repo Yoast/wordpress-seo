@@ -138,7 +138,7 @@ class Open_Graph_Locale_Generator implements Generator_Interface {
 			'mt_MT', // Maltese.
 			'my_MM', // Burmese.
 			'nb_NO', // Norwegian (bokmal).
-			'nd_ZW', // Ndebele.
+			'and_ZW', // Ndebele.
 			'ne_NP', // Nepali.
 			'nl_BE', // Dutch (Belgie).
 			'nl_NL', // Dutch.

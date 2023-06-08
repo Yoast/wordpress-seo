@@ -26,7 +26,7 @@ import { Button, Title } from "@yoast/ui-library";
 
 export default () => (
     <>
-        <Button as="a" href="https://yoast.com">I look like a button but am actually an achor.</Button>
+        <Button as="a" href="https://yoast.com">I look like a button but am actually an anchor.</Button>
         <Title as="label">I look like a title but am actually a label.</Title>
     </>
 );

@@ -910,7 +910,7 @@ class Addon_Manager_Test extends TestCase {
 			],
 			[
 				'action'   => 'plugin_information',
-				'args'     => [ 'slug' => 'unkown_slug' ],
+				'args'     => [ 'slug' => 'unknown_slug' ],
 				'expected' => false,
 				'message'  => 'Tests with a non Yoast addon slug given as argument.',
 			],

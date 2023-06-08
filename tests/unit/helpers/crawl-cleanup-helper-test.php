@@ -141,9 +141,9 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @param string $clean_permalinks_extra_variables Mock return value for clean_permalinks_extra_variables().
 	 * @param array  $permalink_vars                   The return value from the filter to add extra vars.
-	 * @param array  $expeted                          The allowed extra vars (is set in settings under 'Additional URL parameters to allow').
+	 * @param array  $expected                          The allowed extra vars (is set in settings under 'Additional URL parameters to allow').
 	 */
-	public function test_get_allowed_extravars( $clean_permalinks_extra_variables, $permalink_vars, $expeted ) {
+	public function test_get_allowed_extravars( $clean_permalinks_extra_variables, $permalink_vars, $expected ) {
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
@@ -156,7 +156,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 			->once()
 			->andReturn( $clean_permalinks_extra_variables );
 
-		$this->assertSame( $expeted, $this->instance->get_allowed_extravars() );
+		$this->assertSame( $expected, $this->instance->get_allowed_extravars() );
 	}
 
 	/**

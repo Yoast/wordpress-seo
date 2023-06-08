@@ -173,7 +173,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	 * @param Sanitization_Helper                   $sanitization           The sanitization helper.
 	 * @param Aioseo_Replacevar_Service             $replacevar_handler     The replacevar handler.
 	 * @param Aioseo_Robots_Provider_Service        $robots_provider        The robots provider service.
-	 * @param Aioseo_Robots_Transformer_Service     $robots_transformer     The robots transfomer service.
+	 * @param Aioseo_Robots_Transformer_Service     $robots_transformer     The robots transformer service.
 	 * @param Aioseo_Social_Images_Provider_Service $social_images_provider The social images provider service.
 	 */
 	public function __construct(

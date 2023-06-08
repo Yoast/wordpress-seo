@@ -55,7 +55,7 @@ describe( "the SEO title length assessment", function() {
 
 describe( "test for SEO title width assessment when is used in product page analysis", function() {
 	it( "assesses a paper from product page with short title width", function() {
-		const paper = new Paper( "", { title: "Controversial: A tortie cat turns out to be the most beatiful cat a study claims" } );
+		const paper = new Paper( "", { title: "Controversial: A tortie cat turns out to be the most beautiful cat a study claims" } );
 		const config = {
 			scores: {
 				widthTooShort: 9,
@@ -67,7 +67,7 @@ describe( "test for SEO title width assessment when is used in product page anal
 	} );
 
 	it( "assesses a paper from product page with too long title width", function() {
-		const paper = new Paper( "", { title: "Controversial: A tortie cat turns out to be the most beatiful cat a study claims" } );
+		const paper = new Paper( "", { title: "Controversial: A tortie cat turns out to be the most beautiful cat a study claims" } );
 		const config = {
 			scores: {
 				widthTooShort: 9,

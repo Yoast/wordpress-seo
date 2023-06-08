@@ -10,7 +10,7 @@ const WincherLink = makeOutboundLink();
 const WincherReadMoreLink = makeOutboundLink();
 
 /**
- * Creates the content for the Wincher explanation text used througout the admin.
+ * Creates the content for the Wincher explanation text used throughout the admin.
  *
  * @returns {wp.Element} The Wincher explanation text.
  */

@@ -127,7 +127,7 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	 * We delete the tokens if the integration is disabled, no matter if
 	 * the value has actually changed or not.
 	 *
-	 * @param string $integration_option The intergration option name.
+	 * @param string $integration_option The integration option name.
 	 * @param string $target_option      The target option to remove the tokens from.
 	 * @param array  $new_value          The new value of the option.
 	 *

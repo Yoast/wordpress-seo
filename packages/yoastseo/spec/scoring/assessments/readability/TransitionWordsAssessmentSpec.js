@@ -123,7 +123,7 @@ describe( "An assessment for transition word percentage", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, ne sed agam oblique alterum. Eos percipit singulis no. No scripta graecis cum. " +
 			"Ut vim eius porro labore. Id quem civibus sit. Sed no primis urbanitas, aperiri laboramus voluptatibus ei per. Esse consul possim " +
 			"duo eu, eu duo natum ferri libris. Tritani percipit interpretaris ne ius. Mel prima definitionem eu, partem labores vim at. " +
-			"Prompta vivendum usu te. Indoctum philosophia definitiones usu ad, cum quodsi alienum et. " );
+			"Prompta vivendum usu te. Indoctum philosophical definitiones usu ad, cum quodsi alienum et. " );
 		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
 		expect( assessment ).toBe( false );
 	} );
@@ -132,11 +132,11 @@ describe( "An assessment for transition word percentage", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, ne sed agam oblique alterum. Eos percipit singulis no. No scripta graecis cum. " +
 			"Ut vim eius porro labore. Id quem civibus sit. Sed no primis urbanitas, aperiri laboramus voluptatibus ei per. Esse consul possim " +
 			"duo eu, eu duo natum ferri libris. Tritani percipit interpretaris ne ius. Mel prima definitionem eu, partem labores vim at. " +
-			"Prompta vivendum usu te. Indoctum philosophia definitiones usu ad, cum quodsi alienum et. Sumo civibus appareat est ea, " +
+			"Prompta vivendum usu te. Indoctum philosophical definitiones usu ad, cum quodsi alienum et. Sumo civibus appareat est ea, " +
 			"in iriure euismod dolores mel. Mea scripta senserit maluisset ei. Vel id mollis delicata constituam, laoreet scriptorem his cu, " +
-			"facilis accusam quaerendum nam in. Adversarium philosophia deterruisset duo at, augue postulant ut eos, usu ne iuvaret docendi. " +
+			"facilis accusam quaerendum nam in. Adversarium philosophical deterruisset duo at, augue postulant ut eos, usu ne iuvaret docendi. " +
 			"Iudicabit eloquentiam usu no. Vide volumus pri ne. Eos ignota timeam ponderum ei, an postea principes prodesset sit, " +
-			"purto blandit offendit pro an. Ei vim ludus veniam mnesarchum. Ne modus consul dolorem his, solum alienum eu nec. " +
+			"purto blandit offendit pro an. Ei vim ludus veniam mnesarchum. Ne modus consul dolorem his, solemn alienum eu nec. " +
 			"Mea legendos deserunt quaerendum te, fierent fabellas eu per. Ei sea accumsan fabellas signiferumque. Veri ludus aperiri his at, " +
 			"meis dicant impedit an qui. Est error offendit ex, at affert mediocrem interpretaris nam. Percipit persecuti et mel, persecuti " +
 			"inciderint signiferumque cu usu, an sit nemore nusquam. Brute iracundia sea ei, ad esse dictas aliquam est, prompta ceteros " +

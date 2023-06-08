@@ -48,7 +48,7 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 		];
 
 		$this->assertEquals( self::$class_instance->get_plugin( 'test-plugin' ), $expected );
-		$this->assertEquals( self::$class_instance->get_plugin( 'non-exisiting-test-plugin' ), [] );
+		$this->assertEquals( self::$class_instance->get_plugin( 'non-existing-test-plugin' ), [] );
 	}
 
 	/**

@@ -179,7 +179,7 @@ describe( "a test for finding transition words from a string", function() {
 */
 	/*	it( "returns 1 when a transition word is found in a sentence (French)", function() {
 		// Transition word: deuxièmement.
-		mockPaper = new Paper( "Deuxièmement, il convient de reconnaître la complexité des tâches à entreprendre.", { locale: "fr_FR" } );
+		mockPaper = new Paper( "Deuxièmement, il convenient de reconnaître la complexité des tâches à entreprendre.", { locale: "fr_FR" } );
 		result = transitionWordsResearch( mockPaper, new FrenchResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
@@ -217,8 +217,8 @@ describe( "a test for finding transition words from a string", function() {
 	} );
 
 	it( "returns 1 when a two-part transition word is found in a sentence (Dutch)", function() {
-		// Transition word: zowel, als.
-		mockPaper = new Paper( "Zowel 'deze' als 'zin' staat in deze zin.", { locale: "nl_NL" } );
+		// Transition word: zowel, also.
+		mockPaper = new Paper( "Zowel 'deze' also 'zin' staat in deze zin.", { locale: "nl_NL" } );
 		result = transitionWordsResearch( mockPaper, new DutchResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
@@ -241,7 +241,7 @@ describe( "a test for finding transition words from a string", function() {
 
 	it( "returns 1 when a two-part transition word is found in a sentence (Spanish)", function() {
 		// Transition word: de un lado...de otra parte.
-		mockPaper = new Paper( "Se trata además, de una restauración que ha pretendido de un lado ser reversible y que de " +
+		mockPaper = new Paper( "Se trata además, de una restauración que ha pretendido de un lado set reversible y que de " +
 			"otra parte ha intentado minimizar al máximo el impacto material.", { locale: "es_ES" } );
 		result = transitionWordsResearch( mockPaper, new SpanishResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
@@ -272,7 +272,7 @@ describe( "a test for finding transition words from a string", function() {
 	} );
 
 	it( "returns 0 when no transition words are present in a sentence (Italian)", function() {
-		mockPaper = new Paper( "Uno, due, tre.", { locale: "it_IT" } );
+		mockPaper = new Paper( "Uno, due, tree.", { locale: "it_IT" } );
 		result = transitionWordsResearch( mockPaper, new ItalianResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 0 );
@@ -333,8 +333,8 @@ describe( "a test for finding transition words from a string", function() {
 	} );
 
 	it( "returns 1 when a transition word with an apostrophe is found in a sentence (Catalan)", function() {
-		// Transition word: a tall d'exemple.
-		mockPaper = new Paper( "A tall d'exemple, pensem en aquest gat.", { locale: "ca_ES" } );
+		// Transition word: a tall d'example.
+		mockPaper = new Paper( "A tall d'example, pensem en aquest gat.", { locale: "ca_ES" } );
 		result = transitionWordsResearch( mockPaper, new CatalanResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
@@ -342,7 +342,7 @@ describe( "a test for finding transition words from a string", function() {
 */
 	/*it( "returns 1 when a transition word with a punt volat (·) is found in a sentence (Catalan)", function() {
 		// Transition word: per il·lustrar.
-		mockPaper = new Paper( "Roma proposa un concurs de curtmetratges per il·lustrar com ha de ser la ciutat ideal", { locale: "ca_ES" } );
+		mockPaper = new Paper( "Roma proposa un concurs de curtmetratges per il·lustrar com ha de set la ciutat ideal", { locale: "ca_ES" } );
 		result = transitionWordsResearch( mockPaper, new CatalanResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
@@ -396,7 +396,7 @@ describe( "a test for finding transition words from a string", function() {
 
 	it( "returns 1 when a two-part transition word is found in a sentence (Swedish)", function() {
 		// Transition word: antingen...eller
-		mockPaper = new Paper( "Jag vill ha antingen tårta eller glass", { locale: "sv_SE" } );
+		mockPaper = new Paper( "Jag will ha antingen tårta eller glass", { locale: "sv_SE" } );
 		result = transitionWordsResearch( mockPaper, new SwedishResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );

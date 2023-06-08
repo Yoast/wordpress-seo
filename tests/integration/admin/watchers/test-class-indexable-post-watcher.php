@@ -145,7 +145,7 @@ class Indexable_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @param WP_Post $post The post to get indexables for.
 	 *
-	 * @return Indexable[] The indexbales for hte post.
+	 * @return Indexable[] The indexbales for the post.
 	 */
 	protected function get_indexables_for( WP_Post $post ) {
 		$orm = Model::of_type( 'Indexable' );

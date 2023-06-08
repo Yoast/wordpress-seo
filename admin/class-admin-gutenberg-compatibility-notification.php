@@ -76,7 +76,7 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification implements WPSEO_WordPres
 	}
 
 	/**
-	 * Adds the notification to the notificaton center.
+	 * Adds the notification to the notification center.
 	 *
 	 * @return void
 	 */

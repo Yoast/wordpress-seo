@@ -514,7 +514,7 @@ class Indexable_Repository {
 	 * @param string|null $type    The type of the indexable. Can be null.
 	 * @param string|null $subtype The subtype. Can be null.
 	 *
-	 * @return int|bool The number of permalinks changed if the query was succesful. False otherwise.
+	 * @return int|bool The number of permalinks changed if the query was successful. False otherwise.
 	 */
 	public function reset_permalink( $type = null, $subtype = null ) {
 		$query = $this->query()->set(

@@ -557,7 +557,7 @@ function yoast_wpseo_self_deactivate() {
 }
 
 /**
- * Aliasses added in order to keep compatibility with Yoast SEO: Local.
+ * Aliases added in order to keep compatibility with Yoast SEO: Local.
  */
 class_alias( '\Yoast\WP\SEO\Initializers\Initializer_Interface', '\Yoast\WP\SEO\WordPress\Initializer' );
 class_alias( '\Yoast\WP\SEO\Loadable_Interface', '\Yoast\WP\SEO\WordPress\Loadable' );

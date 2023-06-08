@@ -228,7 +228,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 
 	it( "returns an object with sentence beginnings and counts for three sentences in Spanish all starting " +
 		"with one of the exception words.", function() {
-		mockPaper = new Paper( "Aquellas pequeñas cosas. Aquellas pequeñas decisiones. Aquellas pequeñas ideas.", { locale: "es_ES" } );
+		mockPaper = new Paper( "Aquellas pequeñas cosas. Aquellas pequeñas decisions. Aquellas pequeñas ideas.", { locale: "es_ES" } );
 		researcher = new SpanishResearcher( mockPaper );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "aquellas pequeñas" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
@@ -452,7 +452,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	} );
 
 	it( "returns an object with sentence beginnings and counts for two sentences in French starting with different words.", function() {
-		mockPaper = new Paper( "Sur le pont d'Avignon. Liberté, égalité, fraternité. ", { locale: "fr_FR" } );
+		mockPaper = new Paper( "Sur le point d'Avignon. Liberté, égalité, fraternité. ", { locale: "fr_FR" } );
 		researcher = new FrenchResearcher( mockPaper );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "sur" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );

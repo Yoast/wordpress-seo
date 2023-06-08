@@ -55,7 +55,7 @@ class Postname_Permalink_Runner_Test extends TestCase {
 	 * @covers ::run
 	 * @covers ::is_successful
 	 */
-	public function test_retuns_not_successful() {
+	public function test_returns_not_successful() {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( 'permalink_structure' )

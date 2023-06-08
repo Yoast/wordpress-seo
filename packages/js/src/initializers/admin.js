@@ -10,7 +10,7 @@ import { debounce } from "lodash";
  */
 export default function initAdmin( jQuery ) {
 	/**
-	 * Utility function to check whether the given element is fully visible withing the viewport.
+	 * Utility function to check whether the given element is fully visible within the viewport.
 	 *
 	 * @returns {HTMLElement} Whether the element is fully visible in the viewport.
 	 */
@@ -117,7 +117,7 @@ export default function initAdmin( jQuery ) {
 	 *
 	 * @returns {void}
 	 */
-	function setAuthorsWithoutPostsToggleVisibilty( visible ) {
+	function setAuthorsWithoutPostsToggleVisibility( visible ) {
 		/**
 		 * Get the container surrounding the toggle.
 		 */
@@ -267,20 +267,20 @@ export default function initAdmin( jQuery ) {
 		const authorArchivesEnabled  = jQuery( "#noindex-author-wpseo-on" );
 
 		if ( ! authorArchivesDisabled.is( ":checked" ) ) {
-			setAuthorsWithoutPostsToggleVisibilty( false );
+			setAuthorsWithoutPostsToggleVisibility( false );
 		}
 
 		// Disable Author archives without posts when Show author archives is toggled off.
 		authorArchivesEnabled.on( "change", () => {
 			if ( ! jQuery( this ).is( ":checked" ) ) {
-				setAuthorsWithoutPostsToggleVisibilty( false );
+				setAuthorsWithoutPostsToggleVisibility( false );
 			}
 		} );
 
 		// Enable Author archives without posts when Show author archives is toggled on.
 		authorArchivesDisabled.on( "change", () => {
 			if ( ! jQuery( this ).is( ":checked" ) ) {
-				setAuthorsWithoutPostsToggleVisibilty( true );
+				setAuthorsWithoutPostsToggleVisibility( true );
 			}
 		} );
 

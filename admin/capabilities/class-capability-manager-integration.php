@@ -84,7 +84,7 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 	 *
 	 * @param array $groups Current groups.
 	 *
-	 * @return array Filtered list of capabilty groups.
+	 * @return array Filtered list of capability groups.
 	 */
 	public function filter_ure_capabilities_groups_tree( $groups = [] ) {
 		$groups = (array) $groups;

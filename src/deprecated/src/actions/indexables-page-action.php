@@ -131,7 +131,7 @@ class Indexables_Page_Action {
 	}
 
 	/**
-	 * Gets the neccessary information to set up the indexables page.
+	 * Gets the necessary information to set up the indexables page.
 	 *
 	 * @deprecated 20.4
 	 * @codeCoverageIgnore
@@ -139,7 +139,7 @@ class Indexables_Page_Action {
 	 * @param int $content_threshold  The threshold to check against for enough content.
 	 * @param int $analysis_threshold The threshold to check against for enough analyzed content.
 	 *
-	 * @return array The neccessary information to set up the indexables page.
+	 * @return array The necessary information to set up the indexables page.
 	 */
 	public function get_setup_info( $content_threshold, $analysis_threshold ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );

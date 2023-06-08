@@ -841,7 +841,7 @@ class WPSEO_Meta {
 
 		/*
 		 * Remove all default values and (most) invalid option values.
-		 * Invalid option values for the multiselect (meta-robots-adv) field will be dealt with seperately.
+		 * Invalid option values for the multiselect (meta-robots-adv) field will be dealt with separately.
 		 *
 		 * {@internal Some of the defaults have changed in v1.5, but as the defaults will
 		 *            be removed and new defaults will now automatically be passed when no
