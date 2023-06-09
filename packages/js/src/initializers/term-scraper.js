@@ -165,8 +165,6 @@ export default function initTermScraper( $, store, editorData ) {
 	function initializeKeywordAnalysis( termScraper ) {
 		var savedKeywordScore = $( "#hidden_wpseo_linkdex" ).val();
 
-		termScraper.initKeywordTabTemplate();
-
 		var indicator = getIndicatorForScore( savedKeywordScore );
 
 		updateTrafficLight( indicator );
@@ -372,8 +370,6 @@ export default function initTermScraper( $, store, editorData ) {
 			app.seoAssessor = new TaxonomyAssessor( app.config.researcher );
 			app.seoAssessorPresenter.assessor = app.seoAssessor;
 		}
-
-		termScraper.initKeywordTabTemplate();
 
 		// Init Plugins.
 		window.YoastSEO.wp = {};
