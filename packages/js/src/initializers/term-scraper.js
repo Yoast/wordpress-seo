@@ -158,11 +158,9 @@ export default function initTermScraper( $, store, editorData ) {
 	/**
 	 * Initializes keyword analysis.
 	 *
-	 * @param {TermDataCollector} termScraper The post scraper object.
-	 *
 	 * @returns {void}
 	 */
-	function initializeKeywordAnalysis( termScraper ) {
+	function initializeKeywordAnalysis() {
 		var savedKeywordScore = $( "#hidden_wpseo_linkdex" ).val();
 
 		var indicator = getIndicatorForScore( savedKeywordScore );
@@ -388,7 +386,7 @@ export default function initTermScraper( $, store, editorData ) {
 		), refreshDelay ) );
 
 		if ( isKeywordAnalysisActive() ) {
-			initializeKeywordAnalysis( termScraper );
+			initializeKeywordAnalysis();
 		}
 
 		if ( isContentAnalysisActive() ) {
