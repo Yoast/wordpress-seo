@@ -18,6 +18,7 @@ const config = {
 		"clover",
 		"text-summary",
 	],
+	testEnvironment: "jsdom",
 };
 
 module.exports = config;

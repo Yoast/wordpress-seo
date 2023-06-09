@@ -36,6 +36,7 @@ overrides:
       react/default-props-match-prop-types: 1
       react/no-unused-prop-types: 1
       require-jsdoc: 1
+      import/no-unresolved: [ "error", { ignore: [ "^@yoast/(helpers|style-guide)" ] } ]
   - files:
       - "packages/yoastseo/**/*.js"
     settings:
