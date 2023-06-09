@@ -38,6 +38,10 @@ overrides:
       require-jsdoc: 1
       import/no-unresolved: [ "error", { ignore: [ "^@yoast/(helpers|style-guide)" ] } ]
   - files:
+      - "packages/social-metadata-forms/**/*.js"
+    rules:
+      import/no-unresolved: [ "error", { ignore: [ "^@yoast/(components|helpers|replacement-variable-editor|style-guide)" ] } ]
+  - files:
       - "packages/yoastseo/**/*.js"
     settings:
       import/core-modules: [ "yoastseo" ]
