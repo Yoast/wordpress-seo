@@ -47,9 +47,9 @@ describe( "A test for the splitIntoTokens method", () => {
 
 describe( "A test for the splitIntoTokens method in Japanese", () => {
 	it( "should return an array of tokens", function() {
-		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+		const japaneseResearcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ splitIntoTokensCustom: splitIntoTokensCustom } );
-		const languageProcessor = new LanguageProcessor( researcher );
+		const languageProcessor = new LanguageProcessor( japaneseResearcher );
 		const tokens = languageProcessor.splitIntoTokens( new Sentence( "こんにちは世界！" ) );
 		expect( tokens ).toEqual( [
 			{ text: "こん", sourceCodeRange: {} },
