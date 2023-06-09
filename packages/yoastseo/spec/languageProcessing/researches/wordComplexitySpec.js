@@ -75,6 +75,14 @@ describe( "a test for getting the complex words in the sentence and calculating 
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 	} );
 
+	it( "should return an empty array and 0% if the only complex words are inside an element we want to exclude from the analysis", () => {
+		const paper = new Paper( "This is short text. <code>tortoiseshell</code> A text about Calico." );
+		researcher.setPaper( paper );
+
+		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
+	} );
+
 	it( "should return an empty array and 0% if there is no complex word found in the text: " +
 		"Also test with a word starting with capital letter enclosed in different types of quotation mark.", () => {
 		let paper = new Paper( "This is short text. This is another short text. A text about \"Calico\"." );

@@ -42,7 +42,8 @@ function getLongCenterAlignedElements( elements, elementType ) {
  * @returns {Object[]}	An array of objects for each too long center-aligned paragraph/heading.
  */
 export default function( paper ) {
-	const text = paper.getText();
+	let text = paper.getText();
+	text = helpers.removeHtmlBlocks( text );
 
 	// Get all paragraphs from the text. We only retrieve the paragraphs with <p> tags.
 	const allParagraphs = helpers.matchStringWithRegex( text, paragraphsRegex );

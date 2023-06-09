@@ -35,6 +35,23 @@ export const parameters = {
 		disable: true,
 		argTypesRegex: "^on[A-Z].*",
 	},
+	backgrounds: {
+		default: "light",
+		values: [
+			{
+				name: "light",
+				value: "white",
+			},
+			{
+				name: "dark",
+				value: "#1f2124"
+			},
+			{
+				name: "medium",
+				value: "#eee",
+			}
+		],
+	},
 	controls: {
 		disable: true,
 		matchers: {

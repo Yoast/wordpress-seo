@@ -251,11 +251,14 @@ Release date: 2023-06-06
 
 #### Enhancements
 
-* Sets up background indexation via WP Cron.
+* Renders Wincher-related information in a separate dashboard widget.
+* Shows a widget in the WordPress dashboard with a connection button in case a user has not connected to their Wincher account.
 * Tightens crawl optimization site search blocking rules.
+* We now automatically schedule background performance optimization processes (via WP Cron).
 
 #### Bugfixes
 
+* Fixes a bug where a fatal occurs after updating the plugin due to a failed query
 * Fixes a bug where indexables would be created when using the `wp yoast index` WP CLI command on a staging site.
 * Fixes a bug where the link popover position in the block editor would be positioned incorrectly when adding or creating links.
 * Fixes a bug where the Yoast SEO metabox would crash in conjunction with Yoast SEO Premium when additional keyphrases are stored in the DB in a malformed way.
@@ -280,7 +283,7 @@ Today, we're launching Yoast SEO 20.8. In this release, you'll find improvements
 
 #### Other
 
-* Renames \"SEO Framework\" to \"The SEO Framework\".
+* Renames "SEO Framework" to "The SEO Framework".
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
