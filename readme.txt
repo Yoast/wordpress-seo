@@ -258,6 +258,7 @@ Release date: 2023-06-06
 
 #### Bugfixes
 
+* Fixes a bug where a fatal occurs after updating the plugin due to a failed query
 * Fixes a bug where indexables would be created when using the `wp yoast index` WP CLI command on a staging site.
 * Fixes a bug where the link popover position in the block editor would be positioned incorrectly when adding or creating links.
 * Fixes a bug where the Yoast SEO metabox would crash in conjunction with Yoast SEO Premium when additional keyphrases are stored in the DB in a malformed way.

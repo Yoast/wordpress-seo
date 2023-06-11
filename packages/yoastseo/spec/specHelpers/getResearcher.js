@@ -47,17 +47,23 @@ const researchers = {
 	el: GreekResearcher,
 };
 
+// Turn the key-value pairs into a Map to prevent a js/unvalidated-dynamic-method-call.
+// Refer to https://github.com/Yoast/wordpress-seo/security/code-scanning/45 for details.
+const researchersMap = new Map( Object.entries( researchers ) );
+
 /**
- * Requires language specific Researcher.
+ * Retrieves the language-specific Researcher.
  *
  * @param {string} language The language for which to load the correct Researcher.
  *
  * @returns {Object} The Researcher.
  */
 export default function getResearcher( language ) {
-	if ( researchers[ language ] ) {
-		return researchers[ language ];
+	if ( researchersMap.has( language ) ) {
+		if ( typeof researchersMap.get( language ) === "function" ) {
+			return researchersMap.get( language );
+		}
+	} else {
+		return DefaultResearcher;
 	}
-
-	return DefaultResearcher;
 }

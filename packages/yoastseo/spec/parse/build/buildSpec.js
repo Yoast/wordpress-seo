@@ -503,8 +503,14 @@ describe( "The parse function", () => {
 		} );
 	} );
 	it( "parses an HTML text with a Yoast table of contents block, which should be filtered out", () => {
-		const html = "<div class='wp-block-yoast-seo-table-of-contents yoast-table-of-contents'>Hey, this is a table of contents.</div>" +
-			"<p>And this is a paragraph.</p>";
+		// <!-- wp:yoast-seo/table-of-contents -->\n
+		// 	<div class="wp-block-yoast-seo-table-of-contents yoast-table-of-contents"><h2>Table of contents</h2><ul><li>
+		// 	<a href="#h-subheading-1" data-level="2">Subheading 1</a></li><li><a href="#h-subheading-2"
+		// 	data-level="2">Subheading 2</a></li></ul></div>\n
+		// 	<!-- /wp:yoast-seo/table-of-contents --><p>This is the first sentence.</p>
+		const html = "<!-- wp:yoast-seo/table-of-contents -->\n<div class=\"wp-block-yoast-seo-table-of-contents yoast-table-of-contents\">" +
+			"<h2>Table of contents</h2><ul><li><a href=\"#h-subheading-1\" data-level=\"2\">Subheading 1</a></li><li><a href=\"#h-subheading-2\" " +
+			"data-level=\"2\">Subheading 2</a></li></ul></div>\n<!-- /wp:yoast-seo/table-of-contents --><p>This is the first sentence.</p>";
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
@@ -515,111 +521,224 @@ describe( "The parse function", () => {
 			attributes: {},
 			childNodes: [
 				{
-					name: "p",
-					isImplicit: false,
 					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 39,
+						startOffset: 0,
+					},
+				},
+				{
+					name: "#text",
+					value: "\n",
+				},
+				{
+					name: "#text",
+					value: "\n",
+				},
+				{
+					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 328,
+						startOffset: 288,
+					},
+				},
+				{
+					attributes: {},
+					childNodes: [
+						{
+							name: "#text",
+							value: "This is the first sentence.",
+						},
+					],
+					isImplicit: false,
+					name: "p",
 					sentences: [
 						{
-							text: "And this is a paragraph.",
 							sourceCodeRange: {
-								startOffset: 116,
-								endOffset: 140,
+								endOffset: 358,
+								startOffset: 331,
 							},
+							text: "This is the first sentence.",
 							tokens: [
 								{
-									text: "And",
 									sourceCodeRange: {
-										startOffset: 116,
-										endOffset: 119,
+										endOffset: 335,
+										startOffset: 331,
 									},
+									text: "This",
 								},
 								{
+									sourceCodeRange: {
+										endOffset: 336,
+										startOffset: 335,
+									},
 									text: " ",
-									sourceCodeRange: {
-										endOffset: 120,
-										startOffset: 119,
-									},
 								},
 								{
-									text: "this",
 									sourceCodeRange: {
-										endOffset: 124,
-										startOffset: 120,
+										endOffset: 338,
+										startOffset: 336,
 									},
-								},
-								{
-									text: " ",
-									sourceCodeRange: {
-										endOffset: 125,
-										startOffset: 124,
-									},
-								},
-								{
 									text: "is",
-									sourceCodeRange: {
-										endOffset: 127,
-										startOffset: 125,
-									},
 								},
 								{
+									sourceCodeRange: {
+										endOffset: 339,
+										startOffset: 338,
+									},
 									text: " ",
-									sourceCodeRange: {
-										endOffset: 128,
-										startOffset: 127,
-									},
 								},
 								{
-									text: "a",
 									sourceCodeRange: {
-										endOffset: 129,
-										startOffset: 128,
+										endOffset: 342,
+										startOffset: 339,
 									},
+									text: "the",
 								},
 								{
+									sourceCodeRange: {
+										endOffset: 343,
+										startOffset: 342,
+									},
 									text: " ",
-									sourceCodeRange: {
-										endOffset: 130,
-										startOffset: 129,
-									},
 								},
 								{
-									text: "paragraph",
 									sourceCodeRange: {
-										endOffset: 139,
-										startOffset: 130,
+										endOffset: 348,
+										startOffset: 343,
 									},
+									text: "first",
 								},
 								{
+									sourceCodeRange: {
+										endOffset: 349,
+										startOffset: 348,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 357,
+										startOffset: 349,
+									},
+									text: "sentence",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 358,
+										startOffset: 357,
+									},
 									text: ".",
-									sourceCodeRange: {
-										endOffset: 140,
-										startOffset: 139,
-									},
 								},
 							],
 						},
 					],
-					childNodes: [
-						{
-							name: "#text",
-							value: "And this is a paragraph.",
-						},
-					],
 					sourceCodeLocation: {
-						endOffset: 144,
+						endOffset: 362,
 						endTag: {
-							endOffset: 144,
-							startOffset: 140,
+							endOffset: 362,
+							startOffset: 358,
 						},
-						startOffset: 113,
+						startOffset: 328,
 						startTag: {
-							endOffset: 116,
-							startOffset: 113,
+							endOffset: 331,
+							startOffset: 328,
 						},
 					},
 				},
 			],
-		} );
+		}
+		);
+	} );
+	it( "parses an HTML text with a Yoast breadcrumbs widget in Elementor, which should be filtered out", () => {
+		// HTML: <p id="breadcrumbs"><span><span><a href="https://one.wordpress.test/">Home</a></span></span></p><p>The first sentence</p>
+		const html = "<p id=\"breadcrumbs\"><span><span><a href=\"https://one.wordpress.test/\">Home</a></span></span></p><p>The first sentence</p>";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual(
+			{
+				name: "#document-fragment",
+				attributes: {},
+				childNodes: [
+					{
+						attributes: {},
+						childNodes: [
+							{
+								name: "#text",
+								value: "The first sentence",
+							},
+						],
+						isImplicit: false,
+						name: "p",
+						sentences: [
+							{
+								sourceCodeRange: {
+									endOffset: 117,
+									startOffset: 99,
+								},
+								text: "The first sentence",
+								tokens: [
+									{
+										sourceCodeRange: {
+											endOffset: 102,
+											startOffset: 99,
+										},
+										text: "The",
+									},
+									{
+										sourceCodeRange: {
+											endOffset: 103,
+											startOffset: 102,
+										},
+										text: " ",
+									},
+									{
+										sourceCodeRange: {
+											endOffset: 108,
+											startOffset: 103,
+										},
+										text: "first",
+									},
+									{
+										sourceCodeRange: {
+											endOffset: 109,
+											startOffset: 108,
+										},
+										text: " ",
+									},
+									{
+										sourceCodeRange: {
+											endOffset: 117,
+											startOffset: 109,
+										},
+										text: "sentence",
+									},
+								],
+							},
+						],
+						sourceCodeLocation: {
+							endOffset: 121,
+							endTag: {
+								endOffset: 121,
+								startOffset: 117,
+							},
+							startOffset: 96,
+							startTag: {
+								endOffset: 99,
+								startOffset: 96,
+							},
+						},
+					},
+				],
+			}
+		);
 	} );
 	it( "parses an HTML text with a script element inside a paragraph", () => {
 		const html = "<div><p><script>console.log(\"Hello, world!\")</script> Hello, world!</p></div>";
@@ -919,8 +1038,8 @@ describe( "The parse function", () => {
 			} ],
 		} );
 	} );
-	// Currently the token offsets for the second sentence are not calculated correctly.
-	xit( "parses an HTML text with a code element within a paragraph", () => {
+
+	it( "parses an HTML text with a code element within a paragraph", () => {
 		const html = "<div><p>Hello code! <code>array.push( something )</code> Hello world!</p></div>";
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
@@ -1237,6 +1356,591 @@ describe( "The parse function", () => {
 				},
 			],
 			name: "#document-fragment",
+		} );
+	} );
+} );
+
+describe( "parsing html with Yoast blocks that enter the Paper as html comments", () => {
+	it( "parses an HTML text with a Yoast breadcrumbs block", () => {
+		const html = "<!-- wp:yoast-seo/breadcrumbs /-->" +
+			"<!-- wp:paragraph -->\n" +
+			"<p>The Norwegian Forest cat is adapted to survive Norway's cold weather.</p>\n" +
+			"<!-- /wp:paragraph -->";
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual( {
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [
+				{
+					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 34,
+						startOffset: 0,
+					},
+				},
+				{
+					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 55,
+						startOffset: 34,
+					},
+				},
+				{
+					name: "#text",
+					value: "\n",
+				},
+				{
+					attributes: {},
+					childNodes: [
+						{
+							name: "#text",
+							value: "The Norwegian Forest cat is adapted to survive Norway's cold weather.",
+						},
+					],
+					isImplicit: false,
+					name: "p",
+					sentences: [
+						{
+							sourceCodeRange: {
+								endOffset: 128,
+								startOffset: 59,
+							},
+							text: "The Norwegian Forest cat is adapted to survive Norway's cold weather.",
+							tokens: [
+								{
+									sourceCodeRange: {
+										endOffset: 62,
+										startOffset: 59,
+									},
+									text: "The",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 63,
+										startOffset: 62,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 72,
+										startOffset: 63,
+									},
+									text: "Norwegian",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 73,
+										startOffset: 72,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 79,
+										startOffset: 73,
+									},
+									text: "Forest",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 80,
+										startOffset: 79,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 83,
+										startOffset: 80,
+									},
+									text: "cat",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 84,
+										startOffset: 83,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 86,
+										startOffset: 84,
+									},
+									text: "is",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 87,
+										startOffset: 86,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 94,
+										startOffset: 87,
+									},
+									text: "adapted",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 95,
+										startOffset: 94,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 97,
+										startOffset: 95,
+									},
+									text: "to",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 98,
+										startOffset: 97,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 105,
+										startOffset: 98,
+									},
+									text: "survive",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 106,
+										startOffset: 105,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 114,
+										startOffset: 106,
+									},
+									text: "Norway's",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 115,
+										startOffset: 114,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 119,
+										startOffset: 115,
+									},
+									text: "cold",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 120,
+										startOffset: 119,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 127,
+										startOffset: 120,
+									},
+									text: "weather",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 128,
+										startOffset: 127,
+									},
+									text: ".",
+								},
+							],
+						},
+					],
+					sourceCodeLocation: {
+						endOffset: 132,
+						endTag: {
+							endOffset: 132,
+							startOffset: 128,
+						},
+						startOffset: 56,
+						startTag: {
+							endOffset: 59,
+							startOffset: 56,
+						},
+					},
+				},
+				{
+					name: "#text",
+					value: "\n",
+				},
+				{
+					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 155,
+						startOffset: 133,
+					},
+				},
+			],
+		} );
+	} );
+
+	it( "parses an HTML text with a Yoast siblings block", () => {
+		const html = "<p>Hello, world!</p><!-- wp:yoast-seo/siblings /-->";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual( {
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [
+				{
+					attributes: {},
+					childNodes: [
+						{
+							name: "#text",
+							value: "Hello, world!",
+						},
+					],
+					isImplicit: false,
+					name: "p",
+					sentences: [
+						{
+							sourceCodeRange: {
+								endOffset: 16,
+								startOffset: 3,
+							},
+							text: "Hello, world!",
+							tokens: [
+								{
+									sourceCodeRange: {
+										endOffset: 8,
+										startOffset: 3,
+									},
+									text: "Hello",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 9,
+										startOffset: 8,
+									},
+									text: ",",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 10,
+										startOffset: 9,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 15,
+										startOffset: 10,
+									},
+									text: "world",
+								},
+								{
+									sourceCodeRange: {
+										endOffset: 16,
+										startOffset: 15,
+									},
+									text: "!",
+								},
+							],
+						},
+					],
+					sourceCodeLocation: {
+						endOffset: 20,
+						endTag: {
+							endOffset: 20,
+							startOffset: 16,
+						},
+						startOffset: 0,
+						startTag: {
+							endOffset: 3,
+							startOffset: 0,
+						},
+					},
+				},
+				{
+					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 51,
+						startOffset: 20,
+					},
+				},
+			],
+		} );
+	} );
+
+	it( "parses an HTML text with a Yoast subpages block", () => {
+		const html = "<div>The Norwegian Forest cat is strongly built and larger than an average cat.</div><!-- wp:yoast-seo/subpages /-->";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual(  {
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [
+				{
+					attributes: {},
+					childNodes: [
+						{
+							attributes: {},
+							childNodes: [
+								{
+									name: "#text",
+									value: "The Norwegian Forest cat is strongly built and larger than an average cat.",
+								},
+							],
+							isImplicit: true,
+							name: "p",
+							sentences: [
+								{
+									sourceCodeRange: {
+										endOffset: 79,
+										startOffset: 5,
+									},
+									text: "The Norwegian Forest cat is strongly built and larger than an average cat.",
+									tokens: [
+										{
+											sourceCodeRange: {
+												endOffset: 8,
+												startOffset: 5,
+											},
+											text: "The",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 9,
+												startOffset: 8,
+											},
+											text: " ",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 18,
+												startOffset: 9,
+											},
+											text: "Norwegian",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 19,
+												startOffset: 18,
+											},
+											text: " ",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 25,
+												startOffset: 19,
+											},
+											text: "Forest",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 26,
+												startOffset: 25,
+											},
+											text: " ",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 29,
+												startOffset: 26,
+											},
+											text: "cat",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 30,
+												startOffset: 29,
+											},
+											text: " ",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 32,
+												startOffset: 30,
+											},
+											text: "is",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 33,
+												startOffset: 32,
+											},
+											text: " ",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 41,
+												startOffset: 33,
+											},
+											text: "strongly",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 42,
+												startOffset: 41,
+											},
+											text: " ",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 47,
+												startOffset: 42,
+											},
+											text: "built",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 48,
+												startOffset: 47,
+											},
+											text: " ",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 51,
+												startOffset: 48,
+											},
+											text: "and",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 52,
+												startOffset: 51,
+											},
+											text: " ",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 58,
+												startOffset: 52,
+											},
+											text: "larger",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 59,
+												startOffset: 58,
+											},
+											text: " ",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 63,
+												startOffset: 59,
+											},
+											text: "than",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 64,
+												startOffset: 63,
+											},
+											text: " ",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 66,
+												startOffset: 64,
+											},
+											text: "an",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 67,
+												startOffset: 66,
+											},
+											text: " ",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 74,
+												startOffset: 67,
+											},
+											text: "average",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 75,
+												startOffset: 74,
+											},
+											text: " ",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 78,
+												startOffset: 75,
+											},
+											text: "cat",
+										},
+										{
+											sourceCodeRange: {
+												endOffset: 79,
+												startOffset: 78,
+											},
+											text: ".",
+										},
+									],
+								},
+							],
+							sourceCodeLocation: {
+								endOffset: 79,
+								startOffset: 5,
+							},
+						},
+					],
+					name: "div",
+					sourceCodeLocation: {
+						endOffset: 85,
+						endTag: {
+							endOffset: 85,
+							startOffset: 79,
+						},
+						startOffset: 0,
+						startTag: {
+							endOffset: 5,
+							startOffset: 0,
+						},
+					},
+				},
+				{
+					attributes: {},
+					childNodes: [],
+					name: "#comment",
+					sourceCodeLocation: {
+						endOffset: 116,
+						startOffset: 85,
+					},
+				},
+			],
 		} );
 	} );
 } );
