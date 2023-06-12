@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use DOMDocument;
 use WP_HTML_Tag_Processor;
 use WPSEO_Image_Utils;
 use Yoast\WP\SEO\Helpers\Image_Helper;
@@ -213,13 +214,13 @@ class Indexable_Link_Builder {
 	}
 
 	/**
-	 * Gathers all images from content.
+	 * Gathers all images from content with WP's WP_HTML_Tag_Processor() and returns them along with their IDs, if possible.
 	 *
 	 * @param string $content The content.
 	 *
-	 * @return string[] An array of urls.
+	 * @return int[] An associated array of image IDs, keyed by their URL.
 	 */
-	protected function gather_images_ids_tags( $content ) {
+	protected function gather_images_wp( $content ) {
 		$processor = new WP_HTML_Tag_Processor( $content );
 		$images    = [];
 
@@ -228,10 +229,55 @@ class Indexable_Link_Builder {
 		];
 
 		while ( $processor->next_tag( $query ) ) {
-			$images[] = $processor->get_attribute( 'src' );
+			$src     = $processor->get_attribute( 'src' );
+			$classes = $processor->get_attribute( 'class' );
+			$id      = $this->extract_id_of_classes( $classes );
+
+			$images[ $src ] = $id;
 		}
 
 		return $images;
+	}
+
+	/**
+	 * Gathers all images from content with DOMDocument() and returns them along with their IDs, if possible.
+	 *
+	 * @param string $content The content.
+	 *
+	 * @return int[] An associated array of image IDs, keyed by their URL.
+	 */
+	protected function gather_images_domdocument( $content ) {
+		$images   = [];
+		$post_dom = new DOMDocument();
+		$post_dom->loadHTML( '<?xml encoding="' . \get_bloginfo( 'charset' ) . '">' . $content );
+
+		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
+			$src     = $img->getAttribute( 'src' );
+			$classes = $img->getAttribute( 'class' );
+			$id      = $this->extract_id_of_classes( $classes );
+
+			$images[ $src ] = $id;
+		}
+
+		return $images;
+	}
+
+	/**
+	 * Extracts image ID out of the image's classes.
+	 *
+	 * @param string $classes The classes assigned to the image.
+	 *
+	 * @return int The ID that's extracted from the classes.
+	 */
+	protected function extract_id_of_classes( $classes ) {
+		$pattern = '/(?<!\S)wp-image-(\d+)(?!\S)/i';
+		$matches = [];
+
+		if ( preg_match( $pattern, $classes, $matches ) ) {
+			return (int) $matches[1];
+		}
+
+		return 0;
 	}
 
 	/**
@@ -239,11 +285,15 @@ class Indexable_Link_Builder {
 	 *
 	 * @param string $content The content.
 	 *
-	 * @return string[] An array of urls.
+	 * @return int[] An associated array of image IDs, keyed by their URLs.
 	 */
 	protected function gather_images( $content ) {
 		if ( class_exists( WP_HTML_Tag_Processor::class ) ) {
-			return $this->gather_images_ids_tags( $content );
+			return $this->gather_images_wp( $content );
+		}
+
+		if ( class_exists( DOMDocument::class ) ) {
+			return $this->gather_images_DOMDocument( $content );
 		}
 
 		if ( \strpos( $content, 'src' ) === false ) {
@@ -256,7 +306,7 @@ class Indexable_Link_Builder {
 		// Used modifiers iU to match case insensitive and make greedy quantifiers lazy.
 		if ( \preg_match_all( "/$regexp/iU", $content, $matches, \PREG_SET_ORDER ) ) {
 			foreach ( $matches as $match ) {
-				$images[] = \trim( $match[2], "'" );
+				$images[ $match[2] ] = 0;
 			}
 		}
 
@@ -268,7 +318,7 @@ class Indexable_Link_Builder {
 	 *
 	 * @param Indexable $indexable The indexable.
 	 * @param string[]  $links     The link URLs.
-	 * @param string[]  $images    The image sources.
+	 * @param int[]     $images    The image sources.
 	 *
 	 * @return SEO_Links[] The link models.
 	 */
@@ -289,13 +339,12 @@ class Indexable_Link_Builder {
 			}
 		);
 
-		$images = \array_map(
-			function( $link ) use ( $home_url, $indexable ) {
-				return $this->create_internal_link( $link, $home_url, $indexable, true );
-			},
-			$images
-		);
-		return \array_merge( $links, $images );
+		$image_links = [];
+		foreach ( $images as $image_url => $image_id ) {
+			$image_links[] = $this->create_internal_link( $image_url, $home_url, $indexable, true, $image_id );
+		}
+
+		return \array_merge( $links, $image_links );
 	}
 
 	/**
@@ -321,10 +370,11 @@ class Indexable_Link_Builder {
 	 * @param array     $home_url  The home url, as parsed by wp_parse_url.
 	 * @param Indexable $indexable The indexable of the post containing the link.
 	 * @param bool      $is_image  Whether or not the link is an image.
+	 * @param int       $image_id  The ID of the internal image.
 	 *
 	 * @return SEO_Links The created link.
 	 */
-	protected function create_internal_link( $url, $home_url, $indexable, $is_image = false ) {
+	protected function create_internal_link( $url, $home_url, $indexable, $is_image = false, $image_id = 0 ) {
 		$parsed_url = \wp_parse_url( $url );
 		$link_type  = $this->url_helper->get_link_type( $parsed_url, $home_url, $is_image );
 
@@ -357,7 +407,7 @@ class Indexable_Link_Builder {
 				$model = $this->enhance_link_from_indexable( $model, $permalink );
 			}
 			else {
-				$target_post_id = WPSEO_Image_Utils::get_attachment_by_url( $permalink );
+				$target_post_id = ( $image_id !== 0 ) ? $image_id : WPSEO_Image_Utils::get_attachment_by_url( $permalink );
 
 				if ( ! empty( $target_post_id ) ) {
 					$model->target_post_id = $target_post_id;
