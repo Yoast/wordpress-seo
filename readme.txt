@@ -247,18 +247,19 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 20.9 =
 
-Release date: 2023-06-06
+Release date: 2023-06-13
+
+In Yoast SEO 20.9, you'll find improvements to our Wincher integration. We've added a dashboard widget to track your keyphrase rankings. We've also done the usual fixes and made enhancements. Find out more about what's new in Yoast SEO 20.9 in [our release post](https://yoa.st/release-13-6-23)!
 
 #### Enhancements
 
-* Renders Wincher-related information in a separate dashboard widget.
-* Shows a widget in the WordPress dashboard with a connection button in case a user has not connected to their Wincher account.
+* Adds a new widget on the dasboard that shows your top keywords added to Yoast SEO with Wincher. Provides a connection button if you haven't yet connected your site to Wincher.
 * Tightens crawl optimization site search blocking rules.
 * We now automatically schedule background performance optimization processes (via WP Cron).
 
 #### Bugfixes
 
-* Fixes a bug where a fatal occurs after updating the plugin due to a failed query
+* Fixes a bug where a fatal error would occur after updating the plugin due to a failed query.
 * Fixes a bug where indexables would be created when using the `wp yoast index` WP CLI command on a staging site.
 * Fixes a bug where the link popover position in the block editor would be positioned incorrectly when adding or creating links.
 * Fixes a bug where the Yoast SEO metabox would crash in conjunction with Yoast SEO Premium when additional keyphrases are stored in the DB in a malformed way.
