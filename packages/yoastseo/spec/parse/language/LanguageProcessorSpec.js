@@ -439,13 +439,17 @@ describe( "A test for the splitIntoTokens method in Japanese", () => {
 		const japaneseResearcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ splitIntoTokensCustom: splitIntoTokensCustom } );
 		const languageProcessor = new LanguageProcessor( japaneseResearcher );
-		const tokens = languageProcessor.splitIntoTokens( new Sentence( "こんにちは世界！" ) );
+		const tokens = languageProcessor.splitIntoTokens( new Sentence( "ウクライナは、東ヨーロッパに位置する国家。" ) );
 		expect( tokens ).toEqual( [
-			{ text: "こん", sourceCodeRange: {} },
-			{ text: "にち", sourceCodeRange: {} },
+			{ text: "ウクライナ", sourceCodeRange: {} },
 			{ text: "は", sourceCodeRange: {} },
-			{ text: "世界", sourceCodeRange: {} },
-			{ text: "！", sourceCodeRange: {} },
+			{ text: "、", sourceCodeRange: {} },
+			{ text: "東ヨーロッパ", sourceCodeRange: {} },
+			{ text: "に", sourceCodeRange: {} },
+			{ text: "位置", sourceCodeRange: {} },
+			{ text: "する", sourceCodeRange: {} },
+			{ text: "国家", sourceCodeRange: {} },
+			{ text: "。", sourceCodeRange: {} },
 		] );
 	} );
 } );
