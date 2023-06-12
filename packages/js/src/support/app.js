@@ -18,11 +18,14 @@ import { useSelectSupport } from "./hooks";
  * @returns {void}
  */
 const openHelpScoutBeacon = () => {
-	document.querySelector( "#beacon-container .BeaconFabButtonFrame iframe" )
-		?.contentWindow
-		?.document
-		?.querySelector( "button[aria-controls='HSBeaconContainerFrame']" )
-		?.click();
+	const beaconButtonNeedsHelp = document.querySelector( "#beacon-container .BeaconFabButtonFrame iframe" );
+
+	if ( beaconButtonNeedsHelp ) {
+		// eslint-disable-next-line new-cap
+		window.Beacon( "open" );
+	} else {
+		document.querySelector( "#yoast-helpscout-beacon button" ).click();
+	}
 };
 
 /**
