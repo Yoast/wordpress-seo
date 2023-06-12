@@ -105,6 +105,81 @@ describe( "A test for getting positions of sentences", () => {
 		expect( yoastSentence.sourceCodeRange ).toEqual( { startOffset: 85, endOffset: 99 } );
 	} );
 
+	it( "gets the sentence positions from a node that has a descendant node without opening or closing tags (comment)", function() {
+		// HTML: <p>Hello, <!-- A comment --> world!</p>
+		const node = new Paragraph( {}, [
+			{
+				name: "#text",
+				value: "Hello, ",
+			},
+			{
+				name: "#comment",
+				attributes: {},
+				childNodes: [],
+				sourceCodeLocation: { startOffset: 15, endOffset: 33 },
+			},
+			{
+				name: "#text",
+				value: " world!",
+			} ],
+		{
+			startOffset: 5,
+			endOffset: 44,
+			startTag: {
+				startOffset: 5,
+				endOffset: 8,
+			},
+			endTag: {
+				startOffset: 40,
+				endOffset: 44,
+			},
+		} );
+
+		const sentences = [ { text: "Hello,  world!" } ];
+		const sentencesWithPositions = [ { text: "Hello,  world!", sourceCodeRange: { startOffset: 8, endOffset: 40 } } ];
+
+		expect( getTextElementPositions( node, sentences ) ).toEqual( sentencesWithPositions );
+	} );
+
+	it( "gets the sentence positions from a node that has a code child node", function() {
+		// HTML: <p>Hello <code>array.push( something )</code> code!</p>
+		const node = new Paragraph( {}, [
+			{
+				name: "#text",
+				value: "Hello ",
+			},
+			{
+				name: "code",
+				attributes: {},
+				childNodes: [],
+				sourceCodeLocation: {
+					startOffset: 14,
+					endOffset: 50,
+				},
+			},
+			{
+				name: "#text",
+				value: " code!",
+			} ],
+		{
+			startOffset: 5,
+			endOffset: 60,
+			startTag: {
+				startOffset: 5,
+				endOffset: 8,
+			},
+			endTag: {
+				startOffset: 56,
+				endOffset: 60,
+			},
+		} );
+
+		const sentences = [ { text: "Hello  code!" } ];
+		const sentencesWithPositions = [ { text: "Hello  code!", sourceCodeRange: { startOffset: 8, endOffset: 56 } } ];
+
+		expect( getTextElementPositions( node, sentences ) ).toEqual( sentencesWithPositions );
+	} );
+
 	it( "gets the sentence positions from a node that has a `span` and an `em` descendant node", function() {
 		// HTML: <p>Hello, <span>world!</span> Hello, <em>yoast!</em></p>.
 		// It is decided as follows: The following sentence boundaries:

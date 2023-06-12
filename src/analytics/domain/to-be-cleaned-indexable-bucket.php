@@ -28,7 +28,7 @@ class To_Be_Cleaned_Indexable_Bucket {
 	 *
 	 * @return void
 	 */
-	public function add_to_be_cleaned_indexable_count( To_Be_Cleaned_Indexable_Count $to_be_cleaned_indexable_counts ): void {
+	public function add_to_be_cleaned_indexable_count( To_Be_Cleaned_Indexable_Count $to_be_cleaned_indexable_counts ) {
 		$this->to_be_cleaned_indexable_counts[] = $to_be_cleaned_indexable_counts;
 	}
 
@@ -37,7 +37,7 @@ class To_Be_Cleaned_Indexable_Bucket {
 	 *
 	 * @return array
 	 */
-	public function to_array(): array {
+	public function to_array() {
 		return \array_map(
 			static function ( $item ) {
 				return $item->to_array();
