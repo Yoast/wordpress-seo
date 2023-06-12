@@ -7,8 +7,8 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Indexables\Application\Cron_Verification_Gate;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
-use Yoast\WP\SEO\Indexables\Application\Verify_Post_Indexables_Command;
-use Yoast\WP\SEO\Indexables\Application\Verify_Post_Indexables_Command_Handler;
+use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command;
+use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command_Handler;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 class Verification_Cron_Callback_Integration implements Integration_Interface {
@@ -24,10 +24,12 @@ class Verification_Cron_Callback_Integration implements Integration_Interface {
 	 * @var \Yoast\WP\SEO\Helpers\Options_Helper
 	 */
 	protected $options_helper;
+
 	/**
 	 * @var \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler
 	 */
 	protected $cron_batch_handler;
+
 	/**
 	 * @var \Yoast\WP\SEO\Indexables\Application\Verify_Post_Indexables_Command_Handler
 	 */
@@ -39,9 +41,9 @@ class Verification_Cron_Callback_Integration implements Integration_Interface {
 	private $cron_verification_gate;
 
 	/**
-	 * @param Cron_Verification_Gate                                                      $cron_verification_gate
-	 * @param Verification_Cron_Schedule_Handler                                          $cron_schedule_handler
-	 * @param Options_Helper                                        $options_helper
+	 * @param Cron_Verification_Gate                 $cron_verification_gate
+	 * @param Verification_Cron_Schedule_Handler     $cron_schedule_handler
+	 * @param Options_Helper                         $options_helper
 	 * @param Verification_Cron_Batch_Handler        $cron_batch_handler
 	 * @param Verify_Post_Indexables_Command_Handler $verify_post_indexables_command_handler
 	 */
@@ -83,5 +85,4 @@ class Verification_Cron_Callback_Integration implements Integration_Interface {
 
 		$this->verify_post_indexables_command_handler->handle( new Verify_Post_Indexables_Command( $last_batch, $plugin_deactivated ) );
 	}
-
 }

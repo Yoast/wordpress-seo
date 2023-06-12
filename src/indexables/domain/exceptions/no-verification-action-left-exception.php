@@ -22,7 +22,7 @@ class No_Verification_Action_Left_Exception  extends \Exception {
 	 *
 	 * @return No_Verification_Action_Left_Exception The exception.
 	 */
-	public static function because_unidentified_action_given($verification_action) {
+	public static function because_unidentified_action_given( $verification_action ) {
 		return new self(
 			"The passed verification action $verification_action is not found"
 		);

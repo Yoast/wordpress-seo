@@ -107,7 +107,8 @@ class Indexable_Repository {
 	 * This may be the result of the indexable not existing or of being unable to determine what type of page the
 	 * current page is.
 	 *
-	 * @return bool|Indexable The indexable. If no indexable is found returns an empty indexable. Returns false if there is a database error.
+	 * @return bool|Indexable The indexable. If no indexable is found returns an empty indexable. Returns false if
+	 *                        there is a database error.
 	 */
 	public function for_current_page() {
 		$indexable = false;
@@ -345,6 +346,30 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Builds an indexable by its ID and type.
+	 *
+	 * @param int    $object_id   The indexable object ID.
+	 * @param string $object_type The indexable object type.
+	 *
+	 * @return bool|Indexable Instance of indexable.
+	 */
+	public function build_by_id_and_type( $object_id, $object_type ) {
+		$indexable = $this->query()
+			->where( 'object_id', $object_id )
+			->where( 'object_type', $object_type )
+			->find_one();
+
+		if ( ! $indexable ) {
+			$indexable = $this->builder->build_for_id_and_type( $object_id, $object_type );
+		}
+		else {
+			$indexable = $this->builder->build_for_id_and_type( $object_id, $object_type, $indexable );
+		}
+
+		return $indexable;
+	}
+
+	/**
 	 * Retrieves multiple indexables at once by their id's and type.
 	 *
 	 * @param int[]  $object_ids  The array of indexable object id's.
@@ -457,6 +482,7 @@ class Indexable_Repository {
 		if ( ! empty( $exclude_ids ) ) {
 			$query->where_not_in( 'object_id', $exclude_ids );
 		}
+
 		return $query->find_many();
 	}
 
@@ -505,6 +531,7 @@ class Indexable_Repository {
 		if ( $this->version_manager->indexable_needs_upgrade( $indexable ) ) {
 			$indexable = $this->builder->build( $indexable );
 		}
+
 		return $indexable;
 	}
 

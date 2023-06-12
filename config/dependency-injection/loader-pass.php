@@ -60,6 +60,9 @@ class Loader_Pass implements CompilerPassInterface {
 			) {
 				$definition->setPublic( false );
 			}
+			if ( \strpos( $path, 'src' . \DIRECTORY_SEPARATOR . 'indexables' ) ) {
+				$definition->setPublic( false );
+			}
 		} catch ( \Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 			// Catch all for non-existing classes.
 		}
