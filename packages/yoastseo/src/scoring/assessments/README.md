@@ -1,7 +1,7 @@
 The Yoast SEO analysis contains three types of assessments:
 * SEO assessments
 * Readability assessments
-* Inclusive language assessments.
+* Inclusive language assessments
 
 Note that not all assessments are available in every language - check [this overview to see which assessments are available in which language](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/README.md#supported-languages).
 

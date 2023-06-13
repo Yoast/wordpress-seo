@@ -6,7 +6,7 @@ The analysis is not available in all languages, check [this overview to see whic
 ### How are individual traffic lights assigned?
 For every (potentially) non-inclusive word or phrase that is found in the text, a red or orange traffic light is shown.
 A red traffic light means that the targeted word or phrase is never inclusive, regardless of context.
-An orange traffic light means that the targeted word of phrase is _potentially_ non-inclusive, depending on the context in which it is used.
+An orange traffic light means that the targeted word or phrase is _potentially_ non-inclusive, depending on the context in which it is used.
 
 | Individual Score | Rating 	                  |
 |------------	   |---------------------------|
@@ -15,10 +15,10 @@ An orange traffic light means that the targeted word of phrase is _potentially_ 
 
 ### How is the overall score calculated?
 | Individual scores	 | Total score	| Divide by 10:             |
-|------------	         |------------------	|---------------------------
+|------------	         |------------------	|---------------------------|
 | At least one individual score of 3        |30		            | 3 (red traffic light)	    |
 | Zero individual scores of 3 and at least one individual score of 6         |60		            | 6 (orange traffic light)	 |
-| Zero individual scores of 3 or 6	     |90                    | 9 (green traffic light)
+| Zero individual scores of 3 or 6	     |90                    | 9 (green traffic light) |
 
 ### More details on the individual phrases and feedback
 The targeted words and phrases are divided into the following categories:

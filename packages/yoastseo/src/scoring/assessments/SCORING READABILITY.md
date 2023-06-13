@@ -1,11 +1,11 @@
 # Overview of the Readability assessments scoring criteria
 
-Readability analysis is a collection of assessments that check how easy to read a text is. Some of the readability assessments are language-independent (e.g. paragraph length, subheading presence and distribution), but many are language-specific (e.g. passive voice, transition words) and are made available for different languages a case-by-case basis.
+Readability analysis is a collection of assessments that check how easy to read a text is. Some of the readability assessments are language-independent (e.g. paragraph length, subheading presence, and distribution), but many are language-specific (e.g. passive voice, transition words) and are made available for different languages on a case-by-case basis.
 For more information on each language, you can check the documentation on [which language-specific assessments have been adapted to which languages](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoastseo/README.md#readability-analysis).
 
 ## How are individual traffic lights assigned?
 | Individual Score | Rating 	                        | Individual penalty points |
-|------------	   |---------------------------------|---------------------
+|------------	   |---------------------------------|---------------------|
 |0 (if it is not explicitly set as a score) | Feedback (gray traffic light)		 |-	                        |
 |0-4	                                	| Bad (red traffic light)		       |3 (partial support: 4)	    |
 |5-7		                                | Ok (orange traffic light)	      |2	                        |
@@ -13,7 +13,7 @@ For more information on each language, you can check the documentation on [which
 
 ## How is the overall score calculated?
 | Sum of penalty points	 | Total score	| Divide by 10:|
-|------------	         |------------------	|---------------------
+|------------	         |------------------	|---------------------|
 | 6 (partial: 4)         |30		            |3	                               |
 | 4 (partial: 2)         |60		            |6	                               |
 | <4 (partial: < 2)	     |90                    |9                                 |
@@ -33,7 +33,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 **Call to action URL**: [https://yoa.st/34y](https://yoast.com/how-to-use-headings-on-your-site/#utm_source=yoast-seo&utm_medium=software&utm_term=subheading-distributrion-cta&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
 | Traffic light 	 | Score	| Criterion | Feedback |
-|-----------------|------------------	|--------------------- |---------------------
+|-----------------|------------------	|--------------------- |---------------------|
 | Red             |2	| **Default**: A text with more than 300 words (cornerstone: 250) and no subheading is present. **Japanese**: A text with more than 600 characters (cornerstone: 500) and no subheading is present. | **Subheading distribution**: You are not using any subheadings, although your text is rather long. Try and add some subheadings. |
 | Red             |3	| **Default**: There is subheading(s) in the text and it is followed and preceded (if applicable) by more than 350 words (cornerstone: 300). **Japanese**: There is subheading(s) in the text and it is followed and preceded (if applicable) by more than 700 characters (cornerstone: 600).| **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
 | Red             |3	| **Default**: There is subheading(s) in the text in which the first one is preceded by a text longer than 350 words (cornerstone: 300). And the texts following the subheading(s) is less than 300 words (cornerstone: 250). **Japanese**: There is subheading(s) in the text in which the first one is preceded by a text longer than 700 characters (cornerstone: 600). And the texts following the subheading(s) is less than 600 characters (cornerstone: 500).  | **Subheading distribution**: The beginning of your text is longer than X words and is not separated by any subheadings. Add subheadings to improve readability.|
@@ -43,7 +43,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 | Green           |9 | **Default**: There is subheading(s) in the text and it is followed and preceded (if applicable) by less than 300 words (cornerstone: 250). **Japanese**: There is subheading(s) in the text and it is followed and preceded (if applicable) by less than 600 characters (cornerstone: 500). | **Subheading distribution**:  Great job!|
 
 ### 2) Paragraph length
-**What it does**: Checks whether the paragraphs exceed the recommended maximum length
+**What it does**: Checks whether the paragraphs exceed the recommended maximum length.
 
 **When applies**: When the text (cleaned with sanitizeText) has more than 50 characters. This is tied to the TextPresenceAssessment.
 
@@ -54,13 +54,13 @@ Below is a detailed overview of how scores for the readability assessments are c
 **Call to action URL**: [https://yoa.st/35e](https://yoast.com/paragraph-length-check/#utm_source=yoast-seo&utm_medium=software&utm_term=paragraph-length-cta&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
 | Traffic light 	 | Score	| Criterion | Feedback |
-|------------|------------------	|--------------------- |---------------------
+|------------|------------------	|--------------------- |---------------------|
 | Red        |3	                |> 200 words	   	          |**Paragraph length**: X of the paragraphs contain more than the recommended maximum of X words. **Shorten your paragraphs!**|
 | Orange     |6                 |Between 150 and 200 words    |**Paragraph length**: X of the paragraphs contain more than the recommended maximum of X words. **Shorten your paragraphs!**|
 | Green      |9                 |≤ 150 words	              |**Paragraph length**: none of the paragraphs are too long. Great job! |
 
 ### 3) Sentence length
-**What it does**: Checks whether the sentences exceed the recommended maximum length (default: 20 words, IT: 25 words, RU: 15 words, HE: 15 words, TR: 15 words)
+**What it does**: Checks whether the sentences exceed the recommended maximum length (default: 20 words, IT: 25 words, RU: 15 words, HE: 15 words, TR: 15 words).
 
 **When applies**: When the text (cleaned with sanitizeText) has more than 50 characters. This is tied to the TextPresenceAssessment.
 
@@ -77,7 +77,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 |Green	| 9 |≤ 25% (cornerstone: ≤ 20%; Polish: ≤ 15%)                                 |**Sentence length**: great! |
 
 ### 4) Consecutive sentences
-**What it does**: Checks whether there are more than 3 sentences in a row that start with the same word
+**What it does**: Checks whether there are more than 3 sentences in a row that start with the same word.
 
 **When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), and the research has a result.
 
@@ -93,7 +93,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 |Green	|9 |Less than 3 consecutive sentences start with the same word	|**Consecutive sentences**: there is enough variety in your sentences. That's great!|
 
 ### 5) Passive voice
-**What it does**: Checks whether the number of sentences containing passive voice exceeds the recommended maximum amount
+**What it does**: Checks whether the number of sentences containing passive voice exceeds the recommended maximum amount.
 
 **When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), and the assessment is supported in the specific language (the researcher has a research).
 
@@ -110,7 +110,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 |Green	|9	|≤ 10% of sentences              |**Passive voice**: you're using enough active voice. That's great!|
 
 ### 6) Transition words
-**What it does**: Checks whether there are enough sentences containing transition words
+**What it does**: Checks whether there are enough sentences containing transition words.
 
 **When applies**: When there is at least 200 words in the text
 
