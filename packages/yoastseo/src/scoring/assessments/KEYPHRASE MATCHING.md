@@ -34,7 +34,7 @@ In addition to the above, Premium users can add **synonyms** of their keyphrase.
 Here is the list of [languages with word form support](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoastseo/MORPHOLOGY.md).
 
 ##### Free
-Free users with languages that have word form support have access to the same functionalities as Free users of group 2 (filtering out **function words** and **per-word matching**)
+Free users with languages that have word form support have access to the same functionalities as Free users of group 2 (filtering out **function words** and **per-word matching**).
 
 ##### Premium
 Premium users have access to **full word form support**. This means that in addition to all other functionalities mentioned above, **all possible forms of their keyphrase and all possible forms of their synonyms** are recognized. For example, if the keyphrase is "room decorating ideas" and the synonym is "apartment decorating ideas" all the possible forms of each word are recognized: 'apartments', 'rooms', 'room's', 'decorate', 'decorates', 'decorated', 'idea', etc. These are then taken into account during keyphrase matching, after possible function words have been filtered out.
