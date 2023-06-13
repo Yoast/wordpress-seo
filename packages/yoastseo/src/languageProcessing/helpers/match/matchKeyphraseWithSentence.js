@@ -1,6 +1,52 @@
 import { cloneDeep } from "lodash-es";
+import getWordsForHTMLParser from "../word/getWordsForHTMLParser";
 
 const wordCouplers = [ "_", "-", "'" ];
+
+const tokenizeKeywordFormsForExactMatching = ( keywordForms ) => {
+	// Tokenize keyword forms.
+	const keywordFormsText = keywordForms[ 0 ][ 0 ];
+	console.log( keywordFormsText );
+	return getWordsForHTMLParser( keywordFormsText );
+};
+
+const exactMatch = ( keywordForms, sentence ) => {
+	// Tokenize keyword forms.
+	const keywordTokens = tokenizeKeywordFormsForExactMatching( keywordForms );
+
+	const sentenceTokens = sentence.tokens;
+
+	// Check if tokenized keyword forms occur in the same order in the sentence tokens.
+	let keywordIndex = 0;
+	let sentenceIndex = 0;
+	const matches = [];
+	let currentMatch = [];
+
+	while ( sentenceIndex < sentenceTokens.length ) {
+		// If the current sentence token matches the current keyword token, add it to the current match.
+		const sentenceTokenText = sentenceTokens[ sentenceIndex ].text;
+		const keywordTokenText = keywordTokens[ keywordIndex ];
+
+		if ( sentenceTokenText.toLowerCase() === keywordTokenText.toLowerCase() ) {
+			currentMatch.push( sentenceTokens[ sentenceIndex ] );
+			keywordIndex++;
+		} else {
+			keywordIndex = 0;
+			currentMatch = [];
+		}
+
+		// If the current match has the same length as the keyword tokens, the keyword forms have been matched.
+		// Add the current match to the matches array and reset the keyword index and the current match.
+		if ( currentMatch.length === keywordTokens.length ) {
+			matches.push( ...currentMatch );
+			keywordIndex = 0;
+			currentMatch = [];
+		}
+
+		sentenceIndex++;
+	}
+	return matches;
+};
 
 /**
  * Matches a keyword with a sentence object from the html parser.
@@ -9,6 +55,8 @@ const wordCouplers = [ "_", "-", "'" ];
  * E.g. If the keyphrase is "key word", then (if premium is activated) this will be [ [ "key", "keys" ], [ "word", "words" ] ]
  * The forms are retrieved higher up (among others in keywordCount.js) with researcher.getResearch( "morphology" ).
  * @param {Sentence} sentence The sentence to match against the keywordForms.
+ * @param {boolean} exactMatching Whether to match the keyword forms exactly or not.
+ * Depends on whether the user has put the keyphrase in double quotes.
  *
  * @returns {Token[]} The tokens that match the keywordForms.
  *
@@ -24,8 +72,12 @@ const wordCouplers = [ "_", "-", "'" ];
  * This function corrects for these differences by combining tokens that are separated by a word coupler (e.g. "-") into one token: the matchToken.
  * This matchToken is then compared with the keyword forms.
  */
-const matchKeyphraseWithSentence = ( keywordForms, sentence ) => {
+const matchKeyphraseWithSentence = ( keywordForms, sentence, exactMatching = false ) => {
 	const tokens = sentence.tokens.slice();
+
+	if ( exactMatching ) {
+		return exactMatch( keywordForms, sentence );
+	}
 
 	// Filter out all tokens that do not match the keyphrase forms.
 	const matches = [];
