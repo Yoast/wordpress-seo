@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexing;
 use Brain\Monkey;
 use Mockery;
 use Mockery\MockInterface;
+use stdClass;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
@@ -281,12 +282,12 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	/**
 	 * Provides an array with 2 objects.
 	 *
-	 * @return \stdClass[]
+	 * @return stdClass[]
 	 */
 	private function get_post_type_mocks() {
-		$book         = new \stdClass();
+		$book         = new stdClass();
 		$book->name   = 'books';
-		$movies       = new \stdClass();
+		$movies       = new stdClass();
 		$movies->name = 'movies';
 		return [ $book, $movies ];
 	}

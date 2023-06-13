@@ -57,5 +57,3 @@ class Missing_Indexable_Bucket_Test extends TestCase {
 		);
 	}
 }
-
-

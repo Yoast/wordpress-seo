@@ -130,7 +130,6 @@ class Author_Test extends TestCase {
 		$this->html         = Mockery::mock( Schema\HTML_Helper::class );
 		$this->id           = Mockery::mock( Schema\ID_Helper::class );
 
-
 		$this->meta_tags_context = new Meta_Tags_Context_Mock();
 
 		$this->instance = Mockery::mock( Author_Mock::class )

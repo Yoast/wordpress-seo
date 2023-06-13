@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
-use Yoast\WP\SEO\Conditionals\The_Events_Calendar_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -45,11 +44,11 @@ class The_Events_Calendar implements Integration_Interface {
 	/**
 	 * Adds the events graph pieces to the schema collector.
 	 *
-	 * @param array  $pieces  The current graph pieces.
-	 * @param string $context The current context.
-	 *
 	 * @deprecated 19.12
 	 * @codeCoverageIgnore
+	 *
+	 * @param array  $pieces  The current graph pieces.
+	 * @param string $context The current context.
 	 *
 	 * @return array Extended graph pieces.
 	 */

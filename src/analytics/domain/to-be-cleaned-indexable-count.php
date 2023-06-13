@@ -10,14 +10,14 @@ class To_Be_Cleaned_Indexable_Count {
 	/**
 	 * The cleanup task that is represented by this.
 	 *
-	 * @var string $cleanup_name
+	 * @var string
 	 */
 	private $cleanup_name;
 
 	/**
 	 * The amount of missing indexables.
 	 *
-	 * @var int $count
+	 * @var int
 	 */
 	private $count;
 
@@ -25,9 +25,9 @@ class To_Be_Cleaned_Indexable_Count {
 	 * The constructor.
 	 *
 	 * @param string $cleanup_name The indexable type that is represented by this.
-	 * @param int    $count          The amount of missing indexables.
+	 * @param int    $count        The amount of missing indexables.
 	 */
-	public function __construct( string $cleanup_name, int $count ) {
+	public function __construct( $cleanup_name, $count ) {
 		$this->cleanup_name = $cleanup_name;
 		$this->count        = $count;
 	}
@@ -37,7 +37,7 @@ class To_Be_Cleaned_Indexable_Count {
 	 *
 	 * @return array Returns both values in an array format.
 	 */
-	public function to_array(): array {
+	public function to_array() {
 		return [
 			'cleanup_name' => $this->get_cleanup_name(),
 			'count'        => $this->get_count(),
@@ -49,7 +49,7 @@ class To_Be_Cleaned_Indexable_Count {
 	 *
 	 * @return string
 	 */
-	public function get_cleanup_name(): string {
+	public function get_cleanup_name() {
 		return $this->cleanup_name;
 	}
 
@@ -58,7 +58,7 @@ class To_Be_Cleaned_Indexable_Count {
 	 *
 	 * @return int Returns the amount of missing indexables.
 	 */
-	public function get_count(): int {
+	public function get_count() {
 		return $this->count;
 	}
 }

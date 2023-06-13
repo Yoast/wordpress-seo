@@ -39,6 +39,7 @@ class Addon_Manager_Double extends WPSEO_Addon_Manager {
 	 * @param stdClass      $subscription    The subscription to convert.
 	 * @param stdClass|null $yoast_free_data The Yoast Free's data.
 	 * @param bool          $plugin_info     Whether we're in the plugin information modal.
+	 * @param string        $plugin_file     The plugin filename.
 	 *
 	 * @return stdClass The converted subscription.
 	 */
@@ -47,7 +48,7 @@ class Addon_Manager_Double extends WPSEO_Addon_Manager {
 			->withAnyArgs()
 			->andReturn( (object) $subscription );
 
-		return parent::convert_subscription_to_plugin( $subscription, $yoast_free_data, $plugin_info );
+		return parent::convert_subscription_to_plugin( $subscription, $yoast_free_data, $plugin_info, $plugin_file );
 	}
 
 	/**

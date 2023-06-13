@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
 
-use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
+use Mockery;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
+use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
-use Mockery;
 
 /**
  * Build_Test.
@@ -198,12 +198,12 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 		$this->assertFalse( $this->instance->build( $this->indexable ) );
 	}
 
-		/**
-		 * Tests building an indexable for a post when the post builder throws an exception because the post does not exist.
-		 *
-		 * @covers ::build_for_id_and_type
-		 * @covers ::ensure_indexable
-		 */
+	/**
+	 * Tests building an indexable for a post when the post builder throws an exception because the post does not exist.
+	 *
+	 * @covers ::build_for_id_and_type
+	 * @covers ::ensure_indexable
+	 */
 	public function test_build_for_id_and_type_with_post_given_and_no_indexable_build() {
 		$empty_indexable = Mockery::mock( Indexable_Mock::class );
 

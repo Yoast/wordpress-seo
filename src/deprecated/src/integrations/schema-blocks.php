@@ -69,10 +69,10 @@ class Schema_Blocks implements Integration_Interface {
 	/**
 	 * Initializes the integration.
 	 *
+	 * This is the place to register hooks and filters.
+	 *
 	 * @deprecated 20.5
 	 * @codeCoverageIgnore
-	 *
-	 * This is the place to register hooks and filters.
 	 *
 	 * @return void
 	 */

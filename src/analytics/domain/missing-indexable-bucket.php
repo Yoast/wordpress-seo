@@ -10,7 +10,7 @@ class Missing_Indexable_Bucket {
 	/**
 	 * All the missing indexable count objects.
 	 *
-	 * @var array<Missing_Indexable_Count> $missing_indexable_counts
+	 * @var array<Missing_Indexable_Count>
 	 */
 	private $missing_indexable_counts;
 
@@ -37,14 +37,12 @@ class Missing_Indexable_Bucket {
 	 *
 	 * @return array
 	 */
-	public function to_array(): array {
+	public function to_array() {
 		return \array_map(
-			function ( $item ) {
+			static function ( $item ) {
 				return $item->to_array();
 			},
 			$this->missing_indexable_counts
 		);
 	}
 }
-
-
