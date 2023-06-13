@@ -49,7 +49,7 @@ const testcases = [
 	},
 ];
 
-describe.each( testcases )( "splitIntoTokensJapanese: %p", ( { description, sentence, expected } ) => {
+describe.each( testcases )( "splitIntoTokensCustom for Japanese: %p", ( { description, sentence, expected } ) => {
 	it( description, () => {
 		const tokens = splitIntoTokensCustom( sentence );
 		expect( tokens ).toEqual( expected );
