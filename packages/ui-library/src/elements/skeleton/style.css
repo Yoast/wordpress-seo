@@ -12,7 +12,7 @@
 
 			&::after {
 				animation: wave 2.5s linear 0.5s infinite;
-				background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.06), transparent);
+				background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.07), transparent);
 				content: "";
 
 				@apply
