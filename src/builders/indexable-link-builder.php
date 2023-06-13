@@ -229,7 +229,7 @@ class Indexable_Link_Builder {
 		];
 
 		while ( $processor->next_tag( $query ) ) {
-			$src     = $processor->get_attribute( 'src' );
+			$src     = \htmlentities( $processor->get_attribute( 'src' ), ( ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 ), \get_bloginfo( 'charset' ) );
 			$classes = $processor->get_attribute( 'class' );
 			$id      = $this->extract_id_of_classes( $classes );
 
@@ -247,12 +247,14 @@ class Indexable_Link_Builder {
 	 * @return int[] An associated array of image IDs, keyed by their URL.
 	 */
 	protected function gather_images_domdocument( $content ) {
-		$images   = [];
+		$images  = [];
+		$charset = \get_bloginfo( 'charset' );
+
 		$post_dom = new DOMDocument();
-		$post_dom->loadHTML( '<?xml encoding="' . \get_bloginfo( 'charset' ) . '">' . $content );
+		$post_dom->loadHTML( '<?xml encoding="' . $charset . '">' . $content );
 
 		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
-			$src     = $img->getAttribute( 'src' );
+			$src     = \htmlentities( $img->getAttribute( 'src' ), ( ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 ), $charset );
 			$classes = $img->getAttribute( 'class' );
 			$id      = $this->extract_id_of_classes( $classes );
 
