@@ -18,7 +18,7 @@ For more information on each language, you can check the documentation on [which
 | 4 (partial: 2)         |60		            |6	                               |
 | <4 (partial: < 2)	     |90                    |9                                 |
 
-Below is a detailed overview of how scores for the readability assessments are calculated, as well as the feedback that each assessment returns. Note: some of the assessment criteria are different for texts marked as cornerstone; these will be indicated when applicable. Also, some assessment criteria (e.g. recommended sentence length) differ depending on the specific language. These are not specified below for the sake of space saving.
+Below is a detailed overview of how scores for the readability assessments are calculated, as well as the feedback that each assessment returns. Note: some of the assessment criteria are different for texts marked as cornerstone; these will be indicated when applicable. Also, some assessment criteria (e.g. recommended sentence length) differ depending on the specific language. These are not specified below for the sake of space-saving.
 
 ## Scoring criteria for the readability assessments
 ### 1) Subheading distribution
@@ -130,7 +130,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 7) Flesch Reading Ease
 **What it does**: Checks how easy to read the text is according to the Flesch Reading Ease test
 
-**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), , and the assessment is supported in the specific language (the researcher has a research).
+**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), and the assessment is supported in the specific language (the researcher has a research).
 
 **Name in code**: FleschReadingEaseAssessment
 

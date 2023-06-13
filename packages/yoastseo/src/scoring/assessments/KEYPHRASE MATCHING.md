@@ -46,5 +46,5 @@ Premium users have access to **full word form support**. This means that in addi
 | Premium	  | The above + synonyms | The above + synonyms	      | The above + synonyms + word forms of keyphrase and synonyms |
 
 #### Important notes
-* Per-word matching, filtering out of function words and morphological forms of keyphrase and synonyms **can be suppressed** by using double quotations marks around the keyphrase or around a synonym. E.g., `"SEO analysis"`.
+* **Per-word matching**, filtering out of function words and morphological forms of keyphrase and synonyms **can be suppressed** by using double quotations marks around the keyphrase or around a synonym. E.g., `"SEO analysis"`. When the focus keyphrase is enclosed in quotation marks, the **exact matching** approach is used.
 * Check the [documentation on scoring specific assessments](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20SEO.md) for information about which assessments use synonyms, and whether any additional matching criteria apply.

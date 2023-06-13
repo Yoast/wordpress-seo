@@ -103,7 +103,7 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 
 **Uses synonyms**: yes
 
-**When it applies**: If there is is a text with at least one subheading and a keyphrase. Does not apply to taxonomies.
+**When it applies**: If there is a text with at least one subheading and a keyphrase. Does not apply to taxonomies.
 
 **Name in code**: SubHeadingsKeywordAssessment
 
