@@ -256,7 +256,7 @@ const legacyReplaceUsingPlugin = function( data ) {
 		url: data.url,
 		title: stripHTMLTags( replaceVariables( data.title ) ),
 		description: stripHTMLTags( replaceVariables( data.description ) ),
-		filteredSEOTitle: stripHTMLTags( replaceVariables( data.filteredSEOTitle ) ),
+		filteredSEOTitle: data.filteredSEOTitle ? stripHTMLTags( replaceVariables( data.filteredSEOTitle ) ) : "",
 	};
 };
 
@@ -284,6 +284,6 @@ export const applyReplaceUsingPlugin = function( data ) {
 		url: data.url,
 		title: stripHTMLTags( applyModifications( "data_page_title", data.title ) ),
 		description: stripHTMLTags( applyModifications( "data_meta_desc", data.description ) ),
-		filteredSEOTitle: stripHTMLTags( applyModifications( "data_page_title", data.filteredSEOTitle ) ),
+		filteredSEOTitle: data.filteredSEOTitle ? stripHTMLTags( applyModifications( "data_page_title", data.filteredSEOTitle ) ) : "",
 	};
 };
