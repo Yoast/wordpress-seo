@@ -277,7 +277,7 @@ In Yoast SEO 20.9, you'll find improvements to our Wincher integration. We've ad
 
 #### Enhancements
 
-* Adds a new widget on the dasboard that shows your top keywords added to Yoast SEO with Wincher. Provides a connection button if you haven't yet connected your site to Wincher.
+* Adds a new widget on the dashboard that shows your top keywords added to Yoast SEO with Wincher. Provides a connection button if you haven't yet connected your site to Wincher.
 * Tightens crawl optimization site search blocking rules.
 * We now automatically schedule background performance optimization processes (via WP Cron).
 
