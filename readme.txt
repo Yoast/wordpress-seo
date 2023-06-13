@@ -245,6 +245,30 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 20.10 =
+
+Release date: 2023-06-27
+
+#### Enhancements
+
+* Adds a support page to the Yoast admin.
+* Add the Wincher upgrade callout to the Wincher performance report on the dashboard.
+* Add the Wincher upgrade callout to the Wincher SEO performance on the edit post page.
+* Excludes the Yoast SEO Breadcrumbs widget from the content analysis in Elementor Pro.
+* Expands the list of HTML elements excluded from the content analysis.
+* Introduces a new setting for crawl optimization, that disallows AdsBot crawling when enabled.
+* Introduces more robust HTML processing for the _competing links_, _keyphrase in introduction_, _image keyphrase_, and _images_ assessments.
+* Removes any meta tags for enhanced Slack sharing from static home pages.
+
+#### Bugfixes
+
+* Fixes a bug where terms with custom canonical URLs would get added in the sitemap.
+* Fixes a bug where the WordPress native sitemap would not work properly after Yoast SEO was deactivated, until rewrite rules were flushed.
+
+#### Other
+
+* Deprecates the `Old_Premium_Integration`.
+
 = 20.9 =
 
 Release date: 2023-06-13
@@ -263,28 +287,6 @@ In Yoast SEO 20.9, you'll find improvements to our Wincher integration. We've ad
 * Fixes a bug where indexables would be created when using the `wp yoast index` WP CLI command on a staging site.
 * Fixes a bug where the link popover position in the block editor would be positioned incorrectly when adding or creating links.
 * Fixes a bug where the Yoast SEO metabox would crash in conjunction with Yoast SEO Premium when additional keyphrases are stored in the DB in a malformed way.
-
-= 20.8 =
-
-Release date: 2023-05-23
-
-Today, we're launching Yoast SEO 20.8. In this release, you'll find improvements to our content analyses and regular fixes and enhancements. Find out more about what's new in Yoast SEO 20.8 in [our release post](https://yoa.st/release-23-5-23)!
-
-#### Enhancements
-
-* Improves feedback strings for the _keyphrase density_ assessment by referring to the keyphrase in general instead of the focus keyphrase.
-* Improves the accuracy of the content analysis by excluding texts within textarea tags from the analysis.
-
-#### Bugfixes
-
-* Fixes a bug where an entry in the indexable table would be created when an archive of a non-public but publicly queryable post type would be visited.
-* Fixes a bug where a warning about a missing key in a component would be thrown in the console in the Yoast SEO Settings page.
-* Fixes a bug where entries in the indexable table would be created for archives of excluded post types.
-* Fixes a bug where the score icon for the SEO and Readability tabs would not show a sad emoji when the post is empty or there is no set keyphrase.
-
-#### Other
-
-* Renames "SEO Framework" to "The SEO Framework".
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
