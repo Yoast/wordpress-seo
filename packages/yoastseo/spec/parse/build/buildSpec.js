@@ -2,7 +2,7 @@ import build from "../../../src/parse/build/build";
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
 import Factory from "../../specHelpers/factory";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
-import splitIntoTokensCustom from "../../../src/languageProcessing/languages/ja/helpers/splitIntoTokensJapanese";
+import splitIntoTokensCustom from "../../../src/languageProcessing/languages/ja/helpers/splitIntoTokensCustom";
 
 describe( "The parse function", () => {
 	it( "parses a basic HTML text", () => {

@@ -1,4 +1,4 @@
-import splitIntoTokensJapanese from "../../../../../src/languageProcessing/languages/ja/helpers/splitIntoTokensJapanese";
+import splitIntoTokensCustom from "../../../../../src/languageProcessing/languages/ja/helpers/splitIntoTokensCustom";
 
 const testcases = [
 	{
@@ -51,7 +51,7 @@ const testcases = [
 
 describe.each( testcases )( "splitIntoTokensJapanese: %p", ( { description, sentence, expected } ) => {
 	it( description, () => {
-		const tokens = splitIntoTokensJapanese( sentence );
+		const tokens = splitIntoTokensCustom( sentence );
 		expect( tokens ).toEqual( expected );
 	} );
 } );

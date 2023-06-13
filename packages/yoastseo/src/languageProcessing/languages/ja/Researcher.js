@@ -10,7 +10,7 @@ import customCountLength from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 import getContentWords from "./helpers/getContentWords";
 import memoizedTokenizer from "./helpers/memoizedSentenceTokenizer";
-import splitIntoTokensCustom from "./helpers/splitIntoTokensJapanese";
+import splitIntoTokensCustom from "./helpers/splitIntoTokensCustom";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
