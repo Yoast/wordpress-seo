@@ -50,6 +50,7 @@
 - Previously used keywords (previouslyUsedKeywords)
 ## Premium
 - Keyword distribution (not of related keywords)
+- Title (TextTitleAssessment)
 
 # Content Assessors
 ## Standard Content (Readability) assessor
@@ -62,7 +63,8 @@
 - Text presence (TextPresenceAssessment)
 - Flesch Reading Ease (FleschReadingEaseAssessment)
 ## Premium
-- Word complexity (WordComplexityAssessment) [Cornerstone values!](SCORING%20READABILITY.md#8-word-complexity)
+- Word complexity (WordComplexityAssessment) -> [Cornerstone values!](SCORING%20READABILITY.md#8-word-complexity)
+- Alignment (TextAlignmentAssessment)
 
 # Inclusive language assessor
 - Inclusive language assessment (InclusiveLanguageAssessment)
