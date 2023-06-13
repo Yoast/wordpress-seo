@@ -29,8 +29,8 @@ class Verification_Cron_Batch_Handler {
 		return $this->options_helper->get( 'cron_verify_non_timestamped_indexables_last_batch', 0 );
 	}
 
-	public function set_current_non_timestamped_indexables_batch( Last_Batch_Count $last_batch_count, Batch_Size $batch_size) {
-		$batch_count = $last_batch_count->get_last_batch() + $batch_size->get_batch_size();
+	public function set_current_non_timestamped_indexables_batch( Last_Batch_Count $last_batch_count, Batch_Size $batch_size ) {
+		$batch_count = ( $last_batch_count->get_last_batch() + $batch_size->get_batch_size() );
 		$this->options_helper->set( 'cron_verify_non_timestamped_indexables_last_batch', $batch_count );
 	}
 }

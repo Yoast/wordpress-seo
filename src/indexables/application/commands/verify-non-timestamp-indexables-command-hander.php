@@ -15,10 +15,12 @@ class Verify_Non_Timestamp_Indexables_Command_Handler {
 	 * @var Verify_Indexable_Action_Factory_Interface
 	 */
 	protected $verify_indexable_action_factory;
+
 	/**
 	 * @var \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler
 	 */
 	protected $cron_batch_handler;
+
 	/**
 	 * @var \Yoast\WP\SEO\Indexables\Application\Next_Verification_Action_Handler
 	 */

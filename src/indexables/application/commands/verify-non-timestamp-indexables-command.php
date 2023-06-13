@@ -13,10 +13,6 @@ class Verify_Non_Timestamp_Indexables_Command extends Abstract_Indexables_Comman
 	 */
 	private $current_action;
 
-	/**
-	 * @var Batch_Size $batch_size The batch size.
-	 */
-	private $batch_size;
 
 	/**
 	 * @param int    $last_batch            The last batch count.
@@ -25,8 +21,8 @@ class Verify_Non_Timestamp_Indexables_Command extends Abstract_Indexables_Comman
 	 */
 	public function __construct( int $last_batch, int $batch_size, string $plugin_deactivated_at, string $current_action ) {
 		$this->current_action = new Current_Verification_Action( $current_action );
-		$this->batch_size     = new Batch_Size( $batch_size );
-		parent::__construct( $last_batch, $plugin_deactivated_at );
+
+		parent::__construct($batch_size, $last_batch, $plugin_deactivated_at );
 	}
 
 	/**
@@ -36,10 +32,4 @@ class Verify_Non_Timestamp_Indexables_Command extends Abstract_Indexables_Comman
 		return $this->current_action;
 	}
 
-	/**
-	 * @return \Yoast\WP\SEO\Indexables\Domain\Batch_Size
-	 */
-	public function get_batch_size(): Batch_Size {
-		return $this->batch_size;
-	}
 }

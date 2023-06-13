@@ -4,11 +4,11 @@ namespace Yoast\WP\SEO\Indexables\User_Interface;
 
 use Yoast\WP\SEO\Conditionals\Traits\Admin_Conditional_Trait;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command;
+use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command_Handler;
 use Yoast\WP\SEO\Indexables\Application\Cron_Verification_Gate;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
-use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command;
-use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command_Handler;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 class Verification_Cron_Callback_Integration implements Integration_Interface {
@@ -80,9 +80,11 @@ class Verification_Cron_Callback_Integration implements Integration_Interface {
 
 			return;
 		}
+		$batch_size = 10;
+
 		$last_batch         = $this->cron_batch_handler->get_current_post_indexables_batch();
 		$plugin_deactivated = $this->options_helper->get( Mark_Deactivation_Integration::PLUGIN_DEACTIVATED_AT_OPTION );
 
-		$this->verify_post_indexables_command_handler->handle( new Verify_Post_Indexables_Command( $last_batch, $plugin_deactivated ) );
+		$this->verify_post_indexables_command_handler->handle( new Verify_Post_Indexables_Command( $batch_size, $last_batch, $plugin_deactivated ) );
 	}
 }

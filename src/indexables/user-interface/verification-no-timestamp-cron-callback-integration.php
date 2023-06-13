@@ -30,10 +30,12 @@ class Verification_Cron_Callback_Integration implements Integration_Interface {
 	 * @var Verification_Cron_Batch_Handler
 	 */
 	protected $cron_batch_handler;
+
 	/**
 	 * @var \Yoast\WP\SEO\Indexables\Application\Commands\Verify_Non_Timestamp_Indexables_Command_Handler
 	 */
 	protected $non_timestamp_indexables_command_handler;
+
 	/**
 	 * @var \Yoast\WP\SEO\Indexables\Application\Next_Verification_Action_Handler
 	 */
@@ -95,8 +97,5 @@ class Verification_Cron_Callback_Integration implements Integration_Interface {
 		$command            = new Verify_Non_Timestamp_Indexables_Command( $current_batch, $batch_size, $plugin_deactivated, $action );
 
 		$this->non_timestamp_indexables_command_handler->handle( $command );
-
-
-		// Start cron process
 	}
 }

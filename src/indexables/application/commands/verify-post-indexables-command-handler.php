@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Indexables\Application\Commands;
 
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Indexables\Application\Ports\Outdated_Post_Indexables_Repository_Interface;
+use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Outdated_Posts_Found_Exception;
 
@@ -14,6 +15,10 @@ class Verify_Post_Indexables_Command_Handler {
 	 * @var Outdated_Post_Indexables_Repository_Interface
 	 */
 	protected $outdated_post_indexables_repository;
+	/**
+	 * @var \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler
+	 */
+	protected $verification_cron_batch_handler;
 
 	/**
 	 * @var \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler
@@ -28,21 +33,20 @@ class Verify_Post_Indexables_Command_Handler {
 	public function __construct(
 		Outdated_Post_Indexables_Repository_Interface $outdated_post_indexables_repository,
 		Verification_Cron_Schedule_Handler $cron_schedule_handler,
+		Verification_Cron_Batch_Handler $verification_cron_batch_handler,
 		Indexable_Post_Builder $indexable_post_builder
 	) {
 
 		$this->outdated_post_indexables_repository = $outdated_post_indexables_repository;
 		$this->cron_schedule_handler               = $cron_schedule_handler;
 		$this->indexable_post_builder              = $indexable_post_builder;
+		$this->verification_cron_batch_handler     = $verification_cron_batch_handler;
 	}
 
 	/**
 	 * @param Verify_Post_Indexables_Command $verify_post_indexables_command
 	 */
 	public function handle( Verify_Post_Indexables_Command $verify_post_indexables_command ): void {
-		// Need to do something with this.
-		$batch_size = 10;
-
 		try {
 			$outdated_post_indexables_list = $this->outdated_post_indexables_repository->get_outdated_post_indexables( $verify_post_indexables_command->get_last_batch_count(), $verify_post_indexables_command->get_plugin_deactivated_at() );
 		} catch ( No_Outdated_Posts_Found_Exception $exception ) {
@@ -55,8 +59,13 @@ class Verify_Post_Indexables_Command_Handler {
 			$this->indexable_post_builder->build( $post_indexable->object_id, $post_indexable );
 		}
 
-		if ( $outdated_post_indexables_list->count() < $batch_size ) {
+		if ( $outdated_post_indexables_list->count() < $verify_post_indexables_command->get_batch_size() ) {
 			$this->cron_schedule_handler->unschedule_verify_post_indexables_cron();
+
+			return;
 		}
+
+		$next_batch = $verify_post_indexables_command->get_last_batch_count() + $verify_post_indexables_command->get_batch_size();
+		$this->verification_cron_batch_handler->set_current_post_indexables_batch( $next_batch );
 	}
 }

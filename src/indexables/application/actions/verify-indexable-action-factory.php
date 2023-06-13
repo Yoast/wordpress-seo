@@ -36,8 +36,8 @@ class Verify_Indexable_Action_Factory implements Verify_Indexable_Action_Factory
 	/**
 	 * @param Current_Verification_Action $current_verification_action_object
 	 *
-	 * @throws \Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Verification_Action_Left_Exception
-	 * @return \Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action
+	 * @throws No_Verification_Action_Left_Exception
+	 * @return Current_Verification_Action
 	 */
 	public function determine_next_verify_action( Current_Verification_Action $current_verification_action_object
 	): Current_Verification_Action {
