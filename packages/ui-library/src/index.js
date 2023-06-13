@@ -11,6 +11,7 @@ export { default as Paper } from "./elements/paper";
 export { default as ProgressBar } from "./elements/progress-bar";
 export { default as Radio } from "./elements/radio";
 export { default as Select } from "./elements/select";
+export { default as Skeleton } from "./elements/skeleton";
 export { default as Spinner } from "./elements/spinner";
 export { default as Table } from "./elements/table";
 export { default as TagInput } from "./elements/tag-input";
