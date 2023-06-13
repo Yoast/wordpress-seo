@@ -1,10 +1,8 @@
 import Sentence from "../structure/Sentence";
 import Token from "../structure/Token";
-import { punctuationRegexStart, punctuationRegexEnd } from "../../languageProcessing/helpers/sanitize/removePunctuation";
 import getWordsForHTMLParser from "../../languageProcessing/helpers/word/getWordsForHTMLParser";
 
 const whitespaceRegex = /^\s+$/;
-
 
 
 /**
