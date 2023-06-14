@@ -9,11 +9,17 @@
 
 ### How is the overall score calculated?
 
-* Overall score = ( ( sum of individual scores * 100 ) / (number of results * 9 ) ) / 10
-* Round this number.
+* Overall score<sup>1</sup> = ( sum of individual score from each assessment ) / ( number of individual score * 9 ) * 100
+* Round this number
 * Example with three individual scores of 3, 6, and 9:
 
-( ( ( 3 + 6 + 9 ) * 100 ) / ( 3 * 9 ) ) / 10 = **6.67** ---> rounded to **7**
+( 3 + 6 + 9 ) / ( 3 * 9 ) * 100 = **66.67** ---> rounded to **67**
+
+<sup>1</sup> The logic behind the formula is as follows:
+* sum(individual score) / number of individual score / 9 * 100
+* mean(individual score) / 9 * 100
+* 9 is the maximum score an individual assessment can have
+* For reference in the code, see [this file](https://github.com/Yoast/wordpress-seo/blob/ef27594180f1477166b5c0cd29d606e9d82ed8fe/packages/yoastseo/src/scoring/assessor.js#L228)
 
 ## Keyphrase-based SEO assessments scoring criteria
 ### 1) Keyphrase in introduction
