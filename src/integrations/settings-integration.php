@@ -67,6 +67,11 @@ class Settings_Integration implements Integration_Interface {
 			'most_linked_ignore_list',
 			'least_linked_ignore_list',
 			'indexables_page_reading_list',
+			'last_known_no_unindexed',
+			'cron_verify_current_action',
+			'cron_verify_post_indexables_last_batch',
+			'cron_verify_non_timestamped_indexables_last_batch',
+			'plugin_deactivated_at',
 		],
 		'wpseo_titles' => [
 			'company_logo_meta',

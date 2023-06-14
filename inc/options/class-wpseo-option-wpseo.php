@@ -26,116 +26,126 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	protected $defaults = [
 		// Non-form fields, set via (ajax) function.
-		'tracking'                                 => null,
-		'toggled_tracking'                         => false,
-		'license_server_version'                   => false,
-		'ms_defaults_set'                          => false,
-		'ignore_search_engines_discouraged_notice' => false,
-		'indexing_first_time'                      => true,
-		'indexing_started'                         => null,
-		'indexing_reason'                          => '',
-		'indexables_indexing_completed'            => false,
-		'index_now_key'                            => '',
+		'tracking'                                          => null,
+		'toggled_tracking'                                  => false,
+		'license_server_version'                            => false,
+		'ms_defaults_set'                                   => false,
+		'ignore_search_engines_discouraged_notice'          => false,
+		'indexing_first_time'                               => true,
+		'indexing_started'                                  => null,
+		'indexing_reason'                                   => '',
+		'indexables_indexing_completed'                     => false,
+		'index_now_key'                                     => '',
 		// Non-form field, should only be set via validation routine.
-		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
-		'previous_version'                         => '',
+		'version'                                           => '',
+		// Leave default as empty to ensure activation/upgrade works.
+		'previous_version'                                  => '',
 		// Form fields.
-		'disableadvanced_meta'                     => true,
-		'enable_headless_rest_endpoints'           => true,
-		'ryte_indexability'                        => false,
-		'baiduverify'                              => '', // Text field.
-		'googleverify'                             => '', // Text field.
-		'msverify'                                 => '', // Text field.
-		'yandexverify'                             => '',
-		'site_type'                                => '', // List of options.
-		'has_multiple_authors'                     => '',
-		'environment_type'                         => '',
-		'content_analysis_active'                  => true,
-		'keyword_analysis_active'                  => true,
-		'inclusive_language_analysis_active'       => false,
-		'enable_admin_bar_menu'                    => true,
-		'enable_cornerstone_content'               => true,
-		'enable_xml_sitemap'                       => true,
-		'enable_text_link_counter'                 => true,
-		'enable_index_now'                         => true,
-		'show_onboarding_notice'                   => false,
-		'first_activated_on'                       => false,
-		'myyoast-oauth'                            => [
+		'disableadvanced_meta'                              => true,
+		'enable_headless_rest_endpoints'                    => true,
+		'ryte_indexability'                                 => false,
+		'baiduverify'                                       => '',
+		// Text field.
+		'googleverify'                                      => '',
+		// Text field.
+		'msverify'                                          => '',
+		// Text field.
+		'yandexverify'                                      => '',
+		'site_type'                                         => '',
+		// List of options.
+		'has_multiple_authors'                              => '',
+		'environment_type'                                  => '',
+		'content_analysis_active'                           => true,
+		'keyword_analysis_active'                           => true,
+		'inclusive_language_analysis_active'                => false,
+		'enable_admin_bar_menu'                             => true,
+		'enable_cornerstone_content'                        => true,
+		'enable_xml_sitemap'                                => true,
+		'enable_text_link_counter'                          => true,
+		'enable_index_now'                                  => true,
+		'show_onboarding_notice'                            => false,
+		'first_activated_on'                                => false,
+		'myyoast-oauth'                                     => [
 			'config'        => [
 				'clientId' => null,
 				'secret'   => null,
 			],
 			'access_tokens' => [],
 		],
-		'semrush_integration_active'               => true,
-		'semrush_tokens'                           => [],
-		'semrush_country_code'                     => 'us',
-		'permalink_structure'                      => '',
-		'home_url'                                 => '',
-		'dynamic_permalinks'                       => false,
-		'category_base_url'                        => '',
-		'tag_base_url'                             => '',
-		'custom_taxonomy_slugs'                    => [],
-		'enable_enhanced_slack_sharing'            => true,
-		'zapier_integration_active'                => false,
-		'zapier_subscription'                      => [],
-		'zapier_api_key'                           => '',
-		'enable_metabox_insights'                  => true,
-		'enable_link_suggestions'                  => true,
-		'algolia_integration_active'               => false,
-		'import_cursors'                           => [],
-		'workouts_data'                            => [ 'configuration' => [ 'finishedSteps' => [] ] ],
-		'configuration_finished_steps'             => [],
-		'dismiss_configuration_workout_notice'     => false,
-		'dismiss_premium_deactivated_notice'       => false,
-		'importing_completed'                      => [],
-		'wincher_integration_active'               => true,
-		'wincher_tokens'                           => [],
-		'wincher_automatically_add_keyphrases'     => false,
-		'wincher_website_id'                       => '',
-		'wordproof_integration_active'             => false,
-		'wordproof_integration_changed'            => false,
-		'first_time_install'                       => false,
-		'should_redirect_after_install_free'       => false,
-		'activation_redirect_timestamp_free'       => 0,
-		'remove_feed_global'                       => false,
-		'remove_feed_global_comments'              => false,
-		'remove_feed_post_comments'                => false,
-		'remove_feed_authors'                      => false,
-		'remove_feed_categories'                   => false,
-		'remove_feed_tags'                         => false,
-		'remove_feed_custom_taxonomies'            => false,
-		'remove_feed_post_types'                   => false,
-		'remove_feed_search'                       => false,
-		'remove_atom_rdf_feeds'                    => false,
-		'remove_shortlinks'                        => false,
-		'remove_rest_api_links'                    => false,
-		'remove_rsd_wlw_links'                     => false,
-		'remove_oembed_links'                      => false,
-		'remove_generator'                         => false,
-		'remove_emoji_scripts'                     => false,
-		'remove_powered_by_header'                 => false,
-		'remove_pingback_header'                   => false,
-		'clean_campaign_tracking_urls'             => false,
-		'clean_permalinks'                         => false,
-		'clean_permalinks_extra_variables'         => '',
-		'search_cleanup'                           => false,
-		'search_cleanup_emoji'                     => false,
-		'search_cleanup_patterns'                  => false,
-		'search_character_limit'                   => 50,
-		'deny_search_crawling'                     => false,
-		'deny_wp_json_crawling'                    => false,
-		'deny_adsbot_crawling'                     => false,
-		'redirect_search_pretty_urls'              => false,
-		'least_readability_ignore_list'            => [],
-		'least_seo_score_ignore_list'              => [],
-		'most_linked_ignore_list'                  => [],
-		'least_linked_ignore_list'                 => [],
-		'indexables_page_reading_list'             => [ false, false, false, false, false ],
-		'indexables_overview_state'                => 'dashboard-not-visited',
-		'last_known_public_post_types'             => [],
-		'last_known_public_taxonomies'             => [],
-		'last_known_no_unindexed'                  => [],
+		'semrush_integration_active'                        => true,
+		'semrush_tokens'                                    => [],
+		'semrush_country_code'                              => 'us',
+		'permalink_structure'                               => '',
+		'home_url'                                          => '',
+		'dynamic_permalinks'                                => false,
+		'category_base_url'                                 => '',
+		'tag_base_url'                                      => '',
+		'custom_taxonomy_slugs'                             => [],
+		'enable_enhanced_slack_sharing'                     => true,
+		'zapier_integration_active'                         => false,
+		'zapier_subscription'                               => [],
+		'zapier_api_key'                                    => '',
+		'enable_metabox_insights'                           => true,
+		'enable_link_suggestions'                           => true,
+		'algolia_integration_active'                        => false,
+		'import_cursors'                                    => [],
+		'workouts_data'                                     => [ 'configuration' => [ 'finishedSteps' => [] ] ],
+		'configuration_finished_steps'                      => [],
+		'dismiss_configuration_workout_notice'              => false,
+		'dismiss_premium_deactivated_notice'                => false,
+		'importing_completed'                               => [],
+		'wincher_integration_active'                        => true,
+		'wincher_tokens'                                    => [],
+		'wincher_automatically_add_keyphrases'              => false,
+		'wincher_website_id'                                => '',
+		'wordproof_integration_active'                      => false,
+		'wordproof_integration_changed'                     => false,
+		'first_time_install'                                => false,
+		'should_redirect_after_install_free'                => false,
+		'activation_redirect_timestamp_free'                => 0,
+		'remove_feed_global'                                => false,
+		'remove_feed_global_comments'                       => false,
+		'remove_feed_post_comments'                         => false,
+		'remove_feed_authors'                               => false,
+		'remove_feed_categories'                            => false,
+		'remove_feed_tags'                                  => false,
+		'remove_feed_custom_taxonomies'                     => false,
+		'remove_feed_post_types'                            => false,
+		'remove_feed_search'                                => false,
+		'remove_atom_rdf_feeds'                             => false,
+		'remove_shortlinks'                                 => false,
+		'remove_rest_api_links'                             => false,
+		'remove_rsd_wlw_links'                              => false,
+		'remove_oembed_links'                               => false,
+		'remove_generator'                                  => false,
+		'remove_emoji_scripts'                              => false,
+		'remove_powered_by_header'                          => false,
+		'remove_pingback_header'                            => false,
+		'clean_campaign_tracking_urls'                      => false,
+		'clean_permalinks'                                  => false,
+		'clean_permalinks_extra_variables'                  => '',
+		'search_cleanup'                                    => false,
+		'search_cleanup_emoji'                              => false,
+		'search_cleanup_patterns'                           => false,
+		'search_character_limit'                            => 50,
+		'deny_search_crawling'                              => false,
+		'deny_wp_json_crawling'                             => false,
+		'deny_adsbot_crawling'                              => false,
+		'redirect_search_pretty_urls'                       => false,
+		'least_readability_ignore_list'                     => [],
+		'least_seo_score_ignore_list'                       => [],
+		'most_linked_ignore_list'                           => [],
+		'least_linked_ignore_list'                          => [],
+		'indexables_page_reading_list'                      => [ false, false, false, false, false ],
+		'indexables_overview_state'                         => 'dashboard-not-visited',
+		'last_known_public_post_types'                      => [],
+		'last_known_public_taxonomies'                      => [],
+		'last_known_no_unindexed'                           => [],
+		'cron_verify_current_action'                        => 'term',
+		'cron_verify_post_indexables_last_batch'            => 0,
+		'cron_verify_non_timestamped_indexables_last_batch' => 0,
+		'plugin_deactivated_at'                             => false,
+
 	];
 
 	/**
@@ -250,7 +260,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	public function add_option_filters() {
 		parent::add_option_filters();
 
-		list( $hookname, $callback, $priority ) = $this->get_verify_features_option_filter_hook();
+		[ $hookname, $callback, $priority ] = $this->get_verify_features_option_filter_hook();
 
 		if ( has_filter( $hookname, $callback ) === false ) {
 			add_filter( $hookname, $callback, $priority );
@@ -266,7 +276,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	public function remove_option_filters() {
 		parent::remove_option_filters();
 
-		list( $hookname, $callback, $priority ) = $this->get_verify_features_option_filter_hook();
+		[ $hookname, $callback, $priority ] = $this->get_verify_features_option_filter_hook();
 
 		remove_filter( $hookname, $callback, $priority );
 	}
@@ -279,7 +289,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	public function add_default_filters() {
 		parent::add_default_filters();
 
-		list( $hookname, $callback, $priority ) = $this->get_verify_features_default_option_filter_hook();
+		[ $hookname, $callback, $priority ] = $this->get_verify_features_default_option_filter_hook();
 
 		if ( has_filter( $hookname, $callback ) === false ) {
 			add_filter( $hookname, $callback, $priority );
@@ -295,7 +305,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	public function remove_default_filters() {
 		parent::remove_default_filters();
 
-		list( $hookname, $callback, $priority ) = $this->get_verify_features_default_option_filter_hook();
+		[ $hookname, $callback, $priority ] = $this->get_verify_features_default_option_filter_hook();
 
 		remove_filter( $hookname, $callback, $priority );
 	}
@@ -325,6 +335,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'wincher_website_id':
 				case 'clean_permalinks_extra_variables':
 				case 'indexables_overview_state':
+				case 'cron_verify_current_action':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
@@ -382,6 +393,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'first_activated_on':
 				case 'indexing_started':
 				case 'activation_redirect_timestamp_free':
+				case 'cron_verify_post_indexables_last_batch':
+				case 'cron_verify_non_timestamped_indexables_last_batch':
+				case 'plugin_deactivated_at':
 					$clean[ $key ] = false;
 					if ( isset( $dirty[ $key ] ) ) {
 						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
@@ -599,7 +613,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	}
 
 	/**
-	 * Gets the filter hook name and callback for adjusting the default option value against the network-allowed features.
+	 * Gets the filter hook name and callback for adjusting the default option value against the network-allowed
+	 * features.
 	 *
 	 * @return array Array where the first item is the hook name, the second is the hook callback,
 	 *               and the third is the hook priority.
@@ -636,7 +651,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		];
 
 		foreach ( $value_change as $key ) {
-			if ( isset( $option_value[ $key ] )
+			if (
+				isset( $option_value[ $key ] )
 				&& in_array( $option_value[ $key ], $target_values, true )
 			) {
 				$option_value[ $key ] = true;
