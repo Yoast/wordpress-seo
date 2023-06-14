@@ -19,6 +19,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 32 } },
 		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -37,6 +38,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 32 } },
 		keyphraseForms: [ [] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -57,6 +59,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 28 } },
 		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		exactMatching: false,
 		expectedResult: [ { sourceCodeRange: { startOffset: 20, endOffset: 27 }, text: "keyword" } ],
 	},
 	{
@@ -79,6 +82,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 30 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [ { sourceCodeRange: { endOffset: 23, startOffset: 20 }, text: "key" }, { sourceCodeRange: { endOffset: 29, startOffset: 24 }, text: "words" } ],
 	},
 	{
@@ -99,6 +103,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 19 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [ { sourceCodeRange: { endOffset: 6, startOffset: 2 }, text: "word" }, { sourceCodeRange: { endOffset: 18, startOffset: 15 }, text: "key" } ],
 	},
 	{
@@ -129,6 +134,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 47 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ sourceCodeRange: { endOffset: 23, startOffset: 20 }, text: "key" },
 			{ sourceCodeRange: { endOffset: 29, startOffset: 24 }, text: "words" },
@@ -158,6 +164,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 31 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ sourceCodeRange: { startOffset: 2, endOffset: 5 }, text: "key" },
 			{ sourceCodeRange: { endOffset: 25, startOffset: 22 }, text: "key" },
@@ -183,6 +190,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ]  ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -205,6 +213,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key_word", "key_words" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ sourceCodeRange: { endOffset: 21, startOffset: 18 }, text: "key" },
 			{ sourceCodeRange: { endOffset: 22, startOffset: 21 }, text: "_" },
@@ -229,6 +238,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 22 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [ { sourceCodeRange: { endOffset: 21, startOffset: 18 }, text: "key" } ],
 
 	},
@@ -252,6 +262,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ sourceCodeRange: { endOffset: 21, startOffset: 18 }, text: "KEY" },
 			{ sourceCodeRange: { endOffset: 26, startOffset: 22 }, text: "WORD" },
@@ -274,6 +285,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 21 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [ { sourceCodeRange: { endOffset: 21, startOffset: 18 }, text: "key" } ],
 	},
 	{
@@ -294,6 +306,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 22 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -314,6 +327,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 22 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -334,6 +348,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 22 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [ { text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } } ],
 	},
 	{
@@ -356,6 +371,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key-word", "key-words" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
 			{ text: "-", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
@@ -382,6 +398,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key-word", "key-words" ] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -404,6 +421,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [ ],
 	},
 	{
@@ -434,6 +452,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 42 } },
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ text: "key", sourceCodeRange: { startOffset: 33, endOffset: 36 } },
 			{ text: "word", sourceCodeRange: { startOffset: 37, endOffset: 41 } },
@@ -467,6 +486,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 42 } },
 		keyphraseForms: [ [ "key-word", "key-words" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
 			{ text: "-", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
@@ -493,6 +513,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key-word", "key-words" ] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -516,6 +537,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [ ],
 	},
 	{
@@ -538,6 +560,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -562,6 +585,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
 		keyphraseForms: [ [ "key", "keys" ], [ "phrase", "phrases" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
 			{ text: "phrase", sourceCodeRange: { startOffset: 24, endOffset: 30 } },
@@ -591,6 +615,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 45 } },
 		keyphraseForms: [ [ "keyphrase", "keyphrases", "keyphrase's" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ text: "keyphrase", sourceCodeRange: { startOffset: 8, endOffset: 17 } },
 			{ text: "'", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
