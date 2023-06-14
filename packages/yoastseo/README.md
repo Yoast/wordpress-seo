@@ -13,7 +13,7 @@ Text analysis and assessment library in JavaScript. This library can generate in
 Also included is a preview of the Google search results which can be assessed using the library.
 
 ## Documentation
-* A list of all the [assessors](src/scoring/README.md)
+* A list of all the [assessors](src/scoring/ASSESSORS OVERVIEW.md)
 * Information on the [scoring system of the assessments](src/scoring/assessments/README.md)
   * [SEO analysis scoring](src/scoring/assessments/SCORING%20SEO.md)
   * [Readability analysis scoring](src/scoring/assessments/SCORING%20READABILITY.md)

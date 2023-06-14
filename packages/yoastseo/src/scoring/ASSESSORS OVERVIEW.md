@@ -1,8 +1,10 @@
-# SEO Assessors
-## Which assessor?
-[Overview of used SEO assessors](https://drive.google.com/file/d/1jOEpNK0ZcyCAKpjaiJuBywuqNC08tlW5/view?usp=sharing) in the `yoastseo` package
+# Assessor types
+## SEO Assessors
+### Which assessor?
+Overview of the used SEO assessors in the `yoastseo` package:
 
-## Standard SEO assessor (Focus keyphrase)
+![Assessors overview.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2FDownloads%2FAssessors%20overview.png)
+### Standard SEO assessor (Focus keyphrase)
 - Keyphrase in introduction (IntroductionKeywordAssessment)
 - Keyphrase length (KeyphraseLengthAssessment)
 - Keyword density (KeywordDensityAssessment)
@@ -21,7 +23,7 @@
 - Keyphrase consists of function words only (FunctionWordsInKeyphrase)
 - Previously used keywords (previouslyUsedKeywords)
 - Single H1 assessment
-## Taxonomy assessor
+### Taxonomy assessor
 - Keyphrase in introduction (IntroductionKeywordAssessment)
 - Keyphrase length (KeyphraseLengthAssessment)
 - Keyword density (KeywordDensityAssessment)
@@ -34,7 +36,7 @@
 - Keyphrase consists of function words only (FunctionWordsInKeyphrase)
 - Previously used keywords (previouslyUsedKeywords)
 - Single H1 assessment
-## Related keywords (all keywords after the first)
+### Related keywords (all keywords after the first)
 - Keyphrase in introduction (IntroductionKeywordAssessment)
 - Keyphrase length (KeyphraseLengthAssessment)
 - Keyword density (KeywordDensityAssessment)
@@ -42,18 +44,18 @@
 - Keyword in image alt attributes (textImagesAssessment)
 - Competing links (TextCompetingLinksAssessment)
 - Previously used keywords (previouslyUsedKeywords)
-## Related keywords taxonomy
+### Related keywords taxonomy
 - Keyphrase in introduction (IntroductionKeywordAssessment)
 - Keyphrase length (KeyphraseLengthAssessment)
 - Keyword density (KeywordDensityAssessment)
 - Keyword in metadescription (MetaDescriptionKeywordAssessment)
 - Previously used keywords (previouslyUsedKeywords)
-## Premium
+### Premium
 - Keyword distribution (not of related keywords)
 - Title (TextTitleAssessment)
 
-# Content Assessors
-## Standard Content (Readability) assessor
+## Content Assessors
+### Standard Content (Readability) assessor
 - Subheading distribution (SubheadingDistributionTooLong) -> [Cornerstone scores!](https://github.com/Yoast/wordpress-seo/blob/LINGO-498-move-documentation-from-wiki-to-readme-files-on-repo/packages/yoastseo/src/scoring/assessments/SCORING%20READABILITY.md#1-subheading-distribution)
 - Paragraph length (ParagraphTooLongAssessment)
 - Sentence length (SentenceLengthInTextAssessment) -> [Cornerstone values!](https://github.com/Yoast/wordpress-seo/blob/LINGO-498-move-documentation-from-wiki-to-readme-files-on-repo/packages/yoastseo/src/scoring/assessments/SCORING%20READABILITY.md#3-sentence-length)
@@ -62,9 +64,9 @@
 - Passive voice (PassiveVoiceAssessment)
 - Text presence (TextPresenceAssessment)
 - Flesch Reading Ease (FleschReadingEaseAssessment)
-## Premium
+### Premium
 - Word complexity (WordComplexityAssessment) -> [Cornerstone values!](SCORING%20READABILITY.md#8-word-complexity)
 - Alignment (TextAlignmentAssessment)
 
-# Inclusive language assessor
+## Inclusive language assessor
 - Inclusive language assessment (InclusiveLanguageAssessment)
