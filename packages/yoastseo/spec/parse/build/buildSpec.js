@@ -2,6 +2,7 @@ import build from "../../../src/parse/build/build";
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
 import Factory from "../../specHelpers/factory";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
+import splitIntoTokensCustom from "../../../src/languageProcessing/languages/ja/helpers/splitIntoTokensCustom";
 
 describe( "The parse function", () => {
 	it( "parses a basic HTML text", () => {
@@ -60,6 +61,66 @@ describe( "The parse function", () => {
 						endTag: {
 							startOffset: 35,
 							endOffset: 39,
+						},
+					},
+				} ],
+			} ],
+		} );
+	} );
+
+	it( "parses a basic Japanese HTML text", () => {
+		const html = "<div><p class='yoast'>犬が大好き</p></div>";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ splitIntoTokensCustom: splitIntoTokensCustom, memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+		expect( build( html, languageProcessor ) ).toEqual( {
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [ {
+				name: "div",
+				sourceCodeLocation: {
+					startOffset: 0,
+					endOffset: 37,
+					startTag: {
+						startOffset: 0,
+						endOffset: 5,
+					},
+					endTag: {
+						startOffset: 31,
+						endOffset: 37,
+					},
+				},
+				attributes: {},
+				childNodes: [ {
+					name: "p",
+					isImplicit: false,
+					attributes: {
+						"class": new Set( [ "yoast" ] ),
+					},
+					sentences: [ {
+						text: "犬が大好き",
+						sourceCodeRange: { startOffset: 22, endOffset: 27 },
+						tokens: [
+							{ text: "犬", sourceCodeRange: { startOffset: 22, endOffset: 23 } },
+							{ text: "が", sourceCodeRange: { startOffset: 23, endOffset: 24 } },
+							{ text: "大好き", sourceCodeRange: { startOffset: 24, endOffset: 27 } },
+						],
+					} ],
+					childNodes: [ {
+						name: "#text",
+						value: "犬が大好き",
+					} ],
+					sourceCodeLocation: {
+						startOffset: 5,
+						endOffset: 31,
+						startTag: {
+							startOffset: 5,
+							endOffset: 22,
+						},
+						endTag: {
+							startOffset: 27,
+							endOffset: 31,
 						},
 					},
 				} ],

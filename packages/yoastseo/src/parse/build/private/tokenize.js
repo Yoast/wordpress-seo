@@ -6,12 +6,12 @@ import getTextElementPositions from "./getTextElementPositions";
  *
  * @param {Paragraph|Heading} node The paragraph or heading node to split into sentences.
  * @param {Sentence} sentence The sentence.
- * @param {function} splitIntoTokens The function to use to split the sentence into tokens.
+ * @param {function} LanguageProcessor The languageprocessor for the current language.
  *
  * @returns {Sentence} The sentence, with tokens.
  */
-function getTokens( node, sentence, splitIntoTokens ) {
-	sentence.tokens = splitIntoTokens( sentence );
+function getTokens( node, sentence, LanguageProcessor ) {
+	sentence.tokens = LanguageProcessor.splitIntoTokens( sentence );
 	sentence.tokens = getTextElementPositions( node, sentence.tokens, sentence.sourceCodeRange.startOffset );
 	return sentence;
 }
@@ -31,7 +31,7 @@ function getSentences( node, languageProcessor ) {
 	// Add position information to the sentences.
 	sentences = getTextElementPositions( node, sentences );
 	// Tokenize sentences into tokens.
-	return sentences.map( sentence => getTokens( node, sentence, languageProcessor.splitIntoTokens ) );
+	return sentences.map( sentence => getTokens( node, sentence, languageProcessor ) );
 }
 
 /**
