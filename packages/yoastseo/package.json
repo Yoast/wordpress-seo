@@ -30,9 +30,7 @@
   "devDependencies": {
     "@babel/cli": "^7.21.5",
     "@babel/core": "^7.22.1",
-    "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
-    "@lodder/grunt-postcss": "^3.1.1",
-    "@yoast/browserslist-config": "^1.2.2",
+    "@yoast/babel-preset": "^1.0.1",
     "blob-polyfill": "^7.0.20220408",
     "console.table": "^0.10.0",
     "grunt": "^1.0.1",

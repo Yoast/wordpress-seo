@@ -13,16 +13,13 @@ module.exports = {
 	},
 	publish: {
 		files: [ {
-			src: "css/**/*",
-			dest: "dist/",
-		}, {
 			src: "index.js",
 			dest: "dist/",
 		}, {
 			src: "package.json",
 			dest: "dist/",
 		}, {
-			src: ".babelrc",
+			src: "babel.config.js",
 			dest: "dist/",
 		}, {
 			src: "README.md",
@@ -32,9 +29,6 @@ module.exports = {
 			dest: "dist/",
 		}, {
 			src: "LICENSE",
-			dest: "dist/",
-		}, {
-			src: "src/config/syllables/**/*.json",
 			dest: "dist/",
 		} ],
 	},
