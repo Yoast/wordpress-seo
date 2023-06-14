@@ -37,9 +37,7 @@ const getWordsForHTMLParser = ( text ) => {
 
 	const tokenTexts = [];
 	rawTokens.forEach( token => {
-		if ( token === "" ) {
-			return;
-		}
+
 		// Pretokens contains all that occurs before the first letter of the token.
 		const preTokens = [];
 		// Posttokens contains all that occurs after the last letter of the token.
