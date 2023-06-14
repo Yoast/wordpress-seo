@@ -1,3 +1,4 @@
+// See https://github.com/babel/grunt-babel
 module.exports = {
 	publish: {
 		files: [ {
