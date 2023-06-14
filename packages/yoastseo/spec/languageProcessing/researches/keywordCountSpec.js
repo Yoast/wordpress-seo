@@ -22,17 +22,6 @@ const buildMorphologyMockResearcher = function( keyphraseForms ) {
 	}, true, false, false, { memoizedTokenizer: memoizedSentenceTokenizer } );
 };
 
-const mockResearcher = buildMorphologyMockResearcher( [ [ "keyword", "keywords" ] ] );
-const mockResearcherGermanDiacritics = buildMorphologyMockResearcher( [ [ "äöüß" ] ] );
-const mockResearcherMinus = buildMorphologyMockResearcher( [ [ "key-word", "key-words" ] ] );
-const mockResearcherUnderscore = buildMorphologyMockResearcher( [ [ "key_word", "key_words" ] ] );
-const mockResearcherKeyWord = buildMorphologyMockResearcher( [ [ "key", "keys" ], [ "word", "words" ] ] );
-const mockResearcherKaplaki = buildMorphologyMockResearcher( [ [ "kapaklı" ] ] );
-const mockResearcherAmpersand = buildMorphologyMockResearcher( [ [ "key&word" ] ] );
-const mockResearcherApostrophe = buildMorphologyMockResearcher( [ [ "key`word" ] ] );
-// Escape, since the morphology researcher escapes regex as well.
-const mockResearcherDollarSign = buildMorphologyMockResearcher( [ [ "\\$keyword" ] ] );
-
 const testCases = [
 	{
 		description: "counts/marks a string of text with a keyword in it.",
