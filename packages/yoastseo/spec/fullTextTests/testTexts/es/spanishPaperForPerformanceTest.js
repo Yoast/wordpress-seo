@@ -65,7 +65,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 1390 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 1391 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -160,7 +160,7 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 28.06% of the words in your text are considered complex." +
+		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 25.52% of the words in your text are considered complex." +
 			" <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
 	},
 	textAlignment: {

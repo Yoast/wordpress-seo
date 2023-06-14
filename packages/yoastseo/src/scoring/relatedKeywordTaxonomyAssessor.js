@@ -10,8 +10,8 @@ import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphrase
 /**
  * Creates the Assessor used for taxonomy pages.
  *
- * @param {object}  researcher  The researcher to use for the analysis.
- * @param {Object}  options     The options for this assessor.
+ * @param {Researcher}  researcher  The researcher to use for the analysis.
+ * @param {Object?}  options        The options for this assessor.
  *
  * @constructor
  */

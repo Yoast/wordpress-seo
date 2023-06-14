@@ -253,6 +253,76 @@ class Front_End_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the retrieval of the presenters for a static home page.
+	 *
+	 * @covers ::get_presenters
+	 * @covers ::get_needed_presenters
+	 * @covers ::get_presenters_for_page_type
+	 * @covers ::get_all_presenters
+	 */
+	public function test_get_presenters_for_static_home_page() {
+		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
+
+		$this->options->expects( 'get' )->with( 'opengraph' )->andReturnTrue();
+		$this->options->expects( 'get' )->with( 'twitter' )->andReturnTrue();
+		$this->options->expects( 'get' )->with( 'enable_enhanced_slack_sharing' )->andReturnTrue();
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $this->context );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnFalse();
+
+		$expected = [
+			'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
+			'Yoast\WP\SEO\Presenters\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Robots_Presenter',
+			'Yoast\WP\SEO\Presenters\Canonical_Presenter',
+			'Yoast\WP\SEO\Presenters\Rel_Prev_Presenter',
+			'Yoast\WP\SEO\Presenters\Rel_Next_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Type_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Url_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Publisher_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Author_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Published_Time_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Modified_Time_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter',
+			'Yoast\WP\SEO\Presenters\Meta_Author_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Card_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Image_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Creator_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Site_Presenter',
+			'Yoast\WP\SEO\Presenters\Schema_Presenter',
+			'Yoast\WP\SEO\Presenters\Webmaster\Baidu_Presenter',
+			'Yoast\WP\SEO\Presenters\Webmaster\Bing_Presenter',
+			'Yoast\WP\SEO\Presenters\Webmaster\Google_Presenter',
+			'Yoast\WP\SEO\Presenters\Webmaster\Pinterest_Presenter',
+			'Yoast\WP\SEO\Presenters\Webmaster\Yandex_Presenter',
+			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
+		];
+
+		$callback = static function( $presenter ) {
+			return \get_class( $presenter );
+		};
+
+		$this->assertEquals(
+			$expected,
+			\array_map( $callback, $this->instance->get_presenters( 'Static_Home_Page' ) )
+		);
+	}
+
+	/**
 	 * Tests retrieval of the presenters for an error page.
 	 *
 	 * @covers ::get_presenters
