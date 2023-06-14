@@ -6,6 +6,7 @@ import { showTrace } from "../helpers/errors.js";
 import { __, sprintf } from "@wordpress/i18n";
 import { filter, find, findIndex, forEach, isFunction, isUndefined, map } from "lodash-es";
 
+// The maximum score of individual assessment is 9. This is why we set the "score rating" here to 9.
 const ScoreRating = 9;
 
 /**
