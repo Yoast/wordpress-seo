@@ -40,7 +40,7 @@ const testCases = [
 	},
 ];
 
-describe.each( testCases )( "isDoubleQuoted( %s )", (
+describe.each( testCases )( "isDoubleQuoted", (
 	{ description, keyphrase, expectedResult } ) => {
 	it( description, () => {
 		expect( isDoubleQuoted( keyphrase ) ).toBe( expectedResult );
