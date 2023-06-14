@@ -28,6 +28,10 @@ const wordSeparatorsRegex = /([\s\t\u00A0])/;
  * @returns {string[]} An array of tokens.
  */
 const getWordsForHTMLParser = ( text ) => {
+	if ( ! text ) {
+		return [];
+	}
+
 	// Split the sentence string into tokens. Those tokens are unrefined as they may contain punctuation.
 	const rawTokens = text.split( wordSeparatorsRegex ).filter( x => x !== "" );
 
