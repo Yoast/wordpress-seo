@@ -20,6 +20,7 @@ class Verification_Cron_Schedule_Handler {
 	}
 
 	public function schedule_indexable_verification(): void {
+
 		if ( ! \wp_next_scheduled( self::INDEXABLE_VERIFY_POST_INDEXABLES_NAME ) && $this->cron_verification_gate->should_verify_on_cron() ) {
 			\wp_schedule_event( ( \time() + \HOUR_IN_SECONDS ), 'fifteen_minutes', self::INDEXABLE_VERIFY_POST_INDEXABLES_NAME );
 		}
@@ -37,9 +38,9 @@ class Verification_Cron_Schedule_Handler {
 	}
 
 	public function unschedule_verify_non_timestamped_indexables_cron() {
-		$scheduled = \wp_next_scheduled( self::INDEXABLE_VERIFY_POST_INDEXABLES_NAME );
+		$scheduled = \wp_next_scheduled( self::INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME );
 		if ( $scheduled ) {
-			\wp_unschedule_event( $scheduled, self::INDEXABLE_VERIFY_POST_INDEXABLES_NAME );
+			\wp_unschedule_event( $scheduled, self::INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME );
 		}
 	}
 }

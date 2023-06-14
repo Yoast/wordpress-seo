@@ -7,7 +7,10 @@ use Yoast\WP\SEO\Indexables\Application\Next_Verification_Action_Handler;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
 use Yoast\WP\SEO\Indexables\Domain\Actions\Verify_Indexable_Action_Factory_Interface;
+use Yoast\WP\SEO\Indexables\Domain\Batch_Size;
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Verification_Action_Left_Exception;
+use Yoast\WP\SEO\Indexables\Domain\Exceptions\Verify_Action_Not_Found_Exception;
+use Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count;
 
 class Verify_Non_Timestamp_Indexables_Command_Handler {
 
@@ -17,12 +20,12 @@ class Verify_Non_Timestamp_Indexables_Command_Handler {
 	protected $verify_indexable_action_factory;
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler
+	 * @var Verification_Cron_Batch_Handler
 	 */
 	protected $cron_batch_handler;
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Application\Next_Verification_Action_Handler
+	 * @var Next_Verification_Action_Handler
 	 */
 	protected $action_handler;
 
@@ -50,7 +53,13 @@ class Verify_Non_Timestamp_Indexables_Command_Handler {
 	 */
 	public function handle( Verify_Non_Timestamp_Indexables_Command $verify_non_timestamp_indexables_command ): void {
 
-		$verification_action = $this->verify_indexable_action_factory->get( $verify_non_timestamp_indexables_command->get_current_action() );
+		try {
+			$verification_action = $this->verify_indexable_action_factory->get( $verify_non_timestamp_indexables_command->get_current_action() );
+		}catch(Verify_Action_Not_Found_Exception $exception){
+			$this->cron_schedule_handler->unschedule_verify_non_timestamped_indexables_cron();
+			return;
+		}
+
 		$has_more_to_index   = $verification_action->re_build_indexables( $verify_non_timestamp_indexables_command->get_last_batch_count(), $verify_non_timestamp_indexables_command->get_batch_size() );
 		// for each fix
 		if ( $has_more_to_index ) {
@@ -61,6 +70,7 @@ class Verify_Non_Timestamp_Indexables_Command_Handler {
 		try {
 			$next_action = $this->verify_indexable_action_factory->determine_next_verify_action( $verify_non_timestamp_indexables_command->get_current_action() );
 			$this->action_handler->set_current_verification_action( $next_action );
+			$this->cron_batch_handler->set_current_non_timestamped_indexables_batch( new Last_Batch_Count( 0 ), new Batch_Size( 0 ) );
 		} catch ( No_Verification_Action_Left_Exception $exception ) {
 			$this->cron_schedule_handler->unschedule_verify_non_timestamped_indexables_cron();
 		}

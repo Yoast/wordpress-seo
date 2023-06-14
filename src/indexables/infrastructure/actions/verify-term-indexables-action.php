@@ -62,10 +62,13 @@ class Verify_Term_Indexables_Action implements Verify_Indexables_Action_Interfac
 		$replacements = [];
 		\array_push( $replacements, ...$public_taxonomies );
 
+
 		$limit_query    = 'LIMIT %d';
-		$replacements[] = $limit;
+		$replacements[] = $batch_size ;
+		$offset_query = '';
+		if($limit !== 0){
 		$offset_query   = 'OFFSET %d';
-		$replacements[] = ( $limit + $batch_size );
+		$replacements[] = ( $limit + $batch_size );}
 
 		return $this->wpdb->prepare(
 			"

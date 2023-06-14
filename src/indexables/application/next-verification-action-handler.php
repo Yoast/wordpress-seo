@@ -18,7 +18,7 @@ class Next_Verification_Action_Handler {
 		$this->options_helper = $options_helper;
 	}
 
-	public function get_current_verification_action():int {
+	public function get_current_verification_action():string {
 		return $this->options_helper->get( 'cron_verify_current_action', 'term' );
 	}
 

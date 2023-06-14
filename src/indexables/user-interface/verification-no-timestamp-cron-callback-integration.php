@@ -32,12 +32,12 @@ class Verification_Cron_Callback_Integration implements Integration_Interface {
 	protected $cron_batch_handler;
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Application\Commands\Verify_Non_Timestamp_Indexables_Command_Handler
+	 * @var Verify_Non_Timestamp_Indexables_Command_Handler
 	 */
 	protected $non_timestamp_indexables_command_handler;
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Application\Next_Verification_Action_Handler
+	 * @var Next_Verification_Action_Handler
 	 */
 	protected $verification_action_handler;
 
@@ -74,7 +74,8 @@ class Verification_Cron_Callback_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action(
-			Verification_Cron_Schedule_Handler::INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME,
+			//Verification_Cron_Schedule_Handler::INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME,
+		'admin_init',
 			[
 				$this,
 				'start_verify_non_timestamped_indexables',
@@ -92,7 +93,7 @@ class Verification_Cron_Callback_Integration implements Integration_Interface {
 		// @todo add filter here.
 		$batch_size         = 10;
 		$current_batch      = $this->cron_batch_handler->get_current_non_timestamped_indexables_batch();
-		$plugin_deactivated = $this->options_helper->get( Mark_Deactivation_Integration::PLUGIN_DEACTIVATED_AT_OPTION );
+		$plugin_deactivated = $this->options_helper->get( Mark_Deactivation_Integration::PLUGIN_DEACTIVATED_AT_OPTION, \time() );
 		$action             = $this->verification_action_handler->get_current_verification_action();
 		$command            = new Verify_Non_Timestamp_Indexables_Command( $current_batch, $batch_size, $plugin_deactivated, $action );
 
