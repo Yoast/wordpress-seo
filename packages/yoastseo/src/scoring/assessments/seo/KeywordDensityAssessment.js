@@ -7,6 +7,8 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
+import getWords from "../../../languageProcessing/helpers/word/getWords";
 
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
@@ -71,8 +73,7 @@ class KeyphraseDensityAssessment extends Assessment {
 
 
 	/**
-	 * Determines correct boundaries depending on the availability
-	 * of morphological forms.
+	 * Determines correct boundaries depending on the availability of morphological forms.
 	 *
 	 * @param {string} text The paper text.
 	 * @param {number} keyphraseLength The length of the keyphrase in words.
@@ -110,7 +111,9 @@ class KeyphraseDensityAssessment extends Assessment {
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
-		this.setBoundaries( paper.getText(), keyphraseLength, customGetWords );
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+		this.setBoundaries( text, keyphraseLength, customGetWords );
 
 		this._keyphraseDensity = this._keyphraseDensity * keyphraseLengthFactor( keyphraseLength );
 		const calculatedScore = this.calculateResult();
@@ -328,7 +331,9 @@ class KeyphraseDensityAssessment extends Assessment {
 		if ( customApplicabilityConfig ) {
 			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 		}
-		const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" ).count;
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+		const textLength = customCountLength ? customCountLength( text ) : getWords( text ).length;
 
 		return paper.hasText() && paper.hasKeyword() && textLength >= this._config.applicableIfTextLongerThan;
 	}

@@ -19,6 +19,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 32 } },
 		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -37,6 +38,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 32 } },
 		keyphraseForms: [ [] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -57,6 +59,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 28 } },
 		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		exactMatching: false,
 		expectedResult: [ { sourceCodeRange: { startOffset: 20, endOffset: 27 }, text: "keyword" } ],
 	},
 	{
@@ -79,6 +82,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 30 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [ { sourceCodeRange: { endOffset: 23, startOffset: 20 }, text: "key" }, { sourceCodeRange: { endOffset: 29, startOffset: 24 }, text: "words" } ],
 	},
 	{
@@ -99,6 +103,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 19 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [ { sourceCodeRange: { endOffset: 6, startOffset: 2 }, text: "word" }, { sourceCodeRange: { endOffset: 18, startOffset: 15 }, text: "key" } ],
 	},
 	{
@@ -129,6 +134,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 47 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ sourceCodeRange: { endOffset: 23, startOffset: 20 }, text: "key" },
 			{ sourceCodeRange: { endOffset: 29, startOffset: 24 }, text: "words" },
@@ -158,6 +164,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 31 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ sourceCodeRange: { startOffset: 2, endOffset: 5 }, text: "key" },
 			{ sourceCodeRange: { endOffset: 25, startOffset: 22 }, text: "key" },
@@ -176,13 +183,12 @@ const testCases = [
 				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
 				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
 				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
-				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
-				{ text: "_", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
-				{ text: "word", sourceCodeRange: { startOffset: 22, endOffset: 26 } },
+				{ text: "key_word", sourceCodeRange: { startOffset: 18, endOffset: 26 } },
 				{ text: ".", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ]  ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -198,17 +204,14 @@ const testCases = [
 				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
 				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
 				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
-				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
-				{ text: "_", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
-				{ text: "word", sourceCodeRange: { startOffset: 22, endOffset: 26 } },
+				{ text: "key_word", sourceCodeRange: { startOffset: 18, endOffset: 26 } },
 				{ text: ".", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key_word", "key_words" ] ],
+		exactMatching: false,
 		expectedResult: [
-			{ sourceCodeRange: { endOffset: 21, startOffset: 18 }, text: "key" },
-			{ sourceCodeRange: { endOffset: 22, startOffset: 21 }, text: "_" },
-			{ sourceCodeRange: { endOffset: 26, startOffset: 22 }, text: "word" },
+			{ sourceCodeRange: { endOffset: 26, startOffset: 18 }, text: "key_word" },
 		],
 	},
 	{
@@ -229,6 +232,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 22 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [ { sourceCodeRange: { endOffset: 21, startOffset: 18 }, text: "key" } ],
 
 	},
@@ -252,6 +256,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ sourceCodeRange: { endOffset: 21, startOffset: 18 }, text: "KEY" },
 			{ sourceCodeRange: { endOffset: 26, startOffset: 22 }, text: "WORD" },
@@ -274,10 +279,11 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 21 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [ { sourceCodeRange: { endOffset: 21, startOffset: 18 }, text: "key" } ],
 	},
 	{
-		testDescription: "Doesn't return a match if the keyphrase in the text ends with an underscore.",
+		testDescription: "Does return a match if the keyphrase in the text ends with an underscore.",
 		sentence: {
 			text: "A sentence with a key_",
 			tokens: [
@@ -293,11 +299,12 @@ const testCases = [
 				{ text: "_", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 22 } },
-		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
-		expectedResult: [],
+		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		exactMatching: false,
+		expectedResult: [ { sourceCodeRange: { startOffset: 18, endOffset: 21 }, text: "key" } ],
 	},
 	{
-		testDescription: "Doesn't return a match if the keyphrase in the text ends with a dash.",
+		testDescription: "Does return a match if the keyphrase in the text ends with a dash.",
 		sentence: {
 			text: "A sentence with a key-",
 			tokens: [
@@ -314,7 +321,8 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 22 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
-		expectedResult: [],
+		exactMatching: false,
+		expectedResult: [ { sourceCodeRange: { startOffset: 18, endOffset: 21 }, text: "key" } ],
 	},
 	{
 		testDescription: "Correctly matches if the sentence ends with an exclamation mark.",
@@ -334,6 +342,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 22 } },
 		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [ { text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } } ],
 	},
 	{
@@ -349,17 +358,14 @@ const testCases = [
 				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
 				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
 				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
-				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
-				{ text: "-", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
-				{ text: "word", sourceCodeRange: { startOffset: 22, endOffset: 26 } },
+				{ text: "key-word", sourceCodeRange: { startOffset: 18, endOffset: 26 } },
 				{ text: ".", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key-word", "key-words" ] ],
+		exactMatching: false,
 		expectedResult: [
-			{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
-			{ text: "-", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
-			{ text: "word", sourceCodeRange: { startOffset: 22, endOffset: 26 } },
+			{ text: "key-word", sourceCodeRange: { startOffset: 18, endOffset: 26 } },
 		],
 	},
 	{
@@ -382,6 +388,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key-word", "key-words" ] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -397,13 +404,12 @@ const testCases = [
 				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
 				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
 				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
-				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
-				{ text: "-", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
-				{ text: "word", sourceCodeRange: { startOffset: 22, endOffset: 26 } },
+				{ text: "key-word", sourceCodeRange: { startOffset: 18, endOffset: 26 } },
 				{ text: ".", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [ ],
 	},
 	{
@@ -419,9 +425,7 @@ const testCases = [
 				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
 				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
 				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
-				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
-				{ text: "-", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
-				{ text: "word", sourceCodeRange: { startOffset: 22, endOffset: 26 } },
+				{ text: "key-word", sourceCodeRange: { startOffset: 18, endOffset: 26 } },
 				{ text: " ", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
 				{ text: "and", sourceCodeRange: { startOffset: 27, endOffset: 30 } },
 				{ text: " ", sourceCodeRange: { startOffset: 30, endOffset: 31 } },
@@ -434,6 +438,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 42 } },
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ text: "key", sourceCodeRange: { startOffset: 33, endOffset: 36 } },
 			{ text: "word", sourceCodeRange: { startOffset: 37, endOffset: 41 } },
@@ -452,9 +457,7 @@ const testCases = [
 				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
 				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
 				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
-				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
-				{ text: "-", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
-				{ text: "word", sourceCodeRange: { startOffset: 22, endOffset: 26 } },
+				{ text: "key-word", sourceCodeRange: { startOffset: 18, endOffset: 26 } },
 				{ text: " ", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
 				{ text: "and", sourceCodeRange: { startOffset: 27, endOffset: 30 } },
 				{ text: " ", sourceCodeRange: { startOffset: 30, endOffset: 31 } },
@@ -467,10 +470,9 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 42 } },
 		keyphraseForms: [ [ "key-word", "key-words" ] ],
+		exactMatching: false,
 		expectedResult: [
-			{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
-			{ text: "-", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
-			{ text: "word", sourceCodeRange: { startOffset: 22, endOffset: 26 } },
+			{ text: "key-word", sourceCodeRange: { startOffset: 18, endOffset: 26 } },
 		],
 	},
 	{
@@ -486,13 +488,12 @@ const testCases = [
 				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
 				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
 				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
-				{ text: "word", sourceCodeRange: { startOffset: 18, endOffset: 22 } },
-				{ text: "-", sourceCodeRange: { startOffset: 22, endOffset: 23 } },
-				{ text: "key", sourceCodeRange: { startOffset: 23, endOffset: 26 } },
+				{ text: "word-key", sourceCodeRange: { startOffset: 18, endOffset: 26 } },
 				{ text: ".", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key-word", "key-words" ] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -509,13 +510,12 @@ const testCases = [
 				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
 				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
 				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
-				{ text: "word", sourceCodeRange: { startOffset: 18, endOffset: 22 } },
-				{ text: "-", sourceCodeRange: { startOffset: 22, endOffset: 23 } },
-				{ text: "key", sourceCodeRange: { startOffset: 23, endOffset: 26 } },
+				{ text: "word-key", sourceCodeRange: { startOffset: 18, endOffset: 26 } },
 				{ text: ".", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [ ],
 	},
 	{
@@ -531,13 +531,12 @@ const testCases = [
 				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
 				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
 				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
-				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
-				{ text: "-", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
-				{ text: "phrase", sourceCodeRange: { startOffset: 22, endOffset: 28 } },
+				{ text: "key-phrase", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
 				{ text: ".", sourceCodeRange: { startOffset: 28, endOffset: 29 } },
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -562,6 +561,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
 		keyphraseForms: [ [ "key", "keys" ], [ "phrase", "phrases" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
 			{ text: "phrase", sourceCodeRange: { startOffset: 24, endOffset: 30 } },
@@ -576,9 +576,7 @@ const testCases = [
 				{ text: " ", sourceCodeRange: { startOffset: 3, endOffset: 4 } },
 				{ text: "the", sourceCodeRange: { startOffset: 4, endOffset: 7 } },
 				{ text: " ", sourceCodeRange: { startOffset: 7, endOffset: 8 } },
-				{ text: "keyphrase", sourceCodeRange: { startOffset: 8, endOffset: 17 } },
-				{ text: "'", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
-				{ text: "s", sourceCodeRange: { startOffset: 18, endOffset: 19 } },
+				{ text: "keyphrase's", sourceCodeRange: { startOffset: 8, endOffset: 19 } },
 				{ text: " ", sourceCodeRange: { startOffset: 19, endOffset: 20 } },
 				{ text: "forms", sourceCodeRange: { startOffset: 20, endOffset: 25 } },
 				{ text: " ", sourceCodeRange: { startOffset: 25, endOffset: 26 } },
@@ -591,12 +589,221 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 45 } },
 		keyphraseForms: [ [ "keyphrase", "keyphrases", "keyphrase's" ] ],
+		exactMatching: false,
 		expectedResult: [
-			{ text: "keyphrase", sourceCodeRange: { startOffset: 8, endOffset: 17 } },
-			{ text: "'", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
-			{ text: "s", sourceCodeRange: { startOffset: 18, endOffset: 19 } },
+			{ text: "keyphrase's", sourceCodeRange: { startOffset: 8, endOffset: 19 } },
 		],
 	},
+	{
+		testDescription: "with exact matching, a single word keyphrase should match with a single word.",
+		sentence: {
+			text: "A sentence with a keyphrase.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "keyphrase", sourceCodeRange: { startOffset: 18, endOffset: 27 } },
+				{ text: ".", sourceCodeRange: { startOffset: 27, endOffset: 28 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 28 } },
+		keyphraseForms: [ [ "keyphrase" ] ],
+		exactMatching: true,
+		expectedResult: [
+			{ text: "keyphrase", sourceCodeRange: { startOffset: 18, endOffset: 27 } },
+		],
+	},
+	{
+		testDescription: "with exact matching, a singular single word keyphrase should not match with the plural form in the text.",
+		sentence: {
+			text: "A sentence with keyphrases.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "keyphrases", sourceCodeRange: { startOffset: 16, endOffset: 26 } },
+				{ text: ".", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
+		keyphraseForms: [ [ "keyphrase" ] ],
+		exactMatching: true,
+		expectedResult: [],
+	},
+	{
+		testDescription: "with exact matching, a plural single word keyphrase should not match wih a singular form in the text.",
+		sentence: {
+			text: "A sentence with a keyphrase.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "keyphrase", sourceCodeRange: { startOffset: 18, endOffset: 27 } },
+				{ text: ".", sourceCodeRange: { startOffset: 27, endOffset: 28 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 28 } },
+		keyphraseForms: [ [ "keyphrases" ] ],
+		exactMatching: true,
+		expectedResult: [],
+	},
+	{
+		testDescription: "with exact matching, a multi word keyphrase should match the same multi word phrase in the text.",
+		sentence: {
+			text: "A sentence with a key phrase.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
+				{ text: " ", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
+				{ text: "phrase", sourceCodeRange: { startOffset: 22, endOffset: 28 } },
+				{ text: ".", sourceCodeRange: { startOffset: 28, endOffset: 29 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
+		keyphraseForms: [ [ "key phrase" ] ],
+		exactMatching: true,
+		expectedResult: [
+			{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
+			{ text: " ", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
+			{ text: "phrase", sourceCodeRange: { startOffset: 22, endOffset: 28 } },
+		],
+	},
+	{
+		testDescription: "with exact matching, a multi word keyphrase should not match a multi word phrase if it is in a different order.",
+		sentence: {
+			text: "A sentence with a phrase key.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "phrase", sourceCodeRange: { startOffset: 18, endOffset: 24 } },
+				{ text: " ", sourceCodeRange: { startOffset: 24, endOffset: 25 } },
+				{ text: "key", sourceCodeRange: { startOffset: 25, endOffset: 28 } },
+				{ text: ".", sourceCodeRange: { startOffset: 28, endOffset: 29 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
+		keyphraseForms: [ [ "key phrase" ] ],
+		exactMatching: true,
+		expectedResult: [],
+	},
+	{
+		testDescription: "with exact matching, a the matching should be insensitive to case.",
+		sentence: {
+			text: "A sentence with a KeYphRaSe.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "KeYphRaSe", sourceCodeRange: { startOffset: 18, endOffset: 28 } },
+				{ text: ".", sourceCodeRange: { startOffset: 28, endOffset: 29 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
+		keyphraseForms: [ [ "keyphrase" ] ],
+		exactMatching: true,
+		expectedResult: [
+			{ text: "KeYphRaSe", sourceCodeRange: { startOffset: 18, endOffset: 28 } },
+		],
+	},
+	{
+		testDescription: "with exact matching, it should match a full stop if it is part of the keyphrase and directly precedes the keyphrase.",
+		sentence: {
+			text: "A .sentence with a keyphrase.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: ".", sourceCodeRange: { startOffset: 2, endOffset: 3 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 3, endOffset: 11 } },
+				{ text: " ", sourceCodeRange: { startOffset: 11, endOffset: 12 } },
+				{ text: "with", sourceCodeRange: { startOffset: 12, endOffset: 16 } },
+				{ text: " ", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: "a", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: " ", sourceCodeRange: { startOffset: 18, endOffset: 19 } },
+				{ text: "keyphrase", sourceCodeRange: { startOffset: 19, endOffset: 28 } },
+				{ text: ".", sourceCodeRange: { startOffset: 28, endOffset: 29 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
+		keyphraseForms: [ [ ".sentence" ] ],
+		exactMatching: true,
+		expectedResult: [
+			{ text: ".", sourceCodeRange: { startOffset: 2, endOffset: 3 } },
+			{ text: "sentence", sourceCodeRange: { startOffset: 3, endOffset: 11 } },
+		],
+	},
+	{
+		testDescription: "with exact matching, it should match a full stop if it is part of the keyphrase and directly follows the keyphrase.",
+		sentence: {
+			text: "A sentence with a keyphrase.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "keyphrase", sourceCodeRange: { startOffset: 18, endOffset: 27 } },
+				{ text: ".", sourceCodeRange: { startOffset: 27, endOffset: 28 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 28 } },
+		keyphraseForms: [ [ "keyphrase." ] ],
+		exactMatching: true,
+		expectedResult: [
+			{ text: "keyphrase", sourceCodeRange: { startOffset: 18, endOffset: 27 } },
+			{ text: ".", sourceCodeRange: { startOffset: 27, endOffset: 28 } },
+		],
+	},
+	{
+		testDescription: "with exact matching, it should match a full stop if it is part of the keyphrase and is not surrounded by spaces.",
+		sentence: {
+			text: "A sentence with a key.phrase.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "key.phrase", sourceCodeRange: { startOffset: 18, endOffset: 28 } },
+				{ text: ".", sourceCodeRange: { startOffset: 28, endOffset: 29 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
+		keyphraseForms: [ [ "key.phrase" ] ],
+		exactMatching: true,
+		expectedResult: [
+			{ text: "key.phrase", sourceCodeRange: { startOffset: 18, endOffset: 28 } },
+		],
+	},
+
+
 	{
 		testDescription: "Matches a single word keyphrase if keyphrase is doubleQuoted.",
 		sentence: {
@@ -615,6 +822,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 28 } },
 		keyphraseForms: [ [ "keyphrase" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ text: "keyphrase", sourceCodeRange: { startOffset: 18, endOffset: 27 } },
 		],
@@ -639,6 +847,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
 		keyphraseForms: [ [ "key phrase" ] ],
+		exactMatching: false,
 		expectedResult: [
 			{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
 			{ text: " ", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
@@ -665,6 +874,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
 		keyphraseForms: [ [ "key phrase" ] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -673,6 +883,7 @@ const testCases = [
 			text: "A sentence with keyphrases.",
 		},
 		keyphraseForms: [ [ "keyphrase" ] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 	{
@@ -693,6 +904,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 28 } },
 		keyphraseForms: [ [ "keyphrases" ] ],
+		exactMatching: false,
 		expectedResult: [],
 	},
 
@@ -764,9 +976,9 @@ const japaneseTestCases = [
 
 
 // eslint-disable-next-line max-len
-describe.each( testCases )( "findKeyWordFormsInSentence", ( { testDescription, sentence, keyphraseForms, expectedResult } ) => {
+describe.each( testCases )( "findKeyWordFormsInSentence", ( { testDescription, sentence, keyphraseForms, exactMatching,  expectedResult } ) => {
 	it( testDescription, () => {
-		expect( matchKeyphraseWithSentence( keyphraseForms, sentence ) ).toEqual( expectedResult );
+		expect( matchKeyphraseWithSentence( keyphraseForms, sentence, exactMatching ) ).toEqual( expectedResult );
 	} );
 } );
 
@@ -776,3 +988,5 @@ describe.each( japaneseTestCases )( "findKeyWordFormsInSentence for japanese", (
 		expect( matchKeyphraseWithSentence( sentence, keyphraseForms, locale, matchWordCustomHelper ) ).toEqual( expectedResult );
 	} );
 } );
+
+

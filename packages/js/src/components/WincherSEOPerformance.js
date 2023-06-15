@@ -13,6 +13,7 @@ import { NewButton, HelpIcon } from "@yoast/components";
 /* Internal dependencies */
 import WincherLimitReached from "./modals/WincherLimitReached";
 import WincherRequestFailed from "./modals/WincherRequestFailed";
+import WincherUpgradeCallout from "./modals/WincherUpgradeCallout";
 import WincherConnectedAlert from "./modals/WincherConnectedAlert";
 import WincherCurrentlyTrackingAlert from "./modals/WincherCurrentlyTrackingAlert";
 import WincherKeyphrasesTable from "../containers/WincherKeyphrasesTable";
@@ -286,6 +287,7 @@ export default function WincherSEOPerformance( props ) {
 	return (
 		<Wrapper>
 			{ isNewlyAuthenticated && <WincherConnectedAlert /> }
+			<WincherUpgradeCallout />
 
 			<Title>
 				{ __( "SEO performance", "wordpress-seo" ) }

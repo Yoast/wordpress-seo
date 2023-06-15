@@ -100,6 +100,18 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 			"The keyphrase was found 20 times. This is great!" );
 	} );
 
+	it( "does not count text inside elements we want to exclude from the analysis when calculating the recommended" +
+		"number of keyphrase usages", function() {
+		const paper = new Paper( nonkeyword.repeat( 101 ) + "<blockquote>" + nonkeyword.repeat( 859 ) +
+			"</blockquote>" + "b c, ".repeat( 20 ), { keyword: "b c" } );
+		const researcher = new DefaultResearcher( paper );
+		const result = new KeywordDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( -50 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 20 times. That's way more than the recommended maximum of 3 times for a text of this length." +
+			" <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
+	} );
+
 	it( "adjusts the keyphrase density based on the length of the keyword with the actual density remaining at 2% - long keyphrase", function() {
 		const paper = new Paper( nonkeyword.repeat( 900 ) + "b c d e f, ".repeat( 20 ), { keyword: "b c d e f" } );
 		const researcher = new DefaultResearcher( paper );
@@ -140,6 +152,12 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 	it( "applies to a paper with a keyword and a text of at least 100 words", function() {
 		const paper = new Paper( nonkeyword.repeat( 100 ), { keyword: "keyword" } );
 		expect( new KeywordDensityAssessment().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( true );
+	} );
+
+	it( "does not apply to a paper with a keyword and a text of at least 100 words when the text is inside an element" +
+		"we want to exclude from the analysis", function() {
+		const paper = new Paper( "<blockquote>" + nonkeyword.repeat( 100 ) + "</blockquote>", { keyword: "keyword" } );
+		expect( new KeywordDensityAssessment().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "does not apply to a paper with text of 100 words but without a keyword", function() {

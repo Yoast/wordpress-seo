@@ -1,7 +1,7 @@
 import { flattenDeep, max, uniq as unique, zipWith } from "lodash-es";
 import { languageProcessing } from "yoastseo";
 
-const { parseSynonyms, getSentences, mergeListItems, findWordFormsInString, markWordsInSentences } = languageProcessing;
+const { parseSynonyms, getSentences, mergeListItems, findWordFormsInString, markWordsInSentences, helpers } = languageProcessing;
 
 /**
  * Checks whether at least half of the content words from the topic are found within the sentence.
@@ -203,6 +203,7 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const topicLengthCriteria = researcher.getConfig( "topicLength" ).lengthCriteria;
 
 	let text = paper.getText();
+	text = helpers.removeHtmlBlocks( text );
 	text = mergeListItems( text );
 	const sentences = getSentences( text, memoizedTokenizer );
 	const topicForms = researcher.getResearch( "morphology" );

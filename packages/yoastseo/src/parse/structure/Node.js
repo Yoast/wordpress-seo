@@ -9,10 +9,10 @@ class Node {
 	/**
 	 * Creates a new node.
 	 *
-	 * @param {string} name The node's name or tag.
-	 * @param {Object} attributes This node's attributes.
-	 * @param {(Node|Text)[]} childNodes This node's child nodes.
-	 * @param {Object} sourceCodeLocationInfo This node's location in the source code, from parse5.
+	 * @param {string} 			name 					The node's name or tag.
+	 * @param {Object} 			attributes 				This node's attributes.
+	 * @param {(Node|Text)[]} 	childNodes 				This node's child nodes.
+	 * @param {Object} 			sourceCodeLocationInfo 	This node's location in the source code, from parse5.
 	 */
 	constructor( name, attributes = {}, childNodes = [], sourceCodeLocationInfo = {} ) {
 		/**
