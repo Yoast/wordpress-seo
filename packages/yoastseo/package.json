@@ -7,22 +7,22 @@
     "SEO",
     "text analysis"
   ],
-  "main": "index.js",
+  "main": "build/index.js",
   "license": "GPL-3.0",
   "version": "1.91.2",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/javascript.git",
+    "url": "https://github.com/Yoast/wordpress-seo.git",
     "directory": "packages/yoastseo"
   },
   "scripts": {
-    "start": "npm start --prefix examples/webpack",
-    "build": "grunt publish",
-    "lint": "grunt check",
-    "pretest": "yarn install-ci",
+    "build": "yarn clean && yarn build:js",
+    "build:js": "babel src --out-dir build",
+    "clean": "rm -rf build",
+    "pretest": "grunt get-premium-configuration",
     "test": "jest",
-    "install-ci": "grunt get-premium-configuration",
-    "prepublishOnly": "grunt publish"
+    "lint": "grunt check",
+    "prepublishOnly": "yarn build && cp index.js CHANGELOG.md LICENSE README.md build/"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -34,21 +34,15 @@
     "blob-polyfill": "^7.0.20220408",
     "console.table": "^0.10.0",
     "grunt": "^1.0.1",
-    "grunt-babel": "^8.0.0",
-    "grunt-contrib-clean": "^2.0.0",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^21.0.0",
-    "grunt-po2json": "git+https://github.com/atimmer/grunt-po2json.git#f26c05653af89ef0f7a72456dbe141eb56bf5471",
     "grunt-shell": "^2.0.0",
     "js-yaml": "^3.12.1",
     "load-grunt-config": "^1.0.0"
   },
   "bugs": {
-    "url": "https://github.com/Yoast/js-text-analysis/issues"
+    "url": "https://github.com/Yoast/wordpress-seo/issues"
   },
   "dependencies": {
-    "@wordpress/autop": "^2.0.2",
     "@wordpress/i18n": "^3.19.1",
     "@yoast/feature-flag": "^0.5.2",
     "error-polyfill": "^0.1.2",

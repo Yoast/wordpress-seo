@@ -1,9 +1,0 @@
-{
-  "extends": [
-    "config:base",
-    ":preserveSemverRanges",
-    ":automergeMinor"
-  ],
-  "timezone": "Europe/Amsterdam",
-  "prHourlyLimit": 2
-}
