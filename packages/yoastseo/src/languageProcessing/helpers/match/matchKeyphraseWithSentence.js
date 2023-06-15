@@ -1,7 +1,4 @@
-import { cloneDeep } from "lodash-es";
 import getWordsForHTMLParser from "../word/getWordsForHTMLParser";
-
-const wordCouplers = [ "_", "-", "'" ];
 
 /**
  * Tokenize keyword forms for exact matching. This function gets the keyword form and tokenizes it.
@@ -61,46 +58,6 @@ const exactMatching = ( keywordForms, sentence ) => {
 };
 
 /**
- * Prepares the tokens for matching by combining words separated by a wordcoupler (hyphen/underscore) into one token.
- * @param {Token[]} tokens The tokens to prepare for matching.
- * @param {number} i The index of the current token.
- * @returns {{tokenForMatching: string, tokensForMatching: Token[]}} The token used for matching and
- * the tokens that are combined into the token used for matching.
- */
-const getTokensForMatching = ( tokens, i ) => {
-	const tokenForMatching = cloneDeep( tokens[ i ] );
-
-	// The token used for matching (tokenForMatching) may consist of multiple tokens combined,
-	// since we want to combine words separated by a hyphen/underscore into one token.
-	// This array keeps track of all tokens that are combined into the token used for matching
-	// and is later used to add all individual tokens to the array of matches.
-	const tokensForMatching = [ ];
-	// Add the current token to the tokens for matching.
-	tokensForMatching.push( cloneDeep( tokens[ i ] ) );
-
-	// While the next token is a word coupler, add it to the current token.
-	while ( tokens[ i + 1 ] && wordCouplers.includes( tokens[ i + 1 ].text ) ) {
-		// Add the word coupler to the token for matching.
-		i++;
-		tokenForMatching.text += tokens[ i ].text;
-		tokenForMatching.sourceCodeRange.endOffset = tokens[ i ].sourceCodeRange.endOffset;
-		tokensForMatching.push( tokens[ i ] );
-
-		// If there is a token after the word coupler, add it to the token for matching. as well.
-		i++;
-		if ( ! tokens[ i ] ) {
-			break;
-		}
-		tokenForMatching.text += tokens[ i ].text;
-		tokenForMatching.sourceCodeRange.endOffset = tokens[ i ].sourceCodeRange.endOffset;
-		tokensForMatching.push( tokens[ i ] );
-	}
-
-	return { tokenForMatching, tokensForMatching };
-};
-
-
-/**
  * Free matching of keyword forms in a sentence. Free matching happens when the user does not put the keyword in double quotes.
  * @param {(string[])[]} keywordForms The keyword forms to match.
  * @param {Sentence} sentence The sentence to match the keyword forms with.
@@ -110,23 +67,15 @@ const freeMatching = ( keywordForms, sentence ) => {
 	const tokens = sentence.tokens.slice();
 
 	// Filter out all tokens that do not match the keyphrase forms.
-	const matches = [];
+	// const matches = [];
 
-	// Iterate over all tokens in the sentence.
-	for ( let i = 0; i < tokens.length; i++ ) {
-		const { tokenForMatching, tokensForMatching } = getTokensForMatching( tokens, i );
-
-		// Compare the matchtoken with the keyword forms.
-		keywordForms.forEach( ( keywordForm ) => {
-			keywordForm.forEach( ( keywordFormPart ) => {
-				if ( tokenForMatching.text.toLowerCase() === keywordFormPart.toLowerCase() ) {
-					matches.push( ...tokensForMatching );
-				}
+	return tokens.filter( ( token ) => {
+		return keywordForms.some( ( keywordForm ) => {
+			return keywordForm.some( ( keywordFormPart ) => {
+				return token.text.toLowerCase() === keywordFormPart.toLowerCase();
 			} );
 		} );
-	}
-
-	return matches;
+	} );
 };
 
 /**
