@@ -362,38 +362,6 @@
   background-color: lightYellow;
 }
 
-.wpseo-tab-add-keyword .wpseo-add-keyword.button {
-  height: auto;
-  padding: 5px 12px 5px 10px;
-  vertical-align: top;
-  font-size: inherit;
-  line-height: inherit;
-  font-weight: bold;
-  box-shadow: none;
-  background: none;
-  text-decoration: none;
-}
-
-.wpseo-tab-add-keyword .wpseo-add-keyword.button:focus {
-  box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
-}
-
-.wpseo-tab-add-keyword .wpseo-add-keyword.button:active {
-  transform: none;
-}
-
-.wpseo-add-keyword-plus {
-  display: inline-block;
-  vertical-align: top;
-  margin: -1px 3px 0 0;
-  font-size: 20px;
-}
-
-#wpseo-add-keyword-popup-title {
-  margin: 1em 0;
-  font-size: 1.3em;
-}
-
 /**
  * Edit Snippet Button focus style.
  *
