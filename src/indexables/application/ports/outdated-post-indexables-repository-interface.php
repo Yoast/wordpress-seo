@@ -11,17 +11,14 @@ interface Outdated_Post_Indexables_Repository_Interface {
 
 	/**
 	 * Finds a list of posts for which the indexables are not up to date.
-	 * This is done by checking if the updated at of the post is the same as the indexable starting from the
-	 * deactivated_timestamp.
+	 * This is done by checking if the updated at of the post is the same as the indexable.
 	 *
 	 * @param Last_Batch_Count             $count
-	 * @param Plugin_Deactivated_Timestamp $deactivated_timestamp
 	 *
 	 * @throws No_Outdated_Posts_Found_Exception When there are no outdated posts found.
 	 * @return Outdated_Post_Indexables_List
 	 */
 	public function get_outdated_post_indexables(
-		Last_Batch_Count $count,
-		Plugin_Deactivated_Timestamp $deactivated_timestamp
+		Last_Batch_Count $count
 	): Outdated_Post_Indexables_List;
 }

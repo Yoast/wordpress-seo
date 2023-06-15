@@ -3,7 +3,7 @@
 
 namespace Yoast\WP\SEO\Indexables\Application\Commands;
 
-use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
+use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Indexables\Application\Ports\Outdated_Post_Indexables_Repository_Interface;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
@@ -26,20 +26,20 @@ class Verify_Post_Indexables_Command_Handler {
 	private $cron_schedule_handler;
 
 	/**
-	 * @var \Yoast\WP\SEO\Builders\Indexable_Post_Builder
+	 * @var \Yoast\WP\SEO\Builders\Indexable_Builder
 	 */
-	protected $indexable_post_builder;
+	protected $indexable_builder;
 
 	public function __construct(
 		Outdated_Post_Indexables_Repository_Interface $outdated_post_indexables_repository,
 		Verification_Cron_Schedule_Handler $cron_schedule_handler,
 		Verification_Cron_Batch_Handler $verification_cron_batch_handler,
-		Indexable_Post_Builder $indexable_post_builder
+		Indexable_Builder $indexable_builder
 	) {
 
 		$this->outdated_post_indexables_repository = $outdated_post_indexables_repository;
 		$this->cron_schedule_handler               = $cron_schedule_handler;
-		$this->indexable_post_builder              = $indexable_post_builder;
+		$this->indexable_builder                   = $indexable_builder;
 		$this->verification_cron_batch_handler     = $verification_cron_batch_handler;
 	}
 
@@ -56,16 +56,17 @@ class Verify_Post_Indexables_Command_Handler {
 		}
 
 		foreach ( $outdated_post_indexables_list as $post_indexable ) {
-			$this->indexable_post_builder->build( $post_indexable->object_id, $post_indexable );
+			$this->indexable_builder->build( $post_indexable );
 		}
 
-		if ( $outdated_post_indexables_list->count() < $verify_post_indexables_command->get_batch_size() ) {
+		if ( ! $verify_post_indexables_command->get_batch_size()
+			->should_keep_going( $outdated_post_indexables_list->count() ) ) {
 			$this->cron_schedule_handler->unschedule_verify_post_indexables_cron();
 
 			return;
 		}
 
-		$next_batch = $verify_post_indexables_command->get_last_batch_count() + $verify_post_indexables_command->get_batch_size();
+		$next_batch = $verify_post_indexables_command->get_last_batch_count()->get_last_batch() + $verify_post_indexables_command->get_batch_size()->get_batch_size();
 		$this->verification_cron_batch_handler->set_current_post_indexables_batch( $next_batch );
 	}
 }

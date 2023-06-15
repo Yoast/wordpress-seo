@@ -74,8 +74,8 @@ class Verification_Cron_Callback_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action(
-			//Verification_Cron_Schedule_Handler::INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME,
-		'admin_init',
+			Verification_Cron_Schedule_Handler::INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME,
+		//'admin_init',
 			[
 				$this,
 				'start_verify_non_timestamped_indexables',
