@@ -42,13 +42,6 @@ module.exports = {
 		require( "@tailwindcss/forms" )( {
 			strategy: "class",
 		} ),
-		function( { addBase, theme } ) {
-			addBase( {
-			  "::placeholder": {
-					color: theme( "colors.slate.500" ),
-			  },
-			} );
-		  },
 	],
 	corePlugins: {
 		preflight: false,
