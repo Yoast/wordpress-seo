@@ -274,6 +274,10 @@ class Indexable_Link_Builder {
 	 * @return int The ID that's extracted from the classes.
 	 */
 	protected function extract_id_of_classes( $classes ) {
+		if ( ! $classes ) {
+			return 0;
+		}
+
 		$pattern = '/(?<!\S)wp-image-(\d+)(?!\S)/i';
 		$matches = [];
 
