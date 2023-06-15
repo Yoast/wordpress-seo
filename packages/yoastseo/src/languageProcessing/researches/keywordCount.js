@@ -96,7 +96,7 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 	const result = { count: 0, markings: [] };
 
 	sentences.forEach( sentence => {
-		// const matchesInSentence = findKeyWordFormsInSentence( sentence, topicForms.keyphraseForms, locale, matchWordCustomHelper );
+		// TODO call matchKeyphraseWithSentence with additional parameter: useExactMatching.
 		const matchesInSentence = matchKeyphraseWithSentence( topicForms.keyphraseForms, sentence );
 		const matchesInSentenceWithoutConsecutiveMatches = removeConsecutiveMatches( matchesInSentence );
 		const matchesCount = countMatches( matchesInSentenceWithoutConsecutiveMatches, topicForms.keyphraseForms );
@@ -121,6 +121,9 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 export default function keyphraseCount( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 	topicForms.keyphraseForms = topicForms.keyphraseForms.map( word => word.map( form => normalizeSingle( form ) ) );
+
+	// TODO: Use isDoubleQuoted helper to check if you need to use exact matching and pass it to countKeyphraseInText.
+
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const locale = paper.getLocale();
 	const sentences = getSentencesFromTree( paper );
