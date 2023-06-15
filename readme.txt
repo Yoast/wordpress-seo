@@ -252,8 +252,7 @@ Release date: 2023-06-27
 #### Enhancements
 
 * Adds a support page to the Yoast admin.
-* Add the Wincher upgrade callout to the Wincher performance report on the dashboard.
-* Add the Wincher upgrade callout to the Wincher SEO performance on the edit post page.
+* Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
 * Excludes the Yoast SEO Breadcrumbs widget from the content analysis in Elementor Pro.
 * Expands the list of HTML elements excluded from the content analysis.
 * Introduces a new setting for crawl optimization, that disallows AdsBot crawling when enabled.
