@@ -250,8 +250,10 @@ class Indexable_Link_Builder {
 		$images  = [];
 		$charset = \get_bloginfo( 'charset' );
 
+		libxml_use_internal_errors( true );
 		$post_dom = new DOMDocument();
 		$post_dom->loadHTML( '<?xml encoding="' . $charset . '">' . $content );
+		libxml_clear_errors();
 
 		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
 			$src     = \htmlentities( $img->getAttribute( 'src' ), ( ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 ), $charset );
