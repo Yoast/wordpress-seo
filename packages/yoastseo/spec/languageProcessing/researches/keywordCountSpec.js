@@ -198,7 +198,7 @@ const testCases = [
 		keyphraseForms: [ [ "keywords" ] ],
 		expectedCount: 0,
 		expectedMarkings: [],
-		skip: true,
+		skip: false,
 	},
 	{
 		description: "with exact matching, a multi word keyphrase should be counted if the focus keyphrase is the same",
@@ -207,7 +207,7 @@ const testCases = [
 		expectedCount: 1,
 		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key phrase</yoastmark>.",
 			original: "A string with a key phrase." } ) ],
-		skip: true,
+		skip: false,
 	},
 	{
 		// eslint-disable-next-line max-len
@@ -216,7 +216,7 @@ const testCases = [
 		keyphraseForms: [ [ "key phrase" ] ],
 		expectedCount: 0,
 		expectedMarkings: [],
-		skip: true,
+		skip: false,
 	},
 	{
 		description: "with exact matching, it should match a full stop if it is part of the keyphrase and directly precedes the keyphrase.",
@@ -225,7 +225,7 @@ const testCases = [
 		expectedCount: 1,
 		expectedMarkings: [ new Mark( { marked: "A <yoastmark class='yoast-text-mark'>.sentence</yoastmark> with a keyphrase.",
 			original: "A .sentence with a keyphrase." } ) ],
-		skip: true,
+		skip: false,
 	},
 
 ];
