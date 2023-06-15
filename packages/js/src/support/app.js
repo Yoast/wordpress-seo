@@ -163,7 +163,7 @@ export const App = () => {
 											"Yoast SEO"
 										) }
 										linkHref={ githubLink }
-										linkText={ __( "Visit our GitHub repo", "wordpress-seo" ) }
+										linkText={ __( "Write a bug report", "wordpress-seo" ) }
 									/>
 								</div>
 							</FieldsetLayout>
