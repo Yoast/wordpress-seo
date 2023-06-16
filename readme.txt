@@ -261,8 +261,10 @@ Release date: 2023-06-27
 
 #### Bugfixes
 
+* Fixes a bug where deletion notice would not appear when deleting a term when the `term_id` is different from `taxonomy_term_id`.
 * Fixes a bug where terms with custom canonical URLs would get added in the sitemap.
 * Fixes a bug where the WordPress native sitemap would not work properly after Yoast SEO was deactivated, until rewrite rules were flushed.
+* Fixes a bug where the wrong taxonomy name would appear in the notice when deleting a term.
 
 #### Other
 
