@@ -482,6 +482,7 @@ class WPSEO_Admin_Asset_Manager {
 			'feature-flag'                => 'feature-flag-package',
 			'helpers'                     => 'helpers-package',
 			'jed'                         => 'jed-package',
+			'chart.js'                    => 'chart.js-package',
 			'legacy-components'           => 'components-package',
 			'network-admin-script'        => 'network-admin',
 			'redux'                       => 'redux-package',
