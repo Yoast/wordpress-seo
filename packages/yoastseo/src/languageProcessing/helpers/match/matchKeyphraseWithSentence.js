@@ -1,4 +1,5 @@
 import getWordsForHTMLParser from "../word/getWordsForHTMLParser";
+import { escapeRegExp } from "lodash-es";
 
 /**
  * Tokenize keyword forms for exact matching. This function gets the keyword form and tokenizes it.
@@ -70,9 +71,10 @@ const freeMatching = ( keywordForms, sentence ) => {
 	// const matches = [];
 
 	return tokens.filter( ( token ) => {
+		const tokenText = escapeRegExp( token.text );
 		return keywordForms.some( ( keywordForm ) => {
 			return keywordForm.some( ( keywordFormPart ) => {
-				return token.text.toLowerCase() === keywordFormPart.toLowerCase();
+				return tokenText.toLowerCase() === keywordFormPart.toLowerCase();
 			} );
 		} );
 	} );
