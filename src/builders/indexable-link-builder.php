@@ -228,9 +228,18 @@ class Indexable_Link_Builder {
 			'tag_name' => 'img',
 		];
 
+		/**
+		 * Filter 'wpseo_image_attribute_containing_id' - Allows filtering what attribute will be used to extract image IDs from.
+		 *
+		 * Defaults to "class", which is where WP natively stores the image IDs, in a `wp-image-<ID>` format.
+		 *
+		 * @api string The attribute to be used to extract image IDs from.
+		 */
+		$attribute = \apply_filters( 'wpseo_image_attribute_containing_id', 'class' );
+
 		while ( $processor->next_tag( $query ) ) {
 			$src     = \htmlentities( $processor->get_attribute( 'src' ), ( ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 ), \get_bloginfo( 'charset' ) );
-			$classes = $processor->get_attribute( 'class' );
+			$classes = $processor->get_attribute( $attribute );
 			$id      = $this->extract_id_of_classes( $classes );
 
 			$images[ $src ] = $id;
@@ -250,6 +259,15 @@ class Indexable_Link_Builder {
 		$images  = [];
 		$charset = \get_bloginfo( 'charset' );
 
+		/**
+		 * Filter 'wpseo_image_attribute_containing_id' - Allows filtering what attribute will be used to extract image IDs from.
+		 *
+		 * Defaults to "class", which is where WP natively stores the image IDs, in a `wp-image-<ID>` format.
+		 *
+		 * @api string The attribute to be used to extract image IDs from.
+		 */
+		$attribute = \apply_filters( 'wpseo_image_attribute_containing_id', 'class' );
+
 		libxml_use_internal_errors( true );
 		$post_dom = new DOMDocument();
 		$post_dom->loadHTML( '<?xml encoding="' . $charset . '">' . $content );
@@ -257,7 +275,7 @@ class Indexable_Link_Builder {
 
 		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
 			$src     = \htmlentities( $img->getAttribute( 'src' ), ( ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 ), $charset );
-			$classes = $img->getAttribute( 'class' );
+			$classes = $img->getAttribute( $attribute );
 			$id      = $this->extract_id_of_classes( $classes );
 
 			$images[ $src ] = $id;
@@ -278,7 +296,19 @@ class Indexable_Link_Builder {
 			return 0;
 		}
 
-		$pattern = '/(?<!\S)wp-image-(\d+)(?!\S)/i';
+		/**
+		 * Filter 'wpseo_extract_id_pattern' - Allows filtering the regex patern to be used to extract image IDs from class/attribute names.
+		 *
+		 * Defaults to the pattern that extracts image IDs from core's `wp-image-<ID>` native format in image classes.
+		 *
+		 * @api string The regex pattern to be used to extract image IDs from class names. Empty string if the whole class/attribute should be returned.
+		 */
+		$pattern = \apply_filters( 'wpseo_extract_id_pattern', '/(?<!\S)wp-image-(\d+)(?!\S)/i' );
+
+		if ( $pattern === '' ) {
+			return (int) $classes;
+		}
+
 		$matches = [];
 
 		if ( preg_match( $pattern, $classes, $matches ) ) {
