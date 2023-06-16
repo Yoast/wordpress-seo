@@ -3,6 +3,7 @@ import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
 import { normalizeSingle } from "../helpers/sanitize/quotes";
 import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
 import matchKeyphraseWithSentence from "../helpers/match/matchKeyphraseWithSentence";
+import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
 
 /**
  * Counts the number of matches for a keyphrase in a sentence.
@@ -15,7 +16,7 @@ const countMatches = ( matches, keyphraseForms ) => {
 	const matchesCopy = [ ...matches ];
 
 	let nrMatches = 0;
-	// While the number of matches is longer than the keyphrase forms.
+	// While the number of matches is longer than or the same as the keyphrase forms.
 	while ( matchesCopy.length >= keyphraseForms.length ) {
 		let nrKeyphraseFormsWithMatch = 0;
 
@@ -89,15 +90,15 @@ const removeConsecutiveMatches = ( matches ) => {
  * @param {Array} topicForms The keyphrase forms.
  * @param {string} locale The locale used in the analysis.
  * @param {function} matchWordCustomHelper  A custom helper to match words with a text.
+ * @param {boolean} isExactMatchRequested Whether the exact matching is requested.
  *
  * @returns {{markings: Mark[], count: number}} The number of keyphrase occurrences in the text and the Mark objects of the matches.
  */
-export function countKeyphraseInText( sentences, topicForms, locale, matchWordCustomHelper ) {
+export function countKeyphraseInText( sentences, topicForms, locale, matchWordCustomHelper, isExactMatchRequested ) {
 	const result = { count: 0, markings: [] };
 
 	sentences.forEach( sentence => {
-		// TODO call matchKeyphraseWithSentence with additional parameter: useExactMatching.
-		const matchesInSentence = matchKeyphraseWithSentence( topicForms.keyphraseForms, sentence );
+		const matchesInSentence = matchKeyphraseWithSentence( topicForms.keyphraseForms, sentence, isExactMatchRequested );
 		const matchesInSentenceWithoutConsecutiveMatches = removeConsecutiveMatches( matchesInSentence );
 		const matchesCount = countMatches( matchesInSentenceWithoutConsecutiveMatches, topicForms.keyphraseForms );
 		const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale );
@@ -122,13 +123,14 @@ export default function keyphraseCount( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 	topicForms.keyphraseForms = topicForms.keyphraseForms.map( word => word.map( form => normalizeSingle( form ) ) );
 
-	// TODO: Use isDoubleQuoted helper to check if you need to use exact matching and pass it to countKeyphraseInText.
-
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const locale = paper.getLocale();
 	const sentences = getSentencesFromTree( paper );
+	// Exact matching is requested when the keyphrase is enclosed in double quotes.
+	const isExactMatchRequested = isDoubleQuoted( paper.getKeyword() );
 
-	const keyphraseFound = countKeyphraseInText( sentences, topicForms, locale, matchWordCustomHelper );
+	const keyphraseFound = countKeyphraseInText( sentences, topicForms, locale, matchWordCustomHelper, isExactMatchRequested );
+
 	return {
 		count: keyphraseFound.count,
 		markings: flatten( keyphraseFound.markings ),
