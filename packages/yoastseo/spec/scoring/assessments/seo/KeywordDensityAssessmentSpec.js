@@ -11,14 +11,11 @@ import buildTree from "../../../specHelpers/parse/buildTree";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataDe = getMorphologyData( "de" );
-// const morphologyDataJA = getMorphologyData( "ja" ); // Variable is used in language specific test (and thus removed)
+const morphologyDataJA = getMorphologyData( "ja" );
 const nonkeyword = "nonkeyword, ";
 const keyword = "keyword, ";
 const shortTextJapanese = "熱".repeat( 199 );
 const longTextJapanese = "熱".repeat( 200 );
-// const japaneseSentence = "私の猫はかわいいです。小さくて可愛い花の刺繍に関する一般一般の記事です。".repeat( 20 );   // Variable is used in language specific test (and thus removed)
-// const japaneseSentenceWithKeyphrase = "一日一冊の面白い本を買って読んでるのはできるかどうかやってみます。";   // Variable is used in language specific test (and thus removed)
-// const japaneseSentenceWithKeyphraseExactMatch = "一日一冊の本を読むのはできるかどうかやってみます。";   // Variable is used in language specific test (and thus removed)
 
 // Test data for language without morphology.
 const testDataWithDefaultResearcher = [
@@ -342,160 +339,182 @@ describe( "A test for marking the keyword", function() {
 	// 	expect( assessment.getMarks() ).toEqual( marks );
 	// } );
 } );
-//
-// describe( "A test for keyword density in Japanese", function() {
-// 	it( "shouldn't return NaN/infinity times of keyphrase occurrence when the keyphrase contains only function words " +
-// 		"and there is no match in the text", function() {
-// 		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 32 ), {
-// 			keyword: "ばっかり",
-// 			locale: "ja",
-// 		} );
-// 		const researcher = new JapaneseResearcher( paper );
-// 		researcher.addResearchData( "morphology", morphologyDataJA );
-// 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-// 		expect( result.getScore() ).toBe( 4 );
-// 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-// 			"The keyphrase was found 0 times. That's less than the recommended minimum of 6 times for a text of this length. " +
-// 			"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
-// 	} );
-//
-// 	it( "shouldn't return NaN/infinity times of synonym occurrence when the synonym contains only function words " +
-// 		"and there is no match in the text", function() {
-// 		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 32 ), {
-// 			keyword: "",
-// 			synonyms: "ばっかり",
-// 			locale: "ja",
-// 		} );
-// 		const researcher = new JapaneseResearcher( paper );
-// 		researcher.addResearchData( "morphology", morphologyDataJA );
-// 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-// 		expect( result.getScore() ).toBe( 4 );
-// 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-// 			"The keyphrase was found 0 times. That's less than the recommended minimum of 6 times for a text of this length. " +
-// 			"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
-// 	} );
-//
-// 	it( "shouldn't return NaN/infinity times of keyphrase occurrence when the keyphrase contains spaces " +
-// 		"and there is no match in the text", function() {
-// 		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 32 ), {
-// 			keyword: "かしら かい を ばっかり",
-// 			locale: "ja",
-// 		} );
-// 		const researcher = new JapaneseResearcher( paper );
-// 		researcher.addResearchData( "morphology", morphologyDataJA );
-// 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-// 		expect( result.getScore() ).toBe( 4 );
-// 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-// 			"The keyphrase was found 0 times. That's less than the recommended minimum of 6 times for a text of this length. " +
-// 			"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
-// 	} );
-//
-// 	it( "gives a very BAD result when keyword density is above 4% when the text contains way too many instances" +
-// 		" of the keyphrase forms", function() {
-// 		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 32 ), {
-// 			keyword: "一冊の本を読む",
-// 			locale: "ja",
-// 		} );
-// 		const researcher = new JapaneseResearcher( paper );
-// 		researcher.addResearchData( "morphology", morphologyDataJA );
-// 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-// 		expect( result.getScore() ).toBe( -50 );
-// 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-// 			"The keyphrase was found 32 times. That's way more than the recommended maximum of 23 times for a text of " +
-// 			"this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
-// 	} );
-//
-// 	it( "gives a BAD result when keyword density is between 3% and 4% when the text contains too many instances" +
-// 		" of the keyphrase forms", function() {
-// 		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 16 ), {
-// 			keyword: "一冊の本を読む",
-// 			locale: "ja",
-// 		} );
-// 		const researcher = new JapaneseResearcher( paper );
-// 		researcher.addResearchData( "morphology", morphologyDataJA );
-// 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-// 		expect( result.getScore() ).toBe( -10 );
-// 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>:" +
-// 			" The keyphrase was found 16 times. That's more than the recommended maximum of 15 times for a text of this length." +
-// 			" <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
-// 	} );
-//
-// 	it( "gives a BAD result when keyword density is 0", function() {
-// 		const paper = new Paper( japaneseSentence, { keyword: "一冊の本を読む", locale: "ja" } );
-// 		const researcher = new JapaneseResearcher( paper );
-// 		researcher.addResearchData( "morphology", morphologyDataJA );
-// 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-// 		expect( result.getScore() ).toBe( 4 );
-// 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-// 			"The keyphrase was found 0 times. That's less than the recommended minimum of 2 times for a text of this length." +
-// 			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
-// 	} );
-//
-// 	it( "gives a BAD result when keyword density is between 0 and 0.5%", function() {
-// 		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 1 ), {
-// 			keyword: "一冊の本を読む",
-// 			locale: "ja",
-// 		} );
-// 		const researcher = new JapaneseResearcher( paper );
-// 		researcher.addResearchData( "morphology", morphologyDataJA );
-// 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-// 		expect( result.getScore() ).toBe( 4 );
-// 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>:" +
-// 			" The keyphrase was found 1 time. That's less than the recommended minimum of 2 times for a text of this length." +
-// 			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
-// 	} );
-//
-// 	it( "gives a GOOD result when keyword density is between 0.5% and 3.5% when the text contains keyphrase forms", function() {
-// 		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 8 ), {
-// 			keyword: "一冊の本を読む",
-// 			locale: "ja",
-// 		} );
-// 		const researcher = new JapaneseResearcher( paper );
-// 		researcher.addResearchData( "morphology", morphologyDataJA );
-// 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-// 		expect( result.getScore() ).toBe( 9 );
-// 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-// 			"The keyphrase was found 8 times. This is great!" );
-// 	} );
-//
-// 	it( "gives a GOOD result when keyword density is between 0.5% and 3%, when the exact match of the keyphrase is in the text", function() {
-// 		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphraseExactMatch.repeat( 8 ), {
-// 			keyword: "一冊の本を読む",
-// 			locale: "ja",
-// 		} );
-// 		const researcher = new JapaneseResearcher( paper );
-// 		researcher.addResearchData( "morphology", morphologyDataJA );
-// 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-// 		expect( result.getScore() ).toBe( 9 );
-// 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-// 			"The keyphrase was found 8 times. This is great!" );
-// 	} );
-//
-// 	it( "should still gives a GOOD result when keyword density is between 0.5% and 3%, when the exact match of the keyphrase is in the text " +
-// 		"and the keyphrase is enclosed in double quotes", function() {
-// 		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphraseExactMatch.repeat( 8 ), {
-// 			keyword: "「一冊の本を読む」",
-// 			locale: "ja",
-// 		} );
-// 		const researcher = new JapaneseResearcher( paper );
-// 		researcher.addResearchData( "morphology", morphologyDataJA );
-// 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-// 		expect( result.getScore() ).toBe( 9 );
-// 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-// 			"The keyphrase was found 8 times. This is great!" );
-// 	} );
-//
-// 	it( "gives a BAD result when keyword density is between 0.5% and 3.5%, if morphology is added, but there is no morphology data", function() {
-// 		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 8 ), {
-// 			keyword: "一冊の本を読む",
-// 			locale: "ja",
-// 		} );
-// 		const researcher = new JapaneseResearcher( paper );
-// 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-// 		expect( result.getScore() ).toBe( 4 );
-// 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-// 			"The keyphrase was found 0 times. That's less than the recommended minimum of 2 times for a text of this length." +
-// 			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
-// 	} );
-// } );
-//
+
+const japaneseSentence = "私の猫はかわいいです。小さくて可愛い花の刺繍に関する一般一般の記事です。".repeat( 20 );
+const japaneseSentenceWithKeyphrase = "一日一冊の面白い本を買って読んでるのはできるかどうかやってみます。";
+const japaneseSentenceWithKeyphraseExactMatch = "一日一冊の本を読むのはできるかどうかやってみます。";
+
+const testDataJapanese = [
+	{
+		description: "shouldn't return NaN/infinity times of keyphrase occurrence when the keyphrase contains only function words " +
+			"and there is no match in the text",
+		paper: new Paper( "<p>" + japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 32 ) + "</p>", {
+			keyword: "ばっかり",
+			locale: "ja",
+		} ),
+		expectedResult: {
+			score: 4,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 0 times. That's less than the recommended minimum of 6 times for a text of this length. " +
+				"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
+		},
+	},
+	{
+		description: "shouldn't return NaN/infinity times of synonym occurrence when the synonym contains only function words " +
+			"and there is no match in the text",
+		paper: new Paper( "<p>" + japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 32 ) + "</p>", {
+			keyword: "",
+			synonyms: "ばっかり",
+			locale: "ja",
+		} ),
+		expectedResult: {
+			score: 4,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 0 times. That's less than the recommended minimum of 6 times for a text of this length. " +
+				"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
+		},
+	},
+	{
+		description: "shouldn't return NaN/infinity times of keyphrase occurrence when the keyphrase contains spaces " +
+			"and there is no match in the text",
+		paper: new Paper( "<p>" + japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 32 ) + "</p>", {
+			keyword: "かしら かい を ばっかり",
+			locale: "ja",
+		} ),
+		expectedResult: {
+			score: 4,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 0 times. That's less than the recommended minimum of 6 times for a text of this length. " +
+				"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
+		},
+	},
+];
+
+describe.each( testDataJapanese )( "test for keyphrase density in Japanese", ( {
+	description,
+	paper,
+	expectedResult,
+} ) => {
+	const researcher = new JapaneseResearcher( paper );
+	researcher.addResearchData( "morphology", morphologyDataJA );
+	buildTree( paper, researcher );
+	const result = new KeywordDensityAssessment().getResult( paper, researcher );
+
+	it( description, () => {
+		expect( result.getScore() ).toBe( expectedResult.score );
+		expect( result.getText() ).toBe( expectedResult.text );
+	} );
+} );
+
+// eslint-disable-next-line no-warning-comments
+// TODO: ADAPT the tests below.
+xdescribe( "A test for keyword density in Japanese", function() {
+	it( "gives a very BAD result when keyword density is above 4% when the text contains way too many instances" +
+		" of the keyphrase forms", function() {
+		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 32 ), {
+			keyword: "一冊の本を読む",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		const result = new KeywordDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( -50 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 32 times. That's way more than the recommended maximum of 23 times for a text of " +
+			"this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
+	} );
+
+	it( "gives a BAD result when keyword density is between 3% and 4% when the text contains too many instances" +
+		" of the keyphrase forms", function() {
+		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 16 ), {
+			keyword: "一冊の本を読む",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		const result = new KeywordDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( -10 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>:" +
+			" The keyphrase was found 16 times. That's more than the recommended maximum of 15 times for a text of this length." +
+			" <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
+	} );
+
+	it( "gives a BAD result when keyword density is 0", function() {
+		const paper = new Paper( japaneseSentence, { keyword: "一冊の本を読む", locale: "ja" } );
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		const result = new KeywordDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( 4 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 0 times. That's less than the recommended minimum of 2 times for a text of this length." +
+			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
+	} );
+
+	it( "gives a BAD result when keyword density is between 0 and 0.5%", function() {
+		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 1 ), {
+			keyword: "一冊の本を読む",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		const result = new KeywordDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( 4 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>:" +
+			" The keyphrase was found 1 time. That's less than the recommended minimum of 2 times for a text of this length." +
+			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
+	} );
+
+	it( "gives a GOOD result when keyword density is between 0.5% and 3.5% when the text contains keyphrase forms", function() {
+		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 8 ), {
+			keyword: "一冊の本を読む",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		const result = new KeywordDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 8 times. This is great!" );
+	} );
+
+	it( "gives a GOOD result when keyword density is between 0.5% and 3%, when the exact match of the keyphrase is in the text", function() {
+		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphraseExactMatch.repeat( 8 ), {
+			keyword: "一冊の本を読む",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		const result = new KeywordDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 8 times. This is great!" );
+	} );
+
+	it( "should still gives a GOOD result when keyword density is between 0.5% and 3%, when the exact match of the keyphrase is in the text " +
+		"and the keyphrase is enclosed in double quotes", function() {
+		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphraseExactMatch.repeat( 8 ), {
+			keyword: "「一冊の本を読む」",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		const result = new KeywordDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 8 times. This is great!" );
+	} );
+
+	it( "gives a BAD result when keyword density is between 0.5% and 3.5%, if morphology is added, but there is no morphology data", function() {
+		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 8 ), {
+			keyword: "一冊の本を読む",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( paper );
+		const result = new KeywordDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( 4 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 0 times. That's less than the recommended minimum of 2 times for a text of this length." +
+			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
+	} );
+} );
+
