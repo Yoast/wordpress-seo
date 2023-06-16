@@ -14,6 +14,8 @@ import keyphraseLengthFactor from "./keyphraseLengthFactor.js";
  * @returns {number} The recommended keyword count.
  */
 export default function( text, keyphraseLength, recommendedKeywordDensity, maxOrMin, customGetWords ) {
+	// eslint-disable-next-line no-warning-comments
+	// TODO: adapt to use the HTML parser. Also for Japanese.
 	const wordCount = customGetWords ? customGetWords( text ).length : countWords( text );
 
 	if ( wordCount === 0 ) {

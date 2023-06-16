@@ -111,8 +111,9 @@ class KeyphraseDensityAssessment extends Assessment {
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
-		let text = paper.getText();
-		text = removeHtmlBlocks( text );
+		const text = paper.getText();
+		// eslint-disable-next-line no-warning-comments
+		// TODO: do we need to use the paper text, or can we adjust this to use the html parser?
 		this.setBoundaries( text, keyphraseLength, customGetWords );
 
 		this._keyphraseDensity = this._keyphraseDensity * keyphraseLengthFactor( keyphraseLength );
@@ -331,8 +332,9 @@ class KeyphraseDensityAssessment extends Assessment {
 		if ( customApplicabilityConfig ) {
 			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 		}
-		let text = paper.getText();
-		text = removeHtmlBlocks( text );
+		const text = paper.getText();
+		// eslint-disable-next-line no-warning-comments
+		// TODO: Adapt this to use HTML Parser.
 		const textLength = customCountLength ? customCountLength( text ) : getWords( text ).length;
 
 		return paper.hasText() && paper.hasKeyword() && textLength >= this._config.applicableIfTextLongerThan;
