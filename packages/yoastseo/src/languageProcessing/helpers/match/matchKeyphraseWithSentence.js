@@ -2,10 +2,12 @@ import getWordsForHTMLParser from "../word/getWordsForHTMLParser";
 import { escapeRegExp } from "lodash-es";
 
 /**
- * Tokenize keyword forms for exact matching. This function gets the keyword form and tokenizes it.
+ * Tokenizes keyword forms for exact matching. This function gets the keyword form and tokenizes it.
  * This function assumes that if a keyphrase needs to be matched exactly, there will be only one keyword form.
  * This is the result of how the focus keyword is processed in buildTopicStems.js in the buildStems function.
+ *
  * @param {(string[])[]} keywordForms The keyword forms to tokenize.
+ *
  * @returns {string[]} The tokenized keyword forms.
  */
 const tokenizeKeywordFormsForExactMatching = ( keywordForms ) => {
@@ -15,12 +17,15 @@ const tokenizeKeywordFormsForExactMatching = ( keywordForms ) => {
 };
 
 /**
- * Exact matching of keyword forms in a sentence. Exact matching happens when the user puts the keyword in double quotes.
+ * Gets the exact matches of the keyphrase.
+ * Exact matching happens when the user puts the keyword in double quotes.
+ *
  * @param {(string[])[]} keywordForms The keyword forms to match.
  * @param {Sentence} sentence The sentence to match the keyword forms with.
+ *
  * @returns {Token[]} The tokens that exactly match the keyword forms.
  */
-const exactMatching = ( keywordForms, sentence ) => {
+const getExactMatches = ( keywordForms, sentence ) => {
 	// Tokenize keyword forms.
 	const keywordTokens = tokenizeKeywordFormsForExactMatching( keywordForms );
 
@@ -34,7 +39,7 @@ const exactMatching = ( keywordForms, sentence ) => {
 
 	while ( sentenceIndex < sentenceTokens.length ) {
 		// If the current sentence token matches the current keyword token, add it to the current match.
-		const sentenceTokenText = sentenceTokens[ sentenceIndex ].text;
+		const sentenceTokenText = escapeRegExp( sentenceTokens[ sentenceIndex ].text );
 		const keywordTokenText = keywordTokens[ keywordIndex ];
 
 		if ( sentenceTokenText.toLowerCase() === keywordTokenText.toLowerCase() ) {
@@ -59,17 +64,15 @@ const exactMatching = ( keywordForms, sentence ) => {
 };
 
 /**
- * Free matching of keyword forms in a sentence. Free matching happens when the user does not put the keyword in double quotes.
+ * Free matching of keyword forms in a sentence. Free matching happens when the keyphrase is enclosed in double quotes.
  * @param {(string[])[]} keywordForms The keyword forms to match.
  * @param {Sentence} sentence The sentence to match the keyword forms with.
  * @returns {Token[]} The tokens that match the keyword forms.
  */
-const freeMatching = ( keywordForms, sentence ) => {
+const getNonExactMatches = ( keywordForms, sentence ) => {
 	const tokens = sentence.tokens.slice();
 
 	// Filter out all tokens that do not match the keyphrase forms.
-	// const matches = [];
-
 	return tokens.filter( ( token ) => {
 		const tokenText = escapeRegExp( token.text );
 		return keywordForms.some( ( keywordForm ) => {
@@ -106,9 +109,9 @@ const freeMatching = ( keywordForms, sentence ) => {
  */
 const matchKeyphraseWithSentence = ( keywordForms, sentence, useExactMatching = false ) => {
 	if ( useExactMatching ) {
-		return exactMatching( keywordForms, sentence );
+		return getExactMatches( keywordForms, sentence );
 	}
-	return freeMatching( keywordForms, sentence );
+	return getNonExactMatches( keywordForms, sentence );
 };
 
 export default matchKeyphraseWithSentence;

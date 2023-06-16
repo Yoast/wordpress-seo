@@ -86,7 +86,7 @@ const removeConsecutiveMatches = ( matches ) => {
 /**
  * Counts the occurrences of the keyphrase in the text and creates the Mark objects for the matches.
  *
- * @param {Array} sentences The sentences to check.
+ * @param {Sentence[]} sentences The sentences to check.
  * @param {Array} topicForms The keyphrase forms.
  * @param {string} locale The locale used in the analysis.
  * @param {function} matchWordCustomHelper  A custom helper to match words with a text.
@@ -102,7 +102,6 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 		const matchesInSentenceWithoutConsecutiveMatches = removeConsecutiveMatches( matchesInSentence );
 		const matchesCount = countMatches( matchesInSentenceWithoutConsecutiveMatches, topicForms.keyphraseForms );
 		const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale );
-		// const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale );
 
 		result.markings.push( markings );
 		result.count += matchesCount;
