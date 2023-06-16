@@ -192,6 +192,18 @@ const testCases = [
 		skip: false,
 	},
 	{
+		description: "counts the keyphrase occurrence in the text with &nbsp;",
+		paper: new Paper( "<p>a string with nbsp to match the key&nbsp;word.</p>", { keyword: "key word" } ),
+		keyphraseForms: [ [ "key" ], [ "word" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( { marked: "a string with nbsp to match the <yoastmark class='yoast-text-mark'>key word</yoastmark>.",
+				original: "a string with nbsp to match the key word.",
+				position: { endOffset: 43, startOffset: 35 } } ),
+		],
+		skip: false,
+	},
+	{
 		description: "only counts full key phrases (when all keywords are in the sentence once, twice etc.) as matches.",
 		paper: new Paper( "<p>A string with three keys (key and another key) and one word.</p>" ),
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
@@ -284,6 +296,17 @@ const testCases = [
 		expectedMarkings: [ new Mark( { marked: "A <yoastmark class='yoast-text-mark'>.sentence</yoastmark> with a keyphrase.",
 			original: "A .sentence with a keyphrase.",
 			position: { endOffset: 36, startOffset: 29 } } ) ],
+		// Skipped for now, coz the PR for exact matching is not yet merged.
+		skip: true,
+	},
+	{
+		description: "can match dollar sign as in '$keyword' with exact matching.",
+		paper: new Paper( "<p>A string with a $keyword.</p>", { keyword: "\"\\$keyword\"" } ),
+		keyphraseForms: [ [ "\\$keyword" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>$keyword</yoastmark>.",
+			original: "A string with a $keyword.",
+			position: { endOffset: 27, startOffset: 19 } } ) ],
 		// Skipped for now, coz the PR for exact matching is not yet merged.
 		skip: true,
 	},

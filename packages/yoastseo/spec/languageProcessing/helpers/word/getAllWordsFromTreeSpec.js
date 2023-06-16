@@ -34,4 +34,11 @@ describe( "a test for getting words from the tree", () => {
 		expect( getAllWordsFromTree( paper ).length ).toEqual( 8 );
 		expect( getAllWordsFromTree( paper ) ).toEqual( [ "The", "sentence", "above", "is", "a", "very", "compelling", "quote" ] );
 	} );
+	it( "should return empty array if text is empty", () => {
+		const paper = new Paper( "" );
+		researcher.setPaper( paper );
+		buildTree( paper, researcher );
+		expect( getAllWordsFromTree( paper ).length ).toEqual( 0 );
+		expect( getAllWordsFromTree( paper ) ).toEqual( [] );
+	} );
 } );

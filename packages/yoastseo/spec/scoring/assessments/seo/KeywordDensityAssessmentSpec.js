@@ -20,169 +20,189 @@ const longTextJapanese = "熱".repeat( 200 );
 // const japaneseSentenceWithKeyphrase = "一日一冊の面白い本を買って読んでるのはできるかどうかやってみます。";   // Variable is used in language specific test (and thus removed)
 // const japaneseSentenceWithKeyphraseExactMatch = "一日一冊の本を読むのはできるかどうかやってみます。";   // Variable is used in language specific test (and thus removed)
 
-describe( "Tests for the keywordDensity assessment for languages without morphology", function() {
-	it( "runs the keywordDensity on the paper without keyword in the text", function() {
-		const paper = new Paper( nonkeyword.repeat( 1000 ), { keyword: "keyword" } );
-		const researcher = new DefaultResearcher( paper );
-		buildTree( paper, researcher );
+// Test data for language without morphology.
+const testDataWithDefaultResearcher = [
+	{
+		description: "runs the keywordDensity on the paper without keyword in the text",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 1000 ) + "</p>", { keyword: "keyword" } ),
+		expectedResult: {
+			score: 4,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 0 times. That's less than the recommended minimum of 5 times for a text of this length." +
+				" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
+		},
+	},
+	{
+		description: "runs the keywordDensity on the paper with a low keyphrase density (0.1%)",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 999 ) + keyword + "</p>", { keyword: "keyword" } ),
+		expectedResult: {
+			score: 4,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 1 time. That's less than the recommended minimum of 5 times for a text of this length." +
+				" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
+		},
+	},
+	{
+		description: "runs the keywordDensity on the paper with a good keyphrase density (0.5%)",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 995 ) + keyword.repeat( 5 ) + "</p>", { keyword: "keyword" } ),
+		expectedResult: {
+			score: 9,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 5 times. This is great!",
+		},
+	},
+	{
+		description: "runs the keywordDensity on the paper with a good keyphrase density (2%)",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 980 ) + keyword.repeat( 20 ) + "</p>", { keyword: "keyword" } ),
+		expectedResult: {
+			score: 9,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 20 times. This is great!",
+		},
+	},
+	{
+		description: "runs the keywordDensity on the paper with a slightly too high keyphrase density (3.5%)",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 965 ) + keyword.repeat( 35 ) + "</p>", { keyword: "keyword" } ),
+		expectedResult: {
+			score: -10,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 35 times. That's more than the recommended maximum of 29 times " +
+				"for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!",
+		},
+	},
+	{
+		description: "runs the keywordDensity on the paper with a very high keyphrase density (10%)",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 900 ) + keyword.repeat( 100 ) + "</p>", { keyword: "keyword" } ),
+		expectedResult: {
+			score: -50,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 100 times. That's way more than the recommended maximum of 29 times " +
+				"for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!",
+		},
+	},
+	{
+		description: "adjusts the keyphrase density based on the length of the keyword with the actual density remaining at 2% - short keyphrase",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 960 ) + "b c, ".repeat( 20 ) + "</p>", { keyword: "b c" } ),
+		expectedResult: {
+			score: 9,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 20 times. This is great!",
+		},
+	},
+	{
+		description: "does not count text inside elements we want to exclude from the analysis when calculating the recommended" +
+			"number of keyphrase usages",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 101 ) + "<blockquote>" + nonkeyword.repeat( 859 ) +
+			"</blockquote>" + "b c, ".repeat( 20 ) + "</p>", { keyword: "b c" } ),
+		expectedResult: {
+			score: -50,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 20 times. That's way more than the recommended maximum of 3 times for a text of this length." +
+				" <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!",
+		},
+	},
+	{
+		description: "adjusts the keyphrase density based on the length of the keyword with the actual density remaining at 2% - long keyphrase",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 900 ) + "b c d e f, ".repeat( 20 ) + "</p>", { keyword: "b c d e f" } ),
+		expectedResult: {
+			score: -50,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 20 times. That's way more than the recommended maximum of 12 times for a text of this length." +
+				" <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!",
+		},
+	},
+	{
+		description: "returns a bad result if the keyword is only used once, regardless of the density",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 100 ) + keyword + "</p>", { keyword: "keyword" } ),
+		expectedResult: {
+			score: 4,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 1 time. That's less than the recommended minimum of 2 times " +
+				"for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
+		},
+	},
+	{
+		description: "returns a good result if the keyword is used twice and " +
+			"the recommended count is smaller than or equal to 2, regardless of the density",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 100 ) + "a b c, a b c</p>", { keyword: "a b c", locale: "xx_XX" } ),
+		expectedResult: {
+			score: 9,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 2 times. This is great!",
+		},
+	},
+];
+
+describe.each( testDataWithDefaultResearcher )( "a kephrase density test for languages without morphology", ( {
+	description,
+	paper,
+	expectedResult,
+} ) => {
+	const researcher = new DefaultResearcher( paper );
+	buildTree( paper, researcher );
+	it( description, () => {
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 0 times. That's less than the recommended minimum of 5 times for a text of this length." +
-			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
+
+		expect( result.getScore() ).toBe( expectedResult.score );
+		expect( result.getText() ).toBe( expectedResult.text );
 	} );
+} );
 
-	it( "runs the keywordDensity on the paper with a low keyphrase density (0.1%)", function() {
-		const paper = new Paper( nonkeyword.repeat( 999 ) + keyword, { keyword: "keyword" } );
-		const researcher = new DefaultResearcher( paper );
-		buildTree( paper, researcher );
-		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 1 time. That's less than the recommended minimum of 5 times for a text of this length." +
-			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
-	} );
-
-	it( "runs the keywordDensity on the paper with a good keyphrase density (0.5%)", function() {
-		const paper = new Paper( nonkeyword.repeat( 995 ) + keyword.repeat( 5 ), { keyword: "keyword" } );
-		const researcher = new DefaultResearcher( paper );
-		buildTree( paper, researcher );
-		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 5 times. This is great!" );
-	} );
-
-	it( "runs the keywordDensity on the paper with a good keyphrase density (2%)", function() {
-		const paper = new Paper( nonkeyword.repeat( 980 ) + keyword.repeat( 20 ), { keyword: "keyword" } );
-		const researcher = new DefaultResearcher( paper );
-		buildTree( paper, researcher );
-
-		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 20 times. This is great!" );
-	} );
-
-	it( "runs the keywordDensity on the paper with a slightly too high keyphrase density (3.5%)", function() {
-		const paper = new Paper( nonkeyword.repeat( 965 ) + keyword.repeat( 35 ), { keyword: "keyword" } );
-		const researcher = new DefaultResearcher( paper );
-		buildTree( paper, researcher );
-
-		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( -10 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 35 times. That's more than the recommended maximum of 29 times " +
-			"for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
-	} );
-
-	it( "runs the keywordDensity on the paper with a very high keyphrase density (10%)", function() {
-		const paper = new Paper( nonkeyword.repeat( 900 ) + keyword.repeat( 100 ), { keyword: "keyword" } );
-		const researcher = new DefaultResearcher( paper );
-		buildTree( paper, researcher );
-
-		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 100 times. That's way more than the recommended maximum of 29 times " +
-			"for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
-	} );
-
-
-	it( "adjusts the keyphrase density based on the length of the keyword with the actual density remaining at 2% - short keyphrase", function() {
-		const paper = new Paper( nonkeyword.repeat( 960 ) + "b c, ".repeat( 20 ), { keyword: "b c" } );
-		const researcher = new DefaultResearcher( paper );
-		buildTree( paper, researcher );
-
-		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 20 times. This is great!" );
-	} );
-
-	it( "does not count text inside elements we want to exclude from the analysis when calculating the recommended" +
-		"number of keyphrase usages", function() {
-		const paper = new Paper( nonkeyword.repeat( 101 ) + "<blockquote>" + nonkeyword.repeat( 859 ) +
-			"</blockquote>" + "b c, ".repeat( 20 ), { keyword: "b c" } );
-		const researcher = new DefaultResearcher( paper );
-		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 20 times. That's way more than the recommended maximum of 3 times for a text of this length." +
-			" <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
-	} );
-
-	it( "adjusts the keyphrase density based on the length of the keyword with the actual density remaining at 2% - long keyphrase", function() {
-		const paper = new Paper( nonkeyword.repeat( 900 ) + "b c d e f, ".repeat( 20 ), { keyword: "b c d e f" } );
-		const researcher = new DefaultResearcher( paper );
-		buildTree( paper, researcher );
-
-
-		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 20 times. That's way more than the recommended maximum of 12 times " +
-			"for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
-	} );
-
-	it( "returns a bad result if the keyword is only used once, regardless of the density", function() {
-		const paper = new Paper( nonkeyword.repeat( 100 ) + keyword, { keyword: "keyword" } );
-		const researcher = new DefaultResearcher( paper );
-		buildTree( paper, researcher );
-
-		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 1 time. That's less than the recommended minimum of 2 times " +
-			"for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
-	} );
-
-	it( "returns a good result if the keyword is used twice and " +
-		"the recommended count is smaller than or equal to 2, regardless of the density", function() {
-		const paper = new Paper( nonkeyword.repeat( 100 ) + "a b c, a b c", { keyword: "a b c", locale: "xx_XX" } );
-		const researcher = new DefaultResearcher( paper );
-		buildTree( paper, researcher );
-
-		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 2 times. This is great!" );
-	} );
-
-	it( "applies to a paper with a keyword and a text of at least 100 words", function() {
-		const paper = new Paper( nonkeyword.repeat( 100 ), { keyword: "keyword" } );
-		expect( new KeywordDensityAssessment().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( true );
-	} );
-
-	it( "does not apply to a paper with a keyword and a text of at least 100 words when the text is inside an element" +
-		"we want to exclude from the analysis", function() {
-		const paper = new Paper( "<blockquote>" + nonkeyword.repeat( 100 ) + "</blockquote>", { keyword: "keyword" } );
-		expect( new KeywordDensityAssessment().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "does not apply to a paper with text of 100 words but without a keyword", function() {
-		const paper = new Paper( nonkeyword.repeat( 100 ), { keyword: "" } );
-		expect( new KeywordDensityAssessment().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "does not apply to a paper with a text containing less than 100 words and with a keyword", function() {
-		const paper = new Paper( nonkeyword.repeat( 99 ), { keyword: "keyword" } );
-		expect( new KeywordDensityAssessment().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "does not apply to a paper with a text containing less than 100 words and without a keyword", function() {
-		const paper = new Paper( nonkeyword.repeat( 99 ), { keyword: "" } );
-		expect( new KeywordDensityAssessment().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "applies to a Japanese paper with a keyword and a text of at least 200 characters", function() {
-		const paper = new Paper( longTextJapanese, { keyword: "keyword" } );
-		expect( new KeywordDensityAssessment().isApplicable( paper, new JapaneseResearcher( paper ) ) ).toBe( true );
-	} );
-
-	it( "does not apply to a Japanese paper with text of less than 200 characters", function() {
-		const paper = new Paper( shortTextJapanese, { keyword: "keyword" } );
-		expect( new KeywordDensityAssessment().isApplicable( paper, new JapaneseResearcher( paper ) ) ).toBe( false );
+const testDataForApplicability = [
+	{
+		description: "applies to a paper with a keyword and a text of at least 100 words",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 100 ) + "</p>", { keyword: "keyword" } ),
+		researcher: new DefaultResearcher(),
+		expectedResult: true,
+	},
+	{
+		description: "does not apply to a paper with a keyword and a text of at least 100 words when the text is inside an element" +
+			"we want to exclude from the analysis",
+		paper: new Paper( "<blockquote>" + nonkeyword.repeat( 100 ) + "</blockquote>", { keyword: "keyword" } ),
+		researcher: new DefaultResearcher(),
+		expectedResult: false,
+	},
+	{
+		description: "does not apply to a paper with text of 100 words but without a keyword",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 100 ) + "</p>", { keyword: "" } ),
+		researcher: new DefaultResearcher(),
+		expectedResult: false,
+	},
+	{
+		description: "does not apply to a paper with a text containing less than 100 words and with a keyword",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 99 ) + "</p>", { keyword: "keyword" } ),
+		researcher: new DefaultResearcher(),
+		expectedResult: false,
+	},
+	{
+		description: "does not apply to a paper with a text containing less than 100 words and without a keyword",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 99 ) + "</p>", { keyword: "" } ),
+		researcher: new DefaultResearcher(),
+		expectedResult: false,
+	},
+	{
+		description: "applies to a Japanese paper with a keyword and a text of at least 200 characters",
+		paper: new Paper( "<p>" + longTextJapanese + "</p>", { keyword: "keyword" } ),
+		researcher: new JapaneseResearcher(),
+		expectedResult: true,
+	},
+	{
+		description: "does not apply to a Japanese paper with text of less than 200 characters",
+		paper: new Paper( "<p>" + shortTextJapanese + "</p>", { keyword: "keyword" } ),
+		researcher: new JapaneseResearcher(),
+		expectedResult: false,
+	},
+];
+describe.each( testDataForApplicability )( "assessment applicability test", ( {
+	description,
+	paper,
+	researcher,
+	expectedResult,
+} ) => {
+	researcher.setPaper( paper );
+	buildTree( paper, researcher );
+	it( description, () => {
+		expect( new KeywordDensityAssessment().isApplicable( paper, researcher ) ).toBe( expectedResult );
 	} );
 } );
 

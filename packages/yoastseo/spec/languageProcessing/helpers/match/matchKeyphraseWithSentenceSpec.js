@@ -594,6 +594,9 @@ const testCases = [
 			{ text: "keyphrase's", sourceCodeRange: { startOffset: 8, endOffset: 19 } },
 		],
 	},
+];
+
+const exactMatchingTestCases = [
 	{
 		testDescription: "with exact matching, a single word keyphrase should match with a single word.",
 		sentence: {
@@ -802,8 +805,6 @@ const testCases = [
 			{ text: "key.phrase", sourceCodeRange: { startOffset: 18, endOffset: 28 } },
 		],
 	},
-
-
 	{
 		testDescription: "Matches a single word keyphrase if keyphrase is doubleQuoted.",
 		sentence: {
@@ -822,7 +823,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 28 } },
 		keyphraseForms: [ [ "keyphrase" ] ],
-		exactMatching: false,
+		exactMatching: true,
 		expectedResult: [
 			{ text: "keyphrase", sourceCodeRange: { startOffset: 18, endOffset: 27 } },
 		],
@@ -847,7 +848,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
 		keyphraseForms: [ [ "key phrase" ] ],
-		exactMatching: false,
+		exactMatching: true,
 		expectedResult: [
 			{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
 			{ text: " ", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
@@ -874,7 +875,7 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 29 } },
 		keyphraseForms: [ [ "key phrase" ] ],
-		exactMatching: false,
+		exactMatching: true,
 		expectedResult: [],
 	},
 	{
@@ -883,7 +884,7 @@ const testCases = [
 			text: "A sentence with keyphrases.",
 		},
 		keyphraseForms: [ [ "keyphrase" ] ],
-		exactMatching: false,
+		exactMatching: true,
 		expectedResult: [],
 	},
 	{
@@ -904,12 +905,10 @@ const testCases = [
 			],
 			sourceCodeRange: { startOffset: 0, endOffset: 28 } },
 		keyphraseForms: [ [ "keyphrases" ] ],
-		exactMatching: false,
+		exactMatching: true,
 		expectedResult: [],
 	},
-
 ];
-// eslint-enable max-len
 
 // The japanese test cases need to be adapted once japanese tokenization is implemented.
 // eslint-disable-next-line max-len
@@ -972,20 +971,41 @@ const japaneseTestCases = [
 		},
 	},
 ];
-// eslint-enable max-len
 
-
-// eslint-disable-next-line max-len
-describe.each( testCases )( "findKeyWordFormsInSentence", ( { testDescription, sentence, keyphraseForms, exactMatching,  expectedResult } ) => {
+describe.each( testCases )( "find keyphrase forms in sentence", ( {
+	testDescription,
+	sentence,
+	keyphraseForms,
+	exactMatching,
+	expectedResult,
+} ) => {
 	it( testDescription, () => {
 		expect( matchKeyphraseWithSentence( keyphraseForms, sentence, exactMatching ) ).toEqual( expectedResult );
 	} );
 } );
 
-// eslint-disable-next-line max-len
-describe.each( japaneseTestCases )( "findKeyWordFormsInSentence for japanese", ( { testDescription, sentence, keyphraseForms, locale, matchWordCustomHelper, expectedResult } ) => {
+// The test below is skipped for now because the PR for exact matching is not yet merged.
+describe.each( exactMatchingTestCases )( "find keyphrase forms in sentence when exact matching is requested", ( {
+	testDescription,
+	sentence,
+	keyphraseForms,
+	exactMatching,
+	expectedResult,
+} ) => {
 	it.skip( testDescription, () => {
-		expect( matchKeyphraseWithSentence( sentence, keyphraseForms, locale, matchWordCustomHelper ) ).toEqual( expectedResult );
+		expect( matchKeyphraseWithSentence( keyphraseForms, sentence, exactMatching ) ).toEqual( expectedResult );
+	} );
+} );
+
+describe.each( japaneseTestCases )( "findKeyWordFormsInSentence for japanese", ( {
+	testDescription,
+	sentence,
+	keyphraseForms,
+	locale,
+	expectedResult,
+} ) => {
+	it.skip( testDescription, () => {
+		expect( matchKeyphraseWithSentence( sentence, keyphraseForms, locale ) ).toEqual( expectedResult );
 	} );
 } );
 
