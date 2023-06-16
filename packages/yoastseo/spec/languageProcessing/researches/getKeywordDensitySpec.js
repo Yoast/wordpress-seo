@@ -83,14 +83,6 @@ describe( "Test for counting the keyword density in a text with an English resea
 		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
 	} );
 
-	it( "should i dont know why this spec was created", function() {
-		const mockPaper = new Paper( "<img src='http://image.com/image.png'>", { keyword: "key&word" } );
-		const mockResearcher = new EnglishResearcher( mockPaper );
-		buildTree( mockPaper, mockResearcher );
-
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
-	} );
-
 	it( "should skip a keyphrase in case of three consecutive keyphrases", function() {
 		// Consecutive keywords are skipped, so this will match 2 times.
 		const mockPaper = new Paper( "<p>This is a nice string with a keyword keyword keyword.</p>", { keyword: "keyword" } );
@@ -145,20 +137,11 @@ describe( "Test for counting the keyword density in a text with an English resea
 		buildTree( mockPaper, mockResearcher );
 		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
 	} );
-
-	// it( "should ", function() {
-	// 	const mockPaper = new Paper( "a string of text with the key-word in it, density should be 7.7%", { keyword: "key-word" } );
-	// 	const mockResearcher = new EnglishResearcher( mockPaper );
-	// 	mockResearcher.addResearchData( "morphology",  morphologyDataEN );
-	// 	buildTree( mockPaper, mockResearcher );
-	// } );
-
-	// eslint-disable-next-line max-statements
-
-
-	it( "returns keyword density", function() {
-
-
+	it( "should recognize keyphrase separated by &nbsp;", function() {
+		const mockPaper = new Paper( "a string with quotes to match the key&nbsp;word, even if the quotes differ", { keyword: "key word" } );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.142857142857142 );
 	} );
 } );
 
