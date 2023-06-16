@@ -26,6 +26,7 @@ import { authenticate, getAuthorizationUrl, trackKeyphrases } from "../helpers/w
 import { handleAPIResponse } from "../helpers/api";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
 import WincherNoPermalinkAlert from "./modals/WincherNoPermalinkAlert";
+import LineChart from "./WincherRankingHistory";
 
 /**
  * Gets the proper error message component.
@@ -399,6 +400,19 @@ export default function WincherSEOPerformance( props ) {
 					linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
 				/>
 			</Title>
+
+			<LineChart
+				data={ [
+					{
+						datetime: "2023-03-27T02:54:44Z",
+						value: 77,
+					},
+					{
+						datetime: "2023-04-11T02:37:15Z",
+						value: 20,
+					},
+				] }
+			/>
 
 			<WincherExplanation />
 
