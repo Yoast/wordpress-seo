@@ -1,6 +1,7 @@
 import tokenize from "../../../../src/parse/build/private/tokenize";
 import Paper from "../../../../src/values/Paper";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import { buildTreeNoTokenize } from "../../../specHelpers/parse/buildTree";
 import LanguageProcessor from "../../../../src/parse/language/LanguageProcessor";
 
@@ -184,6 +185,84 @@ describe( "A test for the tokenize function", function() {
 						startTag: {
 							endOffset: 3,
 							startOffset: 0,
+						},
+					},
+				},
+			],
+			name: "#document-fragment",
+		} );
+	} );
+} );
+
+describe( "A test for tokenizing a japanese sentence", function() {
+	it( "should correctly tokenize a simple Japanse sentence.", function() {
+		const mockPaper = new Paper( "<p>犬が大好き\u3002</p>", { locale: "ja_JP" } );
+		const mockResearcher = new JapaneseResearcher( mockPaper );
+		const languageProcessor = new LanguageProcessor( mockResearcher );
+		buildTreeNoTokenize( mockPaper );
+		// eslint-disable-next-line max-len
+		expect( tokenize( mockPaper.getTree(), languageProcessor ) ).toEqual( {
+			attributes: {},
+			childNodes: [
+				{
+					attributes: {},
+					childNodes: [
+						{
+							name: "#text",
+							value: "犬が大好き。",
+						},
+					],
+					isImplicit: false,
+					name: "p",
+					sentences: [
+						{
+							sourceCodeRange: {
+								startOffset: 3,
+								endOffset: 9,
+							},
+							text: "犬が大好き。",
+							tokens: [
+								{
+									sourceCodeRange: {
+										startOffset: 3,
+										endOffset: 4,
+									},
+									text: "犬",
+								},
+								{
+									sourceCodeRange: {
+										startOffset: 4,
+										endOffset: 5,
+									},
+									text: "が",
+								},
+								{
+									sourceCodeRange: {
+										startOffset: 5,
+										endOffset: 8,
+									},
+									text: "大好き",
+								},
+								{
+									sourceCodeRange: {
+										startOffset: 8,
+										endOffset: 9,
+									},
+									text: "。",
+								},
+							],
+						},
+					],
+					sourceCodeLocation: {
+						startOffset: 0,
+						endOffset: 13,
+						startTag: {
+							startOffset: 0,
+							endOffset: 3,
+						},
+						endTag: {
+							startOffset: 9,
+							endOffset: 13,
 						},
 					},
 				},
