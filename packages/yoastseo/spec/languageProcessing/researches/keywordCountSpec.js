@@ -22,166 +22,222 @@ const buildMorphologyMockResearcher = function( keyphraseForms ) {
 	}, true, false, false, { memoizedTokenizer: memoizedSentenceTokenizer } );
 };
 
-const mockResearcher = buildMorphologyMockResearcher( [ [ "keyword", "keywords" ] ] );
-const mockResearcherGermanDiacritics = buildMorphologyMockResearcher( [ [ "äöüß" ] ] );
-const mockResearcherMinus = buildMorphologyMockResearcher( [ [ "key-word", "key-words" ] ] );
-const mockResearcherUnderscore = buildMorphologyMockResearcher( [ [ "key_word", "key_words" ] ] );
-const mockResearcherKeyWord = buildMorphologyMockResearcher( [ [ "key", "keys" ], [ "word", "words" ] ] );
-const mockResearcherKaplaki = buildMorphologyMockResearcher( [ [ "kapaklı" ] ] );
-const mockResearcherAmpersand = buildMorphologyMockResearcher( [ [ "key&word" ] ] );
-const mockResearcherApostrophe = buildMorphologyMockResearcher( [ [ "key`word" ] ] );
-// Escape, since the morphology researcher escapes regex as well.
-const mockResearcherDollarSign = buildMorphologyMockResearcher( [ [ "\\$keyword" ] ] );
-
-describe( "Test for counting the keyword in a text", function() {
-	it( "counts/marks a string of text with a keyword in it.", function() {
-		const mockPaper = new Paper( "a string of text with the keyword in it" );
-		expect( keywordCount( mockPaper, mockResearcher ).count ).toBe( 1 );
-		expect( keywordCount( mockPaper, mockResearcher ).markings ).toEqual( [
+const testCases = [
+	{
+		description: "counts/marks a string of text with a keyword in it.",
+		paper: new Paper( "a string of text with the keyword in it", { keyword: "keyword" } ),
+		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
 			new Mark( { marked: "a string of text with the <yoastmark class='yoast-text-mark'>keyword</yoastmark> in it",
-				original: "a string of text with the keyword in it" } )	]
-		);
-	} );
-
-	it( "counts a string of text with no keyword in it.", function() {
-		const mockPaper = new Paper( "a string of text" );
-		expect( keywordCount( mockPaper, mockResearcher ).count ).toBe( 0 );
-		expect( keywordCount( mockPaper, mockResearcher ).markings ).toEqual( [] );
-	} );
-
-	it( "counts multiple occurrences of a keyphrase consisting of multiple words.", function() {
-		const mockPaper = new Paper( "a string of text with the key word in it, with more key words." );
-		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 2 );
-		expect( keywordCount( mockPaper, mockResearcherKeyWord ).markings ).toEqual( [
+				original: "a string of text with the keyword in it" } ),
+		],
+	},
+	{
+		description: "counts a string of text with no keyword in it.",
+		paper: new Paper( "a string of text", { keyword: "" } ),
+		keyphraseForms: [ [ "" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+	},
+	{
+		description: "counts multiple occurrences of a keyphrase consisting of multiple words.",
+		paper: new Paper( "a string of text with the key word in it, with more key words.", { keyword: "key word" } ),
+		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		expectedCount: 2,
+		expectedMarkings: [
 			new Mark( { marked: "a string of text with the <yoastmark class='yoast-text-mark'>key word</yoastmark> in it, " +
-				"with more <yoastmark class='yoast-text-mark'>key words</yoastmark>.",
-			original: "a string of text with the key word in it, with more key words." } ) ]
-		);
-	} );
+					"with more <yoastmark class='yoast-text-mark'>key words</yoastmark>.",
+			original: "a string of text with the key word in it, with more key words." } ) ],
 
-	it( "counts a string of text with German diacritics and eszett as the keyword", function() {
-		const mockPaper = new Paper( "Waltz keepin auf mitz auf keepin äöüß weiner blitz deutsch spitzen." );
-		expect( keywordCount( mockPaper, mockResearcherGermanDiacritics ).count ).toBe( 1 );
-		expect( keywordCount( mockPaper, mockResearcherGermanDiacritics ).markings ).toEqual( [
+	},
+	{
+		description: "counts a string of text with German diacritics and eszett as the keyword",
+		paper: new Paper( "Waltz keepin auf mitz auf keepin äöüß weiner blitz deutsch spitzen.", { keyword: "äöüß" } ),
+		keyphraseForms: [ [ "äöüß" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
 			new Mark( { marked: "Waltz keepin auf mitz auf keepin <yoastmark class='yoast-text-mark'>äöüß</yoastmark> weiner blitz deutsch spitzen.",
-				original: "Waltz keepin auf mitz auf keepin äöüß weiner blitz deutsch spitzen." } )	]
-		);
-	} );
+				original: "Waltz keepin auf mitz auf keepin äöüß weiner blitz deutsch spitzen." } ) ],
+	},
+	{
+		description: "counts a string with multiple keyword morphological forms",
+		paper: new Paper( "A string of text with a keyword and multiple keywords in it.", { keyword: "keyword" } ),
+		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		expectedCount: 2,
+		expectedMarkings: [ new Mark( { marked: "A string of text with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> " +
+				"and multiple <yoastmark class='yoast-text-mark'>keywords</yoastmark> in it.",
+		original: "A string of text with a keyword and multiple keywords in it." } ) ],
 
-	it( "counts a string with multiple keyword morphological forms", function() {
-		const mockPaper = new Paper( "A string of text with a keyword and multiple keywords in it." );
-		expect( keywordCount( mockPaper, mockResearcher ).count ).toBe( 2 );
-		expect( keywordCount( mockPaper, mockResearcher ).markings ).toEqual( [
-			new Mark( { marked: "A string of text with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> " +
-					"and multiple <yoastmark class='yoast-text-mark'>keywords</yoastmark> in it.",
-			original: "A string of text with a keyword and multiple keywords in it." } ) ]
-		);
-	} );
+	},
+	{
+		description: "counts a string with a keyword with a '-' in it",
+		paper: new Paper( "A string with a key-word.", { keyword: "key-word" } ),
+		keyphraseForms: [ [ "key-word", "key-words" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key-word</yoastmark>.",
+			original: "A string with a key-word." } ) ],
 
-	it( "counts a string with a keyword with a '-' in it", function() {
-		const mockPaper = new Paper( "A string with a key-word." );
-		expect( keywordCount( mockPaper, mockResearcherMinus ).count ).toBe( 1 );
-		expect( keywordCount( mockPaper, mockResearcherMinus ).markings ).toEqual( [
-			new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key-word</yoastmark>.",
-				original: "A string with a key-word." } ) ]
-		);
-	} );
-
-	it( "counts 'key word' in 'key-word'.", function() {
-		const mockPaper = new Paper( "A string with a key-word." );
-		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
+	},
+	{
+		description: "counts 'key word' in 'key-word'.",
+		paper: new Paper( "A string with a key-word.", { keyword: "key word" } ),
+		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( {
+			marked: "A string with a <yoastmark class='yoast-text-mark'>key</yoastmark>-<yoastmark class='yoast-text-mark'>word</yoastmark>.",
+			original: "A string with a key-word." } ) ],
 		// Note: this behavior might change in the future.
-	} );
-
-	it( "counts a string with a keyword with a '_' in it", function() {
-		const mockPaper = new Paper( "A string with a key_word." );
-		expect( keywordCount( mockPaper, mockResearcherUnderscore ).count ).toBe( 1 );
-		expect( keywordCount( mockPaper, mockResearcherUnderscore ).markings ).toEqual( [
-			new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key_word</yoastmark>.",
-				original: "A string with a key_word." } ) ]
-		);
-	} );
-
-	it( "counts a string with with 'kapaklı' as a keyword in it", function() {
-		const mockPaper = new Paper( "A string with kapaklı." );
-		expect( keywordCount( mockPaper, mockResearcherKaplaki ).count ).toBe( 1 );
-		expect( keywordCount( mockPaper, mockResearcherKaplaki ).markings ).toEqual( [
-			new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>kapaklı</yoastmark>.",
-				original: "A string with kapaklı." } ) ]
-		);
-	} );
-
-	it( "counts a string with with '&' in the string and the keyword", function() {
-		const mockPaper = new Paper( "A string with key&word." );
-		expect( keywordCount( mockPaper, mockResearcherAmpersand ).count ).toBe( 1 );
-		expect( keywordCount( mockPaper, mockResearcherAmpersand ).markings ).toEqual( [
-			new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>key&word</yoastmark>.",
-				original: "A string with key&word." } )	]
-		);
-	} );
-
-	it( "does not count images as keywords.", function() {
-		const mockPaper = new Paper( "<img src='http://image.com/image.png'>" );
-		expect( keywordCount( mockPaper, mockResearcherAmpersand ).count ).toBe( 0 );
-		expect( keywordCount( mockPaper, mockResearcherAmpersand ).markings ).toEqual( [] );
-	} );
-
-	it( "keyword counting is blind to CApiTal LeTteRs.", function() {
-		const mockPaper = new Paper( "A string with KeY worD." );
-		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
-		expect( keywordCount( mockPaper, mockResearcherKeyWord ).markings ).toEqual( [
+	},
+	{
+		description: "counts a string with a keyword with a '_' in it",
+		paper: new Paper( "A string with a key_word.", { keyword: "key_word" } ),
+		keyphraseForms: [ [ "key_word", "key_words" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key_word</yoastmark>.",
+			original: "A string with a key_word." } ) ],
+	},
+	{
+		description: "counts a string with with a 'ı' in the keyphrase",
+		paper: new Paper( "A string with with 'kapaklı' as a keyword in it", { keyword: "kapaklı" } ),
+		keyphraseForms: [ [ "kapaklı" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( { marked: "A string with with '<yoastmark class='yoast-text-mark'>kapaklı</yoastmark>' as a keyword in it",
+			original: "A string with with 'kapaklı' as a keyword in it" } ) ],
+	},
+	{
+		description: "counts a string with with '&' in the string and the keyword",
+		paper: new Paper( "A string with key&word in it", { keyword: "key&word" } ),
+		keyphraseForms: [ [ "key&word" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>key&word</yoastmark> in it",
+			original: "A string with key&word in it" } ) ],
+	},
+	{
+		description: "does not count images as keywords.",
+		paper: new Paper( "<img src='http://image.com/image.jpg' alt='image' />", { keyword: "image" } ),
+		keyphraseForms: [ [ "image", "images" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+	},
+	{
+		description: "keyword counting is blind to CApiTal LeTteRs.",
+		paper: new Paper( "A string with KeY worD.", { keyword: "key word" } ),
+		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
 			new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>KeY worD</yoastmark>.",
-				original: "A string with KeY worD." } )	]
-		);
-	} );
-
-	it( "keyword counting is blind to types of apostrophe.", function() {
-		const mockPaper = new Paper( "A string with quotes to match the key'word, even if the quotes differ." );
-		expect( keywordCount( mockPaper, mockResearcherApostrophe ).count ).toBe( 1 );
-		expect( keywordCount( mockPaper, mockResearcherApostrophe ).markings ).toEqual( [
-			new Mark( { marked: "A string with quotes to match the <yoastmark class='yoast-text-mark'>key'word</yoastmark>, " +
-					"even if the quotes differ.",
-			original: "A string with quotes to match the key'word, even if the quotes differ." } ) ]
-		);
-	} );
-
-	it( "counts can count dollar sign as in '$keyword'.", function() {
-		const mockPaper = new Paper( "A string with a $keyword." );
-		expect( keywordCount( mockPaper, mockResearcherDollarSign ).count ).toBe( 1 );
-		// Markings do not currently work in this condition.
-	} );
-
-	it( "counts 'key word' also in 'key-word'.)", function() {
-		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, key word consectetur key-word adipiscing elit." );
-		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 2 );
-		// Note: this behavior might change in the future.
-	} );
-
-	it( "doesn't count 'key-word' in 'key word'.", function() {
-		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, key word consectetur key-word adipiscing elit." );
-		expect( keywordCount( mockPaper, mockResearcherMinus ).count ).toBe( 1 );
-		// Note: this behavior might change in the future.
-	} );
-
-	it( "doesn't count keyphrase instances inside elements we want to exclude from the analysis", function() {
-		const mockPaper = new Paper( "There is no <code>keyword</code> in this sentence." );
-		expect( keywordCount( mockPaper, mockResearcher ).count ).toBe( 0 );
-	} );
-
-	it( "only counts full key phrases (when all keywords are in the sentence once, twice etc.) as matches.", function() {
-		const mockPaper = new Paper( "A string with three keys (key and another key) and one word." );
-		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
-		expect( keywordCount( mockPaper, mockResearcherKeyWord ).markings ).toEqual( [
+				original: "A string with KeY worD." } )	],
+	},
+	{
+		description: "keyword counting is blind to types of apostrophe.",
+		paper: new Paper( "A string with quotes to match the key'word, even if the quotes differ.", { keyword: "key'word" } ),
+		keyphraseForms: [ [ "key'word", "key'words" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( {
+			marked: "A string with quotes to match the <yoastmark class='yoast-text-mark'>key'word</yoastmark>, even if the quotes differ.",
+			original: "A string with quotes to match the key'word, even if the quotes differ." } ) ],
+	},
+	{
+		description: "can match dollar sign as in '$keyword'.",
+		paper: new Paper( "A string with a $keyword." ),
+		keyphraseForms: [ [ "\\$keyword" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>$keyword</yoastmark>.",
+			original: "A string with a $keyword." } ) ],
+	},
+	{
+		description: "doesn't count 'key-word' in 'key word'.",
+		paper: new Paper( "A string with a key word.", { keyword: "key-word" } ),
+		keyphraseForms: [ [ "key-word", "key-words" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+	},
+	{
+		description: "doesn't count keyphrase instances inside elements we want to exclude from the analysis",
+		paper: new Paper( "There is no <code>keyword</code> in this sentence." ),
+		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+	},
+	{
+		description: "only counts full key phrases (when all keywords are in the sentence once, twice etc.) as matches.",
+		paper: new Paper( "A string with three keys (key and another key) and one word." ),
+		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
 			new Mark( { marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
 					"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
 					"class='yoast-text-mark'>word</yoastmark>.",
-			original: "A string with three keys (key and another key) and one word." } ) ]
-		);
-	} );
+			original: "A string with three keys (key and another key) and one word." } ) ],
+	},
+	{
+		description: "doesn't match singular forms in reduplicated plurals in Indonesian",
+		paper: new Paper( "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.",
+			{ locale: "id_ID", keyword: "keyword" } ),
+		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				// eslint-disable-next-line max-len
+				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword</yoastmark>-<yoastmark class='yoast-text-mark'>keyword</yoastmark>, <yoastmark class='yoast-text-mark'>keyword</yoastmark> adipiscing elit.",
+				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit." } ) ],
+	},
+	{
+		description: "counts a single word keyphrase with exact matching",
+		paper: new Paper( "A string with a keyword.", { keyword: "\"keyword\"" } ),
+		keyphraseForms: [ [ "keyword" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>keyword</yoastmark>.",
+			original: "A string with a keyword." } ) ],
+	},
+	{
+		description: "with exact matching, a singular single word keyphrase should not be counted if the focus keyphrase is plural",
+		paper: new Paper( "A string with a keyword.", { keyword: "\"keywords\"" } ),
+		keyphraseForms: [ [ "keywords" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+		skip: true,
+	},
+	{
+		description: "with exact matching, a multi word keyphrase should be counted if the focus keyphrase is the same",
+		paper: new Paper( "A string with a key phrase.", { keyword: "\"key phrase\"" } ),
+		keyphraseForms: [ [ "key phrase" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key phrase</yoastmark>.",
+			original: "A string with a key phrase." } ) ],
+		skip: true,
+	},
+	{
+		// eslint-disable-next-line max-len
+		description: "with exact matching, a multi word keyphrase should not me counted if the focus keyphrase has the same words in a different order",
+		paper: new Paper( "A string with a phrase key.", { keyword: "\"key phrase\"" } ),
+		keyphraseForms: [ [ "key phrase" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+		skip: true,
+	},
+	{
+		description: "with exact matching, it should match a full stop if it is part of the keyphrase and directly precedes the keyphrase.",
+		paper: new Paper( "A .sentence with a keyphrase.", { keyword: "\".sentence\"" } ),
+		keyphraseForms: [ [ ".sentence" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( { marked: "A <yoastmark class='yoast-text-mark'>.sentence</yoastmark> with a keyphrase.",
+			original: "A .sentence with a keyphrase." } ) ],
+		skip: true,
+	},
 
-	it( "doesn't match singular forms in reduplicated plurals in Indonesian", function() {
-		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.", { locale: "id_ID" } );
-		expect( keywordCount( mockPaper, mockResearcher ).count ).toBe( 1 );
+];
+
+// eslint-disable-next-line max-len
+describe.each( testCases )( "Test for counting the keyword in a text in english", function( { description, paper, keyphraseForms, expectedCount, expectedMarkings, skip } ) {
+	const test = skip ? it.skip : it;
+
+	test( description, function() {
+		const mockResearcher = buildMorphologyMockResearcher( keyphraseForms );
+		const keyWordCountResult = keywordCount( paper, mockResearcher );
+		expect( keyWordCountResult.count ).toBe( expectedCount );
+		expect( keyWordCountResult.markings ).toEqual( expectedMarkings );
 	} );
 } );
 
