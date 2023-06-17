@@ -438,6 +438,22 @@
 			visited:hover:yst-text-primary-400;
 		}
 
+		[type='text'],
+		[type='email'],
+		[type='url'],
+		[type='password'],
+		[type='number'],
+		[type='date'],
+		[type='datetime-local'],
+		[type='month'],
+		[type='search'],
+		[type='tel'],
+		[type='time'],
+		[type='week'],
+		textarea {
+			@apply yst-placeholder-slate-500;
+		}
+
 		svg path {
             stroke-width: inherit;
         }
