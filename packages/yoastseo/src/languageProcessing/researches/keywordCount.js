@@ -98,7 +98,10 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 	const result = { count: 0, markings: [] };
 
 	sentences.forEach( sentence => {
-		const matchesInSentence = matchKeyphraseWithSentence( topicForms.keyphraseForms, sentence, isExactMatchRequested );
+		// eslint-disable-next-line no-warning-comments
+		// TODO: test in Japanese to see if we use this helper as well
+		const matchesInSentence = matchKeyphraseWithSentence( topicForms.keyphraseForms, sentence, isExactMatchRequested, locale );
+		console.log( matchesInSentence, "matches" );
 		const matchesInSentenceWithoutConsecutiveMatches = removeConsecutiveMatches( matchesInSentence );
 		const matchesCount = countMatches( matchesInSentenceWithoutConsecutiveMatches, topicForms.keyphraseForms );
 		const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale );
