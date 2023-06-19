@@ -1,10 +1,6 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { get, omit } from "lodash";
 
-/**
- * @returns {Object} The initial state.
- */
-
 const slice = createSlice( {
 	name: "notifications",
 	initialState: {},
