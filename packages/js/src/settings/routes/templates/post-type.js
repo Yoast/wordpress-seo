@@ -59,7 +59,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 		if ( isNew ) {
 			updatePostTypeReviewStatus( name );
 		}
-	}, [ name ] );
+	}, [ name, updatePostTypeReviewStatus ] );
 
 	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
 	const singularLabelLower = useMemo( () => safeToLocaleLower( singularLabel, userLocale ), [ singularLabel, userLocale ] );
