@@ -254,15 +254,26 @@ describe( "A test for marking the keyword", function() {
 					"<yoastmark class='yoast-text-mark'>keyword</yoastmark> and another " +
 					"<yoastmark class='yoast-text-mark'>keyword</yoastmark>.",
 				original: "This is a very interesting paper with a keyword and another keyword.",
-				position: { endOffset: 50, startOffset: 43 },
+				position: {
+					startOffset: 43,
+					endOffset: 50,
+					startOffsetBlock: 40,
+					endOffsetBlock: 47,
+				},
 			} ),
 			new Mark( {
 				marked: "This is a very interesting paper with a " +
 					"<yoastmark class='yoast-text-mark'>keyword</yoastmark> and another " +
 					"<yoastmark class='yoast-text-mark'>keyword</yoastmark>.",
 				original: "This is a very interesting paper with a keyword and another keyword.",
-				position: { endOffset: 70, startOffset: 63 },
-			} ) ];
+				position: {
+					startOffset: 63,
+					endOffset: 70,
+					startOffsetBlock: 60,
+					endOffsetBlock: 67,
+				},
+			} ),
+		];
 		expect( keywordDensityAssessment.getMarks() ).toEqual( expected );
 	} );
 
@@ -277,7 +288,14 @@ describe( "A test for marking the keyword", function() {
 		const expected = [
 			new Mark( { marked: "This is the release of <yoastmark class='yoast-text-mark'>YoastSEO 9.3</yoastmark>.",
 				original: "This is the release of YoastSEO 9.3.",
-				position: { startOffset: 26, endOffset: 38 } } ) ];
+				position: {
+					startOffset: 26,
+					endOffset: 38,
+					startOffsetBlock: 23,
+					endOffsetBlock: 35,
+				},
+			} ),
+		];
 		expect( keywordDensityAssessment.getMarks() ).toEqual( expected );
 	} );
 
@@ -297,11 +315,24 @@ describe( "A test for marking the keyword", function() {
 				marked: " A flamboyant <yoastmark class='yoast-text-mark'>cat</yoastmark> with a <yoastmark class='yoast-text-mark'>" +
 					"toy</yoastmark>\n",
 				original: " A flamboyant cat with a toy\n",
-				position: { endOffset: 204, startOffset: 201 } } ),
+				position: {
+					startOffset: 201,
+					endOffset: 204,
+					startOffsetBlock: 198,
+					endOffsetBlock: 201,
+				},
+			} ),
 			new Mark( {
 				marked: " A flamboyant <yoastmark class='yoast-text-mark'>cat</yoastmark> with a <yoastmark class='yoast-text-mark'>" +
 					"toy</yoastmark>\n",
-				original: " A flamboyant cat with a toy\n", position: { endOffset: 215, startOffset: 212 } } ),
+				original: " A flamboyant cat with a toy\n",
+				position: {
+					startOffset: 212,
+					endOffset: 215,
+					startOffsetBlock: 209,
+					endOffsetBlock: 212,
+				},
+			} ),
 		];
 		expect( keywordDensityAssessment.getMarks() ).toEqual( expected );
 	} );

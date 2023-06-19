@@ -15,6 +15,7 @@ describe( "test", () => {
 		expect( getSentencesFromTree( paper ) ).toEqual( [
 			{
 				sourceCodeRange: { endOffset: 44, startOffset: 3 },
+				parentStartOffset: 3,
 				text: "A very intelligent cat loves their human.",
 				tokens: [
 					{ sourceCodeRange: { endOffset: 4, startOffset: 3 }, text: "A" },
@@ -35,6 +36,7 @@ describe( "test", () => {
 			},
 			{
 				sourceCodeRange: { endOffset: 64, startOffset: 44 },
+				parentStartOffset: 3,
 				text: " A dog is very cute.",
 				tokens: [
 					{ sourceCodeRange: { endOffset: 45, startOffset: 44 }, text: " " },
@@ -51,6 +53,7 @@ describe( "test", () => {
 				] },
 			{
 				sourceCodeRange: { endOffset: 86, startOffset: 72 },
+				parentStartOffset: 72,
 				text: "A subheading 3",
 				tokens: [
 					{ sourceCodeRange: { endOffset: 73, startOffset: 72 }, text: "A" },
@@ -61,6 +64,7 @@ describe( "test", () => {
 				] },
 			{
 				sourceCodeRange: {},
+				parentStartOffset: 0,
 				text: "text text text",
 				tokens: [
 					{ sourceCodeRange: {}, text: "text" },
@@ -71,6 +75,7 @@ describe( "test", () => {
 				] },
 			{
 				sourceCodeRange: { endOffset: 123, startOffset: 109 },
+				parentStartOffset: 109,
 				text: "A subheading 4",
 				tokens: [
 					{ sourceCodeRange: { endOffset: 110, startOffset: 109 }, text: "A" },
@@ -81,6 +86,7 @@ describe( "test", () => {
 				] },
 			{
 				sourceCodeRange: { endOffset: 138, startOffset: 128 },
+				parentStartOffset: 0,
 				text: "more text.",
 				tokens: [
 					{ sourceCodeRange: { endOffset: 132, startOffset: 128 }, text: "more" },

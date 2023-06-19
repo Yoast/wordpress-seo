@@ -21,7 +21,12 @@ const testCases = [
 		expectedResult: [ new Mark( {
 			marked: "<yoastmark class='yoast-text-mark'>This</yoastmark> is a sentence.",
 			original: "This is a sentence.",
-			position: { endOffset: 4, startOffset: 0 },
+			position: {
+				startOffset: 0,
+				endOffset: 4,
+				startOffsetBlock: 0,
+				endOffsetBlock: 4,
+			},
 		} ) ],
 	},
 	{
@@ -30,11 +35,18 @@ const testCases = [
 		matchesInSentence: [ { sourceCodeRange: { startOffset: 0, endOffset: 4 } }, { sourceCodeRange: { startOffset: 5, endOffset: 7 } } ],
 		matchWordCustomHelper: false,
 		locale: "en_US",
-		expectedResult: [ new Mark( {
-			marked: "<yoastmark class='yoast-text-mark'>This is</yoastmark> a sentence.",
-			original: "This is a sentence.",
-			position: { endOffset: 7, startOffset: 0 },
-		} ) ],
+		expectedResult: [
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>This is</yoastmark> a sentence.",
+				original: "This is a sentence.",
+				position: {
+					startOffset: 0,
+					endOffset: 7,
+					startOffsetBlock: 0,
+					endOffsetBlock: 7,
+				},
+			} ),
+		],
 	},
 	{
 		testDescription: "Two markings that are not consecutive in sentence",
@@ -46,12 +58,22 @@ const testCases = [
 			new Mark( {
 				marked: "<yoastmark class='yoast-text-mark'>This</yoastmark> is a <yoastmark class='yoast-text-mark'>sentence</yoastmark>.",
 				original: "This is a sentence.",
-				position: { endOffset: 4, startOffset: 0 },
+				position: {
+					startOffset: 0,
+					endOffset: 4,
+					startOffsetBlock: 0,
+					endOffsetBlock: 4,
+				},
 			} ),
 			new Mark( {
 				marked: "<yoastmark class='yoast-text-mark'>This</yoastmark> is a <yoastmark class='yoast-text-mark'>sentence</yoastmark>.",
 				original: "This is a sentence.",
-				position: { endOffset: 18, startOffset: 10 },
+				position: {
+					startOffset: 10,
+					endOffset: 18,
+					startOffsetBlock: 10,
+					endOffsetBlock: 18,
+				},
 			} ),
 		],
 	},
@@ -61,11 +83,18 @@ const testCases = [
 		matchesInSentence: [ { sourceCodeRange: { startOffset: 10, endOffset: 14 } } ],
 		matchWordCustomHelper: false,
 		locale: "en_US",
-		expectedResult: [ new Mark( {
-			marked: "<yoastmark class='yoast-text-mark'>This</yoastmark> is a sentence.",
-			original: "This is a sentence.",
-			position: { endOffset: 14, startOffset: 10 },
-		} ) ],
+		expectedResult: [
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>This</yoastmark> is a sentence.",
+				original: "This is a sentence.",
+				position: {
+					startOffset: 10,
+					endOffset: 14,
+					startOffsetBlock: 10,
+					endOffsetBlock: 14,
+				},
+			} ),
+		],
 	},
 	{
 		testDescription: "One marking in a sentence of a language that does not use spaces",
@@ -73,11 +102,18 @@ const testCases = [
 		matchesInSentence: [ { sourceCodeRange: { startOffset: 3, endOffset: 4 } } ],
 		matchWordCustomHelper: JapaneseCustomHelper,
 		locale: "ja",
-		expectedResult: [ new Mark( {
-			marked: "これは<yoastmark class='yoast-text-mark'>文</yoastmark>です.",
-			original: "これは文です.",
-			position: { endOffset: 4, startOffset: 3 },
-		} ) ],
+		expectedResult: [
+			new Mark( {
+				marked: "これは<yoastmark class='yoast-text-mark'>文</yoastmark>です.",
+				original: "これは文です.",
+				position: {
+					startOffset: 3,
+					endOffset: 4,
+					startOffsetBlock: 3,
+					endOffsetBlock: 4,
+				},
+			} ),
+		],
 	},
 	{
 		testDescription: "Two markings that overlap",
@@ -89,7 +125,12 @@ const testCases = [
 			new Mark( {
 				marked: "<yoastmark class='yoast-text-mark'>This is a</yoastmark> sentence.",
 				original: "This is a sentence.",
-				position: { endOffset: 9, startOffset: 0 },
+				position: {
+					startOffset: 0,
+					endOffset: 9,
+					startOffsetBlock: 0,
+					endOffsetBlock: 9,
+				},
 			} ),
 		],
 	},

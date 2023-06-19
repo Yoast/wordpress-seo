@@ -11,10 +11,7 @@ export default function( paper ) {
 
 	return tree.flatMap( node => node.sentences.map( s => ( {
 		...s,
-		parentCodeRange: {
-			startOffset: node.sourceCodeLocation.startTag.endOffset,
-			endOffset: node.sourceCodeLocation.endTag.startOffset,
-		},
+		parentStartOffset: ( node.sourceCodeLocation && node.sourceCodeLocation.startTag ) ? node.sourceCodeLocation.startTag.endOffset : 0,
 	} ) )
 	);
 }

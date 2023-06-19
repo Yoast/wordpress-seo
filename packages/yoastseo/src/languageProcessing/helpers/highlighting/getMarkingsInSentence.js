@@ -144,8 +144,8 @@ function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelp
 				startOffset: token.sourceCodeRange.startOffset,
 				endOffset: token.sourceCodeRange.endOffset,
 				// relative to start of block positions.
-				startOffsetBlock: token.sourceCodeRange.startOffset - sentence.parentCodeRange.startOffset,
-				endOffsetBlock: token.sourceCodeRange.endOffset - sentence.parentCodeRange.startOffset,
+				startOffsetBlock: token.sourceCodeRange.startOffset - ( sentence.parentStartOffset || 0 ),
+				endOffsetBlock: token.sourceCodeRange.endOffset - ( sentence.parentStartOffset || 0 ),
 			},
 			marked: markedSentence,
 			original: sentence.text,
