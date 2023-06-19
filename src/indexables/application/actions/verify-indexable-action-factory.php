@@ -8,8 +8,10 @@ use Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action;
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Verification_Action_Left_Exception;
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\Verify_Action_Not_Found_Exception;
 use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_General_Indexables_Action;
+use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Post_Links_Indexables_Action;
 use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Post_Type_Archives_Indexables_Action;
 use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Indexables_Action;
+use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Links_Indexables_Action;
 
 class Verify_Indexable_Action_Factory implements Verify_Indexable_Action_Factory_Interface {
 
@@ -27,22 +29,28 @@ class Verify_Indexable_Action_Factory implements Verify_Indexable_Action_Factory
 	];
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_General_Indexables_Action
+	 * @var Verify_General_Indexables_Action
 	 */
 	protected $verify_general_indexables_action;
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Post_Type_Archives_Indexables_Action
+	 * @var Verify_Post_Type_Archives_Indexables_Action
 	 */
 	protected $verify_post_type_archives_indexables_action;
+	/**
+	 * @var Verify_Term_Links_Indexables_Action
+	 */
+	protected $verify_term_links_indexables_action;
 
 	public function __construct(
 		Verify_Term_Indexables_Action $verify_term_indexables_action,
 		Verify_General_Indexables_Action $verify_general_indexables_action,
-		Verify_Post_Type_Archives_Indexables_Action $verify_post_type_archives_indexables_action
+		Verify_Post_Type_Archives_Indexables_Action $verify_post_type_archives_indexables_action,
+		Verify_Term_Links_Indexables_Action $verify_term_links_indexables_action
 	) {
 		$this->verify_term_indexables_action               = $verify_term_indexables_action;
 		$this->verify_general_indexables_action            = $verify_general_indexables_action;
 		$this->verify_post_type_archives_indexables_action = $verify_post_type_archives_indexables_action;
+		$this->verify_term_links_indexables_action         = $verify_term_links_indexables_action;
 	}
 
 	/**
@@ -56,6 +64,8 @@ class Verify_Indexable_Action_Factory implements Verify_Indexable_Action_Factory
 				return $this->verify_general_indexables_action;
 			case'post-type-archives':
 				return $this->verify_post_type_archives_indexables_action;
+			case 'term-links':
+				return $this->verify_term_links_indexables_action;
 			default:
 				throw new Verify_Action_Not_Found_Exception();
 		}
