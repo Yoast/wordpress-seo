@@ -18,7 +18,7 @@ const useNewContentTypeNotification = () => {
 	   if ( notifications[ "new-content-type" ] && ! newPostTypes.length && ! newTaxonomies.length ) {
 		   removeNotification( "new-content-type" );
 	   }
-	}, [ postTypes, taxonomies ] );
+	}, [ postTypes, taxonomies, removeNotification ] );
 };
 
 export default useNewContentTypeNotification;
