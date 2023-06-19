@@ -414,20 +414,20 @@ class Settings_Integration implements Integration_Interface {
 		$show_new_content_type_notification = $this->content_type_visibility->maybe_add_settings_notification();
 
 		return [
-			'settings'             => $this->transform_settings( $settings ),
-			'defaultSettingValues' => $default_setting_values,
-			'disabledSettings'     => $this->get_disabled_settings( $settings ),
-			'endpoint'             => \admin_url( 'options.php' ),
-			'nonce'                => \wp_create_nonce( self::PAGE . '-options' ),
-			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
-			'replacementVariables' => $this->get_replacement_variables(),
-			'schema'               => $this->get_schema( $transformed_post_types ),
-			'preferences'          => $this->get_preferences( $settings ),
-			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
-			'postTypes'            => $transformed_post_types,
-			'taxonomies'           => $transformed_taxonomies,
-			'fallbacks'            => $this->get_fallbacks(),
-			'isNewContentType'     => $show_new_content_type_notification,
+			'settings'                       => $this->transform_settings( $settings ),
+			'defaultSettingValues'           => $default_setting_values,
+			'disabledSettings'               => $this->get_disabled_settings( $settings ),
+			'endpoint'                       => \admin_url( 'options.php' ),
+			'nonce'                          => \wp_create_nonce( self::PAGE . '-options' ),
+			'separators'                     => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
+			'replacementVariables'           => $this->get_replacement_variables(),
+			'schema'                         => $this->get_schema( $transformed_post_types ),
+			'preferences'                    => $this->get_preferences( $settings ),
+			'linkParams'                     => WPSEO_Shortlinker::get_query_params(),
+			'postTypes'                      => $transformed_post_types,
+			'taxonomies'                     => $transformed_taxonomies,
+			'fallbacks'                      => $this->get_fallbacks(),
+			'showNewContentTypeNotification' => $show_new_content_type_notification,
 		];
 	}
 

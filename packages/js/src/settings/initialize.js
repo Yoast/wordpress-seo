@@ -90,8 +90,8 @@ domReady( () => {
 	const postTypes = get( window, "wpseoScriptData.postTypes", {} );
 	const taxonomies = get( window, "wpseoScriptData.taxonomies", {} );
 
-	const isNewContentType = get( window, "wpseoScriptData.isNewContentType", false );
-	const notifications = ( isNewContentType )
+	const showNewContentTypeNotification = get( window, "wpseoScriptData.showNewContentTypeNotification", false );
+	const notifications = ( showNewContentTypeNotification )
 		? { [ "new-content-type" ]: {
 			id: "new-content-type",
 			variant: "info",
