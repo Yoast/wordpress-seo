@@ -9,7 +9,7 @@ const markEnd = "</yoastmark>";
  * This is a helper for position based highlighting.
  * @param {Object[]} matches An array of markings to merge.
  * @param {Boolean} useSpace Whether words are separated by a space. In Japanese, for example, words are not separated by a space.
- * @returns {Mark[]} An array of markings where consecutive and overlapping markings are merged.
+ * @returns {Token[]} An array of markings where consecutive and overlapping markings are merged.
  */
 const mergeConsecutiveAndOverlappingMatches = ( matches, useSpace = true ) => {
 	const newMatches = [];
@@ -143,6 +143,9 @@ function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelp
 			position: {
 				startOffset: token.sourceCodeRange.startOffset,
 				endOffset: token.sourceCodeRange.endOffset,
+				// relative to start of block positions.
+				startOffsetBlock: token.sourceCodeRange.startOffset - sentence.parentCodeRange.startOffset,
+				endOffsetBlock: token.sourceCodeRange.endOffset - sentence.parentCodeRange.startOffset,
 			},
 			marked: markedSentence,
 			original: sentence.text,

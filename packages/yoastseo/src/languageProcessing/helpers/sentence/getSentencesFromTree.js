@@ -4,10 +4,17 @@
  *
  * @param {Paper} paper The paper to get the sentences from.
  *
- * @returns {Object[]} The array of sentences retrieved from paragraph and heading nodes.
+ * @returns {Object[]} The array of sentences retrieved from paragraph and heading nodes plus sourceCodeLocation of the parent node.
  */
 export default function( paper ) {
 	const tree = paper.getTree().findAll( treeNode => !! treeNode.sentences );
 
-	return tree.flatMap( node => node.sentences );
+	return tree.flatMap( node => node.sentences.map( s => ( {
+		...s,
+		parentCodeRange: {
+			startOffset: node.sourceCodeLocation.startTag.endOffset,
+			endOffset: node.sourceCodeLocation.endTag.startOffset,
+		},
+	} ) )
+	);
 }
