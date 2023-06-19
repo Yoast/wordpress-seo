@@ -48,7 +48,7 @@ class Verify_Post_Indexables_Command_Handler {
 	 */
 	public function handle( Verify_Post_Indexables_Command $verify_post_indexables_command ): void {
 		try {
-			$outdated_post_indexables_list = $this->outdated_post_indexables_repository->get_outdated_post_indexables( $verify_post_indexables_command->get_last_batch_count(), $verify_post_indexables_command->get_plugin_deactivated_at() );
+			$outdated_post_indexables_list = $this->outdated_post_indexables_repository->get_outdated_post_indexables( $verify_post_indexables_command->get_last_batch_count() );
 		} catch ( No_Outdated_Posts_Found_Exception $exception ) {
 			$this->cron_schedule_handler->unschedule_verify_post_indexables_cron();
 

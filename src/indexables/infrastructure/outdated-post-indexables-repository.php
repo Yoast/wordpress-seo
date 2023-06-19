@@ -58,37 +58,25 @@ class Outdated_Post_Indexables_Repository implements Outdated_Post_Indexables_Re
 
 		$post_types             = $this->post_type_helper->get_indexable_post_types();
 		$excluded_post_statuses = $this->post_helper->get_excluded_post_statuses();
-		$replacements           = \array_merge(
-			$post_types,
-			$excluded_post_statuses
-		);
+		$query                  = $this->indexable_repository->query();
 
-		$limit_query = '';
 		if ( $count->get_last_batch() ) {
-			$limit_query    = 'LIMIT %d';
-			$replacements[] = $count->get_last_batch();
+			$query->limit( $count->get_last_batch() );
 		}
 
-		// @phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
-		$query = $this->wpdb->prepare(
-			"
-			SELECT i.*
-			FROM {$indexable_table} i
-			LEFT JOIN {$this->wpdb->posts} P on P.id = i.object_id
-			WHERE i.object_type='post' and object_last_modified <> P.post_modified_gmt
-			AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ')
-			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statuses ), '%s' ) ) . ")
-			
-			$limit_query",
-			$replacements
-		);
+		$query->join( $this->wpdb->posts, "P.id = $indexable_table.object_id", 'P' );
+		$query->where( 'object_type', 'post' );
+		$query->where_raw( 'object_last_modified <> P.post_modified_gmt' );
+		$query->where_raw( "P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")", $post_types );
+		$query->where_raw( "P.post_status NOT IN (" . \implode( ', ', \array_fill( 0, \count( $excluded_post_statuses ), '%s' ) ) . ")", $excluded_post_statuses );
 
-		$results    = $this->wpdb->get_results( $query, ARRAY_A );
-		$indexables = new Outdated_Post_Indexables_List();
-		foreach ( $results as $result ) {
-			$indexables->add_post_indexable( $this->indexable_repository->query()->create( $result ));
+		$indexables = $query->find_many();
+
+		$indexable_list = new Outdated_Post_Indexables_List();
+		foreach ( $indexables as $indexable ) {
+			$indexable_list->add_post_indexable( $indexable );
 		}
 
-		return $indexables;
+		return $indexable_list;
 	}
 }
