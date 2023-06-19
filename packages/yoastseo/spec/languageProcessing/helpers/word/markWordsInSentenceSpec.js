@@ -1,4 +1,8 @@
-import { deConstructAnchor, markWordsInSentences, reConstructAnchor } from "../../../../src/languageProcessing/helpers/word/markWordsInSentences";
+import {
+	deConstructAnchor,
+	markWordsInSentences,
+	markWordsInASentence,
+	reConstructAnchor } from "../../../../src/languageProcessing/helpers/word/markWordsInSentences";
 import Mark from "../../../../src/values/Mark";
 import matchWordCustomHelper from "../../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
 
@@ -83,6 +87,16 @@ describe( "Adds Yoast marks to specific words in a sentence", function() {
 			[ "A cat as a pet.", "A cat is a special pet." ],
 			"en_EN"
 		) ).toEqual( [] );
+	} );
+
+	it( "should add Yoast marks to all instances of specified words in a sentence", function() {
+		expect( markWordsInASentence(
+			"A cat and a turtle and a hamster.",
+			[ "turtle", "hamster" ]
+		) ).toEqual( [ new Mark( {
+			marked: "A cat and a <yoastmark class='yoast-text-mark'>turtle</yoastmark> " +
+					"and a <yoastmark class='yoast-text-mark'>hamster</yoastmark>.",
+			original: "A cat and a turtle and a hamster." } ) ] );
 	} );
 } );
 

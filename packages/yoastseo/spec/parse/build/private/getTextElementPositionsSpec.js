@@ -482,6 +482,78 @@ describe( "A test for getting positions of sentences", () => {
 		const sentences = [ { text: "Hello, World!" } ];
 		const [ helloSentence ] = getTextElementPositions( paragraph, sentences );
 		expect( helloSentence.sourceCodeRange ).toEqual( { startOffset: 11, endOffset: 42 } );
+
+		//
+		// const node = new Paragraph( {}, [
+		// 	{ name: "#text", value: "Hello, world!" },
+		// 	{
+		// 		name: "strong",
+		// 		attributes: {},
+		// 		childNodes: [
+		// 			{
+		// 				name: "#text",
+		// 				value: "Hello",
+		// 			},
+		// 		],
+		// 		sourceCodeLocation: {
+		// 			startTag: {
+		// 				startOffset: 3,
+		// 				endOffset: 11,
+		// 			},
+		// 			endTag: {
+		// 				startOffset: 16,
+		// 				endOffset: 25,
+		// 			},
+		// 			startOffset: 3,
+		// 			endOffset: 25,
+		// 		},
+		// 	},
+		// 	{
+		// 		name: "em",
+		// 		attributes: {},
+		// 		childNodes: [
+		// 			{
+		// 				name: "#text",
+		// 				value: "world",
+		// 			},
+		// 		],
+		// 		sourceCodeLocation: {
+		// 			startTag: {
+		// 				startOffset: 27,
+		// 				endOffset: 31,
+		// 			},
+		// 			endTag: {
+		// 				startOffset: 36,
+		// 				endOffset: 41,
+		// 			},
+		// 			startOffset: 27,
+		// 			endOffset: 41,
+		// 		},
+		// 	},
+		// ],
+		// {
+		// 	startTag: {
+		// 		startOffset: 0,
+		// 		endOffset: 3,
+		// 	},
+		// 	endTag: {
+		// 		startOffset: 42,
+		// 		endOffset: 46,
+		// 	},
+		// 	startOffset: 0,
+		// 	endOffset: 46,
+		// } );
+		//
+		// const tokens = [ { text: "Hello" }, { text: "," }, { text: " " }, { text: "world" }, { text: "!" } ];
+		// const tokensWithPositions = [
+		// 	{ text: "Hello", sourceCodeRange: { startOffset: 3, endOffset: 25 } },
+		// 	{ text: ",", sourceCodeRange: { startOffset: 25, endOffset: 26 } },
+		// 	{ text: " ", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
+		// 	{ text: "world", sourceCodeRange: { startOffset: 27, endOffset: 41 } },
+		// 	{ text: "!", sourceCodeRange: { startOffset: 41, endOffset: 42 } },
+		// ];
+		//
+		// expect( getTextElementPositions( node, tokens ) ).toEqual( tokensWithPositions );
 	} );
 
 	it( "don't calculate sentence position if the source code location of the node is unknown", function() {

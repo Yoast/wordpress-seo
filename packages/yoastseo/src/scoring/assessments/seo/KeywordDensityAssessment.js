@@ -1,7 +1,7 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import recommendedKeywordCount from "../../helpers/assessments/recommendedKeywordCount.js";
+import recommendedKeyphraseCount from "../../helpers/assessments/recommendedKeywordCount.js";
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
@@ -13,7 +13,7 @@ import getWords from "../../../languageProcessing/helpers/word/getWords";
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
  */
-class KeywordDensityAssessment extends Assessment {
+class KeyphraseDensityAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -67,7 +67,7 @@ class KeywordDensityAssessment extends Assessment {
 			applicableIfTextLongerThan: 100,
 		};
 
-		this.identifier = "keywordDensity";
+		this.identifier = "keyphraseDensity";
 		this._config = merge( defaultConfig, config );
 	}
 
@@ -87,8 +87,8 @@ class KeywordDensityAssessment extends Assessment {
 		} else {
 			this._boundaries = this._config.parameters.noWordForms;
 		}
-		this._minRecommendedKeywordCount = recommendedKeywordCount( text, keyphraseLength, this._boundaries.minimum, "min", customGetWords );
-		this._maxRecommendedKeywordCount = recommendedKeywordCount( text, keyphraseLength, this._boundaries.maximum, "max", customGetWords );
+		this._minRecommendedKeyphraseCount = recommendedKeyphraseCount( text, keyphraseLength, this._boundaries.minimum, "min", customGetWords );
+		this._maxRecommendedKeyphraseCount = recommendedKeyphraseCount( text, keyphraseLength, this._boundaries.maximum, "max", customGetWords );
 	}
 
 	/**
@@ -102,25 +102,26 @@ class KeywordDensityAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const customGetWords = researcher.getHelper( "getWordsCustomHelper" );
-		this._keywordCount = researcher.getResearch( "keywordCount" );
-		const keyphraseLength = this._keywordCount.length;
+		this._keyphraseCount = researcher.getResearch( "keyphraseCount" );
+		const keyphraseLength = this._keyphraseCount.length;
 
 		const assessmentResult = new AssessmentResult();
 
-		this._keywordDensity = researcher.getResearch( "getKeywordDensity" );
+		this._keyphraseDensity = researcher.getResearch( "getKeyphraseDensity" );
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
-		let text = paper.getText();
-		text = removeHtmlBlocks( text );
+		const text = paper.getText();
+		// eslint-disable-next-line no-warning-comments
+		// TODO: do we need to use the paper text, or can we adjust this to use the html parser?
 		this.setBoundaries( text, keyphraseLength, customGetWords );
 
-		this._keywordDensity = this._keywordDensity * keyphraseLengthFactor( keyphraseLength );
+		this._keyphraseDensity = this._keyphraseDensity * keyphraseLengthFactor( keyphraseLength );
 		const calculatedScore = this.calculateResult();
 
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
-		assessmentResult.setHasMarks( this._keywordCount.count > 0 );
+		assessmentResult.setHasMarks( this._keyphraseCount.count > 0 );
 
 		return assessmentResult;
 	}
@@ -131,35 +132,35 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the keyphrase count is 0.
 	 */
 	hasNoMatches() {
-		return this._keywordCount.count === 0;
+		return this._keyphraseCount.count === 0;
 	}
 
 	/**
 	 * Checks whether there are too few keyphrase matches in the text.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyword density is between 0 and the recommended minimum
-	 * or if there there is only 1 keyword match (regardless of the density).
+	 * @returns {boolean} Returns true if the rounded keyphrase density is between 0 and the recommended minimum
+	 * or if there is only 1 keyphrase match (regardless of the density).
 	 */
 	hasTooFewMatches() {
 		return inRangeStartInclusive(
-			this._keywordDensity,
+			this._keyphraseDensity,
 			0,
 			this._boundaries.minimum
-		) || this._keywordCount.count === 1;
+		) || this._keyphraseCount.count === 1;
 	}
 
 	/**
 	 * Checks whether there is a good number of keyphrase matches in the text.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyword density is between the recommended minimum
-	 * and the recommended maximum or if the keyword count is 2 and the recommended minimum is lower than 2.
+	 * @returns {boolean} Returns true if the rounded keyphrase density is between the recommended minimum
+	 * and the recommended maximum or if the keyphrase count is 2 and the recommended minimum is lower than 2.
 	 */
 	hasGoodNumberOfMatches() {
 		return inRangeStartEndInclusive(
-			this._keywordDensity,
+			this._keyphraseDensity,
 			this._boundaries.minimum,
 			this._boundaries.maximum
-		) || ( this._keywordCount.count === 2 && this._minRecommendedKeywordCount <= 2 );
+		) || ( this._keyphraseCount.count === 2 && this._minRecommendedKeyphraseCount <= 2 );
 	}
 
 	/**
@@ -172,7 +173,7 @@ class KeywordDensityAssessment extends Assessment {
 	 */
 	hasTooManyMatches() {
 		return inRangeEndInclusive(
-			this._keywordDensity,
+			this._keyphraseDensity,
 			this._boundaries.maximum,
 			this._boundaries.overMaximum
 		);
@@ -199,7 +200,7 @@ class KeywordDensityAssessment extends Assessment {
 					),
 					this._config.urlTitle,
 					"</a>",
-					this._minRecommendedKeywordCount,
+					this._minRecommendedKeyphraseCount,
 					this._config.urlCallToAction
 				),
 			};
@@ -219,14 +220,14 @@ class KeywordDensityAssessment extends Assessment {
 						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
 						// eslint-disable-next-line max-len
 						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
-						this._keywordCount.count,
+						this._keyphraseCount.count,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
-					this._minRecommendedKeywordCount,
+					this._minRecommendedKeyphraseCount,
 					this._config.urlCallToAction,
-					this._keywordCount.count
+					this._keyphraseCount.count
 				),
 			};
 		}
@@ -242,12 +243,12 @@ class KeywordDensityAssessment extends Assessment {
 					_n(
 						"%1$sKeyphrase density%2$s: The keyphrase was found %3$d time. This is great!",
 						"%1$sKeyphrase density%2$s: The keyphrase was found %3$d times. This is great!",
-						this._keywordCount.count,
+						this._keyphraseCount.count,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
-					this._keywordCount.count
+					this._keyphraseCount.count
 				),
 			};
 		}
@@ -266,14 +267,14 @@ class KeywordDensityAssessment extends Assessment {
 						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 						// eslint-disable-next-line max-len
 						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-						this._keywordCount.count,
+						this._keyphraseCount.count,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
-					this._maxRecommendedKeywordCount,
+					this._maxRecommendedKeyphraseCount,
 					this._config.urlCallToAction,
-					this._keywordCount.count
+					this._keyphraseCount.count
 				),
 			};
 		}
@@ -292,14 +293,14 @@ class KeywordDensityAssessment extends Assessment {
 					"%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 					// eslint-disable-next-line max-len
 					"%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-					this._keywordCount.count,
+					this._keyphraseCount.count,
 					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				"</a>",
-				this._maxRecommendedKeywordCount,
+				this._maxRecommendedKeyphraseCount,
 				this._config.urlCallToAction,
-				this._keywordCount.count
+				this._keyphraseCount.count
 			),
 		};
 	}
@@ -311,7 +312,7 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {Array<Mark>} Marks that should be applied.
 	 */
 	getMarks() {
-		return this._keywordCount.markings;
+		return this._keyphraseCount.markings;
 	}
 
 
@@ -331,12 +332,39 @@ class KeywordDensityAssessment extends Assessment {
 		if ( customApplicabilityConfig ) {
 			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 		}
-		let text = paper.getText();
-		text = removeHtmlBlocks( text );
+		const text = paper.getText();
+		// eslint-disable-next-line no-warning-comments
+		// TODO: Adapt this to use HTML Parser.
 		const textLength = customCountLength ? customCountLength( text ) : getWords( text ).length;
 
 		return paper.hasText() && paper.hasKeyword() && textLength >= this._config.applicableIfTextLongerThan;
 	}
 }
 
-export default KeywordDensityAssessment;
+/**
+ * This assessment checks if the keyphrase density is within the recommended range.
+ * KeywordDensityAssessment was the previous name for KeyphraseDensityAssessment (hence the name of this file).
+ * We keep (and expose) this assessment for backwards compatibility.
+ *
+ * @deprecated Since version 18.8 Use KeyphraseDensityAssessment instead.
+ */
+class KeywordDensityAssessment extends KeyphraseDensityAssessment {
+	/**
+	 * Sets the identifier and the config.
+	 *
+	 * @param {Object} config   The configuration to use.
+	 * @returns {void}
+	 */
+	constructor( config = {} ) {
+		super( config );
+		this.identifier = "keywordDensity";
+		console.warn( "This object is deprecated, use KeyphraseDensityAssessment instead." );
+	}
+}
+
+export {
+	KeyphraseDensityAssessment,
+	KeywordDensityAssessment,
+};
+
+export default KeyphraseDensityAssessment;
