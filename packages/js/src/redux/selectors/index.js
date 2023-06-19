@@ -1,3 +1,6 @@
+import { linkParamsSelectors } from "../../shared-admin/store";
+
+export const { selectLinkParams, selectLinkParam, selectLink } = linkParamsSelectors;
 export * from "../../insights/redux/selectors";
 export * from "./advancedSettings";
 export * from "./analysis";

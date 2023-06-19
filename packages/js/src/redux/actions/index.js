@@ -1,3 +1,6 @@
+import { linkParamsActions } from "../../shared-admin/store";
+
+export const { setLinkParams } = linkParamsActions;
 export * from "../../insights/redux/actions";
 export * from "./activeMarker";
 export * from "./advancedSettings";
