@@ -9,6 +9,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
 import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
+import getAllWordsFromTree from "../../../languageProcessing/helpers/word/getAllWordsFromTree";
 
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
@@ -75,20 +76,20 @@ class KeyphraseDensityAssessment extends Assessment {
 	/**
 	 * Determines correct boundaries depending on the availability of morphological forms.
 	 *
-	 * @param {string} text The paper text.
+	 * @param {Paper} paper The paper to analyze.
 	 * @param {number} keyphraseLength The length of the keyphrase in words.
 	 * @param {function} customGetWords A helper to get words from the text for languages that don't use the default approach.
 	 *
 	 * @returns {void}
 	 */
-	setBoundaries( text, keyphraseLength, customGetWords ) {
+	setBoundaries( paper, keyphraseLength, customGetWords ) {
 		if ( this._hasMorphologicalForms ) {
 			this._boundaries = this._config.parameters.multipleWordForms;
 		} else {
 			this._boundaries = this._config.parameters.noWordForms;
 		}
-		this._minRecommendedKeyphraseCount = recommendedKeyphraseCount( text, keyphraseLength, this._boundaries.minimum, "min", customGetWords );
-		this._maxRecommendedKeyphraseCount = recommendedKeyphraseCount( text, keyphraseLength, this._boundaries.maximum, "max", customGetWords );
+		this._minRecommendedKeyphraseCount = recommendedKeyphraseCount( paper, keyphraseLength, this._boundaries.minimum, "min", customGetWords );
+		this._maxRecommendedKeyphraseCount = recommendedKeyphraseCount( paper, keyphraseLength, this._boundaries.maximum, "max", customGetWords );
 	}
 
 	/**
@@ -111,10 +112,7 @@ class KeyphraseDensityAssessment extends Assessment {
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
-		const text = paper.getText();
-		// eslint-disable-next-line no-warning-comments
-		// TODO: do we need to use the paper text, or can we adjust this to use the html parser?
-		this.setBoundaries( text, keyphraseLength, customGetWords );
+		this.setBoundaries( paper, keyphraseLength, customGetWords );
 
 		this._keyphraseDensity = this._keyphraseDensity * keyphraseLengthFactor( keyphraseLength );
 		const calculatedScore = this.calculateResult();
@@ -332,10 +330,8 @@ class KeyphraseDensityAssessment extends Assessment {
 		if ( customApplicabilityConfig ) {
 			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 		}
-		const text = paper.getText();
-		// eslint-disable-next-line no-warning-comments
-		// TODO: Adapt this to use HTML Parser.
-		const textLength = customCountLength ? customCountLength( text ) : getWords( text ).length;
+
+		const textLength = customCountLength ? customCountLength( paper.getText() ) : getAllWordsFromTree( paper ).length;
 
 		return paper.hasText() && paper.hasKeyword() && textLength >= this._config.applicableIfTextLongerThan;
 	}

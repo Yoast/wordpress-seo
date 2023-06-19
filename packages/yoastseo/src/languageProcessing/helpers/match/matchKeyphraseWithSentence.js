@@ -1,5 +1,6 @@
 import getWordsForHTMLParser from "../word/getWordsForHTMLParser";
 import { escapeRegExp } from "lodash-es";
+import matchTextWithTransliteration from "./matchTextWithTransliteration";
 
 /**
  * Tokenizes keyword forms for exact matching. This function gets the keyword form and tokenizes it.
@@ -67,9 +68,10 @@ const getExactMatches = ( keywordForms, sentence ) => {
  * Free matching of keyword forms in a sentence. Free matching happens when the keyphrase is enclosed in double quotes.
  * @param {(string[])[]} keywordForms The keyword forms to match.
  * @param {Sentence} sentence The sentence to match the keyword forms with.
+ * @param {string} locale The locale used for transliteration.
  * @returns {Token[]} The tokens that match the keyword forms.
  */
-const getNonExactMatches = ( keywordForms, sentence ) => {
+const getNonExactMatches = ( keywordForms, sentence, locale ) => {
 	const tokens = sentence.tokens.slice();
 
 	// Filter out all tokens that do not match the keyphrase forms.
@@ -77,7 +79,7 @@ const getNonExactMatches = ( keywordForms, sentence ) => {
 		const tokenText = escapeRegExp( token.text );
 		return keywordForms.some( ( keywordForm ) => {
 			return keywordForm.some( ( keywordFormPart ) => {
-				return tokenText.toLowerCase() === keywordFormPart.toLowerCase();
+				return matchTextWithTransliteration( tokenText, keywordFormPart, locale ).length > 0;
 			} );
 		} );
 	} );
@@ -92,7 +94,7 @@ const getNonExactMatches = ( keywordForms, sentence ) => {
  * @param {Sentence} sentence The sentence to match against the keywordForms.
  * @param {boolean} useExactMatching Whether to match the keyword forms exactly or not.
  * Depends on whether the user has put the keyphrase in double quotes.
- *
+ * @param {string} locale The locale used for transliteration.
  * @returns {Token[]} The tokens that match the keywordForms.
  *
  * The algorithm is as follows:
@@ -107,11 +109,11 @@ const getNonExactMatches = ( keywordForms, sentence ) => {
  * This function corrects for these differences by combining tokens that are separated by a word coupler (e.g. "-") into one token: the matchToken.
  * This matchToken is then compared with the keyword forms.
  */
-const matchKeyphraseWithSentence = ( keywordForms, sentence, useExactMatching = false ) => {
+const matchKeyphraseWithSentence = ( keywordForms, sentence, useExactMatching, locale = false ) => {
 	if ( useExactMatching ) {
 		return getExactMatches( keywordForms, sentence );
 	}
-	return getNonExactMatches( keywordForms, sentence );
+	return getNonExactMatches( keywordForms, sentence, locale );
 };
 
 export default matchKeyphraseWithSentence;
