@@ -3,7 +3,7 @@ import getSentencesFromTree from "../../../../src/languageProcessing/helpers/sen
 import buildTree from "../../../specHelpers/parse/buildTree";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
-describe( "test", () => {
+describe( "test to get sentences from the tree", () => {
 	let researcher;
 	beforeEach( () => {
 		researcher = new EnglishResearcher();
@@ -11,6 +11,7 @@ describe( "test", () => {
 	it( "test", () => {
 		const paper = new Paper( "<p>A very intelligent cat loves their human. A dog is very cute.</p><h3>A subheading 3" +
 			"</h3>text text text<h4>A subheading 4</h4>more text." );
+		researcher.setPaper( paper );
 		buildTree( paper, researcher );
 		expect( getSentencesFromTree( paper ) ).toEqual( [
 			{

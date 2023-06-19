@@ -165,7 +165,7 @@ const testCases = [
 		keyphraseForms: [ [ "keywords" ] ],
 		expectedCount: 0,
 		expectedMarkings: [],
-		skip: true,
+		skip: false,
 	},
 	{
 		description: "with exact matching, a multi word keyphrase should be counted if the focus keyphrase is the same",
@@ -176,7 +176,7 @@ const testCases = [
 			original: "A string with a key phrase.",
 			position: { endOffset: 36, startOffset: 29 } } ) ],
 		// Skipped for now, coz the PR for exact matching is not yet merged.
-		skip: true,
+		skip: false,
 	},
 	{
 		// eslint-disable-next-line max-len
@@ -195,8 +195,7 @@ const testCases = [
 		expectedMarkings: [ new Mark( { marked: "A <yoastmark class='yoast-text-mark'>.sentence</yoastmark> with a keyphrase.",
 			original: "A .sentence with a keyphrase.",
 			position: { endOffset: 36, startOffset: 29 } } ) ],
-		// Skipped for now, coz the PR for exact matching is not yet merged.
-		skip: true,
+		skip: false,
 	},
 	{
 		description: "can match dollar sign as in '$keyword' with exact matching.",
@@ -206,8 +205,18 @@ const testCases = [
 		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>$keyword</yoastmark>.",
 			original: "A string with a $keyword.",
 			position: { endOffset: 27, startOffset: 19 } } ) ],
-		// Skipped for now, coz the PR for exact matching is not yet merged.
-		skip: true,
+		skip: false,
+	},
+	{
+		description: "can match multiple occurrences of keyphrase in the text with exact matching.",
+		paper: new Paper( "<p>A string with cats and dogs, and other cats and dogs.</p>", { keyword: "\"cats and dogs\"" } ),
+		keyphraseForms: [ [ "cats and dogs" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>cats and dogs</yoastmark>, " +
+				"and other <yoastmark class='yoast-text-mark'>cats and dogs</yoastmark>.",
+		original: "A string with cats and dogs, and other cats and dogs.",
+		position: { endOffset: 27, startOffset: 19 } } ) ],
+		skip: false,
 	},
 ];
 
@@ -420,7 +429,7 @@ const testCasesWithLocaleMapping = [
 			new Mark( { marked: "Waltz keepin auf mitz auf keepin <yoastmark class='yoast-text-mark'>äöüß</yoastmark> weiner blitz deutsch spitzen.",
 				original: "Waltz keepin auf mitz auf keepin äöüß weiner blitz deutsch spitzen.",
 				position: { endOffset: 40, startOffset: 36 } } ) ],
-		skip: true,
+		skip: false,
 	},
 	{
 		description: "counts a string of text with Spanish accented vowel",
