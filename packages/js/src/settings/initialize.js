@@ -107,7 +107,7 @@ domReady( () => {
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
 		},
 	} );
-			
+
 	preloadMedia( { settings, fallbacks } );
 	preloadUsers( { settings } );
 	fixFocusLinkCompatibility();
