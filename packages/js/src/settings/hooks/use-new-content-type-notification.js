@@ -15,10 +15,11 @@ const useNewContentTypeNotification = () => {
 	useEffect( () => {
 		const newPostTypes = some( postTypes, [ "isNew", true ] );
 		const newTaxonomies = some( taxonomies, [ "isNew", true ] );
-	   if ( notifications[ "new-content-type" ] && ! newPostTypes.length && ! newTaxonomies.length ) {
-		   removeNotification( "new-content-type" );
-	   }
-	}, [ postTypes, taxonomies, removeNotification ] );
+
+		if ( notifications[ "new-content-type" ] && ! newPostTypes && ! newTaxonomies ) {
+			removeNotification( "new-content-type" );
+		}
+	}, [ postTypes, taxonomies ] );
 };
 
 export default useNewContentTypeNotification;
