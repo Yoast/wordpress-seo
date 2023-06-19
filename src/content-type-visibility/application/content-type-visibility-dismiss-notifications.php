@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Content_Type_Visibility\Application;
 
-use WP_REST_Request;
-use WP_REST_Response;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast_Notification_Center;
 
@@ -29,20 +27,18 @@ class Content_Type_Visibility_Dismiss_Notifications {
 	}
 
 	/**
-	 * Dismisses an alert.
+	 * Removes New badge from a post type in the Settings, remove notifications if needed.
 	 *
-	 * @param WP_REST_Request $request The request. This request should have a key param set.
-	 *
-	 * @return WP_REST_Response The response.
+	 * @param string $post_type_name The post type name from the request.
+	 * @return array The response.
 	 */
-	public function post_type_dismiss( $request ) {
-		$success = true;
-		$message = 'Post type is not new.';
-
+	public function post_type_dismiss( $post_type_name ) {
+		$success                 = true;
+		$message                 = 'Post type is not new.';
 		$post_types_needs_review = $this->options->get( 'new_post_types', [] );
 
-		if ( \in_array( $request['postTypeName'], $post_types_needs_review, true ) ) {
-			$new_needs_review = \array_diff( $post_types_needs_review, [ $request['postTypeName'] ] );
+		if ( \in_array( $post_type_name, $post_types_needs_review, true ) ) {
+			$new_needs_review = \array_diff( $post_types_needs_review, [ $post_type_name ] );
 			$success          = $this->options->set( 'new_post_types', $new_needs_review );
 			$message          = ( $success ) ? __( 'Post type is no longer new.', 'wordpress-seo' ) : __( 'Error: Post type was not removed from new_post_types list.', 'wordpress-seo' );
 			$this->maybe_dismiss_notifications();
@@ -50,32 +46,27 @@ class Content_Type_Visibility_Dismiss_Notifications {
 
 		$status = ( $success ) ? 200 : 400;
 
-		return new WP_REST_Response(
-			(object) [
-				'message' => $message,
-				'success' => $success,
-				'status'  => $status,
-			],
-			$status
-		);
+		return [
+			'message' => $message,
+			'success' => $success,
+			'status'  => $status,
+		];
 	}
 
 	/**
-	 * Dismisses an alert.
+	 * Removes New badge from a taxonomy in the Settings, remove notifications if needed.
 	 *
-	 * @param WP_REST_Request $request The request. This request should have a key param set.
-	 *
-	 * @return WP_REST_Response The response.
+	 * @param string $taxonomy_name The taxonomy name from the request.
+	 * @return array The response.
 	 */
-	public function taxonomy_dismiss( WP_REST_Request $request ) {
-		$success = true;
-		$message = 'Taxonomy is not new.';
-
+	public function taxonomy_dismiss( $taxonomy_name ) {
+		$success                 = true;
+		$message                 = 'Taxonomy is not new.';
 		$taxonomies_needs_review = $this->options->get( 'new_taxonomies', [] );
 
-		if ( \in_array( $request['taxonomyName'], $taxonomies_needs_review, true ) ) {
+		if ( \in_array( $taxonomy_name, $taxonomies_needs_review, true ) ) {
 
-			$new_needs_review = \array_diff( $taxonomies_needs_review, [ $request['taxonomyName'] ] );
+			$new_needs_review = \array_diff( $taxonomies_needs_review, [ $taxonomy_name ] );
 			$success          = $this->options->set( 'new_taxonomies', $new_needs_review );
 			$message          = ( $success ) ? __( 'Taxonomy is no longer new.', 'wordpress-seo' ) : __( 'Error: Taxonomy was not removed from new_taxonomies list.', 'wordpress-seo' );
 			$this->maybe_dismiss_notifications();
@@ -83,14 +74,11 @@ class Content_Type_Visibility_Dismiss_Notifications {
 
 		$status = ( $success ) ? 200 : 400;
 
-		return new WP_REST_Response(
-			(object) [
-				'message' => $message,
-				'success' => $success,
-				'status'  => $status,
-			],
-			$status
-		);
+		return [
+			'message' => $message,
+			'success' => $success,
+			'status'  => $status,
+		];
 	}
 
 	/**
