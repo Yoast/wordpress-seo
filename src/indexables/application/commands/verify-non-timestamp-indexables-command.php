@@ -6,6 +6,9 @@ use Yoast\WP\SEO\Indexables\Domain\Abstract_Indexables_Command;
 use Yoast\WP\SEO\Indexables\Domain\Batch_Size;
 use Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action;
 
+/**
+ *
+ */
 class Verify_Non_Timestamp_Indexables_Command extends Abstract_Indexables_Command {
 
 	/**
@@ -13,8 +16,9 @@ class Verify_Non_Timestamp_Indexables_Command extends Abstract_Indexables_Comman
 	 */
 	private $current_action;
 
-
 	/**
+	 * The constructor.
+	 *
 	 * @param int    $last_batch            The last batch count.
 	 * @param string $plugin_deactivated_at The plugin deactivated at timestamp.
 	 * @param string $current_action        The current verification action.
@@ -26,6 +30,8 @@ class Verify_Non_Timestamp_Indexables_Command extends Abstract_Indexables_Comman
 	}
 
 	/**
+	 * Gets the current action.
+	 *
 	 * @return Current_Verification_Action
 	 */
 	public function get_current_action(): Current_Verification_Action {

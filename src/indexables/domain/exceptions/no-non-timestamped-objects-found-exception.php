@@ -2,6 +2,10 @@
 
 namespace Yoast\WP\SEO\Indexables\Domain\Exceptions;
 
+
+/**
+ * The No_Non_Timestamped_Objects_Found_Exception exception.
+ */
 class No_Non_Timestamped_Objects_Found_Exception extends \Exception {
 
 	/**

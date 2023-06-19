@@ -9,6 +9,8 @@ use Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count;
 class Verification_Cron_Batch_Handler {
 
 	/**
+	 * The Options_Helper instance.
+	 *
 	 * @var Options_Helper
 	 */
 	protected $options_helper;

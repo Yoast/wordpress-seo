@@ -13,13 +13,14 @@ use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Post_Type_Archives_Ind
 use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Indexables_Action;
 use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Links_Indexables_Action;
 
+/**
+ *
+ */
 class Verify_Indexable_Action_Factory implements Verify_Indexable_Action_Factory_Interface {
 
-
 	/**
-	 * @var Verify_Term_Indexables_Action
+	 * The list of verification options.
 	 */
-	protected $verify_term_indexables_action;
 	private const VERIFICATION_MAPPING = [
 		'term',
 		'general',
@@ -27,20 +28,41 @@ class Verify_Indexable_Action_Factory implements Verify_Indexable_Action_Factory
 		'term_links',
 		'post_links',
 	];
+	/**
+	 * The Verify Term Indexable action instance.
+	 *
+	 * @var Verify_Term_Indexables_Action
+	 */
+	private $verify_term_indexables_action;
 
 	/**
+	 * The Verify General Indexables Action instance.
+	 *
 	 * @var Verify_General_Indexables_Action
 	 */
-	protected $verify_general_indexables_action;
+	private $verify_general_indexables_action;
+
 	/**
+	 * The Verify Post Type Archives Indexables Action instance.
+	 *
 	 * @var Verify_Post_Type_Archives_Indexables_Action
 	 */
-	protected $verify_post_type_archives_indexables_action;
+	private $verify_post_type_archives_indexables_action;
+
 	/**
+	 * The Verify Term Links Indexables Action instance.
+	 *
 	 * @var Verify_Term_Links_Indexables_Action
 	 */
-	protected $verify_term_links_indexables_action;
+	private $verify_term_links_indexables_action;
 
+
+	/**
+	 * @param Verify_Term_Indexables_Action               $verify_term_indexables_action The instance.
+	 * @param Verify_General_Indexables_Action            $verify_general_indexables_action The instance.
+	 * @param Verify_Post_Type_Archives_Indexables_Action $verify_post_type_archives_indexables_action The instance.
+	 * @param Verify_Term_Links_Indexables_Action         $verify_term_links_indexables_action The instance.
+	 */
 	public function __construct(
 		Verify_Term_Indexables_Action $verify_term_indexables_action,
 		Verify_General_Indexables_Action $verify_general_indexables_action,
@@ -54,7 +76,12 @@ class Verify_Indexable_Action_Factory implements Verify_Indexable_Action_Factory
 	}
 
 	/**
+	 * Finds the correct verification action for the given domain object.
+	 *
+	 * @param Current_Verification_Action $verification_action The Verification action.
+	 *
 	 * @throws Verify_Action_Not_Found_Exception
+	 * @return Verify_Indexables_Action_Interface
 	 */
 	public function get( Current_Verification_Action $verification_action ): Verify_Indexables_Action_Interface {
 		switch ( $verification_action->get_action() ) {
@@ -72,7 +99,9 @@ class Verify_Indexable_Action_Factory implements Verify_Indexable_Action_Factory
 	}
 
 	/**
-	 * @param Current_Verification_Action $current_verification_action_object
+	 * Determines the next verification action that needs to be taken.
+	 *
+	 * @param Current_Verification_Action $current_verification_action_object The current verification object to determine the next one for.
 	 *
 	 * @throws No_Verification_Action_Left_Exception
 	 * @return Current_Verification_Action

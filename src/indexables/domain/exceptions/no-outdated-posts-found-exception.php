@@ -4,6 +4,9 @@ namespace Yoast\WP\SEO\Indexables\Domain\Exceptions;
 
 use Exception;
 
+/**
+ * The No_Outdated_Posts_Found_Exception exception.
+ */
 class No_Outdated_Posts_Found_Exception extends Exception {
 
 	/**

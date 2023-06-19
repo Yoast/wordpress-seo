@@ -8,6 +8,4 @@ use Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count;
 
 class Verify_Post_Indexables_Command extends Abstract_Indexables_Command {
 
-
-
 }

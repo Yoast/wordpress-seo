@@ -6,6 +6,9 @@ use Yoast\WP\SEO\Indexables\Domain\Batch_Size;
 use Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count;
 use Yoast\WP\SEO\Models\Indexable;
 
+/**
+ * The Verify_Indexables_Action_Interface interface.
+ */
 interface Verify_Indexables_Action_Interface {
 
 	/**
@@ -17,7 +20,7 @@ interface Verify_Indexables_Action_Interface {
 	public function re_build_indexables( Last_Batch_Count $last_batch_count, Batch_Size $batch_size):bool;
 
 	/**
-	 * @param \wpdb $wpdb
+	 * @param \wpdb $wpdb The wpdb instance.
 	 *
 	 * @return mixed
 	 * @required

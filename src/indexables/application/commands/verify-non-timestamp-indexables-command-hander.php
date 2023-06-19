@@ -15,25 +15,41 @@ use Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count;
 class Verify_Non_Timestamp_Indexables_Command_Handler {
 
 	/**
+	 * The verify indexables action factory instance.
+	 *
 	 * @var Verify_Indexable_Action_Factory_Interface
 	 */
 	protected $verify_indexable_action_factory;
 
 	/**
+	 * The cron batch handler instance.
+	 *
 	 * @var Verification_Cron_Batch_Handler
 	 */
 	protected $cron_batch_handler;
 
 	/**
+	 * The next verification action handler.
+	 *
 	 * @var Next_Verification_Action_Handler
 	 */
 	protected $action_handler;
 
 	/**
+	 * The verification cron schedule handler.
+	 *
 	 * @var Verification_Cron_Schedule_Handler
 	 */
 	private $cron_schedule_handler;
 
+	/**
+	 * The constructor.
+	 *
+	 * @param Verification_Cron_Schedule_Handler           $cron_schedule_handler
+	 * @param Verification_Cron_Batch_Handler              $cron_batch_handler
+	 * @param Verify_Indexable_Action_Factory_Interface $verify_indexable_action_factory
+	 * @param Next_Verification_Action_Handler             $action_handler
+	 */
 	public function __construct(
 		Verification_Cron_Schedule_Handler $cron_schedule_handler,
 		Verification_Cron_Batch_Handler $cron_batch_handler,
@@ -47,7 +63,9 @@ class Verify_Non_Timestamp_Indexables_Command_Handler {
 	}
 
 	/**
-	 * @param Verify_Non_Timestamp_Indexables_Command $verify_non_timestamp_indexables_command
+	 * Handles the Verify_Non_Timestamp_Indexables_Command command action.
+	 *
+	 * @param Verify_Non_Timestamp_Indexables_Command $verify_non_timestamp_indexables_command The command.
 	 *
 	 * @return void
 	 */

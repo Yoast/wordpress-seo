@@ -9,27 +9,44 @@ use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Outdated_Posts_Found_Exception;
 
+/**
+ * Command handler class.
+ */
 class Verify_Post_Indexables_Command_Handler {
 
 	/**
+	 * The Outdated_Post_Indexables_Repository_Interface instance.
 	 * @var Outdated_Post_Indexables_Repository_Interface
 	 */
 	protected $outdated_post_indexables_repository;
+
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler
+	 * The Verification_Cron_Batch_Handler instance.
+	 * @var Verification_Cron_Batch_Handler
 	 */
 	protected $verification_cron_batch_handler;
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler
+	 * The Verification_Cron_Schedule_Handler instance.
+	 * @var Verification_Cron_Schedule_Handler
 	 */
 	private $cron_schedule_handler;
 
 	/**
-	 * @var \Yoast\WP\SEO\Builders\Indexable_Builder
+	 * The Indexable_Builder instance.
+	 *
+	 * @var Indexable_Builder
 	 */
 	protected $indexable_builder;
 
+	/**
+	 * The constructor.
+	 *
+	 * @param \Yoast\WP\SEO\Indexables\Application\Ports\Outdated_Post_Indexables_Repository_Interface $outdated_post_indexables_repository
+	 * @param \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler                  $cron_schedule_handler
+	 * @param \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler                     $verification_cron_batch_handler
+	 * @param \Yoast\WP\SEO\Builders\Indexable_Builder                                                 $indexable_builder
+	 */
 	public function __construct(
 		Outdated_Post_Indexables_Repository_Interface $outdated_post_indexables_repository,
 		Verification_Cron_Schedule_Handler $cron_schedule_handler,
@@ -44,7 +61,9 @@ class Verify_Post_Indexables_Command_Handler {
 	}
 
 	/**
-	 * @param Verify_Post_Indexables_Command $verify_post_indexables_command
+	 * Handles the Verify_Post_Indexables_Command command.
+	 *
+	 * @param Verify_Post_Indexables_Command $verify_post_indexables_command The command.
 	 */
 	public function handle( Verify_Post_Indexables_Command $verify_post_indexables_command ): void {
 		try {

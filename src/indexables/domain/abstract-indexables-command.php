@@ -2,14 +2,21 @@
 
 namespace Yoast\WP\SEO\Indexables\Domain;
 
+
+/**
+ * The abstract indexables command class.
+ */
 abstract class Abstract_Indexables_Command {
 
 	/**
+	 * The last batch count domain object.
+	 *
 	 * @var Last_Batch_Count $last_batch_count
 	 */
 	protected $last_batch_count;
 
 	/**
+	 * The plugin deactivated timestamp domain object.
 	 * @var Plugin_Deactivated_Timestamp $plugin_deactivated_at
 	 */
 	protected $plugin_deactivated_at;
@@ -20,6 +27,8 @@ abstract class Abstract_Indexables_Command {
 	private $batch_size;
 
 	/**
+	 * The constructor.
+	 *
 	 * @param int    $last_batch The last batch count.
 	 * @param string $plugin_deactivated_at The plugin deactivated at timestamp.
 	 */
@@ -30,6 +39,7 @@ abstract class Abstract_Indexables_Command {
 	}
 
 	/**
+	 * Gets the last batch count domain object.
 	 * @return Last_Batch_Count
 	 */
 	public function get_last_batch_count(): Last_Batch_Count {
@@ -37,6 +47,8 @@ abstract class Abstract_Indexables_Command {
 	}
 
 	/**
+	 * Gets the plugin deactivated at timestamp.
+	 *
 	 * @return Plugin_Deactivated_Timestamp
 	 */
 	public function get_plugin_deactivated_at(): Plugin_Deactivated_Timestamp {
@@ -45,6 +57,8 @@ abstract class Abstract_Indexables_Command {
 
 
 	/**
+	 * Gets the batch size.
+	 *
 	 * @return Batch_Size
 	 */
 	public function get_batch_size(): Batch_Size {

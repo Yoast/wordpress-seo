@@ -2,6 +2,9 @@
 
 namespace Yoast\WP\SEO\Indexables\Domain\Exceptions;
 
+/**
+ * The No_Verification_Action_Left_Exception exception.
+ */
 class No_Verification_Action_Left_Exception  extends \Exception {
 
 	/**

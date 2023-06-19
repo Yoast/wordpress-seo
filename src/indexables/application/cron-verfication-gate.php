@@ -8,7 +8,9 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 class Cron_Verification_Gate {
 
 	/**
-	 * @var \Yoast\WP\SEO\Helpers\Indexable_Helper
+	 *
+	 *
+	 * @var Indexable_Helper
 	 */
 	protected $indexable_helper;
 
