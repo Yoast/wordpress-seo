@@ -71,7 +71,7 @@ class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 
 		$taxonomy_dismiss_route_args = [
 			'methods'             => 'POST',
-			'callback'            => [ $this->dismiss_notifications, 'taxonomy_dismiss' ],
+			'callback'            => [ $this, 'taxonomy_dismiss_callback' ],
 			'permission_callback' => [ $this, 'can_dismiss' ],
 			'args'                => [
 				'taxonomyName' => [
@@ -105,6 +105,22 @@ class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 	}
 
 	/**
+	 * Wrapper method for Content_Type_Visibility_Dismiss_Notifications::post_type_dismiss().
+	 *
+	 * @param WP_REST_Request $request The request. This request should have a key param set.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	public function post_type_dismiss_callback( $request ) {
+		$response = $this->dismiss_notifications->post_type_dismiss( $request['post_type_name'] );
+
+		return new WP_REST_Response(
+			(object) $response,
+			$response['status']
+		);
+	}
+
+	/**
 	 * Validates taxonomy.
 	 *
 	 * @param string          $param   The parameter.
@@ -113,5 +129,21 @@ class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 	 */
 	public function validate_taxonomy( $param, $request, $key ) {
 		return taxonomy_exists( $param );
+	}
+
+	/**
+	 * Wrapper method for Content_Type_Visibility_Dismiss_Notifications::taxonomy_dismiss().
+	 *
+	 * @param WP_REST_Request $request The request. This request should have a key param set.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	public function taxonomy_dismiss_callback( WP_REST_Request $request ) {
+		$response = $this->dismiss_notifications->taxonomy_dismiss( $request['taxonomy_name'] );
+
+		return new WP_REST_Response(
+			(object) $response,
+			$response['status']
+		);
 	}
 }
