@@ -31,6 +31,7 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  * @param {string} singularLabel The post type label (singular).
  * @param {boolean} hasArchive Whether the post type has archive support.
  * @param {boolean} hasSchemaArticleType Whether the post type has schema article type support.
+ * @param {boolean} isNew Whether the post type is new.
  * @returns {JSX.Element} The post type element.
  */
 const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleType, isNew } ) => {

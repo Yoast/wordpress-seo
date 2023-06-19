@@ -24,6 +24,8 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  * @param {string} name The taxonomy name.
  * @param {string} label The taxonomy label (plural).
  * @param {string[]} postTypes The connected post types.
+ * @param {boolean} showUi Whether the taxonomy has a UI.
+ * @param {boolean} isNew Whether the taxonomy is new.
  * @returns {JSX.Element} The taxonomy element.
  */
 const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) => {
