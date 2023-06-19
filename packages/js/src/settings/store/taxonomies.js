@@ -63,7 +63,8 @@ export const taxonomyControls = {
 	[ UPDATE_REVIEW_ACTION_NAME ]: async( { payload } ) => apiFetch( {
 		path: "/yoast/v1/new-content-type-visibility/dismiss-taxonomy",
 		method: "POST",
-		data: { taxonomyName: payload },
+		// eslint-disable-next-line camelcase
+		data: { taxonomy_name: payload },
 	} ),
 };
 

@@ -53,7 +53,8 @@ export const postTypeControls = {
 	[ UPDATE_REVIEW_ACTION_NAME ]: async( { payload } ) => apiFetch( {
 		path: "/yoast/v1/new-content-type-visibility/dismiss-post-type",
 		method: "POST",
-		data: { postTypeName: payload },
+		// eslint-disable-next-line camelcase
+		data: { post_type_name: payload },
 	} ),
 };
 
