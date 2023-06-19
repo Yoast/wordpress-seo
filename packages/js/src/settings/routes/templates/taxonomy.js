@@ -48,7 +48,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) =>
 		if ( isNew ) {
 			updateTaxonomyReviewStatus( name );
 		}
-	}, [ name ] );
+	}, [ name, updateTaxonomyReviewStatus ] );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
