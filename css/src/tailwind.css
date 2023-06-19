@@ -55,7 +55,7 @@
 
 		/* Override aggressive WordPress inputs styling */
 		.yst-input {
-			@apply yst-py-2 yst-px-3 yst-border yst-bg-white yst-rounded-md yst-shadow-sm yst-text-sm yst-placeholder-gray-400 !important;
+			@apply yst-py-2 yst-px-3 yst-border yst-bg-white yst-rounded-md yst-shadow-sm yst-text-sm !important;
 		}
 
 		.yst-radio {
