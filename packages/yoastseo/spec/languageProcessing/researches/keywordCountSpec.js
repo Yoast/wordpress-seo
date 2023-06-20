@@ -431,15 +431,71 @@ const testCasesWithLocaleMapping = [
 				position: { endOffset: 40, startOffset: 36 } } ) ],
 		skip: false,
 	},
+	// Test cases for consecutive matching.
+	{
+		description: "consecutive 1",
+		paper: new Paper( "<p>this is a keywords keywords keywords.</p>", { keyword: "keyword", locale: "en_US" } ),
+		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		expectedCount: 2,
+		expectedMarkings: [
+			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Accion</yoastmark> Española fue una revista.",
+				original: "Accion Española fue una revista.",
+				position: { endOffset: 9, startOffset: 3 } } ) ],
+		skip: false,
+	},
+	{
+		description: "consecutive 2",
+		paper: new Paper( "<p>this is a keyword keyword keyword.</p>", { keyword: "keyword", locale: "en_US" } ),
+		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		expectedCount: 2,
+		expectedMarkings: [
+			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Accion</yoastmark> Española fue una revista.",
+				original: "Accion Española fue una revista.",
+				position: { endOffset: 9, startOffset: 3 } } ) ],
+		skip: false,
+	},
+	{
+		description: "consecutive 3",
+		paper: new Paper( "<p>this is a keyword keyword keyword.</p>", { keyword: "keywords", locale: "en_US" } ),
+		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		expectedCount: 2,
+		expectedMarkings: [
+			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Accion</yoastmark> Española fue una revista.",
+				original: "Accion Española fue una revista.",
+				position: { endOffset: 9, startOffset: 3 } } ) ],
+		skip: false,
+	},
+	{
+		description: "consecutive 4",
+		paper: new Paper( "<p>this is a key key key word word word.</p>", { keyword: "key words", locale: "en_US" } ),
+		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		expectedCount: 2,
+		expectedMarkings: [
+			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Accion</yoastmark> Española fue una revista.",
+				original: "Accion Española fue una revista.",
+				position: { endOffset: 9, startOffset: 3 } } ) ],
+		skip: false,
+	},
+	{
+		description: "counts a string of text with Spanish accented vowel",
+		paper: new Paper( "<p>acción Española fue una revista.</p>", { keyword: "accion", locale: "es_ES" } ),
+		keyphraseForms: [ [ "accion" ] ],
+		expectedCount: 0,
+		expectedMarkings: [
+			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Accion</yoastmark> Española fue una revista.",
+				original: "Accion Española fue una revista.",
+				position: { endOffset: 9, startOffset: 3 } } ) ],
+		skip: false,
+	},
 	{
 		description: "counts a string of text with Spanish accented vowel",
 		paper: new Paper( "<p>Accion Española fue una revista.</p>", { keyword: "acción", locale: "es_ES" } ),
 		keyphraseForms: [ [ "acción" ] ],
 		expectedCount: 1,
 		expectedMarkings: [
-			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Acción</yoastmark> Española fue una revista.",
-				original: "Acción Española fue una revista.",
-				position: { endOffset: 40, startOffset: 36 } } ) ],
+			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Accion</yoastmark> Española fue una revista.",
+				original: "Accion Española fue una revista.",
+				position: { endOffset: 9, startOffset: 3 } } ) ],
 		skip: false,
 	},
 	{
