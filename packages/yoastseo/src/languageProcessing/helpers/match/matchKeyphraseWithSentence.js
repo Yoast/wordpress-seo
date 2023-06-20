@@ -42,7 +42,7 @@ export const getExactMatches = ( keywordForms, sentence ) => {
 	while ( sentenceIndex < sentenceTokens.length ) {
 		// If the current sentence token matches the current keyword token, add it to the current match.
 		const sentenceTokenText = escapeRegExp( sentenceTokens[ sentenceIndex ].text );
-		const keywordTokenText = keywordTokens[ keywordIndex ];
+		const keywordTokenText = escapeRegExp( keywordTokens[ keywordIndex ] );
 
 		if ( sentenceTokenText.toLowerCase() === keywordTokenText.toLowerCase() ) {
 			currentMatch.push( sentenceTokens[ sentenceIndex ] );

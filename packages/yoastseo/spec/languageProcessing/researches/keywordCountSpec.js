@@ -174,8 +174,7 @@ const testCases = [
 		expectedCount: 1,
 		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key phrase</yoastmark>.",
 			original: "A string with a key phrase.",
-			position: { endOffset: 36, startOffset: 29 } } ) ],
-		// Skipped for now, coz the PR for exact matching is not yet merged.
+			position: { endOffset: 29, startOffset: 19 } } ) ],
 		skip: false,
 	},
 	{
@@ -194,7 +193,7 @@ const testCases = [
 		expectedCount: 1,
 		expectedMarkings: [ new Mark( { marked: "A <yoastmark class='yoast-text-mark'>.sentence</yoastmark> with a keyphrase.",
 			original: "A .sentence with a keyphrase.",
-			position: { endOffset: 36, startOffset: 29 } } ) ],
+			position: { endOffset: 14, startOffset: 5 } } ) ],
 		skip: false,
 	},
 	{
@@ -211,11 +210,16 @@ const testCases = [
 		description: "can match multiple occurrences of keyphrase in the text with exact matching.",
 		paper: new Paper( "<p>A string with cats and dogs, and other cats and dogs.</p>", { keyword: "\"cats and dogs\"" } ),
 		keyphraseForms: [ [ "cats and dogs" ] ],
-		expectedCount: 1,
-		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>cats and dogs</yoastmark>, " +
+		expectedCount: 2,
+		expectedMarkings: [
+			new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>cats and dogs</yoastmark>, " +
 				"and other <yoastmark class='yoast-text-mark'>cats and dogs</yoastmark>.",
-		original: "A string with cats and dogs, and other cats and dogs.",
-		position: { endOffset: 27, startOffset: 19 } } ) ],
+			original: "A string with cats and dogs, and other cats and dogs.",
+			position: { endOffset: 30, startOffset: 17 } } ),
+			new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>cats and dogs</yoastmark>, " +
+					"and other <yoastmark class='yoast-text-mark'>cats and dogs</yoastmark>.",
+			original: "A string with cats and dogs, and other cats and dogs.",
+			position: { endOffset: 55, startOffset: 42 } } ) ],
 		skip: false,
 	},
 ];
