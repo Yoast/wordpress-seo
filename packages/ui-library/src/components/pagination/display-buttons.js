@@ -14,9 +14,10 @@ const DisplayTruncated = () => <span className="yst-pagination-display__truncate
  * @param {number} total The total pages.
  * @param {function} onNavigate Callback for requested page navigation.
  * @param {number} maxPageButtons For variant buttons: the maximum number of buttons to show.
+ * @param {boolean} disabled Whether the buttons are disabled.
  * @returns {JSX.Element} The element.
  */
-const DisplayButtons = ( { current, total, onNavigate, maxPageButtons } ) => {
+const DisplayButtons = ( { current, total, onNavigate, maxPageButtons, disabled } ) => {
 	const amount = useMemo( () => clamp( total, 1, maxPageButtons ), [ total, maxPageButtons ] );
 	const half = useMemo( () => round( amount / 2, 0 ), [ amount ] );
 	const showTruncated = useMemo( () => total > maxPageButtons && maxPageButtons > 1 && current !== half + 1, [ total, maxPageButtons, half ] );
@@ -34,6 +35,7 @@ const DisplayButtons = ( { current, total, onNavigate, maxPageButtons } ) => {
 						onClick={ onNavigate }
 						data-page={ page }
 						active={ page === current }
+						disabled={ disabled }
 					>
 						{ page }
 					</Button>
@@ -47,6 +49,7 @@ const DisplayButtons = ( { current, total, onNavigate, maxPageButtons } ) => {
 						onClick={ onNavigate }
 						data-page={ current }
 						active={ true }
+						disabled={ disabled }
 					>
 						{ current }
 					</Button>
@@ -62,6 +65,7 @@ const DisplayButtons = ( { current, total, onNavigate, maxPageButtons } ) => {
 						onClick={ onNavigate }
 						data-page={ page }
 						active={ page === current }
+						disabled={ disabled }
 					>
 						{ page }
 					</Button>
@@ -77,6 +81,7 @@ DisplayButtons.propTypes = {
 	total: PropTypes.number.isRequired,
 	onNavigate: PropTypes.func.isRequired,
 	maxPageButtons: PropTypes.number.isRequired,
+	disabled: PropTypes.bool.isRequired,
 };
 
 export default DisplayButtons;
