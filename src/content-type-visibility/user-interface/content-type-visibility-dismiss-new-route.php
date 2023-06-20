@@ -6,6 +6,8 @@ use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
+use WP_REST_Request;
+use WP_REST_Response;
 
 /**
  * Handles the dismiss route for "New" badges of new content types in settings menu.
@@ -60,7 +62,7 @@ class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 	public function register_routes() {
 		$post_type_dismiss_route_args = [
 			'methods'             => 'POST',
-			'callback'            => [ $this->dismiss_notifications, 'post_type_dismiss' ],
+			'callback'            => [ $this, 'post_type_dismiss_callback' ],
 			'permission_callback' => [ $this, 'can_dismiss' ],
 			'args'                => [
 				'postTypeName' => [
