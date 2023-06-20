@@ -2,7 +2,10 @@ import { flatten } from "lodash-es";
 import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
 import { normalizeSingle } from "../helpers/sanitize/quotes";
 import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
-import { getExactMatches, getNonExactMatches } from "../helpers/match/matchKeyphraseWithSentence";
+import {
+	matchKeyphraseWithSentence,
+	tokenizeKeywordFormsForExactMatching,
+} from "../helpers/match/matchKeyphraseWithSentence";
 import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
 import matchTextWithTransliteration from "../helpers/match/matchTextWithTransliteration";
 
@@ -13,7 +16,7 @@ import matchTextWithTransliteration from "../helpers/match/matchTextWithTranslit
  * @param {string} locale The locale used for transliteration.
  * @returns {number} The number of matches.
  */
-const countMatches = ( matches, keyphraseForms, locale ) => {
+const countMatches = ( matches, keyphraseForms, locale, isExactMatchRequested ) => {
 	// the count is the number of complete matches.
 	const matchesCopy = [ ...matches ];
 
@@ -31,8 +34,15 @@ const countMatches = ( matches, keyphraseForms, locale ) => {
 			// check if any of the keyphrase forms is in the matches.
 			const foundMatch = matchesCopy.find( match =>{
 				return keyphraseForm.some( keyphraseFormWord => {
-					// const theRegex = new RegExp( `^${keyphraseFormWord}$`, "ig" );
-					// return match.text.match( theRegex );
+					if ( isExactMatchRequested ) {
+						// keyphraseForm = [ "key phrase" ]
+						// keyphraseWord = "key phrase"
+						// match = { text: "", sourceCodeInfo: {} }
+						keyphraseFormWord = tokenizeKeywordFormsForExactMatching( keyphraseFormWord );
+						// "key phrase" => [ "key", " ", "phrase" ]
+						return keyphraseFormWord.every( word => matchTextWithTransliteration( match.text, word, locale ).length > 0 );
+
+					}
 					return matchTextWithTransliteration( match.text, keyphraseFormWord, locale ).length > 0;
 				} );
 			} );
@@ -102,18 +112,10 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 	sentences.forEach( sentence => {
 		// eslint-disable-next-line no-warning-comments
 		// TODO: test in Japanese to see if we use this helper as well
-		let matchesCount = 0;
-		let markings = [];
-		if ( isExactMatchRequested ) {
-			const matchesInSentence = getExactMatches( topicForms.keyphraseForms, sentence );
-			matchesCount = matchesInSentence.count > 2 ? 2 : matchesInSentence.count;
-			markings = getMarkingsInSentence( sentence, matchesInSentence.matches, matchWordCustomHelper, locale );
-		} else {
-			const matchesInSentence = getNonExactMatches( topicForms.keyphraseForms, sentence, locale );
-			const matchesInSentenceWithoutConsecutiveMatches = removeConsecutiveMatches( matchesInSentence );
-			matchesCount = countMatches( matchesInSentenceWithoutConsecutiveMatches, topicForms.keyphraseForms, locale );
-			markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale );
-		}
+		const matchesInSentence = matchKeyphraseWithSentence( topicForms.keyphraseForms, sentence, locale, isExactMatchRequested );
+		const matchesInSentenceWithoutConsecutiveMatches = removeConsecutiveMatches( matchesInSentence );
+		const matchesCount = countMatches( matchesInSentenceWithoutConsecutiveMatches, topicForms.keyphraseForms, locale, isExactMatchRequested );
+		const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale );
 
 		result.markings.push( markings );
 		result.count += matchesCount;
@@ -154,7 +156,7 @@ export default function keyphraseCount( paper, researcher ) {
 
 	return {
 		count: keyphraseFound.count,
-		markings: flatten( keyphraseFound.markings ),
+		markings: keyphraseFound.count === 0 ? [] : flatten( keyphraseFound.markings ),
 		length: topicForms.keyphraseForms.length,
 	};
 }

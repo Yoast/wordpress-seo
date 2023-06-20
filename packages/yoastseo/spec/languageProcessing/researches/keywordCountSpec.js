@@ -198,8 +198,8 @@ const testCases = [
 	},
 	{
 		description: "can match dollar sign as in '$keyword' with exact matching.",
-		paper: new Paper( "<p>A string with a $keyword.</p>", { keyword: "\"\\$keyword\"" } ),
-		keyphraseForms: [ [ "\\$keyword" ] ],
+		paper: new Paper( "<p>A string with a $keyword.</p>", { keyword: "\"$keyword\"" } ),
+		keyphraseForms: [ [ "$keyword" ] ],
 		expectedCount: 1,
 		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>$keyword</yoastmark>.",
 			original: "A string with a $keyword.",
@@ -302,8 +302,8 @@ const testCasesWithSpecialCharacters = [
 	},
 	{
 		description: "can match dollar sign as in '$keyword'.",
-		paper: new Paper( "<p>A string with a $keyword.</p>" ),
-		keyphraseForms: [ [ "\\$keyword" ] ],
+		paper: new Paper( "<p>A string with a $keyword.</p>", { keyword: "$keyword" } ),
+		keyphraseForms: [ [ "$keyword" ] ],
 		expectedCount: 1,
 		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>$keyword</yoastmark>.",
 			original: "A string with a $keyword.",
@@ -481,8 +481,19 @@ const testCasesWithLocaleMapping = [
 		skip: false,
 	},
 	{
+		description: "consecutive 5",
+		paper: new Paper( "<p>this is a key word key word key word.</p>", { keyword: "key words", locale: "en_US" } ),
+		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		expectedCount: 3,
+		expectedMarkings: [
+			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Accion</yoastmark> Española fue una revista.",
+				original: "Accion Española fue una revista.",
+				position: { endOffset: 9, startOffset: 3 } } ) ],
+		skip: false,
+	},
+	{
 		description: "counts a string of text with Spanish accented vowel",
-		paper: new Paper( "<p>acción Española fue una revista.</p>", { keyword: "accion", locale: "es_ES" } ),
+		paper: new Paper( "<p>Acción Española fue una revista.</p>", { keyword: "accion", locale: "es_ES" } ),
 		keyphraseForms: [ [ "accion" ] ],
 		expectedCount: 0,
 		expectedMarkings: [
@@ -522,6 +533,16 @@ const testCasesWithLocaleMapping = [
 			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Acción</yoastmark> Española fue una revista.",
 				original: "Acción Española fue una revista.",
 				position: { endOffset: 40, startOffset: 36 } } ) ],
+		skip: false,
+	},
+	{
+		description: "counts a string with with a different forms of Turkish i, kephrase: İstanbul",
+		paper: new Paper( "<p>Türkçe and Turkce</p>", { keyword: "Türkçe", locale: "tr_TR" } ),
+		keyphraseForms: [ [ "Türkçe" ] ],
+		expectedCount: 4,
+		expectedMarkings: [ new Mark( { marked: "A string with '<yoastmark class='yoast-text-mark'>kapaklı</yoastmark>' as a keyword in it",
+			original: "A string with 'kapaklı' as a keyword in it",
+			position: { endOffset: 25, startOffset: 18 } } ) ],
 		skip: false,
 	},
 	{

@@ -11,7 +11,7 @@ import matchTextWithTransliteration from "./matchTextWithTransliteration";
  *
  * @returns {string[]} The tokenized keyword forms.
  */
-const tokenizeKeywordFormsForExactMatching = ( keywordForms ) => {
+export const tokenizeKeywordFormsForExactMatching = ( keywordForms ) => {
 	// Tokenize keyword forms.
 	const keywordFormsText = keywordForms[ 0 ][ 0 ];
 	return getWordsForHTMLParser( keywordFormsText );
@@ -24,7 +24,7 @@ const tokenizeKeywordFormsForExactMatching = ( keywordForms ) => {
  * @param {(string[])[]} keywordForms The keyword forms to match.
  * @param {Sentence} sentence The sentence to match the keyword forms with.
  *
- * @returns {Object} The tokens that exactly match the keyword forms.
+ * @returns {Token[]} The tokens that exactly match the keyword forms.
  */
 export const getExactMatches = ( keywordForms, sentence ) => {
 	// Tokenize keyword forms.
@@ -36,7 +36,6 @@ export const getExactMatches = ( keywordForms, sentence ) => {
 	let keywordIndex = 0;
 	let sentenceIndex = 0;
 	const matches = [];
-	let count = 0;
 	let currentMatch = [];
 
 	while ( sentenceIndex < sentenceTokens.length ) {
@@ -56,14 +55,13 @@ export const getExactMatches = ( keywordForms, sentence ) => {
 		// Add the current match to the matches array and reset the keyword index and the current match.
 		if ( currentMatch.length === keywordTokens.length ) {
 			matches.push( ...currentMatch );
-			count++;
 			keywordIndex = 0;
 			currentMatch = [];
 		}
 
 		sentenceIndex++;
 	}
-	return { count: count, matches: matches };
+	return matches;
 };
 
 /**
