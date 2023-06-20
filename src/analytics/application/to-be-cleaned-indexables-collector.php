@@ -9,6 +9,8 @@ use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 
 /**
  * Collects data about to-be-cleaned indexables.
+ *
+ * @makePublic
  */
 class To_Be_Cleaned_Indexables_Collector implements WPSEO_Collection {
 
