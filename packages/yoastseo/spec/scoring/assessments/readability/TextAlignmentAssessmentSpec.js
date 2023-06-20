@@ -26,7 +26,7 @@ describe( "tests assessment results in languages written from left to right (LTR
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
 			new Mark( {
-				original: "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>",
+				original: "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters.</p>",
 				marked: "<yoastmark class='yoast-text-mark'>This is a paragraph with a bit more than fifty characters.</yoastmark>",
 				fieldsToMark: "paragraph",
 			} ),
@@ -45,7 +45,7 @@ describe( "tests assessment results in languages written from left to right (LTR
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
 			new Mark( {
-				original: "<h3 class=\"has-text-align-center\">This is a heading with a bit more than fifty characters.</h3>",
+				original: "<h3 class='has-text-align-center'>This is a heading with a bit more than fifty characters.</h3>",
 				marked: "<yoastmark class='yoast-text-mark'>This is a heading with a bit more than fifty characters.</yoastmark>",
 				fieldsToMark: "heading",
 			} ),
@@ -66,12 +66,12 @@ describe( "tests assessment results in languages written from left to right (LTR
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
 			new Mark( {
-				original: "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>",
+				original: "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters.</p>",
 				marked: "<yoastmark class='yoast-text-mark'>This is a paragraph with a bit more than fifty characters.</yoastmark>",
 				fieldsToMark: "paragraph",
 			} ),
 			new Mark( {
-				original: "<p class=\"has-text-align-center\">This is another paragraph with a bit more than fifty characters.</p>",
+				original: "<p class='has-text-align-center'>This is another paragraph with a bit more than fifty characters.</p>",
 				marked: "<yoastmark class='yoast-text-mark'>This is another paragraph with a bit more than fifty characters.</yoastmark>",
 				fieldsToMark: "paragraph",
 			} ),
@@ -91,12 +91,12 @@ describe( "tests assessment results in languages written from left to right (LTR
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
 			new Mark( {
-				original: "<h6 class=\"has-text-align-center\">This is a heading with a bit more than fifty characters.</h6>",
+				original: "<h6 class='has-text-align-center'>This is a heading with a bit more than fifty characters.</h6>",
 				marked: "<yoastmark class='yoast-text-mark'>This is a heading with a bit more than fifty characters.</yoastmark>",
 				fieldsToMark: "heading",
 			} ),
 			new Mark( {
-				original: "<h5 class=\"has-text-align-center\">This is another heading with a bit more than fifty characters.</h5>",
+				original: "<h5 class='has-text-align-center'>This is another heading with a bit more than fifty characters.</h5>",
 				marked: "<yoastmark class='yoast-text-mark'>This is another heading with a bit more than fifty characters.</yoastmark>",
 				fieldsToMark: "heading",
 			} ),
@@ -116,12 +116,12 @@ describe( "tests assessment results in languages written from left to right (LTR
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
 			new Mark( {
-				original: "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>",
+				original: "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters.</p>",
 				marked: "<yoastmark class='yoast-text-mark'>This is a paragraph with a bit more than fifty characters.</yoastmark>",
 				fieldsToMark: "paragraph",
 			} ),
 			new Mark( {
-				original: "<h2 class=\"has-text-align-center\">This is a heading with a bit more than fifty characters.</h2>",
+				original: "<h2 class='has-text-align-center'>This is a heading with a bit more than fifty characters.</h2>",
 				marked: "<yoastmark class='yoast-text-mark'>This is a heading with a bit more than fifty characters.</yoastmark>",
 				fieldsToMark: "heading",
 			} ),
@@ -143,7 +143,7 @@ describe( "tests assessment results in languages written from left to right (LTR
 
 		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
 			new Mark( {
-				original: "<p class=\"has-text-align-center\">This      is a paragraph with a bit   more than fifty characters.</p>",
+				original: "<p class='has-text-align-center'>This      is a paragraph with a bit   more than fifty characters.</p>",
 				marked: "<yoastmark class='yoast-text-mark'>This      is a paragraph with a bit   more than fifty characters.</yoastmark>",
 				fieldsToMark: "paragraph",
 			} ),
@@ -172,7 +172,7 @@ describe( "tests the feedback strings of the assessment run for languages writte
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperRTL, researcher ) ).toEqual( [
 			new Mark( {
-				original: "<p class=\"has-text-align-center\">שמענו סיפורים רבים על כלבים שהצילו חיים של בני אדם.</p>",
+				original: "<p class='has-text-align-center'>שמענו סיפורים רבים על כלבים שהצילו חיים של בני אדם.</p>",
 				marked: "<yoastmark class='yoast-text-mark'>שמענו סיפורים רבים על כלבים שהצילו חיים של בני אדם.</yoastmark>",
 				fieldsToMark: "paragraph",
 			} ),
@@ -195,12 +195,12 @@ describe( "tests the feedback strings of the assessment run for languages writte
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperRTL, researcher ) ).toEqual( [
 			new Mark( {
-				original: "<p class=\"has-text-align-center\">אתה ערערת את הכח שלנו ועשה את החתולים להיראות חלשים.</p>",
+				original: "<p class='has-text-align-center'>אתה ערערת את הכח שלנו ועשה את החתולים להיראות חלשים.</p>",
 				marked: "<yoastmark class='yoast-text-mark'>אתה ערערת את הכח שלנו ועשה את החתולים להיראות חלשים.</yoastmark>",
 				fieldsToMark: "paragraph",
 			} ),
 			new Mark( {
-				original: "<h2 class=\"has-text-align-center\">שמענו סיפורים רבים על כלבים שהצילו חיים של בני אדם.</h2>",
+				original: "<h2 class='has-text-align-center'>שמענו סיפורים רבים על כלבים שהצילו חיים של בני אדם.</h2>",
 				marked: "<yoastmark class='yoast-text-mark'>שמענו סיפורים רבים על כלבים שהצילו חיים של בני אדם.</yoastmark>",
 				fieldsToMark: "heading",
 			} ),
@@ -217,13 +217,13 @@ describe( "tests for the assessment's applicability.", function() {
 	} );
 
 	it( "returns false when the researcher doesn't have the research.", function() {
-		const mockPaper = new Paper( "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>" );
+		const mockPaper = new Paper( "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters.</p>" );
 		const researcher = new EnglishResearcher( mockPaper );
 		expect( textAlignmentAssessment.isApplicable( mockPaper, researcher ) ).toBe( false );
 	} );
 
 	it( "returns true when the paper has more than 50 characters and the researcher has the research.", function() {
-		const mockPaper = new Paper( "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>" );
+		const mockPaper = new Paper( "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters.</p>" );
 		const researcher = new EnglishResearcher( mockPaper );
 		researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
 		expect( textAlignmentAssessment.isApplicable( mockPaper, researcher ) ).toBe( true );

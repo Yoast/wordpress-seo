@@ -8,6 +8,7 @@ describe( "mapEditorDataToPreview", () => {
 			title: "",
 			url: "local.wordpress.test/my URL is awesome",
 			description: "",
+			filteredSEOTitle: "",
 		};
 		context = {
 			shortenedBaseUrl: "local.wordpress.test/",
@@ -20,6 +21,7 @@ describe( "mapEditorDataToPreview", () => {
 			description: "no more spaces",
 			title: "",
 			url: "local.wordpress.test/my-URL-is-awesome",
+			filteredSEOTitle: "",
 		};
 		dataObject.description = exampleDescription;
 
@@ -34,6 +36,7 @@ describe( "mapEditorDataToPreview", () => {
 			description: "Yay for spaces",
 			title: "",
 			url: "local.wordpress.test/my-URL-is-awesome",
+			filteredSEOTitle: "",
 		};
 		dataObject.description = exampleDescription;
 
@@ -48,6 +51,7 @@ describe( "mapEditorDataToPreview", () => {
 			description: "",
 			title: "",
 			url: "local.wordpress.test/only-one-dash",
+			filteredSEOTitle: "",
 		};
 		dataObject.url = exampleUrl;
 
@@ -62,6 +66,7 @@ describe( "mapEditorDataToPreview", () => {
 			description: "",
 			title: "",
 			url: "local.wordpress.test/only-one-dash",
+			filteredSEOTitle: "",
 		};
 		dataObject.url = exampleUrl;
 

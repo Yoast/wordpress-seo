@@ -1022,7 +1022,7 @@ class WPSEO_Meta {
 			->find_array();
 
 		// Get object_id from each subarray in $post_ids.
-		$post_ids = array_column( $post_ids, 'object_id' );
+		$post_ids = ( is_array( $post_ids ) ) ? array_column( $post_ids, 'object_id' ) : [];
 
 		/*
 		 * If Premium is installed, get the additional keywords as well.

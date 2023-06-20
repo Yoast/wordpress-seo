@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.2
-Stable tag: 20.8
+Stable tag: 20.9
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -245,42 +245,49 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 20.9 =
+= 20.10 =
 
-Release date: 2023-06-06
-
-#### Enhancements
-
-* Sets up background indexation via WP Cron.
-* Tightens crawl optimization site search blocking rules.
-
-#### Bugfixes
-
-* Fixes a bug where indexables would be created when using the `wp yoast index` WP CLI command on a staging site.
-* Fixes a bug where the link popover position in the block editor would be positioned incorrectly when adding or creating links.
-* Fixes a bug where the Yoast SEO metabox would crash in conjunction with Yoast SEO Premium when additional keyphrases are stored in the DB in a malformed way.
-
-= 20.8 =
-
-Release date: 2023-05-23
-
-Today, we're launching Yoast SEO 20.8. In this release, you'll find improvements to our content analyses and regular fixes and enhancements. Find out more about what's new in Yoast SEO 20.8 in [our release post](https://yoa.st/release-23-5-23)!
+Release date: 2023-06-27
 
 #### Enhancements
 
-* Improves feedback strings for the _keyphrase density_ assessment by referring to the keyphrase in general instead of the focus keyphrase.
-* Improves the accuracy of the content analysis by excluding texts within textarea tags from the analysis.
+* Adds a support page to the Yoast admin.
+* Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
+* Excludes the Yoast SEO Breadcrumbs widget from the content analysis in Elementor Pro.
+* Expands the list of HTML elements excluded from the content analysis.
+* Introduces a new setting for crawl optimization, that disallows AdsBot crawling when enabled.
+* Introduces more robust HTML processing for the _competing links_, _keyphrase in introduction_, _image keyphrase_, and _images_ assessments.
+* Removes any meta tags for enhanced Slack sharing from static home pages.
 
 #### Bugfixes
 
-* Fixes a bug where an entry in the indexable table would be created when an archive of a non-public but publicly queryable post type would be visited.
-* Fixes a bug where a warning about a missing key in a component would be thrown in the console in the Yoast SEO Settings page.
-* Fixes a bug where entries in the indexable table would be created for archives of excluded post types.
-* Fixes a bug where the score icon for the SEO and Readability tabs would not show a sad emoji when the post is empty or there is no set keyphrase.
+* Fixes a bug where deletion notice would not appear when deleting a term when the `term_id` is different from `taxonomy_term_id`.
+* Fixes a bug where terms with custom canonical URLs would get added in the sitemap.
+* Fixes a bug where the WordPress native sitemap would not work properly after Yoast SEO was deactivated, until rewrite rules were flushed.
+* Fixes a bug where the wrong taxonomy name would appear in the notice when deleting a term.
 
 #### Other
 
-* Renames \"SEO Framework\" to \"The SEO Framework\".
+* Deprecates the `Old_Premium_Integration`.
+
+= 20.9 =
+
+Release date: 2023-06-13
+
+In Yoast SEO 20.9, you'll find improvements to our Wincher integration. We've added a dashboard widget to track your keyphrase rankings. We've also done the usual fixes and made enhancements. Find out more about what's new in Yoast SEO 20.9 in [our release post](https://yoa.st/release-13-6-23)!
+
+#### Enhancements
+
+* Adds a new widget on the dashboard that shows your top keywords added to Yoast SEO with Wincher. Provides a connection button if you haven't yet connected your site to Wincher.
+* Tightens crawl optimization site search blocking rules.
+* We now automatically schedule background performance optimization processes (via WP Cron).
+
+#### Bugfixes
+
+* Fixes a bug where a fatal error would occur after updating the plugin due to a failed query.
+* Fixes a bug where indexables would be created when using the `wp yoast index` WP CLI command on a staging site.
+* Fixes a bug where the link popover position in the block editor would be positioned incorrectly when adding or creating links.
+* Fixes a bug where the Yoast SEO metabox would crash in conjunction with Yoast SEO Premium when additional keyphrases are stored in the DB in a malformed way.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
