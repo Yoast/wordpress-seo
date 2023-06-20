@@ -33,7 +33,7 @@ const countMatches = ( matches, keyphraseForms, locale ) => {
 				return keyphraseForm.some( keyphraseFormWord => {
 					// const theRegex = new RegExp( `^${keyphraseFormWord}$`, "ig" );
 					// return match.text.match( theRegex );
-					return matchTextWithTransliteration( match.text, keyphraseFormWord, locale );
+					return matchTextWithTransliteration( match.text, keyphraseFormWord, locale ).length > 0;
 				} );
 			} );
 			//
