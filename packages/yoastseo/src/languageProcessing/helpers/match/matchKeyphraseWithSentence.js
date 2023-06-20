@@ -92,9 +92,9 @@ const getNonExactMatches = ( keywordForms, sentence, locale ) => {
  * E.g. If the keyphrase is "key word", then (if premium is activated) this will be [ [ "key", "keys" ], [ "word", "words" ] ]
  * The forms are retrieved higher up (among others in keywordCount.js) with researcher.getResearch( "morphology" ).
  * @param {Sentence} sentence The sentence to match against the keywordForms.
+ * @param {string} locale The locale used for transliteration.
  * @param {boolean} useExactMatching Whether to match the keyword forms exactly or not.
  * Depends on whether the user has put the keyphrase in double quotes.
- * @param {string} locale The locale used for transliteration.
  * @returns {Token[]} The tokens that match the keywordForms.
  *
  * The algorithm is as follows:
@@ -109,7 +109,7 @@ const getNonExactMatches = ( keywordForms, sentence, locale ) => {
  * This function corrects for these differences by combining tokens that are separated by a word coupler (e.g. "-") into one token: the matchToken.
  * This matchToken is then compared with the keyword forms.
  */
-const matchKeyphraseWithSentence = ( keywordForms, sentence, useExactMatching, locale = false ) => {
+const matchKeyphraseWithSentence = ( keywordForms, sentence, locale, useExactMatching = false ) => {
 	if ( useExactMatching ) {
 		return getExactMatches( keywordForms, sentence );
 	}

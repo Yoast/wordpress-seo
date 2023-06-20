@@ -4,14 +4,16 @@ import { normalizeSingle } from "../helpers/sanitize/quotes";
 import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
 import matchKeyphraseWithSentence from "../helpers/match/matchKeyphraseWithSentence";
 import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
+import matchTextWithTransliteration from "../helpers/match/matchTextWithTransliteration";
 
 /**
  * Counts the number of matches for a keyphrase in a sentence.
  * @param {Token[]} matches The matches to count.
- * @param {(string[])[]} keyphraseForms Keyphraseforms that were used for matching.
+ * @param {(string[])[]} keyphraseForms The keyphrase forms that were used for matching.
+ * @param {string} locale The locale used for transliteration.
  * @returns {number} The number of matches.
  */
-const countMatches = ( matches, keyphraseForms ) => {
+const countMatches = ( matches, keyphraseForms, locale ) => {
 	// the count is the number of complete matches.
 	const matchesCopy = [ ...matches ];
 
@@ -29,8 +31,9 @@ const countMatches = ( matches, keyphraseForms ) => {
 			// check if any of the keyphrase forms is in the matches.
 			const foundMatch = matchesCopy.find( match =>{
 				return keyphraseForm.some( keyphraseFormWord => {
-					const theRegex = new RegExp( `^${keyphraseFormWord}$`, "ig" );
-					return match.text.match( theRegex );
+					// const theRegex = new RegExp( `^${keyphraseFormWord}$`, "ig" );
+					// return match.text.match( theRegex );
+					return matchTextWithTransliteration( match.text, keyphraseFormWord, locale );
 				} );
 			} );
 			//
@@ -100,10 +103,9 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 	sentences.forEach( sentence => {
 		// eslint-disable-next-line no-warning-comments
 		// TODO: test in Japanese to see if we use this helper as well
-		const matchesInSentence = matchKeyphraseWithSentence( topicForms.keyphraseForms, sentence, isExactMatchRequested, locale );
-		console.log( matchesInSentence, "matches" );
+		const matchesInSentence = matchKeyphraseWithSentence( topicForms.keyphraseForms, sentence, locale, isExactMatchRequested );
 		const matchesInSentenceWithoutConsecutiveMatches = removeConsecutiveMatches( matchesInSentence );
-		const matchesCount = countMatches( matchesInSentenceWithoutConsecutiveMatches, topicForms.keyphraseForms );
+		const matchesCount = countMatches( matchesInSentenceWithoutConsecutiveMatches, topicForms.keyphraseForms, locale );
 		const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale );
 
 		result.markings.push( markings );
@@ -124,6 +126,16 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 export default function keyphraseCount( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 	topicForms.keyphraseForms = topicForms.keyphraseForms.map( word => word.map( form => normalizeSingle( form ) ) );
+	// [ [tortie], [cat, cats] ]
+	// KW: tortie cat
+	// A pretty tortie cat, among many cats. Cats are beautiful. A pretty tortie cat, among many cats. Cats are beautiful.
+	if ( topicForms.keyphraseForms.length === 0 ) {
+		return {
+			count: 0,
+			markings: [],
+			length: 0,
+		};
+	}
 
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const locale = paper.getLocale();
