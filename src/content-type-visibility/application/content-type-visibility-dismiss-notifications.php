@@ -63,7 +63,7 @@ class Content_Type_Visibility_Dismiss_Notifications {
 	 */
 	public function taxonomy_dismiss( $taxonomy_name ) {
 		$success                 = true;
-		$message                 = 'Taxonomy is not new.';
+		$message                 = __( 'Taxonomy is not new.', 'wordpress-seo' );
 		$taxonomies_needs_review = $this->options->get( 'new_taxonomies', [] );
 
 		if ( \in_array( $taxonomy_name, $taxonomies_needs_review, true ) ) {
