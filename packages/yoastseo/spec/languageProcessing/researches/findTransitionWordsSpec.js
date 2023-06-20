@@ -145,6 +145,13 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
 
+	it( "ignores transition words inside elements we want to exclude from the analysis", function() {
+		mockPaper = new Paper( "There is a hidden transition word <code>however</code> in this sentence.", { locale: "en_US" } );
+		result = transitionWordsResearch( mockPaper, new EnglishResearcher( mockPaper ) );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 0 );
+	} );
+
 	/*it( "returns 1 when a transition word is found in a sentence (German)", function() {
 		// Transition word: zuerst.
 		mockPaper = new Paper( "Zuerst werde ich versuchen zu verstehen, warum er so denkt.", { locale: "de_DE" } );

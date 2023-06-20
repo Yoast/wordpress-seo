@@ -83,6 +83,7 @@ class Settings_Integration implements Integration_Interface {
 		'wpseo' => [
 			'deny_search_crawling',
 			'deny_wp_json_crawling',
+			'deny_adsbot_crawling',
 		],
 	];
 
@@ -440,12 +441,14 @@ class Settings_Integration implements Integration_Interface {
 			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
 			'createUserUrl'                 => \admin_url( 'user-new.php' ),
+			'createPageUrl'                 => \admin_url( 'post-new.php?post_type=page' ),
 			'editUserUrl'                   => \admin_url( 'user-edit.php' ),
 			'editTaxonomyUrl'               => \admin_url( 'edit-tags.php' ),
 			'generalSettingsUrl'            => \admin_url( 'options-general.php' ),
 			'companyOrPersonMessage'        => \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' ),
 			'currentUserId'                 => \get_current_user_id(),
 			'canCreateUsers'                => \current_user_can( 'create_users' ),
+			'canCreatePages'                => \current_user_can( 'edit_pages' ),
 			'canEditUsers'                  => \current_user_can( 'edit_users' ),
 			'canManageOptions'              => \current_user_can( 'manage_options' ),
 			'userLocale'                    => \str_replace( '_', '-', \get_user_locale() ),
@@ -453,6 +456,7 @@ class Settings_Integration implements Integration_Interface {
 			'showForceRewriteTitlesSetting' => ! \current_theme_supports( 'title-tag' ) && ! ( \function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ),
 			'upsellSettings'                => $this->get_upsell_settings(),
 			'siteRepresentsPerson'          => $this->get_site_represents_person( $settings ),
+			'siteBasicsPolicies'            => $this->get_site_basics_policies( $settings ),
 		];
 	}
 
@@ -478,6 +482,55 @@ class Settings_Integration implements Integration_Interface {
 		}
 
 		return $person;
+	}
+
+	/**
+	 * Get site policy data.
+	 *
+	 * @param array $settings The settings.
+	 *
+	 * @return array The policy data.
+	 */
+	private function get_site_basics_policies( $settings ) {
+		$policies = [];
+
+
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['publishing_principles_id'], 'publishing_principles_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['ownership_funding_info_id'], 'ownership_funding_info_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['actionable_feedback_policy_id'], 'actionable_feedback_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['corrections_policy_id'], 'corrections_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['ethics_policy_id'], 'ethics_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['diversity_policy_id'], 'diversity_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['diversity_staffing_report_id'], 'diversity_staffing_report_id' );
+
+		return $policies;
+	}
+
+	/**
+	 * Adds policy data if it is present.
+	 *
+	 * @param array  $policies The existing policy data.
+	 * @param int    $policy   The policy id to check.
+	 * @param string $key      The option key name.
+	 *
+	 * @return array The policy data.
+	 */
+	private function maybe_add_policy( $policies, $policy, $key ) {
+		$policy_array = [
+			'id'   => false,
+			'name' => '',
+		];
+
+		if ( isset( $policy ) && \is_int( $policy ) ) {
+			$policy_array['id'] = $policy;
+			$post               = \get_post( $policy );
+			if ( $post instanceof \WP_Post ) {
+				$policy_array['name'] = $post->post_title;
+			}
+		}
+		$policies[ $key ] = $policy_array;
+
+		return $policies;
 	}
 
 	/**

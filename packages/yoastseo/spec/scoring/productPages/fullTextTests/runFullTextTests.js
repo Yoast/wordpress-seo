@@ -1,5 +1,4 @@
-import { getLanguagesWithWordComplexity } from "../../../../src/helpers";
-import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
+import { createAnchorOpeningTag, getLanguagesWithWordComplexity } from "../../../../src/helpers";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
@@ -7,6 +6,7 @@ import wordComplexity from "../../../../src/languageProcessing/researches/wordCo
 import getWordComplexityConfig from "../../../specHelpers/getWordComplexityConfig";
 import getWordComplexityHelper from "../../../specHelpers/getWordComplexityHelper";
 import keyphraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
+import buildTree from "../../../../../yoastseo/spec/specHelpers/parse/buildTree";
 
 // Import SEO assessments.
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
@@ -29,7 +29,7 @@ import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/Keyph
 import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
 import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
 
-// Import Readability assessments.
+// Import Readability assessments
 import SubheadingDistributionTooLongAssessment
 	from "../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
 import ParagraphTooLongAssessment from "../../../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
@@ -61,6 +61,8 @@ testPapers.forEach( function( testPaper ) {
 			researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( language ) );
 			researcher.addConfig( "wordComplexity", getWordComplexityConfig( language ) );
 		}
+
+		buildTree( paper, researcher );
 
 		const expectedResults = testPaper.expectedResults;
 		const result = {};

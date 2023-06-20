@@ -132,7 +132,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'results' => [
+				'results' => (object) [
 					'yoast seo' => [
 						'keyword' => 'yoast seo',
 						'id'      => 12345,
@@ -288,7 +288,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'results' => [
+				'results' => (object) [
 					'yoast seo' => [
 						'keyword' => 'yoast seo',
 						'id'      => 12345,
@@ -356,7 +356,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'results' => [],
+				'results' => (object) [],
 				'status'  => 200,
 			],
 			$this->instance->get_tracked_keyphrases( [] )
@@ -408,7 +408,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'results' => [
+				'results' => (object) [
 					'yoast seo' => [
 						'keyword' => 'yoast seo',
 						'id'      => 12345,
@@ -465,7 +465,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'results' => [
+				'results' => (object) [
 					'yoast seo' => [
 						'keyword'  => 'yoast seo',
 						'id'       => 22345,

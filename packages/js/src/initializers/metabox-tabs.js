@@ -157,34 +157,6 @@ export default function initTabs( jQuery ) {
 	 * @returns {void}
 	 */
 	function wpseoInitTabs() {
-		// When there's only one add-on tab, change its link to a span element.
-		var addonsTabsLinks = jQuery( "#wpseo-meta-section-addons .wpseo_tablink" );
-		if ( addonsTabsLinks.length === 1 ) {
-			addonsTabsLinks.replaceWith( "<span class='" + addonsTabsLinks[ 0 ].className + "'>" + addonsTabsLinks.text() + "</span>" );
-		}
-
-		// Tabs within the main tabs, e.g.: Facebook, Twitter, Video, and News.
-		if ( jQuery( ".wpseo-metabox-tabs-div" ).length > 0 ) {
-			jQuery( ".wpseo-metabox-tabs" )
-				.on( "click", "a.wpseo_tablink", function( ev ) {
-					ev.preventDefault();
-
-					jQuery( ".wpseo-meta-section.active .wpseo-metabox-tabs li" ).removeClass( "active" );
-					jQuery( ".wpseo-meta-section.active .wpseotab" ).removeClass( "active" );
-
-					var targetElem = jQuery( jQuery( this ).attr( "href" ) );
-					targetElem.addClass( "active" );
-					jQuery( this ).parent( "li" ).addClass( "active" );
-
-					// Not used at the moment.
-					if ( jQuery( this ).hasClass( "scroll" ) ) {
-						jQuery( "html, body" ).animate( {
-							scrollTop: jQuery( targetElem ).offset().top,
-						}, 500 );
-					}
-				} );
-		}
-
 		// Main tabs.
 		if ( jQuery( ".wpseo-meta-section" ).length > 0 ) {
 			const tabLinks = jQuery( ".wpseo-meta-section-link" );
@@ -232,8 +204,6 @@ export default function initTabs( jQuery ) {
 					wpseoAriaTabSetActiveAttributes( this, tabLinks );
 				} );
 		}
-
-		jQuery( ".wpseo-metabox-tabs" ).show();
 		// End Tabs code.
 	}
 
@@ -243,7 +213,6 @@ export default function initTabs( jQuery ) {
 
 	// Set up the first tab and panel within the main tabs.
 	jQuery( ".wpseo-meta-section" ).each( function( index, el ) {
-		jQuery( el ).find( ".wpseo-metabox-tabs li:first" ).addClass( "active" );
 		jQuery( el ).find( ".wpseotab:first" ).addClass( "active" );
 	} );
 

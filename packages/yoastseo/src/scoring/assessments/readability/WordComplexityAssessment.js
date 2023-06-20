@@ -121,7 +121,7 @@ export default class WordComplexityAssessment extends Assessment {
 	 */
 	getMarks( paper, researcher ) {
 		const wordComplexityResults = researcher.getResearch( "wordComplexity" ).complexWords;
-		const matchWordCustomHelper = researcher.getResearch( "matchWordCustomHelper" );
+		const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 		const markings = [];
 
 		wordComplexityResults.forEach( ( result ) => {

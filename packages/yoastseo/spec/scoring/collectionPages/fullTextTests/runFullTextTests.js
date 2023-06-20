@@ -1,12 +1,12 @@
-import { getLanguagesWithWordComplexity } from "../../../../src/helpers";
-import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
+import { createAnchorOpeningTag, getLanguagesWithWordComplexity } from "../../../../src/helpers";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
-import getWordComplexityConfig from "../../../specHelpers/getWordComplexityConfig";
-import keyphraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
-import getWordComplexityHelper from "../../../specHelpers/getWordComplexityHelper";
 import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
+import getWordComplexityConfig from "../../../specHelpers/getWordComplexityConfig";
+import getWordComplexityHelper from "../../../specHelpers/getWordComplexityHelper";
+import keyphraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
+import buildTree from "../../../../../yoastseo/spec/specHelpers/parse/buildTree";
 
 // Import SEO assessments.
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
@@ -22,7 +22,7 @@ import FunctionWordsInKeyphrase from "../../../../src/scoring/assessments/seo/Fu
 import SingleH1Assessment from "../../../../src/scoring/assessments/seo/SingleH1Assessment";
 import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 
-// Import Readability assessments.
+// Import Readability assessments
 import SubheadingDistributionTooLongAssessment from "../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
 import ParagraphTooLongAssessment from "../../../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
 import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
@@ -52,6 +52,8 @@ testPapers.forEach( function( testPaper ) {
 			researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( language ) );
 			researcher.addConfig( "wordComplexity", getWordComplexityConfig( language ) );
 		}
+
+		buildTree( paper, researcher );
 
 		const expectedResults = testPaper.expectedResults;
 		const result = {};

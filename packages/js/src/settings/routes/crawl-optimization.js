@@ -521,6 +521,21 @@ const CrawlOptimization = () => {
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
 					<FieldsetLayout
+						title={ __( "Block unwanted bots", "wordpress-seo" ) }
+						description={ __( "Lots of web traffic comes from bots crawling the web. Some of these can be beneficial to your site or to your business, but some just waste resources. Blocking unwanted bots can save energy and help with site performance.", "wordpress-seo" ) }
+					>
+						<FormikValueChangeFieldWithDisabledMessage
+							as={ ToggleField }
+							type="checkbox"
+							name="wpseo.deny_adsbot_crawling"
+							id="input-wpseo-deny_adsbot_crawling"
+							label={ __( "Prevent Google AdsBot from crawling", "wordpress-seo" ) }
+							description={ __( "Add a 'disallow' rule to your robots.txt file to prevent crawling by Google's AdsBot. You should only enable this setting if you're not using Google Ads on your site.", "wordpress-seo" ) }
+							className="yst-max-w-2xl"
+						/>
+					</FieldsetLayout>
+					<hr className="yst-my-8" />
+					<FieldsetLayout
 						title={ __( "Internal site search cleanup", "wordpress-seo" ) }
 						description={ __( "Your internal site search can create lots of confusing URLs for search engines, and can even be used as a way for SEO spammers to attack your site. Most sites will benefit from experimenting with these protections and optimizations, even if you don’t have a search feature in your theme.", "wordpress-seo" ) }
 					>
