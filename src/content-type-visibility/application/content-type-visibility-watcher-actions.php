@@ -101,7 +101,7 @@ class Content_Type_Visibility_Watcher_Actions implements Integration_Interface {
 		// See if post types that needs review were removed and update option.
 		$needs_review     = $this->options->get( 'new_post_types', [] );
 		$new_needs_review = \array_diff( $needs_review, $newly_made_non_public_post_types );
-		if ( count( $new_needs_review ) !== count( $needs_review ) ) {
+		if ( \count( $new_needs_review ) !== \count( $needs_review ) ) {
 			$this->options->set( 'new_post_types', $new_needs_review );
 			$this->content_type_dismiss_notifications->maybe_dismiss_notifications();
 		}
