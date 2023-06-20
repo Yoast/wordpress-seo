@@ -7,10 +7,9 @@ use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Verification_Action_Left_Except
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\Verify_Action_Not_Found_Exception;
 
 /**
- * The Verify_Indexable_Action_Factory_Interface interface.
+ * The Verify_Indexables_Action_Factory_Interface interface.
  */
-interface Verify_Indexable_Action_Factory_Interface {
-
+interface Verify_Indexables_Action_Factory_Interface {
 
 	/**
 	 * Finds the correct verification action for the given domain object.

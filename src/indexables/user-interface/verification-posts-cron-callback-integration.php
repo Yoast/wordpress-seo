@@ -11,41 +11,59 @@ use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
+
+/**
+ * The Verification_Posts_Cron_Callback_Integration class.
+ */
 class Verification_Posts_Cron_Callback_Integration implements Integration_Interface {
 
 	use Admin_Conditional_Trait;
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler
+	 * The verification cron schedule handler instance.
+	 *
+	 * @var Verification_Cron_Schedule_Handler $cron_schedule_handler
 	 */
-	protected $cron_schedule_handler;
+	private $cron_schedule_handler;
 
 	/**
-	 * @var \Yoast\WP\SEO\Helpers\Options_Helper
+	 * The options helper instance.
+	 *
+	 * @var Options_Helper $options_helper
 	 */
-	protected $options_helper;
+	private $options_helper;
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler
+	 * The cron batch handler instance.
+	 *
+	 * @var Verification_Cron_Batch_Handler $cron_batch_handler
 	 */
-	protected $cron_batch_handler;
+	private $cron_batch_handler;
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Application\Verify_Post_Indexables_Command_Handler
+	 * The verify post indexables command handler.
+	 *
+	 * @var Verify_Post_Indexables_Command_Handler $verify_post_indexables_command_handler
 	 */
-	protected $verify_post_indexables_command_handler;
+	private $verify_post_indexables_command_handler;
 
 	/**
+	 * The cron verification gate instance.
+	 *
 	 * @var Cron_Verification_Gate
 	 */
 	private $cron_verification_gate;
 
 	/**
-	 * @param Cron_Verification_Gate                 $cron_verification_gate
-	 * @param Verification_Cron_Schedule_Handler     $cron_schedule_handler
-	 * @param Options_Helper                         $options_helper
-	 * @param Verification_Cron_Batch_Handler        $cron_batch_handler
-	 * @param Verify_Post_Indexables_Command_Handler $verify_post_indexables_command_handler
+	 * The constructor.
+	 *
+	 * @param Cron_Verification_Gate                 $cron_verification_gate                 The cron verification
+	 *                                                                                       gate.
+	 * @param Verification_Cron_Schedule_Handler     $cron_schedule_handler                  The cron schedule handler.
+	 * @param Options_Helper                         $options_helper                         The options helper.
+	 * @param Verification_Cron_Batch_Handler        $cron_batch_handler                     The cron batch handler.
+	 * @param Verify_Post_Indexables_Command_Handler $verify_post_indexables_command_handler The verify post indexables
+	 *                                                                                       command handler.
 	 */
 	public function __construct(
 		Cron_Verification_Gate $cron_verification_gate,
@@ -62,12 +80,11 @@ class Verification_Posts_Cron_Callback_Integration implements Integration_Interf
 	}
 
 	/**
-	 * @inheritDoc
+	 * Registers the hooks with WordPress.
 	 */
 	public function register_hooks() {
 		\add_action(
-			//Verification_Cron_Schedule_Handler::INDEXABLE_VERIFY_POST_INDEXABLES_NAME,
-		'admin_init',
+			Verification_Cron_Schedule_Handler::INDEXABLE_VERIFY_POST_INDEXABLES_NAME,
 			[
 				$this,
 				'start_verify_posts',
@@ -75,6 +92,11 @@ class Verification_Posts_Cron_Callback_Integration implements Integration_Interf
 		);
 	}
 
+	/**
+	 * Starts the post verification post cron handlers.
+	 *
+	 * @return void
+	 */
 	public function start_verify_posts(): void {
 		if ( \wp_doing_cron() && ! $this->cron_verification_gate->should_verify_on_cron() ) {
 			$this->cron_schedule_handler->unschedule_verify_post_indexables_cron();

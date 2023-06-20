@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\WP\SEO\Indexables\Application\actions;
+namespace Yoast\WP\SEO\Indexables\Application\Actions;
 
-use Yoast\WP\SEO\Indexables\Domain\Actions\Verify_Indexable_Action_Factory_Interface;
+use Yoast\WP\SEO\Indexables\Domain\Actions\Verify_Indexables_Action_Factory_Interface;
 use Yoast\WP\SEO\Indexables\Domain\Actions\Verify_Indexables_Action_Interface;
 use Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action;
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Verification_Action_Left_Exception;
@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Links_Indexables_
 /**
  *
  */
-class Verify_Indexable_Action_Factory implements Verify_Indexable_Action_Factory_Interface {
+class Verify_Indexable_Action_Factory implements Verify_Indexables_Action_Factory_Interface {
 
 	/**
 	 * The list of verification options.
@@ -28,6 +28,7 @@ class Verify_Indexable_Action_Factory implements Verify_Indexable_Action_Factory
 		'term_links',
 		'post_links',
 	];
+
 	/**
 	 * The Verify Term Indexable action instance.
 	 *
@@ -55,7 +56,6 @@ class Verify_Indexable_Action_Factory implements Verify_Indexable_Action_Factory
 	 * @var Verify_Term_Links_Indexables_Action
 	 */
 	private $verify_term_links_indexables_action;
-
 
 	/**
 	 * @param Verify_Term_Indexables_Action               $verify_term_indexables_action The instance.
@@ -89,7 +89,7 @@ class Verify_Indexable_Action_Factory implements Verify_Indexable_Action_Factory
 				return $this->verify_term_indexables_action;
 			case 'general':
 				return $this->verify_general_indexables_action;
-			case'post-type-archives':
+			case 'post-type-archives':
 				return $this->verify_post_type_archives_indexables_action;
 			case 'term-links':
 				return $this->verify_term_links_indexables_action;

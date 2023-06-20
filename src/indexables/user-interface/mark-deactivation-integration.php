@@ -15,6 +15,9 @@ class Mark_Deactivation_Integration implements Integration_Interface {
 
 	use Admin_Conditional_Trait;
 
+	/**
+	 * The plugin deactivated at option name.
+	 */
 	public const PLUGIN_DEACTIVATED_AT_OPTION = 'plugin_deactivated_at';
 
 	/**

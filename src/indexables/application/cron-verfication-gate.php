@@ -5,10 +5,13 @@ namespace Yoast\WP\SEO\Indexables\Application;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
+/**
+ * The Cron_Verification_Gate class.
+ */
 class Cron_Verification_Gate {
 
 	/**
-	 *
+	 * The indexables helper instance.
 	 *
 	 * @var Indexable_Helper
 	 */
@@ -17,7 +20,7 @@ class Cron_Verification_Gate {
 	/**
 	 * The constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Indexable_Helper $indexable_helper The indexable helper.
 	 */
 	public function __construct( Indexable_Helper $indexable_helper ) {
 		$this->indexable_helper = $indexable_helper;

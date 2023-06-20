@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Indexables\Domain\Actions;
 
 use Yoast\WP\SEO\Indexables\Domain\Batch_Size;
@@ -12,8 +13,10 @@ use Yoast\WP\SEO\Models\Indexable;
 interface Verify_Indexables_Action_Interface {
 
 	/**
-	 * @param Last_Batch_Count $last_batch_count
-	 * @param Batch_Size       $batch_size
+	 * Rebuilds indexables for the given action type.
+	 *
+	 * @param Last_Batch_Count $last_batch_count The last batch count domain object.
+	 * @param Batch_Size       $batch_size The batch size domain object.
 	 *
 	 * @return bool return false if there are no objects left to re-build.
 	 */

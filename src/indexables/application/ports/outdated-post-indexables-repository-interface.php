@@ -13,7 +13,7 @@ interface Outdated_Post_Indexables_Repository_Interface {
 	 * Finds a list of posts for which the indexables are not up to date.
 	 * This is done by checking if the updated at of the post is the same as the indexable.
 	 *
-	 * @param Last_Batch_Count             $count
+	 * @param Last_Batch_Count $count
 	 *
 	 * @throws No_Outdated_Posts_Found_Exception When there are no outdated posts found.
 	 * @return Outdated_Post_Indexables_List

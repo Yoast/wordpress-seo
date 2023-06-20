@@ -12,18 +12,30 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_Interface {
 
 	/**
-	 * @var \Yoast\WP\SEO\Helpers\Taxonomy_Helper
+	 * The taxonomy helper.
+	 *
+	 * @var Taxonomy_Helper
 	 */
-	protected $taxonomy;
+	private $taxonomy;
 
 	/**
-	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
+	 * The indexable repository.
+	 *
+	 * @var Indexable_Repository
 	 */
-	protected $repository;
+	private $repository;
+
 	/**
-	 * @var \Yoast\WP\SEO\Builders\Indexable_Link_Builder
+	 * The indexable link builder.
+	 *
+	 * @var Indexable_Link_Builder
 	 */
-	protected $link_builder;
+	private $link_builder;
+
+	/**
+	 * @var \wpdb $wpdb The wp query.
+	 */
+	private $wpdb;
 
 	public function __construct(
 		Taxonomy_Helper $taxonomy,
@@ -36,10 +48,13 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 	}
 
 	/**
-	 * @var \wpdb $wpdb The wp query.
+	 * Re builds indexables for term links.
+	 *
+	 * @param Last_Batch_Count $last_batch_count The last batch count domain object.
+	 * @param Batch_Size       $batch_size The batch size domain object.
+	 *
+	 * @return bool
 	 */
-	private $wpdb;
-
 	public function re_build_indexables( Last_Batch_Count $last_batch_count, Batch_Size $batch_size ): bool {
 		$query = $this->get_query( $last_batch_count->get_last_batch(), $batch_size->get_batch_size() );
 
@@ -80,6 +95,14 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 		$this->wpdb = $wpdb;
 	}
 
+	/**
+	 * Creates the query to get all the taxonomy link options.
+	 *
+	 * @param int $limit The query limit.
+	 * @param int $batch_size The batch size for the queries.
+	 *
+	 * @return string|null
+	 */
 	private function get_query( $limit, $batch_size ) {
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
 		$public_taxonomies = $this->taxonomy->get_indexable_taxonomies();

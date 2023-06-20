@@ -26,7 +26,7 @@ class Verify_Non_Timestamp_Indexables_Command extends Abstract_Indexables_Comman
 	public function __construct( int $last_batch, int $batch_size, string $plugin_deactivated_at, string $current_action ) {
 		$this->current_action = new Current_Verification_Action( $current_action );
 
-		parent::__construct($batch_size, $last_batch, $plugin_deactivated_at );
+		parent::__construct( $batch_size, $last_batch, $plugin_deactivated_at );
 	}
 
 	/**
@@ -37,5 +37,4 @@ class Verify_Non_Timestamp_Indexables_Command extends Abstract_Indexables_Comman
 	public function get_current_action(): Current_Verification_Action {
 		return $this->current_action;
 	}
-
 }

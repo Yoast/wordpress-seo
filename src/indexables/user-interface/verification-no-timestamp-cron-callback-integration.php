@@ -12,46 +12,64 @@ use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
-class Verification_Cron_Callback_Integration implements Integration_Interface {
+/**
+ * The Verification_Cron_Callback_Integration class.
+ */
+class Verification_No_Timestamp_Cron_Callback_Integration implements Integration_Interface {
 
 	use Admin_Conditional_Trait;
 
 	/**
+	 * The cron scheduler handler instance.
+	 *
 	 * @var Verification_Cron_Schedule_Handler
 	 */
 	protected $cron_schedule_handler;
 
 	/**
+	 * The options helper instance.
+	 *
 	 * @var Options_Helper
 	 */
 	protected $options_helper;
 
 	/**
+	 * The verification cron batch handler.
+	 *
 	 * @var Verification_Cron_Batch_Handler
 	 */
 	protected $cron_batch_handler;
 
 	/**
+	 * The non timestamp command handler.
+	 *
 	 * @var Verify_Non_Timestamp_Indexables_Command_Handler
 	 */
 	protected $non_timestamp_indexables_command_handler;
 
 	/**
+	 * The next verification action handler instance.
+	 *
 	 * @var Next_Verification_Action_Handler
 	 */
 	protected $verification_action_handler;
 
 	/**
+	 * The cron verification gate instance.
+	 *
 	 * @var Cron_Verification_Gate
 	 */
 	private $cron_verification_gate;
 
 	/**
-	 * @param Cron_Verification_Gate                          $cron_verification_gate
-	 * @param Verification_Cron_Schedule_Handler              $cron_schedule_handler
-	 * @param Options_Helper                                  $options_helper
-	 * @param Verification_Cron_Batch_Handler                 $cron_batch_handler
-	 * @param Verify_Non_Timestamp_Indexables_Command_Handler $non_timestamp_indexables_command_handler
+	 * The constructor.
+	 *
+	 * @param Cron_Verification_Gate                          $cron_verification_gate The cron verification gate.
+	 * @param Verification_Cron_Schedule_Handler              $cron_schedule_handler The cron schedule handler.
+	 * @param Options_Helper                                  $options_helper The options helper.
+	 * @param Verification_Cron_Batch_Handler                 $cron_batch_handler The cron batch handler.
+	 * @param Verify_Non_Timestamp_Indexables_Command_Handler $non_timestamp_indexables_command_handler The non timestamp indexables command handler.
+	 * @param Next_Verification_Action_Handler                $verification_action_handler The verification action handler.
 	 */
 	public function __construct(
 		Cron_Verification_Gate $cron_verification_gate,
@@ -70,12 +88,12 @@ class Verification_Cron_Callback_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Registers the hooks with WordPress.
 	 */
 	public function register_hooks() {
 		\add_action(
 			Verification_Cron_Schedule_Handler::INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME,
-		//'admin_init',
+			// 'admin_init',
 			[
 				$this,
 				'start_verify_non_timestamped_indexables',
@@ -83,6 +101,11 @@ class Verification_Cron_Callback_Integration implements Integration_Interface {
 		);
 	}
 
+	/**
+	 * Start the non timestamp cron handler callback.
+	 *
+	 * @return void
+	 */
 	public function start_verify_non_timestamped_indexables() {
 		if ( \wp_doing_cron() && ! $this->cron_verification_gate->should_verify_on_cron() ) {
 			$this->cron_schedule_handler->unschedule_verify_non_timestamped_indexables_cron();

@@ -20,7 +20,7 @@ class Next_Verification_Action_Handler {
 	/**
 	 * The constructor.
 	 *
-	 * @param Options_Helper $options_helper
+	 * @param Options_Helper $options_helper The options helper.
 	 */
 	public function __construct( Options_Helper $options_helper ) {
 		$this->options_helper = $options_helper;

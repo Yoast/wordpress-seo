@@ -2,6 +2,10 @@
 
 namespace Yoast\WP\SEO\Indexables\Domain;
 
+
+/**
+ * The Plugin_Deactivated_Timestamp class.
+ */
 class Plugin_Deactivated_Timestamp {
 
 	/**
@@ -14,7 +18,7 @@ class Plugin_Deactivated_Timestamp {
 	/**
 	 * The constructor.
 	 *
-	 * @param string $timestamp
+	 * @param string $timestamp The timestamp.
 	 */
 	public function __construct( string $timestamp ) {
 		$this->timestamp = $timestamp;
