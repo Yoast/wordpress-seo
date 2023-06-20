@@ -8,11 +8,14 @@ use Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 use Mockery;
 use Brain\Monkey;
+use WP_REST_Request;
+use WP_REST_Response;
 
 /**
  * Class Content_Type_Visibility_Dismiss_New_Route.
  *
  * @group content-type-visibility
+ * @coversDefaultClass \Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_Dismiss_New_Route
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -147,5 +150,69 @@ class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 			->andReturn( true );
 
 		$this->assertTrue( $this->instance->validate_post_type( $post_type, 'request', 'key' ) );
+	}
+
+	/**
+	 * Tests post_type_dismiss_callback method.
+	 *
+	 * @covers ::post_type_dismiss_callback
+	 */
+	public function test_post_type_dismiss_callback() {
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
+
+		$request
+			->expects( 'offsetGet' )
+			->with( 'post_type_name' )
+			->andReturn( 'book' );
+
+		$this->dismiss_notifications
+			->expects( 'post_type_dismiss' )
+			->with( 'book' )
+			->once()
+			->andReturn(
+				[
+					'message' => 'Post type is no longer new.',
+					'success' => true,
+					'status'  => 200,
+				]
+			);
+
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
+
+		$result = $this->instance->post_type_dismiss_callback( $request );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $result );
+	}
+
+		/**
+		 * Tests taxonomy_dismiss_callback method.
+		 *
+		 * @covers ::taxonomy_dismiss_callback
+		 */
+	public function test_taxonomy_dismiss_callback() {
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
+
+		$request
+			->expects( 'offsetGet' )
+			->with( 'taxonomy_name' )
+			->andReturn( 'book-category' );
+
+		$this->dismiss_notifications
+			->expects( 'taxonomy_dismiss' )
+			->with( 'book-category' )
+			->once()
+			->andReturn(
+				[
+					'message' => 'Taxonomy is no longer new.',
+					'success' => true,
+					'status'  => 200,
+				]
+			);
+
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
+
+		$result = $this->instance->taxonomy_dismiss_callback( $request );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $result );
 	}
 }

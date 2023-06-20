@@ -37,6 +37,7 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
+		$this->stubTranslationFunctions();
 
 		$this->options = Mockery::mock( Options_Helper::class );
 
@@ -91,7 +92,6 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 * Dismisses the notification in the notification center when there are no more new content types.
 	 *
 	 * @covers ::maybe_dismiss_notifications
-	 * @uses ::dismiss_notifications
 	 *
 	 * @dataProvider data_provider_maybe_dismiss_notifications
 	 *
@@ -193,5 +193,187 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 			->times( $reset_notification );
 
 		$this->instance->maybe_add_settings_notification();
+	}
+
+	/**
+	 * Tests the post_type_dismiss method.
+	 *
+	 * @covers ::post_type_dismiss
+	 */
+	public function test_post_type_dismiss_not_new() {
+
+		$this->options
+			->expects( 'get' )
+			->with( 'new_post_types', [] )
+			->once()
+			->andReturn( [] );
+
+		$response = $this->instance->post_type_dismiss( 'book' );
+		$expected = [
+			'message' => 'Post type is not new.',
+			'success' => true,
+			'status'  => 200,
+		];
+
+		$this->assertSame( $expected, $response );
+	}
+
+	/**
+	 * Tests the post_type_dismiss method.
+	 *
+	 * @covers ::post_type_dismiss
+	 */
+	public function test_post_type_dismiss_with_new_success() {
+
+		$this->options
+			->expects( 'get' )
+			->with( 'new_post_types', [] )
+			->once()
+			->andReturn( [ 'book', 'movie' ] );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'new_post_types', [ 1 => 'movie' ] )
+			->once()
+			->andReturn( true );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'new_taxonomies', [] )
+			->once()
+			->andReturn( [] );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'new_post_types', [] )
+			->once()
+			->andReturn( [ 'movie' ] );
+
+		$response = $this->instance->post_type_dismiss( 'book' );
+		$expected = [
+			'message' => 'Post type is no longer new.',
+			'success' => true,
+			'status'  => 200,
+		];
+		$this->assertSame( $expected, $response );
+	}
+
+	/**
+	 * Tests the post_type_dismiss method.
+	 *
+	 * @covers ::post_type_dismiss
+	 */
+	public function test_post_type_dismiss_with_new_fail() {
+
+		$this->options
+			->expects( 'get' )
+			->with( 'new_post_types', [] )
+			->once()
+			->andReturn( [ 'book', 'movie' ] );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'new_post_types', [ 1 => 'movie' ] )
+			->once()
+			->andReturn( false );
+
+		$response = $this->instance->post_type_dismiss( 'book' );
+		$expected = [
+			'message' => 'Error: Post type was not removed from new_post_types list.',
+			'success' => false,
+			'status'  => 400,
+		];
+		$this->assertSame( $expected, $response );
+	}
+
+		/**
+		 * Tests the taxonomy_dismiss method.
+		 *
+		 * @covers ::post_type_dismiss
+		 */
+	public function test_taxonomy_dismiss_not_new() {
+
+		$this->options
+			->expects( 'get' )
+			->with( 'new_taxonomies', [] )
+			->once()
+			->andReturn( [] );
+
+		$response = $this->instance->taxonomy_dismiss( 'book-category' );
+		$expected = [
+			'message' => 'Taxonomy is not new.',
+			'success' => true,
+			'status'  => 200,
+		];
+
+		$this->assertSame( $expected, $response );
+	}
+
+	/**
+	 * Tests the taxonomy_dismiss method.
+	 *
+	 * @covers ::taxonomy_dismiss
+	 */
+	public function test_taxonomy_dismiss_with_new_success() {
+
+		$this->options
+			->expects( 'get' )
+			->with( 'new_taxonomies', [] )
+			->once()
+			->andReturn( [ 'book-category', 'movie-category' ] );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'new_taxonomies', [ 1 => 'movie-category' ] )
+			->once()
+			->andReturn( true );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'new_taxonomies', [] )
+			->once()
+			->andReturn( [] );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'new_post_types', [] )
+			->once()
+			->andReturn( [ 'movie-category' ] );
+
+		$response = $this->instance->taxonomy_dismiss( 'book-category' );
+		$expected = [
+			'message' => 'Taxonomy is no longer new.',
+			'success' => true,
+			'status'  => 200,
+		];
+		$this->assertSame( $expected, $response );
+	}
+
+	/**
+	 * Tests the taxonomy_dismiss method.
+	 *
+	 * @covers ::taxonomy_dismiss
+	 */
+	public function test_taxonomy_dismiss_with_new_fail() {
+
+		$this->options
+			->expects( 'get' )
+			->with( 'new_taxonomies', [] )
+			->once()
+			->andReturn( [ 'book-category', 'movie-category' ] );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'new_taxonomies', [ 1 => 'movie-category' ] )
+			->once()
+			->andReturn( false );
+
+		$response = $this->instance->taxonomy_dismiss( 'book-category' );
+		$expected = [
+			'message' => 'Error: Taxonomy was not removed from new_taxonomies list.',
+			'success' => false,
+			'status'  => 400,
+		];
+		$this->assertSame( $expected, $response );
 	}
 }
