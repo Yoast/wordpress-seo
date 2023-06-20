@@ -37,11 +37,13 @@ class Content_Type_Visibility_Dismiss_Notifications {
 		$message                 = 'Post type is not new.';
 		$post_types_needs_review = $this->options->get( 'new_post_types', [] );
 
-		if ( \in_array( $post_type_name, $post_types_needs_review, true ) ) {
+		if ( $post_types_needs_review && \in_array( $post_type_name, $post_types_needs_review, true ) ) {
 			$new_needs_review = \array_diff( $post_types_needs_review, [ $post_type_name ] );
 			$success          = $this->options->set( 'new_post_types', $new_needs_review );
 			$message          = ( $success ) ? __( 'Post type is no longer new.', 'wordpress-seo' ) : __( 'Error: Post type was not removed from new_post_types list.', 'wordpress-seo' );
-			$this->maybe_dismiss_notifications();
+			if ( $success ) {
+				$this->maybe_dismiss_notifications();
+			}
 		}
 
 		$status = ( $success ) ? 200 : 400;
@@ -69,7 +71,9 @@ class Content_Type_Visibility_Dismiss_Notifications {
 			$new_needs_review = \array_diff( $taxonomies_needs_review, [ $taxonomy_name ] );
 			$success          = $this->options->set( 'new_taxonomies', $new_needs_review );
 			$message          = ( $success ) ? __( 'Taxonomy is no longer new.', 'wordpress-seo' ) : __( 'Error: Taxonomy was not removed from new_taxonomies list.', 'wordpress-seo' );
-			$this->maybe_dismiss_notifications();
+			if ( $success ) {
+				$this->maybe_dismiss_notifications();
+			}
 		}
 
 		$status = ( $success ) ? 200 : 400;
