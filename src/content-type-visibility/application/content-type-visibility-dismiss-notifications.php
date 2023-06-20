@@ -34,7 +34,7 @@ class Content_Type_Visibility_Dismiss_Notifications {
 	 */
 	public function post_type_dismiss( $post_type_name ) {
 		$success                 = true;
-		$message                 = 'Post type is not new.';
+		$message                 = __( 'Post type is not new.', 'wordpress-seo' );
 		$post_types_needs_review = $this->options->get( 'new_post_types', [] );
 
 		if ( $post_types_needs_review && \in_array( $post_type_name, $post_types_needs_review, true ) ) {
