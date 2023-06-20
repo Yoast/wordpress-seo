@@ -5,24 +5,23 @@
  * @package WPSEO\Tests\Content_Type_Visibility
  */
 
-use Mockery;
-use Yoast_Notification_Center;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
+use Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_Dismiss_New_Route;
 
 /**
  * Class WPSEO_Content_Type_Visibility_Dismiss_Notifications_Test.
- * Integration Test Class for Content_Type_Visibility_Dismiss_Notifications class.
+ * Integration Test Class for Content_Type_Visibility_Dismiss_Notifications and Content_Type_Visibility_Dismiss_New_Route classes.
  *
- * @coversDefaultClass Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications
+ * @coversDefaultClass Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_Dismiss_New_Route
  */
-class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestCase {
+class Content_Type_Visibility_Dismiss_New_Route_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * The instance to test.
 	 *
-	 * @var Content_Type_Visibility_Dismiss_Notifications
+	 * @var Content_Type_Visibility_Dismiss_New_Route
 	 */
 	private $instance;
 
@@ -83,12 +82,14 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 		$this->notification_center = $this->get_notification_center();
 
 
-		$this->instance = new Content_Type_Visibility_Dismiss_Notifications( $this->options );
+		$dismiss_notifications = new Content_Type_Visibility_Dismiss_Notifications( $this->options );
+		$this->instance        = new Content_Type_Visibility_Dismiss_New_Route( $dismiss_notifications );
 
-		$this->content_type_visibility_notifications = new Content_Type_Visibility_Watcher_Actions( $this->options, $this->notification_center, $this->instance );
+		$this->content_type_visibility_notifications = new Content_Type_Visibility_Watcher_Actions( $this->options, $this->notification_center, $dismiss_notifications );
 
 		$this->mock_options          = Mockery::mock( Options_Helper::class );
-		$this->instance_mock_options = new Content_Type_Visibility_Dismiss_Notifications( $this->mock_options );
+		$dismiss_notifications_mock  = new Content_Type_Visibility_Dismiss_Notifications( $this->mock_options );
+		$this->instance_mock_options = new Content_Type_Visibility_Dismiss_New_Route( $dismiss_notifications_mock );
 	}
 
 	/**
@@ -114,7 +115,7 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 	/**
 	 * Tests the post_type_dismiss method.
 	 *
-	 * @covers ::post_type_dismiss
+	 * @covers ::post_type_dismiss_callback
 	 *
 	 * @dataProvider data_provider_post_type_dismiss
 	 *
@@ -125,10 +126,10 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 	public function test_post_type_dismiss( $new_post_types, $post_type_name, $message ) {
 		$this->content_type_visibility_notifications->new_post_type( $new_post_types );
 
-		$request                 = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/dismiss-post-type' );
-		$request['postTypeName'] = $post_type_name;
+		$request                   = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/dismiss-post-type' );
+		$request['post_type_name'] = $post_type_name;
 
-		$result = $this->instance->post_type_dismiss( $request );
+		$result = $this->instance->post_type_dismiss_callback( $request );
 
 		$this->assertInstanceOf(
 			WP_REST_Response::class,
@@ -166,6 +167,7 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 	/**
 	 * Tests the taxonomy_dismiss method.
 	 *
+	 * @covers ::taxonomy_dismiss_callback
 	 * @covers ::taxonomy_dismiss
 	 *
 	 * @dataProvider data_provider_taxonomy_dismiss
@@ -177,10 +179,10 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 	public function test_taxonomy_dismiss( $new_taxonomies, $taxonomy_name, $message ) {
 		$this->content_type_visibility_notifications->new_taxonomy( $new_taxonomies );
 
-		$request                 = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/dismiss-taxonomy' );
-		$request['taxonomyName'] = $taxonomy_name;
+		$request                  = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/dismiss-taxonomy' );
+		$request['taxonomy_name'] = $taxonomy_name;
 
-		$result = $this->instance->taxonomy_dismiss( $request );
+		$result = $this->instance->taxonomy_dismiss_callback( $request );
 
 		$this->assertInstanceOf(
 			WP_REST_Response::class,
@@ -198,7 +200,7 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 	/**
 	 * Tests the taxonomy_dismiss method when is fails.
 	 *
-	 * @covers ::taxonomy_dismiss
+	 * @covers ::taxonomy_dismiss_callback
 	 */
 	public function test_taxonomy_dismiss_fail() {
 		$new_taxonomies = [ 'books-category', 'movie-category' ];
@@ -222,10 +224,10 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 			->andReturn( [] );
 
 
-		$request                 = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/dismiss-taxonomy' );
-		$request['taxonomyName'] = 'books-category';
+		$request                  = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/dismiss-taxonomy' );
+		$request['taxonomy_name'] = 'books-category';
 
-		$result = $this->instance_mock_options->taxonomy_dismiss( $request );
+		$result = $this->instance_mock_options->taxonomy_dismiss_callback( $request );
 
 		$this->assertInstanceOf(
 			WP_REST_Response::class,
@@ -243,7 +245,7 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 		/**
 		 * Tests the taxonomy_dismiss method when is fails.
 		 *
-		 * @covers ::post_type_dismiss
+		 * @covers ::post_type_dismiss_callback
 		 */
 	public function test_post_type_dismiss_fail() {
 		$new_post_types = [ 'book', 'movie' ];
@@ -267,10 +269,10 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends WPSEO_UnitTestC
 			->andReturn( $new_post_types );
 
 
-		$request                 = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/dismiss-post-type' );
-		$request['postTypeName'] = 'book';
+		$request                   = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/dismiss-post-type' );
+		$request['post_type_name'] = 'book';
 
-		$result = $this->instance_mock_options->post_type_dismiss( $request );
+		$result = $this->instance_mock_options->post_type_dismiss_callback( $request );
 
 		$this->assertInstanceOf(
 			WP_REST_Response::class,
