@@ -65,7 +65,8 @@ const getExactMatches = ( keywordForms, sentence ) => {
 };
 
 /**
- * Free matching of keyword forms in a sentence. Free matching happens when the keyphrase is enclosed in double quotes.
+ * Free matching of keyword forms in a sentence.
+ *
  * @param {(string[])[]} keywordForms The keyword forms to match.
  * @param {Sentence} sentence The sentence to match the keyword forms with.
  * @param {string} locale The locale used for transliteration.
