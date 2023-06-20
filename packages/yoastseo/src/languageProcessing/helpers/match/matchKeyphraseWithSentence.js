@@ -24,9 +24,9 @@ const tokenizeKeywordFormsForExactMatching = ( keywordForms ) => {
  * @param {(string[])[]} keywordForms The keyword forms to match.
  * @param {Sentence} sentence The sentence to match the keyword forms with.
  *
- * @returns {Token[]} The tokens that exactly match the keyword forms.
+ * @returns {Object} The tokens that exactly match the keyword forms.
  */
-const getExactMatches = ( keywordForms, sentence ) => {
+export const getExactMatches = ( keywordForms, sentence ) => {
 	// Tokenize keyword forms.
 	const keywordTokens = tokenizeKeywordFormsForExactMatching( keywordForms );
 
@@ -36,6 +36,7 @@ const getExactMatches = ( keywordForms, sentence ) => {
 	let keywordIndex = 0;
 	let sentenceIndex = 0;
 	const matches = [];
+	let count = 0;
 	let currentMatch = [];
 
 	while ( sentenceIndex < sentenceTokens.length ) {
@@ -55,13 +56,14 @@ const getExactMatches = ( keywordForms, sentence ) => {
 		// Add the current match to the matches array and reset the keyword index and the current match.
 		if ( currentMatch.length === keywordTokens.length ) {
 			matches.push( ...currentMatch );
+			count++;
 			keywordIndex = 0;
 			currentMatch = [];
 		}
 
 		sentenceIndex++;
 	}
-	return matches;
+	return { count: count, matches: matches };
 };
 
 /**
@@ -72,7 +74,7 @@ const getExactMatches = ( keywordForms, sentence ) => {
  * @param {string} locale The locale used for transliteration.
  * @returns {Token[]} The tokens that match the keyword forms.
  */
-const getNonExactMatches = ( keywordForms, sentence, locale ) => {
+export const getNonExactMatches = ( keywordForms, sentence, locale ) => {
 	const tokens = sentence.tokens.slice();
 
 	// Filter out all tokens that do not match the keyphrase forms.
@@ -84,6 +86,25 @@ const getNonExactMatches = ( keywordForms, sentence, locale ) => {
 			} );
 		} );
 	} );
+
+	//
+	// return keywordForms.map( formArray => formArray.map( form => {
+	// 	let count = 0;
+	// 	const matches = [];
+	// 	tokens.forEach( token => {
+	// 		const tokenText = escapeRegExp( token.text );
+	// 		const match = matchTextWithTransliteration( tokenText, form, locale );
+	// 		if ( match.length > 0 ) {
+	// 			count++;
+	// 			matches.push( match );
+	// 		}
+	// 	} );
+	// 	return {
+	// 		count: count,
+	// 		matches: matches,
+	// 	};
+	// } )
+	// );
 };
 
 /**
@@ -110,11 +131,9 @@ const getNonExactMatches = ( keywordForms, sentence, locale ) => {
  * This function corrects for these differences by combining tokens that are separated by a word coupler (e.g. "-") into one token: the matchToken.
  * This matchToken is then compared with the keyword forms.
  */
-const matchKeyphraseWithSentence = ( keywordForms, sentence, locale, useExactMatching = false ) => {
+export const matchKeyphraseWithSentence = ( keywordForms, sentence, locale, useExactMatching = false ) => {
 	if ( useExactMatching ) {
 		return getExactMatches( keywordForms, sentence );
 	}
 	return getNonExactMatches( keywordForms, sentence, locale );
 };
-
-export default matchKeyphraseWithSentence;
