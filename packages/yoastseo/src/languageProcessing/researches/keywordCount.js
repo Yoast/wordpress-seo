@@ -2,7 +2,7 @@ import { flatten } from "lodash-es";
 import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
 import { normalizeSingle } from "../helpers/sanitize/quotes";
 import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
-import matchKeyphraseWithSentence from "../helpers/match/matchKeyphraseWithSentence";
+import { getExactMatches, getNonExactMatches } from "../helpers/match/matchKeyphraseWithSentence";
 import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
 import matchTextWithTransliteration from "../helpers/match/matchTextWithTransliteration";
 
@@ -36,7 +36,6 @@ const countMatches = ( matches, keyphraseForms, locale ) => {
 					return matchTextWithTransliteration( match.text, keyphraseFormWord, locale ).length > 0;
 				} );
 			} );
-			//
 			if ( foundMatch ) {
 				matchesCopy.splice( matchesCopy.indexOf( foundMatch ), 1 );
 				nrKeyphraseFormsWithMatch += 1;
@@ -103,10 +102,18 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 	sentences.forEach( sentence => {
 		// eslint-disable-next-line no-warning-comments
 		// TODO: test in Japanese to see if we use this helper as well
-		const matchesInSentence = matchKeyphraseWithSentence( topicForms.keyphraseForms, sentence, locale, isExactMatchRequested );
-		const matchesInSentenceWithoutConsecutiveMatches = removeConsecutiveMatches( matchesInSentence );
-		const matchesCount = countMatches( matchesInSentenceWithoutConsecutiveMatches, topicForms.keyphraseForms, locale );
-		const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale );
+		let matchesCount = 0;
+		let markings = [];
+		if ( isExactMatchRequested ) {
+			const matchesInSentence = getExactMatches( topicForms.keyphraseForms, sentence );
+			matchesCount = matchesInSentence.count > 2 ? 2 : matchesInSentence.count;
+			markings = getMarkingsInSentence( sentence, matchesInSentence.matches, matchWordCustomHelper, locale );
+		} else {
+			const matchesInSentence = getNonExactMatches( topicForms.keyphraseForms, sentence, locale );
+			const matchesInSentenceWithoutConsecutiveMatches = removeConsecutiveMatches( matchesInSentence );
+			matchesCount = countMatches( matchesInSentenceWithoutConsecutiveMatches, topicForms.keyphraseForms, locale );
+			markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale );
+		}
 
 		result.markings.push( markings );
 		result.count += matchesCount;
