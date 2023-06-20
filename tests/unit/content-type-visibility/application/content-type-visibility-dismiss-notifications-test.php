@@ -12,6 +12,8 @@ use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dis
 /**
  * Class Content_Type_Visibility_Dismiss_Notifications_Test
  *
+ * @group content-type-visibility
+ *
  * @coversDefaultClass \Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications
  */
 class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {

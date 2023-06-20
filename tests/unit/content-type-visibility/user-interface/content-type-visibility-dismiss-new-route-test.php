@@ -11,6 +11,9 @@ use Brain\Monkey;
 
 /**
  * Class Content_Type_Visibility_Dismiss_New_Route.
+ *
+ * @group content-type-visibility
+ *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {

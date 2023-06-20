@@ -15,6 +15,8 @@ use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dis
 /**
  * Class Content_Type_Visibility_Watcher_Actions_Test
  *
+ * @group content-type-visibility
+ *
  * @coversDefaultClass \Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions
  */
 class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
