@@ -117,7 +117,7 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace = true ) => 
  * Gets the Mark objects of all keyphrase matches.
  *
  * @param {Sentence} sentence The sentence to check.
- * @param {Object} matchesInSentence An object containing the matches in the sentence.
+ * @param {Array} matchesInSentence An object containing the matches in the sentence.
  * @param {function} matchWordCustomHelper  A custom helper to match words with a text.
  * @param {string} locale The locale used in the analysis.
  *
