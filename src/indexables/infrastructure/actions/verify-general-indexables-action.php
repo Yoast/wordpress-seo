@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Indexables\Infrastructure\Actions;
 
 use Yoast\WP\SEO\Builders\Indexable_Builder;
@@ -31,7 +32,7 @@ class Verify_General_Indexables_Action implements Verify_Indexables_Action_Inter
 	 * The constructor.
 	 *
 	 * @param Indexable_Repository $repository The indexable repository.
-	 * @param Indexable_Builder        $indexable_builder The indexable builder.
+	 * @param Indexable_Builder    $indexable_builder The indexable builder.
 	 */
 	public function __construct( Indexable_Repository $repository, Indexable_Builder $indexable_builder ) {
 		$this->repository        = $repository;
@@ -73,7 +74,7 @@ class Verify_General_Indexables_Action implements Verify_Indexables_Action_Inter
 	/**
 	 * Sets the wpdb instance.
 	 *
-	 * @param \wpdb $wpdb
+	 * @param \wpdb $wpdb The instance.
 	 *
 	 * @return void
 	 * @required

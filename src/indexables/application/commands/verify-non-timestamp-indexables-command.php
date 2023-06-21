@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Indexables\Application\Commands;
 
 use Yoast\WP\SEO\Indexables\Domain\Abstract_Indexables_Command;
@@ -7,12 +7,14 @@ use Yoast\WP\SEO\Indexables\Domain\Batch_Size;
 use Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action;
 
 /**
- *
+ * The Verify_Non_Timestamp_Indexables_Command class.
  */
 class Verify_Non_Timestamp_Indexables_Command extends Abstract_Indexables_Command {
 
 	/**
-	 * @var Current_Verification_Action $current_action The current verification action in progress.
+	 * The current verification action in progress.
+	 *
+	 * @var Current_Verification_Action $current_action
 	 */
 	private $current_action;
 
@@ -20,6 +22,7 @@ class Verify_Non_Timestamp_Indexables_Command extends Abstract_Indexables_Comman
 	 * The constructor.
 	 *
 	 * @param int    $last_batch            The last batch count.
+	 * @param int    $batch_size            The batch size.
 	 * @param string $plugin_deactivated_at The plugin deactivated at timestamp.
 	 * @param string $current_action        The current verification action.
 	 */

@@ -91,7 +91,6 @@ class Verify_Term_Indexables_Action implements Verify_Indexables_Action_Interfac
 	private function get_query( $limit, $batch_size ) {
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
 		$public_taxonomies = $this->taxonomy->get_indexable_taxonomies();
-		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 
 		$replacements = [];
 		\array_push( $replacements, ...$public_taxonomies );
@@ -100,14 +99,15 @@ class Verify_Term_Indexables_Action implements Verify_Indexables_Action_Interfac
 		$replacements[] = $batch_size;
 		$offset_query   = '';
 		if ( $limit !== 0 ) {
-			$offset_query   = 'OFFSET %d';
+			$offset_query   = ' OFFSET %d';
 			$replacements[] = ( $limit + $batch_size );}
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		return $this->wpdb->prepare(
 			"
 			SELECT term_id
 			FROM {$taxonomy_table} AS T
-			WHERE taxonomy IN ($placeholders)
+			WHERE taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
 			$limit_query $offset_query",
 			$replacements
 		);

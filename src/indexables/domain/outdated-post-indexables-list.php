@@ -19,6 +19,7 @@ class Outdated_Post_Indexables_List implements \Iterator, \Countable {
 
 	/**
 	 * The current array position.
+	 *
 	 * @var int
 	 */
 	private $position = 0;
@@ -43,6 +44,7 @@ class Outdated_Post_Indexables_List implements \Iterator, \Countable {
 
 	/**
 	 * Rewinds the array position.
+	 *
 	 * @return void
 	 */
 	public function rewind(): void {
@@ -61,6 +63,7 @@ class Outdated_Post_Indexables_List implements \Iterator, \Countable {
 
 	/**
 	 * The current key.
+	 *
 	 * @return int
 	 */
 	public function key(): int {
@@ -78,6 +81,7 @@ class Outdated_Post_Indexables_List implements \Iterator, \Countable {
 
 	/**
 	 * Is the current position valid.
+	 *
 	 * @return bool
 	 */
 	public function valid(): bool {
@@ -86,6 +90,7 @@ class Outdated_Post_Indexables_List implements \Iterator, \Countable {
 
 	/**
 	 * Returns the size of the array.
+	 *
 	 * @return int
 	 */
 	public function count():int {

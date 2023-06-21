@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Indexables\Domain;
 
-
 /**
  * The Plugin_Deactivated_Timestamp class.
  */

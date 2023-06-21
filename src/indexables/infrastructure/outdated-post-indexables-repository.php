@@ -56,7 +56,7 @@ class Outdated_Post_Indexables_Repository implements Outdated_Post_Indexables_Re
 		wpdb $wpdb,
 		Post_Type_Helper $post_type_helper,
 		Post_Helper $post_helper,
-		Indexable_Repository $indexable_repository,
+		Indexable_Repository $indexable_repository
 	) {
 		$this->wpdb                 = $wpdb;
 		$this->post_type_helper     = $post_type_helper;

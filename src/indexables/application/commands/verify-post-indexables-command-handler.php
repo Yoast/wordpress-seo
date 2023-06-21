@@ -1,6 +1,6 @@
 <?php
 
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Indexables\Application\Commands;
 
 use Yoast\WP\SEO\Builders\Indexable_Builder;
@@ -45,10 +45,10 @@ class Verify_Post_Indexables_Command_Handler {
 	/**
 	 * The constructor.
 	 *
-	 * @param Outdated_Post_Indexables_Repository_Interface $outdated_post_indexables_repository
-	 * @param Verification_Cron_Schedule_Handler                  $cron_schedule_handler
-	 * @param Verification_Cron_Batch_Handler                     $verification_cron_batch_handler
-	 * @param Indexable_Builder                                                 $indexable_builder
+	 * @param Outdated_Post_Indexables_Repository_Interface $outdated_post_indexables_repository The outdated post indexables repository.
+	 * @param Verification_Cron_Schedule_Handler            $cron_schedule_handler The cron schedule handler.
+	 * @param Verification_Cron_Batch_Handler               $verification_cron_batch_handler The verification cron batch handler.
+	 * @param Indexable_Builder                             $indexable_builder The indexable builder.
 	 */
 	public function __construct(
 		Outdated_Post_Indexables_Repository_Interface $outdated_post_indexables_repository,

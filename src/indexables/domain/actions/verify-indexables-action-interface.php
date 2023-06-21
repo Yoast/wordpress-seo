@@ -23,6 +23,8 @@ interface Verify_Indexables_Action_Interface {
 	public function re_build_indexables( Last_Batch_Count $last_batch_count, Batch_Size $batch_size):bool;
 
 	/**
+	 * Sets the wpdb instance.
+	 *
 	 * @param \wpdb $wpdb The wpdb instance.
 	 *
 	 * @return mixed

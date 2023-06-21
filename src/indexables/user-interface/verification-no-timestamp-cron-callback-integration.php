@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * The Verification_Cron_Callback_Integration class.
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Verification_No_Timestamp_Cron_Callback_Integration implements Integration_Interface {
 

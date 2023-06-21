@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Indexables\Infrastructure\Actions;
 
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
@@ -9,6 +10,9 @@ use Yoast\WP\SEO\Indexables\Domain\Batch_Size;
 use Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
+/**
+ * The Verify_Term_Links_Indexables_Action class.
+ */
 class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_Interface {
 
 	/**
@@ -33,10 +37,19 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 	private $link_builder;
 
 	/**
-	 * @var \wpdb $wpdb The wp query.
+	 * The wp query.
+	 *
+	 * @var \wpdb $wpdb
 	 */
 	private $wpdb;
 
+	/**
+	 * The constructor.
+	 *
+	 * @param Taxonomy_Helper        $taxonomy The taxonomy helper.
+	 * @param Indexable_Repository   $repository The indexable repository.
+	 * @param Indexable_Link_Builder $link_builder The link builder.
+	 */
 	public function __construct(
 		Taxonomy_Helper $taxonomy,
 		Indexable_Repository $repository,
@@ -58,7 +71,7 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 	public function re_build_indexables( Last_Batch_Count $last_batch_count, Batch_Size $batch_size ): bool {
 		$query = $this->get_query( $last_batch_count->get_last_batch(), $batch_size->get_batch_size() );
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_query returns a prepared query.
 		$terms = $this->wpdb->get_results( $query );
 
 		$term_list = \array_map(
@@ -86,7 +99,9 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 	}
 
 	/**
-	 * @param \wpdb $wpdb
+	 * Sets the wpdb.
+	 *
+	 * @param \wpdb $wpdb The wpdb instance.
 	 *
 	 * @return void
 	 * @required
@@ -106,7 +121,6 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 	private function get_query( $limit, $batch_size ) {
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
 		$public_taxonomies = $this->taxonomy->get_indexable_taxonomies();
-		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 
 		$replacements = [];
 		\array_push( $replacements, ...$public_taxonomies );
@@ -119,12 +133,12 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 			$offset_query   = 'OFFSET %d';
 			$replacements[] = ( $limit + $batch_size );
 		}
-
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		return $this->wpdb->prepare(
 			"
 			SELECT term_id, description
 			FROM {$taxonomy_table} AS T
-			WHERE taxonomy IN ($placeholders)
+			WHERE taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
 			$limit_query $offset_query",
 			$replacements
 		);

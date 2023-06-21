@@ -5,6 +5,8 @@ namespace Yoast\WP\SEO\Indexables\Domain\Exceptions;
 
 /**
  * The No_Non_Timestamped_Objects_Found_Exception exception.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class No_Non_Timestamped_Objects_Found_Exception extends \Exception {
 

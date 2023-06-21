@@ -1,6 +1,6 @@
 <?php
 
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Indexables\Application\Commands;
 
 use Yoast\WP\SEO\Indexables\Application\Next_Verification_Action_Handler;
@@ -12,6 +12,10 @@ use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Verification_Action_Left_Except
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\Verify_Action_Not_Found_Exception;
 use Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count;
 
+/**
+ * The Verify_Non_Timestamp_Indexables_Command_Handler class.
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ */
 class Verify_Non_Timestamp_Indexables_Command_Handler {
 
 	/**
@@ -45,10 +49,10 @@ class Verify_Non_Timestamp_Indexables_Command_Handler {
 	/**
 	 * The constructor.
 	 *
-	 * @param Verification_Cron_Schedule_Handler        $cron_schedule_handler
-	 * @param Verification_Cron_Batch_Handler           $cron_batch_handler
-	 * @param Verify_Indexables_Action_Factory_Interface $verify_indexables_action_factory
-	 * @param Next_Verification_Action_Handler          $action_handler
+	 * @param Verification_Cron_Schedule_Handler         $cron_schedule_handler The cron schedule handler.
+	 * @param Verification_Cron_Batch_Handler            $cron_batch_handler The cron batch handler.
+	 * @param Verify_Indexables_Action_Factory_Interface $verify_indexables_action_factory The verify indexables action factory.
+	 * @param Next_Verification_Action_Handler           $action_handler The action handler.
 	 */
 	public function __construct(
 		Verification_Cron_Schedule_Handler $cron_schedule_handler,
@@ -56,10 +60,10 @@ class Verify_Non_Timestamp_Indexables_Command_Handler {
 		Verify_Indexables_Action_Factory_Interface $verify_indexables_action_factory,
 		Next_Verification_Action_Handler $action_handler
 	) {
-		$this->cron_schedule_handler           = $cron_schedule_handler;
-		$this->cron_batch_handler              = $cron_batch_handler;
+		$this->cron_schedule_handler            = $cron_schedule_handler;
+		$this->cron_batch_handler               = $cron_batch_handler;
 		$this->verify_indexables_action_factory = $verify_indexables_action_factory;
-		$this->action_handler                  = $action_handler;
+		$this->action_handler                   = $action_handler;
 	}
 
 	/**
@@ -79,7 +83,6 @@ class Verify_Non_Timestamp_Indexables_Command_Handler {
 		}
 
 		$has_more_to_index = $verification_action->re_build_indexables( $verify_non_timestamp_indexables_command->get_last_batch_count(), $verify_non_timestamp_indexables_command->get_batch_size() );
-		// for each fix
 		if ( $has_more_to_index ) {
 			$this->cron_batch_handler->set_current_non_timestamped_indexables_batch( $verify_non_timestamp_indexables_command->get_last_batch_count(), $verify_non_timestamp_indexables_command->get_batch_size() );
 

@@ -13,7 +13,7 @@ class Verification_Cron_Schedule_Handler {
 	public const INDEXABLE_VERIFY_POST_INDEXABLES_NAME = 'wpseo_indexable_verify_post_indexables';
 
 	/**
-	 * he name of the CRON job.
+	 * The name of the CRON job.
 	 */
 	public const INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME = 'wpseo_indexable_verify_non_timestamped_indexables';
 
@@ -27,7 +27,7 @@ class Verification_Cron_Schedule_Handler {
 	/**
 	 * The constructor.
 	 *
-	 * @param Cron_Verification_Gate $cron_verification_gate
+	 * @param Cron_Verification_Gate $cron_verification_gate The cron verification gate.
 	 */
 	public function __construct( Cron_Verification_Gate $cron_verification_gate ) {
 		$this->cron_verification_gate = $cron_verification_gate;

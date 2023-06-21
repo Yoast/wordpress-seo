@@ -16,10 +16,10 @@ class Schedule_Verification_Cron_Integration implements Integration_Interface {
 
 	/**
 	 * The verification cron schedule handler.
+	 *
 	 * @var Verification_Cron_Schedule_Handler
 	 */
 	protected $cron_schedule_handler;
-
 
 	/**
 	 * The options helper.
@@ -31,7 +31,8 @@ class Schedule_Verification_Cron_Integration implements Integration_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Options_Helper                     $options_helper The options helper.
+	 * @param Verification_Cron_Schedule_Handler $cron_schedule_handler The cron schedule handler.
 	 */
 	public function __construct( Options_Helper $options_helper, Verification_Cron_Schedule_Handler $cron_schedule_handler ) {
 		$this->options_helper        = $options_helper;
