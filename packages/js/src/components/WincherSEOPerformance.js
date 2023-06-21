@@ -287,7 +287,7 @@ export default function WincherSEOPerformance( props ) {
 	return (
 		<Wrapper>
 			{ isNewlyAuthenticated && <WincherConnectedAlert /> }
-			<WincherUpgradeCallout />
+			{ isLoggedIn && <WincherUpgradeCallout /> }
 
 			<Title>
 				{ __( "SEO performance", "wordpress-seo" ) }

@@ -445,6 +445,15 @@ WincherSEOPerformanceTable.propTypes = {
 };
 
 /**
+ * Checks whether Wincher performance data has results.
+ *
+ * @param {Object} data the Wincher performance data.
+ *
+ * @returns {boolean} Whether Wincher performance data has results.
+ */
+const checkHasResults = ( data ) => data && ! isEmpty( data ) && ! isEmpty( data.results );
+
+/**
  * The Dashboard Wincher SEO Performance component.
  *
  * @param {Object} props The component props.
@@ -455,16 +464,17 @@ const WincherPerformanceReport = ( props ) => {
 	const { className, websiteId, isLoggedIn, onConnectAction, isConnectSuccess } = props;
 	const data = isLoggedIn ? props.data : fakeWincherPerformanceData;
 	const isBlurred = ! isLoggedIn;
+	const hasResults = checkHasResults( data );
 
 	return (
 		<WicnherSEOPerformanceContainer
 			className={ className }
 		>
-			<WincherUpgradeCallout isTitleShortened={ true } />
+			{ isLoggedIn && <WincherUpgradeCallout isTitleShortened={ true } /> }
 
 			<GetUserMessage { ...props } data={ data } isConnectSuccess={ isConnectSuccess && isLoggedIn } />
 
-			{ data && ! isEmpty( data ) && ! isEmpty( data.results ) && <Fragment>
+			{ hasResults && <Fragment>
 				<TableExplanation isLoggedIn={ isLoggedIn } />
 
 				<WincherSEOPerformanceTableWrapper>
