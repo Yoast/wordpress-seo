@@ -1,9 +1,9 @@
-import { Fragment, useCallback, useState, useRef } from "@wordpress/element";
-import { noop } from "lodash";
+import { Fragment, useCallback, useRef, useState } from "@wordpress/element";
+import { noop, times } from "lodash";
 import PropTypes from "prop-types";
 import RawModal, { classNameMap } from ".";
-import Button from "../../elements/button";
-import TextInput from "../../elements/text-input";
+import { StoryComponent as Button } from "../../elements/button";
+import { StoryComponent as TextInput } from "../../elements/text-input";
 import { classNameMap as titleClassNameMap } from "../../elements/title";
 
 const Modal = ( { isOpen: initialIsOpen, onClose: _, children, ...props } ) => {
@@ -138,6 +138,29 @@ export const WithTitleAndDescription = {
 			</Fragment>
 		),
 	},
+};
+
+const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eget convallis nulla. Nullam et justo semper, volutpat mauris ac, sodales augue. Vestibulum vitae hendrerit tortor, vel fringilla ipsum. Ut id purus at urna tincidunt tincidunt. Vestibulum molestie ipsum quam, sit amet consectetur lorem auctor at. Cras laoreet arcu ac arcu rutrum, vitae dapibus felis lobortis. Aenean tincidunt varius lorem at ultrices. Ut dignissim eget leo at tristique. Donec interdum tempor eros, vulputate tincidunt erat venenatis ut.";
+
+export const WithContainer = Factory.component.bind( {} );
+WithContainer.storyName = "With scrolling container";
+WithContainer.parameters = { docs: { description: {
+	story: "Using the `Modal.Container`, which includes a `Header`, `Content` and `Footer`. The content will then be vertically scrollable if it takes up more space than the screen height.",
+} } };
+WithContainer.args = {
+	children: (
+		<RawModal.Container>
+			<RawModal.Container.Header className="yst-w-full yst-text-center yst-mb-3">
+				<RawModal.Title as="h3">Lorem ipsum</RawModal.Title>
+			</RawModal.Container.Header>
+			<RawModal.Container.Content className="yst-text-center yst-space-y-3">
+				{ times( 16 ).map( i => <p key={ `paragraph-${ i }` }>{ lorem }</p> ) }
+			</RawModal.Container.Content>
+			<RawModal.Container.Footer className="yst-mt-3">
+				<Button variant="primary" className="yst-w-full">Lorem ipsum</Button>
+			</RawModal.Container.Footer>
+		</RawModal.Container>
+	),
 };
 
 const InitialFocusComponent = () => {

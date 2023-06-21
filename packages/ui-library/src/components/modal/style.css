@@ -49,5 +49,28 @@
 			focus:yst-ring-offset-2
 			focus:yst-ring-primary-500;
 		}
+
+		.yst-modal__container {
+			/* 100vh - the padding of yst-modal. */
+			@apply yst-flex yst-flex-col yst-max-h-[calc(100vh-2rem)] sm:yst-max-h-[calc(100vh-4rem)] md:yst-max-h-[calc(100vh-10rem)];
+		}
+
+		.yst-modal__panel .yst-modal__container {
+			/* 100vh - ( the padding of yst-modal + the padding of yst-modal__panel ). */
+			@apply yst-max-h-[calc(100vh-5rem)] sm:yst-max-h-[calc(100vh-7rem)] md:yst-max-h-[calc(100vh-13rem)];
+		}
+
+		.yst-modal__container-header, .yst-modal__container-footer {
+			@apply yst-shrink-0;
+		}
+
+		.yst-modal__container-content {
+			@apply yst-overflow-auto;
+		}
+
+		.yst-modal__panel .yst-modal__container-content {
+			/* Workaround the panel padding to have the scrollbar at the edge. */
+			@apply yst--mx-6 yst-px-6;
+		}
 	}
 }

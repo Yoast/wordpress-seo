@@ -3,9 +3,10 @@ import { XIcon } from "@heroicons/react/outline";
 import { forwardRef, Fragment } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { useSvgAria } from "../../hooks";
-import { ModalContext, useModalContext } from "./hooks";
 import { classNameMap as titleClassNameMap } from "../../elements/title";
+import { useSvgAria } from "../../hooks";
+import { Container } from "./container";
+import { ModalContext, useModalContext } from "./hooks";
 
 /**
  * @param {JSX.node} children Title text.
@@ -157,5 +158,6 @@ Modal.Title = Title;
 Modal.Title.displayName = "Modal.Title";
 Modal.Description = Dialog.Description;
 Modal.Description.displayName = "Modal.Description";
+Modal.Container = Container;
 
 export default Modal;
