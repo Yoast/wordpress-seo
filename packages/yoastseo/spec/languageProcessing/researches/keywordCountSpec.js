@@ -169,6 +169,16 @@ const testCases = [
 	},
 	{
 		description: "with exact matching, a multi word keyphrase should be counted if the focus keyphrase is the same",
+		paper: new Paper( "<p>A string with a key phrase key phrase.</p>", { keyword: "\"key phrase\"" } ),
+		keyphraseForms: [ [ "key phrase" ] ],
+		expectedCount: 2,
+		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key phrase key phrase</yoastmark>.",
+			original: "A string with a key phrase key phrase.",
+			position: { endOffset: 40, startOffset: 19 } } ) ],
+		skip: false,
+	},
+	{
+		description: "with exact matching, a multi word keyphrase should be counted if the focus keyphrase is the same",
 		paper: new Paper( "<p>A string with a key phrase.</p>", { keyword: "\"key phrase\"" } ),
 		keyphraseForms: [ [ "key phrase" ] ],
 		expectedCount: 1,
@@ -264,10 +274,15 @@ const testCasesWithSpecialCharacters = [
 		description: "counts 'key word' in 'key-word'.",
 		paper: new Paper( "<p>A string with a key-word.</p>", { keyword: "key word" } ),
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
-		expectedCount: 0,
-		expectedMarkings: [],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a key-word.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>key-word</yoastmark>.",
+				position: { endOffset: 27, startOffset: 19 },
+			} ),
+		],
 		skip: false,
-		// Note: this behavior might change in the future.
 	},
 	{
 		description: "counts a string with a keyword with a '_' in it",
@@ -435,71 +450,12 @@ const testCasesWithLocaleMapping = [
 				position: { endOffset: 40, startOffset: 36 } } ) ],
 		skip: false,
 	},
-	// Test cases for consecutive matching.
-	{
-		description: "consecutive 1",
-		paper: new Paper( "<p>this is a keywords keywords keywords.</p>", { keyword: "keyword", locale: "en_US" } ),
-		keyphraseForms: [ [ "keyword", "keywords" ] ],
-		expectedCount: 2,
-		expectedMarkings: [
-			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Accion</yoastmark> Española fue una revista.",
-				original: "Accion Española fue una revista.",
-				position: { endOffset: 9, startOffset: 3 } } ) ],
-		skip: false,
-	},
-	{
-		description: "consecutive 2",
-		paper: new Paper( "<p>this is a keyword keyword keyword.</p>", { keyword: "keyword", locale: "en_US" } ),
-		keyphraseForms: [ [ "keyword", "keywords" ] ],
-		expectedCount: 2,
-		expectedMarkings: [
-			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Accion</yoastmark> Española fue una revista.",
-				original: "Accion Española fue una revista.",
-				position: { endOffset: 9, startOffset: 3 } } ) ],
-		skip: false,
-	},
-	{
-		description: "consecutive 3",
-		paper: new Paper( "<p>this is a keyword keyword keyword.</p>", { keyword: "keywords", locale: "en_US" } ),
-		keyphraseForms: [ [ "keyword", "keywords" ] ],
-		expectedCount: 2,
-		expectedMarkings: [
-			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Accion</yoastmark> Española fue una revista.",
-				original: "Accion Española fue una revista.",
-				position: { endOffset: 9, startOffset: 3 } } ) ],
-		skip: false,
-	},
-	{
-		description: "consecutive 4",
-		paper: new Paper( "<p>this is a key key key word word word.</p>", { keyword: "key words", locale: "en_US" } ),
-		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
-		expectedCount: 2,
-		expectedMarkings: [
-			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Accion</yoastmark> Española fue una revista.",
-				original: "Accion Española fue una revista.",
-				position: { endOffset: 9, startOffset: 3 } } ) ],
-		skip: false,
-	},
-	{
-		description: "consecutive 5",
-		paper: new Paper( "<p>this is a key word key word key word.</p>", { keyword: "key words", locale: "en_US" } ),
-		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
-		expectedCount: 3,
-		expectedMarkings: [
-			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Accion</yoastmark> Española fue una revista.",
-				original: "Accion Española fue una revista.",
-				position: { endOffset: 9, startOffset: 3 } } ) ],
-		skip: false,
-	},
 	{
 		description: "counts a string of text with Spanish accented vowel",
 		paper: new Paper( "<p>Acción Española fue una revista.</p>", { keyword: "accion", locale: "es_ES" } ),
 		keyphraseForms: [ [ "accion" ] ],
 		expectedCount: 0,
-		expectedMarkings: [
-			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Accion</yoastmark> Española fue una revista.",
-				original: "Accion Española fue una revista.",
-				position: { endOffset: 9, startOffset: 3 } } ) ],
+		expectedMarkings: [],
 		skip: false,
 	},
 	{
@@ -519,9 +475,16 @@ const testCasesWithLocaleMapping = [
 		keyphraseForms: [ [ "överlåtelsebesiktning" ] ],
 		expectedCount: 2,
 		expectedMarkings: [
-			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Acción</yoastmark> Española fue una revista.",
-				original: "Acción Española fue una revista.",
-				position: { endOffset: 40, startOffset: 36 } } ) ],
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>oeverlaatelsebesiktning</yoastmark> " +
+					"and <yoastmark class='yoast-text-mark'>overlatelsebesiktning</yoastmark>",
+				original: "oeverlaatelsebesiktning and overlatelsebesiktning",
+				position: { endOffset: 26, startOffset: 3 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>oeverlaatelsebesiktning</yoastmark> " +
+					"and <yoastmark class='yoast-text-mark'>overlatelsebesiktning</yoastmark>",
+				original: "oeverlaatelsebesiktning and overlatelsebesiktning",
+				position: { endOffset: 52, startOffset: 31 } } ) ],
 		skip: false,
 	},
 	{
@@ -530,19 +493,38 @@ const testCasesWithLocaleMapping = [
 		keyphraseForms: [ [ "København" ] ],
 		expectedCount: 3,
 		expectedMarkings: [
-			new Mark( { marked: "<yoastmark class='yoast-text-mark'>Acción</yoastmark> Española fue una revista.",
-				original: "Acción Española fue una revista.",
-				position: { endOffset: 40, startOffset: 36 } } ) ],
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>København</yoastmark> and <yoastmark class='yoast-text-mark'>" +
+					"Koebenhavn</yoastmark> and <yoastmark class='yoast-text-mark'>Kobenhavn</yoastmark>",
+				original: "København and Koebenhavn and Kobenhavn",
+				position: { endOffset: 12, startOffset: 3 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>København</yoastmark> and <yoastmark class='yoast-text-mark'>" +
+					"Koebenhavn</yoastmark> and <yoastmark class='yoast-text-mark'>Kobenhavn</yoastmark>",
+				original: "København and Koebenhavn and Kobenhavn",
+				position: { endOffset: 27, startOffset: 17 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>København</yoastmark> and <yoastmark class='yoast-text-mark'>" +
+					"Koebenhavn</yoastmark> and <yoastmark class='yoast-text-mark'>Kobenhavn</yoastmark>",
+				original: "København and Koebenhavn and Kobenhavn",
+				position: { endOffset: 41, startOffset: 32 } } ) ],
 		skip: false,
 	},
 	{
-		description: "counts a string with with a different forms of Turkish i, kephrase: İstanbul",
+		description: "counts a string with a Turkish diacritics",
 		paper: new Paper( "<p>Türkçe and Turkce</p>", { keyword: "Türkçe", locale: "tr_TR" } ),
 		keyphraseForms: [ [ "Türkçe" ] ],
-		expectedCount: 4,
-		expectedMarkings: [ new Mark( { marked: "A string with '<yoastmark class='yoast-text-mark'>kapaklı</yoastmark>' as a keyword in it",
-			original: "A string with 'kapaklı' as a keyword in it",
-			position: { endOffset: 25, startOffset: 18 } } ) ],
+		expectedCount: 2,
+		expectedMarkings: [
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>Türkçe</yoastmark> and <yoastmark class='yoast-text-mark'>Turkce</yoastmark>",
+				original: "Türkçe and Turkce",
+				position: { endOffset: 9, startOffset: 3 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>Türkçe</yoastmark> and <yoastmark class='yoast-text-mark'>Turkce</yoastmark>",
+				original: "Türkçe and Turkce",
+				position: { endOffset: 20, startOffset: 14 } } ),
+		],
 		skip: false,
 	},
 	{
@@ -550,9 +532,27 @@ const testCasesWithLocaleMapping = [
 		paper: new Paper( "<p>İstanbul and Istanbul and istanbul and ıstanbul</p>", { keyword: "İstanbul", locale: "tr_TR" } ),
 		keyphraseForms: [ [ "İstanbul" ] ],
 		expectedCount: 4,
-		expectedMarkings: [ new Mark( { marked: "A string with '<yoastmark class='yoast-text-mark'>kapaklı</yoastmark>' as a keyword in it",
-			original: "A string with 'kapaklı' as a keyword in it",
-			position: { endOffset: 25, startOffset: 18 } } ) ],
+		expectedMarkings: [
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 11, startOffset: 3 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 24, startOffset: 16 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 37, startOffset: 29 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 50, startOffset: 42 } } ) ],
 		skip: false,
 	},
 	{
@@ -560,9 +560,27 @@ const testCasesWithLocaleMapping = [
 		paper: new Paper( "<p>İstanbul and Istanbul and istanbul and ıstanbul</p>", { keyword: "Istanbul", locale: "tr_TR" } ),
 		keyphraseForms: [ [ "Istanbul" ] ],
 		expectedCount: 4,
-		expectedMarkings: [ new Mark( { marked: "A string with '<yoastmark class='yoast-text-mark'>kapaklı</yoastmark>' as a keyword in it",
-			original: "A string with 'kapaklı' as a keyword in it",
-			position: { endOffset: 25, startOffset: 18 } } ) ],
+		expectedMarkings: [
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 11, startOffset: 3 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 24, startOffset: 16 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 37, startOffset: 29 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 50, startOffset: 42 } } ) ],
 		skip: false,
 	},
 	{
@@ -570,9 +588,27 @@ const testCasesWithLocaleMapping = [
 		paper: new Paper( "<p>İstanbul and Istanbul and istanbul and ıstanbul</p>", { keyword: "istanbul", locale: "tr_TR" } ),
 		keyphraseForms: [ [ "istanbul" ] ],
 		expectedCount: 4,
-		expectedMarkings: [ new Mark( { marked: "A string with '<yoastmark class='yoast-text-mark'>kapaklı</yoastmark>' as a keyword in it",
-			original: "A string with 'kapaklı' as a keyword in it",
-			position: { endOffset: 25, startOffset: 18 } } ) ],
+		expectedMarkings: [
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 11, startOffset: 3 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 24, startOffset: 16 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 37, startOffset: 29 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 50, startOffset: 42 } } ) ],
 		skip: false,
 	},
 	{
@@ -580,13 +616,126 @@ const testCasesWithLocaleMapping = [
 		paper: new Paper( "<p>İstanbul and Istanbul and istanbul and ıstanbul</p>", { keyword: "ıstanbul", locale: "tr_TR" } ),
 		keyphraseForms: [ [ "ıstanbul" ] ],
 		expectedCount: 4,
-		expectedMarkings: [ new Mark( { marked: "A string with '<yoastmark class='yoast-text-mark'>kapaklı</yoastmark>' as a keyword in it",
-			original: "A string with 'kapaklı' as a keyword in it",
-			position: { endOffset: 25, startOffset: 18 } } ) ],
+		expectedMarkings: [
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 11, startOffset: 3 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 24, startOffset: 16 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 37, startOffset: 29 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>İstanbul</yoastmark> and <yoastmark class='yoast-text-mark'>Istanbul</yoastmark> and " +
+					"<yoastmark class='yoast-text-mark'>istanbul</yoastmark> and <yoastmark class='yoast-text-mark'>ıstanbul</yoastmark>",
+				original: "İstanbul and Istanbul and istanbul and ıstanbul",
+				position: { endOffset: 50, startOffset: 42 } } ) ],
 		skip: false,
 	},
 ];
 describe.each( testCasesWithLocaleMapping )( "Test for counting the keyword in a text with different locale mapping, e.g. Turkish",
+	function( {
+		description,
+		paper,
+		keyphraseForms,
+		expectedCount,
+		expectedMarkings,
+		skip } ) {
+		const test = skip ? it.skip : it;
+
+		test( description, function() {
+			const mockResearcher = buildMorphologyMockResearcher( keyphraseForms );
+			buildTree( paper, mockResearcher );
+			const keyWordCountResult = keyphraseCount( paper, mockResearcher );
+			expect( keyWordCountResult.count ).toBe( expectedCount );
+			expect( keyWordCountResult.markings ).toEqual( expectedMarkings );
+		} );
+	} );
+
+const testDataForConsecutiveMatching = [
+	{
+		description: "consecutive 1",
+		paper: new Paper( "<p>this is a keywords keywords keywords.</p>", { keyword: "keyword", locale: "en_US" } ),
+		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		expectedCount: 2,
+		expectedMarkings: [
+			new Mark( { marked: "this is a <yoastmark class='yoast-text-mark'>keywords keywords</yoastmark> keywords.",
+				original: "this is a keywords keywords keywords.",
+				position: { endOffset: 30, startOffset: 13 } } ) ],
+		skip: false,
+	},
+	{
+		description: "consecutive 2",
+		paper: new Paper( "<p>this is a keyword keyword keyword.</p>", { keyword: "keyword", locale: "en_US" } ),
+		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		expectedCount: 2,
+		expectedMarkings: [
+			new Mark( { marked: "this is a <yoastmark class='yoast-text-mark'>keyword keyword</yoastmark> keyword.",
+				original: "this is a keyword keyword keyword.",
+				position: { endOffset: 28, startOffset: 13 } } ) ],
+		skip: false,
+	},
+	{
+		description: "consecutive 3",
+		paper: new Paper( "<p>this is a keyword keyword keyword.</p>", { keyword: "keywords", locale: "en_US" } ),
+		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		expectedCount: 2,
+		expectedMarkings: [
+			new Mark( { marked: "this is a <yoastmark class='yoast-text-mark'>keyword keyword</yoastmark> keyword.",
+				original: "this is a keyword keyword keyword.",
+				position: { endOffset: 28, startOffset: 13 } } ) ],
+		skip: false,
+	},
+	{
+		description: "consecutive 4",
+		paper: new Paper( "<p>this is a key key key word word word.</p>", { keyword: "key words", locale: "en_US" } ),
+		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		expectedCount: 2,
+		expectedMarkings: [
+			new Mark( {
+				marked: "this is a <yoastmark class='yoast-text-mark'>key key</yoastmark> key " +
+					"<yoastmark class='yoast-text-mark'>word word</yoastmark> word.",
+				original: "this is a key key key word word word.",
+				position: { endOffset: 20, startOffset: 13 } } ),
+			new Mark( {
+				marked: "this is a <yoastmark class='yoast-text-mark'>key key</yoastmark> key " +
+					"<yoastmark class='yoast-text-mark'>word word</yoastmark> word.",
+				original: "this is a key key key word word word.",
+				position: { endOffset: 34, startOffset: 25 } } ) ],
+		skip: false,
+	},
+	{
+		description: "doesn't recognize consecutive occurrences when the keyphrase contains multiple words, with non-exact matching",
+		paper: new Paper( "<p>this is a key word key word key word.</p>", { keyword: "key words", locale: "en_US" } ),
+		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
+		expectedCount: 3,
+		expectedMarkings: [
+			new Mark( { marked: "this is a <yoastmark class='yoast-text-mark'>key word key word key word</yoastmark>.",
+				original: "this is a key word key word key word.",
+				position: { endOffset: 39, startOffset: 13 } } ) ],
+		skip: false,
+	},
+	{
+		description: "doesn't recognize consecutive occurrences when the keyphrase contains multiple words: with exact matching",
+		paper: new Paper( "<p>A sentence about a red panda red panda red panda.</p>", { keyword: "\"red panda\"", locale: "en_US" } ),
+		keyphraseForms: [ [ "red panda" ] ],
+		expectedCount: 3,
+		expectedMarkings: [
+			new Mark( { marked: "A sentence about a <yoastmark class='yoast-text-mark'>red panda red panda red panda</yoastmark>.",
+				original: "A sentence about a red panda red panda red panda.",
+				position: { endOffset: 51, startOffset: 22 } } ) ],
+		skip: false,
+	},
+];
+
+describe.each( testDataForConsecutiveMatching )( "Test for counting the consecutive occurrences of keyword in the text",
 	function( {
 		description,
 		paper,
