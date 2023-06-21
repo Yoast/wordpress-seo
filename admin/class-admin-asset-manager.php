@@ -553,6 +553,10 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
+				'name' => 'ai-generator',
+				'src'  => 'ai-generator-' . $flat_version,
+			],
+			[
 				'name' => 'wp-dashboard',
 				'src'  => 'dashboard-' . $flat_version,
 			],

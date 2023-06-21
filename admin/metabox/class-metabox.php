@@ -863,6 +863,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'metabox-css' );
 		$asset_manager->enqueue_style( 'scoring' );
 		$asset_manager->enqueue_style( 'monorepo' );
+		$asset_manager->enqueue_style( 'ai-generator' );
 
 		$is_block_editor  = WP_Screen::get()->is_block_editor();
 		$post_edit_handle = 'post-edit';
