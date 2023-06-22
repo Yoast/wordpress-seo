@@ -6,42 +6,6 @@ import matchKeyphraseWithSentence from "../helpers/match/matchKeyphraseWithSente
 import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
 
 /**
- * Creates a new array in which consecutive matches are removed. A consecutive match occurs if the same keyphrase occurs more than twice in a row.
- * The first and second match are kept, the rest is removed.
- *
- * @param {Token[]} matches An array of all matches. (Including consecutive matches).
- *
- * @returns {Token[]} An array of matches without consecutive matches.
- */
-const removeConsecutiveMatches = ( matches ) => {
-	// If there are three or more matches in a row, remove all but the first and the second.
-	const matchesCopy = [ ...matches ];
-
-	let nrConsecutiveMatches = 0;
-	let previousMatch = null;
-	const result = [];
-
-	for ( let i = 0; i < matchesCopy.length; i++ ) {
-		const match = matchesCopy[ i ];
-
-		if ( previousMatch && match.sourceCodeRange.startOffset === previousMatch.sourceCodeRange.endOffset + 1 &&
-			match.text.toLowerCase() === previousMatch.text.toLowerCase() ) {
-			nrConsecutiveMatches += 1;
-		} else {
-			nrConsecutiveMatches = 0;
-		}
-
-		if ( nrConsecutiveMatches < 2 ) {
-			result.push( match );
-		}
-
-		previousMatch = match;
-	}
-
-	return result;
-};
-
-/**
  * Counts the occurrences of the keyphrase in the text and creates the Mark objects for the matches.
  *
  * @param {Sentence[]} sentences The sentences to check.
@@ -64,18 +28,10 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 		if ( hasAllKeywords ) {
 			const counts = matchesInSentence.map( match => match.count );
 			const totalMatchCount = Math.min( ...counts );
-			let foundWords = flattenDeep( matchesInSentence.map( match => match.matches ) );
-			const nonConsecutiveMatches = removeConsecutiveMatches( foundWords );
-
-			if ( totalMatchCount > 2 && nonConsecutiveMatches.length < foundWords.length ) {
-				// Only count 2 occurrences if a keyphrase is found more than 2 times consecutively.
-				// Q: Do we want to highlight the removed occurrences as well?.
-				foundWords = nonConsecutiveMatches;
-				result.count += 2;
-			} else {
-				result.count += totalMatchCount;
-			}
+			const foundWords = flattenDeep( matchesInSentence.map( match => match.matches ) );
 			const markings = getMarkingsInSentence( sentence, foundWords, matchWordCustomHelper, locale );
+
+			result.count += totalMatchCount;
 			result.markings.push( markings );
 		}
 	} );
@@ -109,6 +65,11 @@ export default function keyphraseCount( paper, researcher ) {
 	// Exact matching is requested when the keyphrase is enclosed in double quotes.
 	const isExactMatchRequested = isDoubleQuoted( paper.getKeyword() );
 
+	/*
+	* Count the amount of keyphrase occurrences in the sentences.
+	* An occurrence is counted when all words of the keyphrase are contained within the sentence. Each sentence can contain multiple keyphrases.
+	* (e.g. "The apple potato is an apple and a potato." has two occurrences of the keyphrase "apple potato").
+	* */
 	const keyphraseFound = countKeyphraseInText( sentences, topicForms, locale, matchWordCustomHelper, isExactMatchRequested );
 
 	return {

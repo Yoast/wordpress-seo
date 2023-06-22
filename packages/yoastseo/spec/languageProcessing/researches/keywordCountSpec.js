@@ -232,6 +232,28 @@ const testCases = [
 			position: { endOffset: 55, startOffset: 42 } } ) ],
 		skip: false,
 	},
+	{
+		description: "counts all occurrence in the sentence, even when they occur more than 2 time consecutively",
+		paper: new Paper( "<p>this is a keyword keyword keyword.</p>", { keyword: "keyword", locale: "en_US" } ),
+		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		expectedCount: 3,
+		expectedMarkings: [
+			new Mark( { marked: "this is a <yoastmark class='yoast-text-mark'>keyword keyword keyword</yoastmark>.",
+				original: "this is a keyword keyword keyword.",
+				position: { endOffset: 36, startOffset: 13 } } ) ],
+		skip: false,
+	},
+	{
+		description: "counts all occurrence in the sentence, even when they occur more than 2 time consecutively: with exact matching",
+		paper: new Paper( "<p>A sentence about a red panda red panda red panda.</p>", { keyword: "\"red panda\"", locale: "en_US" } ),
+		keyphraseForms: [ [ "red panda" ] ],
+		expectedCount: 3,
+		expectedMarkings: [
+			new Mark( { marked: "A sentence about a <yoastmark class='yoast-text-mark'>red panda red panda red panda</yoastmark>.",
+				original: "A sentence about a red panda red panda red panda.",
+				position: { endOffset: 51, startOffset: 22 } } ) ],
+		skip: false,
+	},
 ];
 
 // eslint-disable-next-line max-len
@@ -451,7 +473,7 @@ const testCasesWithLocaleMapping = [
 		skip: false,
 	},
 	{
-		description: "counts a string of text with Spanish accented vowel",
+		description: "doesn't count a match if the keyphrase is with diacritic while the occurrence in the text is with diacritic",
 		paper: new Paper( "<p>Acción Española fue una revista.</p>", { keyword: "accion", locale: "es_ES" } ),
 		keyphraseForms: [ [ "accion" ] ],
 		expectedCount: 0,
@@ -513,6 +535,23 @@ const testCasesWithLocaleMapping = [
 	{
 		description: "counts a string with a Turkish diacritics",
 		paper: new Paper( "<p>Türkçe and Turkce</p>", { keyword: "Türkçe", locale: "tr_TR" } ),
+		keyphraseForms: [ [ "Türkçe" ] ],
+		expectedCount: 2,
+		expectedMarkings: [
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>Türkçe</yoastmark> and <yoastmark class='yoast-text-mark'>Turkce</yoastmark>",
+				original: "Türkçe and Turkce",
+				position: { endOffset: 9, startOffset: 3 } } ),
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>Türkçe</yoastmark> and <yoastmark class='yoast-text-mark'>Turkce</yoastmark>",
+				original: "Türkçe and Turkce",
+				position: { endOffset: 20, startOffset: 14 } } ),
+		],
+		skip: false,
+	},
+	{
+		description: "still counts a string with a Turkish diacritics when exact matching is used",
+		paper: new Paper( "<p>Türkçe and Turkce</p>", { keyword: "\"Türkçe\"", locale: "tr_TR" } ),
 		keyphraseForms: [ [ "Türkçe" ] ],
 		expectedCount: 2,
 		expectedMarkings: [
@@ -659,100 +698,6 @@ describe.each( testCasesWithLocaleMapping )( "Test for counting the keyword in a
 		} );
 	} );
 
-const testDataForConsecutiveMatching = [
-	{
-		description: "consecutive 1",
-		paper: new Paper( "<p>this is a keywords keywords keywords.</p>", { keyword: "keyword", locale: "en_US" } ),
-		keyphraseForms: [ [ "keyword", "keywords" ] ],
-		expectedCount: 2,
-		expectedMarkings: [
-			new Mark( { marked: "this is a <yoastmark class='yoast-text-mark'>keywords keywords</yoastmark> keywords.",
-				original: "this is a keywords keywords keywords.",
-				position: { endOffset: 30, startOffset: 13 } } ) ],
-		skip: false,
-	},
-	{
-		description: "consecutive 2",
-		paper: new Paper( "<p>this is a keyword keyword keyword.</p>", { keyword: "keyword", locale: "en_US" } ),
-		keyphraseForms: [ [ "keyword", "keywords" ] ],
-		expectedCount: 2,
-		expectedMarkings: [
-			new Mark( { marked: "this is a <yoastmark class='yoast-text-mark'>keyword keyword</yoastmark> keyword.",
-				original: "this is a keyword keyword keyword.",
-				position: { endOffset: 28, startOffset: 13 } } ) ],
-		skip: false,
-	},
-	{
-		description: "consecutive 3",
-		paper: new Paper( "<p>this is a keyword keyword keyword.</p>", { keyword: "keywords", locale: "en_US" } ),
-		keyphraseForms: [ [ "keyword", "keywords" ] ],
-		expectedCount: 2,
-		expectedMarkings: [
-			new Mark( { marked: "this is a <yoastmark class='yoast-text-mark'>keyword keyword</yoastmark> keyword.",
-				original: "this is a keyword keyword keyword.",
-				position: { endOffset: 28, startOffset: 13 } } ) ],
-		skip: false,
-	},
-	{
-		description: "consecutive 4",
-		paper: new Paper( "<p>this is a key key key word word word.</p>", { keyword: "key words", locale: "en_US" } ),
-		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
-		expectedCount: 2,
-		expectedMarkings: [
-			new Mark( {
-				marked: "this is a <yoastmark class='yoast-text-mark'>key key</yoastmark> key " +
-					"<yoastmark class='yoast-text-mark'>word word</yoastmark> word.",
-				original: "this is a key key key word word word.",
-				position: { endOffset: 20, startOffset: 13 } } ),
-			new Mark( {
-				marked: "this is a <yoastmark class='yoast-text-mark'>key key</yoastmark> key " +
-					"<yoastmark class='yoast-text-mark'>word word</yoastmark> word.",
-				original: "this is a key key key word word word.",
-				position: { endOffset: 34, startOffset: 25 } } ) ],
-		skip: false,
-	},
-	{
-		description: "doesn't recognize consecutive occurrences when the keyphrase contains multiple words, with non-exact matching",
-		paper: new Paper( "<p>this is a key word key word key word.</p>", { keyword: "key words", locale: "en_US" } ),
-		keyphraseForms: [ [ "key" ], [ "word", "words" ] ],
-		expectedCount: 3,
-		expectedMarkings: [
-			new Mark( { marked: "this is a <yoastmark class='yoast-text-mark'>key word key word key word</yoastmark>.",
-				original: "this is a key word key word key word.",
-				position: { endOffset: 39, startOffset: 13 } } ) ],
-		skip: false,
-	},
-	{
-		description: "doesn't recognize consecutive occurrences when the keyphrase contains multiple words: with exact matching",
-		paper: new Paper( "<p>A sentence about a red panda red panda red panda.</p>", { keyword: "\"red panda\"", locale: "en_US" } ),
-		keyphraseForms: [ [ "red panda" ] ],
-		expectedCount: 3,
-		expectedMarkings: [
-			new Mark( { marked: "A sentence about a <yoastmark class='yoast-text-mark'>red panda red panda red panda</yoastmark>.",
-				original: "A sentence about a red panda red panda red panda.",
-				position: { endOffset: 51, startOffset: 22 } } ) ],
-		skip: false,
-	},
-];
-
-describe.each( testDataForConsecutiveMatching )( "Test for counting the consecutive occurrences of keyword in the text",
-	function( {
-		description,
-		paper,
-		keyphraseForms,
-		expectedCount,
-		expectedMarkings,
-		skip } ) {
-		const test = skip ? it.skip : it;
-
-		test( description, function() {
-			const mockResearcher = buildMorphologyMockResearcher( keyphraseForms );
-			buildTree( paper, mockResearcher );
-			const keyWordCountResult = keyphraseCount( paper, mockResearcher );
-			expect( keyWordCountResult.count ).toBe( expectedCount );
-			expect( keyWordCountResult.markings ).toEqual( expectedMarkings );
-		} );
-	} );
 
 /**
  * Mocks Japanese Researcher.
