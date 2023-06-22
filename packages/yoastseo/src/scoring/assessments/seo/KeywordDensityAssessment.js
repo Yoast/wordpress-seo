@@ -7,8 +7,6 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
-import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
-import getWords from "../../../languageProcessing/helpers/word/getWords";
 import getAllWordsFromTree from "../../../languageProcessing/helpers/word/getAllWordsFromTree";
 
 /**

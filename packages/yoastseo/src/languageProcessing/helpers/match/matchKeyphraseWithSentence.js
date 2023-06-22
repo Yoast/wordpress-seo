@@ -7,31 +7,33 @@ import getWordsForHTMLParser from "../word/getWordsForHTMLParser";
  * This function assumes that if a keyphrase needs to be matched exactly, there will be only one keyword form.
  * This is the result of how the focus keyword is processed in buildTopicStems.js in the buildStems function.
  *
- * @param {(string[])} keywordForm The keyword forms to tokenize.
+ * @param {(string[])} wordForms The keyword forms to tokenize.
  *
  * @returns {string[]} The tokenized keyword forms.
  */
-export const tokenizeKeywordFormsForExactMatching = ( keywordForm ) => {
+export const tokenizeKeywordFormsForExactMatching = ( wordForms ) => {
 	// Tokenize keyword forms.
-	const keywordFormsText = keywordForm[ 0 ];
+	const keywordFormsText = wordForms[ 0 ];
 	return getWordsForHTMLParser( keywordFormsText );
 };
 
 /**
  * Gets the exact matches of the keyphrase.
  * Exact matching happens when the user puts the keyword in double quotes.
- * @param {Sentence} sentence The sentence to match the keyword forms with.
- * @param {string[]} keywordForm The keyword forms to match.
  *
- * @returns {Object} The tokens that exactly match the keyword forms.
+ * @param {Sentence} sentence The sentence to match the keyword forms with.
+ * @param {string[]} wordForms The keyword forms to match.
+ * @param {string} locale The locale used in the analysis.
+ *
+ * @returns {{count: number, matches: Token[]}} Object containing the number of the exact matches and the matched tokens.
  */
-const exactMatchKeyphraseWithSentence = ( sentence, keywordForm ) => {
+const findExactMatchKeyphraseInSentence = ( sentence, wordForms, locale ) => {
 	const result = {
 		count: 0,
 		matches: [],
 	};
 	// Tokenize keyword form.
-	const keywordTokens = tokenizeKeywordFormsForExactMatching( keywordForm );
+	const keywordTokens = tokenizeKeywordFormsForExactMatching( wordForms );
 
 	const sentenceTokens = sentence.tokens;
 
@@ -42,10 +44,12 @@ const exactMatchKeyphraseWithSentence = ( sentence, keywordForm ) => {
 
 	while ( sentenceIndex < sentenceTokens.length ) {
 		// If the current sentence token matches the current keyword token, add it to the current match.
-		const sentenceTokenText = escapeRegExp( sentenceTokens[ sentenceIndex ].text );
+		const sentenceTokenText = sentenceTokens[ sentenceIndex ].text;
 		const keywordTokenText = escapeRegExp( keywordTokens[ keywordIndex ] );
 
-		if ( sentenceTokenText.toLowerCase() === keywordTokenText.toLowerCase() ) {
+		const foundMatches = matchTextWithTransliteration( sentenceTokenText.toLowerCase(), keywordTokenText.toLowerCase(), locale );
+
+		if ( foundMatches.length > 0 ) {
 			currentMatch.push( sentenceTokens[ sentenceIndex ] );
 			keywordIndex++;
 		} else {
@@ -67,7 +71,15 @@ const exactMatchKeyphraseWithSentence = ( sentence, keywordForm ) => {
 	return result;
 };
 
-
+/**
+ * Matches a word form of the keyphrase with the tokens from the sentence.
+ *
+ * @param {Token[]} tokens The array of tokens to check.
+ * @param {string} wordForm The word form of the keyphrase.
+ * @param {string} locale The locale used in the analysis.
+ *
+ * @returns {Token[]}	The array of the matched tokens.
+ */
 const matchTokensWithKeywordForm = ( tokens, wordForm, locale ) => {
 	let matches = [];
 
@@ -88,16 +100,17 @@ const matchTokensWithKeywordForm = ( tokens, wordForm, locale ) => {
  * @param {Sentence} sentence The sentence to check.
  * @param {string[]} wordForms	The word forms of the keyphrase to check.
  * @param {string} locale The locale used in the analysis.
- * @returns {{count: number, matches: *[]}} Object containing the number of the matches and the matched tokens.
+ *
+ * @returns {{count: number, matches: Token[]}} Object containing the number of the matches and the matched tokens.
  */
-const matchSentenceWithKeywordForms = ( sentence, wordForms, locale ) => {
+const matchWordFormsInSentence = ( sentence, wordForms, locale ) => {
 	const tokens = sentence.tokens.slice();
 
 	let count = 0;
 	let matches = [];
 
-	wordForms.forEach( wordToMatch => {
-		const occurrence = matchTokensWithKeywordForm( tokens, wordToMatch, locale );
+	wordForms.forEach( wordForm => {
+		const occurrence = matchTokensWithKeywordForm( tokens, wordForm, locale );
 		count += occurrence.length;
 		matches = matches.concat( occurrence );
 	} );
@@ -110,14 +123,14 @@ const matchSentenceWithKeywordForms = ( sentence, wordForms, locale ) => {
 /**
  * Matches a keyword with a sentence object from the html parser.
  *
- * @param {string[]} wordForms The keyword forms.
- * E.g. If the keyphrase is "key word", then (if premium is activated) this will be [ [ "key", "keys" ], [ "word", "words" ] ]
- * The forms are retrieved higher up (among others in keywordCount.js) with researcher.getResearch( "morphology" ).
  * @param {Sentence} sentence The sentence to match against the keywordForms.
+ * @param {string[]} wordForms The keyword forms.
+ * E.g. If the keyphrase is "key word", then (if premium is activated) this will be [ "key", "keys" ] OR [ "word", "words" ]
+ * The forms are retrieved higher up (among others in keywordCount.js) with researcher.getResearch( "morphology" ).
  * @param {string} locale The locale used for transliteration.
  * @param {boolean} useExactMatching Whether to match the keyword forms exactly or not.
- * Depends on whether the user has put the keyphrase in double quotes.
- * @returns {Object} Object containing the number of the matches and the matched tokens.
+ * Depends on whether the keyphrase enclosed in double quotes.
+ * @returns {{count: number, matches: Token[]}} Object containing the number of the matches and the matched tokens.
  *
  * The algorithm is as follows:
  *
@@ -131,11 +144,11 @@ const matchSentenceWithKeywordForms = ( sentence, wordForms, locale ) => {
  * This function corrects for these differences by combining tokens that are separated by a word coupler (e.g. "-") into one token: the matchToken.
  * This matchToken is then compared with the keyword forms.
  */
-const matchKeyphraseWithSentence = ( wordForms, sentence, locale, useExactMatching = false ) => {
+const matchKeyphraseWithSentence = ( sentence, wordForms, locale, useExactMatching = false ) => {
 	if ( useExactMatching ) {
-		return exactMatchKeyphraseWithSentence( sentence, wordForms );
+		return findExactMatchKeyphraseInSentence( sentence, wordForms, locale );
 	}
-	return matchSentenceWithKeywordForms( sentence, wordForms, locale );
+	return matchWordFormsInSentence( sentence, wordForms, locale );
 };
 
 export default matchKeyphraseWithSentence;
