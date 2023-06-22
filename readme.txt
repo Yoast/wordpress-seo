@@ -261,6 +261,7 @@ Release date: 2023-06-27
 
 #### Bugfixes
 
+* Fixes a bug where adding a link in the block editor would result in displaying the URL instead of the post title.
 * Fixes a bug where deletion notice would not appear when deleting a term when the `term_id` is different from `taxonomy_term_id`.
 * Fixes a bug where terms with custom canonical URLs would get added in the sitemap.
 * Fixes a bug where the WordPress native sitemap would not work properly after Yoast SEO was deactivated, until rewrite rules were flushed.
