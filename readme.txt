@@ -251,7 +251,7 @@ Release date: 2023-06-27
 
 #### Enhancements
 
-* Adds a support page to the Yoast admin.
+* Adds a support page to the Yoast admin. This page allows you to easily access Yoast FAQs and support resources from the WordPress admin.
 * Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
 * Excludes the Yoast SEO Breadcrumbs widget from the content analysis in Elementor Pro.
 * Expands the list of HTML elements excluded from the content analysis.
@@ -261,6 +261,7 @@ Release date: 2023-06-27
 
 #### Bugfixes
 
+* Fixes a bug where adding a link in the block editor would result in displaying the URL instead of the post title.
 * Fixes a bug where deletion notice would not appear when deleting a term when the `term_id` is different from `taxonomy_term_id`.
 * Fixes a bug where terms with custom canonical URLs would get added in the sitemap.
 * Fixes a bug where the WordPress native sitemap would not work properly after Yoast SEO was deactivated, until rewrite rules were flushed.
