@@ -131,7 +131,8 @@ const testCases = [
 		skip: false,
 	},
 	{
-		description: "matches both singular and reduplicated plural form of the keyword in Indonesian",
+		description: "matches both singular and reduplicated plural form of the keyword in Indonesian, " +
+			"the plural should be counted as one occurrence",
 		paper: new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.</p>",
 			{ locale: "id_ID", keyword: "keyword" } ),
 		keyphraseForms: [ [ "keyword", "keyword-keyword" ] ],
@@ -147,6 +148,21 @@ const testCases = [
 				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>, <yoastmark class='yoast-text-mark'>keyword</yoastmark> adipiscing elit.",
 				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.",
 				position: { endOffset: 67, startOffset: 60 } } ) ],
+		skip: false,
+	},
+	{
+		description: "matches both reduplicated keyphrase separated by '-' as two occurrence in English",
+		paper: new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword-keyword, adipiscing elit.</p>",
+			{ locale: "en_US", keyword: "keyword" } ),
+		keyphraseForms: [ [ "keyword", "keyword-keyword" ] ],
+		expectedCount: 2,
+		expectedMarkings: [
+			new Mark( {
+				// eslint-disable-next-line max-len
+				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>, adipiscing elit.",
+				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, adipiscing elit.",
+				position: { endOffset: 58, startOffset: 43 } } ),
+		 ],
 		skip: false,
 	},
 	{
