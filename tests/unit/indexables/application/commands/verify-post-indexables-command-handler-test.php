@@ -1,0 +1,103 @@
+<?php
+
+namespace Yoast\WP\SEO\Tests\Unit\Indexables\Application\Commands;
+
+use Mockery;
+use Mockery\MockInterface;
+use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Non_Timestamp_Indexables_Command;
+use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Non_Timestamp_Indexables_Command_Handler;
+use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command;
+use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command_Handler;
+use Yoast\WP\SEO\Indexables\Application\Next_Verification_Action_Handler;
+use Yoast\WP\SEO\Indexables\Application\Ports\Outdated_Post_Indexables_Repository_Interface;
+use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler;
+use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
+use Yoast\WP\SEO\Indexables\Domain\Actions\Verify_Indexables_Action_Factory_Interface;
+use Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action;
+use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Outdated_Posts_Found_Exception;
+use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Verification_Action_Left_Exception;
+use Yoast\WP\SEO\Indexables\Domain\Exceptions\Verify_Action_Not_Found_Exception;
+use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Indexables_Action;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
+
+/**
+ * The Verify_Non_Timestamp_Indexables_Command_Test class.
+ *
+ * @group indexables
+ *
+ * @coversDefaultClass \Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command_Handler
+ */
+class Verify_Post_Indexables_Command_Handler_Test extends TestCase {
+
+	/**
+	 * @var Verify_Post_Indexables_Command_Handler
+	 */
+	private $instance;
+
+	/**
+	 * @var MockInterface|Verification_Cron_Schedule_Handler $cron_schedule_handler The cron schedule handler.
+	 */
+	private $cron_schedule_handler;
+	/**
+	 * @var MockInterface|Verification_Cron_Batch_Handler $cron_batch_handler The cron batch handler.
+	 */
+	private $cron_batch_handler;
+	/**
+	 * @var MockInterface|Outdated_Post_Indexables_Repository_Interface $outdated_post_indexables_repository The outdated post indexable repository.
+	 */
+	private $outdated_post_indexables_repository;
+
+	/**
+	 * @var MockInterface|Indexable_Builder $indexables_builder The indexable builder.
+	 */
+	private $indexables_builder;
+
+	/**
+	 * @var Verify_Non_Timestamp_Indexables_Command $command The command.
+	 */
+	private $command;
+
+	/**
+	 * The setup function.
+	 *
+	 * @return void
+	 */
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->cron_schedule_handler            = Mockery::mock( Verification_Cron_Schedule_Handler::class );
+		$this->cron_batch_handler               = Mockery::mock( Verification_Cron_Batch_Handler::class );
+		$this->outdated_post_indexables_repository        = Mockery::mock( Outdated_Post_Indexables_Repository_Interface::class );
+		$this->indexables_builder = Mockery::mock( Indexable_Builder::class );
+		$this->command                          = new Verify_Post_Indexables_Command( 10, 10, \time());
+		$this->instance                         = new Verify_Post_Indexables_Command_Handler($this->outdated_post_indexables_repository, $this->cron_schedule_handler, $this->cron_batch_handler, $this->indexables_builder );
+	}
+
+	public function test_handle_with_next_batch() {
+
+		$indexable_list = [];
+		$indexable_mock      = Mockery::mock( Indexable::class );
+		$indexable_list[]= $indexable_mock;
+		$this->outdated_post_indexables_repository->expects( 'get_outdated_post_indexables' )
+			->with( $this->command->get_last_batch_count() )
+			->andReturn($indexable_list);
+
+
+		$this->indexables_builder->expects()->build($indexable_mock);
+
+		$this->cron_batch_handler->expects( 'set_current_non_timestamped_indexables_batch' )
+			->with( $this->command->get_last_batch_count(), $this->command->get_batch_size() );
+		$this->instance->handle( $this->command );
+	}
+
+	public function test_handle_with_action_not_found() {
+		$this->outdated_post_indexables_repository->expects( 'get_outdated_post_indexables' )
+			->with( $this->command->get_last_batch_count() )
+			->andThrow( new No_Outdated_Posts_Found_Exception() );
+		$this->cron_schedule_handler->expects( 'unschedule_verify_post_indexables_cron' )->once();
+		$this->instance->handle( $this->command );
+	}
+
+}
