@@ -131,6 +131,7 @@ class WPSEO_Sitemaps {
 				$this->providers[] = $provider;
 			}
 		}
+		$this->providers = apply_filters( 'wpseo_sitemaps_overwrite_providers', $this->providers );
 	}
 
 	/**
