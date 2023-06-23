@@ -1,8 +1,6 @@
 import customHelperJapanese from "../../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
 import matchWordFormsWithSentence from "../../../../src/languageProcessing/helpers/match/matchWordFormsWithSentence";
 
-// eslint-disable-next-line no-warning-comments
-// TODO: Adapt all the unit tests for the expected results. Now the function returns an object.
 const testCases = [
 	{
 		testDescription: "returns no match when no word form is found the sentence",
