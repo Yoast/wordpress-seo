@@ -139,13 +139,13 @@ const testCases = [
 		expectedCount: 2,
 		expectedMarkings: [
 			new Mark( {
-				// eslint-disable-next-line max-len
-				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>, <yoastmark class='yoast-text-mark'>keyword</yoastmark> adipiscing elit.",
+				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>," +
+					" <yoastmark class='yoast-text-mark'>keyword</yoastmark> adipiscing elit.",
 				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.",
 				position: { endOffset: 58, startOffset: 43 } } ),
 			new Mark( {
-				// eslint-disable-next-line max-len
-				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>, <yoastmark class='yoast-text-mark'>keyword</yoastmark> adipiscing elit.",
+				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>," +
+					" <yoastmark class='yoast-text-mark'>keyword</yoastmark> adipiscing elit.",
 				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.",
 				position: { endOffset: 67, startOffset: 60 } } ) ],
 		skip: false,
@@ -158,11 +158,25 @@ const testCases = [
 		expectedCount: 2,
 		expectedMarkings: [
 			new Mark( {
-				// eslint-disable-next-line max-len
 				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>, adipiscing elit.",
 				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, adipiscing elit.",
 				position: { endOffset: 58, startOffset: 43 } } ),
 		 ],
+		skip: false,
+	},
+	{
+		description: "counts one occurrence of reduplicated keyphrase separated by '-' as two occurrence in English " +
+			"when the keyphrase is enclosed in double quotes",
+		paper: new Paper( "<p>Lorem ipsum dolor sit amet, consectetur kupu-kupu, adipiscing elit.</p>",
+			{ locale: "en_US", keyword: "\"kupu-kupu\"" } ),
+		keyphraseForms: [ [ "kupu-kupu" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>kupu-kupu</yoastmark>, adipiscing elit.",
+				original: "Lorem ipsum dolor sit amet, consectetur kupu-kupu, adipiscing elit.",
+				position: { endOffset: 52, startOffset: 43 } } ),
+		],
 		skip: false,
 	},
 	{
@@ -204,8 +218,8 @@ const testCases = [
 		skip: false,
 	},
 	{
-		// eslint-disable-next-line max-len
-		description: "with exact matching, a multi word keyphrase should not be counted if the focus keyphrase has the same words in a different order",
+		description: "with exact matching, a multi word keyphrase should not be counted if " +
+			"the focus keyphrase has the same words in a different order",
 		paper: new Paper( "<p>A string with a phrase key.</p>", { keyword: "\"key phrase\"" } ),
 		keyphraseForms: [ [ "key phrase" ] ],
 		expectedCount: 0,
@@ -272,8 +286,13 @@ const testCases = [
 	},
 ];
 
-// eslint-disable-next-line max-len
-describe.each( testCases )( "Test for counting the keyword in a text in english", function( { description, paper, keyphraseForms, expectedCount, expectedMarkings, skip } ) {
+describe.each( testCases )( "Test for counting the keyword in a text in english", function( {
+	description,
+	paper,
+	keyphraseForms,
+	expectedCount,
+	expectedMarkings,
+	skip } ) {
 	const test = skip ? it.skip : it;
 
 	test( description, function() {
@@ -309,6 +328,39 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
+		description: "counts occurrence with dash only when the keyphrase contains dash",
+		paper: new Paper( "<p>A string with a key-phrase and key phrase.</p>", { keyword: "key-phrase" } ),
+		keyphraseForms: [ [ "key-phrase", "key-phrases" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key-phrase</yoastmark> and key phrase.",
+			original: "A string with a key-phrase and key phrase.",
+			position: { endOffset: 29, startOffset: 19 } } ) ],
+		skip: false,
+	},
+	{
+		description: "should be no match when the sentence contains the keyphrase with a dash but in the wrong order",
+		paper: new Paper( "<p>A string with a panda-red.</p>", { keyword: "red-panda" } ),
+		keyphraseForms: [ [ "red-panda" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+		skip: false,
+	},
+	{
+		description: "should find a match when the sentence contains the keyphrase with a dash but in the wrong order " +
+			"and the keyphrase doesn't contain dash",
+		paper: new Paper( "<p>A string with a panda-red.</p>", { keyword: "red panda" } ),
+		keyphraseForms: [ [ "red-panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a panda-red.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>panda-red</yoastmark>.",
+				position: { startOffset: 16, endOffset: 25 },
+			} ),
+		],
+		skip: false,
+	},
+	{
 		description: "counts 'key word' in 'key-word'.",
 		paper: new Paper( "<p>A string with a key-word.</p>", { keyword: "key word" } ),
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
@@ -323,7 +375,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "counts 'key' in 'key-word'.",
+		description: "counts 'key' in 'key-phrase'",
 		paper: new Paper( "<p>A string with a word of key-phrase.</p>", { keyword: "key word" } ),
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
 		expectedCount: 1,
@@ -338,11 +390,11 @@ const testCasesWithSpecialCharacters = [
 				original: "A string with a word of key-phrase.",
 				marked: "A string with a <yoastmark class='yoast-text-mark'>word</yoastmark> of" +
 					" <yoastmark class='yoast-text-mark'>key-phrase</yoastmark>.",
-				position: { endOffset: 30, startOffset: 27 },
+				position: { endOffset: 37, startOffset: 27 },
 			} ),
+			// Note that in this case, we'll highlight 'key-phrase' even though technically we only match "key" in "key-phrase".
+			// This is the consequence of tokenizing "key-phrase" into one token instead of three.
 		],
-		// eslint-disable-next-line no-warning-comments
-		// TODO: fix the highlighting. Should we only highlight "key", and not "key-phrase" in this case?
 		skip: false,
 	},
 	{

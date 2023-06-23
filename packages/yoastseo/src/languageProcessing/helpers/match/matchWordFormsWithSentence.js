@@ -154,7 +154,7 @@ const matchWordFormsInSentence = ( sentence, wordForms, locale, matchWordCustomH
 const matchWordFormsWithSentence = ( sentence, wordForms, locale, matchWordCustomHelper, useExactMatching = false ) => {
 	/*
 	 * Only use `findExactMatchKeyphraseInSentence` when the custom helper is not available.
-	 * When the custom helper is available, we don't differenciate the approach for exact matching or non-exact matching.
+	 * When the custom helper is available, the step for the exact matching happens in the helper.
 	 */
 	if ( useExactMatching && ! matchWordCustomHelper ) {
 		return findExactMatchKeyphraseInSentence( sentence, wordForms, locale );
