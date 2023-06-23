@@ -91,6 +91,7 @@ const matchTokensWithKeywordForm = ( tokens, wordForm, locale ) => {
 			matches = matches.concat( token );
 		}
 	} );
+
 	return matches;
 };
 
@@ -100,20 +101,23 @@ const matchTokensWithKeywordForm = ( tokens, wordForm, locale ) => {
  * @param {Sentence} sentence The sentence to check.
  * @param {string[]} wordForms	The word forms of the keyphrase to check.
  * @param {string} locale The locale used in the analysis.
+ * @param {function} matchWordCustomHelper Custom function to match a word form with sentence.
  *
- * @returns {{count: number, matches: Token[]}} Object containing the number of the matches and the matched tokens.
+ * @returns {{count: number, matches: (Token|string)[]}} Object containing the number of the matches and the matched tokens.
  */
-const matchWordFormsInSentence = ( sentence, wordForms, locale ) => {
+const matchWordFormsInSentence = ( sentence, wordForms, locale, matchWordCustomHelper ) => {
 	const tokens = sentence.tokens.slice();
-
 	let count = 0;
 	let matches = [];
 
 	wordForms.forEach( wordForm => {
-		const occurrence = matchTokensWithKeywordForm( tokens, wordForm, locale );
+		const occurrence = matchWordCustomHelper
+			? matchWordCustomHelper( sentence.text, wordForm )
+			: matchTokensWithKeywordForm( tokens, wordForm, locale );
 		count += occurrence.length;
 		matches = matches.concat( occurrence );
 	} );
+
 	return {
 		count: count,
 		matches: matches,
@@ -124,13 +128,16 @@ const matchWordFormsInSentence = ( sentence, wordForms, locale ) => {
  * Matches a keyword with a sentence object from the html parser.
  *
  * @param {Sentence} sentence The sentence to match against the keywordForms.
- * @param {string[]} wordForms The keyword forms.
+ * @param {string[]} wordForms The array of keyword forms.
  * E.g. If the keyphrase is "key word", then (if premium is activated) this will be [ "key", "keys" ] OR [ "word", "words" ]
  * The forms are retrieved higher up (among others in keywordCount.js) with researcher.getResearch( "morphology" ).
+ *
  * @param {string} locale The locale used for transliteration.
- * @param {boolean} useExactMatching Whether to match the keyword forms exactly or not.
  * Depends on whether the keyphrase enclosed in double quotes.
- * @returns {{count: number, matches: Token[]}} Object containing the number of the matches and the matched tokens.
+ * @param {function} matchWordCustomHelper Custom function to match a word form with sentence.
+ * @param {boolean} useExactMatching Whether to match the keyword forms exactly or not.
+ *
+ * @returns {{count: number, matches: (Token|string)[]}} Object containing the number of the matches and the matched tokens.
  *
  * The algorithm is as follows:
  *
@@ -144,11 +151,15 @@ const matchWordFormsInSentence = ( sentence, wordForms, locale ) => {
  * This function corrects for these differences by combining tokens that are separated by a word coupler (e.g. "-") into one token: the matchToken.
  * This matchToken is then compared with the keyword forms.
  */
-const matchKeyphraseWithSentence = ( sentence, wordForms, locale, useExactMatching = false ) => {
-	if ( useExactMatching ) {
+const matchWordFormsWithSentence = ( sentence, wordForms, locale, matchWordCustomHelper, useExactMatching = false ) => {
+	/*
+	 * Only use `findExactMatchKeyphraseInSentence` when the custom helper is not available.
+	 * When the custom helper is available, we don't differenciate the approach for exact matching or non-exact matching.
+	 */
+	if ( useExactMatching && ! matchWordCustomHelper ) {
 		return findExactMatchKeyphraseInSentence( sentence, wordForms, locale );
 	}
-	return matchWordFormsInSentence( sentence, wordForms, locale );
+	return matchWordFormsInSentence( sentence, wordForms, locale, matchWordCustomHelper );
 };
 
-export default matchKeyphraseWithSentence;
+export default matchWordFormsWithSentence;

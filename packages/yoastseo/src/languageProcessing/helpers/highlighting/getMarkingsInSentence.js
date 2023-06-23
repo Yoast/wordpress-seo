@@ -118,12 +118,11 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace = true ) => 
  *
  * @param {Sentence} sentence The sentence to check.
  * @param {Array} matchesInSentence An object containing the matches in the sentence.
- * @param {function} matchWordCustomHelper  A custom helper to match words with a text.
  * @param {string} locale The locale used in the analysis.
  *
  * @returns {Mark[]}    The array of Mark objects of the keyphrase matches.
  */
-function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale ) {
+function getMarkingsInSentence( sentence, matchesInSentence, locale ) {
 	if ( matchesInSentence.length === 0 ) {
 		return [];
 	}

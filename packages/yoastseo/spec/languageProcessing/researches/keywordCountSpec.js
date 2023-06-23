@@ -323,6 +323,29 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
+		description: "counts 'key' in 'key-word'.",
+		paper: new Paper( "<p>A string with a word of key-phrase.</p>", { keyword: "key word" } ),
+		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a word of key-phrase.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>word</yoastmark> of" +
+					" <yoastmark class='yoast-text-mark'>key-phrase</yoastmark>.",
+				position: { endOffset: 23, startOffset: 19 },
+			} ),
+			new Mark( {
+				original: "A string with a word of key-phrase.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>word</yoastmark> of" +
+					" <yoastmark class='yoast-text-mark'>key-phrase</yoastmark>.",
+				position: { endOffset: 30, startOffset: 27 },
+			} ),
+		],
+		// eslint-disable-next-line no-warning-comments
+		// TODO: fix the highlighting. Should we only highlight "key", and not "key-phrase" in this case?
+		skip: false,
+	},
+	{
 		description: "counts a string with a keyword with a '_' in it",
 		paper: new Paper( "<p>A string with a key_word.</p>", { keyword: "key_word" } ),
 		keyphraseForms: [ [ "key_word", "key_words" ] ],
@@ -739,10 +762,9 @@ const buildJapaneseMockResearcher = function( keyphraseForms, helper1, helper2 )
 	} );
 };
 
-
-// Decided not to remove test below as it tests the added logic of the Japanese helpers.
 describe( "Test for counting the keyword in a text for Japanese", () => {
-	it.skip( "counts/marks a string of text with a keyword in it.", function() {
+	// NOTE: Japanese is not yet adapted to use HTML parser, hence, the marking out doesn't include the position information.
+	it( "counts/marks a string of text with a keyword in it.", function() {
 		const mockPaper = new Paper( "<p>私の猫はかわいいです。</p?", { locale: "ja", keyphrase: "猫" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
@@ -750,10 +772,10 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいいです。",
-				original: "私の猫はかわいいです。", position: { endOffset: 6, startOffset: 5 } } ) ] );
+				original: "私の猫はかわいいです。" } ) ] );
 	} );
 
-	it.skip( "counts/marks a string of text with multiple occurences of the same keyword in it.", function() {
+	it( "counts/marks a string of text with multiple occurences of the same keyword in it.", function() {
 		const mockPaper = new Paper( "<p>私の猫はかわいい猫です。</p?", { locale: "ja", keyphrase: "猫" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
@@ -762,13 +784,10 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいい<yoastmark class='yoast-text-mark'>猫</yoastmark>です。",
 				original: "私の猫はかわいい猫です。",
-				position: { endOffset: 6, startOffset: 5 } } ), new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいい" +
-					"<yoastmark class='yoast-text-mark'>猫</yoastmark>です。",
-			original: "私の猫はかわいい猫です。",
-			position: { endOffset: 12, startOffset: 11 } } ) ] );
+				 } ) ] );
 	} );
 
-	it.skip( "counts a string if text with no keyword in it.", function() {
+	it( "counts a string if text with no keyword in it.", function() {
 		const mockPaper = new Paper( "私の猫はかわいいです。",  { locale: "ja" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "会い" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
@@ -776,7 +795,7 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [] );
 	} );
 
-	it.skip( "counts multiple occurrences of a keyphrase consisting of multiple words.", function() {
+	it( "counts multiple occurrences of a keyphrase consisting of multiple words.", function() {
 		const mockPaper = new Paper( "<p>私の猫はかわいいですかわいい。</p>",  { locale: "ja" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "かわいい" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
@@ -786,19 +805,6 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 				marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>は<yoastmark class='yoast-text-mark'>かわいい</yoastmark>" +
 					"です<yoastmark class='yoast-text-mark'>かわいい</yoastmark>。",
 				original: "私の猫はかわいいですかわいい。",
-				position: { endOffset: 6, startOffset: 5 },
-			} ),
-			new Mark( {
-				marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>は<yoastmark class='yoast-text-mark'>かわいい</yoastmark>" +
-					"です<yoastmark class='yoast-text-mark'>かわいい</yoastmark>。",
-				original: "私の猫はかわいいですかわいい。",
-				position: { endOffset: 11, startOffset: 7 },
-			} ),
-			new Mark( {
-				marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>は<yoastmark class='yoast-text-mark'>かわいい</yoastmark>" +
-					"です<yoastmark class='yoast-text-mark'>かわいい</yoastmark>。",
-				original: "私の猫はかわいいですかわいい。",
-				position: { endOffset: 17, startOffset: 13 },
 			} ),
 		] );
 	} );

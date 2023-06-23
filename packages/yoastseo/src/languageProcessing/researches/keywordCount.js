@@ -2,8 +2,9 @@ import { flatten, flattenDeep } from "lodash-es";
 import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
 import { normalizeSingle } from "../helpers/sanitize/quotes";
 import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
-import matchKeyphraseWithSentence from "../helpers/match/matchKeyphraseWithSentence";
+import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSentence";
 import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
+import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
 
 /**
  * Counts the occurrences of the keyphrase in the text and creates the Mark objects for the matches.
@@ -20,16 +21,24 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 	const result = { count: 0, markings: [] };
 
 	sentences.forEach( sentence => {
-		// eslint-disable-next-line no-warning-comments
-		// TODO: test in Japanese to see if we use this helper as well
-		const matchesInSentence = topicForms.keyphraseForms.map( wordForms => matchKeyphraseWithSentence( sentence,
-			wordForms, locale, isExactMatchRequested ) );
+		const matchesInSentence = topicForms.keyphraseForms.map( wordForms => matchWordFormsWithSentence( sentence,
+			wordForms, locale, matchWordCustomHelper, isExactMatchRequested ) );
+
 		const hasAllKeywords = matchesInSentence.every( wordForms => wordForms.count > 0 );
+
 		if ( hasAllKeywords ) {
 			const counts = matchesInSentence.map( match => match.count );
 			const totalMatchCount = Math.min( ...counts );
 			const foundWords = flattenDeep( matchesInSentence.map( match => match.matches ) );
-			const markings = getMarkingsInSentence( sentence, foundWords, matchWordCustomHelper, locale );
+
+			let markings = [];
+
+			if ( matchWordCustomHelper ) {
+				// Currently, this check is only applicable for Japanese.
+				markings = markWordsInASentence( sentence.text, foundWords, matchWordCustomHelper );
+			} else {
+				markings = getMarkingsInSentence( sentence, foundWords, locale );
+			}
 
 			result.count += totalMatchCount;
 			result.markings.push( markings );
@@ -52,11 +61,7 @@ export default function keyphraseCount( paper, researcher ) {
 	topicForms.keyphraseForms = topicForms.keyphraseForms.map( word => word.map( form => normalizeSingle( form ) ) );
 
 	if ( topicForms.keyphraseForms.length === 0 ) {
-		return {
-			count: 0,
-			markings: [],
-			length: 0,
-		};
+		return { count: 0, markings: [], length: 0 };
 	}
 
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
@@ -82,7 +87,7 @@ export default function keyphraseCount( paper, researcher ) {
 /**
  * Calculates the keyphrase count, takes morphology into account.
  *
- * @deprecated Since version 20.8. Use keywordCountInSlug instead.
+ * @deprecated Since version 20.12. Use keyphraseCount instead.
  *
  * @param {Paper}       paper       The paper containing keyphrase and text.
  * @param {Researcher}  researcher  The researcher.
