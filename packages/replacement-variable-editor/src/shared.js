@@ -62,7 +62,6 @@ export const StandardButton = styled( Button )`
 
 export const TriggerReplacementVariableSuggestionsButton = styled( StandardButton )`
 	font-size: 13px;
-	margin-left: auto;
 	& svg {
 		${ getDirectionalStyle( "margin-right", "margin-left" ) }: 7px;
 		fill: ${ colors.$color_grey_dark };
