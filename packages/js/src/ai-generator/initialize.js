@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
 import { Fill } from "@wordpress/components";
 import { select } from "@wordpress/data";
-import { useCallback } from "@wordpress/element";
+import { useCallback, useRef } from "@wordpress/element";
 import { addFilter } from "@wordpress/hooks";
 import { __ } from "@wordpress/i18n";
 import { Modal, useToggleState } from "@yoast/ui-library";
 import { ModalContent } from "./components/modal-content";
+
 /**
  * The AI Generator upsell button and modal.
  *
@@ -18,6 +19,7 @@ const AiGeneratorUpsell = ( { fieldId } ) => {
 	const handleCkick = useCallback( () => {
 		setIsModalOpenTrue();
 	}, [ setIsModalOpenTrue ] );
+	const focusElementRef = useRef( null );
 
 	return (
 		<div className="yst-ml-auto">
@@ -30,9 +32,9 @@ const AiGeneratorUpsell = ( { fieldId } ) => {
 				{ __( "Use AI", "wordpress-seo" ) }
 			</button>
 
-			<Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse }>
+			<Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
 				<Modal.Panel className="yst-max-w-lg yst-p-0 yst-bg-gradient-to-b yst-from-[#EDD2E1] yst-rounded-3xl">
-					<ModalContent onClose={ setIsModalOpenFalse } />
+					<ModalContent onClose={ setIsModalOpenFalse } focusElementRef={ focusElementRef } />
 				</Modal.Panel>
 			</Modal>
 		</div>

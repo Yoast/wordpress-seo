@@ -16,7 +16,7 @@ import { get } from "lodash";
  *
  * @returns {JSX.Element} The element.
 */
-export const ModalContent = ( { onClose } ) => {
+export const ModalContent = ( { onClose, focusElementRef } ) => {
 	const pluginUrl = get( window, "wpseoScriptData.pluginUrl", "" );
 	const { locationContext } = useRootContext();
 	const learnMoreLink = addQueryArgs(
@@ -84,6 +84,7 @@ export const ModalContent = ( { onClose } ) => {
 					variant="upsell"
 					href={ upsellLink }
 					target="_blank"
+					ref={ focusElementRef }
 				>
 					<LockOpenIcon
 						className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900"
@@ -109,4 +110,5 @@ export const ModalContent = ( { onClose } ) => {
 
 ModalContent.propTypes = {
 	onClose: PropTypes.func.isRequired,
+	focusElementRef: PropTypes.func.isRequired,
 };
