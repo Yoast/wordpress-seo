@@ -24,7 +24,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 1) Subheading distribution
 **What it does**: Checks whether long texts are divided by subheadings.
 
-**When applies**: When the text has more than 50 characters.
+**When applies**: When the (sanitized) text has more than 50 characters.
 
 **Name in code**: SubheadingsDistributionTooLong
 
@@ -45,7 +45,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 2) Paragraph length
 **What it does**: Checks whether the paragraphs exceed the recommended maximum length.
 
-**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters. This is tied to the TextPresenceAssessment.
+**When applies**: When the (sanitized) text has more than 50 characters. This is tied to the TextPresenceAssessment.
 
 **Name in code**: ParagraphTooLongAssessment
 
@@ -62,7 +62,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 3) Sentence length
 **What it does**: Checks whether the sentences exceed the recommended maximum length (default: 20 words, IT: 25 words, RU: 15 words, HE: 15 words, TR: 15 words).
 
-**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters. This is tied to the TextPresenceAssessment.
+**When applies**: When the (sanitized) has more than 50 characters. This is tied to the TextPresenceAssessment.
 
 **Name in code**: SentenceLengthInTextAssessment
 
@@ -79,7 +79,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 4) Consecutive sentences
 **What it does**: Checks whether there are more than 3 sentences in a row that start with the same word.
 
-**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), and the research has a result.
+**When applies**: When the (sanitized) text has more than 50 characters (this is tied to the TextPresenceAssessment), and the research has a result.
 
 **Name in code**: SentenceBeginningsAssessment
 
@@ -95,7 +95,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 5) Passive voice
 **What it does**: Checks whether the number of sentences containing passive voice exceeds the recommended maximum amount.
 
-**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), and the assessment is supported in the specific language (the researcher has a research).
+**When applies**: When the (sanitized) text has more than 50 characters (this is tied to the TextPresenceAssessment), and the assessment is supported in the specific language (the researcher has a research).
 
 **Name in code**: PassiveVoiceAssessment
 
@@ -130,7 +130,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 7) Flesch Reading Ease
 **What it does**: Checks how easy to read the text is according to the Flesch Reading Ease test
 
-**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), and the assessment is supported in the specific language (the researcher has a research).
+**When applies**: When the (sanitized) text has more than 50 characters (this is tied to the TextPresenceAssessment), and the assessment is supported in the specific language (the researcher has a research).
 
 **Name in code**: FleschReadingEaseAssessment
 
@@ -161,7 +161,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 9) Word complexity (only in Premium)
 **What it does**: Checks whether the text contains complex words
 
-**When applies**: When there is at least 50 characters in the text
+**When applies**: When the (sanitized) text has more than 50 characters
 
 **Name in code**: WordComplexityAssessment
 
@@ -177,7 +177,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 10) Text alignment (only in Premium)
 **What it does**: Checks whether there is an over-use of center-alignment in the text.
 
-**When applies**: When there is at least 50 characters in the text and has at least one element with center-alignment.
+**When applies**: When the (sanitized) text has more than 50 characters and at least one paragraph or heading with center-alignment.
 
 **Name in code**: TextAlignmentAssessment
 
