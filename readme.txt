@@ -249,6 +249,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-06-27
 
+Upgrade now to Yoast SEO 20.10! This latest release includes fixes, enhancements to the crawl optimization settings, and a brand-new support page that helps you get support quickly. Find out more about what's new in Yoast SEO 20.10 in [our release post](https://yoa.st/release-27-6-23)!
+
 #### Enhancements
 
 * Adds a support page to the Yoast admin. This page allows you to easily access Yoast FAQs and support resources from the WordPress admin.
