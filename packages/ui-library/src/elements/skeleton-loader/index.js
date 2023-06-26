@@ -7,9 +7,9 @@ import PropTypes from "prop-types";
  * @param {JSX.node} [children] Content to determine the size.
  * @returns {JSX.Element} The element.
  */
-const Skeleton = ( { as: Component, className, children } ) => {
+const SkeletonLoader = ( { as: Component, className, children } ) => {
 	return (
-		<Component className={ classNames( "yst-skeleton", className ) }>
+		<Component className={ classNames( "yst-skeleton-loader", className ) }>
 			{ children && (
 				<div className="yst-pointer-events-none yst-invisible">
 					{ children }
@@ -18,15 +18,15 @@ const Skeleton = ( { as: Component, className, children } ) => {
 		</Component>
 	);
 };
-Skeleton.propTypes = {
+SkeletonLoader.propTypes = {
 	as: PropTypes.elementType,
 	className: PropTypes.string,
 	children: PropTypes.node,
 };
-Skeleton.defaultProps = {
+SkeletonLoader.defaultProps = {
 	as: "span",
 	className: "",
 	children: null,
 };
 
-export default Skeleton;
+export default SkeletonLoader;

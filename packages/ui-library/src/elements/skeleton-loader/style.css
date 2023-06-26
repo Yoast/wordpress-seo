@@ -1,6 +1,6 @@
 @layer components {
 	.yst-root {
-		.yst-skeleton {
+		.yst-skeleton-loader {
 			@apply
 			yst-block
 			yst-relative

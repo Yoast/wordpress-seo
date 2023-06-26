@@ -1,8 +1,8 @@
-import Skeleton from ".";
+import SkeletonLoader from ".";
 
 export default {
-	title: "1) Elements/Skeleton",
-	component: Skeleton,
+	title: "1) Elements/Skeleton loader",
+	component: SkeletonLoader,
 	argTypes: {
 		children: { control: "text" },
 		as: {
@@ -13,13 +13,13 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "The Skeleton component is there to indicate something is loading.",
+				component: "The Skeleton loader component is there to indicate something is loading.",
 			},
 		},
 	},
 };
 
-const Template = ( args ) => <Skeleton { ...args } />;
+const Template = ( args ) => <SkeletonLoader { ...args } />;
 
 export const Factory = Template.bind( {} );
 Factory.parameters = {
@@ -32,15 +32,15 @@ Factory.args = {
 export const Profile = ( args ) => (
 	<div { ...args } className="yst-w-full yst-max-w-sm yst-p-4 yst-border yst-rounded-md yst-shadow">
 		<div className="yst-flex yst-space-x-4">
-			<Skeleton className="yst-h-10 yst-w-10 yst-rounded-full" />
+			<SkeletonLoader className="yst-h-10 yst-w-10 yst-rounded-full" />
 			<div className="yst-flex-1 yst-space-y-6 yst-py-1">
-				<Skeleton className="yst-h-3 yst-w-full" />
+				<SkeletonLoader className="yst-h-3 yst-w-full" />
 				<div className="yst-space-y-3">
 					<div className="yst-grid yst-grid-cols-3 yst-gap-4">
-						<Skeleton className="yst-h-3 yst-w-full yst-col-span-2" />
-						<Skeleton className="yst-h-3 yst-w-full yst-col-span-1" />
+						<SkeletonLoader className="yst-h-3 yst-w-full yst-col-span-2" />
+						<SkeletonLoader className="yst-h-3 yst-w-full yst-col-span-1" />
 					</div>
-					<Skeleton className="yst-h-3 yst-w-full" />
+					<SkeletonLoader className="yst-h-3 yst-w-full" />
 				</div>
 			</div>
 		</div>
