@@ -254,7 +254,6 @@ Upgrade now to Yoast SEO 20.10! This latest release includes fixes, enhancements
 #### Enhancements
 
 * Adds a support page to the Yoast admin. This page allows you to easily access Yoast FAQs and support resources from the WordPress admin.
-* Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
 * Excludes the Yoast SEO Breadcrumbs widget from the content analysis in Elementor Pro.
 * Expands the list of HTML elements excluded from the content analysis.
 * Introduces a new setting for crawl optimization, that disallows AdsBot crawling when enabled.
@@ -272,6 +271,7 @@ Upgrade now to Yoast SEO 20.10! This latest release includes fixes, enhancements
 #### Other
 
 * Deprecates the `Old_Premium_Integration`.
+* Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
 
 = 20.9 =
 
