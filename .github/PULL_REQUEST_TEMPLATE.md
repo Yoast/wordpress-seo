@@ -83,14 +83,16 @@ This PR affects the following parts of the plugin, which may require extra testi
 ## Quality assurance
 
 * [ ] I have tested this code to the best of my abilities.
-* [ ] During testing, I had activated all plugins Yoast SEO provides integrations for.
+* [ ] During testing, I had activated [all plugins that Yoast SEO provides integrations for](https://github.com/Yoast/wordpress-seo/blob/trunk/readme.txt#L106).
 * [ ] I have added unit tests to verify the code works as intended.
 * [ ] If any part of the code is behind a feature flag, my test instructions also cover cases where the feature flag is switched off.
 * [ ] I have written this PR in accordance with my team's definition of done.
+* [ ] I have checked that the base branch is correctly set.
 
 ## Innovation
 
 * [ ] No innovation project is applicable for this PR.
-* [ ] This PR falls under an innovation project. I have attached the `innovation` label and noted the work hours.
+* [ ] This PR falls under an innovation project. I have attached the `innovation` label.
+* [ ] I have added my hours to [the WBSO document](http://yoa.st/wbso).
 
 Fixes #

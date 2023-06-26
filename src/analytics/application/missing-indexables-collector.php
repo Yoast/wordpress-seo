@@ -9,6 +9,8 @@ use Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Count;
 
 /**
  * Manages the collection of the missing indexable data.
+ *
+ * @makePublic
  */
 class Missing_Indexables_Collector implements WPSEO_Collection {
 
