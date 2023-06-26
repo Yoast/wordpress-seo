@@ -51,6 +51,15 @@ Mark.prototype.getFieldsToMark = function() {
 };
 
 /**
+ * Returns the position information.
+ *
+ * @returns {number} The position information.
+ */
+Mark.prototype.getPosition = function() {
+	return this._properties.position;
+};
+
+/**
  * Returns the start position.
  *
  * @returns {number} The start position.
