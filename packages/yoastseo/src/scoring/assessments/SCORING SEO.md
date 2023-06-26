@@ -1,5 +1,5 @@
 # Overview of the SEO assessments scoring criteria
-### How are individual and overall traffic lights assigned?
+## How are individual and overall traffic lights assigned?
 | Individual score	                            | Rating	                       |
 |----------------------------------------------|-------------------------------|
 | <0		                                          | Very bad (red traffic light)  |
@@ -8,7 +8,7 @@
 | 5-7		                                        | OK (orange traffic light)     |
 | 8-9		                                        | Good (green traffic light)    |
 
-### How is the overall score calculated?
+## How is the overall score calculated?
 
 * Overall score<sup>1</sup> = ( sum of individual score from each assessment ) / ( number of individual score * 9 ) * 100
 * Round this number

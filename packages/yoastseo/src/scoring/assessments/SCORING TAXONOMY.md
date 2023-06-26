@@ -1,6 +1,8 @@
+# Overview of the assessment scoring criteria on taxonomy pages
+
 The taxonomy analysis has the same SEO, Readability, and Inclusive language scoring criteria as posts and pages, except for the SEO assessments below:
 
-### 1) Taxonomy text length assessment
+## 1) Taxonomy text length assessment
 **What it does**: Checks if the taxonomy page has a good length.
 
 **When applies**: Always.
@@ -19,7 +21,7 @@ The taxonomy analysis has the same SEO, Readability, and Inclusive language scor
 | Orange         | 6	| Between 200 and 249 words	| Text length: the text contains X words. This is slightly below the recommended minimum of 250 words. Add a bit more copy. |
 | Green	         | 9	| More than 250 words	| Text length: the text contains X words. Good job! |
 
-### 2) Meta description length assessment
+## 2) Meta description length assessment
 **What it does**: Checks if the meta description has a good length. In a taxonomy page, the date is not displayed or included in the meta description. Hence, the date length is not included in the calculation for this assessment.
 
 **When applies**: Always.
