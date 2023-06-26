@@ -110,5 +110,5 @@ export const ModalContent = ( { onClose, focusElementRef } ) => {
 
 ModalContent.propTypes = {
 	onClose: PropTypes.func.isRequired,
-	focusElementRef: PropTypes.func.isRequired,
+	focusElementRef: PropTypes.oneOf( [ PropTypes.func, PropTypes.object ] ).isRequired,
 };
