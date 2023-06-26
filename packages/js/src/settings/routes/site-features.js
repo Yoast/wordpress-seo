@@ -220,6 +220,18 @@ const SiteFeatures = () => {
 								<LearnMoreLink id="link-inclusive-language-analysis" link="https://yoa.st/inclusive-language-feature-learn-more" ariaLabel={  __( "Inclusive language analysis", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
+								name="wpseo.enable_ai_generator"
+								cardId="card-wpseo-enable_ai_generator"
+								inputId="input-wpseo-enable_ai_generator"
+								imageSrc="/images/ai-generator.png"
+								isPremiumFeature={ true }
+								isPremiumLink="https://yoa.st/get-ai-generator"
+								title={ __( "AI title & description generator", "wordpress-seo" ) }
+							>
+								<p>{ __( "Use the power of AI to automatically generate compelling titles and descriptions for your posts and pages.", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-ai-generator" link="https://yoa.st/ai-generator-feature" ariaLabel={ __( "AI title & description generator", "wordpress-seo" ) } />
+							</FeatureCard>
+							<FeatureCard
 								name="wpseo.enable_metabox_insights"
 								cardId="card-wpseo-enable_metabox_insights"
 								inputId="input-wpseo-enable_metabox_insights"
@@ -402,18 +414,6 @@ const SiteFeatures = () => {
 							>
 								<p>{ __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-index-now" link="https://yoa.st/index-now-feature" ariaLabel={ __( "IndexNow", "wordpress-seo" ) } />
-							</FeatureCard>
-							<FeatureCard
-								name="wpseo.enable_ai_generator"
-								cardId="card-wpseo-enable_ai_generator"
-								inputId="input-wpseo-enable_ai_generator"
-								imageSrc="/images/ai-generator.png"
-								isPremiumFeature={ true }
-								isPremiumLink="https://yoa.st/get-ai-generator"
-								title={ __( "AI title & description generator", "wordpress-seo" ) }
-							>
-								<p>{ __( "Use the power of AI to automatically generate compelling titles and descriptions for your posts and pages.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-ai-generator" link="https://yoa.st/ai-generator-feature" ariaLabel={ __( "AI title & description generator", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>
 					</fieldset>
