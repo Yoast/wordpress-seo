@@ -8,6 +8,7 @@ export const classNameMap = {
 	variant: {
 		primary: "yst-button--primary",
 		secondary: "yst-button--secondary",
+		tertiary: "yst-button--tertiary",
 		error: "yst-button--error",
 		upsell: "yst-button--upsell",
 	},
