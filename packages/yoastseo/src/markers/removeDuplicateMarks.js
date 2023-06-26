@@ -8,7 +8,7 @@ import { uniqBy } from "lodash-es";
  */
 function removeDuplicateMarks( marks ) {
 	return uniqBy( marks, function( mark ) {
-		return mark.getOriginal();
+		return mark.hasPosition() ? mark.getPosition() : mark.getOriginal();
 	} );
 }
 
