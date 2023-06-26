@@ -3,7 +3,7 @@
 ### Which assessor?
 Overview of the used SEO assessors in the `yoastseo` package:
 
-![Screenshot of the overview of the SEO assessors](/packages/yoastseo/images/assessorsOverview.png)
+![Overview of the SEO assessors](/packages/yoastseo/images/assessorsOverview.png)
 ### Standard SEO assessor (Focus keyphrase)
 - Keyphrase in introduction (`IntroductionKeywordAssessment`)
 - Keyphrase length (`KeyphraseLengthAssessment`)
