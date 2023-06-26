@@ -7,7 +7,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { useRootContext }  from "@yoast/externals/contexts";
 import { makeOutboundLink } from "@yoast/helpers";
-import { Badge, Button, Link } from "@yoast/ui-library";
+import { Badge, Button } from "@yoast/ui-library";
 import { get } from "lodash";
 
 /** ModalContent modal
@@ -97,13 +97,14 @@ export const ModalContent = ( { onClose, focusElementRef } ) => {
 					</span>
 				</Button>
 			</div>
-			<Link
-				className="yst-mt-6 yst-mb-10 yst-text-primary-500 yst-no-underline"
-				as="button"
+			<Button
+				as="a"
+				className="yst-mt-6 yst-mb-10"
+				variant="tertiary"
 				onClick={ onClose }
 			>
 				{ __( "Close", "wordpress-seo" ) }
-			</Link>
+			</Button>
 		</div>
 	);
 };
