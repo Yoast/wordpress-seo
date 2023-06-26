@@ -239,7 +239,7 @@ const testCases = [
 	{
 		description: "can match dollar sign as in '$keyword' with exact matching.",
 		paper: new Paper( "<p>A string with a $keyword.</p>", { keyword: "\"$keyword\"" } ),
-		keyphraseForms: [ [ "$keyword" ] ],
+		keyphraseForms: [ [ "\\$keyword" ] ],
 		expectedCount: 1,
 		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>$keyword</yoastmark>.",
 			original: "A string with a $keyword.",
@@ -431,7 +431,7 @@ const testCasesWithSpecialCharacters = [
 	{
 		description: "can match dollar sign as in '$keyword'.",
 		paper: new Paper( "<p>A string with a $keyword.</p>", { keyword: "$keyword" } ),
-		keyphraseForms: [ [ "$keyword" ] ],
+		keyphraseForms: [ [ "\\$keyword" ] ],
 		expectedCount: 1,
 		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>$keyword</yoastmark>.",
 			original: "A string with a $keyword.",
