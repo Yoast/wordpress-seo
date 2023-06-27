@@ -254,6 +254,7 @@ Release date: 2023-07-11
 * Adds a notification in the settings when ever there is a new content type.
 * Adds badges to new content types in the settings page.
 * Adds notification for new content in the notification center and removes it once it was reviewed.
+* Adds `searchAction` structured data schema to search results pages.
 
 #### Bugfixes
 
