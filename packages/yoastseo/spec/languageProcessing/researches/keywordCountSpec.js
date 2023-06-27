@@ -439,6 +439,16 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
+		description: "can match multiple occurrences of keyphrase ending in & as in 'keyphrase$', and output correct Marks objects",
+		paper: new Paper( "<p>A string with a keyphrase&.</p>", { keyword: "keyphrase&" } ),
+		keyphraseForms: [ [ "keyphrase" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>keyphrase</yoastmark>&.",
+			original: "A string with a keyphrase&.",
+			position: { endOffset: 28, startOffset: 19 } } ) ],
+		skip: false,
+	},
+	{
 		description: "doesn't count 'key-word' in 'key word'.",
 		paper: new Paper( "<p>A string with a key word.</p>", { keyword: "key-word" } ),
 		keyphraseForms: [ [ "key-word", "key-words" ] ],
