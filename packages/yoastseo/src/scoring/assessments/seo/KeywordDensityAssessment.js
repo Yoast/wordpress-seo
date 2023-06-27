@@ -5,9 +5,8 @@ import recommendedKeyphraseCount from "../../helpers/assessments/recommendedKeyw
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
-import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
 
 /**
