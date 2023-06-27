@@ -26,9 +26,9 @@ const {
 /**
  * Creates the Assessor
  *
- * @param {object} researcher       The researcher used for the analysis.
- * @param {Object} options          The options for this assessor.
- * @param {Object} options.marker   The marker to pass the list of marks to.
+ * @param {Researcher} researcher     The researcher used for the analysis.
+ * @param {Object?} options           The options for this assessor.
+ * @param {Function} options.marker   The marker to pass the list of marks to.
  *
  * @constructor
  */

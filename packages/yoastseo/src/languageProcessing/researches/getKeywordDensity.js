@@ -1,6 +1,7 @@
 /** @module analyses/getKeywordDensity */
 
 import countWords from "../helpers/word/countWords.js";
+import removeHtmlBlocks from "../helpers/html/htmlParser";
 
 /**
  * Calculates the keyword density.
@@ -12,7 +13,9 @@ import countWords from "../helpers/word/countWords.js";
  */
 export default function( paper, researcher ) {
 	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
-	let wordCount = countWords( paper.getText() );
+	let text = paper.getText();
+	text = removeHtmlBlocks( text );
+	let wordCount = countWords( text );
 
 	// If there is a custom getWords helper use its output for countWords.
 	if ( getWordsCustomHelper ) {

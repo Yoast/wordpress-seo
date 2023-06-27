@@ -9,6 +9,8 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark.js";
 import marker from "../../../markers/addMark.js";
 import Assessment from "../assessment";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
+import getWords from "../../../languageProcessing/helpers/word/getWords";
 
 
 /**
@@ -191,7 +193,10 @@ export default class TransitionWordsAssessment extends Assessment {
 		if ( customApplicabilityConfig ) {
 			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 		}
-		const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" ).count;
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+		const textLength = customCountLength ? customCountLength( text ) : getWords( text ).length;
+
 		// Do not use hasEnoughContent in this assessment as it is mostly redundant with `textLength >= this._config.applicableIfTextLongerThan`
 		return textLength >= this._config.applicableIfTextLongerThan &&
 			researcher.hasResearch( "findTransitionWords" );

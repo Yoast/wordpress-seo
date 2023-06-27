@@ -98,7 +98,9 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 		data.wpBlocks = pluggable._applyModifications( "wpBlocks", data.wpBlocks );
 	}
 
-	data.titleWidth = measureTextWidth( data.title );
+	const filteredSEOTitle = storeData.analysisData.snippet.filteredSEOTitle;
+	// When measuring the SEO title width, we exclude the separator and the site title from the calculation.
+	data.titleWidth = measureTextWidth( filteredSEOTitle || storeData.snippetEditor.data.title );
 	data.locale = getContentLocale();
 	data.writingDirection = getWritingDirection();
 

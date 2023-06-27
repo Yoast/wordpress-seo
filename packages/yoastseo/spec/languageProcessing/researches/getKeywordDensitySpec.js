@@ -23,6 +23,12 @@ describe( "Test for counting the keyword density in a text", function() {
 		mockResearcher.addResearchData( "morphology",  morphologyDataEN );
 		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
 
+		mockPaper = new Paper( "a string of text with the <script>keyword</script> inside an element we want to exclude" +
+			" from the analysis, density should be 0%", { keyword: "keyword" } );
+		mockResearcher = new EnglishResearcher( mockPaper );
+		mockResearcher.addResearchData( "morphology",  morphologyDataEN );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
+
 		mockPaper = new Paper( "Waltz keepin auf mitz auf keepin äöüß weiner blitz deutsch spitzen. ", { keyword: "äöüß" } );
 		mockResearcher = new EnglishResearcher( mockPaper );
 		mockResearcher.addResearchData( "morphology",  morphologyDataEN );

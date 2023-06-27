@@ -289,7 +289,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 9	| All internal links are followed		| **Internal links**: You have enough internal links. Good job! |
 
 ### 4) SEO Title width
-**What it does**: Checks if the SEO title has a good length. Note that this assessment checks the SEO title as it appears in the snippet preview. Therefore, it also takes into account the content from replacement variables.
+**What it does**: Checks if the SEO title has a good length. Note that this assessment checks the SEO title as it appears in the snippet preview. Therefore, it also takes into account the content from replacement variables. However, we exclude the separator and the site title replacement variables from the calculation.
 
 **When it applies**: Always.
 
