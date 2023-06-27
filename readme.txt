@@ -245,6 +245,21 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 20.11 =
+
+Release date: 2023-07-11
+
+#### Enhancements
+
+* Adds a notification in the settings when ever there is a new content type.
+* Adds badges to new content types in the settings page.
+* Adds notification for new content in the notification center and removes it once it was reviewed.
+
+#### Bugfixes
+
+* Fixes a bug where placeholders would be displayed in the wrong color in the Yoast SEO settings and the First-time configuration.
+* Fixes a bug where placeholder would have the wrong color when adding social profiles in first time configuration.
+
 = 20.10 =
 
 Release date: 2023-06-27
@@ -272,25 +287,6 @@ Upgrade now to Yoast SEO 20.10! This latest release includes fixes, enhancements
 
 * Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
 * Deprecates the `Old_Premium_Integration`.
-
-= 20.9 =
-
-Release date: 2023-06-13
-
-In Yoast SEO 20.9, you'll find improvements to our Wincher integration. We've added a dashboard widget to track your keyphrase rankings. We've also done the usual fixes and made enhancements. Find out more about what's new in Yoast SEO 20.9 in [our release post](https://yoa.st/release-13-6-23)!
-
-#### Enhancements
-
-* Adds a new widget on the dashboard that shows your top keywords added to Yoast SEO with Wincher. Provides a connection button if you haven't yet connected your site to Wincher.
-* Tightens crawl optimization site search blocking rules.
-* We now automatically schedule background performance optimization processes (via WP Cron).
-
-#### Bugfixes
-
-* Fixes a bug where a fatal error would occur after updating the plugin due to a failed query.
-* Fixes a bug where indexables would be created when using the `wp yoast index` WP CLI command on a staging site.
-* Fixes a bug where the link popover position in the block editor would be positioned incorrectly when adding or creating links.
-* Fixes a bug where the Yoast SEO metabox would crash in conjunction with Yoast SEO Premium when additional keyphrases are stored in the DB in a malformed way.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
