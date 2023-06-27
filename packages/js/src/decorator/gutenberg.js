@@ -318,7 +318,7 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
  *
  * @returns {Array} The annotations to apply.
  */
-export function crateAnnotationsFromPositionBasedMarks( mark ) {
+export function createAnnotationsFromPositionBasedMarks( mark ) {
 	return [
 		{
 			startOffset: mark.getBlockPositionStart(),
@@ -368,7 +368,7 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks ) 
 	return flatMap( marks, ( ( mark ) => {
 		let annotations;
 		if ( marks[ 0 ].hasBlockPosition && marks[ 0 ].hasBlockPosition() ) {
-			annotations = crateAnnotationsFromPositionBasedMarks( mark );
+			annotations = createAnnotationsFromPositionBasedMarks( mark );
 		} else {
 			annotations = calculateAnnotationsForTextFormat(
 				text,

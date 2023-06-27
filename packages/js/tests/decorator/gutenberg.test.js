@@ -7,7 +7,7 @@ import {
 	getAnnotationsFromBlock,
 	hasInnerBlocks,
 	getAnnotationsForYoastBlocks,
-	getAnnotationsForBlockAttribute, crateAnnotationsFromPositionBasedMarks,
+	getAnnotationsForBlockAttribute, createAnnotationsFromPositionBasedMarks,
 } from "../../src/decorator/gutenberg";
 
 jest.mock( "@wordpress/rich-text", () => ( {
@@ -186,7 +186,7 @@ describe( "calculateAnnotationsForTextFormat", () => {
 	} );
 } );
 
-describe( "crateAnnotationsFromPositionBasedMarks", () => {
+describe( "createAnnotationsFromPositionBasedMarks", () => {
 	it( "create annotation from block position based mark", () => {
 		const mark = new Mark( {
 			position: {
@@ -206,7 +206,7 @@ describe( "crateAnnotationsFromPositionBasedMarks", () => {
 			},
 		];
 
-		const actual = crateAnnotationsFromPositionBasedMarks( mark );
+		const actual = createAnnotationsFromPositionBasedMarks( mark );
 
 		expect( actual ).toEqual( expected );
 	} );
