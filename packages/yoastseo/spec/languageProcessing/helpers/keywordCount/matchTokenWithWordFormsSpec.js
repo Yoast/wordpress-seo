@@ -2,7 +2,7 @@ import matchTokenWithWordForms from "../../../../src/languageProcessing/helpers/
 import Token from "../../../../src/parse/structure/Token";
 
 /* eslint-disable max-len */
-const testCases = [ [ "The wordforms contain the token",  [ "keyword" ] , new Token( "keyword" ), "en_US", true ],
+const testCases = [ [ "The wordforms contain the token",  [ "keyword" ], new Token( "keyword" ), "en_US", true ],
 	[ "The wordforms do not contain the token", [  "keyword" ], new Token( "notkeyword" ), "en_US", false ],
 	[ "The wordforms contain the token in a different form: singular matches plural", [  "keyword", "keywords"  ], new Token( "keyword" ), "en_US", true ],
 	[ "The wordforms contain the token in a different form: plural matches singular", [ "keyword", "keywords"  ], new Token( "keywords" ), "en_US", true ],
