@@ -25,10 +25,10 @@ export default function FinishStep() {
 		<div className="yst-flex yst-flex-row yst-justify-between yst-items-center yst--mt-4">
 			<div className="yst-mr-6">
 				<p className="yst-text-sm yst-mb-4">
-					{ __( "That's it! By providing this information, our Indexables squad has been able to do a lot of optimization for your site already. But there's more to do!", "wordpress-seo" ) }
+					{ __( "Good job! By providing this information, Yoast has improved your site and told search engines what your site is all about.", "wordpress-seo" ) }
 				</p>
 				<p className="yst-text-sm yst-mb-6">
-					{ __( "Learn how to get the most out of Yoast SEO in an easy-to-follow video, ask questions in the live Q&A with our experts, or sign up for Yoast Academy for free to take control of your SEO!", "wordpress-seo" ) }
+					{ __( "To increase your rankings, you need to regularly work on SEO. That can be overwhelming, so let’s start small!", "wordpress-seo" ) }
 				</p>
 				<Button
 					as="a"
@@ -36,7 +36,7 @@ export default function FinishStep() {
 					href={ webinarIntroFirstTimeConfigUrl }
 					target="_blank"
 				>
-					{ __( "Learn how to get the most out of Yoast SEO!", "wordpress-seo" ) }
+					{ __( "Learn how to increase your rankings with Yoast SEO", "wordpress-seo" ) }
 					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl yst-ml-2" />
 				</Button>
 				<p className="yst-mt-4">
