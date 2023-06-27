@@ -89,14 +89,14 @@ Mark.prototype.setPositionEnd = function( positionEnd ) {
 /**
  * Returns the start position inside block.
  *
- * @returns {number} The start position inside block.
+ * @returns {number} The start position inside block if the mark position information, undefined otherwise.
  */
 Mark.prototype.getBlockPositionStart = function() {
 	return this._properties.position && this._properties.position.startOffsetBlock;
 };
 
 /**
- * Returns the end position inside block.
+ * Returns the end position inside block if the mark has position information, undefined otherwise.
  *
  * @returns {number} The end position inside block.
  */
