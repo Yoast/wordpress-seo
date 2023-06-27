@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.2
-Stable tag: 20.9
+Stable tag: 20.10
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -249,10 +249,11 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-06-27
 
+Upgrade now to Yoast SEO 20.10! This latest release includes fixes, enhancements to the crawl optimization settings, and a brand-new support page that helps you get support quickly. Find out more about what's new in Yoast SEO 20.10 in [our release post](https://yoa.st/release-27-6-23)!
+
 #### Enhancements
 
 * Adds a support page to the Yoast admin. This page allows you to easily access Yoast FAQs and support resources from the WordPress admin.
-* Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
 * Excludes the Yoast SEO Breadcrumbs widget from the content analysis in Elementor Pro.
 * Expands the list of HTML elements excluded from the content analysis.
 * Introduces a new setting for crawl optimization, that disallows AdsBot crawling when enabled.
@@ -269,6 +270,7 @@ Release date: 2023-06-27
 
 #### Other
 
+* Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
 * Deprecates the `Old_Premium_Integration`.
 
 = 20.9 =
