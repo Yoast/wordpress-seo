@@ -116,6 +116,19 @@ describe( "Test for counting the keyword density in a text with an English resea
 		buildTree( mockPaper, mockResearcher );
 		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 10 );
 	} );
+	it( "should return 0 when the paper contains only excluded element", function() {
+		const mockPaper = new Paper( "<blockquote>In the United States and parts of Europe, " +
+			"tortoiseshell cats are often considered lucky charms.</blockquote>" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
+	} );
+	it( "should return 0 when the paper is empty", function() {
+		const mockPaper = new Paper( "" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
+	} );
 } );
 
 describe( "test for counting the keyword density in a non-English and non-Japanese language", function() {

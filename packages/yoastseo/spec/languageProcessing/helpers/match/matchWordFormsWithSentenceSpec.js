@@ -321,7 +321,7 @@ describe.each( testCases )( "find word forms in sentence in English: non-exact m
 } ) => {
 	const locale = "en_US";
 	it( testDescription, () => {
-		expect( matchWordFormsWithSentence( sentence, wordForms, locale, false, false ) ).toEqual( expectedResult );
+		expect( matchWordFormsWithSentence( sentence, wordForms, locale, false ) ).toEqual( expectedResult );
 	} );
 } );
 
