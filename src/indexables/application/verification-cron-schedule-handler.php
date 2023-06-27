@@ -40,11 +40,11 @@ class Verification_Cron_Schedule_Handler {
 	 */
 	public function schedule_indexable_verification(): void {
 
-		if ( ! \wp_next_scheduled( self::INDEXABLE_VERIFY_POST_INDEXABLES_NAME ) && $this->cron_verification_gate->should_verify_on_cron() ) {
+		if ( $this->cron_verification_gate->should_verify_on_cron() && ! \wp_next_scheduled( self::INDEXABLE_VERIFY_POST_INDEXABLES_NAME ) ) {
 			\wp_schedule_event( ( \time() + \HOUR_IN_SECONDS ), 'fifteen_minutes', self::INDEXABLE_VERIFY_POST_INDEXABLES_NAME );
 		}
 
-		if ( ! \wp_next_scheduled( self::INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME ) && $this->cron_verification_gate->should_verify_on_cron() ) {
+		if ( $this->cron_verification_gate->should_verify_on_cron() && ! \wp_next_scheduled( self::INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME ) ) {
 			\wp_schedule_event( ( \time() + \HOUR_IN_SECONDS ), 'fifteen_minutes', self::INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME );
 		}
 	}

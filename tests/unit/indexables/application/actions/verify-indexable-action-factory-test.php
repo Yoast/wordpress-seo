@@ -1,5 +1,6 @@
 <?php
 
+// @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Tests\Unit\Indexables\Application\Actions;
 
 use Generator;
@@ -26,24 +27,45 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Verify_Indexable_Action_Factory_Test extends TestCase {
 
 	/**
-	 * @var MockInterface|Verify_Term_Indexables_Action $term_action The term action.
+	 * The term action.
+	 *
+	 * @var MockInterface|Verify_Term_Indexables_Action $term_action
 	 */
 	private $term_action;
+
 	/**
-	 * @var MockInterface|Verify_General_Indexables_Action $general_action The general action.
+	 * The general action.
+	 *
+	 * @var MockInterface|Verify_General_Indexables_Action $general_action
 	 */
 	private $general_action;
+
 	/**
-	 * @var MockInterface|Verify_Post_Type_Archives_Indexables_Action $post_type_action The post type action.
+	 * The post type action.
+	 *
+	 * @var MockInterface|Verify_Post_Type_Archives_Indexables_Action $post_type_action
 	 */
 	private $post_type_action;
+
 	/**
-	 * @var MockInterface|Verify_Term_Links_Indexables_Action $term_link_action The term action.
+	 * The term action.
+	 *
+	 * @var MockInterface|Verify_Term_Links_Indexables_Action $term_link_action
 	 */
 	private $term_link_action;
 
+	/**
+	 * The instance to test.
+	 *
+	 * @var Verify_Indexable_Action_Factory $instance
+	 */
 	private $instance;
 
+	/**
+	 * The setup function.
+	 *
+	 * @return void
+	 */
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -55,15 +77,17 @@ class Verify_Indexable_Action_Factory_Test extends TestCase {
 		$this->instance = new Verify_Indexable_Action_Factory( $this->term_action, $this->general_action, $this->post_type_action, $this->term_link_action );
 	}
 
-
 	/**
+	 * Tests the get function.
 	 *
 	 * @covers ::get
+	 *
 	 * @dataProvider indexable_action_factory_data_provider
 	 *
 	 * @param Current_Verification_Action                      $verification_action The given verification action.
 	 * @param MockInterface|Verify_Indexables_Action_Interface $expected_result     The expected result.
 	 *
+	 * @throws Verify_Action_Not_Found_Exception When the given action is not found.
 	 * @return void
 	 */
 	public function test_get( $verification_action, $expected_result ) {
@@ -100,7 +124,7 @@ class Verify_Indexable_Action_Factory_Test extends TestCase {
 	 * Tests if the exception gets thrown if the verification action does not exist.
 	 *
 	 * @covers ::get
-	 * @throws \Yoast\WP\SEO\Indexables\Domain\Exceptions\Verify_Action_Not_Found_Exception
+	 * @throws Verify_Action_Not_Found_Exception Throws when the action is not found.
 	 * @return void
 	 */
 	public function test_get_exception() {
@@ -113,7 +137,7 @@ class Verify_Indexable_Action_Factory_Test extends TestCase {
 	 * Tests if the exception gets thrown if a non existing action is given.
 	 *
 	 * @covers ::determine_next_verify_action
-	 * @throws \Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Verification_Action_Left_Exception
+	 * @throws No_Verification_Action_Left_Exception Throws when no verification action is left.
 	 * @return void
 	 */
 	public function test_determine_next_verify_action_no_existing_action() {
@@ -126,7 +150,7 @@ class Verify_Indexable_Action_Factory_Test extends TestCase {
 	 * Tests if the exception gets thrown if no actions are left.
 	 *
 	 * @covers ::determine_next_verify_action
-	 * @throws \Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Verification_Action_Left_Exception
+	 * @throws No_Verification_Action_Left_Exception Throws when no verification action is left.
 	 * @return void
 	 */
 	public function test_determine_next_verify_action_no_actions_left() {
@@ -139,7 +163,7 @@ class Verify_Indexable_Action_Factory_Test extends TestCase {
 	 * Tests getting the next action.
 	 *
 	 * @covers ::determine_next_verify_action
-	 * @throws \Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Verification_Action_Left_Exception
+	 * @throws No_Verification_Action_Left_Exception Throws when no verification action is left.
 	 * @return void
 	 */
 	public function test_determine_next_verify_action() {

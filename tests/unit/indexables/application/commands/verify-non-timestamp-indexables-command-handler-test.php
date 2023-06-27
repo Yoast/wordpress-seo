@@ -1,5 +1,6 @@
 <?php
 
+// @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Tests\Unit\Indexables\Application\Commands;
 
 use Mockery;
@@ -22,35 +23,50 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\Application\Commands\Verify_Non_Timestamp_Indexables_Command_Handler
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Verify_Non_Timestamp_Indexables_Command_Handler_Test extends TestCase {
 
 	/**
-	 * @var Verify_Non_Timestamp_Indexables_Command_Handler
+	 * The instance.
+	 *
+	 * @var Verify_Non_Timestamp_Indexables_Command_Handler $instance
 	 */
 	private $instance;
 
 	/**
-	 * @var MockInterface|Verification_Cron_Schedule_Handler $cron_schedule_handler The cron schedule handler.
+	 * The cron schedule handler.
+	 *
+	 * @var MockInterface|Verification_Cron_Schedule_Handler $cron_schedule_handler
 	 */
 	private $cron_schedule_handler;
+
 	/**
-	 * @var MockInterface|Verification_Cron_Batch_Handler $cron_batch_handler The cron batch handler.
+	 * The cron batch handler.
+	 *
+	 * @var MockInterface|Verification_Cron_Batch_Handler $cron_batch_handler
 	 */
 	private $cron_batch_handler;
+
 	/**
-	 * @var MockInterface|Verify_Indexables_Action_Factory_Interface $indexables_action_factory The indexable action
-	 *                                                                                          factory.
+	 * The indexable action factory.
+	 *
+	 * @var MockInterface|Verify_Indexables_Action_Factory_Interface $indexables_action_factory
 	 */
 	private $indexables_action_factory;
 
 	/**
-	 * @var MockInterface|Next_Verification_Action_Handler $next_verification_action_handler The next action handler.
+	 *  The next action handler.
+	 *
+	 * @var MockInterface|Next_Verification_Action_Handler $next_verification_action_handler
 	 */
 	private $next_verification_action_handler;
 
 	/**
-	 * @var Verify_Non_Timestamp_Indexables_Command $command The command.
+	 * The command.
+	 *
+	 * @var Verify_Non_Timestamp_Indexables_Command $command
 	 */
 	private $command;
 
@@ -70,6 +86,12 @@ class Verify_Non_Timestamp_Indexables_Command_Handler_Test extends TestCase {
 		$this->instance                         = new Verify_Non_Timestamp_Indexables_Command_Handler( $this->cron_schedule_handler, $this->cron_batch_handler, $this->indexables_action_factory, $this->next_verification_action_handler );
 	}
 
+	/**
+	 * Tests the handle function.
+	 *
+	 * @covers ::handle
+	 * @return void
+	 */
 	public function test_handle_with_next_batch() {
 
 		$action_mock = Mockery::mock( Verify_Term_Indexables_Action::class );
@@ -83,6 +105,12 @@ class Verify_Non_Timestamp_Indexables_Command_Handler_Test extends TestCase {
 		$this->instance->handle( $this->command );
 	}
 
+	/**
+	 * Tests the handle function.
+	 *
+	 * @covers ::handle
+	 * @return void
+	 */
 	public function test_handle_with_action_not_found() {
 		$this->indexables_action_factory->expects( 'get' )
 			->with( $this->command->get_current_action() )
@@ -91,6 +119,14 @@ class Verify_Non_Timestamp_Indexables_Command_Handler_Test extends TestCase {
 		$this->instance->handle( $this->command );
 	}
 
+	/**
+	 * Tests the handle function.
+	 *
+	 * @covers ::handle
+	 * @throws No_Verification_Action_Left_Exception Throws when there is no verification action left.
+	 * @throws Verify_Action_Not_Found_Exception Throws when the verification action is not found.
+	 * @return void
+	 */
 	public function test_handle_with_no_next_batch_action_found() {
 
 		$action_mock = Mockery::mock( Verify_Term_Indexables_Action::class );
@@ -108,6 +144,14 @@ class Verify_Non_Timestamp_Indexables_Command_Handler_Test extends TestCase {
 		$this->instance->handle( $this->command );
 	}
 
+	/**
+	 * Tests the handle function.
+	 *
+	 * @covers ::handle
+	 * @throws No_Verification_Action_Left_Exception Throws when there is no verification action left.
+	 * @throws Verify_Action_Not_Found_Exception Throws when the verification action is not found.
+	 * @return void
+	 */
 	public function test_handle_with_no_next_batch_action_not_found() {
 
 		$action_mock = Mockery::mock( Verify_Term_Indexables_Action::class );

@@ -1,5 +1,6 @@
 <?php
 
+// @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Tests\Unit\Indexables\Application\Commands;
 
 use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Non_Timestamp_Indexables_Command;
@@ -20,11 +21,15 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Verify_Post_Indexables_Command_Test extends TestCase {
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command
+	 * The instance to test.
+	 *
+	 * @var Verify_Post_Indexables_Command
 	 */
 	private $instance;
 
 	/**
+	 * The setup function.
+	 *
 	 * @return void
 	 */
 	protected function setUp(): void {
@@ -35,6 +40,7 @@ class Verify_Post_Indexables_Command_Test extends TestCase {
 
 	/**
 	 * Tests the last batch count object.
+	 *
 	 * @covers ::get_last_batch_count
 	 *
 	 * @return void
@@ -62,5 +68,4 @@ class Verify_Post_Indexables_Command_Test extends TestCase {
 	public function test_get_batch_size() {
 		$this->assertEquals( new Batch_Size( 10 ), $this->instance->get_batch_size() );
 	}
-
 }
