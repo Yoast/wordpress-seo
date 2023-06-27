@@ -270,8 +270,8 @@ Upgrade now to Yoast SEO 20.10! This latest release includes fixes, enhancements
 
 #### Other
 
-* Deprecates the `Old_Premium_Integration`.
 * Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
+* Deprecates the `Old_Premium_Integration`.
 
 = 20.9 =
 
