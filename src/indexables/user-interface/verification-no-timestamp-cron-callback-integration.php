@@ -94,7 +94,6 @@ class Verification_No_Timestamp_Cron_Callback_Integration implements Integration
 	public function register_hooks() {
 		\add_action(
 			Verification_Cron_Schedule_Handler::INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME,
-			// 'admin_init',
 			[
 				$this,
 				'start_verify_non_timestamped_indexables',
@@ -108,7 +107,7 @@ class Verification_No_Timestamp_Cron_Callback_Integration implements Integration
 	 * @return void
 	 */
 	public function start_verify_non_timestamped_indexables() {
-		if ( \wp_doing_cron() && ! $this->cron_verification_gate->should_verify_on_cron() ) {
+		if ( \wp_doing_cron() || ! $this->cron_verification_gate->should_verify_on_cron() ) {
 			$this->cron_schedule_handler->unschedule_verify_non_timestamped_indexables_cron();
 
 			return;

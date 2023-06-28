@@ -98,7 +98,7 @@ class Verification_Posts_Cron_Callback_Integration implements Integration_Interf
 	 * @return void
 	 */
 	public function start_verify_posts(): void {
-		if ( \wp_doing_cron() && ! $this->cron_verification_gate->should_verify_on_cron() ) {
+		if ( \wp_doing_cron() || ! $this->cron_verification_gate->should_verify_on_cron() ) {
 			$this->cron_schedule_handler->unschedule_verify_post_indexables_cron();
 
 			return;
