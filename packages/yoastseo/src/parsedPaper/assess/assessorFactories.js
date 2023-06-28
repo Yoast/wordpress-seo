@@ -14,7 +14,7 @@ import {
 } from "./cornerstone/assessmentListFactories";
 
 /* Score aggregators */
-import { ReadabilityScoreAggregator, SEOScoreAggregator } from "./scoreAggregators";
+import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../../scoring/scoreAggregators";
 
 /* Base TreeAssessor class */
 import TreeAssessor from "./TreeAssessor";

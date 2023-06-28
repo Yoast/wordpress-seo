@@ -1,6 +1,6 @@
 import KeyphraseInSEOTitleAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInSEOTitleAssessment";
 import Paper from "../../../../src/values/Paper";
-import Factory from "../../../specHelpers/factory";
+import Factory from "../../../../src/helpers/factory";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 

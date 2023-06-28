@@ -1,7 +1,7 @@
 /* eslint-disable capitalized-comments, spaced-comment */
 import MetaDescriptionKeywordAssessment from "../../../../src/scoring/assessments/seo/MetaDescriptionKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
-import Factory from "../../../specHelpers/factory";
+import Factory from "../../../../src/helpers/factory";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 

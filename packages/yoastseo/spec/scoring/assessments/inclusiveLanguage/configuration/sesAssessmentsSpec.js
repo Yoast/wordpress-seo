@@ -2,7 +2,7 @@ import Paper from "../../../../../src/values/Paper";
 import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/sesAssessments";
-import Factory from "../../../../specHelpers/factory";
+import Factory from "../../../../../src/helpers/factory";
 import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 
 describe( "A test for SES assessments", function() {

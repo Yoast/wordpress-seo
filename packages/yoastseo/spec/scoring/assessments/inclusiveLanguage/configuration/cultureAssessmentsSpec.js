@@ -1,7 +1,7 @@
 import Paper from "../../../../../src/values/Paper";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/cultureAssessments";
-import Factory from "../../../../specHelpers/factory.js";
+import Factory from "../../../../../src/helpers/factory.js";
 import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 
 describe( "A test for Culture Assessments", () => {

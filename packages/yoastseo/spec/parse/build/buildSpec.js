@@ -1,6 +1,6 @@
 import build from "../../../src/parse/build/build";
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
-import Factory from "../../specHelpers/factory";
+import Factory from "../../../src/helpers/factory";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 
 describe( "The parse function", () => {

@@ -2,7 +2,7 @@ import Paper from "../../../../../src/values/Paper";
 import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/genderAssessments";
-import Factory from "../../../../specHelpers/factory.js";
+import Factory from "../../../../../src/helpers/factory.js";
 import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 
 describe( "Tests for exclusionary and potentially exclusionary phrases", function() {

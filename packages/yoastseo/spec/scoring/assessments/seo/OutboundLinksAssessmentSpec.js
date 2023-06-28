@@ -1,6 +1,6 @@
 import OutboundLinksAssessment from "../../../../src/scoring/assessments/seo/OutboundLinksAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
-import factory from "../../../specHelpers/factory.js";
+import factory from "../../../../src/helpers/factory.js";
 const linkStatisticAssessment = new OutboundLinksAssessment();
 
 const attributes = {

@@ -1,7 +1,7 @@
 /* eslint-disable capitalized-comments, spaced-comment */
 import KeyphraseInImagesAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
 // import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";   // Variable is used in language specific test (and thus removed)
 
 const keyphraseInImagesAssessment = new KeyphraseInImagesAssessment();

@@ -1,7 +1,7 @@
 import { forEach } from "lodash-es";
-import { ReadabilityScoreAggregator } from "../../../../src/parsedPaper/assess/scoreAggregators";
-import { READABILITY_SCORES } from "../../../../src/parsedPaper/assess/scoreAggregators/ReadabilityScoreAggregator";
-import AssessmentResult from "../../../../src/values/AssessmentResult";
+import { ReadabilityScoreAggregator } from "../../../src/scoring/scoreAggregators";
+import { READABILITY_SCORES } from "../../../src/scoring/scoreAggregators/ReadabilityScoreAggregator";
+import AssessmentResult from "../../../src/values/AssessmentResult";
 
 describe( "ReadabilityScoreAggregator", () => {
 	describe( "calculatePenalty", function() {

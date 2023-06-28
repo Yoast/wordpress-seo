@@ -204,8 +204,8 @@ describe( "an assessor object", function() {
 				 */
 				globalMarker: function() {},
 			};
-			spyOn( functions, "getMarks" );
-			spyOn( functions, "globalMarker" );
+			jest.spyOn( functions, "getMarks" );
+			jest.spyOn( functions, "globalMarker" );
 			var assessment = { getMarks: functions.getMarks };
 			assessor._options.marker = functions.globalMarker;
 			var marker = assessor.getMarker( assessment );
