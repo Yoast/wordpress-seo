@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Indexables\Domain;
+namespace Yoast\WP\SEO\Tests\Unit\Indexables\User_Interface;
 
 use Brain\Monkey;
 use Mockery;
@@ -25,36 +25,50 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Verification_No_Timestamp_Cron_Callback_Integration_Test extends TestCase {
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\User_Interface\Verification_No_Timestamp_Cron_Callback_Integration
+	 * The instance.
+	 *
+	 * @var Verification_No_Timestamp_Cron_Callback_Integration
 	 */
 	private $instance;
 
 	/**
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Options_Helper
+	 * The options helper.
+	 *
+	 * @var \Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper;
 
 	/**
+	 * The cron schedule handler.
+	 *
 	 * @var \Mockery\MockInterface|Verification_Cron_Schedule_Handler
 	 */
 	private $cron_schedule_handler;
 
 	/**
+	 * The cron verification gate.
+	 *
 	 * @var \Mockery\MockInterface|Cron_Verification_Gate
 	 */
 	private $cron_verification_gate;
 
 	/**
+	 * The verification cron batch handler.
+	 *
 	 * @var \Mockery\MockInterface|Verification_Cron_Batch_Handler
 	 */
 	private $verification_cron_batch_handler;
 
 	/**
+	 * The command handler.
+	 *
 	 * @var \Mockery\MockInterface|Verify_Non_Timestamp_Indexables_Command_Handler
 	 */
 	private $verify_non_timestamp_indexables_command_handler;
 
 	/**
+	 * The next action handler.
+	 *
 	 * @var \Mockery\MockInterface|Next_Verification_Action_Handler
 	 */
 	private $next_verification_action_handler;

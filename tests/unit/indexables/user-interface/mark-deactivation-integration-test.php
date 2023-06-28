@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Indexables\Domain;
+namespace Yoast\WP\SEO\Tests\Unit\Indexables\User_Interface;
 
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
@@ -18,12 +18,16 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Mark_Deactivation_Integration_Test extends TestCase {
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\User_Interface\Mark_Deactivation_Integration
+	 * The instance.
+	 *
+	 * @var Mark_Deactivation_Integration
 	 */
 	private $instance;
 
 	/**
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Options_Helper
+	 * The options helper.
+	 *
+	 * @var \Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper;
 

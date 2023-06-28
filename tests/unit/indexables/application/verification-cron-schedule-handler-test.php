@@ -18,11 +18,15 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Verification_Cron_Schedule_Handler_Test extends TestCase {
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler
+	 * The instance.
+	 *
+	 * @var Verification_Cron_Schedule_Handler
 	 */
 	private $instance;
 
 	/**
+	 * The cron verification gate.
+	 *
 	 * @var \Mockery\MockInterface|Cron_Verification_Gate
 	 */
 	private $cron_verification_gate;
@@ -46,6 +50,12 @@ class Verification_Cron_Schedule_Handler_Test extends TestCase {
 	 * @covers ::schedule_indexable_verification
 	 *
 	 * @dataProvider schedule_indexable_verification_provider
+	 *
+	 * @param bool $should_verify If the indexable verification is enabled.
+	 * @param bool $post_scheduled If the cron is scheduled.
+	 * @param bool $timestamp_scheduled If the cron is scheduled.
+	 * @param int  $time_wp_schedule_event How many times this functions should be called.
+	 *
 	 * @return void
 	 */
 	public function test_schedule_indexable_verification(

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Indexables\Domain;
+namespace Yoast\WP\SEO\Tests\Unit\Indexables\User_Interface;
 
 use Mockery;
 use Brain\Monkey;
@@ -20,16 +20,22 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Schedule_Verification_Cron_Integration_Test extends TestCase {
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\User_Interface\Schedule_Verification_Cron_Integration
+	 * The instance.
+	 *
+	 * @var Schedule_Verification_Cron_Integration
 	 */
 	private $instance;
 
 	/**
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Options_Helper
+	 * The options helper.
+	 *
+	 * @var \Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper;
 
 	/**
+	 * The cron schedule handler.
+	 *
 	 * @var \Mockery\MockInterface|Verification_Cron_Schedule_Handler
 	 */
 	private $cron_schedule_handler;
