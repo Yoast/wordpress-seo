@@ -367,7 +367,7 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks ) 
 
 	return flatMap( marks, ( ( mark ) => {
 		let annotations;
-		if ( marks[ 0 ].hasBlockPosition && marks[ 0 ].hasBlockPosition() ) {
+		if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
 			annotations = createAnnotationsFromPositionBasedMarks( mark );
 		} else {
 			annotations = calculateAnnotationsForTextFormat(
