@@ -158,14 +158,10 @@ export default function initTermScraper( $, store, editorData ) {
 	/**
 	 * Initializes keyword analysis.
 	 *
-	 * @param {TermDataCollector} termScraper The post scraper object.
-	 *
 	 * @returns {void}
 	 */
-	function initializeKeywordAnalysis( termScraper ) {
+	function initializeKeywordAnalysis() {
 		var savedKeywordScore = $( "#hidden_wpseo_linkdex" ).val();
-
-		termScraper.initKeywordTabTemplate();
 
 		var indicator = getIndicatorForScore( savedKeywordScore );
 
@@ -373,8 +369,6 @@ export default function initTermScraper( $, store, editorData ) {
 			app.seoAssessorPresenter.assessor = app.seoAssessor;
 		}
 
-		termScraper.initKeywordTabTemplate();
-
 		// Init Plugins.
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
@@ -392,7 +386,7 @@ export default function initTermScraper( $, store, editorData ) {
 		), refreshDelay ) );
 
 		if ( isKeywordAnalysisActive() ) {
-			initializeKeywordAnalysis( termScraper );
+			initializeKeywordAnalysis();
 		}
 
 		if ( isContentAnalysisActive() ) {

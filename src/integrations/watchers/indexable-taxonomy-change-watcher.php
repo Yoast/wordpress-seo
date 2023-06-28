@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast_Notification;
 use Yoast_Notification_Center;
 
 /**
@@ -132,8 +131,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
 			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_TAXONOMY_MADE_PUBLIC );
-
-			$this->maybe_add_notification();
+			do_action( 'new_public_taxonomy_notifications', $newly_made_public_taxonomies );
 		}
 
 		// There are taxonomies that have been made private.
@@ -143,44 +141,8 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			if ( $cleanup_not_yet_scheduled ) {
 				\wp_schedule_single_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 			}
+
+			do_action( 'clean_new_public_taxonomy_notifications', $newly_made_non_public_taxonomies );
 		}
-	}
-
-	/**
-	 * Decides if a notification should be added in the notification center.
-	 *
-	 * @return void
-	 */
-	private function maybe_add_notification() {
-		$notification = $this->notification_center->get_notification_by_id( 'taxonomies-made-public' );
-		if ( \is_null( $notification ) ) {
-			$this->add_notification();
-		}
-	}
-
-	/**
-	 * Adds a notification to be shown on the next page request since posts are updated in an ajax request.
-	 *
-	 * @return void
-	 */
-	private function add_notification() {
-		$message = \sprintf(
-			/* translators: 1: Opening tag of the link to the Search appearance settings page, 2: Link closing tag. */
-			\esc_html__( 'It looks like you\'ve added a new taxonomy to your website. We recommend that you review your %1$sSettings%2$s under Categories & tags.', 'wordpress-seo' ),
-			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_page_settings' ) ) . '">',
-			'</a>'
-		);
-
-		$notification = new Yoast_Notification(
-			$message,
-			[
-				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'taxonomies-made-public',
-				'capabilities' => 'wpseo_manage_options',
-				'priority'     => 0.8,
-			]
-		);
-
-		$this->notification_center->add_notification( $notification );
 	}
 }

@@ -1,4 +1,4 @@
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
 import PropTypes from "prop-types";
 
@@ -25,22 +25,14 @@ const WebinarPromoNotification = ( {
 			alertKey="webinar-promo-notification"
 			store={ store }
 			id="webinar-promo-notification"
-			title={ sprintf(
-				/* translators: 1: Yoast SEO. */
-				__( "Get the most out of %1$s", "wordpress-seo" ),
-				"Yoast SEO"
-			) }
+			title={ __( "Join our FREE webinar for SEO success", "wordpress-seo" ) }
 			image={ Image }
 			url={ url }
 			{ ...props }
 		>
-			{ sprintf(
-				/* translators: 1: Yoast SEO. */
-				__( "Learn how to improve your rankings with %1$s. Ask your questions to our SEO experts during the free live Q&A.", "wordpress-seo" ),
-				"Yoast SEO"
-			) }
+			{ __( "Feeling lost when it comes to optimizing your site for the search engines? Join our FREE webinar to gain the confidence that you need in order to start optimizing like a pro! You'll obtain the knowledge and tools to start effectively implementing SEO.", "wordpress-seo" ) }
 			&nbsp;<a href={ url } target="_blank" rel="noreferrer">
-				{ __( "Register now!", "wordpress-seo" ) }
+				{ __( "Sign up today!", "wordpress-seo" ) }
 			</a>
 		</PersistentDismissableNotification>
 	);
