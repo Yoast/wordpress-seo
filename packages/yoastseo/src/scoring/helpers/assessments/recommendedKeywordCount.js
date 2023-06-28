@@ -1,11 +1,11 @@
-import countWords from "../../../languageProcessing/helpers/word/countWords";
+import getAllWordsFromTree from "../../../languageProcessing/helpers/word/getAllWordsFromTree";
 import keyphraseLengthFactor from "./keyphraseLengthFactor.js";
 
 /**
- * Calculates a recommended keyword count for a text. The formula to calculate this number is based on the
+ * Calculates a recommended keyword count for a paper's text. The formula to calculate this number is based on the
  * keyword density formula.
  *
- * @param {string} text The paper text.
+ * @param {Paper} paper The paper to analyze.
  * @param {number} keyphraseLength The length of the focus keyphrase in words.
  * @param {number} recommendedKeywordDensity The recommended keyword density (either maximum or minimum).
  * @param {string} maxOrMin Whether it's a maximum or minimum recommended keyword density.
@@ -13,10 +13,8 @@ import keyphraseLengthFactor from "./keyphraseLengthFactor.js";
  *
  * @returns {number} The recommended keyword count.
  */
-export default function( text, keyphraseLength, recommendedKeywordDensity, maxOrMin, customGetWords ) {
-	// eslint-disable-next-line no-warning-comments
-	// TODO: adapt to use the HTML parser. Also for Japanese.
-	const wordCount = customGetWords ? customGetWords( text ).length : countWords( text );
+export default function( paper, keyphraseLength, recommendedKeywordDensity, maxOrMin, customGetWords ) {
+	const wordCount = customGetWords ? customGetWords( paper.getText() ).length : getAllWordsFromTree( paper ).length;
 
 	if ( wordCount === 0 ) {
 		return 0;

@@ -29,7 +29,7 @@ export default function getKeyphraseDensity( paper, researcher ) {
 /**
  * Calculates the keyphrase density.
  *
- * @deprecated Since version 20.8. Use getKeyphraseDensity instead.
+ * @deprecated Since version 20.12. Use getKeyphraseDensity instead.
  *
  * @param {Object} paper        The paper containing keyphrase and text.
  * @param {Object} researcher   The researcher.

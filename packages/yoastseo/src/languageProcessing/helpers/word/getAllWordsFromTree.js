@@ -3,7 +3,8 @@ import { flatMap } from "lodash-es";
 import removePunctuation from "../sanitize/removePunctuation";
 
 /**
- * Gets the words from the tree.
+ * Gets the words from the tree, i.e. the paragraph and heading nodes.
+ * These two node types are the nodes that should contain words for the analysis.
  *
  * @param {Paper} paper The paper to get the tree and words from.
  *
@@ -17,6 +18,6 @@ export default function( paper ) {
 	// Remove punctuation and spaces.
 	words = words.map( token => removePunctuation( token ) );
 
-	// Filter out empty tokens
+	// Filter out empty tokens.
 	return words.filter( word => word.trim() !== "" );
 }
