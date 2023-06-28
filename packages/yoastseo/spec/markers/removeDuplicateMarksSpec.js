@@ -7,11 +7,11 @@ describe( "removeDuplicateMarks", function() {
 	} );
 
 	it( "should remove duplicated marks from the array", function() {
-		var marks = [
+		const marks = [
 			new Mark( { original: "original", marked: "marked" } ),
 			new Mark( { original: "original", marked: "marked" } ),
 		];
-		var expected = [
+		const expected = [
 			new Mark( { original: "original", marked: "marked" } ),
 		];
 
@@ -19,16 +19,26 @@ describe( "removeDuplicateMarks", function() {
 	} );
 
 	it( "should remove duplicated marks from the array", function() {
-		var marks = [
+		const marks = [
 			new Mark( { original: "original", marked: "marked" } ),
 			new Mark( { original: "original2", marked: "marked" } ),
 			new Mark( { original: "original", marked: "marked" } ),
 		];
-		var expected = [
+		const expected = [
 			new Mark( { original: "original", marked: "marked" } ),
 			new Mark( { original: "original2", marked: "marked" } ),
 		];
 
 		expect( removeDuplicateMarks( marks ) ).toEqual( expected );
+	} );
+
+	it( "should not remove duplicated marks if the mark objects have position information", function() {
+		const marks = [
+			new Mark( { original: "original", marked: "marked", position: { startOffset: 0, endOffset: 10 } } ),
+			new Mark( { original: "original2", marked: "marked", position: { startOffset: 0, endOffset: 10 } } ),
+			new Mark( { original: "original1", marked: "marked", position: { startOffset: 15, endOffset: 20 } } ),
+		];
+
+		expect( removeDuplicateMarks( marks ) ).toEqual( marks );
 	} );
 } );
