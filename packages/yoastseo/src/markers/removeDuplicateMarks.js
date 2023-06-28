@@ -1,4 +1,4 @@
-import { uniqBy } from "lodash-es";
+import { uniqBy, isUndefined } from "lodash-es";
 
 /**
  * Removes duplicate marks from an array.
@@ -10,8 +10,12 @@ import { uniqBy } from "lodash-es";
  * @returns {Array} A list of de-duplicated marks.
  */
 function removeDuplicateMarks( marks ) {
+	if ( marks.length === 0 || ! isUndefined( marks[ 0 ].hasPosition() ) ) {
+		return marks;
+	}
+
 	return uniqBy( marks, function( mark ) {
-		return ! mark.hasPosition() && mark.getOriginal();
+		return mark.getOriginal();
 	} );
 }
 
