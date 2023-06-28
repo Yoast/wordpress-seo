@@ -108,7 +108,7 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 			{ ...props }
 		>
 			<>
-				{ status === ASYNC_ACTION_STATUS.idle || status === ASYNC_ACTION_STATUS.success && (
+				{ ( status === ASYNC_ACTION_STATUS.idle || status === ASYNC_ACTION_STATUS.success ) && (
 					<>
 						{ isEmpty( queriedUserIds ) ? (
 							<UserSelectOptionsContent>

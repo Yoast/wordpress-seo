@@ -19,6 +19,14 @@
 			}
 		}
 
+		.yst-autocomplete--disabled {
+
+			@apply
+			yst-opacity-50
+			yst-cursor-not-allowed
+			focus:yst-ring-0;
+		}
+
 		.yst-autocomplete__button {
 			@apply
 			yst-w-full
@@ -55,7 +63,7 @@
 		.yst-autocomplete__options {
 			@apply
 			yst-absolute
-			yst-z-10
+			yst-z-20
 			yst-w-full
 			yst-mt-1
 			yst-overflow-auto

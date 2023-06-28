@@ -93,6 +93,14 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'open_graph_frontpage_image'       => '', // Text field.
 		'open_graph_frontpage_image_id'    => 0,
 
+		'publishing_principles_id'         => false,
+		'ownership_funding_info_id'        => false,
+		'actionable_feedback_policy_id'    => false,
+		'corrections_policy_id'            => false,
+		'ethics_policy_id'                 => false,
+		'diversity_policy_id'              => false,
+		'diversity_staffing_report_id'     => false,
+
 		/*
 		 * Uses enrich_defaults to add more along the lines of:
 		 * - 'title-' . $pt->name                => ''; // Text field.
@@ -579,6 +587,13 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'person_logo_id':
 				case 'social-image-id-':
 				case 'open_graph_frontpage_image_id':
+				case 'publishing_principles_id':
+				case 'ownership_funding_info_id':
+				case 'actionable_feedback_policy_id':
+				case 'corrections_policy_id':
+				case 'ethics_policy_id':
+				case 'diversity_policy_id':
+				case 'diversity_staffing_report_id':
 					if ( isset( $dirty[ $key ] ) ) {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 						if ( $int !== false && $int >= 0 ) {
@@ -592,7 +607,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 						}
 					}
 					break;
-
 				/* Separator field - Radio. */
 				case 'separator':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {

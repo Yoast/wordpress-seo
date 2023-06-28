@@ -1,21 +1,23 @@
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Radio, RadioGroup, TextField, ToggleField } from "@yoast/ui-library";
+import { Alert, FeatureUpsell, Radio, RadioGroup, TextField, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import { get, map } from "lodash";
 import {
 	FieldsetLayout,
 	FormikMediaSelectField,
 	FormikValueChangeField,
+	FormikPageSelectField,
 	FormikWithErrorField,
 	FormLayout,
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../components";
-import { withDisabledMessageSupport } from "../hocs";
-import { useSelectSettings } from "../hooks";
+import { withDisabledMessageSupport, withFormikDummySelectField } from "../hocs";
+import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 const ToggleFieldWithDisabledMessageSupport = withDisabledMessageSupport( ToggleField );
+const FormikSelectPageWithDummy = withFormikDummySelectField( FormikPageSelectField );
 
 /**
  * @returns {JSX.Element} The site defaults route.
@@ -27,7 +29,12 @@ const SiteBasics = () => {
 	const showForceRewriteTitlesSetting = useSelectSettings( "selectPreference", [], "showForceRewriteTitlesSetting", false );
 	const replacementVariablesLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-basics-replacement-variables" );
 	const usageTrackingLink = useSelectSettings( "selectLink", [], "https://yoa.st/usage-tracking-2" );
+	const sitePoliciesLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-policies-learn-more" );
 	const siteTitle = useSelectSettings( "selectPreference", [], "siteTitle", "" );
+	const publishingPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-policies-upsell" );
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
+	const { fetchPages } = useDispatchSettings();
 
 	const usageTrackingDescription = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -42,6 +49,18 @@ const SiteBasics = () => {
 		}
 	), [] );
 
+	const sitePoliciesDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+			__( "Select the pages on your website which contain information about your organizational and publishing policies. Some of these might not apply to your site, and you can select the same page for multiple policies. %1$sLearn more about why setting your site policies is important%2$s.", "wordpress-seo" ),
+			"<a>",
+			"</a>"
+		),
+		{
+			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
+			a: <a id="link-site-policies" href={ sitePoliciesLink } target="_blank" rel="noopener" />,
+		}
+	), [ sitePoliciesLink ] );
 	const siteInfoDescription = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to an opening and closing emphasis tag. %3$s and %4$s expand to an opening and closing anchor tag. */
@@ -54,7 +73,10 @@ const SiteBasics = () => {
 		{
 			em: <em />,
 			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
-			a: <a id="site-basics-replacement-variables" href={ replacementVariablesLink } target="_blank" rel="noopener" />,
+			a: <a
+				id="site-basics-replacement-variables" href={ replacementVariablesLink } target="_blank"
+				rel="noopener"
+			/>,
 		}
 	), [] );
 	const canNotManageOptionsAlertText = useMemo( () => createInterpolateElement(
@@ -98,9 +120,115 @@ const SiteBasics = () => {
 		}
 	), [] );
 
+	const publishingPrinciplesDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening italics tag.
+			 * %2$s expands to a closing italics tag.
+			 */
+			__( "Select a page which describes the editorial principles of your organization. %1$sWhat%2$s do you write about, %1$swho%2$s do you write for, and %1$swhy%2$s?", "wordpress-seo" ),
+			"<i>",
+			"</i>"
+		),
+		{
+			i: <i />,
+		}
+	), [] );
+	const ownershipDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening italics tag.
+			 * %2$s expands to a closing italics tag.
+			 */
+			__( "Select a page which describes the ownership structure of your organization. It should include information about  %1$sfunding%2$s and %1$sgrants%2$s.", "wordpress-seo" ),
+			"<i>",
+			"</i>"
+		),
+		{
+			i: <i />,
+		}
+	), [] );
+
+	const actionableFeedbackDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening italics tag.
+			 * %2$s expands to a closing italics tag.
+			 */
+			__( "Select a page which describes how your organization collects and responds to %1$sfeedback%2$s, engages with the %1$spublic%2$s, and prioritizes %1$stransparency%2$s.", "wordpress-seo" ),
+			"<i>",
+			"</i>"
+		),
+		{
+			i: <i />,
+		}
+	), [] );
+
+	const correctionsDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening italics tag.
+			 * %2$s expands to a closing italics tag.
+			 */
+			__( "Select a page which outlines your procedure for addressing %1$serrors%2$s (e.g., publishing retractions or corrections).", "wordpress-seo" ),
+			"<i>",
+			"</i>"
+		),
+		{
+			i: <i />,
+		}
+	), [] );
+
+	const ethicsDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening italics tag.
+			 * %2$s expands to a closing italics tag.
+			 */
+			__( "Select a page which describes the personal, organizational, and corporate %1$sstandards%2$s of %1$sbehavior%2$s expected by your organization.", "wordpress-seo" ),
+			"<i>",
+			"</i>"
+		),
+		{
+			i: <i />,
+		}
+	), [] );
+
+	const diversityDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening italics tag.
+			 * %2$s expands to a closing italics tag.
+			 */
+			__( "Select a page which provides information on your diversity policies for %1$seditorial%2$s content.", "wordpress-seo" ),
+			"<i>",
+			"</i>"
+		),
+		{
+			i: <i />,
+		}
+	), [] );
+	const diversityStaffingDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening italics tag.
+			 * %2$s expands to a closing italics tag.
+			 */
+			__( "Select a page which provides information about your diversity policies for %1$sstaffing%2$s, %1$shiring%2$s and %1$semployment%2$s.", "wordpress-seo" ),
+			"<i>",
+			"</i>"
+		),
+		{
+			i: <i />,
+		}
+	), [] );
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
 
+	useEffect( () => {
+		// Get initial options.
+		fetchPages();
+	}, [ fetchPages ] );
 	return (
 		<RouteLayout
 			title={ __( "Site basics", "wordpress-seo" ) }
@@ -215,6 +343,80 @@ const SiteBasics = () => {
 							description={ usageTrackingDescription }
 							className="yst-max-w-sm"
 						/>
+					</FieldsetLayout>
+					<hr className="yst-my-8" />
+					<FieldsetLayout
+						title={ __( "Site policies", "wordpress-seo" ) }
+						description={ sitePoliciesDescription }
+					>
+						<FeatureUpsell
+							shouldUpsell={ ! isPremium }
+							variant="card"
+							cardLink={ publishingPremiumLink }
+							cardText={ sprintf(
+								/* translators: %1$s expands to Premium. */
+								__( "Unlock with %1$s", "wordpress-seo" ),
+								"Premium"
+							) }
+							{ ...premiumUpsellConfig }
+						>
+							<FormikSelectPageWithDummy
+								name="wpseo_titles.publishing_principles_id"
+								id="input-wpseo_titles-publishing_principles_id"
+								label={ __( "Publishing principles", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								description={ publishingPrinciplesDescription }
+								isDummy={ ! isPremium }
+							/>
+							<FormikSelectPageWithDummy
+								name="wpseo_titles.ownership_funding_info_id"
+								id="input-wpseo_titles-ownership_funding_info_id"
+								label={ __( "Ownership / Funding info", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								description={ ownershipDescription }
+								isDummy={ ! isPremium }
+							/>
+							<FormikSelectPageWithDummy
+								name="wpseo_titles.actionable_feedback_policy_id"
+								id="input-wpseo_titles-actionable_feedback_policy_id"
+								label={ __( "Actionable feedback policy", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								description={ actionableFeedbackDescription }
+								isDummy={ ! isPremium }
+							/>
+							<FormikSelectPageWithDummy
+								name="wpseo_titles.corrections_policy_id"
+								id="input-wpseo_titles-corrections_policy_id"
+								label={ __( "Corrections policy", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								description={ correctionsDescription }
+								isDummy={ ! isPremium }
+							/>
+							<FormikSelectPageWithDummy
+								name="wpseo_titles.ethics_policy_id"
+								id="input-wpseo_titles-ethics_policy_id"
+								label={ __( "Ethics policy", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								description={ ethicsDescription }
+								isDummy={ ! isPremium }
+							/>
+							<FormikSelectPageWithDummy
+								name="wpseo_titles.diversity_policy_id"
+								id="input-wpseo_titles-diversity_policy_id"
+								label={ __( "Diversity policy", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								description={ diversityDescription }
+								isDummy={ ! isPremium }
+							/>
+							<FormikSelectPageWithDummy
+								name="wpseo_titles.diversity_staffing_report_id"
+								id="input-wpseo_titles-diversity_staffing_report_id"
+								label={ __( "Diversity staffing report", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								description={ diversityStaffingDescription }
+								isDummy={ ! isPremium }
+							/>
+						</FeatureUpsell>
 					</FieldsetLayout>
 				</div>
 			</FormLayout>
