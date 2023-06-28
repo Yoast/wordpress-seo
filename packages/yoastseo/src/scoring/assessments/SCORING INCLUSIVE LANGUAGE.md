@@ -3,7 +3,7 @@
 The inclusive language analysis checks whether your content contains any (potentially) non-inclusive words or phrases.
 The analysis is not available in all languages, check [this overview to see which languages have inclusive language support](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoastseo/README.md#inclusive-language-analysis).
 
-### How are individual traffic lights assigned?
+## How are individual traffic lights assigned?
 For every (potentially) non-inclusive word or phrase that is found in the text, a red or orange traffic light is shown.
 A red traffic light means that the targeted word or phrase is never inclusive, regardless of context.
 An orange traffic light means that the targeted word or phrase is _potentially_ non-inclusive, depending on the context in which it is used.
@@ -13,14 +13,14 @@ An orange traffic light means that the targeted word or phrase is _potentially_ 
 |3	               | Bad (red traffic light)   |
 |6		           | Ok (orange traffic light) |
 
-### How is the overall score calculated?
+## How is the overall score calculated?
 | Individual scores	 | Total score	| Divide by 10:             |
 |------------	         |------------------	|---------------------------|
 | At least one individual score of 3        |30		            | 3 (red traffic light)	    |
 | Zero individual scores of 3 and at least one individual score of 6         |60		            | 6 (orange traffic light)	 |
 | Zero individual scores of 3 or 6	     |90                    | 9 (green traffic light) |
 
-### More details on the individual phrases and feedback
+## More details on the individual phrases and feedback
 The targeted words and phrases are divided into the following categories:
 * [age](inclusiveLanguage/configuration/ageAssessments.js)
 * [appearance](inclusiveLanguage/configuration/appearanceAssessments.js)

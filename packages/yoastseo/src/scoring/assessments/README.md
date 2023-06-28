@@ -1,3 +1,5 @@
+# Assessment scoring in Yoast SEO
+
 The Yoast SEO analysis contains three types of assessments:
 * SEO assessments
 * Readability assessments
