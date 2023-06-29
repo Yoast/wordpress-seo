@@ -18,12 +18,16 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Cron_Verification_Gate_Test extends TestCase {
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Application\Cron_Verification_Gate
+	 * The instance.
+	 *
+	 * @var Cron_Verification_Gate
 	 */
 	private $instance;
 
 	/**
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Indexable_Helper
+	 * The indexable helper.
+	 *
+	 * @var \Mockery\MockInterface|Indexable_Helper
 	 */
 	private $indexable_helper;
 
@@ -43,7 +47,7 @@ class Cron_Verification_Gate_Test extends TestCase {
 	/**
 	 * Tests if the should verify on cron function gives the expected response.
 	 *
-	 * @param bool   $expected The expected result
+	 * @param bool   $expected The expected result.
 	 * @param string $should_index What the helper should return.
 	 * @param string $filter_value What the filter should return.
 	 *

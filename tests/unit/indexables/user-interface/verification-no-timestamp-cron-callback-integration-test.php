@@ -21,6 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\User_Interface\Verification_No_Timestamp_Cron_Callback_Integration
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Verification_No_Timestamp_Cron_Callback_Integration_Test extends TestCase {
 

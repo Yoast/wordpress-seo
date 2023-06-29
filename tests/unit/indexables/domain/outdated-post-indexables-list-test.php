@@ -17,6 +17,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Outdated_Post_Indexables_List_Test extends TestCase {
 
 	/**
+	 * The instance.
+	 *
 	 * @var \Yoast\WP\SEO\Indexables\Domain\Outdated_Post_Indexables_List
 	 */
 	private $instance;

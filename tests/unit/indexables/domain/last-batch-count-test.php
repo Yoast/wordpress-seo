@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Last_Batch_Count_Test extends TestCase {
 
 	/**
+	 * The instance.
+	 *
 	 * @var \Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count
 	 */
 	private $instance;

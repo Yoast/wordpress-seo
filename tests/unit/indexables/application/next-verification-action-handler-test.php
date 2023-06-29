@@ -18,12 +18,16 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Next_Verification_Action_Handler_Test extends TestCase {
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Application\Next_Verification_Action_Handler
+	 * The instance.
+	 *
+	 * @var Next_Verification_Action_Handler
 	 */
 	private $instance;
 
 	/**
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Options_Helper
+	 * The options helper.
+	 *
+	 * @var \Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper;
 

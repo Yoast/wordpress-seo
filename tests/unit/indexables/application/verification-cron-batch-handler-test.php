@@ -19,12 +19,16 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Verification_Cron_Batch_Handler_Test extends TestCase {
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler
+	 * The instance.
+	 *
+	 * @var Verification_Cron_Batch_Handler
 	 */
 	private $instance;
 
 	/**
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Options_Helper
+	 * The options helper.
+	 *
+	 * @var \Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper;
 

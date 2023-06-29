@@ -16,7 +16,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Current_Verification_Action_Test extends TestCase {
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action
+	 * The instance.
+	 *
+	 * @var Current_Verification_Action
 	 */
 	private $instance;
 

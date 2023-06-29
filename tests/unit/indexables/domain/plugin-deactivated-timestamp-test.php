@@ -16,18 +16,11 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Plugin_Deactivated_Timestamp_Test extends TestCase {
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Domain\Plugin_Deactivated_Timestamp
+	 * The instance.
+	 *
+	 * @var Plugin_Deactivated_Timestamp
 	 */
 	private $instance;
-
-	/**
-	 * The setup function.
-	 *
-	 * @return void
-	 */
-	protected function setUp(): void {
-		parent::setUp();
-	}
 
 	/**
 	 * Tests constructor function.

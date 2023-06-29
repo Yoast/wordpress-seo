@@ -15,7 +15,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Batch_Size_Test extends TestCase {
 
 	/**
-	 * @var \Yoast\WP\SEO\Indexables\Domain\Batch_Size
+	 * The instance.
+	 *
+	 * @var Batch_Size
 	 */
 	private $instance;
 
