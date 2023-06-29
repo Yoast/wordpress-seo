@@ -112,4 +112,11 @@ describe( "test to get sentences from the tree", () => {
 			},
 		] );
 	} );
+	it( "should return empty array if no sentences are found in paragraph/heading node", () => {
+		const paper = new Paper( "<p></p><blockquote>The red panda (Ailurus fulgens), also known as the lesser panda," +
+			" is a small mammal native to the eastern Himalayas and southwestern China</blockquote>" );
+		researcher.setPaper( paper );
+		buildTree( paper, researcher );
+		expect( getSentencesFromTree( paper ) ).toEqual( [] );
+	} );
 } );
