@@ -10,7 +10,7 @@ import { uniqBy, isUndefined } from "lodash-es";
  * @returns {Array} A list of de-duplicated marks.
  */
 function removeDuplicateMarks( marks ) {
-	if ( marks.length === 0 || ! isUndefined( marks[ 0 ].hasPosition() ) ) {
+	if ( !! marks && ( marks.length === 0 || ! isUndefined( marks[ 0 ].hasPosition() ) ) ) {
 		return marks;
 	}
 
