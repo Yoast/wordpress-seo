@@ -226,15 +226,31 @@ const CrawlOptimization = () => {
 				 * %1$s expands to `<code>301</code>`.
 				 * %2$s and %3$s both expand to an example within a <code> tag.
 				 */
-				__( "Removes unknown URL parameters via a %1$s redirect. E.g., %2$s will be redirected to %3$s", "wordpress-seo" ),
+				__( "Removes unknown URL parameters via a %1$s redirect. " +
+					"E.g., %2$s will be redirected to %3$s " +
+					"Note that the following commonly-used parameters will not be removed: %4$s, %5$s, %6$s, %7$s, %8$s, %9$s, and %10$s.", "wordpress-seo" ),
 				"<code1/>",
 				"<code2/>",
-				"<code3/>"
+				"<code3/>",
+				"<code4/>",
+				"<code5/>",
+				"<code6/>",
+				"<code7/>",
+				"<code8/>",
+				"<code9/>",
+				"<code10/>"
 			),
 			{
 				code1: <Code>301</Code>,
 				code2: <Code variant="block">https://www.example.com/?unknown_parameter=yes</Code>,
 				code3: <Code variant="block">https://www.example.com</Code>,
+				code4: <Code>utm_source</Code>,
+				code5: <Code>utm_medium</Code>,
+				code6: <Code>utm_campaign</Code>,
+				code7: <Code>utm_term</Code>,
+				code8: <Code>utm_content</Code>,
+				code9: <Code>gclid</Code>,
+				code10: <Code>gtm_debug</Code>,
 			}
 		),
 		cleanPermalinksExtraVariables: createInterpolateElement(
