@@ -146,6 +146,7 @@ class Elementor implements Integration_Interface {
 
 	/**
 	 * Registers our Elementor hooks.
+	 * This is done for pages with metabox on page load and not on ajax request.
 	 */
 	public function register_elementor_hooks() {
 
