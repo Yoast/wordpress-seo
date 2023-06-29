@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Indexables\User_Interface;
 
 use Mockery;
+use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Indexables\User_Interface\Mark_Deactivation_Integration;
@@ -53,6 +54,8 @@ class Mark_Deactivation_Integration_Test extends TestCase {
 	public function test_register_hooks() {
 		Monkey\Functions\expect( 'add_action' )
 			->with( 'wpseo_deactivate', [ $this->instance, 'register_deactivation' ] );
+
+		$this->instance->register_hooks();
 	}
 
 	/**

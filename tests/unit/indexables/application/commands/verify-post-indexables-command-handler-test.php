@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action;
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Outdated_Posts_Found_Exception;
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Verification_Action_Left_Exception;
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\Verify_Action_Not_Found_Exception;
+use Yoast\WP\SEO\Indexables\Domain\Outdated_Post_Indexables_List;
 use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Indexables_Action;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -86,7 +87,7 @@ class Verify_Post_Indexables_Command_Handler_Test extends TestCase {
 		$this->cron_batch_handler                  = Mockery::mock( Verification_Cron_Batch_Handler::class );
 		$this->outdated_post_indexables_repository = Mockery::mock( Outdated_Post_Indexables_Repository_Interface::class );
 		$this->indexables_builder                  = Mockery::mock( Indexable_Builder::class );
-		$this->command                             = new Verify_Post_Indexables_Command( 10, 10, \time() );
+		$this->command                             = new Verify_Post_Indexables_Command( 1, 0, \time() );
 		$this->instance                            = new Verify_Post_Indexables_Command_Handler( $this->outdated_post_indexables_repository, $this->cron_schedule_handler, $this->cron_batch_handler, $this->indexables_builder );
 	}
 
@@ -98,18 +99,27 @@ class Verify_Post_Indexables_Command_Handler_Test extends TestCase {
 	 */
 	public function test_handle_with_next_batch() {
 
-		$indexable_list   = [];
+		$indexable_list   = new Outdated_Post_Indexables_List();
 		$indexable_mock   = Mockery::mock( Indexable::class );
-		$indexable_list[] = $indexable_mock;
+		$indexable_mock1   = Mockery::mock( Indexable::class );
+		$indexable_mock2   = Mockery::mock( Indexable::class );
+		$indexable_mock3   = Mockery::mock( Indexable::class );
+		$indexable_list->add_post_indexable( $indexable_mock);
+		$indexable_list->add_post_indexable( $indexable_mock1);
+		$indexable_list->add_post_indexable( $indexable_mock2);
+		$indexable_list->add_post_indexable( $indexable_mock3);
 		$this->outdated_post_indexables_repository->expects( 'get_outdated_post_indexables' )
 			->with( $this->command->get_last_batch_count() )
 			->andReturn( $indexable_list );
 
 
 		$this->indexables_builder->expects()->build( $indexable_mock );
+		$this->indexables_builder->expects()->build( $indexable_mock1 );
+		$this->indexables_builder->expects()->build( $indexable_mock2 );
+		$this->indexables_builder->expects()->build( $indexable_mock3 );
 
-		$this->cron_batch_handler->expects( 'set_current_non_timestamped_indexables_batch' )
-			->with( $this->command->get_last_batch_count(), $this->command->get_batch_size() );
+		$this->cron_batch_handler->expects( 'set_current_post_indexables_batch' )
+			->with( 1 );
 		$this->instance->handle( $this->command );
 	}
 
