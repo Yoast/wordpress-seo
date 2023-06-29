@@ -550,7 +550,7 @@ class Settings_Integration implements Integration_Interface {
 			$policy_array['id'] = $policy;
 			$post               = \get_post( $policy );
 			if ( $post instanceof \WP_Post ) {
-				if ( $post->post_status !== 'publish' ) {
+				if ( $post->post_status !== 'publish' || $post->post_password !== '' ) {
 					return $policies;
 				}
 				$policy_array['name'] = $post->post_title;
