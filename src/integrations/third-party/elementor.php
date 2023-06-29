@@ -546,7 +546,7 @@ class Elementor implements Integration_Interface {
 
 		$post = null;
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
-		if ( isset( $_GET['post'] ) && \is_string( $_GET['post'] ) ) {
+		if ( isset( $_GET['post'] ) && \is_numeric( $_GET['post'] ) ) {
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
 			$post = (int) \wp_unslash( $_GET['post'] );
 		}
