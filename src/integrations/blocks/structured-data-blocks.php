@@ -186,6 +186,23 @@ class Structured_Data_Blocks implements Integration_Interface {
 			return $content;
 		}
 
+		$regex = '/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/';
+
+		$duration = \preg_match(
+			$regex,
+			$content,
+			$matches
+		);
+
+		$duration = $matches[ 3 ];
+
+		$content = \preg_replace(
+			$regex,
+			'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text"> ' . \__( $attributes[ 'defaultDurationText' ], "wordpress-seo" ) . '</span> ' . \__( $duration, "wordpress-seo" ) . '</p>',
+			$content,
+			1
+		);
+
 		return $this->optimize_images( $attributes['steps'], 'text', $content );
 	}
 
