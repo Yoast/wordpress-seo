@@ -173,6 +173,44 @@ class Structured_Data_Blocks implements Integration_Interface {
 		return $this->optimize_images( $attributes['questions'], 'answer', $content );
 	}
 
+	private function transform_duration_to_string( $days, $hours, $minutes ) {
+		$strings = [];
+		if ( $days !== 0 ) {
+			$strings[] = sprintf( \_n( '%d day', '%d days', $days, 'wordpress-seo' ), $days );
+		}
+		if ( $hours !== 0 ) {
+			$strings[] = \sprintf( \_n( '%d hour', '%d hours', $hours, 'wordpress-seo' ), $hours );
+		}
+		if ( $minutes !== 0 ) {
+			$strings[] = \sprintf( \_n( '%d minute', '%d minutes', $minutes, 'wordpress-seo' ), $minutes );
+		}
+		return $strings;
+	}
+
+	private function build_duration_string( $attributes ) {
+		$elements        = $this->transform_duration_to_string( $attributes['days'], $attributes['hours'], $attributes['minutes'] );
+		$elements_length = count( $elements );
+
+		if ( $elements_length === 1 ) {
+			return $elements[0];
+		}
+		if ( $elements_length === 2 ) {
+			return \sprintf(
+			/* translators: %s expands to a unit of time (e.g. 1 day). */
+				__( '%1$s and %2$s', 'wordpress-seo' ),
+				...$elements
+			);
+		}
+		if ( $elements_length === 3 ) {
+			return \sprintf(
+			/* translators: %s expands to a unit of time (e.g. 1 day). */
+				\__( '%1$s, %2$s and %3$s', 'wordpress-seo' ),
+				...$elements
+			);
+		}
+		return '';
+	}
+
 	/**
 	 * Optimizes images in the How-To blocks.
 	 *
@@ -186,29 +224,20 @@ class Structured_Data_Blocks implements Integration_Interface {
 			return $content;
 		}
 
-		$regex = '/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/';
-
-		$duration = \preg_match( $regex, $content, $matches );
-		// Only retrieve the duration when there is a match.
-		if ( $matches ) {
-			$duration = $matches[3];
-			$duration = \sprintf(
-			/* translators: */
-				\__( '%s', 'wordpress-seo' ),
-				$duration
-			);
-			$default_duration_text = \sprintf(
+		$regex    = '/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/';
+		$duration = $this->build_duration_string( $attributes );
+		var_dump( $duration, 'DURATION' );
+		$duration_text = \sprintf(
 			/* translators: %s: expands to 'Time needed:' */
-				\__( '%s', 'wordpress-seo' ),
-				$attributes['defaultDurationText']
-			);
-			$content = \preg_replace(
-				$regex,
-				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text"> ' . $default_duration_text . '&nbsp;</span>' . $duration . '</p>',
-				$content,
-				1
-			);
-		}
+			\__( '<span class="schema-how-to-duration-time-text">%s&nbsp;</span>', 'wordpress-seo' ),
+			$attributes['defaultDurationText']
+		);
+		$content = \preg_replace(
+			$regex,
+			'<p class="schema-how-to-total-time">' . $duration_text . $duration . '</p>',
+			$content,
+			1
+		);
 
 		return $this->optimize_images( $attributes['steps'], 'text', $content );
 	}
