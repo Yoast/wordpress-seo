@@ -224,17 +224,12 @@ class Structured_Data_Blocks implements Integration_Interface {
 			return $content;
 		}
 
-		$regex    = '/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/';
-		$duration = $this->build_duration_string( $attributes );
-		var_dump( $duration, 'DURATION' );
-		$duration_text = \sprintf(
-			/* translators: %s: expands to 'Time needed:' */
-			\__( '<span class="schema-how-to-duration-time-text">%s&nbsp;</span>', 'wordpress-seo' ),
-			$attributes['defaultDurationText']
-		);
-		$content = \preg_replace(
+		$regex         = '/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/';
+		$duration      = $this->build_duration_string( $attributes );
+		$duration_text = \__( 'Time needed:', 'wordpress-seo' );
+		$content       = \preg_replace(
 			$regex,
-			'<p class="schema-how-to-total-time">' . $duration_text . $duration . '</p>',
+			'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">' . $duration_text . '&nbsp;</span>' . $duration . '</p>',
 			$content,
 			1
 		);
