@@ -8,6 +8,7 @@ import { filter, find, findIndex, isFunction, isUndefined, map } from "lodash-es
 import LanguageProcessor from "../parse/language/LanguageProcessor";
 import { build } from "../parse/build";
 
+// The maximum score of individual assessment is 9. This is why we set the "score rating" here to 9.
 const ScoreRating = 9;
 
 /**

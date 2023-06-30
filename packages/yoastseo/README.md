@@ -13,11 +13,13 @@ Text analysis and assessment library in JavaScript. This library can generate in
 Also included is a preview of the Google search results which can be assessed using the library.
 
 ## Documentation
-* A list of all the [assessors](src/scoring/README.md)
+* A list of all the [assessors](src/scoring/ASSESSORS%20OVERVIEW.md)
 * Information on the [scoring system of the assessments](src/scoring/assessments/README.md)
   * [SEO analysis scoring](src/scoring/assessments/SCORING%20SEO.md)
   * [Readability analysis scoring](src/scoring/assessments/SCORING%20READABILITY.md)
   * [Inclusive language analysis scoring](src/scoring/assessments/SCORING%20INCLUSIVE%20LANGUAGE.md)
+  * [How keyphrase matching works](src/scoring/assessments/KEYPHRASE%20MATCHING.md)
+  * [Scoring on taxonomy pages](src/scoring/assessments/SCORING%20TAXONOMY.md)
 * The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
 * Information on the design decisions within the package can be found [here](DESIGN%20DECISIONS.md).
 * Information on how morphology works in `yoastseo` package can be found [here](MORPHOLOGY.md).
