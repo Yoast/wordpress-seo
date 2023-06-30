@@ -6,7 +6,7 @@ import { isEmpty } from "lodash";
 import moment from "moment";
 
 /* Yoast dependencies */
-import { SvgIcon, Toggle } from "@yoast/components";
+import { Checkbox, SvgIcon, Toggle } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 
 /* Internal dependencies */
@@ -29,6 +29,12 @@ export const PositionChangeValue = styled.span`
 	line-height: 20px;
 	margin-right: 2px;
 	margin-left: 12px;
+`;
+
+const SelectKeyphraseCheckboxWrapper = styled.td`
+	& > div {
+		margin: 0px;
+	}
 `;
 
 /**
@@ -257,9 +263,15 @@ export default function WincherTableRow( props ) {
 		isFocusKeyphrase,
 		isDisabled,
 		isLoading,
+		selectedKeyphrases,
+		onSelectKeyphrases,
 	} = props;
 
 	const isEnabled  = ! isEmpty( rowData );
+
+	const isSelected = selectedKeyphrases.includes( keyphrase );
+
+	const hasHistory = ! isEmpty( rowData?.position?.history );
 
 	const toggleAction = useCallback(
 		() => {
@@ -276,7 +288,25 @@ export default function WincherTableRow( props ) {
 		[ keyphrase, onTrackKeyphrase, onUntrackKeyphrase, isEnabled, rowData, isDisabled ]
 	);
 
+	/**
+	 * Fires when checkbox value changes
+	 *
+	 * @returns {void}
+	 */
+	const onChange = useCallback( () => {
+		onSelectKeyphrases( prev => isSelected ? prev.filter( e => e !== keyphrase ) : prev.concat( keyphrase ) );
+	}, [ onSelectKeyphrases, isSelected, keyphrase ] );
+
 	return <tr>
+		<SelectKeyphraseCheckboxWrapper>
+			{ hasHistory && <Checkbox
+				id={ "select-" + keyphrase }
+				onChange={ onChange }
+				checked={ isSelected }
+				label=""
+			/> }
+		</SelectKeyphraseCheckboxWrapper>
+
 		<td className="yoast-table--nopadding">
 			{ renderToggleState( { keyphrase, isEnabled, toggleAction, isLoading } ) }
 		</td>
@@ -296,6 +326,8 @@ WincherTableRow.propTypes = {
 	isLoading: PropTypes.bool,
 	// eslint-disable-next-line react/no-unused-prop-types
 	websiteId: PropTypes.string,
+	selectedKeyphrases: PropTypes.arrayOf( PropTypes.string ).isRequired,
+	onSelectKeyphrases: PropTypes.func.isRequired,
 };
 
 WincherTableRow.defaultProps = {

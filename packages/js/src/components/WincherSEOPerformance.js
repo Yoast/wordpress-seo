@@ -1,7 +1,7 @@
 /* global wpseoAdminL10n */
 
 /* External dependencies */
-import { useCallback, useEffect, useState } from "@wordpress/element";
+import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { isEmpty, orderBy } from "lodash";
@@ -26,7 +26,7 @@ import { authenticate, getAuthorizationUrl, trackKeyphrases } from "../helpers/w
 import { handleAPIResponse } from "../helpers/api";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
 import WincherNoPermalinkAlert from "./modals/WincherNoPermalinkAlert";
-import LineChart from "./WincherRankingHistory";
+import WincherRankingHistoryChart from "./WincherRankingHistoryChart";
 
 /**
  * Gets the proper error message component.
@@ -230,6 +230,17 @@ const Title = styled.div`
 	font-size: var(--yoast-font-size-default);
 `;
 
+const WincherChartSettings = styled.div.attrs( { className: "yoast-field-group" } )`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 14px;
+`;
+
+const ChartWrapper = styled.div`
+	margin: 0 20px;
+`;
+
 const START_OF_TODAY = moment().startOf( "day" );
 
 const WINCHER_PERIOD_OPTIONS = [
@@ -274,27 +285,25 @@ const WincherPeriodPicker = ( props ) => {
 	}
 
 	return (
-		<div className="yoast-field-group">
-			<select
-				className="components-select-control__input"
-				id="wincher-period-picker"
-				value={ selected?.value || options[ 0 ].value }
-				onChange={ onSelect }
-			>
-				{
-					options.map( opt => {
-						return (
-							<option
-								key={ opt.name }
-								value={ opt.value }
-							>
-								{ opt.name }
-							</option>
-						);
-					} )
-				}
-			</select>
-		</div>
+		<select
+			className="components-select-control__input"
+			id="wincher-period-picker"
+			value={ selected?.value || options[ 0 ].value }
+			onChange={ onSelect }
+		>
+			{
+				options.map( opt => {
+					return (
+						<option
+							key={ opt.name }
+							value={ opt.value }
+						>
+							{ opt.name }
+						</option>
+					);
+				} )
+			}
+		</select>
 	);
 };
 
@@ -306,6 +315,38 @@ WincherPeriodPicker.propTypes = {
 };
 
 /**
+ * Displays the Wincher show ranking history button.
+ *
+ * @param {Object} props The component props.
+ *
+ * @returns {null|wp.Element} The Wincher show ranking history button.
+ */
+const WincherShowRankingHistory = ( props ) => {
+	const { selectedKeyphrases, isLoggedIn, isChartShown, setIsChartShown } = props;
+
+	if ( ! isLoggedIn ) {
+		return null;
+	}
+
+	const title = isChartShown ? __( "Hide ranking history", "wordpress-seo" ) : __( "Show ranking history", "wordpress-seo" );
+
+	const onClick = useCallback( () => {
+		setIsChartShown( prev => ! prev );
+	}, [ setIsChartShown ] );
+
+	return (
+		<NewButton variant="secondary" onClick={ onClick } disabled={ ! isChartShown && selectedKeyphrases.length === 0 }>{ title }</NewButton>
+	);
+};
+
+WincherShowRankingHistory.propTypes = {
+	selectedKeyphrases: PropTypes.arrayOf( PropTypes.string ).isRequired,
+	isLoggedIn: PropTypes.bool.isRequired,
+	isChartShown: PropTypes.bool.isRequired,
+	setIsChartShown: PropTypes.func.isRequired,
+};
+
+/**
  * Creates the table content.
  *
  * @param {Object} props The props to use.
@@ -314,6 +355,7 @@ WincherPeriodPicker.propTypes = {
  */
 const TableContent = ( props ) => {
 	const {
+		trackedKeyphrases,
 		isLoggedIn,
 		keyphrases,
 		shouldTrackAll,
@@ -339,29 +381,80 @@ const TableContent = ( props ) => {
 
 	const [ period, setPeriod ] = useState( defaultPeriod );
 
+	const [ selectedKeyphrases, setSelectedKeyphrases ] = useState( [] );
+
+	const [ isChartShown, setIsChartShown ] = useState( false );
+
 	useEffect( () => {
 		setPeriod( defaultPeriod );
 	}, [ defaultPeriod?.name ] );
 
-	const onSelect = useCallback( ( event ) => {
+	useEffect( () => {
+		if ( isChartShown && selectedKeyphrases.length === 0 ) {
+			setIsChartShown( false );
+		}
+	}, [ isChartShown, setIsChartShown, selectedKeyphrases ] );
+
+	const onSelectPeriod = useCallback( ( event ) => {
 		const option = WINCHER_PERIOD_OPTIONS.find( opt => opt.value === event.target.value );
 		if ( option ) {
 			setPeriod( option );
 		}
 	}, [ setPeriod ] );
 
+	const chartData = useMemo( () => {
+		if ( isEmpty( selectedKeyphrases ) ) {
+			return [];
+		}
+		if ( isEmpty( trackedKeyphrases ) ) {
+			return [];
+		}
+		return Object.values( trackedKeyphrases ).filter( keyphrase => selectedKeyphrases.includes( keyphrase.keyword ) )
+			.filter( keyphrase => ! isEmpty( keyphrase.position?.history ) )
+			.map( keyphrase => ( {
+				label: keyphrase.keyword,
+				data: keyphrase.position.history,
+			} ) );
+	}, [ selectedKeyphrases, trackedKeyphrases ] );
+
 	return <TableWrapper isDisabled={ ! isLoggedIn }>
 		<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
 
 		{ isLoggedIn && shouldTrackAll && <WincherAutoTrackingEnabledAlert /> }
 
-		<WincherPeriodPicker selected={ period } onSelect={ onSelect } options={ periodOptions } isLoggedIn={ isLoggedIn } />
+		<WincherChartSettings>
+			<WincherPeriodPicker
+				selected={ period }
+				onSelect={ onSelectPeriod }
+				options={ periodOptions }
+				isLoggedIn={ isLoggedIn }
+			/>
+			<WincherShowRankingHistory
+				selectedKeyphrases={ selectedKeyphrases }
+				isChartShown={ isChartShown }
+				setIsChartShown={ setIsChartShown }
+				isLoggedIn={ isLoggedIn }
+			/>
+		</WincherChartSettings>
 
-		<WincherKeyphrasesTable startAt={ period?.value } />
+		<ChartWrapper>
+			<WincherRankingHistoryChart
+				isChartShown={ isChartShown }
+				datasets={ chartData }
+			/>
+		</ChartWrapper>
+
+		<WincherKeyphrasesTable
+			startAt={ period?.value }
+			selectedKeyphrases={ selectedKeyphrases }
+			onSelectKeyphrases={ setSelectedKeyphrases }
+			trackedKeyphrases={ trackedKeyphrases }
+		/>
 	</TableWrapper>;
 };
 
 TableContent.propTypes = {
+	trackedKeyphrases: PropTypes.object,
 	keyphrases: PropTypes.array.isRequired,
 	isLoggedIn: PropTypes.bool.isRequired,
 	shouldTrackAll: PropTypes.bool.isRequired,
@@ -401,19 +494,6 @@ export default function WincherSEOPerformance( props ) {
 				/>
 			</Title>
 
-			<LineChart
-				data={ [
-					{
-						datetime: "2023-03-27T02:54:44Z",
-						value: 77,
-					},
-					{
-						datetime: "2023-04-11T02:37:15Z",
-						value: 20,
-					},
-				] }
-			/>
-
 			<WincherExplanation />
 
 			<ConnectToWincher isLoggedIn={ isLoggedIn } onLogin={ onLoginCallback } />
@@ -424,6 +504,7 @@ export default function WincherSEOPerformance( props ) {
 }
 
 WincherSEOPerformance.propTypes = {
+	trackedKeyphrases: PropTypes.object,
 	addTrackedKeyphrase: PropTypes.func.isRequired,
 	isLoggedIn: PropTypes.bool,
 	isNewlyAuthenticated: PropTypes.bool,
@@ -435,6 +516,7 @@ WincherSEOPerformance.propTypes = {
 };
 
 WincherSEOPerformance.defaultProps = {
+	trackedKeyphrases: null,
 	isLoggedIn: false,
 	isNewlyAuthenticated: false,
 	keyphrases: [],
