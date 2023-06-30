@@ -43,6 +43,7 @@
     "babel-polyfill": "^6.26.0",
     "bowser": "^2.11.0",
     "chart.js": "^4.2.1",
+    "chartjs-adapter-moment": "^1.0.1",
     "classnames": "^2.3.2",
     "draft-js": "^0.11.7",
     "find-with-regex": "~1.0.2",
