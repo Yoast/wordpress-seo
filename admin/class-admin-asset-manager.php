@@ -245,6 +245,7 @@ class WPSEO_Admin_Asset_Manager {
 			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
 			'wincher-dashboard-widget' => [ self::PREFIX . 'api-client' ],
 			'editor-modules'           => [ 'jquery' ],
+			'new-features-modal'       => [ self::PREFIX . 'api-client' ],
 			'elementor'                => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'externals-components',
