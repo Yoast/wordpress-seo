@@ -1021,6 +1021,7 @@ class WPSEO_Upgrade {
 			if ( empty( get_option( 'wpseo_premium', [] ) ) ) {
 				WPSEO_Options::set( 'enable_ai_generator', true );
 			}
+			$this->set_show_new_features_modal();
 		}
 
 	/**
@@ -1662,6 +1663,22 @@ class WPSEO_Upgrade {
 			array_merge( array_values( $object_ids ), array_values( $newest_indexable_ids ), [ $object_type ] )
 		);
 		// phpcs:enable
+	}
+
+	/**
+	 * Sets the visibility of the new features modal for all the users.
+	 *
+	 * @return void
+	 */
+	private function set_show_new_features_modal() {
+
+		$users = get_users( [ 'capability' => [ 'edit_posts' ] ] );
+
+		if ( is_array( $users ) && $users !== [] ) {
+			foreach ( $users as $user ) {
+				update_user_meta( $user->ID, 'yoast_should_show_new_features_modal', true );
+			}
+		}
 	}
 
 	/**
