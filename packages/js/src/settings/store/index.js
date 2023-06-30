@@ -11,8 +11,8 @@ import defaultSettingValues, {
 } from "./default-setting-values";
 import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
-import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
-import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
+import notifications, { getInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
+import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors, postTypeControls } from "./post-types";
 import pageReducer, { getPageInitialState, PAGE_NAME, pageActions, pageControls, pageSelectors } from "./pages";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import replacementVariables, {
@@ -22,7 +22,7 @@ import replacementVariables, {
 } from "./replacement-variables";
 import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from "./schema";
 import search, { createInitialSearchState, searchActions, searchSelectors } from "./search";
-import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors } from "./taxonomies";
+import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors, taxonomyControls } from "./taxonomies";
 import users, { createInitialUsersState, usersActions, usersControls, usersSelectors } from "./users";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
@@ -71,7 +71,7 @@ const createStore = ( { initialState } ) => {
 				fallbacks: createInitialFallbacksState(),
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				media: createInitialMediaState(),
-				notifications: createInitialNotificationsState(),
+				notifications: getInitialNotificationsState(),
 				[ PAGE_NAME ]: getPageInitialState(),
 				postTypes: createInitialPostTypesState(),
 				preferences: createInitialPreferencesState(),
@@ -101,6 +101,8 @@ const createStore = ( { initialState } ) => {
 		controls: {
 			...mediaControls,
 			...usersControls,
+			...postTypeControls,
+			...taxonomyControls,
 			...pageControls,
 		},
 	} );

@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.2
-Stable tag: 20.9
+Stable tag: 20.10
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -245,14 +245,30 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 20.11 =
+
+Release date: 2023-07-11
+
+#### Enhancements
+
+* Adds a notification in the settings when ever there is a new content type.
+* Adds badges to new content types in the settings page.
+* Adds notification for new content in the notification center and removes it once it was reviewed.
+
+#### Bugfixes
+
+* Fixes a bug where placeholders would be displayed in the wrong color in the Yoast SEO settings and the First-time configuration.
+* Fixes a bug where placeholder would have the wrong color when adding social profiles in first time configuration.
+
 = 20.10 =
 
 Release date: 2023-06-27
 
+Upgrade now to Yoast SEO 20.10! This latest release includes fixes, enhancements to the crawl optimization settings, and a brand-new support page that helps you get support quickly. Find out more about what's new in Yoast SEO 20.10 in [our release post](https://yoa.st/release-27-6-23)!
+
 #### Enhancements
 
-* Adds a support page to the Yoast admin.
-* Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
+* Adds a support page to the Yoast admin. This page allows you to easily access Yoast FAQs and support resources from the WordPress admin.
 * Excludes the Yoast SEO Breadcrumbs widget from the content analysis in Elementor Pro.
 * Expands the list of HTML elements excluded from the content analysis.
 * Introduces a new setting for crawl optimization, that disallows AdsBot crawling when enabled.
@@ -261,6 +277,7 @@ Release date: 2023-06-27
 
 #### Bugfixes
 
+* Fixes a bug where adding a link in the block editor would result in displaying the URL instead of the post title.
 * Fixes a bug where deletion notice would not appear when deleting a term when the `term_id` is different from `taxonomy_term_id`.
 * Fixes a bug where terms with custom canonical URLs would get added in the sitemap.
 * Fixes a bug where the WordPress native sitemap would not work properly after Yoast SEO was deactivated, until rewrite rules were flushed.
@@ -268,26 +285,8 @@ Release date: 2023-06-27
 
 #### Other
 
+* Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
 * Deprecates the `Old_Premium_Integration`.
-
-= 20.9 =
-
-Release date: 2023-06-13
-
-In Yoast SEO 20.9, you'll find improvements to our Wincher integration. We've added a dashboard widget to track your keyphrase rankings. We've also done the usual fixes and made enhancements. Find out more about what's new in Yoast SEO 20.9 in [our release post](https://yoa.st/release-13-6-23)!
-
-#### Enhancements
-
-* Adds a new widget on the dashboard that shows your top keywords added to Yoast SEO with Wincher. Provides a connection button if you haven't yet connected your site to Wincher.
-* Tightens crawl optimization site search blocking rules.
-* We now automatically schedule background performance optimization processes (via WP Cron).
-
-#### Bugfixes
-
-* Fixes a bug where a fatal error would occur after updating the plugin due to a failed query.
-* Fixes a bug where indexables would be created when using the `wp yoast index` WP CLI command on a staging site.
-* Fixes a bug where the link popover position in the block editor would be positioned incorrectly when adding or creating links.
-* Fixes a bug where the Yoast SEO metabox would crash in conjunction with Yoast SEO Premium when additional keyphrases are stored in the DB in a malformed way.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

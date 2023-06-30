@@ -2,7 +2,7 @@
 import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
 import apiFetch from "@wordpress/api-fetch";
 import { buildQueryString } from "@wordpress/url";
-import { map, trim } from "lodash";
+import { map, trim, pickBy } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
 
 const pagesAdapter = createEntityAdapter();
@@ -40,6 +40,7 @@ const preparePage = page => (
 		// Fallbacks for page title, because we always need something to show.
 		name: trim( page?.title.rendered ) || page?.slug || page.id,
 		slug: page?.slug,
+		"protected": page?.content?.protected,
 	} );
 
 const pagesSlice = createSlice( {
@@ -95,8 +96,8 @@ pageSelectors.selectPagesWith = createSelector(
 				additionalPages[ page.id ] = { ...page };
 			}
 		} );
-
-		return { ...additionalPages, ...pages };
+		const cleanPages = pickBy( pages, ( value ) => ! value.protected );
+		return { ...additionalPages, ...cleanPages };
 	}
 );
 export const pageActions = {

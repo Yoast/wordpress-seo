@@ -99,15 +99,15 @@ class Verify_Post_Indexables_Command_Handler_Test extends TestCase {
 	 */
 	public function test_handle_with_next_batch() {
 
-		$indexable_list   = new Outdated_Post_Indexables_List();
-		$indexable_mock   = Mockery::mock( Indexable::class );
-		$indexable_mock1   = Mockery::mock( Indexable::class );
-		$indexable_mock2   = Mockery::mock( Indexable::class );
-		$indexable_mock3   = Mockery::mock( Indexable::class );
-		$indexable_list->add_post_indexable( $indexable_mock);
-		$indexable_list->add_post_indexable( $indexable_mock1);
-		$indexable_list->add_post_indexable( $indexable_mock2);
-		$indexable_list->add_post_indexable( $indexable_mock3);
+		$indexable_list  = new Outdated_Post_Indexables_List();
+		$indexable_mock  = Mockery::mock( Indexable::class );
+		$indexable_mock1 = Mockery::mock( Indexable::class );
+		$indexable_mock2 = Mockery::mock( Indexable::class );
+		$indexable_mock3 = Mockery::mock( Indexable::class );
+		$indexable_list->add_post_indexable( $indexable_mock );
+		$indexable_list->add_post_indexable( $indexable_mock1 );
+		$indexable_list->add_post_indexable( $indexable_mock2 );
+		$indexable_list->add_post_indexable( $indexable_mock3 );
 		$this->outdated_post_indexables_repository->expects( 'get_outdated_post_indexables' )
 			->with( $this->command->get_last_batch_count() )
 			->andReturn( $indexable_list );
