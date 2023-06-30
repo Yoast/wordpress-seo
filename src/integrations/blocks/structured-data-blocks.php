@@ -191,11 +191,20 @@ class Structured_Data_Blocks implements Integration_Interface {
 		$duration = \preg_match( $regex, $content, $matches );
 		// Only retrieve the duration when there is a match.
 		if ( $matches ) {
-			$duration = $matches[ 3 ];
-			var_dump( $attributes[ 'defaultDurationText' ], "TEXT" );
+			$duration = $matches[3];
+			$duration = \sprintf(
+			/* translators: */
+				\__( '%s', 'wordpress-seo' ),
+				$duration
+			);
+			$default_duration_text = \sprintf(
+			/* translators: %s: expands to 'Time needed:' */
+				\__( '%s', 'wordpress-seo' ),
+				$attributes['defaultDurationText']
+			);
 			$content = \preg_replace(
 				$regex,
-				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text"> ' . \__( $attributes[ 'defaultDurationText' ], "wordpress-seo" ) . '&nbsp;</span>' . \__( $duration, "wordpress-seo" ) . '</p>',
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text"> ' . $default_duration_text . '&nbsp;</span>' . $duration . '</p>',
 				$content,
 				1
 			);
