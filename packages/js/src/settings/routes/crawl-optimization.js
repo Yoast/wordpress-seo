@@ -227,11 +227,18 @@ const CrawlOptimization = () => {
 				 * %2$s and %3$s both expand to an example within a <code> tag.
 				 */
 				__( "Removes unknown URL parameters via a %1$s redirect. " +
-					"E.g., %2$s will be redirected to %3$s " +
-					"Note that the following commonly-used parameters will not be removed: %4$s, %5$s, %6$s, %7$s, %8$s, %9$s, and %10$s.", "wordpress-seo" ),
+					"E.g., %2$s will be redirected to %3$s ", "wordpress-seo" ),
 				"<code1/>",
 				"<code2/>",
-				"<code3/>",
+				"<code3/>"
+			) +
+			/**
+			 * translators:
+			 * %1$s through %7$s all expand to a parameter name within a <code> tag.
+			 */
+			sprintf(
+				__( "Note that the following commonly-used parameters will not be removed: %1$s, %2$s, %3$s, %4$s, %5$s, %6$s, and %7$s.",
+					"wordpress-seo" ),
 				"<code4/>",
 				"<code5/>",
 				"<code6/>",
@@ -244,13 +251,13 @@ const CrawlOptimization = () => {
 				code1: <Code>301</Code>,
 				code2: <Code variant="block">https://www.example.com/?unknown_parameter=yes</Code>,
 				code3: <Code variant="block">https://www.example.com</Code>,
-				code4: <Code>utm_source</Code>,
-				code5: <Code>utm_medium</Code>,
+				code4: <Code>gclid</Code>,
+				code5: <Code>gtm_debug</Code>,
 				code6: <Code>utm_campaign</Code>,
-				code7: <Code>utm_term</Code>,
-				code8: <Code>utm_content</Code>,
-				code9: <Code>gclid</Code>,
-				code10: <Code>gtm_debug</Code>,
+				code7: <Code>utm_content</Code>,
+				code8: <Code>utm_medium</Code>,
+				code9: <Code>utm_source</Code>,
+				code10: <Code>utm_term</Code>,
 			}
 		),
 		cleanPermalinksExtraVariables: createInterpolateElement(
