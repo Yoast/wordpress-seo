@@ -53,11 +53,11 @@ class Wincher_Account_Action {
 			$history = $results['limits']['history_days'];
 
 			return (object) [
-				'canTrack'  	=> \is_null( $limit ) || $usage < $limit,
-				'limit'     	=> $limit,
-				'usage'     	=> $usage,
-				'historyDays'	=> $history,
-				'status'    	=> 200,
+				'canTrack'    => \is_null( $limit ) || $usage < $limit,
+				'limit'       => $limit,
+				'usage'       => $usage,
+				'historyDays' => $history,
+				'status'      => 200,
 			];
 		} catch ( \Exception $e ) {
 			return (object) [
