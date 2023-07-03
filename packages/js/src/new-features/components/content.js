@@ -1,19 +1,18 @@
-import PropTypes from "prop-types";
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { makeOutboundLink } from "@yoast/helpers";
-import { Badge, Button } from "@yoast/ui-library";
+import { Badge, Button, useModalContext } from "@yoast/ui-library";
 import { get } from "lodash";
+import PropTypes from "prop-types";
 
-/** NewFeaturesModalContent modal
- *
- * @param {func} onClose The callback for the close action.
- *
+/**
+ * @param {function|Object} focusElementRef The ref to fill, that will get focused on opening the modal.
  * @returns {JSX.Element} The element.
-*/
-export const NewFeaturesModalContent = ( { onClose, focusElementRef } ) => {
+ */
+export const Content = ( { focusElementRef } ) => {
+	const { onClose } = useModalContext();
 	const pluginUrl = get( window, "wpseoScriptData.pluginUrl", "" );
 	const learnMoreLink = "https://www.yoa.st/ai-generator-learn-more";
 
@@ -25,7 +24,7 @@ export const NewFeaturesModalContent = ( { onClose, focusElementRef } ) => {
 			<div className="yst-relative yst-mt-10">
 				<img
 					className="yst-rounded-md yst-drop-shadow-md"
-					src={ `${pluginUrl}/images/ai-generator-preview.png` }
+					src={ `${ pluginUrl }/images/ai-generator-preview.png` }
 					width="432"
 					height="244"
 					alt=""
@@ -38,7 +37,9 @@ export const NewFeaturesModalContent = ( { onClose, focusElementRef } ) => {
 				</Badge>
 			</div>
 			<div className="yst-mt-6 ">
-				<span className="yst-uppercase yst-text-[12px] yst-font-medium yst-text-slate-500">{ __( "New to Yoast SEO Premium", "wordpress-seo" ) }</span>
+				<span
+					className="yst-uppercase yst-text-[12px] yst-font-medium yst-text-slate-500"
+				>{ __( "New to Yoast SEO Premium", "wordpress-seo" ) }</span>
 				&nbsp;
 				<span className="yst-uppercase yst-text-slate-700 yst-font-medium yst-text-[12px]">20.X</span>
 			</div>
@@ -61,7 +62,8 @@ export const NewFeaturesModalContent = ( { onClose, focusElementRef } ) => {
 						// eslint-disable-next-line jsx-a11y/anchor-has-content
 						a: <LearnMoreOutboundLink
 							href={ learnMoreLink }
-							className="yst-no-underline yst-font-medium yst-text-[13px] yst-text-primary-500" target="_blank" rel="noopener noreferrer"
+							className="yst-no-underline yst-font-medium yst-text-[13px] yst-text-primary-500" target="_blank"
+							rel="noopener noreferrer"
 						/>,
 						ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-inline-block yst-ml-1 yst-w-3, yst-h-3" />,
 					}
@@ -99,8 +101,6 @@ export const NewFeaturesModalContent = ( { onClose, focusElementRef } ) => {
 		</div>
 	);
 };
-
-NewFeaturesModalContent.propTypes = {
-	onClose: PropTypes.func.isRequired,
+Content.propTypes = {
 	focusElementRef: PropTypes.oneOfType( [ PropTypes.func, PropTypes.object ] ).isRequired,
 };

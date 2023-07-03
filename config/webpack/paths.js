@@ -36,7 +36,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"installation-success": `${ sourceDirectory }/installation-success.js`,
 	"integrations-page": `${ sourceDirectory }/integrations-page.js`,
 	"network-admin": `${ sourceDirectory }/network-admin.js`,
-	"new-features-modal": `${ sourceDirectory }/new-features-modal.js`,
+	"new-features": `${ sourceDirectory }/new-features/initialize.js`,
 	"post-edit": `${ sourceDirectory }/post-edit.js`,
 	"quick-edit-handler": `${ sourceDirectory }/quick-edit-handler.js`,
 	"reindex-links": `${ sourceDirectory }/reindex-links.js`,
