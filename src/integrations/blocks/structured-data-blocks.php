@@ -173,20 +173,47 @@ class Structured_Data_Blocks implements Integration_Interface {
 		return $this->optimize_images( $attributes['questions'], 'answer', $content );
 	}
 
+	/**
+	 * Transforms the durations into a translated string containing the count, and either singular or plural unit.
+	 * For example (in en-US): If 'days' is 1, it returns "1 day". If 'days' is 2, it returns "2 days".
+	 *
+	 * @param number $days Number of days.
+	 * @param number $hours Number of hours.
+	 * @param number $minutes Number of minutes.
+	 * @return array Array of pluralized durations.
+	 */
 	private function transform_duration_to_string( $days, $hours, $minutes ) {
 		$strings = [];
 		if ( $days !== 0 ) {
-			$strings[] = sprintf( \_n( '%d day', '%d days', $days, 'wordpress-seo' ), $days );
+			$strings[] = \sprintf(
+			/* translators: %d expands to the number of day/days. */
+				\_n( '%d day', '%d days', $days, 'wordpress-seo' ),
+				$days
+			);
 		}
 		if ( $hours !== 0 ) {
-			$strings[] = \sprintf( \_n( '%d hour', '%d hours', $hours, 'wordpress-seo' ), $hours );
+			$strings[] = \sprintf(
+			/* translators: %d expands to the number of hour/hours. */
+				\_n( '%d hour', '%d hours', $hours, 'wordpress-seo' ),
+				$hours
+			);
 		}
 		if ( $minutes !== 0 ) {
-			$strings[] = \sprintf( \_n( '%d minute', '%d minutes', $minutes, 'wordpress-seo' ), $minutes );
+			$strings[] = \sprintf(
+			/* translators: %d expands to the number of minute/minutes. */
+				\_n( '%d minute', '%d minutes', $minutes, 'wordpress-seo' ),
+				$minutes
+			);
 		}
 		return $strings;
 	}
 
+	/**
+	 * Formats the durations into a translated string.
+	 *
+	 * @param array $attributes The attributes.
+	 * @return string The formatted duration.
+	 */
 	private function build_duration_string( $attributes ) {
 		$elements        = $this->transform_duration_to_string( $attributes['days'], $attributes['hours'], $attributes['minutes'] );
 		$elements_length = count( $elements );
@@ -197,7 +224,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 		if ( $elements_length === 2 ) {
 			return \sprintf(
 			/* translators: %s expands to a unit of time (e.g. 1 day). */
-				__( '%1$s and %2$s', 'wordpress-seo' ),
+				\__( '%1$s and %2$s', 'wordpress-seo' ),
 				...$elements
 			);
 		}
@@ -224,11 +251,11 @@ class Structured_Data_Blocks implements Integration_Interface {
 			return $content;
 		}
 
-		$regex         = '/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/';
-		$duration      = $this->build_duration_string( $attributes );
-		$duration_text = \__( 'Time needed:', 'wordpress-seo' );
+		$duration = $this->build_duration_string( $attributes );
+		// 'Time needed:' is the default duration text that will be shown if a user doesn't add one.
+		$duration_text = ( ! $attributes['durationText'] ) ? ( \__( 'Time needed:', 'wordpress-seo' ) ) : ( $attributes['durationText'] );
 		$content       = \preg_replace(
-			$regex,
+			'/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/',
 			'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">' . $duration_text . '&nbsp;</span>' . $duration . '</p>',
 			$content,
 			1
