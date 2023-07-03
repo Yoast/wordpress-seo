@@ -176,6 +176,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	/**
 	 * Transforms the durations into a translated string containing the count, and either singular or plural unit.
 	 * For example (in en-US): If 'days' is 1, it returns "1 day". If 'days' is 2, it returns "2 days".
+	 * If a number value is 0, we don't output the string.
 	 *
 	 * @param number $days Number of days.
 	 * @param number $hours Number of hours.
@@ -184,21 +185,21 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 */
 	private function transform_duration_to_string( $days, $hours, $minutes ) {
 		$strings = [];
-		if ( $days !== 0 ) {
+		if ( \intval( $days ) !== 0 ) {
 			$strings[] = \sprintf(
 			/* translators: %d expands to the number of day/days. */
 				\_n( '%d day', '%d days', $days, 'wordpress-seo' ),
 				$days
 			);
 		}
-		if ( $hours !== 0 ) {
+		if ( \intval( $hours ) !== 0 ) {
 			$strings[] = \sprintf(
 			/* translators: %d expands to the number of hour/hours. */
 				\_n( '%d hour', '%d hours', $hours, 'wordpress-seo' ),
 				$hours
 			);
 		}
-		if ( $minutes !== 0 ) {
+		if ( \intval( $minutes ) !== 0 ) {
 			$strings[] = \sprintf(
 			/* translators: %d expands to the number of minute/minutes. */
 				\_n( '%d minute', '%d minutes', $minutes, 'wordpress-seo' ),
@@ -253,8 +254,11 @@ class Structured_Data_Blocks implements Integration_Interface {
 
 		$duration = $this->build_duration_string( $attributes );
 		// 'Time needed:' is the default duration text that will be shown if a user doesn't add one.
-		$duration_text = ( ! $attributes['durationText'] ) ? ( \__( 'Time needed:', 'wordpress-seo' ) ) : ( $attributes['durationText'] );
-		$content       = \preg_replace(
+		$duration_text = \__( 'Time needed:', 'wordpress-seo' );
+		if ( array_key_exists( 'durationText', $attributes ) && $attributes['durationText'] !== '' ) {
+			$duration_text = $attributes['durationText'];
+		}
+		$content = \preg_replace(
 			'/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/',
 			'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">' . $duration_text . '&nbsp;</span>' . $duration . '</p>',
 			$content,
