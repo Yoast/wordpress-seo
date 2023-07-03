@@ -216,7 +216,10 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @return string The formatted duration.
 	 */
 	private function build_duration_string( $attributes ) {
-		$elements        = $this->transform_duration_to_string( $attributes['days'], $attributes['hours'], $attributes['minutes'] );
+		$days            = ( isset( $attributes['days'] ) ) ? ( $attributes['days'] ) : ( 0 );
+		$hours           = ( isset( $attributes['hours'] ) ) ? ( $attributes['hours'] ) : ( 0 );
+		$minutes         = ( isset( $attributes['minutes'] ) ) ? ( $attributes['minutes'] ) : ( 0 );
+		$elements        = $this->transform_duration_to_string( $days, $hours, $minutes );
 		$elements_length = count( $elements );
 
 		if ( $elements_length === 1 ) {
@@ -255,9 +258,11 @@ class Structured_Data_Blocks implements Integration_Interface {
 		$duration = $this->build_duration_string( $attributes );
 		// 'Time needed:' is the default duration text that will be shown if a user doesn't add one.
 		$duration_text = \__( 'Time needed:', 'wordpress-seo' );
-		if ( array_key_exists( 'durationText', $attributes ) && $attributes['durationText'] !== '' ) {
+
+		if ( isset( $attributes['durationText'] ) && $attributes['durationText'] !== '' ) {
 			$duration_text = $attributes['durationText'];
 		}
+
 		$content = \preg_replace(
 			'/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/',
 			'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">' . $duration_text . '&nbsp;</span>' . $duration . '</p>',
