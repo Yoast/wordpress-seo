@@ -8,6 +8,7 @@ import WincherTableRow, {
 } from "../../src/components/WincherTableRow";
 import { Toggle } from "@yoast/components";
 import WincherSEOPerformanceLoading from "../../src/components/modals/WincherSEOPerformanceLoading";
+import { noop } from "lodash";
 
 const keyphrasesData = {
 	"yoast seo": {
@@ -44,6 +45,8 @@ describe( "WincherTableRow", () => {
 		const component = shallow( <WincherTableRow
 			rowData={ keyphrasesData[ "woocommerce seo" ] }
 			keyphrase="woocommerce seo"
+			selectedKeyphrases={ [] }
+			onSelectKeyphrases={ noop }
 		/> );
 
 		expect( component.find( "td" ).length ).toEqual( 3 );
@@ -55,6 +58,8 @@ describe( "WincherTableRow", () => {
 		const component = shallow( <WincherTableRow
 			rowData={ keyphrasesData[ "yoast seo" ] }
 			keyphrase="yoast seo"
+			selectedKeyphrases={ [] }
+			onSelectKeyphrases={ noop }
 		/> );
 
 		expect( component.find( "td" ).length ).toEqual( 6 );
@@ -74,6 +79,8 @@ describe( "WincherTableRow", () => {
 		const component = shallow( <WincherTableRow
 			rowData={ {} }
 			keyphrase="yoast seo"
+			selectedKeyphrases={ [] }
+			onSelectKeyphrases={ noop }
 		/> );
 
 		expect( component.find( "td" ).length ).toEqual( 6 );
