@@ -58,6 +58,7 @@ export async function authenticate( responseData ) {
  * Gets the tracked keyphrases data via POST.
  *
  * @param {Array}   keyphrases     The keyphrases to get the data for.
+ * @param {string}  startAt     The keyphrases to get the data for.
  * @param {String}  permalink  	The post's/page's permalink. Optional.
  * @param {AbortSignal} signal (optional) Abort signal.
  *
