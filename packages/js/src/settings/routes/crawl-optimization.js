@@ -230,7 +230,7 @@ const CrawlOptimization = () => {
 				"<code1/>",
 				"<code2/>",
 				"<code3/>"
-			) + " " +
+			) +
 			sprintf(
 				/**
 				 * translators:
