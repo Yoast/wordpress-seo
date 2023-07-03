@@ -232,11 +232,11 @@ const CrawlOptimization = () => {
 				"<code2/>",
 				"<code3/>"
 			) + " " +
-			/**
-			 * translators:
-			 * %1$s through %7$s each expand to a parameter name within a <code> tag.
-			 */
 			sprintf(
+				/**
+				 * translators:
+				 * %1$s through %7$s each expand to a parameter name within a <code> tag. For example <code>gclid</code>.
+				 */
 				__( "Note that the following commonly-used parameters will not be removed: %1$s, %2$s, %3$s, %4$s, %5$s, %6$s, and %7$s.",
 					"wordpress-seo" ),
 				"<code4/>",
