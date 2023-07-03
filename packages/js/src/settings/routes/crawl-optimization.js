@@ -227,11 +227,11 @@ const CrawlOptimization = () => {
 				 * %2$s and %3$s both expand to an example within a <code> tag.
 				 */
 				__( "Removes unknown URL parameters via a %1$s redirect. " +
-					"E.g., %2$s will be redirected to %3$s ", "wordpress-seo" ),
+					"E.g., %2$s will be redirected to %3$s", "wordpress-seo" ),
 				"<code1/>",
 				"<code2/>",
 				"<code3/>"
-			) +
+			) + " " +
 			/**
 			 * translators:
 			 * %1$s through %7$s each expand to a parameter name within a <code> tag.
