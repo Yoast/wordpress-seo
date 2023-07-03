@@ -243,6 +243,31 @@ class Structured_Data_Blocks implements Integration_Interface {
 	}
 
 	/**
+	 * Presents the duration text of the How-To block in the site language.
+	 *
+	 * @param array  $attributes The attributes.
+	 * @param string $content    The content.
+	 *
+	 * @return string The content with the duration text in the site language.
+	 */
+	public function present_duration_text( $attributes, $content ) {
+		$duration = $this->build_duration_string( $attributes );
+		// 'Time needed:' is the default duration text that will be shown if a user doesn't add one.
+		$duration_text = \__( 'Time needed:', 'wordpress-seo' );
+
+		if ( isset( $attributes['durationText'] ) && $attributes['durationText'] !== '' ) {
+			$duration_text = $attributes['durationText'];
+		}
+
+		return \preg_replace(
+			'/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/',
+			'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">' . $duration_text . '&nbsp;</span>' . $duration . '</p>',
+			$content,
+			1
+		);
+	}
+
+	/**
 	 * Optimizes images in the How-To blocks.
 	 *
 	 * @param array  $attributes The attributes.
@@ -255,20 +280,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 			return $content;
 		}
 
-		$duration = $this->build_duration_string( $attributes );
-		// 'Time needed:' is the default duration text that will be shown if a user doesn't add one.
-		$duration_text = \__( 'Time needed:', 'wordpress-seo' );
-
-		if ( isset( $attributes['durationText'] ) && $attributes['durationText'] !== '' ) {
-			$duration_text = $attributes['durationText'];
-		}
-
-		$content = \preg_replace(
-			'/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/',
-			'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">' . $duration_text . '&nbsp;</span>' . $duration . '</p>',
-			$content,
-			1
-		);
+		$content = $this->present_duration_text( $attributes, $content );
 
 		return $this->optimize_images( $attributes['steps'], 'text', $content );
 	}
