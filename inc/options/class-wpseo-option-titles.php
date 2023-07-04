@@ -93,13 +93,13 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'open_graph_frontpage_image'       => '', // Text field.
 		'open_graph_frontpage_image_id'    => 0,
 
-		'publishing_principles_id'         => false,
-		'ownership_funding_info_id'        => false,
-		'actionable_feedback_policy_id'    => false,
-		'corrections_policy_id'            => false,
-		'ethics_policy_id'                 => false,
-		'diversity_policy_id'              => false,
-		'diversity_staffing_report_id'     => false,
+		'publishing_principles_id'         => 0,
+		'ownership_funding_info_id'        => 0,
+		'actionable_feedback_policy_id'    => 0,
+		'corrections_policy_id'            => 0,
+		'ethics_policy_id'                 => 0,
+		'diversity_policy_id'              => 0,
+		'diversity_staffing_report_id'     => 0,
 
 		/*
 		 * Uses enrich_defaults to add more along the lines of:
