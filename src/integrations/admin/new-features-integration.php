@@ -91,7 +91,10 @@ class New_Features_Integration implements Integration_Interface {
 			self::SCRIPT_HANDLE,
 			'wpseoNewFeatures',
 			[
+				'isPremium'  => $this->product_helper->is_premium(),
+				'isRtl'      => \is_rtl(),
 				'linkParams' => $this->short_link_helper->get_query_params(),
+				'pluginUrl'  => \plugins_url( '', \WPSEO_FILE ),
 			]
 		);
 		$this->admin_asset_manager->enqueue_style( 'ai-generator' );

@@ -13,10 +13,11 @@ window.YoastSEO._registerNewFeatureComponent = registerReactComponent;
 domReady( () => {
 	registerStore( {
 		[ LINK_PARAMS_NAME ]: get( window, "wpseoNewFeatures.linkParams", {} ),
+		[ PLUGIN_URL_NAME ]: get( window, "wpseoNewFeatures.pluginUrl", "" ),
 	} );
 
 	const context = {
-		isRtl: Boolean( get( window, "wpseoScriptData.metabox.isRtl", false ) ),
+		isRtl: Boolean( get( window, "wpseoNewFeatures.isRtl", false ) ),
 	};
 
 	const root = document.createElement( "div" );
