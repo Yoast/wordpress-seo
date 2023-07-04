@@ -49,6 +49,14 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 	}, [ value, pages ] );
 
 	const debouncedFetchPages = useCallback( debounce( async search => {
+		if ( search === "" ) {
+			// No need to fetch pages if there is no search term.
+			setQueriedPageIds( map( pages, "id" ) );
+			setValue( 0 );
+			setStatus( ASYNC_ACTION_STATUS.success );
+			return;
+		}
+
 		try {
 			setStatus( ASYNC_ACTION_STATUS.loading );
 			// eslint-disable-next-line camelcase

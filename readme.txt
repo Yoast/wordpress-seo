@@ -251,14 +251,13 @@ Release date: 2023-07-11
 
 #### Enhancements
 
-* Adds a notification in the settings when ever there is a new content type.
+* Adds a notification in the settings whenever there is a new content type.
 * Adds badges to new content types in the settings page.
 * Adds notification for new content in the notification center and removes it once it was reviewed.
 
 #### Bugfixes
 
 * Fixes a bug where placeholders would be displayed in the wrong color in the Yoast SEO settings and the First-time configuration.
-* Fixes a bug where placeholder would have the wrong color when adding social profiles in first time configuration.
 
 = 20.10 =
 

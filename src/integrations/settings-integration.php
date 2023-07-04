@@ -542,8 +542,8 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	private function maybe_add_policy( $policies, $policy, $key ) {
 		$policy_array = [
-			'id'   => false,
-			'name' => '',
+			'id'   => 0,
+			'name' => \__( 'None', 'wordpress-seo' ),
 		];
 
 		if ( isset( $policy ) && \is_int( $policy ) ) {
