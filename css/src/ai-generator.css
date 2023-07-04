@@ -27,6 +27,15 @@
 		li, dd {
 			margin-bottom: 0;
 		}
+
+		input[type=checkbox] {
+			@apply
+			yst-min-h-0
+			yst-min-w-0
+			yst-shadow-none
+			yst-transition-none
+			before:yst-content-none;
+		}
 	}
 }
 
