@@ -44,6 +44,8 @@ class Structured_Data_Blocks_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubTranslationFunctions();
+
 		$this->asset_manager = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->image_helper  = Mockery::mock( Image_Helper::class );
 
@@ -76,27 +78,69 @@ class Structured_Data_Blocks_Test extends TestCase {
 	public function how_to_block_provider() {
 		return [
 			[
-				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>1 hour and 20 minutes</p>',
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>',
 				[
 					'durationText'        => 'The amount of time it will take:',
 					'defaultDurationText' => 'Time needed:',
-					'days'                => '0',
-					'hours'               => '1',
-					'minutes'             => '20',
+					'hours'               => 2,
+					'minutes'             => 20,
 				],
-				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">Time needed:&nbsp;</span>1 hour and 20 minutes</p>',
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">Time needed:&nbsp;</span>2 hours and 20 minutes</p>',
 				'A test case for when the non-default duration text is available',
 			],
 			[
 				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">Time needed:&nbsp;</span>1 hour and 20 minutes</p>',
 				[
 					'defaultDurationText' => 'Time needed:',
-					'days'                => '0',
-					'hours'               => '1',
-					'minutes'             => '20',
+					'hours'               => 1,
+					'minutes'             => 20,
 				],
 				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">Time needed:&nbsp;</span>1 hour and 20 minutes</p>',
 				'A test case for when the non-default duration text is not available',
+			],
+			[
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">Time needed:&nbsp;</span>2 days, 1 hour and 20 minutes</p>',
+				[
+					'defaultDurationText' => 'Time needed:',
+					'days'                => 2,
+					'hours'               => 1,
+					'minutes'             => 20,
+				],
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">Time needed:&nbsp;</span>2 days, 1 hour and 20 minutes</p>',
+				'A test case for when the time units for days, hours and minutes are available',
+			],
+			[
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">Time needed:&nbsp;</span>3 hours</p>',
+				[
+					'defaultDurationText' => 'Time needed:',
+					'days'                => 0,
+					'hours'               => 3,
+					'minutes'             => 0,
+				],
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">Time needed:&nbsp;</span>3 hours</p>',
+				'A test case for when the time units are only available for hours',
+			],
+			[
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">Time needed:&nbsp;</span>45 minutes</p>',
+				[
+					'defaultDurationText' => 'Time needed:',
+					'days'                => 0,
+					'hours'               => 0,
+					'minutes'             => 45,
+				],
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">Time needed:&nbsp;</span>45 minutes</p>',
+				'A test case for when the time units are only available for minutes',
+			],
+			[
+				'<p>The <b>Norwegian Forest cat</b> (Norwegian: <i lang="no"><b>Norsk skogskatt</b></i> and <b><span title="Norwegian-language text"><i lang="no">Norsk skaukatt</i></span></b>) is a breed of domestic cat originating in Northern Europe.',
+				[
+					'defaultDurationText' => 'Time needed:',
+					'days'                => 0,
+					'hours'               => 0,
+					'minutes'             => 0,
+				],
+				'<p>The <b>Norwegian Forest cat</b> (Norwegian: <i lang="no"><b>Norsk skogskatt</b></i> and <b><span title="Norwegian-language text"><i lang="no">Norsk skaukatt</i></span></b>) is a breed of domestic cat originating in Northern Europe.',
+				'A test case for when the element with "schema-how-to-total-time" class name is not output in the content',
 			],
 		];
 	}
