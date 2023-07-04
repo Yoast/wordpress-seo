@@ -1,14 +1,19 @@
+import { Fill, Slot } from "@wordpress/components";
 import domReady from "@wordpress/dom-ready";
-import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
-import SlotWithDefault from "../components/slots/SlotWithDefault";
-import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
-import { LINK_PARAMS_NAME } from "../shared-admin/store";
-import { Modal } from "./components";
+import { LINK_PARAMS_NAME, PLUGIN_URL_NAME } from "../shared-admin/store";
+import { Content, Modal } from "./components";
+import { registerReactComponent, renderReactRoot } from "./helpers";
 import { registerStore } from "./store";
 
 window.YoastSEO = window.YoastSEO || {};
-window.YoastSEO._registerNewFeatureComponent = registerReactComponent;
+window.YoastSEO._registerNewFeatureComponent = ( key, Component ) => {
+	/**
+	 * @returns {JSX.Element} The element.
+	 */
+	const NewFeatureWithFill = () => <Fill name="new-feature-slot"><Component /></Fill>;
+	registerReactComponent( key, NewFeatureWithFill );
+};
 
 domReady( () => {
 	registerStore( {
@@ -20,16 +25,18 @@ domReady( () => {
 		isRtl: Boolean( get( window, "wpseoNewFeatures.isRtl", false ) ),
 	};
 
+	const isPremium = get( window, "wpseoNewFeatures.isPremium", false );
+	if ( ! isPremium ) {
+		window.YoastSEO._registerNewFeatureComponent( "ai-generate-title-description", Content );
+	}
+
 	const root = document.createElement( "div" );
-	root.id = "wpseo-new-features-modal";
+	root.id = "wpseo-new-features";
 	document.body.appendChild( root );
 
-	renderReactRoot(
-		"wpseo-new-features-modal",
-		<Root context={ context }>
-			<SlotWithDefault key="new-features-slot" name="new-features-slot">
-				<Modal />
-			</SlotWithDefault>
-		</Root>
-	);
+	renderReactRoot( (
+		<Modal>
+			<Slot key="new-feature-slot" name="new-feature-slot" />
+		</Modal>
+	), root, context );
 } );
