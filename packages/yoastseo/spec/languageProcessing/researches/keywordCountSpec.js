@@ -1,4 +1,4 @@
-import keyphraseCount from "../../../src/languageProcessing/researches/keywordCount";
+import getKeyphraseCount from "../../../src/languageProcessing/researches/keywordCount";
 import Paper from "../../../src/values/Paper.js";
 import factory from "../../specHelpers/factory";
 import Mark from "../../../src/values/Mark";
@@ -298,7 +298,7 @@ describe.each( testCases )( "Test for counting the keyword in a text in english"
 	test( description, function() {
 		const mockResearcher = buildMorphologyMockResearcher( keyphraseForms );
 		buildTree( paper, mockResearcher );
-		const keyWordCountResult = keyphraseCount( paper, mockResearcher );
+		const keyWordCountResult = getKeyphraseCount( paper, mockResearcher );
 		expect( keyWordCountResult.count ).toBe( expectedCount );
 		expect( keyWordCountResult.markings ).toEqual( expectedMarkings );
 	} );
@@ -555,7 +555,7 @@ describe.each( testCasesWithSpecialCharacters )( "Test for counting the keyword 
 		test( description, function() {
 			const mockResearcher = buildMorphologyMockResearcher( keyphraseForms );
 			buildTree( paper, mockResearcher );
-			const keyWordCountResult = keyphraseCount( paper, mockResearcher );
+			const keyWordCountResult = getKeyphraseCount( paper, mockResearcher );
 			expect( keyWordCountResult.count ).toBe( expectedCount );
 			expect( keyWordCountResult.markings ).toEqual( expectedMarkings );
 		} );
@@ -793,7 +793,7 @@ describe.each( testCasesWithLocaleMapping )( "Test for counting the keyword in a
 		test( description, function() {
 			const mockResearcher = buildMorphologyMockResearcher( keyphraseForms );
 			buildTree( paper, mockResearcher );
-			const keyWordCountResult = keyphraseCount( paper, mockResearcher );
+			const keyWordCountResult = getKeyphraseCount( paper, mockResearcher );
 			expect( keyWordCountResult.count ).toBe( expectedCount );
 			expect( keyWordCountResult.markings ).toEqual( expectedMarkings );
 		} );
@@ -831,8 +831,8 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
 
-		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
-		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいいです。",
 				original: "私の猫はかわいいです。" } ) ] );
 	} );
@@ -842,8 +842,8 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
 
-		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 2 );
-		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 2 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいい<yoastmark class='yoast-text-mark'>猫</yoastmark>です。",
 				original: "私の猫はかわいい猫です。",
 				 } ) ] );
@@ -853,16 +853,16 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 		const mockPaper = new Paper( "私の猫はかわいいです。",  { locale: "ja" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "会い" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
-		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 0 );
-		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [] );
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 0 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [] );
 	} );
 
 	it( "counts multiple occurrences of a keyphrase consisting of multiple words.", function() {
 		const mockPaper = new Paper( "<p>私の猫はかわいいですかわいい。</p>",  { locale: "ja" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "かわいい" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
-		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
-		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( {
 				marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>は<yoastmark class='yoast-text-mark'>かわいい</yoastmark>" +
 					"です<yoastmark class='yoast-text-mark'>かわいい</yoastmark>。",
