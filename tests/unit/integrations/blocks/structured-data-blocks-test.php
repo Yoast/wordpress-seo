@@ -71,7 +71,7 @@ class Structured_Data_Blocks_Test extends TestCase {
 	}
 
 	/**
-	 * Data provider for the test_optimize_how_to_images method.
+	 * Data provider for the present_duration_text method.
 	 *
 	 * @return array[]
 	 */
