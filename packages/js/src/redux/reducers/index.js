@@ -1,5 +1,5 @@
 import insights from "../../insights/redux/reducer";
-import { LINK_PARAMS_NAME, linkParamsReducer } from "../../shared-admin/store";
+import { LINK_PARAMS_NAME, linkParamsReducer, PLUGIN_URL_NAME, pluginUrlReducer } from "../../shared-admin/store";
 import analysis from "../reducers/contentAnalysis";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
@@ -47,6 +47,7 @@ export default {
 	isMarkerPaused,
 	isPremium,
 	[ LINK_PARAMS_NAME ]: linkParamsReducer,
+	[ PLUGIN_URL_NAME ]: pluginUrlReducer,
 	postId,
 	marksButtonStatus,
 	preferences,
