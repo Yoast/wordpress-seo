@@ -68,17 +68,18 @@ export function countKeyphraseInText( sentences, keyphraseForms, locale, matchWo
  * @param {Paper}       paper       The paper containing keyphrase and text.
  * @param {Researcher}  researcher  The researcher.
  *
- * @returns {Object} An object containing an array of all the matches, markings and the keyphrase count.
+ * @returns {{count: number, markings: Mark[], keyphraseLength: number}} An object containing the keyphrase count, markings and the kephrase length.
  */
 export default function getKeyphraseCount( paper, researcher ) {
+	const result = { count: 0, markings: [], keyphraseLength: 0 };
 	const topicForms = researcher.getResearch( "morphology" );
-	const keyphraseForms = topicForms.keyphraseForms;
+	let keyphraseForms = topicForms.keyphraseForms;
 	const keyphraseLength = keyphraseForms.length;
 
 	keyphraseForms = keyphraseForms.map( word => word.map( form => normalizeSingle( form ) ) );
 
 	if ( keyphraseLength === 0 ) {
-		return { count: 0, markings: [], length: 0 };
+		return result;
 	}
 
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
@@ -94,11 +95,11 @@ export default function getKeyphraseCount( paper, researcher ) {
 	* */
 	const keyphraseFound = countKeyphraseInText( sentences, keyphraseForms, locale, matchWordCustomHelper, isExactMatchRequested );
 
-	return {
-		count: keyphraseFound.count,
-		markings: flatten( keyphraseFound.markings ),
-		length: keyphraseLength,
-	};
+	result.count = keyphraseFound.count;
+	result.markings = flatten( keyphraseFound.markings );
+	result.keyphraseLength = keyphraseLength;
+
+	return result;
 }
 
 /**
@@ -112,6 +113,6 @@ export default function getKeyphraseCount( paper, researcher ) {
  * @returns {Object} An array of all the matches, markings and the keyphrase count.
  */
 export function keywordCount( paper, researcher ) {
-	console.warn( "This function is deprecated, use keyphraseCount instead." );
+	console.warn( "This function is deprecated, use getKeyphraseCount instead." );
 	return getKeyphraseCount( paper, researcher );
 }

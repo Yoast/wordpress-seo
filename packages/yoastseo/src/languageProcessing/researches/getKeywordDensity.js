@@ -21,7 +21,7 @@ export default function getKeyphraseDensity( paper, researcher ) {
 		return 0;
 	}
 
-	const keyphraseCount = researcher.getResearch( "keyphraseCount" );
+	const keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
 
 	return ( keyphraseCount.count / wordCount ) * 100;
 }
