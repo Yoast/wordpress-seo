@@ -76,6 +76,8 @@ export default function getKeyphraseCount( paper, researcher ) {
 	let keyphraseForms = topicForms.keyphraseForms;
 	const keyphraseLength = keyphraseForms.length;
 
+	// Normalize single quotes so that word form with different type of single quotes can still be matched.
+	// For exmple, "key‛word" should match "key'word".
 	keyphraseForms = keyphraseForms.map( word => word.map( form => normalizeSingle( form ) ) );
 
 	if ( keyphraseLength === 0 ) {

@@ -118,7 +118,7 @@ const matchWordFormsInSentence = ( sentence, wordForms, locale, matchWordCustomH
 			? matchWordCustomHelper( sentence.text, wordForm )
 			: matchWordFormInTokens( tokens, wordForm, locale );
 		result.count += occurrences.length;
-		result.matches = matches.concat( occurrences );
+		result.matches = result.matches.concat( occurrences );
 	} );
 
 	return result;
