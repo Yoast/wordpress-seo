@@ -139,7 +139,8 @@ const matchWordFormsInSentence = ( sentence, wordForms, locale, matchWordCustomH
  *
  * @param {string}		locale					The locale used for transliteration.
  * @param {function}	matchWordCustomHelper	Custom function to match a word form with sentence.
- * @param {boolean}		useExactMatching		Whether to match the keyphrase forms exactly or not. Exact match is used when the keyphrase is enclosed in double quotes.
+ * @param {boolean}		useExactMatching		Whether to match the keyphrase forms exactly or not.
+ * Exact match is used when the keyphrase is enclosed in double quotes.
  *
  * @returns {{count: number, matches: (Token|string)[]}} Object containing the number of the matches and the matched tokens.
  */

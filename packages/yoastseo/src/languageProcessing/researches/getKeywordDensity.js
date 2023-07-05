@@ -16,7 +16,7 @@ export default function getKeyphraseDensity( paper, researcher ) {
 	if ( getWordsCustomHelper ) {
 		wordCount =  getWordsCustomHelper( paper.getText() ).length;
 	} else {
-		wordCount = getAllWordsFromTree( paper ).length
+		wordCount = getAllWordsFromTree( paper ).length;
 	}
 
 	if ( wordCount === 0 ) {
