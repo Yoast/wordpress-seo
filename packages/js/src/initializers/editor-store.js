@@ -39,7 +39,7 @@ const populateStore = store => {
 	store.dispatch( actions.setPostId( Number( get( window, "wpseoScriptData.postId", null ) ) ) );
 
 	store.dispatch( actions.setLinkParams( get( window, "wpseoScriptData.linkParams", {} ) ) );
-	store.dispatch( actions.setPluginUrl( get( window, "wpseoScriptData.pluginUrl", {} ) ) );
+	store.dispatch( actions.setPluginUrl( get( window, "wpseoScriptData.pluginUrl", "" ) ) );
 };
 
 /**

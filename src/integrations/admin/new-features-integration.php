@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -36,6 +37,13 @@ class New_Features_Integration implements Integration_Interface {
 	private $product_helper;
 
 	/**
+	 * Holds the current page helper.
+	 *
+	 * @var Current_Page_Helper
+	 */
+	private $current_page_helper;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * In this case: when on an admin page.
@@ -50,15 +58,18 @@ class New_Features_Integration implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
 	 * @param Product_Helper            $product_helper      The product helper.
 	 * @param Short_Link_Helper         $short_link_helper   The short link helper.
+	 * @param Current_Page_Helper       $current_page_helper The current page helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		Product_Helper $product_helper,
-		Short_Link_Helper $short_link_helper
+		Short_Link_Helper $short_link_helper,
+		Current_Page_Helper $current_page_helper
 	) {
 		$this->admin_asset_manager = $admin_asset_manager;
 		$this->product_helper      = $product_helper;
 		$this->short_link_helper   = $short_link_helper;
+		$this->current_page_helper = $current_page_helper;
 	}
 
 	/**
@@ -67,6 +78,19 @@ class New_Features_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
+		if (
+			\in_array(
+				$this->current_page_helper->get_current_yoast_seo_page(),
+				[
+					'wpseo_installation_successful',
+					'wpseo_installation_successful_free',
+				],
+				true
+			)
+		) {
+			// Bail when on the installation page.
+			return;
+		}
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 	}
 

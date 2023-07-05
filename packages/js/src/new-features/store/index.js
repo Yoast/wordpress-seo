@@ -13,7 +13,7 @@ import {
 	pluginUrlReducer,
 	pluginUrlSelectors,
 } from "../../shared-admin/store";
-import { STORE_NAME } from "../constants";
+import { STORE_NAME_NEW_FEATURES } from "../constants";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -22,7 +22,7 @@ import { STORE_NAME } from "../constants";
  * @returns {WPDataStore} The WP data store.
  */
 const createStore = ( initialState ) => {
-	return createReduxStore( STORE_NAME, {
+	return createReduxStore( STORE_NAME_NEW_FEATURES, {
 		actions: {
 			...linkParamsActions,
 			...pluginUrlActions,

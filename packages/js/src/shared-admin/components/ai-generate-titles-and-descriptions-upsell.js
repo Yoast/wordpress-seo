@@ -40,11 +40,13 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { imageLink, learnMoreLin
 				&nbsp;
 				<span className="yst-uppercase yst-text-slate-700">20.X</span>
 			</div>
-			<h3 className="yst-mt-4 yst-text-slate-900 yst-text-lg yst-font-medium">{ __( "Generate titles & descriptions with Yoast AI!", "wordpress-seo" ) }</h3>
-			<span className="yst-mt-2 yst-mx-14 yst-text-center yst-text-slate-600 yst-text-[13px]">
+			<h3 className="yst-mt-4 yst-text-slate-900 yst-text-lg yst-font-medium">
+				{ __( "Generate titles & descriptions with Yoast AI!", "wordpress-seo" ) }
+			</h3>
+			<span className="yst-mt-2 yst-mx-14 yst-text-center yst-text-slate-600 yst-text-sm">
 				{ createInterpolateElement(
 					sprintf(
-						// translators: %1$s and %2$s are anchor tag; %3$s is the arrow icon.
+						/* translators: %1$s and %2$s are anchor tag; %3$s is the arrow icon. */
 						__(
 							"Speed up your workflow with generative AI. Get high-quality title and description suggestions for your search and social appearance. %1$sLearn more%2$s%3$s",
 							"wordpress-seo"
@@ -74,7 +76,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { imageLink, learnMoreLin
 					target="_blank"
 					ref={ initialFocus }
 				>
-					<LockOpenIcon className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900" />
+					<LockOpenIcon className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5" />
 					{ __( "Unlock with Premium", "wordpress-seo" ) }
 					<span className="yst-sr-only">
 						{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }
