@@ -7,8 +7,10 @@ const markEnd = "</yoastmark>";
 /**
  * Merges consecutive and overlapping markings into one marking.
  * This is a helper for position based highlighting.
+ *
  * @param {Object[]} matches An array of markings to merge.
  * @param {Boolean} useSpace Whether words are separated by a space. In Japanese, for example, words are not separated by a space.
+ *
  * @returns {Mark[]} An array of markings where consecutive and overlapping markings are merged.
  */
 const mergeConsecutiveAndOverlappingMatches = ( matches, useSpace = true ) => {
@@ -41,10 +43,12 @@ const mergeConsecutiveAndOverlappingMatches = ( matches, useSpace = true ) => {
 
 /**
  * This function creates the old style marked sentence for search based highlighting.
+ *
  * Ideally this function becomes obsolete when position based highlighting is implemented everywhere.
  * @param {Sentence} sentence The sentence to which to apply the marks.
  * @param {Object} matches The matches to apply.
  * @param {string} locale The locale of the text.
+ *
  * @returns {string} The sentence with marks applied.
  */
 const createMarksForSentence = ( sentence, matches, locale ) => {
@@ -78,8 +82,10 @@ const createMarksForSentence = ( sentence, matches, locale ) => {
 /**
  * Merges consecutive and overlapping markings into one marking.
  * This is a helper for position based highlighting.
+ *
  * @param {Mark[]} markings An array of markings to merge.
  * @param {Boolean} useSpace Whether words are separated by a space. In Japanese, for example, words are not separated by a space.
+ *
  * @returns {Mark[]} An array of markings where consecutive and overlapping markings are merged.
  */
 const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace = true ) => {
@@ -97,6 +103,7 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace = true ) => 
 		}
 
 		const lastMarking = newMarkings[ newMarkings.length - 1 ];
+
 		if ( lastMarking.getPositionEnd() + ( useSpace ? 1 : 0 ) === marking.getPositionStart() ) {
 			// The marking is consecutive to the last marking, so we extend the last marking to include the new marking.
 			lastMarking.setPositionEnd( marking.getPositionEnd() );

@@ -130,7 +130,7 @@ const matchWordFormsInSentence = ( sentence, wordForms, locale, matchWordCustomH
  * The forms are retrieved higher up (among others in keywordCount.js) with researcher.getResearch( "morphology" ).
  *
  * @param {string} locale The locale used for transliteration.
- * Depends on whether the keyphrase enclosed in double quotes.
+ * Depends on whether the keyphrase is enclosed in double quotes.
  * @param {function} matchWordCustomHelper Custom function to match a word form with sentence.
  * @param {boolean} useExactMatching Whether to match the keyword forms exactly or not.
  *

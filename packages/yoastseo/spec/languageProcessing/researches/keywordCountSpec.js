@@ -408,7 +408,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "counts a string with with '&' in the string and the keyword",
+		description: "counts a string with '&' in the string and the keyword",
 		paper: new Paper( "<p>A string with key&word in it</p>", { keyword: "key&word" } ),
 		keyphraseForms: [ [ "key&word" ] ],
 		expectedCount: 1,
@@ -668,7 +668,7 @@ const testCasesWithLocaleMapping = [
 		skip: false,
 	},
 	{
-		description: "counts a string with with a different forms of Turkish i, kephrase: İstanbul",
+		description: "counts a string with a different forms of Turkish i, kephrase: İstanbul",
 		paper: new Paper( "<p>İstanbul and Istanbul and istanbul and ıstanbul</p>", { keyword: "İstanbul", locale: "tr_TR" } ),
 		keyphraseForms: [ [ "İstanbul" ] ],
 		expectedCount: 4,
@@ -696,7 +696,7 @@ const testCasesWithLocaleMapping = [
 		skip: false,
 	},
 	{
-		description: "counts a string with with a different forms of Turkish i, kephrase: Istanbul",
+		description: "counts a string with a different forms of Turkish i, kephrase: Istanbul",
 		paper: new Paper( "<p>İstanbul and Istanbul and istanbul and ıstanbul</p>", { keyword: "Istanbul", locale: "tr_TR" } ),
 		keyphraseForms: [ [ "Istanbul" ] ],
 		expectedCount: 4,
@@ -724,7 +724,7 @@ const testCasesWithLocaleMapping = [
 		skip: false,
 	},
 	{
-		description: "counts a string with with a different forms of Turkish i, kephrase: istanbul",
+		description: "counts a string with a different forms of Turkish i, kephrase: istanbul",
 		paper: new Paper( "<p>İstanbul and Istanbul and istanbul and ıstanbul</p>", { keyword: "istanbul", locale: "tr_TR" } ),
 		keyphraseForms: [ [ "istanbul" ] ],
 		expectedCount: 4,
@@ -752,7 +752,7 @@ const testCasesWithLocaleMapping = [
 		skip: false,
 	},
 	{
-		description: "counts a string with with a different forms of Turkish i, kephrase: ıstanbul",
+		description: "counts a string with a different forms of Turkish i, kephrase: ıstanbul",
 		paper: new Paper( "<p>İstanbul and Istanbul and istanbul and ıstanbul</p>", { keyword: "ıstanbul", locale: "tr_TR" } ),
 		keyphraseForms: [ [ "ıstanbul" ] ],
 		expectedCount: 4,
