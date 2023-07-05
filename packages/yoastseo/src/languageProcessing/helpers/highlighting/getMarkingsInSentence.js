@@ -1,17 +1,19 @@
 import Mark from "../../../../src/values/Mark";
-import { getLanguage } from "../../../../src/languageProcessing";
 
 const markStart = "<yoastmark class='yoast-text-mark'>";
 const markEnd = "</yoastmark>";
 
 /**
- * Merges consecutive and overlapping markings into one marking.
- * This is a helper for position based highlighting.
- * @param {Object[]} matches An array of markings to merge.
- * @param {Boolean} useSpace Whether words are separated by a space. In Japanese, for example, words are not separated by a space.
- * @returns {Mark[]} An array of markings where consecutive and overlapping markings are merged.
+ * Merges consecutive and overlapping matches into one match.
+ *
+ * This is a helper for search-based highlighting.
+ *
+ * @param {Token[]} matches		An array of the matched tokens to merge.
+ * @param {Boolean} useSpace	Whether words are separated by a space. In Japanese, for example, words are not separated by a space.
+ *
+ * @returns {Token[]} An array of markings where consecutive and overlapping markings are merged.
  */
-const mergeConsecutiveAndOverlappingMatches = ( matches, useSpace = true ) => {
+const mergeConsecutiveAndOverlappingMatches = ( matches, useSpace ) => {
 	const newMatches = [];
 
 	// Sort matches by start offset. This is probably redundant, but for extra safety.
@@ -40,27 +42,28 @@ const mergeConsecutiveAndOverlappingMatches = ( matches, useSpace = true ) => {
 };
 
 /**
- * This function creates the old style marked sentence for search based highlighting.
- * Ideally this function becomes obsolete when position based highlighting is implemented everywhere.
- * @param {Sentence} sentence The sentence to which to apply the marks.
- * @param {Object} matches The matches to apply.
- * @param {string} locale The locale of the text.
- * @returns {string} The sentence with marks applied.
+ * Adds `yoastmark` tags to the keyphrase matches in the sentence.
+ *
+ * This is a helper for search-based highlighting.
+ *
+ * @param {Sentence}	sentence	The sentence to add the `yoastmark` tags to.
+ * @param {Token[]}		matches		The array of the keyphrase matches.
+ * @param {Boolean}		useSpace	Whether words are separated by a space.
+ *
+ * @returns {string} The sentence with the added `yoastmark` tags.
  */
-const createMarksForSentence = ( sentence, matches, locale ) => {
+const createMarksForSentence = ( sentence, matches, useSpace ) => {
 	let sentenceText = sentence.text;
 
-	// Create one array with both primary and secondary matches, sorted by start offset.
-
 	// Merge consecutive and overlapping matches.
-	const mergedMatches = mergeConsecutiveAndOverlappingMatches( matches, getLanguage( locale ) !== "ja" );
+	const mergedMatches = mergeConsecutiveAndOverlappingMatches( matches, useSpace );
 
 	const sentenceStartOffset = sentence.sourceCodeRange.startOffset;
 	// Loop through the matches backwards, so that the reference is not affected by the changes.
 	for ( let i = mergedMatches.length - 1; i >= 0; i-- ) {
 		const match = mergedMatches[ i ];
 
-		// Apply the mark to the sentence.
+		// Adds `yoastmark` tags to the keyphrase matches in the sentence.
 		// sentenceStartOffset is subtracted because the start and end offsets are relative to the start of the source code.
 		// Subtracting the sentenceStartOffset makes them relative to the start of the sentence.
 		sentenceText = sentenceText.substring( 0, match.sourceCodeRange.endOffset - sentenceStartOffset ) + markEnd +
@@ -77,12 +80,15 @@ const createMarksForSentence = ( sentence, matches, locale ) => {
 
 /**
  * Merges consecutive and overlapping markings into one marking.
- * This is a helper for position based highlighting.
- * @param {Mark[]} markings An array of markings to merge.
- * @param {Boolean} useSpace Whether words are separated by a space. In Japanese, for example, words are not separated by a space.
+ *
+ * This is a helper for position-based highlighting.
+ *
+ * @param {Mark[]}	markings	An array of markings to merge.
+ * @param {Boolean}	useSpace	Whether words are separated by a space.
+ *
  * @returns {Mark[]} An array of markings where consecutive and overlapping markings are merged.
  */
-const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace = true ) => {
+const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace) => {
 	const newMarkings = [];
 
 	// Sort markings by start offset. This is probably redundant, but for extra safety.
@@ -114,29 +120,31 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace = true ) => 
 
 
 /**
- * Gets the Mark objects of all keyphrase matches.
+ * Gets the Mark objects of all keyphrase matches in the sentence.
+ * Currently, this function creates Mark objects compatible for both search-based and position-based highlighting.
+ * In a pure position-based highlighting, we don't need to provide 'marked' and 'original' when creating the Mark object.
  *
- * @param {Sentence} sentence The sentence to check.
- * @param {Array} matchesInSentence An object containing the matches in the sentence.
- * @param {string} locale The locale used in the analysis.
+ * @param {Sentence}	sentence			The sentence to check.
+ * @param {Token[]}		matchesInSentence	An array containing the keyphrase matches in the sentence.
+ * @param {Boolean}		useSpace			Whether words are separated by a space. Default to true.
  *
- * @returns {Mark[]}    The array of Mark objects of the keyphrase matches.
+ * @returns {Mark[]} The array of Mark objects of the keyphrase matches in the sentence.
  */
-function getMarkingsInSentence( sentence, matchesInSentence, locale ) {
+function getMarkingsInSentence( sentence, matchesInSentence, useSpace = true ) {
 	if ( matchesInSentence.length === 0 ) {
 		return [];
 	}
 
-	// Create the marked sentence that is used for search based highlighting.
-	const markedSentence = createMarksForSentence( sentence, matchesInSentence, locale );
+	// Create the marked sentence that is used for search-based highlighting.
+	const markedSentence = createMarksForSentence( sentence, matchesInSentence, useSpace );
 
-	// Create the markings for the primary matches.
-	// Note that there is a paradigm shift:
-	// With search based highlighting there would be one marking for the entire sentence.
-	// With Position based highlighting there is a marking for each match.
-	// In order to be backwards compatible with search based highlighting,
-	// all markings for a sentence have the same markedSentence.
-	// ...
+	/*
+	 * Note that there is a paradigm shift:
+	 * With search-based highlighting there would be one Mark object for the entire sentence.
+	 * With position-based highlighting there is a Mark object for each match.
+	 * Hence, in order to be backwards compatible with search based highlighting,
+	 * all Mark objects for a sentence have the same markedSentence.
+	 */
 	const markings = matchesInSentence.map( token => {
 		return new Mark( {
 			position: {
@@ -148,7 +156,7 @@ function getMarkingsInSentence( sentence, matchesInSentence, locale ) {
 		} );
 	} );
 
-	return mergeConsecutiveAndOverlappingMarkings( markings, getLanguage( locale ) !== "ja" );
+	return mergeConsecutiveAndOverlappingMarkings( markings, useSpace );
 }
 
 export default getMarkingsInSentence;

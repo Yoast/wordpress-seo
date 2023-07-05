@@ -9,11 +9,11 @@ import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
 /**
  * Counts the occurrences of the keyphrase in the text and creates the Mark objects for the matches.
  *
- * @param {Sentence[]} sentences The sentences to check.
- * @param {Array} keyphraseForms The keyphrase forms.
- * @param {string} locale The locale used in the analysis.
- * @param {function} matchWordCustomHelper  A custom helper to match words with a text.
- * @param {boolean} isExactMatchRequested Whether the exact matching is requested.
+ * @param {Sentence[]}	sentences				The sentences to check.
+ * @param {Array}		keyphraseForms			The keyphrase forms.
+ * @param {string}		locale					The locale used in the analysis.
+ * @param {function}	matchWordCustomHelper	A custom helper to match words with a text.
+ * @param {boolean}		isExactMatchRequested	Whether the exact matching is requested.
  *
  * @returns {{markings: Mark[], count: number}} The number of keyphrase occurrences in the text and the Mark objects of the matches.
  */
@@ -51,7 +51,7 @@ export function countKeyphraseInText( sentences, keyphraseForms, locale, matchWo
 				// Currently, this check is only applicable for Japanese.
 				markings = markWordsInASentence( sentence.text, foundWords, matchWordCustomHelper );
 			} else {
-				markings = getMarkingsInSentence( sentence, foundWords, locale );
+				markings = getMarkingsInSentence( sentence, foundWords );
 			}
 
 			result.count += totalMatchCount;
@@ -76,8 +76,10 @@ export default function getKeyphraseCount( paper, researcher ) {
 	let keyphraseForms = topicForms.keyphraseForms;
 	const keyphraseLength = keyphraseForms.length;
 
-	// Normalize single quotes so that word form with different type of single quotes can still be matched.
-	// For exmple, "key‛word" should match "key'word".
+	/*
+	 * Normalize single quotes so that word form with different type of single quotes can still be matched.
+	 * For exmple, "key‛word" should match "key'word".
+	 */
 	keyphraseForms = keyphraseForms.map( word => word.map( form => normalizeSingle( form ) ) );
 
 	if ( keyphraseLength === 0 ) {
@@ -94,7 +96,7 @@ export default function getKeyphraseCount( paper, researcher ) {
 	* Count the amount of keyphrase occurrences in the sentences.
 	* An occurrence is counted when all words of the keyphrase are contained within the sentence. Each sentence can contain multiple keyphrases.
 	* (e.g. "The apple potato is an apple and a potato." has two occurrences of the keyphrase "apple potato").
-	* */
+	*/
 	const keyphraseFound = countKeyphraseInText( sentences, keyphraseForms, locale, matchWordCustomHelper, isExactMatchRequested );
 
 	result.count = keyphraseFound.count;

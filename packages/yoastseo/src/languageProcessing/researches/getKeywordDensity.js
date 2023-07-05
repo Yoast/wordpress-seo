@@ -10,11 +10,13 @@ import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree";
  */
 export default function getKeyphraseDensity( paper, researcher ) {
 	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
-	let wordCount = getAllWordsFromTree( paper ).length;
+	let wordCount = 0;
 
-	// If there is a custom getWords helper use its output for countWords.
+	// If there is a custom getWords helper, use its output for countWords.
 	if ( getWordsCustomHelper ) {
 		wordCount =  getWordsCustomHelper( paper.getText() ).length;
+	} else {
+		wordCount = getAllWordsFromTree( paper ).length
 	}
 
 	if ( wordCount === 0 ) {
