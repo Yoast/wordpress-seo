@@ -24,15 +24,10 @@ import { isEmpty, reject } from "lodash-es";
  * the paragraph, whether a keyphrase or a synonym phrase was matched.
  */
 export default function( paper, researcher ) {
+	const firstParagraph = researcher.getResearch( "getParagraphs" )[ 0 ];
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const locale = paper.getLocale();
-
-	let paragraphs = paper.getTree().findAll( treeNode => treeNode.name === "p" );
-	// Remove empty paragraphs without sentences and paragraphs only consisting of links.
-	paragraphs = reject( paragraphs, paragraph => paragraph.sentences.length === 0 );
-	paragraphs = reject( paragraphs, paragraph => paragraph.childNodes.every( node => node.name === "a" ) );
-	const firstParagraph = paragraphs[ 0 ];
 
 	const result = {
 		foundInOneSentence: false,
