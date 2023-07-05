@@ -369,8 +369,6 @@ describe( "Test for the research", function() {
 		);
 
 		const researcher = new DefaultResearcher( paper );
-		// We clear the cache from when we collected the stems/synonyms from previous spec
-		primeLanguageSpecificData.cache.clear();
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 25,
@@ -413,9 +411,10 @@ describe( "Test for the research", function() {
 			{
 				// Fictitious locale that doesn't have function word support.
 				locale: "xx_XX",
-				keyword: "la parola chiave",
 				// The added function words are now analyzed as content words, so the score changes.
-				synonyms: "tanta straordinaria, qualcosa, molto parola",
+				// Note that we use lorem/ipsum/dolor here as additional "content words" to prevent cache hits from the tests above.
+				keyword: "lorem parola chiave",
+				synonyms: "ipsum straordinaria, qualcosa, dolor parola",
 			}
 		);
 
