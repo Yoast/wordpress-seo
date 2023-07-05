@@ -88,7 +88,7 @@ const createMarksForSentence = ( sentence, matches, useSpace ) => {
  *
  * @returns {Mark[]} An array of markings where consecutive and overlapping markings are merged.
  */
-const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace) => {
+const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace ) => {
 	const newMarkings = [];
 
 	// Sort markings by start offset. This is probably redundant, but for extra safety.
@@ -141,9 +141,9 @@ function getMarkingsInSentence( sentence, matchesInSentence, useSpace = true ) {
 
 	/*
 	 * Note that there is a paradigm shift:
-	 * With search-based highlighting there would be one Mark object for the entire sentence.
-	 * With position-based highlighting there is a Mark object for each match.
-	 * Hence, in order to be backwards compatible with search based highlighting,
+	 * With search-based highlighting, there would be one Mark object for the entire sentence.
+	 * With position-based highlighting, there is a Mark object for each match.
+	 * Hence, in order to be backwards compatible with search-based highlighting,
 	 * all Mark objects for a sentence have the same markedSentence.
 	 */
 	const markings = matchesInSentence.map( token => {
