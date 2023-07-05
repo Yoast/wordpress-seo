@@ -340,7 +340,7 @@ class KeyphraseDensityAssessment extends Assessment {
  * KeywordDensityAssessment was the previous name for KeyphraseDensityAssessment (hence the name of this file).
  * We keep (and expose) this assessment for backwards compatibility.
  *
- * @deprecated Since version 20.12 Use KeyphraseDensityAssessment instead.
+ * @deprecated Use KeyphraseDensityAssessment instead.
  */
 class KeywordDensityAssessment extends KeyphraseDensityAssessment {
 	/**

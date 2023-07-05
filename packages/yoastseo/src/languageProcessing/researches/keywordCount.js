@@ -107,7 +107,7 @@ export default function getKeyphraseCount( paper, researcher ) {
 /**
  * Calculates the keyphrase count, takes morphology into account.
  *
- * @deprecated Since version 20.12. Use getKeyphraseCount instead.
+ * @deprecated Use getKeyphraseCount instead.
  *
  * @param {Paper}       paper       The paper containing keyphrase and text.
  * @param {Researcher}  researcher  The researcher.
