@@ -21,7 +21,7 @@ const testCases = [
 		expectedResult: { count: 0, matches: [] },
 	},
 	{
-		testDescription: "returns no match when no word forms is available for matching",
+		testDescription: "returns no match when no word forms are available for matching",
 		sentence: {
 			text: "A sentence with notthekeyphrase.",
 			tokens: [

@@ -103,6 +103,7 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace) => {
 		}
 
 		const lastMarking = newMarkings[ newMarkings.length - 1 ];
+
 		if ( lastMarking.getPositionEnd() + ( useSpace ? 1 : 0 ) === marking.getPositionStart() ) {
 			// The marking is consecutive to the last marking, so we extend the last marking to include the new marking.
 			lastMarking.setPositionEnd( marking.getPositionEnd() );
