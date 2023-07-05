@@ -77,6 +77,11 @@ const findExactMatchKeyphraseInSentence = ( sentence, wordForms, locale ) => {
 /**
  * Matches a word form of the keyphrase with the tokens from the sentence.
  *
+ * With this approach, we transliterate the word form of the keyphrase before matching it with the sentence tokens.
+ * However, we don't do the transliteration step for the sentence tokens.
+ * As a result, for example, word form "acción" from the keyphrase will match word "accion" in the sentence.
+ * But, word form "accion" from the keyphrase will NOT match word "acción" in the sentence.
+ *
  * @param {Token[]}	tokens		The array of tokens to check.
  * @param {string}	wordForm	The word form of the keyphrase.
  * @param {string}	locale		The locale used in the analysis.
