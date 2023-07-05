@@ -1,4 +1,4 @@
-import keyphraseCount from "../../../src/languageProcessing/researches/keywordCount";
+import getKeyphraseCount from "../../../src/languageProcessing/researches/keywordCount";
 import Paper from "../../../src/values/Paper.js";
 import factory from "../../specHelpers/factory";
 import Mark from "../../../src/values/Mark";
@@ -25,7 +25,7 @@ const buildMorphologyMockResearcher = function( keyphraseForms ) {
 
 const testCases = [
 	{
-		description: "counts/marks a string of text with a keyword in it.",
+		description: "counts/marks a string of text with an occurrence of the keyphrase in it.",
 		paper: new Paper( "<p>a string of text with the keyword in it</p>", { keyword: "keyword" } ),
 		keyphraseForms: [ [ "keyword", "keywords" ] ],
 		expectedCount: 1,
@@ -36,7 +36,7 @@ const testCases = [
 		skip: false,
 	},
 	{
-		description: "counts a string of text with no keyword in it.",
+		description: "counts a string of text with no occurrence of the keyphrase in it.",
 		paper: new Paper( "<p>a string of text</p>", { keyword: "" } ),
 		keyphraseForms: [],
 		expectedCount: 0,
@@ -60,7 +60,7 @@ const testCases = [
 		skip: false,
 	},
 	{
-		description: "counts a string with multiple keyword morphological forms",
+		description: "counts a string with multiple occurrences of keyphrase with different morphological forms",
 		paper: new Paper( "<p>A string of text with a keyword and multiple keywords in it.</p>", { keyword: "keyword" } ),
 		keyphraseForms: [ [ "keyword", "keywords" ] ],
 		expectedCount: 2,
@@ -76,7 +76,7 @@ const testCases = [
 		skip: false,
 	},
 	{
-		description: "does not count images as keywords.",
+		description: "does not match keyphrase occurrence in image alt attribute.",
 		paper: new Paper( "<p>A text with <img src='http://image.com/image.jpg' alt='image' /></p>", { keyword: "image" } ),
 		keyphraseForms: [ [ "image", "images" ] ],
 		expectedCount: 0,
@@ -103,7 +103,7 @@ const testCases = [
 		skip: false,
 	},
 	{
-		description: "only counts full key phrases (when all keywords are in the sentence once, twice etc.) as matches.",
+		description: "only counts full-matches of the keyphrase: full-match means when all word of the keyphrase are found in the sentence",
 		paper: new Paper( "<p>A string with three keys (key and another key) and one word.</p>" ),
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
 		expectedCount: 1,
@@ -131,7 +131,7 @@ const testCases = [
 		skip: false,
 	},
 	{
-		description: "matches both singular and reduplicated plural form of the keyword in Indonesian, " +
+		description: "matches both singular and reduplicated plural form of the keyphrase in Indonesian, " +
 			"the plural should be counted as one occurrence",
 		paper: new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.</p>",
 			{ locale: "id_ID", keyword: "keyword" } ),
@@ -237,6 +237,14 @@ const testCases = [
 		skip: false,
 	},
 	{
+		description: "with exact matching, the keyphrase directly preceded by a full stop should not match a keyphrase occurrence without the full stop in the text.",
+		paper: new Paper( "<p>A sentence with a keyphrase.</p>", { keyword: "\".sentence\"" } ),
+		keyphraseForms: [ [ ".sentence" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+		skip: false,
+	},
+	{
 		description: "can match dollar sign as in '$keyword' with exact matching.",
 		paper: new Paper( "<p>A string with a $keyword.</p>", { keyword: "\"$keyword\"" } ),
 		keyphraseForms: [ [ "\\$keyword" ] ],
@@ -286,7 +294,7 @@ const testCases = [
 	},
 ];
 
-describe.each( testCases )( "Test for counting the keyword in a text in english", function( {
+describe.each( testCases )( "Test for counting the keyphrase in a text in english", function( {
 	description,
 	paper,
 	keyphraseForms,
@@ -298,9 +306,9 @@ describe.each( testCases )( "Test for counting the keyword in a text in english"
 	test( description, function() {
 		const mockResearcher = buildMorphologyMockResearcher( keyphraseForms );
 		buildTree( paper, mockResearcher );
-		const keyWordCountResult = keyphraseCount( paper, mockResearcher );
-		expect( keyWordCountResult.count ).toBe( expectedCount );
-		expect( keyWordCountResult.markings ).toEqual( expectedMarkings );
+		const keyphraseCountResult = getKeyphraseCount( paper, mockResearcher );
+		expect( keyphraseCountResult.count ).toBe( expectedCount );
+		expect( keyphraseCountResult.markings ).toEqual( expectedMarkings );
 	} );
 } );
 
@@ -318,7 +326,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "counts a string with a keyword with a '-' in it",
+		description: "counts a string with a keyphrase occurrence with a '-' in it",
 		paper: new Paper( "<p>A string with a key-word.</p>", { keyword: "key-word" } ),
 		keyphraseForms: [ [ "key-word", "key-words" ] ],
 		expectedCount: 1,
@@ -347,7 +355,7 @@ const testCasesWithSpecialCharacters = [
 	},
 	{
 		description: "should find a match when the sentence contains the keyphrase with a dash but in the wrong order " +
-			"and the keyphrase doesn't contain dash",
+			"and the keyphrase doesn't contain a dash",
 		paper: new Paper( "<p>A string with a panda-red.</p>", { keyword: "red panda" } ),
 		keyphraseForms: [ [ "red" ], [ "panda" ] ],
 		expectedCount: 1,
@@ -361,7 +369,8 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "counts 'key word' in 'key-word'.",
+		description: "should find a match when the sentence contains the keyphrase with a dash with the same order " +
+			"and the keyphrase doesn't contain a dash",
 		paper: new Paper( "<p>A string with a key-word.</p>", { keyword: "key word" } ),
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
 		expectedCount: 1,
@@ -375,7 +384,8 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "counts 'key' in 'key-phrase'",
+		description: "should find a match when the word of the keyphrase occurs in the sentence hyphenated with a non-keyphrase word." +
+		"For example 'key' in 'key-phrase'.",
 		paper: new Paper( "<p>A string with a word of key-phrase.</p>", { keyword: "key word" } ),
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
 		expectedCount: 1,
@@ -398,7 +408,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "counts a string with a keyword with a '_' in it",
+		description: "should find a match between a keyphrase with an underscore and its occurrence in the text with the same form",
 		paper: new Paper( "<p>A string with a key_word.</p>", { keyword: "key_word" } ),
 		keyphraseForms: [ [ "key_word", "key_words" ] ],
 		expectedCount: 1,
@@ -408,7 +418,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "counts a string with '&' in the string and the keyword",
+		description: "should find a match between a keyphrase with an ampersand (&) and its occurrence in the text with the same form",
 		paper: new Paper( "<p>A string with key&word in it</p>", { keyword: "key&word" } ),
 		keyphraseForms: [ [ "key&word" ] ],
 		expectedCount: 1,
@@ -419,8 +429,8 @@ const testCasesWithSpecialCharacters = [
 	},
 	{
 		description: "should still match keyphrase occurrence with different types of apostrophe.",
-		paper: new Paper( "<p>A string with quotes to match the key'word, even if the quotes differ.</p>", { keyword: "key'word" } ),
-		keyphraseForms: [ [ "key'word", "key'words" ] ],
+		paper: new Paper( "<p>A string with quotes to match the key'word, even if the quotes differ.</p>", { keyword: "key‛word" } ),
+		keyphraseForms: [ [ "key‛word", "key‛words" ] ],
 		expectedCount: 1,
 		expectedMarkings: [ new Mark( {
 			marked: "A string with quotes to match the <yoastmark class='yoast-text-mark'>key'word</yoastmark>, even if the quotes differ.",
@@ -439,7 +449,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "can match multiple occurrences of keyphrase ending in & as in 'keyphrase$', and output correct Marks objects",
+		description: "can match multiple occurrences of keyphrase ending in & as in 'keyphrase&', and output correct Marks objects",
 		paper: new Paper( "<p>A string with a keyphrase&.</p>", { keyword: "keyphrase&" } ),
 		keyphraseForms: [ [ "keyphrase" ] ],
 		expectedCount: 1,
@@ -449,7 +459,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "doesn't count 'key-word' in 'key word'.",
+		description: "doesn't match unhyphenated occurrences in the text if the keyphrase is hyphenated.",
 		paper: new Paper( "<p>A string with a key word.</p>", { keyword: "key-word" } ),
 		keyphraseForms: [ [ "key-word", "key-words" ] ],
 		expectedCount: 0,
@@ -457,7 +467,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "can match keyphrase enclosed in «» '«keyword»' in the text",
+		description: "can match keyphrase enclosed in «» in the text, also if the paper's keyphrase is not enclosed in «»",
 		paper: new Paper( "<p>A string with a «keyword».</p>", { keyword: "keyword" } ),
 		keyphraseForms: [ [ "keyword" ] ],
 		expectedCount: 1,
@@ -471,7 +481,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "can match keyphrase enclosed in «» '«keyword»'",
+		description: "can match an occurrence of the keyphrase not enclosed in «» when the paper's keyphrase is enclosed in «»",
 		paper: new Paper( "<p>A string with a keyword.</p>", { keyword: "«keyword»" } ),
 		keyphraseForms: [ [ "keyword" ] ],
 		expectedCount: 1,
@@ -485,7 +495,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "can match keyphrase enclosed in ‹› '‹keyword›' in the text",
+		description: "can match keyphrase enclosed in ‹› in the text, also if the paper's keyphrase is not enclosed in ‹›",
 		paper: new Paper( "<p>A string with a ‹keyword›.</p>", { keyword: "keyword" } ),
 		keyphraseForms: [ [ "keyword" ] ],
 		expectedCount: 1,
@@ -499,7 +509,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "can match keyphrase enclosed in ‹› '‹keyword›'",
+		description: "can match an occurrence of the keyphrase not enclosed in ‹› when the paper's keyphrase is enclosed in ‹›",
 		paper: new Paper( "<p>A string with a keyword.</p>", { keyword: "‹keyword›" } ),
 		keyphraseForms: [ [ "keyword" ] ],
 		expectedCount: 1,
@@ -542,7 +552,7 @@ const testCasesWithSpecialCharacters = [
 	},
 ];
 
-describe.each( testCasesWithSpecialCharacters )( "Test for counting the keyword in a text containing special characters",
+describe.each( testCasesWithSpecialCharacters )( "Test for counting the keyphrase in a text containing special characters",
 	function( {
 		description,
 		paper,
@@ -555,15 +565,22 @@ describe.each( testCasesWithSpecialCharacters )( "Test for counting the keyword 
 		test( description, function() {
 			const mockResearcher = buildMorphologyMockResearcher( keyphraseForms );
 			buildTree( paper, mockResearcher );
-			const keyWordCountResult = keyphraseCount( paper, mockResearcher );
-			expect( keyWordCountResult.count ).toBe( expectedCount );
-			expect( keyWordCountResult.markings ).toEqual( expectedMarkings );
+			const keyphraseCountResult = getKeyphraseCount( paper, mockResearcher );
+			expect( keyphraseCountResult.count ).toBe( expectedCount );
+			expect( keyphraseCountResult.markings ).toEqual( expectedMarkings );
 		} );
 	} );
 
+/**
+ * The following test cases illustrates the current approach of matching transliterated keyphrase with non-transliterated version.
+ * For example, word form "acción" from the keyphrase will match word "accion" in the sentence.
+ * But, word form "accion" from the keyphrase will NOT match word "acción" in the sentence.
+ *
+ * This behaviour might change in the future.
+ */
 const testCasesWithLocaleMapping = [
 	{
-		description: "counts a string of text with German diacritics and eszett as the keyword",
+		description: "counts a string of text with German diacritics and eszett as the keyphrase",
 		paper: new Paper( "<p>Waltz keepin auf mitz auf keepin äöüß weiner blitz deutsch spitzen.</p>", { keyword: "äöüß", locale: "de_DE" } ),
 		keyphraseForms: [ [ "äöüß" ] ],
 		expectedCount: 1,
@@ -780,7 +797,8 @@ const testCasesWithLocaleMapping = [
 		skip: false,
 	},
 ];
-describe.each( testCasesWithLocaleMapping )( "Test for counting the keyword in a text with different locale mapping, e.g. Turkish",
+
+describe.each( testCasesWithLocaleMapping )( "Test for counting the keyphrase in a text with different locale mapping, e.g. Turkish",
 	function( {
 		description,
 		paper,
@@ -793,9 +811,9 @@ describe.each( testCasesWithLocaleMapping )( "Test for counting the keyword in a
 		test( description, function() {
 			const mockResearcher = buildMorphologyMockResearcher( keyphraseForms );
 			buildTree( paper, mockResearcher );
-			const keyWordCountResult = keyphraseCount( paper, mockResearcher );
-			expect( keyWordCountResult.count ).toBe( expectedCount );
-			expect( keyWordCountResult.markings ).toEqual( expectedMarkings );
+			const keyphraseCountResult = getKeyphraseCount( paper, mockResearcher );
+			expect( keyphraseCountResult.count ).toBe( expectedCount );
+			expect( keyphraseCountResult.markings ).toEqual( expectedMarkings );
 		} );
 	} );
 
@@ -824,45 +842,45 @@ const buildJapaneseMockResearcher = function( keyphraseForms, helper1, helper2 )
 	} );
 };
 
-describe( "Test for counting the keyword in a text for Japanese", () => {
+describe( "Test for counting the keyphrase in a text for Japanese", () => {
 	// NOTE: Japanese is not yet adapted to use HTML parser, hence, the marking out doesn't include the position information.
-	it( "counts/marks a string of text with a keyword in it.", function() {
+	it( "counts/marks a string of text with a keyphrase in it.", function() {
 		const mockPaper = new Paper( "<p>私の猫はかわいいです。</p?", { locale: "ja", keyphrase: "猫" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
 
-		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
-		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいいです。",
 				original: "私の猫はかわいいです。" } ) ] );
 	} );
 
-	it( "counts/marks a string of text with multiple occurrences of the same keyword in it.", function() {
+	it( "counts/marks a string of text with multiple occurrences of the same keyphrase in it.", function() {
 		const mockPaper = new Paper( "<p>私の猫はかわいい猫です。</p?", { locale: "ja", keyphrase: "猫" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
 
-		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 2 );
-		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 2 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいい<yoastmark class='yoast-text-mark'>猫</yoastmark>です。",
 				original: "私の猫はかわいい猫です。",
 				 } ) ] );
 	} );
 
-	it( "counts a string if text with no keyword in it.", function() {
+	it( "counts a string if text with no keyphrase in it.", function() {
 		const mockPaper = new Paper( "私の猫はかわいいです。",  { locale: "ja" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "会い" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
-		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 0 );
-		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [] );
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 0 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [] );
 	} );
 
 	it( "counts multiple occurrences of a keyphrase consisting of multiple words.", function() {
 		const mockPaper = new Paper( "<p>私の猫はかわいいですかわいい。</p>",  { locale: "ja" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "かわいい" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
-		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
-		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( {
 				marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>は<yoastmark class='yoast-text-mark'>かわいい</yoastmark>" +
 					"です<yoastmark class='yoast-text-mark'>かわいい</yoastmark>。",

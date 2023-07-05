@@ -101,8 +101,8 @@ class KeyphraseDensityAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const customGetWords = researcher.getHelper( "getWordsCustomHelper" );
-		this._keyphraseCount = researcher.getResearch( "keyphraseCount" );
-		const keyphraseLength = this._keyphraseCount.length;
+		this._keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
+		const keyphraseLength = this._keyphraseCount.keyphraseLength;
 
 		const assessmentResult = new AssessmentResult();
 
@@ -303,7 +303,7 @@ class KeyphraseDensityAssessment extends Assessment {
 
 
 	/**
-	 * Marks keywords in the text for the keyword density assessment.
+	 * Marks the occurrences of keyphrase in the text for the keyphrase density assessment.
 	 *
 	 * @returns {Array<Mark>} Marks that should be applied.
 	 */
@@ -313,7 +313,7 @@ class KeyphraseDensityAssessment extends Assessment {
 
 
 	/**
-	 * Checks whether the paper has a text of the minimum required length and a keyword is set. Language-specific length requirements and methods
+	 * Checks whether the paper has a text of the minimum required length and a keyphrase is set. Language-specific length requirements and methods
 	 * of counting text length may apply (e.g. for Japanese, the text should be counted in characters instead of words, which also makes the minimum
 	 * required length higher).
 	 *
@@ -340,7 +340,7 @@ class KeyphraseDensityAssessment extends Assessment {
  * KeywordDensityAssessment was the previous name for KeyphraseDensityAssessment (hence the name of this file).
  * We keep (and expose) this assessment for backwards compatibility.
  *
- * @deprecated Since version 20.12 Use KeyphraseDensityAssessment instead.
+ * @deprecated Use KeyphraseDensityAssessment instead.
  */
 class KeywordDensityAssessment extends KeyphraseDensityAssessment {
 	/**

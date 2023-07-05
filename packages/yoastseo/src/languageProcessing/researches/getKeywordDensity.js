@@ -21,7 +21,7 @@ export default function getKeyphraseDensity( paper, researcher ) {
 		return 0;
 	}
 
-	const keyphraseCount = researcher.getResearch( "keyphraseCount" );
+	const keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
 
 	return ( keyphraseCount.count / wordCount ) * 100;
 }
@@ -29,7 +29,7 @@ export default function getKeyphraseDensity( paper, researcher ) {
 /**
  * Calculates the keyphrase density.
  *
- * @deprecated Since version 20.12. Use getKeyphraseDensity instead.
+ * @deprecated Use getKeyphraseDensity instead.
  *
  * @param {Object} paper        The paper containing keyphrase and text.
  * @param {Object} researcher   The researcher.
