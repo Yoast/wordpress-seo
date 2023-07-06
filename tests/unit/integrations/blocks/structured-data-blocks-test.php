@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Blocks;
 
 use Mockery;
+use Brain\Monkey;
 use Yoast\WP\SEO\Integrations\Blocks\Structured_Data_Blocks;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Helpers\Image_Helper;
@@ -217,6 +218,9 @@ class Structured_Data_Blocks_Test extends TestCase {
 	 * @param string $message The error message if the assert fails.
 	 */
 	public function test_optimize_how_to_images( $expected, $attributes, $content, $message ) {
+		Monkey\Functions\expect( 'update_post_meta' )
+			->andReturn( true );
+
 		$this->assertSame(
 			$expected,
 			$this->instance->optimize_how_to_images(
