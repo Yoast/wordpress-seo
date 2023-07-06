@@ -168,11 +168,11 @@ class Structured_Data_Blocks_Test extends TestCase {
 	}
 
 	/**
-	 * Data provider for the present_duration_text method.
+	 * Data provider for the optimize_how_to_images method.
 	 *
 	 * @return array[]
 	 */
-	public function how_to_image_provider() {
+	public function how_to_images_provider() {
 		return [
 			[
 				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>' .
@@ -209,7 +209,7 @@ class Structured_Data_Blocks_Test extends TestCase {
 	 * Tests that present returns the expected content.
 	 *
 	 * @covers       ::optimize_how_to_images
-	 * @dataProvider how_to_image_provider
+	 * @dataProvider how_to_images_provider
 	 *
 	 * @param string $expected The expected content.
 	 * @param array  $attributes The block attributes.
