@@ -185,21 +185,21 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 */
 	private function transform_duration_to_string( $days, $hours, $minutes ) {
 		$strings = [];
-		if ( \intval( $days ) !== 0 ) {
+		if ( $days ) {
 			$strings[] = \sprintf(
 			/* translators: %d expands to the number of day/days. */
 				\_n( '%d day', '%d days', $days, 'wordpress-seo' ),
 				$days
 			);
 		}
-		if ( \intval( $hours ) !== 0 ) {
+		if ( $hours ) {
 			$strings[] = \sprintf(
 			/* translators: %d expands to the number of hour/hours. */
 				\_n( '%d hour', '%d hours', $hours, 'wordpress-seo' ),
 				$hours
 			);
 		}
-		if ( \intval( $minutes ) !== 0 ) {
+		if ( $minutes ) {
 			$strings[] = \sprintf(
 			/* translators: %d expands to the number of minute/minutes. */
 				\_n( '%d minute', '%d minutes', $minutes, 'wordpress-seo' ),
