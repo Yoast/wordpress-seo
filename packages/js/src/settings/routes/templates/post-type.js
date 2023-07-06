@@ -1,5 +1,6 @@
+/* eslint-disable max-statements */
 /* eslint-disable complexity */
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { createInterpolateElement, useMemo, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, FeatureUpsell, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
@@ -19,7 +20,7 @@ import {
 } from "../../components";
 import { safeToLocaleLower } from "../../helpers";
 import { withFormikDummyField } from "../../hocs";
-import { useSelectSettings } from "../../hooks";
+import { useSelectSettings, useDispatchSettings } from "../../hooks";
 
 const FormikTagFieldWithDummy = withFormikDummyField( FormikTagField );
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
@@ -30,9 +31,10 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  * @param {string} singularLabel The post type label (singular).
  * @param {boolean} hasArchive Whether the post type has archive support.
  * @param {boolean} hasSchemaArticleType Whether the post type has schema article type support.
+ * @param {boolean} isNew Whether the post type is new.
  * @returns {JSX.Element} The post type element.
  */
-const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleType } ) => {
+const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleType, isNew } ) => {
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
@@ -51,6 +53,13 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 	const pageAnalysisPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-custom-fields" );
 	const schemaLink = useSelectSettings( "selectLink", [], "https://yoa.st/post-type-schema" );
+	const { updatePostTypeReviewStatus } = useDispatchSettings();
+
+	useEffect( () => {
+		if ( isNew ) {
+			updatePostTypeReviewStatus( name );
+		}
+	}, [ name, updatePostTypeReviewStatus ] );
 
 	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
 	const singularLabelLower = useMemo( () => safeToLocaleLower( singularLabel, userLocale ), [ singularLabel, userLocale ] );
@@ -461,6 +470,7 @@ PostType.propTypes = {
 	singularLabel: PropTypes.string.isRequired,
 	hasArchive: PropTypes.bool.isRequired,
 	hasSchemaArticleType: PropTypes.bool.isRequired,
+	isNew: PropTypes.bool.isRequired,
 };
 
 export default PostType;

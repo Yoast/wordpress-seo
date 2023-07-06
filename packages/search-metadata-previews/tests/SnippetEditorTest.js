@@ -14,7 +14,6 @@ const defaultArgs = {
 	baseUrl: "http://example.org/",
 	data: defaultData,
 	onChange: () => {},
-
 };
 
 /**
@@ -251,6 +250,29 @@ describe( "SnippetEditor", () => {
 			const isDirty = editor.instance().shallowCompareData( prev, next );
 
 			expect( isDirty ).toBe( true );
+		} );
+	} );
+	describe( "mapDataToMeasurements", () => {
+		let editor, data;
+		beforeEach( () => {
+			editor = mountWithArgs( {} );
+			data = {
+				title: "Tortoiseshell cats %%sep%% %%sitename%%",
+				description: "   The cool tortie everyone loves!   ",
+				slug: "tortie-cats",
+			};
+		} );
+		it( "returns the filtered SEO title without separator and site title", () => {
+			expect( editor.instance().mapDataToMeasurements( data ).filteredSEOTitle ).toBe( "Tortoiseshell cats  " );
+			editor.unmount();
+		} );
+		it( "returns the correct url: baseURL + slug", () => {
+			expect( editor.instance().mapDataToMeasurements( data ).url ).toBe( "http://example.org/tortie-cats" );
+			editor.unmount();
+		} );
+		it( "returns the description with multiple spaces stripped", () => {
+			expect( editor.instance().mapDataToMeasurements( data ).description ).toBe( "The cool tortie everyone loves!" );
+			editor.unmount();
 		} );
 	} );
 } );

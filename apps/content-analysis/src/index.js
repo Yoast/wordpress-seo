@@ -5,7 +5,7 @@ import "./index.css";
 import AnalysisWorkerWrapper from "../../../packages/yoastseo/src/worker/AnalysisWorkerWrapper";
 
 // Internal dependencies.
-import AnalysisWebWorker from "./analysis.worker";
+const AnalysisWebWorker = require( "./analysis.worker" );
 import App from "./App";
 import { createStorageMiddleware, getStorageData } from "./redux/utils/localstorage";
 import { renderReactApp } from "./redux/utils/render";

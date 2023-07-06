@@ -9,6 +9,8 @@ use Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Count;
 
 /**
  * Manages the collection of the missing indexable data.
+ *
+ * @makePublic
  */
 class Missing_Indexables_Collector implements WPSEO_Collection {
 
@@ -34,7 +36,7 @@ class Missing_Indexables_Collector implements WPSEO_Collection {
 	 *
 	 * @return array The list of missing indexables.
 	 */
-	public function get(): array {
+	public function get() {
 		$missing_indexable_bucket = new Missing_Indexable_Bucket();
 		foreach ( $this->indexation_actions as $indexation_action ) {
 			$missing_indexable_count = new Missing_Indexable_Count( \get_class( $indexation_action ), $indexation_action->get_total_unindexed() );
@@ -49,7 +51,7 @@ class Missing_Indexables_Collector implements WPSEO_Collection {
 	 *
 	 * @return void
 	 */
-	private function add_additional_indexing_actions(): void {
+	private function add_additional_indexing_actions() {
 		/**
 		 * Filter: Adds the possibility to add additional indexation actions to be included in the count routine.
 		 *

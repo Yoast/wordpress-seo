@@ -3,7 +3,7 @@ import { merge } from "lodash-es";
 
 import { languageProcessing, AssessmentResult, Assessment, helpers } from "yoastseo";
 
-const { getSentences } = languageProcessing;
+const { getSentences, helpers: languageProcessingHelpers } = languageProcessing;
 const { createAnchorOpeningTag } = helpers;
 
 /**
@@ -179,7 +179,9 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 */
 	isApplicable( paper, researcher ) {
 		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
-		const sentences = getSentences( paper.getText(), memoizedTokenizer );
+		let text = paper.getText();
+		text = languageProcessingHelpers.removeHtmlBlocks( text );
+		const sentences = getSentences( text, memoizedTokenizer );
 
 		return paper.hasText() && paper.hasKeyword() && sentences.length >= 15 && researcher.hasResearch( "keyphraseDistribution" );
 	}

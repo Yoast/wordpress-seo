@@ -264,14 +264,14 @@ describe( "tests for edge cases", function() {
 		} );
 	} );
 
-	it( "skips the first paragraph if there is an estimated reading time element", function() {
+	it( "skips the first paragraph if the document starts with the Estimated reading time block", function() {
 		const paper = new Paper(
-			"<p class='yoast-reading-time__wrapper'>" +
-			"<span class='yoast-reading-time__icon'><svg><path></path></svg></span>" +
-			"<span class='yoast-reading-time__spacer' style='display:inline-block;width:1em'></span>" +
-			"<span class='yoast-reading-time__descriptive-text'>Estimated reading time:  </span>" +
-			"<span class='yoast-reading-time__reading-time'>2</span><span class='yoast-reading-time__time-unit'> minutes</span></p>" +
-			"<div>A sentence with a keyword</div>",
+			"<!-- wp:yoast-seo/estimated-reading-time {\"estimatedReadingTime\":3} -->\n" +
+			"<p class=\"yoast-reading-time__wrapper\"><span class=\"yoast-reading-time__icon\"></span><span " +
+			"class=\"yoast-reading-time__descriptive-text\">Estimated reading time:  </span><span class=\"yoast-reading-time__reading-time\">" +
+			"3</span><span class=\"yoast-reading-time__time-unit\"> minutes</span></p>\n" +
+			"<!-- /wp:yoast-seo/estimated-reading-time --><!-- wp:paragraph -->" +
+			"<p>A sentence with a keyword</p><!-- /wp:paragraph -->",
 			{
 				keyword: "keyword",
 				synonyms: "",

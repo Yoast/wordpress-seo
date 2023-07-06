@@ -249,7 +249,7 @@ function InlineLinkUI( {
 		} );
 
 		if ( shouldInsertLink() ) {
-			const newText = getNewText( nextValue.title, newUrl );
+			const newText = getNewText( nextValue, newUrl );
 			const toInsert = applyFormat(
 				create( { text: newText } ),
 				format,

@@ -4,7 +4,6 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import Assessment from "../assessment";
 import { merge } from "lodash-es";
 
-
 /**
  * Represents the assessment that checks whether there is enough text in the paper.
  */

@@ -17,6 +17,13 @@ describe( "test hasEnoughContentForAssessment", () => {
 		expect( mockAssessment.hasEnoughContentForAssessment( mockPaper ) ).toBe( false );
 	} );
 
+	it( "should return false if text has more than 50 chars but they are inside an element we want to exclude from the analysis", () => {
+		const mockPaper = new Paper( "<blockquote>This is a quote that contains at least fifty characters.</blockquote>" );
+		const mockAssessment = new Assessment();
+
+		expect( mockAssessment.hasEnoughContentForAssessment( mockPaper ) ).toBe( false );
+	} );
+
 	it( "should return false if text is 49 chars and an image and no specification for contentNeededForAssessment", () => {
 		const mockPaper = new Paper( "This text contains forty nine characterssssssssss" +
 			// eslint-disable-next-line max-len

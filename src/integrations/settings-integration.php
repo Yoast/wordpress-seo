@@ -23,7 +23,8 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
-use Yoast_Notification_Center;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 
 /**
  * Class Settings_Integration.
@@ -67,6 +68,9 @@ class Settings_Integration implements Integration_Interface {
 			'most_linked_ignore_list',
 			'least_linked_ignore_list',
 			'indexables_page_reading_list',
+			'show_new_content_type_notification',
+			'new_post_types',
+			'new_taxonomies',
 		],
 		'wpseo_titles' => [
 			'company_logo_meta',
@@ -165,19 +169,35 @@ class Settings_Integration implements Integration_Interface {
 	protected $user_helper;
 
 	/**
+	 * Holds the Options_Helper instance.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options;
+
+	/**
+	 * Holds the Content_Type_Visibility_Dismiss_Notifications instance.
+	 *
+	 * @var Content_Type_Visibility_Dismiss_Notifications
+	 */
+	protected $content_type_visibility;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
-	 * @param WPSEO_Replace_Vars        $replace_vars        The WPSEO_Replace_Vars.
-	 * @param Schema_Types              $schema_types        The Schema_Types.
-	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
-	 * @param Post_Type_Helper          $post_type_helper    The Post_Type_Helper.
-	 * @param Language_Helper           $language_helper     The Language_Helper.
-	 * @param Taxonomy_Helper           $taxonomy_helper     The Taxonomy_Helper.
-	 * @param Product_Helper            $product_helper      The Product_Helper.
-	 * @param Woocommerce_Helper        $woocommerce_helper  The Woocommerce_Helper.
-	 * @param Article_Helper            $article_helper      The Article_Helper.
-	 * @param User_Helper               $user_helper         The User_Helper.
+	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager       The WPSEO_Admin_Asset_Manager.
+	 * @param WPSEO_Replace_Vars                            $replace_vars        The WPSEO_Replace_Vars.
+	 * @param Schema_Types                                  $schema_types        The Schema_Types.
+	 * @param Current_Page_Helper                           $current_page_helper The Current_Page_Helper.
+	 * @param Post_Type_Helper                              $post_type_helper    The Post_Type_Helper.
+	 * @param Language_Helper                               $language_helper     The Language_Helper.
+	 * @param Taxonomy_Helper                               $taxonomy_helper     The Taxonomy_Helper.
+	 * @param Product_Helper                                $product_helper      The Product_Helper.
+	 * @param Woocommerce_Helper                            $woocommerce_helper  The Woocommerce_Helper.
+	 * @param Article_Helper                                $article_helper      The Article_Helper.
+	 * @param User_Helper                                   $user_helper         The User_Helper.
+	 * @param Options_Helper                                $options             The options helper.
+	 * @param Content_Type_Visibility_Dismiss_Notifications $content_type_visibility The Content_Type_Visibility_Dismiss_Notifications instance.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -190,19 +210,23 @@ class Settings_Integration implements Integration_Interface {
 		Product_Helper $product_helper,
 		Woocommerce_Helper $woocommerce_helper,
 		Article_Helper $article_helper,
-		User_Helper $user_helper
+		User_Helper $user_helper,
+		Options_Helper $options,
+		Content_Type_Visibility_Dismiss_Notifications $content_type_visibility
 	) {
-		$this->asset_manager       = $asset_manager;
-		$this->replace_vars        = $replace_vars;
-		$this->schema_types        = $schema_types;
-		$this->current_page_helper = $current_page_helper;
-		$this->taxonomy_helper     = $taxonomy_helper;
-		$this->post_type_helper    = $post_type_helper;
-		$this->language_helper     = $language_helper;
-		$this->product_helper      = $product_helper;
-		$this->woocommerce_helper  = $woocommerce_helper;
-		$this->article_helper      = $article_helper;
-		$this->user_helper         = $user_helper;
+		$this->asset_manager           = $asset_manager;
+		$this->replace_vars            = $replace_vars;
+		$this->schema_types            = $schema_types;
+		$this->current_page_helper     = $current_page_helper;
+		$this->taxonomy_helper         = $taxonomy_helper;
+		$this->post_type_helper        = $post_type_helper;
+		$this->language_helper         = $language_helper;
+		$this->product_helper          = $product_helper;
+		$this->woocommerce_helper      = $woocommerce_helper;
+		$this->article_helper          = $article_helper;
+		$this->user_helper             = $user_helper;
+		$this->options                 = $options;
+		$this->content_type_visibility = $content_type_visibility;
 	}
 
 	/**
@@ -247,9 +271,6 @@ class Settings_Integration implements Integration_Interface {
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
 
-			// Remove the post types and taxonomies made public notifications (if any).
-			$this->remove_post_types_made_public_notification();
-			$this->remove_taxonomies_made_public_notification();
 		}
 	}
 
@@ -389,20 +410,24 @@ class Settings_Integration implements Integration_Interface {
 		$transformed_post_types = $this->transform_post_types( $post_types );
 		$transformed_taxonomies = $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) );
 
+		// Check if there is a new content type to show notification only once in the settings.
+		$show_new_content_type_notification = $this->content_type_visibility->maybe_add_settings_notification();
+
 		return [
-			'settings'             => $this->transform_settings( $settings ),
-			'defaultSettingValues' => $default_setting_values,
-			'disabledSettings'     => $this->get_disabled_settings( $settings ),
-			'endpoint'             => \admin_url( 'options.php' ),
-			'nonce'                => \wp_create_nonce( self::PAGE . '-options' ),
-			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
-			'replacementVariables' => $this->get_replacement_variables(),
-			'schema'               => $this->get_schema( $transformed_post_types ),
-			'preferences'          => $this->get_preferences( $settings ),
-			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
-			'postTypes'            => $transformed_post_types,
-			'taxonomies'           => $transformed_taxonomies,
-			'fallbacks'            => $this->get_fallbacks(),
+			'settings'                       => $this->transform_settings( $settings ),
+			'defaultSettingValues'           => $default_setting_values,
+			'disabledSettings'               => $this->get_disabled_settings( $settings ),
+			'endpoint'                       => \admin_url( 'options.php' ),
+			'nonce'                          => \wp_create_nonce( self::PAGE . '-options' ),
+			'separators'                     => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
+			'replacementVariables'           => $this->get_replacement_variables(),
+			'schema'                         => $this->get_schema( $transformed_post_types ),
+			'preferences'                    => $this->get_preferences( $settings ),
+			'linkParams'                     => WPSEO_Shortlinker::get_query_params(),
+			'postTypes'                      => $transformed_post_types,
+			'taxonomies'                     => $transformed_taxonomies,
+			'fallbacks'                      => $this->get_fallbacks(),
+			'showNewContentTypeNotification' => $show_new_content_type_notification,
 		];
 	}
 
@@ -441,12 +466,14 @@ class Settings_Integration implements Integration_Interface {
 			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
 			'createUserUrl'                 => \admin_url( 'user-new.php' ),
+			'createPageUrl'                 => \admin_url( 'post-new.php?post_type=page' ),
 			'editUserUrl'                   => \admin_url( 'user-edit.php' ),
 			'editTaxonomyUrl'               => \admin_url( 'edit-tags.php' ),
 			'generalSettingsUrl'            => \admin_url( 'options-general.php' ),
 			'companyOrPersonMessage'        => \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' ),
 			'currentUserId'                 => \get_current_user_id(),
 			'canCreateUsers'                => \current_user_can( 'create_users' ),
+			'canCreatePages'                => \current_user_can( 'edit_pages' ),
 			'canEditUsers'                  => \current_user_can( 'edit_users' ),
 			'canManageOptions'              => \current_user_can( 'manage_options' ),
 			'userLocale'                    => \str_replace( '_', '-', \get_user_locale() ),
@@ -454,6 +481,7 @@ class Settings_Integration implements Integration_Interface {
 			'showForceRewriteTitlesSetting' => ! \current_theme_supports( 'title-tag' ) && ! ( \function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ),
 			'upsellSettings'                => $this->get_upsell_settings(),
 			'siteRepresentsPerson'          => $this->get_site_represents_person( $settings ),
+			'siteBasicsPolicies'            => $this->get_site_basics_policies( $settings ),
 		];
 	}
 
@@ -479,6 +507,59 @@ class Settings_Integration implements Integration_Interface {
 		}
 
 		return $person;
+	}
+
+	/**
+	 * Get site policy data.
+	 *
+	 * @param array $settings The settings.
+	 *
+	 * @return array The policy data.
+	 */
+	private function get_site_basics_policies( $settings ) {
+		$policies = [];
+
+
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['publishing_principles_id'], 'publishing_principles_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['ownership_funding_info_id'], 'ownership_funding_info_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['actionable_feedback_policy_id'], 'actionable_feedback_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['corrections_policy_id'], 'corrections_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['ethics_policy_id'], 'ethics_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['diversity_policy_id'], 'diversity_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['diversity_staffing_report_id'], 'diversity_staffing_report_id' );
+
+		return $policies;
+	}
+
+	/**
+	 * Adds policy data if it is present.
+	 *
+	 * @param array  $policies The existing policy data.
+	 * @param int    $policy   The policy id to check.
+	 * @param string $key      The option key name.
+	 *
+	 * @return array The policy data.
+	 */
+	private function maybe_add_policy( $policies, $policy, $key ) {
+		$policy_array = [
+			'id'   => 0,
+			'name' => \__( 'None', 'wordpress-seo' ),
+		];
+
+		if ( isset( $policy ) && \is_int( $policy ) ) {
+			$policy_array['id'] = $policy;
+			$post               = \get_post( $policy );
+			if ( $post instanceof \WP_Post ) {
+				if ( $post->post_status !== 'publish' || $post->post_password !== '' ) {
+					return $policies;
+				}
+				$policy_array['name'] = $post->post_title;
+			}
+		}
+
+		$policies[ $key ] = $policy_array;
+
+		return $policies;
 	}
 
 	/**
@@ -695,7 +776,8 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The post types.
 	 */
 	protected function transform_post_types( $post_types ) {
-		$transformed = [];
+		$transformed    = [];
+		$new_post_types = $this->options->get( 'new_post_types', [] );
 		foreach ( $post_types as $post_type ) {
 			$transformed[ $post_type->name ] = [
 				'name'                 => $post_type->name,
@@ -705,6 +787,7 @@ class Settings_Integration implements Integration_Interface {
 				'hasArchive'           => $this->post_type_helper->has_archive( $post_type ),
 				'hasSchemaArticleType' => $this->article_helper->is_article_post_type( $post_type->name ),
 				'menuPosition'         => $post_type->menu_position,
+				'isNew'                => \in_array( $post_type->name, $new_post_types, true ),
 			];
 		}
 
@@ -746,7 +829,8 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The taxonomies.
 	 */
 	protected function transform_taxonomies( $taxonomies, $post_type_names ) {
-		$transformed = [];
+		$transformed    = [];
+		$new_taxonomies = $this->options->get( 'new_taxonomies', [] );
 		foreach ( $taxonomies as $taxonomy ) {
 			$transformed[ $taxonomy->name ] = [
 				'name'          => $taxonomy->name,
@@ -760,6 +844,7 @@ class Settings_Integration implements Integration_Interface {
 						return \in_array( $object_type, $post_type_names, true );
 					}
 				),
+				'isNew'         => \in_array( $taxonomy->name, $new_taxonomies, true ),
 			];
 		}
 
@@ -815,25 +900,5 @@ class Settings_Integration implements Integration_Interface {
 		return [
 			'siteLogoId' => $site_logo_id,
 		];
-	}
-
-	/**
-	 * Removes the notification related to the post types which have been made public.
-	 *
-	 * @return void
-	 */
-	private function remove_post_types_made_public_notification() {
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification_by_id( 'post-types-made-public' );
-	}
-
-	/**
-	 * Removes the notification related to the taxonomies which have been made public.
-	 *
-	 * @return void
-	 */
-	private function remove_taxonomies_made_public_notification() {
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification_by_id( 'taxonomies-made-public' );
 	}
 }
