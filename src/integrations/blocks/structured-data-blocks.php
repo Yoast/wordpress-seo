@@ -233,7 +233,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 				);
 			case 3:
 				return \sprintf(
-			/* translators: %s expands to a unit of time (e.g. 1 day). */
+				/* translators: %s expands to a unit of time (e.g. 1 day). */
 					\__( '%1$s, %2$s and %3$s', 'wordpress-seo' ),
 					...$elements
 				);
