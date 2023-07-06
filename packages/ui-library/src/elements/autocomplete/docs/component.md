@@ -1,1 +1,1 @@
-A simple autocomplete select component.
+An autocomplete select component combines the functionality of an autocomplete feature with a selection mechanism, allowing users to efficiently find and choose options from a large set of choices.

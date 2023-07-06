@@ -1,6 +1,5 @@
 We distinguish four different alert variants:
 
-
 1. **Info (<mark style="background-color: #dbeafe;"><font color="#1e40af">Blue</font></mark>)**<br>
 The info alert is used to:
  - inform users about a (changed) system state, an experience, or feature
