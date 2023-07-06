@@ -218,7 +218,8 @@ class Structured_Data_Blocks_Test extends TestCase {
 	 * @param string $message The error message if the assert fails.
 	 */
 	public function test_optimize_how_to_images( $expected, $attributes, $content, $message ) {
-		Monkey\Functions\expect( 'update_post_meta' )
+		Monkey\Functions\expect( 'register_shutdown_function' )
+			->withAnyArgs()
 			->andReturn( true );
 
 		$this->assertSame(
