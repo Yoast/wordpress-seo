@@ -185,21 +185,21 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 */
 	private function transform_duration_to_string( $days, $hours, $minutes ) {
 		$strings = [];
-		if ( \intval( $days ) !== 0 ) {
+		if ( $days ) {
 			$strings[] = \sprintf(
 			/* translators: %d expands to the number of day/days. */
 				\_n( '%d day', '%d days', $days, 'wordpress-seo' ),
 				$days
 			);
 		}
-		if ( \intval( $hours ) !== 0 ) {
+		if ( $hours ) {
 			$strings[] = \sprintf(
 			/* translators: %d expands to the number of hour/hours. */
 				\_n( '%d hour', '%d hours', $hours, 'wordpress-seo' ),
 				$hours
 			);
 		}
-		if ( \intval( $minutes ) !== 0 ) {
+		if ( $minutes ) {
 			$strings[] = \sprintf(
 			/* translators: %d expands to the number of minute/minutes. */
 				\_n( '%d minute', '%d minutes', $minutes, 'wordpress-seo' ),
@@ -216,30 +216,30 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @return string The formatted duration.
 	 */
 	private function build_duration_string( $attributes ) {
-		$days            = ( isset( $attributes['days'] ) ) ? ( $attributes['days'] ) : ( 0 );
-		$hours           = ( isset( $attributes['hours'] ) ) ? ( $attributes['hours'] ) : ( 0 );
-		$minutes         = ( isset( $attributes['minutes'] ) ) ? ( $attributes['minutes'] ) : ( 0 );
+		$days            = ( $attributes['days'] ?? 0 );
+		$hours           = ( $attributes['hours'] ?? 0 );
+		$minutes         = ( $attributes['minutes'] ?? 0 );
 		$elements        = $this->transform_duration_to_string( $days, $hours, $minutes );
 		$elements_length = count( $elements );
 
-		if ( $elements_length === 1 ) {
-			return $elements[0];
-		}
-		if ( $elements_length === 2 ) {
-			return \sprintf(
+		switch ( $elements_length ) {
+			case 1:
+				return $elements[0];
+			case 2:
+				return \sprintf(
+				/* translators: %s expands to a unit of time (e.g. 1 day). */
+					\__( '%1$s and %2$s', 'wordpress-seo' ),
+					...$elements
+				);
+			case 3:
+				return \sprintf(
 			/* translators: %s expands to a unit of time (e.g. 1 day). */
-				\__( '%1$s and %2$s', 'wordpress-seo' ),
-				...$elements
-			);
+					\__( '%1$s, %2$s and %3$s', 'wordpress-seo' ),
+					...$elements
+				);
+			default:
+				return '';
 		}
-		if ( $elements_length === 3 ) {
-			return \sprintf(
-			/* translators: %s expands to a unit of time (e.g. 1 day). */
-				\__( '%1$s, %2$s and %3$s', 'wordpress-seo' ),
-				...$elements
-			);
-		}
-		return '';
 	}
 
 	/**
