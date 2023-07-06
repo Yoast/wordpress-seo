@@ -166,4 +166,64 @@ class Structured_Data_Blocks_Test extends TestCase {
 			$message
 		);
 	}
+
+	/**
+	 * Data provider for the present_duration_text method.
+	 *
+	 * @return array[]
+	 */
+	public function how_to_image_provider() {
+		return [
+			[
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>' .
+				'<ol class="schema-how-to-steps"><li class="schema-how-to-step" id="how-to-step-1688388022851">' .
+				'<strong class="schema-how-to-step-name">Step 1</strong> <p class="schema-how-to-step-text">Do this step</p>' .
+				'</li><li class="schema-how-to-step" id="how-to-step-1688636978021"><strong class="schema-how-to-step-name">' .
+				'Step 2</strong> <p class="schema-how-to-step-text">Do those steps</p> </li></ol>',
+				[
+					'durationText'        => 'The amount of time it will take:',
+					'defaultDurationText' => 'Time needed:',
+					'hours'               => 2,
+					'minutes'             => 20,
+					'steps'               => [
+						[
+							'id'       => 'how-to-step-1688388022851',
+							'name'     => '',
+							'text'     => 'Step 1',
+							'jsonName' => 'Step 1',
+							'jsonText' => 'Do this step',
+						],
+					],
+				],
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>' .
+				'<ol class="schema-how-to-steps"><li class="schema-how-to-step" id="how-to-step-1688388022851">' .
+				'<strong class="schema-how-to-step-name">Step 1</strong> <p class="schema-how-to-step-text">Do this step</p>' .
+				'</li><li class="schema-how-to-step" id="how-to-step-1688636978021"><strong class="schema-how-to-step-name">' .
+				'Step 2</strong> <p class="schema-how-to-step-text">Do those steps</p> </li></ol>',
+				'A test case for when there is no image in the block',
+			],
+		];
+	}
+
+	/**
+	 * Tests that present returns the expected content.
+	 *
+	 * @covers       ::optimize_how_to_images
+	 * @dataProvider how_to_image_provider
+	 *
+	 * @param string $expected The expected content.
+	 * @param array  $attributes The block attributes.
+	 * @param string $content The post content.
+	 * @param string $message The error message if the assert fails.
+	 */
+	public function test_optimize_how_to_images( $expected, $attributes, $content, $message ) {
+		$this->assertSame(
+			$expected,
+			$this->instance->optimize_how_to_images(
+				$attributes,
+				$content
+			),
+			$message
+		);
+	}
 }
