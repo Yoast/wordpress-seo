@@ -726,6 +726,9 @@ export default class HowTo extends Component {
 		const classNames     = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
 		const listClassNames = [ "schema-how-to-steps", attributes.additionalListCssClasses ].filter( ( item ) => item ).join( " " );
 
+		// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
+		const focusDescription = { onFocus: this.focusDescription, unstableOnFocus: this.focusDescription };
+
 		return (
 			<div className={ classNames }>
 				{ this.getDuration() }
@@ -734,9 +737,9 @@ export default class HowTo extends Component {
 					tagName="p"
 					className="schema-how-to-description"
 					value={ attributes.description }
-					unstableOnFocus={ this.focusDescription }
 					onChange={ this.onChangeDescription }
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
+					{ ...focusDescription }
 				/>
 				<ul className={ listClassNames }>
 					{ this.getSteps() }
