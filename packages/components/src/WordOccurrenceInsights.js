@@ -32,7 +32,7 @@ const getKeywordResearchArticleLink = ( url ) => {
 		mixedString: keywordsResearchLinkTranslation,
 		components: {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
-			a: <a href={ url } target="_blank" />,
+			a: <a href={ url } target="_blank" rel="noreferrer" />,
 		},
 	} );
 };
