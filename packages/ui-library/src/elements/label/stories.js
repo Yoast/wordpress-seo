@@ -1,4 +1,5 @@
 import { StoryComponent } from ".";
+import { component } from "./docs";
 
 export default {
 	title: "1) Elements/Label",
@@ -6,13 +7,7 @@ export default {
 	argTypes: {
 		as: { options: [ "label", "span", "div" ] },
 	},
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple label component.",
-			},
-		},
-	},
+	parameters: { docs: { description: { component } } },
 };
 
 export const Factory = ( { ...args } ) => (
