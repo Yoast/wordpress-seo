@@ -1,5 +1,6 @@
 import { StoryComponent } from ".";
 import { useCallback, useState } from "@wordpress/element";
+import { component } from "./docs";
 
 export default {
 	title: "1) Elements/Tag input",
@@ -7,7 +8,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple tag input component.",
+				component,
 			},
 		},
 	},
