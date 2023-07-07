@@ -106,7 +106,6 @@ class Web_Stories_Test extends TestCase {
 		$title_presenter = Mockery::mock( Title_Presenter::class );
 		$other_presenter = Mockery::mock( Meta_Description_Presenter::class );
 
-
 		// First case: a title presenter is already there.
 		$presenters = [
 			$title_presenter,

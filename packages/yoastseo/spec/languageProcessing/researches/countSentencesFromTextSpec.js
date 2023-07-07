@@ -33,6 +33,11 @@ describe( "counts words in sentences from text", function() {
 		expect( getSentences( paper, new EnglishResearcher() )[ 0 ].sentenceLength ).toBe( 4 );
 		expect( getSentences( paper, new EnglishResearcher() )[ 1 ].sentenceLength ).toBe( 2 );
 	} );
+	it( "should not count sentences inside elements we want to exclude from the analysis", function() {
+		paper = new Paper( "This is a text. <code>With some code.</code>. Another sentence." );
+		expect( getSentences( paper, new EnglishResearcher() )[ 0 ].sentenceLength ).toBe( 4 );
+		expect( getSentences( paper, new EnglishResearcher() )[ 1 ].sentenceLength ).toBe( 2 );
+	} );
 	/*it( "returns sentences with question mark in Japanese", function() {
 		paper = new Paper( "雨が降っている。 いつ終わるの？ さようなら" );
 		expect( getSentences( paper, new JapaneseResearcher() )[ 0 ].sentenceLength ).toBe( 8 );

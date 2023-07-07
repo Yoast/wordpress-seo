@@ -1,6 +1,5 @@
 /* eslint-disable max-statements,complexity */
 // External dependencies.
-import { autop } from "@wordpress/autop";
 import { enableFeatures } from "@yoast/feature-flag";
 import { __, setLocaleData, sprintf } from "@wordpress/i18n";
 import { forEach, has, includes, isEmpty, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash-es";
@@ -14,8 +13,10 @@ import TaxonomyAssessor from "../scoring/taxonomyAssessor";
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
 import RelatedKeywordAssessor from "../scoring/relatedKeywordAssessor";
-import removeHtmlBlocks from "../languageProcessing/helpers/html/htmlParser";
 import InclusiveLanguageAssessor from "../scoring/inclusiveLanguageAssessor";
+
+import { build } from "../parse/build";
+import LanguageProcessor from "../parse/language/LanguageProcessor";
 
 // Internal dependencies.
 import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
@@ -699,8 +700,14 @@ export default class AnalysisWebWorker {
 			this._inclusiveLanguageAssessor
 		);
 
-		if ( has( configuration, "translations.locale_data.wordpress-seo" ) ) {
-			setLocaleData( configuration.translations.locale_data[ "wordpress-seo" ], "wordpress-seo" );
+		if ( has( configuration, "translations" ) ) {
+			Object.values( configuration.translations ).forEach( translation => {
+				// Don't proceed if translation object is null or otherwise falsy.
+				if ( translation ) {
+					const { domain, locale_data: localeData } = translation;
+					setLocaleData( localeData[ domain ], domain );
+				}
+			} );
 		}
 
 		if ( has( configuration, "researchData" ) ) {
@@ -1063,9 +1070,6 @@ export default class AnalysisWebWorker {
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
 	async analyze( id, { paper, relatedKeywords = {} } ) {
-		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
-		paper._text = autop( paper._text );
-		paper._text = removeHtmlBlocks( paper._text );
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
 		const shouldInclusiveLanguageUpdate = this.shouldInclusiveLanguageUpdate( paper );
@@ -1076,18 +1080,9 @@ export default class AnalysisWebWorker {
 			this._paper = paper;
 			this._researcher.setPaper( this._paper );
 
-			// Try to build the tree, for analysis using the tree assessors.
-			try {
-				/*
-				 * Disabled tree.
-				 * Please not that text here should be the `paper._text` before processing (e.g. autop and more).
-				 * this._tree = this._treeBuilder.build( text );
-				 */
-			} catch ( exception ) {
-				logger.debug( "Yoast SEO and readability analysis: " +
-							  "An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
-				this._tree = null;
-			}
+			const languageProcessor = new LanguageProcessor( this._researcher );
+
+			this._paper.setTree( build( this._paper.getText(), languageProcessor ) );
 
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
@@ -1406,6 +1401,12 @@ export default class AnalysisWebWorker {
 		if ( paper !== null ) {
 			researcher.setPaper( paper );
 			researcher.addResearchData( "morphology", morphologyData );
+
+			// Build and set the tree if it's not been set before.
+			if ( paper.getTree() === null ) {
+				const languageProcessor = new LanguageProcessor( researcher );
+				paper.setTree( build( paper.getText(), languageProcessor ) );
+			}
 		}
 
 		return researcher.getResearch( name );

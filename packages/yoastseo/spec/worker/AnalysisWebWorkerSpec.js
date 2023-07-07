@@ -265,7 +265,7 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "creates the i18n", () => {
 				scope.onmessage( createMessage( "initialize", {
-					translations: {
+					messages: {
 						domain: "messages",
 						// eslint-disable-next-line camelcase
 						locale_data: {
@@ -647,6 +647,57 @@ describe( "AnalysisWebWorker", () => {
 				worker.analyzeDone( 0, { error: "failed" } );
 				expect( worker.send ).toHaveBeenCalledTimes( 1 );
 				expect( worker.send ).toHaveBeenCalledWith( "analyze:failed", 0, { error: "failed" } );
+			} );
+			it( "correctly calculates sentence position in a node containing an element (comment) that is removed from" +
+				"the paper after building the tree", async() => {
+				// One paragraph, with one sentence.
+				const html = "<div><!-- A comment --><p>A paragraph</p></div>";
+
+				const paper = new Paper( html );
+
+				const webworker = new AnalysisWebWorker( scope, researcher );
+
+				await webworker.analyze( 1, { paper } );
+
+				// Get the sentence from the single paragraph in the tree.
+				const paragraphs = paper.getTree().findAll( node => node.name === "p" );
+				const sentence = paragraphs[ 0 ].sentences[ 0 ];
+
+				const { startOffset, endOffset } = sentence.sourceCodeRange;
+
+				// Check if the source code position is correct.
+				expect( html.slice( startOffset, endOffset ) ).toEqual( "A paragraph" );
+			} );
+
+			it( "correctly calculate the position of the image with a caption", async() => {
+				const html = "<!-- wp:image -->\n" +
+					"<figure class=\"wp-block-image size-large\"><img src=\"https://example.com\" alt=\"\" class=\"wp-image-8\"/>" +
+					"<figcaption class=\"wp-element-caption\">A cute cat</figcaption></figure>\n" +
+					"<!-- /wp:image -->\n" +
+					"<!-- wp:paragraph -->\n" +
+					"<p>Movet voluptatibus vix ad. Et eruditi mediocrem liberavisse eos.</p>" +
+					"<!-- /wp:paragraph -->";
+
+				const paper = new Paper( html );
+
+				const webworker = new AnalysisWebWorker( scope, researcher );
+
+				await webworker.analyze( 1, { paper } );
+
+				const tree = paper.getTree();
+				const images = tree.findAll( node => node.name === "img" );
+				const caption = tree.findAll( node => node.name === "figcaption" );
+				const captionText = caption[ 0 ].findAll( node => node.name === "p" );
+				const { startOffset, endOffset } = captionText[ 0 ].sentences[ 0 ].sourceCodeRange;
+				// Check if the source code position is correct.
+				expect( images[ 0 ].sourceCodeLocation ).toEqual( {
+					endOffset: 118,
+					startOffset: 60,
+					startTag: { endOffset: 118, startOffset: 60 },
+				} );
+				// Check if the startOffset and endOffset of the caption text is correct.
+				expect( startOffset ).toEqual( 157 );
+				expect( endOffset ).toEqual( 167 );
 			} );
 		} );
 

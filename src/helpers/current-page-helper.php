@@ -418,7 +418,7 @@ class Current_Page_Helper {
 			$current_page = \wp_unslash( $_GET['page'] );
 			return \strpos( $current_page, 'wpseo_' ) === 0;
 		}
-		return null;
+		return false;
 	}
 
 	/**
@@ -434,7 +434,7 @@ class Current_Page_Helper {
 			return \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
 		}
 
-		return null;
+		return '';
 	}
 
 	/**

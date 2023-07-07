@@ -40,6 +40,7 @@ import { refreshDelay } from "../analysis/constants";
 import handleWorkerError from "../analysis/handleWorkerError";
 import initializeUsedKeywords from "./used-keywords-assessment";
 import { actions } from "@yoast/externals/redux";
+import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
 
 const {
 	refreshSnippetEditor,
@@ -181,6 +182,20 @@ export default function initTermScraper( $, store, editorData ) {
 		var savedContentScore = $( "#hidden_wpseo_content_score" ).val();
 
 		var indicator = getIndicatorForScore( savedContentScore );
+
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+	}
+
+	/**
+	 * Initializes the inclusive language analysis.
+	 *
+	 * @returns {void}
+	 */
+	function initializeInclusiveLanguageAnalysis() {
+		const savedContentScore = $( "#hidden_wpseo_inclusive_language_score" ).val();
+
+		const indicator = getIndicatorForScore( savedContentScore );
 
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
@@ -382,6 +397,10 @@ export default function initTermScraper( $, store, editorData ) {
 
 		if ( isContentAnalysisActive() ) {
 			initializeContentAnalysis();
+		}
+
+		if ( isInclusiveLanguageAnalysisActive() ) {
+			initializeInclusiveLanguageAnalysis();
 		}
 
 		// Initialize the analysis worker.

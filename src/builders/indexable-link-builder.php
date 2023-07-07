@@ -339,17 +339,18 @@ class Indexable_Link_Builder {
 
 			if ( $model->target_post_id ) {
 				$file = \get_attached_file( $model->target_post_id );
-				if ( $file ) {
-					list( , $width, $height ) = \wp_get_attachment_image_src( $model->target_post_id, 'full' );
 
-					$model->width  = $width;
-					$model->height = $height;
+				if ( $file ) {
 					if ( \file_exists( $file ) ) {
 						$model->size = \filesize( $file );
 					}
 					else {
 						$model->size = null;
 					}
+
+					list( , $width, $height ) = \wp_get_attachment_image_src( $model->target_post_id, 'full' );
+					$model->width             = $width;
+					$model->height            = $height;
 				}
 				else {
 					$model->width  = 0;
@@ -569,6 +570,7 @@ class Indexable_Link_Builder {
 
 		$counts = $this->seo_links_repository->get_incoming_link_counts_for_indexable_ids( $related_indexable_ids );
 		foreach ( $counts as $count ) {
+
 			$this->indexable_repository->update_incoming_link_count( $count['target_indexable_id'], $count['incoming'] );
 		}
 	}

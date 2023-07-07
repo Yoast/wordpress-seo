@@ -7,6 +7,8 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
+import getWords from "../../../languageProcessing/helpers/word/getWords";
 
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
@@ -71,8 +73,7 @@ class KeywordDensityAssessment extends Assessment {
 
 
 	/**
-	 * Determines correct boundaries depending on the availability
-	 * of morphological forms.
+	 * Determines correct boundaries depending on the availability of morphological forms.
 	 *
 	 * @param {string} text The paper text.
 	 * @param {number} keyphraseLength The length of the keyphrase in words.
@@ -110,7 +111,9 @@ class KeywordDensityAssessment extends Assessment {
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
-		this.setBoundaries( paper.getText(), keyphraseLength, customGetWords );
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+		this.setBoundaries( text, keyphraseLength, customGetWords );
 
 		this._keywordDensity = this._keywordDensity * keyphraseLengthFactor( keyphraseLength );
 		const calculatedScore = this.calculateResult();
@@ -191,7 +194,7 @@ class KeywordDensityAssessment extends Assessment {
 					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text. */
 					__(
 						// eslint-disable-next-line max-len
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -213,9 +216,9 @@ class KeywordDensityAssessment extends Assessment {
 					%5$d expands to the number of times the keyphrase occurred in the text. */
 					_n(
 						// eslint-disable-next-line max-len
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
 						// eslint-disable-next-line max-len
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
 						this._keywordCount.count,
 						"wordpress-seo"
 					),
@@ -237,8 +240,8 @@ class KeywordDensityAssessment extends Assessment {
 					%2$s expands to the anchor end tag,
 					%3$d expands to the number of times the keyphrase occurred in the text. */
 					_n(
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d time. This is great!",
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d times. This is great!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found %3$d time. This is great!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found %3$d times. This is great!",
 						this._keywordCount.count,
 						"wordpress-seo"
 					),
@@ -260,9 +263,9 @@ class KeywordDensityAssessment extends Assessment {
 					%5$d expands to the number of times the keyphrase occurred in the text. */
 					_n(
 						// eslint-disable-next-line max-len
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 						// eslint-disable-next-line max-len
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 						this._keywordCount.count,
 						"wordpress-seo"
 					),
@@ -286,9 +289,9 @@ class KeywordDensityAssessment extends Assessment {
 				%5$d expands to the number of times the keyphrase occurred in the text. */
 				_n(
 					// eslint-disable-next-line max-len
-					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+					"%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 					// eslint-disable-next-line max-len
-					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+					"%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 					this._keywordCount.count,
 					"wordpress-seo"
 				),
@@ -328,7 +331,9 @@ class KeywordDensityAssessment extends Assessment {
 		if ( customApplicabilityConfig ) {
 			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 		}
-		const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" ).count;
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+		const textLength = customCountLength ? customCountLength( text ) : getWords( text ).length;
 
 		return paper.hasText() && paper.hasKeyword() && textLength >= this._config.applicableIfTextLongerThan;
 	}

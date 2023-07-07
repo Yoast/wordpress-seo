@@ -160,7 +160,7 @@ class SeoAnalysis extends Component {
 	 * @param {string} location       Where this component is rendered.
 	 * @param {string} scoreIndicator String indicating the score.
 	 *
-	 * @returns {wp.Element} The rendered score icone portal element.
+	 * @returns {wp.Element} The rendered score icon portal element.
 	 */
 	renderTabIcon( location, scoreIndicator ) {
 		// The tab icon should only be rendered for the metabox.

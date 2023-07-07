@@ -1209,7 +1209,6 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->with( 3, 'term' )
 			->andReturn( $parent_indexable );
 
-
 		$actual = $this->instance->build( $indexable );
 		$this->assertEquals( [ $parent_indexable ], $actual->ancestors );
 	}

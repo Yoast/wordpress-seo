@@ -53,7 +53,6 @@ class Permalink_Test extends TestCase {
 	 * Tests the permalink getter method with dynamic permalinks enabled.
 	 *
 	 * @covers ::generate_permalink
-	 * @covers ::get_permalink
 	 */
 	public function test_get_permalink_with_dynamic_permalinks() {
 		$this->indexable->permalink = 'https://example.com/permalink/';

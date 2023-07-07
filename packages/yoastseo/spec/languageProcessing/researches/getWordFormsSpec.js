@@ -7,6 +7,7 @@ import getWordForms from "../../../src/languageProcessing/researches/getWordForm
 import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
 import Paper from "../../../src/values/Paper";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
+import buildTree from "../../specHelpers/parse/buildTree";
 const morphologyDataEN = getMorphologyData( "en" );
 
 const testText = "I walked my dog. The cat walks along. The canine and the feline were walking.";
@@ -24,6 +25,7 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 		const testPaper = new Paper( text, attributes );
 		const researcher = new EnglishResearcher( testPaper );
 		researcher.addResearchData( "morphology", morphologyDataEN );
+		buildTree( testPaper, researcher );
 
 		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
@@ -175,6 +177,7 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 		const testPaper = new Paper( "walk's <img src='http://plaatje' alt='Different types of walkings' />", attributes );
 		const researcher = new EnglishResearcher( testPaper );
 		researcher.addResearchData( "morphology", morphologyDataEN );
+		buildTree( testPaper, researcher );
 
 		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{

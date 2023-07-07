@@ -33,8 +33,15 @@
 			<directory>./src</directory>
 			<exclude>
 				<directory suffix=".php">./src/deprecated</directory>
+				<directory suffix=".php">./src/generated</directory>
 				<file>./inc/wpseo-functions-deprecated.php</file>
 			</exclude>
 		</whitelist>
 	</filter>
+
+	<logging>
+		<log type="coverage-text" target="php://stdout" showOnlySummary="true"/>
+		<log type="coverage-clover" target="build/logs/clover.xml"/>
+	</logging>
+
 </phpunit>

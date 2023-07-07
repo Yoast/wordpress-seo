@@ -10,7 +10,7 @@ let textArray;
 let inIgnorableBlock = false;
 
 // The blocks we filter out of the text that needs to be parsed.
-const ignoredTags = [ "script", "style", "code", "pre", "blockquote" ];
+const ignoredTags = [ "script", "style", "code", "pre", "blockquote", "textarea"  ];
 
 /**
  * Parses the text.
@@ -93,5 +93,7 @@ const parser = new htmlparser.Parser( {
 export default function( text ) {
 	textArray = [];
 	parser.write( text );
+	// Make sure to complete the process of parsing and reset the parser to avoid side effects.
+	parser.parseComplete();
 	return textArray.join( "" );
 }

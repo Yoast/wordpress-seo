@@ -130,7 +130,6 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 
 		$c = self::$class_instance;
 
-		$categories          = get_categories( [ 'hide_empty' => false ] );
 		$permalink_structure = get_option( 'permalink_structure' );
 
 		if ( ! ( is_multisite() && strpos( $permalink_structure, '/blog/' ) === 0 ) ) {

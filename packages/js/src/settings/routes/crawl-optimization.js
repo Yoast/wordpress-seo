@@ -171,14 +171,16 @@ const CrawlOptimization = () => {
 		),
 		denySearchCrawling: createInterpolateElement(
 			sprintf(
-				/* translators: %1$s and %2$s expand to example parts of a URL, surrounded by <code> tags. */
-				__( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling of %1$s and %2$s URLs.", "wordpress-seo" ),
+				/* translators: %1$s, %2$s and %3$s expand to example parts of a URL, surrounded by <code> tags. */
+				__( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling of URLs like %1$s, %2$s and %3$s.", "wordpress-seo" ),
 				"<code1/>",
-				"<code2/>"
+				"<code2/>",
+				"<code3/>"
 			),
 			{
 				code1: <Code>?s=</Code>,
 				code2: <Code>/search/</Code>,
+				code3: <Code>/page/*/?s=</Code>,
 			}
 		),
 
@@ -516,6 +518,21 @@ const CrawlOptimization = () => {
 								&nbsp;
 							{ descriptions.denyWpJsonCrawling }
 						</FormikValueChangeFieldWithDisabledMessage>
+					</FieldsetLayout>
+					<hr className="yst-my-8" />
+					<FieldsetLayout
+						title={ __( "Block unwanted bots", "wordpress-seo" ) }
+						description={ __( "Lots of web traffic comes from bots crawling the web. Some of these can be beneficial to your site or to your business, but some just waste resources. Blocking unwanted bots can save energy and help with site performance.", "wordpress-seo" ) }
+					>
+						<FormikValueChangeFieldWithDisabledMessage
+							as={ ToggleField }
+							type="checkbox"
+							name="wpseo.deny_adsbot_crawling"
+							id="input-wpseo-deny_adsbot_crawling"
+							label={ __( "Prevent Google AdsBot from crawling", "wordpress-seo" ) }
+							description={ __( "Add a 'disallow' rule to your robots.txt file to prevent crawling by Google's AdsBot. You should only enable this setting if you're not using Google Ads on your site.", "wordpress-seo" ) }
+							className="yst-max-w-2xl"
+						/>
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
 					<FieldsetLayout

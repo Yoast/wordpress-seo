@@ -13,6 +13,20 @@ describe( "a test for an assessment that checks whether a paper contains a list 
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: " +
 			"No lists appear on this page. <a href='https://yoa.st/shopify39' target='_blank'>Add at least one ordered or unordered list</a>!" );
 	} );
+	it( "assesses when there is a list inside an element we want to exclude from the analysis", function() {
+		const mockPaper = new Paper( "<blockquote>These are the most important things in life:\n" +
+			"<ul>\n" +
+			" \t<li>cats</li>\n" +
+			" \t<li>kittens</li>\n" +
+			"</ul>\n" +
+			"</blockquote>" );
+
+		const assessment = listAssessment.getResult( mockPaper );
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: " +
+			"No lists appear on this page. <a href='https://yoa.st/shopify39' target='_blank'>Add at least one ordered or unordered list</a>!" );
+	} );
 	it( "assesses when there is an ordered list", function() {
 		const mockPaper = new Paper( "text with a list <ol type=\"i\">\n" +
 			"  <li>Coffee</li>\n" +

@@ -1,11 +1,25 @@
 name: CS
 
 on:
-  # Run on all pushes (except to main) and on all pull requests.
+  # Run on all relevant pushes (except to main) and on all relevant pull requests.
   push:
     branches-ignore:
       - 'main'
+    paths:
+      - '**.php' # Includes config/*.php files.
+      - 'composer.json'
+      - 'composer.lock'
+      - '.phpcs.xml.dist'
+      - 'phpcs.xml.dist'
+      - '.github/workflows/cs.yml'
   pull_request:
+    paths:
+      - '**.php' # Includes config/*.php files.
+      - 'composer.json'
+      - 'composer.lock'
+      - '.phpcs.xml.dist'
+      - 'phpcs.xml.dist'
+      - '.github/workflows/cs.yml'
   # Allow manually triggering the workflow.
   workflow_dispatch:
 
@@ -61,8 +75,8 @@ jobs:
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
 
       # Check the codestyle of the files against a threshold of expected errors and warnings.
-      - name: Check PHP code style against the threshold
-        run: composer check-cs-threshold
+      - name: Check PHP code style against the thresholds
+        run: composer check-cs-thresholds
 
       # Check the codestyle only of the files which were changed in the current branch.
       # This step will only be executed if the threshold check exited with a failure status.
