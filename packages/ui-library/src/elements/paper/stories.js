@@ -1,6 +1,7 @@
 // eslint-disable react/display-name
 import Paper, { StoryComponent } from ".";
 import { StoryComponent as Title } from "../title";
+import { component, withHeaderAndContent } from "./docs";
 
 export default {
 	title: "1) Elements/Paper",
@@ -14,9 +15,7 @@ export default {
 			"default": "medium",
 		},
 		docs: {
-			description: {
-				component: "A paper gives you a component that looks a bit like a sheet of paper due to the white background and shadow.",
-			},
+			description: { component },
 		},
 	},
 };
@@ -35,7 +34,7 @@ export const WithHeaderAndContent = {
 	parameters: {
 		docs: {
 			description: {
-				story: "Using the `Paper.Header` and `Paper.Content` to give the Paper structure.",
+				story: withHeaderAndContent,
 			},
 		},
 	},

@@ -1,15 +1,10 @@
 import { StoryComponent } from ".";
+import { component } from "./docs";
 
 export default {
 	title: "1) Elements/Progress bar",
 	component: StoryComponent,
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple progress bar component.",
-			},
-		},
-	},
+	parameters: { docs: { description: { component } } },
 };
 
 export const Factory = ( { children, ...args } ) => (
