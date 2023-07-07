@@ -91,7 +91,37 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests whether the correct label for the drop down is returned.
+	 * Tests whether the correct inclusive language label is returned.
+	 *
+	 * @dataProvider provider_get_inclusive_language_label
+	 * @covers       WPSEO_Rank::get_inclusive_language_label
+	 *
+	 * @param int    $rank     Ranking.
+	 * @param string $expected Expected label.
+	 */
+	public function test_get_inclusive_language_label( $rank, $expected ) {
+		$rank = new WPSEO_Rank( $rank );
+
+		$this->assertEquals( $expected, $rank->get_inclusive_language_label() );
+	}
+
+	/**
+	 * Data provider for test_get_inclusive_language_label().
+	 *
+	 * @return array
+	 */
+	public function provider_get_inclusive_language_label() {
+		return [
+			[ WPSEO_Rank::NO_FOCUS, 'Not available' ],
+			[ WPSEO_Rank::NO_INDEX, 'No index' ],
+			[ WPSEO_Rank::BAD, 'Needs improvement' ],
+			[ WPSEO_Rank::OK, 'Potentially non-inclusive' ],
+			[ WPSEO_Rank::GOOD, 'Good' ],
+		];
+	}
+
+	/**
+	 * Tests whether the correct label for the SEO drop down is returned.
 	 *
 	 * @dataProvider provider_get_drop_down_label
 	 * @covers       WPSEO_Rank::get_drop_down_label
@@ -117,6 +147,62 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 			[ WPSEO_Rank::OK, 'SEO: OK' ],
 			[ WPSEO_Rank::GOOD, 'SEO: Good' ],
 			[ WPSEO_Rank::NO_INDEX, 'SEO: Post Noindexed' ],
+		];
+	}
+
+	/**
+	 * Tests whether the correct label for the readability drop down is returned.
+	 *
+	 * @dataProvider provider_get_drop_down_readability_labels
+	 * @covers       WPSEO_Rank::get_drop_down_readability_labels
+	 *
+	 * @param int    $rank     Ranking.
+	 * @param string $expected Expected drop-down label.
+	 */
+	public function test_get_drop_down_readability_labels( $rank, $expected ) {
+		$rank = new WPSEO_Rank( $rank );
+
+		$this->assertEquals( $expected, $rank->get_drop_down_readability_labels() );
+	}
+
+	/**
+	 * Data provider for test_get_drop_down_readability_labels().
+	 *
+	 * @return array
+	 */
+	public function provider_get_drop_down_readability_labels() {
+		return [
+			[ WPSEO_Rank::BAD, 'Readability: Needs improvement' ],
+			[ WPSEO_Rank::OK, 'Readability: OK' ],
+			[ WPSEO_Rank::GOOD, 'Readability: Good' ],
+		];
+	}
+
+	/**
+	 * Tests whether the correct label for the inclusive language drop down is returned.
+	 *
+	 * @dataProvider provider_get_drop_down_inclusive_language_labels
+	 * @covers       WPSEO_Rank::get_drop_down_inclusive_language_labels
+	 *
+	 * @param int    $rank     Ranking.
+	 * @param string $expected Expected drop-down label.
+	 */
+	public function test_get_drop_down_inclusive_language_labels( $rank, $expected ) {
+		$rank = new WPSEO_Rank( $rank );
+
+		$this->assertEquals( $expected, $rank->get_drop_down_inclusive_language_labels() );
+	}
+
+	/**
+	 * Data provider for test_get_drop_down_inclusive_language_labels().
+	 *
+	 * @return array
+	 */
+	public function provider_get_drop_down_inclusive_language_labels() {
+		return [
+			[ WPSEO_Rank::BAD, 'Inclusive language: Needs improvement' ],
+			[ WPSEO_Rank::OK, 'Inclusive language: Potentially non-inclusive' ],
+			[ WPSEO_Rank::GOOD, 'Inclusive language: Good' ],
 		];
 	}
 
@@ -216,12 +302,38 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests whether all the ranks are instances of the WPSEO_Rank class.
+	 * Tests whether all the SEO ranks are instances of the WPSEO_Rank class.
 	 *
 	 * @covers WPSEO_Rank::get_all_ranks
 	 */
 	public function test_get_all_ranks() {
 		$ranks = WPSEO_Rank::get_all_ranks();
+
+		foreach ( $ranks as $rank ) {
+			$this->assertInstanceOf( 'WPSEO_Rank', $rank );
+		}
+	}
+
+	/**
+	 * Tests whether all the readability ranks are instances of the WPSEO_Rank class.
+	 *
+	 * @covers WPSEO_Rank::get_all_readability_ranks
+	 */
+	public function test_get_all_readability_ranks() {
+		$ranks = WPSEO_Rank::get_all_readability_ranks();
+
+		foreach ( $ranks as $rank ) {
+			$this->assertInstanceOf( 'WPSEO_Rank', $rank );
+		}
+	}
+
+	/**
+	 * Tests whether all the inclusive language ranks are instances of the WPSEO_Rank class.
+	 *
+	 * @covers WPSEO_Rank::get_all_inclusive_language_ranks
+	 */
+	public function test_get_all_inclusive_language_ranks() {
+		$ranks = WPSEO_Rank::get_all_inclusive_language_ranks();
 
 		foreach ( $ranks as $rank ) {
 			$this->assertInstanceOf( 'WPSEO_Rank', $rank );

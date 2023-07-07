@@ -32,6 +32,17 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			"You are not using any subheadings, but your text is short enough and probably doesn't need them." );
 	} );
 
+	it( "Scores a text that's short (<300 words) after excluding elements we don't want to analyze," +
+		" and which does not have subheadings.", function() {
+		const assessment = subheadingDistributionTooLong.getResult(
+			new Paper( shortText + "<blockquote>" + shortText + "</blockquote>" ),
+			Factory.buildMockResearcher( [] )
+		);
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"You are not using any subheadings, but your text is short enough and probably doesn't need them." );
+	} );
+
 	it( "Scores a short text (<300 words), which has subheadings.", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
 			new Paper( "a " + subheading + shortText ),
@@ -392,6 +403,12 @@ describe( "A test for the assessment applicability", () => {
 	it( "returns false if the text is too short", function() {
 		const paper = new Paper( "hallo" );
 		expect( new SubheadingDistributionTooLong().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "returns false if the text is too short after excluding text inside elements we don't want to analyze", function() {
+		const paper = new Paper( "<blockquote>" + longText + "</blockquote>" );
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } );
+		expect( assessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "should return false for isApplicable for a paper with only an image.", function() {

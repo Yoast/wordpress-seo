@@ -30,7 +30,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: -50,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 5 times. " +
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The keyphrase was found 5 times. " +
 			"That's way more than the recommended maximum of 4 times for a text of this length. <a href='https://yoa.st/shopify13'" +
 			" target='_blank'>Don't overoptimize</a>!",
 	},
@@ -51,7 +51,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 168 words. Good job!",
+		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 166 words. Good job!",
 	},
 	keyphraseInSEOTitle: {
 		isApplicable: true,
@@ -120,7 +120,7 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 16.67% of the words in your text are considered complex. " +
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 15.66% of the words in your text are considered complex. " +
 			"<a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
 	},
 };

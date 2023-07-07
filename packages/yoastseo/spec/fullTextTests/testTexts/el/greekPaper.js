@@ -19,8 +19,10 @@ const paper = new Paper( content, {
 const expectedResults = {
 	introductionKeyword: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Your keyphrase or its " +
+			"synonyms appear in the first paragraph of the copy, but not within one sentence. <a href='https://yoa.st/33f' " +
+			"target='_blank'>Fix that</a>!",
 	},
 	keyphraseLength: {
 		isApplicable: true,
@@ -30,7 +32,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 38 times. This is great!",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 38 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -64,7 +66,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 2912 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 2913 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -133,7 +135,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 25.7% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 25.8% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},

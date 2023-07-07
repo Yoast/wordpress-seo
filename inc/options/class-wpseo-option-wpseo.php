@@ -88,7 +88,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'configuration_finished_steps'             => [],
 		'dismiss_configuration_workout_notice'     => false,
 		'dismiss_premium_deactivated_notice'       => false,
-		'dismiss_old_premium_version_notice'       => '',
 		'importing_completed'                      => [],
 		'wincher_integration_active'               => true,
 		'wincher_tokens'                           => [],
@@ -126,6 +125,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'search_character_limit'                   => 50,
 		'deny_search_crawling'                     => false,
 		'deny_wp_json_crawling'                    => false,
+		'deny_adsbot_crawling'                     => false,
 		'redirect_search_pretty_urls'              => false,
 		'least_readability_ignore_list'            => [],
 		'least_seo_score_ignore_list'              => [],
@@ -135,6 +135,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexables_overview_state'                => 'dashboard-not-visited',
 		'last_known_public_post_types'             => [],
 		'last_known_public_taxonomies'             => [],
+		'last_known_no_unindexed'                  => [],
 	];
 
 	/**
@@ -324,7 +325,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'wincher_website_id':
 				case 'clean_permalinks_extra_variables':
 				case 'indexables_overview_state':
-				case 'dismiss_old_premium_version_notice':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
@@ -451,7 +451,23 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 						$clean['wordproof_integration_changed'] = true;
 					}
 					break;
+				case 'last_known_no_unindexed':
+					$clean[ $key ] = $old[ $key ];
 
+					if ( isset( $dirty[ $key ] ) ) {
+						$items = $dirty[ $key ];
+
+						if ( is_array( $items ) ) {
+							foreach ( $items as $item_key => $item ) {
+								if ( ! \is_string( $item_key ) || ! \is_numeric( $item ) ) {
+									unset( $items[ $item_key ] );
+								}
+							}
+							$clean[ $key ] = $items;
+						}
+					}
+
+					break;
 
 				/*
 				 * Boolean (checkbox) fields.
@@ -488,6 +504,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'search_cleanup_emoji'
 				 *  'search_cleanup_patterns'
 				 *  'deny_wp_json_crawling'
+				 *  'deny_adsbot_crawling'
 				 *  'redirect_search_pretty_urls'
 				 *  'should_redirect_after_install_free'
 				 *  and most of the feature variables.

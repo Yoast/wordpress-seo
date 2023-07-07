@@ -189,7 +189,6 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 			->with( $source_attachment, 'fullsize' )
 			->andReturn( $expected_url );
 
-
 		$actual_url = $this->aioseo_social_images_provider_service->get_featured_image( $post_id );
 		$this->assertSame( $expected_url, $actual_url );
 	}
@@ -362,7 +361,6 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 				],
 			],
 		];
-
 
 		$twitter_default_image            = [
 			'social' => [

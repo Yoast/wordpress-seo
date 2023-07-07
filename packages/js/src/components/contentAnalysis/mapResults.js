@@ -105,10 +105,9 @@ export function getIconForScore( score ) { // eslint-disable-line complexity
 			return { icon: "seo-score-good", color: colors.$color_green_medium };
 		case "ok":
 			return { icon: "seo-score-ok", color: colors.$color_ok };
-		case "bad":
-			return { icon: "seo-score-bad", color: colors.$color_red };
+		// The default case includes "bad" score cases.
 		default:
-			return { icon: "seo-score-none", color: colors.$color_red };
+			return { icon: "seo-score-bad", color: colors.$color_red };
 	}
 }
 

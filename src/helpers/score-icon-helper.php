@@ -46,6 +46,24 @@ class Score_Icon_Helper {
 	}
 
 	/**
+	 * Creates a Score_Icon_Presenter for the inclusive language analysis.
+	 *
+	 * @param int    $score       The inclusive language analysis score.
+	 * @param string $extra_class Optional. Any extra class.
+	 *
+	 * @return Score_Icon_Presenter The Score_Icon_Presenter.
+	 */
+	public function for_inclusive_language( $score, $extra_class = '' ) {
+		$rank  = WPSEO_Rank::from_numeric_score( (int) $score );
+		$class = $rank->get_css_class();
+		if ( $extra_class ) {
+			$class .= " $extra_class";
+		}
+
+		return new Score_Icon_Presenter( $rank->get_inclusive_language_label(), $class );
+	}
+
+	/**
 	 * Creates a Score_Icon_Presenter for the SEO analysis from an indexable.
 	 *
 	 * @param Indexable|false $indexable      The Indexable.

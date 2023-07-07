@@ -1,9 +1,9 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import { Assessment, AssessmentResult, helpers } from "yoastseo";
-
+import { Assessment, AssessmentResult, helpers, languageProcessing } from "yoastseo";
 const { createAnchorOpeningTag } = helpers;
+const { helpers: languageProcessingHelpers } = languageProcessing;
 
 /**
  * Represents the assessment that will look if the text has a list (only applicable for product pages).
@@ -42,8 +42,11 @@ export default class ListAssessment extends Assessment {
 	 */
 	findList( paper ) {
 		const regex = /<[uo]l.*>[\s\S]*<\/[uo]l>/;
+		let text = paper.getText();
 
-		return regex.test( paper.getText() );
+		text = languageProcessingHelpers.removeHtmlBlocks( text );
+
+		return regex.test( text );
 	}
 
 	/**

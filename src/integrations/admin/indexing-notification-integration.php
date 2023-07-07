@@ -199,6 +199,9 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			return false;
 		}
 
+		// We're about to perform expensive queries, let's inform.
+		\add_filter( 'wpseo_unindexed_count_queries_ran', '__return_true' );
+
 		// Never show a notification when nothing should be indexed.
 		return $this->indexing_helper->get_limited_filtered_unindexed_count( 1 ) > 0;
 	}

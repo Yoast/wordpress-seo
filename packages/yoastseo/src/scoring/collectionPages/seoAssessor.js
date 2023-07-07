@@ -20,8 +20,8 @@ const {
 /**
  * Creates the Assessor used for collection pages.
  *
- * @param {object} researcher   The researcher used for the analysis.
- * @param {Object} options      The options for this assessor.
+ * @param {Researcher} researcher   The researcher used for the analysis.
+ * @param {Object?} options         The options for this assessor.
  * @constructor
  */
 const CollectionSEOAssessor = function( researcher, options ) {

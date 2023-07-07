@@ -1,6 +1,6 @@
 /** @module researches/imageInText */
 
-import imageInText from "../helpers/image/imageInText";
+import getImagesInTree from "../helpers/image/getImagesInTree";
 
 /**
  * Checks the amount of images in the text.
@@ -10,5 +10,7 @@ import imageInText from "../helpers/image/imageInText";
  * @returns {number} The amount of found images.
  */
 export default function imageCount( paper ) {
-	return imageInText( paper.getText() ).length;
+	const images = getImagesInTree( paper );
+
+	return images.length;
 }

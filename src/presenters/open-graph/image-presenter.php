@@ -41,7 +41,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		$return = '';
-		foreach ( $images as $image_index => $image_meta ) {
+		foreach ( $images as $image_meta ) {
 			$image_url = $image_meta['url'];
 
 			if ( \is_attachment() ) {

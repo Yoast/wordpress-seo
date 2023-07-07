@@ -33,7 +33,6 @@ class Woocommerce_Test extends TestCase {
 	/**
 	 * Tests the initialization.
 	 *
-	 * @covers ::__construct
 	 * @covers ::initialize
 	 */
 	public function test_initialize() {

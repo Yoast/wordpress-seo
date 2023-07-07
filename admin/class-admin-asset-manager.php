@@ -243,6 +243,7 @@ class WPSEO_Admin_Asset_Manager {
 			'api-client'               => [ 'wp-api' ],
 			'crawl-settings'           => [ 'jquery' ],
 			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
+			'wincher-dashboard-widget' => [ self::PREFIX . 'api-client' ],
 			'editor-modules'           => [ 'jquery' ],
 			'elementor'                => [
 				self::PREFIX . 'api-client',
@@ -575,10 +576,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'admin-global-' . $flat_version,
 			],
 			[
-				'name' => 'yoast-components',
-				'src'  => 'yoast-components-' . $flat_version,
-			],
-			[
 				'name' => 'extensions',
 				'src'  => 'yoast-extensions-' . $flat_version,
 				'deps' => [
@@ -613,6 +610,10 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'academy',
 				'src'  => 'academy-' . $flat_version,
+			],
+			[
+				'name' => 'support',
+				'src'  => 'support-' . $flat_version,
 			],
 			[
 				'name' => 'workouts',

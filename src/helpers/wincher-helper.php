@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
@@ -82,9 +83,11 @@ class Wincher_Helper {
 	 */
 	public function get_admin_global_links() {
 		return [
-			'links.wincher.website' => \WPSEO_Shortlinker::get( 'https://yoa.st/wincher-popup' ),
-			'links.wincher.pricing' => \WPSEO_Shortlinker::get( 'https://yoa.st/wincher-popup-pricing' ),
 			'links.wincher.login'   => 'https://app.wincher.com/login?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
+			'links.wincher.about'   => WPSEO_Shortlinker::get( 'https://yoa.st/dashboard-about-wincher' ),
+			'links.wincher.pricing' => WPSEO_Shortlinker::get( 'https://yoa.st/wincher-popup-pricing' ),
+			'links.wincher.website' => WPSEO_Shortlinker::get( 'https://yoa.st/wincher-popup' ),
+			'links.wincher.upgrade' => WPSEO_Shortlinker::get( 'https://yoa.st/wincher-upgrade' ),
 		];
 	}
 }

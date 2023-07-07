@@ -57,6 +57,8 @@ class Indexable_Mock extends Indexable {
 
 	public $readability_score;
 
+	public $inclusive_language_score;
+
 	public $link_count;
 
 	public $incoming_link_count;

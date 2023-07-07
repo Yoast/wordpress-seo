@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.2
-Stable tag: 20.5
+Stable tag: 20.10
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -87,7 +87,6 @@ Did you know that [Yoast SEO Premium](https://yoa.st/1v8) contains a lot of extr
 * **Internal linking suggestions** while you’re writing.
 * Preview your content to see what it will look like in the search results and when shared on social media using the **Google preview** and **social preview**.
 * **Cornerstone content checks** that point search engines to your most important pages.
-* Connect Yoast SEO to Zapier to easily **create zaps that instantly share your published posts** with 2000+ destinations like Twitter, Facebook, and much more.
 
 If you are serious about your WordPress SEO, install the [Yoast SEO Premium plugin](https://yoa.st/1v8)! **Costs a little, saves a lot of time!**
 
@@ -112,7 +111,6 @@ Yoast SEO integrates seamlessly into a range of themes and plugins. We work part
 * Google’s [Web Stories](https://wordpress.org/plugins/web-stories/) plugin, which helps you to create ‘[web stories](https://amp.dev/about/stories/)’.
 * The [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/) plugin, when you also activate the [ACF Content Analysis for Yoast SEO](https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/) plugin.
 * The [Elementor](https://wordpress.org/plugins/elementor/) website builder.
-* [Zapier](https://zapier.com/apps/yoast-seo/integrations), which helps you automate your publishing flow.
 * [Algolia](https://wordpress.org/plugins/wp-search-with-algolia/) integration to improve the quality of your site search.
 * [WordProof](https://wordproof.com/), which helps you prove ownership by adding timestamps.
 
@@ -247,41 +245,52 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 20.6 =
+= 20.10 =
 
-Release date: 2023-04-25
+Release date: 2023-06-27
 
-#### Enhancements
-
-* Improves performance when the SEO data optimization has not been completed. Props to @PypWalters.
-
-= 20.5 =
-
-Release date: 2023-04-11
-
-Our latest release, Yoast SEO 20.5, includes enhancements and fixes to elevate your SEO journey. One of the most exciting updates is our improved Google SERP preview, now aligned with Google's current styling for both mobile and desktop. This allows you to see how well your snippets are optimized for the search result pages. Read all about it! Find out more about what's new in Yoast SEO 20.5 in [our release post](https://yoa.st/release-11-4-23)!
+Upgrade now to Yoast SEO 20.10! This latest release includes fixes, enhancements to the crawl optimization settings, and a brand-new support page that helps you get support quickly. Find out more about what's new in Yoast SEO 20.10 in [our release post](https://yoa.st/release-27-6-23)!
 
 #### Enhancements
 
-* Updates mobile and desktop Google snippet previews to be in line with Google's current styling.
-* Improves the recognition of keyphrases starting with a period (e.g., ".net developer") by the _keyphrase in title_ assessment.
-* Cleans up indexables that got orphaned because posts/terms/users got deleted while Yoast SEO was deactivated.
+* Adds a support page to the Yoast admin. This page allows you to easily access Yoast FAQs and support resources from the WordPress admin.
+* Excludes the Yoast SEO Breadcrumbs widget from the content analysis in Elementor Pro.
+* Expands the list of HTML elements excluded from the content analysis.
+* Introduces a new setting for crawl optimization, that disallows AdsBot crawling when enabled.
+* Introduces more robust HTML processing for the _competing links_, _keyphrase in introduction_, _image keyphrase_, and _images_ assessments.
+* Removes any meta tags for enhanced Slack sharing from static home pages.
 
 #### Bugfixes
 
-* Fixes a bug where a fatal error would be thrown when upgrading Yoast SEO while having Local SEO active but never executed.
-* Fixes a bug where, if a content pertaining to a deleted user is re-assigned to another user, the indexables related to the deleted user are not updated with the new `author_id`.
-* Fixes a bug where posts in Elementor would persistently require an update when a related keyphrase was added.
-* Fixes a bug where the Google preview would show a duplicate slug in the breadcrumbs when the slug included encoded characters.
-* Fixes a bug where the highlighting for the _passive voice_, _sentence length_, _transition words_, and _inclusive language_ assessments would not be applied to the first sentence of a paragraph if the paragraph contained a new line character.
-* Fixes a bug where the highlighting would not be applied in the image captions in Classic editor when the match was found in the first sentence.
-* Fixes a bug where the highlighting would not be applied to the first sentence in Classic editor when an image without caption was added at the beginning of a paragraph.
-* Fixes a bug where the _passive voice_ and _transition words_ assessments would show an incorrect percentage in the feedback when a new line character was used inside a paragraph.
+* Fixes a bug where adding a link in the block editor would result in displaying the URL instead of the post title.
+* Fixes a bug where deletion notice would not appear when deleting a term when the `term_id` is different from `taxonomy_term_id`.
+* Fixes a bug where terms with custom canonical URLs would get added in the sitemap.
+* Fixes a bug where the WordPress native sitemap would not work properly after Yoast SEO was deactivated, until rewrite rules were flushed.
+* Fixes a bug where the wrong taxonomy name would appear in the notice when deleting a term.
 
 #### Other
 
-* Changes the last step of the `First-time configuration` to highlight the free webinar availability.
-* Drops compatibility with PHP 5.6, 7.0 and 7.1.
+* Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
+* Deprecates the `Old_Premium_Integration`.
+
+= 20.9 =
+
+Release date: 2023-06-13
+
+In Yoast SEO 20.9, you'll find improvements to our Wincher integration. We've added a dashboard widget to track your keyphrase rankings. We've also done the usual fixes and made enhancements. Find out more about what's new in Yoast SEO 20.9 in [our release post](https://yoa.st/release-13-6-23)!
+
+#### Enhancements
+
+* Adds a new widget on the dashboard that shows your top keywords added to Yoast SEO with Wincher. Provides a connection button if you haven't yet connected your site to Wincher.
+* Tightens crawl optimization site search blocking rules.
+* We now automatically schedule background performance optimization processes (via WP Cron).
+
+#### Bugfixes
+
+* Fixes a bug where a fatal error would occur after updating the plugin due to a failed query.
+* Fixes a bug where indexables would be created when using the `wp yoast index` WP CLI command on a staging site.
+* Fixes a bug where the link popover position in the block editor would be positioned incorrectly when adding or creating links.
+* Fixes a bug where the Yoast SEO metabox would crash in conjunction with Yoast SEO Premium when additional keyphrases are stored in the DB in a malformed way.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

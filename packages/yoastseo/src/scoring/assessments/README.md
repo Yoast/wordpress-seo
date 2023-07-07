@@ -42,7 +42,7 @@ Free users with languages that have morphology support have access to the same f
 Premium users have access to **full morphological support**. This means that in addition to all other functionalities mentioned above, **all possible forms of their keyphrase and all possible forms of their synonyms** are generated. It depends on the assessment whether synonym forms will be taken into consideration or not (see per-assessment specifications below). For example, if the keyphrase is "room decorating ideas" and the synonym is "apartment decorating ideas" all the possible forms of each word are generated: 'apartments', 'rooms', 'room's', 'decorate', 'decorates', 'decorated', 'idea', etc. These are then taken into account during the keyword-related assessments, after possible function words have been filtered out.
 
 #### Summary
-|    	      | All languages	     | Function words developed | English 	|
+|    	      | All languages	     | Languages with function word support | Languages with morphology support 	|
 |------------	|------------------	|---------------------	|---------------	|
 | Free        | Per-word matching    | Per-word matching, filtering out function words | Per-word matching, filtering out function words |
 | Premium	  | The above + synonyms | The above + synonyms	      | The above + synonyms + morphological forms of keyphrase and synonyms |

@@ -328,7 +328,7 @@ class Social_Profiles_Helper {
 		return [ $twitter_setting ];
 	}
 
-	/*** DEPRECATED METHODS ***/
+	/* DEPRECATED METHODS */
 
 	/**
 	 * Gets the person social profile fields supported by us after WP filtering.

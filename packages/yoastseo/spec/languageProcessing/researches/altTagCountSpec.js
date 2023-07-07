@@ -3,6 +3,7 @@ import Researcher from "../../../src/languageProcessing/languages/en/Researcher"
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import altTagCountFunction from "../../../src/languageProcessing/researches/altTagCount";
 import Paper from "../../../src/values/Paper";
+import buildTree from "../../specHelpers/parse/buildTree";
 
 const morphologyData = getMorphologyData( "en" );
 
@@ -11,6 +12,7 @@ describe( "Counts images in a text", function() {
 		const paper = new Paper( "string", { keyword: "keyword", synonyms: "synonym, another synonym" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -23,6 +25,7 @@ describe( "Counts images in a text", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", { keyword: "keyword", synonyms: "synonym, another synonym" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		 buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -36,6 +39,7 @@ describe( "Counts images in a text", function() {
 			synonyms: "synonym, another synonym" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -49,6 +53,7 @@ describe( "Counts images in a text", function() {
 			synonyms: "synonym, another synonym" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -61,6 +66,7 @@ describe( "Counts images in a text", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", { keyword: "" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -73,6 +79,7 @@ describe( "Counts images in a text", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", { keyword: "sample" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -85,6 +92,7 @@ describe( "Counts images in a text", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='' />", { keyword: "keyword" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 1 );
@@ -97,6 +105,7 @@ describe( "Counts images in a text", function() {
 		const paper = new Paper( "string <img src='http://plaatje' />", { keyword: "keyword" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 1 );
@@ -109,6 +118,7 @@ describe( "Counts images in a text", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' /> <img src='http://plaatje' alt='' />", { keyword: "keyword" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 1 );
@@ -121,6 +131,7 @@ describe( "Counts images in a text", function() {
 		const paper = new Paper( "string <img src='http://img' alt='$keyword' />", { keyword: "$keyword" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -139,6 +150,7 @@ describe( "Counts images in a text", function() {
 		} );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 2 );
@@ -159,6 +171,7 @@ describe( "Counts images in a text", function() {
 		);
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 2 );
@@ -183,6 +196,7 @@ describe( "Counts images in a text", function() {
 		);
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 1 );
@@ -218,6 +232,7 @@ describe( "Counts images in a text", function() {
 		);
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -237,6 +252,7 @@ describe( "Counts images in a text", function() {
 		);
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -256,7 +272,9 @@ describe( "Counts images in a text", function() {
 		);
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
+
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
 		expect( stringToCheck.withAlt ).toBe( 0 );
@@ -275,6 +293,7 @@ describe( "Counts images in a text", function() {
 		);
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );

@@ -37,7 +37,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 4 times. This is great!",
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The keyphrase was found 4 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -163,7 +163,7 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 11.52% of the words in your " +
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 11.06% of the words in your " +
 			"text are considered complex. <a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more" +
 			" familiar words to improve readability</a>.",
 	},

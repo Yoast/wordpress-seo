@@ -435,6 +435,11 @@ class Front_End_Integration implements Integration_Interface {
 			$presenters = \array_diff( $presenters, $this->singular_presenters );
 		}
 
+		// Filter out `twitter:data` presenters for static home pages.
+		if ( $page_type === 'Static_Home_Page' ) {
+			$presenters = \array_diff( $presenters, $this->slack_presenters );
+		}
+
 		return $presenters;
 	}
 
