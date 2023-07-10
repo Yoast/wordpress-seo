@@ -924,7 +924,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
 			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
-			'woocommerceUpsell'         => get_post_type( $post_id ) === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
+			'woocommerceUpsell'          => get_post_type( $post_id ) === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
