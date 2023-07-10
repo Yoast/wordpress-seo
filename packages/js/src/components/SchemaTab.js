@@ -5,6 +5,8 @@ import { makeOutboundLink, join } from "@yoast/helpers";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import WooCommerceUpsell from "./WooCommerceUpsell";
+import { get } from "lodash";
 
 const NewsLandingPageLink = makeOutboundLink();
 
@@ -156,7 +158,8 @@ function isNewsArticleType( selectedValue, defaultValue ) {
 const Content = ( props ) => {
 	const schemaPageTypeOptions = getSchemaTypeOptions( props.pageTypeOptions, props.defaultPageType, props.postTypeName );
 	const schemaArticleTypeOptions = getSchemaTypeOptions( props.articleTypeOptions, props.defaultArticleType, props.postTypeName );
-
+	const woocommerceUpsellLink = get( window, "wpseoScriptData.metabox.woocommerceUpsellSchemaLink", "" );
+	const woocommerceUpsell = get( window, "wpseoScriptData.woocommerceUpsell", "" );
 	const [ focusedArticleType, setFocusedArticleType ] = useState( props.schemaArticleTypeSelected );
 
 	const handleOptionChange = useCallback(
@@ -179,6 +182,7 @@ const Content = ( props ) => {
 				linkTo={ props.additionalHelpTextLink }
 				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
 			/>
+			{ woocommerceUpsell && <WooCommerceUpsell link={ woocommerceUpsellLink } /> }
 			<Select
 				id={ join( [ "yoast-schema-page-type", props.location ] ) }
 				options={ schemaPageTypeOptions }

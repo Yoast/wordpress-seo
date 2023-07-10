@@ -61,51 +61,51 @@ class WPSEO_Metabox_Formatter {
 		$host                        = YoastSEO()->helpers->url->get_url_host( get_site_url() );
 
 		return [
-			'author_name'                       => get_the_author_meta( 'display_name' ),
-			'site_name'                         => YoastSEO()->meta->for_current_page()->site_name,
-			'sitewide_social_image'             => WPSEO_Options::get( 'og_default_image' ),
-			'search_url'                        => '',
-			'post_edit_url'                     => '',
-			'base_url'                          => '',
-			'contentTab'                        => __( 'Readability', 'wordpress-seo' ),
-			'keywordTab'                        => __( 'Keyphrase:', 'wordpress-seo' ),
-			'removeKeyword'                     => __( 'Remove keyphrase', 'wordpress-seo' ),
-			'contentLocale'                     => get_locale(),
-			'userLocale'                        => \get_user_locale(),
-			'translations'                      => $this->get_translations(),
-			'keyword_usage'                     => [],
-			'title_template'                    => '',
-			'metadesc_template'                 => '',
-			'contentAnalysisActive'             => $analysis_readability->is_enabled() ? 1 : 0,
-			'keywordAnalysisActive'             => $analysis_seo->is_enabled() ? 1 : 0,
-			'inclusiveLanguageAnalysisActive'   => $analysis_inclusive_language->is_enabled() ? 1 : 0,
-			'cornerstoneActive'                 => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
-			'semrushIntegrationActive'          => WPSEO_Options::get( 'semrush_integration_active', true ) ? 1 : 0,
-			'intl'                              => $this->get_content_analysis_component_translations(),
-			'isRtl'                             => is_rtl(),
-			'isPremium'                         => YoastSEO()->helpers->product->is_premium(),
-			'wordFormRecognitionActive'         => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
-			'siteIconUrl'                       => get_site_icon_url(),
-			'countryCode'                       => WPSEO_Options::get( 'semrush_country_code', false ),
-			'SEMrushLoginStatus'                => WPSEO_Options::get( 'semrush_integration_active', true ) ? $this->get_semrush_login_status() : false,
-			'showSocial'                        => [
+			'author_name'                        => get_the_author_meta( 'display_name' ),
+			'site_name'                          => YoastSEO()->meta->for_current_page()->site_name,
+			'sitewide_social_image'              => WPSEO_Options::get( 'og_default_image' ),
+			'search_url'                         => '',
+			'post_edit_url'                      => '',
+			'base_url'                           => '',
+			'contentTab'                         => __( 'Readability', 'wordpress-seo' ),
+			'keywordTab'                         => __( 'Keyphrase:', 'wordpress-seo' ),
+			'removeKeyword'                      => __( 'Remove keyphrase', 'wordpress-seo' ),
+			'contentLocale'                      => get_locale(),
+			'userLocale'                         => \get_user_locale(),
+			'translations'                       => $this->get_translations(),
+			'keyword_usage'                      => [],
+			'title_template'                     => '',
+			'metadesc_template'                  => '',
+			'contentAnalysisActive'              => $analysis_readability->is_enabled() ? 1 : 0,
+			'keywordAnalysisActive'              => $analysis_seo->is_enabled() ? 1 : 0,
+			'inclusiveLanguageAnalysisActive'    => $analysis_inclusive_language->is_enabled() ? 1 : 0,
+			'cornerstoneActive'                  => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
+			'semrushIntegrationActive'           => WPSEO_Options::get( 'semrush_integration_active', true ) ? 1 : 0,
+			'intl'                               => $this->get_content_analysis_component_translations(),
+			'isRtl'                              => is_rtl(),
+			'isPremium'                          => YoastSEO()->helpers->product->is_premium(),
+			'wordFormRecognitionActive'          => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
+			'siteIconUrl'                        => get_site_icon_url(),
+			'countryCode'                        => WPSEO_Options::get( 'semrush_country_code', false ),
+			'SEMrushLoginStatus'                 => WPSEO_Options::get( 'semrush_integration_active', true ) ? $this->get_semrush_login_status() : false,
+			'showSocial'                         => [
 				'facebook' => WPSEO_Options::get( 'opengraph', false ),
 				'twitter'  => WPSEO_Options::get( 'twitter', false ),
 			],
-			'schema'                            => [
+			'schema'                             => [
 				'displayFooter'      => WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ),
 				'pageTypeOptions'    => $schema_types->get_page_type_options(),
 				'articleTypeOptions' => $schema_types->get_article_type_options(),
 			],
-			'twitterCardType'                   => 'summary_large_image',
+			'twitterCardType'                    => 'summary_large_image',
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
 			 *
 			 * @param bool $showMarkers Should the markers being enabled. Default = true.
 			 */
-			'show_markers'                      => apply_filters( 'wpseo_enable_assessment_markers', true ),
-			'publish_box'                       => [
+			'show_markers'                       => apply_filters( 'wpseo_enable_assessment_markers', true ),
+			'publish_box'                        => [
 				'labels' => [
 					'keyword'            => [
 						'na'   => sprintf(
@@ -199,25 +199,27 @@ class WPSEO_Metabox_Formatter {
 					],
 				],
 			],
-			'markdownEnabled'                   => $this->is_markdown_enabled(),
-			'analysisHeadingTitle'              => __( 'Analysis', 'wordpress-seo' ),
-			'zapierIntegrationActive'           => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
-			'zapierConnectedStatus'             => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
-			'wincherIntegrationActive'          => ( $is_wincher_active ) ? 1 : 0,
-			'wincherLoginStatus'                => ( $is_wincher_active ) ? YoastSEO()->helpers->wincher->login_status() : false,
-			'wincherWebsiteId'                  => WPSEO_Options::get( 'wincher_website_id', '' ),
-			'wincherAutoAddKeyphrases'          => WPSEO_Options::get( 'wincher_automatically_add_keyphrases', false ),
-			'wordproofIntegrationActive'        => YoastSEO()->helpers->wordproof->is_active() ? 1 : 0,
-			'multilingualPluginActive'          => $this->multilingual_plugin_active(),
+			'markdownEnabled'                    => $this->is_markdown_enabled(),
+			'analysisHeadingTitle'               => __( 'Analysis', 'wordpress-seo' ),
+			'zapierIntegrationActive'            => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
+			'zapierConnectedStatus'              => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
+			'wincherIntegrationActive'           => ( $is_wincher_active ) ? 1 : 0,
+			'wincherLoginStatus'                 => ( $is_wincher_active ) ? YoastSEO()->helpers->wincher->login_status() : false,
+			'wincherWebsiteId'                   => WPSEO_Options::get( 'wincher_website_id', '' ),
+			'wincherAutoAddKeyphrases'           => WPSEO_Options::get( 'wincher_automatically_add_keyphrases', false ),
+			'wordproofIntegrationActive'         => YoastSEO()->helpers->wordproof->is_active() ? 1 : 0,
+			'multilingualPluginActive'           => $this->multilingual_plugin_active(),
 
 			/**
 			 * Filter to determine whether the PreviouslyUsedKeyword assessment should run.
 			 *
 			 * @param bool $previouslyUsedKeywordActive Whether the PreviouslyUsedKeyword assessment should run.
 			 */
-			'previouslyUsedKeywordActive'       => apply_filters( 'wpseo_previously_used_keyword_active', true ),
-			'getJetpackBoostPrePublishLink'     => WPSEO_Shortlinker::get( 'https://yoa.st/jetpack-boost-get-prepublish?domain=' . $host ),
-			'upgradeJetpackBoostPrePublishLink' => WPSEO_Shortlinker::get( 'https://yoa.st/jetpack-boost-upgrade-prepublish?domain=' . $host ),
+			'previouslyUsedKeywordActive'        => apply_filters( 'wpseo_previously_used_keyword_active', true ),
+			'getJetpackBoostPrePublishLink'      => WPSEO_Shortlinker::get( 'https://yoa.st/jetpack-boost-get-prepublish?domain=' . $host ),
+			'upgradeJetpackBoostPrePublishLink'  => WPSEO_Shortlinker::get( 'https://yoa.st/jetpack-boost-upgrade-prepublish?domain=' . $host ),
+			'woocommerceUpsellSchemaLink'        => WPSEO_Shortlinker::get( 'https://yoa.st/product-schema-metabox' ),
+			'woocommerceUpsellGooglePreviewLink' => WPSEO_Shortlinker::get( 'https://yoa.st/product-google-preview-metabox' ),
 		];
 	}
 
