@@ -230,11 +230,33 @@ const CrawlOptimization = () => {
 				"<code1/>",
 				"<code2/>",
 				"<code3/>"
+			) +
+			sprintf(
+				/**
+				 * translators:
+				 * %1$s through %7$s each expand to a parameter name within a <code> tag. For example, <code>gclid</code>.
+				 */
+				__( "Note that the following commonly-used parameters will not be removed: %1$s, %2$s, %3$s, %4$s, %5$s, %6$s, and %7$s.",
+					"wordpress-seo" ),
+				"<code4/>",
+				"<code5/>",
+				"<code6/>",
+				"<code7/>",
+				"<code8/>",
+				"<code9/>",
+				"<code10/>"
 			),
 			{
 				code1: <Code>301</Code>,
 				code2: <Code variant="block">https://www.example.com/?unknown_parameter=yes</Code>,
 				code3: <Code variant="block">https://www.example.com</Code>,
+				code4: <Code>gclid</Code>,
+				code5: <Code>gtm_debug</Code>,
+				code6: <Code>utm_campaign</Code>,
+				code7: <Code>utm_content</Code>,
+				code8: <Code>utm_medium</Code>,
+				code9: <Code>utm_source</Code>,
+				code10: <Code>utm_term</Code>,
 			}
 		),
 		cleanPermalinksExtraVariables: createInterpolateElement(

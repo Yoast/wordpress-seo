@@ -76,6 +76,16 @@ class Crawl_Cleanup_Helper {
 	 * @return array The list of the allowed extra vars.
 	 */
 	public function get_allowed_extravars() {
+		$default_allowed_extravars = [
+			'utm_source',
+			'utm_medium',
+			'utm_campaign',
+			'utm_term',
+			'utm_content',
+			'gclid',
+			'gtm_debug',
+		];
+
 		/**
 		 * Filter: 'Yoast\WP\SEO\allowlist_permalink_vars' - Allows plugins to register their own variables not to clean.
 		 *
@@ -83,7 +93,8 @@ class Crawl_Cleanup_Helper {
 		 *
 		 * @param array $allowed_extravars The list of the allowed vars (empty by default).
 		 */
-		$allowed_extravars = \apply_filters( 'Yoast\WP\SEO\allowlist_permalink_vars', [] );
+
+		$allowed_extravars = \apply_filters( 'Yoast\WP\SEO\allowlist_permalink_vars', $default_allowed_extravars );
 
 		$clean_permalinks_extra_variables = $this->options_helper->get( 'clean_permalinks_extra_variables' );
 
