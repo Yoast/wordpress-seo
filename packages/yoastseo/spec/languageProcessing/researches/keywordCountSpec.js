@@ -449,7 +449,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "can match multiple occurrences of keyphrase ending in & as in 'keyphrase&', and output correct Marks objects",
+		description: "can match an occurrence of keyphrase ending in & as in 'keyphrase&', and output correct Marks objects",
 		paper: new Paper( "<p>A string with a keyphrase&.</p>", { keyword: "keyphrase&" } ),
 		keyphraseForms: [ [ "keyphrase" ] ],
 		expectedCount: 1,
