@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Active_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 
 /**
  * This class generates the metabox on the edit post / page as well as contains all page analysis functionality.
@@ -903,8 +904,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 		];
 
-		$alert_dismissal_action = YoastSEO()->classes->get( Alert_Dismissal_Action::class );
-		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
+		$alert_dismissal_action            = YoastSEO()->classes->get( Alert_Dismissal_Action::class );
+		$dismissed_alerts                  = $alert_dismissal_action->all_dismissed();
+		$woocommerce_conditional           = new WooCommerce_Conditional();
+		$woocommerce_active                = $woocommerce_conditional->is_met();
+		$wpseo_plugin_availability_checker = new WPSEO_Plugin_Availability();
+		$woocommerce_seo_file              = 'wpseo-woocommerce/wpseo-woocommerce.php';
+		$woocommerce_seo_active            = $wpseo_plugin_availability_checker->is_active( $woocommerce_seo_file );
 
 		$script_data = [
 			// @todo replace this translation with JavaScript translations.
