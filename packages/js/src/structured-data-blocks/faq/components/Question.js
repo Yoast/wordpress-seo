@@ -332,10 +332,6 @@ export default class Question extends Component {
 			answer,
 		} = attributes;
 
-		// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
-		const focusQuestion = { onFocus: this.onFocusQuestion, unstableOnFocus: this.onFocusQuestion };
-		const focusAnswer = { onFocus: this.onFocusAnswer, unstableOnFocus: this.onFocusAnswer };
-
 		return (
 			<div className="schema-faq-section" key={ id }>
 				<RichText
@@ -345,9 +341,11 @@ export default class Question extends Component {
 					key={ id + "-question" }
 					value={ question }
 					onChange={ this.onChangeQuestion }
+					onFocus={ this.onFocusQuestion }
+					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
+					unstableOnFocus={ this.onFocusQuestion }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
 					allowedFormats={ [ "core/italic", "core/strikethrough", "core/link", "core/annotation" ] }
-					{ ...focusQuestion }
 				/>
 				<RichText
 					identifier={ id + "-answer" }
@@ -356,8 +354,10 @@ export default class Question extends Component {
 					key={ id + "-answer" }
 					value={ answer }
 					onChange={ this.onChangeAnswer }
+					onFocus={ this.onFocusAnswer }
+					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
+					unstableOnFocus={ this.onFocusAnswer }
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
-					{ ...focusAnswer }
 				/>
 				{ isSelected &&
 					<div className="schema-faq-section-controls-container">

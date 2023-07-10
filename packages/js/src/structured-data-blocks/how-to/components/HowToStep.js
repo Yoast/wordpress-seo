@@ -315,10 +315,6 @@ export default class HowToStep extends Component {
 
 		const { id, name, text } = step;
 
-		// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
-		const focusTitle = { onFocus: this.onFocusTitle, unstableOnFocus: this.onFocusTitle };
-		const focusText = { onFocus: this.onFocusText, unstableOnFocus: this.onFocusText };
-
 		return (
 			<li className="schema-how-to-step" key={ id }>
 				<span className="schema-how-to-step-number">
@@ -334,9 +330,11 @@ export default class HowToStep extends Component {
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ this.onChangeTitle }
+					onFocus={ this.onFocusTitle }
+					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
+					unstableOnFocus={ this.onFocusTitle }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					allowedFormats={ [ "core/italic", "core/strikethrough", "core/link", "core/annotation" ] }
-					{ ...focusTitle }
 				/>
 				<RichTextWithAppendedSpace
 					identifier={ `${ id }-text` }
@@ -345,8 +343,10 @@ export default class HowToStep extends Component {
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ this.onChangeText }
+					onFocus={ this.onFocusText }
+					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
+					unstableOnFocus={ this.onFocusText }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
-					{ ...focusText }
 				/>
 				{ isSelected &&
 					<div className="schema-how-to-step-controls-container">
