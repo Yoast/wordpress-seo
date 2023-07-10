@@ -161,6 +161,7 @@ const Content = ( props ) => {
 	const woocommerceUpsellLink = get( window, "wpseoScriptData.metabox.woocommerceUpsellSchemaLink", "" );
 	const woocommerceUpsell = get( window, "wpseoScriptData.woocommerceUpsell", "" );
 	const [ focusedArticleType, setFocusedArticleType ] = useState( props.schemaArticleTypeSelected );
+	const woocommerceUpsellText = __( "Want your products stand out in search results with rich results like price, reviews and more?", "wordpress-seo" );
 
 	const handleOptionChange = useCallback(
 		( _, value ) => {
@@ -182,7 +183,7 @@ const Content = ( props ) => {
 				linkTo={ props.additionalHelpTextLink }
 				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
 			/>
-			{ woocommerceUpsell && <WooCommerceUpsell link={ woocommerceUpsellLink } /> }
+			{ woocommerceUpsell && <WooCommerceUpsell link={ woocommerceUpsellLink } text={ woocommerceUpsellText } /> }
 			<Select
 				id={ join( [ "yoast-schema-page-type", props.location ] ) }
 				options={ schemaPageTypeOptions }

@@ -5,12 +5,12 @@ import { Button, Root } from "@yoast/ui-library";
 
 /**
  *
- * @returns {React.Component} The Y.
+ * @returns {React.Component} The react component for woocommerce upsell ads.
  */
-const WooCommerceUpsell = ( { link } ) => {
+const WooCommerceUpsell = ( { link, text } ) => {
 	return (
 		<Root>
-			<p>{ __( "Want an enhanced Google preview of how your WooCommerce products look in the search results?", "wordpress-seo" ) }</p>
+			<p>{ text }</p>
 			<Button
 				href={ link }
 				as="a"
@@ -31,7 +31,8 @@ const WooCommerceUpsell = ( { link } ) => {
 };
 
 WooCommerceUpsell.propTypes = {
-	link: PropTypes.string,
+	link: PropTypes.string.isRequired,
+	text: PropTypes.string.isRequired,
 };
 
 export default WooCommerceUpsell;

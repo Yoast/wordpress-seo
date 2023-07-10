@@ -52,6 +52,8 @@ export const mapEditorDataToPreview = function( data, context ) {
 const SnippetEditorWrapper = ( props ) => {
 	const woocommerceUpsellLink = get( window, "wpseoScriptData.metabox.woocommerceUpsellGooglePreviewLink", "" );
 	const woocommerceUpsell = get( window, "wpseoScriptData.woocommerceUpsell", "" );
+	const woocommerceUpsellText = __( "Want an enhanced Google preview of how your WooCommerce products look in the search results?", "wordpress-seo" );
+
 	return <LocationConsumer>
 		{ location =>
 			<SnippetPreviewSection
@@ -59,7 +61,7 @@ const SnippetEditorWrapper = ( props ) => {
 				hasPaperStyle={ props.hasPaperStyle }
 			>
 				<>
-					{ woocommerceUpsell && <WooCommerceUpsell link={ woocommerceUpsellLink } /> }
+					{ woocommerceUpsell && <WooCommerceUpsell link={ woocommerceUpsellLink } text={ woocommerceUpsellText } /> }
 					<SnippetEditor
 						{ ...props }
 						descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
