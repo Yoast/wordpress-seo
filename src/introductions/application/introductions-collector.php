@@ -77,6 +77,9 @@ class Introductions_Collector {
 		$metadata = $this->get_metadata( $user->ID );
 
 		foreach ( $this->introductions as $introduction ) {
+			if ( ! $introduction->get_is_applicable() ) {
+				continue;
+			}
 			if ( ! $this->is_new( $introduction->get_plugin(), $introduction->get_version() ) ) {
 				continue;
 			}

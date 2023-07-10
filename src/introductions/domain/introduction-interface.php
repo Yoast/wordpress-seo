@@ -56,4 +56,11 @@ interface Introduction_Interface {
 	 * @return bool
 	 */
 	public function get_can_override();
+
+	/**
+	 * Returns whether this introduction is applicable.
+	 *
+	 * @return bool
+	 */
+	public function get_is_applicable();
 }

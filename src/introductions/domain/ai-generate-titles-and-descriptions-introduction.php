@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Introductions\Domain;
 
 use WPSEO_Addon_Manager;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 
 /**
  * Represents the introduction for the AI generate titles and introduction upsell.
@@ -12,6 +13,22 @@ use WPSEO_Addon_Manager;
  * @makePublic
  */
 class Ai_Generate_Titles_And_Descriptions_Introduction implements Introduction_Interface {
+
+	/**
+	 * Holds the product helper.
+	 *
+	 * @var \Yoast\WP\SEO\Helpers\Product_Helper
+	 */
+	private $product_helper;
+
+	/**
+	 * Constructs the introduction.
+	 *
+	 * @param \Yoast\WP\SEO\Helpers\Product_Helper $product_helper The product helper.
+	 */
+	public function __construct( Product_Helper $product_helper ) {
+		$this->product_helper = $product_helper;
+	}
 
 	/**
 	 * Returns the unique name.
@@ -75,5 +92,14 @@ class Ai_Generate_Titles_And_Descriptions_Introduction implements Introduction_I
 	 */
 	public function get_can_override() {
 		return false;
+	}
+
+	/**
+	 * Returns whether this introduction is applicable.
+	 *
+	 * @return bool
+	 */
+	public function get_is_applicable() {
+		return ! $this->product_helper->is_premium();
 	}
 }
