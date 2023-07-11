@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { forwardRef, Fragment, useCallback } from "@wordpress/element";
 import { Combobox, Transition } from "@headlessui/react";
 import { SelectorIcon, CheckIcon } from "@heroicons/react/solid";
+import { XIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { constant } from "lodash";
 import { useSvgAria } from "../../hooks";
@@ -49,6 +50,26 @@ const optionPropType = {
 
 Option.propTypes = optionPropType;
 
+/**
+ *
+ * @param {Function} onChange Change callback.
+* @returns {JSX.Element} Select component.
+ */
+const ClearSelection = ( { onChange } ) => {
+	const clear = useCallback( ( e )=> {
+		e.preventDefault();
+		onChange( 0 );
+	}, [ onChange ] );
+
+	return <button className="yst-mr-4 yst-flex yst-items-center" onClick={ clear }>
+		<XIcon className="yst-slate-400 yst-w-5 yst-h-5" />
+		<div className="yst-w-2 yst-mr-2 yst-border-r-slate-200 yst-border-r yst-h-7" />
+	</button>;
+};
+
+ClearSelection.propTypes = {
+	onChange: PropTypes.func.isRequired,
+};
 
 /**
  * @param {string} id Identifier.
@@ -113,6 +134,7 @@ const Autocomplete = forwardRef( ( {
 						displayValue={ getDisplayValue }
 						onChange={ onQueryChange }
 					/>
+					{ props.nullable && selectedLabel && <ClearSelection onChange={ onChange } /> }
 					{ ! validation?.message && (
 						<SelectorIcon className="yst-autocomplete__button-icon" { ...svgAriaProps } />
 					) }
