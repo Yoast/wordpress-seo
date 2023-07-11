@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.2
-Stable tag: 20.10
+Stable tag: 20.11
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -249,11 +249,13 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-07-11
 
+Time for another release, time for Yoast SEO 20.11. This latest release includes fixes and enhancements, plus a new notification that pops up when you add a new content type. This reminds you to optimize these. Find out more about what's new in Yoast SEO 20.11 in [our release post](https://yoa.st/release-11-7-23)!
+
 #### Enhancements
 
-* Adds a notification in the settings whenever there is a new content type.
 * Adds badges to new content types in the settings page.
-* Adds notification for new content in the notification center and removes it once it was reviewed.
+* Adds a notification in the settings whenever there is a new content type.
+* Adds a notification for new content in the notification center and removes it once it was reviewed.
 
 #### Bugfixes
 
