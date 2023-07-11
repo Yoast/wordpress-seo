@@ -1,24 +1,23 @@
 <?php
 
-namespace Yoast\WP\SEO\Integrations\Admin;
+namespace Yoast\WP\SEO\Introductions\User_Interface;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Introductions\Application\Current_Page_Trait;
 use Yoast\WP\SEO\Introductions\Application\Introductions_Collector;
 
 /**
- * Loads introduction modal scripts.
- *
- * When:
- * - on a Yoast admin page (except the installation pages)
- * - there is at least one new introduction
- * - the user did not see the new introduction
+ * Loads introduction modal scripts, when there are applicable introductions.
  */
 class Introductions_Integration implements Integration_Interface {
+
+	use Current_Page_Trait;
+
 	const SCRIPT_HANDLE = 'introductions';
 
 	/**
@@ -43,11 +42,11 @@ class Introductions_Integration implements Integration_Interface {
 	private $product_helper;
 
 	/**
-	 * Holds the current page helper.
+	 * Holds the user helper.
 	 *
-	 * @var Current_Page_Helper
+	 * @var User_Helper
 	 */
-	private $current_page_helper;
+	private $user_helper;
 
 	/**
 	 * Holds the short link helper.
@@ -71,20 +70,20 @@ class Introductions_Integration implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager     The admin asset manager.
 	 * @param Introductions_Collector   $introductions_collector The introductions' collector.
 	 * @param Product_Helper            $product_helper          The product helper.
-	 * @param Current_Page_Helper       $current_page_helper     The current page helper.
+	 * @param User_Helper               $user_helper             The user helper.
 	 * @param Short_Link_Helper         $short_link_helper       The short link helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		Introductions_Collector $introductions_collector,
 		Product_Helper $product_helper,
-		Current_Page_Helper $current_page_helper,
+		User_Helper $user_helper,
 		Short_Link_Helper $short_link_helper
 	) {
 		$this->admin_asset_manager     = $admin_asset_manager;
 		$this->introductions_collector = $introductions_collector;
 		$this->product_helper          = $product_helper;
-		$this->current_page_helper     = $current_page_helper;
+		$this->user_helper             = $user_helper;
 		$this->short_link_helper       = $short_link_helper;
 	}
 
@@ -94,17 +93,7 @@ class Introductions_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		if (
-			\in_array(
-				$this->current_page_helper->get_current_yoast_seo_page(),
-				[
-					'wpseo_installation_successful',
-					'wpseo_installation_successful_free',
-				],
-				true
-			)
-		) {
-			// Bail when on an installation page.
+		if ( $this->is_on_installation_page() ) {
 			return;
 		}
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
@@ -114,22 +103,14 @@ class Introductions_Integration implements Integration_Interface {
 	 * Enqueue the new features assets.
 	 */
 	public function enqueue_assets() {
-		$user          = \wp_get_current_user();
-		$introductions = $this->introductions_collector->get_for( $user );
+		$user_id       = $this->user_helper->get_current_user_id();
+		$introductions = $this->introductions_collector->get_for( $user_id );
 		if ( ! $introductions ) {
 			// Bail when there are no introductions to show.
 			return;
 		}
-
 		// Update user meta to have "seen" these introductions.
-		$metadata = \get_user_meta( $user->ID, '_yoast_wpseo_introductions', true );
-		if ( ! \is_array( $metadata ) ) {
-			$metadata = [];
-		}
-		foreach ( $introductions as $introduction ) {
-			$metadata[ $introduction['name'] ] = true;
-		}
-		\update_user_meta( $user->ID, '_yoast_wpseo_introductions', $metadata );
+		$this->update_user_introductions( $user_id, $introductions );
 
 		$this->admin_asset_manager->enqueue_script( self::SCRIPT_HANDLE );
 		$this->admin_asset_manager->localize_script(
@@ -144,5 +125,24 @@ class Introductions_Integration implements Integration_Interface {
 			]
 		);
 		$this->admin_asset_manager->enqueue_style( 'ai-generator' );
+	}
+
+	/**
+	 * Updates the user metadata to have "seen" the introductions.
+	 *
+	 * @param int   $user_id       The user ID.
+	 * @param array $introductions The introductions.
+	 *
+	 * @return void
+	 */
+	private function update_user_introductions( $user_id, $introductions ) {
+		$metadata = $this->user_helper->get_meta( $user_id, '_yoast_wpseo_introductions', true );
+		if ( ! \is_array( $metadata ) ) {
+			$metadata = [];
+		}
+		foreach ( $introductions as $introduction ) {
+			$metadata[ $introduction['name'] ] = true;
+		}
+		$this->user_helper->update_meta( $user_id, '_yoast_wpseo_introductions', $metadata );
 	}
 }

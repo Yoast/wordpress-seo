@@ -15,35 +15,6 @@ interface Introduction_Interface {
 	public function get_name();
 
 	/**
-	 * Returns the plugin this feature belongs to.
-	 * This is used in the version compare.s
-	 *
-	 * @return string
-	 */
-	public function get_plugin();
-
-	/**
-	 * Returns the version when the feature was introduced.
-	 *
-	 * @return string
-	 */
-	public function get_version();
-
-	/**
-	 * Returns the applicable pages.
-	 *
-	 * @return string[]
-	 */
-	public function get_pages();
-
-	/**
-	 * Returns the required user capabilities.
-	 *
-	 * @return string[]
-	 */
-	public function get_capabilities();
-
-	/**
 	 * Returns the requested pagination priority. Lower means earlier.
 	 *
 	 * @return int
