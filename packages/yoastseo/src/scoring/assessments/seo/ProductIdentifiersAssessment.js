@@ -27,6 +27,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
 			assessVariants: true,
 			productIdentifierOrBarcode: "Product identifier",
+			shouldShowEditButton: true,
 		};
 
 		this.identifier = "productIdentifier";
@@ -51,6 +52,11 @@ export default class ProductIdentifiersAssessment extends Assessment {
 		if ( result ) {
 			assessmentResult.setScore( result.score );
 			assessmentResult.setText( result.text );
+		}
+
+		if ( assessmentResult.getScore() < 9 && this._config.shouldShowEditButton ) {
+			assessmentResult.setHasJumps( true );
+			assessmentResult.setEditFieldName( __( "Product identifiers", "yoast-woo-seo" ) );
 		}
 
 		return assessmentResult;
@@ -100,11 +106,9 @@ export default class ProductIdentifiersAssessment extends Assessment {
 
 		if ( this._config.productIdentifierOrBarcode === "Product identifier" ) {
 			feedbackStrings = {
-				okNoVariants: __( "Your product is missing an identifier (like a GTIN code). " +
-					"You can add a product identifier via the \"Yoast SEO\" tab in the Product data box", "yoast-woo-seo" ),
+				okNoVariants: __( "Your product is missing an identifier (like a GTIN code)", "yoast-woo-seo" ),
 				goodNoVariants: __( "Your product has an identifier", "yoast-woo-seo" ),
-				okWithVariants: __( "Not all your product variants have an identifier. " +
-					"You can add a product identifier via the \"Variations\" tab in the Product data box", "yoast-woo-seo" ),
+				okWithVariants: __( "Not all your product variants have an identifier", "yoast-woo-seo" ),
 				goodWithVariants: __( "All your product variants have an identifier", "yoast-woo-seo" ),
 			};
 		} else {
