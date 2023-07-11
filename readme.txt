@@ -245,6 +245,26 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 20.12 =
+
+Release date: 2023-07-25
+
+#### Enhancements
+
+* Adds information to the \"Remove unregistered URL parameters\" setting in the crawl settings about which URL parameters are always allowed.
+* Adds `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `gclid` and
+* Excludes separator and site title from _SEO title width_ assessment and from the calculation in the SEO title progress bar.
+
+#### Bugfixes
+
+* Fixes a bug where an error would appear in `debug.log` when saving a draft or updating a post in Elementor.
+* Fixes a bug where the controls for the _FAQ_ and _how-to_ blocks would be not shown when running Gutenberg versions >= 15.2.
+* Fixes a bug where the duration text of the _how-to_ block would be output in the user language instead of the site language.
+
+#### Other
+
+* Updates the verification link to the Google Search Console in the Site connections section in Settings.
+
 = 20.11 =
 
 Release date: 2023-07-11
@@ -260,34 +280,6 @@ Time for another release, time for Yoast SEO 20.11. This latest release includes
 #### Bugfixes
 
 * Fixes a bug where placeholders would be displayed in the wrong color in the Yoast SEO settings and the First-time configuration.
-
-= 20.10 =
-
-Release date: 2023-06-27
-
-Upgrade now to Yoast SEO 20.10! This latest release includes fixes, enhancements to the crawl optimization settings, and a brand-new support page that helps you get support quickly. Find out more about what's new in Yoast SEO 20.10 in [our release post](https://yoa.st/release-27-6-23)!
-
-#### Enhancements
-
-* Adds a support page to the Yoast admin. This page allows you to easily access Yoast FAQs and support resources from the WordPress admin.
-* Excludes the Yoast SEO Breadcrumbs widget from the content analysis in Elementor Pro.
-* Expands the list of HTML elements excluded from the content analysis.
-* Introduces a new setting for crawl optimization, that disallows AdsBot crawling when enabled.
-* Introduces more robust HTML processing for the _competing links_, _keyphrase in introduction_, _image keyphrase_, and _images_ assessments.
-* Removes any meta tags for enhanced Slack sharing from static home pages.
-
-#### Bugfixes
-
-* Fixes a bug where adding a link in the block editor would result in displaying the URL instead of the post title.
-* Fixes a bug where deletion notice would not appear when deleting a term when the `term_id` is different from `taxonomy_term_id`.
-* Fixes a bug where terms with custom canonical URLs would get added in the sitemap.
-* Fixes a bug where the WordPress native sitemap would not work properly after Yoast SEO was deactivated, until rewrite rules were flushed.
-* Fixes a bug where the wrong taxonomy name would appear in the notice when deleting a term.
-
-#### Other
-
-* Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
-* Deprecates the `Old_Premium_Integration`.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
