@@ -320,16 +320,4 @@ TermDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
 	$( "#hidden_wpseo_inclusive_language_score" ).val( score );
 };
 
-/**
- * Initializes keyword tab with the correct template.
- *
- * @returns {void}
- */
-TermDataCollector.prototype.initKeywordTabTemplate = function() {
-	// Remove default functionality to prevent scrolling to top.
-	$( ".wpseo-metabox-tabs" ).on( "click", ".wpseo_tablink", function( ev ) {
-		ev.preventDefault();
-	} );
-};
-
 export default TermDataCollector;
