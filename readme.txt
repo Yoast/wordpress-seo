@@ -264,6 +264,8 @@ Release date: 2023-07-25
 #### Other
 
 * Updates the verification link to the Google Search Console in the Site connections section in Settings.
+* Improves the copy in the final step of the first time configuration.
+* Updates copy of our free webinar notification.
 
 = 20.11 =
 
