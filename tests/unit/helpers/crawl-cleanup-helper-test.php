@@ -147,7 +147,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'Yoast\WP\SEO\allowlist_permalink_vars', [] )
+			->with( 'Yoast\WP\SEO\allowlist_permalink_vars', [ 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gtm_debug' ] )
 			->andReturn( $permalink_vars );
 
 		$this->options_helper

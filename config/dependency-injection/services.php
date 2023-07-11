@@ -77,7 +77,7 @@ $yoast_seo_base_definition = new Definition();
 $yoast_seo_base_definition
 	->setAutowired( true )
 	->setAutoconfigured( true )
-	->setPublic( true );
+	->setPublic( false );
 
 /**
  * Holds the dependency injection loader.

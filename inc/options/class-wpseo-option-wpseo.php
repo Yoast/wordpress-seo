@@ -136,6 +136,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'last_known_public_post_types'             => [],
 		'last_known_public_taxonomies'             => [],
 		'last_known_no_unindexed'                  => [],
+		'new_post_types'                           => [],
+		'new_taxonomies'                           => [],
+		'show_new_content_type_notification'       => false,
 	];
 
 	/**
@@ -408,6 +411,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'indexables_page_reading_list':
 				case 'last_known_public_post_types':
 				case 'last_known_public_taxonomies':
+				case 'new_post_types':
+				case 'new_taxonomies':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
@@ -507,6 +512,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'deny_adsbot_crawling'
 				 *  'redirect_search_pretty_urls'
 				 *  'should_redirect_after_install_free'
+				 *  'show_new_content_type_notification'
 				 *  and most of the feature variables.
 				 */
 				default:

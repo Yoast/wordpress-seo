@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.2
-Stable tag: 20.9
+Stable tag: 20.11
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -245,49 +245,43 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 20.10 =
+= 20.12 =
 
-Release date: 2023-06-27
+Release date: 2023-07-25
 
 #### Enhancements
 
-* Adds a support page to the Yoast admin.
-* Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
-* Excludes the Yoast SEO Breadcrumbs widget from the content analysis in Elementor Pro.
-* Expands the list of HTML elements excluded from the content analysis.
-* Introduces a new setting for crawl optimization, that disallows AdsBot crawling when enabled.
-* Introduces more robust HTML processing for the _competing links_, _keyphrase in introduction_, _image keyphrase_, and _images_ assessments.
-* Removes any meta tags for enhanced Slack sharing from static home pages.
+* Adds information to the "Remove unregistered URL parameters" setting in the crawl settings about which URL parameters are always allowed.
+* Adds `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `gclid` and `gtm_debug` to the default allowlist for the "Remove unregistered URL parameters" setting.
+* Excludes separator and site title from _SEO title width_ assessment and from the calculation in the SEO title progress bar.
 
 #### Bugfixes
 
-* Fixes a bug where deletion notice would not appear when deleting a term when the `term_id` is different from `taxonomy_term_id`.
-* Fixes a bug where terms with custom canonical URLs would get added in the sitemap.
-* Fixes a bug where the WordPress native sitemap would not work properly after Yoast SEO was deactivated, until rewrite rules were flushed.
-* Fixes a bug where the wrong taxonomy name would appear in the notice when deleting a term.
+* Fixes a bug where an error would appear in `debug.log` when saving a draft or updating a post in Elementor.
+* Fixes a bug where the controls for the _FAQ_ and _how-to_ blocks would be not shown when running Gutenberg versions >= 15.2.
+* Fixes a bug where the duration text of the _how-to_ block would be output in the user language instead of the site language.
 
 #### Other
 
-* Deprecates the `Old_Premium_Integration`.
+* Updates the verification link to the Google Search Console in the Site connections section in Settings.
+* Improves the copy in the final step of the first time configuration.
+* Updates copy of our free webinar notification.
 
-= 20.9 =
+= 20.11 =
 
-Release date: 2023-06-13
+Release date: 2023-07-11
 
-In Yoast SEO 20.9, you'll find improvements to our Wincher integration. We've added a dashboard widget to track your keyphrase rankings. We've also done the usual fixes and made enhancements. Find out more about what's new in Yoast SEO 20.9 in [our release post](https://yoa.st/release-13-6-23)!
+Time for another release, time for Yoast SEO 20.11. This latest release includes fixes and enhancements, plus a new notification that pops up when you add a new content type. This reminds you to optimize these. Find out more about what's new in Yoast SEO 20.11 in [our release post](https://yoa.st/release-11-7-23)!
 
 #### Enhancements
 
-* Adds a new widget on the dashboard that shows your top keywords added to Yoast SEO with Wincher. Provides a connection button if you haven't yet connected your site to Wincher.
-* Tightens crawl optimization site search blocking rules.
-* We now automatically schedule background performance optimization processes (via WP Cron).
+* Adds badges to new content types in the settings page.
+* Adds a notification in the settings whenever there is a new content type.
+* Adds a notification for new content in the notification center and removes it once it was reviewed.
 
 #### Bugfixes
 
-* Fixes a bug where a fatal error would occur after updating the plugin due to a failed query.
-* Fixes a bug where indexables would be created when using the `wp yoast index` WP CLI command on a staging site.
-* Fixes a bug where the link popover position in the block editor would be positioned incorrectly when adding or creating links.
-* Fixes a bug where the Yoast SEO metabox would crash in conjunction with Yoast SEO Premium when additional keyphrases are stored in the DB in a malformed way.
+* Fixes a bug where placeholders would be displayed in the wrong color in the Yoast SEO settings and the First-time configuration.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

@@ -174,6 +174,100 @@ class Structured_Data_Blocks implements Integration_Interface {
 	}
 
 	/**
+	 * Transforms the durations into a translated string containing the count, and either singular or plural unit.
+	 * For example (in en-US): If 'days' is 1, it returns "1 day". If 'days' is 2, it returns "2 days".
+	 * If a number value is 0, we don't output the string.
+	 *
+	 * @param number $days Number of days.
+	 * @param number $hours Number of hours.
+	 * @param number $minutes Number of minutes.
+	 * @return array Array of pluralized durations.
+	 */
+	private function transform_duration_to_string( $days, $hours, $minutes ) {
+		$strings = [];
+		if ( $days ) {
+			$strings[] = \sprintf(
+			/* translators: %d expands to the number of day/days. */
+				\_n( '%d day', '%d days', $days, 'wordpress-seo' ),
+				$days
+			);
+		}
+		if ( $hours ) {
+			$strings[] = \sprintf(
+			/* translators: %d expands to the number of hour/hours. */
+				\_n( '%d hour', '%d hours', $hours, 'wordpress-seo' ),
+				$hours
+			);
+		}
+		if ( $minutes ) {
+			$strings[] = \sprintf(
+			/* translators: %d expands to the number of minute/minutes. */
+				\_n( '%d minute', '%d minutes', $minutes, 'wordpress-seo' ),
+				$minutes
+			);
+		}
+		return $strings;
+	}
+
+	/**
+	 * Formats the durations into a translated string.
+	 *
+	 * @param array $attributes The attributes.
+	 * @return string The formatted duration.
+	 */
+	private function build_duration_string( $attributes ) {
+		$days            = ( $attributes['days'] ?? 0 );
+		$hours           = ( $attributes['hours'] ?? 0 );
+		$minutes         = ( $attributes['minutes'] ?? 0 );
+		$elements        = $this->transform_duration_to_string( $days, $hours, $minutes );
+		$elements_length = count( $elements );
+
+		switch ( $elements_length ) {
+			case 1:
+				return $elements[0];
+			case 2:
+				return \sprintf(
+				/* translators: %s expands to a unit of time (e.g. 1 day). */
+					\__( '%1$s and %2$s', 'wordpress-seo' ),
+					...$elements
+				);
+			case 3:
+				return \sprintf(
+				/* translators: %s expands to a unit of time (e.g. 1 day). */
+					\__( '%1$s, %2$s and %3$s', 'wordpress-seo' ),
+					...$elements
+				);
+			default:
+				return '';
+		}
+	}
+
+	/**
+	 * Presents the duration text of the How-To block in the site language.
+	 *
+	 * @param array  $attributes The attributes.
+	 * @param string $content    The content.
+	 *
+	 * @return string The content with the duration text in the site language.
+	 */
+	public function present_duration_text( $attributes, $content ) {
+		$duration = $this->build_duration_string( $attributes );
+		// 'Time needed:' is the default duration text that will be shown if a user doesn't add one.
+		$duration_text = \__( 'Time needed:', 'wordpress-seo' );
+
+		if ( isset( $attributes['durationText'] ) && $attributes['durationText'] !== '' ) {
+			$duration_text = $attributes['durationText'];
+		}
+
+		return \preg_replace(
+			'/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/',
+			'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">' . $duration_text . '&nbsp;</span>' . $duration . '</p>',
+			$content,
+			1
+		);
+	}
+
+	/**
 	 * Optimizes images in the How-To blocks.
 	 *
 	 * @param array  $attributes The attributes.
@@ -185,6 +279,8 @@ class Structured_Data_Blocks implements Integration_Interface {
 		if ( ! isset( $attributes['steps'] ) ) {
 			return $content;
 		}
+
+		$content = $this->present_duration_text( $attributes, $content );
 
 		return $this->optimize_images( $attributes['steps'], 'text', $content );
 	}

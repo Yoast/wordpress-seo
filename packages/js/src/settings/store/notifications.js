@@ -1,14 +1,9 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { get, omit } from "lodash";
 
-/**
- * @returns {Object} The initial state.
- */
-export const createInitialNotificationsState = () => ( {} );
-
 const slice = createSlice( {
 	name: "notifications",
-	initialState: createInitialNotificationsState(),
+	initialState: {},
 	reducers: {
 		addNotification: {
 			reducer: ( state, { payload } ) => {
@@ -33,6 +28,8 @@ const slice = createSlice( {
 		removeNotification: ( state, { payload } ) => omit( state, payload ),
 	},
 } );
+
+export const getInitialNotificationsState = slice.getInitialState;
 
 export const notificationsSelectors = {
 	selectNotifications: ( state ) => get( state, "notifications", {} ),

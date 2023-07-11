@@ -163,12 +163,6 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 			->times( $delete_transient_times )
 			->with( Indexing_Reasons::REASON_POST_TYPE_MADE_PUBLIC );
 
-		$this->notification_center
-			->expects( 'get_notification_by_id' )
-			->times( $delete_transient_times )
-			->with( 'post-types-made-public' )
-			->andReturn( 'not_null' );
-
 		Functions\expect( 'wp_next_scheduled' )
 			->times( $schedule_cleanup_times )
 			->with( Cleanup_Integration::START_HOOK )
@@ -176,6 +170,12 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 
 		Functions\expect( 'wp_schedule_single_event' )
 			->times( $schedule_cleanup_times );
+
+		Functions\expect( 'do_action' )
+			->times( $schedule_cleanup_times );
+
+		Functions\expect( 'do_action' )
+			->times( $delete_transient_times );
 
 		$this->instance->check_post_types_public_availability();
 	}
@@ -188,50 +188,66 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	public function provider_check_post_types_public_availability() {
 
 		return [
-			[ true, [ 'irrelevant' ], 0, [ 'irrelevant' ], 0, 0, 0 ],
-			[ false, [], 1, [], 1, 0, 0 ],
-			[
-				false,
-				[
-					'post' => 'post',
-					'page' => 'page',
-				],
-				1,
-				[
-					'post' => 'post',
-					'page' => 'page',
-				],
-				0,
-				0,
-				0,
+			'When it is ajax request' => [
+				'is_json_request'              => true,
+				'public_post_types'            => [ 'irrelevant' ],
+				'get_public_post_types_times'  => 0,
+				'last_known_public_post_types' => [ 'irrelevant' ],
+				'set_public_post_types_times'  => 0,
+				'delete_transient_times'       => 0,
+				'schedule_cleanup_times'       => 0,
 			],
-			[
-				false,
-				[
-					'post' => 'post',
-					'page' => 'page',
-				],
-				1,
-				[
-					'post' => 'post',
-				],
-				1,
-				1,
-				0,
+			'When there are no new public content types' => [
+				'is_json_request'              => false,
+				'public_post_types'            => [],
+				'get_public_post_types_times'  => 1,
+				'last_known_public_post_types' => [],
+				'set_public_post_types_times'  => 1,
+				'delete_transient_times'       => 0,
+				'schedule_cleanup_times'       => 0,
 			],
-			[
-				false,
-				[
-					'post' => 'post',
-				],
-				1,
-				[
+			'When the new post types are already saved in cache' => [
+				'is_json_request'              => false,
+				'public_post_types'            => [
 					'post' => 'post',
 					'page' => 'page',
 				],
-				1,
-				0,
-				1,
+				'get_public_post_types_times'  => 1,
+				'last_known_public_post_types' => [
+					'post' => 'post',
+					'page' => 'page',
+				],
+				'set_public_post_types_times'  => 0,
+				'delete_transient_times'       => 0,
+				'schedule_cleanup_times'       => 0,
+			],
+			'When new post type is added' => [
+				'is_json_request'              => false,
+				'public_post_types'            => [
+					'post' => 'post',
+					'page' => 'page',
+				],
+				'get_public_post_types_times'  => 1,
+				'last_known_public_post_types' => [
+					'post' => 'post',
+				],
+				'set_public_post_types_times'  => 1,
+				'delete_transient_times'       => 1,
+				'schedule_cleanup_times'       => 0,
+			],
+			'when post type is removed' => [
+				'is_json_request'              => false,
+				'public_post_types'            => [
+					'post' => 'post',
+				],
+				'get_public_post_types_times'  => 1,
+				'last_known_public_post_types' => [
+					'post' => 'post',
+					'page' => 'page',
+				],
+				'set_public_post_types_times'  => 1,
+				'delete_transient_times'       => 0,
+				'schedule_cleanup_times'       => 1,
 			],
 		];
 	}
