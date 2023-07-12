@@ -398,6 +398,7 @@
 	left: 0;
 	width: 100%;
 	margin-top: auto;
+	background: #fff;
 }
 
 /**
@@ -413,7 +414,6 @@
 
 .yoast-post-settings-modal .yoast-content-container {
 	overflow-y: auto;
-	flex-grow: 1;
 }
 
 .yoast-post-settings-modal .yoast-button-container {
