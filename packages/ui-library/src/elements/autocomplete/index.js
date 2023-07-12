@@ -54,16 +54,17 @@ Option.propTypes = optionPropType;
  *
  * @param {Function} onChange Change callback.
  * @param {Object} svgAriaProps SVG aria props.
+ * @param {string} screenReaderText Screen reader text.
 * @returns {JSX.Element} Select component.
  */
-const ClearSelection = ( { onChange, svgAriaProps } ) => {
+const ClearSelection = ( { onChange, svgAriaProps, screenReaderText } ) => {
 	const clear = useCallback( ( e )=> {
 		e.preventDefault();
 		onChange( 0 );
 	}, [ onChange ] );
 
 	return <button className="yst-mr-4 yst-flex yst-items-center" onClick={ clear }>
-		<span className="yst-sr-only">Clear</span>
+		<span className="yst-sr-only">{ screenReaderText }</span>
 		<XIcon className="yst-slate-400 yst-w-5 yst-h-5" { ...svgAriaProps } />
 		<div className="yst-w-2 yst-mr-2 yst-border-r-slate-200 yst-border-r yst-h-7" />
 	</button>;
@@ -72,6 +73,7 @@ const ClearSelection = ( { onChange, svgAriaProps } ) => {
 ClearSelection.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	svgAriaProps: PropTypes.object.isRequired,
+	screenReaderText: PropTypes.string.isRequired,
 };
 
 /**
@@ -105,6 +107,7 @@ const Autocomplete = forwardRef( ( {
 	placeholder,
 	className,
 	buttonProps,
+	clearButtonScreenReaderText,
 	...props
 }, ref ) => {
 	const getDisplayValue = useCallback( constant( selectedLabel ), [ selectedLabel ] );
@@ -137,7 +140,8 @@ const Autocomplete = forwardRef( ( {
 						displayValue={ getDisplayValue }
 						onChange={ onQueryChange }
 					/>
-					{ props.nullable && selectedLabel && <ClearSelection onChange={ onChange } svgAriaProps={ svgAriaProps } /> }
+					{ props.nullable && selectedLabel &&
+					<ClearSelection onChange={ onChange } svgAriaProps={ svgAriaProps } screenReaderText={ clearButtonScreenReaderText } /> }
 					{ ! validation?.message && (
 						<SelectorIcon className="yst-autocomplete__button-icon" { ...svgAriaProps } />
 					) }
@@ -181,6 +185,7 @@ const propTypes = {
 	placeholder: PropTypes.string,
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
+	clearButtonScreenReaderText: PropTypes.string,
 };
 Autocomplete.propTypes = propTypes;
 
@@ -194,6 +199,7 @@ Autocomplete.defaultProps = {
 	placeholder: "",
 	className: "",
 	buttonProps: {},
+	clearButtonScreenReaderText: "Clear",
 };
 
 export default Autocomplete;
