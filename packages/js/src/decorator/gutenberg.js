@@ -80,6 +80,9 @@ const ANNOTATION_ATTRIBUTES = {
 		{
 			key: "steps",
 		},
+		{
+			key: "jsonDescription",
+		},
 	],
 };
 
@@ -137,7 +140,7 @@ function scheduleAnnotationQueueApplication() {
 }
 
 /**
- * Returns whether or not annotations are available in Gutenberg.
+ * Returns whether annotations are available in Gutenberg.
  *
  * @returns {boolean} Whether or not annotations are available in Gutenberg.
  */
@@ -162,7 +165,7 @@ export function getYoastmarkOffsets( marked ) {
 	// In that case, startMarkIndex will be -1 during later tests.
 	const doesNotContainDoubleQuotedMark = startMarkIndex >= 0;
 
-	// If the start mark is not found, try the double quoted version.
+	// If the start mark is not found, try the double-quoted version.
 	if ( ! doesNotContainDoubleQuotedMark ) {
 		startMarkIndex = marked.indexOf( START_MARK_DOUBLE_QUOTED );
 	}
@@ -204,7 +207,7 @@ export function getYoastmarkOffsets( marked ) {
  *
  * @param {string}  text          Text to search through.
  * @param {string}  stringToFind  Text to search for.
- * @param {boolean} caseSensitive True if the search is case sensitive.
+ * @param {boolean} caseSensitive True if the search is case-sensitive.
  *
  * @returns {Array} All indices of the found occurrences.
  */
@@ -346,6 +349,17 @@ function getAnnotatableAttributes( blockTypeName ) {
 }
 
 /**
+ * Checks if a block has innerblocks.
+ *
+ * @param {Object} block The block with potential inner blocks
+ *
+ * @returns {boolean} True if the block has innerblocks, False otherwise.
+ */
+export function hasInnerBlocks( block ) {
+	return block.innerBlocks.length > 0;
+}
+
+/**
  * Creates the annotations for a block.
  *
  * @param {string} html  The string where we want to apply the annotations.
@@ -353,10 +367,11 @@ function getAnnotatableAttributes( blockTypeName ) {
  * @param {Object} attribute The attribute to apply annotations to.
  * @param {Object} block     The block information in the state.
  * @param {Array}  marks     The marks to turn into annotations.
+ * @param {number} index		The index of the block.
  *
  * @returns {Array}  An array of annotations for a specific block.
  */
-function createAnnotations( html, richTextIdentifier, attribute, block, marks ) {
+function createAnnotations( html, richTextIdentifier, attribute, block, marks, index ) {
 	const record = create( {
 		html: html,
 		multilineTag: attribute.multilineTag,
@@ -368,6 +383,9 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks ) 
 	return flatMap( marks, ( ( mark ) => {
 		let annotations;
 		if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
+			if ( index !== mark.getBlockIndex() ) {
+				return [];
+			}
 			annotations = createAnnotationsFromPositionBasedMarks( mark );
 		} else {
 			annotations = calculateAnnotationsForTextFormat(
@@ -391,78 +409,133 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks ) 
 }
 
 /**
- * Gets the annotations for Yoast FAQ block and Yoast How-To block.
+ * Gets the annotations for Yoast How-To block.
  *
  * @param {Object} attribute The attribute to apply annotations to.
  * @param {Object} block     The block information in the state.
  * @param {Array}  marks     The marks to turn into annotations.
- *
- * @returns {Array} An array of annotations for Yoast blocks.
- */
-export function getAnnotationsForYoastBlocks( attribute, block, marks ) {
-	// For Yoast FAQ and How-To blocks, we create separate annotation objects for each individual Rich Text found in the attribute.
+ * @param {number} index		The index of the block.
+ * @returns {Array} The created annotations. */
+const getAnnotationsForHowTo = ( attribute, block, marks, index ) => {
 	const annotatableTexts = block.attributes[ attribute.key ];
-
-	if ( block.name === "yoast/faq-block" && annotatableTexts.length !== 0 ) {
-		// For each rich text of the attribute value, create annotations.
-		const annotations = annotatableTexts.map( item => {
-			const identifierQuestion = `${ item.id }-question`;
-			const identifierAnswer = `${ item.id }-answer`;
-
-			const annotationsFromQuestion = createAnnotations( item.jsonQuestion, identifierQuestion, attribute, block, marks );
-			const annotationsFromAnswer = createAnnotations( item.jsonAnswer, identifierAnswer, attribute, block, marks );
-
-			return annotationsFromQuestion.concat( annotationsFromAnswer );
-		} );
-
-		return flatMap( annotations );
+	if ( annotatableTexts.length === 0 ) {
+		return [];
 	}
-	// The check for getting the annotations for Yoast How-To block.
-	// Note: for Yoast How-To block, there are actually two attribute keys that are annotatable: steps and jsonDescription.
-	if ( block.name === "yoast/how-to-block" && annotatableTexts.length !== 0 ) {
+
+	// For each rich text of the attribute value, create annotations.
+	const annotations = annotatableTexts.map( item => {
+		const identifierQuestion = `${ item.id }-question`;
+		const identifierAnswer = `${ item.id }-answer`;
+
+		const annotationsFromQuestion = createAnnotations( item.jsonQuestion, identifierQuestion, attribute, block, marks, index );
+		const annotationsFromAnswer = createAnnotations( item.jsonAnswer, identifierAnswer, attribute, block, marks, index );
+
+		return annotationsFromQuestion.concat( annotationsFromAnswer );
+	} );
+
+	return flatMap( annotations );
+};
+
+/**
+ * Gets the annotations for Yoast FAQ block.
+ *
+ * @param {Object} attribute The attribute to apply annotations to.
+ * @param {Object} block     The block information in the state.
+ * @param {Array}  marks     The marks to turn into annotations.
+ * @param {number} index		The index of the block.
+ * @returns {Array} The created annotations.
+ */
+const getAnnotationsForFAQ = ( attribute, block, marks, index ) => {
+	const annotatableTexts = block.attributes[ attribute.key ];
+	if ( annotatableTexts.length === 0 ) {
+		return [];
+	}
+
+	const annotations = [];
+	if ( attribute.key === "steps" ) {
 		// For each rich text of the attribute value, create annotations.
-		 const annotations = annotatableTexts.map( item => {
+		annotations.concat( annotatableTexts.map( item => {
 			const identifierStepName = `${ item.id }-name`;
 			const identifierStepText = `${ item.id }-text`;
 
-			const annotationsFromStepName = createAnnotations( item.jsonName, identifierStepName, attribute, block, marks );
-			const annotationsFromStepText = createAnnotations( item.jsonText, identifierStepText, attribute, block, marks );
+			const annotationsFromStepName = createAnnotations( item.jsonName, identifierStepName, attribute, block, marks, index );
+			const annotationsFromStepText = createAnnotations( item.jsonText, identifierStepText, attribute, block, marks, index );
 
 			// For each step return an array of the name-text pair objects.
-			 return annotationsFromStepName.concat( annotationsFromStepText );
-		} );
-		 // Create annotations for the How-To topmost description by accessing the jsonDescription directly form the block attributes.
-		const annotationsFromStepDescription = createAnnotations( block.attributes.jsonDescription, "description", attribute, block, marks );
+			return annotationsFromStepName.concat( annotationsFromStepText );
+		} ) );
+		console.log( annotatableTexts.map( item => {
+			const identifierStepName = `${ item.id }-name`;
+			const identifierStepText = `${ item.id }-text`;
 
-		return flatMap( annotations.concat( annotationsFromStepDescription ) );
+			const annotationsFromStepName = createAnnotations( item.jsonName, identifierStepName, attribute, block, marks, index );
+			const annotationsFromStepText = createAnnotations( item.jsonText, identifierStepText, attribute, block, marks, index );
+
+			// For each step return an array of the name-text pair objects.
+			return annotationsFromStepName.concat( annotationsFromStepText );
+		} ), "FAQ ANN" );
 	}
+	if ( attribute.key === "jsonDescription" ) {
+		annotations.concat( createAnnotations( annotatableTexts, "description", attribute, block, marks, index ) );
+	}
+
+	return flatMap( annotations );
+};
+
+/**
+ * Gets the annotations for Yoast FAQ block and Yoast How-To block.
+ *
+ * @param {Object} attributes The attributes to apply annotations to.
+ * @param {Object} block     The block information in the state.
+ * @param {Array}  marks     The marks to turn into annotations.
+ * @param {number} index		The index of the block.
+ *
+ * @returns {Array} An array of annotations for Yoast blocks.
+ */
+export function getAnnotationsForYoastBlock( attributes, block, marks, index ) {
+	// For Yoast FAQ and How-To blocks, we create separate annotation objects for each individual Rich Text found in the attribute.
+	return flatMap( attributes, attribute => {
+		if ( block.name === "yoast/faq-block" ) {
+			console.log( getAnnotationsForHowTo( attribute, block, marks, index ), "HOWTO" );
+			return getAnnotationsForHowTo( attribute, block, marks, index );
+		}
+		// The check for getting the annotations for Yoast How-To block.
+		// Note: for Yoast How-To block, there are actually two attribute keys that are annotatable: steps and jsonDescription.
+		if ( block.name === "yoast/how-to-block" ) {
+			console.log( getAnnotationsForFAQ( attribute, block, marks, index ), "FAQ" );
+			return getAnnotationsForFAQ( attribute, block, marks, index );
+		}
+	} );
 }
 
 /**
  * Returns annotations that should be applied to the given attribute.
  *
- * @param {Object} attribute The attribute to apply annotations to.
+ * @param {Object} attributes The attributes to apply annotations to.
  * @param {Object} block     The block information in the state.
  * @param {Array}  marks     The marks to turn into annotations.
+ * @param {number} index		The index of the block.
  *
  * @returns {Array} The annotations to apply.
  */
-export function getAnnotationsForBlockAttribute( attribute, block, marks ) {
-	const attributeKey = attribute.key;
-	const { attributes: blockAttributes } = block;
+export function getAnnotationsForWPBlock( attributes, block, marks, index ) {
+	const annotations = flatMap( attributes, attribute => {
+		if ( attribute.length === 0 ) {
+			return [];
+		}
 
-	if ( attribute.filter && ! attribute.filter( blockAttributes ) ) {
-		return [];
+		const richTextIdentifier = attribute.key;
+		const html = block.attributes[ richTextIdentifier ];
+
+		return createAnnotations( html, richTextIdentifier, attribute, block, marks, index );
+	} );
+
+	if ( hasInnerBlocks( block ) ) {
+		block.innerBlocks.forEach( innerBlock => {
+			annotations.concat( getAnnotationsForWPBlock( attributes, innerBlock, marks, index ) );
+		} );
 	}
-
-	// Get the annotations for Yoast FAQ and How-To blocks.
-	if ( block.name === "yoast/faq-block" || block.name === "yoast/how-to-block" ) {
-		return getAnnotationsForYoastBlocks( attribute, block, marks );
-	}
-
-	const attributeValue = blockAttributes[ attributeKey ];
-	// Get the annotation for non-Yoast blocks.
-	return createAnnotations( attributeValue, attributeKey, attribute, block, marks );
+	return annotations;
 }
 
 /**
@@ -500,26 +573,18 @@ function fillAnnotationQueue( annotations ) {
  *
  * @param { Object } block The block for which the annotations need to be determined.
  * @param { Mark[] } marks A list of marks that could apply to the block.
- *
+ * @param {number} index		The index of the block.
  * @returns { Object[] } All annotations that need to be placed on the block.
  */
-export function getAnnotationsFromBlock( block, marks ) {
-	return flatMap(
-		getAnnotatableAttributes( block.name ),
-		( ( attribute ) => getAnnotationsForBlockAttribute( attribute, block, marks ) )
-	);
-}
+const getAnnotationsForABlock = ( block, marks, index ) => {
+	const attributes = getAnnotatableAttributes( block.name );
+	console.log( attributes, "ATTRIBUTES" );
+	if ( block.name === "yoast/faq-block" || block.name === "yoast/how-to-block" ) {
+		return getAnnotationsForYoastBlock( attributes, block, marks, index );
+	}
+	return getAnnotationsForWPBlock( attributes, block, marks, index );
+};
 
-/**
- * Checks if a block has innerblocks.
- *
- * @param {Object} block The block with potential inner blocks
- *
- * @returns {boolean} True if the block has innerblocks, False otherwise.
- */
-export function hasInnerBlocks( block ) {
-	return block.innerBlocks.length > 0;
-}
 
 /**
  * Takes a list of blocks and matches those with a list of marks, in order to create an array of annotations.
@@ -532,11 +597,9 @@ export function hasInnerBlocks( block ) {
  * @returns {Object[]} An array of annotation objects.
  */
 export function getAnnotationsForBlocks( blocks, marks ) {
-	return flatMap( blocks, ( ( block ) => {
-		// If a block has innerblocks, get annotations for those blocks as well.
-		const innerBlockAnnotations = hasInnerBlocks( block ) ?  getAnnotationsForBlocks( block.innerBlocks, marks ) : [];
-		return getAnnotationsFromBlock( block, marks ).concat( innerBlockAnnotations );
-	} ) );
+	return flatMap( blocks, ( block, i ) => {
+		return getAnnotationsForABlock( block, marks, i );
+	} );
 }
 
 /**
@@ -593,6 +656,7 @@ function removeAllAnnotationsFromBlock( blockClientId ) {
 export function reapplyAnnotationsForSelectedBlock() {
 	const block = select( "core/editor" ).getSelectedBlock();
 	const activeMarkerId  = select( "yoast-seo/editor" ).getActiveMarker();
+	const blockIndex = select( "core/block-editor" ).getBlockIndex( block.clientId );
 
 	if ( ! block || ! activeMarkerId ) {
 		return;
@@ -608,10 +672,7 @@ export function reapplyAnnotationsForSelectedBlock() {
 
 	const marksForActiveMarker = activeMarker.marks;
 
-	const annotations = flatMap(
-		getAnnotatableAttributes( block.name ),
-		attribute => getAnnotationsForBlockAttribute( attribute, block, marksForActiveMarker )
-	);
+	const annotations = getAnnotationsForABlock( block, marksForActiveMarker, blockIndex );
 
 	fillAnnotationQueue( annotations );
 
