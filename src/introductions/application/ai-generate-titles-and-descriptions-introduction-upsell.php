@@ -76,11 +76,11 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	}
 
 	/**
-	 * Returns whether this introduction is applicable.
+	 * Returns whether this introduction should show.
 	 *
 	 * @return bool
 	 */
-	public function get_is_applicable() {
+	public function should_show() {
 		if ( $this->product_helper->is_premium() ) {
 			return false;
 		}

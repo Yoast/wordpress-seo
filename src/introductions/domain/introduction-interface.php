@@ -29,9 +29,9 @@ interface Introduction_Interface {
 	public function get_can_override();
 
 	/**
-	 * Returns whether this introduction is applicable.
+	 * Returns whether this introduction should show.
 	 *
 	 * @return bool
 	 */
-	public function get_is_applicable();
+	public function should_show();
 }

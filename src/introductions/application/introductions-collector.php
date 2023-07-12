@@ -41,7 +41,7 @@ class Introductions_Collector {
 		$metadata = $this->get_metadata( $user_id );
 
 		foreach ( $this->introductions as $introduction ) {
-			if ( ! $introduction->get_is_applicable() ) {
+			if ( ! $introduction->should_show() ) {
 				continue;
 			}
 			if ( $this->is_seen( $introduction->get_name(), $metadata ) ) {
