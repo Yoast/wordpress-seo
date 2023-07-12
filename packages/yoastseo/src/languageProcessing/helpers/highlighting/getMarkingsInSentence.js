@@ -147,13 +147,16 @@ function getMarkingsInSentence( sentence, matchesInSentence, useSpace = true ) {
 	 * all Mark objects for a sentence have the same markedSentence.
 	 */
 	const markings = matchesInSentence.map( token => {
+		const startOffset = token.sourceCodeRange.startOffset;
+		const endOffset =  token.sourceCodeRange.endOffset;
 		return new Mark( {
 			position: {
-				startOffset: token.sourceCodeRange.startOffset,
-				endOffset: token.sourceCodeRange.endOffset,
+				startOffset: startOffset,
+				endOffset: endOffset,
 				// relative to start of block positions.
-				startOffsetBlock: token.sourceCodeRange.startOffset - ( sentence.parentStartOffset || 0 ),
-				endOffsetBlock: token.sourceCodeRange.endOffset - ( sentence.parentStartOffset || 0 ),
+				startOffsetBlock: startOffset - ( sentence.parentStartOffset || 0 ),
+				endOffsetBlock: endOffset - ( sentence.parentStartOffset || 0 ),
+				blockIndex: sentence.blockIndex,
 			},
 			marked: markedSentence,
 			original: sentence.text,
