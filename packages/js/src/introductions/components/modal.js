@@ -14,8 +14,14 @@ export const Modal = ( { children } ) => {
 
 	const handleClose = useCallback( () => setIsModalOpen( false ), [] );
 
+	// To scroll the whole modal vertically there is the calculated height, it takes the modal padding into account (which has breakpoints).
 	return (
-		<PureModal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ handleClose } initialFocus={ initialFocusRef }>
+		<PureModal
+			className="yst-introduction-modal yst-h-[calc(100vh - 1rem)] sm:yst-h-[calc(100vh - 2rem)] md:yst-h-[calc(100vh - 5rem)]) yst-overflow-y-auto"
+			isOpen={ isModalOpen }
+			onClose={ handleClose }
+			initialFocus={ initialFocusRef }
+		>
 			<PureModal.Panel className="yst-max-w-lg yst-p-0 yst-bg-gradient-to-b yst-from-[#EDD2E1] yst-rounded-3xl">
 				{ children }
 			</PureModal.Panel>
