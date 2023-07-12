@@ -87,5 +87,7 @@ export default function adapt( tree ) {
 		return new Heading( headingLevel, attributes, children, tree.sourceCodeLocation );
 	}
 
-	return new Node( tree.nodeName, attributes, children, tree.sourceCodeLocation );
+	const commentData = tree.nodeName === "#comment" && tree.data;
+
+	return new Node( tree.nodeName, attributes, children, tree.sourceCodeLocation, commentData );
 }
