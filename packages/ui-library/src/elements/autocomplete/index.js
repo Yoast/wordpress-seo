@@ -60,7 +60,7 @@ Option.propTypes = optionPropType;
 const ClearSelection = ( { onChange, svgAriaProps, screenReaderText } ) => {
 	const clear = useCallback( ( e )=> {
 		e.preventDefault();
-		onChange( 0 );
+		onChange( null );
 	}, [ onChange ] );
 
 	return <button className="yst-mr-4 yst-flex yst-items-center" onClick={ clear }>
@@ -170,7 +170,7 @@ Autocomplete.Option.displayName = "Autocomplete.Option";
 
 const propTypes = {
 	id: PropTypes.string.isRequired,
-	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
+	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ),
 	children: PropTypes.node,
 	selectedLabel: PropTypes.string,
 	label: PropTypes.string,
@@ -191,6 +191,7 @@ Autocomplete.propTypes = propTypes;
 
 Autocomplete.defaultProps = {
 	children: null,
+	value: null,
 	selectedLabel: "",
 	label: "",
 	labelProps: {},
