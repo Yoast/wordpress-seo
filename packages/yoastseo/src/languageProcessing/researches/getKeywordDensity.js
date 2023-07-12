@@ -10,18 +10,20 @@ import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree";
  */
 export default function getKeyphraseDensity( paper, researcher ) {
 	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
-	let wordCount = getAllWordsFromTree( paper ).length;
+	let wordCount = 0;
 
-	// If there is a custom getWords helper use its output for countWords.
+	// If there is a custom getWords helper, use its output for countWords.
 	if ( getWordsCustomHelper ) {
 		wordCount =  getWordsCustomHelper( paper.getText() ).length;
+	} else {
+		wordCount = getAllWordsFromTree( paper ).length;
 	}
 
 	if ( wordCount === 0 ) {
 		return 0;
 	}
 
-	const keyphraseCount = researcher.getResearch( "keyphraseCount" );
+	const keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
 
 	return ( keyphraseCount.count / wordCount ) * 100;
 }
@@ -29,7 +31,7 @@ export default function getKeyphraseDensity( paper, researcher ) {
 /**
  * Calculates the keyphrase density.
  *
- * @deprecated Since version 20.8. Use getKeyphraseDensity instead.
+ * @deprecated Use getKeyphraseDensity instead.
  *
  * @param {Object} paper        The paper containing keyphrase and text.
  * @param {Object} researcher   The researcher.

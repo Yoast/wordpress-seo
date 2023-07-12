@@ -7,7 +7,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
-import getWords from "../../../languageProcessing/helpers/word/getWords";
+import getAllWordsFromTree from "../../../languageProcessing/helpers/word/getAllWordsFromTree";
 
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
@@ -74,20 +74,20 @@ class KeyphraseDensityAssessment extends Assessment {
 	/**
 	 * Determines correct boundaries depending on the availability of morphological forms.
 	 *
-	 * @param {string} text The paper text.
+	 * @param {Paper} paper The paper to analyze.
 	 * @param {number} keyphraseLength The length of the keyphrase in words.
 	 * @param {function} customGetWords A helper to get words from the text for languages that don't use the default approach.
 	 *
 	 * @returns {void}
 	 */
-	setBoundaries( text, keyphraseLength, customGetWords ) {
+	setBoundaries( paper, keyphraseLength, customGetWords ) {
 		if ( this._hasMorphologicalForms ) {
 			this._boundaries = this._config.parameters.multipleWordForms;
 		} else {
 			this._boundaries = this._config.parameters.noWordForms;
 		}
-		this._minRecommendedKeyphraseCount = recommendedKeyphraseCount( text, keyphraseLength, this._boundaries.minimum, "min", customGetWords );
-		this._maxRecommendedKeyphraseCount = recommendedKeyphraseCount( text, keyphraseLength, this._boundaries.maximum, "max", customGetWords );
+		this._minRecommendedKeyphraseCount = recommendedKeyphraseCount( paper, keyphraseLength, this._boundaries.minimum, "min", customGetWords );
+		this._maxRecommendedKeyphraseCount = recommendedKeyphraseCount( paper, keyphraseLength, this._boundaries.maximum, "max", customGetWords );
 	}
 
 	/**
@@ -101,8 +101,8 @@ class KeyphraseDensityAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const customGetWords = researcher.getHelper( "getWordsCustomHelper" );
-		this._keyphraseCount = researcher.getResearch( "keyphraseCount" );
-		const keyphraseLength = this._keyphraseCount.length;
+		this._keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
+		const keyphraseLength = this._keyphraseCount.keyphraseLength;
 
 		const assessmentResult = new AssessmentResult();
 
@@ -110,10 +110,7 @@ class KeyphraseDensityAssessment extends Assessment {
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
-		const text = paper.getText();
-		// eslint-disable-next-line no-warning-comments
-		// TODO: do we need to use the paper text, or can we adjust this to use the html parser?
-		this.setBoundaries( text, keyphraseLength, customGetWords );
+		this.setBoundaries( paper, keyphraseLength, customGetWords );
 
 		this._keyphraseDensity = this._keyphraseDensity * keyphraseLengthFactor( keyphraseLength );
 		const calculatedScore = this.calculateResult();
@@ -306,7 +303,7 @@ class KeyphraseDensityAssessment extends Assessment {
 
 
 	/**
-	 * Marks keywords in the text for the keyword density assessment.
+	 * Marks the occurrences of keyphrase in the text for the keyphrase density assessment.
 	 *
 	 * @returns {Array<Mark>} Marks that should be applied.
 	 */
@@ -316,7 +313,7 @@ class KeyphraseDensityAssessment extends Assessment {
 
 
 	/**
-	 * Checks whether the paper has a text of the minimum required length and a keyword is set. Language-specific length requirements and methods
+	 * Checks whether the paper has a text of the minimum required length and a keyphrase is set. Language-specific length requirements and methods
 	 * of counting text length may apply (e.g. for Japanese, the text should be counted in characters instead of words, which also makes the minimum
 	 * required length higher).
 	 *
@@ -331,10 +328,8 @@ class KeyphraseDensityAssessment extends Assessment {
 		if ( customApplicabilityConfig ) {
 			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 		}
-		const text = paper.getText();
-		// eslint-disable-next-line no-warning-comments
-		// TODO: Adapt this to use HTML Parser.
-		const textLength = customCountLength ? customCountLength( text ) : getWords( text ).length;
+
+		const textLength = customCountLength ? customCountLength( paper.getText() ) : getAllWordsFromTree( paper ).length;
 
 		return paper.hasText() && paper.hasKeyword() && textLength >= this._config.applicableIfTextLongerThan;
 	}
@@ -345,7 +340,7 @@ class KeyphraseDensityAssessment extends Assessment {
  * KeywordDensityAssessment was the previous name for KeyphraseDensityAssessment (hence the name of this file).
  * We keep (and expose) this assessment for backwards compatibility.
  *
- * @deprecated Since version 18.8 Use KeyphraseDensityAssessment instead.
+ * @deprecated Use KeyphraseDensityAssessment instead.
  */
 class KeywordDensityAssessment extends KeyphraseDensityAssessment {
 	/**

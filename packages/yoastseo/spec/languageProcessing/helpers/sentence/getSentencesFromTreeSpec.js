@@ -3,14 +3,15 @@ import getSentencesFromTree from "../../../../src/languageProcessing/helpers/sen
 import buildTree from "../../../specHelpers/parse/buildTree";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
-describe( "test", () => {
+describe( "test to get sentences from the tree", () => {
 	let researcher;
 	beforeEach( () => {
 		researcher = new EnglishResearcher();
 	} );
-	it( "test", () => {
+	it( "returns the sentences from paragraph and heading nodes", () => {
 		const paper = new Paper( "<p>A very intelligent cat loves their human. A dog is very cute.</p><h3>A subheading 3" +
 			"</h3>text text text<h4>A subheading 4</h4>more text." );
+		researcher.setPaper( paper );
 		buildTree( paper, researcher );
 		expect( getSentencesFromTree( paper ) ).toEqual( [
 			{
@@ -96,5 +97,32 @@ describe( "test", () => {
 				],
 			},
 		] );
+	} );
+	it( "should not include sentences from non-paragraph and non-heading nodes", () => {
+		const paper = new Paper( "<p>A cute red panda</p><blockquote>The red panda (Ailurus fulgens), also known as the lesser panda," +
+			" is a small mammal native to the eastern Himalayas and southwestern China</blockquote>" );
+		researcher.setPaper( paper );
+		buildTree( paper, researcher );
+		expect( getSentencesFromTree( paper ) ).toEqual( [
+			{ sourceCodeRange: { endOffset: 19, startOffset: 3 },
+				text: "A cute red panda",
+				tokens: [
+					{ sourceCodeRange: { endOffset: 4, startOffset: 3 }, text: "A" },
+					{ sourceCodeRange: { endOffset: 5, startOffset: 4 }, text: " " },
+					{ sourceCodeRange: { endOffset: 9, startOffset: 5 }, text: "cute" },
+					{ sourceCodeRange: { endOffset: 10, startOffset: 9 }, text: " " },
+					{ sourceCodeRange: { endOffset: 13, startOffset: 10 }, text: "red" },
+					{ sourceCodeRange: { endOffset: 14, startOffset: 13 }, text: " " },
+					{ sourceCodeRange: { endOffset: 19, startOffset: 14 }, text: "panda" },
+				],
+			},
+		] );
+	} );
+	it( "should return empty array if no sentences are found in paragraph/heading node", () => {
+		const paper = new Paper( "<p></p><blockquote>The red panda (Ailurus fulgens), also known as the lesser panda," +
+			" is a small mammal native to the eastern Himalayas and southwestern China</blockquote>" );
+		researcher.setPaper( paper );
+		buildTree( paper, researcher );
+		expect( getSentencesFromTree( paper ) ).toEqual( [] );
 	} );
 } );
