@@ -17,7 +17,7 @@
 		}
 
 		.yst-modal__overlay {
-			@apply yst-absolute yst-inset-0 yst-bg-slate-500 yst-bg-opacity-75 yst-transition-opacity;
+			@apply yst-fixed yst-inset-0 yst-bg-slate-500 yst-bg-opacity-75 yst-transition-opacity;
 		}
 
 		.yst-modal__panel {
