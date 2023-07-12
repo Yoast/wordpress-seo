@@ -96,6 +96,27 @@ Mark.prototype.setPositionEnd = function( positionEnd ) {
 };
 
 /**
+ * Sets the block index.
+ *
+ * @param {number} blockIndex The block index to set.
+ * @returns {void}
+ */
+Mark.prototype.setBlockIndex = function( blockIndex ) {
+	if ( this._properties.position ) {
+		this._properties.position.blockIndex = blockIndex;
+	}
+}
+
+/**
+ * Gets the block index.
+ *
+ * @returns {number} The block index.
+ */
+Mark.prototype.getBlockIndex = function() {
+	return this._properties.position && this._properties.position.blockIndex;
+}
+
+/**
  * Returns the start position inside block.
  *
  * @returns {number} The start position inside block if the mark position information, undefined otherwise.
