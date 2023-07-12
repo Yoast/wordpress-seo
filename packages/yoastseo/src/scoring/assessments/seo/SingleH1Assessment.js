@@ -91,12 +91,11 @@ class SingleH1Assessment extends Assessment {
 	 * @returns {Array} Array with all the marked H1s.
 	 */
 	getMarks() {
-		const h1s = this._h1s;
-
-		return map( h1s, function( h1 ) {
+		return map( this._h1s, function( h1 ) {
 			return new Mark( {
 				original: "<h1>" + h1.content + "</h1>",
 				marked: "<h1>" + marker( h1.content ) + "</h1>",
+				position: { startOffset: h1.position.startOffset, endOffset: h1.position.endOffset },
 			} );
 		} );
 	}
