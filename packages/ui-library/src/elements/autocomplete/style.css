@@ -57,7 +57,8 @@
 			yst-pr-10
 			yst-shadow-none
 			yst-text-sm
-			focus:yst-ring-0;
+			focus:yst-ring-0
+			yst-text-slate-800;
 		}
 
 		.yst-autocomplete__options {

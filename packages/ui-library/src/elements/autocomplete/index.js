@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { forwardRef, Fragment, useCallback } from "@wordpress/element";
 import { Combobox, Transition } from "@headlessui/react";
 import { SelectorIcon, CheckIcon } from "@heroicons/react/solid";
+import { XIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { constant } from "lodash";
 import { useSvgAria } from "../../hooks";
@@ -49,6 +50,31 @@ const optionPropType = {
 
 Option.propTypes = optionPropType;
 
+/**
+ *
+ * @param {Function} onChange Change callback.
+ * @param {Object} svgAriaProps SVG aria props.
+ * @param {string} screenReaderText Screen reader text.
+* @returns {JSX.Element} Select component.
+ */
+const ClearSelection = ( { onChange, svgAriaProps, screenReaderText } ) => {
+	const clear = useCallback( ( e )=> {
+		e.preventDefault();
+		onChange( null );
+	}, [ onChange ] );
+
+	return <button className="yst-mr-4 yst-flex yst-items-center" onClick={ clear }>
+		<span className="yst-sr-only">{ screenReaderText }</span>
+		<XIcon className="yst-text-slate-400 yst-w-5 yst-h-5" { ...svgAriaProps } />
+		<div className="yst-w-2 yst-mr-2 yst-border-r-slate-200 yst-border-r yst-h-7" />
+	</button>;
+};
+
+ClearSelection.propTypes = {
+	onChange: PropTypes.func.isRequired,
+	svgAriaProps: PropTypes.object.isRequired,
+	screenReaderText: PropTypes.string.isRequired,
+};
 
 /**
  * @param {string} id Identifier.
@@ -81,6 +107,7 @@ const Autocomplete = forwardRef( ( {
 	placeholder,
 	className,
 	buttonProps,
+	clearButtonScreenReaderText,
 	...props
 }, ref ) => {
 	const getDisplayValue = useCallback( constant( selectedLabel ), [ selectedLabel ] );
@@ -109,10 +136,13 @@ const Autocomplete = forwardRef( ( {
 				>
 					<Combobox.Input
 						className="yst-autocomplete__input"
+						autoComplete="off"
 						placeholder={ placeholder }
 						displayValue={ getDisplayValue }
 						onChange={ onQueryChange }
 					/>
+					{ props.nullable && selectedLabel &&
+					<ClearSelection onChange={ onChange } svgAriaProps={ svgAriaProps } screenReaderText={ clearButtonScreenReaderText } /> }
 					{ ! validation?.message && (
 						<SelectorIcon className="yst-autocomplete__button-icon" { ...svgAriaProps } />
 					) }
@@ -141,7 +171,7 @@ Autocomplete.Option.displayName = "Autocomplete.Option";
 
 const propTypes = {
 	id: PropTypes.string.isRequired,
-	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
+	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ),
 	children: PropTypes.node,
 	selectedLabel: PropTypes.string,
 	label: PropTypes.string,
@@ -156,11 +186,13 @@ const propTypes = {
 	placeholder: PropTypes.string,
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
+	clearButtonScreenReaderText: PropTypes.string,
 };
 Autocomplete.propTypes = propTypes;
 
 Autocomplete.defaultProps = {
 	children: null,
+	value: null,
 	selectedLabel: "",
 	label: "",
 	labelProps: {},
@@ -169,6 +201,7 @@ Autocomplete.defaultProps = {
 	placeholder: "",
 	className: "",
 	buttonProps: {},
+	clearButtonScreenReaderText: "Clear",
 };
 
 export default Autocomplete;
