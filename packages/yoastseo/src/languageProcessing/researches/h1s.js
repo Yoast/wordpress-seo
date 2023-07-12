@@ -1,19 +1,3 @@
-import { getBlocks } from "../helpers/html/html";
-import { reject } from "lodash-es";
-
-const h1Regex = /<h1.*?>(.*?)<\/h1>/;
-
-/**
- * Gets a block from a text and checks if it is totally empty or if it is an empty paragraph.
- *
- * @param {string} block A HTML block extracted from the paper.
- *
- * @returns {boolean} Whether the block is empty or not.
- */
-const emptyBlock = function( block ) {
-	block = block.trim();
-	return block === "<p></p>" || block === "";
-};
 
 
 /**
