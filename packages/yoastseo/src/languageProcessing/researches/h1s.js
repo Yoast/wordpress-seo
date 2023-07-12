@@ -24,21 +24,19 @@ const emptyBlock = function( block ) {
  * @returns {Array} An array with all H1s, their content and position.
  */
 export default function( paper ) {
-	const text = paper.getText();
+	const tree = paper.getTree();
 
-	let blocks = getBlocks( text );
-	blocks = reject( blocks, emptyBlock );
+	const h1Matches = tree.findAll( node => node.name === "h1" );
+
 
 	const h1s = [];
-	blocks.forEach( ( block, index ) => {
-		const match = h1Regex.exec( block );
-		if ( match ) {
-			h1s.push( {
-				tag: "h1",
-				content: match[ 1 ],
-				position: index,
-			} );
-		}
+
+	h1Matches.forEach( h1Match => {
+		h1s.push( {
+			tag: "h1",
+			content: h1Match.findAll( node => node.name === "#text" ).map( textNode => textNode.value ).join( "" ),
+			position: { startOffset: h1Match.sourceCodeLocation.startTag.endOffset, endOffset: h1Match.sourceCodeLocation.endTag.startOffset },
+		} );
 	} );
 
 	return h1s;
