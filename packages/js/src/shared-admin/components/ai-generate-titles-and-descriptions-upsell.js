@@ -16,8 +16,8 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { imageLink, learnMoreLin
 	const { onClose, initialFocus } = useModalContext();
 
 	return (
-		<div className="yst-flex yst-flex-col yst-items-center">
-			<div className="yst-relative yst-mt-10">
+		<div className="yst-flex yst-flex-col yst-items-center yst-p-10">
+			<div className="yst-relative">
 				<img
 					className="yst-rounded-md yst-drop-shadow-md"
 					src={ imageLink }
@@ -40,36 +40,38 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { imageLink, learnMoreLin
 				&nbsp;
 				<span className="yst-uppercase yst-text-slate-700">20.X</span>
 			</div>
-			<h3 className="yst-mt-4 yst-text-slate-900 yst-text-lg yst-font-medium">
-				{ __( "Generate titles & descriptions with Yoast AI!", "wordpress-seo" ) }
-			</h3>
-			<span className="yst-mt-2 yst-mx-14 yst-text-center yst-text-slate-600 yst-text-sm">
-				{ createInterpolateElement(
-					sprintf(
-						/* translators: %1$s and %2$s are anchor tag; %3$s is the arrow icon. */
-						__(
-							"Speed up your workflow with generative AI. Get high-quality title and description suggestions for your search and social appearance. %1$sLearn more%2$s%3$s",
-							"wordpress-seo"
+			<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
+				<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
+					{ __( "Generate titles & descriptions with Yoast AI!", "wordpress-seo" ) }
+				</h3>
+				<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
+					{ createInterpolateElement(
+						sprintf(
+							/* translators: %1$s and %2$s are anchor tag; %3$s is the arrow icon. */
+							__(
+								"Speed up your workflow with generative AI. Get high-quality title and description suggestions for your search and social appearance. %1$sLearn more%2$s%3$s",
+								"wordpress-seo"
+							),
+							"<a>",
+							"<ArrowNarrowRightIcon />",
+							"</a>"
 						),
-						"<a>",
-						"<ArrowNarrowRightIcon />",
-						"</a>"
-					),
-					{
-						// eslint-disable-next-line jsx-a11y/anchor-has-content
-						a: <OutboundLink
-							href={ learnMoreLink }
-							className="yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
-							variant="primary"
-						/>,
-						ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />,
-					}
-				) }
-			</span>
-			<div className="yst-w-full yst-flex">
+						{
+							// eslint-disable-next-line jsx-a11y/anchor-has-content
+							a: <OutboundLink
+								href={ learnMoreLink }
+								className="yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
+								variant="primary"
+							/>,
+							ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />,
+						}
+					) }
+				</div>
+			</div>
+			<div className="yst-w-full yst-flex yst-mt-10">
 				<Button
 					as="a"
-					className="yst-mt-10 yst-grow yst-mx-10"
+					className="yst-grow"
 					size="large"
 					variant="upsell"
 					href={ upsellLink }
@@ -85,7 +87,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { imageLink, learnMoreLin
 			</div>
 			<Button
 				as="a"
-				className="yst-mt-6 yst-mb-10"
+				className="yst-mt-4"
 				variant="tertiary"
 				onClick={ onClose }
 			>
