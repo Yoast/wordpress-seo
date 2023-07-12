@@ -53,22 +53,25 @@ Option.propTypes = optionPropType;
 /**
  *
  * @param {Function} onChange Change callback.
+ * @param {Object} svgAriaProps SVG aria props.
 * @returns {JSX.Element} Select component.
  */
-const ClearSelection = ( { onChange } ) => {
+const ClearSelection = ( { onChange, svgAriaProps } ) => {
 	const clear = useCallback( ( e )=> {
 		e.preventDefault();
 		onChange( 0 );
 	}, [ onChange ] );
 
 	return <button className="yst-mr-4 yst-flex yst-items-center" onClick={ clear }>
-		<XIcon className="yst-slate-400 yst-w-5 yst-h-5" />
+		<span className="yst-sr-only">Clear</span>
+		<XIcon className="yst-slate-400 yst-w-5 yst-h-5" { ...svgAriaProps } />
 		<div className="yst-w-2 yst-mr-2 yst-border-r-slate-200 yst-border-r yst-h-7" />
 	</button>;
 };
 
 ClearSelection.propTypes = {
 	onChange: PropTypes.func.isRequired,
+	svgAriaProps: PropTypes.object.isRequired,
 };
 
 /**
@@ -134,7 +137,7 @@ const Autocomplete = forwardRef( ( {
 						displayValue={ getDisplayValue }
 						onChange={ onQueryChange }
 					/>
-					{ props.nullable && selectedLabel && <ClearSelection onChange={ onChange } /> }
+					{ props.nullable && selectedLabel && <ClearSelection onChange={ onChange } svgAriaProps={ svgAriaProps } /> }
 					{ ! validation?.message && (
 						<SelectorIcon className="yst-autocomplete__button-icon" { ...svgAriaProps } />
 					) }
