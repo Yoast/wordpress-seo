@@ -414,6 +414,7 @@
 
 .yoast-post-settings-modal .yoast-content-container {
 	overflow-y: auto;
+	flex-grow: 1;
 }
 
 .yoast-post-settings-modal .yoast-button-container {
