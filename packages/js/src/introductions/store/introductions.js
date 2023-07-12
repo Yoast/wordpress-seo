@@ -15,12 +15,11 @@ const adapter = createEntityAdapter( {
 
 /**
  * @param {Object} introduction The introduction.
- * @returns {{name: string, priority: number, canOverride: boolean}} The prepared introduction.
+ * @returns {{name: string, priority: number}} The prepared introduction.
  */
 const prepareIntroduction = introduction => ( {
 	name: introduction.name || nanoid(),
 	priority: introduction.priority || 0,
-	canOverride: introduction.can_override || false,
 } );
 
 const slice = createSlice( {

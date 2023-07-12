@@ -22,23 +22,14 @@ class Introduction_Item {
 	private $priority;
 
 	/**
-	 * The can override.
-	 *
-	 * @var bool
-	 */
-	private $can_override;
-
-	/**
 	 * Constructs the instance.
 	 *
-	 * @param string $name         The unique name.
-	 * @param int    $priority     The priority.
-	 * @param bool   $can_override The can override.
+	 * @param string $name     The unique name.
+	 * @param int    $priority The priority.
 	 */
-	public function __construct( $name, $priority, $can_override ) {
-		$this->name         = $name;
-		$this->priority     = $priority;
-		$this->can_override = $can_override;
+	public function __construct( $name, $priority ) {
+		$this->name     = $name;
+		$this->priority = $priority;
 	}
 
 	/**
@@ -48,9 +39,8 @@ class Introduction_Item {
 	 */
 	public function to_array() {
 		return [
-			'name'         => $this->get_name(),
-			'priority'     => $this->get_priority(),
-			'can_override' => $this->get_can_override(),
+			'name'     => $this->get_name(),
+			'priority' => $this->get_priority(),
 		];
 	}
 
@@ -70,14 +60,5 @@ class Introduction_Item {
 	 */
 	public function get_priority() {
 		return $this->priority;
-	}
-
-	/**
-	 * Returns can override (in another plugin).
-	 *
-	 * @return bool
-	 */
-	public function get_can_override() {
-		return $this->can_override;
 	}
 }

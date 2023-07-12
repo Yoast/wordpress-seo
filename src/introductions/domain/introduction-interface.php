@@ -22,13 +22,6 @@ interface Introduction_Interface {
 	public function get_priority();
 
 	/**
-	 * Returns can override (in another plugin).
-	 *
-	 * @return bool
-	 */
-	public function get_can_override();
-
-	/**
 	 * Returns whether this introduction should show.
 	 *
 	 * @return bool

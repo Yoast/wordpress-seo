@@ -48,7 +48,7 @@ class Introductions_Collector {
 				continue;
 			}
 			$bucket->add_introduction(
-				new Introduction_Item( $introduction->get_name(), $introduction->get_priority(), $introduction->get_can_override() )
+				new Introduction_Item( $introduction->get_name(), $introduction->get_priority() )
 			);
 		}
 

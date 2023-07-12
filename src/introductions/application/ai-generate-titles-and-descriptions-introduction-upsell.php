@@ -67,15 +67,6 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	}
 
 	/**
-	 * Returns can override (in another plugin).
-	 *
-	 * @return bool
-	 */
-	public function get_can_override() {
-		return false;
-	}
-
-	/**
 	 * Returns whether this introduction should show.
 	 *
 	 * @return bool

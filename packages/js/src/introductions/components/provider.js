@@ -30,13 +30,7 @@ export const IntroductionProvider = ( { children, initialComponents } ) => {
 			console.error( "Warning: Introductions received a registration for an unknown key:", name );
 			return;
 		}
-		setComponents( currentComponents => {
-			if ( introduction.canOverride || ! currentComponents[ name ] ) {
-				// Only set when overriding is allowed or when new.
-				return { ...currentComponents, [ name ]: Component };
-			}
-			return currentComponents;
-		} );
+		setComponents( currentComponents => ( { ...currentComponents, [ name ]: Component } ) );
 	}, [ introductions, setComponents ] );
 
 	useEffect( () => {
