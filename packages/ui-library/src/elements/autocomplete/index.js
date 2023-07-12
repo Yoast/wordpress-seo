@@ -65,7 +65,7 @@ const ClearSelection = ( { onChange, svgAriaProps, screenReaderText } ) => {
 
 	return <button className="yst-mr-4 yst-flex yst-items-center" onClick={ clear }>
 		<span className="yst-sr-only">{ screenReaderText }</span>
-		<XIcon className="yst-slate-400 yst-w-5 yst-h-5" { ...svgAriaProps } />
+		<XIcon className="yst-text-slate-400 yst-w-5 yst-h-5" { ...svgAriaProps } />
 		<div className="yst-w-2 yst-mr-2 yst-border-r-slate-200 yst-border-r yst-h-7" />
 	</button>;
 };
@@ -136,6 +136,7 @@ const Autocomplete = forwardRef( ( {
 				>
 					<Combobox.Input
 						className="yst-autocomplete__input"
+						autoComplete="off"
 						placeholder={ placeholder }
 						displayValue={ getDisplayValue }
 						onChange={ onQueryChange }
