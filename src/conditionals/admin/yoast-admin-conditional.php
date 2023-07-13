@@ -1,7 +1,8 @@
-<?php
+<?php // phpcs:ignore Yoast.Files.FileName.InvalidClassFileName -- Reason: this explicitly concerns the Yoast admin.
 
-namespace Yoast\WP\SEO\Conditionals;
+namespace Yoast\WP\SEO\Conditionals\Admin;
 
+use Yoast\WP\SEO\Conditionals\Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 
 /**
@@ -16,6 +17,11 @@ class Yoast_Admin_Conditional implements Conditional {
 	 */
 	private $current_page_helper;
 
+	/**
+	 * Constructs the conditional.
+	 *
+	 * @param \Yoast\WP\SEO\Helpers\Current_Page_Helper $current_page_helper The current page helper.
+	 */
 	public function __construct( Current_Page_Helper $current_page_helper ) {
 		$this->current_page_helper = $current_page_helper;
 	}

@@ -926,7 +926,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
 			'linkParams'                 => WPSEO_Shortlinker::get_query_params(),
 			'pluginUrl'                  => \plugins_url( '', \WPSEO_FILE ),
- 		];
+		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );
