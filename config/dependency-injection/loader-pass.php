@@ -54,7 +54,7 @@ class Loader_Pass implements CompilerPassInterface {
 
 		try {
 			$reflect = new ReflectionClass( $class );
-			$path    = $reflect->getFileName();
+			$path    = $this->normalize_slashes( $reflect->getFileName() );
 			if ( strpos( $path, 'wordpress-seo/src/helpers' )
 				|| strpos( $path, 'wordpress-seo/src/actions' )
 				|| strpos( $path, 'wordpress-seo/src/builders' )
@@ -160,5 +160,16 @@ class Loader_Pass implements CompilerPassInterface {
 		$doc_comment = $reflection_class->getDocComment();
 
 		return ( $doc_comment === false ) ? '' : $doc_comment;
+	}
+
+	/**
+	 * Normalizes all slashes in a file path to forward slashes.
+	 *
+	 * @param string $path File path.
+	 *
+	 * @return string The file path with normalized slashes.
+	 */
+	private function normalize_slashes( $path ) {
+		return \str_replace( '\\', '/', $path );
 	}
 }
