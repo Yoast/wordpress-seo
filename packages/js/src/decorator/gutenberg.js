@@ -1,7 +1,7 @@
 /* External dependencies */
 import {
 	isFunction,
-	flatMap,
+	flatMap, flattenDeep,
 } from "lodash";
 // The WP annotations package isn't loaded by default so force loading it.
 import "@wordpress/annotations";
@@ -372,13 +372,13 @@ export function hasInnerBlocks( block ) {
  * @returns {Array}  An array of annotations for a specific block.
  */
 function createAnnotations( html, richTextIdentifier, attribute, block, marks, index ) {
-	const record = create( {
-		html: html,
-		multilineTag: attribute.multilineTag,
-		multilineWrapperTag: attribute.multilineWrapperTag,
-	} );
-
-	const text = record.text;
+	// const record = create( {
+	// 	html: html,
+	// 	multilineTag: attribute.multilineTag,
+	// 	multilineWrapperTag: attribute.multilineWrapperTag,
+	// } );
+	//
+	// const text = record.text;
 
 	return flatMap( marks, ( ( mark ) => {
 		let annotations;
@@ -389,7 +389,7 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks, i
 			annotations = createAnnotationsFromPositionBasedMarks( mark );
 		} else {
 			annotations = calculateAnnotationsForTextFormat(
-				text,
+				html,
 				mark
 			);
 		}
@@ -409,14 +409,15 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks, i
 }
 
 /**
- * Gets the annotations for Yoast How-To block.
+ * Gets the annotations for Yoast FAQ block.
  *
  * @param {Object} attribute The attribute to apply annotations to.
  * @param {Object} block     The block information in the state.
  * @param {Array}  marks     The marks to turn into annotations.
  * @param {number} index		The index of the block.
- * @returns {Array} The created annotations. */
-const getAnnotationsForHowTo = ( attribute, block, marks, index ) => {
+ * @returns {Array} The created annotations.
+ */
+const getAnnotationsForFAQ = ( attribute, block, marks, index ) => {
 	const annotatableTexts = block.attributes[ attribute.key ];
 	if ( annotatableTexts.length === 0 ) {
 		return [];
@@ -433,11 +434,11 @@ const getAnnotationsForHowTo = ( attribute, block, marks, index ) => {
 		return annotationsFromQuestion.concat( annotationsFromAnswer );
 	} );
 
-	return flatMap( annotations );
+	return flattenDeep( annotations );
 };
 
 /**
- * Gets the annotations for Yoast FAQ block.
+ * Gets the annotations for Yoast How-To block.
  *
  * @param {Object} attribute The attribute to apply annotations to.
  * @param {Object} block     The block information in the state.
@@ -445,16 +446,15 @@ const getAnnotationsForHowTo = ( attribute, block, marks, index ) => {
  * @param {number} index		The index of the block.
  * @returns {Array} The created annotations.
  */
-const getAnnotationsForFAQ = ( attribute, block, marks, index ) => {
+const getAnnotationsForHowTo = ( attribute, block, marks, index ) => {
 	const annotatableTexts = block.attributes[ attribute.key ];
 	if ( annotatableTexts.length === 0 ) {
 		return [];
 	}
-
 	const annotations = [];
 	if ( attribute.key === "steps" ) {
 		// For each rich text of the attribute value, create annotations.
-		annotations.concat( annotatableTexts.map( item => {
+		annotations.push( annotatableTexts.map( item => {
 			const identifierStepName = `${ item.id }-name`;
 			const identifierStepText = `${ item.id }-text`;
 
@@ -464,22 +464,11 @@ const getAnnotationsForFAQ = ( attribute, block, marks, index ) => {
 			// For each step return an array of the name-text pair objects.
 			return annotationsFromStepName.concat( annotationsFromStepText );
 		} ) );
-		console.log( annotatableTexts.map( item => {
-			const identifierStepName = `${ item.id }-name`;
-			const identifierStepText = `${ item.id }-text`;
-
-			const annotationsFromStepName = createAnnotations( item.jsonName, identifierStepName, attribute, block, marks, index );
-			const annotationsFromStepText = createAnnotations( item.jsonText, identifierStepText, attribute, block, marks, index );
-
-			// For each step return an array of the name-text pair objects.
-			return annotationsFromStepName.concat( annotationsFromStepText );
-		} ), "FAQ ANN" );
 	}
 	if ( attribute.key === "jsonDescription" ) {
-		annotations.concat( createAnnotations( annotatableTexts, "description", attribute, block, marks, index ) );
+		annotations.push( createAnnotations( annotatableTexts, "description", attribute, block, marks, index ) );
 	}
-
-	return flatMap( annotations );
+	return flattenDeep( annotations );
 };
 
 /**
@@ -496,14 +485,11 @@ export function getAnnotationsForYoastBlock( attributes, block, marks, index ) {
 	// For Yoast FAQ and How-To blocks, we create separate annotation objects for each individual Rich Text found in the attribute.
 	return flatMap( attributes, attribute => {
 		if ( block.name === "yoast/faq-block" ) {
-			console.log( getAnnotationsForHowTo( attribute, block, marks, index ), "HOWTO" );
-			return getAnnotationsForHowTo( attribute, block, marks, index );
+			return getAnnotationsForFAQ( attribute, block, marks, index );
 		}
 		// The check for getting the annotations for Yoast How-To block.
-		// Note: for Yoast How-To block, there are actually two attribute keys that are annotatable: steps and jsonDescription.
 		if ( block.name === "yoast/how-to-block" ) {
-			console.log( getAnnotationsForFAQ( attribute, block, marks, index ), "FAQ" );
-			return getAnnotationsForFAQ( attribute, block, marks, index );
+			return getAnnotationsForHowTo( attribute, block, marks, index );
 		}
 	} );
 }
@@ -578,7 +564,6 @@ function fillAnnotationQueue( annotations ) {
  */
 const getAnnotationsForABlock = ( block, marks, index ) => {
 	const attributes = getAnnotatableAttributes( block.name );
-	console.log( attributes, "ATTRIBUTES" );
 	if ( block.name === "yoast/faq-block" || block.name === "yoast/how-to-block" ) {
 		return getAnnotationsForYoastBlock( attributes, block, marks, index );
 	}

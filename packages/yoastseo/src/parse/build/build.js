@@ -31,9 +31,9 @@ const setBlockIndexOnNode = ( index, node ) => {
 const getAnSetBlockIndex = ( node ) => {
 	let index = -1;
 	for ( const topNode of node.childNodes ) {
-		if ( topNode.name === "#comment" && topNode.data.trim().startsWith( "wp:" )) { //
+		if ( topNode.name === "#comment" && topNode.data.trim().startsWith( "wp:" ) ) {
 			index++;
-		} else if (topNode.name === "#comment" && topNode.data.trim().startsWith( "/wp:" )) {
+		} else if ( topNode.name === "#comment" && topNode.data.trim().startsWith( "/wp:" ) ) {
 			continue;
 		} else {
 			setBlockIndexOnNode( index, topNode );
