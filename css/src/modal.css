@@ -398,7 +398,12 @@
 	left: 0;
 	width: 100%;
 	margin-top: auto;
-	background: #fff;
+}
+
+.yoast-post-settings-modal .components-modal__content div:not([class]):has(> *:first-child) {
+	overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 /**
