@@ -41,6 +41,7 @@ class Version_Trait_Test extends TestCase {
 	 * @param string $version     The version to check.
 	 * @param string $min_version The minimum version (inclusive).
 	 * @param string $max_version The maximum version (exclusive).
+	 * @param bool   $expected    The expected result.
 	 *
 	 * @return void
 	 */
