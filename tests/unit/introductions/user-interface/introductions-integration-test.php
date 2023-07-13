@@ -6,7 +6,7 @@ use Brain\Monkey\Actions;
 use Brain\Monkey\Functions;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Conditionals\Yoast_Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Yoast_Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
