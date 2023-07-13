@@ -41,9 +41,11 @@ class Introductions_Collector_Test extends TestCase {
 		$expected_result
 	) {
 		Monkey\Filters\expectApplied( 'wpseo_introductions' )
+			->once()
 			->with( $initial_introductions )
 			->andReturn( $filtered_introductions );
 		Monkey\Functions\expect( 'get_user_meta' )
+			->once()
 			->with( 1, '_yoast_wpseo_introductions', true )
 			->andReturn( $user_introductions_metadata );
 
