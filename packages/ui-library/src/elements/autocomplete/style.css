@@ -40,6 +40,7 @@
 			focus-within:yst-border-primary-500
 			focus-within:yst-outline-none
 			focus-within:yst-ring-1
+			yst-shadow-sm
 			focus-within:yst-ring-primary-500;
 		}
 
