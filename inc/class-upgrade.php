@@ -89,7 +89,6 @@ class WPSEO_Upgrade {
 			'20.5-RC0'   => 'upgrade_205',
 			'20.7-RC0'   => 'upgrade_207',
 			'20.8-RC0'   => 'upgrade_208',
-			'20.9-RC0'   => 'upgrade_209',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -1015,16 +1014,6 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 20.9 upgrade routine.
-	 */
-	private function upgrade_209() {
-			if ( empty( get_option( 'wpseo_premium', [] ) ) ) {
-				WPSEO_Options::set( 'enable_ai_generator', true );
-			}
-			$this->set_show_new_features_modal();
-		}
-
-	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
 	 *
 	 * @return void
@@ -1663,22 +1652,6 @@ class WPSEO_Upgrade {
 			array_merge( array_values( $object_ids ), array_values( $newest_indexable_ids ), [ $object_type ] )
 		);
 		// phpcs:enable
-	}
-
-	/**
-	 * Sets the visibility of the new features modal for all the users.
-	 *
-	 * @return void
-	 */
-	private function set_show_new_features_modal() {
-
-		$users = get_users( [ 'capability' => [ 'edit_posts' ] ] );
-
-		if ( is_array( $users ) && $users !== [] ) {
-			foreach ( $users as $user ) {
-				update_user_meta( $user->ID, 'yoast_should_show_new_features_modal', true );
-			}
-		}
 	}
 
 	/**
