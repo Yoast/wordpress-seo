@@ -27,7 +27,7 @@
 	},
 	"require-dev": {
 		"humbug/php-scoper": "^0.13.4",
-		"league/oauth2-client": "2.6.1",
+		"league/oauth2-client": "2.7.0",
 		"psr/container": "1.0.0",
 		"psr/log": "^1.0",
 		"symfony/config": "^3.4",
