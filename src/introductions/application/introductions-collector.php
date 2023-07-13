@@ -88,8 +88,11 @@ class Introductions_Collector {
 	 */
 	private function get_metadata( $user_id ) {
 		$metadata = \get_user_meta( $user_id, '_yoast_wpseo_introductions', true );
+		if ( \is_array( $metadata ) ) {
+			return $metadata;
+		}
 
-		return ( ! \is_array( $metadata ) ) ? [] : $metadata;
+		return [];
 	}
 
 	/**
@@ -101,6 +104,10 @@ class Introductions_Collector {
 	 * @return bool Whether the user has seen the introduction.
 	 */
 	private function is_seen( $name, $metadata ) {
-		return \array_key_exists( $name, $metadata ) && $metadata[ $name ];
+		if ( \array_key_exists( $name, $metadata ) ) {
+			return (bool) $metadata[ $name ];
+		}
+
+		return false;
 	}
 }

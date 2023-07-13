@@ -3,9 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Introductions\Application;
 
 use Brain\Monkey;
-use Mockery;
 use Yoast\WP\SEO\Introductions\Application\Introductions_Collector;
-use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Introductions\Introduction_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -21,8 +20,9 @@ class Introductions_Collector_Test extends TestCase {
 	 * Tests the constructor and filter.
 	 *
 	 * @covers ::__construct
-	 * @covers ::get_for
 	 * @covers ::add_introductions
+	 * @covers ::get_for
+	 * @covers ::get_metadata
 	 * @covers ::is_seen
 	 *
 	 * @dataProvider collector_get_data
@@ -58,9 +58,9 @@ class Introductions_Collector_Test extends TestCase {
 	 */
 	public function collector_get_data() {
 		$introductions = [
-			'test1' => $this->create_introduction_mock( 'test1', 1, true ),
-			'test2' => $this->create_introduction_mock( 'test2', 2, true ),
-			'test3' => $this->create_introduction_mock( 'test3', 3, false ),
+			'test1' => new Introduction_Mock( 'test1', 1, true ),
+			'test2' => new Introduction_Mock( 'test2', 2, true ),
+			'test3' => new Introduction_Mock( 'test3', 3, false ),
 		];
 
 		return [
@@ -219,24 +219,5 @@ class Introductions_Collector_Test extends TestCase {
 				],
 			],
 		];
-	}
-
-	/**
-	 * Creates an introduction mock.
-	 *
-	 * @param string $name        The name.
-	 * @param int    $priority    The priority.
-	 * @param bool   $should_show Whether the introduction should show.
-	 *
-	 * @return \Mockery\MockInterface|\Yoast\WP\SEO\Introductions\Domain\Introduction_Interface The introduction mock.
-	 */
-	private function create_introduction_mock( $name, $priority, $should_show ) {
-		$introduction = Mockery::mock( Introduction_Interface::class );
-		// These have "times(0)" because it does what I expected "zeroOrMoreTimes()" should do.
-		$introduction->expects( 'get_name' )->times( 0 )->andReturn( $name );
-		$introduction->expects( 'get_priority' )->times( 0 )->andReturn( $priority );
-		$introduction->expects( 'should_show' )->times( 0 )->andReturn( $should_show );
-
-		return $introduction;
 	}
 }
