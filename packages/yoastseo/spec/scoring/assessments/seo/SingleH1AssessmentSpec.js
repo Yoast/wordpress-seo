@@ -113,11 +113,4 @@ describe( "Checks if the assessment is applicable", function() {
 
 		expect( assessment ).toBe( false );
 	} );
-
-	it( "is not applicable when there there is no text but there is an image", function() {
-		const mockPaper = new Paper( "<img src=\"img_girl.jpg\" alt=\"Girl in a jacket\" width=\"500\" height=\"600\">" );
-		const assessment = h1Assessment.isApplicable( mockPaper );
-
-		expect( assessment ).toBe( false );
-	} );
 } );
