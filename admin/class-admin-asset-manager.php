@@ -555,6 +555,14 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'ai-generator',
 				'src'  => 'ai-generator-' . $flat_version,
+				'deps' => [
+					self::PREFIX . 'tailwind',
+					self::PREFIX . 'introductions',
+				],
+			],
+			[
+				'name' => 'introductions',
+				'src'  => 'introductions-' . $flat_version,
 				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[

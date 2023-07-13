@@ -124,7 +124,7 @@ class Introductions_Integration implements Integration_Interface {
 				'pluginUrl'     => \plugins_url( '', \WPSEO_FILE ),
 			]
 		);
-		$this->admin_asset_manager->enqueue_style( 'ai-generator' );
+		$this->admin_asset_manager->enqueue_style( 'introductions' );
 	}
 
 	/**
