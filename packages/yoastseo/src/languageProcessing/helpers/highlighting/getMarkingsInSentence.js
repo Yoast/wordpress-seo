@@ -4,78 +4,32 @@ const markStart = "<yoastmark class='yoast-text-mark'>";
 const markEnd = "</yoastmark>";
 
 /**
- * Merges consecutive and overlapping matches into one match.
- *
- * This is a helper for search-based highlighting.
- *
- * @param {Token[]} matches		An array of the matched tokens to merge.
- * @param {Boolean} useSpace	Whether words are separated by a space. In Japanese, for example, words are not separated by a space.
- *
- * @returns {Token[]} An array of markings where consecutive and overlapping markings are merged.
- */
-const mergeConsecutiveAndOverlappingMatches = ( matches, useSpace ) => {
-	const newMatches = [];
-
-	// Sort matches by start offset. This is probably redundant, but for extra safety.
-	matches.sort( function( a, b ) {
-		return a.sourceCodeRange.startOffset - b.sourceCodeRange.startOffset;
-	} );
-
-	matches.forEach( ( match ) => {
-		if ( newMatches.length === 0 ) {
-			newMatches.push( match );
-			return;
-		}
-
-		const lastMatch = newMatches[ newMatches.length - 1 ];
-		if ( lastMatch.sourceCodeRange.endOffset + ( useSpace ? 1 : 0 ) === match.sourceCodeRange.startOffset ) {
-			lastMatch.sourceCodeRange.endOffset = match.sourceCodeRange.endOffset;
-		} else if ( match.sourceCodeRange.startOffset <= lastMatch.sourceCodeRange.endOffset ) {
-			// The match overlaps with the last match, so we extend the last match to include the new match.
-			lastMatch.sourceCodeRange.endOffset = match.sourceCodeRange.endOffset;
-		} else {
-			newMatches.push( match );
-		}
-	} );
-
-	return newMatches;
-};
-
-/**
  * Adds `yoastmark` tags to the keyphrase matches in the sentence.
  *
  * This is a helper for search-based highlighting.
  *
  * @param {Sentence}	sentence	The sentence to add the `yoastmark` tags to.
  * @param {Token[]}		matches		The array of the keyphrase matches.
- * @param {Boolean}		useSpace	Whether words are separated by a space.
  *
  * @returns {string} The sentence with the added `yoastmark` tags.
  */
-const createMarksForSentence = ( sentence, matches, useSpace ) => {
-	let sentenceText = sentence.text;
+const createMarksForSentence = ( sentence, matches  ) => {
+	// let sentenceText = sentence.text;
+	const tokens = sentence.tokens;
 
-	// Merge consecutive and overlapping matches.
-	const mergedMatches = mergeConsecutiveAndOverlappingMatches( matches, useSpace );
-
-	const sentenceStartOffset = sentence.sourceCodeRange.startOffset;
-	// Loop through the matches backwards, so that the reference is not affected by the changes.
-	for ( let i = mergedMatches.length - 1; i >= 0; i-- ) {
-		const match = mergedMatches[ i ];
-
-		// Adds `yoastmark` tags to the keyphrase matches in the sentence.
-		// sentenceStartOffset is subtracted because the start and end offsets are relative to the start of the source code.
-		// Subtracting the sentenceStartOffset makes them relative to the start of the sentence.
-		sentenceText = sentenceText.substring( 0, match.sourceCodeRange.endOffset - sentenceStartOffset ) + markEnd +
-			sentenceText.substring( match.sourceCodeRange.endOffset - sentenceStartOffset );
-		sentenceText = sentenceText.substring( 0, match.sourceCodeRange.startOffset - sentenceStartOffset ) + markStart +
-			sentenceText.substring( match.sourceCodeRange.startOffset - sentenceStartOffset );
+	const newTokens = [];
+	for ( let i = tokens.length - 1; i >= 0; i-- ) {
+		const token = tokens[ i ];
+		if ( matches.some( match => match.sourceCodeRange.startOffset === token.sourceCodeRange.startOffset ||
+			match.sourceCodeRange.endOffset === token.sourceCodeRange.endOffset ) ) {
+			newTokens.unshift( markStart, token.text, markEnd );
+		} else {
+			newTokens.unshift( token.text );
+		}
 	}
-
+	const markedSentence = newTokens.join( "" );
 	// Merge consecutive markings into one marking.
-	sentenceText = sentenceText.replace( new RegExp( "</yoastmark>( ?)<yoastmark class='yoast-text-mark'>", "ig" ), "$1" );
-
-	return sentenceText;
+	return markedSentence.replace( new RegExp( "</yoastmark>(( |\u00A0)?)<yoastmark class='yoast-text-mark'>", "ig" ), "$1" );
 };
 
 /**

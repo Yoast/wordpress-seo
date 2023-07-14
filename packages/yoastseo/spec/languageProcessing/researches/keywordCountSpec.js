@@ -237,7 +237,8 @@ const testCases = [
 		skip: false,
 	},
 	{
-		description: "with exact matching, the keyphrase directly preceded by a full stop should not match a keyphrase occurrence without the full stop in the text.",
+		description: "with exact matching, the keyphrase directly preceded by a full stop should not match a " +
+			"keyphrase occurrence without the full stop in the text.",
 		paper: new Paper( "<p>A sentence with a keyphrase.</p>", { keyword: "\".sentence\"" } ),
 		keyphraseForms: [ [ ".sentence" ] ],
 		expectedCount: 0,
@@ -816,7 +817,140 @@ describe.each( testCasesWithLocaleMapping )( "Test for counting the keyphrase in
 			expect( keyphraseCountResult.markings ).toEqual( expectedMarkings );
 		} );
 	} );
+const testDataForHTMLTags = [
+	{
+		description: "counts keyphrase occurrence correctly in a text containing `<strong>` tag, and outputs correct mark objects",
+		paper: new Paper( "<p>The forepaws possess a \"false thumb\", which is an extension of a wrist bone, " +
+			"the radial sesamoid found in many carnivorans. This thumb allows the animal to grip onto bamboo stalks " +
+			"and both the digits and wrist bones are highly flexible. The red panda shares this feature " +
+			"with the giant <strong>panda</strong>, which has a larger sesamoid that is more compressed at the sides." +
+			" In addition, the red panda's sesamoid has a more sunken tip while the giant panda's curves in the middle.&nbsp;</p>",
+		{ keyword: "giant panda", locale: "en_US" } ),
+		keyphraseForms: [ [ "giant" ], [ "panda", "pandas" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				marked: " The red <yoastmark class='yoast-text-mark'>panda</yoastmark> shares this feature with the " +
+					"<yoastmark class='yoast-text-mark'>giant panda</yoastmark>, which has a larger sesamoid that is more compressed at the sides.",
+				original: " The red panda shares this feature with the giant panda, which has a larger sesamoid " +
+					"that is more compressed at the sides.",
+				position: {
+					endOffset: 253,
+					startOffset: 248,
+				},
+			} ),
+			new Mark( {
+				marked: " The red <yoastmark class='yoast-text-mark'>panda</yoastmark> shares this feature with the " +
+					"<yoastmark class='yoast-text-mark'>giant panda</yoastmark>, which has a larger sesamoid that is more compressed at the sides.",
+				original: " The red panda shares this feature with the giant panda, which has a larger " +
+					"sesamoid that is more compressed at the sides.",
+				position: {
+					endOffset: 288,
+					startOffset: 283,
+				},
+			} ),
+			new Mark( {
+				marked: " The red <yoastmark class='yoast-text-mark'>panda</yoastmark> shares this feature with the " +
+					"<yoastmark class='yoast-text-mark'>giant panda</yoastmark>, which has a larger sesamoid that is more compressed at the sides.",
+				original: " The red panda shares this feature with the giant panda, which has a larger " +
+					"sesamoid that is more compressed at the sides.",
+				position: {
+					endOffset: 302,
+					startOffset: 297,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "counts keyphrase occurrence correctly in a text containing `<em>` tag and outputs correct mark objects",
+		paper: new Paper( "<p>The forepaws possess a \"false thumb\", which is an extension of a wrist bone, " +
+			"the radial sesamoid found in many carnivorans. This thumb allows the animal to grip onto bamboo stalks " +
+			"and both the digits and wrist bones are highly flexible. The red panda shares this feature " +
+			"with the <em>giant panda</em>, which has a larger sesamoid that is more compressed at the sides." +
+			" In addition, the red panda's sesamoid has a more sunken tip while the giant panda's curves in the middle.&nbsp;</p>",
+		{ keyword: "giant panda", locale: "en_US" } ),
+		keyphraseForms: [ [ "giant" ], [ "panda", "pandas" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				marked: " The red <yoastmark class='yoast-text-mark'>panda</yoastmark> shares this feature with the " +
+					"<yoastmark class='yoast-text-mark'>giant panda</yoastmark>, which has a larger sesamoid that is more compressed at the sides.",
+				original: " The red panda shares this feature with the giant panda, which has a larger sesamoid " +
+					"that is more compressed at the sides.",
+				position: {
+					endOffset: 253,
+					startOffset: 248,
+				},
+			} ),
+			new Mark( {
+				marked: " The red <yoastmark class='yoast-text-mark'>panda</yoastmark> shares this feature with the " +
+					"<yoastmark class='yoast-text-mark'>giant panda</yoastmark>, which has a larger sesamoid that is more compressed at the sides.",
+				original: " The red panda shares this feature with the giant panda, which has a larger " +
+					"sesamoid that is more compressed at the sides.",
+				position: {
+					endOffset: 298,
+					startOffset: 287,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "counts keyphrase occurrence correctly when it's found inside an anchor text and outputs correct mark objects",
+		paper: new Paper( "<p>The forepaws possess a \"false thumb\", which is an extension of a wrist bone, " +
+			"the radial sesamoid found in many carnivorans. This thumb allows the animal to grip onto bamboo stalks " +
+			"and both the digits and wrist bones are highly flexible. The red panda shares this feature " +
+			"with the <a href=\"https://en.wikipedia.org/wiki/Giant_panda\">giant panda</a>, which has a larger sesamoid " +
+			"that is more compressed at the sides." +
+			" In addition, the red panda's sesamoid has a more sunken tip while the giant panda's curves in the middle.&nbsp;</p>",
+		{ keyword: "giant panda", locale: "en_US" } ),
+		keyphraseForms: [ [ "giant" ], [ "panda", "pandas" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				marked: " The red <yoastmark class='yoast-text-mark'>panda</yoastmark> shares this feature with the " +
+					"<yoastmark class='yoast-text-mark'>giant panda</yoastmark>, which has a larger sesamoid that is more compressed at the sides.",
+				original: " The red panda shares this feature with the giant panda, which has a larger sesamoid " +
+					"that is more compressed at the sides.",
+				position: {
+					endOffset: 253,
+					startOffset: 248,
+				},
+			} ),
+			new Mark( {
+				marked: " The red <yoastmark class='yoast-text-mark'>panda</yoastmark> shares this feature with the " +
+					"<yoastmark class='yoast-text-mark'>giant panda</yoastmark>, which has a larger sesamoid that is more compressed at the sides.",
+				original: " The red panda shares this feature with the giant panda, which has a larger " +
+					"sesamoid that is more compressed at the sides.",
+				position: {
+					endOffset: 346,
+					startOffset: 335,
+				},
+			} ),
+		],
+		skip: false,
+	},
+];
 
+describe.each( testDataForHTMLTags )( "Test for counting the keyphrase in a text containing multiple html tags",
+	function( {
+		description,
+		paper,
+		keyphraseForms,
+		expectedCount,
+		expectedMarkings,
+		skip } ) {
+		const test = skip ? it.skip : it;
+
+		test( description, function() {
+			const mockResearcher = buildMorphologyMockResearcher( keyphraseForms );
+			buildTree( paper, mockResearcher );
+			const keyphraseCountResult = getKeyphraseCount( paper, mockResearcher );
+			expect( keyphraseCountResult.count ).toBe( expectedCount );
+			expect( keyphraseCountResult.markings ).toEqual( expectedMarkings );
+		} );
+	} );
 
 /**
  * Mocks Japanese Researcher.
