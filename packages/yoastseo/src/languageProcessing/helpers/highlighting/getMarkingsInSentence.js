@@ -91,7 +91,7 @@ function getMarkingsInSentence( sentence, matchesInSentence, useSpace = true ) {
 	}
 
 	// Create the marked sentence that is used for search-based highlighting.
-	const markedSentence = createMarksForSentence( sentence, matchesInSentence, useSpace );
+	const markedSentence = createMarksForSentence( sentence, matchesInSentence );
 
 	/*
 	 * Note that there is a paradigm shift:
