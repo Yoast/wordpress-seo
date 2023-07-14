@@ -400,7 +400,7 @@
 	margin-top: auto;
 }
 
-.yoast-post-settings-modal .components-modal__content div:nth-child(2):not([class]):has(> *:first-child) {
+.yoast-post-settings-modal .components-modal__content > div:not([class]):not([class=""]) {
 	overflow: hidden;
     display: flex;
     flex-direction: column;
