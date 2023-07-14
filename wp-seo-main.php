@@ -203,11 +203,11 @@ function _wpseo_activate() {
 
 	$is_multisite_deactivation = is_multisite() && ms_is_switched();
 
-	if ( !$is_multisite_deactivation && WPSEO_Options::get( 'stripcategorybase' ) === true ) {
+	if ( ! $is_multisite_deactivation && WPSEO_Options::get( 'stripcategorybase' ) === true ) {
 		// Constructor has side effects so this registers all hooks.
 		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
 	}
-	
+
 	add_action( 'shutdown', 'flush_rewrite_rules' );
 
 	WPSEO_Options::set( 'indexing_reason', 'first_install' );
@@ -242,7 +242,7 @@ function _wpseo_deactivate() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
 
 	add_action( 'shutdown', 'flush_rewrite_rules' );
-	
+
 	// Register capabilities, to make sure they are cleaned up.
 	do_action( 'wpseo_register_roles' );
 	do_action( 'wpseo_register_capabilities' );
