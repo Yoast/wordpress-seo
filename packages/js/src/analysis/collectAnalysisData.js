@@ -67,7 +67,7 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	let blocks = null;
 	if ( blockEditorDataModule ) {
 		blocks = blockEditorDataModule.getBlocks();
-		blocks = blocks.map( block => filterBlockData( block ) );
+		// blocks = blocks.map( block => filterBlockData( block ) );
 	}
 
 	// Make a data structure for the paper data.

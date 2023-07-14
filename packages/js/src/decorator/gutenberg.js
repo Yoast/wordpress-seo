@@ -372,13 +372,13 @@ export function hasInnerBlocks( block ) {
  * @returns {Array}  An array of annotations for a specific block.
  */
 function createAnnotations( html, richTextIdentifier, attribute, block, marks, index ) {
-	// const record = create( {
-	// 	html: html,
-	// 	multilineTag: attribute.multilineTag,
-	// 	multilineWrapperTag: attribute.multilineWrapperTag,
-	// } );
-	//
-	// const text = record.text;
+	const record = create( {
+		html: html,
+		multilineTag: attribute.multilineTag,
+		multilineWrapperTag: attribute.multilineWrapperTag,
+	} );
+
+	const text = record.text;
 
 	return flatMap( marks, ( ( mark ) => {
 		let annotations;
@@ -389,7 +389,7 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks, i
 			annotations = createAnnotationsFromPositionBasedMarks( mark );
 		} else {
 			annotations = calculateAnnotationsForTextFormat(
-				html,
+				text,
 				mark
 			);
 		}
