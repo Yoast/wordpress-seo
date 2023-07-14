@@ -1,1 +1,1 @@
-A simple tag input component.
+The tag input component allows users to insert and remove tags. 

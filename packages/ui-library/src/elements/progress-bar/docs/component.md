@@ -1,1 +1,1 @@
-A simple progress bar component.
+The progress bar is a visual element designed to provide users with feedback on the completion status of a task or process. Its purpose is to enhance the user experience by conveying progress, instilling a sense of completion, and managing user expectations.

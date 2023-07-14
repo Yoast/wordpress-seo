@@ -1,1 +1,1 @@
-A paper gives you a component that looks a bit like a sheet of paper due to the white background and shadow.
+A paper can be used as a container and serves as a visual representation of a physical sheet of paper, creating a sense of familiarity and intuitiveness for users. It helps organize and contain settings or form elements within a defined area, providing structure and clarity. A paper can provide a clean and minimalistic look, enhancing readability and visual appeal.

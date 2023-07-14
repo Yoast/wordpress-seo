@@ -1,1 +1,1 @@
-A simple file input component with drop functionality.
+The file input with drag and drop functionality is a user interface element that allows users to upload local files. It provides an intuitive and convenient way for users to interact with the system by simply dragging and dropping files from their local machine into the designated area.
