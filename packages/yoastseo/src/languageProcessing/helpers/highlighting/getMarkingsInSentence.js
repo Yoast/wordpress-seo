@@ -14,7 +14,6 @@ const markEnd = "</yoastmark>";
  * @returns {string} The sentence with the added `yoastmark` tags.
  */
 const createMarksForSentence = ( sentence, matches  ) => {
-	// let sentenceText = sentence.text;
 	const tokens = sentence.tokens;
 
 	const newTokens = [];
