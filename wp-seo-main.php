@@ -202,7 +202,8 @@ function _wpseo_activate() {
 	WPSEO_Options::ensure_options_exist();
 
 	if ( is_multisite() && ms_is_switched() ) {
-		update_option( 'rewrite_rules', '' );
+		add_action( 'shutdown', 'flush_rewrite_rules' );
+
 	}
 	else {
 		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
@@ -244,7 +245,7 @@ function _wpseo_deactivate() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
 
 	if ( is_multisite() && ms_is_switched() ) {
-		update_option( 'rewrite_rules', '' );
+		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 	else {
 		add_action( 'shutdown', 'flush_rewrite_rules' );
