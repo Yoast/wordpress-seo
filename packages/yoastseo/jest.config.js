@@ -26,6 +26,11 @@ module.exports = {
 	],
 
 	collectCoverage: true,
+	// We need to make this a bit more specific -- e.g. don't include some language-specific config files.
+	collectCoverageFrom: [
+		"**/src/**/*.js",
+		"!**/src/**/index.js",
+	],
 	coverageThreshold: {
 		global: {
 			branches: 74,
