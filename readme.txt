@@ -251,9 +251,8 @@ Release date: 2023-07-25
 
 #### Enhancements
 
-* Adds information to the \"Remove unregistered URL parameters\" setting in the crawl settings about which URL parameters are always allowed.
-* Adds `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `gclid` and `gtm_debug` to the default allowlist for the \"Remove unregistered URL parameters\" setting.
-* Excludes separator and site title from _SEO title width_ assessment and from the calculation in the SEO title progress bar.
+* Adds information to the "Remove unregistered URL parameters" setting in the crawl settings about which URL parameters are always allowed.
+* Adds `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `gclid` and `gtm_debug` to the default allowlist for the "Remove unregistered URL parameters" setting.
 
 #### Bugfixes
 
@@ -263,9 +262,9 @@ Release date: 2023-07-25
 
 #### Other
 
+* Updates the verification link to the Google Search Console in the Site connections section in Settings.
 * Improves the copy in the final step of the first time configuration.
 * Updates copy of our free webinar notification.
-* Updates the verification link to the Google Search Console in the Site connections section in Settings.
 
 = 20.11 =
 
