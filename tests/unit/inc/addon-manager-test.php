@@ -6,8 +6,10 @@ use Brain\Monkey;
 use Mockery;
 use stdClass;
 use WPSEO_Utils;
+use Yoast_Notification;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Addon_Manager_Double;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -45,6 +47,7 @@ class Addon_Manager_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
+		$this->stubTranslationFunctions();
 
 		$this->instance = Mockery::mock( Addon_Manager_Double::class )
 			->shouldAllowMockingProtectedMethods()
@@ -1097,5 +1100,52 @@ class Addon_Manager_Test extends TestCase {
 			'Page is set to null'                => $page_null,
 			'Page is something else than string' => $page_other_than_string,
 		];
+	}
+
+	/**
+	 * Tests create_notification method.
+	 *
+	 * @covers ::create_notification
+	 */
+	public function test_create_notification() {
+
+		Monkey\Functions\expect( 'sanitize_title_with_dashes' )
+			->with( 'Yoast SEO Premium', null, 'save' )
+			->once()
+			->andReturn( 'Yoast SEO Premium' );
+
+		$short_link_mock = Mockery::mock( Short_Link_Helper::class );
+
+		$short_link_mock->expects( 'get' )
+			->once()
+			->andReturn( 'https://yoa.st/13j' );
+
+		$container = $this->create_container_with(
+			[
+				Short_Link_Helper::class => $short_link_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->twice();
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
+
+		$notification = $this->instance->create_notification( 'Yoast SEO Premium', 'yoa.st/13j' );
+
+		$notification_options = [
+			'type'         => 'error',
+			'id'           => 'wpseo-dismiss-Yoast SEO Premium',
+			'capabilities' => 'wpseo_manage_options',
+		];
+
+
+		$expected = new Yoast_Notification(
+			'<strong> Yoast SEO Premium isn\'t working as expected </strong> and you are not receiving updates or support! Make sure to <a href="https://yoa.st/13j" target="_blank"> activate your product subscription in MyYoast</a> to unlock all the features of Yoast SEO Premium.',
+			$notification_options
+		);
+		$this->assertEquals( $expected, $notification );
 	}
 }
