@@ -96,6 +96,24 @@ Mark.prototype.setPositionEnd = function( positionEnd ) {
 };
 
 /**
+ * Returns the start position of a block.
+ * @param {number} startOffsetBlock The block start offset.
+ * @returns {number} The start position of a block.
+ */
+Mark.prototype.setBlockPositionStart = function( startOffsetBlock ) {
+	this._properties.position.startOffsetBlock = startOffsetBlock;
+};
+
+/**
+ * Returns the end position of a block.
+ * @param {number} endOffsetBlock The block end offset.
+ * @returns {number} The end position of a block.
+ */
+Mark.prototype.setBlockPositionEnd = function( endOffsetBlock ) {
+	this._properties.position.endOffsetBlock = endOffsetBlock;
+};
+
+/**
  * Sets the block index.
  *
  * @param {number} blockIndex The block index to set.
@@ -105,7 +123,7 @@ Mark.prototype.setBlockIndex = function( blockIndex ) {
 	if ( this._properties.position ) {
 		this._properties.position.blockIndex = blockIndex;
 	}
-}
+};
 
 /**
  * Gets the block index.
@@ -114,7 +132,16 @@ Mark.prototype.setBlockIndex = function( blockIndex ) {
  */
 Mark.prototype.getBlockIndex = function() {
 	return this._properties.position && this._properties.position.blockIndex;
-}
+};
+
+/**
+ * Gets the block client id.
+ *
+ * @returns {string} The block index.
+ */
+Mark.prototype.getBlockClientId = function() {
+	return this._properties.position && this._properties.position.clientId;
+};
 
 /**
  * Returns the start position inside block.
