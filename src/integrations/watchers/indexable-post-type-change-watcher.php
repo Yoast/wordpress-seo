@@ -108,8 +108,9 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			return;
 		}
 
+		$excluded_post_types = $this->post_type_helper->get_excluded_post_types_for_indexables();
 		// We look for new public post types.
-		$newly_made_public_post_types = \array_diff( $public_post_types, $last_known_public_post_types );
+		$newly_made_public_post_types = \array_diff( $public_post_types, $last_known_public_post_types, $excluded_post_types );
 		// We look for post types that from public have been made private.
 		$newly_made_non_public_post_types = \array_diff( $last_known_public_post_types, $public_post_types );
 
