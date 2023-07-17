@@ -251,7 +251,6 @@ Release date: 2023-07-25
 
 #### Enhancements
 
-* Adds information to the "Remove unregistered URL parameters" setting in the crawl settings about which URL parameters are always allowed.
 * Adds `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `gclid` and `gtm_debug` to the default allowlist for the "Remove unregistered URL parameters" setting.
 
 #### Bugfixes
