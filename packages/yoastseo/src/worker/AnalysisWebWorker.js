@@ -1082,7 +1082,7 @@ export default class AnalysisWebWorker {
 
 			const languageProcessor = new LanguageProcessor( this._researcher );
 
-			this._paper.setTree( build( this._paper.getText(), languageProcessor ) );
+			this._paper.setTree( build( this._paper, languageProcessor ) );
 
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
@@ -1405,7 +1405,7 @@ export default class AnalysisWebWorker {
 			// Build and set the tree if it's not been set before.
 			if ( paper.getTree() === null ) {
 				const languageProcessor = new LanguageProcessor( researcher );
-				paper.setTree( build( paper.getText(), languageProcessor ) );
+				paper.setTree( build( paper, languageProcessor ) );
 			}
 		}
 

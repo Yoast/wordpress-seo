@@ -14,7 +14,6 @@ const markEnd = "</yoastmark>";
  * @returns {string} The sentence with the added `yoastmark` tags.
  */
 const createMarksForSentence = ( sentence, matches  ) => {
-	// let sentenceText = sentence.text;
 	const tokens = sentence.tokens;
 
 	const newTokens = [];
@@ -58,12 +57,11 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace ) => {
 
 		const lastMarking = newMarkings[ newMarkings.length - 1 ];
 
-		if ( lastMarking.getPositionEnd() + ( useSpace ? 1 : 0 ) === marking.getPositionStart() ) {
+		if ( ( lastMarking.getPositionEnd() + ( useSpace ? 1 : 0 ) === marking.getPositionStart() ) ||
+			( marking.getPositionStart() <= lastMarking.getPositionEnd() ) ) {
 			// The marking is consecutive to the last marking, so we extend the last marking to include the new marking.
 			lastMarking.setPositionEnd( marking.getPositionEnd() );
-		} else if ( marking.getPositionStart() <= lastMarking.getPositionEnd() ) {
-			// The marking overlaps with the last marking, so we extend the last marking to include the new marking.
-			lastMarking.setPositionEnd( marking.getPositionEnd() );
+			lastMarking.setBlockPositionEnd( marking.getBlockPositionEnd() );
 		} else {
 			// The marking is not consecutive to the last marking, so we add it to the array by itself.
 			newMarkings.push( marking );
@@ -108,9 +106,9 @@ function getMarkingsInSentence( sentence, matchesInSentence, useSpace = true ) {
 				startOffset: startOffset,
 				endOffset: endOffset,
 				// relative to start of block positions.
-				startOffsetBlock: startOffset - ( sentence.parentStartOffset || 0 ),
-				endOffsetBlock: endOffset - ( sentence.parentStartOffset || 0 ),
-				blockIndex: sentence.blockIndex,
+				startOffsetBlock: startOffset - sentence.parentStartOffset,
+				endOffsetBlock: endOffset - sentence.parentStartOffset,
+				clientId: sentence.clientId,
 			},
 			marked: markedSentence,
 			original: sentence.text,

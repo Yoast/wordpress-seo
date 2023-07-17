@@ -6,55 +6,23 @@ import tokenize from "./private/tokenize";
 import filterTree from "./private/filterTree";
 import permanentFilters from "./private/alwaysFilterElements";
 import { filterBeforeTokenizing } from "./private/filterBeforeTokenizing";
-
-
-/**
- * Sets the block index to the node.
- *
- * @param {number} index The block index.
- * @param {Node} node The node to check.
- * @returns {void}
- */
-const setBlockIndexOnNode = ( index, node ) => {
-	node.blockIndex = index;
-	if ( node.childNodes && node.childNodes.length > 0 ) {
-		node.childNodes.map( childNode => setBlockIndexOnNode( index, childNode ) );
-	}
-};
-
-/**
- * Retrieves the block index and sets them to Node.
- *
- * @param {Node} node The node to check.
- * @returns {void}
- */
-const getAnSetBlockIndex = ( node ) => {
-	let index = -1;
-	for ( const topNode of node.childNodes ) {
-		if ( topNode.name === "#comment" && topNode.data.trim().startsWith( "wp:" ) ) {
-			index++;
-		} else if ( topNode.name === "#comment" && topNode.data.trim().startsWith( "/wp:" ) ) {
-			continue;
-		} else {
-			setBlockIndexOnNode( index, topNode );
-		}
-	}
-};
+import parseBlocks from "./private/parseBlocks";
 
 /**
  * Parses the HTML string to a tree representation of
  * the HTML document.
  *
- * @param {string} htmlString The HTML string.
+ * @param {Paper} paper The HTML string.
  * @param {LanguageProcessor} languageProcessor The language processor to use.
  *
  * @returns {Node} The tree representation of the HTML string.
  */
-export default function build( htmlString, languageProcessor ) {
-	let tree = adapt( parseFragment( htmlString, { sourceCodeLocationInfo: true } ) );
+export default function build( paper, languageProcessor ) {
+	const html = paper.getText();
+	let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 
 	if ( tree.childNodes && tree.childNodes.length > 0 ) {
-		getAnSetBlockIndex( tree );
+		parseBlocks( paper, tree );
 	}
 
 	/*

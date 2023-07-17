@@ -13,7 +13,8 @@ export default function( paper ) {
 	return tree.flatMap( node => node.sentences.map( s => {
 		return {
 			...s,
-			parentStartOffset: ( node.sourceCodeLocation && node.sourceCodeLocation.startTag ) ? node.sourceCodeLocation.startTag.endOffset : 0,
-			blockIndex: node.blockIndex };
+			parentStartOffset: ( node.sourceCodeLocation.startTag && node.sourceCodeLocation.startTag.endOffset ) ||
+				node.sourceCodeLocation.startOffset,
+			clientId: node.clientId };
 	} ) );
 }
