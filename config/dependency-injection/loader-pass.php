@@ -52,28 +52,31 @@ class Loader_Pass implements CompilerPassInterface {
 	private function process_definition( Definition $definition, Definition $loader_definition ) {
 		$class = $definition->getClass();
 
+
 		try {
 			$reflect = new ReflectionClass( $class );
 			$path    = $this->normalize_slashes( $reflect->getFileName() );
-			if ( strpos( $path, 'wordpress-seo/src/helpers' )
-				|| strpos( $path, 'wordpress-seo/src/actions' )
-				|| strpos( $path, 'wordpress-seo/src/builders' )
-				|| strpos( $path, 'wordpress-seo/src/config' )
-				|| strpos( $path, 'wordpress-seo/src/context' )
-				|| strpos( $path, 'wordpress-seo/src/generators' )
-				|| strpos( $path, 'wordpress-seo/src/surfaces' )
-				|| strpos( $path, 'wordpress-seo/src/integrations' )
-				|| strpos( $path, 'wordpress-seo/src/loggers' )
-				|| strpos( $path, 'wordpress-seo/src/memoizers' )
-				|| strpos( $path, 'wordpress-seo/src/models' )
-				|| strpos( $path, 'wordpress-seo/src/presentations' )
-				|| strpos( $path, 'wordpress-seo/src/repositories' )
-				|| strpos( $path, 'wordpress-seo/src/services' )
-				|| strpos( $path, 'wordpress-seo/src/values' )
-				|| strpos( $path, 'wordpress-seo/src/wrappers' )
-				|| strpos( $path, 'wordpress-seo/src/wordpress' )
-				|| strpos( $path, 'wordpress-seo/src/loader' )
-				) {
+			if (
+				strpos( $path, 'src/helpers' ) !== false
+				|| strpos( $path, 'src/actions' ) !== false
+				|| strpos( $path, 'src/builders' ) !== false
+				|| strpos( $path, 'src/config' ) !== false
+				|| strpos( $path, 'src/context' ) !== false
+				|| strpos( $path, 'src/generators' ) !== false
+				|| strpos( $path, 'src/surfaces' ) !== false
+				|| strpos( $path, 'src/integrations' ) !== false
+				|| strpos( $path, 'src/loggers' ) !== false
+				|| strpos( $path, 'src/memoizers' ) !== false
+				|| strpos( $path, 'src/models' ) !== false
+				|| strpos( $path, 'src/presentations' ) !== false
+				|| strpos( $path, 'src/repositories' ) !== false
+				|| strpos( $path, 'src/services' ) !== false
+				|| strpos( $path, 'src/values' ) !== false
+				|| strpos( $path, 'src/wrappers' ) !== false
+				|| strpos( $path, 'src/wordpress' ) !== false
+				|| strpos( $path, 'src/loader' ) !== false
+			) {
+
 				$definition->setPublic( true );
 			}
 		} catch ( \Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
