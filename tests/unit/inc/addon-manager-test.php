@@ -1103,22 +1103,53 @@ class Addon_Manager_Test extends TestCase {
 	}
 
 	/**
+	 * Data provider for create_notification
+	 *
+	 * @return array
+	 */
+	public static function data_provider_create_notification() {
+		return [
+			'Notification for Yoast SEO Premium' => [
+				'product_name' => 'Yoast SEO Premium',
+				'short_link'   => 'https://yoa.st/13j',
+			],
+			'Notification for Yoast Local SEO' => [
+				'product_name' => 'Yoast Local SEO',
+				'short_link'   => 'https://yoa.st/4xp',
+			],
+			'Notification for Yoast Video SEO' => [
+				'product_name' => 'Yoast Video SEO',
+				'short_link'   => 'https://yoa.st/4xq',
+			],
+			'Notification for Yoast News SEO' => [
+				'product_name' => 'Yoast News SEO',
+				'short_link'   => 'https://yoa.st/4xr',
+			],
+		];
+	}
+
+	/**
 	 * Tests create_notification method.
 	 *
 	 * @covers ::create_notification
+	 *
+	 * @dataProvider data_provider_create_notification
+	 *
+	 * @param string $product_name The product name.
+	 * @param string $short_link   The short link.
 	 */
-	public function test_create_notification() {
+	public function test_create_notification( $product_name, $short_link ) {
 
 		Monkey\Functions\expect( 'sanitize_title_with_dashes' )
-			->with( 'Yoast SEO Premium', null, 'save' )
+			->with( $product_name, null, 'save' )
 			->once()
-			->andReturn( 'Yoast SEO Premium' );
+			->andReturn( $product_name );
 
 		$short_link_mock = Mockery::mock( Short_Link_Helper::class );
 
 		$short_link_mock->expects( 'get' )
 			->once()
-			->andReturn( 'https://yoa.st/13j' );
+			->andReturn( $short_link );
 
 		$container = $this->create_container_with(
 			[
@@ -1133,17 +1164,17 @@ class Addon_Manager_Test extends TestCase {
 			->once()
 			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
-		$notification = $this->instance->create_notification( 'Yoast SEO Premium', 'yoa.st/13j' );
+		$notification = $this->instance->create_notification( $product_name, $short_link );
 
 		$notification_options = [
 			'type'         => 'error',
-			'id'           => 'wpseo-dismiss-Yoast SEO Premium',
+			'id'           => 'wpseo-dismiss-' . $product_name,
 			'capabilities' => 'wpseo_manage_options',
 		];
 
 
 		$expected = new Yoast_Notification(
-			'<strong> Yoast SEO Premium isn\'t working as expected </strong> and you are not receiving updates or support! Make sure to <a href="https://yoa.st/13j" target="_blank"> activate your product subscription in MyYoast</a> to unlock all the features of Yoast SEO Premium.',
+			'<strong> ' . $product_name . ' isn\'t working as expected </strong> and you are not receiving updates or support! Make sure to <a href="' . $short_link . '" target="_blank"> activate your product subscription in MyYoast</a> to unlock all the features of ' . $product_name . '.',
 			$notification_options
 		);
 		$this->assertEquals( $expected, $notification );
