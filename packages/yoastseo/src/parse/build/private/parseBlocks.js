@@ -114,20 +114,26 @@ function updateBlocksOffset( blocks, text ) {
 	} );
 }
 
-function updateClintIdForSubtree( rootNode, blocks ) {
+function updateClintIdForSubtree( rootNode, blocks, clientId ) {
 	if ( ! rootNode ) {
 		return;
 	}
 
+	let currentClientId = clientId;
 	if ( rootNode.sourceCodeLocation && rootNode.sourceCodeLocation.startOffset ) {
 		const block = blocks.find( ( b ) => b.contentOffset === rootNode.sourceCodeLocation.startOffset );
 		if ( block ) {
 			console.log( "found block: ", block );
-			rootNode.clientId = block.clientId;
+
+			currentClientId = block.clientId;
 		}
 	}
 
-	( rootNode.childNodes || [] ).forEach( ( node ) => updateClintIdForSubtree( node, blocks ) );
+	if ( currentClientId ) {
+		rootNode.clientId = currentClientId;
+	}
+
+	( rootNode.childNodes || [] ).forEach( ( node ) => updateClintIdForSubtree( node, blocks, currentClientId ) );
 }
 export default function( paper, node ) {
 	console.log( "parseBlocks", paper, node );
@@ -167,8 +173,10 @@ export default function( paper, node ) {
 	// getAndSetClientID( node );
 	const rawBlocks = getAllBlocks( paper );
 
-	updateClintIdForSubtree( node, rawBlocks );
+	// eslint-disable-next-line no-undefined
+	updateClintIdForSubtree( node, rawBlocks, undefined );
 
+	console.log( "after updateClintIdForSubtree: ", node );
 	// for ( const topNode of node.childNodes ) {
 	// 	if ( ! topNode.sourceCodeLocation ) {
 	// 		continue;
