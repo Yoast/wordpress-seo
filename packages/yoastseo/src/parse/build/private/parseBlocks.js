@@ -1,4 +1,6 @@
 
+const blockTokenizer = /<!--\s+wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/g;
+
 // /**
 //  * Sets the block index to the node.
 //  *
@@ -89,11 +91,56 @@ const getAllBlocks = ( paper ) => {
 	return flattenBlocks;
 };
 
+function updateBlocksOffset( blocks, text ) {
+	// eslint-disable-next-line no-constant-condition
+	blocks.forEach( currentBlock => {
+		const matches = blockTokenizer.exec( text );
+
+		if ( null === matches ) {
+			return;
+		}
+
+		const [ match ] = matches;
+
+		const startedAt = matches.index;
+		const length = match.length;
+
+		currentBlock.startOffset = startedAt;
+		currentBlock.contentOffset = startedAt + length + 1;
+
+		if ( currentBlock.innerBlocks && currentBlock.innerBlocks.length > 0 ) {
+			updateBlocksOffset( currentBlock.innerBlocks, text );
+		}
+	} );
+}
+
+function updateClintIdForSubtree( rootNode, blocks ) {
+	if ( ! rootNode ) {
+		return;
+	}
+
+	if ( rootNode.sourceCodeLocation && rootNode.sourceCodeLocation.startOffset ) {
+		const block = blocks.find( ( b ) => b.contentOffset === rootNode.sourceCodeLocation.startOffset );
+		if ( block ) {
+			console.log( "found block: ", block );
+			rootNode.clientId = block.clientId;
+		}
+	}
+
+	( rootNode.childNodes || [] ).forEach( ( node ) => updateClintIdForSubtree( node, blocks ) );
+}
 export default function( paper, node ) {
+	console.log( "parseBlocks", paper, node );
+
 	const blocks = paper._attributes.wpBlocks;
+	blockTokenizer.lastIndex = 0;
+	updateBlocksOffset( blocks, paper.getText() );
+
+	// console.log( "Paper attributes: ", attributes );
+
 	// const blocks = getAllBlocks( paper );
-	let index = -1;
-	let blockName = "";
+	// const index = -1;
+	// const blockName = "";
 
 	// const getAndSetClientID = ( tree ) => {
 	// 	let blockName = "";
@@ -118,16 +165,34 @@ export default function( paper, node ) {
 	// 	}
 	// };
 	// getAndSetClientID( node );
-	for ( const topNode of node.childNodes ) {
-		const foundBlockName = getBlockName( topNode );
-		const foundYoastBlockName = getYoastBlockName( topNode );
-		if ( foundBlockName.blockName.length > 0 || foundYoastBlockName.blockName.length > 0 ) {
-			blockName = foundBlockName.blockName;
-			index++;
-		} else if ( foundBlockName.closingName.length > 0 || foundYoastBlockName.closingName.length > 0 ) {
-			continue;
-		} else {
-			setClientIdOnNode( index, blockName, topNode, blocks );
-		}
-	}
+	const rawBlocks = getAllBlocks( paper );
+
+	updateClintIdForSubtree( node, rawBlocks );
+
+	// for ( const topNode of node.childNodes ) {
+	// 	if ( ! topNode.sourceCodeLocation ) {
+	// 		continue;
+	// 	}
+	// 	if ( ! topNode.sourceCodeLocation.startOffset ) {
+	// 		continue;
+	// 	}
+	//
+	// 	const block = rawBlocks.find( ( b ) => b.contentOffset === topNode.sourceCodeLocation.startOffset );
+	// 	if ( block ) {
+	// 		console.log( "found block: ", block );
+	// 		topNode.clientId = block.clientId;
+	// 		// setClientIdOnNode( index, blockName, topNode, blocks );
+	// 	}
+	//
+	// 	// const foundBlockName = getBlockName( topNode );
+	// 	// const foundYoastBlockName = getYoastBlockName( topNode );
+	// 	// if ( foundBlockName.blockName.length > 0 || foundYoastBlockName.blockName.length > 0 ) {
+	// 	// 	blockName = foundBlockName.blockName;
+	// 	// 	index++;
+	// 	// } else if ( foundBlockName.closingName.length > 0 || foundYoastBlockName.closingName.length > 0 ) {
+	// 	// 	continue;
+	// 	// } else {
+	// 	// 	setClientIdOnNode( index, blockName, topNode, blocks );
+	// 	// }
+	// }
 }

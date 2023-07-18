@@ -18,6 +18,7 @@ import parseBlocks from "./private/parseBlocks";
  * @returns {Node} The tree representation of the HTML string.
  */
 export default function build( paper, languageProcessor ) {
+	// console.log( "build paper", paper );
 	const html = paper.getText();
 	let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 
