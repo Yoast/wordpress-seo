@@ -5,11 +5,12 @@ import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence
 import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSentence";
 import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
 import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
+import getSentences from "../helpers/sentence/getSentences";
 
 /**
  * Counts the occurrences of the keyphrase in the text and creates the Mark objects for the matches.
  *
- * @param {Sentence[]}	sentences				The sentences to check.
+ * @param {(Sentence|string)[]}	sentences		The sentences to check.
  * @param {Array}		keyphraseForms			The keyphrase forms.
  * @param {string}		locale					The locale used in the analysis.
  * @param {function}	matchWordCustomHelper	A custom helper to match words with a text.
@@ -49,7 +50,7 @@ export function countKeyphraseInText( sentences, keyphraseForms, locale, matchWo
 
 			if ( matchWordCustomHelper ) {
 				// Currently, this check is only applicable for Japanese.
-				markings = markWordsInASentence( sentence.text, foundWords, matchWordCustomHelper );
+				markings = markWordsInASentence( sentence, foundWords, matchWordCustomHelper );
 			} else {
 				markings = getMarkingsInSentence( sentence, foundWords );
 			}
@@ -78,7 +79,7 @@ export default function getKeyphraseCount( paper, researcher ) {
 
 	/*
 	 * Normalize single quotes so that word form with different type of single quotes can still be matched.
-	 * For exmple, "key‛word" should match "key'word".
+	 * For example, "key‛word" should match "key'word".
 	 */
 	keyphraseForms = keyphraseForms.map( word => word.map( form => normalizeSingle( form ) ) );
 
@@ -87,8 +88,10 @@ export default function getKeyphraseCount( paper, researcher ) {
 	}
 
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
+	const customSentenceTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const locale = paper.getLocale();
-	const sentences = getSentencesFromTree( paper );
+	// When the custom helper is available, we're using the sentences retrieved from the text for the analysis.
+	const sentences = matchWordCustomHelper ? getSentences( paper.getText(), customSentenceTokenizer ) : getSentencesFromTree( paper );
 	// Exact matching is requested when the keyphrase is enclosed in double quotes.
 	const isExactMatchRequested = isDoubleQuoted( paper.getKeyword() );
 

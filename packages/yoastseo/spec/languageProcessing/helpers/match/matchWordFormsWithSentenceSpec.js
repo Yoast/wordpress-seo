@@ -543,34 +543,19 @@ describe.each( exactMatchingTestCases )( "find keyphrase forms in sentence when 
 const japaneseTestCases = [
 	{
 		testDescription: "matches one occurrence of word form in the sentence",
-		sentence: {
-			text: "私の猫はかわいいです。",
-			tokens: [
-				{ text: "私の猫はかわいいです。", sourceCodeRange: { startOffset: 0, endOffset: 12 } },
-			],
-			sourceCodeRange: { startOffset: 0, endOffset: 12 } },
+		sentence: "私の猫はかわいいです。",
 		wordForms: [ "猫" ],
 		expectedResult: { count: 1, matches: [ "猫" ] },
 	},
 	{
 		testDescription: "matches all occurrences of two word forms in the sentence",
-		sentence: {
-			text: "会う私の猫はかわいいですかわいい会い。",
-			tokens: [
-				{ text: "私の猫はかわいいですかわいい。", sourceCodeRange: { startOffset: 0, endOffset: 15 } },
-			],
-			sourceCodeRange: { startOffset: 0, endOffset: 15 } },
+		sentence: "会う私の猫はかわいいですかわいい会い。",
 		wordForms: [ "会う", "会い" ],
 		expectedResult: { count: 2, matches: [ "会う", "会い" ] },
 	},
 	{
 		testDescription: "matches all occurrences of one word form in the sentence",
-		sentence: {
-			text: "これによって少しでも夏休み明けの感染者数を抑えたいという事だけど、どうなるかな者数。",
-			tokens: [
-				{ text: "私の猫はかわいいですかわいい。", sourceCodeRange: { startOffset: 0, endOffset: 15 } },
-			],
-			sourceCodeRange: { startOffset: 0, endOffset: 15 } },
+		sentence: "これによって少しでも夏休み明けの感染者数を抑えたいという事だけど、どうなるかな者数。",
 		wordForms: [ "者数" ],
 		expectedResult: { count: 2, matches: [ "者数", "者数" ] },
 	},
@@ -590,23 +575,13 @@ describe.each( japaneseTestCases )( "test for matching word forms for Japanese: 
 const exactMatchJapaneseData = [
 	{
 		testDescription: "matches only the exact form of the word forms in the sentence with the same word order",
-		sentence: {
-			text: "一日一冊の本を読むのはできるかどうかやってみます。",
-			tokens: [
-				{ text: "私の猫はかわいいですかわいい。", sourceCodeRange: { startOffset: 0, endOffset: 15 } },
-			],
-			sourceCodeRange: { startOffset: 0, endOffset: 15 } },
+		sentence: "一日一冊の本を読むのはできるかどうかやってみます。",
 		wordForms: [ "『一冊の本を読む』" ],
 		expectedResult: { count: 1, matches: [ "一冊の本を読む" ] },
 	},
 	{
 		testDescription: "doesn't match the occurrence of the word forms in the sentence with different word order",
-		sentence: {
-			text: "一日一冊の面白い本を買って読んでるのはできるかどうかやってみます。",
-			tokens: [
-				{ text: "私の猫はかわいいですかわいい。", sourceCodeRange: { startOffset: 0, endOffset: 15 } },
-			],
-			sourceCodeRange: { startOffset: 0, endOffset: 15 } },
+		sentence: "一日一冊の面白い本を買って読んでるのはできるかどうかやってみます。",
 		wordForms: [ "『一冊の本を読む』" ],
 		expectedResult: { count: 0, matches: [] },
 	},

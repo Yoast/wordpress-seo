@@ -979,7 +979,7 @@ const buildJapaneseMockResearcher = function( keyphraseForms, helper1, helper2 )
 describe( "Test for counting the keyphrase in a text for Japanese", () => {
 	// NOTE: Japanese is not yet adapted to use HTML parser, hence, the marking out doesn't include the position information.
 	it( "counts/marks a string of text with a keyphrase in it.", function() {
-		const mockPaper = new Paper( "<p>私の猫はかわいいです。</p?", { locale: "ja", keyphrase: "猫" } );
+		const mockPaper = new Paper( "<p>私の猫はかわいいです。</p>", { locale: "ja", keyphrase: "猫" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
 
@@ -990,7 +990,7 @@ describe( "Test for counting the keyphrase in a text for Japanese", () => {
 	} );
 
 	it( "counts/marks a string of text with multiple occurrences of the same keyphrase in it.", function() {
-		const mockPaper = new Paper( "<p>私の猫はかわいい猫です。</p?", { locale: "ja", keyphrase: "猫" } );
+		const mockPaper = new Paper( "<p>私の猫はかわいい猫です。</p>", { locale: "ja", keyphrase: "猫" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
 
@@ -1002,7 +1002,7 @@ describe( "Test for counting the keyphrase in a text for Japanese", () => {
 	} );
 
 	it( "counts a string if text with no keyphrase in it.", function() {
-		const mockPaper = new Paper( "私の猫はかわいいです。",  { locale: "ja" } );
+		const mockPaper = new Paper( "<p>私の猫はかわいいです。</p>",  { locale: "ja" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "会い" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
 		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 0 );
