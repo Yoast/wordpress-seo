@@ -32,6 +32,7 @@
 			yst-w-full
 			yst-h-full
 			yst-rounded-md
+			yst-shadow-sm
 			yst-border
 			yst-border-slate-300
 			yst-flex
@@ -57,7 +58,8 @@
 			yst-pr-10
 			yst-shadow-none
 			yst-text-sm
-			focus:yst-ring-0;
+			focus:yst-ring-0
+			yst-text-slate-800;
 		}
 
 		.yst-autocomplete__options {

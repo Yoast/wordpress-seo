@@ -9,6 +9,7 @@ export default {
 	argTypes: {
 		children: { control: "text" },
 		labelSuffix: { control: "text" },
+		nullable: { control: "boolean" },
 	},
 	parameters: {
 		docs: {
@@ -86,6 +87,23 @@ WithLabel.args = {
 	id: "with-label",
 	value: "",
 	label: "Example label",
+};
+
+export const Nullable = Template.bind( {} );
+
+Nullable.storyName = "Nullable";
+
+Nullable.parameters = {
+	controls: { disable: false },
+	docs: { description: { story: "Allow empty values with reset button `X` or deleting the option and clicking outside the field." } },
+};
+
+Nullable.args = {
+	id: "with-label",
+	value: "",
+	label: "Example label",
+	nullable: true,
+	placeholder: "None...",
 };
 
 export const WithPlaceholder = Template.bind( {} );
