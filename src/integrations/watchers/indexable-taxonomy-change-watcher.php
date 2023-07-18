@@ -101,9 +101,10 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$public_taxonomies            = \array_keys( $this->taxonomy_helper->get_public_taxonomies() );
+		$excluded_taxonomies = $this->taxonomy_helper->get_excluded_taxonomies_for_indexables();
+		$public_taxonomies   = \array_diff( \array_keys( $this->taxonomy_helper->get_public_taxonomies() ), $excluded_taxonomies );
+
 		$last_known_public_taxonomies = $this->options->get( 'last_known_public_taxonomies', [] );
-		$excluded_taxonomies          = $this->taxonomy_helper->get_excluded_taxonomies_for_indexables();
 
 		// Initializing the option on the first run.
 		if ( empty( $last_known_public_taxonomies ) ) {
