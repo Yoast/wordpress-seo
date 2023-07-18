@@ -152,6 +152,7 @@ const WincherKeyphrasesTable = ( props ) => {
 		setTrackedKeyphrases,
 		keyphrases,
 		permalink,
+		startAt,
 	] );
 
 	/**
@@ -240,8 +241,10 @@ const WincherKeyphrasesTable = ( props ) => {
 	const prevPermalink = usePrevious( permalink );
 	const prevKeyphrases = usePrevious( keyphrases );
 	const prevStartAt = usePrevious( startAt );
+	const hasParams = permalink && startAt;
+
 	useEffect( () => {
-		if ( isLoggedIn && permalink &&
+		if ( isLoggedIn && hasParams &&
 			( permalink !== prevPermalink || difference( keyphrases, prevKeyphrases ).length || startAt !== prevStartAt ) ) {
 			getTrackedKeyphrases();
 		}
@@ -252,6 +255,9 @@ const WincherKeyphrasesTable = ( props ) => {
 		keyphrases,
 		prevKeyphrases,
 		getTrackedKeyphrases,
+		hasParams,
+		startAt,
+		prevStartAt,
 	] );
 
 	// Tracks remaining keyphrases if trackAll is set and we have data.
