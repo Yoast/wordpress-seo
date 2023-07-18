@@ -37,11 +37,10 @@ const createMarksForSentence = ( sentence, matches  ) => {
  * This is a helper for position-based highlighting.
  *
  * @param {Mark[]}	markings	An array of markings to merge.
- * @param {Boolean}	useSpace	Whether words are separated by a space.
  *
  * @returns {Mark[]} An array of markings where consecutive and overlapping markings are merged.
  */
-const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace ) => {
+const mergeConsecutiveAndOverlappingMarkings = ( markings ) => {
 	const newMarkings = [];
 
 	// Sort markings by start offset. This is probably redundant, but for extra safety.
@@ -56,8 +55,9 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace ) => {
 		}
 
 		const lastMarking = newMarkings[ newMarkings.length - 1 ];
-
-		if ( ( lastMarking.getPositionEnd() + ( useSpace ? 1 : 0 ) === marking.getPositionStart() ) ||
+		// Adding 1 to the position end, with the assumption that the language uses spaces.
+		// When we adapt Japanese to use this helper, this check should also be adapted.
+		if ( ( lastMarking.getPositionEnd() + 1 === marking.getPositionStart() ) ||
 			( marking.getPositionStart() <= lastMarking.getPositionEnd() ) ) {
 			// The marking is consecutive to the last marking, so we extend the last marking to include the new marking.
 			lastMarking.setPositionEnd( marking.getPositionEnd() );
@@ -79,11 +79,10 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings, useSpace ) => {
  *
  * @param {Sentence}	sentence			The sentence to check.
  * @param {Token[]}		matchesInSentence	An array containing the keyphrase matches in the sentence.
- * @param {Boolean}		useSpace			Whether words are separated by a space. Default to true.
  *
  * @returns {Mark[]} The array of Mark objects of the keyphrase matches in the sentence.
  */
-function getMarkingsInSentence( sentence, matchesInSentence, useSpace = true ) {
+function getMarkingsInSentence( sentence, matchesInSentence ) {
 	if ( matchesInSentence.length === 0 ) {
 		return [];
 	}
@@ -115,7 +114,7 @@ function getMarkingsInSentence( sentence, matchesInSentence, useSpace = true ) {
 		} );
 	} );
 
-	return mergeConsecutiveAndOverlappingMarkings( markings, useSpace );
+	return mergeConsecutiveAndOverlappingMarkings( markings );
 }
 
 export default getMarkingsInSentence;

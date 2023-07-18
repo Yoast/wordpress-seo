@@ -16,7 +16,6 @@ const testCases = [
 				{ text: ".", sourceCodeRange: { startOffset: 18, endOffset: 19 } },
 			] },
 		matchesInSentence: [],
-		useSpace: true,
 		expectedResult: [],
 	},
 	{
@@ -34,7 +33,6 @@ const testCases = [
 			],
 		},
 		matchesInSentence: [ { sourceCodeRange: { startOffset: 0, endOffset: 4 } } ],
-		useSpace: true,
 		expectedResult: [ new Mark( {
 			marked: "<yoastmark class='yoast-text-mark'>This</yoastmark> is a sentence.",
 			original: "This is a sentence.",
@@ -61,7 +59,6 @@ const testCases = [
 			],
 		},
 		matchesInSentence: [ { sourceCodeRange: { startOffset: 0, endOffset: 4 } }, { sourceCodeRange: { startOffset: 5, endOffset: 7 } } ],
-		useSpace: true,
 		expectedResult: [ new Mark( {
 			marked: "<yoastmark class='yoast-text-mark'>This is</yoastmark> a sentence.",
 			original: "This is a sentence.",
@@ -88,7 +85,6 @@ const testCases = [
 			],
 		},
 		matchesInSentence: [ { sourceCodeRange: { startOffset: 0, endOffset: 4 } }, { sourceCodeRange: { startOffset: 10, endOffset: 18 } } ],
-		useSpace: true,
 		expectedResult: [
 			new Mark( {
 				marked: "<yoastmark class='yoast-text-mark'>This</yoastmark> is a <yoastmark class='yoast-text-mark'>sentence</yoastmark>.",
@@ -127,7 +123,6 @@ const testCases = [
 			],
 		},
 		matchesInSentence: [ { sourceCodeRange: { startOffset: 10, endOffset: 14 } } ],
-		useSpace: true,
 		expectedResult: [ new Mark( {
 			marked: "<yoastmark class='yoast-text-mark'>This</yoastmark> is a sentence.",
 			original: "This is a sentence.",
@@ -145,9 +140,8 @@ describe.each( testCases )( "a test for getting the marks from a sentence", ( {
 	testDescription,
 	sentence,
 	matchesInSentence,
-	useSpace,
 	expectedResult } ) => {
 	it( testDescription, () => {
-		expect( getMarkingsInSentence( sentence, matchesInSentence, useSpace ) ).toEqual( expectedResult );
+		expect( getMarkingsInSentence( sentence, matchesInSentence ) ).toEqual( expectedResult );
 	} );
 } );

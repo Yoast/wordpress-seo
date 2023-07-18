@@ -104,24 +104,27 @@ const matchWordFormInTokens = ( tokens, wordForm, locale ) => {
 /**
  * Finds keyphrase forms in a sentence.
  *
- * @param {Sentence}	sentence				The sentence to check.
- * @param {string[]}	wordForms				The word forms of the keyphrase to check.
- * @param {string}		locale					The locale used in the analysis.
- * @param {function}	matchWordCustomHelper	Custom function to match a word form with sentence.
+ * @param {Sentence|string}	sentence				The sentence to check.
+ * @param {string[]}		wordForms				The word forms of the keyphrase to check.
+ * @param {string}			locale					The locale used in the analysis.
+ * @param {function}		matchWordCustomHelper	Custom function to match a word form with sentence.
  *
  * @returns {{count: number, matches: (Token|string)[]}} Object containing the number of the matches and the matched tokens.
  */
 const matchWordFormsInSentence = ( sentence, wordForms, locale, matchWordCustomHelper ) => {
-	const tokens = sentence.tokens.slice();
 	const result = {
 		count: 0,
 		matches: [],
 	};
 
 	wordForms.forEach( wordForm => {
-		const occurrences = matchWordCustomHelper
-			? matchWordCustomHelper( sentence.text, wordForm )
-			: matchWordFormInTokens( tokens, wordForm, locale );
+		let occurrences = [];
+		if ( matchWordCustomHelper ) {
+			occurrences = matchWordCustomHelper( sentence, wordForm );
+		} else {
+			const tokens = sentence.tokens.slice();
+			occurrences = matchWordFormInTokens( tokens, wordForm, locale );
+		}
 		result.count += occurrences.length;
 		result.matches = result.matches.concat( occurrences );
 	} );
@@ -132,7 +135,7 @@ const matchWordFormsInSentence = ( sentence, wordForms, locale, matchWordCustomH
 /**
  * Matches the word forms of a keyphrase with a sentence object from the html parser.
  *
- * @param {Sentence}	sentence	The sentence to match against the word forms of a keyphrase.
+ * @param {Sentence|string}	sentence	The sentence to match against the word forms of a keyphrase.
  * @param {string[]}	wordForms	The array of word forms of the keyphrase.
  * E.g. If the keyphrase is "key word", then (if premium is activated) this will be [ "key", "keys" ] OR [ "word", "words" ]
  * The forms are retrieved higher up (among others in keywordCount.js) with researcher.getResearch( "morphology" ).
