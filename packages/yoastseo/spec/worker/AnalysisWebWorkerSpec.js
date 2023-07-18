@@ -28,6 +28,8 @@ import EnglishResearcher from "../../src/languageProcessing/languages/en/Researc
 let researcher = new EnglishResearcher();
 const morphologyData = getMorphologyData( "en" );
 
+jest.useRealTimers();
+
 /**
  * Creates a mocked scope.
  *
