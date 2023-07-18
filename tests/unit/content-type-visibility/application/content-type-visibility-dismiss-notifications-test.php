@@ -68,23 +68,50 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 				'new_post_types'              => [],
 				'new_taxonomies'              => [],
 				'dismiss_notifications_times' => 1,
+				'new_content_type'            => [],
+				'get_new_post_types_times'    => 1,
+				'get_new_taxonomies_times'    => 1,
 			],
 			'New post types and taxonomies' => [
 				'new_post_types'              => [ 'book', 'movie' ],
 				'new_taxonomies'              => [ 'books-category', 'movie-category' ],
 				'dismiss_notifications_times' => 0,
+				'new_content_type'            => [],
+				'get_new_post_types_times'    => 1,
+				'get_new_taxonomies_times'    => 1,
 			],
 			'New post types' => [
 				'new_post_types'              => [ 'book', 'movie' ],
 				'new_taxonomies'              => [],
 				'dismiss_notifications_times' => 0,
+				'new_content_type'            => [],
+				'get_new_post_types_times'    => 1,
+				'get_new_taxonomies_times'    => 1,
 			],
 			'New taxonomies' => [
 				'new_post_types'              => [],
 				'new_taxonomies'              => [ 'books-category', 'movie-category' ],
 				'dismiss_notifications_times' => 0,
+				'new_content_type'            => [],
+				'get_new_post_types_times'    => 1,
+				'get_new_taxonomies_times'    => 1,
 			],
-
+			'New taxonomies in param' => [
+				'new_post_types'              => [],
+				'new_taxonomies'              => [],
+				'dismiss_notifications_times' => 0,
+				'new_content_type'            => [ 'new_taxonomies' => [ 'books-category', 'movie-category' ] ],
+				'get_new_post_types_times'    => 1,
+				'get_new_taxonomies_times'    => 0,
+			],
+			'New post types in param' => [
+				'new_post_types'              => [],
+				'new_taxonomies'              => [],
+				'dismiss_notifications_times' => 0,
+				'new_content_type'            => [ 'new_post_types' => [ 'book', 'movie' ] ],
+				'get_new_post_types_times'    => 0,
+				'get_new_taxonomies_times'    => 1,
+			],
 		];
 	}
 
@@ -98,25 +125,28 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 * @param array $new_post_types The new post types.
 	 * @param array $new_taxonomies The new taxonomies.
 	 * @param int   $dismiss_notifications_times The number of times the dismiss_notifications method should be called.
+	 * @param array $new_content_type The new content type.
+	 * @param int   $get_new_post_types_times The number of times the get method should be called.
+	 * @param int   $get_new_taxonomies_times The number of times the get method should be called.
 	 * @return void
 	 */
-	public function test_maybe_dismiss_notifications( $new_post_types, $new_taxonomies, $dismiss_notifications_times ) {
+	public function test_maybe_dismiss_notifications( $new_post_types, $new_taxonomies, $dismiss_notifications_times, $new_content_type, $get_new_post_types_times, $get_new_taxonomies_times ) {
 
 		$this->options
 			->expects( 'get' )
 			->with( 'new_post_types', [] )
-			->once()
+			->times( $get_new_post_types_times )
 			->andReturn( $new_post_types );
 
 		$this->options
 			->expects( 'get' )
 			->with( 'new_taxonomies', [] )
-			->once()
+			->times( $get_new_taxonomies_times )
 			->andReturn( $new_taxonomies );
 
 		$this->expect_dismiss_notifications( $dismiss_notifications_times );
 
-		$this->instance->maybe_dismiss_notifications();
+		$this->instance->maybe_dismiss_notifications( $new_content_type );
 	}
 
 	/**
@@ -243,12 +273,6 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 			->once()
 			->andReturn( [] );
 
-		$this->options
-			->expects( 'get' )
-			->with( 'new_post_types', [] )
-			->once()
-			->andReturn( [ 'movie' ] );
-
 		$response = $this->instance->post_type_dismiss( 'book' );
 		$expected = [
 			'message' => 'Post type is no longer new.',
@@ -330,15 +354,9 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 
 		$this->options
 			->expects( 'get' )
-			->with( 'new_taxonomies', [] )
-			->once()
-			->andReturn( [] );
-
-		$this->options
-			->expects( 'get' )
 			->with( 'new_post_types', [] )
 			->once()
-			->andReturn( [ 'movie-category' ] );
+			->andReturn( [ 'movie' ] );
 
 		$response = $this->instance->taxonomy_dismiss( 'book-category' );
 		$expected = [
