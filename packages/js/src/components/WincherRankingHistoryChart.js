@@ -1,11 +1,12 @@
 /* External dependencies */
 import { Line } from "react-chartjs-2";
-import { CategoryScale, Chart, LineController,	LineElement, LinearScale, PointElement, TimeScale, Colors, Legend } from "chart.js";
+import { CategoryScale, Chart, LineController,	LineElement, LinearScale, PointElement, TimeScale, Colors, Legend, Tooltip } from "chart.js";
 import "chartjs-adapter-moment";
 import PropTypes from "prop-types";
 import { noop } from "lodash";
+import moment from "moment";
 
-Chart.register( CategoryScale, LineController,	LineElement, PointElement, LinearScale, TimeScale, Colors, Legend );
+Chart.register( CategoryScale, LineController,	LineElement, PointElement, LinearScale, TimeScale, Colors, Legend, Tooltip );
 
 /**
  * Renders the Wincher ranking history chart.
@@ -26,9 +27,10 @@ export default function WincherRankingHistoryChart( { datasets, isChartShown } )
 			y: value,
 		} ) ),
 		lineTension: 0,
-		pointRadius: 0,
-		pointHoverRadius: 0,
+		pointRadius: 1,
+		pointHoverRadius: 4,
 		borderWidth: 2,
+		pointHitRadius: 6,
 	} ) );
 
 	return (
@@ -49,6 +51,20 @@ export default function WincherRankingHistoryChart( { datasets, isChartShown } )
 							boxWidth: 7,
 						},
 						onClick: noop,
+					},
+					tooltip: {
+						enabled: true,
+						callbacks: {
+							title: ( x ) => moment( x[ 0 ].raw.x ).utc().format( "YYYY-MM-DD" ),
+						},
+						titleAlign: "center",
+						intersect: false,
+						mode: "point",
+						position: "nearest",
+						usePointStyle: true,
+						boxHeight: 7,
+						boxWidth: 7,
+						boxPadding: 2,
 					},
 				},
 				scales: {
