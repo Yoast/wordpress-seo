@@ -449,6 +449,7 @@ const TableContent = ( props ) => {
 			selectedKeyphrases={ selectedKeyphrases }
 			onSelectKeyphrases={ setSelectedKeyphrases }
 			trackedKeyphrases={ trackedKeyphrases }
+			setIsChartShown={ setIsChartShown }
 		/>
 	</TableWrapper>;
 };

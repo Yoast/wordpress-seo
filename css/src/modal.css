@@ -498,10 +498,6 @@
 	display: block;
 }
 
-.yoast-seo-performance-modal__mini-chart > * {
-	vertical-align: middle;
-}
-
 .yoast-wordproof-modal {
 	max-width: 380px;
 	text-align: center;

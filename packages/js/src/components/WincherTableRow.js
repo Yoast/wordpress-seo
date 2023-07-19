@@ -37,6 +37,18 @@ const SelectKeyphraseCheckboxWrapper = styled.td`
 	}
 `;
 
+const PositionOverTimeButton = styled.button`
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+    display: flex;
+    align-items: center;
+`;
+
 /**
  * Transforms the Wincher Position data to x/y points for the SVG area chart.
  *
@@ -200,7 +212,17 @@ PositionOverTimeCell.propTypes = {
  * @returns {wp.Element} The rendered element.
  */
 export function getPositionalDataByState( props ) {
-	const { rowData, websiteId } = props;
+	const { rowData, websiteId, keyphrase, onSelectKeyphrases, setIsChartShown } = props;
+
+	/**
+	 * Fires when click on position over time
+	 *
+	 * @returns {void}
+	 */
+	const onPositionOverTimeClick = useCallback( () => {
+		onSelectKeyphrases( [ keyphrase ] );
+		setIsChartShown( true );
+	}, [ onSelectKeyphrases, keyphrase, setIsChartShown ] );
 
 	const isEnabled          = ! isEmpty( rowData );
 	const hasFreshData = rowData && rowData.updated_at && moment( rowData.updated_at ) >= moment().subtract( 7, "days" );
@@ -231,8 +253,10 @@ export function getPositionalDataByState( props ) {
 	return (
 		<Fragment>
 			<td>{ getKeyphrasePosition( rowData ) }</td>
-			<td className="yoast-table--nopadding yoast-seo-performance-modal__mini-chart">
-				<PositionOverTimeCell rowData={ rowData } />
+			<td className="yoast-table--nopadding">
+				<PositionOverTimeButton onClick={ onPositionOverTimeClick }>
+					<PositionOverTimeCell rowData={ rowData } />
+				</PositionOverTimeButton>
 			</td>
 			<td>{ formatLastUpdated( rowData.updated_at ) }</td>
 			<td className="yoast-table--nobreak">

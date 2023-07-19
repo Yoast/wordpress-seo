@@ -99,6 +99,7 @@ const WincherKeyphrasesTable = ( props ) => {
 		startAt,
 		selectedKeyphrases,
 		onSelectKeyphrases,
+		setIsChartShown,
 	} = props;
 
 	const interval = useRef();
@@ -397,6 +398,7 @@ const WincherKeyphrasesTable = ( props ) => {
 									isLoading={ isDataLoading || loadingKeyphrases.indexOf( keyphrase.toLowerCase() ) >= 0 }
 									selectedKeyphrases={ selectedKeyphrases }
 									onSelectKeyphrases={ onSelectKeyphrases }
+									setIsChartShown={ setIsChartShown }
 								/> );
 							} )
 						}
@@ -441,6 +443,7 @@ WincherKeyphrasesTable.propTypes = {
 	startAt: PropTypes.string,
 	selectedKeyphrases: PropTypes.arrayOf( PropTypes.string ).isRequired,
 	onSelectKeyphrases: PropTypes.func.isRequired,
+	setIsChartShown: PropTypes.func.isRequired,
 };
 
 WincherKeyphrasesTable.defaultProps = {
