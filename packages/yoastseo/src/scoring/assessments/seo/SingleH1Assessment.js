@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { isUndefined, map, merge } from "lodash-es";
+import { isUndefined, merge } from "lodash-es";
 
 import Assessment from "../assessment.js";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
@@ -91,7 +91,7 @@ class SingleH1Assessment extends Assessment {
 	 * @returns {Array} Array with all the marked H1s.
 	 */
 	getMarks() {
-		return map( this._h1s, function( h1 ) {
+		return this._h1s.map( function( h1 ) {
 			return new Mark( {
 				original: "<h1>" + h1.content + "</h1>",
 				marked: "<h1>" + marker( h1.content ) + "</h1>",
