@@ -49,7 +49,7 @@ export const Notification = ( {
 	id,
 	variant = "info",
 	size = "default",
-	title,
+	title = "",
 	description = "",
 	onDismiss = null,
 	autoDismiss = null,
@@ -102,9 +102,11 @@ export const Notification = ( {
 					<ValidationIcon variant={ variant } className="yst-notification__icon" />
 				</div>
 				<div className="yst-w-0 yst-flex-1">
-					<p className="yst-text-sm yst-font-medium yst-text-slate-800">
-						{ title }
-					</p>
+					{ title && (
+						<p className="yst-text-sm yst-font-medium yst-text-slate-800">
+							{ title }
+						</p>
+					) }
 					{ children || (
 						description && ( isArray( description ) ? (
 							<ul className="yst-list-disc yst-ml-4">{ description.map( ( text, index ) => <li className="yst-pt-1" key={ `${ text }-${ index }` }>{ text }</li> ) }</ul>
@@ -131,7 +133,7 @@ Notification.propTypes = {
 	id: PropTypes.string.isRequired,
 	variant: PropTypes.oneOf( keys( notificationClassNameMap.variant ) ),
 	size: PropTypes.oneOf( keys( notificationClassNameMap.size ) ),
-	title: PropTypes.string.isRequired,
+	title: PropTypes.string,
 	description: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
 	onDismiss: PropTypes.func,
 	autoDismiss: PropTypes.number,
