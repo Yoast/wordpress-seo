@@ -401,6 +401,7 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->enqueue_style( 'scoring' );
 		$this->asset_manager->enqueue_style( 'monorepo' );
 		$this->asset_manager->enqueue_style( 'admin-css' );
+		$this->asset_manager->enqueue_style( 'ai-generator' );
 		$this->asset_manager->enqueue_style( 'elementor' );
 
 		$this->asset_manager->enqueue_script( 'admin-global' );
