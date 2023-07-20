@@ -71,7 +71,7 @@ class SocialPreviewEditorWrapper extends React.Component {
 						"https://www.yarrah.com/en/wp-content/uploads/sites/10/2019/01/Puppy-aanschaffen-header-800x600.png"
 					) }
 					isPremium={ true }
-					socialPreviewLabel="Facebook share preview"
+					socialPreviewLabel="Social share preview"
 				/>
 				<br />
 				<h2>Twitter</h2>
