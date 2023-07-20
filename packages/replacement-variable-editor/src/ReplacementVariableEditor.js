@@ -11,6 +11,7 @@ import { Slot } from "@wordpress/components";
 import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
 import { withCaretStyles } from "@yoast/style-guide";
 import {
+	ButtonsContainer,
 	DescriptionInputContainer,
 	FormSection,
 	TitleInputContainer,
@@ -93,14 +94,6 @@ class ReplacementVariableEditor extends React.Component {
 
 		const InputContainer = this.InputContainer;
 
-		const addVariableButton = <TriggerReplacementVariableSuggestionsButton
-			className="yst-replacevar__button-insert"
-			onClick={ this.triggerReplacementVariableSuggestions }
-			disabled={ isDisabled }
-		>
-			{ __( "Insert variable", "wordpress-seo" ) }
-		</TriggerReplacementVariableSuggestionsButton>;
-
 		const buttons = applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId, type } );
 
 		return (
@@ -120,14 +113,22 @@ class ReplacementVariableEditor extends React.Component {
 				{ hasPremiumBadge && <PremiumBadge inLabel={ true } /> }
 				{ hasNewBadge && <NewBadge inLabel={ true } /> }
 
-				<Slot name={ `yoast.replacementVariableEditor.additionalButtons.${ fieldId }` } />
-				{ buttons.map( ( button, index ) => (
-					<Fragment key={ `additional-button-${ index }-${ fieldId }` }>
-						{ button }
-					</Fragment>
-				) ) }
-				<Slot key={ `PluginComponent-${ fieldId }` } name={ `PluginComponent-${ fieldId }` } />
-				{ addVariableButton }
+				<ButtonsContainer className="yst-replacevar__buttons">
+					<Slot name={ `yoast.replacementVariableEditor.additionalButtons.${ fieldId }` } />
+					{ buttons.map( ( button, index ) => (
+						<Fragment key={ `additional-button-${ index }-${ fieldId }` }>
+							{ button }
+						</Fragment>
+					) ) }
+					<Slot key={ `PluginComponent-${ fieldId }` } name={ `PluginComponent-${ fieldId }` } />
+					<TriggerReplacementVariableSuggestionsButton
+						className="yst-replacevar__button-insert"
+						onClick={ this.triggerReplacementVariableSuggestions }
+						disabled={ isDisabled }
+					>
+						{ __( "Insert variable", "wordpress-seo" ) }
+					</TriggerReplacementVariableSuggestionsButton>
+				</ButtonsContainer>
 
 				<InputContainer
 					className="yst-replacevar__editor"

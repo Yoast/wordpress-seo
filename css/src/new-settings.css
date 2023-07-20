@@ -131,6 +131,10 @@ body.seo_page_wpseo_page_settings {
 			yst-text-slate-800;
 		}
 
+		.yst-replacevar__buttons {
+			@apply yst-inline-flex yst-gap-1.5;
+		}
+
 		.yst-replacevar__button-insert {
 			@apply yst-mb-2;
 
