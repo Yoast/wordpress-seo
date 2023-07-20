@@ -1,10 +1,10 @@
-import PropTypes from "prop-types";
 import { Fill } from "@wordpress/components";
 import { select } from "@wordpress/data";
 import { useCallback, useRef } from "@wordpress/element";
 import { addFilter } from "@wordpress/hooks";
 import { __ } from "@wordpress/i18n";
 import { Modal, useToggleState } from "@yoast/ui-library";
+import PropTypes from "prop-types";
 import { ModalContent } from "./components/modal-content";
 
 /**
@@ -22,7 +22,7 @@ const AiGeneratorUpsell = ( { fieldId } ) => {
 	const focusElementRef = useRef( null );
 
 	return (
-		<div className="yst-ml-auto">
+		<>
 			<button
 				type="button"
 				id={ `yst-replacevar__use-ai-button__${ fieldId }` }
@@ -31,13 +31,12 @@ const AiGeneratorUpsell = ( { fieldId } ) => {
 			>
 				{ __( "Use AI", "wordpress-seo" ) }
 			</button>
-
 			<Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
 				<Modal.Panel className="yst-max-w-lg yst-p-0 yst-bg-gradient-to-b yst-from-[#EDD2E1] yst-rounded-3xl">
 					<ModalContent onClose={ setIsModalOpenFalse } focusElementRef={ focusElementRef } />
 				</Modal.Panel>
 			</Modal>
-		</div>
+		</>
 	);
 };
 
@@ -47,9 +46,9 @@ AiGeneratorUpsell.propTypes = {
 
 /**
  * Initializes the AI Generator upsell.
-*
-* @returns {void}
-*/
+ *
+ * @returns {void}
+ */
 const initializeAiGenerator = () => {
 	const isPremium = select( "yoast-seo/editor" ).getIsPremium();
 
