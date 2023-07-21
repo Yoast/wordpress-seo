@@ -15,6 +15,9 @@ export default function( paper ) {
 			...s,
 			parentStartOffset: ( node.sourceCodeLocation.startTag && node.sourceCodeLocation.startTag.endOffset ) ||
 				node.sourceCodeLocation.startOffset,
-			clientId: node.clientId };
+			parentClientId: node.clientId,
+			parentAttributeId: node.attributeId || "",
+			isParentFirstBlockPair: node.isFirstPair || false,
+		};
 	} ) );
 }
