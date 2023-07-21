@@ -314,20 +314,55 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
 	return blockOffsets;
 }
 
+const htmlTagsRegex = /(<([^>]+)>)/ig;
+
 /**
  * Create an annotation if the given mark is position based.
  *
+ * @param {string} clientId The client id of the block.
  * @param {Mark}   mark The mark to apply to the content.
+ * @param {string} html The HTML of the block.
+ * @param {string} text The text of the block.
  *
  * @returns {Array} The annotations to apply.
  */
-export function createAnnotationsFromPositionBasedMarks( mark ) {
-	return [
-		{
-			startOffset: mark.getBlockPositionStart(),
-			endOffset: mark.getBlockPositionEnd(),
-		},
-	];
+export function createAnnotationsFromPositionBasedMarks( clientId, mark, html, text ) {
+	if ( clientId === mark.getBlockClientId() ) {
+		const slicedHtml = html.slice( mark.getBlockPositionStart(), mark.getBlockPositionEnd() );
+		const slicedText = text.slice( mark.getBlockPositionStart(), mark.getBlockPositionEnd() );
+		// Check if the html and the rich text contain the same text in the specified index.
+		if ( slicedHtml === slicedText ) {
+			return [
+				{
+					startOffset: mark.getBlockPositionStart(),
+					endOffset: mark.getBlockPositionEnd(),
+				},
+			];
+		}
+		// Adjust block position start and end.
+		let startOffset = mark.getBlockPositionStart();
+		let endOffset = mark.getBlockPositionEnd();
+		// Retrieve the html from the start until the startOffset of the mark.
+		html = html.slice( 0, mark.getBlockPositionStart() );
+		// Find all html tags.
+		const foundHtmlTags = [ ...html.matchAll( htmlTagsRegex ) ];
+		/*
+		 * Loop through the found html tags backwards, and adjust the start and end offsets of the mark
+		 * by subtracting them with the length of the found html tags.
+		 */
+		for ( let i = foundHtmlTags.length - 1; i >= 0; i-- ) {
+			const currentHtmlTag = foundHtmlTags[ i ][ 0 ];
+			startOffset -= currentHtmlTag.length;
+			endOffset -= currentHtmlTag.length;
+		}
+		return [
+			{
+				startOffset: startOffset,
+				endOffset: endOffset,
+			},
+		];
+	}
+	return [];
 }
 
 /**
@@ -372,6 +407,7 @@ export function hasInnerBlocks( block ) {
  */
 function createAnnotations( html, richTextIdentifier, attribute, block, marks ) {
 	const blockClientId = block.clientId;
+
 	const record = create( {
 		html: html,
 		multilineTag: attribute.multilineTag,
@@ -380,13 +416,10 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks ) 
 
 	const text = record.text;
 
-	return flatMap( marks, ( ( mark ) => {
+	return flatMap( marks, mark  => {
 		let annotations;
 		if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
-			if ( blockClientId !== mark.getBlockClientId() ) {
-				return [];
-			}
-			annotations = createAnnotationsFromPositionBasedMarks( mark );
+			annotations = createAnnotationsFromPositionBasedMarks( blockClientId, mark, html, text );
 		} else {
 			annotations = calculateAnnotationsForTextFormat(
 				text,
@@ -401,11 +434,11 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks ) 
 		return annotations.map( annotation => {
 			return {
 				...annotation,
-				block: block.clientId,
+				block: blockClientId,
 				richTextIdentifier: richTextIdentifier,
 			};
 		} );
-	} ) );
+	} );
 }
 
 /**
@@ -426,9 +459,21 @@ const getAnnotationsForFAQ = ( attribute, block, marks ) => {
 	const annotations = annotatableTexts.map( item => {
 		const identifierQuestion = `${ item.id }-question`;
 		const identifierAnswer = `${ item.id }-answer`;
+		const marksForQuestion = marks.filter( mark => {
+			if ( mark.hasBlockPosition() ) {
+				return mark.getBlockAttributeId() === item.id && mark.isMarkForFirstBlockPair();
+			}
+			return mark;
+		} );
+		const marksForAnswer = marks.filter( mark => {
+			if ( mark.hasBlockPosition() ) {
+				return mark.getBlockAttributeId() === item.id && ! mark.isMarkForFirstBlockPair();
+			}
+			return mark;
+		} );
 
-		const annotationsFromQuestion = createAnnotations( item.jsonQuestion, identifierQuestion, attribute, block, marks );
-		const annotationsFromAnswer = createAnnotations( item.jsonAnswer, identifierAnswer, attribute, block, marks );
+		const annotationsFromQuestion = createAnnotations( item.jsonQuestion, identifierQuestion, attribute, block, marksForQuestion );
+		const annotationsFromAnswer = createAnnotations( item.jsonAnswer, identifierAnswer, attribute, block, marksForAnswer );
 
 		return annotationsFromQuestion.concat( annotationsFromAnswer );
 	} );
@@ -456,14 +501,30 @@ const getAnnotationsForHowTo = ( attribute, block, marks ) => {
 			const identifierStepName = `${ item.id }-name`;
 			const identifierStepText = `${ item.id }-text`;
 
-			const annotationsFromStepName = createAnnotations( item.jsonName, identifierStepName, attribute, block, marks );
-			const annotationsFromStepText = createAnnotations( item.jsonText, identifierStepText, attribute, block, marks );
+			const marksForStepName = marks.filter( mark => {
+				if ( mark.hasBlockPosition() ) {
+					return mark.getBlockAttributeId() === item.id && mark.isMarkForFirstBlockPair();
+				}
+				return mark;
+			} );
+			const marksForStepText = marks.filter( mark => {
+				if ( mark.hasBlockPosition() ) {
+					return mark.getBlockAttributeId() === item.id && ! mark.isMarkForFirstBlockPair();
+				}
+				return mark;
+			} );
+
+			const annotationsFromStepName = createAnnotations( item.jsonName, identifierStepName, attribute, block, marksForStepName );
+			const annotationsFromStepText = createAnnotations( item.jsonText, identifierStepText, attribute, block, marksForStepText );
 
 			// For each step return an array of the name-text pair objects.
 			return annotationsFromStepName.concat( annotationsFromStepText );
 		} ) );
 	}
 	if ( attribute.key === "jsonDescription" ) {
+		marks = marks.filter( mark => {
+			return mark.hasBlockPosition() && ! mark.getBlockAttributeId();
+		} );
 		annotations.push( createAnnotations( annotatableTexts, "description", attribute, block, marks ) );
 	}
 	return flattenDeep( annotations );
@@ -472,52 +533,37 @@ const getAnnotationsForHowTo = ( attribute, block, marks ) => {
 /**
  * Gets the annotations for Yoast FAQ block and Yoast How-To block.
  *
- * @param {Object} attributes The attributes to apply annotations to.
+ * @param {Object} attribute The attribute to apply annotations to.
  * @param {Object} block     The block information in the state.
  * @param {Array}  marks     The marks to turn into annotations.
  *
  * @returns {Array} An array of annotations for Yoast blocks.
  */
-export function getAnnotationsForYoastBlock( attributes, block, marks ) {
+export function getAnnotationsForYoastBlock( attribute, block, marks ) {
 	// For Yoast FAQ and How-To blocks, we create separate annotation objects for each individual Rich Text found in the attribute.
-	return flatMap( attributes, attribute => {
-		if ( block.name === "yoast/faq-block" ) {
-			return getAnnotationsForFAQ( attribute, block, marks );
-		}
-		// The check for getting the annotations for Yoast How-To block.
-		if ( block.name === "yoast/how-to-block" ) {
-			return getAnnotationsForHowTo( attribute, block, marks );
-		}
-	} );
+	if ( block.name === "yoast/faq-block" ) {
+		return getAnnotationsForFAQ( attribute, block, marks );
+	}
+	// The check for getting the annotations for Yoast How-To block.
+	if ( block.name === "yoast/how-to-block" ) {
+		return getAnnotationsForHowTo( attribute, block, marks );
+	}
 }
 
 /**
  * Returns annotations that should be applied to the given attribute.
  *
- * @param {Object} attributes The attributes to apply annotations to.
+ * @param {Object} attribute The attribute to apply annotations to.
  * @param {Object} block     The block information in the state.
  * @param {Array}  marks     The marks to turn into annotations.
  *
  * @returns {Array} The annotations to apply.
  */
-export function getAnnotationsForWPBlock( attributes, block, marks ) {
-	const annotations = flatMap( attributes, attribute => {
-		if ( attribute.length === 0 ) {
-			return [];
-		}
+export function getAnnotationsForWPBlock( attribute, block, marks ) {
+	const richTextIdentifier = attribute.key;
+	const html = block.attributes[ richTextIdentifier ];
 
-		const richTextIdentifier = attribute.key;
-		const html = block.attributes[ richTextIdentifier ];
-
-		return createAnnotations( html, richTextIdentifier, attribute, block, marks );
-	} );
-
-	if ( hasInnerBlocks( block ) ) {
-		block.innerBlocks.forEach( innerBlock => {
-			annotations.concat( getAnnotationsForWPBlock( attributes, innerBlock, marks ) );
-		} );
-	}
-	return annotations;
+	return createAnnotations( html, richTextIdentifier, attribute, block, marks );
 }
 
 /**
@@ -557,12 +603,18 @@ function fillAnnotationQueue( annotations ) {
  * @param { Mark[] } marks A list of marks that could apply to the block.
  * @returns { Object[] } All annotations that need to be placed on the block.
  */
-const getAnnotationsForABlock = ( block, marks ) => {
-	const attributes = getAnnotatableAttributes( block.name );
-	if ( block.name === "yoast/faq-block" || block.name === "yoast/how-to-block" ) {
-		return getAnnotationsForYoastBlock( attributes, block, marks );
-	}
-	return getAnnotationsForWPBlock( attributes, block, marks );
+const getAnnotationsForBlock = ( block, marks ) => {
+	return flatMap(
+		getAnnotatableAttributes( block.name ),
+		( ( attribute ) => {
+			// Get the annotations for Yoast FAQ and How-To blocks.
+			if ( block.name === "yoast/faq-block" || block.name === "yoast/how-to-block" ) {
+				return getAnnotationsForYoastBlock( attribute, block, marks );
+			}
+			// Get the annotation for non-Yoast blocks.
+			return getAnnotationsForWPBlock( attribute, block, marks );
+		} )
+	);
 };
 
 
@@ -578,7 +630,9 @@ const getAnnotationsForABlock = ( block, marks ) => {
  */
 export function getAnnotationsForBlocks( blocks, marks ) {
 	return flatMap( blocks, ( block ) => {
-		return getAnnotationsForABlock( block, marks );
+		// If a block has innerblocks, get annotations for those blocks as well.
+		const innerBlockAnnotations = hasInnerBlocks( block ) ?  getAnnotationsForBlocks( block.innerBlocks, marks ) : [];
+		return getAnnotationsForBlock( block, marks ).concat( innerBlockAnnotations );
 	} );
 }
 
@@ -651,7 +705,7 @@ export function reapplyAnnotationsForSelectedBlock() {
 
 	const marksForActiveMarker = activeMarker.marks;
 
-	const annotations = getAnnotationsForABlock( block, marksForActiveMarker );
+	const annotations = getAnnotationsForBlock( block, marksForActiveMarker );
 
 	fillAnnotationQueue( annotations );
 
