@@ -137,10 +137,31 @@ Mark.prototype.getBlockIndex = function() {
 /**
  * Gets the block client id.
  *
- * @returns {string} The block index.
+ * @returns {string} The block client id.
  */
 Mark.prototype.getBlockClientId = function() {
 	return this._properties.position && this._properties.position.clientId;
+};
+
+/**
+ * Gets the block attribute id.
+ *
+ * @returns {string} The block attribute id.
+ */
+Mark.prototype.getBlockAttributeId = function() {
+	return this._properties.position && this._properties.position.attributeId;
+};
+
+
+/**
+ * Checks if the mark object is intended for the first pair of the annotatble fields.
+ * This method will be used only for Yoast blocks where each block consists of sub-blocks
+ * with a pair of annotatable fields.
+ *
+ * @returns {boolean} Whether the mark object is intended for the first pair of the annotatble fields.
+ */
+Mark.prototype.isMarkForFirstBlockPair = function() {
+	return this._properties.position && this._properties.position.isFirstPair;
 };
 
 /**
@@ -238,8 +259,9 @@ Mark.prototype.hasPosition = function() {
  * @returns {boolean} Returns true if the Mark object has block position information, false otherwise.
  */
 Mark.prototype.hasBlockPosition = function() {
-	return !! this.getBlockPositionEnd() && this.getBlockPositionStart();
+	return !! this.getBlockPositionStart && this.getBlockPositionStart() >= 0;
 };
+
 /**
  * Parses the object to a Mark.
  *
