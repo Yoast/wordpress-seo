@@ -67,7 +67,6 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings ) => {
 			newMarkings.push( marking );
 		}
 	} );
-	console.log( newMarkings, "NEW MARKINGS" );
 
 	return newMarkings;
 };
@@ -108,14 +107,14 @@ function getMarkingsInSentence( sentence, matchesInSentence ) {
 				// relative to start of block positions.
 				startOffsetBlock: startOffset - sentence.parentStartOffset,
 				endOffsetBlock: endOffset - sentence.parentStartOffset,
-				clientId: sentence.clientId,
+				clientId: sentence.parentClientId,
+				attributeId: sentence.parentAttributeId,
+				isFirstPair: sentence.isParentFirstBlockPair,
 			},
 			marked: markedSentence,
 			original: sentence.text,
 		} );
 	} );
-	// console.log( markings, "MARKINSG YST" );
-	// console.log(  sentence.parentStartOffset, "offset parent" );
 
 	return mergeConsecutiveAndOverlappingMarkings( markings );
 }
