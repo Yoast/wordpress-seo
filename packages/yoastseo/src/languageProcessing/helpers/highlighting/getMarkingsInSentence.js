@@ -67,6 +67,7 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings ) => {
 			newMarkings.push( marking );
 		}
 	} );
+	console.log( newMarkings, "NEW MARKINGS" );
 
 	return newMarkings;
 };
@@ -113,6 +114,8 @@ function getMarkingsInSentence( sentence, matchesInSentence ) {
 			original: sentence.text,
 		} );
 	} );
+	// console.log( markings, "MARKINSG YST" );
+	// console.log(  sentence.parentStartOffset, "offset parent" );
 
 	return mergeConsecutiveAndOverlappingMarkings( markings );
 }
