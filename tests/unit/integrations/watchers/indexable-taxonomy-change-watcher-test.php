@@ -120,37 +120,30 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 	 * @covers ::check_taxonomy_public_availability
 	 *
 	 * @param bool  $is_json_request              Whether it's a JSON request.
-	 * @param array $get_public_taxonomies        The raw public taxonomies.
 	 * @param array $public_taxonomies            The public taxonomies.
 	 * @param int   $get_public_taxonomies_times  The times we get the public taxonomies.
 	 * @param array $last_known_public_taxonomies The last known public taxonomies.
 	 * @param int   $set_public_taxonomies_times  The times we get the last known public taxonomies.
 	 * @param int   $delete_transient_times       The times we delete the transients.
 	 * @param int   $schedule_cleanup_times       The times we schedule cleanup.
-	 * @param int   $excluded_times               The times we get the excluded taxonomies.
 	 */
 	public function test_check_taxonomy_public_availability(
-		$is_json_request, $get_public_taxonomies, $public_taxonomies, $get_public_taxonomies_times, $last_known_public_taxonomies, $set_public_taxonomies_times, $delete_transient_times, $schedule_cleanup_times, $excluded_times
+		$is_json_request, $public_taxonomies, $get_public_taxonomies_times, $last_known_public_taxonomies, $set_public_taxonomies_times, $delete_transient_times, $schedule_cleanup_times
 	) {
 		Functions\expect( 'wp_is_json_request' )
 			->once()
 			->andReturn( $is_json_request );
 
 		$this->taxonomy_helper
-			->expects( 'get_public_taxonomies' )
+			->expects( 'get_indexable_taxonomies' )
 			->times( $get_public_taxonomies_times )
-			->andReturn( $get_public_taxonomies );
+			->andReturn( $public_taxonomies );
 
 		$this->options
 			->expects( 'get' )
 			->times( $get_public_taxonomies_times )
 			->with( 'last_known_public_taxonomies', [] )
 			->andReturn( $last_known_public_taxonomies );
-
-		$this->taxonomy_helper
-			->expects( 'get_excluded_taxonomies_for_indexables' )
-			->times( $excluded_times )
-			->andReturn( [ 'post_format' ] );
 
 		$this->options
 			->expects( 'set' )
@@ -197,43 +190,24 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 		return [
 			'When it is ajax request' => [
 				'is_json_request'              => true,
-				'get_public_taxonomies'        => [ 'irrelevant' => 'irrelevant' ],
 				'public_taxonomies'            => [ 'irrelevant' ],
 				'get_public_taxonomies_times'  => 0,
 				'last_known_public_taxonomies' => [ 'irrelevant' ],
 				'set_public_taxonomies_times'  => 0,
 				'delete_transient_times'       => 0,
 				'schedule_cleanup_times'       => 0,
-				'excluded_times'               => 0,
 			],
 			'When there are no new public taxonomies' => [
 				'is_json_request'              => false,
-				'get_public_taxonomies'        => [],
 				'public_taxonomies'            => [],
 				'get_public_taxonomies_times'  => 1,
 				'last_known_public_taxonomies' => [],
 				'set_public_taxonomies_times'  => 1,
 				'delete_transient_times'       => 0,
 				'schedule_cleanup_times'       => 0,
-				'excluded_times'               => 1,
-			],
-			'When the new public content types was excluded' => [
-				'is_json_request'              => false,
-				'get_public_taxonomies'        => [ 'post_format' => 'post_format' ],
-				'public_taxonomies'            => [],
-				'get_public_taxonomies_times'  => 1,
-				'last_known_public_taxonomies' => [],
-				'set_public_taxonomies_times'  => 1,
-				'delete_transient_times'       => 0,
-				'schedule_cleanup_times'       => 0,
-				'excluded_times'               => 1,
 			],
 			'When the new taxonomies are already saved in cache' => [
 				'is_json_request'              => false,
-				'get_public_taxonomies'        => [
-					'category' => 'category',
-					'post_tag' => 'post_tag',
-				],
 				'public_taxonomies'            => [ 'category', 'post_tag' ],
 				'get_public_taxonomies_times'  => 1,
 				'last_known_public_taxonomies' => [
@@ -243,14 +217,9 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 				'set_public_taxonomies_times'  => 0,
 				'delete_transient_times'       => 0,
 				'schedule_cleanup_times'       => 0,
-				'excluded_times'               => 1,
 			],
 			'When new taxonomy is added' => [
 				'is_json_request'              => false,
-				'get_public_taxonomies'        => [
-					'category' => 'category',
-					'post_tag' => 'post_tag',
-				],
 				'public_taxonomies'            => [
 					'category',
 					'post_tag',
@@ -262,13 +231,9 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 				'set_public_taxonomies_times'  => 1,
 				'delete_transient_times'       => 1,
 				'schedule_cleanup_times'       => 0,
-				'excluded_times'               => 1,
 			],
 			'when taxonomy is removed' => [
 				'is_json_request'              => false,
-				'get_public_taxonomies'        => [
-					'category' => 'category',
-				],
 				'public_taxonomies'            => [ 'category' ],
 				'get_public_taxonomies_times'  => 1,
 				'last_known_public_taxonomies' => [
@@ -278,7 +243,6 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 				'set_public_taxonomies_times'  => 1,
 				'delete_transient_times'       => 0,
 				'schedule_cleanup_times'       => 1,
-				'excluded_times'               => 1,
 			],
 		];
 	}

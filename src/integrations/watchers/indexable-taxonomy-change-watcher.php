@@ -101,8 +101,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$excluded_taxonomies = $this->taxonomy_helper->get_excluded_taxonomies_for_indexables();
-		$public_taxonomies   = \array_diff( \array_keys( $this->taxonomy_helper->get_public_taxonomies() ), $excluded_taxonomies );
+		$public_taxonomies = $this->taxonomy_helper->get_indexable_taxonomies();
 
 		$last_known_public_taxonomies = $this->options->get( 'last_known_public_taxonomies', [] );
 
@@ -113,7 +112,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		}
 
 		// We look for new public taxonomies.
-		$newly_made_public_taxonomies = \array_diff( $public_taxonomies, $last_known_public_taxonomies, $excluded_taxonomies );
+		$newly_made_public_taxonomies = \array_diff( $public_taxonomies, $last_known_public_taxonomies );
 
 		// We look fortaxonomies that from public have been made private.
 		$newly_made_non_public_taxonomies = \array_diff( $last_known_public_taxonomies, $public_taxonomies );
