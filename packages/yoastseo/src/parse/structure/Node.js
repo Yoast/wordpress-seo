@@ -14,16 +14,12 @@ class Node {
 	 * @param {(Node|Text)[]} 	childNodes 				This node's child nodes.
 	 * @param {Object} 			sourceCodeLocationInfo 	This node's location in the source code, from parse5.
 	 */
-	constructor( name, attributes = {}, childNodes = [], sourceCodeLocationInfo = {}, commentData ) {
+	constructor( name, attributes = {}, childNodes = [], sourceCodeLocationInfo = {} ) {
 		/**
 		 * This node's name or tag.
 		 * @type {string}
 		 */
 		this.name = name;
-
-		if ( commentData ){
-			this.data = commentData;
-		}
 
 		/**
 		 * This node's attributes.
