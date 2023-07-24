@@ -201,16 +201,14 @@ function _wpseo_activate() {
 	}
 	WPSEO_Options::ensure_options_exist();
 
-	if ( is_multisite() && ms_is_switched() ) {
-		update_option( 'rewrite_rules', '' );
+	$is_multisite_deactivation = is_multisite() && ms_is_switched();
+
+	if ( ! $is_multisite_deactivation && WPSEO_Options::get( 'stripcategorybase' ) === true ) {
+		// Constructor has side effects so this registers all hooks.
+		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
 	}
-	else {
-		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
-			// Constructor has side effects so this registers all hooks.
-			$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
-		}
-		add_action( 'shutdown', 'flush_rewrite_rules' );
-	}
+
+	add_action( 'shutdown', 'flush_rewrite_rules' );
 
 	WPSEO_Options::set( 'indexing_reason', 'first_install' );
 	WPSEO_Options::set( 'first_time_install', true );
@@ -243,12 +241,7 @@ function _wpseo_activate() {
 function _wpseo_deactivate() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
 
-	if ( is_multisite() && ms_is_switched() ) {
-		update_option( 'rewrite_rules', '' );
-	}
-	else {
-		add_action( 'shutdown', 'flush_rewrite_rules' );
-	}
+	add_action( 'shutdown', 'flush_rewrite_rules' );
 
 	// Register capabilities, to make sure they are cleaned up.
 	do_action( 'wpseo_register_roles' );
