@@ -120,31 +120,23 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	 * @covers ::check_post_types_public_availability
 	 *
 	 * @param bool  $is_json_request              Whether it's a JSON request.
-	 * @param array $get_public_post_types        The raw public post types.
 	 * @param array $public_post_types            The public post types.
 	 * @param int   $get_public_post_types_times  The times we get the public post types.
 	 * @param array $last_known_public_post_types The last known public post types.
 	 * @param int   $set_public_post_types_times  The times we get the last known public post types.
 	 * @param int   $delete_transient_times       The times we delete the transients.
-	 * @param int   $schedule_cleanup_times       The times we schedule cleanup.
-	 * @param int   $excluded_times               The times we get the excluded post types.
 	 */
 	public function test_check_post_types_public_availability(
-		$is_json_request, $get_public_post_types, $public_post_types, $get_public_post_types_times, $last_known_public_post_types, $set_public_post_types_times, $delete_transient_times, $schedule_cleanup_times, $excluded_times
+		$is_json_request, $public_post_types, $get_public_post_types_times, $last_known_public_post_types, $set_public_post_types_times, $delete_transient_times, $schedule_cleanup_times
 	) {
 		Functions\expect( 'wp_is_json_request' )
 			->once()
 			->andReturn( $is_json_request );
 
 		$this->post_type_helper
-			->expects( 'get_public_post_types' )
+			->expects( 'get_indexable_post_types' )
 			->times( $get_public_post_types_times )
-			->andReturn( $get_public_post_types );
-
-		$this->post_type_helper
-			->expects( 'get_excluded_post_types_for_indexables' )
-			->times( $excluded_times )
-			->andReturn( [ 'elementor_library', 'shop_order' ] );
+			->andReturn( $public_post_types );
 
 		$this->options
 			->expects( 'get' )
@@ -197,43 +189,24 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 		return [
 			'When it is ajax request' => [
 				'is_json_request'              => true,
-				'get_public_post_types'        => [ 'irrelevant' => 'irrelevant' ],
 				'public_post_types'            => [ 'irrelevant' ],
 				'get_public_post_types_times'  => 0,
 				'last_known_public_post_types' => [ 'irrelevant' ],
 				'set_public_post_types_times'  => 0,
 				'delete_transient_times'       => 0,
 				'schedule_cleanup_times'       => 0,
-				'excluded_times'               => 0,
 			],
 			'When there are no new public content types' => [
 				'is_json_request'              => false,
-				'get_public_post_types'        => [],
 				'public_post_types'            => [],
 				'get_public_post_types_times'  => 1,
 				'last_known_public_post_types' => [],
 				'set_public_post_types_times'  => 1,
 				'delete_transient_times'       => 0,
 				'schedule_cleanup_times'       => 0,
-				'excluded_times'               => 1,
-			],
-			'When the new public content types are excluded' => [
-				'is_json_request'              => false,
-				'get_public_post_types'        => [ 'elementor_library' => 'elementor_library' ],
-				'public_post_types'            => [],
-				'get_public_post_types_times'  => 1,
-				'last_known_public_post_types' => [],
-				'set_public_post_types_times'  => 1,
-				'delete_transient_times'       => 0,
-				'schedule_cleanup_times'       => 0,
-				'excluded_times'               => 1,
 			],
 			'When the new post types are already saved in cache' => [
 				'is_json_request'              => false,
-				'get_public_post_types'        => [
-					'post' => 'post',
-					'page' => 'page',
-				],
 				'public_post_types'            => [ 'post', 'page' ],
 				'get_public_post_types_times'  => 1,
 				'last_known_public_post_types' => [
@@ -243,14 +216,9 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 				'set_public_post_types_times'  => 0,
 				'delete_transient_times'       => 0,
 				'schedule_cleanup_times'       => 0,
-				'excluded_times'               => 1,
 			],
 			'When new post type is added' => [
 				'is_json_request'              => false,
-				'get_public_post_types'        => [
-					'post' => 'post',
-					'page' => 'page',
-				],
 				'public_post_types'            => [ 'post', 'page' ],
 				'get_public_post_types_times'  => 1,
 				'last_known_public_post_types' => [
@@ -259,13 +227,9 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 				'set_public_post_types_times'  => 1,
 				'delete_transient_times'       => 1,
 				'schedule_cleanup_times'       => 0,
-				'excluded_times'               => 1,
 			],
 			'when post type is removed' => [
 				'is_json_request'              => false,
-				'get_public_post_types'        => [
-					'post' => 'post',
-				],
 				'public_post_types'            => [ 'post' ],
 				'get_public_post_types_times'  => 1,
 				'last_known_public_post_types' => [
@@ -275,7 +239,6 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 				'set_public_post_types_times'  => 1,
 				'delete_transient_times'       => 0,
 				'schedule_cleanup_times'       => 1,
-				'excluded_times'               => 1,
 			],
 		];
 	}

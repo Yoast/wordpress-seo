@@ -99,8 +99,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$excluded_post_types = $this->post_type_helper->get_excluded_post_types_for_indexables();
-		$public_post_types   = \array_diff( \array_keys( $this->post_type_helper->get_public_post_types() ), $excluded_post_types );
+		$public_post_types = $this->post_type_helper->get_indexable_post_types();
 
 		$last_known_public_post_types = $this->options->get( 'last_known_public_post_types', [] );
 
