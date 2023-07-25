@@ -51,8 +51,10 @@ class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
 		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_authors_without_archive' )
 				->once()
 					->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_orphaned_users' )
+			->andReturn( 0 );
 		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_object_type_and_source_table' )
-				->times( 3 )
+				->times( 2 )
 					->andReturn( 0 );
 		$indexable_cleanup_repository_mock->shouldReceive( 'count_orphaned_from_table' )
 				->times( 3 )
