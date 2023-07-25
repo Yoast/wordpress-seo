@@ -79,7 +79,9 @@ Mark.prototype.getPositionEnd = function() {
 
 /**
  * Sets the start position.
+ *
  * @param {number} positionStart The new start position.
+ *
  * @returns {void}
  */
 Mark.prototype.setPositionStart = function( positionStart ) {
@@ -88,7 +90,9 @@ Mark.prototype.setPositionStart = function( positionStart ) {
 
 /**
  * Sets the end position.
+ *
  * @param {number} positionEnd The new end position.
+ *
  * @returns {void}
  */
 Mark.prototype.setPositionEnd = function( positionEnd ) {
@@ -97,7 +101,9 @@ Mark.prototype.setPositionEnd = function( positionEnd ) {
 
 /**
  * Returns the start position of a block.
+ *
  * @param {number} startOffsetBlock The block start offset.
+ *
  * @returns {number} The start position of a block.
  */
 Mark.prototype.setBlockPositionStart = function( startOffsetBlock ) {
@@ -106,32 +112,13 @@ Mark.prototype.setBlockPositionStart = function( startOffsetBlock ) {
 
 /**
  * Returns the end position of a block.
+ *
  * @param {number} endOffsetBlock The block end offset.
+ *
  * @returns {number} The end position of a block.
  */
 Mark.prototype.setBlockPositionEnd = function( endOffsetBlock ) {
 	this._properties.position.endOffsetBlock = endOffsetBlock;
-};
-
-/**
- * Sets the block index.
- *
- * @param {number} blockIndex The block index to set.
- * @returns {void}
- */
-Mark.prototype.setBlockIndex = function( blockIndex ) {
-	if ( this._properties.position ) {
-		this._properties.position.blockIndex = blockIndex;
-	}
-};
-
-/**
- * Gets the block index.
- *
- * @returns {number} The block index.
- */
-Mark.prototype.getBlockIndex = function() {
-	return this._properties.position && this._properties.position.blockIndex;
 };
 
 /**
@@ -154,14 +141,14 @@ Mark.prototype.getBlockAttributeId = function() {
 
 
 /**
- * Checks if the mark object is intended for the first pair of the annotatble fields.
+ * Checks if the mark object is intended for the first section of a Yoast sub-block.
  * This method will be used only for Yoast blocks where each block consists of sub-blocks
- * with a pair of annotatable fields.
+ * with two sections.
  *
- * @returns {boolean} Whether the mark object is intended for the first pair of the annotatble fields.
+ * @returns {boolean} Whether the mark object is intended for the first section of a Yoast sub-block.
  */
-Mark.prototype.isMarkForFirstBlockPair = function() {
-	return this._properties.position && this._properties.position.isFirstPair;
+Mark.prototype.isMarkForFirstBlockSection = function() {
+	return this._properties.position && this._properties.position.isFirstSection;
 };
 
 /**
