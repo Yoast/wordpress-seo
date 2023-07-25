@@ -198,7 +198,7 @@ export function createAnnotationsFromPositionBasedMarks( clientId, mark, html, t
 				},
 			];
 		}
-		// Adjust block position start and end.
+		// Adjust block start and end offset.
 		let startOffset = mark.getBlockPositionStart();
 		let endOffset = mark.getBlockPositionEnd();
 		// Retrieve the html from the start until the startOffset of the mark.
@@ -208,6 +208,12 @@ export function createAnnotationsFromPositionBasedMarks( clientId, mark, html, t
 		/*
 		 * Loop through the found html tags backwards, and adjust the start and end offsets of the mark
 		 * by subtracting them with the length of the found html tags.
+		 *
+		 * This step is necessary to account for the difference in the way we "parse" the block and calculate the token position
+		 * between `yoastseo` package and block annotation API.
+		 * Inside `yoastseo`, the token's position information also takes into account all the HTML tags surrounding it in a block.
+		 * However, the block annotation API applies annotations to "clean" text/html without any HTML tags.
+		 * As a result, the token position information we retrieve from `yoastseo` wouldn't match that of block annotation API.
 		 */
 		for ( let i = foundHtmlTags.length - 1; i >= 0; i-- ) {
 			const currentHtmlTag = foundHtmlTags[ i ][ 0 ];
@@ -228,7 +234,7 @@ export function createAnnotationsFromPositionBasedMarks( clientId, mark, html, t
  * Creates the annotations for a block.
  *
  * @param {string} html					The string where we want to apply the annotations.
- * @param {string} richTextIdentifier   The identifier for the annotatable richt text.
+ * @param {string} richTextIdentifier	The identifier for the annotatable rich text.
  * @param {Object} attribute			The attribute to apply annotations to.
  * @param {Object} block				The block information in the state.
  * @param {Mark[]} marks				The marks to turn into annotations.
@@ -275,33 +281,57 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks ) 
  * The regex to capture the first section of a Yoast sub-block.
  * @type {RegExp}
  */
-const firstIdentifierRegex = /(<strong class=["'](schema-faq-question|schema-how-to-step-name)["']>)(.*?)(<\/strong>)/gis;
+const firstSectionRegex = /(<strong class=["'](schema-faq-question|schema-how-to-step-name)["']>)(.*?)(<\/strong>)/gis;
 
 /**
  * Adjusts the block start and end offset for a given mark.
  *
- * @param {Mark} mark The Mark object to adjust.
- * @param {Object} block The block to get the original content from.
- * @param {String} firstIdentifierHtml	The html of the first identifier.
+ * @param {Mark}	mark				The Mark object to adjust.
+ * @param {Object}	block				The block to get the original content from.
+ * @param {String}	firstSectionHtml	The html of the first section of the sub-block.
  *
  * @returns {Mark} The adjusted mark object.
  */
-const adjustBlockOffset = ( mark, block, firstIdentifierHtml ) => {
+const adjustBlockOffset = ( mark, block, firstSectionHtml ) => {
+	// Get the original content of the block, which still contains the html tags.
+	// The original content example for a Yoast FAQ block:
+	/*
+	 <div class="schema-faq wp-block-yoast-faq-block"><div class="schema-faq-section" id="faq-question-1689322642789">
+	 <strong class="schema-faq-question">What is giant panda</strong>
+	 <p class="schema-faq-answer">Giant <strong>panda</strong> is test tests</p> </div>
+	 <div class="schema-faq-section" id="faq-question-1689322667728"><strong class="schema-faq-question">Test</strong>
+	 <p class="schema-faq-answer">Tests</p> </div> <div class="schema-faq-section" id="faq-question-1689936392675">
+	 <strong class="schema-faq-question">giant panda is silly</strong> <p class="schema-faq-answer"></p> </div> </div>
+	 */
 	const originalContent = block.originalContent;
-	const firstPairElements = [ ...originalContent.matchAll( firstIdentifierRegex ) ];
-	if ( firstPairElements.length === 0 ) {
+
+	/*
+	 * From the original content, get all the first sections of the sub-block.
+	 *
+	 * Example of the first section of a Yoast FAQ sub-block from the original content above:
+	 * 1. <strong className="schema-faq-question">What is giant panda</strong>
+	 * 2. <strong class="schema-faq-question">Test</strong>
+	 * 3. <strong class="schema-faq-question">giant panda is silly</strong>
+	 */
+	const firstSectionElements = [ ...originalContent.matchAll( firstSectionRegex ) ];
+
+	if ( firstSectionElements.length === 0 ) {
 		return mark;
 	}
+
 	const startOffset = mark.getBlockPositionStart();
 	const endOffset = mark.getBlockPositionEnd();
-	firstPairElements.forEach( firstPairElement => {
+
+	firstSectionElements.forEach( firstSectionElement => {
 		// Destructure the matched element based on the capturing groups.
-		const [ , openTag, , innerText ] = firstPairElement;
-		if ( innerText === firstIdentifierHtml ) {
+		const [ , openTag, , innerText ] = firstSectionElement;
+
+		if ( innerText === firstSectionHtml ) {
 			mark.setBlockPositionStart( startOffset - openTag.length );
 			mark.setBlockPositionEnd( endOffset - openTag.length );
 		}
 	} );
+
 	return mark;
 };
 
@@ -365,13 +395,22 @@ const getAnnotationsFromArray = ( array, marks, attribute, block, identifierPair
 			return mark;
 		} );
 
-		// For the second section marks, we need to adjust the block start and end offset for the first sub-block section
+		/*
+		 * For the first section marks, we need to adjust the block start and end offset.
+		 *
+		 * This is because the first section of a Yoast block is always wrapped in `<strong>` tags.
+		 * In `yoastseo`, when calculating the position information of the matched token, we also take
+		 * into account the length of `<strong>` tags.
+		 * However, here, the html for the first section doesn't include the `<strong>` tags.
+		 * As a result, the position information of the matched token will be incorrect.
+		 */
 		marksForFirstSection = marksForFirstSection.map( mark => {
 			if ( mark.hasBlockPosition() ) {
 				return adjustBlockOffset( mark, block, firstSectionHtml );
 			}
 			return mark;
 		} );
+
 		const marksForSecondSection = marks.filter( mark => {
 			if ( mark.hasBlockPosition() ) {
 				// Filter the marks array and only include the marks that are intended for the second sub-block section.
@@ -386,6 +425,7 @@ const getAnnotationsFromArray = ( array, marks, attribute, block, identifierPair
 
 		return firstSectionAnnotations.concat( secondSectionAnnotations );
 	} );
+
 	return flattenDeep( array );
 };
 
