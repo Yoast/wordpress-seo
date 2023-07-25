@@ -245,6 +245,18 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 20.13 =
+
+Release date: 2023-08-08
+
+#### Bugfixes
+
+* Fixes a bug where 404 responses would occur when updating or deactivating the plugin because of incorrect flushing of the rewrite rules.
+
+#### Other
+
+* Ensures that the Google, Facebook and Twitter Preview modals are compatible with WordPress 6.3.
+
 = 20.12 =
 
 Release date: 2023-07-25
@@ -266,22 +278,6 @@ We've just released Yoast SEO 20.12! This release includes fixes and enhancement
 * Updates the verification link to the Google Search Console in the Site connections section in Settings.
 * Improves the copy in the final step of the first time configuration.
 * Updates copy of our free webinar notification.
-
-= 20.11 =
-
-Release date: 2023-07-11
-
-Time for another release, time for Yoast SEO 20.11. This latest release includes fixes and enhancements, plus a new notification that pops up when you add a new content type. This reminds you to optimize these. Find out more about what's new in Yoast SEO 20.11 in [our release post](https://yoa.st/release-11-7-23)!
-
-#### Enhancements
-
-* Adds badges to new content types in the settings page.
-* Adds a notification in the settings whenever there is a new content type.
-* Adds a notification for new content in the notification center and removes it once it was reviewed.
-
-#### Bugfixes
-
-* Fixes a bug where placeholders would be displayed in the wrong color in the Yoast SEO settings and the First-time configuration.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
