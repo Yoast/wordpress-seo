@@ -37,6 +37,8 @@ describe( "filterShortcodesFromTree", function() {
 			{ text: "test" },
 			{ text: "." },
 		] );
+
+		expect( tree.sentences[ 0 ].text ).toEqual( "This is a  test." );
 	} );
 
 	it( "should filter a shortcode with parameters from a tree", function() {
@@ -80,6 +82,8 @@ describe( "filterShortcodesFromTree", function() {
 			{ text: "test" },
 			{ text: "." },
 		] );
+
+		expect( tree.sentences[ 0 ].text ).toEqual( "This is a  test." );
 	} );
 
 	it( "should filter multiple shortcodes from the same sentence", function() {
@@ -135,6 +139,7 @@ describe( "filterShortcodesFromTree", function() {
 			{ text: "it" },
 			{ text: "." },
 		] );
+		expect( tree.sentences[ 0 ].text ).toEqual( "This is a  test with  in it." );
 	} );
 
 	it( "should filter multiple shortcodes from different sentences", function() {
@@ -192,6 +197,9 @@ describe( "filterShortcodesFromTree", function() {
 			{ text: "test" },
 			{ text: "." },
 		] );
+
+		expect( tree.sentences[ 0 ].text ).toEqual( "This is a  test." );
+
 		expect( tree.sentences[ 1 ].tokens ).toEqual( [
 			{ text: "This" },
 			{ text: " " },
@@ -203,6 +211,8 @@ describe( "filterShortcodesFromTree", function() {
 			{ text: "test" },
 			{ text: "." },
 		] );
+
+		expect( tree.sentences[ 1 ].text ).toEqual( "This is a  test." );
 	} );
 	it( "should filter a shortcode from a childnode.", function() {
 		const tree = {
@@ -247,6 +257,9 @@ describe( "filterShortcodesFromTree", function() {
 			{ text: "test" },
 			{ text: "." },
 		] );
+
+		expect( tree.childNodes[ 0 ].sentences[ 0 ].text ).toEqual( "This is a  test." );
+
 	} );
 
 	it( "should not filter a word between square brackets if it is not a shortcode", function() {
@@ -282,6 +295,9 @@ describe( "filterShortcodesFromTree", function() {
 			{ text: "test" },
 			{ text: "." },
 		] );
+
+		expect( tree.sentences[ 0 ].text ).toEqual( "This is a test." );
+
 	} );
 	it( "should not filter if no shortcodes are available", function() {
 		const tree = {
@@ -323,5 +339,7 @@ describe( "filterShortcodesFromTree", function() {
 			{ text: "test" },
 			{ text: "." },
 		] );
+
+		expect( tree.sentences[ 0 ].text ).toEqual( "This is a [shortcode] test." );
 	} );
 } );
