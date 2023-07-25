@@ -109,7 +109,7 @@ function getMarkingsInSentence( sentence, matchesInSentence ) {
 				endOffsetBlock: endOffset - sentence.parentStartOffset,
 				clientId: sentence.parentClientId,
 				attributeId: sentence.parentAttributeId,
-				isFirstPair: sentence.isParentFirstBlockPair,
+				isFirstSection: sentence.isParentFirstSectionOfBlock,
 			},
 			marked: markedSentence,
 			original: sentence.text,

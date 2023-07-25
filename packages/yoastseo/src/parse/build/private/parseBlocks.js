@@ -37,7 +37,6 @@ function updateBlocksOffset( blocks, text ) {
 	if ( blocks.length === 0 ) {
 		return;
 	}
-	// eslint-disable-next-line no-constant-condition
 	blocks.forEach( currentBlock => {
 		const matches = blockTokenizer.exec( text );
 
@@ -76,9 +75,9 @@ function updateClientIdAndAttrIdForSubtree( rootNode, blocks, clientId ) {
 
 	let currentClientId = clientId;
 	if ( rootNode.sourceCodeLocation && rootNode.sourceCodeLocation.startOffset ) {
-		const block = blocks.find( ( b ) => b.contentOffset === rootNode.sourceCodeLocation.startOffset );
-		if ( block ) {
-			currentClientId = block.clientId;
+		const foundBlock = blocks.find( block => block.contentOffset === rootNode.sourceCodeLocation.startOffset );
+		if ( foundBlock ) {
+			currentClientId = foundBlock.clientId;
 		}
 	}
 
@@ -90,13 +89,25 @@ function updateClientIdAndAttrIdForSubtree( rootNode, blocks, clientId ) {
 	// If the node has children, update the clientId for them.
 	( rootNode.childNodes || [] ).forEach( ( node ) => {
 		if ( node.attributes && node.attributes.id ) {
-			// If the node's child has an attribute with 'id' key, also set this id to the first and third child node.
+			/*
+			 * If the node's child has an attribute with 'id' key, also set this id to the first and third child node.
+			 * This step is specifically for parsing the Yoast blocks.
+			 *
+			 * For Yoast blocks, if a node has attribute with 'id' key, this means that this node represents a sub-block.
+			 * A sub-block has four child nodes:
+			 * 1. The first child node of the sub-block, represents the first section of that sub-block.
+			 *    - For example, in Yoast FAQ block, the first child node would represent the "question" section.
+			 * 2. The second child node of the sub-block, only contains a new line.
+			 * 3. The third child node of the sub-block, represents the second section of that sub-block.
+			 *    - For example, in Yoast FAQ block, the second child node would represent the "answer" section.
+			 * 4. The fourth child node of the sub-block, only contains a new line.
+			 */
 			if ( node.childNodes && node.childNodes.length > 3 ) {
 				node.childNodes[ 0 ].attributeId = node.attributes.id;
-				node.childNodes[ 0 ].isFirstPair = true;
+				node.childNodes[ 0 ].isFirstSection = true;
 
 				node.childNodes[ 2 ].attributeId = node.attributes.id;
-				node.childNodes[ 2 ].isFirstPair = false;
+				node.childNodes[ 2 ].isFirstSection = false;
 			}
 		}
 		updateClientIdAndAttrIdForSubtree( node, blocks, currentClientId );
@@ -105,7 +116,7 @@ function updateClientIdAndAttrIdForSubtree( rootNode, blocks, clientId ) {
 
 /**
  * Parses blocks and updates the clientId for the subtree.
- * Additionally, when a node has an attribute with 'id' key, also set this id to the first and third child nod of that node.
+ * Additionally, when a node has an attribute with 'id' key, also set this id to the first and third child node of that node.
  *
  * @param {Paper} paper The paper to parse.
  * @param {Node} node	The node to parse.

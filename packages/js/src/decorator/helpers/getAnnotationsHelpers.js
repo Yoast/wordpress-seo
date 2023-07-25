@@ -270,6 +270,11 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks ) 
 		} );
 	} );
 }
+
+/**
+ * The regex to capture the first section of a Yoast sub-block.
+ * @type {RegExp}
+ */
 const firstIdentifierRegex = /(<strong class=["'](schema-faq-question|schema-how-to-step-name)["']>)(.*?)(<\/strong>)/gis;
 
 /**
@@ -290,9 +295,11 @@ const adjustBlockOffset = ( mark, block, firstIdentifierHtml ) => {
 	const startOffset = mark.getBlockPositionStart();
 	const endOffset = mark.getBlockPositionEnd();
 	firstPairElements.forEach( firstPairElement => {
-		if ( firstPairElement[ 3 ] === firstIdentifierHtml ) {
-			mark.setBlockPositionStart( startOffset - firstPairElement[ 1 ].length );
-			mark.setBlockPositionEnd( endOffset - firstPairElement[ 1 ].length );
+		// Destructure the matched element based on the capturing groups.
+		const [ , openTag, , innerText ] = firstPairElement;
+		if ( innerText === firstIdentifierHtml ) {
+			mark.setBlockPositionStart( startOffset - openTag.length );
+			mark.setBlockPositionEnd( endOffset - openTag.length );
 		}
 	} );
 	return mark;
@@ -323,41 +330,61 @@ const adjustBlockOffset = ( mark, block, firstIdentifierHtml ) => {
  */
 const getAnnotationsFromArray = ( array, marks, attribute, block, identifierPair ) => {
 	array = array.map( item => {
-		const firstIdentifier = `${ item.id }-${ identifierPair[ 0 ] }`;
-		const secondIdentifier = `${ item.id }-${ identifierPair[ 1 ] }`;
+		/*
+		 * Get the rich text identifier of the first section of the sub-block.
+		 *
+		 * The rich text identifier of the first section is always the sub-block id + "-question" for Yoast FAQ block
+		 * (in line with what we set in `packages/js/src/structured-data-blocks/faq/components/Question.js`), and
+		 * the sub-block id + "-name" for Yoast How-To block
+		 * (in line with what we set in `packages/js/src/structured-data-blocks/how-to/components/HowToStep.js`).
+		 */
+		const firstSectionIdentifier = `${ item.id }-${ identifierPair[ 0 ] }`;
+		/*
+		 * Get the rich text identifier of the second section of the sub-block.
+		 *
+		 * The rich text identifier of the second section is always the sub-block id + "-answer" for Yoast FAQ block
+		 * (in line with what we set in `packages/js/src/structured-data-blocks/faq/components/Question.js`), and
+		 * the sub-block id + "-text" for Yoast How-To block
+		 * (in line with what we set in `packages/js/src/structured-data-blocks/how-to/components/HowToStep.js`).
+		 */
+		const secondSectionIdentifier = `${ item.id }-${ identifierPair[ 1 ] }`;
 
-		// Get the first item of the identifier pair and make the first letter uppercase.
+		// Get the first item of the identifier pair and make the first letter uppercase, e.g. "question" -> "Question".
 		identifierPair[ 0 ] = identifierPair[ 0 ][ 0 ].toUpperCase() + identifierPair[ 0 ].slice( 1 );
-		// Get the second item of the identifier pair and make the first letter uppercase.
+		// Get the second item of the identifier pair and make the first letter uppercase, e.g. "answer" -> "Answer".
 		identifierPair[ 1 ] = identifierPair[ 1 ][ 0 ].toUpperCase() + identifierPair[ 1 ].slice( 1 );
 
-		const firstIdentifierHtml = item[ `json${ identifierPair[ 0 ] }` ];
-		const secondIdentifierHtml = item[ `json${ identifierPair[ 1 ] }` ];
+		const firstSectionHtml = item[ `json${ identifierPair[ 0 ] }` ];
+		const secondSectionHtml = item[ `json${ identifierPair[ 1 ] }` ];
 
-		let marksForFirstIdentifier = marks.filter( mark => {
+		let marksForFirstSection = marks.filter( mark => {
 			if ( mark.hasBlockPosition() ) {
-				return mark.getBlockAttributeId() === item.id && mark.isMarkForFirstBlockPair();
-			}
-			return mark;
-		} );
-		marksForFirstIdentifier = marksForFirstIdentifier.map( mark => {
-			if ( mark.hasBlockPosition() ) {
-				return adjustBlockOffset( mark, block, firstIdentifierHtml );
-			}
-			return mark;
-		} );
-		const marksForSecondIdentifier = marks.filter( mark => {
-			if ( mark.hasBlockPosition() ) {
-				return mark.getBlockAttributeId() === item.id && ! mark.isMarkForFirstBlockPair();
+				// Filter the marks array and only include the marks that are intended for the first sub-block section.
+				return mark.getBlockAttributeId() === item.id && mark.isMarkForFirstBlockSection();
 			}
 			return mark;
 		} );
 
+		// For the second section marks, we need to adjust the block start and end offset for the first sub-block section
+		marksForFirstSection = marksForFirstSection.map( mark => {
+			if ( mark.hasBlockPosition() ) {
+				return adjustBlockOffset( mark, block, firstSectionHtml );
+			}
+			return mark;
+		} );
+		const marksForSecondSection = marks.filter( mark => {
+			if ( mark.hasBlockPosition() ) {
+				// Filter the marks array and only include the marks that are intended for the second sub-block section.
+				return mark.getBlockAttributeId() === item.id && ! mark.isMarkForFirstBlockSection();
+			}
+			return mark;
+		} );
 
-		const firstIdentifierAnnotations = createAnnotations( firstIdentifierHtml, firstIdentifier, attribute, block, marksForFirstIdentifier );
-		const secondIdentifierAnnotations = createAnnotations( secondIdentifierHtml, secondIdentifier, attribute, block, marksForSecondIdentifier );
 
-		return firstIdentifierAnnotations.concat( secondIdentifierAnnotations );
+		const firstSectionAnnotations = createAnnotations( firstSectionHtml, firstSectionIdentifier, attribute, block, marksForFirstSection );
+		const secondSectionAnnotations = createAnnotations( secondSectionHtml, secondSectionIdentifier, attribute, block, marksForSecondSection );
+
+		return firstSectionAnnotations.concat( secondSectionAnnotations );
 	} );
 	return flattenDeep( array );
 };
