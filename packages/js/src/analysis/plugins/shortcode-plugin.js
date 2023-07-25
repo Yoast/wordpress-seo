@@ -55,7 +55,6 @@ var YoastShortcodePlugin = function( { registerPlugin, registerModification, plu
  */
 YoastShortcodePlugin.prototype.declareReady = function() {
 	this._pluginReady( "YoastShortcodePlugin" );
-	this.registerModifications();
 };
 
 /**
