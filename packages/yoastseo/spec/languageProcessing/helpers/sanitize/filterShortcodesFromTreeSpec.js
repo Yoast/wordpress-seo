@@ -259,7 +259,6 @@ describe( "filterShortcodesFromTree", function() {
 		] );
 
 		expect( tree.childNodes[ 0 ].sentences[ 0 ].text ).toEqual( "This is a  test." );
-
 	} );
 
 	it( "should not filter a word between square brackets if it is not a shortcode", function() {
@@ -297,7 +296,6 @@ describe( "filterShortcodesFromTree", function() {
 		] );
 
 		expect( tree.sentences[ 0 ].text ).toEqual( "This is a test." );
-
 	} );
 	it( "should not filter if no shortcodes are available", function() {
 		const tree = {
