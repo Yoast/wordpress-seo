@@ -177,13 +177,11 @@ class SnippetEditor extends React.Component {
 				}
 			);
 
-			if ( this.haveReplaceVarsChanged( this.props.replacementVariables, nextProps.replacementVariables ) ) {
-				/*
-				 * Make sure that changes to the replacement vars (e.g. title, category, tags) get reflected on the
-				 * analysis data on the store (used in, among other things, the SEO analysis).
-				 */
-				this.props.onChangeAnalysisData( data );
-			}
+			/*
+			 * Make sure that any changes get reflected on the analysis data on the store (used in, among other things, the SEO analysis).
+			 * Including changes to the replacement vars (e.g. title, category, tags).
+			 */
+			this.props.onChangeAnalysisData( data );
 		}
 	}
 
