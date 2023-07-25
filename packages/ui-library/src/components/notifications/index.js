@@ -157,19 +157,25 @@ const notificationsClassNameMap = {
 /**
  * The Notifications component shows notifications on a specified position on the screen.
  * @param {JSX.Element} children The children.
+ * @param {string} [className] Additional class names.
  * @param {string} position Position on screen.
+ * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The Notifications element.
  */
 const Notifications = ( {
 	children,
+	className = "",
 	position = "bottom-left",
+	...props
 } ) => (
 	<NotificationsContext.Provider value={ { position } }>
 		<aside
 			className={ classNames(
 				"yst-notifications",
 				notificationsClassNameMap.position[ position ],
+				className,
 			) }
+			{ ...props }
 		>
 			{ children }
 		</aside>
@@ -178,6 +184,7 @@ const Notifications = ( {
 
 Notifications.propTypes = {
 	children: PropTypes.node,
+	className: PropTypes.string,
 	position: PropTypes.oneOf( keys( notificationsClassNameMap.position ) ),
 };
 
