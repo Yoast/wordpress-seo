@@ -8,9 +8,6 @@ import { getAnnotationsForYoastBlock, getAnnotationsForWPBlock } from "./helpers
 
 const ANNOTATION_SOURCE = "yoast";
 
-export const START_MARK = "<yoastmark class='yoast-text-mark'>";
-export const END_MARK =   "</yoastmark>";
-
 let annotationQueue = [];
 
 const ANNOTATION_ATTRIBUTES = {
