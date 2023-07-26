@@ -1732,31 +1732,19 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 					attributes: {},
 					childNodes: [],
 					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 34,
-						startOffset: 0,
-					},
+					sourceCodeLocation: { endOffset: 34, startOffset: 0 },
 				},
 				{
 					attributes: {},
 					childNodes: [],
 					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 55,
-						startOffset: 34,
-					},
+					sourceCodeLocation: { endOffset: 55, startOffset: 34 },
 				},
-				{
-					name: "#text",
-					value: "\n",
-				},
+				{ name: "#text", value: "\n" },
 				{
 					attributes: {},
 					childNodes: [
-						{
-							name: "#text",
-							value: "The Norwegian Forest cat is adapted to survive Norway's cold weather.",
-						},
+						{ name: "#text", value: "The Norwegian Forest cat is adapted to survive Norway's cold weather." },
 					],
 					isImplicit: false,
 					name: "p",
@@ -1768,188 +1756,44 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 							},
 							text: "The Norwegian Forest cat is adapted to survive Norway's cold weather.",
 							tokens: [
-								{
-									sourceCodeRange: {
-										endOffset: 62,
-										startOffset: 59,
-									},
-									text: "The",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 63,
-										startOffset: 62,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 72,
-										startOffset: 63,
-									},
-									text: "Norwegian",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 73,
-										startOffset: 72,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 79,
-										startOffset: 73,
-									},
-									text: "Forest",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 80,
-										startOffset: 79,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 83,
-										startOffset: 80,
-									},
-									text: "cat",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 84,
-										startOffset: 83,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 86,
-										startOffset: 84,
-									},
-									text: "is",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 87,
-										startOffset: 86,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 94,
-										startOffset: 87,
-									},
-									text: "adapted",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 95,
-										startOffset: 94,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 97,
-										startOffset: 95,
-									},
-									text: "to",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 98,
-										startOffset: 97,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 105,
-										startOffset: 98,
-									},
-									text: "survive",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 106,
-										startOffset: 105,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 114,
-										startOffset: 106,
-									},
-									text: "Norway's",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 115,
-										startOffset: 114,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 119,
-										startOffset: 115,
-									},
-									text: "cold",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 120,
-										startOffset: 119,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 127,
-										startOffset: 120,
-									},
-									text: "weather",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 128,
-										startOffset: 127,
-									},
-									text: ".",
-								},
+								{ sourceCodeRange: { endOffset: 62, startOffset: 59 }, text: "The" },
+								{ sourceCodeRange: { endOffset: 63, startOffset: 62 }, text: " " },
+								{ sourceCodeRange: { endOffset: 72, startOffset: 63 }, text: "Norwegian" },
+								{ sourceCodeRange: { endOffset: 73, startOffset: 72 }, text: " " },
+								{ sourceCodeRange: { endOffset: 79, startOffset: 73 }, text: "Forest" },
+								{ sourceCodeRange: { endOffset: 80, startOffset: 79 }, text: " " },
+								{ sourceCodeRange: { endOffset: 83, startOffset: 80 }, text: "cat" },
+								{ sourceCodeRange: { endOffset: 84, startOffset: 83 }, text: " " },
+								{ sourceCodeRange: { endOffset: 86, startOffset: 84 }, text: "is" },
+								{ sourceCodeRange: { endOffset: 87, startOffset: 86 }, text: " " },
+								{ sourceCodeRange: { endOffset: 94, startOffset: 87 }, text: "adapted" },
+								{ sourceCodeRange: { endOffset: 95, startOffset: 94 }, text: " " },
+								{ sourceCodeRange: { endOffset: 97, startOffset: 95 }, text: "to" },
+								{ sourceCodeRange: { endOffset: 98, startOffset: 97 }, text: " " },
+								{ sourceCodeRange: { endOffset: 105, startOffset: 98 }, text: "survive" },
+								{ sourceCodeRange: { endOffset: 106, startOffset: 105 }, text: " " },
+								{ sourceCodeRange: { endOffset: 114, startOffset: 106 }, text: "Norway's" },
+								{ sourceCodeRange: { endOffset: 115, startOffset: 114 }, text: " " },
+								{ sourceCodeRange: { endOffset: 119, startOffset: 115 }, text: "cold" },
+								{ sourceCodeRange: { endOffset: 120, startOffset: 119 }, text: " " },
+								{ sourceCodeRange: { endOffset: 127, startOffset: 120 }, text: "weather" },
+								{ sourceCodeRange: { endOffset: 128, startOffset: 127 }, text: "." },
 							],
 						},
 					],
 					sourceCodeLocation: {
 						endOffset: 132,
-						endTag: {
-							endOffset: 132,
-							startOffset: 128,
-						},
+						endTag: { endOffset: 132, startOffset: 128 },
 						startOffset: 56,
-						startTag: {
-							endOffset: 59,
-							startOffset: 56,
-						},
+						startTag: { endOffset: 59, startOffset: 56 },
 					},
 				},
-				{
-					name: "#text",
-					value: "\n",
-				},
+				{ name: "#text", value: "\n" },
 				{
 					attributes: {},
 					childNodes: [],
 					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 155,
-						startOffset: 133,
-					},
+					sourceCodeLocation: { endOffset: 155, startOffset: 133 },
 				},
 			],
 		} );
@@ -2082,219 +1926,51 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 									},
 									text: "The Norwegian Forest cat is strongly built and larger than an average cat.",
 									tokens: [
-										{
-											sourceCodeRange: {
-												endOffset: 8,
-												startOffset: 5,
-											},
-											text: "The",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 9,
-												startOffset: 8,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 18,
-												startOffset: 9,
-											},
-											text: "Norwegian",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 19,
-												startOffset: 18,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 25,
-												startOffset: 19,
-											},
-											text: "Forest",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 26,
-												startOffset: 25,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 29,
-												startOffset: 26,
-											},
-											text: "cat",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 30,
-												startOffset: 29,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 32,
-												startOffset: 30,
-											},
-											text: "is",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 33,
-												startOffset: 32,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 41,
-												startOffset: 33,
-											},
-											text: "strongly",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 42,
-												startOffset: 41,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 47,
-												startOffset: 42,
-											},
-											text: "built",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 48,
-												startOffset: 47,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 51,
-												startOffset: 48,
-											},
-											text: "and",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 52,
-												startOffset: 51,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 58,
-												startOffset: 52,
-											},
-											text: "larger",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 59,
-												startOffset: 58,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 63,
-												startOffset: 59,
-											},
-											text: "than",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 64,
-												startOffset: 63,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 66,
-												startOffset: 64,
-											},
-											text: "an",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 67,
-												startOffset: 66,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 74,
-												startOffset: 67,
-											},
-											text: "average",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 75,
-												startOffset: 74,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 78,
-												startOffset: 75,
-											},
-											text: "cat",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 79,
-												startOffset: 78,
-											},
-											text: ".",
-										},
+										{ sourceCodeRange: { endOffset: 8, startOffset: 5 }, text: "The" },
+										{ sourceCodeRange: { endOffset: 9, startOffset: 8 }, text: " " },
+										{ sourceCodeRange: { endOffset: 18, startOffset: 9 }, text: "Norwegian" },
+										{ sourceCodeRange: { endOffset: 19, startOffset: 18 }, text: " " },
+										{ sourceCodeRange: { endOffset: 25, startOffset: 19 }, text: "Forest" },
+										{ sourceCodeRange: { endOffset: 26, startOffset: 25 }, text: " " },
+										{ sourceCodeRange: { endOffset: 29, startOffset: 26 }, text: "cat" },
+										{ sourceCodeRange: { endOffset: 30, startOffset: 29 }, text: " " },
+										{ sourceCodeRange: { endOffset: 32, startOffset: 30 }, text: "is" },
+										{ sourceCodeRange: { endOffset: 33, startOffset: 32 }, text: " " },
+										{ sourceCodeRange: { endOffset: 41, startOffset: 33 }, text: "strongly" },
+										{ sourceCodeRange: { endOffset: 42, startOffset: 41 }, text: " " },
+										{ sourceCodeRange: { endOffset: 47, startOffset: 42 }, text: "built" },
+										{ sourceCodeRange: { endOffset: 48, startOffset: 47 }, text: " " },
+										{ sourceCodeRange: { endOffset: 51, startOffset: 48 }, text: "and" },
+										{ sourceCodeRange: { endOffset: 52, startOffset: 51 }, text: " " },
+										{ sourceCodeRange: { endOffset: 58, startOffset: 52 }, text: "larger" },
+										{ sourceCodeRange: { endOffset: 59, startOffset: 58 }, text: " " },
+										{ sourceCodeRange: { endOffset: 63, startOffset: 59 }, text: "than" },
+										{ sourceCodeRange: { endOffset: 64, startOffset: 63 }, text: " " },
+										{ sourceCodeRange: { endOffset: 66, startOffset: 64 }, text: "an" },
+										{ sourceCodeRange: { endOffset: 67, startOffset: 66 }, text: " " },
+										{ sourceCodeRange: { endOffset: 74, startOffset: 67 }, text: "average" },
+										{ sourceCodeRange: { endOffset: 75, startOffset: 74 }, text: " " },
+										{ sourceCodeRange: { endOffset: 78, startOffset: 75 }, text: "cat" },
+										{ sourceCodeRange: { endOffset: 79, startOffset: 78 }, text: "." },
 									],
 								},
 							],
-							sourceCodeLocation: {
-								endOffset: 79,
-								startOffset: 5,
-							},
+							sourceCodeLocation: { endOffset: 79, startOffset: 5 },
 						},
 					],
 					name: "div",
 					sourceCodeLocation: {
 						endOffset: 85,
-						endTag: {
-							endOffset: 85,
-							startOffset: 79,
-						},
+						endTag: { endOffset: 85, startOffset: 79 },
 						startOffset: 0,
-						startTag: {
-							endOffset: 5,
-							startOffset: 0,
-						},
+						startTag: { endOffset: 5, startOffset: 0 },
 					},
 				},
 				{
 					attributes: {},
 					childNodes: [],
 					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 116,
-						startOffset: 85,
-					},
+					sourceCodeLocation: { endOffset: 116, startOffset: 85 },
 				},
 			],
 		} );
@@ -2381,11 +2057,13 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 					{ name: "#text", value: "\n" },
 					{
 						name: "div",
-						attributes: { "class": {} },
+						attributes: {
+							"class": new Set( [ "schema-faq", "wp-block-yoast-faq-block" ] ),
+						},
 						childNodes: [
 							{
 								name: "div",
-								attributes: { "class": {}, id: "faq-question-1689322642789" },
+								attributes: { "class": new Set( [ "schema-faq-section" ] ), id: "faq-question-1689322642789" },
 								childNodes: [
 									{
 										name: "p",
@@ -2393,7 +2071,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 										childNodes: [
 											{
 												name: "strong",
-												attributes: { "class": {} },
+												attributes: { "class": new Set( [ "schema-faq-question" ] ) },
 												childNodes: [
 													{ name: "#text", value: "What is giant panda",
 														clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
@@ -2410,7 +2088,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 										sourceCodeLocation: { startOffset: 572, endOffset: 727 },
 										isImplicit: true,
 										attributeId: "faq-question-1689322642789",
-										isFirstPair: true,
+										isFirstSection: true,
 										clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
 										sentences: [
 											{
@@ -2431,7 +2109,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
 									{
 										name: "p",
-										attributes: { "class": {} },
+										attributes: { "class": new Set( [ "schema-faq-answer" ] ) },
 										childNodes: [
 											{ name: "#text", value: "Giant ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
 											{
@@ -2459,7 +2137,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 										},
 										isImplicit: false,
 										attributeId: "faq-question-1689322642789",
-										isFirstPair: false,
+										isFirstSection: false,
 										clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
 										sentences: [
 											{
@@ -2498,7 +2176,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 							{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
 							{
 								name: "div",
-								attributes: { "class": {}, id: "faq-question-1689322667728" },
+								attributes: { "class": new Set( [ "schema-faq-section" ] ), id: "faq-question-1689322667728" },
 								childNodes: [
 									{
 										name: "p",
@@ -2506,7 +2184,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 										childNodes: [
 											{
 												name: "strong",
-												attributes: { "class": {} },
+												attributes: { "class": new Set( [ "schema-faq-question" ] ) },
 												childNodes: [
 													{ name: "#text", value: "Test", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
 												],
@@ -2522,7 +2200,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 										sourceCodeLocation: { startOffset: 798, endOffset: 886 },
 										isImplicit: true,
 										attributeId: "faq-question-1689322667728",
-										isFirstPair: true,
+										isFirstSection: true,
 										clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
 										sentences: [
 											{
@@ -2537,7 +2215,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
 									{
 										name: "p",
-										attributes: { "class": {} },
+										attributes: { "class": new Set( [ "schema-faq-answer" ] ) },
 										childNodes: [
 											{ name: "#text", value: "Test", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
 										],
@@ -2549,7 +2227,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 										},
 										isImplicit: false,
 										attributeId: "faq-question-1689322667728",
-										isFirstPair: false,
+										isFirstSection: false,
 										clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
 										sentences: [
 											{
@@ -2574,7 +2252,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 							{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
 							{
 								name: "div",
-								attributes: { "class": {}, id: "faq-question-1689936392675" },
+								attributes: { "class": new Set( [ "schema-faq-section" ] ), id: "faq-question-1689936392675" },
 								childNodes: [
 									{
 										name: "p",
@@ -2582,7 +2260,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 										childNodes: [
 											{
 												name: "strong",
-												attributes: { "class": {} },
+												attributes: { "class": new Set( [ "schema-faq-question" ] ) },
 												childNodes: [
 													{ name: "#text", value: "giant panda is silly",
 														clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
@@ -2599,7 +2277,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 										sourceCodeLocation: { startOffset: 957, endOffset: 1057 },
 										isImplicit: true,
 										attributeId: "faq-question-1689936392675",
-										isFirstPair: true,
+										isFirstSection: true,
 										clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
 										sentences: [
 											{
@@ -2620,7 +2298,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
 									{
 										name: "p",
-										attributes: { "class": {} },
+										attributes: { "class": new Set( [ "schema-faq-answer" ] ) },
 										childNodes: [],
 										sourceCodeLocation: {
 											startTag: { startOffset: 1023, endOffset: 1052 },
@@ -2630,7 +2308,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 										},
 										isImplicit: false,
 										attributeId: "faq-question-1689936392675",
-										isFirstPair: false,
+										isFirstSection: false,
 										clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
 										sentences: [],
 									},

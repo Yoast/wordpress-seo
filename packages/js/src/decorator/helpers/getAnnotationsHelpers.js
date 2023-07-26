@@ -464,6 +464,7 @@ const getAnnotationsForHowTo = ( attribute, block, marks ) => {
 		annotations.push( getAnnotationsFromArray( annotatableTexts, marks, attribute, block, [ "name", "text" ] ) );
 	}
 	if ( attribute.key === "jsonDescription" ) {
+		// Filter out marks that are intended for the "steps" attribute above.
 		marks = marks.filter( mark => {
 			return mark.hasBlockPosition() && ! mark.getBlockAttributeId();
 		} );
