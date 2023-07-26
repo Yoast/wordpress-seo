@@ -9,6 +9,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
 import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
+import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
 
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
@@ -113,6 +114,7 @@ class KeywordDensityAssessment extends Assessment {
 
 		let text = paper.getText();
 		text = removeHtmlBlocks( text );
+		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 		this.setBoundaries( text, keyphraseLength, customGetWords );
 
 		this._keywordDensity = this._keywordDensity * keyphraseLengthFactor( keyphraseLength );

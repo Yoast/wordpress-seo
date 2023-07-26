@@ -3,6 +3,7 @@
 import { sanitizeString } from "../../languageProcessing";
 import { isUndefined } from "lodash-es";
 import removeHtmlBlocks from "../../languageProcessing/helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../../languageProcessing/helpers";
 
 /**
  * Represents the defaults of an assessment.
@@ -43,6 +44,7 @@ class Assessment {
 	hasEnoughContentForAssessment( paper, contentNeededForAssessment = 50 ) {
 		let text = isUndefined( paper ) ? "" : paper.getText();
 		text = removeHtmlBlocks( text );
+		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 
 		// The isUndefined check is necessary, because if paper is undefined .getText will throw a typeError.
 		return  sanitizeString( text ).length >= contentNeededForAssessment;

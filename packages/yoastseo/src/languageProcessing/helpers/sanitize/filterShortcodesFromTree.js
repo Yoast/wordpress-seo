@@ -1,3 +1,5 @@
+import { cloneDeep } from "lodash-es";
+
 /**
  * Creates a regex to filter shortcodes from HTML.
  * @param {string[]} shortcodeTags The tags of the shortcodes to filter.
@@ -15,6 +17,9 @@ const createShortcodeTagsRegex = shortcodeTags => {
  * @returns {string} The filtered HTML.
  */
 export const filterShortcodesFromHTML = ( html, shortcodeTags ) => {
+	if ( ! shortcodeTags || shortcodeTags.length === 0 ) {
+		return html;
+	}
 	const shortcodeTagsRegex = createShortcodeTagsRegex( shortcodeTags );
 	return html.replace( shortcodeTagsRegex, "" );
 };
@@ -37,6 +42,7 @@ const filterShortcodesFromSentence = ( sentence, shortcodeTags, shortcodeTagsReg
 			}
 			tokens.splice( i, 1 );
 			tokens.splice( i - 1, 1 );
+			i--;
 		}
 	}
 	sentence.tokens = tokens;
@@ -72,12 +78,13 @@ const filterShortcodesFromSentences = ( tree, shortcodeTags, shortcodeTagsRegex 
  * @returns {void}
  */
 const filterShortcodesFromTree = ( tree, shortcodeTags ) => {
-	if ( shortcodeTags ) {
-		const sortcodeTagsRegexString = createShortcodeTagsRegex( shortcodeTags );
-		const shortcodeTagsRegex = new RegExp( sortcodeTagsRegexString, "g" );
-
-		filterShortcodesFromSentences( tree, shortcodeTags, shortcodeTagsRegex );
+	if ( ! shortcodeTags || shortcodeTags.length === 0 ) {
+		return;
 	}
+	const sortcodeTagsRegexString = createShortcodeTagsRegex( shortcodeTags );
+	const shortcodeTagsRegex = new RegExp( sortcodeTagsRegexString, "g" );
+
+	filterShortcodesFromSentences( tree, shortcodeTags, shortcodeTagsRegex );
 };
 
 export default filterShortcodesFromTree;

@@ -4,7 +4,6 @@ import adapt from "../../../src/parse/build/private/adapt";
 import { parseFragment } from "parse5";
 import filterTree from "../../../src/parse/build/private/filterTree";
 import permanentFilters from "../../../src/parse/build/private/alwaysFilterElements";
-import { filterShortcodesFromHTML } from "../../../src/languageProcessing/helpers/sanitize/filterShortcodesFromTree";
 
 /**
  * Builds an HTML tree for a given paper and researcher, and adds it to the paper.
@@ -18,9 +17,6 @@ export default function buildTree( paper, researcher ) {
 	const shortcodes = paper._attributes && paper._attributes.shortcodes;
 
 	paper.setTree( build( paper.getText(), languageProcessor, shortcodes ) );
-	if ( shortcodes ) {
-		paper._text = filterShortcodesFromHTML( paper.getText(), shortcodes );
-	}
 }
 
 /**

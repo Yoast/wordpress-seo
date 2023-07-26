@@ -204,6 +204,7 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 
 	let text = paper.getText();
 	text = helpers.removeHtmlBlocks( text );
+	text = helpers.filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	text = mergeListItems( text );
 	const sentences = getSentences( text, memoizedTokenizer );
 	const topicForms = researcher.getResearch( "morphology" );

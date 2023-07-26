@@ -5,6 +5,7 @@ import { flattenDeep, uniq as unique } from "lodash-es";
 import getSentences from "../helpers/sentence/getSentences";
 import { markWordsInSentences } from "../helpers/word/markWordsInSentences";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../helpers";
 
 /**
  * Calculates the keyword count, takes morphology into account.
@@ -23,6 +24,7 @@ export default function( paper, researcher ) {
 
 	let text = paper.getText();
 	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	const locale = paper.getLocale();
 
 	const sentences = getSentences( text, memoizedTokenizer );
