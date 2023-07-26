@@ -32,6 +32,7 @@ const FeatureCard = ( {
 	isPremiumFeature = false,
 	isPremiumLink = "",
 	isBetaFeature = false,
+	isNewFeature = false,
 	title,
 } ) => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
@@ -45,8 +46,8 @@ const FeatureCard = ( {
 	const shouldUpsell = useMemo( () => ! isPremium && isPremiumFeature, [ isPremium, isPremiumFeature ] );
 	const shouldDimHeaderImage = useMemo( () => isDisabled || ( shouldUpsell ? false : ! value ), [ isDisabled, shouldUpsell, value ] );
 	const shouldRenderBadgeContainer = useMemo(
-		() => isDisabled || ( isPremium && isPremiumFeature ) || isBetaFeature,
-		[ isDisabled, isPremium, isPremiumFeature, isBetaFeature ]
+		() => isDisabled || ( isPremium && isPremiumFeature ) || isBetaFeature || isNewFeature && ! isPremium,
+		[ isDisabled, isPremium, isPremiumFeature, isBetaFeature, isNewFeature ]
 	);
 
 	return (
@@ -69,6 +70,7 @@ const FeatureCard = ( {
 						{ isDisabled && <Badge size="small" variant="plain">{ message }</Badge> }
 						{ isPremium && isPremiumFeature && <Badge size="small" variant="upsell">Premium</Badge> }
 						{ isBetaFeature && <Badge size="small" variant="info">Beta</Badge> }
+						{ isNewFeature && ! isPremium && <Badge size="small" variant="info">New</Badge> }
 					</div>
 				) }
 			</Card.Header>
@@ -119,6 +121,7 @@ FeatureCard.propTypes = {
 	imageAlt: PropTypes.string,
 	isPremiumFeature: PropTypes.bool,
 	isBetaFeature: PropTypes.bool,
+	isNewFeature: PropTypes.bool,
 	isPremiumLink: PropTypes.string,
 	title: PropTypes.string.isRequired,
 };
@@ -225,6 +228,7 @@ const SiteFeatures = () => {
 								inputId="input-wpseo-enable_ai_generator"
 								imageSrc="/images/ai-generator.png"
 								isPremiumFeature={ true }
+								isNewFeature={ true }
 								isPremiumLink="https://yoa.st/get-ai-generator"
 								title={ __( "AI title & description generator", "wordpress-seo" ) }
 							>
