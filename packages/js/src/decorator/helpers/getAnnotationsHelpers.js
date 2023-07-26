@@ -1,10 +1,25 @@
 import { flatMap, flattenDeep } from "lodash";
 import { create } from "@wordpress/rich-text";
 
-const htmlTagsRegex = /(<([^>]+)>)/ig;
-export const START_MARK = "<yoastmark class='yoast-text-mark'>";
+const START_MARK = "<yoastmark class='yoast-text-mark'>";
+const END_MARK = "</yoastmark>";
+
 const START_MARK_DOUBLE_QUOTED = "<yoastmark class=\"yoast-text-mark\">";
-export const END_MARK =   "</yoastmark>";
+
+/*
+ * The regex to detect html tags.
+ * Please note that this regex will also detect non-html tags that are also wrapped in  `<>`.
+ * For example, in the following sentence, <strong class="">cats <dogs> rabbit </strong>,
+ * we will match <strong class="">, <dogs> and </strong>. This is an edge case though.
+ * @type {RegExp}
+ */
+const htmlTagsRegex = /(<([a-z]|\/)[^<>]+>)/ig;
+
+/**
+ * The regex to capture the first section of a Yoast sub-block.
+ * @type {RegExp}
+ */
+const firstSectionRegex = /(<strong class=["'](schema-faq-question|schema-how-to-step-name)["']>)(.*?)(<\/strong>)/gis;
 
 /**
  * Returns the offsets of the <yoastmark> occurrences in the given mark.
@@ -178,33 +193,44 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
  * Creates an annotation if the given mark is position based.
  * A helper for position-based highlighting.
  *
- * @param {string} clientId The client id of the block.
- * @param {Mark}   mark The mark to apply to the content.
- * @param {string} html The HTML of the block.
- * @param {string} text The text of the block.
+ * @param {string} blockClientId	The client id of the block.
+ * @param {Mark}   mark				The mark to apply to the content.
+ * @param {string} blockHtml		The HTML of the block: possibly contains html tags.
+ * @param {string} richText			The rich text of the block: the text without html tags.
  *
  * @returns {Array} The annotations to apply.
  */
-export function createAnnotationsFromPositionBasedMarks( clientId, mark, html, text ) {
-	if ( clientId === mark.getBlockClientId() ) {
-		const slicedHtml = html.slice( mark.getBlockPositionStart(), mark.getBlockPositionEnd() );
-		const slicedText = text.slice( mark.getBlockPositionStart(), mark.getBlockPositionEnd() );
-		// Check if the html and the rich text contain the same text in the specified index.
-		if ( slicedHtml === slicedText ) {
+export function createAnnotationsFromPositionBasedMarks( blockClientId, mark, blockHtml, richText ) {
+	// If the block client id is the same as the mark's block client id, it means that this mark object is intended for this block.
+	if ( blockClientId === mark.getBlockClientId() ) {
+		let blockStartOffset = mark.getBlockPositionStart();
+		let blockEndOffset = mark.getBlockPositionEnd();
+
+		// Get the html part from the block start offset of the mark until the block end offset of the mark.
+		const slicedHtml = blockHtml.slice( blockStartOffset, blockEndOffset );
+		// Get the rich text part from the block start offset of the mark until the block end offset of the mark.
+		const slicedRichText = richText.slice( blockStartOffset, blockEndOffset );
+
+		/*
+		 * If the html and the rich text contain the same text in the specified index,
+		 * don't adjust the block start and end offsets of the mark.
+		 * If the html and the rich text do not contain the same text in the specified index,
+		 * adjust the block start and end offsets of the mark.
+		 */
+		if ( slicedHtml === slicedRichText ) {
 			return [
 				{
-					startOffset: mark.getBlockPositionStart(),
-					endOffset: mark.getBlockPositionEnd(),
+					startOffset: blockStartOffset,
+					endOffset: blockEndOffset,
 				},
 			];
 		}
-		// Adjust block start and end offset.
-		let startOffset = mark.getBlockPositionStart();
-		let endOffset = mark.getBlockPositionEnd();
-		// Retrieve the html from the start until the startOffset of the mark.
-		html = html.slice( 0, mark.getBlockPositionStart() );
+
+		// Retrieve the html from the start until the block startOffset of the mark.
+		blockHtml = blockHtml.slice( 0, blockStartOffset );
+
 		// Find all html tags.
-		const foundHtmlTags = [ ...html.matchAll( htmlTagsRegex ) ];
+		const foundHtmlTags = [ ...blockHtml.matchAll( htmlTagsRegex ) ];
 		/*
 		 * Loop through the found html tags backwards, and adjust the start and end offsets of the mark
 		 * by subtracting them with the length of the found html tags.
@@ -216,14 +242,15 @@ export function createAnnotationsFromPositionBasedMarks( clientId, mark, html, t
 		 * As a result, the token position information we retrieve from `yoastseo` wouldn't match that of block annotation API.
 		 */
 		for ( let i = foundHtmlTags.length - 1; i >= 0; i-- ) {
-			const currentHtmlTag = foundHtmlTags[ i ][ 0 ];
-			startOffset -= currentHtmlTag.length;
-			endOffset -= currentHtmlTag.length;
+			const [ foundTag ] = foundHtmlTags[ i ];
+
+			blockStartOffset -= foundTag.length;
+			blockEndOffset -= foundTag.length;
 		}
 		return [
 			{
-				startOffset: startOffset,
-				endOffset: endOffset,
+				startOffset: blockStartOffset,
+				endOffset: blockEndOffset,
 			},
 		];
 	}
@@ -250,15 +277,15 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks ) 
 		multilineWrapperTag: attribute.multilineWrapperTag,
 	} );
 
-	const text = record.text;
+	const richText = record.text;
 
 	return flatMap( marks, mark  => {
 		let annotations;
 		if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
-			annotations = createAnnotationsFromPositionBasedMarks( blockClientId, mark, html, text );
+			annotations = createAnnotationsFromPositionBasedMarks( blockClientId, mark, html, richText );
 		} else {
 			annotations = calculateAnnotationsForTextFormat(
-				text,
+				richText,
 				mark
 			);
 		}
@@ -276,12 +303,6 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks ) 
 		} );
 	} );
 }
-
-/**
- * The regex to capture the first section of a Yoast sub-block.
- * @type {RegExp}
- */
-const firstSectionRegex = /(<strong class=["'](schema-faq-question|schema-how-to-step-name)["']>)(.*?)(<\/strong>)/gis;
 
 /**
  * Adjusts the block start and end offset for a given mark.
@@ -313,7 +334,7 @@ const adjustBlockOffset = ( mark, block, firstSectionHtml ) => {
 	 * 2. <strong class="schema-faq-question">Test</strong>
 	 * 3. <strong class="schema-faq-question">giant panda is silly</strong>
 	 */
-	const firstSectionElements = [ ...originalContent.matchAll( firstSectionRegex ) ];
+	const firstSectionElements = originalContent ? [ ...originalContent.matchAll( firstSectionRegex ) ] : [];
 
 	if ( firstSectionElements.length === 0 ) {
 		return mark;
@@ -380,12 +401,12 @@ const getAnnotationsFromArray = ( array, marks, attribute, block, identifierPair
 		const secondSectionIdentifier = `${ item.id }-${ identifierPair[ 1 ] }`;
 
 		// Get the first item of the identifier pair and make the first letter uppercase, e.g. "question" -> "Question".
-		identifierPair[ 0 ] = identifierPair[ 0 ][ 0 ].toUpperCase() + identifierPair[ 0 ].slice( 1 );
+		const firstSectionKeyName = identifierPair[ 0 ][ 0 ].toUpperCase() + identifierPair[ 0 ].slice( 1 );
 		// Get the second item of the identifier pair and make the first letter uppercase, e.g. "answer" -> "Answer".
-		identifierPair[ 1 ] = identifierPair[ 1 ][ 0 ].toUpperCase() + identifierPair[ 1 ].slice( 1 );
+		const secondSectionKeyName = identifierPair[ 1 ][ 0 ].toUpperCase() + identifierPair[ 1 ].slice( 1 );
 
-		const firstSectionHtml = item[ `json${ identifierPair[ 0 ] }` ];
-		const secondSectionHtml = item[ `json${ identifierPair[ 1 ] }` ];
+		const firstSectionHtml = item[ `json${ firstSectionKeyName }` ];
+		const secondSectionHtml = item[ `json${ secondSectionKeyName }` ];
 
 		let marksForFirstSection = marks.filter( mark => {
 			if ( mark.hasBlockPosition() ) {
@@ -435,7 +456,8 @@ const getAnnotationsFromArray = ( array, marks, attribute, block, identifierPair
  * @param {Object} attribute The attribute to apply annotations to.
  * @param {Object} block     The block information in the state.
  * @param {Array}  marks     The marks to turn into annotations.
- * @returns {Array} The created annotations.
+ *
+ * @returns {Array} The created annotations for Yoast FAQ block.
  */
 const getAnnotationsForFAQ = ( attribute, block, marks ) => {
 	const annotatableTexts = block.attributes[ attribute.key ];
@@ -452,7 +474,8 @@ const getAnnotationsForFAQ = ( attribute, block, marks ) => {
  * @param {Object} attribute The attribute to apply annotations to.
  * @param {Object} block     The block information in the state.
  * @param {Array}  marks     The marks to turn into annotations.
- * @returns {Array} The created annotations.
+ *
+ * @returns {Array} The created annotations for Yoast How-To block.
  */
 const getAnnotationsForHowTo = ( attribute, block, marks ) => {
 	const annotatableTexts = block.attributes[ attribute.key ];
