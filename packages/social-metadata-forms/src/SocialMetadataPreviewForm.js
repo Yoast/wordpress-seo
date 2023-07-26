@@ -23,6 +23,22 @@ const CaretContainer = styled.div`
 	position: relative;`
 ;
 
+const FragmentTitle = styled.legend`
+	margin: 8px 0;
+	padding: 0;
+	color: ${ colors.$color_headings };
+	font-size: 10px;
+	font-weight: 300;
+`;
+
+const SettingsNotice = styled.legend`
+	margin: 8px 0;
+	padding: 0;
+	color: ${ colors.$color_headings };
+	font-size: 10px;
+	font-weight: 300;
+`;
+
 const Caret = styled.div`
 	display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
 
@@ -181,10 +197,13 @@ class SocialMetadataPreviewForm extends Component {
 		/* Translators: %s expands to the social description. */
 		const descEditorTitle = sprintf( __( "Social description", "wordpress-seo" ) );
 
+
 		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
 
 		return (
 			<Fragment>
+				<FragmentTitle>{ __( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, " +
+					"Threads, LinkedIn, Slack, and more.", "wordpress-seo" ) }</FragmentTitle>
 				<ImageSelectWithCaret
 					label={ imageSelectTitle }
 					onClick={ onSelectImageClick }
@@ -241,6 +260,9 @@ class SocialMetadataPreviewForm extends Component {
 					onBlur={ this.onDeselectEditor }
 					editorRef={ this.onDescriptionEditorRef }
 				/>
+				<SettingsNotice>{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
+					"the 'Twitter appearance' settings below. If you leave these settings untouched, the 'Social appearance' settings mentioned " +
+					"above will also be applied for sharing on Twitter.", "wordpress-seo" ) }</SettingsNotice>
 			</Fragment>
 		);
 	}
