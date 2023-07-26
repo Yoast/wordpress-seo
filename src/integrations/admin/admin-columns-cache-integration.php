@@ -109,7 +109,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 		$indexables = $this->indexable_repository->find_by_multiple_ids_and_type( $post_ids, 'post', false );
 
 		foreach ( $indexables as $indexable ) {
-			if ( $indexable !== false ) {
+			if ( $indexable instanceof Indexable ) {
 				$this->indexable_cache[ $indexable->object_id ] = $indexable;
 			}
 		}
