@@ -33,6 +33,7 @@ import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
 
 // Tree assessor functionality.
 import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../parsedPaper/assess/scoreAggregators";
+import { filterShortcodesFromHTML } from "../languageProcessing/helpers/sanitize/filterShortcodesFromTree";
 
 const logger = getLogger( "yoast-analysis-worker" );
 logger.setDefaultLevel( "error" );
@@ -1084,6 +1085,11 @@ export default class AnalysisWebWorker {
 			const shortcodes = this._paper._attributes && this._paper._attributes.shortcodes;
 			this._paper.setTree( build( this._paper.getText(), languageProcessor, shortcodes ) );
 
+			if ( shortcodes ) {
+				this._paper._text = filterShortcodesFromHTML( this._paper.getText(), shortcodes );
+			}
+
+
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
 		}
@@ -1407,6 +1413,9 @@ export default class AnalysisWebWorker {
 				const languageProcessor = new LanguageProcessor( researcher );
 				const shortcodes = paper._attributes && paper._attributes.shortcodes;
 				paper.setTree( build( paper.getText(), languageProcessor, shortcodes ) );
+				if ( shortcodes ) {
+					paper._text = filterShortcodesFromHTML( paper.getText(), shortcodes );
+				}
 			}
 		}
 

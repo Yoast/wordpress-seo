@@ -7,6 +7,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { filter, find, findIndex, isFunction, isUndefined, map } from "lodash-es";
 import LanguageProcessor from "../parse/language/LanguageProcessor";
 import { build } from "../parse/build";
+import { filterShortcodesFromHTML } from "../languageProcessing/helpers/sanitize/filterShortcodesFromTree";
 
 // The maximum score of individual assessment is 9. This is why we set the "score rating" here to 9.
 const ScoreRating = 9;
@@ -126,6 +127,9 @@ Assessor.prototype.assess = function( paper ) {
 	const languageProcessor = new LanguageProcessor( this._researcher );
 	const shortcodes = paper._attributes && paper._attributes.shortcodes;
 	paper.setTree( build( paper.getText(), languageProcessor, shortcodes ) );
+	if ( shortcodes ) {
+		paper._text = filterShortcodesFromHTML( paper.getText(), shortcodes );
+	}
 
 	let assessments = this.getAvailableAssessments();
 	this.results = [];

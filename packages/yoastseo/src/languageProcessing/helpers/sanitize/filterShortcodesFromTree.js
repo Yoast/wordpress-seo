@@ -1,3 +1,23 @@
+/**
+ * Creates a regex to filter shortcodes from HTML.
+ * @param {string[]} shortcodeTags The tags of the shortcodes to filter.
+ * @returns {RegExp} The regex to recognize the shortcodes.
+ */
+const createShortcodeTagsRegex = shortcodeTags => {
+	const sortcodeTagsRegexString = `\\[(${ shortcodeTags.join( "|" ) })[^\\]]*\\]`;
+	return new RegExp( sortcodeTagsRegexString, "g" );
+};
+
+/**
+ * Filters shortcodes from HTML string.
+ * @param {string} html The HTML to filter.
+ * @param {string[]} shortcodeTags The tags of the shortcodes to filter.
+ * @returns {string} The filtered HTML.
+ */
+export const filterShortcodesFromHTML = ( html, shortcodeTags ) => {
+	const shortcodeTagsRegex = createShortcodeTagsRegex( shortcodeTags );
+	return html.replace( shortcodeTagsRegex, "" );
+};
 
 /**
  * Filters shortcodes from a sentence.
@@ -53,7 +73,7 @@ const filterShortcodesFromSentences = ( tree, shortcodeTags, shortcodeTagsRegex 
  */
 const filterShortcodesFromTree = ( tree, shortcodeTags ) => {
 	if ( shortcodeTags ) {
-		const sortcodeTagsRegexString = `\\[(${ shortcodeTags.join( "|" ) })[^\\]]*\\]`;
+		const sortcodeTagsRegexString = createShortcodeTagsRegex( shortcodeTags );
 		const shortcodeTagsRegex = new RegExp( sortcodeTagsRegexString, "g" );
 
 		filterShortcodesFromSentences( tree, shortcodeTags, shortcodeTagsRegex );

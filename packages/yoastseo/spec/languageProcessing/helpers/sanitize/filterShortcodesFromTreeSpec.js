@@ -1,4 +1,4 @@
-import filterShortcodesFromTree from "../../../../src/languageProcessing/helpers/sanitize/filterShortcodesFromTree";
+import filterShortcodesFromTree, { filterShortcodesFromHTML } from "../../../../src/languageProcessing/helpers/sanitize/filterShortcodesFromTree";
 
 
 describe( "filterShortcodesFromTree", function() {
@@ -339,5 +339,45 @@ describe( "filterShortcodesFromTree", function() {
 		] );
 
 		expect( tree.sentences[ 0 ].text ).toEqual( "This is a [shortcode] test." );
+	} );
+} );
+
+
+describe( "filterShortcodesFromHTML", function() {
+	it( "should filter a shortcode from an html string", function() {
+		const html = "<p>This is a [shortcode] test.</p>";
+
+		const shortcodes = [ "shortcode" ];
+
+		const filtered = filterShortcodesFromHTML( html, shortcodes );
+
+		expect( filtered ).toEqual( "<p>This is a  test.</p>" );
+	} );
+	it( "should filter a shortcode with parameters from an html string", function() {
+		const html = "<p>This is a [shortcode param=\"value\"] test.</p>";
+
+		const shortcodes = [ "shortcode" ];
+
+		const filtered = filterShortcodesFromHTML( html, shortcodes );
+
+		expect( filtered ).toEqual( "<p>This is a  test.</p>" );
+	} );
+	it( "should filter multiple shortcodes from an html string", function() {
+		const html = "<p>This is a [shortcode] test.</p><p>This is a [another_shortcode] test.</p>";
+
+		const shortcodes = [ "shortcode", "another_shortcode" ];
+
+		const filtered = filterShortcodesFromHTML( html, shortcodes );
+
+		expect( filtered ).toEqual( "<p>This is a  test.</p><p>This is a  test.</p>" );
+	} );
+	it( "should not filter something between square brackets if it is not a shortcode.", function() {
+		const html = "<p>This is a [not_a_shortcode] test.</p>";
+
+		const shortcodes = [ "shortcode", "another_shortcode" ];
+
+		const filtered = filterShortcodesFromHTML( html, shortcodes );
+
+		expect( filtered ).toEqual( "<p>This is a [not_a_shortcode] test.</p>" );
 	} );
 } );
