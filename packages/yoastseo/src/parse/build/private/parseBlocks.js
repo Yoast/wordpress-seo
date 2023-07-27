@@ -3,7 +3,8 @@ const blockTokenizer = /<!--\s+wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?
 /**
  * Get all the blocks including the inner blocks.
  *
- * @param {Paper} paper The paper to get all the blocks.
+ * @param {Paper} paper The paper to get all the blocks from.
+ *
  * @returns {Object[]} An array of blocks.
  */
 const getAllBlocks = ( paper ) => {
@@ -29,8 +30,9 @@ const getAllBlocks = ( paper ) => {
 /**
  * Gets the offset of each block and set it to the tree.
  *
- * @param {Object[]} blocks An array of blocks.
- * @param {string} text The text.
+ * @param {Object[]}	blocks An array of blocks.
+ * @param {string}		text The text.
+ *
  * @returns {void}
  */
 function updateBlocksOffset( blocks, text ) {
@@ -63,9 +65,10 @@ function updateBlocksOffset( blocks, text ) {
  * Gets the client id for each block and set it to the child nodes.
  * Additionally, when a node has an attribute with 'id' key, also set this id to the first.
  *
- * @param {Node} rootNode The root node.
- * @param {Object[]} blocks An array of blocks.
- * @param {string} clientId The client id to set.
+ * @param {Node}		rootNode The root node.
+ * @param {Object[]}	blocks An array of blocks.
+ * @param {string}		clientId The client id to set.
+ *
  * @returns {void}
  */
 function updateClientIdAndAttrIdForSubtree( rootNode, blocks, clientId ) {
@@ -120,6 +123,7 @@ function updateClientIdAndAttrIdForSubtree( rootNode, blocks, clientId ) {
  *
  * @param {Paper} paper The paper to parse.
  * @param {Node} node	The node to parse.
+ *
  * @returns {void}
  */
 export default function( paper, node ) {

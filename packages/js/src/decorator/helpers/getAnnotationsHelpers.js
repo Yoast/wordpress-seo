@@ -1,8 +1,8 @@
 import { flatMap, flattenDeep } from "lodash";
 import { create } from "@wordpress/rich-text";
 
-const START_MARK = "<yoastmark class='yoast-text-mark'>";
-const END_MARK = "</yoastmark>";
+export const START_MARK = "<yoastmark class='yoast-text-mark'>";
+export const END_MARK = "</yoastmark>";
 
 const START_MARK_DOUBLE_QUOTED = "<yoastmark class=\"yoast-text-mark\">";
 

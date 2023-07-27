@@ -9,16 +9,14 @@ import { filterBeforeTokenizing } from "./private/filterBeforeTokenizing";
 import parseBlocks from "./private/parseBlocks";
 
 /**
- * Parses the HTML string to a tree representation of
- * the HTML document.
+ * Parses the HTML string to a tree representation of the HTML document.
  *
- * @param {Paper} paper The HTML string.
+ * @param {Paper} paper The paper to build the tree from.
  * @param {LanguageProcessor} languageProcessor The language processor to use.
  *
  * @returns {Node} The tree representation of the HTML string.
  */
 export default function build( paper, languageProcessor ) {
-	// console.log( "build paper", paper );
 	const html = paper.getText();
 	let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 
