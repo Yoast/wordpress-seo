@@ -24,6 +24,38 @@ export const filterShortcodesFromHTML = ( html, shortcodeTags ) => {
 };
 
 /**
+ * Checks if a token is part of an opening shortcode.
+ * @param {Token[]} tokens The tokens to check.
+ * @param {number} index The index of the current token.
+ * @returns {boolean} Whether the token is part of an opening shortcode.
+ */
+const tokenIsPartOfOpeningShortcode = ( tokens, index ) => {
+	return tokens[ index - 1 ] && tokens[ index - 1 ].text === "[";
+};
+
+/**
+ * Checks if a token is part of a closing shortcode.
+ * @param {Token[]} tokens The tokens to check.
+ * @param {number} index The index of the current token.
+ * @returns {boolean} Whether the token is part of a closing shortcode.
+ */
+const tokenIsPartOfClosingShortcode = ( tokens, index ) => {
+	return  tokens[ index - 1 ] && tokens[ index - 1 ].text === "/"  && tokens[ index - 2 ]  && tokens[ index - 2 ].text === "[";
+};
+
+/**
+ * Checks if a token is part of a shortcode.
+ * @param {Token[]} tokens The tokens to check.
+ * @param {number} index The index of the current token.
+ * @param {string[]} shortcodeTags An array of active shortcode tags.
+ * @returns {boolean} Whether the token is part of a shortcode.
+ */
+const tokenIsShortcode = ( tokens, index, shortcodeTags ) => {
+	return shortcodeTags.includes( tokens[ index ].text ) &&
+		( tokenIsPartOfOpeningShortcode( tokens, index ) || tokenIsPartOfClosingShortcode( tokens, index )  );
+};
+
+/**
  * Filters shortcodes from a sentence.
  * @param {Sentence} sentence The sentence to filter.
  * @param {string[]} shortcodeTags The tags of the shortcodes to filter.
@@ -35,15 +67,18 @@ const filterShortcodesFromSentence = ( sentence, shortcodeTags, shortcodeTagsReg
 	const tokens = sentence.tokens;
 	// traverse through tokens backwards
 	for ( let i = tokens.length - 1; i >= 0; i-- ) {
-		if ( shortcodeTags.includes( tokens[ i ].text ) &&
-			( ( tokens[ i - 1 ] && tokens[ i - 1 ].text === "["  ) ||
-			( tokens[ i - 1 ] && tokens[ i - 1 ].text === "/" && tokens[ i - 2 ]  && tokens[ i - 2 ] === "]" ) ) ) {
+		if ( tokenIsShortcode( tokens, i, shortcodeTags ) ) {
 			while ( tokens[ i ].text !== "]" ) {
 				tokens.splice( i, 1 );
 			}
 			tokens.splice( i, 1 );
-			tokens.splice( i - 1, 1 );
-			i--;
+
+			// console.log(  "after splice 1: ", tokens );
+
+			while ( "[/".includes( tokens[ i - 1 ].text ) ) {
+				tokens.splice( i - 1, 1 );
+				i--;
+			}
 		}
 	}
 	sentence.tokens = tokens;
