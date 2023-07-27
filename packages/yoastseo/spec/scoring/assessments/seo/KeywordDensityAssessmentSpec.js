@@ -259,6 +259,9 @@ describe( "A test for marking the keyphrase", function() {
 					endOffset: 50,
 					startOffsetBlock: 40,
 					endOffsetBlock: 47,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
 				},
 			} ),
 			new Mark( {
@@ -271,6 +274,9 @@ describe( "A test for marking the keyphrase", function() {
 					endOffset: 70,
 					startOffsetBlock: 60,
 					endOffsetBlock: 67,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
 				},
 			} ) ];
 		expect( keyphraseDensityAssessment.getMarks() ).toEqual( expected );
@@ -292,6 +298,9 @@ describe( "A test for marking the keyphrase", function() {
 					endOffset: 38,
 					startOffsetBlock: 23,
 					endOffsetBlock: 35,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
 				},
 			} ) ];
 		expect( keyphraseDensityAssessment.getMarks() ).toEqual( expected );
@@ -318,6 +327,9 @@ describe( "A test for marking the keyphrase", function() {
 					endOffset: 204,
 					startOffsetBlock: 198,
 					endOffsetBlock: 201,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
 				},
 			} ),
 			new Mark( {
@@ -329,6 +341,9 @@ describe( "A test for marking the keyphrase", function() {
 					endOffset: 215,
 					startOffsetBlock: 209,
 					endOffsetBlock: 212,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
 				},
 			} ),
 		];

@@ -34,6 +34,9 @@ describe( "test to get sentences from the tree", () => {
 					{ sourceCodeRange: { endOffset: 43, startOffset: 38 }, text: "human" },
 					{ sourceCodeRange: { endOffset: 44, startOffset: 43 }, text: "." },
 				],
+				isParentFirstSectionOfBlock: false,
+				parentAttributeId: "",
+				parentClientId: "",
 			},
 			{
 				sourceCodeRange: { endOffset: 64, startOffset: 44 },
@@ -51,7 +54,11 @@ describe( "test to get sentences from the tree", () => {
 					{ sourceCodeRange: { endOffset: 59, startOffset: 58 }, text: " " },
 					{ sourceCodeRange: { endOffset: 63, startOffset: 59 }, text: "cute" },
 					{ sourceCodeRange: { endOffset: 64, startOffset: 63 }, text: "." },
-				] },
+				],
+				isParentFirstSectionOfBlock: false,
+				parentAttributeId: "",
+				parentClientId: "",
+			},
 			{
 				sourceCodeRange: { endOffset: 86, startOffset: 72 },
 				parentStartOffset: 72,
@@ -62,7 +69,11 @@ describe( "test to get sentences from the tree", () => {
 					{ sourceCodeRange: { endOffset: 84, startOffset: 74 }, text: "subheading" },
 					{ sourceCodeRange: { endOffset: 85, startOffset: 84 }, text: " " },
 					{ sourceCodeRange: { endOffset: 86, startOffset: 85 }, text: "3" },
-				] },
+				],
+				isParentFirstSectionOfBlock: false,
+				parentAttributeId: "",
+				parentClientId: "",
+			},
 			{
 				sourceCodeRange: {},
 				parentStartOffset: 0,
@@ -73,7 +84,11 @@ describe( "test to get sentences from the tree", () => {
 					{ sourceCodeRange: {}, text: "text" },
 					{ sourceCodeRange: {}, text: " " },
 					{ sourceCodeRange: {}, text: "text" },
-				] },
+				],
+				isParentFirstSectionOfBlock: false,
+				parentAttributeId: "",
+				parentClientId: "",
+			},
 			{
 				sourceCodeRange: { endOffset: 123, startOffset: 109 },
 				parentStartOffset: 109,
@@ -84,10 +99,14 @@ describe( "test to get sentences from the tree", () => {
 					{ sourceCodeRange: { endOffset: 121, startOffset: 111 }, text: "subheading" },
 					{ sourceCodeRange: { endOffset: 122, startOffset: 121 }, text: " " },
 					{ sourceCodeRange: { endOffset: 123, startOffset: 122 }, text: "4" },
-				] },
+				],
+				isParentFirstSectionOfBlock: false,
+				parentAttributeId: "",
+				parentClientId: "",
+			},
 			{
 				sourceCodeRange: { endOffset: 138, startOffset: 128 },
-				parentStartOffset: 0,
+				parentStartOffset: 128,
 				text: "more text.",
 				tokens: [
 					{ sourceCodeRange: { endOffset: 132, startOffset: 128 }, text: "more" },
@@ -95,6 +114,9 @@ describe( "test to get sentences from the tree", () => {
 					{ sourceCodeRange: { endOffset: 137, startOffset: 133 }, text: "text" },
 					{ sourceCodeRange: { endOffset: 138, startOffset: 137 }, text: "." },
 				],
+				isParentFirstSectionOfBlock: false,
+				parentAttributeId: "",
+				parentClientId: "",
 			},
 		] );
 	} );
@@ -115,8 +137,119 @@ describe( "test to get sentences from the tree", () => {
 					{ sourceCodeRange: { endOffset: 14, startOffset: 13 }, text: " " },
 					{ sourceCodeRange: { endOffset: 19, startOffset: 14 }, text: "panda" },
 				],
+				parentStartOffset: 3,
+				isParentFirstSectionOfBlock: false,
+				parentAttributeId: "",
+				parentClientId: "",
 			},
 		] );
+	} );
+	it( "returns the sentences retrieved from Yoast block", () => {
+		const paper = new Paper( "<div class=\"schema-faq wp-block-yoast-faq-block\"><div class=\"schema-faq-section\"" +
+			" id=\"faq-question-1689322642789\"><strong class=\"schema-faq-question\">What is giant panda</strong> " +
+			"<p class=\"schema-faq-answer\">Giant <strong>panda</strong> is test testts</p> </div> <div class=\"schema-faq-section\"" +
+			" id=\"faq-question-1689322667728\"><strong class=\"schema-faq-question\">Test</strong> " +
+			"<p class=\"schema-faq-answer\">Tets</p> </div> <div class=\"schema-faq-section\" id=\"faq-question-1689936392675\">" +
+			"<strong class=\"schema-faq-question\">giant panda is silly</strong> <p class=\"schema-faq-answer\">" +
+			"is this giant panda</p> </div> </div>" );
+		researcher.setPaper( paper );
+		buildTree( paper, researcher );
+		expect( getSentencesFromTree( paper ) ).toEqual(
+			[
+				{
+					text: "What is giant panda",
+					tokens: [
+						{ text: "What", sourceCodeRange: { startOffset: 149, endOffset: 153 } },
+						{ text: " ", sourceCodeRange: { startOffset: 153, endOffset: 154 } },
+						{ text: "is", sourceCodeRange: { startOffset: 154, endOffset: 156 } },
+						{ text: " ", sourceCodeRange: { startOffset: 156, endOffset: 157 } },
+						{ text: "giant", sourceCodeRange: { startOffset: 157, endOffset: 162 } },
+						{ text: " ", sourceCodeRange: { startOffset: 162, endOffset: 163 } },
+						{ text: "panda", sourceCodeRange: { startOffset: 163, endOffset: 168 } },
+					],
+					sourceCodeRange: { startOffset: 149, endOffset: 168 },
+					parentStartOffset: 113,
+					parentClientId: "",
+					parentAttributeId: "faq-question-1689322642789",
+					isParentFirstSectionOfBlock: true,
+				},
+				{
+					text: "Giant panda is test testts",
+					tokens: [
+						{ text: "Giant", sourceCodeRange: { startOffset: 207, endOffset: 212 } },
+						{ text: " ", sourceCodeRange: { startOffset: 212, endOffset: 213 } },
+						{ text: "panda", sourceCodeRange: { startOffset: 221, endOffset: 226 } },
+						{ text: " ", sourceCodeRange: { startOffset: 235, endOffset: 236 } },
+						{ text: "is", sourceCodeRange: { startOffset: 236, endOffset: 238 } },
+						{ text: " ", sourceCodeRange: { startOffset: 238, endOffset: 239 } },
+						{ text: "test", sourceCodeRange: { startOffset: 239, endOffset: 243 } },
+						{ text: " ", sourceCodeRange: { startOffset: 243, endOffset: 244 } },
+						{ text: "testts", sourceCodeRange: { startOffset: 244, endOffset: 250 } },
+					],
+					sourceCodeRange: { startOffset: 207, endOffset: 250 },
+					parentStartOffset: 207,
+					parentClientId: "",
+					parentAttributeId: "faq-question-1689322642789",
+					isParentFirstSectionOfBlock: false,
+				},
+				{
+					text: "Test",
+					tokens: [
+						{ text: "Test", sourceCodeRange: { startOffset: 362, endOffset: 366 } },
+					],
+					sourceCodeRange: { startOffset: 362, endOffset: 366 },
+					parentStartOffset: 326,
+					parentClientId: "",
+					parentAttributeId: "faq-question-1689322667728",
+					isParentFirstSectionOfBlock: true,
+				},
+				{
+					text: "Tets",
+					tokens: [
+						{ text: "Tets", sourceCodeRange: { startOffset: 405, endOffset: 409 } },
+					],
+					sourceCodeRange: { startOffset: 405, endOffset: 409 },
+					parentStartOffset: 405,
+					parentClientId: "",
+					parentAttributeId: "faq-question-1689322667728",
+					isParentFirstSectionOfBlock: false,
+				},
+				{
+					text: "giant panda is silly",
+					tokens: [
+						{ text: "giant", sourceCodeRange: { startOffset: 521, endOffset: 526 } },
+						{ text: " ", sourceCodeRange: { startOffset: 526, endOffset: 527 } },
+						{ text: "panda", sourceCodeRange: { startOffset: 527, endOffset: 532 } },
+						{ text: " ", sourceCodeRange: { startOffset: 532, endOffset: 533 } },
+						{ text: "is", sourceCodeRange: { startOffset: 533, endOffset: 535 } },
+						{ text: " ", sourceCodeRange: { startOffset: 535, endOffset: 536 } },
+						{ text: "silly", sourceCodeRange: { startOffset: 536, endOffset: 541 } },
+					],
+					sourceCodeRange: { startOffset: 521, endOffset: 541 },
+					parentStartOffset: 485,
+					parentClientId: "",
+					parentAttributeId: "faq-question-1689936392675",
+					isParentFirstSectionOfBlock: true,
+				},
+				{
+					text: "is this giant panda",
+					tokens: [
+						{ text: "is", sourceCodeRange: { startOffset: 580, endOffset: 582 } },
+						{ text: " ", sourceCodeRange: { startOffset: 582, endOffset: 583 } },
+						{ text: "this", sourceCodeRange: { startOffset: 583, endOffset: 587 } },
+						{ text: " ", sourceCodeRange: { startOffset: 587, endOffset: 588 } },
+						{ text: "giant", sourceCodeRange: { startOffset: 588, endOffset: 593 } },
+						{ text: " ", sourceCodeRange: { startOffset: 593, endOffset: 594 } },
+						{ text: "panda", sourceCodeRange: { startOffset: 594, endOffset: 599 } },
+					],
+					sourceCodeRange: { startOffset: 580, endOffset: 599 },
+					parentStartOffset: 580,
+					parentClientId: "",
+					parentAttributeId: "faq-question-1689936392675",
+					isParentFirstSectionOfBlock: false,
+				},
+			]
+		);
 	} );
 	it( "should return empty array if no sentences are found in paragraph/heading node", () => {
 		const paper = new Paper( "<p></p><blockquote>The red panda (Ailurus fulgens), also known as the lesser panda," +
