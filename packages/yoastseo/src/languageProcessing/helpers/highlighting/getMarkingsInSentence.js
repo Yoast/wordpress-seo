@@ -28,7 +28,7 @@ const createMarksForSentence = ( sentence, matches  ) => {
 	}
 	const markedSentence = newTokens.join( "" );
 	// Merge consecutive markings into one marking.
-	return markedSentence.replace( new RegExp( "</yoastmark>(( |\u00A0)?)<yoastmark class='yoast-text-mark'>", "ig" ), "$1" );
+	return markedSentence.replace( new RegExp( "</yoastmark>([ \u00A0]?)<yoastmark class='yoast-text-mark'>", "ig" ), "$1" );
 };
 
 /**
@@ -104,12 +104,15 @@ function getMarkingsInSentence( sentence, matchesInSentence ) {
 			position: {
 				startOffset: startOffset,
 				endOffset: endOffset,
-				// relative to start of block positions.
-				startOffsetBlock: startOffset - sentence.parentStartOffset,
-				endOffsetBlock: endOffset - sentence.parentStartOffset,
-				clientId: sentence.parentClientId,
-				attributeId: sentence.parentAttributeId,
-				isFirstSection: sentence.isParentFirstSectionOfBlock,
+				// Relative to start of block positions.
+				startOffsetBlock: startOffset - ( sentence.parentStartOffset || 0 ),
+				endOffsetBlock: endOffset - ( sentence.parentStartOffset || 0 ),
+				// The client id of the block the match was found in.
+				clientId: sentence.parentClientId || "",
+				// The attribute id of the Yoast sub-block the match was found in.
+				attributeId: sentence.parentAttributeId || "",
+				// Whether the match was found in the first section of the Yoast sub-block.
+				isFirstSection: sentence.isParentFirstSectionOfBlock || false,
 			},
 			marked: markedSentence,
 			original: sentence.text,

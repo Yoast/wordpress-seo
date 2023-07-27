@@ -15,9 +15,9 @@ export default function( paper ) {
 			...s,
 			// The parent node's start offset is the start offset of the parent node if it doesn't have a `startTag` property.
 			parentStartOffset: node.sourceCodeLocation && ( ( node.sourceCodeLocation.startTag && node.sourceCodeLocation.startTag.endOffset ) ||
-				node.sourceCodeLocation.startOffset ),
+				node.sourceCodeLocation.startOffset ) || 0,
 			// The block client id of the parent node.
-			parentClientId: node.clientId,
+			parentClientId: node.clientId || "",
 			// The attribute id of the parent node, if available, otherwise an empty string.
 			parentAttributeId: node.attributeId || "",
 			// Whether the parent node is the first section of Yoast sub-blocks.
