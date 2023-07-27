@@ -45,7 +45,6 @@ export default class ListAssessment extends Assessment {
 		let text = paper.getText();
 
 		text = languageProcessingHelpers.removeHtmlBlocks( text );
-		text = languageProcessingHelpers.filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 
 		return regex.test( text );
 	}

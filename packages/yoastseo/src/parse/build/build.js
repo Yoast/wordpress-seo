@@ -31,6 +31,7 @@ export default function build( htmlString, languageProcessor, shortcodes ) {
 	// Add sentences and tokens to the tree's paragraph and heading nodes.
 	tree = tokenize( tree, languageProcessor );
 
+	// Filter out shortcodes from the tree.
 	if ( shortcodes ) {
 		filterShortcodesFromTree( tree, shortcodes );
 	}

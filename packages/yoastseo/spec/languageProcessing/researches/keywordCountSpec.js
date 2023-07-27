@@ -161,6 +161,13 @@ const testCases = [
 		expectedMarkings: [],
 	},
 	{
+		description: "doesn't count keyphrase instances if they are a shortcode",
+		paper: new Paper( "There is no [keyword] in this sentence.", { shortcodes: [ "keyword" ] } ),
+		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+	},
+	{
 		description: "only counts full key phrases (when all keywords are in the sentence once, twice etc.) as matches.",
 		paper: new Paper( "A string with three keys (key and another key) and one word." ),
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],

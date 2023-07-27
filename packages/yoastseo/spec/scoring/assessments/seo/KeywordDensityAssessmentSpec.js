@@ -100,6 +100,18 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 			" <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
 	} );
 
+	it( "should not count shortcodes when calculating keyphrase density", function() {
+		const paper = new Paper( nonkeyword.repeat( 99 ) + `[${keyword}]`, { keyword: keyword, shortcodes: [ keyword ] } );
+
+		const researcher = new DefaultResearcher( paper );
+		const result = new KeywordDensityAssessment().getResult( paper, researcher );
+
+		expect( result.getScore() ).toBe( 4 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 0 times." +
+			" That's less than the recommended minimum of 2 times for a text of this length." +
+			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
+	} );
+
 	it( "adjusts the keyphrase density based on the length of the keyword with the actual density remaining at 2% - long keyphrase", function() {
 		const paper = new Paper( nonkeyword.repeat( 900 ) + "b c d e f, ".repeat( 20 ), { keyword: "b c d e f" } );
 		const researcher = new DefaultResearcher( paper );
