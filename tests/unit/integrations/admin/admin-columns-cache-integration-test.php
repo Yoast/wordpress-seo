@@ -7,7 +7,7 @@ use Mockery;
 use WP_Post;
 use WP_Query;
 use Yoast\WP\SEO\Integrations\Admin\Admin_Columns_Cache_Integration;
-use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -65,7 +65,9 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 			->with( $posts, 'ID' )
 			->andReturn( [ 1 ] );
 
-		$results = [ (object) [ 'object_id' => 1 ] ];
+		$indexable            = new Indexable_Mock();
+		$indexable->object_id = 1;
+		$results              = [ $indexable ];
 
 		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )->once()->with( [ 1 ], 'post', false )->andReturn( $results );
 
