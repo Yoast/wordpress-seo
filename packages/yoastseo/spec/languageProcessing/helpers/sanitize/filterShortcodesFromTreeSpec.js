@@ -340,6 +340,48 @@ describe( "filterShortcodesFromTree", function() {
 
 		expect( tree.sentences[ 0 ].text ).toEqual( "This is a [shortcode] test." );
 	} );
+
+	it( "should filter an open-close pair of shortcodes.", function() {
+		const tree  = {
+			sentences: [
+				{
+					text: "This is a [shortcode]test[/shortcode].",
+					tokens: [
+						{ text: "This" },
+						{ text: " " },
+						{ text: "is" },
+						{ text: " " },
+						{ text: "a" },
+						{ text: " " },
+						{ text: "[" },
+						{ text: "shortcode" },
+						{ text: "]" },
+						{ text: "test" },
+						{ text: "[" },
+						{ text: "/" },
+						{ text: "shortcode" },
+						{ text: "]" },
+						{ text: "." },
+					],
+				},
+			],
+		};
+
+		const shortcodes = [ "shortcode" ];
+
+		filterShortcodesFromTree( tree, shortcodes );
+
+		expect( tree.sentences[ 0 ].tokens ).toEqual( [
+			{ text: "This" },
+			{ text: " " },
+			{ text: "is" },
+			{ text: " " },
+			{ text: "a" },
+			{ text: " " },
+			{ text: "test" },
+			{ text: "." },
+		] );
+	} );
 } );
 
 
@@ -379,5 +421,22 @@ describe( "filterShortcodesFromHTML", function() {
 		const filtered = filterShortcodesFromHTML( html, shortcodes );
 
 		expect( filtered ).toEqual( "<p>This is a [not_a_shortcode] test.</p>" );
+	} );
+
+	it( "should not filter if shortcodes parameter is not given", function() {
+		const html = "<p>This is a [shortcode] test.</p>";
+
+		const filtered = filterShortcodesFromHTML( html );
+
+		expect( filtered ).toEqual( "<p>This is a [shortcode] test.</p>" );
+	} );
+	it( "should not filter if shortcodes is an empty list", function() {
+		const html = "<p>This is a [shortcode] test.</p>";
+
+		const shortcodes = [];
+
+		const filtered = filterShortcodesFromHTML( html, shortcodes );
+
+		expect( filtered ).toEqual( "<p>This is a [shortcode] test.</p>" );
 	} );
 } );
