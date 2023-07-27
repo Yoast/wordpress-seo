@@ -125,7 +125,7 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	 * @param array $last_known_public_post_types The last known public post types.
 	 * @param int   $set_public_post_types_times  The times we get the last known public post types.
 	 * @param int   $delete_transient_times       The times we delete the transients.
-	 * @param int   $schedule_cleanup_times       The times we schedule cleanup.
+	 * @param int   $schedule_cleanup_times       The times we schedule the cleanup.
 	 */
 	public function test_check_post_types_public_availability(
 		$is_json_request, $public_post_types, $get_public_post_types_times, $last_known_public_post_types, $set_public_post_types_times, $delete_transient_times, $schedule_cleanup_times
@@ -135,7 +135,7 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 			->andReturn( $is_json_request );
 
 		$this->post_type_helper
-			->expects( 'get_public_post_types' )
+			->expects( 'get_indexable_post_types' )
 			->times( $get_public_post_types_times )
 			->andReturn( $public_post_types );
 
@@ -148,7 +148,7 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 		$this->options
 			->expects( 'set' )
 			->times( $set_public_post_types_times )
-			->with( 'last_known_public_post_types', \array_keys( $public_post_types ) );
+			->with( 'last_known_public_post_types', $public_post_types );
 
 		Functions\expect( 'delete_transient' )
 			->times( $delete_transient_times )
@@ -208,10 +208,7 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 			],
 			'When the new post types are already saved in cache' => [
 				'is_json_request'              => false,
-				'public_post_types'            => [
-					'post' => 'post',
-					'page' => 'page',
-				],
+				'public_post_types'            => [ 'post', 'page' ],
 				'get_public_post_types_times'  => 1,
 				'last_known_public_post_types' => [
 					'post' => 'post',
@@ -223,10 +220,7 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 			],
 			'When new post type is added' => [
 				'is_json_request'              => false,
-				'public_post_types'            => [
-					'post' => 'post',
-					'page' => 'page',
-				],
+				'public_post_types'            => [ 'post', 'page' ],
 				'get_public_post_types_times'  => 1,
 				'last_known_public_post_types' => [
 					'post' => 'post',
@@ -237,9 +231,7 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 			],
 			'when post type is removed' => [
 				'is_json_request'              => false,
-				'public_post_types'            => [
-					'post' => 'post',
-				],
+				'public_post_types'            => [ 'post' ],
 				'get_public_post_types_times'  => 1,
 				'last_known_public_post_types' => [
 					'post' => 'post',
