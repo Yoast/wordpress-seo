@@ -400,6 +400,12 @@
 	margin-top: auto;
 }
 
+.yoast-post-settings-modal .components-modal__content > div:not([class]):not([class=""]) {
+	overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
 /**
  * Add a negative margin so that the hr will overlap with the border of the content above.
  *

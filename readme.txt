@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.2
-Stable tag: 20.10
+Stable tag: 20.12
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -245,47 +245,39 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 20.11 =
+= 20.13 =
 
-Release date: 2023-07-11
-
-#### Enhancements
-
-* Adds a notification in the settings whenever there is a new content type.
-* Adds badges to new content types in the settings page.
-* Adds notification for new content in the notification center and removes it once it was reviewed.
+Release date: 2023-08-08
 
 #### Bugfixes
 
-* Fixes a bug where placeholders would be displayed in the wrong color in the Yoast SEO settings and the First-time configuration.
-
-= 20.10 =
-
-Release date: 2023-06-27
-
-Upgrade now to Yoast SEO 20.10! This latest release includes fixes, enhancements to the crawl optimization settings, and a brand-new support page that helps you get support quickly. Find out more about what's new in Yoast SEO 20.10 in [our release post](https://yoa.st/release-27-6-23)!
-
-#### Enhancements
-
-* Adds a support page to the Yoast admin. This page allows you to easily access Yoast FAQs and support resources from the WordPress admin.
-* Excludes the Yoast SEO Breadcrumbs widget from the content analysis in Elementor Pro.
-* Expands the list of HTML elements excluded from the content analysis.
-* Introduces a new setting for crawl optimization, that disallows AdsBot crawling when enabled.
-* Introduces more robust HTML processing for the _competing links_, _keyphrase in introduction_, _image keyphrase_, and _images_ assessments.
-* Removes any meta tags for enhanced Slack sharing from static home pages.
-
-#### Bugfixes
-
-* Fixes a bug where adding a link in the block editor would result in displaying the URL instead of the post title.
-* Fixes a bug where deletion notice would not appear when deleting a term when the `term_id` is different from `taxonomy_term_id`.
-* Fixes a bug where terms with custom canonical URLs would get added in the sitemap.
-* Fixes a bug where the WordPress native sitemap would not work properly after Yoast SEO was deactivated, until rewrite rules were flushed.
-* Fixes a bug where the wrong taxonomy name would appear in the notice when deleting a term.
+* Fixes a bug where 404 responses would occur when updating or deactivating the plugin because of incorrect flushing of the rewrite rules.
 
 #### Other
 
-* Adds the Wincher upgrade callout to the Wincher performance report on the dashboard and to the Wincher SEO performance on the edit post page.
-* Deprecates the `Old_Premium_Integration`.
+* Ensures that the Google, Facebook and Twitter Preview modals are compatible with WordPress 6.3.
+
+= 20.12 =
+
+Release date: 2023-07-25
+
+We've just released Yoast SEO 20.12! This release includes fixes and enhancements that strengthen the stability of our plugin and enhance your SEO efforts. Find out more about what's new in Yoast SEO 20.12 in [our release post](https://yoa.st/release-25-7-23)!
+
+#### Enhancements
+
+* Adds `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `gclid` and `gtm_debug` to the default allowlist for the "Remove unregistered URL parameters" setting.
+
+#### Bugfixes
+
+* Fixes a bug where an error would appear in `debug.log` when saving a draft or updating a post in Elementor.
+* Fixes a bug where the controls for the _FAQ_ and _how-to_ blocks would be not shown when running Gutenberg versions >= 15.2.
+* Fixes a bug where the duration text of the _how-to_ block would be output in the user language instead of the site language.
+
+#### Other
+
+* Updates the verification link to the Google Search Console in the Site connections section in Settings.
+* Improves the copy in the final step of the first time configuration.
+* Updates copy of our free webinar notification.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
