@@ -5,18 +5,17 @@ import {
 	getIndicesOf,
 	calculateAnnotationsForTextFormat,
 	getAnnotationsForWPBlock,
-	getAnnotationsForYoastBlock,
+	getAnnotationsForFAQ,
+	getAnnotationsForHowTo,
 	createAnnotationsFromPositionBasedMarks,
 } from "../../../src/decorator/helpers/getAnnotationsHelpers";
+import { create } from "@wordpress/rich-text";
+import { select } from "@wordpress/data";
+import { Mark } from "yoastseo/src/values";
 
 jest.mock( "@wordpress/rich-text", () => ( {
 	create: jest.fn(),
 } ) );
-
-import { create } from "@wordpress/rich-text";
-
-import { select } from "@wordpress/data";
-import { Mark } from "yoastseo/src/values";
 
 jest.mock( "@wordpress/data" );
 
@@ -299,7 +298,7 @@ describe( "getAnnotationsForYoastBlock", () => {
 				},
 				innerBlocks: [],
 				originalContent: "<div class=\"schema-how-to wp-block-yoast-how-to-block\"><p class=\"schema-how-to-description\">" +
-					"Step by step guide on how to make your cat love you (with or without food bribe).</p> <ol class=\"schema-how-to-steps\">" +
+					"Step-by-step guide on how to make your cat love you (with or without food bribe).</p> <ol class=\"schema-how-to-steps\">" +
 					"<li class=\"schema-how-to-step\" id=\"how-to-step-1674124378605\"><strong class=\"schema-how-to-step-name\">" +
 					"Establish a close contact with your cat</strong> <p class=\"schema-how-to-step-text\">According to a research, " +
 					"cats are social animal. Your cat will prefer the hooman than a very tempting snack in a stressful situation.</p> " +
@@ -346,7 +345,7 @@ describe( "getAnnotationsForYoastBlock", () => {
 				getActiveMarker: jest.fn( () => "keyphraseDensity" ),
 			} );
 
-			const annotations = getAnnotationsForYoastBlock( mockAttribute, mockBlock, mockMarks );
+			const annotations = getAnnotationsForHowTo( mockAttribute, mockBlock, mockMarks );
 			const resultWithAnnotation = [
 				{
 					startOffset: 36,
@@ -439,7 +438,7 @@ describe( "getAnnotationsForYoastBlock", () => {
 				getActiveMarker: jest.fn( () => "keyphraseDensity" ),
 			} );
 
-			const annotations = getAnnotationsForYoastBlock( mockAttribute, mockBlock, mockMarks );
+			const annotations = getAnnotationsForHowTo( mockAttribute, mockBlock, mockMarks );
 			const resultWithAnnotation = [
 				{
 					startOffset: 39,
@@ -569,7 +568,7 @@ describe( "getAnnotationsForYoastBlock", () => {
 				getActiveMarker: jest.fn( () => "keyphraseDensity" ),
 			} );
 
-			const annotations = getAnnotationsForYoastBlock( mockAttribute, mockBlock, mockMarks );
+			const annotations = getAnnotationsForFAQ( mockAttribute, mockBlock, mockMarks );
 			const resultWithAnnotation = [
 				{
 					startOffset: 25,
