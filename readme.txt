@@ -249,10 +249,6 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-08-08
 
-#### Bugfixes
-
-* Fixes a bug where 404 responses would occur when updating or deactivating the plugin because of incorrect flushing of the rewrite rules.
-
 #### Other
 
 * Ensures that the Google, Facebook and Twitter Preview modals are compatible with WordPress 6.3.
