@@ -16,6 +16,10 @@
     "url": "https://github.com/Yoast/wordpress-seo.git",
     "directory": "packages/yoastseo"
   },
+  "files": [
+    "build/**/*",
+    "vendor"
+  ],
   "scripts": {
     "build": "yarn clean && yarn build:js",
     "build:js": "babel src --out-dir build",
@@ -23,7 +27,7 @@
     "pretest": "grunt get-premium-configuration",
     "test": "jest",
     "lint": "grunt check",
-    "prepublishOnly": "yarn build && cp CHANGELOG.md LICENSE README.md build/"
+    "prepublishOnly": "yarn build"
   },
   "engines": {
     "node": ">=8.0.0"
