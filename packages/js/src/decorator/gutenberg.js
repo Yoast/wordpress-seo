@@ -4,7 +4,7 @@ import { isFunction, flatMap } from "lodash";
 import "@wordpress/annotations";
 import { select, dispatch } from "@wordpress/data";
 import getFieldsToMarkHelper from "./helpers/getFieldsToMarkHelper";
-import { getAnnotationsForYoastBlock, getAnnotationsForWPBlock } from "./helpers/getAnnotationsHelpers";
+import { getAnnotationsForHowTo, getAnnotationsForFAQ, getAnnotationsForWPBlock } from "./helpers/getAnnotationsHelpers";
 
 const ANNOTATION_SOURCE = "yoast";
 
@@ -206,15 +206,20 @@ function fillAnnotationQueue( annotations ) {
  *
  * @param { Object } block The block for which the annotations need to be determined.
  * @param { Mark[] } marks A list of marks that could apply to the block.
+ *
  * @returns { Object[] } All annotations that need to be placed on the block.
  */
 const getAnnotationsForABlock = ( block, marks ) => {
 	return flatMap(
 		getAnnotatableAttributes( block.name ),
 		( ( attribute ) => {
-			// Get the annotations for Yoast FAQ and How-To blocks.
-			if ( block.name === "yoast/faq-block" || block.name === "yoast/how-to-block" ) {
-				return getAnnotationsForYoastBlock( attribute, block, marks );
+			// Get the annotations for Yoast FAQ block.
+			if ( block.name === "yoast/faq-block" ) {
+				return getAnnotationsForFAQ( attribute, block, marks );
+			}
+			// Get the annotations for Yoast How-To block.
+			if ( block.name === "yoast/how-to-block" ) {
+				return getAnnotationsForHowTo( attribute, block, marks );
 			}
 			// Get the annotation for non-Yoast blocks.
 			return getAnnotationsForWPBlock( attribute, block, marks );
