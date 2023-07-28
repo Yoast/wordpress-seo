@@ -409,7 +409,7 @@ const getAnnotationsFromArray = ( array, marks, attribute, block, identifierPair
 		const secondSectionHtml = item[ `json${ secondSectionKeyName }` ];
 
 		let marksForFirstSection = marks.filter( mark => {
-			if ( mark.hasBlockPosition() ) {
+			if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
 				// Filter the marks array and only include the marks that are intended for the first sub-block section.
 				return mark.getBlockAttributeId() === item.id && mark.isMarkForFirstBlockSection();
 			}
@@ -426,14 +426,14 @@ const getAnnotationsFromArray = ( array, marks, attribute, block, identifierPair
 		 * As a result, the position information of the matched token will be incorrect.
 		 */
 		marksForFirstSection = marksForFirstSection.map( mark => {
-			if ( mark.hasBlockPosition() ) {
+			if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
 				return adjustBlockOffset( mark, block, firstSectionHtml );
 			}
 			return mark;
 		} );
 
 		const marksForSecondSection = marks.filter( mark => {
-			if ( mark.hasBlockPosition() ) {
+			if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
 				// Filter the marks array and only include the marks that are intended for the second sub-block section.
 				return mark.getBlockAttributeId() === item.id && ! mark.isMarkForFirstBlockSection();
 			}
@@ -459,7 +459,7 @@ const getAnnotationsFromArray = ( array, marks, attribute, block, identifierPair
  *
  * @returns {Array} The created annotations for Yoast FAQ block.
  */
-const getAnnotationsForFAQ = ( attribute, block, marks ) => {
+export const getAnnotationsForFAQ = ( attribute, block, marks ) => {
 	const annotatableTexts = block.attributes[ attribute.key ];
 	if ( annotatableTexts.length === 0 ) {
 		return [];
@@ -477,7 +477,7 @@ const getAnnotationsForFAQ = ( attribute, block, marks ) => {
  *
  * @returns {Array} The created annotations for Yoast How-To block.
  */
-const getAnnotationsForHowTo = ( attribute, block, marks ) => {
+export const getAnnotationsForHowTo = ( attribute, block, marks ) => {
 	const annotatableTexts = block.attributes[ attribute.key ];
 	if ( annotatableTexts.length === 0 ) {
 		return [];
@@ -489,32 +489,15 @@ const getAnnotationsForHowTo = ( attribute, block, marks ) => {
 	if ( attribute.key === "jsonDescription" ) {
 		// Filter out marks that are intended for the "steps" attribute above.
 		marks = marks.filter( mark => {
-			return mark.hasBlockPosition() && ! mark.getBlockAttributeId();
+			if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
+				return ! mark.getBlockAttributeId();
+			}
+			return mark;
 		} );
 		annotations.push( createAnnotations( annotatableTexts, "description", attribute, block, marks ) );
 	}
 	return flattenDeep( annotations );
 };
-
-/**
- * Gets the annotations for Yoast FAQ block and Yoast How-To block.
- *
- * @param {Object} attribute The attribute to apply annotations to.
- * @param {Object} block     The block information in the state.
- * @param {Array}  marks     The marks to turn into annotations.
- *
- * @returns {Array} An array of annotations for Yoast blocks.
- */
-export function getAnnotationsForYoastBlock( attribute, block, marks ) {
-	// For Yoast FAQ and How-To blocks, we create separate annotation objects for each individual Rich Text found in the attribute.
-	if ( block.name === "yoast/faq-block" ) {
-		return getAnnotationsForFAQ( attribute, block, marks );
-	}
-	// The check for getting the annotations for Yoast How-To block.
-	if ( block.name === "yoast/how-to-block" ) {
-		return getAnnotationsForHowTo( attribute, block, marks );
-	}
-}
 
 /**
  * Gets the annotations for non-Yoast blocks.
