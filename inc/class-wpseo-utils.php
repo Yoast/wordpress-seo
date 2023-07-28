@@ -428,8 +428,7 @@ class WPSEO_Utils {
 	 * @since 1.8.0
 	 */
 	public static function clear_rewrites() {
-		// Flush the rewrite rules to immediately propagate the change through the site.
-		add_action( 'shutdown', 'flush_rewrite_rules' );
+		update_option( 'rewrite_rules', '' );
 	}
 
 	/**
