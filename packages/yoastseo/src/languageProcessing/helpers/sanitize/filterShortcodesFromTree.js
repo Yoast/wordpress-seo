@@ -48,10 +48,11 @@ const tokenIsPartOfClosingShortcode = ( tokens, index ) => {
  * @param {Token[]} tokens The tokens to check.
  * @param {number} index The index of the current token.
  * @param {string[]} shortcodeTags An array of active shortcode tags.
+ * @param {boolean} encounteredClosingBracket Whether a closing bracket has been encountered (while looping backwards through the tokens).
  * @returns {boolean} Whether the token is part of a shortcode.
  */
-const tokenIsShortcode = ( tokens, index, shortcodeTags ) => {
-	return shortcodeTags.includes( tokens[ index ].text ) &&
+const tokenIsShortcode = ( tokens, index, shortcodeTags, encounteredClosingBracket ) => {
+	return encounteredClosingBracket && shortcodeTags.includes( tokens[ index ].text ) &&
 		( tokenIsPartOfOpeningShortcode( tokens, index ) || tokenIsPartOfClosingShortcode( tokens, index )  );
 };
 
@@ -65,17 +66,22 @@ const tokenIsShortcode = ( tokens, index, shortcodeTags ) => {
  */
 const filterShortcodesFromSentence = ( sentence, shortcodeTags, shortcodeTagsRegex ) => {
 	const tokens = sentence.tokens;
+
+	let encounteredClosingBracket = false;
 	// traverse through tokens backwards
 	for ( let i = tokens.length - 1; i >= 0; i-- ) {
-		if ( tokenIsShortcode( tokens, i, shortcodeTags ) ) {
+		if ( tokens[ i ].text === "]" ) {
+			encounteredClosingBracket = true;
+		}
+
+		if ( tokenIsShortcode( tokens, i, shortcodeTags, encounteredClosingBracket ) ) {
 			while ( tokens[ i ].text !== "]" ) {
 				tokens.splice( i, 1 );
 			}
 			tokens.splice( i, 1 );
+			encounteredClosingBracket = false;
 
-			// console.log(  "after splice 1: ", tokens );
-
-			while ( "[/".includes( tokens[ i - 1 ].text ) ) {
+			while ( tokens[ i - 1 ] && "[/".includes( tokens[ i - 1 ].text ) ) {
 				tokens.splice( i - 1, 1 );
 				i--;
 			}

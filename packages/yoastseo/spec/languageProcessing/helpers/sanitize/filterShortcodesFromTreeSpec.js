@@ -382,6 +382,46 @@ describe( "filterShortcodesFromTree", function() {
 			{ text: "." },
 		] );
 	} );
+	it( "should not filter a shortcode if there is no closing bracket", function() {
+		const tree = {
+			sentences: [
+				{
+					text: "This is a [shortcode test.",
+					tokens: [
+						{ text: "This" },
+						{ text: " " },
+						{ text: "is" },
+						{ text: " " },
+						{ text: "a" },
+						{ text: " " },
+						{ text: "[" },
+						{ text: "shortcode" },
+						{ text: " " },
+						{ text: "test" },
+						{ text: "." },
+					],
+				},
+			],
+		};
+
+		const shortcodes = [ "shortcode" ];
+
+		filterShortcodesFromTree( tree, shortcodes );
+
+		expect( tree.sentences[ 0 ].tokens ).toEqual( [
+			{ text: "This" },
+			{ text: " " },
+			{ text: "is" },
+			{ text: " " },
+			{ text: "a" },
+			{ text: " " },
+			{ text: "[" },
+			{ text: "shortcode" },
+			{ text: " " },
+			{ text: "test" },
+			{ text: "." },
+		] );
+	} );
 } );
 
 
