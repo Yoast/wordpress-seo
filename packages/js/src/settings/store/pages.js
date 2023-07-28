@@ -1,7 +1,7 @@
 /* eslint-disable camelcase, complexity */
 import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
 import apiFetch from "@wordpress/api-fetch";
-import { __ } from "@wordpress/i18n";
+import { decodeEntities } from "@wordpress/html-entities";
 import { buildQueryString } from "@wordpress/url";
 import { map, trim, pickBy } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
@@ -33,13 +33,13 @@ export function* fetchPages( queryData ) {
 
 /**
  * @param {Object} page The page.
- * @returns {Object} The prepared and predictable user.
+ * @returns {Object} The prepared and predictable page.
  */
 const preparePage = page => (
 	{
 		id: page?.id,
 		// Fallbacks for page title, because we always need something to show.
-		name: trim( page?.title.rendered ) || page?.slug || page.id,
+		name: decodeEntities( trim( page?.title.rendered ) ) || page?.slug || page.id,
 		slug: page?.slug,
 		"protected": page?.content?.protected,
 	} );
@@ -90,8 +90,7 @@ pageSelectors.selectPagesWith = createSelector(
 		( state, additionalPage = {} ) => additionalPage,
 	],
 	( pages, additionalPage ) => {
-		const none = { id: 0, name: __( "None", "wordpress-seo" ), slug: null, "protected": null };
-		const additionalPages = { 0: none };
+		const additionalPages = {};
 		additionalPage.forEach( page => {
 			if ( page?.id && ! pages[ page.id ] ) {
 				// Add the additional page.
