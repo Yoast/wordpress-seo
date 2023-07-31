@@ -184,7 +184,7 @@ class Introductions_Integration_Test extends TestCase {
 		// Enqueueing.
 		$this->admin_asset_manager->expects( 'enqueue_script' )->once()->with( 'introductions' );
 		$this->expect_localized_data_for( $introductions );
-		$this->admin_asset_manager->expects( 'enqueue_style' )->once()->with( 'ai-generator' );
+		$this->admin_asset_manager->expects( 'enqueue_style' )->once()->with( 'introductions' );
 
 		$this->instance->enqueue_assets();
 	}
@@ -243,7 +243,7 @@ class Introductions_Integration_Test extends TestCase {
 		// Enqueueing.
 		$this->admin_asset_manager->expects( 'enqueue_script' )->once()->with( 'introductions' );
 		$this->expect_localized_data_for( $introductions );
-		$this->admin_asset_manager->expects( 'enqueue_style' )->once()->with( 'ai-generator' );
+		$this->admin_asset_manager->expects( 'enqueue_style' )->once()->with( 'introductions' );
 
 		$this->instance->enqueue_assets();
 	}
