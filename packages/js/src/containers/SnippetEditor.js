@@ -6,6 +6,8 @@ import { LocationConsumer } from "@yoast/externals/contexts";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
 import { applyReplaceUsingPlugin } from "../helpers/replacementVariableHelpers";
 import getMemoizedFindCustomFields from "../helpers/getMemoizedFindCustomFields";
+import WooCommerceUpsell from "../components/WooCommerceUpsell";
+import { get } from "lodash";
 
 /**
  * Process the snippet editor form data before it's being displayed in the snippet preview.
@@ -47,24 +49,31 @@ export const mapEditorDataToPreview = function( data, context ) {
  *
  * @returns {wp.Element} The component.
  */
-const SnippetEditorWrapper = ( props ) => (
-	<LocationConsumer>
+const SnippetEditorWrapper = ( props ) => {
+	const woocommerceUpsellLink = get( window, "wpseoScriptData.metabox.woocommerceUpsellGooglePreviewLink", "" );
+	const woocommerceUpsell = get( window, "wpseoScriptData.woocommerceUpsell", "" );
+	const woocommerceUpsellText = __( "Want an enhanced Google preview of how your WooCommerce products look in the search results?", "wordpress-seo" );
+
+	return <LocationConsumer>
 		{ location =>
 			<SnippetPreviewSection
 				icon="eye"
 				hasPaperStyle={ props.hasPaperStyle }
 			>
-				<SnippetEditor
-					{ ...props }
-					descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
-					mapEditorDataToPreview={ mapEditorDataToPreview }
-					showCloseButton={ false }
-					idSuffix={ location }
-				/>
+				<>
+					{ woocommerceUpsell && <WooCommerceUpsell link={ woocommerceUpsellLink } text={ woocommerceUpsellText } /> }
+					<SnippetEditor
+						{ ...props }
+						descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
+						mapEditorDataToPreview={ mapEditorDataToPreview }
+						showCloseButton={ false }
+						idSuffix={ location }
+					/>
+				</>
 			</SnippetPreviewSection>
 		}
-	</LocationConsumer>
-);
+	</LocationConsumer>;
+};
 
 /**
  * Maps the select function to props.
