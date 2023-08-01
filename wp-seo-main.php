@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '20.13-RC1' );
+define( 'WPSEO_VERSION', '20.13-RC2' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -35,7 +35,7 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '7.2.5' );
-define( 'YOAST_SEO_WP_TESTED', '6.2.2' );
+define( 'YOAST_SEO_WP_TESTED', '6.3' );
 define( 'YOAST_SEO_WP_REQUIRED', '6.1' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
@@ -201,14 +201,16 @@ function _wpseo_activate() {
 	}
 	WPSEO_Options::ensure_options_exist();
 
-	$is_multisite_deactivation = is_multisite() && ms_is_switched();
-
-	if ( ! $is_multisite_deactivation && WPSEO_Options::get( 'stripcategorybase' ) === true ) {
-		// Constructor has side effects so this registers all hooks.
-		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
+	if ( is_multisite() && ms_is_switched() ) {
+		update_option( 'rewrite_rules', '' );
 	}
-
-	add_action( 'shutdown', 'flush_rewrite_rules' );
+	else {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
+			// Constructor has side effects so this registers all hooks.
+			$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
+		}
+		add_action( 'shutdown', 'flush_rewrite_rules' );
+	}
 
 	WPSEO_Options::set( 'indexing_reason', 'first_install' );
 	WPSEO_Options::set( 'first_time_install', true );
@@ -241,7 +243,12 @@ function _wpseo_activate() {
 function _wpseo_deactivate() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
 
-	add_action( 'shutdown', 'flush_rewrite_rules' );
+	if ( is_multisite() && ms_is_switched() ) {
+		update_option( 'rewrite_rules', '' );
+	}
+	else {
+		add_action( 'shutdown', 'flush_rewrite_rules' );
+	}
 
 	// Register capabilities, to make sure they are cleaned up.
 	do_action( 'wpseo_register_roles' );

@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 6.2
+Tested up to: 6.3
 Stable tag: 20.12
 Requires PHP: 7.2.5
 
@@ -248,10 +248,6 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 20.13 =
 
 Release date: 2023-08-08
-
-#### Bugfixes
-
-* Fixes a bug where 404 responses would occur when updating or deactivating the plugin because of incorrect flushing of the rewrite rules.
 
 #### Other
 
