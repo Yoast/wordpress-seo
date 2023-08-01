@@ -18,7 +18,8 @@
   },
   "files": [
     "build/**/*",
-    "vendor"
+    "vendor",
+    "images"
   ],
   "scripts": {
     "build": "yarn clean && yarn build:js",
