@@ -6,7 +6,7 @@ import { AiGenerateTitlesAndDescriptionsUpsell } from "../../shared-admin/compon
  */
 export const ModalContent = () => {
 	const imageLink = useSelect( select => select( "yoast-seo/editor" ).selectImageLink( "ai-generator-preview.png" ), [] );
-	const learnMoreLink = useSelect( select => select( "yoast-seo/editor" ).selectLink( "https://www.yoa.st/ai-generator-learn-more" ), [] );
+	const learnMoreLink = useSelect( select => select( "yoast-seo/editor" ).selectLink( "https://yoa.st/ai-generator-learn-more" ), [] );
 	const upsellLink = useSelect( select => select( "yoast-seo/editor" ).selectLink( "https://yoa.st/ai-generator-upsell" ), [] );
 
 	return (
