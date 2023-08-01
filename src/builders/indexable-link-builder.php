@@ -108,6 +108,7 @@ class Indexable_Link_Builder {
 	 * @return SEO_Links[] The created SEO links.
 	 */
 	public function build( $indexable, $content ) {
+		$start = microtime(true);
 		global $post;
 		if ( $indexable->object_type === 'post' ) {
 			$post_backup = $post;
@@ -136,6 +137,10 @@ class Indexable_Link_Builder {
 		$this->update_related_indexables( $indexable, $links );
 
 		$indexable->link_count = $this->get_internal_link_count( $links );
+
+		$end = microtime(true);
+		$elapsed = $end - $start;
+		error_log( $elapsed );
 
 		return $links;
 	}
@@ -326,11 +331,12 @@ class Indexable_Link_Builder {
 	 * @return int[] An associated array of image IDs, keyed by their URLs.
 	 */
 	protected function gather_images( $content ) {
-		if ( class_exists( WP_HTML_Tag_Processor::class ) ) {
+		$parse_content = \apply_filters('wpseo_force_creating_and_using_attachment_indexables', false );
+		if ( $parse_content && class_exists( WP_HTML_Tag_Processor::class ) ) {
 			return $this->gather_images_wp( $content );
 		}
 
-		if ( class_exists( DOMDocument::class ) ) {
+		if ( $parse_content && class_exists( DOMDocument::class ) ) {
 			return $this->gather_images_DOMDocument( $content );
 		}
 
@@ -441,7 +447,7 @@ class Indexable_Link_Builder {
 		if ( $model->type === SEO_Links::TYPE_INTERNAL_IMAGE ) {
 			$permalink = $this->build_permalink( $url, $home_url );
 
-			if ( ! $this->options_helper->get( 'disable-attachment' ) ) {
+			if ( ! $this->options_helper->get( 'disable-attachment' ) || \apply_filters('wpseo_force_creating_and_using_attachment_indexables', false ) ) {
 				$model = $this->enhance_link_from_indexable( $model, $permalink );
 			}
 			else {
