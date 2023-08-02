@@ -1,280 +1,26 @@
 import { flatMap, flattenDeep } from "lodash";
 import { create } from "@wordpress/rich-text";
-
-export const START_MARK = "<yoastmark class='yoast-text-mark'>";
-export const END_MARK = "</yoastmark>";
-
-const START_MARK_DOUBLE_QUOTED = "<yoastmark class=\"yoast-text-mark\">";
-
-/*
- * The regex to detect html tags.
- * Please note that this regex will also detect non-html tags that are also wrapped in  `<>`.
- * For example, in the following sentence, <strong class="">cats <dogs> rabbit </strong>,
- * we will match <strong class="">, <dogs> and </strong>. This is an edge case though.
- * @type {RegExp}
- */
-const htmlTagsRegex = /(<([a-z]|\/)[^<>]+>)/ig;
-
-/**
- * The regex to capture the first section of a Yoast sub-block.
- * @type {RegExp}
- */
-const firstSectionRegex = /(<strong class=["'](schema-faq-question|schema-how-to-step-name)["']>)(.*?)(<\/strong>)/gis;
-
-/**
- * Returns the offsets of the <yoastmark> occurrences in the given mark.
- * A helper for search-based highlighting.
- *
- * @param {string} marked The mark object to calculate offset for.
- *
- * @returns {Array<{startOffset: number, endOffset: number}>} The start and end indices for this mark.
- */
-export function getYoastmarkOffsets( marked ) {
-	let startMarkIndex = marked.indexOf( START_MARK );
-
-	// Checks if the start mark is single quoted.
-	// Note: if doesNotContainDoubleQuotedMark is true, this does necessary mean that the start mark is single quoted.
-	// It could also be that the start mark doesn't occur at all in startMarkIndex.
-	// In that case, startMarkIndex will be -1 during later tests.
-	const doesNotContainDoubleQuotedMark = startMarkIndex >= 0;
-
-	// If the start mark is not found, try the double-quoted version.
-	if ( ! doesNotContainDoubleQuotedMark ) {
-		startMarkIndex = marked.indexOf( START_MARK_DOUBLE_QUOTED );
-	}
-
-	let endMarkIndex = null;
-
-	const offsets = [];
-
-	/**
-	 * Step by step search for a yoastmark-tag and its corresponding end tag. Each time a tag is found
-	 * it is removed from the string because the function should return the indexes based on the string
-	 * without the tags.
-	 */
-	while ( startMarkIndex >= 0 ) {
-		marked = doesNotContainDoubleQuotedMark ? marked.replace( START_MARK, "" ) : marked.replace( START_MARK_DOUBLE_QUOTED, "" );
-
-		endMarkIndex = marked.indexOf( END_MARK );
-
-		if ( endMarkIndex < startMarkIndex ) {
-			return [];
-		}
-		marked = marked.replace( END_MARK, "" );
-
-		offsets.push( {
-			startOffset: startMarkIndex,
-			endOffset: endMarkIndex,
-		} );
-
-		startMarkIndex = doesNotContainDoubleQuotedMark ? marked.indexOf( START_MARK ) : marked.indexOf( START_MARK_DOUBLE_QUOTED );
-
-		endMarkIndex = null;
-	}
-
-	return offsets;
-}
-
-/**
- * Finds all indices for a given string in a text.
- * A helper for search-based highlighting.
- *
- * @param {string}  text          Text to search through.
- * @param {string}  stringToFind  Text to search for.
- * @param {boolean} caseSensitive True if the search is case-sensitive.
- *
- * @returns {Array} All indices of the found occurrences.
- */
-export function getIndicesOf( text, stringToFind, caseSensitive = true ) {
-	const indices = [];
-	if ( text.length  === 0 ) {
-		return indices;
-	}
-
-	let searchStartIndex = 0;
-	let index;
-
-	if ( ! caseSensitive ) {
-		stringToFind = stringToFind.toLowerCase();
-		text = text.toLowerCase();
-	}
-
-	while ( ( index = text.indexOf( stringToFind, searchStartIndex ) ) > -1 ) {
-		indices.push( index );
-		searchStartIndex = index + stringToFind.length;
-	}
-
-	return indices;
-}
-
-/**
- * Calculates an annotation if the given mark is applicable to the content of a block.
- * A helper for search-based highlighting.
- *
- * @param {string} text The content of the block.
- * @param {Mark}   mark The mark to apply to the content.
- *
- * @returns {Array} The annotations to apply.
- */
-export function calculateAnnotationsForTextFormat( text, mark ) {
-	/*
-	 * Remove all tags from the original sentence.
-	 *
-     * A cool <b>keyword</b>. => A cool keyword.
-	 */
-	const originalSentence = mark.getOriginal().replace( /(<([^>]+)>)/ig, "" );
-	/*
-	 * Remove all tags except yoastmark tags from the marked sentence.
-	 *
-     * A cool <b><yoastmark>keyword</yoastmark></b>. => A cool <yoastmark>keyword</yoastmark>
-	 */
-	const markedSentence = mark.getMarked().replace( /(<(?!\/?yoastmark)[^>]+>)/ig, "" );
-	/*
-	 * A sentence can occur multiple times in a text, therefore we calculate all indices where
-	 * the sentence occurs. We then calculate the marker offsets for a single sentence and offset
-	 * them with each sentence index.
-	 *
-	 * ( "A cool text. A cool keyword.", "A cool keyword." ) => [ 13 ]
-	 */
-	const sentenceIndices = getIndicesOf( text, originalSentence );
-
-	if ( sentenceIndices.length === 0 ) {
-		return [];
-	}
-
-	/*
-	 * Calculate the mark offsets within the sentence that the current mark targets.
-	 *
-	 * "A cool <yoastmark>keyword</yoastmark>." => [ { startOffset: 7, endOffset: 14 } ]
-	 */
-	const yoastmarkOffsets = getYoastmarkOffsets( markedSentence );
-
-	const blockOffsets = [];
-
-	/*
-	 * The offsets array holds all start- and endtag offsets for a single sentence. We now need
-	 * to apply all sentence offsets to each offset to properly map them to the blocks content.
-	 */
-	yoastmarkOffsets.forEach( ( yoastmarkOffset ) => {
-		sentenceIndices.forEach( sentenceIndex => {
-			/*
-			 * The yoastmarkOffset.startOffset and yoastmarkOffset.endOffset are offsets of the <yoastmark>
-			 * relative to the start of the Mark object. The sentenceIndex is the index form the start of the
-			 * RichText until the matched Mark, so to calculate the offset from the RichText to the <yoastmark>
-			 * we need to add those offsets.
-			 *
-			 * startOffset = ( sentenceIndex ) 13 + ( yoastmarkOffset.startOffset ) 7 = 20
-			 * endOffset =   ( sentenceIndex ) 13 + ( yoastmarkOffset.endOffset ) 14  = 27
-			 *
-			 * "A cool text. A cool keyword."
-			 *      ( startOffset ) ^20   ^27 ( endOffset )
-			 */
-			const startOffset = sentenceIndex + yoastmarkOffset.startOffset;
-			let endOffset = sentenceIndex + yoastmarkOffset.endOffset;
-
-			/*
-			 * If the marks are at the beginning and the end we can use the length, which gives more
-			 * consistent results given we strip HTML tags.
-			 */
-			if ( yoastmarkOffset.startOffset === 0 && yoastmarkOffset.endOffset === mark.getOriginal().length ) {
-				endOffset = sentenceIndex + originalSentence.length;
-			}
-
-			blockOffsets.push( {
-				startOffset,
-				endOffset,
-			} );
-		} );
-	} );
-	return blockOffsets;
-}
-
-/**
- * Creates an annotation if the given mark is position based.
- * A helper for position-based highlighting.
- *
- * @param {string} blockClientId	The client id of the block.
- * @param {Mark}   mark				The mark to apply to the content.
- * @param {string} blockHtml		The HTML of the block: possibly contains html tags.
- * @param {string} richText			The rich text of the block: the text without html tags.
- *
- * @returns {Array} The annotations to apply.
- */
-export function createAnnotationsFromPositionBasedMarks( blockClientId, mark, blockHtml, richText ) {
-	// If the block client id is the same as the mark's block client id, it means that this mark object is intended for this block.
-	if ( blockClientId === mark.getBlockClientId() ) {
-		let blockStartOffset = mark.getBlockPositionStart();
-		let blockEndOffset = mark.getBlockPositionEnd();
-
-		// Get the html part from the block start offset of the mark until the block end offset of the mark.
-		const slicedHtml = blockHtml.slice( blockStartOffset, blockEndOffset );
-		// Get the rich text part from the block start offset of the mark until the block end offset of the mark.
-		const slicedRichText = richText.slice( blockStartOffset, blockEndOffset );
-
-		/*
-		 * If the html and the rich text contain the same text in the specified index,
-		 * don't adjust the block start and end offsets of the mark.
-		 * If the html and the rich text do not contain the same text in the specified index,
-		 * adjust the block start and end offsets of the mark.
-		 */
-		if ( slicedHtml === slicedRichText ) {
-			return [
-				{
-					startOffset: blockStartOffset,
-					endOffset: blockEndOffset,
-				},
-			];
-		}
-
-		// Retrieve the html from the start until the block startOffset of the mark.
-		blockHtml = blockHtml.slice( 0, blockStartOffset );
-
-		// Find all html tags.
-		const foundHtmlTags = [ ...blockHtml.matchAll( htmlTagsRegex ) ];
-		/*
-		 * Loop through the found html tags backwards, and adjust the start and end offsets of the mark
-		 * by subtracting them with the length of the found html tags.
-		 *
-		 * This step is necessary to account for the difference in the way we "parse" the block and calculate the token position
-		 * between `yoastseo` package and block annotation API.
-		 * Inside `yoastseo`, the token's position information also takes into account all the HTML tags surrounding it in a block.
-		 * However, the block annotation API applies annotations to "clean" text/html without any HTML tags.
-		 * As a result, the token position information we retrieve from `yoastseo` wouldn't match that of block annotation API.
-		 */
-		for ( let i = foundHtmlTags.length - 1; i >= 0; i-- ) {
-			const [ foundTag ] = foundHtmlTags[ i ];
-
-			blockStartOffset -= foundTag.length;
-			blockEndOffset -= foundTag.length;
-		}
-		return [
-			{
-				startOffset: blockStartOffset,
-				endOffset: blockEndOffset,
-			},
-		];
-	}
-	return [];
-}
+import { createAnnotationsFromPositionBasedMarks } from "./positionBasedAnnotationHelper";
+import { calculateAnnotationsForTextFormat } from "./searchBasedAnnotationHelper";
 
 /**
  * Creates the annotations for a block.
  *
- * @param {string} html					The string where we want to apply the annotations.
- * @param {string} richTextIdentifier	The identifier for the annotatable rich text.
- * @param {Object} attribute			The attribute to apply annotations to.
- * @param {Object} block				The block information in the state.
- * @param {Mark[]} marks				The marks to turn into annotations.
+ * @param {string} html								The string where we want to apply the annotations.
+ * @param {string} richTextIdentifier				The identifier for the annotatable rich text.
+ * @param {Object} attributeWithAnnotationSupport	The attribute we have annotation support for.
+ * @param {Object} block							The block object from the editor.
+ * @param {Mark[]} marks							The marks to turn into annotations.
  *
  * @returns {Array}  An array of annotations for a specific block.
  */
-function createAnnotations( html, richTextIdentifier, attribute, block, marks ) {
+function createAnnotations( html, richTextIdentifier, attributeWithAnnotationSupport, block, marks ) {
 	const blockClientId = block.clientId;
 
 	const record = create( {
 		html: html,
-		multilineTag: attribute.multilineTag,
-		multilineWrapperTag: attribute.multilineWrapperTag,
+		multilineTag: attributeWithAnnotationSupport.multilineTag,
+		multilineWrapperTag: attributeWithAnnotationSupport.multilineWrapperTag,
 	} );
 
 	const richText = record.text;
@@ -308,52 +54,90 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks ) 
  * Adjusts the block start and end offset for a given mark.
  *
  * @param {Mark}	mark				The Mark object to adjust.
- * @param {Object}	block				The block to get the original content from.
- * @param {String}	firstSectionHtml	The html of the first section of the sub-block.
+ * @param {String}	firstSectionOpenTag	The opening html tag that wraps the first section of a Yoast sub-block.
  *
  * @returns {Mark} The adjusted mark object.
  */
-const adjustBlockOffset = ( mark, block, firstSectionHtml ) => {
-	// Get the original content of the block, which still contains the html tags.
-	// The original content example for a Yoast FAQ block:
-	/*
-	 <div class="schema-faq wp-block-yoast-faq-block"><div class="schema-faq-section" id="faq-question-1689322642789">
-	 <strong class="schema-faq-question">What is giant panda</strong>
-	 <p class="schema-faq-answer">Giant <strong>panda</strong> is test tests</p> </div>
-	 <div class="schema-faq-section" id="faq-question-1689322667728"><strong class="schema-faq-question">Test</strong>
-	 <p class="schema-faq-answer">Tests</p> </div> <div class="schema-faq-section" id="faq-question-1689936392675">
-	 <strong class="schema-faq-question">giant panda is silly</strong> <p class="schema-faq-answer"></p> </div> </div>
-	 */
-	const originalContent = block.originalContent;
-
-	/*
-	 * From the original content, get all the first sections of the sub-block.
-	 *
-	 * Example of the first section of a Yoast FAQ sub-block from the original content above:
-	 * 1. <strong className="schema-faq-question">What is giant panda</strong>
-	 * 2. <strong class="schema-faq-question">Test</strong>
-	 * 3. <strong class="schema-faq-question">giant panda is silly</strong>
-	 */
-	const firstSectionElements = originalContent ? [ ...originalContent.matchAll( firstSectionRegex ) ] : [];
-
-	if ( firstSectionElements.length === 0 ) {
-		return mark;
-	}
-
+const adjustBlockOffset = ( mark, firstSectionOpenTag ) => {
 	const startOffset = mark.getBlockPositionStart();
 	const endOffset = mark.getBlockPositionEnd();
 
-	firstSectionElements.forEach( firstSectionElement => {
-		// Destructure the matched element based on the capturing groups.
-		const [ , openTag, , innerText ] = firstSectionElement;
-
-		if ( innerText === firstSectionHtml ) {
-			mark.setBlockPositionStart( startOffset - openTag.length );
-			mark.setBlockPositionEnd( endOffset - openTag.length );
-		}
-	} );
+	mark.setBlockPositionStart( startOffset - firstSectionOpenTag.length );
+	mark.setBlockPositionEnd( endOffset - firstSectionOpenTag.length );
 
 	return mark;
+};
+
+/**
+ * Gets the key name for a given identifier by making the first letter of the identifier capitalized.
+ *
+ * @param {string} identifier The identifier to get the key name for.
+ *
+ * @returns {string} The key name for the given identifier.
+ */
+const getKeyName = ( identifier ) => {
+	return identifier[ 0 ].toUpperCase() + identifier.slice( 1 );
+};
+
+/**
+ * Retrieves the array of Mark objects for a Yoast sub-block.
+ *
+ * @param {Mark[]} marks				An array of Mark objects.
+ * @param {Object} annotatableAttribute	An annotatable attribute from a Yoast block.
+ * @param {string} firstSectionKeyName	The key name for the first section of a Yoast sub-block.
+ *
+ * @returns {{marksForFirstSection: Mark[], marksForSecondSection: Mark[]}}	The filtered array of Mark objects.
+ */
+const getMarksForYoastBlock = ( marks, annotatableAttribute, firstSectionKeyName ) => {
+	let marksForFirstSection = marks.filter( mark => {
+		if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
+			// Filter the marks array and only include the marks that are intended for the first sub-block section.
+			return mark.getBlockAttributeId() === annotatableAttribute.id && mark.isMarkForFirstBlockSection();
+		}
+		return mark;
+	} );
+
+	/*
+	 * For the first section marks, we need to adjust the block start and end offset.
+	 *
+	 * This is because the first section of a Yoast block is always wrapped in `<strong>` tags.
+	 * In `yoastseo`, when calculating the position information of the matched token, we also take
+	 * into account the length of `<strong>` tags.
+	 * However, here, the html for the first section doesn't include the `<strong>` tags.
+	 * As a result, the position information of the matched token will be incorrect.
+	 * Hence, the block start and end offset of the mark object will be subtracted by the length
+	 * of the opening of the `<strong>` tag.
+	 */
+	marksForFirstSection = marksForFirstSection.map( mark => {
+		if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
+			/*
+			 * Get the opening html tag for the first section of a Yoast sub-block.
+			 *
+			 * The Yoast sub-block's first section is always wrapped in `<strong>` tag with the following class name:
+			 * - For Yoast FAQ block, the class name is "schema-faq-question",
+			 * - For Yoast How-To block, the class name is "schema-how-to-step-name",
+			 */
+			const firstSectionOpenTag = firstSectionKeyName === "Question"
+				? "<strong class=\"schema-faq-question\">"
+				: "<strong class=\"schema-how-to-step-name\">";
+
+			return adjustBlockOffset( mark, firstSectionOpenTag );
+		}
+		return mark;
+	} );
+
+	const marksForSecondSection = marks.filter( mark => {
+		if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
+			// Filter the marks array and only include the marks that are intended for the second sub-block section.
+			return mark.getBlockAttributeId() === annotatableAttribute.id && ! mark.isMarkForFirstBlockSection();
+		}
+		return mark;
+	} );
+
+	return {
+		marksForFirstSection,
+		marksForSecondSection,
+	};
 };
 
 /**
@@ -370,123 +154,91 @@ const adjustBlockOffset = ( mark, block, firstSectionHtml ) => {
  *     }
  * }
  *
- * @param {Object[]}	array			An array of annotatable block attribute.
- * @param {Mark[]}		marks			An array mark object to create annotations for.
- * @param {Object}		attribute		The attribute to apply annotations to.
- * @param {Object}		block			The block information in the state.
- * @param {Array}		identifierPair	An array of identifier pair for the block.
+ * @param {Object[]}	annotatableAttributesFromBlock	An array of annotatable attributes from the block.
+ * @param {Mark[]}		marks							An array mark object to create annotations for.
+ * @param {Object}		attributeWithAnnotationSupport	The attribute we have annotation support for.
+ * @param {Object}		block							The block object from the editor.
+ * @param {Array}		identifierPair					An array of identifier pair for the block.
  * For example, the identifier pair for the FAQ block is `[ "question", "answer" ]`, in this order.
  *
  * @returns {Array} The annotations created for the block attribute.
  */
-const getAnnotationsFromArray = ( array, marks, attribute, block, identifierPair ) => {
-	array = array.map( item => {
+const getAnnotationsFromBlockAttributes = ( annotatableAttributesFromBlock, marks, attributeWithAnnotationSupport, block, identifierPair ) => {
+	annotatableAttributesFromBlock = annotatableAttributesFromBlock.map( annotatableAttribute => {
 		/*
-		 * Get the rich text identifier of the first section of the sub-block.
-		 *
-		 * The rich text identifier of the first section is always the sub-block id + "-question" for Yoast FAQ block
-		 * (in line with what we set in `packages/js/src/structured-data-blocks/faq/components/Question.js`), and
-		 * the sub-block id + "-name" for Yoast How-To block
-		 * (in line with what we set in `packages/js/src/structured-data-blocks/how-to/components/HowToStep.js`).
+ 		 * Get the rich text identifiers for the first and second section.
+ 		 * In case of a how-to block the first section is the name and the second section is the text explaining the step.
+ 		 * In case of a Q&A block, the first section is the question and the second section is the answer.
+ 		 *
+ 		 * The rich text identifier of the first section is always the sub-block id + "-question" for Yoast FAQ block
+ 		 * and the sub-block id + "-name" for Yoast How-To block.
+ 		 *
+ 		 * The rich text identifier of the second section is always the sub-block id + "-answer" for Yoast FAQ block
+ 		 * and the sub-block id + "-text" for Yoast How-To block.
+ 		 *
+ 		 * These values are set by us in `packages/js/src/structured-data-blocks/faq/components/Question.js` and
+ 		 * `packages/js/src/structured-data-blocks/how-to/components/HowToStep.js`.
 		 */
-		const firstSectionIdentifier = `${ item.id }-${ identifierPair[ 0 ] }`;
-		/*
-		 * Get the rich text identifier of the second section of the sub-block.
-		 *
-		 * The rich text identifier of the second section is always the sub-block id + "-answer" for Yoast FAQ block
-		 * (in line with what we set in `packages/js/src/structured-data-blocks/faq/components/Question.js`), and
-		 * the sub-block id + "-text" for Yoast How-To block
-		 * (in line with what we set in `packages/js/src/structured-data-blocks/how-to/components/HowToStep.js`).
-		 */
-		const secondSectionIdentifier = `${ item.id }-${ identifierPair[ 1 ] }`;
+		const firstSectionIdentifier = `${ annotatableAttribute.id }-${ identifierPair[ 0 ] }`;
+		const secondSectionIdentifier = `${ annotatableAttribute.id }-${ identifierPair[ 1 ] }`;
 
 		// Get the first item of the identifier pair and make the first letter uppercase, e.g. "question" -> "Question".
-		const firstSectionKeyName = identifierPair[ 0 ][ 0 ].toUpperCase() + identifierPair[ 0 ].slice( 1 );
+		const firstSectionKeyName = getKeyName( identifierPair[ 0 ] );
 		// Get the second item of the identifier pair and make the first letter uppercase, e.g. "answer" -> "Answer".
-		const secondSectionKeyName = identifierPair[ 1 ][ 0 ].toUpperCase() + identifierPair[ 1 ].slice( 1 );
+		const secondSectionKeyName = getKeyName( identifierPair[ 1 ] );
 
-		const firstSectionHtml = item[ `json${ firstSectionKeyName }` ];
-		const secondSectionHtml = item[ `json${ secondSectionKeyName }` ];
+		const firstSectionHtml = annotatableAttribute[ `json${ firstSectionKeyName }` ];
+		const secondSectionHtml = annotatableAttribute[ `json${ secondSectionKeyName }` ];
 
-		let marksForFirstSection = marks.filter( mark => {
-			if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
-				// Filter the marks array and only include the marks that are intended for the first sub-block section.
-				return mark.getBlockAttributeId() === item.id && mark.isMarkForFirstBlockSection();
-			}
-			return mark;
-		} );
-
-		/*
-		 * For the first section marks, we need to adjust the block start and end offset.
-		 *
-		 * This is because the first section of a Yoast block is always wrapped in `<strong>` tags.
-		 * In `yoastseo`, when calculating the position information of the matched token, we also take
-		 * into account the length of `<strong>` tags.
-		 * However, here, the html for the first section doesn't include the `<strong>` tags.
-		 * As a result, the position information of the matched token will be incorrect.
-		 */
-		marksForFirstSection = marksForFirstSection.map( mark => {
-			if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
-				return adjustBlockOffset( mark, block, firstSectionHtml );
-			}
-			return mark;
-		} );
-
-		const marksForSecondSection = marks.filter( mark => {
-			if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
-				// Filter the marks array and only include the marks that are intended for the second sub-block section.
-				return mark.getBlockAttributeId() === item.id && ! mark.isMarkForFirstBlockSection();
-			}
-			return mark;
-		} );
-
-
-		const firstSectionAnnotations = createAnnotations( firstSectionHtml, firstSectionIdentifier, attribute, block, marksForFirstSection );
-		const secondSectionAnnotations = createAnnotations( secondSectionHtml, secondSectionIdentifier, attribute, block, marksForSecondSection );
+		const { marksForFirstSection, marksForSecondSection } = getMarksForYoastBlock( marks, annotatableAttribute, firstSectionKeyName );
+		// eslint-disable-next-line max-len
+		const firstSectionAnnotations = createAnnotations( firstSectionHtml, firstSectionIdentifier, attributeWithAnnotationSupport, block, marksForFirstSection );
+		// eslint-disable-next-line max-len
+		const secondSectionAnnotations = createAnnotations( secondSectionHtml, secondSectionIdentifier, attributeWithAnnotationSupport, block, marksForSecondSection );
 
 		return firstSectionAnnotations.concat( secondSectionAnnotations );
 	} );
 
-	return flattenDeep( array );
+	return flattenDeep( annotatableAttributesFromBlock );
 };
 
 /**
  * Gets the annotations for Yoast FAQ block.
  *
- * @param {Object} attribute The attribute to apply annotations to.
- * @param {Object} block     The block information in the state.
- * @param {Array}  marks     The marks to turn into annotations.
+ * @param {Object} attributeWithAnnotationSupport	The attribute we have annotation support for.
+ * @param {Object} block	The block object from the editor.
+ * @param {Array}  marks	The marks to turn into annotations.
  *
  * @returns {Array} The created annotations for Yoast FAQ block.
  */
-export const getAnnotationsForFAQ = ( attribute, block, marks ) => {
-	const annotatableTexts = block.attributes[ attribute.key ];
-	if ( annotatableTexts.length === 0 ) {
+export const getAnnotationsForFAQ = ( attributeWithAnnotationSupport, block, marks ) => {
+	const annotatableTextsFromBlock = block.attributes[ attributeWithAnnotationSupport.key ];
+	if ( annotatableTextsFromBlock.length === 0 ) {
 		return [];
 	}
 
-	return getAnnotationsFromArray( annotatableTexts, marks, attribute, block, [ "question", "answer" ] );
+	return getAnnotationsFromBlockAttributes( annotatableTextsFromBlock, marks, attributeWithAnnotationSupport, block, [ "question", "answer" ] );
 };
 
 /**
  * Gets the annotations for Yoast How-To block.
  *
- * @param {Object} attribute The attribute to apply annotations to.
- * @param {Object} block     The block information in the state.
- * @param {Array}  marks     The marks to turn into annotations.
+ * @param {Object} attributeWithAnnotationSupport The attribute we have annotation support for.
+ * @param {Object} block	The block object from the editor.
+ * @param {Array}  marks	The marks to turn into annotations.
  *
  * @returns {Array} The created annotations for Yoast How-To block.
  */
-export const getAnnotationsForHowTo = ( attribute, block, marks ) => {
-	const annotatableTexts = block.attributes[ attribute.key ];
-	if ( annotatableTexts.length === 0 ) {
+export const getAnnotationsForHowTo = ( attributeWithAnnotationSupport, block, marks ) => {
+	const annotatableTextsFromBlock = block.attributes[ attributeWithAnnotationSupport.key ];
+	if ( annotatableTextsFromBlock.length === 0 ) {
 		return [];
 	}
 	const annotations = [];
-	if ( attribute.key === "steps" ) {
-		annotations.push( getAnnotationsFromArray( annotatableTexts, marks, attribute, block, [ "name", "text" ] ) );
+	if ( attributeWithAnnotationSupport.key === "steps" ) {
+		annotations.push( getAnnotationsFromBlockAttributes( annotatableTextsFromBlock, marks, attributeWithAnnotationSupport, block, [ "name", "text" ] ) );
 	}
-	if ( attribute.key === "jsonDescription" ) {
+	if ( attributeWithAnnotationSupport.key === "jsonDescription" ) {
 		// Filter out marks that are intended for the "steps" attribute above.
 		marks = marks.filter( mark => {
 			if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
@@ -494,7 +246,7 @@ export const getAnnotationsForHowTo = ( attribute, block, marks ) => {
 			}
 			return mark;
 		} );
-		annotations.push( createAnnotations( annotatableTexts, "description", attribute, block, marks ) );
+		annotations.push( createAnnotations( annotatableTextsFromBlock, "description", attributeWithAnnotationSupport, block, marks ) );
 	}
 	return flattenDeep( annotations );
 };
@@ -502,15 +254,15 @@ export const getAnnotationsForHowTo = ( attribute, block, marks ) => {
 /**
  * Gets the annotations for non-Yoast blocks.
  *
- * @param {Object} attribute The attribute to apply annotations to.
- * @param {Object} block     The block information in the state.
- * @param {Array}  marks     The marks to turn into annotations.
+ * @param {Object} attributeWithAnnotationSupport The attribute we have annotation support for.
+ * @param {Object} block	The block object from the editor.
+ * @param {Array}  marks	The marks to turn into annotations.
  *
  * @returns {Array} The annotations to apply.
  */
-export function getAnnotationsForWPBlock( attribute, block, marks ) {
-	const richTextIdentifier = attribute.key;
-	const html = block.attributes[ richTextIdentifier ];
+export function getAnnotationsForWPBlock( attributeWithAnnotationSupport, block, marks ) {
+	const richTextIdentifier = attributeWithAnnotationSupport.key;
+	const blockHtml = block.attributes[ richTextIdentifier ];
 
-	return createAnnotations( html, richTextIdentifier, attribute, block, marks );
+	return createAnnotations( blockHtml, richTextIdentifier, attributeWithAnnotationSupport, block, marks );
 }

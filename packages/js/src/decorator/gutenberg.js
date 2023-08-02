@@ -10,6 +10,9 @@ const ANNOTATION_SOURCE = "yoast";
 
 let annotationQueue = [];
 
+/**
+ * These are the array of attributes that we have annotation support for, for the specified block names.
+ */
 const ANNOTATION_ATTRIBUTES = {
 	"core/paragraph": [
 		{
@@ -68,7 +71,7 @@ const ANNOTATION_ATTRIBUTES = {
 			key: "questions",
 		},
 	],
-	// Note: for Yoast How-To block, there are actually two attribute keys that are annotatable: steps and jsonDescription.
+	// Note: for Yoast How-To block, there are two attribute keys that are annotatable: steps and jsonDescription.
 	"yoast/how-to-block": [
 		{
 			key: "steps",
@@ -143,12 +146,13 @@ export function isAnnotationAvailable() {
 }
 
 /**
- * Returns an array of all the attributes of which we can annotate text for, for a specific block type name.
+ * Returns an array of all the attributes of which we have annotation support for, for a specific block type name.
  *
  * @param {string} blockTypeName The name of the block type.
- * @returns {string[]} The attributes that we can annotate.
+ *
+ * @returns {string[]} The attributes that we have annotation support for.
  */
-function getAnnotatableAttributes( blockTypeName ) {
+function getAttributesWithAnnotationSupport( blockTypeName ) {
 	const activeMarker = select( "yoast-seo/editor" ).getActiveMarker();
 
 	const assessmentAttributes = ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES[ activeMarker ] || ANNOTATION_ATTRIBUTES;
@@ -205,38 +209,38 @@ function fillAnnotationQueue( annotations ) {
  * Gets the annotations for a single block.
  *
  * @param { Object } block The block for which the annotations need to be determined.
- * @param { Mark[] } marks A list of marks that could apply to the block.
+ * @param { Mark[] } marks A list of Mark objects that could apply to the block.
  *
  * @returns { Object[] } All annotations that need to be placed on the block.
  */
 const getAnnotationsForABlock = ( block, marks ) => {
 	return flatMap(
-		getAnnotatableAttributes( block.name ),
-		( ( attribute ) => {
+		getAttributesWithAnnotationSupport( block.name ),
+		( ( attributeWithAnnotationSupport ) => {
 			// Get the annotations for Yoast FAQ block.
 			if ( block.name === "yoast/faq-block" ) {
-				return getAnnotationsForFAQ( attribute, block, marks );
+				return getAnnotationsForFAQ( attributeWithAnnotationSupport, block, marks );
 			}
 			// Get the annotations for Yoast How-To block.
 			if ( block.name === "yoast/how-to-block" ) {
-				return getAnnotationsForHowTo( attribute, block, marks );
+				return getAnnotationsForHowTo( attributeWithAnnotationSupport, block, marks );
 			}
 			// Get the annotation for non-Yoast blocks.
-			return getAnnotationsForWPBlock( attribute, block, marks );
+			return getAnnotationsForWPBlock( attributeWithAnnotationSupport, block, marks );
 		} )
 	);
 };
 
 
 /**
- * Takes a list of blocks and matches those with a list of marks, in order to create an array of annotations.
+ * Get annotations for all blocks in the editor.
  *
  * NOTE: This is a recursive function! If a block has innerBlocks (children) it will recurse over them.
  *
- * @param {Object[]} blocks An array of block objects (or innerBlock objects) from the gutenberg editor.
- * @param {Mark[]} marks An array of Mark objects.
+ * @param {Object[]} blocks	An array of block objects (or innerBlock objects) from the gutenberg editor.
+ * @param {Mark[]} marks	An array of Mark objects from the analysis result.
  *
- * @returns {Object[]} An array of annotation objects.
+ * @returns {Object[]} An array of annotation objects for all blocks.
  */
 export function getAnnotationsForBlocks( blocks, marks ) {
 	return flatMap( blocks, ( block ) => {
