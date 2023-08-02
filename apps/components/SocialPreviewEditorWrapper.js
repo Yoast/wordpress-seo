@@ -54,7 +54,7 @@ class SocialPreviewEditorWrapper extends React.Component {
 	render() {
 		return (
 			<Container className="yoast">
-				<h2>Facebook</h2>
+				<h2>Social appearance</h2>
 				<SocialPreviewEditor
 					title={ this.state.title }
 					onTitleChange={ this.setTitle }
