@@ -51,7 +51,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						<p>
 							<?php
 							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-							\printf( \esc_html__( 'Be the first to get %1$snew features & tools%2$s, before everyone else. Get %1$s 24/7 support%2$s and boost your website’s visibility.', 'wordpress-seo' ), '<strong>', '</strong>' );
+							\printf( \esc_html__( 'Be more efficient in creating titles and meta descriptions with the help of AI. %1$sGet 24/7 support%2$s and boost your website’s visibility.', 'wordpress-seo' ), '<strong>', '</strong>' );
 							?>
 						</p>
 						<p class="plugin-buy-button">
