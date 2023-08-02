@@ -18,7 +18,7 @@ export const PremiumUpsellCard = ( { link, linkProps } ) => {
 	const info = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to opening and closing <strong> tags. */
-			__( "Be the first to get %1$snew features & tools%2$s, before everyone else. Get %1$s24/7 support%2$s and boost your website’s visibility.", "wordpress-seo" ),
+			__( "Be more efficient in creating titles and meta descriptions with the help of AI. %1$sGet 24/7 support%2$s and boost your website’s visibility.", "wordpress-seo" ),
 			"<strong>",
 			"</strong>"
 		),
