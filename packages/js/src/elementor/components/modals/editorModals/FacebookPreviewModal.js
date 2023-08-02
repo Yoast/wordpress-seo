@@ -13,7 +13,7 @@ import FacebookEditor from "../../../containers/FacebookEditor";
 const FacebookPreviewModal = () => {
 	return (
 		<EditorModal
-			title={ __( "Facebook preview", "wordpress-seo" ) }
+			title={ __( "Social appearance", "wordpress-seo" ) }
 			id="yoast-facebook-preview-modal"
 			shouldCloseOnClickOutside={ false }
 		>

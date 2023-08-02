@@ -65,7 +65,7 @@ class SocialPreviewEditorWrapper extends React.Component {
 					alt="Alt text"
 					imageUrl={ this.state.image }
 					imageFallbackUrl=""
-					socialMediumName={ "Facebook" }
+					socialMediumName={ "Social" }
 					// eslint-disable-next-line react/jsx-no-bind
 					onSelectImageClick={ () => this.setImage(
 						"https://www.yarrah.com/en/wp-content/uploads/sites/10/2019/01/Puppy-aanschaffen-header-800x600.png"
