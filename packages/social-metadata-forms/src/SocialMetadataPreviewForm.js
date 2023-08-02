@@ -23,14 +23,6 @@ const CaretContainer = styled.div`
 	position: relative;`
 ;
 
-const FragmentTitle = styled.legend`
-	margin: 8px 0;
-	padding: 0;
-	color: ${ colors.$color_headings };
-	font-size: 10px;
-	font-weight: 300;
-`;
-
 const SettingsNotice = styled.legend`
 	margin: 8px 0;
 	padding: 0;
@@ -202,8 +194,6 @@ class SocialMetadataPreviewForm extends Component {
 
 		return (
 			<Fragment>
-				<FragmentTitle>{ __( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, " +
-					"Threads, LinkedIn, Slack, and more.", "wordpress-seo" ) }</FragmentTitle>
 				<ImageSelectWithCaret
 					label={ imageSelectTitle }
 					onClick={ onSelectImageClick }
