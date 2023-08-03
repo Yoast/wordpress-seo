@@ -67,13 +67,18 @@ class Yoast_Admin_Conditional_Test extends TestCase {
 	public function test_is_met( $is_admin, $is_yoast_seo_page, $expected ) {
 		Functions\when( 'is_admin' )->justReturn( $is_admin );
 		$this->current_page_helper->expects( 'is_yoast_seo_page' )
-			->times( $is_admin ? 1 : 0 )
+			->times( ( $is_admin ) ? 1 : 0 )
 			->withNoArgs()
 			->andReturn( $is_yoast_seo_page );
 
 		$this->assertSame( $expected, $this->instance->is_met() );
 	}
 
+	/**
+	 * Provides the data for `test_is_met`.
+	 *
+	 * @return array The data.
+	 */
 	public function is_met_data() {
 		return [
 			'on a Yoast admin page'     => [
