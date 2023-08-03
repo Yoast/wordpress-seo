@@ -159,16 +159,16 @@ const InitialFocusComponent = () => {
 	const [ isOpen, setIsOpen ] = useState( false );
 	const openModal = useCallback( () => setIsOpen( true ), [] );
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
-	const centerElementRef = useRef( null );
+	const ref = useRef( null );
 
 	return (
 		<>
 			<Button onClick={ openModal }>Open modal</Button>
-			<RawModal isOpen={ isOpen } onClose={ closeModal } initialFocus={ centerElementRef }>
+			<RawModal isOpen={ isOpen } onClose={ closeModal } initialFocus={ ref }>
 				<RawModal.Panel>
 					<RawModal.Title>Title</RawModal.Title>
 					<RawModal.Description>Description area.</RawModal.Description>
-					<TextInput placeholder="This is where the focus should be." ref={ centerElementRef } />
+					<TextInput placeholder="This is where the focus should be." ref={ ref } />
 				</RawModal.Panel>
 			</RawModal>
 		</>
