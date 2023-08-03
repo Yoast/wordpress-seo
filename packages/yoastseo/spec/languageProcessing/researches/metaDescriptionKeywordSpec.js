@@ -3,8 +3,29 @@ import metaDescriptionKeyword from "../../../src/languageProcessing/researches/m
 import Paper from "../../../src/values/Paper.js";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
+import { testMetaDescriptionKeyphrase } from "./metaDescriptionTestHelper";
 
 const morphologyData = getMorphologyData( "en" );
+
+it( "should test whether there's a keyphrase in meta description (EN)", function() {
+	const testData = [
+		{ keyphrase: "water color painting techniques for beginners", description: "Explore essential watercolor painting techniques for beginners and transform your artwork with vibrant colors and innovative tools." },
+		{ keyphrase: "water color painting techniques for beginners", description: "Unlock your artistic potential with watercolor painting techniques for beginners, including vibrant colors and unconventional tools." },
+	];
+	testMetaDescriptionKeyphrase( testData, "en" );
+} );
+
+it( "should test whether there's a keyphrase in meta description (NL)", function() {
+	const testData = [
+	];
+	testMetaDescriptionKeyphrase( testData, "nl" );
+} );
+
+it( "should test whether there's a keyphrase in meta description (PL)", function() {
+	const testData = [
+	];
+	testMetaDescriptionKeyphrase( testData, "pl" );
+} );
 
 describe( "the metadescription keyword match research", function() {
 	it( "returns the number ( 1 ) of keywords found", function() {
