@@ -13,7 +13,7 @@ import TwitterEditor from "../../../containers/TwitterEditor";
 const TwitterPreviewModal = () => {
 	return (
 		<EditorModal
-			title={ __( "Twitter preview", "wordpress-seo" ) }
+			title={ __( "Twitter appearance", "wordpress-seo" ) }
 			id="yoast-twitter-preview-modal"
 			shouldCloseOnClickOutside={ false }
 		>

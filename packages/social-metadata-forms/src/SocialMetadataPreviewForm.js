@@ -27,8 +27,8 @@ const SettingsNotice = styled.legend`
 	margin: 8px 0;
 	padding: 0;
 	color: ${ colors.$color_headings };
-	font-size: 10px;
-	font-weight: 400;
+	font-size: 12px;
+	font-weight: 300;
 `;
 
 const Caret = styled.div`
@@ -191,7 +191,70 @@ class SocialMetadataPreviewForm extends Component {
 		const descEditorTitle = sprintf( __( "%s description", "wordpress-seo" ), socialMediumName );
 
 		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
-
+		if ( socialMediumName.toString() !== "Twitter" ) {
+			return (
+				<Fragment>
+					<ImageSelectWithCaret
+						label={ imageSelectTitle }
+						onClick={ onSelectImageClick }
+						onRemoveImageClick={ onRemoveImageClick }
+						warnings={ imageWarnings }
+						imageSelected={ imageSelected }
+						onMouseEnter={ this.onImageEnter }
+						onMouseLeave={ this.onLeave }
+						isActive={ activeField === "image" }
+						isHovered={ hoveredField === "image" }
+						imageUrl={ imageUrl }
+						imageAltText={ imageAltText }
+						hasPreview={ ! isPremium }
+						imageUrlInputId={ join( [ lowerCaseSocialMediumName, "url-input", idSuffix ] ) }
+						selectImageButtonId={ join( [ lowerCaseSocialMediumName, "select-button", idSuffix ] ) }
+						replaceImageButtonId={ join( [ lowerCaseSocialMediumName, "replace-button", idSuffix ] ) }
+						removeImageButtonId={ join( [ lowerCaseSocialMediumName, "remove-button", idSuffix ] ) }
+					/>
+					<ReplacementVariableEditor
+						onChange={ onTitleChange }
+						content={ title }
+						placeholder={ titleInputPlaceholder }
+						replacementVariables={ replacementVariables }
+						recommendedReplacementVariables={ recommendedReplacementVariables }
+						type="title"
+						fieldId={ join( [ lowerCaseSocialMediumName, "title-input", idSuffix ] ) }
+						label={ titleEditorTitle }
+						onMouseEnter={ this.onTitleEnter }
+						onMouseLeave={ this.onLeave }
+						onSearchChange={ onReplacementVariableSearchChange }
+						isActive={ activeField === "title" }
+						isHovered={ hoveredField === "title" }
+						withCaret={ true }
+						onFocus={ this.onSelectTitleEditor }
+						onBlur={ this.onDeselectEditor }
+						editorRef={ this.onTitleEditorRef }
+					/>
+					<ReplacementVariableEditor
+						onChange={ onDescriptionChange }
+						content={ description }
+						placeholder={ descriptionInputPlaceholder }
+						replacementVariables={ replacementVariables }
+						recommendedReplacementVariables={ recommendedReplacementVariables }
+						type="description"
+						fieldId={ join( [ lowerCaseSocialMediumName, "description-input", idSuffix ] ) }
+						label={ descEditorTitle }
+						onMouseEnter={ this.onDescriptionEnter }
+						onMouseLeave={ this.onLeave }
+						onSearchChange={ onReplacementVariableSearchChange }
+						isActive={ activeField === "description" }
+						isHovered={ hoveredField === "description" }
+						withCaret={ true }
+						onFocus={ this.onSelectDescriptionEditor }
+						onBlur={ this.onDeselectEditor }
+						editorRef={ this.onDescriptionEditorRef }
+					/>
+					<SettingsNotice>{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
+						"the 'Twitter appearance' settings below. If you leave these settings untouched, the 'Social appearance' settings " +
+						"mentioned above will also be applied for sharing on Twitter.", "wordpress-seo" ) }</SettingsNotice>
+				</Fragment> );
+		}
 		return (
 			<Fragment>
 				<ImageSelectWithCaret
@@ -250,9 +313,6 @@ class SocialMetadataPreviewForm extends Component {
 					onBlur={ this.onDeselectEditor }
 					editorRef={ this.onDescriptionEditorRef }
 				/>
-				<SettingsNotice>{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
-					"the 'Twitter appearance' settings below. If you leave these settings untouched, the 'Social appearance' settings mentioned " +
-					"above will also be applied for sharing on Twitter.", "wordpress-seo" ) }</SettingsNotice>
 			</Fragment>
 		);
 	}
