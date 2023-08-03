@@ -10,9 +10,9 @@ export default function( paper ) {
 	// Get all nodes that have a sentence property which is not an empty array.
 	const tree = paper.getTree().findAll( treeNode => !! treeNode.sentences );
 
-	return tree.flatMap( node => node.sentences.map( s => {
+	return tree.flatMap( node => node.sentences.map( sentence => {
 		return {
-			...s,
+			...sentence,
 			// The parent node's start offset is the start offset of the parent node if it doesn't have a `startTag` property.
 			parentStartOffset: node.sourceCodeLocation && ( ( node.sourceCodeLocation.startTag && node.sourceCodeLocation.startTag.endOffset ) ||
 				node.sourceCodeLocation.startOffset ) || 0,
