@@ -1,8 +1,10 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { get, omit } from "lodash";
 
+export const NOTIFICATIONS_NAME = "notifications";
+
 const slice = createSlice( {
-	name: "notifications",
+	name: NOTIFICATIONS_NAME,
 	initialState: {},
 	reducers: {
 		addNotification: {
@@ -20,7 +22,7 @@ const slice = createSlice( {
 					id: id || nanoid(),
 					variant,
 					size,
-					title,
+					title: title || "",
 					description,
 				},
 			} ),
@@ -32,10 +34,10 @@ const slice = createSlice( {
 export const getInitialNotificationsState = slice.getInitialState;
 
 export const notificationsSelectors = {
-	selectNotifications: ( state ) => get( state, "notifications", {} ),
-	selectNotification: ( state, id ) => get( state, `notifications.${ id }`, null ),
+	selectNotifications: ( state ) => get( state, NOTIFICATIONS_NAME, {} ),
+	selectNotification: ( state, id ) => get( state, [ NOTIFICATIONS_NAME, id ], null ),
 };
 
 export const notificationsActions = slice.actions;
 
-export default slice.reducer;
+export const notificationsReducer = slice.reducer;
