@@ -246,7 +246,7 @@ Mark.prototype.hasPosition = function() {
  * @returns {boolean} Returns true if the Mark object has block position information, false otherwise.
  */
 Mark.prototype.hasBlockPosition = function() {
-	return !! this.getBlockPositionStart && this.getBlockPositionStart() >= 0;
+	return !! this.getBlockPositionStart() && this.getBlockPositionStart() >= 0;
 };
 
 /**
