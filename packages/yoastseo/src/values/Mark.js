@@ -237,16 +237,18 @@ Mark.prototype.isValid = function() {
  * @returns {boolean} Returns true if the Mark object has position information, false otherwise.
  */
 Mark.prototype.hasPosition = function() {
-	return !! this.getPositionStart && this.getPositionStart();
+	return ! isUndefined( this.getPositionStart() );
 };
 
 
 /**
  * Checks if a mark has block position information available.
+ * A block has position information if the block start offset is available.
+ *
  * @returns {boolean} Returns true if the Mark object has block position information, false otherwise.
  */
 Mark.prototype.hasBlockPosition = function() {
-	return !! this.getBlockPositionStart() && this.getBlockPositionStart() >= 0;
+	return ! isUndefined( this.getBlockPositionStart() );
 };
 
 /**
