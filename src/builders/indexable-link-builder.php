@@ -326,7 +326,25 @@ class Indexable_Link_Builder {
 	 * @return int[] An associated array of image IDs, keyed by their URLs.
 	 */
 	protected function gather_images( $content ) {
+
+		/**
+		 * Filter 'wpseo_force_creating_and_using_attachment_indexables' - Filters if we should use attachment indexables to find all content images. Instead of scanning the content.
+		 *
+		 * The default value is false.
+		 *
+		 * @since 21.1
+		 */
 		$should_not_parse_content = \apply_filters( 'wpseo_force_creating_and_using_attachment_indexables', false );
+
+		/**
+		 * Filter 'wpseo_force_skip_image_content_parsing' - Filters if we should force skip scanning the content to parse images.
+		 * This filter can be used if the regex gives a faster result than scanning the code.
+		 *
+		 * The default value is false.
+		 *
+		 * @since 21.1
+		 */
+		$should_not_parse_content = \apply_filters( 'wpseo_force_skip_image_content_parsing', $should_not_parse_content );
 		if ( ! $should_not_parse_content && class_exists( WP_HTML_Tag_Processor::class ) ) {
 			return $this->gather_images_wp( $content );
 		}
@@ -442,6 +460,7 @@ class Indexable_Link_Builder {
 		if ( $model->type === SEO_Links::TYPE_INTERNAL_IMAGE ) {
 			$permalink = $this->build_permalink( $url, $home_url );
 
+			/** The `wpseo_force_creating_and_using_attachment_indexables` filter is documented in indexable-link-builder.php */
 			if ( ! $this->options_helper->get( 'disable-attachment' ) || \apply_filters( 'wpseo_force_creating_and_using_attachment_indexables', false ) ) {
 				$model = $this->enhance_link_from_indexable( $model, $permalink );
 			}
