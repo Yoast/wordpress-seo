@@ -252,6 +252,7 @@ Release date: 2023-08-08
 #### Other
 
 * Ensures that the Google, Facebook and Twitter Preview modals are compatible with WordPress 6.3.
+* Sets the WordPress tested up to version to 6.3.
 
 = 20.12 =
 
