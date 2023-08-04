@@ -58,6 +58,13 @@ export function createAnnotationsFromPositionBasedMarks( blockClientId, mark, bl
 		 * Inside `yoastseo`, the token's position information also takes into account all the HTML tags surrounding it in a block.
 		 * However, the block annotation API applies annotations to "clean" text/html without any HTML tags.
 		 * As a result, the token position information we retrieve from `yoastseo` wouldn't match that of block annotation API.
+		 * Example:
+		 * From `yoastseo`:
+		 * - Text: This is a giant <strong>panda</strong>.
+		 * - Range of "panda": 24 - 29
+		 * In the block:
+		 * - Text: This is a giant panda.
+		 * - Range of "panda": 16 -21
 		 */
 		for ( let i = foundHtmlTags.length - 1; i >= 0; i-- ) {
 			const [ foundTag ] = foundHtmlTags[ i ];
