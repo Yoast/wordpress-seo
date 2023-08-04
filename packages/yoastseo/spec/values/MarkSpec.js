@@ -86,13 +86,35 @@ describe( "a mark value object", function() {
 
 	describe( "tests the hasPosition", function() {
 		it( "should return true if there is a position start", function() {
-			expect( () => new Mark( { position: { startOffset: 42, endOffset: 52 } } ).hasPosition() ).toBeTruthy();
+			const mark = new Mark( { position: { startOffset: 42, endOffset: 52 } } );
+			expect( mark.hasPosition() ).toBeTruthy();
+		} );
+		it( "should return true if the position start is 0", function() {
+			const mark = new Mark( { position: { startOffset: 0, endOffset: 52 } } );
+			expect( mark.hasPosition() ).toBeTruthy();
 		} );
 		it( "should return false if there is no position start", function() {
-			expect( () => new Mark( { position: { endOffset: 52 } } ).hasPosition() ).toBeTruthy();
+			const mark = new Mark( { position: { endOffset: 52 } } );
+			expect( mark.hasPosition() ).toBeFalsy();
 		} );
 		it( "should return false if there is no position at all", function() {
-			expect( () => new Mark( { } ).hasPosition() ).toBeTruthy();
+			const mark = new Mark( { marked: "<yoastmark>test</yoastmark>", original: "test" } );
+			expect( mark.hasPosition() ).toBeFalsy();
+		} );
+	} );
+
+	describe( "tests the hasBlockPosition", function() {
+		it( "should return true if there is a block position start", function() {
+			const mark = new Mark( { position: { startOffsetBlock: 42, endOffsetBlock: 52 } } );
+			expect( mark.hasBlockPosition() ).toBeTruthy();
+		} );
+		it( "should return true if the block position start return 0", function() {
+			const mark = new Mark( { position: { startOffsetBlock: 0, endOffsetBlock: 52 } } );
+			expect( mark.hasBlockPosition() ).toBeTruthy();
+		} );
+		it( "should return false if there is no position at all", function() {
+			const mark = new Mark( { marked: "<yoastmark>test</yoastmark>", original: "test" } );
+			expect( mark.hasBlockPosition() ).toBeFalsy();
 		} );
 	} );
 } );
