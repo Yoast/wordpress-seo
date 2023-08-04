@@ -27,6 +27,12 @@ const KeywordSynonyms = ( props ) => {
 	} );
 
 	const benefits = [
+		sprintf(
+			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+			__( "%1$sCreate content faster%2$s: Use AI to create titles & meta descriptions", "wordpress-seo" ),
+			"<strong>",
+			"</strong>"
+		),
 		`<strong>${ __( "Rank better with synonyms & related keyphrases", "wordpress-seo" ) }</strong>`,
 		sprintf(
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
