@@ -7,6 +7,13 @@ import SubheadingDistributionTooLongAssessment from "./readability/SubheadingDis
 import TextPresenceAssessment from "./readability/TextPresenceAssessment";
 import TransitionWordsAssessment from "./readability/TransitionWordsAssessment";
 
+// Readability assessments (premium)
+import TextAlignmentAssessment from "./readability/TextAlignmentAssessment";
+import WordComplexityAssessment from "./readability/WordComplexityAssessment";
+
+// Readability assessments (product)
+import ListAssessment from "./readability/ListAssessment";
+
 // SEO assessments.
 import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAssessment";
 import InternalLinksAssessment from "./seo/InternalLinksAssessment";
@@ -26,38 +33,55 @@ import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAss
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
 
+// SEO assessments (premium)
+import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment";
+import TextTitleAssessment from "./seo/TextTitleAssessment";
+
+// SEO assessments (product)
+import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
+import ProductIdentifiersAssessment from "./seo/ProductIdentifiersAssessment";
+import ProductSKUAssessment from "./seo/ProductSKUAssessment";
+
 import InclusiveLanguageAssessment from "./inclusiveLanguage/InclusiveLanguageAssessment";
 
 const readability = {
+	ListAssessment,
 	ParagraphTooLongAssessment,
 	PassiveVoiceAssessment,
 	SentenceBeginningsAssessment,
 	SentenceLengthInTextAssessment,
 	SubheadingDistributionTooLongAssessment,
+	TextAlignmentAssessment,
 	TextPresenceAssessment,
 	TransitionWordsAssessment,
+	WordComplexityAssessment,
 };
 
 // We expose the deprecated UrlKeywordAssessment for backwards compatibility.
 const seo = {
 	FunctionWordsInKeyphraseAssessment,
+	ImageAltTagsAssessment,
+	ImageCountAssessment,
+	ImageKeyphraseAssessment,
 	InternalLinksAssessment,
 	IntroductionKeywordAssessment,
+	KeyphraseDistributionAssessment,
+	KeyphraseInSEOTitleAssessment,
 	KeyphraseLengthAssessment,
 	KeywordDensityAssessment,
 	MetaDescriptionKeywordAssessment,
 	MetaDescriptionLengthAssessment,
 	OutboundLinksAssessment,
 	PageTitleWidthAssessment,
+	ProductIdentifiersAssessment,
+	ProductSKUAssessment,
 	SingleH1Assessment,
 	SubheadingsKeywordAssessment,
 	TextCompetingLinksAssessment,
 	TextLengthAssessment,
-	KeyphraseInSEOTitleAssessment,
+	TextTitleAssessment,
 	SlugKeywordAssessment,
 	UrlKeywordAssessment,
-	ImageKeyphraseAssessment,
-	ImageCountAssessment,
 };
 
 const inclusiveLanguage = {

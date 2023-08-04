@@ -21,6 +21,7 @@
     "vendor",
     "images"
   ],
+  "sideEffects": false,
   "scripts": {
     "build": "yarn clean && yarn build:js",
     "build:js": "babel src --out-dir build",
