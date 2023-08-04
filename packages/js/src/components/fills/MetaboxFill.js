@@ -66,7 +66,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				<SidebarItem key="google-preview" renderPriority={ 9 }>
 					<MetaboxCollapsible
 						id={ "yoast-snippet-editor-metabox" }
-						title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
+						title={ __( "Search appearance", "wordpress-seo" ) } initialIsOpen={ true }
 					>
 						<SnippetEditor hasPaperStyle={ false } />
 					</MetaboxCollapsible>
