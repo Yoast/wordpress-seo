@@ -249,9 +249,11 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-08-08
 
+#### Enhancements
+* Ensures that the Google, Facebook and Twitter Preview modals are compatible with WordPress 6.3.
+
 #### Other
 
-* Ensures that the Google, Facebook and Twitter Preview modals are compatible with WordPress 6.3.
 * Sets the WordPress tested up to version to 6.3.
 
 = 20.12 =
