@@ -1,36 +1,30 @@
 import getMarkingsInSentence from "../../../../src/languageProcessing/helpers/highlighting/getMarkingsInSentence";
 import Mark from "../../../../src/values/Mark";
 
+const sentenceTokens = [
+	{ text: "This", sourceCodeRange: { startOffset: 0, endOffset: 4 } },
+	{ text: " ", sourceCodeRange: { startOffset: 4, endOffset: 5 } },
+	{ text: "is", sourceCodeRange: { startOffset: 5, endOffset: 7 } },
+	{ text: " ", sourceCodeRange: { startOffset: 7, endOffset: 8 } },
+	{ text: "a", sourceCodeRange: { startOffset: 8, endOffset: 9 } },
+	{ text: " ", sourceCodeRange: { startOffset: 9, endOffset: 10 } },
+	{ text: "sentence", sourceCodeRange: { startOffset: 10, endOffset: 18 } },
+	{ text: ".", sourceCodeRange: { startOffset: 18, endOffset: 19 } },
+];
+
 const testCases = [
 	{
 		testDescription: "No markings in sentence",
 		sentence: { text: "This is a sentence.", sourceCodeRange: { startOffset: 0, endOffset: 18 },
-			tokens: [
-				{ text: "This", sourceCodeRange: { startOffset: 0, endOffset: 4 } },
-				{ text: " ", sourceCodeRange: { startOffset: 4, endOffset: 5 } },
-				{ text: "is", sourceCodeRange: { startOffset: 5, endOffset: 7 } },
-				{ text: " ", sourceCodeRange: { startOffset: 7, endOffset: 8 } },
-				{ text: "a", sourceCodeRange: { startOffset: 8, endOffset: 9 } },
-				{ text: " ", sourceCodeRange: { startOffset: 9, endOffset: 10 } },
-				{ text: "sentence", sourceCodeRange: { startOffset: 10, endOffset: 18 } },
-				{ text: ".", sourceCodeRange: { startOffset: 18, endOffset: 19 } },
-			] },
+			tokens: sentenceTokens,
+		},
 		matchesInSentence: [],
 		expectedResult: [],
 	},
 	{
 		testDescription: "One marking in sentence",
 		sentence: { text: "This is a sentence.", sourceCodeRange: { startOffset: 0, endOffset: 18 },
-			tokens: [
-				{ text: "This", sourceCodeRange: { startOffset: 0, endOffset: 4 } },
-				{ text: " ", sourceCodeRange: { startOffset: 4, endOffset: 5 } },
-				{ text: "is", sourceCodeRange: { startOffset: 5, endOffset: 7 } },
-				{ text: " ", sourceCodeRange: { startOffset: 7, endOffset: 8 } },
-				{ text: "a", sourceCodeRange: { startOffset: 8, endOffset: 9 } },
-				{ text: " ", sourceCodeRange: { startOffset: 9, endOffset: 10 } },
-				{ text: "sentence", sourceCodeRange: { startOffset: 10, endOffset: 18 } },
-				{ text: ".", sourceCodeRange: { startOffset: 18, endOffset: 19 } },
-			],
+			tokens: sentenceTokens,
 		},
 		matchesInSentence: [ { sourceCodeRange: { startOffset: 0, endOffset: 4 } } ],
 		expectedResult: [ new Mark( {
@@ -50,16 +44,7 @@ const testCases = [
 	{
 		testDescription: "One marking in sentence with two consecutive matches",
 		sentence: { text: "This is a sentence.", sourceCodeRange: { startOffset: 0, endOffset: 18 },
-			tokens: [
-				{ text: "This", sourceCodeRange: { startOffset: 0, endOffset: 4 } },
-				{ text: " ", sourceCodeRange: { startOffset: 4, endOffset: 5 } },
-				{ text: "is", sourceCodeRange: { startOffset: 5, endOffset: 7 } },
-				{ text: " ", sourceCodeRange: { startOffset: 7, endOffset: 8 } },
-				{ text: "a", sourceCodeRange: { startOffset: 8, endOffset: 9 } },
-				{ text: " ", sourceCodeRange: { startOffset: 9, endOffset: 10 } },
-				{ text: "sentence", sourceCodeRange: { startOffset: 10, endOffset: 18 } },
-				{ text: ".", sourceCodeRange: { startOffset: 18, endOffset: 19 } },
-			],
+			tokens: sentenceTokens,
 		},
 		matchesInSentence: [ { sourceCodeRange: { startOffset: 0, endOffset: 4 } }, { sourceCodeRange: { startOffset: 5, endOffset: 7 } } ],
 		expectedResult: [ new Mark( {
@@ -79,16 +64,7 @@ const testCases = [
 	{
 		testDescription: "Two markings that are not consecutive in sentence",
 		sentence: { text: "This is a sentence.", sourceCodeRange: { startOffset: 0, endOffset: 18 },
-			tokens: [
-				{ text: "This", sourceCodeRange: { startOffset: 0, endOffset: 4 } },
-				{ text: " ", sourceCodeRange: { startOffset: 4, endOffset: 5 } },
-				{ text: "is", sourceCodeRange: { startOffset: 5, endOffset: 7 } },
-				{ text: " ", sourceCodeRange: { startOffset: 7, endOffset: 8 } },
-				{ text: "a", sourceCodeRange: { startOffset: 8, endOffset: 9 } },
-				{ text: " ", sourceCodeRange: { startOffset: 9, endOffset: 10 } },
-				{ text: "sentence", sourceCodeRange: { startOffset: 10, endOffset: 18 } },
-				{ text: ".", sourceCodeRange: { startOffset: 18, endOffset: 19 } },
-			],
+			tokens: sentenceTokens,
 		},
 		matchesInSentence: [ { sourceCodeRange: { startOffset: 0, endOffset: 4 } }, { sourceCodeRange: { startOffset: 10, endOffset: 18 } } ],
 		expectedResult: [

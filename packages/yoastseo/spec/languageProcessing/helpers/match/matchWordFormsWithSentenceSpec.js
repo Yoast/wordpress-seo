@@ -549,15 +549,15 @@ const japaneseTestCases = [
 	},
 	{
 		testDescription: "matches all occurrences of two word forms in the sentence",
-		sentence: "会う私の猫はかわいいですかわいい会い。",
-		wordForms: [ "会う", "会い" ],
-		expectedResult: { count: 2, matches: [ "会う", "会い" ] },
+		sentence: "昨日会った猫はちょうかわいかった、今日も会いたい。",
+		wordForms: [ "会っ", "会い" ],
+		expectedResult: { count: 2, matches: [ "会っ", "会い" ] },
 	},
 	{
 		testDescription: "matches all occurrences of one word form in the sentence",
-		sentence: "これによって少しでも夏休み明けの感染者数を抑えたいという事だけど、どうなるかな者数。",
-		wordForms: [ "者数" ],
-		expectedResult: { count: 2, matches: [ "者数", "者数" ] },
+		sentence: "これによって少しでも夏休み明けの感染者数を抑えたいという事だけど、どうなるかな,感染者数が実際に増えるのか減るのかは知らない。",
+		wordForms: [ "感染" ],
+		expectedResult: { count: 2, matches: [ "感染", "感染" ] },
 	},
 ];
 describe.each( japaneseTestCases )( "test for matching word forms for Japanese: non-exact matching", ( {
