@@ -109,7 +109,7 @@ const testDataWithDefaultResearcher = [
 	},
 	{
 		description: "should not count shortcodes when calculating keyphrase density",
-		paper: new Paper( nonkeyword.repeat( 99 ) + `[${keyword}]`, { keyword: keyword, shortcodes: [ keyword ] } ),
+		paper: new Paper( "<p>" + nonkeyword.repeat( 99 ) + "[keyword]</p>", { keyword: "keyword", shortcodes: [ "keyword" ] } ),
 		expectedResult: {
 			score: 4,
 			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 0 times." +
