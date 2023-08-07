@@ -249,6 +249,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-08-08
 
+Please welcome Yoast SEO 20.13! We've focused on enhancing compatibility and performance, making your SEO efforts smoother and more effective. We've also improved compatibility with WordPress 6.3. Find out more about what's new in Yoast SEO 20.13 in [our release post](https://yoa.st/release-8-8-23)!
+
 #### Enhancements
 
 * Ensures that the Google, Facebook and Twitter Preview modals are compatible with WordPress 6.3.
