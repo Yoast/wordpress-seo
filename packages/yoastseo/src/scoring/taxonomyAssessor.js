@@ -2,7 +2,7 @@ import { inherits } from "util";
 
 import IntroductionKeywordAssessment from "./assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
+import KeyphraseDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./assessments/seo/MetaDescriptionKeywordAssessment";
 import KeyphraseInSEOTitleAssessment from "./assessments/seo/KeyphraseInSEOTitleAssessment";
 import SlugKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
@@ -46,7 +46,7 @@ const TaxonomyAssessor = function( researcher, options ) {
 	this._assessments = [
 		new IntroductionKeywordAssessment(),
 		new KeyphraseLengthAssessment(),
-		new KeywordDensityAssessment(),
+		new KeyphraseDensityAssessment(),
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLengthAssessment(),
 		getTextLengthAssessment(),
