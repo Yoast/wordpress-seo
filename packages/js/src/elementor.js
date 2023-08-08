@@ -1,6 +1,7 @@
 import { dispatch } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
 import initializeWordProofForElementorEditor from "../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/elementorEditor";
+import initializeAiGenerator from "./ai-generator/initialize";
 import initEditorStore from "./elementor/initializers/editor-store";
 import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlightFocusKeyphraseForms";
 import initializeIntroduction from "./elementor/initializers/introduction";
@@ -70,6 +71,9 @@ function initialize() {
 	if ( isWordProofIntegrationActive() ) {
 		initializeWordProofForElementorEditor();
 	}
+
+	// Initialize the AI Generator upsell.
+	initializeAiGenerator();
 
 	// Offer an action after our load.
 	doAction( "yoast.elementor.loaded" );

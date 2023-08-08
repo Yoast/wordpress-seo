@@ -89,6 +89,7 @@ class WPSEO_Admin_Pages {
 			'isPremium'                      => YoastSEO()->helpers->product->is_premium(),
 			'webinarIntroSettingsUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-settings' ),
 			'webinarIntroFirstTimeConfigUrl' => $this->get_webinar_shortlink(),
+			'pluginUrl'                      => \plugins_url( '', \WPSEO_FILE ),
 		];
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.

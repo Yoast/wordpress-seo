@@ -12,8 +12,26 @@ describe( "linkParams", () => {
 	} );
 
 	describe( "actions", () => {
-		it( "has no actions", () => {
-			expect( linkParamsActions ).toEqual( {} );
+		describe( "setLinkParams", () => {
+			it( "exists", () => {
+				expect( linkParamsActions.setLinkParams ).toBeTruthy();
+			} );
+
+			it( "is a function", () => {
+				expect( typeof linkParamsActions.setLinkParams ).toBe( "function" );
+			} );
+
+			it( "returns an action object", () => {
+				expect( linkParamsActions.setLinkParams( { foo: "bar" } ) ).toEqual( {
+					type: "linkParams/setLinkParams",
+					payload: { foo: "bar" },
+				} );
+			} );
+
+			it( "sets the state", () => {
+				const actual = linkParamsReducer( {}, linkParamsActions.setLinkParams( { foo: "bar" } ) );
+				expect( actual ).toEqual( { foo: "bar" } );
+			} );
 		} );
 	} );
 

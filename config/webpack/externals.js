@@ -11,6 +11,7 @@ const additionalPackages  = [
 	"jed",
 	"prop-types",
 	"redux",
+	"@reduxjs/toolkit",
 ];
 
 const YOAST_PACKAGE_NAMESPACE = "@yoast/";
@@ -39,6 +40,9 @@ const yoastExternals = yoastPackages.reduce( ( memo, packageName ) => {
 			break;
 		case "yoastseo":
 			useablePackageName = "analysis";
+			break;
+		case "@reduxjs/toolkit":
+			useablePackageName = "reduxJsToolkit";
 			break;
 	}
 

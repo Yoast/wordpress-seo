@@ -865,6 +865,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'scoring' );
 		$asset_manager->enqueue_style( 'monorepo' );
 		$asset_manager->enqueue_style( 'tailwind' );
+		$asset_manager->enqueue_style( 'ai-generator' );
 
 		$is_block_editor  = WP_Screen::get()->is_block_editor();
 		$post_edit_handle = 'post-edit';
@@ -931,6 +932,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
 			'woocommerceUpsell'          => get_post_type( $post_id ) === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
+			'linkParams'                 => WPSEO_Shortlinker::get_query_params(),
+			'pluginUrl'                  => \plugins_url( '', \WPSEO_FILE ),
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
