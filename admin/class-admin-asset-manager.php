@@ -622,6 +622,11 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
+				'name' => 'academy',
+				'src'  => 'academy-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
+			],
+			[
 				'name' => 'support',
 				'src'  => 'support-' . $flat_version,
 				'deps' => [ self::PREFIX . 'tailwind' ],
