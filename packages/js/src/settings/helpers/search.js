@@ -336,6 +336,15 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 				__( "Index Now", "wordpress-seo" ),
 			],
 		},
+		enable_ai_generator: {
+			route: "/site-features",
+			routeLabel: __( "Site features", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_ai_generator",
+			fieldLabel: __( "AI title & description generator", "wordpress-seo" ),
+			keywords: [
+				__( "AI generator", "wordpress-seo" ),
+			],
+		},
 		disableadvanced_meta: {
 			route: "/site-basics",
 			routeLabel: __( "Site basics", "wordpress-seo" ),

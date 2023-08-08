@@ -243,7 +243,7 @@ class Workouts_Integration implements Integration_Interface {
 		$notice = new Notice_Presenter(
 			$title,
 			$copy,
-			'Assistent_Time_bubble_500x570.png',
+			null,
 			$button
 		);
 

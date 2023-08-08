@@ -1,10 +1,12 @@
-import { Fragment, useCallback, useState, useRef } from "@wordpress/element";
-import { noop } from "lodash";
+import { createRef, useCallback, useRef, useState } from "@wordpress/element";
+import { noop, times } from "lodash";
 import PropTypes from "prop-types";
 import RawModal, { classNameMap } from ".";
-import Button from "../../elements/button";
+import { StoryComponent as Button } from "../../elements/button";
 import TextInput from "../../elements/text-input";
 import { classNameMap as titleClassNameMap } from "../../elements/title";
+
+TextInput.displayName = "TextInput";
 
 const Modal = ( { isOpen: initialIsOpen, onClose: _, children, ...props } ) => {
 	const [ isOpen, setIsOpen ] = useState( initialIsOpen );
@@ -12,17 +14,16 @@ const Modal = ( { isOpen: initialIsOpen, onClose: _, children, ...props } ) => {
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
 
 	return (
-		<Fragment>
+		<>
 			<Button onClick={ openModal }>Open modal</Button>
 			<RawModal { ...props } isOpen={ isOpen } onClose={ closeModal }>
 				<RawModal.Panel>
 					{ children }
 				</RawModal.Panel>
 			</RawModal>
-		</Fragment>
+		</>
 	);
 };
-
 Modal.propTypes = {
 	isOpen: PropTypes.bool,
 	onClose: PropTypes.func,
@@ -92,74 +93,100 @@ export const Factory = {
 	},
 };
 
-export const WithPanel = {
-	component: Factory.component.bind( {} ),
-	storyName: "With panel",
-	parameters: {
-		docs: {
-			description: {
-				story: "Using the `Modal.Panel` component. The panel:\n- makes it so the modal closes when clicking outside of it\n- provides props to show a close button and the text inside\n- provides styling via the `.yst-modal__panel` class",
-			},
-			transformSource: () => (
-				"<Modal\n" +
-				"\tonClose={() => {}}\n" +
-				">\n" +
-				"\t<Modal.Panel>\n" +
-				"\t\tText inside a panel.\n" +
-				"\t</Modal.Panel>\n" +
-				"</Modal>\n"
-			),
+export const WithPanel = Factory.component.bind( {} );
+WithPanel.storyName = "With panel";
+WithPanel.parameters = {
+	docs: {
+		description: {
+			story: "Using the `Modal.Panel` component. The panel:\n- makes it so the modal closes when clicking outside of it\n- provides props to show a close button and the text inside\n- provides styling via the `.yst-modal__panel` class",
 		},
-	},
-	args: {
-		children: "Text inside a panel.",
 	},
 };
+WithPanel.args = {
+	children: "Text inside a panel.",
+};
 
-export const WithTitleAndDescription = {
-	component: Factory.component.bind( {} ),
-	storyName: "With title and description",
-	parameters: {
-		docs: {
-			description: {
-				story: "Using the `Modal.Title` and `Modal.Description` components will add `aria-labelledby` and `aria-describedby` to the Modal with matching IDrefs.",
-			},
+export const WithTitleAndDescription = Factory.component.bind( {} );
+WithTitleAndDescription.storyName = "With title and description";
+WithTitleAndDescription.parameters = {
+	docs: {
+		description: {
+			story: "Using the `Modal.Title` and `Modal.Description` components will add `aria-labelledby` and `aria-describedby` to the Modal with matching IDrefs.",
 		},
 	},
-	args: {
-		children: (
-			<Fragment>
-				<RawModal.Title as="h2">
-					Title
-				</RawModal.Title>
-				<RawModal.Description className="yst-mt-3 yst-text-sm yst-text-slate-600">
-					Description
-				</RawModal.Description>
-			</Fragment>
-		),
+};
+WithTitleAndDescription.args = {
+	children: (
+		<>
+			<RawModal.Title as="h2">
+				Title
+			</RawModal.Title>
+			<RawModal.Description className="yst-mt-3 yst-text-sm yst-text-slate-600">
+				Description
+			</RawModal.Description>
+		</>
+	),
+};
+
+const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eget convallis nulla. Nullam et justo semper, volutpat mauris ac, sodales augue. Vestibulum vitae hendrerit tortor, vel fringilla ipsum. Ut id purus at urna tincidunt tincidunt. Vestibulum molestie ipsum quam, sit amet consectetur lorem auctor at. Cras laoreet arcu ac arcu rutrum, vitae dapibus felis lobortis. Aenean tincidunt varius lorem at ultrices. Ut dignissim eget leo at tristique. Donec interdum tempor eros, vulputate tincidunt erat venenatis ut.";
+
+export const WithContainer = Factory.component.bind( {} );
+WithContainer.storyName = "With scrolling container";
+WithContainer.parameters = {
+	docs: {
+		description: {
+			story: "Using the `Modal.Container`, which includes a `Header`, `Content` and `Footer`. The content will then be vertically scrollable if it takes up more space than the screen height.",
+		},
 	},
+};
+WithContainer.args = {
+	children: (
+		<RawModal.Container>
+			<RawModal.Container.Header className="yst-w-full yst-text-center yst-mb-3">
+				<RawModal.Title as="h3">Lorem ipsum</RawModal.Title>
+			</RawModal.Container.Header>
+			<RawModal.Container.Content className="yst-text-center yst-space-y-3">
+				{ times( 16 ).map( i => <p key={ `paragraph-${ i }` }>{ lorem }</p> ) }
+			</RawModal.Container.Content>
+			<RawModal.Container.Footer className="yst-mt-3">
+				<Button variant="primary" className="yst-w-full">Lorem ipsum</Button>
+			</RawModal.Container.Footer>
+		</RawModal.Container>
+	),
 };
 
 const InitialFocusComponent = () => {
 	const [ isOpen, setIsOpen ] = useState( false );
 	const openModal = useCallback( () => setIsOpen( true ), [] );
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
-	const centerElementRef = useRef( null );
+	const ref = useRef( null );
 
 	return (
-		<Fragment>
+		<>
 			<Button onClick={ openModal }>Open modal</Button>
-			<RawModal isOpen={ isOpen } onClose={ closeModal } initialFocus={ centerElementRef }>
+			<RawModal isOpen={ isOpen } onClose={ closeModal } initialFocus={ ref }>
 				<RawModal.Panel>
 					<RawModal.Title>Title</RawModal.Title>
 					<RawModal.Description>Description area.</RawModal.Description>
-					<TextInput placeholder="This is where the focus should be." ref={ centerElementRef } />
+					<TextInput placeholder="This is where the focus should be." ref={ ref } />
 				</RawModal.Panel>
 			</RawModal>
-		</Fragment>
+		</>
 	);
 };
 
-export const InitialFocus = () => <InitialFocusComponent />;
+const centerElementRef = createRef();
+
+export const InitialFocus = Factory.component.bind( {} );
 InitialFocus.storyName = "Initial focus";
 InitialFocus.parameters = { docs: { description: { story: "The `initialFocus` prop accepts ref object and once the modal is open, the focus will be applied to the element with the ref. <br>By default, the focus will go to the first focusable element in the modal." } } };
+InitialFocus.args = {
+	initialFocus: centerElementRef,
+	children: (
+		<>
+			<RawModal.Title>Title</RawModal.Title>
+			<RawModal.Description>Description area.</RawModal.Description>
+			<TextInput placeholder="This is where the focus should be." ref={ centerElementRef } />
+		</>
+	),
+};
