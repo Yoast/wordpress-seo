@@ -7,16 +7,18 @@ import filterTree from "./private/filterTree";
 import permanentFilters from "./private/alwaysFilterElements";
 import { filterBeforeTokenizing } from "./private/filterBeforeTokenizing";
 import parseBlocks from "./private/parseBlocks";
+import filterShortcodesFromTree from "../../languageProcessing/helpers/sanitize/filterShortcodesFromTree";
 
 /**
  * Parses the HTML string to a tree representation of the HTML document.
  *
  * @param {Paper} paper The paper to build the tree from.
  * @param {LanguageProcessor} languageProcessor The language processor to use.
+ * @param {string[]} shortcodes An array of all active shortcodes.
  *
  * @returns {Node} The tree representation of the HTML string.
  */
-export default function build( paper, languageProcessor ) {
+export default function build( paper, languageProcessor, shortcodes ) {
 	const html = paper.getText();
 	let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 
@@ -33,6 +35,11 @@ export default function build( paper, languageProcessor ) {
 
 	// Add sentences and tokens to the tree's paragraph and heading nodes.
 	tree = tokenize( tree, languageProcessor );
+
+	// Filter out shortcodes from the tree.
+	if ( shortcodes ) {
+		filterShortcodesFromTree( tree, shortcodes );
+	}
 
 	/*
 	 * Filter out elements we don't want to include in the analysis. Only do this after tokenization as we need to

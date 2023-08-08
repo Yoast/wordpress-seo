@@ -108,6 +108,16 @@ const testDataWithDefaultResearcher = [
 		},
 	},
 	{
+		description: "should not count shortcodes when calculating keyphrase density",
+		paper: new Paper( "<p>" + nonkeyword.repeat( 99 ) + "[keyword]</p>", { keyword: "keyword", shortcodes: [ "keyword" ] } ),
+		expectedResult: {
+			score: 4,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 0 times." +
+				" That's less than the recommended minimum of 2 times for a text of this length." +
+				" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
+		},
+	},
+	{
 		description: "returns a bad result if the keyphrase is only used once, regardless of the density",
 		paper: new Paper( "<p>" + nonkeyword.repeat( 100 ) + keyword + "</p>", { keyword: "keyword" } ),
 		expectedResult: {

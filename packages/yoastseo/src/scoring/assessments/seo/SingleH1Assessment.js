@@ -2,7 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { isUndefined, merge } from "lodash-es";
 
 import Assessment from "../assessment.js";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import marker from "../../../markers/addMark.js";
 import AssessmentResult from "../../../values/AssessmentResult.js";
 import Mark from "../../../values/Mark.js";

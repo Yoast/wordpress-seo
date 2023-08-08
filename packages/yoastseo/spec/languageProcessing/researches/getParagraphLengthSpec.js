@@ -82,6 +82,11 @@ describe( "a test for getting paragraph length", function() {
 		expect( getParagraphLength( mockPaper, new EnglishResearcher() ).length ).toBe( 1 );
 	} );
 
+	it( "returns the paragraph length, ignoring shortcodes", function() {
+		const mockPaper = new Paper( "<p>test [shortcode]</p>", { shortcodes: [ "shortcode" ] } );
+		expect( getParagraphLength( mockPaper, new EnglishResearcher() ).length ).toBe( 1 );
+	} );
+
 	it( "returns the paragraph length of paragraph without p tags or double linebreaks, but with h2 tags", function() {
 		const mockPaper = new Paper( "<h2>Lorem ipsum dolor sit amet</h2>" );
 		expect( getParagraphLength( mockPaper, new EnglishResearcher() )[ 0 ].countLength ).toBe( 5 );

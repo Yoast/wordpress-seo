@@ -1,6 +1,14 @@
 import collectAnalysisData from "../src/analysis/collectAnalysisData";
 import gutenbergBlocks from "./__test-data__/gutenbergBlocksTestData";
 
+const originalWindow = { ...window };
+const windowSpy = jest.spyOn( global, "window", "get" );
+windowSpy.mockImplementation( () => ( {
+	...originalWindow,
+	// eslint-disable-next-line camelcase
+	wpseoScriptData: { analysis: { plugins: { shortcodes: { wpseo_shortcode_tags: [] } } } },
+} ) );
+
 describe( "collectAnalysisData", () => {
 	const storeData = {
 		focusKeyword: "focus keyword",

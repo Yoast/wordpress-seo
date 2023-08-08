@@ -24,6 +24,13 @@ describe( "test hasEnoughContentForAssessment", () => {
 		expect( mockAssessment.hasEnoughContentForAssessment( mockPaper ) ).toBe( false );
 	} );
 
+	it( "should return false if text has less than 50 chars after shortcodes are removed.", () => {
+		const mockPaper = new Paper( "Some text" + "[shortcode] ".repeat( 50 ), { shortcodes: [ "shortcode" ] } );
+		const mockAssessment = new Assessment();
+
+		expect( mockAssessment.hasEnoughContentForAssessment( mockPaper ) ).toBe( false );
+	} );
+
 	it( "should return false if text is 49 chars and an image and no specification for contentNeededForAssessment", () => {
 		const mockPaper = new Paper( "This text contains forty nine characterssssssssss" +
 			// eslint-disable-next-line max-len

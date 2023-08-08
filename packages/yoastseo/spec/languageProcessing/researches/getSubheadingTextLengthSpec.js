@@ -57,6 +57,18 @@ describe( "gets the length of text segments", function() {
 		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 2 ].countLength ).toBe( 10 );
 	} );
 
+	it( "should not include a shortcode when calculating the text length", function() {
+		const mockPaper = new Paper( "<h2>heading with [shortcode]</h2>this is a text string with a [shortcode]",
+			{ shortcodes: [ "shortcode" ] } );
+		const englishResearcher = new EnglishResearcher( mockPaper );
+		// Check the total number of subheading blocks.
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).length ).toBe( 1 );
+		// Check the length of each individual text segment.
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 0 ].subheading ).toBe( "<h2>heading with </h2>" );
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 0 ].text ).toBe( "this is a text string with a " );
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 0 ].countLength ).toBe( 7 );
+	} );
+
 	it( "does not count text inside elements we want to exclude from the analysis ", function() {
 		const mockPaper = new Paper( "<h1>test</h1>one two three<code>one two three</code>" );
 		const englishResearcher = new EnglishResearcher( mockPaper );
