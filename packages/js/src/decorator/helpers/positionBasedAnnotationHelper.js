@@ -8,21 +8,70 @@
 const htmlTagsRegex = /(<([a-z]|\/)[^<>]+>)/ig;
 
 /**
+ * Adjusts the block start and end offset for a given mark.
+ *
+ * For the first section marks, we need to adjust the block start and end offset.
+ *
+ * This is because the first section of a Yoast block is always wrapped in `<strong>` tags.
+ * In `yoastseo`, when calculating the position information of the matched token, we also take
+ * into account the length of `<strong>` tags.
+ * However, here, the html for the first section doesn't include the `<strong>` tags.
+ * As a result, the position information of the matched token will be incorrect.
+ * Hence, the block start and end offset of the mark object will be subtracted by the length
+ * of the opening of the `<strong>` tag.
+ *
+ *
+ * @param {int}		blockStartOffset	The block start offset of the Mark object to adjust.
+ * @param {int}		blockEndOffset		The block end offset of the Mark object to adjust.
+ * @param {String}	blockName			The block name.
+ *
+ * @returns {{blockStartOffset: int, blockEndOffset: int}} The adjusted start offset and end offset of the Mark object.
+ */
+const adjustFirsSectionOffsets = ( blockStartOffset, blockEndOffset, blockName ) => {
+	/*
+	 * Get the opening html tag for the first section of a Yoast sub-block.
+	 *
+	 * The Yoast sub-block's first section is always wrapped in `<strong>` tag with the following class name:
+	 * - For Yoast FAQ block, the class name is "schema-faq-question",
+	 * - For Yoast How-To block, the class name is "schema-how-to-step-name",
+	 */
+	const firstSectionOpenTag = blockName === "yoast/faq-block"
+		? "<strong class=\"schema-faq-question\">"
+		: "<strong class=\"schema-how-to-step-name\">";
+
+	blockStartOffset = blockStartOffset - firstSectionOpenTag.length;
+	blockEndOffset = blockEndOffset - firstSectionOpenTag.length;
+
+	return {
+		blockStartOffset,
+		blockEndOffset,
+	};
+};
+
+/**
  * Creates an annotation if the given mark is position based.
  * A helper for position-based highlighting.
  *
- * @param {string} blockClientId	The client id of the block.
  * @param {Mark}   mark				The mark to apply to the content.
+ * @param {string} blockClientId	The client id of the block.
+ * @param {string} blockName		The name of the block.
  * @param {string} blockHtml		The HTML of the block: possibly contains html tags.
  * @param {string} richText			The rich text of the block: the text without html tags.
  *
  * @returns {Array} The annotations to apply.
  */
-export function createAnnotationsFromPositionBasedMarks( blockClientId, mark, blockHtml, richText ) {
+export function createAnnotationsFromPositionBasedMarks( mark, blockClientId, blockName, blockHtml, richText ) {
 	// If the block client id is the same as the mark's block client id, it means that this mark object is intended for this block.
 	if ( blockClientId === mark.getBlockClientId() ) {
 		let blockStartOffset = mark.getBlockPositionStart();
 		let blockEndOffset = mark.getBlockPositionEnd();
+
+		// If the mark is created for the first section of a Yoast sub-block, we need to adjust the block start and end offsets of the mark.
+		if ( mark.isMarkForFirstBlockSection() ) {
+			const adjustedFirstSectionOffsets = adjustFirsSectionOffsets( blockStartOffset, blockEndOffset, blockName );
+			blockStartOffset = adjustedFirstSectionOffsets.blockStartOffset;
+			blockEndOffset = adjustedFirstSectionOffsets.blockEndOffset;
+		}
 
 		// Get the html part from the block start offset of the mark until the block end offset of the mark.
 		const slicedHtml = blockHtml.slice( blockStartOffset, blockEndOffset );

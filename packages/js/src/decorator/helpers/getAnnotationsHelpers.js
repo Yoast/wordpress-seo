@@ -28,7 +28,7 @@ function createAnnotations( html, richTextIdentifier, attributeWithAnnotationSup
 	return flatMap( marks, mark  => {
 		let annotations;
 		if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
-			annotations = createAnnotationsFromPositionBasedMarks( blockClientId, mark, html, richText );
+			annotations = createAnnotationsFromPositionBasedMarks( mark, blockClientId, block.name, html, richText );
 		} else {
 			annotations = calculateAnnotationsForTextFormat(
 				richText,
@@ -51,24 +51,6 @@ function createAnnotations( html, richTextIdentifier, attributeWithAnnotationSup
 }
 
 /**
- * Adjusts the block start and end offset for a given mark.
- *
- * @param {Mark}	mark				The Mark object to adjust.
- * @param {String}	firstSectionOpenTag	The opening html tag that wraps the first section of a Yoast sub-block.
- *
- * @returns {Mark} The adjusted mark object.
- */
-const adjustBlockOffset = ( mark, firstSectionOpenTag ) => {
-	const startOffset = mark.getBlockPositionStart();
-	const endOffset = mark.getBlockPositionEnd();
-
-	mark.setBlockPositionStart( startOffset - firstSectionOpenTag.length );
-	mark.setBlockPositionEnd( endOffset - firstSectionOpenTag.length );
-
-	return mark;
-};
-
-/**
  * Gets the key name for a given identifier by making the first letter of the identifier capitalized.
  *
  * @param {string} identifier The identifier to get the key name for.
@@ -84,44 +66,14 @@ const getKeyName = ( identifier ) => {
  *
  * @param {Mark[]} marks				An array of Mark objects.
  * @param {Object} annotatableAttribute	An annotatable attribute from a Yoast block.
- * @param {string} firstSectionKeyName	The key name for the first section of a Yoast sub-block.
  *
  * @returns {{marksForFirstSection: Mark[], marksForSecondSection: Mark[]}}	The filtered array of Mark objects.
  */
-const getMarksForYoastBlock = ( marks, annotatableAttribute, firstSectionKeyName ) => {
-	let marksForFirstSection = marks.filter( mark => {
+const getMarksForYoastBlock = ( marks, annotatableAttribute ) => {
+	const marksForFirstSection = marks.filter( mark => {
 		if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
 			// Filter the marks array and only include the marks that are intended for the first sub-block section.
 			return mark.getBlockAttributeId() === annotatableAttribute.id && mark.isMarkForFirstBlockSection();
-		}
-		return mark;
-	} );
-
-	/*
-	 * For the first section marks, we need to adjust the block start and end offset.
-	 *
-	 * This is because the first section of a Yoast block is always wrapped in `<strong>` tags.
-	 * In `yoastseo`, when calculating the position information of the matched token, we also take
-	 * into account the length of `<strong>` tags.
-	 * However, here, the html for the first section doesn't include the `<strong>` tags.
-	 * As a result, the position information of the matched token will be incorrect.
-	 * Hence, the block start and end offset of the mark object will be subtracted by the length
-	 * of the opening of the `<strong>` tag.
-	 */
-	marksForFirstSection = marksForFirstSection.map( mark => {
-		if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
-			/*
-			 * Get the opening html tag for the first section of a Yoast sub-block.
-			 *
-			 * The Yoast sub-block's first section is always wrapped in `<strong>` tag with the following class name:
-			 * - For Yoast FAQ block, the class name is "schema-faq-question",
-			 * - For Yoast How-To block, the class name is "schema-how-to-step-name",
-			 */
-			const firstSectionOpenTag = firstSectionKeyName === "Question"
-				? "<strong class=\"schema-faq-question\">"
-				: "<strong class=\"schema-how-to-step-name\">";
-
-			return adjustBlockOffset( mark, firstSectionOpenTag );
 		}
 		return mark;
 	} );
@@ -190,7 +142,7 @@ const getAnnotationsFromBlockAttributes = ( annotatableAttributesFromBlock, mark
 		const firstSectionHtml = annotatableAttribute[ `json${ firstSectionKeyName }` ];
 		const secondSectionHtml = annotatableAttribute[ `json${ secondSectionKeyName }` ];
 
-		const { marksForFirstSection, marksForSecondSection } = getMarksForYoastBlock( marks, annotatableAttribute, firstSectionKeyName );
+		const { marksForFirstSection, marksForSecondSection } = getMarksForYoastBlock( marks, annotatableAttribute );
 		// eslint-disable-next-line max-len
 		const firstSectionAnnotations = createAnnotations( firstSectionHtml, firstSectionIdentifier, attributeWithAnnotationSupport, block, marksForFirstSection );
 		// eslint-disable-next-line max-len
