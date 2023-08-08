@@ -51,10 +51,12 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		$url = WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
 
 		$arguments = [
-			'<strong>' . esc_html__( 'Multiple keyphrases', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Increase your SEO reach', 'wordpress-seo' ),
+			'<strong>' . esc_html__( 'Use AI', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Quickly create titles & meta descriptions', 'wordpress-seo' ),
 			'<strong>' . esc_html__( 'No more dead links', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Easy redirect manager', 'wordpress-seo' ),
 			'<strong>' . esc_html__( 'Superfast internal linking suggestions', 'wordpress-seo' ) . '</strong>',
 			'<strong>' . esc_html__( 'Social media preview', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Facebook & Twitter', 'wordpress-seo' ),
+			'<strong>' . esc_html__( 'Multiple keyphrases', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Increase your SEO reach', 'wordpress-seo' ),
+			'<strong>' . esc_html__( 'SEO Workouts', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Get guided in routine SEO tasks', 'wordpress-seo' ),
 			'<strong>' . esc_html__( '24/7 email support', 'wordpress-seo' ) . '</strong>',
 			'<strong>' . esc_html__( 'No ads!', 'wordpress-seo' ) . '</strong>',
 		];

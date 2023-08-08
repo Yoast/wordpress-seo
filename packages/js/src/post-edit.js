@@ -1,6 +1,8 @@
+
 import domReady from "@wordpress/dom-ready";
 import jQuery from "jquery";
 import { noop } from "lodash";
+import initializeAiGenerator from "./ai-generator/initialize";
 import initAdmin from "./initializers/admin";
 import initAdminMedia from "./initializers/admin-media";
 import initEditorStore from "./initializers/editor-store";
@@ -52,4 +54,7 @@ domReady( () => {
 
 	// Initialize the insights.
 	initializeInsights();
+
+	// Initialize the AI Generator upsell.
+	initializeAiGenerator();
 } );

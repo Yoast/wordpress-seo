@@ -15,6 +15,7 @@ import getFleschReadingScore from "./researches/getFleschReadingScore";
 import getKeyphraseDensity, { getKeywordDensity } from "./researches/getKeywordDensity.js";
 import getLinks from "./researches/getLinks.js";
 import getLinkStatistics from "./researches/getLinkStatistics";
+import getParagraphs from "./researches/getParagraphs";
 import getParagraphLength from "./researches/getParagraphLength.js";
 import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
 import getProminentWordsForInsights from "./researches/getProminentWordsForInsights";
@@ -67,6 +68,7 @@ export default class AbstractResearcher {
 			getKeywordDensity,
 			getLinks,
 			getLinkStatistics,
+			getParagraphs,
 			getParagraphLength,
 			getProminentWordsForInsights,
 			getProminentWordsForInternalLinking,

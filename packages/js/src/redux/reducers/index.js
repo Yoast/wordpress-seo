@@ -1,5 +1,6 @@
-import analysis from "../reducers/contentAnalysis";
 import insights from "../../insights/redux/reducer";
+import { LINK_PARAMS_NAME, linkParamsReducer, PLUGIN_URL_NAME, pluginUrlReducer } from "../../shared-admin/store";
+import analysis from "../reducers/contentAnalysis";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
 import analysisData from "./analysisData";
@@ -12,9 +13,9 @@ import editorModals from "./editorModals";
 import facebookEditor from "./facebookEditor";
 import focusKeyword from "./focusKeyword";
 import isPremium from "./isPremium";
-import postId from "./postId";
 import marksButtonStatus from "./markerButtons";
 import isMarkerPaused from "./markerPauseStatus";
+import postId from "./postId";
 import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
 import schemaTab from "./schemaTab";
@@ -45,6 +46,8 @@ export default {
 	isCornerstone,
 	isMarkerPaused,
 	isPremium,
+	[ LINK_PARAMS_NAME ]: linkParamsReducer,
+	[ PLUGIN_URL_NAME ]: pluginUrlReducer,
 	postId,
 	marksButtonStatus,
 	preferences,

@@ -1,10 +1,4 @@
-@import "@yoast/ui-library";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.seo_page_wpseo_page_settings {
+body.seo_page_wpseo_page_settings {
 	@apply yst-bg-slate-100;
 
 	/* Move WP footer behind our content. */
@@ -30,53 +24,11 @@
 		}
 	}
 
-	input[type=date],
-	input[type=datetime-local],
-	input[type=datetime],
-	input[type=email],
-	input[type=month],
-	input[type=number],
-	input[type=password],
-	input[type=search],
-	input[type=tel],
-	input[type=text],
-	input[type=time],
-	input[type=url],
-	input[type=week] {
-		@apply yst-min-h-0;
-	}
-
 	#modal-search .yst-modal__close {
 		margin-top: -0.25rem;
 	}
-}
 
-@layer base {
-	.yst-root {
-		/* Reset some WP common styles */
-		a {
-			@apply focus:yst-shadow-none;
-		}
-
-		.yst-radio__input {
-			@apply
-			yst-transition-none
-			yst-shadow-none
-			checked:before:yst-hidden;
-		}
-
-		.yst-modal {
-			z-index: 100000 !important;
-		}
-
-		li, dd {
-			margin-bottom: 0;
-		}
-	}
-}
-
-@layer components {
-	body.sticky-menu {
+	&.sticky-menu {
 		.yst-root .yst-notifications--bottom-left {
 			@media (min-width: 783px) and (max-width: 962px) {
 				left: calc(160px + 2rem); /* Next to admin menu. 160px is the admin menu width. */
@@ -100,7 +52,7 @@
 		}
 	}
 
-	body:not(.sticky-menu) .wp-responsive-open .yst-root {
+	&:not(.sticky-menu) .wp-responsive-open .yst-root {
 		.yst-notifications--bottom-left {
 			@media (max-width: 783px) {
 				left: calc(190px + 2rem); /* Next to admin menu. 190px is the responsive admin menu width. */
@@ -143,6 +95,7 @@
 			@apply yst-relative;
 
 			/* This needs additional nesting, specificity wise. */
+
 			.emoji-select-popover {
 				@apply yst-z-20 yst-right-auto yst-left-0;
 			}
@@ -176,6 +129,10 @@
 			yst-text-sm
 			yst-font-medium
 			yst-text-slate-800;
+		}
+
+		.yst-replacevar__buttons {
+			@apply yst-inline-flex yst-gap-1.5;
 		}
 
 		.yst-replacevar__button-insert {
@@ -287,7 +244,8 @@
 	}
 
 	/* RTL */
-	.rtl {
+
+	&.rtl {
 		.yst-root .yst-replacevar .emoji-select-popover {
 			@apply yst-left-0 yst-right-auto;
 		}

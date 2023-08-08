@@ -39,7 +39,7 @@ class Product_Helper_Test extends TestCase {
 	 * @covers ::is_premium
 	 */
 	public function test_get_name_not_premium() {
-		$this->assertEquals( 'Yoast SEO plugin', $this->instance->get_name() );
+		$this->assertSame( 'Yoast SEO plugin', $this->instance->get_name() );
 	}
 
 	/**
@@ -53,6 +53,36 @@ class Product_Helper_Test extends TestCase {
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Intended use, constant already exists.
 		\define( 'WPSEO_PREMIUM_FILE', 'the_premium_plugin_file' );
 
-		$this->assertEquals( 'Yoast SEO Premium plugin', $this->instance->get_name() );
+		$this->assertSame( 'Yoast SEO Premium plugin', $this->instance->get_name() );
+	}
+
+	/**
+	 * Retrieves the premium version when premium is not active.
+	 *
+	 * @covers ::get_premium_version
+	 */
+	public function test_get_premium_version_null() {
+		$this->assertNull( $this->instance->get_premium_version() );
+	}
+
+	/**
+	 * Retrieves the premium version.
+	 *
+	 * @covers ::get_premium_version
+	 */
+	public function test_get_premium_version() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Intended use, constant already exists.
+		\define( 'WPSEO_PREMIUM_VERSION', '2.0' );
+
+		$this->assertSame( '2.0', $this->instance->get_premium_version() );
+	}
+
+	/**
+	 * Retrieves the version.
+	 *
+	 * @covers ::get_version
+	 */
+	public function test_get_version() {
+		$this->assertSame( '1.0', $this->instance->get_version() );
 	}
 }
