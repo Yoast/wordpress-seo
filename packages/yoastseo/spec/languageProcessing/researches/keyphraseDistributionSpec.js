@@ -477,6 +477,26 @@ describe( "Test for the research", function() {
 		} );
 	} );
 
+	it( "returns the score 100 when the keyphrase is a shortcode", function() {
+		const paper = new Paper(
+			"This is a text with a [keyphrase]that doesn't count",
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+				synonyms: "synonym",
+				shortcodes: [ "keyphrase" ],
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 100,
+			sentencesToHighlight: [],
+		} );
+	} );
+
 	const paragraphWithKeyphrase1 = "<p>Lorem ipsum keyphrase dolor sit amet, consectetur adipiscing elit." +
 		"In sit amet semper sem, id faucibus massa.</p>\n";
 

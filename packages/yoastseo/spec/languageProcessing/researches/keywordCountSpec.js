@@ -103,6 +103,14 @@ const testCases = [
 		skip: false,
 	},
 	{
+		description: "doesn't count keyphrase instances if they are a shortcode",
+		paper: new Paper( "<p>There is no [keyword] in this sentence.</p>", { shortcodes: [ "keyword" ] } ),
+		keyphraseForms: [ [ "keyword", "keywords" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+		skip: false,
+	},
+	{
 		description: "only counts full-matches of the keyphrase: full-match means when all word of the keyphrase are found in the sentence",
 		paper: new Paper( "<p>A string with three keys (key and another key) and one word.</p>" ),
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],

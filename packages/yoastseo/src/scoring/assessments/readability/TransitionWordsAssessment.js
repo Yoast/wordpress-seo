@@ -11,6 +11,7 @@ import marker from "../../../markers/addMark.js";
 import Assessment from "../assessment";
 import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
+import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
 
 
 /**
@@ -195,6 +196,7 @@ export default class TransitionWordsAssessment extends Assessment {
 		}
 		let text = paper.getText();
 		text = removeHtmlBlocks( text );
+		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 		const textLength = customCountLength ? customCountLength( text ) : getWords( text ).length;
 
 		// Do not use hasEnoughContent in this assessment as it is mostly redundant with `textLength >= this._config.applicableIfTextLongerThan`

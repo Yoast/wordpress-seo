@@ -6,6 +6,7 @@ import tokenize from "./private/tokenize";
 import filterTree from "./private/filterTree";
 import permanentFilters from "./private/alwaysFilterElements";
 import { filterBeforeTokenizing } from "./private/filterBeforeTokenizing";
+import filterShortcodesFromTree from "../../languageProcessing/helpers/sanitize/filterShortcodesFromTree";
 
 /**
  * Parses the HTML string to a tree representation of
@@ -13,11 +14,13 @@ import { filterBeforeTokenizing } from "./private/filterBeforeTokenizing";
  *
  * @param {string} htmlString The HTML string.
  * @param {LanguageProcessor} languageProcessor The language processor to use.
+ * @param {string[]} shortcodes An array of all active shortcodes.
  *
  * @returns {Node} The tree representation of the HTML string.
  */
-export default function build( htmlString, languageProcessor ) {
+export default function build( htmlString, languageProcessor, shortcodes ) {
 	let tree = adapt( parseFragment( htmlString, { sourceCodeLocationInfo: true } ) );
+
 	/*
 	 * Filter out some content from the tree so that it can be correctly tokenized. We don't want to tokenize text in
 	 * between tags such as 'code' and 'script', but we do want to take into account the length of those elements when
@@ -27,6 +30,11 @@ export default function build( htmlString, languageProcessor ) {
 
 	// Add sentences and tokens to the tree's paragraph and heading nodes.
 	tree = tokenize( tree, languageProcessor );
+
+	// Filter out shortcodes from the tree.
+	if ( shortcodes ) {
+		filterShortcodesFromTree( tree, shortcodes );
+	}
 
 	/*
 	 * Filter out elements we don't want to include in the analysis. Only do this after tokenization as we need to

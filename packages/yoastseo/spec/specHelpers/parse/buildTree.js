@@ -14,7 +14,9 @@ import permanentFilters from "../../../src/parse/build/private/alwaysFilterEleme
  */
 export default function buildTree( paper, researcher ) {
 	const languageProcessor = new LanguageProcessor( researcher );
-	paper.setTree( build( paper.getText(), languageProcessor ) );
+	const shortcodes = paper._attributes && paper._attributes.shortcodes;
+
+	paper.setTree( build( paper.getText(), languageProcessor, shortcodes ) );
 }
 
 /**
