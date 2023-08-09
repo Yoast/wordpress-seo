@@ -11,9 +11,8 @@ import InsightsModal from "../../../insights/components/insights-modal";
 import Alert from "../../containers/Alert";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../../../components/SidebarItem";
-import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
-import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
-import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
+import SearchPreviewModal from "../modals/editorModals/SearchPreviewModal";
+import SocialPreviewModal from "../modals/editorModals/SocialPreviewModal";
 import PremiumSEOAnalysisModal from "../../../components/modals/PremiumSEOAnalysisModal";
 import SidebarCollapsible from "../../../components/SidebarCollapsible";
 import SchemaTabContainer from "../../../containers/SchemaTab";
@@ -66,13 +65,13 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					</Fill> }
 				</SidebarItem> }
 				<SidebarItem renderPriority={ 25 }>
-					<GooglePreviewModal />
+					<SearchPreviewModal />
 				</SidebarItem>
-				{ settings.displayFacebook && <SidebarItem renderPriority={ 26 }>
-					<FacebookPreviewModal />
-				</SidebarItem> }
-				{ settings.displayTwitter && <SidebarItem renderPriority={ 27 }>
-					<TwitterPreviewModal />
+				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-preview" renderPriority={ 26 }>
+					<SocialPreviewModal
+						useOpenGraphData={ settings.useOpenGraphData }
+						useTwitterData={ settings.useTwitterData }
+					/>
 				</SidebarItem> }
 				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 28 }>
 					<SidebarCollapsible

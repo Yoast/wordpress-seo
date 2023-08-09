@@ -4,11 +4,11 @@ import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
 
 /* Internal dependencies */
-import EditorModal from "../../../containers/EditorModal";
+import EditorModal from "../../../../containers/EditorModal";
 import FacebookEditor from "../../../containers/FacebookEditor";
 import TwitterEditor from "../../../containers/TwitterEditor";
-import SocialSettingsNotice from "../../social/SocialSettingsNotice";
-import SocialDescription from "../../social/SocialDescription";
+import SocialSettingsNotice from "../../../../components//social/SocialSettingsNotice";
+import SocialDescription from "../../../../components/social/SocialDescription";
 
 import { Collapsible } from "@yoast/components";
 import PropTypes from "prop-types";
@@ -70,6 +70,7 @@ const SocialPreviewModal = ( props ) => {
 		<EditorModal
 			title={ __( "Social appearance", "wordpress-seo" ) }
 			id="yoast-social-preview-modal"
+			shouldCloseOnClickOutside={ false }
 		>
 			{ useOpenGraphData &&
 				<Fragment>
