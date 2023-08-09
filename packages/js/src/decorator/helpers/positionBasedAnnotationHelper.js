@@ -8,7 +8,7 @@
 const htmlTagsRegex = /(<([a-z]|\/)[^<>]+>)/ig;
 
 /**
- * Adjusts the block start and end offset for a given mark.
+ * Adjusts the block start and end offset for a given mark from the first section of a Yoast sub-block.
  *
  * For the first section marks, we need to adjust the block start and end offset.
  *
@@ -49,7 +49,53 @@ const adjustFirsSectionOffsets = ( blockStartOffset, blockEndOffset, blockName )
 };
 
 /**
- * Creates an annotation if the given mark is position based.
+ * Adjusts the block start and end offsets of a given mark when the block html contains tags.
+ *
+ * @param {int}		blockStartOffset	The block start offset of the Mark object to adjust.
+ * @param {int}		blockEndOffset		The block end offset of the Mark object to adjust.
+ * @param {string}	blockHtml			The html of the block.
+ *
+ * @returns {[{endOffset, startOffset}]} The array of adjusted block start and end offsets of a given mark.
+ */
+const adjustMarkOffsets = ( blockStartOffset, blockEndOffset, blockHtml ) => {
+	// Retrieve the html from the start until the block startOffset of the mark.
+	blockHtml = blockHtml.slice( 0, blockStartOffset );
+
+	// Find all html tags.
+	const foundHtmlTags = [ ...blockHtml.matchAll( htmlTagsRegex ) ];
+	/*
+	 * Loop through the found html tags backwards, and adjust the start and end offsets of the mark
+	 * by subtracting them with the length of the found html tags.
+	 *
+	 * This step is necessary to account for the difference in the way we "parse" the block and calculate the token position
+	 * between `yoastseo` package and block annotation API.
+	 * Inside `yoastseo`, the token's position information also takes into account all the HTML tags surrounding it in a block.
+	 * However, the block annotation API applies annotations to "clean" text/html without any HTML tags.
+	 * As a result, the token position information we retrieve from `yoastseo` wouldn't match that of block annotation API.
+	 * Example:
+	 * From `yoastseo`:
+	 * - Text: This is a giant <strong>panda</strong>.
+	 * - Range of "panda": 24 - 29
+	 * In the block:
+	 * - Text: This is a giant panda.
+	 * - Range of "panda": 16 -21
+	 */
+	for ( let i = foundHtmlTags.length - 1; i >= 0; i-- ) {
+		const [ foundTag ] = foundHtmlTags[ i ];
+
+		blockStartOffset -= foundTag.length;
+		blockEndOffset -= foundTag.length;
+	}
+	return [
+		{
+			startOffset: blockStartOffset,
+			endOffset: blockEndOffset,
+		},
+	];
+};
+
+/**
+ * Creates an annotation range if the given mark has position information.
  * A helper for position-based highlighting.
  *
  * @param {Mark}   mark				The mark to apply to the content.
@@ -58,7 +104,7 @@ const adjustFirsSectionOffsets = ( blockStartOffset, blockEndOffset, blockName )
  * @param {string} blockHtml		The HTML of the block: possibly contains html tags.
  * @param {string} richText			The rich text of the block: the text without html tags.
  *
- * @returns {Array} The annotations to apply.
+ * @returns {Array} The array of annotation range object.
  */
 export function createAnnotationsFromPositionBasedMarks( mark, blockClientId, blockName, blockHtml, richText ) {
 	// If the block client id is the same as the mark's block client id, it means that this mark object is intended for this block.
@@ -92,41 +138,7 @@ export function createAnnotationsFromPositionBasedMarks( mark, blockClientId, bl
 				},
 			];
 		}
-
-		// Retrieve the html from the start until the block startOffset of the mark.
-		blockHtml = blockHtml.slice( 0, blockStartOffset );
-
-		// Find all html tags.
-		const foundHtmlTags = [ ...blockHtml.matchAll( htmlTagsRegex ) ];
-		/*
-		 * Loop through the found html tags backwards, and adjust the start and end offsets of the mark
-		 * by subtracting them with the length of the found html tags.
-		 *
-		 * This step is necessary to account for the difference in the way we "parse" the block and calculate the token position
-		 * between `yoastseo` package and block annotation API.
-		 * Inside `yoastseo`, the token's position information also takes into account all the HTML tags surrounding it in a block.
-		 * However, the block annotation API applies annotations to "clean" text/html without any HTML tags.
-		 * As a result, the token position information we retrieve from `yoastseo` wouldn't match that of block annotation API.
-		 * Example:
-		 * From `yoastseo`:
-		 * - Text: This is a giant <strong>panda</strong>.
-		 * - Range of "panda": 24 - 29
-		 * In the block:
-		 * - Text: This is a giant panda.
-		 * - Range of "panda": 16 -21
-		 */
-		for ( let i = foundHtmlTags.length - 1; i >= 0; i-- ) {
-			const [ foundTag ] = foundHtmlTags[ i ];
-
-			blockStartOffset -= foundTag.length;
-			blockEndOffset -= foundTag.length;
-		}
-		return [
-			{
-				startOffset: blockStartOffset,
-				endOffset: blockEndOffset,
-			},
-		];
+		return adjustMarkOffsets( blockStartOffset, blockEndOffset, blockHtml );
 	}
 	return [];
 }
