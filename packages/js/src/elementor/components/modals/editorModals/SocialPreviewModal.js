@@ -2,6 +2,8 @@
 import { __, sprintf } from "@wordpress/i18n";
 import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
+import PropTypes from "prop-types";
+import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
 import EditorModal from "../../../../containers/EditorModal";
@@ -9,39 +11,7 @@ import FacebookEditor from "../../../containers/FacebookEditor";
 import TwitterEditor from "../../../containers/TwitterEditor";
 import SocialSettingsNotice from "../../../../components//social/SocialSettingsNotice";
 import SocialDescription from "../../../../components/social/SocialDescription";
-
-import { Collapsible } from "@yoast/components";
-import PropTypes from "prop-types";
-import { colors } from "@yoast/style-guide";
-
-const StyledModalCollapsible = styled( Collapsible )`
-	h2 > button {
-		padding-left: 0;
-		padding-top: 16px;
-
-		&:hover {
-			background-color: #f0f0f0;
-		}
-	}
-
-	div[class^="collapsible_content"] {
-		padding: 24px 0;
-		margin: 0 24px;
-		border-top: 1px solid rgba(0,0,0,0.2);
-	}
-
-`;
-
-/**
- * The ModalCollapsible.
- *
- * @param {Object} props The props
- *
- * @returns {JSX.Element} A ModalCollapsible component.
- */
-const ModalCollapsible = ( props ) => {
-	return <StyledModalCollapsible hasPadding={ false } hasSeparator={ true } { ...props } />;
-};
+import ModalCollapsible from "../../../../components/ModalCollapsible";
 
 const ShortSocialSettingsNotice = styled.legend`
 	margin: 16px 0;
