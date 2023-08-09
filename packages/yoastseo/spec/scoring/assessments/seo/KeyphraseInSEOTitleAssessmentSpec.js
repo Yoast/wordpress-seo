@@ -3,8 +3,31 @@ import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
+import { testKeyphraseinSEOTitle } from "../../../languageProcessing/researches/keyphraseInSEOTitleTestHelper";
 
 const morphologyDataJA = getMorphologyData( "ja" );
+
+describe( "test whether SEO titles contain the keyphrase", function() {
+	// You can add multiple objects with a keyphrase of meta description to each array.
+	it( "should test whether there's a keyphrase in the SEO title (EN)", function() {
+		const testData = [
+			{ keyphrase: "water color painting techniques for beginners", title: "Build Colorful Masterpieces with Watercolor Painting Techniques" },
+		];
+		testKeyphraseinSEOTitle( testData, "en" );
+	} );
+
+	it( "should test whether there's a keyphrase in the SEO title (NL)", function() {
+		const testData = [
+		];
+		testKeyphraseinSEOTitle( testData, "nl" );
+	} );
+
+	it( "should test whether there's a keyphrase in the SEO title (PL)", function() {
+		const testData = [
+		];
+		testKeyphraseinSEOTitle( testData, "pl" );
+	} );
+} );
 
 describe( "an assessment to check if the keyword is in the SEO title", function() {
 	it( "returns an assessment result with keyword not found", function() {

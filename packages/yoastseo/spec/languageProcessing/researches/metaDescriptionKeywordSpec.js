@@ -7,24 +7,27 @@ import { testMetaDescriptionKeyphrase } from "./metaDescriptionTestHelper";
 
 const morphologyData = getMorphologyData( "en" );
 
-it( "should test whether there's a keyphrase in meta description (EN)", function() {
-	const testData = [
-		{ keyphrase: "water color painting techniques for beginners", description: "Explore essential watercolor painting techniques for beginners and transform your artwork with vibrant colors and innovative tools." },
-		{ keyphrase: "water color painting techniques for beginners", description: "Unlock your artistic potential with watercolor painting techniques for beginners, including vibrant colors and unconventional tools." },
-	];
-	testMetaDescriptionKeyphrase( testData, "en" );
-} );
+describe( "test whether meta descriptions contain the keyphrase", function() {
+	// You can add multiple objects with a keyphrase of meta description to each array.
+	it( "should test whether there's a keyphrase in meta description (EN)", function() {
+		const testData = [
+			{ keyphrase: "how to trim a cat's nails", description: "to trim a cat's nails, you'll need a lot of patience " +
+					"and to be prepared to get hurt" },
+		];
+		testMetaDescriptionKeyphrase( testData, "en" );
+	} );
 
-it( "should test whether there's a keyphrase in meta description (NL)", function() {
-	const testData = [
-	];
-	testMetaDescriptionKeyphrase( testData, "nl" );
-} );
+	it( "should test whether there's a keyphrase in meta description (NL)", function() {
+		const testData = [
+		];
+		testMetaDescriptionKeyphrase( testData, "nl" );
+	} );
 
-it( "should test whether there's a keyphrase in meta description (PL)", function() {
-	const testData = [
-	];
-	testMetaDescriptionKeyphrase( testData, "pl" );
+	it( "should test whether there's a keyphrase in meta description (PL)", function() {
+		const testData = [
+		];
+		testMetaDescriptionKeyphrase( testData, "pl" );
+	} );
 } );
 
 describe( "the metadescription keyword match research", function() {
@@ -263,14 +266,14 @@ describe( "the meta description keyword match research for languages that have c
 	describe( "test the research with morphology data unavailable", () => {
 		it( "returns 1 when only the keyword is found in the meta description", function() {
 			const paper = new Paper( "", { keyword: "小さい花の刺繍", synonyms: "野生のハーブの刺繡", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
-					"基本的な情報を紹介します。私は美しい猫を飼っています。" }  );
+					"基本的な情報を紹介します。私は美しい猫を飼っています。" },  );
 			const researcher = new JapaneseResearcher( paper );
 			const result = metaDescriptionKeyword( paper, researcher );
 			expect( result ).toEqual( 1 );
 		} );
 
 		it( "returns 1 when only the synonym is found in the meta description", function() {
-			const paper = new Paper( "", { keyword: "小さい花の刺繍", synonyms: "野生のハーブの刺繡", description: "私は美しい猫を飼っています。野生のハーブの刺繡。" }  );
+			const paper = new Paper( "", { keyword: "小さい花の刺繍", synonyms: "野生のハーブの刺繡", description: "私は美しい猫を飼っています。野生のハーブの刺繡。" },  );
 			const researcher = new JapaneseResearcher( paper );
 			const result = metaDescriptionKeyword( paper, researcher );
 			expect( result ).toEqual( 1 );
@@ -320,7 +323,7 @@ describe( "the meta description keyword match research for languages that have c
 		} );
 
 		it( "returns 1 when the keyphrase is enclosed in double quotes and there is an exact match in the meta description text", function() {
-			const paper = new Paper( "", { keyword: "『小さい花の刺繍』", synonyms: "野生のハーブの刺繡", description: "小さい花の刺繍。" }  );
+			const paper = new Paper( "", { keyword: "『小さい花の刺繍』", synonyms: "野生のハーブの刺繡", description: "小さい花の刺繍。" },  );
 			const researcher = new JapaneseResearcher( paper );
 			const result = metaDescriptionKeyword( paper, researcher );
 			expect( result ).toEqual( 1 );
@@ -336,7 +339,7 @@ describe( "the meta description keyword match research for languages that have c
 		} );
 
 		it( "returns 1 when the synonym is enclosed in double quotes and there is an exact match in the meta description text", function() {
-			const paper = new Paper( "", { keyword: "野生のハーブの刺繡", synonyms: "『小さい花の刺繍』", description: "小さい花の刺繍。" }  );
+			const paper = new Paper( "", { keyword: "野生のハーブの刺繡", synonyms: "『小さい花の刺繍』", description: "小さい花の刺繍。" },  );
 			const researcher = new JapaneseResearcher( paper );
 			const result = metaDescriptionKeyword( paper, researcher );
 			expect( result ).toEqual( 1 );

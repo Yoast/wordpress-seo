@@ -1,4 +1,4 @@
-import metaDescriptionKeyword from "../../../src/languageProcessing/researches/metaDescriptionKeyword";
+import KeyphraseInSEOTitleAssessment from "../../../src/scoring/assessments/seo/KeyphraseInSEOTitleAssessment";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import Paper from "../../../src/values/Paper.js";
 
@@ -12,19 +12,18 @@ const researchers = {
 	nl,
 	pl,
 };
-
 /**
- * Loops through an array of objects containing a meta description and keyword, and for each object console logs the
- * number of times the keyphrase is found in the meta description.
+ * Loops through an array of objects containing an SEO title and keyword, and for each object console logs the
+ * score that the title gets on the keyphrase in SEO title assessment.
  *
- * @param {Object[]} testDataArray	The array with objects containing the keyphrase and meta description.
- * @param {string} 	 language		The language of the keyphrase and meta descriptions.
+ * @param {Object[]} testDataArray	The array with objects containing the keyphrase and SEO title.
+ * @param {string} language	The language of the keyphrase and SEO title.
  *
  * @returns {void}
  */
-export function testMetaDescriptionKeyphrase( testDataArray, language ) {
+export function testKeyphraseinSEOTitle( testDataArray, language ) {
 	testDataArray.forEach( ( testData ) => {
-		const paper = new Paper( "", { keyword: testData.keyphrase, description: testData.description } );
+		const paper = new Paper( "", { keyword: testData.keyphrase, title: testData.title } );
 
 		// Use language-specific researcher and morphology data.
 		const researcherName = researchers[ language ];
@@ -33,8 +32,9 @@ export function testMetaDescriptionKeyphrase( testDataArray, language ) {
 		const morphologyData = getMorphologyData( language );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		const result = metaDescriptionKeyword( paper, researcher );
+		const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
+		const score = assessment.getScore();
 		// eslint-disable-next-line no-console
-		console.log( result );
+		console.log( score );
 	} );
 }

@@ -80,6 +80,7 @@ export default function( paper, researcher ) {
 		sentence => matchPerSentence( sentence, topicForms, locale, matchWordCustomHelper )
 	);
 
+
 	return sentenceMatches.reduce( ( sum, count ) => sum + count, 0 );
 }
 
