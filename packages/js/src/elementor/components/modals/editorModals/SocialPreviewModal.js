@@ -1,3 +1,5 @@
+/* eslint-disable complexity */
+
 /* External dependencies */
 import { __, sprintf } from "@wordpress/i18n";
 import styled from "styled-components";
