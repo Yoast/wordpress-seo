@@ -7,17 +7,9 @@ import PropTypes from "prop-types";
 /* Internal dependencies */
 import FacebookContainer from "../../containers/FacebookEditor";
 import TwitterContainer from "../../containers/TwitterEditor";
-import styled from "styled-components";
-import { colors } from "@yoast/style-guide";
-import React from "react";
+import SocialSettingsNotice from "../social/SocialSettingsNotice";
+import SocialDescription from "../social/SocialDescription";
 
-const ModalDescription = styled.legend`
-	margin: 8px 0;
-	padding: 0;
-	color: ${ colors.$color_headings };
-	font-size: 12px;
-	font-weight: 300;
-`;
 
 /**
  * Component that renders the social metadata collapsibles.
@@ -26,24 +18,24 @@ const ModalDescription = styled.legend`
  *
  * @returns {wp.Element} The social metadata collapsibles.
  */
-const SocialMetadata = ( { displayFacebook, displayTwitter } ) => {
+const SocialMetadata = ( { useOpenGraphData, useTwitterData } ) => {
 	return (
 		<Fragment>
-			{ displayFacebook && <MetaboxCollapsible
+			{ useOpenGraphData && <MetaboxCollapsible
 				hasSeparator={ false }
-				/* Translators: %s expands to Facebook. */
-				title={ sprintf( __( "Social appearance", "wordpress-seo" ), "Facebook" ) }
+				/* Translators: %s expands to Social. */
+				title={ sprintf( __( "%s appearance", "wordpress-seo" ), "Social" ) }
 				initialIsOpen={ true }
 			>
-				<ModalDescription>{ __( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, " +
-					"Threads, LinkedIn, Slack, and more.", "wordpress-seo" ) }</ModalDescription>
+				<SocialDescription />
 				<FacebookContainer />
+				{ useTwitterData && <SocialSettingsNotice /> }
 			</MetaboxCollapsible> }
-			{ displayTwitter && <MetaboxCollapsible
+			{ useTwitterData && <MetaboxCollapsible
 				/* Translators: %s expands to Twitter. */
-				title={ sprintf( __( "Twitter appearance", "wordpress-seo" ), "Twitter" ) }
+				title={ sprintf( __( "%s appearance", "wordpress-seo" ), "Twitter" ) }
 				// If facebook is NOT enabled, Twitter collapsible should NOT have a separator.
-				hasSeparator={ displayFacebook }
+				hasSeparator={ useOpenGraphData }
 				initialIsOpen={ false }
 			>
 				<TwitterContainer />
@@ -53,8 +45,8 @@ const SocialMetadata = ( { displayFacebook, displayTwitter } ) => {
 };
 
 SocialMetadata.propTypes = {
-	displayFacebook: PropTypes.bool.isRequired,
-	displayTwitter: PropTypes.bool.isRequired,
+	useOpenGraphData: PropTypes.bool.isRequired,
+	useTwitterData: PropTypes.bool.isRequired,
 };
 
 export default SocialMetadata;

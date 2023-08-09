@@ -13,8 +13,7 @@ import InsightsModal from "../../insights/components/insights-modal";
 import SidebarItem from "../SidebarItem";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
-import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
-import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
+import SocialPreviewModal from "../modals/editorModals/SocialPreviewModal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
@@ -54,11 +53,11 @@ export default function SidebarFill( { settings } ) {
 				<SidebarItem key="google-preview" renderPriority={ 25 }>
 					<GooglePreviewModal />
 				</SidebarItem>
-				{ settings.displayFacebook && <SidebarItem key="facebook-preview" renderPriority={ 26 }>
-					<FacebookPreviewModal />
-				</SidebarItem> }
-				{ settings.displayTwitter && <SidebarItem key="twitter-preview" renderPriority={ 27 }>
-					<TwitterPreviewModal />
+				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-preview" renderPriority={ 26 }>
+					<SocialPreviewModal
+						useOpenGraphData={ settings.useOpenGraphData }
+						useTwitterData={ settings.useTwitterData }
+					/>
 				</SidebarItem> }
 				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 28 }>
 					<SidebarCollapsible
