@@ -11,7 +11,7 @@ import Warning from "../../containers/Warning";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import InsightsModal from "../../insights/components/insights-modal";
 import SidebarItem from "../SidebarItem";
-import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
+import SearchPreviewModal from "../modals/editorModals/SearchPreviewModal";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import SocialPreviewModal from "../modals/editorModals/SocialPreviewModal";
 import SchemaTabContainer from "../../containers/SchemaTab";
@@ -50,8 +50,8 @@ export default function SidebarFill( { settings } ) {
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 				</SidebarItem> }
-				<SidebarItem key="google-preview" renderPriority={ 25 }>
-					<GooglePreviewModal />
+				<SidebarItem key="search-preview" renderPriority={ 25 }>
+					<SearchPreviewModal />
 				</SidebarItem>
 				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-preview" renderPriority={ 26 }>
 					<SocialPreviewModal
