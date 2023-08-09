@@ -6,21 +6,21 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 		" when the block client id matches the mark client id and the block html is the same as the rich text", () => {
 		const mark = new Mark( {
 			position: {
-				startOffsetBlock: 22,
-				endOffsetBlock: 26,
+				startOffsetBlock: 4,
+				endOffsetBlock: 14,
 				clientId: "261e3892-f28c-4273-86b4-a00801c38d22",
 			},
 		} );
 		const html = "The Maine Coon is a large domesticated cat breed.";
 
 		/*
-		 * "A long text. A marked text."
-		 *                     22 ^   ^ 26
+		 * "The Maine Coon is a large domesticated cat breed."
+		 *    4 ^        ^ 14
 		 */
 		const expected = [
 			{
-				startOffset: 22,
-				endOffset: 26,
+				startOffset: 4,
+				endOffset: 14,
 			},
 		];
 
@@ -54,17 +54,32 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 
 		expect( actual ).toEqual( [] );
 	} );
-	it( "should return annotations with adjusted block start and end position " +
-		"when the block html is not the same as the rich text", () => {
+	it( "should return annotations with adjusted block start and end position when the block html is not the same as the rich text:" +
+		"The mark is for non-Yoast block", () => {
+		/*
+         * The block start and end offsets that are coming from the analysis is off by the length of the following tags:
+         * 1. The length of the HTML tags found in the text preceding the word we want to annotate
+         *  - From the html text below, the html tags are:
+         *  a. <strong>: 8 chars
+         *  b. <a href="https://en.wikipedia.org/wiki/Giant_panda">: 52 chars
+         *  c. </a>: 4 chars
+         *  d. </strong>: 9 chars
+         *
+         * Total length of the html tags above: 73.
+         *
+         * The correct block start offset of the word "panda" is 128 - 73 = 55.
+         * The correct block end offset of the word "panda" is 133 - 73 = 60.
+        */
 		const mark = new Mark( {
 			position: {
-				startOffsetBlock: 115,
-				endOffsetBlock: 120,
+				startOffsetBlock: 128,
+				endOffsetBlock: 133,
 				clientId: "261e3892-f28c-4273-86b4-a00801c38d22",
 			},
 		} );
 		const html = "Red panda has smaller chewing muscles than " +
-			"the <strong><a href=\"https://github.com/Yoast/wordpress-seo/pull/20139\">giant</a></strong> panda. ";
+			"the <strong><a href=\"https://en.wikipedia.org/wiki/Giant_panda\">giant</a></strong> panda. ";
+		// The word to annotate: panda. In the rich text below, the position is 55 - 60.
 		const richText = "Red panda has a smaller chewing muscles than the giant panda.";
 
 		const actual = createAnnotationsFromPositionBasedMarks(
@@ -76,21 +91,38 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 		);
 
 		expect( actual ).toEqual( [ {
-			startOffset: 47,
-			endOffset: 52,
+			startOffset: 55,
+			endOffset: 60,
 		} ] );
 	} );
-	it( "should return annotations for the first section of a Yoast sub-block with adjusted block start and end position", () => {
+	it( "should return annotations for the first section of a Yoast FAQ sub-block with adjusted block start and end position", () => {
+		/*
+	     * The block start and end offsets that are coming from the analysis is off by the length of the following tags:
+	     * 1. The length of the strong tag opening of the first section, including the class name.
+	     * 	a. <strong class="schema-faq-question">: 36 chars
+	     * 2. The length of the HTML tags found in the text preceding the word we want to annotate
+	     *  - From the html text below, the html tags are:
+	     *  a. <strong>: 8 chars
+	     *  b. <a href="https://en.wikipedia.org/wiki/Giant_panda">: 52 chars
+	     *  c. </a>: 4 chars
+	     *  d. </strong>: 9 chars
+	     *
+	     * Total length of the html tags above: 109.
+	     *
+	     * The correct block start offset of the word "panda" is 122 - 109 = 13.
+		 * The correct block end offset of the word "panda" is 127 - 109 = 18.
+	    */
 		const mark = new Mark( {
 			position: {
-				startOffsetBlock: 115,
-				endOffsetBlock: 120,
+				startOffsetBlock: 122,
+				endOffsetBlock: 127,
 				clientId: "261e3892-f28c-4273-86b4-a00801c38d22",
+				isFirstSection: true,
 			},
 		} );
-		const html = "Red panda has smaller chewing muscles than " +
-			"the <strong><a href=\"https://github.com/Yoast/wordpress-seo/pull/20139\">giant</a></strong> panda. ";
-		const richText = "Red panda has a smaller chewing muscles than the giant panda.";
+		const html = "Is the <strong><a href=\"https://en.wikipedia.org/wiki/Giant_panda\">giant</a></strong> panda cute?";
+		// The word to annotate: panda. In the rich text below, the position is 13 - 18.
+		const richText = "Is the giant panda cute?";
 
 		const actual = createAnnotationsFromPositionBasedMarks(
 			mark,
@@ -101,8 +133,50 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 		);
 
 		expect( actual ).toEqual( [ {
-			startOffset: 47,
-			endOffset: 52,
+			startOffset: 13,
+			endOffset: 18,
+		} ] );
+	} );
+	it( "should return annotations for the first section of a Yoast How-To sub-block with adjusted block start and end position", () => {
+		/*
+		 * The block start and end offsets that are coming from the analysis is off by the length of the following tags:
+		 * 1. The length of the strong tag opening of the first section, including the class name.
+		 * 	a. <strong class="schema-how-to-step-name">: 40 chars
+		 * 2. The length of the HTML tags found in the text preceding the word we want to annotate
+		 *  - From the html text below, the html tags are:
+		 *  a. <strong>: 8 chars
+		 *  b. <a href="https://en.wikipedia.org/wiki/Giant_panda">: 52 chars
+		 *  c. </a>: 4 chars
+		 *  d. </strong>: 9 chars
+		 *
+		 * Total length of the html tags above: 113
+		 *
+		 * The correct block start offset of the word "panda" is 153 - 113 = 40.
+		 * The correct block end offset of the word "panda" is 158 - 113 = 45.
+		 */
+		const mark = new Mark( {
+			position: {
+				startOffsetBlock: 153,
+				endOffsetBlock: 158,
+				clientId: "261e3892-f28c-4273-86b4-a00801c38d22",
+				isFirstSection: true,
+			},
+		} );
+		const html = "Prepare the <strong><a href=\"https://en.wikipedia.org/wiki/Giant_panda\">bamboo shoots</a></strong> for the giant panda";
+		// The word to annotate: panda. In the rich text below, the position is 40 - 45.
+		const richText = "Prepare the bamboo shoots for the giant panda";
+
+		const actual = createAnnotationsFromPositionBasedMarks(
+			mark,
+			"261e3892-f28c-4273-86b4-a00801c38d22",
+			"yoast/how-to-block",
+			html,
+			richText
+		);
+
+		expect( actual ).toEqual( [ {
+			startOffset: 40,
+			endOffset: 45,
 		} ] );
 	} );
 } );
