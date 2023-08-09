@@ -238,7 +238,7 @@ const WincherChartSettings = styled.div.attrs( { className: "yoast-field-group" 
 `;
 
 const ChartWrapper = styled.div`
-	margin: 0 20px;
+	margin: 8px 0;
 `;
 
 const START_OF_TODAY = moment().startOf( "day" );
