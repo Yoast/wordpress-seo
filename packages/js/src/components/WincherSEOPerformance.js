@@ -2,6 +2,7 @@
 
 /* External dependencies */
 import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
+import { usePrevious } from "@wordpress/compose";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { isEmpty, orderBy } from "lodash";
@@ -352,6 +353,15 @@ const TableContent = ( props ) => {
 	const [ selectedKeyphrases, setSelectedKeyphrases ] = useState( [] );
 
 	const isChartShown = selectedKeyphrases.length > 0;
+
+	const trackedKeyphrasesPrev = usePrevious( trackedKeyphrases );
+
+	useEffect( () => {
+		if ( ! isEmpty( trackedKeyphrases ) && Object.values( trackedKeyphrases ).length !== ( trackedKeyphrasesPrev || [] ).length ) {
+			const keywords = Object.values( trackedKeyphrases ).map( keyphrase => keyphrase.keyword );
+			setSelectedKeyphrases( keywords );
+		}
+	}, [ trackedKeyphrases, trackedKeyphrasesPrev ] );
 
 	useEffect( () => {
 		setPeriod( defaultPeriod );
