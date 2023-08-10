@@ -5,6 +5,8 @@ import WincherTableRow, {
 	PositionOverTimeCell,
 	CaretIcon,
 	PositionChangeValue,
+	SelectKeyphraseCheckboxWrapper,
+	KeyphraseTdWrapper,
 } from "../../src/components/WincherTableRow";
 import { Toggle } from "@yoast/components";
 import WincherSEOPerformanceLoading from "../../src/components/modals/WincherSEOPerformanceLoading";
@@ -49,9 +51,11 @@ describe( "WincherTableRow", () => {
 			onSelectKeyphrases={ noop }
 		/> );
 
-		expect( component.find( "td" ).length ).toEqual( 3 );
-		expect( component.find( "td" ).at( 1 ).text() ).toEqual( "woocommerce seo" );
-		expect( component.find( "td" ).at( 2 ).getElement().props.children ).toEqual( <WincherSEOPerformanceLoading /> );
+		expect( component.find( "td" ).length ).toEqual( 2 );
+		expect( component.find( "td" ).at( 0 ).getElement().props.children ).toEqual( <WincherSEOPerformanceLoading /> );
+		expect( component.find( SelectKeyphraseCheckboxWrapper ).length ).toEqual( 1 );
+		expect( component.find( KeyphraseTdWrapper ).length ).toEqual( 1 );
+		expect( component.find( KeyphraseTdWrapper ).at( 0 ).text() ).toEqual( "woocommerce seo" );
 	} );
 
 	it( "should render a row with the available data and with chart data", () => {
@@ -62,17 +66,19 @@ describe( "WincherTableRow", () => {
 			onSelectKeyphrases={ noop }
 		/> );
 
-		expect( component.find( "td" ).length ).toEqual( 6 );
+		expect( component.find( "td" ).length ).toEqual( 4 );
 		expect( component.find( Toggle ).length ).toEqual( 1 );
 		expect( component.find( PositionOverTimeCell ).length ).toEqual( 1 );
+		expect( component.find( SelectKeyphraseCheckboxWrapper ).length ).toEqual( 1 );
+		expect( component.find( KeyphraseTdWrapper ).length ).toEqual( 1 );
 
 		expect( component.find( Toggle ).getElement().props.id ).toBe( "toggle-keyphrase-tracking-yoast seo" );
 		expect( component.find( Toggle ).getElement().props.isEnabled ).toBe( true );
 		expect( component.find( Toggle ).getElement().props.showToggleStateLabel ).toBe( false );
 
-		expect( component.find( "td" ).at( 1 ).text() ).toEqual( "yoast seo" );
-		expect( component.find( "td" ).at( 2 ).text() ).toEqual( "10" );
-		expect( component.find( "td" ).at( 4 ).text() ).toEqual( "a few seconds ago" );
+		expect( component.find( KeyphraseTdWrapper ).at( 0 ).text() ).toEqual( "yoast seo" );
+		expect( component.find( "td" ).at( 0 ).text() ).toContain( "10" );
+		expect( component.find( "td" ).at( 2 ).text() ).toEqual( "a few seconds ago" );
 	} );
 
 	it( "should not render an enabled toggle or any position and chart data when no data is available", () => {
@@ -83,16 +89,15 @@ describe( "WincherTableRow", () => {
 			onSelectKeyphrases={ noop }
 		/> );
 
-		expect( component.find( "td" ).length ).toEqual( 6 );
+		expect( component.find( "td" ).length ).toEqual( 4 );
 		expect( component.find( Toggle ).length ).toEqual( 1 );
 		expect( component.find( PositionOverTimeCell ).length ).toEqual( 0 );
 
 		expect( component.find( Toggle ).getElement().props.id ).toBe( "toggle-keyphrase-tracking-yoast seo" );
 		expect( component.find( Toggle ).getElement().props.isEnabled ).toBe( false );
-		expect( component.find( "td" ).at( 1 ).text() ).toEqual( "yoast seo" );
+		expect( component.find( KeyphraseTdWrapper ).at( 0 ).text() ).toEqual( "yoast seo" );
+		expect( component.find( "td" ).at( 1 ).text() ).toEqual( "?" );
 		expect( component.find( "td" ).at( 2 ).text() ).toEqual( "?" );
-		expect( component.find( "td" ).at( 3 ).text() ).toEqual( "?" );
-		expect( component.find( "td" ).at( 4 ).text() ).toEqual( "?" );
 	} );
 } );
 
