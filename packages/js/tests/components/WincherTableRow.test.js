@@ -7,6 +7,7 @@ import WincherTableRow, {
 	PositionChangeValue,
 	SelectKeyphraseCheckboxWrapper,
 	KeyphraseTdWrapper,
+	TrackingTdWrapper,
 } from "../../src/components/WincherTableRow";
 import { Toggle } from "@yoast/components";
 import WincherSEOPerformanceLoading from "../../src/components/modals/WincherSEOPerformanceLoading";
@@ -51,11 +52,12 @@ describe( "WincherTableRow", () => {
 			onSelectKeyphrases={ noop }
 		/> );
 
-		expect( component.find( "td" ).length ).toEqual( 2 );
+		expect( component.find( "td" ).length ).toEqual( 1 );
 		expect( component.find( "td" ).at( 0 ).getElement().props.children ).toEqual( <WincherSEOPerformanceLoading /> );
 		expect( component.find( SelectKeyphraseCheckboxWrapper ).length ).toEqual( 1 );
 		expect( component.find( KeyphraseTdWrapper ).length ).toEqual( 1 );
 		expect( component.find( KeyphraseTdWrapper ).at( 0 ).text() ).toEqual( "woocommerce seo" );
+		expect( component.find( TrackingTdWrapper ).length ).toEqual( 1 );
 	} );
 
 	it( "should render a row with the available data and with chart data", () => {
@@ -66,11 +68,12 @@ describe( "WincherTableRow", () => {
 			onSelectKeyphrases={ noop }
 		/> );
 
-		expect( component.find( "td" ).length ).toEqual( 4 );
+		expect( component.find( "td" ).length ).toEqual( 3 );
 		expect( component.find( Toggle ).length ).toEqual( 1 );
 		expect( component.find( PositionOverTimeCell ).length ).toEqual( 1 );
 		expect( component.find( SelectKeyphraseCheckboxWrapper ).length ).toEqual( 1 );
 		expect( component.find( KeyphraseTdWrapper ).length ).toEqual( 1 );
+		expect( component.find( TrackingTdWrapper ).length ).toEqual( 1 );
 
 		expect( component.find( Toggle ).getElement().props.id ).toBe( "toggle-keyphrase-tracking-yoast seo" );
 		expect( component.find( Toggle ).getElement().props.isEnabled ).toBe( true );
@@ -89,9 +92,10 @@ describe( "WincherTableRow", () => {
 			onSelectKeyphrases={ noop }
 		/> );
 
-		expect( component.find( "td" ).length ).toEqual( 2 );
+		expect( component.find( "td" ).length ).toEqual( 1 );
 		expect( component.find( Toggle ).length ).toEqual( 1 );
 		expect( component.find( PositionOverTimeCell ).length ).toEqual( 0 );
+		expect( component.find( TrackingTdWrapper ).length ).toEqual( 1 );
 
 		expect( component.find( Toggle ).getElement().props.id ).toBe( "toggle-keyphrase-tracking-yoast seo" );
 		expect( component.find( Toggle ).getElement().props.isEnabled ).toBe( false );
