@@ -315,38 +315,6 @@ WincherPeriodPicker.propTypes = {
 };
 
 /**
- * Displays the Wincher show ranking history button.
- *
- * @param {Object} props The component props.
- *
- * @returns {null|wp.Element} The Wincher show ranking history button.
- */
-const WincherShowRankingHistory = ( props ) => {
-	const { selectedKeyphrases, isLoggedIn, isChartShown, setIsChartShown } = props;
-
-	if ( ! isLoggedIn ) {
-		return null;
-	}
-
-	const title = isChartShown ? __( "Hide ranking history", "wordpress-seo" ) : __( "Show ranking history", "wordpress-seo" );
-
-	const onClick = useCallback( () => {
-		setIsChartShown( prev => ! prev );
-	}, [ setIsChartShown ] );
-
-	return (
-		<NewButton variant="secondary" onClick={ onClick } disabled={ ! isChartShown && selectedKeyphrases.length === 0 }>{ title }</NewButton>
-	);
-};
-
-WincherShowRankingHistory.propTypes = {
-	selectedKeyphrases: PropTypes.arrayOf( PropTypes.string ).isRequired,
-	isLoggedIn: PropTypes.bool.isRequired,
-	isChartShown: PropTypes.bool.isRequired,
-	setIsChartShown: PropTypes.func.isRequired,
-};
-
-/**
  * Creates the table content.
  *
  * @param {Object} props The props to use.
@@ -383,17 +351,11 @@ const TableContent = ( props ) => {
 
 	const [ selectedKeyphrases, setSelectedKeyphrases ] = useState( [] );
 
-	const [ isChartShown, setIsChartShown ] = useState( false );
+	const isChartShown = selectedKeyphrases.length > 0;
 
 	useEffect( () => {
 		setPeriod( defaultPeriod );
 	}, [ defaultPeriod?.name ] );
-
-	useEffect( () => {
-		if ( isChartShown && selectedKeyphrases.length === 0 ) {
-			setIsChartShown( false );
-		}
-	}, [ isChartShown, setIsChartShown, selectedKeyphrases ] );
 
 	const onSelectPeriod = useCallback( ( event ) => {
 		const option = WINCHER_PERIOD_OPTIONS.find( opt => opt.value === event.target.value );
@@ -429,12 +391,6 @@ const TableContent = ( props ) => {
 				options={ periodOptions }
 				isLoggedIn={ isLoggedIn }
 			/>
-			<WincherShowRankingHistory
-				selectedKeyphrases={ selectedKeyphrases }
-				isChartShown={ isChartShown }
-				setIsChartShown={ setIsChartShown }
-				isLoggedIn={ isLoggedIn }
-			/>
 		</WincherChartSettings>
 
 		<ChartWrapper>
@@ -449,7 +405,6 @@ const TableContent = ( props ) => {
 			selectedKeyphrases={ selectedKeyphrases }
 			onSelectKeyphrases={ setSelectedKeyphrases }
 			trackedKeyphrases={ trackedKeyphrases }
-			setIsChartShown={ setIsChartShown }
 		/>
 	</TableWrapper>;
 };
