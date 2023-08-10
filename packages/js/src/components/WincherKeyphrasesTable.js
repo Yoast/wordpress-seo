@@ -4,7 +4,7 @@
 import PropTypes from "prop-types";
 import { Fragment, useRef, useState, useEffect, useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { isEmpty, filter, debounce, without, difference } from "lodash";
+import { isEmpty, filter, debounce, without, difference, orderBy } from "lodash";
 import styled from "styled-components";
 
 /* Yoast dependencies */
@@ -336,6 +336,11 @@ const WincherKeyphrasesTable = ( props ) => {
 		onSelectKeyphrases( areAllSelected ? [] : trackedKeywordsWithHistory );
 	}, [ onSelectKeyphrases, areAllSelected, trackedKeywordsWithHistory ] );
 
+	const sortedKeyphrases = useMemo( () => orderBy( keyphrases, [
+		( keyphrase ) => Object.values( trackedKeyphrases || {} )
+			.map( trackedKeyphrase => trackedKeyphrase.keyword ).includes( keyphrase ),
+	], [ "desc" ] ), [ keyphrases, trackedKeyphrases ] );
+
 	return (
 		keyphrases && ! isEmpty( keyphrases ) && <Fragment>
 			<TableWrapper>
@@ -384,7 +389,7 @@ const WincherKeyphrasesTable = ( props ) => {
 					</thead>
 					<tbody>
 						{
-							keyphrases.map( ( keyphrase, index ) => {
+							sortedKeyphrases.map( ( keyphrase, index ) => {
 								return ( <WincherTableRow
 									key={ `trackable-keyphrase-${index}` }
 									keyphrase={ keyphrase }
@@ -395,7 +400,7 @@ const WincherKeyphrasesTable = ( props ) => {
 									websiteId={ websiteId }
 									isDisabled={ ! isLoggedIn }
 									isLoading={ isDataLoading || loadingKeyphrases.indexOf( keyphrase.toLowerCase() ) >= 0 }
-									selectedKeyphrases={ selectedKeyphrases }
+									isSelected={ selectedKeyphrases.includes( keyphrase ) }
 									onSelectKeyphrases={ onSelectKeyphrases }
 								/> );
 							} )

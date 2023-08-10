@@ -295,13 +295,11 @@ export default function WincherTableRow( props ) {
 		isFocusKeyphrase,
 		isDisabled,
 		isLoading,
-		selectedKeyphrases,
+		isSelected,
 		onSelectKeyphrases,
 	} = props;
 
 	const isEnabled  = ! isEmpty( rowData );
-
-	const isSelected = selectedKeyphrases.includes( keyphrase );
 
 	const hasHistory = ! isEmpty( rowData?.position?.history );
 
@@ -361,7 +359,7 @@ WincherTableRow.propTypes = {
 	isLoading: PropTypes.bool,
 	// eslint-disable-next-line react/no-unused-prop-types
 	websiteId: PropTypes.string,
-	selectedKeyphrases: PropTypes.arrayOf( PropTypes.string ).isRequired,
+	isSelected: PropTypes.bool.isRequired,
 	onSelectKeyphrases: PropTypes.func.isRequired,
 };
 
