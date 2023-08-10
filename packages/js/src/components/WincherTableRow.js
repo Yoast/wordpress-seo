@@ -6,15 +6,12 @@ import { isEmpty } from "lodash";
 import moment from "moment";
 
 /* Yoast dependencies */
-import { Checkbox, SvgIcon, Toggle } from "@yoast/components";
-import { makeOutboundLink } from "@yoast/helpers";
+import { Checkbox, SvgIcon, Toggle, ButtonStyledLink } from "@yoast/components";
 
 /* Internal dependencies */
 import AreaChart from "./AreaChart";
 import WincherSEOPerformanceLoading from "./modals/WincherSEOPerformanceLoading";
 import styled from "styled-components";
-
-const ViewLink = makeOutboundLink();
 
 export const CaretIcon = styled( SvgIcon )`
 	margin-left: 2px;
@@ -31,10 +28,21 @@ export const PositionChangeValue = styled.span`
 	margin-left: 12px;
 `;
 
-const SelectKeyphraseCheckboxWrapper = styled.td`
+export const SelectKeyphraseCheckboxWrapper = styled.td`
+	padding-right: 0 !important;
+
 	& > div {
 		margin: 0px;
 	}
+`;
+
+export const KeyphraseTdWrapper = styled.td`
+	padding-left: 2px !important;
+`;
+
+const PositionAndViewLinkWrapper = styled.div`
+	display: flex;
+	align-items: center;
 `;
 
 const PositionOverTimeButton = styled.button`
@@ -47,6 +55,10 @@ const PositionOverTimeButton = styled.button`
 	outline: inherit;
     display: flex;
     align-items: center;
+`;
+
+const WincherTableRowElement = styled.tr`
+	background-color: ${ props => props.isEnabled ? "#FFFFFF" : "#F9F9F9" } !important;
 `;
 
 /**
@@ -238,7 +250,6 @@ export function getPositionalDataByState( props ) {
 				<td>?</td>
 				<td className="yoast-table--nopadding">?</td>
 				<td>?</td>
-				<td className="yoast-table--nobreak" />
 			</Fragment>
 		);
 	}
@@ -252,20 +263,20 @@ export function getPositionalDataByState( props ) {
 
 	return (
 		<Fragment>
-			<td>{ getKeyphrasePosition( rowData ) }</td>
+			<td>
+				<PositionAndViewLinkWrapper>
+					{ getKeyphrasePosition( rowData ) }
+					<ButtonStyledLink variant="secondary" href={ viewLinkURL } style={ { height: 28, marginLeft: 12 } }>
+						{ __( "View", "wordpress-seo" ) }
+					</ButtonStyledLink>
+				</PositionAndViewLinkWrapper>
+			</td>
 			<td className="yoast-table--nopadding">
 				<PositionOverTimeButton onClick={ onPositionOverTimeClick }>
 					<PositionOverTimeCell rowData={ rowData } />
 				</PositionOverTimeButton>
 			</td>
 			<td>{ formatLastUpdated( rowData.updated_at ) }</td>
-			<td className="yoast-table--nobreak">
-				{
-					<ViewLink href={ viewLinkURL }>
-						{ __( "View", "wordpress-seo" ) }
-					</ViewLink>
-				}
-			</td>
 		 </Fragment>
 	);
 }
@@ -321,7 +332,7 @@ export default function WincherTableRow( props ) {
 		onSelectKeyphrases( prev => isSelected ? prev.filter( e => e !== keyphrase ) : prev.concat( keyphrase ) );
 	}, [ onSelectKeyphrases, isSelected, keyphrase ] );
 
-	return <tr>
+	return <WincherTableRowElement isEnabled={ isEnabled }>
 		<SelectKeyphraseCheckboxWrapper>
 			{ hasHistory && <Checkbox
 				id={ "select-" + keyphrase }
@@ -331,13 +342,16 @@ export default function WincherTableRow( props ) {
 			/> }
 		</SelectKeyphraseCheckboxWrapper>
 
+		<KeyphraseTdWrapper>
+			{ keyphrase }{ isFocusKeyphrase && <span>*</span> }
+		</KeyphraseTdWrapper>
+
+		{ getPositionalDataByState( props ) }
+
 		<td className="yoast-table--nopadding">
 			{ renderToggleState( { keyphrase, isEnabled, toggleAction, isLoading } ) }
 		</td>
-		<td>{ keyphrase }{ isFocusKeyphrase && <span>*</span> }</td>
-
-		{ getPositionalDataByState( props ) }
-	</tr>;
+	</WincherTableRowElement>;
 }
 
 WincherTableRow.propTypes = {
