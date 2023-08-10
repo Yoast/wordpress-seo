@@ -89,15 +89,14 @@ describe( "WincherTableRow", () => {
 			onSelectKeyphrases={ noop }
 		/> );
 
-		expect( component.find( "td" ).length ).toEqual( 4 );
+		expect( component.find( "td" ).length ).toEqual( 2 );
 		expect( component.find( Toggle ).length ).toEqual( 1 );
 		expect( component.find( PositionOverTimeCell ).length ).toEqual( 0 );
 
 		expect( component.find( Toggle ).getElement().props.id ).toBe( "toggle-keyphrase-tracking-yoast seo" );
 		expect( component.find( Toggle ).getElement().props.isEnabled ).toBe( false );
 		expect( component.find( KeyphraseTdWrapper ).at( 0 ).text() ).toEqual( "yoast seo" );
-		expect( component.find( "td" ).at( 1 ).text() ).toEqual( "?" );
-		expect( component.find( "td" ).at( 2 ).text() ).toEqual( "?" );
+		expect( component.find( "td" ).at( 0 ).text() ).toEqual( "Activate tracking to show the ranking position" );
 	} );
 } );
 

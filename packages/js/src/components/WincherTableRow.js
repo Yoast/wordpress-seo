@@ -245,11 +245,9 @@ export function getPositionalDataByState( props ) {
 
 	if ( ! isEnabled ) {
 		return (
-			<Fragment>
-				<td>?</td>
-				<td className="yoast-table--nopadding">?</td>
-				<td>?</td>
-			</Fragment>
+			<td className="yoast-table--nopadding" colSpan="3">
+				<i>{ __( "Activate tracking to show the ranking position", "wordpress-seo" ) }</i>
+			</td>
 		);
 	}
 	if ( ! hasFreshData ) {
