@@ -72,8 +72,12 @@ function initialize() {
 		initializeWordProofForElementorEditor();
 	}
 
-	// Initialize the AI Generator upsell.
-	initializeAiGenerator();
+	const AI_IGNORED_POST_TYPES = [ "attachment", "product" ];
+
+	if ( window.wpseoScriptData.postType && ! AI_IGNORED_POST_TYPES.includes( window.wpseoScriptData.postType ) ) {
+		// Initialize the AI Generator upsell.
+		initializeAiGenerator();
+	}
 
 	// Offer an action after our load.
 	doAction( "yoast.elementor.loaded" );
