@@ -224,7 +224,7 @@ PositionOverTimeCell.propTypes = {
  * @returns {wp.Element} The rendered element.
  */
 export function getPositionalDataByState( props ) {
-	const { rowData, websiteId, keyphrase, onSelectKeyphrases, setIsChartShown } = props;
+	const { rowData, websiteId, keyphrase, onSelectKeyphrases } = props;
 
 	/**
 	 * Fires when click on position over time
@@ -233,8 +233,7 @@ export function getPositionalDataByState( props ) {
 	 */
 	const onPositionOverTimeClick = useCallback( () => {
 		onSelectKeyphrases( [ keyphrase ] );
-		setIsChartShown( true );
-	}, [ onSelectKeyphrases, keyphrase, setIsChartShown ] );
+	}, [ onSelectKeyphrases, keyphrase ] );
 
 	const isEnabled          = ! isEmpty( rowData );
 	const hasFreshData = rowData && rowData.updated_at && moment( rowData.updated_at ) >= moment().subtract( 7, "days" );
