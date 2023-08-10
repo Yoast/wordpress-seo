@@ -47,7 +47,7 @@ describe( "WincherTableRow", () => {
 		const component = shallow( <WincherTableRow
 			rowData={ keyphrasesData[ "woocommerce seo" ] }
 			keyphrase="woocommerce seo"
-			selectedKeyphrases={ [] }
+			isSelected={ false }
 			onSelectKeyphrases={ noop }
 		/> );
 
@@ -62,7 +62,7 @@ describe( "WincherTableRow", () => {
 		const component = shallow( <WincherTableRow
 			rowData={ keyphrasesData[ "yoast seo" ] }
 			keyphrase="yoast seo"
-			selectedKeyphrases={ [] }
+			isSelected={ false }
 			onSelectKeyphrases={ noop }
 		/> );
 
@@ -85,7 +85,7 @@ describe( "WincherTableRow", () => {
 		const component = shallow( <WincherTableRow
 			rowData={ {} }
 			keyphrase="yoast seo"
-			selectedKeyphrases={ [] }
+			isSelected={ false }
 			onSelectKeyphrases={ noop }
 		/> );
 
