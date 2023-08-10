@@ -1,5 +1,12 @@
 import insights from "../../insights/redux/reducer";
-import { LINK_PARAMS_NAME, linkParamsReducer, PLUGIN_URL_NAME, pluginUrlReducer } from "../../shared-admin/store";
+import {
+	LINK_PARAMS_NAME,
+	linkParamsReducer,
+	PLUGIN_URL_NAME,
+	pluginUrlReducer,
+	WISTIA_EMBED_PERMISSION_NAME,
+	wistiaEmbedPermissionReducer,
+} from "../../shared-admin/store";
 import analysis from "../reducers/contentAnalysis";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
@@ -63,4 +70,5 @@ export default {
 	WincherModal,
 	WincherRequest,
 	WincherSEOPerformance,
+	[ WISTIA_EMBED_PERMISSION_NAME ]: wistiaEmbedPermissionReducer,
 };
