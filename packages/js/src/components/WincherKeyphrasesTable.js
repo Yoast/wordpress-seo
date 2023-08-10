@@ -34,10 +34,6 @@ const FocusKeyphraseFootnote = styled.span`
 	}
 `;
 
-const ViewColumn = styled.th`
-	min-width: 60px;
-`;
-
 const TableWrapper = styled.div`
 	width: 100%;
 	overflow-y: auto;
@@ -45,10 +41,15 @@ const TableWrapper = styled.div`
 
 const SelectKeyphraseCheckboxWrapper = styled.th`
 	pointer-events: ${ props => props.isDisabled ? "none" : "initial" };
+	padding-right: 0 !important;
 
 	& > div {
 		margin: 0px;
 	}
+`;
+
+const KeyphraseThWrapper = styled.th`
+	padding-left: 2px !important;
 `;
 
 /**
@@ -350,18 +351,12 @@ const WincherKeyphrasesTable = ( props ) => {
 									label=""
 								/>
 							</SelectKeyphraseCheckboxWrapper>
-							<th
-								scope="col"
-								abbr={ __( "Tracking", "wordpress-seo" ) }
-							>
-								{ __( "Tracking", "wordpress-seo" ) }
-							</th>
-							<th
+							<KeyphraseThWrapper
 								scope="col"
 								abbr={ __( "Keyphrase", "wordpress-seo" ) }
 							>
 								{ __( "Keyphrase", "wordpress-seo" ) }
-							</th>
+							</KeyphraseThWrapper>
 							<th
 								scope="col"
 								abbr={ __( "Position", "wordpress-seo" ) }
@@ -380,7 +375,12 @@ const WincherKeyphrasesTable = ( props ) => {
 							>
 								{ __( "Last updated", "wordpress-seo" ) }
 							</th>
-							<ViewColumn className="yoast-table--nobreak" />
+							<th
+								scope="col"
+								abbr={ __( "Tracking", "wordpress-seo" ) }
+							>
+								{ __( "Tracking", "wordpress-seo" ) }
+							</th>
 						</tr>
 					</thead>
 					<tbody>
