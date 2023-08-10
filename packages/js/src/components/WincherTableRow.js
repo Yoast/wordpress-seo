@@ -40,6 +40,12 @@ export const KeyphraseTdWrapper = styled.td`
 	padding-left: 2px !important;
 `;
 
+export const TrackingTdWrapper = styled.td.attrs( { className: "yoast-table--nopadding" } )`
+	& > div {
+		justify-content: center;
+	}
+`;
+
 const PositionAndViewLinkWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -343,9 +349,9 @@ export default function WincherTableRow( props ) {
 
 		{ getPositionalDataByState( props ) }
 
-		<td className="yoast-table--nopadding">
+		<TrackingTdWrapper>
 			{ renderToggleState( { keyphrase, isEnabled, toggleAction, isLoading } ) }
-		</td>
+		</TrackingTdWrapper>
 	</WincherTableRowElement>;
 }
 
