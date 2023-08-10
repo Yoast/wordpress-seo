@@ -63,7 +63,8 @@ class Wistia_Embed_Permission_Repository {
 	/**
 	 * Sets the Wistia embed permission value for the current user.
 	 *
-	 * @param bool $value The value.
+	 * @param int  $user_id The user ID.
+	 * @param bool $value   The value.
 	 *
 	 * @throws Exception If an invalid user ID is supplied.
 	 *
@@ -71,7 +72,7 @@ class Wistia_Embed_Permission_Repository {
 	 */
 	public function set_value_for_user( $user_id, $value ) {
 		// The value is stored as a string because otherwise we can not see the difference between false and an invalid user ID.
-		$value_as_string = $value ? '1' : '0';
+		$value_as_string = ( $value === true ) ? '1' : '0';
 
 		// Checking for only false, not interested in not having to update.
 		return $this->user_helper->update_meta( $user_id, self::USER_META_KEY, $value_as_string ) !== false;

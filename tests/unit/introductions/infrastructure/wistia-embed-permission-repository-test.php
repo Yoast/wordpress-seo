@@ -128,7 +128,7 @@ class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 * @param bool|int $update_return   The return value for the update_meta call.
 	 * @param bool     $expected        The expected return value.
 	 *
-	 * @throws \Exception
+	 * @throws \Exception Invalid User ID.
 	 */
 	public function test_set_value_for_user( $input_value, $value_as_string, $update_return, $expected ) {
 		$user_id = 1;
@@ -147,13 +147,13 @@ class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 */
 	public function provide_set_value_for_user_test_data() {
 		return [
-			'true with new entry'  => [
+			'true with new entry'          => [
 				'input_value'     => true,
 				'value_as_string' => '1',
 				'update_return'   => true,
 				'expected'        => true,
 			],
-			'false with new entry' => [
+			'false with new entry'         => [
 				'input_value'     => false,
 				'value_as_string' => '0',
 				'update_return'   => true,
@@ -183,7 +183,7 @@ class Wistia_Embed_Permission_Repository_Test extends TestCase {
 				'update_return'   => false,
 				'expected'        => false,
 			],
-			'true with update'  => [
+			'true with update'             => [
 				'input_value'     => true,
 				'value_as_string' => '1',
 				'update_return'   => 42,
