@@ -27,7 +27,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { imageLink, learnMoreLin
 					loading="lazy"
 					decoding="async"
 				/>
-				<Badge className="yst-absolute yst-top-0 yst-right-2 yst-mt-2 yst-ml-2" variant="upsell">Premium</Badge>
+				<Badge className="yst-absolute yst-top-0 yst-right-2 yst-mt-2 yst-ml-2" variant="info">Beta</Badge>
 			</div>
 			<div className="yst-mt-6 yst-text-xs yst-font-medium">
 				<span className="yst-uppercase yst-text-slate-500">
