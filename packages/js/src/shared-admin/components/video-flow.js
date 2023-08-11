@@ -43,7 +43,7 @@ export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission } ) => {
 					<script src={ "https://fast.wistia.com/assets/external/E-v1.js" } async={ true } />
 				</Helmet>
 			) }
-			<div className="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-black">
+			<div className="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white">
 				{ videoFlow === VIDEO_FLOW.showPlay && (
 					<button
 						className="yst-absolute yst-inset-0 yst-button yst-p-0 yst-border-none yst-bg-white yst-transition-opacity yst-duration-1000 yst-opacity-100"
