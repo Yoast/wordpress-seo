@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Introductions\Application\Current_Page_Trait;
 use Yoast\WP\SEO\Introductions\Application\Introductions_Collector;
+use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 
 /**
  * Loads introduction modal scripts, when there are applicable introductions.
@@ -56,6 +57,13 @@ class Introductions_Integration implements Integration_Interface {
 	private $short_link_helper;
 
 	/**
+	 * Holds the repository.
+	 *
+	 * @var Wistia_Embed_Permission_Repository
+	 */
+	private $wistia_embed_permission_repository;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * In this case: when on an admin page.
@@ -67,24 +75,27 @@ class Introductions_Integration implements Integration_Interface {
 	/**
 	 * Constructs the integration.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager     The admin asset manager.
-	 * @param Introductions_Collector   $introductions_collector The introductions' collector.
-	 * @param Product_Helper            $product_helper          The product helper.
-	 * @param User_Helper               $user_helper             The user helper.
-	 * @param Short_Link_Helper         $short_link_helper       The short link helper.
+	 * @param WPSEO_Admin_Asset_Manager          $admin_asset_manager                The admin asset manager.
+	 * @param Introductions_Collector            $introductions_collector            The introductions' collector.
+	 * @param Product_Helper                     $product_helper                     The product helper.
+	 * @param User_Helper                        $user_helper                        The user helper.
+	 * @param Short_Link_Helper                  $short_link_helper                  The short link helper.
+	 * @param Wistia_Embed_Permission_Repository $wistia_embed_permission_repository The repository.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		Introductions_Collector $introductions_collector,
 		Product_Helper $product_helper,
 		User_Helper $user_helper,
-		Short_Link_Helper $short_link_helper
+		Short_Link_Helper $short_link_helper,
+		Wistia_Embed_Permission_Repository $wistia_embed_permission_repository
 	) {
-		$this->admin_asset_manager     = $admin_asset_manager;
-		$this->introductions_collector = $introductions_collector;
-		$this->product_helper          = $product_helper;
-		$this->user_helper             = $user_helper;
-		$this->short_link_helper       = $short_link_helper;
+		$this->admin_asset_manager                = $admin_asset_manager;
+		$this->introductions_collector            = $introductions_collector;
+		$this->product_helper                     = $product_helper;
+		$this->user_helper                        = $user_helper;
+		$this->short_link_helper                  = $short_link_helper;
+		$this->wistia_embed_permission_repository = $wistia_embed_permission_repository;
 	}
 
 	/**
@@ -117,11 +128,12 @@ class Introductions_Integration implements Integration_Interface {
 			self::SCRIPT_HANDLE,
 			'wpseoIntroductions',
 			[
-				'introductions' => $introductions,
-				'isPremium'     => $this->product_helper->is_premium(),
-				'isRtl'         => \is_rtl(),
-				'linkParams'    => $this->short_link_helper->get_query_params(),
-				'pluginUrl'     => \plugins_url( '', \WPSEO_FILE ),
+				'introductions'         => $introductions,
+				'isPremium'             => $this->product_helper->is_premium(),
+				'isRtl'                 => \is_rtl(),
+				'linkParams'            => $this->short_link_helper->get_query_params(),
+				'pluginUrl'             => \plugins_url( '', \WPSEO_FILE ),
+				'wistiaEmbedPermission' => $this->wistia_embed_permission_repository->get_value_for_user( $user_id ),
 			]
 		);
 		$this->admin_asset_manager->enqueue_style( 'introductions' );
