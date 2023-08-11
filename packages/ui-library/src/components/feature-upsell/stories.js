@@ -1,4 +1,7 @@
 import FeatureUpsell from ".";
+import { useToggleState } from "../../hooks";
+import { Button } from "../..";
+import { useCallback } from "@wordpress/element";
 
 export default {
 	title: "2) Components/Feature upsell",
@@ -18,7 +21,26 @@ export default {
 	},
 };
 
-const Template = args => <FeatureUpsell { ...args } />;
+const Template = args => {
+	const [ shouldUpsell, , , setShouldUpsellTrue, setShouldUpsellFalse ] = useToggleState( args.shouldUpsell );
+	const disableUpsell = useCallback( ( e ) => {
+		e.preventDefault();
+		setShouldUpsellFalse();
+		return false;
+	}, [ setShouldUpsellFalse ] );
+
+	const { children, ...props } = args;
+
+	return (
+		<FeatureUpsell { ...props } shouldUpsell={ shouldUpsell } onClick={ disableUpsell }>
+			{ children }
+			{ ! shouldUpsell &&
+			<Button onClick={ setShouldUpsellTrue } className="yst-mt-4">
+				Back to&nbsp;<code>shouldUpsell = true</code>
+			</Button> }
+		</FeatureUpsell>
+	);
+};
 
 export const Factory = Template.bind( {} );
 Factory.parameters = {
