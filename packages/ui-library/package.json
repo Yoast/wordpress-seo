@@ -33,7 +33,6 @@
     "@babel/eslint-plugin": "^7.19.1",
     "@babel/parser": "^7.20.5",
     "@mdx-js/react": "^2.1.5",
-    "@reduxjs/toolkit": "^1.8.3",
     "@storybook/addon-a11y": "^6.5.14",
     "@storybook/addon-essentials": "^6.5.14",
     "@storybook/addon-links": "^6.5.14",
@@ -65,6 +64,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.8",
     "@heroicons/react": "^1.0.6",
+    "@reduxjs/toolkit": "^1.8.3",
     "classnames": "^2.3.2",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
