@@ -29,7 +29,7 @@ const SocialUpsell = ( props ) => {
 		/* Translators: %s expands to the social medium name, which is either Twitter or social media. %s expands to Yoast SEO Premium */
 		__(
 			"Want to see how your content will look when it’s shared on %s?", "wordpress-seo"
-		), props.socialMediumName.toLowerCase() === 'twitter' ? props.socialMediumName : 'social media'
+		), props.socialMediumName.toLowerCase() === "twitter" ? props.socialMediumName : "social media"
 	);
 	const upgradeText = sprintf(
 		/* Translators: %s expands to Yoast SEO Premium */
