@@ -14,6 +14,7 @@ import initElementorEditorIntegration from "./initializers/elementor-editor-inte
 import initializeInsights from "./insights/initializer";
 import initElementorWatcher from "./watchers/elementorWatcher";
 
+/* eslint-disable complexity */
 /**
  * Initializes Yoast SEO for Elementor.
  *
@@ -72,12 +73,17 @@ function initialize() {
 		initializeWordProofForElementorEditor();
 	}
 
-	// Initialize the AI Generator upsell.
-	initializeAiGenerator();
+	const AI_IGNORED_POST_TYPES = [ "attachment", "product" ];
+
+	if ( window.wpseoScriptData.postType && ! AI_IGNORED_POST_TYPES.includes( window.wpseoScriptData.postType ) ) {
+		// Initialize the AI Generator upsell.
+		initializeAiGenerator();
+	}
 
 	// Offer an action after our load.
 	doAction( "yoast.elementor.loaded" );
 }
+/* eslint-enable complexity */
 
 // Wait on `window.elementor`.
 jQuery( window ).on( "elementor:init", () => {
