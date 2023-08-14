@@ -1082,7 +1082,7 @@ export default class AnalysisWebWorker {
 
 			const languageProcessor = new LanguageProcessor( this._researcher );
 			const shortcodes = this._paper._attributes && this._paper._attributes.shortcodes;
-			this._paper.setTree( build( this._paper.getText(), languageProcessor, shortcodes ) );
+			this._paper.setTree( build( this._paper, languageProcessor, shortcodes ) );
 
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
@@ -1406,7 +1406,7 @@ export default class AnalysisWebWorker {
 			if ( paper.getTree() === null ) {
 				const languageProcessor = new LanguageProcessor( researcher );
 				const shortcodes = paper._attributes && paper._attributes.shortcodes;
-				paper.setTree( build( paper.getText(), languageProcessor, shortcodes ) );
+				paper.setTree( build( paper, languageProcessor, shortcodes ) );
 			}
 		}
 

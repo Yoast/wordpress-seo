@@ -1,5 +1,6 @@
 import build from "../../../src/parse/build/build";
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
+import Paper from "../../../src/values/Paper";
 import Factory from "../../specHelpers/factory";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 import splitIntoTokensCustom from "../../../src/languageProcessing/languages/ja/helpers/splitIntoTokensCustom";
@@ -7,12 +8,13 @@ import splitIntoTokensCustom from "../../../src/languageProcessing/languages/ja/
 describe( "The parse function", () => {
 	it( "parses a basic HTML text", () => {
 		const html = "<div><p class='yoast'>Hello, world!</p></div>";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
@@ -70,11 +72,12 @@ describe( "The parse function", () => {
 
 	it( "parses a basic Japanese HTML text", () => {
 		const html = "<div><p class='yoast'>犬が大好き</p></div>";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ splitIntoTokensCustom: splitIntoTokensCustom, memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
@@ -130,6 +133,7 @@ describe( "The parse function", () => {
 
 	it( "adds implicit paragraphs around phrasing content outside of paragraphs and headings", () => {
 		const html = "<div>Hello <span>World!</span></div>";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
@@ -147,7 +151,7 @@ describe( "The parse function", () => {
 		 * [/#document-fragment]
 		 * ```
 		 */
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
@@ -216,6 +220,7 @@ describe( "The parse function", () => {
 
 	it( "parses another HTML text and adds implicit paragraphs where needed", () => {
 		const html = "<div>Hello <p>World!</p></div>";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
@@ -236,7 +241,7 @@ describe( "The parse function", () => {
 		 * [/#document-fragment]
 		 * ```
 		 */
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [
@@ -319,6 +324,7 @@ describe( "The parse function", () => {
 
 	it( "parses an HTML text with implicit paragraphs before, between, and after p tags", () => {
 		const html = "<div>So <em>long</em>, and <p>thanks</p> for <p>all</p> the <strong>fish</strong>!</div>";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
@@ -348,7 +354,7 @@ describe( "The parse function", () => {
 		 * [/#document-fragment]
 		 * ```
 		 */
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [
@@ -572,12 +578,13 @@ describe( "The parse function", () => {
 		const html = "<!-- wp:yoast-seo/table-of-contents -->\n<div class=\"wp-block-yoast-seo-table-of-contents yoast-table-of-contents\">" +
 			"<h2>Table of contents</h2><ul><li><a href=\"#h-subheading-1\" data-level=\"2\">Subheading 1</a></li><li><a href=\"#h-subheading-2\" " +
 			"data-level=\"2\">Subheading 2</a></li></ul></div>\n<!-- /wp:yoast-seo/table-of-contents --><p>This is the first sentence.</p>";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [
@@ -718,12 +725,13 @@ describe( "The parse function", () => {
 	it( "parses an HTML text with a Yoast breadcrumbs widget in Elementor, which should be filtered out", () => {
 		// HTML: <p id="breadcrumbs"><span><span><a href="https://one.wordpress.test/">Home</a></span></span></p><p>The first sentence</p>
 		const html = "<p id=\"breadcrumbs\"><span><span><a href=\"https://one.wordpress.test/\">Home</a></span></span></p><p>The first sentence</p>";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
-		expect( build( html, languageProcessor ) ).toEqual(
+		expect( build( paper, languageProcessor ) ).toEqual(
 			{
 				name: "#document-fragment",
 				attributes: {},
@@ -803,12 +811,13 @@ describe( "The parse function", () => {
 	} );
 	it( "parses an HTML text with a script element inside a paragraph", () => {
 		const html = "<div><p><script>console.log(\"Hello, world!\")</script> Hello, world!</p></div>";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [
@@ -911,12 +920,13 @@ describe( "The parse function", () => {
 	} );
 	it( "parses an HTML text with a script element outside of a paragraph", () => {
 		const html = "<script>console.log(\"Hello, world!\")</script><p>Hello, world!</p>";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
@@ -962,12 +972,13 @@ describe( "The parse function", () => {
 	} );
 	it( "parses an HTML text with a comment inside a paragraph", () => {
 		const html = "<div><p><!-- A comment -->Hello, world!</p></div>";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
@@ -1029,12 +1040,13 @@ describe( "The parse function", () => {
 	} );
 	it( "parses an HTML text with a comment within a sentence", () => {
 		const html = "<div><p>Hello, <!-- A comment --> world!</p></div>";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
@@ -1102,12 +1114,13 @@ describe( "The parse function", () => {
 
 	it( "parses an HTML text with a code element within a paragraph", () => {
 		const html = "<div><p>Hello code! <code>array.push( something )</code> Hello world!</p></div>";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [
@@ -1251,12 +1264,13 @@ describe( "The parse function", () => {
 	} );
 	it( "parses an HTML text with a code element within a sentence", () => {
 		const html = "<div><p>Hello <code>array.push( something )</code> code!</p></div>";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
@@ -1317,12 +1331,13 @@ describe( "The parse function", () => {
 	} );
 	it( "parses an HTML text with a code element with a child node within a sentence", () => {
 		const html = "<p>Some text and code <code><strong>console.log</strong>( code )</code></p>";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			attributes: {},
 			childNodes: [
 				{
@@ -1419,6 +1434,282 @@ describe( "The parse function", () => {
 			name: "#document-fragment",
 		} );
 	} );
+	it( "also parses blocks when the blocks array is available inside Paper, " +
+		"the available block client id should also be added to the childNodes", () => {
+		const html = "<!-- wp:paragraph -->\n" +
+			"<p>The red panda's coat is mainly red or orange-brown with a black belly and legs.</p>\n" +
+			"<!-- /wp:paragraph -->\n" +
+			"\n" +
+			"<!-- wp:list -->\n" +
+			"<ul><!-- wp:list-item -->\n" +
+			"<li>giant panda</li>\n" +
+			"<!-- /wp:list-item -->\n" +
+			"\n" +
+			"<!-- wp:list-item -->\n" +
+			"<li>red panda</li>\n" +
+			"<!-- /wp:list-item --></ul>\n" +
+			"<!-- /wp:list -->";
+		const paper = new Paper( html, { wpBlocks: [
+			{
+				clientId: "da950985-3903-479c-92f5-9a98bcec51e9",
+				name: "core/paragraph",
+				isValid: true,
+				originalContent: "<p>The red panda's coat is mainly red or orange-brown with a black belly and legs.</p>",
+				validationIssues: [],
+				attributes: {
+					content: "The red panda's coat is mainly red or orange-brown with a black belly and legs.",
+					dropCap: false,
+				},
+				innerBlocks: [],
+			},
+			{
+				clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+				name: "core/list",
+				isValid: true,
+				originalContent: "<ul>\n\n</ul>",
+				validationIssues: [],
+				attributes: {
+					ordered: false,
+					values: "",
+				},
+				innerBlocks: [
+					{
+						clientId: "b45eed06-594b-468e-8723-1f597689c300",
+						name: "core/list-item",
+						isValid: true,
+						originalContent: "<li>giant panda</li>",
+						validationIssues: [],
+						attributes: {
+							content: "giant panda",
+						},
+						innerBlocks: [],
+					},
+					{
+						clientId: "f8a22538-9e9d-4862-968d-524580f5d8ce",
+						name: "core/list-item",
+						isValid: true,
+						originalContent: "<li>red panda</li>",
+						validationIssues: [],
+						attributes: {
+							content: "red panda",
+						},
+						innerBlocks: [],
+					},
+				],
+			},
+		] } );
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+		expect( build( paper, languageProcessor ) ).toEqual(
+			{
+				name: "#document-fragment",
+				attributes: {},
+				childNodes: [
+					{
+						name: "#comment",
+						attributes: {},
+						childNodes: [],
+						sourceCodeLocation: { startOffset: 0, endOffset: 21 },
+					},
+					{ name: "#text", value: "\n" },
+					{
+						name: "p",
+						attributes: {},
+						childNodes: [
+							{
+								name: "#text",
+								value: "The red panda's coat is mainly red or orange-brown with a black belly and legs.",
+								clientId: "da950985-3903-479c-92f5-9a98bcec51e9",
+							},
+						],
+						sourceCodeLocation: {
+							startTag: { startOffset: 22, endOffset: 25 },
+							endTag: { startOffset: 104, endOffset: 108 },
+							startOffset: 22,
+							endOffset: 108,
+						},
+						isImplicit: false,
+						clientId: "da950985-3903-479c-92f5-9a98bcec51e9",
+						sentences: [
+							{
+								text: "The red panda's coat is mainly red or orange-brown with a black belly and legs.",
+								tokens: [
+									{ text: "The", sourceCodeRange: { startOffset: 25, endOffset: 28 } },
+									{ text: " ", sourceCodeRange: { startOffset: 28, endOffset: 29 } },
+									{ text: "red", sourceCodeRange: { startOffset: 29, endOffset: 32 } },
+									{ text: " ", sourceCodeRange: { startOffset: 32, endOffset: 33 } },
+									{ text: "panda's", sourceCodeRange: { startOffset: 33, endOffset: 40 } },
+									{ text: " ", sourceCodeRange: { startOffset: 40, endOffset: 41 } },
+									{ text: "coat", sourceCodeRange: { startOffset: 41, endOffset: 45 } },
+									{ text: " ", sourceCodeRange: { startOffset: 45, endOffset: 46 } },
+									{ text: "is", sourceCodeRange: { startOffset: 46, endOffset: 48 } },
+									{ text: " ", sourceCodeRange: { startOffset: 48, endOffset: 49 } },
+									{ text: "mainly", sourceCodeRange: { startOffset: 49, endOffset: 55 } },
+									{ text: " ", sourceCodeRange: { startOffset: 55, endOffset: 56 } },
+									{ text: "red", sourceCodeRange: { startOffset: 56, endOffset: 59 } },
+									{ text: " ", sourceCodeRange: { startOffset: 59, endOffset: 60 } },
+									{ text: "or", sourceCodeRange: { startOffset: 60, endOffset: 62 } },
+									{ text: " ", sourceCodeRange: { startOffset: 62, endOffset: 63 } },
+									{ text: "orange-brown", sourceCodeRange: { startOffset: 63, endOffset: 75 } },
+									{ text: " ", sourceCodeRange: { startOffset: 75, endOffset: 76 } },
+									{ text: "with", sourceCodeRange: { startOffset: 76, endOffset: 80 } },
+									{ text: " ", sourceCodeRange: { startOffset: 80, endOffset: 81 } },
+									{ text: "a", sourceCodeRange: { startOffset: 81, endOffset: 82 } },
+									{ text: " ", sourceCodeRange: { startOffset: 82, endOffset: 83 } },
+									{ text: "black", sourceCodeRange: { startOffset: 83, endOffset: 88 } },
+									{ text: " ", sourceCodeRange: { startOffset: 88, endOffset: 89 } },
+									{ text: "belly", sourceCodeRange: { startOffset: 89, endOffset: 94 } },
+									{ text: " ", sourceCodeRange: { startOffset: 94, endOffset: 95 } },
+									{ text: "and", sourceCodeRange: { startOffset: 95, endOffset: 98 } },
+									{ text: " ", sourceCodeRange: { startOffset: 98, endOffset: 99 } },
+									{ text: "legs", sourceCodeRange: { startOffset: 99, endOffset: 103 } },
+									{ text: ".", sourceCodeRange: { startOffset: 103, endOffset: 104 } },
+								],
+								sourceCodeRange: { startOffset: 25, endOffset: 104 },
+							},
+						],
+					},
+					{ name: "#text", value: "\n" },
+					{
+						name: "#comment",
+						attributes: {},
+						childNodes: [],
+						sourceCodeLocation: { startOffset: 109, endOffset: 131 },
+					},
+					{ name: "#text", value: "\n\n" },
+					{
+						name: "#comment",
+						attributes: {},
+						childNodes: [],
+						sourceCodeLocation: { startOffset: 133, endOffset: 149 },
+					},
+					{ name: "#text", value: "\n" },
+					{
+						name: "ul",
+						attributes: {},
+						childNodes: [
+							{
+								name: "#comment",
+								attributes: {},
+								childNodes: [],
+								sourceCodeLocation: { startOffset: 154, endOffset: 175 },
+								clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+							},
+							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{
+								name: "li",
+								attributes: {},
+								childNodes: [
+									{
+										name: "p",
+										attributes: {},
+										childNodes: [
+											{ name: "#text", value: "giant panda", clientId: "b45eed06-594b-468e-8723-1f597689c300" },
+										],
+										sourceCodeLocation: { startOffset: 180, endOffset: 191 },
+										isImplicit: true,
+										clientId: "b45eed06-594b-468e-8723-1f597689c300",
+										sentences: [
+											{
+												text: "giant panda",
+												tokens: [
+													{ text: "giant", sourceCodeRange: { startOffset: 180, endOffset: 185 } },
+													{ text: " ", sourceCodeRange: { startOffset: 185, endOffset: 186 } },
+													{ text: "panda", sourceCodeRange: { startOffset: 186, endOffset: 191 } },
+												],
+												sourceCodeRange: { startOffset: 180, endOffset: 191 },
+											},
+										],
+									},
+								],
+								sourceCodeLocation: {
+									startTag: { startOffset: 176, endOffset: 180 },
+									endTag: { startOffset: 191, endOffset: 196 },
+									startOffset: 176,
+									endOffset: 196,
+								},
+								clientId: "b45eed06-594b-468e-8723-1f597689c300",
+							},
+							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{
+								name: "#comment",
+								attributes: {},
+								childNodes: [],
+								sourceCodeLocation: { startOffset: 197, endOffset: 219 },
+								clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+							},
+							{ name: "#text", value: "\n\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{
+								name: "#comment",
+								attributes: {},
+								childNodes: [],
+								sourceCodeLocation: { startOffset: 221, endOffset: 242 },
+								clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+							},
+							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{
+								name: "li",
+								attributes: {},
+								childNodes: [
+									{
+										name: "p",
+										attributes: {},
+										childNodes: [
+											{ name: "#text", value: "red panda", clientId: "f8a22538-9e9d-4862-968d-524580f5d8ce" },
+										],
+										sourceCodeLocation: { startOffset: 247, endOffset: 256 },
+										isImplicit: true,
+										clientId: "f8a22538-9e9d-4862-968d-524580f5d8ce",
+										sentences: [
+											{
+												text: "red panda",
+												tokens: [
+													{ text: "red", sourceCodeRange: { startOffset: 247, endOffset: 250 } },
+													{ text: " ", sourceCodeRange: { startOffset: 250, endOffset: 251 } },
+													{ text: "panda", sourceCodeRange: { startOffset: 251, endOffset: 256 } },
+												],
+												sourceCodeRange: { startOffset: 247, endOffset: 256 },
+											},
+										],
+									},
+								],
+								sourceCodeLocation: {
+									startTag: { startOffset: 243, endOffset: 247 },
+									endTag: { startOffset: 256, endOffset: 261 },
+									startOffset: 243, endOffset: 261,
+								},
+								clientId: "f8a22538-9e9d-4862-968d-524580f5d8ce",
+							},
+							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{
+								name: "#comment",
+								attributes: {},
+								childNodes: [],
+								sourceCodeLocation: { startOffset: 262, endOffset: 284 },
+								clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+							},
+						],
+						sourceCodeLocation: {
+							startTag: { startOffset: 150, endOffset: 154 },
+							endTag: { startOffset: 284, endOffset: 289 },
+							startOffset: 150,
+							endOffset: 289,
+						},
+						clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+					},
+					{ name: "#text", value: "\n" },
+					{
+						name: "#comment",
+						attributes: {},
+						childNodes: [],
+						sourceCodeLocation: { startOffset: 290, endOffset: 307 },
+					},
+				],
+			}
+		);
+	} );
 } );
 
 describe( "parsing html with Yoast blocks that enter the Paper as html comments", () => {
@@ -1427,11 +1718,13 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 			"<!-- wp:paragraph -->\n" +
 			"<p>The Norwegian Forest cat is adapted to survive Norway's cold weather.</p>\n" +
 			"<!-- /wp:paragraph -->";
+		const paper = new Paper( html );
+
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [
@@ -1439,31 +1732,19 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 					attributes: {},
 					childNodes: [],
 					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 34,
-						startOffset: 0,
-					},
+					sourceCodeLocation: { endOffset: 34, startOffset: 0 },
 				},
 				{
 					attributes: {},
 					childNodes: [],
 					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 55,
-						startOffset: 34,
-					},
+					sourceCodeLocation: { endOffset: 55, startOffset: 34 },
 				},
-				{
-					name: "#text",
-					value: "\n",
-				},
+				{ name: "#text", value: "\n" },
 				{
 					attributes: {},
 					childNodes: [
-						{
-							name: "#text",
-							value: "The Norwegian Forest cat is adapted to survive Norway's cold weather.",
-						},
+						{ name: "#text", value: "The Norwegian Forest cat is adapted to survive Norway's cold weather." },
 					],
 					isImplicit: false,
 					name: "p",
@@ -1475,188 +1756,44 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 							},
 							text: "The Norwegian Forest cat is adapted to survive Norway's cold weather.",
 							tokens: [
-								{
-									sourceCodeRange: {
-										endOffset: 62,
-										startOffset: 59,
-									},
-									text: "The",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 63,
-										startOffset: 62,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 72,
-										startOffset: 63,
-									},
-									text: "Norwegian",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 73,
-										startOffset: 72,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 79,
-										startOffset: 73,
-									},
-									text: "Forest",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 80,
-										startOffset: 79,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 83,
-										startOffset: 80,
-									},
-									text: "cat",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 84,
-										startOffset: 83,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 86,
-										startOffset: 84,
-									},
-									text: "is",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 87,
-										startOffset: 86,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 94,
-										startOffset: 87,
-									},
-									text: "adapted",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 95,
-										startOffset: 94,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 97,
-										startOffset: 95,
-									},
-									text: "to",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 98,
-										startOffset: 97,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 105,
-										startOffset: 98,
-									},
-									text: "survive",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 106,
-										startOffset: 105,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 114,
-										startOffset: 106,
-									},
-									text: "Norway's",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 115,
-										startOffset: 114,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 119,
-										startOffset: 115,
-									},
-									text: "cold",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 120,
-										startOffset: 119,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 127,
-										startOffset: 120,
-									},
-									text: "weather",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 128,
-										startOffset: 127,
-									},
-									text: ".",
-								},
+								{ sourceCodeRange: { endOffset: 62, startOffset: 59 }, text: "The" },
+								{ sourceCodeRange: { endOffset: 63, startOffset: 62 }, text: " " },
+								{ sourceCodeRange: { endOffset: 72, startOffset: 63 }, text: "Norwegian" },
+								{ sourceCodeRange: { endOffset: 73, startOffset: 72 }, text: " " },
+								{ sourceCodeRange: { endOffset: 79, startOffset: 73 }, text: "Forest" },
+								{ sourceCodeRange: { endOffset: 80, startOffset: 79 }, text: " " },
+								{ sourceCodeRange: { endOffset: 83, startOffset: 80 }, text: "cat" },
+								{ sourceCodeRange: { endOffset: 84, startOffset: 83 }, text: " " },
+								{ sourceCodeRange: { endOffset: 86, startOffset: 84 }, text: "is" },
+								{ sourceCodeRange: { endOffset: 87, startOffset: 86 }, text: " " },
+								{ sourceCodeRange: { endOffset: 94, startOffset: 87 }, text: "adapted" },
+								{ sourceCodeRange: { endOffset: 95, startOffset: 94 }, text: " " },
+								{ sourceCodeRange: { endOffset: 97, startOffset: 95 }, text: "to" },
+								{ sourceCodeRange: { endOffset: 98, startOffset: 97 }, text: " " },
+								{ sourceCodeRange: { endOffset: 105, startOffset: 98 }, text: "survive" },
+								{ sourceCodeRange: { endOffset: 106, startOffset: 105 }, text: " " },
+								{ sourceCodeRange: { endOffset: 114, startOffset: 106 }, text: "Norway's" },
+								{ sourceCodeRange: { endOffset: 115, startOffset: 114 }, text: " " },
+								{ sourceCodeRange: { endOffset: 119, startOffset: 115 }, text: "cold" },
+								{ sourceCodeRange: { endOffset: 120, startOffset: 119 }, text: " " },
+								{ sourceCodeRange: { endOffset: 127, startOffset: 120 }, text: "weather" },
+								{ sourceCodeRange: { endOffset: 128, startOffset: 127 }, text: "." },
 							],
 						},
 					],
 					sourceCodeLocation: {
 						endOffset: 132,
-						endTag: {
-							endOffset: 132,
-							startOffset: 128,
-						},
+						endTag: { endOffset: 132, startOffset: 128 },
 						startOffset: 56,
-						startTag: {
-							endOffset: 59,
-							startOffset: 56,
-						},
+						startTag: { endOffset: 59, startOffset: 56 },
 					},
 				},
-				{
-					name: "#text",
-					value: "\n",
-				},
+				{ name: "#text", value: "\n" },
 				{
 					attributes: {},
 					childNodes: [],
 					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 155,
-						startOffset: 133,
-					},
+					sourceCodeLocation: { endOffset: 155, startOffset: 133 },
 				},
 			],
 		} );
@@ -1664,12 +1801,13 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 
 	it( "parses an HTML text with a Yoast siblings block", () => {
 		const html = "<p>Hello, world!</p><!-- wp:yoast-seo/siblings /-->";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
-		expect( build( html, languageProcessor ) ).toEqual( {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [
@@ -1757,12 +1895,13 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 
 	it( "parses an HTML text with a Yoast subpages block", () => {
 		const html = "<div>The Norwegian Forest cat is strongly built and larger than an average cat.</div><!-- wp:yoast-seo/subpages /-->";
+		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
-		expect( build( html, languageProcessor ) ).toEqual(  {
+		expect( build( paper, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [
@@ -1787,221 +1926,416 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 									},
 									text: "The Norwegian Forest cat is strongly built and larger than an average cat.",
 									tokens: [
-										{
-											sourceCodeRange: {
-												endOffset: 8,
-												startOffset: 5,
-											},
-											text: "The",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 9,
-												startOffset: 8,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 18,
-												startOffset: 9,
-											},
-											text: "Norwegian",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 19,
-												startOffset: 18,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 25,
-												startOffset: 19,
-											},
-											text: "Forest",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 26,
-												startOffset: 25,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 29,
-												startOffset: 26,
-											},
-											text: "cat",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 30,
-												startOffset: 29,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 32,
-												startOffset: 30,
-											},
-											text: "is",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 33,
-												startOffset: 32,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 41,
-												startOffset: 33,
-											},
-											text: "strongly",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 42,
-												startOffset: 41,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 47,
-												startOffset: 42,
-											},
-											text: "built",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 48,
-												startOffset: 47,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 51,
-												startOffset: 48,
-											},
-											text: "and",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 52,
-												startOffset: 51,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 58,
-												startOffset: 52,
-											},
-											text: "larger",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 59,
-												startOffset: 58,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 63,
-												startOffset: 59,
-											},
-											text: "than",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 64,
-												startOffset: 63,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 66,
-												startOffset: 64,
-											},
-											text: "an",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 67,
-												startOffset: 66,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 74,
-												startOffset: 67,
-											},
-											text: "average",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 75,
-												startOffset: 74,
-											},
-											text: " ",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 78,
-												startOffset: 75,
-											},
-											text: "cat",
-										},
-										{
-											sourceCodeRange: {
-												endOffset: 79,
-												startOffset: 78,
-											},
-											text: ".",
-										},
+										{ sourceCodeRange: { endOffset: 8, startOffset: 5 }, text: "The" },
+										{ sourceCodeRange: { endOffset: 9, startOffset: 8 }, text: " " },
+										{ sourceCodeRange: { endOffset: 18, startOffset: 9 }, text: "Norwegian" },
+										{ sourceCodeRange: { endOffset: 19, startOffset: 18 }, text: " " },
+										{ sourceCodeRange: { endOffset: 25, startOffset: 19 }, text: "Forest" },
+										{ sourceCodeRange: { endOffset: 26, startOffset: 25 }, text: " " },
+										{ sourceCodeRange: { endOffset: 29, startOffset: 26 }, text: "cat" },
+										{ sourceCodeRange: { endOffset: 30, startOffset: 29 }, text: " " },
+										{ sourceCodeRange: { endOffset: 32, startOffset: 30 }, text: "is" },
+										{ sourceCodeRange: { endOffset: 33, startOffset: 32 }, text: " " },
+										{ sourceCodeRange: { endOffset: 41, startOffset: 33 }, text: "strongly" },
+										{ sourceCodeRange: { endOffset: 42, startOffset: 41 }, text: " " },
+										{ sourceCodeRange: { endOffset: 47, startOffset: 42 }, text: "built" },
+										{ sourceCodeRange: { endOffset: 48, startOffset: 47 }, text: " " },
+										{ sourceCodeRange: { endOffset: 51, startOffset: 48 }, text: "and" },
+										{ sourceCodeRange: { endOffset: 52, startOffset: 51 }, text: " " },
+										{ sourceCodeRange: { endOffset: 58, startOffset: 52 }, text: "larger" },
+										{ sourceCodeRange: { endOffset: 59, startOffset: 58 }, text: " " },
+										{ sourceCodeRange: { endOffset: 63, startOffset: 59 }, text: "than" },
+										{ sourceCodeRange: { endOffset: 64, startOffset: 63 }, text: " " },
+										{ sourceCodeRange: { endOffset: 66, startOffset: 64 }, text: "an" },
+										{ sourceCodeRange: { endOffset: 67, startOffset: 66 }, text: " " },
+										{ sourceCodeRange: { endOffset: 74, startOffset: 67 }, text: "average" },
+										{ sourceCodeRange: { endOffset: 75, startOffset: 74 }, text: " " },
+										{ sourceCodeRange: { endOffset: 78, startOffset: 75 }, text: "cat" },
+										{ sourceCodeRange: { endOffset: 79, startOffset: 78 }, text: "." },
 									],
 								},
 							],
-							sourceCodeLocation: {
-								endOffset: 79,
-								startOffset: 5,
-							},
+							sourceCodeLocation: { endOffset: 79, startOffset: 5 },
 						},
 					],
 					name: "div",
 					sourceCodeLocation: {
 						endOffset: 85,
-						endTag: {
-							endOffset: 85,
-							startOffset: 79,
-						},
+						endTag: { endOffset: 85, startOffset: 79 },
 						startOffset: 0,
-						startTag: {
-							endOffset: 5,
-							startOffset: 0,
-						},
+						startTag: { endOffset: 5, startOffset: 0 },
 					},
 				},
 				{
 					attributes: {},
 					childNodes: [],
 					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 116,
-						startOffset: 85,
-					},
+					sourceCodeLocation: { endOffset: 116, startOffset: 85 },
 				},
 			],
 		} );
+	} );
+
+	it( "parses an HTML text with a Yoast FAQ block: " +
+		"The block client id, attribute id, and the information whether a child node is " +
+		"the first section in the sub-block should be added to the tree", () => {
+		const html = "<!-- wp:yoast/faq-block {\"questions\":[{\"id\":\"faq-question-1689322642789\",\"question\":,\"answer\":}},\"" +
+			" is is relative to red panda\"],\"jsonQuestion\":\"What is giant panda\",\"jsonAnswer\":\"Giant " +
+			"\u003cstrong\u003epanda\u003c/strong\u003e " +
+			"is is relative to red panda\"},{\"id\":\"faq-question-1689322667728\",\"question\":,\"answer\":,\"jsonQuestion\":\"Test\",\"jsonAnswer" +
+			"\":\"Test\"},{\"id\":\"faq-question-1689936392675\",\"question\":,\"answer\":[],\"jsonQuestion\":\"giant panda is silly\"," +
+			"\"jsonAnswer\":\"\"}]} -->\n" +
+			"<div class=\"schema-faq wp-block-yoast-faq-block\"><div class=\"schema-faq-section\" id=\"faq-question-1689322642789\">" +
+			"<strong class=\"schema-faq-question\">What is giant panda</strong> <p class=\"schema-faq-answer\">" +
+			"Giant <strong>panda</strong> is is relative to red panda</p> </div> <div class=\"schema-faq-section\" " +
+			"id=\"faq-question-1689322667728\">" +
+			"<strong class=\"schema-faq-question\">Test</strong> <p class=\"schema-faq-answer\">Test</p> </div> " +
+			"<div class=\"schema-faq-section\" id=\"faq-question-1689936392675\"><strong class=\"schema-faq-question\">" +
+			"giant panda is silly</strong> <p class=\"schema-faq-answer\"></p> </div> </div>\n" +
+			"<!-- /wp:yoast/faq-block -->";
+		const paper = new Paper( html, {
+			wpBlocks: [
+				{
+					clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+					name: "yoast/faq-block",
+					isValid: true,
+					originalContent: "<div class=\"schema-faq wp-block-yoast-faq-block\"><div class=\"schema-faq-section\"" +
+						" id=\"faq-question-1689322642789\"><strong class=\"schema-faq-question\">" +
+						"What is giant panda</strong> <p class=\"schema-faq-answer\">Giant <strong>panda" +
+						"</strong> is relative to red panda</p> </div> <div class=\"schema-faq-section\" " +
+						"id=\"faq-question-1689322667728\"><strong class=\"schema-faq-question\">" +
+						"Test</strong> <p class=\"schema-faq-answer\">Tets</p> </div> <div class=\"schema-faq-section\" " +
+						"id=\"faq-question-1689936392675\"><strong class=\"schema-faq-question\">giant panda is silly</strong> " +
+						"<p class=\"schema-faq-answer\"></p> </div> </div>",
+					validationIssues: [],
+					attributes: {
+						questions: [
+							{
+								id: "faq-question-1689322642789",
+								question: [ "What is giant panda" ],
+								answer: [ "Giant ", { type: "strong", props: { children: [ "panda" ] } }, " is relative to red panda" ],
+								jsonQuestion: "What is giant panda",
+								jsonAnswer: "Giant <strong>panda</strong> is is relative to red panda",
+							},
+							{
+								id: "faq-question-1689322667728",
+								question: [ "Test" ],
+								answer: [ "Tests" ],
+								jsonQuestion: "Test",
+								jsonAnswer: "Tests",
+							},
+							{
+								id: "faq-question-1689936392675",
+								question: [ "giant panda is silly" ],
+								answer: [],
+								jsonQuestion: "giant panda is silly",
+								jsonAnswer: "",
+							},
+						],
+					},
+					innerBlocks: [],
+					startOffset: 2510,
+					contentOffset: 2963,
+				},
+			],
+		} );
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+		expect( build( paper, languageProcessor ) ).toEqual(
+			{
+				name: "#document-fragment",
+				attributes: {},
+				childNodes: [
+					{
+						name: "#comment",
+						attributes: {},
+						childNodes: [],
+						sourceCodeLocation: { startOffset: 0, endOffset: 458 },
+					},
+					{ name: "#text", value: "\n" },
+					{
+						name: "div",
+						attributes: {
+							"class": new Set( [ "schema-faq", "wp-block-yoast-faq-block" ] ),
+						},
+						childNodes: [
+							{
+								name: "div",
+								attributes: { "class": new Set( [ "schema-faq-section" ] ), id: "faq-question-1689322642789" },
+								childNodes: [
+									{
+										name: "p",
+										attributes: {},
+										childNodes: [
+											{
+												name: "strong",
+												attributes: { "class": new Set( [ "schema-faq-question" ] ) },
+												childNodes: [
+													{ name: "#text", value: "What is giant panda",
+														clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+												],
+												sourceCodeLocation: {
+													startTag: { startOffset: 572, endOffset: 608 },
+													endTag: { startOffset: 627, endOffset: 636 },
+													startOffset: 572,
+													endOffset: 636,
+												},
+												clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+											},
+										],
+										sourceCodeLocation: { startOffset: 572, endOffset: 727 },
+										isImplicit: true,
+										attributeId: "faq-question-1689322642789",
+										isFirstSection: true,
+										clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+										sentences: [
+											{
+												text: "What is giant panda",
+												tokens: [
+													{ text: "What", sourceCodeRange: { startOffset: 608, endOffset: 612 } },
+													{ text: " ", sourceCodeRange: { startOffset: 612, endOffset: 613 } },
+													{ text: "is", sourceCodeRange: { startOffset: 613, endOffset: 615 } },
+													{ text: " ", sourceCodeRange: { startOffset: 615, endOffset: 616 } },
+													{ text: "giant", sourceCodeRange: { startOffset: 616, endOffset: 621 } },
+													{ text: " ", sourceCodeRange: { startOffset: 621, endOffset: 622 } },
+													{ text: "panda", sourceCodeRange: { startOffset: 622, endOffset: 627 } },
+												],
+												sourceCodeRange: { startOffset: 608, endOffset: 627 },
+											},
+										],
+									},
+									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+									{
+										name: "p",
+										attributes: { "class": new Set( [ "schema-faq-answer" ] ) },
+										childNodes: [
+											{ name: "#text", value: "Giant ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+											{
+												name: "strong",
+												attributes: {},
+												childNodes: [
+													{ name: "#text", value: "panda", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+												],
+												sourceCodeLocation: {
+													startTag: { startOffset: 672, endOffset: 680 },
+													endTag: { startOffset: 685, endOffset: 694 },
+													startOffset: 672,
+													endOffset: 694,
+												},
+												clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+											},
+											{ name: "#text", value: " is is relative to red panda",
+												clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+										],
+										sourceCodeLocation: {
+											startTag: { startOffset: 637, endOffset: 666 },
+											endTag: { startOffset: 722, endOffset: 726 },
+											startOffset: 637,
+											endOffset: 726,
+										},
+										isImplicit: false,
+										attributeId: "faq-question-1689322642789",
+										isFirstSection: false,
+										clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+										sentences: [
+											{
+												text: "Giant panda is is relative to red panda",
+												tokens: [
+													{ text: "Giant", sourceCodeRange: { startOffset: 666, endOffset: 671 } },
+													{ text: " ", sourceCodeRange: { startOffset: 671, endOffset: 672 } },
+													{ text: "panda", sourceCodeRange: { startOffset: 680, endOffset: 685 } },
+													{ text: " ", sourceCodeRange: { startOffset: 694, endOffset: 695 } },
+													{ text: "is", sourceCodeRange: { startOffset: 695, endOffset: 697 } },
+													{ text: " ", sourceCodeRange: { startOffset: 697, endOffset: 698 } },
+													{ text: "is", sourceCodeRange: { startOffset: 698, endOffset: 700 } },
+													{ text: " ", sourceCodeRange: { startOffset: 700, endOffset: 701 } },
+													{ text: "relative", sourceCodeRange: { startOffset: 701, endOffset: 709 } },
+													{ text: " ", sourceCodeRange: { startOffset: 709, endOffset: 710 } },
+													{ text: "to", sourceCodeRange: { startOffset: 710, endOffset: 712 } },
+													{ text: " ", sourceCodeRange: { startOffset: 712, endOffset: 713 } },
+													{ text: "red", sourceCodeRange: { startOffset: 713, endOffset: 716 } },
+													{ text: " ", sourceCodeRange: { startOffset: 716, endOffset: 717 } },
+													{ text: "panda", sourceCodeRange: { startOffset: 717, endOffset: 722 } },
+												],
+												sourceCodeRange: { startOffset: 666, endOffset: 722 },
+											},
+										],
+									},
+									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+								],
+								sourceCodeLocation: {
+									startTag: { startOffset: 508, endOffset: 572 },
+									endTag: { startOffset: 727, endOffset: 733 },
+									startOffset: 508,
+									endOffset: 733,
+								},
+								clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+							},
+							{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+							{
+								name: "div",
+								attributes: { "class": new Set( [ "schema-faq-section" ] ), id: "faq-question-1689322667728" },
+								childNodes: [
+									{
+										name: "p",
+										attributes: {},
+										childNodes: [
+											{
+												name: "strong",
+												attributes: { "class": new Set( [ "schema-faq-question" ] ) },
+												childNodes: [
+													{ name: "#text", value: "Test", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+												],
+												sourceCodeLocation: {
+													startTag: { startOffset: 798, endOffset: 834 },
+													endTag: { startOffset: 838, endOffset: 847 },
+													startOffset: 798,
+													endOffset: 847,
+												},
+												clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+											},
+										],
+										sourceCodeLocation: { startOffset: 798, endOffset: 886 },
+										isImplicit: true,
+										attributeId: "faq-question-1689322667728",
+										isFirstSection: true,
+										clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+										sentences: [
+											{
+												text: "Test",
+												tokens: [
+													{ text: "Test", sourceCodeRange: { startOffset: 834, endOffset: 838 } },
+												],
+												sourceCodeRange: { startOffset: 834, endOffset: 838 },
+											},
+										],
+									},
+									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+									{
+										name: "p",
+										attributes: { "class": new Set( [ "schema-faq-answer" ] ) },
+										childNodes: [
+											{ name: "#text", value: "Test", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+										],
+										sourceCodeLocation: {
+											startTag: { startOffset: 848, endOffset: 877 },
+											endTag: { startOffset: 881, endOffset: 885 },
+											startOffset: 848,
+											endOffset: 885,
+										},
+										isImplicit: false,
+										attributeId: "faq-question-1689322667728",
+										isFirstSection: false,
+										clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+										sentences: [
+											{
+												text: "Test",
+												tokens: [
+													{ text: "Test", sourceCodeRange: { startOffset: 877, endOffset: 881 } },
+												],
+												sourceCodeRange: { startOffset: 877, endOffset: 881 },
+											},
+										],
+									},
+									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+								],
+								sourceCodeLocation: {
+									startTag: { startOffset: 734, endOffset: 798 },
+									endTag: { startOffset: 886, endOffset: 892 },
+									startOffset: 734,
+									endOffset: 892,
+								},
+								clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+							},
+							{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+							{
+								name: "div",
+								attributes: { "class": new Set( [ "schema-faq-section" ] ), id: "faq-question-1689936392675" },
+								childNodes: [
+									{
+										name: "p",
+										attributes: {},
+										childNodes: [
+											{
+												name: "strong",
+												attributes: { "class": new Set( [ "schema-faq-question" ] ) },
+												childNodes: [
+													{ name: "#text", value: "giant panda is silly",
+														clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+												],
+												sourceCodeLocation: {
+													startTag: { startOffset: 957, endOffset: 993 },
+													endTag: { startOffset: 1013, endOffset: 1022 },
+													startOffset: 957,
+													endOffset: 1022,
+												},
+												clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+											},
+										],
+										sourceCodeLocation: { startOffset: 957, endOffset: 1057 },
+										isImplicit: true,
+										attributeId: "faq-question-1689936392675",
+										isFirstSection: true,
+										clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+										sentences: [
+											{
+												text: "giant panda is silly",
+												tokens: [
+													{ text: "giant", sourceCodeRange: { startOffset: 993, endOffset: 998 } },
+													{ text: " ", sourceCodeRange: { startOffset: 998, endOffset: 999 } },
+													{ text: "panda", sourceCodeRange: { startOffset: 999, endOffset: 1004 } },
+													{ text: " ", sourceCodeRange: { startOffset: 1004, endOffset: 1005 } },
+													{ text: "is", sourceCodeRange: { startOffset: 1005, endOffset: 1007 } },
+													{ text: " ", sourceCodeRange: { startOffset: 1007, endOffset: 1008 } },
+													{ text: "silly", sourceCodeRange: { startOffset: 1008, endOffset: 1013 } },
+												],
+												sourceCodeRange: { startOffset: 993, endOffset: 1013 },
+											},
+										],
+									},
+									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+									{
+										name: "p",
+										attributes: { "class": new Set( [ "schema-faq-answer" ] ) },
+										childNodes: [],
+										sourceCodeLocation: {
+											startTag: { startOffset: 1023, endOffset: 1052 },
+											endTag: { startOffset: 1052, endOffset: 1056 },
+											startOffset: 1023,
+											endOffset: 1056,
+										},
+										isImplicit: false,
+										attributeId: "faq-question-1689936392675",
+										isFirstSection: false,
+										clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+										sentences: [],
+									},
+									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+								],
+								sourceCodeLocation: {
+									startTag: { startOffset: 893, endOffset: 957 },
+									endTag: { startOffset: 1057, endOffset: 1063 },
+									startOffset: 893,
+									endOffset: 1063,
+								},
+								clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+							},
+							{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+						],
+						sourceCodeLocation: {
+							startTag: { startOffset: 459, endOffset: 508 },
+							endTag: { startOffset: 1064, endOffset: 1070 },
+							startOffset: 459,
+							endOffset: 1070,
+						},
+						clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+					},
+					{ name: "#text", value: "\n" },
+					{ name: "#comment", attributes: {}, childNodes: [], sourceCodeLocation: { startOffset: 1071, endOffset: 1099 } },
+				],
+			}
+		);
 	} );
 } );

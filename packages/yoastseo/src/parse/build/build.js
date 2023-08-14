@@ -6,20 +6,25 @@ import tokenize from "./private/tokenize";
 import filterTree from "./private/filterTree";
 import permanentFilters from "./private/alwaysFilterElements";
 import { filterBeforeTokenizing } from "./private/filterBeforeTokenizing";
+import parseBlocks from "./private/parseBlocks";
 import filterShortcodesFromTree from "../../languageProcessing/helpers/sanitize/filterShortcodesFromTree";
 
 /**
- * Parses the HTML string to a tree representation of
- * the HTML document.
+ * Parses the HTML string to a tree representation of the HTML document.
  *
- * @param {string} htmlString The HTML string.
+ * @param {Paper} paper The paper to build the tree from.
  * @param {LanguageProcessor} languageProcessor The language processor to use.
  * @param {string[]} shortcodes An array of all active shortcodes.
  *
  * @returns {Node} The tree representation of the HTML string.
  */
-export default function build( htmlString, languageProcessor, shortcodes ) {
-	let tree = adapt( parseFragment( htmlString, { sourceCodeLocationInfo: true } ) );
+export default function build( paper, languageProcessor, shortcodes ) {
+	const html = paper.getText();
+	let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+
+	if ( tree.childNodes && tree.childNodes.length > 0 ) {
+		parseBlocks( paper, tree );
+	}
 
 	/*
 	 * Filter out some content from the tree so that it can be correctly tokenized. We don't want to tokenize text in

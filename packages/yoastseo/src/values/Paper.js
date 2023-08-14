@@ -68,6 +68,7 @@ function Paper( text, attributes ) {
 	this._attributes = attributes;
 }
 
+
 /**
  * Checks whether a keyword is available.
  * @returns {boolean} Returns true if the Paper has a keyword.

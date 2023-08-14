@@ -3,6 +3,7 @@ import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
 import Factory from "../../specHelpers/factory";
 import build from "../../../src/parse/build/build";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
+import Paper from "../../../src/values/Paper";
 
 describe( "A test for the Node object", () => {
 	it( "should correctly create a simple Node object", function() {
@@ -11,14 +12,19 @@ describe( "A test for the Node object", () => {
 } );
 
 describe( "A test for the findAll method", () => {
+	let paper;
+
+	beforeEach( () => {
+		paper = new Paper();
+	} );
 	it( "should find all occurrences of a p tag", function() {
-		const html = "<div><p class='yoast'>Hello, world! </p><p class='yoast'>Hello, yoast!</p></div>";
+		paper._text = "<div><p class='yoast'>Hello, world! </p><p class='yoast'>Hello, yoast!</p></div>";
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
-		const tree = build( html, languageProcessor );
+		const tree = build( paper, languageProcessor );
 
 		const searchResult = tree.findAll( ( node ) => node.name === "p" );
 
@@ -86,15 +92,17 @@ describe( "A test for the findAll method", () => {
 } );
 
 describe( "A test for the innerText method", () => {
-	const html = "<div><p class='yoast'>Hello, world! </p><p class='yoast'>Hello, yoast!</p></div>";
+	it( "should return the inner text of a node", function() {
+		const paper = new Paper( "<div><p class='yoast'>Hello, world! </p><p class='yoast'>Hello, yoast!</p></div>" );
 
-	const researcher = Factory.buildMockResearcher( {}, true, false, false,
-		{ memoizedTokenizer: memoizedSentenceTokenizer } );
-	const languageProcessor = new LanguageProcessor( researcher );
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
 
-	const tree = build( html, languageProcessor );
+		const tree = build( paper, languageProcessor );
 
-	const innerText = tree.innerText();
+		const innerText = tree.innerText();
 
-	expect( innerText ).toEqual( "Hello, world! Hello, yoast!" );
+		expect( innerText ).toEqual( "Hello, world! Hello, yoast!" );
+	} );
 } );

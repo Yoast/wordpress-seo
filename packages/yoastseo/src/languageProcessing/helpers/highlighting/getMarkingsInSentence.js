@@ -28,7 +28,7 @@ const createMarksForSentence = ( sentence, matches  ) => {
 	}
 	const markedSentence = newTokens.join( "" );
 	// Merge consecutive markings into one marking.
-	return markedSentence.replace( new RegExp( "</yoastmark>(( |\u00A0)?)<yoastmark class='yoast-text-mark'>", "ig" ), "$1" );
+	return markedSentence.replace( new RegExp( "</yoastmark>([ \u00A0]?)<yoastmark class='yoast-text-mark'>", "ig" ), "$1" );
 };
 
 /**
@@ -57,12 +57,11 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings ) => {
 		const lastMarking = newMarkings[ newMarkings.length - 1 ];
 		// Adding 1 to the position end, with the assumption that the language uses spaces.
 		// When we adapt Japanese to use this helper, this check should also be adapted.
-		if ( lastMarking.getPositionEnd() + 1 === marking.getPositionStart() ) {
+		if ( ( lastMarking.getPositionEnd() + 1 === marking.getPositionStart() ) ||
+			( marking.getPositionStart() <= lastMarking.getPositionEnd() ) ) {
 			// The marking is consecutive to the last marking, so we extend the last marking to include the new marking.
 			lastMarking.setPositionEnd( marking.getPositionEnd() );
-		} else if ( marking.getPositionStart() <= lastMarking.getPositionEnd() ) {
-			// The marking overlaps with the last marking, so we extend the last marking to include the new marking.
-			lastMarking.setPositionEnd( marking.getPositionEnd() );
+			lastMarking.setBlockPositionEnd( marking.getBlockPositionEnd() );
 		} else {
 			// The marking is not consecutive to the last marking, so we add it to the array by itself.
 			newMarkings.push( marking );
@@ -99,10 +98,21 @@ function getMarkingsInSentence( sentence, matchesInSentence ) {
 	 * all Mark objects for a sentence have the same markedSentence.
 	 */
 	const markings = matchesInSentence.map( token => {
+		const startOffset = token.sourceCodeRange.startOffset;
+		const endOffset =  token.sourceCodeRange.endOffset;
 		return new Mark( {
 			position: {
-				startOffset: token.sourceCodeRange.startOffset,
-				endOffset: token.sourceCodeRange.endOffset,
+				startOffset: startOffset,
+				endOffset: endOffset,
+				// Relative to start of block positions.
+				startOffsetBlock: startOffset - ( sentence.parentStartOffset || 0 ),
+				endOffsetBlock: endOffset - ( sentence.parentStartOffset || 0 ),
+				// The client id of the block the match was found in.
+				clientId: sentence.parentClientId || "",
+				// The attribute id of the Yoast sub-block the match was found in.
+				attributeId: sentence.parentAttributeId || "",
+				// Whether the match was found in the first section of the Yoast sub-block.
+				isFirstSection: sentence.isParentFirstSectionOfBlock || false,
 			},
 			marked: markedSentence,
 			original: sentence.text,
