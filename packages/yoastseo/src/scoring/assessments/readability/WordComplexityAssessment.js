@@ -32,7 +32,7 @@ export default class WordComplexityAssessment extends Assessment {
 		};
 
 		/*
-		 * Translators: This is the name of the 'Word complexity' readability assessment.
+		 * translators: This is the name of the 'Word complexity' readability assessment.
          * It appears before the feedback in the analysis, for example in the feedback string:
          * "Word complexity: You are not using too many complex words, which makes your text easy to read. Good job!"
          */
@@ -80,7 +80,7 @@ export default class WordComplexityAssessment extends Assessment {
 				score: this._config.scores.goodAmount,
 				hasMarks: hasMarks,
 				resultText: sprintf(
-					/* Translators: %1$s expands to the title of the "Word complexity" assessment (translated to the current language)
+					/* translators: %1$s expands to the title of the "Word complexity" assessment (translated to the current language)
 					 and links to an article on yoast.com.*/
 					__(
 						// eslint-disable-next-line max-len
@@ -95,7 +95,7 @@ export default class WordComplexityAssessment extends Assessment {
 			score: this._config.scores.acceptableAmount,
 			hasMarks: hasMarks,
 			resultText: sprintf(
-				/* Translators: %1$s expands to the title of the "Word complexity" assessment (translated to the current language)
+				/* translators: %1$s expands to the title of the "Word complexity" assessment (translated to the current language)
 					 and links to an article on yoast.com. %2$s expand to the percentage of the complex words found in the text.
 					 %3$s expand to a link on yoast.com, %4$s expands to the anchor end tag. */
 				__(

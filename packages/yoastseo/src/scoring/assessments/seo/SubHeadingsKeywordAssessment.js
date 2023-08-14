@@ -146,7 +146,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.tooFewMatches,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
+					/* translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
 					__(
 						"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your H2 and H3 subheadings%3$s!",
 						"wordpress-seo"
@@ -162,7 +162,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.tooManyMatches,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
+					/* translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
 					__(
 						// eslint-disable-next-line max-len
 						"%1$sKeyphrase in subheading%3$s: More than 75%% of your H2 and H3 subheadings reflect the topic of your copy. That's too much. %2$sDon't over-optimize%3$s!",
@@ -179,7 +179,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.goodNumberOfMatches,
 				resultText: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
 					%3$d expands to the number of subheadings containing the keyphrase. */
 					__(
 						"%1$sKeyphrase in subheading%2$s: Your H2 or H3 subheading reflects the topic of your copy. Good job!",
@@ -196,7 +196,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.goodNumberOfMatches,
 				resultText: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
 					%3$d expands to the number of subheadings containing the keyphrase. */
 					_n(
 						"%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflects the topic of your copy. Good job!",
@@ -214,7 +214,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 		return {
 			score: this._config.scores.noMatches,
 			resultText: sprintf(
-				/* Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
+				/* translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
 				__(
 					"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your H2 and H3 subheadings%3$s!",
 					"wordpress-seo"

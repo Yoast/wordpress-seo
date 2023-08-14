@@ -39,7 +39,7 @@ export default class TextPresenceAssessment extends Assessment {
 			const result = new AssessmentResult();
 
 			result.setText( sprintf(
-				/* Translators: %1$s and %3$s expand to links to articles on Yoast.com,
+				/* translators: %1$s and %3$s expand to links to articles on Yoast.com,
 				%2$s expands to the anchor end tag*/
 				__(
 					"%1$sNot enough content%2$s: %3$sPlease add some content to enable a good analysis%2$s.",

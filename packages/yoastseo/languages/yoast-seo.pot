@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#. Translators: %1$s expands to the numeric Flesch reading ease score,
+#. translators: %1$s expands to the numeric Flesch reading ease score,
 #. %2$s to a link to a Yoast.com article about Flesch reading ease score,
 #. %3$s to the easyness of reading,
 #. %4$s expands to a note about the flesch reading score.
@@ -71,7 +71,7 @@ msgstr ""
 msgid "None of the paragraphs are too long, which is great."
 msgstr ""
 
-#. Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
+#. translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
 #: js/assessments/readability/paragraphTooLongAssessment.js:58
 #, javascript-format
 msgid ""
@@ -85,7 +85,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
 #: js/assessments/readability/passiveVoiceAssessment.js:47
 #, javascript-format
@@ -94,7 +94,7 @@ msgid ""
 "equal to the recommended maximum of %4$s."
 msgstr ""
 
-#. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
 #: js/assessments/readability/passiveVoiceAssessment.js:57
 #, javascript-format
@@ -103,7 +103,7 @@ msgid ""
 "recommended maximum of %4$s. Try to use their active counterparts."
 msgstr ""
 
-#. Translators: %1$d expands to the number of instances where 3 or more consecutive sentences start with the same word.
+#. translators: %1$d expands to the number of instances where 3 or more consecutive sentences start with the same word.
 #. %2$d expands to the number of consecutive sentences starting with the same word.
 #: js/assessments/readability/sentenceBeginningsAssessment.js:45
 #, javascript-format
@@ -116,14 +116,14 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the recommended maximum sentence length,
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the recommended maximum sentence length,
 #. %3$s expands to the anchor end tag.
 #: js/assessments/readability/sentenceLengthInDescriptionAssessment.js:39
 #, javascript-format
 msgid "The meta description contains no sentences %1$sover %2$s words%3$s."
 msgstr ""
 
-#. Translators: %1$d expands to number of sentences, %2$s expands to a link on yoast.com,
+#. translators: %1$d expands to number of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag.
 #: js/assessments/readability/sentenceLengthInDescriptionAssessment.js:47
 #, javascript-format
@@ -136,7 +136,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
+#. translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
 #: js/assessments/readability/sentenceLengthInTextAssessment.js:95
@@ -146,7 +146,7 @@ msgid ""
 "than or equal to the recommended maximum of %5$s."
 msgstr ""
 
-#. Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
+#. translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
 #: js/assessments/readability/sentenceLengthInTextAssessment.js:101
@@ -156,14 +156,14 @@ msgid ""
 "than the recommended maximum of %5$s. Try to shorten the sentences."
 msgstr ""
 
-#. Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+#. translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
 #: js/assessments/readability/subheadingDistributionTooLongAssessment.js:135
 #: js/assessments/readability/subheadingDistributionTooLongAssessment.js:182
 #, javascript-format
 msgid "Great job with using %1$ssubheadings%2$s!"
 msgstr ""
 
-#. Translators: %1$d expands to the number of subheadings, %2$d expands to the recommended number
+#. translators: %1$d expands to the number of subheadings, %2$d expands to the recommended number
 #. of words following a subheading, %3$s expands to a link to https://yoa.st/headings,
 #. %4$s expands to the link closing tag.
 #.
@@ -179,7 +179,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+#. translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
 #: js/assessments/readability/subheadingDistributionTooLongAssessment.js:172
 #, javascript-format
 msgid ""
@@ -187,7 +187,7 @@ msgid ""
 "and add  some %1$ssubheadings%2$s."
 msgstr ""
 
-#. Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+#. translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
 #: js/assessments/readability/subheadingDistributionTooLongAssessment.js:190
 #, javascript-format
 msgid ""
@@ -201,7 +201,7 @@ msgid ""
 "analysis."
 msgstr ""
 
-#. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
 #: js/assessments/readability/transitionWordsAssessment.js:56
 #, javascript-format
@@ -210,7 +210,7 @@ msgid ""
 "less than the recommended minimum of %4$s."
 msgstr ""
 
-#. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag.
 #: js/assessments/readability/transitionWordsAssessment.js:66
 #, javascript-format
@@ -219,7 +219,7 @@ msgid ""
 "great."
 msgstr ""
 
-#. Translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
 #. %3$d expands to the recommended maximum number of syllables,
 #. %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
 #: js/assessments/readability/wordComplexityAssessment.js:55
@@ -229,7 +229,7 @@ msgid ""
 "equal to the recommended maximum of %5$s."
 msgstr ""
 
-#. Translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
 #. %3$d expands to the recommended maximum number of syllables,
 #. %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
 #: js/assessments/readability/wordComplexityAssessment.js:66
@@ -239,7 +239,7 @@ msgid ""
 "the recommended maximum of %5$s."
 msgstr ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
 #: js/assessments/seo/InternalLinksAssessment.js:80
 #, javascript-format
 msgid ""
@@ -247,21 +247,21 @@ msgid ""
 "appropriate."
 msgstr ""
 
-#. Translators: %1$s expands the number of internal links, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands the number of internal links, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag
 #: js/assessments/seo/InternalLinksAssessment.js:89
 #, javascript-format
 msgid "This page has %1$s %2$sinternal link(s)%3$s, all nofollowed."
 msgstr ""
 
-#. Translators: %1$s expands to the number of internal links, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the number of internal links, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag
 #: js/assessments/seo/InternalLinksAssessment.js:98
 #, javascript-format
 msgid "This page has %1$s %2$sinternal link(s)%3$s."
 msgstr ""
 
-#. Translators: %1$s expands to the number of nofollow links, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the number of nofollow links, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s to the number of internal links
 #: js/assessments/seo/InternalLinksAssessment.js:106
 #, javascript-format
@@ -270,13 +270,13 @@ msgid ""
 "internal link(s)."
 msgstr ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 #: js/assessments/seo/IntroductionKeywordAssessment.js:76
 #, javascript-format
 msgid "The focus keyword appears in the %1$sfirst paragraph%2$s of the copy."
 msgstr ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 #: js/assessments/seo/IntroductionKeywordAssessment.js:83
 #, javascript-format
 msgid ""
@@ -284,7 +284,7 @@ msgid ""
 "Make sure the topic is clear immediately."
 msgstr ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 #: js/assessments/seo/KeyphraseLengthAssessment.js:71
 #, javascript-format
 msgid ""
@@ -292,7 +292,7 @@ msgid ""
 "keyword, no score can be calculated."
 msgstr ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
 #: js/assessments/seo/KeyphraseLengthAssessment.js:79
 #, javascript-format
 msgid "The %1$skeyphrase%2$s is over 10 words, a keyphrase should be shorter."
@@ -349,7 +349,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link
+#. translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link
 #: js/assessments/seo/keywordStopWordsAssessment.js:19
 #, javascript-format
 msgid ""
@@ -361,7 +361,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+#. translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
 #. %2$s expands to the anchor end tag
 #: js/assessments/seo/LargestKeywordDistanceAssessment.js:81
 #, javascript-format
@@ -370,7 +370,7 @@ msgid ""
 "%1$skeyword distribution%2$s."
 msgstr ""
 
-#. Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+#. translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
 #. %2$s expands to the anchor end tag
 #: js/assessments/seo/LargestKeywordDistanceAssessment.js:90
 #, javascript-format
@@ -383,7 +383,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+#. translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
 #. %2$s expands to the anchor end tag
 #: js/assessments/seo/LargestKeywordDistanceAssessment.js:99
 #, javascript-format
@@ -396,7 +396,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+#. translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
 #. %2$s expands to the anchor end tag
 #: js/assessments/seo/LargestKeywordDistanceAssessment.js:107
 #, javascript-format
@@ -408,7 +408,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 #: js/assessments/seo/MetaDescriptionKeywordAssessment.js:73
 #, javascript-format
 msgid ""
@@ -416,7 +416,7 @@ msgid ""
 "keyword%2$s."
 msgstr ""
 
-#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#. translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
 #: js/assessments/seo/metaDescriptionLengthAssessment.js:96
 #, javascript-format
 msgid ""
@@ -424,7 +424,7 @@ msgid ""
 "copy from the page instead."
 msgstr ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
 #. %3$d expands to the number of characters in the meta description, %4$d expands to
 #. the total available number of characters in the meta description
 #: js/assessments/seo/metaDescriptionLengthAssessment.js:104
@@ -434,7 +434,7 @@ msgid ""
 "%4$d characters are available."
 msgstr ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
 #. %3$d expands to	the total available number of characters in the meta description
 #: js/assessments/seo/metaDescriptionLengthAssessment.js:111
 #, javascript-format
@@ -443,13 +443,13 @@ msgid ""
 "will ensure the entire description will be visible."
 msgstr ""
 
-#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#. translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
 #: js/assessments/seo/metaDescriptionLengthAssessment.js:117
 #, javascript-format
 msgid "The %1$smeta description%2$s has a nice length."
 msgstr ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
 #: js/assessments/seo/outboundLinksAssessment.js:93
 #, javascript-format
 msgid ""
@@ -457,14 +457,14 @@ msgid ""
 "appropriate."
 msgstr ""
 
-#. Translators: %1$s expands the number of outbound links, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands the number of outbound links, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag
 #: js/assessments/seo/outboundLinksAssessment.js:99
 #, javascript-format
 msgid "This page has %1$s %2$soutbound link(s)%3$s, all nofollowed."
 msgstr ""
 
-#. Translators: %1$s expands to the number of nofollow links, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the number of nofollow links, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s to the number of outbound links
 #: js/assessments/seo/outboundLinksAssessment.js:105
 #, javascript-format
@@ -473,14 +473,14 @@ msgid ""
 "outbound link(s)."
 msgstr ""
 
-#. Translators: %1$s expands to the number of outbound links, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the number of outbound links, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag
 #: js/assessments/seo/outboundLinksAssessment.js:111
 #, javascript-format
 msgid "This page has %1$s %2$soutbound link(s)%3$s."
 msgstr ""
 
-#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#. translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
 #: js/assessments/seo/pageTitleWidthAssessment.js:92
 #, javascript-format
 msgid ""
@@ -488,25 +488,25 @@ msgid ""
 "or create compelling call-to-action copy."
 msgstr ""
 
-#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#. translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
 #: js/assessments/seo/pageTitleWidthAssessment.js:97
 #, javascript-format
 msgid "The %1$sSEO title%2$s has a nice length."
 msgstr ""
 
-#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#. translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
 #: js/assessments/seo/pageTitleWidthAssessment.js:102
 #, javascript-format
 msgid "The %1$sSEO title%2$s is wider than the viewable limit."
 msgstr ""
 
-#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#. translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
 #: js/assessments/seo/pageTitleWidthAssessment.js:106
 #, javascript-format
 msgid "Please create an %1$sSEO title%2$s."
 msgstr ""
 
-#. Translators: %1$d expands to the number of subheadings containing the keyword, %2$d expands to the
+#. translators: %1$d expands to the number of subheadings containing the keyword, %2$d expands to the
 #. total number of subheadings, %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag
 #: js/assessments/seo/subheadingsKeywordAssessment.js:89
 #, javascript-format
@@ -515,7 +515,7 @@ msgid ""
 "copy."
 msgstr ""
 
-#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#. translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
 #: js/assessments/seo/subheadingsKeywordAssessment.js:94
 #, javascript-format
 msgid ""
@@ -523,8 +523,8 @@ msgid ""
 "H2) in your copy."
 msgstr ""
 
-#. Translators: %1$d expands to the number of words in the text.
-#. Translators: %1$d expands to the number of words in the text
+#. translators: %1$d expands to the number of words in the text.
+#. translators: %1$d expands to the number of words in the text
 #: js/assessments/seo/taxonomyTextLengthAssessment.js:18
 #: js/assessments/seo/taxonomyTextLengthAssessment.js:29
 #: js/assessments/seo/taxonomyTextLengthAssessment.js:40
@@ -540,7 +540,7 @@ msgid_plural "The text contains %1$d words."
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
+#. translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag,	%4$s expands to the recommended minimum of words.
 #: js/assessments/seo/taxonomyTextLengthAssessment.js:21
 #: js/assessments/seo/textLengthAssessment.js:93
@@ -552,7 +552,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
+#. translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended minimum of words.
 #: js/assessments/seo/taxonomyTextLengthAssessment.js:32
 #: js/assessments/seo/textLengthAssessment.js:101
@@ -566,7 +566,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
+#. translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended minimum of words.
 #: js/assessments/seo/taxonomyTextLengthAssessment.js:43
 #: js/assessments/seo/taxonomyTextLengthAssessment.js:54
@@ -581,7 +581,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
+#. translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag,  %4$s expands to the recommended minimum of words.
 #: js/assessments/seo/taxonomyTextLengthAssessment.js:65
 #: js/assessments/seo/textLengthAssessment.js:117
@@ -595,7 +595,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#. translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
 #: js/assessments/seo/TextCompetingLinksAssessment.js:83
 #, javascript-format
 msgid ""
@@ -603,7 +603,7 @@ msgid ""
 "page to rank for. Consider changing that if you truly want this page to rank."
 msgstr ""
 
-#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#. translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
 #: js/assessments/seo/textImagesAssessment.js:101
 #, javascript-format
 msgid ""
@@ -634,14 +634,14 @@ msgstr ""
 msgid "The %1$simages%2$s on this page are missing alt attributes."
 msgstr ""
 
-#. Translators: %1$s expands to the keyphrase, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the keyphrase, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag.
 #: js/assessments/seo/TitleKeywordAssessment.js:85
 #, javascript-format
 msgid "The focus keyword '%1$s' does not appear in the %2$sSEO title%3$s."
 msgstr ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 #: js/assessments/seo/TitleKeywordAssessment.js:93
 #, javascript-format
 msgid ""
@@ -649,7 +649,7 @@ msgid ""
 "considered to improve rankings."
 msgstr ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 #: js/assessments/seo/TitleKeywordAssessment.js:100
 #, javascript-format
 msgid ""
@@ -657,7 +657,7 @@ msgid ""
 "the beginning; try and move it to the beginning."
 msgstr ""
 
-#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#. translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
 #: js/assessments/seo/UrlKeywordAssessment.js:72
 #, javascript-format
 msgid ""
@@ -666,7 +666,7 @@ msgid ""
 "new one!"
 msgstr ""
 
-#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#. translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
 #: js/assessments/seo/UrlKeywordAssessment.js:80
 #, javascript-format
 msgid "The focus keyword appears in the %1$sURL%2$s for this page."
@@ -676,7 +676,7 @@ msgstr ""
 msgid "The slug for this page is a bit long, consider shortening it."
 msgstr ""
 
-#. Translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link
+#. translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link
 #: js/assessments/seo/urlStopWordsAssessment.js:19
 #, javascript-format
 msgid ""
@@ -686,12 +686,12 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: this link is referred to in the content analysis when a slug contains one or more stop words
+#. translators: this link is referred to in the content analysis when a slug contains one or more stop words
 #: js/assessments/seo/urlStopWordsAssessment.js:40
 msgid "http://en.wikipedia.org/wiki/Stop_words"
 msgstr ""
 
-#. Translators: %1$s expands to the name of the assessment.
+#. translators: %1$s expands to the name of the assessment.
 #: js/assessor.js:166
 #, javascript-format
 msgid "An error occurred in the '%1$s' assessment"
@@ -702,7 +702,7 @@ msgstr ""
 msgid "You've %1$snever used this focus keyword before%2$s, very good."
 msgstr ""
 
-#. Translators: %1$s and %2$s expand to an admin link where the focus keyword is already used. %3$s and %4$s
+#. translators: %1$s and %2$s expand to an admin link where the focus keyword is already used. %3$s and %4$s
 #. expand to a link to an article on yoast.com about why you should not use a keyword more than once.
 #: js/bundledPlugins/previouslyUsedKeywords.js:77
 #, javascript-format
@@ -712,7 +712,7 @@ msgid ""
 "once%4$s."
 msgstr ""
 
-#. Translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number
+#. translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number
 #. of times this focus keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com
 #. about why you should not use a keyword more than once.
 #: js/bundledPlugins/previouslyUsedKeywords.js:88
