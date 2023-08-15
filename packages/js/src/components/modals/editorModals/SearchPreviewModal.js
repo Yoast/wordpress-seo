@@ -4,7 +4,6 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import EditorModal from "../../../containers/EditorModal";
 import SnippetEditorWrapper from "../../../containers/SnippetEditor";
-import SearchDescription from "../../search/SearchDescription";
 
 /**
  * The Social appearance Modal.
@@ -18,7 +17,6 @@ const SearchPreviewModal = () => {
 			id="yoast-search-preview-modal"
 			shouldCloseOnClickOutside={ false }
 		>
-			<SearchDescription />
 			<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
 		</EditorModal>
 	);
