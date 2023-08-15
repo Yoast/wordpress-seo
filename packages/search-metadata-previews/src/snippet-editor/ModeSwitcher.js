@@ -18,6 +18,14 @@ const Switcher = styled.fieldset`
 	margin: 0 0 16px;
 `;
 
+const SearchPreviewDescription = styled.legend`
+	margin: 8px 0;
+	padding: 0;
+	color: ${ colors.$color_headings };
+	font-size: 12px;
+	font-weight: 300;
+`;
+
 const SwitcherTitle = styled.legend`
 	margin: 8px 0;
 	padding: 0;
@@ -75,6 +83,8 @@ class ModeSwitcher extends Component {
 		const desktopInputId = desktopModeInputId.length > 0 ? desktopModeInputId : "yoast-google-preview-mode-desktop";
 
 		return ( <Switcher>
+			<SearchPreviewDescription>{ __( "Determine how your post should look in the search results.",
+				"wordpress-seo" ) }</SearchPreviewDescription>
 			<SwitcherTitle>{ __( "Preview as:", "wordpress-seo" ) }</SwitcherTitle>
 			<ModeRadio
 				onChange={ this.switchToMobile }
