@@ -1,3 +1,3 @@
-A link is a clickable element within a user interface that typically appears as underlined text or a different color from surrounding text. Text links are used to navigate users to another page or section. They play a crucial role in enhancing user experience and providing clear and intuitive navigation.
+Links are clickable elements within a user interface that typically appear as underlined text or a different color from surrounding text. Text links are used to navigate users to another page or section, playing a crucial role in enhancing user experience and providing clear and intuitive navigation.
 
-It is up to you to implement the needed properties. I.e. an anchor tag needs `href`, but a button needs an `onClick`. This component does not know about either one.
+The implementation of required properties is your responsibility. I.e. an anchor tag needs `href`, but a button needs an `onClick`. This component does not know about either one.

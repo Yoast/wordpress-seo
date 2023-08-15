@@ -1,1 +1,1 @@
-The title component is used for displaying headings.
+Titles serve as prominent headers, guiding users through sections of information while providing a clear structure. Whether used in articles, pages, or cards, titles ensure a consistent and organized presentation, improving readability and user experience. With customizable sizes, developers can effortlessly integrate impactful titles that grab attention and create a polished design across various interfaces.

@@ -1,4 +1,4 @@
-An error boundary is designed to handle and manage errors. (Also see: https://github.com/bvaughn/react-error-boundary.)
+Error boundaries are designed to handle and manage errors. (Also see: https://github.com/bvaughn/react-error-boundary.)
 
 The purpose of the error boundary is to enhance the user experience by:
 - Preventing the application from crashing due to uncaught errors.
