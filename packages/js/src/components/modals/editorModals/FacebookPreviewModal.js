@@ -26,6 +26,7 @@ const FacebookPreviewModal = () => {
 		<EditorModal
 			title={ __( "Social appearance", "wordpress-seo" ) }
 			id="yoast-facebook-preview-modal"
+			shouldCloseOnClickOutside={ false }
 		>
 			<ModalDescription>{ __( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, " +
 				"Threads, LinkedIn, Slack, and more.", "wordpress-seo" ) }</ModalDescription>

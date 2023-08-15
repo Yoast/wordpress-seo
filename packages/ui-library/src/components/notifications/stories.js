@@ -1,5 +1,5 @@
-import Notifications, { Notification, notificationClassNameMap } from ".";
 import { keys } from "lodash";
+import Notifications, { Notification, notificationClassNameMap } from ".";
 
 export default {
 	title: "2) Components/Notifications",
@@ -12,7 +12,7 @@ export default {
 			description: "The position of the notification. Notifications prop.",
 			table: {
 				defaultValue: { summary: "bottom-center" },
-			  },
+			},
 		},
 		id: { control: "text" },
 		variant: {
@@ -21,7 +21,7 @@ export default {
 			table: {
 				type: { summary: keys( notificationClassNameMap.variant ).toString() },
 			},
-		 },
+		},
 		size: {
 			options: keys( notificationClassNameMap.size ),
 			type: "select",
@@ -51,7 +51,7 @@ export default {
 
 const Template = ( args ) => <Notifications.Notification { ...args } />;
 
-export const Factory = ( args ) =>
+export const Factory = ( args ) => (
 	<>
 		<div className="yst-mb-3">Default position is bottom-left.</div>
 		<div className="yst-fixed yst-left-0 yst-z-50">
@@ -60,10 +60,9 @@ export const Factory = ( args ) =>
 			</Notifications>
 		</div>
 	</>
-	;
+);
 Factory.args = {
 	id: "notification-factory",
-	 onDismiss: () => {},
 };
 
 export const Info = Template.bind( {} );

@@ -10,12 +10,17 @@ White buttons are used to offer secondary or supplementary actions to users that
 
 > Example actions: *Cancel* or *Skip*.
 
-3. **Danger action (<mark style="background-color: #dc2626;"><font color="white">Red</font></mark>)**<br>
+3. **Tertiary action (<mark style="background-color: transparent;"><font color="#a61e69">Transparent</font></mark>)**<br>
+Purple text, but no background or border.
+
+> Example actions: *Close*.
+
+4. **Danger action (<mark style="background-color: #dc2626;"><font color="white">Red</font></mark>)**<br>
 Red buttons are used to warn users of potentially hazardous or irreversible actions. They often alert users to high-risk actions that could have serious consequences if not handled carefully, such as deleting files, canceling subscriptions, or permanently removing data.
 
 > Example actions: *Deactivate Yoast SEO*, *Cancel subscription*, *Discard changes*, *Delete* or *Permanently remove all data*.
 
-4. **Buy action (<mark style="background-color: #fcd34d;"><font color="#78350f">Yellow</font></mark>)**<br>
+5. **Buy action (<mark style="background-color: #fcd34d;"><font color="#78350f">Yellow</font></mark>)**<br>
 Yellow buttons are used to indicate the start of a flow that eventually leads to a purchase or financial transaction related to our own products<!--related to **Yoast** products-->. Often, these buttons guide users toward a product page, their cart or the checkout process. Their bright color makes them stand out from our brand colors and other interface elements, attracting the user's attention.<!--These yellow upsell buttons are not typically used for upsells from partners (like Wincher or JetPack Boost). Partners typically provide their own upsell designs and use their own branded button colors or text links to encourage users to purchase their products.-->
 
 > Example actions: *Unlock with Premium*, *Get Yoast SEO Premium* or *Buy Yoast Local SEO*.

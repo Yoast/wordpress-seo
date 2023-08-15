@@ -15,6 +15,7 @@ const TwitterPreviewModal = () => {
 		<EditorModal
 			title={ __( "Twitter appearance", "wordpress-seo" ) }
 			id="yoast-twitter-preview-modal"
+			shouldCloseOnClickOutside={ false }
 		>
 			<TwitterEditor />
 		</EditorModal>

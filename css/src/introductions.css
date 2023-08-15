@@ -1,0 +1,9 @@
+.yst-root {
+	.yst-introduction-modal .yst-modal__close-button {
+		@apply
+		yst-bg-transparent
+		yst-text-gray-500
+		focus:yst-outline-none
+		focus:yst-ring-offset-0;
+	}
+}

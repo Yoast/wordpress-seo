@@ -26,6 +26,7 @@ const GooglePreviewModal = () => {
 		<EditorModal
 			title={ __( "Search appearance", "wordpress-seo" ) }
 			id="yoast-google-preview-modal"
+			shouldCloseOnClickOutside={ false }
 		>
 			<SearchModalDescription>{ __( "Determine how your post should look in the search results.", "wordpress-seo" ) }</SearchModalDescription>
 			<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
