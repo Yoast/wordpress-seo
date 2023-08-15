@@ -12,6 +12,7 @@ const additionalPackages  = [
 	"prop-types",
 	"redux",
 	"@reduxjs/toolkit",
+	"react-helmet",
 ];
 
 const YOAST_PACKAGE_NAMESPACE = "@yoast/";
