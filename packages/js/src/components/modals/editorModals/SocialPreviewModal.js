@@ -41,6 +41,7 @@ const SocialPreviewModal = ( props ) => {
 		<EditorModal
 			title={ __( "Social appearance", "wordpress-seo" ) }
 			id="yoast-social-preview-modal"
+			shouldCloseOnClickOutside={ false }
 		>
 			{ useOpenGraphData &&
 				<Fragment>
