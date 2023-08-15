@@ -17,8 +17,10 @@ const Description = styled.legend`
  */
 const SocialDescription = () => {
 	return (
-		<Description>{ __( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, " +
-			"Threads, LinkedIn, Slack, and more.", "wordpress-seo" ) }</Description>
+		<Description>{
+			__( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
+				"wordpress-seo" )
+		}</Description>
 	);
 };
 

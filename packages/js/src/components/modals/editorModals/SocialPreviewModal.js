@@ -52,7 +52,7 @@ const SocialPreviewModal = ( props ) => {
 			{ ( useOpenGraphData && useTwitterData ) && <ModalCollapsible
 				/* Translators: %s expands to Twitter. */
 				title={ sprintf( __( "%s appearance", "wordpress-seo" ), "Twitter" ) }
-				// If Open graph data is NOT enabled, Twitter collapsible should NOT have a separator.
+				// Always preview with separator when Twitter appearance is displayed as a collapsible.
 				hasSeparator={ true }
 				initialIsOpen={ false }
 			>
