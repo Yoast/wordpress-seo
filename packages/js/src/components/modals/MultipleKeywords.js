@@ -25,6 +25,12 @@ const MultipleKeywords = ( props ) => {
 	const benefits = [
 		sprintf(
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+			__( "%1$sCreate content faster%2$s: Use AI to create titles & meta descriptions", "wordpress-seo" ),
+			"<strong>",
+			"</strong>"
+		),
+		sprintf(
+			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 			__( "%1$sNo more dead links%2$s: easy redirect manager", "wordpress-seo" ),
 			"<strong>",
 			"</strong>"

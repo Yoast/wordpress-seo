@@ -16,6 +16,7 @@ const SearchPreviewModal = () => {
 		<EditorModal
 			title={ __( "Search appearance", "wordpress-seo" ) }
 			id="yoast-search-preview-modal"
+			shouldCloseOnClickOutside={ false }
 		>
 			<SearchDescription />
 			<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />

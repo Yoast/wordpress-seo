@@ -1,9 +1,3 @@
-@import "@yoast/ui-library";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .seo_page_wpseo_page_academy {
 	@apply yst-bg-slate-100;
 
@@ -27,46 +21,6 @@
 	.wp-responsive-open #wpbody {
 		@media screen and (max-width: 782px) {
 			right: -190px; /* Override to not leave space between the mobile menu and the content. */
-		}
-	}
-
-	input[type=date],
-	input[type=datetime-local],
-	input[type=datetime],
-	input[type=email],
-	input[type=month],
-	input[type=number],
-	input[type=password],
-	input[type=search],
-	input[type=tel],
-	input[type=text],
-	input[type=time],
-	input[type=url],
-	input[type=week] {
-		@apply yst-min-h-0;
-	}
-}
-
-@layer base {
-	.yst-root {
-		/* Reset some WP common styles */
-		a {
-			@apply focus:yst-shadow-none;
-		}
-
-		.yst-radio__input {
-			@apply
-			yst-transition-none
-			yst-shadow-none
-			checked:before:yst-hidden;
-		}
-
-		.yst-modal {
-			z-index: 100000 !important;
-		}
-
-		li, dd {
-			margin-bottom: 0;
 		}
 	}
 }

@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.3
-Stable tag: 20.12
+Stable tag: 20.13
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -245,35 +245,27 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 21.0 =
+
+Release date: 2023-08-22
+
+#### Other
+
+* Sets the WordPress tested up to version to 6.3.
+
 = 20.13 =
 
 Release date: 2023-08-08
 
-#### Other
-
-* Ensures that the Google, Facebook and Twitter Preview modals are compatible with WordPress 6.3.
-
-= 20.12 =
-
-Release date: 2023-07-25
-
-We've just released Yoast SEO 20.12! This release includes fixes and enhancements that strengthen the stability of our plugin and enhance your SEO efforts. Find out more about what's new in Yoast SEO 20.12 in [our release post](https://yoa.st/release-25-7-23)!
+Please welcome Yoast SEO 20.13! We've focused on enhancing compatibility and performance, making your SEO efforts smoother and more effective. We've also improved compatibility with WordPress 6.3. Find out more about what's new in Yoast SEO 20.13 in [our release post](https://yoa.st/release-8-8-23)!
 
 #### Enhancements
 
-* Adds `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `gclid` and `gtm_debug` to the default allowlist for the "Remove unregistered URL parameters" setting.
-
-#### Bugfixes
-
-* Fixes a bug where an error would appear in `debug.log` when saving a draft or updating a post in Elementor.
-* Fixes a bug where the controls for the _FAQ_ and _how-to_ blocks would be not shown when running Gutenberg versions >= 15.2.
-* Fixes a bug where the duration text of the _how-to_ block would be output in the user language instead of the site language.
+* Ensures that the Google, Facebook and Twitter Preview modals are compatible with WordPress 6.3.
 
 #### Other
 
-* Updates the verification link to the Google Search Console in the Site connections section in Settings.
-* Improves the copy in the final step of the first time configuration.
-* Updates copy of our free webinar notification.
+* Sets the WordPress tested up to version to 6.3.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

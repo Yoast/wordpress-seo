@@ -23,6 +23,7 @@ use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 
 /**
@@ -401,6 +402,7 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->enqueue_style( 'scoring' );
 		$this->asset_manager->enqueue_style( 'monorepo' );
 		$this->asset_manager->enqueue_style( 'admin-css' );
+		$this->asset_manager->enqueue_style( 'ai-generator' );
 		$this->asset_manager->enqueue_style( 'elementor' );
 
 		$this->asset_manager->enqueue_script( 'admin-global' );
@@ -445,6 +447,7 @@ class Elementor implements Integration_Interface {
 			'isBlockEditor'            => WP_Screen::get()->is_block_editor(),
 			'isElementorEditor'        => true,
 			'postStatus'               => \get_post_status( $post_id ),
+			'postType'                 => \get_post_type( $post_id ),
 			'analysis'                 => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
@@ -452,6 +455,9 @@ class Elementor implements Integration_Interface {
 			'dismissedAlerts'          => $dismissed_alerts,
 			'webinarIntroElementorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
 			'usedKeywordsNonce'        => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
+			'linkParams'               => WPSEO_Shortlinker::get_query_params(),
+			'pluginUrl'                => \plugins_url( '', \WPSEO_FILE ),
+			'wistiaEmbedPermission'    => \YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( \get_current_user_id() ),
 		];
 
 		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
