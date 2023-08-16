@@ -1,7 +1,7 @@
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
 import MetaboxCollapsible from "../MetaboxCollapsible";
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
 /* Internal dependencies */
@@ -21,8 +21,8 @@ const SocialMetadata = ( { useOpenGraphData, useTwitterData } ) => {
 		<Fragment>
 			{ useOpenGraphData && <MetaboxCollapsible
 				hasSeparator={ false }
-				/* Translators: %s expands to Social. */
-				title={ sprintf( __( "%s appearance", "wordpress-seo" ), "Social" ) }
+				/* translators: Social (media) appearance refers to a preview of how a page will be represented on social media. */
+				title={ __( "Social appearance", "wordpress-seo" ) }
 				initialIsOpen={ true }
 			>
 				<StyledDescription>{
@@ -38,8 +38,7 @@ const SocialMetadata = ( { useOpenGraphData, useTwitterData } ) => {
 				}
 			</MetaboxCollapsible> }
 			{ useTwitterData && <MetaboxCollapsible
-				/* Translators: %s expands to Twitter. */
-				title={ sprintf( __( "%s appearance", "wordpress-seo" ), "Twitter" ) }
+				title={ __( "Twitter appearance", "wordpress-seo" ) }
 				// If facebook is NOT enabled, Twitter collapsible should NOT have a separator.
 				hasSeparator={ useOpenGraphData }
 				initialIsOpen={ false }
