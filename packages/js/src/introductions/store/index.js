@@ -4,6 +4,7 @@ import { merge } from "lodash";
 import {
 	getInitialLinkParamsState,
 	getInitialPluginUrlState,
+	getInitialWistiaEmbedPermissionState,
 	LINK_PARAMS_NAME,
 	linkParamsActions,
 	linkParamsReducer,
@@ -12,6 +13,11 @@ import {
 	pluginUrlActions,
 	pluginUrlReducer,
 	pluginUrlSelectors,
+	WISTIA_EMBED_PERMISSION_NAME,
+	wistiaEmbedPermissionActions,
+	wistiaEmbedPermissionControls,
+	wistiaEmbedPermissionReducer,
+	wistiaEmbedPermissionSelectors,
 } from "../../shared-admin/store";
 import { STORE_NAME_INTRODUCTIONS } from "../constants";
 import {
@@ -34,11 +40,13 @@ const createStore = ( initialState ) => {
 			...introductionsActions,
 			...linkParamsActions,
 			...pluginUrlActions,
+			...wistiaEmbedPermissionActions,
 		},
 		selectors: {
 			...introductionsSelectors,
 			...linkParamsSelectors,
 			...pluginUrlSelectors,
+			...wistiaEmbedPermissionSelectors,
 		},
 		initialState: merge(
 			{},
@@ -46,6 +54,7 @@ const createStore = ( initialState ) => {
 				[ INTRODUCTIONS_NAME ]: getInitialIntroductionsState(),
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				[ PLUGIN_URL_NAME ]: getInitialPluginUrlState(),
+				[ WISTIA_EMBED_PERMISSION_NAME ]: getInitialWistiaEmbedPermissionState(),
 			},
 			initialState
 		),
@@ -53,8 +62,11 @@ const createStore = ( initialState ) => {
 			[ INTRODUCTIONS_NAME ]: introductionsReducer,
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			[ PLUGIN_URL_NAME ]: pluginUrlReducer,
+			[ WISTIA_EMBED_PERMISSION_NAME ]: wistiaEmbedPermissionReducer,
 		} ),
-		controls: {},
+		controls: {
+			...wistiaEmbedPermissionControls,
+		},
 	} );
 };
 

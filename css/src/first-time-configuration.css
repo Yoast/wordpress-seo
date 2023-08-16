@@ -9,10 +9,6 @@
 			color: #1d4ed8;
 		}
 
-		a:visited {
-			color: #a4286a;
-		}
-
 		/* Custom button classes because we're not using a Button component. This will ensure all buttons being exactly the same. */
 
 		.yst-button {

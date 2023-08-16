@@ -3,7 +3,7 @@ import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolk
 import apiFetch from "@wordpress/api-fetch";
 import { buildQueryString } from "@wordpress/url";
 import { map, trim } from "lodash";
-import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
+import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
 const usersAdapter = createEntityAdapter();
 

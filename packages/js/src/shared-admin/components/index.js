@@ -5,3 +5,4 @@ export { ReactComponent as G2LogoWhite } from "./g2-logo-white.svg";
 export { OutboundLink } from "./outbound-link";
 export { PremiumUpsellCard } from "./premium-upsell-card";
 export { RecommendationsSidebar } from "./recommendations-sidebar";
+export { VideoFlow } from "./video-flow";
