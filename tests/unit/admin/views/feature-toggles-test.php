@@ -93,6 +93,11 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 			'has_read_more' => true,
 			'has_after'     => false,
 		],
+		14 => [
+			'name'          => 'AI title & description generator',
+			'has_read_more' => true,
+			'has_after'     => false,
+		],
 	];
 
 	/**
@@ -173,6 +178,7 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 			11 => 'REST API: Head endpoint',
 			12 => 'Enhanced Slack sharing',
 			13 => 'IndexNow',
+			14 => 'AI title & description generator',
 		];
 
 		$this->stubEscapeFunctions();

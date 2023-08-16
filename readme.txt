@@ -245,6 +245,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 21.0 =
+
+Release date: 2023-08-22
+
+#### Other
+
+* Sets the WordPress tested up to version to 6.3.
+
 = 20.13 =
 
 Release date: 2023-08-08
@@ -258,28 +266,6 @@ Please welcome Yoast SEO 20.13! We've focused on enhancing compatibility and per
 #### Other
 
 * Sets the WordPress tested up to version to 6.3.
-
-= 20.12 =
-
-Release date: 2023-07-25
-
-We've just released Yoast SEO 20.12! This release includes fixes and enhancements that strengthen the stability of our plugin and enhance your SEO efforts. Find out more about what's new in Yoast SEO 20.12 in [our release post](https://yoa.st/release-25-7-23)!
-
-#### Enhancements
-
-* Adds `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `gclid` and `gtm_debug` to the default allowlist for the "Remove unregistered URL parameters" setting.
-
-#### Bugfixes
-
-* Fixes a bug where an error would appear in `debug.log` when saving a draft or updating a post in Elementor.
-* Fixes a bug where the controls for the _FAQ_ and _how-to_ blocks would be not shown when running Gutenberg versions >= 15.2.
-* Fixes a bug where the duration text of the _how-to_ block would be output in the user language instead of the site language.
-
-#### Other
-
-* Updates the verification link to the Google Search Console in the Site connections section in Settings.
-* Improves the copy in the final step of the first time configuration.
-* Updates copy of our free webinar notification.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
