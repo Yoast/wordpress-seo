@@ -27,6 +27,7 @@ const SocialAppearanceModal = ( props ) => {
 	}
 	return (
 		<EditorModal
+			/* translators: Social (media) appearance refers to a preview of how a page will be represented on social media. */
 			title={ __( "Social appearance", "wordpress-seo" ) }
 			id="yoast-social-appearance-modal"
 			shouldCloseOnClickOutside={ false }
