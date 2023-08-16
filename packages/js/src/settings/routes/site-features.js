@@ -47,7 +47,7 @@ const FeatureCard = ( {
 	const shouldUpsell = useMemo( () => ! isPremium && isPremiumFeature, [ isPremium, isPremiumFeature ] );
 	const shouldDimHeaderImage = useMemo( () => isDisabled || ( shouldUpsell ? false : ! value ), [ isDisabled, shouldUpsell, value ] );
 	const shouldRenderBadgeContainer = useMemo(
-		() => isDisabled || ( isPremium && isPremiumFeature ) || isBetaFeature || isNewFeature && ! isPremium,
+		() => isDisabled || ( isPremium && isPremiumFeature && hasPremiumBadge ) || isBetaFeature || ( isNewFeature && ! isPremium ),
 		[ isDisabled, isPremium, isPremiumFeature, isBetaFeature, isNewFeature ]
 	);
 
