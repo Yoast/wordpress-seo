@@ -7,9 +7,7 @@ import PropTypes from "prop-types";
 /* Internal dependencies */
 import FacebookContainer from "../../containers/FacebookEditor";
 import TwitterContainer from "../../containers/TwitterEditor";
-import SocialSettingsNotice from "../social/SocialSettingsNotice";
-import SocialDescription from "../social/SocialDescription";
-
+import StyledDescription from "../../helpers/styledDescription";
 
 /**
  * Component that renders the social metadata collapsibles.
@@ -27,9 +25,17 @@ const SocialMetadata = ( { useOpenGraphData, useTwitterData } ) => {
 				title={ sprintf( __( "%s appearance", "wordpress-seo" ), "Social" ) }
 				initialIsOpen={ true }
 			>
-				<SocialDescription />
+				<StyledDescription>{
+					__( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
+						"wordpress-seo" )
+				}</StyledDescription>
 				<FacebookContainer />
-				{ useTwitterData && <SocialSettingsNotice /> }
+				{ useTwitterData && <StyledDescription>
+					{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
+						"the 'Twitter appearance' settings below. If you leave these settings untouched, the 'Social appearance' settings " +
+						"mentioned above will also be applied for sharing on Twitter.", "wordpress-seo" ) }
+				</StyledDescription>
+				}
 			</MetaboxCollapsible> }
 			{ useTwitterData && <MetaboxCollapsible
 				/* Translators: %s expands to Twitter. */
