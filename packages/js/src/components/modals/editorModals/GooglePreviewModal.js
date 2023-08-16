@@ -4,7 +4,6 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import EditorModal from "../../../containers/EditorModal";
 import SnippetEditorWrapper from "../../../containers/SnippetEditor";
-import React from "react";
 import styled from "styled-components";
 import { colors } from "@yoast/style-guide";
 

@@ -1,7 +1,7 @@
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
 import MetaboxCollapsible from "../MetaboxCollapsible";
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
 /* Internal dependencies */
@@ -9,7 +9,6 @@ import FacebookContainer from "../../containers/FacebookEditor";
 import TwitterContainer from "../../containers/TwitterEditor";
 import styled from "styled-components";
 import { colors } from "@yoast/style-guide";
-import React from "react";
 
 const ModalDescription = styled.legend`
 	margin: 8px 0;
@@ -31,8 +30,8 @@ const SocialMetadata = ( { displayFacebook, displayTwitter } ) => {
 		<Fragment>
 			{ displayFacebook && <MetaboxCollapsible
 				hasSeparator={ false }
-				/* Translators: %s expands to Facebook. */
-				title={ sprintf( __( "Social appearance", "wordpress-seo" ), "Facebook" ) }
+				/* translators: Social (media) appearance refers to a preview of how a page will be represented on social media. */
+				title={ __( "Social appearance", "wordpress-seo" ) }
 				initialIsOpen={ true }
 			>
 				<ModalDescription>{ __( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, " +
@@ -40,8 +39,7 @@ const SocialMetadata = ( { displayFacebook, displayTwitter } ) => {
 				<FacebookContainer />
 			</MetaboxCollapsible> }
 			{ displayTwitter && <MetaboxCollapsible
-				/* Translators: %s expands to Twitter. */
-				title={ sprintf( __( "Twitter appearance", "wordpress-seo" ), "Twitter" ) }
+				title={ __( "Twitter appearance", "wordpress-seo" ) }
 				// If facebook is NOT enabled, Twitter collapsible should NOT have a separator.
 				hasSeparator={ displayFacebook }
 				initialIsOpen={ false }

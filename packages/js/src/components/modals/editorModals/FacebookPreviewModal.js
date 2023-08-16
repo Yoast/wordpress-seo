@@ -4,7 +4,6 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import EditorModal from "../../../containers/EditorModal";
 import FacebookEditor from "../../../containers/FacebookEditor";
-import React from "react";
 import styled from "styled-components";
 import { colors } from "@yoast/style-guide";
 
@@ -24,6 +23,7 @@ const ModalDescription = styled.legend`
 const FacebookPreviewModal = () => {
 	return (
 		<EditorModal
+			/* translators: Social (media) appearance refers to a preview of how a page will be represented on social media. */
 			title={ __( "Social appearance", "wordpress-seo" ) }
 			id="yoast-facebook-preview-modal"
 			shouldCloseOnClickOutside={ false }
