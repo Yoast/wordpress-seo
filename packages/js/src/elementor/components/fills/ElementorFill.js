@@ -11,8 +11,8 @@ import InsightsModal from "../../../insights/components/insights-modal";
 import Alert from "../../containers/Alert";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../../../components/SidebarItem";
-import SearchPreviewModal from "../modals/editorModals/SearchPreviewModal";
-import SocialPreviewModal from "../modals/editorModals/SocialPreviewModal";
+import SearchAppearanceModal from "../modals/editorModals/SearchAppearanceModal";
+import SocialAppearanceModal from "../modals/editorModals/SocialAppearanceModal";
 import PremiumSEOAnalysisModal from "../../../components/modals/PremiumSEOAnalysisModal";
 import SidebarCollapsible from "../../../components/SidebarCollapsible";
 import SchemaTabContainer from "../../../containers/SchemaTab";
@@ -65,10 +65,10 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					</Fill> }
 				</SidebarItem> }
 				<SidebarItem renderPriority={ 25 }>
-					<SearchPreviewModal />
+					<SearchAppearanceModal />
 				</SidebarItem>
-				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-preview" renderPriority={ 26 }>
-					<SocialPreviewModal
+				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-appearance" renderPriority={ 26 }>
+					<SocialAppearanceModal
 						useOpenGraphData={ settings.useOpenGraphData }
 						useTwitterData={ settings.useTwitterData }
 					/>

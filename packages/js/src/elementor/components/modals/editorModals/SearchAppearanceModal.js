@@ -2,15 +2,15 @@
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
-import EditorModal from "../../../containers/EditorModal";
+import EditorModal from "../../../../containers/EditorModal";
 import SnippetEditorWrapper from "../../../containers/SnippetEditor";
 
 /**
- * The Social appearance Modal.
+ * The Search Appearance Modal.
  *
- * @returns {JSX.Element} The Social appearance Modal.
+ * @returns {JSX.Element} The Search Appearance Modal.
  */
-const SearchPreviewModal = () => {
+const SearchAppearanceModal = () => {
 	return (
 		<EditorModal
 			title={ __( "Search appearance", "wordpress-seo" ) }
@@ -22,4 +22,4 @@ const SearchPreviewModal = () => {
 	);
 };
 
-export default SearchPreviewModal;
+export default SearchAppearanceModal;

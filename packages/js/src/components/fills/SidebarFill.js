@@ -11,9 +11,9 @@ import Warning from "../../containers/Warning";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import InsightsModal from "../../insights/components/insights-modal";
 import SidebarItem from "../SidebarItem";
-import SearchPreviewModal from "../modals/editorModals/SearchPreviewModal";
+import SearchAppearanceModal from "../modals/editorModals/SearchAppearanceModal";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
-import SocialPreviewModal from "../modals/editorModals/SocialPreviewModal";
+import SocialAppearanceModal from "../modals/editorModals/SocialAppearanceModal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
@@ -51,10 +51,10 @@ export default function SidebarFill( { settings } ) {
 					/>
 				</SidebarItem> }
 				<SidebarItem key="search-preview" renderPriority={ 25 }>
-					<SearchPreviewModal />
+					<SearchAppearanceModal />
 				</SidebarItem>
-				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-preview" renderPriority={ 26 }>
-					<SocialPreviewModal
+				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-appearance" renderPriority={ 26 }>
+					<SocialAppearanceModal
 						useOpenGraphData={ settings.useOpenGraphData }
 						useTwitterData={ settings.useTwitterData }
 					/>

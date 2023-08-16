@@ -25,15 +25,15 @@ const ShortSocialSettingsNotice = styled.legend`
 
 
 /**
- * The Social Preview Modal.
+ * The Social Appearance Modal.
  *
  * @param {Object} props The props.
  * @param {boolean} props.useOpenGraphData Whether or not the Open graph data is enabled in the settings.
  * @param {boolean} props.useTwitterData Whether or not the Twitter card data is enabled in the settings.
  *
- * @returns {JSX.Element} The Social Preview Modal.
+ * @returns {JSX.Element} The Social Appearance Modal.
  */
-const SocialPreviewModal = ( props ) => {
+const SocialAppearanceModal = ( props ) => {
 	const { useOpenGraphData, useTwitterData } = props;
 	if ( ! useOpenGraphData && ! useTwitterData ) {
 		return;
@@ -73,9 +73,9 @@ const SocialPreviewModal = ( props ) => {
 	);
 };
 
-SocialPreviewModal.propTypes = {
+SocialAppearanceModal.propTypes = {
 	useOpenGraphData: PropTypes.bool.isRequired,
 	useTwitterData: PropTypes.bool.isRequired,
 };
 
-export default SocialPreviewModal;
+export default SocialAppearanceModal;
