@@ -29,7 +29,7 @@ const SocialAppearanceModal = ( props ) => {
 	return (
 		<EditorModal
 			title={ __( "Social appearance", "wordpress-seo" ) }
-			id="yoast-social-preview-modal"
+			id="yoast-social-appearance-modal"
 			shouldCloseOnClickOutside={ false }
 		>
 			{ useOpenGraphData &&

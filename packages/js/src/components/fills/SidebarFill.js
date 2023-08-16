@@ -50,7 +50,7 @@ export default function SidebarFill( { settings } ) {
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 				</SidebarItem> }
-				<SidebarItem key="search-preview" renderPriority={ 25 }>
+				<SidebarItem key="search-appearance" renderPriority={ 25 }>
 					<SearchAppearanceModal />
 				</SidebarItem>
 				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-appearance" renderPriority={ 26 }>
