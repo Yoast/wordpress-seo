@@ -10,7 +10,7 @@ import EditorModal from "../../../../containers/EditorModal";
 import FacebookEditor from "../../../containers/FacebookEditor";
 import TwitterEditor from "../../../containers/TwitterEditor";
 import ModalCollapsible from "../../../../components/ModalCollapsible";
-import StyledDescription from "../../../../helpers/styledDescription";
+import { StyledDescription, StyledDescriptionTop } from "../../../../helpers/styledDescription";
 
 /**
  * The Social Appearance Modal.
@@ -34,10 +34,10 @@ const SocialAppearanceModal = ( props ) => {
 		>
 			{ useOpenGraphData &&
 				<Fragment>
-					<StyledDescription>{
+					<StyledDescriptionTop>{
 						__( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
 							"wordpress-seo" )
-					}</StyledDescription>
+					}</StyledDescriptionTop>
 					<FacebookEditor />
 					{ useTwitterData && <StyledDescription>
 						{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
@@ -59,8 +59,8 @@ const SocialAppearanceModal = ( props ) => {
 			{ ( ! useOpenGraphData && useTwitterData ) &&
 				// If Open graph is not enabled, don't display Twitter editor as a collapsible.
 				<Fragment>
-					<StyledDescription>{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
-						"the 'Twitter appearance' settings below.", "wordpress-seo" ) }</StyledDescription>
+					<StyledDescriptionTop>{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
+						"the 'Twitter appearance' settings below.", "wordpress-seo" ) }</StyledDescriptionTop>
 					<TwitterEditor />
 				</Fragment>
 			}

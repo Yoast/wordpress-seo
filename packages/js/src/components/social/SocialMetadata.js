@@ -1,13 +1,19 @@
+/* eslint-disable complexity */
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 /* Internal dependencies */
 import FacebookContainer from "../../containers/FacebookEditor";
 import TwitterContainer from "../../containers/TwitterEditor";
-import StyledDescription from "../../helpers/styledDescription";
+import { StyledDescription, StyledDescriptionTop } from "../../helpers/styledDescription";
+
+const StyledTwitterAppearanceMetabox = styled.div`
+	padding: 16px;
+`;
 
 /**
  * Component that renders the social metadata collapsibles.
@@ -25,10 +31,10 @@ const SocialMetadata = ( { useOpenGraphData, useTwitterData } ) => {
 				title={ __( "Social appearance", "wordpress-seo" ) }
 				initialIsOpen={ true }
 			>
-				<StyledDescription>{
+				<StyledDescriptionTop>{
 					__( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
 						"wordpress-seo" )
-				}</StyledDescription>
+				}</StyledDescriptionTop>
 				<FacebookContainer />
 				{ useTwitterData && <StyledDescription>
 					{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
@@ -37,14 +43,24 @@ const SocialMetadata = ( { useOpenGraphData, useTwitterData } ) => {
 				</StyledDescription>
 				}
 			</MetaboxCollapsible> }
-			{ useTwitterData && <MetaboxCollapsible
+			{ ( useTwitterData && useOpenGraphData ) && <MetaboxCollapsible
 				title={ __( "Twitter appearance", "wordpress-seo" ) }
-				// If facebook is NOT enabled, Twitter collapsible should NOT have a separator.
-				hasSeparator={ useOpenGraphData }
+				// Always preview with separator when Twitter appearance is displayed as a collapsible.
+				hasSeparator={ true }
 				initialIsOpen={ false }
 			>
 				<TwitterContainer />
 			</MetaboxCollapsible> }
+			{ ( ! useOpenGraphData && useTwitterData ) &&
+				// If Open Graph is not enabled, don't display Twitter appearance as a collapsible.
+				<StyledTwitterAppearanceMetabox>
+					<StyledDescriptionTop>
+						{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
+						"the 'Twitter appearance' settings below.", "wordpress-seo" ) }
+					</StyledDescriptionTop>
+					<TwitterContainer />
+				</StyledTwitterAppearanceMetabox>
+			}
 		</Fragment>
 	);
 };

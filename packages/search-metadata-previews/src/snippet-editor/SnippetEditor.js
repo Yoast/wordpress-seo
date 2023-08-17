@@ -24,7 +24,7 @@ import { lengthProgressShape } from "./constants";
 import ModeSwitcher from "./ModeSwitcher";
 
 const SearchPreviewDescription = styled.legend`
-	margin: 16px 0;
+	margin: 0 0 16px;
 	padding: 0;
 	color: ${ colors.$color_headings };
 	font-size: 12px;
