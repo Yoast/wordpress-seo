@@ -560,7 +560,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'remove_feed_global_comments'        => false,
 			'remove_feed_post_comments'          => false,
 			'enable_index_now'                   => false,
-			'enable_ai_generator'                => true,
+			'enable_ai_generator'                => false,
 			'remove_feed_authors'                => false,
 			'remove_feed_categories'             => false,
 			'remove_feed_tags'                   => false,
