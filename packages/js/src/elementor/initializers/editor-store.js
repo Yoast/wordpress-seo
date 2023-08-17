@@ -1,9 +1,9 @@
 import { combineReducers, registerStore } from "@wordpress/data";
-import { pickBy, get } from "lodash";
 import { actions, reducers, selectors } from "@yoast/externals/redux";
-import * as analysisSelectors from "../redux/selectors/analysis";
+import { get, pickBy } from "lodash";
 import * as controls from "../../redux/controls";
 import * as snippetEditorActions from "../redux/actions/snippetEditor";
+import * as analysisSelectors from "../redux/selectors/analysis";
 
 /**
  * Populates the store.
@@ -57,6 +57,7 @@ const populateStore = store => {
 
 	store.dispatch( actions.setLinkParams( get( window, "wpseoScriptData.linkParams", {} ) ) );
 	store.dispatch( actions.setPluginUrl( get( window, "wpseoScriptData.pluginUrl", "" ) ) );
+	store.dispatch( actions.setWistiaEmbedPermissionValue( get( window, "wpseoScriptData.wistiaEmbedPermission", false ) === "1" ) );
 };
 
 /**
