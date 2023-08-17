@@ -11,7 +11,7 @@ import FacebookContainer from "../../containers/FacebookEditor";
 import TwitterContainer from "../../containers/TwitterEditor";
 import { StyledDescription, StyledDescriptionTop } from "../../helpers/styledDescription";
 
-const StyledTwitterAppearanceMetabox = styled.div`
+const StyledSocialAppearanceMetabox = styled.div`
 	padding: 16px;
 `;
 
@@ -25,41 +25,52 @@ const StyledTwitterAppearanceMetabox = styled.div`
 const SocialMetadata = ( { useOpenGraphData, useTwitterData } ) => {
 	return (
 		<Fragment>
-			{ useOpenGraphData && <MetaboxCollapsible
-				hasSeparator={ false }
-				/* translators: Social (media) appearance refers to a preview of how a page will be represented on social media. */
-				title={ __( "Social appearance", "wordpress-seo" ) }
-				initialIsOpen={ true }
-			>
-				<StyledDescriptionTop>{
-					__( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
-						"wordpress-seo" )
-				}</StyledDescriptionTop>
-				<FacebookContainer />
-				{ useTwitterData && <StyledDescription>
-					{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
-						"the 'Twitter appearance' settings below. If you leave these settings untouched, the 'Social appearance' settings " +
-						"mentioned above will also be applied for sharing on Twitter.", "wordpress-seo" ) }
-				</StyledDescription>
-				}
-			</MetaboxCollapsible> }
-			{ ( useTwitterData && useOpenGraphData ) && <MetaboxCollapsible
-				title={ __( "Twitter appearance", "wordpress-seo" ) }
-				// Always preview with separator when Twitter appearance is displayed as a collapsible.
-				hasSeparator={ true }
-				initialIsOpen={ false }
-			>
-				<TwitterContainer />
-			</MetaboxCollapsible> }
+			{ ( useTwitterData && useOpenGraphData ) && <Fragment>
+				<MetaboxCollapsible
+					hasSeparator={ false }
+					/* translators: Social (media) appearance refers to a preview of how a page will be represented on social media. */
+					title={ __( "Social appearance", "wordpress-seo" ) }
+					initialIsOpen={ true }
+				>
+					<StyledDescriptionTop>{
+						__( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
+							"wordpress-seo" )
+					}</StyledDescriptionTop>
+					<FacebookContainer />
+					<StyledDescription>
+						{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
+							"the 'Twitter appearance' settings below. If you leave these settings untouched, the 'Social appearance' settings " +
+							"mentioned above will also be applied for sharing on Twitter.", "wordpress-seo" ) }
+					</StyledDescription>
+				</MetaboxCollapsible>
+				<MetaboxCollapsible
+					title={ __( "Twitter appearance", "wordpress-seo" ) }
+					// Always preview with separator when Twitter appearance is displayed as a collapsible.
+					hasSeparator={ true }
+					initialIsOpen={ false }
+				>
+					<TwitterContainer />
+				</MetaboxCollapsible>
+			</Fragment> }
+			{ ( useOpenGraphData && ! useTwitterData ) &&
+				// If Twitter is not enabled, don't display Social appearance as a collapsible.
+				<StyledSocialAppearanceMetabox>
+					<StyledDescriptionTop>{
+						__( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
+							"wordpress-seo" )
+					}</StyledDescriptionTop>
+					<FacebookContainer />
+				</StyledSocialAppearanceMetabox>
+			}
 			{ ( ! useOpenGraphData && useTwitterData ) &&
 				// If Open Graph is not enabled, don't display Twitter appearance as a collapsible.
-				<StyledTwitterAppearanceMetabox>
+				<StyledSocialAppearanceMetabox>
 					<StyledDescriptionTop>
 						{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
 						"the 'Twitter appearance' settings below.", "wordpress-seo" ) }
 					</StyledDescriptionTop>
 					<TwitterContainer />
-				</StyledTwitterAppearanceMetabox>
+				</StyledSocialAppearanceMetabox>
 			}
 		</Fragment>
 	);
