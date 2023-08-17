@@ -18,7 +18,7 @@ module.exports = function( grunt ) {
 			" --force-po" +
 			" --from-code=UTF-8" +
 			" --add-comments=\"translators: \"" +
-			" --add-comments=\"translators: \"" +
+			" --add-comments=\"Translators: \"" +
 			" " + files.join( " " );
 	}
 
