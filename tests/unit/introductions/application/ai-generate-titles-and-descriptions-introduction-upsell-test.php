@@ -134,7 +134,7 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 	}
 
 	/**
-	 * Provides data for the `test_collector_get()` test.
+	 * Provides data for the `test_should_show()` test.
 	 *
 	 * @return array
 	 */

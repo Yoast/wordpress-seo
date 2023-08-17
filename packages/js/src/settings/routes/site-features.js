@@ -228,7 +228,7 @@ const SiteFeatures = () => {
 								inputId="input-wpseo-enable_ai_generator"
 								imageSrc="/images/ai-generator.png"
 								isPremiumFeature={ true }
-								isNewFeature={ true }
+								isBetaFeature={ true }
 								isPremiumLink="https://yoa.st/get-ai-generator"
 								title={ __( "AI title & description generator", "wordpress-seo" ) }
 							>

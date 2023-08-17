@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Introductions\Application\Introductions_Collector;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Item;
 use Yoast\WP\SEO\Introductions\Domain\Introductions_Bucket;
+use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Introductions\User_Interface\Introductions_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -68,23 +69,32 @@ class Introductions_Integration_Test extends TestCase {
 	private $short_link_helper;
 
 	/**
+	 * Holds the wistia embed permission repository.
+	 *
+	 * @var \Mockery\MockInterface|Wistia_Embed_Permission_Repository
+	 */
+	private $wistia_embed_permission_repository;
+
+	/**
 	 * Sets up the test fixtures.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->admin_asset_manager     = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->introductions_collector = Mockery::mock( Introductions_Collector::class );
-		$this->product_helper          = Mockery::mock( Product_Helper::class );
-		$this->user_helper             = Mockery::mock( User_Helper::class );
-		$this->short_link_helper       = Mockery::mock( Short_Link_Helper::class );
+		$this->admin_asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->introductions_collector            = Mockery::mock( Introductions_Collector::class );
+		$this->product_helper                     = Mockery::mock( Product_Helper::class );
+		$this->user_helper                        = Mockery::mock( User_Helper::class );
+		$this->short_link_helper                  = Mockery::mock( Short_Link_Helper::class );
+		$this->wistia_embed_permission_repository = Mockery::mock( Wistia_Embed_Permission_Repository::class );
 
 		$this->instance = new Introductions_Integration(
 			$this->admin_asset_manager,
 			$this->introductions_collector,
 			$this->product_helper,
 			$this->user_helper,
-			$this->short_link_helper
+			$this->short_link_helper,
+			$this->wistia_embed_permission_repository
 		);
 	}
 
@@ -122,6 +132,10 @@ class Introductions_Integration_Test extends TestCase {
 		$this->assertInstanceOf(
 			Short_Link_Helper::class,
 			$this->getPropertyValue( $this->instance, 'short_link_helper' )
+		);
+		$this->assertInstanceOf(
+			Wistia_Embed_Permission_Repository::class,
+			$this->getPropertyValue( $this->instance, 'wistia_embed_permission_repository' )
 		);
 	}
 
@@ -183,7 +197,7 @@ class Introductions_Integration_Test extends TestCase {
 
 		// Enqueueing.
 		$this->admin_asset_manager->expects( 'enqueue_script' )->once()->with( 'introductions' );
-		$this->expect_localized_data_for( $introductions );
+		$this->expect_localized_data_for( $introductions, $user_id );
 		$this->admin_asset_manager->expects( 'enqueue_style' )->once()->with( 'introductions' );
 
 		$this->instance->enqueue_assets();
@@ -242,7 +256,7 @@ class Introductions_Integration_Test extends TestCase {
 
 		// Enqueueing.
 		$this->admin_asset_manager->expects( 'enqueue_script' )->once()->with( 'introductions' );
-		$this->expect_localized_data_for( $introductions );
+		$this->expect_localized_data_for( $introductions, $user_id );
 		$this->admin_asset_manager->expects( 'enqueue_style' )->once()->with( 'introductions' );
 
 		$this->instance->enqueue_assets();
@@ -252,25 +266,32 @@ class Introductions_Integration_Test extends TestCase {
 	 * Sets the expectations surrounding the localized data.
 	 *
 	 * @param array $introductions The introductions.
+	 * @param int   $user_id       The user ID.
 	 */
-	private function expect_localized_data_for( $introductions ) {
-		$is_premium  = false;
-		$is_rtl      = false;
-		$link_params = [];
-		$plugin_url  = '';
+	private function expect_localized_data_for( $introductions, $user_id ) {
+		$is_premium              = false;
+		$is_rtl                  = false;
+		$link_params             = [];
+		$plugin_url              = '';
+		$wistia_embed_permission = true;
 		$this->product_helper->expects( 'is_premium' )->once()->withNoArgs()->andReturn( $is_premium );
 		Functions\expect( 'is_rtl' )->once()->withNoArgs()->andReturn( $is_rtl );
 		$this->short_link_helper->expects( 'get_query_params' )->once()->withNoArgs()->andReturn( $link_params );
 		Functions\expect( 'plugins_url' )->once()->with( '', \WPSEO_FILE )->andReturn( $plugin_url );
+		$this->wistia_embed_permission_repository->expects( 'get_value_for_user' )
+			->once()
+			->with( $user_id )
+			->andReturn( $wistia_embed_permission );
 		$this->admin_asset_manager->expects( 'localize_script' )->once()->with(
 			'introductions',
 			'wpseoIntroductions',
 			[
-				'introductions' => $introductions,
-				'isPremium'     => $is_premium,
-				'isRtl'         => $is_rtl,
-				'linkParams'    => $link_params,
-				'pluginUrl'     => $plugin_url,
+				'introductions'         => $introductions,
+				'isPremium'             => $is_premium,
+				'isRtl'                 => $is_rtl,
+				'linkParams'            => $link_params,
+				'pluginUrl'             => $plugin_url,
+				'wistiaEmbedPermission' => $wistia_embed_permission,
 			]
 		);
 	}

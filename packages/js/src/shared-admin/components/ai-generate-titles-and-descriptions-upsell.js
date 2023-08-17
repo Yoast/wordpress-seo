@@ -4,28 +4,25 @@ import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";
-import { OutboundLink } from "./outbound-link";
+import { OutboundLink, VideoFlow } from ".";
 
 /**
- * @param {string} imageLink The image link.
  * @param {string} learnMoreLink The learn more link.
  * @param {string} upsellLink The upsell link.
+ * @param {Object} thumbnail The thumbnail: img props.
+ * @param {Object} wistiaEmbedPermission The value, status and set for the Wistia embed permission.
  * @returns {JSX.Element} The element.
  */
-export const AiGenerateTitlesAndDescriptionsUpsell = ( { imageLink, learnMoreLink, upsellLink } ) => {
+export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, upsellLink, thumbnail, wistiaEmbedPermission } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
 	return (
 		<div className="yst-flex yst-flex-col yst-items-center yst-p-10">
-			<div className="yst-relative">
-				<img
-					className="yst-rounded-md yst-drop-shadow-md"
-					src={ imageLink }
-					width="432"
-					height="244"
-					alt=""
-					loading="lazy"
-					decoding="async"
+			<div className="yst-relative yst-w-full">
+				<VideoFlow
+					videoId="vmrahpfjxp"
+					thumbnail={ thumbnail }
+					wistiaEmbedPermission={ wistiaEmbedPermission }
 				/>
 				<Badge className="yst-absolute yst-top-0 yst-right-2 yst-mt-2 yst-ml-2" variant="info">Beta</Badge>
 			</div>
@@ -97,7 +94,16 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { imageLink, learnMoreLin
 	);
 };
 AiGenerateTitlesAndDescriptionsUpsell.propTypes = {
-	imageLink: PropTypes.string.isRequired,
 	learnMoreLink: PropTypes.string.isRequired,
 	upsellLink: PropTypes.string.isRequired,
+	thumbnail: PropTypes.shape( {
+		src: PropTypes.string.isRequired,
+		width: PropTypes.string,
+		height: PropTypes.string,
+	} ).isRequired,
+	wistiaEmbedPermission: PropTypes.shape( {
+		value: PropTypes.bool.isRequired,
+		status: PropTypes.string.isRequired,
+		set: PropTypes.func.isRequired,
+	} ).isRequired,
 };
