@@ -63,7 +63,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						<SEMrushRelatedKeyphrases />
 					</Fill> }
 				</SidebarItem> }
-				<SidebarItem key="google-preview" renderPriority={ 9 }>
+				<SidebarItem key="search-appearance" renderPriority={ 9 }>
 					<MetaboxCollapsible
 						id={ "yoast-snippet-editor-metabox" }
 						title={ __( "Search appearance", "wordpress-seo" ) } initialIsOpen={ true }
