@@ -1205,7 +1205,7 @@ export default class AnalysisWebWorker {
 
 		result.setScore( -1 );
 		result.setText( sprintf(
-			/* Translators: %1$s expands to the name of the assessment. */
+			/* translators: %1$s expands to the name of the assessment. */
 			__( "An error occurred in the '%1$s' assessment", "wordpress-seo" ),
 			assessment.name
 		) );
