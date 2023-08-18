@@ -24,7 +24,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "yarn clean && yarn build:js",
-    "build:js": "babel src --out-dir build",
+    "build:js": "babel src --copy-files --source-maps --out-dir build",
     "clean": "rm -rf build",
     "pretest": "grunt get-premium-configuration",
     "test": "jest",
