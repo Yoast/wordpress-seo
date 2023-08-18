@@ -1,5 +1,4 @@
-import { languageProcessing } from "yoastseo";
-const { normalizeSingle } = languageProcessing;
+import { normalizeSingle } from "../../../helpers/sanitize/quotes";
 
 const contractionPrefixes = "^(c'|d'|l'|s')";
 const contractionRegex = new RegExp( contractionPrefixes );

@@ -1,10 +1,11 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import { languageProcessing, AssessmentResult, Assessment, helpers } from "yoastseo";
-
-const { getSentences, helpers: languageProcessingHelpers } = languageProcessing;
-const { createAnchorOpeningTag } = helpers;
+import Assessment from "../assessment";
+import AssessmentResult from "../../../values/AssessmentResult";
+import { createAnchorOpeningTag } from "../../../helpers";
+import getSentences from "../../../languageProcessing/helpers/sentence/getSentences";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 /**
  * Represents an assessment that returns a score based on the largest percentage of text in which no keyword occurs.
@@ -180,7 +181,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 	isApplicable( paper, researcher ) {
 		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 		let text = paper.getText();
-		text = languageProcessingHelpers.removeHtmlBlocks( text );
+		text = removeHtmlBlocks( text );
 		const sentences = getSentences( text, memoizedTokenizer );
 
 		return paper.hasText() && paper.hasKeyword() && sentences.length >= 15 && researcher.hasResearch( "keyphraseDistribution" );

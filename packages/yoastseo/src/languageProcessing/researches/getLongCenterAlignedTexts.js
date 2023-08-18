@@ -1,6 +1,7 @@
 import { flatten } from "lodash-es";
-import { languageProcessing } from "yoastseo";
-const { sanitizeString, helpers } = languageProcessing;
+import removeHtmlBlocks from "../helpers/html/htmlParser";
+import matchStringWithRegex from "../helpers/regex/matchStringWithRegex";
+import sanitizeString from "../helpers/sanitize/sanitizeString";
 
 const centerAlignRegex = /class=["'].*?has-text-align-center.*?["']/i;
 const paragraphsRegex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
@@ -43,12 +44,12 @@ function getLongCenterAlignedElements( elements, elementType ) {
  */
 export default function( paper ) {
 	let text = paper.getText();
-	text = helpers.removeHtmlBlocks( text );
+	text = removeHtmlBlocks( text );
 
 	// Get all paragraphs from the text. We only retrieve the paragraphs with <p> tags.
-	const allParagraphs = helpers.matchStringWithRegex( text, paragraphsRegex );
+	const allParagraphs = matchStringWithRegex( text, paragraphsRegex );
 	// Get all the headings from the text. Here we retrieve the headings from level 1-6.
-	const allHeadings = helpers.matchStringWithRegex( text, headingsRegex );
+	const allHeadings = matchStringWithRegex( text, headingsRegex );
 
 	const longParagraphsWithCenterAlignedText = getLongCenterAlignedElements( allParagraphs, "paragraph" );
 	const longHeadingsWithCenterAlignedText = getLongCenterAlignedElements( allHeadings, "heading" );
