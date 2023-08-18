@@ -23,6 +23,14 @@ import SnippetEditorFields from "./SnippetEditorFields";
 import { lengthProgressShape } from "./constants";
 import ModeSwitcher from "./ModeSwitcher";
 
+const SearchPreviewDescription = styled.legend`
+	margin: 0 0 16px;
+	padding: 0;
+	color: ${ colors.$color_headings };
+	font-size: 12px;
+	font-weight: 300;
+`;
+
 const SnippetEditorButton = styled( Button )`
 	height: 33px;
 	border: 1px solid #dbdbdb;
@@ -530,6 +538,8 @@ class SnippetEditor extends React.Component {
 		return (
 			<ErrorBoundary>
 				<div>
+					<SearchPreviewDescription>{ __( "Determine how your post should look in the search results.",
+						"wordpress-seo" ) }</SearchPreviewDescription>
 					<ModeSwitcher
 						onChange={ this.onChangeMode }
 						active={ mode }
