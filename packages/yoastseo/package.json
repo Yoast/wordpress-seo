@@ -54,7 +54,6 @@
   "dependencies": {
     "@wordpress/i18n": "^3.19.1",
     "@yoast/feature-flag": "^0.5.2",
-    "error-polyfill": "^0.1.2",
     "htmlparser2": "^3.9.2",
     "lodash-es": "^4.17.10",
     "loglevel": "^1.6.1",
