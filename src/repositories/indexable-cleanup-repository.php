@@ -546,7 +546,7 @@ class Indexable_Cleanup_Repository {
 		global $wpdb;
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$source_table    = $wpdb->prefix . $source_table;
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		return $wpdb->get_col(
 			"
 			SELECT count(*)
@@ -557,6 +557,7 @@ class Indexable_Cleanup_Repository {
 			AND indexable_table.object_id IS NOT NULL
 			AND indexable_table.object_type = '{$object_type}'"
 		)[0];
+		// phpcs:enable
 	}
 
 	/**
@@ -568,7 +569,7 @@ class Indexable_Cleanup_Repository {
 		global $wpdb;
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$source_table    = $wpdb->users;
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+		//phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		return $wpdb->get_col(
 			"
 			SELECT count(*)
@@ -579,6 +580,7 @@ class Indexable_Cleanup_Repository {
 			AND indexable_table.object_id IS NOT NULL
 			AND indexable_table.object_type = 'user'"
 		)[0];
+		// phpcs:enable
 	}
 
 	/**
@@ -637,7 +639,7 @@ class Indexable_Cleanup_Repository {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
 		// Warning: If this query is changed, make sure to update the query in cleanup_orphaned_from_table in Premium as well.
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		return $wpdb->get_col(
 			"
 			SELECT count(*)
@@ -647,6 +649,7 @@ class Indexable_Cleanup_Repository {
 			WHERE indexable_table.id IS NULL
 			AND table_to_clean.{$column} IS NOT NULL"
 		)[0];
+		// phpcs:enable
 	}
 
 	/**
@@ -658,7 +661,7 @@ class Indexable_Cleanup_Repository {
 	 * @return int|bool The number of updated rows, false if query to get data fails.
 	 */
 	public function update_indexables_author_to_reassigned( $limit ) {
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		$reassigned_authors_objs = $this->get_reassigned_authors( $limit );
 
 		if ( $reassigned_authors_objs === false ) {
