@@ -41,7 +41,6 @@ const slice = createSlice( {
 			state.value = Boolean( payload.value );
 		} );
 		builder.addCase( `${ WISTIA_EMBED_PERMISSION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
-			console.error( `${ payload.error?.code }: ${ payload.error?.message }` );
 			state.status = ASYNC_ACTION_STATUS.error;
 			state.value = Boolean( payload.value );
 			state.error = payload.error;
