@@ -38,12 +38,15 @@ const slice = createSlice( {
 		} );
 		builder.addCase( `${ WISTIA_EMBED_PERMISSION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.success;
-			state.value = Boolean( payload.value );
+			state.value = Boolean( payload && payload.value );
 		} );
 		builder.addCase( `${ WISTIA_EMBED_PERMISSION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.error;
-			state.value = Boolean( payload.value );
-			state.error = payload.error;
+			state.value = Boolean( payload && payload.value );
+			state.error = {
+				code: get( payload, "error.code", 500 ),
+				message: get( payload, "error.message", "Unknown" ),
+			};
 		} );
 	},
 } );
@@ -63,10 +66,10 @@ export const wistiaEmbedPermissionActions = {
 };
 
 export const wistiaEmbedPermissionControls = {
-	[ WISTIA_EMBED_PERMISSION_NAME ]: async( { payload = true } ) => apiFetch( {
+	[ WISTIA_EMBED_PERMISSION_NAME ]: async( { payload } ) => apiFetch( {
 		path: "/yoast/v1/wistia_embed_permission",
 		method: "POST",
-		data: { value: payload },
+		data: { value: Boolean( payload ) },
 	} ),
 };
 
