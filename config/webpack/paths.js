@@ -35,6 +35,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	indexation: `${ sourceDirectory }/indexation.js`,
 	"installation-success": `${ sourceDirectory }/installation-success.js`,
 	"integrations-page": `${ sourceDirectory }/integrations-page.js`,
+	introductions: `${ sourceDirectory }/introductions/initialize.js`,
 	"network-admin": `${ sourceDirectory }/network-admin.js`,
 	"post-edit": `${ sourceDirectory }/post-edit.js`,
 	"quick-edit-handler": `${ sourceDirectory }/quick-edit-handler.js`,
