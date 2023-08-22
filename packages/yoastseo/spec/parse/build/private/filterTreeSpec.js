@@ -167,6 +167,41 @@ const samplesWithOneOccurrence = [
 		element: "title",
 		html: "<!DOCTYPE html><html lang=\"en-US\">\n <head>\n<title>News and gossip</title>\n </head><p>A paragraph</p></html>",
 	},
+	{
+		element: "cite",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>If a triangle has one <var>90</var> degrees angle and one <var>30</var>" +
+			"degrees angle, how big is the remaining angle?<cite>Fun for the whole family</cite></p></body></html>",
+	},
+	{
+		element: "em",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>Armadillos <em>are</em> cute animals.</p></body></html>",
+	},
+	{
+		element: "q",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>They started singing <q>what goes around comes around</q> on top " +
+			"of their lungs.</p></body></html>",
+	},
+	{
+		element: "s",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>This book's <s>price was 25</s> and is now only 15</p></body></html>",
+	},
+	{
+		element: "strong",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p><strong>The new price is only 15</strong></p></body></html>",
+	},
+	{
+		element: "samp",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>The automated chat said<samp>The answer is incorrect</samp>but I wasn't " +
+			"sure why.</p></body></html>",
+	},
+	{
+		element: "u",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>The <u>ocen</u> has plenty of animals.</p></body></html>",
+	},
+	{
+		element: "wbr",
+		html: "<p> <p>To acquire AJAX, it us crucial to know the XML<wbr>Http<wbr>Request Object.</p> </p>",
+	},
 ];
 
 describe.each( samplesWithOneOccurrence )( "Tests HTML elements, part 1 ", ( htmlElement ) => {
@@ -197,6 +232,43 @@ const samplesWithTwoOccurrences = [
 		element: "var",
 		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>If a triangle has one <var>90</var> degrees angle and one <var>30</var>" +
 			"degrees angle, how big is the remaining angle?</p><p>Fun for the whole family</p></body></html>",
+	},
+	{
+		element: "bdi",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>Their name spells as <var>أندرو</var> or alternatively <var>أندريه</var>" +
+			"and both are correct</p></body></html>",
+	},
+	{
+		element: "br",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>The triange's angle is <br>90 degrees</br> and the second angle is" +
+			"<var>30 degrees</var> How big is the remaining angle?</p></body></html>",
+	},
+	{
+		element: "i",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>These concepts include <i>terms</i> and <i>taxonomies</i>," +
+			" among others</p></body></html>",
+	},
+	{
+		element: "ins",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><aside><ins>Pies are amazing.</ins><ins>So are " +
+			"cakes.</ins></aside></body></html>",
+	},
+	{
+		element: "ruby",
+		html: "<ruby>君<rt>くん</rt>子<rt>し</ruby>は<ruby>和<rt>わ</ruby>して<ruby>同<rt>どう</ruby>ぜず。",
+	},
+	{
+		element: "rt",
+		html: "<ruby>君<rt>くん</rt>子<rt>し</ruby>は<ruby>和<rt>わ</ruby>して<ruby>同<rt>どう</ruby>ぜず。",
+	},
+	{
+		element: "rt",
+		html: "<ruby>君<rt>くん</rt>子<rt>し</ruby>は<ruby>和<rt>わ</ruby>して<ruby>同<rt>どう</ruby>ぜず。",
+	},
+	{
+		element: "sup",
+		html: "<p>Their names are<span lang=\"fr\"><abbr>M<sup>lle</sup></abbr> Bujeau</span> " +
+			"and<span lang=\"fr\"><abbr>M<sup>me</sup></abbr> Gregoire</span>.</p>",
 	},
 ];
 
@@ -242,6 +314,41 @@ describe( "Miscellaneous tests", () => {
 		const html = "<!DOCTYPE html>\n<head>\n<title>This is what dreams are made of</title>\n</head>\n</html>";
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		expect( tree.findAll( child => child.name === "head" ) ).toHaveLength( 0 );
+	} );
+
+	it( "should filter out a elements", () => {
+		// The head element seems to be removed by the parser we employ.
+		const html = "<!DOCTYPE html>\n<li>\n<a>Examples can be found here</a>\n</li>\n</html>";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.name === "a" ) ).toHaveLength( 0 );
+	} );
+
+	it( "should filter out abbr elements", () => {
+		// The head element seems to be removed by the parser we employ.
+		const html = "<!DOCTYPE html>\n<title>About artificial intelligence<abbr>AI</abbr>\n</title>\n</html>";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.name === "abbr" ) ).toHaveLength( 0 );
+	} );
+
+	it( "should filter out b elements", () => {
+		// The head element seems to be removed by the parser we employ.
+		const html = "<!DOCTYPE html>\n<p><b>Six abandoned kittens were adopted by a capybara.</b></p>\n</html>";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.name === "b" ) ).toHaveLength( 0 );
+	} );
+
+	it( "should filter out b elements", () => {
+		// The head element seems to be removed by the parser we employ.
+		const html = "<!DOCTYPE html>\n<p><b>Six abandoned kittens were adopted by a capybara.</b></p>\n</html>";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.name === "b" ) ).toHaveLength( 0 );
+	} );
+
+	it( "should filter out b elements", () => {
+		// The head element seems to be removed by the parser we employ.
+		const html = "<!DOCTYPE html>\n<p><b>Six abandoned kittens were adopted by a capybara.</b></p>\n</html>";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.name === "b" ) ).toHaveLength( 0 );
 	} );
 
 	it( "should filter out the Elementor Yoast Breadcrumbs widget ", () => {
