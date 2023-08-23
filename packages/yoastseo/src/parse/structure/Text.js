@@ -1,3 +1,4 @@
+import SourceCodeLocation from "./SourceCodeLocation";
 /**
  * A text.
  */
@@ -5,16 +6,23 @@ class Text {
 	/**
 	 * Creates a new text.
 	 *
-	 * @param {string} value This text's value, e.g. its content.
+	 * @param {string} tree The tree that potentially contains text.
 	 */
-	constructor( value ) {
+	constructor( tree ) {
 		this.name = "#text";
 		/**
 		 * This text's content.
 		 *
 		 * @type {string}
 		 */
-		this.value = value;
+		this.value = tree.value;
+
+		const { startOffset, endOffset } = tree.sourceCodeLocation;
+
+		this.sourceCodeLocation = new SourceCodeLocation( {
+			startOffset: startOffset,
+			endOffset: endOffset,
+		} );
 	}
 }
 
