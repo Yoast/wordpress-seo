@@ -117,6 +117,8 @@ export default function getTextElementPositions( node, textElements, startOffset
 	let textElementStart;
 	if ( node instanceof Paragraph && node.isImplicit ) {
 		textElementStart = node.sourceCodeLocation.startOffset;
+	} else if ( node.name === "#text" ) {
+		textElementStart = node.sourceCodeLocation.startOffset;
 	} else {
 		textElementStart = startOffset >= 0 ? startOffset : node.sourceCodeLocation.startTag.endOffset;
 	}
@@ -128,9 +130,13 @@ export default function getTextElementPositions( node, textElements, startOffset
 	 * should have this property). If such nodes exist, store the positions of each node's opening and closing tags in
 	 * an array. These positions will have to be taken into account when calculating the position of the text elements.
 	 */
-	const descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation, true );
-	if ( descendantNodes.length > 0 ) {
-		descendantTagPositions = getDescendantPositions( descendantNodes );
+	if ( node.findAll ) {
+		const descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation, true );
+		if ( descendantNodes.length > 0 ) {
+			descendantTagPositions = getDescendantPositions( descendantNodes );
+		}
+	} else {
+		descendantTagPositions = [];
 	}
 
 	textElements.forEach( ( textElement ) => {
