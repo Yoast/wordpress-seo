@@ -27,7 +27,7 @@ function hasChildren( node ) {
 }
 
 /**
- * Combines runs of phrasing content ("inline" tags like `a` and `span`, and text) into implicit paragraphs.
+ * Combines series of consecutive phrasing content ("inline" tags like `a` and `span`, and text) into implicit paragraphs.
  *
  * @see https://html.spec.whatwg.org/#paragraphs
  *
