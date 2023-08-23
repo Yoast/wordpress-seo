@@ -139,7 +139,7 @@ const testDataWithDefaultResearcher = [
 	},
 ];
 
-describe.each( testDataWithDefaultResearcher )( "a kephrase density test for languages without morphology", ( {
+describe.each( testDataWithDefaultResearcher )( "a keyphrase density test for languages without morphology", ( {
 	description,
 	paper,
 	expectedResult,
