@@ -9,8 +9,8 @@ describe( "test to get sentences from the tree", () => {
 		researcher = new EnglishResearcher();
 	} );
 	it( "returns the sentences from paragraph and heading nodes", () => {
-		const paper = new Paper( "<p>A very intelligent cat loves their human. A dog is very cute.</p><h3>A subheading 3" +
-			"</h3>text text text<h4>A subheading 4</h4>more text." );
+		const paper = new Paper( "<div><p>A very intelligent cat loves their human. A dog is very cute.</p><h3>A subheading 3" +
+			"</h3>text text text<h4>A subheading 4</h4>more text.</div>" );
 		researcher.setPaper( paper );
 		buildTree( paper, researcher );
 		expect( getSentencesFromTree( paper ) ).toEqual( [
