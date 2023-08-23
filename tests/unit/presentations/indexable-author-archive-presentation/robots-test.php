@@ -44,24 +44,63 @@ class Robots_Test extends TestCase {
 	}
 
 	/**
-	 * Tests don't index without a current author (safety check).
+	 * Tests don't index without a current author and no archives for authors with no posts (safety check).
 	 *
 	 * @covers ::generate_robots
 	 */
-	public function test_generate_robots_global_dont_index_without_current_author() {
-		$this->mock_global_author_option();
+	public function test_generate_robots_global_dont_index_without_current_author_and_noindex_noposts() {
 		$this->setup_get_userdata();
+
+		$this->options
+			->expects( 'get' )
+			->with( 'noindex-author-wpseo', false )
+			->once()
+			->andReturn( false );
 
 		// Should never get that far in the code.
 		$this->options
 			->expects( 'get' )
 			->with( 'noindex-author-noposts-wpseo', false )
-			->never();
+			->once()
+			->andReturn( true );
 
 		$actual   = $this->instance->generate_robots();
 		$expected = [
 			'index'  => 'noindex',
 			'follow' => 'follow',
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests don't index without a current author and archives for authors with no posts (safety check).
+	 *
+	 * @covers ::generate_robots
+	 */
+	public function test_generate_robots_global_dont_index_without_current_author_and_index_noposts() {
+		$this->setup_get_userdata();
+
+		$this->options
+			->expects( 'get' )
+			->with( 'noindex-author-wpseo', false )
+			->once()
+			->andReturn( false );
+
+		// Should never get that far in the code.
+		$this->options
+			->expects( 'get' )
+			->with( 'noindex-author-noposts-wpseo', false )
+			->once()
+			->andReturn( false );
+
+		$actual   = $this->instance->generate_robots();
+		$expected = [
+			'index'             => 'index',
+			'follow'            => 'follow',
+			'max-snippet'       => 'max-snippet:-1',
+			'max-image-preview' => 'max-image-preview:large',
+			'max-video-preview' => 'max-video-preview:-1',
 		];
 
 		$this->assertEquals( $expected, $actual );
