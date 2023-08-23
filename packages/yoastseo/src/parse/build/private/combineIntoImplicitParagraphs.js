@@ -1,7 +1,7 @@
 import isPhrasingContent from "./isPhrasingContent";
 import { Paragraph } from "../../structure";
 import { isEmpty } from "lodash-es";
-
+import SourceCodeLocation from "../../structure/SourceCodeLocation";
 /**
  * Checks whether a node is inter-element whitespace.
  *
@@ -51,6 +51,20 @@ function combineIntoImplicitParagraphs( nodes, parentSourceCodeLocation = {} ) {
 				? parentSourceCodeLocation.endTag.startOffset
 				: parentSourceCodeLocation.endOffset,
 		};
+	} else {
+		const firstNode = nodes[ 0 ];
+		const lastNode = nodes[ nodes.length - 1 ];
+
+		if ( firstNode && lastNode && firstNode.sourceCodeLocation && lastNode.sourceCodeLocation ) {
+			currentSourceCodeLocation = new SourceCodeLocation( {
+				startOffset: firstNode.sourceCodeLocation.startOffset,
+				endOffset: lastNode.sourceCodeLocation.endOffset,
+			} );
+		} else {
+			const a = 0
+			// console.log( firstNode );
+			// console.log( lastNode );
+		}
 	}
 
 	let implicitParagraph = Paragraph.createImplicit( {}, [], currentSourceCodeLocation );
