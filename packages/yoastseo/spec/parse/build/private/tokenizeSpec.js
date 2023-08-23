@@ -4,7 +4,7 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import { buildTreeNoTokenize } from "../../../specHelpers/parse/buildTree";
 import LanguageProcessor from "../../../../src/parse/language/LanguageProcessor";
-
+import SourceCodeLocation from "../../../../src/parse/structure/SourceCodeLocation";
 describe( "A test for the tokenize function",
 	function() {
 		it( "should correctly tokenize a paragraph of one sentence", function() {
@@ -17,7 +17,10 @@ describe( "A test for the tokenize function",
 				attributes: {},
 				childNodes: [ {
 					attributes: {},
-					childNodes: [ { name: "#text", value: "This is a paragraph" } ],
+					childNodes: [ {
+						name: "#text",
+						value: "This is a paragraph",
+						sourceCodeLocation: new SourceCodeLocation( { startOffset: 3, endOffset: 22 } ) } ],
 					isImplicit: false,
 					name: "p",
 					sentences: [ {
@@ -63,6 +66,7 @@ describe( "A test for the tokenize function",
 							{
 								name: "#text",
 								value: "This is a sentence. This is another sentence.",
+								sourceCodeLocation: new SourceCodeLocation( { startOffset: 3, endOffset: 48 } ),
 							},
 						],
 						isImplicit: false,
@@ -242,6 +246,7 @@ describe( "A test for the tokenize function",
 							{
 								name: "#text",
 								value: "This is the release of YoastSEO 9.3.",
+								sourceCodeLocation: new SourceCodeLocation( {startOffset: 3, endOffset: 39} )
 							},
 						],
 						sourceCodeLocation: {
@@ -388,6 +393,7 @@ describe( "A test for tokenizing a japanese sentence", function() {
 						{
 							name: "#text",
 							value: "犬が大好き。",
+							sourceCodeLocation: new SourceCodeLocation( {startOffset: 3, endOffset: 9} )
 						},
 					],
 					isImplicit: false,
