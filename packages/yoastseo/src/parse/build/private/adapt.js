@@ -65,9 +65,8 @@ function isBlockElement( nodeName ) {
  */
 export default function adapt( tree ) {
 	if ( isText( tree.nodeName ) ) {
-		return new Text( tree.value );
+		return new Text( tree );
 	}
-
 	let children = [];
 	if ( ! isEmpty( tree.childNodes ) ) {
 		children = tree.childNodes.map( adapt );
