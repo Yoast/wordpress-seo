@@ -19,7 +19,7 @@ class Text {
 
 		const { startOffset, endOffset } = tree.sourceCodeLocation;
 
-		this.sourceCodeLocation = new SourceCodeLocation( {
+		this.sourceCodeRange = new SourceCodeLocation( {
 			startOffset: startOffset,
 			endOffset: endOffset,
 		} );
