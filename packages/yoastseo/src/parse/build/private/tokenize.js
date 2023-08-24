@@ -1,5 +1,6 @@
 import { Heading, Paragraph } from "../../structure";
 import getTextElementPositions from "./getTextElementPositions";
+import { htmlEntitiesArray, encodedHtmlEntitiesArray, htmlEntitiesWithHashRegex } from "./htmlEntities";
 
 /**
  * Splits the sentence into tokens, determines their positions in the source code, and puts them on the sentence.
@@ -26,12 +27,22 @@ function getTokens( node, sentence, LanguageProcessor ) {
  * @returns {Sentence[]} The node's sentences.
  */
 function getSentences( node, languageProcessor ) {
+	// Change "#amp;" back to "&amp;"
+	let innerText = node.innerText();
+	innerText = innerText.replace( htmlEntitiesWithHashRegex, "&$1" );
 	// Split text into sentences.
-	let sentences = languageProcessor.splitIntoSentences( node.innerText() );
+	let sentences = languageProcessor.splitIntoSentences( innerText );
 	// Add position information to the sentences.
 	sentences = getTextElementPositions( node, sentences );
 	// Tokenize sentences into tokens.
-	return sentences.map( sentence => getTokens( node, sentence, languageProcessor ) );
+	return sentences.map( sentence => {
+		// After the position info is determined, change &amp; and other entities to their encoded versions,
+		// without changing the position information.
+		for ( let i; i < htmlEntitiesArray.length; i++ ) {
+			sentence = sentence.replace( htmlEntitiesArray[ i ], encodedHtmlEntitiesArray[ i ] );
+		}
+		return getTokens( node, sentence, languageProcessor );
+	} );
 }
 
 /**
