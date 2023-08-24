@@ -92,19 +92,7 @@ export function isTinyMCEAvailable( editorID ) {
 }
 
 /**
- * Converts the html entities for symbols back to the original symbol. For now this only converts the & symbol.
- * @param {String} text The text to replace the '&amp;' entities.
- * @returns {String} text Text with html entities replaced by the symbol.
- */
-function convertHtmlEntities( text ) {
-	// Create regular expression, this searches for the html entity '&amp;', the 'g' param is for searching the whole text.
-	var regularExpression = new RegExp( "&amp;", "g" );
-	return text.replace( regularExpression, "&" );
-}
-
-/**
  * Returns the value of the content field via TinyMCE object, or ff tinyMCE isn't initialized via the content element id.
- * Also converts 'amp;' to & in the content.
  * @param {String} contentID The (HTML) id attribute for the TinyMCE field.
  * @returns {String} Content from the TinyMCE editor.
  */
@@ -117,7 +105,7 @@ export function getContentTinyMce( contentID ) {
 		content = tinyMCE.get( contentID ).getContent();
 	}
 
-	return convertHtmlEntities( content );
+	return content;
 }
 /**
  * Adds an event handler to certain tinyMCE events.
