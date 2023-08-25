@@ -9,6 +9,7 @@ use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Author_Not_Built_Exception;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -49,6 +50,13 @@ class Indexable_Author_Builder_Test extends TestCase {
 	/**
 	 * The post helper
 	 *
+	 * @var Options_Helper|Mockery\MockInterface
+	 */
+	protected $options_helper;
+
+	/**
+	 * The post helper
+	 *
 	 * @var Post_Helper|Mockery\MockInterface
 	 */
 	protected $post_helper;
@@ -81,11 +89,13 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$this->author_archive = Mockery::mock( Author_Archive_Helper::class );
 
-		$this->post_helper = Mockery::mock( Post_Helper::class );
+		$this->post_helper    = Mockery::mock( Post_Helper::class );
+		$this->options_helper = Mockery::mock( Options_Helper::class );
+
 		$this->wpdb        = Mockery::mock( wpdb::class );
 		$this->wpdb->posts = 'wp_posts';
 
-		$this->instance = new Indexable_Author_Builder( $this->author_archive, $this->versions, $this->post_helper, $this->wpdb );
+		$this->instance = new Indexable_Author_Builder( $this->author_archive, $this->versions, $this->options_helper, $this->post_helper, $this->wpdb );
 	}
 
 	/**
@@ -471,6 +481,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'author_has_public_posts_wp' )
 			->with( $user_id )
 			->andReturn( false );
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'noindex-author-noposts-wpseo', false )
+			->andReturn( true );
 
 		$this->expectException( Author_Not_Built_Exception::class );
 
@@ -494,6 +508,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'author_has_public_posts_wp' )
 			->with( $user_id )
 			->andReturn( false );
+			$this->options_helper
+				->expects( 'get' )
+				->with( 'noindex-author-noposts-wpseo', false )
+				->andReturn( false );
 
 		Monkey\Filters\expectApplied( 'wpseo_should_build_and_save_user_indexable' )
 			->andReturn( new Author_Not_Built_Exception( 'Author should not be build.' ) );
