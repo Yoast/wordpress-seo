@@ -190,14 +190,14 @@ class Front_End_Integration implements Integration_Interface {
 	 *
 	 * @var bool
 	 */
-	protected $next;
+	public $next;
 
 	/**
 	 * The prev output.
 	 *
 	 * @var bool
 	 */
-	protected $prev;
+	public $prev;
 
 	/**
 	 * Front_End_Integration constructor.
@@ -327,6 +327,7 @@ class Front_End_Integration implements Integration_Interface {
 					}
 				}
 			}
+			// Remove else when droping support for WordPress 6.1 and lower. 
 			else {
 				$pattern = '/"(.*?)"/';
 				// Find all matches of the pattern in the HTML string.
