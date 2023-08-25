@@ -29,6 +29,7 @@ describe( "A test for findAllInTree", () => {
 				childNodes: [ {
 					name: "#text",
 					value: "Hello, world! ",
+					sourceCodeRange: { startOffset: 22, endOffset: 36 },
 				} ],
 				sentences: [ {
 					text: "Hello, world!",
@@ -61,6 +62,7 @@ describe( "A test for findAllInTree", () => {
 				childNodes: [ {
 					name: "#text",
 					value: "Hello, yoast! ",
+					sourceCodeRange: { startOffset: 57, endOffset: 71 },
 				} ],
 				sentences: [ {
 					text: "Hello, yoast!",
