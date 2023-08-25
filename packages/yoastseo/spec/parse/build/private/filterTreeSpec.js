@@ -200,7 +200,8 @@ const samplesWithOneOccurrence = [
 	},
 	{
 		element: "wbr",
-		html: "<p> <p>To acquire AJAX, it us crucial to know the XML<wbr>Http<wbr>Request Object.</p> </p>",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body></body><p>To acquire AJAX, it is crucial to know the XML<wbr>Http</wbr>Request " +
+			"Object.</p>",
 	},
 ];
 
@@ -240,8 +241,8 @@ const samplesWithTwoOccurrences = [
 	},
 	{
 		element: "br",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>The triange's angle is <br>90 degrees</br> and the second angle is" +
-			"<var>30 degrees</var> How big is the remaining angle?</p></body></html>",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>The triange's angle is <br>90 degrees</br> and the second angle" +
+			"is <br>30 degrees</br> How big is the remaining angle?</p></body></html>",
 	},
 	{
 		element: "i",
@@ -255,16 +256,12 @@ const samplesWithTwoOccurrences = [
 	},
 	{
 		element: "ruby",
-		html: "<ruby>君<rt>くん</rt>子<rt>し</ruby>は<ruby>和<rt>わ</ruby>ぜず。",
-	},
-	{
-		element: "rt",
-		html: "<ruby>君<rt>くん</rt>子<rt>し</ruby>は<ruby>和<rt>わ</ruby>ぜず。",
+		html: "<!DOCTYPE html>\n<html lang=\"ja-JA\">\n<body><p><ruby>君<rt>くん</rt>子<rt>し</ruby>は<ruby>和<rt>わ</ruby>ぜず。</p></body></html>",
 	},
 	{
 		element: "sup",
-		html: "<p>Their names are<span lang=\"fr\"><abbr>M<sup>lle</sup></abbr> Bujeau</span> " +
-			"and<span lang=\"fr\"><abbr>M<sup>me</sup></abbr> Gregoire</span>.</p>",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>Their names are<span lang=\"fr\"><abbr>M<sup>lle</sup></abbr> Bujeau</span> " +
+			"and<span lang=\"fr\"><abbr>M<sup>me</sup></abbr> Gregoire</span>.</p></body></html>",
 	},
 ];
 
@@ -278,31 +275,40 @@ describe.each( samplesWithTwoOccurrences )( "Tests HTML elements, part 2", ( htm
 } );
 
 describe( "Miscellaneous tests", () => {
-	it( "shouldn't filter out elements like <strong>, which are not included in the list of excluded elements", () => {
+	it( "should filter out elements like <strong>, which are included in the list of excluded elements", () => {
 		const html = "<p>Welcome to the blue screen of <strong>death</strong>.</p>";
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		expect( tree.findAll( child => child.name === "strong" ) ).toHaveLength( 1 );
 		const filteredTree = filterTree( tree, permanentFilters );
-		expect( filteredTree.findAll( child => child.name === "strong" ) ).toHaveLength( 1 );
-	} );
-
-	it( "should filter out elements like <strong> when nested within excluded elements, e.g. <samp>", () => {
-		const html = "<p><samp>Welcome to the blue screen of <strong>death</strong>.<br>Kiss your computer goodbye.</samp></p>";
-
-		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		expect( tree.findAll( child => child.name === "strong" ) ).toHaveLength( 1 );
-		const filteredTree = filterTree( tree, permanentFilters );
 		expect( filteredTree.findAll( child => child.name === "strong" ) ).toHaveLength( 0 );
 	} );
 
-	it( "should filter out elements like <strong> when nested within a regular element, which is nested in an excluded element", () => {
-		const html = "<p><samp>Welcome to the blue screen of<span>Argh!<strong>death</strong></span>.<br>Kiss your computer goodbye.</samp></p>";
+	it( "shouldn't filter out elements like <mark>, which are included in the list of excluded elements", () => {
+		const html = "<p>Welcome to the blue screen of <mark>death</mark>.</p>";
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		expect( tree.findAll( child => child.name === "strong" ) ).toHaveLength( 1 );
+		expect( tree.findAll( child => child.name === "mark" ) ).toHaveLength( 1 );
 		const filteredTree = filterTree( tree, permanentFilters );
-		expect( filteredTree.findAll( child => child.name === "strong" ) ).toHaveLength( 0 );
+		expect( filteredTree.findAll( child => child.name === "mark" ) ).toHaveLength( 1 );
+	} );
+
+	it( "should filter out elements like <mark> when nested within excluded elements, e.g. <samp>", () => {
+		const html = "<p><samp>Welcome to the blue screen of <mark>death</mark>.<br>Kiss your computer goodbye.</samp></p>";
+
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.name === "mark" ) ).toHaveLength( 1 );
+		const filteredTree = filterTree( tree, permanentFilters );
+		expect( filteredTree.findAll( child => child.name === "mark" ) ).toHaveLength( 0 );
+	} );
+
+	it( "should filter out elements like <mark> when nested within a regular element, which is nested in an excluded element", () => {
+		const html = "<p><samp>Welcome to the blue screen of<span>Argh!<mark>death</mark></span>.<br>Kiss your computer goodbye.</samp></p>";
+
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.name === "mark" ) ).toHaveLength( 1 );
+		const filteredTree = filterTree( tree, permanentFilters );
+		expect( filteredTree.findAll( child => child.name === "mark" ) ).toHaveLength( 0 );
 	} );
 
 	it( "should filter out head elements", () => {
@@ -328,7 +334,7 @@ describe( "Miscellaneous tests", () => {
 
 	it( "should filter out b elements", () => {
 		// The head element seems to be removed by the parser we employ.
-		const html = "<!DOCTYPE html>\n<p><b>Six abandoned kittens were adopted by a capybara.</b></p>\n</html>";
+		const html = "<!DOCTYPE html>\n<title><b>Six abandoned kittens were adopted by a capybara.</b></title\n</html>";
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		expect( tree.findAll( child => child.name === "b" ) ).toHaveLength( 0 );
 	} );
