@@ -105,7 +105,7 @@ function adjustTextElementStart( descendantTagPositions, textElementStart ) {
  */
 export default function getTextElementPositions( node, textElements, startOffset = -1 ) {
 	// We cannot calculate positions if there are no text elements, or if we don't know the node's source code location.
-	if (  textElements.length === 0 || ! node.sourceCodeLocation ) {
+	if (  textElements.length === 0 || ( ! node.sourceCodeLocation && ! node.sourceCodeRange ) ) {
 		return textElements;
 	}
 
@@ -115,9 +115,9 @@ export default function getTextElementPositions( node, textElements, startOffset
 	 * node's start tag.
 	 */
 	let textElementStart;
-	if ( node instanceof Paragraph && node.isImplicit ) {
-		textElementStart = node.sourceCodeLocation.startOffset;
-	} else if ( node.name === "#text" ) {
+	if ( node.name === "#text" && node.sourceCodeRange && node.sourceCodeRange.startOffset ) {
+		textElementStart = node.sourceCodeRange.startOffset;
+	} else if ( node instanceof Paragraph && node.isImplicit ) {
 		textElementStart = node.sourceCodeLocation.startOffset;
 	} else {
 		textElementStart = startOffset >= 0 ? startOffset : node.sourceCodeLocation.startTag.endOffset;
