@@ -306,6 +306,7 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 				{
 					name: "#text",
 					value: "\n",
+					sourceCodeRange: { startOffset: 55, endOffset: 56 },
 				},
 				{
 					attributes: {},
@@ -313,6 +314,7 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 						{
 							name: "#text",
 							value: "Cats rule!. But dogs too!",
+							sourceCodeRange: { startOffset: 59, endOffset: 84 },
 						},
 					],
 					isImplicit: false,
@@ -333,6 +335,7 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 				{
 					name: "#text",
 					value: "\n",
+					sourceCodeRange: { startOffset: 88, endOffset: 89 },
 				},
 				{
 					attributes: {},
@@ -371,10 +374,12 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 				{
 					name: "#text",
 					value: "\n",
+					sourceCodeRange: { startOffset: 39, endOffset: 40 },
 				},
 				{
 					name: "#text",
 					value: "\n",
+					sourceCodeRange: { startOffset: 283, endOffset: 284 },
 				},
 				{
 					attributes: {},
@@ -391,6 +396,7 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 						{
 							name: "#text",
 							value: "This is the first sentence.",
+							sourceCodeRange: { startOffset: 327, endOffset: 354 },
 						},
 					],
 					isImplicit: false,
@@ -418,7 +424,7 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 			"class=\"yoast-reading-time__descriptive-text\">Estimated reading time:  </span><span class=\"yoast-reading-time__reading-time\">" +
 			"3</span><span class=\"yoast-reading-time__time-unit\"> minutes</span></p>\n" +
 			"<!-- /wp:yoast-seo/estimated-reading-time -->" +
-			"<h2>A Heading</h2";
+			"<h2>A Heading</h2>";
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		const filteredTree = filterTree( tree, permanentFilters );
@@ -439,10 +445,12 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 				{
 					name: "#text",
 					value: "\n",
+					sourceCodeRange: { startOffset: 71, endOffset: 72 },
 				},
 				{
 					name: "#text",
 					value: "\n",
+					sourceCodeRange: { startOffset: 358, endOffset: 359 },
 				},
 				{
 					attributes: {},
@@ -459,16 +467,21 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 						{
 							name: "#text",
 							value: "A Heading",
+							sourceCodeRange: { startOffset: 408, endOffset: 417 },
 						},
 					],
 					level: 2,
 					name: "h2",
 					sourceCodeLocation: {
-						endOffset: 421,
+						endOffset: 422,
 						startOffset: 404,
 						startTag: {
 							endOffset: 408,
 							startOffset: 404,
+						},
+						endTag: {
+							startOffset: 417,
+							endOffset: 422,
 						},
 					},
 				},
@@ -499,6 +512,7 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 							{
 								name: "#text",
 								value: "Hello world!",
+								sourceCodeRange: { startOffset: 33, endOffset: 45 },
 							},
 						],
 						sourceCodeLocation: {
