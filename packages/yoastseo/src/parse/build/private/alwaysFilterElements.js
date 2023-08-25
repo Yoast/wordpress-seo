@@ -5,8 +5,8 @@
 import { elementHasName, elementHasClass, elementHasID } from "./filterHelpers";
 
 // These are elements that we don't want to include in the analysis and that can be child nodes of paragraphs or headings.
-export const canBeChildOfParagraph = [ "code", "kbd", "math", "q", "samp", "script", "var", "#comment", "a", "abbr", "b", "bdi",
-	"cite", "em", "i", "ins", "map", "q", "ruby", "s", "samp", "small", "strong", "sup", "u", "wbr" ];
+export const canBeChildOfParagraph = [ "code", "kbd", "math", "q", "samp", "script", "var", "#comment", "a", "del", "cite", "label",
+	"map", "noscript", "output" ];
 
 const permanentFilters = [
 	// Filters out Yoast blocks that don't need to be part of the analysis.
@@ -51,25 +51,12 @@ const permanentFilters = [
 	elementHasName( "var" ),
 	elementHasName( "#comment" ),
 	elementHasName( "a" ),
-	elementHasName( "abbr" ),
-	elementHasName( "b" ),
-	elementHasName( "bdi" ),
-	elementHasName( "br" ),
+	elementHasName( "del" ),
 	elementHasName( "cite" ),
-	elementHasName( "em" ),
-	elementHasName( "i" ),
-	elementHasName( "ins" ),
+	elementHasName( "label" ),
 	elementHasName( "map" ),
-	elementHasName( "q" ),
-	elementHasName( "ruby" ),
-	elementHasName( "rt" ),
-	elementHasName( "s" ),
-	elementHasName( "samp" ),
-	elementHasName( "small" ),
-	elementHasName( "strong" ),
-	elementHasName( "sup" ),
-	elementHasName( "u" ),
-	elementHasName( "wbr" ),
+	elementHasName( "noscript" ),
+	elementHasName( "output" ),
 ];
 
 export default permanentFilters;

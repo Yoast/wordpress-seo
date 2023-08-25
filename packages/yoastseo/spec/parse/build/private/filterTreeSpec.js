@@ -173,35 +173,13 @@ const samplesWithOneOccurrence = [
 			" <cite>Fun for the whole family!</cite></p></body></html>",
 	},
 	{
-		element: "em",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>Armadillos <em>are</em> cute animals.</p></body></html>",
-	},
-	{
-		element: "q",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>They started singing <q>what goes around comes around</q> on top " +
-			"of their lungs.</p></body></html>",
-	},
-	{
-		element: "s",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>This book's <s>price was 25</s> and is now only 15</p></body></html>",
-	},
-	{
-		element: "strong",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p><strong>The new price is only 15</strong></p></body></html>",
+		element: "output",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>Armadillos <output id='x'>x</output> are cute animals.</p></body></html>",
 	},
 	{
 		element: "samp",
 		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>The automated chat said<samp>The answer is incorrect</samp>but I wasn't " +
 			"sure why.</p></body></html>",
-	},
-	{
-		element: "u",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>The <u>ocen</u> has plenty of animals.</p></body></html>",
-	},
-	{
-		element: "wbr",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body></body><p>To acquire AJAX, it is crucial to know the XML<wbr>Http</wbr>Request " +
-			"Object.</p>",
 	},
 ];
 
@@ -235,28 +213,14 @@ const samplesWithTwoOccurrences = [
 			"degrees angle, how big is the remaining angle?</p><p>Fun for the whole family</p></body></html>",
 	},
 	{
-		element: "bdi",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>Their name spells as <bdi>أندرو</bdi> or alternatively <bdi>أندريه</bdi>" +
-			"and both are correct</p></body></html>",
-	},
-	{
-		element: "i",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>These concepts include <i>terms</i> and <i>taxonomies</i>," +
+		element: "del",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>These concepts include <del>terms</del> and <del>taxonomies</del>," +
 			" among others</p></body></html>",
 	},
 	{
-		element: "ins",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><aside><ins>Pies are amazing.</ins><ins>So are " +
-			"cakes.</ins></aside></body></html>",
-	},
-	{
-		element: "ruby",
-		html: "<!DOCTYPE html>\n<html lang=\"ja-JA\">\n<body><p><ruby>君<rt>くん</rt>子<rt>し</ruby>は<ruby>和<rt>わ</ruby>ぜず。</p></body></html>",
-	},
-	{
-		element: "sup",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>Their names are<span lang=\"fr\"><abbr>M<sup>lle</sup></abbr> Bujeau</span> " +
-			"and<span lang=\"fr\"><abbr>M<sup>me</sup></abbr> Gregoire</span>.</p></body></html>",
+		element: "label",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><aside><label>Pies are amazing.</label>There are many reciples.<label>So are " +
+			"cakes.</label></aside></body></html>",
 	},
 ];
 
@@ -270,8 +234,26 @@ describe.each( samplesWithTwoOccurrences )( "Tests HTML elements, part 2", ( htm
 } );
 
 describe( "Miscellaneous tests", () => {
-	it( "should filter out elements like <strong>, which are included in the list of excluded elements", () => {
+	it( "shouldn't filter out elements like <strong>, which are not included in the list of excluded elements", () => {
 		const html = "<p>Welcome to the blue screen of <strong>death</strong>.</p>";
+
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.name === "strong" ) ).toHaveLength( 1 );
+		const filteredTree = filterTree( tree, permanentFilters );
+		expect( filteredTree.findAll( child => child.name === "strong" ) ).toHaveLength( 1 );
+	} );
+
+	it( "shouldn't filter out elements like <strong>, which are included in the list of excluded elements", () => {
+		const html = "<p>Welcome to the blue screen of <strong>death</strong>.</p>";
+
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.name === "strong" ) ).toHaveLength( 1 );
+		const filteredTree = filterTree( tree, permanentFilters );
+		expect( filteredTree.findAll( child => child.name === "strong" ) ).toHaveLength( 1 );
+	} );
+
+	it( "should filter out elements like <strong> when nested within excluded elements, e.g. <samp>", () => {
+		const html = "<p><samp>Welcome to the blue screen of <strong>death</strong>.<br>Kiss your computer goodbye.</samp></p>";
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		expect( tree.findAll( child => child.name === "strong" ) ).toHaveLength( 1 );
@@ -279,31 +261,13 @@ describe( "Miscellaneous tests", () => {
 		expect( filteredTree.findAll( child => child.name === "strong" ) ).toHaveLength( 0 );
 	} );
 
-	it( "shouldn't filter out elements like <mark>, which are included in the list of excluded elements", () => {
-		const html = "<p>Welcome to the blue screen of <mark>death</mark>.</p>";
+	it( "should filter out elements like <strong> when nested within a regular element, which is nested in an excluded element", () => {
+		const html = "<p><samp>Welcome to the blue screen of<span>Argh!<strong>death</strong></span>.<br>Kiss your computer goodbye.</samp></p>";
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		expect( tree.findAll( child => child.name === "mark" ) ).toHaveLength( 1 );
+		expect( tree.findAll( child => child.name === "strong" ) ).toHaveLength( 1 );
 		const filteredTree = filterTree( tree, permanentFilters );
-		expect( filteredTree.findAll( child => child.name === "mark" ) ).toHaveLength( 1 );
-	} );
-
-	it( "should filter out elements like <mark> when nested within excluded elements, e.g. <samp>", () => {
-		const html = "<p><samp>Welcome to the blue screen of <mark>death</mark>.<br>Kiss your computer goodbye.</samp></p>";
-
-		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		expect( tree.findAll( child => child.name === "mark" ) ).toHaveLength( 1 );
-		const filteredTree = filterTree( tree, permanentFilters );
-		expect( filteredTree.findAll( child => child.name === "mark" ) ).toHaveLength( 0 );
-	} );
-
-	it( "should filter out elements like <mark> when nested within a regular element, which is nested in an excluded element", () => {
-		const html = "<p><samp>Welcome to the blue screen of<span>Argh!<mark>death</mark></span>.<br>Kiss your computer goodbye.</samp></p>";
-
-		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		expect( tree.findAll( child => child.name === "mark" ) ).toHaveLength( 1 );
-		const filteredTree = filterTree( tree, permanentFilters );
-		expect( filteredTree.findAll( child => child.name === "mark" ) ).toHaveLength( 0 );
+		expect( filteredTree.findAll( child => child.name === "strong" ) ).toHaveLength( 0 );
 	} );
 
 	it( "should filter out head elements", () => {
@@ -320,20 +284,12 @@ describe( "Miscellaneous tests", () => {
 		expect( tree.findAll( child => child.name === "a" ) ).toHaveLength( 1 );
 	} );
 
-	it( "should filter out abbr elements", () => {
+	it( "should filter out map elements", () => {
 		// The head element seems to be removed by the parser we employ.
-		const html = "<!DOCTYPE html>\n<title>About artificial intelligence<abbr>AI</abbr>\n</title>\n</html>";
+		const html = "<!DOCTYPE html>\n<title>About artificial intelligence<map name=>AI</map>\n</title>\n</html>";
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		expect( tree.findAll( child => child.name === "abbr" ) ).toHaveLength( 0 );
 	} );
-
-	it( "should filter out b elements", () => {
-		// The head element seems to be removed by the parser we employ.
-		const html = "<!DOCTYPE html>\n<title><b>Six abandoned kittens were adopted by a capybara.</b></title\n</html>";
-		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		expect( tree.findAll( child => child.name === "b" ) ).toHaveLength( 0 );
-	} );
-
 	it( "should filter out the Elementor Yoast Breadcrumbs widget ", () => {
 		// When the HTML enters the paper, the Breadcrumbs widget doesn't include the div tag.
 		let html = "<p id=\"breadcrumbs\"><span><span><a href=\"https://basic.wordpress.test/\">Home</a></span></span></p><div " +
