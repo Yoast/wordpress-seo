@@ -119,9 +119,7 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 
 		// Safety check. The call to `get_user_data` could return false (called in `get_queried_object`).
 		if ( $current_author === false ) {
-			if ( $this->options->get( 'noindex-author-noposts-wpseo', false ) ) {
-				$robots['index'] = 'noindex';
-			}
+			$robots['index'] = 'noindex';
 			return $this->filter_robots( $robots );
 		}
 
