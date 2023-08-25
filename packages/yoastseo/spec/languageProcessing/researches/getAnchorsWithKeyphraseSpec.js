@@ -145,7 +145,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
 			attributes: { href: "example.com" },
-			childNodes: [ { name: "#text", value: "Mrs. always tries to be awesome", sourceCodeLocation: { startOffset: 24, endOffset: 55 } } ],
+			childNodes: [ { name: "#text", value: "Mrs. always tries to be awesome", sourceCodeRange: { startOffset: 24, endOffset: 55 } } ],
 			name: "a",
 			sourceCodeLocation: {
 				endOffset: 59,
@@ -172,7 +172,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
 			attributes: { href: "http://yoast.com/some-other-page/" },
-			childNodes: [ { name: "#text", value: "many fluffy and furry cats", sourceCodeLocation: { startOffset: 51, endOffset: 77 } } ],
+			childNodes: [ { name: "#text", value: "many fluffy and furry cats", sourceCodeRange: { startOffset: 51, endOffset: 77 } } ],
 			name: "a",
 			sourceCodeLocation: {
 				endOffset: 81,
@@ -198,7 +198,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
 			attributes: { href: "http://test.com/keyword#top" },
-			childNodes: [ { name: "#text", value: "food for cats", sourceCodeLocation: { startOffset: 53, endOffset: 66 } } ],
+			childNodes: [ { name: "#text", value: "food for cats", sourceCodeRange: { startOffset: 53, endOffset: 66 } } ],
 			name: "a",
 			sourceCodeLocation: {
 				endOffset: 70,
@@ -225,7 +225,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
 			attributes: { href: "http://example.com/some-other-page/" },
-			childNodes: [ { name: "#text", value: "many fluffy and furry cats", sourceCodeLocation: { startOffset: 53, endOffset: 79 } } ],
+			childNodes: [ { name: "#text", value: "many fluffy and furry cats", sourceCodeRange: { startOffset: 53, endOffset: 79 } } ],
 			name: "a",
 			sourceCodeLocation: {
 				endOffset: 83,
@@ -252,10 +252,10 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
 			attributes: { href: "http://test.com/that-page" },
 			childNodes: [
-				{ name: "#text", value: "food for ", sourceCodeLocation: { startOffset: 51, endOffset: 60 } },
+				{ name: "#text", value: "food for ", sourceCodeRange: { startOffset: 51, endOffset: 60 } },
 				{
 					attributes: {},
-					childNodes: [ { name: "#text", value: "cats", sourceCodeLocation: { startOffset: 68, endOffset: 72 } } ],
+					childNodes: [ { name: "#text", value: "cats", sourceCodeRange: { startOffset: 68, endOffset: 72 } } ],
 					name: "strong",
 					sourceCodeLocation: {
 						endOffset: 81,
