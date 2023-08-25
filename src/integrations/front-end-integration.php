@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use WP_HTML_Tag_Processor;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
@@ -185,6 +186,20 @@ class Front_End_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * The next output.
+	 *
+	 * @var bool
+	 */
+	protected $next;
+
+	/**
+	 * The prev output.
+	 *
+	 * @var bool
+	 */
+	protected $prev;
+
+	/**
 	 * Front_End_Integration constructor.
 	 *
 	 * @codeCoverageIgnore It sets dependencies.
@@ -219,6 +234,8 @@ class Front_End_Integration implements Integration_Interface {
 	 * to avoid duplicate and/or mismatched metadata.
 	 */
 	public function register_hooks() {
+		add_filter( 'render_block', [ $this, 'query_loop_next_prev' ], 1, 2 );
+
 		\add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 1 );
 		// Filter the title for compatibility with other plugins and themes.
 		\add_filter( 'wp_title', [ $this, 'filter_title' ], 15 );
@@ -260,6 +277,54 @@ class Front_End_Integration implements Integration_Interface {
 		\add_filter( 'pre_get_document_title', [ $this, 'filter_title' ], 15 );
 
 		return $title;
+	}
+
+	/**
+	 * Filters the next and prev links in the query loop block.
+	 *
+	 * @param string $html  The HTML output.
+	 * @param array  $block The block.
+	 * @return string The filtered HTML output.
+	 */
+	public function query_loop_next_prev( $html, $block ) {
+		if ( $block['blockName'] === 'core/query' ) {
+			// Check that the query does not inherit the main query.
+			if ( isset( $block['attrs']['query']['inherit'] ) && ! $block['attrs']['query']['inherit'] ) {
+				add_filter( 'wpseo_adjacent_rel_url', [ $this, 'adjacent_rel_url' ], 1, 3 );
+			}
+		}
+
+		if ( $block['blockName'] === 'core/query-pagination-next' ) {
+			$this->next = $html;
+		}
+
+		if ( $block['blockName'] === 'core/query-pagination-previous' ) {
+			$this->prev = $html;
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Returns correct adjacent pages when QUery loop block does not inherit query from template.
+	 *
+	 * @param string                      $link         The current link.
+	 * @param string                      $rel          Link relationship, prev or next.
+	 * @param Indexable_Presentation|null $presentation The indexable presentation.
+	 *
+	 * @return string The correct link.
+	 */
+	public function adjacent_rel_url( $link, $rel, $presentation = null ) {
+		if ( $rel === 'next' || $rel === 'prev' ) {
+
+			$processor = new WP_HTML_Tag_Processor( $this->$rel );
+			while ( $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
+				$href = $processor->get_attribute( 'href' );
+				if ( $href ) {
+					return $presentation->permalink . substr( $href, 1 );
+				}
+			}
+		}
 	}
 
 	/**
