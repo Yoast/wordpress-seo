@@ -169,8 +169,8 @@ const samplesWithOneOccurrence = [
 	},
 	{
 		element: "cite",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>If a triangle has one <var>90</var> degrees angle and one <var>30</var>" +
-			"degrees angle, how big is the remaining angle?<cite>Fun for the whole family</cite></p></body></html>",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>There are many craft ideas that are interesting to both children and adults." +
+			" <cite>Fun for the whole family!</cite></p></body></html>",
 	},
 	{
 		element: "em",
@@ -235,7 +235,7 @@ const samplesWithTwoOccurrences = [
 	},
 	{
 		element: "bdi",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>Their name spells as <var>أندرو</var> or alternatively <var>أندريه</var>" +
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>Their name spells as <bdi>أندرو</bdi> or alternatively <bdi>أندريه</bdi>" +
 			"and both are correct</p></body></html>",
 	},
 	{
@@ -255,15 +255,11 @@ const samplesWithTwoOccurrences = [
 	},
 	{
 		element: "ruby",
-		html: "<ruby>君<rt>くん</rt>子<rt>し</ruby>は<ruby>和<rt>わ</ruby>して<ruby>同<rt>どう</ruby>ぜず。",
+		html: "<ruby>君<rt>くん</rt>子<rt>し</ruby>は<ruby>和<rt>わ</ruby>ぜず。",
 	},
 	{
 		element: "rt",
-		html: "<ruby>君<rt>くん</rt>子<rt>し</ruby>は<ruby>和<rt>わ</ruby>して<ruby>同<rt>どう</ruby>ぜず。",
-	},
-	{
-		element: "rt",
-		html: "<ruby>君<rt>くん</rt>子<rt>し</ruby>は<ruby>和<rt>わ</ruby>して<ruby>同<rt>どう</ruby>ぜず。",
+		html: "<ruby>君<rt>くん</rt>子<rt>し</ruby>は<ruby>和<rt>わ</ruby>ぜず。",
 	},
 	{
 		element: "sup",
@@ -320,7 +316,7 @@ describe( "Miscellaneous tests", () => {
 		// The head element seems to be removed by the parser we employ.
 		const html = "<!DOCTYPE html>\n<li>\n<a>Examples can be found here</a>\n</li>\n</html>";
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		expect( tree.findAll( child => child.name === "a" ) ).toHaveLength( 0 );
+		expect( tree.findAll( child => child.name === "a" ) ).toHaveLength( 1 );
 	} );
 
 	it( "should filter out abbr elements", () => {
@@ -328,20 +324,6 @@ describe( "Miscellaneous tests", () => {
 		const html = "<!DOCTYPE html>\n<title>About artificial intelligence<abbr>AI</abbr>\n</title>\n</html>";
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		expect( tree.findAll( child => child.name === "abbr" ) ).toHaveLength( 0 );
-	} );
-
-	it( "should filter out b elements", () => {
-		// The head element seems to be removed by the parser we employ.
-		const html = "<!DOCTYPE html>\n<p><b>Six abandoned kittens were adopted by a capybara.</b></p>\n</html>";
-		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		expect( tree.findAll( child => child.name === "b" ) ).toHaveLength( 0 );
-	} );
-
-	it( "should filter out b elements", () => {
-		// The head element seems to be removed by the parser we employ.
-		const html = "<!DOCTYPE html>\n<p><b>Six abandoned kittens were adopted by a capybara.</b></p>\n</html>";
-		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		expect( tree.findAll( child => child.name === "b" ) ).toHaveLength( 0 );
 	} );
 
 	it( "should filter out b elements", () => {
