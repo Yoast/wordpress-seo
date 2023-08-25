@@ -213,8 +213,8 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 * Returns the message around changed URLs.
 	 *
 	 * @param string $first_sentence The first sentence of the notification.
-	 * @param string $action The action done.
-	 * @param string $object_type The object type action done for.
+	 * @param string $action The action performed, either "deleted" or "trashed".
+	 * @param string $object_type The label of the object that was deleted or trashed.
 	 *
 	 * @return string The full notification.
 	 */
