@@ -189,6 +189,11 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'are_disabled' )
 			->andReturn( false );
 
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'noindex-author-noposts-wpseo', false )
+			->andReturn( true );
+
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
 			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
@@ -265,6 +270,11 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'noindex-author-noposts-wpseo', false )
+			->andReturn( true );
+
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
 			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
@@ -333,6 +343,11 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive
 			->expects( 'are_disabled' )
 			->andReturn( false );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'noindex-author-noposts-wpseo', false )
+			->andReturn( true );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
@@ -415,6 +430,11 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'are_disabled' )
 			->andReturn( false );
 
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'noindex-author-noposts-wpseo', false )
+			->andReturn( true );
+
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
 			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
@@ -456,6 +476,11 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive
 			->expects( 'author_has_public_posts_wp' )
 			->with( 1 )
+			->andReturn( true );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'noindex-author-noposts-wpseo', false )
 			->andReturn( true );
 
 		$this->expectException( Author_Not_Built_Exception::class );
