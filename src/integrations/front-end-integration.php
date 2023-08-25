@@ -327,7 +327,7 @@ class Front_End_Integration implements Integration_Interface {
 					}
 				}
 			}
-			// Remove else when droping support for WordPress 6.1 and lower. 
+			// Remove else when droping support for WordPress 6.1 and lower.
 			else {
 				$pattern = '/"(.*?)"/';
 				// Find all matches of the pattern in the HTML string.
