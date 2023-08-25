@@ -38,8 +38,11 @@ function hasChildren( node ) {
  */
 function combineIntoImplicitParagraphs( nodes, parentSourceCodeLocation = {} ) {
 	const newNodes = [];
-
 	let currentSourceCodeLocation = {};
+	// console.log( nodes );
+
+
+	// <div><span>foo</span><p>bar</p><span>baz</span></div>
 
 	// For implicit paragraphs, strip off the start and end tag information from the parent's source code location.
 	if ( ! isEmpty( parentSourceCodeLocation ) ) {
@@ -60,15 +63,10 @@ function combineIntoImplicitParagraphs( nodes, parentSourceCodeLocation = {} ) {
 				startOffset: firstNode.sourceCodeLocation.startOffset,
 				endOffset: lastNode.sourceCodeLocation.endOffset,
 			} );
-		} else {
-			const a = 0
-			// console.log( firstNode );
-			// console.log( lastNode );
 		}
 	}
 
 	let implicitParagraph = Paragraph.createImplicit( {}, [], currentSourceCodeLocation );
-
 	nodes.forEach( node => {
 		if ( isPhrasingContent( node.name ) && ! isInterElementWhitespace( node ) ) {
 			implicitParagraph.childNodes.push( node );
@@ -79,7 +77,28 @@ function combineIntoImplicitParagraphs( nodes, parentSourceCodeLocation = {} ) {
 				if ( ! isEmpty( node.sourceCodeLocation ) ) {
 					// Update the endOffset of the current implicit paragraph to be the start of the current node.
 					if ( ! isEmpty( implicitParagraph.sourceCodeLocation ) ) {
+						// implicitParagraph.childNodes[ 0 ];
 						implicitParagraph.sourceCodeLocation.endOffset = node.sourceCodeLocation.startOffset;
+					}
+					if ( implicitParagraph.childNodes[ 0 ].sourceCodeRange && ! isEmpty( implicitParagraph.childNodes[ 0 ].sourceCodeRange ) ) {
+						if ( implicitParagraph.sourceCodeLocation ) {
+							implicitParagraph.sourceCodeLocation.startOffset = implicitParagraph.childNodes[ 0 ].sourceCodeRange.startOffset;
+						} else {
+							implicitParagraph.sourceCodeLocation = new SourceCodeLocation( {
+								startOffset: implicitParagraph.childNodes[ 0 ].sourceCodeRange.startOffset,
+								endOffset: implicitParagraph.childNodes[ 0 ].sourceCodeRange.endOffset,
+							} );
+						}
+					} else if ( implicitParagraph.childNodes[ 0 ].sourceCodeLocation &&
+						! isEmpty( implicitParagraph.childNodes[ 0 ].sourceCodeLocation ) ) {
+						if ( implicitParagraph.sourceCodeLocation ) {
+							implicitParagraph.sourceCodeLocation.startOffset = implicitParagraph.childNodes[ 0 ].sourceCodeLocation.startOffset;
+						} else {
+							implicitParagraph.sourceCodeLocation = new SourceCodeLocation( {
+								startOffset: implicitParagraph.childNodes[ 0 ].sourceCodeLocation.startOffset,
+								endOffset: implicitParagraph.childNodes[ 0 ].sourceCodeLocation.endOffset,
+							} );
+						}
 					}
 					// Update the startOffset of the next implicit paragraph to be the end of the current node.
 					currentSourceCodeLocation.startOffset = node.sourceCodeLocation.endOffset;
@@ -93,9 +112,28 @@ function combineIntoImplicitParagraphs( nodes, parentSourceCodeLocation = {} ) {
 	} );
 
 	if ( hasChildren( implicitParagraph ) ) {
+		if ( implicitParagraph.childNodes[ 0 ].sourceCodeRange && ! isEmpty( implicitParagraph.childNodes[ 0 ].sourceCodeRange ) ) {
+			if ( implicitParagraph.sourceCodeLocation ) {
+				implicitParagraph.sourceCodeLocation.startOffset = implicitParagraph.childNodes[ 0 ].sourceCodeRange.startOffset;
+			} else {
+				implicitParagraph.sourceCodeLocation = new SourceCodeLocation( {
+					startOffset: implicitParagraph.childNodes[ 0 ].sourceCodeRange.startOffset,
+					endOffset: implicitParagraph.childNodes[ 0 ].sourceCodeRange.endOffset,
+				} );
+			}
+		} else if ( implicitParagraph.childNodes[ 0 ].sourceCodeLocation &&
+			! isEmpty( implicitParagraph.childNodes[ 0 ].sourceCodeLocation ) ) {
+			if ( implicitParagraph.sourceCodeLocation ) {
+				implicitParagraph.sourceCodeLocation.startOffset = implicitParagraph.childNodes[ 0 ].sourceCodeLocation.startOffset;
+			} else {
+				implicitParagraph.sourceCodeLocation = new SourceCodeLocation( {
+					startOffset: implicitParagraph.childNodes[ 0 ].sourceCodeLocation.startOffset,
+					endOffset: implicitParagraph.childNodes[ 0 ].sourceCodeLocation.endOffset,
+				} );
+			}
+		}
 		newNodes.push( implicitParagraph );
 	}
-
 	return newNodes;
 }
 
