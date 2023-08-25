@@ -533,10 +533,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'author_has_public_posts_wp' )
 			->with( $user_id )
 			->andReturn( false );
-			$this->options_helper
-				->expects( 'get' )
-				->with( 'noindex-author-noposts-wpseo', false )
-				->andReturn( false );
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'noindex-author-noposts-wpseo', false )
+			->andReturn( true );
 
 		Monkey\Filters\expectApplied( 'wpseo_should_build_and_save_user_indexable' )
 			->andReturn( new Author_Not_Built_Exception( 'Author should not be build.' ) );
