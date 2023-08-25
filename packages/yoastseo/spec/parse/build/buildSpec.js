@@ -760,6 +760,7 @@ describe( "The parse function", () => {
 							{
 								name: "#text",
 								value: "The first sentence",
+								sourceCodeRange: { startOffset: 99, endOffset: 117 },
 							},
 						],
 						isImplicit: false,
@@ -1545,7 +1546,8 @@ describe( "The parse function", () => {
 						childNodes: [],
 						sourceCodeLocation: { startOffset: 0, endOffset: 21 },
 					},
-					{ name: "#text", value: "\n" },
+					{ name: "#text", value: "\n",
+						sourceCodeRange: { startOffset: 21, endOffset: 22 } },
 					{
 						name: "p",
 						attributes: {},
@@ -1553,6 +1555,7 @@ describe( "The parse function", () => {
 							{
 								name: "#text",
 								value: "The red panda's coat is mainly red or orange-brown with a black belly and legs.",
+								sourceCodeRange: { startOffset: 25, endOffset: 104 },
 								clientId: "da950985-3903-479c-92f5-9a98bcec51e9",
 							},
 						],
@@ -1603,21 +1606,24 @@ describe( "The parse function", () => {
 							},
 						],
 					},
-					{ name: "#text", value: "\n" },
+					{ name: "#text", value: "\n",
+						sourceCodeRange: { startOffset: 108, endOffset: 109 } },
 					{
 						name: "#comment",
 						attributes: {},
 						childNodes: [],
 						sourceCodeLocation: { startOffset: 109, endOffset: 131 },
 					},
-					{ name: "#text", value: "\n\n" },
+					{ name: "#text", value: "\n\n",
+						sourceCodeRange: { startOffset: 131, endOffset: 133 } },
 					{
 						name: "#comment",
 						attributes: {},
 						childNodes: [],
 						sourceCodeLocation: { startOffset: 133, endOffset: 149 },
 					},
-					{ name: "#text", value: "\n" },
+					{ name: "#text", value: "\n",
+						sourceCodeRange: { startOffset: 149, endOffset: 150 } },
 					{
 						name: "ul",
 						attributes: {},
@@ -1629,7 +1635,8 @@ describe( "The parse function", () => {
 								sourceCodeLocation: { startOffset: 154, endOffset: 175 },
 								clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
 							},
-							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+								sourceCodeRange: { startOffset: 175, endOffset: 176 } },
 							{
 								name: "li",
 								attributes: {},
@@ -1638,7 +1645,8 @@ describe( "The parse function", () => {
 										name: "p",
 										attributes: {},
 										childNodes: [
-											{ name: "#text", value: "giant panda", clientId: "b45eed06-594b-468e-8723-1f597689c300" },
+											{ name: "#text", value: "giant panda", clientId: "b45eed06-594b-468e-8723-1f597689c300",
+												sourceCodeRange: { startOffset: 180, endOffset: 191 } },
 										],
 										sourceCodeLocation: { startOffset: 180, endOffset: 191 },
 										isImplicit: true,
@@ -1664,7 +1672,8 @@ describe( "The parse function", () => {
 								},
 								clientId: "b45eed06-594b-468e-8723-1f597689c300",
 							},
-							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+								sourceCodeRange: { startOffset: 196, endOffset: 197 } },
 							{
 								name: "#comment",
 								attributes: {},
@@ -1672,7 +1681,8 @@ describe( "The parse function", () => {
 								sourceCodeLocation: { startOffset: 197, endOffset: 219 },
 								clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
 							},
-							{ name: "#text", value: "\n\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{ name: "#text", value: "\n\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+								sourceCodeRange: { startOffset: 219, endOffset: 221 } },
 							{
 								name: "#comment",
 								attributes: {},
@@ -1680,7 +1690,8 @@ describe( "The parse function", () => {
 								sourceCodeLocation: { startOffset: 221, endOffset: 242 },
 								clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
 							},
-							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+								sourceCodeRange: { startOffset: 242, endOffset: 243 } },
 							{
 								name: "li",
 								attributes: {},
@@ -1689,7 +1700,8 @@ describe( "The parse function", () => {
 										name: "p",
 										attributes: {},
 										childNodes: [
-											{ name: "#text", value: "red panda", clientId: "f8a22538-9e9d-4862-968d-524580f5d8ce" },
+											{ name: "#text", value: "red panda", clientId: "f8a22538-9e9d-4862-968d-524580f5d8ce",
+												sourceCodeRange: { startOffset: 247, endOffset: 256 } },
 										],
 										sourceCodeLocation: { startOffset: 247, endOffset: 256 },
 										isImplicit: true,
@@ -1714,7 +1726,8 @@ describe( "The parse function", () => {
 								},
 								clientId: "f8a22538-9e9d-4862-968d-524580f5d8ce",
 							},
-							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+								sourceCodeRange: { startOffset: 261, endOffset: 262 } },
 							{
 								name: "#comment",
 								attributes: {},
@@ -1731,7 +1744,8 @@ describe( "The parse function", () => {
 						},
 						clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
 					},
-					{ name: "#text", value: "\n" },
+					{ name: "#text", value: "\n",
+						sourceCodeRange: { startOffset: 289, endOffset: 290 } },
 					{
 						name: "#comment",
 						attributes: {},
