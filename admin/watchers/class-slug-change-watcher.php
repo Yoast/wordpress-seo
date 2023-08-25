@@ -222,7 +222,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 		return '<h2>' . __( 'Make sure you don\'t miss out on traffic!', 'wordpress-seo' ) . '</h2>'
 			. '<p>'
 			. $first_sentence
-			/* translators: %1$s expands to the translated name of action. %1$s expand to translated name of object type */
+			/* translators: %1$s expands to either "deleted" or "trashed". %2$s expands to the name of the post or term. */
 			. ' ' . sprintf( __( 'Search engines and other websites can still send traffic to your %1$s %2$s.', 'wordpress-seo' ), $action, $object_type )
 			. ' ' . __( 'You should create a redirect to ensure your visitors do not get a 404 error when they click on the no longer working URL.', 'wordpress-seo' )
 			/* translators: %s expands to Yoast SEO Premium */
