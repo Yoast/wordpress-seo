@@ -5,7 +5,7 @@
 import { elementHasName, elementHasClass, elementHasID } from "./filterHelpers";
 
 // These are elements that we don't want to include in the analysis and that can be child nodes of paragraphs or headings.
-export const canBeChildOfParagraph = [ "code", "kbd", "math", "q", "samp", "script", "var", "#comment", "a", "abbr", "b", "bdi", "br",
+export const canBeChildOfParagraph = [ "code", "kbd", "math", "q", "samp", "script", "var", "#comment", "a", "abbr", "b", "bdi",
 	"cite", "em", "i", "ins", "map", "q", "ruby", "s", "samp", "small", "strong", "sup", "u", "wbr" ];
 
 const permanentFilters = [

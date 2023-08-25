@@ -240,11 +240,6 @@ const samplesWithTwoOccurrences = [
 			"and both are correct</p></body></html>",
 	},
 	{
-		element: "br",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>The triange's angle is <br>90 degrees</br> and the second angle" +
-			"is <br>30 degrees</br> How big is the remaining angle?</p></body></html>",
-	},
-	{
 		element: "i",
 		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>These concepts include <i>terms</i> and <i>taxonomies</i>," +
 			" among others</p></body></html>",
