@@ -317,11 +317,22 @@ class Front_End_Integration implements Integration_Interface {
 	public function adjacent_rel_url( $link, $rel, $presentation = null ) {
 		if ( $rel === 'next' || $rel === 'prev' ) {
 
-			$processor = new WP_HTML_Tag_Processor( $this->$rel );
-			while ( $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
-				$href = $processor->get_attribute( 'href' );
-				if ( $href ) {
-					return $presentation->permalink . substr( $href, 1 );
+			// WP_HTML_Tag_Processor was introduced in WordPress 6.2.
+			if ( class_exists( WP_HTML_Tag_Processor::class ) ) {
+				$processor = new WP_HTML_Tag_Processor( $this->$rel );
+				while ( $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
+					$href = $processor->get_attribute( 'href' );
+					if ( $href ) {
+						return $presentation->permalink . substr( $href, 1 );
+					}
+				}
+			}
+			else {
+				$pattern = '/"(.*?)"/';
+				// Find all matches of the pattern in the HTML string.
+				preg_match_all( $pattern, $this->$rel, $matches );
+				if ( isset( $matches[1] ) && isset( $matches[1][0] ) && $matches[1][0] ) {
+					return $presentation->permalink . substr( $matches[1][0], 1 );
 				}
 			}
 		}
