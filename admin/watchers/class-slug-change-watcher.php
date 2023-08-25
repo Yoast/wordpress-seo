@@ -50,7 +50,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Shows an message when a post is about to get trashed.
+	 * Shows a message when a post is about to get trashed.
 	 *
 	 * @param int $post_id The current post ID.
 	 *
@@ -61,17 +61,17 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		$post_type = $this->get_post_type_label( get_post_type( $post_id ) );
+		$post_label = $this->get_post_type_label( get_post_type( $post_id ) );
 
 		/* translators: %1$s expands to the translated name of the post type. */
-		$first_sentence = sprintf( __( 'You just trashed a %1$s.', 'wordpress-seo' ), $post_type );
-		$message        = $this->get_message( $first_sentence, 'trashed', $post_type );
+		$first_sentence = sprintf( __( 'You just trashed a %1$s.', 'wordpress-seo' ), $post_label );
+		$message        = $this->get_message( $first_sentence, 'trashed', $post_label );
 
 		$this->add_notification( $message );
 	}
 
 	/**
-	 * Shows an message when a post is about to get trashed.
+	 * Shows a message when a post is about to get trashed.
 	 *
 	 * @param int $post_id The current post ID.
 	 *
@@ -82,11 +82,11 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		$post_type = $this->get_post_type_label( get_post_type( $post_id ) );
+		$post_label = $this->get_post_type_label( get_post_type( $post_id ) );
 
 		/* translators: %1$s expands to the translated name of the post type. */
-		$first_sentence = sprintf( __( 'You just deleted a %1$s.', 'wordpress-seo' ), $post_type );
-		$message        = $this->get_message( $first_sentence, 'deleted', $post_type );
+		$first_sentence = sprintf( __( 'You just deleted a %1$s.', 'wordpress-seo' ), $post_label );
+		$message        = $this->get_message( $first_sentence, 'deleted', $post_label );
 
 		$this->add_notification( $message );
 	}
@@ -106,13 +106,9 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 		$term       = \get_term_by( 'term_taxonomy_id', (int) $term_taxonomy_id );
 		$term_label = $this->get_taxonomy_label_for_term( $term->term_id );
 
-		$first_sentence = sprintf(
-			/* translators: 1: term label */
-			__( 'You just deleted a %1$s.', 'wordpress-seo' ),
-			$term_label
-		);
-
-		$message = $this->get_message( $first_sentence, 'deleted', $term_label );
+		/* translators: %1$s expands to the translated name of the term. */
+		$first_sentence = sprintf( __( 'You just deleted a %1$s.', 'wordpress-seo' ), $term_label );
+		$message        = $this->get_message( $first_sentence, 'deleted', $term_label );
 
 		$this->add_notification( $message );
 	}
@@ -214,16 +210,16 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 *
 	 * @param string $first_sentence The first sentence of the notification.
 	 * @param string $action The action performed, either "deleted" or "trashed".
-	 * @param string $object_type The label of the object that was deleted or trashed.
+	 * @param string $object_label The label of the object that was deleted or trashed.
 	 *
 	 * @return string The full notification.
 	 */
-	protected function get_message( $first_sentence, $action, $object_type ) {
+	protected function get_message( $first_sentence, $action, $object_label ) {
 		return '<h2>' . __( 'Make sure you don\'t miss out on traffic!', 'wordpress-seo' ) . '</h2>'
 			. '<p>'
 			. $first_sentence
 			/* translators: %1$s expands to either "deleted" or "trashed". %2$s expands to the name of the post or term. */
-			. ' ' . sprintf( __( 'Search engines and other websites can still send traffic to your %1$s %2$s.', 'wordpress-seo' ), $action, $object_type )
+			. ' ' . sprintf( __( 'Search engines and other websites can still send traffic to your %1$s %2$s.', 'wordpress-seo' ), $action, $object_label )
 			. ' ' . __( 'You should create a redirect to ensure your visitors do not get a 404 error when they click on the no longer working URL.', 'wordpress-seo' )
 			/* translators: %s expands to Yoast SEO Premium */
 			. ' ' . sprintf( __( 'With %s, you can easily create such redirects.', 'wordpress-seo' ), 'Yoast SEO Premium' )
