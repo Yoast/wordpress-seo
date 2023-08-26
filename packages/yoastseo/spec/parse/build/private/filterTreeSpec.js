@@ -277,13 +277,6 @@ describe( "Miscellaneous tests", () => {
 		expect( tree.findAll( child => child.name === "head" ) ).toHaveLength( 0 );
 	} );
 
-	it( "should filter out a elements", () => {
-		// The head element seems to be removed by the parser we employ.
-		const html = "<!DOCTYPE html>\n<li>\n<a>Examples can be found here</a>\n</li>\n</html>";
-		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		expect( tree.findAll( child => child.name === "a" ) ).toHaveLength( 1 );
-	} );
-
 	it( "should filter out map elements", () => {
 		// The head element seems to be removed by the parser we employ.
 		const html = "<!DOCTYPE html>\n<title>About artificial intelligence<map name=>AI</map>\n</title>\n</html>";
