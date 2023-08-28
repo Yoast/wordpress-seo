@@ -95,18 +95,20 @@ function adjustTextElementStart( descendantTagPositions, textElementStart ) {
 
 /**
  * Gets the initial start position of a text element.
- * @param {Node} node The node to get the start position from.
- * @param {Number} startOffset The start position of the node in the source code.
+ * @param {Node} childNode The childNode to get the start position from.
+ * @param {Number} parentNodeStartOffset The start position of the childNode in the source code.
  * @returns {number} The start position of the text element.
  */
-const getTextElementStart = ( node, startOffset ) => {
-	if ( node.name === "#text" && node.sourceCodeRange && node.sourceCodeRange.startOffset ) {
-		return node.sourceCodeRange.startOffset;
-	} else if ( node instanceof Paragraph && node.isImplicit ) {
-		return node.sourceCodeLocation.startOffset;
+const getTextElementStart = ( childNode, parentNodeStartOffset ) => {
+	// A check if the childNode is a text. This is needed since text nodes have a sorceCodeRange, but no sourceCodeLocation.
+	if ( childNode.name === "#text" && childNode.sourceCodeRange && childNode.sourceCodeRange.startOffset ) {
+		return childNode.sourceCodeRange.startOffset;
+	} else if ( childNode instanceof Paragraph && childNode.isImplicit ) {
+		return childNode.sourceCodeLocation.startOffset;
 	}
 
-	return startOffset >= 0 ? startOffset : node.sourceCodeLocation.startTag.endOffset;
+	// if the childnode does not have sourcecodeLocation, we use the parentNodeStartOffset of the parent childNode.
+	return parentNodeStartOffset >= 0 ? parentNodeStartOffset : childNode.sourceCodeLocation.startTag.endOffset;
 };
 
 /**
