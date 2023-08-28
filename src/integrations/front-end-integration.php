@@ -318,7 +318,7 @@ class Front_End_Integration implements Integration_Interface {
 		if ( $rel === 'next' || $rel === 'prev' ) {
 
 			// WP_HTML_Tag_Processor was introduced in WordPress 6.2.
-			if ( class_exists( WP_HTML_Tag_Processor::class ) ) {
+			if ( \class_exists( WP_HTML_Tag_Processor::class ) ) {
 				$processor = new WP_HTML_Tag_Processor( $this->$rel );
 				while ( $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
 					$href = $processor->get_attribute( 'href' );
