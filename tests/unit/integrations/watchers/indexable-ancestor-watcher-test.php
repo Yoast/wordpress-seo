@@ -169,14 +169,44 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	}
 
 	/**
+	 * Data provider for the register_hooks test.
+	 *
+	 * @return array The data.
+	 */
+	public function data_provider_register_hooks() {
+		return [
+			'When ancestor is changes inline edit' => [
+				'is_inline_edit'          => true,
+				'set_object_terms_action' => false,
+			],
+			'When ancestor is changes not inline edit' => [
+				'is_inline_edit'          => false,
+				'set_object_terms_action' => 10,
+			],
+		];
+	}
+
+	/**
 	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @dataProvider data_provider_register_hooks
+	 *
+	 * @param bool     $is_inline_edit      Whether or not the request is an inline edit.
+	 * @param bool|int $set_object_terms_action The set_object_terms action return value.
 	 */
-	public function test_register_hooks() {
+	public function test_register_hooks( $is_inline_edit, $set_object_terms_action ) {
+
+		Functions\expect( 'check_ajax_referer' )
+			->once()
+			->with( 'inlineeditnonce', '_inline_edit', false )
+			->andReturn( $is_inline_edit );
+
 		$this->instance->register_hooks();
 
 		self::assertNotFalse( \has_action( 'wpseo_save_indexable', [ $this->instance, 'reset_children' ] ) );
+		self::assertSame( $set_object_terms_action, \has_action( 'set_object_terms', [ $this->instance, 'validate_primary_category' ] ) );
 	}
 
 	/**
