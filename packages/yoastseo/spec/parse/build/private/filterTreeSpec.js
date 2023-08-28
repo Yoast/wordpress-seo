@@ -213,14 +213,9 @@ const samplesWithTwoOccurrences = [
 			"degrees angle, how big is the remaining angle?</p><p>Fun for the whole family</p></body></html>",
 	},
 	{
-		element: "del",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>These concepts include <del>terms</del> and <del>taxonomies</del>," +
-			" among others</p></body></html>",
-	},
-	{
-		element: "label",
-		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><aside><label>Pies are amazing.</label>There are many reciples.<label>So are " +
-			"cakes.</label></aside></body></html>",
+		element: "form",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><aside><form>Pies are amazing.</form>There are many reciples.<form>So are " +
+			"cakes.</form></aside></body></html>",
 	},
 ];
 
