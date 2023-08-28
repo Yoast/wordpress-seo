@@ -290,7 +290,7 @@ class Front_End_Integration implements Integration_Interface {
 		if ( $block['blockName'] === 'core/query' ) {
 			// Check that the query does not inherit the main query.
 			if ( isset( $block['attrs']['query']['inherit'] ) && ! $block['attrs']['query']['inherit'] ) {
-				add_filter( 'wpseo_adjacent_rel_url', [ $this, 'adjacent_rel_url' ], 1, 3 );
+				\add_filter( 'wpseo_adjacent_rel_url', [ $this, 'adjacent_rel_url' ], 1, 3 );
 			}
 		}
 
