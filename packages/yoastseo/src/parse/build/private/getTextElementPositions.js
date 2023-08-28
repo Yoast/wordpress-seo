@@ -94,6 +94,22 @@ function adjustTextElementStart( descendantTagPositions, textElementStart ) {
 }
 
 /**
+ * Gets the initial start position of a text element.
+ * @param {Node} node The node to get the start position from.
+ * @param {Number} startOffset The start position of the node in the source code.
+ * @returns {number} The start position of the text element.
+ */
+const getTextElementStart = ( node, startOffset ) => {
+	if ( node.name === "#text" && node.sourceCodeRange && node.sourceCodeRange.startOffset ) {
+		return node.sourceCodeRange.startOffset;
+	} else if ( node instanceof Paragraph && node.isImplicit ) {
+		return node.sourceCodeLocation.startOffset;
+	}
+
+	return startOffset >= 0 ? startOffset : node.sourceCodeLocation.startTag.endOffset;
+};
+
+/**
  * Gets the start and end positions of text elements (sentences or tokens) in the source code.
  *
  * @param {Paragraph|Heading} 		node  			The paragraph or heading node.
@@ -114,14 +130,8 @@ export default function getTextElementPositions( node, textElements, startOffset
 	 * end tags, set the start position to the start of the node. Otherwise, set the start position to the end of the
 	 * node's start tag.
 	 */
-	let textElementStart;
-	if ( node.name === "#text" && node.sourceCodeRange && node.sourceCodeRange.startOffset ) {
-		textElementStart = node.sourceCodeRange.startOffset;
-	} else if ( node instanceof Paragraph && node.isImplicit ) {
-		textElementStart = node.sourceCodeLocation.startOffset;
-	} else {
-		textElementStart = startOffset >= 0 ? startOffset : node.sourceCodeLocation.startTag.endOffset;
-	}
+	let textElementStart = getTextElementStart( node, startOffset );
+
 	let textElementEnd;
 	let descendantTagPositions = [];
 
