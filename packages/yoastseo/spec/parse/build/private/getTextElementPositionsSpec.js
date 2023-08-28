@@ -510,13 +510,12 @@ describe( "A test for getting positions of sentences", () => {
 	it( "should correctly add positions to an implicit paragraph", function() {
 		const html = "Hello world!";
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		// console.log( tree );
 		const paragraph = tree.childNodes[ 0 ];
 
 		const tokens = [ "Hello", " ", "world", "!" ].map( string => new Token( string ) );
-		// console.log( tokens	);
+
 		const [ hello, space, world, bang ] = getTextElementPositions( paragraph, tokens );
-		console.log( hello, space, world, bang );
+
 		expect( hello.sourceCodeRange ).toEqual( { startOffset: 0, endOffset: 5 } );
 		expect( space.sourceCodeRange ).toEqual( { startOffset: 5, endOffset: 6 } );
 		expect( world.sourceCodeRange ).toEqual( { startOffset: 6, endOffset: 11 } );
@@ -524,17 +523,19 @@ describe( "A test for getting positions of sentences", () => {
 	} );
 
 	it( "correctly calculates the position of an image caption", () => {
-		const html = "<div>[caption id=\"attachment_3341501\" align=\"alignnone\" width=\"300\"]<img class=\"cls\" src=\"yoast.com/image.jpg\" alt=\"alt\" width=\"300\" height=\"300\" /> An image with the keyword in the caption.[/caption]</div>";
+		const html = "<div>[caption id=\"attachment_3341501\" align=\"alignnone\" width=\"300\"]" +
+			"<img class=\"cls\" src=\"yoast.com/image.jpg\" alt=\"alt\" width=\"300\" height=\"300\" />" +
+			" An image with the keyword in the caption.[/caption]</div>";
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		const div = tree.childNodes[ 0 ];
 		const caption = div.childNodes[ 0 ];
-		console.log( caption );
-		const captionText = caption.childNodes[ 2 ];
-		const tokens = [ " ", "An", " ", "image", " ", "with", " ", "the", " ", "keyword", " ", "in", " ", "the", " ", "caption", "." ].map( string => new Token( string ) );
-		console.log( tokens );
-		const [ space0, an, space1, image, space2, withToken, space3, the, space4, keyword, space5, inToken, space6, the2, space7, captionToken, dot ] = getTextElementPositions( captionText, tokens );
 
-		console.log( an );
+		const captionText = caption.childNodes[ 2 ];
+		const tokens = [ " ", "An", " ", "image", " ", "with", " ", "the", " ", "keyword", " ", "in", " ", "the", " ", "caption", "." ].map(
+			string => new Token( string ) );
+
+		const [ space0, an, space1, image, space2, withToken, space3, the,
+			space4, keyword, space5, inToken, space6, the2, space7, captionToken, dot ] = getTextElementPositions( captionText, tokens );
 
 		expect( space0.sourceCodeRange ).toEqual( { startOffset: 148, endOffset: 149 } );
 		expect( an.sourceCodeRange ).toEqual( { startOffset: 149, endOffset: 151 } );
