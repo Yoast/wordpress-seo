@@ -93,8 +93,17 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	public function register_hooks() {
 		\add_action( 'wpseo_save_indexable', [ $this, 'reset_children' ], \PHP_INT_MAX, 2 );
 		if ( ! \check_ajax_referer( 'inlineeditnonce', '_inline_edit', false ) ) {
-			\add_action( 'set_object_terms', [ $this, 'validate_primary_category' ], 10, 6 );
+			\add_action( 'set_object_terms', [ $this, 'build_post_hierarchy' ], 10, 6 );
 		}
+	}
+
+	/**
+	 * Returns the conditionals based on which this loadable should be active.
+	 *
+	 * @return array
+	 */
+	public static function get_conditionals() {
+		return [ Migrations_Conditional::class ];
 	}
 
 	/**
@@ -107,26 +116,17 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 * @param bool   $append     Whether to append new terms to the old terms.
 	 * @param array  $old_tt_ids Old array of term taxonomy IDs.
 	 */
-	public function validate_primary_category( $object_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_ids ) {
+	public function build_post_hierarchy( $object_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_ids ) {
 		$post = \get_post( $object_id );
 		if ( $this->post_type_helper->is_excluded( $post->post_type ) ) {
 			return;
 		}
 
-		$indexable = $this->indexable_repository->find_by_id_and_type( $post->ID, 'post' );
+		$indexable = $this->indexable_repository->find_by_id_and_type( $post->ID, $post->post_type );
 
 		if ( $indexable instanceof Indexable ) {
 			$this->indexable_hierarchy_builder->build( $indexable );
 		}
-	}
-
-	/**
-	 * Returns the conditionals based on which this loadable should be active.
-	 *
-	 * @return array
-	 */
-	public static function get_conditionals() {
-		return [ Migrations_Conditional::class ];
 	}
 
 	/**
