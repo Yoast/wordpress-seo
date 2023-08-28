@@ -92,6 +92,32 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_save_indexable', [ $this, 'reset_children' ], \PHP_INT_MAX, 2 );
+		if ( ! \check_ajax_referer( 'inlineeditnonce', '_inline_edit', false ) ) {
+			\add_action( 'set_object_terms', [ $this, 'validate_primary_category' ], 10, 6 );
+		}
+	}
+
+	/**
+	 * Validates if the current primary category is still present. If not just remove the post meta for it.
+	 *
+	 * @param int    $object_id Object ID.
+	 * @param array  $terms     Unused. An array of object terms.
+	 * @param array  $tt_ids    An array of term taxonomy IDs.
+	 * @param string $taxonomy  Taxonomy slug.
+	 * @param bool   $append     Whether to append new terms to the old terms.
+	 * @param array  $old_tt_ids Old array of term taxonomy IDs.
+	 */
+	public function validate_primary_category( $object_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_ids ) {
+		$post = \get_post( $object_id );
+		if ( $this->post_type_helper->is_excluded( $post->post_type ) ) {
+			return;
+		}
+
+		$indexable = $this->indexable_repository->find_by_id_and_type( $post->ID, 'post' );
+
+		if ( $indexable instanceof Indexable ) {
+			$this->indexable_hierarchy_builder->build( $indexable );
+		}
 	}
 
 	/**
