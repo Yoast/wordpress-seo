@@ -234,7 +234,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * to avoid duplicate and/or mismatched metadata.
 	 */
 	public function register_hooks() {
-		add_filter( 'render_block', [ $this, 'query_loop_next_prev' ], 1, 2 );
+		\add_filter( 'render_block', [ $this, 'query_loop_next_prev' ], 1, 2 );
 
 		\add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 1 );
 		// Filter the title for compatibility with other plugins and themes.
