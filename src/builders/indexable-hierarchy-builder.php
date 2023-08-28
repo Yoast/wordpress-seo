@@ -132,7 +132,19 @@ class Indexable_Hierarchy_Builder {
 	 * @return bool True when indexable has a built hierarchy.
 	 */
 	protected function hierarchy_is_built( Indexable $indexable ) {
-		if ( \in_array( $indexable->id, $this->saved_ancestors, true ) ) {
+
+		/**
+		 * Filters the parameter to allow building hierarchy.
+		 *
+		 * Used when adding term with `wp_set_object_terms` together with `wp_insert_post`.
+		 *
+		 * @since 21.2
+		 *
+		 * @return bool The filtered value of the `in_saved_ancestors` parameter.
+		 */
+		$in_saved_ancestors = apply_filters( 'Yoast\WP\SEO\manual_set_object_terms', \in_array( $indexable->id, $this->saved_ancestors, true ) );
+
+		if ( $in_saved_ancestors ) {
 			return true;
 		}
 
