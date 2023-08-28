@@ -7,6 +7,7 @@ use Mockery;
 use WP_Post;
 use WP_Query;
 use Yoast\WP\SEO\Integrations\Admin\Admin_Columns_Cache_Integration;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -64,7 +65,9 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 			->with( $posts, 'ID' )
 			->andReturn( [ 1 ] );
 
-		$results = [ (object) [ 'object_id' => 1 ] ];
+		$indexable            = new Indexable_Mock();
+		$indexable->object_id = 1;
+		$results              = [ $indexable ];
 
 		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )->once()->with( [ 1 ], 'post', false )->andReturn( $results );
 
@@ -94,6 +97,40 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 		$results = [ (object) [ 'object_id' => 1 ] ];
 
 		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )->once()->with( [ 1 ], 'post', false )->andReturn( $results );
+
+		$this->instance->fill_cache();
+	}
+
+	/**
+	 * Tests the fill_cache function.
+	 *
+	 * @covers ::__construct
+	 * @covers ::fill_cache
+	 */
+	public function test_fill_cache_with_broken_indexable() {
+		global $wp_query;
+
+		$posts = [ Mockery::mock( WP_Post::class ) ];
+
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+		$wp_query        = Mockery::mock( WP_Query::class );
+		$wp_query->posts = $posts;
+
+		Functions\expect( 'wp_list_pluck' )
+			->once()
+			->with( $posts, 'ID' )
+			->andReturn( [ 1, 2, 3, 4 ] );
+
+		$results = [
+			(object) [
+				'object_id' => 1,
+				false,
+				false,
+				'object_id' => 2,
+			],
+		];
+
+		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )->once()->with( [ 1, 2, 3, 4 ], 'post', false )->andReturn( $results );
 
 		$this->instance->fill_cache();
 	}

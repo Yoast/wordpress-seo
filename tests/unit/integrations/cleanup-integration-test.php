@@ -57,7 +57,8 @@ class Cleanup_Integration_Test extends TestCase {
 		$wpdb         = Mockery::mock( wpdb::class );
 		$wpdb->prefix = 'wp_';
 
-		$this->wpdb = $wpdb;
+		$this->wpdb        = $wpdb;
+		$this->wpdb->users = 'users';
 	}
 
 	/**
@@ -111,7 +112,8 @@ class Cleanup_Integration_Test extends TestCase {
 		$this->indexable_repository->shouldReceive( 'clean_indexables_for_authors_archive_disabled' )->once();
 		$this->indexable_repository->shouldReceive( 'clean_indexables_for_authors_without_archive' )->once();
 		$this->indexable_repository->shouldReceive( 'update_indexables_author_to_reassigned' )->once();
-		$this->indexable_repository->shouldReceive( 'clean_indexables_for_object_type_and_source_table' )->times( 3 );
+		$this->indexable_repository->shouldReceive( 'clean_indexables_for_orphaned_users' )->once();
+		$this->indexable_repository->shouldReceive( 'clean_indexables_for_object_type_and_source_table' )->times( 2 );
 		$this->indexable_repository->shouldReceive( 'cleanup_orphaned_from_table' )->times( 3 );
 
 		$this->instance->run_cleanup();
