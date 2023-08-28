@@ -90,6 +90,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 		$wpdb              = Mockery::mock( wpdb::class );
 		$wpdb->prefix      = 'wp_';
 		$wpdb->show_errors = false;
+		$wpdb->users       = 'users';
 
 		$this->wpdb = $wpdb;
 	}
@@ -474,6 +475,47 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	}
 
 	/**
+	 * Sets up expectations for the clean_indexables_for_orphaned_users cleanup task.
+	 *
+	 * @covers ::clean_indexables_for_orphaned_users
+	 *
+	 * @return void
+	 */
+	public function test_clean_indexables_for_orphaned_users() {
+		$source_table_test = $this->wpdb->users;
+		$this->wpdb->shouldReceive( 'prepare' )
+			->once()
+			->with(
+				"
+			SELECT indexable_table.object_id
+			FROM wp_yoast_indexable indexable_table
+			LEFT JOIN {$source_table_test} AS source_table
+			ON indexable_table.object_id = source_table.ID
+			WHERE source_table.ID IS NULL
+			AND indexable_table.object_id IS NOT NULL
+			AND indexable_table.object_type = 'user'
+			LIMIT %d",
+				$this->limit
+			)
+			->andReturn( 'prepared_clean_query' );
+
+		$ids = \array_fill( 0, 50, 1 );
+
+		$this->wpdb->shouldReceive( 'get_col' )
+			->once()
+			->with( 'prepared_clean_query' )
+			->andReturn( $ids );
+
+
+		$this->wpdb->shouldReceive( 'query' )
+			->once()
+			->with( "DELETE FROM wp_yoast_indexable WHERE object_type = 'user' AND object_id IN( " . \implode( ',', $ids ) . ' )' )
+			->andReturn( 50 );
+
+		$this->instance->clean_indexables_for_orphaned_users( $this->limit );
+	}
+
+	/**
 	 * Tests if the count query returns data when there are indexable archives.
 	 *
 	 * @covers ::count_indexables_for_non_publicly_post_type_archive_pages
@@ -565,7 +607,6 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	 */
 	public function data_clean_indexables_for_object_type_and_source_table() {
 		return [
-			[ 50, 'users', 'ID', 'user' ],
 			[ 50, 'posts', 'ID', 'post' ],
 			[ 50, 'terms', 'term_id', 'term' ],
 		];
