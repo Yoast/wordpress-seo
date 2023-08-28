@@ -180,7 +180,7 @@ class Pagination_Helper {
 		$regex_pattern = '/^query-\d+-page$/';
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- not form data.
 		foreach ( $_GET as $key => $value ) {
-			if ( preg_match( $regex_pattern, $key ) ) {
+			if ( \preg_match( $regex_pattern, $key ) ) {
 				return $key;
 			}
 		}
