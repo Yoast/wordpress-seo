@@ -21,6 +21,10 @@ describe( "A test for filterBeforeTokenizing", () => {
 						{
 							name: "#text",
 							value: "Some text and code ",
+							sourceCodeRange: {
+								startOffset: 3,
+								endOffset: 22,
+							},
 						},
 						{
 							name: "code",
@@ -107,6 +111,10 @@ describe( "A test for filterBeforeTokenizing", () => {
 								{
 									name: "#text",
 									value: "Hello, world!",
+									sourceCodeRange: {
+										startOffset: 53,
+										endOffset: 66,
+									},
 								},
 							],
 							sourceCodeLocation: {
@@ -160,6 +168,10 @@ describe( "A test for filterBeforeTokenizing", () => {
 						{
 							name: "#text",
 							value: "Some text and code ",
+							sourceCodeRange: {
+								startOffset: 3,
+								endOffset: 22,
+							},
 						},
 						{
 							name: "code",
@@ -215,6 +227,10 @@ describe( "A test for filterBeforeTokenizing", () => {
 						{
 							name: "#text",
 							value: "Some text and code ",
+							sourceCodeRange: {
+								startOffset: 3,
+								endOffset: 22,
+							},
 						},
 						{
 							name: "code",
