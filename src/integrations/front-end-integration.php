@@ -331,9 +331,9 @@ class Front_End_Integration implements Integration_Interface {
 			else {
 				$pattern = '/"(.*?)"/';
 				// Find all matches of the pattern in the HTML string.
-				preg_match_all( $pattern, $this->$rel, $matches );
+				\preg_match_all( $pattern, $this->$rel, $matches );
 				if ( isset( $matches[1] ) && isset( $matches[1][0] ) && $matches[1][0] ) {
-					return $presentation->permalink . substr( $matches[1][0], 1 );
+					return $presentation->permalink . \substr( $matches[1][0], 1 );
 				}
 			}
 		}
