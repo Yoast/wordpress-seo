@@ -184,6 +184,7 @@ class Pagination_Helper {
 				return $key;
 			}
 		}
+		return '';
 	}
 
 	/**
@@ -201,5 +202,6 @@ class Pagination_Helper {
 				return $page_number;
 			}
 		}
+		return '';
 	}
 }
