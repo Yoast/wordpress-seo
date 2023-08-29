@@ -1,1 +1,1 @@
-Text area components are user interface elements that enable users to enter and edit larger amounts of text or data within a form or field.
+Text areas are user interface elements that enable users to enter and edit larger amounts of text or data within a form or field.
