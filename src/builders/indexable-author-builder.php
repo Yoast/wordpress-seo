@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Builders;
 use wpdb;
 use Yoast\WP\SEO\Exceptions\Indexable\Author_Not_Built_Exception;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
@@ -33,6 +34,13 @@ class Indexable_Author_Builder {
 	protected $version;
 
 	/**
+	 * Holds the options helper instance.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * Holds the taxonomy helper instance.
 	 *
 	 * @var Post_Helper
@@ -51,17 +59,20 @@ class Indexable_Author_Builder {
 	 *
 	 * @param Author_Archive_Helper      $author_archive The author archive helper.
 	 * @param Indexable_Builder_Versions $versions       The Indexable version manager.
+	 * @param Options_Helper             $options_helper The options helper.
 	 * @param Post_Helper                $post_helper    The post helper.
 	 * @param wpdb                       $wpdb           The WPDB instance.
 	 */
 	public function __construct(
 		Author_Archive_Helper $author_archive,
 		Indexable_Builder_Versions $versions,
+		Options_Helper $options_helper,
 		Post_Helper $post_helper,
 		wpdb $wpdb
 	) {
 		$this->author_archive = $author_archive;
 		$this->version        = $versions->get_latest_version_for_type( 'user' );
+		$this->options_helper = $options_helper;
 		$this->post_helper    = $post_helper;
 		$this->wpdb           = $wpdb;
 	}
@@ -215,7 +226,8 @@ class Indexable_Author_Builder {
 		}
 
 		// We will check if the author has public posts the WP way, instead of the indexable way, to make sure we get proper results even if SEO optimization is not run.
-		if ( $this->author_archive->author_has_public_posts_wp( $user_id ) === false ) {
+		// In case the user has no public posts, we check if the user should be indexed anyway.
+		if ( $this->options_helper->get( 'noindex-author-noposts-wpseo', false ) === true && $this->author_archive->author_has_public_posts_wp( $user_id ) === false ) {
 			$exception = Author_Not_Built_Exception::author_archives_are_not_indexed_for_users_without_posts( $user_id );
 		}
 

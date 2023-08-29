@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast_Notification;
 use Yoast_Notification_Center;
 
 /**
@@ -100,7 +99,8 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$public_post_types            = \array_keys( $this->post_type_helper->get_public_post_types() );
+		$public_post_types = $this->post_type_helper->get_indexable_post_types();
+
 		$last_known_public_post_types = $this->options->get( 'last_known_public_post_types', [] );
 
 		// Initializing the option on the first run.
@@ -108,6 +108,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			$this->options->set( 'last_known_public_post_types', $public_post_types );
 			return;
 		}
+
 
 		// We look for new public post types.
 		$newly_made_public_post_types = \array_diff( $public_post_types, $last_known_public_post_types );
@@ -123,7 +124,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		$this->options->set( 'last_known_public_post_types', $public_post_types );
 
 		// There are new post types that have been made public.
-		if ( ! empty( $newly_made_public_post_types ) ) {
+		if ( $newly_made_public_post_types ) {
 
 			// Force a notification requesting to start the SEO data optimization.
 			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
@@ -131,54 +132,18 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 
 			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_POST_TYPE_MADE_PUBLIC );
 
-			$this->maybe_add_notification();
+			do_action( 'new_public_post_type_notifications', $newly_made_public_post_types );
 		}
 
 		// There are post types that have been made private.
-		if ( ! empty( $newly_made_non_public_post_types ) ) {
+		if ( $newly_made_non_public_post_types ) {
 			// Schedule a cron job to remove all the posts whose post type has been made private.
 			$cleanup_not_yet_scheduled = ! \wp_next_scheduled( Cleanup_Integration::START_HOOK );
 			if ( $cleanup_not_yet_scheduled ) {
 				\wp_schedule_single_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 			}
+
+			do_action( 'clean_new_public_post_type_notifications', $newly_made_non_public_post_types );
 		}
-	}
-
-	/**
-	 * Decides if a notification should be added in the notification center.
-	 *
-	 * @return void
-	 */
-	private function maybe_add_notification() {
-		$notification = $this->notification_center->get_notification_by_id( 'post-types-made-public' );
-		if ( \is_null( $notification ) ) {
-			$this->add_notification();
-		}
-	}
-
-	/**
-	 * Adds a notification to be shown on the next page request since posts are updated in an ajax request.
-	 *
-	 * @return void
-	 */
-	private function add_notification() {
-		$message = \sprintf(
-			/* translators: 1: Opening tag of the link to the Search appearance settings page, 2: Link closing tag. */
-			\esc_html__( 'It looks like you\'ve added a new type of content to your website. We recommend that you review your %1$sSettings%2$s under Content types.', 'wordpress-seo' ),
-			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_page_settings' ) ) . '">',
-			'</a>'
-		);
-
-		$notification = new Yoast_Notification(
-			$message,
-			[
-				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'post-types-made-public',
-				'capabilities' => 'wpseo_manage_options',
-				'priority'     => 0.8,
-			]
-		);
-
-		$this->notification_center->add_notification( $notification );
 	}
 }

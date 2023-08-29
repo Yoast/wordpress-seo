@@ -4,7 +4,7 @@ import { AdjustmentsIcon, ArrowNarrowRightIcon, ColorSwatchIcon, DesktopComputer
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, ChildrenLimiter, ErrorBoundary, Paper, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
+import { Badge, Button, ChildrenLimiter, ErrorBoundary, Paper, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
@@ -95,11 +95,14 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			>
 				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
 					<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
-					{ map( postTypes, ( { name, route, label } ) => (
+					{ map( postTypes, ( { name, route, label, isNew } ) => (
 						<SidebarNavigation.SubmenuItem
 							key={ `link-post-type-${ name }` }
 							to={ `/post-type/${ route }` }
-							label={ label }
+							label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
+								{ label }
+								{ isNew && <Badge variant="info">{ __( "New", "wordpress-seo" ) }</Badge> }
+							</span> }
 							idSuffix={ idSuffix }
 						/>
 					) ) }
@@ -115,7 +118,10 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 						<SidebarNavigation.SubmenuItem
 							key={ `link-taxonomy-${ taxonomy.name }` }
 							to={ `/taxonomy/${ taxonomy.route }` }
-							label={ taxonomy.label }
+							label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
+								{ taxonomy.label }
+								{ taxonomy.isNew && <Badge variant="info">{ __( "New", "wordpress-seo" ) }</Badge> }
+							</span> }
 							idSuffix={ idSuffix }
 						/>
 					) ) }
@@ -168,9 +174,9 @@ const PremiumUpsellList = () => {
 			</Title>
 			<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-pl-[1em] yst-list-outside yst-text-slate-800 yst-mt-6">
 				<li>
-					<span className="yst-font-semibold">{ __( "Multiple keyphrases", "wordpress-seo" ) }</span>
+					<span className="yst-font-semibold">{ __( "Use AI", "wordpress-seo" ) }</span>
 					:&nbsp;
-					{ __( "Increase your SEO reach", "wordpress-seo" ) }
+					{ __( "Quickly create titles & meta descriptions", "wordpress-seo" ) }
 				</li>
 				<li>
 					<span className="yst-font-semibold">{ __( "No more dead links", "wordpress-seo" ) }</span>
@@ -182,6 +188,16 @@ const PremiumUpsellList = () => {
 					<span className="yst-font-semibold">{ __( "Social media preview", "wordpress-seo" ) }</span>
 					:&nbsp;
 					{ __( "Facebook & Twitter", "wordpress-seo" ) }
+				</li>
+				<li>
+					<span className="yst-font-semibold">{ __( "Multiple keyphrases", "wordpress-seo" ) }</span>
+					:&nbsp;
+					{ __( "Increase your SEO reach", "wordpress-seo" ) }
+				</li>
+				<li>
+					<span className="yst-font-semibold">{ __( "SEO Workouts", "wordpress-seo" ) }</span>
+					:&nbsp;
+					{ __( "Get guided in routine SEO tasks", "wordpress-seo" ) }
 				</li>
 				<li><span className="yst-font-semibold">{ __( "24/7 email support", "wordpress-seo" ) }</span></li>
 				<li><span className="yst-font-semibold">{ __( "No ads!", "wordpress-seo" ) }</span></li>

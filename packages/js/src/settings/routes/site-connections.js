@@ -90,7 +90,7 @@ const SiteConnections = () => {
 									"<a>",
 									"</a>"
 								),
-								addQueryArgs( "https://www.google.com/webmasters/verification/verification", { hl: "en", tid: "alternate", siteUrl } ),
+								addQueryArgs( "https://search.google.com/search-console/users", { hl: "en", tid: "alternate", siteUrl } ),
 								"link-google-search-console"
 							) }
 							placeholder={ __( "Add verification code", "wordpress-seo" ) }

@@ -125,7 +125,7 @@ class Cleanup_Integration implements Integration_Interface {
 					return $this->cleanup_repository->update_indexables_author_to_reassigned( $limit );
 				},
 				'clean_orphaned_user_indexables_without_wp_user' => function ( $limit ) {
-					return $this->cleanup_repository->clean_indexables_for_object_type_and_source_table( 'users', 'ID', 'user', $limit );
+					return $this->cleanup_repository->clean_indexables_for_orphaned_users( $limit );
 				},
 				'clean_orphaned_user_indexables_without_wp_post' => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_for_object_type_and_source_table( 'posts', 'ID', 'post', $limit );

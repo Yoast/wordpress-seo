@@ -6,7 +6,7 @@ import { useFormikContext } from "formik";
 import { get, map } from "lodash";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useDispatchSettings, useSelectSettings } from "../hooks";
+import { useDispatchSettings, useSelectSettings, useNewContentTypeNotification } from "../hooks";
 import { flattenObject } from "../utils";
 
 /**
@@ -73,8 +73,10 @@ ValidationErrorsNotification.propTypes = {
  */
 const Notifications = () => {
 	useValidationErrorsNotification();
+	useNewContentTypeNotification();
 	const { removeNotification } = useDispatchSettings();
 	const notifications = useSelectSettings( "selectNotifications" );
+
 	const enrichedNotifications = useMemo( () => map( notifications, notification => ( {
 		...notification,
 		onDismiss: removeNotification,

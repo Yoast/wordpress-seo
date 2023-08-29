@@ -125,7 +125,7 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	 * @param array $last_known_public_post_types The last known public post types.
 	 * @param int   $set_public_post_types_times  The times we get the last known public post types.
 	 * @param int   $delete_transient_times       The times we delete the transients.
-	 * @param int   $schedule_cleanup_times       The times we schedule cleanup.
+	 * @param int   $schedule_cleanup_times       The times we schedule the cleanup.
 	 */
 	public function test_check_post_types_public_availability(
 		$is_json_request, $public_post_types, $get_public_post_types_times, $last_known_public_post_types, $set_public_post_types_times, $delete_transient_times, $schedule_cleanup_times
@@ -135,7 +135,7 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 			->andReturn( $is_json_request );
 
 		$this->post_type_helper
-			->expects( 'get_public_post_types' )
+			->expects( 'get_indexable_post_types' )
 			->times( $get_public_post_types_times )
 			->andReturn( $public_post_types );
 
@@ -148,7 +148,7 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 		$this->options
 			->expects( 'set' )
 			->times( $set_public_post_types_times )
-			->with( 'last_known_public_post_types', \array_keys( $public_post_types ) );
+			->with( 'last_known_public_post_types', $public_post_types );
 
 		Functions\expect( 'delete_transient' )
 			->times( $delete_transient_times )
@@ -163,12 +163,6 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 			->times( $delete_transient_times )
 			->with( Indexing_Reasons::REASON_POST_TYPE_MADE_PUBLIC );
 
-		$this->notification_center
-			->expects( 'get_notification_by_id' )
-			->times( $delete_transient_times )
-			->with( 'post-types-made-public' )
-			->andReturn( 'not_null' );
-
 		Functions\expect( 'wp_next_scheduled' )
 			->times( $schedule_cleanup_times )
 			->with( Cleanup_Integration::START_HOOK )
@@ -176,6 +170,12 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 
 		Functions\expect( 'wp_schedule_single_event' )
 			->times( $schedule_cleanup_times );
+
+		Functions\expect( 'do_action' )
+			->times( $schedule_cleanup_times );
+
+		Functions\expect( 'do_action' )
+			->times( $delete_transient_times );
 
 		$this->instance->check_post_types_public_availability();
 	}
@@ -188,50 +188,58 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	public function provider_check_post_types_public_availability() {
 
 		return [
-			[ true, [ 'irrelevant' ], 0, [ 'irrelevant' ], 0, 0, 0 ],
-			[ false, [], 1, [], 1, 0, 0 ],
-			[
-				false,
-				[
-					'post' => 'post',
-					'page' => 'page',
-				],
-				1,
-				[
-					'post' => 'post',
-					'page' => 'page',
-				],
-				0,
-				0,
-				0,
+			'When it is ajax request' => [
+				'is_json_request'              => true,
+				'public_post_types'            => [ 'irrelevant' ],
+				'get_public_post_types_times'  => 0,
+				'last_known_public_post_types' => [ 'irrelevant' ],
+				'set_public_post_types_times'  => 0,
+				'delete_transient_times'       => 0,
+				'schedule_cleanup_times'       => 0,
 			],
-			[
-				false,
-				[
-					'post' => 'post',
-					'page' => 'page',
-				],
-				1,
-				[
-					'post' => 'post',
-				],
-				1,
-				1,
-				0,
+			'When there are no new public content types' => [
+				'is_json_request'              => false,
+				'public_post_types'            => [],
+				'get_public_post_types_times'  => 1,
+				'last_known_public_post_types' => [],
+				'set_public_post_types_times'  => 1,
+				'delete_transient_times'       => 0,
+				'schedule_cleanup_times'       => 0,
 			],
-			[
-				false,
-				[
-					'post' => 'post',
-				],
-				1,
-				[
+			'When the new post types are already saved in cache' => [
+				'is_json_request'              => false,
+				'public_post_types'            => [ 'post', 'page' ],
+				'get_public_post_types_times'  => 1,
+				'last_known_public_post_types' => [
 					'post' => 'post',
 					'page' => 'page',
 				],
-				1,
-				0,
-				1,
+				'set_public_post_types_times'  => 0,
+				'delete_transient_times'       => 0,
+				'schedule_cleanup_times'       => 0,
+			],
+			'When new post type is added' => [
+				'is_json_request'              => false,
+				'public_post_types'            => [ 'post', 'page' ],
+				'get_public_post_types_times'  => 1,
+				'last_known_public_post_types' => [
+					'post' => 'post',
+				],
+				'set_public_post_types_times'  => 1,
+				'delete_transient_times'       => 1,
+				'schedule_cleanup_times'       => 0,
+			],
+			'when post type is removed' => [
+				'is_json_request'              => false,
+				'public_post_types'            => [ 'post' ],
+				'get_public_post_types_times'  => 1,
+				'last_known_public_post_types' => [
+					'post' => 'post',
+					'page' => 'page',
+				],
+				'set_public_post_types_times'  => 1,
+				'delete_transient_times'       => 0,
+				'schedule_cleanup_times'       => 1,
 			],
 		];
 	}

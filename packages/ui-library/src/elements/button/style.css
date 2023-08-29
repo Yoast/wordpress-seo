@@ -25,9 +25,11 @@
 
 		/* Special styling for buttons rendered `as` "a" (to override anchor defaults). */
 		a.yst-button {
-			@apply
-			focus:yst-ring-offset-white
-			focus:yst-rounded-md;
+			@apply focus:yst-rounded-md;
+
+			&:not(.yst-button--tertiary) {
+				@apply focus:yst-ring-offset-white;
+			}
 		}
 
 		/* Variants */
@@ -58,6 +60,23 @@
 			focus:yst-ring-primary-700
 			visited:yst-text-slate-800
 			visited:hover:yst-text-slate-800;
+		}
+
+		.yst-button--tertiary {
+			@apply
+			yst-border-none
+			yst-shadow-none
+			yst-text-primary-500
+			yst-bg-transparent
+
+			hover:yst-text-primary-800
+			focus:yst-text-primary-800
+			focus:yst-ring-primary-700
+			focus:yst-ring-offset-transparent
+			focus:yst-ring-offset-2
+			focus:yst-ring-0
+			visited:yst-text-primary-800
+			visited:hover:yst-text-primary-800;
 		}
 
 		.yst-button--error {

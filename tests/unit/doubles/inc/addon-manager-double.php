@@ -88,4 +88,16 @@ class Addon_Manager_Double extends WPSEO_Addon_Manager {
 	public function has_installed_addons() {
 		return parent::has_installed_addons();
 	}
+
+	/**
+	 * Creates an instance of Yoast_Notification.
+	 *
+	 * @param string $product_name The product to create the notification for.
+	 * @param string $short_link   The short link for the addon notification.
+	 *
+	 * @return Yoast_Notification The created notification.
+	 */
+	public function create_notification( $product_name, $short_link ) {
+		return parent::create_notification( $product_name, $short_link );
+	}
 }

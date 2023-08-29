@@ -135,7 +135,7 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 			->andReturn( $is_json_request );
 
 		$this->taxonomy_helper
-			->expects( 'get_public_taxonomies' )
+			->expects( 'get_indexable_taxonomies' )
 			->times( $get_public_taxonomies_times )
 			->andReturn( $public_taxonomies );
 
@@ -148,7 +148,7 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 		$this->options
 			->expects( 'set' )
 			->times( $set_public_taxonomies_times )
-			->with( 'last_known_public_taxonomies', \array_keys( $public_taxonomies ) );
+			->with( 'last_known_public_taxonomies', $public_taxonomies );
 
 		Functions\expect( 'delete_transient' )
 			->times( $delete_transient_times )
@@ -163,12 +163,6 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 			->times( $delete_transient_times )
 			->with( Indexing_Reasons::REASON_TAXONOMY_MADE_PUBLIC );
 
-		$this->notification_center
-			->expects( 'get_notification_by_id' )
-			->times( $delete_transient_times )
-			->with( 'taxonomies-made-public' )
-			->andReturn( 'not_null' );
-
 		Functions\expect( 'wp_next_scheduled' )
 			->times( $schedule_cleanup_times )
 			->with( Cleanup_Integration::START_HOOK )
@@ -176,6 +170,12 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 
 		Functions\expect( 'wp_schedule_single_event' )
 			->times( $schedule_cleanup_times );
+
+		Functions\expect( 'do_action' )
+			->times( $schedule_cleanup_times );
+
+		Functions\expect( 'do_action' )
+			->times( $delete_transient_times );
 
 		$this->instance->check_taxonomy_public_availability();
 	}
@@ -188,50 +188,61 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 	public function provider_check_taxonomy_public_availability() {
 
 		return [
-			[ true, [ 'irrelevant' ], 0, [ 'irrelevant' ], 0, 0, 0 ],
-			[ false, [], 1, [], 1, 0, 0 ],
-			[
-				false,
-				[
-					'category' => 'category',
-					'post_tag' => 'post_tag',
-				],
-				1,
-				[
-					'category' => 'category',
-					'post_tag' => 'post_tag',
-				],
-				0,
-				0,
-				0,
+			'When it is ajax request' => [
+				'is_json_request'              => true,
+				'public_taxonomies'            => [ 'irrelevant' ],
+				'get_public_taxonomies_times'  => 0,
+				'last_known_public_taxonomies' => [ 'irrelevant' ],
+				'set_public_taxonomies_times'  => 0,
+				'delete_transient_times'       => 0,
+				'schedule_cleanup_times'       => 0,
 			],
-			[
-				false,
-				[
-					'category' => 'category',
-					'post_tag' => 'post_tag',
-				],
-				1,
-				[
-					'category' => 'category',
-				],
-				1,
-				1,
-				0,
+			'When there are no new public taxonomies' => [
+				'is_json_request'              => false,
+				'public_taxonomies'            => [],
+				'get_public_taxonomies_times'  => 1,
+				'last_known_public_taxonomies' => [],
+				'set_public_taxonomies_times'  => 1,
+				'delete_transient_times'       => 0,
+				'schedule_cleanup_times'       => 0,
 			],
-			[
-				false,
-				[
-					'category' => 'category',
-				],
-				1,
-				[
+			'When the new taxonomies are already saved in cache' => [
+				'is_json_request'              => false,
+				'public_taxonomies'            => [ 'category', 'post_tag' ],
+				'get_public_taxonomies_times'  => 1,
+				'last_known_public_taxonomies' => [
 					'category' => 'category',
 					'post_tag' => 'post_tag',
 				],
-				1,
-				0,
-				1,
+				'set_public_taxonomies_times'  => 0,
+				'delete_transient_times'       => 0,
+				'schedule_cleanup_times'       => 0,
+			],
+			'When new taxonomy is added' => [
+				'is_json_request'              => false,
+				'public_taxonomies'            => [
+					'category',
+					'post_tag',
+				],
+				'get_public_taxonomies_times'  => 1,
+				'last_known_public_taxonomies' => [
+					'category' => 'category',
+				],
+				'set_public_taxonomies_times'  => 1,
+				'delete_transient_times'       => 1,
+				'schedule_cleanup_times'       => 0,
+			],
+			'when taxonomy is removed' => [
+				'is_json_request'              => false,
+				'public_taxonomies'            => [ 'category' ],
+				'get_public_taxonomies_times'  => 1,
+				'last_known_public_taxonomies' => [
+					'category' => 'category',
+					'post_tag' => 'post_tag',
+				],
+				'set_public_taxonomies_times'  => 1,
+				'delete_transient_times'       => 0,
+				'schedule_cleanup_times'       => 1,
 			],
 		];
 	}
