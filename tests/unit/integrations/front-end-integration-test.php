@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
 use Mockery;
+use WP_HTML_Tag_Processor;
 use WP_Query;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
@@ -138,6 +139,7 @@ class Front_End_Integration_Test extends TestCase {
 		$this->assertNotFalse( \has_action( 'wpseo_head', [ $this->instance, 'present_head' ] ), 'Does not have expected wpseo_head action' );
 		$this->assertNotFalse( \has_filter( 'wp_title', [ $this->instance, 'filter_title' ] ), 'Does not have expected wp_title filter' );
 		$this->assertNotFalse( \has_filter( 'wpseo_frontend_presenter_classes', [ $this->instance, 'filter_robots_presenter' ] ), 'Does not have expected wpseo_frontend_presenter_classes filter' );
+		$this->assertNotFalse( \has_filter( 'render_block', [ $this->instance, 'query_loop_next_prev' ] ), 'Filter for checking query loop block' );
 	}
 
 	/**
@@ -249,6 +251,76 @@ class Front_End_Integration_Test extends TestCase {
 		$this->assertEquals(
 			$expected,
 			\array_map( $callback, $this->instance->get_presenters( 'Post_Type' ) )
+		);
+	}
+
+	/**
+	 * Tests the retrieval of the presenters for a static home page.
+	 *
+	 * @covers ::get_presenters
+	 * @covers ::get_needed_presenters
+	 * @covers ::get_presenters_for_page_type
+	 * @covers ::get_all_presenters
+	 */
+	public function test_get_presenters_for_static_home_page() {
+		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
+
+		$this->options->expects( 'get' )->with( 'opengraph' )->andReturnTrue();
+		$this->options->expects( 'get' )->with( 'twitter' )->andReturnTrue();
+		$this->options->expects( 'get' )->with( 'enable_enhanced_slack_sharing' )->andReturnTrue();
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $this->context );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnFalse();
+
+		$expected = [
+			'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
+			'Yoast\WP\SEO\Presenters\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Robots_Presenter',
+			'Yoast\WP\SEO\Presenters\Canonical_Presenter',
+			'Yoast\WP\SEO\Presenters\Rel_Prev_Presenter',
+			'Yoast\WP\SEO\Presenters\Rel_Next_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Type_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Url_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Publisher_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Author_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Published_Time_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Modified_Time_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter',
+			'Yoast\WP\SEO\Presenters\Meta_Author_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Card_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Image_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Creator_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Site_Presenter',
+			'Yoast\WP\SEO\Presenters\Schema_Presenter',
+			'Yoast\WP\SEO\Presenters\Webmaster\Baidu_Presenter',
+			'Yoast\WP\SEO\Presenters\Webmaster\Bing_Presenter',
+			'Yoast\WP\SEO\Presenters\Webmaster\Google_Presenter',
+			'Yoast\WP\SEO\Presenters\Webmaster\Pinterest_Presenter',
+			'Yoast\WP\SEO\Presenters\Webmaster\Yandex_Presenter',
+			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
+		];
+
+		$callback = static function( $presenter ) {
+			return \get_class( $presenter );
+		};
+
+		$this->assertEquals(
+			$expected,
+			\array_map( $callback, $this->instance->get_presenters( 'Static_Home_Page' ) )
 		);
 	}
 
@@ -629,5 +701,110 @@ class Front_End_Integration_Test extends TestCase {
 			->andReturn( false );
 
 		$this->assertEquals( true, $this->instance->should_title_presenter_be_removed() );
+	}
+
+	/**
+	 * Data provider for the test_query_loop_links test.
+	 *
+	 * @return array
+	 */
+	public function data_provider_query_loop_next_prev() {
+		return [
+			'Next link' => [
+				'html'       => '<a href="/?query-1-page=2">Next</a>',
+				'block_name' => 'core/query-pagination-next',
+				'variable'   => 'next',
+			],
+			'Prev link' => [
+				'html'       => '<a href="/?query-1-page=3">Prev</a>',
+				'block_name' => 'core/query-pagination-previous',
+				'variable'   => 'prev',
+			],
+		];
+	}
+
+	/**
+	 * Tests that next link is saved in the class variable.
+	 *
+	 * @covers ::query_loop_next_prev
+	 *
+	 * @dataProvider data_provider_query_loop_next_prev
+	 *
+	 * @param string $html HTML of the link.
+	 * @param string $block_name Block name.
+	 * @param string $variable Variable name.
+	 */
+	public function test_query_loop_links( $html, $block_name, $variable ) {
+
+		$block = [ 'blockName' => $block_name ];
+
+		$this->instance->query_loop_next_prev( $html, $block );
+
+		$this->assertEquals( $this->instance->$variable, $html );
+	}
+
+	/**
+	 * Tests that wpseo_adjacent_rel_url is used when query loop is used without inheriting the query args.
+	 *
+	 * @covers ::query_loop_next_prev
+	 */
+	public function test_query_loop_next_prev() {
+
+		$html  = '<p>Test</p>';
+		$block = [
+			'blockName' => 'core/query',
+			'attrs'     => [
+				'query' => [
+					'inherit' => false,
+				],
+			],
+		];
+
+		$result = $this->instance->query_loop_next_prev( $html, $block );
+		$this->assertNotFalse( \has_filter( 'wpseo_adjacent_rel_url', [ $this->instance, 'adjacent_rel_url' ] ), 'Set the correct next/prev links in head tag' );
+	}
+
+	/**
+	 * Data provider for the test_adjacent_rel_url test.
+	 *
+	 * @return array
+	 */
+	public static function data_provider_adjacent_rel_url() {
+		return [
+			'no links' => [
+				'rel'      => 'nothing',
+				'expected' => null,
+			],
+			'next link' => [
+				'rel'      => 'next',
+				'expected' => 'https://example.com/?query-1-page=2',
+			],
+			'prev link' => [
+				'rel'      => 'prev',
+				'expected' => 'https://example.com/?query-1-page=3',
+			],
+		];
+	}
+
+	/**
+	 * Tests that the correct next/prev links are set in head tag.
+	 *
+	 * @covers ::adjacent_rel_url
+	 *
+	 * @dataProvider data_provider_adjacent_rel_url
+	 *
+	 * @param string $rel Rel attribute.
+	 * @param string $expected Expected result.
+	 */
+	public function test_adjacent_rel_url( $rel, $expected ) {
+
+		$this->instance->next = '<a href="/?query-1-page=2">Next</a>';
+		$this->instance->prev = '<a href="/?query-1-page=3">Prev</a>';
+
+		$presentation            = Mockery::mock( Presentation::class );
+		$presentation->permalink = 'https://example.com/';
+		$result                  = $this->instance->adjacent_rel_url( '', $rel, $presentation );
+
+		$this->assertEquals( $expected, $result );
 	}
 }

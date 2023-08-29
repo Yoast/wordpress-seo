@@ -93,5 +93,7 @@ const parser = new htmlparser.Parser( {
 export default function( text ) {
 	textArray = [];
 	parser.write( text );
+	// Make sure to complete the process of parsing and reset the parser to avoid side effects.
+	parser.parseComplete();
 	return textArray.join( "" );
 }

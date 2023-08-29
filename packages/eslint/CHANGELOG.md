@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 6.0.0
+
+* Adds the recommended set from `eslint-plugin-import`, via a peer dependency. [#20003](https://github.com/Yoast/wordpress-seo/pull/20003)
+
 ## 5.1.0
 
 * Removes requirement for defaults for props on functional components. [#18381](https://github.com/Yoast/wordpress-seo/pull/18381)

@@ -17,6 +17,7 @@ const PremiumSEOAnalysisUpsell = ( props ) => {
 	const intro = __( "Get extra, smarter recommendations about your site’s structure, content, and SEO opportunities.", "wordpress-seo" );
 
 	const benefits = [
+		__( "Use AI to create titles & meta descriptions", "wordpress-seo" ),
 		__( "Target multiple focus keyphrases", "wordpress-seo" ),
 		__( "Use synonyms, plurals, and variations", "wordpress-seo" ),
 		__( "Unlock expert workouts and workflows", "wordpress-seo" ),

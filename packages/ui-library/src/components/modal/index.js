@@ -3,9 +3,10 @@ import { XIcon } from "@heroicons/react/outline";
 import { forwardRef, Fragment } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { useSvgAria } from "../../hooks";
-import { ModalContext, useModalContext } from "./hooks";
 import { classNameMap as titleClassNameMap } from "../../elements/title";
+import { useSvgAria } from "../../hooks";
+import { Container } from "./container";
+import { ModalContext, useModalContext } from "./hooks";
 
 /**
  * @param {JSX.node} children Title text.
@@ -96,11 +97,20 @@ export const classNameMap = {
  * @param {JSX.node} children Contents of the modal.
  * @param {string} [className] Additional class names.
  * @param {string} [position] Modal screen position. See `classNameMap.position` for the options.
+ * @param {function|Object|null} [initialFocus] The ref of the element to focus initially.
  * @param {Object} [props] Additional Dialog props.
  * @returns {JSX.Element} The modal.
  */
-const Modal = forwardRef( ( { isOpen, onClose, children, className = "", position = "center", ...props }, ref ) => (
-	<ModalContext.Provider value={ { isOpen, onClose } }>
+const Modal = forwardRef( ( {
+	isOpen,
+	onClose,
+	children,
+	className = "",
+	position = "center",
+	initialFocus = null,
+	...props
+}, ref ) => (
+	<ModalContext.Provider value={ { isOpen, onClose, initialFocus } }>
 		<Transition.Root show={ isOpen } as={ Fragment }>
 			{ /* Using the `yst-root` class here to get our styling within the portal. */ }
 			<Dialog
@@ -109,6 +119,7 @@ const Modal = forwardRef( ( { isOpen, onClose, children, className = "", positio
 				className="yst-root"
 				open={ isOpen }
 				onClose={ onClose }
+				initialFocus={ initialFocus }
 				{ ...props }
 			>
 				<div className={ classNames( "yst-modal", classNameMap.position[ position ], className ) }>
@@ -148,6 +159,7 @@ Modal.propTypes = {
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
 	position: PropTypes.oneOf( Object.keys( classNameMap.position ) ),
+	initialFocus: PropTypes.oneOfType( [ PropTypes.func, PropTypes.object ] ),
 };
 
 Modal.displayName = "Modal";
@@ -157,5 +169,6 @@ Modal.Title = Title;
 Modal.Title.displayName = "Modal.Title";
 Modal.Description = Dialog.Description;
 Modal.Description.displayName = "Modal.Description";
+Modal.Container = Container;
 
 export default Modal;

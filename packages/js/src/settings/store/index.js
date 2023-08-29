@@ -1,6 +1,18 @@
 // eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
+import {
+	getInitialLinkParamsState,
+	getInitialNotificationsState,
+	LINK_PARAMS_NAME,
+	linkParamsActions,
+	linkParamsReducer,
+	linkParamsSelectors,
+	NOTIFICATIONS_NAME,
+	notificationsActions,
+	notificationsReducer,
+	notificationsSelectors,
+} from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
 import { breadcrumbsSelectors } from "./breadcrumbs";
 import defaultSettingValues, {
@@ -9,10 +21,9 @@ import defaultSettingValues, {
 	defaultSettingValuesSelectors,
 } from "./default-setting-values";
 import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
-import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
-import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
-import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
+import pageReducer, { getPageInitialState, PAGE_NAME, pageActions, pageControls, pageSelectors } from "./pages";
+import postTypes, { createInitialPostTypesState, postTypeControls, postTypesActions, postTypesSelectors } from "./post-types";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import replacementVariables, {
 	createInitialReplacementVariablesState,
@@ -21,7 +32,7 @@ import replacementVariables, {
 } from "./replacement-variables";
 import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from "./schema";
 import search, { createInitialSearchState, searchActions, searchSelectors } from "./search";
-import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors } from "./taxonomies";
+import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors, taxonomyControls } from "./taxonomies";
 import users, { createInitialUsersState, usersActions, usersControls, usersSelectors } from "./users";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
@@ -38,6 +49,7 @@ const createStore = ( { initialState } ) => {
 			...linkParamsActions,
 			...mediaActions,
 			...notificationsActions,
+			...pageActions,
 			...postTypesActions,
 			...preferencesActions,
 			...replacementVariablesActions,
@@ -53,6 +65,7 @@ const createStore = ( { initialState } ) => {
 			...linkParamsSelectors,
 			...mediaSelectors,
 			...notificationsSelectors,
+			...pageSelectors,
 			...postTypesSelectors,
 			...preferencesSelectors,
 			...replacementVariablesSelectors,
@@ -66,9 +79,10 @@ const createStore = ( { initialState } ) => {
 			{
 				defaultSettingValues: createInitialDefaultSettingValuesState(),
 				fallbacks: createInitialFallbacksState(),
-				linkParams: createInitialLinkParamsState(),
+				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				media: createInitialMediaState(),
-				notifications: createInitialNotificationsState(),
+				[ NOTIFICATIONS_NAME ]: getInitialNotificationsState(),
+				[ PAGE_NAME ]: getPageInitialState(),
 				postTypes: createInitialPostTypesState(),
 				preferences: createInitialPreferencesState(),
 				replacementVariables: createInitialReplacementVariablesState(),
@@ -82,9 +96,10 @@ const createStore = ( { initialState } ) => {
 		reducer: combineReducers( {
 			defaultSettingValues,
 			fallbacks,
-			linkParams,
+			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			media,
-			notifications,
+			[ NOTIFICATIONS_NAME ]: notificationsReducer,
+			[ PAGE_NAME ]: pageReducer,
 			postTypes,
 			preferences,
 			replacementVariables,
@@ -96,6 +111,9 @@ const createStore = ( { initialState } ) => {
 		controls: {
 			...mediaControls,
 			...usersControls,
+			...postTypeControls,
+			...taxonomyControls,
+			...pageControls,
 		},
 	} );
 };

@@ -154,13 +154,18 @@ describe( "Test for counting the keyword in a text", function() {
 	it( "counts 'key word' also in 'key-word'.)", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, key word consectetur key-word adipiscing elit." );
 		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 2 );
-		// Note: this behavior might change in in the future.
+		// Note: this behavior might change in the future.
 	} );
 
 	it( "doesn't count 'key-word' in 'key word'.", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, key word consectetur key-word adipiscing elit." );
 		expect( keywordCount( mockPaper, mockResearcherMinus ).count ).toBe( 1 );
-		// Note: this behavior might change in in the future.
+		// Note: this behavior might change in the future.
+	} );
+
+	it( "doesn't count keyphrase instances inside elements we want to exclude from the analysis", function() {
+		const mockPaper = new Paper( "There is no <code>keyword</code> in this sentence." );
+		expect( keywordCount( mockPaper, mockResearcher ).count ).toBe( 0 );
 	} );
 
 	it( "only counts full key phrases (when all keywords are in the sentence once, twice etc.) as matches.", function() {

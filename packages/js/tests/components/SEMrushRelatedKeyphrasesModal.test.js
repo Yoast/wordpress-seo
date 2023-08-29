@@ -1,6 +1,6 @@
-import { shallow, mount } from "enzyme";
+import apiFetch from "@wordpress/api-fetch";
+import { mount, shallow } from "enzyme";
 import SEMrushRelatedKeyphrasesModal from "../../src/components/SEMrushRelatedKeyphrasesModal";
-import apiFetch from "../__mocks__/@wordpress/api-fetch";
 
 jest.mock( "@wordpress/api-fetch", () => {
 	return {

@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import { isEmpty, map } from "lodash";
+import interpolateComponents from "interpolate-components";
 
 /* Yoast dependencies */
 import { makeOutboundLink } from "@yoast/helpers";
@@ -15,7 +16,7 @@ import { Alert, NewButton } from "@yoast/components";
 import WincherNoTrackedKeyphrasesAlert from "./modals/WincherNoTrackedKeyphrasesAlert";
 import { getKeyphrasePosition, PositionOverTimeChart } from "./WincherTableRow";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
-import interpolateComponents from "interpolate-components";
+import WincherUpgradeCallout from "./modals/WincherUpgradeCallout";
 
 const ViewLink = makeOutboundLink();
 const GetMoreInsightsLink = makeOutboundLink();
@@ -73,6 +74,14 @@ const viewLinkUrl = ( props ) => {
 		id
 	);
 };
+
+/**
+ * Checks if the request has failed or not.
+ *
+ * @param {Object} data The response data object.
+ * @returns {Boolean} Whether the request has failed or not.
+ */
+const checkFailedRequest = ( data ) => data && [ 401, 403, 404 ].includes( data.status );
 
 /**
  * Creates the Connect to Wincher button.
@@ -251,7 +260,7 @@ WincherConnectSuccessAlert.propTypes = {
  * @returns {null|wp.Element} The connection alert.
  */
 const GetConnectionAlert = ( props ) => {
-	const { data, onConnectAction, isConnectSuccess, isNetworkError } = props;
+	const { data, onConnectAction, isConnectSuccess, isNetworkError, isFailedRequest } = props;
 
 	if ( isNetworkError ) {
 		return <WincherNetworkErrorAlert data={ data } />;
@@ -261,7 +270,7 @@ const GetConnectionAlert = ( props ) => {
 		return <WincherConnectSuccessAlert data={ data } />;
 	}
 
-	if ( data && [ 401, 403, 404 ].includes( data.status ) ) {
+	if ( isFailedRequest ) {
 		return <WincherReconnectAlert
 			onReconnect={ onConnectAction }
 			className={ "wincher-performance-report-alert" }
@@ -276,6 +285,7 @@ GetConnectionAlert.propTypes = {
 	onConnectAction: PropTypes.func.isRequired,
 	isConnectSuccess: PropTypes.bool.isRequired,
 	isNetworkError: PropTypes.bool.isRequired,
+	isFailedRequest: PropTypes.bool.isRequired,
 };
 
 /**
@@ -286,12 +296,12 @@ GetConnectionAlert.propTypes = {
  * @returns {wp.Element} The user message.
  */
 const GetUserMessage = ( props ) => {
-	const { data } = props;
+	const { data, isNetworkError, isConnectSuccess } = props;
 
-	const connectionAlert = <GetConnectionAlert { ...props } />;
+	const isFailedRequest = checkFailedRequest( data );
 
-	if ( connectionAlert ) {
-		return connectionAlert;
+	if ( isNetworkError || isConnectSuccess || isFailedRequest ) {
+		return <GetConnectionAlert { ...props } isFailedRequest={ isFailedRequest } />;
 	}
 
 	if ( ! data || isEmpty( data.results ) ) {
@@ -435,6 +445,15 @@ WincherSEOPerformanceTable.propTypes = {
 };
 
 /**
+ * Checks whether Wincher performance data has results.
+ *
+ * @param {Object} data the Wincher performance data.
+ *
+ * @returns {boolean} Whether Wincher performance data has results.
+ */
+const checkHasResults = ( data ) => data && ! isEmpty( data ) && ! isEmpty( data.results );
+
+/**
  * The Dashboard Wincher SEO Performance component.
  *
  * @param {Object} props The component props.
@@ -445,14 +464,17 @@ const WincherPerformanceReport = ( props ) => {
 	const { className, websiteId, isLoggedIn, onConnectAction, isConnectSuccess } = props;
 	const data = isLoggedIn ? props.data : fakeWincherPerformanceData;
 	const isBlurred = ! isLoggedIn;
+	const hasResults = checkHasResults( data );
 
 	return (
 		<WicnherSEOPerformanceContainer
 			className={ className }
 		>
+			{ isLoggedIn && <WincherUpgradeCallout isTitleShortened={ true } /> }
+
 			<GetUserMessage { ...props } data={ data } isConnectSuccess={ isConnectSuccess && isLoggedIn } />
 
-			{ data && ! isEmpty( data ) && ! isEmpty( data.results ) && <Fragment>
+			{ hasResults && <Fragment>
 				<TableExplanation isLoggedIn={ isLoggedIn } />
 
 				<WincherSEOPerformanceTableWrapper>

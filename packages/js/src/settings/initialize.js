@@ -7,10 +7,13 @@ import { Formik } from "formik";
 import { chunk, filter, forEach, get, includes, reduce } from "lodash";
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
+import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
+import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
 import { STORE_NAME } from "./constants";
 import { createValidationSchema, handleSubmit } from "./helpers";
 import registerStore from "./store";
+import { __ } from "@wordpress/i18n";
 
 /**
  * @param {Object} settings The settings.
@@ -71,19 +74,6 @@ const fixFocusLinkCompatibility = () => {
 	} );
 };
 
-/**
- * Enforce a minimum height on the WP content that is the height of the WP menu.
- *
- * This prevents it from going into the fixed mode.
- *
- * @returns {void}
- */
-const matchWpMenuHeight = () => {
-	const wpcontent = document.getElementById( "wpcontent" );
-	const menu = document.getElementById( "adminmenuwrap" );
-	wpcontent.style.minHeight = `${ menu.offsetHeight }px`;
-};
-
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-settings" );
 	if ( ! root ) {
@@ -100,11 +90,28 @@ domReady( () => {
 	const postTypes = get( window, "wpseoScriptData.postTypes", {} );
 	const taxonomies = get( window, "wpseoScriptData.taxonomies", {} );
 
-	registerStore();
+	const showNewContentTypeNotification = get( window, "wpseoScriptData.showNewContentTypeNotification", false );
+	const notifications = ( showNewContentTypeNotification )
+		? { [ "new-content-type" ]: {
+			id: "new-content-type",
+			variant: "info",
+			size: "large",
+			title: __( "New type of content added to your site!", "wordpress-seo" ),
+			description: __( "Please see the “New” badges and review the Search appearance settings.", "wordpress-seo" ),
+		} } : {};
+
+
+	registerStore( {
+		initialState: {
+			notifications,
+			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
+		},
+	} );
+
 	preloadMedia( { settings, fallbacks } );
 	preloadUsers( { settings } );
 	fixFocusLinkCompatibility();
-	matchWpMenuHeight();
+	fixWordPressMenuScrolling();
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 

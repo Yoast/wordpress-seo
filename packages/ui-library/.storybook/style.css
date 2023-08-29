@@ -5,9 +5,11 @@
 @import "../src/elements/code/style.css";
 @import "../src/elements/label/style.css";
 @import "../src/elements/link/style.css";
+@import "../src/elements/paper/style.css";
 @import "../src/elements/progress-bar/style.css";
 @import "../src/elements/radio/style.css";
 @import "../src/elements/select/style.css";
+@import "../src/elements/skeleton-loader/style.css";
 @import "../src/elements/tag-input/style.css";
 @import "../src/elements/text-input/style.css";
 @import "../src/elements/textarea/style.css";
@@ -24,6 +26,7 @@
 @import "../src/components/file-import/style.css";
 @import "../src/components/modal/style.css";
 @import "../src/components/notifications/style.css";
+@import "../src/components/pagination/style.css";
 @import "../src/components/radio-group/style.css";
 @import "../src/components/root/style.css";
 @import "../src/components/select-field/style.css";

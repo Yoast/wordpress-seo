@@ -1,6 +1,8 @@
 import alwaysFilterElements from "../../../../src/parse/build/private/alwaysFilterElements";
 import Node from "../../../../src/parse/structure/Node";
 
+// Note: Testing of individual elements is done in filterTreeSpec.js.
+
 describe( "A test to guard the consistency of alwaysFilterElements", function() {
 	it( "should always contain functions", function() {
 		alwaysFilterElements.forEach( callBackFunction => expect( typeof callBackFunction ).toBe( "function" ) );

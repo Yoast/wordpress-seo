@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 import { escapeRegExp, noop } from "lodash";
 
 /* Yoast dependencies */
-import { assessments, languageProcessing, helpers } from "yoastseo";
+import { languageProcessing } from "yoastseo";
 import { ErrorBoundary, SvgIcon, Button } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import { getDirectionalStyle, join } from "@yoast/helpers";
@@ -15,12 +15,10 @@ import {
 	recommendedReplacementVariablesShape,
 } from "@yoast/replacement-variable-editor";
 
-const { MetaDescriptionLengthAssessment, PageTitleWidthAssessment } = assessments.seo;
-const { measureTextWidth } = helpers;
-
 // Internal dependencies.
+import { getTitleProgress, getDescriptionProgress } from "../helpers/progress";
+import { DEFAULT_MODE, MODES } from "../snippet-preview/constants";
 import SnippetPreview from "../snippet-preview/SnippetPreview";
-import { DEFAULT_MODE, 	MODES } from "../snippet-preview/constants";
 import SnippetEditorFields from "./SnippetEditorFields";
 import { lengthProgressShape } from "./constants";
 import ModeSwitcher from "./ModeSwitcher";
@@ -46,61 +44,8 @@ const CloseEditorButton = styled( SnippetEditorButton )`
 	margin-top: 24px;
 `;
 
-/**
- * Gets the title progress.
- *
- * @param {string} title The title.
- *
- * @returns {Object} The title progress.
- */
-function getTitleProgress( title ) {
-	const titleWidth = measureTextWidth( title );
-	const pageTitleWidthAssessment = new PageTitleWidthAssessment( {
-		scores: {
-			widthTooShort: 9,
-		},
-	}, true );
-	const score = pageTitleWidthAssessment.calculateScore( titleWidth );
-	const maximumLength = pageTitleWidthAssessment.getMaximumLength();
-
-	return {
-		max: maximumLength,
-		actual: titleWidth,
-		score: score,
-	};
-}
-
-/**
- * Gets the description progress.
- *
- * @param {string}  description     The description.
- * @param {string}  date            The meta description date.
- * @param {bool}    isCornerstone   Whether the cornerstone content toggle is on or off.
- * @param {bool}    isTaxonomy      Whether the page is a taxonomy page.
- * @param {string}  locale          The locale.
- *
- * @returns {Object} The description progress.
- */
-function getDescriptionProgress( description, date, isCornerstone, isTaxonomy, locale ) {
-	const descriptionLength = languageProcessing.countMetaDescriptionLength( date, description );
-
-	// Override the default config if the cornerstone content toggle is on and it is not a taxonomy page.
-	const metaDescriptionLengthAssessment = ( isCornerstone && ! isTaxonomy ) ? new MetaDescriptionLengthAssessment( {
-		scores: {
-			tooLong: 3,
-			tooShort: 3,
-		},
-	} ) : new MetaDescriptionLengthAssessment();
-
-	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength, locale  );
-	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength( locale );
-
-	return {
-		max: maximumLength,
-		actual: descriptionLength,
-		score: score,
-	};
-}
+// The regex for the replacement variables we want to exclude from the SEO title before we measure the width.
+const excludedVars = new RegExp( "(%%sep%%|%%sitename%%)", "g" );
 
 /**
  * The snippet editor component.
@@ -114,7 +59,7 @@ class SnippetEditor extends React.Component {
 	 * @param {Object[]} props.recommendedReplacementVariables   The recommended replacement variables for this editor.
 	 * @param {Object}   props.data                              The initial editor data.
 	 * @param {string}   props.keyword                           The focus keyword.
-	 * @param {string}   props.data.title                        The initial title.
+	 * @param {string}   props.data.title                        The initial SEO title.
 	 * @param {string}   props.data.slug                         The initial slug.
 	 * @param {string}   props.data.description                  The initial description.
 	 * @param {bool}     props.isCornerstone                     Whether the cornerstone content toggle is on or off.
@@ -122,7 +67,7 @@ class SnippetEditor extends React.Component {
 	 * @param {string}   props.baseUrl                           The base URL to use for the preview.
 	 * @param {string}   props.mode                              The mode the editor should be in.
 	 * @param {Function} props.onChange                          Called when the data changes.
-	 * @param {Object}   props.titleLengthProgress               The values for the title length assessment.
+	 * @param {Object}   props.titleLengthProgress               The values for the SEO title length assessment.
 	 * @param {Object}   props.descriptionLengthProgress         The values for the description length assessment.
 	 * @param {Function} props.mapEditorDataToPreview            Function to map the editor data to data for the preview.
 	 * @param {Function} props.applyReplacementVariables         Function that overrides default replacement variables application with a custom one.
@@ -143,7 +88,7 @@ class SnippetEditor extends React.Component {
 			isOpen: ! props.showCloseButton,
 			activeField: null,
 			hoveredField: null,
-			titleLengthProgress: getTitleProgress( measurementData.title ),
+			titleLengthProgress: getTitleProgress( measurementData.filteredSEOTitle ),
 			descriptionLengthProgress: getDescriptionProgress(
 				measurementData.description,
 				this.props.date,
@@ -221,7 +166,8 @@ class SnippetEditor extends React.Component {
 			const data = this.mapDataToMeasurements( nextProps.data, nextProps.replacementVariables );
 			this.setState(
 				{
-					titleLengthProgress: getTitleProgress( data.title ),
+					// Here we use the filtered SEO title for the SEO title progress calculation.
+					titleLengthProgress: getTitleProgress( data.filteredSEOTitle ),
 					descriptionLengthProgress: getDescriptionProgress(
 						data.description,
 						nextProps.date,
@@ -231,13 +177,11 @@ class SnippetEditor extends React.Component {
 				}
 			);
 
-			if ( this.haveReplaceVarsChanged( this.props.replacementVariables, nextProps.replacementVariables ) ) {
-				/*
-				 * Make sure that changes to the replace vars (e.g. title, category, tags) get reflected on the
-				 * analysis data on the store (used in, among other things, the SEO analysis).
-				 */
-				this.props.onChangeAnalysisData( data );
-			}
+			/*
+			 * Make sure that any changes get reflected on the analysis data on the store (used in, among other things, the SEO analysis).
+			 * Including changes to the replacement vars (e.g. title, category, tags).
+			 */
+			this.props.onChangeAnalysisData( data );
 		}
 	}
 
@@ -448,8 +392,9 @@ class SnippetEditor extends React.Component {
 	 * Maps the data from to be suitable for measurement.
 	 *
 	 * The data that is measured is not exactly the same as the data that
-	 * is in the preview, because the metadescription placeholder shouldn't
-	 * be measured.
+	 * is in the preview, because the meta description placeholder shouldn't
+	 * be measured. Additionally, the separator and site title should also be filtered out of the SEO title
+	 * before the width is measured.
 	 *
 	 * @param {Object} originalData         The data from the form.
 	 * @param {array}  replacementVariables The replacement variables to use. Taken from the props by default.
@@ -466,10 +411,15 @@ class SnippetEditor extends React.Component {
 
 		const shortenedBaseUrl = baseUrl.replace( /^https?:\/\//i, "" );
 
+		// The filtered title is the SEO title without separator and site title.
+		// This data will be used in calculating the SEO title width.
+		const filteredTitle = originalData.title.replace( excludedVars, "" );
+
 		const mappedData = {
 			title: this.processReplacementVariables( originalData.title, replacementVariables ),
 			url: baseUrl + originalData.slug,
 			description: description,
+			filteredSEOTitle: this.processReplacementVariables( filteredTitle, replacementVariables ),
 		};
 
 		const context = {
@@ -481,7 +431,6 @@ class SnippetEditor extends React.Component {
 			return mapEditorDataToPreview( mappedData, context );
 		}
 
-
 		return mappedData;
 	}
 
@@ -489,7 +438,7 @@ class SnippetEditor extends React.Component {
 	 * Maps the passed data to be suitable for the preview.
 	 *
 	 * The data that is in the preview is not exactly the same as the data
-	 * that is measured (see above), because the metadescription placeholder
+	 * that is measured (see above), because the meta description placeholder
 	 * shouldn't be measured.
 	 *
 	 * @param {Object} originalData         The data from the form.
@@ -533,7 +482,7 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Sets a reference to the edit button so we can move focus to it.
+	 * Sets a reference to the edit button, so we can move focus to it.
 	 *
 	 * @param {Object} ref The edit button element.
 	 *

@@ -38,6 +38,7 @@ export const Variants = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
 		<StoryComponent variant="primary">Primary (default)</StoryComponent>
 		<StoryComponent variant="secondary">Secondary</StoryComponent>
+		<StoryComponent variant="tertiary">Tertiary</StoryComponent>
 		<StoryComponent variant="error">Error</StoryComponent>
 		<StoryComponent variant="upsell">Upsell</StoryComponent>
 	</div>

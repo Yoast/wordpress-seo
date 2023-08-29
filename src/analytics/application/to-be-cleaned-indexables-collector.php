@@ -9,6 +9,8 @@ use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 
 /**
  * Collects data about to-be-cleaned indexables.
+ *
+ * @makePublic
  */
 class To_Be_Cleaned_Indexables_Collector implements WPSEO_Collection {
 
@@ -31,7 +33,7 @@ class To_Be_Cleaned_Indexables_Collector implements WPSEO_Collection {
 	/**
 	 * Gets the data for the collector.
 	 */
-	public function get(): array {
+	public function get() {
 		$to_be_cleaned_indexable_bucket = new To_Be_Cleaned_Indexable_Bucket();
 		$cleanup_tasks                  = [
 			'indexables_with_post_object_type_and_shop_order_object_sub_type' => $this->indexable_cleanup_repository->count_indexables_with_object_type_and_object_sub_type( 'post', 'shop_order' ),
@@ -41,7 +43,7 @@ class To_Be_Cleaned_Indexables_Collector implements WPSEO_Collection {
 			'indexables_for_non_publicly_viewable_post_type_archive_pages' => $this->indexable_cleanup_repository->count_indexables_for_non_publicly_post_type_archive_pages(),
 			'indexables_for_authors_archive_disabled'           => $this->indexable_cleanup_repository->count_indexables_for_authors_archive_disabled(),
 			'indexables_for_authors_without_archive'            => $this->indexable_cleanup_repository->count_indexables_for_authors_without_archive(),
-			'indexables_for_object_type_and_source_table_users' => $this->indexable_cleanup_repository->count_indexables_for_object_type_and_source_table( 'users', 'ID', 'user' ),
+			'indexables_for_object_type_and_source_table_users' => $this->indexable_cleanup_repository->count_indexables_for_orphaned_users(),
 			'indexables_for_object_type_and_source_table_posts' => $this->indexable_cleanup_repository->count_indexables_for_object_type_and_source_table( 'posts', 'ID', 'post' ),
 			'indexables_for_object_type_and_source_table_terms' => $this->indexable_cleanup_repository->count_indexables_for_object_type_and_source_table( 'terms', 'term_id', 'term' ),
 			'orphaned_from_table_indexable_hierarchy'           => $this->indexable_cleanup_repository->count_orphaned_from_table( 'Indexable_Hierarchy', 'indexable_id' ),
@@ -50,8 +52,10 @@ class To_Be_Cleaned_Indexables_Collector implements WPSEO_Collection {
 		];
 
 		foreach ( $cleanup_tasks as $name => $count ) {
-			$count_object = new To_Be_Cleaned_Indexable_Count( $name, $count );
-			$to_be_cleaned_indexable_bucket->add_to_be_cleaned_indexable_count( $count_object );
+			if ( $count !== null ) {
+				$count_object = new To_Be_Cleaned_Indexable_Count( $name, $count );
+				$to_be_cleaned_indexable_bucket->add_to_be_cleaned_indexable_count( $count_object );
+			}
 		}
 
 		$this->add_additional_counts( $to_be_cleaned_indexable_bucket );
@@ -66,7 +70,7 @@ class To_Be_Cleaned_Indexables_Collector implements WPSEO_Collection {
 	 *
 	 * @return void
 	 */
-	private function add_additional_counts( To_Be_Cleaned_Indexable_Bucket $to_be_cleaned_indexable_bucket ): void {
+	private function add_additional_counts( $to_be_cleaned_indexable_bucket ) {
 		/**
 		 * Action: Adds the possibility to add additional to be cleaned objects.
 		 *

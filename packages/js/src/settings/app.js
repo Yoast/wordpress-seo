@@ -4,7 +4,7 @@ import { AdjustmentsIcon, ArrowNarrowRightIcon, ColorSwatchIcon, DesktopComputer
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
+import { Badge, Button, ChildrenLimiter, ErrorBoundary, Paper, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
@@ -63,7 +63,12 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 
 	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
-			<Link id={ `link-yoast-logo${ idSuffix }` } to="/" className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500" aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }>
+			<Link
+				id={ `link-yoast-logo${ idSuffix }` }
+				to="/"
+				className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500"
+				aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }
+			>
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 			</Link>
 			<Search buttonId={ `button-search${ idSuffix }` } />
@@ -90,11 +95,14 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			>
 				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
 					<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
-					{ map( postTypes, ( { name, route, label } ) => (
+					{ map( postTypes, ( { name, route, label, isNew } ) => (
 						<SidebarNavigation.SubmenuItem
 							key={ `link-post-type-${ name }` }
 							to={ `/post-type/${ route }` }
-							label={ label }
+							label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
+								{ label }
+								{ isNew && <Badge variant="info">{ __( "New", "wordpress-seo" ) }</Badge> }
+							</span> }
 							idSuffix={ idSuffix }
 						/>
 					) ) }
@@ -110,7 +118,10 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 						<SidebarNavigation.SubmenuItem
 							key={ `link-taxonomy-${ taxonomy.name }` }
 							to={ `/taxonomy/${ taxonomy.route }` }
-							label={ taxonomy.label }
+							label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
+								{ taxonomy.label }
+								{ taxonomy.isNew && <Badge variant="info">{ __( "New", "wordpress-seo" ) }</Badge> }
+							</span> }
 							idSuffix={ idSuffix }
 						/>
 					) ) }
@@ -153,7 +164,7 @@ const PremiumUpsellList = () => {
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 
 	return (
-		<div className="yst-p-6 xl:yst-max-w-3xl yst-rounded-lg yst-bg-white yst-shadow">
+		<Paper as="div" className="yst-p-6 xl:yst-max-w-3xl">
 			<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
 				{ sprintf(
 					/* translators: %s expands to "Yoast SEO" Premium */
@@ -163,9 +174,9 @@ const PremiumUpsellList = () => {
 			</Title>
 			<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-pl-[1em] yst-list-outside yst-text-slate-800 yst-mt-6">
 				<li>
-					<span className="yst-font-semibold">{ __( "Multiple keyphrases", "wordpress-seo" ) }</span>
+					<span className="yst-font-semibold">{ __( "Use AI", "wordpress-seo" ) }</span>
 					:&nbsp;
-					{ __( "Increase your SEO reach", "wordpress-seo" ) }
+					{ __( "Quickly create titles & meta descriptions", "wordpress-seo" ) }
 				</li>
 				<li>
 					<span className="yst-font-semibold">{ __( "No more dead links", "wordpress-seo" ) }</span>
@@ -177,6 +188,16 @@ const PremiumUpsellList = () => {
 					<span className="yst-font-semibold">{ __( "Social media preview", "wordpress-seo" ) }</span>
 					:&nbsp;
 					{ __( "Facebook & Twitter", "wordpress-seo" ) }
+				</li>
+				<li>
+					<span className="yst-font-semibold">{ __( "Multiple keyphrases", "wordpress-seo" ) }</span>
+					:&nbsp;
+					{ __( "Increase your SEO reach", "wordpress-seo" ) }
+				</li>
+				<li>
+					<span className="yst-font-semibold">{ __( "SEO Workouts", "wordpress-seo" ) }</span>
+					:&nbsp;
+					{ __( "Get guided in routine SEO tasks", "wordpress-seo" ) }
 				</li>
 				<li><span className="yst-font-semibold">{ __( "24/7 email support", "wordpress-seo" ) }</span></li>
 				<li><span className="yst-font-semibold">{ __( "No ads!", "wordpress-seo" ) }</span></li>
@@ -198,7 +219,7 @@ const PremiumUpsellList = () => {
 				) }
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
-		</div>
+		</Paper>
 	);
 };
 
@@ -210,6 +231,7 @@ const App = () => {
 	const postTypes = useSelectSettings( "selectPostTypes" );
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+
 	useRouterScrollRestore();
 
 	const { dirty } = useFormikContext();
@@ -239,7 +261,7 @@ const App = () => {
 					</aside>
 					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[17.5rem]" ) }>
 						<div className="yst-grow yst-space-y-6 yst-mb-8 xl:yst-mb-0">
-							<main className="yst-rounded-lg yst-bg-white yst-shadow">
+							<Paper as="main">
 								<ErrorBoundary FallbackComponent={ ErrorFallback }>
 									<Transition
 										key={ pathname }
@@ -285,10 +307,10 @@ const App = () => {
 										</Routes>
 									</Transition>
 								</ErrorBoundary>
-							</main>
+							</Paper>
 							{ ! isPremium && <PremiumUpsellList /> }
 						</div>
-						{ ! isPremium && <SidebarRecommendations /> }
+						<SidebarRecommendations />
 					</div>
 				</div>
 			</SidebarNavigation>
