@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Presenters\Admin;
 
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
+use Yoast\WP\SEO\Values\Time_Interval;
+use Yoast\WP\SEO\Helpers\Sales_Helper;
 
 /**
  * Presenter class for the Yoast SEO sidebar.
@@ -11,15 +13,26 @@ use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 class Sidebar_Presenter extends Abstract_Presenter {
 
 	/**
+	 * The sales helper.
+	 *
+	 * @var Sales_Helper
+	 */
+	private $sales_helper;
+
+	public function __construct( Sales_Helper $sales_helper ) {
+		$this->sales_helper = $sales_helper;
+		$this->sales_helper->add_sale(
+			'Black Friday',
+			new Time_Interval( \gmmktime( 11, 00, 00, 12, 23, 2021 ), \gmmktime( 11, 00, 00, 12, 28, 2025 ) )
+		);
+	}
+
+	/**
 	 * Presents the sidebar.
 	 *
 	 * @return string The sidebar HTML.
 	 */
 	public function present() {
-		$time       = \time();
-		$time_start = \gmmktime( 11, 00, 00, 11, 23, 2023 );
-		$time_end   = \gmmktime( 11, 00, 00, 11, 28, 2023 );
-
 		$title = \__( 'BLACK FRIDAY - 30% OFF', 'wordpress-seo' );
 
 		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
@@ -48,7 +61,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 									sizes="(min-width: 1321px) 75px">
 							</figure>
 						</figure>
-						<?php if ( ( $time > $time_start ) && ( $time < $time_end ) ) : ?>
+						<?php if ( $this->sales_helper->is( "Black Friday" ) ) : ?>
 							<div class="sidebar__sale_banner_container">
 								<div class="sidebar__sale_banner">
 										<span class="banner_text"><?php echo \esc_html( $title ); ?></span>
@@ -67,7 +80,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							\printf( \esc_html__( 'Enhance your website’s visibility with Yoast SEO Premium. Unlock %1$shigher traffic%2$s and %1$smaximize conversions%2$s!', 'wordpress-seo' ), '<strong>', '</strong>' );
 							?>
 						</p>
-						<?php if ( ( $time > $time_start ) && ( $time < $time_end ) ) : ?>
+						<?php if ( $this->sales_helper->is( "Black Friday" ) ) : ?>
 							<div class="sidebar__sale_text">
 								<p>
 									<?php
