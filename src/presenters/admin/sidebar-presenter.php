@@ -52,11 +52,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						<?php if ( ( $time > $time_start ) && ( $time < $time_end ) ) : ?>
 							<div class="sidebar__sale_banner_container">
 								<div class="sidebar__sale_banner">
-									<div class="plstest">
-
-											<?php echo \esc_html( $title ); ?>
-
-									</div>
+										<span class="banner_text"><?php echo \esc_html( $title ); ?></span>
 								</div>
 							</div>
 						<?php endif; ?>
