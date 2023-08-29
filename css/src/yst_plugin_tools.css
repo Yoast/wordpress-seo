@@ -663,23 +663,12 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	margin-top: 20px;
 	margin-bottom: 20px;
 	box-shadow: 0 -1px 4px 0 #fcd34d, 0 1px 4px 0 #fcd34d, 0 -1px 0 0 #fcd34d, 0 1px 0 0 #fcd34d;
-	position: relative;
-	height: 36px;
+	padding: 3px 0;
 }
 
-.plstest {
-	white-space: nowrap;
-	width: auto;
-	min-width: 340px;
-	container-type: inline-size;
-	container-name: sidebar;
-}
-
-@container sidebar ( min-width: 340px ) {
-	span {
-		font-size: 16px;
-	}
-
+.yoast-sidebar__product .sidebar__sale_banner_container .sidebar__sale_banner .banner_text {
+	display: inline-block;
+	margin: 0 40px;
 }
 
 .yoast-sidebar__product .sidebar__sale_text {
