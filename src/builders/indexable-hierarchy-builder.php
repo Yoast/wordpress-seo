@@ -137,9 +137,9 @@ class Indexable_Hierarchy_Builder {
 		 *
 		 * Used when adding term with `wp_set_object_terms` together with `wp_insert_post`.
 		 *
-		 * @api bool If the hierarchy already saved check should be ignored.
 		 * @since 21.2
 		 *
+		 * @param bool $ignore_already_saved If the hierarchy already saved check should be ignored.
 		 * @return bool The filtered value of the `$ignore_already_saved` parameter.
 		 */
 		$ignore_already_saved = apply_filters( 'wpseo_hierarchy_ignore_already_saved', false );
