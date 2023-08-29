@@ -21,11 +21,11 @@ export default {
 };
 
 const Template = ( args ) => {
-	const [ checked, setChecked ] = useState( args.checked || false );
-	const handleChange = useCallback( setChecked, [ setChecked ] );
+	const [ isChecked, setIsChecked ] = useState( args.checked || false );
+	const handleChange = useCallback( setIsChecked, [ setIsChecked ] );
 
 	return (
-		<StoryComponent { ...args } checked={ checked } onChange={ handleChange } />
+		<StoryComponent { ...args } checked={ isChecked } onChange={ handleChange } />
 	);
 };
 
