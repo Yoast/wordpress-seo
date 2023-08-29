@@ -95,12 +95,13 @@ function adjustTextElementStart( descendantTagPositions, textElementStart ) {
 
 /**
  * Gets the initial start position of a text element.
+ *
  * @param {Node} childNode The childNode to get the start position from.
  * @param {Number} parentNodeStartOffset The start position of the childNode in the source code.
  * @returns {number} The start position of the text element.
  */
 const getTextElementStart = ( childNode, parentNodeStartOffset ) => {
-	// A check if the childNode is a text. This is needed since text nodes have a sorceCodeRange, but no sourceCodeLocation.
+	// A check if the childNode is a text. This is needed since text nodes have a sourceCodeRange, but no sourceCodeLocation.
 	if ( childNode.name === "#text" && childNode.sourceCodeRange && childNode.sourceCodeRange.startOffset ) {
 		return childNode.sourceCodeRange.startOffset;
 	} else if ( childNode instanceof Paragraph && childNode.isImplicit ) {
@@ -141,6 +142,9 @@ export default function getTextElementPositions( node, textElements, startOffset
 	 * Check if the node has any descendant nodes that have a sourceCodeLocation property (all nodes other than Text nodes
 	 * should have this property). If such nodes exist, store the positions of each node's opening and closing tags in
 	 * an array. These positions will have to be taken into account when calculating the position of the text elements.
+	 *
+	 * A node can be a tree-node or a text-node. Tree-nodes have a findAll method, while text-nodes do not.
+	 * That's why we check whether the node has a findAll method.
 	 */
 	if ( node.findAll ) {
 		const descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation, true );

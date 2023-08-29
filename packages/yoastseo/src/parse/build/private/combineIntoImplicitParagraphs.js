@@ -33,7 +33,11 @@ function hasChildren( node ) {
  * @returns {void}
  */
 const updateImplicitParagraphLocation = ( implicitParagraph ) => {
+	// Check if there is a source code range or location on the first child node. The reason for this is that tree-nodes have a source code location
+	// and text-nodes have a source code range. Another approach would be is to check whether we are dealing with a text-node or a tree-node,
+	// but this way we also do a bit of defensive programming.
 	if ( implicitParagraph.childNodes[ 0 ].sourceCodeRange && ! isEmpty( implicitParagraph.childNodes[ 0 ].sourceCodeRange ) ) {
+		// Check if the implicit paragraph already has a source code location. If so, update the start offset. else, set a new source code location.
 		if ( implicitParagraph.sourceCodeLocation ) {
 			implicitParagraph.sourceCodeLocation.startOffset = implicitParagraph.childNodes[ 0 ].sourceCodeRange.startOffset;
 		} else {
@@ -44,6 +48,7 @@ const updateImplicitParagraphLocation = ( implicitParagraph ) => {
 		}
 	} else if ( implicitParagraph.childNodes[ 0 ].sourceCodeLocation &&
 		! isEmpty( implicitParagraph.childNodes[ 0 ].sourceCodeLocation ) ) {
+		// Check if the implicit paragraph already has a source code location. If so, update the start offset. else, set a new source code location.
 		if ( implicitParagraph.sourceCodeLocation ) {
 			implicitParagraph.sourceCodeLocation.startOffset = implicitParagraph.childNodes[ 0 ].sourceCodeLocation.startOffset;
 		} else {
@@ -116,10 +121,14 @@ function combineIntoImplicitParagraphs( nodes, parentSourceCodeLocation = {} ) {
 	let implicitParagraph = Paragraph.createImplicit( {}, [], currentSourceCodeLocation );
 	nodes.forEach( node => {
 		if ( isPhrasingContent( node.name ) && ! isInterElementWhitespace( node ) ) {
+			// If the node is phrasing content, add it to the implicit paragraph.
 			implicitParagraph.childNodes.push( node );
 		} else {
+			// If the node is not phrasing content, this means that the implicit paragraph has ended.
 			if ( hasChildren( implicitParagraph ) ) {
-				// The implicit paragraph has children: end the current implicit paragraph and start a new one.
+				// If the implicit paragraph has children this means an implicit paragraph was created:
+				// end the current implicit paragraph and start a new one.
+				// In updateSourceCodeLocation try we update the source code location of the implicit paragraph based on its child nodes.
 				updateSourceCodeLocation( node, implicitParagraph, currentSourceCodeLocation );
 
 				newNodes.push( implicitParagraph );
