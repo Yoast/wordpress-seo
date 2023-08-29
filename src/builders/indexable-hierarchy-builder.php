@@ -140,7 +140,7 @@ class Indexable_Hierarchy_Builder {
 		 * @api bool If the hierarchy already saved check should be ignored.
 		 * @since 21.2
 		 *
-		 * @return bool The filtered value of the `in_saved_ancestors` parameter.
+		 * @return bool The filtered value of the `$ignore_already_saved` parameter.
 		 */
 		$ignore_already_saved = apply_filters( 'wpseo_hierarchy_ignore_already_saved', false );
 		if ( $ignore_already_saved ) {
