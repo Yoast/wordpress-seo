@@ -7,6 +7,7 @@
 
 use Yoast\WP\SEO\Presenters\Admin\Light_Switch_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Sidebar_Presenter;
+use Yoast\WP\SEO\Helpers\Sales_Helper;
 
 /**
  * Admin form class.
@@ -190,7 +191,7 @@ class Yoast_Form {
 			return;
 		}
 
-		$sidebar_presenter = new Sidebar_Presenter();
+		$sidebar_presenter = new Sidebar_Presenter( new Sales_Helper() );
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in presenter.
 		echo $sidebar_presenter->present();
 	}
