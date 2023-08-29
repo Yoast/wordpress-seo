@@ -17,11 +17,10 @@ class Sidebar_Presenter extends Abstract_Presenter {
 	 */
 	public function present() {
 		$time       = \time();
-		$time_start = \gmmktime( 11, 00, 00, 11, 22, 2022 );
-		$time_end   = \gmmktime( 11, 00, 00, 11, 29, 2023 );
+		$time_start = \gmmktime( 11, 00, 00, 11, 23, 2023 );
+		$time_end   = \gmmktime( 11, 00, 00, 11, 28, 2023 );
 
-		$cyber_monday_start = \gmmktime( 11, 00, 00, 11, 27, 2024 );
-		$title              = ( $time > $cyber_monday_start ) ? \__( 'CYBER MONDAY - 30% OFF', 'wordpress-seo' ) : \__( 'COOL TEST BLA BLA BLA BLA BLA BLA BLA BLA', 'wordpress-seo' );
+		$title = \__( 'BLACK FRIDAY - 30% OFF', 'wordpress-seo' );
 
 		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
 		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
