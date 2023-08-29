@@ -652,7 +652,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	background: #000;
 	color: #fcd34d;
 	width: calc(100% + 60px);
-	line-height: 36px;
+	line-height: 30px;
 	margin-left: -30px;
 	transform: rotate(-5deg);
 	font-size: 20px;
@@ -663,7 +663,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	margin-top: 20px;
 	margin-bottom: 20px;
 	box-shadow: 0 -1px 4px 0 #fcd34d, 0 1px 4px 0 #fcd34d, 0 -1px 0 0 #fcd34d, 0 1px 0 0 #fcd34d;
-	padding: 3px 0;
+	padding: 7px 0;
 }
 
 .yoast-sidebar__product .sidebar__sale_banner_container .sidebar__sale_banner .banner_text {
