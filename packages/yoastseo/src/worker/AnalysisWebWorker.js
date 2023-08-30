@@ -1083,6 +1083,7 @@ export default class AnalysisWebWorker {
 			const languageProcessor = new LanguageProcessor( this._researcher );
 			const shortcodes = this._paper._attributes && this._paper._attributes.shortcodes;
 			this._paper.setTree( build( this._paper, languageProcessor, shortcodes ) );
+			console.log( "TEST2 tree", this._paper.getTree() );
 
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );

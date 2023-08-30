@@ -11,6 +11,37 @@ const editorData = {
 	imageUrl: "",
 };
 
+
+/**
+ * Highlights the text between start and end.
+ * @param {number} start start position
+ * @param {number} end end position
+ *
+ * @returns {void}
+ */
+function highligth( start, end ) {
+	const currentDocument = window.elementor.documents.getCurrent();
+	const widgetContainers = currentDocument.$element.find( ".elementor-widget-container" );
+	console.log( "TEST4", widgetContainers );
+
+	let position = 0;
+	widgetContainers.each( ( index, element ) => {
+		const rawText = element.innerHTML;
+
+		// if start is between position and position + rawText.length
+		if ( start >= position && start <= position + rawText.length ) {
+			const rawTextWithEndTag = [ rawText.slice( 0, end ), "</span>", rawText.slice( end ) ].join( "" );
+			const textWithBothTags = [ rawTextWithEndTag.slice( 0, start ), "<span style=\"background-color: #ffff00;\" class='highlight'>", rawTextWithEndTag.slice( start ) ].join( "" );
+			console.log( "TEST3", textWithBothTags );
+			element.innerHTML = textWithBothTags;
+			return;
+		}
+
+		position += rawText.length;
+	} );
+}
+
+
 /**
  * Gets the post content.
  *
@@ -24,6 +55,10 @@ function getContent( editorDocument ) {
 	editorDocument.$element.find( ".elementor-widget-container" ).each( ( index, element ) => {
 		content.push( element.innerHTML.trim() );
 	} );
+	console.log( "TEST1 content", content );
+
+	highligth( 251, 257 )
+
 
 	return content.join( "" );
 }
@@ -55,6 +90,8 @@ function getImageUrl( content ) {
  */
 function getEditorData( editorDocument ) {
 	const content = getContent( editorDocument );
+
+	// highligth( 251, 257 );
 
 	return {
 		content,
