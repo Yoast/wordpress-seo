@@ -72,7 +72,6 @@ const updateSourceCodeLocation = ( node, implicitParagraph, currentSourceCodeLoc
 	if ( ! isEmpty( node.sourceCodeLocation ) ) {
 		// Update the endOffset of the current implicit paragraph to be the start of the current node.
 		if ( ! isEmpty( implicitParagraph.sourceCodeLocation ) ) {
-			// implicitParagraph.childNodes[ 0 ];
 			implicitParagraph.sourceCodeLocation.endOffset = node.sourceCodeLocation.startOffset;
 		}
 
