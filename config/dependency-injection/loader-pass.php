@@ -71,7 +71,7 @@ class Loader_Pass implements CompilerPassInterface {
 				|| strpos( $path, 'src/presentations' ) !== false
 				|| strpos( $path, 'src/repositories' ) !== false
 				|| strpos( $path, 'src/services' ) !== false
-				//|| strpos( $path, 'src/values' ) !== false
+				|| strpos( $path, 'src/values' ) !== false
 				|| strpos( $path, 'src/wrappers' ) !== false
 				|| strpos( $path, 'src/wordpress' ) !== false
 				|| strpos( $path, 'src/loader' ) !== false
