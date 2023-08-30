@@ -5,6 +5,13 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Models\SEO_Links;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -24,6 +31,29 @@ class Image_Helper_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * Represents the instance to test.
+	 *
+	 * @var Image_Helper|Mockery\Mock
+	 */
+	protected $actual_instance;
+	/**
+	 * @var \Mockery\MockInterface|Indexable_Repository
+	 */
+	protected $indexable_repository;
+	/**
+	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Repositories\SEO_Links_Repository
+	 */
+	protected $indexable_seo_links_repository;
+	/**
+	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Options_Helper
+	 */
+	protected $options_helper;
+	/**
+	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Url_Helper
+	 */
+	protected $url_helper;
+
+	/**
 	 * Setup.
 	 */
 	protected function set_up() {
@@ -32,6 +62,14 @@ class Image_Helper_Test extends TestCase {
 		$this->instance = Mockery::mock( Image_Helper::class )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
+
+
+		$this->indexable_repository           = Mockery::mock( Indexable_Repository::class );
+		$this->indexable_seo_links_repository = Mockery::mock( SEO_Links_Repository::class );
+		$this->options_helper                 = Mockery::mock( Options_Helper::class );
+		$this->url_helper                     = Mockery::mock( Url_Helper::class );
+
+		$this->actual_instance = new Image_Helper( $this->indexable_repository, $this->indexable_seo_links_repository, $this->options_helper, $this->url_helper );
 	}
 
 	/**
@@ -420,5 +458,49 @@ class Image_Helper_Test extends TestCase {
 			->andReturn( false );
 
 		$this->assertEquals( '', $this->instance->get_attachment_image_url( 1337, 'full' ) );
+	}
+
+
+	/**
+	 * Tests the get_attachment_by_url function with an external image.
+	 * @covers ::get_attachment_by_url
+	 * @return void
+	 */
+	public function test_get_attachment_by_url_with_external_image() {
+		$this->url_helper->expects( 'get_link_type' )->andReturn( SEO_Links::TYPE_EXTERNAL );
+		$this->assertEquals( 0, $this->actual_instance->get_attachment_by_url( "" ) );
+	}
+
+	/**
+	 * Tests the get_attachment_by_url function with using an existing indexable.
+	 * @covers ::get_attachment_by_url
+	 * @return void
+	 */
+	public function test_get_attachment_by_url_with_existing_indexable() {
+
+		$indexable                  = new Indexable_Mock();
+		$indexable->object_type     = 'post';
+		$indexable->object_sub_type = 'attachment';
+		$indexable->object_id       = 17;
+		$this->url_helper->expects( 'get_link_type' )->andReturn( SEO_Links::TYPE_INTERNAL );
+		$this->options_helper->expects( 'get' )->with( 'disable-attachment' )->andReturn( false );
+		$this->indexable_repository->expects( 'find_by_permalink' )->andReturn( $indexable );
+		$this->assertEquals( 17, $this->actual_instance->get_attachment_by_url( "" ) );
+
+	}
+
+	/**
+	 * Tests the get_attachment_by_url function with using the SEO links table.
+	 * @covers ::get_attachment_by_url
+	 * @return void
+	 */
+	public function test_get_attachment_by_url_with_existing_link() {
+		$link                 = new SEO_Links_Mock();
+		$link->target_post_id = 17;
+		$this->url_helper->expects( 'get_link_type' )->andReturn( SEO_Links::TYPE_INTERNAL );
+		$this->options_helper->expects( 'get' )->with( 'disable-attachment' )->andReturn( true );
+		$this->indexable_seo_links_repository->expects( 'find_one_by_url' )->andReturn( $link );
+
+		$this->assertEquals( 17, $this->actual_instance->get_attachment_by_url( "a_dir/something" ) );
 	}
 }
