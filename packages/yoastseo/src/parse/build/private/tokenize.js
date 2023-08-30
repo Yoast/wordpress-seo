@@ -38,8 +38,8 @@ function getSentences( node, languageProcessor ) {
 	return sentences.map( sentence => {
 		// After the position info is determined, change &amp; and other entities to their encoded versions,
 		// without changing the position information.
-		for ( let i; i < htmlEntitiesArray.length; i++ ) {
-			sentence = sentence.replace( htmlEntitiesArray[ i ], encodedHtmlEntitiesArray[ i ] );
+		for ( let i = 0; i < htmlEntitiesArray.length; i++ ) {
+			sentence.text = sentence.text.replace( htmlEntitiesArray[ i ], encodedHtmlEntitiesArray[ i ] );
 		}
 		return getTokens( node, sentence, languageProcessor );
 	} );
