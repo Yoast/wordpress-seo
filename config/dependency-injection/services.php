@@ -49,7 +49,7 @@ $container->setAlias( ContainerInterface::class, 'service_container' );
 // Required for the migrations framework.
 $container->register( Adapter::class, Adapter::class )->setAutowired( true )->setPublic( true );
 
-$container->register(Promotion_Manager::class, Promotion_Manager::class)->setAutowired(true)->setPublic(true)->setArguments( [ new Black_Friday_Promotion(), ] );
+$container->register( Promotion_Manager::class, Promotion_Manager::class )->setAutowired( true )->setPublic( true )->setArguments( [ new Black_Friday_Promotion() ] );
 
 // Elegantly deprecate renamed classes.
 include __DIR__ . '/renamed-classes.php';

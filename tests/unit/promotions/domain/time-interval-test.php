@@ -24,8 +24,8 @@ class Time_Interval_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-		$start_date = \gmmktime( 11, 00, 00, 12, 23, 2021 );
-		$end_date   = \gmmktime( 11, 00, 00, 12, 28, 2025 );
+		$start_date     = \gmmktime( 11, 00, 00, 12, 23, 2021 );
+		$end_date       = \gmmktime( 11, 00, 00, 12, 28, 2025 );
 		$this->instance = new Time_Interval( $start_date, $end_date );
 	}
 

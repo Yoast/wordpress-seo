@@ -18,6 +18,11 @@ class Sidebar_Presenter extends Abstract_Presenter {
 	 */
 	private $promotion_manager;
 
+	/**
+	 * Sidebar_Presenter constructor.
+	 *
+	 * @param Promotion_Manager_Interface $promotion_manager The promotions manager.
+	 */
 	public function __construct( Promotion_Manager_Interface $promotion_manager ) {
 		$this->promotion_manager = $promotion_manager;
 	}
@@ -56,7 +61,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 									sizes="(min-width: 1321px) 75px">
 							</figure>
 						</figure>
-						<?php if ( $this->promotion_manager->is( "black_friday_2023" ) ) : ?>
+						<?php if ( $this->promotion_manager->is( 'black_friday_2023' ) ) : ?>
 							<div class="sidebar__sale_banner_container">
 								<div class="sidebar__sale_banner">
 										<span class="banner_text"><?php echo \esc_html( $title ); ?></span>
@@ -75,7 +80,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							\printf( \esc_html__( 'Enhance your website’s visibility with Yoast SEO Premium. Unlock %1$shigher traffic%2$s and %1$smaximize conversions%2$s!', 'wordpress-seo' ), '<strong>', '</strong>' );
 							?>
 						</p>
-						<?php if ( $this->promotion_manager->is( "black_friday_2023" ) ) : ?>
+						<?php if ( $this->promotion_manager->is( 'black_friday_2023' ) ) : ?>
 							<div class="sidebar__sale_text">
 								<p>
 									<?php

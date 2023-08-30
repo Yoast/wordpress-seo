@@ -190,7 +190,6 @@ class Yoast_Form {
 		if ( YoastSEO()->helpers->product->is_premium() && $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
 			return;
 		}
-		//$promotion_manager = new Promotion_Manager( new Black_Friday_Promotion() );
 		$sidebar_presenter = new Sidebar_Presenter( YoastSEO()->classes->get( Promotion_Manager::class ) );
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in presenter.
 		echo $sidebar_presenter->present();
