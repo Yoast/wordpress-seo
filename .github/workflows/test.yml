@@ -138,7 +138,7 @@ jobs:
       matrix:
         include:
           - php_version: "7.2"
-            wp_version: "6.1"
+            wp_version: "6.2"
             multisite: true
             coverage: true
 
@@ -152,21 +152,18 @@ jobs:
             multisite: false
             coverage: false
 
-          # WP 5.6 is the earliest version which (sort of) supports PHP 8.0.
           - php_version: "8.0"
-            wp_version: "6.1"
+            wp_version: "6.2"
             multisite: false
             coverage: false
 
-          # WP 5.9 is the earliest version which (sort of) supports PHP 8.1.
           - php_version: "8.1"
             wp_version: "latest"
             multisite: true
             coverage: false
 
-          # WP 6.1 is the earliest version which supports PHP 8.2.
           - php_version: "8.2"
-            wp_version: "6.2"
+            wp_version: "6.3"
             multisite: true
             coverage: true
 
