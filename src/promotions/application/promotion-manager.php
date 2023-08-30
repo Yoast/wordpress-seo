@@ -14,7 +14,7 @@ class Promotion_Manager implements Promotion_Manager_Interface {
 	/**
 	 * The centralized list of promotions: all promotions should be passed to the constructor.
 	 *
-	 * @var array
+	 * @var array<Abstract_Promotion>
 	 */
 	private $promotions_list = [];
 
@@ -47,7 +47,7 @@ class Promotion_Manager implements Promotion_Manager_Interface {
 	/**
 	 * Get the list of promotions.
 	 *
-	 * @return array The list of promotions.
+	 * @return array<Abstract_Promotion> The list of promotions.
 	 */
 	public function get_promotions_list() {
 		return $this->promotions_list;
