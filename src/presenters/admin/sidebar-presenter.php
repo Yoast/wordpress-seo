@@ -4,8 +4,7 @@ namespace Yoast\WP\SEO\Presenters\Admin;
 
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
-use Yoast\WP\SEO\Values\Time_Interval;
-use Yoast\WP\SEO\Helpers\Sales_Helper;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager_Interface;
 
 /**
  * Presenter class for the Yoast SEO sidebar.
@@ -13,18 +12,14 @@ use Yoast\WP\SEO\Helpers\Sales_Helper;
 class Sidebar_Presenter extends Abstract_Presenter {
 
 	/**
-	 * The sales helper.
+	 * The promotions manager.
 	 *
-	 * @var Sales_Helper
+	 * @var Promotion_Manager_Interface
 	 */
-	private $sales_helper;
+	private $promotion_manager;
 
-	public function __construct( Sales_Helper $sales_helper ) {
-		$this->sales_helper = $sales_helper;
-		$this->sales_helper->add_sale(
-			'Black Friday',
-			new Time_Interval( \gmmktime( 11, 00, 00, 12, 23, 2021 ), \gmmktime( 11, 00, 00, 12, 28, 2025 ) )
-		);
+	public function __construct( Promotion_Manager_Interface $promotion_manager ) {
+		$this->promotion_manager = $promotion_manager;
 	}
 
 	/**
@@ -61,7 +56,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 									sizes="(min-width: 1321px) 75px">
 							</figure>
 						</figure>
-						<?php if ( $this->sales_helper->is( "Black Friday" ) ) : ?>
+						<?php if ( $this->promotion_manager->is( "black_friday_2023" ) ) : ?>
 							<div class="sidebar__sale_banner_container">
 								<div class="sidebar__sale_banner">
 										<span class="banner_text"><?php echo \esc_html( $title ); ?></span>
@@ -80,7 +75,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							\printf( \esc_html__( 'Enhance your website’s visibility with Yoast SEO Premium. Unlock %1$shigher traffic%2$s and %1$smaximize conversions%2$s!', 'wordpress-seo' ), '<strong>', '</strong>' );
 							?>
 						</p>
-						<?php if ( $this->sales_helper->is( "Black Friday" ) ) : ?>
+						<?php if ( $this->promotion_manager->is( "black_friday_2023" ) ) : ?>
 							<div class="sidebar__sale_text">
 								<p>
 									<?php

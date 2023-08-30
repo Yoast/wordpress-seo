@@ -7,7 +7,7 @@
 
 use Yoast\WP\SEO\Presenters\Admin\Light_Switch_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Sidebar_Presenter;
-use Yoast\WP\SEO\Helpers\Sales_Helper;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
  * Admin form class.
@@ -190,8 +190,8 @@ class Yoast_Form {
 		if ( YoastSEO()->helpers->product->is_premium() && $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
 			return;
 		}
-
-		$sidebar_presenter = new Sidebar_Presenter( new Sales_Helper() );
+		//$promotion_manager = new Promotion_Manager( new Black_Friday_Promotion() );
+		$sidebar_presenter = new Sidebar_Presenter( YoastSEO()->classes->get( Promotion_Manager::class ) );
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in presenter.
 		echo $sidebar_presenter->present();
 	}
