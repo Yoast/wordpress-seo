@@ -58,6 +58,25 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests contruct method.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct() {
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options_helper' )
+		);
+		$this->assertInstanceOf(
+			Indexing_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+		);
+		$this->assertIsBool(
+			$this->getPropertyValue( $this->instance, 'show_alternate_message' )
+		);
+	}
+
+	/**
 	 * Tests the display notice.
 	 *
 	 * @covers ::should_display_first_time_configuration_notice
