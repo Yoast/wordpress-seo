@@ -79,33 +79,102 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Data provider for test_first_time_configuration_not_finished
+	 *
+	 * @return array
+	 */
+	public static function data_provider_first_time_configuration_not_finished() {
+		return [
+			'Check user has no permission' => [
+				'user'                            => 'author',
+				'steps_complete'                  => [],
+				'first_time_install'              => false,
+				'is_initial_indexing'             => true,
+				'is_finished_indexables_indexing' => false,
+				'expected'                        => false,
+			],
+			'Check user has permission and first time configuration not finished' => [
+				'user'                            => 'administrator',
+				'steps_complete'                  => [ 1, 2, 3 ],
+				'first_time_install'              => false,
+				'is_initial_indexing'             => true,
+				'is_finished_indexables_indexing' => false,
+				'expected'                        => false,
+			],
+			'Check user has permission and first time configuration not finished and is first time install' => [
+				'user'                            => 'administrator',
+				'steps_complete'                  => [],
+				'first_time_install'              => true,
+				'is_initial_indexing'             => true,
+				'is_finished_indexables_indexing' => false,
+				'expected'                        => true,
+			],
+			'Check user has permission and first time configuration not finished and not first time install and is initial indexing' => [
+				'user'                            => 'administrator',
+				'steps_complete'                  => [],
+				'first_time_install'              => false,
+				'is_initial_indexing'             => false,
+				'is_finished_indexables_indexing' => false,
+				'expected'                        => false,
+			],
+			'Check user has permission and first time configuration not finished and not first time install and is not initial indexing and finished indexables indexing' => [
+				'user'                            => 'administrator',
+				'steps_complete'                  => [],
+				'first_time_install'              => false,
+				'is_initial_indexing'             => true,
+				'is_finished_indexables_indexing' => true,
+				'expected'                        => false,
+			],
+			'Check are_site_representation_name_and_logo_set' => [
+				'user'                            => 'administrator',
+				'steps_complete'                  => [],
+				'first_time_install'              => false,
+				'is_initial_indexing'             => true,
+				'is_finished_indexables_indexing' => false,
+				'expected'                        => true,
+			],
+		];
+	}
+
+	/**
 	 * Tests whether the configuration has been finished.
 	 *
 	 * @covers ::first_time_configuration_not_finished
 	 * @covers ::user_can_do_first_time_configuration
+	 * @covers ::are_site_representation_name_and_logo_set
+	 * @covers ::is_first_time_configuration_finished
+	 *
+	 * @dataProvider data_provider_first_time_configuration_not_finished
+	 *
+	 * @param string $user The user capabilities.
+	 * @param array  $steps_complete The array of steps.
+	 * @param bool   $first_time_install Whether it is first installation.
+	 * @param bool   $is_initial_indexing Whether is initial indexing.
+	 * @param bool   $is_finished_indexables_indexing Whether finidhed indexing.
+	 * @param bool   $expected The expected result.
+	 *
 	 * @return void
 	 */
-	public function test_first_time_configuration_not_finished() {
-		$this->indexing_helper
-			->expects( 'is_initial_indexing' )
-			->withNoArgs()
-			->andReturnTrue();
+	public function test_first_time_configuration_not_finished( $user, $steps_complete, $first_time_install, $is_initial_indexing, $is_finished_indexables_indexing, $expected ) {
+
 		$this->indexing_helper
 			->expects( 'is_finished_indexables_indexing' )
 			->withNoArgs()
-			->andReturnTrue();
+			->andReturn( $is_finished_indexables_indexing );
 
-		$user = self::factory()->user->create_and_get( [ 'role' => 'administrator' ] );
+		$this->indexing_helper
+			->expects( 'is_initial_indexing' )
+			->withNoArgs()
+			->andReturn( $is_initial_indexing );
+
+		$user = self::factory()->user->create_and_get( [ 'role' => $user ] );
 		wp_set_current_user( $user->ID );
-		$result = $this->instance->first_time_configuration_not_finished();
-		$this->assertFalse( $result, 'Checking on administrator' );
 
-		$this->options_helper->set( 'configuration_finished_steps', [ 1, 2, 3, 4 ] );
-		$result = $this->instance->first_time_configuration_not_finished();
-		$this->assertFalse( $result, 'Checking on finished steps' );
+		$this->options_helper->set( 'first_time_install', $first_time_install );
+		$this->options_helper->set( 'company_or_person', '' );
+		$this->options_helper->set( 'configuration_finished_steps', $steps_complete );
 
-		$this->options_helper->set( 'first_time_install', false );
 		$result = $this->instance->first_time_configuration_not_finished();
-		$this->assertFalse( $result, 'Checking on finished steps' );
+		$this->assertSame( $expected, $result );
 	}
 }
