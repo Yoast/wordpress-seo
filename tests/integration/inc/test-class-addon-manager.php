@@ -16,6 +16,8 @@ class WPSEO_addon_manager_test extends WPSEO_UnitTestCase {
 	 * This test assumes that, on my.yoast.com. There is no active license for a registered site with url:
 	 * https://thisDoesNotHaveAnyLicensesForeverNoBacksies.com
 	 *
+	 * This can be validated by visiting https://my.yoast.com/api/sites/current?url=https://thisDoesNotHaveAnyLicensesForeverNoBacksies.com
+	 *
 	 * @covers WPSEO_Addon_Manager::get_myyoast_site_information
 	 */
 	public function test_finds_no_licenses_for_site_without_any_licenses() {
@@ -34,7 +36,9 @@ class WPSEO_addon_manager_test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * This test assumes that, on my.yoast.com. There is an active license for all plugins for our blog.:
+	 * This test assumes that, on my.yoast.com. There is an active license for all plugins for our blog.
+	 *
+	 * This can be validated by visiting https://my.yoast.com/api/sites/current?url=https://yoast.com
 	 *
 	 * @covers WPSEO_Addon_Manager::get_myyoast_site_information
 	 */
@@ -52,6 +56,6 @@ class WPSEO_addon_manager_test extends WPSEO_UnitTestCase {
 			return $subscription->product->slug;
 		}, $actual->subscriptions );
 
-		$this->assertEquals( $expected_slugs, $slugs );
+		$this->assertEquals( $slugs, $expected_slugs );
 	}
 }
