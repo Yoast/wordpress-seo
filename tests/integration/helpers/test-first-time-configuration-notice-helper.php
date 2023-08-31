@@ -92,6 +92,7 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 				'is_initial_indexing'             => true,
 				'is_finished_indexables_indexing' => false,
 				'expected'                        => false,
+				'title'                           => 'First-time SEO configuration',
 			],
 			'Check user has permission and first time configuration not finished' => [
 				'user'                            => 'administrator',
@@ -100,6 +101,7 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 				'is_initial_indexing'             => true,
 				'is_finished_indexables_indexing' => false,
 				'expected'                        => false,
+				'title'                           => 'First-time SEO configuration',
 			],
 			'Check user has permission and first time configuration not finished and is first time install' => [
 				'user'                            => 'administrator',
@@ -108,6 +110,7 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 				'is_initial_indexing'             => true,
 				'is_finished_indexables_indexing' => false,
 				'expected'                        => true,
+				'title'                           => 'First-time SEO configuration',
 			],
 			'Check user has permission and first time configuration not finished and not first time install and is initial indexing' => [
 				'user'                            => 'administrator',
@@ -116,6 +119,7 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 				'is_initial_indexing'             => false,
 				'is_finished_indexables_indexing' => false,
 				'expected'                        => false,
+				'title'                           => 'First-time SEO configuration',
 			],
 			'Check user has permission and first time configuration not finished and not first time install and is not initial indexing and finished indexables indexing' => [
 				'user'                            => 'administrator',
@@ -124,6 +128,7 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 				'is_initial_indexing'             => true,
 				'is_finished_indexables_indexing' => true,
 				'expected'                        => false,
+				'title'                           => 'First-time SEO configuration',
 			],
 			'Check are_site_representation_name_and_logo_set' => [
 				'user'                            => 'administrator',
@@ -132,6 +137,7 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 				'is_initial_indexing'             => true,
 				'is_finished_indexables_indexing' => false,
 				'expected'                        => true,
+				'title'                           => 'SEO configuration',
 			],
 		];
 	}
@@ -143,6 +149,7 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 	 * @covers ::user_can_do_first_time_configuration
 	 * @covers ::are_site_representation_name_and_logo_set
 	 * @covers ::is_first_time_configuration_finished
+	 * @covers ::get_first_time_configuration_title
 	 *
 	 * @dataProvider data_provider_first_time_configuration_not_finished
 	 *
@@ -152,10 +159,11 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 	 * @param bool   $is_initial_indexing Whether is initial indexing.
 	 * @param bool   $is_finished_indexables_indexing Whether finidhed indexing.
 	 * @param bool   $expected The expected result.
+	 * @param string $title First time configuration title.
 	 *
 	 * @return void
 	 */
-	public function test_first_time_configuration_not_finished( $user, $steps_complete, $first_time_install, $is_initial_indexing, $is_finished_indexables_indexing, $expected ) {
+	public function test_first_time_configuration_not_finished( $user, $steps_complete, $first_time_install, $is_initial_indexing, $is_finished_indexables_indexing, $expected, $title ) {
 
 		$this->indexing_helper
 			->expects( 'is_finished_indexables_indexing' )
@@ -176,5 +184,18 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 
 		$result = $this->instance->first_time_configuration_not_finished();
 		$this->assertSame( $expected, $result );
+
+		$first_time_configuration_title = $this->instance->get_first_time_configuration_title();
+		$this->assertEquals( $title, $first_time_configuration_title, 'First time configuration title check.' );
+	}
+
+	/**
+	 * Tests should_show_alternate_message.
+	 *
+	 * @covers ::should_show_alternate_message
+	 */
+	public function test_should_show_alternate_message() {
+		$result = $this->instance->should_show_alternate_message();
+		$this->assertFalse( $result );
 	}
 }
