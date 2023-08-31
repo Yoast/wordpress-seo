@@ -179,11 +179,11 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 		wp_set_current_user( $user->ID );
 
 		$this->options_helper->set( 'first_time_install', $first_time_install );
-		$this->options_helper->set( 'company_or_person', '' );
+
 		$this->options_helper->set( 'configuration_finished_steps', $steps_complete );
 
 		$result = $this->instance->first_time_configuration_not_finished();
-		$this->assertSame( $expected, $result );
+		$this->assertSame( $expected, $result, 'Check if first time configuration was not completed.' );
 
 		$first_time_configuration_title = $this->instance->get_first_time_configuration_title();
 		$this->assertEquals( $title, $first_time_configuration_title, 'First time configuration title check.' );
