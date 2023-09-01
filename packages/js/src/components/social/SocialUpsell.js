@@ -1,4 +1,5 @@
 /* global wpseoAdminL10n */
+import {Fragment} from "@wordpress/element";
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { SimulatedLabel } from "@yoast/components";
@@ -6,6 +7,10 @@ import { FacebookPreview } from "@yoast/social-metadata-previews";
 import {get, noop} from "lodash";
 import { FeatureUpsell, Root} from "@yoast/ui-library";
 import styled from "styled-components";
+
+const FeatureUpsellContainer = styled.div`
+	max-width: calc(527px + 1.5rem);
+`;
 
 /**
  *
@@ -24,36 +29,39 @@ const SocialUpsell = ( props ) => {
 
 	return (
 		<Root>
-			<SimulatedLabel>
-				{ sprintf(
-					/* translators: %1$s expands to Social or Twitter. */
-					__( "%1$s share preview", "wordpress-seo" ),
-					props.socialMediumName === "Twitter" ? 'Twitter' : 'Social'
-				) }
-			</SimulatedLabel>
-			<FeatureUpsell
-				shouldUpsell={ true }
-				variant="card"
-				cardLink={ woocommerceUpsellLink }
-				cardText={ sprintf(
-					/* translators: %1$s expands to Yoast SEO Premium. */
-					__( "Unlock with %1$s", "wordpress-seo" ),
-					"Yoast SEO Premium"
-				) }
-				{ ...premiumUpsellConfig }
-			>
-				<FacebookPreview
-					title={ '' }
-					description={ '' }
-					siteUrl={ '' }
-					imageUrl={ '' }
-					imageFallbackUrl={ '' }
-					alt={ '' }
-					onSelect={ noop }
-					onImageClick={ noop }
-					onMouseHover={ noop }
-				/>
-			</FeatureUpsell>
+			<FeatureUpsellContainer>
+				<FeatureUpsell
+					shouldUpsell={ true }
+					variant="card"
+					cardLink={ woocommerceUpsellLink }
+					cardText={ sprintf(
+						/* translators: %1$s expands to Yoast SEO Premium. */
+						__( "Unlock with %1$s", "wordpress-seo" ),
+						"Yoast SEO Premium"
+					) }
+					{ ...premiumUpsellConfig }
+				>
+					<SimulatedLabel>
+						{ sprintf(
+							/* translators: %1$s expands to Social or Twitter. */
+							__( "%1$s share preview", "wordpress-seo" ),
+							props.socialMediumName === "Twitter" ? 'Twitter' : 'Social'
+						) }
+					</SimulatedLabel>
+
+					<FacebookPreview
+						title={ '' }
+						description={ '' }
+						siteUrl={ '' }
+						imageUrl={ '' }
+						imageFallbackUrl={ '' }
+						alt={ '' }
+						onSelect={ noop }
+						onImageClick={ noop }
+						onMouseHover={ noop }
+					/>
+				</FeatureUpsell>
+			</FeatureUpsellContainer>
 		</Root>
 	);
 };
