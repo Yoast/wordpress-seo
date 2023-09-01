@@ -2,7 +2,7 @@
 /**
  * WPSEO plugin test file.
  *
- * @package WPSEO\Tests\Content_Type_Visibility
+ * @package WPSEO\Tests\Helpers
  */
 
 use Yoast\WP\SEO\Helpers\First_Time_Configuration_Notice_Helper;
@@ -54,11 +54,11 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 		$this->indexing_helper        = Mockery::mock( Indexing_Helper::class );
 		$this->show_alternate_message = false;
 
-		$this->instance = new First_Time_Configuration_Notice_Helper( $this->options_helper, $this->indexing_helper, $this->show_alternate_message );
+		$this->instance = new First_Time_Configuration_Notice_Helper( $this->options_helper, $this->indexing_helper );
 	}
 
 	/**
-	 * Tests contruct method.
+	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
 	 */
@@ -77,7 +77,7 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the display notice.
+	 * Tests whether the display notice should be displayed.
 	 *
 	 * @covers ::should_display_first_time_configuration_notice
 	 * @covers ::on_wpseo_admin_page_or_dashboard
@@ -94,7 +94,7 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 
 		$this->options_helper->set( 'dismiss_configuration_workout_notice', true );
 		$result = $this->instance->should_display_first_time_configuration_notice();
-		$this->assertFalse( $result, 'Checking with dismiss_configuration_workout_notice option set to false' );
+		$this->assertFalse( $result, 'Checking with dismiss_configuration_workout_notice option set to true' );
 	}
 
 	/**
@@ -172,17 +172,17 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider data_provider_first_time_configuration_not_finished
 	 *
-	 * @param string $user The user capabilities.
-	 * @param array  $steps_complete The array of steps.
-	 * @param bool   $first_time_install Whether it is first installation.
-	 * @param bool   $is_initial_indexing Whether is initial indexing.
-	 * @param bool   $is_finished_indexables_indexing Whether finidhed indexing.
+	 * @param string $user_role The user role.
+	 * @param array  $steps_complete The array of first time configuration steps.
+	 * @param bool   $first_time_install Whether this is a first installation.
+	 * @param bool   $is_initial_indexing Whether the indexing is initial.
+	 * @param bool   $is_finished_indexables_indexing Whether indexing has been finished.
 	 * @param bool   $expected The expected result.
 	 * @param string $title First time configuration title.
 	 *
 	 * @return void
 	 */
-	public function test_first_time_configuration_not_finished( $user, $steps_complete, $first_time_install, $is_initial_indexing, $is_finished_indexables_indexing, $expected, $title ) {
+	public function test_first_time_configuration_not_finished( $user_role, $steps_complete, $first_time_install, $is_initial_indexing, $is_finished_indexables_indexing, $expected, $title ) {
 
 		$this->indexing_helper
 			->expects( 'is_finished_indexables_indexing' )
@@ -194,7 +194,7 @@ class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
 			->withNoArgs()
 			->andReturn( $is_initial_indexing );
 
-		$user = self::factory()->user->create_and_get( [ 'role' => $user ] );
+		$user = self::factory()->user->create_and_get( [ 'role' => $user_role ] );
 		wp_set_current_user( $user->ID );
 
 		$this->options_helper->set( 'first_time_install', $first_time_install );
