@@ -49,6 +49,7 @@ class WPSEO_Admin_Pages {
 		add_action( 'init', [ $this, 'init' ], 20 );
 
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
+		$this->promotion_manager = $promotion_manager;
 	}
 
 	/**
