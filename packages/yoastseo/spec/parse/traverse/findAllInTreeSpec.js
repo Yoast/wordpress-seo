@@ -11,7 +11,7 @@ beforeEach( () => {
 	const researcher = Factory.buildMockResearcher( {}, true, false, false,
 		{ memoizedTokenizer: memoizedSentenceTokenizer } );
 	languageProcessor = new LanguageProcessor( researcher );
-	paper = new Paper();
+	paper = new Paper( "" );
 } );
 
 describe( "A test for findAllInTree", () => {

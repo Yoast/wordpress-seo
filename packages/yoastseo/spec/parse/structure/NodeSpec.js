@@ -15,7 +15,7 @@ describe( "A test for the findAll method", () => {
 	let paper;
 
 	beforeEach( () => {
-		paper = new Paper();
+		paper = new Paper( "" );
 	} );
 	it( "should find all occurrences of a p tag", function() {
 		paper._text = "<div><p class='yoast'>Hello, world! </p><p class='yoast'>Hello, yoast!</p></div>";

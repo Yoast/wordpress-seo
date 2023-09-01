@@ -4,24 +4,22 @@ import SourceCodeLocation from "./SourceCodeLocation";
  */
 class Text {
 	/**
-	 * Creates a new text.
+	 * Creates a new Text object, that consist of some text and a source code range.
 	 *
-	 * @param {string} tree The tree that potentially contains text.
+	 * @param {object} textNode The current #text node in the parse5 tree.
 	 */
-	constructor( tree ) {
+	constructor( textNode ) {
 		this.name = "#text";
 		/**
 		 * This text's content.
 		 *
 		 * @type {string}
 		 */
-		this.value = tree.value;
-
-		const { startOffset, endOffset } = tree.sourceCodeLocation;
+		this.value = textNode.value;
 
 		this.sourceCodeRange = new SourceCodeLocation( {
-			startOffset: startOffset,
-			endOffset: endOffset,
+			startOffset: textNode.sourceCodeLocation.startOffset,
+			endOffset: textNode.sourceCodeLocation.endOffset,
 		} );
 	}
 }

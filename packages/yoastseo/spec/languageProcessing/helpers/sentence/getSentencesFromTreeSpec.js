@@ -6,7 +6,8 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 describe( "test to get sentences from the tree", () => {
 	let researcher;
 	beforeEach( () => {
-		researcher = new EnglishResearcher();
+		const mockPaper = new Paper( "" );
+		researcher = new EnglishResearcher( mockPaper );
 	} );
 	it( "returns the sentences from paragraph and heading nodes", () => {
 		const paper = new Paper( "<div><p>A very intelligent cat loves their human. A dog is very cute.</p><h3>A subheading 3" +
@@ -15,7 +16,7 @@ describe( "test to get sentences from the tree", () => {
 		buildTree( paper, researcher );
 		expect( getSentencesFromTree( paper ) ).toEqual( [
 			{
-				sourceCodeRange: { endOffset: 49, startOffset: 8 },
+				sourceCodeRange: { startOffset: 8, endOffset: 49 },
 				parentStartOffset: 8,
 				text: "A very intelligent cat loves their human.",
 				tokens: [
@@ -60,7 +61,7 @@ describe( "test to get sentences from the tree", () => {
 				parentClientId: "",
 			},
 			{
-				sourceCodeRange: { endOffset: 91, startOffset: 77 },
+				sourceCodeRange: { startOffset: 77, endOffset: 91 },
 				parentStartOffset: 77,
 				text: "A subheading 3",
 				tokens: [
@@ -90,7 +91,7 @@ describe( "test to get sentences from the tree", () => {
 				parentClientId: "",
 			},
 			{
-				sourceCodeRange: { endOffset: 128, startOffset: 114 },
+				sourceCodeRange: { startOffset: 114, endOffset: 128 },
 				parentStartOffset: 114,
 				text: "A subheading 4",
 				tokens: [
@@ -105,7 +106,7 @@ describe( "test to get sentences from the tree", () => {
 				parentClientId: "",
 			},
 			{
-				sourceCodeRange: { endOffset: 143, startOffset: 133 },
+				sourceCodeRange: { startOffset: 133, endOffset: 143 },
 				parentStartOffset: 133,
 				text: "more text.",
 				tokens: [
@@ -126,16 +127,16 @@ describe( "test to get sentences from the tree", () => {
 		researcher.setPaper( paper );
 		buildTree( paper, researcher );
 		expect( getSentencesFromTree( paper ) ).toEqual( [
-			{ sourceCodeRange: { endOffset: 19, startOffset: 3 },
+			{ sourceCodeRange: { startOffset: 3, endOffset: 19 },
 				text: "A cute red panda",
 				tokens: [
-					{ sourceCodeRange: { endOffset: 4, startOffset: 3 }, text: "A" },
-					{ sourceCodeRange: { endOffset: 5, startOffset: 4 }, text: " " },
-					{ sourceCodeRange: { endOffset: 9, startOffset: 5 }, text: "cute" },
-					{ sourceCodeRange: { endOffset: 10, startOffset: 9 }, text: " " },
-					{ sourceCodeRange: { endOffset: 13, startOffset: 10 }, text: "red" },
-					{ sourceCodeRange: { endOffset: 14, startOffset: 13 }, text: " " },
-					{ sourceCodeRange: { endOffset: 19, startOffset: 14 }, text: "panda" },
+					{ sourceCodeRange: { startOffset: 3, endOffset: 4 }, text: "A" },
+					{ sourceCodeRange: { startOffset: 4, endOffset: 5 }, text: " " },
+					{ sourceCodeRange: { startOffset: 5, endOffset: 9 }, text: "cute" },
+					{ sourceCodeRange: { startOffset: 9, endOffset: 10 }, text: " " },
+					{ sourceCodeRange: { startOffset: 10, endOffset: 13 }, text: "red" },
+					{ sourceCodeRange: { startOffset: 13, endOffset: 14 }, text: " " },
+					{ sourceCodeRange: { startOffset: 14, endOffset: 19 }, text: "panda" },
 				],
 				parentStartOffset: 3,
 				isParentFirstSectionOfBlock: false,

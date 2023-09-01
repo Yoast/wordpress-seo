@@ -5,6 +5,7 @@ import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/
 import { buildTreeNoTokenize } from "../../../specHelpers/parse/buildTree";
 import LanguageProcessor from "../../../../src/parse/language/LanguageProcessor";
 import SourceCodeLocation from "../../../../src/parse/structure/SourceCodeLocation";
+
 describe( "A test for the tokenize function",
 	function() {
 		it( "should correctly tokenize a paragraph of one sentence", function() {
@@ -378,7 +379,7 @@ describe( "A test for the tokenize function",
 	} );
 
 describe( "A test for tokenizing a japanese sentence", function() {
-	it( "should correctly tokenize a simple Japanse sentence.", function() {
+	it( "should correctly tokenize a simple Japanese sentence.", function() {
 		const mockPaper = new Paper( "<p>犬が大好き\u3002</p>", { locale: "ja_JP" } );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
 		const languageProcessor = new LanguageProcessor( mockResearcher );

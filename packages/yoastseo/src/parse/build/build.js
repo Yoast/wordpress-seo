@@ -14,7 +14,7 @@ import filterShortcodesFromTree from "../../languageProcessing/helpers/sanitize/
  *
  * @param {Paper} paper The paper to build the tree from.
  * @param {LanguageProcessor} languageProcessor The language processor to use.
- * @param {string[]} shortcodes An array of all active shortcodes.
+ * @param {string[]} [shortcodes] An optional array of all active shortcodes.
  *
  * @returns {Node} The tree representation of the HTML string.
  */
