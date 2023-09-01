@@ -4,7 +4,7 @@
  *
  * @package WPSEO\Tests
  */
-
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 /**
  * Unit Test Class.
  */
@@ -26,7 +26,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		global $_SERVER;
 		$_SERVER['HTTP_USER_AGENT'] = 'User Agent';
 
-		self::$class_instance = new WPSEO_Metabox();
+		self::$class_instance = new WPSEO_Metabox( YoastSEO()->classes->get( Promotion_Manager::class ) );
 	}
 
 	/**
@@ -74,6 +74,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 		$stub = $this
 			->getMockBuilder( 'WPSEO_Metabox' )
+			->disableOriginalConstructor()
 			->setMethods( [ 'is_metabox_hidden' ] )
 			->getMock();
 
