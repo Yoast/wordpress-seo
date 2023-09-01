@@ -2,6 +2,7 @@ import isPhrasingContent from "./isPhrasingContent";
 import { Paragraph } from "../../structure";
 import { isEmpty } from "lodash-es";
 import SourceCodeLocation from "../../structure/SourceCodeLocation";
+
 /**
  * Checks whether a node is inter-element whitespace.
  *
@@ -27,36 +28,43 @@ function hasChildren( node ) {
 }
 
 /**
+ * Sets the new source code location for an implicit paragraph.
+ * If the implicit paragraph already has a source code location, only update the start offset, if not, set a new source code location.
+ *
+ * @param {Paragraph} implicitParagraph The implicit paragraph to update.
+ * @param {number} newStartOffset The new start offset.
+ * @param {number} newEndOffset The new end offset.
+ * @returns {void}
+ */
+const setNewLocation = ( implicitParagraph, newStartOffset, newEndOffset ) => {
+	if ( implicitParagraph.sourceCodeLocation ) {
+		implicitParagraph.sourceCodeLocation.startOffset = newStartOffset;
+	} else {
+		implicitParagraph.sourceCodeLocation = new SourceCodeLocation( {
+			startOffset: newStartOffset,
+			endOffset: newEndOffset,
+		} );
+	}
+};
+
+/**
  * Updates the source code location of an implicit paragraph based on its first child.
  * @param {Paragraph} implicitParagraph The implicit paragraph to update.
- *
  * @returns {void}
  */
 const updateImplicitParagraphLocation = ( implicitParagraph ) => {
 	// Check if there is a source code range or location on the first child node. The reason for this is that tree-nodes have a source code location
 	// and text-nodes have a source code range. Another approach would be is to check whether we are dealing with a text-node or a tree-node,
 	// but this way we also do a bit of defensive programming.
-	if ( implicitParagraph.childNodes[ 0 ].sourceCodeRange && ! isEmpty( implicitParagraph.childNodes[ 0 ].sourceCodeRange ) ) {
-		// Check if the implicit paragraph already has a source code location. If so, update the start offset. else, set a new source code location.
-		if ( implicitParagraph.sourceCodeLocation ) {
-			implicitParagraph.sourceCodeLocation.startOffset = implicitParagraph.childNodes[ 0 ].sourceCodeRange.startOffset;
-		} else {
-			implicitParagraph.sourceCodeLocation = new SourceCodeLocation( {
-				startOffset: implicitParagraph.childNodes[ 0 ].sourceCodeRange.startOffset,
-				endOffset: implicitParagraph.childNodes[ 0 ].sourceCodeRange.endOffset,
-			} );
-		}
-	} else if ( implicitParagraph.childNodes[ 0 ].sourceCodeLocation &&
-		! isEmpty( implicitParagraph.childNodes[ 0 ].sourceCodeLocation ) ) {
-		// Check if the implicit paragraph already has a source code location. If so, update the start offset. else, set a new source code location.
-		if ( implicitParagraph.sourceCodeLocation ) {
-			implicitParagraph.sourceCodeLocation.startOffset = implicitParagraph.childNodes[ 0 ].sourceCodeLocation.startOffset;
-		} else {
-			implicitParagraph.sourceCodeLocation = new SourceCodeLocation( {
-				startOffset: implicitParagraph.childNodes[ 0 ].sourceCodeLocation.startOffset,
-				endOffset: implicitParagraph.childNodes[ 0 ].sourceCodeLocation.endOffset,
-			} );
-		}
+	const firstChild = implicitParagraph.childNodes[ 0 ];
+	if ( firstChild.sourceCodeRange && ! isEmpty( firstChild.sourceCodeRange ) ) {
+		const newStartOffset = firstChild.sourceCodeRange.startOffset;
+		const newEndOffset = firstChild.sourceCodeRange.endOffset;
+		setNewLocation( implicitParagraph, newStartOffset, newEndOffset );
+	} else if ( firstChild.sourceCodeLocation && ! isEmpty( firstChild.sourceCodeLocation ) ) {
+		const newStartOffset = firstChild.sourceCodeLocation.startOffset;
+		const newEndOffset = firstChild.sourceCodeLocation.endOffset;
+		setNewLocation( implicitParagraph, newStartOffset, newEndOffset );
 	}
 };
 
@@ -107,14 +115,14 @@ function combineIntoImplicitParagraphs( nodes, parentSourceCodeLocation = {} ) {
 			} );
 		}
 	} else {
-		currentSourceCodeLocation = {
+		currentSourceCodeLocation = new SourceCodeLocation( {
 			startOffset: parentSourceCodeLocation.startTag
 				? parentSourceCodeLocation.startTag.endOffset
 				: parentSourceCodeLocation.startOffset,
 			endOffset: parentSourceCodeLocation.endTag
 				? parentSourceCodeLocation.endTag.startOffset
 				: parentSourceCodeLocation.endOffset,
-		};
+		} );
 	}
 
 	let implicitParagraph = Paragraph.createImplicit( {}, [], currentSourceCodeLocation );
@@ -127,7 +135,8 @@ function combineIntoImplicitParagraphs( nodes, parentSourceCodeLocation = {} ) {
 			if ( hasChildren( implicitParagraph ) ) {
 				// If the implicit paragraph has children this means an implicit paragraph was created:
 				// end the current implicit paragraph and start a new one.
-				// In updateSourceCodeLocation try we update the source code location of the implicit paragraph based on its child nodes.
+
+				// But before pushing, we need to update the source code location of the implicit paragraph based on its child nodes.
 				updateSourceCodeLocation( node, implicitParagraph, currentSourceCodeLocation );
 
 				newNodes.push( implicitParagraph );
