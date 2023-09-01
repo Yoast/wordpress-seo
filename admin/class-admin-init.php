@@ -4,6 +4,7 @@
  *
  * @package WPSEO\Admin
  */
+
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 /**
  * Performs the load on admin side.
