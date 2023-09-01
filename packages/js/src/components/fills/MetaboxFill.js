@@ -22,7 +22,7 @@ import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../KeywordUpsell";
-
+import { TimeConstrainedNotification } from "../../components/TimeConstrainedNotification";
 /* eslint-disable complexity */
 /**
  * Creates the Metabox component.
@@ -54,6 +54,13 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 					renderPriority={ 1 }
 				>
 					<Warning />
+				</SidebarItem>
+				<SidebarItem
+					key="time-constrained-notification"
+					renderPriority={ 2 }
+				>
+					<TimeConstrainedNotification url="https://www.yoast.com" />
+					<h1>LEL</h1>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
