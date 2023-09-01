@@ -4,7 +4,7 @@
  *
  * @package WPSEO\Admin
  */
-
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 /**
  * Performs the load on admin side.
  */
@@ -156,7 +156,7 @@ class WPSEO_Admin_Init {
 	 */
 	private function load_meta_boxes() {
 		if ( $this->should_load_meta_boxes() ) {
-			$GLOBALS['wpseo_metabox']      = new WPSEO_Metabox();
+			$GLOBALS['wpseo_metabox']      = new WPSEO_Metabox( YoastSEO()->classes->get( Promotion_Manager::class ) );
 			$GLOBALS['wpseo_meta_columns'] = new WPSEO_Meta_Columns();
 		}
 	}
@@ -195,7 +195,7 @@ class WPSEO_Admin_Init {
 
 		if ( $this->on_wpseo_admin_page() ) {
 			// For backwards compatabilty, this still needs a global, for now...
-			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages();
+			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages( YoastSEO()->classes->get( Promotion_Manager::class ) );
 
 			$page = null;
 

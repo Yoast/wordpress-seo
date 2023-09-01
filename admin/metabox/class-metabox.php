@@ -77,8 +77,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Class constructor.
+	 *
+	 * @param Promotion_Manager_Interface $promotion_manager The promotions manager.
 	 */
-	public function __construct() {
+	public function __construct( Promotion_Manager_Interface $promotion_manager ) {
 		if ( $this->is_internet_explorer() ) {
 			add_action( 'add_meta_boxes', [ $this, 'internet_explorer_metabox' ] );
 
@@ -101,7 +103,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
 		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
-		$this->promotion_manager = $promotion_manager;
+		$this->promotion_manager           = $promotion_manager;
 	}
 
 	/**
@@ -941,7 +943,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'dismissedAlerts'            => $dismissed_alerts,
 			'currentPromotions'          => YoastSEO()->classes->get( Yoast\WP\SEO\Promotions\Application\Promotion_Manager::class )->get_current_promotions(),
 			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'blackFridayBlockEditorUrl'      => ( $this->promotion_manager->is( 'black_friday_2023' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : "",
+			'blackFridayBlockEditorUrl'  => ( $this->promotion_manager->is( 'black_friday_2023' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
 			'isWooCommerceActive'        => $woocommerce_active,
