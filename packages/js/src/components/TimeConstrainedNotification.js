@@ -16,9 +16,9 @@ export const TimeConstrainedNotification = ( {
 } ) => {
 	return (
 		<PersistentDismissableNotification
-			alertKey="promotion-notification"
+			alertKey="time-constrained-notification"
 			store={ store }
-			id="promotion-notification"
+			id="time-constrained-notification"
 			title={ __( "Is your WooCommerce store ready for Black Friday?", "wordpress-seo" ) }
 			url={ url }
 			{ ...props }
