@@ -4,7 +4,6 @@
  *
  * @package WPSEO\Tests
  */
-
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 /**
  * Unit Test Class.
