@@ -60,7 +60,6 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 					renderPriority={ 2 }
 				>
 					<TimeConstrainedNotification url="https://www.yoast.com" />
-					<h1>LEL</h1>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
