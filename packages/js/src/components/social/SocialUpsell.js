@@ -1,5 +1,4 @@
 /* global wpseoAdminL10n */
-import {Fragment} from "@wordpress/element";
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { SimulatedLabel } from "@yoast/components";
@@ -69,7 +68,7 @@ const SocialUpsell = ( props ) => {
 };
 
 SocialUpsell.propTypes = {
-	socialMediumName: PropTypes.oneOf( [ "Twitter", "Facebook" ] ).isRequired,
+	socialMediumName: PropTypes.oneOf( [ "Social", "Twitter", "Facebook" ] ).isRequired,
 };
 
 export default SocialUpsell;
