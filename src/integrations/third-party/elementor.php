@@ -20,6 +20,7 @@ use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -436,28 +437,31 @@ class Elementor implements Integration_Interface {
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
-		$alert_dismissal_action = \YoastSEO()->classes->get( Alert_Dismissal_Action::class );
-		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
+		$alert_dismissal_action  = \YoastSEO()->classes->get( Alert_Dismissal_Action::class );
+		$dismissed_alerts        = $alert_dismissal_action->all_dismissed();
+		$woocommerce_conditional = new WooCommerce_Conditional();
 
 		$script_data = [
-			'media'                    => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
-			'metabox'                  => $this->get_metabox_script_data(),
-			'userLanguageCode'         => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-			'isPost'                   => true,
-			'isBlockEditor'            => WP_Screen::get()->is_block_editor(),
-			'isElementorEditor'        => true,
-			'postStatus'               => \get_post_status( $post_id ),
-			'postType'                 => \get_post_type( $post_id ),
-			'analysis'                 => [
+			'media'                     => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
+			'metabox'                   => $this->get_metabox_script_data(),
+			'userLanguageCode'          => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+			'isPost'                    => true,
+			'isBlockEditor'             => WP_Screen::get()->is_block_editor(),
+			'isElementorEditor'         => true,
+			'isWooCommerceActive'       => $woocommerce_conditional->is_met(),
+			'postStatus'                => \get_post_status( $post_id ),
+			'postType'                  => \get_post_type( $post_id ),
+			'analysis'                  => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'dismissedAlerts'          => $dismissed_alerts,
-			'webinarIntroElementorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
-			'usedKeywordsNonce'        => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
-			'linkParams'               => WPSEO_Shortlinker::get_query_params(),
-			'pluginUrl'                => \plugins_url( '', \WPSEO_FILE ),
-			'wistiaEmbedPermission'    => \YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( \get_current_user_id() ),
+			'dismissedAlerts'           => $dismissed_alerts,
+			'webinarIntroElementorUrl'  => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
+			'blackFridayBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ),
+			'usedKeywordsNonce'         => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
+			'linkParams'                => WPSEO_Shortlinker::get_query_params(),
+			'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),
+			'wistiaEmbedPermission'     => \YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( \get_current_user_id() ),
 		];
 
 		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
