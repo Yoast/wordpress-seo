@@ -3,7 +3,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Admin\Metabox;
 
 use Brain\Monkey;
+use Mockery;
 use WPSEO_Metabox_Section_Additional;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Admin\Metabox\Metabox_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -15,6 +17,13 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \WPSEO_Metabox
  */
 class Metabox_Test extends TestCase {
+
+	/**
+	 * The promotions manager.
+	 *
+	 * @var Mockery\MockInterface|Promotion_Manager
+	 */
+	private $promotion_manager;
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -37,7 +46,9 @@ class Metabox_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$this->instance = new Metabox_Double();
+		$this->promotion_manager = Mockery::mock( Promotion_Manager::class );
+
+		$this->instance = new Metabox_Double( $this->promotion_manager );
 	}
 
 	/**
