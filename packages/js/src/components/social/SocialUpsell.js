@@ -5,8 +5,10 @@ import { __, sprintf } from "@wordpress/i18n";
 import { SimulatedLabel } from "@yoast/components";
 import { FacebookPreview } from "@yoast/social-metadata-previews";
 import {get, noop} from "lodash";
-import { FeatureUpsell, Root} from "@yoast/ui-library";
+import {FeatureUpsell, Root, useRootContext} from "@yoast/ui-library";
 import styled from "styled-components";
+import interpolateComponents from "interpolate-components";
+import {addQueryArgs} from "@wordpress/url";
 
 const FeatureUpsellContainer = styled.div`
 	max-width: calc(527px + 1.5rem);
@@ -20,12 +22,12 @@ const FeatureUpsellContainer = styled.div`
  * @returns {wp.Element} The FacebookView Component.
  */
 const SocialUpsell = ( props ) => {
-	const woocommerceUpsellLink = get( window, "wpseoScriptData.metabox.woocommerceUpsellGooglePreviewLink", "" );
-
 	const premiumUpsellConfig = {
 		'data-action': "load-nfd-ctb",
 		'data-ctb-id': "f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
 	};
+
+	const { locationContext } = useRootContext();
 
 	return (
 		<Root>
@@ -33,7 +35,7 @@ const SocialUpsell = ( props ) => {
 				<FeatureUpsell
 					shouldUpsell={ true }
 					variant="card"
-					cardLink={ woocommerceUpsellLink }
+					cardLink={ addQueryArgs( wpseoAdminL10n[ "shortlinks.upsell.social_preview." + props.socialMediumName.toLowerCase() ], { context: locationContext } ) }
 					cardText={ sprintf(
 						/* translators: %1$s expands to Yoast SEO Premium. */
 						__( "Unlock with %1$s", "wordpress-seo" ),
