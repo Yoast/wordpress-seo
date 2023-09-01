@@ -1,21 +1,17 @@
 /* global wpseoAdminL10n */
-import { Fragment } from "@wordpress/element";
-import styled from "styled-components";
-import interpolateComponents from "interpolate-components";
+import {Fragment} from "@wordpress/element";
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert } from "@yoast/components";
-import { makeOutboundLink } from "@yoast/helpers";
-import { addQueryArgs } from "@wordpress/url";
-import { useRootContext }  from "@yoast/externals/contexts";
+import { SimulatedLabel } from "@yoast/components";
+import { FacebookPreview } from "@yoast/social-metadata-previews";
+import {get, noop} from "lodash";
+import { LockOpenIcon } from "@heroicons/react/outline";
+import { Button, Root } from "@yoast/ui-library";
+import styled from "styled-components";
 
-const PremiumInfoText = styled( Alert )`
-	p {
-		margin: 0;
-	}
+const UpsellContainer = styled.div`
+	position: relative;
 `;
-
-const YoastShortLink = makeOutboundLink();
 
 /**
  *
@@ -25,40 +21,49 @@ const YoastShortLink = makeOutboundLink();
  * @returns {wp.Element} The FacebookView Component.
  */
 const SocialUpsell = ( props ) => {
-	const previewText = sprintf(
-		/* Translators: %s expands to the social medium name, which is either Twitter or social media. %s expands to Yoast SEO Premium */
-		__(
-			"Want to see how your content will look when it’s shared on %s?", "wordpress-seo"
-		), props.socialMediumName.toLowerCase() === "twitter" ? props.socialMediumName : "social media"
-	);
-	const upgradeText = sprintf(
-		/* Translators: %s expands to Yoast SEO Premium */
-		__(
-			"Get %s to unlock social previews!", "wordpress-seo"
-		), "Yoast SEO Premium"
-	);
+	const woocommerceUpsellLink = get( window, "wpseoScriptData.metabox.woocommerceUpsellGooglePreviewLink", "" );
 
-	const { locationContext } = useRootContext();
+	const premiumUpsellConfig = {
+		'data-action': "load-nfd-ctb",
+		'data-ctb-id': "f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
+	};
 
 	return (
-		<Fragment>
-			<PremiumInfoText type={ "info" }>
-				{
-					interpolateComponents( {
-						mixedString: previewText,
-						components: { strong: <b /> },
-					} )
-				}
-				<br />
-				<YoastShortLink
-					data-action="load-nfd-ctb"
-					data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
-					href={ addQueryArgs( wpseoAdminL10n[ "shortlinks.upsell.social_preview." + props.socialMediumName.toLowerCase() ], { context: locationContext } ) }
-				>
-					<p>{ upgradeText }</p>
-				</YoastShortLink>
-			</PremiumInfoText>
-		</Fragment>
+		<Root>
+			<SimulatedLabel>
+				{ __( "Social share preview", "wordpress-seo" ) }
+			</SimulatedLabel>
+			<UpsellContainer>
+				<FacebookPreview
+					title={ '' }
+					description={ '' }
+					siteUrl={ '' }
+					imageUrl={ '' }
+					imageFallbackUrl={ '' }
+					alt={ '' }
+					onSelect={ noop }
+					onImageClick={ noop }
+					onMouseHover={ noop }
+				/>
+				<div className="yst-absolute yst-inset-0 yst-flex yst-items-center yst-justify-center">
+					<Button
+						href={ woocommerceUpsellLink }
+						as="a"
+						className="yst-gap-2 yst-mb-5 yst-mt-2"
+						variant="upsell"
+						target="_blank"
+						rel="noopener"
+					>
+						<LockOpenIcon className="yst-w-4 yst-h-4 yst--ml-1 yst-shrink-0" />
+						{ sprintf(
+							/* translators: %1$s expands to Yoast WooCommerce SEO. */
+							__( "Unlock with %1$s", "wordpress-seo" ),
+							"Yoast SEO Premium"
+						) }
+					</Button>
+				</div>
+			</UpsellContainer>
+		</Root>
 	);
 };
 
