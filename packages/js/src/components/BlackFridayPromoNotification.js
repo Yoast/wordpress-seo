@@ -1,4 +1,4 @@
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
 import PersistentDismissableNotification from "../containers/PersistentDismissableNotification";
@@ -17,6 +17,15 @@ const BlackFridayPromoNotification = ( {
 	url,
 	...props
 } ) => {
+	const rawAdContent = sprintf(
+		/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+		__( "Get help with maximizing your upcoming Black Friday sales! The ultimate %1$sBlack Friday checklist%2$s helps you prepare for Black Friday and boost your sales.", "wordpress-seo" ),
+		"<strong>",
+		"</strong>"
+	);
+	const re = /<\/?strong>/;
+	const parts = rawAdContent.split( re );
+
 	return (
 		<PersistentDismissableNotification
 			alertKey="black-friday-promo-notification"
@@ -27,7 +36,7 @@ const BlackFridayPromoNotification = ( {
 			url={ url }
 			{ ...props }
 		>
-			{ __( "Get help with maximizing your upcoming Black Friday sales! The ultimate Black Friday checklist helps you prepare for Black Friday and boost your sales.", "wordpress-seo" ) }
+			{ parts[ 0 ] }<strong>{ parts[ 1 ] }</strong>{ parts[ 2 ] }
 			&nbsp;<a href={ url } target="_blank" rel="noreferrer">
 				{ __( "Get the checklist now!", "wordpress-seo" ) }
 			</a>
