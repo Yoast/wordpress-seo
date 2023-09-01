@@ -18,8 +18,9 @@ const BlackFridayPromoNotification = ( {
 	...props
 } ) => {
 	const rawAdContent = sprintf(
-		/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
-		__( "Get help with maximizing your upcoming Black Friday sales! The ultimate %1$sBlack Friday checklist%2$s helps you prepare for Black Friday and boost your sales.", "wordpress-seo" ),
+		/* translators:  %1$s expands to Yoast, %2$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+		__( "The %1$s %2$sultimate Black Friday checklist%3$s helps you prepare in time, so you can boost your results during this sale.", "wordpress-seo" ),
+		"Yoast",
 		"<strong>",
 		"</strong>"
 	);
@@ -38,7 +39,7 @@ const BlackFridayPromoNotification = ( {
 		>
 			{ parts[ 0 ] }<strong>{ parts[ 1 ] }</strong>{ parts[ 2 ] }
 			&nbsp;<a href={ url } target="_blank" rel="noreferrer">
-				{ __( "Get the checklist now!", "wordpress-seo" ) }
+				{ __( "Get the checklist and start optimizing now!", "wordpress-seo" ) }
 			</a>
 		</PersistentDismissableNotification>
 	);
