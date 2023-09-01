@@ -63,6 +63,11 @@ const testCases = [
 		text: "a\tphrase\tthat\tis\tseparated\tby\ttabs",
 		expectedResult: [ "a", "\t", "phrase", "\t", "that", "\t", "is", "\t", "separated", "\t", "by", "\t", "tabs" ],
 	},
+	{
+		description: "correctly tokenizes a shortcode",
+		text: "[caption id=\"attachment_3341501\" align=\"alignnone\" width=\"300\"]",
+		expectedResult: [ "[", "caption", " ", "id=\"attachment_3341501", "\"", " ", "align=\"alignnone", "\"", " ", "width=\"300", "\"", "]" ],
+	},
 ];
 
 describe.each( testCases )( "getWordsForHTMLParser", ( { description, text, expectedResult } ) => {

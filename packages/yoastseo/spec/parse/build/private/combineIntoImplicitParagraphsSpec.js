@@ -2,6 +2,7 @@ import combineIntoImplicitParagraphs from "../../../../src/parse/build/private/c
 
 describe( "The combineIntoImplicitParagraphs function", () => {
 	it( "combines phrasing content into paragraphs", () => {
+		// <p></p><span></span>#text<div></div><a></a>
 		const nodes = [
 			{ name: "p" },
 			{ name: "span" },
@@ -34,6 +35,7 @@ describe( "The combineIntoImplicitParagraphs function", () => {
 	} );
 
 	it( "correctly handles an InterElementWhitespace", () => {
+		// <p></p><span></span>#text <div></div><a></a>
 		const nodes = [
 			{ name: "p" },
 			{ name: "span" },
@@ -75,6 +77,7 @@ describe( "The combineIntoImplicitParagraphs function", () => {
 	} );
 
 	it( "correctly handles an element with children", () => {
+		// <p></p><span></span>#text<div><p></p><span></span>#text<a></a></div>
 		const nodes = [
 			{ name: "p" },
 			{ name: "span" },

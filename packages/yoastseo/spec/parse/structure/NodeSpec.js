@@ -15,7 +15,7 @@ describe( "A test for the findAll method", () => {
 	let paper;
 
 	beforeEach( () => {
-		paper = new Paper();
+		paper = new Paper( "" );
 	} );
 	it( "should find all occurrences of a p tag", function() {
 		paper._text = "<div><p class='yoast'>Hello, world! </p><p class='yoast'>Hello, yoast!</p></div>";
@@ -31,7 +31,7 @@ describe( "A test for the findAll method", () => {
 		const expected = [ {
 			name: "p",
 			attributes: { "class": new Set( [ "yoast" ] ) },
-			childNodes: [ { name: "#text", value: "Hello, world! " } ],
+			childNodes: [ { name: "#text", value: "Hello, world! ", sourceCodeRange: { startOffset: 22, endOffset: 36 } } ],
 			isImplicit: false,
 			sentences: [ {
 				text: "Hello, world!",
@@ -60,7 +60,7 @@ describe( "A test for the findAll method", () => {
 		{
 			name: "p",
 			attributes: { "class": new Set( [ "yoast" ] ) },
-			childNodes: [ { name: "#text", value: "Hello, yoast!" } ],
+			childNodes: [ { name: "#text", value: "Hello, yoast!", sourceCodeRange: { startOffset: 57, endOffset: 70 } } ],
 			isImplicit: false,
 			sentences: [ {
 				text: "Hello, yoast!",
