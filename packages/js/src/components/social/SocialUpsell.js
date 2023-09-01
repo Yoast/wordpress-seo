@@ -25,7 +25,11 @@ const SocialUpsell = ( props ) => {
 	return (
 		<Root>
 			<SimulatedLabel>
-				{ __( "Social share preview", "wordpress-seo" ) }
+				{ sprintf(
+					/* translators: %1$s expands to Social or Twitter. */
+					__( "%1$s share preview", "wordpress-seo" ),
+					props.socialMediumName === "Twitter" ? 'Twitter' : 'Social'
+				) }
 			</SimulatedLabel>
 			<FeatureUpsell
 				shouldUpsell={ true }
