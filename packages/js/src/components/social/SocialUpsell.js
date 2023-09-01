@@ -1,17 +1,11 @@
 /* global wpseoAdminL10n */
-import {Fragment} from "@wordpress/element";
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { SimulatedLabel } from "@yoast/components";
 import { FacebookPreview } from "@yoast/social-metadata-previews";
 import {get, noop} from "lodash";
-import { LockOpenIcon } from "@heroicons/react/outline";
-import { Button, Root } from "@yoast/ui-library";
+import { FeatureUpsell, Root} from "@yoast/ui-library";
 import styled from "styled-components";
-
-const UpsellContainer = styled.div`
-	position: relative;
-`;
 
 /**
  *
@@ -33,7 +27,17 @@ const SocialUpsell = ( props ) => {
 			<SimulatedLabel>
 				{ __( "Social share preview", "wordpress-seo" ) }
 			</SimulatedLabel>
-			<UpsellContainer>
+			<FeatureUpsell
+				shouldUpsell={ true }
+				variant="card"
+				cardLink={ woocommerceUpsellLink }
+				cardText={ sprintf(
+					/* translators: %1$s expands to Yoast SEO Premium. */
+					__( "Unlock with %1$s", "wordpress-seo" ),
+					"Yoast SEO Premium"
+				) }
+				{ ...premiumUpsellConfig }
+			>
 				<FacebookPreview
 					title={ '' }
 					description={ '' }
@@ -45,24 +49,7 @@ const SocialUpsell = ( props ) => {
 					onImageClick={ noop }
 					onMouseHover={ noop }
 				/>
-				<div className="yst-absolute yst-inset-0 yst-flex yst-items-center yst-justify-center">
-					<Button
-						href={ woocommerceUpsellLink }
-						as="a"
-						className="yst-gap-2 yst-mb-5 yst-mt-2"
-						variant="upsell"
-						target="_blank"
-						rel="noopener"
-					>
-						<LockOpenIcon className="yst-w-4 yst-h-4 yst--ml-1 yst-shrink-0" />
-						{ sprintf(
-							/* translators: %1$s expands to Yoast WooCommerce SEO. */
-							__( "Unlock with %1$s", "wordpress-seo" ),
-							"Yoast SEO Premium"
-						) }
-					</Button>
-				</div>
-			</UpsellContainer>
+			</FeatureUpsell>
 		</Root>
 	);
 };
