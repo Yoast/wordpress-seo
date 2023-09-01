@@ -1,5 +1,6 @@
 // eslint-disable react/display-name
 import { StoryComponent } from ".";
+import { component } from "./docs";
 
 export default {
 	title: "1) Elements/Text input",
@@ -7,7 +8,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple text input component. Accept all props of a regular input element.",
+				component,
 			},
 		},
 	},

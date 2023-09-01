@@ -1,5 +1,6 @@
 import { useState, useCallback } from "@wordpress/element";
 import { noop } from "lodash";
+import { component, variants, withLabelAndDescription, withValue, childrenProp } from "./docs";
 
 import RadioGroup from ".";
 
@@ -12,7 +13,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple radio group component.",
+				component,
 			},
 		},
 	},
@@ -78,9 +79,7 @@ export const Variants = ( args ) => (
 		/>
 	</div>
 );
-Variants.parameters = {
-	docs: { description: { story: "In the `inline-block` variant, the `screenReaderLabel` prop is used to provide screen readers with a useful label." } },
-};
+Variants.parameters = { docs: { description: { story: variants } } };
 
 export const WithLabelAndDescription = Template.bind();
 WithLabelAndDescription.storyName = "With label and description";
@@ -96,6 +95,7 @@ WithLabelAndDescription.args = {
 	],
 	description: "Radio group with a description.",
 };
+WithLabelAndDescription.parameters = { docs: { description: { story: withLabelAndDescription } } };
 
 export const WithValue = Template.bind();
 WithValue.storyName = "With value";
@@ -111,6 +111,7 @@ WithValue.args = {
 		{ value: "4", label: "4", screenReaderLabel: "Option #4" },
 	],
 };
+WithValue.parameters = { docs: { description: { story: withValue } } };
 
 export const ChildrenProp = Template.bind();
 ChildrenProp.storyName = "Children prop";
@@ -125,6 +126,4 @@ ChildrenProp.args = {
 	</>,
 };
 
-ChildrenProp.parameters = { docs: { description: { story: "The `children` prop can be used to render custom content. The options are rendered using the sub component `Radio` (`RadioGroup.Radio` is equal to `Radio` element). Default values should be set inside the child component and not the `value` prop." } } };
-
-
+ChildrenProp.parameters = { docs: { description: { story: childrenProp } } };

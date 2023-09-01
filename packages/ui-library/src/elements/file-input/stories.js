@@ -1,18 +1,13 @@
 import { noop } from "lodash";
 import { StoryComponent } from ".";
 import { DesktopComputerIcon } from "@heroicons/react/outline";
+import { component, differentIcon, disabled, withDescription } from "./docs";
 
 export default {
 	title: "1) Elements/File input",
 	component: StoryComponent,
 	argTypes: {},
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple file input component with drop functionality.",
-			},
-		},
-	},
+	parameters: { docs: { description: { component } } },
 };
 
 const Template = ( args ) => <StoryComponent
@@ -41,7 +36,7 @@ WithDescription.storyName = "With description";
 
 WithDescription.parameters = {
 	controls: { disable: false },
-	docs: { description: { story: "A file input with a description using `selectDescription` prop." } },
+	docs: { description: { story: withDescription } },
 };
 
 WithDescription.args = {
@@ -55,7 +50,7 @@ export const Disabled = Template.bind( {} );
 
 Disabled.parameters = {
 	controls: { disable: true },
-	docs: { description: { story: "Disabled state using `disabled` prop." } },
+	docs: { description: { story: disabled } },
 };
 
 Disabled.args = {
@@ -69,7 +64,7 @@ export const DifferentIcon = Template.bind( {} );
 DifferentIcon.storyName = "Different icon";
 DifferentIcon.parameters = {
 	controls: { disable: false },
-	docs: { description: { story: "A file input with different icon using `iconAs` prop. The icon should be a React component." } },
+	docs: { description: { story: differentIcon } },
 };
 
 DifferentIcon.args = {

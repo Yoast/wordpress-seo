@@ -1,4 +1,5 @@
 import { StoryComponent } from ".";
+import { component, as, sizes } from "./docs";
 
 export default {
 	title: "1) Elements/Title",
@@ -10,7 +11,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "The title component is used for displaying headings.",
+				component,
 			},
 		},
 	},
@@ -36,7 +37,7 @@ export const As = args => (
 	</div>
 );
 As.parameters = {
-	docs: { description: { story: "Control the Title component using the `as` prop. Using a heading component without the `size` prop will infer the size from the heading component, ie. `as=\"h1\"` will automagically add size 1." } },
+	docs: { description: { story: as } },
 };
 
 export const Sizes = args => (
@@ -48,5 +49,5 @@ export const Sizes = args => (
 	</div>
 );
 Sizes.parameters = {
-	docs: { description: { story: "Control the Title size using the `size` prop. There are four available sizes, please refrain from using custom sizes" } },
+	docs: { description: { story: sizes } },
 };
