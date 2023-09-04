@@ -90,7 +90,6 @@ class WPSEO_Admin_Pages {
 			'webinarIntroSettingsUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-settings' ),
 			'webinarIntroFirstTimeConfigUrl' => $this->get_webinar_shortlink(),
 			'pluginUrl'                      => \plugins_url( '', \WPSEO_FILE ),
-			'currentPromotions'              => $this->get_current_promotions(),
 		];
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
@@ -165,10 +164,5 @@ class WPSEO_Admin_Pages {
 		}
 
 		return WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-first-time-config' );
-	}
-
-	private function get_current_promotions() {
-		// return YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions_list();
-		return [ 'cane' ];
 	}
 }

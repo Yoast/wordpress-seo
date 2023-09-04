@@ -930,6 +930,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'worker'  => $worker_script_data,
 			],
 			'dismissedAlerts'            => $dismissed_alerts,
+			'currentPromotions'          => $this->get_current_promotions(),
 			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
 			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
@@ -1195,5 +1196,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	protected function get_product_title() {
 		return YoastSEO()->helpers->product->get_product_name();
+	}
+
+	private function get_current_promotions() {
+		// return YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions_list();
+		return [ 'cane' ];
 	}
 }
