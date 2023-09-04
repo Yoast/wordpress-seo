@@ -37,7 +37,7 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				false,
 				false,
 				false,
-				true,
+				false,
 			],
 			[
 				'
@@ -48,7 +48,7 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				true,
 				false,
 				false,
-				false,
+				true,
 			],
 			[
 				'
