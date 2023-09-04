@@ -1,7 +1,7 @@
 /* External dependencies */
-import { Fragment, useCallback } from "@wordpress/element";
+import { createInterpolateElement, Fragment, useCallback } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { colors } from "@yoast/style-guide";
 
@@ -59,7 +59,24 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 					key="time-constrained-notification"
 					renderPriority={ 2 }
 				>
-					<TimeConstrainedNotification url="https://www.yoast.com" />
+					<TimeConstrainedNotification
+						title={ __( "Is your WooCommerce store ready for Black Friday?", "wordpress-seo" ) }
+						promoId="black-friday-2023"
+					>
+						{ createInterpolateElement(
+							sprintf(
+								/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+								__( "The Yoast %1$sultimate Black Friday checklist%2$s helps you prepare in time, so you can boost your results during this sale.", "wordpress-seo" ),
+								"<strong>",
+								"</strong>" ),
+							{
+								strong: <strong />,
+							}
+						) }
+						&nbsp;<a href="https://www.yoast.com" target="_blank" rel="noreferrer">
+							{ __( "Get the checklist and start optimizing now!", "wordpress-seo" ) }
+						</a>
+					</TimeConstrainedNotification>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
