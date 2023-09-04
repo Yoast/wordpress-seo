@@ -44,8 +44,7 @@ const SocialUpsell = ( props ) => {
 					<SimulatedLabel>
 						{ sprintf(
 							/* translators: %1$s expands to Social or Twitter. */
-							__( "%1$s share preview", "wordpress-seo" ),
-							props.socialMediumName === "Twitter" ? "Twitter" : "Social"
+							__( "%1$s share preview", "wordpress-seo" ), props.socialMediumName
 						) }
 					</SimulatedLabel>
 
@@ -67,7 +66,7 @@ const SocialUpsell = ( props ) => {
 };
 
 SocialUpsell.propTypes = {
-	socialMediumName: PropTypes.oneOf( [ "Social", "Twitter", "Facebook" ] ).isRequired,
+	socialMediumName: PropTypes.oneOf( [ "Social", "Twitter" ] ).isRequired,
 };
 
 export default SocialUpsell;
