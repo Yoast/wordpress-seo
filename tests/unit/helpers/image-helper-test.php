@@ -36,19 +36,31 @@ class Image_Helper_Test extends TestCase {
 	 * @var Image_Helper|Mockery\Mock
 	 */
 	protected $actual_instance;
+
 	/**
+	 *  The Indexable_Repository instance.
+	 *
 	 * @var \Mockery\MockInterface|Indexable_Repository
 	 */
 	protected $indexable_repository;
+
 	/**
+	 *  The SEO_Links_Repository instance.
+	 *
 	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Repositories\SEO_Links_Repository
 	 */
 	protected $indexable_seo_links_repository;
+
 	/**
+	 *  The Options_Helper instance.
+	 *
 	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Options_Helper
 	 */
 	protected $options_helper;
+
 	/**
+	 *  The Url_Helper instance.
+	 *
 	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Url_Helper
 	 */
 	protected $url_helper;
@@ -460,19 +472,20 @@ class Image_Helper_Test extends TestCase {
 		$this->assertEquals( '', $this->instance->get_attachment_image_url( 1337, 'full' ) );
 	}
 
-
 	/**
 	 * Tests the get_attachment_by_url function with an external image.
+	 *
 	 * @covers ::get_attachment_by_url
 	 * @return void
 	 */
 	public function test_get_attachment_by_url_with_external_image() {
 		$this->url_helper->expects( 'get_link_type' )->andReturn( SEO_Links::TYPE_EXTERNAL );
-		$this->assertEquals( 0, $this->actual_instance->get_attachment_by_url( "" ) );
+		$this->assertEquals( 0, $this->actual_instance->get_attachment_by_url( '' ) );
 	}
 
 	/**
 	 * Tests the get_attachment_by_url function with using an existing indexable.
+	 *
 	 * @covers ::get_attachment_by_url
 	 * @return void
 	 */
@@ -485,12 +498,12 @@ class Image_Helper_Test extends TestCase {
 		$this->url_helper->expects( 'get_link_type' )->andReturn( SEO_Links::TYPE_INTERNAL );
 		$this->options_helper->expects( 'get' )->with( 'disable-attachment' )->andReturn( false );
 		$this->indexable_repository->expects( 'find_by_permalink' )->andReturn( $indexable );
-		$this->assertEquals( 17, $this->actual_instance->get_attachment_by_url( "" ) );
-
+		$this->assertEquals( 17, $this->actual_instance->get_attachment_by_url( '' ) );
 	}
 
 	/**
 	 * Tests the get_attachment_by_url function with using the SEO links table.
+	 *
 	 * @covers ::get_attachment_by_url
 	 * @return void
 	 */
@@ -501,6 +514,6 @@ class Image_Helper_Test extends TestCase {
 		$this->options_helper->expects( 'get' )->with( 'disable-attachment' )->andReturn( true );
 		$this->indexable_seo_links_repository->expects( 'find_one_by_url' )->andReturn( $link );
 
-		$this->assertEquals( 17, $this->actual_instance->get_attachment_by_url( "a_dir/something" ) );
+		$this->assertEquals( 17, $this->actual_instance->get_attachment_by_url( 'a_dir/something' ) );
 	}
 }
