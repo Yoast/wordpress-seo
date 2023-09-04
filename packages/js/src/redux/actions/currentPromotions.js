@@ -5,7 +5,7 @@ export const SET_CURRENT_PROMOTIONS = "SET_CURRENT_PROMOTIONS";
  *
  * @param {Object} currentPromotions An object of current promotions.
  *
- * @returns {Object} A DISMISS_ALERT_SUCCESS action.
+ * @returns {Object} An action to dispatch.
  */
 export function setCurrentPromotions( currentPromotions ) {
 	return {
