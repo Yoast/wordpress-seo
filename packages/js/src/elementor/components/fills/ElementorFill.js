@@ -58,10 +58,11 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 			<Fill name="YoastElementor">
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
-					{ ! blackFridayBlockEditorUrl &&
-						<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } /> }
-					{ isWooCommerce && blackFridayBlockEditorUrl &&
-						<BlackFridayPromoNotification hasIcon={ false } image={ null } url={ blackFridayBlockEditorUrl } /> }
+
+					{ isWooCommerce && blackFridayBlockEditorUrl
+						? <BlackFridayPromoNotification hasIcon={ false } image={ null } url={ blackFridayBlockEditorUrl } />
+						: <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } /> }
+
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
 					<KeywordInput

@@ -20,10 +20,9 @@ const initSettingsHeader = () => {
 	if ( reactRoot ) {
 		render(
 			<ThemeProvider theme={ { isRtl } }>
-				{ ! blackFridayBlockEditorUrl &&
-				<WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
-				{ isWooCommerce && blackFridayBlockEditorUrl &&
-				<BlackFridayPromoNotification store="yoast-seo/settings" hasIcon={ false } url={ blackFridayBlockEditorUrl } /> }
+				{ isWooCommerce && blackFridayBlockEditorUrl
+					? <BlackFridayPromoNotification store="yoast-seo/settings" hasIcon={ false } url={ blackFridayBlockEditorUrl } />
+					: <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
 			</ThemeProvider>,
 			reactRoot
 		);

@@ -45,10 +45,10 @@ export default function SidebarFill( { settings } ) {
 				<SidebarItem key="warning" renderPriority={ 1 }>
 					<Warning />
 					<div style={ { margin: "0 16px" } }>
-						{ ! blackFridayBlockEditorUrl &&
-						<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } /> }
-						{ isWooCommerce && blackFridayBlockEditorUrl &&
-						<BlackFridayPromoNotification hasIcon={ false } image={ null } url={ blackFridayBlockEditorUrl } /> }
+						{ isWooCommerce && blackFridayBlockEditorUrl
+							? <BlackFridayPromoNotification hasIcon={ false } image={ null } url={ blackFridayBlockEditorUrl } />
+							: <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
+						}
 					</div>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
