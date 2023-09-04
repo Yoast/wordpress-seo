@@ -64,7 +64,7 @@ class Promotion_Manager implements Promotion_Manager_Interface {
 		$current_promotions = [];
 
 		foreach ( $this->promotions_list as $promotion ) {
-			if (  $promotion->get_time_interval()->contains( \time() ) ) {
+			if ( $promotion->get_time_interval()->contains( \time() ) ) {
 				$current_promotions[] = $promotion->get_promotion_name();
 			}
 		}
