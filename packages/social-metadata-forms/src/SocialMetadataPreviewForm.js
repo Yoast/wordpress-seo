@@ -22,7 +22,7 @@ const getCaretColor = ( active ) => {
 const CaretContainer = styled.div`
 	position: relative;
 
-	${ props => !props.isPremium && `
+	${ props => ! props.isPremium && `
 		.yoast-image-select__preview {
 			width: 130px;
 			min-height: 72px;
@@ -85,6 +85,7 @@ export const withCaretStyle = ( WithoutCaretComponent ) => {
 		ComponentWithCaret.propTypes = {
 			isActive: PropTypes.bool.isRequired,
 			isHovered: PropTypes.bool.isRequired,
+			isPremium: PropTypes.bool,
 		};
 
 		// Destructure the props.
