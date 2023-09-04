@@ -702,6 +702,18 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
   margin-top: 2em;
 }
 
+.black-friday-container{
+	margin-bottom: -2em;
+	max-width: 640px;
+	display: flex;
+	background-color: #1F2937;
+	padding: 8px 16px;
+	border-bottom: 2px solid #FCD34D;
+}
+.black-friday-container span{
+	color:#FCD34D;
+	font-size: 1.2rem;
+}
 .yoast_premium_upsell--header {
   color: #A4286A;
   margin-top: 0.3em;

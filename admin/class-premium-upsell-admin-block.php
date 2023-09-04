@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
+
 /**
  * Class WPSEO_Premium_Upsell_Admin_Block
  */
@@ -77,8 +79,14 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			$button_text
 		);
 
-		echo '<div class="' . esc_attr( $class ) . '">';
+		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black_friday_2023' ) ) {
+			$bf_label   = \esc_html__( 'BLACK FRIDAY', 'wordpress-seo' );
+			$sale_label = \esc_html__( '30% OFF', 'wordpress-seo' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped above.
+			echo "<div class='black-friday-container'><span>$bf_label</span> <span style='margin-left: auto;'>$sale_label</span> </div>";
+		}
 
+		echo '<div class="' . esc_attr( $class ) . '">';
 		echo '<div>';
 		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' .
 			sprintf(
