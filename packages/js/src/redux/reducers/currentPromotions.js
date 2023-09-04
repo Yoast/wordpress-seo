@@ -1,5 +1,4 @@
 import { SET_CURRENT_PROMOTIONS } from "../actions/currentPromotions";
-import { get } from "lodash";
 /**
  * A reducer for the currentPromotions.
  *
@@ -14,7 +13,7 @@ import { get } from "lodash";
  *
  * @param {Object} state  The current state of the object.
  * @param {Object} action The action received.
- * 
+ *
  * @returns {Object} The state.
  */
 function currentPromotionsReducer( state = [], action ) {
