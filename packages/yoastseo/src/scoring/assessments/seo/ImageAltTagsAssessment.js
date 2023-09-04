@@ -80,7 +80,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						"%1$sImage alt tags%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
 						"yoast-woo-seo"
@@ -97,7 +97,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
-					/* Translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
+					/* translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
 					* %1$d expands to the number of images without alt tags,
 					* %2$d expands to the number of images found in the text, */
 					_n(
@@ -119,7 +119,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 		return {
 			score: this._config.scores.good,
 			resultText: sprintf(
-				/* Translators: %1$s expands to a link on yoast.com,
+				/* translators: %1$s expands to a link on yoast.com,
 				 * %2$s expands to the anchor end tag. */
 				__(
 					"%1$sImage alt tags%2$s: All images have alt attributes. Good job!",

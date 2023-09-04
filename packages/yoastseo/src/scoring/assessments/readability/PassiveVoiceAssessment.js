@@ -72,7 +72,7 @@ export default class PassiveVoiceAssessment extends Assessment {
 				score: score,
 				hasMarks: hasMarks,
 				text: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
 						"%1$sPassive voice%2$s: You're using enough active voice. That's great!",
 						"wordpress-seo"
@@ -86,7 +86,7 @@ export default class PassiveVoiceAssessment extends Assessment {
 			score: score,
 			hasMarks: hasMarks,
 			text: sprintf(
-				/* Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
+				/* translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
 				%3$s expands to the percentage of sentences in passive voice, %4$s expands to the recommended value. */
 				__(
 					// eslint-disable-next-line max-len
