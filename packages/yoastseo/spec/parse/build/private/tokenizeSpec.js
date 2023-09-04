@@ -12,7 +12,6 @@ describe( "A test for the tokenize function",
 			const mockResearcher = new EnglishResearcher( mockPaper );
 			const languageProcessor = new LanguageProcessor( mockResearcher );
 			buildTreeNoTokenize( mockPaper );
-			// eslint-disable-next-line max-len
 			expect( tokenize( mockPaper.getTree(), languageProcessor ) ).toEqual( {
 				attributes: {},
 				childNodes: [ {
@@ -53,7 +52,6 @@ describe( "A test for the tokenize function",
 			const mockResearcher = new EnglishResearcher( mockPaper );
 			const languageProcessor = new LanguageProcessor( mockResearcher );
 			buildTreeNoTokenize( mockPaper );
-			// eslint-disable-next-line max-len
 			expect( tokenize( mockPaper.getTree(), languageProcessor ) ).toEqual( {
 				attributes: {},
 				childNodes: [
@@ -229,7 +227,6 @@ describe( "A test for the tokenize function",
 			const mockResearcher = new EnglishResearcher( mockPaper );
 			const languageProcessor = new LanguageProcessor( mockResearcher );
 			buildTreeNoTokenize( mockPaper );
-			// eslint-disable-next-line max-len
 			const result = tokenize( mockPaper.getTree(), languageProcessor );
 			expect( result ).toEqual( {
 				name: "#document-fragment",
@@ -368,6 +365,103 @@ describe( "A test for the tokenize function",
 						],
 					},
 				],
+			} );
+		} );
+
+		it( "should correctly tokenize a sentence containing an HTML entity", function() {
+			const mockPaper = new Paper( "<p>This is a paragraph&amp;</p>" );
+			const mockResearcher = new EnglishResearcher( mockPaper );
+			const languageProcessor = new LanguageProcessor( mockResearcher );
+			buildTreeNoTokenize( mockPaper );
+			const result = tokenize( mockPaper.getTree(), languageProcessor );
+			expect( result ).toEqual( {
+				attributes: {},
+				childNodes: [
+					{
+						attributes: {},
+						childNodes: [
+							{
+								name: "#text",
+								value: "This is a paragraph#amp;",
+							},
+						],
+						isImplicit: false,
+						name: "p",
+						sentences: [
+							{
+								sourceCodeRange: {
+									startOffset: 3,
+									endOffset: 27,
+								},
+								text: "This is a paragraph&",
+								tokens: [
+									{
+										sourceCodeRange: {
+											startOffset: 3,
+											endOffset: 7,
+										},
+										text: "This",
+									},
+									{
+										sourceCodeRange: {
+											startOffset: 7,
+											endOffset: 8,
+										},
+										text: " ",
+									},
+									{
+										sourceCodeRange: {
+											startOffset: 8,
+											endOffset: 10,
+										},
+										text: "is",
+									},
+									{
+										sourceCodeRange: {
+											startOffset: 10,
+											endOffset: 11,
+										},
+										text: " ",
+									},
+									{
+										sourceCodeRange: {
+											startOffset: 11,
+											endOffset: 12,
+										},
+										text: "a",
+									},
+									{
+										sourceCodeRange: {
+											startOffset: 12,
+											endOffset: 13,
+										},
+										text: " ",
+									},
+									{
+										sourceCodeRange: {
+											startOffset: 13,
+											endOffset: 27,
+										},
+										text: "paragraph&",
+									},
+								],
+							},
+						],
+						sourceCodeLocation: {
+							startOffset: 0,
+							endOffset: 31,
+							startTag: {
+								startOffset: 0,
+								endOffset: 3,
+							},
+							endTag: {
+								startOffset: 27,
+								endOffset: 31,
+							},
+						},
+					},
+				],
+				name: "#document-fragment",
 			} );
 		} );
 	} );

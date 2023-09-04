@@ -1,10 +1,18 @@
-export const htmlEntities = [ "amp;", "lt;", "gt;", "quot;", "ndash", "mdash;", "copy;",
-	"reg;", "trade;", "asymp;", "ne;", "pound;", "euro;", "deg" ];
+// Contains characters usually converted HTML entities (cf. _wp_specialchars).
+export const htmlEntities = new Map( [
+	[ "amp;", "&" ],
+	[ "lt;", "<" ],
+	[ "gt;", ">" ],
+	[ "quot;", '"' ],
+	[ "#x27;", "'" ],
+] );
 
-export const htmlEntitiesWithAmpersandRegex = new RegExp( "&(" + htmlEntities.join( "|" ) + ")", "ig" );
+// Contains characters along with their hashed HTML entities.
+export const hashedHtmlEntities = new Map();
+htmlEntities.forEach( ( v, k ) => hashedHtmlEntities.set( "#" + k, v ) );
 
-export const htmlEntitiesWithHashRegex = new RegExp( "#(" + htmlEntities.join( "|" ) + ")", "ig" );
+// Regex to find all HTML entities.
+export const htmlEntitiesRegex = new RegExp( "&(" + [ ...htmlEntities.keys() ].join( "|" ) + ")", "ig" );
 
-export const htmlEntitiesArray = htmlEntities.map( entity => "&" + entity );
-// Note: the order between these two arrays should align between the decoded and encoded version of the entities.
-export const encodedHtmlEntitiesArray = [ "&", "<", ">", "\"", "–", "—", "©", "®", "™", "≈", "≠", "£", "€", "°" ];
+// Regex to find hashed HTML entities at the end of a string.
+export const hashedHtmlEntitiesEndRegex = new RegExp( "(" + [ ...hashedHtmlEntities.keys() ].join( "|" ) + ")$" );
