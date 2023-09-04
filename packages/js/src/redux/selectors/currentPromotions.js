@@ -7,5 +7,5 @@
  * @returns {Boolean} Whether or not the Alert is dismissed.
  */
 export function isPromotionActive( state, promoId ) {
-	return state.currentPromotions.includes( promoId );
+	return state.currentPromotions.promotions.includes( promoId );
 }
