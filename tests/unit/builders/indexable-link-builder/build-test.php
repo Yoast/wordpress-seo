@@ -37,6 +37,7 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				false,
 				false,
 				false,
+				true,
 			],
 			[
 				'
@@ -47,6 +48,7 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				true,
 				false,
 				false,
+				false,
 			],
 			[
 				'
@@ -56,6 +58,7 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				SEO_Links::TYPE_EXTERNAL_IMAGE,
 				true,
 				true,
+				false,
 				false,
 			],
 			[
@@ -67,6 +70,7 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				true,
 				false,
 				true,
+				true,
 			],
 			[
 				'
@@ -76,6 +80,7 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				SEO_Links::TYPE_EXTERNAL_IMAGE,
 				true,
 				false,
+				true,
 				true,
 			],
 		];
@@ -94,11 +99,12 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @param string $content   The content.
 	 * @param string $link_type The link type.
-	 * @param bool   $is_image  Whether or not the link is an image.
-	 * @param bool   $ignore_content_scan  Whether or not content scanning should be ignored.
-	 * @param bool   $should_content_regex  Whether or not the image id should be extracted with a regex.
+	 * @param bool   $is_image  Whether the link is an image.
+	 * @param bool   $ignore_content_scan  Whether content scanning should be ignored.
+	 * @param bool   $should_content_regex  Whether the image id should be extracted with a regex.
+	 * @param bool   $should_doc_scan  Whether the doc document should be used.
 	 */
-	public function test_build( $content, $link_type, $is_image, $ignore_content_scan, $should_content_regex ) {
+	public function test_build( $content, $link_type, $is_image, $ignore_content_scan, $should_content_regex, $should_doc_scan ) {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->id          = 1;
 		$indexable->object_id   = 2;
@@ -134,11 +140,13 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 		Functions\expect( 'home_url' )->once()->andReturn( 'https://site.com' );
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com' )->andReturn( $parsed_home_url );
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com/page' )->andReturn( $parsed_page_url );
-		if ( $should_content_regex ) {
+		if ( $should_doc_scan ) {
 			Functions\expect( 'apply_filters' )
 				->once()
 				->with( 'wpseo_image_attribute_containing_id', 'class' )
 				->andReturn( 'class' );
+		}
+		if ( $should_content_regex ) {
 			Functions\expect( 'apply_filters' )
 				->twice()
 				->with( 'wpseo_extract_id_pattern', '/(?<!\S)wp-image-(\d+)(?!\S)/i' )
