@@ -54,4 +54,21 @@ class Promotion_Manager implements Promotion_Manager_Interface {
 	public function get_promotions_list() : array {
 		return $this->promotions_list;
 	}
+
+	/**
+	 * Getthe names of currently active promotions.
+	 *
+	 * @return array<string> The list of promotions.
+	 */
+	public function get_current_promotions() : array {
+		$current_promotions = [];
+
+		foreach ( $this->promotions_list as $promotion ) {
+			if (  $promotion->get_time_interval()->contains( \time() ) ) {
+				$current_promotions[] = $promotion->get_promotion_name();
+			}
+		}
+
+		return $current_promotions;
+	}
 }
