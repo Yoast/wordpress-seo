@@ -9,12 +9,17 @@ import { get } from "lodash";
  * @returns {Object} The state.
  */
 
-function getDefaultState() {
-	return get( window, "wpseoScriptData.currentPromotions", {} );
-}
-function currentPromotionsReducer( state = getDefaultState(), action ) {
+/**
+ * A reducer for the current promotions.
+ *
+ * @param {Object} state  The current state of the object.
+ * @param {Object} action The action received.
+ * 
+ * @returns {Object} The state.
+ */
+function currentPromotionsReducer( state = [], action ) {
 	if ( action.type === SET_CURRENT_PROMOTIONS ) {
-		return [ ...action.payload ]
+		return [ ...action.payload ];
 	}
 
 	return state;
