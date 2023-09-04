@@ -12,8 +12,6 @@ use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\Lib\Migrations\Adapter;
 use Yoast\WP\SEO\Presenters\Robots_Txt_Presenter;
-use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
-use Yoast\WP\SEO\Promotions\Domain\Black_Friday_Promotion;
 use Yoast\WP\SEO\WordPress\Wrapper;
 use Yoast_Notification_Center;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
@@ -48,8 +46,6 @@ $container->setAlias( ContainerInterface::class, 'service_container' );
 
 // Required for the migrations framework.
 $container->register( Adapter::class, Adapter::class )->setAutowired( true )->setPublic( true );
-
-$container->register( Promotion_Manager::class, Promotion_Manager::class )->setAutowired( true )->setPublic( true )->setArguments( [ new Black_Friday_Promotion() ] );
 
 // Elegantly deprecate renamed classes.
 include __DIR__ . '/renamed-classes.php';
