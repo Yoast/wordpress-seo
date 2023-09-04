@@ -61,7 +61,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				>
 					<TimeConstrainedNotification
 						title={ __( "Is your WooCommerce store ready for Black Friday?", "wordpress-seo" ) }
-						promoId="black-friday-2023"
+						promoId="black_friday_checklist_promotion"
 					>
 						{ createInterpolateElement(
 							sprintf(
