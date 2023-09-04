@@ -1,4 +1,5 @@
 /* External dependencies */
+import { select } from "@wordpress/data";
 import { createInterpolateElement, Fragment, useCallback } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
@@ -23,11 +24,12 @@ import WordProofAuthenticationModals from "../../components/modals/WordProofAuth
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../KeywordUpsell";
 import { TimeConstrainedNotification } from "../../components/TimeConstrainedNotification";
+import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 /* eslint-disable complexity */
 /**
  * Creates the Metabox component.
- *
- * @param {Object} settings 				The feature toggles.
+*
+* @param {Object} settings 				The feature toggles.
  * @param {Object} store    				The Redux store.
  * @param {Object} theme    				The theme to use.
  * @param {Array} wincherKeyphrases 		The Wincher trackable keyphrases.
@@ -45,6 +47,16 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 		}
 	}, [ wincherKeyphrases, setWincherNoKeyphrase ] );
 
+	/**
+	 * Checks if the WooCommerce promo should be shown.
+	 *
+	 * @returns {boolean} Whether the WooCommerce promo should be shown.
+	 */
+	const shouldShowWooCommercePromo = () => {
+		const isProduct = select( "yoast-seo/editor" ).getIsProduct();
+		return isProduct && isWooCommerceActive();
+	};
+
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
@@ -59,7 +71,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 					key="time-constrained-notification"
 					renderPriority={ 2 }
 				>
-					<TimeConstrainedNotification
+					{ shouldShowWooCommercePromo() && <TimeConstrainedNotification
 						title={ __( "Is your WooCommerce store ready for Black Friday?", "wordpress-seo" ) }
 						promoId="black_friday_checklist_promotion"
 					>
@@ -77,6 +89,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 							{ __( "Get the checklist and start optimizing now!", "wordpress-seo" ) }
 						</a>
 					</TimeConstrainedNotification>
+					}
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
