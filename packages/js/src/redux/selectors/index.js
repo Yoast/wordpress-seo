@@ -13,6 +13,7 @@ export * from "./advancedSettings";
 export * from "./analysis";
 export * from "./cornerstoneContent";
 export * from "./checklist";
+export * from "./currentPromotions";
 export * from "./editorContext";
 export * from "./editorData";
 export * from "./editorModals";
