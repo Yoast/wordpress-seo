@@ -2,12 +2,11 @@
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { SimulatedLabel } from "@yoast/components";
-import { FacebookPreview } from "@yoast/social-metadata-previews";
-import {get, noop} from "lodash";
-import {FeatureUpsell, Root, useRootContext} from "@yoast/ui-library";
+import { noop } from "lodash";
+import { FeatureUpsell, Root, useRootContext } from "@yoast/ui-library";
 import styled from "styled-components";
-import interpolateComponents from "interpolate-components";
-import {addQueryArgs} from "@wordpress/url";
+import { addQueryArgs } from "@wordpress/url";
+import { FacebookPreview } from "../../../../social-metadata-previews/src";
 
 const FeatureUpsellContainer = styled.div`
 	max-width: calc(527px + 1.5rem);
@@ -22,8 +21,8 @@ const FeatureUpsellContainer = styled.div`
  */
 const SocialUpsell = ( props ) => {
 	const premiumUpsellConfig = {
-		'data-action': "load-nfd-ctb",
-		'data-ctb-id': "f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
+		"data-action": "load-nfd-ctb",
+		"data-ctb-id": "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 	};
 
 	const { locationContext } = useRootContext();
@@ -46,17 +45,17 @@ const SocialUpsell = ( props ) => {
 						{ sprintf(
 							/* translators: %1$s expands to Social or Twitter. */
 							__( "%1$s share preview", "wordpress-seo" ),
-							props.socialMediumName === "Twitter" ? 'Twitter' : 'Social'
+							props.socialMediumName === "Twitter" ? "Twitter" : "Social"
 						) }
 					</SimulatedLabel>
 
 					<FacebookPreview
-						title={ '' }
-						description={ '' }
-						siteUrl={ '' }
-						imageUrl={ '' }
-						imageFallbackUrl={ '' }
-						alt={ '' }
+						title={ "" }
+						description={ "" }
+						siteUrl={ "" }
+						imageUrl={ "" }
+						imageFallbackUrl={ "" }
+						alt={ "" }
 						onSelect={ noop }
 						onImageClick={ noop }
 						onMouseHover={ noop }
