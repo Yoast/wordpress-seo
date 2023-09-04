@@ -3,6 +3,7 @@ import { select } from "@wordpress/data";
 import { createInterpolateElement, Fragment, useCallback } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
+import { addQueryArgs } from "@wordpress/url";
 import PropTypes from "prop-types";
 import { colors } from "@yoast/style-guide";
 
@@ -25,6 +26,7 @@ import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../KeywordUpsell";
 import { TimeConstrainedNotification } from "../../components/TimeConstrainedNotification";
 import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
+
 /* eslint-disable complexity */
 /**
  * Creates the Metabox component.
@@ -57,6 +59,8 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 		return isProduct && isWooCommerceActive();
 	};
 
+	const linkParams = select( "yoast-seo/editor" ).selectLinkParams();
+
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
@@ -85,7 +89,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 								strong: <strong />,
 							}
 						) }
-						&nbsp;<a href="https://www.yoast.com" target="_blank" rel="noreferrer">
+						&nbsp;<a href={ addQueryArgs( "https://yoa.st/black-friday-checklist", linkParams ) } target="_blank" rel="noreferrer">
 							{ __( "Get the checklist and start optimizing now!", "wordpress-seo" ) }
 						</a>
 					</TimeConstrainedNotification>
