@@ -466,13 +466,12 @@ describe( "A test for the tokenize function",
 		} );
 	} );
 
-describe( "A test for tokenizing a japanese sentence", function() {
-	it( "should correctly tokenize a simple Japanse sentence.", function() {
+describe( "A test for tokenizing a Japanese sentence", function() {
+	it( "should correctly tokenize a simple Japanese sentence.", function() {
 		const mockPaper = new Paper( "<p>犬が大好き\u3002</p>", { locale: "ja_JP" } );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
 		const languageProcessor = new LanguageProcessor( mockResearcher );
 		buildTreeNoTokenize( mockPaper );
-		// eslint-disable-next-line max-len
 		expect( tokenize( mockPaper.getTree(), languageProcessor ) ).toEqual( {
 			attributes: {},
 			childNodes: [
