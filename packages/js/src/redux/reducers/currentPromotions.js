@@ -1,5 +1,5 @@
 import { SET_CURRENT_PROMOTIONS } from "../actions/currentPromotions";
-
+import { get } from "lodash";
 /**
  * A reducer for the currentPromotions.
  *
@@ -8,9 +8,13 @@ import { SET_CURRENT_PROMOTIONS } from "../actions/currentPromotions";
  *
  * @returns {Object} The state.
  */
-function currentPromotionsReducer( state = {}, action ) {
+
+function getDefaultState() {
+	return get( window, "wpseoScriptData.currentPromotions", {} );
+}
+function currentPromotionsReducer( state = getDefaultState(), action ) {
 	if ( action.type === SET_CURRENT_PROMOTIONS ) {
-		return { ...action.payload };
+		return [ ...action.payload ]
 	}
 
 	return state;
