@@ -1199,6 +1199,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	private function get_current_promotions() {
-		// return YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions_list();
+		return YoastSEO()->classes->get( Yoast\WP\SEO\Promotions\Application\Promotion_Manager::class )->get_current_promotions();
 	}
 }
