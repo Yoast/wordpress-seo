@@ -468,7 +468,7 @@ class Elementor implements Integration_Interface {
 			],
 			'dismissedAlerts'           => $dismissed_alerts,
 			'webinarIntroElementorUrl'  => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
-			'blackFridayBlockEditorUrl' => ( $this->promotion_manager->is( 'black_friday_2023' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : '',
+			'blackFridayBlockEditorUrl' => ( $this->promotion_manager->is( 'black_friday_2023_checklist' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'usedKeywordsNonce'         => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 			'linkParams'                => WPSEO_Shortlinker::get_query_params(),
 			'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),
