@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Alerts;
 
 /**
  * Black_Friday_Product_Editor_Checklist_Notification class.
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Black_Friday_Product_Editor_Checklist_Notification extends Abstract_Dismissable_Alert {
 
