@@ -9,7 +9,6 @@ use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Integrations\Support_Integration;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
-use Yoast\WP\SEO\Promotions\Application\Promotion_Manager_Interface;
 
 /**
  * Class WPSEO_Admin_Pages.
@@ -33,19 +32,9 @@ class WPSEO_Admin_Pages {
 	private $asset_manager;
 
 	/**
-	 * The promotions manager.
-	 *
-	 * @var Promotion_Manager_Interface
-	 */
-	private $promotion_manager;
-
-	/**
 	 * Class constructor, which basically only hooks the init function on the init hook.
-	 *
-	 * @param Promotion_Manager_Interface $promotion_manager The promotions manager.
 	 */
-	public function __construct( Promotion_Manager_Interface $promotion_manager ) {
-		$this->promotion_manager = $promotion_manager;
+	public function __construct() {
 		add_action( 'init', [ $this, 'init' ], 20 );
 
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -103,7 +92,7 @@ class WPSEO_Admin_Pages {
 			'isPremium'                      => YoastSEO()->helpers->product->is_premium(),
 			'isWooCommerceActive'            => $woocommerce_conditional->is_met(),
 			'webinarIntroSettingsUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-settings' ),
-			'blackFridayBlockEditorUrl'      => ( $this->promotion_manager->is( 'black_friday_2023' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : '',
+			'blackFridayBlockEditorUrl'      => ( YoastSEO()->classes->get( Yoast\WP\SEO\Promotions\Application\Promotion_Manager::class )->is( 'bf_sidebar_checklist_promotion' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'webinarIntroFirstTimeConfigUrl' => $this->get_webinar_shortlink(),
 			'pluginUrl'                      => \plugins_url( '', \WPSEO_FILE ),
 		];
