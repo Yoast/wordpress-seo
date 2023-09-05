@@ -23,6 +23,7 @@ const CaretContainer = styled.div`
 	position: relative;`
 ;
 
+
 const Caret = styled.div`
 	display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
 
@@ -174,11 +175,12 @@ class SocialMetadataPreviewForm extends Component {
 
 		const imageSelected = !! imageUrl;
 
-		/* Translators: %s expands to the social medium name, i.e. Facebook. */
+		/* Translators: %s expands to the social image. */
+		/* Translators: %s expands to the social medium name, i.e. Social or Twitter. */
 		const imageSelectTitle = sprintf( __( "%s image", "wordpress-seo" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Facebook. */
+		/* Translators: %s expands to the social medium name, i.e. Social or Twitter. */
 		const titleEditorTitle = sprintf( __( "%s title", "wordpress-seo" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Facebook. */
+		/* Translators: %s expands to the social medium name, i.e. Social or Twitter. */
 		const descEditorTitle = sprintf( __( "%s description", "wordpress-seo" ), socialMediumName );
 
 		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
@@ -247,7 +249,7 @@ class SocialMetadataPreviewForm extends Component {
 }
 
 SocialMetadataPreviewForm.propTypes = {
-	socialMediumName: PropTypes.oneOf( [ "Twitter", "Facebook" ] ).isRequired,
+	socialMediumName: PropTypes.oneOf( [ "Twitter", "Social" ] ).isRequired,
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,

@@ -9,7 +9,7 @@ import withLocation from "../../helpers/withLocation";
 import { getCurrentReplacementVariablesForEditor } from "../replaceVars/elementor-replacevar-plugin";
 import { openMedia, prepareFacebookPreviewImage } from "../../helpers/selectMedia";
 
-const socialMediumName = "Facebook";
+const socialMediumName = "Social";
 
 /**
  * Lazy function to open the media instance.

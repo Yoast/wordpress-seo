@@ -11,10 +11,9 @@ import Warning from "../../containers/Warning";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import InsightsModal from "../../insights/components/insights-modal";
 import SidebarItem from "../SidebarItem";
-import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
+import SearchAppearanceModal from "../modals/editorModals/SearchAppearanceModal";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
-import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
-import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
+import SocialAppearanceModal from "../modals/editorModals/SocialAppearanceModal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
@@ -51,14 +50,14 @@ export default function SidebarFill( { settings } ) {
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 				</SidebarItem> }
-				<SidebarItem key="google-preview" renderPriority={ 25 }>
-					<GooglePreviewModal />
+				<SidebarItem key="search-appearance" renderPriority={ 25 }>
+					<SearchAppearanceModal />
 				</SidebarItem>
-				{ settings.displayFacebook && <SidebarItem key="facebook-preview" renderPriority={ 26 }>
-					<FacebookPreviewModal />
-				</SidebarItem> }
-				{ settings.displayTwitter && <SidebarItem key="twitter-preview" renderPriority={ 27 }>
-					<TwitterPreviewModal />
+				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-appearance" renderPriority={ 26 }>
+					<SocialAppearanceModal
+						useOpenGraphData={ settings.useOpenGraphData }
+						useTwitterData={ settings.useTwitterData }
+					/>
 				</SidebarItem> }
 				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 28 }>
 					<SidebarCollapsible
