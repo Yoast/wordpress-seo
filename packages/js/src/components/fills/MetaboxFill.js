@@ -1,9 +1,8 @@
 /* External dependencies */
 import { select } from "@wordpress/data";
-import { createInterpolateElement, Fragment, useCallback } from "@wordpress/element";
+import { Fragment, useCallback } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
-import { __, sprintf } from "@wordpress/i18n";
-import { addQueryArgs } from "@wordpress/url";
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { colors } from "@yoast/style-guide";
 
@@ -24,7 +23,7 @@ import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../KeywordUpsell";
-import { TimeConstrainedNotification } from "../../components/TimeConstrainedNotification";
+import { BlackFridayProductEditorChecklistPromo } from "../BlackFridayProductEditorChecklistPromo";
 import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 
 /* eslint-disable complexity */
@@ -59,8 +58,6 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 		return isProduct && isWooCommerceActive();
 	};
 
-	const linkParams = select( "yoast-seo/editor" ).selectLinkParams();
-
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
@@ -75,25 +72,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 					key="time-constrained-notification"
 					renderPriority={ 2 }
 				>
-					{ shouldShowWooCommercePromo() && <TimeConstrainedNotification
-						title={ __( "Is your WooCommerce store ready for Black Friday?", "wordpress-seo" ) }
-						promoId="black_friday_checklist_promotion"
-					>
-						{ createInterpolateElement(
-							sprintf(
-								/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
-								__( "The Yoast %1$sultimate Black Friday checklist%2$s helps you prepare in time, so you can boost your results during this sale.", "wordpress-seo" ),
-								"<strong>",
-								"</strong>" ),
-							{
-								strong: <strong />,
-							}
-						) }
-						&nbsp;<a href={ addQueryArgs( "https://yoa.st/black-friday-checklist", linkParams ) } target="_blank" rel="noreferrer">
-							{ __( "Get the checklist and start optimizing now!", "wordpress-seo" ) }
-						</a>
-					</TimeConstrainedNotification>
-					}
+					{ shouldShowWooCommercePromo() && <BlackFridayProductEditorChecklistPromo /> }
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
