@@ -135,6 +135,10 @@ function calculateInitialState( windowObject, isStepFinished ) {
 
 	return {
 		...windowObject,
+		personId: Number( windowObject.personId ),
+		personLogoId: Number( windowObject.personLogoId ),
+		companyLogoId: Number( windowObject.companyLogoId ),
+		tracking: Number( windowObject.tracking ),
 		companyOrPerson,
 		companyOrPersonOptions,
 		errorFields: [],

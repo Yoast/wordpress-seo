@@ -16,23 +16,19 @@ Improve your WordPress SEO: Write better content and have a fully optimized Word
 
 Supercharge your website's visibility and attract organic traffic with Yoast SEO, the WordPress SEO plugin trusted by millions worldwide.
 
-Since 2008, Yoast SEO has helped millions of websites rank higher in search engines. Our plugin serves a diverse user base, from small-town bakeries and local physical stores to some of the world's largest and most influential organizations.
+With those millions of users, we've definitely helped someone like you! Users of our plugin range from owners of small-town bakeries and local physical stores to some of the world's largest and most influential organizations. And we've done this since 2008!
 
-Yoast SEO Free contains everything you need to manage your SEO, and the [Yoast SEO Premium](https://yoa.st/1v8) plugin and its extensions unlock extra tools and functionality to give you a competitive edge.
+Yoast SEO Free provides the essentials to kickstart your SEO, and the [Yoast SEO Premium](https://yoa.st/1v8) plugin and its extensions unlock extra tools and functionality to take your SEO to the next level.
 
 ### SEO FOR EVERYONE, MADE BY SEO EXPERTS
 
-SEO is the most consistent and cost-effective website traffic source, but getting that traffic is hard work. Mastering SEO can be complex, from algorithm shifts to the constant need for fresh, optimized content. But that's where Yoast comes in!
+SEO is the most consistent and cost-effective website traffic source, but it can be a challenging and complex maze. Luckily, you don't have to do this alone. We're here to help!
 
-Yoast's mission is SEO for everyone. Through years of expertise in the SEO industry, we've created a plugin that gives you the best SEO performance possible while making SEO simple. Whether you're a seasoned professional or just starting, Yoast SEO equips you with everything you need to navigate the complexities of SEO, turning those challenges into opportunities for growth and success.
+Yoast's mission is **SEO for everyone**. Whether you're a beginner or a seasoned expert, Yoast SEO equips you with all the essentials to navigate the complexities of SEO, turning those challenges into opportunities for growth and success.
 
-Yoast SEO is a sophisticated WordPress SEO plugin, crafted by acclaimed experts in the SEO industry.
+### STAY ON TOP OF SEO WITH NEW FEATURES
 
-### INNOVATION AT THE CORE OF YOAST
-
-At Yoast, innovation is about delivering the best in a WordPress SEO tool and enhancing the user experience. Recognizing the ever-changing landscape of search engine optimization, the team is constantly developing new and exciting features.
-
-Our latest innovation is an AI title & meta description generator, specifically designed to take the guesswork out of SEO and help you save time. With this feature, creating engaging and optimized SEO titles and meta descriptions has never been easier, faster, and more precise! The feature is currently in beta and is available for [Yoast SEO Premium](https://yoa.st/1v8) users.
+Creating engaging and optimized SEO titles and meta descriptions has never been easier, faster, and more precise! With our latest feature, the AI title & meta description generator, you'll certainly save time. The feature is currently in beta and is available for [Yoast SEO Premium](https://yoa.st/1v8) users.
 
 ### WHY YOAST SEO?
 
@@ -344,25 +340,27 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 21.1 =
+
+Release date: 2023-09-05
+
+Here's Yoast SEO 21.1! After the AI release, we're back with an update filled with fixes and enhancements to improve your SEO work. Check it out! Find out more about what's new in Yoast SEO 21.1 in [our release post](https://yoa.st/release-5-9-23)!
+
+#### Bugfixes
+
+* Fixes a bug where an error could occur when an indexable was outdated. Props to @jaimearroyonavia.
+* Fixes a bug where the cleanup routine would throw an error when on multisites.
+* Fixes a bug where the notification for a new content type in the notification center would not be dismissed when installing Elementor and reviewing the new content types.
+
+#### Other
+
+* Adds an attribute to the link "See who contributed to" to open in a new browser tab, located in the General tab. Props to @nathanwritescode-uk.
+
 = 21.0 =
 
 Release date: 2023-08-22
 
 We're thrilled to announce Yoast SEO 21.0! This update is geared at making your SEO journey smoother and more successful. We're introducing our first step into AI with automatic titles and meta description generation in Yoast SEO Premium. Find out more about what's new in Yoast SEO 21.0 in [our release post](https://yoa.st/release-22-8-23)!
-
-#### Other
-
-* Sets the WordPress tested up to version to 6.3.
-
-= 20.13 =
-
-Release date: 2023-08-08
-
-Please welcome Yoast SEO 20.13! We've focused on enhancing compatibility and performance, making your SEO efforts smoother and more effective. We've also improved compatibility with WordPress 6.3. Find out more about what's new in Yoast SEO 20.13 in [our release post](https://yoa.st/release-8-8-23)!
-
-#### Enhancements
-
-* Ensures that the Google, Facebook and Twitter Preview modals are compatible with WordPress 6.3.
 
 #### Other
 
