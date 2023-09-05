@@ -46,7 +46,7 @@ export default function SidebarFill( { settings } ) {
 					<Warning />
 					<div style={ { margin: "0 16px" } }>
 						{ isWooCommerce && blackFridayBlockEditorUrl
-							? <BlackFridayPromoNotification hasIcon={ false } image={ null } url={ blackFridayBlockEditorUrl } />
+							? <BlackFridayPromoNotification image={ null } url={ blackFridayBlockEditorUrl } />
 							: <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
 						}
 					</div>

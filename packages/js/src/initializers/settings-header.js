@@ -21,7 +21,7 @@ const initSettingsHeader = () => {
 		render(
 			<ThemeProvider theme={ { isRtl } }>
 				{ isWooCommerce && blackFridayBlockEditorUrl
-					? <BlackFridayPromoNotification store="yoast-seo/settings" hasIcon={ false } url={ blackFridayBlockEditorUrl } />
+					? <BlackFridayPromoNotification store="yoast-seo/settings" url={ blackFridayBlockEditorUrl } />
 					: <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
 			</ThemeProvider>,
 			reactRoot

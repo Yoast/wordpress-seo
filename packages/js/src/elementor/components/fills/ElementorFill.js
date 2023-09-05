@@ -60,7 +60,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					<Alert />
 
 					{ isWooCommerce && blackFridayBlockEditorUrl
-						? <BlackFridayPromoNotification hasIcon={ false } image={ null } url={ blackFridayBlockEditorUrl } />
+						? <BlackFridayPromoNotification image={ null } url={ blackFridayBlockEditorUrl } />
 						: <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } /> }
 
 				</SidebarItem>
