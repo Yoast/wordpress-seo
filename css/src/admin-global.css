@@ -703,6 +703,10 @@ body.folded .wpseo-admin-submit-fixed {
 	margin-top: 20px;
 }
 
+#time-constrained-notification .notice-yoast__container {
+	padding: 0px 5px;
+}
+
 .notice-yoast.is-dismissible {
 	padding-right: 38px;
     position: relative;
