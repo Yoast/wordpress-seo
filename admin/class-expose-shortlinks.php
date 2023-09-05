@@ -28,7 +28,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.nofollow_sponsored'                             => 'https://yoa.st/nofollow-sponsored',
 		'shortlinks.snippet_preview_info'                           => 'https://yoa.st/snippet-preview',
 		'shortlinks.cornerstone_content_info'                       => 'https://yoa.st/1i9',
-		'shortlinks.upsell.social_preview.facebook'                 => 'https://yoa.st/social-preview-facebook',
+		'shortlinks.upsell.social_preview.social'                   => 'https://yoa.st/social-preview-facebook',
 		'shortlinks.upsell.social_preview.twitter'                  => 'https://yoa.st/social-preview-twitter',
 		'shortlinks.upsell.sidebar.news'                            => 'https://yoa.st/get-news-sidebar',
 		'shortlinks.upsell.sidebar.focus_keyword_synonyms_link'     => 'https://yoa.st/textlink-synonyms-popup-sidebar',
