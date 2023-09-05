@@ -1,9 +1,8 @@
 /* global wpseoAdminL10n */
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
-import { SimulatedLabel } from "@yoast/components";
 import { noop } from "lodash";
-import { FeatureUpsell, Root, useRootContext } from "@yoast/ui-library";
+import { FeatureUpsell, Label, Root, useRootContext } from "@yoast/ui-library";
 import styled from "styled-components";
 import { addQueryArgs } from "@wordpress/url";
 import { FacebookPreview } from "../../../../social-metadata-previews/src";
@@ -33,7 +32,9 @@ const SocialUpsell = ( props ) => {
 				<FeatureUpsell
 					shouldUpsell={ true }
 					variant="card"
-					cardLink={ addQueryArgs( wpseoAdminL10n[ "shortlinks.upsell.social_preview." + props.socialMediumName.toLowerCase() ], { context: locationContext } ) }
+					cardLink={ addQueryArgs(
+						wpseoAdminL10n[ "shortlinks.upsell.social_preview." + props.socialMediumName.toLowerCase() ],
+						{ context: locationContext } ) }
 					cardText={ sprintf(
 						/* translators: %1$s expands to Yoast SEO Premium. */
 						__( "Unlock with %1$s", "wordpress-seo" ),
@@ -41,24 +42,26 @@ const SocialUpsell = ( props ) => {
 					) }
 					{ ...premiumUpsellConfig }
 				>
-					<SimulatedLabel>
-						{ sprintf(
+					<div className={ "yst-grayscale yst-opacity-50" }>
+						<Label>
+							{ sprintf(
 							/* translators: %1$s expands to Social or Twitter. */
-							__( "%1$s share preview", "wordpress-seo" ), props.socialMediumName
-						) }
-					</SimulatedLabel>
+								__( "%1$s share preview", "wordpress-seo" ), props.socialMediumName
+							) }
+						</Label>
 
-					<FacebookPreview
-						title={ "" }
-						description={ "" }
-						siteUrl={ "" }
-						imageUrl={ "" }
-						imageFallbackUrl={ "" }
-						alt={ "" }
-						onSelect={ noop }
-						onImageClick={ noop }
-						onMouseHover={ noop }
-					/>
+						<FacebookPreview
+							title={ "" }
+							description={ "" }
+							siteUrl={ "" }
+							imageUrl={ "" }
+							imageFallbackUrl={ "" }
+							alt={ "" }
+							onSelect={ noop }
+							onImageClick={ noop }
+							onMouseHover={ noop }
+						/>
+					</div>
 				</FeatureUpsell>
 			</FeatureUpsellContainer>
 		</Root>
