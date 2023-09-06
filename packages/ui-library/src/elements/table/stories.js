@@ -1,4 +1,5 @@
 import Table from ".";
+import { component, tableBody, tableCell, tableHead, tableHeader, tableRow } from "./docs";
 
 export default {
 	title: "1) Elements/Table",
@@ -7,11 +8,7 @@ export default {
 		children: { control: false },
 	},
 	parameters: {
-		docs: {
-			description: {
-				component: "A simple Table element. It contains sub components that allows you to construct a table. Has `Table.Head` and `Table.Body` as children",
-			},
-		},
+		docs: { description: { component } },
 	},
 };
 
@@ -60,7 +57,7 @@ TableHead.storyName = "Table head";
 
 TableHead.parameters = {
 	controls: { disable: false },
-	docs: { description: { story: "The sub component `Table.Head`. Has `Table.Row` as `children`, and `Table.Row` has `Table.Header` as children." } },
+	docs: { description: { story: tableHead } },
 };
 
 TableHead.args = {
@@ -94,7 +91,7 @@ TableRow.storyName = "Table row";
 
 TableRow.parameters = {
 	controls: { disable: false },
-	docs: { description: { story: "The sub component `Table.Row`." } },
+	docs: { description: { story: tableRow } },
 };
 
 TableRow.args = {
@@ -128,7 +125,7 @@ TableHeader.storyName = "Table header";
 
 TableHeader.parameters = {
 	controls: { disable: false },
-	docs: { description: { story: "The sub component `Table.Header`." } },
+	docs: { description: { story: tableHeader } },
 };
 
 TableHeader.args = {
@@ -162,7 +159,7 @@ TableBody.storyName = "Table body";
 
 TableBody.parameters = {
 	controls: { disable: false },
-	docs: { description: { story: "The sub component `Table.Body`. Has `Table.Row` as `children`, and `Table.Row` has `Table.Cell` as children." } },
+	docs: { description: { story: tableBody } },
 };
 
 TableBody.args = {
@@ -196,7 +193,7 @@ TableCell.storyName = "Table cell";
 
 TableCell.parameters = {
 	controls: { disable: false },
-	docs: { description: { story: "The sub component `Table.Cell`." } },
+	docs: { description: { story: tableCell } },
 };
 
 TableCell.args = {

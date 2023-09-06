@@ -55,7 +55,7 @@ const SocialPreviewFormWrapper = () =>
 	<ExamplesContainer>
 		<h1>Regular Facebook</h1>
 		<SocialMetadataPreviewForm
-			socialMediumName="Facebook"
+			socialMediumName="Social"
 			replacementVariables={ replacementVariables }
 			recommendedReplacementVariables={ recommendedReplacementVariables }
 			description=""

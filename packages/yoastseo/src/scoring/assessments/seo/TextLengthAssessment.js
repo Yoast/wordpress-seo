@@ -115,7 +115,7 @@ export default class TextLengthAssessment extends Assessment {
 			return {
 				score: this._config.scores.recommendedMinimum,
 				resultText: sprintf(
-					/* Translators: %1$d expands to the number of words / characters in the text,
+					/* translators: %1$d expands to the number of words / characters in the text,
 					%2$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
 					%4$s expands to the word 'words' or 'characters'. */
 					__(
@@ -140,7 +140,7 @@ export default class TextLengthAssessment extends Assessment {
 			return {
 				score: badScore,
 				resultText: sprintf(
-					/* Translators: %1$d expands to the number of words / characters in the text,
+					/* translators: %1$d expands to the number of words / characters in the text,
 					%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
 					%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
 					%6$s expands to the word 'word' or 'character', %7$s expands to the word 'words' or 'characters'. */
@@ -168,7 +168,7 @@ export default class TextLengthAssessment extends Assessment {
 				return {
 					score: this._config.scores.slightlyBelowMinimum,
 					resultText: sprintf(
-						/* Translators: %1$d expands to the number of words / characters in the text,
+						/* translators: %1$d expands to the number of words / characters in the text,
 						%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
 						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
 						%6$s expands to the word 'words' or 'characters'. */
@@ -190,7 +190,7 @@ export default class TextLengthAssessment extends Assessment {
 			return {
 				score: this._config.scores.slightlyBelowMinimum,
 				resultText: sprintf(
-					/* Translators: %1$d expands to the number of words / characters in the text,
+					/* translators: %1$d expands to the number of words / characters in the text,
 						%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
 						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
 						%6$s expands to the word 'words' or 'characters'. */
@@ -212,7 +212,7 @@ export default class TextLengthAssessment extends Assessment {
 		return {
 			score: this._config.scores.belowMinimum,
 			resultText: sprintf(
-				/* Translators: %1$d expands to the number of words / characters in the text,
+				/* translators: %1$d expands to the number of words / characters in the text,
 						%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
 						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
 						%6$s expands to the word 'words' or 'characters'. */

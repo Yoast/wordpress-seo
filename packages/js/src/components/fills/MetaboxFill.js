@@ -1,4 +1,5 @@
 /* External dependencies */
+import { select } from "@wordpress/data";
 import { Fragment, useCallback } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
@@ -22,12 +23,14 @@ import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../KeywordUpsell";
+import { BlackFridayProductEditorChecklistPromo } from "../BlackFridayProductEditorChecklistPromo";
+import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 
 /* eslint-disable complexity */
 /**
  * Creates the Metabox component.
- *
- * @param {Object} settings 				The feature toggles.
+*
+* @param {Object} settings 				The feature toggles.
  * @param {Object} store    				The Redux store.
  * @param {Object} theme    				The theme to use.
  * @param {Array} wincherKeyphrases 		The Wincher trackable keyphrases.
@@ -45,6 +48,16 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 		}
 	}, [ wincherKeyphrases, setWincherNoKeyphrase ] );
 
+	/**
+	 * Checks if the WooCommerce promo should be shown.
+	 *
+	 * @returns {boolean} Whether the WooCommerce promo should be shown.
+	 */
+	const shouldShowWooCommercePromo = () => {
+		const isProduct = select( "yoast-seo/editor" ).getIsProduct();
+		return isProduct && isWooCommerceActive();
+	};
+
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
@@ -55,6 +68,12 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				>
 					<Warning />
 				</SidebarItem>
+				<SidebarItem
+					key="time-constrained-notification"
+					renderPriority={ 2 }
+				>
+					{ shouldShowWooCommercePromo() && <BlackFridayProductEditorChecklistPromo /> }
+				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
@@ -63,10 +82,10 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						<SEMrushRelatedKeyphrases />
 					</Fill> }
 				</SidebarItem> }
-				<SidebarItem key="google-preview" renderPriority={ 9 }>
+				<SidebarItem key="search-appearance" renderPriority={ 9 }>
 					<MetaboxCollapsible
 						id={ "yoast-snippet-editor-metabox" }
-						title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
+						title={ __( "Search appearance", "wordpress-seo" ) } initialIsOpen={ true }
 					>
 						<SnippetEditor hasPaperStyle={ false } />
 					</MetaboxCollapsible>

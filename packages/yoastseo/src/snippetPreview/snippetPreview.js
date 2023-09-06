@@ -369,7 +369,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 			slug: __( "Slug", "wordpress-seo" ),
 			metaDescription: __( "Meta description", "wordpress-seo" ),
 			save: __( "Close snippet editor", "wordpress-seo" ),
-			snippetPreview: __( "Google preview", "wordpress-seo" ),
+			snippetPreview: __( "Search appearance", "wordpress-seo" ),
 			titleLabel: __( "SEO title preview:", "wordpress-seo" ),
 			slugLabel: __( "Slug preview:", "wordpress-seo" ),
 			metaDescriptionLabel: __( "Meta description preview:", "wordpress-seo" ),

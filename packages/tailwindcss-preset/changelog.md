@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.0
+
+* Fixes the default color for placeholder text throughout the plugin. [#20420](https://github.com/Yoast/wordpress-seo/pull/20420)
+
 ## 2.2.0
 
 * Enables `important` for the Tailwind utilities, to be able to override our root class styling. [#18563](https://github.com/Yoast/wordpress-seo/pull/18563)

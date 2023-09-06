@@ -51,7 +51,7 @@ class FunctionWordsInKeyphraseAssessment extends Assessment {
 			assessmentResult.setScore( this._config.scores.onlyFunctionWords );
 			assessmentResult.setText( sprintf(
 				/**
-				 * Translators:
+				 * translators:
 				 * %1$s and %2$s expand to links on yoast.com,
 				 * %3$s expands to the anchor end tag,
 				 * %4$s expands to the focus keyphrase of the article.

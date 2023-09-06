@@ -2,19 +2,19 @@
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
-import EditorModal from "../../../../containers/EditorModal";
+import EditorModal from "../../../containers/EditorModal";
 import SnippetEditorWrapper from "../../../containers/SnippetEditor";
 
 /**
- * The Google Preview Modal.
+ * The Search Appearance Modal.
  *
- * @returns {React.Component} The Google Preview Modal.
+ * @returns {JSX.Element} The Search Appearance Modal.
  */
-const GooglePreviewModal = () => {
+const SearchAppearanceModal = () => {
 	return (
 		<EditorModal
-			title={ __( "Google preview", "wordpress-seo" ) }
-			id="yoast-google-preview-modal"
+			title={ __( "Search appearance", "wordpress-seo" ) }
+			id="yoast-search-appearance-modal"
 			shouldCloseOnClickOutside={ false }
 		>
 			<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
@@ -22,4 +22,4 @@ const GooglePreviewModal = () => {
 	);
 };
 
-export default GooglePreviewModal;
+export default SearchAppearanceModal;
