@@ -131,7 +131,7 @@ $sale_badge = '';
 
 if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black_friday_2023' ) ) {
 	/* translators: %1$s expands to opening span, %2$s expands to closing span */
-	$sale_badge_span = sprintf( __( '%1$sSALE 30%% OFF!%2$s', 'wordpress-seo' ), '<span>', '</span>' );
+	$sale_badge_span = sprintf( esc_html__( '%1$sSALE 30%% OFF!%2$s', 'wordpress-seo' ), '<span>', '</span>' );
 
 	$sale_badge = '<div class="yoast-seo-premium-extension-sale-badge">' . $sale_badge_span . '</div>';
 }
@@ -143,7 +143,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black_friday_202
 
 	<div id="extensions">
 		<section class="yoast-seo-premium-extension">
-			<?php echo $sale_badge ?>
+			<?php echo $sale_badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Output is already escaped ?>
 			<h2>
 				<?php
 				printf(
@@ -292,8 +292,8 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black_friday_202
 				}
 				?>
 				<section class="yoast-promoblock secondary yoast-promo-extension">
-					<?php if(! $addon_manager->has_valid_subscription( $slug ) || ! $addon_manager->is_installed( $slug )) : ?>
-						<?php echo $sale_badge; ?>
+					<?php if ( ! $addon_manager->has_valid_subscription( $slug ) || ! $addon_manager->is_installed( $slug ) ) : ?>
+						<?php echo $sale_badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Output already escaped ?>
 					<?php endif; ?>
 					<h3>
 						<img alt="" width="100" height="100" src="<?php echo esc_url( $extension['image'] ); ?>"/>
