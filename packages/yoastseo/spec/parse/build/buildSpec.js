@@ -52,6 +52,7 @@ describe( "The parse function", () => {
 					childNodes: [ {
 						name: "#text",
 						value: "Hello, world!",
+						sourceCodeRange: { startOffset: 22, endOffset: 35 },
 					} ],
 					sourceCodeLocation: {
 						startOffset: 5,
@@ -113,6 +114,7 @@ describe( "The parse function", () => {
 					childNodes: [ {
 						name: "#text",
 						value: "犬が大好き",
+						sourceCodeRange: { startOffset: 22, endOffset: 27 },
 					} ],
 					sourceCodeLocation: {
 						startOffset: 5,
@@ -175,6 +177,7 @@ describe( "The parse function", () => {
 						{
 							name: "#text",
 							value: "Hello ",
+							sourceCodeRange: { startOffset: 5, endOffset: 11 },
 						},
 						{
 							name: "span",
@@ -182,6 +185,7 @@ describe( "The parse function", () => {
 							childNodes: [ {
 								name: "#text",
 								value: "World!",
+								sourceCodeRange: { startOffset: 17, endOffset: 23 },
 							} ],
 							sourceCodeLocation: {
 								startOffset: 11,
@@ -265,6 +269,7 @@ describe( "The parse function", () => {
 								{
 									name: "#text",
 									value: "Hello ",
+									sourceCodeRange: { startOffset: 5, endOffset: 11 },
 								},
 							],
 							sourceCodeLocation: {
@@ -289,6 +294,7 @@ describe( "The parse function", () => {
 								{
 									name: "#text",
 									value: "World!",
+									sourceCodeRange: { startOffset: 14, endOffset: 20 },
 								},
 							],
 							sourceCodeLocation: {
@@ -370,6 +376,7 @@ describe( "The parse function", () => {
 								{
 									name: "#text",
 									value: "So ",
+									sourceCodeRange: { startOffset: 5, endOffset: 8 },
 								},
 								{
 									name: "em",
@@ -378,6 +385,7 @@ describe( "The parse function", () => {
 										{
 											name: "#text",
 											value: "long",
+											sourceCodeRange: { startOffset: 12, endOffset: 16 },
 										},
 									],
 									sourceCodeLocation: {
@@ -396,6 +404,7 @@ describe( "The parse function", () => {
 								{
 									name: "#text",
 									value: ", and ",
+									sourceCodeRange: { startOffset: 21, endOffset: 27 },
 								},
 							],
 							sentences: [ {
@@ -424,6 +433,7 @@ describe( "The parse function", () => {
 								{
 									name: "#text",
 									value: "thanks",
+									sourceCodeRange: { startOffset: 30, endOffset: 36 },
 								},
 							],
 							sentences: [ {
@@ -454,6 +464,7 @@ describe( "The parse function", () => {
 								{
 									name: "#text",
 									value: " for ",
+									sourceCodeRange: { startOffset: 40, endOffset: 45 },
 								},
 							],
 							sentences: [ {
@@ -478,6 +489,7 @@ describe( "The parse function", () => {
 								{
 									name: "#text",
 									value: "all",
+									sourceCodeRange: { startOffset: 48, endOffset: 51 },
 								},
 							],
 							sentences: [ {
@@ -508,6 +520,7 @@ describe( "The parse function", () => {
 								{
 									name: "#text",
 									value: " the ",
+									sourceCodeRange: { startOffset: 55, endOffset: 60 },
 								},
 								{
 									name: "strong",
@@ -516,6 +529,7 @@ describe( "The parse function", () => {
 										{
 											name: "#text",
 											value: "fish",
+											sourceCodeRange: { startOffset: 68, endOffset: 72 },
 										},
 									],
 									sourceCodeLocation: {
@@ -534,6 +548,7 @@ describe( "The parse function", () => {
 								{
 									name: "#text",
 									value: "!",
+									sourceCodeRange: { startOffset: 81, endOffset: 82 },
 								},
 							],
 							sentences: [ {
@@ -600,10 +615,12 @@ describe( "The parse function", () => {
 				{
 					name: "#text",
 					value: "\n",
+					sourceCodeRange: { startOffset: 39, endOffset: 40 },
 				},
 				{
 					name: "#text",
 					value: "\n",
+					sourceCodeRange: { startOffset: 287, endOffset: 288 },
 				},
 				{
 					attributes: {},
@@ -620,6 +637,7 @@ describe( "The parse function", () => {
 						{
 							name: "#text",
 							value: "This is the first sentence.",
+							sourceCodeRange: { startOffset: 331, endOffset: 358 },
 						},
 					],
 					isImplicit: false,
@@ -742,6 +760,7 @@ describe( "The parse function", () => {
 							{
 								name: "#text",
 								value: "The first sentence",
+								sourceCodeRange: { startOffset: 99, endOffset: 117 },
 							},
 						],
 						isImplicit: false,
@@ -845,6 +864,7 @@ describe( "The parse function", () => {
 								{
 									name: "#text",
 									value: " Hello, world!",
+									sourceCodeRange: { startOffset: 53, endOffset: 67 },
 								},
 							],
 							sentences: [
@@ -935,6 +955,10 @@ describe( "The parse function", () => {
 				attributes: {},
 				sentences: [],
 				childNodes: [],
+				sourceCodeLocation: {
+					startOffset: 0,
+					endOffset: 45,
+				},
 			},
 			{
 				name: "p",
@@ -954,6 +978,7 @@ describe( "The parse function", () => {
 				childNodes: [ {
 					name: "#text",
 					value: "Hello, world!",
+					sourceCodeRange: { startOffset: 48, endOffset: 61 },
 				} ],
 				sourceCodeLocation: {
 					startOffset: 45,
@@ -1021,6 +1046,7 @@ describe( "The parse function", () => {
 						{
 							name: "#text",
 							value: "Hello, world!",
+							sourceCodeRange: { startOffset: 26, endOffset: 39 },
 						} ],
 					sourceCodeLocation: {
 						startOffset: 5,
@@ -1084,6 +1110,7 @@ describe( "The parse function", () => {
 						{
 							name: "#text",
 							value: "Hello, ",
+							sourceCodeRange: { startOffset: 8, endOffset: 15 },
 						},
 						{
 							name: "#comment",
@@ -1094,6 +1121,7 @@ describe( "The parse function", () => {
 						{
 							name: "#text",
 							value: " world!",
+							sourceCodeRange: { startOffset: 33, endOffset: 40 },
 						} ],
 					sourceCodeLocation: {
 						startOffset: 5,
@@ -1148,10 +1176,12 @@ describe( "The parse function", () => {
 								{
 									name: "#text",
 									value: "Hello code! ",
+									sourceCodeRange: { startOffset: 8, endOffset: 20 },
 								},
 								{
 									name: "#text",
 									value: " Hello world!",
+									sourceCodeRange: { startOffset: 56, endOffset: 69 },
 								},
 							],
 							sentences: [
@@ -1307,10 +1337,12 @@ describe( "The parse function", () => {
 						{
 							name: "#text",
 							value: "Hello ",
+							sourceCodeRange: { startOffset: 8, endOffset: 14 },
 						},
 						{
 							name: "#text",
 							value: " code!",
+							sourceCodeRange: { startOffset: 50, endOffset: 56 },
 						},
 					],
 					sourceCodeLocation: {
@@ -1348,6 +1380,7 @@ describe( "The parse function", () => {
 						{
 							name: "#text",
 							value: "Some text and code ",
+							sourceCodeRange: { startOffset: 3, endOffset: 22 },
 						},
 					],
 					sentences: [
@@ -1513,7 +1546,8 @@ describe( "The parse function", () => {
 						childNodes: [],
 						sourceCodeLocation: { startOffset: 0, endOffset: 21 },
 					},
-					{ name: "#text", value: "\n" },
+					{ name: "#text", value: "\n",
+						sourceCodeRange: { startOffset: 21, endOffset: 22 } },
 					{
 						name: "p",
 						attributes: {},
@@ -1521,6 +1555,7 @@ describe( "The parse function", () => {
 							{
 								name: "#text",
 								value: "The red panda's coat is mainly red or orange-brown with a black belly and legs.",
+								sourceCodeRange: { startOffset: 25, endOffset: 104 },
 								clientId: "da950985-3903-479c-92f5-9a98bcec51e9",
 							},
 						],
@@ -1571,21 +1606,24 @@ describe( "The parse function", () => {
 							},
 						],
 					},
-					{ name: "#text", value: "\n" },
+					{ name: "#text", value: "\n",
+						sourceCodeRange: { startOffset: 108, endOffset: 109 } },
 					{
 						name: "#comment",
 						attributes: {},
 						childNodes: [],
 						sourceCodeLocation: { startOffset: 109, endOffset: 131 },
 					},
-					{ name: "#text", value: "\n\n" },
+					{ name: "#text", value: "\n\n",
+						sourceCodeRange: { startOffset: 131, endOffset: 133 } },
 					{
 						name: "#comment",
 						attributes: {},
 						childNodes: [],
 						sourceCodeLocation: { startOffset: 133, endOffset: 149 },
 					},
-					{ name: "#text", value: "\n" },
+					{ name: "#text", value: "\n",
+						sourceCodeRange: { startOffset: 149, endOffset: 150 } },
 					{
 						name: "ul",
 						attributes: {},
@@ -1597,7 +1635,8 @@ describe( "The parse function", () => {
 								sourceCodeLocation: { startOffset: 154, endOffset: 175 },
 								clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
 							},
-							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+								sourceCodeRange: { startOffset: 175, endOffset: 176 } },
 							{
 								name: "li",
 								attributes: {},
@@ -1606,7 +1645,8 @@ describe( "The parse function", () => {
 										name: "p",
 										attributes: {},
 										childNodes: [
-											{ name: "#text", value: "giant panda", clientId: "b45eed06-594b-468e-8723-1f597689c300" },
+											{ name: "#text", value: "giant panda", clientId: "b45eed06-594b-468e-8723-1f597689c300",
+												sourceCodeRange: { startOffset: 180, endOffset: 191 } },
 										],
 										sourceCodeLocation: { startOffset: 180, endOffset: 191 },
 										isImplicit: true,
@@ -1632,7 +1672,8 @@ describe( "The parse function", () => {
 								},
 								clientId: "b45eed06-594b-468e-8723-1f597689c300",
 							},
-							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+								sourceCodeRange: { startOffset: 196, endOffset: 197 } },
 							{
 								name: "#comment",
 								attributes: {},
@@ -1640,7 +1681,8 @@ describe( "The parse function", () => {
 								sourceCodeLocation: { startOffset: 197, endOffset: 219 },
 								clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
 							},
-							{ name: "#text", value: "\n\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{ name: "#text", value: "\n\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+								sourceCodeRange: { startOffset: 219, endOffset: 221 } },
 							{
 								name: "#comment",
 								attributes: {},
@@ -1648,7 +1690,8 @@ describe( "The parse function", () => {
 								sourceCodeLocation: { startOffset: 221, endOffset: 242 },
 								clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
 							},
-							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+								sourceCodeRange: { startOffset: 242, endOffset: 243 } },
 							{
 								name: "li",
 								attributes: {},
@@ -1657,7 +1700,8 @@ describe( "The parse function", () => {
 										name: "p",
 										attributes: {},
 										childNodes: [
-											{ name: "#text", value: "red panda", clientId: "f8a22538-9e9d-4862-968d-524580f5d8ce" },
+											{ name: "#text", value: "red panda", clientId: "f8a22538-9e9d-4862-968d-524580f5d8ce",
+												sourceCodeRange: { startOffset: 247, endOffset: 256 } },
 										],
 										sourceCodeLocation: { startOffset: 247, endOffset: 256 },
 										isImplicit: true,
@@ -1682,7 +1726,8 @@ describe( "The parse function", () => {
 								},
 								clientId: "f8a22538-9e9d-4862-968d-524580f5d8ce",
 							},
-							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45" },
+							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
+								sourceCodeRange: { startOffset: 261, endOffset: 262 } },
 							{
 								name: "#comment",
 								attributes: {},
@@ -1699,7 +1744,8 @@ describe( "The parse function", () => {
 						},
 						clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
 					},
-					{ name: "#text", value: "\n" },
+					{ name: "#text", value: "\n",
+						sourceCodeRange: { startOffset: 289, endOffset: 290 } },
 					{
 						name: "#comment",
 						attributes: {},
@@ -1740,11 +1786,14 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 					name: "#comment",
 					sourceCodeLocation: { endOffset: 55, startOffset: 34 },
 				},
-				{ name: "#text", value: "\n" },
+				{ name: "#text", value: "\n", sourceCodeRange: { startOffset: 55, endOffset: 56 } },
 				{
 					attributes: {},
 					childNodes: [
-						{ name: "#text", value: "The Norwegian Forest cat is adapted to survive Norway's cold weather." },
+						{
+							name: "#text",
+							value: "The Norwegian Forest cat is adapted to survive Norway's cold weather.",
+							sourceCodeRange: { startOffset: 59, endOffset: 128 } },
 					],
 					isImplicit: false,
 					name: "p",
@@ -1788,7 +1837,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 						startTag: { endOffset: 59, startOffset: 56 },
 					},
 				},
-				{ name: "#text", value: "\n" },
+				{ name: "#text", value: "\n", sourceCodeRange: { startOffset: 132, endOffset: 133 } },
 				{
 					attributes: {},
 					childNodes: [],
@@ -1817,6 +1866,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 						{
 							name: "#text",
 							value: "Hello, world!",
+							sourceCodeRange: { startOffset: 3, endOffset: 16 },
 						},
 					],
 					isImplicit: false,
@@ -1914,6 +1964,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 								{
 									name: "#text",
 									value: "The Norwegian Forest cat is strongly built and larger than an average cat.",
+									sourceCodeRange: { startOffset: 5, endOffset: 79 },
 								},
 							],
 							isImplicit: true,
@@ -2054,7 +2105,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 						childNodes: [],
 						sourceCodeLocation: { startOffset: 0, endOffset: 458 },
 					},
-					{ name: "#text", value: "\n" },
+					{ name: "#text", value: "\n", sourceCodeRange: { startOffset: 458, endOffset: 459 } },
 					{
 						name: "div",
 						attributes: {
@@ -2074,7 +2125,8 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 												attributes: { "class": new Set( [ "schema-faq-question" ] ) },
 												childNodes: [
 													{ name: "#text", value: "What is giant panda",
-														clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+														clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+														sourceCodeRange: { startOffset: 608, endOffset: 627 } },
 												],
 												sourceCodeLocation: {
 													startTag: { startOffset: 572, endOffset: 608 },
@@ -2106,17 +2158,20 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 											},
 										],
 									},
-									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+										sourceCodeRange: { startOffset: 636, endOffset: 637 } },
 									{
 										name: "p",
 										attributes: { "class": new Set( [ "schema-faq-answer" ] ) },
 										childNodes: [
-											{ name: "#text", value: "Giant ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+											{ name: "#text", value: "Giant ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+												sourceCodeRange: { startOffset: 666, endOffset: 672 } },
 											{
 												name: "strong",
 												attributes: {},
 												childNodes: [
-													{ name: "#text", value: "panda", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+													{ name: "#text", value: "panda", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+														sourceCodeRange: { startOffset: 680, endOffset: 685 } },
 												],
 												sourceCodeLocation: {
 													startTag: { startOffset: 672, endOffset: 680 },
@@ -2127,7 +2182,8 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 												clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
 											},
 											{ name: "#text", value: " is is relative to red panda",
-												clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+												clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+												sourceCodeRange: { startOffset: 694, endOffset: 722 } },
 										],
 										sourceCodeLocation: {
 											startTag: { startOffset: 637, endOffset: 666 },
@@ -2163,7 +2219,8 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 											},
 										],
 									},
-									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+										sourceCodeRange: { startOffset: 726, endOffset: 727 } },
 								],
 								sourceCodeLocation: {
 									startTag: { startOffset: 508, endOffset: 572 },
@@ -2173,7 +2230,8 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 								},
 								clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
 							},
-							{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+							{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+								sourceCodeRange: { startOffset: 733, endOffset: 734 } },
 							{
 								name: "div",
 								attributes: { "class": new Set( [ "schema-faq-section" ] ), id: "faq-question-1689322667728" },
@@ -2186,7 +2244,8 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 												name: "strong",
 												attributes: { "class": new Set( [ "schema-faq-question" ] ) },
 												childNodes: [
-													{ name: "#text", value: "Test", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+													{ name: "#text", value: "Test", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+														sourceCodeRange: { startOffset: 834, endOffset: 838 } },
 												],
 												sourceCodeLocation: {
 													startTag: { startOffset: 798, endOffset: 834 },
@@ -2212,12 +2271,14 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 											},
 										],
 									},
-									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+										sourceCodeRange: { startOffset: 847, endOffset: 848 } },
 									{
 										name: "p",
 										attributes: { "class": new Set( [ "schema-faq-answer" ] ) },
 										childNodes: [
-											{ name: "#text", value: "Test", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+											{ name: "#text", value: "Test", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+												sourceCodeRange: { startOffset: 877, endOffset: 881 } },
 										],
 										sourceCodeLocation: {
 											startTag: { startOffset: 848, endOffset: 877 },
@@ -2239,7 +2300,8 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 											},
 										],
 									},
-									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+										sourceCodeRange: { startOffset: 885, endOffset: 886 } },
 								],
 								sourceCodeLocation: {
 									startTag: { startOffset: 734, endOffset: 798 },
@@ -2249,7 +2311,8 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 								},
 								clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
 							},
-							{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+							{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+								sourceCodeRange: { startOffset: 892, endOffset: 893 } },
 							{
 								name: "div",
 								attributes: { "class": new Set( [ "schema-faq-section" ] ), id: "faq-question-1689936392675" },
@@ -2263,7 +2326,8 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 												attributes: { "class": new Set( [ "schema-faq-question" ] ) },
 												childNodes: [
 													{ name: "#text", value: "giant panda is silly",
-														clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+														clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+														sourceCodeRange: { startOffset: 993, endOffset: 1013 } },
 												],
 												sourceCodeLocation: {
 													startTag: { startOffset: 957, endOffset: 993 },
@@ -2295,7 +2359,8 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 											},
 										],
 									},
-									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+										sourceCodeRange: { startOffset: 1022, endOffset: 1023 } },
 									{
 										name: "p",
 										attributes: { "class": new Set( [ "schema-faq-answer" ] ) },
@@ -2312,7 +2377,8 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 										clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
 										sentences: [],
 									},
-									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+									{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+										sourceCodeRange: { startOffset: 1056, endOffset: 1057 } },
 								],
 								sourceCodeLocation: {
 									startTag: { startOffset: 893, endOffset: 957 },
@@ -2322,7 +2388,8 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 								},
 								clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
 							},
-							{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1" },
+							{ name: "#text", value: " ", clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
+								sourceCodeRange: { startOffset: 1063, endOffset: 1064 } },
 						],
 						sourceCodeLocation: {
 							startTag: { startOffset: 459, endOffset: 508 },
@@ -2332,7 +2399,7 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 						},
 						clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
 					},
-					{ name: "#text", value: "\n" },
+					{ name: "#text", value: "\n", sourceCodeRange: { startOffset: 1070, endOffset: 1071 } },
 					{ name: "#comment", attributes: {}, childNodes: [], sourceCodeLocation: { startOffset: 1071, endOffset: 1099 } },
 				],
 			}

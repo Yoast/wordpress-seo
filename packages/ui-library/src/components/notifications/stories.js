@@ -1,5 +1,6 @@
 import { keys } from "lodash";
 import Notifications, { Notification, notificationClassNameMap } from ".";
+import { component, info, warning, success, error, descriptionList, childrenNotification } from "./docs";
 
 export default {
 	title: "2) Components/Notifications",
@@ -43,7 +44,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "The Notifications component shows notifications on a specified position on the screen. Switch `position` in the control panel to view.",
+				component,
 			},
 		},
 	},
@@ -70,18 +71,21 @@ Info.args = {
 	variant: "info",
 	id: "notification-info",
 };
+Info.parameters = { docs: { description: { story: info } } };
 
 export const Warning = Template.bind( {} );
 Warning.args = {
 	variant: "warning",
 	id: "notification-warning",
 };
+Warning.parameters = { docs: { description: { story: warning } } };
 
 export const Success = Template.bind( {} );
 Success.args = {
 	variant: "success",
 	id: "notification-success",
 };
+Success.parameters = { docs: { description: { story: success } } };
 
 export const Error = Template.bind( {} );
 Error.args = {
@@ -89,6 +93,7 @@ Error.args = {
 	id: "notification-error",
 
 };
+Error.parameters = { docs: { description: { story: error } } };
 
 export const DescriptionList = Template.bind( {} );
 DescriptionList.storyName = "Description list";
@@ -98,7 +103,7 @@ DescriptionList.args = {
 	description: [ "Description 1", "Description 2", "Description 3" ],
 };
 
-DescriptionList.parameters = { docs: { description: { story: "Description can be an array of strings." } } };
+DescriptionList.parameters = { docs: { description: { story: descriptionList } } };
 
 export const ChildrenNotification = Template.bind( {} );
 ChildrenNotification.storyName = "Children notification";
@@ -110,6 +115,6 @@ ChildrenNotification.args = {
 	children: <DescriptionChild />,
 };
 
-ChildrenNotification.parameters = { docs: { description: { story: "`children` prop in `Notifications.Notification` subcomponent, takes the place of `description` value and accepts React components." } } };
+ChildrenNotification.parameters = { docs: { description: { story: childrenNotification } } };
 
 

@@ -158,7 +158,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Uses synonyms**: yes
 
-**When it applies**: If there is a text. Does not apply to taxonomies.
+**When it applies**: If there is a text and at least one image. Does not apply to taxonomies.
 
 **Name in code**: ImageKeyphraseAssessment
 
@@ -168,13 +168,14 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **What is counted as a keyphrase match**: ≥50% of all (content) words from the keyphrase in the alt tag.
 
-| Traffic light   	      | Score	     | Criterion | Feedback |
-|------------	|------------------	|---------------------	|---------------	|
-| Orange (cornerstone: red)		| 6 (cornerstone: 3)		| No images with keyphrase/synonym in alt-tags		| **Image Keyphrase**: Images on this page do not have alt attributes with at least half of the words from your keyphrase. **Fix that!** |
-| Orange	| 6	| There are at least 5 images and less than 30% have an alt-tag with keyphrase/synonym		| **Image Keyphrase**: Out of X images on this page, only X have an alt attribute that reflects the topic of your text. **Add your keyphrase or synonyms to the alt tags of more relevant images!** |
-| Orange	| 6	| There are at least 5 images and more than 75% have an alt-tag with keyphrase/synonym		| **Image Keyphrase**: Out of X images on this page, X have alt attributes with words from your keyphrase or synonyms. That's a bit much. **Only include the keyphrase when it really fits the image**. |
-| Green	| 9	| There are less than 5 images and at least one has an alt-tag with a keyphrase/synonym		| **Image Keyphrase**: Good job! |
-| Green	| 9	| There are at least 5 images and between 30 and 75% have an alt-tag with a keyphrase/synonym		| **Image Keyphrase**: Good job! |
+| Traffic light   	      | Score	     | Criterion                                                                                     | Feedback |
+|------------	|------------------	|-----------------------------------------------------------------------------------------------|---------------	|
+| Orange (cornerstone: red)		| 6 (cornerstone: 3)		| No images with keyphrase/synonym in alt-tags		                                                | **Image Keyphrase**: Images on this page do not have alt attributes that reflect the topic of your text. **Add your keyphrase or synonyms to the alt tags of relevant images!** |
+| Orange	| 6	| There are at least 5 images and less than 30% have an alt-tag with keyphrase/synonym		        | **Image Keyphrase**: Out of X images on this page, only X have an alt attribute that reflects the topic of your text. **Add your keyphrase or synonyms to the alt tags of more relevant images!** |
+| Orange	| 6	| There are at least 5 images and more than 75% have an alt-tag with keyphrase/synonym		        | **Image Keyphrase**: Out of X images on this page, X have alt attributes with words from your keyphrase or synonyms. That's a bit much. **Only include the keyphrase when it really fits the image**. |
+| Green	| 9	| There are 5 images and 2-4 images have an alt-tag with keyphrase/synonym		                           | **Image Keyphrase**: Good job! |
+| Green	| 9	| There are less than 5 images and at least one has an alt-tag with a keyphrase/synonym		       | **Image Keyphrase**: Good job! |
+| Green	| 9	| There are at least 5 images and between 30 and 75% have an alt-tag with a keyphrase/synonym		 | **Image Keyphrase**: Good job! |
 
 ### 8) Keyphrase in SEO title
 **What it does**: Checks if the keyphrase is used in the page title (when function words precede the keyphrase in the title they are filtered out when determining the position of the keyphrase in the title).

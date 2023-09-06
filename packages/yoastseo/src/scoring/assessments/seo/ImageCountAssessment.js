@@ -83,7 +83,7 @@ export default class TextImagesAssessment extends Assessment {
 				return {
 					score: this._config.scores.bad,
 					resultText: sprintf(
-						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+						/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 						__(
 							"%1$sImages and videos%3$s: No images or videos appear on this page. %2$sAdd some%3$s!",
 							"wordpress-seo"
@@ -97,7 +97,7 @@ export default class TextImagesAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						"%1$sImages%3$s: No images appear on this page. %2$sAdd some%3$s!",
 						"wordpress-seo"
@@ -114,7 +114,7 @@ export default class TextImagesAssessment extends Assessment {
 				return {
 					score: this._config.scores.okay,
 					resultText: sprintf(
-						/* Translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
+						/* translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
 						* %1$d expands to the number of images found in the text,
 						* %2$d expands to the recommended number of images in the text, */
 						_n(
@@ -134,7 +134,7 @@ export default class TextImagesAssessment extends Assessment {
 				return {
 					score: this._config.scores.okay,
 					resultText: sprintf(
-						/* Translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
+						/* translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
 						* %1$d expands to the number of images found in the text,
 						* %2$d expands to the recommended number of images in the text, */
 						_n(
@@ -160,7 +160,7 @@ export default class TextImagesAssessment extends Assessment {
 			return {
 				score: this._config.scores.good,
 				resultText: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com,
+					/* translators: %1$s expands to a link on yoast.com,
 					 * %2$s expands to the anchor end tag. */
 					__(
 						"%1$sImages and videos%2$s: Good job!",
@@ -176,7 +176,7 @@ export default class TextImagesAssessment extends Assessment {
 		return {
 			score: this._config.scores.good,
 			resultText: sprintf(
-				/* Translators: %1$s expands to a link on yoast.com,
+				/* translators: %1$s expands to a link on yoast.com,
 				 * %2$s expands to the anchor end tag. */
 				__(
 					"%1$sImages%2$s: Good job!",

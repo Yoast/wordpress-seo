@@ -1,4 +1,5 @@
 import SkeletonLoader from ".";
+import { circular, component, profile, size, color, fontSize } from "./docs";
 
 export default {
 	title: "1) Elements/Skeleton loader",
@@ -13,7 +14,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "The Skeleton loader component is there to indicate something is loading.",
+				component,
 			},
 		},
 	},
@@ -49,7 +50,7 @@ export const Profile = ( args ) => (
 Profile.parameters = {
 	docs: {
 		description: {
-			story: "You need to create your own layout for more complicated structures.",
+			story: profile,
 		},
 	},
 };
@@ -58,7 +59,7 @@ export const Circular = Template.bind( {} );
 Circular.parameters = {
 	docs: {
 		description: {
-			story: "By specifying a className that changes the border radius. Be sure to have the width and height the same, or it is not much of a circle.",
+			story: circular,
 		},
 	},
 };
@@ -70,7 +71,7 @@ export const Size = Template.bind( {} );
 Size.parameters = {
 	docs: {
 		description: {
-			story: "By specifying a className that changes the width and/or height.",
+			story: size,
 		},
 	},
 };
@@ -82,7 +83,7 @@ export const Color = Template.bind( {} );
 Color.parameters = {
 	docs: {
 		description: {
-			story: "By specifying a className that changes the background color. Be sure the color is light enough for the effect.",
+			story: color,
 		},
 	},
 };
@@ -96,7 +97,7 @@ FontSize.storyName = "Font size";
 FontSize.parameters = {
 	docs: {
 		description: {
-			story: "By specifying a className that changes the font size. Be sure to include some text in the children too.",
+			story: fontSize,
 		},
 	},
 };

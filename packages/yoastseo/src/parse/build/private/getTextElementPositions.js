@@ -94,6 +94,25 @@ function adjustTextElementStart( descendantTagPositions, textElementStart ) {
 }
 
 /**
+ * Retrieves the initial start position of a text element.
+ *
+ * @param {Paragraph|Text} childNode The childNode to retrieve the start position from.
+ * @param {Number} parentNodeStartOffset The start position of the childNode in the source code.
+ * @returns {number} The start position of the text element.
+ */
+const getTextElementStart = ( childNode, parentNodeStartOffset ) => {
+	// A check if the childNode is a text. Text nodes have a sourceCodeRange, but no sourceCodeLocation.
+	if ( childNode.name === "#text" && childNode.sourceCodeRange && childNode.sourceCodeRange.startOffset ) {
+		return childNode.sourceCodeRange.startOffset;
+	} else if ( childNode instanceof Paragraph && childNode.isImplicit ) {
+		return childNode.sourceCodeLocation.startOffset;
+	}
+
+	// If the childNode does not have a source code location, we use the parentNodeStartOffset of the parent childNode.
+	return parentNodeStartOffset >= 0 ? parentNodeStartOffset : childNode.sourceCodeLocation.startTag.endOffset;
+};
+
+/**
  * Gets the start and end positions of text elements (sentences or tokens) in the source code.
  *
  * @param {Paragraph|Heading} 		node  			The paragraph or heading node.
@@ -105,7 +124,7 @@ function adjustTextElementStart( descendantTagPositions, textElementStart ) {
  */
 export default function getTextElementPositions( node, textElements, startOffset = -1 ) {
 	// We cannot calculate positions if there are no text elements, or if we don't know the node's source code location.
-	if (  textElements.length === 0 || ! node.sourceCodeLocation ) {
+	if (  textElements.length === 0 || ( ! node.sourceCodeLocation && ! node.sourceCodeRange ) ) {
 		return textElements;
 	}
 
@@ -114,12 +133,8 @@ export default function getTextElementPositions( node, textElements, startOffset
 	 * end tags, set the start position to the start of the node. Otherwise, set the start position to the end of the
 	 * node's start tag.
 	 */
-	let textElementStart;
-	if ( node instanceof Paragraph && node.isImplicit ) {
-		textElementStart = node.sourceCodeLocation.startOffset;
-	} else {
-		textElementStart = startOffset >= 0 ? startOffset : node.sourceCodeLocation.startTag.endOffset;
-	}
+	let textElementStart = getTextElementStart( node, startOffset );
+
 	let textElementEnd;
 	let descendantTagPositions = [];
 
@@ -128,9 +143,11 @@ export default function getTextElementPositions( node, textElements, startOffset
 	 * should have this property). If such nodes exist, store the positions of each node's opening and closing tags in
 	 * an array. These positions will have to be taken into account when calculating the position of the text elements.
 	 */
-	const descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation, true );
-	if ( descendantNodes.length > 0 ) {
-		descendantTagPositions = getDescendantPositions( descendantNodes );
+	if ( node.findAll ) {
+		const descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation, true );
+		if ( descendantNodes.length > 0 ) {
+			descendantTagPositions = getDescendantPositions( descendantNodes );
+		}
 	}
 
 	textElements.forEach( ( textElement ) => {

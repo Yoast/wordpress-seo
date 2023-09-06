@@ -140,7 +140,7 @@ class KeyphraseLengthAssessment extends Assessment {
 					return {
 						score: this._config.scores.veryBad,
 						resultText: sprintf(
-							/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+							/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 							__(
 								"%1$sKeyphrase length%3$s: %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
 								"wordpress-seo"
@@ -154,7 +154,7 @@ class KeyphraseLengthAssessment extends Assessment {
 				return {
 					score: this._config.scores.veryBad,
 					resultText: sprintf(
-						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+						/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 						__(
 							// eslint-disable-next-line max-len
 							"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
@@ -171,7 +171,7 @@ class KeyphraseLengthAssessment extends Assessment {
 				return {
 					score: this._config.scores.bad,
 					resultText: sprintf(
-						/* Translators:
+						/* translators:
 						%1$d expands to the number of words / characters in the keyphrase,
 						%2$d expands to the recommended maximum of words / characters in the keyphrase,
 						%3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
@@ -199,7 +199,7 @@ class KeyphraseLengthAssessment extends Assessment {
 				return {
 					score: this._config.scores.bad,
 					resultText: sprintf(
-						/* Translators:
+						/* translators:
 						%1$d expands to the number of words / characters in the keyphrase,
 						%2$d expands to the recommended maximum of words / characters in the keyphrase,
 						%3$s and %4$s expand to links on yoast.com,
@@ -224,7 +224,7 @@ class KeyphraseLengthAssessment extends Assessment {
 				return {
 					score: this._config.scores.okay,
 					resultText: sprintf(
-						/* Translators:
+						/* translators:
 						%1$d expands to the number of words / characters in the keyphrase,
 						%2$d expands to the recommended maximum of words / characters in the keyphrase,
 						%3$s and %4$s expand to links on yoast.com,
@@ -249,7 +249,7 @@ class KeyphraseLengthAssessment extends Assessment {
 				return {
 					score: this._config.scores.okay,
 					resultText: sprintf(
-						/* Translators:
+						/* translators:
 						%1$d expands to the number of words / characters in the keyphrase,
 						%2$d expands to the recommended maximum of words / characters in the keyphrase,
 						%3$s and %4$s expand to links on yoast.com,
@@ -275,7 +275,7 @@ class KeyphraseLengthAssessment extends Assessment {
 				return {
 					score: this._config.scores.good,
 					resultText: sprintf(
-						/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+						/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 						__(
 							"%1$sKeyphrase length%2$s: Good job!",
 							"wordpress-seo"
@@ -293,7 +293,7 @@ class KeyphraseLengthAssessment extends Assessment {
 				return {
 					score: this._config.scores.veryBad,
 					resultText: sprintf(
-						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+						/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 						__(
 							"%1$sKeyphrase length%3$s: %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
 							"wordpress-seo"
@@ -307,7 +307,7 @@ class KeyphraseLengthAssessment extends Assessment {
 			return {
 				score: this._config.scores.veryBad,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						// eslint-disable-next-line max-len
 						"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
@@ -323,7 +323,7 @@ class KeyphraseLengthAssessment extends Assessment {
 			return {
 				score: this._config.scores.good,
 				resultText: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
 						"%1$sKeyphrase length%2$s: Good job!",
 						"wordpress-seo"
@@ -337,7 +337,7 @@ class KeyphraseLengthAssessment extends Assessment {
 			return {
 				score: this._config.scores.okay,
 				resultText: sprintf(
-					/* Translators:
+					/* translators:
 					%1$d expands to the number of words / characters in the keyphrase,
 					%2$d expands to the recommended maximum of words / characters in the keyphrase,
 					%3$s and %4$s expand to links on yoast.com,
@@ -361,7 +361,7 @@ class KeyphraseLengthAssessment extends Assessment {
 		return {
 			score: this._config.scores.bad,
 			resultText: sprintf(
-				/* Translators:
+				/* translators:
 				%1$d expands to the number of words / characters in the keyphrase,
 				%2$d expands to the recommended maximum of words / characters in the keyphrase,
 				%3$s and %4$s expand to links on yoast.com,
