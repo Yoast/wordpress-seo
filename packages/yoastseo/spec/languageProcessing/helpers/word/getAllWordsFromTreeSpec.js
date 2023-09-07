@@ -17,8 +17,8 @@ describe( "a test for getting words from the tree", () => {
 		expect( getAllWordsFromTree( paper ) ).toEqual( [ "A", "very", "intelligent", "cat", "loves", "their", "human",
 			"A", "dog", "is", "very", "cute", "A", "subheading", "3", "text", "text", "text", "A", "subheading", "4", "more", "text" ] );
 	} );
-	it( "should get the correct words from text containing &nbsp; and word enclosed in double quotes", () => {
-		const paper = new Paper( "<p>What's black, orange, sassy all over, and a crowd favorite?&nbsp;Yep, you guessed it - \"Torties\"!</p>" );
+	it( "should get the correct words from text containing &nbsp;, an ampersand and word enclosed in double quotes", () => {
+		const paper = new Paper( "<p>What's black&, orange, sassy all over, and a crowd favorite?&nbsp;Yep, you guessed it - \"Torties\"!</p>" );
 		researcher.setPaper( paper );
 		buildTree( paper, researcher );
 		expect( getAllWordsFromTree( paper ).length ).toEqual( 15 );

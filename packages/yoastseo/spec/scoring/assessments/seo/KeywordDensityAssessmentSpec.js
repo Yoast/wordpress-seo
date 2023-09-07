@@ -292,6 +292,48 @@ describe( "A test for marking the keyphrase", function() {
 		expect( keyphraseDensityAssessment.getMarks() ).toEqual( expected );
 	} );
 
+	it( "returns markers for a keyphrase containing an ampersand, occurring twice in the sentence", function() {
+		const keyphraseDensityAssessment = new KeyphraseDensityAssessment();
+		const paper = new Paper( "<p>This is a very interesting paper with a keyword& and another keyword&.</p>", { keyword: "keyword" }  );
+		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+
+		keyphraseDensityAssessment.getResult( paper, researcher );
+		const expected = [
+			new Mark( {
+				marked: "This is a very interesting paper with a " +
+					"<yoastmark class='yoast-text-mark'>keyword</yoastmark>& and another " +
+					"<yoastmark class='yoast-text-mark'>keyword</yoastmark>&.",
+				original: "This is a very interesting paper with a keyword& and another keyword&.",
+				position: {
+					startOffset: 43,
+					endOffset: 50,
+					startOffsetBlock: 40,
+					endOffsetBlock: 47,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+			new Mark( {
+				marked: "This is a very interesting paper with a " +
+					"<yoastmark class='yoast-text-mark'>keyword</yoastmark>& and another " +
+					"<yoastmark class='yoast-text-mark'>keyword</yoastmark>&.",
+				original: "This is a very interesting paper with a keyword& and another keyword&.",
+				position: {
+					// Position should take into account the preceding & character -- it should be counted as 5 characters (&amp;) instead of 1 (&).
+					startOffset: 68,
+					endOffset: 75,
+					startOffsetBlock: 65,
+					endOffsetBlock: 72,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ) ];
+		expect( keyphraseDensityAssessment.getMarks() ).toEqual( expected );
+	} );
+
 	it( "returns markers for a keyphrase containing numbers", function() {
 		const keyphraseDensityAssessment = new KeyphraseDensityAssessment();
 		const paper = new Paper( "<p>This is the release of YoastSEO 9.3.</p>", { keyword: "YoastSEO 9.3" }  );
