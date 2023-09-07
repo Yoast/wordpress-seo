@@ -340,6 +340,26 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 21.2 =
+
+Release date: 2023-09-19
+
+#### Enhancements
+
+* Renames Google preview to Search appearance in the metabox and sidebar.
+
+#### Bugfixes
+
+* Fixes a bug where, even if `Show author archives without posts in search results` is enabled, the archive page has a `noindex` in the `robots` metatag.
+* Fixes a bug where notices about incorrect calls to `wpdb::prepare` would be thrown on Yoast SEO Premium activation.
+* Fixes a bug where pagination meta tags would be wrong when using Query Loop Block with custom query variables.
+* Fixes a bug where the redirect notification would mention \"posts\" when a tag was deleted or trashed.
+* Fixing a bug where adding special characters like \" »\" as a title separator would break the RSS feed.
+
+#### Other
+
+* Sets the minimum supported WordPress version to 6.2.
+
 = 21.1 =
 
 Release date: 2023-09-05
@@ -355,16 +375,6 @@ Here's Yoast SEO 21.1! After the AI release, we're back with an update filled wi
 #### Other
 
 * Adds an attribute to the link "See who contributed to" to open in a new browser tab, located in the General tab. Props to @nathanwritescode-uk.
-
-= 21.0 =
-
-Release date: 2023-08-22
-
-We're thrilled to announce Yoast SEO 21.0! This update is geared at making your SEO journey smoother and more successful. We're introducing our first step into AI with automatic titles and meta description generation in Yoast SEO Premium. Find out more about what's new in Yoast SEO 21.0 in [our release post](https://yoa.st/release-22-8-23)!
-
-#### Other
-
-* Sets the WordPress tested up to version to 6.3.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
