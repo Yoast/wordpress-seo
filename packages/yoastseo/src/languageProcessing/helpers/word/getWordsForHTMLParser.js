@@ -1,5 +1,5 @@
 import { punctuationRegexEnd, punctuationRegexStart } from "../sanitize/removePunctuation";
-import { hashedHtmlEntities, hashedHtmlEntitiesEndRegex } from "../../../parse/build/private/htmlEntities";
+import { hashedHtmlEntitiesEndRegex } from "../../../parse/build/private/htmlEntities";
 
 /*
  * The following regex matches a word separator. A word separator is either a whitespace, a slash, a backslash, a

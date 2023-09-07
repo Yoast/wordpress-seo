@@ -388,6 +388,10 @@ describe( "A test for the tokenize function",
 						childNodes: [
 							{
 								name: "#text",
+								sourceCodeRange: {
+									startOffset: 3,
+									endOffset: 27,
+								},
 								value: "This is a paragraph#amp;",
 							},
 						],

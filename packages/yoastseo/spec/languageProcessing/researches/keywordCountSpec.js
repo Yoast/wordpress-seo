@@ -757,15 +757,29 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "can match an occurrence of keyphrase ending in & as in 'keyphrase&', and output correct Marks objects",
-		paper: new Paper( "<p>A string with a keyphrase&.</p>", { keyword: "keyphrase&" } ),
+		description: "can match 2 occurrences of a keyphrase ending in & as in 'keyphrase&', and output correct Marks objects",
+		paper: new Paper( "<p>A string keyphrase& with a keyphrase&.</p>", { keyword: "keyphrase&" } ),
 		keyphraseForms: [ [ "keyphrase" ] ],
-		expectedCount: 1,
-		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>keyphrase</yoastmark>&.",
-			original: "A string with a keyphrase&.",
-			position: { endOffset: 28, startOffset: 19,
-				startOffsetBlock: 16,
-				endOffsetBlock: 25,
+		expectedCount: 2,
+		expectedMarkings: [ new Mark( {
+			marked: "A string <yoastmark class='yoast-text-mark'>keyphrase</yoastmark>& with a " +
+				"<yoastmark class='yoast-text-mark'>keyphrase</yoastmark>&.",
+			original: "A string keyphrase& with a keyphrase&.",
+			position: { endOffset: 21, startOffset: 12,
+				startOffsetBlock: 9,
+				endOffsetBlock: 18,
+				attributeId: "",
+				clientId: "",
+				isFirstSection: false,
+			} } ),
+		new Mark( {
+			marked: "A string <yoastmark class='yoast-text-mark'>keyphrase</yoastmark>& with a " +
+				"<yoastmark class='yoast-text-mark'>keyphrase</yoastmark>&.",
+			original: "A string keyphrase& with a keyphrase&.",
+			// Position information is expected to be longer than the actual string by 4 characters, because "&" should be processed as "#amp;".
+			position: { endOffset: 43, startOffset: 34,
+				startOffsetBlock: 31,
+				endOffsetBlock: 40,
 				attributeId: "",
 				clientId: "",
 				isFirstSection: false,
