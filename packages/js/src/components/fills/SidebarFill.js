@@ -19,6 +19,7 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import WebinarPromoNotification from "../WebinarPromoNotification";
+import BlackFridaySaleNotification from "../BlackFridaySaleNotification";
 import BlackFridayPromoNotification from "../BlackFridayPromoNotification";
 import KeywordUpsell from "../KeywordUpsell";
 
@@ -45,6 +46,7 @@ export default function SidebarFill( { settings } ) {
 				<SidebarItem key="warning" renderPriority={ 1 }>
 					<Warning />
 					<div style={ { margin: "0 16px" } }>
+						<BlackFridaySaleNotification image={ null } hasIcon={ false } url={ blackFridayBlockEditorUrl } />
 						{ isWooCommerce && blackFridayBlockEditorUrl
 							? <BlackFridayPromoNotification image={ null } url={ blackFridayBlockEditorUrl } />
 							: <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
