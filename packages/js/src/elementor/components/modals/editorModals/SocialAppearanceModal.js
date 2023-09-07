@@ -28,7 +28,7 @@ const SocialAppearanceModal = ( props ) => {
 	}
 	return (
 		<EditorModal
-			title={ __( "Social appearance", "wordpress-seo" ) }
+			title={ __( "Social media appearance", "wordpress-seo" ) }
 			id="yoast-social-appearance-modal"
 			shouldCloseOnClickOutside={ false }
 		>
@@ -41,7 +41,7 @@ const SocialAppearanceModal = ( props ) => {
 					<FacebookEditor />
 					{ useTwitterData && <StyledDescription>
 						{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
-							"the 'Twitter appearance' settings below. If you leave these settings untouched, the 'Social appearance' settings " +
+							"the 'Twitter appearance' settings below. If you leave these settings untouched, the 'Social media appearance' settings " +
 							"mentioned above will also be applied for sharing on Twitter.", "wordpress-seo" ) }
 					</StyledDescription> }
 				</Fragment>
