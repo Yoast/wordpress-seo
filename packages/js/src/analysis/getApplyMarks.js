@@ -3,7 +3,8 @@ import { isUndefined, noop } from "lodash";
 import { select } from "@wordpress/data";
 import * as tinyMCEHelper from "../lib/tinymce";
 import { tinyMCEDecorator } from "../decorator/tinyMCE";
-import { isAnnotationAvailable, applyAsAnnotations } from "../decorator/gutenberg";
+import { applyAsAnnotations, isAnnotationAvailable } from "../decorator/gutenberg";
+import { applyMarksElementor } from "../decorator/elementor";
 
 /**
  * Create decorators for each editor and applies marks to each editor
@@ -48,6 +49,10 @@ function applyMarks( paper, marks ) {
 		applyMarksTinyMCE( paper, marks );
 		// Apply marks to other blocks
 		applyAsAnnotations( marks );
+	}
+
+	if ( window.elementor ) {
+		applyMarksElementor( marks );
 	}
 }
 

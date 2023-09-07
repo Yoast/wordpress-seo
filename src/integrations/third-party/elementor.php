@@ -168,6 +168,7 @@ class Elementor implements Integration_Interface {
 		}
 
 		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'init' ] );
+		\add_action( 'elementor/editor/before_enqueue_styles', [ $this, 'add_preview_styles' ] );
 
 		// We are too late for elementor/init. We should see if we can be on time, or else this workaround works (we do always get the "else" though).
 		if ( ! \did_action( 'elementor/init' ) ) {
@@ -188,6 +189,16 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->register_assets();
 		$this->enqueue();
 		$this->render_hidden_fields();
+	}
+
+	/**
+	 * Adds CSS specifically for the Elementor preview.
+	 *
+	 * @return void
+	 */
+	public function add_preview_styles() {
+		$this->asset_manager->register_assets();
+		$this->asset_manager->enqueue_style( 'inside-editor' );
 	}
 
 	/**
