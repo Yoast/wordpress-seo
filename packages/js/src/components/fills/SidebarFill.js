@@ -21,6 +21,7 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import WebinarPromoNotification from "../WebinarPromoNotification";
 import BlackFridaySaleNotification from "../BlackFridaySaleNotification";
+import BlackFridayPromoNotification from "../BlackFridayPromoNotification";
 
 import KeywordUpsell from "../KeywordUpsell";
 
@@ -41,16 +42,20 @@ export default function SidebarFill( { settings } ) {
 	const blackFridayBlockEditorUrl = get( window, "wpseoScriptData.blackFridayBlockEditorUrl", "https://yoa.st/black-friday-checklist" );
 	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
 	const isBlackFridayAlertDismissed = select( "yoast-seo/editor" ).isAlertDismissed( "black-friday-sale-notification" );
-
+	const isBlackFridayPromoAlertDismissed = select( "yoast-seo/editor" ).isAlertDismissed( "black-friday-promo-notification" );
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
 				<SidebarItem key="warning" renderPriority={ 1 }>
 					<Warning />
 					<div style={ { margin: "0 16px" } }>
+						{ /* eslint-disable max-len */ }
+						{ isBlackFridayAlertDismissed &&
+							isBlackFridayPromoAlertDismissed &&
+							<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
+						}
+						{ isWooCommerce && blackFridayBlockEditorUrl && <BlackFridayPromoNotification hasIcon={ false } /> }
 						<BlackFridaySaleNotification image={ null } hasIcon={ false } url={ "https://www.google.com" } />
-						{ /* eslint-disable-next-line max-len */ }
-						{ isBlackFridayAlertDismissed && <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } /> }
 					</div>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
