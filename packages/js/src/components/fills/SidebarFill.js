@@ -11,15 +11,15 @@ import Warning from "../../containers/Warning";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import InsightsModal from "../../insights/components/insights-modal";
 import SidebarItem from "../SidebarItem";
-import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
+import SearchAppearanceModal from "../modals/editorModals/SearchAppearanceModal";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
-import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
-import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
+import SocialAppearanceModal from "../modals/editorModals/SocialAppearanceModal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import WebinarPromoNotification from "../WebinarPromoNotification";
+import BlackFridayPromoNotification from "../BlackFridayPromoNotification";
 import KeywordUpsell from "../KeywordUpsell";
 
 /* eslint-disable complexity */
@@ -36,6 +36,8 @@ import KeywordUpsell from "../KeywordUpsell";
  */
 export default function SidebarFill( { settings } ) {
 	const webinarIntroBlockEditorUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
+	const blackFridayBlockEditorUrl = get( window, "wpseoScriptData.blackFridayBlockEditorUrl", "https://yoa.st/black-friday-checklist" );
+	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
 
 	return (
 		<Fragment>
@@ -43,7 +45,10 @@ export default function SidebarFill( { settings } ) {
 				<SidebarItem key="warning" renderPriority={ 1 }>
 					<Warning />
 					<div style={ { margin: "0 16px" } }>
-						<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
+						{ isWooCommerce && blackFridayBlockEditorUrl
+							? <BlackFridayPromoNotification image={ null } url={ blackFridayBlockEditorUrl } />
+							: <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
+						}
 					</div>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
@@ -51,14 +56,14 @@ export default function SidebarFill( { settings } ) {
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 				</SidebarItem> }
-				<SidebarItem key="google-preview" renderPriority={ 25 }>
-					<GooglePreviewModal />
+				<SidebarItem key="search-appearance" renderPriority={ 25 }>
+					<SearchAppearanceModal />
 				</SidebarItem>
-				{ settings.displayFacebook && <SidebarItem key="facebook-preview" renderPriority={ 26 }>
-					<FacebookPreviewModal />
-				</SidebarItem> }
-				{ settings.displayTwitter && <SidebarItem key="twitter-preview" renderPriority={ 27 }>
-					<TwitterPreviewModal />
+				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-appearance" renderPriority={ 26 }>
+					<SocialAppearanceModal
+						useOpenGraphData={ settings.useOpenGraphData }
+						useTwitterData={ settings.useTwitterData }
+					/>
 				</SidebarItem> }
 				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 28 }>
 					<SidebarCollapsible

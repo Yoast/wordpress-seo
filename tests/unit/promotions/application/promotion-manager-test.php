@@ -3,10 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Promotions\Application;
 
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
-use Yoast\WP\SEO\Promotions\Domain\Black_Friday_Promotion;
-use Yoast\WP\SEO\Tests\Unit\Promotions\Application\Fake_Promotion;
-use Yoast\WP\SEO\Tests\Unit\Promotions\Application\Fake_Expired_Promotion;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+
 /**
  * Class Promotion_Manager_Test
  *
@@ -48,5 +46,15 @@ class Promotion_Manager_Test extends TestCase {
 	public function test_get_promotions_list() {
 		$this->assertCount( 2, $this->instance->get_promotions_list() );
 		$this->assertEquals( $this->instance->get_promotions_list()[0]->get_promotion_name(), 'fake_promotion' );
+	}
+
+	/**
+	 * Tests the get_current_promotions function which returns the list of active promotions.
+	 *
+	 * @covers ::get_current_promotions
+	 */
+	public function test_get_current_promotions() {
+		$this->assertCount( 1, $this->instance->get_current_promotions() );
+		$this->assertEquals( $this->instance->get_current_promotions()[0], 'fake_promotion' );
 	}
 }
