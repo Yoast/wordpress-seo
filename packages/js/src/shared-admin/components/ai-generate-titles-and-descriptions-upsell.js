@@ -46,7 +46,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, upsellLi
 						sprintf(
 							/* translators: %1$s and %2$s are anchor tag; %3$s is the arrow icon. */
 							__(
-								"Speed up your workflow with generative AI. Get high-quality title and description suggestions for your search and social media appearance. %1$sLearn more%2$s%3$s",
+								"Speed up your workflow with generative AI. Get high-quality title and description suggestions for your search and social appearance. %1$sLearn more%2$s%3$s",
 								"wordpress-seo"
 							),
 							"<a>",
