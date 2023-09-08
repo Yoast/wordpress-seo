@@ -1,5 +1,6 @@
 /* External dependencies */
 import { Fill } from "@wordpress/components";
+import { select } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
@@ -20,7 +21,7 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import WebinarPromoNotification from "../WebinarPromoNotification";
 import BlackFridaySaleNotification from "../BlackFridaySaleNotification";
-import BlackFridayPromoNotification from "../BlackFridayPromoNotification";
+
 import KeywordUpsell from "../KeywordUpsell";
 
 /* eslint-disable complexity */
@@ -39,6 +40,7 @@ export default function SidebarFill( { settings } ) {
 	const webinarIntroBlockEditorUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
 	const blackFridayBlockEditorUrl = get( window, "wpseoScriptData.blackFridayBlockEditorUrl", "https://yoa.st/black-friday-checklist" );
 	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
+	const isBlackFridayAlertDismissed = select( "yoast-seo/editor" ).isAlertDismissed( "black-friday-sale-notification" );
 
 	return (
 		<Fragment>
@@ -46,11 +48,9 @@ export default function SidebarFill( { settings } ) {
 				<SidebarItem key="warning" renderPriority={ 1 }>
 					<Warning />
 					<div style={ { margin: "0 16px" } }>
-						<BlackFridaySaleNotification image={ null } hasIcon={ false } url={ blackFridayBlockEditorUrl } />
-						{ isWooCommerce && blackFridayBlockEditorUrl
-							? <BlackFridayPromoNotification image={ null } url={ blackFridayBlockEditorUrl } />
-							: <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
-						}
+						<BlackFridaySaleNotification image={ null } hasIcon={ false } url={ "https://www.google.com" } />
+						{ /* eslint-disable-next-line max-len */ }
+						{ isBlackFridayAlertDismissed && <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } /> }
 					</div>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
