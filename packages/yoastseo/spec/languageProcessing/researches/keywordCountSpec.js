@@ -758,8 +758,8 @@ const testCasesWithSpecialCharacters = [
 	},
 	{
 		description: "can match 2 occurrences of a keyphrase ending in & as in 'keyphrase&', and output correct Marks objects",
-		paper: new Paper( "<p>A string keyphrase& with a keyphrase&.</p>", { keyword: "keyphrase&" } ),
-		keyphraseForms: [ [ "keyphrase" ] ],
+		paper: new Paper( "<p>A string keyphrase&amp; with a keyphrase&amp;.</p>", { keyword: "keyphrase&" } ),
+		keyphraseForms: [ [ "keyphrase&" ] ],
 		expectedCount: 2,
 		expectedMarkings: [ new Mark( {
 			marked: "A string <yoastmark class='yoast-text-mark'>keyphrase</yoastmark>& with a " +
@@ -784,6 +784,46 @@ const testCasesWithSpecialCharacters = [
 				clientId: "",
 				isFirstSection: false,
 			} } ) ],
+		skip: false,
+	},
+	{
+		description: "can match an occurrence of a keyphrase after HTML entities, and output correct Marks objects",
+		paper: new Paper( "<p>I find a&amp;b to be &gt; c&amp;d for dog food.</p>", { keyword: "dog" } ),
+		keyphraseForms: [ [ "dog" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				marked: "I find a&b to be > c&d for <yoastmark class='yoast-text-mark'>dog</yoastmark> food.",
+				original: "I find a&b to be > c&d for dog food.",
+				position: {
+					startOffsetBlock: 38,
+					endOffsetBlock: 41,
+					startOffset: 41,
+					endOffset: 44,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				} } ) ],
+		skip: false,
+	},
+	{
+		description: "can match an occurrence of a keyphrase containing an & as in 'a&b', and output correct Marks objects",
+		paper: new Paper( "<p>At a&amp;b they have the best stuff.</p>", { keyword: "a&b" } ),
+		keyphraseForms: [ [ "a&b" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				marked: "At <yoastmark class='yoast-text-mark'>a&b</yoastmark> they have the best stuff.",
+				original: "At a&b they have the best stuff.",
+				position: {
+					startOffsetBlock: 3,
+					endOffsetBlock: 10,
+					startOffset: 6,
+					endOffset: 13,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				} } ) ],
 		skip: false,
 	},
 	{
