@@ -1,8 +1,9 @@
+import { select } from "@wordpress/data";
+import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import PropTypes from "prop-types";
+import { addQueryArgs } from "@wordpress/url";
 
-import PersistentDismissableNotification from "../containers/PersistentDismissableNotification";
-import { ReactComponent as DefaultImage } from "../../../../images/succes_marieke_bubble_optm.svg";
+import { TimeConstrainedNotification } from "./TimeConstrainedNotification";
 
 /**
  * @param {string} store The Redux store identifier from which to determine dismissed state.
@@ -12,43 +13,36 @@ import { ReactComponent as DefaultImage } from "../../../../images/succes_mariek
  * @returns {JSX.Element} The BlackFridayPromoNotification component.
  */
 const BlackFridayPromoNotification = ( {
-	store = "yoast-seo/editor",
-	image: Image = DefaultImage,
-	url,
 	...props
 } ) => {
-	const rawAdContent = sprintf(
+	const linkParams = select( "yoast-seo/editor" ).selectLinkParams();
+	const body = createInterpolateElement(
+		sprintf(
 		/* translators:  %1$s expands to Yoast, %2$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
-		__( "The %1$s %2$sultimate Black Friday checklist%3$s helps you prepare in time, so you can boost your results during this sale.", "wordpress-seo" ),
-		"Yoast",
-		"<strong>",
-		"</strong>"
+			__( "The %1$s %2$sultimate Black Friday checklist%3$s helps you prepare in time, so you can boost your results during this sale.", "wordpress-seo" ),
+			"Yoast",
+			"<strong>",
+			"</strong>" ),
+		{
+			strong: <strong />,
+		}
 	);
-	const re = /<\/?strong>/;
-	const parts = rawAdContent.split( re );
-
 	return (
-		<PersistentDismissableNotification
+		<TimeConstrainedNotification
+
 			alertKey="black-friday-promo-notification"
-			store={ store }
+			store="yoast-seo/editor"
 			id="black-friday-promo-notification"
+			promoId="black_friday_2023_checklist"
 			title={ __( "Is your WooCommerce store ready for Black Friday?", "wordpress-seo" ) }
-			image={ Image }
-			url={ url }
 			{ ...props }
 		>
-			{ parts[ 0 ] }<strong>{ parts[ 1 ] }</strong>{ parts[ 2 ] }
-			&nbsp;<a href={ url } target="_blank" rel="noreferrer">
+			{ body }
+			&nbsp;<a href={ addQueryArgs( "https://yoa.st/black-friday-checklist", linkParams ) } target="_blank" rel="noreferrer">
 				{ __( "Get the checklist and start optimizing now!", "wordpress-seo" ) }
 			</a>
-		</PersistentDismissableNotification>
+		</TimeConstrainedNotification>
 	);
-};
-
-BlackFridayPromoNotification.propTypes = {
-	store: PropTypes.string,
-	image: PropTypes.elementType,
-	url: PropTypes.string.isRequired,
 };
 
 export default BlackFridayPromoNotification;
