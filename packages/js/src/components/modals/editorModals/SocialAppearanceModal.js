@@ -1,8 +1,10 @@
 /* eslint-disable complexity */
 /* External dependencies */
+import { ShareIcon } from "@heroicons/react/solid";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 /* Internal dependencies */
 import EditorModal from "../../../containers/EditorModal";
@@ -10,6 +12,14 @@ import FacebookEditor from "../../../containers/FacebookEditor";
 import TwitterEditor from "../../../containers/TwitterEditor";
 import ModalCollapsible from "../../ModalCollapsible";
 import { StyledDescription, StyledDescriptionTop } from "../../../helpers/styledDescription";
+import { useSvgAria } from "@yoast/ui-library/src";
+
+
+const StyledHeroIcon = styled( ShareIcon )`
+	width: 18px;
+	height: 18px;
+	margin: 3px;
+`;
 
 /**
  * The Social Appearance Modal.
@@ -25,12 +35,16 @@ const SocialAppearanceModal = ( props ) => {
 	if ( ! useOpenGraphData && ! useTwitterData ) {
 		return;
 	}
+
+	const svgAriaProps = useSvgAria();
+
 	return (
 		<EditorModal
 			/* translators: Social media appearance refers to a preview of how a page will be represented on social media. */
 			title={ __( "Social media appearance", "wordpress-seo" ) }
 			id="yoast-social-appearance-modal"
 			shouldCloseOnClickOutside={ false }
+			SuffixHeroIcon={ <StyledHeroIcon className="yst-text-slate-500" { ...svgAriaProps } /> }
 		>
 			{ useOpenGraphData &&
 				<Fragment>
