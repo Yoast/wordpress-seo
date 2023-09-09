@@ -3,27 +3,8 @@ import { select } from "@wordpress/data";
 import PersistentDismissableNotification from "../containers/PersistentDismissableNotification";
 
 /**
- * Checks if there are any warnings.
- *
- * @param {boolean} shouldCheckForWarnings Whether to check for warnings.
- *
- * @returns {boolean} Whether there are any warnings.
- */
-const areThereAnyWarnings = ( shouldCheckForWarnings ) => {
-	if ( ! shouldCheckForWarnings ) {
-		return false;
-	}
-
-	const warningsFree = select( "yoast-seo/editor" ).getWarningMessage();
-	const warningsPremium = select( "yoast-seo-premium/editor" )?.getMetaboxWarning() ?? [];
-
-	return warningsPremium.length > 0 || warningsFree.length > 0;
-};
-
-/**
  * @param {string}      store The Redux store identifier from which to determine dismissed state.
  * @param {JSX.Element} image The image or null if no image.
- * @param {boolean}     shouldCheckForWarnings Whether to check for warnings.
  * @param {string}      title The title of the notification.
  * @param {string}      promoId The promotion id.
  * @param {string}      alertKey The unique id for the alert.
@@ -34,7 +15,6 @@ const areThereAnyWarnings = ( shouldCheckForWarnings ) => {
 export const TimeConstrainedNotification = ( {
 	store = "yoast-seo/editor",
 	image: Image = null,
-	shouldCheckForWarnings = false,
 	title,
 	promoId,
 	alertKey,
@@ -43,9 +23,8 @@ export const TimeConstrainedNotification = ( {
 } ) => {
 	const promotionActive = select( store ).isPromotionActive( promoId );
 
-
 	return (
-		! areThereAnyWarnings( shouldCheckForWarnings ) && promotionActive && <PersistentDismissableNotification
+		promotionActive && <PersistentDismissableNotification
 			alertKey={ alertKey }
 			store={ store }
 			id={ alertKey }
@@ -61,7 +40,6 @@ export const TimeConstrainedNotification = ( {
 TimeConstrainedNotification.propTypes = {
 	store: PropTypes.string,
 	image: PropTypes.elementType,
-	shouldCheckForWarnings: PropTypes.bool,
 	title: PropTypes.string.isRequired,
 	promoId: PropTypes.string.isRequired,
 	alertKey: PropTypes.string.isRequired,
