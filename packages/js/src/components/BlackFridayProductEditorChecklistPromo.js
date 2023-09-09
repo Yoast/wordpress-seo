@@ -17,7 +17,6 @@ export const BlackFridayProductEditorChecklistPromo = () => {
 	return (
 		<TimeConstrainedNotification
 			title={ __( "Is your WooCommerce store ready for Black Friday?", "wordpress-seo" ) }
-			shouldCheckForWarnings={ true }
 			promoId="black_friday_2023_checklist"
 			alertKey="black-friday-2023-product-editor-checklist"
 			store="yoast-seo/editor"
