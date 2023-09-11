@@ -1,5 +1,6 @@
 // External dependencies.
 import { Fill } from "@wordpress/components";
+import { select } from "@wordpress/data";
 import { Fragment, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
@@ -22,7 +23,8 @@ import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanc
 import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
-import BlackFridayPromoNotification from "../../../components/BlackFridayPromoNotification";
+import { BlackFridaySidebarChecklistPromo } from "../../../components/BlackFridaySidebarChecklistPromo";
+import { BlackFridaySaleNotification } from "../../../components/BlackFridaySaleNotification";
 import KeywordUpsell from "../../../components/KeywordUpsell";
 
 /* eslint-disable complexity */
@@ -48,8 +50,25 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 		return null;
 	}
 
+	/**
+	 * Checks if the Webinar promotion should be shown.
+	 * @returns {boolean} Whether the Webinar promotion should be shown.
+	 */
+	const shouldShowWebinarPromoNotification = () => {
+		const isBlackFridaySalePromoActive = select( "yoast-seo/editor" ).isPromotionActive( "black_friday_2023_sale" );
+		const isBlackFridaySaleAlertDismissed = select( "yoast-seo/editor" ).isAlertDismissed( "black-friday-2023-sale" );
+		const isBlackFridayChecklistPromoActive = select( "yoast-seo/editor" ).isPromotionActive( "black_friday_2023_checklist" );
+		const isBlackFridayChecklistAlertDismissed = select( "yoast-seo/editor" ).isAlertDismissed( "black-friday-2023-sidebar-checklist" );
+
+		if ( ( isBlackFridaySalePromoActive && ! isBlackFridaySaleAlertDismissed ) ||
+			( isBlackFridayChecklistPromoActive && ! isBlackFridayChecklistAlertDismissed ) ) {
+			return false;
+		}
+
+		return true;
+	};
+
 	const webinarIntroElementorUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
-	const blackFridayBlockEditorUrl = get( window, "wpseoScriptData.blackFridayBlockEditorUrl", "https://yoa.st/black-friday-checklist" );
 	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
 
 	return (
@@ -59,9 +78,11 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
 
-					{ isWooCommerce && blackFridayBlockEditorUrl
-						? <BlackFridayPromoNotification image={ null } url={ blackFridayBlockEditorUrl } />
-						: <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } /> }
+					{ shouldShowWebinarPromoNotification() &&
+						<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } />
+					}
+					{ isWooCommerce && <BlackFridaySidebarChecklistPromo hasIcon={ false } /> }
+					<BlackFridaySaleNotification image={ null } hasIcon={ false } />
 
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
