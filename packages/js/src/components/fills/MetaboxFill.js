@@ -54,7 +54,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 	 *
 	 * @returns {boolean} Whether the WooCommerce promo should be shown.
 	 */
-	const shouldShowWooCommercePromo = () => {
+	const shouldShowWooCommerceChecklistPromo = () => {
 		const isProduct = select( "yoast-seo/editor" ).getIsProduct();
 		return isProduct && isWooCommerceActive();
 	};
@@ -74,7 +74,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 					key="time-constrained-notification"
 					renderPriority={ 2 }
 				>
-					{ shouldShowWooCommercePromo() && <BlackFridayProductEditorChecklistPromoWithMetaboxWarningsCheck /> }
+					{ shouldShowWooCommerceChecklistPromo() && <BlackFridayProductEditorChecklistPromoWithMetaboxWarningsCheck /> }
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
