@@ -15,7 +15,11 @@ export default function( paper ) {
 		{
 			tag: "h1",
 			content: h1Match.findAll( node => node.name === "#text" ).map( textNode => textNode.value ).join( "" ),
-			position: { startOffset: h1Match.sourceCodeLocation.startTag.endOffset, endOffset: h1Match.sourceCodeLocation.endTag.startOffset },
+			position: {
+				startOffset: h1Match.sourceCodeLocation.startTag.endOffset,
+				endOffset: h1Match.sourceCodeLocation.endTag.startOffset,
+				clientId: h1Match.clientId,
+			},
 		}
 	) );
 
