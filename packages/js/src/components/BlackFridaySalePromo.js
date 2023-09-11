@@ -6,14 +6,14 @@ import PropTypes from "prop-types";
 import { TimeConstrainedNotification } from "./TimeConstrainedNotification";
 
 /**
- * The BlackFridaySaleNotification component.
+ * The BlackFridaySalePromo component.
  *
  * @param {string} store The store to use. Defaults to {@code yoast-seo/editor}
  * @param {Object} props The props.
  *
- * @returns {JSX.Element} The BlackFridaySaleNotification component.
+ * @returns {JSX.Element} The BlackFridaySalePromo component.
  */
-export const BlackFridaySaleNotification = ( {
+export const BlackFridaySalePromo = ( {
 	store = "yoast-seo/editor",
 	...props
 } ) => {
@@ -38,6 +38,6 @@ export const BlackFridaySaleNotification = ( {
 	);
 };
 
-BlackFridaySaleNotification.propTypes = {
+BlackFridaySalePromo.propTypes = {
 	store: PropTypes.string,
 };

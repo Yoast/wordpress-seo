@@ -24,7 +24,7 @@ import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
 import { BlackFridaySidebarChecklistPromo } from "../../../components/BlackFridaySidebarChecklistPromo";
-import { BlackFridaySaleNotification } from "../../../components/BlackFridaySaleNotification";
+import { BlackFridaySalePromo } from "../../../components/BlackFridaySalePromo";
 import KeywordUpsell from "../../../components/KeywordUpsell";
 
 /* eslint-disable complexity */
@@ -82,7 +82,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 						<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } />
 					}
 					{ isWooCommerce && <BlackFridaySidebarChecklistPromo hasIcon={ false } /> }
-					<BlackFridaySaleNotification image={ null } hasIcon={ false } />
+					<BlackFridaySalePromo image={ null } hasIcon={ false } />
 
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
