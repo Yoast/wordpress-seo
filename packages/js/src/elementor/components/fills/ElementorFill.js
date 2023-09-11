@@ -1,6 +1,5 @@
 // External dependencies.
 import { Fill } from "@wordpress/components";
-import { select } from "@wordpress/data";
 import { Fragment, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";

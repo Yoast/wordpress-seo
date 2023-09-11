@@ -1,6 +1,5 @@
 /* External dependencies */
 import { Fill } from "@wordpress/components";
-import { select } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
