@@ -16,10 +16,11 @@ export const BlackFridayProductEditorChecklistPromo = () => {
 
 	return (
 		<TimeConstrainedNotification
-			title={ __( "Is your WooCommerce store ready for Black Friday?", "wordpress-seo" ) }
-			promoId="black_friday_2023_checklist"
+			id="black-friday-2023-product-editor-checklist"
 			alertKey="black-friday-2023-product-editor-checklist"
+			promoId="black_friday_2023_checklist"
 			store="yoast-seo/editor"
+			title={ __( "Is your WooCommerce store ready for Black Friday?", "wordpress-seo" ) }
 			image={ DefaultImage }
 		>
 			{ createInterpolateElement(
