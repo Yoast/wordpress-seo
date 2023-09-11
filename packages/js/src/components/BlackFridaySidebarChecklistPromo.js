@@ -6,13 +6,13 @@ import { addQueryArgs } from "@wordpress/url";
 import { TimeConstrainedNotification } from "./TimeConstrainedNotification";
 
 /**
- * @param {string} store The Redux store identifier from which to determine dismissed state.
- * @param {JSX.Element} image The image or null if no image.
- * @param {string} url The URL for the register now link.
+ * The BlackFridaySidebarChecklistPromo component.
  *
- * @returns {JSX.Element} The BlackFridayPromoNotification component.
+ * @param {Object} props The props.
+ *
+ * @returns {JSX.Element} The BlackFridaySidebarChecklistPromo component.
  */
-const BlackFridayPromoNotification = ( {
+export const BlackFridaySidebarChecklistPromo = ( {
 	...props
 } ) => {
 	const linkParams = select( "yoast-seo/editor" ).selectLinkParams();
@@ -29,11 +29,10 @@ const BlackFridayPromoNotification = ( {
 	);
 	return (
 		<TimeConstrainedNotification
-
-			alertKey="black-friday-promo-notification"
-			store="yoast-seo/editor"
-			id="black-friday-promo-notification"
+			id="black-friday-2023-sidebar-checklist"
 			promoId="black_friday_2023_checklist"
+			alertKey="black-friday-2023-sidebar-checklist"
+			store="yoast-seo/editor"
 			title={ __( "Is your WooCommerce store ready for Black Friday?", "wordpress-seo" ) }
 			{ ...props }
 		>
@@ -44,5 +43,3 @@ const BlackFridayPromoNotification = ( {
 		</TimeConstrainedNotification>
 	);
 };
-
-export default BlackFridayPromoNotification;
