@@ -2,20 +2,23 @@ import { select } from "@wordpress/data";
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
+import PropTypes from "prop-types";
 
 import { TimeConstrainedNotification } from "./TimeConstrainedNotification";
 
 /**
  * The BlackFridaySidebarChecklistPromo component.
  *
+ * @param {string} store The store to use. Defaults to {@code yoast-seo/editor
  * @param {Object} props The props.
  *
  * @returns {JSX.Element} The BlackFridaySidebarChecklistPromo component.
  */
 export const BlackFridaySidebarChecklistPromo = ( {
+	store = "yoast-seo/editor",
 	...props
 } ) => {
-	const linkParams = select( "yoast-seo/editor" ).selectLinkParams();
+	const linkParams = select( store ).selectLinkParams();
 	const body = createInterpolateElement(
 		sprintf(
 		/* translators:  %1$s expands to Yoast, %2$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
@@ -32,7 +35,7 @@ export const BlackFridaySidebarChecklistPromo = ( {
 			id="black-friday-2023-sidebar-checklist"
 			promoId="black_friday_2023_checklist"
 			alertKey="black-friday-2023-sidebar-checklist"
-			store="yoast-seo/editor"
+			store={ store }
 			title={ __( "Is your WooCommerce store ready for Black Friday?", "wordpress-seo" ) }
 			{ ...props }
 		>
@@ -42,4 +45,8 @@ export const BlackFridaySidebarChecklistPromo = ( {
 			</a>
 		</TimeConstrainedNotification>
 	);
+};
+
+BlackFridaySidebarChecklistPromo.propTypes = {
+	store: PropTypes.string,
 };
