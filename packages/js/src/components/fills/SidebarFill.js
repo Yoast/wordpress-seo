@@ -20,8 +20,8 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import WebinarPromoNotification from "../WebinarPromoNotification";
-import BlackFridaySaleNotification from "../BlackFridaySaleNotification";
-import BlackFridayPromoNotification from "../BlackFridayPromoNotification";
+import { BlackFridaySaleNotification } from "../BlackFridaySaleNotification";
+import { BlackFridaySidebarChecklistPromo } from "../BlackFridaySidebarChecklistPromo";
 
 import KeywordUpsell from "../KeywordUpsell";
 
@@ -38,11 +38,27 @@ import KeywordUpsell from "../KeywordUpsell";
  * @constructor
  */
 export default function SidebarFill( { settings } ) {
+	/**
+	 * Checks if the Webinar promotion should be shown.
+	 * @returns {boolean} Whether the Webinar promotion should be shown.
+	 */
+	const shouldShowWebinarPromoNotification = () => {
+		const isBlackFridaySalePromoActive = select( "yoast-seo/editor" ).isPromotionActive( "black_friday_2023_sale" );
+		const isBlackFridaySaleAlertDismissed = select( "yoast-seo/editor" ).isAlertDismissed( "black-friday-2023-sale" );
+		const isBlackFridayChecklistPromoActive = select( "yoast-seo/editor" ).isPromotionActive( "black_friday_2023_checklist" );
+		const isBlackFridayChecklistAlertDismissed = select( "yoast-seo/editor" ).isAlertDismissed( "black-friday-2023-sidebar-checklist" );
+
+		if ( ( isBlackFridaySalePromoActive && ! isBlackFridaySaleAlertDismissed ) ||
+			( isBlackFridayChecklistPromoActive && ! isBlackFridayChecklistAlertDismissed ) ) {
+			return false;
+		}
+
+		return true;
+	};
+
 	const webinarIntroBlockEditorUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
-	const blackFridayBlockEditorUrl = get( window, "wpseoScriptData.blackFridayBlockEditorUrl", "https://yoa.st/black-friday-checklist" );
 	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
-	const isBlackFridayAlertDismissed = select( "yoast-seo/editor" ).isAlertDismissed( "black-friday-sale-notification" );
-	const isBlackFridayPromoAlertDismissed = select( "yoast-seo/editor" ).isAlertDismissed( "black-friday-promo-notification" );
+
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
@@ -50,12 +66,11 @@ export default function SidebarFill( { settings } ) {
 					<Warning />
 					<div style={ { margin: "0 16px" } }>
 						{ /* eslint-disable max-len */ }
-						{ isBlackFridayAlertDismissed &&
-							isBlackFridayPromoAlertDismissed &&
+						{ shouldShowWebinarPromoNotification() &&
 							<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
 						}
-						{ isWooCommerce && blackFridayBlockEditorUrl && <BlackFridayPromoNotification hasIcon={ false } /> }
-						<BlackFridaySaleNotification image={ null } hasIcon={ false } url={ "https://www.google.com" } />
+						{ isWooCommerce && <BlackFridaySidebarChecklistPromo hasIcon={ false } /> }
+						<BlackFridaySaleNotification image={ null } hasIcon={ false } />
 					</div>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
