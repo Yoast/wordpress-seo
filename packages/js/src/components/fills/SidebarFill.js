@@ -22,7 +22,7 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
 import WebinarPromoNotification from "../WebinarPromoNotification";
 import { BlackFridaySalePromo } from "../BlackFridaySalePromo";
 import { BlackFridaySidebarChecklistPromo } from "../BlackFridaySidebarChecklistPromo";
-
+import { shouldShowWebinarPromoNotification } from "../../helpers/shuldShowWebinarPromoNotification";
 import KeywordUpsell from "../KeywordUpsell";
 
 /* eslint-disable complexity */
@@ -38,24 +38,6 @@ import KeywordUpsell from "../KeywordUpsell";
  * @constructor
  */
 export default function SidebarFill( { settings } ) {
-	/**
-	 * Checks if the Webinar promotion should be shown.
-	 * @returns {boolean} Whether the Webinar promotion should be shown.
-	 */
-	const shouldShowWebinarPromoNotification = () => {
-		const isBlackFridaySalePromoActive = select( "yoast-seo/editor" ).isPromotionActive( "black_friday_2023_sale" );
-		const isBlackFridaySaleAlertDismissed = select( "yoast-seo/editor" ).isAlertDismissed( "black-friday-2023-sale" );
-		const isBlackFridayChecklistPromoActive = select( "yoast-seo/editor" ).isPromotionActive( "black_friday_2023_checklist" );
-		const isBlackFridayChecklistAlertDismissed = select( "yoast-seo/editor" ).isAlertDismissed( "black-friday-2023-sidebar-checklist" );
-
-		if ( ( isBlackFridaySalePromoActive && ! isBlackFridaySaleAlertDismissed ) ||
-			( isBlackFridayChecklistPromoActive && ! isBlackFridayChecklistAlertDismissed ) ) {
-			return false;
-		}
-
-		return true;
-	};
-
 	const webinarIntroBlockEditorUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
 	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
 
