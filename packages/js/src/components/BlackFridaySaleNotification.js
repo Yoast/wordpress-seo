@@ -1,45 +1,36 @@
 import { __ } from "@wordpress/i18n";
-import { useSelect } from "@wordpress/data";
-import PropTypes from "prop-types";
+import { select } from "@wordpress/data";
+import { addQueryArgs } from "@wordpress/url";
 
-import PersistentDismissableNotification from "../containers/PersistentDismissableNotification";
+import { TimeConstrainedNotification } from "./TimeConstrainedNotification";
 
 /**
- * @param {string} store The Redux store identifier from which to determine dismissed state.
- * @param {JSX.Element} image The image or null if no image.
- * @param {string} url The URL for the register now link.
+ * The BlackFridaySaleNotification component.
+ *
+ * @param {Object} props The props.
  *
  * @returns {JSX.Element} The BlackFridaySaleNotification component.
  */
-const BlackFridaySaleNotification = ( {
-	store = "yoast-seo/editor",
-	url,
+export const BlackFridaySaleNotification = ( {
 	...props
 } ) => {
-	const isPremium = useSelect( select => select( store ).getIsPremium() );
+	const isPremium = select( "yoast-seo/editor" ).getIsPremium();
+	const linkParams = select( "yoast-seo/editor" ).selectLinkParams();
 
 	return isPremium ? null : (
-		<PersistentDismissableNotification
-			alertKey="black-friday-sale-notification"
-			store={ store }
-			id="black-friday-sale-notification"
+		<TimeConstrainedNotification
+			id="black-friday-2023-sale"
+			promoId="black_friday_2023_sale"
+			alertKey="black-friday-2023-sale"
+			store={ "yoast-seo/editor" }
 			title={ __( "BLACK FRIDAY SALE: YOAST SEO PREMIUM", "wordpress-seo" ) }
 			image={ Image }
-			url={ url }
 			{ ...props }
 		>
 			<span className="yoast-bf-sale-badge">30% OFF!</span>
-			<a href={ url } target="_blank" rel="noreferrer">
+			<a href={ addQueryArgs( "https://yoa.st/black-friday-sale", linkParams ) } target="_blank" rel="noreferrer">
 				{ __( "Buy now!", "wordpress-seo" ) }
 			</a>
-		</PersistentDismissableNotification>
+		</TimeConstrainedNotification>
 	);
 };
-
-BlackFridaySaleNotification.propTypes = {
-	store: PropTypes.string,
-	image: PropTypes.elementType,
-	url: PropTypes.string.isRequired,
-};
-
-export default BlackFridaySaleNotification;
