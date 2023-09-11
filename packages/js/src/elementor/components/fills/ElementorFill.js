@@ -24,7 +24,7 @@ import WordProofAuthenticationModals from "../../../components/modals/WordProofA
 import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
 import { BlackFridaySidebarChecklistPromo } from "../../../components/BlackFridaySidebarChecklistPromo";
 import { BlackFridaySalePromo } from "../../../components/BlackFridaySalePromo";
-import { shouldShowWebinarPromoNotification } from "../../../helpers/shuldShowWebinarPromoNotification";
+import { shouldShowWebinarPromoNotificationInSidebar } from "../../../helpers/shuldShowWebinarPromoNotification";
 import KeywordUpsell from "../../../components/KeywordUpsell";
 
 /* eslint-disable complexity */
@@ -60,7 +60,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
 
-					{ shouldShowWebinarPromoNotification() &&
+					{ shouldShowWebinarPromoNotificationInSidebar() &&
 						<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } />
 					}
 					{ isWooCommerce && <BlackFridaySidebarChecklistPromo hasIcon={ false } /> }

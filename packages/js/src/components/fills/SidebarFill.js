@@ -21,7 +21,7 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
 import WebinarPromoNotification from "../WebinarPromoNotification";
 import { BlackFridaySalePromo } from "../BlackFridaySalePromo";
 import { BlackFridaySidebarChecklistPromo } from "../BlackFridaySidebarChecklistPromo";
-import { shouldShowWebinarPromoNotification } from "../../helpers/shuldShowWebinarPromoNotification";
+import { shouldShowWebinarPromoNotificationInSidebar } from "../../helpers/shuldShowWebinarPromoNotification";
 import KeywordUpsell from "../KeywordUpsell";
 
 /* eslint-disable complexity */
@@ -47,7 +47,7 @@ export default function SidebarFill( { settings } ) {
 					<Warning />
 					<div style={ { margin: "0 16px" } }>
 						{ /* eslint-disable max-len */ }
-						{ shouldShowWebinarPromoNotification() &&
+						{ shouldShowWebinarPromoNotificationInSidebar() &&
 							<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
 						}
 						{ isWooCommerce && <BlackFridaySidebarChecklistPromo hasIcon={ false } /> }
