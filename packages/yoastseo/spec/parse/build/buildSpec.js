@@ -1609,18 +1609,6 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: { endOffset: 34, startOffset: 0 },
-				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: { endOffset: 55, startOffset: 34 },
-				},
 				{ name: "#text", value: "\n", sourceCodeRange: { startOffset: 55, endOffset: 56 } },
 				{
 					attributes: {},
@@ -1673,12 +1661,6 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 					},
 				},
 				{ name: "#text", value: "\n", sourceCodeRange: { startOffset: 132, endOffset: 133 } },
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: { endOffset: 155, startOffset: 133 },
-				},
 			],
 		} );
 	} );
@@ -1765,15 +1747,6 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 						},
 					},
 				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 51,
-						startOffset: 20,
-					},
-				},
 			],
 		} );
 	} );
@@ -1852,12 +1825,6 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 						startTag: { endOffset: 5, startOffset: 0 },
 					},
 				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: { endOffset: 116, startOffset: 85 },
-				},
 			],
 		} );
 	} );
@@ -1934,12 +1901,6 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 				name: "#document-fragment",
 				attributes: {},
 				childNodes: [
-					{
-						name: "#comment",
-						attributes: {},
-						childNodes: [],
-						sourceCodeLocation: { startOffset: 0, endOffset: 458 },
-					},
 					{ name: "#text", value: "\n", sourceCodeRange: { startOffset: 458, endOffset: 459 } },
 					{
 						name: "div",
@@ -2235,7 +2196,6 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 						clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
 					},
 					{ name: "#text", value: "\n", sourceCodeRange: { startOffset: 1070, endOffset: 1071 } },
-					{ name: "#comment", attributes: {}, childNodes: [], sourceCodeLocation: { startOffset: 1071, endOffset: 1099 } },
 				],
 			}
 		);
