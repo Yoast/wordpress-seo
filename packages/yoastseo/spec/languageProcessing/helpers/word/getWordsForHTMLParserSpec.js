@@ -33,11 +33,6 @@ const testCases = [
 		expectedResult: [ "a", " ", "phrase", " ", "with", " ", "an", " ", "apostrophe's" ],
 	},
 	{
-		description: "correctly tokenizes a phrase with an ampersand",
-		text: "a phrase with an ampersand&",
-		expectedResult: [ "a", " ", "phrase", " ", "with", " ", "an", " ", "ampersand", "&" ],
-	},
-	{
 		description: "correctly tokenizes a phrase between quotes",
 		text: "\"a phrase between quotes\"",
 		expectedResult: [ "\"", "a", " ", "phrase", " ", "between", " ", "quotes", "\"" ],
@@ -74,9 +69,9 @@ const testCases = [
 		expectedResult: [ "[", "caption", " ", "id=\"attachment_3341501", "\"", " ", "align=\"alignnone", "\"", " ", "width=\"300", "\"", "]" ],
 	},
 	{
-		description: "doesn't match with a hashed HTML entity (in this case, #amp;)",
-		text: "a phrase with an ampersand#amp;",
-		expectedResult: [ "a", " ", "phrase", " ", "with", " ", "an", " ", "ampersand#amp;" ],
+		description: "doesn't match with a hashed HTML entity (in this case, '#trade;' for '™') in the beginning or the end of the word",
+		text: "one trademark#trade;, and another '#trade;trademark'",
+		expectedResult: [ "one", " ", "trademark#trade;", ",", " ", "and", " ", "(another)", " ", "'", "#trade;trademark", "'" ],
 	},
 ];
 

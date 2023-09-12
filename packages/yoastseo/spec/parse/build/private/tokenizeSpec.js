@@ -375,6 +375,7 @@ describe( "A test for the tokenize function",
 		} );
 
 		it( "should correctly tokenize a sentence containing an HTML entity", function() {
+			// This tests the scenario where an ampersand character "&" enters the Paper as "&amp;" in Classic editor.
 			const mockPaper = new Paper( "<p>This is a paragraph&amp;</p>" );
 			const mockResearcher = new EnglishResearcher( mockPaper );
 			const languageProcessor = new LanguageProcessor( mockResearcher );
