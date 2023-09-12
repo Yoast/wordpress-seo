@@ -113,18 +113,18 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager   $asset_manager The asset manager.
-	 * @param Options_Helper              $options       The options helper.
-	 * @param Capability_Helper           $capability    The capability helper.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
+	 * @param Options_Helper            $options       The options helper.
+	 * @param Capability_Helper         $capability    The capability helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Options_Helper $options,
 		Capability_Helper $capability
 	) {
-		$this->asset_manager     = $asset_manager;
-		$this->options           = $options;
-		$this->capability        = $capability;
+		$this->asset_manager = $asset_manager;
+		$this->options       = $options;
+		$this->capability    = $capability;
 
 		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
@@ -458,7 +458,7 @@ class Elementor implements Integration_Interface {
 			],
 			'dismissedAlerts'           => $dismissed_alerts,
 			'webinarIntroElementorUrl'  => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
-			'currentPromotions'          => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
+			'currentPromotions'         => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 			'usedKeywordsNonce'         => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 			'linkParams'                => WPSEO_Shortlinker::get_query_params(),
 			'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),

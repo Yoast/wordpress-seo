@@ -94,7 +94,7 @@ class WPSEO_Admin_Pages {
 			'currentPromotions'              => YoastSEO()->classes->get( Yoast\WP\SEO\Promotions\Application\Promotion_Manager::class )->get_current_promotions(),
 			'webinarIntroSettingsUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-settings' ),
 			'webinarIntroFirstTimeConfigUrl' => $this->get_webinar_shortlink(),
-			'linkParams'        => WPSEO_Shortlinker::get_query_params(),
+			'linkParams'                     => WPSEO_Shortlinker::get_query_params(),
 			'pluginUrl'                      => \plugins_url( '', \WPSEO_FILE ),
 		];
 
