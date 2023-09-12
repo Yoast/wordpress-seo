@@ -24,6 +24,7 @@ import WordProofAuthenticationModals from "../../components/modals/WordProofAuth
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../KeywordUpsell";
 import { BlackFridayProductEditorChecklistPromo } from "../BlackFridayProductEditorChecklistPromo";
+import { BlackFridaySalePromo } from "../BlackFridaySalePromo";
 import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
 
@@ -60,6 +61,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 	};
 
 	const BlackFridayProductEditorChecklistPromoWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromo );
+	const BlackFridaySalePromoWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridaySalePromo );
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
@@ -75,6 +77,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 					renderPriority={ 2 }
 				>
 					{ shouldShowWooCommerceChecklistPromo() && <BlackFridayProductEditorChecklistPromoWithMetaboxWarningsCheck /> }
+					<BlackFridaySalePromoWithMetaboxWarningsCheck image={ null } hasIcon={ false } location={ "metabox" } />
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
