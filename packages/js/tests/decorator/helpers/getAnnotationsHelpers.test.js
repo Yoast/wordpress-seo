@@ -437,7 +437,7 @@ describe( "a test for retrieving annotations from non-Yoast blocks", () => {
 	} );
 	it( "returns an annotation if there is an applicable marker for a heading block: " +
 		"the heading text contains some styling such as strong tags", () => {
-		// The string we want to highlight: "red panda's".
+		// The string we want to highlight: "The origin of red pandas".
 		create.mockImplementation( () => {
 			return { text: "The origin of red pandas" };
 		} );
