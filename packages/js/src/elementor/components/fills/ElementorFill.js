@@ -24,7 +24,7 @@ import WordProofAuthenticationModals from "../../../components/modals/WordProofA
 import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
 import { BlackFridaySidebarChecklistPromo } from "../../../components/BlackFridaySidebarChecklistPromo";
 import { BlackFridaySalePromo } from "../../../components/BlackFridaySalePromo";
-import { shouldShowWebinarPromoNotificationInSidebar } from "../../../helpers/shuldShowWebinarPromoNotification";
+import { shouldShowWebinarPromoNotificationInSidebar } from "../../../helpers/shouldShowWebinarPromoNotification";
 import KeywordUpsell from "../../../components/KeywordUpsell";
 
 /* eslint-disable complexity */

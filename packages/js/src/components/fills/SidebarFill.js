@@ -21,7 +21,7 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
 import WebinarPromoNotification from "../WebinarPromoNotification";
 import { BlackFridaySalePromo } from "../BlackFridaySalePromo";
 import { BlackFridaySidebarChecklistPromo } from "../BlackFridaySidebarChecklistPromo";
-import { shouldShowWebinarPromoNotificationInSidebar } from "../../helpers/shuldShowWebinarPromoNotification";
+import { shouldShowWebinarPromoNotificationInSidebar } from "../../helpers/shouldShowWebinarPromoNotification";
 import KeywordUpsell from "../KeywordUpsell";
 
 /* eslint-disable complexity */

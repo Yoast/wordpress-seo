@@ -3,7 +3,7 @@ import { render } from "@wordpress/element";
 import { ThemeProvider } from "styled-components";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
 import { BlackFridaySidebarChecklistPromo } from "../components/BlackFridaySidebarChecklistPromo";
-import { shouldShowWebinarPromoNotificationInDashboard } from "../helpers/shuldShowWebinarPromoNotification";
+import { shouldShowWebinarPromoNotificationInDashboard } from "../helpers/shouldShowWebinarPromoNotification";
 
 /**
  * Initializes the React settings header, just below the title.
