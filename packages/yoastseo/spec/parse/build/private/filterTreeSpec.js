@@ -320,24 +320,6 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 			attributes: {},
 			childNodes: [
 				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						startOffset: 0,
-						endOffset: 34,
-					},
-				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						startOffset: 34,
-						endOffset: 55,
-					},
-				},
-				{
 					name: "#text",
 					value: "\n",
 					sourceCodeRange: { startOffset: 55, endOffset: 56 },
@@ -371,15 +353,6 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 					value: "\n",
 					sourceCodeRange: { startOffset: 88, endOffset: 89 },
 				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						startOffset: 89,
-						endOffset: 111,
-					},
-				},
 			],
 		} );
 	} );
@@ -397,15 +370,6 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 			attributes: {},
 			childNodes: [
 				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						startOffset: 0,
-						endOffset: 39,
-					},
-				},
-				{
 					name: "#text",
 					value: "\n",
 					sourceCodeRange: { startOffset: 39, endOffset: 40 },
@@ -414,15 +378,6 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 					name: "#text",
 					value: "\n",
 					sourceCodeRange: { startOffset: 283, endOffset: 284 },
-				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						startOffset: 284,
-						endOffset: 324,
-					},
 				},
 				{
 					attributes: {},
@@ -468,15 +423,6 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 			attributes: {},
 			childNodes: [
 				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						startOffset: 0,
-						endOffset: 71,
-					},
-				},
-				{
 					name: "#text",
 					value: "\n",
 					sourceCodeRange: { startOffset: 71, endOffset: 72 },
@@ -485,15 +431,6 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 					name: "#text",
 					value: "\n",
 					sourceCodeRange: { startOffset: 358, endOffset: 359 },
-				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						startOffset: 359,
-						endOffset: 404,
-					},
 				},
 				{
 					attributes: {},
