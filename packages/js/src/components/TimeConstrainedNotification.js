@@ -5,7 +5,7 @@ import PersistentDismissableNotification from "../containers/PersistentDismissab
 /**
  * @param {string}      store The Redux store identifier from which to determine dismissed state.
  * @param {JSX.Element} image The image or null if no image.
- * @param {string}      title The title of the notification.
+ * @param {object | string}      title The title of the notification.
  * @param {string}      promoId The promotion id.
  * @param {string}      alertKey The unique id for the alert.
  * @param {JSX.node}    children The content of the notification.
@@ -40,7 +40,7 @@ export const TimeConstrainedNotification = ( {
 TimeConstrainedNotification.propTypes = {
 	store: PropTypes.string,
 	image: PropTypes.elementType,
-	title: PropTypes.string.isRequired,
+	title: PropTypes.any.isRequired,
 	promoId: PropTypes.string.isRequired,
 	alertKey: PropTypes.string.isRequired,
 	children: PropTypes.node,
