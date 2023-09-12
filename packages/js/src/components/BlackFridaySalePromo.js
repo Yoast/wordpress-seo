@@ -22,11 +22,15 @@ export const BlackFridaySalePromo = ( {
 	const isPremium = select( store ).getIsPremium();
 	const linkParams = select( store ).selectLinkParams();
 	const title = location === "sidebar"
-		? __( "BLACK FRIDAY SALE: YOAST SEO PREMIUM", "wordpress-seo" )
+		? sprintf(
+			__( "BLACK FRIDAY SALE: %1$s", "wordpress-seo" ),
+			"YOAST SEO PREMIUM"
+		)
 		: createInterpolateElement(
 			sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
-				__( "BLACK FRIDAY SALE: YOAST SEO PREMIUM %1$sBuy now!%2$s", "wordpress-seo" ),
+				/* Translators: %1$s expands to YOAST SEO PREMIUM, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+				__( "BLACK FRIDAY SALE: %1$s, %2$sBuy now!%3$s", "wordpress-seo" ),
+				"YOAST SEO PREMIUM",
 				"<a>",
 				"</a>"
 			),
@@ -45,7 +49,7 @@ export const BlackFridaySalePromo = ( {
 			image={ Image }
 			{ ...props }
 		>
-			<span className="yoast-bf-sale-badge">30% OFF!</span>
+			<span className="yoast-bf-sale-badge">{ __( "30% OFF!", "wordpress-seo" ) } </span>
 			{ location === "sidebar" && <a href={ addQueryArgs( "https://yoa.st/black-friday-sale", linkParams ) } target="_blank" rel="noreferrer">
 				 { __( "Buy now!", "wordpress-seo" ) }
 			</a> }
