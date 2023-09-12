@@ -10,8 +10,7 @@ export default function( paper ) {
 
 	const h1Matches = tree.findAll( node => node.name === "h1" );
 
-
-	const h1s = h1Matches.map( h1Match => (
+	return h1Matches.map( h1Match => (
 		{
 			tag: "h1",
 			content: h1Match.findAll( node => node.name === "#text" ).map( textNode => textNode.value ).join( "" ),
@@ -22,6 +21,4 @@ export default function( paper ) {
 			},
 		}
 	) );
-
-	return h1s;
 }
