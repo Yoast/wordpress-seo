@@ -18,7 +18,7 @@ export default function( paper ) {
 			position: {
 				startOffset: h1Match.sourceCodeLocation.startTag.endOffset,
 				endOffset: h1Match.sourceCodeLocation.endTag.startOffset,
-				clientId: h1Match.clientId,
+				clientId: h1Match.clientId || "",
 			},
 		}
 	) );
