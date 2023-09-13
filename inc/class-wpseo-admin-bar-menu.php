@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\Score_Icon_Helper;
 use Yoast\WP\SEO\Integrations\Support_Integration;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -590,10 +591,13 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function add_premium_link( WP_Admin_Bar $wp_admin_bar ) {
-		$sale_percentage = sprintf(
-			'<span class="admin-bar-premium-promotion">%1$s</span>',
-			__( '-30%', 'wordpress-seo' )
-		);
+		$sale_percentage = '';
+		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black_friday_2023' ) ) {
+			$sale_percentage = sprintf(
+				'<span class="admin-bar-premium-promotion">%1$s</span>',
+				__( '-30%', 'wordpress-seo' )
+			);
+		}
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => self::MENU_IDENTIFIER,
