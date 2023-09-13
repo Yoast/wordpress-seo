@@ -81,7 +81,7 @@ elseif ( ! class_exists( 'WPSEO_Options' ) ) { // Still checking since might be 
 }
 
 /**
- * Include the file  from the `symfony/deprecation-contracts` dependency instead of autoloading it via composer.
+ * Include the file from the `symfony/deprecation-contracts` dependency instead of autoloading it via composer.
  *
  * We need to do that because autoloading via composer prevents the vendor-prefixing of the dependency itself.
  * Note that we don't expect the function to be ever called since the OAuth2 library should not provide invalid input.
