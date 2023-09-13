@@ -855,4 +855,16 @@ body.folded .wpseo-admin-submit-fixed {
 .yoast-dashicons-notice {
 	color: #dba617;
 }
+
+.yoast-menu-bf-sale-badge {
+	margin-left: 5px;
+	border-radius: 8px;
+	border: 1px solid #FCD34D;
+	background-color: #1F2937;
+	color: #FCD34D;
+	padding: 2px 8px;
+	font-size: 10px;
+	font-weight: 600;
+	line-height: normal;
+}
 /*# sourceMappingURL=admin-global.css.map */
