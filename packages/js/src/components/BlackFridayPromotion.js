@@ -6,15 +6,15 @@ import PropTypes from "prop-types";
 import { TimeConstrainedNotification } from "./TimeConstrainedNotification";
 
 /**
- * The BlackFridaySalePromo component.
+ * The BlackFridayPromotion component.
  *
  * @param {string} store The store to use. Defaults to {@code yoast-seo/editor}
  * @param {string} location Where the notice will be shown. Defaults to {@code sidebar}
  * @param {Object} props The props.
  *
- * @returns {JSX.Element} The BlackFridaySalePromo component.
+ * @returns {JSX.Element} The BlackFridayPromotion component.
  */
-export const BlackFridaySalePromo = ( {
+export const BlackFridayPromotion = ( {
 	store = "yoast-seo/editor",
 	location = "sidebar",
 	...props
@@ -41,9 +41,9 @@ export const BlackFridaySalePromo = ( {
 		);
 	return isPremium ? null : (
 		<TimeConstrainedNotification
-			id={ `black-friday-2023-sale-${location}` }
-			promoId="black_friday_2023_sale"
-			alertKey="black-friday-2023-sale"
+			id={ `black-friday-2023-promotion-${location}` }
+			promoId="black-friday-2023-promotion"
+			alertKey="black-friday-2023-promotion"
 			store={ store }
 			title={ title }
 			image={ Image }
@@ -57,7 +57,7 @@ export const BlackFridaySalePromo = ( {
 	);
 };
 
-BlackFridaySalePromo.propTypes = {
+BlackFridayPromotion.propTypes = {
 	store: PropTypes.string,
 	location: PropTypes.oneOf( [ "sidebar", "metabox" ] ),
 };

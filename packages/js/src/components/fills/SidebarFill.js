@@ -19,8 +19,8 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import WebinarPromoNotification from "../WebinarPromoNotification";
-import { BlackFridaySalePromo } from "../BlackFridaySalePromo";
-import { BlackFridaySidebarChecklistPromo } from "../BlackFridaySidebarChecklistPromo";
+import { BlackFridayPromotion } from "../BlackFridayPromotion";
+import { BlackFridaysidebarChecklistPromotion } from "../BlackFridaysidebarChecklistPromotion";
 import { shouldShowWebinarPromoNotificationInSidebar } from "../../helpers/shouldShowWebinarPromoNotification";
 import KeywordUpsell from "../KeywordUpsell";
 
@@ -50,8 +50,8 @@ export default function SidebarFill( { settings } ) {
 						{ shouldShowWebinarPromoNotificationInSidebar() &&
 							<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
 						}
-						{ isWooCommerce && <BlackFridaySidebarChecklistPromo hasIcon={ false } /> }
-						<BlackFridaySalePromo image={ null } hasIcon={ false } />
+						{ isWooCommerce && <BlackFridaysidebarChecklistPromotion hasIcon={ false } /> }
+						<BlackFridayPromotion image={ null } hasIcon={ false } />
 					</div>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>

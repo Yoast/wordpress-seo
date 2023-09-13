@@ -7,20 +7,24 @@ import { ReactComponent as DefaultImage } from "../../../../images/succes_mariek
 import { TimeConstrainedNotification } from "./TimeConstrainedNotification";
 
 /**
- * The BlackFridayProductEditorChecklistPromo component.
+ * The BlackFridayProductEditorChecklistPromotion component.
  *
- * @returns {JSX.Element} The BlackFridayProductEditorChecklistPromo component.
+ * @returns {JSX.Element} The BlackFridayProductEditorChecklistPromotion component.
  */
-export const BlackFridayProductEditorChecklistPromo = () => {
+export const BlackFridayProductEditorChecklistPromotion = () => {
 	const linkParams = select( "yoast-seo/editor" ).selectLinkParams();
-
+	const title = sprintf(
+		/* translators: %1$s expands to 'WooCommerce'. */
+		__( "Is your %1$s store ready for Black Friday?", "wordpress-seo" ),
+		"WooCommerce"
+	);
 	return (
 		<TimeConstrainedNotification
 			id="black-friday-2023-product-editor-checklist"
 			alertKey="black-friday-2023-product-editor-checklist"
-			promoId="black_friday_2023_checklist"
+			promoId="black-friday-2023-checklist"
 			store="yoast-seo/editor"
-			title={ __( "Is your WooCommerce store ready for Black Friday?", "wordpress-seo" ) }
+			title={ title }
 			image={ DefaultImage }
 		>
 			{ createInterpolateElement(

@@ -7,14 +7,14 @@ import PropTypes from "prop-types";
 import { TimeConstrainedNotification } from "./TimeConstrainedNotification";
 
 /**
- * The BlackFridaySidebarChecklistPromo component.
+ * The BlackFridaysidebarChecklistPromotion component.
  *
  * @param {string} store The store to use. Defaults to {@code yoast-seo/editor
  * @param {Object} props The props.
  *
- * @returns {JSX.Element} The BlackFridaySidebarChecklistPromo component.
+ * @returns {JSX.Element} The BlackFridaysidebarChecklistPromotion component.
  */
-export const BlackFridaySidebarChecklistPromo = ( {
+export const BlackFridaysidebarChecklistPromotion = ( {
 	store = "yoast-seo/editor",
 	...props
 } ) => {
@@ -33,7 +33,7 @@ export const BlackFridaySidebarChecklistPromo = ( {
 	return (
 		<TimeConstrainedNotification
 			id="black-friday-2023-sidebar-checklist"
-			promoId="black_friday_2023_checklist"
+			promoId="black-friday-2023-checklist"
 			alertKey="black-friday-2023-sidebar-checklist"
 			store={ store }
 			title={ __( "Is your WooCommerce store ready for Black Friday?", "wordpress-seo" ) }
@@ -47,6 +47,6 @@ export const BlackFridaySidebarChecklistPromo = ( {
 	);
 };
 
-BlackFridaySidebarChecklistPromo.propTypes = {
+BlackFridaysidebarChecklistPromotion.propTypes = {
 	store: PropTypes.string,
 };

@@ -8,7 +8,7 @@ import { select } from "@wordpress/data";
 	 * @returns {boolean} Whether the Webinar promotion should be shown.
 	 */
 const shouldShowWebinarPromoNotificationInDashboard = ( store = "yoast-seo/editor" ) => {
-	const isBlackFridayChecklistPromoActive = select( store ).isPromotionActive( "black_friday_2023_checklist" );
+	const isBlackFridayChecklistPromoActive = select( store ).isPromotionActive( "black-friday-2023-checklist" );
 	const isBlackFridayChecklistAlertDismissed = select( store ).isAlertDismissed( "black-friday-2023-sidebar-checklist" );
 
 	if ( isBlackFridayChecklistPromoActive && ! isBlackFridayChecklistAlertDismissed ) {
@@ -26,10 +26,10 @@ const shouldShowWebinarPromoNotificationInDashboard = ( store = "yoast-seo/edito
 	 * @returns {boolean} Whether the Webinar promotion should be shown.
 	 */
 const shouldShowWebinarPromoNotificationInSidebar = ( store = "yoast-seo/editor" ) => {
-	const isBlackFridaySalePromoActive = select( store ).isPromotionActive( "black_friday_2023_sale" );
-	const isBlackFridaySaleAlertDismissed = select( store ).isAlertDismissed( "black-friday-2023-sale" );
+	const isBlackFridayPromotionActive = select( store ).isPromotionActive( "black-friday-2023-promotion" );
+	const isBlackFridaySaleAlertDismissed = select( store ).isAlertDismissed( "black-friday-2023-promotion" );
 
-	if ( ( isBlackFridaySalePromoActive && ! isBlackFridaySaleAlertDismissed ) ||
+	if ( ( isBlackFridayPromotionActive && ! isBlackFridaySaleAlertDismissed ) ||
 		! shouldShowWebinarPromoNotificationInDashboard( store ) ) {
 		return false;
 	}

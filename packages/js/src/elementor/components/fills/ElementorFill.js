@@ -22,8 +22,8 @@ import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanc
 import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
-import { BlackFridaySidebarChecklistPromo } from "../../../components/BlackFridaySidebarChecklistPromo";
-import { BlackFridaySalePromo } from "../../../components/BlackFridaySalePromo";
+import { BlackFridaysidebarChecklistPromotion } from "../../../components/BlackFridaysidebarChecklistPromotion";
+import { BlackFridayPromotion } from "../../../components/BlackFridayPromotion";
 import { shouldShowWebinarPromoNotificationInSidebar } from "../../../helpers/shouldShowWebinarPromoNotification";
 import KeywordUpsell from "../../../components/KeywordUpsell";
 
@@ -63,8 +63,8 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					{ shouldShowWebinarPromoNotificationInSidebar() &&
 						<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } />
 					}
-					{ isWooCommerce && <BlackFridaySidebarChecklistPromo hasIcon={ false } /> }
-					<BlackFridaySalePromo image={ null } hasIcon={ false } />
+					{ isWooCommerce && <BlackFridaysidebarChecklistPromotion hasIcon={ false } /> }
+					<BlackFridayPromotion image={ null } hasIcon={ false } />
 
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>

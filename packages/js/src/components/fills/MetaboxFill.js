@@ -23,8 +23,8 @@ import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../KeywordUpsell";
-import { BlackFridayProductEditorChecklistPromo } from "../BlackFridayProductEditorChecklistPromo";
-import { BlackFridaySalePromo } from "../BlackFridaySalePromo";
+import { BlackFridayProductEditorChecklistPromotion } from "../BlackFridayProductEditorChecklistPromotion";
+import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
 
@@ -60,8 +60,8 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 		return isProduct && isWooCommerceActive();
 	};
 
-	const BlackFridayProductEditorChecklistPromoWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromo );
-	const BlackFridaySalePromoWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridaySalePromo );
+	const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
+	const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
@@ -76,8 +76,8 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 					key="time-constrained-notification"
 					renderPriority={ 2 }
 				>
-					{ shouldShowWooCommerceChecklistPromo() && <BlackFridayProductEditorChecklistPromoWithMetaboxWarningsCheck /> }
-					<BlackFridaySalePromoWithMetaboxWarningsCheck image={ null } hasIcon={ false } location={ "metabox" } />
+					{ shouldShowWooCommerceChecklistPromo() && <BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck /> }
+					<BlackFridayPromotionWithMetaboxWarningsCheck image={ null } hasIcon={ false } location={ "metabox" } />
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
