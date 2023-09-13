@@ -20,7 +20,7 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import WebinarPromoNotification from "../WebinarPromoNotification";
 import { BlackFridayPromotion } from "../BlackFridayPromotion";
-import { BlackFridaysidebarChecklistPromotion } from "../BlackFridaysidebarChecklistPromotion";
+import { BlackFridaySidebarChecklistPromotion } from "../BlackFridaySidebarChecklistPromotion";
 import { shouldShowWebinarPromoNotificationInSidebar } from "../../helpers/shouldShowWebinarPromoNotification";
 import KeywordUpsell from "../KeywordUpsell";
 
@@ -50,7 +50,7 @@ export default function SidebarFill( { settings } ) {
 						{ shouldShowWebinarPromoNotificationInSidebar() &&
 							<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
 						}
-						{ isWooCommerce && <BlackFridaysidebarChecklistPromotion hasIcon={ false } /> }
+						{ isWooCommerce && <BlackFridaySidebarChecklistPromotion hasIcon={ false } /> }
 						<BlackFridayPromotion image={ null } hasIcon={ false } />
 					</div>
 				</SidebarItem>

@@ -2,7 +2,7 @@ import { get } from "lodash";
 import { render } from "@wordpress/element";
 import { ThemeProvider } from "styled-components";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
-import { BlackFridaysidebarChecklistPromotion } from "../components/BlackFridaysidebarChecklistPromotion";
+import { BlackFridaySidebarChecklistPromotion } from "../components/BlackFridaySidebarChecklistPromotion";
 import { shouldShowWebinarPromoNotificationInDashboard } from "../helpers/shouldShowWebinarPromoNotification";
 
 /**
@@ -19,7 +19,7 @@ const initSettingsHeader = () => {
 	if ( reactRoot ) {
 		render(
 			<ThemeProvider theme={ { isRtl } }>
-				{ isWooCommerce && <BlackFridaysidebarChecklistPromotion store="yoast-seo/settings" /> }
+				{ isWooCommerce && <BlackFridaySidebarChecklistPromotion store="yoast-seo/settings" /> }
 				{ shouldShowWebinarPromoNotificationInDashboard( "yoast-seo/settings" ) && <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
 			</ThemeProvider>,
 			reactRoot

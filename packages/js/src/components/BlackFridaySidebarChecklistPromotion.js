@@ -7,14 +7,14 @@ import PropTypes from "prop-types";
 import { TimeConstrainedNotification } from "./TimeConstrainedNotification";
 
 /**
- * The BlackFridaysidebarChecklistPromotion component.
+ * The BlackFridaySidebarChecklistPromotion component.
  *
  * @param {string} store The store to use. Defaults to {@code yoast-seo/editor
  * @param {Object} props The props.
  *
- * @returns {JSX.Element} The BlackFridaysidebarChecklistPromotion component.
+ * @returns {JSX.Element} The BlackFridaySidebarChecklistPromotion component.
  */
-export const BlackFridaysidebarChecklistPromotion = ( {
+export const BlackFridaySidebarChecklistPromotion = ( {
 	store = "yoast-seo/editor",
 	...props
 } ) => {
@@ -47,6 +47,6 @@ export const BlackFridaysidebarChecklistPromotion = ( {
 	);
 };
 
-BlackFridaysidebarChecklistPromotion.propTypes = {
+BlackFridaySidebarChecklistPromotion.propTypes = {
 	store: PropTypes.string,
 };
