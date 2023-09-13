@@ -3,7 +3,7 @@ import { render } from "@wordpress/element";
 import { ThemeProvider } from "styled-components";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
 import { BlackFridaySidebarChecklistPromotion } from "../components/BlackFridaySidebarChecklistPromotion";
-import { shouldShowWebinarPromoNotificationInDashboard } from "../helpers/shouldShowWebinarPromoNotification";
+import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
 
 /**
  * Initializes the React settings header, just below the title.
@@ -20,7 +20,7 @@ const initSettingsHeader = () => {
 		render(
 			<ThemeProvider theme={ { isRtl } }>
 				{ isWooCommerce && <BlackFridaySidebarChecklistPromotion store="yoast-seo/settings" /> }
-				{ shouldShowWebinarPromoNotificationInDashboard( "yoast-seo/settings" ) && <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
+				{ shouldShowWebinarPromotionNotificationInDashboard( "yoast-seo/settings" ) && <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
 			</ThemeProvider>,
 			reactRoot
 		);
