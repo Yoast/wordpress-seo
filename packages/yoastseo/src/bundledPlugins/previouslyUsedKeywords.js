@@ -88,7 +88,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 	if ( count === 0 ) {
 		return {
 			text: sprintf(
-				/* Translators:
+				/* translators:
 				%1$s expands to a link to an article on yoast.com,
 				%2$s expands to an anchor tag. */
 				__( "%1$sPreviously used keyphrase%2$s: You've not used this keyphrase before, very good.", "wordpress-seo" ),
@@ -101,7 +101,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 	if ( count === 1 ) {
 		url = `<a href='${this.postUrl.replace( "{id}", id )}' target='_blank'>`;
 		return {
-			/* Translators: %1$s and %2$s expand to an admin link where the keyword is already used. %3$s and %4$s
+			/* translators: %1$s and %2$s expand to an admin link where the keyword is already used. %3$s and %4$s
 			expand to links on yoast.com, %4$s expands to the anchor end tag. */
 			text: sprintf( __(
 				// eslint-disable-next-line max-len
@@ -127,7 +127,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 		}
 
 		return {
-			/* Translators: %1$s and $3$s expand to the admin search page for the keyword, %2$d expands to the number
+			/* translators: %1$s and $3$s expand to the admin search page for the keyword, %2$d expands to the number
 			of times this keyword has been used before, %4$s and %5$s expand to links to yoast.com, %6$s expands to
 			the anchor end tag */
 			text: sprintf( __(

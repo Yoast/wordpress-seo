@@ -77,7 +77,7 @@ export default class TextTitleAssessment extends Assessment {
 			return {
 				score: this._config.scores.good,
 				resultText: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
 						"%1$sTitle%2$s: Your page has a title. Well done!",
 						"wordpress-seo-premium"
@@ -93,7 +93,7 @@ export default class TextTitleAssessment extends Assessment {
 			score: this._config.scores.bad,
 			resultText: sprintf(
 				/**
-				 * Translators:
+				 * translators:
 				 * %1$s and %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag.
 				 */
 				__(

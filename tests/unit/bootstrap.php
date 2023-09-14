@@ -36,8 +36,8 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '7.2.5' );
-define( 'YOAST_SEO_WP_TESTED', '6.2.2' );
-define( 'YOAST_SEO_WP_REQUIRED', '6.1' );
+define( 'YOAST_SEO_WP_TESTED', '6.3.1' );
+define( 'YOAST_SEO_WP_REQUIRED', '6.2' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 	define( 'WPSEO_NAMESPACES', true );
@@ -45,8 +45,6 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 
 if ( is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY ) ) {
 	require_once WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/guzzlehttp/guzzle/src/functions.php';
-	require_once WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/guzzlehttp/psr7/src/functions_include.php';
-	require_once WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/guzzlehttp/promises/src/functions_include.php';
 }
 
 /* ********************* LOAD TEST DOUBLES FOR WP NATIVE CLASSES ********************* */

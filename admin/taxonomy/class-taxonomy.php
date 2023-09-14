@@ -144,6 +144,7 @@ class WPSEO_Taxonomy {
 
 			$asset_manager->enqueue_style( 'metabox-css' );
 			$asset_manager->enqueue_style( 'scoring' );
+			$asset_manager->enqueue_style( 'tailwind' );
 			$asset_manager->enqueue_script( 'term-edit' );
 
 			/**
@@ -180,6 +181,7 @@ class WPSEO_Taxonomy {
 				'isTerm'            => true,
 				'postId'            => $tag_id,
 				'usedKeywordsNonce' => \wp_create_nonce( 'wpseo-keyword-usage' ),
+				'linkParams'        => WPSEO_Shortlinker::get_query_params(),
 			];
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
 			$asset_manager->enqueue_user_language_script();

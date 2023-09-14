@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
 use Mockery;
+use WP_HTML_Tag_Processor;
 use WP_Query;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
@@ -138,6 +139,7 @@ class Front_End_Integration_Test extends TestCase {
 		$this->assertNotFalse( \has_action( 'wpseo_head', [ $this->instance, 'present_head' ] ), 'Does not have expected wpseo_head action' );
 		$this->assertNotFalse( \has_filter( 'wp_title', [ $this->instance, 'filter_title' ] ), 'Does not have expected wp_title filter' );
 		$this->assertNotFalse( \has_filter( 'wpseo_frontend_presenter_classes', [ $this->instance, 'filter_robots_presenter' ] ), 'Does not have expected wpseo_frontend_presenter_classes filter' );
+		$this->assertNotFalse( \has_filter( 'render_block', [ $this->instance, 'query_loop_next_prev' ] ), 'Filter for checking query loop block' );
 	}
 
 	/**
@@ -699,5 +701,66 @@ class Front_End_Integration_Test extends TestCase {
 			->andReturn( false );
 
 		$this->assertEquals( true, $this->instance->should_title_presenter_be_removed() );
+	}
+
+	/**
+	 * Data provider for the test_query_loop_links test.
+	 *
+	 * @return array
+	 */
+	public function data_provider_query_loop_next_prev() {
+		return [
+			'Next link' => [
+				'html'       => '<a href="/?query-1-page=2">Next</a>',
+				'block_name' => 'core/query-pagination-next',
+				'variable'   => 'next',
+			],
+			'Prev link' => [
+				'html'       => '<a href="/?query-1-page=3">Prev</a>',
+				'block_name' => 'core/query-pagination-previous',
+				'variable'   => 'prev',
+			],
+		];
+	}
+
+	/**
+	 * Tests that next link is saved in the class variable.
+	 *
+	 * @covers ::query_loop_next_prev
+	 *
+	 * @dataProvider data_provider_query_loop_next_prev
+	 *
+	 * @param string $html HTML of the link.
+	 * @param string $block_name Block name.
+	 * @param string $variable Variable name.
+	 */
+	public function test_query_loop_links( $html, $block_name, $variable ) {
+
+		$block = [ 'blockName' => $block_name ];
+
+		$this->instance->query_loop_next_prev( $html, $block );
+
+		$this->assertEquals( self::getPropertyValue( $this->instance, $variable ), $html );
+	}
+
+	/**
+	 * Tests that wpseo_adjacent_rel_url is used when query loop is used without inheriting the query args.
+	 *
+	 * @covers ::query_loop_next_prev
+	 */
+	public function test_query_loop_next_prev() {
+
+		$html  = '<p>Test</p>';
+		$block = [
+			'blockName' => 'core/query',
+			'attrs'     => [
+				'query' => [
+					'inherit' => false,
+				],
+			],
+		];
+
+		$result = $this->instance->query_loop_next_prev( $html, $block );
+		$this->assertNotFalse( \has_filter( 'wpseo_adjacent_rel_url', [ $this->instance, 'adjacent_rel_url' ] ), 'Set the correct next/prev links in head tag' );
 	}
 }

@@ -121,7 +121,7 @@ export default class TextAlignmentAssessment extends Assessment {
 				return {
 					score: this._config.scores.bad,
 					resultText: sprintf(
-						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
+						/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 						%4$s expands to the number of the long center-aligned sections in the text */
 						_n(
 							"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it right-aligned%3$s.",
@@ -140,7 +140,7 @@ export default class TextAlignmentAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 						%4$s expands to the number of the long center-aligned sections in the text */
 					_n(
 						"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it left-aligned%3$s.",

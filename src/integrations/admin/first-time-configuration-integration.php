@@ -7,7 +7,6 @@ use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Option_Tab;
 use WPSEO_Shortlinker;
-use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -140,8 +139,8 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 
 		$this->admin_asset_manager->enqueue_script( 'indexation' );
 		$this->admin_asset_manager->enqueue_script( 'first-time-configuration' );
+		$this->admin_asset_manager->enqueue_style( 'first-time-configuration' );
 		$this->admin_asset_manager->enqueue_style( 'admin-css' );
-		$this->admin_asset_manager->enqueue_style( 'tailwind' );
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
 		$data = [
@@ -185,78 +184,44 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 			$selected_option_label = $selected_option['label'];
 		}
 
-		$this->admin_asset_manager->add_inline_script(
-			'first-time-configuration',
-			\sprintf(
-				'window.wpseoFirstTimeConfigurationData = {
-					"canEditUser": %d,
-					"companyOrPerson": "%s",
-					"companyOrPersonLabel": "%s",
-					"companyName": "%s",
-					"fallbackCompanyName": "%s",
-					"websiteName": "%s",
-					"fallbackWebsiteName": "%s",
-					"companyLogo": "%s",
-					"companyLogoFallback": "%s",
-					"companyLogoId": %d,
-					"finishedSteps": %s,
-					"personId": %d,
-					"personName": "%s",
-					"personLogo": "%s",
-					"personLogoFallback": "%s",
-					"personLogoId": %d,
-					"siteTagline": "%s",
-					"socialProfiles": {
-						"facebookUrl": "%s",
-						"twitterUsername": "%s",
-						"otherSocialUrls": %s,
-					},
-					"isPremium": %d,
-					"tracking": %d,
-					"isTrackingAllowedMultisite": %d,
-					"isMainSite": %d,
-					"companyOrPersonOptions": %s,
-					"shouldForceCompany": %d,
-					"knowledgeGraphMessage": "%s",
-					"shortlinks": {
-						"gdpr": "%s",
-						"configIndexables": "%s",
-						"configIndexablesBenefits": "%s",
-					},
-				};',
-				$this->can_edit_profile( $person_id ),
-				$this->is_company_or_person(),
-				$selected_option_label,
-				$this->get_company_name(),
-				$this->get_fallback_company_name( $this->get_company_name() ),
-				$this->get_website_name(),
-				$this->get_fallback_website_name( $this->get_website_name() ),
-				$this->get_company_logo(),
-				$this->get_company_fallback_logo( $this->get_company_logo() ),
-				$this->get_company_logo_id(),
-				WPSEO_Utils::format_json_encode( $finished_steps ),
-				$person_id,
-				$this->get_person_name(),
-				$this->get_person_logo(),
-				$this->get_person_fallback_logo( $this->get_person_logo() ),
-				$this->get_person_logo_id(),
-				$this->get_site_tagline(),
-				$social_profiles['facebook_site'],
-				$social_profiles['twitter_site'],
-				WPSEO_Utils::format_json_encode( $social_profiles['other_social_urls'] ),
-				$this->product_helper->is_premium(),
-				$this->has_tracking_enabled(),
-				$this->is_tracking_enabled_multisite(),
-				$this->is_main_site(),
-				WPSEO_Utils::format_json_encode( $options ),
-				$this->should_force_company(),
-				$knowledge_graph_message,
-				$this->shortlinker->build_shortlink( 'https://yoa.st/gdpr-config-workout' ),
-				$this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables' ),
-				$this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables-benefits' )
-			),
-			'before'
-		);
+		$data_ftc = [
+			'canEditUser'                => $this->can_edit_profile( $person_id ),
+			'companyOrPerson'            => $this->is_company_or_person(),
+			'companyOrPersonLabel'       => $selected_option_label,
+			'companyName'                => $this->get_company_name(),
+			'fallbackCompanyName'        => $this->get_fallback_company_name( $this->get_company_name() ),
+			'websiteName'                => $this->get_website_name(),
+			'fallbackWebsiteName'        => $this->get_fallback_website_name( $this->get_website_name() ),
+			'companyLogo'                => $this->get_company_logo(),
+			'companyLogoFallback'        => $this->get_company_fallback_logo( $this->get_company_logo() ),
+			'companyLogoId'              => $this->get_person_logo_id(),
+			'finishedSteps'              => $finished_steps,
+			'personId'                   => (int) $person_id,
+			'personName'                 => $this->get_person_name(),
+			'personLogo'                 => $this->get_person_logo(),
+			'personLogoFallback'         => $this->get_person_fallback_logo( $this->get_person_logo() ),
+			'personLogoId'               => $this->get_person_logo_id(),
+			'siteTagline'                => $this->get_site_tagline(),
+			'socialProfiles'             => [
+				'facebookUrl'     => $social_profiles['facebook_site'],
+				'twitterUsername' => $social_profiles['twitter_site'],
+				'otherSocialUrls' => $social_profiles['other_social_urls'],
+			],
+			'isPremium'                  => $this->product_helper->is_premium(),
+			'tracking'                   => $this->has_tracking_enabled(),
+			'isTrackingAllowedMultisite' => $this->is_tracking_enabled_multisite(),
+			'isMainSite'                 => $this->is_main_site(),
+			'companyOrPersonOptions'     => $options,
+			'shouldForceCompany'         => $this->should_force_company(),
+			'knowledgeGraphMessage'      => $knowledge_graph_message,
+			'shortlinks'                 => [
+				'gdpr'                     => $this->shortlinker->build_shortlink( 'https://yoa.st/gdpr-config-workout' ),
+				'configIndexables'         => $this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables' ),
+				'configIndexablesBenefits' => $this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables-benefits' ),
+			],
+		];
+
+		$this->admin_asset_manager->localize_script( 'first-time-configuration', 'wpseoFirstTimeConfigurationData', $data_ftc );
 	}
 
 	/**

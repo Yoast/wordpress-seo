@@ -1,3 +1,8 @@
+import { linkParamsActions, pluginUrlActions, wistiaEmbedPermissionActions } from "../../shared-admin/store";
+
+export const { setLinkParams } = linkParamsActions;
+export const { setPluginUrl } = pluginUrlActions;
+export const { setWistiaEmbedPermission, setWistiaEmbedPermissionValue } = wistiaEmbedPermissionActions;
 export * from "../../insights/redux/actions";
 export * from "./activeMarker";
 export * from "./advancedSettings";
@@ -12,6 +17,7 @@ export {
 	setInclusiveLanguageResults,
 } from "./contentAnalysis";
 export * from "./cornerstoneContent";
+export * from "./currentPromotions";
 export * from "./editorData";
 export * from "./editorModals";
 export * from "./focusKeyword";

@@ -90,7 +90,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 				score: this._config.scores.consideration,
 				hasMarks: hasMarks,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
+					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
 					__(
 						// eslint-disable-next-line max-len
@@ -109,7 +109,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 				score: this._config.scores.bad,
 				hasMarks: hasMarks,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
+					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
 					__(
 						// eslint-disable-next-line max-len
@@ -130,7 +130,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 				score: this._config.scores.okay,
 				hasMarks: hasMarks,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
+					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
 					__(
 						// eslint-disable-next-line max-len
@@ -148,7 +148,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 			score: this._config.scores.good,
 			hasMarks: hasMarks,
 			resultText: sprintf(
-				/* Translators: %1$s expands to links to Yoast.com articles, %2$s expands to the anchor end tag */
+				/* translators: %1$s expands to links to Yoast.com articles, %2$s expands to the anchor end tag */
 				__(
 					"%1$sKeyphrase distribution%2$s: Good job!",
 					"wordpress-seo-premium"

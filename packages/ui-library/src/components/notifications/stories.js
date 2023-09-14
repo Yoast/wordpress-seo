@@ -1,5 +1,6 @@
-import Notifications, { Notification, notificationClassNameMap } from ".";
 import { keys } from "lodash";
+import Notifications, { Notification, notificationClassNameMap } from ".";
+import { component, info, warning, success, error, descriptionList, childrenNotification } from "./docs";
 
 export default {
 	title: "2) Components/Notifications",
@@ -12,7 +13,7 @@ export default {
 			description: "The position of the notification. Notifications prop.",
 			table: {
 				defaultValue: { summary: "bottom-center" },
-			  },
+			},
 		},
 		id: { control: "text" },
 		variant: {
@@ -21,7 +22,7 @@ export default {
 			table: {
 				type: { summary: keys( notificationClassNameMap.variant ).toString() },
 			},
-		 },
+		},
 		size: {
 			options: keys( notificationClassNameMap.size ),
 			type: "select",
@@ -43,7 +44,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "The Notifications component shows notifications on a specified position on the screen. Switch `position` in the control panel to view.",
+				component,
 			},
 		},
 	},
@@ -51,7 +52,7 @@ export default {
 
 const Template = ( args ) => <Notifications.Notification { ...args } />;
 
-export const Factory = ( args ) =>
+export const Factory = ( args ) => (
 	<>
 		<div className="yst-mb-3">Default position is bottom-left.</div>
 		<div className="yst-fixed yst-left-0 yst-z-50">
@@ -60,10 +61,9 @@ export const Factory = ( args ) =>
 			</Notifications>
 		</div>
 	</>
-	;
+);
 Factory.args = {
 	id: "notification-factory",
-	 onDismiss: () => {},
 };
 
 export const Info = Template.bind( {} );
@@ -71,18 +71,21 @@ Info.args = {
 	variant: "info",
 	id: "notification-info",
 };
+Info.parameters = { docs: { description: { story: info } } };
 
 export const Warning = Template.bind( {} );
 Warning.args = {
 	variant: "warning",
 	id: "notification-warning",
 };
+Warning.parameters = { docs: { description: { story: warning } } };
 
 export const Success = Template.bind( {} );
 Success.args = {
 	variant: "success",
 	id: "notification-success",
 };
+Success.parameters = { docs: { description: { story: success } } };
 
 export const Error = Template.bind( {} );
 Error.args = {
@@ -90,6 +93,7 @@ Error.args = {
 	id: "notification-error",
 
 };
+Error.parameters = { docs: { description: { story: error } } };
 
 export const DescriptionList = Template.bind( {} );
 DescriptionList.storyName = "Description list";
@@ -99,7 +103,7 @@ DescriptionList.args = {
 	description: [ "Description 1", "Description 2", "Description 3" ],
 };
 
-DescriptionList.parameters = { docs: { description: { story: "Description can be an array of strings." } } };
+DescriptionList.parameters = { docs: { description: { story: descriptionList } } };
 
 export const ChildrenNotification = Template.bind( {} );
 ChildrenNotification.storyName = "Children notification";
@@ -111,6 +115,6 @@ ChildrenNotification.args = {
 	children: <DescriptionChild />,
 };
 
-ChildrenNotification.parameters = { docs: { description: { story: "`children` prop in `Notifications.Notification` subcomponent, takes the place of `description` value and accepts React components." } } };
+ChildrenNotification.parameters = { docs: { description: { story: childrenNotification } } };
 
 

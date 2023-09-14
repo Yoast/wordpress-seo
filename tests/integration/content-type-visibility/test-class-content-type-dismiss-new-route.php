@@ -168,7 +168,6 @@ class Content_Type_Visibility_Dismiss_New_Route_Test extends WPSEO_UnitTestCase 
 	 * Tests the taxonomy_dismiss method.
 	 *
 	 * @covers ::taxonomy_dismiss_callback
-	 * @covers ::taxonomy_dismiss
 	 *
 	 * @dataProvider data_provider_taxonomy_dismiss
 	 *

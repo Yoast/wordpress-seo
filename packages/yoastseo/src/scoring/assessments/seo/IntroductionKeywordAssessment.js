@@ -78,7 +78,7 @@ class IntroductionKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.good,
 				resultText: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
 						"%1$sKeyphrase in introduction%2$s: Well done!",
 						"wordpress-seo"
@@ -93,7 +93,7 @@ class IntroductionKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.okay,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
 					__(
 						// eslint-disable-next-line max-len
 						"%1$sKeyphrase in introduction%3$s: Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. %2$sFix that%3$s!",
@@ -109,7 +109,7 @@ class IntroductionKeywordAssessment extends Assessment {
 		return {
 			score: this._config.scores.bad,
 			resultText: sprintf(
-				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
+				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
 				__(
 					// eslint-disable-next-line max-len
 					"%1$sKeyphrase in introduction%3$s: Your keyphrase or its synonyms do not appear in the first paragraph. %2$sMake sure the topic is clear immediately%3$s.",
