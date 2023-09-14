@@ -25,7 +25,9 @@ export const htmlEntitiesRegex = new RegExp( "&(" + [ ...htmlEntities.keys() ].j
 
 // Contains special characters along with their hashed HTML entities (e.g. '#amp;' instead of '&amp;' for the ampersand character '&').
 export const hashedHtmlEntities = new Map();
-htmlEntities.forEach( ( v, k ) => hashedHtmlEntities.set( "#" + k, v ) );
+htmlEntities.forEach( ( value, key ) => hashedHtmlEntities.set( "#" + key, value ) );
+console.log( hashedHtmlEntities.keys() );
 
-// Regex to find hashed HTML entities.
-export const hashedHtmlEntitiesRegex = new RegExp( "(" + [ ...hashedHtmlEntities.keys() ].join( "|" ) + ")", "g" );
+// Regex to find hashed HTML entities attached to the beginning (hashedHtmlEntitiesRegexStart) or to the end of a string (hashedHtmlEntitiesRegexEnd).
+export const hashedHtmlEntitiesRegexStart = new RegExp( "^(" + [ ...hashedHtmlEntities.keys() ].join( "|" ) + ")" );
+export const hashedHtmlEntitiesRegexEnd = new RegExp( "(" + [ ...hashedHtmlEntities.keys() ].join( "|" ) + ")$" );

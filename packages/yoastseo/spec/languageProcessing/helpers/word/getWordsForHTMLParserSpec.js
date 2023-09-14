@@ -71,7 +71,7 @@ const testCases = [
 	{
 		description: "doesn't match with a hashed HTML entity (in this case, '#trade;' for '™') in the beginning or the end of the word",
 		text: "one trademark#trade;, and another '#trade;trademark'",
-		expectedResult: [ "one", " ", "trademark#trade;", ",", " ", "and", " ", "(another)", " ", "'", "#trade;trademark", "'" ],
+		expectedResult: [ "one", " ", "trademark#trade;", ",", " ", "and", " ", "another", " ", "'", "#trade;trademark", "'" ],
 	},
 ];
 

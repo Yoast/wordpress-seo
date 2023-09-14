@@ -757,29 +757,28 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "can match 2 occurrences of a keyphrase ending in & as in 'keyphrase&', and output correct Marks objects",
-		paper: new Paper( "<p>A string keyphrase&amp; with a keyphrase&amp;.</p>", { keyword: "keyphrase&" } ),
-		keyphraseForms: [ [ "keyphrase&" ] ],
+		description: "can match 2 occurrences of a keyphrase ending in an HTML entity (&copy; standing for ©) and output correct Marks objects",
+		paper: new Paper( "<p>A string keyphrase&copy; with a keyphrase&copy;.</p>", { keyword: "keyphrase&" } ),
+		keyphraseForms: [ [ "keyphrase©" ] ],
 		expectedCount: 2,
 		expectedMarkings: [ new Mark( {
-			marked: "A string <yoastmark class='yoast-text-mark'>keyphrase</yoastmark>& with a " +
-				"<yoastmark class='yoast-text-mark'>keyphrase</yoastmark>&.",
-			original: "A string keyphrase& with a keyphrase&.",
-			position: { endOffset: 21, startOffset: 12,
+			marked: "A string <yoastmark class='yoast-text-mark'>keyphrase©</yoastmark> with a " +
+				"<yoastmark class='yoast-text-mark'>keyphrase©</yoastmark>.",
+			original: "A string keyphrase© with a keyphrase©.",
+			position: { endOffset: 27, startOffset: 12,
 				startOffsetBlock: 9,
-				endOffsetBlock: 18,
+				endOffsetBlock: 24,
 				attributeId: "",
 				clientId: "",
 				isFirstSection: false,
 			} } ),
 		new Mark( {
-			marked: "A string <yoastmark class='yoast-text-mark'>keyphrase</yoastmark>& with a " +
-				"<yoastmark class='yoast-text-mark'>keyphrase</yoastmark>&.",
-			original: "A string keyphrase& with a keyphrase&.",
-			// Position information is expected to be longer than the actual string by 4 characters, because "&" should be processed as "#amp;".
-			position: { endOffset: 43, startOffset: 34,
-				startOffsetBlock: 31,
-				endOffsetBlock: 40,
+			marked: "A string <yoastmark class='yoast-text-mark'>keyphrase©</yoastmark> with a " +
+				"<yoastmark class='yoast-text-mark'>keyphrase©</yoastmark>.",
+			original: "A string keyphrase© with a keyphrase©.",
+			position: { endOffset: 50, startOffset: 35,
+				startOffsetBlock: 32,
+				endOffsetBlock: 47,
 				attributeId: "",
 				clientId: "",
 				isFirstSection: false,
@@ -807,7 +806,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "can match an occurrence of a keyphrase containing an & as in 'a&b', and output correct Marks objects",
+		description: "can match an occurrence of a keyphrase containing an & in the middle, as in 'a&b', and output correct Marks objects",
 		paper: new Paper( "<p>At a&amp;b they have the best stuff.</p>", { keyword: "a&b" } ),
 		keyphraseForms: [ [ "a&b" ] ],
 		expectedCount: 1,
