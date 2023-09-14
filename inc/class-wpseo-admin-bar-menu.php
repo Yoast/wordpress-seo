@@ -592,7 +592,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 */
 	protected function add_premium_link( WP_Admin_Bar $wp_admin_bar ) {
 		$sale_percentage = '';
-		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black_friday_2023' ) ) {
+		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
 			$sale_percentage = sprintf(
 				'<span class="admin-bar-premium-promotion">%1$s</span>',
 				__( '-30%', 'wordpress-seo' )
