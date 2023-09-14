@@ -15,8 +15,7 @@ describe( "Gets all H1s in the text", function() {
 		const mockPaper = new Paper( "<h1>first h1</h1>some content<h2>content h2</h2>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		// console.log(mockPaper.getTree());
-		expect( h1s( mockPaper ) ).toEqual( [ { tag: "h1", content: "first h1", position: { startOffset: 4, endOffset: 12 } } ] );
+		expect( h1s( mockPaper ) ).toEqual( [ { tag: "h1", content: "first h1", position: { startOffset: 4, endOffset: 12, clientId: "" } } ] );
 	} );
 
 	it( "should return all H1s in the text", function() {
@@ -25,8 +24,8 @@ describe( "Gets all H1s in the text", function() {
 		buildTree( mockPaper, mockResearcher );
 
 		expect( h1s( mockPaper ) ).toEqual( [
-			{ tag: "h1", content: "first h1", position: { startOffset: 4, endOffset: 12 } },
-			{ tag: "h1", content: "second h1", position: { startOffset: 37, endOffset: 46 } },
+			{ tag: "h1", content: "first h1", position: { startOffset: 4, endOffset: 12, clientId: "" } },
+			{ tag: "h1", content: "second h1", position: { startOffset: 37, endOffset: 46, clientId: "" } },
 		] );
 	} );
 
@@ -36,8 +35,8 @@ describe( "Gets all H1s in the text", function() {
 		buildTree( mockPaper, mockResearcher );
 
 		expect( h1s( mockPaper ) ).toEqual( [
-			{ tag: "h1", content: "first h1", position: { startOffset: 4, endOffset: 12 } },
-			{ tag: "h1", content: "second h1", position: { startOffset: 21, endOffset: 30 } },
+			{ tag: "h1", content: "first h1", position: { startOffset: 4, endOffset: 12, clientId: "" } },
+			{ tag: "h1", content: "second h1", position: { startOffset: 21, endOffset: 30, clientId: "" } },
 		] );
 	} );
 
@@ -47,8 +46,8 @@ describe( "Gets all H1s in the text", function() {
 		buildTree( mockPaper, mockResearcher );
 
 		expect( h1s( mockPaper ) ).toEqual( [
-			{ tag: "h1", content: "first h1", position: { startOffset: 12, endOffset: 20 } },
-			{ tag: "h1", content: "second h1", position: { startOffset: 29, endOffset: 38 } },
+			{ tag: "h1", content: "first h1", position: { startOffset: 12, endOffset: 20, clientId: "" } },
+			{ tag: "h1", content: "second h1", position: { startOffset: 29, endOffset: 38, clientId: "" } },
 		] );
 	} );
 
@@ -58,8 +57,8 @@ describe( "Gets all H1s in the text", function() {
 		buildTree( mockPaper, mockResearcher );
 
 		expect( h1s( mockPaper ) ).toEqual( [
-			{ tag: "h1", content: "first h1", position: { startOffset: 9, endOffset: 17 } },
-			{ tag: "h1", content: "second h1", position: { startOffset: 64, endOffset: 73 } },
+			{ tag: "h1", content: "first h1", position: { startOffset: 9, endOffset: 17, clientId: "" } },
+			{ tag: "h1", content: "second h1", position: { startOffset: 64, endOffset: 73, clientId: "" } },
 		] );
 	} );
 
@@ -131,8 +130,8 @@ describe( "Gets all H1s in the text", function() {
 		buildTree( mockPaper, mockResearcher );
 
 		expect( h1s( mockPaper ) ).toEqual( [
-			{ tag: "h1", content: "Voice Search", position: { startOffset: 4, endOffset: 16 } },
-			{ tag: "h1", content: "So what will the future bring?", position: { startOffset: 3903, endOffset: 3933 } },
+			{ tag: "h1", content: "Voice Search", position: { startOffset: 4, endOffset: 16, clientId: "" } },
+			{ tag: "h1", content: "So what will the future bring?", position: { startOffset: 3903, endOffset: 3933, clientId: "" } },
 		] );
 	} );
 } );

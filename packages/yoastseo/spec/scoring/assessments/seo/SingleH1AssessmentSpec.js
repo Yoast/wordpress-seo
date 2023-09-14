@@ -66,8 +66,13 @@ describe( "A test for marking incorrect H1s in the body", function() {
 			new Mark( {
 				original: "<h1>heading</h1>",
 				marked: "<h1><yoastmark class='yoast-text-mark'>heading</yoastmark></h1>",
-				position: { startOffset: 22, endOffset: 29 } }
-				 ),
+				position: {
+					startOffset: 22,
+					endOffset: 29,
+					clientId: "",
+					endOffsetBlock: 7,
+					startOffsetBlock: 0,
+				} } ),
 		];
 
 		expect( h1Assessment.getMarks() ).toEqual( expected );
@@ -82,7 +87,13 @@ describe( "A test for marking incorrect H1s in the body", function() {
 			new Mark( {
 				original: "<h1>heading</h1>",
 				marked: "<h1><yoastmark class='yoast-text-mark'>heading</yoastmark></h1>",
-				position: { startOffset: 4, endOffset: 11 },
+				position: {
+					startOffset: 4,
+					endOffset: 11,
+					clientId: "",
+					endOffsetBlock: 7,
+					startOffsetBlock: 0,
+				},
 			} ),
 		];
 
