@@ -1,13 +1,19 @@
+import { languageProcessing } from "yoastseo";
+import { isUndefined } from "lodash-es";
+import { endsWithIng } from "./internal/getVerbStem";
+const { buildFormRule, createRulesFromArrays } = languageProcessing;
+
 /**
  * Checks if a word is complex.
  * This is a helper for the Word Complexity assessment. As such, this helper is not bundled in Yoast SEO.
  *
  * @param {object} config The configuration needed for assessing the word's complexity, e.g., the frequency list.
  * @param {string} word The word to check.
+ * @param {Object} morphologyData morphology data for the language
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( config, word ) {
+export default function checkIfWordIsComplex( config, word, morphologyData ) {
 	const lengthLimit = config.wordLength;
 	const frequencyList = config.frequencyList;
 	// Whether uppercased beginning of a word decreases its complexity.
@@ -22,7 +28,6 @@ export default function checkIfWordIsComplex( config, word ) {
 	if ( frequencyList.includes( word ) ) {
 		return false;
 	}
-
 	/*
 	 * In English where capital letter beginning decreases the complexity of a word,
 	 * word longer than 7 characters is not complex if it starts with capital letter.
@@ -30,16 +35,23 @@ export default function checkIfWordIsComplex( config, word ) {
 	if ( doesUpperCaseDecreaseComplexity === true && word[ 0 ].toLowerCase() === word[ 0 ] ) {
 		/*
 		 * If a word is longer than 7 characters and doesn't start with capital letter,
-		 * we check further whether it is a plural ending in -s. If it is, we remove the -s suffix
+		 * we check further whether it is a plural ending in -s. If it is, we singularize it using the stemmer
 		 * and check if the singular word can be found in the frequency list.
 		 * The word is not complex if the singular form is in the list.
 		 */
-		if ( word.endsWith( "s" ) ) {
-			word = word.substring( 0, word.length - 1 );
-			return ! frequencyList.includes( word );
+		const regexVerb = morphologyData.verbs.regexVerb;
+		const singularizeIfPlural = buildFormRule( word, createRulesFromArrays( morphologyData.nouns.regexNoun.singularize ) );
+		if ( ! isUndefined( singularizeIfPlural ) ) {
+			// Bring ing-nouns to base forms ("blessings" -> "bless").
+			if ( endsWithIng( singularizeIfPlural ) ) {
+				word = buildFormRule( singularizeIfPlural, createRulesFromArrays( regexVerb.ingFormToInfinitive ) );
+			}
+			word = singularizeIfPlural;
+		}
+		if ( ! frequencyList.includes( word ) ) {
+			return true;
 		}
 		return true;
 	}
-
 	return false;
 }
