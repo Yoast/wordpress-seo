@@ -79,7 +79,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			$button_text
 		);
 
-		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black_friday_2023' ) ) {
+		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
 			$bf_label   = \esc_html__( 'BLACK FRIDAY', 'wordpress-seo' );
 			$sale_label = \esc_html__( '30% OFF', 'wordpress-seo' );
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped above.

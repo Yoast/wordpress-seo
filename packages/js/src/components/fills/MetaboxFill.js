@@ -23,8 +23,10 @@ import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../KeywordUpsell";
-import { BlackFridayProductEditorChecklistPromo } from "../BlackFridayProductEditorChecklistPromo";
+import { BlackFridayProductEditorChecklistPromotion } from "../BlackFridayProductEditorChecklistPromotion";
+import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
+import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
 
 /* eslint-disable complexity */
 /**
@@ -53,11 +55,13 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 	 *
 	 * @returns {boolean} Whether the WooCommerce promo should be shown.
 	 */
-	const shouldShowWooCommercePromo = () => {
+	const shouldShowWooCommerceChecklistPromo = () => {
 		const isProduct = select( "yoast-seo/editor" ).getIsProduct();
 		return isProduct && isWooCommerceActive();
 	};
 
+	const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
+	const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
@@ -72,7 +76,8 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 					key="time-constrained-notification"
 					renderPriority={ 2 }
 				>
-					{ shouldShowWooCommercePromo() && <BlackFridayProductEditorChecklistPromo /> }
+					{ shouldShowWooCommerceChecklistPromo() && <BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck /> }
+					<BlackFridayPromotionWithMetaboxWarningsCheck image={ null } hasIcon={ false } location={ "metabox" } />
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
