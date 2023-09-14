@@ -19,6 +19,10 @@ describe( "a test checking if the word is complex in English",  function() {
 		expect( checkIfWordIsComplex( wordComplexityConfig, "releases", getMorphologyData( "en" ) ) ).toEqual( false );
 	} );
 
+	it( "returns plural (with phonetical) change word as non-complex if its singular version is found in the list", function() {
+		expect( checkIfWordIsComplex( wordComplexityConfig, "opportunities", getMorphologyData( "en" ) ) ).toEqual( false );
+	} );
+
 	it( "returns long irregular plural word as complex if its singular version is not found in the list", function() {
 		expect( checkIfWordIsComplex( wordComplexityConfig, "metamorphoses", getMorphologyData( "en" ) ) ).toEqual( true );
 	} );
