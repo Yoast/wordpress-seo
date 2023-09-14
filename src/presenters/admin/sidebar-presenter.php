@@ -45,7 +45,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 									sizes="(min-width: 1321px) 75px">
 							</figure>
 						</figure>
-						<?php if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black_friday_2023' ) ) : ?>
+						<?php if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) : ?>
 							<div class="sidebar__sale_banner_container">
 								<div class="sidebar__sale_banner">
 										<span class="banner_text"><?php echo \esc_html( $title ); ?></span>
@@ -64,7 +64,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							\printf( \esc_html__( 'Be more efficient in creating titles and meta descriptions with the help of AI. %1$sGet 24/7 support%2$s and boost your website’s visibility.', 'wordpress-seo' ), '<strong>', '</strong>' );
 							?>
 						</p>
-						<?php if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black_friday_2023' ) ) : ?>
+						<?php if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) : ?>
 							<div class="sidebar__sale_text">
 								<p>
 									<?php

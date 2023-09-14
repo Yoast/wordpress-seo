@@ -5,7 +5,7 @@ import withPersistentDismiss from "./withPersistentDismiss";
 /**
  * @param {string} id The id.
  * @param {boolean} hasIcon Wether or not to show icon before title.
- * @param {string} title The title.
+ * @param {object | string} title The title.
  * @param {JSX.Element|null} image The image or null if no image.
  * @param {isAlertDismissed} boolean Wether or not the notification is dismissed.
  * @param {Function} onDismissed The dismissal prop to be renamed for Notification component.
@@ -44,7 +44,7 @@ PersistentDismissableNotification.propTypes = {
 	children: PropTypes.node.isRequired,
 	id: PropTypes.string.isRequired,
 	hasIcon: PropTypes.bool,
-	title: PropTypes.string.isRequired,
+	title: PropTypes.any.isRequired,
 	image: PropTypes.elementType,
 	isAlertDismissed: PropTypes.bool.isRequired,
 	onDismissed: PropTypes.func.isRequired,

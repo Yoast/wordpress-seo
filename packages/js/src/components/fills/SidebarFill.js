@@ -19,7 +19,9 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import WebinarPromoNotification from "../WebinarPromoNotification";
-import BlackFridayPromoNotification from "../BlackFridayPromoNotification";
+import { BlackFridayPromotion } from "../BlackFridayPromotion";
+import { BlackFridaySidebarChecklistPromotion } from "../BlackFridaySidebarChecklistPromotion";
+import { shouldShowWebinarPromotionNotificationInSidebar } from "../../helpers/shouldShowWebinarPromotionNotification";
 import KeywordUpsell from "../KeywordUpsell";
 
 /* eslint-disable complexity */
@@ -36,7 +38,6 @@ import KeywordUpsell from "../KeywordUpsell";
  */
 export default function SidebarFill( { settings } ) {
 	const webinarIntroBlockEditorUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
-	const blackFridayBlockEditorUrl = get( window, "wpseoScriptData.blackFridayBlockEditorUrl", "https://yoa.st/black-friday-checklist" );
 	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
 
 	return (
@@ -45,10 +46,12 @@ export default function SidebarFill( { settings } ) {
 				<SidebarItem key="warning" renderPriority={ 1 }>
 					<Warning />
 					<div style={ { margin: "0 16px" } }>
-						{ isWooCommerce && blackFridayBlockEditorUrl
-							? <BlackFridayPromoNotification image={ null } url={ blackFridayBlockEditorUrl } />
-							: <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
+						{ /* eslint-disable max-len */ }
+						{ shouldShowWebinarPromotionNotificationInSidebar() &&
+							<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
 						}
+						{ isWooCommerce && <BlackFridaySidebarChecklistPromotion hasIcon={ false } /> }
+						<BlackFridayPromotion image={ null } hasIcon={ false } />
 					</div>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
