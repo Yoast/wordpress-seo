@@ -15,7 +15,7 @@ return [
 	 */
 	'finders' => [
 		Finder::create()->files()->in( 'vendor/guzzlehttp/guzzle' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
-		Finder::create()->files()->in( 'vendor/guzzlehttp/promises' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
+		Finder::create()->files()->in( 'vendor/guzzlehttp/promises' )->exclude( 'vendor-bin' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
 		Finder::create()->files()->in( 'vendor/guzzlehttp/psr7' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
 	],
 

@@ -435,4 +435,66 @@ describe( "a test for retrieving annotations from non-Yoast blocks", () => {
 
 		expect( annotations ).toEqual( resultWithAnnotation );
 	} );
+	it( "returns an annotation if there is an applicable marker for a heading block: " +
+		"the heading text contains some styling such as strong tags", () => {
+		// The string we want to highlight: "The origin of red pandas".
+		create.mockImplementation( () => {
+			return { text: "The origin of red pandas" };
+		} );
+
+		const mockBlock = {
+			clientId: "34f61542-0902-44f7-ab48-gyildhgfgh6463286",
+			name: "core/heading",
+			isValid: true,
+			attributes: {
+				content: "The origin of red <strong>pandas</strong>",
+			},
+			innerBlocks: [],
+			originalContent: "<h1 class=\"wp-block-heading\" id=\"h-the-origin-or-red-panda\">The origin of red <strong>pandas</strong></h1>",
+		};
+
+		const mockAttribute = {
+			key: "content",
+		};
+
+		const mockMarks = [
+			new Mark( {
+				original: "<h1>The origin of red pandas</h1>",
+				marked: "<h1>The origin of red pandas</h1>",
+				position: {
+					startOffsetBlock: 0,
+					endOffsetBlock: 24,
+					clientId: "34f61542-0902-44f7-ab48-gyildhgfgh6463286",
+				},
+			} ),
+			new Mark( {
+				original: "A raw food diet for cats is more digestible than a diet of plant-based foods.",
+				marked: "A <yoastmark class='yoast-text-mark'>raw food</yoastmark> diet for cats is more digestible than a diet of plant-based foods.",
+				position: {
+					startOffsetBlock: 2,
+					endOffsetBlock: 10,
+					isFirstSection: false,
+					clientId: "2821282d-aead-4191-a844-c43568cd112d",
+					attributeId: "faq-question-1674124378605",
+				},
+			} ),
+		];
+
+		select.mockReturnValue( {
+			getActiveMarker: jest.fn( () => "singleH1" ),
+		} );
+
+		const annotations = getAnnotationsForWPBlock( mockAttribute, mockBlock, mockMarks );
+
+		const resultWithAnnotation =     [
+			{
+				startOffset: 0,
+				endOffset: 24,
+				block: "34f61542-0902-44f7-ab48-gyildhgfgh6463286",
+				richTextIdentifier: "content",
+			},
+		];
+
+		expect( annotations ).toEqual( resultWithAnnotation );
+	} );
 } );

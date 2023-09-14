@@ -1,10 +1,10 @@
 /* External dependencies */
+import { ChartBarIcon } from "@heroicons/react/solid";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { useSvgAria } from "@yoast/ui-library/src";
 import PropTypes from "prop-types";
-
-/* Yoast dependencies */
-import { colors } from "@yoast/style-guide";
+import styled from "styled-components";
 
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
@@ -13,6 +13,13 @@ import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
 import { isCloseEvent } from "./modals/editorModals/EditorModal.js";
 import SidebarButton from "./SidebarButton";
 import WincherSEOPerformance from "../containers/WincherSEOPerformance";
+
+
+const StyledHeroIcon = styled( ChartBarIcon )`
+	width: 18px;
+	height: 18px;
+	margin: 3px;
+`;
 
 /**
  * Handles the click event on the "Track SEO performance" button.
@@ -71,6 +78,8 @@ export default function WincherSEOPerformanceModal( props ) {
 
 	const title = __( "Track SEO performance", "wordpress-seo" );
 
+	const svgAriaProps = useSvgAria();
+
 	return (
 		<Fragment>
 			{ whichModalOpen === location &&
@@ -93,8 +102,7 @@ export default function WincherSEOPerformanceModal( props ) {
 			<SidebarButton
 				id={ `wincher-open-button-${location}` }
 				title={ title }
-				suffixIcon={ { size: "20px", icon: "pencil-square" } }
-				prefixIcon={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
+				SuffixHeroIcon={ <StyledHeroIcon className="yst-text-slate-500" { ...svgAriaProps } /> }
 				onClick={ onModalOpen }
 			/>
 			}

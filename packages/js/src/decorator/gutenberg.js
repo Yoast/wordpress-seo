@@ -82,19 +82,6 @@ const ANNOTATION_ATTRIBUTES = {
 	],
 };
 
-const ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES = {
-	singleH1: {
-		"core/heading": [
-			{
-				key: "content",
-				filter: ( blockAttributes ) => {
-					return blockAttributes.level === 1;
-				},
-			},
-		],
-	},
-};
-
 /**
  * Retrieves the next annotation from the annotation queue.
  *
@@ -153,15 +140,11 @@ export function isAnnotationAvailable() {
  * @returns {string[]} The attributes that we have annotation support for.
  */
 function getAttributesWithAnnotationSupport( blockTypeName ) {
-	const activeMarker = select( "yoast-seo/editor" ).getActiveMarker();
-
-	const assessmentAttributes = ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES[ activeMarker ] || ANNOTATION_ATTRIBUTES;
-
-	if ( ! assessmentAttributes.hasOwnProperty( blockTypeName ) ) {
+	if ( ! ANNOTATION_ATTRIBUTES.hasOwnProperty( blockTypeName ) ) {
 		return [];
 	}
 
-	return assessmentAttributes[ blockTypeName ];
+	return ANNOTATION_ATTRIBUTES[ blockTypeName ];
 }
 
 /**

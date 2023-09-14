@@ -5,7 +5,8 @@
 import { elementHasName, elementHasClass, elementHasID } from "./filterHelpers";
 
 // These are elements that we don't want to include in the analysis and that can be child nodes of paragraphs or headings.
-export const canBeChildOfParagraph = [ "code", "kbd", "math", "q", "samp", "script", "var", "#comment" ];
+export const canBeChildOfParagraph = [ "code", "kbd", "math", "q", "samp", "script", "var", "#comment", "cite", "form",
+	"map", "noscript", "output" ];
 
 const permanentFilters = [
 	// Filters out Yoast blocks that don't need to be part of the analysis.
@@ -48,6 +49,12 @@ const permanentFilters = [
 	elementHasName( "textarea" ),
 	elementHasName( "title" ),
 	elementHasName( "var" ),
+	elementHasName( "#comment" ),
+	elementHasName( "cite" ),
+	elementHasName( "form" ),
+	elementHasName( "map" ),
+	elementHasName( "noscript" ),
+	elementHasName( "output" ),
 ];
 
 export default permanentFilters;

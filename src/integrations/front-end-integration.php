@@ -177,6 +177,20 @@ class Front_End_Integration implements Integration_Interface {
 	];
 
 	/**
+	 * The next output.
+	 *
+	 * @var string
+	 */
+	protected $next;
+
+	/**
+	 * The prev output.
+	 *
+	 * @var string
+	 */
+	protected $prev;
+
+	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array The conditionals.
@@ -184,20 +198,6 @@ class Front_End_Integration implements Integration_Interface {
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
 	}
-
-	/**
-	 * The next output.
-	 *
-	 * @var bool
-	 */
-	public $next;
-
-	/**
-	 * The prev output.
-	 *
-	 * @var bool
-	 */
-	public $prev;
 
 	/**
 	 * Front_End_Integration constructor.
@@ -315,6 +315,10 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return string The correct link.
 	 */
 	public function adjacent_rel_url( $link, $rel, $presentation = null ) {
+		if ( $link === \home_url( '/' ) ) {
+			return $link;
+		}
+
 		if ( $rel === 'next' || $rel === 'prev' ) {
 
 			// WP_HTML_Tag_Processor was introduced in WordPress 6.2.
@@ -337,6 +341,8 @@ class Front_End_Integration implements Integration_Interface {
 				}
 			}
 		}
+
+		return $link;
 	}
 
 	/**

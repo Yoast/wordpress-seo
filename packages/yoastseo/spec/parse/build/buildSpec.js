@@ -604,144 +604,43 @@ describe( "The parse function", () => {
 		const languageProcessor = new LanguageProcessor( researcher );
 
 		expect( build( paper, languageProcessor ) ).toEqual( {
-			name: "#document-fragment",
 			attributes: {},
 			childNodes: [
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 39,
-						startOffset: 0,
-					},
-				},
-				{
-					name: "#text",
-					value: "\n",
-					sourceCodeRange: { startOffset: 39, endOffset: 40 },
-				},
-				{
-					name: "#text",
-					value: "\n",
-					sourceCodeRange: { startOffset: 287, endOffset: 288 },
-				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 328,
-						startOffset: 288,
-					},
-				},
+				{ name: "#text", sourceCodeRange: { endOffset: 40, startOffset: 39 }, value: "\n" },
+				{ name: "#text", sourceCodeRange: { endOffset: 288, startOffset: 287 }, value: "\n" },
 				{
 					attributes: {},
 					childNodes: [
 						{
 							name: "#text",
-							value: "This is the first sentence.",
-							sourceCodeRange: { startOffset: 331, endOffset: 358 },
-						},
+							sourceCodeRange: { endOffset: 358, startOffset: 331 },
+							value: "This is the first sentence." },
 					],
 					isImplicit: false,
 					name: "p",
 					sentences: [
 						{
-							sourceCodeRange: {
-								endOffset: 358,
-								startOffset: 331,
-							},
+							sourceCodeRange: { endOffset: 358, startOffset: 331 },
 							text: "This is the first sentence.",
 							tokens: [
-								{
-									sourceCodeRange: {
-										endOffset: 335,
-										startOffset: 331,
-									},
-									text: "This",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 336,
-										startOffset: 335,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 338,
-										startOffset: 336,
-									},
-									text: "is",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 339,
-										startOffset: 338,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 342,
-										startOffset: 339,
-									},
-									text: "the",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 343,
-										startOffset: 342,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 348,
-										startOffset: 343,
-									},
-									text: "first",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 349,
-										startOffset: 348,
-									},
-									text: " ",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 357,
-										startOffset: 349,
-									},
-									text: "sentence",
-								},
-								{
-									sourceCodeRange: {
-										endOffset: 358,
-										startOffset: 357,
-									},
-									text: ".",
-								},
-							],
-						},
-					],
+								{ sourceCodeRange: { endOffset: 335, startOffset: 331 }, text: "This" },
+								{ sourceCodeRange: { endOffset: 336, startOffset: 335 }, text: " " },
+								{ sourceCodeRange: { endOffset: 338, startOffset: 336 }, text: "is" },
+								{ sourceCodeRange: { endOffset: 339, startOffset: 338 }, text: " " },
+								{ sourceCodeRange: { endOffset: 342, startOffset: 339 }, text: "the" },
+								{ sourceCodeRange: { endOffset: 343, startOffset: 342 }, text: " " },
+								{ sourceCodeRange: { endOffset: 348, startOffset: 343 }, text: "first" },
+								{ sourceCodeRange: { endOffset: 349, startOffset: 348 }, text: " " },
+								{ sourceCodeRange: { endOffset: 357, startOffset: 349 }, text: "sentence" },
+								{ sourceCodeRange: { endOffset: 358, startOffset: 357 }, text: "." },
+							] } ],
 					sourceCodeLocation: {
 						endOffset: 362,
-						endTag: {
-							endOffset: 362,
-							startOffset: 358,
-						},
+						endTag: { endOffset: 362, startOffset: 358 },
 						startOffset: 328,
-						startTag: {
-							endOffset: 331,
-							startOffset: 328,
-						},
-					},
-				},
-			],
-		}
+						startTag: { endOffset: 331, startOffset: 328 },
+					} } ],
+			name: "#document-fragment" }
 		);
 	} );
 	it( "parses an HTML text with a Yoast breadcrumbs widget in Elementor, which should be filtered out", () => {
@@ -1042,12 +941,6 @@ describe( "The parse function", () => {
 					} ],
 					childNodes: [
 						{
-							name: "#comment",
-							attributes: {},
-							childNodes: [],
-							sourceCodeLocation: { startOffset: 8, endOffset: 26 },
-						},
-						{
 							name: "#text",
 							value: "Hello, world!",
 							sourceCodeRange: { startOffset: 26, endOffset: 39 },
@@ -1115,12 +1008,6 @@ describe( "The parse function", () => {
 							name: "#text",
 							value: "Hello, ",
 							sourceCodeRange: { startOffset: 8, endOffset: 15 },
-						},
-						{
-							name: "#comment",
-							attributes: {},
-							childNodes: [],
-							sourceCodeLocation: { startOffset: 15, endOffset: 33 },
 						},
 						{
 							name: "#text",
@@ -1544,12 +1431,6 @@ describe( "The parse function", () => {
 				name: "#document-fragment",
 				attributes: {},
 				childNodes: [
-					{
-						name: "#comment",
-						attributes: {},
-						childNodes: [],
-						sourceCodeLocation: { startOffset: 0, endOffset: 21 },
-					},
 					{ name: "#text", value: "\n",
 						sourceCodeRange: { startOffset: 21, endOffset: 22 } },
 					{
@@ -1612,33 +1493,14 @@ describe( "The parse function", () => {
 					},
 					{ name: "#text", value: "\n",
 						sourceCodeRange: { startOffset: 108, endOffset: 109 } },
-					{
-						name: "#comment",
-						attributes: {},
-						childNodes: [],
-						sourceCodeLocation: { startOffset: 109, endOffset: 131 },
-					},
 					{ name: "#text", value: "\n\n",
 						sourceCodeRange: { startOffset: 131, endOffset: 133 } },
-					{
-						name: "#comment",
-						attributes: {},
-						childNodes: [],
-						sourceCodeLocation: { startOffset: 133, endOffset: 149 },
-					},
 					{ name: "#text", value: "\n",
 						sourceCodeRange: { startOffset: 149, endOffset: 150 } },
 					{
 						name: "ul",
 						attributes: {},
 						childNodes: [
-							{
-								name: "#comment",
-								attributes: {},
-								childNodes: [],
-								sourceCodeLocation: { startOffset: 154, endOffset: 175 },
-								clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
-							},
 							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
 								sourceCodeRange: { startOffset: 175, endOffset: 176 } },
 							{
@@ -1678,22 +1540,8 @@ describe( "The parse function", () => {
 							},
 							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
 								sourceCodeRange: { startOffset: 196, endOffset: 197 } },
-							{
-								name: "#comment",
-								attributes: {},
-								childNodes: [],
-								sourceCodeLocation: { startOffset: 197, endOffset: 219 },
-								clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
-							},
 							{ name: "#text", value: "\n\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
 								sourceCodeRange: { startOffset: 219, endOffset: 221 } },
-							{
-								name: "#comment",
-								attributes: {},
-								childNodes: [],
-								sourceCodeLocation: { startOffset: 221, endOffset: 242 },
-								clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
-							},
 							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
 								sourceCodeRange: { startOffset: 242, endOffset: 243 } },
 							{
@@ -1732,13 +1580,6 @@ describe( "The parse function", () => {
 							},
 							{ name: "#text", value: "\n", clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
 								sourceCodeRange: { startOffset: 261, endOffset: 262 } },
-							{
-								name: "#comment",
-								attributes: {},
-								childNodes: [],
-								sourceCodeLocation: { startOffset: 262, endOffset: 284 },
-								clientId: "ce5c002f-eea2-4a92-be4a-6fd25e947f45",
-							},
 						],
 						sourceCodeLocation: {
 							startTag: { startOffset: 150, endOffset: 154 },
@@ -1750,12 +1591,6 @@ describe( "The parse function", () => {
 					},
 					{ name: "#text", value: "\n",
 						sourceCodeRange: { startOffset: 289, endOffset: 290 } },
-					{
-						name: "#comment",
-						attributes: {},
-						childNodes: [],
-						sourceCodeLocation: { startOffset: 290, endOffset: 307 },
-					},
 				],
 			}
 		);
@@ -1778,18 +1613,6 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: { endOffset: 34, startOffset: 0 },
-				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: { endOffset: 55, startOffset: 34 },
-				},
 				{ name: "#text", value: "\n", sourceCodeRange: { startOffset: 55, endOffset: 56 } },
 				{
 					attributes: {},
@@ -1842,12 +1665,6 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 					},
 				},
 				{ name: "#text", value: "\n", sourceCodeRange: { startOffset: 132, endOffset: 133 } },
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: { endOffset: 155, startOffset: 133 },
-				},
 			],
 		} );
 	} );
@@ -1934,15 +1751,6 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 						},
 					},
 				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 51,
-						startOffset: 20,
-					},
-				},
 			],
 		} );
 	} );
@@ -2021,12 +1829,6 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 						startTag: { endOffset: 5, startOffset: 0 },
 					},
 				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: { endOffset: 116, startOffset: 85 },
-				},
 			],
 		} );
 	} );
@@ -2103,12 +1905,6 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 				name: "#document-fragment",
 				attributes: {},
 				childNodes: [
-					{
-						name: "#comment",
-						attributes: {},
-						childNodes: [],
-						sourceCodeLocation: { startOffset: 0, endOffset: 458 },
-					},
 					{ name: "#text", value: "\n", sourceCodeRange: { startOffset: 458, endOffset: 459 } },
 					{
 						name: "div",
@@ -2404,7 +2200,6 @@ describe( "parsing html with Yoast blocks that enter the Paper as html comments"
 						clientId: "a062b3dd-26d5-4d33-b59f-9746d13d1ee1",
 					},
 					{ name: "#text", value: "\n", sourceCodeRange: { startOffset: 1070, endOffset: 1071 } },
-					{ name: "#comment", attributes: {}, childNodes: [], sourceCodeLocation: { startOffset: 1071, endOffset: 1099 } },
 				],
 			}
 		);
