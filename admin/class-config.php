@@ -91,9 +91,10 @@ class WPSEO_Admin_Pages {
 			'isRtl'                          => is_rtl(),
 			'isPremium'                      => YoastSEO()->helpers->product->is_premium(),
 			'isWooCommerceActive'            => $woocommerce_conditional->is_met(),
+			'currentPromotions'              => YoastSEO()->classes->get( Yoast\WP\SEO\Promotions\Application\Promotion_Manager::class )->get_current_promotions(),
 			'webinarIntroSettingsUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-settings' ),
-			'blackFridayBlockEditorUrl'      => ( YoastSEO()->classes->get( Yoast\WP\SEO\Promotions\Application\Promotion_Manager::class )->is( 'black_friday_2023_checklist' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'webinarIntroFirstTimeConfigUrl' => $this->get_webinar_shortlink(),
+			'linkParams'                     => WPSEO_Shortlinker::get_query_params(),
 			'pluginUrl'                      => \plugins_url( '', \WPSEO_FILE ),
 		];
 

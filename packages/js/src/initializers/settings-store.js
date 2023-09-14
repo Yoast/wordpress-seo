@@ -3,9 +3,9 @@ import { reducers, selectors, actions } from "@yoast/externals/redux";
 import { get } from "lodash";
 import * as controls from "../redux/controls/dismissedAlerts";
 
-const { dismissedAlerts, isPremium } = reducers;
-const { isAlertDismissed, getIsPremium } = selectors;
-const { dismissAlert, setDismissedAlerts, setIsPremium } = actions;
+const { currentPromotions, dismissedAlerts, isPremium, linkParams  } = reducers;
+const { isAlertDismissed, getIsPremium, isPromotionActive, selectLinkParams } = selectors;
+const { dismissAlert, setCurrentPromotions, setDismissedAlerts, setLinkParams, setIsPremium } = actions;
 
 /**
  * Populates the store.
@@ -17,6 +17,8 @@ const { dismissAlert, setDismissedAlerts, setIsPremium } = actions;
 function populateStore( store ) {
 	store.dispatch( setDismissedAlerts( get( window, "wpseoScriptData.dismissedAlerts", {} ) ) );
 	store.dispatch( setIsPremium( Boolean( get( window, "wpseoScriptData.isPremium", false ) ) ) );
+	store.dispatch( setCurrentPromotions( get( window, "wpseoScriptData.currentPromotions", {} ) ) );
+	store.dispatch( setLinkParams( get( window, "wpseoScriptData.linkParams", {} ) ) );
 }
 
 /**
@@ -27,16 +29,22 @@ function populateStore( store ) {
 export default function initSettingsStore() {
 	const store = registerStore( "yoast-seo/settings", {
 		reducer: combineReducers( {
+			currentPromotions,
 			dismissedAlerts,
 			isPremium,
+			linkParams,
 		} ),
 		selectors: {
 			isAlertDismissed,
 			getIsPremium,
+			isPromotionActive,
+			selectLinkParams,
 		},
 		actions: {
 			dismissAlert,
+			setCurrentPromotions,
 			setDismissedAlerts,
+			setLinkParams,
 			setIsPremium,
 		},
 		controls,

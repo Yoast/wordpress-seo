@@ -403,7 +403,7 @@ class WPSEO_Addon_Manager {
 			$addon_link = ( isset( $this->addon_details[ $plugin_data['slug'] ] ) ) ? $this->addon_details[ $plugin_data['slug'] ]['short_link_renewal'] : $this->addon_details[ self::PREMIUM_SLUG ]['short_link_renewal'];
 
 			$sale_copy = '';
-			if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black_friday_2023' ) ) {
+			if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
 				$sale_copy = sprintf(
 				/* translators: %1$s is a <br> tag. */
 					esc_html__( '%1$s Now with 30%% Black Friday Discount!', 'wordpress-seo' ),
