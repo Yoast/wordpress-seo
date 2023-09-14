@@ -129,7 +129,7 @@ $new_tab_message         = sprintf(
 
 $sale_badge = '';
 
-if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black_friday_2023' ) ) {
+if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
 	/* translators: %1$s expands to opening span, %2$s expands to closing span */
 	$sale_badge_span = sprintf( esc_html__( '%1$sSALE 30%% OFF!%2$s', 'wordpress-seo' ), '<span>', '</span>' );
 
