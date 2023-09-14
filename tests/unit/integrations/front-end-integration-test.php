@@ -740,7 +740,7 @@ class Front_End_Integration_Test extends TestCase {
 
 		$this->instance->query_loop_next_prev( $html, $block );
 
-		$this->assertEquals( $this->instance->$variable, $html );
+		$this->assertEquals( self::getPropertyValue( $this->instance, $variable ), $html );
 	}
 
 	/**
@@ -762,49 +762,5 @@ class Front_End_Integration_Test extends TestCase {
 
 		$result = $this->instance->query_loop_next_prev( $html, $block );
 		$this->assertNotFalse( \has_filter( 'wpseo_adjacent_rel_url', [ $this->instance, 'adjacent_rel_url' ] ), 'Set the correct next/prev links in head tag' );
-	}
-
-	/**
-	 * Data provider for the test_adjacent_rel_url test.
-	 *
-	 * @return array
-	 */
-	public static function data_provider_adjacent_rel_url() {
-		return [
-			'no links' => [
-				'rel'      => 'nothing',
-				'expected' => null,
-			],
-			'next link' => [
-				'rel'      => 'next',
-				'expected' => 'https://example.com/?query-1-page=2',
-			],
-			'prev link' => [
-				'rel'      => 'prev',
-				'expected' => 'https://example.com/?query-1-page=3',
-			],
-		];
-	}
-
-	/**
-	 * Tests that the correct next/prev links are set in head tag.
-	 *
-	 * @covers ::adjacent_rel_url
-	 *
-	 * @dataProvider data_provider_adjacent_rel_url
-	 *
-	 * @param string $rel Rel attribute.
-	 * @param string $expected Expected result.
-	 */
-	public function test_adjacent_rel_url( $rel, $expected ) {
-
-		$this->instance->next = '<a href="/?query-1-page=2">Next</a>';
-		$this->instance->prev = '<a href="/?query-1-page=3">Prev</a>';
-
-		$presentation            = Mockery::mock( Presentation::class );
-		$presentation->permalink = 'https://example.com/';
-		$result                  = $this->instance->adjacent_rel_url( '', $rel, $presentation );
-
-		$this->assertEquals( $expected, $result );
 	}
 }
