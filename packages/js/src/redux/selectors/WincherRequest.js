@@ -67,6 +67,17 @@ export function getWincherLimit( state ) {
 }
 
 /**
+ * Gets the history days limit.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {int} The history days limit assigned to the user account.
+ */
+export function getWincherHistoryDaysLimit( state ) {
+	return state.WincherRequest.historyDays;
+}
+
+/**
  * Determines whether all keyphrases should be tracked.
  *
  * @param {Object} state The state.

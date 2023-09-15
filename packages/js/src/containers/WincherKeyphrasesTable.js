@@ -9,7 +9,6 @@ export default compose( [
 	withSelect( ( select ) => {
 		const {
 			getWincherWebsiteId,
-			getWincherTrackedKeyphrases,
 			getWincherTrackableKeyphrases,
 			getWincherLoginStatus,
 			getWincherPermalink,
@@ -21,7 +20,6 @@ export default compose( [
 		return {
 			focusKeyphrase: getFocusKeyphrase(),
 			keyphrases: getWincherTrackableKeyphrases(),
-			trackedKeyphrases: getWincherTrackedKeyphrases(),
 			isLoggedIn: getWincherLoginStatus(),
 			trackAll: shouldWincherTrackAll(),
 			websiteId: getWincherWebsiteId(),

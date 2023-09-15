@@ -6,6 +6,10 @@ import { useSvgAria } from "@yoast/ui-library/src";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
+import { CollapsibleStateless } from "@yoast/components";
+
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
 import Modal from "./modals/Modal";
@@ -19,6 +23,17 @@ const StyledHeroIcon = styled( ChartBarIcon )`
 	width: 18px;
 	height: 18px;
 	margin: 3px;
+`;
+
+const MetaboxModalButton = styled( CollapsibleStateless )`
+	h2 > button {
+		padding-left: 24px;
+		padding-top: 16px;
+
+		&:hover {
+			background-color: #f0f0f0;
+		}
+	}
 `;
 
 /**
@@ -106,6 +121,19 @@ export default function WincherSEOPerformanceModal( props ) {
 				onClick={ onModalOpen }
 			/>
 			}
+
+			{ location === "metabox" && <MetaboxModalButton
+				hasPadding={ false }
+				hasSeparator={ true }
+				suffixIconCollapsed={ {
+					icon: "pencil-square",
+					color: colors.$black,
+					size: "20px",
+				} }
+				id={ `wincher-open-button-${location}` }
+				title={ title }
+				onToggle={ onModalOpen }
+			/> }
 		</Fragment>
 	);
 }
