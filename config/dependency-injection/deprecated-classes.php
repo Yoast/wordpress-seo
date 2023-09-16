@@ -8,7 +8,6 @@
  * @phpcs:disable Yoast.Commenting.FileComment.MissingPackageTag
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  * @phpcs:disable WordPress.Arrays.CommaAfterArrayItem.NoComma
- * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
  * @phpcs:disable Squiz.Commenting.FunctionComment.Missing
  * @phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
