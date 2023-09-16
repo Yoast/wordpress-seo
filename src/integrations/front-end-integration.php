@@ -430,7 +430,7 @@ class Front_End_Integration implements Integration_Interface {
 
 		$needed_presenters = $this->get_needed_presenters( $page_type );
 
-		$callback   = static function( $presenter ) {
+		$callback   = static function ( $presenter ) {
 			if ( ! \class_exists( $presenter ) ) {
 				return null;
 			}

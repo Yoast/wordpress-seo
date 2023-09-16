@@ -1176,7 +1176,6 @@ final class Addon_Manager_Test extends TestCase {
 			'capabilities' => 'wpseo_manage_options',
 		];
 
-
 		$expected = new Yoast_Notification(
 			'<strong> ' . $product_name . ' isn\'t working as expected </strong> and you are not receiving updates or support! Make sure to <a href="' . $short_link . '" target="_blank"> activate your product subscription in MyYoast</a> to unlock all the features of ' . $product_name . '.',
 			$notification_options

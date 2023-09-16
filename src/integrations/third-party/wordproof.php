@@ -92,7 +92,7 @@ class Wordproof implements Integration_Interface {
 		if ( version_compare( strtok( get_bloginfo( 'version' ), '-' ), '6.3', '>=' ) ) {
 			\add_action(
 				'wp_enqueue_scripts',
-				function() {
+				function () {
 					\wp_script_add_data( WPSEO_Admin_Asset_Manager::PREFIX . 'wordproof-uikit', 'strategy', 'async' );
 				},
 				11,

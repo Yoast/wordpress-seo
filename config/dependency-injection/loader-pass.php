@@ -52,7 +52,6 @@ class Loader_Pass implements CompilerPassInterface {
 	private function process_definition( Definition $definition, Definition $loader_definition ) {
 		$class = $definition->getClass();
 
-
 		try {
 			$reflect = new ReflectionClass( $class );
 			$path    = $this->normalize_slashes( $reflect->getFileName() );

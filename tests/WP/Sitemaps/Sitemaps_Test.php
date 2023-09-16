@@ -111,7 +111,7 @@ final class Sitemaps_Test extends TestCase {
 
 		\add_filter(
 			'wpseo_sitemap_index_links',
-			static function( $links ) {
+			static function ( $links ) {
 				$links[] = [
 					'loc'     => 'test-sitemap.xml',
 					'lastmod' => \date( '1' ),

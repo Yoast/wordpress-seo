@@ -503,7 +503,7 @@ final class Robots_Txt_Integration_Test extends TestCase {
 		// Turn off everything else, so this will only test the remove_default_robots() method.
 		\add_filter(
 			'wpseo_should_add_subdirectory_multisite_xml_sitemaps',
-			static function() {
+			static function () {
 				return false;
 			}
 		);

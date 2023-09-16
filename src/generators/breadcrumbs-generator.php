@@ -208,7 +208,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			$crumbs = $filtered_crumbs;
 		}
 
-		$filter_callback = static function( $link_info, $index ) use ( $crumbs ) {
+		$filter_callback = static function ( $link_info, $index ) use ( $crumbs ) {
 			/**
 			 * Filter: 'wpseo_breadcrumb_single_link_info' - Allow developers to filter the Yoast SEO Breadcrumb link information.
 			 *

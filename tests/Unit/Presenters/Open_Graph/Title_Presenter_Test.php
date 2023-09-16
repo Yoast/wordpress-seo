@@ -73,7 +73,7 @@ final class Title_Presenter_Test extends TestCase {
 			->withAnyArgs()
 			->once()
 			->andReturnUsing(
-				static function( $str ) {
+				static function ( $str ) {
 					return $str;
 				}
 			);

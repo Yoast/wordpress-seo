@@ -82,7 +82,7 @@ final class Title_Presenter_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_get_document_title' )
 			->andReturnUsing(
-				function() {
+				function () {
 					return $this->instance->get_title();
 				}
 			);

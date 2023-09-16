@@ -132,7 +132,7 @@ class Article extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$callback = static function( $term ) {
+		$callback = static function ( $term ) {
 			// We are using the WordPress internal translation.
 			return $term->name !== \__( 'Uncategorized', 'default' );
 		};

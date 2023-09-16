@@ -182,7 +182,6 @@ final class Yoast_Notification_Test extends TestCase {
 			]
 		);
 
-
 		$this->assertTrue( $subject->display_for_current_user() );
 
 		$this->remove_cap( 'bla' );

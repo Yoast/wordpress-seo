@@ -258,7 +258,7 @@ class Actions {
 	private static function filter_files( array $files, string $extension ): array {
 		return \array_filter(
 			$files,
-			static function( $file ) use ( $extension ) {
+			static function ( $file ) use ( $extension ) {
 				return \substr( $file, ( 0 - \strlen( $extension ) ) ) === $extension;
 			}
 		);

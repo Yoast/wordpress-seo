@@ -63,7 +63,6 @@ final class Woocommerce_Beta_Editor_Presenter_Test extends TestCase {
 			->with( 'https://yoa.st/learn-how-disable-beta-woocommerce-product-editor' )
 			->andReturn( 'https://yoa.st/learn-how-disable-beta-woocommerce-product-editor' );
 
-
 		$expected = '<p><strong>Compatibility issue: Yoast SEO is incompatible with the beta WooCommerce product editor.</strong> The Yoast SEO interface is currently unavailable in the beta WooCommerce product editor. To resolve any issues, please disable the beta editor. <a href="https://yoa.st/learn-how-disable-beta-woocommerce-product-editor" target="_blank">Learn how to disable the beta WooCommerce product editor.</a></p>';
 
 		$this->assertSame( $expected, $this->instance->present() );

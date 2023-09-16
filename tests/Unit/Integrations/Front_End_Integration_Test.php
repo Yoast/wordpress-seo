@@ -244,7 +244,7 @@ final class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 		];
 
-		$callback = static function( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 
@@ -314,7 +314,7 @@ final class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 		];
 
-		$callback = static function( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 
@@ -350,7 +350,7 @@ final class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$callback = static function( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, $this->instance->get_presenters( 'Error_Page' ) );
@@ -407,7 +407,7 @@ final class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$callback = static function( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Term_Archive' ) ) );
@@ -472,7 +472,7 @@ final class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$callback = static function( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$actual   = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
@@ -517,7 +517,7 @@ final class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$callback = static function( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$actual   = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
@@ -570,7 +570,7 @@ final class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$callback = static function( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );

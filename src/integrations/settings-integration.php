@@ -529,7 +529,6 @@ class Settings_Integration implements Integration_Interface {
 	private function get_site_basics_policies( $settings ) {
 		$policies = [];
 
-
 		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['publishing_principles_id'], 'publishing_principles_id' );
 		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['ownership_funding_info_id'], 'ownership_funding_info_id' );
 		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['actionable_feedback_policy_id'], 'actionable_feedback_policy_id' );

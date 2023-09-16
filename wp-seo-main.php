@@ -116,7 +116,7 @@ if ( YOAST_ENVIRONMENT === 'development' && isset( $yoast_autoloader ) ) {
 		 *
 		 * @return void
 		 */
-		static function() use ( $yoast_autoloader ) {
+		static function () use ( $yoast_autoloader ) {
 			$yoast_autoloader->unregister();
 			$yoast_autoloader->register( true );
 		},

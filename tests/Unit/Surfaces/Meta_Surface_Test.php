@@ -443,7 +443,7 @@ final class Meta_Surface_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_parse_url' )
 			->times( 3 )
 			->andReturnUsing(
-				static function( $url, $component = -1 ) use ( $page_type, $is_date_archive ) {
+				static function ( $url, $component = -1 ) use ( $page_type, $is_date_archive ) {
 					switch ( $url ) {
 						case 'url':
 							$path = '';
@@ -563,7 +563,7 @@ final class Meta_Surface_Test extends TestCase {
 
 		Monkey\Functions\stubs(
 			[
-				'wp_parse_url' => static function( $url ) {
+				'wp_parse_url' => static function ( $url ) {
 					return \parse_url( $url );
 				},
 			]

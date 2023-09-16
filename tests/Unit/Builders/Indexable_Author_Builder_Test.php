@@ -94,7 +94,6 @@ final class Indexable_Author_Builder_Test extends TestCase {
 		$this->post_helper    = Mockery::mock( Post_Helper::class );
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 
-
 		$this->instance = new Indexable_Author_Builder( $this->author_archive, $this->versions, $this->options_helper, $this->post_helper );
 	}
 

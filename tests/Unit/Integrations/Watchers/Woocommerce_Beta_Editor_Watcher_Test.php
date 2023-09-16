@@ -61,7 +61,6 @@ final class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 		$this->notification_helper = Mockery::mock( Notification_Helper::class );
 		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );
 
-
 		$this->instance = new Woocommerce_Beta_Editor_Watcher(
 			$this->notification_center,
 			$this->notification_helper,

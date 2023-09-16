@@ -46,7 +46,7 @@ class Workouts_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function register_routes() {
-		$edit_others_posts = static function() {
+		$edit_others_posts = static function () {
 			return \current_user_can( 'edit_others_posts' );
 		};
 

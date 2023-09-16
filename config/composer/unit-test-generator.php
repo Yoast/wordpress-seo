@@ -145,7 +145,7 @@ class Unit_Test_Generator {
 		$groups = \explode( '/', $matches[1] );
 
 		$groups = \array_map(
-			static function( $group ) {
+			static function ( $group ) {
 				return ' * @group ' . $group;
 			},
 			$groups
@@ -237,7 +237,7 @@ TPL;
 	 */
 	protected function generate_use_statements( array $constructor_arguments ) {
 		$statements = \array_map(
-			static function( $argument ) {
+			static function ( $argument ) {
 				try {
 					return 'use ' . $argument->getClass()->getName() . ';';
 				} catch ( ReflectionException $exception ) {
@@ -259,7 +259,7 @@ TPL;
 	 */
 	protected function generate_property_statements( array $constructor_arguments ) {
 		$statements = \array_map(
-			static function( $argument ) {
+			static function ( $argument ) {
 				return self::generate_mocked_property_statement( $argument->getClass()->getShortName(), $argument->getName() );
 			},
 			$constructor_arguments
@@ -297,7 +297,7 @@ TPL;
 	 */
 	protected function generate_create_mock_statements( array $constructor_arguments ) {
 		$statements = \array_map(
-			static function( $argument ) {
+			static function ( $argument ) {
 				return '$this->' . $argument->getName() . ' = Mockery::mock( ' . $argument->getClass()->getShortName() . '::class );';
 			},
 			$constructor_arguments
@@ -315,7 +315,7 @@ TPL;
 	 */
 	protected function generate_instance_argument_statements( array $constructor_arguments ) {
 		$statements = \array_map(
-			static function( $argument ) {
+			static function ( $argument ) {
 				return '$this->' . $argument->getName();
 			},
 			$constructor_arguments

@@ -188,7 +188,8 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 		Aioseo_Replacevar_Service $replacevar_handler,
 		Aioseo_Robots_Provider_Service $robots_provider,
 		Aioseo_Robots_Transformer_Service $robots_transformer,
-		Aioseo_Social_Images_Provider_Service $social_images_provider ) {
+		Aioseo_Social_Images_Provider_Service $social_images_provider
+	) {
 		parent::__construct( $import_cursor, $options, $sanitization, $replacevar_handler, $robots_provider, $robots_transformer );
 
 		$this->indexable_repository   = $indexable_repository;

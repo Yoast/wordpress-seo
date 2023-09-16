@@ -85,7 +85,7 @@ final class Metabox_Formatter_Test extends TestCase {
 	public function test_word_form_recognition_is_active() {
 		\add_filter(
 			'locale',
-			static function() {
+			static function () {
 				return 'en_US';
 			}
 		);
@@ -113,7 +113,7 @@ final class Metabox_Formatter_Test extends TestCase {
 	public function test_word_form_recognition_is_not_active() {
 		\add_filter(
 			'locale',
-			static function() {
+			static function () {
 				return 'af_ZA';
 			}
 		);

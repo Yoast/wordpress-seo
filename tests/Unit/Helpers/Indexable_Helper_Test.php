@@ -154,9 +154,7 @@ final class Indexable_Helper_Test extends TestCase {
 	 * @param string $wp_environment  The WordPress environment to test for.
 	 * @param bool   $expected_result Either true or false.
 	 */
-	public function test_should_index_for_production_environment(
-		$wp_environment, $expected_result
-	) {
+	public function test_should_index_for_production_environment( $wp_environment, $expected_result ) {
 		// Arrange.
 		$this->environment_helper
 			->shouldReceive( 'is_production_mode' )

@@ -86,7 +86,7 @@ final class Meta_Description_Presenter_Test extends TestCase {
 			->expects( 'replace' )
 			->once()
 			->andReturnUsing(
-				static function( $replace_string ) {
+				static function ( $replace_string ) {
 					return $replace_string;
 				}
 			);
@@ -120,7 +120,7 @@ final class Meta_Description_Presenter_Test extends TestCase {
 			->expects( 'replace' )
 			->once()
 			->andReturnUsing(
-				static function( $replace_string ) {
+				static function ( $replace_string ) {
 					return $replace_string;
 				}
 			);
@@ -152,7 +152,7 @@ final class Meta_Description_Presenter_Test extends TestCase {
 			->expects( 'replace' )
 			->once()
 			->andReturnUsing(
-				static function( $replace_string ) {
+				static function ( $replace_string ) {
 					return $replace_string;
 				}
 			);
@@ -186,7 +186,7 @@ final class Meta_Description_Presenter_Test extends TestCase {
 			->expects( 'replace' )
 			->once()
 			->andReturnUsing(
-				static function( $replace_string ) {
+				static function ( $replace_string ) {
 					return $replace_string;
 				}
 			);

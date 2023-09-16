@@ -106,7 +106,7 @@ final class Url_Helper_Test extends TestCase {
 	public function test_get_url_path( $url_input, $expected ) {
 		Monkey\Functions\stubs(
 			[
-				'wp_parse_url' => static function( $url, $component ) {
+				'wp_parse_url' => static function ( $url, $component ) {
 					// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Mocking wp_parse_url(), this is fine.
 					return \parse_url( $url, $component );
 				},
@@ -185,7 +185,7 @@ final class Url_Helper_Test extends TestCase {
 	public function test_get_url_host( $url_input, $expected ) {
 		Monkey\Functions\stubs(
 			[
-				'wp_parse_url' => static function( $url, $component ) {
+				'wp_parse_url' => static function ( $url, $component ) {
 					// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Mocking wp_parse_url(), this is fine.
 					return \parse_url( $url, $component );
 				},

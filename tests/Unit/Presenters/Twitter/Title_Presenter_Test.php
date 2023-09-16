@@ -68,7 +68,7 @@ final class Title_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->andReturnUsing(
-				static function( $str ) {
+				static function ( $str ) {
 					return $str;
 				}
 			);
@@ -90,7 +90,7 @@ final class Title_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->andReturnUsing(
-				static function( $str ) {
+				static function ( $str ) {
 					return $str;
 				}
 			);
@@ -111,7 +111,7 @@ final class Title_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->andReturnUsing(
-				static function( $str ) {
+				static function ( $str ) {
 					return $str;
 				}
 			);
@@ -139,7 +139,7 @@ final class Title_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->andReturnUsing(
-				static function( $str ) {
+				static function ( $str ) {
 					return $str;
 				}
 			);

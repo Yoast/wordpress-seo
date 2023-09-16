@@ -135,7 +135,6 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	public function test_build_when_author_has_no_public_posts_and_indexing_is_enabled() {
 		YoastSEO()->helpers->options->set( 'noindex-author-noposts-wpseo', false );
 
-
 		$indexable      = new Indexable();
 		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
 
@@ -179,7 +178,7 @@ final class Indexable_Author_Builder_Test extends TestCase {
 
 		\add_filter(
 			'wpseo_should_build_and_save_user_indexable',
-			static function( $exception, $user_id ) {
+			static function ( $exception, $user_id ) {
 				return new Author_Not_Built_Exception( 'Author not built because of filter.' );
 			},
 			10,

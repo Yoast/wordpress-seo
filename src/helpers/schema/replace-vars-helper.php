@@ -126,7 +126,7 @@ class Replace_Vars_Helper {
 	 * @return Closure A function that returns the given value.
 	 */
 	protected function get_identity_function( $value ) {
-		return static function() use ( $value ) {
+		return static function () use ( $value ) {
 			return $value;
 		};
 	}

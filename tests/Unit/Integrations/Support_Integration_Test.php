@@ -268,7 +268,6 @@ final class Support_Integration_Test extends TestCase {
 			->with( 'admin_print_scripts', 'print_emoji_detection_script' )
 			->once();
 
-
 		// In get_script_data method.
 		$this->assert_promotions();
 

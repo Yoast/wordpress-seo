@@ -75,7 +75,7 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 					'permission_callback' => [ $this->instance, 'can_dismiss' ],
 					'args'                => [
 						'postTypeName' => [
-							'validate_callback' => function( $param, $request, $key ) {
+							'validate_callback' => function ( $param, $request, $key ) {
 								return post_type_exists( $param );
 							},
 						],
@@ -94,7 +94,7 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 						'permission_callback' => [ $this->instance, 'can_dismiss' ],
 						'args'                => [
 							'taxonomyName' => [
-								'validate_callback' => function( $param, $request, $key ) {
+								'validate_callback' => function ( $param, $request, $key ) {
 									return taxonomy_exists( $param );
 								},
 							],
