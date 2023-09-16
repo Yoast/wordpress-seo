@@ -286,7 +286,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			if ( $this->should_feature_be_disabled_permalink( $setting ) ) {
 				echo '<p class="yoast-crawl-settings-help">';
 				if ( \current_user_can( 'manage_options' ) ) {
-					echo \sprintf(
+					\printf(
 					/* translators: 1: Link start tag to the Permalinks settings page, 2: Link closing tag. */
 						\esc_html__( 'This feature is disabled when your site is not using %1$spretty permalinks%2$s.', 'wordpress-seo' ),
 						'<a href="' . \esc_url( \admin_url( 'options-permalink.php' ) ) . '">',
