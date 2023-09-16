@@ -115,10 +115,8 @@ class Crawl_Cleanup_Basic implements Integration_Interface {
 					unset( $hints[ $key ] );
 				}
 			}
-			else {
-				if ( \strpos( $hint, '//s.w.org' ) !== false ) {
+			elseif ( \strpos( $hint, '//s.w.org' ) !== false ) {
 					unset( $hints[ $key ] );
-				}
 			}
 		}
 

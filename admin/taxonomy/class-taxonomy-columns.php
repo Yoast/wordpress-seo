@@ -131,10 +131,8 @@ class WPSEO_Taxonomy_Columns {
 				return sanitize_text_field( wp_unslash( $_POST['taxonomy'] ) );
 			}
 		}
-		else {
-			if ( isset( $_GET['taxonomy'] ) && is_string( $_GET['taxonomy'] ) ) {
-				return sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) );
-			}
+		elseif ( isset( $_GET['taxonomy'] ) && is_string( $_GET['taxonomy'] ) ) {
+			return sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) );
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 		return null;
@@ -152,10 +150,8 @@ class WPSEO_Taxonomy_Columns {
 				return sanitize_text_field( wp_unslash( $_POST['taxonomy'] ) );
 			}
 		}
-		else {
-			if ( isset( $_GET['taxonomy'] ) && is_string( $_GET['taxonomy'] ) ) {
-				return sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) );
-			}
+		elseif ( isset( $_GET['taxonomy'] ) && is_string( $_GET['taxonomy'] ) ) {
+			return sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) );
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 		return null;

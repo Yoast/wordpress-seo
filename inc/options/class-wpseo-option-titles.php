@@ -845,10 +845,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 							if ( ! isset( $post_type_names[ $tax ] ) && isset( $option_value[ $old_prefix . $tax ] ) ) {
 								unset( $option_value[ $old_prefix . $tax ] );
 							}
-							else {
-								if ( isset( $post_type_names[ $tax ] ) && ! isset( $option_value[ $old_prefix . $tax ] ) ) {
-									$option_value[ $old_prefix . $tax ] = $original[ $old_prefix . $tax ];
-								}
+							elseif ( isset( $post_type_names[ $tax ] ) && ! isset( $option_value[ $old_prefix . $tax ] ) ) {
+								$option_value[ $old_prefix . $tax ] = $original[ $old_prefix . $tax ];
 							}
 
 							if ( $old_prefix === 'tax-hideeditbox-' ) {

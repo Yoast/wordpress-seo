@@ -699,10 +699,8 @@ class Yoast_Notification_Center {
 				return wp_unslash( $_POST[ $key ] );
 			}
 		}
-		else {
-			if ( isset( $_GET[ $key ] ) && is_string( $_GET[ $key ] ) ) {
-				return wp_unslash( $_GET[ $key ] );
-			}
+		elseif ( isset( $_GET[ $key ] ) && is_string( $_GET[ $key ] ) ) {
+			return wp_unslash( $_GET[ $key ] );
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		return '';
