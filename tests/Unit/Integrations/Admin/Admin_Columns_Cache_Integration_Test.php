@@ -123,7 +123,6 @@ final class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 		$results = [
 			(object) [
-				'object_id' => 1,
 				false,
 				false,
 				'object_id' => 2,
