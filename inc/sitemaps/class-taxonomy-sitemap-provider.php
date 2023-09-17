@@ -94,10 +94,11 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$hide_empty_tax = apply_filters( 'wpseo_sitemap_exclude_empty_terms_taxonomy', $hide_empty, $taxonomy_name );
 
 			$term_args      = [
+				'taxonomy'   => $taxonomy_name,
 				'hide_empty' => $hide_empty_tax,
 				'fields'     => 'ids',
 			];
-			$taxonomy_terms = get_terms( $taxonomy_name, $term_args );
+			$taxonomy_terms = get_terms( $term_args );
 
 			if ( count( $taxonomy_terms ) > 0 ) {
 				$all_taxonomies[ $taxonomy_name ] = $taxonomy_terms;
