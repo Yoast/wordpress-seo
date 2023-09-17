@@ -176,7 +176,7 @@ final class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 				'cleaned_taxonomies'          => [ 0 => 'post_tag' ],
 				'clean_times'                 => 1,
 			],
-			'new removed taxonomies' => [
+			'new non public taxonomies' => [
 				'newly_made_none_public'      => [ 'category' ],
 				'new_taxonomies'              => [ 'category' ],
 				'cleaned_taxonomies'          => [],
@@ -235,7 +235,7 @@ final class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 				'cleaned_post types'          => [ 0 => 'post' ],
 				'clean_times'                 => 1,
 			],
-			'new removed post types' => [
+			'new non public post types' => [
 				'newly_made_none_public'      => [ 'book' ],
 				'new_post types'              => [ 'book' ],
 				'cleaned_post types'          => [],
