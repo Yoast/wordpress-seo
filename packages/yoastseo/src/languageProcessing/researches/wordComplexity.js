@@ -1,4 +1,4 @@
-import { flatMap } from "lodash-es";
+import { flatMap, get } from "lodash-es";
 import { languageProcessing } from "yoastseo";
 
 const { getWords, getSentences, helpers } = languageProcessing;
@@ -31,6 +31,7 @@ const getComplexWords = function( currentSentence, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
 	const wordComplexityConfig = researcher.getConfig( "wordComplexity" );
 	const checkIfWordIsFunction = researcher.getHelper( "checkIfWordIsFunction" );
+	const morphologyData = get( researcher.getData( "morphology" ), researcher.getConfig( "language" ), false );
 
 	const allWords = getWords( currentSentence );
 	// Filters out function words because function words are not complex.
@@ -39,7 +40,7 @@ const getComplexWords = function( currentSentence, researcher ) {
 	const results = [];
 
 	words.forEach( word => {
-		if ( checkIfWordIsComplex( wordComplexityConfig, word ) ) {
+		if ( checkIfWordIsComplex( wordComplexityConfig, word, morphologyData ) ) {
 			results.push( word );
 		}
 	} );
