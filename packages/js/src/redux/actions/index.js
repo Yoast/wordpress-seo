@@ -17,6 +17,7 @@ export {
 	setInclusiveLanguageResults,
 } from "./contentAnalysis";
 export * from "./cornerstoneContent";
+export * from "./currentPromotions";
 export * from "./editorData";
 export * from "./editorModals";
 export * from "./focusKeyword";

@@ -11,9 +11,8 @@ import InsightsModal from "../../../insights/components/insights-modal";
 import Alert from "../../containers/Alert";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../../../components/SidebarItem";
-import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
-import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
-import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
+import SearchAppearanceModal from "../../../components/modals/editorModals/SearchAppearanceModal";
+import SocialAppearanceModal from "../../../components/modals/editorModals/SocialAppearanceModal";
 import PremiumSEOAnalysisModal from "../../../components/modals/PremiumSEOAnalysisModal";
 import SidebarCollapsible from "../../../components/SidebarCollapsible";
 import SchemaTabContainer from "../../../containers/SchemaTab";
@@ -23,6 +22,7 @@ import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanc
 import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
+import BlackFridayPromoNotification from "../../../components/BlackFridayPromoNotification";
 import KeywordUpsell from "../../../components/KeywordUpsell";
 
 /* eslint-disable complexity */
@@ -49,13 +49,20 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	}
 
 	const webinarIntroElementorUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
+	const blackFridayBlockEditorUrl = get( window, "wpseoScriptData.blackFridayBlockEditorUrl", "https://yoa.st/black-friday-checklist" );
+	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
+
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
 			<Fill name="YoastElementor">
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
-					<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } />
+
+					{ isWooCommerce && blackFridayBlockEditorUrl
+						? <BlackFridayPromoNotification image={ null } url={ blackFridayBlockEditorUrl } />
+						: <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } /> }
+
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
 					<KeywordInput
@@ -66,13 +73,13 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					</Fill> }
 				</SidebarItem> }
 				<SidebarItem renderPriority={ 25 }>
-					<GooglePreviewModal />
+					<SearchAppearanceModal />
 				</SidebarItem>
-				{ settings.displayFacebook && <SidebarItem renderPriority={ 26 }>
-					<FacebookPreviewModal />
-				</SidebarItem> }
-				{ settings.displayTwitter && <SidebarItem renderPriority={ 27 }>
-					<TwitterPreviewModal />
+				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-appearance" renderPriority={ 26 }>
+					<SocialAppearanceModal
+						useOpenGraphData={ settings.useOpenGraphData }
+						useTwitterData={ settings.useTwitterData }
+					/>
 				</SidebarItem> }
 				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 28 }>
 					<SidebarCollapsible

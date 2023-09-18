@@ -12,6 +12,7 @@ import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
 import analysisData from "./analysisData";
 import checklist from "./checklist";
+import currentPromotions from "./currentPromotions";
 import isCornerstone from "./cornerstoneContent";
 import dismissedAlerts from "./dismissedAlerts";
 import editorContext from "./editorContext";
@@ -43,6 +44,7 @@ export default {
 	analysis,
 	analysisData,
 	checklist,
+	currentPromotions,
 	dismissedAlerts,
 	editorContext,
 	editorData,
