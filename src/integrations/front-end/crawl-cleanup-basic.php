@@ -112,11 +112,12 @@ class Crawl_Cleanup_Basic implements Integration_Interface {
 		foreach ( $hints as $key => $hint ) {
 			if ( \is_array( $hint ) && isset( $hint['href'] ) ) {
 				if ( \strpos( $hint['href'], '//s.w.org' ) !== false ) {
-					unset( $hints[$key] );
+					unset( $hints[ $key ] );
 				}
-			} else {
+			}
+			else {
 				if ( \strpos( $hint, '//s.w.org' ) !== false ) {
-					unset( $hints[$key] );
+					unset( $hints[ $key ] );
 				}
 			}
 		}
