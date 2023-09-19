@@ -1,12 +1,12 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { Fragment, useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { SvgIcon, YoastSeoIcon } from "@yoast/components";
+import { SvgIcon } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import { Badge, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import SidebarButton from "../SidebarButton";
-import { ModalContainer, ModalIcon } from "./Container";
+import { ModalContainer } from "./Container";
 import Modal, { defaultModalClassName } from "./Modal";
 import PremiumSEOAnalysisUpsell from "./PremiumSEOAnalysisUpsell";
 
@@ -32,8 +32,7 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 				shouldCloseOnClickOutside={ true }
 			>
 				<ModalContainer>
-					<ModalIcon icon={ YoastSeoIcon } />
-					<h2>{ __( "Optimize even further with our premium SEO analysis", "wordpress-seo" ) }</h2>
+					<h2>{ __( "Improve your SEO by using the Premium SEO analysis", "wordpress-seo" ) }</h2>
 					<PremiumSEOAnalysisUpsell buyLink={ `shortlinks.upsell.${ location }.premium_seo_analysis_button` } />
 				</ModalContainer>
 			</Modal> }
