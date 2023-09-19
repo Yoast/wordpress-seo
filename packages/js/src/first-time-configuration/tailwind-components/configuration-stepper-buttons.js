@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Step } from "./stepper";
 import { stepperTimingClasses } from "../stepper-helper";
 import classNames from "classnames";
+import { HIIVE_STEPS_NAMES } from "../tailwind-components/steps/constants";
 
 /**
  * A ContinueButton that always goes to the next step.
@@ -13,11 +14,13 @@ import classNames from "classnames";
  *
  * @returns {WPElement} The ContinueButton, that always goes to the next step.
  */
-export function ContinueButton( { beforeGo, children, additionalClasses, ...restProps } ) {
+export function ContinueButton( { stepId, beforeGo, children, additionalClasses, ...restProps } ) {
 	return ( <Step.GoButton
+		id={ `button-${ stepId }-continue` }
 		className={ `yst-button yst-button--primary ${ additionalClasses }` }
 		destination={ 1 }
 		beforeGo={ beforeGo }
+		data-hiive-event-name={ `clicked_continue | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
 		{ ...restProps }
 	>
 		{ children }
@@ -25,6 +28,7 @@ export function ContinueButton( { beforeGo, children, additionalClasses, ...rest
 }
 
 ContinueButton.propTypes = {
+	stepId: PropTypes.string.isRequired,
 	additionalClasses: PropTypes.string,
 	beforeGo: PropTypes.func,
 	children: PropTypes.node,
@@ -44,13 +48,14 @@ ContinueButton.defaultProps = {
  *
  * @returns {WPElement} The EditButton, that always goes to the step it is placed in.
  */
-export function EditButton( { beforeGo, isVisible, children, additionalClasses, ...restProps } ) {
+export function EditButton( { stepId, beforeGo, isVisible, children, additionalClasses, ...restProps } ) {
 	const transitionClasses = `yst-transition-opacity ${stepperTimingClasses.slideDuration} yst-ease-out ${ isVisible
 		? "yst-opacity-100"
 		: `${stepperTimingClasses.delayBeforeOpening} yst-opacity-0 yst-pointer-events-none yst-hidden` }`;
 
 
 	return ( <Step.GoButton
+		id={ `button-${ stepId }-edit` }
 		className={ classNames(
 			"yst-button yst-button--secondary yst-button--small",
 			transitionClasses,
@@ -58,6 +63,7 @@ export function EditButton( { beforeGo, isVisible, children, additionalClasses, 
 		) }
 		destination={ 0 }
 		beforeGo={ beforeGo }
+		data-hiive-event-name={ `clicked_edit | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
 		{ ...restProps }
 	>
 		{ children }
@@ -65,6 +71,7 @@ export function EditButton( { beforeGo, isVisible, children, additionalClasses, 
 }
 
 EditButton.propTypes = {
+	stepId: PropTypes.string.isRequired,
 	additionalClasses: PropTypes.string,
 	isVisible: PropTypes.bool,
 	beforeGo: PropTypes.func,
@@ -123,8 +130,22 @@ BackButton.defaultProps = {
  */
 export function StepButtons( { stepId, beforeContinue, continueLabel, beforeBack, backLabel } ) {
 	return <div className="yst-mt-12">
-		<ContinueButton id={ `button-${ stepId }-continue` } beforeGo={ beforeContinue }>{ continueLabel }</ContinueButton>
-		<BackButton id={ `button-${ stepId }-back` } additionalClasses="yst-ml-3" beforeGo={ beforeBack }>{ backLabel }</BackButton>
+		<ContinueButton
+			id={ `button-${ stepId }-continue` }
+			beforeGo={ beforeContinue }
+			data-hiive-event-name={ `clicked_continue | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
+
+		>
+			{ continueLabel }
+		</ContinueButton>
+		<BackButton
+			id={ `button-${ stepId }-back` }
+			additionalClasses="yst-ml-3"
+			beforeGo={ beforeBack }
+			data-hiive-event-name={ `clicked_back | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
+		>
+			{ backLabel }
+		</BackButton>
 	</div>;
 }
 
@@ -165,7 +186,12 @@ export function ConfigurationStepButtons( { stepId, stepperFinishedOnce, saveFun
 	} );
 
 	if ( stepperFinishedOnce ) {
-		return <Step.GoButton id={ `button-${ stepId }-go` } className="yst-button yst-button--primary yst-mt-12" destination="last" beforeGo={ onSaveClick }>
+		return <Step.GoButton
+			id={ `button-${ stepId }-go` }
+			className="yst-button yst-button--primary yst-mt-12"
+			destination="last"beforeGo={ onSaveClick }
+			data-hiive-event-name={ `clicked_save changes | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
+		>
 			{ __( "Save changes", "wordpress-seo" ) }
 		</Step.GoButton>;
 	}
