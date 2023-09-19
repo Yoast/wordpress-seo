@@ -12,7 +12,7 @@ export function getEditorContext( state ) {
 }
 
 /**
- * Returns whether your or on a page or post.
+ * Returns whether you're on a page or post.
  *
  * @param {Object} state The state.
  *
@@ -20,6 +20,17 @@ export function getEditorContext( state ) {
  */
 export function getPostOrPageString( state ) {
 	return get( state, "editorContext.postTypeNameSingular" ) === "Page" ? "page" : "post";
+}
+
+/**
+ * Returns whether you're editing a product.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string} Whether you're editing a produc.
+ */
+export function getIsProduct( state ) {
+	return get( state, "editorContext.postTypeNameSingular" ) === "Product";
 }
 
 /**

@@ -188,7 +188,7 @@ class KeywordDensityAssessment extends Assessment {
 			return {
 				score: this._config.scores.underMinimum,
 				resultText: sprintf(
-					/* Translators:
+					/* translators:
 					%1$s and %4$s expand to links to Yoast.com,
 					%2$s expands to the anchor end tag,
 					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text. */
@@ -209,7 +209,7 @@ class KeywordDensityAssessment extends Assessment {
 			return {
 				score: this._config.scores.underMinimum,
 				resultText: sprintf(
-					/* Translators:
+					/* translators:
 					%1$s and %4$s expand to links to Yoast.com,
 					%2$s expands to the anchor end tag,
 					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text,
@@ -235,7 +235,7 @@ class KeywordDensityAssessment extends Assessment {
 			return {
 				score: this._config.scores.correctDensity,
 				resultText: sprintf(
-					/* Translators:
+					/* translators:
 					%1$s expands to a link to Yoast.com,
 					%2$s expands to the anchor end tag,
 					%3$d expands to the number of times the keyphrase occurred in the text. */
@@ -256,7 +256,7 @@ class KeywordDensityAssessment extends Assessment {
 			return {
 				score: this._config.scores.overMaximum,
 				resultText: sprintf(
-					/* Translators:
+					/* translators:
 					%1$s and %4$s expand to links to Yoast.com,
 					%2$s expands to the anchor end tag,
 					%3$d expands to the recommended maximal number of times the keyphrase should occur in the text,
@@ -282,7 +282,7 @@ class KeywordDensityAssessment extends Assessment {
 		return {
 			score: this._config.scores.wayOverMaximum,
 			resultText: sprintf(
-				/* Translators:
+				/* translators:
 				%1$s and %4$s expand to links to Yoast.com,
 				%2$s expands to the anchor end tag,
 				%3$d expands to the recommended maximal number of times the keyphrase should occur in the text,

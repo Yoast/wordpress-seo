@@ -93,7 +93,7 @@ export default class TransitionWordsAssessment extends Assessment {
 				score: formatNumber( score ),
 				hasMarks: hasMarks,
 				text: sprintf(
-					/* Translators: %1$s and %3$s expand to a link to yoast.com, %2$s expands to the anchor end tag */
+					/* translators: %1$s and %3$s expand to a link to yoast.com, %2$s expands to the anchor end tag */
 					__(
 						"%1$sTransition words%2$s: None of the sentences contain transition words. %3$sUse some%2$s.",
 						"wordpress-seo"
@@ -109,7 +109,7 @@ export default class TransitionWordsAssessment extends Assessment {
 				score: formatNumber( score ),
 				hasMarks: hasMarks,
 				text: sprintf(
-					/* Translators: %1$s and %4$s expand to a link to yoast.com, %2$s expands to the anchor end tag,
+					/* translators: %1$s and %4$s expand to a link to yoast.com, %2$s expands to the anchor end tag,
 					%3$s expands to the percentage of sentences containing transition words */
 					__(
 						// eslint-disable-next-line max-len
@@ -127,7 +127,7 @@ export default class TransitionWordsAssessment extends Assessment {
 			score: formatNumber( score ),
 			hasMarks: hasMarks,
 			text: sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+				/* translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 				__(
 					"%1$sTransition words%2$s: Well done!",
 					"wordpress-seo"
