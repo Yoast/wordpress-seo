@@ -21,7 +21,6 @@
  */
 
 use Yoast\WP\SEO\Actions\Indexables_Page_Action;
-use Yoast\WP\SEO\Conditionals\Front_End_Inspector_Conditional;
 use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
 use Yoast\WP\SEO\Conditionals\The_Events_Calendar_Conditional;
@@ -40,7 +39,6 @@ use Yoast\WP\SEO\Routes\Indexables_Page_Route;
 use Yoast\WP\SEO\Schema_Templates\Assets\Icons;
 
 $deprecated_classes = [
-	Front_End_Inspector_Conditional::class      => '19.5',
 	CoAuthors_Plus_Activated_Conditional::class => '19.12',
 	CoAuthors_Plus_Flag_Conditional::class      => '19.12',
 	CoAuthor::class                             => '19.12',
