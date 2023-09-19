@@ -48,6 +48,29 @@ const adjustFirsSectionOffsets = ( blockStartOffset, blockEndOffset, blockName )
 	};
 };
 
+export const htmlEntities = new Map( [
+	[ "amp;", "&" ],
+	[ "lt;", "<" ],
+	[ "gt;", ">" ],
+	[ "quot;", '"' ],
+	[ "apos;", "'" ],
+	[ "ndash;", "–" ],
+	[ "mdash;", "—" ],
+	[ "copy;", "©" ],
+	[ "reg;", "®" ],
+	[ "trade;", "™" ],
+	[ "pound;", "£" ],
+	[ "yen;", "¥" ],
+	[ "euro;", "€" ],
+	[ "dollar;", "$" ],
+	[ "deg;", "°" ],
+	[ "asymp;", "≈" ],
+	[ "ne;", "≠" ],
+] );
+
+// Regex to find all HTML entities.
+export const htmlEntitiesRegex = new RegExp( "&(" + [ ...htmlEntities.keys() ].join( "|" ) + ")", "ig" );
+
 /**
  * Adjusts the block start and end offsets of a given mark when the block html contains tags.
  *
@@ -59,10 +82,10 @@ const adjustFirsSectionOffsets = ( blockStartOffset, blockEndOffset, blockName )
  */
 const adjustMarkOffsets = ( blockStartOffset, blockEndOffset, blockHtml ) => {
 	// Retrieve the html from the start until the block startOffset of the mark.
-	blockHtml = blockHtml.slice( 0, blockStartOffset );
+	const slicedBlockHtml = blockHtml.slice( 0, blockStartOffset );
 
 	// Find all html tags.
-	const foundHtmlTags = [ ...blockHtml.matchAll( htmlTagsRegex ) ];
+	const foundHtmlTags = [ ...slicedBlockHtml.matchAll( htmlTagsRegex ) ];
 	/*
 	 * Loop through the found html tags backwards, and adjust the start and end offsets of the mark
 	 * by subtracting them with the length of the found html tags.
@@ -86,6 +109,16 @@ const adjustMarkOffsets = ( blockStartOffset, blockEndOffset, blockHtml ) => {
 		blockStartOffset -= foundTag.length;
 		blockEndOffset -= foundTag.length;
 	}
+	// Matching the html entities should be done after matching the html tags.
+	const matchedHtmlEntities = [ ...blockHtml.matchAll( htmlEntitiesRegex ) ];
+	if ( matchedHtmlEntities ) {
+		for ( let i = matchedHtmlEntities.length - 1; i >= 0; i-- ) {
+			const [ , foundEntity ] = matchedHtmlEntities[ i ];
+
+			blockStartOffset -= foundEntity.length;
+			blockEndOffset -= foundEntity.length;
+		}
+	}
 	return [
 		{
 			startOffset: blockStartOffset,
@@ -93,6 +126,7 @@ const adjustMarkOffsets = ( blockStartOffset, blockEndOffset, blockHtml ) => {
 		},
 	];
 };
+
 
 /**
  * Creates an annotation range if the given mark has position information.
