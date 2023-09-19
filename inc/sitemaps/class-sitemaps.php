@@ -539,7 +539,7 @@ class WPSEO_Sitemaps {
 	public function get_last_modified( $post_types ) {
 		return YoastSEO()->helpers->date->format( self::get_last_modified_gmt( $post_types ) );
 	}
-	
+
 	/**
 	 * Get the maximum number of entries per XML sitemap.
 	 *
