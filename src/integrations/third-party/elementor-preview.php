@@ -35,7 +35,7 @@ class Elementor_Preview implements Integration_Interface {
 	 * @return string[]
 	 */
 	public static function get_conditionals() {
-		 return [ Elementor_Activated_Conditional::class ];
+		return [ Elementor_Activated_Conditional::class ];
 	}
 
 	/**
