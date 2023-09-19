@@ -346,7 +346,6 @@ Release date: 2023-10-03
 
 #### Enhancements
 
-* Adds morphology support for plural forms in the _word complexity_ assessment for English.
 * Improves the performance of post saving.
 
 #### Bugfixes
