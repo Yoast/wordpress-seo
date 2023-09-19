@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use DOMDocument;
+use WP_HTML_Tag_Processor;
 use WPSEO_Image_Utils;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -212,13 +214,145 @@ class Indexable_Link_Builder {
 	}
 
 	/**
+	 * Gathers all images from content with WP's WP_HTML_Tag_Processor() and returns them along with their IDs, if possible.
+	 *
+	 * @param string $content The content.
+	 *
+	 * @return int[] An associated array of image IDs, keyed by their URL.
+	 */
+	protected function gather_images_wp( $content ) {
+		$processor = new WP_HTML_Tag_Processor( $content );
+		$images    = [];
+
+		$query = [
+			'tag_name' => 'img',
+		];
+
+		/**
+		 * Filter 'wpseo_image_attribute_containing_id' - Allows filtering what attribute will be used to extract image IDs from.
+		 *
+		 * Defaults to "class", which is where WP natively stores the image IDs, in a `wp-image-<ID>` format.
+		 *
+		 * @api string The attribute to be used to extract image IDs from.
+		 */
+		$attribute = \apply_filters( 'wpseo_image_attribute_containing_id', 'class' );
+
+		while ( $processor->next_tag( $query ) ) {
+			$src     = \htmlentities( $processor->get_attribute( 'src' ), ( ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 ), \get_bloginfo( 'charset' ) );
+			$classes = $processor->get_attribute( $attribute );
+			$id      = $this->extract_id_of_classes( $classes );
+
+			$images[ $src ] = $id;
+		}
+
+		return $images;
+	}
+
+	/**
+	 * Gathers all images from content with DOMDocument() and returns them along with their IDs, if possible.
+	 *
+	 * @param string $content The content.
+	 *
+	 * @return int[] An associated array of image IDs, keyed by their URL.
+	 */
+	protected function gather_images_domdocument( $content ) {
+		$images  = [];
+		$charset = \get_bloginfo( 'charset' );
+
+		/**
+		 * Filter 'wpseo_image_attribute_containing_id' - Allows filtering what attribute will be used to extract image IDs from.
+		 *
+		 * Defaults to "class", which is where WP natively stores the image IDs, in a `wp-image-<ID>` format.
+		 *
+		 * @api string The attribute to be used to extract image IDs from.
+		 */
+		$attribute = \apply_filters( 'wpseo_image_attribute_containing_id', 'class' );
+
+		libxml_use_internal_errors( true );
+		$post_dom = new DOMDocument();
+		$post_dom->loadHTML( '<?xml encoding="' . $charset . '">' . $content );
+		libxml_clear_errors();
+
+		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
+			$src     = \htmlentities( $img->getAttribute( 'src' ), ( ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 ), $charset );
+			$classes = $img->getAttribute( $attribute );
+			$id      = $this->extract_id_of_classes( $classes );
+
+			$images[ $src ] = $id;
+		}
+
+		return $images;
+	}
+
+	/**
+	 * Extracts image ID out of the image's classes.
+	 *
+	 * @param string $classes The classes assigned to the image.
+	 *
+	 * @return int The ID that's extracted from the classes.
+	 */
+	protected function extract_id_of_classes( $classes ) {
+		if ( ! $classes ) {
+			return 0;
+		}
+
+		/**
+		 * Filter 'wpseo_extract_id_pattern' - Allows filtering the regex patern to be used to extract image IDs from class/attribute names.
+		 *
+		 * Defaults to the pattern that extracts image IDs from core's `wp-image-<ID>` native format in image classes.
+		 *
+		 * @api string The regex pattern to be used to extract image IDs from class names. Empty string if the whole class/attribute should be returned.
+		 */
+		$pattern = \apply_filters( 'wpseo_extract_id_pattern', '/(?<!\S)wp-image-(\d+)(?!\S)/i' );
+
+		if ( $pattern === '' ) {
+			return (int) $classes;
+		}
+
+		$matches = [];
+
+		if ( preg_match( $pattern, $classes, $matches ) ) {
+			return (int) $matches[1];
+		}
+
+		return 0;
+	}
+
+	/**
 	 * Gathers all images from content.
 	 *
 	 * @param string $content The content.
 	 *
-	 * @return string[] An array of urls.
+	 * @return int[] An associated array of image IDs, keyed by their URLs.
 	 */
 	protected function gather_images( $content ) {
+
+		/**
+		 * Filter 'wpseo_force_creating_and_using_attachment_indexables' - Filters if we should use attachment indexables to find all content images. Instead of scanning the content.
+		 *
+		 * The default value is false.
+		 *
+		 * @since 21.1
+		 */
+		$should_not_parse_content = \apply_filters( 'wpseo_force_creating_and_using_attachment_indexables', false );
+
+		/**
+		 * Filter 'wpseo_force_skip_image_content_parsing' - Filters if we should force skip scanning the content to parse images.
+		 * This filter can be used if the regex gives a faster result than scanning the code.
+		 *
+		 * The default value is false.
+		 *
+		 * @since 21.1
+		 */
+		$should_not_parse_content = \apply_filters( 'wpseo_force_skip_image_content_parsing', $should_not_parse_content );
+		if ( ! $should_not_parse_content && class_exists( WP_HTML_Tag_Processor::class ) ) {
+			return $this->gather_images_wp( $content );
+		}
+
+		if ( ! $should_not_parse_content && class_exists( DOMDocument::class ) ) {
+			return $this->gather_images_DOMDocument( $content );
+		}
+
 		if ( \strpos( $content, 'src' ) === false ) {
 			// Nothing to do.
 			return [];
@@ -229,7 +363,7 @@ class Indexable_Link_Builder {
 		// Used modifiers iU to match case insensitive and make greedy quantifiers lazy.
 		if ( \preg_match_all( "/$regexp/iU", $content, $matches, \PREG_SET_ORDER ) ) {
 			foreach ( $matches as $match ) {
-				$images[] = \trim( $match[2], "'" );
+				$images[ $match[2] ] = 0;
 			}
 		}
 
@@ -241,7 +375,7 @@ class Indexable_Link_Builder {
 	 *
 	 * @param Indexable $indexable The indexable.
 	 * @param string[]  $links     The link URLs.
-	 * @param string[]  $images    The image sources.
+	 * @param int[]     $images    The image sources.
 	 *
 	 * @return SEO_Links[] The link models.
 	 */
@@ -262,13 +396,12 @@ class Indexable_Link_Builder {
 			}
 		);
 
-		$images = \array_map(
-			function( $link ) use ( $home_url, $indexable ) {
-				return $this->create_internal_link( $link, $home_url, $indexable, true );
-			},
-			$images
-		);
-		return \array_merge( $links, $images );
+		$image_links = [];
+		foreach ( $images as $image_url => $image_id ) {
+			$image_links[] = $this->create_internal_link( $image_url, $home_url, $indexable, true, $image_id );
+		}
+
+		return \array_merge( $links, $image_links );
 	}
 
 	/**
@@ -294,10 +427,11 @@ class Indexable_Link_Builder {
 	 * @param array     $home_url  The home url, as parsed by wp_parse_url.
 	 * @param Indexable $indexable The indexable of the post containing the link.
 	 * @param bool      $is_image  Whether or not the link is an image.
+	 * @param int       $image_id  The ID of the internal image.
 	 *
 	 * @return SEO_Links The created link.
 	 */
-	protected function create_internal_link( $url, $home_url, $indexable, $is_image = false ) {
+	protected function create_internal_link( $url, $home_url, $indexable, $is_image = false, $image_id = 0 ) {
 		$parsed_url = \wp_parse_url( $url );
 		$link_type  = $this->url_helper->get_link_type( $parsed_url, $home_url, $is_image );
 
@@ -326,11 +460,12 @@ class Indexable_Link_Builder {
 		if ( $model->type === SEO_Links::TYPE_INTERNAL_IMAGE ) {
 			$permalink = $this->build_permalink( $url, $home_url );
 
-			if ( ! $this->options_helper->get( 'disable-attachment' ) ) {
+			/** The `wpseo_force_creating_and_using_attachment_indexables` filter is documented in indexable-link-builder.php */
+			if ( ! $this->options_helper->get( 'disable-attachment' ) || \apply_filters( 'wpseo_force_creating_and_using_attachment_indexables', false ) ) {
 				$model = $this->enhance_link_from_indexable( $model, $permalink );
 			}
 			else {
-				$target_post_id = WPSEO_Image_Utils::get_attachment_by_url( $permalink );
+				$target_post_id = ( $image_id !== 0 ) ? $image_id : WPSEO_Image_Utils::get_attachment_by_url( $permalink );
 
 				if ( ! empty( $target_post_id ) ) {
 					$model->target_post_id = $target_post_id;
