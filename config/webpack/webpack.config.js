@@ -49,10 +49,6 @@ module.exports = [
 			},
 			combinedOutputFile: root + "src/generated/assets/externals.php",
 			cssExtractFileName: "../../../css/dist/monorepo-" + pluginVersionSlug + ".css",
-			mode: "development",
-			optimization: {
-				usedExports: true,
-			},
 		}
 	),
 	baseConfig(
