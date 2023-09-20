@@ -11,6 +11,13 @@ import { normalizeSingle } from "../../../helpers/sanitize/quotes";
  * @returns {Array} An array of the matched word(s).
  */
 export default function( text, wordToMatch ) {
+	/*
+     * Lowercase the text so that it matches the wordToMatch which is already lowercased.
+     * Note that Japanese doesn't differentiate between upper and lower case, so this is only needed in case
+     * the text contains non-Japanese characters.
+     */
+	text = text.toLowerCase();
+
 	// Check if the exact match is requested.
 	const isExactMatchRequested = processExactMatchRequest( wordToMatch );
 	if ( isExactMatchRequested.exactMatchRequested ) {

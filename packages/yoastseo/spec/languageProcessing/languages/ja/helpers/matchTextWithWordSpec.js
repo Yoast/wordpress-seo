@@ -32,6 +32,18 @@ describe( "test for matching Japanese word in the text", function() {
 		expect( words ).toEqual( [ "cat's" ] );
 	} );
 
+	it( "finds a match when the keyphrase occurrence in the text is in upper case", function() {
+		const words = matchTextWithWord( "Catこれによって少しでも夏休み明けの感染者数を抑えたいという事だけど、どうなるかな者数。", "cat" );
+
+		expect( words ).toEqual( [ "cat" ] );
+	} );
+
+	it( "finds an exact match when the keyphrase occurrence in the text is in upper case", function() {
+		const words = matchTextWithWord( "Catこれによって少しでも夏休み明けの感染者数を抑えたいという事だけど、どうなるかな者数。", "\"cat\"" );
+
+		expect( words ).toEqual( [ "cat" ] );
+	} );
+
 	it( "doesn't break when the word to match is empty", function() {
 		const words = matchTextWithWord( "これによって少しでも夏休み明けの感染者数を抑えたいという事だけど、どうなるかな者数。", "" );
 
