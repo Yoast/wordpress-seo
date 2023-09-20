@@ -828,7 +828,7 @@ const testCasesWithSpecialCharacters = [
 		expectedMarkings: [
 			new Mark( {
 				original: "A string with a ‹keyword›.",
-				marked: "A string with a ‹<yoastmark class='yoast-text-mark'>keyword</yoastmark>›.",
+				marked: "A string with a '<yoastmark class='yoast-text-mark'>keyword</yoastmark>'.",
 				position: { endOffset: 27, startOffset: 20,
 					startOffsetBlock: 17,
 					endOffsetBlock: 24,
@@ -973,7 +973,7 @@ const testCasesWithSpecialCharacters = [
 
 			new Mark( {
 				// eslint-disable-next-line max-len
-				marked: " It’s also about trying to make your brand <yoastmark class='yoast-text-mark'>synonymous</yoastmark> with a certain product or service.",
+				marked: " It's also about trying to make your brand <yoastmark class='yoast-text-mark'>synonymous</yoastmark> with a certain product or service.",
 				original: " It’s also about trying to make your brand synonymous with a certain product or service.",
 				position: {
 					startOffset: 295,
