@@ -14,7 +14,7 @@
   "scripts": {
     "clean:build": "rm -rf build",
     "build": "yarn clean:build && yarn build:js && yarn build:css",
-    "build:js": "babel src --out-dir build --ignore \"src/**/*.stories.js\",\"src/**/stories.js\"",
+    "build:js": "babel src --out-dir build --ignore \"src/**/*.stories.js\",\"src/**/stories.js\",\"src/**/docs/**/*.js\"",
     "build:css": "node ./scripts/build-css.js",
     "watch": "yarn watch:js & yarn watch:css",
     "watch:js": "yarn build:js --watch",
