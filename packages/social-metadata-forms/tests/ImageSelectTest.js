@@ -1,12 +1,14 @@
 /* External dependencies */
 import React from "react";
-import renderer from "react-test-renderer";
+
+import ReactShallowRenderer from "react-test-renderer/shallow";
 /* Internal dependencies */
 import ImageSelect from "../src/ImageSelect";
 
 describe( "The ImageSelect component", () => {
 	it( "renders", () => {
-		const tree = renderer.create(
+		const renderer = new ReactShallowRenderer();
+		const tree = renderer.render(
 			<ImageSelect
 				imageSelected={ false }
 				title="Facebook image"
@@ -17,12 +19,13 @@ describe( "The ImageSelect component", () => {
 				replaceImageButtonId="facebook-replace-button"
 				removeImageButtonId="facebook-remove-button"
 			/>
-		).toJSON();
+		);
 		expect( tree ).toMatchSnapshot();
 	} );
 
 	it( "displays warnings", () => {
-		const tree = renderer.create(
+		const renderer = new ReactShallowRenderer();
+		const tree = renderer.render(
 			<ImageSelect
 				title="Facebook image"
 				imageSelected={ true }
@@ -37,7 +40,7 @@ describe( "The ImageSelect component", () => {
 				replaceImageButtonId="twitter-replace-button"
 				removeImageButtonId="twitter-remove-button"
 			/>
-		).toJSON();
+		);
 		expect( tree ).toMatchSnapshot();
 	} );
 } );
