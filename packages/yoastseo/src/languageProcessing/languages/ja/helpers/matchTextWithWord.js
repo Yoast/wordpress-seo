@@ -16,9 +16,12 @@ export default function( text, wordToMatch ) {
 	if ( isExactMatchRequested.exactMatchRequested ) {
 		/*
 		 * Normalize single quotes in case they differ between the text and the word to match.
-		 * (The quotes are already normalized in wordToMatch at an earlier point).
+		 * Normalizing is only needed for exact matching, because with non-exact matching single quotes are considered
+		 * word boundaries.
+		 * Quotes in wordToMatch are already normalized at an earlier point.
 		*/
 		text = normalizeSingle( text );
+
 		const keyphrase = isExactMatchRequested.keyphrase;
 		const matches = [];
 
