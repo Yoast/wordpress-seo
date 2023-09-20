@@ -17,7 +17,7 @@ class Black_Friday_Checklist_Promotion extends Abstract_Promotion implements Pro
 			'black_friday_2023_checklist',
 			new Time_Interval(
 				\gmmktime( 11, 00, 00, 9, 19, 2023 ),
-				\gmmktime( 11, 00, 00, 11, 25, 2023 )
+				\gmmktime( 11, 00, 00, 10, 31, 2023 )
 			)
 		);
 	}

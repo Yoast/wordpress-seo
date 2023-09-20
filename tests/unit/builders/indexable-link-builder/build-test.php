@@ -35,6 +35,9 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				',
 				SEO_Links::TYPE_EXTERNAL,
 				false,
+				false,
+				false,
+				false,
 			],
 			[
 				'
@@ -42,6 +45,42 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 					<img src="https://link.com/already-existed-in-post" />
 				',
 				SEO_Links::TYPE_EXTERNAL_IMAGE,
+				true,
+				false,
+				false,
+				true,
+			],
+			[
+				'
+					<img src="https://link.com/newly-added-in-post" />
+					<img src="https://link.com/already-existed-in-post" />
+				',
+				SEO_Links::TYPE_EXTERNAL_IMAGE,
+				true,
+				true,
+				false,
+				false,
+			],
+			[
+				'
+					<img class="wp-image-1" src="https://link.com/newly-added-in-post" />
+					<img class="wp-image-2" src="https://link.com/already-existed-in-post" />
+				',
+				SEO_Links::TYPE_EXTERNAL_IMAGE,
+				true,
+				false,
+				true,
+				true,
+			],
+			[
+				'
+					<img class="no-image" src="https://link.com/newly-added-in-post" />
+					<img class="no-image" src="https://link.com/already-existed-in-post" />
+				',
+				SEO_Links::TYPE_EXTERNAL_IMAGE,
+				true,
+				false,
+				true,
 				true,
 			],
 		];
@@ -60,9 +99,12 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @param string $content   The content.
 	 * @param string $link_type The link type.
-	 * @param bool   $is_image  Whether or not the link is an image.
+	 * @param bool   $is_image  Whether the link is an image.
+	 * @param bool   $ignore_content_scan  Whether content scanning should be ignored.
+	 * @param bool   $should_content_regex  Whether the image id should be extracted with a regex.
+	 * @param bool   $should_doc_scan  Whether the doc document should be used.
 	 */
-	public function test_build( $content, $link_type, $is_image ) {
+	public function test_build( $content, $link_type, $is_image, $ignore_content_scan, $should_content_regex, $should_doc_scan ) {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->id          = 1;
 		$indexable->object_id   = 2;
@@ -71,7 +113,7 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 
 		$this->post_helper->expects( 'get_post' )->once()->with( 2 )->andReturn( 'post' );
 		Functions\expect( 'setup_postdata' )->once()->with( 'post' );
-		Filters\expectApplied( 'the_content' )->with( $content )->andReturnFirstArg();
+		Functions\expect( 'apply_filters' )->once()->with( 'the_content', $content )->andReturn( $content );
 		Functions\expect( 'wp_reset_postdata' )->once();
 
 		$parsed_home_url          = [
@@ -98,6 +140,22 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 		Functions\expect( 'home_url' )->once()->andReturn( 'https://site.com' );
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com' )->andReturn( $parsed_home_url );
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com/page' )->andReturn( $parsed_page_url );
+		if ( $should_doc_scan ) {
+			Functions\expect( 'apply_filters' )
+				->once()
+				->with( 'wpseo_image_attribute_containing_id', 'class' )
+				->andReturn( 'class' );
+		}
+		if ( $should_content_regex ) {
+			Functions\expect( 'apply_filters' )
+				->twice()
+				->with( 'wpseo_extract_id_pattern', '/(?<!\S)wp-image-(\d+)(?!\S)/i' )
+				->andReturn( '/(?<!\S)wp-image-(\d+)(?!\S)/i' );
+		}
+		if ( $ignore_content_scan ) {
+			Functions\expect( 'apply_filters' )->once()->with( 'wpseo_force_skip_image_content_parsing', false )->andReturn( true );
+
+		}
 
 		// Inside create_links->create_internal_link method.
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://link.com/newly-added-in-post' )->andReturn( $parsed_new_link_url );
@@ -159,6 +217,7 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 			);
 		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 3, 0 );
 
+
 		$links = $this->instance->build( $indexable, $content );
 
 		$this->assertEquals( 2, \count( $links ) );
@@ -172,6 +231,7 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 * @covers ::__construct
 	 * @covers ::set_dependencies
 	 * @covers ::build
+	 * @covers ::gather_images
 	 */
 	public function test_build_target_indexable_does_not_exist() {
 		$content          = '<a href="https://site.com/target">link</a>';
@@ -295,8 +355,7 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_no_links() {
-
-		$indexable              = Mockery::mock( Indexable_Mock::class );
+				$indexable      = Mockery::mock( Indexable_Mock::class );
 		$indexable->id          = 1;
 		$indexable->object_id   = 2;
 		$indexable->object_type = 'page';
@@ -309,6 +368,53 @@ class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 			->andReturn( [] );
 
 		$this->assertSame( [], $this->instance->build( $indexable, '' ) );
+	}
+
+	/**
+	 * Tests the build method when ignoring content scan.
+	 *
+	 * @covers ::build
+	 * @covers ::gather_images
+	 * @dataProvider provide_no_content_scan
+	 *
+	 * @param string $input_content The input content.
+	 * @param array  $output_result The expected result.
+	 */
+	public function test_build_ignore_content_scan( $input_content, $output_result ) {
+
+		$indexable              = Mockery::mock( Indexable_Mock::class );
+		$indexable->id          = 1;
+		$indexable->object_id   = 2;
+		$indexable->object_type = 'page';
+		$indexable->permalink   = 'https://site.com/page';
+		Functions\expect( 'apply_filters' )->andReturn( true );
+
+		$this->seo_links_repository
+			->expects( 'find_all_by_indexable_id' )
+			->with( $indexable->id )
+			->once()
+			->andReturn( [] );
+
+
+
+		self::assertSame( $output_result, $this->instance->build( $indexable, $input_content ) );
+	}
+
+	/**
+	 * Provides data for the test_build_ignore_content_scan test.
+	 *
+	 * @return \Generator
+	 */
+	public function provide_no_content_scan() {
+		yield 'No content so no links' => [
+			'input_content' => '',
+			'output_result' => [],
+		];
+
+		yield 'Content but no links' => [
+			'input_content' => 'something something no links',
+			'output_result' => [],
+		];
 	}
 
 	/**

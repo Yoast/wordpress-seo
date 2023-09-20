@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.2.1
+
+Bugfixes:
+
+* Fixes a bug in the `FileInput` element where the `onChange` callback would sometimes retrieve an unexpected `File` instead of the intended change event. This introduces an `onDrop` callback to retrieve the drop event containing the dropped files. [#20646](https://github.com/Yoast/wordpress-seo/pull/20646)
+* Fixes a bug in the `FileImport` component where drag-and-drop would not provide the uploaded file and throw an error instead. [#20646](https://github.com/Yoast/wordpress-seo/pull/20646)
+
 ## 3.2.0
 
 Enhancements:
