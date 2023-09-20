@@ -3,7 +3,6 @@ import { withSelect } from "@wordpress/data";
 import { Component, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
-import { YoastSeoIcon } from "@yoast/components";
 import { LocationConsumer, RootContext } from "@yoast/externals/contexts";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -12,7 +11,7 @@ import getL10nObject from "../../analysis/getL10nObject";
 import Results from "../../containers/Results";
 import AnalysisUpsell from "../AnalysisUpsell";
 import MetaboxCollapsible from "../MetaboxCollapsible";
-import { ModalContainer, ModalIcon } from "../modals/Container";
+import { ModalContainer } from "../modals/Container";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
 import MultipleKeywords from "../modals/MultipleKeywords";
 import Modal from "../modals/SeoAnalysisModal";
@@ -47,37 +46,22 @@ class SeoAnalysis extends Component {
 			},
 			labels: {
 				open: "+ " + __( "Add synonyms", "wordpress-seo" ),
-				modalAriaLabel: sprintf(
-					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s", "wordpress-seo" ),
-					"Yoast SEO Premium"
-				),
-				heading: sprintf(
-					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s", "wordpress-seo" ),
-					"Yoast SEO Premium"
-				),
+				modalAriaLabel: __( "Add synonyms", "wordpress-seo" ),
+				heading: __( "Add synonyms", "wordpress-seo" ),
 			},
 		};
 
-		// Defaults to metabox.
-		let link = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_synonyms_link" ];
-		let buyLink = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_synonyms_button" ];
-
-		if ( location.toLowerCase() === "sidebar" ) {
-			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_synonyms_link" ];
-			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_synonyms_button" ];
-		}
-		link = addQueryArgs( link, { context: locationContext } );
-		buyLink = addQueryArgs( buyLink, { context: locationContext } );
+		const buyLink = wpseoAdminL10n[
+			location.toLowerCase() === "sidebar"
+				? "shortlinks.upsell.sidebar.focus_keyword_synonyms_button"
+				: "shortlinks.upsell.metabox.focus_keyword_synonyms_button"
+		];
 
 		return (
 			<Modal { ...modalProps }>
 				<ModalContainer>
-					<ModalIcon icon={ YoastSeoIcon } />
-					<h2>{ __( "Would you like to add keyphrase synonyms?", "wordpress-seo" ) }</h2>
-
-					<KeywordSynonyms link={ link } buyLink={ buyLink } />
+					<h2>{ __( "Write more natural and engaging content", "wordpress-seo" ) }</h2>
+					<KeywordSynonyms buyLink={ addQueryArgs( buyLink, { context: locationContext } ) } />
 				</ModalContainer>
 			</Modal>
 		);
