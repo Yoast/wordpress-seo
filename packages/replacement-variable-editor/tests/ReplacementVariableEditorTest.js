@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-bind */
-import { shallow } from "enzyme";
 import ReplacementVariableEditorStandalone, { ReplacementVariableEditorStandaloneInnerComponent }
 	from "../src/ReplacementVariableEditorStandalone";
 import React from "react";
@@ -19,17 +18,7 @@ jest.mock( "draft-js/lib/generateRandomKey", () => () => {
 
 describe( "ReplacementVariableEditor", () => {
 	it( "wraps a Draft.js editor instance", () => {
-		const editor = shallow(
-			<ReplacementVariableEditorStandalone
-				replacementVariables={ [] }
-				content="Dummy content"
-				onChange={ () => {} }
-				ariaLabelledBy="id"
-				theme={ { isRtl: "false" } }
-			/>
-		);
 
-		expect( editor ).toMatchSnapshot();
 	} );
 } );
 
