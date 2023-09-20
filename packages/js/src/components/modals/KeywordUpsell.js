@@ -47,7 +47,7 @@ const KeywordUpsell = () => {
 					shouldCloseOnClickOutside={ true }
 				>
 					<ModalContainer>
-						<h2>{ __( "Reach a wider audience", "wordpress-seo" ) }</h2>
+						<h2 className="yst-mt-0 yst-mb-4">{ __( "Reach a wider audience", "wordpress-seo" ) }</h2>
 						<MultipleKeywords buyLink={ addQueryArgs( buyLink, { context: locationContext } ) } />
 					</ModalContainer>
 				</Modal>

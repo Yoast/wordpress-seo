@@ -33,7 +33,7 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 				shouldCloseOnClickOutside={ true }
 			>
 				<ModalContainer>
-					<h2>{ __( "Improve your SEO by using the Premium SEO analysis", "wordpress-seo" ) }</h2>
+					<h2 className="yst-mt-0 yst-mb-4">{ __( "Improve your SEO by using the Premium SEO analysis", "wordpress-seo" ) }</h2>
 					<PremiumSEOAnalysisUpsell buyLink={ `shortlinks.upsell.${ location }.premium_seo_analysis_button` } />
 				</ModalContainer>
 			</Modal> }

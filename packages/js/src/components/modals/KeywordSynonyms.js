@@ -11,14 +11,14 @@ import UpsellBox from "../UpsellBox";
  */
 const KeywordSynonyms = ( props ) => {
 	const infoParagraphs = [
-		<div key="KeywordSynonyms-infoParagraph-description" className="yst-max-w-[426px]">
+		<span key="KeywordSynonyms-infoParagraph-description" className="yst-block yst-max-w-[426px]">
 			{ sprintf(
 				/* translators: %s expands to "Yoast SEO Premium" */
 				__( "Synonyms help users understand your copy better. It’s easier to read for both users and Google. In %s, you can add synonyms for your focus keyphrase, and we’ll help you optimize for them.", "wordpress-seo" ),
 				"Yoast SEO Premium"
 			) }
-		</div>,
-		<span key="KeywordSynonyms-infoParagraph-benefitsTitle" className="yst-text-[#303030] yst-text-[13px] yst-font-semibold">
+		</span>,
+		<span key="KeywordSynonyms-infoParagraph-benefitsTitle" className="yst-block yst-my-3 yst-text-[#303030] yst-text-[13px] yst-font-semibold">
 			{ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
 		</span>,
 	];

@@ -11,10 +11,10 @@ import UpsellBox from "../UpsellBox";
  */
 const MultipleKeywords = ( props ) => {
 	const infoParagraphs = [
-		<div key="KeywordUpsell-infoParagraph-description" className="yst-max-w-[426px]">
+		<span key="KeywordUpsell-infoParagraph-description" className="yst-block yst-max-w-[426px]">
 			{ __( "Get help optimizing for up to 5 related keyphrases. This helps you reach a wider audience and get more traffic.", "wordpress-seo" ) }
-		</div>,
-		<span key="KeywordUpsell-infoParagraph-benefitsTitle" className="yst-text-[#303030] yst-text-[13px] yst-font-semibold">
+		</span>,
+		<span key="KeywordUpsell-infoParagraph-benefitsTitle" className="yst-block yst-my-3 yst-text-[#303030] yst-text-[13px] yst-font-semibold">
 			{ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
 		</span>,
 	];

@@ -60,7 +60,7 @@ class SeoAnalysis extends Component {
 		return (
 			<Modal { ...modalProps }>
 				<ModalContainer>
-					<h2>{ __( "Write more natural and engaging content", "wordpress-seo" ) }</h2>
+					<h2 className="yst-mt-0 yst-mb-4">{ __( "Write more natural and engaging content", "wordpress-seo" ) }</h2>
 					<KeywordSynonyms buyLink={ addQueryArgs( buyLink, { context: locationContext } ) } />
 				</ModalContainer>
 			</Modal>
@@ -96,7 +96,7 @@ class SeoAnalysis extends Component {
 		return (
 			<Modal { ...modalProps }>
 				<ModalContainer>
-					<h2>{ __( "Reach a wider audience", "wordpress-seo" ) }</h2>
+					<h2 className="yst-mt-0 yst-mb-4">{ __( "Reach a wider audience", "wordpress-seo" ) }</h2>
 					<MultipleKeywords buyLink={ addQueryArgs( buyLink, { context: locationContext } ) } />
 				</ModalContainer>
 			</Modal>

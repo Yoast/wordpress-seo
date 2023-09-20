@@ -14,10 +14,10 @@ import UpsellBox from "../UpsellBox";
  */
 const PremiumSEOAnalysisUpsell = ( props ) => {
 	const infoParagraphs = [
-		<div key="PremiumSEOAnalysisUpsell-infoParagraph-description" className="yst-max-w-[426px]">
+		<span key="PremiumSEOAnalysisUpsell-infoParagraph-description" className="yst-block yst-max-w-[426px]">
 			{ __( "Check your text on more SEO criteria and get an enhanced keyphrase analysis, making it easier to write optimized content.", "wordpress-seo" ) }
-		</div>,
-		<span key="PremiumSEOAnalysisUpsell-infoParagraph-benefitsTitle" className="yst-text-[#303030] yst-text-[13px] yst-font-semibold">
+		</span>,
+		<span key="PremiumSEOAnalysisUpsell-infoParagraph-benefitsTitle" className="yst-block yst-my-3 yst-text-[#303030] yst-text-[13px] yst-font-semibold">
 			{ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
 		</span>,
 	];
