@@ -108,6 +108,15 @@ describe( "A test for marking incorrect H1s in the body", function() {
 
 		expect( results._hasMarks ).toEqual( false );
 	} );
+
+	it( "doesn't return markers when h1 doesn't have content", function() {
+		const mockPaper = new Paper( "<h1></h1>" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+		const results = h1Assessment.getResult( mockPaper, mockResearcher );
+
+		expect( results._hasMarks ).toEqual( false );
+	} );
 } );
 
 describe( "Checks if the assessment is applicable", function() {
