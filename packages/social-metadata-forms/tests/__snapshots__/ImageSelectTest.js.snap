@@ -1,66 +1,374 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The ImageSelect component displays warnings 1`] = `
-<ForwardRef(ImageSelect__DivWithMargin)
+.c2 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c5 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c6:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+.c9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c9 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.5;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 16px;
+  color: #674e00;
+  background: #fff3cd;
+  margin-bottom: 20px;
+}
+
+.c4 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c4 a {
+  color: #004973;
+}
+
+.c4 p {
+  margin-top: 0;
+}
+
+.c3 {
+  margin-top: 0.1rem;
+  margin-right: 8px;
+}
+
+.c0 {
+  cursor: pointer;
+  font-size: 14px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  margin: 4px 0;
+  color: #303030;
+  font-weight: 500;
+}
+
+.c10 {
+  color: #303030;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: inset 0 -2px 0 0 rgba(0,0,0,0.1);
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  padding: 4px;
+  border: 1px solid #dbdbdb;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 5px;
+  max-width: 200px;
+  padding: 0 0.5em;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c9::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<div
+  className="ImageSelect__DivWithMargin-sc-14m0d81-4 ulmxm"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
-  <ForwardRef(Label__SimulatedLabel)>
+  <div
+    className="c0"
+  >
     Facebook image
-  </ForwardRef(Label__SimulatedLabel)>
-  <Alert
-    className=""
-    dismissAriaLabel=""
-    isAlertDismissed={false}
-    onDismissed={null}
-    type="warning"
+  </div>
+  <div
+    className="c1"
   >
-    Your image is too small
-  </Alert>
-  <Alert
-    className=""
-    dismissAriaLabel=""
-    isAlertDismissed={false}
-    onDismissed={null}
-    type="warning"
+    <svg
+      aria-hidden={true}
+      className="c2 yoast-svg-icon yoast-svg-icon-alert-warning c3"
+      fill="#674e00"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 576 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+      />
+    </svg>
+    <div
+      className="c4"
+    >
+      Your image is too small
+    </div>
+  </div>
+  <div
+    className="c1"
   >
-    Wow, I like writing tests
-  </Alert>
-  <ForwardRef(ImageSelect__ColumnWrapper)>
-    <ForwardRef(ImageSelect__UrlInputField)
+    <svg
+      aria-hidden={true}
+      className="c2 yoast-svg-icon yoast-svg-icon-alert-warning c3"
+      fill="#674e00"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 576 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+      />
+    </svg>
+    <div
+      className="c4"
+    >
+      Wow, I like writing tests
+    </div>
+  </div>
+  <div
+    className="ImageSelect__ColumnWrapper-sc-14m0d81-2 ebzWjB"
+  >
+    <input
+      className=" InputField-bc6bqg-0 ImageSelect__UrlInputField-sc-14m0d81-1 ivUELW fZOIoU"
       disabled="disabled"
       id="twitter-url-input"
       value=""
     />
-    <ForwardRef(ImageSelect__RowWrapper)>
-      <ImageSelectButtons
-        imageSelected={true}
+    <div
+      className="ImageSelect__RowWrapper-sc-14m0d81-3 fVTCKm"
+    >
+      <button
+        className="c5 c6 c7 c8 c9 c10"
+        id="twitter-replace-button"
         onClick={[Function]}
-        onRemoveImageClick={[Function]}
-        removeImageButtonId="twitter-remove-button"
-        replaceImageButtonId="twitter-replace-button"
-        selectImageButtonId="twitter-select-button"
-      />
-    </ForwardRef(ImageSelect__RowWrapper)>
-  </ForwardRef(ImageSelect__ColumnWrapper)>
-</ForwardRef(ImageSelect__DivWithMargin)>
+        type="button"
+      >
+        Replace image
+      </button>
+      <button
+        activeBackgroundColor="#f7f7f7"
+        activeBorderColor="#000"
+        activeColor="#000"
+        backgroundColor="#f7f7f7"
+        borderColor="#ccc"
+        boxShadowColor="#ccc"
+        className=",,,,ImageSelect__UndoButton-sc-14m0d81-0 c5 c6 c7 c8 c9 c10 kBTMlW"
+        focusBackgroundColor="#fff"
+        focusBorderColor="#0066cd"
+        focusBoxShadowColor="#084a67"
+        focusColor="#000"
+        hoverBackgroundColor="#fff"
+        hoverColor="#000"
+        id="twitter-remove-button"
+        onClick={[Function]}
+        textColor="#555"
+        type="button"
+      >
+        Remove image
+      </button>
+    </div>
+  </div>
+</div>
 `;
 
 exports[`The ImageSelect component renders 1`] = `
-<ForwardRef(ImageSelect__DivWithMargin)
+.c1 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c2:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c4:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+.c5 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c5 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c0 {
+  cursor: pointer;
+  font-size: 14px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  margin: 4px 0;
+  color: #303030;
+  font-weight: 500;
+}
+
+.c6 {
+  color: #303030;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: inset 0 -2px 0 0 rgba(0,0,0,0.1);
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  padding: 4px;
+  border: 1px solid #dbdbdb;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 5px;
+  max-width: 200px;
+  padding: 0 0.5em;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c5::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<div
+  className="ImageSelect__DivWithMargin-sc-14m0d81-4 ulmxm"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
-  <ForwardRef(Label__SimulatedLabel)>
+  <div
+    className="c0"
+  >
     Facebook image
-  </ForwardRef(Label__SimulatedLabel)>
-  <ImageSelectButtons
-    imageSelected={false}
+  </div>
+  <button
+    className="c1 c2 c3 c4 c5 c6"
+    id="facebook-select-button"
     onClick={[Function]}
-    onRemoveImageClick={[Function]}
-    removeImageButtonId="facebook-remove-button"
-    replaceImageButtonId="facebook-replace-button"
-    selectImageButtonId="facebook-select-button"
-  />
-</ForwardRef(ImageSelect__DivWithMargin)>
+    type="button"
+  >
+    Select image
+  </button>
+</div>
 `;
