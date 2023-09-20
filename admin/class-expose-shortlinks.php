@@ -31,10 +31,8 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.upsell.social_preview.social'                   => 'https://yoa.st/social-preview-facebook',
 		'shortlinks.upsell.social_preview.twitter'                  => 'https://yoa.st/social-preview-twitter',
 		'shortlinks.upsell.sidebar.news'                            => 'https://yoa.st/get-news-sidebar',
-		'shortlinks.upsell.sidebar.focus_keyword_synonyms_link'     => 'https://yoa.st/textlink-synonyms-popup-sidebar',
 		'shortlinks.upsell.sidebar.focus_keyword_synonyms_button'   => 'https://yoa.st/keyword-synonyms-popup-sidebar',
 		'shortlinks.upsell.sidebar.premium_seo_analysis_button'     => 'https://yoa.st/premium-seo-analysis-sidebar',
-		'shortlinks.upsell.sidebar.focus_keyword_additional_link'   => 'https://yoa.st/textlink-keywords-popup-sidebar',
 		'shortlinks.upsell.sidebar.focus_keyword_additional_button' => 'https://yoa.st/add-keywords-popup-sidebar',
 		'shortlinks.upsell.sidebar.additional_link'                 => 'https://yoa.st/textlink-keywords-sidebar',
 		'shortlinks.upsell.sidebar.additional_button'               => 'https://yoa.st/add-keywords-sidebar',
@@ -42,10 +40,8 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.upsell.sidebar.word_complexity'                 => 'https://yoa.st/word-complexity-sidebar',
 		'shortlinks.upsell.metabox.news'                            => 'https://yoa.st/get-news-metabox',
 		'shortlinks.upsell.metabox.go_premium'                      => 'https://yoa.st/pe-premium-page',
-		'shortlinks.upsell.metabox.focus_keyword_synonyms_link'     => 'https://yoa.st/textlink-synonyms-popup-metabox',
 		'shortlinks.upsell.metabox.focus_keyword_synonyms_button'   => 'https://yoa.st/keyword-synonyms-popup',
 		'shortlinks.upsell.metabox.premium_seo_analysis_button'     => 'https://yoa.st/premium-seo-analysis-metabox',
-		'shortlinks.upsell.metabox.focus_keyword_additional_link'   => 'https://yoa.st/textlink-keywords-popup-metabox',
 		'shortlinks.upsell.metabox.focus_keyword_additional_button' => 'https://yoa.st/add-keywords-popup',
 		'shortlinks.upsell.metabox.additional_link'                 => 'https://yoa.st/textlink-keywords-metabox',
 		'shortlinks.upsell.metabox.additional_button'               => 'https://yoa.st/add-keywords-metabox',
@@ -117,9 +113,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 
 		$shortlinks = $this->shortlinks;
 
-		$shortlinks['shortlinks.upsell.metabox.focus_keyword_synonyms_link']     = 'https://yoa.st/textlink-synonyms-popup-metabox-term';
 		$shortlinks['shortlinks.upsell.metabox.focus_keyword_synonyms_button']   = 'https://yoa.st/keyword-synonyms-popup-term';
-		$shortlinks['shortlinks.upsell.metabox.focus_keyword_additional_link']   = 'https://yoa.st/textlink-keywords-popup-metabox-term';
 		$shortlinks['shortlinks.upsell.metabox.focus_keyword_additional_button'] = 'https://yoa.st/add-keywords-popup-term';
 		$shortlinks['shortlinks.upsell.metabox.additional_link']                 = 'https://yoa.st/textlink-keywords-metabox-term';
 		$shortlinks['shortlinks.upsell.metabox.additional_button']               = 'https://yoa.st/add-keywords-metabox-term';
