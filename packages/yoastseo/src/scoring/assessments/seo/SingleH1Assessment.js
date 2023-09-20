@@ -93,22 +93,22 @@ class SingleH1Assessment extends Assessment {
 	getMarks() {
 		return this._h1s
 			// Filter h1 with empty content.
-			.filter( function (h1) {
-				return !!h1.content.length
-			})
+			.filter( function( h1 ) {
+				return !! h1.content.length;
+			} )
 			.map( function( h1 ) {
-			return new Mark( {
-				original: "<h1>" + h1.content + "</h1>",
-				marked: "<h1>" + marker( h1.content ) + "</h1>",
-				position: {
-					startOffset: h1.position.startOffset,
-					endOffset: h1.position.endOffset,
-					startOffsetBlock: 0,
-					endOffsetBlock: h1.content.length,
-					clientId: h1.position.clientId,
-				},
+				return new Mark( {
+					original: "<h1>" + h1.content + "</h1>",
+					marked: "<h1>" + marker( h1.content ) + "</h1>",
+					position: {
+						startOffset: h1.position.startOffset,
+						endOffset: h1.position.endOffset,
+						startOffsetBlock: 0,
+						endOffsetBlock: h1.content.length,
+						clientId: h1.position.clientId,
+					},
+				} );
 			} );
-		} );
 	}
 
 	/**
