@@ -8,7 +8,7 @@ import permanentFilters from "./private/alwaysFilterElements";
 import { filterBeforeTokenizing } from "./private/filterBeforeTokenizing";
 import parseBlocks from "./private/parseBlocks";
 import filterShortcodesFromTree from "../../languageProcessing/helpers/sanitize/filterShortcodesFromTree";
-import { htmlEntitiesRegex } from "./private/htmlEntities";
+import { htmlEntitiesRegex } from "../../helpers/htmlEntities";
 
 /**
  * Parses the HTML string to a tree representation of the HTML document.

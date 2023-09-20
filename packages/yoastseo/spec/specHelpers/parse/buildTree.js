@@ -4,7 +4,7 @@ import adapt from "../../../src/parse/build/private/adapt";
 import { parseFragment } from "parse5";
 import filterTree from "../../../src/parse/build/private/filterTree";
 import permanentFilters from "../../../src/parse/build/private/alwaysFilterElements";
-import { htmlEntitiesRegex } from "../../../src/parse/build/private/htmlEntities";
+import { htmlEntitiesRegex } from "../../../src/helpers/htmlEntities";
 
 /**
  * Builds an HTML tree for a given paper and researcher, and adds it to the paper.

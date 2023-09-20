@@ -1,4 +1,4 @@
-import { htmlEntitiesRegex, hashedHtmlEntitiesRegexStart, hashedHtmlEntitiesRegexEnd } from "../../../../src/parse/build/private/htmlEntities";
+import { htmlEntitiesRegex, hashedHtmlEntitiesRegexStart, hashedHtmlEntitiesRegexEnd } from "../../src/helpers/htmlEntities";
 
 describe( "tests RegEx-es from the htmlEntities file", function() {
 	it( "finds all HTML entities we support and 'hashes' them, i.e. turns the beginning '&' character to '#'", function() {

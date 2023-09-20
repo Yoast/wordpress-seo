@@ -1,3 +1,5 @@
+import { helpers } from "yoastseo";
+
 /*
  * The regex to detect html tags.
  * Please note that this regex will also detect non-html tags that are also wrapped in  `<>`.
@@ -6,6 +8,28 @@
  * @type {RegExp}
  */
 const htmlTagsRegex = /(<([a-z]|\/)[^<>]+>)/ig;
+
+/*
+ * The regex to find all HTML entities in the list below:
+ * "&amp;" => &
+ * "&lt;" => <
+ * "&gt;" => >
+ * "&quot;" => "
+ * "&apos;" => '
+ * "&ndash;" => –
+ * "&mdash;" => —
+ * "&copy;" => ©
+ * "&reg;" => ®
+ * "&trade; => ™
+ * "&pound; => £
+ * "&yen; => ¥
+ * "&euro;" => €
+ * "&dollar;" => $
+ * "&deg;" => °
+ * "&asymp;" => ≈
+ * "&ne;" => ≠
+ */
+const { htmlEntitiesRegex } = helpers.htmlEntities;
 
 /**
  * Adjusts the block start and end offset for a given mark from the first section of a Yoast sub-block.
@@ -48,31 +72,8 @@ const adjustFirsSectionOffsets = ( blockStartOffset, blockEndOffset, blockName )
 	};
 };
 
-export const htmlEntities = new Map( [
-	[ "amp;", "&" ],
-	[ "lt;", "<" ],
-	[ "gt;", ">" ],
-	[ "quot;", '"' ],
-	[ "apos;", "'" ],
-	[ "ndash;", "–" ],
-	[ "mdash;", "—" ],
-	[ "copy;", "©" ],
-	[ "reg;", "®" ],
-	[ "trade;", "™" ],
-	[ "pound;", "£" ],
-	[ "yen;", "¥" ],
-	[ "euro;", "€" ],
-	[ "dollar;", "$" ],
-	[ "deg;", "°" ],
-	[ "asymp;", "≈" ],
-	[ "ne;", "≠" ],
-] );
-
-// Regex to find all HTML entities.
-export const htmlEntitiesRegex = new RegExp( "&(" + [ ...htmlEntities.keys() ].join( "|" ) + ")", "ig" );
-
 /**
- * Adjusts the block start and end offsets of a given mark when the block html contains tags.
+ * Adjusts the block start and end offsets of a given mark when the block html contains tags or html entities.
  *
  * @param {int}		blockStartOffset	The block start offset of the Mark object to adjust.
  * @param {int}		blockEndOffset		The block end offset of the Mark object to adjust.
@@ -109,7 +110,15 @@ const adjustMarkOffsets = ( blockStartOffset, blockEndOffset, blockHtml ) => {
 		blockStartOffset -= foundTag.length;
 		blockEndOffset -= foundTag.length;
 	}
-	// Matching the html entities should be done after matching the html tags.
+	/*
+	 * The step to match the html entities should be done after matching the html tags.
+	 *
+	 * In `yoastseo`, we process the html entities so that their length is the length of their extended version.
+	 * For example, the ampersand `&` length is the length of `&amp;` => 5.
+	 * However, in Gutenberg editor where we annotate the rich text, the ampersand is represented as `&`.
+	 * Hence, to say that its length is 5 is incorrect and will result in an incorrect annotation.
+	 * With this reason, we also need to adjust the Mark block start and end offset when the block's html contains html entities.
+	 */
 	const matchedHtmlEntities = [ ...blockHtml.matchAll( htmlEntitiesRegex ) ];
 	if ( matchedHtmlEntities ) {
 		for ( let i = matchedHtmlEntities.length - 1; i >= 0; i-- ) {

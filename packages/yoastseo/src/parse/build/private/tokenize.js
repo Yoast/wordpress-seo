@@ -1,6 +1,6 @@
 import { Heading, Paragraph } from "../../structure";
 import getTextElementPositions from "./getTextElementPositions";
-import { hashedHtmlEntities } from "./htmlEntities";
+import { hashedHtmlEntities } from "../../../helpers/htmlEntities";
 
 /**
  * Splits the sentence into tokens, determines their positions in the source code, and puts them on the sentence.
