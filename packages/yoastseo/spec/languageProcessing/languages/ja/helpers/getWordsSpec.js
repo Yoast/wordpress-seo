@@ -22,6 +22,12 @@ describe( "test for getting Japanese segmented words", function() {
 			"が", "開業", "時", "に", "は", "東海道", "新幹線", "と", "命名", "さ", "れ", "た" ] );
 	} );
 
+	it( "lowercases uppercase characters", function() {
+		const words = getWords( "計画段階では HellO"	);
+
+		expect( words ).toEqual( [ "計画", "段階", "で", "は", "hello" ] );
+	} );
+
 	it( "excludes Table of Contents from the segmenter and strips html tags", function() {
 		const words = getWords( "<div class='wp-block-yoast-seo-table-of-contents yoast-table-of-contents'><h2>目次</h2><ul><li>" +
 			"<a href='#h-' data-level='2'>猫の種類</a></li><li><a href='#h--1' data-level='2'>キャットフード</a></li></ul></div>" +
