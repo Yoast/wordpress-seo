@@ -20,6 +20,7 @@ const PremiumSEOAnalysisUpsell = ( props ) => {
 		</span>,
 	];
 	const benefits = [
+		__( "Create content faster: Use AI to create titles & meta descriptions", "wordpress-seo" ),
 		__( "Get help ranking for multiple keyphrases", "wordpress-seo" ),
 		__( "Avoid dead links on your site", "wordpress-seo" ),
 		__( "Easily improve the structure of your site", "wordpress-seo" ),
