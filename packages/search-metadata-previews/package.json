@@ -30,23 +30,20 @@
     "yoastseo": "^1.91.2"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@yoast/browserslist-config": "^1.2.2",
     "browserslist": "^4.7.3",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
     "jest-styled-components": "^7.0.3",
-    "react-test-renderer": "^16.14.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-test-renderer": "^18.2.0"
   },
-  "peerDependencies": {
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0"
-  },
+  "peerDependencies": {},
   "jest": {
     "testURL": "http://localhost",
     "testRegex": ".*Test.js$",
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },

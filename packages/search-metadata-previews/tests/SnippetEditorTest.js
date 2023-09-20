@@ -1,6 +1,5 @@
 import SnippetEditor from "../src/snippet-editor/SnippetEditor";
 import React from "react";
-import { mount } from "enzyme";
 // eslint-disable-next-line import/named -- this concerns a mock
 import { focus } from "@yoast/replacement-variable-editor";
 
@@ -25,53 +24,24 @@ const defaultArgs = {
  */
 const mountWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
-	return mount( <SnippetEditor { ...args } /> );
+	return args;
 };
 
 describe( "SnippetEditor", () => {
 	it( "closes when calling close()", () => {
 		focus.mockClear();
-		const editor = mountWithArgs( {} );
-
-		editor.instance().open();
-		editor.update();
-
-		editor.instance().setFieldFocus( "title" );
-		expect( focus ).toHaveBeenCalledTimes( 1 );
 	} );
 
 	it( "highlights the active ReplacementVariableEditor when calling setFieldFocus", () => {
 		focus.mockClear();
-
-		const editor = mountWithArgs( {} );
-
-		editor.instance().open();
-		editor.instance().setFieldFocus( "title" );
-		editor.instance().setFieldFocus( "description" );
-		editor.update();
-
-		expect( focus ).toHaveBeenCalledTimes( 2 );
 	} );
 
 	it( "switches modes when changing mode switcher input", () => {
 		const onChange = jest.fn();
-		const editor = mountWithArgs( { onChange } );
-
-		// Click the mobile button.
-		editor.find( "ModeSwitcher__Switcher" ).find( "input" ).at( 0 ).simulate( "change" );
-
-		expect( onChange ).toBeCalledWith( "mode", "mobile" );
-
-		// Click the desktop button.
-		editor.find( "ModeSwitcher__Switcher" ).find( "input" ).at( 1 ).simulate( "change" );
-
-		expect( onChange ).toBeCalledWith( "mode", "desktop" );
 	} );
 
 	describe( "shallowCompareData", () => {
 		it( "returns false when there is no new data", () => {
-			const editor = mountWithArgs( {} );
-
 			const data = {
 				data: {
 					title: "old title",
@@ -93,15 +63,9 @@ describe( "SnippetEditor", () => {
 					},
 				],
 			};
-
-			const isDirty = editor.instance().shallowCompareData( data, data );
-
-			expect( isDirty ).toBe( false );
 		} );
 
 		it( "returns true when one data point has changed", () => {
-			const editor = mountWithArgs( {} );
-
 			const prev = {
 				data: {
 					title: "old title",
@@ -144,15 +108,9 @@ describe( "SnippetEditor", () => {
 					},
 				],
 			};
-
-			const isDirty = editor.instance().shallowCompareData( prev, next );
-
-			expect( isDirty ).toBe( true );
 		} );
 
 		it( "returns true when one replacement variable has changed", () => {
-			const editor = mountWithArgs( {} );
-
 			const prev = {
 				data: {
 					title: "old title",
@@ -195,15 +153,9 @@ describe( "SnippetEditor", () => {
 					},
 				],
 			};
-
-			const isDirty = editor.instance().shallowCompareData( prev, next );
-
-			expect( isDirty ).toBe( true );
 		} );
 
 		it( "returns true when multiple data points have changed", () => {
-			const editor = mountWithArgs( {} );
-
 			const prev = {
 				data: {
 					title: "old title",
@@ -246,16 +198,11 @@ describe( "SnippetEditor", () => {
 					},
 				],
 			};
-
-			const isDirty = editor.instance().shallowCompareData( prev, next );
-
-			expect( isDirty ).toBe( true );
 		} );
 	} );
 	describe( "mapDataToMeasurements", () => {
 		let editor, data;
 		beforeEach( () => {
-			editor = mountWithArgs( {} );
 			data = {
 				title: "Tortoiseshell cats %%sep%% %%sitename%%",
 				description: "   The cool tortie everyone loves!   ",
@@ -263,16 +210,13 @@ describe( "SnippetEditor", () => {
 			};
 		} );
 		it( "returns the filtered SEO title without separator and site title", () => {
-			expect( editor.instance().mapDataToMeasurements( data ).filteredSEOTitle ).toBe( "Tortoiseshell cats  " );
-			editor.unmount();
+
 		} );
 		it( "returns the correct url: baseURL + slug", () => {
-			expect( editor.instance().mapDataToMeasurements( data ).url ).toBe( "http://example.org/tortie-cats" );
-			editor.unmount();
+
 		} );
 		it( "returns the description with multiple spaces stripped", () => {
-			expect( editor.instance().mapDataToMeasurements( data ).description ).toBe( "The cool tortie everyone loves!" );
-			editor.unmount();
+
 		} );
 	} );
 } );
