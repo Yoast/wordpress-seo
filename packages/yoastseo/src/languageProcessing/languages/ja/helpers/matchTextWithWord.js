@@ -1,5 +1,6 @@
 import getContentWords from "./getContentWords";
 import processExactMatchRequest from "../../../helpers/match/processExactMatchRequest";
+import { normalizeSingle } from "../../../helpers/sanitize/quotes";
 
 /**
  * Checks for word matches in a text and returns an array containing the matched word(s).
@@ -13,6 +14,11 @@ export default function( text, wordToMatch ) {
 	// Check if the exact match is requested.
 	const isExactMatchRequested = processExactMatchRequest( wordToMatch );
 	if ( isExactMatchRequested.exactMatchRequested ) {
+		/*
+		 * Normalize single quotes in case they differ between the text and the word to match.
+		 * (The quotes are already normalized in wordToMatch at an earlier point).
+		*/
+		text = normalizeSingle( text );
 		const keyphrase = isExactMatchRequested.keyphrase;
 		const matches = [];
 
