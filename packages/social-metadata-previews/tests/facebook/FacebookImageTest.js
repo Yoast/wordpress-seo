@@ -1,6 +1,6 @@
 /* External dependencies */
 import React from "react";
-import renderer from "react-test-renderer";
+import { render, act } from "@testing-library/react";
 
 /* Internal dependencies */
 import FacebookImage from "../../src/facebook/FacebookImage";
@@ -10,7 +10,7 @@ import * as determineImageProperties from "../../src/helpers/determineImagePrope
 determineImageProperties.handleImage = jest.fn();
 
 describe( "FacebookImage Component", () => {
-	it( "calls determineImageProperties with the correct image URL", () => {
+	it( "calls determineImageProperties with the correct image URL",  async() => {
 		const imageUrl = "https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png";
 
 		determineImageProperties.handleImage.mockReturnValueOnce( Promise.resolve( {
@@ -19,9 +19,11 @@ describe( "FacebookImage Component", () => {
 			width: 300,
 		} ) );
 
-		renderer.create(
-			<FacebookImage src={ imageUrl } />
-		);
+		await act( async() => {
+			render(
+				<FacebookImage src={ imageUrl } />
+			);
+		} );
 
 		expect( determineImageProperties.handleImage ).toBeCalledWith( imageUrl, "Facebook" );
 	} );
