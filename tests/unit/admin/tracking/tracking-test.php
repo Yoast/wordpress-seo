@@ -7,8 +7,9 @@ use Mockery;
 use WPSEO_Options;
 use WPSEO_Tracking;
 use Yoast\WP\SEO\Helpers\Environment_Helper;
-use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Analytics\Application\Missing_Indexables_Collector;
+use Yoast\WP\SEO\Analytics\Application\To_Be_Cleaned_Indexables_Collector;
 
 /**
  * Unit Test Class.
@@ -34,11 +35,10 @@ class WPSEO_Tracking_Test extends TestCase {
 		$environment_helper = Mockery::mock( Environment_Helper::class );
 		$environment_helper->expects( 'is_production_mode' )->once()->andReturn( false );
 
-		$helper_surface              = Mockery::mock( Helpers_Surface::class );
-		$helper_surface->environment = $environment_helper;
+		$container = $this->create_container_with( [ Environment_Helper::class => $environment_helper ] );
 
 		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( (object) [ 'helpers' => $helper_surface ] );
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$instance = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( \WEEK_IN_SECONDS * 2 ) );
 
@@ -65,11 +65,10 @@ class WPSEO_Tracking_Test extends TestCase {
 		$environment_helper = Mockery::mock( Environment_Helper::class );
 		$environment_helper->expects( 'is_production_mode' )->once()->andReturn( true );
 
-		$helper_surface              = Mockery::mock( Helpers_Surface::class );
-		$helper_surface->environment = $environment_helper;
+		$container = $this->create_container_with( [ Environment_Helper::class => $environment_helper ] );
 
 		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( (object) [ 'helpers' => $helper_surface ] );
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$instance = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( \WEEK_IN_SECONDS * 2 ) );
 
@@ -78,5 +77,26 @@ class WPSEO_Tracking_Test extends TestCase {
 		$this->assertEquals( \time(), $this->getPropertyValue( $instance, 'current_time' ) );
 
 		WPSEO_Options::clear_cache();
+	}
+
+	/**
+	 * Tests get_collector method.
+	 *
+	 * @covers WPSEO_Tracking::get_collector
+	 */
+	public function test_get_collector() {
+
+		$container = $this->create_container_with(
+			[
+				Missing_Indexables_Collector::class       => Mockery::mock( Missing_Indexables_Collector::class ),
+				To_Be_Cleaned_Indexables_Collector::class => Mockery::mock( To_Be_Cleaned_Indexables_Collector::class ),
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->andReturn( (object) [ 'classes' => $this->create_classes_surface( $container ) ] );
+
+		$instance = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( \WEEK_IN_SECONDS * 2 ) );
+		$result   = $instance->get_collector();
 	}
 }

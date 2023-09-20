@@ -2,6 +2,26 @@
 self.window = self;
 
 /**
+ * These dependencies reference objects and methods that
+ * are not available inside a web worker, so we disallow
+ * loading them.
+ *
+ * We need to do that in this file, since we have no
+ * control over the dependencies of WordPress dependencies that we want to load.
+ *
+ * @type {string[]}
+ */
+const disallowedDependencies = [
+	/**
+	 * References `Element`, a DOM interface not available in web workers.
+	 *
+	 * Was renamed, hence the two variants.
+	 */
+	"wp-inert-polyfill",
+	"wp-polyfill-inert",
+];
+
+/**
  * Loads dependencies.
  *
  * @param {Object<string, string>} dependencies The dependencies.
@@ -14,7 +34,7 @@ function loadDependencies( dependencies ) {
 			continue;
 		}
 
-		if ( dependency === "wp-inert-polyfill" ) {
+		if ( disallowedDependencies.includes( dependency ) ) {
 			continue;
 		}
 

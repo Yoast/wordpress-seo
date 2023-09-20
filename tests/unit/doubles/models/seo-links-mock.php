@@ -25,6 +25,12 @@ class SEO_Links_Mock extends SEO_Links {
 
 	public $target_indexable_id;
 
+	public $height;
+
+	public $width;
+
+	public $size;
+
 	public $language;
 
 	public $region;

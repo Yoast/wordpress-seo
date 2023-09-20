@@ -1,16 +1,16 @@
 /* External dependencies */
-import { Fragment } from "@wordpress/element";
+import { select } from "@wordpress/data";
+import { Fragment, useCallback } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { useCallback } from "@wordpress/element";
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import SnippetEditor from "../../containers/SnippetEditor";
 import Warning from "../../containers/Warning";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import InsightsCollapsible from "../../insights/components/insights-collapsible";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarItem from "../SidebarItem";
@@ -23,12 +23,14 @@ import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../KeywordUpsell";
+import { BlackFridayProductEditorChecklistPromo } from "../BlackFridayProductEditorChecklistPromo";
+import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 
 /* eslint-disable complexity */
 /**
  * Creates the Metabox component.
- *
- * @param {Object} settings 				The feature toggles.
+*
+* @param {Object} settings 				The feature toggles.
  * @param {Object} store    				The Redux store.
  * @param {Object} theme    				The theme to use.
  * @param {Array} wincherKeyphrases 		The Wincher trackable keyphrases.
@@ -46,6 +48,16 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 		}
 	}, [ wincherKeyphrases, setWincherNoKeyphrase ] );
 
+	/**
+	 * Checks if the WooCommerce promo should be shown.
+	 *
+	 * @returns {boolean} Whether the WooCommerce promo should be shown.
+	 */
+	const shouldShowWooCommercePromo = () => {
+		const isProduct = select( "yoast-seo/editor" ).getIsProduct();
+		return isProduct && isWooCommerceActive();
+	};
+
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
@@ -56,6 +68,12 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				>
 					<Warning />
 				</SidebarItem>
+				<SidebarItem
+					key="time-constrained-notification"
+					renderPriority={ 2 }
+				>
+					{ shouldShowWooCommercePromo() && <BlackFridayProductEditorChecklistPromo /> }
+				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
@@ -64,10 +82,10 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						<SEMrushRelatedKeyphrases />
 					</Fill> }
 				</SidebarItem> }
-				<SidebarItem key="google-preview" renderPriority={ 9 }>
+				<SidebarItem key="search-appearance" renderPriority={ 9 }>
 					<MetaboxCollapsible
 						id={ "yoast-snippet-editor-metabox" }
-						title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
+						title={ __( "Search appearance", "wordpress-seo" ) } initialIsOpen={ true }
 					>
 						<SnippetEditor hasPaperStyle={ false } />
 					</MetaboxCollapsible>
@@ -75,7 +93,6 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				{ settings.isContentAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
 					<ReadabilityAnalysis
 						shouldUpsell={ settings.shouldUpsell }
-						isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 					/>
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo-analysis" renderPriority={ 20 }>
@@ -83,10 +100,12 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
 							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-							isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 						/>
 						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="metabox" /> }
 					</Fragment>
+				</SidebarItem> }
+				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem key="inclusive-language-analysis" renderPriority={ 21 }>
+					<InclusiveLanguageAnalysis />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }

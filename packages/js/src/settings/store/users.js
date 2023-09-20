@@ -1,9 +1,9 @@
 /* eslint-disable camelcase, complexity */
-import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
 import apiFetch from "@wordpress/api-fetch";
 import { buildQueryString } from "@wordpress/url";
 import { map, trim } from "lodash";
-import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
+import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
 const usersAdapter = createEntityAdapter();
 
@@ -41,7 +41,8 @@ export const createInitialUsersState = () => usersAdapter.getInitialState( {
  */
 const prepareUser = user => ( {
 	id: user?.id,
-	name: trim( user?.name ) || user?.slug,
+	// Fallbacks for user name, because we always need something to show.
+	name: trim( user?.name ) || user?.slug || user?.id,
 	slug: user?.slug,
 } );
 
@@ -80,6 +81,20 @@ export const usersSelectors = {
 	selectUserById: userAdapterSelectors.selectById,
 	selectUsers: userAdapterSelectors.selectEntities,
 };
+usersSelectors.selectUsersWith = createSelector(
+	[
+		usersSelectors.selectUsers,
+		( state, additionalUser = {} ) => additionalUser,
+	],
+	( users, additionalUser ) => {
+		// Valid ID and not already existing?
+		if ( additionalUser?.id && ! users[ additionalUser.id ] ) {
+			// Add the additional user.
+			return { ...users, [ additionalUser.id ]: { ...additionalUser } };
+		}
+		return users;
+	}
+);
 
 export const usersActions = {
 	...usersSlice.actions,

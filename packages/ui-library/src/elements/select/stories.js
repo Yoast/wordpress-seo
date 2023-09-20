@@ -1,9 +1,12 @@
-import { useState, useCallback } from "@wordpress/element";
-import Select from ".";
+import { useCallback, useState } from "@wordpress/element";
+import { noop, map } from "lodash";
+import { VALIDATION_VARIANTS } from "../validation/constants";
+import Select, { StoryComponent } from ".";
+import { component, optionsProp, childrenProp, validation } from "./docs";
 
 export default {
-	title: "1. Elements/Select",
-	component: Select,
+	title: "1) Elements/Select",
+	component: StoryComponent,
 	argTypes: {
 		children: { control: "text" },
 		labelSuffix: { control: "text" },
@@ -11,23 +14,35 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple select component.",
+				component,
 			},
 		},
 	},
 };
+const options = [
+	{ value: "1", label: "Option 1" },
+	{ value: "2", label: "Option 2" },
+	{ value: "3", label: "Option 3" },
+	{ value: "4", label: "Option 4" },
+];
 
 const Template = ( args ) => {
 	const [ value, setValue ] = useState( args.value || "" );
-	const handleChange = useCallback( setValue, [ setValue ] );
+	const [ selectedLabel, setSelectedLabel ] = useState( value ? options.find( option => option.value === value ).label : "" );
+	const handleChange = useCallback( ( val ) => {
+		const selected = options.find( option => option.value === val );
+		setSelectedLabel( selected.label );
+		setValue( val );
+	}, [ setValue ] );
 
 	return (
 		// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<Select { ...args } value={ value } onChange={ handleChange } />
+			<StoryComponent { ...args } value={ value } onChange={ handleChange } selectedLabel={ selectedLabel } />
 		</div>
 	);
 };
+
 
 export const Factory = Template.bind( {} );
 Factory.parameters = {
@@ -37,6 +52,17 @@ Factory.parameters = {
 Factory.args = {
 	id: "select",
 	value: "1",
+	selectedLabel: "Option 1",
+	children: options.map( option => <Select.Option key={ option.value } { ...option } /> ),
+
+};
+
+export const OptionsProp = Template.bind( {} );
+OptionsProp.args = {
+	id: "select-field-4",
+	name: "name-4",
+	value: "3",
+	label: "Select field with a options as array",
 	options: [
 		{ value: "1", label: "Option 1" },
 		{ value: "2", label: "Option 2" },
@@ -44,13 +70,54 @@ Factory.args = {
 		{ value: "4", label: "Option 4" },
 	],
 };
-
-export const States = Template.bind( {} );
-States.args = {
-	id: "select",
-	value: "1",
-	isError: true,
-	options: [
-		{ value: "1", label: "With error" },
-	],
+OptionsProp.storyName = "Options prop";
+OptionsProp.parameters = {
+	docs: { description: { story: optionsProp } },
 };
+
+export const ChildrenProp = Template.bind( {} );
+ChildrenProp.storyName = "Children prop";
+ChildrenProp.args = {
+	id: "select-field-5",
+	name: "name-5",
+	value: "3",
+	label: "Select field with options as exposed React components",
+	children: options.map( option => <Select.Option key={ option.value } { ...option } /> ),
+};
+
+
+ChildrenProp.parameters = {
+	docs: { description: { story: childrenProp } },
+};
+
+export const Validation = () => (
+	<div className="yst-space-y-8">
+		{ map( VALIDATION_VARIANTS, variant => (
+			<StoryComponent
+				key={ variant }
+				id={ `validation-${ variant }` }
+				name={ `validation-${ variant }` }
+				label={ `With validation of variant ${ variant }` }
+				value="The quick brown fox jumps over the lazy dog"
+				onChange={ noop }
+				options={ [
+					{ value: "1", label: "Option 1" },
+					{ value: "2", label: "Option 2" },
+					{ value: "3", label: "Option 3" },
+					{ value: "4", label: "Option 4" },
+				] }
+				validation={ {
+					variant,
+					message: {
+						success: "Looks like you are nailing it!",
+						warning: "Looks like you could do better!",
+						info: <>Looks like you could use some <a href="https://yoast.com" target="_blank" rel="noreferrer">more info</a>!</>,
+						error: "Looks like you are doing it wrong!",
+					}[ variant ],
+				} }
+			/>
+		) ) }
+	</div>
+);
+
+Validation.parameters = { docs: { description: { story: validation } } };

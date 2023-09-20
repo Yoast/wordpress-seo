@@ -1,32 +1,28 @@
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import TextCompetingLinksAssessment from "../../../../src/scoring/assessments/seo/TextCompetingLinksAssessment";
 import Paper from "../../../../src/values/Paper";
-import Factory from "../../../specHelpers/factory";
+import buildTree from "../../../specHelpers/parse/buildTree";
+
+const morphologyData = getMorphologyData( "en" );
 
 describe( "An assessment for competing links in the text", function() {
 	it( "returns a 'bad' score if a paper is referring to another paper with the same keyword", function() {
-		const paper = new Paper( "This is a very interesting paper", { keyword: "some keyword" } );
+		const attributes = {
+			keyword: "keyword",
+			permalink: "http://example.org/keyword",
+		};
+
+		const paper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>keywords</a>", attributes );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		buildTree( paper, researcher );
+
 		const result = new TextCompetingLinksAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher(
-				{
-					total: 0,
-					totalNaKeyword: 0,
-					keyword: {
-						totalKeyword: 1,
-						matchedAnchors: [],
-					},
-					internalTotal: 0,
-					internalDofollow: 0,
-					internalNofollow: 0,
-					externalTotal: 0,
-					externalDofollow: 0,
-					externalNofollow: 0,
-					otherTotal: 0,
-					otherDofollow: 0,
-					otherNofollow: 0,
-				}
-			),
+			researcher
 		);
 
 		expect( result.getScore() ).toBe( 2 );

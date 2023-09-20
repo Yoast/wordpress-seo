@@ -25,14 +25,14 @@ const WebinarPromoNotification = ( {
 			alertKey="webinar-promo-notification"
 			store={ store }
 			id="webinar-promo-notification"
-			title={ __( "Get the most out of Yoast SEO", "wordpress-seo" ) }
+			title={ __( "Join our FREE webinar for SEO success", "wordpress-seo" ) }
 			image={ Image }
 			url={ url }
 			{ ...props }
 		>
-			{ __( "Want to optimize even further with the help of our SEO experts? Sign up for our free weekly webinar!", "wordpress-seo" ) }
+			{ __( "Feeling lost when it comes to optimizing your site for the search engines? Join our FREE webinar to gain the confidence that you need in order to start optimizing like a pro! You'll obtain the knowledge and tools to start effectively implementing SEO.", "wordpress-seo" ) }
 			&nbsp;<a href={ url } target="_blank" rel="noreferrer">
-				{ __( "Register now!", "wordpress-seo" ) }
+				{ __( "Sign up today!", "wordpress-seo" ) }
 			</a>
 		</PersistentDismissableNotification>
 	);

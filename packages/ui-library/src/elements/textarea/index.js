@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { forwardRef } from "@wordpress/element";
 
 /**
  * @param {boolean} [disabled=false] Whether the input is disabled.
@@ -7,13 +8,14 @@ import PropTypes from "prop-types";
  * @param {string} [className=""] CSS class.
  * @returns {JSX.Element} Textarea component.
  */
-const Textarea = ( {
+const Textarea = forwardRef( ( {
 	disabled,
 	rows,
 	className,
 	...props
-} ) => (
+}, ref ) => (
 	<textarea
+		ref={ ref }
 		disabled={ disabled }
 		rows={ rows }
 		className={ classNames(
@@ -23,14 +25,16 @@ const Textarea = ( {
 		) }
 		{ ...props }
 	/>
-);
+) );
 
-Textarea.propTypes = {
+const propTypes = {
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
 	cols: PropTypes.number,
 	rows: PropTypes.number,
 };
+
+Textarea.propTypes = propTypes;
 
 Textarea.defaultProps = {
 	className: "",
@@ -38,5 +42,11 @@ Textarea.defaultProps = {
 	cols: 20,
 	rows: 2,
 };
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Textarea { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Textarea.defaultProps;
+StoryComponent.displayName = "Textarea";
 
 export default Textarea;

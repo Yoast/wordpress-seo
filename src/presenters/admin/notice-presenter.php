@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Presenters\Admin;
 
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
@@ -84,12 +83,7 @@ class Notice_Presenter extends Abstract_Presenter {
 			$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 		}
 
-		if ( \YoastSEO()->classes->get( Indexables_Page_Conditional::class )->is_met() ) {
-			$this->asset_manager->enqueue_style( 'notifications-new' );
-		}
-		else {
-			$this->asset_manager->enqueue_style( 'notifications' );
-		}
+		$this->asset_manager->enqueue_style( 'notifications' );
 	}
 
 	/**

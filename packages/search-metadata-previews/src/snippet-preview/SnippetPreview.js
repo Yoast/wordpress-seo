@@ -4,13 +4,12 @@ import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
-import { parse } from "url";
 import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
 import { colors, angleLeft, angleRight } from "@yoast/style-guide";
 import { languageProcessing } from "yoastseo";
-import { getDirectionalStyle } from "@yoast/helpers";
+import { decodeHTML, getDirectionalStyle } from "@yoast/helpers";
 import { ScreenReaderText } from "@yoast/components";
 
 const {
@@ -32,17 +31,20 @@ import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
 // Was #1e0fbe
 const colorTitleDesktop         = "#1a0dab";
 const colorTitleMobile          = "#1558d6";
-const colorUrlBaseDesktop       = "#202124";
-const colorUrlRestDesktop       = "#5f6368";
-const colorUrlBaseMobile        = "#202124";
+const colorUrlBaseDesktop       = "#4d5156";
+const colorUrlRestDesktop       = "#4d5156";
+const colorUrlBaseMobile        = "#3c4043";
 const colorUrlRestMobile        = "#70757a";
 const colorDescriptionDesktop   = "#4d5156";
 const colorDescriptionMobile    = "#3c4043";
 // Changed to have 4.5:1 contrast.
-const colorGeneratedDescription = "4d5156";
+const colorGeneratedDescription = "#4d5156";
 // Was #70757f for both desktop and mobile
 const colorDateDesktop          = "#777";
 const colorDateMobile           = "#70757a";
+
+const colorVerticalDotsDesktop  = "#4d5156";
+const colorVerticalDotsMobile   = "#70757a";
 
 // Font sizes and line-heights.
 const fontSizeTitleMobile    = "20px";
@@ -58,10 +60,14 @@ const fontSizeUrlDesktop     = "14px";
 const lineHeightUrlDesktop   = "1.3";
 
 
-const MAX_WIDTH         = 600;
-const MAX_WIDTH_MOBILE  = 400;
-const WIDTH_PADDING     = 20;
-const DESCRIPTION_LIMIT = 156;
+const MAX_WIDTH                 = 600;
+const MAX_WIDTH_MOBILE          = 400;
+const WIDTH_PADDING             = 20;
+const DESCRIPTION_LIMIT         = 156;
+const DESKTOP_BREADCRUMBS_LIMIT = 240;
+const MOBILE_BREADCRUMBS_LIMIT  = 100;
+const MOBILE_SITENAME_LIMIT     = "300px";
+
 
 const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: #fff;
@@ -131,6 +137,16 @@ const TitleBounded = styled( Title )`
 	text-overflow: ellipsis;
 `;
 
+const BreacrumbsContainer = styled.span`
+	display: inline-block;
+	max-width: ${ props => props.screenMode === MODE_DESKTOP ? DESKTOP_BREADCRUMBS_LIMIT : MOBILE_BREADCRUMBS_LIMIT }px;
+	overflow: hidden;
+	vertical-align: top;
+
+	text-overflow: ellipsis;
+	margin-left: 4px;
+`;
+
 const TitleUnboundedDesktop = styled.span`
 	white-space: nowrap;
 `;
@@ -148,30 +164,49 @@ const BaseUrl = styled.div`
 	display: inline-block;
 	cursor: pointer;
 	position: relative;
-	max-width: 90%;
+	width: calc( 100% + 7px );
 	white-space: nowrap;
 	font-size: 14px;
+	line-height: 16px;
 	vertical-align: top;
 `;
+BaseUrl.displayName = "BaseUrl";
 
 const BaseUrlOverflowContainer = styled( BaseUrl )`
+	display: flex;
+	align-items: center;
 	overflow: hidden;
+	justify-content: space-between;
 	text-overflow: ellipsis;
 	max-width: 100%;
-	margin-bottom: ${ props => props.screenMode === MODE_DESKTOP ? "0" : "12px" };
+	margin-bottom: 12px;
 	padding-top: 1px;
-	line-height: ${ props => props.screenMode === MODE_DESKTOP ? "1.5" : "20px" };
-	vertical-align: ${ props => props.screenMode === MODE_DESKTOP ? "baseline" : "top" };
+	line-height: 20px;
+	vertical-align: bottom;
 `;
+BaseUrlOverflowContainer.displayName = "BaseUrlOverflowContainer";
 
 const UrlContentContainer = styled.span`
 	font-size: ${ props => props.screenMode === MODE_DESKTOP ? fontSizeUrlDesktop : fontSizeUrlMobile };
 	line-height: ${ props => props.screenMode === MODE_DESKTOP ? lineHeightUrlDesktop : lineHeightUrlMobile };
-	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlRestDesktop : colorUrlRestMobile };
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlBaseDesktop : colorUrlBaseMobile };
+	flex-grow: 1;
 `;
 
 const UrlBaseContainer = styled.span`
-	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlBaseDesktop : colorUrlBaseMobile };
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlRestDesktop : colorUrlRestMobile };
+`;
+
+const FaviconContainer = styled.div`
+width: 28px;
+height: 28px;
+margin-right: 12px;
+border-radius: 50px;
+display: flex;
+align-items: center;
+justify-content: center;
+background: #f1f3f4;
+min-width: 28px;
 `;
 
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
@@ -189,9 +224,9 @@ const DesktopDescription = styled.div`
 const MobileDescription = styled.div`
 	color: ${ colorDescriptionMobile };
 	font-size: 14px;
-	line-height: 20px;
 	cursor: pointer;
 	position: relative;
+	line-height: 1.4;
 	max-width: ${ MAX_WIDTH }px;
 
 	/* Clearing pseudo element to contain the floated image. */
@@ -229,17 +264,24 @@ const MobilePartContainer = styled.div`
 	}
 `;
 
+const SiteName = styled.div`
+	line-height: 18x; 
+	font-size: 14px; 
+	color: black;
+	max-width: ${ props => props.screenMode === MODE_DESKTOP ? "100%" : MOBILE_SITENAME_LIMIT };
+	overflow: hidden;
+`;
+
+
 const DesktopPartContainer = styled.div`
 `;
 
-const UrlDownArrow = styled.div`
+const VerticalDotsContainer = styled.span`
 	display: inline-block;
-	margin-top: 9px;
-	margin-left: 6px;
-	border-top: 5px solid #70757a;
-	border-right: 4px solid transparent;
-	border-left: 4px solid transparent;
-	vertical-align: top;
+	height: 18px;
+	line-height: 18px;
+	padding-left: 8px;
+	vertical-align:bottom;
 `;
 
 const DatePreview = styled.span`
@@ -259,9 +301,9 @@ const globeFaviconSrc = "data:image/png;base64," +
 	"TkSuQmCC";
 
 const Favicon = styled.img`
-	width: 16px;
-	height: 16px;
-	margin-right: 12px;
+	width: 18px;
+	height: 18px;
+	margin: 0 5px;
 	vertical-align: middle;
 `;
 
@@ -287,6 +329,20 @@ const Amp = styled.div`
 	margin-right: 6px;
 	background-image: url( ${ ampLogo } );
 `;
+
+/**
+ * Try `decodeURI` on a string.
+ *
+ * @param {string} uri The part maybe needing decoding.
+ * @returns {string} The decoded URI or the same URI.
+ */
+const tryDecodeUri = ( uri ) => {
+	try {
+		return decodeURI( uri );
+	} catch ( e ) {
+		return uri;
+	}
+};
 
 /**
  * Highlights a keyword with strong React elements.
@@ -338,6 +394,30 @@ function highlightWords( locale, wordsToHighlight, text, cleanText ) {
 		components: { strong: <strong /> },
 	} );
 }
+
+/**
+ * Renders Google vertical dots.
+ *
+ * @param {string} fillColor The color to render the vertical dots in.
+ *
+ * @returns {ReactComponent} The vertical dots.
+ */
+const VerticalDots = ( { screenMode } ) => {
+	/* eslint-disable max-len */
+	return <svg
+		xmlns="http://www.w3.org/2000/svg"
+		viewBox="0 0 24 24"
+		fill={ screenMode === MODE_DESKTOP ? colorVerticalDotsDesktop : colorVerticalDotsMobile }
+		style={ { width: "18px" } }
+	>
+		<path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+	</svg>;
+	/* eslint-enable max-len */
+};
+
+VerticalDots.propTypes = {
+	screenMode: PropTypes.string.isRequired,
+};
 
 /**
  * The snippet preview class.
@@ -528,25 +608,30 @@ export default class SnippetPreview extends PureComponent {
 	/**
 	 * Returns the breadcrumbs string to be rendered.
 	 *
-	 * @param {string} url The url to use to build the breadcrumbs.
+	 * @param {string} urlInputString The url to use to build the breadcrumbs.
 	 *
 	 * @returns {{hostname: string, breadcrumbs: string}} An Object with the hostPart and the breadcrumbs.
 	 */
-	getBreadcrumbs( url ) {
+	getBreadcrumbs( urlInputString ) {
 		const { breadcrumbs } = this.props;
-		/*
-		 * Strip out question mark and hash characters from the raw URL and percent-encode
-		 * characters that are not allowed in a URI.
-		 */
-		const cleanEncodedUrl = encodeURI( url.replace( /\?|#/g, "" ) );
+		const separator = " › ";
+		let url;
 
-		const { hostname, pathname } = parse( cleanEncodedUrl );
+		try {
+			url = new URL( urlInputString );
+		} catch ( e ) {
+			return { hostname: urlInputString, breadcrumbs: "" };
+		}
 
-		const urlParts = breadcrumbs || pathname.split( "/" );
+		const hostname = tryDecodeUri( url.hostname );
+		let crumbs = breadcrumbs || url.pathname.split( "/" );
+		// Decode per part instead of all or nothing; In case one part fails.
+		crumbs = crumbs.filter( part => Boolean( part ) ).map( part => tryDecodeUri( part ) );
 
-		const breadCrumbs = " › " + urlParts.filter( part => !! part ).join( " › " );
-
-		return { hostname: decodeURI( hostname ), breadcrumbs: decodeURI( breadCrumbs ) };
+		return {
+			hostname,
+			breadcrumbs: separator + crumbs.join( separator ),
+		};
 	}
 
 	/**
@@ -562,19 +647,12 @@ export default class SnippetPreview extends PureComponent {
 			onMouseLeave,
 			mode,
 			faviconSrc,
+			siteName,
 		} = this.props;
 
 		const isMobileMode = mode === MODE_MOBILE;
 
-		/*
-		 * We need to replace special characters and diacritics only on the url
-		 * string because when highlightWords kicks in, interpolateComponents
-		 * returns an array of strings plus a strong React element, and replace()
-		 * can't run on an array.
-		 */
-		const urlContent = replaceSpecialCharactersAndDiacritics( url );
-
-		const { hostname, breadcrumbs } = this.getBreadcrumbs( urlContent );
+		const { hostname, breadcrumbs } = this.getBreadcrumbs( url );
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
 		/*
@@ -593,13 +671,18 @@ export default class SnippetPreview extends PureComponent {
 					onMouseLeave={ onMouseLeave.bind( null ) }
 					screenMode={ mode }
 				>
-					{ isMobileMode && <Favicon src={ faviconSrc || globeFaviconSrc } alt="" /> }
-					<UrlContentContainer
-						screenMode={ mode }
-					>
-						<UrlBaseContainer>{ hostname }</UrlBaseContainer>
-						{ breadcrumbs }
+					<FaviconContainer><Favicon src={ faviconSrc || globeFaviconSrc } alt="" /></FaviconContainer>
+					<UrlContentContainer screenMode={ mode }>
+						<SiteName screenMode={ mode }>{ siteName }</SiteName>
+						<UrlBaseContainer screenMode={ mode }>{ hostname }</UrlBaseContainer>
+						<BreacrumbsContainer screenMode={ mode }>
+							{ breadcrumbs }
+						</BreacrumbsContainer>
+						{ ! isMobileMode && <VerticalDotsContainer>
+							<VerticalDots screenMode={ mode } />
+						</VerticalDotsContainer> }
 					</UrlContentContainer>
+					{ isMobileMode && <VerticalDots screenMode={ mode } /> }
 				</BaseUrlOverflowContainer>
 			</Url>
 		</React.Fragment>;
@@ -742,15 +825,20 @@ export default class SnippetPreview extends PureComponent {
 			return null;
 		}
 
+		const safeShoppingData = {
+			availability: shoppingData.availability || "",
+			price: shoppingData.price ? decodeHTML( shoppingData.price ) : "",
+			rating: shoppingData.rating || 0,
+			reviewCount: shoppingData.reviewCount || 0,
+		};
+
 		if ( mode === MODE_DESKTOP ) {
 			return (
 				<PartContainer className="yoast-shopping-data-preview--desktop">
 					<ScreenReaderText>
 						{ __( "Shopping data preview:", "wordpress-seo" ) }
 					</ScreenReaderText>
-					<ProductDataDesktop
-						shoppingData={ shoppingData }
-					/>
+					<ProductDataDesktop shoppingData={ safeShoppingData } />
 				</PartContainer>
 			);
 		}
@@ -761,9 +849,7 @@ export default class SnippetPreview extends PureComponent {
 					<ScreenReaderText>
 						{ __( "Shopping data preview:", "wordpress-seo" ) }
 					</ScreenReaderText>
-					<ProductDataMobile
-						shoppingData={ shoppingData }
-					/>
+					<ProductDataMobile shoppingData={ safeShoppingData } />
 				</PartContainer>
 			);
 		}
@@ -793,7 +879,6 @@ export default class SnippetPreview extends PureComponent {
 		} = this.getPreparedComponents( mode );
 
 		const isDesktopMode = mode === MODE_DESKTOP;
-		const downArrow     = isDesktopMode ? <UrlDownArrow /> : null;
 		const amp           = isDesktopMode || ! isAmp ? null : <Amp />;
 
 		/*
@@ -815,7 +900,6 @@ export default class SnippetPreview extends PureComponent {
 				>
 					<PartContainer>
 						{ this.renderUrl() }
-						{ downArrow }
 						<ScreenReaderText>
 							{ __( "SEO title preview", "wordpress-seo" ) + ":" }
 						</ScreenReaderText>
@@ -874,6 +958,7 @@ export default class SnippetPreview extends PureComponent {
 SnippetPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
+	siteName: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
 	date: PropTypes.string,
 	breadcrumbs: PropTypes.array,

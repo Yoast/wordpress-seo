@@ -77,7 +77,6 @@ module.exports = function( grunt ) {
 				 */
 				yoastJsAnalysisReport: "<%= paths.languages %>yoast-js-analysis-report.pot",
 				yoastJsComponents: "<%= paths.languages %>yoast-js-components.pot",
-				yoastJsConfigurationWizard: "<%= paths.languages %>yoast-js-configuration-wizard.pot",
 				yoastJsHelpers: "<%= paths.languages %>yoast-js-helpers.pot",
 				yoastJsSearchMetadataPreviews: "<%= paths.languages %>yoast-js-search-metadata-previews.pot",
 				yoastJsSocialMetadataForms: "<%= paths.languages %>yoast-js-social-metadata-forms.pot",
@@ -85,7 +84,6 @@ module.exports = function( grunt ) {
 
 				yoastseojs: "<%= paths.languages %>yoast-seo-js.pot",
 				yoastComponents: "<%= paths.languages %>yoast-components.pot",
-				yoastComponentsConfigurationWizard: "<%= paths.languages %>yoast-components1.pot",
 				yoastComponentsRemaining: "gettext.pot",
 				wordpressSeoJs: "<%= paths.languages %>wordpress-seojs.pot",
 
@@ -141,13 +139,6 @@ module.exports = function( grunt ) {
 				postcss: "@lodder/grunt-postcss",
 				"update-version": "@yoast/grunt-plugin-tasks",
 				"set-version": "@yoast/grunt-plugin-tasks",
-				"update-changelog-with-latest-pr-texts": "@yoast/grunt-plugin-tasks",
-				"get-latest-pr-texts": "@yoast/grunt-plugin-tasks",
-				"update-changelog": "@yoast/grunt-plugin-tasks",
-				"build-qa-changelog": "@yoast/grunt-plugin-tasks",
-				"download-qa-changelog": "@yoast/grunt-plugin-tasks",
-				"extract-extra-pr-texts-from-yoast-cli-md": "@yoast/grunt-plugin-tasks",
-				"update-package-changelog": "@yoast/grunt-plugin-tasks",
 				"update-changelog-to-latest": "@yoast/grunt-plugin-tasks",
 				"register-prompt": "grunt-prompt",
 				"notify-slack": "notify-slack",

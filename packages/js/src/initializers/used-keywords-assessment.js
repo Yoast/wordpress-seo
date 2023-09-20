@@ -1,4 +1,4 @@
-import { get } from "lodash-es";
+import { get } from "lodash";
 
 import getL10nObject from "../analysis/getL10nObject";
 import UsedKeywords from "../analysis/usedKeywords";
@@ -25,11 +25,18 @@ export default function initializeUsedKeywords( refreshAnalysis, ajaxAction, sto
 		"used-keywords-assessment.js"
 	);
 
+	const nonce = get(
+		window,
+		[ "wpseoScriptData", "usedKeywordsNonce" ],
+		""
+	);
+
 	const usedKeywords = new UsedKeywords(
 		ajaxAction,
 		localizedData,
 		refreshAnalysis,
-		scriptUrl
+		scriptUrl,
+		nonce
 	);
 	usedKeywords.init();
 

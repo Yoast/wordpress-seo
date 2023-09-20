@@ -73,9 +73,7 @@ class Comment_Link_Fixer_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		$this->instance
-			->expects( 'has_replytocom_parameter' )
-			->andReturnTrue();
+		$_GET['replytocom'] = 'true';
 
 		$this->instance->register_hooks();
 
@@ -84,6 +82,42 @@ class Comment_Link_Fixer_Test extends TestCase {
 		$this->assertNotFalse( \has_filter( 'comment_reply_link', [ $this->instance, 'remove_reply_to_com' ] ) );
 		$this->assertNotFalse( \has_action( 'template_redirect', [ $this->instance, 'replytocom_redirect' ] ) );
 		$this->assertNotFalse( \has_filter( 'wpseo_robots_array', [ $this->robots, 'set_robots_no_index' ] ) );
+	}
+
+	/**
+	 * Tests the registration of the hooks when the replytocom GET parameter is null.
+	 *
+	 * @covers ::__construct
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks_replytocom_null() {
+		$_GET['replytocom'] = null;
+
+		$this->instance->register_hooks();
+
+		\add_filter( 'wpseo_remove_reply_to_com', '__return_false' );
+
+		$this->assertNotFalse( \has_filter( 'comment_reply_link', [ $this->instance, 'remove_reply_to_com' ] ) );
+		$this->assertNotFalse( \has_action( 'template_redirect', [ $this->instance, 'replytocom_redirect' ] ) );
+		$this->assertNotTrue( \has_filter( 'wpseo_robots_array', [ $this->robots, 'set_robots_no_index' ] ) );
+	}
+
+	/**
+	 * Tests the registration of the hooks when the replytocom GET parameter is not a string.
+	 *
+	 * @covers ::__construct
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks_replytocom_non_string() {
+		$_GET['replytocom'] = 5;
+
+		$this->instance->register_hooks();
+
+		\add_filter( 'wpseo_remove_reply_to_com', '__return_false' );
+
+		$this->assertNotFalse( \has_filter( 'comment_reply_link', [ $this->instance, 'remove_reply_to_com' ] ) );
+		$this->assertNotFalse( \has_action( 'template_redirect', [ $this->instance, 'replytocom_redirect' ] ) );
+		$this->assertNotTrue( \has_filter( 'wpseo_robots_array', [ $this->robots, 'set_robots_no_index' ] ) );
 	}
 
 	/**

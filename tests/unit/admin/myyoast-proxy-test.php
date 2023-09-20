@@ -49,6 +49,94 @@ class MyYoast_Proxy_Test extends TestCase {
 	}
 
 	/**
+	 * Test get_plugin_version.
+	 *
+	 * @covers ::get_plugin_version
+	 */
+	public function test_get_plugin_version() {
+		$instance               = new MyYoast_Proxy_Double();
+		$_GET['plugin_version'] = '19.11';
+		$this->assertEquals( '19.11', $instance->get_plugin_version() );
+	}
+
+	/**
+	 * Test get_plugin_version when plugin_version is not set.
+	 *
+	 * @covers ::get_plugin_version
+	 */
+	public function test_get_plugin_version_not_set() {
+		$instance               = new MyYoast_Proxy_Double();
+		$_GET['plugin_version'] = null;
+		$this->assertEquals( '', $instance->get_plugin_version() );
+	}
+
+	/**
+	 * Test get_plugin_version when plugin_version includes slashes.
+	 *
+	 * @covers ::get_plugin_version
+	 */
+	public function test_get_plugin_version_with_slashes() {
+		$instance               = new MyYoast_Proxy_Double();
+		$_GET['plugin_version'] = '19/11';
+		$this->assertEquals( '19_11', $instance->get_plugin_version() );
+	}
+
+	/**
+	 * Test get_proxy_file.
+	 *
+	 * @covers ::get_proxy_file
+	 */
+	public function test_get_proxy_file() {
+		$instance     = new MyYoast_Proxy_Double();
+		$_GET['file'] = 'this_is_a_file';
+		$this->assertEquals( 'this_is_a_file', $instance->get_proxy_file() );
+	}
+
+	/**
+	 * Test get_proxy_file when file is not set.
+	 *
+	 * @covers ::get_proxy_file
+	 */
+	public function test_get_proxy_file_not_set() {
+		$instance     = new MyYoast_Proxy_Double();
+		$_GET['file'] = null;
+		$this->assertEquals( '', $instance->get_proxy_file() );
+	}
+
+	/**
+	 * Test is_proxy_page.
+	 *
+	 * @covers ::is_proxy_page
+	 */
+	public function test_is_proxy_page() {
+		$instance     = new MyYoast_Proxy_Double();
+		$_GET['page'] = 'wpseo_myyoast_proxy';
+		$this->assertEquals( true, $instance->is_proxy_page() );
+	}
+
+	/**
+	 * Test is_proxy_page when page is not set.
+	 *
+	 * @covers ::is_proxy_page
+	 */
+	public function test_is_proxy_page_not_set() {
+		$instance     = new MyYoast_Proxy_Double();
+		$_GET['page'] = null;
+		$this->assertEquals( false, $instance->is_proxy_page() );
+	}
+
+	/**
+	 * Test is_proxy_page when page is not equal to the proxy page.
+	 *
+	 * @covers ::is_proxy_page
+	 */
+	public function test_is_proxy_page_wrong_page() {
+		$instance     = new MyYoast_Proxy_Double();
+		$_GET['page'] = 'wpseo_some_other_page';
+		$this->assertEquals( false, $instance->is_proxy_page() );
+	}
+
+	/**
 	 * Tests the rendering of the proxy page for an unknown file.
 	 *
 	 * @covers ::render_proxy_page

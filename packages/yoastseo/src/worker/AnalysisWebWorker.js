@@ -1,12 +1,11 @@
+/* eslint-disable max-statements,complexity */
 // External dependencies.
-import { autop } from "@wordpress/autop";
 import { enableFeatures } from "@yoast/feature-flag";
 import { __, setLocaleData, sprintf } from "@wordpress/i18n";
 import { forEach, has, includes, isEmpty, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash-es";
 import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
-import * as assessments from "../scoring/assessments";
 import SEOAssessor from "../scoring/seoAssessor";
 import ContentAssessor from "../scoring/contentAssessor";
 import TaxonomyAssessor from "../scoring/taxonomyAssessor";
@@ -14,13 +13,17 @@ import TaxonomyAssessor from "../scoring/taxonomyAssessor";
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
 import RelatedKeywordAssessor from "../scoring/relatedKeywordAssessor";
-import removeHtmlBlocks from "../languageProcessing/helpers/html/htmlParser";
+import InclusiveLanguageAssessor from "../scoring/inclusiveLanguageAssessor";
+
+import { build } from "../parse/build";
+import LanguageProcessor from "../parse/language/LanguageProcessor";
 
 // Internal dependencies.
 import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
 import CornerstoneRelatedKeywordAssessor from "../scoring/cornerstone/relatedKeywordAssessor";
 import CornerstoneSEOAssessor from "../scoring/cornerstone/seoAssessor";
 import InvalidTypeError from "../errors/invalidType";
+import MissingArgumentError from "../errors/missingArgument";
 import includesAny from "../helpers/includesAny";
 import { configureShortlinker } from "../helpers/shortlinker";
 import RelatedKeywordTaxonomyAssessor from "../scoring/relatedKeywordTaxonomyAssessor";
@@ -55,13 +58,12 @@ export default class AnalysisWebWorker {
 		this._configuration = {
 			contentAnalysisActive: true,
 			keywordAnalysisActive: true,
+			inclusiveLanguageAnalysisActive: false,
 			useCornerstone: false,
 			useTaxonomy: false,
-			useKeywordDistribution: false,
 			// The locale used for language-specific configurations in Flesch-reading ease and Sentence length assessments.
 			locale: "en_US",
 			customAnalysisType: "",
-			useWordComplexity: false,
 		};
 
 		this._scheduler = new Scheduler();
@@ -77,6 +79,8 @@ export default class AnalysisWebWorker {
 
 		this.additionalAssessors = {};
 
+		this._inclusiveLanguageOptions = {};
+
 		/*
 		 * The cached analyses results.
 		 *
@@ -89,7 +93,7 @@ export default class AnalysisWebWorker {
 		 * {Object} 				seo         		SEO assessor results, per keyword identifier or empty string for the main.
 		 * {Object} 				seo[ "" ]  			The result of the paper analysis for the main keyword.
 		 * {Object} 				seo[ key ]  		Same as above, but instead for a related keyword.
-		 * {Object} 				inclusive_language 	Inclusive language assessor results.
+		 * {Object} 				inclusiveLanguage 	Inclusive language assessor results.
 		 */
 		this._results = {
 			readability: {
@@ -101,6 +105,10 @@ export default class AnalysisWebWorker {
 					results: [],
 					score: 0,
 				},
+			},
+			inclusiveLanguage: {
+				results: [],
+				score: 0,
 			},
 		};
 		this._registeredAssessments = [];
@@ -126,6 +134,9 @@ export default class AnalysisWebWorker {
 		this.setCustomCornerstoneRelatedKeywordAssessorClass = this.setCustomCornerstoneRelatedKeywordAssessorClass.bind( this );
 		this.registerAssessor = this.registerAssessor.bind( this );
 		this.registerResearch = this.registerResearch.bind( this );
+		this.registerHelper = this.registerHelper.bind( this );
+		this.registerResearcherConfig = this.registerResearcherConfig.bind( this );
+		this.setInclusiveLanguageOptions = this.setInclusiveLanguageOptions.bind( this );
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
@@ -251,6 +262,17 @@ export default class AnalysisWebWorker {
 		this._CustomCornerstoneRelatedKeywordAssessorClasses[ customAnalysisType ] = CornerstoneRelatedKeywordAssessorClass;
 		this._CustomCornerstoneRelatedKeywordAssessorOptions[ customAnalysisType ] = customAssessorOptions;
 		this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
+	}
+
+	/**
+	 * Sets the options to use for the Inclusive language analysis.
+	 *
+	 * @param {{infoLinks: {}}} options The options to use.
+	 *
+	 * @returns {void}
+	 */
+	setInclusiveLanguageOptions( options ) {
+		this._inclusiveLanguageOptions = options;
 	}
 
 	/**
@@ -395,13 +417,10 @@ export default class AnalysisWebWorker {
 	 * @returns {null|Assessor} The chosen content assessor.
 	 */
 	createContentAssessor() {
-		let wordComplexity = new assessments.readability.WordComplexityAssessment();
-
 		const {
 			contentAnalysisActive,
 			useCornerstone,
 			customAnalysisType,
-			useWordComplexity,
 		} = this._configuration;
 
 		if ( contentAnalysisActive === false ) {
@@ -420,6 +439,13 @@ export default class AnalysisWebWorker {
 					this._researcher,
 					this._CustomCornerstoneContentAssessorOptions[ customAnalysisType ] )
 				: new CornerstoneContentAssessor( this._researcher );
+
+			// Add the readability assessment for cornerstone content to the cornerstone content assessor.
+			this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
+				if ( isUndefined( assessor.getAssessment( name ) ) && type === "cornerstoneReadability" ) {
+					assessor.addAssessment( name, assessment );
+				}
+			} );
 		} else {
 			/*
 			 * For non-cornerstone content, use a custom SEO assessor if available,
@@ -430,26 +456,14 @@ export default class AnalysisWebWorker {
 					this._researcher,
 					this._CustomContentAssessorOptions[ customAnalysisType ] )
 				: new ContentAssessor( this._researcher );
-		}
 
-		if ( useWordComplexity && isUndefined( assessor.getAssessment( "wordComplexity" ) ) ) {
-			if ( useCornerstone === true ) {
-				wordComplexity = new assessments.readability.WordComplexityAssessment( {
-					scores: {
-						acceptableAmount: 3,
-					},
-				} );
-				assessor.addAssessment( "wordComplexity", wordComplexity );
-			} else {
-				assessor.addAssessment( "wordComplexity", wordComplexity );
-			}
+			// Add the readability assessment for regular content to the regular content assessor.
+			this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
+				if ( isUndefined( assessor.getAssessment( name ) ) && type === "readability" ) {
+					assessor.addAssessment( name, assessment );
+				}
+			} );
 		}
-
-		this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
-			if ( isUndefined( assessor.getAssessment( name ) ) && type === "readability" ) {
-				assessor.addAssessment( name, assessment );
-			}
-		} );
 
 		return assessor;
 	}
@@ -460,11 +474,9 @@ export default class AnalysisWebWorker {
 	 * @returns {null|Assessor} The chosen SEO assessor.
 	 */
 	createSEOAssessor() {
-		const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 		const {
 			keywordAnalysisActive,
 			useCornerstone,
-			useKeywordDistribution,
 			useTaxonomy,
 			customAnalysisType,
 		} = this._configuration;
@@ -499,10 +511,6 @@ export default class AnalysisWebWorker {
 			}
 		}
 
-		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "keyphraseDistribution" ) ) ) {
-			assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
-		}
-
 		this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
 			if ( isUndefined( assessor.getAssessment( name ) ) && type === "seo" ) {
 				assessor.addAssessment( name, assessment );
@@ -511,6 +519,22 @@ export default class AnalysisWebWorker {
 
 		return assessor;
 	}
+
+	/**
+	 * Initializes the appropriate inclusive language assessor.
+	 *
+	 * @returns {null|Assessor} The chosen inclusive language assessor.
+	 */
+	createInclusiveLanguageAssessor() {
+		const { inclusiveLanguageAnalysisActive } = this._configuration;
+
+		if ( inclusiveLanguageAnalysisActive === false ) {
+			return null;
+		}
+
+		return new InclusiveLanguageAssessor( this._researcher, this._inclusiveLanguageOptions );
+	}
+
 
 	/**
 	 * Initializes the appropriate SEO assessor for related keywords.
@@ -609,13 +633,15 @@ export default class AnalysisWebWorker {
 	 * @param {Object}   configuration          The configuration to check.
 	 * @param {Assessor} [contentAssessor=null] The content assessor.
 	 * @param {Assessor} [seoAssessor=null]     The SEO assessor.
+	 * @param {Assessor} [inclusiveLanguageAssessor=null] The inclusive language assessor.
 	 *
-	 * @returns {Object} Containing seo and readability with true or false.
+	 * @returns {Object} Containing seo, readability, and inclusiveLanguage with true or false.
 	 */
 	static shouldAssessorsUpdate(
 		configuration,
 		contentAssessor = null,
-		seoAssessor = null
+		seoAssessor = null,
+		inclusiveLanguageAssessor = null
 	) {
 		const readability = [
 			"contentAnalysisActive",
@@ -623,23 +649,28 @@ export default class AnalysisWebWorker {
 			"locale",
 			"translations",
 			"customAnalysisType",
-			"useWordComplexity",
 		];
 		const seo = [
 			"keywordAnalysisActive",
 			"useCornerstone",
 			"useTaxonomy",
-			"useKeywordDistribution",
 			"locale",
 			"translations",
 			"researchData",
 			"customAnalysisType",
 		];
+		const inclusiveLanguage = [
+			"inclusiveLanguageAnalysisActive",
+			"locale",
+			"translations",
+		];
+
 		const configurationKeys = Object.keys( configuration );
 
 		return {
 			readability: isNull( contentAssessor ) || includesAny( configurationKeys, readability ),
 			seo: isNull( seoAssessor ) || includesAny( configurationKeys, seo ),
+			inclusiveLanguage: isNull( inclusiveLanguageAssessor ) || includesAny( configurationKeys, inclusiveLanguage ),
 		};
 	}
 
@@ -652,7 +683,6 @@ export default class AnalysisWebWorker {
 	 * @param {boolean}  [configuration.keywordAnalysisActive]  Whether the keyword analysis is active.
 	 * @param {boolean}  [configuration.useCornerstone]         Whether the paper is cornerstone or not.
 	 * @param {boolean}  [configuration.useTaxonomy]            Whether the taxonomy assessor should be used.
-	 * @param {boolean}  [configuration.useKeywordDistribution] Whether the keyphraseDistribution assessment should run.
 	 * @param {string}   [configuration.locale]                 The locale used in the seo assessor.
 	 * @param {Object}   [configuration.translations]           The translation strings.
 	 * @param {Object}   [configuration.researchData]           Extra research data.
@@ -666,11 +696,18 @@ export default class AnalysisWebWorker {
 		const update = AnalysisWebWorker.shouldAssessorsUpdate(
 			configuration,
 			this._contentAssessor,
-			this._seoAssessor
+			this._seoAssessor,
+			this._inclusiveLanguageAssessor
 		);
 
-		if ( has( configuration, "translations.locale_data.wordpress-seo" ) ) {
-			setLocaleData( configuration.translations.locale_data[ "wordpress-seo" ], "wordpress-seo" );
+		if ( has( configuration, "translations" ) ) {
+			Object.values( configuration.translations ).forEach( translation => {
+				// Don't proceed if translation object is null or otherwise falsy.
+				if ( translation ) {
+					const { domain, locale_data: localeData } = translation;
+					setLocaleData( localeData[ domain ], domain );
+				}
+			} );
 		}
 
 		if ( has( configuration, "researchData" ) ) {
@@ -722,11 +759,30 @@ export default class AnalysisWebWorker {
 			 */
 		}
 
+		if ( update.inclusiveLanguage ) {
+			this._inclusiveLanguageAssessor = this.createInclusiveLanguageAssessor();
+		}
+
 		// Reset the paper in order to not use the cached results on analyze.
 		this.clearCache();
 
 		this.send( "initialize:done", id );
 	}
+
+	/**
+	 * Registers a custom assessor.
+	 *
+	 * @param {string} name The name of the assessor.
+	 * @param {Function} AssessorClass The assessor class to instantiate.
+	 * @param {Function} shouldUpdate Function that checks whether the assessor should update.
+	 *
+	 * @returns {void}
+	 */
+	registerAssessor( name, AssessorClass, shouldUpdate ) {
+		const assessor = new AssessorClass( this._researcher );
+		this.additionalAssessors[ name ] = { assessor, shouldUpdate };
+	}
+
 
 	/**
 	 * Register an assessment for a specific plugin.
@@ -739,6 +795,8 @@ export default class AnalysisWebWorker {
 	 * @returns {boolean} Whether registering the assessment was successful.
 	 */
 	registerAssessment( name, assessment, pluginName, type = "seo" ) {
+		const { useCornerstone } = this._configuration;
+
 		if ( ! isString( name ) ) {
 			throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName + ". Expected parameter `name` to be a string." );
 		}
@@ -762,6 +820,9 @@ export default class AnalysisWebWorker {
 		if ( this._contentAssessor !== null && type === "readability" ) {
 			this._contentAssessor.addAssessment( combinedName, assessment );
 		}
+		if ( this._contentAssessor !== null && type === "cornerstoneReadability" && useCornerstone ) {
+			this._contentAssessor.addAssessment( combinedName, assessment );
+		}
 		if ( this._relatedKeywordAssessor !== null && type === "relatedKeyphrase" ) {
 			this._relatedKeywordAssessor.addAssessment( combinedName, assessment );
 		}
@@ -770,20 +831,6 @@ export default class AnalysisWebWorker {
 		this.refreshAssessment( name, pluginName );
 
 		return true;
-	}
-
-	/**
-	 * Registers a custom assessor.
-	 *
-	 * @param {string} name The name of the assessor.
-	 * @param {Function} AssessorClass The assessor class to instantiate.
-	 * @param {Function} shouldUpdate Function that checks whether the assessor should update.
-	 *
-	 * @returns {void}
-	 */
-	registerAssessor( name, AssessorClass, shouldUpdate ) {
-		const assessor = new AssessorClass( this._researcher );
-		this.additionalAssessors[ name ] = { assessor, shouldUpdate };
 	}
 
 	/**
@@ -909,6 +956,45 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
+	 * Checks if the paper contains changes that are used for inclusive language analysis.
+	 *
+	 * @param {Paper} paper The paper to check against the cached paper.
+	 *
+	 * @returns {boolean} True if there are changes detected.
+	 */
+	shouldInclusiveLanguageUpdate( paper ) {
+		if ( this._paper === null ) {
+			return true;
+		}
+
+		if ( this._paper.getText() !== paper.getText() ) {
+			return true;
+		}
+
+		if ( this._paper.getTextTitle() !== paper.getTextTitle() ) {
+			return true;
+		}
+
+		return this._paper.getLocale() !== paper.getLocale();
+	}
+
+	/**
+	 * Updates the results for the inclusive language assessor.
+	 *
+	 * @param {boolean} shouldInclusiveLanguageUpdate Whether the results of the inclusive language assessor should be updated.
+	 * @returns {void}
+	 */
+	updateInclusiveLanguageAssessor( shouldInclusiveLanguageUpdate ) {
+		if ( this._configuration.inclusiveLanguageAnalysisActive && this._inclusiveLanguageAssessor && shouldInclusiveLanguageUpdate ) {
+			this._inclusiveLanguageAssessor.assess( this._paper );
+			this._results.inclusiveLanguage = {
+				results: this._inclusiveLanguageAssessor.results,
+				score: this._inclusiveLanguageAssessor.calculateOverallScore(),
+			};
+		}
+	}
+
+	/**
 	 * Checks if the related keyword contains changes that are used for seo.
 	 *
 	 * @param {string} key                     The identifier of the related keyword.
@@ -930,6 +1016,44 @@ export default class AnalysisWebWorker {
 		return this._relatedKeywords[ key ].synonyms !== synonyms;
 	}
 
+
+	/**
+	 * Checks whether the additional assessor should be updated.
+	 *
+	 * @param {Paper} paper The paper to check.
+	 * @returns {Object} An object containing the information whether each additional assessor needs to be updated.
+	 */
+	shouldAdditionalAssessorsUpdate( paper ) {
+		const shouldCustomAssessorsUpdate = {};
+		Object.keys( this.additionalAssessors ).forEach(
+			assessorName => {
+				shouldCustomAssessorsUpdate[ assessorName ] = this.additionalAssessors[ assessorName ].shouldUpdate( this._paper, paper );
+			}
+		);
+		return shouldCustomAssessorsUpdate;
+	}
+
+	/**
+	 * Updates the results for the additional assessor.
+	 *
+	 * @param {boolean} shouldCustomAssessorsUpdate Whether the results of the additional assessor should be updated.
+	 * @returns {void}
+	 */
+	updateAdditionalAssessors( shouldCustomAssessorsUpdate ) {
+		Object.keys( this.additionalAssessors ).forEach(
+			assessorName => {
+				const { assessor } = this.additionalAssessors[ assessorName ];
+				if ( ! this._results[ assessorName ] || shouldCustomAssessorsUpdate[ assessorName ] ) {
+					assessor.assess( this._paper );
+					this._results[ assessorName ] = {
+						results: assessor.results,
+						score: assessor.calculateOverallScore(),
+					};
+				}
+			}
+		);
+	}
+
 	/**
 	 * Runs analyses on a paper.
 	 *
@@ -946,37 +1070,19 @@ export default class AnalysisWebWorker {
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
 	async analyze( id, { paper, relatedKeywords = {} } ) {
-		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
-		paper._text = autop( paper._text );
-		paper._text = removeHtmlBlocks( paper._text );
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
-
-		const shouldCustomAssessorsUpdate = {};
-		Object.keys( this.additionalAssessors ).forEach(
-			assessorName => {
-				const shouldUpdate = this.additionalAssessors[ assessorName ].shouldUpdate( this._paper, paper );
-				shouldCustomAssessorsUpdate[ assessorName ] = shouldUpdate;
-			}
-		);
+		const shouldInclusiveLanguageUpdate = this.shouldInclusiveLanguageUpdate( paper );
+		const shouldCustomAssessorsUpdate = this.shouldAdditionalAssessorsUpdate( paper );
 
 		// Only set the paper and build the tree if the paper has any changes.
 		if ( paperHasChanges ) {
 			this._paper = paper;
 			this._researcher.setPaper( this._paper );
 
-			// Try to build the tree, for analysis using the tree assessors.
-			try {
-				/*
-				 * Disabled tree.
-				 * Please not that text here should be the `paper._text` before processing (e.g. autop and more).
-				 * this._tree = this._treeBuilder.build( text );
-				 */
-			} catch ( exception ) {
-				logger.debug( "Yoast SEO and readability analysis: " +
-							  "An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
-				this._tree = null;
-			}
+			const languageProcessor = new LanguageProcessor( this._researcher );
+
+			this._paper.setTree( build( this._paper.getText(), languageProcessor ) );
 
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
@@ -1026,19 +1132,9 @@ export default class AnalysisWebWorker {
 			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
-		Object.keys( this.additionalAssessors ).forEach(
-			assessorName => {
-				const { assessor } = this.additionalAssessors[ assessorName ];
-				if ( ! this._results[ assessorName ] || shouldCustomAssessorsUpdate[ assessorName ] ) {
-					assessor.assess( this._paper );
-					this._results[ assessorName ] = {
-						results: assessor.results,
-						score: assessor.calculateOverallScore(),
-					};
-				}
-			}
-		);
+		this.updateInclusiveLanguageAssessor( shouldInclusiveLanguageUpdate );
 
+		this.updateAdditionalAssessors( shouldCustomAssessorsUpdate );
 
 		return this._results;
 	}
@@ -1109,7 +1205,7 @@ export default class AnalysisWebWorker {
 
 		result.setScore( -1 );
 		result.setText( sprintf(
-			/* Translators: %1$s expands to the name of the assessment. */
+			/* translators: %1$s expands to the name of the assessment. */
 			__( "An error occurred in the '%1$s' assessment", "wordpress-seo" ),
 			assessment.name
 		) );
@@ -1267,9 +1363,18 @@ export default class AnalysisWebWorker {
 	 *
 	 * @param {string} name         The name of the research.
 	 * @param {function} research   The research function to add.
+	 *
 	 * @returns {void}
 	 */
 	registerResearch( name, research ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to register the custom research. Expected parameter `name` to be a string." );
+		}
+
+		if ( ! isObject( research ) ) {
+			throw new InvalidTypeError( "Failed to register the custom research. Expected parameter `research` to be a function." );
+		}
+
 		const researcher = this._researcher;
 
 		if ( ! researcher.hasResearch( name ) ) {
@@ -1296,6 +1401,12 @@ export default class AnalysisWebWorker {
 		if ( paper !== null ) {
 			researcher.setPaper( paper );
 			researcher.addResearchData( "morphology", morphologyData );
+
+			// Build and set the tree if it's not been set before.
+			if ( paper.getTree() === null ) {
+				const languageProcessor = new LanguageProcessor( researcher );
+				paper.setTree( build( paper.getText(), languageProcessor ) );
+			}
 		}
 
 		return researcher.getResearch( name );
@@ -1315,5 +1426,51 @@ export default class AnalysisWebWorker {
 			return;
 		}
 		this.send( "runResearch:done", id, result );
+	}
+
+	/**
+	 * Registers a custom helper to the researcher.
+	 *
+	 * @param {string} name       The name of the helper.
+	 * @param {function} helper   The helper function to add.
+	 *
+	 * @returns {void}
+	 */
+	registerHelper( name, helper ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to register the custom helper. Expected parameter `name` to be a string." );
+		}
+
+		if ( ! isObject( helper ) ) {
+			throw new InvalidTypeError( "Failed to register the custom helper. Expected parameter `helper` to be a function." );
+		}
+
+		const researcher = this._researcher;
+
+		if ( ! researcher.hasHelper( name ) ) {
+			researcher.addHelper( name, helper );
+		}
+	}
+
+	/**
+	 * Registers a configuration to the researcher.
+	 *
+	 * @param {string}  name                The name of the researcher configuration.
+	 * @param {*}       researcherConfig    The researcher configuration to add.
+	 *
+	 * @returns {void}
+	 */
+	registerResearcherConfig( name, researcherConfig ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to register the custom researcher config. Expected parameter `name` to be a string." );
+		}
+		if ( isUndefined( researcherConfig ) || isEmpty( researcherConfig ) ) {
+			throw new MissingArgumentError( "Failed to register the custom researcher config. Expected parameter `researcherConfig` to be defined." );
+		}
+		const researcher = this._researcher;
+
+		if ( ! researcher.hasConfig( name ) ) {
+			researcher.addConfig( name, researcherConfig );
+		}
 	}
 }

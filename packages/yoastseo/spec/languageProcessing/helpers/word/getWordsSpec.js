@@ -48,6 +48,24 @@ describe( "a test for getting words from a sentence", function() {
 		] );
 	} );
 
+	it( "doesn't remove punctuation when doRemovePunctuation is false.", () => {
+		const text = "A sentence with words. And some; punctuation.";
+		const words = getWords( text, false );
+
+		expect( words ).toEqual( [
+			"A",
+			"sentence",
+			"with",
+			"words",
+			".",
+			"And",
+			"some",
+			";",
+			"punctuation",
+			".",
+		] );
+	} );
+
 	it( "doesn't return non-breaking space &nbsp; in the result", () => {
 		const text = "<p>Sri Tandjung noted that Javanese had been eating cooked (native black) soybeans since the 12th&nbsp;century.</p>\n";
 

@@ -7,6 +7,8 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/fr
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/fr/config/twoPartTransitionWords";
 import stopWords from "../../../../src/languageProcessing/languages/fr/config/stopWords";
 import syllables from "../../../../src/languageProcessing/languages/fr/config/syllables.json";
+import checkIfWordIsComplex from "../../../../src/languageProcessing/languages/fr/helpers/checkIfWordIsComplex";
+import wordComplexityConfig from "../../../../src/languageProcessing/languages/fr/config/wordComplexity";
 const morphologyDataFR = getMorphologyData( "fr" );
 
 describe( "a test for the French Researcher", function() {
@@ -75,7 +77,8 @@ describe( "a test for the French Researcher", function() {
 	} );
 
 	it( "checks if a word is complex in French", function() {
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( "continuellement" ) ).toEqual( false );
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( "dictionnaire" ) ).toEqual( true );
+		researcher.addHelper( "checkIfWordIsComplex", checkIfWordIsComplex );
+
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "dictionnaire" ) ).toEqual( true );
 	} );
 } );

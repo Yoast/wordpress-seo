@@ -62,7 +62,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	public function __construct(
 		Configuration_Workout_Action $configuration_workout_action
 	) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.0' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.0' );
 	}
 
 	/**
@@ -74,7 +74,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function register_routes() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::register_routes' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::register_routes' );
 	}
 
 	/**
@@ -88,7 +88,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function set_site_representation( WP_REST_Request $request ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::set_site_representation' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::set_site_representation' );
 	}
 
 	/**
@@ -102,7 +102,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function set_social_profiles( WP_REST_Request $request ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::set_social_profiles' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::set_social_profiles' );
 	}
 
 	/**
@@ -116,7 +116,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function get_person_social_profiles( WP_REST_Request $request ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::get_person_social_profiles' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::get_person_social_profiles' );
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function set_person_social_profiles( WP_REST_Request $request ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::set_person_social_profiles' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::set_person_social_profiles' );
 	}
 
 	/**
@@ -144,7 +144,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function check_capability( WP_REST_Request $request ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::check_capability' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::check_capability' );
 	}
 
 	/**
@@ -158,7 +158,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function set_enable_tracking( WP_REST_Request $request ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::set_enable_tracking' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::set_enable_tracking' );
 	}
 
 	/**
@@ -170,7 +170,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	 * @return bool
 	 */
 	public function can_manage_options() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::can_manage_options' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::can_manage_options' );
 
 		return \current_user_can( 'wpseo_manage_options' );
 	}
@@ -183,6 +183,6 @@ class Configuration_Workout_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function can_edit_user( WP_REST_Request $request ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::can_edit_user' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.0', '\Yoast\WP\SEO\Routes\First_Time_Configuration_Route::can_edit_user' );
 	}
 }

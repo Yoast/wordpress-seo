@@ -23,46 +23,11 @@ class Integrations_Route implements Route_Interface {
 	const INTEGRATIONS_ROUTE = '/integrations';
 
 	/**
-	 * Represents a route to set the state of Semrush integration.
+	 * Represents a route to set the state of an integration.
 	 *
 	 * @var string
 	 */
-	const SET_SEMRUSH_ACTIVE_ROUTE = '/set_semrush_active';
-
-	/**
-	 * Represents a route to set the state of Wincher integration.
-	 *
-	 * @var string
-	 */
-	const SET_WINCHER_ACTIVE_ROUTE = '/set_wincher_active';
-
-	/**
-	 * Represents a route to set the state of Ryte integration.
-	 *
-	 * @var string
-	 */
-	const SET_RYTE_ACTIVE_ROUTE = '/set_ryte_active';
-
-	/**
-	 * Represents a route to set the state of WordProof integration.
-	 *
-	 * @var string
-	 */
-	const SET_WORDPROOF_ACTIVE_ROUTE = '/set_wordproof_active';
-
-	/**
-	 * Represents a route to set the state of Zapier integration.
-	 *
-	 * @var string
-	 */
-	const SET_ZAPIER_ACTIVE_ROUTE = '/set_zapier_active';
-
-	/**
-	 * Represents a route to set the state of Algolia integration.
-	 *
-	 * @var string
-	 */
-	const SET_ALGOLIA_ACTIVE_ROUTE = '/set_algolia_active';
+	const SET_ACTIVE_ROUTE = '/set_active';
 
 	/**
 	 *  The integrations action.
@@ -88,83 +53,22 @@ class Integrations_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function register_routes() {
-		$set_semrush_active_route = [
+		$set_active_route = [
 			'methods'             => 'POST',
-			'callback'            => [ $this, 'set_semrush_active' ],
+			'callback'            => [ $this, 'set_integration_active' ],
 			'permission_callback' => [ $this, 'can_manage_options' ],
 			'args'                => [
 				'active' => [
 					'type'     => 'boolean',
 					'required' => true,
 				],
-			],
-		];
-		\register_rest_route( Main::API_V1_NAMESPACE, self::INTEGRATIONS_ROUTE . self::SET_SEMRUSH_ACTIVE_ROUTE, $set_semrush_active_route );
-
-		$set_wincher_active_route = [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'set_wincher_active' ],
-			'permission_callback' => [ $this, 'can_manage_options' ],
-			'args'                => [
-				'active' => [
-					'type'     => 'boolean',
+				'integration' => [
+					'type'     => 'string',
 					'required' => true,
 				],
 			],
 		];
-		\register_rest_route( Main::API_V1_NAMESPACE, self::INTEGRATIONS_ROUTE . self::SET_WINCHER_ACTIVE_ROUTE, $set_wincher_active_route );
-
-		$set_ryte_active_route = [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'set_ryte_active' ],
-			'permission_callback' => [ $this, 'can_manage_options' ],
-			'args'                => [
-				'active' => [
-					'type'     => 'boolean',
-					'required' => true,
-				],
-			],
-		];
-		\register_rest_route( Main::API_V1_NAMESPACE, self::INTEGRATIONS_ROUTE . self::SET_RYTE_ACTIVE_ROUTE, $set_ryte_active_route );
-
-		$set_wordproof_active_route = [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'set_wordproof_active' ],
-			'permission_callback' => [ $this, 'can_manage_options' ],
-			'args'                => [
-				'active' => [
-					'type'     => 'boolean',
-					'required' => true,
-				],
-			],
-		];
-		\register_rest_route( Main::API_V1_NAMESPACE, self::INTEGRATIONS_ROUTE . self::SET_WORDPROOF_ACTIVE_ROUTE, $set_wordproof_active_route );
-
-		$set_zapier_active_route = [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'set_zapier_active' ],
-			'permission_callback' => [ $this, 'can_manage_options' ],
-			'args'                => [
-				'active' => [
-					'type'     => 'boolean',
-					'required' => true,
-				],
-			],
-		];
-		\register_rest_route( Main::API_V1_NAMESPACE, self::INTEGRATIONS_ROUTE . self::SET_ZAPIER_ACTIVE_ROUTE, $set_zapier_active_route );
-
-		$set_algolia_active_route = [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'set_algolia_active' ],
-			'permission_callback' => [ $this, 'can_manage_options' ],
-			'args'                => [
-				'active' => [
-					'type'     => 'boolean',
-					'required' => true,
-				],
-			],
-		];
-		\register_rest_route( Main::API_V1_NAMESPACE, self::INTEGRATIONS_ROUTE . self::SET_ALGOLIA_ACTIVE_ROUTE, $set_algolia_active_route );
+		\register_rest_route( Main::API_V1_NAMESPACE, self::INTEGRATIONS_ROUTE . self::SET_ACTIVE_ROUTE, $set_active_route );
 	}
 
 	/**
@@ -177,101 +81,20 @@ class Integrations_Route implements Route_Interface {
 	}
 
 	/**
-	 * Sets Semrush integration state.
+	 * Sets integration state.
 	 *
 	 * @param WP_REST_Request $request The request.
 	 *
 	 * @return WP_REST_Response
 	 */
-	public function set_semrush_active( WP_REST_Request $request ) {
+	public function set_integration_active( WP_REST_Request $request ) {
+		$params           = $request->get_json_params();
+		$integration_name = $params['integration'];
+		$value            = $params['active'];
+
 		$data = $this
 			->integrations_action
-			->set_integration_active( 'semrush', $request->get_json_params() );
-
-		return new WP_REST_Response(
-			[ 'json' => $data ]
-		);
-	}
-
-	/**
-	 * Sets Wincher integration state.
-	 *
-	 * @param WP_REST_Request $request The request.
-	 *
-	 * @return WP_REST_Response
-	 */
-	public function set_wincher_active( WP_REST_Request $request ) {
-		$data = $this
-			->integrations_action
-			->set_integration_active( 'wincher', $request->get_json_params() );
-
-		return new WP_REST_Response(
-			[ 'json' => $data ]
-		);
-	}
-
-	/**
-	 * Sets Ryte integration state.
-	 *
-	 * @param WP_REST_Request $request The request.
-	 *
-	 * @return WP_REST_Response
-	 */
-	public function set_ryte_active( WP_REST_Request $request ) {
-		$data = $this
-			->integrations_action
-			->set_integration_active( 'ryte', $request->get_json_params() );
-
-		return new WP_REST_Response(
-			[ 'json' => $data ]
-		);
-	}
-
-	/**
-	 * Sets WordProof integration state.
-	 *
-	 * @param WP_REST_Request $request The request.
-	 *
-	 * @return WP_REST_Response
-	 */
-	public function set_wordproof_active( WP_REST_Request $request ) {
-		$data = $this
-			->integrations_action
-			->set_integration_active( 'wordproof', $request->get_json_params() );
-
-		return new WP_REST_Response(
-			[ 'json' => $data ]
-		);
-	}
-
-	/**
-	 * Sets Zapier integration state.
-	 *
-	 * @param WP_REST_Request $request The request.
-	 *
-	 * @return WP_REST_Response
-	 */
-	public function set_zapier_active( WP_REST_Request $request ) {
-		$data = $this
-			->integrations_action
-			->set_integration_active( 'zapier', $request->get_json_params() );
-
-		return new WP_REST_Response(
-			[ 'json' => $data ]
-		);
-	}
-
-	/**
-	 * Sets Algolia integration state.
-	 *
-	 * @param WP_REST_Request $request The request.
-	 *
-	 * @return WP_REST_Response
-	 */
-	public function set_algolia_active( WP_REST_Request $request ) {
-		$data = $this
-			->integrations_action
-			->set_integration_active( 'algolia', $request->get_json_params() );
+			->set_integration_active( $integration_name, $value );
 
 		return new WP_REST_Response(
 			[ 'json' => $data ]

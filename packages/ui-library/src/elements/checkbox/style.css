@@ -6,6 +6,13 @@
 			yst-items-center;
 		}
 
+		.yst-checkbox--disabled {
+			.yst-checkbox__input,
+			.yst-checkbox__label {
+				@apply yst-opacity-50 yst-cursor-not-allowed;
+			}
+		}
+
 		.yst-checkbox__input {
 			@apply
 			yst-h-4

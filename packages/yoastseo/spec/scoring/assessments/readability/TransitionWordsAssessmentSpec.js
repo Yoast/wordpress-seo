@@ -101,6 +101,18 @@ describe( "An assessment for transition word percentage", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
+	it( "should match transition word in image caption", function() {
+		const paper = new Paper( "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
+			"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
+			"However, a cat with the toy looks happier. She is given raw food. Seniors don't like it.<br></br>\n" +
+			"</p>" );
+		const researcher = new EnglishResearcher( paper );
+		const result = new TransitionWordsAssessment().getResult( paper, researcher );
+
+		expect( result.getScore() ).toEqual( 9 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
+	} );
+
 	it( "is not applicable for empty papers", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
@@ -112,6 +124,26 @@ describe( "An assessment for transition word percentage", function() {
 			"Ut vim eius porro labore. Id quem civibus sit. Sed no primis urbanitas, aperiri laboramus voluptatibus ei per. Esse consul possim " +
 			"duo eu, eu duo natum ferri libris. Tritani percipit interpretaris ne ius. Mel prima definitionem eu, partem labores vim at. " +
 			"Prompta vivendum usu te. Indoctum philosophia definitiones usu ad, cum quodsi alienum et. " );
+		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
+		expect( assessment ).toBe( false );
+	} );
+
+	it( "is not applicable when the text is more than 200 words but the text is inside an element we want to exclude from the analysis", function() {
+		const mockPaper = new Paper( "<blockquote>Lorem ipsum dolor sit amet, ne sed agam oblique alterum. Eos percipit singulis no." +
+			" No scripta graecis cum. Ut vim eius porro labore. Id quem civibus sit. Sed no primis urbanitas, aperiri laboramus voluptatibus" +
+			" ei per. Esse consul possim duo eu, eu duo natum ferri libris. Tritani percipit interpretaris ne ius. Mel prima definitionem eu," +
+			" partem labores vim at. Prompta vivendum usu te. Indoctum philosophia definitiones usu ad, cum quodsi alienum et. " +
+			"Sumo civibus appareat est ea, in iriure euismod dolores mel. Mea scripta senserit maluisset ei." +
+			" Vel id mollis delicata constituam, laoreet scriptorem his cu, " +
+			"facilis accusam quaerendum nam in. Adversarium philosophia deterruisset duo at, augue postulant ut eos, usu ne iuvaret docendi. " +
+			"Iudicabit eloquentiam usu no. Vide volumus pri ne. Eos ignota timeam ponderum ei, an postea principes prodesset sit, " +
+			"purto blandit offendit pro an. Ei vim ludus veniam mnesarchum. Ne modus consul dolorem his, solum alienum eu nec. " +
+			"Mea legendos deserunt quaerendum te, fierent fabellas eu per. Ei sea accumsan fabellas signiferumque. Veri ludus aperiri his at, " +
+			"meis dicant impedit an qui. Est error offendit ex, at affert mediocrem interpretaris nam. Percipit persecuti et mel, persecuti " +
+			"inciderint signiferumque cu usu, an sit nemore nusquam. Brute iracundia sea ei, ad esse dictas aliquam est, prompta ceteros " +
+			"aliquando ne vix. Fabulas voluptua eu vel. Ceteros euripidis has cu. Pro ea esse ignota perfecto, ius noluisse liberavisse ei. " +
+			"Has possim mediocritatem in. Paulo alienum accusamus pro cu, magna labore sit ad. Sumo paulo sea in, cum te latine " +
+			"labores inciderint.</blockquote>" );
 		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
 		expect( assessment ).toBe( false );
 	} );
@@ -155,7 +187,7 @@ describe( "An assessment for transition word percentage", function() {
 } );
 
 describe( "A test for marking sentences containing a transition word", function() {
-	it( "returns markers for too long sentences", function() {
+	it( "returns markers for sentences containing transition words", function() {
 		const paper = new Paper( "This sentence is marked, because it contains a transition word." );
 		const transitionWords = Factory.buildMockResearcher( { sentenceResults: [ { sentence: "This sentence is marked, " +
 					"because it contains a transition word.", transitionWords: [ "because" ] } ] } );
@@ -171,5 +203,19 @@ describe( "A test for marking sentences containing a transition word", function(
 		const transitionWords = Factory.buildMockResearcher( { sentenceResults: [ ] } );
 		const expected = [];
 		expect( new TransitionWordsAssessment().getMarks( paper, transitionWords ) ).toEqual( expected );
+	} );
+
+	it( "returns markers for an image caption containing transition words", function() {
+		const paper = new Paper( "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
+			"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
+			"However, a cat with the toy looks happier. She is given raw food. Seniors don't like it.<br></br>\n" +
+			"</p>" );
+		const researcher = new EnglishResearcher( paper );
+		const expected = [
+			new Mark( {
+				original: "However, a cat with the toy looks happier.",
+				marked: "<yoastmark class='yoast-text-mark'>However, a cat with the toy looks happier.</yoastmark>" } ),
+		];
+		expect( new TransitionWordsAssessment().getMarks( paper, researcher ) ).toEqual( expected );
 	} );
 } );

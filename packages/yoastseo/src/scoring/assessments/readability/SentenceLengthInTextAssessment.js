@@ -148,7 +148,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	translateScore( score, percentage ) {
 		if ( score >= 7 ) {
 			return sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				__(
 					"%1$sSentence length%2$s: Great!",
 					"wordpress-seo"
@@ -159,7 +159,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 		}
 
 		return sprintf(
-			/* Translators: %1$s and %6$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
+			/* translators: %1$s and %6$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
 			%3$d expands to percentage of sentences, %4$s expands to the recommended maximum sentence length,
 			%5$s expands to the recommended maximum percentage, %7$s expands to the word 'words' or 'characters'. */
 			__(

@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
+use wpdb;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Watchers\Option_Titles_Watcher;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -123,7 +124,7 @@ class Option_Titles_Watcher_Test extends TestCase {
 	 * @covers ::delete_ancestors
 	 */
 	public function test_check_option_with_ancestors_being_removed() {
-		$wpdb         = Mockery::mock();
+		$wpdb         = Mockery::mock( wpdb::class );
 		$wpdb->prefix = 'wp_';
 
 		$wpdb
@@ -194,7 +195,7 @@ class Option_Titles_Watcher_Test extends TestCase {
 	 * @covers ::delete_ancestors
 	 */
 	public function test_check_option_with_ancestors_not_being_removed() {
-		$wpdb         = Mockery::mock();
+		$wpdb         = Mockery::mock( wpdb::class );
 		$wpdb->prefix = 'wp_';
 
 		$wpdb

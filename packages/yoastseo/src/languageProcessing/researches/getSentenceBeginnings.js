@@ -3,9 +3,8 @@ import getSentences from "../helpers/sentence/getSentences";
 import stripSpaces from "../helpers/sanitize/stripSpaces.js";
 import { stripFullTags as stripTags } from "../helpers/sanitize/stripHTMLTags.js";
 
-import { isEmpty } from "lodash-es";
-import { forEach } from "lodash-es";
-import { filter } from "lodash-es";
+import { filter, forEach, isEmpty } from "lodash-es";
+import removeHtmlBlocks from "../helpers/html/htmlParser";
 
 /**
  * Compares the first word of each sentence with the first word of the following sentence.
@@ -95,6 +94,7 @@ export default function( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
 	let text = paper.getText();
+	text = removeHtmlBlocks( text );
 
 	// Remove any HTML whitespace padding and replace it with a single whitespace.
 	text = text.replace( /[\s\n]+/g, " " );

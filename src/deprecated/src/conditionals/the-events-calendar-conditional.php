@@ -19,7 +19,7 @@ class The_Events_Calendar_Conditional implements Conditional {
 	 * @return bool Whether the conditional is met.
 	 */
 	public function is_met() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 		return false;
 	}
 }

@@ -83,7 +83,6 @@ class Wincher_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( Monkey\Filters\has( 'wpseo_integration_toggles', [ $this->instance, 'add_integration_toggle' ] ) );
-		$this->assertNotFalse( Monkey\Actions\has( 'Yoast\WP\SEO\admin_integration_after', [ $this->instance, 'after_integration_toggle' ] ) );
 	}
 
 	/**
@@ -124,44 +123,6 @@ class Wincher_Test extends TestCase {
 			],
 			$result[2]
 		);
-	}
-
-	/**
-	 * Tests the after_integration_toggle method.
-	 *
-	 * @covers ::after_integration_toggle
-	 */
-	public function test_after_integration_toggle() {
-		$wincher_integration_toggle = (object) [
-			'setting'  => 'wincher_integration_active',
-			'disabled' => false,
-		];
-
-		$this->instance->expects( 'get_disabled_note' )->never();
-
-		$this->expectOutputContains( 'hidden_wincher_website_id' );
-
-		$this->instance->after_integration_toggle( $wincher_integration_toggle );
-	}
-
-	/**
-	 * Tests the disabled after_integration_toggle method.
-	 *
-	 * @covers ::after_integration_toggle
-	 */
-	public function test_after_integration_toggle_multisite() {
-		$wincher_integration_toggle = (object) [
-			'setting'  => 'wincher_integration_active',
-			'disabled' => true,
-		];
-
-		Monkey\Functions\stubs( [ 'is_multisite' => true ] );
-
-		$this->expectOutputContains( 'hidden_wincher_website_id' );
-
-		$this->instance->expects( 'get_disabled_note' )->once();
-
-		$this->instance->after_integration_toggle( $wincher_integration_toggle );
 	}
 
 	/**

@@ -1,35 +1,35 @@
 @layer components {
 	.yst-root {
 		.yst-modal {
-			@apply yst-fixed yst-inset-0 yst-z-10 yst-overflow-y-auto;
+			@apply yst-fixed yst-inset-0 yst-z-10 yst-p-4 sm:yst-p-8 md:yst-p-20;
 		}
 
-		.yst-modal__body {
-			@apply yst-min-h-screen yst-px-4 yst-text-center;
+		.yst-modal__layout {
+			@apply yst-flex yst-min-h-full;
+		}
+
+		.yst-modal--center .yst-modal__layout {
+			@apply yst-items-center yst-justify-center;
+		}
+
+		.yst-modal--top-center .yst-modal__layout {
+			@apply yst-items-start yst-justify-center;
 		}
 
 		.yst-modal__overlay {
 			@apply yst-fixed yst-inset-0 yst-bg-slate-500 yst-bg-opacity-75 yst-transition-opacity;
 		}
 
-		.yst-modal__center {
-			@apply yst-inline-block yst-h-screen yst-align-middle;
-		}
-
-		.yst-modal__content {
+		.yst-modal__panel {
 			@apply
-			yst-inline-block
+			yst-relative
 			yst-w-full
 			yst-max-w-xl
 			yst-p-6
 			yst-overflow-hidden
-			yst-align-middle
 			yst-bg-white
 			yst-rounded-lg
-			yst-text-left
-			yst-shadow-xl
-			yst-transform
-			yst-transition-all;
+			yst-shadow-xl;
 		}
 
 		.yst-modal__close {
@@ -38,6 +38,8 @@
 
 		.yst-modal__close-button {
 			@apply
+			yst-relative
+			yst-z-10
 			yst-bg-white
 			yst-text-slate-400
 			yst-rounded-md
@@ -46,6 +48,29 @@
 			focus:yst-ring-2
 			focus:yst-ring-offset-2
 			focus:yst-ring-primary-500;
+		}
+
+		.yst-modal__container {
+			/* 100vh - the padding of yst-modal. */
+			@apply yst-flex yst-flex-col yst-max-h-[calc(100vh-2rem)] sm:yst-max-h-[calc(100vh-4rem)] md:yst-max-h-[calc(100vh-10rem)];
+		}
+
+		.yst-modal__panel .yst-modal__container {
+			/* 100vh - ( the padding of yst-modal + the padding of yst-modal__panel ). */
+			@apply yst-max-h-[calc(100vh-5rem)] sm:yst-max-h-[calc(100vh-7rem)] md:yst-max-h-[calc(100vh-13rem)];
+		}
+
+		.yst-modal__container-header, .yst-modal__container-footer {
+			@apply yst-shrink-0;
+		}
+
+		.yst-modal__container-content {
+			@apply yst-overflow-auto;
+		}
+
+		.yst-modal__panel .yst-modal__container-content {
+			/* Workaround the panel padding to have the scrollbar at the edge. */
+			@apply yst--mx-6 yst-px-6;
 		}
 	}
 }

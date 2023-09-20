@@ -1,42 +1,42 @@
 @layer components {
-    .yst-root {
-        .yst-card {
-            @apply
-            yst-relative
-            yst-flex
-            yst-flex-col
-            yst-bg-white
-            yst-rounded-lg
-            yst-border
-            yst-p-6
-            yst-space-y-6
-            yst-overflow-hidden
-            yst-transition-transform
-            yst-ease-in-out yst-shadow-sm;
-        }
-        
-        .yst-card__header {
-            @apply
-            yst-relative
-            yst-flex
-            yst-items-center
-            yst-justify-center
-            yst-h-24
-            yst-bg-gray-100
-            yst--mx-6
-            yst--mt-6
-            yst-p-6;
-        }
-        
-        .yst-card__content {
-            @apply yst-flex-grow;
-        }
-        
-        .yst-card__footer {
-            @apply
-            yst-border-t
-            yst-border-gray-200
-            yst-pt-6
-        }
-    }
+	.yst-root {
+		.yst-card {
+			@apply
+			yst-relative
+			yst-flex
+			yst-flex-col
+			yst-bg-white
+			yst-rounded-lg
+			yst-border
+			yst-p-6
+			yst-space-y-6
+			yst-overflow-hidden
+			yst-transition-transform
+			yst-ease-in-out yst-shadow-sm;
+		}
+
+		.yst-card__header {
+			@apply
+			yst-relative
+			yst-flex
+			yst-items-center
+			yst-justify-center
+			yst-h-24
+			yst-bg-gray-100
+			yst--mx-6
+			yst--mt-6
+			yst-p-6;
+		}
+
+		.yst-card__content {
+			@apply yst-flex-grow;
+		}
+
+		.yst-card__footer {
+			@apply
+			yst-border-t
+			yst-border-gray-200
+			yst-pt-6
+		}
+	}
 }

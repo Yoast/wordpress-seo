@@ -145,11 +145,15 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	/**
 	 * Returns true when the filter is active.
 	 *
-	 * @return bool Whether or not the filter is active.
+	 * @return bool Whether the filter is active.
 	 */
 	protected function is_filter_active() {
-		return ( $this->is_supported_post_type( $this->get_current_post_type() )
-			&& filter_input( INPUT_GET, self::FILTER_QUERY_ARG ) === $this->get_query_val() );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET[ self::FILTER_QUERY_ARG ] ) && is_string( $_GET[ self::FILTER_QUERY_ARG ] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			return sanitize_text_field( wp_unslash( $_GET[ self::FILTER_QUERY_ARG ] ) ) === $this->get_query_val();
+		}
+		return false;
 	}
 
 	/**
@@ -158,11 +162,15 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 * @return string The current post type.
 	 */
 	protected function get_current_post_type() {
-		$filter_options = [
-			'options' => [ 'default' => 'post' ],
-		];
-
-		return filter_input( INPUT_GET, 'post_type', FILTER_DEFAULT, $filter_options );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['post_type'] ) && is_string( $_GET['post_type'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			$post_type = sanitize_text_field( wp_unslash( $_GET['post_type'] ) );
+			if ( ! empty( $post_type ) ) {
+				return $post_type;
+			}
+		}
+		return 'post';
 	}
 
 	/**

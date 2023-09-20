@@ -402,7 +402,7 @@ class Indexing_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the retrieval of the filtered unindexed count with a limit.
+	 * Tests the retrieval of the filtered unindexed count with a limit enforcing success.
 	 *
 	 * @covers ::get_limited_filtered_unindexed_count
 	 * @covers ::get_limited_unindexed_count
@@ -429,5 +429,141 @@ class Indexing_Helper_Test extends TestCase {
 			->andReturn( 10 );
 
 		static::assertEquals( 30, $this->instance->get_limited_filtered_unindexed_count( 25 ) );
+	}
+
+	/**
+	 * Tests the retrieval of the filtered unindexed count with a limit.
+	 *
+	 * @covers ::get_limited_filtered_unindexed_count
+	 * @covers ::get_limited_unindexed_count
+	 */
+	public function test_get__limitedfiltered_unindexed_count_no_limit() {
+		$limit = 25;
+
+		$this->post_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit + 1 )
+			->once()
+			->andReturn( 3 );
+
+		$this->term_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 3 + 1 )
+			->once()
+			->andReturn( 3 );
+
+		$this->post_type_archive_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 6 + 1 )
+			->once()
+			->andReturn( 3 );
+
+		$this->general_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 9 + 1 )
+			->once()
+			->andReturn( 3 );
+
+		$this->post_link_indexing_action
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 12 + 1 )
+			->once()
+			->andReturn( 3 );
+
+		$this->term_link_indexing_action
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 15 + 1 )
+			->once()
+			->andReturn( 3 );
+
+		Monkey\Filters\expectApplied( 'wpseo_indexing_get_limited_unindexed_count' )
+			->once()
+			->with( 18, 25 )
+			->andReturn( 18 );
+
+		static::assertEquals( 18, $this->instance->get_limited_filtered_unindexed_count( 25 ) );
+	}
+
+	/**
+	 * Tests the retrieval of the background filtered unindexed count with a limit enforcing success.
+	 *
+	 * @covers ::get_limited_filtered_unindexed_count_background
+	 * @covers ::get_limited_unindexed_count
+	 */
+	public function test_get__limitedfiltered_unindexed_count_background() {
+		$limit = 25;
+
+		$this->post_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit + 1 )
+			->once()
+			->andReturn( 10 );
+
+		$this->term_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 10 + 1 )
+			->once()
+			->andReturn( 10 );
+
+		$this->post_type_archive_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 20 + 1 )
+			->once()
+			->andReturn( 10 );
+
+		static::assertEquals( 30, $this->instance->get_limited_filtered_unindexed_count_background( 25 ) );
+	}
+
+	/**
+	 * Tests the retrieval of the background filtered unindexed count with a limit.
+	 *
+	 * @covers ::get_limited_filtered_unindexed_count_background
+	 * @covers ::get_limited_unindexed_count
+	 */
+	public function test_get__limitedfiltered_unindexed_count_background_no_limit() {
+		$limit = 25;
+
+		$this->post_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit + 1 )
+			->once()
+			->andReturn( 3 );
+
+		$this->term_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 3 + 1 )
+			->once()
+			->andReturn( 3 );
+
+		$this->post_type_archive_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 6 + 1 )
+			->once()
+			->andReturn( 3 );
+
+		$this->general_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 9 + 1 )
+			->once()
+			->andReturn( 3 );
+
+		$this->post_link_indexing_action
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 12 + 1 )
+			->once()
+			->andReturn( 3 );
+
+		$this->term_link_indexing_action
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 15 + 1 )
+			->once()
+			->andReturn( 3 );
+
+		Monkey\Filters\expectApplied( 'wpseo_indexing_get_limited_unindexed_count_background' )
+			->once()
+			->with( 18, 25 )
+			->andReturn( 18 );
+
+		static::assertEquals( 18, $this->instance->get_limited_filtered_unindexed_count_background( 25 ) );
 	}
 }

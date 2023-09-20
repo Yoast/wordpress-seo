@@ -5,6 +5,12 @@ describe( "Checks the text for images", function() {
 		expect( imageInText( "<p>Here is a text with images.</p> <img src='img.com' alt='imagine1' />" +
 			" <img src='img2.com' alt='image2' />" ) ).toEqual( [ "<img src='img.com' alt='imagine1' />", "<img src='img2.com' alt='image2' />" ] );
 	} );
+	it( "also detects images with a closing tag", function() {
+		expect( imageInText( "<p>Here is a text with images.</p> <img src='img.com' alt='imagine1'>" +
+			" <img src='img2.com' alt='image2'></img>" ) ).toEqual(
+			[ "<img src='img.com' alt='imagine1'>", "<img src='img2.com' alt='image2'></img>" ]
+		);
+	} );
 	it( "returns empty array if there are no images in the text", function() {
 		expect( imageInText( "<p>Here is a text with no images.</p>" ) ).toEqual( [ ] );
 	} );

@@ -5,3 +5,5 @@ export { default as useRootContext } from "./use-root-context";
 export { default as useSvgAria } from "./use-svg-aria";
 export { default as useToggleState } from "./use-toggle-state";
 export { default as useMediaQuery } from "./use-media-query";
+
+export { useModalContext } from "../components/modal/hooks";

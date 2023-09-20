@@ -18,15 +18,16 @@ import Label from "../../elements/label";
  * @returns {JSX.Element} CheckboxGroup component.
  */
 const CheckboxGroup = ( {
-	children,
-	id,
-	name,
-	values,
-	label,
-	description,
+	children = null,
+	id = "",
+	name = "",
+	values = [],
+	label = "",
+	description = "",
+	disabled = false,
 	options,
-	onChange,
-	className,
+	onChange = noop,
+	className = "",
 	...props
 } ) => {
 	const handleChange = useCallback( ( { target } ) => {
@@ -39,7 +40,11 @@ const CheckboxGroup = ( {
 	return (
 		<fieldset
 			id={ `checkbox-group-${ id }` }
-			className={ classNames( "yst-checkbox-group", className ) }
+			className={ classNames(
+				"yst-checkbox-group",
+				disabled && "yst-checkbox-group--disabled",
+				className,
+			) }
 		>
 			<Label as="legend" className="yst-checkbox-group__label" label={ label } />
 			{ description && <div className="yst-checkbox-group__description">{ description }</div> }
@@ -53,6 +58,7 @@ const CheckboxGroup = ( {
 						value={ option.value }
 						label={ option.label }
 						checked={ includes( values, option.value ) }
+						disabled={ disabled }
 						onChange={ handleChange }
 						{ ...props }
 					/>;
@@ -68,6 +74,7 @@ CheckboxGroup.propTypes = {
 	name: PropTypes.string,
 	values: PropTypes.arrayOf( PropTypes.string ),
 	label: PropTypes.string,
+	disabled: PropTypes.bool,
 	description: PropTypes.string,
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		value: PropTypes.string.isRequired,
@@ -77,15 +84,8 @@ CheckboxGroup.propTypes = {
 	className: PropTypes.string,
 };
 
-CheckboxGroup.defaultProps = {
-	children: null,
-	id: "",
-	name: "",
-	values: [],
-	label: "",
-	description: "",
-	onChange: noop,
-	className: "",
-};
+CheckboxGroup.Checkbox = Checkbox;
+
+CheckboxGroup.Checkbox.displayName = "CheckboxGroup.Checkbox";
 
 export default CheckboxGroup;

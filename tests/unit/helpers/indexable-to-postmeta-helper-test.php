@@ -3,8 +3,10 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -120,7 +122,6 @@ class Indexable_To_Postmeta_Helper_Test extends TestCase {
 		$this->meta->expects( 'set_value' )
 			->with( 'meta-robots-adv', 'noimageindex,noarchive,nosnippet', 123 )
 			->andReturn( true );
-
 
 		$this->instance->map_to_postmeta( $indexable );
 	}

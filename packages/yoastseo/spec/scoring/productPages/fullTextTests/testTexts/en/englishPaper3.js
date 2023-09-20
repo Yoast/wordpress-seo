@@ -40,7 +40,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: -50,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 11 times. " +
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The keyphrase was found 11 times. " +
 			"That's way more than the recommended maximum of 8 times for a text of this length. <a href='https://yoa.st/shopify13' " +
 			"target='_blank'>Don't overoptimize</a>!",
 	},
@@ -100,7 +100,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Not all your product variants" +
-			" have an identifier. You can add a product identifier via the \"Variations\" tab in the Product data box. " +
+			" have an identifier. " +
 			"<a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it" +
 			" will help search engines to better understand your content.</a>",
 	},
@@ -160,7 +160,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 21.1% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 19% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},
@@ -177,8 +177,9 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 11.59% of the words in your text are considered complex. " +
-			"<a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 10.72% of the words in " +
+			"your text are considered complex. <a href='https://yoa.st/shopify78' target='_blank'>" +
+			"Try to use shorter and more familiar words to improve readability</a>.",
 	},
 };
 

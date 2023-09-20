@@ -116,8 +116,6 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	 * @return array The translated strings.
 	 */
 	public function localize_dashboard_script() {
-		$is_wincher_active = YoastSEO()->helpers->wincher->is_active();
-
 		return [
 			'feed_header'          => sprintf(
 				/* translators: %1$s resolves to Yoast.com */
@@ -127,9 +125,6 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 			'feed_footer'          => __( 'Read more like this on our SEO blog', 'wordpress-seo' ),
 			'wp_version'           => substr( $GLOBALS['wp_version'], 0, 3 ) . '-' . ( is_plugin_active( 'classic-editor/classic-editor.php' ) ? '1' : '0' ),
 			'php_version'          => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION,
-			'is_wincher_active'    => ( $is_wincher_active ) ? 1 : 0,
-			'wincher_is_logged_in' => ( $is_wincher_active ) ? YoastSEO()->helpers->wincher->login_status() : false,
-			'wincher_website_id'   => WPSEO_Options::get( 'wincher_website_id', '' ),
 		];
 	}
 

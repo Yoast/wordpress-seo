@@ -84,7 +84,6 @@ class Addon_Install_Action_Test extends TestCase {
 			->with( 'plugin_slug' )
 			->andReturn( true );
 
-
 		$this->expectException( Addon_Already_Installed_Exception::class );
 
 		$this->instance->install_addon( 'plugin_slug', 'download.test' );

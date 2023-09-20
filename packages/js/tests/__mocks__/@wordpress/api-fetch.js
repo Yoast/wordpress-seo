@@ -1,3 +1,1 @@
-module.exports = () => ( {
-	response: {},
-} );
+module.exports = jest.fn();

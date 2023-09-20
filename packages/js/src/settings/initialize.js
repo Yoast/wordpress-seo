@@ -7,10 +7,13 @@ import { Formik } from "formik";
 import { chunk, filter, forEach, get, includes, reduce } from "lodash";
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
+import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
+import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
 import { STORE_NAME } from "./constants";
 import { createValidationSchema, handleSubmit } from "./helpers";
 import registerStore from "./store";
+import { __ } from "@wordpress/i18n";
 
 /**
  * @param {Object} settings The settings.
@@ -45,6 +48,32 @@ const preloadUsers = async( { settings } ) => {
 	}
 };
 
+/**
+ * Fixes the WordPress skip links.
+ *
+ * By disabling the default behavior of the links and focusing the elements.
+ *
+ * @returns {void}
+ */
+const fixFocusLinkCompatibility = () => {
+	const wpContentBody = document.querySelector( "[href=\"#wpbody-content\"]" );
+	wpContentBody.addEventListener( "click", e => {
+		e.preventDefault();
+		// Try to focus the Yoast logo if in "mobile" view.
+		if ( window.outerWidth > 782 ) {
+			document.getElementById( "link-yoast-logo" )?.focus();
+			return;
+		}
+		// Try to focus the open sidebar navigation button.
+		document.getElementById( "button-open-settings-navigation-mobile" )?.focus();
+	} );
+	const wpToolbar = document.querySelector( "[href=\"#wp-toolbar\"]" );
+	wpToolbar.addEventListener( "click", e => {
+		e.preventDefault();
+		document.querySelector( "#wp-admin-bar-wp-logo a" )?.focus();
+	} );
+};
+
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-settings" );
 	if ( ! root ) {
@@ -61,9 +90,28 @@ domReady( () => {
 	const postTypes = get( window, "wpseoScriptData.postTypes", {} );
 	const taxonomies = get( window, "wpseoScriptData.taxonomies", {} );
 
-	registerStore();
+	const showNewContentTypeNotification = get( window, "wpseoScriptData.showNewContentTypeNotification", false );
+	const notifications = ( showNewContentTypeNotification )
+		? { [ "new-content-type" ]: {
+			id: "new-content-type",
+			variant: "info",
+			size: "large",
+			title: __( "New type of content added to your site!", "wordpress-seo" ),
+			description: __( "Please see the “New” badges and review the Search appearance settings.", "wordpress-seo" ),
+		} } : {};
+
+
+	registerStore( {
+		initialState: {
+			notifications,
+			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
+		},
+	} );
+
 	preloadMedia( { settings, fallbacks } );
 	preloadUsers( { settings } );
+	fixFocusLinkCompatibility();
+	fixWordPressMenuScrolling();
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 

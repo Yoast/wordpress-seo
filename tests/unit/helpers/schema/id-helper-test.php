@@ -4,7 +4,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers\Schema;
 
 use Brain\Monkey;
 use Mockery;
+use WP_User;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -39,10 +41,10 @@ class ID_Helper_Test extends TestCase {
 	 * @covers ::get_user_schema_id
 	 */
 	public function test_get_user_schema_id() {
-		$user             = Mockery::mock( 'WP_User' );
+		$user             = Mockery::mock( WP_User::class );
 		$user->user_login = 'dingdong';
 
-		$context           = Mockery::mock();
+		$context           = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$context->site_url = 'https://example.org/';
 
 		Monkey\Functions\expect( 'get_userdata' )
@@ -67,7 +69,7 @@ class ID_Helper_Test extends TestCase {
 	 * @covers ::get_user_schema_id
 	 */
 	public function test_get_user_schema_id_no_user_found() {
-		$context           = Mockery::mock();
+		$context           = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$context->site_url = 'https://example.org/';
 
 		Monkey\Functions\expect( 'get_userdata' )

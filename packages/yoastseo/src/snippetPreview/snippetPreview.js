@@ -1,11 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { isEmpty } from "lodash-es";
-import { isElement } from "lodash-es";
-import { isUndefined } from "lodash-es";
-import { clone } from "lodash-es";
-import { defaultsDeep } from "lodash-es";
-import { forEach } from "lodash-es";
-import { debounce } from "lodash-es";
+import { clone, debounce, defaultsDeep, forEach, isElement, isEmpty, isUndefined } from "lodash-es";
 
 import createWordRegex from "../languageProcessing/helpers/regex/createWordRegex";
 import { stripFullTags as stripHTMLTags } from "../languageProcessing/helpers/sanitize/stripHTMLTags";
@@ -375,7 +369,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 			slug: __( "Slug", "wordpress-seo" ),
 			metaDescription: __( "Meta description", "wordpress-seo" ),
 			save: __( "Close snippet editor", "wordpress-seo" ),
-			snippetPreview: __( "Google preview", "wordpress-seo" ),
+			snippetPreview: __( "Search appearance", "wordpress-seo" ),
 			titleLabel: __( "SEO title preview:", "wordpress-seo" ),
 			slugLabel: __( "Slug preview:", "wordpress-seo" ),
 			metaDescriptionLabel: __( "Meta description preview:", "wordpress-seo" ),

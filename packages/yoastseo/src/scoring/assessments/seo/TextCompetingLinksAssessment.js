@@ -2,7 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { isUndefined, merge } from "lodash-es";
 
 import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
@@ -48,7 +48,7 @@ class TextCompetingLinksAssessment extends Assessment {
 	getResult( paper, researcher ) {
 		const assessmentResult = new AssessmentResult();
 
-		this.linkCount = researcher.getResearch( "getLinkStatistics" );
+		this.totalAnchorsWithKeyphrase = researcher.getResearch( "getAnchorsWithKeyphrase" ).anchorsWithKeyphraseCount;
 
 		const calculatedResult = this.calculateResult();
 
@@ -80,11 +80,11 @@ class TextCompetingLinksAssessment extends Assessment {
 	 * @returns {Object} ResultObject with score and text.
 	 */
 	calculateResult() {
-		if ( this.linkCount.keyword.totalKeyword > this._config.parameters.recommendedMaximum ) {
+		if ( this.totalAnchorsWithKeyphrase > this._config.parameters.recommendedMaximum ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
-					/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					/* translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						// eslint-disable-next-line max-len
 						"%1$sLink keyphrase%3$s: You're linking to another page with the words you want this page to rank for. %2$sDon't do that%3$s!",

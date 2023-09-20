@@ -182,21 +182,6 @@ function wpseo_wpml_config( $config ) {
 
 add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
 
-/**
- * Yoast SEO breadcrumb shortcode.
- * [wpseo_breadcrumb]
- *
- * @deprecated 14.0
- * @codeCoverageIgnore
- *
- * @return string
- */
-function wpseo_shortcode_yoast_breadcrumb() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 14.0' );
-
-	return '';
-}
-
 if ( ! function_exists( 'ctype_digit' ) ) {
 	/**
 	 * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*.

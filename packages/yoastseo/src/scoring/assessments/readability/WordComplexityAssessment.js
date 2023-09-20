@@ -1,14 +1,15 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import { collectMarkingsInSentence } from "../../../languageProcessing/helpers/word/markWordsInSentences";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
-import Mark from "../../../values/Mark";
-import Assessment from "../assessment";
+import { AssessmentResult, helpers, languageProcessing, Assessment, values } from "yoastseo";
+
+const { createAnchorOpeningTag } = helpers;
+const { collectMarkingsInSentence } = languageProcessing;
+const { Mark } = values;
 
 /**
  * Represents the assessment that checks whether there are too many complex words in the text.
+ * This assessment is not bundled in Yoast SEO.
  */
 export default class WordComplexityAssessment extends Assessment {
 	/**
@@ -26,25 +27,29 @@ export default class WordComplexityAssessment extends Assessment {
 				acceptableAmount: 6,
 				goodAmount: 9,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ls" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lt" ),
+			urlTitle: "https://yoa.st/4ls",
+			urlCallToAction: "https://yoa.st/4lt",
 		};
 
 		/*
-		 * Translators: This is the name of the 'Word complexity' readability assessment.
+		 * translators: This is the name of the 'Word complexity' readability assessment.
          * It appears before the feedback in the analysis, for example in the feedback string:
          * "Word complexity: You are not using too many complex words, which makes your text easy to read. Good job!"
          */
-		this.name = __( "Word complexity", "wordpress-seo" );
+		this.name = __( "Word complexity", "wordpress-seo-premium" );
 		this.identifier = "wordComplexity";
 		this._config = merge( defaultConfig, config );
+
+		// Creates an anchor opening tag for the shortlinks.
+		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
+		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
 	}
 
 	/**
 	 * Scores the percentage of sentences including one or more transition words.
 	 *
-	 * @param {object} paper        The paper to use for the assessment.
-	 * @param {object} researcher   The researcher used for calling research.
+	 * @param {Paper} paper        The paper to use for the assessment.
+	 * @param {Researcher} researcher   The researcher used for calling research.
 	 *
 	 * @returns {object} The Assessment result.
 	 */
@@ -75,12 +80,12 @@ export default class WordComplexityAssessment extends Assessment {
 				score: this._config.scores.goodAmount,
 				hasMarks: hasMarks,
 				resultText: sprintf(
-					/* Translators: %1$s expands to the title of the "Word complexity" assessment (translated to the current language)
+					/* translators: %1$s expands to the title of the "Word complexity" assessment (translated to the current language)
 					 and links to an article on yoast.com.*/
 					__(
 						// eslint-disable-next-line max-len
 						"%1$s: You are not using too many complex words, which makes your text easy to read. Good job!",
-						"wordpress-seo"
+						"wordpress-seo-premium"
 					),
 					assessmentLink
 				),
@@ -90,13 +95,13 @@ export default class WordComplexityAssessment extends Assessment {
 			score: this._config.scores.acceptableAmount,
 			hasMarks: hasMarks,
 			resultText: sprintf(
-				/* Translators: %1$s expands to the title of the "Word complexity" assessment (translated to the current language)
+				/* translators: %1$s expands to the title of the "Word complexity" assessment (translated to the current language)
 					 and links to an article on yoast.com. %2$s expand to the percentage of the complex words found in the text.
 					 %3$s expand to a link on yoast.com, %4$s expands to the anchor end tag. */
 				__(
 					// eslint-disable-next-line max-len
 					"%1$s: %2$s of the words in your text are considered complex. %3$sTry to use shorter and more familiar words to improve readability%4$s.",
-					"wordpress-seo"
+					"wordpress-seo-premium"
 				),
 				assessmentLink,
 				complexWordsPercentage + "%",
@@ -116,7 +121,7 @@ export default class WordComplexityAssessment extends Assessment {
 	 */
 	getMarks( paper, researcher ) {
 		const wordComplexityResults = researcher.getResearch( "wordComplexity" ).complexWords;
-		const matchWordCustomHelper = researcher.getResearch( "matchWordCustomHelper" );
+		const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 		const markings = [];
 
 		wordComplexityResults.forEach( ( result ) => {

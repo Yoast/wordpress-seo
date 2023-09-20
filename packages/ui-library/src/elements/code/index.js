@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { forwardRef } from "@wordpress/element";
 
 const classNameMap = {
 	variant: {
@@ -15,19 +16,28 @@ const classNameMap = {
  * @param {Object} [props] Optional extra props.
  * @returns {JSX.Element} The Code element.
  */
-const Code = ( { children, variant = "default", className = "", ...props } ) => (
+const Code = forwardRef( ( { children, variant = "default", className = "", ...props }, ref ) => (
 	<code
+		ref={ ref }
 		className={ classNames( "yst-code", classNameMap.variant[ variant ], className ) }
 		{ ...props }
 	>
 		{ children }
 	</code>
-);
+) );
 
-Code.propTypes = {
+const propTypes = {
 	children: PropTypes.node.isRequired,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	className: PropTypes.string,
 };
+
+Code.propTypes = propTypes;
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Code { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Code.defaultProps;
+StoryComponent.displayName = "Code";
 
 export default Code;

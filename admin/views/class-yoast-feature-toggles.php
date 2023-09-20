@@ -89,16 +89,11 @@ class Yoast_Feature_Toggles {
 			],
 			(object) [
 				'name'                => __( 'Inclusive language analysis', 'wordpress-seo' ),
-				'premium'             => true,
-				'premium_version'     => '19.2.1-RC0',
-				'in_beta'             => true,
 				'supported_languages' => Language_Helper::$languages_with_inclusive_language_support,
 				'setting'             => 'inclusive_language_analysis_active',
 				'label'               => __( 'The inclusive language analysis offers suggestions to write more inclusive copy.', 'wordpress-seo' ),
 				'read_more_label'     => __( 'Discover why inclusive language is important for SEO.', 'wordpress-seo' ),
 				'read_more_url'       => 'https://yoa.st/inclusive-language-features-free',
-				'premium_url'         => 'https://yoa.st/inclusive-language-features-premium',
-				'premium_upsell_url'  => 'https://yoa.st/get-inclusive-language',
 				'order'               => 25,
 			],
 			(object) [
@@ -206,6 +201,17 @@ class Yoast_Feature_Toggles {
 				'premium_url'        => 'https://yoa.st/index-now-feature',
 				'premium_upsell_url' => 'https://yoa.st/get-indexnow',
 				'order'              => 110,
+			],
+			(object) [
+				'name'               => __( 'AI title & description generator', 'wordpress-seo' ),
+				'premium'            => true,
+				'setting'            => 'enable_ai_generator',
+				'label'              => __( 'Use the power of Yoast AI to automatically generate compelling titles and descriptions for your posts and pages.', 'wordpress-seo' ),
+				'read_more_label'    => __( 'Learn more', 'wordpress-seo' ),
+				'read_more_url'      => 'https://yoa.st/ai-generator-read-more',
+				'premium_url'        => 'https://yoa.st/ai-generator-feature',
+				'premium_upsell_url' => 'https://yoa.st/get-ai-generator',
+				'order'              => 115,
 			],
 		];
 

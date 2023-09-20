@@ -27,9 +27,11 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 * @return int The post ID.
 	 */
 	protected function get_current_id() {
-		$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
-		if ( empty( $post_id ) && isset( $GLOBALS['post_ID'] ) ) {
-			$post_id = filter_var( $GLOBALS['post_ID'], FILTER_SANITIZE_NUMBER_INT );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are casting to an integer.
+		$post_id = isset( $_GET['post'] ) && is_string( $_GET['post'] ) ? (int) wp_unslash( $_GET['post'] ) : 0;
+
+		if ( $post_id === 0 && isset( $GLOBALS['post_ID'] ) ) {
+			$post_id = (int) $GLOBALS['post_ID'];
 		}
 
 		return $post_id;

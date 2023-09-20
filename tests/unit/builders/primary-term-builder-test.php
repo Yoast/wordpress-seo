@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Builders\Primary_Term_Builder;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
+use Yoast\WP\SEO\Models\Primary_Term;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Primary_Term_Builder_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Primary_Term_Mock;
@@ -221,7 +222,7 @@ class Primary_Term_Builder_Test extends TestCase {
 			->with( 'primary_category', 1 )
 			->andReturn( false );
 
-		$primary_term = Mockery::mock();
+		$primary_term = Mockery::mock( Primary_Term::class );
 		$primary_term->expects( 'delete' )->once();
 		$primary_term->expects( 'save' )->never();
 

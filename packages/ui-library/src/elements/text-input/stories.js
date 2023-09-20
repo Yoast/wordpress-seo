@@ -1,19 +1,21 @@
-import TextInput from ".";
+// eslint-disable react/display-name
+import { StoryComponent } from ".";
+import { component } from "./docs";
 
 export default {
-	title: "1. Elements/Text Input",
-	component: TextInput,
+	title: "1) Elements/Text input",
+	component: StoryComponent,
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple text input component.",
+				component,
 			},
 		},
 	},
 };
 
 export const Factory = {
-	component: ( args ) => <TextInput { ...args } />,
+	component: ( args ) => <StoryComponent { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},

@@ -1,7 +1,7 @@
 @layer components {
 	.yst-root {
 		.yst-autocomplete {
-			@apply yst-max-w-sm yst-relative;
+			@apply yst-relative;
 		}
 
 		.yst-autocomplete--error {
@@ -15,10 +15,16 @@
 			}
 
 			.yst-autocomplete__input {
-				@apply
-				yst-text-red-900
-				yst-placeholder-red-300;
+				@apply yst-placeholder-red-300;
 			}
+		}
+
+		.yst-autocomplete--disabled {
+
+			@apply
+			yst-opacity-50
+			yst-cursor-not-allowed
+			focus:yst-ring-0;
 		}
 
 		.yst-autocomplete__button {
@@ -26,6 +32,7 @@
 			yst-w-full
 			yst-h-full
 			yst-rounded-md
+			yst-shadow-sm
 			yst-border
 			yst-border-slate-300
 			yst-flex
@@ -38,12 +45,7 @@
 		}
 
 		.yst-autocomplete__button-icon {
-			@apply
-			yst-h-5
-			yst-w-5
-			yst-text-slate-400
-			yst-inset-y-0
-			yst-right-0;
+			@apply yst-absolute yst-top-[0.6875rem] yst-right-2.5 yst-text-slate-400 yst-pointer-events-none yst-w-5 yst-h-5;
 		}
 
 		.yst-autocomplete__input {
@@ -56,13 +58,14 @@
 			yst-pr-10
 			yst-shadow-none
 			yst-text-sm
-			focus:yst-ring-0;
+			focus:yst-ring-0
+			yst-text-slate-800;
 		}
 
 		.yst-autocomplete__options {
 			@apply
 			yst-absolute
-			yst-z-10
+			yst-z-20
 			yst-w-full
 			yst-mt-1
 			yst-overflow-auto
@@ -90,7 +93,7 @@
 			yst-text-slate-700;
 
 			&--active {
-				@apply yst-bg-primary-200;
+				@apply yst-bg-slate-200;
 			}
 
 			&--selected {

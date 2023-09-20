@@ -101,7 +101,7 @@ export const AlgoliaIntegration = ( {
 									__( "(Opens in a new browser tab)", "wordpress-seo" )
 								}
 							</span>
-							<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1" />
+							<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
 						</Link> }
 					</p>
 				</div>
@@ -168,7 +168,6 @@ AlgoliaIntegration.propTypes = {
 		claim: PropTypes.string,
 		learnMoreLink: PropTypes.string,
 		logoLink: PropTypes.string,
-		type: PropTypes.string,
 		slug: PropTypes.string,
 		description: PropTypes.string,
 		usps: PropTypes.array,

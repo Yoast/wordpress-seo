@@ -98,7 +98,7 @@ export const ToggleableIntegration = ( {
 									__( "(Opens in a new browser tab)", "wordpress-seo" )
 								}
 							</span>
-							<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1" />
+							<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
 						</Link> }
 					</p>
 				</div>
@@ -114,6 +114,8 @@ export const ToggleableIntegration = ( {
 					as="a"
 					href={ integration.upsellLink }
 					variant="upsell"
+					data-action="load-nfd-ctb"
+					data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
 					className="yst-w-full yst-text-slate-800"
 					target="_blank"
 				>
@@ -151,7 +153,6 @@ ToggleableIntegration.propTypes = {
 		claim: PropTypes.string,
 		learnMoreLink: PropTypes.string,
 		logoLink: PropTypes.string,
-		type: PropTypes.string,
 		slug: PropTypes.string,
 		description: PropTypes.string,
 		usps: PropTypes.array,

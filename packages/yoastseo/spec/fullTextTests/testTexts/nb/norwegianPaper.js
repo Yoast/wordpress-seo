@@ -31,7 +31,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The focus keyphrase was found 18 times. This is great!",
+			"The keyphrase was found 18 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -60,7 +60,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 1260 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 1264 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -126,10 +126,8 @@ const expectedResults = {
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 10.6% of the sentences contain passive voice, " +
-			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
-			"Try to use their active counterparts</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
 	},
 	textPresence: {
 		isApplicable: true,
@@ -155,6 +153,16 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

@@ -6,9 +6,9 @@ use Mockery;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Integrations\Breadcrumbs_Integration;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Presentations\Indexable_Presentation_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -70,7 +70,7 @@ class Breadcrumbs_Integration_Test extends TestCase {
 	 * @covers ::render
 	 */
 	public function test_render() {
-		$indexable_presentation              = Mockery::mock( Indexable_Presentation::class );
+		$indexable_presentation              = Mockery::mock( Indexable_Presentation_Mock::class );
 		$indexable_presentation->breadcrumbs = [];
 
 		$this->context_memoizer

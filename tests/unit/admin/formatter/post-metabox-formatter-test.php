@@ -37,7 +37,7 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->mock_post               = Mockery::mock( '\WP_Post' )->makePartial();
+		$this->mock_post               = Mockery::mock( WP_Post::class )->makePartial();
 		$this->mock_post->ID           = 1;
 		$this->mock_post->post_content = '';
 

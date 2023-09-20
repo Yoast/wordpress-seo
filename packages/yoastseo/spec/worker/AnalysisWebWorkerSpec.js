@@ -177,11 +177,11 @@ describe( "AnalysisWebWorker", () => {
 		} );
 
 		describe( "shouldAssessorsUpdate", () => {
-			const updateAll = { readability: true, seo: true };
-			const updateNone = { readability: false, seo: false };
-			const updateReadability = { readability: true, seo: false };
-			const updateSEO = { readability: false, seo: true };
-			const updateSEOAndReadability = { readability: true, seo: true };
+			const updateAll = { readability: true, seo: true, inclusiveLanguage: true };
+			const updateNone = { readability: false, seo: false, inclusiveLanguage: false };
+			const updateReadability = { readability: true, seo: false, inclusiveLanguage: false };
+			const updateSEO = { readability: false, seo: true, inclusiveLanguage: false };
+			const updateSEOAndReadability = { readability: true, seo: true, inclusiveLanguage: false };
 
 			test( "update all when an empty configuration is passed", () => {
 				expect( AnalysisWebWorker.shouldAssessorsUpdate( {} ) ).toEqual( updateAll );
@@ -200,11 +200,6 @@ describe( "AnalysisWebWorker", () => {
 					.toEqual( updateReadability );
 			} );
 
-			test( "update readability with useWordComplexity", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useWordComplexity: true }, false, false, false ) )
-					.toEqual( updateReadability );
-			} );
-
 			test( "update seo with keywordAnalysisActive", () => {
 				expect( AnalysisWebWorker.shouldAssessorsUpdate( { keywordAnalysisActive: true }, false, false, false ) )
 					.toEqual( updateSEO );
@@ -217,10 +212,6 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "update seo with useTaxonomy", () => {
 				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useTaxonomy: true }, false, false, false ) ).toEqual( updateSEO );
-			} );
-
-			test( "update seo with useKeywordDistribution", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useKeywordDistribution: true }, false, false, false ) ).toEqual( updateSEO );
 			} );
 
 			test( "update all with locale", () => {
@@ -274,7 +265,7 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "creates the i18n", () => {
 				scope.onmessage( createMessage( "initialize", {
-					translations: {
+					messages: {
 						domain: "messages",
 						// eslint-disable-next-line camelcase
 						locale_data: {
@@ -405,14 +396,6 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize", { useTaxonomy: true } ) );
 				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( timesCalled );
 
-				// Not when switching keyword distribution assessor on/off.
-				scope.onmessage( createMessage( "initialize", { useKeywordDistribution: true } ) );
-				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( timesCalled );
-
-				// When switching useWordComplexity on/off.
-				scope.onmessage( createMessage( "initialize", { useWordComplexity: true } ) );
-				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
-
 				// When changing locale.
 				scope.onmessage( createMessage( "initialize", { locale: "en_US" } ) );
 				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
@@ -434,10 +417,6 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize", { contentAnalysisActive: true } ) );
 				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( timesCalled );
 
-				// Not when switching useWordComplexity on/off.
-				scope.onmessage( createMessage( "initialize", { useWordComplexity: true } ) );
-				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( timesCalled );
-
 				// When switching seo analysis on/off.
 				scope.onmessage( createMessage( "initialize", { keywordAnalysisActive: true } ) );
 				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
@@ -448,10 +427,6 @@ describe( "AnalysisWebWorker", () => {
 
 				// When switching taxonomy assessor on/off.
 				scope.onmessage( createMessage( "initialize", { useTaxonomy: true } ) );
-				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
-
-				// When switching keyword distribution assessor on/off.
-				scope.onmessage( createMessage( "initialize", { useKeywordDistribution: true } ) );
 				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
 
 				// When changing locale.
@@ -672,6 +647,57 @@ describe( "AnalysisWebWorker", () => {
 				worker.analyzeDone( 0, { error: "failed" } );
 				expect( worker.send ).toHaveBeenCalledTimes( 1 );
 				expect( worker.send ).toHaveBeenCalledWith( "analyze:failed", 0, { error: "failed" } );
+			} );
+			it( "correctly calculates sentence position in a node containing an element (comment) that is removed from" +
+				"the paper after building the tree", async() => {
+				// One paragraph, with one sentence.
+				const html = "<div><!-- A comment --><p>A paragraph</p></div>";
+
+				const paper = new Paper( html );
+
+				const webworker = new AnalysisWebWorker( scope, researcher );
+
+				await webworker.analyze( 1, { paper } );
+
+				// Get the sentence from the single paragraph in the tree.
+				const paragraphs = paper.getTree().findAll( node => node.name === "p" );
+				const sentence = paragraphs[ 0 ].sentences[ 0 ];
+
+				const { startOffset, endOffset } = sentence.sourceCodeRange;
+
+				// Check if the source code position is correct.
+				expect( html.slice( startOffset, endOffset ) ).toEqual( "A paragraph" );
+			} );
+
+			it( "correctly calculate the position of the image with a caption", async() => {
+				const html = "<!-- wp:image -->\n" +
+					"<figure class=\"wp-block-image size-large\"><img src=\"https://example.com\" alt=\"\" class=\"wp-image-8\"/>" +
+					"<figcaption class=\"wp-element-caption\">A cute cat</figcaption></figure>\n" +
+					"<!-- /wp:image -->\n" +
+					"<!-- wp:paragraph -->\n" +
+					"<p>Movet voluptatibus vix ad. Et eruditi mediocrem liberavisse eos.</p>" +
+					"<!-- /wp:paragraph -->";
+
+				const paper = new Paper( html );
+
+				const webworker = new AnalysisWebWorker( scope, researcher );
+
+				await webworker.analyze( 1, { paper } );
+
+				const tree = paper.getTree();
+				const images = tree.findAll( node => node.name === "img" );
+				const caption = tree.findAll( node => node.name === "figcaption" );
+				const captionText = caption[ 0 ].findAll( node => node.name === "p" );
+				const { startOffset, endOffset } = captionText[ 0 ].sentences[ 0 ].sourceCodeRange;
+				// Check if the source code position is correct.
+				expect( images[ 0 ].sourceCodeLocation ).toEqual( {
+					endOffset: 118,
+					startOffset: 60,
+					startTag: { endOffset: 118, startOffset: 60 },
+				} );
+				// Check if the startOffset and endOffset of the caption text is correct.
+				expect( startOffset ).toEqual( 157 );
+				expect( endOffset ).toEqual( 167 );
 			} );
 		} );
 
@@ -1266,33 +1292,6 @@ describe( "AnalysisWebWorker", () => {
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
 		} );
-
-
-		test( "listens to useWordComplexity", () => {
-			worker._configuration.useWordComplexity = false;
-			let assessor = worker.createContentAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "contentAssessor" );
-			let assessment = assessor.getAssessment( "wordComplexity" );
-			expect( assessment ).not.toBeDefined();
-
-			worker._configuration.useWordComplexity = true;
-			assessor = worker.createContentAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "contentAssessor" );
-			assessment = assessor.getAssessment( "wordComplexity" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "wordComplexity" );
-
-			worker._configuration.useCornerstone = true;
-			worker._configuration.useWordComplexity = true;
-			assessor = worker.createContentAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
-			assessment = assessor.getAssessment( "wordComplexity" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "wordComplexity" );
-		} );
 	} );
 
 	describe( "createSEOAssessor", () => {
@@ -1331,32 +1330,6 @@ describe( "AnalysisWebWorker", () => {
 			assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
 			expect( assessor.type ).toBe( "taxonomyAssessor" );
-		} );
-
-		test( "listens to useKeywordDistribution", () => {
-			worker._configuration.useKeywordDistribution = false;
-			let assessor = worker.createSEOAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "SEOAssessor" );
-			let assessment = assessor.getAssessment( "keyphraseDistribution" );
-			expect( assessment ).not.toBeDefined();
-
-			worker._configuration.useKeywordDistribution = true;
-			assessor = worker.createSEOAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "SEOAssessor" );
-			assessment = assessor.getAssessment( "keyphraseDistribution" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
-
-			worker._configuration.useCornerstone = true;
-			worker._configuration.useKeywordDistribution = true;
-			assessor = worker.createSEOAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
-			assessment = assessor.getAssessment( "keyphraseDistribution" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
 		} );
 
 		test( "listens to customAnalysisType and sets the custom SEO assessor if available", () => {
@@ -1548,6 +1521,16 @@ describe( "AnalysisWebWorker", () => {
 			expect( worker._registeredAssessments[ 0 ].type ).toBe( "readability" );
 		} );
 
+		test( "add the readability assessment for cornerstone content to the registered assessments", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			expect( worker._contentAssessor ).not.toBeNull();
+
+			worker.registerAssessment( assessmentName, assessment, pluginName, "cornerstoneReadability" );
+			expect( worker._registeredAssessments.length ).toBe( 1 );
+			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
+			expect( worker._registeredAssessments[ 0 ].type ).toBe( "cornerstoneReadability" );
+		} );
+
 		test( "add the related keyphrase assessment to the registered assessments", () => {
 			scope.onmessage( createMessage( "initialize" ) );
 			expect( worker._relatedKeywordAssessor ).not.toBeNull();
@@ -1565,6 +1548,95 @@ describe( "AnalysisWebWorker", () => {
 
 			expect( worker.refreshAssessment ).toHaveBeenCalledTimes( 1 );
 			expect( worker.refreshAssessment ).toHaveBeenCalledWith( assessmentName, pluginName );
+		} );
+	} );
+
+	describe( "registerResearch", () => {
+		const researchName = "custom research";
+		const research = () => "hello";
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			worker.register();
+		} );
+
+		test( "throws an error when passing an invalid name", () => {
+			const errorMessage = "Failed to register the custom research. Expected parameter `name` to be a string.";
+			expect( () => worker.registerResearch( null, research ) ).toThrowError( errorMessage );
+		} );
+
+		test( "throws an error when passing an invalid research", () => {
+			const errorMessage = "Failed to register the custom research. Expected parameter `research` to be a function.";
+			expect( () => worker.registerResearch( researchName, null ) ).toThrowError( errorMessage );
+		} );
+
+		test( "adds the research", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+
+			worker.registerResearch( researchName, research );
+			const researchFromResearcher = researcher.getResearch( researchName );
+			expect( researchFromResearcher ).toBeDefined();
+			expect( researchFromResearcher ).toBe( "hello" );
+		} );
+	} );
+
+	describe( "registerHelper", () => {
+		const helperName = "helpful helper";
+		const helper = () => true;
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			worker.register();
+		} );
+
+		test( "throws an error when passing an invalid name", () => {
+			const errorMessage = "Failed to register the custom helper. Expected parameter `name` to be a string.";
+			expect( () => worker.registerHelper( null, helper ) ).toThrowError( errorMessage );
+		} );
+
+		test( "throws an error when passing an invalid helper", () => {
+			const errorMessage = "Failed to register the custom helper. Expected parameter `helper` to be a function.";
+			expect( () => worker.registerHelper( helperName, null ) ).toThrowError( errorMessage );
+		} );
+
+		test( "adds the helper", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+
+			worker.registerHelper( helperName, helper );
+			const helperFromResearcher = researcher.getHelper( helperName );
+			expect( helperFromResearcher ).toBeDefined();
+			expect( helperFromResearcher ).toBe( helper );
+		} );
+	} );
+
+	describe( "registerResearcherConfig", () => {
+		const name = "petsConfig";
+		const researcherConfig = { pets: [ "cats", "dogs" ] };
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			worker.register();
+		} );
+
+		test( "throws an error when passing an invalid name", () => {
+			const errorMessage = "Failed to register the custom researcher config. Expected parameter `name` to be a string.";
+			expect( () => worker.registerResearcherConfig( null, researcherConfig ) ).toThrowError( errorMessage );
+		} );
+		test( "throws an error when passing an empty or undefined config", () => {
+			const errorMessage = "Failed to register the custom researcher config. Expected parameter `researcherConfig` to be defined.";
+			expect( () => worker.registerResearcherConfig( name, {} ) ).toThrowError( errorMessage );
+			expect( () => worker.registerResearcherConfig( name ) ).toThrowError( errorMessage );
+		} );
+		test( "adds the researcher config", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+
+			worker.registerResearcherConfig( name, researcherConfig );
+			const configFromResearcher = researcher.getConfig( name );
+			expect( configFromResearcher ).toBeDefined();
+			expect( configFromResearcher ).toBe( researcherConfig );
 		} );
 	} );
 
@@ -1730,6 +1802,43 @@ describe( "AnalysisWebWorker", () => {
 		test( "returns false when the keyword and synonyms are the same", () => {
 			worker._relatedKeywords[ key ] = { keyword, synonyms };
 			expect( worker.shouldSeoUpdate( key, { keyword, synonyms } ) ).toBe( false );
+		} );
+	} );
+
+	describe( "shouldInclusiveLanguageUpdate", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+		} );
+
+		test( "returns true when the existing paper is null", () => {
+			const paper = new Paper( "This does not matter here." );
+			worker._paper = null;
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns true when the paper text is different", () => {
+			const paper = new Paper( "This is different content." );
+			worker._paper = new Paper( "This is the content." );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns true when the paper locale is different", () => {
+			const paper = new Paper( "This is the content.", { locale: "en_US" } );
+			worker._paper = new Paper( "This is the content.", { locale: "nl_NL" } );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns true when the text title of the paper is different", () => {
+			const paper = new Paper( "This is the content.", { textTitle: "A text title" } );
+			worker._paper = new Paper( "This is the content.", { textTitle: "A different text title" } );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns false when the text and text title are the same", () => {
+			const paper = new Paper( "This is the content.", { textTitle: "A text title" } );
+			worker._paper = new Paper( "This is the content.", { textTitle: "A text title" } );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( false );
 		} );
 	} );
 

@@ -6,8 +6,10 @@ use Brain\Monkey;
 use Mockery;
 use stdClass;
 use WPSEO_Utils;
+use Yoast_Notification;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Addon_Manager_Double;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -45,6 +47,7 @@ class Addon_Manager_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
+		$this->stubTranslationFunctions();
 
 		$this->instance = Mockery::mock( Addon_Manager_Double::class )
 			->shouldAllowMockingProtectedMethods()
@@ -256,8 +259,15 @@ class Addon_Manager_Test extends TestCase {
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
 
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertEquals(
 			[
@@ -362,8 +372,15 @@ class Addon_Manager_Test extends TestCase {
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
 
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertEquals(
 			[
@@ -399,9 +416,9 @@ class Addon_Manager_Test extends TestCase {
 				[
 					'wordpress-seo/wp-seo.php' => [
 						'update' => [
-							'tested'       => '5.6',
-							'requires_php' => '5.6',
-							'requires'     => '5.5',
+							'tested'       => '6.1.1',
+							'requires_php' => '7.2.5',
+							'requires'     => '6.0',
 						],
 					],
 				]
@@ -502,8 +519,16 @@ class Addon_Manager_Test extends TestCase {
 		if ( ! empty( $addons ) ) {
 			$product_helper_mock = Mockery::mock( Product_Helper::class );
 			$product_helper_mock->shouldReceive( 'is_premium' )->atMost()->times( 2 )->andReturn( false );
-			$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-			Monkey\Functions\expect( 'YoastSEO' )->atMost()->times( 2 )->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
+			$container = $this->create_container_with(
+				[
+					Product_Helper::class => $product_helper_mock,
+				]
+			);
+
+			Monkey\Functions\expect( 'YoastSEO' )
+				->atMost()->times( 2 )
+				->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 		}
 
 		Monkey\Functions\expect( 'get_plugin_updates' )
@@ -511,20 +536,20 @@ class Addon_Manager_Test extends TestCase {
 				[
 					'wordpress-seo/wp-seo.php' => [
 						'update' => [
-							'tested'       => '5.9',
-							'requires_php' => '5.6',
+							'tested'       => \YOAST_SEO_WP_REQUIRED,
+							'requires_php' => '7.2.5',
 						],
 					],
 				]
 			);
 
 		global $wp_version;
-		$wp_version = '6.0';
+		$wp_version = \YOAST_SEO_WP_REQUIRED;
 		$this->assertEquals( $expected, $this->instance->check_for_updates( $data ), $message );
 
 		// Now check that the Premium plugin won't show updates, if the requirement for the WP version coming from Yoast free, is not met.
 		if ( isset( $addons['wp-seo-premium.php'] ) ) {
-			$wp_version = '5.8';
+			$wp_version = '6.1';
 			$updates    = $this->instance->check_for_updates( $data );
 
 			$this->assertTrue( isset( $updates->no_update['wp-seo-premium.php'] ) );
@@ -539,8 +564,16 @@ class Addon_Manager_Test extends TestCase {
 	public function test_is_yoast_addon() {
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->twice()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertTrue( $this->instance->is_yoast_addon( 'wp-seo-premium.php' ) );
 		$this->assertFalse( $this->instance->is_yoast_addon( 'non-wp-seo-addon.php' ) );
@@ -554,8 +587,16 @@ class Addon_Manager_Test extends TestCase {
 	public function test_get_slug_by_plugin_file() {
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->twice()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertEquals( 'yoast-seo-wordpress-premium', $this->instance->get_slug_by_plugin_file( 'wp-seo-premium.php' ) );
 		$this->assertEquals( '', $this->instance->get_slug_by_plugin_file( 'non-wp-seo-addon.php' ) );
@@ -631,8 +672,16 @@ class Addon_Manager_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertEquals(
 			[],
@@ -679,8 +728,16 @@ class Addon_Manager_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertEquals(
 			[
@@ -716,8 +773,16 @@ class Addon_Manager_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->times( 3 )->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->times( 3 )->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->times( 3 )
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertEquals(
 			[
@@ -798,7 +863,7 @@ class Addon_Manager_Test extends TestCase {
 							'new_version'      => '10.0',
 							'name'             => 'Extension',
 							'slug'             => 'yoast-seo-wordpress-premium',
-							'plugin'           => '',
+							'plugin'           => 'wp-seo-premium.php',
 							'url'              => 'https://example.org/store',
 							'last_update'      => 'yesterday',
 							'homepage'         => 'https://example.org/store',
@@ -953,5 +1018,165 @@ class Addon_Manager_Test extends TestCase {
 		}
 
 		return $this->past_date;
+	}
+
+	/**
+	 * Test get_myyoast_site_information function.
+	 *
+	 * Note that this only tests when a transient can be retrieved.
+	 *
+	 * @dataProvider get_myyoast_site_information_dataprovider
+	 *
+	 * @covers ::get_myyoast_site_information
+	 *
+	 * @param string $pagenow_new      What the value of global pagenow should be.
+	 * @param mixed  $page             What the value of $_GET['page'] should be.
+	 * @param bool   $call_quick       Whether the quick transient will be used.
+	 * @param mixed  $transient_return The value the transient should return.
+	 * @param mixed  $return_value     The return value.
+	 */
+	public function test_get_myyoast_site_information( $pagenow_new, $page, $call_quick, $transient_return, $return_value ) {
+		global $pagenow;
+		$pagenow      = $pagenow_new;
+		$_GET['page'] = $page;
+		if ( $call_quick ) {
+			Monkey\Functions\expect( 'get_transient' )
+				->with( 'wpseo_site_information_quick' )
+				->andReturn( $transient_return );
+		}
+		else {
+			Monkey\Functions\expect( 'get_transient' )
+				->with( 'wpseo_site_information' )
+				->andReturn( $transient_return );
+		}
+		$this->assertEquals( $return_value, $this->instance->get_myyoast_site_information() );
+	}
+
+	/**
+	 * Data provider for test_get_myyoast_site_information.
+	 *
+	 * @return array[] The data for test_get_myyoast_site_information.
+	 */
+	public function get_myyoast_site_information_dataprovider() {
+		$normal_call            = [
+			'pagenow_new'      => 'plugins.php',
+			'page'             => 'wpseo_licences',
+			'call_quick'       => true,
+			'transient_return' => 'test',
+			'return_value'     => 'test',
+		];
+		$pagenow_other          = [
+			'pagenow_new'      => 'non-existent.php',
+			'page'             => 'wpseo_licences',
+			'call_quick'       => true,
+			'transient_return' => 'test',
+			'return_value'     => 'test',
+		];
+		$no_quick_call          = [
+			'pagenow_new'      => 'non-existent.php',
+			'page'             => 'non_existent',
+			'call_quick'       => false,
+			'transient_return' => 'test',
+			'return_value'     => 'test',
+		];
+		$page_null              = [
+			'pagenow_new'      => 'non-existent.php',
+			'page'             => null,
+			'call_quick'       => false,
+			'transient_return' => 'test',
+			'return_value'     => 'test',
+		];
+		$page_other_than_string = [
+			'pagenow_new'      => 'non-existent.php',
+			'page'             => 13,
+			'call_quick'       => false,
+			'transient_return' => 'test',
+			'return_value'     => 'test',
+		];
+		return [
+			'Normal call'                        => $normal_call,
+			'Pagenow set to something else than plugins.php or update-core.php' => $pagenow_other,
+			'No quick call'                      => $no_quick_call,
+			'Page is set to null'                => $page_null,
+			'Page is something else than string' => $page_other_than_string,
+		];
+	}
+
+	/**
+	 * Data provider for create_notification
+	 *
+	 * @return array
+	 */
+	public static function data_provider_create_notification() {
+		return [
+			'Notification for Yoast SEO Premium' => [
+				'product_name' => 'Yoast SEO Premium',
+				'short_link'   => 'https://yoa.st/13j',
+			],
+			'Notification for Yoast Local SEO' => [
+				'product_name' => 'Yoast Local SEO',
+				'short_link'   => 'https://yoa.st/4xp',
+			],
+			'Notification for Yoast Video SEO' => [
+				'product_name' => 'Yoast Video SEO',
+				'short_link'   => 'https://yoa.st/4xq',
+			],
+			'Notification for Yoast News SEO' => [
+				'product_name' => 'Yoast News SEO',
+				'short_link'   => 'https://yoa.st/4xr',
+			],
+		];
+	}
+
+	/**
+	 * Tests create_notification method.
+	 *
+	 * @covers ::create_notification
+	 *
+	 * @dataProvider data_provider_create_notification
+	 *
+	 * @param string $product_name The product name.
+	 * @param string $short_link   The short link.
+	 */
+	public function test_create_notification( $product_name, $short_link ) {
+
+		Monkey\Functions\expect( 'sanitize_title_with_dashes' )
+			->with( $product_name, null, 'save' )
+			->once()
+			->andReturn( $product_name );
+
+		$short_link_mock = Mockery::mock( Short_Link_Helper::class );
+
+		$short_link_mock->expects( 'get' )
+			->once()
+			->andReturn( $short_link );
+
+		$container = $this->create_container_with(
+			[
+				Short_Link_Helper::class => $short_link_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->twice();
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
+
+		$notification = $this->instance->create_notification( $product_name, $short_link );
+
+		$notification_options = [
+			'type'         => 'error',
+			'id'           => 'wpseo-dismiss-' . $product_name,
+			'capabilities' => 'wpseo_manage_options',
+		];
+
+
+		$expected = new Yoast_Notification(
+			'<strong> ' . $product_name . ' isn\'t working as expected </strong> and you are not receiving updates or support! Make sure to <a href="' . $short_link . '" target="_blank"> activate your product subscription in MyYoast</a> to unlock all the features of ' . $product_name . '.',
+			$notification_options
+		);
+		$this->assertEquals( $expected, $notification );
 	}
 }

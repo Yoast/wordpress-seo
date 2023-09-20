@@ -1,12 +1,13 @@
 import FeatureUpsell from ".";
+import { component, card } from "./docs";
 
 export default {
-	title: "2. Components/Feature Upsell",
+	title: "2) Components/Feature upsell",
 	component: FeatureUpsell,
 	parameters: {
 		docs: {
 			description: {
-				component: "A feature upsell component.",
+				component,
 			},
 		},
 	},
@@ -31,10 +32,4 @@ Card.args = {
 	cardLink: "#",
 	cardText: "Upgrade",
 };
-Card.parameters = {
-	docs: {
-		description: {
-			story: "When using the `card` variant. You should provide a `cardLink` and a `cardText`.",
-		},
-	},
-};
+Card.parameters = { docs: { description: { story: card } } };

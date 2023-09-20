@@ -1,4 +1,4 @@
-import { isArray } from "lodash-es";
+import { isArray } from "lodash";
 import { callEndpoint } from "./api";
 
 /**
@@ -9,6 +9,30 @@ import { callEndpoint } from "./api";
 export async function getAuthorizationUrl() {
 	return await callEndpoint( {
 		path: "yoast/v1/wincher/authorization-url",
+		method: "GET",
+	} );
+}
+
+/**
+ * Checks the tracking limit.
+ *
+ * @returns {Promise} The API response promise.
+ */
+export async function checkLimit() {
+	return await callEndpoint( {
+		path: "yoast/v1/wincher/account/limit",
+		method: "GET",
+	} );
+}
+
+/**
+ * Gets the upgrade campaign.
+ *
+ * @returns {Promise} The API response promise.
+ */
+export async function getUpgradeCampaign() {
+	return await callEndpoint( {
+		path: "yoast/v1/wincher/account/upgrade-campaign",
 		method: "GET",
 	} );
 }

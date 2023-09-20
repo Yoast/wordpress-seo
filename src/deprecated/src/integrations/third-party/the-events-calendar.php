@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
-use Yoast\WP\SEO\Conditionals\The_Events_Calendar_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -24,7 +23,7 @@ class The_Events_Calendar implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 		return [ Front_End_Conditional::class, Open_Graph_Conditional::class ];
 	}
 
@@ -39,22 +38,22 @@ class The_Events_Calendar implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 	}
 
 	/**
 	 * Adds the events graph pieces to the schema collector.
 	 *
-	 * @param array  $pieces  The current graph pieces.
-	 * @param string $context The current context.
-	 *
 	 * @deprecated 19.12
 	 * @codeCoverageIgnore
+	 *
+	 * @param array  $pieces  The current graph pieces.
+	 * @param string $context The current context.
 	 *
 	 * @return array Extended graph pieces.
 	 */
 	public function add_graph_pieces( $pieces, $context ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 
 		return $pieces;
 	}

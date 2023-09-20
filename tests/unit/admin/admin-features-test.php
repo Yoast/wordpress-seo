@@ -4,13 +4,14 @@ namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
 use Brain\Monkey;
 use Mockery;
+use Wincher_Dashboard_Widget;
 use WP_User;
 use WPSEO_Admin;
 use WPSEO_Primary_Term_Admin;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
-use Yoast\WP\SEO\Surfaces\Helpers_Surface;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Shortlinker_Double;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Dashboard_Widget;
 
@@ -27,22 +28,19 @@ class Admin_Features_Test extends TestCase {
 	 * @return WPSEO_Admin Instance to test against.
 	 */
 	private function get_admin_with_expectations() {
-		$shortlinker = new Shortlinker_Double();
-
-		Monkey\Functions\expect( 'add_query_arg' )
-			->times( 3 )
-			->with( $shortlinker->get_additional_shortlink_data(), Mockery::pattern( '/https:\/\/yoa.st\/*/' ) )
-			->andReturn( 'https://example.org' );
-
 		Monkey\Functions\expect( 'admin_url' )
 			->once()
 			->with( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' )
 			->andReturn( 'https://example.org' );
 
-		// Mock the current user for notifications.
-		Monkey\Functions\expect( 'wp_get_current_user' )
-			->times( 1 )
-			->andReturn( Mockery::mock( WP_User::class ) );
+		Monkey\Functions\expect( 'wp_nonce_url' )
+			->once()
+			->with( 'https://example.org', 'dismiss-5star-upsell' )
+			->andReturn( 'https://example.org?_wpnonce=test-nonce' );
+
+			Monkey\Functions\expect( 'wp_get_current_user' )
+				->once()
+				->andReturn( Mockery::mock( WP_User::class ) );
 
 		return new WPSEO_Admin();
 	}
@@ -57,17 +55,29 @@ class Admin_Features_Test extends TestCase {
 		$current_page_helper->expects( 'is_yoast_seo_page' )->once()->andReturn( true );
 
 		$product_helper = Mockery::mock( Product_Helper::class );
-		$product_helper->expects( 'is_premium' )->times( 5 )->andReturn( false );
+		$product_helper->expects( 'is_premium' )->once()->andReturn( false );
+
+		$short_link = Mockery::mock( Short_Link_Helper::class );
+		$short_link->expects( 'get' )->times( 3 )->andReturn( 'https://www.example.com?some=var' );
+
 		$url_helper = Mockery::mock( Url_Helper::class );
 		$url_helper->expects( 'is_plugin_network_active' )->twice()->andReturn( false );
 
-		$helper_surface               = Mockery::mock( Helpers_Surface::class );
-		$helper_surface->current_page = $current_page_helper;
-		$helper_surface->product      = $product_helper;
-		$helper_surface->url          = $url_helper;
+		$container = $this->create_container_with(
+			[
+				Current_Page_Helper::class => $current_page_helper,
+				Product_Helper::class      => $product_helper,
+				Short_Link_Helper::class   => $short_link,
+				Url_Helper::class          => $url_helper,
+			]
+		);
 
 		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( (object) [ 'helpers' => $helper_surface ] );
+			->times( 7 )
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
+
+		Monkey\Functions\expect( 'get_user_locale' )
+			->andReturn( 'en_US' );
 	}
 
 	/**
@@ -84,8 +94,9 @@ class Admin_Features_Test extends TestCase {
 		$class_instance = $this->get_admin_with_expectations();
 
 		$admin_features = [
-			'primary_category' => new WPSEO_Primary_Term_Admin(),
-			'dashboard_widget' => new Yoast_Dashboard_Widget(),
+			'primary_category'         => new WPSEO_Primary_Term_Admin(),
+			'dashboard_widget'         => new Yoast_Dashboard_Widget(),
+			'wincher_dashboard_widget' => new Wincher_Dashboard_Widget(),
 		];
 
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );
@@ -105,7 +116,8 @@ class Admin_Features_Test extends TestCase {
 		$class_instance = $this->get_admin_with_expectations();
 
 		$admin_features = [
-			'dashboard_widget' => new Yoast_Dashboard_Widget(),
+			'dashboard_widget'         => new Yoast_Dashboard_Widget(),
+			'wincher_dashboard_widget' => new Wincher_Dashboard_Widget(),
 		];
 
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );

@@ -1,11 +1,11 @@
 /* eslint-disable complexity */
 import { Transition } from "@headlessui/react";
-import PropTypes from "prop-types";
-import { useState, useCallback, useEffect, useContext, createContext } from "@wordpress/element";
-import { CheckCircleIcon, ExclamationIcon, XIcon, InformationCircleIcon } from "@heroicons/react/outline";
-import { ExclamationCircleIcon } from "@heroicons/react/solid";
-import { isArray, keys } from "lodash";
+import { XIcon } from "@heroicons/react/outline";
+import { createContext, useCallback, useContext, useEffect, useState } from "@wordpress/element";
 import classNames from "classnames";
+import { isArray, keys, noop } from "lodash";
+import PropTypes from "prop-types";
+import { ValidationIcon } from "../../elements/validation";
 
 const NotificationsContext = createContext( { position: "bottom-left" } );
 
@@ -14,7 +14,7 @@ const NotificationsContext = createContext( { position: "bottom-left" } );
  */
 const useNotificationsContext = () => useContext( NotificationsContext );
 
-const notificationClassNameMap = {
+export const notificationClassNameMap = {
 	variant: {
 		info: "yst-notification--info",
 		warning: "yst-notification--warning",
@@ -32,39 +32,30 @@ const notificationClassNameMap = {
 	},
 };
 
-const notificationsIconMap = {
-	info: InformationCircleIcon,
-	warning: ExclamationIcon,
-	success: CheckCircleIcon,
-	error: ExclamationCircleIcon,
-};
-
 /**
- *
  * @param {Object} props The props object.
  * @param {JSX.node} children The children.
  * @param {string} [variant] The message variant. Either success or error.
- * @param {string} title The message title.
+ * @param {string} [title] The message title.
  * @param {string|string[]} [description] The message description.
  * @param {Function} [onDismiss] Function to trigger on dismissal.
- * @param {number} [autoDismiss] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
+ * @param {number|null} [autoDismiss] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
  * @param {string} dismissScreenReaderLabel Screen reader label for dismiss button.
  * @returns {JSX.Element} The Notification component.
  */
-const Notification = ( {
+export const Notification = ( {
 	children,
 	id,
 	variant = "info",
 	size = "default",
-	title,
+	title = "",
 	description = "",
-	onDismiss = null,
+	onDismiss = noop,
 	autoDismiss = null,
 	dismissScreenReaderLabel,
 } ) => {
 	const { position } = useNotificationsContext();
 	const [ isVisible, setIsVisible ] = useState( false );
-	const Icon = notificationsIconMap[ variant ];
 
 	const handleDismiss = useCallback( () => {
 		// Disable visibility on dismiss to trigger transition.
@@ -107,15 +98,21 @@ const Notification = ( {
 		>
 			<div className="yst-flex yst-items-start yst-gap-3">
 				<div className="yst-flex-shrink-0">
-					<Icon className="yst-notification__icon" />
+					<ValidationIcon variant={ variant } className="yst-notification__icon" />
 				</div>
 				<div className="yst-w-0 yst-flex-1">
-					<p className="yst-text-sm yst-font-medium yst-text-slate-800">
-						{ title }
-					</p>
+					{ title && (
+						<p className="yst-text-sm yst-font-medium yst-text-slate-800">
+							{ title }
+						</p>
+					) }
 					{ children || (
 						description && ( isArray( description ) ? (
-							<ul className="yst-list-disc yst-ml-4">{ description.map( ( text, index ) => <li className="yst-pt-1" key={ `${ text }-${ index }` }>{ text }</li> ) }</ul>
+							<ul className="yst-list-disc yst-ml-4">
+								{ description.map( ( text, index ) => (
+									<li className="yst-pt-1" key={ `${ text }-${ index }` }>{ text }</li>
+								) ) }
+							</ul>
 						) : (
 							<p>{ description }</p>
 						) )
@@ -123,7 +120,10 @@ const Notification = ( {
 				</div>
 				{ onDismiss && (
 					<div className="yst-flex-shrink-0 yst-flex">
-						<button onClick={ handleDismiss } className="yst-bg-white yst-rounded-md yst-inline-flex yst-text-slate-400 hover:yst-text-slate-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500">
+						<button
+							onClick={ handleDismiss }
+							className="yst-bg-white yst-rounded-md yst-inline-flex yst-text-slate-400 hover:yst-text-slate-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
+						>
 							<span className="yst-sr-only">{ dismissScreenReaderLabel }</span>
 							<XIcon className="yst-h-5 yst-w-5" />
 						</button>
@@ -139,7 +139,7 @@ Notification.propTypes = {
 	id: PropTypes.string.isRequired,
 	variant: PropTypes.oneOf( keys( notificationClassNameMap.variant ) ),
 	size: PropTypes.oneOf( keys( notificationClassNameMap.size ) ),
-	title: PropTypes.string.isRequired,
+	title: PropTypes.string,
 	description: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
 	onDismiss: PropTypes.func,
 	autoDismiss: PropTypes.number,
@@ -157,19 +157,25 @@ const notificationsClassNameMap = {
 /**
  * The Notifications component shows notifications on a specified position on the screen.
  * @param {JSX.Element} children The children.
+ * @param {string} [className] Additional class names.
  * @param {string} position Position on screen.
+ * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The Notifications element.
  */
 const Notifications = ( {
 	children,
+	className = "",
 	position = "bottom-left",
+	...props
 } ) => (
 	<NotificationsContext.Provider value={ { position } }>
 		<aside
 			className={ classNames(
 				"yst-notifications",
 				notificationsClassNameMap.position[ position ],
+				className,
 			) }
+			{ ...props }
 		>
 			{ children }
 		</aside>
@@ -178,9 +184,11 @@ const Notifications = ( {
 
 Notifications.propTypes = {
 	children: PropTypes.node,
+	className: PropTypes.string,
 	position: PropTypes.oneOf( keys( notificationsClassNameMap.position ) ),
 };
 
 Notifications.Notification = Notification;
+Notifications.Notification.displayName = "Notifications.Notification";
 
 export default Notifications;

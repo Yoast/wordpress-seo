@@ -1,12 +1,7 @@
-import parseSynonyms from "../helpers/sanitize/parseSynonyms";
-import getSentences from "../helpers/sentence/getSentences";
-import { mergeListItems } from "../helpers/sanitize/mergeListItems";
-import { findWordFormsInString } from "../helpers/match/findKeywordFormsInString";
-import { max, uniq as unique } from "lodash-es";
-import { zipWith } from "lodash-es";
-import { flattenDeep } from "lodash-es";
-import { markWordsInSentences } from "../helpers/word/markWordsInSentences";
+import { flattenDeep, max, uniq as unique, zipWith } from "lodash-es";
+import { languageProcessing } from "yoastseo";
 
+const { parseSynonyms, getSentences, mergeListItems, findWordFormsInString, markWordsInSentences, helpers } = languageProcessing;
 
 /**
  * Checks whether at least half of the content words from the topic are found within the sentence.
@@ -208,6 +203,7 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const topicLengthCriteria = researcher.getConfig( "topicLength" ).lengthCriteria;
 
 	let text = paper.getText();
+	text = helpers.removeHtmlBlocks( text );
 	text = mergeListItems( text );
 	const sentences = getSentences( text, memoizedTokenizer );
 	const topicForms = researcher.getResearch( "morphology" );

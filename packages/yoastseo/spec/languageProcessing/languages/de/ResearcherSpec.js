@@ -7,6 +7,8 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/de
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/de/config/twoPartTransitionWords";
 import stopWords from "../../../../src/languageProcessing/languages/de/config/stopWords";
 import syllables from "../../../../src/languageProcessing/languages/de/config/syllables.json";
+import checkIfWordIsComplex from "../../../../src/languageProcessing/languages/de/helpers/checkIfWordIsComplex";
+import wordComplexityConfig from "../../../../src/languageProcessing/languages/de/config/wordComplexity";
 const morphologyDataDE = getMorphologyData( "de" );
 
 describe( "a test for the German Researcher", function() {
@@ -77,7 +79,15 @@ describe( "a test for the German Researcher", function() {
 	} );
 
 	it( "checks if a word is complex in German", function() {
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( "optimierungen" ) ).toEqual( true );
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( "boxen" ) ).toEqual( false );
+		researcher.addHelper( "checkIfWordIsComplex", checkIfWordIsComplex );
+
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "optimierungen" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "boxen" ) ).toEqual( false );
+	} );
+
+	it( "checks if a word is a function word in German", function() {
+		expect( researcher.getHelper( "checkIfWordIsFunction" )( "verhältnismäßig" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsFunction" )( "Verhältnismäßig" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsFunction" )( "gebildeten" ) ).toEqual( false );
 	} );
 } );

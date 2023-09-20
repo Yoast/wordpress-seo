@@ -33,7 +33,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO 18.5' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 18.5' );
 		$this->maybe_add_weekly_schedule();
 	}
 
@@ -46,7 +46,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		_deprecated_function( __METHOD__, 'WPSEO 18.5' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 18.5' );
 		if ( ! self::is_active() ) {
 			return;
 		}
@@ -64,7 +64,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return bool True if this functionality can be used.
 	 */
 	public static function is_active() {
-		_deprecated_function( __METHOD__, 'WPSEO 18.5' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 18.5' );
 		if ( wp_doing_ajax() ) {
 			return false;
 		}
@@ -83,7 +83,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @codeCoverageIgnore
 	 */
 	public function activate_hooks() {
-		_deprecated_function( __METHOD__, 'WPSEO 18.5' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 18.5' );
 		if ( $this->get_option()->is_enabled() ) {
 			$this->schedule_cron();
 
@@ -102,7 +102,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function maybe_add_weekly_schedule() {
-		_deprecated_function( __METHOD__, 'WPSEO 18.5' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 18.5' );
 		// If there's no default cron weekly schedule, add a custom one.
 		add_filter( 'cron_schedules', [ $this, 'add_weekly_schedule' ] );
 	}
@@ -118,7 +118,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return array Enriched list of custom cron schedules.
 	 */
 	public function add_weekly_schedule( $schedules ) {
-		_deprecated_function( __METHOD__, 'WPSEO 18.5' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 18.5' );
 		if ( ! is_array( $schedules ) ) {
 			$schedules = [];
 		}
@@ -149,7 +149,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return bool|null Whether the request ran.
 	 */
 	public function fetch_from_ryte() {
-		_deprecated_function( __METHOD__, 'WPSEO 18.5' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 18.5' );
 		// Don't do anything when the WordPress environment type isn't "production".
 		if ( wp_get_environment_type() !== 'production' ) {
 			return;
@@ -180,7 +180,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return WPSEO_Ryte_Option The option.
 	 */
 	protected function get_option() {
-		_deprecated_function( __METHOD__, 'WPSEO 18.5' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 18.5' );
 		return new WPSEO_Ryte_Option();
 	}
 
@@ -193,7 +193,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return int The indexability status value.
 	 */
 	protected function request_indexability() {
-		_deprecated_function( __METHOD__, 'WPSEO 18.5' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 18.5' );
 		$parameters = [];
 		if ( $this->wordfence_protection_enabled() ) {
 			$parameters['wf_strict'] = 1;
@@ -223,7 +223,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	private function schedule_cron() {
-		_deprecated_function( __METHOD__, 'WPSEO 18.5' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 18.5' );
 		if ( wp_next_scheduled( 'wpseo_ryte_fetch' ) ) {
 			return;
 		}
@@ -240,7 +240,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	private function unschedule_cron() {
-		_deprecated_function( __METHOD__, 'WPSEO 18.5' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 18.5' );
 		if ( ! wp_next_scheduled( 'wpseo_ryte_fetch' ) ) {
 			return;
 		}
@@ -257,7 +257,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return bool True if WordFence protects the site.
 	 */
 	private function wordfence_protection_enabled() {
-		_deprecated_function( __METHOD__, 'WPSEO 18.5' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 18.5' );
 		if ( ! class_exists( 'wfConfig' ) ) {
 			return false;
 		}
@@ -278,7 +278,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return array|WP_Error The response or WP_Error on failure.
 	 */
 	public function get_response() {
-		_deprecated_function( __METHOD__, 'WPSEO 18.5' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 18.5' );
 		return $this->ryte_response;
 	}
 }

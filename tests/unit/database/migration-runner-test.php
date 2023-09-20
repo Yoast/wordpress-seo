@@ -179,7 +179,7 @@ class Migration_Runner_Test extends TestCase {
 	 * @return wpdb The wpdb mock.
 	 */
 	protected function get_wpdb_mock() {
-		$wpdb         = Mockery::mock( 'wpdb' );
+		$wpdb         = Mockery::mock( wpdb::class );
 		$wpdb->prefix = 'test';
 
 		return $wpdb;

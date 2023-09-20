@@ -14,14 +14,14 @@ const withFormikDummyField = Component => {
 	 * @returns {JSX.Element} The element.
 	 */
 	const ComponentWithFormikDummyField = ( { name, isDummy = false, ...props } ) => {
-		const defaultValue = useSelectSettings( "selectDefaultSetting", [ name ], name );
+		const defaultValue = useSelectSettings( "selectDefaultSettingValue", [ name ], name );
 
 		if ( isDummy ) {
 			return <Component
 				name={ name }
 				{ ...props }
 				// Override value and change handler with dummy values.
-				disabled={ false }
+				disabled={ true }
 				value={ defaultValue }
 				onChange={ noop }
 				// Specific override for checkbox type components.

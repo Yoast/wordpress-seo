@@ -22,7 +22,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	echo sprintf(
 		/* translators: %s expands to Yoast SEO */
 		esc_html__( 'This tab allows you to selectively disable %s features for all sites in the network. By default all features are enabled, which allows site admins to choose for themselves if they want to toggle a feature on or off for their site. When you disable a feature here, site admins will not be able to use that feature at all.', 'wordpress-seo' ),
-		'Yoast SEO Premium'
+		'Yoast SEO'
 	);
 
 	echo '<p style="margin: 0.5em 0 1em;">';

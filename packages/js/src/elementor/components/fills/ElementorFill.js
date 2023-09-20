@@ -1,7 +1,6 @@
 // External dependencies.
 import { Fill } from "@wordpress/components";
-import { Fragment } from "@wordpress/element";
-import { useEffect } from "@wordpress/element";
+import { Fragment, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import PropTypes from "prop-types";
@@ -10,11 +9,10 @@ import PropTypes from "prop-types";
 import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
 import InsightsModal from "../../../insights/components/insights-modal";
 import Alert from "../../containers/Alert";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../../../components/SidebarItem";
-import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
-import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
-import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
+import SearchAppearanceModal from "../../../components/modals/editorModals/SearchAppearanceModal";
+import SocialAppearanceModal from "../../../components/modals/editorModals/SocialAppearanceModal";
 import PremiumSEOAnalysisModal from "../../../components/modals/PremiumSEOAnalysisModal";
 import SidebarCollapsible from "../../../components/SidebarCollapsible";
 import SchemaTabContainer from "../../../containers/SchemaTab";
@@ -24,6 +22,7 @@ import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanc
 import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
+import BlackFridayPromoNotification from "../../../components/BlackFridayPromoNotification";
 import KeywordUpsell from "../../../components/KeywordUpsell";
 
 /* eslint-disable complexity */
@@ -50,6 +49,8 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	}
 
 	const webinarIntroElementorUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
+	const blackFridayBlockEditorUrl = get( window, "wpseoScriptData.blackFridayBlockEditorUrl", "https://yoa.st/black-friday-checklist" );
+	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
 
 	return (
 		<>
@@ -57,7 +58,11 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 			<Fill name="YoastElementor">
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
-					<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } />
+
+					{ isWooCommerce && blackFridayBlockEditorUrl
+						? <BlackFridayPromoNotification image={ null } url={ blackFridayBlockEditorUrl } />
+						: <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } /> }
+
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
 					<KeywordInput
@@ -68,13 +73,13 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					</Fill> }
 				</SidebarItem> }
 				<SidebarItem renderPriority={ 25 }>
-					<GooglePreviewModal />
+					<SearchAppearanceModal />
 				</SidebarItem>
-				{ settings.displayFacebook && <SidebarItem renderPriority={ 26 }>
-					<FacebookPreviewModal />
-				</SidebarItem> }
-				{ settings.displayTwitter && <SidebarItem renderPriority={ 27 }>
-					<TwitterPreviewModal />
+				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-appearance" renderPriority={ 26 }>
+					<SocialAppearanceModal
+						useOpenGraphData={ settings.useOpenGraphData }
+						useTwitterData={ settings.useTwitterData }
+					/>
 				</SidebarItem> }
 				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 28 }>
 					<SidebarCollapsible
@@ -95,7 +100,6 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
 							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-							isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 						/>
 						{ settings.shouldUpsell && <PremiumSEOAnalysisModal /> }
 					</Fragment>
@@ -103,8 +107,10 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 15 }>
 					<ReadabilityAnalysis
 						shouldUpsell={ settings.shouldUpsell }
-						isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 					/>
+				</SidebarItem> }
+				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem renderPriority={ 19 }>
+					<InclusiveLanguageAnalysis />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }

@@ -3,6 +3,8 @@ import { makeOutboundLink } from "@yoast/helpers";
 import { __, sprintf } from "@wordpress/i18n";
 import UpsellBox from "../UpsellBox";
 import PropTypes from "prop-types";
+import { useRootContext }  from "@yoast/externals/contexts";
+import { addQueryArgs } from "@wordpress/url";
 
 const PremiumLandingPageLink = makeOutboundLink();
 
@@ -23,6 +25,12 @@ const MultipleKeywords = ( props ) => {
 	const benefits = [
 		sprintf(
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+			__( "%1$sCreate content faster%2$s: Use AI to create titles & meta descriptions", "wordpress-seo" ),
+			"<strong>",
+			"</strong>"
+		),
+		sprintf(
+			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 			__( "%1$sNo more dead links%2$s: easy redirect manager", "wordpress-seo" ),
 			"<strong>",
 			"</strong>"
@@ -38,10 +46,11 @@ const MultipleKeywords = ( props ) => {
 		`<strong>${__( "No ads!", "wordpress-seo" )}</strong>`,
 	];
 
+	const { locationContext } = useRootContext();
 	// Interpolate links
 	const interpolated = interpolateComponents( {
 		mixedString: intro,
-		components: { link: <PremiumLandingPageLink href={ props.link } /> },
+		components: { link: <PremiumLandingPageLink href={ addQueryArgs( props.link, { context: locationContext } ) } /> },
 	} );
 
 	const otherBenefits = sprintf(
@@ -49,6 +58,7 @@ const MultipleKeywords = ( props ) => {
 		__( "Other benefits of %s for you:", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	);
+
 
 	return (
 		<UpsellBox
@@ -62,9 +72,11 @@ const MultipleKeywords = ( props ) => {
 				)
 			}
 			upsellButton={ {
-				href: props.buyLink,
+				href: addQueryArgs( props.buyLink, { context: locationContext } ),
 				className: "yoast-button-upsell",
 				rel: null,
+				"data-ctb-id": "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
+				"data-action": "load-nfd-ctb",
 			} }
 			upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
 		/>

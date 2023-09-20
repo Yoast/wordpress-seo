@@ -2,11 +2,12 @@
  * External dependencies
  */
 import { uniqueId } from "lodash";
+import PropTypes from "prop-types";
 
 /**
  * WordPress dependencies
  */
-import { useMemo, useState } from "@wordpress/element";
+import { useMemo, useState, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { withSpokenMessages, Popover } from "@wordpress/components";
 import { prependHTTP } from "@wordpress/url";
@@ -19,6 +20,22 @@ import { createLinkFormat, isValidHref } from "./utils";
 import HelpLink from "../components/HelpLink";
 import createInterpolateElement from "../helpers/createInterpolateElement";
 
+/**
+ * Component to render the inline link UI.
+ * This component is rendered when adding or editing a
+ * link.
+ *
+ * @param {Object} props Component props.
+ * @param {boolean} props.isActive Whether a link is active.
+ * @param {Object} props.activeAttributes The attributes of the active link.
+ * @param {boolean} props.addingLink Whether a link is being added or edited.
+ * @param {object} props.value The current value of the rich text.
+ * @param {Function} props.onChange The rich text change handler.
+ * @param {Function} props.speak The speak function.
+ * @param {Function} props.stopAddingLink The stop adding link handler.
+ *
+ * @returns {WPElement} The inline link UI.
+ */
 function InlineLinkUI( {
 	isActive,
 	activeAttributes,
@@ -89,7 +106,105 @@ function InlineLinkUI( {
 		...nextLinkValue,
 	};
 
-	function onChangeLink( nextValue ) {
+	/**
+	 * LinkControl calls `onChange` immediately upon the toggling a setting.
+	 *
+	 * @param {object} nextValue The next link URL.
+	 *
+	 * @returns {boolean} Whether the link rel should be sponsored.
+	 */
+	const isToggleSetting = ( nextValue ) =>{
+		return linkValue.url === nextValue.url &&
+		linkValue.opensInNewTab !== nextValue.opensInNewTab ||
+		linkValue.noFollow !== nextValue.noFollow ||
+		linkValue.sponsored !== nextValue.sponsored;
+	};
+
+	/**
+	 * Checks if link rel should be nofollow.
+	 *
+	 * @param {boolean} nextValue The next link URL.
+	 * @returns {boolean} Whether the link rel should be nofollow.
+	 */
+	const isLinkNoFollow = ( nextValue ) => {
+		return isToggleSetting( nextValue ) && nextValue.sponsored === true && linkValue.Sponsored !== true;
+	};
+
+	/**
+	 * Checks if link rel should be sponsored.
+	 * This handler is called when the user changes the link URL.
+	 * LinkControl calls `onChange` immediately upon the toggling a setting.
+	 * @param {boolean} nextValue The next link URL.
+	 * @returns {boolean} Whether the link rel should be sponsored.
+	 */
+	const isSponsored = ( nextValue ) => {
+		return isToggleSetting( nextValue ) && nextValue.noFollow === false && linkValue.noFollow !== false;
+	};
+
+	/**
+	 * Checks if toggle setting for new link is valid.
+	 * If change handler was called as a result of a settings change during link insertion,
+	 * it must be held in state until the link is ready to be applied.
+	 *
+	 * @param {boolean} nextValue The next link URL.
+	 * @returns {boolean} Whether the link rel should be sponsored.
+	 */
+	const didToggleSettingForNewLink = ( nextValue ) => {
+		return isToggleSetting( nextValue ) && ! nextValue.url;
+	};
+
+	/**
+	 * Speaks a message after a link is inserted or edited.
+	 * @param {string} newUrl The new link URL.
+	 * @returns {void}
+	 */
+	const actionCompleteMessage = ( newUrl ) => {
+		if ( ! isValidHref( newUrl ) ) {
+			speak(
+				__(
+					"Warning: the link has been inserted but may have errors. Please test it.",
+					"wordpress-seo"
+				),
+				"assertive"
+			);
+		} else if ( isActive ) {
+			speak( __( "Link edited.", "wordpress-seo" ), "assertive" );
+		} else {
+			speak( __( "Link inserted.", "wordpress-seo" ), "assertive" );
+		}
+	};
+
+	/**
+	 * Gets the new text for the link.
+	 * @param {object} nextValue The next link URL.
+	 * @param {string} newUrl The new link URL.
+	 * @returns {string} The new text for the link.
+	 */
+	const getNewText = ( nextValue, newUrl ) =>{
+		return nextValue.title ? nextValue.title : newUrl;
+	};
+
+	/**
+	 * Should insert new link.
+	 * @returns {boolean} Whether the link rel should be sponsored.
+	 */
+	const shouldInsertLink = () => {
+		return isCollapsed( value ) && ! isActive;
+	};
+
+	/**
+	 * Validates the link id is not null or undefined and cast it to string.
+	 *
+	 * @param {string} id The link id.
+	 * @returns {string} The validated link id.
+	 */
+	const validateLinkId = ( id ) => {
+		if ( typeof id === "number" || typeof id === "string" ) {
+			return String( id );
+		}
+	};
+
+	const onChangeLink = useCallback( ( nextValue ) =>{
 		/*
 		 * Merge with values from state, both for the purpose of assigning the next state value, and for use in constructing the new link format if
 		 * the link is ready to be applied.
@@ -100,11 +215,7 @@ function InlineLinkUI( {
 		};
 
 		/* LinkControl calls `onChange` immediately upon the toggling a setting. */
-		const didToggleSetting =
-			linkValue.url === nextValue.url &&
-			linkValue.opensInNewTab !== nextValue.opensInNewTab ||
-			linkValue.noFollow !== nextValue.noFollow ||
-			linkValue.sponsored !== nextValue.sponsored;
+		const didToggleSetting = isToggleSetting( linkValue, nextValue );
 
 		/*
 		 * A link rel can only be one of three combinations:
@@ -113,26 +224,16 @@ function InlineLinkUI( {
 		 * - neither nofollow or sponsored
 		 * On first toggle there is no linkValue. We need to compare with what it should be instead of what it is.
 		 */
-		if ( didToggleSetting && nextValue.sponsored === true && linkValue.sponsored !== true ) {
+		if ( isLinkNoFollow( nextValue ) ) {
 			nextValue.noFollow = true;
 		}
-		if ( didToggleSetting && nextValue.noFollow === false && linkValue.noFollow !== false ) {
+		if ( isSponsored( nextValue ) ) {
 			nextValue.sponsored = false;
 		}
 
-		/*
-		 * If change handler was called as a result of a settings change during link insertion, it must be held in state until the link is ready to
-		 * be applied.
- 		 */
-		const didToggleSettingForNewLink =
-			// eslint-disable-next-line no-undefined
-			didToggleSetting && nextValue.url === undefined;
-
-		/* If link will be assigned, the state value can be considered flushed. Otherwise, persist the pending changes. */
-		// eslint-disable-next-line no-undefined
-		setNextLinkValue( didToggleSettingForNewLink ? nextValue : undefined );
-
-		if ( didToggleSettingForNewLink ) {
+		if ( didToggleSettingForNewLink( nextValue ) ) {
+			/* If link will be assigned, the state value can be considered flushed. Otherwise, persist the pending changes. */
+			setNextLinkValue( nextValue );
 			return;
 		}
 
@@ -141,19 +242,14 @@ function InlineLinkUI( {
 		const format = createLinkFormat( {
 			url: newUrl,
 			type: nextValue.type,
-			id:
-			// eslint-disable-next-line no-undefined
-				nextValue.id !== undefined && nextValue.id !== null
-					? String( nextValue.id )
-					// eslint-disable-next-line no-undefined
-					: undefined,
+			id: validateLinkId( nextValue.id ),
 			opensInNewWindow: nextValue.opensInNewTab,
 			noFollow: nextValue.noFollow,
 			sponsored: nextValue.sponsored,
 		} );
 
-		if ( isCollapsed( value ) && ! isActive ) {
-			const newText = nextValue.title || newUrl;
+		if ( shouldInsertLink() ) {
+			const newText = getNewText( nextValue, newUrl );
 			const toInsert = applyFormat(
 				create( { text: newText } ),
 				format,
@@ -173,20 +269,8 @@ function InlineLinkUI( {
 			stopAddingLink();
 		}
 
-		if ( ! isValidHref( newUrl ) ) {
-			speak(
-				__(
-					"Warning: the link has been inserted but may have errors. Please test it.",
-					"wordpress-seo"
-				),
-				"assertive"
-			);
-		} else if ( isActive ) {
-			speak( __( "Link edited.", "wordpress-seo" ), "assertive" );
-		} else {
-			speak( __( "Link inserted.", "wordpress-seo" ), "assertive" );
-		}
-	}
+		actionCompleteMessage( newUrl );
+	}, [] );
 
 	const NoFollowHelpLink = <HelpLink
 		href={ window.wpseoAdminL10n[ "shortlinks.nofollow_sponsored" ] }
@@ -251,10 +335,12 @@ function InlineLinkUI( {
 	return (
 		<Popover
 			key={ mountingKey }
-			anchorRef={ anchorRef }
+			anchor={ anchorRef }
 			focusOnMount={ addingLink ? "firstElement" : false }
 			onClose={ stopAddingLink }
 			position="bottom center"
+			placement="bottom"
+			shift={ true }
 		>
 			<LinkControl
 				value={ linkValue }
@@ -265,5 +351,15 @@ function InlineLinkUI( {
 		</Popover>
 	);
 }
+
+InlineLinkUI.propTypes = {
+	isActive: PropTypes.bool,
+	activeAttributes: PropTypes.object,
+	addingLink: PropTypes.bool,
+	value: PropTypes.object,
+	onChange: PropTypes.func,
+	speak: PropTypes.func.isRequired,
+	stopAddingLink: PropTypes.func.isRequired,
+};
 
 export default withSpokenMessages( InlineLinkUI );

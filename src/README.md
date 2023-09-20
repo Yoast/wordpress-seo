@@ -1,7 +1,7 @@
 # The `/src` directory
 
 Is where all our namespaced code lives. This is where we develop the future backend of the Yoast SEO plugin. The code in here adheres to the following characteristics:
-- Uses PHP 5.6 as its minimum PHP version.
+- Uses PHP 7.2 as its minimum PHP version.
 - Uses namespaces.
 - Uses dependency injection via Symphony Dependency Injection container.
 - Is organized in concepts, creating a clearer separation of concerns.

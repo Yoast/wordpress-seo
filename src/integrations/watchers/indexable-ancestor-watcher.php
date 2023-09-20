@@ -92,6 +92,9 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_save_indexable', [ $this, 'reset_children' ], \PHP_INT_MAX, 2 );
+		if ( ! \check_ajax_referer( 'inlineeditnonce', '_inline_edit', false ) ) {
+			\add_action( 'set_object_terms', [ $this, 'build_post_hierarchy' ], 10, 6 );
+		}
 	}
 
 	/**
@@ -101,6 +104,29 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
+	}
+
+	/**
+	 * Validates if the current primary category is still present. If not just remove the post meta for it.
+	 *
+	 * @param int    $object_id Object ID.
+	 * @param array  $terms     Unused. An array of object terms.
+	 * @param array  $tt_ids    An array of term taxonomy IDs.
+	 * @param string $taxonomy  Taxonomy slug.
+	 * @param bool   $append     Whether to append new terms to the old terms.
+	 * @param array  $old_tt_ids Old array of term taxonomy IDs.
+	 */
+	public function build_post_hierarchy( $object_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_ids ) {
+		$post = \get_post( $object_id );
+		if ( $this->post_type_helper->is_excluded( $post->post_type ) ) {
+			return;
+		}
+
+		$indexable = $this->indexable_repository->find_by_id_and_type( $post->ID, $post->post_type );
+
+		if ( $indexable instanceof Indexable ) {
+			$this->indexable_hierarchy_builder->build( $indexable );
+		}
 	}
 
 	/**
@@ -125,7 +151,6 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		$child_indexables    = $this->indexable_repository->find_by_ids( $child_indexable_ids );
 
 		\array_walk( $child_indexables, [ $this, 'update_hierarchy_and_permalink' ] );
-
 		if ( $indexable->object_type === 'term' ) {
 			$child_indexables_for_term = $this->get_children_for_term( $indexable->object_id, $child_indexables );
 
@@ -176,29 +201,17 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Builds the hierarchy for a post.
-	 *
-	 * @deprecated 16.4
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int $object_id The post id.
-	 * @param int $post_type The post type.
-	 */
-	public function build_post_hierarchy( $object_id, $post_type ) {
-		\_deprecated_function( __METHOD__, '16.4', 'Primary_Category_Quick_Edit_Watcher::build_post_hierarchy' );
-	}
-
-	/**
 	 * Updates the indexable hierarchy and indexable permalink.
 	 *
 	 * @param Indexable $indexable The indexable to update the hierarchy and permalink for.
 	 */
 	protected function update_hierarchy_and_permalink( $indexable ) {
-		$this->indexable_hierarchy_builder->build( $indexable );
+		if ( \is_a( $indexable, Indexable::class ) ) {
+			$this->indexable_hierarchy_builder->build( $indexable );
 
-		$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
-		$indexable->save();
+			$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
+			$indexable->save();
+		}
 	}
 
 	/**

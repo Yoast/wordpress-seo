@@ -153,7 +153,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		parent::set_up();
 
 		$this->indexable_repository   = Mockery::mock( Indexable_Repository::class );
-		$this->wpdb                   = Mockery::mock( 'wpdb' );
+		$this->wpdb                   = Mockery::mock( wpdb::class );
 		$this->meta                   = Mockery::mock( Meta_Helper::class );
 		$this->import_cursor          = Mockery::mock( Import_Cursor_Helper::class );
 		$this->indexable_helper       = Mockery::mock( Indexable_Helper::class );

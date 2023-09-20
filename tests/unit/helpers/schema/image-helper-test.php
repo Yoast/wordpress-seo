@@ -69,7 +69,7 @@ class Image_Helper_Test extends TestCase {
 		$this->image
 			->expects( 'get_attachment_by_url' )
 			->once()
-			->with( 'https://example.org/image.jpg' )
+			->with( 'https://example.org/image.jpg', true )
 			->andReturn( 1337 );
 
 		$this->instance
@@ -93,7 +93,7 @@ class Image_Helper_Test extends TestCase {
 		$this->image
 			->expects( 'get_attachment_by_url' )
 			->once()
-			->with( 'https://example.org/image.jpg' )
+			->with( 'https://example.org/image.jpg', false )
 			->andReturn( 0 );
 
 		$this->instance
@@ -104,7 +104,7 @@ class Image_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			[],
-			$this->instance->generate_from_url( '#schema-image-ABC', 'https://example.org/image.jpg', 'caption' )
+			$this->instance->generate_from_url( '#schema-image-ABC', 'https://example.org/image.jpg', 'caption', false, false )
 		);
 	}
 

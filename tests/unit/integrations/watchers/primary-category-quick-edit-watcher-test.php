@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Integrations\Watchers\Primary_Category_Quick_Edit_Watcher;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Primary_Term_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -81,7 +82,6 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 		$this->post_type_helper            = Mockery::mock( Post_Type_Helper::class );
 		$this->indexable_repository        = Mockery::mock( Indexable_Repository::class );
 		$this->indexable_hierarchy_builder = Mockery::mock( Indexable_Hierarchy_Builder::class );
-
 
 		$this->instance = new Primary_Category_Quick_Edit_Watcher(
 			$this->options_helper,
@@ -316,7 +316,7 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 			->never()
 			->with( 1337, WPSEO_Meta::$meta_prefix . 'primary_category', true );
 
-		$primary_term          = Mockery::mock();
+		$primary_term          = Mockery::mock( Primary_Term_Mock::class );
 		$primary_term->term_id = 2;
 
 		$this->primary_term_repository
@@ -354,7 +354,7 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 			->never()
 			->with( 1337, WPSEO_Meta::$meta_prefix . 'primary_category', true );
 
-		$primary_term          = Mockery::mock();
+		$primary_term          = Mockery::mock( Primary_Term_Mock::class );
 		$primary_term->term_id = 3;
 
 		$this->primary_term_repository

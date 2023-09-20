@@ -9,11 +9,14 @@ const paper = new Paper( content, {
 	description: "أنا أحب النباتات. العناية بالنباتات مفيدة للبيئة ومفيدة. يمكنك زراعة الخضار داخل منزلك طوال العام" +
 	". نبتة واحدة تكفي لجعل المنزل أكثر جمالا, بل وأكثر جمالا إذا وضعت النباتات في أواني داخلية جميلة.",
 	title: "أفضل النباتات للنمو داخل المنزل وكيفية العناية بالنباتات",
+	textTitle: "أفضل النباتات للنمو داخل المنزل وكيفية العناية بالنباتات",
 	titleWidth: 450,
 	locale: "ar",
 	permalink: "",
 	slug: "العناية-بالنباتات",
+	writingDirection: "RTL",
 } );
+
 
 const expectedResults = {
 	introductionKeyword: {
@@ -29,7 +32,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 6 times. This is great!",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 6 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -118,9 +121,8 @@ const expectedResults = {
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 23.5% of the sentences contain transition words, " +
-			"which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
 		isApplicable: true,
@@ -150,6 +152,16 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

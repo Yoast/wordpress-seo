@@ -1,6 +1,10 @@
 @import url(../src/icons.css);
 @import "../src/tooltips.css";
 
+.rtl .yst-icon-rtl {
+	@apply yst-rotate-180;
+}
+
 .wpseo-premium-indicator {
   width: 1px;
   height: 1px;
@@ -699,6 +703,10 @@ body.folded .wpseo-admin-submit-fixed {
 	margin-top: 20px;
 }
 
+#black-friday-2023-product-editor-checklist .notice-yoast__container {
+	padding: 0px 5px;
+}
+
 .notice-yoast.is-dismissible {
 	padding-right: 38px;
     position: relative;
@@ -844,5 +852,7 @@ body.folded .wpseo-admin-submit-fixed {
 .yoast .indexables-indexing-error summary {
   font-weight: 700;
 }
-
+.yoast-dashicons-notice {
+	color: #dba617;
+}
 /*# sourceMappingURL=admin-global.css.map */

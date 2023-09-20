@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Admin\Views;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
-use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Feature_Toggle;
 use Yoast_Feature_Toggles;
@@ -93,6 +93,11 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 			'has_read_more' => true,
 			'has_after'     => false,
 		],
+		14 => [
+			'name'          => 'AI title & description generator',
+			'has_read_more' => true,
+			'has_after'     => false,
+		],
 	];
 
 	/**
@@ -108,11 +113,21 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 		Functions\expect( 'wp_enqueue_style' )->andReturn( '' );
 		Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
-		$product_helper_mock = Mockery::mock( Product_Helper::class );
-		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
+		$short_link_mock = Mockery::mock( Short_Link_Helper::class );
 
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$short_link_mock->expects( 'get' )
+			->once()
+			->andReturn( 'https://example.org?some=var' );
+
+		$container = $this->create_container_with(
+			[
+				Short_Link_Helper::class => $short_link_mock,
+			]
+		);
+
+		Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$instance = new Yoast_Feature_Toggles();
 		$result   = $instance->get_all();
@@ -163,6 +178,7 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 			11 => 'REST API: Head endpoint',
 			12 => 'Enhanced Slack sharing',
 			13 => 'IndexNow',
+			14 => 'AI title & description generator',
 		];
 
 		$this->stubEscapeFunctions();
@@ -172,11 +188,21 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 		Functions\expect( 'wp_enqueue_style' )->andReturn( '' );
 		Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
-		$product_helper_mock = Mockery::mock( Product_Helper::class );
-		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
+		$short_link_mock = Mockery::mock( Short_Link_Helper::class );
 
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$short_link_mock->expects( 'get' )
+			->once()
+			->andReturn( 'https://example.org?some=var' );
+
+		$container = $this->create_container_with(
+			[
+				Short_Link_Helper::class => $short_link_mock,
+			]
+		);
+
+		Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		Filters\expectApplied( 'wpseo_feature_toggles' )
 			->once()

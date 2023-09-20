@@ -25,7 +25,9 @@ premium/node_modules/
 phpcs.xml
 .phpcs.xml
 phpunit.xml
+phpunit-integration.xml
 .phpunit.result.cache
+build/
 
 ############
 ## OSes
@@ -104,3 +106,5 @@ dependencies.md
 # Temp files
 ############
 /.tmp
+
+.cache/phpunit/cache/

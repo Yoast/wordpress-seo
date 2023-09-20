@@ -5,6 +5,9 @@
  * @package WPSEO\Admin\Tracking
  */
 
+use Yoast\WP\SEO\Analytics\Application\Missing_Indexables_Collector;
+use Yoast\WP\SEO\Analytics\Application\To_Be_Cleaned_Indexables_Collector;
+
 /**
  * This class handles the tracking routine.
  */
@@ -93,12 +96,12 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 		 * needs to receive the same arguments as those used when originally
 		 * scheduling the event otherwise it will always return false.
 		 */
-		if ( ! wp_next_scheduled( 'wpseo_send_tracking_data_after_core_update', true ) ) {
+		if ( ! wp_next_scheduled( 'wpseo_send_tracking_data_after_core_update', [ true ] ) ) {
 			/*
 			 * Schedule sending of data tracking 6 hours after a WordPress core
 			 * update. Pass a `true` parameter for the callback `$force` argument.
 			 */
-			wp_schedule_single_event( ( time() + ( HOUR_IN_SECONDS * 6 ) ), 'wpseo_send_tracking_data_after_core_update', true );
+			wp_schedule_single_event( ( time() + ( HOUR_IN_SECONDS * 6 ) ), 'wpseo_send_tracking_data_after_core_update', [ true ] );
 		}
 	}
 
@@ -188,6 +191,9 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 		$collector->add_collection( new WPSEO_Tracking_Theme_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Plugin_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Settings_Data() );
+		$collector->add_collection( new WPSEO_Tracking_Addon_Data() );
+		$collector->add_collection( YoastSEO()->classes->get( Missing_Indexables_Collector::class ) );
+		$collector->add_collection( YoastSEO()->classes->get( To_Be_Cleaned_Indexables_Collector::class ) );
 
 		return $collector;
 	}

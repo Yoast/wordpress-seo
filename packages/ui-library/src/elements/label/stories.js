@@ -1,26 +1,21 @@
-import Label from ".";
+import { StoryComponent } from ".";
+import { component } from "./docs";
 
 export default {
-	title: "1. Elements/Label",
-	component: Label,
+	title: "1) Elements/Label",
+	component: StoryComponent,
 	argTypes: {
 		as: { options: [ "label", "span", "div" ] },
 	},
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple label component.",
-			},
-		},
-	},
+	parameters: { docs: { description: { component } } },
 };
 
 export const Factory = ( { ...args } ) => (
-	<Label { ...args } />
+	<StoryComponent { ...args } />
 );
 Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
-	label: "Label Factory",
+	label: "Label factory",
 };

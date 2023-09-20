@@ -1,6 +1,4 @@
-import { map } from "lodash-es";
-import { flatMap } from "lodash-es";
-import { filter } from "lodash-es";
+import { filter, flatMap, map } from "lodash-es";
 
 import { getBlocks } from "./html";
 
@@ -12,7 +10,7 @@ import { getBlocks } from "./html";
  * @returns {array} An array containing all paragraphs texts.
  */
 const getParagraphsInTags = function( text ) {
-	const paragraphs = [];
+	let paragraphs = [];
 	// Matches everything between the <p> and </p> tags.
 	const regex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
 	let match;
@@ -22,9 +20,11 @@ const getParagraphsInTags = function( text ) {
 	}
 
 	// Returns only the text from within the paragraph tags.
-	return map( paragraphs, function( paragraph ) {
+	paragraphs = map( paragraphs, function( paragraph ) {
 		return paragraph[ 1 ];
 	} );
+
+	return paragraphs.filter( paragraph => paragraph.length > 0 );
 };
 
 /**

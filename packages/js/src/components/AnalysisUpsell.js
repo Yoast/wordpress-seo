@@ -1,10 +1,9 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
-import { getDirectionalStyle as getRtlStyle } from "@yoast/helpers";
+import { getDirectionalStyle as getRtlStyle, makeOutboundLink } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
 import { SvgIcon, UpsellLinkButton } from "@yoast/components";
-import { makeOutboundLink } from "@yoast/helpers";
 
 const TextContainer = styled.p`
 	color: ${ colors.$color_upsell_text };
@@ -56,7 +55,11 @@ const AnalysisUpsell = ( props ) => {
 				) }
 			</TextContainer>
 			<div>
-				<OutboundLinkButton href={ url } className={ "UpsellLinkButton" }>
+				<OutboundLinkButton
+					href={ url } className={ "UpsellLinkButton" }
+					data-action="load-nfd-ctb"
+					data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
+				>
 					{ sprintf(
 						/* translators: %s expands to Premium */
 						__( "Go %s!", "wordpress-seo" ),

@@ -1,9 +1,9 @@
-import { useState, useCallback } from "@wordpress/element";
-
+import { useCallback, useState } from "@wordpress/element";
 import CheckboxGroup from ".";
+import { component, withLabelAndDescription, withValues, childrenProp, disabled } from "./docs";
 
 export default {
-	title: "2. Components/Checkbox Group",
+	title: "2) Components/Checkbox group",
 	component: CheckboxGroup,
 	argTypes: {
 		children: { control: "text" },
@@ -11,7 +11,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple checkbox group component.",
+				component,
 			},
 		},
 	},
@@ -40,10 +40,11 @@ Factory.args = {
 		{ value: "3", label: "Option 3" },
 		{ value: "4", label: "Option 4" },
 	],
-	label: "A Checkbox Group",
+	label: "A checkbox group",
 };
 
-export const WithLabelAndDescription = Template.bind();
+export const WithLabelAndDescription = Template.bind( {} );
+WithLabelAndDescription.storyName = "With label and description";
 WithLabelAndDescription.args = {
 	id: "checkbox-group-1",
 	name: "name-1",
@@ -54,10 +55,13 @@ WithLabelAndDescription.args = {
 		{ value: "3", label: "Option 3" },
 		{ value: "4", label: "Option 4" },
 	],
-	children: "Checkbox group with a description.",
+	description: "Checkbox group with a description.",
 };
 
-export const WithValues = Template.bind();
+WithLabelAndDescription.parameters = { docs: { description: { story: withLabelAndDescription } } };
+
+export const WithValues = Template.bind( {} );
+WithValues.storyName = "With values";
 WithValues.args = {
 	id: "checkbox-group-2",
 	name: "name-2",
@@ -71,3 +75,38 @@ WithValues.args = {
 	],
 };
 
+WithValues.parameters = { docs: { description: { story: withValues } } };
+
+export const ChildrenProp = Template.bind( {} );
+ChildrenProp.storyName = "Children prop";
+ChildrenProp.args = {
+	id: "checkbox-group-3",
+	name: "name-3",
+	label: "Checkbox group label.",
+	children: <>
+		<CheckboxGroup.Checkbox defaultChecked={ true } value="child 1" label="Option 1" id="option-1" name="name-3" />
+		<CheckboxGroup.Checkbox value="child 2" label="Option 2" id="option-2" name="name-3" />
+		<CheckboxGroup.Checkbox value="child 3" label="Option 3" id="option-3" name="name-3" />
+	</>,
+};
+
+ChildrenProp.parameters = { docs: { description: { story: childrenProp } } };
+
+export const Disabled = Template.bind( {} );
+
+Disabled.args = {
+	id: "checkbox-group-4",
+	name: "name-4",
+	values: [ "2", "3" ],
+	label: "Checkbox group with a label",
+	description: "Checkbox group with a description.",
+	disabled: true,
+	options: [
+		{ value: "1", label: "Option 1" },
+		{ value: "2", label: "Option 2" },
+		{ value: "3", label: "Option 3" },
+		{ value: "4", label: "Option 4" },
+	],
+};
+
+Disabled.parameters = { docs: { description: { story: disabled } } };

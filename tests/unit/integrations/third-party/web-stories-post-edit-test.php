@@ -77,4 +77,3 @@ class Web_Stories_Post_Edit_Test extends TestCase {
 		$this->assertEquals( [ 'isWebStoriesIntegrationActive' => 1 ], $additional_entries );
 	}
 }
-

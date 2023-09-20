@@ -5,8 +5,8 @@ import PrePublish from "../components/PrePublish";
 import {
 	maybeAddReadabilityCheck,
 	maybeAddFocusKeyphraseCheck,
-	maybeAddSchemaBlocksValidationCheck,
 	maybeAddSEOCheck,
+	maybeAddInclusiveLanguageCheck,
 } from "../helpers/addCheckToChecklist";
 
 /**
@@ -18,15 +18,13 @@ import {
  */
 export function mapSelectToProps( select ) {
 	const yoastStore = select( "yoast-seo/editor" );
-	const schemaBlocksStore = select( "yoast-seo/schema-blocks" );
-	const wpBlockEditorStore = select( "core/block-editor" );
 
 	const checklist = [];
 
 	maybeAddFocusKeyphraseCheck( checklist, yoastStore );
 	maybeAddReadabilityCheck( checklist, yoastStore );
 	maybeAddSEOCheck( checklist, yoastStore );
-	maybeAddSchemaBlocksValidationCheck( checklist, schemaBlocksStore, wpBlockEditorStore );
+	maybeAddInclusiveLanguageCheck( checklist, yoastStore );
 
 	checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );
 

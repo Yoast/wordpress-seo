@@ -1,21 +1,21 @@
-import wordComplexity from "../config/internal/wordComplexity";
-import functionWords from "../config/functionWords";
-import { normalizeSingle } from "../../../helpers/sanitize/quotes";
+import { languageProcessing } from "yoastseo";
+const { normalizeSingle } = languageProcessing;
 
 const contractionPrefixes = "^(c'|d'|l'|s')";
 const contractionRegex = new RegExp( contractionPrefixes );
 
 /**
  * Checks if a word is complex.
+ * This is a helper for the Word Complexity assessment. As such, this helper is not bundled in Yoast SEO.
  *
+ * @param {object} config The configuration needed for assessing the word's complexity, e.g., the frequency list.
  * @param {string} word The word to check.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( word ) {
-	const wordComplexityConfig = wordComplexity;
-	const lengthLimit = wordComplexityConfig.wordLength;
-	const frequencyList = wordComplexityConfig.frequencyList;
+export default function checkIfWordIsComplex( config, word ) {
+	const lengthLimit = config.wordLength;
+	const frequencyList = config.frequencyList;
 
 	// Normalize single quotes before checking for contractions.
 	word = normalizeSingle( word );
@@ -34,7 +34,7 @@ export default function checkIfWordIsComplex( word ) {
 	}
 
 	// The word is not complex if it's in the frequency list.
-	if ( frequencyList.includes( word ) || functionWords.all.includes( word ) ) {
+	if ( frequencyList.includes( word ) ) {
 		return false;
 	}
 

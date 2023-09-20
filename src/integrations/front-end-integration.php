@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use WP_HTML_Tag_Processor;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
@@ -176,6 +177,20 @@ class Front_End_Integration implements Integration_Interface {
 	];
 
 	/**
+	 * The next output.
+	 *
+	 * @var string
+	 */
+	protected $next;
+
+	/**
+	 * The prev output.
+	 *
+	 * @var string
+	 */
+	protected $prev;
+
+	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array The conditionals.
@@ -219,6 +234,8 @@ class Front_End_Integration implements Integration_Interface {
 	 * to avoid duplicate and/or mismatched metadata.
 	 */
 	public function register_hooks() {
+		\add_filter( 'render_block', [ $this, 'query_loop_next_prev' ], 1, 2 );
+
 		\add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 1 );
 		// Filter the title for compatibility with other plugins and themes.
 		\add_filter( 'wp_title', [ $this, 'filter_title' ], 15 );
@@ -260,6 +277,72 @@ class Front_End_Integration implements Integration_Interface {
 		\add_filter( 'pre_get_document_title', [ $this, 'filter_title' ], 15 );
 
 		return $title;
+	}
+
+	/**
+	 * Filters the next and prev links in the query loop block.
+	 *
+	 * @param string $html  The HTML output.
+	 * @param array  $block The block.
+	 * @return string The filtered HTML output.
+	 */
+	public function query_loop_next_prev( $html, $block ) {
+		if ( $block['blockName'] === 'core/query' ) {
+			// Check that the query does not inherit the main query.
+			if ( isset( $block['attrs']['query']['inherit'] ) && ! $block['attrs']['query']['inherit'] ) {
+				\add_filter( 'wpseo_adjacent_rel_url', [ $this, 'adjacent_rel_url' ], 1, 3 );
+			}
+		}
+
+		if ( $block['blockName'] === 'core/query-pagination-next' ) {
+			$this->next = $html;
+		}
+
+		if ( $block['blockName'] === 'core/query-pagination-previous' ) {
+			$this->prev = $html;
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Returns correct adjacent pages when QUery loop block does not inherit query from template.
+	 *
+	 * @param string                      $link         The current link.
+	 * @param string                      $rel          Link relationship, prev or next.
+	 * @param Indexable_Presentation|null $presentation The indexable presentation.
+	 *
+	 * @return string The correct link.
+	 */
+	public function adjacent_rel_url( $link, $rel, $presentation = null ) {
+		if ( $link === \home_url( '/' ) ) {
+			return $link;
+		}
+
+		if ( $rel === 'next' || $rel === 'prev' ) {
+
+			// WP_HTML_Tag_Processor was introduced in WordPress 6.2.
+			if ( \class_exists( WP_HTML_Tag_Processor::class ) ) {
+				$processor = new WP_HTML_Tag_Processor( $this->$rel );
+				while ( $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
+					$href = $processor->get_attribute( 'href' );
+					if ( $href ) {
+						return $presentation->permalink . substr( $href, 1 );
+					}
+				}
+			}
+			// Remove else when dropping support for WordPress 6.1 and lower.
+			else {
+				$pattern = '/"(.*?)"/';
+				// Find all matches of the pattern in the HTML string.
+				\preg_match_all( $pattern, $this->$rel, $matches );
+				if ( isset( $matches[1] ) && isset( $matches[1][0] ) && $matches[1][0] ) {
+					return $presentation->permalink . \substr( $matches[1][0], 1 );
+				}
+			}
+		}
+
+		return $link;
 	}
 
 	/**
@@ -401,9 +484,10 @@ class Front_End_Integration implements Integration_Interface {
 		/**
 		 * Filter 'wpseo_frontend_presenter_classes' - Allow filtering presenters in or out of the request.
 		 *
-		 * @api array List of presenters.
+		 * @param array  $presenters List of presenters.
+		 * @param string $page_type  The current page type.
 		 */
-		$presenters = \apply_filters( 'wpseo_frontend_presenter_classes', $presenters );
+		$presenters = \apply_filters( 'wpseo_frontend_presenter_classes', $presenters, $page_type );
 
 		return $presenters;
 	}
@@ -432,6 +516,11 @@ class Front_End_Integration implements Integration_Interface {
 		// Filter out the presenters only needed for singular pages on non-singular pages.
 		if ( ! \in_array( $page_type, [ 'Post_Type', 'Static_Home_Page' ], true ) ) {
 			$presenters = \array_diff( $presenters, $this->singular_presenters );
+		}
+
+		// Filter out `twitter:data` presenters for static home pages.
+		if ( $page_type === 'Static_Home_Page' ) {
+			$presenters = \array_diff( $presenters, $this->slack_presenters );
 		}
 
 		return $presenters;

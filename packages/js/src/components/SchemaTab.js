@@ -1,13 +1,12 @@
 import { createPortal, Fragment, useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, FieldGroup, Select } from "@yoast/components";
-import { Slot } from "@wordpress/components";
 import { makeOutboundLink, join } from "@yoast/helpers";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { schemaTypeOptionsPropType } from "./SchemaSettings";
-import { isFeatureEnabled } from "@yoast/feature-flag";
+import WooCommerceUpsell from "./WooCommerceUpsell";
+import { get } from "lodash";
 
 const NewsLandingPageLink = makeOutboundLink();
 
@@ -90,8 +89,8 @@ const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) =>
  * @returns {string} A string that contains tags that will be interpolated.
  */
 const footerText = ( postTypeName ) => sprintf(
-	/* translators: %1$s expands to the plural name of the current post type, %2$s and %3$s expand to a link to the Search Appearance Settings page */
-	__( "You can change the default type for %1$s in your %2$sSearch Appearance Settings%3$s.", "wordpress-seo" ),
+	/* translators: %1$s expands to the plural name of the current post type, %2$s and %3$s expand to a link to the Settings page */
+	__( "You can change the default type for %1$s under Content types in the %2$sSettings%3$s.", "wordpress-seo" ),
 	postTypeName,
 	"{{link}}",
 	"{{/link}}"
@@ -108,7 +107,7 @@ const footerWithLink = ( postTypeName ) => interpolateComponents(
 	{
 		mixedString: footerText( postTypeName ),
 		// eslint-disable-next-line jsx-a11y/anchor-has-content
-		components: { link: <a href="/wp-admin/admin.php?page=wpseo_titles#top#post-types" target="_blank" /> },
+		components: { link: <a href="/wp-admin/admin.php?page=wpseo_page_settings" target="_blank" /> },
 	}
 );
 
@@ -132,25 +131,6 @@ Header.propTypes = {
 	helpTextTitle: PropTypes.string.isRequired,
 	helpTextLink: PropTypes.string.isRequired,
 	helpTextDescription: PropTypes.string.isRequired,
-};
-
-/**
- * The header for the Schema tab, for when the Schema blocks have been enabled.
- *
- * @param {Object} props The props.
- *
- * @returns {JSX.Element} The header.
- */
-const SchemaBlocksHeader = ( props ) => {
-	return <p>
-		{ props.helpTextDescription + " " }
-		<a href={ props.helpTextLink }>{ __( "Read more about Schema.", "wordpress-seo" ) }</a>
-	</p>;
-};
-
-SchemaBlocksHeader.propTypes = {
-	helpTextDescription: PropTypes.string.isRequired,
-	helpTextLink: PropTypes.string.isRequired,
 };
 
 /**
@@ -178,10 +158,10 @@ function isNewsArticleType( selectedValue, defaultValue ) {
 const Content = ( props ) => {
 	const schemaPageTypeOptions = getSchemaTypeOptions( props.pageTypeOptions, props.defaultPageType, props.postTypeName );
 	const schemaArticleTypeOptions = getSchemaTypeOptions( props.articleTypeOptions, props.defaultArticleType, props.postTypeName );
-
-	const schemaBlocksEnabled = isFeatureEnabled( "SCHEMA_BLOCKS" );
-
+	const woocommerceUpsellLink = get( window, "wpseoScriptData.metabox.woocommerceUpsellSchemaLink", "" );
+	const woocommerceUpsell = get( window, "wpseoScriptData.woocommerceUpsell", "" );
 	const [ focusedArticleType, setFocusedArticleType ] = useState( props.schemaArticleTypeSelected );
+	const woocommerceUpsellText = __( "Want your products stand out in search results with rich results like price, reviews and more?", "wordpress-seo" );
 
 	const handleOptionChange = useCallback(
 		( _, value ) => {
@@ -198,13 +178,12 @@ const Content = ( props ) => {
 
 	return (
 		<Fragment>
-			{ schemaBlocksEnabled ? <SchemaBlocksHeader { ...props } /> : <Header { ...props } /> }
-			{ schemaBlocksEnabled && <Slot name={ join( [ "yoast-schema-blocks-analysis", props.location ] ) } /> }
 			<FieldGroup
 				label={ __( "What type of page or content is this?", "wordpress-seo" ) }
 				linkTo={ props.additionalHelpTextLink }
 				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
 			/>
+			{ woocommerceUpsell && <WooCommerceUpsell link={ woocommerceUpsellLink } text={ woocommerceUpsellText } /> }
 			<Select
 				id={ join( [ "yoast-schema-page-type", props.location ] ) }
 				options={ schemaPageTypeOptions }
@@ -228,6 +207,11 @@ const Content = ( props ) => {
 		</Fragment>
 	);
 };
+
+const schemaTypeOptionsPropType = PropTypes.arrayOf( PropTypes.shape( {
+	name: PropTypes.string,
+	value: PropTypes.string,
+} ) );
 
 Content.propTypes = {
 	schemaPageTypeChange: PropTypes.func,

@@ -425,12 +425,33 @@
 			@apply
 			yst-underline
 			yst-text-indigo-600
-			
+
 			hover:yst-text-indigo-500
 			focus:yst-text-indigo-500
 			focus:yst-outline-none
+			focus:yst-ring-1
+			focus:yst-ring-offset-1
+			focus:yst-ring-offset-transparent
+			focus:yst-ring-indigo-600
+			focus:yst-rounded-sm
 			visited:yst-text-primary-500
 			visited:hover:yst-text-primary-400;
+		}
+
+		[type='text'],
+		[type='email'],
+		[type='url'],
+		[type='password'],
+		[type='number'],
+		[type='date'],
+		[type='datetime-local'],
+		[type='month'],
+		[type='search'],
+		[type='tel'],
+		[type='time'],
+		[type='week'],
+		textarea {
+			@apply yst-placeholder-slate-500;
 		}
 
 		svg path {

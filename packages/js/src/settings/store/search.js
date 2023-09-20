@@ -1,15 +1,61 @@
 /* eslint-disable camelcase */
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { get } from "lodash";
-import { createSearchIndex } from "../helpers";
-import { flattenObject } from "../utils";
+import { get, reduce, join, filter, isArray } from "lodash";
+import { preferencesSelectors } from "./preferences";
+import { createSearchIndex, safeToLocaleLower } from "../helpers";
 
 /**
- * Determines if the given value should flatten.
- * @param {*} value The value.
- * @returns {boolean} True if the value is an object or an array.
+ * @param {Object} item Search index entry.
+ * @param {Object} options The options.
+ * @param {string} options.userLocale The user locale string.
+ * @returns {string} The keywords string with added route and field labels.
  */
-export const getShouldFlattenSearchIndex = value =>  ! value?.route;
+const createSearchItemKeywords = ( item, { userLocale } ) => safeToLocaleLower( join( [
+	...( isArray( item?.keywords ) ? item.keywords : [] ),
+	item?.routeLabel,
+	item?.fieldLabel,
+], " " ), userLocale );
+
+/**
+ * Flattens the search index and lowercases some props for easy querying.
+ * @param {Object} searchIndex The search index.
+ * @param {string} parentPath The parent object path.
+ * @param {Object} options The options.
+ * @param {string} options.userLocale The user locale string.
+ * @returns {Object} The flattened search index.
+ */
+const flattenAndLowerSearchIndex = ( searchIndex, parentPath = "", { userLocale } ) => reduce(
+	searchIndex,
+	( acc, item, key ) => {
+		const flatKey = join( filter( [ parentPath, key ], Boolean ), "." );
+
+		// Exception for other social URLs: only have one entry in queryable search index.
+		if ( key === "other_social_urls" ) {
+			return {
+				...acc,
+				[ flatKey ]: {
+					route: item?.route,
+					routeLabel: item?.routeLabel,
+					fieldId: item?.fieldId,
+					fieldLabel: item?.fieldLabel,
+					keywords: createSearchItemKeywords( item, { userLocale } ),
+				},
+			};
+		}
+
+		return item?.route ? {
+			...acc,
+			[ flatKey ]: {
+				...item,
+				keywords: createSearchItemKeywords( item, { userLocale } ),
+			},
+		} : {
+			...acc,
+			...flattenAndLowerSearchIndex( item, flatKey, { userLocale } ),
+		};
+	},
+	{}
+);
 
 /**
  * @returns {Object} Initial search state.
@@ -17,9 +63,10 @@ export const getShouldFlattenSearchIndex = value =>  ! value?.route;
 export const createInitialSearchState = () => {
 	const postTypes = get( window, "wpseoScriptData.postTypes", {} );
 	const taxonomies = get( window, "wpseoScriptData.taxonomies", {} );
+	const userLocale = get( window, "wpseoScriptData.preferences.userLocale", {} );
 
 	return {
-		index: createSearchIndex( postTypes, taxonomies ),
+		index: createSearchIndex( postTypes, taxonomies, { userLocale } ),
 	};
 };
 
@@ -32,9 +79,12 @@ const slice = createSlice( {
 export const searchSelectors = {
 	selectSearchIndex: ( state ) => get( state, "search.index", {} ),
 };
-searchSelectors.selectFlatSearchIndex = createSelector(
-	searchSelectors.selectSearchIndex,
-	searchIndex => flattenObject( searchIndex, "", getShouldFlattenSearchIndex )
+searchSelectors.selectQueryableSearchIndex = createSelector(
+	[
+		searchSelectors.selectSearchIndex,
+		state => preferencesSelectors.selectPreference( state, "userLocale" ),
+	],
+	( searchIndex, userLocale ) => flattenAndLowerSearchIndex( searchIndex, "", { userLocale } )
 );
 
 export const searchActions = slice.actions;

@@ -4,8 +4,10 @@ import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import { useSvgAria } from "../../hooks";
+import { forwardRef } from "@wordpress/element";
 
 /**
+ * @param {string} id ID.
  * @param {string|JSX.Element} [as="button"] Base component.
  * @param {boolean} checked Default state.
  * @param {string} screenReaderLabel The label for screen readers.
@@ -15,20 +17,22 @@ import { useSvgAria } from "../../hooks";
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Toggle component.
  */
-const Toggle = ( {
-	as: Component = "button",
+const Toggle = forwardRef( ( {
+	id,
+	as: Component,
 	checked,
 	screenReaderLabel,
 	onChange,
-	disabled = false,
-	className = "",
-	type = "",
+	disabled,
+	className,
+	type,
 	...props
-} ) => {
+}, ref ) => {
 	const svgAriaProps = useSvgAria();
 
 	return (
 		<Switch
+			ref={ ref }
 			as={ Component }
 			checked={ checked }
 			disabled={ disabled }
@@ -39,6 +43,7 @@ const Toggle = ( {
 				disabled && "yst-toggle--disabled",
 				className,
 			) }
+			data-id={ id }
 			{ ...props }
 			// Force type button when component is button for proper behavior in HTML forms.
 			type={ Component === "button" ? "button" : type }
@@ -73,10 +78,11 @@ const Toggle = ( {
 			</span>
 		</Switch>
 	);
-};
+} );
 
-Toggle.propTypes = {
+const propTypes = {
 	as: PropTypes.elementType,
+	id: PropTypes.string.isRequired,
 	checked: PropTypes.bool,
 	screenReaderLabel: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
@@ -84,5 +90,21 @@ Toggle.propTypes = {
 	type: PropTypes.string,
 	className: PropTypes.string,
 };
+
+Toggle.propTypes = propTypes;
+
+Toggle.defaultProps = {
+	as: "button",
+	checked: false,
+	disabled: false,
+	type: "",
+	className: "",
+};
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Toggle { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Toggle.defaultProps;
+StoryComponent.displayName = "Toggle";
 
 export default Toggle;

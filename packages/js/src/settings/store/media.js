@@ -3,7 +3,7 @@ import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import apiFetch from "@wordpress/api-fetch";
 import { buildQueryString } from "@wordpress/url";
 import { get, map, mapValues } from "lodash";
-import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
+import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
 const mediaAdapter = createEntityAdapter();
 
@@ -93,6 +93,7 @@ export const mediaSelectors = {
 	selectMediaIds: adapterSelectors.selectIds,
 	selectMediaById: adapterSelectors.selectById,
 	selectIsMediaLoading: state => get( state, "media.status", ASYNC_ACTION_STATUS.idle ) === ASYNC_ACTION_STATUS.loading,
+	selectIsMediaError: state => get( state, "media.status", ASYNC_ACTION_STATUS.idle ) === ASYNC_ACTION_STATUS.error,
 };
 
 export const mediaActions = {

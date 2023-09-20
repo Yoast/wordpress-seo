@@ -1,17 +1,11 @@
-@import "@yoast/ui-library";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.seo_page_wpseo_settings {
+body.seo_page_wpseo_page_settings {
 	@apply yst-bg-slate-100;
 
 	/* Move WP footer behind our content. */
 	z-index: -1;
 
 	#wpcontent {
-		padding-left: 0;
+		padding-left: 0 !important;
 	}
 
 	#wpfooter {
@@ -22,47 +16,74 @@
 
 			padding-left: 17rem;
 		}
+	}
 
-		@media (min-width: 1024px) {
-			padding-left: 19rem;
+	.wp-responsive-open #wpbody {
+		@media screen and (max-width: 782px) {
+			right: -190px; /* Override to not leave space between the mobile menu and the content. */
 		}
 	}
-}
 
-@layer base {
-	.yst-root {
-		/* Reset some WP common styles */
-		a {
-			@apply focus:yst-shadow-none;
+	#modal-search .yst-modal__close {
+		margin-top: -0.25rem;
+	}
+
+	&.sticky-menu {
+		.yst-root .yst-notifications--bottom-left {
+			@media (min-width: 783px) and (max-width: 962px) {
+				left: calc(160px + 2rem); /* Next to admin menu. 160px is the admin menu width. */
+			}
 		}
 
-		.yst-radio__input {
-			@apply
-			yst-transition-none
-			yst-shadow-none
-			checked:before:yst-hidden;
+		&.folded, &.auto-fold {
+			.yst-root .yst-notifications--bottom-left {
+				@media (min-width: 783px) and (max-width: 963px) {
+					left: calc(32px + 2rem); /* Next to admin menu. 32px is the collapsed admin menu width. */
+				}
+			}
 		}
 
-		.yst-modal {
-			z-index: 100000 !important;
-		}
-
-		li, dd {
-			margin-bottom: 0;
+		&.folded {
+			.yst-root .yst-notifications--bottom-left {
+				@media (min-width: 962px) {
+					left: calc(32px + 2rem); /* Next to admin menu. 32px is the collapsed admin menu width. */
+				}
+			}
 		}
 	}
-}
 
-@layer components {
-	.yst-root {
+	&:not(.sticky-menu) .wp-responsive-open .yst-root {
 		.yst-notifications--bottom-left {
-			left: calc(160px + 2rem); /* Next to admin menu. 160px is admin menu width */
+			@media (max-width: 783px) {
+				left: calc(190px + 2rem); /* Next to admin menu. 190px is the responsive admin menu width. */
+			}
+		}
+	}
+
+	.yst-root {
+		.yst-notifications {
+			max-height: calc(100% - 4rem - 32px); /* Extra 32px for the height of the WP admin bar. */
+
+			@media (max-width: 782px) {
+				max-height: calc(100% - 4rem - 48px); /* Extra 48px for the height of the mobile WP admin bar. */
+			}
+		}
+
+		.yst-notifications--bottom-left {
 			z-index: 9991; /* 1 above admin menu */
+
+			@media (min-width: 783px) {
+				left: calc(160px + 2rem); /* Next to admin menu. 160px is the admin menu width. */
+			}
 		}
 
 		.yst-mobile-navigation__top {
 			@media (min-width: 601px) and (max-width: 768px) {
 				top: 46px;
+			}
+
+			@media (min-width: 783px) {
+				@apply yst-hidden;
 			}
 		}
 
@@ -72,18 +93,30 @@
 
 		.yst-replacevar {
 			@apply yst-relative;
+
+			/* This needs additional nesting, specificity wise. */
+
+			.emoji-select-popover {
+				@apply yst-z-20 yst-right-auto yst-left-0;
+			}
 		}
 
 		.yst-replacevar--disabled {
 			.yst-replacevar__label,
-			.yst-replacevar__editor {
+			.yst-replacevar__editor,
+			.emoji-select-button {
 				@apply yst-opacity-50;
 			}
 
 			.yst-replacevar__button-insert,
 			.yst-replacevar__label,
-			.yst-replacevar__editor {
+			.yst-replacevar__editor,
+			.emoji-select-button {
 				@apply yst-cursor-not-allowed;
+			}
+
+			.emoji-select-button {
+				@apply yst-pointer-events-none;
 			}
 		}
 
@@ -96,6 +129,10 @@
 			yst-text-sm
 			yst-font-medium
 			yst-text-slate-800;
+		}
+
+		.yst-replacevar__buttons {
+			@apply yst-inline-flex yst-gap-1.5;
 		}
 
 		.yst-replacevar__button-insert {
@@ -166,7 +203,7 @@
 				yst-ring-black
 				yst-ring-opacity-5
 				focus:yst-outline-none
-				yst-z-10;
+				yst-z-20;
 
 				div > div {
 					@apply
@@ -176,12 +213,12 @@
 					yst-text-sm
 					yst-text-slate-800
 					yst-no-underline
-					hover:yst-bg-slate-100
+					hover:yst-bg-slate-200
 					hover:yst-text-slate-900
 					yst-cursor-pointer;
 
 					&[aria-selected] {
-						@apply yst-bg-slate-100 yst-text-slate-900
+						@apply yst-bg-slate-200 yst-text-slate-900
 					}
 				}
 			}
@@ -193,17 +230,24 @@
 
 		.yst-replacevar__mention {
 			@apply
-			yst-inline-flex
+			yst-inline-block
 			yst-py-0.5
 			yst-px-2
 			yst-mx-0.5
 			yst-rounded-full
-			yst-items-center
 			yst-leading-tight
 			yst-text-xs
 			yst-font-medium
 			yst-bg-slate-200
 			yst-text-slate-900;
+		}
+	}
+
+	/* RTL */
+
+	&.rtl {
+		.yst-root .yst-replacevar .emoji-select-popover {
+			@apply yst-left-0 yst-right-auto;
 		}
 	}
 }

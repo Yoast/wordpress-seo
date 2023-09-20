@@ -4,7 +4,7 @@
 import PropTypes from "prop-types";
 import { Fragment, useRef, useState, useEffect, useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { isEmpty, filter, debounce, without, difference } from "lodash-es";
+import { isEmpty, filter, debounce, without, difference } from "lodash";
 import styled from "styled-components";
 
 /* Yoast dependencies */

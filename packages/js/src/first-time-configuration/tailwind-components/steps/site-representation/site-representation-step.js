@@ -96,7 +96,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		/>
 
 		{ shouldDisplayDefaultValuesNotice() && <Alert type="info" className="yst-mt-6">
-			{ __( "We took the liberty of using your site title and logo for the organization name and logo. Feel free to change them below.", "wordpress-seo" ) }
+			{ __( "We took the liberty of using your website name and logo for the organization name and logo. Feel free to change them below.", "wordpress-seo" ) }
 		</Alert> }
 
 		<TextInput

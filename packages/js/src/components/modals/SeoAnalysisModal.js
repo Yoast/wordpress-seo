@@ -1,7 +1,6 @@
 import Modal, { defaultModalClassName } from "./Modal";
-import { useState, useCallback } from "@wordpress/element";
+import { Fragment, useState, useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { Fragment } from "@wordpress/element";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "@yoast/components";

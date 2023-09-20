@@ -27,6 +27,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	protected $defaults = [
 		// Non-form fields, set via (ajax) function.
 		'tracking'                                 => null,
+		'toggled_tracking'                         => false,
 		'license_server_version'                   => false,
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
@@ -57,6 +58,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_xml_sitemap'                       => true,
 		'enable_text_link_counter'                 => true,
 		'enable_index_now'                         => true,
+		'enable_ai_generator'                      => false,
 		'show_onboarding_notice'                   => false,
 		'first_activated_on'                       => false,
 		'myyoast-oauth'                            => [
@@ -124,6 +126,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'search_character_limit'                   => 50,
 		'deny_search_crawling'                     => false,
 		'deny_wp_json_crawling'                    => false,
+		'deny_adsbot_crawling'                     => false,
 		'redirect_search_pretty_urls'              => false,
 		'least_readability_ignore_list'            => [],
 		'least_seo_score_ignore_list'              => [],
@@ -133,6 +136,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexables_overview_state'                => 'dashboard-not-visited',
 		'last_known_public_post_types'             => [],
 		'last_known_public_taxonomies'             => [],
+		'last_known_no_unindexed'                  => [],
+		'new_post_types'                           => [],
+		'new_taxonomies'                           => [],
+		'show_new_content_type_notification'       => false,
 	];
 
 	/**
@@ -405,6 +412,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'indexables_page_reading_list':
 				case 'last_known_public_post_types':
 				case 'last_known_public_taxonomies':
+				case 'new_post_types':
+				case 'new_taxonomies':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
@@ -448,7 +457,23 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 						$clean['wordproof_integration_changed'] = true;
 					}
 					break;
+				case 'last_known_no_unindexed':
+					$clean[ $key ] = $old[ $key ];
 
+					if ( isset( $dirty[ $key ] ) ) {
+						$items = $dirty[ $key ];
+
+						if ( is_array( $items ) ) {
+							foreach ( $items as $item_key => $item ) {
+								if ( ! \is_string( $item_key ) || ! \is_numeric( $item ) ) {
+									unset( $items[ $item_key ] );
+								}
+							}
+							$clean[ $key ] = $items;
+						}
+					}
+
+					break;
 
 				/*
 				 * Boolean (checkbox) fields.
@@ -485,8 +510,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'search_cleanup_emoji'
 				 *  'search_cleanup_patterns'
 				 *  'deny_wp_json_crawling'
+				 *  'deny_adsbot_crawling'
 				 *  'redirect_search_pretty_urls'
 				 *  'should_redirect_after_install_free'
+				 *  'show_new_content_type_notification'
 				 *  and most of the feature variables.
 				 */
 				default:
@@ -533,6 +560,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'remove_feed_global_comments'        => false,
 			'remove_feed_post_comments'          => false,
 			'enable_index_now'                   => false,
+			'enable_ai_generator'                => false,
 			'remove_feed_authors'                => false,
 			'remove_feed_categories'             => false,
 			'remove_feed_tags'                   => false,

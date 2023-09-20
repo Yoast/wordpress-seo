@@ -78,7 +78,7 @@ class Indexable_Author_Watcher_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'profile_update', [ $this->instance, 'build_indexable' ] ) );
-		$this->assertNotFalse( \has_action( 'deleted_user', [ $this->instance, 'delete_indexable' ] ) );
+		$this->assertNotFalse( \has_action( 'deleted_user', [ $this->instance, 'handle_user_delete' ] ) );
 	}
 
 	/**

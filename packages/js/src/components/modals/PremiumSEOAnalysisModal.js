@@ -1,7 +1,6 @@
 /* External dependencies */
 import { __ } from "@wordpress/i18n";
-import { Fragment } from "@wordpress/element";
-import { useState, useCallback } from "@wordpress/element";
+import { Fragment, useState, useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 

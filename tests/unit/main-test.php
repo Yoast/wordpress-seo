@@ -3,7 +3,10 @@
 namespace Yoast\WP\SEO\Tests\Unit;
 
 use Brain\Monkey;
+use Exception;
 use Mockery;
+use wpdb;
+use Yoast\WP\SEO\Exceptions\Forbidden_Property_Mutation_Exception;
 use Yoast\WP\SEO\Integrations\Third_Party\Elementor;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher;
@@ -53,7 +56,7 @@ class Main_Test extends TestCase {
 		$this->instance->load();
 
 		global $wpdb;
-		$wpdb = Mockery::mock( '\wpdb' );
+		$wpdb = Mockery::mock( wpdb::class );
 	}
 
 	/**
@@ -84,5 +87,88 @@ class Main_Test extends TestCase {
 
 			$this->assertInstanceOf( $service_id, $container->get( $service_id ) );
 		}
+	}
+
+	/**
+	 * Verify that null is returned by the magic __get() method when an attempt is made
+	 * to access a (declared) protected or private property from outside the class.
+	 *
+	 * {@internal This test is on the Main class as the Abstract_main class is... abstract.}
+	 *
+	 * @covers       Yoast\WP\Lib\Abstract_Main::__get
+	 * @dataProvider data_declared_inaccessible_properties
+	 *
+	 * @param string $name Property name.
+	 */
+	public function test_get_on_inaccessible_property_is_forbidden( $name ) {
+		$this->expectException( Exception::class );
+		$this->expectExceptionMessage( "Property \$$name does not exist." );
+
+		$this->instance->$name;
+	}
+
+	/**
+	 * The magic set method should prevent setting dynamic properties, as well as prevent
+	 * overloading the value of protected/private properties from a context in which they
+	 * are inaccessible.
+	 *
+	 * {@internal This test is on the Main class as the Abstract_main class is... abstract.}
+	 *
+	 * @covers Yoast\WP\Lib\Abstract_Main::__set
+	 *
+	 * @dataProvider data_declared_inaccessible_properties
+	 * @dataProvider data_undeclared_properties
+	 *
+	 * @param string $name Property name.
+	 */
+	public function test_set_is_forbidden( $name ) {
+		$this->expectException( Forbidden_Property_Mutation_Exception::class );
+		$this->expectExceptionMessage( "Setting property \$$name is not supported." );
+
+		$this->instance->$name = 'dynamic property';
+	}
+
+	/**
+	 * The magic unset method should prevent unsetting dynamic properties, as well as prevent
+	 * unsetting protected/private properties from a context in which they are inaccessible.
+	 *
+	 * {@internal This test is on the Main class as the Abstract_main class is... abstract.}
+	 *
+	 * @covers Yoast\WP\Lib\Abstract_Main::__unset
+	 *
+	 * @dataProvider data_declared_inaccessible_properties
+	 * @dataProvider data_undeclared_properties
+	 *
+	 * @param string $name Property name.
+	 */
+	public function test_unset_is_forbidden( $name ) {
+		$this->expectException( Forbidden_Property_Mutation_Exception::class );
+		$this->expectExceptionMessage( "Unsetting property \$$name is not supported." );
+
+		unset( $this->instance->$name );
+	}
+
+	/**
+	 * Data provider.
+	 *
+	 * @return array
+	 */
+	public function data_declared_inaccessible_properties() {
+		return [
+			'container'       => [ 'container' ],
+			'cached_surfaces' => [ 'cached_surfaces' ],
+		];
+	}
+
+	/**
+	 * Data provider.
+	 *
+	 * @return array
+	 */
+	public function data_undeclared_properties() {
+		return [
+			'xyz'     => [ 'xyz' ],
+			'unknown' => [ 'unknown' ],
+		];
 	}
 }

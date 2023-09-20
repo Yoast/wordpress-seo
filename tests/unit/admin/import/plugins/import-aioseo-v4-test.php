@@ -41,7 +41,7 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 	public function test_meta_key_clone_replace() {
 		global $wpdb;
 
-		$wpdb         = Mockery::mock( 'wpdb' );
+		$wpdb         = Mockery::mock( wpdb::class );
 		$wpdb->prefix = 'test';
 
 		$wpdb->shouldReceive( 'query' );
@@ -142,7 +142,7 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 	public function test_meta_key_clone_replace_no_custom_field_replace_vars() {
 		global $wpdb;
 
-		$wpdb         = Mockery::mock( 'wpdb' );
+		$wpdb         = Mockery::mock( wpdb::class );
 		$wpdb->prefix = 'test';
 
 		$wpdb->shouldReceive( 'query' );

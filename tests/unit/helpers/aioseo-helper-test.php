@@ -46,7 +46,7 @@ class Aioseo_Helper_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->wpdb        = Mockery::mock( 'wpdb' );
+		$this->wpdb        = Mockery::mock( wpdb::class );
 		$this->wpdb_helper = Mockery::mock( Wpdb_Helper::class );
 		$this->instance    = new Aioseo_Helper(
 			$this->wpdb,

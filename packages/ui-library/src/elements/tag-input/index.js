@@ -1,9 +1,11 @@
+/* eslint-disable react/forbid-foreign-prop-types */
 /* eslint-disable jsx-a11y/tabindex-no-positive */
 import { XIcon } from "@heroicons/react/solid";
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback, useState, forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import { isString, map, noop } from "lodash";
 import PropTypes from "prop-types";
+import { Badge } from "../../index";
 
 /**
  * @param {string} tag The tag / label.
@@ -14,7 +16,7 @@ import PropTypes from "prop-types";
  * @param {Object} [props] Extra properties.
  * @returns {JSX.Element} The element.
  */
-const Tag = ( { tag, index, disabled = false, onRemoveTag, screenReaderRemoveTag, ...props } ) => {
+export const Tag = ( { tag, index, disabled = false, onRemoveTag, screenReaderRemoveTag, ...props } ) => {
 	const handleKeyDown = useCallback( event => {
 		if ( disabled ) {
 			return;
@@ -38,16 +40,15 @@ const Tag = ( { tag, index, disabled = false, onRemoveTag, screenReaderRemoveTag
 
 	return (
 		// eslint-disable-next-line jsx-a11y/no-static-element-interactions
-		<div onKeyDown={ handleKeyDown } className="yst-tag-input__tag" { ...props }>
-			<span>{ tag }</span>
-			<button
-				className="yst-tag-input__remove-tag"
-				onClick={ handleClick }
-			>
+		<Badge
+			onKeyDown={ handleKeyDown } { ...props } variant="plain" className="yst-tag-input__tag"
+		>
+			<span className="yst-mb-px">{ tag }</span>
+			<button onClick={ handleClick } className="yst-tag-input__remove-tag">
 				<span className="yst-sr-only">{ screenReaderRemoveTag }</span>
-				<XIcon className="yst-h-4 yst-w-4" />
+				<XIcon className="yst-h-3 yst-w-3" />
 			</button>
-		</div>
+		</Badge>
 	);
 };
 
@@ -66,22 +67,24 @@ Tag.propTypes = {
  * @param {boolean} [disabled] Whether the input is disabled.
  * @param {function} [onAddTag] Add tag handler.
  * @param {function} [onRemoveTag] Remove tag handler.
+ * @param {function} [onSetTags] Set tag handler.
  * @param {function} [onBlur] Blur handler.
  * @param {string} [screenReaderRemoveTag] Screen reader text for the remove tag button.
  * @param {object} [props] Extra properties.
  * @returns {JSX.Element} The element.
  */
-const TagInput = ( {
+const TagInput = forwardRef( ( {
 	tags = [],
-	children = null,
-	className = "",
-	disabled = false,
-	onAddTag = noop,
-	onRemoveTag = noop,
-	onBlur = noop,
-	screenReaderRemoveTag = "Remove tag",
+	children,
+	className,
+	disabled,
+	onAddTag,
+	onRemoveTag,
+	onSetTags,
+	onBlur,
+	screenReaderRemoveTag,
 	...props
-} ) => {
+}, ref ) => {
 	const [ text, setText ] = useState( "" );
 	const handleChange = useCallback( event => {
 		isString( event?.target?.value ) && setText( event.target.value );
@@ -102,7 +105,11 @@ const TagInput = ( {
 				if ( text.length !== 0 || tags.length === 0 ) {
 					break;
 				}
-				onRemoveTag( tags.length - 1 );
+				onRemoveTag( tags.length - 1  );
+				if ( event.ctrlKey ) {
+					onSetTags( [] );
+				}
+
 				event.preventDefault();
 				return true;
 		}
@@ -123,16 +130,15 @@ const TagInput = ( {
 					tag={ tag }
 					index={ index }
 					disabled={ disabled }
-					tabIndex="2"
 					onRemoveTag={ onRemoveTag }
 					screenReaderRemoveTag={ screenReaderRemoveTag }
 				/>
 			) ) }
 			<input
+				ref={ ref }
 				type="text"
 				disabled={ disabled }
 				className="yst-tag-input__input"
-				tabIndex="1"
 				onKeyDown={ handleKeyDown }
 				{ ...props }
 				onChange={ handleChange }
@@ -141,19 +147,42 @@ const TagInput = ( {
 			/>
 		</div>
 	);
-};
+} );
 
-TagInput.propTypes = {
+const propTypes = {
 	tags: PropTypes.arrayOf( PropTypes.string ),
 	children: PropTypes.node,
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
 	onAddTag: PropTypes.func,
 	onRemoveTag: PropTypes.func,
+	onSetTags: PropTypes.func,
 	onBlur: PropTypes.func,
 	screenReaderRemoveTag: PropTypes.string,
 };
 
+TagInput.propTypes = propTypes;
+
 TagInput.Tag = Tag;
+TagInput.Tag.displayName = "TagInput.Tag";
+
+TagInput.defaultProps = {
+	tags: [],
+	children: null,
+	className: "",
+	disabled: false,
+	onAddTag: noop,
+	onRemoveTag: noop,
+	onSetTags: noop,
+	onBlur: noop,
+	screenReaderRemoveTag: "Remove tag",
+};
 
 export default TagInput;
+
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <TagInput { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = TagInput.defaultProps;
+StoryComponent.displayName = "TagInput";

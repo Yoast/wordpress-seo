@@ -85,7 +85,7 @@ export const getIsCardActive = ( integration, activeState ) => {
 /**
  * Updates an integration state.
  *
- * @param {string} integration The integration.
+ * @param {object} integration The integration.
  * @param {bool} setActive If the integration must be activated.
  *
  * @returns {Promise|bool} A promise, or false if the call fails.
@@ -94,9 +94,9 @@ export const updateIntegrationState = async( integration, setActive ) => {
 	const basePath = "yoast/v1/integrations";
 
 	const response = await apiFetch( {
-		path: `${basePath}/set_${integration.slug}_active`,
+		path: `${basePath}/set_active`,
 		method: "POST",
-		data: { active: setActive },
+		data: { active: setActive, integration: integration.slug },
 	} );
 	return await response.json;
 };

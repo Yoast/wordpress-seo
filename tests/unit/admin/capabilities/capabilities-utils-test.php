@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Admin\Capabilities;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Roles;
 use WPSEO_Capability_Utils;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -29,7 +30,7 @@ final class Capabilities_Utils_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->roles = Mockery::mock();
+		$this->roles = Mockery::mock( WP_Roles::class );
 
 		$this->roles
 			->expects( 'get_names' )

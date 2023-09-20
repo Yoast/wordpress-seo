@@ -7,7 +7,7 @@ import { getSubheadings } from "./getSubheadings";
  * @param {array}   marks  The array of mark objects.
  * @param {string}  html   The html of the page where we want to apply the marking to.
  *
- * @returns {{selectedHTML: *[], fieldsToMark: *}} The selected part of the html we want to apply the marking tp.
+ * @returns {{selectedHTML: *[], fieldsToMark: *}} The selected part of the html we want to apply the marking to.
  */
 export function getFieldsToMark( marks, html ) {
 	const fieldsToMark = uniq( flatten( marks.map( mark => {

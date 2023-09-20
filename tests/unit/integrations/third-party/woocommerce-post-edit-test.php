@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Post;
 use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Integrations\Third_Party\WooCommerce_Post_Edit;
@@ -82,7 +83,7 @@ class WooCommerce_Post_Edit_Test extends TestCase {
 			'author_name'         => 'Yoasie',
 		];
 
-		$post            = Mockery::mock( '\WP_Post' )->makePartial();
+		$post            = Mockery::mock( WP_Post::class )->makePartial();
 		$post->post_type = 'product';
 
 		$new_values = $this->instance->remove_meta_description_date( $original_values, $post );
@@ -101,7 +102,7 @@ class WooCommerce_Post_Edit_Test extends TestCase {
 			'author_name'         => 'Yoasie',
 		];
 
-		$post            = Mockery::mock( '\WP_Post' )->makePartial();
+		$post            = Mockery::mock( WP_Post::class )->makePartial();
 		$post->post_type = 'post';
 
 		$new_values = $this->instance->remove_meta_description_date( $original_values, $post );

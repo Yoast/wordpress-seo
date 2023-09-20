@@ -118,12 +118,24 @@ class WPSEO_Taxonomy_Columns {
 	}
 
 	/**
-	 * Retrieves the taxonomy from the $_GET variable.
+	 * Retrieves the taxonomy from the $_GET or $_POST variable.
 	 *
-	 * @return string The current taxonomy.
+	 * @return string|null The current taxonomy or null when it is not set.
 	 */
 	public function get_current_taxonomy() {
-		return filter_input( $this->get_taxonomy_input_type(), 'taxonomy' );
+		// phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( ! empty( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] === 'POST' ) {
+			if ( isset( $_POST['taxonomy'] ) && is_string( $_POST['taxonomy'] ) ) {
+				return sanitize_text_field( wp_unslash( $_POST['taxonomy'] ) );
+			}
+		}
+		else {
+			if ( isset( $_GET['taxonomy'] ) && is_string( $_GET['taxonomy'] ) ) {
+				return sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) );
+			}
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+		return null;
 	}
 
 	/**
@@ -132,11 +144,19 @@ class WPSEO_Taxonomy_Columns {
 	 * @return string|null
 	 */
 	private function get_taxonomy() {
+		// phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( wp_doing_ajax() ) {
-			return FILTER_INPUT( INPUT_POST, 'taxonomy' );
+			if ( isset( $_POST['taxonomy'] ) && is_string( $_POST['taxonomy'] ) ) {
+				return sanitize_text_field( wp_unslash( $_POST['taxonomy'] ) );
+			}
 		}
-
-		return FILTER_INPUT( INPUT_GET, 'taxonomy' );
+		else {
+			if ( isset( $_GET['taxonomy'] ) && is_string( $_GET['taxonomy'] ) ) {
+				return sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) );
+			}
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+		return null;
 	}
 
 	/**
@@ -170,7 +190,7 @@ class WPSEO_Taxonomy_Columns {
 	 *
 	 * @param mixed $term The current term.
 	 *
-	 * @return bool Whether or not the term is indexable.
+	 * @return bool Whether the term is indexable.
 	 */
 	private function is_indexable( $term ) {
 		// When the no_index value is not empty and not default, check if its value is index.
@@ -192,19 +212,6 @@ class WPSEO_Taxonomy_Columns {
 	}
 
 	/**
-	 * Checks if a taxonomy is being added via a POST method. If not, it defaults to a GET request.
-	 *
-	 * @return int
-	 */
-	private function get_taxonomy_input_type() {
-		if ( ! empty( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] === 'POST' ) {
-			return INPUT_POST;
-		}
-
-		return INPUT_GET;
-	}
-
-	/**
 	 * Wraps the WPSEO_Metabox check to determine whether the metabox should be displayed either by
 	 * choice of the admin or because the taxonomy is not public.
 	 *
@@ -212,10 +219,10 @@ class WPSEO_Taxonomy_Columns {
 	 *
 	 * @param string|null $taxonomy Optional. The taxonomy to test, defaults to the current taxonomy.
 	 *
-	 * @return bool Whether or not the meta box (and associated columns etc) should be hidden.
+	 * @return bool Whether the meta box (and associated columns etc) should be hidden.
 	 */
 	private function display_metabox( $taxonomy = null ) {
-		$current_taxonomy = sanitize_text_field( $this->get_current_taxonomy() );
+		$current_taxonomy = $this->get_current_taxonomy();
 
 		if ( ! isset( $taxonomy ) && ! empty( $current_taxonomy ) ) {
 			$taxonomy = $current_taxonomy;

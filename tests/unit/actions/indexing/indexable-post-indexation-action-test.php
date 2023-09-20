@@ -77,7 +77,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
 		$this->post_helper      = Mockery::mock( Post_Helper::class );
 		$this->repository       = Mockery::mock( Indexable_Repository::class );
-		$this->wpdb             = Mockery::mock( 'wpdb' );
+		$this->wpdb             = Mockery::mock( wpdb::class );
 		$this->wpdb->posts      = 'wp_posts';
 		$this->builder_versions = Mockery::mock( Indexable_Builder_Versions::class );
 
@@ -101,7 +101,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
 	 * @covers ::get_count_query
-	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed() {
 		$expected_query = "
@@ -133,7 +132,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * Tests the get_limited_unindexed_count method with a limit.
 	 *
 	 * @covers ::__construct
-	 * @covers ::get_post_types
 	 * @covers ::get_select_query
 	 */
 	public function test_get_limited_unindexed_count() {
@@ -175,7 +173,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
-	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed_cached() {
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturn( '10' );
@@ -211,7 +208,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
-	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed_with_excluded_post_types() {
 		$public_post_types = [ 'public_post_type' ];
@@ -248,7 +244,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::index
 	 * @covers ::get_limit
-	 * @covers ::get_post_types
 	 */
 	public function test_index() {
 		$expected_query = "
@@ -328,7 +323,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::index
 	 * @covers ::get_limit
-	 * @covers ::get_post_types
 	 */
 	public function test_index_with_excluded_post_types() {
 		$public_post_types = [ 'public_post_type' ];
@@ -384,7 +378,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::index
 	 * @covers ::get_limit
-	 * @covers ::get_post_types
 	 */
 	public function test_index_no_indexables_created() {
 		$expected_query = "

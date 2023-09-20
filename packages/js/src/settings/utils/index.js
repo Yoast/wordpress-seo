@@ -1,27 +1,19 @@
-import { filter, isArray, isObject, join, reduce } from "lodash";
-
-/**
- * Determines if the given value should flatten.
- * @param {*} value The value.
- * @returns {boolean} True if the value is an object or an array.
- */
-const shouldFlatten = value => isObject( value ) || isArray( value );
+import { filter, isArray, isObject, join, reduce, toString, flowRight } from "lodash";
 
 /**
  * Flattens nested object to a single level. Props will be keyed by dot syntax path.
  * @param {Object} object The object to flatten.
  * @param {string} parentPath The parent object path.
- * @param {function} getShouldFlatten Determines whether the entry should be flattened.
  * @returns {Object} Flattened object.
  */
-export const flattenObject = ( object, parentPath = "", getShouldFlatten = shouldFlatten ) => reduce(
+export const flattenObject = ( object, parentPath = "" ) => reduce(
 	object,
 	( acc, value, key ) => {
-		const flatKey = join( filter( [ parentPath, key ], Boolean ), "." );
+		const flatKey = join( filter( [ parentPath, key ], flowRight( Boolean, toString ) ), "." );
 
-		return getShouldFlatten( value, key ) ? {
+		return isObject( value ) || isArray( value ) ? {
 			...acc,
-			...flattenObject( value, flatKey, getShouldFlatten ),
+			...flattenObject( value, flatKey ),
 		} : {
 			...acc,
 			[ flatKey ]: value,

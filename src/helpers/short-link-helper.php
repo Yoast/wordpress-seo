@@ -101,7 +101,7 @@ class Short_Link_Helper {
 	 * @return array The shortlink data.
 	 */
 	protected function collect_additional_shortlink_data() {
-		return [
+		$data = [
 			'php_version'      => $this->get_php_version(),
 			'platform'         => 'wordpress',
 			'platform_version' => $this->get_platform_version(),
@@ -110,6 +110,17 @@ class Short_Link_Helper {
 			'days_active'      => $this->get_days_active(),
 			'user_language'    => \get_user_locale(),
 		];
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			$admin_page = \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
+			if ( ! empty( $admin_page ) ) {
+				$data['screen'] = $admin_page;
+			}
+		}
+
+		return $data;
 	}
 
 	/**
@@ -133,21 +144,7 @@ class Short_Link_Helper {
 	protected function get_days_active() {
 		$date_activated = $this->options_helper->get( 'first_activated_on' );
 		$datediff       = ( \time() - $date_activated );
-		$days           = (int) \round( $datediff / \DAY_IN_SECONDS );
-		switch ( $days ) {
-			case 0:
-			case 1:
-				$cohort = '0-1';
-				break;
-			case ( $days < 5 ):
-				$cohort = '2-5';
-				break;
-			case ( $days < 30 ):
-				$cohort = '6-30';
-				break;
-			default:
-				$cohort = '30plus';
-		}
-		return $cohort;
+
+		return (int) \round( $datediff / \DAY_IN_SECONDS );
 	}
 }

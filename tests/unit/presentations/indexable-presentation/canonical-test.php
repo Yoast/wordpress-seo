@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Presentation;
 
 use Brain\Monkey;
 use Mockery;
+use WP;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -136,7 +137,7 @@ class Canonical_Test extends TestCase {
 	 * @covers ::generate_canonical
 	 */
 	public function test_with_permalink_on_attachment_page() {
-		$wp          = Mockery::mock();
+		$wp          = Mockery::mock( WP::class );
 		$wp->request = 'https://example.com/image';
 
 		$GLOBALS['wp'] = $wp;

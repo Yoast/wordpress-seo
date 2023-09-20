@@ -71,17 +71,22 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 	 * @return string The current post type.
 	 */
 	private function get_current_post_type() {
-		return filter_input( INPUT_GET, 'post_type' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['post_type'] ) && is_string( $_GET['post_type'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			return sanitize_text_field( wp_unslash( $_GET['post_type'] ) );
+		}
+		return '';
 	}
 
 	/**
-	 * Whether or not we are showing link columns on this overview page.
+	 * Whether we are showing link columns on this overview page.
 	 * This depends on the post being accessible or not.
 	 *
-	 * @return bool Whether or not the linking columns are shown
+	 * @return bool Whether the linking columns are shown
 	 */
 	private function display_links() {
-		$current_post_type = sanitize_text_field( $this->get_current_post_type() );
+		$current_post_type = $this->get_current_post_type();
 
 		if ( empty( $current_post_type ) ) {
 			return false;
@@ -94,10 +99,10 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 	 * Wraps the WPSEO_Metabox check to determine whether the metabox should be displayed either by
 	 * choice of the admin or because the post type is not a public post type.
 	 *
-	 * @return bool Whether or not the meta box (and associated columns etc) should be hidden.
+	 * @return bool Whether the meta box (and associated columns etc) should be hidden.
 	 */
 	private function display_meta_columns() {
-		$current_post_type = sanitize_text_field( $this->get_current_post_type() );
+		$current_post_type = $this->get_current_post_type();
 
 		if ( empty( $current_post_type ) ) {
 			return false;

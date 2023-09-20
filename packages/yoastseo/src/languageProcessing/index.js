@@ -22,14 +22,21 @@ import * as values from "./values";
 import areWordsInSentence from "./helpers/word/areWordsInSentence";
 import getClauses from "./helpers/passiveVoice/periphrastic/getClauses";
 import getClausesSplitOnStopWords from "./helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/getClausesSplitOnStopWords";
-import { stripFullTags as stripHTMLTags } from "./helpers/sanitize/stripHTMLTags";
+import { stripFullTags as stripHTMLTags, stripBlockTagsAtStartEnd } from "./helpers/sanitize/stripHTMLTags";
 import sanitizeString from "./helpers/sanitize/sanitizeString";
 import { unifyAllSpaces } from "./helpers/sanitize/unifyWhitespace";
 import removePunctuation from "./helpers/sanitize/removePunctuation";
+import normalizeHTML from "./helpers/html/normalizeHTML";
 import countMetaDescriptionLength from "./helpers/word/countMetaDescriptionLength";
 import getLanguage from "./helpers/language/getLanguage";
 import getSentences from "./helpers/sentence/getSentences";
 import { getFieldsToMark } from "./helpers/html/getFieldsToMark";
+import { normalizeSingle } from "./helpers/sanitize/quotes";
+import parseSynonyms from "./helpers/sanitize/parseSynonyms";
+import { mergeListItems } from "./helpers/sanitize/mergeListItems";
+import { findWordFormsInString } from "./helpers/match/findKeywordFormsInString";
+import { collectMarkingsInSentence, markWordsInSentences } from "./helpers/word/markWordsInSentences";
+import * as helpers from "./helpers";
 
 export {
 	AbstractResearcher,
@@ -58,6 +65,7 @@ export {
 	getClauses,
 	getClausesSplitOnStopWords,
 	stripHTMLTags,
+	stripBlockTagsAtStartEnd,
 	countMetaDescriptionLength,
 	sanitizeString,
 	removePunctuation,
@@ -65,4 +73,12 @@ export {
 	getSentences,
 	getFieldsToMark,
 	unifyAllSpaces,
+	normalizeHTML,
+	collectMarkingsInSentence,
+	normalizeSingle,
+	parseSynonyms,
+	mergeListItems,
+	findWordFormsInString,
+	markWordsInSentences,
+	helpers,
 };

@@ -53,7 +53,7 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->wpdb          = Mockery::mock( 'wpdb' );
+		$this->wpdb          = Mockery::mock( wpdb::class );
 		$this->options       = Mockery::mock( Options_Helper::class );
 		$this->aioseo_helper = Mockery::mock( Aioseo_Helper::class );
 
@@ -120,7 +120,6 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 	 * @covers ::cleanup_postmeta_query
 	 * @covers ::truncate_query
 	 * @covers ::get_postmeta_table
-	 * @covers ::get_aioseo_table
 	 *
 	 * @param array     $completed_option   The persistent completed option.
 	 * @param int       $query_times        The times we're gonna run the cleanup queries.

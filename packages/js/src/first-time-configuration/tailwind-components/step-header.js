@@ -19,7 +19,7 @@ function getNameClassNames( isFinished, isActiveStep, isLastStep ) {
 	if ( isActiveStep && ! isLastStep ) {
 		return "yst-text-primary-500";
 	}
-	return isFinished ? "yst-text-slate-900" : "yst-text-slate-500";
+	return isFinished ? "yst-text-slate-900" : "yst-text-slate-600";
 }
 
 /* eslint-disable complexity */
@@ -69,7 +69,7 @@ export default function StepHeader( { name, description, isFinished, children } 
 			<span className={ `yst-transition-colors yst-duration-500 yst-text-xs yst-font-[650] yst-tracking-wide yst-uppercase ${ nameClassNames }` }>
 				{ name }
 			</span>
-			{ description && <span className="yst-text-sm yst-text-slate-500">{ description }</span> }
+			{ description && <span className="yst-text-sm yst-text-slate-600">{ description }</span> }
 		</span>
 		{ children }
 	</div>;

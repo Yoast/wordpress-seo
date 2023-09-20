@@ -7,8 +7,11 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/es
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/es/config/twoPartTransitionWords";
 import stopWords from "../../../../src/languageProcessing/languages/es/config/stopWords";
 import syllables from "../../../../src/languageProcessing/languages/es/config/syllables.json";
-const morphologyDataES = getMorphologyData( "es" );
+import checkIfWordIsComplex from "../../../../src/languageProcessing/languages/es/helpers/checkIfWordIsComplex";
+import wordComplexityConfig from "../../../../src/languageProcessing/languages/es/config/wordComplexity";
 import sentenceLength from "../../../../src/languageProcessing/languages/es/config/sentenceLength";
+
+const morphologyDataES = getMorphologyData( "es" );
 
 describe( "a test for the Spanish Researcher", function() {
 	const researcher = new Researcher( new Paper( "Este es un documento nuevo!" ) );
@@ -22,8 +25,10 @@ describe( "a test for the Spanish Researcher", function() {
 	} );
 
 	it( "checks if a word is complex in Spanish", function() {
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( "situados" ) ).toEqual( true );
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( "sobre" ) ).toEqual( false );
+		researcher.addHelper( "checkIfWordIsComplex", checkIfWordIsComplex );
+
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "situados" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "sobre" ) ).toEqual( false );
 	} );
 
 	it( "returns the Spanish function words", function() {

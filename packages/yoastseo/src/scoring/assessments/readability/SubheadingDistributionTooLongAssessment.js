@@ -9,6 +9,7 @@ import { getSubheadings } from "../../../languageProcessing/helpers/html/getSubh
 import getWords from "../../../languageProcessing/helpers/word/getWords";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { stripFullTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 /**
  * Represents the assessment for calculating the text after each subheading.
@@ -73,6 +74,22 @@ class SubheadingsDistributionTooLong extends Assessment {
 	}
 
 	/**
+	 * Gets the text length from the paper. Remove unwanted element first before calculating.
+	 *
+	 * @param { Paper } paper The Paper object to analyse.
+	 * @param { Researcher } researcher The researcher to use.
+	 * @returns {number} The length of the text.
+	 */
+	getTextLength( paper, researcher ) {
+		// Give specific feedback for cases where the post starts with a long text without subheadings.
+		const customCountLength = researcher.getHelper( "customCountLength" );
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+
+		return customCountLength ? customCountLength( text ) : getWords( text ).length;
+	}
+
+	/**
 	 * Runs the getSubheadingTextLength research and checks scores based on length.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
@@ -104,12 +121,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		this._hasSubheadings = this.hasSubheadings( paper );
 
-		// Give specific feedback for cases where the post starts with a long text without subheadings.
-		const customCountLength = researcher.getHelper( "customCountLength" );
-
 		this._tooLongTextsNumber = this.getTooLongSubheadingTexts().length;
 
-		this._textLength = customCountLength ? customCountLength( paper.getText() ) : getWords( paper.getText() ).length;
+		this._textLength = this.getTextLength( paper, researcher );
 
 		const calculatedResult = this.calculateResult( textBeforeFirstSubheading );
 
@@ -159,10 +173,10 @@ class SubheadingsDistributionTooLong extends Assessment {
 				this._config = this.getLanguageSpecificConfig( researcher );
 			}
 
-			const customCountLength = researcher.getHelper( "customCountLength" );
-			const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" ).count;
+			const textLength = this.getTextLength( paper, researcher );
+
 			// Do not use hasEnoughContentForAssessment as it is redundant with textLength > this._config.applicableIfTextLongerThan.
-			return  textLength > this._config.applicableIfTextLongerThan;
+			return textLength > this._config.applicableIfTextLongerThan;
 		}
 
 		return this.hasEnoughContentForAssessment( paper );
@@ -230,7 +244,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 						score: this._config.scores.okSubheadings,
 						hasMarks: false,
 						resultText: sprintf(
-							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+							/* translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
 							 * %4$s expands to the recommended number of words following a subheading,
 							 * %5$s expands to the word 'words' or 'characters'.
 							 */
@@ -256,7 +270,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 						score: this._config.scores.badSubheadings,
 						hasMarks: false,
 						resultText: sprintf(
-							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+							/* translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
 							 * %4$s expands to the recommended number of words following a subheading,
 							 * %5$s expands to the word 'words' or 'characters'.
 							 */
@@ -281,7 +295,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 						score: this._config.scores.goodSubheadings,
 						hasMarks: false,
 						resultText: sprintf(
-							// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+							// translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
 							__(
 								"%1$sSubheading distribution%2$s: Great job!",
 								"wordpress-seo"
@@ -299,7 +313,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 						hasMarks: true,
 						resultText: sprintf(
 							/*
-							 * Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
+							 * translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
 							 * not separated by subheadings, %4$d expands to the recommended number of words following a
 							 * subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag.
 							 */
@@ -326,7 +340,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 					score: this._config.scores.badSubheadings,
 					hasMarks: true,
 					resultText: sprintf(
-						/* Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
+						/* translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
 						not separated by subheadings, %4$d expands to the recommended number of words or characters following a
 						subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag. */
 						_n(
@@ -351,7 +365,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 				score: this._config.scores.badLongTextNoSubheadings,
 				hasMarks: false,
 				resultText: sprintf(
-					/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
+					/* translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 					__(
 						// eslint-disable-next-line max-len
 						"%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long. %3$sTry and add some subheadings%2$s.",
@@ -369,7 +383,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 				score: this._config.scores.goodSubheadings,
 				hasMarks: false,
 				resultText: sprintf(
-					/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
+					/* translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 					__(
 						"%1$sSubheading distribution%2$s: Great job!",
 						"wordpress-seo"
@@ -384,7 +398,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			score: this._config.scores.goodShortTextNoSubheadings,
 			hasMarks: false,
 			resultText: sprintf(
-				/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
+				/* translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 				__(
 					// eslint-disable-next-line max-len
 					"%1$sSubheading distribution%2$s: You are not using any subheadings, but your text is short enough and probably doesn't need them.",

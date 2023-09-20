@@ -39,7 +39,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 2 times. This is great!",
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The keyphrase was found 2 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -100,7 +100,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Your product is missing an identifier " +
-			"(like a GTIN code). You can add a product identifier via the \"Yoast SEO\" tab in the Product data box." +
+			"(like a GTIN code)." +
 			" <a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it will " +
 			"help search engines to better understand your content.</a>",
 	},
@@ -108,7 +108,6 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Your product is missing a SKU. " +
-			"You can add a SKU via the \"Inventory\" tab in the Product data box. " +
 			"<a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will " +
 			"help search engines to better understand your content.</a>",
 	},
@@ -132,10 +131,9 @@ const expectedResults = {
 	},
 	keyphraseDistribution: {
 		isApplicable: true,
-		score: 1,
-		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Very uneven. " +
-			"Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/shopify31' " +
-			"target='_blank'>Distribute them more evenly</a>.",
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not " +
+			"contain the keyphrase or its synonyms. <a href='https://yoa.st/shopify31' target='_blank'>Distribute them more evenly</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -163,7 +161,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 21.1% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 25% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},
@@ -180,7 +178,9 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 15.02% of the words in your text are considered complex." +
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 11.11% of the words in your " +
+			"text " +
+			"are considered complex." +
 			" <a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
 	},
 };

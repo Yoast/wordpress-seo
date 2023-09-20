@@ -4,12 +4,12 @@ import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
 import { Component } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { LocationConsumer } from "@yoast/externals/contexts";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { KeywordInput as KeywordInputComponent } from "yoast-components";
 import SEMrushModal from "../../containers/SEMrushRelatedKeyphrasesModal";
-import { LocationConsumer } from "@yoast/externals/contexts";
 import HelpLink from "../HelpLink";
+import KeywordInputComponent from "./KeywordInputComponent";
 
 const KeywordInputContainer = styled.div`
 	padding: 16px;
@@ -56,7 +56,7 @@ class KeywordInput extends Component {
 	 * @returns {array} The detected errors.
 	 */
 	validate() {
-		const errors = [];
+		const errors = [ ...this.props.errors ];
 
 		if ( this.props.keyword.trim().length === 0 && this.props.displayNoKeyphraseMessage ) {
 			errors.push( __( "Please enter a focus keyphrase first to get related keyphrases", "wordpress-seo" ) );
@@ -67,11 +67,11 @@ class KeywordInput extends Component {
 		}
 
 		if ( this.props.keyword.includes( "," ) ) {
-			errors.push(  __( "Are you trying to use multiple keyphrases? You should add them separately below.", "wordpress-seo" )  );
+			errors.push( __( "Are you trying to use multiple keyphrases? You should add them separately below.", "wordpress-seo" ) );
 		}
 
 		if ( this.props.keyword.length > 191 ) {
-			errors.push(  __( "Your keyphrase is too long. It can be a maximum of 191 characters.",	"wordpress-seo"	)  );
+			errors.push( __( "Your keyphrase is too long. It can be a maximum of 191 characters.", "wordpress-seo" ) );
 		}
 
 		return errors;
@@ -87,7 +87,7 @@ class KeywordInput extends Component {
 
 		return <LocationConsumer>
 			{ context => (
-				<div style={ context === "sidebar" ? {  borderBottom: "1px solid #f0f0f0" } : {} }>
+				<div style={ context === "sidebar" ? { borderBottom: "1px solid #f0f0f0" } : {} }>
 					<KeywordInputContainer location={ context }>
 						<KeywordInputComponent
 							id={ `focus-keyword-input-${ context }` }
@@ -123,6 +123,7 @@ KeywordInput.propTypes = {
 	isSEMrushIntegrationActive: PropTypes.bool,
 	displayNoKeyphraseMessage: PropTypes.bool,
 	displayNoKeyphrasForTrackingMessage: PropTypes.bool,
+	errors: PropTypes.arrayOf( PropTypes.string ),
 };
 
 KeywordInput.defaultProps = {
@@ -130,17 +131,19 @@ KeywordInput.defaultProps = {
 	isSEMrushIntegrationActive: false,
 	displayNoKeyphraseMessage: false,
 	displayNoKeyphrasForTrackingMessage: false,
+	errors: [],
 };
 
 export { KeywordInput };
 
 export default compose( [
 	withSelect( ( select ) => {
-		const { getFocusKeyphrase, getSEMrushNoKeyphraseMessage, hasWincherNoKeyphrase } = select( "yoast-seo/editor" );
+		const { getFocusKeyphrase, getSEMrushNoKeyphraseMessage, hasWincherNoKeyphrase, getFocusKeyphraseErrors } = select( "yoast-seo/editor" );
 		return {
 			keyword: getFocusKeyphrase(),
 			displayNoKeyphraseMessage: getSEMrushNoKeyphraseMessage(),
 			displayNoKeyphrasForTrackingMessage: hasWincherNoKeyphrase(),
+			errors: getFocusKeyphraseErrors(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

@@ -20,7 +20,7 @@ class Japanese_Support_Conditional extends Feature_Flag_Conditional {
 	 * @return string the name of the feature flag.
 	 */
 	public function get_feature_flag() {
-		\_deprecated_function( __METHOD__, 'WPSEO 17.9' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 17.9' );
 		return 'JAPANESE_SUPPORT';
 	}
 }

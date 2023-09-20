@@ -41,4 +41,9 @@ class Indexing_Reasons {
 	 * Represents the reason that a post type has been made viewable.
 	 */
 	const REASON_TAXONOMY_MADE_PUBLIC = 'taxonomy_made_public';
+
+	/**
+	 * Represents the reason that attachments have stopped being redirected.
+	 */
+	const REASON_ATTACHMENTS_MADE_ENABLED = 'attachments_made_enabled';
 }

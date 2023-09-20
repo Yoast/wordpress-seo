@@ -10,7 +10,7 @@ import { useSelectSettings } from "../hooks";
  */
 const ErrorFallback = ( { error } ) => {
 	const handleRefreshClick = useCallback( () => window?.location?.reload(), [] );
-	const supportLink = useSelectSettings( "selectLink", [], "https://yoast.com/help/support" );
+	const supportLink = useSelectSettings( "selectLink", [], "https://yoa.st/settings-error-support" );
 
 	return (
 		<div role="alert" className="yst-max-w-screen-sm yst-p-8 yst-space-y-4">
@@ -20,7 +20,7 @@ const ErrorFallback = ( { error } ) => {
 			<p>{ __( "Unfortunately, this means that all your unsaved changes will be lost. You can try and refresh this page to resolve the problem. If this error still occurs, please get in touch with our support team, and we'll get you all the help you need!", "wordpress-seo" ) }</p>
 			<div className="yst-flex yst-gap-2">
 				<Button onClick={ handleRefreshClick }>{ __( "Refresh this page", "wordpress-seo" ) }</Button>
-				<Button variant="secondary" as="a" href={ supportLink } target="blank" rel="noreferrer">
+				<Button variant="secondary" as="a" href={ supportLink } target="_blank" rel="noopener">
 					{ __( "Contact support", "wordpress-seo" ) }
 				</Button>
 			</div>

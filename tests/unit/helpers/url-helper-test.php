@@ -117,7 +117,7 @@ class Url_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Data provider.
+	 * Data provider for test_get_url_path.
 	 *
 	 * @return array
 	 */
@@ -150,6 +150,85 @@ class Url_Helper_Test extends TestCase {
 			'URL with domain and full path via a stringable object' => [
 				'url_input' => new Stringable_Object_Mock( 'https://example.com/this/is/the/path' ),
 				'expected'  => '/this/is/the/path',
+			],
+			'URL is not a string: null' => [
+				'url_input' => null,
+				'expected'  => '',
+			],
+			'URL is not a string: boolean true' => [
+				'url_input' => true,
+				'expected'  => '',
+			],
+			'URL is not a string: array' => [
+				'url_input' => [],
+				'expected'  => '',
+			],
+			'URL is not a string: object, but not stringable' => [
+				'url_input' => new stdClass(),
+				'expected'  => '',
+			],
+		];
+	}
+
+	/**
+	 * Tests that get_url_host() always returns a string and handles unexpected input gracefully.
+	 *
+	 * @dataProvider data_get_url_host
+	 *
+	 * @covers ::get_url_host
+	 *
+	 * @param mixed  $url_input Input to pass to the get_url_host() function.
+	 * @param string $expected  Output expected from the get_url_host() function.
+	 *
+	 * @return void
+	 */
+	public function test_get_url_host( $url_input, $expected ) {
+		Monkey\Functions\stubs(
+			[
+				'wp_parse_url' => static function( $url, $component ) {
+					// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Mocking wp_parse_url(), this is fine.
+					return \parse_url( $url, $component );
+				},
+			]
+		);
+
+		$this->assertSame( $expected, $this->instance->get_url_host( $url_input ) );
+	}
+
+	/**
+	 * Data provider for test_get_url_host.
+	 *
+	 * @return array
+	 */
+	public function data_get_url_host() {
+		return [
+			'URL is an empty string' => [
+				'url_input' => '',
+				'expected'  => '',
+			],
+			'URL with domain' => [
+				'url_input' => 'https://example.com',
+				'expected'  => 'example.com',
+			],
+			'URL with domain, and subdomain' => [
+				'url_input' => 'https://foo.example.com',
+				'expected'  => 'foo.example.com',
+			],
+			'URL with domain, path is only slash' => [
+				'url_input' => 'https://example.com/',
+				'expected'  => 'example.com',
+			],
+			'URL with domain and full path' => [
+				'url_input' => 'https://example.com/this/is/the/path',
+				'expected'  => 'example.com',
+			],
+			'URL with domain and full path and trailing slash' => [
+				'url_input' => 'https://foo.example.com/this/is/the/path/',
+				'expected'  => 'foo.example.com',
+			],
+			'URL with domain, no path via a stringable object' => [
+				'url_input' => new Stringable_Object_Mock( 'https://example.com' ),
+				'expected'  => 'example.com',
 			],
 			'URL is not a string: null' => [
 				'url_input' => null,

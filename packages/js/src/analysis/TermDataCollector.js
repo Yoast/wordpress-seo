@@ -1,10 +1,11 @@
 /* global wpseoScriptData */
 
 /* External dependencies */
-import { get } from "lodash-es";
+import { get } from "lodash";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
+import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import * as tmceHelper from "../lib/tinymce";
 import { termsTmceId as tmceId } from "../lib/tinymce";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
@@ -302,15 +303,21 @@ TermDataCollector.prototype.saveContentScore = function( score ) {
 };
 
 /**
- * Initializes keyword tab with the correct template.
+ * Saves the inclusive language score to a hidden field.
+ *
+ * @param {number} score The score calculated by the inclusive language assessor.
  *
  * @returns {void}
  */
-TermDataCollector.prototype.initKeywordTabTemplate = function() {
-	// Remove default functionality to prevent scrolling to top.
-	$( ".wpseo-metabox-tabs" ).on( "click", ".wpseo_tablink", function( ev ) {
-		ev.preventDefault();
-	} );
+TermDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
+	const indicator = getIndicatorForScore( score );
+
+	if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+	}
+
+	$( "#hidden_wpseo_inclusive_language_score" ).val( score );
 };
 
 export default TermDataCollector;

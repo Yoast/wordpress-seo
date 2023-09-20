@@ -5,6 +5,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 use Brain\Monkey;
 use Exception;
 use Mockery;
+use WP_Error;
+use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
@@ -329,9 +331,9 @@ class Indexing_Route_Test extends TestCase {
 			->with( 'yoast/v1/indexing/posts' )
 			->andReturnFirstArg();
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_Rest_Response', $this->instance->index_posts() );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->index_posts() );
 	}
 
 	/**
@@ -354,9 +356,9 @@ class Indexing_Route_Test extends TestCase {
 			->with( 'yoast/v1/indexing/terms' )
 			->andReturnFirstArg();
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_Rest_Response', $this->instance->index_terms() );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->index_terms() );
 	}
 
 	/**
@@ -379,9 +381,9 @@ class Indexing_Route_Test extends TestCase {
 			->with( 'yoast/v1/indexing/post-type-archives' )
 			->andReturnFirstArg();
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_Rest_Response', $this->instance->index_post_type_archives() );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->index_post_type_archives() );
 	}
 
 	/**
@@ -405,9 +407,9 @@ class Indexing_Route_Test extends TestCase {
 			->with( 'yoast/v1/indexing/general' )
 			->andReturnFirstArg();
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_Rest_Response', $this->instance->index_general() );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->index_general() );
 	}
 
 	/**
@@ -431,9 +433,9 @@ class Indexing_Route_Test extends TestCase {
 			->with( 'yoast/v1/link-indexing/posts' )
 			->andReturnFirstArg();
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_Rest_Response', $this->instance->index_post_links() );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->index_post_links() );
 	}
 
 	/**
@@ -457,9 +459,9 @@ class Indexing_Route_Test extends TestCase {
 			->with( 'yoast/v1/link-indexing/terms' )
 			->andReturnFirstArg();
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_Rest_Response', $this->instance->index_term_links() );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->index_term_links() );
 	}
 
 	/**
@@ -486,7 +488,7 @@ class Indexing_Route_Test extends TestCase {
 
 		$this->indexing_helper->expects( 'indexing_failed' )->withNoArgs();
 
-		Mockery::mock( '\WP_Error' );
+		Mockery::mock( WP_Error::class );
 
 		$this->instance->index_general();
 	}

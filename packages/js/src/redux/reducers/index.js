@@ -1,9 +1,18 @@
-import { analysis } from "yoast-components";
 import insights from "../../insights/redux/reducer";
+import {
+	LINK_PARAMS_NAME,
+	linkParamsReducer,
+	PLUGIN_URL_NAME,
+	pluginUrlReducer,
+	WISTIA_EMBED_PERMISSION_NAME,
+	wistiaEmbedPermissionReducer,
+} from "../../shared-admin/store";
+import analysis from "../reducers/contentAnalysis";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
 import analysisData from "./analysisData";
 import checklist from "./checklist";
+import currentPromotions from "./currentPromotions";
 import isCornerstone from "./cornerstoneContent";
 import dismissedAlerts from "./dismissedAlerts";
 import editorContext from "./editorContext";
@@ -12,9 +21,9 @@ import editorModals from "./editorModals";
 import facebookEditor from "./facebookEditor";
 import focusKeyword from "./focusKeyword";
 import isPremium from "./isPremium";
-import postId from "./postId";
 import marksButtonStatus from "./markerButtons";
 import isMarkerPaused from "./markerPauseStatus";
+import postId from "./postId";
 import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
 import schemaTab from "./schemaTab";
@@ -35,6 +44,7 @@ export default {
 	analysis,
 	analysisData,
 	checklist,
+	currentPromotions,
 	dismissedAlerts,
 	editorContext,
 	editorData,
@@ -45,6 +55,8 @@ export default {
 	isCornerstone,
 	isMarkerPaused,
 	isPremium,
+	[ LINK_PARAMS_NAME ]: linkParamsReducer,
+	[ PLUGIN_URL_NAME ]: pluginUrlReducer,
 	postId,
 	marksButtonStatus,
 	preferences,
@@ -60,4 +72,5 @@ export default {
 	WincherModal,
 	WincherRequest,
 	WincherSEOPerformance,
+	[ WISTIA_EMBED_PERMISSION_NAME ]: wistiaEmbedPermissionReducer,
 };

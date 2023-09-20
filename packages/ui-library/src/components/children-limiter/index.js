@@ -20,7 +20,7 @@ const ChildrenLimiter = ( { limit, children, renderButton, initialShow = false, 
 	const after = useMemo( () => slice( flattened, limit ), [ flattened ] );
 	const id = useMemo( () => requestedId || `yst-animate-height-${ nanoid() }`, [ requestedId ] );
 	const ariaProps = useMemo( () => ( {
-		"aria-expanded": ! show,
+		"aria-expanded": show,
 		"aria-controls": id,
 	} ), [ show, id ] );
 

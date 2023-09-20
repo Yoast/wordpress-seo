@@ -1,6 +1,7 @@
 import { isUndefined, get } from "lodash";
 import isContentAnalysisActive from "../../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
+import isInclusiveLanguageAnalysisActive from "../../analysis/isInclusiveLanguageAnalysisActive";
 import isCornerstoneActive from "../../analysis/isCornerstoneContentActive";
 import isWordFormRecognitionActive from "../../analysis/isWordFormRecognitionActive";
 import isSEMrushIntegrationActive from "../../analysis/isSEMrushIntegrationActive";
@@ -20,6 +21,7 @@ function getDefaultState() {
 	return {
 		isContentAnalysisActive: isContentAnalysisActive(),
 		isKeywordAnalysisActive: isKeywordAnalysisActive(),
+		isInclusiveLanguageAnalysisActive: isInclusiveLanguageAnalysisActive(),
 		isWordFormRecognitionActive: isUndefined( window.wpseoPremiumMetaboxData ) && isWordFormRecognitionActive(),
 		isCornerstoneActive: isCornerstoneActive(),
 		isBreadcrumbsDisabled: ! ! window.wpseoAdminL10n.isBreadcrumbsDisabled,
@@ -29,15 +31,14 @@ function getDefaultState() {
 		displayAdvancedTab: displayAdvancedTab,
 		displaySchemaSettings: displayAdvancedTab && !! window.wpseoScriptData.isPost,
 		displaySchemaSettingsFooter: window.wpseoScriptData.metabox.schema.displayFooter,
-		displayFacebook: window.wpseoScriptData.metabox.showSocial.facebook,
-		displayTwitter: window.wpseoScriptData.metabox.showSocial.twitter,
+		useOpenGraphData: window.wpseoScriptData.metabox.showSocial.facebook,
+		useTwitterData: window.wpseoScriptData.metabox.showSocial.twitter,
 		isZapierIntegrationActive: isZapierIntegrationActive(),
 		isZapierConnected: isZapierConnected(),
 		isWincherIntegrationActive: isWincherIntegrationActive(),
 		isWordProofIntegrationActive: isWordProofIntegrationActive(),
 		isInsightsEnabled: get( window, "wpseoScriptData.metabox.isInsightsEnabled", false ),
 		isNewsEnabled: ! ! window.wpseoAdminL10n.news_seo_is_active,
-		isYoastSEOWooEnabled: ! isUndefined( window.wpseoWooL10n ),
 	};
 }
 

@@ -13,7 +13,7 @@ import * as PropTypes from "prop-types";
  * @constructor
  */
 export default function AnalysisCheck( { score, label, scoreValue } ) {
-	return <div>
+	return <div className="yoast-analysis-check">
 		<SvgIcon { ...getIconForScore( score ) } />
 		<span> { label } { scoreValue && <strong>{ scoreValue }</strong> }</span>
 	</div>;

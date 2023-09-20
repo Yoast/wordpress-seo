@@ -9,6 +9,8 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark.js";
 import marker from "../../../markers/addMark.js";
 import Assessment from "../assessment";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
+import getWords from "../../../languageProcessing/helpers/word/getWords";
 
 
 /**
@@ -91,7 +93,7 @@ export default class TransitionWordsAssessment extends Assessment {
 				score: formatNumber( score ),
 				hasMarks: hasMarks,
 				text: sprintf(
-					/* Translators: %1$s and %3$s expand to a link to yoast.com, %2$s expands to the anchor end tag */
+					/* translators: %1$s and %3$s expand to a link to yoast.com, %2$s expands to the anchor end tag */
 					__(
 						"%1$sTransition words%2$s: None of the sentences contain transition words. %3$sUse some%2$s.",
 						"wordpress-seo"
@@ -107,7 +109,7 @@ export default class TransitionWordsAssessment extends Assessment {
 				score: formatNumber( score ),
 				hasMarks: hasMarks,
 				text: sprintf(
-					/* Translators: %1$s and %4$s expand to a link to yoast.com, %2$s expands to the anchor end tag,
+					/* translators: %1$s and %4$s expand to a link to yoast.com, %2$s expands to the anchor end tag,
 					%3$s expands to the percentage of sentences containing transition words */
 					__(
 						// eslint-disable-next-line max-len
@@ -125,7 +127,7 @@ export default class TransitionWordsAssessment extends Assessment {
 			score: formatNumber( score ),
 			hasMarks: hasMarks,
 			text: sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+				/* translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 				__(
 					"%1$sTransition words%2$s: Well done!",
 					"wordpress-seo"
@@ -191,7 +193,10 @@ export default class TransitionWordsAssessment extends Assessment {
 		if ( customApplicabilityConfig ) {
 			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 		}
-		const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" ).count;
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+		const textLength = customCountLength ? customCountLength( text ) : getWords( text ).length;
+
 		// Do not use hasEnoughContent in this assessment as it is mostly redundant with `textLength >= this._config.applicableIfTextLongerThan`
 		return textLength >= this._config.applicableIfTextLongerThan &&
 			researcher.hasResearch( "findTransitionWords" );

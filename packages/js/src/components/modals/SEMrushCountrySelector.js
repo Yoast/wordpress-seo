@@ -6,7 +6,7 @@ import { addQueryArgs } from "@wordpress/url";
 import { __ } from "@wordpress/i18n";
 
 /* Yoast dependencies */
-import { ErrorBoundary, SingleSelect, NewButton } from "@yoast/components";
+import { SingleSelect, NewButton } from "@yoast/components";
 
 /**
  * The ID of the SEMrush Country Selection component.
@@ -336,18 +336,4 @@ SEMrushCountrySelector.defaultProps = {
 	lastRequestKeyphrase: "",
 };
 
-/**
- * Renders the CountrySelector inside its own ErrorBoundary to prevent errors from bubbling up.
- *
- * @param {object} props The props for the CountrySelector.
- *
- * @returns {React.Component} The CountrySelector wrapped in an ErrorBoundary.
- */
-const CountrySelectorWithErrorBoundary = ( props ) => (
-	<ErrorBoundary>
-		<SEMrushCountrySelector { ...props } />
-	</ErrorBoundary>
-);
-
-export { CountrySelectorWithErrorBoundary as SEMrushCountrySelector };
 export default SEMrushCountrySelector;

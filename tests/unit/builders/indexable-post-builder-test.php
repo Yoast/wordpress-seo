@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Post_Builder_Double;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
@@ -95,7 +96,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->indexable            = Mockery::mock();
+		$this->indexable            = Mockery::mock( Indexable_Mock::class );
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 		$this->image                = Mockery::mock( Image_Helper::class );
 		$this->open_graph_image     = Mockery::mock( Open_Graph_Image_Helper::class );
@@ -354,6 +355,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'_yoast_wpseo_linkdex'                        => [ '100' ],
 			'_yoast_wpseo_is_cornerstone'                 => [ '1' ],
 			'_yoast_wpseo_content_score'                  => [ '50' ],
+			'_yoast_wpseo_inclusive_language_score'       => [ '42' ],
 			'_yoast_wpseo_opengraph-image'                => [ 'open_graph_image' ],
 			'_yoast_wpseo_opengraph-image-id'             => [ 'open_graph_image_id' ],
 			'_yoast_wpseo_twitter-image'                  => [ 'twitter_image' ],
@@ -382,6 +384,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'primary_focus_keyword'          => null,
 			'primary_focus_keyword_score'    => null,
 			'readability_score'              => '50',
+			'inclusive_language_score'       => '42',
 			'schema_page_type'               => 'FAQPage',
 			'schema_article_type'            => 'NewsArticle',
 			'estimated_reading_time_minutes' => '11',
@@ -888,7 +891,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->post_parent     = 1;
 		$this->indexable->post_status     = 'inherit';
 
-		$post_parent_indexable            = Mockery::mock();
+		$post_parent_indexable            = Mockery::mock( Indexable_Mock::class );
 		$post_parent_indexable->is_public = true;
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )
@@ -909,7 +912,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->post_parent     = 1;
 		$this->indexable->post_status     = 'inherit';
 
-		$post_parent_indexable            = Mockery::mock();
+		$post_parent_indexable            = Mockery::mock( Indexable_Mock::class );
 		$post_parent_indexable->is_public = true;
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )

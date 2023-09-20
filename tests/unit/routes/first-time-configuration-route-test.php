@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
+use WP_REST_Request;
 use Yoast\WP\SEO\Actions\Configuration\First_Time_Configuration_Action;
 use Yoast\WP\SEO\Routes\First_Time_Configuration_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -127,64 +128,6 @@ class First_Time_Configuration_Route_Test extends TestCase {
 			Monkey\Functions\expect( 'register_rest_route' )
 				->with(
 					'yoast/v1',
-					'/configuration/person_social_profiles',
-					[
-						[
-							'methods'             => 'GET',
-							'callback'            => [ $this->instance, 'get_person_social_profiles' ],
-							'permission_callback' => [ $this->instance, 'can_manage_options' ],
-							'args'                => [
-								'user_id' => [
-									'required' => true,
-								],
-							],
-						],
-						[
-							'methods'             => 'POST',
-							'callback'            => [ $this->instance, 'set_person_social_profiles' ],
-							'permission_callback' => [ $this->instance, 'can_edit_user' ],
-							'args'                => [
-								'user_id' => [
-									'type'     => 'integer',
-								],
-								'facebook' => [
-									'type'     => 'string',
-								],
-								'instagram' => [
-									'type'     => 'string',
-								],
-								'linkedin' => [
-									'type'     => 'string',
-								],
-								'myspace' => [
-									'type'     => 'string',
-								],
-								'pinterest' => [
-									'type'     => 'string',
-								],
-								'soundcloud' => [
-									'type'     => 'string',
-								],
-								'tumblr' => [
-									'type'     => 'string',
-								],
-								'twitter' => [
-									'type'     => 'string',
-								],
-								'youtube' => [
-									'type'     => 'string',
-								],
-								'wikipedia' => [
-									'type'     => 'string',
-								],
-							],
-						],
-					]
-				);
-
-			Monkey\Functions\expect( 'register_rest_route' )
-				->with(
-					'yoast/v1',
 					'/configuration/check_capability',
 					[
 						'methods'             => 'GET',
@@ -273,7 +216,7 @@ class First_Time_Configuration_Route_Test extends TestCase {
 	 * @param object $expected The expected result object.
 	 */
 	public function test_can_edit_user( $can_edit, $expected ) {
-		$request = Mockery::mock( 'WP_Rest_Request' );
+		$request = Mockery::mock( WP_REST_Request::class );
 		$request
 			->shouldReceive( 'get_param' )
 			->with( 'user_id' )

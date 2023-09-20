@@ -1,7 +1,7 @@
-import { SidebarNavigation } from "@yoast/ui-library";
-import PropTypes from "prop-types";
-import { replace } from "lodash";
 import { useMemo } from "@wordpress/element";
+import { SidebarNavigation } from "@yoast/ui-library";
+import { replace } from "lodash";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const PureSubmenuItem = SidebarNavigation.SubmenuItem;
@@ -13,8 +13,8 @@ const PureSubmenuItem = SidebarNavigation.SubmenuItem;
  * @returns {JSX.Element} The submenu item element.
  */
 const SubmenuItem = ( { to, idSuffix = "", ...props } ) => {
-	const id = useMemo( () => replace( replace( `link-${to}`, "/", "-" ), "--", "-" ), [ to ] );
-	return <PureSubmenuItem as={ Link } pathProp="to" id={ `${ id }${ idSuffix && `-${ idSuffix }` }` } to={ to } { ...props } />;
+	const id = useMemo( () => replace( replace( `link-${ to }`, "/", "-" ), "--", "-" ), [ to ] );
+	return <PureSubmenuItem as={ Link } pathProp="to" id={ `${ id }${ idSuffix }` } to={ to } { ...props } />;
 };
 
 SubmenuItem.propTypes = {

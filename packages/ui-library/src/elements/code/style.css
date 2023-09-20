@@ -4,6 +4,7 @@
 			@apply
 			yst-inline-block
 			yst-text-xs
+			yst-leading-tight
 			yst-text-slate-900
 			yst-bg-slate-200
 			yst-p-1
@@ -14,6 +15,9 @@
 		.yst-code--block {
 			@apply
 			yst-block
+			yst-my-2
+			yst-px-2
+			yst-py-1
 			yst-whitespace-nowrap
 			yst-max-w-full
 			yst-overflow-x-auto;

@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Rewrite;
 use Yoast\WP\SEO\Conditionals\Robots_Txt_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Robots_Txt_Helper;
@@ -101,22 +102,30 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
+		$this->options_helper
+			->expects( 'get' )
+			->times( 3 )
+			->andReturnTrue();
+
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( \has_filter( 'robots_txt', [ $this->instance, 'filter_robots' ] ) );
+
+		$this->assertNotFalse( Monkey\Actions\has( 'Yoast\WP\SEO\register_robots_rules', [ $this->instance, 'add_disallow_wp_json_to_robots' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'Yoast\WP\SEO\register_robots_rules', [ $this->instance, 'add_disallow_search_to_robots' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'Yoast\WP\SEO\register_robots_rules', [ $this->instance, 'add_disallow_adsbot' ] ) );
 	}
 
 	/**
 	 * Tests the robots filter for a public site, with sitemaps.
 	 *
 	 * @covers ::filter_robots
-	 * @covers ::change_default_robots
-	 * @covers ::add_xml_sitemap
+	 * @covers ::maybe_add_xml_sitemap
 	 */
 	public function test_public_site_with_sitemaps() {
 		global $wp_rewrite;
 
-		$wp_rewrite = Mockery::mock();
+		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'home_url' )
@@ -165,8 +174,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * @dataProvider multisite_provider
 	 *
 	 * @covers ::filter_robots
-	 * @covers ::change_default_robots
-	 * @covers ::add_xml_sitemap
+	 * @covers ::maybe_add_xml_sitemap
 	 * @covers ::add_subdirectory_multisite_xml_sitemaps
 	 * @covers ::get_xml_sitemaps_enabled
 	 * @covers ::is_sitemap_allowed
@@ -186,7 +194,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 
 		global $wp_rewrite;
 
-		$wp_rewrite = Mockery::mock();
+		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'home_url' )
@@ -291,8 +299,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * Tests the robots filter for multisite installations, other site without Yoast SEO activated.
 	 *
 	 * @covers ::filter_robots
-	 * @covers ::change_default_robots
-	 * @covers ::add_xml_sitemap
+	 * @covers ::maybe_add_xml_sitemap
 	 * @covers ::add_subdirectory_multisite_xml_sitemaps
 	 * @covers ::get_xml_sitemaps_enabled
 	 * @covers ::is_sitemap_allowed
@@ -304,7 +311,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	public function test_multisite_sitemaps_without_yoast_seo_active() {
 		global $wp_rewrite;
 
-		$wp_rewrite = Mockery::mock();
+		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'home_url' )
@@ -373,8 +380,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * Tests the robots filter for a multisite subdirectory installation without any existing option rows.
 	 *
 	 * @covers ::filter_robots
-	 * @covers ::change_default_robots
-	 * @covers ::add_xml_sitemap
+	 * @covers ::maybe_add_xml_sitemap
 	 * @covers ::add_subdirectory_multisite_xml_sitemaps
 	 * @covers ::get_xml_sitemaps_enabled
 	 * @covers ::is_sitemap_allowed
@@ -386,7 +392,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	public function test_multisite_sitemaps_option_not_found() {
 		global $wp_rewrite;
 
-		$wp_rewrite = Mockery::mock();
+		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'home_url' )
@@ -454,8 +460,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * Tests the robots filter for a public site, without sitemaps.
 	 *
 	 * @covers ::filter_robots
-	 * @covers ::change_default_robots
-	 * @covers ::add_xml_sitemap
+	 * @covers ::maybe_add_xml_sitemap
 	 */
 	public function test_public_site_without_sitemaps() {
 		$this->options_helper
@@ -542,5 +547,74 @@ class Robots_Txt_Integration_Test extends TestCase {
 				'expected' => '',
 			],
 		];
+	}
+
+	/**
+	 * Tests if the right disallow rules for the internal site search is added to the Robots_Txt_Helper.
+	 *
+	 * @covers ::add_disallow_search_to_robots
+	 */
+	public function test_add_disallow_search_to_robots() {
+		$robots_txt_helper = Mockery::mock( Robots_Txt_Helper::class );
+
+		$robots_txt_helper
+			->expects( 'add_disallow' )
+			->with( '*', '/?s=' )
+			->once()
+			->andReturn();
+
+		$robots_txt_helper
+			->expects( 'add_disallow' )
+			->with( '*', '/page/*/?s=' )
+			->once()
+			->andReturn();
+
+		$robots_txt_helper
+			->expects( 'add_disallow' )
+			->with( '*', '/search/' )
+			->once()
+			->andReturn();
+
+		$this->instance->add_disallow_search_to_robots( $robots_txt_helper );
+	}
+
+	/**
+	 * Tests if the right disallow rules for the WP-JSON API is added to the Robots_Txt_Helper.
+	 *
+	 * @covers ::add_disallow_wp_json_to_robots
+	 */
+	public function test_add_disallow_wp_json_to_robots() {
+		$robots_txt_helper = Mockery::mock( Robots_Txt_Helper::class );
+
+		$robots_txt_helper
+			->expects( 'add_disallow' )
+			->with( '*', '/wp-json/' )
+			->once()
+			->andReturn();
+
+		$robots_txt_helper
+			->expects( 'add_disallow' )
+			->with( '*', '/?rest_route=' )
+			->once()
+			->andReturn();
+
+		$this->instance->add_disallow_wp_json_to_robots( $robots_txt_helper );
+	}
+
+	/**
+	 * Tests if the right disallow rule for AdsBot is added to the Robots_Txt_Helper.
+	 *
+	 * @covers ::add_disallow_adsbot
+	 */
+	public function test_add_disallow_adsbot() {
+		$robots_txt_helper = Mockery::mock( Robots_Txt_Helper::class );
+
+		$robots_txt_helper
+			->expects( 'add_disallow' )
+			->with( 'AdsBot', '/' )
+			->once()
+			->andReturn();
+
+		$this->instance->add_disallow_adsbot( $robots_txt_helper );
 	}
 }

@@ -125,7 +125,8 @@ class WPSEO_Export {
 			if ( is_array( $elem ) ) {
 				$count = count( $elem );
 				for ( $i = 0; $i < $count; $i++ ) {
-					$this->write_setting( $key . '[]', $elem[ $i ] );
+					$elem_check = isset( $elem[ $i ] ) ? $elem[ $i ] : null;
+					$this->write_setting( $key . '[]', $elem_check );
 				}
 			}
 			else {

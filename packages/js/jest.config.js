@@ -15,6 +15,7 @@ module.exports = {
 		"find-with-regex": "<rootDir>/node_modules/find-with-regex/lib/index.js",
 		"^lodash-es$": "lodash",
 		"^lodash-es/(.*)$": "lodash/$1",
+		"@yoast/ui-library": "<rootDir>/../ui-library/src",
 	},
 	moduleDirectories: [
 		"<rootDir>/node_modules",

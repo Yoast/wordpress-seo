@@ -72,7 +72,7 @@ class Supported_Features_Route_Test extends TestCase {
 	 * @covers ::get_supported_features
 	 */
 	public function test_get_supported_features() {
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 		$actual = $this->instance->get_supported_features();
 
 		$expected = new WP_REST_Response(
@@ -81,7 +81,7 @@ class Supported_Features_Route_Test extends TestCase {
 			]
 		);
 
-		$this->assertInstanceOf( 'WP_REST_Response', $actual );
+		$this->assertInstanceOf( WP_REST_Response::class, $actual );
 		$this->assertEquals( $expected, $actual );
 	}
 }

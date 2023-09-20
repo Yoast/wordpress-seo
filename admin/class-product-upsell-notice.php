@@ -64,14 +64,22 @@ class WPSEO_Product_Upsell_Notice {
 	 * Listener for the upsell notice.
 	 */
 	public function dismiss_notice_listener() {
-		if ( filter_input( INPUT_GET, 'yoast_dismiss' ) !== 'upsell' ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are validating a nonce here.
+		if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( $_GET['_wpnonce'], 'dismiss-5star-upsell' ) ) {
+			return;
+		}
+
+		$dismiss_upsell = isset( $_GET['yoast_dismiss'] ) && is_string( $_GET['yoast_dismiss'] ) ? sanitize_text_field( wp_unslash( $_GET['yoast_dismiss'] ) ) : '';
+
+		if ( $dismiss_upsell !== 'upsell' ) {
 			return;
 		}
 
 		$this->dismiss_notice();
 
-		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
-		exit;
+		if ( wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) ) ) {
+			exit;
+		}
 	}
 
 	/**
@@ -158,7 +166,7 @@ class WPSEO_Product_Upsell_Notice {
 
 		$message .= $this->get_premium_upsell_section() . "\n\n";
 
-		$message .= '<a class="button" href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ) . '">' . __( 'Please don\'t show me this notification anymore', 'wordpress-seo' ) . '</a>';
+		$message .= '<a class="button" href="' . wp_nonce_url( admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ), 'dismiss-5star-upsell' ) . '">' . __( 'Please don\'t show me this notification anymore', 'wordpress-seo' ) . '</a>';
 
 		$notification = new Yoast_Notification(
 			$message,

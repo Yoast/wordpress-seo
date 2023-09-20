@@ -1,11 +1,11 @@
-import Assessment from "../assessment";
-import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { __, sprintf } from "@wordpress/i18n";
+import { Assessment, AssessmentResult, helpers } from "yoastseo";
+
+const { createAnchorOpeningTag } = helpers;
 
 /**
- * Represents the assessment for the product SKU.
+ * Represents the assessment checks whether the product has a SKU.
  */
 export default class ProductSKUAssessment extends Assessment {
 	/**
@@ -34,7 +34,7 @@ export default class ProductSKUAssessment extends Assessment {
 	}
 
 	/**
-	 * Tests whether a product has a SKU and returns an assessment result based on the research.
+	 * Executes the assessment and returns an result based on the research.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 *
@@ -50,6 +50,11 @@ export default class ProductSKUAssessment extends Assessment {
 		if ( result ) {
 			assessmentResult.setScore( result.score );
 			assessmentResult.setText( result.text );
+		}
+
+		if ( assessmentResult.getScore() < 9 && this._config.shouldShowEditButton ) {
+			assessmentResult.setHasJumps( true );
+			assessmentResult.setEditFieldName( __( "SKU", "yoast-woo-seo" ) );
 		}
 
 		return assessmentResult;
@@ -98,14 +103,6 @@ export default class ProductSKUAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductSKU( productSKUData, config ) {
-		// Check if we want to add information about where to add the SKU in the feedback string or not.
-		// Currently we want to implement it only for Woo Product pages.
-		let feedbackString = "";
-		if ( this._config.addSKULocation === true ) {
-			// Translators: please keep the space at the start of the sentence in your translation unless your language does not use spaces.
-			feedbackString = __( " You can add a SKU via the \"Inventory\" tab in the Product data box.", "wordpress-seo" );
-		}
-
 		// Apply the following scoring conditions to products without variants.
 		if ( [ "simple", "external", "grouped" ].includes( productSKUData.productType ) ||
 			( productSKUData.productType === "variable" && ! productSKUData.hasVariants ) ) {
@@ -113,27 +110,25 @@ export default class ProductSKUAssessment extends Assessment {
 				return {
 					score: config.scores.ok,
 					text: sprintf(
-						// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
-						// %4$s expands to "You can add a SKU via the "Inventory" tab in the Product data box." or to an empty string.
+						// translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
 						__(
-							"%1$sSKU%3$s: Your product is missing a SKU.%4$s" +
+							"%1$sSKU%3$s: Your product is missing a SKU." +
 							" %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
-							"wordpress-seo"
+							"yoast-woo-seo"
 						),
 						this._config.urlTitle,
 						this._config.urlCallToAction,
-						"</a>",
-						feedbackString
+						"</a>"
 					),
 				};
 			}
 			return {
 				score: config.scores.good,
 				text: sprintf(
-					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+					// translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					__(
 						"%1$sSKU%2$s: Your product has a SKU. Good job!",
-						"wordpress-seo"
+						"yoast-woo-seo"
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -146,12 +141,12 @@ export default class ProductSKUAssessment extends Assessment {
 				return {
 					score: config.scores.ok,
 					text: sprintf(
-						// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
+						// translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
 						__(
 							"%1$sSKU%3$s: Not all your product variants have a SKU. " +
 							"You can add a SKU via the \"Variations\" tab in the Product data box." +
 							" %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
-							"wordpress-seo"
+							"yoast-woo-seo"
 						),
 						this._config.urlTitle,
 						this._config.urlCallToAction,
@@ -162,10 +157,10 @@ export default class ProductSKUAssessment extends Assessment {
 			return {
 				score: config.scores.good,
 				text: sprintf(
-					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+					// translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					__(
 						"%1$sSKU%2$s: All your product variants have a SKU. Good job!",
-						"wordpress-seo"
+						"yoast-woo-seo"
 					),
 					this._config.urlTitle,
 					"</a>"

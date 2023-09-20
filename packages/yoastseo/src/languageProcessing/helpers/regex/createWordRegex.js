@@ -1,11 +1,8 @@
 /** @module stringProcessing/stringToRegex */
-import { isUndefined } from "lodash-es";
+import { escapeRegExp, isUndefined, memoize } from "lodash-es";
+import sanitizeString from "../sanitize/sanitizeString";
 import replaceDiacritics from "../transliterate/replaceDiacritics.js";
 import addWordBoundary from "../word/addWordboundary.js";
-import sanitizeString from "../sanitize/sanitizeString";
-
-import { escapeRegExp } from "lodash-es";
-import { memoize } from "lodash-es";
 
 /**
  * Creates a regex from a string so it can be matched everywhere in the same way.

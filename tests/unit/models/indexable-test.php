@@ -153,7 +153,7 @@ class Indexable_Test extends TestCase {
 	 * @covers ::get_extension
 	 */
 	public function test_get_extension_has_one() {
-		$this->instance->mock_has_one = Mockery::mock();
+		$this->instance->mock_has_one = Mockery::mock( ORM::class );
 		$this->instance->mock_has_one->expects( 'find_one' )->once()->andReturn( 'found one' );
 
 		$this->assertSame( 'found one', $this->instance->get_extension( 'has_one' ) );

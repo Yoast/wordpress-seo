@@ -236,19 +236,16 @@ class WPSEO_Admin_Asset_Manager {
 			'classic-editor',
 			'post-edit',
 			'help-scout-beacon',
+			'redirect-old-features-tab',
 		];
 		$additional_dependencies = [
 			'analysis-worker'          => [ self::PREFIX . 'analysis-package' ],
 			'api-client'               => [ 'wp-api' ],
+			'crawl-settings'           => [ 'jquery' ],
 			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
+			'wincher-dashboard-widget' => [ self::PREFIX . 'api-client' ],
 			'editor-modules'           => [ 'jquery' ],
 			'elementor'                => [
-				self::PREFIX . 'api-client',
-				self::PREFIX . 'externals-components',
-				self::PREFIX . 'externals-contexts',
-				self::PREFIX . 'externals-redux',
-			],
-			'indexables-page'          => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'externals-components',
 				self::PREFIX . 'externals-contexts',
@@ -536,10 +533,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'notifications-' . $flat_version,
 			],
 			[
-				'name' => 'notifications-new',
-				'src'  => 'notifications-new-' . $flat_version,
-			],
-			[
 				'name' => 'alert',
 				'src'  => 'alerts-' . $flat_version,
 			],
@@ -558,6 +551,19 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'admin-css',
 					'wp-components',
 				],
+			],
+			[
+				'name' => 'ai-generator',
+				'src'  => 'ai-generator-' . $flat_version,
+				'deps' => [
+					self::PREFIX . 'tailwind',
+					self::PREFIX . 'introductions',
+				],
+			],
+			[
+				'name' => 'introductions',
+				'src'  => 'introductions-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
 				'name' => 'wp-dashboard',
@@ -583,10 +589,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'admin-global-' . $flat_version,
 			],
 			[
-				'name' => 'yoast-components',
-				'src'  => 'yoast-components-' . $flat_version,
-			],
-			[
 				'name' => 'extensions',
 				'src'  => 'yoast-extensions-' . $flat_version,
 				'deps' => [
@@ -598,13 +600,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'filter-explanation-' . $flat_version,
 			],
 			[
-				'name' => 'search-appearance',
-				'src'  => 'search-appearance-' . $flat_version,
-				'deps' => [
-					self::PREFIX . 'monorepo',
-				],
-			],
-			[
 				'name' => 'monorepo',
 				'src'  => 'monorepo-' . $flat_version,
 			],
@@ -612,10 +607,6 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'structured-data-blocks',
 				'src'  => 'structured-data-blocks-' . $flat_version,
 				'deps' => [ 'wp-edit-blocks' ],
-			],
-			[
-				'name' => 'schema-blocks',
-				'src'  => 'schema-blocks-' . $flat_version,
 			],
 			[
 				'name' => 'elementor',
@@ -628,6 +619,17 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'new-settings',
 				'src'  => 'new-settings-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
+			],
+			[
+				'name' => 'academy',
+				'src'  => 'academy-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
+			],
+			[
+				'name' => 'support',
+				'src'  => 'support-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
 				'name' => 'workouts',
@@ -635,6 +637,11 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [
 					self::PREFIX . 'monorepo',
 				],
+			],
+			[
+				'name' => 'first-time-configuration',
+				'src'  => 'first-time-configuration-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
 				'name' => 'inside-editor',

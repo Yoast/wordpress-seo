@@ -10,6 +10,20 @@ import {
 } from "../helpers/prominentWords/determineProminentWords";
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../helpers/html/getSubheadings";
 import baseStemmer from "../helpers/morphology/baseStemmer";
+import removeURLs from "../helpers/sanitize/removeURLs.js";
+import removeEmailAddresses from "../helpers/sanitize/removeEmailAddresses";
+
+/**
+ * Removes URLs and email addresses from the text.
+ *
+ * @param {string}	text	The text to sanitize.
+ *
+ * @returns {string} The text without URLs and email addresses.
+ */
+const sanitizeText = function( text ) {
+	text = removeURLs( text );
+	return removeEmailAddresses( text );
+};
 
 /**
  * Retrieves the prominent words from the given paper.
@@ -32,9 +46,9 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 	// An optional custom helper to count length to use instead of countWords.
 	const customCountLength = researcher.getHelper( "customCountLength" );
 
-	const text = paper.getText();
-	const metadescription = paper.getDescription();
-	const title = paper.getTitle();
+	const text = sanitizeText( paper.getText() );
+	const metadescription = sanitizeText( paper.getDescription() );
+	const title = sanitizeText( paper.getTitle() );
 
 	const result = {};
 	result.hasMetaDescription = metadescription !== "";

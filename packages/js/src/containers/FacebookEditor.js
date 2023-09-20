@@ -9,7 +9,7 @@ import withLocation from "../helpers/withLocation";
 import { openMedia, prepareFacebookPreviewImage } from "../helpers/selectMedia";
 import getMemoizedFindCustomFields from "../helpers/getMemoizedFindCustomFields";
 
-const socialMediumName = "Facebook";
+const socialMediumName = "Social";
 
 /**
  * Lazy function to open the media instance.

@@ -1,15 +1,23 @@
-import {
-	setOverallReadabilityScore,
-	setOverallSeoScore,
-} from "yoast-components";
-import AnalysisFields from "../../helpers/fields/AnalysisFields";
+import { linkParamsActions, pluginUrlActions, wistiaEmbedPermissionActions } from "../../shared-admin/store";
 
+export const { setLinkParams } = linkParamsActions;
+export const { setPluginUrl } = pluginUrlActions;
+export const { setWistiaEmbedPermission, setWistiaEmbedPermissionValue } = wistiaEmbedPermissionActions;
 export * from "../../insights/redux/actions";
 export * from "./activeMarker";
 export * from "./advancedSettings";
 export * from "./analysis";
 export * from "./checklist";
+export {
+	setOverallReadabilityScore,
+	setOverallSeoScore,
+	setOverallInclusiveLanguageScore,
+	setReadabilityResults,
+	setSeoResultsForKeyword,
+	setInclusiveLanguageResults,
+} from "./contentAnalysis";
 export * from "./cornerstoneContent";
+export * from "./currentPromotions";
 export * from "./editorData";
 export * from "./editorModals";
 export * from "./focusKeyword";
@@ -31,36 +39,3 @@ export * from "./WincherRequest";
 export * from "./WincherSEOPerformance";
 export * from "./isPremium";
 export * from "./postId";
-
-/**
- * A wrapper function so that we can wrap the field helper to the monorepo action.
- *
- * @param {string} readabilityScore The overall readability score.
- *
- * @returns {Object} A set overall readability score action.
- */
-const wrappedSetReadabilityScore = ( readabilityScore ) => {
-	AnalysisFields.readabilityScore = readabilityScore;
-	return setOverallReadabilityScore( readabilityScore );
-};
-
-/**
- * A wrapper function so that we can wrap the field helper to the monorepo action.
- *
- * @param {string} seoScore The overall seo score.
- * @param {string} keyword The keyword for which this score was calculated.
- *
- * @returns {Object} A set overall seo score action.
- */
-const wrappedSetSeoScore = ( seoScore, keyword ) => {
-	AnalysisFields.seoScore = seoScore;
-	return setOverallSeoScore( seoScore, keyword );
-};
-
-export { wrappedSetReadabilityScore as setOverallReadabilityScore };
-export { wrappedSetSeoScore as setOverallSeoScore };
-
-export {
-	setReadabilityResults,
-	setSeoResultsForKeyword,
-} from "yoast-components";

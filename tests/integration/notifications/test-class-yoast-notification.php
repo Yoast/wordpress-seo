@@ -290,11 +290,6 @@ class Yoast_Notification_Test extends WPSEO_UnitTestCase {
 	 * @param string $capability Capability to add.
 	 */
 	private function add_cap( $capability ) {
-		// Capabilities have been changed in 4.2: code doesn't fail, just the test.
-		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
-			$this->markTestSkipped( 'Test requires WP 4.2 or higher' );
-		}
-
 		$me = wp_get_current_user();
 		if ( ! empty( $me ) ) {
 			$me->add_cap( $capability );
@@ -307,11 +302,6 @@ class Yoast_Notification_Test extends WPSEO_UnitTestCase {
 	 * @param string $capability Capability to remove.
 	 */
 	private function remove_cap( $capability ) {
-		// Capabilities have been changed in 4.2: code doesn't fail, just the test.
-		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
-			$this->markTestSkipped( 'Test requires WP 4.2 or higher' );
-		}
-
 		$me = wp_get_current_user();
 		if ( ! empty( $me ) ) {
 			$me->remove_cap( $capability );

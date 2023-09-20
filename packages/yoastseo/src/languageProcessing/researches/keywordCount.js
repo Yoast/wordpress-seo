@@ -1,10 +1,10 @@
 /** @module analyses/getKeywordCount */
 
 import matchWords from "../helpers/match/matchTextWithArray";
-import { uniq as unique } from "lodash-es";
-import { flattenDeep } from "lodash-es";
+import { flattenDeep, uniq as unique } from "lodash-es";
 import getSentences from "../helpers/sentence/getSentences";
 import { markWordsInSentences } from "../helpers/word/markWordsInSentences";
+import removeHtmlBlocks from "../helpers/html/htmlParser";
 
 /**
  * Calculates the keyword count, takes morphology into account.
@@ -21,7 +21,8 @@ export default function( paper, researcher ) {
 	// A helper to return all the matches for the keyphrase.
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 
-	const text = paper.getText();
+	let text = paper.getText();
+	text = removeHtmlBlocks( text );
 	const locale = paper.getLocale();
 
 	const sentences = getSentences( text, memoizedTokenizer );

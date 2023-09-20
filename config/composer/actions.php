@@ -227,7 +227,7 @@ class Actions {
 		 * The normal report will be shown in the actions output and ensures human readable (and colorized!) results there.
 		 * The checkstyle report is used to show the results inline in the GitHub code view.
 		 */
-		$extra_args = ( \getenv( 'CI' ) === false ) ? '' : ' --colors --report-full --report-checkstyle=./phpcs-report.xml';
+		$extra_args = ( \getenv( 'CI' ) === false ) ? '' : ' --colors --no-cache --report-full --report-checkstyle=./phpcs-report.xml';
 		$command    = \sprintf(
 			'composer check-cs-warnings -- %s %s',
 			\implode( ' ', \array_map( 'escapeshellarg', $php_files ) ),

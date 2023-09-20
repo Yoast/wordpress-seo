@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Term_Archive_Presentat
 
 use Brain\Monkey;
 use Mockery;
+use WP_Query;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -227,7 +228,7 @@ class Canonical_Test extends TestCase {
 			$terms = [ 'term1', 'term2', 'term3' ];
 		}
 
-		$wp_query            = Mockery::mock( 'WP_Query' );
+		$wp_query            = Mockery::mock( WP_Query::class );
 		$wp_query->tax_query = (object) [
 			'queried_terms' => [
 				'my-taxonomy' => [

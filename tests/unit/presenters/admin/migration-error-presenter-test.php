@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Shortlinker;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Migration_Error_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -31,10 +32,7 @@ class Migration_Error_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'add_query_arg' )
 			->andReturn( 'https://yoa.st/3-6' );
 
-		$product_helper_mock = Mockery::mock( Product_Helper::class );
-		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$this->expect_shortlinker();
 
 		$expected  = '<div class="notice notice-error">';
 		$expected .= '<p>Yoast SEO had problems creating the database tables needed to speed up your site.</p>';
@@ -46,5 +44,27 @@ class Migration_Error_Presenter_Test extends TestCase {
 		$instance = new Migration_Error_Presenter( $migration_error );
 
 		$this->assertSame( $expected, $instance->present() );
+	}
+
+	/**
+	 * Holds expectations for the shortlinker.
+	 */
+	private function expect_shortlinker() {
+		$short_link_mock = Mockery::mock( Short_Link_Helper::class );
+
+		// We're expecting it to be called twice because also the 'real' implementation in $instance will see the mocked surface.
+		$short_link_mock->expects( 'get' )
+			->twice()
+			->andReturn( 'https://example.org?some=var' );
+
+		$container = $this->create_container_with(
+			[
+				Short_Link_Helper::class => $short_link_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->twice()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 	}
 }

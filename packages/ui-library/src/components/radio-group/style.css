@@ -23,7 +23,7 @@
 		}
 
 		.yst-radio-group__label {
-			@apply yst-mb-4;
+			@apply yst-mb-2;
 		}
 
 		.yst-radio-group__options {
@@ -34,7 +34,7 @@
 		}
 
 		.yst-radio-group__description {
-			@apply yst-mb-4;
+			@apply -yst-mt-2 yst-mb-4;
 		}
 	}
 }

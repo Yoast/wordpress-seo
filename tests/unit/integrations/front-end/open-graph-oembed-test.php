@@ -97,7 +97,7 @@ class Open_Graph_OEmbed_Test extends TestCase {
 
 		$this->meta
 			->expects( 'for_post' )
-			->times( 3 )
+			->once()
 			->with( 1337 )
 			->andReturn( (object) $meta_data );
 

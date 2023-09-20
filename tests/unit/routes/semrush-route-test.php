@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
+use WP_REST_Request;
+use WP_REST_Response;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Login_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Options_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Phrases_Action;
@@ -219,7 +221,7 @@ class SEMrush_Route_Test extends TestCase {
 	 * @covers ::authenticate
 	 */
 	public function test_authenticate() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'code' )
@@ -230,9 +232,9 @@ class SEMrush_Route_Test extends TestCase {
 			->with( '123456' )
 			->andReturn( (object) [ 'status' => '200' ] );
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->authenticate( $request ) );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->authenticate( $request ) );
 	}
 
 	/**
@@ -241,7 +243,7 @@ class SEMrush_Route_Test extends TestCase {
 	 * @covers ::set_country_code_option
 	 */
 	public function test_country_code() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'country_code' )
@@ -252,9 +254,9 @@ class SEMrush_Route_Test extends TestCase {
 			->with( 'nl' )
 			->andReturn( (object) [ 'status' => '200' ] );
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->set_country_code_option( $request ) );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->set_country_code_option( $request ) );
 	}
 
 	/**
@@ -263,7 +265,7 @@ class SEMrush_Route_Test extends TestCase {
 	 * @covers ::get_related_keyphrases
 	 */
 	public function test_get_related_keyphrases() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'keyphrase' )
@@ -279,8 +281,8 @@ class SEMrush_Route_Test extends TestCase {
 			->with( 'seo', 'us' )
 			->andReturn( (object) [ 'status' => '200' ] );
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->get_related_keyphrases( $request ) );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->get_related_keyphrases( $request ) );
 	}
 }

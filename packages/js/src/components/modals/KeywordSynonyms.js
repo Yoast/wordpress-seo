@@ -27,6 +27,12 @@ const KeywordSynonyms = ( props ) => {
 	} );
 
 	const benefits = [
+		sprintf(
+			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+			__( "%1$sCreate content faster%2$s: Use AI to create titles & meta descriptions", "wordpress-seo" ),
+			"<strong>",
+			"</strong>"
+		),
 		`<strong>${ __( "Rank better with synonyms & related keyphrases", "wordpress-seo" ) }</strong>`,
 		sprintf(
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
@@ -66,6 +72,8 @@ const KeywordSynonyms = ( props ) => {
 				href: props.buyLink,
 				className: "yoast-button-upsell",
 				rel: null,
+				"data-ctb-id": "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
+				"data-action": "load-nfd-ctb",
 			} }
 			upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
 		/>

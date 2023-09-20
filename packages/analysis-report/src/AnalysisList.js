@@ -1,6 +1,6 @@
 /* External dependencies */
 import { __, sprintf } from "@wordpress/i18n";
-import React from "@wordpress/element";
+import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import noop from "lodash/noop";
@@ -14,7 +14,7 @@ import AnalysisResult from "./AnalysisResult";
 /**
  * Renders a styled list of analyses.
  *
- * @returns {React.Element} The rendered tree.
+ * @returns {JSX.Element} The rendered tree.
  */
 const AnalysisListBase = styled.ul`
 	margin: 8px 0;
@@ -51,13 +51,14 @@ export function renderRatingToColor( rating ) {
  * @param {string}          props.marksButtonStatus             The overall status of the mark buttons.
  * @param {string}          props.marksButtonClassName          A class name to set on the mark buttons.
  * @param {string}          props.editButtonClassName           A class name to set on the edit buttons.
+ * @param {Function}        [props.markButtonFactory]           Injectable factory to create custom mark buttons.
  * @param {Function}        props.onMarksButtonClick            Function that is called when the user
  *                                                              clicks one of the mark buttons.
  * @param {Function}        props.onEditButtonClick             Function that is called when the user
  *                                                              clicks one of the edit buttons.
  * @param {bool}            props.isPremium                     Whether the Premium plugin is active or not.
  *
- * @returns {React.Element} The rendered list.
+ * @returns {JSX.Element} The rendered list.
  */
 export default function AnalysisList( props ) {
 	return <AnalysisListBase role="list">
@@ -106,6 +107,7 @@ export default function AnalysisList( props ) {
 				hasBetaBadgeLabel={ result.hasBetaBadge }
 				isPremium={ props.isPremium }
 				onResultChange={ props.onResultChange }
+				markButtonFactory={ props.markButtonFactory }
 			/>;
 		} ) }
 	</AnalysisListBase>;
@@ -117,6 +119,7 @@ AnalysisList.propTypes = {
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
 	editButtonClassName: PropTypes.string,
+	markButtonFactory: PropTypes.func,
 	onMarksButtonClick: PropTypes.func,
 	onEditButtonClick: PropTypes.func,
 	isPremium: PropTypes.bool,

@@ -11,7 +11,13 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$tool_page = (string) filter_input( INPUT_GET, 'tool' );
+$tool_page = '';
+
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+if ( isset( $_GET['tool'] ) && is_string( $_GET['tool'] ) ) {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+	$tool_page = sanitize_text_field( wp_unslash( $_GET['tool'] ) );
+}
 
 $yform = Yoast_Form::get_instance();
 $yform->admin_header( false );

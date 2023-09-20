@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 const OpenGraphDisabledAlert = ( {
 	isEnabled,
 	/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
-	text = __( "The %1$sSocial image%2$s, %1$sSocial title%2$s and %1$sSocial description%2$s require Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite features%4$s.", "wordpress-seo" ),
+	text = __( "The %1$ssocial image%2$s, %1$ssocial title%2$s and %1$ssocial description%2$s require Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite features%4$s.", "wordpress-seo" ),
 } ) => {
 	const openGraphDisabledAlertText = useMemo( () => createInterpolateElement(
 		sprintf( text, "<em>", "</em>", "<link>", "</link>" ),

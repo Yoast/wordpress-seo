@@ -2,6 +2,8 @@
 
 import matchStringWithRegex from "../regex/matchStringWithRegex.js";
 
+const EmptyDivRegex = new RegExp( "<div(?:[^>]+)?> *</div>", "ig" );
+
 /**
  * Checks the text for empty divisions.
  *
@@ -10,5 +12,5 @@ import matchStringWithRegex from "../regex/matchStringWithRegex.js";
  * @returns {Array} Array containing all empty divisions.
  */
 export default function( text ) {
-	return matchStringWithRegex( text, "<div(?:[^>]+)?> *</div>" );
+	return matchStringWithRegex( text, EmptyDivRegex );
 }
