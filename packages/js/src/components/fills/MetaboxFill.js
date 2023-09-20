@@ -22,15 +22,15 @@ import WincherSEOPerformance from "../../containers/WincherSEOPerformance";
 import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
-import KeywordUpsell from "../KeywordUpsell";
+import KeywordUpsell from "../modals/KeywordUpsell";
 import { BlackFridayProductEditorChecklistPromo } from "../BlackFridayProductEditorChecklistPromo";
 import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 
 /* eslint-disable complexity */
 /**
  * Creates the Metabox component.
-*
-* @param {Object} settings 				The feature toggles.
+ *
+ * @param {Object} settings 				The feature toggles.
  * @param {Object} store    				The Redux store.
  * @param {Object} theme    				The theme to use.
  * @param {Array} wincherKeyphrases 		The Wincher trackable keyphrases.
@@ -111,18 +111,18 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
-				<SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>
-					<MetaboxCollapsible
-						id={ "yoast-wincher-seo-performance-metabox" }
-						title={ __( "Track SEO performance", "wordpress-seo" ) }
-						initialIsOpen={ false }
-						prefixIcon={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
-						prefixIconCollapsed={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
-						onToggle={ onToggleWincher }
-					>
-						<WincherSEOPerformance />
-					</MetaboxCollapsible>
-				</SidebarItem> }
+					<SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>
+						<MetaboxCollapsible
+							id={ "yoast-wincher-seo-performance-metabox" }
+							title={ __( "Track SEO performance", "wordpress-seo" ) }
+							initialIsOpen={ false }
+							prefixIcon={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
+							prefixIconCollapsed={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
+							onToggle={ onToggleWincher }
+						>
+							<WincherSEOPerformance />
+						</MetaboxCollapsible>
+					</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
 					<CollapsibleCornerstone />
 				</SidebarItem> }

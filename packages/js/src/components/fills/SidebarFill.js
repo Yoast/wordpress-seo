@@ -20,7 +20,7 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import WebinarPromoNotification from "../WebinarPromoNotification";
 import BlackFridayPromoNotification from "../BlackFridayPromoNotification";
-import KeywordUpsell from "../KeywordUpsell";
+import KeywordUpsell from "../modals/KeywordUpsell";
 
 /* eslint-disable complexity */
 /**

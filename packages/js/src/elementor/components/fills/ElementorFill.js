@@ -23,7 +23,7 @@ import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
 import BlackFridayPromoNotification from "../../../components/BlackFridayPromoNotification";
-import KeywordUpsell from "../../../components/KeywordUpsell";
+import KeywordUpsell from "../../../components/modals/KeywordUpsell";
 
 /* eslint-disable complexity */
 /**

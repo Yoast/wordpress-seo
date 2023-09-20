@@ -7,11 +7,11 @@ import { SvgIcon } from "@yoast/components";
 import { LocationContext, useRootContext } from "@yoast/externals/contexts";
 import { colors } from "@yoast/style-guide";
 import { Badge, useSvgAria, useToggleState } from "@yoast/ui-library";
-import { MetaboxButton } from "./MetaboxButton";
-import { ModalContainer } from "./modals/Container";
-import Modal, { defaultModalClassName } from "./modals/Modal";
-import SidebarButton from "./SidebarButton";
-import UpsellBox from "./UpsellBox";
+import { MetaboxButton } from "../MetaboxButton";
+import SidebarButton from "../SidebarButton";
+import UpsellBox from "../UpsellBox";
+import { ModalContainer } from "./Container";
+import Modal, { defaultModalClassName } from "./Modal";
 
 /**
  * @returns {Object} The location context.
