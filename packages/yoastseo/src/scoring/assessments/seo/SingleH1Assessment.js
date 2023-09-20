@@ -91,7 +91,12 @@ class SingleH1Assessment extends Assessment {
 	 * @returns {Array} Array with all the marked H1s.
 	 */
 	getMarks() {
-		return this._h1s.map( function( h1 ) {
+		return this._h1s
+			// Filter h1 with empty content.
+			.filter( function (h1) {
+				return !!h1.content.length
+			})
+			.map( function( h1 ) {
 			return new Mark( {
 				original: "<h1>" + h1.content + "</h1>",
 				marked: "<h1>" + marker( h1.content ) + "</h1>",
