@@ -36,13 +36,20 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 					<PremiumSEOAnalysisUpsell buyLink={ `shortlinks.upsell.${ location }.premium_seo_analysis_button` } />
 				</ModalContainer>
 			</Modal> }
-			{ location === "sidebar" && <SidebarButton
-				id={ "yoast-premium-seo-analysis-modal-open-button" }
-				title={ __( "Premium SEO analysis", "wordpress-seo" ) }
-				prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey } }
-				suffixIcon={ { icon: "pencil-square", size: "20px" } }
-				onClick={ openModal }
-			/> }
+			{ location === "sidebar" && (
+				<SidebarButton
+					id="yoast-premium-seo-analysis-modal-open-button"
+					title={ __( "Premium SEO analysis", "wordpress-seo" ) }
+					prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey } }
+					onClick={ openModal }
+				>
+					<div className="yst-root">
+						<Badge size="small" variant="upsell">
+							<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" { ...svgAriaProps } />
+						</Badge>
+					</div>
+				</SidebarButton>
+			) }
 			{ location === "metabox" && (
 				<div className="yst-root">
 					<button
