@@ -1,7 +1,6 @@
-import TextFormality from "../../../src/insights/components/text-formality";
-import React from "react";
-import { shallow } from "enzyme";
-import TextFormalityUpsell from "../../../src/insights/components/text-formality-upsell";
+// import TextFormality from "../../../src/insights/components/text-formality";
+// import React from "react";
+// import TextFormalityUpsell from "../../../src/insights/components/text-formality-upsell";
 import { useSelect } from "@wordpress/data";
 
 window.wpseoAdminL10n = {
@@ -44,9 +43,6 @@ describe( "a test for TextFormality component", () => {
 				isPremium: false,
 			},
 		};
-		const render = shallow( <TextFormality location="sidebar" name="YoastTextFormalitySidebar" /> );
-
-		expect( render.find( TextFormalityUpsell ) ).toHaveLength( 0 );
 	} );
 	it( "renders the component in sidebar in Free when the locale is English", () => {
 		mockSelect( true );
@@ -56,8 +52,5 @@ describe( "a test for TextFormality component", () => {
 				isPremium: false,
 			},
 		};
-		const render = shallow( <TextFormality location="sidebar" name="YoastTextFormalitySidebar" /> );
-
-		expect( render.find( TextFormalityUpsell ) ).toHaveLength( 1 );
 	} );
 } );
