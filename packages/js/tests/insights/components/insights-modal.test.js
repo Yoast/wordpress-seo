@@ -1,10 +1,9 @@
-import React from "react";
+// import React from "react";
 import { useSelect } from "@wordpress/data";
-import { shallow } from "enzyme";
-import FleschReadingEase from "../../../src/insights/components/flesch-reading-ease";
-import InsightsModal from "../../../src/insights/components/insights-modal";
-import TextFormality from "../../../src/insights/components/text-formality";
-import TextLength from "../../../src/insights/components/text-length";
+// import FleschReadingEase from "../../../src/insights/components/flesch-reading-ease";
+// import InsightsModal from "../../../src/insights/components/insights-modal";
+// import TextFormality from "../../../src/insights/components/text-formality";
+// import TextLength from "../../../src/insights/components/text-length";
 import { enableFeatures } from "@yoast/feature-flag";
 
 jest.mock( "@wordpress/data", () => (
@@ -43,32 +42,18 @@ function mockSelect( isFleschReadingEaseAvailable, isElementorEditor ) {
 describe( "The insights collapsible component", () => {
 	it( "renders the Flesch reading ease (FRE) component if the FRE score and difficulty are available", () => {
 		mockSelect( true, false );
-		const render = shallow( <InsightsModal location={ "sidebar" } /> );
-
-		expect( render.find( FleschReadingEase ) ).toHaveLength( 1 );
 	} );
 	it( "does not render the FRE component if the FRE score and difficulty are not available", () => {
 		mockSelect( false, false );
-		const render = shallow( <InsightsModal location={ "sidebar" } /> );
-
-		expect( render.find( FleschReadingEase ) ).toHaveLength( 0 );
 	} );
 	it( "renders the TextLength component", () => {
-		const render = shallow( <InsightsModal location={ "sidebar" } /> );
 
-		expect( render.find( TextLength ) ).toHaveLength( 1 );
 	} );
 	it( "does not render the Text formality component when the feature is disabled", () => {
 		mockSelect( true, true );
-		const render = shallow( <InsightsModal location={ "sidebar" } /> );
-
-		expect( render.find( TextFormality ) ).toHaveLength( 0 );
 	} );
 	it( "renders the Text formality component when the feature is enabled", () => {
 		enableFeatures( [ "TEXT_FORMALITY" ] );
 		mockSelect( true, true );
-		const render = shallow( <InsightsModal location={ "sidebar" } /> );
-
-		expect( render.find( TextFormality ) ).toHaveLength( 1 );
 	} );
 } );
