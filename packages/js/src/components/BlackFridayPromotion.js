@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { select } from "@wordpress/data";
+import { useSelect } from "@wordpress/data";
 import { addQueryArgs } from "@wordpress/url";
 import { createInterpolateElement } from "@wordpress/element";
 import PropTypes from "prop-types";
@@ -19,8 +19,8 @@ export const BlackFridayPromotion = ( {
 	location = "sidebar",
 	...props
 } ) => {
-	const isPremium = select( store ).getIsPremium();
-	const linkParams = select( store ).selectLinkParams();
+	const isPremium = useSelect( select => select( store ).getIsPremium(), [ store ] );
+	const linkParams = useSelect( select => select( store ).selectLinkParams(), [ store ] );
 	const title = location === "sidebar"
 		? sprintf(
 			__( "BLACK FRIDAY SALE: %1$s", "wordpress-seo" ),

@@ -1,4 +1,4 @@
-import { select } from "@wordpress/data";
+import { useSelect } from "@wordpress/data";
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
@@ -18,7 +18,7 @@ export const BlackFridaySidebarChecklistPromotion = ( {
 	store = "yoast-seo/editor",
 	...props
 } ) => {
-	const linkParams = select( store ).selectLinkParams();
+	const linkParams = useSelect( select => select( store ).selectLinkParams(), [ store ] );
 	const body = createInterpolateElement(
 		sprintf(
 		/* translators:  %1$s expands to Yoast, %2$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
