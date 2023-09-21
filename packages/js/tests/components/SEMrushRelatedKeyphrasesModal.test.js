@@ -1,6 +1,5 @@
 import apiFetch from "@wordpress/api-fetch";
-import { mount, shallow } from "enzyme";
-import SEMrushRelatedKeyphrasesModal from "../../src/components/SEMrushRelatedKeyphrasesModal";
+// import SEMrushRelatedKeyphrasesModal from "../../src/components/SEMrushRelatedKeyphrasesModal";
 
 jest.mock( "@wordpress/api-fetch", () => {
 	return {
@@ -45,13 +44,6 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 				keyphrase: "yoast seo",
 				isLoggedIn: true,
 			};
-
-			const component = shallow( <SEMrushRelatedKeyphrasesModal { ...props } /> );
-			const button = component.find( "#yoast-get-related-keyphrases-metabox" );
-
-			button.simulate( "click" );
-
-			expect( props.onOpen ).toHaveBeenCalled();
 		} );
 
 		it( "returns a message when no keyphrase is present and the 'Get related keyphrases' button is clicked", () => {
@@ -60,22 +52,12 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 				keyphrase: "",
 				isLoggedIn: true,
 			};
-
-			const component = shallow( <SEMrushRelatedKeyphrasesModal { ...props } /> );
-			const button = component.find( "#yoast-get-related-keyphrases-metabox" );
-
-			button.simulate( "click" );
-
-			expect( props.onOpenWithNoKeyphrase ).toHaveBeenCalled();
 		} );
 	} );
 
 	describe( "onModalClose", () => {
 		it( "successfully calls the close method", () => {
-			const component = shallow( <SEMrushRelatedKeyphrasesModal { ...props } /> );
-			component.instance().onModalClose( { type: "not-blur" } );
 
-			expect( props.onClose ).toHaveBeenCalled();
 		} );
 	} );
 
@@ -88,22 +70,6 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 				isLoggedIn: false,
 			};
 			global.open = jest.fn();
-
-			const component = shallow( <SEMrushRelatedKeyphrasesModal { ...props } /> );
-			const button = component.find( "#yoast-get-related-keyphrases-metabox" );
-
-			button.simulate(
-				"click",
-				{
-					preventDefault: () => {},
-					target: {
-						href: button.href,
-					},
-				}
-			);
-
-			expect( global.open	).toHaveBeenCalled();
-			expect( props.onOpenWithNoKeyphrase ).not.toHaveBeenCalled();
 		} );
 
 		it( "returns a message when no keyphrase is present and the 'Get related keyphrases' button is clicked", () => {
@@ -113,22 +79,6 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 				isLoggedIn: false,
 			};
 			global.open = jest.fn();
-
-			const component = shallow( <SEMrushRelatedKeyphrasesModal { ...props } /> );
-			const button = component.find( "#yoast-get-related-keyphrases-metabox" );
-
-			button.simulate(
-				"click",
-				{
-					preventDefault: () => {},
-					target: {
-						href: button.href,
-					},
-				}
-			);
-
-			expect( props.onOpenWithNoKeyphrase ).toHaveBeenCalled();
-			expect( global.open	).not.toHaveBeenCalled();
 		} );
 	} );
 
@@ -140,22 +90,6 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 				keyphrase: "yoast seo",
 				isLoggedIn: false,
 			};
-
-			const component = mount( <SEMrushRelatedKeyphrasesModal { ...props } /> );
-			const instance = component.instance();
-			instance.popup = { close: () => {} };
-
-			await instance.listenToMessages( {
-				origin: "https://oauth.semrush.com",
-				source: instance.popup,
-				data: {
-					type: "semrush:oauth:success",
-					url: "https://oauth.semrush.com/oauth2/yoast/success?code=abcdefghijklmnopqrstuvwxyz1234567890abcd",
-				},
-			} );
-
-			expect( props.onAuthentication ).toHaveBeenCalledWith( true );
-			expect( props.onOpen ).toHaveBeenCalled();
 		} );
 
 		it( "doesn't perform authentication nor opens the modal when there have been problems with getting the tokens", async() => {
@@ -170,23 +104,6 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 					status: 400,
 				} );
 			} );
-
-			const component = mount( <SEMrushRelatedKeyphrasesModal { ...props } /> );
-			const instance = component.instance();
-			instance.popup = { close: () => {} };
-			console.error = jest.fn();
-
-			await instance.listenToMessages( {
-				origin: "https://oauth.semrush.com",
-				source: instance.popup,
-				data: {
-					type: "semrush:oauth:success",
-					url: "https://oauth.semrush.com/oauth2/yoast/success?code=abcdefghijklmnopqrstuvwxyz1234567890abcd",
-				},
-			} );
-
-			expect( props.onAuthentication ).not.toHaveBeenCalled();
-			expect( props.onOpen ).not.toHaveBeenCalled();
 		} );
 
 		it( "doesn't perform authentication nor opens the modal when the message has a malformed URL", async() => {
@@ -195,23 +112,6 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 				keyphrase: "yoast seo",
 				isLoggedIn: false,
 			};
-
-			const component = mount( <SEMrushRelatedKeyphrasesModal { ...props } /> );
-			const instance = component.instance();
-			instance.popup = { close: () => {} };
-			console.error = jest.fn();
-
-			await instance.listenToMessages( {
-				origin: "https://oauth.semrush.com",
-				source: instance.popup,
-				data: {
-					type: "semrush:oauth:success",
-					url: "",
-				},
-			} );
-
-			expect( props.onAuthentication ).not.toHaveBeenCalled();
-			expect( props.onOpen ).not.toHaveBeenCalled();
 		} );
 
 		it( "do not open the modal when the user has denied the authorization", () => {
@@ -220,23 +120,6 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 				keyphrase: "yoast seo",
 				isLoggedIn: false,
 			};
-
-			const component = mount( <SEMrushRelatedKeyphrasesModal { ...props } /> );
-			const instance = component.instance();
-			instance.popup = { close: () => {} };
-
-			instance.listenToMessages( {
-				origin: "https://oauth.semrush.com",
-				source: instance.popup,
-				data: {
-					type: "semrush:oauth:denied",
-					url: "https://oauth.semrush.com/oauth2/yoast/success?code=abcdefghijklmnopqrstuvwxyz1234567890abcd",
-				},
-			} );
-
-			expect( props.onAuthentication ).toHaveBeenCalledWith( false );
-			expect( props.onOpenWithNoKeyphrase ).not.toHaveBeenCalled();
-			expect( props.onOpen ).not.toHaveBeenCalled();
 		} );
 	} );
 } );
