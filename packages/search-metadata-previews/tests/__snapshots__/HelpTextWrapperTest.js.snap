@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HelpTextWrapper matches the snapshot by default 1`] = `
-.c0 {
+.c7 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -9,33 +9,146 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   flex: none;
 }
 
+.c1 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c2:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c4:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+.c5 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c5 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c9 >:first-child {
+  overflow: hidden;
+  -webkit-transition: height 300ms ease-out;
+  transition: height 300ms ease-out;
+}
+
+.c0 {
+  max-width: 600px;
+  font-weight: normal;
+  margin: 0 20px 0 25px;
+}
+
+.c6 {
+  min-width: 14px;
+  min-height: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  box-shadow: none;
+  display: block;
+  margin: -44px -10px 10px 0;
+  background-color: transparent;
+  float: right;
+  padding: 3px 0 0 6px;
+}
+
+.c6:hover {
+  color: #0066cd;
+}
+
+.c6:focus {
+  border: 1px solid #0066cd;
+  outline: none;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c6:focus svg {
+  fill: #0066cd;
+  color: #0066cd;
+}
+
+.c6:active {
+  box-shadow: none;
+}
+
+.c8:hover {
+  fill: #0066cd;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c5::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="HelpTextWrapper__HelpTextContainer-sc-1lk9igo-0 FFpCR yoast-help"
+  className="c0 yoast-help"
 >
   <button
-    activeBackgroundColor="#f7f7f7"
-    activeBorderColor="#000"
-    activeColor="#000"
     aria-controls={null}
     aria-expanded={false}
     aria-label="Open help"
-    backgroundColor="#f7f7f7"
-    borderColor="#ccc"
-    boxShadowColor="#ccc"
-    className="Button__BaseButton-sc-32rbq-4,Button-sc-32rbq-3,Button-sc-32rbq-1,Button-sc-32rbq-2 Button-sc-32rbq-0 HelpTextWrapper__HelpTextButton-sc-1lk9igo-2 hWaXn khqyUK jSdTvi lmbUzU caGFwZ hbdXGw yoast-help__button"
-    focusBackgroundColor="#fff"
-    focusBorderColor="#0066cd"
-    focusBoxShadowColor="#084a67"
-    focusColor="#000"
-    hoverBackgroundColor="#fff"
-    hoverColor="#000"
+    className="c1 c2 c3 c4 c5 c6 yoast-help__button"
     onClick={[Function]}
-    textColor="#555"
     type="button"
   >
     <svg
       aria-hidden={true}
-      className="c0 yoast-svg-icon yoast-svg-icon-question-circle HelpTextWrapper__StyledSvg-sc-1lk9igo-3 kJZwa-d"
+      className="c7 yoast-svg-icon yoast-svg-icon-question-circle c8"
       fill="#616161"
       focusable="false"
       role="img"
@@ -49,8 +162,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
     </svg>
   </button>
   <div
-    className="animations__YoastSlideToggleContainer-cdldy9-0 gVphyr"
-    duration={300}
+    className="c9"
   />
 </div>
 `;
