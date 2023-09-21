@@ -1,5 +1,6 @@
 {
-  "source": "This list is taken from roughly the first 5000 words of this word list https://github.com/hermitdave/FrequencyWords/blob/master/content/2018/en/en_50k.txt. Some clean ups were also done, e.g. to remove pronouns",
+  "source" : "This list uses two main sources: www.wordfrequency.info (based on the COCA corpus) and https://github.com/hermitdave/FrequencyWords/blob/master/content/2018/en/en_50k.txt.",
+  "clean-up": "Some adjustments were made, incl. adding UK spelling variants, removing 6-letter words which can't be conjugated, adding common food-related vocabulary.",
   "list": [
     "school",
     "happen",
@@ -2253,7 +2254,6 @@
     "northeast",
     "migration",
     "invention",
-    "halloween",
     "partially",
     "scripture",
     "collector",
@@ -2455,6 +2455,7 @@
     "distribute",
     "reflection",
     "watermelon",
+    "satisfying",
     "overcooked",
     "blackberry",
     "grapefruit",
