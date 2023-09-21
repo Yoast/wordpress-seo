@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { select } from "@wordpress/data";
+import { useSelect } from "@wordpress/data";
 import { createInterpolateElement } from "@wordpress/element";
 import { addQueryArgs } from "@wordpress/url";
 
@@ -12,7 +12,7 @@ import { TimeConstrainedNotification } from "./TimeConstrainedNotification";
  * @returns {JSX.Element} The BlackFridayProductEditorChecklistPromotion component.
  */
 export const BlackFridayProductEditorChecklistPromotion = () => {
-	const linkParams = select( "yoast-seo/editor" ).selectLinkParams();
+	const linkParams = useSelect( select => select( "yoast-seo/editor" ).selectLinkParams(), [] );
 	const title = sprintf(
 		/* translators: %1$s expands to 'WooCommerce'. */
 		__( "Is your %1$s store ready for Black Friday?", "wordpress-seo" ),
