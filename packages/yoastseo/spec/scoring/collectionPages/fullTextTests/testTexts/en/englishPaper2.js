@@ -119,10 +119,10 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: true,
-		score: 6,
+		score: 9,
 		// eslint-disable-next-line max-len
-		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 15.66% of the words in your text are considered complex. " +
-			"<a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: You are not using too many complex words, which makes " +
+			"your text easy to read. Good job!",
 	},
 };
 
