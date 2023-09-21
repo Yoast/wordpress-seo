@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The ImageSelect component displays warnings 1`] = `
-.c2 {
+.c3 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -9,24 +9,24 @@ exports[`The ImageSelect component displays warnings 1`] = `
   flex: none;
 }
 
-.c5 {
+.c10 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6:active {
+.c11:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c7::-moz-focus-inner {
+.c12::-moz-focus-inner {
   border-width: 0;
 }
 
-.c7:focus {
+.c12:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -34,13 +34,13 @@ exports[`The ImageSelect component displays warnings 1`] = `
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c8:hover {
+.c13:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-.c9 {
+.c14 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -71,13 +71,13 @@ exports[`The ImageSelect component displays warnings 1`] = `
   transition: var(--yoast-transition-default);
 }
 
-.c9 svg {
+.c14 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c1 {
+.c2 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -95,27 +95,27 @@ exports[`The ImageSelect component displays warnings 1`] = `
   margin-bottom: 20px;
 }
 
-.c4 {
+.c5 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
 }
 
-.c4 a {
+.c5 a {
   color: #004973;
 }
 
-.c4 p {
+.c5 p {
   margin-top: 0;
 }
 
-.c3 {
+.c4 {
   margin-top: 0.1rem;
   margin-right: 8px;
 }
 
-.c0 {
+.c1 {
   cursor: pointer;
   font-size: 14px;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
@@ -124,7 +124,21 @@ exports[`The ImageSelect component displays warnings 1`] = `
   font-weight: 500;
 }
 
-.c10 {
+.c7.c7.c7 {
+  padding: 0 8px;
+  min-height: 34px;
+  font-size: 1em;
+  box-shadow: inset 0 1px 2px rgba( 0,0,0,0.07 );
+  border: 1px solid #ddd;
+  border-radius: 0;
+}
+
+.c7.c7.c7:focus {
+  border-color: #5b9dd9;
+  box-shadow: 0 0 2px rgba( 30,140,190,0.8 );
+}
+
+.c15 {
   color: #303030;
   box-sizing: border-box;
   border-radius: 4px;
@@ -140,8 +154,53 @@ exports[`The ImageSelect component displays warnings 1`] = `
   padding: 0 0.5em;
 }
 
+.c16 {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  color: #a00;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.c16:hover {
+  color: #F00;
+}
+
+.c16:focus {
+  color: #F00;
+}
+
+.c8 {
+  min-width: 100%;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 10px 0 0 0;
+}
+
+.c0 {
+  margin-top: 24px;
+}
+
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c14::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -149,21 +208,21 @@ exports[`The ImageSelect component displays warnings 1`] = `
 }
 
 <div
-  className="ImageSelect__DivWithMargin-sc-14m0d81-4 ulmxm"
+  className="c0"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
   <div
-    className="c0"
+    className="c1"
   >
     Facebook image
   </div>
   <div
-    className="c1"
+    className="c2"
   >
     <svg
       aria-hidden={true}
-      className="c2 yoast-svg-icon yoast-svg-icon-alert-warning c3"
+      className="c3 yoast-svg-icon yoast-svg-icon-alert-warning c4"
       fill="#674e00"
       focusable="false"
       role="img"
@@ -176,17 +235,17 @@ exports[`The ImageSelect component displays warnings 1`] = `
       />
     </svg>
     <div
-      className="c4"
+      className="c5"
     >
       Your image is too small
     </div>
   </div>
   <div
-    className="c1"
+    className="c2"
   >
     <svg
       aria-hidden={true}
-      className="c2 yoast-svg-icon yoast-svg-icon-alert-warning c3"
+      className="c3 yoast-svg-icon yoast-svg-icon-alert-warning c4"
       fill="#674e00"
       focusable="false"
       role="img"
@@ -199,25 +258,25 @@ exports[`The ImageSelect component displays warnings 1`] = `
       />
     </svg>
     <div
-      className="c4"
+      className="c5"
     >
       Wow, I like writing tests
     </div>
   </div>
   <div
-    className="ImageSelect__ColumnWrapper-sc-14m0d81-2 ebzWjB"
+    className="c6"
   >
     <input
-      className=" InputField-bc6bqg-0 ImageSelect__UrlInputField-sc-14m0d81-1 ivUELW fZOIoU"
+      className="c7 c8"
       disabled="disabled"
       id="twitter-url-input"
       value=""
     />
     <div
-      className="ImageSelect__RowWrapper-sc-14m0d81-3 fVTCKm"
+      className="c9"
     >
       <button
-        className="c5 c6 c7 c8 c9 c10"
+        className="c10 c11 c12 c13 c14 c15"
         id="twitter-replace-button"
         onClick={[Function]}
         type="button"
@@ -225,22 +284,9 @@ exports[`The ImageSelect component displays warnings 1`] = `
         Replace image
       </button>
       <button
-        activeBackgroundColor="#f7f7f7"
-        activeBorderColor="#000"
-        activeColor="#000"
-        backgroundColor="#f7f7f7"
-        borderColor="#ccc"
-        boxShadowColor="#ccc"
-        className=",,,,ImageSelect__UndoButton-sc-14m0d81-0 c5 c6 c7 c8 c9 c10 kBTMlW"
-        focusBackgroundColor="#fff"
-        focusBorderColor="#0066cd"
-        focusBoxShadowColor="#084a67"
-        focusColor="#000"
-        hoverBackgroundColor="#fff"
-        hoverColor="#000"
+        className="c10 c11 c12 c13 c14 c15 c16"
         id="twitter-remove-button"
         onClick={[Function]}
-        textColor="#555"
         type="button"
       >
         Remove image
@@ -251,24 +297,24 @@ exports[`The ImageSelect component displays warnings 1`] = `
 `;
 
 exports[`The ImageSelect component renders 1`] = `
-.c1 {
+.c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c2:active {
+.c3:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c3::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c3:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -276,13 +322,13 @@ exports[`The ImageSelect component renders 1`] = `
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c4:hover {
+.c5:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-.c5 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -313,13 +359,13 @@ exports[`The ImageSelect component renders 1`] = `
   transition: var(--yoast-transition-default);
 }
 
-.c5 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c0 {
+.c1 {
   cursor: pointer;
   font-size: 14px;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
@@ -328,7 +374,7 @@ exports[`The ImageSelect component renders 1`] = `
   font-weight: 500;
 }
 
-.c6 {
+.c7 {
   color: #303030;
   box-sizing: border-box;
   border-radius: 4px;
@@ -344,8 +390,12 @@ exports[`The ImageSelect component renders 1`] = `
   padding: 0 0.5em;
 }
 
+.c0 {
+  margin-top: 24px;
+}
+
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c5::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -353,17 +403,17 @@ exports[`The ImageSelect component renders 1`] = `
 }
 
 <div
-  className="ImageSelect__DivWithMargin-sc-14m0d81-4 ulmxm"
+  className="c0"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
   <div
-    className="c0"
+    className="c1"
   >
     Facebook image
   </div>
   <button
-    className="c1 c2 c3 c4 c5 c6"
+    className="c2 c3 c4 c5 c6 c7"
     id="facebook-select-button"
     onClick={[Function]}
     type="button"
