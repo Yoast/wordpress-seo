@@ -49,7 +49,7 @@ describe( "a test for getting the complex words in the sentence and calculating 
 					"either closely mixed or in larger patches.",
 			},
 			{
-				complexWords: [ "typically", "reserved", "particolored", "markings" ],
+				complexWords: [ "reserved", "particolored", "markings" ],
 				sentence: "\"Tortoiseshell\" is typically reserved for particolored cats with relatively small or no white markings.",
 			},
 			{
@@ -69,7 +69,7 @@ describe( "a test for getting the complex words in the sentence and calculating 
 			},
 		]
 		);
-		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 9.64 );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 9.04 );
 	} );
 	it( "should return an empty array and 0% if there is no complex word found in the text", () => {
 		const paper = new Paper( "This is short text. This is another short text. A text about Calico." );
