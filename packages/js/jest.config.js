@@ -7,6 +7,7 @@ module.exports = {
 		"/tests/helpers/factory.js",
 		"/tests/setupTests.js",
 		"/tests/decorator/__mocks__/@wordpress/rich-text/index.js",
+		"/tests/test-utils.js",
 	],
 	// https://testing-library.com/docs/react-testing-library/setup#jest-27
 	testEnvironment: "jest-environment-jsdom",
