@@ -1,26 +1,7 @@
 
-import React from "react";
-import { MODE_DESKTOP, MODE_MOBILE } from "../src/snippet-preview/constants";
-import SnippetPreview from "../src/snippet-preview/SnippetPreview";
-
-const defaultArgs = {
-	description: "Description",
-	title: "Title",
-	url: "https://example.org",
-	mode: MODE_DESKTOP,
-	onMouseUp: jest.fn(),
-};
-
-/**
- * Mounts a snippet preview component with changed arguments.
- *
- * @param {object} props The component's props.
- *
- * @returns {ReactElement} The SnippetPreview component.
- */
-const mountWithArgs = ( props ) => {
-
-};
+// import React from "react";
+// import { MODE_DESKTOP, MODE_MOBILE } from "../src/snippet-preview/constants";
+// import SnippetPreview from "../src/snippet-preview/SnippetPreview";
 
 describe( "SnippetPreview", () => {
 	describe( "breadcrumbs", () => {
