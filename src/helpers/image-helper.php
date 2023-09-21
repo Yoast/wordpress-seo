@@ -308,7 +308,8 @@ class Image_Helper {
 			return 0;
 		}
 
-		if ( ! $this->options_helper->get( 'disable-attachment' ) ) {
+		/** The `wpseo_force_creating_and_using_attachment_indexables` filter is documented in indexable-link-builder.php */
+		if ( ! $this->options_helper->get( 'disable-attachment' ) || \apply_filters( 'wpseo_force_creating_and_using_attachment_indexables', false ) ) {
 			// Strip out the size part of an image URL.
 			$url = \preg_replace( '/(.*)-\d+x\d+\.(jpeg|jpg|png|gif)$/', '$1.$2', $url );
 
