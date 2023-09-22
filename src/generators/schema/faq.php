@@ -34,11 +34,13 @@ class FAQ extends Abstract_Schema_Piece {
 	private function generate_ids() {
 		$ids = [];
 		foreach ( $this->context->blocks['yoast/faq-block'] as $block ) {
-			foreach ( $block['attrs']['questions'] as $question ) {
-				if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
-					continue;
+			if ( isset( $block['attrs']['questions'] ) ) {
+				foreach ( $block['attrs']['questions'] as $question ) {
+					if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
+						continue;
+					}
+					$ids[] = [ '@id' => $this->context->canonical . '#' . \esc_attr( $question['id'] ) ];
 				}
-				$ids[] = [ '@id' => $this->context->canonical . '#' . \esc_attr( $question['id'] ) ];
 			}
 		}
 
@@ -55,7 +57,9 @@ class FAQ extends Abstract_Schema_Piece {
 
 		$questions = [];
 		foreach ( $this->context->blocks['yoast/faq-block'] as $index => $block ) {
-			$questions = \array_merge( $questions, $block['attrs']['questions'] );
+			if ( isset( $block['attrs']['questions'] ) ) {
+				$questions = \array_merge( $questions, $block['attrs']['questions'] );
+			}
 		}
 		foreach ( $questions as $index => $question ) {
 			if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {

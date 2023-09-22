@@ -68,9 +68,12 @@ export default function LegacyHowTo( props ) {
 
 	const timeString = buildDurationString( { days, hours, minutes } );
 
-	const stepElements = steps.map( step => {
-		return <LegacyHowToStep { ...step } key={ step.id } />;
-	} );
+	let stepElements = [];
+	if ( steps ) {
+		stepElements = steps.map( step => {
+			return <LegacyHowToStep { ...step } key={ step.id } />;
+		} );
+	}
 
 	return (
 		<div className={ classNames }>
