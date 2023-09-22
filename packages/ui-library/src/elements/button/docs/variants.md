@@ -1,4 +1,4 @@
-In our user interfaces, we distinguish four different button variants:
+In our user interfaces, we distinguish five different button variants:
 
 1. **Primary action (<mark style="background-color: #a61e69;"><font color="white">Purple</font></mark>)**<br>
   Purple buttons are used to highlight the most important action or call to action on a page or screen. They should be used for the main action you want your users to take. The purple color is derived from our branding guidelines, which helps them stand out and catch the user's attention. These buttons should be used sparingly to avoid overwhelming users. Ideally, there should only be one primary action button on a page.
