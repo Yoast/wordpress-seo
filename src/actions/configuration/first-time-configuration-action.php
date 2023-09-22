@@ -59,6 +59,7 @@ class First_Time_Configuration_Action {
 	 */
 	public function set_site_representation( $params ) {
 		$failures = [];
+		$old_values = $this->get_site_representation_old_values();
 
 		foreach ( self::SITE_REPRESENTATION_FIELDS as $field_name ) {
 			if ( isset( $params[ $field_name ] ) ) {
@@ -80,7 +81,9 @@ class First_Time_Configuration_Action {
 		// Delete cached logos in the db.
 		$this->options_helper->set( 'company_logo_meta', false );
 		$this->options_helper->set( 'person_logo_meta', false );
-
+		
+		\apply_filters( 'wpseo_post_update_site_representation', $params, $old_values, $failures );
+		
 		if ( \count( $failures ) === 0 ) {
 			return (object) [
 				'success' => true,
@@ -105,6 +108,9 @@ class First_Time_Configuration_Action {
 	 */
 	public function set_social_profiles( $params ) {
 		$failures = $this->social_profiles_helper->set_organization_social_profiles( $params );
+		$old_values = $this->get_social_profiles_old_values();
+
+		\apply_filters( 'wpseo_post_update_social_profiles', $params, $old_values, $failures );
 
 		if ( empty( $failures ) ) {
 			return (object) [
@@ -185,6 +191,8 @@ class First_Time_Configuration_Action {
 			$this->options_helper->set( 'toggled_tracking', true );
 			$success = $this->options_helper->set( 'tracking', $params['tracking'] );
 		}
+
+		\apply_filters( 'wpseo_post_update_enable_tracking', $params['tracking'], $option_value, $success );
 
 		if ( $success ) {
 			return (object) [
@@ -294,5 +302,28 @@ class First_Time_Configuration_Action {
 	 */
 	private function can_edit_profile( $person_id ) {
 		return \current_user_can( 'edit_user', $person_id );
+	}
+
+	private function get_site_representation_old_values() : array {
+		$old_values = [];
+		foreach ( self::SITE_REPRESENTATION_FIELDS as $field_name ) {
+			if ( $field_name === 'description' ) {
+				continue;
+			}
+
+			$old_values[ $field_name ] = $this->options_helper->get( $field_name );
+		}
+		
+		return $old_values;
+	}
+
+	private function get_social_profiles_old_values() : array {
+		$social_profiles_fields = \array_keys( $this->social_profiles_helper->get_organization_social_profile_fields() );
+		$old_values = [];
+		foreach ( $social_profiles_fields as $field_name ) {
+			$old_values[ $field_name ] = $this->options_helper->get( $field_name );
+		}
+
+		return $old_values;
 	}
 }
