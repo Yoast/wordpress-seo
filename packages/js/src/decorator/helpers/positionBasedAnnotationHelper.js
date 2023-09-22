@@ -66,27 +66,22 @@ const adjustFirsSectionOffsets = ( blockStartOffset, blockEndOffset, blockName )
 	blockStartOffset = blockStartOffset - firstSectionOpenTag.length;
 	blockEndOffset = blockEndOffset - firstSectionOpenTag.length;
 
-	return {
-		blockStartOffset,
-		blockEndOffset,
-	};
+	return { blockStartOffset, blockEndOffset };
 };
 
 /**
- * Adjusts the block start and end offsets of a given mark when the block html contains tags or html entities.
+ * Adjusts the block start and end offsets of a given mark when the block html contains html tags.
  *
- * @param {int}		blockStartOffset	The block start offset of the Mark object to adjust.
- * @param {int}		blockEndOffset		The block end offset of the Mark object to adjust.
- * @param {string}	blockHtml			The html of the block.
- *
- * @returns {[{endOffset, startOffset}]} The array of adjusted block start and end offsets of a given mark.
+ * @param {string}	slicedBlockHtmlToStartOffset	The block html from the 0 index to the index of the block start offset.
+ * @param {string}	slicedBlockHtmlToEndOffset		The block html from the 0 index to the index of the block end offset.
+ * @param {int}		blockStartOffset				The block start offset of the Mark object to adjust.
+ * @param {int}		blockEndOffset					The block end offset of the Mark object to adjust.
+ * @returns {{blockStartOffset: int, blockEndOffset: int}} The adjusted start offset and end offset of the Mark object.
  */
-const adjustMarkOffsets = ( blockStartOffset, blockEndOffset, blockHtml ) => {
-	// Retrieve the html from the start until the block startOffset of the mark.
-	const slicedBlockHtml = blockHtml.slice( 0, blockStartOffset );
-
+const adjustOffsetsInCaseOfHtmlTags = ( slicedBlockHtmlToStartOffset, slicedBlockHtmlToEndOffset, blockStartOffset, blockEndOffset ) => {
 	// Find all html tags.
-	const foundHtmlTags = [ ...slicedBlockHtml.matchAll( htmlTagsRegex ) ];
+	let foundHtmlTags = [ ...slicedBlockHtmlToStartOffset.matchAll( htmlTagsRegex ) ];
+
 	/*
 	 * Loop through the found html tags backwards, and adjust the start and end offsets of the mark
 	 * by subtracting them with the length of the found html tags.
@@ -104,36 +99,99 @@ const adjustMarkOffsets = ( blockStartOffset, blockEndOffset, blockHtml ) => {
 	 * - Text: This is a giant panda.
 	 * - Range of "panda": 16 -21
 	 */
-	for ( let i = foundHtmlTags.length - 1; i >= 0; i-- ) {
-		const [ foundTag ] = foundHtmlTags[ i ];
+	if ( foundHtmlTags.length > 0 ) {
+		for ( let i = foundHtmlTags.length - 1; i >= 0; i-- ) {
+			const [ foundTag ] = foundHtmlTags[ i ];
 
-		blockStartOffset -= foundTag.length;
-		blockEndOffset -= foundTag.length;
+			blockStartOffset -= foundTag.length;
+		}
 	}
+	foundHtmlTags = [ ...slicedBlockHtmlToEndOffset.matchAll( htmlTagsRegex ) ];
+	if ( foundHtmlTags.length > 0 ) {
+		for ( let i = foundHtmlTags.length - 1; i >= 0; i-- ) {
+			const [ foundTag ] = foundHtmlTags[ i ];
+
+			blockEndOffset -= foundTag.length;
+		}
+	}
+	return { blockStartOffset, blockEndOffset };
+};
+
+/**
+ * Adjusts the block start and end offsets of a given mark when the block html contains html entities.
+ *
+ * @param {string}	slicedBlockHtmlToStartOffset	The block html from the 0 index to the index of the block start offset.
+ * @param {string}	slicedBlockHtmlToEndOffset		The block html from the 0 index to the index of the block end offset.
+ * @param {int}		blockStartOffset				The block start offset of the Mark object to adjust.
+ * @param {int}		blockEndOffset					The block end offset of the Mark object to adjust.
+ * @returns {{blockStartOffset: int, blockEndOffset: int}} The adjusted start offset and end offset of the Mark object.
+ */
+const adjustOffsetsInCaseOfHtmlEntities = ( slicedBlockHtmlToStartOffset, slicedBlockHtmlToEndOffset, blockStartOffset, blockEndOffset ) => {
 	/*
-	 * The step to match the html entities should be done after matching the html tags.
-	 *
 	 * In `yoastseo`, we process the html entities so that their length is the length of their extended version.
 	 * For example, the ampersand `&` length is the length of `&amp;` => 5.
 	 * However, in Gutenberg editor where we annotate the rich text, the ampersand is represented as `&`.
 	 * Hence, to say that its length is 5 is incorrect and will result in an incorrect annotation.
 	 * With this reason, we also need to adjust the Mark block start and end offset when the block's html contains html entities.
+	 *
+	 * Additionally, it's important to have a separate step for adjusting the start and end offset.
+	 * 1. Start offset: we're checking the html from the f
 	 */
-	const matchedHtmlEntities = [ ...blockHtml.matchAll( htmlEntitiesRegex ) ];
-	if ( matchedHtmlEntities ) {
+	let matchedHtmlEntities = [ ...slicedBlockHtmlToStartOffset.matchAll( htmlEntitiesRegex ) ];
+	if ( matchedHtmlEntities.length > 0 ) {
 		for ( let i = matchedHtmlEntities.length - 1; i >= 0; i-- ) {
 			const [ , foundEntity ] = matchedHtmlEntities[ i ];
 
 			blockStartOffset -= foundEntity.length;
+		}
+	}
+
+	matchedHtmlEntities = [ ...slicedBlockHtmlToEndOffset.matchAll( htmlEntitiesRegex ) ];
+	if ( matchedHtmlEntities.length > 0 ) {
+		for ( let i = matchedHtmlEntities.length - 1; i >= 0; i-- ) {
+			const [ , foundEntity ] = matchedHtmlEntities[ i ];
+
 			blockEndOffset -= foundEntity.length;
 		}
 	}
-	return [
-		{
-			startOffset: blockStartOffset,
-			endOffset: blockEndOffset,
-		},
-	];
+	return { blockStartOffset, blockEndOffset };
+};
+
+/**
+ * Adjusts the block start and end offsets of a given mark when the block html contains tags or html entities.
+ *
+ * @param {int}		blockStartOffset	The block start offset of the Mark object to adjust.
+ * @param {int}		blockEndOffset		The block end offset of the Mark object to adjust.
+ * @param {string}	blockHtml			The html of the block.
+ *
+ * @returns {{blockStartOffset, blockEndOffset}} The adjusted block start and end offsets of a given mark.
+ */
+const adjustMarkOffsets = ( blockStartOffset, blockEndOffset, blockHtml ) => {
+	// Retrieve the html from the start until the block startOffset of the mark.
+	const slicedBlockHtmlToStartOffset = blockHtml.slice( 0, blockStartOffset );
+	const slicedBlockHtmlToEndOffset = blockHtml.slice( 0, blockEndOffset );
+
+	// Adjust the offsets when there are html tags found between the start of the html and the start/end offset of the Mark object.
+	const adjustedOffsetsInCaseOfHtmlTags = adjustOffsetsInCaseOfHtmlTags(
+		slicedBlockHtmlToStartOffset,
+		slicedBlockHtmlToEndOffset,
+		blockStartOffset,
+		blockEndOffset
+	);
+	blockStartOffset = adjustedOffsetsInCaseOfHtmlTags.blockStartOffset;
+	blockEndOffset = adjustedOffsetsInCaseOfHtmlTags.blockEndOffset;
+
+	// Adjust the offsets when there are html entities found between the start of the html and the start/end offset of the Mark object.
+	const adjustedOffsetsInCaseOfHtmlEntities = adjustOffsetsInCaseOfHtmlEntities(
+		slicedBlockHtmlToStartOffset,
+		slicedBlockHtmlToEndOffset,
+		blockStartOffset,
+		blockEndOffset
+	);
+	blockStartOffset = adjustedOffsetsInCaseOfHtmlEntities.blockStartOffset;
+	blockEndOffset = adjustedOffsetsInCaseOfHtmlEntities.blockEndOffset;
+
+	return { blockStartOffset, blockEndOffset };
 };
 
 
@@ -181,7 +239,13 @@ export function createAnnotationsFromPositionBasedMarks( mark, blockClientId, bl
 				},
 			];
 		}
-		return adjustMarkOffsets( blockStartOffset, blockEndOffset, blockHtml );
+		const adjustedMarkOffsets = adjustMarkOffsets( blockStartOffset, blockEndOffset, blockHtml );
+		return [
+			{
+				startOffset: adjustedMarkOffsets.blockStartOffset,
+				endOffset: adjustedMarkOffsets.blockEndOffset,
+			},
+		];
 	}
 	return [];
 }
