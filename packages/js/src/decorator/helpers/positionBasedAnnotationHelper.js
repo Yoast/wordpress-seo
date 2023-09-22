@@ -1,3 +1,4 @@
+import { forEachRight } from "lodash";
 import { helpers } from "yoastseo";
 
 /*
@@ -100,19 +101,19 @@ const adjustOffsetsInCaseOfHtmlTags = ( slicedBlockHtmlToStartOffset, slicedBloc
 	 * - Range of "panda": 16 -21
 	 */
 	if ( foundHtmlTags.length > 0 ) {
-		for ( let i = foundHtmlTags.length - 1; i >= 0; i-- ) {
-			const [ foundTag ] = foundHtmlTags[ i ];
-
-			blockStartOffset -= foundTag.length;
-		}
+		// Loops through the elements from right to left.
+		forEachRight( foundHtmlTags, ( foundHtmlTag ) => {
+			const [ tag ] = foundHtmlTag;
+			blockStartOffset -= tag.length;
+		} );
 	}
 	foundHtmlTags = [ ...slicedBlockHtmlToEndOffset.matchAll( htmlTagsRegex ) ];
 	if ( foundHtmlTags.length > 0 ) {
-		for ( let i = foundHtmlTags.length - 1; i >= 0; i-- ) {
-			const [ foundTag ] = foundHtmlTags[ i ];
-
-			blockEndOffset -= foundTag.length;
-		}
+		// Loops through the elements from right to left.
+		forEachRight( foundHtmlTags, ( foundHtmlTag ) => {
+			const [ tag ] = foundHtmlTag;
+			blockEndOffset -= tag.length;
+		} );
 	}
 	return { blockStartOffset, blockEndOffset };
 };
@@ -141,7 +142,7 @@ const adjustOffsetsInCaseOfHtmlEntities = ( slicedBlockHtmlToStartOffset, sliced
 	 * This means that we also need to subtract the end offset by the length of the html entities/tags found in the Mark's offsets range.
 	 *
 	 * For example, we want to highlight the word "Bear™" of this html "The great <em><strong>Panda &amp; Bear</strong></em>&trade;"
-	 * Mark's offsets from `yoastseo` is { blockStartOffset: 34, blockEndOffset: 53 }
+	 * The Mark's offsets from `yoastseo` are { blockStartOffset: 34, blockEndOffset: 53 }
 	 * However, since in Gutenberg we apply the annotation to the rich text: "The great Panda & Bear™",
 	 * We need to adjust the offsets above to { blockStartOffset: 18, blockEndOffset: 23 }.
 	 * Only subtracting the end offset by the length of the html entities/tags found between the 0 index of the html
@@ -149,20 +150,24 @@ const adjustOffsetsInCaseOfHtmlEntities = ( slicedBlockHtmlToStartOffset, sliced
 	 */
 	let matchedHtmlEntities = [ ...slicedBlockHtmlToStartOffset.matchAll( htmlEntitiesRegex ) ];
 	if ( matchedHtmlEntities.length > 0 ) {
-		for ( let i = matchedHtmlEntities.length - 1; i >= 0; i-- ) {
-			const [ , foundEntity ] = matchedHtmlEntities[ i ];
-
-			blockStartOffset -= foundEntity.length;
-		}
+		// Loops through the elements from right to left.
+		forEachRight( matchedHtmlEntities, ( matchedEntity ) => {
+			/*
+			 * If the matchedEntity is `&amp;`, matchedEntityWithoutAmp (the second element in the array) is `amp;`.
+			 * To get the length of the html entity to be 1, we subtract the offset by the length of the matched entity minus the ampersand.
+			 */
+			const [ , matchedEntityWithoutAmp ] = matchedEntity;
+			blockStartOffset -= matchedEntityWithoutAmp.length;
+		} );
 	}
 
 	matchedHtmlEntities = [ ...slicedBlockHtmlToEndOffset.matchAll( htmlEntitiesRegex ) ];
 	if ( matchedHtmlEntities.length > 0 ) {
-		for ( let i = matchedHtmlEntities.length - 1; i >= 0; i-- ) {
-			const [ , foundEntity ] = matchedHtmlEntities[ i ];
-
-			blockEndOffset -= foundEntity.length;
-		}
+		// Loops through the elements from right to left.
+		forEachRight( matchedHtmlEntities, ( matchedEntity ) => {
+			const [ , matchedEntityWithoutAmp ] = matchedEntity;
+			blockEndOffset -= matchedEntityWithoutAmp.length;
+		} );
 	}
 	return { blockStartOffset, blockEndOffset };
 };
