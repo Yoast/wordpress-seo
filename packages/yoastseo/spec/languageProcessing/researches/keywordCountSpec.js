@@ -758,7 +758,7 @@ const testCasesWithSpecialCharacters = [
 	},
 	{
 		description: "can match 2 occurrences of a keyphrase ending in an HTML entity (&copy; standing for ©) and output correct Marks objects",
-		paper: new Paper( "<p>A string keyphrase&copy; with a keyphrase&copy;.</p>", { keyword: "keyphrase&" } ),
+		paper: new Paper( "<p>A string keyphrase&copy; with a keyphrase&copy;.</p>", { keyword: "keyphrase©" } ),
 		keyphraseForms: [ [ "keyphrase©" ] ],
 		expectedCount: 2,
 		expectedMarkings: [ new Mark( {
