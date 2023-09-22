@@ -56,7 +56,7 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 		expect( actual ).toEqual( [] );
 	} );
 
-	it( "should return annotations with adjusted block start and end position when the block html is not the same as the rich text:" +
+	it( "should return annotations with adjusted block start and end position when the block html is not the same as the rich text: " +
 		"The mark is for non-Yoast block", () => {
 		/*
          * The block start and end offsets that are coming from the analysis is off by the length of the following tags:
@@ -98,7 +98,7 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 		} ] );
 	} );
 
-	it( "should return annotations with adjusted block start and end position when the block html is not the same as the rich text:" +
+	it( "should return annotations with adjusted block start and end position when the block html is not the same as the rich text: " +
 		"The html contains html tags and html entities", () => {
 		/*
          * The block start offset that is coming from the analysis is off by the length of the following tags and entities:
