@@ -757,7 +757,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "can match 2 occurrences of a keyphrase ending in an HTML entity (&copy; standing for ©) and output correct Marks objects",
+		description: "can match 2 occurrences of a keyphrase ending in an HTML entity (&copy; standing for ©) and output correct Marks",
 		paper: new Paper( "<p>A string keyphrase&copy; with a keyphrase&copy;.</p>", { keyword: "keyphrase©" } ),
 		keyphraseForms: [ [ "keyphrase©" ] ],
 		expectedCount: 2,
@@ -786,7 +786,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "can match an occurrence of a keyphrase after HTML entities, and output correct Marks objects",
+		description: "can match an occurrence of a keyphrase after HTML entities, and output correct Marks",
 		paper: new Paper( "<p>I find a&amp;b to be &gt; c&amp;d for dog food.</p>", { keyword: "dog" } ),
 		keyphraseForms: [ [ "dog" ] ],
 		expectedCount: 1,
@@ -806,7 +806,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "can match an occurrence of a keyphrase containing an & in the middle, as in 'a&b', and output correct Marks objects",
+		description: "can match an occurrence of a keyphrase containing an & in the middle, as in 'a&b', and output correct Marks",
 		paper: new Paper( "<p>At a&amp;b they have the best stuff.</p>", { keyword: "a&b" } ),
 		keyphraseForms: [ [ "a&b" ] ],
 		expectedCount: 1,
@@ -1651,7 +1651,7 @@ describe.each( testCasesWithLocaleMapping )( "Test for counting the keyphrase in
 
 const testDataForHTMLTags = [
 	{
-		description: "counts keyphrase occurrence correctly in a text containing `<strong>` tag, and outputs correct mark objects",
+		description: "counts keyphrase occurrence correctly in a text containing `<strong>` tag, and outputs correct Marks",
 		paper: new Paper( "<p>The forepaws possess a \"false thumb\", which is an extension of a wrist bone, " +
 			"the radial sesamoid found in many carnivorans. This thumb allows the animal to grip onto bamboo stalks " +
 			"and both the digits and wrist bones are highly flexible. The red panda shares this feature " +
@@ -1710,7 +1710,7 @@ const testDataForHTMLTags = [
 		skip: false,
 	},
 	{
-		description: "counts keyphrase occurrence correctly in a text containing `<em>` tag and outputs correct mark objects",
+		description: "counts keyphrase occurrence correctly in a text containing `<em>` tag and outputs correct Marks",
 		paper: new Paper( "<p>The forepaws possess a \"false thumb\", which is an extension of a wrist bone, " +
 			"the radial sesamoid found in many carnivorans. This thumb allows the animal to grip onto bamboo stalks " +
 			"and both the digits and wrist bones are highly flexible. The red panda shares this feature " +
@@ -1754,7 +1754,7 @@ const testDataForHTMLTags = [
 		skip: false,
 	},
 	{
-		description: "counts keyphrase occurrence correctly when it's found inside an anchor text and outputs correct mark objects",
+		description: "counts keyphrase occurrence correctly when it's found inside an anchor text and outputs correct Marks",
 		paper: new Paper( "<p>The forepaws possess a \"false thumb\", which is an extension of a wrist bone, " +
 			"the radial sesamoid found in many carnivorans. This thumb allows the animal to grip onto bamboo stalks " +
 			"and both the digits and wrist bones are highly flexible. The red panda shares this feature " +

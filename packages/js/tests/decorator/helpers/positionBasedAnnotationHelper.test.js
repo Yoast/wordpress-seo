@@ -34,6 +34,7 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
+
 	it( "should return an empty array if the block client id doesn't match the mark client id", () => {
 		const mark = new Mark( {
 			position: {
@@ -54,6 +55,7 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 
 		expect( actual ).toEqual( [] );
 	} );
+
 	it( "should return annotations with adjusted block start and end position when the block html is not the same as the rich text:" +
 		"The mark is for non-Yoast block", () => {
 		/*
@@ -95,6 +97,7 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 			endOffset: 60,
 		} ] );
 	} );
+
 	it( "should return annotations with adjusted block start and end position when the block html is not the same as the rich text:" +
 		"The html contains html tags and html entities", () => {
 		/*
@@ -144,6 +147,7 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 			endOffset: 23,
 		} ] );
 	} );
+
 	it( "should return annotations for the first section of a Yoast FAQ sub-block with adjusted block start and end position", () => {
 		/*
 	     * The block start and end offsets that are coming from the analysis is off by the length of the following tags:
@@ -186,6 +190,7 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 			endOffset: 18,
 		} ] );
 	} );
+
 	it( "should return annotations for the first section of a Yoast How-To sub-block with adjusted block start and end position", () => {
 		/*
 		 * The block start and end offsets that are coming from the analysis is off by the length of the following tags:
