@@ -20,9 +20,9 @@ const htmlTagsRegex = /(<([a-z]|\/)[^<>]+>)/ig;
  * "&mdash;" => —
  * "&copy;" => ©
  * "&reg;" => ®
- * "&trade; => ™
- * "&pound; => £
- * "&yen; => ¥
+ * "&trade;" => ™
+ * "&pound;" => £
+ * "&yen;" => ¥
  * "&euro;" => €
  * "&dollar;" => $
  * "&deg;" => °
@@ -134,15 +134,17 @@ const adjustOffsetsInCaseOfHtmlEntities = ( slicedBlockHtmlToStartOffset, sliced
 	 * Hence, to say that its length is 5 is incorrect and will result in an incorrect annotation.
 	 * With this reason, we also need to adjust the Mark block start and end offset when the block's html contains html entities.
 	 *
-	 * Additionally, it's important to have a separate step for adjusting the start and end offset.
-	 * This is because in the offsets range of the Mark, it's still possible that an html entity (or multiple) is present.
-	 * This means that we also need to subtract the end offset by the length of the html entities found in the Mark's offsets range.
+	 * Note: the comment below also applies to `adjustOffsetsInCaseOfHtmlTags` function above.
 	 *
-	 * For example, we want to highlight the word "Bear™" of this html "The great <em><strong>Panda &amp; Bear</strong></em>™"
+	 * Additionally, it's important to have a separate step for adjusting the start and end offset.
+	 * This is because in the offsets range of the Mark, it's still possible that an html entity (or multiple) or an html tag is present.
+	 * This means that we also need to subtract the end offset by the length of the html entities/tags found in the Mark's offsets range.
+	 *
+	 * For example, we want to highlight the word "Bear™" of this html "The great <em><strong>Panda &amp; Bear</strong></em>&trade;"
 	 * Mark's offsets from `yoastseo` is { blockStartOffset: 34, blockEndOffset: 53 }
 	 * However, since in Gutenberg we apply the annotation to the rich text: "The great Panda & Bear™",
 	 * We need to adjust the offsets above to { blockStartOffset: 18, blockEndOffset: 23 }.
-	 * Only subtracting the end offset by the length of the html entities found between the 0 index of the html
+	 * Only subtracting the end offset by the length of the html entities/tags found between the 0 index of the html
 	 * to the start offset of the Mark object will still result in incorrect position information.
 	 */
 	let matchedHtmlEntities = [ ...slicedBlockHtmlToStartOffset.matchAll( htmlEntitiesRegex ) ];
