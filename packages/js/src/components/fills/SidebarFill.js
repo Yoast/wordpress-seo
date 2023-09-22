@@ -10,6 +10,7 @@ import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import Warning from "../../containers/Warning";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import InsightsModal from "../../insights/components/insights-modal";
+import { InternalLinkingSuggestionsUpsell } from "../modals/InternalLinkingSuggestionsUpsell";
 import SidebarItem from "../SidebarItem";
 import SearchAppearanceModal from "../modals/editorModals/SearchAppearanceModal";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
@@ -20,7 +21,7 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import WebinarPromoNotification from "../WebinarPromoNotification";
 import BlackFridayPromoNotification from "../BlackFridayPromoNotification";
-import KeywordUpsell from "../KeywordUpsell";
+import KeywordUpsell from "../modals/KeywordUpsell";
 
 /* eslint-disable complexity */
 /**
@@ -98,6 +99,9 @@ export default function SidebarFill( { settings } ) {
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
+				</SidebarItem> }
+				{ settings.shouldUpsell && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 23 }>
+					<InternalLinkingSuggestionsUpsell />
 				</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
 					<CollapsibleCornerstone />
