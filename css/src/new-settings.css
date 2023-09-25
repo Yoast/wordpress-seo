@@ -241,6 +241,37 @@ body.seo_page_wpseo_page_settings {
 			yst-bg-slate-200
 			yst-text-slate-900;
 		}
+
+		.sidebar__sale_banner_container .sidebar__sale_banner {
+			background: #000;
+			color: #fcd34d;
+			width: calc(100% + 60px);
+			line-height: 30px;
+			margin-left: -30px;
+			transform: rotate(-5deg);
+			font-size: 18px;
+			font-weight: 500;
+			letter-spacing: 0.5px;
+			text-align: center;
+			margin-top: 20px;
+			margin-bottom: 10px;
+			box-shadow: 0 -1px 4px 0 #fcd34d, 0 1px 4px 0 #fcd34d, 0 -1px 0 0 #fcd34d, 0 1px 0 0 #fcd34d;
+			padding: 7px 0;
+		}
+		
+		.sidebar__sale_banner_container .sidebar__sale_banner .banner_text {
+			display: inline-block;
+			margin: 0 35px;
+		}
+
+		.sidebar__sale_banner_container {
+			width: calc(100% + 48px);
+			margin-left: -24px;
+			overflow: hidden;
+			padding-bottom: 10px;
+			margin-bottom: -25px;
+			margin-top: -5px;
+		}
 	}
 
 	/* RTL */
