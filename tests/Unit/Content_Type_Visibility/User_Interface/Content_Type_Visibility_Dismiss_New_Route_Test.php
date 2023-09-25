@@ -76,7 +76,7 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 					'args'                => [
 						'postTypeName' => [
 							'validate_callback' => static function ( $param, $request, $key ) {
-								return post_type_exists( $param );
+								return \post_type_exists( $param );
 							},
 						],
 					],
@@ -95,7 +95,7 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 						'args'                => [
 							'taxonomyName' => [
 								'validate_callback' => static function ( $param, $request, $key ) {
-									return taxonomy_exists( $param );
+									return \taxonomy_exists( $param );
 								},
 							],
 						],

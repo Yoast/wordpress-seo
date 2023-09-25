@@ -293,7 +293,7 @@ class Adapter {
 		$query_type = $this->determine_query_type( $query );
 		$data       = [];
 		if ( $query_type === Constants::SQL_SELECT || $query_type === Constants::SQL_SHOW ) {
-			$data = $wpdb->get_results( $query, ARRAY_A );
+			$data = $wpdb->get_results( $query, \ARRAY_A );
 			if ( $data === false ) {
 				return false;
 			}

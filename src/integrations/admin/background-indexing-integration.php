@@ -238,7 +238,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		}
 
 		$schedules['fifteen_minutes'] = [
-			'interval' => ( 15 * MINUTE_IN_SECONDS ),
+			'interval' => ( 15 * \MINUTE_IN_SECONDS ),
 			'display'  => \esc_html__( 'Every fifteen minutes', 'wordpress-seo' ),
 		];
 

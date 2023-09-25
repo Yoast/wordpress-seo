@@ -327,7 +327,7 @@ class Front_End_Integration implements Integration_Interface {
 				while ( $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
 					$href = $processor->get_attribute( 'href' );
 					if ( $href ) {
-						return $presentation->permalink . substr( $href, 1 );
+						return $presentation->permalink . \substr( $href, 1 );
 					}
 				}
 			}

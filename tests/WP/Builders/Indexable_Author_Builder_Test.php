@@ -49,10 +49,10 @@ final class Indexable_Author_Builder_Test extends TestCase {
 		\wp_set_current_user( $this->user_id );
 
 		$this->instance = new Indexable_Author_Builder(
-			YoastSEO()->helpers->author_archive,
-			YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
-			YoastSEO()->helpers->options,
-			YoastSEO()->helpers->post
+			\YoastSEO()->helpers->author_archive,
+			\YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
+			\YoastSEO()->helpers->options,
+			\YoastSEO()->helpers->post
 		);
 	}
 
@@ -119,7 +119,7 @@ final class Indexable_Author_Builder_Test extends TestCase {
 			]
 		);
 
-		YoastSEO()->helpers->options->set( 'disable-author', true );
+		\YoastSEO()->helpers->options->set( 'disable-author', true );
 
 		$this->expectException( Author_Not_Built_Exception::class );
 		$this->expectExceptionMessage( 'Indexable for author with id ' . \get_current_user_id() . ' is not being built, since author archives are disabled.' );
@@ -133,7 +133,7 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_when_author_has_no_public_posts_and_indexing_is_enabled() {
-		YoastSEO()->helpers->options->set( 'noindex-author-noposts-wpseo', false );
+		\YoastSEO()->helpers->options->set( 'noindex-author-noposts-wpseo', false );
 
 		$indexable      = new Indexable();
 		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
@@ -163,7 +163,7 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	 */
 	public function test_build_when_author_is_filtered() {
 
-		YoastSEO()->helpers->options->set( 'noindex-author-noposts-wpseo', false );
+		\YoastSEO()->helpers->options->set( 'noindex-author-noposts-wpseo', false );
 
 		self::factory()->post->create(
 			[
@@ -174,7 +174,7 @@ final class Indexable_Author_Builder_Test extends TestCase {
 			]
 		);
 
-		YoastSEO()->helpers->options->set( 'disable-author', true );
+		\YoastSEO()->helpers->options->set( 'disable-author', true );
 
 		\add_filter(
 			'wpseo_should_build_and_save_user_indexable',

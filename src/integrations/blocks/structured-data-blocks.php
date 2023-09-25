@@ -220,7 +220,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 		$hours           = ( $attributes['hours'] ?? 0 );
 		$minutes         = ( $attributes['minutes'] ?? 0 );
 		$elements        = $this->transform_duration_to_string( $days, $hours, $minutes );
-		$elements_length = count( $elements );
+		$elements_length = \count( $elements );
 
 		switch ( $elements_length ) {
 			case 1:

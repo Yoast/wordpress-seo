@@ -83,18 +83,18 @@ final class Indexable_Term_Builder_Test extends TestCase {
 			],
 		];
 
-		update_option( 'wpseo_taxonomy_meta', $this->wpseo_taxonomy_meta );
+		\update_option( 'wpseo_taxonomy_meta', $this->wpseo_taxonomy_meta );
 
 		$this->instance = new Indexable_Term_Builder(
-			YoastSEO()->helpers->taxonomy,
-			YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
-			YoastSEO()->helpers->post
+			\YoastSEO()->helpers->taxonomy,
+			\YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
+			\YoastSEO()->helpers->post
 		);
 
 		$this->instance->set_social_image_helpers(
-			YoastSEO()->helpers->image,
-			YoastSEO()->helpers->open_graph->image,
-			YoastSEO()->helpers->twitter->image
+			\YoastSEO()->helpers->image,
+			\YoastSEO()->helpers->open_graph->image,
+			\YoastSEO()->helpers->twitter->image
 		);
 	}
 
@@ -149,7 +149,7 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_category_not_indexable() {
-		register_taxonomy(
+		\register_taxonomy(
 			'test_tax',
 			'post',
 			[

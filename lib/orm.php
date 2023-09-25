@@ -270,7 +270,7 @@ class ORM implements \ArrayAccess {
 
 		$show_errors = $wpdb->show_errors;
 
-		if ( YoastSEO()->classes->get( Migration_Status::class )->get_error( 'free' ) ) {
+		if ( \YoastSEO()->classes->get( Migration_Status::class )->get_error( 'free' ) ) {
 			$wpdb->show_errors = false;
 		}
 
@@ -2272,7 +2272,7 @@ class ORM implements \ArrayAccess {
 					}
 
 					// Only register the value if it is not null.
-					if ( ! is_null( $model->orm->dirty_fields[ $dirty_column ] ) ) {
+					if ( ! \is_null( $model->orm->dirty_fields[ $dirty_column ] ) ) {
 						$model_values[] = $model->orm->dirty_fields[ $dirty_column ];
 					}
 				}

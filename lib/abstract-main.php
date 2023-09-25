@@ -78,7 +78,7 @@ abstract class Abstract_Main {
 
 			return $this->cached_surfaces[ $property ];
 		}
-		throw new Exception( sprintf( 'Property $%s does not exist.', $property ) );
+		throw new Exception( \sprintf( 'Property $%s does not exist.', $property ) );
 	}
 
 	/**

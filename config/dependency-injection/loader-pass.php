@@ -56,24 +56,24 @@ class Loader_Pass implements CompilerPassInterface {
 			$reflect = new ReflectionClass( $class );
 			$path    = $this->normalize_slashes( $reflect->getFileName() );
 			if (
-				strpos( $path, 'src/helpers' ) !== false
-				|| strpos( $path, 'src/actions' ) !== false
-				|| strpos( $path, 'src/builders' ) !== false
-				|| strpos( $path, 'src/config' ) !== false
-				|| strpos( $path, 'src/context' ) !== false
-				|| strpos( $path, 'src/generators' ) !== false
-				|| strpos( $path, 'src/surfaces' ) !== false
-				|| strpos( $path, 'src/integrations' ) !== false
-				|| strpos( $path, 'src/loggers' ) !== false
-				|| strpos( $path, 'src/memoizers' ) !== false
-				|| strpos( $path, 'src/models' ) !== false
-				|| strpos( $path, 'src/presentations' ) !== false
-				|| strpos( $path, 'src/repositories' ) !== false
-				|| strpos( $path, 'src/services' ) !== false
-				|| strpos( $path, 'src/values' ) !== false
-				|| strpos( $path, 'src/wrappers' ) !== false
-				|| strpos( $path, 'src/wordpress' ) !== false
-				|| strpos( $path, 'src/loader' ) !== false
+				\strpos( $path, 'src/helpers' ) !== false
+				|| \strpos( $path, 'src/actions' ) !== false
+				|| \strpos( $path, 'src/builders' ) !== false
+				|| \strpos( $path, 'src/config' ) !== false
+				|| \strpos( $path, 'src/context' ) !== false
+				|| \strpos( $path, 'src/generators' ) !== false
+				|| \strpos( $path, 'src/surfaces' ) !== false
+				|| \strpos( $path, 'src/integrations' ) !== false
+				|| \strpos( $path, 'src/loggers' ) !== false
+				|| \strpos( $path, 'src/memoizers' ) !== false
+				|| \strpos( $path, 'src/models' ) !== false
+				|| \strpos( $path, 'src/presentations' ) !== false
+				|| \strpos( $path, 'src/repositories' ) !== false
+				|| \strpos( $path, 'src/services' ) !== false
+				|| \strpos( $path, 'src/values' ) !== false
+				|| \strpos( $path, 'src/wrappers' ) !== false
+				|| \strpos( $path, 'src/wordpress' ) !== false
+				|| \strpos( $path, 'src/loader' ) !== false
 			) {
 
 				$definition->setPublic( true );
@@ -86,7 +86,7 @@ class Loader_Pass implements CompilerPassInterface {
 			$definition->setPublic( true );
 		}
 
-		if ( is_subclass_of( $class, Conditional::class ) ) {
+		if ( \is_subclass_of( $class, Conditional::class ) ) {
 			$definition->setPublic( true );
 		}
 
@@ -136,7 +136,7 @@ class Loader_Pass implements CompilerPassInterface {
 			return false;
 		}
 
-		return strpos( $doc_comment, '* @makePublic' ) !== false;
+		return \strpos( $doc_comment, '* @makePublic' ) !== false;
 	}
 
 	/**

@@ -63,7 +63,7 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	 * @return string
 	 */
 	public function get_name() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 21.6', 'Please use get_id() instead' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 21.6', 'Please use get_id() instead' );
 
 		return $this->get_id();
 	}

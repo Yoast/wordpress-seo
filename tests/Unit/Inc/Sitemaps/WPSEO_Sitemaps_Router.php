@@ -89,10 +89,10 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 
 		$instance = new WPSEO_Sitemaps_Router();
 
-		$this->assertNotFalse( has_action( 'yoast_add_dynamic_rewrite_rules', [ $instance, 'add_rewrite_rules' ] ) );
-		$this->assertNotFalse( has_filter( 'query_vars', [ $instance, 'add_query_vars' ] ), 'query_vars filter is not set' );
-		$this->assertNotFalse( has_filter( 'redirect_canonical', [ $instance, 'redirect_canonical' ] ), 'redirect_canonical filter is not set' );
-		$this->assertNotFalse( has_action( 'template_redirect', [ $instance, 'template_redirect' ] ), 'template_redirect action is not set' );
+		$this->assertNotFalse( \has_action( 'yoast_add_dynamic_rewrite_rules', [ $instance, 'add_rewrite_rules' ] ) );
+		$this->assertNotFalse( \has_filter( 'query_vars', [ $instance, 'add_query_vars' ] ), 'query_vars filter is not set' );
+		$this->assertNotFalse( \has_filter( 'redirect_canonical', [ $instance, 'redirect_canonical' ] ), 'redirect_canonical filter is not set' );
+		$this->assertNotFalse( \has_action( 'template_redirect', [ $instance, 'template_redirect' ] ), 'template_redirect action is not set' );
 	}
 
 	/**
