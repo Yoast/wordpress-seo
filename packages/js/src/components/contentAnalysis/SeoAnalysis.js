@@ -2,16 +2,16 @@
 import { withSelect } from "@wordpress/data";
 import { Component, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { YoastSeoIcon } from "@yoast/components";
+import { addQueryArgs } from "@wordpress/url";
+import { LocationConsumer, RootContext } from "@yoast/externals/contexts";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import getL10nObject from "../../analysis/getL10nObject";
 import Results from "../../containers/Results";
 import AnalysisUpsell from "../AnalysisUpsell";
-import { LocationConsumer, RootContext } from "@yoast/externals/contexts";
 import MetaboxCollapsible from "../MetaboxCollapsible";
-import { ModalContainer, ModalIcon } from "../modals/Container";
+import { ModalContainer } from "../modals/Container";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
 import MultipleKeywords from "../modals/MultipleKeywords";
 import Modal from "../modals/SeoAnalysisModal";
@@ -19,7 +19,6 @@ import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
-import { addQueryArgs } from "@wordpress/url";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -47,37 +46,22 @@ class SeoAnalysis extends Component {
 			},
 			labels: {
 				open: "+ " + __( "Add synonyms", "wordpress-seo" ),
-				modalAriaLabel: sprintf(
-					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s", "wordpress-seo" ),
-					"Yoast SEO Premium"
-				),
-				heading: sprintf(
-					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s", "wordpress-seo" ),
-					"Yoast SEO Premium"
-				),
+				modalAriaLabel: __( "Add synonyms", "wordpress-seo" ),
+				heading: __( "Add synonyms", "wordpress-seo" ),
 			},
 		};
 
-		// Defaults to metabox.
-		let link = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_synonyms_link" ];
-		let buyLink = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_synonyms_button" ];
-
-		if ( location.toLowerCase() === "sidebar" ) {
-			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_synonyms_link" ];
-			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_synonyms_button" ];
-		}
-		link = addQueryArgs( link, { context: locationContext } );
-		buyLink = addQueryArgs( buyLink, { context: locationContext } );
+		const buyLink = wpseoAdminL10n[
+			location.toLowerCase() === "sidebar"
+				? "shortlinks.upsell.sidebar.focus_keyword_synonyms_button"
+				: "shortlinks.upsell.metabox.focus_keyword_synonyms_button"
+		];
 
 		return (
 			<Modal { ...modalProps }>
 				<ModalContainer>
-					<ModalIcon icon={ YoastSeoIcon } />
-					<h2>{ __( "Would you like to add keyphrase synonyms?", "wordpress-seo" ) }</h2>
-
-					<KeywordSynonyms link={ link } buyLink={ buyLink } />
+					<h2 className="yst-mt-0 yst-mb-4">{ __( "Write more natural and engaging content", "wordpress-seo" ) }</h2>
+					<KeywordSynonyms buyLink={ addQueryArgs( buyLink, { context: locationContext } ) } />
 				</ModalContainer>
 			</Modal>
 		);
@@ -87,47 +71,33 @@ class SeoAnalysis extends Component {
 	 * Renders the multiple keywords upsell modal.
 	 *
 	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
+	 * @param {string} locationContext In which editor this component is rendered.
 	 *
 	 * @returns {wp.Element} A modalButtonContainer component with the modal for a multiple keywords upsell.
 	 */
-	renderMultipleKeywordsUpsell( location ) {
+	renderMultipleKeywordsUpsell( location, locationContext ) {
 		const modalProps = {
 			classes: {
 				openButton: "wpseo-multiple-keywords button-link",
 			},
 			labels: {
 				open: "+ " + __( "Add related keyphrase", "wordpress-seo" ),
-				modalAriaLabel: sprintf(
-					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s", "wordpress-seo" ),
-					"Yoast SEO Premium"
-				),
-				heading: sprintf(
-					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s", "wordpress-seo" ),
-					"Yoast SEO Premium"
-				),
+				modalAriaLabel: __( "Add related keyphrases", "wordpress-seo" ),
+				heading: __( "Add related keyphrases", "wordpress-seo" ),
 			},
 		};
 
-		// Defaults to metabox
-		let link = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_additional_link" ];
-		let buyLink = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_additional_button" ];
-
-		if ( location.toLowerCase() === "sidebar" ) {
-			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_additional_link" ];
-			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_additional_button" ];
-		}
+		const buyLink = wpseoAdminL10n[
+			location.toLowerCase() === "sidebar"
+				? "shortlinks.upsell.sidebar.focus_keyword_additional_button"
+				: "shortlinks.upsell.metabox.focus_keyword_additional_button"
+		];
 
 		return (
 			<Modal { ...modalProps }>
 				<ModalContainer>
-					<ModalIcon icon={ YoastSeoIcon } />
-					<h2>{ __( "Would you like to add a related keyphrase?", "wordpress-seo" ) }</h2>
-					<MultipleKeywords
-						link={ link }
-						buyLink={ buyLink }
-					/>
+					<h2 className="yst-mt-0 yst-mb-4">{ __( "Reach a wider audience", "wordpress-seo" ) }</h2>
+					<MultipleKeywords buyLink={ addQueryArgs( buyLink, { context: locationContext } ) } />
 				</ModalContainer>
 			</Modal>
 		);
@@ -260,7 +230,7 @@ class SeoAnalysis extends Component {
 											<SynonymSlot location={ location } />
 											{ this.props.shouldUpsell && <Fragment>
 												{ this.renderSynonymsUpsell( location, locationContext ) }
-												{ this.renderMultipleKeywordsUpsell( location ) }
+												{ this.renderMultipleKeywordsUpsell( location, locationContext ) }
 											</Fragment> }
 											{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell( location, locationContext ) }
 											<AnalysisHeader>
