@@ -1,5 +1,5 @@
-// import { act } from "react-dom/test-utils";
-// import Indexation from "../src/components/Indexation";
+import Indexation from "../src/components/Indexation";
+import { render, screen } from "./test-utils";
 
 /**
  * Fetch mock response.
@@ -17,6 +17,15 @@ describe( "Indexation", () => {
 		global.yoastIndexingData = {
 			disabled: true,
 		};
+
+		render( <Indexation /> );
+
+		const button = screen.getByRole( "button" );
+		expect( button ).toHaveTextContent( "Start SEO data optimization" );
+		expect( button ).toBeDisabled();
+
+		const alert = screen.queryByText( "SEO data optimization is disabled for non-production environments." );
+		expect( alert ).toBeInTheDocument();
 	} );
 
 	it( "will show you when the indexation is complete", async() => {
