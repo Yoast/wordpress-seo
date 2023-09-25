@@ -65,18 +65,6 @@
 		}
 	},
 	"scripts": {
-		"test": [
-			"@php ./vendor/phpunit/phpunit/phpunit --no-coverage"
-		],
-		"coverage": [
-			"@php ./vendor/phpunit/phpunit/phpunit"
-		],
-		"integration-test": [
-			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist --no-coverage"
-		],
-		"integration-coverage": [
-			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
-		],
 		"lint": [
 			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude node_modules --exclude .git"
 		],
@@ -116,6 +104,18 @@
 		"fix-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
 		],
+		"test": [
+			"@php ./vendor/phpunit/phpunit/phpunit --no-coverage"
+		],
+		"coverage": [
+			"@php ./vendor/phpunit/phpunit/phpunit"
+		],
+		"integration-test": [
+			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist --no-coverage"
+		],
+		"integration-coverage": [
+			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
+		],
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
 			"composer prefix-symfony",
@@ -139,15 +139,15 @@
 			"composer du --no-scripts",
 			"Yoast\\WP\\SEO\\Composer\\Actions::compile_dependency_injection_container"
 		],
-		"post-autoload-dump": [
-			"Yoast\\WP\\SEO\\Composer\\Actions::prefix_dependencies",
-			"composer compile-di"
-		],
 		"generate-migration": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::generate_migration"
 		],
 		"generate-unit-test": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::generate_unit_test"
+		],
+		"post-autoload-dump": [
+			"Yoast\\WP\\SEO\\Composer\\Actions::prefix_dependencies",
+			"composer compile-di"
 		]
 	}
 }
