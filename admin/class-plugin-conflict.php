@@ -37,7 +37,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	 *
 	 * @return Yoast_Plugin_Conflict
 	 */
-	public static function get_instance( $class_name = __CLASS__ ) {
+	public static function get_instance( $class_name = self::class ) {
 		return parent::get_instance( $class_name );
 	}
 

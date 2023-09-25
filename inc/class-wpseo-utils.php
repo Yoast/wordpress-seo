@@ -110,7 +110,7 @@ class WPSEO_Utils {
 			$value = trim( $value );
 		}
 		elseif ( is_array( $value ) ) {
-			$value = array_map( [ __CLASS__, 'trim_recursive' ], $value );
+			$value = array_map( [ self::class, 'trim_recursive' ], $value );
 		}
 
 		return $value;
@@ -253,7 +253,7 @@ class WPSEO_Utils {
 	 */
 	public static function sanitize_encoded_text_field( $value ) {
 		if ( is_array( $value ) ) {
-			return array_map( [ __CLASS__, 'sanitize_encoded_text_field' ], $value );
+			return array_map( [ self::class, 'sanitize_encoded_text_field' ], $value );
 		}
 
 		return rawurlencode( sanitize_text_field( rawurldecode( $value ) ) );

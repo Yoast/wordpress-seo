@@ -35,7 +35,7 @@ abstract class Health_Check {
 	 * @return string The identifier that WordPress requires.
 	 */
 	public function get_test_identifier() {
-		$full_class_name            = \get_class( $this );
+		$full_class_name            = static::class;
 		$class_name_backslash_index = \strrpos( $full_class_name, '\\' );
 
 		$class_name = $full_class_name;

@@ -124,7 +124,7 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	 * @throws Exception If the PLUGIN constant is not set in the child class.
 	 */
 	public function get_plugin() {
-		$class  = \get_class( $this );
+		$class  = static::class;
 		$plugin = $class::PLUGIN;
 
 		if ( $plugin === null ) {
@@ -142,7 +142,7 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	 * @throws Exception If the TYPE constant is not set in the child class.
 	 */
 	public function get_type() {
-		$class = \get_class( $this );
+		$class = static::class;
 		$type  = $class::TYPE;
 
 		if ( $type === null ) {
