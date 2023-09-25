@@ -58,13 +58,17 @@ class First_Time_Configuration_Action {
 	 * @return object The response object.
 	 */
 	public function set_site_representation( $params ) {
-		$failures = [];
+		$failures   = [];
 		$old_values = $this->get_old_values( self::SITE_REPRESENTATION_FIELDS );
 
 		// This field seems to be not used anymore.
-		$old_values = \array_filter( $old_values, static function( $key, $value ) {
-			return $key !== 'description';
-		} );
+		$old_values = \array_filter(
+			$old_values,
+			static function( $key ) {
+				return $key !== 'description';
+			},
+			\ARRAY_FILTER_USE_KEY
+		);
 
 		foreach ( self::SITE_REPRESENTATION_FIELDS as $field_name ) {
 			if ( isset( $params[ $field_name ] ) ) {
@@ -86,7 +90,7 @@ class First_Time_Configuration_Action {
 		// Delete cached logos in the db.
 		$this->options_helper->set( 'company_logo_meta', false );
 		$this->options_helper->set( 'person_logo_meta', false );
-		
+
 		/**
 		 * Action: 'wpseo_post_update_site_representation' - Allows for Hiive event tracking.
 		 *
@@ -94,12 +98,13 @@ class First_Time_Configuration_Action {
 		 * @api array The options old values.
 		 * @api array The options that failed to be saved.
 		 */
-		\do_action( 'wpseo_post_update_site_representation',
+		\do_action(
+			'wpseo_post_update_site_representation',
 			$this->map_social_profile_param_names_to_hiive_names( $params ),
-			$this->map_social_profile_param_names_to_hiive_names ( $old_values ),
-			$this->map_social_profile_param_names_to_hiive_names ( $failures )
+			$this->map_social_profile_param_names_to_hiive_names( $old_values ),
+			$this->map_social_profile_param_names_to_hiive_names( $failures )
 		);
-		
+
 		if ( \count( $failures ) === 0 ) {
 			return (object) [
 				'success' => true,
@@ -123,7 +128,7 @@ class First_Time_Configuration_Action {
 	 * @return object The response object.
 	 */
 	public function set_social_profiles( $params ) {
-		$failures = $this->social_profiles_helper->set_organization_social_profiles( $params );
+		$failures   = $this->social_profiles_helper->set_organization_social_profiles( $params );
 		$old_values = $this->get_old_values( \array_keys( $this->social_profiles_helper->get_organization_social_profile_fields() ) );
 
 		/**
@@ -348,7 +353,7 @@ class First_Time_Configuration_Action {
 		foreach ( $fields_names as $field_name ) {
 			$old_values[ $field_name ] = $this->options_helper->get( $field_name );
 		}
-		
+
 		return $old_values;
 	}
 
@@ -361,22 +366,22 @@ class First_Time_Configuration_Action {
 	 */
 	private function map_social_profile_param_names_to_hiive_names( $params ) {
 		$skip_fields = [ 'company_logo_id', 'person_logo_id' ];
-		$map= [ 
+		$map         = [
 			'company_or_person'         => 'site_representation',
 			'company_name'              => 'organization_name',
 			'company_logo'              => 'organization_logo',
 			'person_logo'               => 'logo',
 			'company_or_person_user_id' => 'name',
 			'website_name'              => 'website_name',
-			
+
 		];
 		$mapped_params = [];
 
-		foreach( $params as $param_name => $param_value ) {
+		foreach ( $params as $param_name => $param_value ) {
 			if ( \in_array( $param_name, $skip_fields, true ) ) {
 				continue;
 			}
-			$new_name = $map[ $param_name ];
+			$new_name                   = $map[ $param_name ];
 			$mapped_params[ $new_name ] = $param_value;
 		}
 
