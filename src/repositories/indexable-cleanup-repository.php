@@ -498,7 +498,7 @@ class Indexable_Cleanup_Repository {
 	/**
 	 * Deletes rows from the indexable table where the source is no longer there.
 	 *
-	 * @param int $limit             The limit we'll apply to the delete query.
+	 * @param int $limit The limit we'll apply to the delete query.
 	 *
 	 * @return int|bool The number of rows that was deleted or false if the query failed.
 	 */

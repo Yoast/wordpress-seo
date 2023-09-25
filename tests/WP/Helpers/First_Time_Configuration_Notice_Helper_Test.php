@@ -170,13 +170,13 @@ final class First_Time_Configuration_Notice_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_first_time_configuration_not_finished
 	 *
-	 * @param string $user_role The user role.
-	 * @param array  $steps_complete The array of first time configuration steps.
-	 * @param bool   $first_time_install Whether this is a first installation.
-	 * @param bool   $is_initial_indexing Whether the indexing is initial.
+	 * @param string $user_role                       The user role.
+	 * @param array  $steps_complete                  The array of first time configuration steps.
+	 * @param bool   $first_time_install              Whether this is a first installation.
+	 * @param bool   $is_initial_indexing             Whether the indexing is initial.
 	 * @param bool   $is_finished_indexables_indexing Whether indexing has been finished.
-	 * @param bool   $expected The expected result.
-	 * @param string $title First time configuration title.
+	 * @param bool   $expected                        The expected result.
+	 * @param string $title                           First time configuration title.
 	 *
 	 * @return void
 	 */

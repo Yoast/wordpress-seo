@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Exclude_Attachment_Post_Type
+ *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 final class Exclude_Attachment_Post_Type_Test extends TestCase {

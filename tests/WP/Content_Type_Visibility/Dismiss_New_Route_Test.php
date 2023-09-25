@@ -121,7 +121,7 @@ final class Dismiss_New_Route_Test extends TestCase {
 	 *
 	 * @param array  $new_post_types The new post types.
 	 * @param string $post_type_name The post type name.
-	 * @param string $message The message.
+	 * @param string $message        The message.
 	 */
 	public function test_post_type_dismiss( $new_post_types, $post_type_name, $message ) {
 		$this->content_type_visibility_notifications->new_post_type( $new_post_types );
@@ -172,8 +172,8 @@ final class Dismiss_New_Route_Test extends TestCase {
 	 * @dataProvider data_provider_taxonomy_dismiss
 	 *
 	 * @param array  $new_taxonomies The new post types.
-	 * @param string $taxonomy_name The post type name.
-	 * @param string $message The message.
+	 * @param string $taxonomy_name  The post type name.
+	 * @param string $message        The message.
 	 */
 	public function test_taxonomy_dismiss( $new_taxonomies, $taxonomy_name, $message ) {
 		$this->content_type_visibility_notifications->new_taxonomy( $new_taxonomies );

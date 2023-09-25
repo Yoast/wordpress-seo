@@ -121,12 +121,12 @@ final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase 
 	 *
 	 * @dataProvider data_provider_maybe_dismiss_notifications
 	 *
-	 * @param array $new_post_types The new post types.
-	 * @param array $new_taxonomies The new taxonomies.
+	 * @param array $new_post_types              The new post types.
+	 * @param array $new_taxonomies              The new taxonomies.
 	 * @param int   $dismiss_notifications_times The number of times the dismiss_notifications method should be called.
-	 * @param array $new_content_type The new content type.
-	 * @param int   $get_new_post_types_times The number of times the get method should be called.
-	 * @param int   $get_new_taxonomies_times The number of times the get method should be called.
+	 * @param array $new_content_type            The new content type.
+	 * @param int   $get_new_post_types_times    The number of times the get method should be called.
+	 * @param int   $get_new_taxonomies_times    The number of times the get method should be called.
 	 * @return void
 	 */
 	public function test_maybe_dismiss_notifications( $new_post_types, $new_taxonomies, $dismiss_notifications_times, $new_content_type, $get_new_post_types_times, $get_new_taxonomies_times ) {

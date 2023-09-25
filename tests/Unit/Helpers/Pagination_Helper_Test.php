@@ -146,11 +146,11 @@ final class Pagination_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_get_paginated_url_use_permalinks
 	 *
-	 * @param string $url The url to use.
-	 * @param array  $parsed_url The parsed url.
-	 * @param int    $page The page number.
+	 * @param string $url             The url to use.
+	 * @param array  $parsed_url      The parsed url.
+	 * @param int    $page            The page number.
 	 * @param bool   $pagination_base Whether to add the pagination base.
-	 * @param string $expected The expected url.
+	 * @param string $expected        The expected url.
 	 */
 	public function test_get_paginated_url_using_permalink( $url, $parsed_url, $page, $pagination_base, $expected ) {
 		$this->using_permalinks( true );
@@ -198,12 +198,12 @@ final class Pagination_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_get_paginated_url_not_using_permalinks
 	 *
-	 * @param string $url The url to use.
-	 * @param int    $page The page number.
-	 * @param string $key The key to use.
+	 * @param string $url                 The url to use.
+	 * @param int    $page                The page number.
+	 * @param string $key                 The key to use.
 	 * @param bool   $add_pagination_base Whether to add the pagination base.
-	 * @param array  $get The get array.
-	 * @param string $expected The expected url.
+	 * @param array  $get                 The get array.
+	 * @param string $expected            The expected url.
 	 */
 	public function test_get_paginated_url_not_using_permalinks( $url, $page, $key, $add_pagination_base, $get, $expected ) {
 		$this->using_permalinks( false );
@@ -244,7 +244,7 @@ final class Pagination_Helper_Test extends TestCase {
 	 * @dataProvider data_provider_get_paginated_url_with_query_loop_param
 	 *
 	 * @param bool   $using_permalinks Whether to use permalinks.
-	 * @param string $expected The expected url.
+	 * @param string $expected         The expected url.
 	 */
 	public function test_get_paginated_url_with_query_loop_param( $using_permalinks, $expected ) {
 		$this->using_permalinks( $using_permalinks );
@@ -313,8 +313,8 @@ final class Pagination_Helper_Test extends TestCase {
 	 * @dataProvider data_provider_get_current_archive_page_number
 	 *
 	 * @param string $query_var_paged The query var paged.
-	 * @param array  $get The get array.
-	 * @param int    $expected The expected page number.
+	 * @param array  $get             The get array.
+	 * @param int    $expected        The expected page number.
 	 */
 	public function test_get_current_archive_page_number( $query_var_paged, $get, $expected ) {
 		$wp_query = Mockery::mock( WP_Query::class );
@@ -365,10 +365,10 @@ final class Pagination_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_get_current_post_page_number
 	 *
-	 * @param string $query_var_paged The query var paged.
-	 * @param array  $get The get array.
+	 * @param string $query_var_paged    The query var paged.
+	 * @param array  $get                The get array.
 	 * @param int    $wp_query_get_times The number of times to call get on the wp_query get method.
-	 * @param int    $expected The expected page number.
+	 * @param int    $expected           The expected page number.
 	 */
 	public function test_get_current_post_page_number( $query_var_paged, $get, $wp_query_get_times, $expected ) {
 		$wp_query = Mockery::mock( WP_Query::class );
@@ -421,8 +421,8 @@ final class Pagination_Helper_Test extends TestCase {
 	 * @dataProvider data_provider_get_current_page_number
 	 *
 	 * @param string $query_var_paged The query var paged.
-	 * @param array  $get The get array.
-	 * @param int    $expected The expected page number.
+	 * @param array  $get             The get array.
+	 * @param int    $expected        The expected page number.
 	 */
 	public function test_get_current_page_number( $query_var_paged, $get, $expected ) {
 		Monkey\Functions\expect( 'get_query_var' )
@@ -520,8 +520,8 @@ final class Pagination_Helper_Test extends TestCase {
 	 *
 	 * @covers ::get_key_query_loop
 	 *
-	 * @param string $key   The key to set in the $_GET array.
-	 * @param string $value The value to set in the $_GET array.
+	 * @param string $key     The key to set in the $_GET array.
+	 * @param string $value   The value to set in the $_GET array.
 	 * @param string $expects The expected key query loop.
 	 */
 	public function test_get_key_query_loop( $key, $value, $expects ) {
@@ -582,8 +582,8 @@ final class Pagination_Helper_Test extends TestCase {
 	 *
 	 * @covers ::get_page_number_from_query_loop
 	 *
-	 * @param string $key   The key to set in the $_GET array.
-	 * @param string $value The value to set in the $_GET array.
+	 * @param string $key     The key to set in the $_GET array.
+	 * @param string $value   The value to set in the $_GET array.
 	 * @param string $expects The expected page number.
 	 */
 	public function test_get_page_number_from_query_loop( $key, $value, $expects ) {

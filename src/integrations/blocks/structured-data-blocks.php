@@ -178,8 +178,8 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * For example (in en-US): If 'days' is 1, it returns "1 day". If 'days' is 2, it returns "2 days".
 	 * If a number value is 0, we don't output the string.
 	 *
-	 * @param number $days Number of days.
-	 * @param number $hours Number of hours.
+	 * @param number $days    Number of days.
+	 * @param number $hours   Number of hours.
 	 * @param number $minutes Number of minutes.
 	 * @return array Array of pluralized durations.
 	 */

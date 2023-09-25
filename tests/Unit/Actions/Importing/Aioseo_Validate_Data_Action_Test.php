@@ -23,6 +23,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Validate_Data_Action
+ *
  * @phpcs:disable Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
 final class Aioseo_Validate_Data_Action_Test extends TestCase {
