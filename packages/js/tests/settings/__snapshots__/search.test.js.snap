@@ -195,5 +195,10 @@ exports[`Search should have a search button 1`] = `
   >
     Quick search...
   </span>
+  <span
+    class="yst-ml-auto yst-flex-none yst-text-xs yst-font-semibold yst-text-slate-400"
+  >
+    ⌘K
+  </span>
 </button>
 `;

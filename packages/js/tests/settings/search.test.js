@@ -1,5 +1,6 @@
 import Search from "../../src/settings/components/search";
 import "../__mocks__/intersection-observer";
+import "../__mocks__/navigator";
 import { fireEvent, render, screen, waitFor } from "../test-utils";
 
 jest.mock( "@wordpress/data", () => ( {
@@ -18,6 +19,7 @@ jest.mock( "@wordpress/data", () => ( {
 
 describe( "Search", () => {
 	beforeEach( () => {
+		global.navigator.userAgent = "Mozilla/5.0 (Macintosh)";
 		render( <Search /> );
 	} );
 
