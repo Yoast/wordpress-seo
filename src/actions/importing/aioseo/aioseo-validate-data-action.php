@@ -16,12 +16,12 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	/**
 	 * The plugin of the action.
 	 */
-	const PLUGIN = 'aioseo';
+	public const PLUGIN = 'aioseo';
 
 	/**
 	 * The type of the action.
 	 */
-	const TYPE = 'validate_data';
+	public const TYPE = 'validate_data';
 
 	/**
 	 * The WordPress database instance.

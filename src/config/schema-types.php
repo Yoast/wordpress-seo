@@ -14,7 +14,7 @@ class Schema_Types {
 	 *
 	 * @var string[]
 	 */
-	const PAGE_TYPES = [
+	public const PAGE_TYPES = [
 		'WebPage'           => '',
 		'ItemPage'          => '',
 		'AboutPage'         => '',
@@ -36,7 +36,7 @@ class Schema_Types {
 	 *
 	 * @var string[]
 	 */
-	const ARTICLE_TYPES = [
+	public const ARTICLE_TYPES = [
 		'Article'                  => '',
 		'BlogPosting'              => '',
 		'SocialMediaPosting'       => '',

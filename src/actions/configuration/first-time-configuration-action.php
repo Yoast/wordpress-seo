@@ -13,7 +13,7 @@ class First_Time_Configuration_Action {
 	/**
 	 * The fields for the site representation payload.
 	 */
-	const SITE_REPRESENTATION_FIELDS = [
+	public const SITE_REPRESENTATION_FIELDS = [
 		'company_or_person',
 		'company_name',
 		'website_name',

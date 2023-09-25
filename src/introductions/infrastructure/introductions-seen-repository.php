@@ -10,9 +10,9 @@ use Yoast\WP\SEO\Introductions\Domain\Invalid_User_Id_Exception;
  */
 class Introductions_Seen_Repository {
 
-	const USER_META_KEY = '_yoast_wpseo_introductions';
+	public const USER_META_KEY = '_yoast_wpseo_introductions';
 
-	const DEFAULT_VALUE = [];
+	public const DEFAULT_VALUE = [];
 
 	/**
 	 * Holds the User_Helper instance.

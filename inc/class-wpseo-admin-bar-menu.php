@@ -23,35 +23,35 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @var string
 	 */
-	const MENU_IDENTIFIER = 'wpseo-menu';
+	public const MENU_IDENTIFIER = 'wpseo-menu';
 
 	/**
 	 * The identifier used for the Keyword Research submenu.
 	 *
 	 * @var string
 	 */
-	const KEYWORD_RESEARCH_SUBMENU_IDENTIFIER = 'wpseo-kwresearch';
+	public const KEYWORD_RESEARCH_SUBMENU_IDENTIFIER = 'wpseo-kwresearch';
 
 	/**
 	 * The identifier used for the Analysis submenu.
 	 *
 	 * @var string
 	 */
-	const ANALYSIS_SUBMENU_IDENTIFIER = 'wpseo-analysis';
+	public const ANALYSIS_SUBMENU_IDENTIFIER = 'wpseo-analysis';
 
 	/**
 	 * The identifier used for the Settings submenu.
 	 *
 	 * @var string
 	 */
-	const SETTINGS_SUBMENU_IDENTIFIER = 'wpseo-settings';
+	public const SETTINGS_SUBMENU_IDENTIFIER = 'wpseo-settings';
 
 	/**
 	 * The identifier used for the Network Settings submenu.
 	 *
 	 * @var string
 	 */
-	const NETWORK_SETTINGS_SUBMENU_IDENTIFIER = 'wpseo-network-settings';
+	public const NETWORK_SETTINGS_SUBMENU_IDENTIFIER = 'wpseo-network-settings';
 
 	/**
 	 * Asset manager instance.

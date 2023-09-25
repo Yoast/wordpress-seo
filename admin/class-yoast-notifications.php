@@ -15,7 +15,7 @@ class Yoast_Notifications {
 	 *
 	 * @var string
 	 */
-	const ADMIN_PAGE = 'wpseo_dashboard';
+	public const ADMIN_PAGE = 'wpseo_dashboard';
 
 	/**
 	 * Total notifications count.

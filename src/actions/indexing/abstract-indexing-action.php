@@ -14,14 +14,14 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface, 
 	 *
 	 * @var string
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = null;
+	public const UNINDEXED_COUNT_TRANSIENT = null;
 
 	/**
 	 * The transient cache key for limited counts.
 	 *
 	 * @var string
 	 */
-	const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
+	public const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
 
 	/**
 	 * Builds a query for selecting the ID's of unindexed posts.

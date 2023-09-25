@@ -19,7 +19,7 @@ class Introductions_Integration implements Integration_Interface {
 
 	use Current_Page_Trait;
 
-	const SCRIPT_HANDLE = 'introductions';
+	public const SCRIPT_HANDLE = 'introductions';
 
 	/**
 	 * Holds the admin asset manager.

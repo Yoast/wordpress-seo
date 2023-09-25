@@ -22,14 +22,14 @@ class Model implements JsonSerializable {
 	 *
 	 * @var string
 	 */
-	const DEFAULT_ID_COLUMN = 'id';
+	public const DEFAULT_ID_COLUMN = 'id';
 
 	/**
 	 * Default foreign key suffix used by relationship methods.
 	 *
 	 * @var string
 	 */
-	const DEFAULT_FOREIGN_KEY_SUFFIX = '_id';
+	public const DEFAULT_FOREIGN_KEY_SUFFIX = '_id';
 
 	/**
 	 * Set a prefix for model names. This can be a namespace or any other

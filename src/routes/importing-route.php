@@ -24,7 +24,7 @@ class Importing_Route extends Abstract_Action_Route {
 	 *
 	 * @var string
 	 */
-	const ROUTE = '/import/(?P<plugin>[\w-]+)/(?P<type>[\w-]+)';
+	public const ROUTE = '/import/(?P<plugin>[\w-]+)/(?P<type>[\w-]+)';
 
 	/**
 	 * List of available importers.

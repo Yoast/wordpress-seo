@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\Config;
  */
 class Conflicting_Plugins {
 
-	const OPEN_GRAPH_PLUGINS = [
+	public const OPEN_GRAPH_PLUGINS = [
 		'2-click-socialmedia-buttons/2-click-socialmedia-buttons.php',
 		// 2 Click Social Media Buttons.
 		'add-link-to-facebook/add-link-to-facebook.php',         // Add Link to Facebook.
@@ -49,7 +49,7 @@ class Conflicting_Plugins {
 		'zoltonorg-social-plugin/zosp.php',                      // Zolton.org Social Plugin.
 	];
 
-	const XML_SITEMAPS_PLUGINS = [
+	public const XML_SITEMAPS_PLUGINS = [
 		'google-sitemap-plugin/google-sitemap-plugin.php',
 		// Google Sitemap (BestWebSoft).
 		'xml-sitemaps/xml-sitemaps.php',
@@ -82,14 +82,14 @@ class Conflicting_Plugins {
 		// RPS Sitemap Generator (redpixelstudios).
 	];
 
-	const CLOAKING_PLUGINS = [
+	public const CLOAKING_PLUGINS = [
 		'rs-head-cleaner/rs-head-cleaner.php',
 		// RS Head Cleaner Plus https://wordpress.org/plugins/rs-head-cleaner/.
 		'rs-head-cleaner-lite/rs-head-cleaner-lite.php',
 		// RS Head Cleaner Lite https://wordpress.org/plugins/rs-head-cleaner-lite/.
 	];
 
-	const SEO_PLUGINS = [
+	public const SEO_PLUGINS = [
 		'all-in-one-seo-pack/all_in_one_seo_pack.php',           // All in One SEO Pack.
 		'seo-ultimate/seo-ultimate.php',                         // SEO Ultimate.
 		'seo-by-rank-math/rank-math.php',                        // Rank Math.

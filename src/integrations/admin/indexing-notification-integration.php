@@ -29,7 +29,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	/**
 	 * The notification ID.
 	 */
-	const NOTIFICATION_ID = 'wpseo-reindex';
+	public const NOTIFICATION_ID = 'wpseo-reindex';
 
 	/**
 	 * The Yoast notification center.

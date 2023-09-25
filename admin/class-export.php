@@ -17,7 +17,7 @@ class WPSEO_Export {
 	 *
 	 * @var string
 	 */
-	const NONCE_ACTION = 'wpseo_export';
+	public const NONCE_ACTION = 'wpseo_export';
 
 	/**
 	 * Holds the export data.

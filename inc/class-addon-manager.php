@@ -17,56 +17,56 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @var string
 	 */
-	const SITE_INFORMATION_TRANSIENT = 'wpseo_site_information';
+	public const SITE_INFORMATION_TRANSIENT = 'wpseo_site_information';
 
 	/**
 	 * Holds the name of the transient.
 	 *
 	 * @var string
 	 */
-	const SITE_INFORMATION_TRANSIENT_QUICK = 'wpseo_site_information_quick';
+	public const SITE_INFORMATION_TRANSIENT_QUICK = 'wpseo_site_information_quick';
 
 	/**
 	 * Holds the slug for YoastSEO free.
 	 *
 	 * @var string
 	 */
-	const FREE_SLUG = 'yoast-seo-wordpress';
+	public const FREE_SLUG = 'yoast-seo-wordpress';
 
 	/**
 	 * Holds the slug for YoastSEO Premium.
 	 *
 	 * @var string
 	 */
-	const PREMIUM_SLUG = 'yoast-seo-wordpress-premium';
+	public const PREMIUM_SLUG = 'yoast-seo-wordpress-premium';
 
 	/**
 	 * Holds the slug for Yoast News.
 	 *
 	 * @var string
 	 */
-	const NEWS_SLUG = 'yoast-seo-news';
+	public const NEWS_SLUG = 'yoast-seo-news';
 
 	/**
 	 * Holds the slug for Video.
 	 *
 	 * @var string
 	 */
-	const VIDEO_SLUG = 'yoast-seo-video';
+	public const VIDEO_SLUG = 'yoast-seo-video';
 
 	/**
 	 * Holds the slug for WooCommerce.
 	 *
 	 * @var string
 	 */
-	const WOOCOMMERCE_SLUG = 'yoast-seo-woocommerce';
+	public const WOOCOMMERCE_SLUG = 'yoast-seo-woocommerce';
 
 	/**
 	 * Holds the slug for Local.
 	 *
 	 * @var string
 	 */
-	const LOCAL_SLUG = 'yoast-seo-local';
+	public const LOCAL_SLUG = 'yoast-seo-local';
 
 	/**
 	 * The expected addon data.

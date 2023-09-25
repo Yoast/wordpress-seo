@@ -17,7 +17,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @var string
 	 */
-	const SITEMAP_INDEX_TYPE = '1';
+	public const SITEMAP_INDEX_TYPE = '1';
 
 	/**
 	 * Content of the sitemap to output.

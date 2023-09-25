@@ -13,17 +13,17 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * Identifier used to determine the current task.
 	 */
-	const CURRENT_TASK_OPTION = 'wpseo-cleanup-current-task';
+	public const CURRENT_TASK_OPTION = 'wpseo-cleanup-current-task';
 
 	/**
 	 * Identifier for the cron job.
 	 */
-	const CRON_HOOK = 'wpseo_cleanup_cron';
+	public const CRON_HOOK = 'wpseo_cleanup_cron';
 
 	/**
 	 * Identifier for starting the cleanup.
 	 */
-	const START_HOOK = 'wpseo_start_cleanup_indexables';
+	public const START_HOOK = 'wpseo_start_cleanup_indexables';
 
 	/**
 	 * The cleanup repository.

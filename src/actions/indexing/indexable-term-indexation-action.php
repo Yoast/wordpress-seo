@@ -17,14 +17,14 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 	/**
 	 * The transient cache key.
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_terms';
+	public const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_terms';
 
 	/**
 	 * The transient cache key for limited counts.
 	 *
 	 * @var string
 	 */
-	const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
+	public const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
 
 	/**
 	 * The post type helper.

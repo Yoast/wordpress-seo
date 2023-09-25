@@ -10,7 +10,7 @@ abstract class Health_Check {
 	/**
 	 * The prefix to add to the test identifier. Used to differentiate between Yoast's health checks, and other health checks.
 	 */
-	const TEST_IDENTIFIER_PREFIX = 'yoast-';
+	public const TEST_IDENTIFIER_PREFIX = 'yoast-';
 
 	/**
 	 * The object that runs the actual health check.

@@ -269,5 +269,5 @@ class Web_Stories_Test extends TestCase {
 
 // phpcs:ignore -- Convert this to a double if more logic is needed.
 class Story_Post_Type_Stub {
-	const POST_TYPE_SLUG = 'web-story';
+	public const POST_TYPE_SLUG = 'web-story';
 }

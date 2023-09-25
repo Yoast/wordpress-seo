@@ -15,7 +15,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	 *
 	 * @var string
 	 */
-	const CACHE_TRANSIENT_KEY = 'wpseo-dashboard-totals';
+	public const CACHE_TRANSIENT_KEY = 'wpseo-dashboard-totals';
 
 	/**
 	 * Holds an instance of the admin asset manager.

@@ -22,14 +22,14 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Aioseo_Importing_Ac
 	 *
 	 * @var string
 	 */
-	const PLUGIN = 'conflicting-plugins';
+	public const PLUGIN = 'conflicting-plugins';
 
 	/**
 	 * The type the class deals with.
 	 *
 	 * @var string
 	 */
-	const TYPE = 'deactivation';
+	public const TYPE = 'deactivation';
 
 	/**
 	 * The replacevar handler.

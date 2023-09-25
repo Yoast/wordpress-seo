@@ -19,7 +19,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	/**
 	 * The transient cache key.
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_post_type_archives';
+	public const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_post_type_archives';
 
 	/**
 	 * The post type helper.

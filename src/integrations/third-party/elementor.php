@@ -36,7 +36,7 @@ class Elementor implements Integration_Interface {
 	/**
 	 * The identifier for the elementor tab.
 	 */
-	const YOAST_TAB = 'yoast-tab';
+	public const YOAST_TAB = 'yoast-tab';
 
 	/**
 	 * Represents the post.

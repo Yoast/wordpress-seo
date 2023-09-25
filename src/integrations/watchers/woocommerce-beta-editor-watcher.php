@@ -21,7 +21,7 @@ class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 	/**
 	 * The notification ID.
 	 */
-	const NOTIFICATION_ID = 'wpseo-woocommerce-beta-editor-warning';
+	public const NOTIFICATION_ID = 'wpseo-woocommerce-beta-editor-warning';
 
 	/**
 	 * The short link helper.

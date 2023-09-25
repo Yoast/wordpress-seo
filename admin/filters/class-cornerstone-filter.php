@@ -15,7 +15,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	 *
 	 * @var string
 	 */
-	const META_NAME = 'is_cornerstone';
+	public const META_NAME = 'is_cornerstone';
 
 	/**
 	 * Registers the hooks.

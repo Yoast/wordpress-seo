@@ -15,28 +15,28 @@ class Indexables_Page_Helper {
 	 *
 	 * @var int
 	 */
-	const LIST_SIZE = 5;
+	public const LIST_SIZE = 5;
 
 	/**
 	 * The default size of the buffer, in terms of how many times is bigger than the list size.
 	 *
 	 * @var int
 	 */
-	const BUFFER_SIZE = 20;
+	public const BUFFER_SIZE = 20;
 
 	/**
 	 * The default minimum threshold for the amount of posts in the site.
 	 *
 	 * @var int
 	 */
-	const POSTS_THRESHOLD = 20;
+	public const POSTS_THRESHOLD = 20;
 
 	/**
 	 * The default minimum threshold for the amount of analysed posts in the site, as a fraction of the total posts.
 	 *
 	 * @var float
 	 */
-	const ANALYSED_POSTS_THRESHOLD = 0.5;
+	public const ANALYSED_POSTS_THRESHOLD = 0.5;
 
 	/**
 	 * The options helper.

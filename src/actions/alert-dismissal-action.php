@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  */
 class Alert_Dismissal_Action {
 
-	const USER_META_KEY = '_yoast_alerts_dismissed';
+	public const USER_META_KEY = '_yoast_alerts_dismissed';
 
 	/**
 	 * Holds the user helper instance.

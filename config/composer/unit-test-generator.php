@@ -17,14 +17,14 @@ class Unit_Test_Generator {
 	 *
 	 * @private
 	 */
-	const UNIT_TESTS_FOLDER = 'tests/unit';
+	public const UNIT_TESTS_FOLDER = 'tests/unit';
 
 	/**
 	 * Path to the unit test folder in Premium.
 	 *
 	 * @private
 	 */
-	const UNIT_TESTS_FOLDER_PREMIUM = 'tests/unit/premium';
+	public const UNIT_TESTS_FOLDER_PREMIUM = 'tests/unit/premium';
 
 	/**
 	 * Generates a new unit test scaffold for the given class.

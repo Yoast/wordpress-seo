@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  */
 class Academy_Integration_Test extends TestCase {
 
-	const PAGE = 'wpseo_page_academy';
+	public const PAGE = 'wpseo_page_academy';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.

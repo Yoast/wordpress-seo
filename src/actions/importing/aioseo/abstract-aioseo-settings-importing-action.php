@@ -17,19 +17,19 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	 *
 	 * @var string
 	 */
-	const PLUGIN = null;
+	public const PLUGIN = null;
 
 	/**
 	 * The type the class deals with.
 	 *
 	 * @var string
 	 */
-	const TYPE = null;
+	public const TYPE = null;
 
 	/**
 	 * The option_name of the AIOSEO option that contains the settings.
 	 */
-	const SOURCE_OPTION_NAME = null;
+	public const SOURCE_OPTION_NAME = null;
 
 	/**
 	 * The map of aioseo_options to yoast settings.

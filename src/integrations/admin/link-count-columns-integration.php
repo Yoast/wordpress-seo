@@ -22,14 +22,14 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 *
 	 * @var string
 	 */
-	const COLUMN_LINKED = 'linked';
+	public const COLUMN_LINKED = 'linked';
 
 	/**
 	 * Partial column name.
 	 *
 	 * @var string
 	 */
-	const COLUMN_LINKS = 'links';
+	public const COLUMN_LINKS = 'links';
 
 	/**
 	 * The post type helper.

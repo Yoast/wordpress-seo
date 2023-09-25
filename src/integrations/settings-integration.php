@@ -33,28 +33,28 @@ use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
  */
 class Settings_Integration implements Integration_Interface {
 
-	const PAGE = 'wpseo_page_settings';
+	public const PAGE = 'wpseo_page_settings';
 
 	/**
 	 * Holds the included WordPress options.
 	 *
 	 * @var string[]
 	 */
-	const WP_OPTIONS = [ 'blogdescription' ];
+	public const WP_OPTIONS = [ 'blogdescription' ];
 
 	/**
 	 * Holds the allowed option groups.
 	 *
 	 * @var array
 	 */
-	const ALLOWED_OPTION_GROUPS = [ 'wpseo', 'wpseo_titles', 'wpseo_social' ];
+	public const ALLOWED_OPTION_GROUPS = [ 'wpseo', 'wpseo_titles', 'wpseo_social' ];
 
 	/**
 	 * Holds the disallowed settings, per option group.
 	 *
 	 * @var array
 	 */
-	const DISALLOWED_SETTINGS = [
+	public const DISALLOWED_SETTINGS = [
 		'wpseo'        => [
 			'myyoast-oauth',
 			'semrush_tokens',
@@ -85,7 +85,7 @@ class Settings_Integration implements Integration_Interface {
 	 *
 	 * @var array
 	 */
-	const DISABLED_ON_MULTISITE_SETTINGS = [
+	public const DISABLED_ON_MULTISITE_SETTINGS = [
 		'wpseo' => [
 			'deny_search_crawling',
 			'deny_wp_json_crawling',
