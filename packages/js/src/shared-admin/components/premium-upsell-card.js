@@ -2,6 +2,7 @@ import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Title } from "@yoast/ui-library";
+import { get } from "lodash";
 import PropTypes from "prop-types";
 import { ReactComponent as StarHalf } from "../../../images/star-rating-half.svg";
 import { ReactComponent as Star } from "../../../images/star-rating-star.svg";
@@ -15,17 +16,8 @@ import { ReactComponent as G2Logo } from "./g2-logo-white.svg";
  * @returns {JSX.Element} The premium upsell card.
  */
 export const PremiumUpsellCard = ( { link, linkProps } ) => {
-	const info = useMemo( () => createInterpolateElement(
-		sprintf(
-			/* translators: %1$s and %2$s expand to opening and closing <strong> tags. */
-			__( "Be more efficient in creating titles and meta descriptions with the help of AI. %1$sGet 24/7 support%2$s and boost your website’s visibility.", "wordpress-seo" ),
-			"<strong>",
-			"</strong>"
-		),
-		{
-			strong: <strong />,
-		}
-	), [] );
+	const info = useMemo( () => __( "Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support and much, much more!", "wordpress-seo" ), [] );
+	const isBlackFriday = get( window, "wpseoScriptData.isBlackFriday", "" );
 	const getPremium = createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
@@ -46,6 +38,11 @@ export const PremiumUpsellCard = ( { link, linkProps } ) => {
 			>
 				<YoastSeoLogo />
 			</figure>
+			{ isBlackFriday && <div className="sidebar__sale_banner_container">
+				<div className="sidebar__sale_banner">
+					<span className="banner_text">{ __( "BLACK FRIDAY - 30% OFF", "wordpress-seo" ) }</span>
+				</div>
+			</div> }
 			<Title as="h2" className="yst-mt-6 yst-text-base yst-font-extrabold yst-text-white">
 				{ getPremium }
 			</Title>
@@ -59,7 +56,7 @@ export const PremiumUpsellCard = ( { link, linkProps } ) => {
 				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 focus:yst-ring-offset-primary-500"
 				{ ...linkProps }
 			>
-				<span>{ getPremium }</span>
+				<span>{ isBlackFriday ? __( "Claim your 30% off now!", "wordpress-seo" ) : getPremium }</span>
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
 			<a
