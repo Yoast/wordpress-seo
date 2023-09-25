@@ -59,7 +59,12 @@ class First_Time_Configuration_Action {
 	 */
 	public function set_site_representation( $params ) {
 		$failures = [];
-		$old_values = $this->get_site_representation_old_values();
+		$old_values = $this->get_old_values( self::SITE_REPRESENTATION_FIELDS );
+
+		// This field seems to be not used anymore.
+		$old_values = \array_filter( $old_values, static function( $key, $value ) {
+			return $key !== 'description';
+		} );
 
 		foreach ( self::SITE_REPRESENTATION_FIELDS as $field_name ) {
 			if ( isset( $params[ $field_name ] ) ) {
@@ -82,7 +87,11 @@ class First_Time_Configuration_Action {
 		$this->options_helper->set( 'company_logo_meta', false );
 		$this->options_helper->set( 'person_logo_meta', false );
 		
-		\apply_filters( 'wpseo_post_update_site_representation', $params, $old_values, $failures );
+		\do_action( 'wpseo_post_update_site_representation',
+			$this->map_social_profile_param_names_to_hiive_names( $params ),
+			$this->map_social_profile_param_names_to_hiive_names ( $old_values ),
+			$this->map_social_profile_param_names_to_hiive_names ( $failures )
+		);
 		
 		if ( \count( $failures ) === 0 ) {
 			return (object) [
@@ -108,9 +117,9 @@ class First_Time_Configuration_Action {
 	 */
 	public function set_social_profiles( $params ) {
 		$failures = $this->social_profiles_helper->set_organization_social_profiles( $params );
-		$old_values = $this->get_social_profiles_old_values();
+		$old_values = $this->get_old_values( \array_keys( $this->social_profiles_helper->get_organization_social_profile_fields() ) );
 
-		\apply_filters( 'wpseo_post_update_social_profiles', $params, $old_values, $failures );
+		\do_action( 'wpseo_post_update_social_profiles', $params, $old_values, $failures );
 
 		if ( empty( $failures ) ) {
 			return (object) [
@@ -192,7 +201,7 @@ class First_Time_Configuration_Action {
 			$success = $this->options_helper->set( 'tracking', $params['tracking'] );
 		}
 
-		\apply_filters( 'wpseo_post_update_enable_tracking', $params['tracking'], $option_value, $success );
+		\do_action( 'wpseo_post_update_enable_tracking', $params['tracking'], $option_value, $success );
 
 		if ( $success ) {
 			return (object) [
@@ -304,26 +313,51 @@ class First_Time_Configuration_Action {
 		return \current_user_can( 'edit_user', $person_id );
 	}
 
-	private function get_site_representation_old_values() : array {
+	/**
+	 * Gets the old values for the given fields.
+	 *
+	 * @param array $fields_names The fields to get the old values for.
+	 *
+	 * @return array The old values.
+	 */
+	private function get_old_values( $fields_names ) : array {
 		$old_values = [];
-		foreach ( self::SITE_REPRESENTATION_FIELDS as $field_name ) {
-			if ( $field_name === 'description' ) {
-				continue;
-			}
 
+		foreach ( $fields_names as $field_name ) {
 			$old_values[ $field_name ] = $this->options_helper->get( $field_name );
 		}
 		
 		return $old_values;
 	}
 
-	private function get_social_profiles_old_values() : array {
-		$social_profiles_fields = \array_keys( $this->social_profiles_helper->get_organization_social_profile_fields() );
-		$old_values = [];
-		foreach ( $social_profiles_fields as $field_name ) {
-			$old_values[ $field_name ] = $this->options_helper->get( $field_name );
+	/**
+	 * Maps the param names to the names used for Hiive events tracking.
+	 *
+	 * @param array $params The params to map.
+	 *
+	 * @return array The mapped params.
+	 */
+	private function map_social_profile_param_names_to_hiive_names( $params ) {
+		$skip_fields = [ 'company_logo_id', 'person_logo_id' ];
+		$map= [ 
+			'company_or_person'         => 'site_representation',
+			'company_name'              => 'organization_name',
+			'company_logo'              => 'organization_logo',
+			'person_logo'               => 'logo',
+			'company_or_person_user_id' => 'name',
+			'website_name'              => 'website_name',
+			
+		];
+		$mapped_params = [];
+
+		foreach( $params as $param_name => $param_value ) {
+			if ( \in_array( $param_name, $skip_fields, true ) ) {
+				continue;
+			}
+			$new_name = $map[ $param_name ];
+			$mapped_params[ $new_name ] = $param_value;
 		}
 
-		return $old_values;
+		return $mapped_params;
 	}
 }
