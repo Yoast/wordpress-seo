@@ -55,7 +55,7 @@ export default function TailwindModal( { isOpen, handleClose, hasCloseButton, ch
 									onClick={ handleClose }
 									className="yst-bg-white yst-rounded-md yst-text-slate-400 hover:yst-text-slate-600 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
 								>
-									<span className="yst-sr-only">{ __( "Close", "admin-ui" ) }</span>
+									<span className="yst-sr-only">{ __( "Close", "wordpress-seo" ) }</span>
 									<XIcon className="yst-h-6 yst-w-6" />
 								</button>
 							</div> }
