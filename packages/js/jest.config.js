@@ -21,6 +21,7 @@ module.exports = {
 	},
 	moduleDirectories: [
 		"<rootDir>/node_modules",
+		"<rootDir>/../../node_modules",
 		"node_modules",
 	],
 	testURL: "http://localhost/",
