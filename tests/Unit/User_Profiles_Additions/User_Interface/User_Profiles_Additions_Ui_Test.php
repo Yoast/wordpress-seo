@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Tests\Unit\User_Profiles_Additions\User_Interface;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Conditionals\User_Profile_Conditional;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\User_Profiles_Additions\User_Interface\User_Profiles_Additions_Ui;
 

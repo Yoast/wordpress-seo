@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Admin\Metabox;
 
 use Brain\Monkey;
-use Mockery;
 use WPSEO_Metabox_Section_Additional;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Admin\Metabox\Metabox_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;

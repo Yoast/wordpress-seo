@@ -6,11 +6,11 @@ use Brain\Monkey;
 use Mockery;
 use stdClass;
 use WPSEO_Utils;
-use Yoast_Notification;
 use Yoast\WP\SEO\Helpers\Product_Helper;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Addon_Manager_Double;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Addon_Manager_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification;
 
 /**
  * Unit Test Class.

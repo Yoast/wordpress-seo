@@ -5,10 +5,10 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Integrations\Support_Integration;
-use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 
 /**
  * Class WPSEO_Admin_Pages.

@@ -5,12 +5,12 @@ namespace Yoast\WP\SEO\Tests\WP\Content_Type_Visibility;
 use Mockery;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast_Notification_Center;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions;
 use Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_Dismiss_New_Route;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\WP\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * Integration Test Class for Content_Type_Visibility_Dismiss_Notifications and Content_Type_Visibility_Dismiss_New_Route classes.

@@ -15,16 +15,16 @@ use WPSEO_Shortlinker;
 use WPSEO_Sitemaps_Router;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Language_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 

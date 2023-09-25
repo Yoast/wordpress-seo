@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\WP\Inc;
 
-use Yoast_Dynamic_Rewrites;
 use Yoast\WP\SEO\Tests\WP\TestCase;
+use Yoast_Dynamic_Rewrites;
 
 
 /**

@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Blocks;
 
-use Mockery;
 use Brain\Monkey;
-use Yoast\WP\SEO\Integrations\Blocks\Structured_Data_Blocks;
+use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Integrations\Blocks\Structured_Data_Blocks;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 use InvalidArgumentException;
 use Mockery;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Lib\Orm_Double;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Lib\Orm_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

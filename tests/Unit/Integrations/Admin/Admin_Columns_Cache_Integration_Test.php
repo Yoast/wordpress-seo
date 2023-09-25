@@ -7,8 +7,8 @@ use Mockery;
 use WP_Post;
 use WP_Query;
 use Yoast\WP\SEO\Integrations\Admin\Admin_Columns_Cache_Integration;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

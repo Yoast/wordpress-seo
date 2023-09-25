@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Promotions\Domain;
 
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Promotions\Domain\Time_Interval;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Time_Interval_Test

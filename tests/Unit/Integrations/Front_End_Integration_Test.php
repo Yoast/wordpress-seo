@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
 use Mockery;
-use WP_HTML_Tag_Processor;
 use WP_Query;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;

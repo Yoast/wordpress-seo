@@ -3,8 +3,8 @@
 namespace Yoast\WP\SEO\User_Profiles_Additions\User_Interface;
 
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Conditionals\User_Profile_Conditional;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**

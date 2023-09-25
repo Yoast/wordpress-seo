@@ -8,11 +8,12 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Yoast\WP\Lib\Migrations\Migration;
 use Yoast\WP\SEO\Commands\Command_Interface;
+use Yoast\WP\SEO\Conditionals\Conditional;
 use Yoast\WP\SEO\Initializers\Initializer_Interface;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Loader;
 use Yoast\WP\SEO\Routes\Route_Interface;
-use Yoast\WP\SEO\Conditionals\Conditional;
+
 /**
  * A pass is a step in the compilation process of the container.
  *
