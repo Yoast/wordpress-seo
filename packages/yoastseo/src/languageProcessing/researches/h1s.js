@@ -10,15 +10,17 @@ export default function( paper ) {
 
 	const h1Matches = tree.findAll( node => node.name === "h1" );
 
-	return h1Matches.map( h1Match => (
-		{
-			tag: "h1",
-			content: h1Match.findAll( node => node.name === "#text" ).map( textNode => textNode.value ).join( "" ),
-			position: {
-				startOffset: h1Match.sourceCodeLocation.startTag.endOffset,
-				endOffset: h1Match.sourceCodeLocation.endTag.startOffset,
-				clientId: h1Match.clientId || "",
-			},
-		}
-	) );
+	return h1Matches
+		.map( h1Match => (
+			{
+				tag: "h1",
+				content: h1Match.findAll( node => node.name === "#text" ).map( textNode => textNode.value ).join( "" ),
+				position: {
+					startOffset: h1Match.sourceCodeLocation.startTag.endOffset,
+					endOffset: h1Match.sourceCodeLocation.endTag.startOffset,
+					clientId: h1Match.clientId || "",
+				},
+			}
+		) )
+		.filter( h1 => !! h1.content );
 }
