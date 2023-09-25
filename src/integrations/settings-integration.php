@@ -25,6 +25,8 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
+
 
 /**
  * Class Settings_Integration.
@@ -428,6 +430,7 @@ class Settings_Integration implements Integration_Interface {
 			'taxonomies'                     => $transformed_taxonomies,
 			'fallbacks'                      => $this->get_fallbacks(),
 			'showNewContentTypeNotification' => $show_new_content_type_notification,
+			'isBlackFriday'                  => YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ),
 		];
 	}
 
