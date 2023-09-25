@@ -87,6 +87,13 @@ class First_Time_Configuration_Action {
 		$this->options_helper->set( 'company_logo_meta', false );
 		$this->options_helper->set( 'person_logo_meta', false );
 		
+		/**
+		 * Action: 'wpseo_post_update_site_representation' - Allows for Hiive event tracking.
+		 *
+		 * @api array The options new values.
+		 * @api array The options old values.
+		 * @api array The options that failed to be saved.
+		 */
 		\do_action( 'wpseo_post_update_site_representation',
 			$this->map_social_profile_param_names_to_hiive_names( $params ),
 			$this->map_social_profile_param_names_to_hiive_names ( $old_values ),
@@ -119,6 +126,13 @@ class First_Time_Configuration_Action {
 		$failures = $this->social_profiles_helper->set_organization_social_profiles( $params );
 		$old_values = $this->get_old_values( \array_keys( $this->social_profiles_helper->get_organization_social_profile_fields() ) );
 
+		/**
+		 * Action: 'wpseo_post_update_social_profiles' - Allows for Hiive event tracking.
+		 *
+		 * @api array The options new values.
+		 * @api array The options old values.
+		 * @api array The options that failed to be saved.
+		 */
 		\do_action( 'wpseo_post_update_social_profiles', $params, $old_values, $failures );
 
 		if ( empty( $failures ) ) {
@@ -201,6 +215,13 @@ class First_Time_Configuration_Action {
 			$success = $this->options_helper->set( 'tracking', $params['tracking'] );
 		}
 
+		/**
+		 * Action: 'wpseo_post_update_enable_tracking' - Allows for Hiive event tracking.
+		 *
+		 * @api array The new value.
+		 * @api array The old value.
+		 * @api bool  Whether the option failed to be stored.
+		 */
 		// $success is negated to be aligned with the other two actions which pass $failures.
 		\do_action( 'wpseo_post_update_enable_tracking', $params['tracking'], $option_value, ! $success );
 
