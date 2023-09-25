@@ -603,7 +603,7 @@ final class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Robots_Presenter',
 		];
 
-		static::assertEquals( $presenters, $this->instance->filter_robots_presenter( $presenters ) );
+		$this->assertEquals( $presenters, $this->instance->filter_robots_presenter( $presenters ) );
 	}
 
 	/**
@@ -620,7 +620,7 @@ final class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Robots_Presenter',
 		];
 
-		static::assertEquals( $presenters, $this->instance->filter_robots_presenter( $presenters ) );
+		$this->assertEquals( $presenters, $this->instance->filter_robots_presenter( $presenters ) );
 	}
 
 	/**
@@ -644,7 +644,7 @@ final class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Robots_Presenter',
 		];
 
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				'Yoast\WP\SEO\Presenters\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
@@ -674,7 +674,7 @@ final class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Robots_Presenter',
 		];
 
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				'Yoast\WP\SEO\Presenters\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',

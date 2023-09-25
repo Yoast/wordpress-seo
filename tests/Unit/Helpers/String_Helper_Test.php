@@ -37,7 +37,7 @@ final class String_Helper_Test extends TestCase {
 	 * @covers ::strip_all_tags
 	 */
 	public function test_strip_all_tags() {
-		static::assertSame( 'This is an anchor', $this->instance->strip_all_tags( 'This is an <a>anchor</a>' ) );
+		$this->assertSame( 'This is an anchor', $this->instance->strip_all_tags( 'This is an <a>anchor</a>' ) );
 	}
 
 	/**
@@ -46,7 +46,7 @@ final class String_Helper_Test extends TestCase {
 	 * @covers ::standardize_whitespace
 	 */
 	public function test_standardize_whitespace() {
-		static::assertSame( 'this is a string', $this->instance->standardize_whitespace( " \nthis\r\ris  a string \t" ) );
+		$this->assertSame( 'this is a string', $this->instance->standardize_whitespace( " \nthis\r\ris  a string \t" ) );
 	}
 
 	/**
@@ -59,6 +59,6 @@ final class String_Helper_Test extends TestCase {
 			->with( 'this is a [shortcode] ' )
 			->andReturn( 'this is a shortcode ' );
 
-		static::assertSame( 'this is a shortcode ', $this->instance->strip_shortcode( 'this is a [shortcode] ' ) );
+		$this->assertSame( 'this is a shortcode ', $this->instance->strip_shortcode( 'this is a [shortcode] ' ) );
 	}
 }

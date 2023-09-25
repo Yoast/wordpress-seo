@@ -554,7 +554,7 @@ final class Schema_Generator_Test extends TestCase {
 			],
 		];
 
-		static::assertEquals( $expected, $this->instance->generate( $this->context ) );
+		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
 	}
 
 	/**

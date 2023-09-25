@@ -50,7 +50,7 @@ final class Cron_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Admin_Conditional::class,
 			],
@@ -64,7 +64,7 @@ final class Cron_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Date_Helper::class,
 			$this->getPropertyValue( $this->instance, 'date_helper' )
 		);

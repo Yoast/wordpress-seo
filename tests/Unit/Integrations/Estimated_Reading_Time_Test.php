@@ -50,7 +50,7 @@ final class Estimated_Reading_Time_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[ Estimated_Reading_Time_Conditional::class ],
 			Estimated_Reading_Time::get_conditionals()
 		);

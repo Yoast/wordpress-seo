@@ -49,7 +49,7 @@ final class Activation_Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[],
 			Activation_Cleanup_Integration::get_conditionals()
 		);

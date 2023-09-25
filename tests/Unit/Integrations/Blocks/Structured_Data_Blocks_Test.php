@@ -62,7 +62,7 @@ final class Structured_Data_Blocks_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Structured_Data_Blocks::class,
 			new Structured_Data_Blocks(
 				$this->asset_manager,

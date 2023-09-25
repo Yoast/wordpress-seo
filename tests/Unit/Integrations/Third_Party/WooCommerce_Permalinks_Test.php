@@ -51,7 +51,7 @@ final class WooCommerce_Permalinks_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[ WooCommerce_Conditional::class, Migrations_Conditional::class ],
 			Woocommerce_Permalinks::get_conditionals()
 		);
@@ -63,7 +63,7 @@ final class WooCommerce_Permalinks_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Helper::class,
 			$this->getPropertyValue( $this->instance, 'indexable_helper' )
 		);
@@ -77,8 +77,8 @@ final class WooCommerce_Permalinks_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		static::assertNotFalse( Monkey\Filters\has( 'wpseo_post_types_reset_permalinks', [ $this->instance, 'filter_product_from_post_types' ] ) );
-		static::assertNotFalse( Monkey\Actions\has( 'update_option_woocommerce_permalinks', [ $this->instance, 'reset_woocommerce_permalinks' ] ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'wpseo_post_types_reset_permalinks', [ $this->instance, 'filter_product_from_post_types' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'update_option_woocommerce_permalinks', [ $this->instance, 'reset_woocommerce_permalinks' ] ) );
 	}
 
 	/**

@@ -152,27 +152,27 @@ final class Indexing_Helper_Test extends TestCase {
 	 * @covers ::set_indexing_actions
 	 */
 	public function test_set_indexing_actions() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Post_Indexation_Action::class,
 			$this->getPropertyValue( $this->instance, 'indexing_actions' )[0]
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Term_Indexation_Action::class,
 			$this->getPropertyValue( $this->instance, 'indexing_actions' )[1]
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Post_Type_Archive_Indexation_Action::class,
 			$this->getPropertyValue( $this->instance, 'indexing_actions' )[2]
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_General_Indexation_Action::class,
 			$this->getPropertyValue( $this->instance, 'indexing_actions' )[3]
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Post_Link_Indexing_Action::class,
 			$this->getPropertyValue( $this->instance, 'indexing_actions' )[4]
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Term_Link_Indexing_Action::class,
 			$this->getPropertyValue( $this->instance, 'indexing_actions' )[5]
 		);
@@ -355,7 +355,7 @@ final class Indexing_Helper_Test extends TestCase {
 			->once()
 			->andReturn( 0 );
 
-		static::assertEquals( 0, $this->instance->get_unindexed_count() );
+		$this->assertEquals( 0, $this->instance->get_unindexed_count() );
 	}
 
 	/**
@@ -398,7 +398,7 @@ final class Indexing_Helper_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_indexing_get_unindexed_count' )
 			->andReturn( 20 );
 
-		static::assertEquals( 20, $this->instance->get_filtered_unindexed_count() );
+		$this->assertEquals( 20, $this->instance->get_filtered_unindexed_count() );
 	}
 
 	/**
@@ -428,7 +428,7 @@ final class Indexing_Helper_Test extends TestCase {
 			->once()
 			->andReturn( 10 );
 
-		static::assertEquals( 30, $this->instance->get_limited_filtered_unindexed_count( 25 ) );
+		$this->assertEquals( 30, $this->instance->get_limited_filtered_unindexed_count( 25 ) );
 	}
 
 	/**
@@ -481,7 +481,7 @@ final class Indexing_Helper_Test extends TestCase {
 			->with( 18, 25 )
 			->andReturn( 18 );
 
-		static::assertEquals( 18, $this->instance->get_limited_filtered_unindexed_count( 25 ) );
+		$this->assertEquals( 18, $this->instance->get_limited_filtered_unindexed_count( 25 ) );
 	}
 
 	/**
@@ -511,7 +511,7 @@ final class Indexing_Helper_Test extends TestCase {
 			->once()
 			->andReturn( 10 );
 
-		static::assertEquals( 30, $this->instance->get_limited_filtered_unindexed_count_background( 25 ) );
+		$this->assertEquals( 30, $this->instance->get_limited_filtered_unindexed_count_background( 25 ) );
 	}
 
 	/**
@@ -564,6 +564,6 @@ final class Indexing_Helper_Test extends TestCase {
 			->with( 18, 25 )
 			->andReturn( 18 );
 
-		static::assertEquals( 18, $this->instance->get_limited_filtered_unindexed_count_background( 25 ) );
+		$this->assertEquals( 18, $this->instance->get_limited_filtered_unindexed_count_background( 25 ) );
 	}
 }

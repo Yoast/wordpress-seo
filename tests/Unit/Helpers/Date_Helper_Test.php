@@ -42,7 +42,7 @@ final class Date_Helper_Test extends TestCase {
 	 * @param string $expected The expected value.
 	 */
 	public function test_format( $date, $format, $expected ) {
-		static::assertSame( $expected, $this->instance->format( $date, $format ) );
+		$this->assertSame( $expected, $this->instance->format( $date, $format ) );
 	}
 
 	/**
@@ -111,7 +111,7 @@ final class Date_Helper_Test extends TestCase {
 	 * @param string $expected  The expected value.
 	 */
 	public function test_format_timestamp( $timestamp, $format, $expected ) {
-		static::assertSame( $expected, $this->instance->format_timestamp( $timestamp, $format ) );
+		$this->assertSame( $expected, $this->instance->format_timestamp( $timestamp, $format ) );
 	}
 
 	/**
@@ -155,7 +155,7 @@ final class Date_Helper_Test extends TestCase {
 			->with( \DATE_W3C, '1609421820' )
 			->andReturn( '2020-12-31' );
 
-		static::assertSame(
+		$this->assertSame(
 			'2020-12-31',
 			$this->instance->format_translated( '2020-12-31 13:37:00' )
 		);
@@ -171,7 +171,7 @@ final class Date_Helper_Test extends TestCase {
 	 * @param bool  $expected The expected function return value.
 	 */
 	public function test_is_valid_datetime( $input, $expected ) {
-		static::assertSame( $expected, $this->instance->is_valid_datetime( $input ) );
+		$this->assertSame( $expected, $this->instance->is_valid_datetime( $input ) );
 	}
 
 	/**
