@@ -201,7 +201,8 @@ class First_Time_Configuration_Action {
 			$success = $this->options_helper->set( 'tracking', $params['tracking'] );
 		}
 
-		\do_action( 'wpseo_post_update_enable_tracking', $params['tracking'], $option_value, $success );
+		// $success is negated to be aligned with the other two actions which pass $failures.
+		\do_action( 'wpseo_post_update_enable_tracking', $params['tracking'], $option_value, ! $success );
 
 		if ( $success ) {
 			return (object) [
