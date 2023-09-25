@@ -2,17 +2,19 @@ import Search from "../../src/settings/components/search";
 import "../__mocks__/intersection-observer";
 import { fireEvent, render, screen, waitFor } from "../test-utils";
 
-require( "@wordpress/data" ).__setMockSelectors( {
-	selectQueryableSearchIndex: () => ( {
-		test: {
-			fieldId: "id",
-			fieldLabel: "Item",
-			keywords: "test",
-			route: "/group",
-			routeLabel: "Group",
-		},
-	} ),
-} );
+jest.mock( "@wordpress/data", () => ( {
+	useSelect: select => select( () => ( {
+		selectQueryableSearchIndex: () => ( {
+			test: {
+				fieldId: "id",
+				fieldLabel: "Item",
+				keywords: "test",
+				route: "/group",
+				routeLabel: "Group",
+			},
+		} ),
+	} ) ),
+} ) );
 
 describe( "Search", () => {
 	beforeEach( () => {
