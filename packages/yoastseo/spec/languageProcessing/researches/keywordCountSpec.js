@@ -757,19 +757,72 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "can match an occurrence of keyphrase ending in & as in 'keyphrase&', and output correct Marks objects",
-		paper: new Paper( "<p>A string with a keyphrase&.</p>", { keyword: "keyphrase&" } ),
-		keyphraseForms: [ [ "keyphrase" ] ],
-		expectedCount: 1,
-		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>keyphrase</yoastmark>&.",
-			original: "A string with a keyphrase&.",
-			position: { endOffset: 28, startOffset: 19,
-				startOffsetBlock: 16,
-				endOffsetBlock: 25,
+		description: "can match 2 occurrences of a keyphrase ending in an HTML entity (&copy; standing for ©) and output correct Marks",
+		paper: new Paper( "<p>A string keyphrase&copy; with a keyphrase&copy;.</p>", { keyword: "keyphrase©" } ),
+		keyphraseForms: [ [ "keyphrase©" ] ],
+		expectedCount: 2,
+		expectedMarkings: [ new Mark( {
+			marked: "A string <yoastmark class='yoast-text-mark'>keyphrase©</yoastmark> with a " +
+				"<yoastmark class='yoast-text-mark'>keyphrase©</yoastmark>.",
+			original: "A string keyphrase© with a keyphrase©.",
+			position: { endOffset: 27, startOffset: 12,
+				startOffsetBlock: 9,
+				endOffsetBlock: 24,
+				attributeId: "",
+				clientId: "",
+				isFirstSection: false,
+			} } ),
+		new Mark( {
+			marked: "A string <yoastmark class='yoast-text-mark'>keyphrase©</yoastmark> with a " +
+				"<yoastmark class='yoast-text-mark'>keyphrase©</yoastmark>.",
+			original: "A string keyphrase© with a keyphrase©.",
+			position: { endOffset: 50, startOffset: 35,
+				startOffsetBlock: 32,
+				endOffsetBlock: 47,
 				attributeId: "",
 				clientId: "",
 				isFirstSection: false,
 			} } ) ],
+		skip: false,
+	},
+	{
+		description: "can match an occurrence of a keyphrase after HTML entities, and output correct Marks",
+		paper: new Paper( "<p>I find a&amp;b to be &gt; c&amp;d for dog food.</p>", { keyword: "dog" } ),
+		keyphraseForms: [ [ "dog" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				marked: "I find a&b to be > c&d for <yoastmark class='yoast-text-mark'>dog</yoastmark> food.",
+				original: "I find a&b to be > c&d for dog food.",
+				position: {
+					startOffsetBlock: 38,
+					endOffsetBlock: 41,
+					startOffset: 41,
+					endOffset: 44,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				} } ) ],
+		skip: false,
+	},
+	{
+		description: "can match an occurrence of a keyphrase containing an & in the middle, as in 'a&b', and output correct Marks",
+		paper: new Paper( "<p>At a&amp;b they have the best stuff.</p>", { keyword: "a&b" } ),
+		keyphraseForms: [ [ "a&b" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				marked: "At <yoastmark class='yoast-text-mark'>a&b</yoastmark> they have the best stuff.",
+				original: "At a&b they have the best stuff.",
+				position: {
+					startOffsetBlock: 3,
+					endOffsetBlock: 10,
+					startOffset: 6,
+					endOffset: 13,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				} } ) ],
 		skip: false,
 	},
 	{
@@ -1598,7 +1651,7 @@ describe.each( testCasesWithLocaleMapping )( "Test for counting the keyphrase in
 
 const testDataForHTMLTags = [
 	{
-		description: "counts keyphrase occurrence correctly in a text containing `<strong>` tag, and outputs correct mark objects",
+		description: "counts keyphrase occurrence correctly in a text containing `<strong>` tag, and outputs correct Marks",
 		paper: new Paper( "<p>The forepaws possess a \"false thumb\", which is an extension of a wrist bone, " +
 			"the radial sesamoid found in many carnivorans. This thumb allows the animal to grip onto bamboo stalks " +
 			"and both the digits and wrist bones are highly flexible. The red panda shares this feature " +
@@ -1657,7 +1710,7 @@ const testDataForHTMLTags = [
 		skip: false,
 	},
 	{
-		description: "counts keyphrase occurrence correctly in a text containing `<em>` tag and outputs correct mark objects",
+		description: "counts keyphrase occurrence correctly in a text containing `<em>` tag and outputs correct Marks",
 		paper: new Paper( "<p>The forepaws possess a \"false thumb\", which is an extension of a wrist bone, " +
 			"the radial sesamoid found in many carnivorans. This thumb allows the animal to grip onto bamboo stalks " +
 			"and both the digits and wrist bones are highly flexible. The red panda shares this feature " +
@@ -1701,7 +1754,7 @@ const testDataForHTMLTags = [
 		skip: false,
 	},
 	{
-		description: "counts keyphrase occurrence correctly when it's found inside an anchor text and outputs correct mark objects",
+		description: "counts keyphrase occurrence correctly when it's found inside an anchor text and outputs correct Marks",
 		paper: new Paper( "<p>The forepaws possess a \"false thumb\", which is an extension of a wrist bone, " +
 			"the radial sesamoid found in many carnivorans. This thumb allows the animal to grip onto bamboo stalks " +
 			"and both the digits and wrist bones are highly flexible. The red panda shares this feature " +

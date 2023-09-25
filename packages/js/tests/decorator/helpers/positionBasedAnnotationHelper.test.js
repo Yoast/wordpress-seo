@@ -34,6 +34,7 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
+
 	it( "should return an empty array if the block client id doesn't match the mark client id", () => {
 		const mark = new Mark( {
 			position: {
@@ -54,7 +55,8 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 
 		expect( actual ).toEqual( [] );
 	} );
-	it( "should return annotations with adjusted block start and end position when the block html is not the same as the rich text:" +
+
+	it( "should return annotations with adjusted block start and end position when the block html is not the same as the rich text: " +
 		"The mark is for non-Yoast block", () => {
 		/*
          * The block start and end offsets that are coming from the analysis is off by the length of the following tags:
@@ -95,6 +97,57 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 			endOffset: 60,
 		} ] );
 	} );
+
+	it( "should return annotations with adjusted block start and end position when the block html is not the same as the rich text: " +
+		"The html contains html tags and html entities", () => {
+		/*
+         * The block start offset that is coming from the analysis is off by the length of the following tags and entities:
+         * 1. The length of the HTML tags and entities found in the text preceding the word we want to annotate
+         *  - From the html text below, the html tags and entities are:
+         *  a. <em>: 4 chars
+         *  b. <strong>: 8 chars
+         *  c. amp; 4 chars
+         * Total length of the html tags and enities above: 16.
+         *
+         * The block end offset that is coming from the analysis is off by the length of the following tags and entities:
+         * 1. The length of the HTML tags found in the text preceding the word we want to annotate
+         *  - From the html text below, the html tags and entities are:
+         *  a. <em>: 4 chars
+         *  b. <strong>: 8 chars
+         *  c. amp; 4 chars
+         *  c. </strong>: 9 chars
+         *  d. </em>: 5 chars
+         *  e. trade; 6 chars
+         * Total length of the html tags and entities above: 36.
+         *
+         * The correct block start offset of the word "Bear™" is 34 - 16 = 18.
+         * The correct block end offset of the word "Bear™" is 59 - 36 = 23.
+        */
+		const mark = new Mark( {
+			position: {
+				startOffsetBlock: 34,
+				endOffsetBlock: 59,
+				clientId: "261e3892-f28c-huw77-86b4-a008gdbuiqug01c38d22",
+			},
+		} );
+		const html = "The great <em><strong>Panda &amp; Bear</strong></em>&trade;";
+		// The word to annotate: Bear™. In the rich text below, the position is 18 - 23.
+		const richText = "The great Panda & Bear™";
+
+		const actual = createAnnotationsFromPositionBasedMarks(
+			mark,
+			"261e3892-f28c-huw77-86b4-a008gdbuiqug01c38d22",
+			"",
+			html,
+			richText
+		);
+
+		expect( actual ).toEqual( [ {
+			startOffset: 18,
+			endOffset: 23,
+		} ] );
+	} );
+
 	it( "should return annotations for the first section of a Yoast FAQ sub-block with adjusted block start and end position", () => {
 		/*
 	     * The block start and end offsets that are coming from the analysis is off by the length of the following tags:
@@ -137,6 +190,7 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 			endOffset: 18,
 		} ] );
 	} );
+
 	it( "should return annotations for the first section of a Yoast How-To sub-block with adjusted block start and end position", () => {
 		/*
 		 * The block start and end offsets that are coming from the analysis is off by the length of the following tags:

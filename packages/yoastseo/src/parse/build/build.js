@@ -8,6 +8,7 @@ import permanentFilters from "./private/alwaysFilterElements";
 import { filterBeforeTokenizing } from "./private/filterBeforeTokenizing";
 import parseBlocks from "./private/parseBlocks";
 import filterShortcodesFromTree from "../../languageProcessing/helpers/sanitize/filterShortcodesFromTree";
+import { htmlEntitiesRegex } from "../../helpers/htmlEntities";
 
 /**
  * Parses the HTML string to a tree representation of the HTML document.
@@ -19,9 +20,11 @@ import filterShortcodesFromTree from "../../languageProcessing/helpers/sanitize/
  * @returns {Node} The tree representation of the HTML string.
  */
 export default function build( paper, languageProcessor, shortcodes ) {
-	const html = paper.getText();
-	let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+	let html = paper.getText();
+	// Change HTML entities like "&amp;" to "#amp;" to prevent early conversion to "&" -- which would invalidate token positions.
+	html = html.replace( htmlEntitiesRegex, "#$1" );
 
+	let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 	if ( tree.childNodes && tree.childNodes.length > 0 ) {
 		parseBlocks( paper, tree );
 	}

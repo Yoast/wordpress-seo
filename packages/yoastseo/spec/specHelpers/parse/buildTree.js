@@ -4,6 +4,7 @@ import adapt from "../../../src/parse/build/private/adapt";
 import { parseFragment } from "parse5";
 import filterTree from "../../../src/parse/build/private/filterTree";
 import permanentFilters from "../../../src/parse/build/private/alwaysFilterElements";
+import { htmlEntitiesRegex } from "../../../src/helpers/htmlEntities";
 
 /**
  * Builds an HTML tree for a given paper and researcher, and adds it to the paper.
@@ -24,7 +25,11 @@ export default function buildTree( paper, researcher ) {
  * @returns {void}
  */
 export function buildTreeNoTokenize( paper ) {
-	let tree = adapt( parseFragment( paper.getText(), { sourceCodeLocationInfo: true } ) );
+	let html = paper.getText();
+	// Change HTML entities like "&amp;" to "#amp;" to prevent early conversion to "&" -- which would invalidate token positions.
+	html = html.replace( htmlEntitiesRegex, "#$1" );
+
+	let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 	tree = filterTree( tree, permanentFilters );
 	paper.setTree( tree );
 }

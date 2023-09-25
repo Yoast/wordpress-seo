@@ -1,17 +1,18 @@
 import { Heading, Paragraph } from "../../structure";
 import getTextElementPositions from "./getTextElementPositions";
+import { hashedHtmlEntities } from "../../../helpers/htmlEntities";
 
 /**
  * Splits the sentence into tokens, determines their positions in the source code, and puts them on the sentence.
  *
  * @param {Paragraph|Heading} node The paragraph or heading node to split into sentences.
  * @param {Sentence} sentence The sentence.
- * @param {function} LanguageProcessor The languageprocessor for the current language.
+ * @param {LanguageProcessor} languageProcessor The language processor for the current language.
  *
  * @returns {Sentence} The sentence, with tokens.
  */
-function getTokens( node, sentence, LanguageProcessor ) {
-	sentence.tokens = LanguageProcessor.splitIntoTokens( sentence );
+function getTokens( node, sentence, languageProcessor ) {
+	sentence.tokens = languageProcessor.splitIntoTokens( sentence );
 	sentence.tokens = getTextElementPositions( node, sentence.tokens, sentence.sourceCodeRange.startOffset );
 	return sentence;
 }
@@ -31,7 +32,20 @@ function getSentences( node, languageProcessor ) {
 	// Add position information to the sentences.
 	sentences = getTextElementPositions( node, sentences );
 	// Tokenize sentences into tokens.
-	return sentences.map( sentence => getTokens( node, sentence, languageProcessor ) );
+	return sentences.map( sentence => {
+		sentence = getTokens( node, sentence, languageProcessor );
+		// Now positions have been determined, change HTML entities that had earlier been converted to hashed versions back to their short version.
+		// For example, "&amp;" was earlier converted into "#amp;" and is now converted into "&".
+		// We make this change in both the Sentence and the accompanying Tokens.
+		hashedHtmlEntities.forEach( ( character, hashedHtmlEntity ) => {
+			sentence.text = sentence.text.replaceAll( hashedHtmlEntity, character );
+			sentence.tokens.map( token => {
+				token.text = token.text.replaceAll( hashedHtmlEntity, character );
+				return token;
+			} );
+		} );
+		return sentence;
+	} );
 }
 
 /**

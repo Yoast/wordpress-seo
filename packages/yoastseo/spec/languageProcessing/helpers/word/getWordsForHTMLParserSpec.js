@@ -68,6 +68,11 @@ const testCases = [
 		text: "[caption id=\"attachment_3341501\" align=\"alignnone\" width=\"300\"]",
 		expectedResult: [ "[", "caption", " ", "id=\"attachment_3341501", "\"", " ", "align=\"alignnone", "\"", " ", "width=\"300", "\"", "]" ],
 	},
+	{
+		description: "doesn't match with a hashed HTML entity (in this case, '#trade;' for '™') in the beginning or the end of the word",
+		text: "one trademark#trade;, and another '#trade;trademark'",
+		expectedResult: [ "one", " ", "trademark#trade;", ",", " ", "and", " ", "another", " ", "'", "#trade;trademark", "'" ],
+	},
 ];
 
 describe.each( testCases )( "getWordsForHTMLParser", ( { description, text, expectedResult } ) => {

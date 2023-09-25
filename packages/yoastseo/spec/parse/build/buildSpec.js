@@ -6,8 +6,8 @@ import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/s
 import splitIntoTokensCustom from "../../../src/languageProcessing/languages/ja/helpers/splitIntoTokensCustom";
 
 describe( "The parse function", () => {
-	it( "parses a basic HTML text", () => {
-		const html = "<div><p class='yoast'>Hello, world!</p></div>";
+	it( "parses a basic HTML text with an HTML entity (&amp;)", () => {
+		const html = "<div><p class='yoast'>Hello, world &amp; beyond!</p></div>";
 		const paper = new Paper( html );
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
@@ -21,14 +21,14 @@ describe( "The parse function", () => {
 				name: "div",
 				sourceCodeLocation: {
 					startOffset: 0,
-					endOffset: 45,
+					endOffset: 58,
 					startTag: {
 						startOffset: 0,
 						endOffset: 5,
 					},
 					endTag: {
-						startOffset: 39,
-						endOffset: 45,
+						startOffset: 52,
+						endOffset: 58,
 					},
 				},
 				attributes: {},
@@ -39,31 +39,35 @@ describe( "The parse function", () => {
 						"class": new Set( [ "yoast" ] ),
 					},
 					sentences: [ {
-						text: "Hello, world!",
-						sourceCodeRange: { startOffset: 22, endOffset: 35 },
+						text: "Hello, world & beyond!",
+						sourceCodeRange: { startOffset: 22, endOffset: 48 },
 						tokens: [
 							{ text: "Hello", sourceCodeRange: { startOffset: 22, endOffset: 27 } },
 							{ text: ",", sourceCodeRange: { startOffset: 27, endOffset: 28 } },
 							{ text: " ", sourceCodeRange: { startOffset: 28, endOffset: 29 } },
 							{ text: "world", sourceCodeRange: { startOffset: 29, endOffset: 34 } },
-							{ text: "!", sourceCodeRange: { startOffset: 34, endOffset: 35 } },
+							{ text: " ", sourceCodeRange: { startOffset: 34, endOffset: 35 } },
+							{ text: "&", sourceCodeRange: { startOffset: 35, endOffset: 40 } },
+							{ text: " ", sourceCodeRange: { startOffset: 40, endOffset: 41 } },
+							{ text: "beyond", sourceCodeRange: { startOffset: 41, endOffset: 47 } },
+							{ text: "!", sourceCodeRange: { startOffset: 47, endOffset: 48 } },
 						],
 					} ],
 					childNodes: [ {
 						name: "#text",
-						value: "Hello, world!",
-						sourceCodeRange: { startOffset: 22, endOffset: 35 },
+						value: "Hello, world #amp; beyond!",
+						sourceCodeRange: { startOffset: 22, endOffset: 48 },
 					} ],
 					sourceCodeLocation: {
 						startOffset: 5,
-						endOffset: 39,
+						endOffset: 52,
 						startTag: {
 							startOffset: 5,
 							endOffset: 22,
 						},
 						endTag: {
-							startOffset: 35,
-							endOffset: 39,
+							startOffset: 48,
+							endOffset: 52,
 						},
 					},
 				} ],
