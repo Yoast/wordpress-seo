@@ -149,5 +149,30 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::prefix_dependencies",
 			"composer compile-di"
 		]
+	},
+	"scripts-descriptions": {
+		"lint": "Check the PHP files for parse errors.",
+		"lint-files": "Internal use.",
+		"lint-branch": "Check the PHP files changed in the current branch for parse errors.",
+		"lint-staged": "Check the staged PHP files for parse errors.",
+		"cs": "See a menu with the code style checking script options.",
+		"check-cs-thresholds": "Check the PHP files for code style violations and best practices and verify the number of issues does not exceed predefined thresholds.",
+		"check-cs": "Check the PHP files for code style violations and best practices, ignoring warnings.",
+		"check-cs-errors": "Alias for check-cs command",
+		"check-cs-warnings": "Check the PHP files for code style violations and best practices, including warnings.",
+		"check-staged-cs": "Check the staged PHP files for code style violations and best practices.",
+		"check-branch-cs": "Check the PHP files changed in the current branch for code style violations and best practices.",
+		"fix-cs": "Auto-fix code style violations in the PHP files.",
+		"test": "Run the unit tests without code coverage.",
+		"coverage": "Run the unit tests with code coverage.",
+		"integration-test": "Run the integration tests without code coverage.",
+		"integration-coverage": "Run the integration tests with code coverage.",
+		"prefix-dependencies": "Create the vendor_prefixed directory.",
+		"prefix-oauth2-client": "Prefix the OAuth2 Client dependencies and place them in the vendor_prefixed directory.",
+		"prefix-symfony": "Prefix the Symfony dependencies and place them in the vendor_prefixed directory.",
+		"prefix-wordproof": "Prefix the WordProof dependencies and place them in the vendor_prefixed directory.",
+		"compile-di": "Compile the dependency injection layer.",
+		"generate-migration": "Generate a migration.",
+		"generate-unit-test": "Generates a unit test template for the fully qualified class provided as a CLI arg."
 	}
 }
