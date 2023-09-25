@@ -60,8 +60,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						</h2>
 						<p>
 							<?php
-							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-							\printf( \esc_html__( 'Be more efficient in creating titles and meta descriptions with the help of AI. %1$sGet 24/7 support%2$s and boost your website’s visibility.', 'wordpress-seo' ), '<strong>', '</strong>' );
+							echo \esc_html__( 'Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support and much, much more!', 'wordpress-seo' );
 							?>
 						</p>
 						<?php if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) : ?>
