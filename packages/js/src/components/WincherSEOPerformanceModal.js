@@ -48,7 +48,7 @@ export function openModal( props ) {
 
 	if ( ! keyphrases.length ) {
 		// This is fragile, should replace with a real React ref.
-		document.querySelector( "#focus-keyword-input-sidebar" ).focus();
+		document.querySelector( "#focus-keyword-input-metabox" ).focus();
 		onNoKeyphraseSet();
 
 		return;
