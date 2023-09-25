@@ -340,7 +340,7 @@ const TableContent = ( props ) => {
 		return <WincherNoKeyphraseSet />;
 	}
 
-	const historyLimitDate = moment().subtract( historyDaysLimit, "days" );
+	const historyLimitDate = START_OF_TODAY.subtract( historyDaysLimit, "days" );
 
 	const periodOptions = WINCHER_PERIOD_OPTIONS.filter(
 		opt => moment( opt.value ).isSameOrAfter( historyLimitDate )
