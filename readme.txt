@@ -346,6 +346,7 @@ Release date: 2023-10-03
 
 #### Enhancements
 
+* Improves the accuracy of the _word complexity_ assessment in English by recognizing more plural forms of non-complex words. For example, the plural form _universities_ is not marked as a complex word anymore, just like the singular form _university_.
 * Improves the performance of post saving.
 
 #### Bugfixes
