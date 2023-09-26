@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Support_Integration;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -23,32 +24,46 @@ class Support_Integration_Test extends TestCase {
 	const PAGE = 'wpseo_page_support';
 
 	/**
-	 * Holds the WPSEO_Admin_Asset_Manager.
+	 * Holds the WPSEO_Admin_Asset_Manager mock.
 	 *
 	 * @var Mockery\MockInterface|WPSEO_Admin_Asset_Manager
 	 */
 	private $asset_manager;
 
 	/**
-	 * Holds the Current_Page_Helper.
+	 * Holds the Current_Page_Helper mock.
 	 *
-	 * @var Current_Page_Helper
+	 * @var Mockery\MockInterface|Current_Page_Helper
 	 */
 	private $current_page_helper;
 
 	/**
-	 * Holds the Product_Helper.
+	 * Holds the Product_Helper mock.
 	 *
-	 * @var Product_Helper
+	 * @var Mockery\MockInterface|Product_Helper
 	 */
 	private $product_helper;
 
 	/**
-	 * Holds the Short_Link_Helper.
+	 * Holds the Short_Link_Helper mock.
 	 *
-	 * @var Short_Link_Helper
+	 * @var Mockery\MockInterface|Short_Link_Helper
 	 */
 	private $shortlink_helper;
+
+	/**
+	 * Holds the Promotion_Manager mock.
+	 *
+	 * @var Mockery\MockInterface|Promotion_Manager
+	 */
+	private $promotion_manager;
+
+	/**
+	 * Holds the container.
+	 *
+	 * @var Mockery\MockInterface|Container
+	 */
+	private $container;
 
 	/**
 	 * The class under test.
@@ -67,6 +82,8 @@ class Support_Integration_Test extends TestCase {
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->product_helper      = Mockery::mock( Product_Helper::class );
 		$this->shortlink_helper    = Mockery::mock( Short_Link_Helper::class );
+		$this->promotion_manager   = Mockery::mock( Promotion_Manager::class );
+		$this->container           = $this->create_container_with( [ Promotion_Manager::class => $this->promotion_manager ] );
 
 		$this->instance = new Support_Integration(
 			$this->asset_manager,
@@ -217,15 +234,52 @@ class Support_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Data provider for test_enqueue_assets
+	 *
+	 * @return array
+	 */
+	public function data_provider_enqueu_black_friday_style() {
+		return [
+			'is black friday' => [
+				'is_black_friday' => true,
+				'expected'        => 1,
+			],
+			'is not black friday' => [
+				'is_black_friday' => false,
+				'expected'        => 0,
+			],
+		];
+	}
+
+	/**
 	 * Test enqueue_assets
 	 *
 	 * @covers ::enqueue_assets
 	 * @covers ::get_script_data
+	 *
+	 * @dataProvider data_provider_enqueu_black_friday_style
+	 *
+	 * @param bool $is_black_friday Whether it is black friday or not.
+	 * @param int  $expected The number of times the action should be called.
+	 * @return void
 	 */
-	public function test_enqueue_assets() {
+	public function test_enqueue_assets( $is_black_friday, $expected ) {
 		Monkey\Functions\expect( 'remove_action' )
 			->with( 'admin_print_scripts', 'print_emoji_detection_script' )
 			->once();
+
+
+		// In get_script_data method.
+		$this->assert_promotions();
+
+		// In enqueue_assets method.
+		$this->promotion_manager->expects( 'is' )
+			->with( 'black-friday-2023-promotion' )
+			->once()
+			->andReturn( $is_black_friday );
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->andReturn( (object) [ 'classes' => $this->create_classes_surface( $this->container ) ] );
 
 		$this->asset_manager
 			->expects( 'enqueue_script' )
@@ -236,6 +290,11 @@ class Support_Integration_Test extends TestCase {
 			->expects( 'enqueue_style' )
 			->with( 'support' )
 			->once();
+
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->with( 'black-friday-banner' )
+			->times( $expected );
 
 		$this->asset_manager
 			->expects( 'localize_script' )
@@ -289,19 +348,36 @@ class Support_Integration_Test extends TestCase {
 	public function test_get_script_data() {
 		$link_params = $this->expect_get_script_data();
 
+		$this->assert_promotions();
+
 		$expected = [
-			'preferences' => [
+			'preferences'   => [
 				'isPremium'      => false,
 				'isRtl'          => false,
+				'promotions'     => [ 'black-friday-2023-promotion' ],
 				'pluginUrl'      => 'http://basic.wordpress.test/wp-content/worspress-seo',
 				'upsellSettings' => [
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
 			],
-			'linkParams'  => $link_params,
+			'linkParams'    => $link_params,
 		];
 
 		$this->assertSame( $expected, $this->instance->get_script_data() );
+	}
+
+	/**
+	 * Asserts the check for promotions.
+	 *
+	 * @return void
+	 */
+	protected function assert_promotions() {
+		$this->promotion_manager->expects( 'get_current_promotions' )
+			->once()
+			->andReturn( [ 'black-friday-2023-promotion' ] );
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->andReturn( (object) [ 'classes' => $this->create_classes_surface( $this->container ) ] );
 	}
 }

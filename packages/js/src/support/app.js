@@ -33,6 +33,7 @@ const openHelpScoutBeacon = () => {
  */
 export const App = () => {
 	const isPremium = useSelectSupport( "selectPreference", [], "isPremium", false );
+	const promotions = useSelectSupport( "selectPreference", [], "promotions", [] );
 	const premiumUpsellConfig = useSelectSupport( "selectUpsellSettingsAsProps" );
 	const pluginUrl = useSelectSupport( "selectPreference", [], "pluginUrl", "" );
 	const linkParams = useSelectSupport( "selectLinkParams" );
@@ -231,7 +232,7 @@ export const App = () => {
 				</Paper>
 				{ ! isPremium && (
 					<RecommendationsSidebar>
-						<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } />
+						<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } promotions={ promotions } />
 						<AcademyUpsellCard link={ academyLink } />
 					</RecommendationsSidebar>
 				) }

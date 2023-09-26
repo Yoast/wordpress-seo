@@ -68,7 +68,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		$class = $this->get_html_class();
 
 		/* translators: %s expands to Yoast SEO Premium */
-		$button_text  = sprintf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		$button_text  = YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ? \esc_html__( 'Claim your 30% off now!', 'wordpress-seo' ) : sprintf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 		$button_text .= '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
 			'<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 

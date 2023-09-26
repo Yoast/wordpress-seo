@@ -60,8 +60,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						</h2>
 						<p>
 							<?php
-							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-							\printf( \esc_html__( 'Be more efficient in creating titles and meta descriptions with the help of AI. %1$sGet 24/7 support%2$s and boost your website’s visibility.', 'wordpress-seo' ), '<strong>', '</strong>' );
+							echo \esc_html__( 'Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support and much, much more!', 'wordpress-seo' );
 							?>
 						</p>
 						<?php if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) : ?>
@@ -77,8 +76,13 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						<p class="plugin-buy-button">
 							<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
 								<?php
-								/* translators: %s expands to Yoast SEO Premium */
-								\printf( \esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+								if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+									echo \esc_html__( 'Claim your 30% off now!', 'wordpress-seo' );
+								}
+								else {
+									/* translators: %s expands to Yoast SEO Premium */
+									\printf( \esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+								}
 								?>
 								<span aria-hidden="true" class="yoast-button-upsell__caret"></span>
 							</a>

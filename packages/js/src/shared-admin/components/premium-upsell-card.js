@@ -12,20 +12,11 @@ import { ReactComponent as G2Logo } from "./g2-logo-white.svg";
 /**
  * @param {string} link The link.
  * @param {Object} [linkProps] Extra link props.
+ * @param {array} [promotions] Promotions.
  * @returns {JSX.Element} The premium upsell card.
  */
-export const PremiumUpsellCard = ( { link, linkProps } ) => {
-	const info = useMemo( () => createInterpolateElement(
-		sprintf(
-			/* translators: %1$s and %2$s expand to opening and closing <strong> tags. */
-			__( "Be more efficient in creating titles and meta descriptions with the help of AI. %1$sGet 24/7 support%2$s and boost your website’s visibility.", "wordpress-seo" ),
-			"<strong>",
-			"</strong>"
-		),
-		{
-			strong: <strong />,
-		}
-	), [] );
+export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
+	const info = useMemo( () => __( "Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support and much, much more!", "wordpress-seo" ), [] );
 	const getPremium = createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
@@ -38,18 +29,40 @@ export const PremiumUpsellCard = ( { link, linkProps } ) => {
 			nowrap: <span className="yst-whitespace-nowrap" />,
 		}
 	);
+	const isBlackFriday = promotions.includes( "black-friday-2023-promotion" );
+	const saveMoneyText = createInterpolateElement(
+		sprintf(
+			/* translators: %1$s and %2$s expand to strong tags. */
+			__( "%1$sSAVE 30%%%2$s on your 12 month subscription", "wordpress-seo" ),
+			"<strong>",
+			"</strong>"
+		),
+		{
+			strong: <strong />,
+		}
+	);
 
 	return (
 		<div className="yst-p-6 yst-rounded-lg yst-text-white yst-bg-primary-500 yst-shadow">
 			<figure
-				className="yst-logo-square yst-w-16 yst-h-16 yst-mt-[-2.6rem] yst-mx-auto yst-overflow-hidden yst-border yst-border-white yst-rounded-xl yst-rounded-br-none"
+				className="yst-logo-square yst-w-16 yst-h-16 yst-mx-auto yst-overflow-hidden yst-border yst-border-white yst-rounded-xl yst-rounded-br-none yst-relative yst-z-10 yst-mt-[-2.6rem]"
 			>
 				<YoastSeoLogo />
 			</figure>
+			{ isBlackFriday && <div className="sidebar__sale_banner_container">
+				<div className="sidebar__sale_banner">
+					<span className="banner_text">{ __( "BLACK FRIDAY - 30% OFF", "wordpress-seo" ) }</span>
+				</div>
+			</div> }
 			<Title as="h2" className="yst-mt-6 yst-text-base yst-font-extrabold yst-text-white">
 				{ getPremium }
 			</Title>
 			<p className="yst-mt-2">{ info }</p>
+			{ isBlackFriday && <div className="yst-text-center yst-border-t-[1px] yst-border-white yst-italic yst-mt-3">
+				<p className="yst-text-[10px] yst-my-3 yst-mx-0">
+					{ saveMoneyText }
+				</p>
+			</div> }
 			<Button
 				as="a"
 				variant="upsell"
@@ -59,7 +72,7 @@ export const PremiumUpsellCard = ( { link, linkProps } ) => {
 				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 focus:yst-ring-offset-primary-500"
 				{ ...linkProps }
 			>
-				<span>{ getPremium }</span>
+				<span>{ isBlackFriday ? __( "Claim your 30% off now!", "wordpress-seo" ) : getPremium }</span>
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
 			<a
@@ -90,8 +103,10 @@ export const PremiumUpsellCard = ( { link, linkProps } ) => {
 PremiumUpsellCard.propTypes = {
 	link: PropTypes.string.isRequired,
 	linkProps: PropTypes.object,
+	promotions: PropTypes.array,
 };
 
 PremiumUpsellCard.defaultProps = {
 	linkProps: {},
+	promotions: [],
 };
