@@ -487,7 +487,7 @@ class Settings_Integration implements Integration_Interface {
 			'upsellSettings'                => $this->get_upsell_settings(),
 			'siteRepresentsPerson'          => $this->get_site_represents_person( $settings ),
 			'siteBasicsPolicies'            => $this->get_site_basics_policies( $settings ),
-			'isBlackFriday'                  => YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ),
+			'isBlackFriday'                 => YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ),
 		];
 	}
 
