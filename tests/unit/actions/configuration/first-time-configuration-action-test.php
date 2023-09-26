@@ -87,6 +87,10 @@ class First_Time_Configuration_Action_Test extends TestCase {
 			->times( $times )
 			->andReturn( ...$yoast_options_results );
 
+			$this->options_helper
+			->expects( 'get' )
+			->times( sizeof( $this->instance::SITE_REPRESENTATION_FIELDS) );
+
 		Monkey\Functions\expect( 'current_user_can' )
 			->with( 'manage_options' )
 			->andReturnTrue();
@@ -197,7 +201,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 * @param array  $set_profiles_results The expected results for set_organization_social_profiles().
 	 * @param object $expected             The expected result object.
 	 */
-	public function test_set_social_profiles( $set_profiles_results, $expected ) {
+	public function test_set_social_profiles( $set_profiles_results, $get_profiles_results, $expected ) {
 		$params = [
 			'param1',
 			'param2',
@@ -208,6 +212,15 @@ class First_Time_Configuration_Action_Test extends TestCase {
 			->with( $params )
 			->once()
 			->andReturn( $set_profiles_results );
+
+		$this->social_profiles_helper
+		->expects( 'get_organization_social_profile_fields' )
+		->once()
+		->andReturn( $get_profiles_results );
+
+		$this->options_helper
+		->expects( 'get' )
+		->times( sizeof( $get_profiles_results ) );
 
 		$this->assertEquals(
 			$expected,
@@ -223,6 +236,11 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	public function social_profiles_provider() {
 		$success_all = [
 			'set_profiles_results' => [],
+			'get_profiles_results' => [
+				'facebook_site'     => 'get_non_valid_url',
+				'twitter_site'      => 'get_non_valid_twitter',
+				'other_social_urls' => 'get_non_valid_url_array'
+			],
 			'expected'             => (object) [
 				'success' => true,
 				'status'  => 200,
@@ -231,6 +249,11 @@ class First_Time_Configuration_Action_Test extends TestCase {
 
 		$success_some = [
 			'set_profiles_results' => [ 'param1' ],
+			'get_profiles_results' => [
+				'facebook_site'     => 'get_non_valid_url',
+				'twitter_site'      => 'get_non_valid_twitter',
+				'other_social_urls' => 'get_non_valid_url_array'
+			],
 			'expected'             => (object) [
 				'success'  => false,
 				'status'   => 200,
@@ -241,6 +264,11 @@ class First_Time_Configuration_Action_Test extends TestCase {
 
 		$success_none = [
 			'yoast_options_results' => [ 'param1', 'param2' ],
+			'get_profiles_results' => [
+				'facebook_site'     => 'get_non_valid_url',
+				'twitter_site'      => 'get_non_valid_twitter',
+				'other_social_urls' => 'get_non_valid_url_array'
+			],
 			'expected'              => (object) [
 				'success'  => false,
 				'status'   => 200,
