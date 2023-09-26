@@ -30,6 +30,17 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 		}
 	);
 	const isBlackFriday = promotions.includes( "black-friday-2023-promotion" );
+	const saveMoneyText = createInterpolateElement(
+		sprintf(
+			/* translators: %1$s and %2$s expand to strong tags. */
+			__( "%1$sSAVE 30%%%2$s on your 12 month subscription", "wordpress-seo" ),
+			"<strong>",
+			"</strong>"
+		),
+		{
+			strong: <strong />,
+		}
+	);
 
 	return (
 		<div className="yst-p-6 yst-rounded-lg yst-text-white yst-bg-primary-500 yst-shadow">
@@ -47,6 +58,11 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 				{ getPremium }
 			</Title>
 			<p className="yst-mt-2">{ info }</p>
+			{ isBlackFriday && <div className="yst-text-center yst-border-t-[1px] yst-border-white yst-italic yst-mt-3">
+				<p className="yst-text-[10px] yst-my-3 yst-mx-0">
+					{ saveMoneyText }
+				</p>
+			</div> }
 			<Button
 				as="a"
 				variant="upsell"
