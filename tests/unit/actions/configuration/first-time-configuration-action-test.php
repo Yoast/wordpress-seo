@@ -9,8 +9,6 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-use function parallel\count;
-
 /**
  * Class First_Time_Configuration_Action_Test
  *
@@ -91,7 +89,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 
 			$this->options_helper
 				->expects( 'get' )
-				->times( count( $this->instance::SITE_REPRESENTATION_FIELDS ) );
+				->times( \count( $this->instance::SITE_REPRESENTATION_FIELDS ) );
 
 		Monkey\Functions\expect( 'current_user_can' )
 			->with( 'manage_options' )
@@ -223,7 +221,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->times( count( $get_profiles_results ) );
+			->times( \count( $get_profiles_results ) );
 
 		$this->assertEquals(
 			$expected,
