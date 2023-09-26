@@ -90,13 +90,27 @@ describe( "Indexation", () => {
 				},
 				nonce: "nonsense",
 			},
-			subscriptionActivationLink: "https://example.net/activation-link",
 			errorMessage: "An error message.",
 		};
 
 		global.fetch = jest.fn( () => (
 			Promise.reject( new Error( "Request failed!" ) ) )
 		);
+
+		render( <Indexation /> );
+		fireEvent.click( screen.getByRole( "button" ) );
+
+		await waitFor( () => {
+			const error = screen.queryByText( "An error message." );
+			expect( error ).toBeInTheDocument();
+		}, { timeout: 1000 } );
+
+		expect( global.fetch ).toHaveBeenCalledWith( "https://example.com/indexing-endpoint", {
+			headers: {
+				"X-WP-Nonce": "nonsense",
+			},
+			method: "POST",
+		} );
 	} );
 
 	it( "executes registered pre- and postindexing actions", async() => {
