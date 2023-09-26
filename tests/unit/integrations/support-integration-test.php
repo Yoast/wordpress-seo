@@ -339,12 +339,12 @@ class Support_Integration_Test extends TestCase {
 			'preferences'   => [
 				'isPremium'      => false,
 				'isRtl'          => false,
+				'isBlackFriday'  => false,
 				'pluginUrl'      => 'http://basic.wordpress.test/wp-content/worspress-seo',
 				'upsellSettings' => [
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
-				'isBlackFriday'  => false,
 			],
 			'linkParams'    => $link_params,
 		];
