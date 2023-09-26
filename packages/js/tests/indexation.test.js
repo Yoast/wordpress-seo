@@ -1,5 +1,5 @@
 import Indexation from "../src/components/Indexation";
-import { render, screen } from "./test-utils";
+import { fireEvent, render, screen, waitFor } from "./test-utils";
 
 /**
  * Fetch mock response.
@@ -53,6 +53,29 @@ describe( "Indexation", () => {
 			}
 
 			return Promise.reject();
+		} );
+
+		render( <Indexation /> );
+		fireEvent.click( screen.getByRole( "button" ) );
+
+		const optimizing = screen.queryByText( "Optimizing SEO data... This may take a while." );
+		expect( optimizing ).toBeInTheDocument();
+
+		const progressBar = document.getElementsByTagName( "progress" )[ 0 ];
+		expect( progressBar ).toBeInTheDocument();
+		expect( progressBar ).toHaveAttribute( "value", "0" );
+		expect( progressBar ).toHaveAttribute( "max", "5" );
+
+		await waitFor( () => {
+			const complete = screen.queryByText( "SEO data optimization complete" );
+			expect( complete ).toBeInTheDocument();
+		}, { timeout: 1000 } );
+
+		expect( global.fetch ).toHaveBeenCalledWith( "https://example.com/indexing-endpoint", {
+			headers: {
+				"X-WP-Nonce": "nonsense",
+			},
+			method: "POST",
 		} );
 	} );
 
