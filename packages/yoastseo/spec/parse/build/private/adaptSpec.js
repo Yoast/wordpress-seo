@@ -588,6 +588,128 @@ describe( "The adapt function",
 			expect( adaptedTree ).toEqual( expected );
 		} );
 
+		it( "should correctly adapt a fragment with a (overarching) paragraph element that has double line breaks as child nodes", () => {
+			const html = "<p>test<br data-mce-fragment='1'><br data-mce-fragment='1'>test<br />test</p>";
+			const tree = parseFragment( html, { sourceCodeLocationInfo: true } );
+
+			const adaptedTree = adapt( tree );
+
+			const expected = {
+				name: "#document-fragment",
+				attributes: {},
+				childNodes: [
+					{
+						name: "p-overarching",
+						isImplicit: false,
+						attributes: {},
+						childNodes: [
+							{
+								name: "p",
+								isImplicit: true,
+								attributes: {},
+								childNodes: [
+									{
+										name: "#text",
+										sourceCodeRange: {
+											startOffset: 3,
+											endOffset: 7,
+										},
+										value: "test",
+									},
+								],
+								sourceCodeLocation: {
+									startOffset: 3,
+									endOffset: 7,
+								},
+							},
+							{
+								name: "br",
+								attributes: {
+									"data-mce-fragment": "1",
+								},
+								childNodes: [],
+								sourceCodeLocation: {
+									startOffset: 7,
+									endOffset: 33,
+									startTag: {
+										startOffset: 7,
+										endOffset: 33,
+									},
+								},
+							},
+							{
+								name: "br",
+								attributes: {
+									"data-mce-fragment": "1",
+								},
+								childNodes: [],
+								sourceCodeLocation: {
+									startOffset: 33,
+									endOffset: 59,
+									startTag: {
+										startOffset: 33,
+										endOffset: 59,
+									},
+								},
+							},
+							{
+								name: "p",
+								isImplicit: true,
+								sourceCodeLocation: {
+									startOffset: 59,
+									endOffset: 73,
+								},
+								attributes: {},
+								childNodes: [
+									{
+										name: "#text",
+										sourceCodeRange: {
+											startOffset: 59,
+											endOffset: 63,
+										},
+										value: "test",
+									},
+									{
+										attributes: {},
+										childNodes: [],
+										name: "br",
+										sourceCodeLocation: {
+											startOffset: 63,
+											endOffset: 69,
+											startTag: {
+												startOffset: 63,
+												endOffset: 69,
+											},
+										},
+									},
+									{
+										name: "#text",
+										sourceCodeRange: {
+											startOffset: 69,
+											endOffset: 73,
+										},
+										value: "test",
+									},
+								],
+							},
+						],
+						sourceCodeLocation: {
+							startOffset: 0,
+							endOffset: 77,
+							startTag: {
+								startOffset: 0,
+								endOffset: 3,
+							},
+							endTag: {
+								startOffset: 73,
+								endOffset: 77,
+							},
+						},
+					},
+				],
+			};
+			expect( adaptedTree ).toEqual( expected );
+		} );
 
 		it( "should correctly adapt a node with no childnodes.", () => {
 			const tree = { nodeName: "div" };

@@ -91,6 +91,19 @@ const updateSourceCodeLocation = ( node, implicitParagraph, currentSourceCodeLoc
 };
 
 /**
+ * Checks whether the current node is part of a double line break.
+ * @param {Node} currentNode The current node.
+ * @param {Node} prevNode The previous node (if available).
+ * @param {Node} nextNode The next node (if available).
+ * @returns {boolean} Whether the current node is part of a double line break
+ */
+const isPartOfDoubleBreak = ( currentNode, prevNode, nextNode ) => {
+	const prevNodeIsBreak = prevNode && prevNode.name === "br";
+	const nextNodeIsBreak = nextNode && nextNode.name === "br";
+	return currentNode.name === "br" && ( prevNodeIsBreak || nextNodeIsBreak );
+};
+
+/**
  * Combines series of consecutive phrasing content ("inline" tags like `a` and `span`, and text) into implicit paragraphs.
  *
  * @see https://html.spec.whatwg.org/#paragraphs
@@ -126,8 +139,11 @@ function combineIntoImplicitParagraphs( nodes, parentSourceCodeLocation = {} ) {
 	}
 
 	let implicitParagraph = Paragraph.createImplicit( {}, [], currentSourceCodeLocation );
-	nodes.forEach( node => {
-		if ( isPhrasingContent( node.name ) && ! isInterElementWhitespace( node ) ) {
+	nodes.forEach( ( node, index, allNodes ) => {
+		const prevNode = 0 !== index && allNodes[ index - 1 ];
+		const nextNode = allNodes.length - 1 !== index && allNodes[ index + 1 ];
+
+		if ( isPhrasingContent( node.name ) && ! isInterElementWhitespace( node ) && ! isPartOfDoubleBreak( node, prevNode, nextNode ) ) {
 			// If the node is phrasing content, add it to the implicit paragraph.
 			implicitParagraph.childNodes.push( node );
 		} else {

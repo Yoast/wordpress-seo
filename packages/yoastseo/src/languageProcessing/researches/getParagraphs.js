@@ -1,5 +1,4 @@
 import { reject } from "lodash-es";
-import { Paragraph } from "../../parse/structure";
 
 /**
  * Returns all paragraphs in a given Paper.
@@ -9,7 +8,7 @@ import { Paragraph } from "../../parse/structure";
  * @returns {Paragraph[]} All paragraphs in the paper.
  */
 export default function( paper ) {
-	let paragraphs = paper.getTree().findAll( node => node instanceof Paragraph );
+	let paragraphs = paper.getTree().findAll( node => node.name === "p" );
 
 	// Remove empty paragraphs without sentences and paragraphs only consisting of links.
 	paragraphs = reject( paragraphs, paragraph => paragraph.sentences.length === 0 );

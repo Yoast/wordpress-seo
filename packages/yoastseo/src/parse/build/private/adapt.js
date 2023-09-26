@@ -52,6 +52,13 @@ function isBlockElement( nodeName ) {
 	);
 }
 
+function isOverarchingParagraph( nodeName, children ) {
+	return isParagraph( nodeName ) && children.find( ( node, index, allNodes ) => {
+		const nextNode = allNodes.length - 1 !== index && allNodes[ index + 1 ];
+		return node.name === "br" && nextNode && nextNode.name === "br";
+	} );
+}
+
 /**
  * Adapts the `parse5` tree to our own tree representation.
  *
@@ -67,10 +74,16 @@ export default function adapt( tree ) {
 	if ( isText( tree.nodeName ) ) {
 		return new Text( tree );
 	}
+
 	let children = [];
+	let isOverarching = false;
 	if ( ! isEmpty( tree.childNodes ) ) {
 		children = tree.childNodes.map( adapt );
 		if ( isBlockElement( tree.nodeName ) ) {
+			children = combineIntoImplicitParagraphs( children, tree.sourceCodeLocation );
+		}
+		if ( isOverarchingParagraph( tree.nodeName, children ) ) {
+			isOverarching = true;
 			children = combineIntoImplicitParagraphs( children, tree.sourceCodeLocation );
 		}
 	}
@@ -78,7 +91,7 @@ export default function adapt( tree ) {
 	const attributes = adaptAttributes( tree.attrs );
 
 	if ( isParagraph( tree.nodeName ) ) {
-		return new Paragraph( attributes, children, tree.sourceCodeLocation );
+		return new Paragraph( attributes, children, tree.sourceCodeLocation, false, isOverarching );
 	}
 
 	if ( isHeading( tree.nodeName ) ) {
