@@ -2,7 +2,6 @@ import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Title } from "@yoast/ui-library";
-import { get } from "lodash";
 import PropTypes from "prop-types";
 import { ReactComponent as StarHalf } from "../../../images/star-rating-half.svg";
 import { ReactComponent as Star } from "../../../images/star-rating-star.svg";
@@ -13,11 +12,11 @@ import { ReactComponent as G2Logo } from "./g2-logo-white.svg";
 /**
  * @param {string} link The link.
  * @param {Object} [linkProps] Extra link props.
+ * @param {boolean} [isBlackFriday] Whether it is Black Friday.
  * @returns {JSX.Element} The premium upsell card.
  */
-export const PremiumUpsellCard = ( { link, linkProps } ) => {
+export const PremiumUpsellCard = ( { link, linkProps, isBlackFriday } ) => {
 	const info = useMemo( () => __( "Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support and much, much more!", "wordpress-seo" ), [] );
-	const isBlackFriday = get( window, "wpseoScriptData.isBlackFriday", "" );
 	const getPremium = createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
@@ -87,6 +86,7 @@ export const PremiumUpsellCard = ( { link, linkProps } ) => {
 PremiumUpsellCard.propTypes = {
 	link: PropTypes.string.isRequired,
 	linkProps: PropTypes.object,
+	isBlackFriday: PropTypes.bool,
 };
 
 PremiumUpsellCard.defaultProps = {

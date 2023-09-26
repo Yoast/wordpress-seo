@@ -6,6 +6,7 @@ import { useSelectSettings } from "../hooks";
  */
 const SidebarRecommendations = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const isBlackFriday = useSelectSettings( "selectPreference", [], "isBlackFriday" );
 	const premiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/jj" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const academyLink = useSelectSettings( "selectLink", [], "https://yoa.st/3t6" );
@@ -16,7 +17,7 @@ const SidebarRecommendations = () => {
 
 	return (
 		<RecommendationsSidebar>
-			<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } />
+			<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } isBlackFriday={ isBlackFriday } />
 			<AcademyUpsellCard link={ academyLink } />
 		</RecommendationsSidebar>
 	);

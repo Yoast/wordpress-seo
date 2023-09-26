@@ -164,9 +164,9 @@ class Support_Integration implements Integration_Interface {
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
+				'isBlackFriday' => YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ),
 			],
 			'linkParams'    => $this->shortlink_helper->get_query_params(),
-			'isBlackFriday' => YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ),
 		];
 	}
 }
