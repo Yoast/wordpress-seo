@@ -59,6 +59,13 @@ class Support_Integration_Test extends TestCase {
 	private $promotion_manager;
 
 	/**
+	 * Holds the container.
+	 *
+	 * @var Mockery\MockInterface|Container
+	 */
+	private $container;
+
+	/**
 	 * The class under test.
 	 *
 	 * @var Support_Integration
@@ -76,6 +83,7 @@ class Support_Integration_Test extends TestCase {
 		$this->product_helper      = Mockery::mock( Product_Helper::class );
 		$this->shortlink_helper    = Mockery::mock( Short_Link_Helper::class );
 		$this->promotion_manager   = Mockery::mock( Promotion_Manager::class );
+		$this->container           = $this->create_container_with( [ Promotion_Manager::class => $this->promotion_manager ] );
 
 		$this->instance = new Support_Integration(
 			$this->asset_manager,
@@ -260,11 +268,18 @@ class Support_Integration_Test extends TestCase {
 			->with( 'admin_print_scripts', 'print_emoji_detection_script' )
 			->once();
 
-		// In enqueue_assets.
-		$this->assert_black_friday_promotion( $is_black_friday );
 
 		// In get_script_data method.
-		$this->assert_black_friday_promotion( $is_black_friday );
+		$this->assert_promotions();
+
+		// In enqueue_assets method.
+		$this->promotion_manager->expects( 'is' )
+			->with( 'black-friday-2023-promotion' )
+			->once()
+			->andReturn( $is_black_friday );
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->andReturn( (object) [ 'classes' => $this->create_classes_surface( $this->container ) ] );
 
 		$this->asset_manager
 			->expects( 'enqueue_script' )
@@ -333,13 +348,13 @@ class Support_Integration_Test extends TestCase {
 	public function test_get_script_data() {
 		$link_params = $this->expect_get_script_data();
 
-		$this->assert_black_friday_promotion();
+		$this->assert_promotions();
 
 		$expected = [
 			'preferences'   => [
 				'isPremium'      => false,
 				'isRtl'          => false,
-				'isBlackFriday'  => false,
+				'promotions'     => [ 'black-friday-2023-promotion' ],
 				'pluginUrl'      => 'http://basic.wordpress.test/wp-content/worspress-seo',
 				'upsellSettings' => [
 					'actionId'     => 'load-nfd-ctb',
@@ -353,20 +368,16 @@ class Support_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Asserts the check for the black friday promotion.
+	 * Asserts the check for promotions.
 	 *
-	 * @param bool $is_black_friday Whether it is black friday or not.
 	 * @return void
 	 */
-	protected function assert_black_friday_promotion( $is_black_friday = false ) {
-		$this->promotion_manager->expects( 'is' )
-			->with( 'black-friday-2023-promotion' )
+	protected function assert_promotions() {
+		$this->promotion_manager->expects( 'get_current_promotions' )
 			->once()
-			->andReturn( $is_black_friday );
-
-		$container = $this->create_container_with( [ Promotion_Manager::class => $this->promotion_manager ] );
+			->andReturn( [ 'black-friday-2023-promotion' ] );
 
 		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( (object) [ 'classes' => $this->create_classes_surface( $container ) ] );
+			->andReturn( (object) [ 'classes' => $this->create_classes_surface( $this->container ) ] );
 	}
 }
