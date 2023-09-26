@@ -98,12 +98,7 @@ class First_Time_Configuration_Action {
 		 * @api array The options old values.
 		 * @api array The options that failed to be saved.
 		 */
-		\do_action(
-			'wpseo_post_update_site_representation',
-			$this->map_social_profile_param_names_to_hiive_names( $params ),
-			$this->map_social_profile_param_names_to_hiive_names( $old_values ),
-			$this->map_social_profile_param_names_to_hiive_names( $failures )
-		);
+		\do_action( 'wpseo_post_update_site_representation', $params, $old_values, $failures );
 
 		if ( \count( $failures ) === 0 ) {
 			return (object) [
@@ -355,36 +350,5 @@ class First_Time_Configuration_Action {
 		}
 
 		return $old_values;
-	}
-
-	/**
-	 * Maps the param names to the names used for Hiive events tracking.
-	 *
-	 * @param array $params The params to map.
-	 *
-	 * @return array The mapped params.
-	 */
-	private function map_social_profile_param_names_to_hiive_names( $params ) {
-		$skip_fields = [ 'company_logo_id', 'person_logo_id' ];
-		$map         = [
-			'company_or_person'         => 'site_representation',
-			'company_name'              => 'organization_name',
-			'company_logo'              => 'organization_logo',
-			'person_logo'               => 'logo',
-			'company_or_person_user_id' => 'name',
-			'website_name'              => 'website_name',
-
-		];
-		$mapped_params = [];
-
-		foreach ( $params as $param_name => $param_value ) {
-			if ( \in_array( $param_name, $skip_fields, true ) ) {
-				continue;
-			}
-			$new_name                   = $map[ $param_name ];
-			$mapped_params[ $new_name ] = $param_value;
-		}
-
-		return $mapped_params;
 	}
 }
