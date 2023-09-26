@@ -33,7 +33,7 @@ const openHelpScoutBeacon = () => {
  */
 export const App = () => {
 	const isPremium = useSelectSupport( "selectPreference", [], "isPremium", false );
-	const promotions = useSelectSupport( "selectPreference", [], "promotions", false );
+	const promotions = useSelectSupport( "selectPreference", [], "promotions", [] );
 	const premiumUpsellConfig = useSelectSupport( "selectUpsellSettingsAsProps" );
 	const pluginUrl = useSelectSupport( "selectPreference", [], "pluginUrl", "" );
 	const linkParams = useSelectSupport( "selectLinkParams" );
