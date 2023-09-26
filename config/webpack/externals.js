@@ -31,10 +31,10 @@ const yoastPackages = Object.keys( dependencies ).filter(
 /**
  * Convert Yoast packages to externals configuration.
  */
-const yoastExternals = yoastPackages.reduce( ( memo, packageName ) => {
-	let useablePackageName = packageName.replace( YOAST_PACKAGE_NAMESPACE, "" );
+const yoastExternals = yoastPackages.reduce((memo, packageName) => {
+	let useablePackageName = packageName.replace(YOAST_PACKAGE_NAMESPACE, "");
 
-	switch ( useablePackageName ) {
+	switch (useablePackageName) {
 		case "components":
 			useablePackageName = "components-new";
 			break;
@@ -49,9 +49,9 @@ const yoastExternals = yoastPackages.reduce( ( memo, packageName ) => {
 			break;
 	}
 
-	memo[ packageName ] = camelCaseDash( useablePackageName );
+	memo[packageName] = camelCaseDash(useablePackageName);
 	return memo;
-}, {} );
+}, {});
 
 module.exports = {
 	YOAST_PACKAGE_NAMESPACE,

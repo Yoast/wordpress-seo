@@ -6,7 +6,7 @@ module.exports = ( api ) => {
 		plugins: [
 			"@babel/plugin-proposal-optional-chaining",
 			"@babel/plugin-transform-runtime",
-			"@babel/plugin-proposal-class-properties",
+			"@babel/plugin-transform-class-properties",
 		],
 		sourceType: "unambiguous",
 	};
