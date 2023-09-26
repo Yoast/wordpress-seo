@@ -159,7 +159,7 @@ class Support_Integration implements Integration_Interface {
 			'preferences'   => [
 				'isPremium'      => $this->product_helper->is_premium(),
 				'isRtl'          => \is_rtl(),
-				'isBlackFriday'  => YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ),
+				'promotions'     => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 				'pluginUrl'      => \plugins_url( '', \WPSEO_FILE ),
 				'upsellSettings' => [
 					'actionId'     => 'load-nfd-ctb',

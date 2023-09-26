@@ -12,10 +12,10 @@ import { ReactComponent as G2Logo } from "./g2-logo-white.svg";
 /**
  * @param {string} link The link.
  * @param {Object} [linkProps] Extra link props.
- * @param {boolean} [isBlackFriday] Whether it is Black Friday.
+ * @param {array} [promotions] Promotions.
  * @returns {JSX.Element} The premium upsell card.
  */
-export const PremiumUpsellCard = ( { link, linkProps, isBlackFriday } ) => {
+export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 	const info = useMemo( () => __( "Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support and much, much more!", "wordpress-seo" ), [] );
 	const getPremium = createInterpolateElement(
 		sprintf(
@@ -29,6 +29,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isBlackFriday } ) => {
 			nowrap: <span className="yst-whitespace-nowrap" />,
 		}
 	);
+	const isBlackFriday = promotions.includes( "black-friday-2023-promotion" );
 
 	return (
 		<div className="yst-p-6 yst-rounded-lg yst-text-white yst-bg-primary-500 yst-shadow">
@@ -86,9 +87,10 @@ export const PremiumUpsellCard = ( { link, linkProps, isBlackFriday } ) => {
 PremiumUpsellCard.propTypes = {
 	link: PropTypes.string.isRequired,
 	linkProps: PropTypes.object,
-	isBlackFriday: PropTypes.bool,
+	promotions: PropTypes.array,
 };
 
 PremiumUpsellCard.defaultProps = {
 	linkProps: {},
+	promotions: [],
 };
