@@ -45,7 +45,7 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 	return (
 		<div className="yst-p-6 yst-rounded-lg yst-text-white yst-bg-primary-500 yst-shadow">
 			<figure
-				className="yst-logo-square yst-w-16 yst-h-16 yst-mt-[-2.6rem] yst-mx-auto yst-overflow-hidden yst-border yst-border-white yst-rounded-xl yst-rounded-br-none"
+				className="yst-logo-square yst-w-16 yst-h-16 yst-mx-auto yst-overflow-hidden yst-border yst-border-white yst-rounded-xl yst-rounded-br-none yst-relative yst-z-10 yst-mt-[-2.6rem]"
 			>
 				<YoastSeoLogo />
 			</figure>

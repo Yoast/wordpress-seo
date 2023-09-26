@@ -17,6 +17,6 @@
     width: calc(100% + 48px);
     margin-left: -24px;
     margin-bottom: -25px;
-    margin-top: -5px;
+    margin-top: -25px;
     @apply yst-overflow-hidden yst-pb-[10px];
 }
