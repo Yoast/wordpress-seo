@@ -126,21 +126,31 @@ describe( "Indexation", () => {
 			},
 		};
 
+		const response = {
+			objects: [ {}, {}, {}, {}, {} ],
+			// eslint-disable-next-line camelcase
+			next_url: false,
+		};
 		global.fetch = jest.fn().mockImplementation( ( url ) => {
 			if ( url === "https://example.com/indexing-endpoint" ) {
-				return fetchResponse( {
-					objects: [
-						{}, {}, {}, {}, {},
-					],
-					// eslint-disable-next-line camelcase
-					next_url: false,
-				} );
+				return fetchResponse( response );
 			}
 
 			return Promise.reject();
 		} );
 
-		// const preIndexingAction = jest.fn();
-		// const postIndexingAction = jest.fn();
+		const preIndexingAction = jest.fn();
+		const postIndexingAction = jest.fn();
+
+		render( <Indexation
+			preIndexingActions={ { indexation: preIndexingAction } }
+			indexingActions={ { indexation: postIndexingAction } }
+		/> );
+		fireEvent.click( screen.getByRole( "button" ) );
+
+		await waitFor( () => {
+			expect( preIndexingAction ).toHaveBeenCalledWith( global.yoastIndexingData );
+			expect( postIndexingAction ).toHaveBeenCalledWith( response.objects, global.yoastIndexingData );
+		}, { timeout: 1000 } );
 	} );
 } );
