@@ -66,7 +66,8 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		$class = $this->get_html_class();
 
 		/* translators: %s expands to Yoast SEO Premium */
-		$button_text  = sprintf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		$button_text = sprintf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		/* translators: Hidden accessibility text. */
 		$button_text .= '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
 			'<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 

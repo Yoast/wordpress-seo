@@ -408,6 +408,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				printf(
 					'<label for="%1$s" class="screen-reader-text">%2$s</label>',
 					esc_attr( 'post-type-filter-' . $instance_type ),
+					/* translators: Hidden accessibility text. */
 					esc_html__( 'Filter by content type', 'wordpress-seo' )
 				);
 				printf(
