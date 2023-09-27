@@ -1,5 +1,7 @@
 import { languageProcessing } from "yoastseo";
+import { processStandardSuffixes } from "./internal/stem.js";
 const { normalizeSingle } = languageProcessing;
+const { buildFormRule, createRulesFromArrays } = languageProcessing;
 
 const contractionPrefixes = "^(c'|d'|l'|s')";
 const contractionRegex = new RegExp( contractionPrefixes );
@@ -13,7 +15,7 @@ const contractionRegex = new RegExp( contractionPrefixes );
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( config, word ) {
+export default function checkIfWordIsComplex( config, word, morphologyData ) {
 	const lengthLimit = config.wordLength;
 	const frequencyList = config.frequencyList;
 
@@ -45,16 +47,19 @@ export default function checkIfWordIsComplex( config, word ) {
 	if ( word[ 0 ].toLowerCase() === word[ 0 ] ) {
 		/*
 		 * If a word is longer than 9 characters and doesn't start with capital letter,
-		 * we check further whether it is a plural ending in -s. If it is, we remove the -s suffix
+		 * we check further whether it is a plural that ends on the -s or -x plural suffix. If it is, we remove the plural suffix
 		 * and check if the singular word can be found in the frequency list.
+		 * if it is a plural that does not end on -s or -x but on -aux, we replace the plural -aux suffix with the singular suffix -al.
 		 * The word is not complex if the singular form is in the list.
 		 */
-		if ( word.endsWith( "s" ) ) {
+		if ( word.endsWith( morphologyData.suffixGroupsComplexity.standardSuffixesWithSplural ||
+			morphologyData.suffixGroupsComplexity.standardSuffixesWithXplural ) ) {
 			word = word.substring( 0, word.length - 1 );
-			return ! frequencyList.includes( word );
+		} else if ( word.endsWith( morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes ) ) {
+			word = word.replace( new RegExp( morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 0 ] ),
+				morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 1 ] );
 		}
-		return true;
+		return ! frequencyList.includes( word );
 	}
-
-	return false;
+	return true;
 }
