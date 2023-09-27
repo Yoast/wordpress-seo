@@ -92,7 +92,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	 * @return array The source.
 	 */
 	public function generate_source() {
-		if ( ! empty( $this->model->object_id ) ) {
+		if ( ! empty( $this->model->object_id ) || is_null( \get_queried_object() ) ) {
 			return \get_term( $this->model->object_id, $this->model->object_sub_type );
 		}
 
@@ -172,7 +172,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	 * @return string The title.
 	 */
 	public function generate_title() {
-		if ( $this->model->title ) {
+		if ( is_wp_error( $this->source ) || $this->model->title ) {
 			return $this->model->title;
 		}
 
