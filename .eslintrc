@@ -37,13 +37,10 @@ overrides:
       react/no-unused-prop-types: 1
       require-jsdoc: 1
   - files:
-      - "packages/search-metadata-previews/**/*.js"
+      - "packages/replacement-variable-editor/**/*.js"
     rules:
       react/jsx-no-bind: 1
-      react/no-unused-state: 1
-      react/no-access-state-in-setstate: 1
       react/require-default-props: 1
-      react/default-props-match-prop-types: 1
   - files:
       - "packages/yoastseo/**/*.js"
     settings:
