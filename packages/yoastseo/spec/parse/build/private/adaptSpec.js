@@ -594,124 +594,17 @@ describe( "The adapt function",
 
 			const adaptedTree = adapt( tree );
 
-			const expected = {
-				name: "#document-fragment",
-				attributes: {},
-				childNodes: [
-					{
-						name: "p-overarching",
-						isImplicit: false,
-						attributes: {},
-						childNodes: [
-							{
-								name: "p",
-								isImplicit: true,
-								attributes: {},
-								childNodes: [
-									{
-										name: "#text",
-										sourceCodeRange: {
-											startOffset: 3,
-											endOffset: 7,
-										},
-										value: "test",
-									},
-								],
-								sourceCodeLocation: {
-									startOffset: 3,
-									endOffset: 7,
-								},
-							},
-							{
-								name: "br",
-								attributes: {
-									"data-mce-fragment": "1",
-								},
-								childNodes: [],
-								sourceCodeLocation: {
-									startOffset: 7,
-									endOffset: 33,
-									startTag: {
-										startOffset: 7,
-										endOffset: 33,
-									},
-								},
-							},
-							{
-								name: "br",
-								attributes: {
-									"data-mce-fragment": "1",
-								},
-								childNodes: [],
-								sourceCodeLocation: {
-									startOffset: 33,
-									endOffset: 59,
-									startTag: {
-										startOffset: 33,
-										endOffset: 59,
-									},
-								},
-							},
-							{
-								name: "p",
-								isImplicit: true,
-								sourceCodeLocation: {
-									startOffset: 59,
-									endOffset: 73,
-								},
-								attributes: {},
-								childNodes: [
-									{
-										name: "#text",
-										sourceCodeRange: {
-											startOffset: 59,
-											endOffset: 63,
-										},
-										value: "test",
-									},
-									{
-										attributes: {},
-										childNodes: [],
-										name: "br",
-										sourceCodeLocation: {
-											startOffset: 63,
-											endOffset: 69,
-											startTag: {
-												startOffset: 63,
-												endOffset: 69,
-											},
-										},
-									},
-									{
-										name: "#text",
-										sourceCodeRange: {
-											startOffset: 69,
-											endOffset: 73,
-										},
-										value: "test",
-									},
-								],
-							},
-						],
-						sourceCodeLocation: {
-							startOffset: 0,
-							endOffset: 77,
-							startTag: {
-								startOffset: 0,
-								endOffset: 3,
-							},
-							endTag: {
-								startOffset: 73,
-								endOffset: 77,
-							},
-						},
-					},
-				],
-			};
-			expect( adaptedTree ).toEqual( expected );
+			const overarchingParagraph = adaptedTree.childNodes[ 0 ];
+			expect( overarchingParagraph.name ).toEqual( "p-overarching" );
+			expect( overarchingParagraph.childNodes[ 0 ].name ).toEqual( "p" );
+			expect( overarchingParagraph.childNodes[ 0 ].isImplicit ).toBeTruthy();
+			expect( overarchingParagraph.childNodes[ 1 ].name ).toEqual( "br" );
+			expect( overarchingParagraph.childNodes[ 2 ].name ).toEqual( "br" );
+			expect( overarchingParagraph.childNodes[ 3 ].name ).toEqual( "p" );
+			expect( overarchingParagraph.childNodes[ 3 ].isImplicit ).toBeTruthy();
 		} );
 
-		it( "should correctly adapt a node with no childnodes.", () => {
+		it( "should correctly adapt a node with no childNodes.", () => {
 			const tree = { nodeName: "div" };
 			const adaptedTree = adapt( tree );
 

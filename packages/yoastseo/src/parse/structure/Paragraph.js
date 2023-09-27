@@ -17,6 +17,7 @@ class Paragraph extends Node {
 	 */
 	constructor( attributes = {}, childNodes = [], sourceCodeLocationInfo = {},
 		isImplicit = false, isOverarching = false ) {
+		// We rename any overarching `<p>` element to not match it as a stand-alone paragraph downstream.
 		const name = isOverarching ? "p-overarching" : "p";
 		super( name, attributes, childNodes, sourceCodeLocationInfo );
 		/**

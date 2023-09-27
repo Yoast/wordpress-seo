@@ -52,9 +52,19 @@ function isBlockElement( nodeName ) {
 	);
 }
 
+/**
+ * Checks whether the current node is an overarching paragraph.
+ * Overarching paragraphs have double `<br>` nodes (line breaks) in their children.
+ * We consider those to be indicating the end and start of an implicit paragraph, similar to the `autop` function in WordPress.
+ *
+ * @param {string} nodeName The name of the current node.
+ * @param {Node[]} children The children of the current nodes.
+ *
+ * @returns {boolean} Whether the current node is an overarching paragraph.
+ */
 function isOverarchingParagraph( nodeName, children ) {
-	return isParagraph( nodeName ) && children.find( ( node, index, allNodes ) => {
-		const nextNode = allNodes.length - 1 !== index && allNodes[ index + 1 ];
+	return isParagraph( nodeName ) && children.some( ( node, index, childNodes ) => {
+		const nextNode = childNodes.length - 1 !== index && childNodes[ index + 1 ];
 		return node.name === "br" && nextNode && nextNode.name === "br";
 	} );
 }
