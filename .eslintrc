@@ -37,11 +37,6 @@ overrides:
       react/no-unused-prop-types: 1
       require-jsdoc: 1
   - files:
-      - "packages/replacement-variable-editor/**/*.js"
-    rules:
-      react/jsx-no-bind: 1
-      react/require-default-props: 1
-  - files:
       - "packages/search-metadata-previews/**/*.js"
     rules:
       react/jsx-no-bind: 1
