@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // External dependencies.
 import styled from "styled-components";
 import React from "react";
@@ -168,7 +169,7 @@ class SnippetEditor extends React.Component {
 	 * @param {Object} nextProps The new props.
 	 * @returns {void}
 	 */
-	componentWillReceiveProps( nextProps ) {
+	UNSAFE_componentWillReceiveProps( nextProps ) {
 		// Only set a new state when the data is dirty.
 		if ( this.shallowCompareData( this.props, nextProps ) ) {
 			const data = this.mapDataToMeasurements( nextProps.data, nextProps.replacementVariables );
