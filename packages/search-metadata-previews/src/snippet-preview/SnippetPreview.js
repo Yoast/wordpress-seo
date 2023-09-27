@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // External dependencies.
 import React, { PureComponent } from "react";
 import styled from "styled-components";
@@ -700,7 +701,7 @@ export default class SnippetPreview extends PureComponent {
 	 *
 	 * @returns {void}
 	 */
-	componentWillReceiveProps( nextProps ) {
+	UNSAFE_componentWillReceiveProps( nextProps ) {
 		const nextState = {};
 
 		if ( this.props.title !== nextProps.title ) {
