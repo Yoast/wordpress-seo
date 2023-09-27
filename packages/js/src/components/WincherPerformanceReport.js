@@ -465,7 +465,7 @@ const WincherPerformanceReport = ( props ) => {
 	const data = isLoggedIn ? props.data : fakeWincherPerformanceData;
 	const isBlurred = ! isLoggedIn;
 	const hasResults = checkHasResults( data );
-	const trackingInfo = useTrackingInfo();
+	const trackingInfo = useTrackingInfo( isLoggedIn );
 
 	return (
 		<WicnherSEOPerformanceContainer

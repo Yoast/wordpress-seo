@@ -444,7 +444,7 @@ export default function WincherSEOPerformance( props ) {
 	const onLoginCallback = useCallback( () => {
 		onLoginOpen( props );
 	}, [ onLoginOpen, props ] );
-	const trackingInfo = useTrackingInfo();
+	const trackingInfo = useTrackingInfo( isLoggedIn );
 
 	return (
 		<Wrapper>
