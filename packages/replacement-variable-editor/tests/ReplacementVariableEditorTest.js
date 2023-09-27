@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render } from "./test-utils";
 import ReplacementVariableEditorStandalone, { ReplacementVariableEditorStandaloneInnerComponent }
 	from "../src/ReplacementVariableEditorStandalone";
 
@@ -22,6 +22,7 @@ describe( "ReplacementVariableEditorStandalone", () => {
 			<ReplacementVariableEditorStandalone
 				replacementVariables={ [] }
 				content="Dummy content"
+				// eslint-disable-next-line react/jsx-no-bind
 				onChange={ () => {} }
 				ariaLabelledBy="id"
 				fieldId="test-field-id"
