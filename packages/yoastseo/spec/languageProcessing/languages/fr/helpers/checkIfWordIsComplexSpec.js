@@ -29,6 +29,19 @@ describe( "a test checking if the word is complex in French",  function() {
 		expect( checkIfWordIsComplex( wordComplexityConfig, "chanson" ) ).toEqual( false );
 		expect( checkIfWordIsComplex( wordComplexityConfig, "ouvrir" ) ).toEqual( false );
 	} );
+	it( "returns irregular plural as non-complex if its singular version is found in the list", function() {
+		expect( checkIfWordIsComplex( wordComplexityConfig,  "principaux" ) ).toEqual( false );
+		expect( checkIfWordIsComplex( wordComplexityConfig, "principal" ) ).toEqual( false );
+	} );
+
+	it( "returns irregular plural words longer than 9 characters as complex if it is not in the list", function() {
+		expect( checkIfWordIsComplex( wordComplexityConfig, "expérimentaux" ) ).toEqual( true );
+	} );
+
+	it( "returns an -x plural as non-complex if its singular version is found in the list", function() {
+		expect( checkIfWordIsComplex( wordComplexityConfig,  "vaisseaux" ) ).toEqual( false );
+		expect( checkIfWordIsComplex( wordComplexityConfig, "vaisseau" ) ).toEqual( false );
+	} );
 
 	it( "returns words longer than 9 characters preceded by article l' or preposition d' as non complex if the words are in the list", function() {
 		expect( checkIfWordIsComplex( wordComplexityConfig, "l'ambassadeur" ) ).toEqual( false );
