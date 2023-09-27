@@ -624,7 +624,10 @@ export default class HowTo extends Component {
 							htmlFor="schema-how-to-duration-days"
 							className="screen-reader-text"
 						>
-							{ __( "days", "wordpress-seo" ) }
+							{
+								/* translators: Hidden accessibility text. */
+								__( "days", "wordpress-seo" )
+							}
 						</label>
 						<input
 							id="schema-how-to-duration-days"
@@ -639,7 +642,10 @@ export default class HowTo extends Component {
 							htmlFor="schema-how-to-duration-hours"
 							className="screen-reader-text"
 						>
-							{ __( "hours", "wordpress-seo" ) }
+							{
+								/* translators: Hidden accessibility text. */
+								__( "hours", "wordpress-seo" )
+							}
 						</label>
 						<input
 							id="schema-how-to-duration-hours"
@@ -654,7 +660,10 @@ export default class HowTo extends Component {
 							htmlFor="schema-how-to-duration-minutes"
 							className="screen-reader-text"
 						>
-							{ __( "minutes", "wordpress-seo" ) }
+							{
+								/* translators: Hidden accessibility text. */
+								__( "minutes", "wordpress-seo" )
+							}
 						</label>
 						<input
 							id="schema-how-to-duration-minutes"
