@@ -540,26 +540,6 @@ class WPSEO_Sitemaps {
 		return YoastSEO()->helpers->date->format( self::get_last_modified_gmt( $post_types ) );
 	}
 
-	// phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Argument is kept for documentation purposes.
-
-	/**
-	 * Notify search engines of the updated sitemap.
-	 *
-	 * @deprecated 19.2
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param string|null $url Optional URL to make the ping for.
-	 */
-	public static function ping_search_engines( $url = null ) {
-		_deprecated_function( __METHOD__, 'Yoast SEO 19.2', 'WPSEO_Sitemaps_Admin::ping_search_engines' );
-
-		$admin = new WPSEO_Sitemaps_Admin();
-		$admin->ping_search_engines();
-	}
-
-	// phpcs:enable
-
 	/**
 	 * Get the maximum number of entries per XML sitemap.
 	 *

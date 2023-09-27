@@ -11,6 +11,16 @@ describe( "Gets all H1s in the text", function() {
 		expect( h1s( mockPaper ) ).toEqual( [] );
 	} );
 
+	it( "should return empty when there is only empty H1s", function() {
+		const mockPaper = new Paper( "some content<h1></h1> other content <h1></h1>" );
+		expect( h1s( mockPaper ) ).toEqual( [] );
+	} );
+
+	it( "should return empty when there is only empty H1s", function() {
+		const mockPaper = new Paper( "some content<h1></h1> other content <h1></h1>" );
+		expect( h1s( mockPaper ) ).toEqual( [] );
+	} );
+
 	it( "should return one object when there is one H1", function() {
 		const mockPaper = new Paper( "<h1>first h1</h1>some content<h2>content h2</h2>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );

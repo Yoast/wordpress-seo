@@ -50,7 +50,7 @@ export default function ImageSelect( {
 			return (
 				<div className="yst-text-center">
 					<Spinner size="10" color="gray-400" className="yst-inline-block" />
-					<p className="yst-mt-3">{ __( "Uploading image...", "admin-ui" ) }</p>
+					<p className="yst-mt-3">{ __( "Uploading image...", "wordpress-seo" ) }</p>
 				</div>
 			);
 		} else if ( url ) {
@@ -80,7 +80,7 @@ export default function ImageSelect( {
 					className="yst-button yst-button yst-button--secondary yst-mr-2"
 					onClick={ onSelectImageClick }
 				>
-					{ url ? __( "Replace image", "admin-ui" ) : __( "Select image", "admin-ui" ) }
+					{ url ? __( "Replace image", "wordpress-seo" ) : __( "Select image", "wordpress-seo" ) }
 				</button>
 				{ url && (
 					<button
@@ -89,7 +89,7 @@ export default function ImageSelect( {
 						className="yst-button--remove"
 						onClick={ onRemoveImageClick }
 					>
-						{ __( "Remove image", "admin-ui" ) }
+						{ __( "Remove image", "wordpress-seo" ) }
 					</button>
 				) }
 			</div>
