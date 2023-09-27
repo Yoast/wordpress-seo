@@ -33,6 +33,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/react-hooks": "^8.0.1",
+	"@testing-library/user-event": "^14.5.1",
     "@yoast/browserslist-config": "^1.2.2",
     "browserslist": "^4.7.3",
     "jest-styled-components": "^7.0.3",
@@ -42,6 +43,7 @@
   },
   "peerDependencies": {},
   "jest": {
+    "testEnvironment": "jest-environment-jsdom",
     "testURL": "http://localhost",
     "testRegex": ".*Test.js$",
     "transform": {
