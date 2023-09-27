@@ -293,6 +293,7 @@ export default function WincherSEOPerformance( props ) {
 				{ __( "SEO performance", "wordpress-seo" ) }
 				<HelpIcon
 					linkTo={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance" ] }
+					/* translators: Hidden accessibility text. */
 					linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
 				/>
 			</Title>
