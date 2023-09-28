@@ -17,7 +17,7 @@ export default function checkIfWordIsComplex( config, word, morphologyData ) {
 	// Whether uppercased beginning of a word decreases its complexity.
 	const doesUpperCaseDecreaseComplexity = config.doesUpperCaseDecreaseComplexity;
 
-	// The word is not complex if it's less than the length limit, i.e. 7 characters for English.
+	// The word is not complex if it's less than or the same as the length limit, i.e. 7 characters for English.
 	if ( word.length <= lengthLimit ) {
 		return false;
 	}
@@ -32,7 +32,7 @@ export default function checkIfWordIsComplex( config, word, morphologyData ) {
 		return false;
 	}
 
-	// The word is not complex if it's singular form is in the frequency list.
+	// The word is not complex if its singular form is in the frequency list.
 	if ( morphologyData ) {
 		const singular = buildFormRule( word, createRulesFromArrays( morphologyData.nouns.regexNoun.singularize ) );
 		return ! frequencyList.includes( singular );
