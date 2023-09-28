@@ -56,18 +56,24 @@ const CalloutContainer = styled.div`
 /**
  * Hook to fetch the account tracking info.
  *
+ * @param {boolean} isLoggedIn Whether the use is logged in.
+ *
  * @returns {object} The Wincher account tracking info.
  */
-export const useTrackingInfo = () => {
+export const useTrackingInfo = ( isLoggedIn ) => {
 	const [ trackingInfo, setTrackingInfo ] = useState( null );
 
 	useEffect( ()=>{
-		if ( ! trackingInfo ) {
+		if ( isLoggedIn && ! trackingInfo ) {
 			checkLimit().then( data => setTrackingInfo( data ) );
 		}
 	}, [ trackingInfo ] );
 
 	return trackingInfo;
+};
+
+useTrackingInfo.propTypes = {
+	limit: PropTypes.bool.isRequired,
 };
 
 /**

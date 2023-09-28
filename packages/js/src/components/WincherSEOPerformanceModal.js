@@ -8,7 +8,7 @@ import styled from "styled-components";
 
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
-import { CollapsibleStateless } from "@yoast/components";
+import { Collapsible } from "@yoast/components";
 
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
@@ -25,7 +25,7 @@ const StyledHeroIcon = styled( ChartBarIcon )`
 	margin: 3px;
 `;
 
-const MetaboxModalButton = styled( CollapsibleStateless )`
+const MetaboxModalButton = styled( Collapsible )`
 	h2 > button {
 		padding-left: 24px;
 		padding-top: 16px;
