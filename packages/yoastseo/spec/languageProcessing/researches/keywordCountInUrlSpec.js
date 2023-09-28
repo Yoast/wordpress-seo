@@ -200,18 +200,19 @@ describe( "test to check slug for keyword", function() {
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
-	it( "works with dash within the keyword in the slug", function() {
+	it( "works with multiple dashes within the keyword in the slug", function() {
 		const paper = new Paper( "", { slug: "on-the-go", keyword: "on-the-go" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
 	} );
 
-	it( "works with dash within the keyword in the slug", function() {
+	it( "works with a dash in one of the words within the keyword", function() {
 		const paper = new Paper( "", { slug: "two-room-apartment", keyword: "two-room apartment" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
-		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
+		// 'Two' is a function word so it's not counted in the keyphrase length - that's why the keyphrase length is 2.
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
 	it( "morphology works for hyphenated keyphrases", function() {
@@ -222,18 +223,40 @@ describe( "test to check slug for keyword", function() {
 	} );
 
 	it( "morphology works for hyphenated keyphrases with function words", function() {
-		const paper = new Paper( "", { slug: "two-year-old", keyword: "two-year-olds" } );
+		const paper = new Paper( "", { slug: "husband-to-be", keyword: "husbands-to-be" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		// 'To' and 'be' are function words so they're not counted in the keyphrase length - that's why the keyphrase length is 1.
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+	} );
+
+	it( "morphology works for partially hyphenated keyphrases with function words", function() {
+		const paper = new Paper( "", { slug: "gift-for-mother-in-law", keyword: "gifts for mothers-in-law" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
 	} );
 
-	// Does not work yet.
+	/*
+	 * This is an edge case that does not work because 'olds' is not recognized as a form of 'old' (which makes sense),
+	 * even though 'two-year-olds' is a valid form of 'two-year-old'.
+	 */
 	xit( "morphology works for partially hyphenated keyphrases", function() {
 		const paper = new Paper( "", { slug: "how-to-entertain-two-year-old", keyword: "how to entertain two-year-olds" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 6, percentWordMatches: 100 } );
+	} );
+
+	/*
+	 * This is an edge case that does not work because 'olds' is not recognized as a form of 'old' (which makes sense),
+	 * even though 'two-year-olds' is a valid form of 'two-year-old'.
+	 */
+	xit( "morphology works for partially hyphenated keyphrases", function() {
+		const paper = new Paper( "", { slug: "gift-for-mother-in-law", keyword: "gifts for mothers-in-law" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
 	} );
 } );
 
