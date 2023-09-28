@@ -145,7 +145,13 @@ const LearnMoreLink = ( { id, link, ariaLabel, ...props } ) => {
 			className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
 			target="_blank"
 			rel="noopener"
-			aria-label={ `Learn more about ${ ariaLabel } (Opens in a new browser tab)` }
+			aria-label={
+				sprintf(
+					/* translators: Hidden accessibility text; %s expands to a translated string of this feature, e.g. "SEO analysis". */
+					__( "Learn more about %s (Opens in a new browser tab)", "wordpress-seo" ),
+					ariaLabel
+				)
+			}
 			{ ...props }
 		>
 			{ __( "Learn more", "wordpress-seo" ) }
