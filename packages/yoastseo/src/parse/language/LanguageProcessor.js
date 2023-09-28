@@ -73,7 +73,6 @@ class LanguageProcessor {
 		 * not split words on hyphens in Indonesian and consider 'buku-buku' as one word rather than two.
 		 */
 		const areHyphensWordBoundaries = this.researcher.getConfig( "areHyphensWordBoundaries" );
-		console.log( areHyphensWordBoundaries, "areHyphensWordBoundaries in LanguageProcessor" );
 
 		const tokenTexts = areHyphensWordBoundaries ? getWordsForHTMLParser( sentenceText )
 			: getWordsForHTMLParser( sentenceText, /([\s\t\u00A0\u2014])/ );
