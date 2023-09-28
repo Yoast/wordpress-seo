@@ -54,6 +54,6 @@ describe( "SEMrushCountrySelector", () => {
 		}, { timeout: 1000 } );
 		fireEvent.click( item );
 
-		expect( setCountryMock ).toHaveBeenCalled();
+		expect( setCountryMock ).toHaveBeenCalledWith( "uk" );
 	} );
 } );
