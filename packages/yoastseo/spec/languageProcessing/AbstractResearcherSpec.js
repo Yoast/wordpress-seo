@@ -168,7 +168,7 @@ describe( "Adding a custom config to a Researcher", function() {
 	} );
 
 	it( "overwrites a config in the config object", function() {
-		expect( Object.keys( researcher.config ).length ).toEqual( 1 );
+		expect( Object.keys( researcher.config ).length ).toEqual( 2 );
 		const petsList2 = [ "birds", "horses", "tortoise" ];
 
 		researcher.addConfig( "pets", petsList2 );

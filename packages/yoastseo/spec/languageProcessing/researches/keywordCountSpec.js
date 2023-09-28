@@ -20,7 +20,7 @@ const buildMorphologyMockResearcher = function( keyphraseForms ) {
 		morphology: {
 			keyphraseForms: keyphraseForms,
 		},
-	}, true, false, false, { memoizedTokenizer: memoizedSentenceTokenizer } );
+	}, true, false, { areHyphensWordBoundaries: true }, { memoizedTokenizer: memoizedSentenceTokenizer } );
 };
 
 const testCases = [
@@ -234,45 +234,6 @@ const testCases = [
 					endOffset: 62,
 					startOffsetBlock: 55,
 					endOffsetBlock: 59,
-					attributeId: "",
-					clientId: "",
-					isFirstSection: false,
-				},
-			} ),
-		],
-		skip: false,
-	},
-	{
-		description: "matches both singular and reduplicated plural form of the keyphrase in Indonesian, " +
-			"the plural should be counted as one occurrence",
-		paper: new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.</p>",
-			{ locale: "id_ID", keyword: "keyword" } ),
-		keyphraseForms: [ [ "keyword", "keyword-keyword" ] ],
-		expectedCount: 2,
-		expectedMarkings: [
-			new Mark( {
-				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>," +
-					" <yoastmark class='yoast-text-mark'>keyword</yoastmark> adipiscing elit.",
-				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.",
-				position: {
-					endOffset: 58,
-					startOffset: 43,
-					startOffsetBlock: 40,
-					endOffsetBlock: 55,
-					attributeId: "",
-					clientId: "",
-					isFirstSection: false,
-				},
-			} ),
-			new Mark( {
-				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>," +
-					" <yoastmark class='yoast-text-mark'>keyword</yoastmark> adipiscing elit.",
-				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.",
-				position: {
-					startOffset: 60,
-					endOffset: 67,
-					startOffsetBlock: 57,
-					endOffsetBlock: 64,
 					attributeId: "",
 					clientId: "",
 					isFirstSection: false,
@@ -1818,6 +1779,68 @@ describe.each( testDataForHTMLTags )( "Test for counting the keyphrase in a text
 			expect( keyphraseCountResult.markings ).toEqual( expectedMarkings );
 		} );
 	} );
+
+/**
+ * Mocks Indonesian Researcher.
+ * @param {Array} keyphraseForms    The morphological forms to be added to the researcher.
+ *
+ * @returns {Researcher} The mock researcher with added morphological forms and custom helper.
+ */
+const buildIndonesianMockResearcher = function( keyphraseForms ) {
+	return factory.buildMockResearcher( {
+		morphology: {
+			keyphraseForms: keyphraseForms,
+		},
+	},
+	true,
+	true,
+	{ areHyphensWordBoundaries: false },
+	{
+		memoizedTokenizer: memoizedSentenceTokenizer,
+	} );
+};
+
+describe( "Test for counting the keyphrase in a text for Indonesian", () => {
+	it( "matches both singular and reduplicated plural form of the keyphrase in Indonesian, " +
+		"the plural should be counted as one occurrence", function() {
+		const mockPaper = new Paper( "<p>keyword-keyword, keyword</p>",
+			{ locale: "id", keyphrase: "keyword" } );
+		const researcher = buildIndonesianMockResearcher( [ [ "keyword", "keyword-keyword" ] ] );
+		buildTree( mockPaper, researcher );
+
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 2 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
+			new Mark( {
+				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>," +
+					" <yoastmark class='yoast-text-mark'>keyword</yoastmark> adipiscing elit.",
+				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.",
+				position: {
+					endOffset: 58,
+					startOffset: 43,
+					startOffsetBlock: 40,
+					endOffsetBlock: 55,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+			new Mark( {
+				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>," +
+					" <yoastmark class='yoast-text-mark'>keyword</yoastmark> adipiscing elit.",
+				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.",
+				position: {
+					startOffset: 60,
+					endOffset: 67,
+					startOffsetBlock: 57,
+					endOffsetBlock: 64,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		] );
+	} );
+} );
 
 /**
  * Mocks Japanese Researcher.
