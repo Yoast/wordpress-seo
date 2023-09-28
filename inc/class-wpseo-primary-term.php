@@ -43,6 +43,10 @@ class WPSEO_Primary_Term {
 	public function get_primary_term() {
 		$primary_term = get_post_meta( $this->post_ID, WPSEO_Meta::$meta_prefix . 'primary_' . $this->taxonomy_name, true );
 
+		if ( ! $primary_term ) {
+			return false;
+		}
+
 		$terms = $this->get_terms();
 
 		if ( ! in_array( (int) $primary_term, wp_list_pluck( $terms, 'term_id' ), true ) ) {
