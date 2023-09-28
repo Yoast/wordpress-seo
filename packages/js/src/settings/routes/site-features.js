@@ -187,7 +187,12 @@ const SiteFeatures = () => {
 			<FormLayout>
 				<div className="yst-max-w-6xl">
 					<fieldset className="yst-min-w-0">
-						<legend className="yst-sr-only">{ __( "Writing", "wordpress-seo" ) }</legend>
+						<legend className="yst-sr-only">
+							{
+								/* translators: Hidden accessibility text. */
+								__( "Writing", "wordpress-seo" )
+							}
+						</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
 							<Title as="h2" size="2">
 								{ __( "Writing", "wordpress-seo" ) }
@@ -252,7 +257,12 @@ const SiteFeatures = () => {
 					</fieldset>
 					<hr className="yst-my-8" />
 					<fieldset className="yst-min-w-0">
-						<legend className="yst-sr-only">{ __( "Site structure", "wordpress-seo" ) }</legend>
+						<legend className="yst-sr-only">
+							{
+								/* translators: Hidden accessibility text. */
+								__( "Site structure", "wordpress-seo" )
+							}
+						</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
 							<Title as="h2" size="2">
 								{ __( "Site structure", "wordpress-seo" ) }
@@ -296,7 +306,12 @@ const SiteFeatures = () => {
 					</fieldset>
 					<hr className="yst-my-8" />
 					<fieldset id="section-social-sharing" className="yst-min-w-0">
-						<legend className="yst-sr-only">{ __( "Social sharing", "wordpress-seo" ) }</legend>
+						<legend className="yst-sr-only">
+							{
+								/* translators: Hidden accessibility text. */
+								__( "Social sharing", "wordpress-seo" )
+							}
+						</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
 							<Title as="h2" size="2" className="yst-mb-2">
 								{ __( "Social sharing", "wordpress-seo" ) }
@@ -339,7 +354,12 @@ const SiteFeatures = () => {
 					</fieldset>
 					<hr className="yst-my-8" />
 					<fieldset className="yst-min-w-0">
-						<legend className="yst-sr-only">{ __( "Tools", "wordpress-seo" ) }</legend>
+						<legend className="yst-sr-only">
+							{
+								/* translators: Hidden accessibility text. */
+								__( "Tools", "wordpress-seo" )
+							}
+						</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
 							<Title as="h2" size="2">
 								{ __( "Tools", "wordpress-seo" ) }
@@ -366,7 +386,12 @@ const SiteFeatures = () => {
 					</fieldset>
 					<hr className="yst-my-8" />
 					<fieldset className="yst-min-w-0">
-						<legend className="yst-sr-only">{ __( "APIs", "wordpress-seo" ) }</legend>
+						<legend className="yst-sr-only">
+							{
+								/* translators: Hidden accessibility text. */
+								__( "APIs", "wordpress-seo" )
+							}
+						</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
 							<Title as="h2" size="2">
 								{ __( "APIs", "wordpress-seo" ) }

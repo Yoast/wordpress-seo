@@ -61,7 +61,12 @@ const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
 					<JetpackBoostLogo className="yst-h-5 yst-w-5 yst--ml-0.5" />
 					<button className="yst-ml-auto" onClick={ onDismissed }>
 						<XIcon className="yst-h-4 yst-w-4 yst-text-gray-400" />
-						<span className="yst-sr-only">{ __( "Dismiss get Jetpack Boost", "wordpress-seo" ) }</span>
+						<span className="yst-sr-only">
+							{
+								/* translators: Hidden accessibility text. */
+								__( "Dismiss get Jetpack Boost", "wordpress-seo" )
+							}
+						</span>
 					</button>
 				</div>
 				<Title as="h2" size="3" className="yst-mt-3 yst-text-sm yst-leading-normal yst-font-semibold">
@@ -88,7 +93,12 @@ const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
 						) }
 					</span>
 					<ExternalLinkIcon className="yst-inline yst-ml-1 yst-h-4 yst-w-4 yst-text-indigo-600" />
-					<span className="yst-sr-only">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
+					<span className="yst-sr-only">
+						{
+							/* translators: Hidden accessibility text. */
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
+					</span>
 				</Link>
 			</Root>
 		</PluginPrePublishPanel>

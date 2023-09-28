@@ -77,6 +77,7 @@ export const AlgoliaIntegration = ( {
 					/> }
 					<span className="yst-sr-only">
 						{
+							/* translators: Hidden accessibility text. */
 							__( "(Opens in a new browser tab)", "wordpress-seo" )
 						}
 					</span>
@@ -98,6 +99,7 @@ export const AlgoliaIntegration = ( {
 							Learn more
 							<span className="yst-sr-only">
 								{
+									/* translators: Hidden accessibility text. */
 									__( "(Opens in a new browser tab)", "wordpress-seo" )
 								}
 							</span>
@@ -136,6 +138,7 @@ export const AlgoliaIntegration = ( {
 					{ __( "Unlock with Premium", "wordpress-seo" ) }
 					<span className="yst-sr-only">
 						{
+							/* translators: Hidden accessibility text. */
 							__( "(Opens in a new browser tab)", "wordpress-seo" )
 						}
 					</span>
