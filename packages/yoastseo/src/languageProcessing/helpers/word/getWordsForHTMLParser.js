@@ -12,8 +12,10 @@ import { hashedHtmlEntitiesRegexEnd, hashedHtmlEntitiesRegexStart } from "../../
  * A backslash is a word separator because it separates two words if it occurs between two words. For example: "foo\bar"
  * A tab is a word separator because it separates two words if it occurs between two words. For example: "foo	bar"
  * A non-breaking space is a word separator because it separates two words if it occurs between two words. For example: "foo\u00A0bar"
+ * An en-dash and an em-dash are word separators because they seperate two words if they occur between two words.
+ * For example: "foo–bar".
  */
-const wordSeparatorsRegex = /([\s\t\u00A0])/;
+const wordSeparatorsRegexDefault = /([\s\t\u00A0\u2013\u2014\u002d])/;
 
 /**
  * Tokenizes a text similar to getWords, but in a suitable way for the HTML parser.
@@ -25,10 +27,11 @@ const wordSeparatorsRegex = /([\s\t\u00A0])/;
  * This algorithm separates punctuation marks from words and keeps them as separate tokens.
  * It only splits them off if they appear at the start or end of a word.
  *
- * @param {string} text The text to tokenize.
+ * @param {string} text 				The text to tokenize.
+ * @param {RegExp} wordSeparatorsRegex  The word separator regex to use.
  * @returns {string[]} An array of tokens.
  */
-const getWordsForHTMLParser = ( text ) => {
+const getWordsForHTMLParser = ( text, wordSeparatorsRegex =  wordSeparatorsRegexDefault ) => {
 	if ( ! text ) {
 		return [];
 	}

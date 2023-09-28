@@ -1,6 +1,5 @@
 import getWordsForHTMLParser from "../../../../src/languageProcessing/helpers/word/getWordsForHTMLParser";
 
-
 const testCases = [
 	{
 		description: "returns an empty array for an empty string",
@@ -25,7 +24,7 @@ const testCases = [
 	{
 		description: "correctly tokenizes a phrase with a hyphen",
 		text: "a-hyphenated-phrase",
-		expectedResult: [ "a-hyphenated-phrase" ],
+		expectedResult: [ "a", "-", "hyphenated", "-", "phrase" ],
 	},
 	{
 		description: "correctly tokenizes a phrase with an apostrophe",
@@ -56,7 +55,7 @@ const testCases = [
 		description: "correctly tokenizes a phrase that is separated by non-breaking spaces",
 		text: "a\u00a0phrase\u00a0that\u00a0is\u00a0separated\u00a0by\u00a0non-breaking\u00a0spaces",
 		expectedResult: [ "a", "\u00a0", "phrase", "\u00a0", "that", "\u00a0", "is", "\u00a0", "separated", "\u00a0", "by", "\u00a0",
-			"non-breaking", "\u00a0", "spaces" ],
+			"non", "-", "breaking", "\u00a0", "spaces" ],
 	},
 	{
 		description: "correctly tokenizes a phrase that is separated by tabs",
@@ -78,5 +77,12 @@ const testCases = [
 describe.each( testCases )( "getWordsForHTMLParser", ( { description, text, expectedResult } ) => {
 	it( description, () => {
 		expect( getWordsForHTMLParser( text ) ).toEqual( expectedResult );
+	} );
+} );
+
+describe( "A test for getting words with a custom word separator regex", () => {
+	it( "Doesn't split the string on hyphens if they are not part of the regex", () => {
+		expect( getWordsForHTMLParser( "Lorem ipsum, keyword-keyword, keyword elit.", /([\s\t\u00A0\u2014])/ ) ).toEqual(
+			[ "Lorem", " ", "ipsum", ",", " ", "keyword-keyword", ",", " ", "keyword", " ", "elit", "." ] );
 	} );
 } );
