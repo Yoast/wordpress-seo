@@ -10,11 +10,12 @@ const interJectionRegex = new RegExp( interJectionRegexString, "g" );
  * Returns an array with words used in the text.
  *
  * @param {string} text The text to be counted.
+ * @param {string} wordBoundaryRegexString The regex string for the word boundary that should be used to split the text into words.
  * @param {boolean} [shouldRemovePunctuation=true] If punctuation should be removed. Defaults to `true`.
  *
  * @returns {Array} The array with all words.
  */
-export default function( text, shouldRemovePunctuation = true ) {
+export default function( text, wordBoundaryRegexString = "\\s", shouldRemovePunctuation = true ) {
 	// Unify whitespaces and non-breaking spaces, remove table of content and strip the tags and multiple spaces.
 	text = sanitizeString( text );
 
@@ -22,7 +23,9 @@ export default function( text, shouldRemovePunctuation = true ) {
 		return [];
 	}
 
-	let words = text.split( /\s/g );
+	const wordBoundaryRegex = new RegExp( wordBoundaryRegexString, "g" );
+
+	let words = text.split( wordBoundaryRegex );
 
 	if ( shouldRemovePunctuation ) {
 		words = words.map( removePunctuation );
