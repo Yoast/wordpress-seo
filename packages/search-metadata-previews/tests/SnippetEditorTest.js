@@ -13,7 +13,7 @@ const defaultArgs = {
 	siteName: "Test site name",
 	data: defaultData,
 	isOpen: true,
-	onChange: () => {},
+	onChange: jest.fn(),
 };
 
 describe( "SnippetEditor", () => {
@@ -25,13 +25,16 @@ describe( "SnippetEditor", () => {
 	    expect( mobileRadioInput ).toBeChecked();
 		expect( container ).toMatchSnapshot();
 	} );
-	it( "Desktop mode", async() => {
+	it( "Desktop mode ans should switch to mobile", async() => {
 		const { container } = render( <SnippetEditor { ...defaultArgs } mode="desktop" /> );
 		const desktopRadioInput = screen.getByLabelText( "Desktop result" );
 		const mobileRadioInput = screen.getByLabelText( "Mobile result" );
 		expect( desktopRadioInput ).toBeChecked();
 	    expect( mobileRadioInput ).not.toBeChecked();
 		expect( container ).toMatchSnapshot();
+
+		fireEvent.click( mobileRadioInput );
+		expect( defaultArgs.onChange ).toHaveBeenCalledWith( "mode", "mobile" );
 	} );
 
 	it( "Without close snippet editor button", async() => {
@@ -51,6 +54,12 @@ describe( "SnippetEditor", () => {
 			expect( closeSnippetEditorButton ).toBeInTheDocument();
 			fireEvent.click( closeSnippetEditorButton );
 			expect( closeSnippetEditorButton ).not.toBeInTheDocument();
+		} );
+
+		it( "should switch to desktop mode", () => {
+			const desktopRadioInput = screen.getByLabelText( "Desktop result" );
+			fireEvent.click( desktopRadioInput );
+			expect( defaultArgs.onChange ).toHaveBeenCalledWith( "mode", "desktop" );
 		} );
 	} );
 } );
