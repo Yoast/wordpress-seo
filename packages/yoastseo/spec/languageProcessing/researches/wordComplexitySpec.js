@@ -1,3 +1,5 @@
+/* eslint-disable max-statements */
+
 import wordComplexity from "../../../src/languageProcessing/researches/wordComplexity.js";
 import Paper from "../../../src/values/Paper";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
