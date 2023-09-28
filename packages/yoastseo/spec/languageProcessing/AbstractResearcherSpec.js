@@ -140,7 +140,7 @@ describe( "Adding a custom config to a Researcher", function() {
 			researcher.addConfig( "", {} );
 		} ).toThrowError( MissingArgument );
 
-		expect( Object.keys( researcher.config ).length ).toEqual( 0 );
+		expect( Object.keys( researcher.config ).length ).toEqual( 1 );
 	} );
 
 	it( "throws an error if an empty object is given as the config", function() {
@@ -148,7 +148,7 @@ describe( "Adding a custom config to a Researcher", function() {
 			researcher.addConfig( "pets", {} );
 		} ).toThrowError( MissingArgument );
 
-		expect( Object.keys( researcher.config ).length ).toEqual( 0 );
+		expect( Object.keys( researcher.config ).length ).toEqual( 1 );
 	} );
 
 	it( "throws an error if no config is given", function() {
@@ -156,26 +156,27 @@ describe( "Adding a custom config to a Researcher", function() {
 			researcher.addConfig( "pets" );
 		} ).toThrowError( MissingArgument );
 
-		expect( Object.keys( researcher.config ).length ).toEqual( 0 );
+		expect( Object.keys( researcher.config ).length ).toEqual( 1 );
 	} );
 
 	it( "adds a config to the config object", function() {
-		expect( Object.keys( researcher.config ).length ).toEqual( 0 );
+		expect( Object.keys( researcher.config ).length ).toEqual( 1 );
 		const petsList1 = [ "cats", "dogs", "rabbits" ];
 		researcher.addConfig( "pets", petsList1 );
-		expect( Object.keys( researcher.config ).length ).toEqual( 1 );
+		expect( Object.keys( researcher.config ).length ).toEqual( 2 );
 		expect( researcher.getConfig( "pets" ) ).toEqual( petsList1 );
 	} );
 
-	it( "overwrites a helper in the helpers object", function() {
+	it( "overwrites a config in the config object", function() {
 		expect( Object.keys( researcher.config ).length ).toEqual( 1 );
 		const petsList2 = [ "birds", "horses", "tortoise" ];
 
 		researcher.addConfig( "pets", petsList2 );
-		expect( Object.keys( researcher.config ).length ).toEqual( 1 );
+		expect( Object.keys( researcher.config ).length ).toEqual( 2 );
 		expect( researcher.hasConfig( "pets" ) ).toBeTruthy();
 		expect( researcher.getConfig( "pets" ) ).toEqual( petsList2 );
 		expect( researcher.getAvailableConfig() ).toEqual( {
+			areHyphensWordBoundaries: true,
 			pets: [ "birds", "horses", "tortoise" ],
 		} );
 	} );

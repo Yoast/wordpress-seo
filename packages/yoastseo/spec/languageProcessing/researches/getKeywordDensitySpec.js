@@ -60,7 +60,7 @@ describe( "Test for counting the keyword density in a text with an English resea
 		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
 	} );
 
-	it( "should recognize a multiword keyphrase when it is occurs hyphenated", function() {
+	it( "should recognize a multiword keyphrase when it occurs hyphenated", function() {
 		const mockPaper = new Paper( "<p>a string of text with the key-word in it, density should be 7.7%</p>", { keyword: "key word" } );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 

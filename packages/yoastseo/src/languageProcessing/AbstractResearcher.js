@@ -100,7 +100,9 @@ export default class AbstractResearcher {
 			memoizedTokenizer,
 		};
 
-		this.config = {};
+		this.config = {
+			areHyphensWordBoundaries: true,
+		};
 	}
 
 	/**

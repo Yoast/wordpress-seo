@@ -108,18 +108,19 @@ function constructTopicPhraseResult( topicPhrase, paperWordsGroupedByStems, crea
  * Gets all matching word forms for the keyphrase and synonyms. Stems are either collected from
  * the paper or, for specific languages, directly created.
  *
- * @param {string}          keyphrase               The keyphrase.
- * @param {string[]}        synonyms                The synonyms.
- * @param {string[]}        allWordsFromPaper       All words found in the paper.
- * @param {string[]}        functionWords           The function words for a given language (if available).
- * @param {Function|null}   stemmer                 A stemmer (if available).
- * @param {Function|null}   createBasicWordForms    A function to create basic word forms (if available).
+ * @param {string}          keyphrase               	The keyphrase.
+ * @param {string[]}        synonyms                	The synonyms.
+ * @param {string[]}        allWordsFromPaper       	All words found in the paper.
+ * @param {string[]}        functionWords           	The function words for a given language (if available).
+ * @param {Function|null}   stemmer                 	A stemmer (if available).
+ * @param {Function|null}   createBasicWordForms    	A function to create basic word forms (if available).
+ * @param {boolean}   		areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
 
  * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms, based on the forms
  * found in the text or created forms.
  */
-function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stemmer, createBasicWordForms ) {
-	const topicPhrases     = collectStems( keyphrase, synonyms, stemmer, functionWords );
+function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stemmer, createBasicWordForms, areHyphensWordBoundaries ) {
+	const topicPhrases     = collectStems( keyphrase, synonyms, stemmer, functionWords, areHyphensWordBoundaries );
 	const keyphraseStemmed = topicPhrases.keyphraseStems;
 	const synonymsStemmed  = topicPhrases.synonymsStems;
 
@@ -187,9 +188,16 @@ export default function( paper, researcher ) {
 	const stemmer = researcher.getHelper( "getStemmer" )( researcher );
 	const createBasicWordForms = researcher.getHelper( "createBasicWordForms" );
 	const language = researcher.getConfig( "language" );
-	const allWordsFromPaper = getAllWordsFromPaper( paper ).map( word => word.toLocaleLowerCase( language ) );
+	/*
+	 * Whether we want to split words on hyphens depends on the language. In most languages, we do want to consider
+	 * hyphens (and en-dashes) word boundaries. But for example in Indonesian, hyphens are used to form plural forms
+	 * of nouns, e.g. 'buku' is the singular form for 'book' and 'buku-buku' is the plural form. So it makes sense to
+	 * not split words on hyphens in Indonesian and consider 'buku-buku' as one word rather than two.
+	 */
+	const areHyphensWordBoundaries = researcher.getConfig( "areHyphensWordBoundaries" );
+	const allWordsFromPaper = getAllWordsFromPaper( paper, areHyphensWordBoundaries ).map( word => word.toLocaleLowerCase( language ) );
 	const keyphrase = paper.getKeyword().toLocaleLowerCase( language ).trim();
 	const synonyms = parseSynonyms( paper.getSynonyms().toLocaleLowerCase( language ).trim() );
 
-	return getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stemmer, createBasicWordForms );
+	return getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stemmer, createBasicWordForms, areHyphensWordBoundaries );
 }

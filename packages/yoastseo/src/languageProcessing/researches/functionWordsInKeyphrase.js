@@ -22,7 +22,22 @@ export default function( paper, researcher ) {
 		return false;
 	}
 
-	let keyphraseWords = getWordsCustomHelper ? getWordsCustomHelper( keyphrase ) : getWords( keyphrase );
+	/*
+	 * Whether we want to split words on hyphens depends on the language. In most languages, we do want to consider
+	 * hyphens (and en-dashes) word boundaries. But for example in Indonesian, hyphens are used to form plural forms
+	 * of nouns, e.g. 'buku' is the singular form for 'book' and 'buku-buku' is the plural form. So it makes sense to
+	 * not split words on hyphens in Indonesian and consider 'buku-buku' as one word rather than two.
+	 */
+	const areHyphensWordBoundaries = researcher.getConfig( "areHyphensWordBoundaries" );
+
+	let keyphraseWords;
+	if ( getWordsCustomHelper ) {
+		keyphraseWords = getWordsCustomHelper( keyphrase );
+	} else if ( areHyphensWordBoundaries ) {
+		keyphraseWords = getWords( keyphrase, "[\\s\\u2013\\u002d]" );
+	} else {
+		keyphraseWords = getWords( keyphrase );
+	}
 
 	keyphraseWords = filter( keyphraseWords, function( word ) {
 		return ( ! includes( functionWords, word.trim().toLocaleLowerCase() ) );

@@ -33,6 +33,7 @@ export default class Researcher extends AbstractResearcher {
 			functionWords,
 			transitionWords,
 			twoPartTransitionWords,
+			areHyphensWordBoundaries: false,
 		} );
 
 		Object.assign( this.helpers, {

@@ -8,11 +8,12 @@ import getImagesInTree from "../image/getImagesInTree";
 /**
  * Gets all words found in the text, title, slug and meta description of a given paper.
  *
- * @param {Paper} paper     The paper for which to get the words.
+ * @param {Paper} 	paper     					The paper for which to get the words.
+ * @param {boolean}	areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
  * @returns {string[]} All words found.
  */
-export default function( paper ) {
+export default function( paper, areHyphensWordBoundaries ) {
 	const paperText = paper.getText();
 	const altTagsInText = getImagesInTree( paper ).map( image => getAltAttribute( image ) );
 
@@ -25,6 +26,13 @@ export default function( paper ) {
 		altTagsInText.join( " " ),
 	].join( " " );
 
-	return getWords( paperContent ).map(
+	/*
+     * If hyphens should be treated as word boundaries, pass a custom word boundary regex string that includes hyphens
+ 	 * (u002d) and en-dashes (u2013).
+ 	 */
+	const words = areHyphensWordBoundaries ? getWords( paperContent, "[\\s\\u2013\\u002d]" )
+		: getWords( paperContent );
+
+	return words.map(
 		word => normalizeSingle( escapeRegExp( word ) ) );
 }

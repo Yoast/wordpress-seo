@@ -71,7 +71,7 @@ function getAnchorsContainingTopic( anchors, topicForms, locale, matchWordCustom
  *
  * @returns {Array} The array of all anchors with text that has the same content words as the keyphrase/synonyms.
  */
-function getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpers, exactMatchRequest  ) {
+function getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpers, exactMatchRequest, areHyphensWordBoundaries  ) {
 	const matchWordCustomHelper = customHelpers.matchWordCustomHelper;
 	const getWordsCustomHelper = customHelpers.getWordsCustomHelper;
 
@@ -85,8 +85,15 @@ function getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpe
 
 	anchors.forEach( function( currentAnchor ) {
 		const currentAnchorText = currentAnchor.innerText();
-		// Get the words from the anchor text, with the duplicates removed.
-		let anchorWords = uniq( getWordsCustomHelper ? getWordsCustomHelper( currentAnchorText ) : getWords( currentAnchorText ) );
+
+		let anchorWords;
+		if ( getWordsCustomHelper ) {
+			anchorWords = uniq( getWordsCustomHelper( currentAnchorText ) );
+		} else if ( areHyphensWordBoundaries ) {
+			anchorWords = uniq( getWords( currentAnchorText, "[\\s\\u2013\\u002d]" ) );
+		} else {
+			anchorWords = uniq( getWords( currentAnchorText ) );
+		}
 
 		/*
 		 * Filter function words out of the anchor text.
@@ -133,6 +140,15 @@ function getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpe
  */
 export default function( paper, researcher ) {
 	functionWords = researcher.getConfig( "functionWords" );
+
+	/*
+	 * Whether we want to split words on hyphens depends on the language. In most languages, we do want to consider
+	 * hyphens (and en-dashes) word boundaries. But for example in Indonesian, hyphens are used to form plural forms
+	 * of nouns, e.g. 'buku' is the singular form for 'book' and 'buku-buku' is the plural form. So it makes sense to
+	 * not split words on hyphens in Indonesian and consider 'buku-buku' as one word rather than two.
+	 */
+	const areHyphensWordBoundaries = researcher.getConfig( "areHyphensWordBoundaries" );
+
 	const result = {
 		anchorsWithKeyphrase: [],
 		anchorsWithKeyphraseCount: 0,
@@ -195,7 +211,7 @@ export default function( paper, researcher ) {
 	// Check if exact match is requested for every topic (keyphrase or synonym).
 	const isExactMatchRequested = originalTopics.map( originalTopic => processExactMatchRequest( originalTopic ) );
 	// Get the anchors with text that has the same content words as the keyphrase/synonyms.
-	anchors = getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpers, isExactMatchRequested );
+	anchors = getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpers, isExactMatchRequested, areHyphensWordBoundaries );
 
 	return {
 		anchorsWithKeyphrase: anchors,

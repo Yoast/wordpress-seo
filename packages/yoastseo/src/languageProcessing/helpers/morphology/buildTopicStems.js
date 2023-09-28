@@ -50,14 +50,15 @@ function StemOriginalPair( stem, original ) {
  * If morphology is required the module finds a stem for all words (if no function words list available) or
  * for all content words (i.e., excluding prepositions, articles, conjunctions, if the function words list is available).
  *
- * @param {string}   keyphrase     The keyphrase of the paper (or a synonym phrase) to get stem for.
- * @param {Function} stemmer       The language-specific stemmer.
- * @param {string[]} functionWords The language-specific function words.
+ * @param {string}   keyphrase     				The keyphrase of the paper (or a synonym phrase) to get stem for.
+ * @param {Function} stemmer       				The language-specific stemmer.
+ * @param {string[]} functionWords 				The language-specific function words.
+ * @param {boolean}	 areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
  * @returns {TopicPhrase} Object with an array of StemOriginalPairs of all (content) words in the keyphrase or synonym
  * phrase and information about whether the keyphrase/synonym should be matched exactly.
  */
-const buildStems = function( keyphrase, stemmer, functionWords ) {
+const buildStems = function( keyphrase, stemmer, functionWords, areHyphensWordBoundaries ) {
 	if ( isUndefined( keyphrase ) || keyphrase === "" ) {
 		return new TopicPhrase();
 	}
@@ -71,7 +72,12 @@ const buildStems = function( keyphrase, stemmer, functionWords ) {
 		);
 	}
 
-	let keyphraseWords = getWords( keyphrase );
+	/*
+	 * 	If hyphens should be treated as word boundaries, pass a custom word boundary regex string that includes hyphens
+	 * (u002d) and en-dashes (u2013).
+	 */
+	let keyphraseWords = areHyphensWordBoundaries ? getWords( keyphrase, "[\\s\\u2013\\u002d]" )
+		: getWords( keyphrase );
 
 	// Filter function words from keyphrase. Don't filter if the keyphrase only consists of function words.
 	const wordsWithoutFunctionWords = keyphraseWords.filter( ( word ) => ! functionWords.includes( word ) );
@@ -90,16 +96,17 @@ const buildStems = function( keyphrase, stemmer, functionWords ) {
 /**
  * Builds stems of words of the keyphrase and of each synonym phrase.
  *
- * @param {string}   keyphrase     The paper's keyphrase.
- * @param {string[]} synonyms      The paper's synonyms.
- * @param {Function} stemmer       The language-specific stemmer (if available).
- * @param {string[]} functionWords The language-specific function words.
+ * @param {string}   keyphrase     				The paper's keyphrase.
+ * @param {string[]} synonyms     				The paper's synonyms.
+ * @param {Function} stemmer       				The language-specific stemmer (if available).
+ * @param {string[]} functionWords 				The language-specific function words.
+ * @param {boolean}	 areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
  * @returns {Object} Object with an array of stems of words in the keyphrase and an array of arrays of stems of words in the synonyms.
  */
-const collectKeyphraseAndSynonymsStems = function( keyphrase, synonyms, stemmer, functionWords ) {
-	const keyphraseStems = buildStems( keyphrase, stemmer, functionWords );
-	const synonymsStems = synonyms.map( synonym => buildStems( synonym, stemmer, functionWords ) );
+const collectKeyphraseAndSynonymsStems = function( keyphrase, synonyms, stemmer, functionWords, areHyphensWordBoundaries ) {
+	const keyphraseStems = buildStems( keyphrase, stemmer, functionWords, areHyphensWordBoundaries );
+	const synonymsStems = synonyms.map( synonym => buildStems( synonym, stemmer, functionWords, areHyphensWordBoundaries ) );
 
 	return {
 		keyphraseStems,
@@ -115,14 +122,15 @@ const collectKeyphraseAndSynonymsStems = function( keyphrase, synonyms, stemmer,
  * because by default memoize caches by the first key only, which in the current case would mean that the function would
  * return the cached forms if the keyphrase has not changed (without checking if synonyms were changed).
  *
- * @param {Function} stemmer       The language-specific stemmer (if available).
- * @param {string[]} functionWords The language-specific function words.
+ * @param {Function} stemmer       				The language-specific stemmer (if available).
+ * @param {string[]} functionWords 				The language-specific function words.
+ * @param {boolean}	 areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
  * @returns {function} The function that collects the stems for a given set of keyphrase, synonyms, stemmer and functionWords.
  */
-const primeLanguageSpecificData = memoize( ( stemmer, functionWords ) => {
+const primeLanguageSpecificData = memoize( ( stemmer, functionWords, areHyphensWordBoundaries ) => {
 	return memoize( ( keyphrase, synonyms ) => {
-		return collectKeyphraseAndSynonymsStems( keyphrase, synonyms, stemmer, functionWords );
+		return collectKeyphraseAndSynonymsStems( keyphrase, synonyms, stemmer, functionWords, areHyphensWordBoundaries );
 	}, ( keyphrase, synonyms ) => {
 		return keyphrase + "," + synonyms.join( "," );
 	} );
@@ -132,15 +140,16 @@ const primeLanguageSpecificData = memoize( ( stemmer, functionWords ) => {
  * Retrieves stems of words of the keyphrase and of each synonym phrase using the function that caches
  * the results of previous calls of this function.
  *
- * @param {string}      keyphrase       The paper's keyphrase.
- * @param {string}      synonyms        The paper's synonyms.
- * @param {Function}    stemmer         The language-specific stemmer (if available).
- * @param {string[]}    functionWords   The language-specific function words.
+ * @param {string}      keyphrase       			The paper's keyphrase.
+ * @param {string}      synonyms        			The paper's synonyms.
+ * @param {Function}    stemmer         			The language-specific stemmer (if available).
+ * @param {string[]}    functionWords   			The language-specific function words.
+ * @param {boolean}		areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
  * @returns {Object} Object with an array of stems of words in the keyphrase and an array of arrays of stems of words in the synonyms.
  */
-function collectStems( keyphrase, synonyms, stemmer, functionWords ) {
-	const collectStemsWithLanguageSpecificData = primeLanguageSpecificData( stemmer, functionWords );
+function collectStems( keyphrase, synonyms, stemmer, functionWords, areHyphensWordBoundaries ) {
+	const collectStemsWithLanguageSpecificData = primeLanguageSpecificData( stemmer, functionWords, areHyphensWordBoundaries );
 
 	return collectStemsWithLanguageSpecificData( keyphrase, synonyms );
 }

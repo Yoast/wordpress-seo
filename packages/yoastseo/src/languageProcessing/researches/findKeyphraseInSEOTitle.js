@@ -11,13 +11,20 @@ let functionWords = [];
 /**
  * Strips all function words from the start of the given string.
  *
- * @param {string} str The string from which to strip the function words.
+ * @param {string} str 							The string from which to strip the function words.
+ * @param {boolean}	areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
  * @returns {boolean} Whether the string consists of function words only.
  */
-const stripFunctionWordsFromStart = function( str ) {
+const stripFunctionWordsFromStart = function( str, areHyphensWordBoundaries ) {
 	str = str.toLocaleLowerCase();
-	let titleWords = getWords( str.toLocaleLowerCase() );
+
+	/*
+ 	 * If hyphens should be treated as word boundaries, pass a custom word boundary regex string that includes hyphens
+  	 * (u002d) and en-dashes (u2013).
+  	 */
+	let titleWords = areHyphensWordBoundaries ? getWords( str.toLocaleLowerCase(), "[\\s\\u2013\\u002d]" )
+		: getWords( str.toLocaleLowerCase() );
 
 	// Strip all function words from the start of the string.
 	titleWords = filter( titleWords, function( word ) {
@@ -30,12 +37,13 @@ const stripFunctionWordsFromStart = function( str ) {
 /**
  * Checks the position of the keyphrase in the SEO title.
  *
- * @param {string} title The SEO title of the paper.
- * @param {number} position The position of the keyphrase in the SEO title.
+ * @param {string} title 						The SEO title of the paper.
+ * @param {number} position 					The position of the keyphrase in the SEO title.
+ * @param {boolean}	areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
  * @returns {number} Potentially adjusted position of the keyphrase in the SEO title.
  */
-const adjustPosition = function( title, position ) {
+const adjustPosition = function( title, position, areHyphensWordBoundaries ) {
 	// Don't do anything if position if already 0.
 	if ( position === 0 ) {
 		return position;
@@ -48,7 +56,7 @@ const adjustPosition = function( title, position ) {
 
 	// Strip all function words from the beginning of the SEO title.
 	const titleBeforeKeyword = title.substr( 0, position );
-	if ( stripFunctionWordsFromStart( titleBeforeKeyword ) ) {
+	if ( stripFunctionWordsFromStart( titleBeforeKeyword, areHyphensWordBoundaries ) ) {
 		/*
 		 * Return position 0 if there are no words left in the SEO title before the keyword after filtering
 		 * the function words (such that "keyword" in "the keyword" is still counted as position 0).
@@ -78,6 +86,14 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 	const title = paper.getTitle();
 	const locale = paper.getLocale();
 
+	/*
+ 	 * Whether we want to split words on hyphens depends on the language. In most languages, we do want to consider
+ 	 * hyphens (and en-dashes) word boundaries. But for example in Indonesian, hyphens are used to form plural forms
+ 	 * of nouns, e.g. 'buku' is the singular form for 'book' and 'buku-buku' is the plural form. So it makes sense to
+ 	 * not split words on hyphens in Indonesian and consider 'buku-buku' as one word rather than two.
+ 	 */
+	const areHyphensWordBoundaries = researcher.getConfig( "areHyphensWordBoundaries" );
+
 	const result = { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false  };
 
 	// Check if the keyphrase is enclosed in double quotation marks to ensure that only exact matches are processed.
@@ -105,7 +121,7 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 		if ( keywordMatchedBeforeSanitizing.count > 0 ) {
 			result.exactMatchFound = true;
 			result.allWordsFound = true;
-			result.position = adjustPosition( title, keywordMatchedBeforeSanitizing.position );
+			result.position = adjustPosition( title, keywordMatchedBeforeSanitizing.position, areHyphensWordBoundaries );
 		}
 		return result;
 	}
