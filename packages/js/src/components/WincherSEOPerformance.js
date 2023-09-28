@@ -242,7 +242,7 @@ const ChartWrapper = styled.div`
 	margin: 8px 0;
 `;
 
-const START_OF_TODAY = moment().startOf( "day" );
+const START_OF_TODAY = moment.utc().startOf( "day" );
 
 const WINCHER_PERIOD_OPTIONS = [
 	{
