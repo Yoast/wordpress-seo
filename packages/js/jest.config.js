@@ -12,7 +12,8 @@ module.exports = {
 	// https://testing-library.com/docs/react-testing-library/setup#jest-27
 	testEnvironment: "jest-environment-jsdom",
 	moduleNameMapper: {
-		"\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
+		"\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
+		"\\.(svg)$": "<rootDir>/tests/__mocks__/svgMock.js",
 		"\\.(css|less)$": "<rootDir>/tests/__mocks__/styleMock.js",
 		"find-with-regex": "<rootDir>/node_modules/find-with-regex/lib/index.js",
 		"^lodash-es$": "lodash",
