@@ -66,7 +66,17 @@ class LanguageProcessor {
 			return tokensCustom.map( tokenText => new Token( tokenText ) );
 		}
 
-		const tokenTexts = getWordsForHTMLParser( sentenceText );
+		/*
+		 * Whether we want to split words on hyphens depends on the language. In most languages, we do want to consider
+		 * hyphens (and en-dashes) word boundaries. But for example in Indonesian, hyphens are used to form plural forms
+		 * of nouns, e.g. 'buku' is the singular form for 'book' and 'buku-buku' is the plural form. So it makes sense to
+		 * not split words on hyphens in Indonesian and consider 'buku-buku' as one word rather than two.
+		 */
+		const areHyphensWordBoundaries = this.researcher.getConfig( "areHyphensWordBoundaries" );
+		console.log( areHyphensWordBoundaries, "areHyphensWordBoundaries in LanguageProcessor" );
+
+		const tokenTexts = areHyphensWordBoundaries ? getWordsForHTMLParser( sentenceText )
+			: getWordsForHTMLParser( sentenceText, /([\s\t\u00A0\u2014])/ );
 
 		return tokenTexts.map( tokenText => new Token( tokenText ) );
 	}

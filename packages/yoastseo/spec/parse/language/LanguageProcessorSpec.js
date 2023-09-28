@@ -4,7 +4,7 @@ import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/s
 import Sentence from "../../../src/parse/structure/Sentence";
 import splitIntoTokensCustom from "../../../src/languageProcessing/languages/ja/helpers/splitIntoTokensCustom";
 
-const researcher = Factory.buildMockResearcher( {}, true, false, false,
+const researcher = Factory.buildMockResearcher( {}, true, false, { areHyphensWordBoundaries: true },
 	{ memoizedTokenizer: memoizedSentenceTokenizer } );
 
 describe( "A test for the LanguageProcessor object", () => {
@@ -112,13 +112,16 @@ const splitIntoTokensTestCases = [
 		],
 	},
 	{
-		description: "should correctly tokenize a sentence with a word containing a dash",
+		description: "should split words on a hyphen if hyphens should be treated as word boundaries (according to the " +
+			"researcher config)",
 		sentence: "Hello, world-wide!",
 		expectedTokens: [
 			{ text: "Hello", sourceCodeRange: {} },
 			{ text: ",", sourceCodeRange: {} },
 			{ text: " ", sourceCodeRange: {} },
-			{ text: "world-wide", sourceCodeRange: {} },
+			{ text: "world", sourceCodeRange: {} },
+			{ text: "-", sourceCodeRange: {} },
+			{ text: "wide", sourceCodeRange: {} },
 			{ text: "!", sourceCodeRange: {} },
 		],
 	},
@@ -453,3 +456,25 @@ describe( "A test for the splitIntoTokens method in Japanese", () => {
 		] );
 	} );
 } );
+
+describe( "A test for the splitIntoTokens method in Indonesian", () => {
+	it( "should not split the sentence on hyphens", function() {
+		const indonesianResearcher = Factory.buildMockResearcher( {}, true, false, { areHyphensWordBoundaries: false },
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( indonesianResearcher );
+		const tokens = languageProcessor.splitIntoTokens( new Sentence( "Halo, Dunia! Buku-buku kucing." ) );
+		expect( tokens ).toEqual( [
+			{ text: "Halo", sourceCodeRange: {} },
+			{ text: ",", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "Dunia", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "Buku-buku", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "kucing", sourceCodeRange: {} },
+			{ text: ".", sourceCodeRange: {} },
+		] );
+	} );
+} );
+
