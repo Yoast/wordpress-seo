@@ -27,11 +27,12 @@ const { getWords, getSentences, helpers } = languageProcessing;
  * @returns {ComplexWordsResult} An object containing all complex words in a given sentence.
  */
 const getComplexWords = function( currentSentence, researcher ) {
+	const language = researcher.getConfig( "language" );
 	const checkIfWordIsComplex = researcher.getHelper( "checkIfWordIsComplex" );
 	const functionWords = researcher.getConfig( "functionWords" );
 	const wordComplexityConfig = researcher.getConfig( "wordComplexity" );
 	const checkIfWordIsFunction = researcher.getHelper( "checkIfWordIsFunction" );
-	const morphologyData = get( researcher.getData( "morphology" ), researcher.getConfig( "language" ), false );
+	const premiumData = get( researcher.getData( "morphology" ), language, false );
 
 	const allWords = getWords( currentSentence );
 	// Filters out function words because function words are not complex.
@@ -40,7 +41,7 @@ const getComplexWords = function( currentSentence, researcher ) {
 	const results = [];
 
 	words.forEach( word => {
-		if ( checkIfWordIsComplex( wordComplexityConfig, word, morphologyData ) ) {
+		if ( checkIfWordIsComplex( wordComplexityConfig, word, premiumData ) ) {
 			results.push( word );
 		}
 	} );
