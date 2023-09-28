@@ -1,14 +1,6 @@
-/**
- * @jest-environment jsdom
- */
-
 import React from "react";
 import SnippetEditor from "../src/snippet-editor/SnippetEditor";
-import { render, screen, fireEvent, userEvent } from "./test-utils";
-
-// eslint-disable-next-line import/named -- this concerns a mock
-import { focus } from "@yoast/replacement-variable-editor";
-import { set } from "lodash";
+import { render, screen, fireEvent } from "./test-utils";
 
 const defaultData = {
 	title: "Test title",
@@ -20,54 +12,45 @@ const defaultArgs = {
 	baseUrl: "http://example.org/",
 	siteName: "Test site name",
 	data: defaultData,
+	isOpen: true,
 	onChange: () => {},
 };
 
 describe( "SnippetEditor", () => {
-	it( "closes when calling close()", () => {
-		focus.mockClear();
+	it( "Mobile mode", async() => {
+		const { container } = render( <SnippetEditor { ...defaultArgs } /> );
+		const desktopRadioInput = screen.getByLabelText( "Desktop result" );
+		const mobileRadioInput = screen.getByLabelText( "Mobile result" );
+		expect( desktopRadioInput ).not.toBeChecked();
+	    expect( mobileRadioInput ).toBeChecked();
+		expect( container ).toMatchSnapshot();
+	} );
+	it( "Desktop mode", async() => {
+		const { container } = render( <SnippetEditor { ...defaultArgs } mode="desktop" /> );
+		const desktopRadioInput = screen.getByLabelText( "Desktop result" );
+		const mobileRadioInput = screen.getByLabelText( "Mobile result" );
+		expect( desktopRadioInput ).toBeChecked();
+	    expect( mobileRadioInput ).not.toBeChecked();
+		expect( container ).toMatchSnapshot();
 	} );
 
-	it( "highlights the active ReplacementVariableEditor when calling setFieldFocus", () => {
-		focus.mockClear();
+	it( "Without close snippet editor button", async() => {
+		const { container } = render( <SnippetEditor { ...defaultArgs } showCloseButton={ false } /> );
+		expect( container ).toMatchSnapshot();
 	} );
 
-	it( "switches modes when changing mode switcher input", async() => {
-		const user = userEvent.setup();
-		render( <SnippetEditor { ...defaultArgs } /> );
-
-		expect( screen.getByText( "Desktop result" ) ).toBeInTheDocument();
-		expect( screen.getByText( "Mobile result" ) ).toBeInTheDocument();
-		expect( screen.getByLabelText( "Desktop result" ) ).not.toBeChecked();
-		expect( screen.getByLabelText( "Mobile result" ) ).toBeChecked();
-
-		await user.click( screen.getByLabelText( "Desktop result" ) );
-		await new Promise( resolve => setTimeout( resolve, 500 ) );
-
-		console.log( screen.getByLabelText( "Desktop result" ) );
-	} );
-
-	describe( "shallowCompareData", () => {
-		it( "returns false when there is no new data", () => {
-
+	describe( "Snippet editor defaults", () => {
+		beforeEach( () => {
+			render( <SnippetEditor { ...defaultArgs } /> );
 		} );
-
-		it( "returns true when one replacement variable has changed", () => {
-
-		} );
-
-		it( "returns true when multiple data points have changed", () => {
-		} );
-	} );
-	describe( "mapDataToMeasurements", () => {
-		it( "returns the filtered SEO title without separator and site title", () => {
-
-		} );
-		it( "returns the correct url: baseURL + slug", () => {
-
-		} );
-		it( "returns the description with multiple spaces stripped", () => {
-
+		it( "Close snippet editor with button", async() => {
+			const openSnippetEditorButton = screen.getByText( "Edit snippet" );
+			expect( openSnippetEditorButton ).toBeInTheDocument();
+			fireEvent.click( openSnippetEditorButton );
+			const closeSnippetEditorButton = screen.getByText( "Close snippet editor" );
+			expect( closeSnippetEditorButton ).toBeInTheDocument();
+			fireEvent.click( closeSnippetEditorButton );
+			expect( closeSnippetEditorButton ).not.toBeInTheDocument();
 		} );
 	} );
 } );
