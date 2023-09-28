@@ -85,13 +85,11 @@ class WPSEO_Taxonomy_Columns {
 
 			if ( $column_name === 'description' && $this->analysis_seo->is_enabled() ) {
 				$new_columns['wpseo-score'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'SEO score', 'wordpress-seo' ) . '"><span class="yoast-column-seo-score yoast-column-header-has-tooltip"><span class="screen-reader-text">' .
-											/* translators: Hidden accessibility text. */
 											__( 'SEO score', 'wordpress-seo' ) . '</span></span></span>';
 			}
 
 			if ( $column_name === 'description' && $this->analysis_readability->is_enabled() ) {
 				$new_columns['wpseo-score-readability'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'Readability score', 'wordpress-seo' ) . '"><span class="yoast-column-readability yoast-column-header-has-tooltip"><span class="screen-reader-text">' .
-														/* translators: Hidden accessibility text. */
 														__( 'Readability score', 'wordpress-seo' ) . '</span></span></span>';
 			}
 		}

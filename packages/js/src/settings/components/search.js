@@ -261,12 +261,7 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 								onClick={ setClose }
 								className="yst-modal__close-button"
 							>
-								<span className="yst-sr-only">
-									{
-										/* translators: Hidden accessibility text. */
-										__( "Close", "wordpress-seo" )
-									}
-								</span>
+								<span className="yst-sr-only">{ __( "Close", "wordpress-seo" ) }</span>
 								<XIcon className="yst-h-6 yst-w-6" { ...ariaSvgProps } />
 							</button>
 						</div>

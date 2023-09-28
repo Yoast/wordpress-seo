@@ -910,10 +910,7 @@ export default class SnippetPreview extends PureComponent {
 					<PartContainer>
 						{ this.renderUrl() }
 						<ScreenReaderText>
-							{
-								/* translators: Hidden accessibility text. */
-								__( "SEO title preview", "wordpress-seo" ) + ":"
-							}
+							{ __( "SEO title preview", "wordpress-seo" ) + ":" }
 						</ScreenReaderText>
 						<SnippetTitle
 							onMouseUp={ onMouseUp.bind( null, "title" ) }
@@ -930,10 +927,7 @@ export default class SnippetPreview extends PureComponent {
 					</PartContainer>
 					<PartContainer>
 						<ScreenReaderText>
-							{
-								/* translators: Hidden accessibility text. */
-								__( "Meta description preview:", "wordpress-seo" )
-							}
+							{ __( "Meta description preview:", "wordpress-seo" ) }
 						</ScreenReaderText>
 						{ this.renderDescription() }
 					</PartContainer>

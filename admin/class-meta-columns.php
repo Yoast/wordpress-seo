@@ -100,7 +100,6 @@ class WPSEO_Meta_Columns {
 			$added_columns['wpseo-score'] = '<span class="yoast-column-seo-score yoast-column-header-has-tooltip" data-tooltip-text="' .
 											esc_attr__( 'SEO score', 'wordpress-seo' ) .
 											'"><span class="screen-reader-text">' .
-											/* translators: Hidden accessibility text. */
 											__( 'SEO score', 'wordpress-seo' ) .
 											'</span></span></span>';
 		}
@@ -109,7 +108,6 @@ class WPSEO_Meta_Columns {
 			$added_columns['wpseo-score-readability'] = '<span class="yoast-column-readability yoast-column-header-has-tooltip" data-tooltip-text="' .
 														esc_attr__( 'Readability score', 'wordpress-seo' ) .
 														'"><span class="screen-reader-text">' .
-														/* translators: Hidden accessibility text. */
 														__( 'Readability score', 'wordpress-seo' ) .
 														'</span></span></span>';
 		}

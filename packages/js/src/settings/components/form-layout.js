@@ -56,10 +56,7 @@ const FormLayout = ( { children } ) => {
 								{ __( "Discard changes", "wordpress-seo" ) }
 							</Button>
 							<Modal onClose={ unsetRequestUndo } isOpen={ isRequestUndo }>
-								<Modal.Panel
-									/* translators: Hidden accessibility text. */
-									closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }
-								>
+								<Modal.Panel closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
 									<div className="sm:yst-flex sm:yst-items-start">
 										<div
 											className="yst-mx-auto yst-flex-shrink-0 yst-flex yst-items-center yst-justify-center yst-h-12 yst-w-12 yst-rounded-full yst-bg-red-100 sm:yst-mx-0 sm:yst-h-10 sm:yst-w-10"

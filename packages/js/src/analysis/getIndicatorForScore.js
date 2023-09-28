@@ -14,7 +14,6 @@ function getIndicatorForRating( rating ) {
 		case "feedback":
 			return {
 				className: "na",
-				/* translators: Hidden accessibility text. */
 				screenReaderText: __( "Feedback", "wordpress-seo" ),
 				screenReaderReadabilityText: "",
 				screenReaderInclusiveLanguageText: "",
@@ -22,31 +21,22 @@ function getIndicatorForRating( rating ) {
 		case "bad":
 			return {
 				className: "bad",
-				/* translators: Hidden accessibility text. */
 				screenReaderText: __( "Needs improvement", "wordpress-seo" ),
-				/* translators: Hidden accessibility text. */
 				screenReaderReadabilityText: __( "Needs improvement", "wordpress-seo" ),
-				/* translators: Hidden accessibility text. */
 				screenReaderInclusiveLanguageText: __( "Needs improvement", "wordpress-seo" ),
 			};
 		case "ok":
 			return {
 				className: "ok",
-				/* translators: Hidden accessibility text. */
 				screenReaderText: __( "OK SEO score", "wordpress-seo" ),
-				/* translators: Hidden accessibility text. */
 				screenReaderReadabilityText: __( "OK", "wordpress-seo" ),
-				/* translators: Hidden accessibility text. */
 				screenReaderInclusiveLanguageText: __( "Potentially non-inclusive", "wordpress-seo" ),
 			};
 		case "good":
 			return {
 				className: "good",
-				/* translators: Hidden accessibility text. */
 				screenReaderText: __( "Good SEO score", "wordpress-seo" ),
-				/* translators: Hidden accessibility text. */
 				screenReaderReadabilityText: __( "Good", "wordpress-seo" ),
-				/* translators: Hidden accessibility text. */
 				screenReaderInclusiveLanguageText: __( "Good", "wordpress-seo" ),
 			};
 		default:

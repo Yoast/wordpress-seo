@@ -40,9 +40,7 @@ function ImageSelect( props ) {
 			<span className="screen-reader-text">
 				{
 					imageSelected
-						/* translators: Hidden accessibility text. */
 						? __( "Replace image", "wordpress-seo" )
-						/* translators: Hidden accessibility text. */
 						: __( "Select image", "wordpress-seo" )
 				}
 			</span>
