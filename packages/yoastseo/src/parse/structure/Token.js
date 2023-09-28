@@ -1,3 +1,5 @@
+import { normalizeSingle } from "../../languageProcessing";
+
 /**
  * A token representing a word, whitespace or punctuation in the sentence.
  */
@@ -9,7 +11,8 @@ class Token {
 	 * @param {SourceCodeRange} sourceCodeRange The start and end positions of the token in the source code.
 	 */
 	constructor( text, sourceCodeRange = {} ) {
-		this.text = text;
+		// Normalize single quotes so that tokens can be matched with strings regardless of single quote type.
+		this.text = normalizeSingle( text );
 		/**
 		 * The start and end positions of the token in the source code.
 		 * @type {SourceCodeRange}
