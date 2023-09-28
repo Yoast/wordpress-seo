@@ -36,7 +36,7 @@ const configs = {
 const pluginName = "YoastSEOPremium";
 
 export default function( worker, language ) {
-	if ( getLanguagesWithWordComplexity( language ) ) {
+	if ( getLanguagesWithWordComplexity().includes( language ) ) {
 		// Get the word complexity config for the specific language.
 		const wordComplexityConfig = configs[ language ];
 		// Get the word complexity helper for the specific language.
