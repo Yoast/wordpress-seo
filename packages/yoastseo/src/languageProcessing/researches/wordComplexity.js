@@ -38,18 +38,22 @@ const getComplexWords = function( currentSentence, researcher ) {
 	// Filters out function words because function words are not complex.
 	// Words are converted to lowercase before processing to avoid excluding function words that start with a capital letter.
 	const words = allWords.filter( word => ! ( checkIfWordIsFunction ? checkIfWordIsFunction( word ) : functionWords.includes( word ) ) );
-	const results = [];
+	const result = {
+		complexWords: [],
+		sentence: currentSentence,
+	};
+
+	if ( ! premiumData ) {
+		return result;
+	}
 
 	words.forEach( word => {
 		if ( checkIfWordIsComplex( wordComplexityConfig, word, premiumData ) ) {
-			results.push( word );
+			result.complexWords.push( word );
 		}
 	} );
 
-	return {
-		complexWords: results,
-		sentence: currentSentence,
-	};
+	return result;
 };
 
 /**

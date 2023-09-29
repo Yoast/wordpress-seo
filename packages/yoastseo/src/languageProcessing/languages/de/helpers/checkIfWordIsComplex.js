@@ -17,7 +17,7 @@ export default function checkIfWordIsComplex( config, word, premiumData ) {
 	// All words are converted to lower case before processing to avoid excluding complex words that start with a capital letter.
 	word = word.toLowerCase();
 
-	// The German word is not complex if its length is 10 characters or less.
+	// The German word is not complex if its length is 10 characters or fewer.
 	if ( word.length <= lengthLimit ) {
 		return false;
 	}
