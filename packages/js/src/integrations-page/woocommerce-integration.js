@@ -86,6 +86,7 @@ export const WoocommerceIntegration = ( {
 					}
 					<span className="yst-sr-only">
 						{
+							/* translators: Hidden accessibility text. */
 							__( "(Opens in a new browser tab)", "wordpress-seo" )
 						}
 					</span>

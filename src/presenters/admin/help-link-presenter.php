@@ -72,7 +72,8 @@ class Help_Link_Presenter extends Abstract_Presenter {
 
 		if ( $this->opens_in_new_browser_tab ) {
 			$target_blank_attribute = ' target="_blank"';
-			$new_tab_message        = ' ' . \__( '(Opens in a new browser tab)', 'wordpress-seo' );
+			/* translators: Hidden accessibility text. */
+			$new_tab_message = ' ' . \__( '(Opens in a new browser tab)', 'wordpress-seo' );
 		}
 
 		return \sprintf(

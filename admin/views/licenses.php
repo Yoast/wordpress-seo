@@ -122,6 +122,7 @@ $has_valid_premium_subscription = YoastSEO()->helpers->product->is_premium() && 
 $wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Yoast SEO' );
 $new_tab_message         = sprintf(
 	'<span class="screen-reader-text">%1$s</span>',
+	/* translators: Hidden accessibility text. */
 	esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' )
 );
 

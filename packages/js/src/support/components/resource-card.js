@@ -36,7 +36,10 @@ export const ResourceCard = ( { imageSrc, title, description, linkHref, linkText
 		>
 			{ linkText }
 			<span className="yst-sr-only">
-				{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }
+				{
+					/* translators: Hidden accessibility text. */
+					__( "(Opens in a new browser tab)", "wordpress-seo" )
+				}
 			</span>
 			<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
 		</Link>
