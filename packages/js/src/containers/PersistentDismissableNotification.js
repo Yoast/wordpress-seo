@@ -34,7 +34,12 @@ const PersistentDismissableNotification = ( {
 				{ Image && <Image height="60" /> }
 			</div>
 			<button className="notice-dismiss" onClick={ onDismissed }>
-				<span className="screen-reader-text">{ __( "Dismiss this notice.", "wordpress-seo" ) }</span>
+				<span className="screen-reader-text">
+					{
+						/* translators: Hidden accessibility text. */
+						__( "Dismiss this notice.", "wordpress-seo" )
+					}
+				</span>
 			</button>
 		</div>
 	);

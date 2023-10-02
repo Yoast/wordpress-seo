@@ -76,7 +76,7 @@ const createStatusConditionalRender = ( status ) => {
  * @param {string} abortScreenReaderLabel The screen reader label for the abort button.
  * @param {JSX.node} selectDescription The selectDescription.
  * @param {"idle"|"loading"|"success"|"failure"} status The status the component should be in.
- * @param {Function} onChange The callback for when a file is imported.
+ * @param {function(File)} onChange The callback for when a file is imported.
  * @param {Function} onAbort The callback for when an file import is aborted.
  * @param {string} feedbackTitle The import feedback title.
  * @param {string} feedbackDescription The import feedback selectDescription.
@@ -120,6 +120,15 @@ const FileImport = forwardRef( ( {
 		}
 	}, [ onChange ] );
 
+	const handleDrop = useCallback( ( event ) => {
+		if ( ! isEmpty( event.dataTransfer.files ) ) {
+			const file = event.dataTransfer.files[ 0 ];
+			if ( file ) {
+				onChange( file );
+			}
+		}
+	}, [ onChange ] );
+
 	return (
 		<FileImportContext.Provider value={ { status } }>
 			<div className="yst-file-import">
@@ -130,6 +139,7 @@ const FileImport = forwardRef( ( {
 					// Don't control value here to allow consecutive imports of the same file.
 					value=""
 					onChange={ handleChange }
+					onDrop={ handleDrop }
 					className="yst-file-import__input"
 					aria-labelledby={ screenReaderLabel }
 					disabled={ isLoading }

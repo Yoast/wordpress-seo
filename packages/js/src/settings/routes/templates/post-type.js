@@ -199,7 +199,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					<hr className="yst-my-8" />
 					<FieldsetLayout
 						title={ <div className="yst-flex yst-items-center yst-gap-1.5">
-							<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
+							<span>{ __( "Social media appearance", "wordpress-seo" ) }</span>
 							{ isPremium && <Badge variant="upsell">Premium</Badge> }
 						</div> }
 						description={ sprintf(
@@ -389,7 +389,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							<hr className="yst-my-8" />
 							<FieldsetLayout
 								title={ <div className="yst-flex yst-items-center yst-gap-1.5">
-									<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
+									<span>{ __( "Social media appearance", "wordpress-seo" ) }</span>
 									{ isPremium && <Badge variant="upsell">Premium</Badge> }
 								</div> }
 								description={ sprintf(

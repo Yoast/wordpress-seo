@@ -58,7 +58,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 
 		$feature_help = new WPSEO_Admin_Help_Panel(
 			WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
-			/* translators: %s expands to a feature's name */
+			/* translators: Hidden accessibility text; %s expands to a feature's name. */
 			sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $feature->name ) ),
 			$help_text
 		);

@@ -864,7 +864,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			return '';
 		}
 
-		/* translators: %s: number of notifications */
+		/* translators: Hidden accessibility text; %s: number of notifications. */
 		$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count, 'wordpress-seo' ), number_format_i18n( $notification_count ) );
 
 		return sprintf( ' <div class="wp-core-ui wp-ui-notification yoast-issue-counter"><span class="yoast-issues-count" aria-hidden="true">%d</span><span class="screen-reader-text">%s</span></div>', $notification_count, $counter_screen_reader_text );

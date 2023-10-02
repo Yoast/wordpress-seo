@@ -13,6 +13,7 @@ import Warning from "../../containers/Warning";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import InsightsCollapsible from "../../insights/components/insights-collapsible";
 import MetaboxCollapsible from "../MetaboxCollapsible";
+import { InternalLinkingSuggestionsUpsell } from "../modals/InternalLinkingSuggestionsUpsell";
 import SidebarItem from "../SidebarItem";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
@@ -22,7 +23,7 @@ import WincherSEOPerformance from "../../containers/WincherSEOPerformance";
 import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
-import KeywordUpsell from "../KeywordUpsell";
+import KeywordUpsell from "../modals/KeywordUpsell";
 import { BlackFridayProductEditorChecklistPromotion } from "../BlackFridayProductEditorChecklistPromotion";
 import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
@@ -31,8 +32,8 @@ import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsChec
 /* eslint-disable complexity */
 /**
  * Creates the Metabox component.
-*
-* @param {Object} settings 				The feature toggles.
+ *
+ * @param {Object} settings 				The feature toggles.
  * @param {Object} store    				The Redux store.
  * @param {Object} theme    				The theme to use.
  * @param {Array} wincherKeyphrases 		The Wincher trackable keyphrases.
@@ -115,19 +116,22 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
-				<SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>
-					<MetaboxCollapsible
-						id={ "yoast-wincher-seo-performance-metabox" }
-						title={ __( "Track SEO performance", "wordpress-seo" ) }
-						initialIsOpen={ false }
-						prefixIcon={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
-						prefixIconCollapsed={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
-						onToggle={ onToggleWincher }
-					>
-						<WincherSEOPerformance />
-					</MetaboxCollapsible>
+				{ settings.shouldUpsell && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 23 }>
+					<InternalLinkingSuggestionsUpsell />
 				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
+					<SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>
+						<MetaboxCollapsible
+							id={ "yoast-wincher-seo-performance-metabox" }
+							title={ __( "Track SEO performance", "wordpress-seo" ) }
+							initialIsOpen={ false }
+							prefixIcon={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
+							prefixIconCollapsed={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
+							onToggle={ onToggleWincher }
+						>
+							<WincherSEOPerformance />
+						</MetaboxCollapsible>
+					</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
 					<CollapsibleCornerstone />
 				</SidebarItem> }

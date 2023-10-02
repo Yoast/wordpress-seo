@@ -81,6 +81,7 @@ const Notifications = () => {
 		...notification,
 		onDismiss: removeNotification,
 		autoDismiss: notification.variant === "success" ? 5000 : null,
+		/* translators: Hidden accessibility text. */
 		dismissScreenReaderLabel: __( "Dismiss", "wordpress-seo" ),
 	} ) ), [ notifications ] );
 

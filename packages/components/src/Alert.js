@@ -132,6 +132,7 @@ class Alert extends React.Component {
 		}
 
 		const options          = this.getTypeDisplayOptions( this.props.type );
+		/* translators: Hidden accessibility text. */
 		const dismissAriaLabel = this.props.dismissAriaLabel || __( "Dismiss this alert", "wordpress-seo" );
 
 		return <AlertContainer alertColor={ options.color } alertBackground={ options.background } className={ this.props.className }>

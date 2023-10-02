@@ -496,14 +496,20 @@ class WPSEO_Image_Utils {
 	 */
 	public static function get_attachment_id_from_settings( $setting ) {
 		$image_id = WPSEO_Options::get( $setting . '_id', false );
-		if ( ! $image_id ) {
-			$image = WPSEO_Options::get( $setting, false );
-			if ( $image ) {
-				// There is not an option to put a URL in an image field in the settings anymore, only to upload it through the media manager.
-				// This means an attachment always exists, so doing this is only needed once.
-				$image_id = self::get_attachment_by_url( $image );
-				WPSEO_Options::set( $setting . '_id', $image_id );
-			}
+		if ( $image_id ) {
+			return $image_id;
+		}
+
+		$image = WPSEO_Options::get( $setting, false );
+		if ( $image ) {
+			// There is not an option to put a URL in an image field in the settings anymore, only to upload it through the media manager.
+			// This means an attachment always exists, so doing this is only needed once.
+			$image_id = self::get_attachment_by_url( $image );
+		}
+
+		// Only store a new ID if it is not 0, to prevent an update loop.
+		if ( $image_id ) {
+			WPSEO_Options::set( $setting . '_id', $image_id );
 		}
 
 		return $image_id;
