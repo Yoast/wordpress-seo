@@ -35,9 +35,10 @@ const expectedResults = {
 	},
 	keywordDensity: {
 		isApplicable: true,
-		score: 9,
+		score: 4,
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 5 times. " +
-			"This is great!",
+			"That's less than the recommended minimum of 6 times for a text of this length. " +
+			"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
