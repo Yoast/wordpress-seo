@@ -588,8 +588,23 @@ describe( "The adapt function",
 			expect( adaptedTree ).toEqual( expected );
 		} );
 
+		it( "should correctly adapt a fragment with a (overarching) paragraph element that has double line breaks as child nodes", () => {
+			const html = "<p>test<br data-mce-fragment='1'><br data-mce-fragment='1'>test<br />test</p>";
+			const tree = parseFragment( html, { sourceCodeLocationInfo: true } );
 
-		it( "should correctly adapt a node with no childnodes.", () => {
+			const adaptedTree = adapt( tree );
+
+			const overarchingParagraph = adaptedTree.childNodes[ 0 ];
+			expect( overarchingParagraph.name ).toEqual( "p-overarching" );
+			expect( overarchingParagraph.childNodes[ 0 ].name ).toEqual( "p" );
+			expect( overarchingParagraph.childNodes[ 0 ].isImplicit ).toBeTruthy();
+			expect( overarchingParagraph.childNodes[ 1 ].name ).toEqual( "br" );
+			expect( overarchingParagraph.childNodes[ 2 ].name ).toEqual( "br" );
+			expect( overarchingParagraph.childNodes[ 3 ].name ).toEqual( "p" );
+			expect( overarchingParagraph.childNodes[ 3 ].isImplicit ).toBeTruthy();
+		} );
+
+		it( "should correctly adapt a node with no childNodes.", () => {
 			const tree = { nodeName: "div" };
 			const adaptedTree = adapt( tree );
 
