@@ -50,7 +50,8 @@ function getSentences( node, languageProcessor ) {
 }
 
 /**
- * Splits any paragraph and heading nodes in the tree into sentences and tokens.
+ * Splits any Paragraph and Heading nodes in the tree into sentences and tokens.
+ * Excludes overarching Paragraphs, as those will have (implicit) paragraphs as their children.
  *
  * @param {Node} tree The tree to process.
  * @param {LanguageProcessor} languageProcessor The language processor to use.
@@ -58,7 +59,7 @@ function getSentences( node, languageProcessor ) {
  * @returns {Node} The processed tree.
  */
 function tokenize( tree, languageProcessor ) {
-	if ( tree instanceof Paragraph || tree instanceof Heading ) {
+	if ( ( tree instanceof Paragraph && tree.name !== "p-overarching" ) || tree instanceof Heading ) {
 		tree.sentences = getSentences( tree, languageProcessor );
 	}
 
