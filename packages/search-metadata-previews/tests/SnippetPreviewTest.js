@@ -1,8 +1,7 @@
-
 import React from "react";
-import { render, screen, fireEvent } from "./test-utils";
 import { MODE_DESKTOP, MODE_MOBILE } from "../src/snippet-preview/constants";
 import SnippetPreview from "../src/snippet-preview/SnippetPreview";
+import { render, screen } from "./test-utils";
 
 const baseArgs = {
 	description: "Description",
