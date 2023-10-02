@@ -22,7 +22,7 @@ describe( "SnippetEditor", () => {
 		const desktopRadioInput = screen.getByLabelText( "Desktop result" );
 		const mobileRadioInput = screen.getByLabelText( "Mobile result" );
 		expect( desktopRadioInput ).not.toBeChecked();
-	    expect( mobileRadioInput ).toBeChecked();
+		expect( mobileRadioInput ).toBeChecked();
 		expect( container ).toMatchSnapshot();
 	} );
 	it( "Desktop mode ans should switch to mobile", async() => {
@@ -30,7 +30,7 @@ describe( "SnippetEditor", () => {
 		const desktopRadioInput = screen.getByLabelText( "Desktop result" );
 		const mobileRadioInput = screen.getByLabelText( "Mobile result" );
 		expect( desktopRadioInput ).toBeChecked();
-	    expect( mobileRadioInput ).not.toBeChecked();
+		expect( mobileRadioInput ).not.toBeChecked();
 		expect( container ).toMatchSnapshot();
 
 		fireEvent.click( mobileRadioInput );
