@@ -3,8 +3,8 @@ import sanitizeString from "../sanitize/sanitizeString";
 import { filter, flatMap } from "lodash-es";
 import removePunctuation, { punctuationRegexString } from "../sanitize/removePunctuation.js";
 
-const interJectionRegexString = `([${punctuationRegexString}])`;
-const interJectionRegex = new RegExp( interJectionRegexString, "g" );
+const punctuationRegexStr = `([${punctuationRegexString}])`;
+const punctuationRegex = new RegExp( punctuationRegexStr, "g" );
 
 /**
  * Returns an array with words used in the text.
@@ -32,7 +32,7 @@ export default function( text, wordBoundaryRegexString = "\\s", shouldRemovePunc
 	} else {
 		// If punctuation is not removed, punctuation marks are tokenized as if they were words.
 		words = flatMap( words, ( word ) => {
-			const newWord = word.replace( interJectionRegex, " $1 " );
+			const newWord = word.replace( punctuationRegex, " $1 " );
 			return newWord.split( " " );
 		} );
 	}
