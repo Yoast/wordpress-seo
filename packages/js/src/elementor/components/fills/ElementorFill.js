@@ -23,7 +23,9 @@ import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanc
 import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
-import BlackFridayPromoNotification from "../../../components/BlackFridayPromoNotification";
+import { BlackFridaySidebarChecklistPromotion } from "../../../components/BlackFridaySidebarChecklistPromotion";
+import { BlackFridayPromotion } from "../../../components/BlackFridayPromotion";
+import { shouldShowWebinarPromotionNotificationInSidebar } from "../../../helpers/shouldShowWebinarPromotionNotification";
 import KeywordUpsell from "../../../components/modals/KeywordUpsell";
 
 /* eslint-disable complexity */
@@ -50,7 +52,6 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	}
 
 	const webinarIntroElementorUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
-	const blackFridayBlockEditorUrl = get( window, "wpseoScriptData.blackFridayBlockEditorUrl", "https://yoa.st/black-friday-checklist" );
 	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
 
 	return (
@@ -60,9 +61,11 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
 
-					{ isWooCommerce && blackFridayBlockEditorUrl
-						? <BlackFridayPromoNotification image={ null } url={ blackFridayBlockEditorUrl } />
-						: <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } /> }
+					{ shouldShowWebinarPromotionNotificationInSidebar() &&
+						<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } />
+					}
+					{ isWooCommerce && <BlackFridaySidebarChecklistPromotion hasIcon={ false } /> }
+					<BlackFridayPromotion image={ null } hasIcon={ false } />
 
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
