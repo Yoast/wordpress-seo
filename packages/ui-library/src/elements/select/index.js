@@ -14,7 +14,7 @@ const optionPropType = {
 
 /**
  * @param {string|number|boolean} value Value.
- * @param {string} label Label.
+ * @param {string | JSX.Element} label Label.
  * @returns {JSX.Element} The option.
  */
 const Option = ( { value, label } ) => {
@@ -133,7 +133,10 @@ const propTypes = {
 	options: PropTypes.arrayOf( PropTypes.shape( optionPropType ) ),
 	children: PropTypes.node,
 	selectedLabel: PropTypes.string,
-	label: PropTypes.string,
+	label: PropTypes.oneOfType( [
+		PropTypes.string,
+		PropTypes.element,
+	  ] ).isRequired,
 	labelProps: PropTypes.object,
 	labelSuffix: PropTypes.node,
 	onChange: PropTypes.func.isRequired,
