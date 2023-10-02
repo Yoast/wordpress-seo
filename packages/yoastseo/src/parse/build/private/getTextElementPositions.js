@@ -94,22 +94,17 @@ function adjustTextElementStart( descendantTagPositions, textElementStart ) {
 }
 
 /**
- * Retrieves the initial start position of a text element.
+ * Retrieves the initial start offset for the first text element.
+ * Normally, that is the end offset of the start tag of the parent node.
+ * In case of implicit paragraphs, we use the start offset of the node as a whole.
  *
- * @param {Paragraph|Text} childNode The childNode to retrieve the start position from.
- * @param {Number} parentNodeStartOffset The start position of the childNode in the source code.
- * @returns {number} The start position of the text element.
+ * @param {Paragraph|Heading} node The node to retrieve the start position from.
+ * @returns {number} The start offset for the first text element.
  */
-const getTextElementStart = ( childNode, parentNodeStartOffset ) => {
-	// A check if the childNode is a text. Text nodes have a sourceCodeRange, but no sourceCodeLocation.
-	if ( childNode.name === "#text" && childNode.sourceCodeRange && childNode.sourceCodeRange.startOffset ) {
-		return childNode.sourceCodeRange.startOffset;
-	} else if ( childNode instanceof Paragraph && childNode.isImplicit ) {
-		return childNode.sourceCodeLocation.startOffset;
-	}
-
-	// If the childNode does not have a source code location, we use the parentNodeStartOffset of the parent childNode.
-	return parentNodeStartOffset >= 0 ? parentNodeStartOffset : childNode.sourceCodeLocation.startTag.endOffset;
+const getTextElementStart = ( node ) => {
+	return node instanceof Paragraph && node.isImplicit
+		? node.sourceCodeLocation.startOffset
+		: node.sourceCodeLocation.startTag.endOffset;
 };
 
 /**
@@ -124,16 +119,16 @@ const getTextElementStart = ( childNode, parentNodeStartOffset ) => {
  */
 export default function getTextElementPositions( node, textElements, startOffset = -1 ) {
 	// We cannot calculate positions if there are no text elements, or if we don't know the node's source code location.
-	if (  textElements.length === 0 || ( ! node.sourceCodeLocation && ! node.sourceCodeRange ) ) {
+	if (  textElements.length === 0 || ! node.sourceCodeLocation ) {
 		return textElements;
 	}
 
 	/*
-	 * Set the start position of the first element. If the node is an implicit paragraph, which don't have start and
-	 * end tags, set the start position to the start of the node. Otherwise, set the start position to the end of the
-	 * node's start tag.
+	 * Set the (initial) start offset of the first text element.
+	 * If the start offset has been provided (in the case of Tokens), use that.
+	 * Otherwise, determine the start offset from the parent Paragraph or Heading node.
 	 */
-	let textElementStart = getTextElementStart( node, startOffset );
+	let textElementStart = startOffset >= 0 ? startOffset : getTextElementStart( node );
 
 	let textElementEnd;
 	let descendantTagPositions = [];
