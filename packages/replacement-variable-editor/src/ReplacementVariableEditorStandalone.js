@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // External dependencies.
 import React from "react";
 import Editor from "@draft-js-plugins/editor";
@@ -515,7 +516,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	componentWillReceiveProps( nextProps ) {
+	UNSAFE_componentWillReceiveProps( nextProps ) {
 		const { content, replacementVariables, recommendedReplacementVariables } = this.props;
 		const { searchValue } = this.state;
 		const nextState = {};
