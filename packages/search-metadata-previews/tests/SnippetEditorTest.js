@@ -1,6 +1,6 @@
 import React from "react";
 import SnippetEditor from "../src/snippet-editor/SnippetEditor";
-import { render, screen, fireEvent } from "./test-utils";
+import { fireEvent, render, screen } from "./test-utils";
 
 const defaultData = {
 	title: "Test title",
@@ -25,7 +25,7 @@ describe( "SnippetEditor", () => {
 		expect( mobileRadioInput ).toBeChecked();
 		expect( container ).toMatchSnapshot();
 	} );
-	it( "Desktop mode ans should switch to mobile", async() => {
+	it( "Desktop mode and should switch to mobile", async() => {
 		const { container } = render( <SnippetEditor { ...defaultArgs } mode="desktop" /> );
 		const desktopRadioInput = screen.getByLabelText( "Desktop result" );
 		const mobileRadioInput = screen.getByLabelText( "Mobile result" );
