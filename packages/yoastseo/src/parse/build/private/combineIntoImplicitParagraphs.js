@@ -28,65 +28,17 @@ function hasChildren( node ) {
 }
 
 /**
- * Sets the new source code location for an implicit paragraph.
- * If the implicit paragraph already has a source code location, only update the start offset, if not, set a new source code location.
- *
- * @param {Paragraph} implicitParagraph The implicit paragraph to update.
- * @param {number} newStartOffset The new start offset.
- * @param {number} newEndOffset The new end offset.
- * @returns {void}
- */
-const setNewLocation = ( implicitParagraph, newStartOffset, newEndOffset ) => {
-	if ( implicitParagraph.sourceCodeLocation ) {
-		implicitParagraph.sourceCodeLocation.startOffset = newStartOffset;
-	} else {
-		implicitParagraph.sourceCodeLocation = new SourceCodeLocation( {
-			startOffset: newStartOffset,
-			endOffset: newEndOffset,
-		} );
-	}
-};
-
-/**
- * Updates the source code location of an implicit paragraph based on its first child.
+ * Updates the source code location of an implicit paragraph based on its children.
  * @param {Paragraph} implicitParagraph The implicit paragraph to update.
  * @returns {void}
  */
 const updateImplicitParagraphLocation = ( implicitParagraph ) => {
-	// Check if there is a source code range or location on the first child node. The reason for this is that tree-nodes have a source code location
-	// and text-nodes have a source code range. Another approach would be is to check whether we are dealing with a text-node or a tree-node,
-	// but this way we also do a bit of defensive programming.
-	const firstChild = implicitParagraph.childNodes[ 0 ];
-	if ( firstChild.sourceCodeRange && ! isEmpty( firstChild.sourceCodeRange ) ) {
-		const newStartOffset = firstChild.sourceCodeRange.startOffset;
-		const newEndOffset = firstChild.sourceCodeRange.endOffset;
-		setNewLocation( implicitParagraph, newStartOffset, newEndOffset );
-	} else if ( firstChild.sourceCodeLocation && ! isEmpty( firstChild.sourceCodeLocation ) ) {
-		const newStartOffset = firstChild.sourceCodeLocation.startOffset;
-		const newEndOffset = firstChild.sourceCodeLocation.endOffset;
-		setNewLocation( implicitParagraph, newStartOffset, newEndOffset );
-	}
-};
-
-/**
- * Updates the source code location of the implicit paragraph and the current source code location based on it's child nodes.
- * @param {Node} node The current node.
- * @param {Paragraph} implicitParagraph The implicit paragraph.
- * @param {SourceCodeLocation} currentSourceCodeLocation The current source code location.
- *
- * @returns {void}
- */
-const updateSourceCodeLocation = ( node, implicitParagraph, currentSourceCodeLocation ) => {
-	if ( ! isEmpty( node.sourceCodeLocation ) ) {
-		// Update the endOffset of the current implicit paragraph to be the start of the current node.
-		if ( ! isEmpty( implicitParagraph.sourceCodeLocation ) ) {
-			implicitParagraph.sourceCodeLocation.endOffset = node.sourceCodeLocation.startOffset;
-		}
-
-		updateImplicitParagraphLocation( implicitParagraph );
-
-		// Update the startOffset of the next implicit paragraph to be the end of the current node.
-		currentSourceCodeLocation.startOffset = node.sourceCodeLocation.endOffset;
+	const [ firstChild ] = implicitParagraph.childNodes.slice( 0 );
+	const [ lastChild ] = implicitParagraph.childNodes.slice( -1 );
+	if ( ( firstChild.sourceCodeRange || firstChild.sourceCodeLocation ) && ( lastChild.sourceCodeRange || lastChild.sourceCodeLocation ) ) {
+		const startOffset = firstChild.sourceCodeRange ? firstChild.sourceCodeRange.startOffset : firstChild.sourceCodeLocation.startOffset;
+		const endOffset = lastChild.sourceCodeRange ? lastChild.sourceCodeRange.endOffset : lastChild.sourceCodeLocation.endOffset;
+		implicitParagraph.sourceCodeLocation = new SourceCodeLocation( { startOffset: startOffset, endOffset: endOffset } );
 	}
 };
 
@@ -137,7 +89,12 @@ function combineIntoImplicitParagraphs( nodes, parentSourceCodeLocation = {} ) {
 				// end the current implicit paragraph and start a new one.
 
 				// But before pushing, we need to update the source code location of the implicit paragraph based on its child nodes.
-				updateSourceCodeLocation( node, implicitParagraph, currentSourceCodeLocation );
+				updateImplicitParagraphLocation( implicitParagraph );
+
+				// Update the startOffset of the next implicit paragraph to be the end of the current node.
+				if ( node.sourceCodeLocation ) {
+					currentSourceCodeLocation.startOffset = node.sourceCodeLocation.endOffset;
+				}
 
 				newNodes.push( implicitParagraph );
 				implicitParagraph = Paragraph.createImplicit( {}, [], currentSourceCodeLocation );
