@@ -14,6 +14,8 @@ module.exports = {
 	},
 	ignorePatterns: [
 		"/build/",
+		"/coverage/",
+		"/dist/",
 	],
 	rules: {
 		"no-prototype-builtins": 0,
