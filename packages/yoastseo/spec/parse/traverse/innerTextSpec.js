@@ -46,16 +46,6 @@ describe( "A test for innerText", () => {
 		expect( searchResult ).toEqual( expected );
 	} );
 
-	it( "should consider line breaks to be spacing", function() {
-		paper._text = "<p>Hello dear line break.<br>What's up<br>with you!</p>";
-		const tree = build( paper, languageProcessor );
-
-		const searchResult = innerText( tree );
-		const expected = "Hello dear line break. What's up with you!";
-
-		expect( searchResult ).toEqual( expected );
-	} );
-
 	it( "should return an empty string when presented an empty node", function() {
 		const tree = new Node( "" );
 

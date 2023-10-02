@@ -14,8 +14,6 @@ export default function innerText( node ) {
 		node.childNodes.forEach( child => {
 			if ( child.name === "#text" ) {
 				text += child.value;
-			} else if ( child.name === "br" ) {
-				text += " ";
 			} else {
 				text += innerText( child );
 			}
