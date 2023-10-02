@@ -9,7 +9,7 @@ import { forwardRef } from "@wordpress/element";
  * @param {JSX.Element} error Error node.
  * @param {string} [className] Optional CSS class.
  * @param {boolean} [disabled] Disabled state.
- * @param {string | JSX.Element} label Label.
+ * @param {string} label Label.
  * @param {JSX.node} [description] Optional description.
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} SelectField component.
@@ -54,10 +54,7 @@ const SelectField = forwardRef( ( {
 const propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
-	label: PropTypes.oneOfType( [
-		PropTypes.string,
-		PropTypes.element,
-	  ] ).isRequired,
+	label: PropTypes.string.isRequired,
 	description: PropTypes.node,
 	disabled: PropTypes.bool,
 	validation: PropTypes.shape( {
