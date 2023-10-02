@@ -18,6 +18,11 @@ const PrimaryTaxonomyPickerField = styled.div`
  * A component for selecting a primary taxonomy term.
  */
 class PrimaryTaxonomyPicker extends Component {
+	/**
+	 * Constructs a PrimaryTaxonomyPicker component.
+	 *
+	 * @param {Object} props The component's props.
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -255,13 +260,20 @@ PrimaryTaxonomyPicker.propTypes = {
 	primaryTaxonomyId: PropTypes.number,
 	setPrimaryTaxonomyId: PropTypes.func,
 	updateReplacementVariable: PropTypes.func,
-	receiveEntityRecords: PropTypes.func,
 	taxonomy: PropTypes.shape( {
 		name: PropTypes.string,
 		fieldId: PropTypes.string,
 		restBase: PropTypes.string,
 		singularLabel: PropTypes.string,
 	} ),
+};
+
+PrimaryTaxonomyPicker.defaultProps = {
+	selectedTermIds: [],
+	primaryTaxonomyId: -1,
+	setPrimaryTaxonomyId: () => {},
+	updateReplacementVariable: () => {},
+	taxonomy: {},
 };
 
 export default PrimaryTaxonomyPicker;
