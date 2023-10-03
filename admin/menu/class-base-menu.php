@@ -261,7 +261,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) && ! YoastSEO()->helpers->product->is_premium() ) {
-			$title .= '<span class="yoast-menu-bf-sale-badge">' . __( '30% OFF', 'wordpress-seo' ) . '</span>';
+			$title = __( 'Premium', 'wordpress-seo' ) . '<span class="yoast-menu-bf-sale-badge">' . __( '30% OFF', 'wordpress-seo' ) . '</span>';
 		}
 
 		return $title;
