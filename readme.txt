@@ -362,10 +362,6 @@ Release date: 2023-10-17
 * Fixes a bug where the first-time configuration' site representation logo button would not be translated. Props to [fxbenard](https://github.com/fxbenard).
 * Fixes a bug where the _single title_ assessment would be triggered when adding a H1 without text.
 
-#### Other
-
-* Adds a Black Friday banner to the sidebar upsale.
-
 = 21.3 =
 
 Release date: 2023-10-03
