@@ -25,32 +25,3 @@ UpsellPrice.propTypes = {
 };
 
 export default UpsellPrice;
-// opacity: 1;
-// color: rgba(100,116,139,1);
-// font-family: "SFProDisplay-Medium";
-// font-size: 16px;
-// font-weight: 500;
-// font-style: normal;
-// letter-spacing: 0px;
-// text-align: left;
-// text-decoration: line-through;
-
-
-// opacity: 1;
-// color: rgba(15,23,42,1);
-// font-family: "SFProDisplay-Bold";
-// font-size: 24px;
-// font-weight: 700;
-// font-style: normal;
-// letter-spacing: 0px;
-// text-align: left;
-
-// opacity: 1;
-// color: rgba(71,85,105,1);
-// font-family: "SFProText-Regular";
-// font-size: 13px;
-// font-weight: 400;
-// font-style: normal;
-// letter-spacing: 0px;
-// text-align: left;
-// line-height: 19px;
