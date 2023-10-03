@@ -1,5 +1,5 @@
 /* External dependencies */
-import { useSelect } from "@wordpress/data";
+import { select } from "@wordpress/data";
 import { Component, Fragment } from "@wordpress/element";
 import { makeOutboundLink } from "@yoast/helpers";
 import interpolateComponents from "interpolate-components";
@@ -91,11 +91,10 @@ class UpsellBox extends Component {
 	}
 
 
-	// componentDidMount() {
-	// 	const promotions = useSelect( "yoast/editor" ).getPromotions();
-	// 	const isBlackFriday = promotions.includes( "black-friday-2023-promotion" );
-	// 	this.setState( { isBlackFriday } );
-	// }
+	componentDidMount() {
+		const isBlackFriday = select( "yoast-seo/editor" ).isPromotionActive( "black-friday-2023-promotion" );
+		this.setState( { isBlackFriday } );
+	}
 
 
 	/**
