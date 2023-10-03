@@ -353,7 +353,7 @@ Yoast SEO 21.3 is out! In this release, we've focused on improving the plugin's 
 #### Bugfixes
 
 * Fixes a bug where the notifications counter of the admin bar menu would not show with the correct style on the frontend.
-* Fixes a bug where the slug in the search appearance editor would not be set when published posts were edited in the classic editor and the \"core/editor\" store was available.
+* Fixes a bug where the slug in the search appearance editor would not be set when published posts were edited in the classic editor and the "core/editor" store was available.
 
 = 21.2 =
 
