@@ -86,16 +86,8 @@ class UpsellBox extends Component {
 		super( props );
 		this.state = {
 			defaultPrice: "99",
-			isBlackFriday: false,
 		};
 	}
-
-
-	componentDidMount() {
-		const isBlackFriday = select( "yoast-seo/editor" ).isPromotionActive( "black-friday-2023-promotion" );
-		this.setState( { isBlackFriday } );
-	}
-
 
 	/**
 	 * Creates the HTML for the benefits list.
@@ -127,7 +119,8 @@ class UpsellBox extends Component {
 	 * @returns {wp.Element} The rendered UpsellBox component.
 	 */
 	render() {
-		const { defaultPrice, isBlackFriday } = this.state;
+		const isBlackFriday = select( "yoast-seo/editor" ).isPromotionActive( "black-friday-2023-promotion" );
+		const { defaultPrice } = this.state;
 		const newPrice = isBlackFriday ? "69.30" : null;
 		const price = newPrice ? newPrice : defaultPrice;
 		return (
