@@ -1,7 +1,5 @@
 import { languageProcessing } from "yoastseo";
-import { processStandardSuffixes } from "./internal/stem.js";
 const { normalizeSingle } = languageProcessing;
-const { buildFormRule, createRulesFromArrays } = languageProcessing;
 
 const contractionPrefixes = "^(c'|d'|l'|s')";
 const contractionRegex = new RegExp( contractionPrefixes );
@@ -12,6 +10,7 @@ const contractionRegex = new RegExp( contractionPrefixes );
  *
  * @param {object} config The configuration needed for assessing the word's complexity, e.g., the frequency list.
  * @param {string} word The word to check.
+ * @param {Object} [morphologyData] Optional morphology data.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
