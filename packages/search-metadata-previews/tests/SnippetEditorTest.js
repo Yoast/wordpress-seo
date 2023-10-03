@@ -38,8 +38,8 @@ describe( "SnippetEditor", () => {
 	} );
 
 	it( "Without close snippet editor button", async() => {
-		const { container } = render( <SnippetEditor { ...defaultArgs } showCloseButton={ false } /> );
-		expect( container ).toMatchSnapshot();
+		render( <SnippetEditor { ...defaultArgs } showCloseButton={ false } /> );
+		expect( screen.queryByText( "Edit snippet" ) ).not.toBeInTheDocument();
 	} );
 
 	describe( "Snippet editor defaults", () => {
