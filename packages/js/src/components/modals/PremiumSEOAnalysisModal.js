@@ -28,7 +28,7 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 				title={ __( "Unlock Premium SEO analysis", "wordpress-seo" ) }
 				onRequestClose={ closeModal }
 				additionalClassName=""
-				className={ `${ defaultModalClassName } yoast-gutenberg-modal__no-padding` }
+				className={ `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding` }
 				id="yoast-premium-seo-analysis-modal"
 				shouldCloseOnClickOutside={ true }
 			>
