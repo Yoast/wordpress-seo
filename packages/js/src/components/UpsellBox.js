@@ -4,9 +4,10 @@ import { makeOutboundLink } from "@yoast/helpers";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import ModalBanner from "./modals/ModalBanner";
 
 const Container = styled.div`
-  padding: 4px 32px 32px
+  padding: 25px 32px 32px
 `;
 
 const StyledList = styled.ul`
@@ -51,7 +52,6 @@ const Description = styled.p`
 
 const Divider = styled.hr`
   margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
   border-top: 0;
   border-bottom: 1px solid #E2E8F0;
 `;
@@ -115,6 +115,8 @@ class UpsellBox extends Component {
 	render() {
 		return (
 			<Fragment>
+				<hr className="yst-mt-1.5 yst-mb-0 yst-border-t-0 yst-border-b-slate-200" />
+				<ModalBanner />
 				<Container>
 					<Heading>{ this.props.title }</Heading>
 					<Description>{ this.props.description }</Description>

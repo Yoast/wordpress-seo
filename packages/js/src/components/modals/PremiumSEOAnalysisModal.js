@@ -32,7 +32,6 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 				id="yoast-premium-seo-analysis-modal"
 				shouldCloseOnClickOutside={ true }
 			>
-				<hr className="yst-mt-1.5 yst-mb-6 yst-border-t-0 yst-border-b-slate-200" />
 				<ModalSmallContainer>
 					<PremiumSEOAnalysisUpsell buyLink={ `shortlinks.upsell.${ location }.premium_seo_analysis_button` } />
 				</ModalSmallContainer>
