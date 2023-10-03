@@ -381,11 +381,11 @@ const TableContent = ( props ) => {
 		if ( isEmpty( trackedKeyphrases ) ) {
 			return [];
 		}
-		return Object.values( trackedKeyphrases ).filter( keyphrase => selectedKeyphrases.includes( keyphrase.keyword ) )
-			.filter( keyphrase => ! isEmpty( keyphrase.position?.history ) )
+		return Object.values( trackedKeyphrases )
 			.map( keyphrase => ( {
 				label: keyphrase.keyword,
 				data: keyphrase.position.history,
+				selected: selectedKeyphrases.includes( keyphrase.keyword ) && ! isEmpty( keyphrase.position?.history ),
 			} ) );
 	}, [ selectedKeyphrases, trackedKeyphrases ] );
 

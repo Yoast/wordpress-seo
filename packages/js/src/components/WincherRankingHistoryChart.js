@@ -1,12 +1,35 @@
 /* External dependencies */
 import { Line } from "react-chartjs-2";
-import { CategoryScale, Chart, LineController,	LineElement, LinearScale, PointElement, TimeScale, Colors, Legend, Tooltip } from "chart.js";
+import { CategoryScale, Chart, LineController,	LineElement, LinearScale, PointElement, TimeScale, Legend, Tooltip } from "chart.js";
 import "chartjs-adapter-moment";
 import PropTypes from "prop-types";
 import { noop } from "lodash";
 import moment from "moment";
 
-Chart.register( CategoryScale, LineController,	LineElement, PointElement, LinearScale, TimeScale, Colors, Legend, Tooltip );
+Chart.register( CategoryScale, LineController,	LineElement, PointElement, LinearScale, TimeScale, Legend, Tooltip );
+
+const CHART_COLORS = [
+	"#ff983b",
+	"#ffa3f7",
+	"#3798ff",
+	"#ff3b3b",
+	"#acce81",
+	"#b51751",
+	"#3949ab",
+	"#26c6da",
+	"#ccb800",
+	"#de66ff",
+	"#4db6ac",
+	"#ffab91",
+	"#45f5f1",
+	"#77f210",
+	"#90a4ae",
+	"#ffd54f",
+	"#006b5e",
+	"#8ec7d2",
+	"#b1887c",
+	"#cc9300",
+];
 
 /**
  * Renders the Wincher ranking history chart.
@@ -20,7 +43,7 @@ export default function WincherRankingHistoryChart( { datasets, isChartShown } )
 		return null;
 	}
 
-	const data = datasets.map( dataset => ( {
+	const data = datasets.map( ( dataset, index ) => ( {
 		...dataset,
 		data: dataset.data.map( ( { datetime, value } ) => ( {
 			x: datetime,
@@ -31,7 +54,8 @@ export default function WincherRankingHistoryChart( { datasets, isChartShown } )
 		pointHoverRadius: 4,
 		borderWidth: 2,
 		pointHitRadius: 6,
-	} ) );
+		backgroundColor: CHART_COLORS[ index % CHART_COLORS.length ],
+	} ) ).filter( dataset => dataset.selected !== false );
 
 	return (
 		<Line
@@ -109,6 +133,7 @@ WincherRankingHistoryChart.propTypes = {
 					value: PropTypes.number.isRequired,
 				} )
 			).isRequired,
+			selected: PropTypes.bool,
 		} )
 	).isRequired,
 	isChartShown: PropTypes.bool.isRequired,
