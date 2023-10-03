@@ -59,6 +59,10 @@
 	right: 16px;
 }
 
+.yoast-gutenberg-modal__no-padding .components-modal__content {
+	padding: 0;
+}
+
 .yoast-modal__heading h1,
 .yoast-gutenberg-modal .components-modal__header-heading {
 	font-size: 20px;

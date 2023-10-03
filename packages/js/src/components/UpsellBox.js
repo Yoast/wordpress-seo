@@ -1,37 +1,68 @@
 /* External dependencies */
-import { Component } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
+import { makeOutboundLink } from "@yoast/helpers";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { makeOutboundLink } from "@yoast/helpers";
+
+const Container = styled.div`
+  padding: 4px 32px 32px
+`;
 
 const StyledList = styled.ul`
-	list-style: none;
-	margin: 0 0 24px;
-	padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 
-	li {
-		margin: 10px 0 0 0;
-	}
+  li {
+    margin: 10px 0 0 0;
+  }
 
-	span[aria-hidden="true"]:before {
-		content: "";
-		display: inline-block;
-		height: 13px;
-		width: 13px;
-		background-size: 13px 13px;
-		background-image: var( --yoast-svg-icon-check );
-		background-repeat: no-repeat;
-		margin-right: 10px;
-	}
+  span[aria-hidden="true"]:before {
+    content: "";
+    display: inline-block;
+    height: 13px;
+    width: 13px;
+    background-size: 13px 13px;
+    background-image: var(--yoast-svg-icon-check);
+    background-repeat: no-repeat;
+    margin-right: 10px;
+  }
 `;
 
-const ButtonLabel = styled.small`
-	display: block;
-	margin-top: 4px;
+const ButtonLabel = styled.span`
+  display: block;
+  margin-top: 4px;
 `;
 
-const UpsellButton = makeOutboundLink();
+const Heading = styled.h2`
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+  color: #303030;
+  font-size: 0.8125rem;
+  font-weight: 600;
+`;
+
+const Description = styled.p`
+  display: block;
+  margin: 0.25rem 0 1rem 0;
+  max-width: 420px;
+`;
+
+const Divider = styled.hr`
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+`;
+
+const ButtonContainer = styled.div`
+  text-align: center;
+`;
+
+const Anchor = styled.a`
+  width: 100%;
+`;
+
+const UpsellButton = makeOutboundLink( Anchor );
 
 /**
  * Returns the UpsellBox component.
@@ -75,47 +106,41 @@ class UpsellBox extends Component {
 	}
 
 	/**
-	 * Creates the HTML for the info paragraphs.
-	 *
-	 * @param {array} paragraphs The paragraphs to be rendered.
-	 *
-	 * @returns {*} The HTML for the info paragraphs.
-	 */
-	createInfoParagraphs( paragraphs ) {
-		return (
-			paragraphs.map( ( paragraph, index ) => {
-				return <p key={ index }>{ paragraph }</p>;
-			} )
-		);
-	}
-
-	/**
 	 * Renders a UpsellBox component.
 	 *
 	 * @returns {wp.Element} The rendered UpsellBox component.
 	 */
 	render() {
 		return (
-			<div>
-				{ this.createInfoParagraphs( this.props.infoParagraphs ) }
-				{ this.createBenefitsList( this.props.benefits ) }
-				<UpsellButton
-					{ ...this.props.upsellButton }
-				>
-					{ this.props.upsellButtonText }
-					{ this.props.upsellButtonHasCaret && <span aria-hidden="true" className="yoast-button-upsell__caret" /> }
-				</UpsellButton>
-				<ButtonLabel id={ this.props.upsellButton[ "aria-describedby" ] }>
-					{ this.props.upsellButtonLabel }
-				</ButtonLabel>
-			</div>
+			<Fragment>
+				<Container>
+					<Heading>{ this.props.title }</Heading>
+					<Description>{ this.props.description }</Description>
+					<ButtonContainer>
+						<UpsellButton
+							{ ...this.props.upsellButton }
+						>
+							{ this.props.upsellButtonText }
+							{ this.props.upsellButtonHasCaret && <span aria-hidden="true" className="yoast-button-upsell__caret" /> }
+						</UpsellButton>
+						<ButtonLabel id={ this.props.upsellButton[ "aria-describedby" ] }>
+							{ this.props.upsellButtonLabel }
+						</ButtonLabel>
+					</ButtonContainer>
+					<Divider />
+					<Heading>{ this.props.benefitsTitle }</Heading>
+					{ this.createBenefitsList( this.props.benefits ) }
+				</Container>
+			</Fragment>
 		);
 	}
 }
 
 UpsellBox.propTypes = {
+	title: PropTypes.node,
 	benefits: PropTypes.array,
-	infoParagraphs: PropTypes.array,
+	benefitsTitle: PropTypes.node,
+	description: PropTypes.node,
 	upsellButton: PropTypes.object,
 	upsellButtonText: PropTypes.string.isRequired,
 	upsellButtonLabel: PropTypes.string,
@@ -123,8 +148,10 @@ UpsellBox.propTypes = {
 };
 
 UpsellBox.defaultProps = {
-	infoParagraphs: [],
+	title: null,
+	description: null,
 	benefits: [],
+	benefitsTitle: null,
 	upsellButton: {
 		href: "",
 		className: "button button-primary",
