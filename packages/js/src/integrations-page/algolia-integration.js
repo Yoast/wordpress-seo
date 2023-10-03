@@ -87,11 +87,9 @@ export const AlgoliaIntegration = ( {
 			</Card.Header>
 			<Card.Content>
 				<div>
-					{
-						integration.claim && <h4 className="yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827] yst-leading-tight">
-							{ integration.claim }
-						</h4>
-					}
+					{ integration.claim && <h4 className="yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827] yst-leading-tight">
+						{ integration.claim }
+					</h4> }
 					<p> { integration.description }
 						{ integration.learnMoreLink && <Link
 							href={ integration.learnMoreLink }

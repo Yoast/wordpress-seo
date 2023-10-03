@@ -10,9 +10,9 @@ import { addLinkToString } from "../helpers/stringHelpers";
 /**
  * Renders a section.
  *
- * @param {string} title         The section title.
- * @param {JSX.node} description The section description.
- * @param {array}  elements      Array of elements to be rendered.
+ * @param {string}    title       The section title.
+ * @param {WPElement} description The section description.
+ * @param {array}     elements    Array of elements to be rendered.
  *
  * @returns {WPElement} The section.
  */
