@@ -8,7 +8,8 @@ import ModalBanner from "./modals/ModalBanner";
 import UpsellPrice from "./modals/UpsellPrice";
 
 const Container = styled.div`
-  padding: 25px 32px 32px
+  padding: 25px 32px 32px;
+  color: #303030;
 `;
 
 const StyledList = styled.ul`
@@ -47,12 +48,13 @@ const Heading = styled.h2`
 
 const Description = styled.p`
   display: block;
-  margin: 0.25rem 0 1rem 0;
+  margin: 0.25rem 0 1rem 0 !important;
   max-width: 420px;
 `;
 
 const Divider = styled.hr`
   margin-top: 1.5rem;
+  margin-bottom: 1rem;
   border-top: 0;
   border-bottom: 1px solid #E2E8F0;
 `;
