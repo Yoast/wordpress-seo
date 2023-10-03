@@ -1,8 +1,7 @@
 /* External dependencies */
 import { select } from "@wordpress/data";
-import { Component, Fragment } from "@wordpress/element";
+import { Component, Fragment, createInterpolateElement } from "@wordpress/element";
 import { makeOutboundLink } from "@yoast/helpers";
-import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
@@ -13,23 +12,17 @@ const Container = styled.div`
 `;
 
 const StyledList = styled.ul`
-  list-style: none;
   margin: 0;
   padding: 0;
 
   li {
-    margin: 10px 0 0 0;
-  }
+    list-style-image: var(--yoast-svg-icon-check);
+    margin: 0.5rem 0 0 1.5rem;
+    line-height: 1.4em;
 
-  span[aria-hidden="true"]:before {
-    content: "";
-    display: inline-block;
-    height: 13px;
-    width: 13px;
-    background-size: 13px 13px;
-    background-image: var(--yoast-svg-icon-check);
-    background-repeat: no-repeat;
-    margin-right: 10px;
+    &::marker {
+      font-size: 1.5rem;
+    }
   }
 `;
 
@@ -101,12 +94,11 @@ class UpsellBox extends Component {
 			benefits.length > 0 &&
 			<StyledList role="list">
 				{ benefits.map( ( benefit, index ) => {
-					return <li key={ index }>
-						<span aria-hidden="true" />
-						{ interpolateComponents( {
-							mixedString: benefit.replace( "<strong>", "{{strong}}" ).replace( "</strong>", "{{/strong}}" ),
-							components: { strong: <strong /> },
-						} ) }
+					return <li key={ `upsell-benefit-${ index }` }>
+						{ createInterpolateElement(
+							benefit.replace( "<strong>", "{{strong}}" ).replace( "</strong>", "{{/strong}}" ),
+							{ strong: <strong /> }
+						) }
 					</li>;
 				} ) }
 			</StyledList>
