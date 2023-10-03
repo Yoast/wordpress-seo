@@ -104,7 +104,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		const paper = new Paper( text, { keyword: "keyword", synonyms: "synonym" } );
 		const assessments = assess( paper );
 
-		const expected = isStoreBlog ? mostAssessments : mostAssessments.concat( "keywordDensity" );
+		const expected = isStoreBlog ? mostAssessments : mostAssessments.concat( "keyphraseDensity" );
 		expect( assessments.sort() ).toEqual( expected.sort() );
 	} );
 
@@ -140,7 +140,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } );
 		const assessments = assess( paper );
 
-		const keyphraseAssessments = isProductAssessor ? [ "keyphraseDistribution", "keywordDensity" ] : [ "keywordDensity" ];
+		const keyphraseAssessments = isProductAssessor ? [ "keyphraseDistribution", "keyphraseDensity" ] : [ "keyphraseDensity" ];
 		const expected = isStoreBlog ? mostAssessments : [ ...mostAssessments, ...keyphraseAssessments ];
 		expect( assessments.sort() ).toEqual( expected.sort() );
 	} );
@@ -161,7 +161,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword", synonyms: "synonym" } );
 		const assessments = assess( paper );
 
-		const keyphraseAssessments = isProductAssessor ? [ "keyphraseDistribution", "keywordDensity" ] : [ "keywordDensity" ];
+		const keyphraseAssessments = isProductAssessor ? [ "keyphraseDistribution", "keyphraseDensity" ] : [ "keyphraseDensity" ];
 		const expected = isStoreBlog ? mostAssessments : [ ...mostAssessments, ...keyphraseAssessments ];
 		expect( assessments.sort() ).toEqual( expected.sort() );
 	} );
@@ -279,8 +279,8 @@ export function checkUrls( assessor, isProductAssessor = false ) {
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
-	test( "KeywordDensityAssessment", () => {
-		const assessment = assessor.getAssessment( "keywordDensity" );
+	test( "keyphraseDensityAssessment", () => {
+		const assessment = assessor.getAssessment( "keyphraseDensity" );
 		const urlTitle = isProductAssessor ? "https://yoa.st/shopify12" : "https://yoa.st/33v";
 		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify13" : "https://yoa.st/33w";
 

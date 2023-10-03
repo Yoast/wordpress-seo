@@ -31,8 +31,8 @@ const expectedResults = {
 		isApplicable: true,
 		score: -50,
 		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The keyphrase was found 5 times. " +
-			"That's way more than the recommended maximum of 4 times for a text of this length. <a href='https://yoa.st/shopify13'" +
-			" target='_blank'>Don't overoptimize</a>!",
+			"That's way more than the recommended maximum of 4 times for a text of this length." +
+			" <a href='https://yoa.st/shopify13' target='_blank'>Don't overoptimize</a>!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -120,6 +120,7 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: true,
 		score: 6,
+		// eslint-disable-next-line max-len
 		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 15.66% of the words in your text are considered complex. " +
 			"<a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
 	},

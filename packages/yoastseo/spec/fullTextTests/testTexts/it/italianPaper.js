@@ -30,7 +30,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 5 times. This is great!",
+			"The keyphrase was found 6 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,

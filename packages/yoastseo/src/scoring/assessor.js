@@ -124,7 +124,8 @@ Assessor.prototype.assess = function( paper ) {
 	this._researcher.setPaper( paper );
 
 	const languageProcessor = new LanguageProcessor( this._researcher );
-	paper.setTree( build( paper.getText(), languageProcessor ) );
+	const shortcodes = paper._attributes && paper._attributes.shortcodes;
+	paper.setTree( build( paper, languageProcessor, shortcodes ) );
 
 	let assessments = this.getAvailableAssessments();
 	this.results = [];

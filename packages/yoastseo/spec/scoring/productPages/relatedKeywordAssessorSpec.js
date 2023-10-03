@@ -53,8 +53,8 @@ describe( "has configuration overrides", () => {
 		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/8' target='_blank'>" );
 	} );
 
-	test( "KeywordDensityAssessment", () => {
-		const assessment = assessor.getAssessment( "keywordDensity" );
+	test( "KeyphraseDensityAssessment", () => {
+		const assessment = assessor.getAssessment( "keyphraseDensity" );
 
 		expect( assessment ).toBeDefined();
 		expect( assessment._config ).toBeDefined();

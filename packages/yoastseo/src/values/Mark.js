@@ -51,6 +51,15 @@ Mark.prototype.getFieldsToMark = function() {
 };
 
 /**
+ * Returns the position information.
+ *
+ * @returns {number} The position information.
+ */
+Mark.prototype.getPosition = function() {
+	return this._properties.position;
+};
+
+/**
  * Returns the start position.
  *
  * @returns {number} The start position.
@@ -66,6 +75,98 @@ Mark.prototype.getPositionStart = function() {
  */
 Mark.prototype.getPositionEnd = function() {
 	return this._properties.position && this._properties.position.endOffset;
+};
+
+/**
+ * Sets the start position.
+ *
+ * @param {number} positionStart The new start position.
+ *
+ * @returns {void}
+ */
+Mark.prototype.setPositionStart = function( positionStart ) {
+	this._properties.position.startOffset = positionStart;
+};
+
+/**
+ * Sets the end position.
+ *
+ * @param {number} positionEnd The new end position.
+ *
+ * @returns {void}
+ */
+Mark.prototype.setPositionEnd = function( positionEnd ) {
+	this._properties.position.endOffset = positionEnd;
+};
+
+/**
+ * Returns the start position of a block.
+ *
+ * @param {number} startOffsetBlock The block start offset.
+ *
+ * @returns {number} The start position of a block.
+ */
+Mark.prototype.setBlockPositionStart = function( startOffsetBlock ) {
+	this._properties.position.startOffsetBlock = startOffsetBlock;
+};
+
+/**
+ * Returns the end position of a block.
+ *
+ * @param {number} endOffsetBlock The block end offset.
+ *
+ * @returns {number} The end position of a block.
+ */
+Mark.prototype.setBlockPositionEnd = function( endOffsetBlock ) {
+	this._properties.position.endOffsetBlock = endOffsetBlock;
+};
+
+/**
+ * Gets the block client id.
+ *
+ * @returns {string} The block client id.
+ */
+Mark.prototype.getBlockClientId = function() {
+	return this._properties.position && this._properties.position.clientId;
+};
+
+/**
+ * Gets the block attribute id.
+ *
+ * @returns {string} The block attribute id.
+ */
+Mark.prototype.getBlockAttributeId = function() {
+	return this._properties.position && this._properties.position.attributeId;
+};
+
+
+/**
+ * Checks if the mark object is intended for the first section of a Yoast sub-block.
+ * This method will be used only for Yoast blocks where each block consists of sub-blocks
+ * with two sections.
+ *
+ * @returns {boolean} Whether the mark object is intended for the first section of a Yoast sub-block.
+ */
+Mark.prototype.isMarkForFirstBlockSection = function() {
+	return this._properties.position && this._properties.position.isFirstSection;
+};
+
+/**
+ * Returns the start position inside block.
+ *
+ * @returns {number} The start position inside block if the mark position information, undefined otherwise.
+ */
+Mark.prototype.getBlockPositionStart = function() {
+	return this._properties.position && this._properties.position.startOffsetBlock;
+};
+
+/**
+ * Returns the end position inside block if the mark has position information, undefined otherwise.
+ *
+ * @returns {number} The end position inside block.
+ */
+Mark.prototype.getBlockPositionEnd = function() {
+	return this._properties.position && this._properties.position.endOffsetBlock;
 };
 
 /**
@@ -136,7 +237,18 @@ Mark.prototype.isValid = function() {
  * @returns {boolean} Returns true if the Mark object has position information, false otherwise.
  */
 Mark.prototype.hasPosition = function() {
-	return !! this.getPositionStart && this.getPositionStart();
+	return ! isUndefined( this.getPositionStart() );
+};
+
+
+/**
+ * Checks if a mark has block position information available.
+ * A block has position information if the block start offset is available.
+ *
+ * @returns {boolean} Returns true if the Mark object has block position information, false otherwise.
+ */
+Mark.prototype.hasBlockPosition = function() {
+	return ! isUndefined( this.getBlockPositionStart() );
 };
 
 /**

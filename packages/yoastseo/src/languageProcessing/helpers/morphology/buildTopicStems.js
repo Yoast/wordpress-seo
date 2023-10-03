@@ -1,7 +1,8 @@
 import getWords from "../word/getWords.js";
 import { normalizeSingle } from "../sanitize/quotes";
 
-import { includes, isUndefined, escapeRegExp, memoize } from "lodash-es";
+import { isUndefined, escapeRegExp, memoize } from "lodash-es";
+import isDoubleQuoted from "../match/isDoubleQuoted";
 
 /**
  * A topic phrase (i.e., a keyphrase or synonym) with stem-original pairs for the words in the topic phrase.
@@ -62,8 +63,7 @@ const buildStems = function( keyphrase, stemmer, functionWords ) {
 	}
 
 	// If the keyphrase is embedded in double quotation marks, return keyword itself, without outer-most quotation marks.
-	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
-	if ( includes( doubleQuotes, keyphrase[ 0 ] ) && includes( doubleQuotes, keyphrase[ keyphrase.length - 1 ] ) ) {
+	if ( isDoubleQuoted( keyphrase ) ) {
 		keyphrase = keyphrase.substring( 1, keyphrase.length - 1 );
 		return new TopicPhrase(
 			[ new StemOriginalPair( escapeRegExp( keyphrase ), keyphrase ) ],
