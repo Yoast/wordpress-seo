@@ -52,6 +52,8 @@ const Description = styled.p`
 const Divider = styled.hr`
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
+  border-top: 0;
+  border-bottom: 1px solid #E2E8F0;
 `;
 
 const ButtonContainer = styled.div`
