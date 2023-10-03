@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.3
-Stable tag: 21.2
+Stable tag: 21.3
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -344,10 +344,11 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-10-03
 
+Yoast SEO 21.3 is out! In this release, we've focused on improving the plugin's performance, especially regarding handling huge posts on complex websites. Find out more about what's new in Yoast SEO 21.3 in [our release post](https://yoa.st/release-3-10-23)!
+
 #### Enhancements
 
-* Improves the accuracy of the _word complexity_ assessment in English by recognizing more plural forms of non-complex words. For example, the plural form _universities_ is not marked as a complex word anymore, just like the singular form _university_.
-* Improves the performance of post saving.
+* Enhances post-saving performance in certain conditions for a smoother and more efficient user experience.
 
 #### Bugfixes
 
