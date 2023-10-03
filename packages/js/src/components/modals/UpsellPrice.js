@@ -21,7 +21,7 @@ const UpsellPrice = ( { newPrice } ) => {
 };
 
 UpsellPrice.propTypes = {
-	newPrice: PropTypes.number,
+	newPrice: PropTypes.string,
 };
 
 export default UpsellPrice;
