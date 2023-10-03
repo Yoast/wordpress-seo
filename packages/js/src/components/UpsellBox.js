@@ -1,11 +1,11 @@
 /* External dependencies */
+import { useSelect } from "@wordpress/data";
 import { Component, Fragment } from "@wordpress/element";
 import { makeOutboundLink } from "@yoast/helpers";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import ModalBanner from "./modals/ModalBanner";
-import UpsellPrice from "./modals/UpsellPrice";
+import { __ } from "@wordpress/i18n";
 
 const Container = styled.div`
   padding: 25px 32px 32px;
@@ -84,7 +84,19 @@ class UpsellBox extends Component {
 	 */
 	constructor( props ) {
 		super( props );
+		this.state = {
+			defaultPrice: "99",
+			isBlackFriday: false,
+		};
 	}
+
+
+	// componentDidMount() {
+	// 	const promotions = useSelect( "yoast/editor" ).getPromotions();
+	// 	const isBlackFriday = promotions.includes( "black-friday-2023-promotion" );
+	// 	this.setState( { isBlackFriday } );
+	// }
+
 
 	/**
 	 * Creates the HTML for the benefits list.
@@ -116,10 +128,17 @@ class UpsellBox extends Component {
 	 * @returns {wp.Element} The rendered UpsellBox component.
 	 */
 	render() {
+		const { defaultPrice, isBlackFriday } = this.state;
+		const newPrice = isBlackFriday ? "69.30" : null;
+		const price = newPrice ? newPrice : defaultPrice;
 		return (
 			<Fragment>
 				<hr className="yst-mt-1.5 yst-mb-0 yst-border-t-0 yst-border-b-slate-200" />
-				<ModalBanner />
+				{ isBlackFriday &&
+				<div className="yst-flex yst-justify-between yst-items-center yst-text-lg yst-content-between yst-bg-black yst-text-amber-300 yst-h-9 yst-border-amber-300 yst-border-y yst-border-x-0 yst-border-solid yst-px-6">
+					<div>{ __( "BLACK FRIDAY", "wordpress-seo" ) }</div>
+					<div>{ __( "30% OFF", "wordpress-seo" ) }</div>
+				</div> }
 				<Container>
 					<Heading>{ this.props.title }</Heading>
 					<Description>{ this.props.description }</Description>
@@ -130,7 +149,11 @@ class UpsellBox extends Component {
 							{ this.props.upsellButtonText }
 							{ this.props.upsellButtonHasCaret && <span aria-hidden="true" className="yoast-button-upsell__caret" /> }
 						</UpsellButton>
-						<UpsellPrice newPrice="69.30" />
+						<div className="yst-text-slate-600 yst-my-4">
+							{ newPrice && <span className="yst-text-slate-500 yst-line-through">{ defaultPrice }</span> }
+							{ " " }
+							<span className="yst-text-slate-900 yst-text-2xl yst-font-bold">{ price }</span> { __( "/ $ USD / € EUR / £ GBP per year (ex. VAT)", "wordpress-seo" ) }
+						</div>
 						<ButtonLabel id={ this.props.upsellButton[ "aria-describedby" ] }>
 							{ this.props.upsellButtonLabel }
 						</ButtonLabel>
