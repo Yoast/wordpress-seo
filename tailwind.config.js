@@ -24,6 +24,19 @@ module.exports = {
 			animation: {
 				slideRight: "slideRight .5s ease-in-out forwards",
 			},
+			fontFamily: {
+				wp: [
+					"-apple-system",
+					"BlinkMacSystemFont",
+					"Segoe UI",
+					"Roboto",
+					"Oxygen-Sans",
+					"Ubuntu",
+					"Cantarell",
+					"Helvetica Neue",
+					"sans-serif",
+				],
+			},
 		},
 	},
 	safelist: [

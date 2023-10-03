@@ -549,6 +549,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'metabox-' . $flat_version,
 				'deps' => [
 					self::PREFIX . 'admin-css',
+					self::PREFIX . 'tailwind',
 					'wp-components',
 				],
 			],

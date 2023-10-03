@@ -144,7 +144,6 @@ class WPSEO_Taxonomy {
 
 			$asset_manager->enqueue_style( 'metabox-css' );
 			$asset_manager->enqueue_style( 'scoring' );
-			$asset_manager->enqueue_style( 'tailwind' );
 			$asset_manager->enqueue_script( 'term-edit' );
 
 			/**

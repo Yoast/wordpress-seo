@@ -12,6 +12,9 @@ import wordComplexityConfigEnglish from "../../../src/languageProcessing/languag
 import wordComplexityConfigGerman from "../../../src/languageProcessing/languages/de/config/wordComplexity";
 import wordComplexityConfigSpanish from "../../../src/languageProcessing/languages/es/config/wordComplexity";
 import wordComplexityConfigFrench from "../../../src/languageProcessing/languages/fr/config/wordComplexity";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
+
+const morphologyData = getMorphologyData( "en" );
 
 describe( "a test for getting the complex words in the sentence and calculating their percentage",  function() {
 	let researcher;
@@ -20,6 +23,7 @@ describe( "a test for getting the complex words in the sentence and calculating 
 		researcher = new EnglishResearcher();
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigEnglish );
+		researcher.addResearchData( "morphology", morphologyData );
 	} );
 
 	it( "returns an array with the complex words from the text in English", function() {
