@@ -5,6 +5,7 @@ import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import ModalBanner from "./modals/ModalBanner";
+import UpsellPrice from "./modals/UpsellPrice";
 
 const Container = styled.div`
   padding: 25px 32px 32px
@@ -127,6 +128,7 @@ class UpsellBox extends Component {
 							{ this.props.upsellButtonText }
 							{ this.props.upsellButtonHasCaret && <span aria-hidden="true" className="yoast-button-upsell__caret" /> }
 						</UpsellButton>
+						<UpsellPrice newPrice="69.30" />
 						<ButtonLabel id={ this.props.upsellButton[ "aria-describedby" ] }>
 							{ this.props.upsellButtonLabel }
 						</ButtonLabel>
