@@ -140,6 +140,7 @@ export const ToggleableIntegration = ( {
 					/>
 				</p>  }
 				{ getIsFreeIntegrationOrPremiumAvailable( integration ) && getIsMultisiteAvailable( integration ) && <ToggleField
+					id={ `${ integration.name }-toggle` }
 					checked={ isActive }
 					label={ toggleLabel }
 					onChange={ toggleActive }
