@@ -12,12 +12,12 @@ import { Slot } from "@wordpress/components";
 /**
  * An integration which can be toggled on and off.
  *
- * @param {object}    integration             The integration.
- * @param {bool}      initialActivationState  True if the integration has been activated by the user.
- * @param {bool}      isNetworkControlEnabled True if the integration is network-enabled.
- * @param {bool}      isMultisiteAvailable    True if the integration is available on multisites.
- * @param {string}    toggleLabel             The toggle label.
- * @param {function}  beforeToggle            Check function to call before toggling the integration.
+ * @param {object}   integration             The integration.
+ * @param {bool}     initialActivationState  True if the integration has been activated by the user.
+ * @param {bool}     isNetworkControlEnabled True if the integration is network-enabled.
+ * @param {bool}     isMultisiteAvailable    True if the integration is available on multisites.
+ * @param {string}   toggleLabel             The toggle label.
+ * @param {function} beforeToggle            Check function to call before toggling the integration.
  *
  * @returns {WPElement} A card representing an integration which can be toggled active by the user.
  */
@@ -84,9 +84,9 @@ export const ToggleableIntegration = ( {
 			</Card.Header>
 			<Card.Content>
 				<div>
-					<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827] yst-leading-tight">
-						<span>{ integration.claim && integration.claim }</span>
-					</h4>
+					{ integration.claim && <h4 className="yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827] yst-leading-tight">
+						{ integration.claim }
+					</h4> }
 					<p> { integration.description }
 						{ integration.learnMoreLink && <Link
 							href={ integration.learnMoreLink }
@@ -140,6 +140,7 @@ export const ToggleableIntegration = ( {
 					/>
 				</p>  }
 				{ getIsFreeIntegrationOrPremiumAvailable( integration ) && getIsMultisiteAvailable( integration ) && <ToggleField
+					id={ `${ integration.name }-toggle` }
 					checked={ isActive }
 					label={ toggleLabel }
 					onChange={ toggleActive }
@@ -153,7 +154,7 @@ export const ToggleableIntegration = ( {
 ToggleableIntegration.propTypes = {
 	integration: PropTypes.shape( {
 		name: PropTypes.string,
-		claim: PropTypes.string,
+		claim: PropTypes.node,
 		learnMoreLink: PropTypes.string,
 		logoLink: PropTypes.string,
 		slug: PropTypes.string,
