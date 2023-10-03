@@ -4,7 +4,7 @@ declare( strict_types=1 );
 
 use Isolated\Symfony\Component\Finder\Finder;
 
-return array(
+return [
 
 	/*
 	 * By default when running php-scoper add-prefix, it will prefix all relevant code found in the current working
@@ -14,11 +14,7 @@ return array(
 	 * For more see: https://github.com/humbug/php-scoper#finders-and-paths
 	 */
 	'finders'                    => [
-		Finder::create()->files()->in( 'vendor/psr/container' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
-		Finder::create()->files()->in( 'vendor/psr/http-client' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
-		Finder::create()->files()->in( 'vendor/psr/http-factory' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
-		Finder::create()->files()->in( 'vendor/psr/http-message' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
-		Finder::create()->files()->in( 'vendor/psr/log' )->exclude( 'Test' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
+		Finder::create()->files()->in( 'vendor/symfony/deprecation-contracts' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
 	],
 
 	/*
@@ -30,5 +26,5 @@ return array(
 	 * For more see: https://github.com/humbug/php-scoper#patchers
 	 */
 	'patchers'                   => [],
-
-);
+	'files-whitelist'            => [ '../../vendor/symfony/deprecation-contracts/function.php' ],
+];

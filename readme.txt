@@ -340,6 +340,21 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 21.3 =
+
+Release date: 2023-10-03
+
+Yoast SEO 21.3 is out! In this release, we've focused on improving the plugin's performance, especially regarding handling huge posts on complex websites. Find out more about what's new in Yoast SEO 21.3 in [our release post](https://yoa.st/release-3-10-23)!
+
+#### Enhancements
+
+* Enhances post-saving performance in certain conditions for a smoother and more efficient user experience.
+
+#### Bugfixes
+
+* Fixes a bug where the notifications counter of the admin bar menu would not show with the correct style on the frontend.
+* Fixes a bug where the slug in the search appearance editor would not be set when published posts were edited in the classic editor and the \"core/editor\" store was available.
+
 = 21.2 =
 
 Release date: 2023-09-19
@@ -355,28 +370,12 @@ Yoast SEO 21.2 is out today! In this release, we've improved the naming of sever
 * Fixes a bug where, even if `Show author archives without posts in search results` is enabled, the archive page would have a `noindex` in the `robots` metatag.
 * Fixes a bug where notices about incorrect calls to `wpdb::prepare` would be thrown on Yoast SEO Premium activation.
 * Fixes a bug where pagination meta tags would be wrong when using Query Loop Block with custom query variables.
-* Fixes a bug where the redirect notification would mention \"posts\" when a tag was deleted or trashed.
-* Fixing a bug where adding special characters like \" »\" as a title separator would break the RSS feed.
+* Fixes a bug where the redirect notification would mention "posts" when a tag was deleted or trashed.
+* Fixing a bug where adding special characters like "»" as a title separator would break the RSS feed.
 
 #### Other
 
 * Sets the minimum supported WordPress version to 6.2.
-
-= 21.1 =
-
-Release date: 2023-09-05
-
-Here's Yoast SEO 21.1! After the AI release, we're back with an update filled with fixes and enhancements to improve your SEO work. Check it out! Find out more about what's new in Yoast SEO 21.1 in [our release post](https://yoa.st/release-5-9-23)!
-
-#### Bugfixes
-
-* Fixes a bug where an error could occur when an indexable was outdated. Props to @jaimearroyonavia.
-* Fixes a bug where the cleanup routine would throw an error when on multisites.
-* Fixes a bug where the notification for a new content type in the notification center would not be dismissed when installing Elementor and reviewing the new content types.
-
-#### Other
-
-* Adds an attribute to the link "See who contributed to" to open in a new browser tab, located in the General tab. Props to @nathanwritescode-uk.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
