@@ -4,6 +4,7 @@ import { Fragment, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import PropTypes from "prop-types";
+import { InternalLinkingSuggestionsUpsell } from "../../../components/modals/InternalLinkingSuggestionsUpsell";
 
 // Internal dependencies.
 import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
@@ -23,7 +24,7 @@ import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
 import BlackFridayPromoNotification from "../../../components/BlackFridayPromoNotification";
-import KeywordUpsell from "../../../components/KeywordUpsell";
+import KeywordUpsell from "../../../components/modals/KeywordUpsell";
 
 /* eslint-disable complexity */
 /**
@@ -114,6 +115,9 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
+				</SidebarItem> }
+				{ settings.shouldUpsell && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 23 }>
+					<InternalLinkingSuggestionsUpsell />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
 					<SidebarItem key="wincher-seo-performance" renderPriority={ 23 }>

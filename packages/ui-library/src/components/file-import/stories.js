@@ -1,6 +1,7 @@
 import { useState, useCallback } from "@wordpress/element";
 import { noop, values } from "lodash";
 import Alert from "../../elements/alert";
+import { component, selected, loading, aborted, error } from "./docs";
 
 import FileImport, { FILE_IMPORT_STATUS, StoryComponent } from ".";
 
@@ -15,7 +16,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A file import component.",
+				component,
 			},
 		},
 	},
@@ -109,7 +110,7 @@ Factory.args = {
 
 export const Selected = FeedbackTemplate.bind( {} );
 
-Selected.parameters = { docs: { description: { story: "When file is selected." } } };
+Selected.parameters = { docs: { description: { story: selected } } };
 
 Selected.args = {
 	children: (
@@ -128,7 +129,7 @@ Selected.args = {
 
 export const Loading = FeedbackTemplate.bind( {} );
 
-Loading.parameters = { docs: { description: { story: "When file in loading." } } };
+Loading.parameters = { docs: { description: { story: loading } } };
 
 Loading.args = {
 	children: (
@@ -147,7 +148,7 @@ Loading.args = {
 
 export const Aborted = FeedbackTemplate.bind( {} );
 
-Aborted.parameters = { docs: { description: { story: "When file loading is aborted." } } };
+Aborted.parameters = { docs: { description: { story: aborted } } };
 
 Aborted.args = {
 	children: (
@@ -188,7 +189,7 @@ Success.args = {
 
 export const Error = FeedbackTemplate.bind( {} );
 
-Error.parameters = { docs: { description: { story: "Error will appear when `status` prop is error." } } };
+Error.parameters = { docs: { description: { story: error } } };
 
 Error.args = {
 	children: (

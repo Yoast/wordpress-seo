@@ -1,7 +1,7 @@
 import { getBlocks } from "../helpers/html/html";
 import { reject } from "lodash-es";
 
-const h1Regex = /<h1.*?>(.*?)<\/h1>/;
+const h1Regex = /<h1.*?>(.+?)<\/h1>/;
 
 /**
  * Gets a block from a text and checks if it is totally empty or if it is an empty paragraph.
