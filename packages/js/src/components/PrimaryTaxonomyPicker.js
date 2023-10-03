@@ -5,7 +5,7 @@ import { sprintf, __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
 import styled from "styled-components";
-import { difference } from "lodash";
+import { difference, noop } from "lodash";
 
 /* Internal dependencies */
 import TaxonomyPicker from "./TaxonomyPicker";
@@ -271,8 +271,8 @@ PrimaryTaxonomyPicker.propTypes = {
 PrimaryTaxonomyPicker.defaultProps = {
 	selectedTermIds: [],
 	primaryTaxonomyId: -1,
-	setPrimaryTaxonomyId: () => {},
-	updateReplacementVariable: () => {},
+	setPrimaryTaxonomyId: noop,
+	updateReplacementVariable: noop,
 	taxonomy: {},
 };
 
