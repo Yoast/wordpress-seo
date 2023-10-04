@@ -1,5 +1,5 @@
 /* External dependencies */
-import { select } from "@wordpress/data";
+import { useSelect } from "@wordpress/data";
 import { Fragment, useCallback } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
@@ -57,10 +57,11 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 	 * @returns {boolean} Whether the WooCommerce promo should be shown.
 	 */
 	const shouldShowWooCommerceChecklistPromo = () => {
-		const isProduct = select( "yoast-seo/editor" ).getIsProduct();
+		const isProduct = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsProduct() );
 		return isProduct && isWooCommerceActive();
 	};
 
+	const isTerm = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsTerm() );
 	const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
 	const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 	return (
@@ -116,7 +117,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
-				{ settings.shouldUpsell && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 23 }>
+				{ settings.shouldUpsell && ! isTerm && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 23 }>
 					<InternalLinkingSuggestionsUpsell />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
