@@ -163,6 +163,9 @@ class WPSEO_Taxonomy {
 							'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 							'scope'                    => $this->determine_scope(),
 						],
+						'shortcodes' => [
+							'wpseo_shortcode_tags' => $this->get_valid_shortcode_tags(),
+						],
 					],
 					'worker'  => [
 						'url'                     => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-analysis-worker' ),
@@ -445,5 +448,20 @@ class WPSEO_Taxonomy {
 		$page_type = $recommended_replace_vars->determine_for_term( $taxonomy );
 
 		return $recommended_replace_vars->get_recommended_replacevars_for( $page_type );
+	}
+
+	/**
+	 * Returns an array with shortcode tags for all registered shortcodes.
+	 *
+	 * @return array
+	 */
+	private function get_valid_shortcode_tags() {
+		$shortcode_tags = [];
+
+		foreach ( $GLOBALS['shortcode_tags'] as $tag => $description ) {
+			$shortcode_tags[] = $tag;
+		}
+
+		return $shortcode_tags;
 	}
 }
