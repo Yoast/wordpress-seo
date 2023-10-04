@@ -72,7 +72,9 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	data.titleWidth = measureTextWidth( filteredSEOTitle || storeData.snippetEditor.data.title );
 	data.locale = getContentLocale();
 	data.writingDirection = getWritingDirection();
-	data.shortcodes = window.wpseoScriptData.analysis.plugins.shortcodes.wpseo_shortcode_tags;
+	data.shortcodes = window.wpseoScriptData.analysis.plugins.shortcodes
+		? window.wpseoScriptData.analysis.plugins.shortcodes.wpseo_shortcode_tags
+		: [];
 
 	return Paper.parse( applyFilters( "yoast.analysis.data", data ) );
 }

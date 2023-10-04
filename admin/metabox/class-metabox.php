@@ -893,8 +893,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
 			],
 			'shortcodes' => [
-				'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
-				'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
+				'wpseo_shortcode_tags' => $this->get_valid_shortcode_tags(),
 			],
 		];
 
