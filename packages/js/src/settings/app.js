@@ -214,7 +214,7 @@ const PremiumUpsellList = () => {
 					variant="upsell"
 					size="large"
 					href={ premiumLink }
-					className="yst-gap-2 yst-mt-4"
+					className="yst-gap-2 yst-mt-4 yst-w-full"
 					target="_blank"
 					rel="noopener"
 					{ ...premiumUpsellConfig }
