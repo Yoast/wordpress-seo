@@ -219,7 +219,7 @@ const PremiumUpsellList = () => {
 					rel="noopener"
 					{ ...premiumUpsellConfig }
 				>
-					{ sprintf(
+					{ isBlackFriday ? __( "Claim your 30% off now!", "wordpress-seo" ) : sprintf(
 					/* translators: %s expands to "Yoast SEO" Premium */
 						__( "Get %s", "wordpress-seo" ),
 						"Yoast SEO Premium"
