@@ -947,7 +947,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
     width: auto;
     padding: 0;
   }
-  #sidebar-container .yoast-sidebar__section{
+  #sidebar-container .yoast-sidebar__section {
     margin-top: 80px;
   }
   /* Make the banners with product lists appear next to each other. */
@@ -1024,7 +1024,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
   #sidebar-container {
     display: block;
   }
-  #sidebar-container .yoast-sidebar__section{
+  #sidebar-container .yoast-sidebar__section {
     margin-top: 20px;
   }
   body.toplevel_page_wpseo_dashboard .wp-badge {
