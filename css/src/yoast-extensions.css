@@ -671,6 +671,20 @@ a.promoblock:hover {
   margin-top: 16px;
   font-size: 1.5rem;
   color: rgb(166 30 105);
+  display: flex;
+}
+
+.yoast-seo-premium-extension img {
+  margin-left: 1rem;
+}
+@media screen and (max-width: 900px) {
+  .yoast-seo-premium-extension {
+    max-width: none;
+    width: calc( 100% - 8px );
+  }
+  .yoast-seo-premium-extension img {
+    display: none;
+  }
 }
 
 .yoast-seo-premium-extension:before, .yoast-seo-premium-extension:after {

@@ -942,8 +942,16 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
     width: auto;
   }
   #sidebar-container {
+    display: flex;
+    gap: 0.7rem;
     width: auto;
     padding: 0;
+  }
+  .yoast-sidebar__product .sidebar__sale_banner_container {
+    overflow-y:hidden;
+  }
+  #sidebar-container .yoast-sidebar__section {
+    margin-top: 5rem;
   }
   /* Make the banners with product lists appear next to each other. */
   .yoast-sidebar__product-list {
@@ -1016,6 +1024,15 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 @media screen and (max-width: 500px) {
+  .yoast-sidebar__product .sidebar__sale_banner_container .sidebar__sale_banner {
+    transform: rotate(-4deg);
+  }
+  #sidebar-container {
+    display: block;
+  }
+  #sidebar-container .yoast-sidebar__section {
+    margin-top: 20px;
+  }
   body.toplevel_page_wpseo_dashboard .wp-badge {
     padding-top: 80px;
     background-size: 100px 100px;

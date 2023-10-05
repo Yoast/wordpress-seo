@@ -22,6 +22,7 @@ $premium_extension = [
 	'title'    => 'Yoast SEO Premium',
 	/* translators: %1$s expands to Yoast SEO */
 	'desc'     => sprintf( __( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ), 'Yoast SEO' ),
+	'image'    => plugin_dir_url( WPSEO_FILE ) . 'packages/js/images/Yoast_SEO_Icon.svg',
 	'benefits' => [],
 ];
 
@@ -154,8 +155,8 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 					$premium_extension['title']
 				);
 				?>
+				<img alt="" width="100" height="100" src="<?php echo esc_url( $premium_extension['image'] ); ?>"/>
 			</h2>
-
 			<?php
 			if ( ! $has_valid_premium_subscription ) :
 				?>
