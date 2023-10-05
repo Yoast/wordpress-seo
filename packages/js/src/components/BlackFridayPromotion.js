@@ -29,7 +29,7 @@ export const BlackFridayPromotion = ( {
 		: createInterpolateElement(
 			sprintf(
 				/* Translators: %1$s expands to YOAST SEO PREMIUM, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
-				__( "BLACK FRIDAY SALE: %1$s, %2$sBuy now!%3$s", "wordpress-seo" ),
+				__( "BLACK FRIDAY SALE: %1$s %2$sBuy now!%3$s", "wordpress-seo" ),
 				"YOAST SEO PREMIUM",
 				"<a>",
 				"</a>"
