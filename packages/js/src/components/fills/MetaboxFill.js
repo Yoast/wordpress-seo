@@ -61,7 +61,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 		return isProduct && isWooCommerceActive();
 	};
 
-	const isTerm = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsTerm() );
+	const isTerm = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsTerm(), [] );
 	const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
 	const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 	return (
