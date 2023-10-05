@@ -951,7 +951,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
     overflow-y:hidden;
   }
   #sidebar-container .yoast-sidebar__section {
-    margin-top: 80px;
+    margin-top: 5rem;
   }
   /* Make the banners with product lists appear next to each other. */
   .yoast-sidebar__product-list {
