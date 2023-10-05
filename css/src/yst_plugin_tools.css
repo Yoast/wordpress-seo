@@ -943,9 +943,12 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
   }
   #sidebar-container {
     display: flex;
-    gap: 20px;
+    gap: 0.7rem;
     width: auto;
     padding: 0;
+  }
+  .yoast-sidebar__product .sidebar__sale_banner_container {
+    overflow-y:hidden;
   }
   #sidebar-container .yoast-sidebar__section {
     margin-top: 80px;
