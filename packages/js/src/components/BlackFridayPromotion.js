@@ -1,7 +1,7 @@
-import { __, sprintf } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
-import { addQueryArgs } from "@wordpress/url";
 import { createInterpolateElement } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import { addQueryArgs } from "@wordpress/url";
 import PropTypes from "prop-types";
 import { TimeConstrainedNotification } from "./TimeConstrainedNotification";
 
@@ -42,7 +42,7 @@ export const BlackFridayPromotion = ( {
 		);
 	return isPremium ? null : (
 		<TimeConstrainedNotification
-			id={ `black-friday-2023-promotion-${location}` }
+			id={ `black-friday-2023-promotion-${ location }` }
 			promoId="black-friday-2023-promotion"
 			alertKey="black-friday-2023-promotion"
 			store={ store }
@@ -51,8 +51,14 @@ export const BlackFridayPromotion = ( {
 			{ ...props }
 		>
 			<span className="yoast-bf-sale-badge">{ __( "30% OFF!", "wordpress-seo" ) } </span>
-			{ location === "sidebar" && <a href={ addQueryArgs( "https://yoa.st/black-friday-sale", linkParams ) } target="_blank" rel="noreferrer">
-				 { __( "Buy now!", "wordpress-seo" ) }
+			{ location === "sidebar" && <a
+				// Styling is to counteract the WP paragraph margin-bottom.
+				className="yst-block yst--mb-[1em]"
+				href={ addQueryArgs( "https://yoa.st/black-friday-sale", linkParams ) }
+				target="_blank"
+				rel="noreferrer"
+			>
+				{ __( "Buy now!", "wordpress-seo" ) }
 			</a> }
 		</TimeConstrainedNotification>
 	);
