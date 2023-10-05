@@ -29,6 +29,9 @@ import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
 
+const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
+const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
+
 /* eslint-disable complexity */
 /**
  * Creates the Metabox component.
@@ -62,8 +65,6 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 	};
 
 	const isTerm = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsTerm(), [] );
-	const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
-	const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
