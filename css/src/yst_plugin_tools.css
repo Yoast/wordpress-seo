@@ -1024,6 +1024,9 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 @media screen and (max-width: 500px) {
+  .yoast-sidebar__product .sidebar__sale_banner_container .sidebar__sale_banner {
+    transform: rotate(-4deg);
+  }
   #sidebar-container {
     display: block;
   }
