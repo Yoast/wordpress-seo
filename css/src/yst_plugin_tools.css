@@ -947,7 +947,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
     width: auto;
     padding: 0;
   }
-
   #sidebar-container .yoast-sidebar__section{
     margin-top: 80px;
   }
@@ -1025,11 +1024,9 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
   #sidebar-container {
     display: block;
   }
-
   #sidebar-container .yoast-sidebar__section{
     margin-top: 20px;
   }
-  
   body.toplevel_page_wpseo_dashboard .wp-badge {
     padding-top: 80px;
     background-size: 100px 100px;
