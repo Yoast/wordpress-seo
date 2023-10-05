@@ -57,7 +57,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 	 * @returns {boolean} Whether the WooCommerce promo should be shown.
 	 */
 	const shouldShowWooCommerceChecklistPromo = () => {
-		const isProduct = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsProduct() );
+		const isProduct = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsProduct(), [] );
 		return isProduct && isWooCommerceActive();
 	};
 
