@@ -171,7 +171,7 @@ const PremiumUpsellList = () => {
 				<div>{ __( "BLACK FRIDAY", "wordpress-seo" ) }</div>
 				<div>{ __( "30% OFF", "wordpress-seo" ) }</div>
 			</div> }
-			<div className="yst-p-6">
+			<div className="yst-p-6 yst-flex yst-flex-col">
 				<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
 					{ sprintf(
 					/* translators: %s expands to "Yoast SEO" Premium */
@@ -214,7 +214,7 @@ const PremiumUpsellList = () => {
 					variant="upsell"
 					size="large"
 					href={ premiumLink }
-					className="yst-gap-2 yst-mt-4 yst-w-full"
+					className="yst-gap-2 yst-mt-4"
 					target="_blank"
 					rel="noopener"
 					{ ...premiumUpsellConfig }
