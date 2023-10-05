@@ -29,14 +29,6 @@ overrides:
     rules:
       no-restricted-imports: "off"
   - files:
-      - "packages/components/**/*.js"
-    rules:
-      react/jsx-no-bind: 1
-      react/require-default-props: 1
-      react/default-props-match-prop-types: 1
-      react/no-unused-prop-types: 1
-      require-jsdoc: 1
-  - files:
       - "packages/search-metadata-previews/**/*.js"
     rules:
       react/jsx-no-bind: 1
