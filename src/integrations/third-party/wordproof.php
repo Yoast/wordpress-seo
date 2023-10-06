@@ -92,7 +92,11 @@ class Wordproof implements Integration_Interface {
 		/**
 		 * Add async to the wordproof scripts.
 		 */
-		\add_filter( 'script_loader_tag', [ $this, 'add_async_to_script' ], 10, 3 );
+		if ( version_compare( strtok( get_bloginfo( 'version' ), '-' ), '6.3', '>=' ) ) {
+			wp_script_add_data( WPSEO_Admin_Asset_Manager::PREFIX . 'wordproof-uikit', 'strategy', 'async' );
+		} else {
+			\add_filter( 'script_loader_tag', [ $this, 'add_async_to_script' ], 10, 3 );
+		}
 
 		/**
 		 * Removes the post meta timestamp key for the old privacy page.
