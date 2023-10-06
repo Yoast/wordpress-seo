@@ -80,6 +80,8 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			$button_text
 		);
 
+		echo '<div class="' . esc_attr( $class ) . '">';
+
 		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
 			$bf_label   = \esc_html__( 'BLACK FRIDAY', 'wordpress-seo' );
 			$sale_label = \esc_html__( '30% OFF', 'wordpress-seo' );
@@ -87,8 +89,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			echo "<div class='black-friday-container'><span>$bf_label</span> <span style='margin-left: auto;'>$sale_label</span> </div>";
 		}
 
-		echo '<div class="' . esc_attr( $class ) . '">';
-		echo '<div>';
+		echo '<div class="' . esc_attr( $class . '--container' ) . '">';
 		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' .
 			sprintf(
 				/* translators: %s expands to Yoast SEO Premium */
