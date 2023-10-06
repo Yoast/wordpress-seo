@@ -70,6 +70,7 @@ export default function ImageSelect( {
 				className={ imageClassName }
 				onClick={ onSelectImageClick }
 				type="button"
+				data-hiive-event-name="clicked_select_image"
 			>
 				{ renderPreview() }
 			</button>
@@ -89,6 +90,7 @@ export default function ImageSelect( {
 						id={ id + "__remove-image" }
 						className="yst-button--remove"
 						onClick={ onRemoveImageClick }
+						data-hiive-event-name="clicked_remove_image"
 					>
 						{ __( "Remove image", "admin-ui" ) }
 					</button>
