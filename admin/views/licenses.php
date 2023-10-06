@@ -129,14 +129,19 @@ $new_tab_message         = sprintf(
 	esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' )
 );
 
-$sale_badge = '';
+$sale_badge         = '';
+$premium_sale_badge = '';
 
 if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
 	/* translators: %1$s expands to opening span, %2$s expands to closing span */
 	$sale_badge_span = sprintf( esc_html__( '%1$sSALE 30%% OFF!%2$s', 'wordpress-seo' ), '<span>', '</span>' );
 
 	$sale_badge = '<div class="yoast-seo-premium-extension-sale-badge">' . $sale_badge_span . '</div>';
+
+	$premium_sale_badge = ( $has_valid_premium_subscription ) ? '' : $sale_badge;
+
 }
+
 ?>
 
 <div class="wrap yoast wpseo_table_page">
@@ -145,7 +150,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 
 	<div id="extensions">
 		<section class="yoast-seo-premium-extension">
-			<?php echo $sale_badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Output is already escaped ?>
+			<?php echo $premium_sale_badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Output is already escaped ?>
 			<h2>
 				<?php
 				printf(
