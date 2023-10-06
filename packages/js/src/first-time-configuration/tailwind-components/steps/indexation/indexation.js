@@ -284,7 +284,7 @@ class Indexation extends Component {
 			className="yst-button yst-button--secondary"
 			onClick={ this.startIndexing }
 			id="indexation-data-optimization"
-			data-hiive-event-name={ "clicked_start_data_optimization" }
+			data-hiive-event-name="clicked_start_data_optimization"
 		>
 			{ __( "Start SEO data optimization", "wordpress-seo" ) }
 		</button>;
