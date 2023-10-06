@@ -11,8 +11,9 @@ import getL10nObject from "../../analysis/getL10nObject";
 import Results from "../../containers/Results";
 import AnalysisUpsell from "../AnalysisUpsell";
 import MetaboxCollapsible from "../MetaboxCollapsible";
-import { ModalContainer } from "../modals/Container";
+import { ModalSmallContainer } from "../modals/Container";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
+import { defaultModalClassName } from "../modals/Modal";
 import MultipleKeywords from "../modals/MultipleKeywords";
 import Modal from "../modals/SeoAnalysisModal";
 import ScoreIconPortal from "../portals/ScoreIconPortal";
@@ -41,6 +42,7 @@ class SeoAnalysis extends Component {
 	 */
 	renderSynonymsUpsell( location, locationContext ) {
 		const modalProps = {
+			className: `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding`,
 			classes: {
 				openButton: "wpseo-keyword-synonyms button-link",
 			},
@@ -59,10 +61,9 @@ class SeoAnalysis extends Component {
 
 		return (
 			<Modal { ...modalProps }>
-				<ModalContainer>
-					<h2 className="yst-mt-0 yst-mb-4">{ __( "Write more natural and engaging content", "wordpress-seo" ) }</h2>
+				<ModalSmallContainer>
 					<KeywordSynonyms buyLink={ addQueryArgs( buyLink, { context: locationContext } ) } />
-				</ModalContainer>
+				</ModalSmallContainer>
 			</Modal>
 		);
 	}
@@ -77,6 +78,7 @@ class SeoAnalysis extends Component {
 	 */
 	renderMultipleKeywordsUpsell( location, locationContext ) {
 		const modalProps = {
+			className: `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding`,
 			classes: {
 				openButton: "wpseo-multiple-keywords button-link",
 			},
@@ -95,10 +97,9 @@ class SeoAnalysis extends Component {
 
 		return (
 			<Modal { ...modalProps }>
-				<ModalContainer>
-					<h2 className="yst-mt-0 yst-mb-4">{ __( "Reach a wider audience", "wordpress-seo" ) }</h2>
+				<ModalSmallContainer>
 					<MultipleKeywords buyLink={ addQueryArgs( buyLink, { context: locationContext } ) } />
-				</ModalContainer>
+				</ModalSmallContainer>
 			</Modal>
 		);
 	}

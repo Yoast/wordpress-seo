@@ -10,14 +10,6 @@ import UpsellBox from "../UpsellBox";
  * @returns {JSX.Element} The Multiple Keywords upsell component.
  */
 const MultipleKeywords = ( props ) => {
-	const infoParagraphs = [
-		<span key="KeywordUpsell-infoParagraph-description" className="yst-block yst-max-w-[426px]">
-			{ __( "Get help optimizing for up to 5 related keyphrases. This helps you reach a wider audience and get more traffic.", "wordpress-seo" ) }
-		</span>,
-		<span key="KeywordUpsell-infoParagraph-benefitsTitle" className="yst-block yst-my-3 yst-text-[#303030] yst-text-[13px] yst-font-semibold">
-			{ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
-		</span>,
-	];
 	const benefits = [
 		__( "Create content faster: Use AI to create titles & meta descriptions", "wordpress-seo" ),
 		__( "Get extra SEO checks with the Premium SEO analysis", "wordpress-seo" ),
@@ -29,7 +21,9 @@ const MultipleKeywords = ( props ) => {
 
 	return (
 		<UpsellBox
-			infoParagraphs={ infoParagraphs }
+			title={ __( "Reach a wider audience", "wordpress-seo" ) }
+			description={ __( "Get help optimizing for up to 5 related keyphrases. This helps you reach a wider audience and get more traffic.", "wordpress-seo" ) }
+			benefitsTitle={ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
 			benefits={ benefits }
 			upsellButtonText={
 				sprintf(

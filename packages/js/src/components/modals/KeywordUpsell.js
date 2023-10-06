@@ -9,7 +9,7 @@ import { colors } from "@yoast/style-guide";
 import { Badge, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { MetaboxButton } from "../MetaboxButton";
 import SidebarButton from "../SidebarButton";
-import { ModalContainer } from "./Container";
+import { ModalSmallContainer } from "./Container";
 import Modal, { defaultModalClassName } from "./Modal";
 import MultipleKeywords from "./MultipleKeywords";
 
@@ -43,13 +43,12 @@ const KeywordUpsell = () => {
 					onRequestClose={ closeModal }
 					additionalClassName=""
 					id="yoast-additional-keyphrases-modal"
-					className={ defaultModalClassName }
+					className={ `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding` }
 					shouldCloseOnClickOutside={ true }
 				>
-					<ModalContainer>
-						<h2 className="yst-mt-0 yst-mb-4">{ __( "Reach a wider audience", "wordpress-seo" ) }</h2>
+					<ModalSmallContainer>
 						<MultipleKeywords buyLink={ addQueryArgs( buyLink, { context: locationContext } ) } />
-					</ModalContainer>
+					</ModalSmallContainer>
 				</Modal>
 			) }
 			{ location === "sidebar" && (
