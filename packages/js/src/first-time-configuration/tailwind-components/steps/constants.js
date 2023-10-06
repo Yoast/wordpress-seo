@@ -6,7 +6,7 @@ export const STEPS = {
 };
 export const HIIVE_STEPS_NAMES = {
 	[ STEPS.optimizeSeoData ]: "data optimization",
-	[ STEPS.siteRepresentation ]: "Site representation",
+	[ STEPS.siteRepresentation ]: "site representation",
 	[ STEPS.socialProfiles ]: "social profiles",
 	[ STEPS.personalPreferences ]: "personal preferences",
 };
