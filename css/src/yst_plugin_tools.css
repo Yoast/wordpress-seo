@@ -745,7 +745,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
   border: 1px solid #dcdcdc;
   background-color: #fff;
-  max-width: 640px;
+  max-width: 715px;
   overflow: hidden;
   margin-top: 2em;
 }
@@ -755,7 +755,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .black-friday-container {
-	max-width: 640px;
 	display: flex;
 	background-color: #1F2937;
 	padding: 8px 16px;
