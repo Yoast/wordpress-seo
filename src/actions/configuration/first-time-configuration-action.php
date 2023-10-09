@@ -129,9 +129,9 @@ class First_Time_Configuration_Action {
 		/**
 		 * Action: 'wpseo_post_update_social_profiles' - Allows for Hiive event tracking.
 		 *
-		 * @api array The options new values.
-		 * @api array The options old values.
-		 * @api array The options that failed to be saved.
+		 * @param array The new values of the options.
+		 * @param array The old values of the options.
+		 * @param array The options that failed to be saved.
 		 */
 		\do_action( 'wpseo_post_update_social_profiles', $params, $old_values, $failures );
 
