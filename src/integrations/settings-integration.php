@@ -461,6 +461,7 @@ class Settings_Integration implements Integration_Interface {
 			'isRtl'                         => \is_rtl(),
 			'isNetworkAdmin'                => \is_network_admin(),
 			'isMainSite'                    => \is_main_site(),
+			'isMultisite'                   => \is_multisite(),
 			'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
 			'isLocalSeoActive'              => \defined( 'WPSEO_LOCAL_FILE' ),
 			'isNewsSeoActive'               => \defined( 'WPSEO_NEWS_FILE' ),

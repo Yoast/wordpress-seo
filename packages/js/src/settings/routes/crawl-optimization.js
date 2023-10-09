@@ -16,6 +16,7 @@ const FormikValueChangeFieldWithDisabledMessageAndDummy = withFormikDummySelectF
  */
 const CrawlOptimization = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium", false );
+	const isMultisite = useSelectSettings( "selectPreference", [], "isMultisite", false );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const crawlSettingsLink = useSelectSettings( "selectLink", [], "https://yoa.st/crawl-settings" );
 	const permalinkCleanupLink = useSelectSettings( "selectLink", [], "https://yoa.st/permalink-cleanup" );
@@ -560,7 +561,7 @@ const CrawlOptimization = () => {
 							className="yst-max-w-2xl"
 						/>
 						<FeatureUpsell
-							shouldUpsell={ ! isPremium }
+							shouldUpsell={ ! isMultisite && ! isPremium }
 							variant="card"
 							cardLink={ premiumBlockUnwantedBotsLink }
 							cardText={ sprintf(
