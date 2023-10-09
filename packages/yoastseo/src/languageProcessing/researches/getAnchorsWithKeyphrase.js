@@ -92,7 +92,7 @@ function getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpe
 		} else if ( areHyphensWordBoundaries ) {
 			anchorWords = uniq( getWords( currentAnchorText, "[\\s\\u2013\\u002d]" ) );
 		} else {
-			anchorWords = uniq( getWords( currentAnchorText ) );
+			anchorWords = uniq( getWords( currentAnchorText, "[\\s\\u2013]" ) );
 		}
 
 		/*
