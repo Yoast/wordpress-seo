@@ -63,11 +63,12 @@ function getAnchorsContainingTopic( anchors, topicForms, locale, matchWordCustom
 /**
  * Gets the anchors with text that has the same content words as the keyphrase or synonyms.
  *
- * @param {Array}       anchors             An array with all anchors from the paper.
- * @param {Object}      topicForms          The object with topicForms. It contains all forms of the keyphrase and synonyms.
- * @param {String}      locale              The locale of the paper.
- * @param {Object}      customHelpers       An object containing custom helpers.
- * @param {Object[]}    exactMatchRequest   An array of objects containing the keyphrase and information whether the exact match has been requested.
+ * @param {Array}       anchors             		An array with all anchors from the paper.
+ * @param {Object}      topicForms          		The object with topicForms. It contains all forms of the keyphrase and synonyms.
+ * @param {String}      locale              		The locale of the paper.
+ * @param {Object}      customHelpers       		An object containing custom helpers.
+ * @param {Object[]}    exactMatchRequest   		An array of objects containing the keyphrase and information whether the exact match has been requested.
+ * @param {boolean}	 	areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
  * @returns {Array} The array of all anchors with text that has the same content words as the keyphrase/synonyms.
  */
@@ -86,6 +87,14 @@ function getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpe
 	anchors.forEach( function( currentAnchor ) {
 		const currentAnchorText = currentAnchor.innerText();
 
+		/*
+        * For keyphrase matching, we want to split words on hyphens and en-dashes, except if in a specific language hyphens
+        * shouldn't be treated as word boundaries. For example in Indonesian, hyphens are used to create plural forms of nouns,
+        * such as "buku-buku" being a plural form of "buku". We want to treat forms like "buku-buku" as one word, so we shouldn't
+        * split words on hyphens in Indonesian.
+        * If hyphens should be treated as word boundaries, pass a custom word boundary regex string to the getWords helper
+        * that includes hyphens (u002d) and en-dashes (u2013). Otherwise, pass a regex that only includes en-dashes.
+        */
 		let anchorWords;
 		if ( getWordsCustomHelper ) {
 			anchorWords = uniq( getWordsCustomHelper( currentAnchorText ) );
@@ -141,12 +150,6 @@ function getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpe
 export default function( paper, researcher ) {
 	functionWords = researcher.getConfig( "functionWords" );
 
-	/*
-	 * Whether we want to split words on hyphens depends on the language. In most languages, we do want to consider
-	 * hyphens (and en-dashes) word boundaries. But for example in Indonesian, hyphens are used to form plural forms
-	 * of nouns, e.g. 'buku' is the singular form for 'book' and 'buku-buku' is the plural form. So it makes sense to
-	 * not split words on hyphens in Indonesian and consider 'buku-buku' as one word rather than two.
-	 */
 	const areHyphensWordBoundaries = researcher.getConfig( "areHyphensWordBoundaries" );
 
 	const result = {

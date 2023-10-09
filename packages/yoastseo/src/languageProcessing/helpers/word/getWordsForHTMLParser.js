@@ -12,7 +12,7 @@ import { hashedHtmlEntitiesRegexEnd, hashedHtmlEntitiesRegexStart } from "../../
  * A backslash is a word separator because it separates two words if it occurs between two words. For example: "foo\bar"
  * A tab is a word separator because it separates two words if it occurs between two words. For example: "foo	bar"
  * A non-breaking space is a word separator because it separates two words if it occurs between two words. For example: "foo\u00A0bar"
- * An en-dash and an em-dash are word separators because they seperate two words if they occur between two words.
+ * An en-dash (u2013), em-dash (u2014), and hyphen (u002d) are word separators because they seperate two words if they occur between two words.
  * For example: "foo–bar".
  */
 const wordSeparatorsRegexDefault = /([\s\t\u00A0\u2013\u2014\u002d])/;

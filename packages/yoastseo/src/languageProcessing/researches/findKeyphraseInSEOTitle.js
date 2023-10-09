@@ -48,7 +48,7 @@ const stripFunctionWordsFromStart = function( str, areHyphensWordBoundaries ) {
  * @returns {number} Potentially adjusted position of the keyphrase in the SEO title.
  */
 const adjustPosition = function( title, position, areHyphensWordBoundaries ) {
-	// Don't do anything if position if already 0.
+	// Don't do anything if position is already 0.
 	if ( position === 0 ) {
 		return position;
 	}
