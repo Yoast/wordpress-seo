@@ -20,11 +20,15 @@ const stripFunctionWordsFromStart = function( str, areHyphensWordBoundaries ) {
 	str = str.toLocaleLowerCase();
 
 	/*
- 	 * If hyphens should be treated as word boundaries, pass a custom word boundary regex string that includes hyphens
-  	 * (u002d) and en-dashes (u2013).
+ 	 * For keyphrase matching, we want to split words on hyphens and en-dashes, except if in a specific language hyphens
+ 	 * shouldn't be treated as word boundaries. For example in Indonesian, hyphens are used to create plural forms of nouns,
+ 	 * such as "buku-buku" being a plural form of "buku". We want to treat forms like "buku-buku" as one word, so we shouldn't
+ 	 * split words on hyphens in Indonesian.
+ 	 * If hyphens should be treated as word boundaries, pass a custom word boundary regex string to the getWords helper
+ 	 * that includes hyphens (u002d) and en-dashes (u2013). Otherwise, pass a regex that only includes en-dashes.
   	 */
 	let titleWords = areHyphensWordBoundaries ? getWords( str.toLocaleLowerCase(), "[\\s\\u2013\\u002d]" )
-		: getWords( str.toLocaleLowerCase() );
+		: getWords( str.toLocaleLowerCase(), "[\\s\\u2013]" );
 
 	// Strip all function words from the start of the string.
 	titleWords = filter( titleWords, function( word ) {
@@ -86,12 +90,6 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 	const title = paper.getTitle();
 	const locale = paper.getLocale();
 
-	/*
- 	 * Whether we want to split words on hyphens depends on the language. In most languages, we do want to consider
- 	 * hyphens (and en-dashes) word boundaries. But for example in Indonesian, hyphens are used to form plural forms
- 	 * of nouns, e.g. 'buku' is the singular form for 'book' and 'buku-buku' is the plural form. So it makes sense to
- 	 * not split words on hyphens in Indonesian and consider 'buku-buku' as one word rather than two.
- 	 */
 	const areHyphensWordBoundaries = researcher.getConfig( "areHyphensWordBoundaries" );
 
 	const result = { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false  };
@@ -110,7 +108,7 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 	if ( keywordMatched.count > 0 ) {
 		result.exactMatchFound = true;
 		result.allWordsFound = true;
-		result.position = adjustPosition( title, keywordMatched.position );
+		result.position = adjustPosition( title, keywordMatched.position, areHyphensWordBoundaries );
 
 		return result;
 	}

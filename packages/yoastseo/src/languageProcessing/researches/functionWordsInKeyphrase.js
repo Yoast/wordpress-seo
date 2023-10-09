@@ -22,21 +22,23 @@ export default function( paper, researcher ) {
 		return false;
 	}
 
-	/*
-	 * Whether we want to split words on hyphens depends on the language. In most languages, we do want to consider
-	 * hyphens (and en-dashes) word boundaries. But for example in Indonesian, hyphens are used to form plural forms
-	 * of nouns, e.g. 'buku' is the singular form for 'book' and 'buku-buku' is the plural form. So it makes sense to
-	 * not split words on hyphens in Indonesian and consider 'buku-buku' as one word rather than two.
-	 */
 	const areHyphensWordBoundaries = researcher.getConfig( "areHyphensWordBoundaries" );
 
+	/*
+     * For keyphrase matching, we want to split words on hyphens and en-dashes, except if in a specific language hyphens
+     * shouldn't be treated as word boundaries. For example in Indonesian, hyphens are used to create plural forms of nouns,
+     * such as "buku-buku" being a plural form of "buku". We want to treat forms like "buku-buku" as one word, so we shouldn't
+     * split words on hyphens in Indonesian.
+     * If hyphens should be treated as word boundaries, pass a custom word boundary regex string to the getWords helper
+     * that includes hyphens (u002d) and en-dashes (u2013). Otherwise, pass a regex that only includes en-dashes.
+     */
 	let keyphraseWords;
 	if ( getWordsCustomHelper ) {
 		keyphraseWords = getWordsCustomHelper( keyphrase );
 	} else if ( areHyphensWordBoundaries ) {
 		keyphraseWords = getWords( keyphrase, "[\\s\\u2013\\u002d]" );
 	} else {
-		keyphraseWords = getWords( keyphrase );
+		keyphraseWords = getWords( keyphrase, "[\\s\\u2013]" );
 	}
 
 	keyphraseWords = filter( keyphraseWords, function( word ) {
