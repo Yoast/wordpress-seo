@@ -218,9 +218,9 @@ class First_Time_Configuration_Action {
 		/**
 		 * Action: 'wpseo_post_update_enable_tracking' - Allows for Hiive event tracking.
 		 *
-		 * @api array The new value.
-		 * @api array The old value.
-		 * @api bool  Whether the option failed to be stored.
+		 * @param array The new value.
+		 * @param array The old value.
+		 * @param bool  Whether the option failed to be stored.
 		 */
 		// $success is negated to be aligned with the other two actions which pass $failures.
 		\do_action( 'wpseo_post_update_enable_tracking', $params['tracking'], $option_value, ! $success );
