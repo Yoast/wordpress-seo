@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Step } from "./stepper";
 import { stepperTimingClasses } from "../stepper-helper";
 import classNames from "classnames";
-import { HIIVE_STEPS_NAMES } from "../tailwind-components/steps/constants";
+import { HIIVE_STEPS_NAMES } from "../constants";
 
 /**
  * A ContinueButton that always goes to the next step.
@@ -93,11 +93,13 @@ EditButton.defaultProps = {
  *
  * @returns {WPElement} The BackButton, that always goes to the previous step.
  */
-export function BackButton( { beforeGo, children, additionalClasses, ...restProps } ) {
+export function BackButton( { stepId, beforeGo, children, additionalClasses, ...restProps } ) {
 	return ( <Step.GoButton
+		id={ `button-${ stepId }-back` }
 		className={ `yst-button yst-button--secondary ${ additionalClasses }` }
 		destination={ -1 }
 		beforeGo={ beforeGo }
+		data-hiive-event-name={ `clicked_back | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
 		{ ...restProps }
 	>
 		{ children }
@@ -105,6 +107,7 @@ export function BackButton( { beforeGo, children, additionalClasses, ...restProp
 }
 
 BackButton.propTypes = {
+	stepId: PropTypes.string.isRequired,
 	additionalClasses: PropTypes.string,
 	beforeGo: PropTypes.func,
 	children: PropTypes.node,
@@ -131,18 +134,16 @@ BackButton.defaultProps = {
 export function StepButtons( { stepId, beforeContinue, continueLabel, beforeBack, backLabel } ) {
 	return <div className="yst-mt-12">
 		<ContinueButton
-			id={ `button-${ stepId }-continue` }
+			stepId={ stepId }
 			beforeGo={ beforeContinue }
-			data-hiive-event-name={ `clicked_continue | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
 
 		>
 			{ continueLabel }
 		</ContinueButton>
 		<BackButton
-			id={ `button-${ stepId }-back` }
+			stepId={ stepId }
 			additionalClasses="yst-ml-3"
 			beforeGo={ beforeBack }
-			data-hiive-event-name={ `clicked_back | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
 		>
 			{ backLabel }
 		</BackButton>
