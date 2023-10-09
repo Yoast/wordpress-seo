@@ -26,7 +26,18 @@ function getDescendantPositions( descendantNodes ) {
 			descendantTagPositions.push( node.sourceCodeLocation );
 		} else {
 			if ( node.sourceCodeLocation.startTag ) {
-				descendantTagPositions.push( node.sourceCodeLocation.startTag );
+				const startRange = {
+					startOffset: node.sourceCodeLocation.startTag.startOffset,
+					endOffset: node.sourceCodeLocation.startTag.endOffset,
+				};
+				/*
+				 * Here, we need to account for the fact that earlier (in innerText.js), we treated a <br> as a newline character.
+				 * Therefore, we need to subtract 1 from the endOffset to not count it twice.
+				 */
+				if ( node.name === "br" ) {
+					startRange.endOffset = startRange.endOffset - 1;
+				}
+				descendantTagPositions.push( startRange );
 			}
 			/*
 			 * Check whether node has an end tag before adding it to the array.

@@ -83,13 +83,23 @@ const adjustOffsetsForHtmlTags = ( slicedBlockHtmlToStartOffset, slicedBlockHtml
 	let foundHtmlTags = [ ...slicedBlockHtmlToStartOffset.matchAll( htmlTagsRegex ) ];
 	forEachRight( foundHtmlTags, ( foundHtmlTag ) => {
 		const [ tag ] = foundHtmlTag;
-		blockStartOffset -= tag.length;
+		let tagLength = tag.length;
+		// Here, we need to account for treating <br> tags as sentence delimiters, and subtract 1 from the tagLength.
+		if ( /<\/?br/.test( tag ) ) {
+			tagLength -= 1;
+		}
+		blockStartOffset -= tagLength;
 	} );
 
 	foundHtmlTags = [ ...slicedBlockHtmlToEndOffset.matchAll( htmlTagsRegex ) ];
 	forEachRight( foundHtmlTags, ( foundHtmlTag ) => {
 		const [ tag ] = foundHtmlTag;
-		blockEndOffset -= tag.length;
+		let tagLength = tag.length;
+		// Here, we need to account for treating <br> tags as sentence delimiters, and subtract 1 from the tagLength.
+		if ( /<\/?br/.test( tag ) ) {
+			tagLength -= 1;
+		}
+		blockEndOffset -= tagLength;
 	} );
 
 	return { blockStartOffset, blockEndOffset };
