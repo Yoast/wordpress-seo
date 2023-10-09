@@ -2,10 +2,12 @@
 import { keywordCountInSlug as slugKeyword, keywordCountInUrl as urlKeyword } from "../../../src/languageProcessing/researches/keywordCountInUrl.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
+import IndonesianResearcher from "../../../src/languageProcessing/languages/id/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 
 const morphologyData = getMorphologyData( "en" );
+const morphologyDataID = getMorphologyData( "id" );
 
 describe( "test to check slug for keyword", function() {
 	it( "returns simple matches", function() {
@@ -193,25 +195,32 @@ describe( "test to check slug for keyword", function() {
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
-	it( "works with dash within the keyword in the slug", function() {
+	it( "works with a mix of underscores and hyphens as word boundary in the slug", function() {
+		const paper = new Paper( "", { slug: "cats-and_dogs", keyword: "cats and dogs" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
+	} );
+
+	it( "works with a hyphen within the keyword in the slug", function() {
 		const paper = new Paper( "", { slug: "buku-buku", keyword: "buku-buku" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
-	it( "works with multiple dashes within the keyword in the slug", function() {
+	it( "works with multiple hyphens within the keyword in the slug", function() {
 		const paper = new Paper( "", { slug: "on-the-go", keyword: "on-the-go" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
 	} );
 
-	it( "works with a dash in one of the words within the keyword", function() {
+	it( "works with a hyphen in one of the words within the keyword", function() {
 		const paper = new Paper( "", { slug: "two-room-apartment", keyword: "two-room apartment" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
-		// 'Two' is a function word so it's not counted in the keyphrase length - that's why the keyphrase length is 2.
+		// 'Two' is a function word, that's why the keyphrase length is 2.
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
@@ -226,7 +235,7 @@ describe( "test to check slug for keyword", function() {
 		const paper = new Paper( "", { slug: "husband-to-be", keyword: "husbands-to-be" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
-		// 'To' and 'be' are function words so they're not counted in the keyphrase length - that's why the keyphrase length is 1.
+		// 'To' and 'be' are function words, that's why the keyphrase length is 1.
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
@@ -234,6 +243,7 @@ describe( "test to check slug for keyword", function() {
 		const paper = new Paper( "", { slug: "gift-for-mother-in-law", keyword: "gifts for mothers-in-law" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		// 'For' and 'in' are function words, that's why the keyphrase length is 3.
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
 	} );
 
@@ -257,6 +267,48 @@ describe( "test to check slug for keyword", function() {
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
+	} );
+
+	it( "works with a hyphen within the keyword in the slug in Indonesian (hyphenated keyphrase should be counted as one word)", function() {
+		const paper = new Paper( "", { slug: "buku-buku", keyword: "buku-buku" } );
+		const researcher = new IndonesianResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+	} );
+
+	it( "works with a hyphen within the keyword in the slug in Indonesian (hyphenated keyphrase should be counted as one word)", function() {
+		const paper = new Paper( "", { slug: "buku-buku", keyword: "buku-buku" } );
+		const researcher = new IndonesianResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+	} );
+
+	it( "works with a hyphen within one of the words from the keyphrase in Indonesian (hyphenated part should be counted as one word)", function() {
+		const paper = new Paper( "", { slug: "buku-buku-dan-kucing", keyword: "buku-buku dan kucing" } );
+		const researcher = new IndonesianResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
+	} );
+
+	it( "works for hyphenated keyphrase in Indonesian when there's more words in the slug", function() {
+		const paper = new Paper( "", { slug: "buku-buku-dan-kucing", keyword: "buku-buku" } );
+		const researcher = new IndonesianResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+	} );
+
+	it( "works for hyphenated keyphrase in Indonesian when there's more words in the slug and an underscore ", function() {
+		const paper = new Paper( "", { slug: "franka-franka-dan-kucing", keyword: "franka-franka" } );
+		const researcher = new IndonesianResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+	} );
+
+	it( "morphology works for hyphenated keyphrase in Indonesian", function() {
+		const paper = new Paper( "", { slug: "buku", keyword: "buku-buku" } );
+		const researcher = new IndonesianResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 } );
 

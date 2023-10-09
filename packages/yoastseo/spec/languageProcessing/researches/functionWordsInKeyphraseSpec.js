@@ -1,6 +1,7 @@
 /* eslint-disable capitalized-comments, spaced-comment */
 import functionWordsInKeyphrase from "../../../src/languageProcessing/researches/functionWordsInKeyphrase.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
+import IndonesianResearcher from "../../../src/languageProcessing/languages/id/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 
@@ -15,6 +16,22 @@ describe( "Test for checking if the keyphrase contains function words only", fun
 	it( "returns true if the keyphrase contains function words only", function() {
 		const mockPaper = new Paper( "", { keyword: "something was there" } );
 		expect( functionWordsInKeyphrase( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( true );
+	} );
+
+	it( "returns true also if the function words are separated by hyphens", function() {
+		const mockPaper = new Paper( "", { keyword: "two-year-old" } );
+		expect( functionWordsInKeyphrase( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( true );
+	} );
+
+	it( "returns true also if the function words are separated by en-dashes", function() {
+		const mockPaper = new Paper( "", { keyword: "two–year–old" } );
+		expect( functionWordsInKeyphrase( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( true );
+	} );
+
+	it( "returns false if function words are separated by hyphens in a language where hyphens shouldn't be treated as" +
+		"word boundaries (Indonesian)", function() {
+		const mockPaper = new Paper( "", { keyword: "sekenanya-mudah" } );
+		expect( functionWordsInKeyphrase( mockPaper, new IndonesianResearcher( mockPaper ) ) ).toBe( false );
 	} );
 
 	it( "returns false when the default researcher is used", function() {

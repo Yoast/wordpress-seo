@@ -132,6 +132,19 @@ describe( "Adding a custom helper to a Researcher", function() {
 	} );
 } );
 
+describe( "Retrieving config", function() {
+	const researcher = new Researcher( new Paper( "This is another paper!" ) );
+
+	it( "returns false if an unknown config name is given", function() {
+		expect( researcher.getConfig( "foobar" ) ).toBeFalsy();
+	} );
+
+	it( "returns whether hyphens should be word boundaries", function() {
+		expect( researcher.getConfig( "areHyphensWordBoundaries" ) )
+			.toEqual( true );
+	} );
+} );
+
 describe( "Adding a custom config to a Researcher", function() {
 	const researcher = new Researcher( new Paper( "This is another paper!" ) );
 

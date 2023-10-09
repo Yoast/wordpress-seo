@@ -80,9 +80,9 @@ describe.each( testCases )( "getWordsForHTMLParser", ( { description, text, expe
 	} );
 } );
 
-describe( "A test for getting words with a custom word separator regex", () => {
+describe( "A test for getting words with a custom word separator regex (which doesn't include hyphens", () => {
 	it( "Doesn't split the string on hyphens if they are not part of the regex", () => {
-		expect( getWordsForHTMLParser( "Lorem ipsum, keyword-keyword, keyword elit.", /([\s\t\u00A0\u2014])/ ) ).toEqual(
-			[ "Lorem", " ", "ipsum", ",", " ", "keyword-keyword", ",", " ", "keyword", " ", "elit", "." ] );
+		expect( getWordsForHTMLParser( "Lorem ipsum, keyword-keyword, keyword elit keyword–keyword.", /([\s\t\u00A0\u2013\u2014])/ ) ).toEqual(
+			[ "Lorem", " ", "ipsum", ",", " ", "keyword-keyword", ",", " ", "keyword", " ", "elit", " ", "keyword", "–", "keyword", "." ] );
 	} );
 } );

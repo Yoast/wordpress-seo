@@ -400,6 +400,36 @@ describe( "Matches keywords in string", function() {
 		expect( result.position ).toBe( 0 );
 	} );
 
+	it( "returns an exact match at place 0, even if the function word preceding the keyphrase is attached to it with a hyphen", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "school activities",
+			title: "after-school activities",
+		} );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( false );
+		expect( result.allWordsFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns an exact match at place 0, even if the keyphrase is preceded by function words separated by hyphens", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "suits for boys",
+			title: "three-piece suits for boys",
+		} );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( false );
+		expect( result.allWordsFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
 	it( "returns the correct results when function words list is not available", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "the very walking in nature",

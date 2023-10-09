@@ -51,6 +51,10 @@ describe( "a test for Indonesian Researcher", function() {
 		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "morphological" );
 	} );
 
+	it( "returns the Indonesian config for whether hyphens should be word boundaries", function() {
+		expect( researcher.getConfig( "areHyphensWordBoundaries" ) ).toEqual( false );
+	} );
+
 	it( "stems the Indonesian word using the Indonesian stemmer", function() {
 		researcher.addResearchData( "morphology", morphologyDataID );
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "kucingnya" ) ).toEqual( "kucing" );

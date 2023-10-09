@@ -210,6 +210,33 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		] );
 	} );
 
+	it( "should find a match of a keyphrase in the anchor text when the anchor text contains a hyphen", () => {
+		const attributes = {
+			keyword: "train a dog",
+			permalink: "https://example.org/dog-training",
+		};
+
+		const mockPaper = new Paper( "How to start with <a href='https://test.com/training-for-dogs'>dog-training</a>.", attributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		buildTree( mockPaper, researcher );
+		const result = getAnchorsWithKeyphrase( mockPaper, researcher );
+
+		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
+		expect( result.anchorsWithKeyphrase ).toEqual( [ {
+			attributes: { href: "https://test.com/training-for-dogs" },
+			childNodes: [ { name: "#text", value: "dog-training", sourceCodeRange: { startOffset: 63, endOffset: 75 } } ],
+			name: "a",
+			sourceCodeLocation: {
+				startOffset: 18,
+				endOffset: 79,
+				startTag: { startOffset: 18, endOffset: 63 },
+				endTag: { startOffset: 75, endOffset: 79 },
+			} },
+		] );
+	} );
+
 	it( "should find a match of a synonym in the anchor text of an external link", () => {
 		const attributes = {
 			keyword: "felis catus",
@@ -300,6 +327,22 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 			keyword: "key word and key phrase",
 			synonyms: "interesting article",
 			permalink: "https://example.org/keyword",
+		};
+
+		const mockPaper = new Paper( "hello, here is a link with my <a href='https://example.com/keyword'>keys wording </a>" +
+			" as  well as the lovely <a href='https://example.com/keyword'>articles which are </a>, " +
+			"and <a href='https://example.com/keyword'>excited papers</a>", attributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		buildTree( mockPaper, researcher );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+	} );
+
+	it( "should find a match when the anchor text contains hyphens", () => {
+		const attributes = {
+			keyword: "dog",
+			permalink: "https://example.org/dog",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='https://example.com/keyword'>keys wording </a>" +

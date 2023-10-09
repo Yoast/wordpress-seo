@@ -50,7 +50,7 @@ describe( "a test for getting words from a sentence", function() {
 
 	it( "doesn't remove punctuation when doRemovePunctuation is false.", () => {
 		const text = "A sentence with words. And some; punctuation.";
-		const words = getWords( text, "\\s", false );
+		const words = getWords( text, "[\\s\\u2013\\u002d]", false );
 
 		expect( words ).toEqual( [
 			"A",
@@ -81,7 +81,7 @@ describe( "a test for getting words from a sentence", function() {
 			"is", "very", "cute", "A", "subheading", "3", "text", "text", "text", "A", "subheading", "4", "more", "text" ] );
 	} );
 
-	it( "gets words when a non-default word boundary regex is used", function() {
+	it( "gets words when a non-default word boundary regex is used (words should be split on spaces, hyphens, and en-dashes", function() {
 		const text = "Exercise is good for your cat's well-being but giving too many treats post–exercise is not";
 		expect( getWords( text, "[\\s\\u2013\\u002d]" ).length ).toBe( 17 );
 		expect( getWords( text, "[\\s\\u2013\\u002d]" ) ).toEqual( [ "Exercise", "is", "good",
