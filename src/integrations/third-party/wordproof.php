@@ -89,12 +89,17 @@ class Wordproof implements Integration_Interface {
 		 */
 		\add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ], 10, 0 );
 
-		/**
-		 * Add async to the wordproof scripts.
-		 */
-		if ( version_compare( strtok( get_bloginfo( 'version' ), '-' ), '6.3', '>=' ) ) {
-			wp_script_add_data( WPSEO_Admin_Asset_Manager::PREFIX . 'wordproof-uikit', 'strategy', 'async' );
-		} else {
+		if ( version_compare( strtok( get_bloginfo( 'version' ), '-' ), '6.3', '<' ) ) {
+			\add_action(
+				'wp_enqueue_scripts',
+				function() {
+					\wp_script_add_data( WPSEO_Admin_Asset_Manager::PREFIX . 'wordproof-uikit', 'strategy', 'async' );
+				},
+				11,
+				0
+			);
+		}
+		else {
 			\add_filter( 'script_loader_tag', [ $this, 'add_async_to_script' ], 10, 3 );
 		}
 
