@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Code, FeatureUpsell, TextField, ToggleField } from "@yoast/ui-library";
+import { Alert, Badge, Code, FeatureUpsell, TextField, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
 import { withDisabledMessageSupport, withFormikDummySelectField, withFormikError } from "../hocs";
@@ -578,6 +578,7 @@ const CrawlOptimization = () => {
 								id="input-wpseo-deny_google_extended_crawling"
 								label={ __( "Prevent Google' Bard and Vertex AI bots from crawling", "wordpress-seo" ) }
 								description={ __( "Add a 'disallow' rule to your robots.txt file to prevent crawling by Google-Extended bot. You should only enable this setting if you're not supportive of Bard or Vertex AI using your site content.", "wordpress-seo" ) }
+								labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
 								className="yst-max-w-2xl"
 								isDummy={ ! isPremium }
 							/>
@@ -588,6 +589,7 @@ const CrawlOptimization = () => {
 								id="input-wpseo-deny_gptbot_crawling"
 								label={ __( "Prevent OpenAI' GPTBot from crawling", "wordpress-seo" ) }
 								description={ __( "Add a 'disallow' rule to your robots.txt file to prevent crawling by OpenAI's GPTBot. You should only enable this setting if you're not supportive of OpenAI using your site content.", "wordpress-seo" ) }
+								labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
 								className="yst-max-w-2xl"
 								isDummy={ ! isPremium }
 							/>
@@ -598,6 +600,7 @@ const CrawlOptimization = () => {
 								id="input-wpseo-deny_ccbot_crawling"
 								label={ __( "Prevent Common Crawl CCBot from crawling", "wordpress-seo" ) }
 								description={ __( "Add a 'disallow' rule to your robots.txt file to prevent crawling by Common Crawl' CCBot. You should only enable this setting if you're not supportive of Common Crawl using your site content.", "wordpress-seo" ) }
+								labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
 								className="yst-max-w-2xl"
 								isDummy={ ! isPremium }
 							/>
