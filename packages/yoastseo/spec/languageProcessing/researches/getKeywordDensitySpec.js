@@ -43,7 +43,7 @@ describe( "Test for counting the keyword density in a text with an English resea
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		mockResearcher.addResearchData( "morphology",  morphologyDataEN );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 9.090909090909092 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 16.666666666666664 );
 	} );
 
 	it( "should recognize a keyphrase with an underscore in it", function() {
@@ -65,7 +65,7 @@ describe( "Test for counting the keyword density in a text with an English resea
 		const mockResearcher = new EnglishResearcher( mockPaper );
 
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.142857142857142 );
 	} );
 
 	it( "should recognize a keyphrase with an ampersand in it", function() {
@@ -114,7 +114,7 @@ describe( "Test for counting the keyword density in a text with an English resea
 		const mockPaper = new Paper( "<p>a string with non-breaking space to match the key&nbsp;word</p>", { keyword: "key word" } );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 10 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 9.090909090909092 );
 	} );
 	it( "should return 0 when the paper contains only excluded element", function() {
 		const mockPaper = new Paper( "<blockquote>In the United States and parts of Europe, " +
