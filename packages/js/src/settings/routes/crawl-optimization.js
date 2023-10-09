@@ -580,6 +580,16 @@ const CrawlOptimization = () => {
 								className="yst-max-w-2xl"
 								isDummy={ ! isPremium }
 							/>
+							<FormikValueChangeFieldWithDisabledMessageAndDummy
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.deny_ccbot_crawling"
+								id="input-wpseo-deny_ccbot_crawling"
+								label={ __( "Prevent Common Crawl CCBot from crawling", "wordpress-seo" ) }
+								description={ __( "Add a 'disallow' rule to your robots.txt file to prevent crawling by Common Crawl' CCBot. You should only enable this setting if you're not supportive of Common Crawl using your site content.", "wordpress-seo" ) }
+								className="yst-max-w-2xl"
+								isDummy={ ! isPremium }
+							/>
 						</FeatureUpsell>
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
