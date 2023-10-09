@@ -573,6 +573,16 @@ const CrawlOptimization = () => {
 							<FormikValueChangeFieldWithDisabledMessageAndDummy
 								as={ ToggleField }
 								type="checkbox"
+								name="wpseo.deny_google_extended_crawling"
+								id="input-wpseo-deny_google_extended_crawling"
+								label={ __( "Prevent Google' Bard and Vertex AI bots from crawling", "wordpress-seo" ) }
+								description={ __( "Add a 'disallow' rule to your robots.txt file to prevent crawling by Google-Extended bot. You should only enable this setting if you're not supportive of Bard or Vertex AI using your site content.", "wordpress-seo" ) }
+								className="yst-max-w-2xl"
+								isDummy={ ! isPremium }
+							/>
+							<FormikValueChangeFieldWithDisabledMessageAndDummy
+								as={ ToggleField }
+								type="checkbox"
 								name="wpseo.deny_gptbot_crawling"
 								id="input-wpseo-deny_gptbot_crawling"
 								label={ __( "Prevent OpenAI' GPTBot from crawling", "wordpress-seo" ) }
