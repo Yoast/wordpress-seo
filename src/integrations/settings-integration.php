@@ -90,6 +90,7 @@ class Settings_Integration implements Integration_Interface {
 			'deny_search_crawling',
 			'deny_wp_json_crawling',
 			'deny_adsbot_crawling',
+			'deny_gptbot_crawling',
 		],
 	];
 
