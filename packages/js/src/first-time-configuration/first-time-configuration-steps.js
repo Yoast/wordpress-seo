@@ -14,7 +14,7 @@ import IndexationStep from "./tailwind-components/steps/indexation/indexation-st
 import SiteRepresentationStep from "./tailwind-components/steps/site-representation/site-representation-step";
 import PersonalPreferencesStep from "./tailwind-components/steps/personal-preferences/personal-preferences-step";
 import FinishStep from "./tailwind-components/steps/finish/finish-step";
-import { STEPS } from "./tailwind-components/steps/constants";
+import { STEPS } from "./constants";
 
 /* eslint-disable complexity */
 
