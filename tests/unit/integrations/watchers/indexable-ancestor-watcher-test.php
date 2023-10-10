@@ -169,115 +169,14 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Data provider for the register_hooks test.
-	 *
-	 * @return array The data.
-	 */
-	public function data_provider_register_hooks() {
-		return [
-			'When ancestor is changes inline edit' => [
-				'is_inline_edit'          => true,
-				'set_object_terms_action' => false,
-			],
-			'When ancestor is changes not inline edit' => [
-				'is_inline_edit'          => false,
-				'set_object_terms_action' => 10,
-			],
-		];
-	}
-
-	/**
 	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers ::register_hooks
-	 *
-	 * @dataProvider data_provider_register_hooks
-	 *
-	 * @param bool     $is_inline_edit      Whether or not the request is an inline edit.
-	 * @param bool|int $set_object_terms_action The set_object_terms action return value.
 	 */
-	public function test_register_hooks( $is_inline_edit, $set_object_terms_action ) {
-
-		Functions\expect( 'check_ajax_referer' )
-			->once()
-			->with( 'inlineeditnonce', '_inline_edit', false )
-			->andReturn( $is_inline_edit );
-
+	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
 		self::assertNotFalse( \has_action( 'wpseo_save_indexable', [ $this->instance, 'reset_children' ] ) );
-		self::assertSame( $set_object_terms_action, \has_action( 'set_object_terms', [ $this->instance, 'build_post_hierarchy' ] ) );
-	}
-
-	/**
-	 * Data provider for the build_post_hierarchy test.
-	 *
-	 * @return array The data.
-	 */
-	public static function data_provider_build_post_hierarchy() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
-		return [
-			'Building hierarchy' => [
-				'is_excluded'               => false,
-				'find_by_id_and_type_times' => 1,
-				'indexable'                 => $indexable,
-				'build_times'               => 1,
-			],
-			'Not building hierarchy because no indexable' => [
-				'is_excluded'               => false,
-				'find_by_id_and_type_times' => 1,
-				'indexable'                 => (object) [ 'ID' => 5 ],
-				'build_times'               => 0,
-			],
-			'Not building because excluded post type' => [
-				'is_excluded'               => true,
-				'find_by_id_and_type_times' => 0,
-				'indexable'                 => (object) [ 'ID' => 5 ],
-				'build_times'               => 0,
-			],
-		];
-	}
-
-	/**
-	 * Tests the build_post_hierarchy.
-	 *
-	 * @covers ::build_post_hierarchy
-	 *
-	 * @dataProvider data_provider_build_post_hierarchy
-	 *
-	 * @param bool           $is_excluded Whether or not the post type is excluded.
-	 * @param int            $find_by_id_and_type_times The number of times the find_by_id_and_type method is called.
-	 * @param Indexable_Mock $indexable The indexable.
-	 * @param int            $build_times The number of times the build method is called.
-	 */
-	public function test_build_post_hierarchy( $is_excluded, $find_by_id_and_type_times, $indexable, $build_times ) {
-		$post            = Mockery::mock( \WP_Post::class );
-		$post->post_type = 'post';
-		$post->ID        = 5;
-
-		Functions\expect( 'get_post' )
-			->once()
-			->with( 5 )
-			->andReturn( $post );
-
-		$this->post_type_helper
-			->expects( 'is_excluded' )
-			->once()
-			->with( $post->post_type )
-			->andReturn( $is_excluded );
-
-		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
-			->times( $find_by_id_and_type_times )
-			->with( $post->ID, $post->post_type )
-			->andReturn( $indexable );
-
-		$this->indexable_hierarchy_builder
-			->expects( 'build' )
-			->times( $build_times )
-			->with( $indexable );
-
-		$this->instance->build_post_hierarchy( 5, [ 'test_term' ], [ 7 ], 'category', false, [] );
 	}
 
 	/**
