@@ -54,18 +54,24 @@ const adjustFirstSectionOffsets = ( blockStartOffset, blockEndOffset, blockName 
 };
 
 /**
- * Retrieves the length for an HTML tag, adjusts the length for `<br>` tags.
- * @param {[string]} htmlTag The HTML tag.
- * @returns {number} The length of the given HTML tag.
+ * Retrieves the length for HTML tags, adjusts the length for `<br>` tags.
+ * @param {[Object]} htmlTags Array of HTML tags.
+ * @returns {number} The length of the given HTML tags.
  */
-const getTagLength = ( htmlTag ) => {
-	const [ tag ] = htmlTag;
-	let tagLength = tag.length;
-	// Here, we need to account for treating <br> tags as sentence delimiters, and subtract 1 from the tagLength.
-	if ( /^<\/?br/.test( tag ) ) {
-		tagLength -= 1;
-	}
-	return tagLength;
+const getTagsLength = ( htmlTags ) => {
+	let tagsLength = 0;
+	forEachRight( htmlTags, ( htmlTag ) => {
+		const [ tag ] = htmlTag;
+		let tagLength = tag.length;
+		// Here, we need to account for treating <br> tags as sentence delimiters, and subtract 1 from the tagLength.
+		if ( /^<\/?br/.test( tag ) ) {
+			tagLength -= 1;
+		}
+
+		tagsLength += tagLength;
+	} );
+
+	return tagsLength;
 };
 
 /**
@@ -95,15 +101,11 @@ const adjustOffsetsForHtmlTags = ( slicedBlockHtmlToStartOffset, slicedBlockHtml
 	 * - Text: This is a giant panda.
 	 * - Range of "panda": 16 -21
 	 */
-	let foundHtmlTags = [ ...slicedBlockHtmlToStartOffset.matchAll( htmlTagsRegex ) ];
-	forEachRight( foundHtmlTags, ( foundHtmlTag ) => {
-		blockStartOffset -= getTagLength( foundHtmlTag );
-	} );
+	const foundHtmlTagsToStartOffset = [ ...slicedBlockHtmlToStartOffset.matchAll( htmlTagsRegex ) ];
+	blockStartOffset -= getTagsLength( foundHtmlTagsToStartOffset );
 
-	foundHtmlTags = [ ...slicedBlockHtmlToEndOffset.matchAll( htmlTagsRegex ) ];
-	forEachRight( foundHtmlTags, ( foundHtmlTag ) => {
-		blockEndOffset -= getTagLength( foundHtmlTag );
-	} );
+	const foundHtmlTagsToEndOffset = [ ...slicedBlockHtmlToEndOffset.matchAll( htmlTagsRegex ) ];
+	blockEndOffset -= getTagsLength( foundHtmlTagsToEndOffset );
 
 	return { blockStartOffset, blockEndOffset };
 };
