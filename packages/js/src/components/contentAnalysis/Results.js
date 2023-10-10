@@ -210,7 +210,7 @@ class Results extends Component {
 	handleGooglePreviewFocus( inputFieldLocation, id ) {
 		if ( inputFieldLocation === "sidebar" ) {
 			// Open the modal.
-			document.getElementById( "yoast-google-preview-modal-open-button" ).click();
+			document.getElementById( "yoast-search-appearance-modal-open-button" ).click();
 			// Wait for the input field elements to become available, then focus on the relevant field.
 			setTimeout( () => this.focusOnGooglePreviewField( id, "modal" ), 500 );
 		} else {

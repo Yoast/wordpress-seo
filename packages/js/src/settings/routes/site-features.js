@@ -145,7 +145,13 @@ const LearnMoreLink = ( { id, link, ariaLabel, ...props } ) => {
 			className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
 			target="_blank"
 			rel="noopener"
-			aria-label={ `Learn more about ${ ariaLabel } (Opens in a new browser tab)` }
+			aria-label={
+				sprintf(
+					/* translators: Hidden accessibility text; %s expands to a translated string of this feature, e.g. "SEO analysis". */
+					__( "Learn more about %s (Opens in a new browser tab)", "wordpress-seo" ),
+					ariaLabel
+				)
+			}
 			{ ...props }
 		>
 			{ __( "Learn more", "wordpress-seo" ) }
@@ -254,9 +260,7 @@ const SiteFeatures = () => {
 					<fieldset className="yst-min-w-0">
 						<legend className="yst-sr-only">{ __( "Site structure", "wordpress-seo" ) }</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
-							<Title as="h2" size="2">
-								{ __( "Site structure", "wordpress-seo" ) }
-							</Title>
+							<Title as="h2" size="2">{ __( "Site structure", "wordpress-seo" ) }</Title>
 						</div>
 						<div className={ gridClassNames }>
 							<FeatureCard
@@ -298,9 +302,7 @@ const SiteFeatures = () => {
 					<fieldset id="section-social-sharing" className="yst-min-w-0">
 						<legend className="yst-sr-only">{ __( "Social sharing", "wordpress-seo" ) }</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
-							<Title as="h2" size="2" className="yst-mb-2">
-								{ __( "Social sharing", "wordpress-seo" ) }
-							</Title>
+							<Title as="h2" size="2" className="yst-mb-2">{ __( "Social sharing", "wordpress-seo" ) }</Title>
 						</div>
 						<div className={ gridClassNames }>
 							<FeatureCard
@@ -341,9 +343,7 @@ const SiteFeatures = () => {
 					<fieldset className="yst-min-w-0">
 						<legend className="yst-sr-only">{ __( "Tools", "wordpress-seo" ) }</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
-							<Title as="h2" size="2">
-								{ __( "Tools", "wordpress-seo" ) }
-							</Title>
+							<Title as="h2" size="2">{ __( "Tools", "wordpress-seo" ) }</Title>
 						</div>
 						<div className={ gridClassNames }>
 							<FeatureCard
@@ -368,9 +368,7 @@ const SiteFeatures = () => {
 					<fieldset className="yst-min-w-0">
 						<legend className="yst-sr-only">{ __( "APIs", "wordpress-seo" ) }</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
-							<Title as="h2" size="2">
-								{ __( "APIs", "wordpress-seo" ) }
-							</Title>
+							<Title as="h2" size="2">{ __( "APIs", "wordpress-seo" ) }</Title>
 						</div>
 						<div className={ gridClassNames }>
 							<FeatureCard

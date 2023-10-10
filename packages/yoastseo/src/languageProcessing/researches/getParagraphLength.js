@@ -6,6 +6,7 @@ import countWords from "../helpers/word/countWords.js";
 import matchParagraphs from "../helpers/html/matchParagraphs.js";
 import { filter } from "lodash-es";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../helpers";
 
 /**
  * Gets all paragraphs and their word counts or character counts from the text.
@@ -18,6 +19,7 @@ import removeHtmlBlocks from "../helpers/html/htmlParser";
 export default function( paper, researcher ) {
 	let text = paper.getText();
 	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 
 	text = excludeTableOfContentsTag( text );
 	// Exclude the Estimated Reading time text from the research

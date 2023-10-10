@@ -10,4 +10,8 @@ describe( "a test for counting the words in the text", function() {
 		const paper = new Paper( "Tell me a story on <code>how to love</code> your cats", { keyword: "how to love your cats" } );
 		expect( wordCountInText( paper ).count ).toBe( 7 );
 	} );
+	it( "should not count shortcodes", function() {
+		const paper = new Paper( "Tell me a story on [shortcode]how to love[/shortcode] your cats", { shortcodes: [ "shortcode" ] } );
+		expect( wordCountInText( paper ).count ).toBe( 10 );
+	} );
 } );

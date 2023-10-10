@@ -26,7 +26,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
-use Yoast\WP\SEO\Promotions\Application\Promotion_Manager_Interface;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
  * Integrates the Yoast SEO metabox in the Elementor editor.
@@ -102,11 +102,11 @@ class Elementor implements Integration_Interface {
 	protected $inclusive_language_analysis;
 
 	/**
-	 * The promotions manager.
+	 * Holds the promotion manager.
 	 *
-	 * @var Promotion_Manager_Interface
+	 * @var Promotion_Manager
 	 */
-	private $promotion_manager;
+	protected $promotion_manager;
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -120,16 +120,16 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager   $asset_manager The asset manager.
-	 * @param Options_Helper              $options       The options helper.
-	 * @param Capability_Helper           $capability    The capability helper.
-	 * @param Promotion_Manager_Interface $promotion_manager The promotions manager.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
+	 * @param Options_Helper            $options       The options helper.
+	 * @param Capability_Helper         $capability    The capability helper.
+	 * @param Promotion_Manager         $promotion_manager The promotion manager.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Options_Helper $options,
 		Capability_Helper $capability,
-		Promotion_Manager_Interface $promotion_manager
+		Promotion_Manager $promotion_manager
 	) {
 		$this->asset_manager     = $asset_manager;
 		$this->options           = $options;
@@ -434,8 +434,7 @@ class Elementor implements Integration_Interface {
 				'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
 			],
 			'shortcodes'  => [
-				'wpseo_filter_shortcodes_nonce' => \wp_create_nonce( 'wpseo-filter-shortcodes' ),
-				'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
+				'wpseo_shortcode_tags' => $this->get_valid_shortcode_tags(),
 			],
 		];
 
@@ -468,7 +467,7 @@ class Elementor implements Integration_Interface {
 			],
 			'dismissedAlerts'           => $dismissed_alerts,
 			'webinarIntroElementorUrl'  => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
-			'blackFridayBlockEditorUrl' => ( $this->promotion_manager->is( 'black_friday_2023_checklist' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : '',
+			'currentPromotions'         => $this->promotion_manager->get_current_promotions(),
 			'usedKeywordsNonce'         => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 			'linkParams'                => WPSEO_Shortlinker::get_query_params(),
 			'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),

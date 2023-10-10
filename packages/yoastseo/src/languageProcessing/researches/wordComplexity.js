@@ -82,6 +82,7 @@ export default function wordComplexity( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	let text = paper.getText();
 	text = helpers.removeHtmlBlocks( text );
+	text = helpers.filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	const sentences = getSentences( text, memoizedTokenizer );
 
 	// Find the complex words in each sentence.

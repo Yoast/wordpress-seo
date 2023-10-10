@@ -11,7 +11,7 @@ import buildTree from "../../../../../yoastseo/spec/specHelpers/parse/buildTree"
 // Import SEO assessments.
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "../../../../src/scoring/assessments/seo/KeywordDensityAssessment";
+import KeyphraseDensityAssessment from "../../../../src/scoring/assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "../../../../src/scoring/assessments/seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "../../../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment";
 import TextLengthAssessment from "../../../../src/scoring/assessments/seo/TextLengthAssessment";
@@ -67,7 +67,7 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
 		} );
-		const keywordDensityAssessment = new KeywordDensityAssessment( {
+		const keyphraseDensityAssessment = new KeyphraseDensityAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
 		} );
@@ -169,11 +169,11 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the keywordDensity assessment", function() {
-			const isApplicable = keywordDensityAssessment.isApplicable( paper, researcher );
+			const isApplicable = keyphraseDensityAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.keywordDensity.isApplicable );
 
 			if ( isApplicable ) {
-				result.keywordDensity = keywordDensityAssessment.getResult(
+				result.keywordDensity = keyphraseDensityAssessment.getResult(
 					paper,
 					researcher
 				);

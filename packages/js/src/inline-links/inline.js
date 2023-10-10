@@ -277,7 +277,10 @@ function InlineLinkUI( {
 		className="dashicons"
 	>
 		<span className="screen-reader-text">
-			{ __( "Learn more about marking a link as nofollow or sponsored.", "wordpress-seo" ) }
+			{
+				/* translators: Hidden accessibility text. */
+				__( "Learn more about marking a link as nofollow or sponsored.", "wordpress-seo" )
+			}
 		</span>
 	</HelpLink>;
 

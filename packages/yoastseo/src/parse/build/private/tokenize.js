@@ -1,17 +1,18 @@
 import { Heading, Paragraph } from "../../structure";
 import getTextElementPositions from "./getTextElementPositions";
+import { hashedHtmlEntities } from "../../../helpers/htmlEntities";
 
 /**
  * Splits the sentence into tokens, determines their positions in the source code, and puts them on the sentence.
  *
  * @param {Paragraph|Heading} node The paragraph or heading node to split into sentences.
  * @param {Sentence} sentence The sentence.
- * @param {function} splitIntoTokens The function to use to split the sentence into tokens.
+ * @param {LanguageProcessor} languageProcessor The language processor for the current language.
  *
  * @returns {Sentence} The sentence, with tokens.
  */
-function getTokens( node, sentence, splitIntoTokens ) {
-	sentence.tokens = splitIntoTokens( sentence );
+function getTokens( node, sentence, languageProcessor ) {
+	sentence.tokens = languageProcessor.splitIntoTokens( sentence );
 	sentence.tokens = getTextElementPositions( node, sentence.tokens, sentence.sourceCodeRange.startOffset );
 	return sentence;
 }
@@ -31,11 +32,26 @@ function getSentences( node, languageProcessor ) {
 	// Add position information to the sentences.
 	sentences = getTextElementPositions( node, sentences );
 	// Tokenize sentences into tokens.
-	return sentences.map( sentence => getTokens( node, sentence, languageProcessor.splitIntoTokens ) );
+	return sentences.map( sentence => {
+		sentence = getTokens( node, sentence, languageProcessor );
+		// Now positions have been determined, change HTML entities that had earlier been converted to hashed versions back to their short version.
+		// For example, "&amp;" was earlier converted into "#amp;" and is now converted into "&".
+		// We make this change in both the Sentence and the accompanying Tokens.
+		hashedHtmlEntities.forEach( ( character, hashedHtmlEntity ) => {
+			// We use split/join instead of replaceAll to support older browsers.
+			sentence.text = sentence.text.split( hashedHtmlEntity ).join( character );
+			sentence.tokens.map( token => {
+				token.text = token.text.split( hashedHtmlEntity ).join( character );
+				return token;
+			} );
+		} );
+		return sentence;
+	} );
 }
 
 /**
- * Splits any paragraph and heading nodes in the tree into sentences and tokens.
+ * Splits any Paragraph and Heading nodes in the tree into sentences and tokens.
+ * Excludes overarching Paragraphs, as those will have (implicit) paragraphs as their children.
  *
  * @param {Node} tree The tree to process.
  * @param {LanguageProcessor} languageProcessor The language processor to use.
@@ -43,7 +59,7 @@ function getSentences( node, languageProcessor ) {
  * @returns {Node} The processed tree.
  */
 function tokenize( tree, languageProcessor ) {
-	if ( tree instanceof Paragraph || tree instanceof Heading ) {
+	if ( ( tree instanceof Paragraph && tree.name !== "p-overarching" ) || tree instanceof Heading ) {
 		tree.sentences = getSentences( tree, languageProcessor );
 	}
 

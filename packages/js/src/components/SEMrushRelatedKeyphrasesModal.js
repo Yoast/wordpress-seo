@@ -209,8 +209,11 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 						onClick={ this.onLinkClick }
 					>
 						{ __( "Get related keyphrases", "wordpress-seo" ) }
-						<span className={ "screen-reader-text" }>
-							{ __( "(Opens in a new browser window)", "wordpress-seo" ) }
+						<span className="screen-reader-text">
+							{
+								/* translators: Hidden accessibility text. */
+								__( "(Opens in a new browser tab)", "wordpress-seo" )
+							}
 						</span>
 					</ButtonStyledLink>
 				</div> }

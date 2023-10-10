@@ -55,7 +55,10 @@ class ReadabilityAnalysis extends Component {
 						className="dashicons"
 					>
 						<span className="screen-reader-text">
-							{ __( "Learn more about the readability analysis", "wordpress-seo" ) }
+							{
+								/* translators: Hidden accessibility text. */
+								__( "Learn more about the readability analysis", "wordpress-seo" )
+							}
 						</span>
 					</StyledHelpLink>
 				</AnalysisHeader>

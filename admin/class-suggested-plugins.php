@@ -132,7 +132,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 		return sprintf(
 			'<a href="%s" aria-label="%s" target="_blank" rel="noopener noreferrer">',
 			$url,
-			/* translators: %1$s expands to the dependency name. */
+			/* translators: Hidden accessibility text; %1$s expands to the dependency name */
 			sprintf( __( 'More information about %1$s', 'wordpress-seo' ), $name )
 		);
 	}

@@ -1,6 +1,13 @@
 import collectAnalysisData from "../src/analysis/collectAnalysisData";
 import gutenbergBlocks from "./__test-data__/gutenbergBlocksTestData";
-import expectedBlocks from "./__test-data__/blocksForAnalysisTestData";
+
+const originalWindow = { ...window };
+const windowSpy = jest.spyOn( global, "window", "get" );
+windowSpy.mockImplementation( () => ( {
+	...originalWindow,
+	// eslint-disable-next-line camelcase
+	wpseoScriptData: { analysis: { plugins: { shortcodes: { wpseo_shortcode_tags: [] } } } },
+} ) );
 
 describe( "collectAnalysisData", () => {
 	const storeData = {
@@ -84,7 +91,7 @@ describe( "collectAnalysisData", () => {
 		return { getBlocks: () => blocks };
 	}
 
-	it( "filters the content from blocks", () => {
+	it( "should not filter the content from blocks", () => {
 		const edit = mockEdit( "<p>some content</p>" );
 		const store = mockStore( storeData );
 		const customData = mockCustomAnalysisData();
@@ -94,7 +101,7 @@ describe( "collectAnalysisData", () => {
 		const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule );
 
 		expect( results ).toHaveProperty( "_attributes.wpBlocks" );
-		expect( results._attributes.wpBlocks ).toEqual( expectedBlocks );
+		expect( results._attributes.wpBlocks ).toEqual( gutenbergBlocks );
 	} );
 
 	it( "does not add wpBlocks if no blockEditorDataModule is added", () => {

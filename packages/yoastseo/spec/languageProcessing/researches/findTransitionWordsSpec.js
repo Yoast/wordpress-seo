@@ -152,6 +152,13 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
 
+	it( "should ignore transition words if they are shortcodes", function() {
+		mockPaper = new Paper( "There is a hidden transition word [however] in this sentence.", { shortcodes: [ "shortcode" ] } );
+		result = transitionWordsResearch( mockPaper, new EnglishResearcher( mockPaper ) );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 0 );
+	} );
+
 	/*it( "returns 1 when a transition word is found in a sentence (German)", function() {
 		// Transition word: zuerst.
 		mockPaper = new Paper( "Zuerst werde ich versuchen zu verstehen, warum er so denkt.", { locale: "de_DE" } );
