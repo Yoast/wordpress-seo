@@ -136,7 +136,6 @@ export function StepButtons( { stepId, beforeContinue, continueLabel, beforeBack
 		<ContinueButton
 			stepId={ stepId }
 			beforeGo={ beforeContinue }
-
 		>
 			{ continueLabel }
 		</ContinueButton>
