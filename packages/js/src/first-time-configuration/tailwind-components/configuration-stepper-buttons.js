@@ -191,7 +191,7 @@ export function ConfigurationStepButtons( { stepId, stepperFinishedOnce, saveFun
 			id={ `button-${ stepId }-go` }
 			className="yst-button yst-button--primary yst-mt-12"
 			destination="last"beforeGo={ onSaveClick }
-			data-hiive-event-name={ `clicked_save changes | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
+			data-hiive-event-name={ `clicked_save_changes | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
 		>
 			{ __( "Save changes", "wordpress-seo" ) }
 		</Step.GoButton>;
