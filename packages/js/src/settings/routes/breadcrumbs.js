@@ -111,10 +111,8 @@ const Breadcrumbs = () => {
 							as={ SelectField }
 							name={ `wpseo_titles.post_types-${ postTypeName }-maintax` }
 							id={ `input-wpseo_titles-post_types-${ postTypeName }-maintax` }
-							label={ <>
-								{ postType.label }
-								<Code className="yst-ml-2">{ postTypeName }</Code>
-							</> }
+							label={ postType.label }
+							labelSuffix={ <Code className="yst-ml-2">{ postTypeName }</Code> }
 							options={ postType.options }
 							className="yst-max-w-sm"
 						/> ) }
@@ -131,12 +129,10 @@ const Breadcrumbs = () => {
 								as={ SelectField }
 								name={ `wpseo_titles.taxonomy-${ taxonomy.name }-ptparent` }
 								id={ `input-wpseo_titles-taxonomy-${ taxonomy.name }-ptparent` }
-								label={ <>
-									{ taxonomy.label }
-									<Code className="yst-ml-2">{ taxonomy.name }</Code>
-								</> }
+								label={ taxonomy.label }
 								options={ taxonomy.options }
 								className="yst-max-w-sm"
+								labelSuffix={ <Code className="yst-ml-2">{ taxonomy.name }</Code> }
 							/>
 						) ) }
 					</FieldsetLayout>
