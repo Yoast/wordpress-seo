@@ -119,7 +119,7 @@ Pluggable.prototype._reloaded = function( pluginName ) {
  * @param {string}      pluginName 	    The plugin that is registering the modification.
  * @param {number}      priority	    (optional) Used to specify the order in which the callables associated with a particular filter are called.
  * 									    Lower numbers correspond with earlier execution.
- * @returns {boolean}                   Whether or not applying the hook was successfull.
+ * @returns {boolean}                   Whether or not applying the hook was successful.
  */
 Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
 	if ( typeof modification !== "string" ) {

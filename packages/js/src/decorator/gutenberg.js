@@ -285,7 +285,7 @@ function removeAllAnnotationsFromBlock( blockClientId ) {
  * @returns {void}
  */
 export function reapplyAnnotationsForSelectedBlock() {
-	const block = select( "core/editor" ).getSelectedBlock();
+	const block = select( "core/block-editor" ).getSelectedBlock();
 	const activeMarkerId  = select( "yoast-seo/editor" ).getActiveMarker();
 
 	if ( ! block || ! activeMarkerId ) {

@@ -57,21 +57,21 @@ describe( "An assessment to check whether there is more than one H1 in the text"
 
 describe( "A test for marking incorrect H1s in the body", function() {
 	it( "returns markers for incorrect H1s in the body", function() {
-		const mockPaper = new Paper( "<p>a paragraph</p><h1>heading</h1>" );
+		const mockPaper = new Paper( "<p>a paragraph</p><h1>this is a <strong>heading</strong></h1>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 		h1Assessment.getResult( mockPaper, mockResearcher );
 
 		const expected = [
 			new Mark( {
-				original: "<h1>heading</h1>",
-				marked: "<h1><yoastmark class='yoast-text-mark'>heading</yoastmark></h1>",
+				original: "<h1>this is a heading</h1>",
+				marked: "<h1><yoastmark class='yoast-text-mark'>this is a heading</yoastmark></h1>",
 				position: {
-					startOffset: 22,
-					endOffset: 29,
 					clientId: "",
-					endOffsetBlock: 7,
+					startOffset: 22,
+					endOffset: 56,
 					startOffsetBlock: 0,
+					endOffsetBlock: 34,
 				} } ),
 		];
 

@@ -744,24 +744,27 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .yoast_premium_upsell {
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
   border: 1px solid #dcdcdc;
-  padding: 16px;
   background-color: #fff;
-  max-width: 640px;
+  max-width: 715px;
   overflow: hidden;
   margin-top: 2em;
 }
 
-.black-friday-container{
-	margin-bottom: -2em;
-	max-width: 640px;
+.yoast_premium_upsell--container {
+  padding: 16px;
+}
+
+.black-friday-container {
 	display: flex;
 	background-color: #1F2937;
 	padding: 8px 16px;
 	border-bottom: 2px solid #FCD34D;
 }
-.black-friday-container span{
+
+.black-friday-container span {
 	color:#FCD34D;
 	font-size: 1.2rem;
+	font-weight: 600;
 }
 .yoast_premium_upsell--header {
   color: #A4286A;
