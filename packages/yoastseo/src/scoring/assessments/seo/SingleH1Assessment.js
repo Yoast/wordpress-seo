@@ -99,7 +99,7 @@ class SingleH1Assessment extends Assessment {
 					startOffset: h1.position.startOffset,
 					endOffset: h1.position.endOffset,
 					startOffsetBlock: 0,
-					endOffsetBlock: h1.content.length,
+					endOffsetBlock: h1.position.endOffset - h1.position.startOffset,
 					clientId: h1.position.clientId,
 				},
 			} );
