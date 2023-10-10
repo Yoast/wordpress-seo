@@ -124,7 +124,6 @@ export function NewsletterSignup( { gdprLink } ) {
 					onClick={ onSignUpClick }
 					disabled={ signUpState === "loading" }
 					data-hiive-event-name="clicked_signup | personal preferences"
-
 				>
 					{ __( "Sign up!", "wordpress-seo" ) }
 				</button>
