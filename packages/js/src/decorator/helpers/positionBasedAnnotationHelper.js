@@ -4,8 +4,8 @@ import { helpers } from "yoastseo";
 /**
  * Regex to detect HTML tags.
  * Please note that this regex will also detect non-HTML tags that are also wrapped in `<>`.
- * For example, in the following sentence, <strong class="">cats <dogs> rabbit </strong>,
- * we will match <strong class="">, <dogs> and </strong>. This is an edge case though.
+ * For example, in the following sentence, `<strong class="">cats <dogs> rabbit </strong>`,
+ * we will match `<strong class="">`, `<dogs>` and `</strong>`. This is an edge case though.
  * @type {RegExp}
  */
 const htmlTagsRegex = /(<([a-z]|\/)[^<>]+>)/ig;
@@ -54,6 +54,21 @@ const adjustFirstSectionOffsets = ( blockStartOffset, blockEndOffset, blockName 
 };
 
 /**
+ * Retrieves the length for an HTML tag, adjusts the length for `<br>` tags.
+ * @param {[string]} htmlTag The HTML tag.
+ * @returns {number} The length of the given HTML tag.
+ */
+const getTagLength = ( htmlTag ) => {
+	const [ tag ] = htmlTag;
+	let tagLength = tag.length;
+	// Here, we need to account for treating <br> tags as sentence delimiters, and subtract 1 from the tagLength.
+	if ( /^<\/?br/.test( tag ) ) {
+		tagLength -= 1;
+	}
+	return tagLength;
+};
+
+/**
  * Adjusts the block start and end offsets of a given Mark when the block HTML contains HTML tags.
  *
  * @param {string}	slicedBlockHtmlToStartOffset	The block HTML from the 0 index to the index of the block start offset.
@@ -82,24 +97,12 @@ const adjustOffsetsForHtmlTags = ( slicedBlockHtmlToStartOffset, slicedBlockHtml
 	 */
 	let foundHtmlTags = [ ...slicedBlockHtmlToStartOffset.matchAll( htmlTagsRegex ) ];
 	forEachRight( foundHtmlTags, ( foundHtmlTag ) => {
-		const [ tag ] = foundHtmlTag;
-		let tagLength = tag.length;
-		// Here, we need to account for treating <br> tags as sentence delimiters, and subtract 1 from the tagLength.
-		if ( /<\/?br/.test( tag ) ) {
-			tagLength -= 1;
-		}
-		blockStartOffset -= tagLength;
+		blockStartOffset -= getTagLength( foundHtmlTag );
 	} );
 
 	foundHtmlTags = [ ...slicedBlockHtmlToEndOffset.matchAll( htmlTagsRegex ) ];
 	forEachRight( foundHtmlTags, ( foundHtmlTag ) => {
-		const [ tag ] = foundHtmlTag;
-		let tagLength = tag.length;
-		// Here, we need to account for treating <br> tags as sentence delimiters, and subtract 1 from the tagLength.
-		if ( /<\/?br/.test( tag ) ) {
-			tagLength -= 1;
-		}
-		blockEndOffset -= tagLength;
+		blockEndOffset -= getTagLength( foundHtmlTag );
 	} );
 
 	return { blockStartOffset, blockEndOffset };
