@@ -183,7 +183,7 @@ export function ConfigurationStepButtons( { stepId, stepperFinishedOnce, saveFun
 		// If save is not succesful: we are still editing
 		setEditState( ! saveSuccesful );
 		return saveSuccesful;
-	} );
+	}, [ saveFunction ] );
 
 	if ( stepperFinishedOnce ) {
 		return <Step.GoButton
