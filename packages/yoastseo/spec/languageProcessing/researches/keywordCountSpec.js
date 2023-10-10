@@ -299,7 +299,7 @@ const testCases = [
 					attributeId: "",
 					clientId: "",
 					isFirstSection: false } } ),
-		 ],
+		],
 		skip: false,
 	},
 	{
@@ -991,9 +991,9 @@ const testCasesWithSpecialCharacters = [
 	{
 		description: "can match paragraph gutenberg block",
 		paper: new Paper(
-			"<!-- wp:paragraph -->" +
-			"<p>a string of text with the keyword in it</p>" +
-			"<!-- /wp:paragraph -->",
+			`<!-- wp:paragraph -->
+				<p>a string of text with the keyword in it</p>
+			<!-- /wp:paragraph -->`,
 			{
 				keyword: "keyword",
 				wpBlocks: [
@@ -1015,8 +1015,8 @@ const testCasesWithSpecialCharacters = [
 				marked: "a string of text with the <yoastmark class='yoast-text-mark'>keyword</yoastmark> in it",
 				original: "a string of text with the keyword in it",
 				position: {
-					startOffset: 50,
-					endOffset: 57,
+					startOffset: 55,
+					endOffset: 62,
 					startOffsetBlock: 26,
 					endOffsetBlock: 33,
 					attributeId: "",
@@ -1030,16 +1030,16 @@ const testCasesWithSpecialCharacters = [
 	{
 		description: "can match complex paragraph gutenberg block",
 		paper: new Paper(
-			"<!-- wp:paragraph -->" +
-			"<p><strong>Over the years, we’ve written&nbsp;quite a few articles about&nbsp;</strong>" +
-			'<a href="https://yoast.com/tag/branding/">branding</a><strong>. ' +
-			"Branding is about getting people to relate to your company and products. " +
-			"It’s also about trying to make your brand synonymous with a certain product or service. " +
-			"This can be a lengthy and hard project. It can potentially cost you all of your revenue. " +
-			"It’s no wonder that branding is often associated with investing lots of money in marketing and promotion. " +
-			"However, for a lot of small business owners, the investment in branding will have " +
-			"to&nbsp;be made with a&nbsp;relatively small budget.&nbsp;</strong></p>" +
-			"<!-- /wp:paragraph -->",
+			`<!-- wp:paragraph -->
+				<p><strong>Over the years, we’ve written&nbsp;quite a few articles about&nbsp;</strong>
+				<a href="https://yoast.com/tag/branding/">branding</a><strong>.
+				Branding is about getting people to relate to your company and
+				products. It’s also about trying to make your brand synonymous with a certain product or service.
+				This can be a lengthy and hard project. It can potentially cost you all of your revenue.
+				It’s no wonder that branding is often associated with investing lots of money in marketing and promotion.
+				However, for a lot of small business owners, the investment in branding will have
+				to&nbsp;be made with a&nbsp;relatively small budget.&nbsp;</strong></p>
+			<!-- /wp:paragraph -->`,
 			{
 				keyword: "keyword",
 				wpBlocks: [
@@ -1064,10 +1064,10 @@ const testCasesWithSpecialCharacters = [
 				marked: " It's also about trying to make your brand <yoastmark class='yoast-text-mark'>synonymous</yoastmark> with a certain product or service.",
 				original: " It’s also about trying to make your brand synonymous with a certain product or service.",
 				position: {
-					startOffset: 277,
-					endOffset: 287,
-					startOffsetBlock: 253,
-					endOffsetBlock: 263,
+					startOffset: 295,
+					endOffset: 305,
+					startOffsetBlock: 266,
+					endOffsetBlock: 276,
 					attributeId: "",
 					clientId: "",
 					isFirstSection: false,
@@ -1079,13 +1079,13 @@ const testCasesWithSpecialCharacters = [
 	{
 		description: "can match complex paragraph gutenberg block",
 		paper: new Paper(
-			"<!-- wp:paragraph -->" +
-			"<p>You might be a local bakery with 10 employees, or a local industrial company employing up to 500 people. " +
-			"These all can be qualified as ‘small business’. " +
-			"All have the same main goal when they start: the need to establish a name in their field of expertise. " +
-			"There are multiple ways to do this, without a huge budget. " +
-			"In this post, I’ll share my thoughts on how to go about your own low-budget branding.</p>" +
-			"<!-- /wp:paragraph -->",
+			`<!-- wp:paragraph -->
+				<p>You might be a local bakery with 10 employees, or a local industrial company employing up to 500 people.
+				These all can be qualified as
+				‘small business’. All have the same main goal when they start: the need to establish a name in their field of expertise. There
+				are multiple ways to do this, without a huge budget.
+				In this post, I’ll share my thoughts on how to go about your own low-budget branding.</p>
+			<!-- /wp:paragraph -->`,
 			{
 				keyword: "expertise",
 				wpBlocks: [
@@ -1110,10 +1110,10 @@ const testCasesWithSpecialCharacters = [
 				marked: " All have the same main goal when they start: the need to establish a name in their field of <yoastmark class='yoast-text-mark'>expertise</yoastmark>.",
 				original: " All have the same main goal when they start: the need to establish a name in their field of expertise.",
 				position: {
-					startOffset: 269,
-					endOffset: 278,
-					startOffsetBlock: 245,
-					endOffsetBlock: 254,
+					startOffset: 282,
+					endOffset: 291,
+					startOffsetBlock: 253,
+					endOffsetBlock: 262,
 					attributeId: "",
 					clientId: "",
 					isFirstSection: false,
@@ -1125,9 +1125,9 @@ const testCasesWithSpecialCharacters = [
 	{
 		description: "can match heading gutenberg block",
 		paper: new Paper(
-			"<!-- wp:heading -->" +
-			'<h2 class="wp-block-heading" id="h-define-and-communicate-brand-values">Define and communicate brand values</h2>' +
-			"<!-- /wp:heading -->",
+			`<!-- wp:heading -->
+				<h2 class="wp-block-heading" id="h-define-and-communicate-brand-values">Define and communicate brand values</h2>
+			<!-- /wp:heading -->`,
 			{
 				keyword: "communicate",
 				wpBlocks: [
@@ -1151,8 +1151,8 @@ const testCasesWithSpecialCharacters = [
 				marked: "Define and <yoastmark class='yoast-text-mark'>communicate</yoastmark> brand values",
 				original: "Define and communicate brand values",
 				position: {
-					startOffset: 102,
-					endOffset: 113,
+					startOffset: 107,
+					endOffset: 118,
 					startOffsetBlock: 11,
 					endOffsetBlock: 22,
 					attributeId: "",
@@ -1166,19 +1166,19 @@ const testCasesWithSpecialCharacters = [
 	{
 		description: "can match complex paragraph gutenberg block",
 		paper: new Paper(
-			"<!-- wp:columns -->" +
-			'<div class="wp-block-columns"><!-- wp:column -->' +
-			'<div class="wp-block-column"><!-- wp:paragraph -->' +
-			"<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry.</p>" +
-			"<!-- /wp:paragraph --></div>" +
-			"<!-- /wp:column -->" +
+			`<!-- wp:columns -->
+				<div class="wp-block-columns"><!-- wp:column -->
+				<div class="wp-block-column"><!-- wp:paragraph -->
+				<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry.</p>
+				<!-- /wp:paragraph --></div>
+				<!-- /wp:column -->
 
-			"<!-- wp:column -->" +
-			'<div class="wp-block-column"><!-- wp:paragraph -->' +
-			"<p>There are many variations of passages of Lorem Ipsum available</p>" +
-			"<!-- /wp:paragraph --></div>" +
-			"<!-- /wp:column --></div>" +
-			"<!-- /wp:columns -->",
+				<!-- wp:column -->
+				<div class="wp-block-column"><!-- wp:paragraph -->
+				<p>There are many variations of passages of Lorem Ipsum available</p>
+				<!-- /wp:paragraph --></div>
+				<!-- /wp:column --></div>
+			 <!-- /wp:columns -->`,
 			{
 				keyword: "Ipsum",
 				wpBlocks: [
@@ -1230,8 +1230,8 @@ const testCasesWithSpecialCharacters = [
 				marked: "Lorem <yoastmark class='yoast-text-mark'>Ipsum</yoastmark> is simply dummy text of the printing and typesetting industry.",
 				original: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
 				position: {
-					startOffset: 134,
-					endOffset: 139,
+					startOffset: 149,
+					endOffset: 154,
 					startOffsetBlock: 14,
 					endOffsetBlock: 19,
 					attributeId: "",
@@ -1243,8 +1243,8 @@ const testCasesWithSpecialCharacters = [
 				marked: "There are many variations of passages of Lorem <yoastmark class='yoast-text-mark'>Ipsum</yoastmark> available",
 				original: "There are many variations of passages of Lorem Ipsum available",
 				position: {
-					startOffset: 385,
-					endOffset: 390,
+					startOffset: 426,
+					endOffset: 431,
 					startOffsetBlock: 47,
 					endOffsetBlock: 52,
 					attributeId: "",
