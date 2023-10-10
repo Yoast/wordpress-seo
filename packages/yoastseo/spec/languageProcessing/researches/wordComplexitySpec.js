@@ -1,3 +1,5 @@
+/* eslint-disable max-statements */
+
 import wordComplexity from "../../../src/languageProcessing/researches/wordComplexity.js";
 import Paper from "../../../src/values/Paper";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
@@ -14,7 +16,10 @@ import wordComplexityConfigSpanish from "../../../src/languageProcessing/languag
 import wordComplexityConfigFrench from "../../../src/languageProcessing/languages/fr/config/wordComplexity";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
-const morphologyData = getMorphologyData( "en" );
+const premiumDataEn = getMorphologyData( "en" );
+const premiumDataDe = getMorphologyData( "de" );
+const premiumDataEs = getMorphologyData( "es" );
+const premiumDataFr = getMorphologyData( "fr" );
 
 describe( "a test for getting the complex words in the sentence and calculating their percentage",  function() {
 	let researcher;
@@ -23,7 +28,7 @@ describe( "a test for getting the complex words in the sentence and calculating 
 		researcher = new EnglishResearcher();
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigEnglish );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", premiumDataEn );
 	} );
 
 	it( "returns an array with the complex words from the text in English", function() {
@@ -122,6 +127,8 @@ describe( "test with different language specific helper and config", () => {
 		let researcher = new EnglishResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigEnglish );
+		researcher.addResearchData( "morphology", premiumDataEn );
+
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 
@@ -129,6 +136,7 @@ describe( "test with different language specific helper and config", () => {
 		researcher = new GermanResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperGerman );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigGerman );
+		researcher.addResearchData( "morphology", premiumDataDe );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
@@ -137,6 +145,7 @@ describe( "test with different language specific helper and config", () => {
 		researcher = new SpanishResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperSpanish );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigSpanish );
+		researcher.addResearchData( "morphology", premiumDataEs );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
@@ -145,6 +154,7 @@ describe( "test with different language specific helper and config", () => {
 		researcher = new FrenchResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperFrench );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigFrench );
+		researcher.addResearchData( "morphology", premiumDataFr );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
@@ -153,6 +163,7 @@ describe( "test with different language specific helper and config", () => {
 		researcher = new GermanResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperGerman );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigGerman );
+		researcher.addResearchData( "morphology", premiumDataDe );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
@@ -164,6 +175,7 @@ describe( "test with different language specific helper and config", () => {
 		const researcher = new GermanResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperGerman );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigGerman );
+		researcher.addResearchData( "morphology", premiumDataDe );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
