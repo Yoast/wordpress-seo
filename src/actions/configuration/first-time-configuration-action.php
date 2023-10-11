@@ -98,7 +98,7 @@ class First_Time_Configuration_Action {
 		 * @param array The old values of the options.
 		 * @param array The options that failed to be saved.
 		 */
-		\do_action( 'wpseo_post_update_site_representation', $params, $old_values, $failures );
+		\do_action( 'wpseo_ftc_post_update_site_representation', $params, $old_values, $failures );
 
 		if ( \count( $failures ) === 0 ) {
 			return (object) [
@@ -133,7 +133,7 @@ class First_Time_Configuration_Action {
 		 * @param array The old values of the options.
 		 * @param array The options that failed to be saved.
 		 */
-		\do_action( 'wpseo_post_update_social_profiles', $params, $old_values, $failures );
+		\do_action( 'wpseo_ftc_post_update_social_profiles', $params, $old_values, $failures );
 
 		if ( empty( $failures ) ) {
 			return (object) [
@@ -223,7 +223,7 @@ class First_Time_Configuration_Action {
 		 * @param bool  Whether the option failed to be stored.
 		 */
 		// $success is negated to be aligned with the other two actions which pass $failures.
-		\do_action( 'wpseo_post_update_enable_tracking', $params['tracking'], $option_value, ! $success );
+		\do_action( 'wpseo_ftc_post_update_enable_tracking', $params['tracking'], $option_value, ! $success );
 
 		if ( $success ) {
 			return (object) [
