@@ -63,15 +63,8 @@ class First_Time_Configuration_Action {
 
 		foreach ( self::SITE_REPRESENTATION_FIELDS as $field_name ) {
 			if ( isset( $params[ $field_name ] ) ) {
-				if ( $field_name === 'description' && \current_user_can( 'manage_options' ) ) {
-					$result = \update_option( 'blogdescription', $params['description'] );
-					if ( ! $result && $params['description'] === \get_option( 'blogdescription' ) ) {
-						$result = true;
-					}
-				}
-				else {
-					$result = $this->options_helper->set( $field_name, $params[ $field_name ] );
-				}
+				$result = $this->options_helper->set( $field_name, $params[ $field_name ] );
+
 				if ( ! $result ) {
 					$failures[] = $field_name;
 				}
