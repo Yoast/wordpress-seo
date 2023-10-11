@@ -183,7 +183,7 @@ export const getAnnotationsForFAQ = ( attributeWithAnnotationSupport, block, mar
  */
 export const getAnnotationsForHowTo = ( attributeWithAnnotationSupport, block, marks ) => {
 	const annotatableTextsFromBlock = block.attributes[ attributeWithAnnotationSupport.key ];
-	if ( annotatableTextsFromBlock.length === 0 ) {
+	if ( annotatableTextsFromBlock && annotatableTextsFromBlock.length === 0 ) {
 		return [];
 	}
 	const annotations = [];

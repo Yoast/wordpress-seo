@@ -4,8 +4,8 @@ import { helpers } from "yoastseo";
 /**
  * Regex to detect HTML tags.
  * Please note that this regex will also detect non-HTML tags that are also wrapped in `<>`.
- * For example, in the following sentence, <strong class="">cats <dogs> rabbit </strong>,
- * we will match <strong class="">, <dogs> and </strong>. This is an edge case though.
+ * For example, in the following sentence, `<strong class="">cats <dogs> rabbit </strong>`,
+ * we will match `<strong class="">`, `<dogs>` and `</strong>`. This is an edge case though.
  * @type {RegExp}
  */
 const htmlTagsRegex = /(<([a-z]|\/)[^<>]+>)/ig;
@@ -54,6 +54,27 @@ const adjustFirstSectionOffsets = ( blockStartOffset, blockEndOffset, blockName 
 };
 
 /**
+ * Retrieves the length for HTML tags, adjusts the length for `<br>` tags.
+ * @param {[Object]} htmlTags Array of HTML tags.
+ * @returns {number} The length of the given HTML tags.
+ */
+const getTagsLength = ( htmlTags ) => {
+	let tagsLength = 0;
+	forEachRight( htmlTags, ( htmlTag ) => {
+		const [ tag ] = htmlTag;
+		let tagLength = tag.length;
+		// Here, we need to account for treating <br> tags as sentence delimiters, and subtract 1 from the tagLength.
+		if ( /^<\/?br/.test( tag ) ) {
+			tagLength -= 1;
+		}
+
+		tagsLength += tagLength;
+	} );
+
+	return tagsLength;
+};
+
+/**
  * Adjusts the block start and end offsets of a given Mark when the block HTML contains HTML tags.
  *
  * @param {string}	slicedBlockHtmlToStartOffset	The block HTML from the 0 index to the index of the block start offset.
@@ -80,17 +101,11 @@ const adjustOffsetsForHtmlTags = ( slicedBlockHtmlToStartOffset, slicedBlockHtml
 	 * - Text: This is a giant panda.
 	 * - Range of "panda": 16 -21
 	 */
-	let foundHtmlTags = [ ...slicedBlockHtmlToStartOffset.matchAll( htmlTagsRegex ) ];
-	forEachRight( foundHtmlTags, ( foundHtmlTag ) => {
-		const [ tag ] = foundHtmlTag;
-		blockStartOffset -= tag.length;
-	} );
+	const foundHtmlTagsToStartOffset = [ ...slicedBlockHtmlToStartOffset.matchAll( htmlTagsRegex ) ];
+	blockStartOffset -= getTagsLength( foundHtmlTagsToStartOffset );
 
-	foundHtmlTags = [ ...slicedBlockHtmlToEndOffset.matchAll( htmlTagsRegex ) ];
-	forEachRight( foundHtmlTags, ( foundHtmlTag ) => {
-		const [ tag ] = foundHtmlTag;
-		blockEndOffset -= tag.length;
-	} );
+	const foundHtmlTagsToEndOffset = [ ...slicedBlockHtmlToEndOffset.matchAll( htmlTagsRegex ) ];
+	blockEndOffset -= getTagsLength( foundHtmlTagsToEndOffset );
 
 	return { blockStartOffset, blockEndOffset };
 };

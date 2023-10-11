@@ -141,6 +141,21 @@ describe( "A test for getting positions of sentences", () => {
 		expect( getTextElementPositions( node, sentences ) ).toEqual( sentencesWithPositions );
 	} );
 
+	it( "should determine the correct token positions when the sentence contains a br tag", function() {
+		// HTML: <p>Hello<br />world!</p>.
+		const html = "<p>Hello<br />world!</p>";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		const paragraph = tree.childNodes[ 0 ];
+		const tokens = [ "Hello", "\n", "world", "!" ].map( string => new Token( string ) );
+
+		const [ hello, br, world, bang ] = getTextElementPositions( paragraph, tokens, 3 );
+
+		expect( hello.sourceCodeRange ).toEqual( { startOffset: 3, endOffset: 8 } );
+		expect( br.sourceCodeRange ).toEqual( { startOffset: 13, endOffset: 14 } );
+		expect( world.sourceCodeRange ).toEqual( { startOffset: 14, endOffset: 19 } );
+		expect( bang.sourceCodeRange ).toEqual( { startOffset: 19, endOffset: 20 } );
+	} );
+
 	it( "gets the sentence positions from a node that has a code child node", function() {
 		// HTML: <p>Hello <code>array.push( something )</code> code!</p>
 		const node = new Paragraph( {}, [

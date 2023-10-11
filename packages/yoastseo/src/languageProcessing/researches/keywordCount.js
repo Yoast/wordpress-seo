@@ -6,6 +6,7 @@ import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSente
 import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
 import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
 import getSentences from "../helpers/sentence/getSentences";
+import { filterShortcodesFromHTML } from "../helpers";
 
 /**
  * Counts the occurrences of the keyphrase in the text and creates the Mark objects for the matches.
@@ -90,8 +91,12 @@ export default function getKeyphraseCount( paper, researcher ) {
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const customSentenceTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const locale = paper.getLocale();
+	const text = matchWordCustomHelper
+		? filterShortcodesFromHTML( paper.getText(), paper._attributes && paper._attributes.shortcodes )
+		: paper.getText();
+
 	// When the custom helper is available, we're using the sentences retrieved from the text for the analysis.
-	const sentences = matchWordCustomHelper ? getSentences( paper.getText(), customSentenceTokenizer ) : getSentencesFromTree( paper );
+	const sentences = matchWordCustomHelper ? getSentences( text, customSentenceTokenizer ) : getSentencesFromTree( paper );
 	// Exact matching is requested when the keyphrase is enclosed in double quotes.
 	const isExactMatchRequested = isDoubleQuoted( paper.getKeyword() );
 
