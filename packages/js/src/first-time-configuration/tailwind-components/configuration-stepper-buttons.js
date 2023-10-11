@@ -99,7 +99,7 @@ export function BackButton( { stepId, beforeGo, children, additionalClasses, ...
 		className={ `yst-button yst-button--secondary ${ additionalClasses }` }
 		destination={ -1 }
 		beforeGo={ beforeGo }
-		data-hiive-event-name={ `clicked_back | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
+		data-hiive-event-name={ `clicked_go_back | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
 		{ ...restProps }
 	>
 		{ children }
