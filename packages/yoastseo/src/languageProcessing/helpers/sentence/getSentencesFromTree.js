@@ -15,7 +15,7 @@ function getStartOffset( node ) {
  * @returns {Node} The parent node.
  */
 function getParentNode( paper, node ) {
-	return paper.getTree().findAll( treeNode => treeNode.childNodes && treeNode.childNodes.includes( node ) )[ 0 ];
+	return paper.getTree().findAll( treeNode => treeNode.childNodes && treeNode.childNodes.includes( node ) )[ 0 ] || node;
 }
 
 /**
