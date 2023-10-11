@@ -313,14 +313,6 @@ const cultureAssessments = [
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
-		identifier: "ebonics",
-		nonInclusivePhrases: [ "Ebonics" ],
-		inclusiveAlternatives: "<i>African American English, African American Language</i>",
-		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
-		caseSensitive: true,
-	},
-	{
 		identifier: "powWow",
 		nonInclusivePhrases: [ "pow-wow" ],
 		inclusiveAlternatives: "<i>chat, brief conversation, brainstorm, huddle</i>",
