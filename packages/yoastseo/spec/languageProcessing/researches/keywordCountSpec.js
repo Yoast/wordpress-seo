@@ -299,7 +299,7 @@ const testCases = [
 					attributeId: "",
 					clientId: "",
 					isFirstSection: false } } ),
-		 ],
+		],
 		skip: false,
 	},
 	{
@@ -945,6 +945,41 @@ const testCasesWithSpecialCharacters = [
 				position: { endOffset: 9, startOffset: 3,
 					startOffsetBlock: 0,
 					endOffsetBlock: 6,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				} }
+			),
+		],
+		skip: false,
+	},
+	{
+		description: "can match keyphrases in texts that contain <br> tags",
+		paper: new Paper( "<p>This is a test.<br>This is<br />another<br>test.</p>", { keyword: "test" } ),
+		keyphraseForms: [ [ "test" ] ],
+		expectedCount: 2,
+		expectedMarkings: [
+			new Mark( {
+				original: "This is a test.",
+				marked: "This is a <yoastmark class='yoast-text-mark'>test</yoastmark>.",
+				position: {
+					startOffset: 13,
+					endOffset: 17,
+					startOffsetBlock: 10,
+					endOffsetBlock: 14,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				} }
+			),
+			new Mark( {
+				original: "\nThis is\nanother\ntest.",
+				marked: "\nThis is\nanother\n<yoastmark class='yoast-text-mark'>test</yoastmark>.",
+				position: {
+					startOffset: 46,
+					endOffset: 50,
+					startOffsetBlock: 43,
+					endOffsetBlock: 47,
 					attributeId: "",
 					clientId: "",
 					isFirstSection: false,

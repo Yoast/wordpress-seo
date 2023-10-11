@@ -46,6 +46,17 @@ describe( "A test for innerText", () => {
 		expect( searchResult ).toEqual( expected );
 	} );
 
+	it( "should consider break tags to be line breaks", function() {
+		// Matsuo Bashō's "old pond".
+		paper._text = "<p>old pond<br />frog leaps in<br>water's sound</p>";
+		const tree = build( paper, languageProcessor );
+
+		const searchResult = innerText( tree );
+		const expected = "old pond\nfrog leaps in\nwater's sound";
+
+		expect( searchResult ).toEqual( expected );
+	} );
+
 	it( "should return an empty string when presented an empty node", function() {
 		const tree = new Node( "" );
 
