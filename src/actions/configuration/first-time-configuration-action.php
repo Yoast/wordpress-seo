@@ -61,15 +61,6 @@ class First_Time_Configuration_Action {
 		$failures   = [];
 		$old_values = $this->get_old_values( self::SITE_REPRESENTATION_FIELDS );
 
-		// This field seems to be not used anymore.
-		$old_values = \array_filter(
-			$old_values,
-			static function( $key ) {
-				return $key !== 'description';
-			},
-			\ARRAY_FILTER_USE_KEY
-		);
-
 		foreach ( self::SITE_REPRESENTATION_FIELDS as $field_name ) {
 			if ( isset( $params[ $field_name ] ) ) {
 				if ( $field_name === 'description' && \current_user_can( 'manage_options' ) ) {
