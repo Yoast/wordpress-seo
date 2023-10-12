@@ -11,7 +11,7 @@ describe( "test to get sentences from the tree", () => {
 	} );
 	it( "returns the sentences from paragraph and heading nodes", () => {
 		const paper = new Paper( "<div><p>A very intelligent cat loves their human. A dog is very cute.</p><h3>A subheading 3" +
-			"</h3>text text text<h4>A subheading 4</h4>more text.</div>" );
+			"</h3><h4>A subheading 4</h4></div>" );
 		researcher.setPaper( paper );
 		buildTree( paper, researcher );
 		expect( getSentencesFromTree( paper ) ).toEqual( [
@@ -76,48 +76,76 @@ describe( "test to get sentences from the tree", () => {
 				parentClientId: "",
 			},
 			{
-				sourceCodeRange: { startOffset: 96, endOffset: 110 },
-				parentStartOffset: 96,
-				text: "text text text",
-				tokens: [
-					{ sourceCodeRange: { startOffset: 96, endOffset: 100 }, text: "text" },
-					{ sourceCodeRange: { startOffset: 100, endOffset: 101 }, text: " " },
-					{ sourceCodeRange: { startOffset: 101, endOffset: 105 }, text: "text" },
-					{ sourceCodeRange: { startOffset: 105, endOffset: 106 }, text: " " },
-					{ sourceCodeRange: { startOffset: 106, endOffset: 110 }, text: "text" },
-				],
-				isParentFirstSectionOfBlock: false,
-				parentAttributeId: "",
-				parentClientId: "",
-			},
-			{
-				sourceCodeRange: { startOffset: 114, endOffset: 128 },
-				parentStartOffset: 114,
+				sourceCodeRange: { startOffset: 100, endOffset: 114 },
+				parentStartOffset: 100,
 				text: "A subheading 4",
 				tokens: [
-					{ sourceCodeRange: { startOffset: 114, endOffset: 115 }, text: "A" },
-					{ sourceCodeRange: { startOffset: 115, endOffset: 116 }, text: " " },
-					{ sourceCodeRange: { startOffset: 116, endOffset: 126 }, text: "subheading" },
-					{ sourceCodeRange: { startOffset: 126, endOffset: 127 }, text: " " },
-					{ sourceCodeRange: { startOffset: 127, endOffset: 128 }, text: "4" },
+					{ sourceCodeRange: { startOffset: 100, endOffset: 101 }, text: "A" },
+					{ sourceCodeRange: { startOffset: 101, endOffset: 102 }, text: " " },
+					{ sourceCodeRange: { startOffset: 102, endOffset: 112 }, text: "subheading" },
+					{ sourceCodeRange: { startOffset: 112, endOffset: 113 }, text: " " },
+					{ sourceCodeRange: { startOffset: 113, endOffset: 114 }, text: "4" },
 				],
 				isParentFirstSectionOfBlock: false,
 				parentAttributeId: "",
 				parentClientId: "",
 			},
+		] );
+	} );
+	it( "returns the sentences from an implicit paragraph (an image caption)", () => {
+		const paper = new Paper( "[caption id=\"attachment_75\" align=\"alignnone\" width=\"200\"]<img class=\"wp-image-75 size-medium\"" +
+			" src=\"https://basic.wordpress.test/wp-content/uploads/2023/05/African_Bush_Elephant-200x300.jpg\" alt=\"elephant\"" +
+			" width=\"200\" height=\"300\" /> elephant[/caption]", { shortcodes: [ "caption" ] } );
+		researcher.setPaper( paper );
+		buildTree( paper, researcher );
+		expect( getSentencesFromTree( paper ) ).toEqual( [
 			{
-				sourceCodeRange: { startOffset: 133, endOffset: 143 },
-				parentStartOffset: 133,
-				text: "more text.",
-				tokens: [
-					{ sourceCodeRange: { startOffset: 133, endOffset: 137 }, text: "more" },
-					{ sourceCodeRange: { startOffset: 137, endOffset: 138 }, text: " " },
-					{ sourceCodeRange: { startOffset: 138, endOffset: 142 }, text: "text" },
-					{ sourceCodeRange: { startOffset: 142, endOffset: 143 }, text: "." },
-				],
 				isParentFirstSectionOfBlock: false,
 				parentAttributeId: "",
 				parentClientId: "",
+				parentStartOffset: 0,
+				sourceCodeRange: {
+					endOffset: 252,
+					startOffset: 0,
+				},
+				text: " elephant",
+				tokens: [
+					{
+						sourceCodeRange: {
+							endOffset: 234,
+							startOffset: 233,
+						},
+						text: " ",
+					},
+					{
+						sourceCodeRange: {
+							endOffset: 242,
+							startOffset: 234,
+						},
+						text: "elephant",
+					},
+					{
+						sourceCodeRange: {
+							endOffset: 243,
+							startOffset: 242,
+						},
+						text: "[",
+					},
+					{
+						sourceCodeRange: {
+							endOffset: 251,
+							startOffset: 243,
+						},
+						text: "/caption",
+					},
+					{
+						sourceCodeRange: {
+							endOffset: 252,
+							startOffset: 251,
+						},
+						text: "]",
+					},
+				],
 			},
 		] );
 	} );
