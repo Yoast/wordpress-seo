@@ -109,8 +109,8 @@ class First_Time_Configuration_Action {
 	 * @return object The response object.
 	 */
 	public function set_social_profiles( $params ) {
-		$failures   = $this->social_profiles_helper->set_organization_social_profiles( $params );
 		$old_values = $this->get_old_values( \array_keys( $this->social_profiles_helper->get_organization_social_profile_fields() ) );
+		$failures   = $this->social_profiles_helper->set_organization_social_profiles( $params );
 
 		/**
 		 * Action: 'wpseo_post_update_social_profiles' - Allows for Hiive event tracking.
