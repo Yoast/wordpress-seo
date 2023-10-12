@@ -1,9 +1,10 @@
 /**
  * Finds all nodes in the tree that satisfies the given condition.
  *
- * @param {Object} tree The tree.
- * @param {function} condition The condition that a node should satisfy to end up in the list.
- * @param {boolean} recurseFoundNodes=false Whether to recurse into found nodes to see if the condition also applies to sub-nodes of the found node.
+ * @param {Object} 		tree 						The tree.
+ * @param {function} 	condition 					The condition that a node should satisfy to end up in the list.
+ * @param {boolean} 	recurseFoundNodes=false 	Whether to recurse into found nodes to see if the condition also applies to
+ * sub-nodes of the found node.
  * If false, as soon as a node is found that satisfies the condition, it is added to the list and no further recursion is done through its children.
  * If true, the node is added to the list and its children are also checked for the condition.
  * If they satisfy the condition, they are also added to the list.
