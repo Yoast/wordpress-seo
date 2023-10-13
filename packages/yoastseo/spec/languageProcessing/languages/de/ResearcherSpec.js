@@ -9,7 +9,7 @@ import stopWords from "../../../../src/languageProcessing/languages/de/config/st
 import syllables from "../../../../src/languageProcessing/languages/de/config/syllables.json";
 import checkIfWordIsComplex from "../../../../src/languageProcessing/languages/de/helpers/checkIfWordIsComplex";
 import wordComplexityConfig from "../../../../src/languageProcessing/languages/de/config/wordComplexity";
-const morphologyDataDE = getMorphologyData( "de" );
+const premiumData = getMorphologyData( "de" );
 
 describe( "a test for the German Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -55,7 +55,7 @@ describe( "a test for the German Researcher", function() {
 	} );
 
 	it( "stems a word using the German stemmer", function() {
-		researcher.addResearchData( "morphology", morphologyDataDE );
+		researcher.addResearchData( "morphology", premiumData );
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "Katzen" ) ).toEqual( "Katz" );
 	} );
 
@@ -81,8 +81,8 @@ describe( "a test for the German Researcher", function() {
 	it( "checks if a word is complex in German", function() {
 		researcher.addHelper( "checkIfWordIsComplex", checkIfWordIsComplex );
 
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "optimierungen" ) ).toEqual( true );
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "boxen" ) ).toEqual( false );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "optimierungen", premiumData.de ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "boxen", premiumData.de ) ).toEqual( false );
 	} );
 
 	it( "checks if a word is a function word in German", function() {
