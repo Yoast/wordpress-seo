@@ -28,6 +28,7 @@ import { BlackFridayProductEditorChecklistPromotion } from "../BlackFridayProduc
 import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
+import { AiImageGenerator } from "../AiImageGenerator";
 
 const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
@@ -115,6 +116,9 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				{ settings.shouldUpsell && ! isTerm && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 23 }>
 					<InternalLinkingSuggestionsUpsell />
 				</SidebarItem> }
+				<SidebarItem key="ai-image-generator" renderPriority={ 24 }>
+					<AiImageGenerator />
+				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
 					<SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>
 						<MetaboxCollapsible
