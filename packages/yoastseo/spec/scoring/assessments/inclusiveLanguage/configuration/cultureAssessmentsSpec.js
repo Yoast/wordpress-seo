@@ -762,20 +762,6 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should return the appropriate score and feedback string for: 'ebonics'", () => {
-		const testData = [
-			{
-				identifier: "ebonics",
-				text: "White North Americans do not always understand Ebonics.",
-				expectedFeedback: "Avoid using <i>Ebonics</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>African American English, African American Language</i>. " +
-					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-		];
-
-		testInclusiveLanguageAssessments( testData );
-	} );
 	it( "should return the appropriate score and feedback string for: 'low man on the totem pole'", () => {
 		const testData = [
 			{
