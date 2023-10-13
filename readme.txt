@@ -348,8 +348,8 @@ We've just released Yoast SEO 21.4. In this release, we've focused on general en
 
 #### Enhancements
 
-* Improves the keyphrase matching in the _keyphrase density_ assessment.
 * Introduces more robust HTML processing and highlighting for the _keyphrase density_ and _single H1_ assessments.
+* Improves the keyphrase matching in the _keyphrase density_ assessment.
 * Improves keyphrase matching in Japanese by being able to match keyphrase occurrences that contain upper case characters.
 * Updates the list of HTML elements that should be excluded from the content analysis.
 * Improves performance in getting the primary term. Props to [nlemoine](https://github.com/nlemoine).
