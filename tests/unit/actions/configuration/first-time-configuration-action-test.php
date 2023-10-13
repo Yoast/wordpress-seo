@@ -117,7 +117,6 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'company_name'      => 'Acme Inc.',
 				'company_logo'      => 'https://acme.com/someimage.jpg',
 				'company_logo_id'   => 123,
-				'description'       => 'A nice tagline',
 			],
 			'times'                 => 6,
 			'yoast_options_results' => [ true, true, true, true, true, true ],
@@ -134,7 +133,6 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'person_logo'               => 'https://acme.com/someimage.jpg',
 				'person_logo_id'            => 123,
 				'company_or_person_user_id' => 321,
-				'description'               => 'A nice tagline',
 			],
 			'times'                 => 6,
 			'yoast_options_results' => [ true, true, true, true, true, true ],
@@ -142,25 +140,6 @@ class First_Time_Configuration_Action_Test extends TestCase {
 			'expected'              => (object) [
 				'success' => true,
 				'status'  => 200,
-			],
-		];
-
-		$success_person_failure_tagline = [
-			'params'                => [
-				'company_or_person'         => 'person',
-				'person_logo'               => 'https://acme.com/someimage.jpg',
-				'person_logo_id'            => 123,
-				'company_or_person_user_id' => 321,
-				'description'               => 'A tagline that will fail for some reason',
-			],
-			'times'                 => 6,
-			'yoast_options_results' => [ true, true, true, true, true, true ],
-			'wp_option_result'      => false,
-			'expected'              => (object) [
-				'success'  => false,
-				'status'   => 500,
-				'error'    => 'Could not save some options in the database',
-				'failures' => [ 'description' ],
 			],
 		];
 
@@ -172,7 +151,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'company_logo_id'   => 123,
 				'description'       => 'A nice tagline',
 			],
-			'times'                 => 6,
+			'times'                 => 7,
 			'yoast_options_results' => [ true, false, false, true, true, true ],
 			'wp_option_result'      => true,
 			'expected'              => (object) [
@@ -186,7 +165,6 @@ class First_Time_Configuration_Action_Test extends TestCase {
 		return [
 			'Successful call with company params'    => $success_company,
 			'Successful call with person params'     => $success_person,
-			'Person params with failing description' => $success_person_failure_tagline,
 			'Company params with some failures'      => $some_failures_company,
 		];
 	}
