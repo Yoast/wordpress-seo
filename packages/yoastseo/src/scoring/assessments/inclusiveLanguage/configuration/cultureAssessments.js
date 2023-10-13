@@ -242,15 +242,15 @@ const cultureAssessments = [
 	{
 		identifier: "gypsy",
 		nonInclusivePhrases: [ "gypsy", "gipsy" ],
-		inclusiveAlternatives: [ "<i>Romani, Romani person</i>", "<i>traveler, wanderer, free-spirited</i>" ],
+		inclusiveAlternatives: [ "<i>Rom, Roma person, Romani, Romani person</i>", "<i>traveler, wanderer, free-spirited</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, "If you are referring to a lifestyle rather than the ethnic group or " +
-						"their music, consider using an alternative such as %3$s." ].join( " " ),
+		"their music, consider using an alternative such as %3$s." ].join( " " ),
 	},
 	{
 		identifier: "gypsies",
 		nonInclusivePhrases: [ "gypsies", "gipsies" ],
-		inclusiveAlternatives: [ "<i>Romani, Romani people</i>", "<i>travelers, wanderers, free-spirited</i>" ],
+		inclusiveAlternatives: [ "<i>Roma, Romani, Romani people</i>", "<i>travelers, wanderers, free-spirited</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, "If you are referring to a lifestyle rather than the ethnic group or " +
 		"their music, consider using an alternative such as %3$s." ].join( " " ),
