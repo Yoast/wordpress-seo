@@ -48,6 +48,15 @@ describe( "Matching keyphrase in subheadings", () => {
 		expect( result.matches ).toBe( 0 );
 	} );
 
+	it( "should not match text that is also a shortcode", function() {
+		const paper = new Paper( "<h2 class=\"wp-block-heading\" id=\"h-what-is-a-console-log\">" +
+			"What is a [shortcode]</h2>A beautiful dog.", { keyword: "shortcode", shortcodes: [ "shortcode" ] } );
+
+		const result = matchKeywordInSubheadings( paper, new Researcher( paper ) );
+		expect( result.count ).toBe( 1 );
+		expect( result.matches ).toBe( 0 );
+	} );
+
 	// This unit test is skipped for now because it returns an incorrect result. Result.matches should return 0, instead it returns 1.
 	// When this research is adapted to use HTML Parser 5, please unskip this test and make sure that it passes.
 	xit( "should not match text within heading attributes", () => {

@@ -1,8 +1,8 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { isUndefined, map, merge } from "lodash-es";
+import { isUndefined, merge } from "lodash-es";
 
 import Assessment from "../assessment.js";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import marker from "../../../markers/addMark.js";
 import AssessmentResult from "../../../values/AssessmentResult.js";
 import Mark from "../../../values/Mark.js";
@@ -91,12 +91,17 @@ class SingleH1Assessment extends Assessment {
 	 * @returns {Array} Array with all the marked H1s.
 	 */
 	getMarks() {
-		const h1s = this._h1s;
-
-		return map( h1s, function( h1 ) {
+		return this._h1s.map( function( h1 ) {
 			return new Mark( {
 				original: "<h1>" + h1.content + "</h1>",
 				marked: "<h1>" + marker( h1.content ) + "</h1>",
+				position: {
+					startOffset: h1.position.startOffset,
+					endOffset: h1.position.endOffset,
+					startOffsetBlock: 0,
+					endOffsetBlock: h1.position.endOffset - h1.position.startOffset,
+					clientId: h1.position.clientId,
+				},
 			} );
 		} );
 	}

@@ -5,6 +5,8 @@
  * @package WPSEO\Inc
  */
 
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
+
 /**
  * Represents the addon manager.
  */
@@ -399,6 +401,15 @@ class WPSEO_Addon_Manager {
 		$subscription = $this->get_subscription( $plugin_data['slug'] );
 		if ( $subscription && $this->has_subscription_expired( $subscription ) ) {
 			$addon_link = ( isset( $this->addon_details[ $plugin_data['slug'] ] ) ) ? $this->addon_details[ $plugin_data['slug'] ]['short_link_renewal'] : $this->addon_details[ self::PREMIUM_SLUG ]['short_link_renewal'];
+
+			$sale_copy = '';
+			if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+				$sale_copy = sprintf(
+				/* translators: %1$s is a <br> tag. */
+					esc_html__( '%1$s Now with 30%% Black Friday Discount!', 'wordpress-seo' ),
+					'<br>'
+				);
+			}
 			echo '<br><br>';
 			echo '<strong><span class="yoast-dashicons-notice warning dashicons dashicons-warning"></span> ' .
 				sprintf(
@@ -407,7 +418,10 @@ class WPSEO_Addon_Manager {
 					esc_html( $plugin_data['name'] ),
 					'<a href="' . esc_url( WPSEO_Shortlinker::get( $addon_link ) ) . '">',
 					'</a>'
-				) . '</strong>';
+				) .
+			    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped above.
+				$sale_copy
+				. '</strong>';
 		}
 	}
 

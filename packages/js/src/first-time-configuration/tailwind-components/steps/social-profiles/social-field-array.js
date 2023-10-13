@@ -50,7 +50,12 @@ const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfi
 							data-index={ index }
 							onClick={ handleRemove }
 						>
-							<span className="yst-sr-only">{ __( "Delete item", "wordpress-seo" ) }</span>
+							<span className="yst-sr-only">
+								{
+									/* translators: Hidden accessibility text. */
+									__( "Delete item", "wordpress-seo" )
+								}
+							</span>
 							<TrashIcon className="yst-relative yst--top-0.5 yst-w-5 yst-h-5" />
 						</button>
 					</div>

@@ -3,6 +3,7 @@ import excludeTableOfContentsTag from "../helpers/sanitize/excludeTableOfContent
 import stripSomeTags from "../helpers/sanitize/stripNonTextTags";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../helpers";
 
 /**
  * Computes the amount of subheadings reflecting the topic.
@@ -44,6 +45,7 @@ export default function matchKeywordInSubheadings( paper, researcher ) {
 
 	let text = paper.getText();
 	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	text = stripSomeTags( excludeTableOfContentsTag( text ) );
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();

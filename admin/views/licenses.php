@@ -6,6 +6,8 @@
  * @since   5.1
  */
 
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
+
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -20,6 +22,7 @@ $premium_extension = [
 	'title'    => 'Yoast SEO Premium',
 	/* translators: %1$s expands to Yoast SEO */
 	'desc'     => sprintf( __( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ), 'Yoast SEO' ),
+	'image'    => plugin_dir_url( WPSEO_FILE ) . 'packages/js/images/Yoast_SEO_Icon.svg',
 	'benefits' => [],
 ];
 
@@ -122,8 +125,22 @@ $has_valid_premium_subscription = YoastSEO()->helpers->product->is_premium() && 
 $wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Yoast SEO' );
 $new_tab_message         = sprintf(
 	'<span class="screen-reader-text">%1$s</span>',
+	/* translators: Hidden accessibility text. */
 	esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' )
 );
+
+$sale_badge         = '';
+$premium_sale_badge = '';
+
+if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+	/* translators: %1$s expands to opening span, %2$s expands to closing span */
+	$sale_badge_span = sprintf( esc_html__( '%1$sSALE 30%% OFF!%2$s', 'wordpress-seo' ), '<span>', '</span>' );
+
+	$sale_badge = '<div class="yoast-seo-premium-extension-sale-badge">' . $sale_badge_span . '</div>';
+
+	$premium_sale_badge = ( $has_valid_premium_subscription ) ? '' : $sale_badge;
+
+}
 
 ?>
 
@@ -133,19 +150,18 @@ $new_tab_message         = sprintf(
 
 	<div id="extensions">
 		<section class="yoast-seo-premium-extension">
+			<?php echo $premium_sale_badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Output is already escaped ?>
 			<h2>
 				<?php
 				printf(
-					/* translators: 1: expands to a opening span tag, 2: expands to a closing span tag, 3: expands to Yoast SEO Premium */
-					esc_html__( '%1$sDrive more traffic to your site%2$s with %3$s', 'wordpress-seo' ),
-					'<span class="yoast-heading-highlight">',
-					'</span>',
+					/* translators: 1: expands to Yoast SEO Premium */
+					esc_html__( 'Drive more traffic to your site with %1$s', 'wordpress-seo' ),
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 					$premium_extension['title']
 				);
 				?>
+				<img alt="" width="100" height="100" src="<?php echo esc_url( $premium_extension['image'] ); ?>"/>
 			</h2>
-
 			<?php
 			if ( ! $has_valid_premium_subscription ) :
 				?>
@@ -283,6 +299,9 @@ $new_tab_message         = sprintf(
 				}
 				?>
 				<section class="yoast-promoblock secondary yoast-promo-extension">
+					<?php if ( ! $addon_manager->has_valid_subscription( $slug ) || ! $addon_manager->is_installed( $slug ) ) : ?>
+						<?php echo $sale_badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Output already escaped ?>
+					<?php endif; ?>
 					<h3>
 						<img alt="" width="100" height="100" src="<?php echo esc_url( $extension['image'] ); ?>"/>
 						<?php echo esc_html( $extension['display_title'] ); ?>

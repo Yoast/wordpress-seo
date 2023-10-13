@@ -122,6 +122,7 @@ const Header = ( props ) => {
 	return <FieldGroup
 		label={ props.helpTextTitle }
 		linkTo={ props.helpTextLink }
+		/* translators: Hidden accessibility text. */
 		linkText={ __( "Learn more about structured data with Schema.org", "wordpress-seo" ) }
 		description={ props.helpTextDescription }
 	/>;
@@ -181,6 +182,7 @@ const Content = ( props ) => {
 			<FieldGroup
 				label={ __( "What type of page or content is this?", "wordpress-seo" ) }
 				linkTo={ props.additionalHelpTextLink }
+				/* translators: Hidden accessibility text. */
 				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
 			/>
 			{ woocommerceUpsell && <WooCommerceUpsell link={ woocommerceUpsellLink } text={ woocommerceUpsellText } /> }

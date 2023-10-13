@@ -78,7 +78,10 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, upsellLi
 					<LockOpenIcon className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5" />
 					{ __( "Unlock with Premium", "wordpress-seo" ) }
 					<span className="yst-sr-only">
-						{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }
+						{
+							/* translators: Hidden accessibility text. */
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
 					</span>
 				</Button>
 			</div>

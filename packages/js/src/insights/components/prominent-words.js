@@ -98,7 +98,7 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 			<DataModel
 				data={ data }
 				itemScreenReaderText={
-					// translators: %d expands to the number of occurrences.
+					/* translators: Hidden accessibility text; %d expands to the number of occurrences. */
 					__( "%d occurrences", "wordpress-seo" )
 				}
 				aria-label={ __( "Prominent words", "wordpress-seo" ) }

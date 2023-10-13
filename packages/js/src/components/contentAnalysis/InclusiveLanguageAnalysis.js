@@ -74,7 +74,10 @@ const InclusiveLanguageAnalysis = ( props ) => {
 						className="dashicons"
 					>
 						<span className="screen-reader-text">
-							{ __( "Learn more about the inclusive language analysis", "wordpress-seo" ) }
+							{
+								/* translators: Hidden accessibility text. */
+								__( "Learn more about the inclusive language analysis", "wordpress-seo" )
+							}
 						</span>
 					</StyledHelpLink>
 				</AnalysisHeader>
@@ -137,7 +140,10 @@ const InclusiveLanguageAnalysis = ( props ) => {
 						className="dashicons"
 					>
 						<span className="screen-reader-text">
-							{ __( "Learn more about the inclusive language analysis", "wordpress-seo" ) }
+							{
+								/* translators: Hidden accessibility text. */
+								__( "Learn more about the inclusive language analysis", "wordpress-seo" )
+							}
 						</span>
 					</StyledHelpLink>
 				</AnalysisHeader>

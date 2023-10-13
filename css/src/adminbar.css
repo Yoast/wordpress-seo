@@ -21,13 +21,35 @@
 	color: #fff !important;
 }
 
+#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium span {
+	color: rgb(252, 211, 77);
+	border: solid rgb(252, 211, 77) 1px;
+	font-size: 13px;
+	font-weight: 600;
+	background: rgb(31, 41, 55);
+	padding: 1px 4px;
+	border-radius: 14px;
+}
+
+#wpadminbar .yoast-menu-bf-sale-badge{
+    margin-left: 5px;
+    border-radius: 8px;
+    border: 1px solid #FCD34D;
+    background-color: #1F2937;
+    color: #FCD34D;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: normal;
+}
+
 #wpadminbar .quicklinks #wp-admin-bar-wpseo-menu .wpseo-focus-keyword {
 	max-width: 100px !important;
 	display: inline-block !important;
 	text-overflow: ellipsis !important;
 	white-space: nowrap;
 	overflow: hidden;
-	vertical-align: bottom;                                                                       
+	vertical-align: bottom;
 }
 
 #wpadminbar .yoast-badge {

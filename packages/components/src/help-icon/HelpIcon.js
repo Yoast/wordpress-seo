@@ -46,8 +46,13 @@ const HelpIcon = ( { linkTo, linkText } ) => (
 				/>
 			</svg>
 		</span>
-		<span className="screen-reader-text">{ __( linkText, "wordpress-seo" ) }</span>
-		<span className="screen-reader-text">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
+		<span className="screen-reader-text">{ linkText }</span>
+		<span className="screen-reader-text">
+			{
+				/* translators: Hidden accessibility text. */
+				__( "(Opens in a new browser tab)", "wordpress-seo" )
+			}
+		</span>
 	</a>
 );
 

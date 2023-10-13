@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
+
 /**
  * Class WPSEO_Premium_Upsell_Admin_Block
  */
@@ -66,7 +68,8 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		$class = $this->get_html_class();
 
 		/* translators: %s expands to Yoast SEO Premium */
-		$button_text  = sprintf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		$button_text = YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ? \esc_html__( 'Claim your 30% off now!', 'wordpress-seo' ) : sprintf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		/* translators: Hidden accessibility text. */
 		$button_text .= '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
 			'<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 
@@ -79,7 +82,14 @@ class WPSEO_Premium_Upsell_Admin_Block {
 
 		echo '<div class="' . esc_attr( $class ) . '">';
 
-		echo '<div>';
+		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+			$bf_label   = \esc_html__( 'BLACK FRIDAY', 'wordpress-seo' );
+			$sale_label = \esc_html__( '30% OFF', 'wordpress-seo' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped above.
+			echo "<div class='black-friday-container'><span>$bf_label</span> <span style='margin-left: auto;'>$sale_label</span> </div>";
+		}
+
+		echo '<div class="' . esc_attr( $class . '--container' ) . '">';
 		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' .
 			sprintf(
 				/* translators: %s expands to Yoast SEO Premium */

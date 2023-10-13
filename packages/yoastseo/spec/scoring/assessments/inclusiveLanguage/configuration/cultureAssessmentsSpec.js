@@ -320,8 +320,9 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			{
 				identifier: "gypsy",
 				text: "In North America, the word Gypsy is most commonly used as a reference to Romani ethnicity.",
-				expectedFeedback: "Be careful when using <i>gypsy</i> as it is potentially harmful. Consider using an alternative, such as " +
-					"<i>Romani, Romani person</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+				expectedFeedback: "Be careful when using <i>gypsy</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>Rom, Roma person, Romani, Romani person</i>, " +
+					"unless referring to someone who explicitly wants to be referred to with this term. " +
 					"If you are referring to a lifestyle rather than the ethnic group or their music, consider using " +
 					"an alternative such as <i>traveler, wanderer, free-spirited</i>." +
 					" <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
@@ -330,8 +331,9 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			{
 				identifier: "gypsy",
 				text: "In North America, the word Gipsy is most commonly used as a reference to Romani ethnicity.",
-				expectedFeedback: "Be careful when using <i>gipsy</i> as it is potentially harmful. Consider using an alternative, such as " +
-					"<i>Romani, Romani person</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+				expectedFeedback: "Be careful when using <i>gipsy</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>Rom, Roma person, Romani, Romani person</i>, " +
+					"unless referring to someone who explicitly wants to be referred to with this term. " +
 					"If you are referring to a lifestyle rather than the ethnic group or their music, consider using " +
 					"an alternative such as <i>traveler, wanderer, free-spirited</i>." +
 					" <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
@@ -341,7 +343,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 				identifier: "gypsies",
 				text: "In the English language, the Romani people are widely known by the exonym Gypsies.",
 				expectedFeedback: "Be careful when using <i>gypsies</i> as it is potentially harmful. Consider using an alternative, " +
-					"such as <i>Romani, Romani people</i>, unless referring to someone who explicitly wants to be referred to " +
+					"such as <i>Roma, Romani, Romani people</i>, unless referring to someone who explicitly wants to be referred to " +
 					"with this term. If you are referring to a lifestyle rather than the ethnic group or their music, " +
 					"consider using an alternative such as <i>travelers, wanderers, free-spirited</i>. " +
 					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
@@ -351,7 +353,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 				identifier: "gypsies",
 				text: "In the English language, the Romani people are widely known by the exonym Gipsies.",
 				expectedFeedback: "Be careful when using <i>gipsies</i> as it is potentially harmful. Consider using an alternative, " +
-					"such as <i>Romani, Romani people</i>, unless referring to someone who explicitly wants to be referred to " +
+					"such as <i>Roma, Romani, Romani people</i>, unless referring to someone who explicitly wants to be referred to " +
 					"with this term. If you are referring to a lifestyle rather than the ethnic group or their music, " +
 					"consider using an alternative such as <i>travelers, wanderers, free-spirited</i>. " +
 					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
@@ -753,20 +755,6 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 				text: "The whole set up was primitive.",
 				expectedFeedback: "Avoid using <i>primitive</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>early, rudimentary</i>. " +
-					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-		];
-
-		testInclusiveLanguageAssessments( testData );
-	} );
-	it( "should return the appropriate score and feedback string for: 'ebonics'", () => {
-		const testData = [
-			{
-				identifier: "ebonics",
-				text: "White North Americans do not always understand Ebonics.",
-				expectedFeedback: "Avoid using <i>Ebonics</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>African American English, African American Language</i>. " +
 					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},

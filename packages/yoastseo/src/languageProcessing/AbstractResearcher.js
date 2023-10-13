@@ -12,7 +12,7 @@ import findTransitionWords from "./researches/findTransitionWords";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
 import getAnchorsWithKeyphrase from "./researches/getAnchorsWithKeyphrase";
 import getFleschReadingScore from "./researches/getFleschReadingScore";
-import getKeywordDensity from "./researches/getKeywordDensity.js";
+import getKeyphraseDensity, { getKeywordDensity } from "./researches/getKeywordDensity.js";
 import getLinks from "./researches/getLinks.js";
 import getLinkStatistics from "./researches/getLinkStatistics";
 import getParagraphs from "./researches/getParagraphs";
@@ -25,7 +25,7 @@ import getSubheadingTextLengths from "./researches/getSubheadingTextLengths.js";
 import h1s from "./researches/h1s";
 import imageCount from "./researches/imageCount.js";
 import keyphraseLength from "./researches/keyphraseLength";
-import keywordCount from "./researches/keywordCount";
+import getKeyphraseCount, { keywordCount } from "./researches/keywordCount";
 import { keywordCountInSlug, keywordCountInUrl } from "./researches/keywordCountInUrl";
 import matchKeywordInSubheadings from "./researches/matchKeywordInSubheadings";
 import metaDescriptionKeyword from "./researches/metaDescriptionKeyword";
@@ -63,6 +63,8 @@ export default class AbstractResearcher {
 			functionWordsInKeyphrase,
 			getAnchorsWithKeyphrase,
 			getFleschReadingScore,
+			getKeyphraseCount,
+			getKeyphraseDensity,
 			getKeywordDensity,
 			getLinks,
 			getLinkStatistics,
