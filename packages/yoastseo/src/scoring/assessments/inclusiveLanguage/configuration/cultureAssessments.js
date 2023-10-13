@@ -6,6 +6,7 @@ import {
 	potentiallyHarmfulUnless,
 	harmfulNonInclusive,
 	harmfulPotentiallyNonInclusive,
+	potentiallyHarmfulUnlessAnimalsObjects,
 } from "./feedbackStrings";
 
 /*
@@ -112,8 +113,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "oriental" ],
 		inclusiveAlternatives: "<i>Asian</i>. When possible, be more specific (e.g. <i>East Asian</i>)",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: harmfulPotentiallyNonInclusive + " Unless you are referring to objects or animals, " +
-			"consider using an alternative, such as %2$s.",
+		feedbackFormat: potentiallyHarmfulUnlessAnimalsObjects,
 	},
 	{
 		identifier: "asianAmerican",
