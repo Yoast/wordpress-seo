@@ -382,6 +382,7 @@ const TableContent = ( props ) => {
 			return [];
 		}
 		return Object.values( trackedKeyphrases )
+			.filter( keyphrase => !! keyphrase?.position?.history )
 			.map( keyphrase => ( {
 				label: keyphrase.keyword,
 				data: keyphrase.position.history,

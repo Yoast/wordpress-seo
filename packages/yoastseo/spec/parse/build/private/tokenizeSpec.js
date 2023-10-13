@@ -477,6 +477,30 @@ describe( "A test for the tokenize function",
 				name: "#document-fragment",
 			} );
 		} );
+
+		it( "should correctly tokenize a paragraph with single br tags", function() {
+			const mockPaper = new Paper( "<p>This is a sentence.<br />This is<br>another sentence.</p>" );
+			const mockResearcher = new EnglishResearcher( mockPaper );
+			const languageProcessor = new LanguageProcessor( mockResearcher );
+			buildTreeNoTokenize( mockPaper );
+			const result = tokenize( mockPaper.getTree(), languageProcessor );
+			const sentences = result.childNodes[ 0 ].sentences;
+			expect( sentences.length ).toEqual( 2 );
+			const firstSentence = sentences[ 0 ];
+			expect( firstSentence.text ).toEqual( "This is a sentence." );
+			expect( firstSentence.sourceCodeRange ).toEqual( { startOffset: 3, endOffset: 22 } );
+			expect( firstSentence.tokens.length ).toEqual( 8 );
+			const secondSentence = sentences[ 1 ];
+			expect( secondSentence.text ).toEqual( "\nThis is\nanother sentence." );
+			expect( secondSentence.sourceCodeRange ).toEqual( { startOffset: 27, endOffset: 56 } );
+			expect( secondSentence.tokens.length ).toEqual( 9 );
+			const [ br1, this1, , is1, br2, another1, , , ] = secondSentence.tokens;
+			expect( br1.sourceCodeRange ).toEqual( { startOffset: 27, endOffset: 28 } );
+			expect( this1.sourceCodeRange ).toEqual( { startOffset: 28, endOffset: 32 } );
+			expect( is1.sourceCodeRange ).toEqual( { startOffset: 33, endOffset: 35 } );
+			expect( br2.sourceCodeRange ).toEqual( { startOffset: 38, endOffset: 39 } );
+			expect( another1.sourceCodeRange ).toEqual( { startOffset: 39, endOffset: 46 } );
+		} );
 	} );
 
 describe( "A test for tokenizing a Japanese sentence", function() {
