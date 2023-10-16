@@ -330,7 +330,7 @@ const cultureAssessments = [
 	{
 		identifier: "firstWorldCountries",
 		nonInclusivePhrases: [ "first world countries" ],
-		inclusiveAlternatives: "the specific name for the countries or regions",
+		inclusiveAlternatives: "the specific name for the regions or countries",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},

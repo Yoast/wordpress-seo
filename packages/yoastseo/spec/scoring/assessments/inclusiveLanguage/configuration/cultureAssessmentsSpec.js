@@ -558,7 +558,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using <i>first world countries</i> as it is potentially harmful. Consider using an alternative, " +
-			"such as the specific name for the countries or regions. " +
+			"such as the specific name for the regions or countries. " +
 			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
@@ -827,7 +827,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 				identifier: "firstWorldCountries",
 				text: "It's natural that one would choose one of the first world countries to raise a child.",
 				expectedFeedback: "Avoid using <i>first world countries</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as the specific name for the countries or regions. " +
+					"Consider using an alternative, such as the specific name for the regions or countries. " +
 					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
