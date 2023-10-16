@@ -165,7 +165,7 @@ const CrawlOptimization = () => {
 		blockUnwantedBots: createInterpolateElement(
 			sprintf(
 				/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-				__( "Lots of web traffic comes from bots crawling the web. Some can benefit your site or business, while other bots don’t. Blocking unwanted bots can save energy, help with site performance, and protect copyrighted content. Read our %1$shelp article on when to block unwanted bots%2$s.", "wordpress-seo" ),
+				__( "Lots of web traffic comes from bots crawling the web. Some can benefit your site or business, while other bots don’t. Blocking unwanted bots can save energy, help with site performance, and protect copyrighted content. Learn more about %1$swhen to block unwanted bots%2$s.", "wordpress-seo" ),
 				"<a>",
 				"</a>"
 			),
