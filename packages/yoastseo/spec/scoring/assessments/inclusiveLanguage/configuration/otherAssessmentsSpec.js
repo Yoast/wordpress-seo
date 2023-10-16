@@ -144,9 +144,10 @@ describe( "Checks highlighting for 'minorities' and a non-triggering condition f
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>minorities</i> as it is potentially overgeneralizing. " +
-			"Consider using an alternative, such as <i>marginalized groups</i>, <i>underrepresented groups</i> or " +
-			"specific minorities, such as <i>gender and sexuality minorities</i>. " +
+			"Be careful when using <i>minorities</i> as it is potentially harmful. Consider using an alternative by being " +
+			"specific about which group(s) of people you are referring to. For example: <i>members of the LGBTQ+ community</i>, " +
+			"<i>Indigenous peoples</i>, <i>marginalized groups</i>. In case an alternative is not available, make sure to specify the type of " +
+			"minorities you are referring to, e.g., <i>religious minorities</i>. " +
 			"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {

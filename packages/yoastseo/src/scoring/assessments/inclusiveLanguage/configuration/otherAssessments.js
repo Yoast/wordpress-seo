@@ -1,14 +1,16 @@
 import { SCORES } from "./scores";
-import { potentiallyHarmfulUnlessAnimalsObjects } from "./feedbackStrings";
+import { harmfulPotentiallyNonInclusive, potentiallyHarmfulUnlessAnimalsObjects } from "./feedbackStrings";
 
 const otherAssessments = [
 	{
 		identifier: "minorities",
 		nonInclusivePhrases: [ "minorities" ],
-		inclusiveAlternatives: [ "<i>marginalized groups</i>", "<i>underrepresented groups</i>", "<i>gender and sexuality minorities</i>" ],
+		inclusiveAlternatives: [ "<i>members of the LGBTQ+ community</i>", "<i>Indigenous peoples</i>", "<i>marginalized groups</i>",
+			"<i>religious minorities</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially overgeneralizing. " +
-			"Consider using an alternative, such as %2$s, %3$s or specific minorities, such as %4$s.",
+		feedbackFormat: [ harmfulPotentiallyNonInclusive, "Consider using an alternative" +
+			" by being specific about which group(s) of people you are referring to. For example: %2$s, %3$s, %4$s. " +
+			"In case an alternative is not available, make sure to specify the type of minorities you are referring to, e.g., %5$s." ].join( " " ),
 	},
 	{
 		identifier: "normal",
