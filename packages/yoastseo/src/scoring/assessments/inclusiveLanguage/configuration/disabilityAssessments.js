@@ -1,6 +1,5 @@
 import {
 	potentiallyHarmful,
-	potentiallyHarmfulCareful,
 	potentiallyHarmfulUnless,
 	harmfulPotentiallyNonInclusive,
 	alternative,
@@ -155,8 +154,8 @@ const disabilityAssessments =  [
 		identifier: "daft",
 		nonInclusivePhrases: [ "daft" ],
 		inclusiveAlternatives: "<i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>",
-		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulCareful,
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
 	},
 	{
 		identifier: "handicapped",
@@ -575,8 +574,10 @@ const disabilityAssessments =  [
 			"<i>selfish, egotistical, self-centered, self-absorbed, vain, toxic, manipulative</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. If you are referencing the " +
-			"medical condition, use %2$s instead. If you are not referencing the medical condition, consider other" +
-			" alternatives to describe the trait or behavior, such as %3$s.",
+			"medical condition, use %2$s instead, unless referring to someone who explicitly wants to be referred to with this term." +
+			" If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %3$s.",
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "personality disorder" ] ) ),
 	},
 	{
 		identifier: "OCD",

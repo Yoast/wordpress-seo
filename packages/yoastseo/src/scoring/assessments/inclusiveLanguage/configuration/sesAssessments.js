@@ -1,4 +1,4 @@
-import { potentiallyHarmful, potentiallyHarmfulCareful, potentiallyHarmfulUnless } from "./feedbackStrings";
+import { potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
@@ -64,15 +64,15 @@ const sesAssessments = [
 		identifier: "felon",
 		nonInclusivePhrases: [ "felon" ],
 		inclusiveAlternatives: "<i>person with felony convictions, person who has been incarcerated</i>",
-		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulCareful,
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
 	},
 	{
 		identifier: "felons",
 		nonInclusivePhrases: [ "felons" ],
 		inclusiveAlternatives: "<i>people with felony convictions, people who have been incarcerated</i>",
-		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulCareful,
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
 	},
 	{
 		identifier: "ex-offender",
