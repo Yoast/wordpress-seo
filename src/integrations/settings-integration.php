@@ -90,6 +90,9 @@ class Settings_Integration implements Integration_Interface {
 			'deny_search_crawling',
 			'deny_wp_json_crawling',
 			'deny_adsbot_crawling',
+			'deny_ccbot_crawling',
+			'deny_google_extended_crawling',
+			'deny_gptbot_crawling',
 		],
 	];
 
@@ -458,6 +461,7 @@ class Settings_Integration implements Integration_Interface {
 			'isRtl'                         => \is_rtl(),
 			'isNetworkAdmin'                => \is_network_admin(),
 			'isMainSite'                    => \is_main_site(),
+			'isMultisite'                   => \is_multisite(),
 			'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
 			'isLocalSeoActive'              => \defined( 'WPSEO_LOCAL_FILE' ),
 			'isNewsSeoActive'               => \defined( 'WPSEO_NEWS_FILE' ),
