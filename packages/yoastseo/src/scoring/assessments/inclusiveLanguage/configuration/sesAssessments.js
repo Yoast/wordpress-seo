@@ -91,9 +91,9 @@ const sesAssessments = [
 	{
 		identifier: "theHomeless",
 		nonInclusivePhrases: [ "the homeless" ],
-		inclusiveAlternatives: "<i>people experiencing homelessness </i>",
+		inclusiveAlternatives: "<i>people experiencing homelessness</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>%1$s</i> as it is generalizing. Consider using %2$s instead.",
+		feedbackFormat: potentiallyHarmful,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
@@ -102,9 +102,9 @@ const sesAssessments = [
 	{
 		identifier: "theUndocumented",
 		nonInclusivePhrases: [ "the undocumented" ],
-		inclusiveAlternatives: "<i>people who are undocumented, undocumented people, people without papers </i>",
+		inclusiveAlternatives: "<i>people who are undocumented, undocumented people, people without papers</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially overgeneralizing. Consider using %2$s instead.",
+		feedbackFormat: potentiallyHarmful,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
@@ -113,9 +113,9 @@ const sesAssessments = [
 	{
 		identifier: "thePoor",
 		nonInclusivePhrases: [ "the poor" ],
-		inclusiveAlternatives: [ "people whose income is below the poverty threshold", "people with low-income" ],
+		inclusiveAlternatives: "<i>people whose income is below the poverty threshold, people with low-income</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially overgeneralizing. Consider using <i>%2$s</i> or <i>%3$s</i> instead.",
+		feedbackFormat: potentiallyHarmful,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );

@@ -898,7 +898,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		];
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should not show the feedback for the non-negated form of 'crazy about' when the negated form is used.", () => {
+	it( "should not show the feedback for the negated form of 'crazy about' when the non-negated form is used.", () => {
 		const mockPaper = new Paper( "I am so crazy about this album." );
 		const mockResearcher = Factory.buildMockResearcher( [ "I am so crazy about this album." ] );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "to be not crazy about" ) );
@@ -1211,8 +1211,8 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			{
 				identifier: "theMentallyIll",
 				text: "There is growing compassion for the mentally ill.",
-				expectedFeedback: "Avoid using <i>the mentally ill</i> as it is generalizing. Consider using an alternative, " +
-					"such as <i>people who are mentally ill</i>, <i>mentally ill people</i> instead. " +
+				expectedFeedback: "Avoid using <i>the mentally ill</i> as it is potentially harmful. Consider using an alternative," +
+					" such as <i>people who are mentally ill</i>, <i>mentally ill people</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},

@@ -55,14 +55,16 @@ describe( "A test for Culture Assessments", () => {
 	} );
 } );
 
+// eslint-disable-next-line max-statements
 describe( "a test for targeting non-inclusive phrases in culture assessments", () => {
 	it( "should return the appropriate score and feedback string for: 'Third World'", () => {
 		const testData = [
 			{
 				identifier: "thirdWorld",
 				text: "There are bigger problems in the Third World.",
-				expectedFeedback: "Avoid using <i>Third World</i> as it is overgeneralizing. Consider using the specific name for the region " +
-					"or country instead.  <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedFeedback: "Avoid using <i>Third World</i> as it is potentially harmful. Consider using an alternative," +
+					" such as the specific name for the region or country." +
+					" <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 		];
@@ -533,7 +535,8 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 		const assessmentResult = assessor.getResult();
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>first-world</i> as it is overgeneralizing. Consider using the specific name for the country or region instead.  " +
+			"Avoid using <i>first-world</i> as it is potentially harmful. Consider using an alternative," +
+			" such as the specific name for the country or region. " +
 			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
@@ -554,8 +557,8 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 		const assessmentResult = assessor.getResult();
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>first world countries</i> as it is overgeneralizing. " +
-			"Consider using the specific name for the countries or regions instead.  " +
+			"Avoid using <i>first world countries</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as the specific name for the countries or regions. " +
 			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
@@ -823,8 +826,8 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			{
 				identifier: "firstWorldCountries",
 				text: "It's natural that one would choose one of the first world countries to raise a child.",
-				expectedFeedback: "Avoid using <i>first world countries</i> as it is overgeneralizing. " +
-					"Consider using the specific name for the countries or regions instead.  " +
+				expectedFeedback: "Avoid using <i>first world countries</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as the specific name for the countries or regions. " +
 					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
