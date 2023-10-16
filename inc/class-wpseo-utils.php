@@ -929,7 +929,7 @@ class WPSEO_Utils {
 			$data = apply_filters( 'wpseo_debug_json_data', $data );
 		}
 
-		// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_wp_json_encodeWithAdditionalParams -- This is the definition of format_json_encode.
+		// phpcs:ignore Yoast.Yoast.JsonEncodeAlternative.FoundWithAdditionalParams -- This is the definition of format_json_encode.
 		return wp_json_encode( $data, $flags );
 	}
 
