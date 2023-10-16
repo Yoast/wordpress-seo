@@ -87,6 +87,10 @@ class First_Time_Configuration_Action_Test extends TestCase {
 			->times( $times )
 			->andReturn( ...$yoast_options_results );
 
+			$this->options_helper
+				->expects( 'get' )
+				->times( \count( $this->instance::SITE_REPRESENTATION_FIELDS ) );
+
 		Monkey\Functions\expect( 'current_user_can' )
 			->with( 'manage_options' )
 			->andReturnTrue();
@@ -113,7 +117,6 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'company_name'      => 'Acme Inc.',
 				'company_logo'      => 'https://acme.com/someimage.jpg',
 				'company_logo_id'   => 123,
-				'description'       => 'A nice tagline',
 			],
 			'times'                 => 6,
 			'yoast_options_results' => [ true, true, true, true, true, true ],
@@ -130,7 +133,6 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'person_logo'               => 'https://acme.com/someimage.jpg',
 				'person_logo_id'            => 123,
 				'company_or_person_user_id' => 321,
-				'description'               => 'A nice tagline',
 			],
 			'times'                 => 6,
 			'yoast_options_results' => [ true, true, true, true, true, true ],
@@ -138,25 +140,6 @@ class First_Time_Configuration_Action_Test extends TestCase {
 			'expected'              => (object) [
 				'success' => true,
 				'status'  => 200,
-			],
-		];
-
-		$success_person_failure_tagline = [
-			'params'                => [
-				'company_or_person'         => 'person',
-				'person_logo'               => 'https://acme.com/someimage.jpg',
-				'person_logo_id'            => 123,
-				'company_or_person_user_id' => 321,
-				'description'               => 'A tagline that will fail for some reason',
-			],
-			'times'                 => 6,
-			'yoast_options_results' => [ true, true, true, true, true, true ],
-			'wp_option_result'      => false,
-			'expected'              => (object) [
-				'success'  => false,
-				'status'   => 500,
-				'error'    => 'Could not save some options in the database',
-				'failures' => [ 'description' ],
 			],
 		];
 
@@ -168,7 +151,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'company_logo_id'   => 123,
 				'description'       => 'A nice tagline',
 			],
-			'times'                 => 6,
+			'times'                 => 7,
 			'yoast_options_results' => [ true, false, false, true, true, true ],
 			'wp_option_result'      => true,
 			'expected'              => (object) [
@@ -182,7 +165,6 @@ class First_Time_Configuration_Action_Test extends TestCase {
 		return [
 			'Successful call with company params'    => $success_company,
 			'Successful call with person params'     => $success_person,
-			'Person params with failing description' => $success_person_failure_tagline,
 			'Company params with some failures'      => $some_failures_company,
 		];
 	}
@@ -195,9 +177,10 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 * @dataProvider social_profiles_provider
 	 *
 	 * @param array  $set_profiles_results The expected results for set_organization_social_profiles().
+	 * @param array  $get_profiles_results The expected results for get_organization_social_profile_fields().
 	 * @param object $expected             The expected result object.
 	 */
-	public function test_set_social_profiles( $set_profiles_results, $expected ) {
+	public function test_set_social_profiles( $set_profiles_results, $get_profiles_results, $expected ) {
 		$params = [
 			'param1',
 			'param2',
@@ -208,6 +191,15 @@ class First_Time_Configuration_Action_Test extends TestCase {
 			->with( $params )
 			->once()
 			->andReturn( $set_profiles_results );
+
+		$this->social_profiles_helper
+			->expects( 'get_organization_social_profile_fields' )
+			->once()
+			->andReturn( $get_profiles_results );
+
+		$this->options_helper
+			->expects( 'get' )
+			->times( \count( $get_profiles_results ) );
 
 		$this->assertEquals(
 			$expected,
@@ -223,6 +215,11 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	public function social_profiles_provider() {
 		$success_all = [
 			'set_profiles_results' => [],
+			'get_profiles_results' => [
+				'facebook_site'     => 'get_non_valid_url',
+				'twitter_site'      => 'get_non_valid_twitter',
+				'other_social_urls' => 'get_non_valid_url_array',
+			],
 			'expected'             => (object) [
 				'success' => true,
 				'status'  => 200,
@@ -231,6 +228,11 @@ class First_Time_Configuration_Action_Test extends TestCase {
 
 		$success_some = [
 			'set_profiles_results' => [ 'param1' ],
+			'get_profiles_results' => [
+				'facebook_site'     => 'get_non_valid_url',
+				'twitter_site'      => 'get_non_valid_twitter',
+				'other_social_urls' => 'get_non_valid_url_array',
+			],
 			'expected'             => (object) [
 				'success'  => false,
 				'status'   => 200,
@@ -241,6 +243,11 @@ class First_Time_Configuration_Action_Test extends TestCase {
 
 		$success_none = [
 			'yoast_options_results' => [ 'param1', 'param2' ],
+			'get_profiles_results'  => [
+				'facebook_site'     => 'get_non_valid_url',
+				'twitter_site'      => 'get_non_valid_twitter',
+				'other_social_urls' => 'get_non_valid_url_array',
+			],
 			'expected'              => (object) [
 				'success'  => false,
 				'status'   => 200,

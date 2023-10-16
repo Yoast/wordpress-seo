@@ -98,6 +98,7 @@ function InstallationSuccessPage() {
 								id="installation-successful-configuration-link"
 								href={ window.wpseoInstallationSuccess.firstTimeConfigurationUrl }
 								className="yst-inline-flex yst-items-center yst-w-full yst-justify-center yst-no-underline yst-px-6 yst-py-3 yst-border yst-border-transparent yst-text-base yst-font-medium yst-rounded-md yst-shadow-none yst-text-primary-500 yst-bg-white hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-white yst-ring-offset-2 yst-ring-offset-primary-500"
+								data-hiive-event-name="clicked_start_first_time_configuration"
 							>
 								{ __( "Start first-time configuration!", "wordpress-seo" ) }
 								<svg
@@ -117,7 +118,12 @@ function InstallationSuccessPage() {
 							</a>
 						</div>
 					</div>
-					<a id="installation-success-skip-link" className="yst-bottom-12 yst-right-0 yst-mr-5 yst-self-end yst-text-base md:yst-absolute" href={ "/wp-admin/admin.php?page=wpseo_dashboard" }>
+					<a
+						id="installation-success-skip-link"
+						className="yst-bottom-12 yst-right-0 yst-mr-5 yst-self-end yst-text-base md:yst-absolute"
+						href={ "/wp-admin/admin.php?page=wpseo_dashboard" }
+						data-hiive-event-name="clicked_skip_button | installation successful screen"
+					>
 						{
 							/* translators: %s expands to ' »'. */
 							sprintf( __( "Skip%s", "wordpress-seo" ), " »" )

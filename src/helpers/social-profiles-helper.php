@@ -65,7 +65,7 @@ class Social_Profiles_Helper {
 		 */
 		$person_social_profile_fields = \apply_filters( 'wpseo_person_social_profile_fields', $this->person_social_profile_fields );
 
-		return $person_social_profile_fields;
+		return (array) $person_social_profile_fields;
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Social_Profiles_Helper {
 		 */
 		$organization_social_profile_fields = \apply_filters( 'wpseo_organization_social_profile_fields', $this->organization_social_profile_fields );
 
-		return $organization_social_profile_fields;
+		return (array) $organization_social_profile_fields;
 	}
 
 	/**

@@ -44,11 +44,12 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 			"</a>"
 
 		),
-		{   // eslint-disable-next-line jsx-a11y/anchor-has-content
+		{	// eslint-disable-next-line jsx-a11y/anchor-has-content
 			a: <a
 				id="yoast-configuration-person-social-profiles-user-link"
 				href={ window.wpseoScriptData.userEditUrl.replace( "{user_id}", state.personId ) }
 				target="_blank" rel="noopener noreferrer"
+				data-hiive-event-name="clicked_update_or_add_profile | social profiles"
 			/>,
 		} );
 
