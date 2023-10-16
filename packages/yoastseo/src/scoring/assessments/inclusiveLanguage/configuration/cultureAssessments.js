@@ -337,7 +337,7 @@ const cultureAssessments = [
 	{
 		identifier: "firstWorldHyphen",
 		nonInclusivePhrases: [ "first-world" ],
-		inclusiveAlternatives: "the specific name for the country or region",
+		inclusiveAlternatives: "the specific name for the region or country",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},

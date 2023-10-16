@@ -536,7 +536,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using <i>first-world</i> as it is potentially harmful. Consider using an alternative," +
-			" such as the specific name for the country or region. " +
+			" such as the specific name for the region or country. " +
 			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
