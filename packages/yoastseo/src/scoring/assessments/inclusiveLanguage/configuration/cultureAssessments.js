@@ -18,12 +18,6 @@ import {
 const potentiallyHarmfulUnlessCulture = "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
 										"Consider using an alternative, such as %2$s instead, unless you are referring to the culture " +
 										"in which this term originated.";
-/*
- * Used for overgeneralizing terms, such as 'First World' or 'Third World'.
- *
- * "Avoid using <i>%1$s</i> as it is overgeneralizing. Consider using %2$s instead.
- */
-const overgeneralizing = "Avoid using <i>%1$s</i> as it is overgeneralizing. Consider using %2$s instead. ";
 
 const cultureAssessments = [
 	{
@@ -31,7 +25,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "First World" ],
 		inclusiveAlternatives: "the specific name for the region or country",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: overgeneralizing,
+		feedbackFormat: potentiallyHarmful,
 		caseSensitive: true,
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "War", "war", "Assembly", "assembly" ] ) ),
@@ -41,7 +35,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "Third World" ],
 		inclusiveAlternatives: "the specific name for the region or country",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: overgeneralizing,
+		feedbackFormat: potentiallyHarmful,
 		caseSensitive: true,
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "War", "war", "Quarterly", "quarterly", "country" ] ) ),
@@ -336,16 +330,16 @@ const cultureAssessments = [
 	{
 		identifier: "firstWorldCountries",
 		nonInclusivePhrases: [ "first world countries" ],
-		inclusiveAlternatives: "the specific name for the countries or regions",
+		inclusiveAlternatives: "the specific name for the regions or countries",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: overgeneralizing,
+		feedbackFormat: potentiallyHarmful,
 	},
 	{
 		identifier: "firstWorldHyphen",
 		nonInclusivePhrases: [ "first-world" ],
-		inclusiveAlternatives: "the specific name for the country or region",
+		inclusiveAlternatives: "the specific name for the region or country",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: overgeneralizing,
+		feedbackFormat: potentiallyHarmful,
 	},
 	{
 		identifier: "third-worldCountry",
