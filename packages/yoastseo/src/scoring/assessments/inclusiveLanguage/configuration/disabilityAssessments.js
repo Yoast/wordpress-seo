@@ -576,6 +576,8 @@ const disabilityAssessments =  [
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. If you are referencing the " +
 			"medical condition, use %2$s instead, unless referring to someone who explicitly wants to be referred to with this term." +
 			" If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %3$s.",
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "personality disorder" ] ) ),
 	},
 	{
 		identifier: "OCD",

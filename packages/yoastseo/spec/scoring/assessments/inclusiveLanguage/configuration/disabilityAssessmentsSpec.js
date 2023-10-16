@@ -61,6 +61,17 @@ describe( "A test for Disability assessments", function() {
 		expect( assessor.getMarks() ).toEqual( [] );
 	} );
 
+	it( "should not target 'narcissistic' when followed by 'personality disorder'", () => {
+		const mockPaper = new Paper( "He was diagnosed with narcissistic personality disorder." );
+		const mockResearcher = Factory.buildMockResearcher( [ "He was diagnosed with narcissistic personality disorder." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "narcissistic" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeFalsy();
+		expect( assessor.getMarks() ).toEqual( [] );
+	} );
+
 	it( "should only target retarded if preceded by mentally.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "retarded" ) );
 
