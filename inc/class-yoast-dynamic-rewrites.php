@@ -10,13 +10,25 @@
  */
 class Yoast_Dynamic_Rewrites implements WPSEO_WordPress_Integration {
 
-	/** @var array Additional rewrite rules with high priority. */
+	/**
+	 * Additional rewrite rules with high priority.
+	 *
+	 * @var array
+	 */
 	protected $extra_rules_top = [];
 
-	/** @var array Additional rewrite rules with low priority. */
+	/**
+	 * Additional rewrite rules with low priority.
+	 *
+	 * @var array
+	 */
 	protected $extra_rules_bottom = [];
 
-	/** @var self|null Main instance holder. */
+	/**
+	 * Main instance holder.
+	 *
+	 * @var self|null
+	 */
 	protected static $instance = null;
 
 	/**
@@ -39,6 +51,7 @@ class Yoast_Dynamic_Rewrites implements WPSEO_WordPress_Integration {
 	 * Sets the WP_Rewrite instance to use.
 	 *
 	 * @param WP_Rewrite|null $rewrite Optional. WP_Rewrite instance to use. Default is the $wp_rewrite global.
+	 * @throws RuntimeException Throws an exception if the $wp_rewrite global is not set.
 	 */
 	public function __construct( $rewrite = null ) {
 		if ( ! $rewrite ) {
