@@ -340,6 +340,27 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 21.5 =
+
+Release date: 2023-10-31
+
+#### Enhancements
+
+* Adds support for the new `wp_attachment_pages_enabled` option introduced by WordPress 6.4, reducing the chances of inconsistencies with Yoast SEO's own \"Enable media pages\" setting.
+* Improves the _inclusive language_ analysis by making the feedback more clear and consistent, refining the list of targeted phrases, and adding more alternatives for some of the non-inclusive phrases. Specifically, this includes the following changes:
+* Removes the automatic `rel=nofollow` attribute for links in the RSS feed.
+
+#### Bugfixes
+
+*  Specifies the correct prop type for props that can contain an interpolated string.
+
+#### Other
+
+* Adds indexation exclusion for Gutenberg Patterns taxonomy.
+* Improves the FAQ block description by removing any reference to the previous restriction of one block per post.
+* Improves the inline documentation for the `WPSEO_Option` class. Props to @costdev.
+* Leverages Script Strategy feature to add the async attribute to the `wordproof` script in case WordPress version is 6.3 or higher. Props to [adamsilverstein](https://github.com/adamsilverstein).
+
 = 21.4 =
 
 Release date: 2023-10-17
@@ -363,21 +384,6 @@ We've just released Yoast SEO 21.4. In this release, we've focused on general en
 * Fixes a bug where sentences would not be highlighted when square brackets were present in the same sentence.
 * Fixes a bug where the first-time configuration' site representation logo button would not be translated. Props to [fxbenard](https://github.com/fxbenard).
 * Fixes a bug where the _single title_ assessment would be triggered when adding a H1 without text.
-
-= 21.3 =
-
-Release date: 2023-10-03
-
-Yoast SEO 21.3 is out! In this release, we've focused on improving the plugin's performance, especially regarding handling huge posts on complex websites. Find out more about what's new in Yoast SEO 21.3 in [our release post](https://yoa.st/release-3-10-23)!
-
-#### Enhancements
-
-* Enhances post-saving performance in certain conditions for a smoother and more efficient user experience.
-
-#### Bugfixes
-
-* Fixes a bug where the notifications counter of the admin bar menu would not show with the correct style on the frontend.
-* Fixes a bug where the slug in the search appearance editor would not be set when published posts were edited in the classic editor and the "core/editor" store was available.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
