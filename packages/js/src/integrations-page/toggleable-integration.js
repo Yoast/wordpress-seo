@@ -74,6 +74,7 @@ export const ToggleableIntegration = ( {
 					/> }
 					<span className="yst-sr-only">
 						{
+							/* translators: Hidden accessibility text. */
 							__( "(Opens in a new browser tab)", "wordpress-seo" )
 						}
 					</span>
@@ -95,6 +96,7 @@ export const ToggleableIntegration = ( {
 							Learn more
 							<span className="yst-sr-only">
 								{
+									/* translators: Hidden accessibility text. */
 									__( "(Opens in a new browser tab)", "wordpress-seo" )
 								}
 							</span>
@@ -125,6 +127,7 @@ export const ToggleableIntegration = ( {
 					{ __( "Unlock with Premium", "wordpress-seo" ) }
 					<span className="yst-sr-only">
 						{
+							/* translators: Hidden accessibility text. */
 							__( "(Opens in a new browser tab)", "wordpress-seo" )
 						}
 					</span>

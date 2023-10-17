@@ -167,6 +167,20 @@ const samplesWithOneOccurrence = [
 		element: "title",
 		html: "<!DOCTYPE html><html lang=\"en-US\">\n <head>\n<title>News and gossip</title>\n </head><p>A paragraph</p></html>",
 	},
+	{
+		element: "cite",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>There are many craft ideas that are interesting to both children and adults." +
+			" <cite>Fun for the whole family!</cite></p></body></html>",
+	},
+	{
+		element: "output",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>Armadillos <output id='x'>x</output> are cute animals.</p></body></html>",
+	},
+	{
+		element: "samp",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>The automated chat said<samp>The answer is incorrect</samp>but I wasn't " +
+			"sure why.</p></body></html>",
+	},
 ];
 
 describe.each( samplesWithOneOccurrence )( "Tests HTML elements, part 1 ", ( htmlElement ) => {
@@ -198,6 +212,11 @@ const samplesWithTwoOccurrences = [
 		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><p>If a triangle has one <var>90</var> degrees angle and one <var>30</var>" +
 			"degrees angle, how big is the remaining angle?</p><p>Fun for the whole family</p></body></html>",
 	},
+	{
+		element: "form",
+		html: "<!DOCTYPE html>\n<html lang=\"en-US\">\n<body><aside><form>Pies are amazing.</form>There are many reciples.<form>So are " +
+			"cakes.</form></aside></body></html>",
+	},
 ];
 
 describe.each( samplesWithTwoOccurrences )( "Tests HTML elements, part 2", ( htmlElement ) => {
@@ -211,6 +230,15 @@ describe.each( samplesWithTwoOccurrences )( "Tests HTML elements, part 2", ( htm
 
 describe( "Miscellaneous tests", () => {
 	it( "shouldn't filter out elements like <strong>, which are not included in the list of excluded elements", () => {
+		const html = "<p>Welcome to the blue screen of <strong>death</strong>.</p>";
+
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.name === "strong" ) ).toHaveLength( 1 );
+		const filteredTree = filterTree( tree, permanentFilters );
+		expect( filteredTree.findAll( child => child.name === "strong" ) ).toHaveLength( 1 );
+	} );
+
+	it( "shouldn't filter out elements like <strong>, which are included in the list of excluded elements", () => {
 		const html = "<p>Welcome to the blue screen of <strong>death</strong>.</p>";
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
@@ -244,6 +272,12 @@ describe( "Miscellaneous tests", () => {
 		expect( tree.findAll( child => child.name === "head" ) ).toHaveLength( 0 );
 	} );
 
+	it( "should filter out map elements", () => {
+		// The head element seems to be removed by the parser we employ.
+		const html = "<!DOCTYPE html>\n<title>About artificial intelligence<map name=>AI</map>\n</title>\n</html>";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.name === "abbr" ) ).toHaveLength( 0 );
+	} );
 	it( "should filter out the Elementor Yoast Breadcrumbs widget ", () => {
 		// When the HTML enters the paper, the Breadcrumbs widget doesn't include the div tag.
 		let html = "<p id=\"breadcrumbs\"><span><span><a href=\"https://basic.wordpress.test/\">Home</a></span></span></p><div " +
@@ -286,26 +320,9 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 			attributes: {},
 			childNodes: [
 				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 34,
-						startOffset: 0,
-					},
-				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 55,
-						startOffset: 34,
-					},
-				},
-				{
 					name: "#text",
 					value: "\n",
+					sourceCodeRange: { startOffset: 55, endOffset: 56 },
 				},
 				{
 					attributes: {},
@@ -313,35 +330,28 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 						{
 							name: "#text",
 							value: "Cats rule!. But dogs too!",
+							sourceCodeRange: { startOffset: 59, endOffset: 84 },
 						},
 					],
 					isImplicit: false,
 					name: "p",
 					sourceCodeLocation: {
-						endOffset: 88,
-						endTag: {
-							endOffset: 88,
-							startOffset: 84,
-						},
 						startOffset: 56,
+						endOffset: 88,
 						startTag: {
-							endOffset: 59,
 							startOffset: 56,
+							endOffset: 59,
+						},
+						endTag: {
+							startOffset: 84,
+							endOffset: 88,
 						},
 					},
 				},
 				{
 					name: "#text",
 					value: "\n",
-				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 111,
-						startOffset: 89,
-					},
+					sourceCodeRange: { startOffset: 88, endOffset: 89 },
 				},
 			],
 		} );
@@ -360,30 +370,14 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 			attributes: {},
 			childNodes: [
 				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 39,
-						startOffset: 0,
-					},
+					name: "#text",
+					value: "\n",
+					sourceCodeRange: { startOffset: 39, endOffset: 40 },
 				},
 				{
 					name: "#text",
 					value: "\n",
-				},
-				{
-					name: "#text",
-					value: "\n",
-				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 324,
-						startOffset: 284,
-					},
+					sourceCodeRange: { startOffset: 283, endOffset: 284 },
 				},
 				{
 					attributes: {},
@@ -391,20 +385,21 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 						{
 							name: "#text",
 							value: "This is the first sentence.",
+							sourceCodeRange: { startOffset: 327, endOffset: 354 },
 						},
 					],
 					isImplicit: false,
 					name: "p",
 					sourceCodeLocation: {
-						endOffset: 358,
-						endTag: {
-							endOffset: 358,
-							startOffset: 354,
-						},
 						startOffset: 324,
+						endOffset: 358,
 						startTag: {
-							endOffset: 327,
 							startOffset: 324,
+							endOffset: 327,
+						},
+						endTag: {
+							startOffset: 354,
+							endOffset: 358,
 						},
 					},
 				},
@@ -418,7 +413,7 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 			"class=\"yoast-reading-time__descriptive-text\">Estimated reading time:  </span><span class=\"yoast-reading-time__reading-time\">" +
 			"3</span><span class=\"yoast-reading-time__time-unit\"> minutes</span></p>\n" +
 			"<!-- /wp:yoast-seo/estimated-reading-time -->" +
-			"<h2>A Heading</h2";
+			"<h2>A Heading</h2>";
 
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		const filteredTree = filterTree( tree, permanentFilters );
@@ -428,30 +423,14 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 			attributes: {},
 			childNodes: [
 				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 71,
-						startOffset: 0,
-					},
+					name: "#text",
+					value: "\n",
+					sourceCodeRange: { startOffset: 71, endOffset: 72 },
 				},
 				{
 					name: "#text",
 					value: "\n",
-				},
-				{
-					name: "#text",
-					value: "\n",
-				},
-				{
-					attributes: {},
-					childNodes: [],
-					name: "#comment",
-					sourceCodeLocation: {
-						endOffset: 404,
-						startOffset: 359,
-					},
+					sourceCodeRange: { startOffset: 358, endOffset: 359 },
 				},
 				{
 					attributes: {},
@@ -459,16 +438,21 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 						{
 							name: "#text",
 							value: "A Heading",
+							sourceCodeRange: { startOffset: 408, endOffset: 417 },
 						},
 					],
 					level: 2,
 					name: "h2",
 					sourceCodeLocation: {
-						endOffset: 421,
 						startOffset: 404,
+						endOffset: 422,
 						startTag: {
-							endOffset: 408,
 							startOffset: 404,
+							endOffset: 408,
+						},
+						endTag: {
+							startOffset: 417,
+							endOffset: 422,
 						},
 					},
 				},
@@ -499,6 +483,7 @@ describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast blo
 							{
 								name: "#text",
 								value: "Hello world!",
+								sourceCodeRange: { startOffset: 33, endOffset: 45 },
 							},
 						],
 						sourceCodeLocation: {

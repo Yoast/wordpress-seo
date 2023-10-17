@@ -21,7 +21,7 @@ const dataItemProps = {
  * @returns {HTMLElement} A list item.
  */
 const DataItem = ( props ) => {
-	/* Translators: %d expands to number of occurrences. */
+	/* translators: Hidden accessibility text; %d expands to number of occurrences. */
 	const screenReaderText = sprintf( __( "%d occurrences", "wordpress-seo" ), props.number );
 	return (
 		<li

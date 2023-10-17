@@ -10,6 +10,7 @@ import customCountLength from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 import getContentWords from "./helpers/getContentWords";
 import memoizedTokenizer from "./helpers/memoizedSentenceTokenizer";
+import splitIntoTokensCustom from "./helpers/splitIntoTokensCustom";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
@@ -72,6 +73,7 @@ export default class Researcher extends AbstractResearcher {
 			customCountLength,
 			matchTransitionWordsHelper,
 			memoizedTokenizer,
+			splitIntoTokensCustom,
 		} );
 
 		Object.assign( this.defaultResearches, {

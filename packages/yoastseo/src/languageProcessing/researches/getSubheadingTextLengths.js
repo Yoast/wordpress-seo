@@ -3,6 +3,7 @@ import excludeTableOfContentsTag from "../helpers/sanitize/excludeTableOfContent
 import countWords from "../helpers/word/countWords";
 import { forEach } from "lodash-es";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../helpers";
 
 /**
  * Gets the subheadings from the text and returns the length of these subheading in an array.
@@ -15,6 +16,7 @@ import removeHtmlBlocks from "../helpers/html/htmlParser";
 export default function( paper, researcher ) {
 	let text = paper.getText();
 	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	text = excludeTableOfContentsTag( text );
 	const matches = getSubheadingTexts( text );
 

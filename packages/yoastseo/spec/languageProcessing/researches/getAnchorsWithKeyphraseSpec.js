@@ -11,7 +11,7 @@ const morphologyDataJA = getMorphologyData( "ja" );
 describe( "A test for getting the anchors that contain the keyphrase or synonym", () => {
 	it( "should return 0 if the paper text is empty", () => {
 		const attributes = {
-			permalink: "http://yoast.com",
+			permalink: "https://yoast.com",
 			keyword: "cats",
 		};
 		const mockPaper = new Paper( "", attributes );
@@ -24,9 +24,9 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 
 	it( "should return 0 if neither the keyphrase nor the synonym is set", () => {
 		const attributes = {
-			permalink: "http://yoast.com",
+			permalink: "https://yoast.com",
 		};
-		const mockPaper = new Paper( "string <a href='http://yoast.com/some-other-page/'>fluffy bunny</a>", attributes );
+		const mockPaper = new Paper( "string <a href='https://yoast.com/some-other-page/'>fluffy bunny</a>", attributes );
 
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
@@ -38,10 +38,10 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		"that refers to the current url", () => {
 		const attributes = {
 			keyword: "good companion for an orange cat",
-			permalink: "http://yoast.com/this-page/",
+			permalink: "https://yoast.com/this-page/",
 		};
 
-		const mockPaper = new Paper( "string <a href='http://yoast.com/this-page/'>good companion for an orange cat</a>", attributes );
+		const mockPaper = new Paper( "string <a href='https://yoast.com/this-page/'>good companion for an orange cat</a>", attributes );
 
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
@@ -51,7 +51,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 
 	it( "should return 0 if the anchor tag doesn't have href attribute", () => {
 		const attributes = {
-			permalink: "http://yoast.com",
+			permalink: "https://yoast.com",
 			keyword: "cats",
 		};
 		const mockPaper = new Paper( "string <a href=''>good companion for an orange cat</a>", attributes );
@@ -65,9 +65,9 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 	it( "should ignore the keyphrase in an url when referencing to the current url with a hash", () => {
 		let attributes = {
 			keyword: "cat",
-			permalink: "http://example.org/cat#top",
+			permalink: "https://example.org/cat#top",
 		};
-		let mockPaper = new Paper( "string <a href='http://example.org/cat'>good companion for an orange cat</a>", attributes );
+		let mockPaper = new Paper( "string <a href='https://example.org/cat'>good companion for an orange cat</a>", attributes );
 		let researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
@@ -75,9 +75,9 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 
 		attributes = {
 			keyword: "cat",
-			permalink: "http://example.org/cat",
+			permalink: "https://example.org/cat",
 		};
-		mockPaper = new Paper( "There was seen <a href='http://example.org/cat#top'>a turkish van together with a tortie</a>", attributes );
+		mockPaper = new Paper( "There was seen <a href='https://example.org/cat#top'>a turkish van together with a tortie</a>", attributes );
 		researcher = new EnglishResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( mockPaper, researcher );
@@ -88,7 +88,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 	it( "should return 0 if the keyphrase is found in an anchor text of a fragment on the same page", () => {
 		const attributes = {
 			keyword: "good companion for an orange cat",
-			permalink: "http://yoast.com/this-page/",
+			permalink: "https://yoast.com/this-page/",
 		};
 
 		const mockPaper = new Paper( "string <a href='#some-fragment'>good companion for an orange cat</a>", attributes );
@@ -102,10 +102,10 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 	it( "should return 0 if neither the keyphrase nor the synonym is found in the anchors", () => {
 		const attributes = {
 			keyword: "cats",
-			permalink: "http://yoast.com",
+			permalink: "https://yoast.com",
 			synonyms: "Felis catus",
 		};
-		const mockPaper = new Paper( "string <a href='http://yoast.com/some-other-page/'>fluffy bunny</a>", attributes );
+		const mockPaper = new Paper( "string <a href='https://yoast.com/some-other-page/'>fluffy bunny</a>", attributes );
 
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
@@ -116,7 +116,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 	it( "should return 0 when the anchor text contains more content words than just the keyphrase or synonym", () => {
 		const attributes = {
 			keyword: "cats",
-			permalink: "http://yoast.com",
+			permalink: "https://yoast.com",
 			synonyms: "Felis catus",
 		};
 		const mockPaper = new Paper( "A <a href='example.com'>fluffy cat and a smart felis catus</a> were seen pouncing together. ", attributes );
@@ -131,7 +131,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 	it( "should find a match when the keyphrase is found in the anchor text, even when it only contains function words", () => {
 		const attributes = {
 			keyword: "Mrs. always tries to be awesome",
-			permalink: "http://yoast.com",
+			permalink: "https://yoast.com",
 			synonyms: "Felis catus",
 		};
 		const mockPaper = new Paper( "A <a href='example.com'>Mrs. always tries to be awesome</a> were seen pouncing together. ", attributes );
@@ -145,13 +145,13 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
 			attributes: { href: "example.com" },
-			childNodes: [ { name: "#text", value: "Mrs. always tries to be awesome" } ],
+			childNodes: [ { name: "#text", value: "Mrs. always tries to be awesome", sourceCodeRange: { startOffset: 24, endOffset: 55 } } ],
 			name: "a",
 			sourceCodeLocation: {
-				endOffset: 59,
-				endTag: { endOffset: 59, startOffset: 55 },
 				startOffset: 2,
-				startTag: { endOffset: 24, startOffset: 2 },
+				endOffset: 59,
+				startTag: { startOffset: 2, endOffset: 24 },
+				endTag: { startOffset: 55, endOffset: 59 },
 			},
 		} ] );
 	} );
@@ -159,10 +159,10 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 	it( "should find a match of a keyphrase in the anchor text of an internal link", () => {
 		const attributes = {
 			keyword: "fluffy and furry cat",
-			permalink: "http://yoast.com",
+			permalink: "https://yoast.com",
 		};
 
-		const mockPaper = new Paper( "string <a href='http://yoast.com/some-other-page/'>many fluffy and furry cats</a>", attributes );
+		const mockPaper = new Paper( "string <a href='https://yoast.com/some-other-page/'>many fluffy and furry cats</a>", attributes );
 		const researcher = new EnglishResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
@@ -171,24 +171,25 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 
 		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
-			attributes: { href: "http://yoast.com/some-other-page/" },
-			childNodes: [ { name: "#text", value: "many fluffy and furry cats" } ],
+			attributes: { href: "https://yoast.com/some-other-page/" },
+			childNodes: [ { name: "#text", value: "many fluffy and furry cats", sourceCodeRange: { startOffset: 52, endOffset: 78 } } ],
 			name: "a",
 			sourceCodeLocation: {
-				endOffset: 81,
-				endTag: { endOffset: 81, startOffset: 77 },
 				startOffset: 7,
-				startTag: { endOffset: 51, startOffset: 7 } } },
+				endOffset: 82,
+				startTag: { startOffset: 7, endOffset: 52 },
+				endTag: { startOffset: 78, endOffset: 82 },
+			} },
 		] );
 	} );
 
 	it( "should find a match of a keyphrase in the anchor text of a link with a hash", () => {
 		const attributes = {
 			keyword: "food for cats",
-			permalink: "http://example.org/keyword#top",
+			permalink: "https://example.org/keyword#top",
 		};
 
-		const mockPaper = new Paper( "How to prepare <a href='http://test.com/keyword#top'>food for cats</a>.", attributes );
+		const mockPaper = new Paper( "How to prepare <a href='https://test.com/keyword#top'>food for cats</a>.", attributes );
 		const researcher = new EnglishResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
@@ -197,14 +198,15 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 
 		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
-			attributes: { href: "http://test.com/keyword#top" },
-			childNodes: [ { name: "#text", value: "food for cats" } ],
+			attributes: { href: "https://test.com/keyword#top" },
+			childNodes: [ { name: "#text", value: "food for cats", sourceCodeRange: { startOffset: 54, endOffset: 67 } } ],
 			name: "a",
 			sourceCodeLocation: {
-				endOffset: 70,
-				endTag: { endOffset: 70, startOffset: 66 },
 				startOffset: 15,
-				startTag: { endOffset: 53, startOffset: 15 } } },
+				endOffset: 71,
+				startTag: { startOffset: 15, endOffset: 54 },
+				endTag: { startOffset: 67, endOffset: 71 },
+			} },
 		] );
 	} );
 
@@ -212,10 +214,10 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		const attributes = {
 			keyword: "felis catus",
 			synonyms: "fluffy and furry cat",
-			permalink: "http://yoast.com",
+			permalink: "https://yoast.com",
 		};
 
-		const mockPaper = new Paper( "string <a href='http://example.com/some-other-page/'>many fluffy and furry cats</a>", attributes );
+		const mockPaper = new Paper( "string <a href='https://example.com/some-other-page/'>many fluffy and furry cats</a>", attributes );
 		const researcher = new EnglishResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
@@ -224,24 +226,25 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 
 		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
-			attributes: { href: "http://example.com/some-other-page/" },
-			childNodes: [ { name: "#text", value: "many fluffy and furry cats" } ],
+			attributes: { href: "https://example.com/some-other-page/" },
+			childNodes: [ { name: "#text", value: "many fluffy and furry cats", sourceCodeRange: { startOffset: 54, endOffset: 80 } } ],
 			name: "a",
 			sourceCodeLocation: {
-				endOffset: 83,
-				endTag: { endOffset: 83, startOffset: 79 },
 				startOffset: 7,
-				startTag: { endOffset: 53, startOffset: 7 } } },
+				endOffset: 84,
+				startTag: { startOffset: 7, endOffset: 54 },
+				endTag: { startOffset: 80, endOffset: 84 },
+			} },
 		] );
 	} );
 
 	it( "should still find a match of a keyphrase in the anchor text containing html tags", () => {
 		const attributes = {
 			keyword: "food for cats",
-			permalink: "http://example.org/this-page",
+			permalink: "https://example.org/this-page",
 		};
 
-		const mockPaper = new Paper( "How to prepare <a href='http://test.com/that-page'>food for <strong>cats</strong></a>.", attributes );
+		const mockPaper = new Paper( "How to prepare <a href='https://test.com/that-page'>food for <strong>cats</strong></a>.", attributes );
 		const researcher = new EnglishResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
@@ -250,26 +253,28 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 
 		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
-			attributes: { href: "http://test.com/that-page" },
+			attributes: { href: "https://test.com/that-page" },
 			childNodes: [
-				{ name: "#text", value: "food for " },
+				{ name: "#text", value: "food for ", sourceCodeRange: { startOffset: 52, endOffset: 61 } },
 				{
 					attributes: {},
-					childNodes: [ { name: "#text", value: "cats" } ],
+					childNodes: [ { name: "#text", value: "cats", sourceCodeRange: { startOffset: 69, endOffset: 73 } } ],
 					name: "strong",
 					sourceCodeLocation: {
-						endOffset: 81,
-						endTag: { endOffset: 81, startOffset: 72 },
-						startOffset: 60,
-						startTag: { endOffset: 68, startOffset: 60 } },
+						startOffset: 61,
+						endOffset: 82,
+						startTag: { startOffset: 61, endOffset: 69 },
+						endTag: { startOffset: 73, endOffset: 82 },
+					},
 				},
 			],
 			name: "a",
 			sourceCodeLocation: {
-				endOffset: 85,
-				endTag: { endOffset: 85, startOffset: 81 },
 				startOffset: 15,
-				startTag: { endOffset: 51, startOffset: 15 } } },
+				endOffset: 86,
+				startTag: { startOffset: 15, endOffset: 52 },
+				endTag: { startOffset: 82, endOffset: 86 },
+			} },
 		] );
 	} );
 
@@ -277,12 +282,12 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		const attributes = {
 			keyword: "key word and key phrase",
 			synonyms: "interesting article, and another exciting paper",
-			permalink: "http://example.org/keyword",
+			permalink: "https://example.org/keyword",
 		};
 
-		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>keys wording phrased</a>" +
-			" as  well as the lovely <a href='http://example.com/keyword'>articles which are interesting</a>, " +
-			"and <a href='http://example.com/keyword'>excited papers</a>", attributes );
+		const mockPaper = new Paper( "hello, here is a link with my <a href='https://example.com/keyword'>keys wording phrased</a>" +
+			" as  well as the lovely <a href='https://example.com/keyword'>articles which are interesting</a>, " +
+			"and <a href='https://example.com/keyword'>excited papers</a>", attributes );
 		const researcher = new EnglishResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
@@ -294,12 +299,12 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		const attributes = {
 			keyword: "key word and key phrase",
 			synonyms: "interesting article",
-			permalink: "http://example.org/keyword",
+			permalink: "https://example.org/keyword",
 		};
 
-		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>keys wording </a>" +
-			" as  well as the lovely <a href='http://example.com/keyword'>articles which are </a>, " +
-			"and <a href='http://example.com/keyword'>excited papers</a>", attributes );
+		const mockPaper = new Paper( "hello, here is a link with my <a href='https://example.com/keyword'>keys wording </a>" +
+			" as  well as the lovely <a href='https://example.com/keyword'>articles which are </a>, " +
+			"and <a href='https://example.com/keyword'>excited papers</a>", attributes );
 		const researcher = new EnglishResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
@@ -312,10 +317,10 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 	it( "should match all words from keyphrase in the link text and vice versa when the keyphrase is enclosed in double quotes", function() {
 		const attributes = {
 			keyword: "\"walking in nature\"",
-			permalink: "http://example.org/keyword",
+			permalink: "https://example.org/keyword",
 		};
 
-		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>walking in nature</a>", attributes );
+		const mockPaper = new Paper( "hello, here is a link with my <a href='https://example.com/keyword'>walking in nature</a>", attributes );
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
@@ -326,10 +331,10 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		"and the keyphrase is preceded by a function word in the anchor text", function() {
 		const attributes = {
 			keyword: "\"walking in nature\"",
-			permalink: "http://example.org/keyword",
+			permalink: "https://example.org/keyword",
 		};
 
-		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>" +
+		const mockPaper = new Paper( "hello, here is a link with my <a href='https://example.com/keyword'>" +
 			"immediately walking in nature</a>", attributes );
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
@@ -341,10 +346,10 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		"and the keyphrase is followed by a content word in the anchor text", function() {
 		const attributes = {
 			keyword: "\"walking in nature\"",
-			permalink: "http://example.org/keyword",
+			permalink: "https://example.org/keyword",
 		};
 
-		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>" +
+		const mockPaper = new Paper( "hello, here is a link with my <a href='https://example.com/keyword'>" +
 			"walking in nature activity</a>", attributes );
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
@@ -356,10 +361,10 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		"and the keyphrase appears in a different form in the anchor text", function() {
 		const attributes = {
 			keyword: "\"walking in nature\"",
-			permalink: "http://example.org/keyword",
+			permalink: "https://example.org/keyword",
 		};
 
-		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>" +
+		const mockPaper = new Paper( "hello, here is a link with my <a href='https://example.com/keyword'>" +
 			"walks in nature</a>", attributes );
 		const researcher = new EnglishResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
@@ -373,9 +378,9 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const paperAttributes = {
 			keyword: "something and tortie",
 			synonyms: "\"cats and dogs\", tortoiseshell",
-			permalink: "http://yoast.com",
+			permalink: "https://yoast.com",
 		};
-		const mockPaper = new Paper( "A text with a <a href='http://yoast.com'>link</a>, <a href='http://example.com'>cats and dogs</a>",
+		const mockPaper = new Paper( "A text with a <a href='https://yoast.com'>link</a>, <a href='https://example.com'>cats and dogs</a>",
 			paperAttributes );
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
@@ -388,9 +393,9 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const paperAttributes = {
 			keyword: "\"tabby and tortie\"",
 			synonyms: "\"cats and dogs\", tortoiseshell",
-			permalink: "http://yoast.com",
+			permalink: "https://yoast.com",
 		};
-		const mockPaper = new Paper( "A text with a <a href='http://test.com'>tabby and tortie</a>, <a href='http://example.com'>cats and dogs</a>",
+		const mockPaper = new Paper( "A text with a <a href='https://test.com'>tabby and tortie</a>, <a href='https://example.com'>cats and dogs</a>",
 			paperAttributes );
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
@@ -401,9 +406,9 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 	it( "should match the keyphrase in the anchor text when the keyphrase is enclosed in double quotes in Japanese", function() {
 		const paperAttributes = {
 			keyword: "『読ん一冊の本』",
-			permalink: "http://yoast.com",
+			permalink: "https://yoast.com",
 		};
-		const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>読ん一冊の本</a>", paperAttributes );
+		const mockPaper = new Paper( "言葉 <a href='https://yoast.com'>リンク</a>, <a href='https://example.com'>読ん一冊の本</a>", paperAttributes );
 		const researcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
@@ -414,9 +419,9 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		"and the keyphrase is preceded by a function word in the anchor text", function() {
 		const paperAttributes = {
 			keyword: "『読ん一冊の本』",
-			permalink: "http://yoast.com",
+			permalink: "https://yoast.com",
 		};
-		const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>から読ん一冊の本</a>", paperAttributes );
+		const mockPaper = new Paper( "言葉 <a href='https://yoast.com'>リンク</a>, <a href='https://example.com'>から読ん一冊の本</a>", paperAttributes );
 		const researcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
@@ -428,9 +433,9 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const paperAttributes = {
 			keyword: "言葉",
 			synonyms: "『小さく花の刺繍』",
-			permalink: "http://yoast.com",
+			permalink: "https://yoast.com",
 		};
-		const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さく花の刺繍</a>", paperAttributes );
+		const mockPaper = new Paper( "言葉 <a href='https://yoast.com'>リンク</a>, <a href='https://example.com'>小さく花の刺繍</a>", paperAttributes );
 		const researcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
@@ -444,15 +449,15 @@ describe( "a test for anchors and its attributes in languages that have a custom
 	describe( "a test for when the morphology data is not available", () => {
 		let paperAttributes = {
 			keyword: "リンク",
-			permalink: "http://yoast.com",
+			permalink: "https://yoast.com",
 		};
 
 		it( "assesses the anchor text where not all content words in the text are present in the keyphrase", function() {
 			paperAttributes = {
 				keyword: "読ん一冊の本",
-				permalink: "http://yoast.com",
+				permalink: "https://yoast.com",
 			};
-			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>猫と読ん一冊の本</a>", paperAttributes );
+			const mockPaper = new Paper( "言葉 <a href='https://yoast.com'>リンク</a>, <a href='https://example.com'>猫と読ん一冊の本</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
 			buildTree( mockPaper, researcher );
 
@@ -462,9 +467,9 @@ describe( "a test for anchors and its attributes in languages that have a custom
 		it( "assesses the anchor text where all content words in the text present in the keyphrase: should find a match", function() {
 			paperAttributes = {
 				keyword: "から小さい花の刺繍",
-				permalink: "http://yoast.com",
+				permalink: "https://yoast.com",
 			};
-			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
+			const mockPaper = new Paper( "言葉 <a href='https://yoast.com'>リンク</a>, <a href='https://example.com'>小さい花の刺繍</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
 			buildTree( mockPaper, researcher );
 
@@ -475,9 +480,9 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			"should not find a match", function() {
 			paperAttributes = {
 				keyword: "から小さく花の刺繍",
-				permalink: "http://yoast.com",
+				permalink: "https://yoast.com",
 			};
-			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
+			const mockPaper = new Paper( "言葉 <a href='https://yoast.com'>リンク</a>, <a href='https://example.com'>小さい花の刺繍</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
 			buildTree( mockPaper, researcher );
 
@@ -488,10 +493,10 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			paperAttributes = {
 				keyword: "から小さく花の刺繍",
 				synonyms: "猫用のフード, 猫用食品",
-				permalink: "http://yoast.com",
+				permalink: "https://yoast.com",
 			};
-			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さく花の刺繍</a>" +
-				" <a href='http://example.com'>から猫用のフード</a>", paperAttributes );
+			const mockPaper = new Paper( "言葉 <a href='https://yoast.com'>リンク</a>, <a href='https://example.com'>小さく花の刺繍</a>" +
+				" <a href='https://example.com'>から猫用のフード</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
 			buildTree( mockPaper, researcher );
 
@@ -503,9 +508,9 @@ describe( "a test for anchors and its attributes in languages that have a custom
 		it( "assesses the anchor text where not all content words in the text present in the keyphrase: should not find a match", function() {
 			const paperAttributes = {
 				keyword: "読ん一冊の本",
-				permalink: "http://yoast.com",
+				permalink: "https://yoast.com",
 			};
-			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>猫と読ん一冊の本</a>", paperAttributes );
+			const mockPaper = new Paper( "言葉 <a href='https://yoast.com'>リンク</a>, <a href='https://example.com'>猫と読ん一冊の本</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 			buildTree( mockPaper, researcher );
@@ -516,9 +521,9 @@ describe( "a test for anchors and its attributes in languages that have a custom
 		it( "assesses the anchor text where all content words in the text present in the keyphrase: should find a match", function() {
 			const paperAttributes = {
 				keyword: "から小さい花の刺繍",
-				permalink: "http://yoast.com",
+				permalink: "https://yoast.com",
 			};
-			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
+			const mockPaper = new Paper( "言葉 <a href='https://yoast.com'>リンク</a>, <a href='https://example.com'>小さい花の刺繍</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 			buildTree( mockPaper, researcher );
@@ -530,10 +535,10 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			" should find matches", function() {
 			const paperAttributes = {
 				keyword: "から小さく花の刺繍",
-				permalink: "http://yoast.com",
+				permalink: "https://yoast.com",
 			};
-			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>" +
-				" <a href='http://example.com'>小さける花の刺繍</a>", paperAttributes );
+			const mockPaper = new Paper( "言葉 <a href='https://yoast.com'>リンク</a>, <a href='https://example.com'>小さい花の刺繍</a>" +
+				" <a href='https://example.com'>小さける花の刺繍</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 			buildTree( mockPaper, researcher );
@@ -545,10 +550,10 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			const paperAttributes = {
 				keyword: "猫用食品",
 				synonyms: "小さく花の刺繍",
-				permalink: "http://yoast.com",
+				permalink: "https://yoast.com",
 			};
-			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>," +
-				" <a href='http://example.com'>から小さい花の刺繍</a>", paperAttributes );
+			const mockPaper = new Paper( "言葉 <a href='https://yoast.com'>リンク</a>," +
+				" <a href='https://example.com'>から小さい花の刺繍</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 			buildTree( mockPaper, researcher );
@@ -561,9 +566,9 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			const paperAttributes = {
 				keyword: "「小さく花の刺繍」",
 				synonyms: "something, something else",
-				permalink: "http://yoast.com",
+				permalink: "https://yoast.com",
 			};
-			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
+			const mockPaper = new Paper( "言葉 <a href='https://yoast.com'>リンク</a>, <a href='https://example.com'>小さい花の刺繍</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
 			buildTree( mockPaper, researcher );
 

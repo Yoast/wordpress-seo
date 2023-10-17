@@ -2,8 +2,8 @@ import { get } from "lodash";
 import { render } from "@wordpress/element";
 import { ThemeProvider } from "styled-components";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
-import BlackFridayPromoNotification from "../components/BlackFridayPromoNotification";
-
+import { BlackFridaySidebarChecklistPromotion } from "../components/BlackFridaySidebarChecklistPromotion";
+import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
 
 /**
  * Initializes the React settings header, just below the title.
@@ -14,15 +14,13 @@ const initSettingsHeader = () => {
 	const reactRoot = document.getElementById( "yst-settings-header-root" );
 	const isRtl = Boolean( get( window, "wpseoScriptData.isRtl", false ) );
 	const webinarIntroSettingsUrl = get( window, "wpseoScriptData.webinarIntroSettingsUrl", "https://yoa.st/webinar-intro-settings" );
-	const blackFridayBlockEditorUrl = get( window, "wpseoScriptData.blackFridayBlockEditorUrl", "https://yoa.st/black-friday-checklist" );
 	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
 
 	if ( reactRoot ) {
 		render(
 			<ThemeProvider theme={ { isRtl } }>
-				{ isWooCommerce && blackFridayBlockEditorUrl
-					? <BlackFridayPromoNotification store="yoast-seo/settings" url={ blackFridayBlockEditorUrl } />
-					: <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
+				{ isWooCommerce && <BlackFridaySidebarChecklistPromotion store="yoast-seo/settings" /> }
+				{ shouldShowWebinarPromotionNotificationInDashboard( "yoast-seo/settings" ) && <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
 			</ThemeProvider>,
 			reactRoot
 		);

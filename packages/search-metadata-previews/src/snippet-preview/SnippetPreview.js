@@ -662,7 +662,10 @@ export default class SnippetPreview extends PureComponent {
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return <React.Fragment>
 			<ScreenReaderText>
-				{ __( "Url preview", "wordpress-seo" ) + ":" }
+				{
+					/* translators: Hidden accessibility text. */
+					__( "Url preview", "wordpress-seo" ) + ":"
+				}
 			</ScreenReaderText>
 			<Url>
 				<BaseUrlOverflowContainer
@@ -836,7 +839,10 @@ export default class SnippetPreview extends PureComponent {
 			return (
 				<PartContainer className="yoast-shopping-data-preview--desktop">
 					<ScreenReaderText>
-						{ __( "Shopping data preview:", "wordpress-seo" ) }
+						{
+							/* translators: Hidden accessibility text. */
+							__( "Shopping data preview:", "wordpress-seo" )
+						}
 					</ScreenReaderText>
 					<ProductDataDesktop shoppingData={ safeShoppingData } />
 				</PartContainer>
@@ -847,7 +853,10 @@ export default class SnippetPreview extends PureComponent {
 			return (
 				<PartContainer className="yoast-shopping-data-preview--mobile">
 					<ScreenReaderText>
-						{ __( "Shopping data preview:", "wordpress-seo" ) }
+						{
+							/* translators: Hidden accessibility text. */
+							__( "Shopping data preview:", "wordpress-seo" )
+						}
 					</ScreenReaderText>
 					<ProductDataMobile shoppingData={ safeShoppingData } />
 				</PartContainer>

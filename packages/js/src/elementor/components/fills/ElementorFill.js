@@ -4,6 +4,7 @@ import { Fragment, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import PropTypes from "prop-types";
+import { InternalLinkingSuggestionsUpsell } from "../../../components/modals/InternalLinkingSuggestionsUpsell";
 
 // Internal dependencies.
 import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
@@ -22,8 +23,10 @@ import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanc
 import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
-import BlackFridayPromoNotification from "../../../components/BlackFridayPromoNotification";
-import KeywordUpsell from "../../../components/KeywordUpsell";
+import { BlackFridaySidebarChecklistPromotion } from "../../../components/BlackFridaySidebarChecklistPromotion";
+import { BlackFridayPromotion } from "../../../components/BlackFridayPromotion";
+import { shouldShowWebinarPromotionNotificationInSidebar } from "../../../helpers/shouldShowWebinarPromotionNotification";
+import KeywordUpsell from "../../../components/modals/KeywordUpsell";
 
 /* eslint-disable complexity */
 /**
@@ -49,7 +52,6 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	}
 
 	const webinarIntroElementorUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
-	const blackFridayBlockEditorUrl = get( window, "wpseoScriptData.blackFridayBlockEditorUrl", "https://yoa.st/black-friday-checklist" );
 	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
 
 	return (
@@ -59,9 +61,11 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
 
-					{ isWooCommerce && blackFridayBlockEditorUrl
-						? <BlackFridayPromoNotification image={ null } url={ blackFridayBlockEditorUrl } />
-						: <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } /> }
+					{ shouldShowWebinarPromotionNotificationInSidebar() &&
+						<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } />
+					}
+					{ isWooCommerce && <BlackFridaySidebarChecklistPromotion hasIcon={ false } /> }
+					<BlackFridayPromotion image={ null } hasIcon={ false } />
 
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
@@ -114,6 +118,9 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
+				</SidebarItem> }
+				{ settings.shouldUpsell && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 23 }>
+					<InternalLinkingSuggestionsUpsell />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
 					<SidebarItem key="wincher-seo-performance" renderPriority={ 23 }>

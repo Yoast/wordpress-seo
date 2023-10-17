@@ -624,7 +624,10 @@ export default class HowTo extends Component {
 							htmlFor="schema-how-to-duration-days"
 							className="screen-reader-text"
 						>
-							{ __( "days", "wordpress-seo" ) }
+							{
+								/* translators: Hidden accessibility text. */
+								__( "days", "wordpress-seo" )
+							}
 						</label>
 						<input
 							id="schema-how-to-duration-days"

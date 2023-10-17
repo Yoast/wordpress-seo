@@ -46,9 +46,9 @@ class Node {
 	/**
 	 * Finds all nodes in the tree that satisfies the given condition.
 	 *
-	 * @param {function} condition The condition that a node should satisfy to end up in the list.
-	 * @param {boolean} recurseFoundNodes=false Whether to recurse into found nodes
-	 * to see if the condition also applies to sub-nodes of the found node.
+	 * @param {function} 	condition 					The condition that a node should satisfy to end up in the list.
+	 * @param {boolean} 	recurseFoundNodes=false 	Whether to recurse into found nodes to see if the condition
+	 *  also applies to sub-nodes of the found node.
 	 *
 	 * @returns {(Node|Text|Paragraph|Heading)[]} The list of nodes that satisfy the condition.
 	 */

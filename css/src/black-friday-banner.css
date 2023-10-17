@@ -1,0 +1,22 @@
+.sidebar__sale_banner_container .sidebar__sale_banner {
+    color: #fcd34d;
+    width: calc(100% + 60px);
+    line-height: 30px;
+    margin-left: -30px;
+    transform: rotate(-5deg);
+    letter-spacing: 0.5px;
+    box-shadow: 0 -1px 4px 0 #fcd34d, 0 1px 4px 0 #fcd34d, 0 -1px 0 0 #fcd34d, 0 1px 0 0 #fcd34d;
+    @apply yst-text-lg yst-font-bold yst-bg-black yst-mt-5 yst-text-center yst-mb-[10px] yst-px-0 yst-py-1;
+}
+
+.sidebar__sale_banner_container .sidebar__sale_banner .banner_text {
+    @apply yst-inline-block yst-my-0 yst-mx-[35px];
+}
+
+.sidebar__sale_banner_container {
+    width: calc(100% + 48px);
+    margin-left: -24px;
+    margin-bottom: -25px;
+    margin-top: -25px;
+    @apply yst-overflow-hidden yst-pb-[10px];
+}

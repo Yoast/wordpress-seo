@@ -144,7 +144,6 @@ class WPSEO_Taxonomy {
 
 			$asset_manager->enqueue_style( 'metabox-css' );
 			$asset_manager->enqueue_style( 'scoring' );
-			$asset_manager->enqueue_style( 'tailwind' );
 			$asset_manager->enqueue_script( 'term-edit' );
 
 			/**
@@ -163,6 +162,9 @@ class WPSEO_Taxonomy {
 							'replace_vars'             => $this->get_replace_vars(),
 							'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 							'scope'                    => $this->determine_scope(),
+						],
+						'shortcodes' => [
+							'wpseo_shortcode_tags' => $this->get_valid_shortcode_tags(),
 						],
 					],
 					'worker'  => [
@@ -446,5 +448,20 @@ class WPSEO_Taxonomy {
 		$page_type = $recommended_replace_vars->determine_for_term( $taxonomy );
 
 		return $recommended_replace_vars->get_recommended_replacevars_for( $page_type );
+	}
+
+	/**
+	 * Returns an array with shortcode tags for all registered shortcodes.
+	 *
+	 * @return array
+	 */
+	private function get_valid_shortcode_tags() {
+		$shortcode_tags = [];
+
+		foreach ( $GLOBALS['shortcode_tags'] as $tag => $description ) {
+			$shortcode_tags[] = $tag;
+		}
+
+		return $shortcode_tags;
 	}
 }

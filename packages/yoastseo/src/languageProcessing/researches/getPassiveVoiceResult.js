@@ -4,6 +4,7 @@ import Sentence from "../../languageProcessing/values/Sentence.js";
 
 import { forEach } from "lodash-es";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../helpers";
 
 /**
  * Looks for morphological passive voice.
@@ -18,6 +19,7 @@ export const getMorphologicalPassives = function( paper, researcher ) {
 	const isPassiveSentence = researcher.getHelper( "isPassiveSentence" );
 	let text = paper.getText();
 	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const sentences = getSentences( text, memoizedTokenizer )
 		.map( function( sentence ) {
@@ -55,6 +57,7 @@ export const getPeriphrasticPassives = function( paper, researcher ) {
 	const getClauses = researcher.getHelper( "getClauses" );
 	let text = paper.getText();
 	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const sentences = getSentences( text, memoizedTokenizer )
 		.map( function( sentence ) {

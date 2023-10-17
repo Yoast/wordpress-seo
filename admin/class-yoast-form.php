@@ -909,10 +909,15 @@ class Yoast_Form {
 
 		$upsell_button = '';
 		if ( $has_premium_upsell ) {
-			$upsell_button = '<a class="yoast-button yoast-button--buy yoast-button--small" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href=' . esc_url( $attr['premium_upsell_url'] ) . ' target="_blank">' . esc_html__( 'Unlock with Premium!', 'wordpress-seo' ) . '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
-			'<span aria-hidden="true" class="yoast-button--buy__caret"></span></a>';
+			$upsell_button = '<a class="yoast-button yoast-button--buy yoast-button--small" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href=' .
+							esc_url( $attr['premium_upsell_url'] ) . ' target="_blank">' .
+							esc_html__( 'Unlock with Premium!', 'wordpress-seo' ) .
+							/* translators: Hidden accessibility text. */
+							'<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
+							'<span aria-hidden="true" class="yoast-button--buy__caret"></span></a>';
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All variable output is escaped above.
 		echo '<a></a></div></fieldset><div class="clear"></div>' . $upsell_button . '</div>' . PHP_EOL . PHP_EOL;
 	}
 

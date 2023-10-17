@@ -11,7 +11,12 @@ import PropTypes from "prop-types";
 export const OutboundLink = ( { href, children, ...props } ) => (
 	<Link target="_blank" rel="noopener noreferrer" { ...props } href={ href }>
 		{ children }
-		<span className="yst-sr-only">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
+		<span className="yst-sr-only">
+			{
+				/* translators: Hidden accessibility text. */
+				__( "(Opens in a new browser tab)", "wordpress-seo" )
+			}
+		</span>
 	</Link>
 );
 OutboundLink.propTypes = {

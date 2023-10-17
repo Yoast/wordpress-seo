@@ -2,6 +2,7 @@ import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
 import Factory from "../../specHelpers/factory";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 import Sentence from "../../../src/parse/structure/Sentence";
+import splitIntoTokensCustom from "../../../src/languageProcessing/languages/ja/helpers/splitIntoTokensCustom";
 
 const researcher = Factory.buildMockResearcher( {}, true, false, false,
 	{ memoizedTokenizer: memoizedSentenceTokenizer } );
@@ -430,5 +431,25 @@ describe.each( splitIntoTokensTestCases )( "A test for the tokenize method", ( {
 
 		const tokens = languageProcessor.splitIntoTokens( new Sentence( sentence ) );
 		expect( tokens ).toEqual( expectedTokens );
+	} );
+} );
+
+describe( "A test for the splitIntoTokens method in Japanese", () => {
+	it( "should return an array of tokens", function() {
+		const japaneseResearcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ splitIntoTokensCustom: splitIntoTokensCustom } );
+		const languageProcessor = new LanguageProcessor( japaneseResearcher );
+		const tokens = languageProcessor.splitIntoTokens( new Sentence( "ウクライナは、東ヨーロッパに位置する国家。" ) );
+		expect( tokens ).toEqual( [
+			{ text: "ウクライナ", sourceCodeRange: {} },
+			{ text: "は", sourceCodeRange: {} },
+			{ text: "、", sourceCodeRange: {} },
+			{ text: "東ヨーロッパ", sourceCodeRange: {} },
+			{ text: "に", sourceCodeRange: {} },
+			{ text: "位置", sourceCodeRange: {} },
+			{ text: "する", sourceCodeRange: {} },
+			{ text: "国家", sourceCodeRange: {} },
+			{ text: "。", sourceCodeRange: {} },
+		] );
 	} );
 } );

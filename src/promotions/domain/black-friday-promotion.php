@@ -14,7 +14,7 @@ class Black_Friday_Promotion extends Abstract_Promotion implements Promotion_Int
 	 */
 	public function __construct() {
 		parent::__construct(
-			'black_friday_2023',
+			'black-friday-2023-promotion',
 			new Time_Interval( \gmmktime( 11, 00, 00, 11, 23, 2023 ), \gmmktime( 11, 00, 00, 11, 28, 2023 ) )
 		);
 	}

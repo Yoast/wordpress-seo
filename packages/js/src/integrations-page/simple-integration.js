@@ -29,6 +29,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 					{ integration.logo && <IntegrationLogo alt={ `${integration.name} logo` } className={ `${ isActive ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
 					<span className="yst-sr-only">
 						{
+							/* translators: Hidden accessibility text. */
 							__( "(Opens in a new browser tab)", "wordpress-seo" )
 						}
 					</span>
@@ -61,6 +62,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 						Learn more
 						<span className="yst-sr-only">
 							{
+								/* translators: Hidden accessibility text. */
 								__( "(Opens in a new browser tab)", "wordpress-seo" )
 							}
 						</span>
@@ -86,6 +88,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 					{ __( "Unlock with Premium", "wordpress-seo" ) }
 					<span className="yst-sr-only">
 						{
+							/* translators: Hidden accessibility text. */
 							__( "(Opens in a new browser tab)", "wordpress-seo" )
 						}
 					</span>

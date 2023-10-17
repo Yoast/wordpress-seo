@@ -14,7 +14,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 <script type="text/html" id="tmpl-primary-term-ui">
 	<?php
-	/* translators: accessibility text. %1$s expands to the term title, %2$s to the taxonomy title. */
+	/* translators: Hidden accessibility text; %1$s expands to the term title, %2$s to the taxonomy title. */
 	$yoast_free_js_button_label = __( 'Make %1$s primary %2$s', 'wordpress-seo' );
 	$yoast_free_js_button_label = sprintf(
 		$yoast_free_js_button_label,

@@ -240,6 +240,7 @@ class WPSEO_Metabox_Formatter {
 			'content-analysis.highlight'                     => __( 'Highlight this result in the text', 'wordpress-seo' ),
 			'content-analysis.nohighlight'                   => __( 'Remove highlight from the text', 'wordpress-seo' ),
 			'content-analysis.disabledButton'                => __( 'Marks are disabled in current view', 'wordpress-seo' ),
+			/* translators: Hidden accessibility text. */
 			'a11yNotice.opensInNewTab'                       => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
 		];
 	}
