@@ -212,8 +212,9 @@ class WPSEO_Taxonomy {
 		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: Nonce is already checked by WordPress before executing this action.
 			if ( isset( $_POST[ $key ] ) && is_string( $_POST[ $key ] ) ) {
-				// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: Nonce is already checked by WordPress before executing this action.
-				$new_meta_data[ $key ] = sanitize_text_field( wp_unslash( $_POST[ $key ] ) );
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: $data is getting sanitized later.
+				$data                  = \wp_unslash( $_POST[ $key ] );
+				$new_meta_data[ $key ] = ( $key !== 'wpseo_canonical' ) ? WPSEO_Utils::sanitize_text_field( $data ) : WPSEO_Utils::sanitize_url( $data );
 			}
 
 			// If analysis is disabled remove that analysis score value from the DB.
@@ -221,7 +222,6 @@ class WPSEO_Taxonomy {
 				$new_meta_data[ $key ] = '';
 			}
 		}
-		unset( $key, $default );
 
 		// Saving the values.
 		WPSEO_Taxonomy_Meta::set_values( $term_id, $taxonomy, $new_meta_data );
