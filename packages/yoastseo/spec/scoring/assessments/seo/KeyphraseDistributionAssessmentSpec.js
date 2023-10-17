@@ -162,6 +162,16 @@ describe( "Checks if the assessment is applicable", function() {
 
 		expect( assessmentIsApplicable ).toBe( false );
 	} );
+
+	it( "should not be applicable to a text consisting only of shortcodes", function() {
+		const shortcodeSentence = "[shortcode]".repeat( 15 ) + ". ";
+		const mockPaper = new Paper( shortcodeSentence.repeat( 15 ), { shortcodes: [ "shortcode" ] } );
+		researcher.setPaper( mockPaper );
+
+		const assessmentIsApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
+
+		expect( assessmentIsApplicable ).toBe( false );
+	} );
 } );
 
 describe( "A test for marking keywords in the text", function() {

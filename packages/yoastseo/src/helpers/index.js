@@ -3,6 +3,7 @@ import { getLanguagesWithWordFormSupport } from "./getLanguagesWithWordFormSuppo
 import formatNumber from "./formatNumber";
 import { getLanguagesWithWordComplexity } from "./getLanguagesWithWordComplexity";
 import { createAnchorOpeningTag } from "./shortlinker";
+import * as htmlEntities from "./htmlEntities";
 
 export {
 	measureTextWidth,
@@ -10,4 +11,5 @@ export {
 	formatNumber,
 	getLanguagesWithWordComplexity,
 	createAnchorOpeningTag,
+	htmlEntities,
 };

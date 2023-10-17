@@ -19,7 +19,7 @@ import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAs
 import InternalLinksAssessment from "./seo/InternalLinksAssessment";
 import IntroductionKeywordAssessment from "./seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "./seo/KeywordDensityAssessment";
+import KeyphraseDensityAssessment, { KeywordDensityAssessment } from "./seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "./seo/MetaDescriptionLengthAssessment";
 import OutboundLinksAssessment from "./seo/OutboundLinksAssessment";
@@ -68,6 +68,7 @@ const seo = {
 	KeyphraseDistributionAssessment,
 	KeyphraseInSEOTitleAssessment,
 	KeyphraseLengthAssessment,
+	KeyphraseDensityAssessment,
 	KeywordDensityAssessment,
 	MetaDescriptionKeywordAssessment,
 	MetaDescriptionLengthAssessment,

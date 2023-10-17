@@ -408,6 +408,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				printf(
 					'<label for="%1$s" class="screen-reader-text">%2$s</label>',
 					esc_attr( 'post-type-filter-' . $instance_type ),
+					/* translators: Hidden accessibility text. */
 					esc_html__( 'Filter by content type', 'wordpress-seo' )
 				);
 				printf(
@@ -809,7 +810,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			$actions['edit'] = sprintf(
 				'<a href="%s" aria-label="%s">%s</a>',
 				esc_url( get_edit_post_link( $rec->ID, true ) ),
-				/* translators: %s: post title */
+				/* translators: Hidden accessibility text; %s: post title. */
 				esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'wordpress-seo' ), $title ) ),
 				__( 'Edit', 'wordpress-seo' )
 			);
@@ -821,7 +822,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					$actions['view'] = sprintf(
 						'<a href="%s" aria-label="%s">%s</a>',
 						esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ),
-						/* translators: %s: post title */
+						/* translators: Hidden accessibility text; %s: post title. */
 						esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $title ) ),
 						__( 'Preview', 'wordpress-seo' )
 					);
@@ -831,7 +832,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				$actions['view'] = sprintf(
 					'<a href="%s" aria-label="%s" rel="bookmark">%s</a>',
 					esc_url( get_permalink( $rec->ID ) ),
-					/* translators: %s: post title */
+					/* translators: Hidden accessibility text; %s: post title. */
 					esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $title ) ),
 					__( 'View', 'wordpress-seo' )
 				);

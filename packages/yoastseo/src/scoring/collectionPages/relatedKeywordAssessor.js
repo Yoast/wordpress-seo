@@ -6,7 +6,7 @@ const { createAnchorOpeningTag } = helpers;
 const {
 	IntroductionKeywordAssessment,
 	KeyphraseLengthAssessment,
-	KeywordDensityAssessment,
+	KeyphraseDensityAssessment,
 	MetaDescriptionKeywordAssessment,
 	FunctionWordsInKeyphraseAssessment,
 } = assessments.seo;
@@ -33,7 +33,7 @@ const CollectionRelatedKeywordAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
 		} ),
-		new KeywordDensityAssessment( {
+		new KeyphraseDensityAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
 		} ),

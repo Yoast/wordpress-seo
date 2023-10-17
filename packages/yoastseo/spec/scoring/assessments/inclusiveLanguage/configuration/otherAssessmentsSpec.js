@@ -27,39 +27,7 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 			},
 			{
 				identifier: "normal",
-				text: "This isn't normal behaviour children.",
-				expectedFeedback: "Avoid using <i>normal</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>typical</i> or a specific characteristic or experience if it is known. " +
-					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-			{
-				identifier: "normal",
-				text: "This isn't normal behavior children.",
-				expectedFeedback: "Avoid using <i>normal</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>typical</i> or a specific characteristic or experience if it is known. " +
-					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-			{
-				identifier: "normal",
 				text: "He is a mentally normal person.",
-				expectedFeedback: "Avoid using <i>normal</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>typical</i> or a specific characteristic or experience if it is known. " +
-					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-			{
-				identifier: "normal",
-				text: "I'm afraid this isn't behaviorally normal.",
-				expectedFeedback: "Avoid using <i>normal</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>typical</i> or a specific characteristic or experience if it is known. " +
-					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-			{
-				identifier: "normal",
-				text: "I'm afraid this isn't behaviourally normal.",
 				expectedFeedback: "Avoid using <i>normal</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>typical</i> or a specific characteristic or experience if it is known. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
@@ -72,6 +40,24 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 					"Consider using an alternative, such as <i>typical</i> or a specific characteristic or experience if it is known. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
+			},
+			{
+				identifier: "behaviorallyNormal",
+				text: "I'm afraid this isn't behaviorally normal.",
+				expectedFeedback: "Be careful when using <i>behaviorally normal</i> as it is potentially harmful. " +
+					"Unless you are referring to objects or animals, consider using an alternative, such as <i>showing typical behavior</i> " +
+					"or a specific characteristic or experience if it is known. " +
+					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "behaviorallyNormal",
+				text: "I'm afraid this isn't behaviourally normal.",
+				expectedFeedback: "Be careful when using <i>behaviourally normal</i> as it is potentially harmful. " +
+					"Unless you are referring to objects or animals, consider using an alternative, such as <i>showing typical behavior</i> " +
+					"or a specific characteristic or experience if it is known. " +
+					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
 			},
 		];
 		testInclusiveLanguageAssessments( testData );
@@ -96,39 +82,7 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 			},
 			{
 				identifier: "abnormal",
-				text: "This isn't abnormal behaviour.",
-				expectedFeedback: "Avoid using <i>abnormal</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>atypical</i> or a specific characteristic or experience if it is known. " +
-					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-			{
-				identifier: "abnormal",
-				text: "This isn't abnormal behavior.",
-				expectedFeedback: "Avoid using <i>abnormal</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>atypical</i> or a specific characteristic or experience if it is known. " +
-					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-			{
-				identifier: "abnormal",
 				text: "He is a mentally abnormal person.",
-				expectedFeedback: "Avoid using <i>abnormal</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>atypical</i> or a specific characteristic or experience if it is known. " +
-					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-			{
-				identifier: "abnormal",
-				text: "I'm afraid this isn't behaviorally abnormal.",
-				expectedFeedback: "Avoid using <i>abnormal</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>atypical</i> or a specific characteristic or experience if it is known. " +
-					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-			{
-				identifier: "abnormal",
-				text: "I'm afraid this isn't behaviourally abnormal.",
 				expectedFeedback: "Avoid using <i>abnormal</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>atypical</i> or a specific characteristic or experience if it is known. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
@@ -141,6 +95,36 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 					"Consider using an alternative, such as <i>atypical</i> or a specific characteristic or experience if it is known. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
+			},
+			{
+				identifier: "behaviorallyAbnormal",
+				text: "I'm afraid this isn't behaviorally abnormal.",
+				expectedFeedback: "Be careful when using <i>behaviorally abnormal</i> as it is potentially harmful. " +
+					"Unless you are referring to objects or animals, consider using an alternative, " +
+					"such as <i>showing atypical behavior, showing dysfunctional behavior</i> " +
+					"or a specific characteristic or experience if it is known. " +
+					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "behaviorallyAbnormal",
+				text: "I'm afraid this isn't behaviourally abnormal.",
+				expectedFeedback: "Be careful when using <i>behaviourally abnormal</i> as it is potentially harmful. " +
+					"Unless you are referring to objects or animals, consider using an alternative, " +
+					"such as <i>showing atypical behavior, showing dysfunctional behavior</i> " +
+					"or a specific characteristic or experience if it is known. " +
+					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "abnormalBehavior",
+				text: "This isn't abnormal behaviour.",
+				expectedFeedback: "Be careful when using <i>abnormal behaviour</i> as it is potentially harmful. " +
+					"Unless you are referring to objects or animals, consider using an alternative, " +
+					"such as <i>atypical behavior, unusual behavior</i> " +
+					"or a specific characteristic or experience if it is known. " +
+					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
 			},
 		];
 		testInclusiveLanguageAssessments( testData );
@@ -160,9 +144,10 @@ describe( "Checks highlighting for 'minorities' and a non-triggering condition f
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>minorities</i> as it is potentially overgeneralizing. " +
-			"Consider using an alternative, such as <i>marginalized groups</i>, <i>underrepresented groups</i> or " +
-			"specific minorities, such as <i>gender and sexuality minorities</i>. " +
+			"Be careful when using <i>minorities</i> as it is potentially harmful. Consider using an alternative by being " +
+			"specific about which group(s) of people you are referring to. For example: <i>members of the LGBTQ+ community</i>, " +
+			"<i>Indigenous peoples</i>, <i>marginalized groups</i>. In case an alternative is not available, make sure to specify the type of " +
+			"minorities you are referring to, e.g., <i>religious minorities</i>. " +
 			"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {

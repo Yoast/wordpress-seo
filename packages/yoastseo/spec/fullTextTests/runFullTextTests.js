@@ -8,7 +8,7 @@ import buildTree from "../specHelpers/parse/buildTree";
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "../../src/scoring/assessments/seo/KeywordDensityAssessment";
+import KeyphraseDensityAssessment from "../../src/scoring/assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "../../src/scoring/assessments/seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeywordAssessment from "../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment";
@@ -96,7 +96,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the keywordDensity assessment", function() {
-			compare( new KeywordDensityAssessment(), expectedResults.keywordDensity );
+			compare( new KeyphraseDensityAssessment(), expectedResults.keywordDensity );
 		} );
 
 		it( "returns a score and the associated feedback text for the metaDescriptionKeyword assessment", function() {

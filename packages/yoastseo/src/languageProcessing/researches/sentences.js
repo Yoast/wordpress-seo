@@ -1,5 +1,6 @@
 import getSentences from "../helpers/sentence/getSentences";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../helpers";
 
 /**
  * Returns the sentences from a paper.
@@ -14,5 +15,6 @@ export default function( paper, researcher ) {
 
 	let text = paper.getText();
 	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	return getSentences( text, memoizedTokenizer );
 }

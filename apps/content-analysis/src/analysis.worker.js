@@ -24,6 +24,7 @@ import CollectionCornerstoneSEOAssessor from "yoastseo/src/scoring/collectionPag
 import CollectionRelatedKeywordAssessor from "yoastseo/src/scoring/collectionPages/relatedKeywordAssessor";
 import CollectionCornerstoneRelatedKeywordAssessor from "yoastseo/src/scoring/collectionPages/cornerstone/relatedKeywordAssessor";
 
+import registerPremiumAssessments from "./utils/registerPremiumAssessments";
 
 self.onmessage = ( event ) => {
 	const language = event.data.language;
@@ -35,6 +36,8 @@ self.onmessage = ( event ) => {
 	const Researcher = getResearcher( language );
 
 	const worker = new AnalysisWebWorker( self, new Researcher() );
+
+	registerPremiumAssessments( worker, language );
 
 	// Set custom assessors.
 	// Store product pages.

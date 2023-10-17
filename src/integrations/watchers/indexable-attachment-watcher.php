@@ -106,6 +106,11 @@ class Indexable_Attachment_Watcher implements Integration_Interface {
 			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
 			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
+			// Set this core option (introduced in WP 6.4) to ensure consistency.
+			if ( \get_option( 'wp_attachment_pages_enabled' ) !== false ) {
+				\update_option( 'wp_attachment_pages_enabled', (int) ! $new_value['disable-attachment'] );
+			}
+
 			switch ( $new_value['disable-attachment'] ) {
 				case false:
 					$this->indexing_helper->set_reason( Indexing_Reasons::REASON_ATTACHMENTS_MADE_ENABLED );

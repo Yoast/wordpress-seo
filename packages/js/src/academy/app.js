@@ -277,6 +277,7 @@ const App = () => {
 											{ __( "Start free trial lesson", "wordpress-seo" ) }
 											<span className="yst-sr-only">
 												{
+													/* translators: Hidden accessibility text. */
 													__( "(Opens in a new browser tab)", "wordpress-seo" )
 												}
 											</span>

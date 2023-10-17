@@ -148,6 +148,12 @@ describe( "An assessment for transition word percentage", function() {
 		expect( assessment ).toBe( false );
 	} );
 
+	it( "should not be applicable if the text has more than 200 words, but part of the words are shortcodes", function() {
+		const mockPaper = new Paper( "Text " + "text ".repeat( 198 ) + "[shortcode]".repeat( 2 ), { shortcodes: [ "shortcode" ] } );
+		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
+		expect( assessment ).toBe( false );
+	} );
+
 	it( "is applicable when used with a supported researcher, e.g. the English researcher", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, ne sed agam oblique alterum. Eos percipit singulis no. No scripta graecis cum. " +
 			"Ut vim eius porro labore. Id quem civibus sit. Sed no primis urbanitas, aperiri laboramus voluptatibus ei per. Esse consul possim " +

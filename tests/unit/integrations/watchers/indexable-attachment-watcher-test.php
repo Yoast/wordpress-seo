@@ -21,7 +21,7 @@ use Yoast_Notification_Center;
  * @group integrations
  * @group watchers
  *
- * @coversDefaultClass Yoast\WP\SEO\Integrations\Watchers\Indexable_Attachment_Watcher
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Attachment_Watcher
  */
 class Indexable_Attachment_Watcher_Test extends TestCase {
 
@@ -206,6 +206,10 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 
 		Monkey\Functions\expect( 'delete_transient' )
 			->with( Indexable_Post_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT )
+			->times( $delete_transient_times );
+
+		Monkey\Functions\expect( 'update_option' )
+			->with( 'wp_attachment_pages_enabled', (int) ! $new_value )
 			->times( $delete_transient_times );
 
 		$this->indexing_helper

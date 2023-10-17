@@ -123,6 +123,7 @@ export function NewsletterSignup( { gdprLink } ) {
 					className="yst-button yst-button--primary yst-h-[45px] yst-items-center yst-mt-[27.5px] yst-shrink-0"
 					onClick={ onSignUpClick }
 					disabled={ signUpState === "loading" }
+					data-hiive-event-name="clicked_signup | personal preferences"
 				>
 					{ __( "Sign up!", "wordpress-seo" ) }
 				</button>

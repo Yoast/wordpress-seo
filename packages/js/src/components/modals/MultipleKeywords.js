@@ -1,78 +1,39 @@
-import interpolateComponents from "interpolate-components";
-import { makeOutboundLink } from "@yoast/helpers";
 import { __, sprintf } from "@wordpress/i18n";
-import UpsellBox from "../UpsellBox";
 import PropTypes from "prop-types";
-import { useRootContext }  from "@yoast/externals/contexts";
-import { addQueryArgs } from "@wordpress/url";
-
-const PremiumLandingPageLink = makeOutboundLink();
+import UpsellBox from "../UpsellBox";
 
 /**
  * Creates the content for a Multiple Keywords upsell modal.
  *
  * @param {Object} props The props for the component.
  *
- * @returns {wp.Element} The Multiple Keywords upsell component.
+ * @returns {JSX.Element} The Multiple Keywords upsell component.
  */
 const MultipleKeywords = ( props ) => {
-	const intro = sprintf(
-		/* translators: %s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
-		__( "Great news: you can, with %s!", "wordpress-seo" ),
-		"{{link}}Yoast SEO Premium{{/link}}"
-	);
-
 	const benefits = [
-		sprintf(
-			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
-			__( "%1$sCreate content faster%2$s: Use AI to create titles & meta descriptions", "wordpress-seo" ),
-			"<strong>",
-			"</strong>"
-		),
-		sprintf(
-			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
-			__( "%1$sNo more dead links%2$s: easy redirect manager", "wordpress-seo" ),
-			"<strong>",
-			"</strong>"
-		),
-		`<strong>${ __( "Superfast internal linking suggestions", "wordpress-seo" ) }</strong>`,
-		sprintf(
-			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
-			__( "%1$sSocial media preview%2$s: Facebook & Twitter", "wordpress-seo" ),
-			"<strong>",
-			"</strong>"
-		),
-		`<strong>${__( "24/7 email support", "wordpress-seo" )}</strong>`,
-		`<strong>${__( "No ads!", "wordpress-seo" )}</strong>`,
+		__( "Create content faster: Use AI to create titles & meta descriptions", "wordpress-seo" ),
+		__( "Get extra SEO checks with the Premium SEO analysis", "wordpress-seo" ),
+		__( "Avoid dead links on your site", "wordpress-seo" ),
+		__( "Easily improve the structure of your site", "wordpress-seo" ),
+		__( "Preview how your content looks when shared on social", "wordpress-seo" ),
+		__( "Get guidance & save time on routine SEO tasks", "wordpress-seo" ),
 	];
-
-	const { locationContext } = useRootContext();
-	// Interpolate links
-	const interpolated = interpolateComponents( {
-		mixedString: intro,
-		components: { link: <PremiumLandingPageLink href={ addQueryArgs( props.link, { context: locationContext } ) } /> },
-	} );
-
-	const otherBenefits = sprintf(
-		/* translators: %s expands to 'Yoast SEO Premium'. */
-		__( "Other benefits of %s for you:", "wordpress-seo" ),
-		"Yoast SEO Premium"
-	);
-
 
 	return (
 		<UpsellBox
-			infoParagraphs={ [ interpolated, otherBenefits ] }
+			title={ __( "Reach a wider audience", "wordpress-seo" ) }
+			description={ __( "Get help optimizing for up to 5 related keyphrases. This helps you reach a wider audience and get more traffic.", "wordpress-seo" ) }
+			benefitsTitle={ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
 			benefits={ benefits }
 			upsellButtonText={
 				sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s", "wordpress-seo" ),
+					__( "Unlock with %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				)
 			}
 			upsellButton={ {
-				href: addQueryArgs( props.buyLink, { context: locationContext } ),
+				href: props.buyLink,
 				className: "yoast-button-upsell",
 				rel: null,
 				"data-ctb-id": "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
@@ -82,11 +43,8 @@ const MultipleKeywords = ( props ) => {
 		/>
 	);
 };
-
 MultipleKeywords.propTypes = {
-	link: PropTypes.string.isRequired,
 	buyLink: PropTypes.string.isRequired,
 };
-
 
 export default MultipleKeywords;

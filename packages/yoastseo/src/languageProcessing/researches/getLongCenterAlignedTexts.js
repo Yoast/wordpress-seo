@@ -2,6 +2,7 @@ import { flatten } from "lodash-es";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
 import matchStringWithRegex from "../helpers/regex/matchStringWithRegex";
 import sanitizeString from "../helpers/sanitize/sanitizeString";
+import { filterShortcodesFromHTML } from "../helpers/sanitize/filterShortcodesFromTree.js";
 
 const centerAlignRegex = /class=["'].*?has-text-align-center.*?["']/i;
 const paragraphsRegex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
@@ -45,6 +46,7 @@ function getLongCenterAlignedElements( elements, elementType ) {
 export default function( paper ) {
 	let text = paper.getText();
 	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 
 	// Get all paragraphs from the text. We only retrieve the paragraphs with <p> tags.
 	const allParagraphs = matchStringWithRegex( text, paragraphsRegex );

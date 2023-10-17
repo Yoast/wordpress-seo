@@ -11,7 +11,7 @@ import checkIfWordIsComplex from "../../../../src/languageProcessing/languages/e
 import wordComplexityConfig from "../../../../src/languageProcessing/languages/es/config/wordComplexity";
 import sentenceLength from "../../../../src/languageProcessing/languages/es/config/sentenceLength";
 
-const morphologyDataES = getMorphologyData( "es" );
+const premiumData = getMorphologyData( "es" );
 
 describe( "a test for the Spanish Researcher", function() {
 	const researcher = new Researcher( new Paper( "Este es un documento nuevo!" ) );
@@ -27,8 +27,8 @@ describe( "a test for the Spanish Researcher", function() {
 	it( "checks if a word is complex in Spanish", function() {
 		researcher.addHelper( "checkIfWordIsComplex", checkIfWordIsComplex );
 
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "situados" ) ).toEqual( true );
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "sobre" ) ).toEqual( false );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "situados", premiumData.es ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "sobre", premiumData.es ) ).toEqual( false );
 	} );
 
 	it( "returns the Spanish function words", function() {
@@ -68,7 +68,7 @@ describe( "a test for the Spanish Researcher", function() {
 	} );
 
 	it( "stems a word using the Spanish stemmer", function() {
-		researcher.addResearchData( "morphology", morphologyDataES );
+		researcher.addResearchData( "morphology", premiumData );
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "gatos" ) ).toEqual( "gat" );
 	} );
 

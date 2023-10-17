@@ -1081,8 +1081,8 @@ export default class AnalysisWebWorker {
 			this._researcher.setPaper( this._paper );
 
 			const languageProcessor = new LanguageProcessor( this._researcher );
-
-			this._paper.setTree( build( this._paper.getText(), languageProcessor ) );
+			const shortcodes = this._paper._attributes && this._paper._attributes.shortcodes;
+			this._paper.setTree( build( this._paper, languageProcessor, shortcodes ) );
 
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
@@ -1405,7 +1405,8 @@ export default class AnalysisWebWorker {
 			// Build and set the tree if it's not been set before.
 			if ( paper.getTree() === null ) {
 				const languageProcessor = new LanguageProcessor( researcher );
-				paper.setTree( build( paper.getText(), languageProcessor ) );
+				const shortcodes = paper._attributes && paper._attributes.shortcodes;
+				paper.setTree( build( paper, languageProcessor, shortcodes ) );
 			}
 		}
 

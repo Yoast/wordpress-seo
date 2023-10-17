@@ -1,21 +1,28 @@
 /* eslint-disable complexity */
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Code, TextField, ToggleField } from "@yoast/ui-library";
+import { Alert, Badge, Code, FeatureUpsell, TextField, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
+import { OutboundLink } from "../../shared-admin/components";
 import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
-import { withDisabledMessageSupport, withFormikError } from "../hocs";
+import { withDisabledMessageSupport, withFormikDummySelectField, withFormikError } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
 const FormikFieldWithError = withFormikError( Field );
 const FormikValueChangeFieldWithDisabledMessage = withDisabledMessageSupport( FormikValueChangeField );
+const FormikValueChangeFieldWithDisabledMessageAndDummy = withFormikDummySelectField( FormikValueChangeFieldWithDisabledMessage );
 
 /**
  * @returns {JSX.Element} The crawl optimization route.
  */
 const CrawlOptimization = () => {
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium", false );
+	const isMultisite = useSelectSettings( "selectPreference", [], "isMultisite", false );
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const crawlSettingsLink = useSelectSettings( "selectLink", [], "https://yoa.st/crawl-settings" );
 	const permalinkCleanupLink = useSelectSettings( "selectLink", [], "https://yoa.st/permalink-cleanup" );
+	const blockUnwantedBotsInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/block-unwanted-bots-info" );
+	const premiumBlockUnwantedBotsLink = useSelectSettings( "selectLink", [], "https://yoa.st/block-unwanted-bots-upsell" );
 
 	const codeExample = useMemo( () => sprintf(
 		/* translators: %1$s expands to an example within a code tag. */
@@ -153,6 +160,19 @@ const CrawlOptimization = () => {
 				{ "https://www.example.com/?rest_route=/" }
 			</Code>,
 		} ),
+
+		// Block unwanted bots.
+		blockUnwantedBots: createInterpolateElement(
+			sprintf(
+				/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+				__( "Lots of web traffic comes from bots crawling the web. Some can benefit your site or business, while other bots don’t. Blocking unwanted bots can save energy, help with site performance, and protect copyrighted content. Learn more about %1$swhen to block unwanted bots%2$s.", "wordpress-seo" ),
+				"<a>",
+				"</a>"
+			),
+			{
+				a: <OutboundLink id="link-block-unwanted-bots-info" href={ blockUnwantedBotsInfoLink } />,
+			}
+		),
 
 		// Internal site search cleanup.
 		redirectSearchPrettyUrls: createInterpolateElement(
@@ -544,7 +564,7 @@ const CrawlOptimization = () => {
 					<hr className="yst-my-8" />
 					<FieldsetLayout
 						title={ __( "Block unwanted bots", "wordpress-seo" ) }
-						description={ __( "Lots of web traffic comes from bots crawling the web. Some of these can be beneficial to your site or to your business, but some just waste resources. Blocking unwanted bots can save energy and help with site performance.", "wordpress-seo" ) }
+						description={ descriptions.blockUnwantedBots }
 					>
 						<FormikValueChangeFieldWithDisabledMessage
 							as={ ToggleField }
@@ -552,9 +572,54 @@ const CrawlOptimization = () => {
 							name="wpseo.deny_adsbot_crawling"
 							id="input-wpseo-deny_adsbot_crawling"
 							label={ __( "Prevent Google AdsBot from crawling", "wordpress-seo" ) }
-							description={ __( "Add a 'disallow' rule to your robots.txt file to prevent crawling by Google's AdsBot. You should only enable this setting if you're not using Google Ads on your site.", "wordpress-seo" ) }
+							description={ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling by Google AdsBot. You should only enable this setting if you're not using Google Ads on your site.", "wordpress-seo" ) }
 							className="yst-max-w-2xl"
 						/>
+						<FeatureUpsell
+							shouldUpsell={ ! isMultisite && ! isPremium }
+							variant="card"
+							cardLink={ premiumBlockUnwantedBotsLink }
+							cardText={ sprintf(
+								/* translators: %1$s expands to Premium. */
+								__( "Unlock with %1$s", "wordpress-seo" ),
+								"Premium"
+							) }
+							{ ...premiumUpsellConfig }
+						>
+							<FormikValueChangeFieldWithDisabledMessageAndDummy
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.deny_google_extended_crawling"
+								id="input-wpseo-deny_google_extended_crawling"
+								label={ __( "Prevent Google Bard and Vertex AI bots from crawling", "wordpress-seo" ) }
+								description={ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling by the Google-Extended bot. Enabling this setting won’t prevent Google from indexing your website.", "wordpress-seo" ) }
+								labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+								className="yst-max-w-2xl"
+								isDummy={ ! isPremium }
+							/>
+							<FormikValueChangeFieldWithDisabledMessageAndDummy
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.deny_gptbot_crawling"
+								id="input-wpseo-deny_gptbot_crawling"
+								label={ __( "Prevent OpenAI GPTBot from crawling", "wordpress-seo" ) }
+								description={ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling by OpenAI GPTBot.", "wordpress-seo" ) }
+								labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+								className="yst-max-w-2xl"
+								isDummy={ ! isPremium }
+							/>
+							<FormikValueChangeFieldWithDisabledMessageAndDummy
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.deny_ccbot_crawling"
+								id="input-wpseo-deny_ccbot_crawling"
+								label={ __( "Prevent Common Crawl CCBot from crawling", "wordpress-seo" ) }
+								description={ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling by Common Crawl CCBot.", "wordpress-seo" ) }
+								labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+								className="yst-max-w-2xl"
+								isDummy={ ! isPremium }
+							/>
+						</FeatureUpsell>
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
 					<FieldsetLayout

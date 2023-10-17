@@ -6,6 +6,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { createAnchorOpeningTag } from "../../../helpers";
 import getSentences from "../../../languageProcessing/helpers/sentence/getSentences";
 import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
 
 /**
  * Represents an assessment that returns a score based on the largest percentage of text in which no keyword occurs.
@@ -182,6 +183,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 		let text = paper.getText();
 		text = removeHtmlBlocks( text );
+		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 		const sentences = getSentences( text, memoizedTokenizer );
 
 		return paper.hasText() && paper.hasKeyword() && sentences.length >= 15 && researcher.hasResearch( "keyphraseDistribution" );

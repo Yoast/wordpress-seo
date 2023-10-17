@@ -118,6 +118,21 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].count ).toBe( 1 );
 	} );
 
+	it( "ignores shortcodes", function() {
+		mockPaper = new Paper( "Cats are fluffy. Dogs are happy. [shortcode]Unicorns cant code.", { shortcodes: [ "shortcode" ] } );
+		researcher = new EnglishResearcher( mockPaper );
+
+		const sentenceBeginnings = getSentenceBeginnings( mockPaper, researcher );
+
+		expect( sentenceBeginnings ).toHaveLength( 3 );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "cats" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "dogs" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].count ).toBe( 1 );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 2 ].word ).toBe( "unicorns" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 2 ].count ).toBe( 1 );
+	} );
+
 	it( "returns an object with English sentence beginnings with paragraph tags - it should match over paragraphs", function() {
 		mockPaper = new Paper( "<p>Sentence 1. Sentence 2.</p><p>Sentence 3.</p>" );
 		researcher = new EnglishResearcher( mockPaper );

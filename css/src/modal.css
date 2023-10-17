@@ -59,6 +59,18 @@
 	right: 16px;
 }
 
+.yoast-gutenberg-modal__box.components-modal__frame {
+	box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+	@media (min-width: 600px) {
+		border-radius: 8px;
+	}
+}
+
+.yoast-gutenberg-modal__no-padding .components-modal__content {
+	padding: 0;
+}
+
 .yoast-modal__heading h1,
 .yoast-gutenberg-modal .components-modal__header-heading {
 	font-size: 20px;

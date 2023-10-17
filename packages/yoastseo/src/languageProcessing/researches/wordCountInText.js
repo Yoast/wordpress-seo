@@ -1,5 +1,6 @@
 import wordCount from "../helpers/word/countWords.js";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../helpers";
 
 /**
  * A result of the word count calculation.
@@ -19,6 +20,7 @@ import removeHtmlBlocks from "../helpers/html/htmlParser";
 export default function( paper ) {
 	let text = paper.getText();
 	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	return {
 		text: text,
 		count: wordCount( text ),

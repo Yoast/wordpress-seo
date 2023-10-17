@@ -29,6 +29,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 					{ integration.logo && <IntegrationLogo alt={ `${integration.name} logo` } className={ `${ isActive ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
 					<span className="yst-sr-only">
 						{
+							/* translators: Hidden accessibility text. */
 							__( "(Opens in a new browser tab)", "wordpress-seo" )
 						}
 					</span>
@@ -37,9 +38,9 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 			</Card.Header>
 			<Card.Content>
 				<div>
-					<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827] yst-leading-tight">
-						<span>{ integration.claim }</span>
-					</h4>
+					{ integration.claim && <h4 className="yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827] yst-leading-tight">
+						{ integration.claim }
+					</h4> }
 					{ integration.description && <p> { integration.description } </p> }
 					{ integration.usps && <ul className="yst-space-y-3">
 						{ integration.usps.map( ( usp, idx ) => {
@@ -61,6 +62,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 						Learn more
 						<span className="yst-sr-only">
 							{
+								/* translators: Hidden accessibility text. */
 								__( "(Opens in a new browser tab)", "wordpress-seo" )
 							}
 						</span>
@@ -86,6 +88,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 					{ __( "Unlock with Premium", "wordpress-seo" ) }
 					<span className="yst-sr-only">
 						{
+							/* translators: Hidden accessibility text. */
 							__( "(Opens in a new browser tab)", "wordpress-seo" )
 						}
 					</span>
@@ -103,7 +106,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 SimpleIntegration.propTypes = {
 	integration: PropTypes.shape( {
 		name: PropTypes.string,
-		claim: PropTypes.string,
+		claim: PropTypes.node,
 		learnMoreLink: PropTypes.string,
 		logoLink: PropTypes.string,
 		slug: PropTypes.string,

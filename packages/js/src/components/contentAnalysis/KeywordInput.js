@@ -44,7 +44,10 @@ class KeywordInput extends Component {
 				className="dashicons"
 			>
 				<span className="screen-reader-text">
-					{ __( "Help on choosing the perfect focus keyphrase", "wordpress-seo" ) }
+					{
+						/* translators: Hidden accessibility text. */
+						__( "Help on choosing the perfect focus keyphrase", "wordpress-seo" )
+					}
 				</span>
 			</HelpLink>
 		);

@@ -5,6 +5,7 @@ import getSentences from "../helpers/sentence/getSentences";
 import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 import { mergeListItems } from "../helpers/sanitize/mergeListItems";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../helpers/sanitize/filterShortcodesFromTree";
 
 /**
  * Checks whether at least half of the content words from the topic are found within the sentence.
@@ -207,6 +208,7 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 
 	let text = paper.getText();
 	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	text = mergeListItems( text );
 	const sentences = getSentences( text, memoizedTokenizer );
 	const topicForms = researcher.getResearch( "morphology" );

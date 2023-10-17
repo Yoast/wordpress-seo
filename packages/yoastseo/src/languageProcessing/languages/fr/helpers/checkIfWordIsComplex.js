@@ -9,12 +9,13 @@ const contractionRegex = new RegExp( contractionPrefixes );
  *
  * @param {object} config The configuration needed for assessing the word's complexity, e.g., the frequency list.
  * @param {string} word The word to check.
+ * @param {object}	premiumData The object that contains data for the assessment including the frequency list.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( config, word ) {
+export default function checkIfWordIsComplex( config, word, premiumData ) {
 	const lengthLimit = config.wordLength;
-	const frequencyList = config.frequencyList;
+	const frequencyList = premiumData.frequencyList.list;
 
 	// Normalize single quotes before checking for contractions.
 	word = normalizeSingle( word );
@@ -27,7 +28,7 @@ export default function checkIfWordIsComplex( config, word ) {
 		word = word.replace( contractionRegex, "" );
 	}
 
-	// The word is not complex if it's less than the length limit, i.e. 9 characters for French.
+	// The word is not complex if it's less than or the same as the length limit, i.e. 9 characters for French.
 	if ( word.length <= lengthLimit ) {
 		return false;
 	}

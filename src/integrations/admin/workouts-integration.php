@@ -207,6 +207,7 @@ class Workouts_Integration implements Integration_Interface {
 			);
 			$button = '<a class="yoast-button yoast-button-upsell yoast-button--small" href="' . \esc_url( $url ) . '" target="_blank">'
 					. \esc_html__( 'Renew your subscription', 'wordpress-seo' )
+					/* translators: Hidden accessibility text. */
 					. '<span class="screen-reader-text">' . \__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
 					. '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>'
 					. '</a>';
@@ -236,6 +237,7 @@ class Workouts_Integration implements Integration_Interface {
 			);
 			$button = '<a class="yoast-button yoast-button--primary yoast-button--small" href="' . \esc_url( $url_button ) . '" target="_blank">'
 					. \esc_html__( 'Get help activating your subscription', 'wordpress-seo' )
+					/* translators: Hidden accessibility text. */
 					. '<span class="screen-reader-text">' . \__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
 					. '</a>';
 		}
