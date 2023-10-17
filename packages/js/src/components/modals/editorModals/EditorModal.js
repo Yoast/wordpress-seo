@@ -94,7 +94,7 @@ const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open,
 				title={ title }
 				SuffixHeroIcon={ SuffixHeroIcon }
 				// Fall back to the pencil square SVG icon if no hero icon has been passed.
-				suffixIcon={ ! SuffixHeroIcon && { size: "20px", icon: "pencil-square" } }
+				suffixIcon={ SuffixHeroIcon ? null : { size: "20px", icon: "pencil-square" } }
 				onClick={ open }
 			/>
 		</Fragment>
