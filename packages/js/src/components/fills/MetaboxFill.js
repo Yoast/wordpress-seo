@@ -1,5 +1,5 @@
 /* External dependencies */
-import { select } from "@wordpress/data";
+import { useSelect } from "@wordpress/data";
 import { Fragment, useCallback } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
@@ -24,8 +24,13 @@ import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../modals/KeywordUpsell";
-import { BlackFridayProductEditorChecklistPromo } from "../BlackFridayProductEditorChecklistPromo";
+import { BlackFridayProductEditorChecklistPromotion } from "../BlackFridayProductEditorChecklistPromotion";
+import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
+import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
+
+const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
+const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 
 /* eslint-disable complexity */
 /**
@@ -49,15 +54,10 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 		}
 	}, [ wincherKeyphrases, setWincherNoKeyphrase ] );
 
-	/**
-	 * Checks if the WooCommerce promo should be shown.
-	 *
-	 * @returns {boolean} Whether the WooCommerce promo should be shown.
-	 */
-	const shouldShowWooCommercePromo = () => {
-		const isProduct = select( "yoast-seo/editor" ).getIsProduct();
-		return isProduct && isWooCommerceActive();
-	};
+	const isTerm = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsTerm(), [] );
+	const isProduct = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsProduct(), [] );
+
+	const shouldShowWooCommerceChecklistPromo = isProduct && isWooCommerceActive();
 
 	return (
 		<>
@@ -73,7 +73,8 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 					key="time-constrained-notification"
 					renderPriority={ 2 }
 				>
-					{ shouldShowWooCommercePromo() && <BlackFridayProductEditorChecklistPromo /> }
+					{ shouldShowWooCommerceChecklistPromo && <BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck /> }
+					<BlackFridayPromotionWithMetaboxWarningsCheck image={ null } hasIcon={ false } location={ "metabox" } />
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
@@ -111,7 +112,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
-				{ settings.shouldUpsell && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 23 }>
+				{ settings.shouldUpsell && ! isTerm && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 23 }>
 					<InternalLinkingSuggestionsUpsell />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&

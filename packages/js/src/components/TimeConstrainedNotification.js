@@ -3,21 +3,9 @@ import { select } from "@wordpress/data";
 import PersistentDismissableNotification from "../containers/PersistentDismissableNotification";
 
 /**
- * Checks if there are any warnings.
- *
- * @returns {boolean} Whether there are any warnings.
- */
-const areThereAnyWarnings = () => {
-	const warningsFree = select( "yoast-seo/editor" ).getWarningMessage();
-	const warningsPremium = select( "yoast-seo-premium/editor" )?.getMetaboxWarning() ?? [];
-
-	return warningsPremium.length > 0 || warningsFree.length > 0;
-};
-
-/**
  * @param {string}      store The Redux store identifier from which to determine dismissed state.
  * @param {JSX.Element} image The image or null if no image.
- * @param {string}      title The title of the notification.
+ * @param {object | string}      title The title of the notification.
  * @param {string}      promoId The promotion id.
  * @param {string}      alertKey The unique id for the alert.
  * @param {JSX.node}    children The content of the notification.
@@ -35,9 +23,8 @@ export const TimeConstrainedNotification = ( {
 } ) => {
 	const promotionActive = select( store ).isPromotionActive( promoId );
 
-
 	return (
-		! areThereAnyWarnings() && promotionActive && <PersistentDismissableNotification
+		promotionActive && <PersistentDismissableNotification
 			alertKey={ alertKey }
 			store={ store }
 			id={ alertKey }
@@ -53,7 +40,7 @@ export const TimeConstrainedNotification = ( {
 TimeConstrainedNotification.propTypes = {
 	store: PropTypes.string,
 	image: PropTypes.elementType,
-	title: PropTypes.string.isRequired,
+	title: PropTypes.any.isRequired,
 	promoId: PropTypes.string.isRequired,
 	alertKey: PropTypes.string.isRequired,
 	children: PropTypes.node,

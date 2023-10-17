@@ -86,6 +86,7 @@ export const WoocommerceIntegration = ( {
 					}
 					<span className="yst-sr-only">
 						{
+							/* translators: Hidden accessibility text. */
 							__( "(Opens in a new browser tab)", "wordpress-seo" )
 						}
 					</span>
@@ -99,7 +100,7 @@ export const WoocommerceIntegration = ( {
 WoocommerceIntegration.propTypes = {
 	integration: PropTypes.shape( {
 		name: PropTypes.string,
-		claim: PropTypes.string,
+		claim: PropTypes.node,
 		slug: PropTypes.string,
 		description: PropTypes.string,
 		usps: PropTypes.array,

@@ -855,4 +855,77 @@ body.folded .wpseo-admin-submit-fixed {
 .yoast-dashicons-notice {
 	color: #dba617;
 }
+
+#black-friday-2023-promotion-sidebar.notice-yoast {
+	border-color: #fcd34d;
+	border-width: 2px;
+	border-radius: 8px;
+	background: #fff;
+
+	margin: 5px 0 15px;
+	padding: 1px 12px;
+
+	margin-left: 0;
+	margin-top: 20px;
+}
+
+#black-friday-2023-promotion-sidebar .notice-yoast__header {
+	margin-bottom: 2px;
+}
+
+#black-friday-2023-promotion-metabox.notice-yoast {
+	border-color: #fcd34d;
+	border-width: 2px;
+	border-radius: 8px;
+	background: #fff;
+
+	margin: 20px;
+}
+
+#black-friday-2023-promotion-metabox h2.notice-yoast__header-heading {
+	padding: 0px;
+}
+
+#black-friday-2023-promotion-metabox .notice-yoast__container {
+	padding-bottom: 0px;
+}
+
+#black-friday-2023-promotion-metabox .notice-yoast__container p {
+	display: inline;
+}
+
+#black-friday-2023-promotion-metabox .notice-yoast__header {
+	margin-bottom: 8px;
+}
+
+#black-friday-2023-promotion-metabox .notice-yoast__header a {
+	font-weight: 400;
+	margin-left: 13px;
+}
+
+.yoast-bf-sale-badge {
+	display: block;
+	position:absolute;
+	border-radius: 8px;
+	top: -10px;
+	left: 12px;
+	background-color: #1F2937;
+	color: #FCD34D;
+	padding: 2px 8px;
+	font-size: 10px;
+	font-weight: 600;
+	line-height: normal;
+}
+
+.yoast-menu-bf-sale-badge {
+	margin-left: 5px;
+	border-radius: 8px;
+	border: 1px solid #FCD34D;
+	background-color: #1F2937;
+	color: #FCD34D;
+	padding: 2px 8px;
+	font-size: 10px;
+	font-weight: 600;
+	line-height: normal;
+}
 /*# sourceMappingURL=admin-global.css.map */

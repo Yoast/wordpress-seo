@@ -132,8 +132,8 @@ class WordProofTimestampToggle extends Component {
 		return (
 			<Fragment>
 				<FieldGroup
-					linkText={ __( "Learn more about timestamping",
-						"wordpress-seo" ) }
+					/* translators: Hidden accessibility text. */
+					linkText={ __( "Learn more about timestamping", "wordpress-seo" ) }
 					linkTo={ "https://yoa.st/wordproof-integration" }
 					htmlFor={ this.props.id }
 					label={ __( "Timestamp with WordProof", "wordpress-seo" ) }

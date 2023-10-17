@@ -522,6 +522,32 @@ describe( "A test for getting positions of sentences", () => {
 		expect( bang.sourceCodeRange ).toEqual( { startOffset: 11, endOffset: 12 } );
 	} );
 
+	it( "should correctly add positions to two sentences in an implicit paragraph", function() {
+		const html = "Hello world! It is <strong>Yoast</strong>.";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		const paragraph = tree.childNodes[ 0 ];
+
+		expect( paragraph.sourceCodeLocation ).toEqual( { startOffset: 0, endOffset: 42 } );
+
+		const tokens = [ "Hello", " ", "world", "!" ].map( string => new Token( string ) );
+		const tokens2 = [ "It", " ", "is", " ", "Yoast", "." ].map( string => new Token( string ) );
+
+		const [ hello, space, world, bang ] = getTextElementPositions( paragraph, tokens );
+		const [ it, space2, is, space3, yoast, dot ] = getTextElementPositions( paragraph, tokens2, 13 );
+
+		expect( hello.sourceCodeRange ).toEqual( { startOffset: 0, endOffset: 5 } );
+		expect( space.sourceCodeRange ).toEqual( { startOffset: 5, endOffset: 6 } );
+		expect( world.sourceCodeRange ).toEqual( { startOffset: 6, endOffset: 11 } );
+		expect( bang.sourceCodeRange ).toEqual( { startOffset: 11, endOffset: 12 } );
+
+		expect( it.sourceCodeRange ).toEqual( { startOffset: 13, endOffset: 15 } );
+		expect( space2.sourceCodeRange ).toEqual( { startOffset: 15, endOffset: 16 } );
+		expect( is.sourceCodeRange ).toEqual( { startOffset: 16, endOffset: 18 } );
+		expect( space3.sourceCodeRange ).toEqual( { startOffset: 18, endOffset: 19 } );
+		expect( yoast.sourceCodeRange ).toEqual( { startOffset: 27, endOffset: 32 } );
+		expect( dot.sourceCodeRange ).toEqual( { startOffset: 41, endOffset: 42 } );
+	} );
+
 	it( "correctly calculates the position of an image caption", () => {
 		const html = "<div>[caption id=\"attachment_3341501\" align=\"alignnone\" width=\"300\"]" +
 			"<img class=\"cls\" src=\"yoast.com/image.jpg\" alt=\"alt\" width=\"300\" height=\"300\" />" +
@@ -530,12 +556,11 @@ describe( "A test for getting positions of sentences", () => {
 		const div = tree.childNodes[ 0 ];
 		const caption = div.childNodes[ 0 ];
 
-		const captionText = caption.childNodes[ 2 ];
 		const tokens = [ " ", "An", " ", "image", " ", "with", " ", "the", " ", "keyword", " ", "in", " ", "the", " ", "caption", "." ].map(
 			string => new Token( string ) );
 
 		const [ space0, an, space1, image, space2, withToken, space3, the,
-			space4, keyword, space5, inToken, space6, the2, space7, captionToken, dot ] = getTextElementPositions( captionText, tokens );
+			space4, keyword, space5, inToken, space6, the2, space7, captionToken, dot ] = getTextElementPositions( caption, tokens, 148 );
 
 		expect( space0.sourceCodeRange ).toEqual( { startOffset: 148, endOffset: 149 } );
 		expect( an.sourceCodeRange ).toEqual( { startOffset: 149, endOffset: 151 } );

@@ -108,4 +108,37 @@ describe( "The combineIntoImplicitParagraphs function", () => {
 
 		expect( implicitParagraphs ).toEqual( expected );
 	} );
+
+	it( "correctly handles double and single br tags: the former should lead ending implicit paragraphs", () => {
+		// #text<br/><br/>#text<br/>#text
+		const nodes = [
+			{ name: "#text" },
+			{ name: "br" },
+			{ name: "br" },
+			{ name: "#text" },
+			{ name: "br" },
+			{ name: "#text" },
+		];
+
+		const implicitParagraphs = combineIntoImplicitParagraphs( nodes );
+
+		const expected = [
+			{
+				name: "p",
+				attributes: {},
+				childNodes: [ { name: "#text" } ],
+				isImplicit: true,
+			},
+			{ name: "br" },
+			{ name: "br" },
+			{
+				name: "p",
+				attributes: {},
+				childNodes: [ { name: "#text" }, { name: "br" }, { name: "#text" } ],
+				isImplicit: true,
+			},
+		];
+
+		expect( implicitParagraphs ).toEqual( expected );
+	} );
 } );

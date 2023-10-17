@@ -5,8 +5,8 @@
  * @returns {RegExp} The regex to recognize the shortcodes.
  */
 const createShortcodeTagsRegex = shortcodeTags => {
-	const sortcodeTagsRegexString = `\\[\\/?(${ shortcodeTags.join( "|" ) })[^\\]]*\\]`;
-	return new RegExp( sortcodeTagsRegexString, "g" );
+	const shortcodeTagsRegexString = `\\[\\/?(${ shortcodeTags.join( "|" ) })[^\\]]*\\]`;
+	return new RegExp( shortcodeTagsRegexString, "g" );
 };
 
 /**

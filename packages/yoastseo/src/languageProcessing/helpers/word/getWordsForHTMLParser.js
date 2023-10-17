@@ -2,20 +2,21 @@ import { punctuationRegexEnd, punctuationRegexStart } from "../sanitize/removePu
 import { hashedHtmlEntitiesRegexEnd, hashedHtmlEntitiesRegexStart } from "../../../helpers/htmlEntities";
 
 /*
- * The following regex matches a word separator. A word separator is either a whitespace, a slash, a backslash, a
- * tab or a non-breaking space.
+ * The following regex matches a word separator. A word separator is either a whitespace, a slash, a
+ * tab or a non-breaking space. Brackets are added to deal correctly with shortcodes downstream.
  * The regex is used to split a text into tokens.
  * Do not add punctuation marks to this regex, as they are handled separately inside splitIntoTokens().
  * The word separator explicitly only contains characters that split two words and not a word and a space.
- * A space is a word separator because it separates two words if it occurs between two words. For example: "foo bar"
- * A slash is a word separator because it separates two words if it directly borders those words. For example: "foo/bar"
- * A backslash is a word separator because it separates two words if it occurs between two words. For example: "foo\bar"
- * A tab is a word separator because it separates two words if it occurs between two words. For example: "foo	bar"
- * A non-breaking space is a word separator because it separates two words if it occurs between two words. For example: "foo\u00A0bar"
- * An en-dash (u2013), em-dash (u2014), and hyphen (u002d) are word separators because they seperate two words if they occur between two words.
- * For example: "foo–bar".
+ * - A space is a word separator because it separates two words if it occurs between two words. For example: "foo bar"
+ * - A slash is a word separator because it separates two words if it directly borders those words. For example: "foo/bar"
+ * - A backslash is a word separator because it separates two words if it occurs between two words. For example: "foo\bar"
+ * - A tab is a word separator because it separates two words if it occurs between two words. For example: "foo	bar"
+ * - A non-breaking space is a word separator because it separates two words if it occurs between two words. For example: "foo\u00A0bar"
+ * - An en-dash (u2013), em-dash (u2014), and hyphen (u002d) are word separators because they seperate two words if they occur between two words.
+ *   For example: "foo–bar".
+ * - Open and closing brackets are added to deal correctly with shortcodes downstream.
  */
-const wordSeparatorsRegexDefault = /([\s\t\u00A0\u2013\u2014\u002d])/;
+const wordSeparatorsRegexDefault = /([\s\t\u00A0\u2013\u2014\u002d[\]])/;
 
 /**
  * Tokenizes a text similar to getWords, but in a suitable way for the HTML parser.

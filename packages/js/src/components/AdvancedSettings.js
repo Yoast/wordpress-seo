@@ -92,6 +92,7 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 					options={ metaRobotsNoIndexOptions }
 					selected={ noIndex }
 					linkTo={ wpseoAdminL10n[ "shortlinks.advanced.allow_search_engines" ] }
+					/* translators: Hidden accessibility text. */
 					linkText={ __( "Learn more about the no-index setting on our help page.", "wordpress-seo" ) }
 				/>
 			</Fragment>;
@@ -132,6 +133,7 @@ const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
 				onChange={ onNoFollowChange }
 				selected={ noFollow }
 				linkTo={ wpseoAdminL10n[ "shortlinks.advanced.follow_links" ] }
+				/* translators: Hidden accessibility text. */
 				linkText={ __( "Learn more about the no-follow setting on our help page.", "wordpress-seo" ) }
 			/>;
 		} }
@@ -169,6 +171,7 @@ const MetaRobotsAdvanced = ( { advanced, onAdvancedChange } ) => {
 				] }
 				selected={ advanced }
 				linkTo={ wpseoAdminL10n[ "shortlinks.advanced.meta_robots" ] }
+				/* translators: Hidden accessibility text. */
 				linkText={ __( "Learn more about advanced meta robots settings on our help page.", "wordpress-seo" ) }
 			/>;
 		} }
@@ -197,6 +200,7 @@ const BreadcrumbsTitle = ( { breadcrumbsTitle, onBreadcrumbsTitleChange } ) => {
 					onChange={ onBreadcrumbsTitleChange }
 					value={ breadcrumbsTitle }
 					linkTo={ wpseoAdminL10n[ "shortlinks.advanced.breadcrumbs_title" ] }
+					/* translators: Hidden accessibility text. */
 					linkText={ __( "Learn more about the breadcrumbs title setting on our help page.", "wordpress-seo" ) }
 				/>;
 			}
@@ -226,6 +230,7 @@ const CanonicalURL = ( { canonical, onCanonicalChange } ) => {
 					onChange={ onCanonicalChange }
 					value={ canonical }
 					linkTo={ "https://yoa.st/canonical-url" }
+					/* translators: Hidden accessibility text. */
 					linkText={ __( "Learn more about canonical URLs on our help page.", "wordpress-seo" ) }
 				/>;
 			}
