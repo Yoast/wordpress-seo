@@ -159,6 +159,10 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 			->with( 'term', 'category', Indexing_Reasons::REASON_CATEGORY_BASE_PREFIX )
 			->once();
 
+		Monkey\Functions\expect( 'update_option' )
+			->once()
+			->with( 'rewrite_rules', '' );
+
 		$this->instance->check_option( [ 'stripcategorybase' => 0 ], [ 'stripcategorybase' => 1 ] );
 	}
 }
