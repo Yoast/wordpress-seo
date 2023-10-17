@@ -212,7 +212,7 @@ function _wpseo_activate() {
 	}
 	WPSEO_Options::ensure_options_exist();
 
-	if ( !is_multisite() || !ms_is_switched() ) {
+	if ( ! is_multisite() || ! ms_is_switched() ) {
 		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
 			// Constructor has side effects so this registers all hooks.
 			$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
