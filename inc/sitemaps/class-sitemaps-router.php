@@ -28,17 +28,6 @@ class WPSEO_Sitemaps_Router {
 		add_action( 'template_redirect', [ $this, 'template_redirect' ], 0 );
 	}
 
-	// Add custom rewrite rules using the generate_rewrite_rules action
-	public function custom_rewrite_rules( $rules ) {
-		$new_rules = [
-			'sitemap_index\.xml$'             => 'index.php?sitemap=1',
-			'([^/]+?)-sitemap([0-9]+)?\.xml$' => 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]',
-			'([a-z]+)?-?sitemap\.xsl$'        => 'index.php?yoast-sitemap-xsl=$matches[1]',
-		];
-
-		return ( $new_rules + $rules );
-	}
-
 	/**
 	 * Adds rewrite routes for sitemaps.
 	 *
