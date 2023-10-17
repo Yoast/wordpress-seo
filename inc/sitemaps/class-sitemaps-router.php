@@ -69,6 +69,9 @@ class WPSEO_Sitemaps_Router {
 
 	/**
 	 * Sets up rewrite rules.
+	 * 
+	 * @deprecated 21.5
+	 * @codeCoverageIgnore
 	 */
 	public function init() {
 		global $wp;
@@ -80,6 +83,8 @@ class WPSEO_Sitemaps_Router {
 		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
 		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
 		add_rewrite_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?yoast-sitemap-xsl=$matches[1]', 'top' );
+
+		_deprecated_function( __METHOD__, 'Yoast SEO 21.5' );
 	}
 
 	/**
