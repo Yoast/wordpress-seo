@@ -51,14 +51,14 @@ export default function checkIfWordIsComplex( config, word, morphologyData ) {
 		 * if it is a plural that does not end on -s or -x but on -aux, we replace the plural -aux suffix with the singular suffix -al.
 		 * The word is not complex if the singular form is in the list.
 		 */
-		if ( word.test( morphologyData.suffixGroupsComplexity.standardSuffixesWithSplural ||
-			morphologyData.suffixGroupsComplexity.standardSuffixesWithXplural ) ) {
+		if ( new RegExp( morphologyData.suffixGroupsComplexity.standardSuffixesWithSplural ).test( word ) ||
+			new RegExp( morphologyData.suffixGroupsComplexity.standardSuffixesWithSplural ).test( word ) ) {
 			word = word.substring( 0, word.length - 1 );
-		} else if ( word.endsWith( morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes ) ) {
+		} else if ( new RegExp( morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes ).test( word ) ) {
 			word = word.replace( new RegExp( morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 0 ] ),
 				morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 1 ] );
 		}
 		return ! frequencyList.includes( word );
 	}
-	return true;
+	return false;
 }

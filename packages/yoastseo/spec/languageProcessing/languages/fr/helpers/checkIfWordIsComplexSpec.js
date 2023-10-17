@@ -24,8 +24,8 @@ describe( "a test checking if the word is complex in French",  function() {
 	} );
 
 	it( "returns words longer than 9 characters (including plurals) as non complex if the words start with capital letter", function() {
-		expect( checkIfWordIsComplex( wordComplexityConfig, "Opérations", morphologyData, morphologyData ) ).toEqual( false );
-		expect( checkIfWordIsComplex( wordComplexityConfig, "Éclairage" ) ).toEqual( false );
+		expect( checkIfWordIsComplex( wordComplexityConfig, "Opérations", morphologyData ) ).toEqual( false );
+		expect( checkIfWordIsComplex( wordComplexityConfig, "Éclairage",  morphologyData ) ).toEqual( false );
 	} );
 
 	it( "returns words as non complex if the words are less than 9 characters", function() {
