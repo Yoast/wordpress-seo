@@ -67,7 +67,8 @@ function getAnchorsContainingTopic( anchors, topicForms, locale, matchWordCustom
  * @param {Object}      topicForms          		The object with topicForms. It contains all forms of the keyphrase and synonyms.
  * @param {String}      locale              		The locale of the paper.
  * @param {Object}      customHelpers       		An object containing custom helpers.
- * @param {Object[]}    exactMatchRequest   		An array of objects containing the keyphrase and information whether the exact match has been requested.
+ * @param {Object[]}    exactMatchRequest   		An array of objects containing the keyphrase and information on whether
+ * 													the exact match has been requested.
  * @param {boolean}	 	areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
  * @returns {Array} The array of all anchors with text that has the same content words as the keyphrase/synonyms.
