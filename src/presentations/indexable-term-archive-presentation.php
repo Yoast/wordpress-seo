@@ -172,7 +172,11 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	 * @return string The title.
 	 */
 	public function generate_title() {
-		if ( is_wp_error( $this->source ) || $this->model->title ) {
+		if ( $this->model->title ) {
+			return $this->model->title;
+		}
+
+		if ( is_wp_error( $this->source ) ) {
 			return $this->model->title;
 		}
 
