@@ -134,8 +134,10 @@ class UpsellBox extends Component {
 							{ this.props.upsellButtonHasCaret && <span aria-hidden="true" className="yoast-button-upsell__caret" /> }
 						</UpsellButton>
 						<div className="yst-text-slate-600 yst-my-4">
-							{ newPrice && <span className="yst-text-slate-500 yst-line-through">{ defaultPrice }</span> }
-							{ " " } { " " }
+							{ newPrice && <>
+								<span className="yst-text-slate-500 yst-line-through">{ defaultPrice }</span>
+								&nbsp;
+							</> }
 							<span className="yst-text-slate-900 yst-text-2xl yst-font-bold">{ price }</span> { __( "$ USD / € EUR / £ GBP per year (ex. VAT)", "wordpress-seo" ) }
 						</div>
 						<ButtonLabel id={ this.props.upsellButton[ "aria-describedby" ] }>
