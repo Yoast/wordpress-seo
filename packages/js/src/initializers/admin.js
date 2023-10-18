@@ -314,12 +314,12 @@ export default function initAdmin( jQuery ) {
 		} ).trigger( "change" );
 
 		// Toggle the Wincher section.
-		jQuery( "#wincher_integration_active input[type='radio']" ).change( function() {
+		jQuery( "#wincher_integration_active input[type='radio']" ).on( "change", function() {
 			// The value on is enabled, off is disabled.
 			if ( jQuery( this ).is( ":checked" ) ) {
 				jQuery( "#wincher-connection" ).toggle( jQuery( this ).val() === "on" );
 			}
-		} ).change();
+		} ).trigger( "change" );
 
 		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).on( "click", function( event ) {
