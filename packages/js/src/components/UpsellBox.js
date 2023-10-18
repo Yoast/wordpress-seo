@@ -135,8 +135,8 @@ class UpsellBox extends Component {
 						</UpsellButton>
 						<div className="yst-text-slate-600 yst-my-4">
 							{ newPrice && <span className="yst-text-slate-500 yst-line-through">{ defaultPrice }</span> }
-							{ " " }
-							<span className="yst-text-slate-900 yst-text-2xl yst-font-bold">{ price }</span> { __( "/ $ USD / € EUR / £ GBP per year (ex. VAT)", "wordpress-seo" ) }
+							{ " " } { " " }
+							<span className="yst-text-slate-900 yst-text-2xl yst-font-bold">{ price }</span> { __( "$ USD / € EUR / £ GBP per year (ex. VAT)", "wordpress-seo" ) }
 						</div>
 						<ButtonLabel id={ this.props.upsellButton[ "aria-describedby" ] }>
 							{ this.props.upsellButtonLabel }
