@@ -7,7 +7,7 @@ import { Badge, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { MetaboxButton } from "../MetaboxButton";
 import SidebarButton from "../SidebarButton";
 import UpsellBox from "../UpsellBox";
-import { ModalContainer } from "./Container";
+import { ModalSmallContainer } from "./Container";
 import Modal, { defaultModalClassName } from "./Modal";
 
 /**
@@ -34,27 +34,18 @@ export const InternalLinkingSuggestionsUpsell = () => {
 					onRequestClose={ closeModal }
 					additionalClassName=""
 					id="yoast-internal-linking-suggestions-upsell"
-					className={ defaultModalClassName }
+					className={ `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding` }
 					shouldCloseOnClickOutside={ true }
 				>
-					<ModalContainer>
-						<h2 className="yst-mt-0 yst-mb-4">{ __( "Rank higher by connecting your content", "wordpress-seo" ) }</h2>
+					<ModalSmallContainer>
 						<UpsellBox
-							infoParagraphs={ [
-								<span key="InternalLinkingSuggestionsUpsell-infoParagraph-description" className="yst-block yst-max-w-[426px]">
-									{ sprintf(
-										/* translators: %s expands to Yoast SEO Premium. */
-										__( "%s automatically suggests to what content you can link with easy drag-and-drop functionality, which is good for your SEO!", "wordpress-seo" ),
-										"Yoast SEO Premium"
-									) }
-								</span>,
-								<span
-									key="InternalLinkingSuggestionsUpsell-infoParagraph-benefitsTitle"
-									className="yst-block yst-my-3 yst-text-[#303030] yst-text-[13px] yst-font-semibold"
-								>
-									{ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
-								</span>,
-							] }
+							title={ __( "Rank higher by connecting your content", "wordpress-seo" ) }
+							description={ sprintf(
+								/* translators: %s expands to Yoast SEO Premium. */
+								__( "%s automatically suggests to what content you can link with easy drag-and-drop functionality, which is good for your SEO!", "wordpress-seo" ),
+								"Yoast SEO Premium"
+							) }
+							benefitsTitle={ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
 							benefits={ [
 								__( "Create content faster: Use AI to create titles & meta descriptions", "wordpress-seo" ),
 								__( "Get extra SEO checks with the Premium SEO analysis", "wordpress-seo" ),
@@ -79,7 +70,7 @@ export const InternalLinkingSuggestionsUpsell = () => {
 							} }
 							upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
 						/>
-					</ModalContainer>
+					</ModalSmallContainer>
 				</Modal>
 			) }
 			{ isSidebar && (

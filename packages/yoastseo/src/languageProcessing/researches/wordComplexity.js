@@ -27,28 +27,33 @@ const { getWords, getSentences, helpers } = languageProcessing;
  * @returns {ComplexWordsResult} An object containing all complex words in a given sentence.
  */
 const getComplexWords = function( currentSentence, researcher ) {
+	const language = researcher.getConfig( "language" );
 	const checkIfWordIsComplex = researcher.getHelper( "checkIfWordIsComplex" );
 	const functionWords = researcher.getConfig( "functionWords" );
 	const wordComplexityConfig = researcher.getConfig( "wordComplexity" );
 	const checkIfWordIsFunction = researcher.getHelper( "checkIfWordIsFunction" );
-	const morphologyData = get( researcher.getData( "morphology" ), researcher.getConfig( "language" ), false );
+	const premiumData = get( researcher.getData( "morphology" ), language, false );
 
 	const allWords = getWords( currentSentence );
 	// Filters out function words because function words are not complex.
 	// Words are converted to lowercase before processing to avoid excluding function words that start with a capital letter.
 	const words = allWords.filter( word => ! ( checkIfWordIsFunction ? checkIfWordIsFunction( word ) : functionWords.includes( word ) ) );
-	const results = [];
+	const result = {
+		complexWords: [],
+		sentence: currentSentence,
+	};
+
+	if ( ! premiumData ) {
+		return result;
+	}
 
 	words.forEach( word => {
-		if ( checkIfWordIsComplex( wordComplexityConfig, word, morphologyData ) ) {
-			results.push( word );
+		if ( checkIfWordIsComplex( wordComplexityConfig, word, premiumData ) ) {
+			result.complexWords.push( word );
 		}
 	} );
 
-	return {
-		complexWords: results,
-		sentence: currentSentence,
-	};
+	return result;
 };
 
 /**
@@ -82,6 +87,7 @@ export default function wordComplexity( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	let text = paper.getText();
 	text = helpers.removeHtmlBlocks( text );
+	text = helpers.filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	const sentences = getSentences( text, memoizedTokenizer );
 
 	// Find the complex words in each sentence.

@@ -5,6 +5,7 @@ import { isWordInSentence as matchWordInSentence } from "../helpers/word/matchWo
 import removeHtmlBlocks from "../helpers/html/htmlParser";
 
 import { flattenDeep } from "lodash-es";
+import { filterShortcodesFromHTML } from "../helpers";
 
 let regexFromDoubleArray = null;
 let regexFromDoubleArrayCacheKey = "";
@@ -110,6 +111,7 @@ export default function( paper, researcher ) {
 
 	let text = paper.getText();
 	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	const sentences = getSentences( text, memoizedTokenizer );
 	const sentenceResults = checkSentencesForTransitionWords( sentences, transitionWords, twoPartTransitionWords, matchTransitionWordsHelper );
 

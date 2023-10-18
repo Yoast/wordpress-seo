@@ -61,6 +61,17 @@ describe( "A test for Disability assessments", function() {
 		expect( assessor.getMarks() ).toEqual( [] );
 	} );
 
+	it( "should not target 'narcissistic' when followed by 'personality disorder'", () => {
+		const mockPaper = new Paper( "He was diagnosed with narcissistic personality disorder." );
+		const mockResearcher = Factory.buildMockResearcher( [ "He was diagnosed with narcissistic personality disorder." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "narcissistic" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeFalsy();
+		expect( assessor.getMarks() ).toEqual( [] );
+	} );
+
 	it( "should only target retarded if preceded by mentally.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "retarded" ) );
 
@@ -898,7 +909,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		];
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should not show the feedback for the non-negated form of 'crazy about' when the negated form is used.", () => {
+	it( "should not show the feedback for the negated form of 'crazy about' when the non-negated form is used.", () => {
 		const mockPaper = new Paper( "I am so crazy about this album." );
 		const mockResearcher = Factory.buildMockResearcher( [ "I am so crazy about this album." ] );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "to be not crazy about" ) );
@@ -1196,11 +1207,12 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			{
 				identifier: "narcissistic",
 				text: "We all know, the lovebombing narcissistic type.",
-				expectedFeedback: "Be careful when using <i>narcissistic</i> as it is potentially harmful. If you are referencing the " +
-					"medical condition, use <i>person with narcissistic personality disorder</i> instead. If you are not referencing the " +
-					"medical condition, consider other alternatives to describe the trait or behavior, such as <i>selfish, egotistical, " +
-					"self-centered, self-absorbed, vain, toxic, manipulative</i>. " +
-					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedFeedback: "Be careful when using <i>narcissistic</i> as it is potentially harmful." +
+					" If you are referencing the medical condition, use <i>person with narcissistic personality disorder</i>" +
+					" instead, unless referring to someone who explicitly wants to be referred to with this term." +
+					" If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior," +
+					" such as <i>selfish, egotistical, self-centered, self-absorbed, vain, toxic, manipulative</i>." +
+					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
 		];
@@ -1211,8 +1223,8 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			{
 				identifier: "theMentallyIll",
 				text: "There is growing compassion for the mentally ill.",
-				expectedFeedback: "Avoid using <i>the mentally ill</i> as it is generalizing. Consider using an alternative, " +
-					"such as <i>people who are mentally ill</i>, <i>mentally ill people</i> instead. " +
+				expectedFeedback: "Avoid using <i>the mentally ill</i> as it is potentially harmful. Consider using an alternative," +
+					" such as <i>people who are mentally ill</i>, <i>mentally ill people</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -1225,9 +1237,9 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		const mockResearcher = Factory.buildMockResearcher( [ "That's a daft idea!" ] );
 
 		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
-		expect( assessment.getResult().score ).toBe( 6 );
-		expect( assessment.getResult().text ).toBe( "Be careful when using <i>daft</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>." +
+		expect( assessment.getResult().score ).toBe( 3 );
+		expect( assessment.getResult().text ).toBe( "Avoid using <i>daft</i> as it is potentially harmful." +
+			" Consider using an alternative, such as <i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>." +
 			" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 	} );
 	it( "should return the appropriate score and feedback string for: 'imbecile'", () => {

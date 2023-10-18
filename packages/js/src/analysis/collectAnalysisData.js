@@ -10,36 +10,7 @@ import getWritingDirection from "./getWritingDirection";
 
 import { Paper } from "yoastseo";
 
-/**
- * Filters the WordPress block editor block data to use for the analysis.
- *
- * @param {Object} block The block from which we need to get the relevant data.
- *
- * @returns {Object} The block, with irrelevant data removed.
- */
-function filterBlockData( block ) {
-	const filteredBlock = {};
-
-	// Main data of the block (content, but also heading level etc.)
-	filteredBlock.attributes = {};
-
-	// Heading level, HTML-content and image alt text.
-	const attributeNames = [ "level", "content", "alt" ];
-	attributeNames.forEach( name => {
-		if ( block.attributes[ name ] ) {
-			filteredBlock.attributes[ name ] = block.attributes[ name ];
-		}
-	} );
-
-	// Type of block, e.g. "core/paragraph"
-	filteredBlock.name = block.name;
-	filteredBlock.clientId = block.clientId;
-
-	// Recurse on inner blocks.
-	filteredBlock.innerBlocks = block.innerBlocks.map( innerBlock => filterBlockData( innerBlock ) );
-
-	return filteredBlock;
-}
+/* eslint-disable complexity */
 
 /**
  * Retrieves the data needed for the analyses.
@@ -66,8 +37,8 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	// Retrieve the block editor blocks from WordPress and filter on useful information.
 	let blocks = null;
 	if ( blockEditorDataModule ) {
-		blocks = blockEditorDataModule.getBlocks();
-		blocks = blocks.map( block => filterBlockData( block ) );
+		blocks = blockEditorDataModule.getBlocks() || [];
+		blocks = blocks.filter( block => block.isValid );
 	}
 
 	// Make a data structure for the paper data.
@@ -103,6 +74,9 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	data.titleWidth = measureTextWidth( filteredSEOTitle || storeData.snippetEditor.data.title );
 	data.locale = getContentLocale();
 	data.writingDirection = getWritingDirection();
+	data.shortcodes = window.wpseoScriptData.analysis.plugins.shortcodes
+		? window.wpseoScriptData.analysis.plugins.shortcodes.wpseo_shortcode_tags
+		: [];
 
 	return Paper.parse( applyFilters( "yoast.analysis.data", data ) );
 }

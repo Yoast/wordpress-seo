@@ -55,14 +55,16 @@ describe( "A test for Culture Assessments", () => {
 	} );
 } );
 
+// eslint-disable-next-line max-statements
 describe( "a test for targeting non-inclusive phrases in culture assessments", () => {
 	it( "should return the appropriate score and feedback string for: 'Third World'", () => {
 		const testData = [
 			{
 				identifier: "thirdWorld",
 				text: "There are bigger problems in the Third World.",
-				expectedFeedback: "Avoid using <i>Third World</i> as it is overgeneralizing. Consider using the specific name for the region " +
-					"or country instead.  <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedFeedback: "Avoid using <i>Third World</i> as it is potentially harmful. Consider using an alternative," +
+					" such as the specific name for the region or country." +
+					" <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 		];
@@ -320,8 +322,9 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			{
 				identifier: "gypsy",
 				text: "In North America, the word Gypsy is most commonly used as a reference to Romani ethnicity.",
-				expectedFeedback: "Be careful when using <i>gypsy</i> as it is potentially harmful. Consider using an alternative, such as " +
-					"<i>Romani, Romani person</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+				expectedFeedback: "Be careful when using <i>gypsy</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>Rom, Roma person, Romani, Romani person</i>, " +
+					"unless referring to someone who explicitly wants to be referred to with this term. " +
 					"If you are referring to a lifestyle rather than the ethnic group or their music, consider using " +
 					"an alternative such as <i>traveler, wanderer, free-spirited</i>." +
 					" <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
@@ -330,8 +333,9 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			{
 				identifier: "gypsy",
 				text: "In North America, the word Gipsy is most commonly used as a reference to Romani ethnicity.",
-				expectedFeedback: "Be careful when using <i>gipsy</i> as it is potentially harmful. Consider using an alternative, such as " +
-					"<i>Romani, Romani person</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+				expectedFeedback: "Be careful when using <i>gipsy</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>Rom, Roma person, Romani, Romani person</i>, " +
+					"unless referring to someone who explicitly wants to be referred to with this term. " +
 					"If you are referring to a lifestyle rather than the ethnic group or their music, consider using " +
 					"an alternative such as <i>traveler, wanderer, free-spirited</i>." +
 					" <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
@@ -341,7 +345,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 				identifier: "gypsies",
 				text: "In the English language, the Romani people are widely known by the exonym Gypsies.",
 				expectedFeedback: "Be careful when using <i>gypsies</i> as it is potentially harmful. Consider using an alternative, " +
-					"such as <i>Romani, Romani people</i>, unless referring to someone who explicitly wants to be referred to " +
+					"such as <i>Roma, Romani, Romani people</i>, unless referring to someone who explicitly wants to be referred to " +
 					"with this term. If you are referring to a lifestyle rather than the ethnic group or their music, " +
 					"consider using an alternative such as <i>travelers, wanderers, free-spirited</i>. " +
 					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
@@ -351,7 +355,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 				identifier: "gypsies",
 				text: "In the English language, the Romani people are widely known by the exonym Gipsies.",
 				expectedFeedback: "Be careful when using <i>gipsies</i> as it is potentially harmful. Consider using an alternative, " +
-					"such as <i>Romani, Romani people</i>, unless referring to someone who explicitly wants to be referred to " +
+					"such as <i>Roma, Romani, Romani people</i>, unless referring to someone who explicitly wants to be referred to " +
 					"with this term. If you are referring to a lifestyle rather than the ethnic group or their music, " +
 					"consider using an alternative such as <i>travelers, wanderers, free-spirited</i>. " +
 					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
@@ -531,7 +535,8 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 		const assessmentResult = assessor.getResult();
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>first-world</i> as it is overgeneralizing. Consider using the specific name for the country or region instead.  " +
+			"Avoid using <i>first-world</i> as it is potentially harmful. Consider using an alternative," +
+			" such as the specific name for the region or country. " +
 			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
@@ -552,8 +557,8 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 		const assessmentResult = assessor.getResult();
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>first world countries</i> as it is overgeneralizing. " +
-			"Consider using the specific name for the countries or regions instead.  " +
+			"Avoid using <i>first world countries</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as the specific name for the regions or countries. " +
 			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
@@ -760,20 +765,6 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should return the appropriate score and feedback string for: 'ebonics'", () => {
-		const testData = [
-			{
-				identifier: "ebonics",
-				text: "White North Americans do not always understand Ebonics.",
-				expectedFeedback: "Avoid using <i>Ebonics</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>African American English, African American Language</i>. " +
-					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-		];
-
-		testInclusiveLanguageAssessments( testData );
-	} );
 	it( "should return the appropriate score and feedback string for: 'low man on the totem pole'", () => {
 		const testData = [
 			{
@@ -835,8 +826,8 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			{
 				identifier: "firstWorldCountries",
 				text: "It's natural that one would choose one of the first world countries to raise a child.",
-				expectedFeedback: "Avoid using <i>first world countries</i> as it is overgeneralizing. " +
-					"Consider using the specific name for the countries or regions instead.  " +
+				expectedFeedback: "Avoid using <i>first world countries</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as the specific name for the regions or countries. " +
 					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},

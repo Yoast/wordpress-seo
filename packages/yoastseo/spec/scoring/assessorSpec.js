@@ -26,21 +26,21 @@ describe( "an assessor object", function() {
 		} );
 	} );
 
-	var result5 = new AssessmentResult();
+	const result5 = new AssessmentResult();
 	result5.setScore( 5 );
-	var result4 = new AssessmentResult();
+	const result4 = new AssessmentResult();
 	result4.setScore( 4 );
-	var result8 = new AssessmentResult();
+	const result8 = new AssessmentResult();
 	result8.setScore( 8 );
 
-	var validResult = new AssessmentResult();
+	const validResult = new AssessmentResult();
 	validResult.setScore( 9 );
 	validResult.setText( "all good" );
 	validResult.setHasMarks( true );
 
 	describe( "returning the overall score", function() {
 		it( "returns the overall score", function() {
-			var assessor = new Assessor( new DefaultResearcher() );
+			const assessor = new Assessor( new DefaultResearcher() );
 			assessor.getValidResults = function() {
 				return [ result5, result4, result8 ];
 			};
@@ -48,7 +48,7 @@ describe( "an assessor object", function() {
 		} );
 	} );
 
-	var mockAssessment = {
+	const mockAssessment = {
 		/**
 		 * A mock assessment which always returns true.
 		 *
@@ -61,15 +61,15 @@ describe( "an assessor object", function() {
 
 	describe( "adding an assessment", function() {
 		it( "adds an assessment", function() {
-			var assessor = new Assessor( new DefaultResearcher() );
+			const assessor = new Assessor( new DefaultResearcher() );
 			assessor.addAssessment( "testname", mockAssessment );
 
-			var result = assessor.getAssessment( "testname" );
+			const result = assessor.getAssessment( "testname" );
 
 			expect( result ).toEqual( mockAssessment );
 		} );
 		it( "overides the existing assessment if the newly added assessment has the same identifier", function() {
-			var assessor = new Assessor( new DefaultResearcher() );
+			const assessor = new Assessor( new DefaultResearcher() );
 			assessor.addAssessment( "testname", mockAssessment );
 
 			assessor.addAssessment( "testname", mockAssessment );
@@ -80,10 +80,10 @@ describe( "an assessor object", function() {
 
 	describe( "removing an assessment", function() {
 		it( "removes an assessment", function() {
-			var assessor = new Assessor( new DefaultResearcher() );
+			const assessor = new Assessor( new DefaultResearcher() );
 			assessor.removeAssessment( "testname" );
 
-			var result = assessor.getAssessment( "testname" );
+			const result = assessor.getAssessment( "testname" );
 
 			expect( result ).toEqual( undefined ); // eslint-disable-line no-undefined
 		} );
@@ -91,8 +91,8 @@ describe( "an assessor object", function() {
 
 	describe( "assess", function() {
 		it( "should add the marker to the assessment result", function() {
-			var paper = new Paper();
-			var assessor = new Assessor( new DefaultResearcher(), {
+			const paper = new Paper();
+			const assessor = new Assessor( new DefaultResearcher(), {
 				/**
 				 * A mock marker function.
 				 *
@@ -100,7 +100,7 @@ describe( "an assessor object", function() {
 				 */
 				marker: function() {},
 			} );
-			var assessment = {
+			const assessment = {
 				/**
 				 * A mock getResult function.
 				 *
@@ -128,21 +128,21 @@ describe( "an assessor object", function() {
 			assessor.addAssessment( "test1", assessment );
 
 			assessor.assess( paper );
-			var results = assessor.getValidResults();
+			const results = assessor.getValidResults();
 
 			expect( results[ 0 ].hasMarker() ).toBe( true );
 		} );
 	} );
 
 	describe( "hasMarker", function() {
-		var assessor;
+		let assessor;
 
 		beforeEach( function() {
 			assessor = new Assessor( new DefaultResearcher(), {} );
 		} );
 
 		it( "should return true when we have a global marker and a getMarks function", function() {
-			var assessment = {
+			const assessment = {
 				/**
 				 * A mock getMarks function.
 				 *
@@ -156,7 +156,7 @@ describe( "an assessor object", function() {
 		} );
 
 		it( "should return false when we don't have a global marker", function() {
-			var assessment = {
+			const assessment = {
 				/**
 				 * A mock getMarks function.
 				 *
@@ -169,28 +169,28 @@ describe( "an assessor object", function() {
 		} );
 
 		it( "should return false when we don't have a getMarks function", function() {
-			var assessment = {};
+			const assessment = {};
 			assessor._options.marker = function() {};
 
 			expect( assessor.hasMarker( assessment ) ).toBe( false );
 		} );
 
 		it( "should return false when we don't have a global marker and don't have a getMarks function", function() {
-			var assessment = {};
+			const assessment = {};
 
 			expect( assessor.hasMarker( assessment ) ).toBe( false );
 		} );
 	} );
 
 	describe( "getMarker", function() {
-		var assessor;
+		let assessor;
 
 		beforeEach( function() {
 			assessor = new Assessor( {} );
 		} );
 
 		it( "should compose the global marker and the getMarks function", function() {
-			var functions = {
+			const functions = {
 				/**
 				 * A mock getMarks function.
 				 *
@@ -204,11 +204,11 @@ describe( "an assessor object", function() {
 				 */
 				globalMarker: function() {},
 			};
-			spyOn( functions, "getMarks" );
-			spyOn( functions, "globalMarker" );
-			var assessment = { getMarks: functions.getMarks };
+			jest.spyOn( functions, "getMarks" );
+			jest.spyOn( functions, "globalMarker" );
+			const assessment = { getMarks: functions.getMarks };
 			assessor._options.marker = functions.globalMarker;
-			var marker = assessor.getMarker( assessment );
+			const marker = assessor.getMarker( assessment );
 
 			marker();
 

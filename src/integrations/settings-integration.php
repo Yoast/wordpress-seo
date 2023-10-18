@@ -25,6 +25,8 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
+
 
 /**
  * Class Settings_Integration.
@@ -88,6 +90,9 @@ class Settings_Integration implements Integration_Interface {
 			'deny_search_crawling',
 			'deny_wp_json_crawling',
 			'deny_adsbot_crawling',
+			'deny_ccbot_crawling',
+			'deny_google_extended_crawling',
+			'deny_gptbot_crawling',
 		],
 	];
 
@@ -364,6 +369,9 @@ class Settings_Integration implements Integration_Interface {
 		\wp_enqueue_media();
 		$this->asset_manager->enqueue_script( 'new-settings' );
 		$this->asset_manager->enqueue_style( 'new-settings' );
+		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+			$this->asset_manager->enqueue_style( 'black-friday-banner' );
+		}
 		$this->asset_manager->localize_script( 'new-settings', 'wpseoScriptData', $this->get_script_data() );
 	}
 
@@ -453,9 +461,11 @@ class Settings_Integration implements Integration_Interface {
 			'isRtl'                         => \is_rtl(),
 			'isNetworkAdmin'                => \is_network_admin(),
 			'isMainSite'                    => \is_main_site(),
+			'isMultisite'                   => \is_multisite(),
 			'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
 			'isLocalSeoActive'              => \defined( 'WPSEO_LOCAL_FILE' ),
 			'isNewsSeoActive'               => \defined( 'WPSEO_NEWS_FILE' ),
+			'promotions'                    => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 			'siteUrl'                       => \get_bloginfo( 'url' ),
 			'siteTitle'                     => \get_bloginfo( 'name' ),
 			'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),

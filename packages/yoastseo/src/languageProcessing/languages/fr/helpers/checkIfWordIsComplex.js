@@ -10,13 +10,13 @@ const contractionRegex = new RegExp( contractionPrefixes );
  *
  * @param {object} config The configuration needed for assessing the word's complexity, e.g., the frequency list.
  * @param {string} word The word to check.
- * @param {Object} [morphologyData] Optional morphology data.
+ * @param {object}	premiumData The object that contains data for the assessment including the frequency list.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( config, word, morphologyData ) {
+export default function checkIfWordIsComplex( config, word, premiumData ) {
 	const lengthLimit = config.wordLength;
-	const frequencyList = config.frequencyList;
+	const frequencyList = premiumData.frequencyList.list;
 
 	// Normalize single quotes before checking for contractions.
 	word = normalizeSingle( word );
@@ -29,7 +29,7 @@ export default function checkIfWordIsComplex( config, word, morphologyData ) {
 		word = word.replace( contractionRegex, "" );
 	}
 
-	// The word is not complex if it's less than the length limit, i.e. 9 characters for French.
+	// The word is not complex if it's less than or the same as the length limit, i.e. 9 characters for French.
 	if ( word.length <= lengthLimit ) {
 		return false;
 	}
@@ -51,14 +51,15 @@ export default function checkIfWordIsComplex( config, word, morphologyData ) {
 		 * if it is a plural that does not end on -s or -x but on -aux, we replace the plural -aux suffix with the singular suffix -al.
 		 * The word is not complex if the singular form is in the list.
 		 */
-		if ( new RegExp( morphologyData.suffixGroupsComplexity.standardSuffixesWithSplural ).test( word ) ||
-			new RegExp( morphologyData.suffixGroupsComplexity.standardSuffixesWithSplural ).test( word ) ) {
+		if ( new RegExp( premiumData.morphologyData.suffixGroupsComplexity.standardSuffixesWithSplural ).test( word ) ||
+			new RegExp( premiumData.morphologyData.suffixGroupsComplexity.standardSuffixesWithSplural ).test( word ) ) {
 			word = word.substring( 0, word.length - 1 );
-		} else if ( new RegExp( morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes ).test( word ) ) {
-			word = word.replace( new RegExp( morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 0 ] ),
-				morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 1 ] );
+		} else if ( new RegExp( premiumData.morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes ).test( word ) ) {
+			word = word.replace( new RegExp( premiumData.morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 0 ] ),
+				premiumData.morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 1 ] );
 		}
 		return ! frequencyList.includes( word );
 	}
+
 	return false;
 }

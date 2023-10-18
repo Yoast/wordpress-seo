@@ -182,13 +182,13 @@ class RSS_Footer_Embed implements Integration_Interface {
 	protected function get_link_template() {
 		/**
 		 * Filter: 'nofollow_rss_links' - Allow the developer to determine whether or not to follow the links in
-		 * the bits Yoast SEO adds to the RSS feed, defaults to true.
+		 * the bits Yoast SEO adds to the RSS feed, defaults to false.
 		 *
 		 * @api bool $unsigned Whether or not to follow the links in RSS feed, defaults to true.
 		 *
 		 * @since 1.4.20
 		 */
-		if ( \apply_filters( 'nofollow_rss_links', true ) ) {
+		if ( \apply_filters( 'nofollow_rss_links', false ) ) {
 			return '<a rel="nofollow" href="%1$s">%2$s</a>';
 		}
 

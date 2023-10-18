@@ -10,6 +10,7 @@ import getWords from "../../../languageProcessing/helpers/word/getWords";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { stripFullTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
 
 /**
  * Represents the assessment for calculating the text after each subheading.
@@ -85,6 +86,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		const customCountLength = researcher.getHelper( "customCountLength" );
 		let text = paper.getText();
 		text = removeHtmlBlocks( text );
+		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 
 		return customCountLength ? customCountLength( text ) : getWords( text ).length;
 	}

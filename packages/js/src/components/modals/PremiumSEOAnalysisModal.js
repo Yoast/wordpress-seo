@@ -7,7 +7,7 @@ import { Badge, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { MetaboxButton } from "../MetaboxButton";
 import SidebarButton from "../SidebarButton";
-import { ModalContainer } from "./Container";
+import { ModalSmallContainer } from "./Container";
 import Modal, { defaultModalClassName } from "./Modal";
 import PremiumSEOAnalysisUpsell from "./PremiumSEOAnalysisUpsell";
 
@@ -25,17 +25,16 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 	return (
 		<Fragment>
 			{ isOpen && <Modal
-				title={ __( "Get the Premium SEO analysis", "wordpress-seo" ) }
+				title={ __( "Unlock Premium SEO analysis", "wordpress-seo" ) }
 				onRequestClose={ closeModal }
 				additionalClassName=""
-				className={ defaultModalClassName }
+				className={ `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding` }
 				id="yoast-premium-seo-analysis-modal"
 				shouldCloseOnClickOutside={ true }
 			>
-				<ModalContainer>
-					<h2 className="yst-mt-0 yst-mb-4">{ __( "Improve your SEO by using the Premium SEO analysis", "wordpress-seo" ) }</h2>
+				<ModalSmallContainer>
 					<PremiumSEOAnalysisUpsell buyLink={ `shortlinks.upsell.${ location }.premium_seo_analysis_button` } />
-				</ModalContainer>
+				</ModalSmallContainer>
 			</Modal> }
 			{ location === "sidebar" && (
 				<SidebarButton

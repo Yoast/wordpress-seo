@@ -18,4 +18,13 @@ describe( "A test for the Paragraph object", function() {
 			isImplicit: true,
 		} );
 	} );
+
+	it( "should correctly construct an overarching Paragraph object", function() {
+		expect( new Paragraph( {}, [], {}, false, true ) ).toEqual( {
+			name: "p-overarching",
+			attributes: {},
+			childNodes: [],
+			isImplicit: false,
+		} );
+	} );
 } );

@@ -2,6 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
 import { languageProcessing, AssessmentResult, Assessment, helpers } from "yoastseo";
+import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
 
 const { getSentences, helpers: languageProcessingHelpers } = languageProcessing;
 const { createAnchorOpeningTag } = helpers;
@@ -181,6 +182,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 		let text = paper.getText();
 		text = languageProcessingHelpers.removeHtmlBlocks( text );
+		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 		const sentences = getSentences( text, memoizedTokenizer );
 
 		return paper.hasText() && paper.hasKeyword() && sentences.length >= 15 && researcher.hasResearch( "keyphraseDistribution" );

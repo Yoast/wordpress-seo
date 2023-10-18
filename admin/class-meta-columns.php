@@ -97,11 +97,19 @@ class WPSEO_Meta_Columns {
 		$added_columns = [];
 
 		if ( $this->analysis_seo->is_enabled() ) {
-			$added_columns['wpseo-score'] = '<span class="yoast-column-seo-score yoast-column-header-has-tooltip" data-tooltip-text="' . esc_attr__( 'SEO score', 'wordpress-seo' ) . '"><span class="screen-reader-text">' . __( 'SEO score', 'wordpress-seo' ) . '</span></span></span>';
+			$added_columns['wpseo-score'] = '<span class="yoast-column-seo-score yoast-column-header-has-tooltip" data-tooltip-text="' .
+											esc_attr__( 'SEO score', 'wordpress-seo' ) .
+											'"><span class="screen-reader-text">' .
+											__( 'SEO score', 'wordpress-seo' ) .
+											'</span></span></span>';
 		}
 
 		if ( $this->analysis_readability->is_enabled() ) {
-			$added_columns['wpseo-score-readability'] = '<span class="yoast-column-readability yoast-column-header-has-tooltip" data-tooltip-text="' . esc_attr__( 'Readability score', 'wordpress-seo' ) . '"><span class="screen-reader-text">' . __( 'Readability score', 'wordpress-seo' ) . '</span></span></span>';
+			$added_columns['wpseo-score-readability'] = '<span class="yoast-column-readability yoast-column-header-has-tooltip" data-tooltip-text="' .
+														esc_attr__( 'Readability score', 'wordpress-seo' ) .
+														'"><span class="screen-reader-text">' .
+														__( 'Readability score', 'wordpress-seo' ) .
+														'</span></span></span>';
 		}
 
 		$added_columns['wpseo-title']    = __( 'SEO Title', 'wordpress-seo' );
@@ -154,6 +162,7 @@ class WPSEO_Meta_Columns {
 				}
 				if ( $metadesc_val === '' ) {
 					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">',
+					/* translators: Hidden accessibility text. */
 					esc_html__( 'Meta description not set.', 'wordpress-seo' ),
 					'</span>';
 
@@ -169,6 +178,7 @@ class WPSEO_Meta_Columns {
 
 				if ( $focuskw_val === '' ) {
 					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">',
+					/* translators: Hidden accessibility text. */
 					esc_html__( 'Focus keyphrase not set.', 'wordpress-seo' ),
 					'</span>';
 
@@ -238,6 +248,7 @@ class WPSEO_Meta_Columns {
 
 		$ranks = WPSEO_Rank::get_all_ranks();
 
+		/* translators: Hidden accessibility text. */
 		echo '<label class="screen-reader-text" for="wpseo-filter">' . esc_html__( 'Filter by SEO Score', 'wordpress-seo' ) . '</label>';
 		echo '<select name="seo_filter" id="wpseo-filter">';
 
@@ -266,6 +277,7 @@ class WPSEO_Meta_Columns {
 
 		$ranks = WPSEO_Rank::get_all_readability_ranks();
 
+		/* translators: Hidden accessibility text. */
 		echo '<label class="screen-reader-text" for="wpseo-readability-filter">' . esc_html__( 'Filter by Readability Score', 'wordpress-seo' ) . '</label>';
 		echo '<select name="readability_filter" id="wpseo-readability-filter">';
 

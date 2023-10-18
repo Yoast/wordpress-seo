@@ -39,6 +39,7 @@ export default function FinishStep() {
 					id="button-webinar-seo-dashboard"
 					href={ webinarIntroFirstTimeConfigUrl }
 					target="_blank"
+					data-hiive-event-name="clicked_to_onboarding_page"
 				>
 					{ sprintf(
 						/* translators: 1: Yoast SEO. */
@@ -51,6 +52,7 @@ export default function FinishStep() {
 					<Link
 						id="link-webinar-register"
 						onClick={ goToSEODashboard }
+						data-hiive-event-name="clicked_seo_dashboard"
 					>
 						{ __( "Or go to your SEO dashboard", "wordpress-seo" ) }
 					</Link>

@@ -87,6 +87,7 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 			onQueryChange={ handleQueryChange }
 			className={ classNames( className, props.disabled && "yst-autocomplete--disabled" ) }
 			nullable={ true }
+			/* translators: Hidden accessibility text. */
 			clearButtonScreenReaderText={ __( "Clear selection", "wordpress-seo" ) }
 			{ ...props }
 		>
