@@ -58,6 +58,8 @@ describe( "WincherKeyphrasesTable", () => {
 			removeTrackedKeyphrase={ noop }
 			setHasTrackedAll={ noop }
 			permalink=""
+			selectedKeyphrases={ [] }
+			onSelectKeyphrases={ noop }
 		/> );
 
 		expect( component.find( "tbody" ).getElement().props.children.length ).toEqual( 1 );
@@ -78,6 +80,8 @@ describe( "WincherKeyphrasesTable", () => {
 			removeTrackedKeyphrase={ noop }
 			setHasTrackedAll={ noop }
 			permalink=""
+			selectedKeyphrases={ [] }
+			onSelectKeyphrases={ noop }
 		/> );
 
 		const rows = component.find( WincherTableRow );
@@ -103,6 +107,8 @@ describe( "WincherKeyphrasesTable", () => {
 				isLoggedIn={ true }
 				trackAll={ true }
 				permalink=""
+				selectedKeyphrases={ [] }
+				onSelectKeyphrases={ noop }
 			/> );
 		} );
 
@@ -125,6 +131,8 @@ describe( "WincherKeyphrasesTable", () => {
 			setHasTrackedAll={ noop }
 			permalink=""
 			focusKeyphrase={ "Yoast SEO" }
+			selectedKeyphrases={ [] }
+			onSelectKeyphrases={ noop }
 		/> );
 
 		const rows = component.find( WincherTableRow );

@@ -48,14 +48,16 @@ class Wincher_Account_Action {
 		try {
 			$results = $this->client->get( self::ACCOUNT_URL );
 
-			$usage = $results['limits']['keywords']['usage'];
-			$limit = $results['limits']['keywords']['limit'];
+			$usage   = $results['limits']['keywords']['usage'];
+			$limit   = $results['limits']['keywords']['limit'];
+			$history = $results['limits']['history_days'];
 
 			return (object) [
-				'canTrack'  => \is_null( $limit ) || $usage < $limit,
-				'limit'     => $limit,
-				'usage'     => $usage,
-				'status'    => 200,
+				'canTrack'    => \is_null( $limit ) || $usage < $limit,
+				'limit'       => $limit,
+				'usage'       => $usage,
+				'historyDays' => $history,
+				'status'      => 200,
 			];
 		} catch ( \Exception $e ) {
 			return (object) [

@@ -6,6 +6,10 @@ import { useSvgAria } from "@yoast/ui-library/src";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
+import { Collapsible } from "@yoast/components";
+
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
 import Modal from "./modals/Modal";
@@ -21,6 +25,17 @@ const StyledHeroIcon = styled( ChartBarIcon )`
 	margin: 3px;
 `;
 
+const MetaboxModalButton = styled( Collapsible )`
+	h2 > button {
+		padding-left: 24px;
+		padding-top: 16px;
+
+		&:hover {
+			background-color: #f0f0f0;
+		}
+	}
+`;
+
 /**
  * Handles the click event on the "Track SEO performance" button.
  *
@@ -33,7 +48,13 @@ export function openModal( props ) {
 
 	if ( ! keyphrases.length ) {
 		// This is fragile, should replace with a real React ref.
-		document.querySelector( "#focus-keyword-input-sidebar" ).focus();
+		let input = document.querySelector( "#focus-keyword-input-metabox" );
+
+		// In elementor we use input-sidebar
+		if ( ! input ) {
+			input = document.querySelector( "#focus-keyword-input-sidebar" );
+		}
+		input.focus();
 		onNoKeyphraseSet();
 
 		return;
@@ -106,6 +127,19 @@ export default function WincherSEOPerformanceModal( props ) {
 				onClick={ onModalOpen }
 			/>
 			}
+
+			{ location === "metabox" && <MetaboxModalButton
+				hasPadding={ false }
+				hasSeparator={ true }
+				suffixIconCollapsed={ {
+					icon: "pencil-square",
+					color: colors.$black,
+					size: "20px",
+				} }
+				id={ `wincher-open-button-${location}` }
+				title={ title }
+				onToggle={ onModalOpen }
+			/> }
 		</Fragment>
 	);
 }
