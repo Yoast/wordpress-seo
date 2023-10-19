@@ -54,9 +54,9 @@ export default function checkIfWordIsComplex( config, word, premiumData ) {
 		if ( new RegExp( premiumData.morphologyData.suffixGroupsComplexity.standardSuffixesWithSplural ).test( word ) ||
 			new RegExp( premiumData.morphologyData.suffixGroupsComplexity.standardSuffixesWithSplural ).test( word ) ) {
 			word = word.substring( 0, word.length - 1 );
-		} else if ( new RegExp( premiumData.morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes ).test( word ) ) {
-			word = word.replace( new RegExp( premiumData.morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 0 ] ),
-				premiumData.morphologyData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 1 ] );
+		} else if ( new RegExp( premiumData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 0 ] ).test( word ) ) {
+			word = word.replace( new RegExp( premiumData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 0 ] ),
+				premiumData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 1 ] );
 		}
 		return ! frequencyList.includes( word );
 	}
