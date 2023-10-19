@@ -32,6 +32,13 @@ class Yoast_Dynamic_Rewrites implements WPSEO_WordPress_Integration {
 	protected static $instance = null;
 
 	/**
+	 * WP_Rewrite instance to use.
+	 *
+	 * @var WP_Rewrite
+	 */
+	public $wp_rewrite;
+
+	/**
 	 * Gets the main instance of the class.
 	 *
 	 * @return self Dynamic rewrites main instance.
