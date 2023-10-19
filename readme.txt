@@ -360,7 +360,7 @@ Release date: 2023-10-31
 
 #### Bugfixes
 
-*  Specifies the correct prop type for props that can contain an interpolated string.
+*  Fixes a bug where console warnings about incorrect prop types would be shown on the integrations page.
 
 #### Other
 
