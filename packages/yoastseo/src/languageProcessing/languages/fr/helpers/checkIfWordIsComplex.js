@@ -51,8 +51,8 @@ export default function checkIfWordIsComplex( config, word, premiumData ) {
 		 * if it is a plural that does not end on -s or -x but on -aux, we replace the plural -aux suffix with the singular suffix -al.
 		 * The word is not complex if the singular form is in the list.
 		 */
-		if ( new RegExp( premiumData.morphologyData.suffixGroupsComplexity.standardSuffixesWithSplural ).test( word ) ||
-			new RegExp( premiumData.morphologyData.suffixGroupsComplexity.standardSuffixesWithSplural ).test( word ) ) {
+		if ( new RegExp( premiumData.suffixGroupsComplexity.standardSuffixesWithSplural ).test( word ) ||
+			new RegExp( premiumData.suffixGroupsComplexity.standardSuffixesWithSplural ).test( word ) ) {
 			word = word.substring( 0, word.length - 1 );
 		} else if ( new RegExp( premiumData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 0 ] ).test( word ) ) {
 			word = word.replace( new RegExp( premiumData.suffixGroupsComplexity.irregularPluralSingularSuffixes[ 0 ] ),
