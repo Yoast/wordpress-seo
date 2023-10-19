@@ -366,7 +366,7 @@ Release date: 2023-10-31
 
 * Adds indexation exclusion for Gutenberg Patterns taxonomy.
 * Improves the FAQ block description by removing any reference to the previous restriction of one block per post.
-* Improves the inline documentation for the `WPSEO_Option` class. Props to @costdev.
+* Improves the inline documentation for the `WPSEO_Option` class. Props to [costdev](https://github.com/costdev).
 * Leverages Script Strategy feature to add the async attribute to the `wordproof` script in case WordPress version is 6.3 or higher. Props to [adamsilverstein](https://github.com/adamsilverstein).
 
 = 21.4 =
