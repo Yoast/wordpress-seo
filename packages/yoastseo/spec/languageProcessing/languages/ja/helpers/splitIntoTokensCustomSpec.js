@@ -7,7 +7,7 @@ const testcases = [
 		expected: [],
 	},
 	{
-		description: "should correctly tokenize a simple Japanese sentence wouthout punctuations",
+		description: "should correctly tokenize a simple Japanese sentence without punctuations",
 		sentence: {
 			text: "犬が大好き",
 			sourceCodeRange: { startOffset: 0, endOffset: 5 },
@@ -15,7 +15,7 @@ const testcases = [
 		expected: [ "犬", "が", "大好き" ],
 	},
 	{
-		description: "should correctly tokenize a Japanese sentence with japanese punctuations",
+		description: "should correctly tokenize a Japanese sentence with Japanese punctuations",
 		sentence: {
 			text: "犬が大好き\u3002",
 			sourceCodeRange: { startOffset: 0, endOffset: 6 },
@@ -24,7 +24,7 @@ const testcases = [
 
 	},
 	{
-		description: "should correctly tokenize a Japanese sentence with english punctuations",
+		description: "should correctly tokenize a Japanese sentence with English punctuations",
 		sentence: {
 			text: "犬が大好き.",
 			sourceCodeRange: { startOffset: 0, endOffset: 6 },

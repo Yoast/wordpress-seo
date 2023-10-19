@@ -66,8 +66,6 @@ class LanguageProcessor {
 			return tokensCustom.map( tokenText => new Token( tokenText ) );
 		}
 
-		const areHyphensWordBoundaries = this.researcher.getConfig( "areHyphensWordBoundaries" );
-
 		/*
 		 * If hyphens shouldn't be treated as a word boundary, use a custom regex for splitting the text into tokens that
 		 * doesn't include hyphens. For example in Indonesian, hyphens are used to form plural forms

@@ -13,7 +13,7 @@ import createPunctuationTokens from "./createPunctuationTokens";
  *   For example: "foo–bar".
  * - Open and closing brackets are added to deal correctly with shortcodes downstream.
  */
-const wordSeparatorsRegexDefault = /([\s\t\u00A0\u2013\u2014\u002d[\]])/;
+const wordSeparatorsRegex = /([\s\t\u00A0\u2013\u2014\u002d[\]])/;
 
 /**
  * Tokenizes a text similar to getWords, but in a suitable way for the HTML parser.
@@ -26,10 +26,9 @@ const wordSeparatorsRegexDefault = /([\s\t\u00A0\u2013\u2014\u002d[\]])/;
  * It only splits them off if they appear at the start or end of a word.
  *
  * @param {string} text 				The text to tokenize.
- * @param {RegExp} wordSeparatorsRegex  The word separator regex to use.
  * @returns {string[]} An array of tokens.
  */
-const getWordsForHTMLParser = ( text, wordSeparatorsRegex =  wordSeparatorsRegexDefault ) => {
+const getWordsForHTMLParser = ( text ) => {
 	if ( ! text ) {
 		return [];
 	}
