@@ -254,4 +254,25 @@ class Wincher_Account_Action_Test extends TestCase {
 			$this->instance->get_upgrade_campaign()
 		);
 	}
+
+	/**
+	 * Tests empty get upgrade campaign.
+	 *
+	 * @covers ::get_upgrade_campaign
+	 */
+	public function test_empty_get_upgrade_campaign() {
+		$this->client_instance
+			->expects( 'get' )
+			->with( 'https://api.wincher.com/v1/yoast/upgrade-campaign' )
+			->andReturn( [] );
+
+		$this->assertEquals(
+			(object) [
+				'discount' => null,
+				'months'   => null,
+				'status'   => 200,
+			],
+			$this->instance->get_upgrade_campaign()
+		);
+	}
 }
