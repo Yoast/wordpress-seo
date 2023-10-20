@@ -16,6 +16,7 @@ use Yoast_Feature_Toggle;
  * @package Yoast\WP\SEO\Integrations\Third_Party
  */
 class Wordproof_Integration_Toggle implements Integration_Interface {
+
 	/**
 	 * The WordProof helper instance.
 	 *
@@ -27,7 +28,7 @@ class Wordproof_Integration_Toggle implements Integration_Interface {
 	 * The WordProof integration toggle constructor.
 	 *
 	 * @deprecated 21.6
- 	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore
 	 *
 	 * @param Wordproof_Helper $wordproof The WordProof helper instance.
 	 */
@@ -39,7 +40,7 @@ class Wordproof_Integration_Toggle implements Integration_Interface {
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @deprecated 21.6
- 	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore
 	 *
 	 * @return array
 	 */
@@ -53,7 +54,7 @@ class Wordproof_Integration_Toggle implements Integration_Interface {
 	 * This is the place to register hooks and filters.
 	 *
 	 * @deprecated 21.6
- 	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -65,8 +66,8 @@ class Wordproof_Integration_Toggle implements Integration_Interface {
 	 * Adds the WordProof integration toggle to the array.
 	 *
 	 * @deprecated 21.6
- 	 * @codeCoverageIgnore
- 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param array $integration_toggles The integration toggles array.
 	 *
 	 * @return array The updated integration toggles array.

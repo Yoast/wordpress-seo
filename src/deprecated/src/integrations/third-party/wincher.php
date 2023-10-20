@@ -84,7 +84,6 @@ class Wincher implements Integration_Interface {
 	 */
 	public function after_integration_toggle( $integration ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 21.6' );
-
 	}
 
 	/**
@@ -97,7 +96,5 @@ class Wincher implements Integration_Interface {
 	 */
 	public function after_network_integration_toggle( $integration ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 21.6' );
-
 	}
-
 }
