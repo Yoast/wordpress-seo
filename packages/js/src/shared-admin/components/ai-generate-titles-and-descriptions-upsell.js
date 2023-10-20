@@ -27,7 +27,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, upsellLi
 				<Badge className="yst-absolute yst-top-0 yst-right-2 yst-mt-2 yst-ml-2" variant="info">Beta</Badge>
 			</div>
 			<div className="yst-mt-6 yst-text-xs yst-font-medium">
-				<span className="yst-uppercase yst-text-slate-500">
+				<span className="yst-uppercase yst-text-slate-500 yst-tracking-[0.8]">
 					{ sprintf(
 						/* translators: %1$s expands to Yoast SEO Premium. */
 						__( "New to %1$s", "wordpress-seo" ),
