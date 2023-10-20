@@ -5,8 +5,6 @@
  * @package WPSEO\XML_Sitemaps
  */
 
-use Yoast\WP\SEO\Integrations\Dynamic_Rewrite_Integration;
-
 /**
  * Class WPSEO_Sitemaps.
  *
@@ -159,7 +157,7 @@ class WPSEO_Sitemaps {
 	public function register_sitemap( $name, $building_function, $rewrite = '' ) {
 		add_action( 'wpseo_do_sitemap_' . $name, $building_function );
 		if ( $rewrite ) {
-			YoastSEO()->classes->get( Dynamic_Rewrite_Integration::class )->add_rule( $rewrite, 'index.php?sitemap=' . $name, 'top' );
+			Yoast_Dynamic_Rewrites::instance()->add_rule( $rewrite, 'index.php?sitemap=' . $name, 'top' );
 		}
 	}
 
@@ -175,7 +173,7 @@ class WPSEO_Sitemaps {
 	public function register_xsl( $name, $building_function, $rewrite = '' ) {
 		add_action( 'wpseo_xsl_' . $name, $building_function );
 		if ( $rewrite ) {
-			YoastSEO()->classes->get( Dynamic_Rewrite_Integration::class )->add_rule( $rewrite, 'index.php?xsl=' . $name, 'top' );
+			Yoast_Dynamic_Rewrites::instance()->add_rule( $rewrite, 'index.php?xsl=' . $name, 'top' );
 		}
 	}
 

@@ -1,15 +1,15 @@
 <?php
-
-namespace Yoast\WP\SEO\Integrations;
-
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Internals
+ */
 
 /**
  * Class containing an alternative rewrite rules API for handling them dynamically without requiring flushing rules.
  */
-class Dynamic_Rewrite_Integration implements Integration_Interface {
+class Yoast_Dynamic_Rewrites implements WPSEO_WordPress_Integration {
 
-	use No_Conditionals;
 	/**
 	 * Additional rewrite rules with high priority.
 	 *
@@ -25,11 +25,32 @@ class Dynamic_Rewrite_Integration implements Integration_Interface {
 	protected $extra_rules_bottom = [];
 
 	/**
+	 * Main instance holder.
+	 *
+	 * @var self|null
+	 */
+	protected static $instance = null;
+
+	/**
 	 * WP_Rewrite instance to use.
 	 *
 	 * @var WP_Rewrite
 	 */
 	public $wp_rewrite;
+
+	/**
+	 * Gets the main instance of the class.
+	 *
+	 * @return self Dynamic rewrites main instance.
+	 */
+	public static function instance() {
+		if ( self::$instance === null ) {
+			self::$instance = new self();
+			self::$instance->register_hooks();
+		}
+
+		return self::$instance;
+	}
 
 	/**
 	 * Constructor.
