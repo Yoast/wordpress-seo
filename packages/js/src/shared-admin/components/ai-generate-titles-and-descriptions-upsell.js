@@ -76,7 +76,11 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, upsellLi
 					ref={ initialFocus }
 				>
 					<LockOpenIcon className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5" />
-					{ __( "Unlock with Premium", "wordpress-seo" ) }
+					{ sprintf(
+						/* translators: %1$s expands to Yoast SEO Premium. */
+						__( "Unlock with %1$s", "wordpress-seo" ),
+						"Yoast SEO Premium"
+					) }
 					<span className="yst-sr-only">
 						{
 							/* translators: Hidden accessibility text. */
