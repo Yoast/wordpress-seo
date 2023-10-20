@@ -10,4 +10,8 @@
 		background: rgb(237,210,225);
 		background: linear-gradient(180deg, rgba(237,210,225,1) 10%, rgb(255, 255, 255) 60%);
 	}
+	.yst-introduction-modal-uppercase{
+		letter-spacing: 0.8px;
+		@apply yst-uppercase yst-text-slate-500;
+	}
 }
