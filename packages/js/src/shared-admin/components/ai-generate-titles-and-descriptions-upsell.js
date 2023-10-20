@@ -1,20 +1,62 @@
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { createInterpolateElement } from "@wordpress/element";
+import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { OutboundLink, VideoFlow } from ".";
 
+const STORE = "yoast-seo/editor";
+
 /**
  * @param {string} learnMoreLink The learn more link.
- * @param {string} upsellLink The upsell link.
  * @param {Object} thumbnail The thumbnail: img props.
  * @param {Object} wistiaEmbedPermission The value, status and set for the Wistia embed permission.
  * @returns {JSX.Element} The element.
  */
-export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, upsellLink, thumbnail, wistiaEmbedPermission } ) => {
+export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, thumbnail, wistiaEmbedPermission } ) => {
 	const { onClose, initialFocus } = useModalContext();
+	const upsellLinkPremium = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell" ), [] );
+	const upsellLinkWooPremiumBundle = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo-premium-bundle" ), [] );
+	const upsellLinkWoo = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo" ), [] );
+	let upsellLink = upsellLinkPremium;
+
+	const isPremium = useSelect( select => select( STORE ).getIsPremium(), [] );
+	const isWooSeoUpsell = useSelect( select => select( STORE ).getIsWooSeoUpsell(), [] );
+	let upsellLabel = sprintf(
+		/* translators: %1$s expands to Yoast SEO Premium. */
+		__( "Unlock with %1$s", "wordpress-seo" ),
+		"Yoast SEO Premium"
+	);
+	let bundleNote = "";
+
+	if ( isWooSeoUpsell ) {
+		if ( ! isPremium ) {
+			upsellLabel = `${sprintf(
+				/* translators: %1$s expands to Woo Premium bundle. */
+				__( "Unlock with the %1$s", "wordpress-seo" ),
+				"Woo Premium bundle"
+			)}*`;
+			bundleNote = <div className="yst-text-xs yst-text-slate-500 yst-mt-2">
+				{ `*${sprintf(
+				/* translators: %1$s expands to Yoast SEO Premium, %2$s expands to Yoast WooCommerce SEO. */
+					__( "%1$s + %2$s", "wordpress-seo" ),
+					"Yoast SEO Premium",
+					"Yoast WooCommerce SEO"
+				)}` }
+			</div>;
+			upsellLink = upsellLinkWooPremiumBundle;
+		}
+		if ( isPremium ) {
+			upsellLabel = sprintf(
+				/* translators: %1$s expands to Yoast WooCommerce SEO. */
+				__( "Unlock with %1$s", "wordpress-seo" ),
+				"Yoast WooCommerce SEO"
+			);
+			upsellLink = upsellLinkWoo;
+		}
+	}
 
 	return (
 		<div className="yst-flex yst-flex-col yst-items-center yst-p-10">
@@ -76,7 +118,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, upsellLi
 					ref={ initialFocus }
 				>
 					<LockOpenIcon className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5" />
-					{ __( "Unlock with Premium", "wordpress-seo" ) }
+					{ upsellLabel }
 					<span className="yst-sr-only">
 						{
 							/* translators: Hidden accessibility text. */
@@ -85,6 +127,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, upsellLi
 					</span>
 				</Button>
 			</div>
+			{ bundleNote }
 			<Button
 				as="a"
 				className="yst-mt-4"
@@ -98,7 +141,6 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, upsellLi
 };
 AiGenerateTitlesAndDescriptionsUpsell.propTypes = {
 	learnMoreLink: PropTypes.string.isRequired,
-	upsellLink: PropTypes.string.isRequired,
 	thumbnail: PropTypes.shape( {
 		src: PropTypes.string.isRequired,
 		width: PropTypes.string,
