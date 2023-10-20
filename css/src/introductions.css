@@ -6,4 +6,8 @@
 		focus:yst-outline-none
 		focus:yst-ring-offset-0;
 	}
+	.yst-introduction-modal-panel {
+		background: rgb(237,210,225);
+		background: linear-gradient(180deg, rgba(237,210,225,1) 10%, rgb(255, 255, 255) 60%);
+	}
 }
