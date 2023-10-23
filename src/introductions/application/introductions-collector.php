@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Introductions\Application;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Item;
 use Yoast\WP\SEO\Introductions\Domain\Introductions_Bucket;
+use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
 
 /**
  * Manages the collection of introductions.
@@ -87,7 +88,7 @@ class Introductions_Collector {
 	 * @return array The introductions' metadata.
 	 */
 	private function get_metadata( $user_id ) {
-		$metadata = \get_user_meta( $user_id, '_yoast_wpseo_introductions', true );
+		$metadata = \get_user_meta( $user_id, Introductions_Seen_Repository::USER_META_KEY, true );
 		if ( \is_array( $metadata ) ) {
 			return $metadata;
 		}
