@@ -7,8 +7,7 @@
 		focus:yst-ring-offset-0;
 	}
 	.yst-introduction-modal-panel {
-		background: rgb(237,210,225);
-		background: linear-gradient(180deg, rgba(237,210,225,1) 10%, rgb(255, 255, 255) 60%);
+        background-image: linear-gradient(180deg, rgba(166, 30, 105, 0.25) 10%, rgba(255, 255, 255, 0.25) 50%);
 	}
 	.yst-introduction-modal-uppercase{
 		letter-spacing: 0.8px;
