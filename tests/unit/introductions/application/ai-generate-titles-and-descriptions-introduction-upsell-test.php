@@ -96,7 +96,6 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 	 *
 	 * @param bool   $is_premium          Whether Premium is active.
 	 * @param string $previous_version    The previous plugin version.
-	 * @param string $plugin_version      The current plugin version.
 	 * @param bool   $user_can_edit_posts Whether the user can edit posts.
 	 * @param array  $times               The amount of times for expectations. Instead of adding logic to the tests.
 	 * @param bool   $expected            The expected result (whether the introduction should show).
