@@ -117,6 +117,7 @@ class UpsellBox extends Component {
 		const price = newPrice ? newPrice : defaultPrice;
 		return (
 			<Fragment>
+				<hr className="yst-mt-1.5 yst-mb-0 yst-border-t-0 yst-border-b-slate-200" />
 				{ isBlackFriday &&
 				<div className="yst-flex yst-justify-between yst-items-center yst-text-lg yst-content-between yst-bg-black yst-text-amber-300 yst-h-9 yst-border-amber-300 yst-border-y yst-border-x-0 yst-border-solid yst-px-6">
 					<div>{ __( "BLACK FRIDAY", "wordpress-seo" ) }</div>
