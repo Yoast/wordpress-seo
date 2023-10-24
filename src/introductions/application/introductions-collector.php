@@ -45,11 +45,11 @@ class Introductions_Collector {
 			if ( ! $introduction->should_show() ) {
 				continue;
 			}
-			if ( $this->is_seen( $introduction->get_name(), $metadata ) ) {
+			if ( $this->is_seen( $introduction->get_id(), $metadata ) ) {
 				continue;
 			}
 			$bucket->add_introduction(
-				new Introduction_Item( $introduction->get_name(), $introduction->get_priority() )
+				new Introduction_Item( $introduction->get_id(), $introduction->get_priority() )
 			);
 		}
 

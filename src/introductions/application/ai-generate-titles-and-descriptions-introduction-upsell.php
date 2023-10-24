@@ -48,12 +48,26 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	}
 
 	/**
+	 * Returns the ID.
+	 *
+	 * @return string
+	 */
+	public function get_id() {
+		return 'ai-generate-titles-and-descriptions-upsell';
+	}
+
+	/**
 	 * Returns the unique name.
+	 *
+	 * @deprecated 21.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_name() {
-		return 'ai-generate-titles-and-descriptions-upsell';
+		_deprecated_function( __METHOD__, 'Yoast SEO 21.6', 'Please use get_id() instead' );
+
+		return $this->get_id();
 	}
 
 	/**
