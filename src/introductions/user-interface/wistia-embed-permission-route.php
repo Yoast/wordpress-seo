@@ -14,8 +14,6 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
  * Registers a route to offer get/set of the wistia embed permission for a user.
- *
- * @makePublic
  */
 class Wistia_Embed_Permission_Route implements Route_Interface {
 
