@@ -80,10 +80,6 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 			return false;
 		}
 
-		if ( ! $this->is_version_between( $this->product_helper->get_version(), '20.11-RC4', '21.1-RC0' ) ) {
-			return false;
-		}
-
 		if ( ! $this->is_user_allowed( [ 'edit_posts' ] ) ) {
 			return false;
 		}

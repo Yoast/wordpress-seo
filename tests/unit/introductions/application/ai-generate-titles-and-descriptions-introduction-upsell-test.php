@@ -96,7 +96,6 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 	 *
 	 * @param bool   $is_premium          Whether Premium is active.
 	 * @param string $previous_version    The previous plugin version.
-	 * @param string $plugin_version      The current plugin version.
 	 * @param bool   $user_can_edit_posts Whether the user can edit posts.
 	 * @param array  $times               The amount of times for expectations. Instead of adding logic to the tests.
 	 * @param bool   $expected            The expected result (whether the introduction should show).
@@ -104,7 +103,6 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 	public function test_should_show(
 		$is_premium,
 		$previous_version,
-		$plugin_version,
 		$user_can_edit_posts,
 		$times,
 		$expected
@@ -117,12 +115,6 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 			->times( $times['previous_version'] )
 			->with( 'previous_version', '' )
 			->andReturn( $previous_version );
-
-		// Don't show when not between version 21.0-RC1 and 21.1-RC1.
-		$this->product_helper->expects( 'get_version' )
-			->times( $times['plugin_version'] )
-			->withNoArgs()
-			->andReturn( $plugin_version );
 
 		// Don't show when user is not allowed to edit posts.
 		Functions\expect( 'current_user_can' )
@@ -143,11 +135,9 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 			'showing'                                 => [
 				'is_premium'          => false,
 				'previous_version'    => '20.10',
-				'plugin_version'      => '21.0',
 				'user_can_edit_posts' => true,
 				'times'               => [
 					'previous_version'    => 1,
-					'plugin_version'      => 1,
 					'user_can_edit_posts' => 1,
 				],
 				'expected'            => true,
@@ -155,11 +145,9 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 			'do not show when premium is active'      => [
 				'is_premium'          => true,
 				'previous_version'    => '20.10',
-				'plugin_version'      => '21.0',
 				'user_can_edit_posts' => true,
 				'times'               => [
 					'previous_version'    => 0,
-					'plugin_version'      => 0,
 					'user_can_edit_posts' => 0,
 				],
 				'expected'            => false,
@@ -167,23 +155,9 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 			'do not show when on the first install'   => [
 				'is_premium'          => false,
 				'previous_version'    => '',
-				'plugin_version'      => '21.0',
 				'user_can_edit_posts' => true,
 				'times'               => [
 					'previous_version'    => 1,
-					'plugin_version'      => 0,
-					'user_can_edit_posts' => 0,
-				],
-				'expected'            => false,
-			],
-			'do not show when on over 21.0'           => [
-				'is_premium'          => false,
-				'previous_version'    => '20.10',
-				'plugin_version'      => '21.1',
-				'user_can_edit_posts' => true,
-				'times'               => [
-					'previous_version'    => 1,
-					'plugin_version'      => 1,
 					'user_can_edit_posts' => 0,
 				],
 				'expected'            => false,
@@ -191,11 +165,9 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 			'do not show when user cannot edit posts' => [
 				'is_premium'          => false,
 				'previous_version'    => '20.10',
-				'plugin_version'      => '21.0',
 				'user_can_edit_posts' => false,
 				'times'               => [
 					'previous_version'    => 1,
-					'plugin_version'      => 1,
 					'user_can_edit_posts' => 1,
 				],
 				'expected'            => false,
