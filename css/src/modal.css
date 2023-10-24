@@ -64,6 +64,7 @@
 
 	@media (min-width: 600px) {
 		border-radius: 8px;
+		max-height: calc( 100% - 48px );
 	}
 }
 
@@ -78,6 +79,10 @@
 	color: var(--yoast-color-primary);
 	line-height: 1.2;
 	margin: 0;
+}
+
+.yoast-gutenberg-modal .components-modal__content.has-scrolled-content:not(.hide-header) .components-modal__header {
+	border-bottom-color: #e2e8f0;
 }
 
 .yoast-gutenberg-modal .components-modal__icon-container {
