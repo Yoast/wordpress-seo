@@ -40,6 +40,27 @@ class Indexable_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * An indexable should not be created whenever an auto-draft post is created.
+	 *
+	 * @covers \Yoast\WP\SEO\Helpers\Post_Helper::get_excluded_post_statuses
+	 * @covers \Yoast\WP\SEO\Helpers\Post_Helper::is_post_indexable
+	 * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher::build_indexable
+	 * @covers \Yoast\WP\SEO\Builders\Indexable_Builder::build
+	 *
+	 * @return void
+	 */
+	public function test_create_auto_draft_post() {
+		$args = [
+			'post_status' => 'auto-draft',
+		];
+		$post = $this->factory()->post->create_and_get( $args );
+
+		$indexables = $this->get_indexables_for( $post );
+
+		$this->assertCount( 0, $indexables );
+	}
+
+	/**
 	 * The indexable should be deleted when the post is deleted.
 	 *
 	 * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher::delete_indexable
