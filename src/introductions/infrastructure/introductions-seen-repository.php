@@ -7,8 +7,6 @@ use Yoast\WP\SEO\Introductions\Domain\Invalid_User_Id_Exception;
 
 /**
  * Stores and retrieves whether the user has seen certain introductions.
- *
- * @makePublic
  */
 class Introductions_Seen_Repository {
 
