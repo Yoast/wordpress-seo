@@ -59,7 +59,7 @@ class WPSEO_Sitemaps_Router {
 	/**
 	 * Sets up rewrite rules.
 	 *
-	 * @deprecated 21.5
+	 * @deprecated 21.6
 	 * @codeCoverageIgnore
 	 */
 	public function init() {
