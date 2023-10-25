@@ -38,12 +38,9 @@ class Admin_Features_Test extends TestCase {
 			->with( 'https://example.org', 'dismiss-5star-upsell' )
 			->andReturn( 'https://example.org?_wpnonce=test-nonce' );
 
-		$admin_user = Mockery::mock( WP_User::class );
-		$admin_user->ID = 1;
-
-		Monkey\Functions\expect( 'wp_get_current_user' )
-			->once()
-			->andReturn( $admin_user );
+			Monkey\Functions\expect( 'wp_get_current_user' )
+				->once()
+				->andReturn( Mockery::mock( WP_User::class ) );
 
 		return new WPSEO_Admin();
 	}

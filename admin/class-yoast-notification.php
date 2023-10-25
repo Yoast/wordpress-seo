@@ -72,7 +72,7 @@ class Yoast_Notification {
 	private $defaults = [
 		'type'             => self::UPDATED,
 		'id'               => '',
-		'user_id'          => null,
+		'user'             => null,
 		'nonce'            => null,
 		'priority'         => 0.5,
 		'data_json'        => [],
@@ -110,12 +110,12 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Retrieve the id of the user to show the notification for.
+	 * Retrieve the user to show the notification for.
 	 *
-	 * @return int The user id.
+	 * @return WP_User The user to show this notification for.
 	 */
 	public function get_user() {
-		return $this->options['user_id'];
+		return $this->options['user'];
 	}
 
 	/**
@@ -127,7 +127,7 @@ class Yoast_Notification {
 	 */
 	public function get_user_id() {
 		if ( $this->get_user() !== null ) {
-			return $this->get_user();
+			return $this->get_user()->ID;
 		}
 		return get_current_user_id();
 	}
@@ -220,7 +220,7 @@ class Yoast_Notification {
 	 */
 	public function match_capabilities() {
 		// Super Admin can do anything.
-		if ( is_multisite() && is_super_admin( $this->options['user_id'] ) ) {
+		if ( is_multisite() && is_super_admin( $this->options['user']->ID ) ) {
 			return true;
 		}
 
@@ -280,11 +280,7 @@ class Yoast_Notification {
 	 * @return bool
 	 */
 	private function has_capability( $capability ) {
-		$user_id = $this->options['user_id'];
-		if ( ! is_numeric( $user_id ) ) {
-			return false;
-		}
-		$user = get_user_by( 'id', $user_id );
+		$user = $this->options['user'];
 		return $user->has_cap( $capability );
 	}
 
@@ -400,10 +396,9 @@ class Yoast_Notification {
 			$options['capabilities'] = [ 'wpseo_manage_options' ];
 		}
 
-		// Set to the id of the current user if not supplied.
-		if ( $options['user_id'] === null ) {
-			$user = wp_get_current_user();
-			$options['user_id'] = $user->ID;
+		// Set to the current user if not supplied.
+		if ( $options['user'] === null ) {
+			$options['user'] = wp_get_current_user();
 		}
 
 		return $options;
