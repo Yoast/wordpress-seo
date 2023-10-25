@@ -57,31 +57,31 @@ class Introductions_Seen_Repository_Test extends TestCase {
 	/**
 	 * Tests the introductions retrieval.
 	 *
-	 * @covers ::get_introductions
+	 * @covers ::get_all_introductions
 	 *
-	 * @dataProvider provide_get_introductions_test_data
+	 * @dataProvider provide_get_all_introductions_test_data
 	 *
 	 * @param mixed   $meta     Value `get_meta` returns.
 	 * @param boolean $expected The expected value.
 	 *
 	 * @throws Invalid_User_Id_Exception Invalid User ID.
 	 */
-	public function test_get_introductions( $meta, $expected ) {
+	public function test_get_all_introductions( $meta, $expected ) {
 		$user_id = 1;
 		$this->user_helper->expects( 'get_meta' )
 			->once()
 			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY, true )
 			->andReturn( $meta );
 
-		$this->assertEquals( $expected, $this->instance->get_introductions( $user_id ) );
+		$this->assertEquals( $expected, $this->instance->get_all_introductions( $user_id ) );
 	}
 
 	/**
-	 * Provides data for `test_get_introductions()`.
+	 * Provides data for `test_get_all_introductions()`.
 	 *
 	 * @return array
 	 */
-	public function provide_get_introductions_test_data() {
+	public function provide_get_all_introductions_test_data() {
 		return [
 			'nothing stored'    => [
 				'meta'     => '',
@@ -101,11 +101,11 @@ class Introductions_Seen_Repository_Test extends TestCase {
 	/**
 	 * Tests the introductions retrieval with an invalid user ID.
 	 *
-	 * @covers ::get_introductions
+	 * @covers ::get_all_introductions
 	 *
 	 * @throws Invalid_User_Id_Exception Invalid User ID.
 	 */
-	public function test_get_introductions_with_invalid_user_id() {
+	public function test_get_all_introductions_with_invalid_user_id() {
 		$user_id = 1;
 		$this->user_helper->expects( 'get_meta' )
 			->once()
@@ -114,15 +114,15 @@ class Introductions_Seen_Repository_Test extends TestCase {
 
 		$this->expectException( Invalid_User_Id_Exception::class );
 
-		$this->instance->get_introductions( $user_id );
+		$this->instance->get_all_introductions( $user_id );
 	}
 
 	/**
 	 * Tests setting the introductions calls update_meta().
 	 *
-	 * @covers ::set_introductions
+	 * @covers ::set_all_introductions
 	 */
-	public function test_set_introductions() {
+	public function test_set_all_introductions() {
 		$user_id       = 1;
 		$introductions = [ 'foo' => true ];
 		$this->user_helper->expects( 'update_meta' )
@@ -130,7 +130,7 @@ class Introductions_Seen_Repository_Test extends TestCase {
 			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY, $introductions )
 			->andReturnTrue();
 
-		$this->instance->set_introductions( $user_id, $introductions );
+		$this->instance->set_all_introductions( $user_id, $introductions );
 	}
 
 	/**

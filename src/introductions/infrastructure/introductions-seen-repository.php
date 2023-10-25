@@ -39,7 +39,7 @@ class Introductions_Seen_Repository {
 	 *
 	 * @return array The introductions.
 	 */
-	public function get_introductions( $user_id ): array {
+	public function get_all_introductions( $user_id ): array {
 		$seen_introductions = $this->user_helper->get_meta( $user_id, self::USER_META_KEY, true );
 		if ( $seen_introductions === false ) {
 			throw new Invalid_User_Id_Exception();
@@ -66,7 +66,7 @@ class Introductions_Seen_Repository {
 	 * @return bool True on successful update, false on failure or if the value passed to the function is the same as
 	 *              the one that is already in the database.
 	 */
-	public function set_introductions( $user_id, array $introductions ): bool {
+	public function set_all_introductions( $user_id, array $introductions ): bool {
 		return $this->user_helper->update_meta( $user_id, self::USER_META_KEY, $introductions ) === true;
 	}
 
@@ -81,7 +81,7 @@ class Introductions_Seen_Repository {
 	 * @return bool Whether the introduction is seen.
 	 */
 	public function is_introduction_seen( $user_id, string $introduction_id ): bool {
-		$introductions = $this->get_introductions( $user_id );
+		$introductions = $this->get_all_introductions( $user_id );
 
 		if ( \array_key_exists( $introduction_id, $introductions ) ) {
 			return (bool) $introductions[ $introduction_id ];
@@ -102,7 +102,7 @@ class Introductions_Seen_Repository {
 	 * @return bool False on failure. Not having to update is a success.
 	 */
 	public function set_introduction( $user_id, string $introduction_id, bool $is_seen = true ): bool {
-		$introductions = $this->get_introductions( $user_id );
+		$introductions = $this->get_all_introductions( $user_id );
 
 		// Check if the wanted value is already set.
 		if ( \array_key_exists( $introduction_id, $introductions ) && $introductions[ $introduction_id ] === $is_seen ) {
@@ -110,6 +110,6 @@ class Introductions_Seen_Repository {
 		}
 		$introductions[ $introduction_id ] = $is_seen;
 
-		return $this->set_introductions( $user_id, $introductions );
+		return $this->set_all_introductions( $user_id, $introductions );
 	}
 }
