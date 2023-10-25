@@ -82,7 +82,7 @@
 }
 
 .yoast-gutenberg-modal .components-modal__content .components-modal__header {
-	border-bottom-color: #e2e8f0 !important;
+	border-bottom: 1px solid #e2e8f0 !important;
 }
 
 .yoast-gutenberg-modal .components-modal__icon-container {
