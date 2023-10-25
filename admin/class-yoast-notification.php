@@ -402,7 +402,7 @@ class Yoast_Notification {
 
 		// Set to the id of the current user if not supplied.
 		if ( $options['user_id'] === null ) {
-			$user = wp_get_current_user();
+			$user               = wp_get_current_user();
 			$options['user_id'] = $user->ID;
 		}
 
