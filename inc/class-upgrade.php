@@ -1666,7 +1666,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Function to update all users' notifications to store the user id instead of the full WP_User object.
 	 */
-	private function update_notifications_user_id_for_216() {
+	public function update_notifications_user_id_for_216() {
 		global $wpdb;
 		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
 
