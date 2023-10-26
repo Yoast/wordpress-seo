@@ -9,8 +9,6 @@ use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
 
 /**
  * Manages the collection of introductions.
- *
- * @makePublic
  */
 class Introductions_Collector {
 

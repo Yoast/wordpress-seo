@@ -10,8 +10,6 @@ use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
  * Represents the introduction for the AI generate titles and introduction upsell.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
- *
- * @makePublic
  */
 class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introduction_Interface {
 
