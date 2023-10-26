@@ -31,7 +31,7 @@ const getNoIndexOptions = ( editorContext ) => {
 		return [
 			{
 				name: sprintf(
-					/* Translators: %s translates to "yes" or "no", %s translates to the Post Label in plural form */
+					/* translators: %s translates to "yes" or "no", %s translates to the Post Label in plural form */
 					__( "%s (current default for %s)", "wordpress-seo" ),
 					noIndex,
 					editorContext.postTypeNamePlural
@@ -45,7 +45,7 @@ const getNoIndexOptions = ( editorContext ) => {
 	return [
 		{
 			name: sprintf(
-				/* Translators: %s translates to the "yes" or "no" ,%s translates to the Post Label in plural form */
+				/* translators: %s translates to the "yes" or "no" ,%s translates to the Post Label in plural form */
 				__( "%s (current default for %s)", "wordpress-seo" ),
 				noIndex,
 				editorContext.postTypeNamePlural
@@ -83,8 +83,8 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 				<Select
 					label={
 						sprintf(
-							/* Translators: %s translates to the Post Label in singular form */
-							__( "Allow search engines to show this %s in search results?", "wordpress-seo" ),
+							/* translators: %s translates to the Post Label in singular form */
+							__( "Allow search engines to show this content in search results?", "wordpress-seo" ),
 							editorContext.postTypeNameSingular
 						) }
 					onChange={ onNoIndexChange }
@@ -125,8 +125,8 @@ const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
 				id={ id }
 				options={ [ { value: "0", label: "Yes" }, { value: "1", label: "No" } ] }
 				label={ sprintf(
-					/* Translators: %s translates to the Post Label in singular form */
-					__( "Should search engines follow links on this %s", "wordpress-seo" ),
+					/* translators: %s translates to the Post Label in singular form */
+					__( "Should search engines follow links on this content", "wordpress-seo" ),
 					postTypeName
 				) }
 				groupName={ id }
