@@ -806,7 +806,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_for_user_1 = new Yoast_Notification(
 			'Hello, user 1!',
 			[
-				'user'         => $user_mock_1,
+				'user_id'         => $user_mock_1->ID,
 				'capabilities' => [ 'wpseo_manage_options' ],
 			]
 		);
@@ -814,7 +814,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_for_user_2 = new Yoast_Notification(
 			'Hello, user 2!',
 			[
-				'user'         => $user_mock_2,
+				'user_id'         => $user_mock_2->ID,
 				'capabilities' => [ 'wpseo_manage_options' ],
 			]
 		);
@@ -847,7 +847,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 			'Hello, user 3!',
 			[
 				'id'           => 'Yoast_Notification_Test',
-				'user'         => $user_mock,
+				'user_id'         => $user_mock->ID,
 				'capabilities' => [ 'wpseo_manage_options' ],
 			]
 		);
