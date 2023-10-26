@@ -70,12 +70,12 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 	}
 
 	/**
-	 * Tests getting the name.
+	 * Tests getting the ID.
 	 *
-	 * @covers ::get_name
+	 * @covers ::get_id
 	 */
 	public function test_get_name() {
-		$this->assertSame( 'ai-generate-titles-and-descriptions-upsell', $this->instance->get_name() );
+		$this->assertSame( 'ai-generate-titles-and-descriptions-upsell', $this->instance->get_id() );
 	}
 
 	/**
