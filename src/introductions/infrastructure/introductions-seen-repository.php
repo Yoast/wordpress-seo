@@ -67,7 +67,7 @@ class Introductions_Seen_Repository {
 	 *              the one that is already in the database.
 	 */
 	public function set_all_introductions( $user_id, array $introductions ): bool {
-		return $this->user_helper->update_meta( $user_id, self::USER_META_KEY, $introductions ) === true;
+		return $this->user_helper->update_meta( $user_id, self::USER_META_KEY, $introductions ) !== false;
 	}
 
 	/**
