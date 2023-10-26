@@ -285,6 +285,10 @@ class Yoast_Notification {
 			return false;
 		}
 		$user = get_user_by( 'id', $user_id );
+		if ( ! $user ) {
+			return false;
+		}
+
 		return $user->has_cap( $capability );
 	}
 
@@ -403,7 +407,7 @@ class Yoast_Notification {
 		// Set to the id of the current user if not supplied.
 		if ( $options['user_id'] === null ) {
 			$user               = wp_get_current_user();
-			$options['user_id'] = $user->ID;
+			$options['user_id'] = (int) $user->ID;
 		}
 
 		return $options;
