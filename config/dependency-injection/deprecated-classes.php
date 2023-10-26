@@ -35,6 +35,8 @@ use Yoast\WP\SEO\Integrations\Admin\Social_Templates_Integration;
 use Yoast\WP\SEO\Integrations\Schema_Blocks;
 use Yoast\WP\SEO\Integrations\Third_Party\CoAuthors_Plus;
 use Yoast\WP\SEO\Integrations\Third_Party\The_Events_Calendar;
+use Yoast\WP\SEO\Integrations\Third_Party\Wincher;
+use Yoast\WP\SEO\Integrations\Third_Party\Wordproof_Integration_Toggle;
 use Yoast\WP\SEO\Routes\Indexables_Page_Route;
 use Yoast\WP\SEO\Schema_Templates\Assets\Icons;
 
@@ -56,6 +58,8 @@ $deprecated_classes = [
 	Schema_Blocks::class                        => '20.5',
 	Icons::class                                => '20.5',
 	Old_Premium_Integration::class              => '20.10',
+	Wincher::class                              => '21.6',
+	Wordproof_Integration_Toggle::class         => '21.6',
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {
