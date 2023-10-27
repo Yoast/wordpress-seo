@@ -915,10 +915,10 @@ class Yoast_Notification_Center {
 				unset( $serialized_notification['options']['user'] );
 				$serialized_notification['options']['user_id'] = $user_id;
 
-				$processed_notifications[] = $this->array_to_notification( $serialized_notification );
-
+				
 				$this->notifications_need_storage = true;
 			}
+			$processed_notifications[] = $this->array_to_notification( $serialized_notification );
 		}
 
 		return $processed_notifications;
