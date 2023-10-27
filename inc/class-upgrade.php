@@ -89,7 +89,6 @@ class WPSEO_Upgrade {
 			'20.5-RC0'   => 'upgrade_205',
 			'20.7-RC0'   => 'upgrade_207',
 			'20.8-RC0'   => 'upgrade_208',
-			'21.6-rc0'   => 'upgrade_216',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -1015,14 +1014,6 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 21.6 upgrade routine.
-	 * Avoid storing the full WP_User object in each notification and saves just the user id instead.
-	 */
-	private function upgrade_216() {
-		add_action( 'init', [ $this, 'update_notifications_user_id_for_216' ] );
-	}
-
-	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
 	 *
 	 * @return void
@@ -1661,42 +1652,6 @@ class WPSEO_Upgrade {
 			array_merge( array_values( $object_ids ), array_values( $newest_indexable_ids ), [ $object_type ] )
 		);
 		// phpcs:enable
-	}
-
-	/**
-	 * Function to update all users' notifications to store the user id instead of the full WP_User object.
-	 */
-	private function update_notifications_user_id_for_216() {
-		global $wpdb;
-		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
-
-		$usermetas = $wpdb->get_results(
-			$wpdb->prepare(
-				'
-				SELECT user_id, meta_value
-				FROM ' . $wpdb->usermeta . '
-				WHERE meta_key = %s
-				',
-				$meta_key
-			),
-			ARRAY_A
-		);
-
-		if ( empty( $usermetas ) ) {
-			return;
-		}
-
-		foreach ( $usermetas as $usermeta ) {
-			$notifications = maybe_unserialize( $usermeta['meta_value'] );
-
-			foreach ( $notifications as $notification ) {
-				if ( ! empty( $notification['options']['user'] ) ) {
-					unset( $notification['options']['user'] );
-					$notification['options']['user_id'] = $usermeta['user_id'];
-				}
-			}
-			update_user_meta( $usermeta['user_id'], Yoast_Notification_Center::STORAGE_KEY, $notifications );
-		}
 	}
 
 	/**
