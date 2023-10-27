@@ -56,18 +56,24 @@ const CalloutContainer = styled.div`
 /**
  * Hook to fetch the account tracking info.
  *
+ * @param {boolean} isLoggedIn Whether the use is logged in.
+ *
  * @returns {object} The Wincher account tracking info.
  */
-const useTrackingInfo = () => {
+export const useTrackingInfo = ( isLoggedIn ) => {
 	const [ trackingInfo, setTrackingInfo ] = useState( null );
 
 	useEffect( ()=>{
-		if ( ! trackingInfo ) {
+		if ( isLoggedIn && ! trackingInfo ) {
 			checkLimit().then( data => setTrackingInfo( data ) );
 		}
 	}, [ trackingInfo ] );
 
 	return trackingInfo;
+};
+
+useTrackingInfo.propTypes = {
+	limit: PropTypes.bool.isRequired,
 };
 
 /**
@@ -221,8 +227,7 @@ WincherUpgradeCalloutDescription.propTypes = {
  *
  * @returns {wp.Element | null} The Wincher upgrade callout.
  */
-const WincherUpgradeCallout = ( { onClose, isTitleShortened } ) => {
-	const trackingInfo = useTrackingInfo();
+const WincherUpgradeCallout = ( { onClose, isTitleShortened, trackingInfo } ) => {
 	const upgradeCampaign = useUpgradeCampaign();
 
 	if ( trackingInfo === null ) {
@@ -257,6 +262,7 @@ const WincherUpgradeCallout = ( { onClose, isTitleShortened } ) => {
 WincherUpgradeCallout.propTypes = {
 	onClose: PropTypes.func,
 	isTitleShortened: PropTypes.bool,
+	trackingInfo: PropTypes.object,
 };
 
 export default WincherUpgradeCallout;

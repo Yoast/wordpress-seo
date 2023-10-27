@@ -27,7 +27,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, upsellLi
 				<Badge className="yst-absolute yst-top-0 yst-right-2 yst-mt-2 yst-ml-2" variant="info">Beta</Badge>
 			</div>
 			<div className="yst-mt-6 yst-text-xs yst-font-medium">
-				<span className="yst-uppercase yst-text-slate-500">
+				<span className="yst-introduction-modal-uppercase">
 					{ sprintf(
 						/* translators: %1$s expands to Yoast SEO Premium. */
 						__( "New to %1$s", "wordpress-seo" ),
@@ -76,7 +76,11 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, upsellLi
 					ref={ initialFocus }
 				>
 					<LockOpenIcon className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5" />
-					{ __( "Unlock with Premium", "wordpress-seo" ) }
+					{ sprintf(
+						/* translators: %1$s expands to Yoast SEO Premium. */
+						__( "Unlock with %1$s", "wordpress-seo" ),
+						"Yoast SEO Premium"
+					) }
 					<span className="yst-sr-only">
 						{
 							/* translators: Hidden accessibility text. */

@@ -28,7 +28,7 @@ const PremiumSEOAnalysisUpsell = ( props ) => {
 	return (
 		<UpsellBox
 			title={ __( "Get more help with writing content that ranks", "wordpress-seo" ) }
-			description={ __( "Check your text on more SEO criteria and get an enhanced keyphrase analysis, making it easier to write optimized content.", "wordpress-seo" ) }
+			description={ __( "Check your text on even more SEO criteria and get an enhanced keyphrase analysis, making it easier to optimize your content.", "wordpress-seo" ) }
 			benefitsTitle={ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
 			benefits={ benefits }
 			upsellButtonText={
