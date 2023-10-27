@@ -716,7 +716,6 @@ class Yoast_Notification_Center {
 	 * @return void
 	 */
 	private function retrieve_notifications_from_storage( $user_id ) {
-
 		if ( $this->notifications_retrieved ) {
 			return;
 		}
@@ -734,9 +733,29 @@ class Yoast_Notification_Center {
 			$notifications = array_map( [ $this, 'array_to_notification' ], $stored_notifications );
 			// Apply array_values to ensure we get a 0-indexed array.
 			$notifications = array_values( array_filter( $notifications, [ $this, 'filter_notification_current_user' ] ) );
+			
+			$processed_notifications = $this->maybe_unset_notification_user_field( $user_id, $notifications );
 
-			$this->notifications[ $user_id ] = $notifications;
+			$this->notifications[ $user_id ] = $processed_notifications;
 		}
+	}
+
+	private function maybe_unset_notification_user_field( $user_id, $notifications) {
+		$processed_notifications = [];
+
+		foreach ( $notifications as $notification ) {
+			$serialized_notification = $this->notification_to_array( $notification );
+			if ( array_key_exists( 'user', $serialized_notification['options'] ) ) {
+				unset( $serialized_notification['options']['user'] );
+				$serialized_notification['options']['user_id'] = $user_id;
+
+				$processed_notifications[] = $this->array_to_notification( $serialized_notification );
+
+				$this->notifications_need_storage = true;
+			}
+		}
+
+		return $processed_notifications;
 	}
 
 	/**
