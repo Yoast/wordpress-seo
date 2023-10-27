@@ -4,6 +4,7 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
+    "build": "cd ../.. && wp-scripts build --config config/webpack/webpack.config.js",
     "test": "jest",
     "lint": "eslint src tests --max-warnings=74"
   },
