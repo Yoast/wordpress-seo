@@ -13,6 +13,13 @@
 class Yoast_Notification_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * User ID.
+	 *
+	 * @var int
+	 */
+	private $user_id;
+
+	/**
 	 * Test capability filters get set.
 	 *
 	 * @var array
@@ -25,6 +32,20 @@ class Yoast_Notification_Test extends WPSEO_UnitTestCase {
 	 * @var array
 	 */
 	private $verify_capability_match_filter_args = [];
+
+	/**
+	 * Create user with proper caps.
+	 */
+	public function set_up() {
+		parent::set_up();
+
+		$this->user_id = $this->factory->user->create();
+
+		$user = new WP_User( $this->user_id );
+		$user->add_cap( 'wpseo_manage_options' );
+
+		wp_set_current_user( $this->user_id );
+	}
 
 	/**
 	 * No ID is not persistent.
