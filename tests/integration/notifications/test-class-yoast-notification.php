@@ -61,7 +61,7 @@ class Yoast_Notification_Test extends WPSEO_UnitTestCase {
 	public function test_set_defaults() {
 		$subject = new Yoast_Notification( 'message', [] );
 		$test    = $subject->to_array();
-		$user = wp_get_current_user();
+		$user    = wp_get_current_user();
 
 		$this->assertEquals(
 			[
