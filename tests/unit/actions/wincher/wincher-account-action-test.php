@@ -81,10 +81,11 @@ class Wincher_Account_Action_Test extends TestCase {
 			->andReturn(
 				[
 					'limits' => [
-						'keywords' => [
+						'keywords'     => [
 							'usage' => 10,
 							'limit' => 100,
 						],
+						'history_days' => 31,
 					],
 					'status' => 200,
 				]
@@ -92,10 +93,11 @@ class Wincher_Account_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'canTrack' => true,
-				'limit'    => 100,
-				'usage'    => 10,
-				'status'   => 200,
+				'canTrack'    => true,
+				'limit'       => 100,
+				'usage'       => 10,
+				'status'      => 200,
+				'historyDays' => 31,
 			],
 			$this->instance->check_limit()
 		);
@@ -113,10 +115,11 @@ class Wincher_Account_Action_Test extends TestCase {
 			->andReturn(
 				[
 					'limits' => [
-						'keywords' => [
+						'keywords'     => [
 							'usage' => 100,
 							'limit' => 100,
 						],
+						'history_days' => 31,
 					],
 					'status' => 200,
 				]
@@ -124,10 +127,11 @@ class Wincher_Account_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'canTrack' => false,
-				'limit'    => 100,
-				'usage'    => 100,
-				'status'   => 200,
+				'canTrack'    => false,
+				'limit'       => 100,
+				'usage'       => 100,
+				'status'      => 200,
+				'historyDays' => 31,
 			],
 			$this->instance->check_limit()
 		);
@@ -145,10 +149,11 @@ class Wincher_Account_Action_Test extends TestCase {
 			->andReturn(
 				[
 					'limits' => [
-						'keywords' => [
+						'keywords'     => [
 							'usage' => 100000,
 							'limit' => null,
 						],
+						'history_days' => 31,
 					],
 					'status' => 200,
 				]
@@ -156,10 +161,11 @@ class Wincher_Account_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'canTrack' => true,
-				'limit'    => null,
-				'usage'    => 100000,
-				'status'   => 200,
+				'canTrack'    => true,
+				'limit'       => null,
+				'usage'       => 100000,
+				'status'      => 200,
+				'historyDays' => 31,
 			],
 			$this->instance->check_limit()
 		);
@@ -243,6 +249,27 @@ class Wincher_Account_Action_Test extends TestCase {
 			(object) [
 				'discount' => 0.9,
 				'months'   => 10,
+				'status'   => 200,
+			],
+			$this->instance->get_upgrade_campaign()
+		);
+	}
+
+	/**
+	 * Tests empty get upgrade campaign.
+	 *
+	 * @covers ::get_upgrade_campaign
+	 */
+	public function test_empty_get_upgrade_campaign() {
+		$this->client_instance
+			->expects( 'get' )
+			->with( 'https://api.wincher.com/v1/yoast/upgrade-campaign' )
+			->andReturn( [] );
+
+		$this->assertEquals(
+			(object) [
+				'discount' => null,
+				'months'   => null,
 				'status'   => 200,
 			],
 			$this->instance->get_upgrade_campaign()

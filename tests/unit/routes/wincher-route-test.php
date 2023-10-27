@@ -168,6 +168,9 @@ class Wincher_Route_Test extends TestCase {
 						'permalink' => [
 							'required' => false,
 						],
+						'startAt' => [
+							'required' => false,
+						],
 					],
 				]
 			);
@@ -357,11 +360,17 @@ class Wincher_Route_Test extends TestCase {
 			->with( 'keyphrases' )
 			->andReturn( [ 'seo' ] );
 
+		$request
+			->expects( 'offsetGet' )
+			->with( 'startAt' )
+			->andReturn( '2023-01-01' );
+
 		$this->keyphrases_action
 			->expects( 'get_tracked_keyphrases' )
 			->with(
 				[ 'seo' ],
-				'https://example.com'
+				'https://example.com',
+				'2023-01-01'
 			)
 			->andReturn( (object) [ 'status' => '200' ] );
 
@@ -387,11 +396,17 @@ class Wincher_Route_Test extends TestCase {
 			->with( 'keyphrases' )
 			->andReturn( [ 'seo' ] );
 
+		$request
+			->expects( 'offsetGet' )
+			->with( 'startAt' )
+			->andReturn( '2023-01-01' );
+
 		$this->keyphrases_action
 			->expects( 'get_tracked_keyphrases' )
 			->with(
 				[ 'seo' ],
-				''
+				'',
+				'2023-01-01'
 			)
 			->andReturn( (object) [ 'status' => '200' ] );
 

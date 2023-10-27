@@ -10,6 +10,9 @@ use Yoast_Feature_Toggle;
 /**
  * Class WordProofIntegrationToggle.
  *
+ * @deprecated 21.6
+ * @codeCoverageIgnore
+ *
  * @package Yoast\WP\SEO\Integrations\Third_Party
  */
 class Wordproof_Integration_Toggle implements Integration_Interface {
@@ -24,6 +27,9 @@ class Wordproof_Integration_Toggle implements Integration_Interface {
 	/**
 	 * The WordProof integration toggle constructor.
 	 *
+	 * @deprecated 21.6
+	 * @codeCoverageIgnore
+	 *
 	 * @param Wordproof_Helper $wordproof The WordProof helper instance.
 	 */
 	public function __construct( Wordproof_Helper $wordproof ) {
@@ -32,6 +38,9 @@ class Wordproof_Integration_Toggle implements Integration_Interface {
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @deprecated 21.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return array
 	 */
@@ -44,51 +53,27 @@ class Wordproof_Integration_Toggle implements Integration_Interface {
 	 *
 	 * This is the place to register hooks and filters.
 	 *
+	 * @deprecated 21.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function register_hooks() {
-		/**
-		 * Called by Yoast_Integration_Toggles to add extra toggles to the ones defined there.
-		 */
-		\add_filter( 'wpseo_integration_toggles', [ $this, 'add_integration_toggle' ] );
-
-		/**
-		 * Update the default wordproof_integration_active depending if the integration is disabled or not.
-		 */
-		\add_filter( 'wpseo_option_wpseo_defaults', [ $this, 'default_values' ] );
-
-		/**
-		 * Add extra text after the network integration toggle if the toggle is disabled.
-		 */
-		\add_action( 'Yoast\WP\SEO\admin_network_integration_after', [ $this, 'after_network_integration_toggle' ] );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 21.6' );
 	}
 
 	/**
 	 * Adds the WordProof integration toggle to the array.
+	 *
+	 * @deprecated 21.6
+	 * @codeCoverageIgnore
 	 *
 	 * @param array $integration_toggles The integration toggles array.
 	 *
 	 * @return array The updated integration toggles array.
 	 */
 	public function add_integration_toggle( $integration_toggles ) {
-		if ( \is_array( $integration_toggles ) ) {
-			$integration_toggles[] = (object) [
-				/* translators: %s expands to WordProof */
-				'name'            => \sprintf( \__( '%s integration', 'wordpress-seo' ), 'WordProof' ),
-				'setting'         => 'wordproof_integration_active',
-				'label'           => \sprintf(
-				/* translators: %s expands to WordProof */
-					\__( '%1$s can be used to timestamp your privacy page.', 'wordpress-seo' ),
-					'WordProof'
-				),
-				/* translators: %s expands to WordProof */
-				'read_more_label' => \sprintf( \__( 'Read more about how %s works.', 'wordpress-seo' ), 'WordProof ' ),
-				'read_more_url'   => 'https://yoa.st/wordproof-integration',
-				'order'           => 16,
-				'disabled'        => $this->wordproof->integration_is_disabled(),
-				'new'             => true,
-			];
-		}
+		\_deprecated_function( __METHOD__, 'Yoast SEO 21.6' );
 
 		return $integration_toggles;
 	}
@@ -144,14 +129,6 @@ class Wordproof_Integration_Toggle implements Integration_Interface {
 	 * @param Yoast_Feature_Toggle $integration The integration toggle class.
 	 */
 	public function after_network_integration_toggle( $integration ) {
-		if ( $integration->setting === 'wordproof_integration_active' ) {
-			if ( $integration->disabled ) {
-				echo '<p>' . \sprintf(
-					/* translators: %s expands to WordProof */
-					\esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ),
-					'WordProof'
-				) . '</p>';
-			}
-		}
+		\_deprecated_function( __METHOD__, 'Yoast SEO 21.6' );
 	}
 }
