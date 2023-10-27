@@ -840,14 +840,16 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	public function test_add_notifications_only_once_for_user() {
 
 		$instance = $this->get_notification_center();
-
-		$user_mock = $this->mock_wp_user( 3, [ 'wpseo_manage_options' => true ] );
+		
+		$user_id = $this->factory->user->create();
+		$user = new WP_User( $user_id );
+		$user->add_cap( 'wpseo_manage_options' );
 
 		$notification = new Yoast_Notification(
 			'Hello, user 3!',
 			[
 				'id'           => 'Yoast_Notification_Test',
-				'user_id'         => $user_mock->ID,
+				'user_id'         => $user_id,
 				'capabilities' => [ 'wpseo_manage_options' ],
 			]
 		);
@@ -856,7 +858,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$instance->add_notification( $notification );
 
 		$expected = [ $notification ];
-		$actual   = $instance->get_notifications_for_user( 3 );
+		$actual   = $instance->get_notifications_for_user( $user_id );
 
 		$this->assertEquals( $expected, $actual );
 	}
