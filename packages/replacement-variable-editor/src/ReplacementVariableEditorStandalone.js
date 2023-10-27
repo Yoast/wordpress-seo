@@ -513,10 +513,11 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * Sets the state of this editor when the incoming content changes.
 	 *
 	 * @param {Object} prevProps The previous props this component has received.
+	 * @param {Object} prevState The previous state this component has been in.
 	 *
 	 * @returns {void}
 	 */
-	componentDidUpdate( prevProps ) {
+	componentDidUpdate( prevProps, prevState ) {
 		const { content, replacementVariables, recommendedReplacementVariables } = prevProps;
 		const { searchValue } = this.state;
 		const nextState = {};
@@ -548,8 +549,9 @@ class ReplacementVariableEditorStandalone extends React.Component {
 				this.mapReplacementVariablesToSuggestions( currentReplacementVariables )
 			);
 		}
-
-		this.setState( nextState );
+		if ( isReplacementVariablesChanged || isContentChanged ) {
+			this.setState( { ...prevState, ...nextState } );
+		}
 	}
 
 	/**
