@@ -10,7 +10,7 @@ on:
 
 jobs:
   prepare:
-    name: "Prepare the artifact"
+    name: "Build and check plugin"
     # Don't run on forks.
     if: github.repository_owner == 'Yoast'
 
