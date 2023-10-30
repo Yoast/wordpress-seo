@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { createInterpolateElement } from "@wordpress/element";
@@ -20,6 +21,12 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, thumbnai
 	const upsellLinkPremium = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell" ), [] );
 	const upsellLinkWooPremiumBundle = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo-premium-bundle" ), [] );
 	const upsellLinkWoo = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo" ), [] );
+	const isPremium = useSelect( select => select( STORE ).getIsPremium(), false );
+	const isWooSeoUpsell = useSelect( select => select( STORE ).getIsWooSeoUpsell(), false );
+	const isProduct = useSelect( select => select( STORE ).getIsProduct(), false );
+
+	const wooSeoNoPremium = isProduct && ! isWooSeoUpsell && ! isPremium;
+	const isProductCopy = isWooSeoUpsell || wooSeoNoPremium;
 	let upsellLink = upsellLinkPremium;
 	let newToText = sprintf(
 		/* translators: %1$s expands to Yoast SEO Premium. */
@@ -36,8 +43,6 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, thumbnai
 		ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />,
 	};
 
-	const isPremium = useSelect( select => select( STORE ).getIsPremium(), [] );
-	const isWooSeoUpsell = useSelect( select => select( STORE ).getIsWooSeoUpsell(), [] );
 	let upsellLabel = sprintf(
 		/* translators: %1$s expands to Yoast SEO Premium. */
 		__( "Unlock with %1$s", "wordpress-seo" ),
@@ -46,7 +51,8 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, thumbnai
 	let bundleNote = "";
 	let title = __( "Generate titles & descriptions with Yoast AI!", "wordpress-seo" );
 
-	if ( isWooSeoUpsell ) {
+
+	if ( isProductCopy ) {
 		const upsellPremiumWooLabel = sprintf(
 			/* translators: %1$s expands to Yoast SEO Premium, %2$s expands to Yoast WooCommerce SEO. */
 			__( "%1$s + %2$s", "wordpress-seo" ),
@@ -59,7 +65,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, thumbnai
 			upsellPremiumWooLabel
 		);
 		title = __( "Generate product titles & descriptions with AI!", "wordpress-seo" );
-		if ( ! isPremium ) {
+		if ( ! isPremium && isWooSeoUpsell ) {
 			upsellLabel = `${sprintf(
 				/* translators: %1$s expands to Woo Premium bundle. */
 				__( "Unlock with the %1$s", "wordpress-seo" ),
@@ -95,14 +101,14 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, thumbnai
 					{ newToText }
 				</span>
 
-				{ ! isWooSeoUpsell && <span className="yst-uppercase yst-text-slate-700"> 21.0</span> }
+				{ ! isProductCopy && <span className="yst-uppercase yst-text-slate-700"> 21.0</span> }
 			</div>
 			<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
 				<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
 					{ title }
 				</h3>
 				<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
-					{ isWooSeoUpsell ? createInterpolateElement(
+					{ isProductCopy ? createInterpolateElement(
 						sprintf(
 							/* translators: %1$s and %2$s are anchor tag; %3$s is the arrow icon. */
 							__(
