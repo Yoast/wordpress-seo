@@ -16,6 +16,7 @@ jobs:
     - name: Build
       run: |
         composer install
+        nvm install
         yarn
         grunt build
     - name: Run plugin check
