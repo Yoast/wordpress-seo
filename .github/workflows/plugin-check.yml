@@ -8,10 +8,17 @@ on:
     - 'release/**'
 
 jobs:
-  test:
+  build-and-test-plugin:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    - name: Build
+      run: |
+        composer install
+        yarn
+        grunt build
     - name: Run plugin check
       uses: swissspidy/wp-plugin-check-action@main
+      with:
+          build-dir: 'build'
