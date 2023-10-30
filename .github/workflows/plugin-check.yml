@@ -35,4 +35,4 @@ jobs:
       - name: Run plugin check
         uses: swissspidy/wp-plugin-check-action@main
         with:
-            build-dir: 'build'
+            build-dir: './build'
