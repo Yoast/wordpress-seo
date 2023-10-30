@@ -9,7 +9,9 @@ on:
 
 jobs:
   build-and-test-plugin:
+    name: 'Build plugin and run plugin checks'
     runs-on: ubuntu-latest
+
     steps:
        - name: Checkout code
         uses: actions/checkout@v3
@@ -33,6 +35,7 @@ jobs:
         composer install
         yarn
         grunt build
+
     - name: Run plugin check
       uses: swissspidy/wp-plugin-check-action@main
       with:
