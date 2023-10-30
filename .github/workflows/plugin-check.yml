@@ -7,13 +7,17 @@ on:
     - trunk
     - 'release/**'
 
+
 jobs:
-  build-and-test-plugin:
-    name: 'Build plugin and run plugin checks'
+  prepare:
+    name: "Prepare the artifact"
+    # Don't run on forks.
+    if: github.repository_owner == 'Yoast'
+
     runs-on: ubuntu-latest
 
     steps:
-       - name: Checkout code
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Install PHP
@@ -30,13 +34,22 @@ jobs:
           node-version: '14'
           cache: 'yarn'
 
-    - name: Build
-      run: |
-        composer install
-        yarn
-        grunt build
+      - name: "Debug info: show tooling versions"
+        run: |
+          php -v
+          node --version
+          npm --version
+          yarn --version
+          grunt --version
+          git --version
 
-    - name: Run plugin check
-      uses: swissspidy/wp-plugin-check-action@main
-      with:
-          build-dir: 'build'
+      - name: Build
+        run: |
+          composer install
+          yarn
+          grunt build
+
+      - name: Run plugin check
+        uses: swissspidy/wp-plugin-check-action@main
+        with:
+            build-dir: 'build'
