@@ -94,8 +94,8 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, thumbnai
 				<span className="yst-introduction-modal-uppercase">
 					{ newToText }
 				</span>
-				&nbsp;
-				<span className="yst-uppercase yst-text-slate-700">21.0</span>
+
+				{ ! isWooSeoUpsell && <span className="yst-uppercase yst-text-slate-700"> 21.0</span> }
 			</div>
 			<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
 				<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
