@@ -21,9 +21,9 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, thumbnai
 	const upsellLinkPremium = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell" ), [] );
 	const upsellLinkWooPremiumBundle = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo-premium-bundle" ), [] );
 	const upsellLinkWoo = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo" ), [] );
-	const isPremium = useSelect( select => select( STORE ).getIsPremium(), false );
-	const isWooSeoUpsell = useSelect( select => select( STORE ).getIsWooSeoUpsell(), false );
-	const isProduct = useSelect( select => select( STORE ).getIsProduct(), false );
+	const isPremium = useSelect( select => select( STORE ).getIsPremium(), [] );
+	const isWooSeoUpsell = useSelect( select => select( STORE ).getIsWooSeoUpsell(), [] );
+	const isProduct = useSelect( select => select( STORE ).getIsProduct(), [] );
 
 	const wooSeoNoPremium = isProduct && ! isWooSeoUpsell && ! isPremium;
 	const isProductCopy = isWooSeoUpsell || wooSeoNoPremium;
