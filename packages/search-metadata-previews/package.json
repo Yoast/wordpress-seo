@@ -25,6 +25,8 @@
     "interpolate-components": "^1.1.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-transition-group": "^2.7.1",
     "styled-components": "^5.3.6",
     "yoastseo": "^1.91.2"
@@ -40,9 +42,7 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.29.4",
     "browserslist": "^4.7.3",
-    "jest-styled-components": "^7.0.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "jest-styled-components": "^7.0.3"
   },
   "peerDependencies": {},
   "jest": {
