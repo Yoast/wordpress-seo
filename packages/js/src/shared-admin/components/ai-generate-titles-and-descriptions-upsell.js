@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { createInterpolateElement } from "@wordpress/element";
@@ -20,31 +21,58 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, thumbnai
 	const upsellLinkPremium = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell" ), [] );
 	const upsellLinkWooPremiumBundle = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo-premium-bundle" ), [] );
 	const upsellLinkWoo = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo" ), [] );
-	let upsellLink = upsellLinkPremium;
-
 	const isPremium = useSelect( select => select( STORE ).getIsPremium(), [] );
 	const isWooSeoUpsell = useSelect( select => select( STORE ).getIsWooSeoUpsell(), [] );
+	const isProduct = useSelect( select => select( STORE ).getIsProduct(), [] );
+
+	const wooSeoNoPremium = isProduct && ! isWooSeoUpsell && ! isPremium;
+	const isProductCopy = isWooSeoUpsell || wooSeoNoPremium;
+	let upsellLink = upsellLinkPremium;
+	let newToText = sprintf(
+		/* translators: %1$s expands to Yoast SEO Premium. */
+		__( "New to %1$s", "wordpress-seo" ),
+		"Yoast SEO Premium"
+	);
+	const learnMoreLinkStructure = {
+		// eslint-disable-next-line jsx-a11y/anchor-has-content
+		a: <OutboundLink
+			href={ learnMoreLink }
+			className="yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
+			variant="primary"
+		/>,
+		ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />,
+	};
+
 	let upsellLabel = sprintf(
 		/* translators: %1$s expands to Yoast SEO Premium. */
 		__( "Unlock with %1$s", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	);
 	let bundleNote = "";
+	let title = __( "Generate titles & descriptions with Yoast AI!", "wordpress-seo" );
 
-	if ( isWooSeoUpsell ) {
-		if ( ! isPremium ) {
+
+	if ( isProductCopy ) {
+		const upsellPremiumWooLabel = sprintf(
+			/* translators: %1$s expands to Yoast SEO Premium, %2$s expands to Yoast WooCommerce SEO. */
+			__( "%1$s + %2$s", "wordpress-seo" ),
+			"Yoast SEO Premium",
+			"Yoast WooCommerce SEO"
+		);
+		newToText = sprintf(
+			/* translators: %1$s expands to Yoast SEO Premium and Yoast WooCommerce SEO. */
+			__( "New to %1$s", "wordpress-seo" ),
+			upsellPremiumWooLabel
+		);
+		title = __( "Generate product titles & descriptions with AI!", "wordpress-seo" );
+		if ( ! isPremium && isWooSeoUpsell ) {
 			upsellLabel = `${sprintf(
 				/* translators: %1$s expands to Woo Premium bundle. */
 				__( "Unlock with the %1$s", "wordpress-seo" ),
 				"Woo Premium bundle"
 			)}*`;
 			bundleNote = <div className="yst-text-xs yst-text-slate-500 yst-mt-2">
-				{ `*${sprintf(
-				/* translators: %1$s expands to Yoast SEO Premium, %2$s expands to Yoast WooCommerce SEO. */
-					__( "%1$s + %2$s", "wordpress-seo" ),
-					"Yoast SEO Premium",
-					"Yoast WooCommerce SEO"
-				)}` }
+				{ `*${upsellPremiumWooLabel}` }
 			</div>;
 			upsellLink = upsellLinkWooPremiumBundle;
 		}
@@ -70,41 +98,42 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( { learnMoreLink, thumbnai
 			</div>
 			<div className="yst-mt-6 yst-text-xs yst-font-medium">
 				<span className="yst-introduction-modal-uppercase">
-					{ sprintf(
-						/* translators: %1$s expands to Yoast SEO Premium. */
-						__( "New to %1$s", "wordpress-seo" ),
-						"Yoast SEO Premium"
-					) }
+					{ newToText }
 				</span>
-				&nbsp;
-				<span className="yst-uppercase yst-text-slate-700">21.0</span>
+
+				{ ! isProductCopy && <span className="yst-uppercase yst-text-slate-700"> 21.0</span> }
 			</div>
 			<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
 				<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
-					{ __( "Generate titles & descriptions with Yoast AI!", "wordpress-seo" ) }
+					{ title }
 				</h3>
 				<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
-					{ createInterpolateElement(
+					{ isProductCopy ? createInterpolateElement(
 						sprintf(
 							/* translators: %1$s and %2$s are anchor tag; %3$s is the arrow icon. */
 							__(
-								"Speed up your workflow with generative AI. Get high-quality title and description suggestions for your search and social appearance. %1$sLearn more%2$s%3$s",
+								"Speed up your workflow with generative AI. Get high-quality product title and description suggestions for your search and social appearance. %1$sLearn more%2$s%3$s",
 								"wordpress-seo"
 							),
 							"<a>",
 							"<ArrowNarrowRightIcon />",
 							"</a>"
 						),
-						{
-							// eslint-disable-next-line jsx-a11y/anchor-has-content
-							a: <OutboundLink
-								href={ learnMoreLink }
-								className="yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
-								variant="primary"
-							/>,
-							ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />,
-						}
-					) }
+						learnMoreLinkStructure
+					)
+						: createInterpolateElement(
+							sprintf(
+							/* translators: %1$s and %2$s are anchor tag; %3$s is the arrow icon. */
+								__(
+									"Speed up your workflow with generative AI. Get high-quality title and description suggestions for your search and social appearance. %1$sLearn more%2$s%3$s",
+									"wordpress-seo"
+								),
+								"<a>",
+								"<ArrowNarrowRightIcon />",
+								"</a>"
+							),
+							learnMoreLinkStructure
+						) }
 				</div>
 			</div>
 			<div className="yst-w-full yst-flex yst-mt-10">
