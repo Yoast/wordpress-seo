@@ -37,7 +37,9 @@
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
-    "draft-js": "^0.11.7"
+    "draft-js": "^0.11.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.5",
@@ -77,8 +79,6 @@
     "node-fetch": "^2.6.1",
     "postcss": "^8.4.14",
     "postcss-cli": "^9.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-test-renderer": "^18.2.0",
     "readline-sync": "^1.4.9",
     "shusher": "^0.1.1",
