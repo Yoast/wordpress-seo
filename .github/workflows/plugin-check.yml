@@ -11,8 +11,22 @@ jobs:
   build-and-test-plugin:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+       - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.2
+          coverage: none
+
+      # This action also handles the caching of the Yarn dependencies.
+      # https://github.com/actions/setup-node
+      - name: Set up node and enable caching of dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'yarn'
 
     - name: Build
       run: |
