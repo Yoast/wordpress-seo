@@ -3,19 +3,21 @@ import build from "../../../src/parse/build/build";
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
 import Factory from "../../specHelpers/factory";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
+import Paper from "../../../src/values/Paper";
 
-let languageProcessor;
+let languageProcessor, paper;
 
 beforeEach( () => {
 	const researcher = Factory.buildMockResearcher( {}, true, false, false,
 		{ memoizedTokenizer: memoizedSentenceTokenizer } );
 	languageProcessor = new LanguageProcessor( researcher );
+	paper = new Paper( "" );
 } );
 
 describe( "A test for findAllInTree", () => {
 	it( "should correctly extract all p-tags from a tree", function() {
-		const html = "<div><p class='yoast'>Hello, world! </p><p class='yoast'>Hello, yoast! </p></div>";
-		const tree = build( html, languageProcessor );
+		paper._text = "<div><p class='yoast'>Hello, world! </p><p class='yoast'>Hello, yoast! </p></div>";
+		const tree = build( paper, languageProcessor );
 
 		const searchResult = findAllInTree( tree, treeNode => treeNode.name === "p" );
 
@@ -27,6 +29,7 @@ describe( "A test for findAllInTree", () => {
 				childNodes: [ {
 					name: "#text",
 					value: "Hello, world! ",
+					sourceCodeRange: { startOffset: 22, endOffset: 36 },
 				} ],
 				sentences: [ {
 					text: "Hello, world!",
@@ -59,6 +62,7 @@ describe( "A test for findAllInTree", () => {
 				childNodes: [ {
 					name: "#text",
 					value: "Hello, yoast! ",
+					sourceCodeRange: { startOffset: 57, endOffset: 71 },
 				} ],
 				sentences: [ {
 					text: "Hello, yoast!",
@@ -90,8 +94,8 @@ describe( "A test for findAllInTree", () => {
 	} );
 
 	it( "should return an empty result if the tag doesnt exist within the tree", function() {
-		const html = "<div><p class='yoast'>Hello, world! </p><p class='yoast'>Hello, yoast! </p></div>";
-		const tree = build( html, languageProcessor );
+		paper._text = "<div><p class='yoast'>Hello, world! </p><p class='yoast'>Hello, yoast! </p></div>";
+		const tree = build( paper, languageProcessor );
 
 		const searchResult = findAllInTree( tree, treeNode => treeNode.name === "h1" );
 
@@ -99,8 +103,8 @@ describe( "A test for findAllInTree", () => {
 	} );
 
 	it( "should return all sub-nodes if recurseFoundNodes is true", function() {
-		const html = "<div><div><div>foo</div></div></div>";
-		const tree = build( html, languageProcessor );
+		paper._text = "<div><div><div>foo</div></div></div>";
+		const tree = build( paper, languageProcessor );
 
 		const searchResult = findAllInTree( tree, treeNode => treeNode.name === "div", true );
 

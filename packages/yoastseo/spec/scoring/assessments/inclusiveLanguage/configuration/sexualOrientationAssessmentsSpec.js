@@ -17,9 +17,10 @@ describe( "A test for Sexual orientation assessments", function() {
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>homosexuals</i> as it may overgeneralize or be harmful. " +
-			"Instead, be specific about the group you are referring to (e.g. <i>gay men, queer people, lesbians</i>). " +
-			"<a href='https://yoa.st/inclusive-language-orientation' target='_blank'>Learn more.</a>" );
+			"Be careful when using <i>homosexuals</i> as it is potentially harmful. Consider using an alternative," +
+			" such as <i>gay people, queer people, lesbians, gay men, people in same-gender relationships</i>, unless referring" +
+			" to someone who explicitly wants to be referred to with this term. Be as specific possible and use people's preferred" +
+			" labels if they are known. <a href='https://yoa.st/inclusive-language-orientation' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
 			original: mockText,

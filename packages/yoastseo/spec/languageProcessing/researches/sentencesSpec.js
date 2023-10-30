@@ -12,4 +12,10 @@ describe( "Get sentences from text", function() {
 		const researcher = new EnglishResearcher();
 		expect( sentences( paper, researcher ) ).toEqual( [ "Hello.", "Goodbye." ] );
 	} );
+
+	it( "should get sentences without the shortcodes", function() {
+		const paper = new Paper( "Hello. Goodbye. To be [shortcode]or not to be.", { shortcodes: [ "shortcode" ] } );
+		const researcher = new EnglishResearcher();
+		expect( sentences( paper, researcher ) ).toEqual( [ "Hello.", "Goodbye.", "To be or not to be." ] );
+	} );
 } );

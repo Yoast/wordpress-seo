@@ -6,6 +6,7 @@ import { useSelectSettings } from "../hooks";
  */
 const SidebarRecommendations = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const promotions = useSelectSettings( "selectPreference", [], "promotions", [] );
 	const premiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/jj" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const academyLink = useSelectSettings( "selectLink", [], "https://yoa.st/3t6" );
@@ -16,7 +17,7 @@ const SidebarRecommendations = () => {
 
 	return (
 		<RecommendationsSidebar>
-			<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } />
+			<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } promotions={ promotions } />
 			<AcademyUpsellCard link={ academyLink } />
 		</RecommendationsSidebar>
 	);

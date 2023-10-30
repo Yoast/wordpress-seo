@@ -14,13 +14,7 @@ import IndexationStep from "./tailwind-components/steps/indexation/indexation-st
 import SiteRepresentationStep from "./tailwind-components/steps/site-representation/site-representation-step";
 import PersonalPreferencesStep from "./tailwind-components/steps/personal-preferences/personal-preferences-step";
 import FinishStep from "./tailwind-components/steps/finish/finish-step";
-
-const STEPS = {
-	optimizeSeoData: "optimizeSeoData",
-	siteRepresentation: "siteRepresentation",
-	socialProfiles: "socialProfiles",
-	personalPreferences: "personalPreferences",
-};
+import { STEPS } from "./constants";
 
 /* eslint-disable complexity */
 
@@ -135,6 +129,10 @@ function calculateInitialState( windowObject, isStepFinished ) {
 
 	return {
 		...windowObject,
+		personId: Number( windowObject.personId ),
+		personLogoId: Number( windowObject.personLogoId ),
+		companyLogoId: Number( windowObject.companyLogoId ),
+		tracking: Number( windowObject.tracking ),
 		companyOrPerson,
 		companyOrPersonOptions,
 		errorFields: [],
@@ -497,7 +495,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isIndexationStepFinished }
 						>
 							<EditButton
-								id={ `button-${ STEPS.optimizeSeoData }-edit` }
+								stepId={ STEPS.optimizeSeoData }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -508,7 +506,7 @@ export default function FirstTimeConfigurationSteps() {
 						<Step.Content>
 							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } isStepperFinished={ isStepperFinished } />
 							<ContinueButton
-								id={ `button-${ STEPS.optimizeSeoData }-continue` }
+								stepId={ STEPS.optimizeSeoData }
 								additionalClasses="yst-mt-12"
 								beforeGo={ beforeContinueIndexationStep }
 								destination={ stepperFinishedOnce ? "last" : 1 }
@@ -523,7 +521,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep2Finished }
 						>
 							<EditButton
-								id={ `button-${ STEPS.siteRepresentation }-edit` }
+								stepId={ STEPS.siteRepresentation }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -553,7 +551,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep3Finished }
 						>
 							<EditButton
-								id={ `button-${ STEPS.socialProfiles }-edit` }
+								stepId={ STEPS.socialProfiles }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -578,7 +576,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep4Finished }
 						>
 							<EditButton
-								id={ `button-${ STEPS.personalPreferences }-edit` }
+								stepId={ STEPS.personalPreferences }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }

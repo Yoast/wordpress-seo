@@ -100,7 +100,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Not all your product variants" +
-			" have an identifier. You can add a product identifier via the \"Variations\" tab in the Product data box. " +
+			" have an identifier. " +
 			"<a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it" +
 			" will help search engines to better understand your content.</a>",
 	},
@@ -176,10 +176,9 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 10.72% of the words in " +
-			"your text are considered complex. <a href='https://yoa.st/shopify78' target='_blank'>" +
-			"Try to use shorter and more familiar words to improve readability</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: You are not using too many complex words, which makes " +
+			"your text easy to read. Good job!",
 	},
 };
 

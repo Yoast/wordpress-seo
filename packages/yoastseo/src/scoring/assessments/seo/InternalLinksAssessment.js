@@ -83,7 +83,7 @@ class InternalLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.noInternal,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						"%1$sInternal links%3$s: No internal links appear in this page, %2$smake sure to add some%3$s!",
 						"wordpress-seo"
@@ -99,7 +99,7 @@ class InternalLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.noneInternalFollow,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						"%1$sInternal links%3$s: The internal links in this page are all nofollowed. %2$sAdd some good internal links%3$s.",
 						"wordpress-seo"
@@ -115,7 +115,7 @@ class InternalLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.allInternalFollow,
 				resultText: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 					__( "%1$sInternal links%2$s: You have enough internal links. Good job!", "wordpress-seo" ),
 					this._config.urlTitle,
 					"</a>"
@@ -125,7 +125,7 @@ class InternalLinksAssessment extends Assessment {
 		return {
 			score: this._config.scores.someInternalFollow,
 			resultText: sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				__(
 					"%1$sInternal links%2$s: There are both nofollowed and normal internal links on this page. Good job!",
 					"wordpress-seo"

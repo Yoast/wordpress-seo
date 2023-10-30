@@ -2,6 +2,7 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { unescape } from "lodash";
+import { useCallback } from "@wordpress/element";
 
 const SelectContainer = styled.div`
 	padding-top: 6px;
@@ -22,6 +23,10 @@ const TaxonomyPicker = ( props ) => {
 		onChange,
 	} = props;
 
+	const handleChange = useCallback( ( e ) => {
+		onChange( parseInt( e.target.value, 10 ) );
+	}, [ onChange ] );
+
 	// Disable reason: UI needs to be re-designed.
 	/* eslint-disable jsx-a11y/no-onchange */
 	return (
@@ -30,9 +35,7 @@ const TaxonomyPicker = ( props ) => {
 				className="components-select-control__input"
 				id={ id }
 				value={ value }
-				onChange={ e => {
-					onChange( parseInt( e.target.value, 10 ) );
-				} }
+				onChange={ handleChange }
 			>
 				{
 					terms.map( term => {
@@ -54,12 +57,12 @@ const TaxonomyPicker = ( props ) => {
 
 TaxonomyPicker.propTypes = {
 	terms: PropTypes.arrayOf( PropTypes.shape( {
-		id: PropTypes.string.isRequired,
+		id: PropTypes.number.isRequired,
 		name: PropTypes.string.isRequired,
 	} ) ),
 	onChange: PropTypes.func.isRequired,
 	id: PropTypes.string,
-	value: PropTypes.string,
+	value: PropTypes.number,
 };
 
 export default TaxonomyPicker;

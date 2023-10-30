@@ -182,10 +182,11 @@ class Wincher_Keyphrases_Action {
 	 *
 	 * @param array|null  $used_keyphrases The currently used keyphrases. Optional.
 	 * @param string|null $permalink       The current permalink. Optional.
+	 * @param string|null $start_at        The position start date. Optional.
 	 *
 	 * @return object The keyphrase chart data.
 	 */
-	public function get_tracked_keyphrases( $used_keyphrases = null, $permalink = null ) {
+	public function get_tracked_keyphrases( $used_keyphrases = null, $permalink = null, $start_at = null ) {
 		try {
 			if ( $used_keyphrases === null ) {
 				$used_keyphrases = $this->collect_all_keyphrases();
@@ -213,6 +214,7 @@ class Wincher_Keyphrases_Action {
 					[
 						'keywords' => $used_keyphrases,
 						'url'      => $permalink,
+						'start_at' => $start_at,
 					]
 				),
 				[

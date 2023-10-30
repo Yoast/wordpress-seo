@@ -1,12 +1,12 @@
 {
 	"name": "yoast/wordpress-seo",
 	"description": "Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.",
+	"license": "GPL-2.0-or-later",
+	"type": "wordpress-plugin",
 	"keywords": [
 		"wordpress",
 		"seo"
 	],
-	"homepage": "https://yoa.st/1ui",
-	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Team Yoast",
@@ -14,7 +14,7 @@
 			"homepage": "https://yoa.st/1--"
 		}
 	],
-	"type": "wordpress-plugin",
+	"homepage": "https://yoa.st/1ui",
 	"support": {
 		"issues": "https://github.com/Yoast/wordpress-seo/issues",
 		"forum": "https://wordpress.org/support/plugin/wordpress-seo",
@@ -26,16 +26,16 @@
 		"composer/installers": "^1.12 || ^2.0"
 	},
 	"require-dev": {
+		"guzzlehttp/guzzle": "7.8.0",
 		"humbug/php-scoper": "^0.13.4",
-		"league/oauth2-client": "2.6.1",
+		"league/oauth2-client": "2.7.0",
 		"psr/container": "1.0.0",
 		"psr/log": "^1.0",
 		"symfony/config": "^3.4",
 		"symfony/dependency-injection": "^3.4",
-		"yoast/wp-test-utils": "^1.1.1",
-		"yoast/yoastcs": "^2.3.1",
-		"guzzlehttp/guzzle": "6.5.8",
-		"wordproof/wordpress-sdk": "1.3.2"
+		"wordproof/wordpress-sdk": "1.3.5",
+		"yoast/wp-test-utils": "^1.2",
+		"yoast/yoastcs": "^2.3.1"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -54,19 +54,17 @@
 			"config/"
 		]
 	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"composer/package-versions-deprecated": true,
+			"composer/installers": true
+		},
+		"platform": {
+			"php": "7.2.5"
+		}
+	},
 	"scripts": {
-		"test": [
-			"@php ./vendor/phpunit/phpunit/phpunit --no-coverage"
-		],
-		"coverage": [
-			"@php ./vendor/phpunit/phpunit/phpunit"
-		],
-		"integration-test": [
-			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist --no-coverage"
-		],
-		"integration-coverage": [
-			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
-		],
 		"lint": [
 			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude node_modules --exclude .git"
 		],
@@ -83,7 +81,7 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=130",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=129",
 			"@putenv YOASTCS_THRESHOLD_WARNINGS=202",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
@@ -106,12 +104,25 @@
 		"fix-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
 		],
+		"test": [
+			"@php ./vendor/phpunit/phpunit/phpunit --no-coverage"
+		],
+		"coverage": [
+			"@php ./vendor/phpunit/phpunit/phpunit"
+		],
+		"integration-test": [
+			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist --no-coverage"
+		],
+		"integration-coverage": [
+			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
+		],
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
 			"composer prefix-symfony",
 			"composer prefix-wordproof"
 		],
 		"prefix-oauth2-client": [
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/deprecation-contracts --config=config/php-scoper/deprecation-contracts.inc.php --force --quiet",
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/guzzlehttp --config=config/php-scoper/guzzlehttp.inc.php --force --quiet",
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/psr --config=config/php-scoper/psr.inc.php --force --quiet"
@@ -128,25 +139,40 @@
 			"composer du --no-scripts",
 			"Yoast\\WP\\SEO\\Composer\\Actions::compile_dependency_injection_container"
 		],
-		"post-autoload-dump": [
-			"Yoast\\WP\\SEO\\Composer\\Actions::prefix_dependencies",
-			"composer compile-di"
-		],
 		"generate-migration": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::generate_migration"
 		],
 		"generate-unit-test": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::generate_unit_test"
+		],
+		"post-autoload-dump": [
+			"Yoast\\WP\\SEO\\Composer\\Actions::prefix_dependencies",
+			"composer compile-di"
 		]
 	},
-	"config": {
-    	"platform": {
-			"php": "7.2.5"
-		},
-		"allow-plugins": {
-			"dealerdirect/phpcodesniffer-composer-installer": true,
-			"composer/package-versions-deprecated": true,
-			"composer/installers": true
-		}
+	"scripts-descriptions": {
+		"lint": "Check the PHP files for parse errors.",
+		"lint-files": "Internal use.",
+		"lint-branch": "Check the PHP files changed in the current branch for parse errors.",
+		"lint-staged": "Check the staged PHP files for parse errors.",
+		"cs": "See a menu with the code style checking script options.",
+		"check-cs-thresholds": "Check the PHP files for code style violations and best practices and verify the number of issues does not exceed predefined thresholds.",
+		"check-cs": "Check the PHP files for code style violations and best practices, ignoring warnings.",
+		"check-cs-errors": "Alias for check-cs command",
+		"check-cs-warnings": "Check the PHP files for code style violations and best practices, including warnings.",
+		"check-staged-cs": "Check the staged PHP files for code style violations and best practices.",
+		"check-branch-cs": "Check the PHP files changed in the current branch for code style violations and best practices.",
+		"fix-cs": "Auto-fix code style violations in the PHP files.",
+		"test": "Run the unit tests without code coverage.",
+		"coverage": "Run the unit tests with code coverage.",
+		"integration-test": "Run the integration tests without code coverage.",
+		"integration-coverage": "Run the integration tests with code coverage.",
+		"prefix-dependencies": "Create the vendor_prefixed directory.",
+		"prefix-oauth2-client": "Prefix the OAuth2 Client dependencies and place them in the vendor_prefixed directory.",
+		"prefix-symfony": "Prefix the Symfony dependencies and place them in the vendor_prefixed directory.",
+		"prefix-wordproof": "Prefix the WordProof dependencies and place them in the vendor_prefixed directory.",
+		"compile-di": "Compile the dependency injection layer.",
+		"generate-migration": "Generate a migration.",
+		"generate-unit-test": "Generates a unit test template for the fully qualified class provided as a CLI arg."
 	}
 }

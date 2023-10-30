@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { useField } from "formik";
 import { debounce, find, isEmpty, map, values } from "lodash";
 import PropTypes from "prop-types";
-import { ASYNC_ACTION_STATUS } from "../constants";
+import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 /**
@@ -82,11 +82,13 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 			// Hack to force re-render of Headless UI Combobox.Input component when selectedPage changes.
 			value={ selectedPage ? value : 0 }
 			onChange={ handleChange }
-			placeholder={ __( "Select a page...", "wordpress-seo" ) }
+			placeholder={ __( "None", "wordpress-seo" ) }
 			selectedLabel={ selectedPage?.name }
 			onQueryChange={ handleQueryChange }
-			className={ className && props.disabled && "yst-autocomplete--disabled" }
+			className={ classNames( className, props.disabled && "yst-autocomplete--disabled" ) }
 			nullable={ true }
+			/* translators: Hidden accessibility text. */
+			clearButtonScreenReaderText={ __( "Clear selection", "wordpress-seo" ) }
 			{ ...props }
 		>
 			<>

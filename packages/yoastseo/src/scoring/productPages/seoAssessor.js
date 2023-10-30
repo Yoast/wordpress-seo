@@ -12,7 +12,7 @@ const { createAnchorOpeningTag } = helpers;
 const {
 	IntroductionKeywordAssessment,
 	KeyphraseLengthAssessment,
-	KeywordDensityAssessment,
+	KeyphraseDensityAssessment,
 	MetaDescriptionKeywordAssessment,
 	TextCompetingLinksAssessment,
 	KeyphraseInSEOTitleAssessment,
@@ -54,7 +54,7 @@ const ProductSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.keyphraseLengthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.keyphraseLengthCTAUrl ),
 		}, true ),
-		new KeywordDensityAssessment( {
+		new KeyphraseDensityAssessment( {
 			urlTitle: createAnchorOpeningTag( options.keyphraseDensityUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.keyphraseDensityCTAUrl ),
 		} ),
@@ -127,12 +127,14 @@ const ProductSEOAssessor = function( researcher, options ) {
 			urlCallToAction: createAnchorOpeningTag( options.productIdentifierCTAUrl ),
 			assessVariants: options.assessVariants,
 			productIdentifierOrBarcode: options.productIdentifierOrBarcode,
+			shouldShowEditButton: options.shouldShowEditButtons,
 		} ),
 		new ProductSKUAssessment( {
 			urlTitle: createAnchorOpeningTag( options.productSKUUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.productSKUCTAUrl ),
 			assessVariants: options.assessVariants,
 			addSKULocation: options.addSKULocation,
+			shouldShowEditButton: options.shouldShowEditButtons,
 		} ),
 	];
 };

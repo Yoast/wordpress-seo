@@ -20,10 +20,13 @@ use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
  * Integrates the Yoast SEO metabox in the Elementor editor.
@@ -99,6 +102,13 @@ class Elementor implements Integration_Interface {
 	protected $inclusive_language_analysis;
 
 	/**
+	 * Holds the promotion manager.
+	 *
+	 * @var Promotion_Manager
+	 */
+	protected $promotion_manager;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
@@ -113,15 +123,18 @@ class Elementor implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
 	 * @param Options_Helper            $options       The options helper.
 	 * @param Capability_Helper         $capability    The capability helper.
+	 * @param Promotion_Manager         $promotion_manager The promotion manager.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Options_Helper $options,
-		Capability_Helper $capability
+		Capability_Helper $capability,
+		Promotion_Manager $promotion_manager
 	) {
-		$this->asset_manager = $asset_manager;
-		$this->options       = $options;
-		$this->capability    = $capability;
+		$this->asset_manager     = $asset_manager;
+		$this->options           = $options;
+		$this->capability        = $capability;
+		$this->promotion_manager = $promotion_manager;
 
 		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
@@ -146,9 +159,11 @@ class Elementor implements Integration_Interface {
 
 	/**
 	 * Registers our Elementor hooks.
+	 * This is done for pages with metabox on page load and not on ajax request.
 	 */
 	public function register_elementor_hooks() {
-		if ( ! $this->display_metabox( $this->get_metabox_post()->post_type ) ) {
+
+		if ( $this->get_metabox_post() === null || ! $this->display_metabox( $this->get_metabox_post()->post_type ) ) {
 			return;
 		}
 
@@ -399,6 +414,7 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->enqueue_style( 'scoring' );
 		$this->asset_manager->enqueue_style( 'monorepo' );
 		$this->asset_manager->enqueue_style( 'admin-css' );
+		$this->asset_manager->enqueue_style( 'ai-generator' );
 		$this->asset_manager->enqueue_style( 'elementor' );
 
 		$this->asset_manager->enqueue_script( 'admin-global' );
@@ -418,8 +434,7 @@ class Elementor implements Integration_Interface {
 				'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
 			],
 			'shortcodes'  => [
-				'wpseo_filter_shortcodes_nonce' => \wp_create_nonce( 'wpseo-filter-shortcodes' ),
-				'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
+				'wpseo_shortcode_tags' => $this->get_valid_shortcode_tags(),
 			],
 		];
 
@@ -432,24 +447,31 @@ class Elementor implements Integration_Interface {
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
-		$alert_dismissal_action = \YoastSEO()->classes->get( Alert_Dismissal_Action::class );
-		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
+		$alert_dismissal_action  = \YoastSEO()->classes->get( Alert_Dismissal_Action::class );
+		$dismissed_alerts        = $alert_dismissal_action->all_dismissed();
+		$woocommerce_conditional = new WooCommerce_Conditional();
 
 		$script_data = [
-			'media'                    => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
-			'metabox'                  => $this->get_metabox_script_data(),
-			'userLanguageCode'         => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-			'isPost'                   => true,
-			'isBlockEditor'            => WP_Screen::get()->is_block_editor(),
-			'isElementorEditor'        => true,
-			'postStatus'               => \get_post_status( $post_id ),
-			'analysis'                 => [
+			'media'                     => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
+			'metabox'                   => $this->get_metabox_script_data(),
+			'userLanguageCode'          => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+			'isPost'                    => true,
+			'isBlockEditor'             => WP_Screen::get()->is_block_editor(),
+			'isElementorEditor'         => true,
+			'isWooCommerceActive'       => $woocommerce_conditional->is_met(),
+			'postStatus'                => \get_post_status( $post_id ),
+			'postType'                  => \get_post_type( $post_id ),
+			'analysis'                  => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'dismissedAlerts'          => $dismissed_alerts,
-			'webinarIntroElementorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
-			'usedKeywordsNonce'        => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
+			'dismissedAlerts'           => $dismissed_alerts,
+			'webinarIntroElementorUrl'  => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
+			'currentPromotions'         => $this->promotion_manager->get_current_promotions(),
+			'usedKeywordsNonce'         => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
+			'linkParams'                => WPSEO_Shortlinker::get_query_params(),
+			'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),
+			'wistiaEmbedPermission'     => \YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( \get_current_user_id() ),
 		];
 
 		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
@@ -545,7 +567,7 @@ class Elementor implements Integration_Interface {
 
 		$post = null;
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
-		if ( isset( $_GET['post'] ) && \is_string( $_GET['post'] ) ) {
+		if ( isset( $_GET['post'] ) && \is_numeric( $_GET['post'] ) ) {
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
 			$post = (int) \wp_unslash( $_GET['post'] );
 		}

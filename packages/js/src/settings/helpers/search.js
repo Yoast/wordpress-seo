@@ -336,6 +336,15 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 				__( "Index Now", "wordpress-seo" ),
 			],
 		},
+		enable_ai_generator: {
+			route: "/site-features",
+			routeLabel: __( "Site features", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_ai_generator",
+			fieldLabel: __( "AI title & description generator", "wordpress-seo" ),
+			keywords: [
+				__( "AI generator", "wordpress-seo" ),
+			],
+		},
 		disableadvanced_meta: {
 			route: "/site-basics",
 			routeLabel: __( "Site basics", "wordpress-seo" ),
@@ -591,6 +600,27 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			fieldId: "input-wpseo-deny_adsbot_crawling",
 			fieldLabel: __( "Prevent Google AdsBot from crawling", "wordpress-seo" ),
 			keywords: [ "robots" ],
+		},
+		deny_ccbot_crawling: {
+			route: "/crawl-optimization",
+			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
+			fieldId: "input-wpseo-deny_ccbot_crawling",
+			fieldLabel: __( "Prevent Common Crawl CCBot from crawling", "wordpress-seo" ),
+			keywords: [ "robots" ],
+		},
+		deny_google_extended_crawling: {
+			route: "/crawl-optimization",
+			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
+			fieldId: "input-wpseo-deny_google_extended_crawling",
+			fieldLabel: __( "Prevent Google Bard and Vertex AI bots from crawling", "wordpress-seo" ),
+			keywords: [ "robots" ],
+		},
+		deny_gptbot_crawling: {
+			route: "/crawl-optimization",
+			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
+			fieldId: "input-wpseo-deny_gptbot_crawling",
+			fieldLabel: __( "Prevent OpenAI GPTBot from crawling", "wordpress-seo" ),
+			keywords: [ "robots", "chatgpt" ],
 		},
 		search_cleanup: {
 			route: "/crawl-optimization",

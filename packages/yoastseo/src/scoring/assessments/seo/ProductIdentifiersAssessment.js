@@ -27,6 +27,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
 			assessVariants: true,
 			productIdentifierOrBarcode: "Product identifier",
+			shouldShowEditButton: true,
 		};
 
 		this.identifier = "productIdentifier";
@@ -51,6 +52,11 @@ export default class ProductIdentifiersAssessment extends Assessment {
 		if ( result ) {
 			assessmentResult.setScore( result.score );
 			assessmentResult.setText( result.text );
+		}
+
+		if ( assessmentResult.getScore() < 9 && this._config.shouldShowEditButton ) {
+			assessmentResult.setHasJumps( true );
+			assessmentResult.setEditFieldName( __( "Product identifiers", "yoast-woo-seo" ) );
 		}
 
 		return assessmentResult;
@@ -100,11 +106,9 @@ export default class ProductIdentifiersAssessment extends Assessment {
 
 		if ( this._config.productIdentifierOrBarcode === "Product identifier" ) {
 			feedbackStrings = {
-				okNoVariants: __( "Your product is missing an identifier (like a GTIN code). " +
-					"You can add a product identifier via the \"Yoast SEO\" tab in the Product data box", "yoast-woo-seo" ),
+				okNoVariants: __( "Your product is missing an identifier (like a GTIN code)", "yoast-woo-seo" ),
 				goodNoVariants: __( "Your product has an identifier", "yoast-woo-seo" ),
-				okWithVariants: __( "Not all your product variants have an identifier. " +
-					"You can add a product identifier via the \"Variations\" tab in the Product data box", "yoast-woo-seo" ),
+				okWithVariants: __( "Not all your product variants have an identifier", "yoast-woo-seo" ),
 				goodWithVariants: __( "All your product variants have an identifier", "yoast-woo-seo" ),
 			};
 		} else {
@@ -123,7 +127,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 				return {
 					score: config.scores.ok,
 					text: sprintf(
-						/* Translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
+						/* translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
 						* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the feedback string
 						* "Your product is missing a product identifier (like a GTIN code)"
 						* or "Your product is missing a barcode (like a GTIN code)" */
@@ -144,7 +148,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return {
 				score: config.scores.good,
 				text: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
+					/* translators: %1$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
 					* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the feedback string
 					* "Your product has a product identifier" or "Your product has a barcode" */
 					__(
@@ -164,7 +168,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 				return {
 					score: config.scores.ok,
 					text: sprintf(
-						/* Translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
+						/* translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
 						* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the string
 						* "Not all your product variants have a product identifier"
 						* or "Not all your product variants have a barcode" */
@@ -183,7 +187,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return {
 				score: config.scores.good,
 				text: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
+					/* translators: %1$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
 					* %2$s expands to the string "Barcode" or "Product identifier" , %3$s expands to the feedback string
 					* "All your product variants have a product identifier" or "All your product variants have a barcode" */
 					__(

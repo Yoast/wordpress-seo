@@ -32,6 +32,8 @@ const FeatureCard = ( {
 	isPremiumFeature = false,
 	isPremiumLink = "",
 	isBetaFeature = false,
+	isNewFeature = false,
+	hasPremiumBadge = false,
 	title,
 } ) => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
@@ -45,8 +47,8 @@ const FeatureCard = ( {
 	const shouldUpsell = useMemo( () => ! isPremium && isPremiumFeature, [ isPremium, isPremiumFeature ] );
 	const shouldDimHeaderImage = useMemo( () => isDisabled || ( shouldUpsell ? false : ! value ), [ isDisabled, shouldUpsell, value ] );
 	const shouldRenderBadgeContainer = useMemo(
-		() => isDisabled || ( isPremium && isPremiumFeature ) || isBetaFeature,
-		[ isDisabled, isPremium, isPremiumFeature, isBetaFeature ]
+		() => isDisabled || ( isPremium && isPremiumFeature && hasPremiumBadge ) || isBetaFeature || ( isNewFeature && ! isPremium ),
+		[ isDisabled, isPremium, isPremiumFeature, isBetaFeature, isNewFeature ]
 	);
 
 	return (
@@ -67,8 +69,9 @@ const FeatureCard = ( {
 				{ shouldRenderBadgeContainer && (
 					<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
 						{ isDisabled && <Badge size="small" variant="plain">{ message }</Badge> }
-						{ isPremium && isPremiumFeature && <Badge size="small" variant="upsell">Premium</Badge> }
+						{ isPremium && isPremiumFeature && hasPremiumBadge && <Badge size="small" variant="upsell">Premium</Badge> }
 						{ isBetaFeature && <Badge size="small" variant="info">Beta</Badge> }
+						{ isNewFeature && ! isPremium && <Badge size="small" variant="info">New</Badge> }
 					</div>
 				) }
 			</Card.Header>
@@ -119,7 +122,9 @@ FeatureCard.propTypes = {
 	imageAlt: PropTypes.string,
 	isPremiumFeature: PropTypes.bool,
 	isBetaFeature: PropTypes.bool,
+	isNewFeature: PropTypes.bool,
 	isPremiumLink: PropTypes.string,
+	hasPremiumBadge: PropTypes.bool,
 	title: PropTypes.string.isRequired,
 };
 
@@ -140,7 +145,13 @@ const LearnMoreLink = ( { id, link, ariaLabel, ...props } ) => {
 			className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
 			target="_blank"
 			rel="noopener"
-			aria-label={ `Learn more about ${ ariaLabel } (Opens in a new browser tab)` }
+			aria-label={
+				sprintf(
+					/* translators: Hidden accessibility text; %s expands to a translated string of this feature, e.g. "SEO analysis". */
+					__( "Learn more about %s (Opens in a new browser tab)", "wordpress-seo" ),
+					ariaLabel
+				)
+			}
 			{ ...props }
 		>
 			{ __( "Learn more", "wordpress-seo" ) }
@@ -220,6 +231,20 @@ const SiteFeatures = () => {
 								<LearnMoreLink id="link-inclusive-language-analysis" link="https://yoa.st/inclusive-language-feature-learn-more" ariaLabel={  __( "Inclusive language analysis", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
+								name="wpseo.enable_ai_generator"
+								cardId="card-wpseo-enable_ai_generator"
+								inputId="input-wpseo-enable_ai_generator"
+								imageSrc="/images/ai-generator.png"
+								isPremiumFeature={ true }
+								hasPremiumBadge={ false }
+								isBetaFeature={ true }
+								isPremiumLink="https://yoa.st/get-ai-generator"
+								title={ __( "AI title & description generator", "wordpress-seo" ) }
+							>
+								<p>{ __( "Use the power of Yoast AI to automatically generate compelling titles and descriptions for your posts and pages.", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-ai-generator" link="https://yoa.st/ai-generator-feature" ariaLabel={ __( "AI title & description generator", "wordpress-seo" ) } />
+							</FeatureCard>
+							<FeatureCard
 								name="wpseo.enable_metabox_insights"
 								cardId="card-wpseo-enable_metabox_insights"
 								inputId="input-wpseo-enable_metabox_insights"
@@ -235,9 +260,7 @@ const SiteFeatures = () => {
 					<fieldset className="yst-min-w-0">
 						<legend className="yst-sr-only">{ __( "Site structure", "wordpress-seo" ) }</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
-							<Title as="h2" size="2">
-								{ __( "Site structure", "wordpress-seo" ) }
-							</Title>
+							<Title as="h2" size="2">{ __( "Site structure", "wordpress-seo" ) }</Title>
 						</div>
 						<div className={ gridClassNames }>
 							<FeatureCard
@@ -266,6 +289,7 @@ const SiteFeatures = () => {
 								inputId="input-wpseo-enable_link_suggestions"
 								imageSrc="/images/link_suggestions.png"
 								isPremiumFeature={ true }
+								hasPremiumBadge={ true }
 								isPremiumLink="https://yoa.st/get-link-suggestions"
 								title={ __( "Link suggestions", "wordpress-seo" ) }
 							>
@@ -278,9 +302,7 @@ const SiteFeatures = () => {
 					<fieldset id="section-social-sharing" className="yst-min-w-0">
 						<legend className="yst-sr-only">{ __( "Social sharing", "wordpress-seo" ) }</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
-							<Title as="h2" size="2" className="yst-mb-2">
-								{ __( "Social sharing", "wordpress-seo" ) }
-							</Title>
+							<Title as="h2" size="2" className="yst-mb-2">{ __( "Social sharing", "wordpress-seo" ) }</Title>
 						</div>
 						<div className={ gridClassNames }>
 							<FeatureCard
@@ -321,9 +343,7 @@ const SiteFeatures = () => {
 					<fieldset className="yst-min-w-0">
 						<legend className="yst-sr-only">{ __( "Tools", "wordpress-seo" ) }</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
-							<Title as="h2" size="2">
-								{ __( "Tools", "wordpress-seo" ) }
-							</Title>
+							<Title as="h2" size="2">{ __( "Tools", "wordpress-seo" ) }</Title>
 						</div>
 						<div className={ gridClassNames }>
 							<FeatureCard
@@ -348,9 +368,7 @@ const SiteFeatures = () => {
 					<fieldset className="yst-min-w-0">
 						<legend className="yst-sr-only">{ __( "APIs", "wordpress-seo" ) }</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
-							<Title as="h2" size="2">
-								{ __( "APIs", "wordpress-seo" ) }
-							</Title>
+							<Title as="h2" size="2">{ __( "APIs", "wordpress-seo" ) }</Title>
 						</div>
 						<div className={ gridClassNames }>
 							<FeatureCard
@@ -397,6 +415,7 @@ const SiteFeatures = () => {
 								inputId="input-wpseo-enable_index_now"
 								imageSrc="/images/indexnow.png"
 								isPremiumFeature={ true }
+								hasPremiumBadge={ true }
 								isPremiumLink="https://yoa.st/get-indexnow"
 								title={ __( "IndexNow", "wordpress-seo" ) }
 							>

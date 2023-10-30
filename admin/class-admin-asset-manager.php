@@ -482,6 +482,7 @@ class WPSEO_Admin_Asset_Manager {
 			'feature-flag'                => 'feature-flag-package',
 			'helpers'                     => 'helpers-package',
 			'jed'                         => 'jed-package',
+			'chart.js'                    => 'chart.js-package',
 			'legacy-components'           => 'components-package',
 			'network-admin-script'        => 'network-admin',
 			'redux'                       => 'redux-package',
@@ -549,8 +550,22 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'metabox-' . $flat_version,
 				'deps' => [
 					self::PREFIX . 'admin-css',
+					self::PREFIX . 'tailwind',
 					'wp-components',
 				],
+			],
+			[
+				'name' => 'ai-generator',
+				'src'  => 'ai-generator-' . $flat_version,
+				'deps' => [
+					self::PREFIX . 'tailwind',
+					self::PREFIX . 'introductions',
+				],
+			],
+			[
+				'name' => 'introductions',
+				'src'  => 'introductions-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
 				'name' => 'wp-dashboard',
@@ -606,14 +621,22 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'new-settings',
 				'src'  => 'new-settings-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
+			],
+			[
+				'name' => 'black-friday-banner',
+				'src'  => 'black-friday-banner-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
 				'name' => 'academy',
 				'src'  => 'academy-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
 				'name' => 'support',
 				'src'  => 'support-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
 				'name' => 'workouts',
@@ -623,12 +646,13 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
-				'name' => 'inside-editor',
-				'src'  => 'inside-editor-' . $flat_version,
+				'name' => 'first-time-configuration',
+				'src'  => 'first-time-configuration-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
-				'name' => 'editor',
-				'src'  => 'editor-' . $flat_version,
+				'name' => 'inside-editor',
+				'src'  => 'inside-editor-' . $flat_version,
 			],
 		];
 	}

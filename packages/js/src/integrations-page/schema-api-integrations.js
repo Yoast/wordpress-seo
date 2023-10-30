@@ -157,6 +157,7 @@ const SchemaAPIIntegrations = [
 /* eslint-disable dot-notation */
 SchemaAPIIntegrations.push(
 	<WoocommerceIntegration
+		key={ integrations.length + 1 }
 		integration={ wooIntegration }
 		isActive={ Boolean( window.wpseoIntegrationsData[ "woocommerce_seo_active" ] ) }
 		isInstalled={ Boolean( window.wpseoIntegrationsData[ "woocommerce_seo_installed" ] ) }

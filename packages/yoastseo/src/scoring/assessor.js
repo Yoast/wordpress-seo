@@ -124,7 +124,8 @@ Assessor.prototype.assess = function( paper ) {
 	this._researcher.setPaper( paper );
 
 	const languageProcessor = new LanguageProcessor( this._researcher );
-	paper.setTree( build( paper.getText(), languageProcessor ) );
+	const shortcodes = paper._attributes && paper._attributes.shortcodes;
+	paper.setTree( build( paper, languageProcessor, shortcodes ) );
 
 	let assessments = this.getAvailableAssessments();
 	this.results = [];
@@ -190,7 +191,7 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 
 		result.setScore( -1 );
 		result.setText( sprintf(
-			/* Translators: %1$s expands to the name of the assessment. */
+			/* translators: %1$s expands to the name of the assessment. */
 			__( "An error occurred in the '%1$s' assessment", "wordpress-seo" ),
 			assessment.identifier,
 			assessmentError

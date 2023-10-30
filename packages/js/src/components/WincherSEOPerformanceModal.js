@@ -1,10 +1,14 @@
 /* External dependencies */
+import { ChartBarIcon } from "@heroicons/react/solid";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { useSvgAria } from "@yoast/ui-library/src";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
+import { Collapsible } from "@yoast/components";
 
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
@@ -13,6 +17,24 @@ import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
 import { isCloseEvent } from "./modals/editorModals/EditorModal.js";
 import SidebarButton from "./SidebarButton";
 import WincherSEOPerformance from "../containers/WincherSEOPerformance";
+
+
+const StyledHeroIcon = styled( ChartBarIcon )`
+	width: 18px;
+	height: 18px;
+	margin: 3px;
+`;
+
+const MetaboxModalButton = styled( Collapsible )`
+	h2 > button {
+		padding-left: 24px;
+		padding-top: 16px;
+
+		&:hover {
+			background-color: #f0f0f0;
+		}
+	}
+`;
 
 /**
  * Handles the click event on the "Track SEO performance" button.
@@ -26,7 +48,13 @@ export function openModal( props ) {
 
 	if ( ! keyphrases.length ) {
 		// This is fragile, should replace with a real React ref.
-		document.querySelector( "#focus-keyword-input-sidebar" ).focus();
+		let input = document.querySelector( "#focus-keyword-input-metabox" );
+
+		// In elementor we use input-sidebar
+		if ( ! input ) {
+			input = document.querySelector( "#focus-keyword-input-sidebar" );
+		}
+		input.focus();
 		onNoKeyphraseSet();
 
 		return;
@@ -71,6 +99,8 @@ export default function WincherSEOPerformanceModal( props ) {
 
 	const title = __( "Track SEO performance", "wordpress-seo" );
 
+	const svgAriaProps = useSvgAria();
+
 	return (
 		<Fragment>
 			{ whichModalOpen === location &&
@@ -93,11 +123,23 @@ export default function WincherSEOPerformanceModal( props ) {
 			<SidebarButton
 				id={ `wincher-open-button-${location}` }
 				title={ title }
-				suffixIcon={ { size: "20px", icon: "pencil-square" } }
-				prefixIcon={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
+				SuffixHeroIcon={ <StyledHeroIcon className="yst-text-slate-500" { ...svgAriaProps } /> }
 				onClick={ onModalOpen }
 			/>
 			}
+
+			{ location === "metabox" && <MetaboxModalButton
+				hasPadding={ false }
+				hasSeparator={ true }
+				suffixIconCollapsed={ {
+					icon: "pencil-square",
+					color: colors.$black,
+					size: "20px",
+				} }
+				id={ `wincher-open-button-${location}` }
+				title={ title }
+				onToggle={ onModalOpen }
+			/> }
 		</Fragment>
 	);
 }

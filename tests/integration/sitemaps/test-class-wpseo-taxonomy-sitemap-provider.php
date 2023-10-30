@@ -9,6 +9,7 @@
  * Class WPSEO_Taxonomy_Sitemap_Provider_Test.
  *
  * @group sitemaps
+ * @coversDefaultClass WPSEO_Taxonomy_Sitemap_Provider
  */
 class WPSEO_Taxonomy_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
@@ -31,7 +32,7 @@ class WPSEO_Taxonomy_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the retrieval of the index links.
 	 *
-	 * @covers WPSEO_Taxonomy_Sitemap_Provider::get_index_links
+	 * @covers ::get_index_links
 	 */
 	public function test_get_index_links() {
 
@@ -57,7 +58,7 @@ class WPSEO_Taxonomy_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests retrieval of the sitemap links.
 	 *
-	 * @covers WPSEO_Taxonomy_Sitemap_Provider::get_sitemap_links
+	 * @covers ::get_sitemap_links
 	 */
 	public function test_get_sitemap_links() {
 
@@ -71,7 +72,7 @@ class WPSEO_Taxonomy_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Makes sure invalid sitemap pages return no contents (404).
 	 *
-	 * @covers WPSEO_Taxonomy_Sitemap_Provider::get_index_links
+	 * @covers ::get_index_links
 	 */
 	public function test_get_index_links_empty_sitemap() {
 		// Fetch the global sitemap.
@@ -86,5 +87,45 @@ class WPSEO_Taxonomy_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 		// Expect an empty page (404) to be returned.
 		$this->expectOutputString( '' );
+	}
+
+	/**
+	 * Data provider for is_valid_taxonomy test.
+	 *
+	 * @return array
+	 */
+	public function data_provider_is_valis_taxonomy() {
+		return [
+			'Pattern Categories' => [
+				'taxonomy' => 'wp_pattern_category',
+				'expected' => false,
+			],
+			'nav_menu' => [
+				'taxonomy' => 'nav_menu',
+				'expected' => false,
+			],
+			'link_category' => [
+				'taxonomy' => 'link_category',
+				'expected' => false,
+			],
+			'post_format' => [
+				'taxonomy' => 'post_format',
+				'expected' => false,
+			],
+		];
+	}
+
+	/**
+	 * Tetst of is_valid_taxonomy.
+	 *
+	 * @covers ::is_valid_taxonomy
+	 *
+	 * @dataProvider data_provider_is_valis_taxonomy
+	 *
+	 * @param string $taxonomy Taxonomy name.
+	 * @param bool   $expected Expected result.
+	 */
+	public function test_is_valid_taxonomy( $taxonomy, $expected ) {
+		$this->assertSame( $expected, self::$class_instance->is_valid_taxonomy( $taxonomy ) );
 	}
 }

@@ -624,7 +624,10 @@ export default class HowTo extends Component {
 							htmlFor="schema-how-to-duration-days"
 							className="screen-reader-text"
 						>
-							{ __( "days", "wordpress-seo" ) }
+							{
+								/* translators: Hidden accessibility text. */
+								__( "days", "wordpress-seo" )
+							}
 						</label>
 						<input
 							id="schema-how-to-duration-days"
@@ -734,8 +737,10 @@ export default class HowTo extends Component {
 					tagName="p"
 					className="schema-how-to-description"
 					value={ attributes.description }
-					unstableOnFocus={ this.focusDescription }
 					onChange={ this.onChangeDescription }
+					onFocus={ this.focusDescription }
+					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
+					unstableOnFocus={ this.focusDescription }
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
 				/>
 				<ul className={ listClassNames }>

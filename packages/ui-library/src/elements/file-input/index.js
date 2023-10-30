@@ -1,5 +1,5 @@
 import { useState, useCallback, forwardRef } from "@wordpress/element";
-import { isEmpty } from "lodash";
+import { isEmpty, noop } from "lodash";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { DocumentAddIcon } from "@heroicons/react/outline";
@@ -7,6 +7,8 @@ import { DocumentAddIcon } from "@heroicons/react/outline";
 import Link from "../link";
 
 /**
+ * File input with drag-and-drop support.
+ *
  * @param {string} id Id.
  * @param {string} name Name.
  * @param {string} value Value.
@@ -17,6 +19,7 @@ import Link from "../link";
  * @param {boolean} disabled Disabled state.
  * @param {JSX.Element} iconAs Icon to show in select area.
  * @param {Function} onChange The callback for when a file is uploaded.
+ * @param {Function} onDrop The callback for when a file is dropped.
  * @param {string} className Classname.
  * @returns {JSX.Element} The FileInput component.
  */
@@ -31,6 +34,7 @@ const FileInput = forwardRef( ( {
 	disabled,
 	iconAs: IconComponent,
 	onChange,
+	onDrop,
 	className,
 	...props
 }, ref ) => {
@@ -55,10 +59,8 @@ const FileInput = forwardRef( ( {
 	const handleDrop = useCallback( ( event ) => {
 		event.preventDefault();
 		setIsDragOver( false );
-		if ( ! isEmpty( event.dataTransfer.files ) ) {
-			onChange( event.dataTransfer.files[ 0 ] );
-		}
-	}, [ setIsDragOver, onChange ] );
+		onDrop( event );
+	}, [ setIsDragOver, onDrop ] );
 
 	return (
 		<div
@@ -108,6 +110,7 @@ const propTypes = {
 	disabled: PropTypes.bool,
 	iconAs: PropTypes.elementType,
 	onChange: PropTypes.func.isRequired,
+	onDrop: PropTypes.func,
 	className: PropTypes.string,
 };
 
@@ -116,6 +119,7 @@ FileInput.defaultProps = {
 	disabled: false,
 	iconAs: DocumentAddIcon,
 	className: "",
+	onDrop: noop,
 };
 
 FileInput.propTypes = propTypes;

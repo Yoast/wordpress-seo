@@ -1,49 +1,72 @@
 import h1s from "../../../src/languageProcessing/researches/h1s.js";
 import Paper from "../../../src/values/Paper.js";
+import buildTree from "../../specHelpers/parse/buildTree";
+import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher.js";
 
 describe( "Gets all H1s in the text", function() {
 	it( "should return empty when there is no H1", function() {
-		const mockPaper = new Paper( "some content<h2>content h2</h2>" );
+		const mockPaper = new Paper( "<p>some content<h2>content h2</h2></p>" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+		expect( h1s( mockPaper ) ).toEqual( [] );
+	} );
+
+	it( "should return empty when there is only empty H1s", function() {
+		const mockPaper = new Paper( "some content<h1></h1> other content <h1></h1>" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
 		expect( h1s( mockPaper ) ).toEqual( [] );
 	} );
 
 	it( "should return one object when there is one H1", function() {
 		const mockPaper = new Paper( "<h1>first h1</h1>some content<h2>content h2</h2>" );
-		expect( h1s( mockPaper ) ).toEqual( [ { tag: "h1", content: "first h1", position: 0 } ] );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+		expect( h1s( mockPaper ) ).toEqual( [ { tag: "h1", content: "first h1", position: { startOffset: 4, endOffset: 12, clientId: "" } } ] );
 	} );
 
 	it( "should return all H1s in the text", function() {
 		const mockPaper = new Paper( "<h1>first h1</h1><p>not an h1</p><h1>second h1</h1><h2>not an h1</h2>" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
 
 		expect( h1s( mockPaper ) ).toEqual( [
-			{ tag: "h1", content: "first h1", position: 0 },
-			{ tag: "h1", content: "second h1", position: 2 },
+			{ tag: "h1", content: "first h1", position: { startOffset: 4, endOffset: 12, clientId: "" } },
+			{ tag: "h1", content: "second h1", position: { startOffset: 37, endOffset: 46, clientId: "" } },
 		] );
 	} );
 
 	it( "should return two h1s next to each other", function() {
 		const mockPaper = new Paper( "<h1>first h1</h1><h1>second h1</h1><h2>not an h1</h2>" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
 
 		expect( h1s( mockPaper ) ).toEqual( [
-			{ tag: "h1", content: "first h1", position: 0 },
-			{ tag: "h1", content: "second h1", position: 1 },
+			{ tag: "h1", content: "first h1", position: { startOffset: 4, endOffset: 12, clientId: "" } },
+			{ tag: "h1", content: "second h1", position: { startOffset: 21, endOffset: 30, clientId: "" } },
 		] );
 	} );
 
 	it( "should rightly ignore empty paragraphs or empty blocks", function() {
 		const mockPaper = new Paper( "<p></p>\n<h1>first h1</h1><h1>second h1</h1><h2>not an h1</h2>" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
 
 		expect( h1s( mockPaper ) ).toEqual( [
-			{ tag: "h1", content: "first h1", position: 0 },
-			{ tag: "h1", content: "second h1", position: 1 },
+			{ tag: "h1", content: "first h1", position: { startOffset: 12, endOffset: 20, clientId: "" } },
+			{ tag: "h1", content: "second h1", position: { startOffset: 29, endOffset: 38, clientId: "" } },
 		] );
 	} );
 
 	it( "should find H1 within division tags", function() {
 		const mockPaper = new Paper( "<div><h1>first h1</h1></div><div><p>blah blah</p></div><div><h1>second h1</h1></div>" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
 		expect( h1s( mockPaper ) ).toEqual( [
-			{ tag: "h1", content: "first h1", position: 0 },
-			{ tag: "h1", content: "second h1", position: 2 },
+			{ tag: "h1", content: "first h1", position: { startOffset: 9, endOffset: 17, clientId: "" } },
+			{ tag: "h1", content: "second h1", position: { startOffset: 64, endOffset: 73, clientId: "" } },
 		] );
 	} );
 
@@ -111,9 +134,12 @@ describe( "Gets all H1s in the text", function() {
 			"I think voice will become the dominant search query, but I think screens will continue to be " +
 			"important in presenting search results.&#8217;</p>" );
 
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
 		expect( h1s( mockPaper ) ).toEqual( [
-			{ tag: "h1", content: "Voice Search", position: 0 },
-			{ tag: "h1", content: "So what will the future bring?", position: 11 },
+			{ tag: "h1", content: "Voice Search", position: { startOffset: 4, endOffset: 16, clientId: "" } },
+			{ tag: "h1", content: "So what will the future bring?", position: { startOffset: 3903, endOffset: 3933, clientId: "" } },
 		] );
 	} );
 } );

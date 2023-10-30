@@ -93,13 +93,13 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'open_graph_frontpage_image'       => '', // Text field.
 		'open_graph_frontpage_image_id'    => 0,
 
-		'publishing_principles_id'         => false,
-		'ownership_funding_info_id'        => false,
-		'actionable_feedback_policy_id'    => false,
-		'corrections_policy_id'            => false,
-		'ethics_policy_id'                 => false,
-		'diversity_policy_id'              => false,
-		'diversity_staffing_report_id'     => false,
+		'publishing_principles_id'         => 0,
+		'ownership_funding_info_id'        => 0,
+		'actionable_feedback_policy_id'    => 0,
+		'corrections_policy_id'            => 0,
+		'ethics_policy_id'                 => 0,
+		'diversity_policy_id'              => 0,
+		'diversity_staffing_report_id'     => 0,
 
 		/*
 		 * Uses enrich_defaults to add more along the lines of:
@@ -964,11 +964,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				'label'  => __( 'Dash', 'wordpress-seo' ),
 			],
 			'sc-ndash'  => [
-				'option' => '&ndash;',
+				'option' => '&#8211;',
 				'label'  => __( 'En dash', 'wordpress-seo' ),
 			],
 			'sc-mdash'  => [
-				'option' => '&mdash;',
+				'option' => '&#8212;',
 				'label'  => __( 'Em dash', 'wordpress-seo' ),
 			],
 			'sc-colon'  => [
@@ -976,11 +976,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				'label'  => __( 'Colon', 'wordpress-seo' ),
 			],
 			'sc-middot' => [
-				'option' => '&middot;',
+				'option' => '&#183;',
 				'label'  => __( 'Middle dot', 'wordpress-seo' ),
 			],
 			'sc-bull'   => [
-				'option' => '&bull;',
+				'option' => '&#8226;',
 				'label'  => __( 'Bullet', 'wordpress-seo' ),
 			],
 			'sc-star'   => [
@@ -1000,19 +1000,19 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				'label'  => __( 'Small tilde', 'wordpress-seo' ),
 			],
 			'sc-laquo'  => [
-				'option' => '&laquo;',
+				'option' => '&#171;',
 				'label'  => __( 'Left angle quotation mark', 'wordpress-seo' ),
 			],
 			'sc-raquo'  => [
-				'option' => '&raquo;',
+				'option' => '&#187;',
 				'label'  => __( 'Right angle quotation mark', 'wordpress-seo' ),
 			],
 			'sc-lt'     => [
-				'option' => '&lt;',
+				'option' => '&#062;',
 				'label'  => __( 'Less than sign', 'wordpress-seo' ),
 			],
 			'sc-gt'     => [
-				'option' => '&gt;',
+				'option' => '&#060;',
 				'label'  => __( 'Greater than sign', 'wordpress-seo' ),
 			],
 		];

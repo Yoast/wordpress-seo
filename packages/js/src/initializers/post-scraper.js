@@ -12,7 +12,6 @@ import { select, subscribe } from "@wordpress/data";
 // Internal dependencies.
 import YoastReplaceVarPlugin from "../analysis/plugins/replacevar-plugin";
 import YoastReusableBlocksPlugin from "../analysis/plugins/reusable-blocks-plugin";
-import YoastShortcodePlugin from "../analysis/plugins/shortcode-plugin";
 import YoastMarkdownPlugin from "../analysis/plugins/markdown-plugin";
 import * as tinyMCEHelper from "../lib/tinymce";
 import CompatibilityHelper from "../compatibility/compatibilityHelper";
@@ -66,7 +65,6 @@ const {
 
 // Plugin class prototypes (not the instances) are being used by other plugins from the window.
 window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
-window.YoastShortcodePlugin = YoastShortcodePlugin;
 
 /**
  * @summary Initializes the post scraper script.
@@ -496,12 +494,7 @@ export default function initPostScraper( $, store, editorData ) {
 		// Analysis plugins
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
-		window.YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( {
-			registerPlugin: app.registerPlugin,
-			registerModification: app.registerModification,
-			pluginReady: app.pluginReady,
-			pluginReloaded: app.pluginReloaded,
-		} );
+
 		if ( isBlockEditor() ) {
 			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, window.YoastSEO.app.refresh );
 			reusableBlocksPlugin.register();

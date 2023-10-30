@@ -5,6 +5,8 @@
  * @package WPSEO\Inc
  */
 
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
+
 /**
  * Represents the addon manager.
  */
@@ -399,6 +401,15 @@ class WPSEO_Addon_Manager {
 		$subscription = $this->get_subscription( $plugin_data['slug'] );
 		if ( $subscription && $this->has_subscription_expired( $subscription ) ) {
 			$addon_link = ( isset( $this->addon_details[ $plugin_data['slug'] ] ) ) ? $this->addon_details[ $plugin_data['slug'] ]['short_link_renewal'] : $this->addon_details[ self::PREMIUM_SLUG ]['short_link_renewal'];
+
+			$sale_copy = '';
+			if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+				$sale_copy = sprintf(
+				/* translators: %1$s is a <br> tag. */
+					esc_html__( '%1$s Now with 30%% Black Friday Discount!', 'wordpress-seo' ),
+					'<br>'
+				);
+			}
 			echo '<br><br>';
 			echo '<strong><span class="yoast-dashicons-notice warning dashicons dashicons-warning"></span> ' .
 				sprintf(
@@ -407,7 +418,10 @@ class WPSEO_Addon_Manager {
 					esc_html( $plugin_data['name'] ),
 					'<a href="' . esc_url( WPSEO_Shortlinker::get( $addon_link ) ) . '">',
 					'</a>'
-				) . '</strong>';
+				) .
+			    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped above.
+				$sale_copy
+				. '</strong>';
 		}
 	}
 
@@ -498,13 +512,14 @@ class WPSEO_Addon_Manager {
 
 		return new Yoast_Notification(
 			sprintf(
-			/* translators: %1$s expands to a strong tag, %2$s expands to the product name, %3$s expands to a closing strong tag, %4$s expands to an a tag. %5$s expands to MyYoast with a closing a tag,  %6$s expands to the product name  */
-				__( '%1$s %2$s isn\'t working as expected %3$s and you are not receiving updates or support! Make sure to %4$s activate your product subscription in %5$s to unlock all the features of %6$s.', 'wordpress-seo' ),
+			/* translators: %1$s expands to a strong tag, %2$s expands to the product name, %3$s expands to a closing strong tag, %4$s expands to an a tag. %5$s expands to MyYoast, %6$s expands to a closing a tag,  %7$s expands to the product name  */
+				__( '%1$s %2$s isn\'t working as expected %3$s and you are not receiving updates or support! Make sure to %4$s activate your product subscription in %5$s%6$s to unlock all the features of %7$s.', 'wordpress-seo' ),
 				'<strong>',
 				$product_name,
 				'</strong>',
 				'<a href="' . WPSEO_Shortlinker::get( $short_link ) . '" target="_blank">',
-				' MyYoast</a>',
+				'MyYoast',
+				'</a>',
 				$product_name
 			),
 			$notification_options

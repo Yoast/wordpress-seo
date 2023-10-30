@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 import { escapeRegExp, noop } from "lodash";
 
 /* Yoast dependencies */
-import { assessments, languageProcessing, helpers } from "yoastseo";
+import { languageProcessing } from "yoastseo";
 import { ErrorBoundary, SvgIcon, Button } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import { getDirectionalStyle, join } from "@yoast/helpers";
@@ -15,15 +15,21 @@ import {
 	recommendedReplacementVariablesShape,
 } from "@yoast/replacement-variable-editor";
 
-const { MetaDescriptionLengthAssessment, PageTitleWidthAssessment } = assessments.seo;
-const { measureTextWidth } = helpers;
-
 // Internal dependencies.
+import { getTitleProgress, getDescriptionProgress } from "../helpers/progress";
+import { DEFAULT_MODE, MODES } from "../snippet-preview/constants";
 import SnippetPreview from "../snippet-preview/SnippetPreview";
-import { DEFAULT_MODE, 	MODES } from "../snippet-preview/constants";
 import SnippetEditorFields from "./SnippetEditorFields";
 import { lengthProgressShape } from "./constants";
 import ModeSwitcher from "./ModeSwitcher";
+
+const SearchPreviewDescription = styled.legend`
+	margin: 0 0 16px;
+	padding: 0;
+	color: ${ colors.$color_headings };
+	font-size: 12px;
+	font-weight: 300;
+`;
 
 const SnippetEditorButton = styled( Button )`
 	height: 33px;
@@ -48,62 +54,6 @@ const CloseEditorButton = styled( SnippetEditorButton )`
 
 // The regex for the replacement variables we want to exclude from the SEO title before we measure the width.
 const excludedVars = new RegExp( "(%%sep%%|%%sitename%%)", "g" );
-
-/**
- * Gets the SEO title progress.
- *
- * @param {string} title The SEO title.
- *
- * @returns {Object} The SEO title progress.
- */
-function getTitleProgress( title ) {
-	const titleWidth = measureTextWidth( title );
-	const pageTitleWidthAssessment = new PageTitleWidthAssessment( {
-		scores: {
-			widthTooShort: 9,
-		},
-	}, true );
-	const score = pageTitleWidthAssessment.calculateScore( titleWidth );
-	const maximumLength = pageTitleWidthAssessment.getMaximumLength();
-
-	return {
-		max: maximumLength,
-		actual: titleWidth,
-		score: score,
-	};
-}
-
-/**
- * Gets the description progress.
- *
- * @param {string}  description     The description.
- * @param {string}  date            The meta description date.
- * @param {bool}    isCornerstone   Whether the cornerstone content toggle is on or off.
- * @param {bool}    isTaxonomy      Whether the page is a taxonomy page.
- * @param {string}  locale          The locale.
- *
- * @returns {Object} The description progress.
- */
-function getDescriptionProgress( description, date, isCornerstone, isTaxonomy, locale ) {
-	const descriptionLength = languageProcessing.countMetaDescriptionLength( date, description );
-
-	// Override the default config if the cornerstone content toggle is on, and it is not a taxonomy page.
-	const metaDescriptionLengthAssessment = ( isCornerstone && ! isTaxonomy ) ? new MetaDescriptionLengthAssessment( {
-		scores: {
-			tooLong: 3,
-			tooShort: 3,
-		},
-	} ) : new MetaDescriptionLengthAssessment();
-
-	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength, locale  );
-	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength( locale );
-
-	return {
-		max: maximumLength,
-		actual: descriptionLength,
-		score: score,
-	};
-}
 
 /**
  * The snippet editor component.
@@ -235,13 +185,11 @@ class SnippetEditor extends React.Component {
 				}
 			);
 
-			if ( this.haveReplaceVarsChanged( this.props.replacementVariables, nextProps.replacementVariables ) ) {
-				/*
-				 * Make sure that changes to the replacement vars (e.g. title, category, tags) get reflected on the
-				 * analysis data on the store (used in, among other things, the SEO analysis).
-				 */
-				this.props.onChangeAnalysisData( data );
-			}
+			/*
+			 * Make sure that any changes get reflected on the analysis data on the store (used in, among other things, the SEO analysis).
+			 * Including changes to the replacement vars (e.g. title, category, tags).
+			 */
+			this.props.onChangeAnalysisData( data );
 		}
 	}
 
@@ -590,6 +538,8 @@ class SnippetEditor extends React.Component {
 		return (
 			<ErrorBoundary>
 				<div>
+					<SearchPreviewDescription>{ __( "Determine how your post should look in the search results.",
+						"wordpress-seo" ) }</SearchPreviewDescription>
 					<ModeSwitcher
 						onChange={ this.onChangeMode }
 						active={ mode }

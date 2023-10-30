@@ -1,5 +1,6 @@
 import { classNameMap, StoryComponent } from ".";
 import { keys } from "lodash";
+import { component, sizes, variants } from "./docs";
 
 export default {
 	title: "1) Elements/Spinner",
@@ -25,7 +26,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple spinner component.",
+				component,
 			},
 		},
 	},
@@ -47,6 +48,10 @@ export const Variants = ( args ) => (
 	</div>
 );
 
+Variants.parameters = {
+	docs: { description: { story: variants } },
+};
+
 export const Sizes = ( args ) => (
 	<div className="yst-flex yst-gap-5">
 		<StoryComponent size="3" />
@@ -54,3 +59,7 @@ export const Sizes = ( args ) => (
 		<StoryComponent size="8" />
 	</div>
 );
+
+Sizes.parameters = {
+	docs: { description: { story: sizes } },
+};

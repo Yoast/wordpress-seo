@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '20.11-RC3' );
+define( 'WPSEO_VERSION', '21.5-RC4' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -35,8 +35,8 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '7.2.5' );
-define( 'YOAST_SEO_WP_TESTED', '6.2.2' );
-define( 'YOAST_SEO_WP_REQUIRED', '6.1' );
+define( 'YOAST_SEO_WP_TESTED', '6.4' );
+define( 'YOAST_SEO_WP_REQUIRED', '6.2' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 	define( 'WPSEO_NAMESPACES', true );
@@ -78,6 +78,17 @@ elseif ( ! class_exists( 'WPSEO_Options' ) ) { // Still checking since might be 
 	add_action( 'admin_init', 'yoast_wpseo_missing_autoload', 1 );
 
 	return;
+}
+
+/**
+ * Include the file from the `symfony/deprecation-contracts` dependency instead of autoloading it via composer.
+ *
+ * We need to do that because autoloading via composer prevents the vendor-prefixing of the dependency itself.
+ * Note that we don't expect the function to be ever called since the OAuth2 library should not provide invalid input.
+ */
+$deprecation_contracts_file = WPSEO_PATH . 'vendor_prefixed/symfony/deprecation-contracts/functions.php';
+if ( is_readable( $deprecation_contracts_file ) ) {
+	include $deprecation_contracts_file;
 }
 
 if ( function_exists( 'spl_autoload_register' ) ) {
