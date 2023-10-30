@@ -734,9 +734,15 @@ class Yoast_Notification_Center {
 			// Apply array_values to ensure we get a 0-indexed array.
 			$notifications = array_values( array_filter( $notifications, [ $this, 'filter_notification_current_user' ] ) );
 
-			$processed_notifications = $this->maybe_unset_notification_user_field( $user_id, $notifications );
+			foreach ( $notifications as $notification ) {
+				$notification_has_been_updated = $notification->user_to_user_id();
+				// Just one notification changed is enough to update the storage.
+				if ( $notification_has_been_updated ) {
+					$this->notifications_need_storage = true;
+				}
+			}
 
-			$this->notifications[ $user_id ] = $processed_notifications;
+			$this->notifications[ $user_id ] = $notifications;
 		}
 	}
 
@@ -896,31 +902,6 @@ class Yoast_Notification_Center {
 	 */
 	private function add_transaction_to_queue( $callback, $args ) {
 		$this->queued_transactions[] = [ $callback, $args ];
-	}
-
-	/**
-	 * Removes the 'user' field from notifications if it is set, and adds the 'user_id' one.
-	 *
-	 * @param int                  $user_id       The ID of the user to set the notifications for.
-	 * @param Yoast_Notification[] $notifications The notifications to process.
-	 *
-	 * @return Yoast_Notification[] The processed notifications.
-	 */
-	private function maybe_unset_notification_user_field( $user_id, $notifications ) {
-		$processed_notifications = [];
-
-		foreach ( $notifications as $notification ) {
-			$serialized_notification = $this->notification_to_array( $notification );
-			if ( array_key_exists( 'user', $serialized_notification['options'] ) ) {
-				unset( $serialized_notification['options']['user'] );
-				$serialized_notification['options']['user_id'] = $user_id;
-
-				$this->notifications_need_storage = true;
-			}
-			$processed_notifications[] = $this->array_to_notification( $serialized_notification );
-		}
-
-		return $processed_notifications;
 	}
 
 	/**
