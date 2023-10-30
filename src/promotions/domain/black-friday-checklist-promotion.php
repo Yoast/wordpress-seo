@@ -4,8 +4,6 @@ namespace Yoast\WP\SEO\Promotions\Domain;
 
 /**
  * Class to manage the Black Friday checklist promotion.
- *
- * @makePublic
  */
 class Black_Friday_Checklist_Promotion extends Abstract_Promotion implements Promotion_Interface {
 

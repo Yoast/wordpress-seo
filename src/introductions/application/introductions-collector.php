@@ -8,8 +8,6 @@ use Yoast\WP\SEO\Introductions\Domain\Introductions_Bucket;
 
 /**
  * Manages the collection of introductions.
- *
- * @makePublic
  */
 class Introductions_Collector {
 
