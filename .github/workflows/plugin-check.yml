@@ -20,19 +20,34 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.2
+          coverage: none
+
       - name: Set up node and enable caching of dependencies
         uses: actions/setup-node@v3
         with:
           node-version: '14'
           cache: 'yarn'
 
-      - name: Build
-        run: |
-          composer install
-          yarn
-          grunt build
+      - name: Install Composer dependencies and run the prefixing script
+        uses: ramsey/composer-install@v2
+        with:
+          # Bust the cache at least once a week - output format: YYYY-MM-DD.
+          custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: "Grunt: create artifact"
+        run: grunt artifact
+
+      - name: "Copy composer.json"
+        run: cp composer.json ./artifact
 
       - name: Run plugin check
         uses: swissspidy/wp-plugin-check-action@main
         with:
-            build-dir: './build'
+            build-dir: ./artifact
