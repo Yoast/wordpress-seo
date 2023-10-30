@@ -13,12 +13,19 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Set up node and enable caching of dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
     - name: Build
       run: |
         composer install
-        nvm install
         yarn
         grunt build
+
     - name: Run plugin check
       uses: swissspidy/wp-plugin-check-action@main
       with:
