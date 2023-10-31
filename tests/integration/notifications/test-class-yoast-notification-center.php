@@ -800,10 +800,10 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this->get_notification_center();
 
-		$user_1    = $this->factory->user->create_and_get();
+		$user_1 = $this->factory->user->create_and_get();
 		$user_1->add_cap( 'wpseo_manage_options' );
 
-		$user_2    = $this->factory->user->create_and_get();
+		$user_2 = $this->factory->user->create_and_get();
 		$user_2->add_cap( 'wpseo_manage_options' );
 
 		$notification_for_user_1 = new Yoast_Notification(
