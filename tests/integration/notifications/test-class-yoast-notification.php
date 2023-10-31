@@ -13,13 +13,6 @@
 class Yoast_Notification_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * User ID.
-	 *
-	 * @var int
-	 */
-	private $user_id;
-
-	/**
 	 * Test capability filters get set.
 	 *
 	 * @var array
@@ -39,12 +32,10 @@ class Yoast_Notification_Test extends WPSEO_UnitTestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->user_id = $this->factory->user->create();
-
-		$user = new WP_User( $this->user_id );
+		$user = $this->factory->user->create_and_get();
 		$user->add_cap( 'wpseo_manage_options' );
 
-		wp_set_current_user( $this->user_id );
+		wp_set_current_user( $user->ID );
 	}
 
 	/**
