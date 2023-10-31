@@ -432,9 +432,8 @@ class Yoast_Notification {
 	public function user_to_user_id() {
 		if ( array_key_exists( 'user', $this->options ) ) {
 			// No check needed as we call this once the notification has already been stored.
-			$user_id = $this->options['user']->ID;
+			$this->options['user_id'] = $this->options['user']->ID;
 			unset( $this->options['user'] );
-			$this->options['user_id'] = $user_id;
 			return true;
 		}
 		return false;
