@@ -422,21 +422,4 @@ class Yoast_Notification {
 	private function parse_attributes( &$value, $key ) {
 		$value = sprintf( '%s="%s"', sanitize_key( $key ), esc_attr( $value ) );
 	}
-
-	/**
-	 * Unsets user field if present and set user_id.
-	 *
-	 * @internal This is meant to be used by the Yoast SEO plugin only.
-	 *
-	 * @return bool If the user field was present.
-	 */
-	public function user_to_user_id() {
-		if ( array_key_exists( 'user', $this->options ) ) {
-			// No check needed as we call this once the notification has already been stored.
-			$this->options['user_id'] = $this->options['user']->ID;
-			unset( $this->options['user'] );
-			return true;
-		}
-		return false;
-	}
 }

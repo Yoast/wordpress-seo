@@ -731,16 +731,9 @@ class Yoast_Notification_Center {
 
 		if ( is_array( $stored_notifications ) ) {
 			$notifications = array_map( [ $this, 'array_to_notification' ], $stored_notifications );
+
 			// Apply array_values to ensure we get a 0-indexed array.
 			$notifications = array_values( array_filter( $notifications, [ $this, 'filter_notification_current_user' ] ) );
-
-			foreach ( $notifications as $notification ) {
-				$notification_has_been_updated = $notification->user_to_user_id();
-				// Just one notification changed is enough to update the storage.
-				if ( $notification_has_been_updated ) {
-					$this->notifications_need_storage = true;
-				}
-			}
 
 			$this->notifications[ $user_id ] = $notifications;
 		}
@@ -848,6 +841,13 @@ class Yoast_Notification_Center {
 			$notification_data['message'] = $notification_data['message']->present();
 		}
 
+		if ( isset( $notification_data['options']['user'] ) ) {
+			$notification_data['options']['user_id'] = $notification_data['options']['user']->ID;
+			unset( $notification_data['options']['user'] );
+
+			$this->notifications_need_storage = true;
+		}
+		
 		return new Yoast_Notification(
 			$notification_data['message'],
 			$notification_data['options']
