@@ -13,14 +13,6 @@ import UpsellBox from "../UpsellBox";
  * @returns {wp.Element} The PremiumSEOAnalysisUpsell component.
  */
 const PremiumSEOAnalysisUpsell = ( props ) => {
-	const infoParagraphs = [
-		<span key="PremiumSEOAnalysisUpsell-infoParagraph-description" className="yst-block yst-max-w-[426px]">
-			{ __( "Check your text on more SEO criteria and get an enhanced keyphrase analysis, making it easier to write optimized content.", "wordpress-seo" ) }
-		</span>,
-		<span key="PremiumSEOAnalysisUpsell-infoParagraph-benefitsTitle" className="yst-block yst-my-3 yst-text-[#303030] yst-text-[13px] yst-font-semibold">
-			{ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
-		</span>,
-	];
 	const benefits = [
 		__( "Create content faster: Use AI to create titles & meta descriptions", "wordpress-seo" ),
 		__( "Get help ranking for multiple keyphrases", "wordpress-seo" ),
@@ -35,7 +27,9 @@ const PremiumSEOAnalysisUpsell = ( props ) => {
 
 	return (
 		<UpsellBox
-			infoParagraphs={ infoParagraphs }
+			title={ __( "Get more help with writing content that ranks", "wordpress-seo" ) }
+			description={ __( "Check your text on even more SEO criteria and get an enhanced keyphrase analysis, making it easier to optimize your content.", "wordpress-seo" ) }
+			benefitsTitle={ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
 			benefits={ benefits }
 			upsellButtonText={
 				sprintf(

@@ -1,6 +1,5 @@
 import {
 	potentiallyHarmful,
-	potentiallyHarmfulCareful,
 	potentiallyHarmfulUnless,
 	harmfulPotentiallyNonInclusive,
 	alternative,
@@ -30,12 +29,7 @@ import { sprintf } from "@wordpress/i18n";
  * "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead."
  */
 const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead.";
-/*
- * Used for generalizing terms, such as 'the mentally ill'.
- *
- * "Avoid using <i>%1$s</i> as it is generalizing. Consider using an alternative, such as %2$s instead."
- */
-const generalizing = "Avoid using <i>%1$s</i> as it is generalizing. Consider using an alternative, such as %2$s instead.";
+
 /*
  * Used for terms that are inclusive only if you are referring to a medical condition, for example 'manic' or 'OCD'.
  *
@@ -155,8 +149,8 @@ const disabilityAssessments =  [
 		identifier: "daft",
 		nonInclusivePhrases: [ "daft" ],
 		inclusiveAlternatives: "<i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>",
-		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulCareful,
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
 	},
 	{
 		identifier: "handicapped",
@@ -415,7 +409,7 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>to be not impressed by, to be not enthusiastic about, to be not into, to not like</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: phrasesWithCrazyFeedback,
-		// Target only when preceded by a form of "to be", the negation "not", and an an optional intensifier (e.g. "is not so crazy about" ).
+		// Target only when preceded by a form of "to be", the negation "not", and an optional intensifier (e.g. "is not so crazy about" ).
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, formsOfToBeNotWithOptionalIntensifier ) );
@@ -427,7 +421,7 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>to love, to be obsessed with, to be infatuated with</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: phrasesWithCrazyFeedback,
-		// Target only when preceded by a form of "to be" and an an optional intensifier (e.g. "am so crazy about")
+		// Target only when preceded by a form of "to be" and an optional intensifier (e.g. "am so crazy about")
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, formsOfToBeWithOptionalIntensifier ) );
@@ -575,8 +569,10 @@ const disabilityAssessments =  [
 			"<i>selfish, egotistical, self-centered, self-absorbed, vain, toxic, manipulative</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. If you are referencing the " +
-			"medical condition, use %2$s instead. If you are not referencing the medical condition, consider other" +
-			" alternatives to describe the trait or behavior, such as %3$s.",
+			"medical condition, use %2$s instead, unless referring to someone who explicitly wants to be referred to with this term." +
+			" If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %3$s.",
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "personality disorder" ] ) ),
 	},
 	{
 		identifier: "OCD",
@@ -598,7 +594,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "the mentally ill" ],
 		inclusiveAlternatives: "<i>people who are mentally ill</i>, <i>mentally ill people</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: [ generalizing ].join( " " ),
+		feedbackFormat: potentiallyHarmful,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
@@ -609,7 +605,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "the disabled" ],
 		inclusiveAlternatives: "<i>people who have a disability</i>, <i>disabled people</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmful ].join( " " ),
+		feedbackFormat: potentiallyHarmful,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );

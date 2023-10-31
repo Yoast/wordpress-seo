@@ -53,3 +53,7 @@ export const potentiallyHarmfulUnlessNonInclusive = [ harmfulNonInclusive, alter
  * "Alternatively, if talking about a specific person, use their preferred descriptor if known."
  */
 export const preferredDescriptorIfKnown = "Alternatively, if talking about a specific person, use their preferred descriptor if known.";
+
+// An additional string to target phrases that are potentially non-inclusive unless referring to animals or objects.
+export const potentiallyHarmfulUnlessAnimalsObjects = [ harmfulPotentiallyNonInclusive,
+	"Unless you are referring to objects or animals, consider using an alternative, such as %2$s." ].join( " " );

@@ -10,6 +10,7 @@ import getWritingDirection from "./getWritingDirection";
 
 import { Paper } from "yoastseo";
 
+/* eslint-disable complexity */
 
 /**
  * Retrieves the data needed for the analyses.

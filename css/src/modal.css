@@ -59,6 +59,19 @@
 	right: 16px;
 }
 
+.yoast-gutenberg-modal__box.components-modal__frame {
+	box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+	@media (min-width: 600px) {
+		border-radius: 8px;
+		max-height: calc( 100% - 48px );
+	}
+}
+
+.yoast-gutenberg-modal__no-padding .components-modal__content {
+	padding: 0;
+}
+
 .yoast-modal__heading h1,
 .yoast-gutenberg-modal .components-modal__header-heading {
 	font-size: 20px;
@@ -66,6 +79,10 @@
 	color: var(--yoast-color-primary);
 	line-height: 1.2;
 	margin: 0;
+}
+
+.yoast-gutenberg-modal .components-modal__content .components-modal__header {
+	border-bottom: 1px solid #e2e8f0 !important;
 }
 
 .yoast-gutenberg-modal .components-modal__icon-container {

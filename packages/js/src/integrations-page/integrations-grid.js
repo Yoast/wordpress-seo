@@ -10,9 +10,9 @@ import { addLinkToString } from "../helpers/stringHelpers";
 /**
  * Renders a section.
  *
- * @param {string} title       The section title.
- * @param {string} description The section description.
- * @param {array}  elements    Array of elements to be rendered.
+ * @param {string}    title       The section title.
+ * @param {WPElement} description The section description.
+ * @param {array}     elements    Array of elements to be rendered.
  *
  * @returns {WPElement} The section.
  */
@@ -32,7 +32,7 @@ const Section = ( { title, description, elements } ) => {
 
 Section.propTypes = {
 	title: PropTypes.string,
-	description: PropTypes.string,
+	description: PropTypes.node,
 	elements: PropTypes.array,
 };
 

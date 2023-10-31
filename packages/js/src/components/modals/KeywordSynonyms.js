@@ -10,18 +10,6 @@ import UpsellBox from "../UpsellBox";
  * @returns {wp.Element} The Keyword Synonyms upsell component.
  */
 const KeywordSynonyms = ( props ) => {
-	const infoParagraphs = [
-		<span key="KeywordSynonyms-infoParagraph-description" className="yst-block yst-max-w-[426px]">
-			{ sprintf(
-				/* translators: %s expands to "Yoast SEO Premium" */
-				__( "Synonyms help users understand your copy better. It’s easier to read for both users and Google. In %s, you can add synonyms for your focus keyphrase, and we’ll help you optimize for them.", "wordpress-seo" ),
-				"Yoast SEO Premium"
-			) }
-		</span>,
-		<span key="KeywordSynonyms-infoParagraph-benefitsTitle" className="yst-block yst-my-3 yst-text-[#303030] yst-text-[13px] yst-font-semibold">
-			{ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
-		</span>,
-	];
 	const benefits = [
 		__( "Create content faster: Use AI to create titles & meta descriptions", "wordpress-seo" ),
 		__( "Get extra SEO checks with the Premium SEO analysis", "wordpress-seo" ),
@@ -33,7 +21,13 @@ const KeywordSynonyms = ( props ) => {
 
 	return (
 		<UpsellBox
-			infoParagraphs={ infoParagraphs }
+			title={ __( "Write more natural and engaging content", "wordpress-seo" ) }
+			description={ sprintf(
+				/* translators: %s expands to "Yoast SEO Premium" */
+				__( "Synonyms help users understand your copy better. It’s easier to read for both users and Google. In %s, you can add synonyms for your focus keyphrase, and we’ll help you optimize for them.", "wordpress-seo" ),
+				"Yoast SEO Premium"
+			) }
+			benefitsTitle={ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
 			benefits={ benefits }
 			upsellButtonText={
 				sprintf(

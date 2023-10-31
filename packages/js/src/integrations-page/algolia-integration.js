@@ -87,9 +87,9 @@ export const AlgoliaIntegration = ( {
 			</Card.Header>
 			<Card.Content>
 				<div>
-					<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827] yst-leading-tight">
-						<span>{ integration.claim && integration.claim }</span>
-					</h4>
+					{ integration.claim && <h4 className="yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827] yst-leading-tight">
+						{ integration.claim }
+					</h4> }
 					<p> { integration.description }
 						{ integration.learnMoreLink && <Link
 							href={ integration.learnMoreLink }
@@ -168,7 +168,7 @@ export const AlgoliaIntegration = ( {
 AlgoliaIntegration.propTypes = {
 	integration: PropTypes.shape( {
 		name: PropTypes.string,
-		claim: PropTypes.string,
+		claim: PropTypes.node,
 		learnMoreLink: PropTypes.string,
 		logoLink: PropTypes.string,
 		slug: PropTypes.string,
