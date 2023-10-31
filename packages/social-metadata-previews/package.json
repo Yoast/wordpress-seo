@@ -42,14 +42,11 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
     "react": "^18.2.0",
-		"react-dom": "^18.2.0",
+    "react-dom": "^18.2.0",
     "redux": "^3.7.2",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/react-hooks": "^8.0.1",
     "@yoast/browserslist-config": "^1.2.2",
     "browserslist": "^4.7.3",
     "jest-styled-components": "^7.0.3",
