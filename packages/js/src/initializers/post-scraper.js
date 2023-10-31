@@ -497,9 +497,9 @@ export default function initPostScraper( $, store, editorData ) {
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 
-		const shortcodesToBeParsed = [];
+		let shortcodesToBeParsed = [];
 
-		applyFilters( "yoast.analysis.shortcodes", shortcodesToBeParsed );
+		shortcodesToBeParsed = applyFilters( "yoast.analysis.shortcodes", shortcodesToBeParsed );
 
 		// Parses the shortcodes when `shortcodesToBeParsed` is provided.
 		if ( shortcodesToBeParsed.length > 0 ) {
