@@ -800,18 +800,16 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this->get_notification_center();
 
-		$user_1_id = $this->factory->user->create();
-		$user_1    = new WP_User( $user_1_id );
+		$user_1    = $this->factory->user->create_and_get();
 		$user_1->add_cap( 'wpseo_manage_options' );
 
-		$user_2_id = $this->factory->user->create();
-		$user_2    = new WP_User( $user_2_id );
+		$user_2    = $this->factory->user->create_and_get();
 		$user_2->add_cap( 'wpseo_manage_options' );
 
 		$notification_for_user_1 = new Yoast_Notification(
 			'Hello, user 1!',
 			[
-				'user_id'      => $user_1_id,
+				'user_id'      => $user_1->ID,
 				'capabilities' => [ 'wpseo_manage_options' ],
 			]
 		);
@@ -819,7 +817,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_for_user_2 = new Yoast_Notification(
 			'Hello, user 2!',
 			[
-				'user_id'      => $user_2_id,
+				'user_id'      => $user_2->ID,
 				'capabilities' => [ 'wpseo_manage_options' ],
 			]
 		);
@@ -828,10 +826,10 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$instance->add_notification( $notification_for_user_2 );
 
 		$expected_for_user_1 = [ $notification_for_user_1 ];
-		$actual_for_user_1   = $instance->get_notifications_for_user( $user_1_id );
+		$actual_for_user_1   = $instance->get_notifications_for_user( $user_1->ID );
 
 		$expected_for_user_2 = [ $notification_for_user_2 ];
-		$actual_for_user_2   = $instance->get_notifications_for_user( $user_2_id );
+		$actual_for_user_2   = $instance->get_notifications_for_user( $user_2->ID );
 
 		$this->assertEquals( $expected_for_user_1, $actual_for_user_1 );
 		$this->assertEquals( $expected_for_user_2, $actual_for_user_2 );
@@ -846,15 +844,14 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this->get_notification_center();
 
-		$user_id = $this->factory->user->create();
-		$user    = new WP_User( $user_id );
+		$user = $this->factory->user->create_and_get();
 		$user->add_cap( 'wpseo_manage_options' );
 
 		$notification = new Yoast_Notification(
 			'Hello, user 3!',
 			[
 				'id'           => 'Yoast_Notification_Test',
-				'user_id'      => $user_id,
+				'user_id'      => $user->ID,
 				'capabilities' => [ 'wpseo_manage_options' ],
 			]
 		);
@@ -863,7 +860,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$instance->add_notification( $notification );
 
 		$expected = [ $notification ];
-		$actual   = $instance->get_notifications_for_user( $user_id );
+		$actual   = $instance->get_notifications_for_user( $user->ID );
 
 		$this->assertEquals( $expected, $actual );
 	}
