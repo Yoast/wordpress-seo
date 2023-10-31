@@ -800,13 +800,18 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this->get_notification_center();
 
-		$user_mock_1 = $this->mock_wp_user( 1, [ 'wpseo_manage_options' => true ] );
-		$user_mock_2 = $this->mock_wp_user( 2, [ 'wpseo_manage_options' => true ] );
+		$user_1_id = $this->factory->user->create();
+		$user_1    = new WP_User( $user_1_id );
+		$user_1->add_cap( 'wpseo_manage_options' );
+
+		$user_2_id = $this->factory->user->create();
+		$user_2    = new WP_User( $user_2_id );
+		$user_2->add_cap( 'wpseo_manage_options' );
 
 		$notification_for_user_1 = new Yoast_Notification(
 			'Hello, user 1!',
 			[
-				'user_id'      => $user_mock_1->ID,
+				'user_id'      => $user_1_id,
 				'capabilities' => [ 'wpseo_manage_options' ],
 			]
 		);
@@ -814,7 +819,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_for_user_2 = new Yoast_Notification(
 			'Hello, user 2!',
 			[
-				'user_id'      => $user_mock_2->ID,
+				'user_id'      => $user_2_id,
 				'capabilities' => [ 'wpseo_manage_options' ],
 			]
 		);
@@ -918,36 +923,5 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_center->setup_current_notifications();
 
 		return $notification_center;
-	}
-
-	/**
-	 * Creates a mock WordPress user.
-	 *
-	 * @param int   $user_id The ID of the user.
-	 * @param array $caps    A map, mapping capabilities to `true` (user has capability) or `false` ( user has not).
-	 *
-	 * @return PHPUnit_Framework_MockObject_Invocation_Object | WP_User
-	 */
-	private function mock_wp_user( $user_id, $caps ) {
-		$user_mock = $this
-			->getMockBuilder( 'WP_User' )
-			->setMethods( [ 'has_cap' ] )
-			->getMock();
-
-		$user_mock
-			->expects( $this->any() )
-			->method( 'has_cap' )
-			->with( $this->isType( 'string' ) )
-			->willReturn(
-				$this->returnCallback(
-					static function( $argument ) use ( $caps ) {
-						return isset( $caps[ $argument ] ) ? $caps[ $argument ] : false;
-					}
-				)
-			);
-
-		$user_mock->ID = $user_id;
-
-		return $user_mock;
 	}
 }
