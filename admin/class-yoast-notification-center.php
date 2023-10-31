@@ -734,14 +734,6 @@ class Yoast_Notification_Center {
 			// Apply array_values to ensure we get a 0-indexed array.
 			$notifications = array_values( array_filter( $notifications, [ $this, 'filter_notification_current_user' ] ) );
 
-			foreach ( $notifications as $notification ) {
-				$notification_has_been_updated = $notification->user_to_user_id();
-				// Just one notification changed is enough to update the storage.
-				if ( $notification_has_been_updated ) {
-					$this->notifications_need_storage = true;
-				}
-			}
-
 			$this->notifications[ $user_id ] = $notifications;
 		}
 	}
