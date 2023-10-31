@@ -346,8 +346,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$admin_user     = Mockery::mock( WP_User::class );
 		$admin_user->ID = 1;
-		Monkey\Functions\expect( 'wp_get_current_user' )
-			->andReturn( $admin_user );
+		Monkey\Functions\expect( 'get_current_user_id' )
+			->andReturn( $admin_user->ID );
 
 		$this->notification_helper
 			->expects( 'restore_notification' )
@@ -404,8 +404,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$admin_user     = Mockery::mock( WP_User::class );
 		$admin_user->ID = 1;
-		Monkey\Functions\expect( 'wp_get_current_user' )
-			->andReturn( $admin_user );
+		Monkey\Functions\expect( 'get_current_user_id' )
+			->andReturn( $admin_user->ID );
 
 		$this->notification_helper
 			->expects( 'restore_notification' )

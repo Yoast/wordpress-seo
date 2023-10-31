@@ -348,9 +348,9 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 				->expects( 'restore_notification' );
 			$this->notification_center
 				->expects( 'add_notification' );
-			Monkey\Functions\expect( 'wp_get_current_user' )
+			Monkey\Functions\expect( 'get_current_user_id' )
 				->once()
-				->andReturn( $this->admin_user );
+				->andReturn( $this->admin_user->ID );
 		}
 		else {
 			$this->notification_helper

@@ -139,9 +139,9 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 			]
 		);
 
-		Monkey\Functions\expect( 'wp_get_current_user' )
+		Monkey\Functions\expect( 'get_current_user_id' )
 			->once()
-			->andReturn( $this->admin_user );
+			->andReturn( $this->admin_user->ID );
 
 		$this->notification_center_mock->expects( 'add_notification' )->once()->withArgs(
 			static function ( $arg ) {

@@ -1160,9 +1160,9 @@ class Addon_Manager_Test extends TestCase {
 		$admin_user     = Mockery::mock( WP_User::class );
 		$admin_user->ID = 1;
 
-		Monkey\Functions\expect( 'wp_get_current_user' )
+		Monkey\Functions\expect( 'get_current_user_id' )
 			->twice()
-			->andReturn( $admin_user );
+			->andReturn( $admin_user->ID );
 
 		Monkey\Functions\expect( 'YoastSEO' )
 			->once()
