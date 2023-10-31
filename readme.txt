@@ -344,7 +344,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 21.6 =
 
-Release date: 2023-11-14
+Release date: 2023-11-28
 
 #### Enhancements
 
