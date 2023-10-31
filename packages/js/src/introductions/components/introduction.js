@@ -10,7 +10,7 @@ export const Introduction = () => {
 	const introduction = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectCurrentIntroduction(), [] );
 	const components = useIntroductionsContext();
 
-	const Component = useMemo( () => components?.[ introduction?.name ], [ introduction, components ] );
+	const Component = useMemo( () => components?.[ introduction?.id ], [ introduction, components ] );
 
 	if ( ! Component ) {
 		return null;
