@@ -110,12 +110,16 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Retrieve the id of the user to show the notification for.
+	 * Retrieve the user to show the notification for.
 	 *
-	 * @return int The user id.
+	 * @deprecated 21.6
+	 * @codeCoverageIgnore
+	 *
+	 * @return WP_User The user to show this notification for.
 	 */
 	public function get_user() {
-		return $this->options['user_id'];
+		\_deprecated_function( __METHOD__, 'Yoast SEO 21.6' );
+		return null;
 	}
 
 	/**
@@ -126,10 +130,7 @@ class Yoast_Notification {
 	 * @return int The user id
 	 */
 	public function get_user_id() {
-		if ( $this->get_user() !== null ) {
-			return $this->get_user();
-		}
-		return get_current_user_id();
+		return ( $this->options['user_id'] ?? get_current_user_id() );
 	}
 
 	/**
