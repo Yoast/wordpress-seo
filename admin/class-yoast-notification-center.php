@@ -847,7 +847,7 @@ class Yoast_Notification_Center {
 
 			$this->notifications_need_storage = true;
 		}
-		
+
 		return new Yoast_Notification(
 			$notification_data['message'],
 			$notification_data['options']
