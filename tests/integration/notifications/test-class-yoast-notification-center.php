@@ -828,10 +828,10 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$instance->add_notification( $notification_for_user_2 );
 
 		$expected_for_user_1 = [ $notification_for_user_1 ];
-		$actual_for_user_1   = $instance->get_notifications_for_user( 1 );
+		$actual_for_user_1   = $instance->get_notifications_for_user( $user_1_id );
 
 		$expected_for_user_2 = [ $notification_for_user_2 ];
-		$actual_for_user_2   = $instance->get_notifications_for_user( 2 );
+		$actual_for_user_2   = $instance->get_notifications_for_user( $user_2_id );
 
 		$this->assertEquals( $expected_for_user_1, $actual_for_user_1 );
 		$this->assertEquals( $expected_for_user_2, $actual_for_user_2 );
