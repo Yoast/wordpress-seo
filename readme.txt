@@ -355,6 +355,10 @@ Release date: 2023-11-28
 * Fixes a bug where encoded characters would be stripped from canonical URLs in the taxonomy metabox. Props to [@stodorovic](https://github.com/stodorovic).
 * Fixes a bug where the Wincher integration would cause PHP warnings with PHP 8+.
 
+#### Other
+
+* Adds defensive coding to the supress warnings on archive pages with the `/%category%/%postname%/` permalink structure. Props to [@Mte90](https://github.com/Mte90).
+
 = 21.5 =
 
 Release date: 2023-10-31
