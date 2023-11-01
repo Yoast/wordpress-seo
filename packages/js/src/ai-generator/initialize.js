@@ -44,19 +44,25 @@ AiGeneratorUpsell.propTypes = {
 	fieldId: PropTypes.string.isRequired,
 };
 
+const STORE = "yoast-seo/editor";
+
 /**
  * Initializes the AI Generator upsell.
  *
  * @returns {void}
  */
 const initializeAiGenerator = () => {
-	const isPremium = select( "yoast-seo/editor" ).getIsPremium();
+	const isPremium = select( STORE ).getIsPremium();
+	const isWooSeoUpsell = select( STORE ).getIsWooSeoUpsell();
+	const isProduct = select( STORE ).getIsProduct();
+
+	const shouldShowAiGeneratorUpsell =  ( isProduct ) ? ! isPremium || isWooSeoUpsell : ! isPremium;
 
 	addFilter(
 		"yoast.replacementVariableEditor.additionalButtons",
 		"yoast/yoast-seo-premium/AiGenerator",
 		( buttons, { fieldId } ) => {
-			if ( ! isPremium ) {
+			if ( shouldShowAiGeneratorUpsell ) {
 				buttons.push(
 					<Fill name={ `yoast.replacementVariableEditor.additionalButtons.${ fieldId }` }>
 						<AiGeneratorUpsell fieldId={ fieldId } />

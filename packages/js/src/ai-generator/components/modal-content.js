@@ -9,7 +9,7 @@ const STORE = "yoast-seo/editor";
  */
 export const ModalContent = () => {
 	const learnMoreLink = useSelect( select => select( STORE ).selectLink( "https://www.yoa.st/ai-generator-learn-more" ), [] );
-	const upsellLink = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell" ), [] );
+
 
 	const imageLink = useSelect( select => select( STORE ).selectImageLink( "ai-generator-preview.png" ), [] );
 	const thumbnail = useMemo( () => ( {
@@ -23,10 +23,10 @@ export const ModalContent = () => {
 	const { setWistiaEmbedPermission: set } = useDispatch( STORE );
 	const wistiaEmbedPermission = useMemo( () => ( { value, status, set } ), [ value, status, set ] );
 
+
 	return (
 		<AiGenerateTitlesAndDescriptionsUpsell
 			learnMoreLink={ learnMoreLink }
-			upsellLink={ upsellLink }
 			thumbnail={ thumbnail }
 			wistiaEmbedPermission={ wistiaEmbedPermission }
 		/>
