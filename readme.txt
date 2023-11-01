@@ -342,6 +342,23 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 21.6 =
+
+Release date: 2023-11-28
+
+#### Enhancements
+
+* Improves the _Track SEO performance_ functionality in the Yoast SEO metabox/sidebar.
+
+#### Bugfixes
+
+* Fixes a bug where encoded characters would be stripped from canonical URLs in the taxonomy metabox. Props to [@stodorovic](https://github.com/stodorovic).
+* Fixes a bug where the Wincher integration would cause PHP warnings with PHP 8+.
+
+#### Other
+
+* Adds defensive coding to the supress warnings on archive pages with the `/%category%/%postname%/` permalink structure. Props to [@Mte90](https://github.com/Mte90).
+
 = 21.5 =
 
 Release date: 2023-10-31
@@ -368,35 +385,11 @@ Yoast SEO 21.5 is out today! In this release, you'll find improvements to our in
 
 #### Other
 
-* Adds indexation exclusion for Gutenberg Patterns taxonomy.
+* Prevents the Pattern Category taxonomy (introduced in WordPress 6.4) to be indexed and hides it in the settings page.
 * Improves the FAQ block description by removing any reference to the previous restriction of one block per post.
 * Improves the inline documentation for the `WPSEO_Option` class. Props to [costdev](https://github.com/costdev).
 * Leverages Script Strategy feature to add the async attribute to the `wordproof` script in case WordPress version is 6.3 or higher. Props to [adamsilverstein](https://github.com/adamsilverstein).
 * Sets the WordPress tested up to version to 6.4.
-
-= 21.4 =
-
-Release date: 2023-10-17
-
-We've just released Yoast SEO 21.4. In this release, we've focused on general enhancements and fixes to improve how your WordPress SEO plugin functions. Find out more about what's new in Yoast SEO 21.4 in [our release post](https://yoa.st/release-17-10-23)!
-
-#### Enhancements
-
-* Introduces more robust HTML processing and highlighting for the _keyphrase density_ and _single H1_ assessments.
-* Improves the keyphrase matching in the _keyphrase density_ assessment.
-* Improves keyphrase matching in Japanese by being able to match keyphrase occurrences that contain upper case characters.
-* Updates the list of HTML elements that should be excluded from the content analysis.
-* Improves performance in getting the primary term. Props to [nlemoine](https://github.com/nlemoine).
-* Prevent database update requests on page loads when the site representation settings contain conflicting data. Props to [jboonstra](https://github.com/jboonstra).
-
-#### Bugfixes
-
-* Fixes a bug where highlighting was not applied to keyphrase occurrences that contained different types of apostrophes than `'`.
-* Fixes a bug where PHP notice would happen when the sitemap index is generated on MySQL 8+.
-* Fixes a bug where resource cleanup regarding emojis would cause a fatal error when enabling the `Remove emoji scripts` option in the _crawl optimization_ settings. Props to [MishaBelikov](https://github.com/MishaBelikov).
-* Fixes a bug where sentences would not be highlighted when square brackets were present in the same sentence.
-* Fixes a bug where the first-time configuration' site representation logo button would not be translated. Props to [fxbenard](https://github.com/fxbenard).
-* Fixes a bug where the _single title_ assessment would be triggered when adding a H1 without text.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
