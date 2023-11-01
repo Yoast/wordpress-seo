@@ -112,9 +112,9 @@ class YoastShortcodePlugin {
 		const parsedShortcodes = this.parsedShortcodes;
 
 		if ( typeof data === "string" && parsedShortcodes.length > 0 ) {
-			for ( let i = 0; i < parsedShortcodes.length; i++ ) {
-				data = data.replace( parsedShortcodes[ i ].shortcode, parsedShortcodes[ i ].output );
-			}
+			parsedShortcodes.forEach( ( { shortcode, output } ) => {
+				data = data.replace( shortcode, output );
+			} );
 		}
 
 		data = this.removeUnknownShortCodes( data );
@@ -188,40 +188,23 @@ class YoastShortcodePlugin {
 	 * @returns {Boolean|Array} Array with unparsed shortcodes.
 	 */
 	getUnparsedShortcodes( shortcodes ) {
-		const unparsedShortcodes = [];
-
 		if ( typeof shortcodes !== "object" ) {
 			console.error( "Failed to get unparsed shortcodes. Expected parameter to be an array, instead received " + typeof shortcodes );
 			return false;
 		}
 
-		for ( let i = 0; i < shortcodes.length; i++ ) {
-			const shortcode = shortcodes[ i ];
-			if ( unparsedShortcodes.indexOf( shortcode ) === -1 && this.isUnparsedShortcode( shortcode ) ) {
-				unparsedShortcodes.push( shortcode );
-			}
-		}
-
-		return unparsedShortcodes;
+		return shortcodes.filter( shortcode => this.isUnparsedShortcode( shortcode ) );
 	}
 
 	/**
 	 * Checks if a given shortcode was already parsed.
 	 *
-	 * @param {String} shortcode The shortcode to check.
+	 * @param {String} shortcodeToCheck The shortcode to check.
 	 *
 	 * @returns {Boolean} True when shortcode is not parsed yet.
 	 */
-	isUnparsedShortcode( shortcode ) {
-		let alreadyExists = false;
-
-		for ( let i = 0; i < this.parsedShortcodes.length; i++ ) {
-			if ( this.parsedShortcodes[ i ].shortcode === shortcode ) {
-				alreadyExists = true;
-			}
-		}
-
-		return alreadyExists === false;
+	isUnparsedShortcode( shortcodeToCheck ) {
+		return ! this.parsedShortcodes.some( ( { shortcode } ) => shortcode === shortcodeToCheck );
 	}
 
 	/**
@@ -239,10 +222,10 @@ class YoastShortcodePlugin {
 
 		const captures = this.matchCapturingShortcodes( text );
 
-		// Remove the capturing shortcodes from the text before trying to match the capturing shortcodes.
-		for ( let i = 0; i < captures.length; i++ ) {
-			text = text.replace( captures[ i ], "" );
-		}
+		// Remove the capturing shortcodes from the text before trying to match the non-capturing shortcodes.
+		captures.forEach( capture => {
+			text = text.replace( capture, "" );
+		} );
 
 		const nonCaptures = this.matchNonCapturingShortcodes( text );
 
@@ -263,13 +246,12 @@ class YoastShortcodePlugin {
 		const captureKeywords = ( text.match( this.closingTagRegex ) || [] ).join( " " ).match( this.keywordRegex ) || [];
 
 		// Fetch the capturing shortcodes and strip them from the text, so we can easily match the non-capturing shortcodes.
-		for ( let i = 0; i < captureKeywords.length; i++ ) {
-			const captureKeyword = captureKeywords[ i ];
+		captureKeywords.forEach( captureKeyword => {
 			const captureRegex = "\\[" + captureKeyword + "[^\\]]*?\\].*?\\[\\/" + captureKeyword + "\\]";
 			const matches = text.match( new RegExp( captureRegex, "g" ) ) || [];
 
 			captures = captures.concat( matches );
-		}
+		} );
 
 		return captures;
 	}
@@ -326,9 +308,10 @@ class YoastShortcodePlugin {
 	 */
 	saveParsedShortcodes( shortcodeResults, callback ) {
 		shortcodeResults = JSON.parse( shortcodeResults );
-		for ( let i = 0; i < shortcodeResults.length; i++ ) {
-			this.parsedShortcodes.push( shortcodeResults[ i ] );
-		}
+
+		shortcodeResults.forEach( result => {
+			this.parsedShortcodes.push( result );
+		} );
 
 		callback();
 	}
