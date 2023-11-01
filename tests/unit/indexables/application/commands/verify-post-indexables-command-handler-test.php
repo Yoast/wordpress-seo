@@ -87,7 +87,7 @@ class Verify_Post_Indexables_Command_Handler_Test extends TestCase {
 		$this->cron_batch_handler                  = Mockery::mock( Verification_Cron_Batch_Handler::class );
 		$this->outdated_post_indexables_repository = Mockery::mock( Outdated_Post_Indexables_Repository_Interface::class );
 		$this->indexables_builder                  = Mockery::mock( Indexable_Builder::class );
-		$this->command                             = new Verify_Post_Indexables_Command( 1, 0, \time() );
+		$this->command                             = new Verify_Post_Indexables_Command( 1, 0 );
 		$this->instance                            = new Verify_Post_Indexables_Command_Handler( $this->outdated_post_indexables_repository, $this->cron_schedule_handler, $this->cron_batch_handler, $this->indexables_builder );
 	}
 

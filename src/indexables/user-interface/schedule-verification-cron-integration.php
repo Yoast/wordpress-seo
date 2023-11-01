@@ -43,7 +43,7 @@ class Schedule_Verification_Cron_Integration implements Integration_Interface {
 	 * Registers the action with WordPress.
 	 */
 	public function register_hooks() {
-		if ( $this->options_helper->get( 'first_time_install', false ) === false ) {
+		if ( $this->options_helper->get( 'first_time_install', true ) === false ) {
 			\add_action( 'wpseo_activate', [ $this->cron_schedule_handler, 'schedule_indexable_verification' ] );
 		}
 	}

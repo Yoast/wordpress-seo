@@ -23,13 +23,12 @@ class Verify_Non_Timestamp_Indexables_Command extends Abstract_Indexables_Comman
 	 *
 	 * @param int    $last_batch            The last batch count.
 	 * @param int    $batch_size            The batch size.
-	 * @param string $plugin_deactivated_at The plugin deactivated at timestamp.
 	 * @param string $current_action        The current verification action.
 	 */
-	public function __construct( int $last_batch, int $batch_size, string $plugin_deactivated_at, string $current_action ) {
+	public function __construct( int $last_batch, int $batch_size, string $current_action ) {
 		$this->current_action = new Current_Verification_Action( $current_action );
 
-		parent::__construct( $batch_size, $last_batch, $plugin_deactivated_at );
+		parent::__construct( $batch_size, $last_batch );
 	}
 
 	/**

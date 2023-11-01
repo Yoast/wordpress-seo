@@ -82,7 +82,7 @@ class Verify_Non_Timestamp_Indexables_Command_Handler_Test extends TestCase {
 		$this->cron_batch_handler               = Mockery::mock( Verification_Cron_Batch_Handler::class );
 		$this->indexables_action_factory        = Mockery::mock( Verify_Indexables_Action_Factory_Interface::class );
 		$this->next_verification_action_handler = Mockery::mock( Next_Verification_Action_Handler::class );
-		$this->command                          = new Verify_Non_Timestamp_Indexables_Command( 10, 10, \time(), 'term' );
+		$this->command                          = new Verify_Non_Timestamp_Indexables_Command( 10, 10, 'term' );
 		$this->instance                         = new Verify_Non_Timestamp_Indexables_Command_Handler( $this->cron_schedule_handler, $this->cron_batch_handler, $this->indexables_action_factory, $this->next_verification_action_handler );
 	}
 

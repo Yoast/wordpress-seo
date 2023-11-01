@@ -157,9 +157,6 @@ class Verification_Posts_Cron_Callback_Integration_Test extends TestCase {
 		$this->cron_verification_gate->expects( 'should_verify_on_cron' )->andReturnTrue();
 
 		$this->verification_cron_batch_handler->expects( 'get_current_post_indexables_batch' )->andReturn( 10 );
-		$this->options_helper->expects( 'get' )
-			->with( Mark_Deactivation_Integration::PLUGIN_DEACTIVATED_AT_OPTION, \time() )->andReturn( \time() );
-
 		$this->verify_posts_indexables_command_handler->expects( 'handle' );
 
 		$this->instance->start_verify_posts();

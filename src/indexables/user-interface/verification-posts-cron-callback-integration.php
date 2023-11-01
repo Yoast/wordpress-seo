@@ -105,9 +105,8 @@ class Verification_Posts_Cron_Callback_Integration implements Integration_Interf
 		}
 		$batch_size = 10;
 
-		$last_batch         = $this->cron_batch_handler->get_current_post_indexables_batch();
-		$plugin_deactivated = $this->options_helper->get( Mark_Deactivation_Integration::PLUGIN_DEACTIVATED_AT_OPTION, \time() );
+		$last_batch = $this->cron_batch_handler->get_current_post_indexables_batch();
 
-		$this->verify_post_indexables_command_handler->handle( new Verify_Post_Indexables_Command( $batch_size, $last_batch, $plugin_deactivated ) );
+		$this->verify_post_indexables_command_handler->handle( new Verify_Post_Indexables_Command( $batch_size, $last_batch ) );
 	}
 }

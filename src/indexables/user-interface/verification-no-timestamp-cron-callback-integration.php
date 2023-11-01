@@ -114,11 +114,10 @@ class Verification_No_Timestamp_Cron_Callback_Integration implements Integration
 		}
 
 		// @todo add filter here.
-		$batch_size         = 10;
-		$current_batch      = $this->cron_batch_handler->get_current_non_timestamped_indexables_batch();
-		$plugin_deactivated = $this->options_helper->get( Mark_Deactivation_Integration::PLUGIN_DEACTIVATED_AT_OPTION, \time() );
-		$action             = $this->verification_action_handler->get_current_verification_action();
-		$command            = new Verify_Non_Timestamp_Indexables_Command( $current_batch, $batch_size, $plugin_deactivated, $action );
+		$batch_size    = 10;
+		$current_batch = $this->cron_batch_handler->get_current_non_timestamped_indexables_batch();
+		$action        = $this->verification_action_handler->get_current_verification_action();
+		$command       = new Verify_Non_Timestamp_Indexables_Command( $current_batch, $batch_size, $action );
 
 		$this->non_timestamp_indexables_command_handler->handle( $command );
 	}

@@ -7,7 +7,6 @@ use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Non_Timestamp_Indexables
 use Yoast\WP\SEO\Indexables\Domain\Batch_Size;
 use Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action;
 use Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count;
-use Yoast\WP\SEO\Indexables\Domain\Plugin_Deactivated_Timestamp;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -34,7 +33,7 @@ class Verify_Non_Timestamp_Indexables_Command_Test extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->instance = new Verify_Non_Timestamp_Indexables_Command( 10, 10, \time(), 'post' );
+		$this->instance = new Verify_Non_Timestamp_Indexables_Command( 10, 10, 'post' );
 	}
 
 	/**
@@ -57,16 +56,6 @@ class Verify_Non_Timestamp_Indexables_Command_Test extends TestCase {
 	 */
 	public function test_get_last_batch_count() {
 		$this->assertEquals( new Last_Batch_Count( 10 ), $this->instance->get_last_batch_count() );
-	}
-
-	/**
-	 * Tests getting the plugin deactivated at object.
-	 *
-	 * @covers ::get_plugin_deactivated_at
-	 * @return void
-	 */
-	public function test_get_plugin_deactivated_at() {
-		$this->assertEquals( new Plugin_Deactivated_Timestamp( \time() ), $this->instance->get_plugin_deactivated_at() );
 	}
 
 	/**
