@@ -20,7 +20,7 @@ class Woocommerce_Beta_Editor_Presenter_Test extends TestCase {
 	/**
 	 * The short link helper.
 	 *
-	 * @var Short_Link_Helper
+	 * @var Mockery\MockInterface|Short_Link_Helper
 	 */
 	protected $short_link_helper;
 
