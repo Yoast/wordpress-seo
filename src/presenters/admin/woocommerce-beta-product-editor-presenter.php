@@ -50,7 +50,7 @@ class Woocommerce_Beta_Editor_Presenter extends Abstract_Presenter {
 			'<strong>%1$s</strong> %2$s',
 			\esc_html__( 'Compatibility issue: Yoast SEO is incompatible with the beta WooCommerce product editor.', 'wordpress-seo' ),
 			\sprintf(
-			/* translators: 1: Link start tag to the WordPress Reading Settings page, 2: Link closing tag. */
+			/* translators: 1: Link start tag to the Learn more link, 2: Link closing tag. */
 				\esc_html__( 'The Yoast SEO interface is currently unavailable in the beta WooCommerce product editor. To resolve any issues, please disable the beta editor. %1$sLearn how to disable the beta WooCommerce product editor.%2$s', 'wordpress-seo' ),
 				'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/learn-how-disable-beta-woocommerce-product-editor' ) ) . '">',
 				'</a>'
