@@ -1,0 +1,137 @@
+<?php
+
+namespace Yoast\WP\SEO\Integrations\Watchers;
+
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Helpers\Notification_Helper;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Presenters\Admin\Woocommerce_Beta_Editor_Presenter;
+use Yoast_Notification;
+use Yoast_Notification_Center;
+
+/**
+ * Shows a notification for users who have Woocommerce product beta editor enabled.
+ *
+ * @class Woocommerce_Beta_Editor_Watcher
+ */
+class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
+
+	use No_Conditionals;
+
+	/**
+	 * The notification ID.
+	 */
+	const NOTIFICATION_ID = 'wpseo-woocommerce-beta-editor-warning';
+
+	/**
+	 * The Yoast notification center.
+	 *
+	 * @var Yoast_Notification_Center
+	 */
+	protected $notification_center;
+
+	/**
+	 * The notification helper.
+	 *
+	 * @var Notification_Helper
+	 */
+	protected $notification_helper;
+
+	/**
+	 * The Woocommerce beta editor presenter.
+	 *
+	 * @var Woocommerce_Beta_Editor_Presenter
+	 */
+	protected $presenter;
+
+	/**
+	 * Woocommerce_Beta_Editor_Watcher constructor.
+	 *
+	 * @param Yoast_Notification_Center $notification_center The notification center.
+	 * @param Notification_Helper       $notification_helper The notification helper.
+	 */
+	public function __construct(
+		Yoast_Notification_Center $notification_center,
+		Notification_Helper $notification_helper
+	) {
+		$this->notification_center = $notification_center;
+		$this->notification_helper = $notification_helper;
+		$this->presenter           = new Woocommerce_Beta_Editor_Presenter();
+	}
+
+	/**
+	 * Initializes the integration.
+	 *
+	 * On admin_init, it is checked whether the notification about Woocommerce product beta editor enabled should be shown.
+	 *
+	 * @return void
+	 */
+	public function register_hooks() {
+		\add_action( 'admin_init', [ $this, 'manage_woocommerce_beta_editor_notification' ] );
+
+	}
+
+	/**
+	 * Manage the Woocommerce product beta editor notification.
+	 *
+	 * Shows the notification if needed and deletes it if needed.
+	 *
+	 * @return void
+	 */
+	public function manage_woocommerce_beta_editor_notification() {
+		if ( ! $this->woocommerce_beta_editor_enabled() ) {
+			$this->remove_woocommerce_beta_editor_notification_if_exists();
+		}
+		else {
+			$this->maybe_add_woocommerce_beta_editor_notification();
+		}
+	}
+
+	/**
+	 * Remove the Woocommerce product beta editor enabled notification if it exists.
+	 *
+	 * @return void
+	 */
+	protected function remove_woocommerce_beta_editor_notification_if_exists() {
+		$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
+	}
+
+	/**
+	 * Add the Woocommerce product beta editor enabled notification if it does not exist yet.
+	 *
+	 * @return void
+	 */
+	protected function maybe_add_woocommerce_beta_editor_notification() {
+		if ( ! $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID ) ) {
+			$notification = $this->notification();
+			$this->notification_helper->restore_notification( $notification );
+			$this->notification_center->add_notification( $notification );
+		}
+	}
+
+	/**
+	 * Checks whether Woocommerce product beta editor enabled.
+	 *
+	 * @return bool Whether Woocommerce product beta editor is enabled.
+	 */
+	protected function woocommerce_beta_editor_enabled() {
+		return (string) \get_option( 'woocommerce_feature_product_block_editor_enabled' ) === 'yes';
+	}
+
+	/**
+	 * Returns an instance of the notification.
+	 *
+	 * @return Yoast_Notification The notification to show.
+	 */
+	protected function notification() {
+		return new Yoast_Notification(
+			$this->presenter->present(),
+			[
+				'type'         => Yoast_Notification::ERROR,
+				'id'           => self::NOTIFICATION_ID,
+				'capabilities' => 'wpseo_manage_options',
+				'priority'     => 1,
+			]
+		);
+	}
+}
