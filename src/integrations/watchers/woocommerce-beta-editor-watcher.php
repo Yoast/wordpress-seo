@@ -6,6 +6,7 @@ use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Woocommerce_Beta_Editor_Presenter;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast_Notification;
 use Yoast_Notification_Center;
 
@@ -22,6 +23,13 @@ class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 	 * The notification ID.
 	 */
 	const NOTIFICATION_ID = 'wpseo-woocommerce-beta-editor-warning';
+
+	/**
+	 * The short link helper.
+	 *
+	 * @var Short_Link_Helper
+	 */
+	protected $short_link_helper;
 
 	/**
 	 * The Yoast notification center.
@@ -49,14 +57,17 @@ class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 	 *
 	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 * @param Notification_Helper       $notification_helper The notification helper.
+	 * @param Short_Link_Helper $short_link_helper The short link helper.
 	 */
 	public function __construct(
 		Yoast_Notification_Center $notification_center,
-		Notification_Helper $notification_helper
+		Notification_Helper $notification_helper,
+		Short_Link_Helper $short_link_helper
 	) {
 		$this->notification_center = $notification_center;
 		$this->notification_helper = $notification_helper;
-		$this->presenter           = new Woocommerce_Beta_Editor_Presenter();
+		$this->short_link_helper = $short_link_helper;
+		$this->presenter           = new Woocommerce_Beta_Editor_Presenter( $this->short_link_helper );
 	}
 
 	/**
