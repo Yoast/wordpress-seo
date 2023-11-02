@@ -89,7 +89,7 @@ class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function manage_woocommerce_beta_editor_notification() {
-		if ( (string) \get_option( 'woocommerce_feature_product_block_editor_enabled' ) === 'yes' ) {
+		if ( \get_option( 'woocommerce_feature_product_block_editor_enabled' ) === 'yes' ) {
 			$this->maybe_add_woocommerce_beta_editor_notification();
 		}
 		else {
