@@ -89,21 +89,12 @@ class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function manage_woocommerce_beta_editor_notification() {
-		if ( ! $this->woocommerce_beta_editor_enabled() ) {
-			$this->remove_woocommerce_beta_editor_notification_if_exists();
-		}
-		else {
+		if ( (string) \get_option( 'woocommerce_feature_product_block_editor_enabled' ) === 'yes' ) {
 			$this->maybe_add_woocommerce_beta_editor_notification();
 		}
-	}
-
-	/**
-	 * Remove the Woocommerce product beta editor enabled notification if it exists.
-	 *
-	 * @return void
-	 */
-	protected function remove_woocommerce_beta_editor_notification_if_exists() {
-		$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
+		else {
+			$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
+		}
 	}
 
 	/**
@@ -111,21 +102,12 @@ class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	protected function maybe_add_woocommerce_beta_editor_notification() {
+	public function maybe_add_woocommerce_beta_editor_notification() {
 		if ( ! $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID ) ) {
 			$notification = $this->notification();
 			$this->notification_helper->restore_notification( $notification );
 			$this->notification_center->add_notification( $notification );
 		}
-	}
-
-	/**
-	 * Checks whether Woocommerce product beta editor enabled.
-	 *
-	 * @return bool Whether Woocommerce product beta editor is enabled.
-	 */
-	protected function woocommerce_beta_editor_enabled() {
-		return (string) \get_option( 'woocommerce_feature_product_block_editor_enabled' ) === 'yes';
 	}
 
 	/**
