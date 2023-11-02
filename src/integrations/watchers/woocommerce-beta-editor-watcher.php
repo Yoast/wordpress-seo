@@ -57,7 +57,7 @@ class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 	 *
 	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 * @param Notification_Helper       $notification_helper The notification helper.
-	 * @param Short_Link_Helper $short_link_helper The short link helper.
+	 * @param Short_Link_Helper         $short_link_helper The short link helper.
 	 */
 	public function __construct(
 		Yoast_Notification_Center $notification_center,
@@ -66,7 +66,7 @@ class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 	) {
 		$this->notification_center = $notification_center;
 		$this->notification_helper = $notification_helper;
-		$this->short_link_helper = $short_link_helper;
+		$this->short_link_helper   = $short_link_helper;
 		$this->presenter           = new Woocommerce_Beta_Editor_Presenter( $this->short_link_helper );
 	}
 
@@ -79,7 +79,6 @@ class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'manage_woocommerce_beta_editor_notification' ] );
-
 	}
 
 	/**

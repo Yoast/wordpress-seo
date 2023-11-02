@@ -26,7 +26,6 @@ class Woocommerce_Beta_Editor_Presenter extends Abstract_Presenter {
 		$this->short_link_helper = $short_link_helper;
 	}
 
-
 	/**
 	 * Returns the notification as an HTML string.
 	 *
