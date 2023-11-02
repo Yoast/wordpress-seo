@@ -24,8 +24,8 @@ abstract class Abstract_Indexables_Command {
 	/**
 	 * The constructor.
 	 *
-	 * @param int    $batch_size The batch size.
-	 * @param int    $last_batch            The last batch count.
+	 * @param int $batch_size The batch size.
+	 * @param int $last_batch            The last batch count.
 	 */
 	public function __construct( int $batch_size, int $last_batch ) {
 		$this->last_batch_count = new Last_Batch_Count( $last_batch );

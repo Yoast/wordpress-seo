@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Indexables\Application;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Indexables\Application\Cron_Verification_Gate;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -40,8 +41,10 @@ class Verification_Cron_Schedule_Handler_Test extends TestCase {
 		parent::setUp();
 
 		$this->cron_verification_gate = Mockery::mock( Cron_Verification_Gate::class );
+		$options_helper               = Mockery::mock( Options_Helper::class );
+		$options_helper->expects( 'get' )->with( 'activation_redirect_timestamp_free', 0 )->andReturn( 2 );
 
-		$this->instance = new Verification_Cron_Schedule_Handler( $this->cron_verification_gate );
+		$this->instance = new Verification_Cron_Schedule_Handler( $this->cron_verification_gate, $options_helper );
 	}
 
 	/**

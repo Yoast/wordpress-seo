@@ -126,19 +126,6 @@ class Verification_No_Timestamp_Cron_Callback_Integration_Test extends TestCase 
 	}
 
 	/**
-	 * Tests the `start_verify_non_timestamped_indexables` while a cron is already running.
-	 *
-	 * @covers ::start_verify_non_timestamped_indexables
-	 *
-	 * @return void
-	 */
-	public function test_start_verify_non_timestamped_indexables_doing_cron() {
-		Monkey\Functions\expect( 'wp_doing_cron' )->andReturnTrue();
-		$this->cron_schedule_handler->expects( 'unschedule_verify_non_timestamped_indexables_cron' )->once();
-		$this->instance->start_verify_non_timestamped_indexables();
-	}
-
-	/**
 	 * Tests the `start_verify_non_timestamped_indexables` when no cron is running and indexables are enabled.
 	 *
 	 * @covers ::start_verify_non_timestamped_indexables
@@ -146,7 +133,7 @@ class Verification_No_Timestamp_Cron_Callback_Integration_Test extends TestCase 
 	 * @return void
 	 */
 	public function test_start_verify_non_timestamped_indexables_indexables_disabled() {
-		Monkey\Functions\expect( 'wp_doing_cron' )->andReturnFalse();
+		Monkey\Functions\expect( 'wp_doing_cron' )->andReturnTrue();
 		$this->cron_verification_gate->expects( 'should_verify_on_cron' )->andReturnFalse();
 		$this->cron_schedule_handler->expects( 'unschedule_verify_non_timestamped_indexables_cron' )->once();
 		$this->instance->start_verify_non_timestamped_indexables();
@@ -160,7 +147,7 @@ class Verification_No_Timestamp_Cron_Callback_Integration_Test extends TestCase 
 	 * @return void
 	 */
 	public function test_start_verify_non_timestamped_indexables() {
-		Monkey\Functions\expect( 'wp_doing_cron' )->andReturnFalse();
+		Monkey\Functions\expect( 'wp_doing_cron' )->andReturnTrue();
 		$this->cron_verification_gate->expects( 'should_verify_on_cron' )->andReturnTrue();
 		$this->cron_schedule_handler->expects( 'unschedule_verify_non_timestamped_indexables_cron' )->never();
 

@@ -119,19 +119,6 @@ class Verification_Posts_Cron_Callback_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the `start_verify_posts` while a cron is already running.
-	 *
-	 * @covers ::start_verify_posts
-	 *
-	 * @return void
-	 */
-	public function test_start_verify_posts_indexables_doing_cron() {
-		Monkey\Functions\expect( 'wp_doing_cron' )->andReturnTrue();
-		$this->cron_schedule_handler->expects( 'unschedule_verify_post_indexables_cron' )->once();
-		$this->instance->start_verify_posts();
-	}
-
-	/**
 	 * Tests the `start_verify_posts` when no cron is running and indexables are enabled.
 	 *
 	 * @covers ::start_verify_posts
@@ -139,7 +126,7 @@ class Verification_Posts_Cron_Callback_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_start_verify_posts_indexables_indexables_disabled() {
-		Monkey\Functions\expect( 'wp_doing_cron' )->andReturnFalse();
+		Monkey\Functions\expect( 'wp_doing_cron' )->andReturnTrue();
 		$this->cron_verification_gate->expects( 'should_verify_on_cron' )->andReturnFalse();
 		$this->cron_schedule_handler->expects( 'unschedule_verify_post_indexables_cron' )->once();
 		$this->instance->start_verify_posts();
@@ -153,7 +140,7 @@ class Verification_Posts_Cron_Callback_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_start_verify_posts_indexables() {
-		Monkey\Functions\expect( 'wp_doing_cron' )->andReturnFalse();
+		Monkey\Functions\expect( 'wp_doing_cron' )->andReturnTrue();
 		$this->cron_verification_gate->expects( 'should_verify_on_cron' )->andReturnTrue();
 
 		$this->verification_cron_batch_handler->expects( 'get_current_post_indexables_batch' )->andReturn( 10 );

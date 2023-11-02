@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Indexables\Application;
 
+use Yoast\WP\SEO\Helpers\Options_Helper;
+
 /**
  * The Verification_Cron_Schedule_Handler class.
  */
@@ -25,12 +27,20 @@ class Verification_Cron_Schedule_Handler {
 	private $cron_verification_gate;
 
 	/**
+	 * The Options_Helper instance.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Cron_Verification_Gate $cron_verification_gate The cron verification gate.
 	 */
-	public function __construct( Cron_Verification_Gate $cron_verification_gate ) {
+	public function __construct( Cron_Verification_Gate $cron_verification_gate, Options_Helper $options_helper ) {
 		$this->cron_verification_gate = $cron_verification_gate;
+		$this->options_helper         = $options_helper;
 	}
 
 	/**
@@ -39,6 +49,9 @@ class Verification_Cron_Schedule_Handler {
 	 * @return void
 	 */
 	public function schedule_indexable_verification(): void {
+		if ( $this->options_helper->get( 'activation_redirect_timestamp_free', 0 ) === 0 ) {
+			return;
+		}
 
 		if ( $this->cron_verification_gate->should_verify_on_cron() && ! \wp_next_scheduled( self::INDEXABLE_VERIFY_POST_INDEXABLES_NAME ) ) {
 			\wp_schedule_event( ( \time() + \HOUR_IN_SECONDS ), 'fifteen_minutes', self::INDEXABLE_VERIFY_POST_INDEXABLES_NAME );

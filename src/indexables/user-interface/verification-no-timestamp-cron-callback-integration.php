@@ -107,13 +107,12 @@ class Verification_No_Timestamp_Cron_Callback_Integration implements Integration
 	 * @return void
 	 */
 	public function start_verify_non_timestamped_indexables() {
-		if ( \wp_doing_cron() || ! $this->cron_verification_gate->should_verify_on_cron() ) {
+		if ( \wp_doing_cron() && ! $this->cron_verification_gate->should_verify_on_cron() ) {
 			$this->cron_schedule_handler->unschedule_verify_non_timestamped_indexables_cron();
 
 			return;
 		}
 
-		// @todo add filter here.
 		$batch_size    = 10;
 		$current_batch = $this->cron_batch_handler->get_current_non_timestamped_indexables_batch();
 		$action        = $this->verification_action_handler->get_current_verification_action();
