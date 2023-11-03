@@ -18,7 +18,7 @@ export const ModalContent = () => {
 	const isWooSeoUpsell = useSelect( select => select( STORE ).getIsWooSeoUpsell(), [] );
 	const isProduct = useSelect( select => select( STORE ).getIsProduct(), [] );
 	const wooSeoNoPremium = isProduct && ! isWooSeoUpsell && ! isPremium;
-	const isProductCopy = isWooSeoUpsell || wooSeoNoPremium;
+	const isProductCopy = !! ( isWooSeoUpsell || wooSeoNoPremium );
 	const postModalprops = {
 		isProductCopy,
 		upsellLink: upsellLinkPremium,

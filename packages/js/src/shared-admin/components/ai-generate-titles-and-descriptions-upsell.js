@@ -15,7 +15,7 @@ import { OutboundLink, VideoFlow } from ".";
  * @param {string} title The title.
  * @param {string} upsellLabel The upsell label.
  * @param {string} newToText The new to text.
- * @param {string} bundleNote The bundle note.
+ * @param {string|JSX.Element } bundleNote The bundle note.
  * @returns {JSX.Element} The element.
  */
 export const AiGenerateTitlesAndDescriptionsUpsell = ( {
@@ -140,7 +140,10 @@ AiGenerateTitlesAndDescriptionsUpsell.propTypes = {
 	upsellLabel: PropTypes.string,
 	newToText: PropTypes.string,
 	isProductCopy: PropTypes.bool,
-	bundleNote: PropTypes.string,
+	bundleNote: PropTypes.oneOfType( [
+		PropTypes.string,
+		PropTypes.element,
+	  ] ),
 };
 
 AiGenerateTitlesAndDescriptionsUpsell.defaultProps = {
