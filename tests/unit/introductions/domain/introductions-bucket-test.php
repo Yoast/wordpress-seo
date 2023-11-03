@@ -53,11 +53,11 @@ class Introductions_Bucket_Test extends TestCase {
 		$this->assertEquals(
 			[
 				[
-					'name'     => 'test1',
+					'id'       => 'test1',
 					'priority' => 1,
 				],
 				[
-					'name'     => 'test2',
+					'id'       => 'test2',
 					'priority' => 2,
 				],
 			],

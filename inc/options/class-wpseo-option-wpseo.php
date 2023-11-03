@@ -58,7 +58,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_xml_sitemap'                                => true,
 		'enable_text_link_counter'                          => true,
 		'enable_index_now'                                  => true,
-		'enable_ai_generator'                               => false,
+		'enable_ai_generator'                               => true,
+		'ai_enabled_pre_default'                            => false,
 		'show_onboarding_notice'                            => false,
 		'first_activated_on'                                => false,
 		'myyoast-oauth'                                     => [
@@ -146,7 +147,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'cron_verify_current_action'                        => 'term',
 		'cron_verify_post_indexables_last_batch'            => 0,
 		'cron_verify_non_timestamped_indexables_last_batch' => 0,
-		'plugin_deactivated_at'                             => false,
 	];
 
 	/**
@@ -396,7 +396,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'activation_redirect_timestamp_free':
 				case 'cron_verify_post_indexables_last_batch':
 				case 'cron_verify_non_timestamped_indexables_last_batch':
-				case 'plugin_deactivated_at':
 					$clean[ $key ] = false;
 					if ( isset( $dirty[ $key ] ) ) {
 						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
