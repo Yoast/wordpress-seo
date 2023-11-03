@@ -282,6 +282,7 @@ class YoastShortcodePlugin {
 		}
 
 		if ( typeof shortcodes === "object" && shortcodes.length > 0 ) {
+			console.log( "AJAX URL", ajaxurl );
 			jQuery.post(
 				ajaxurl,
 				{
@@ -307,6 +308,7 @@ class YoastShortcodePlugin {
 	 * @returns {void}
 	 */
 	saveParsedShortcodes( shortcodeResults, callback ) {
+		console.log( "SHORTCODE RESULTS", shortcodeResults );
 		shortcodeResults = JSON.parse( shortcodeResults );
 
 		shortcodeResults.forEach( result => {
