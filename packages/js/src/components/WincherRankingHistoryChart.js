@@ -43,19 +43,23 @@ export default function WincherRankingHistoryChart( { datasets, isChartShown } )
 		return null;
 	}
 
-	const data = datasets.map( ( dataset, index ) => ( {
-		...dataset,
-		data: dataset.data.map( ( { datetime, value } ) => ( {
-			x: datetime,
-			y: value,
-		} ) ),
-		lineTension: 0,
-		pointRadius: 1,
-		pointHoverRadius: 4,
-		borderWidth: 2,
-		pointHitRadius: 6,
-		backgroundColor: CHART_COLORS[ index % CHART_COLORS.length ],
-	} ) ).filter( dataset => dataset.selected !== false );
+	const data = datasets.map( ( dataset, index ) => {
+		const color = CHART_COLORS[ index % CHART_COLORS.length ];
+		return {
+			...dataset,
+			data: dataset.data.map( ( { datetime, value } ) => ( {
+				x: datetime,
+				y: value,
+			} ) ),
+			lineTension: 0,
+			pointRadius: 1,
+			pointHoverRadius: 4,
+			borderWidth: 2,
+			pointHitRadius: 6,
+			backgroundColor: color,
+			borderColor: color,
+		};
+	} ).filter( dataset => dataset.selected !== false );
 
 	return (
 		<Line
