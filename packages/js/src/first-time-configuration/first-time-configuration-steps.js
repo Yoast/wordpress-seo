@@ -120,8 +120,8 @@ async function saveFinishedSteps( finishedSteps ) {
  * @returns {Object} The initial state.
  */
 function calculateInitialState( windowObject, isStepFinished ) {
-	let { companyOrPerson, companyName, companyLogo, companyOrPersonOptions, shouldForceCompany } = windowObject; // eslint-disable-line prefer-const
-
+	const { companyName, companyLogo, companyOrPersonOptions, shouldForceCompany, fallbackCompanyName } = windowObject;
+	let { companyOrPerson } = windowObject;
 	if ( ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) || shouldForceCompany ) {
 		// Set the stage for a prefilled step 2 in case the customer does seem to have consciously finished step 2 without setting data.
 		companyOrPerson = "company";
@@ -138,6 +138,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
 		errorFields: [],
 		stepErrors: {},
 		editedSteps: [],
+		companyName: companyName || fallbackCompanyName,
 	};
 }
 
