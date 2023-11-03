@@ -37,6 +37,7 @@ class Verification_Cron_Schedule_Handler {
 	 * The constructor.
 	 *
 	 * @param Cron_Verification_Gate $cron_verification_gate The cron verification gate.
+	 * @param Options_Helper         $options_helper         The options helper.
 	 */
 	public function __construct( Cron_Verification_Gate $cron_verification_gate, Options_Helper $options_helper ) {
 		$this->cron_verification_gate = $cron_verification_gate;
