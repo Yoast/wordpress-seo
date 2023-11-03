@@ -120,6 +120,7 @@ export default function WincherRankingHistoryChart( { datasets, isChartShown } )
 							precision: 0,
 							color: "black",
 						},
+						max: 101,
 					},
 				},
 			} }
