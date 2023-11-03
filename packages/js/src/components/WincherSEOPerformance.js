@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { usePrevious } from "@wordpress/compose";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { isEmpty, orderBy } from "lodash";
+import { difference, isEmpty, orderBy } from "lodash";
 import styled from "styled-components";
 import moment from "moment";
 
@@ -357,7 +357,7 @@ const TableContent = ( props ) => {
 	const trackedKeyphrasesPrev = usePrevious( trackedKeyphrases );
 
 	useEffect( () => {
-		if ( ! isEmpty( trackedKeyphrases ) && Object.values( trackedKeyphrases ).length !== ( trackedKeyphrasesPrev || [] ).length ) {
+		if ( ! isEmpty( trackedKeyphrases ) && difference( Object.keys( trackedKeyphrases ), Object.keys( trackedKeyphrasesPrev || [] ) ).length ) {
 			const keywords = Object.values( trackedKeyphrases ).map( keyphrase => keyphrase.keyword );
 			setSelectedKeyphrases( keywords );
 		}
