@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * The Verification_Cron_Callback_Integration class.
+ *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Verification_No_Timestamp_Cron_Callback_Integration implements Integration_Interface {
@@ -113,7 +114,12 @@ class Verification_No_Timestamp_Cron_Callback_Integration implements Integration
 			return;
 		}
 
-		$batch_size    = 10;
+		/**
+		 * Filter: 'Yoast\WP\SEO\no_timestamped_indexable_verify_limit_size' - Adds the possibility to limit the number of items that are indexed when in cron action.
+		 *
+		 * @api int $limit Maximum number of indexables to be indexed per indexing action.
+		 */
+		$batch_size    = \apply_filters( 'Yoast\WP\SEO\no_timestamped_indexable_verify_limit_size', 15 ); //@phpcs:ignore Yoast.NamingConventions.ValidHookName.MaxExceeded -- The name needs to be descriptive since it is a very niche use case
 		$current_batch = $this->cron_batch_handler->get_current_non_timestamped_indexables_batch();
 		$action        = $this->verification_action_handler->get_current_verification_action();
 		$command       = new Verify_Non_Timestamp_Indexables_Command( $current_batch, $batch_size, $action );

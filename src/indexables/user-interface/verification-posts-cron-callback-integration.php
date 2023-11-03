@@ -103,8 +103,12 @@ class Verification_Posts_Cron_Callback_Integration implements Integration_Interf
 
 			return;
 		}
-
-		$batch_size = 10;
+		/**
+		 * Filter: 'Yoast\WP\SEO\post_verify_indexing_limit_size' - Adds the possibility to limit the number of items that are indexed when in cron action.
+		 *
+		 * @api int $limit Maximum number of indexables to be indexed per indexing action.
+		 */
+		$batch_size = \apply_filters( 'Yoast\WP\SEO\post_verify_indexing_limit_size', 15 ); //@phpcs:ignore Yoast.NamingConventions.ValidHookName.MaxExceeded -- The name needs to be descriptive since it is a very niche use case
 		$last_batch = $this->cron_batch_handler->get_current_post_indexables_batch();
 
 		$this->verify_post_indexables_command_handler->handle( new Verify_Post_Indexables_Command( $batch_size, $last_batch ) );
