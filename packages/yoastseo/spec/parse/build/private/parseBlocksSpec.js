@@ -4,13 +4,13 @@ import adapt from "../../../../src/parse/build/private/adapt";
 import { parseFragment } from "parse5";
 
 describe( "The parseBlocks function", () => {
-	it( "parses an undefined node block should return undefined", () => {
-		const paper = new Paper();
+	it( "should return undefined when parsing an undefined node block", () => {
+		const paper = new Paper( "" );
 
 		expect( parseBlocks( paper ) ).toBeUndefined();
 	} );
 
-	it( "parses an empty blocks list should return undefined", () => {
+	it( "should return undefined when parsing an empty blocks list", () => {
 		const paper = new Paper( "", { wpBlocks: [] } );
 		const html = paper.getText();
 		const node = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
@@ -18,22 +18,24 @@ describe( "The parseBlocks function", () => {
 		expect( parseBlocks( paper, node ) ).toBeUndefined();
 	} );
 
-	it( "offset not set if text has incorrect block structure", () => {
-		const paper = new Paper( "<!-- testwp:paragraph -->\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>\n<!-- /testwp:paragraph -->",
-			{ wpBlocks: [
-				{
-					clientId: "34e59165-166d-4663-a8b9-00349b193e36",
-					name: "core/paragraph",
-					isValid: true,
-					originalContent: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>",
-					validationIssues: [],
-					attributes: {
-						content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-						dropCap: false,
-					},
-					innerBlocks: [],
+	it( "should not set offsets if the text has an incorrect block structure", () => {
+		const paper = new Paper( "<!-- testwp:paragraph -->\n" +
+			"<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>" +
+			"\n<!-- /testwp:paragraph -->",
+		{ wpBlocks: [
+			{
+				clientId: "34e59165-166d-4663-a8b9-00349b193e36",
+				name: "core/paragraph",
+				isValid: true,
+				originalContent: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>",
+				validationIssues: [],
+				attributes: {
+					content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+					dropCap: false,
 				},
-			] } );
+				innerBlocks: [],
+			},
+		] } );
 
 		const html = paper.getText();
 		const node = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
@@ -46,40 +48,42 @@ describe( "The parseBlocks function", () => {
 		expect( firstBlock.contentOffset ).toBeUndefined();
 	} );
 
-	it( "offset correctly set for blocks", () => {
-		const paper = new Paper( "<!-- wp:paragraph -->\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Duis sagittis.</p>\n<!-- /wp:paragraph -->",
-			{ wpBlocks: [
-				{
-					clientId: "34e59165-166d-4663-a8b9-00349b193e36",
-					name: "core/paragraph",
-					isValid: true,
-					originalContent: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>",
-					validationIssues: [],
-					attributes: {
-						content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-						dropCap: false,
-					},
-					innerBlocks: [],
+	it( "should set the offsets correctly for regular blocks", () => {
+		const paper = new Paper( "<!-- wp:paragraph -->\n" +
+			"<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>" +
+			"\n<!-- /wp:paragraph -->\n" +
+			"\n<!-- wp:paragraph -->\n" +
+			"<p>Duis sagittis.</p>\n" +
+			"<!-- /wp:paragraph -->",
+		{ wpBlocks: [
+			{
+				clientId: "34e59165-166d-4663-a8b9-00349b193e36",
+				name: "core/paragraph",
+				isValid: true,
+				originalContent: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>",
+				validationIssues: [],
+				attributes: {
+					content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+					dropCap: false,
 				},
-				{
-					clientId: "f0f597ef-f054-4831-8831-b8acc0dc6149",
-					name: "core/paragraph",
-					isValid: true,
-					originalContent: "<p>Duis sagittis.</p>",
-					validationIssues: [],
-					attributes: {
-						content: "Duis sagittis.",
-						dropCap: false,
-					},
-					innerBlocks: [],
+				innerBlocks: [],
+			},
+			{
+				clientId: "f0f597ef-f054-4831-8831-b8acc0dc6149",
+				name: "core/paragraph",
+				isValid: true,
+				originalContent: "<p>Duis sagittis.</p>",
+				validationIssues: [],
+				attributes: {
+					content: "Duis sagittis.",
+					dropCap: false,
 				},
-			] } );
+				innerBlocks: [],
+			},
+		] } );
 
 		const html = paper.getText();
 		const node = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-		parseBlocks( paper, node );
-
-
 		parseBlocks( paper, node );
 
 		const firstBlock = paper._attributes.wpBlocks[ 0 ];
@@ -93,7 +97,7 @@ describe( "The parseBlocks function", () => {
 		expect( secondBlock.contentOffset ).toEqual( 132 );
 	} );
 
-	it( "offset correctly set for blocks with inner blocks", () => {
+	it( "should set the offsets correctly for blocks with inner blocks", () => {
 		const paper = new Paper( "<!-- wp:columns -->\n" +
 			'<div class="wp-block-columns"><!-- wp:column -->\n' +
 			'<div class="wp-block-column"><!-- wp:paragraph -->\n' +
@@ -159,9 +163,7 @@ describe( "The parseBlocks function", () => {
 		const html = paper.getText();
 		const node = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 
-
 		parseBlocks( paper, node );
-
 
 		const columnsBlock = paper._attributes.wpBlocks[ 0 ];
 
@@ -189,7 +191,7 @@ describe( "The parseBlocks function", () => {
 		expect( secondColumnParagraphBlock.contentOffset ).toEqual( 304 );
 	} );
 
-	it( "clientId correctly set for blocks and inner blocks", () => {
+	it( "should set the clientId correctly for blocks and inner blocks", () => {
 		const clientId = "8cf41a06-d45e-4434-b1d3-4670c231afa7";
 		const paper = new Paper( "<!-- wp:columns -->\n" +
 			'<div class="wp-block-columns"><!-- wp:column -->\n' +
@@ -256,14 +258,18 @@ describe( "The parseBlocks function", () => {
 
 		const divNode = node.childNodes[ 2 ];
 
-
 		expect( divNode.clientId ).toEqual( clientId );
 	} );
 
-	it( "id attribute is correctly set for yoast faq block", () => {
+	it( "should set the attributeId correctly correctly for a Yoast FAQ block", () => {
 		const attributeId = "faq-question-1698963671829";
-		const paper = new Paper( "<!-- wp:yoast/faq-block {\"questions\":[{\"id\":\"" + attributeId + "\",\"question\":[\"Question\"],\"answer\":[\"Answer\"],\"jsonQuestion\":\"Question\",\"jsonAnswer\":\"Answer\"}]} -->\n" +
-			"<div class=\"schema-faq wp-block-yoast-faq-block\"><div class=\"schema-faq-section\" id=\"" + attributeId + "\"><strong class=\"schema-faq-question\">Question</strong> <p class=\"schema-faq-answer\">Answer</p> </div> </div>\n" +
+		const paper = new Paper( "<!-- wp:yoast/faq-block {\"questions\":" +
+			"[{\"id\":\"" + attributeId + "\",\"question\":[\"Question\"],\"answer\":[\"Answer\"]," +
+			"\"jsonQuestion\":\"Question\",\"jsonAnswer\":\"Answer\"}]} -->\n" +
+			"<div class=\"schema-faq wp-block-yoast-faq-block\">" +
+			"<div class=\"schema-faq-section\" id=\"" + attributeId + "\">" +
+			"<strong class=\"schema-faq-question\">Question</strong> " +
+			"<p class=\"schema-faq-answer\">Answer</p> </div> </div>\n" +
 			"<!-- /wp:yoast/faq-block -->",
 		{
 			wpBlocks: [
@@ -310,10 +316,13 @@ describe( "The parseBlocks function", () => {
 		expect( paragraphNode.isFirstSection ).toBeFalsy();
 	} );
 
-	it( "id attribute is not set if yoast faq block is not correctly", () => {
+	it( "should not set the attributeId correctly correctly for an invalid Yoast FAQ block", () => {
 		const attributeId = "faq-question-1698963671829";
-		const paper = new Paper( "<!-- wp:yoast/faq-block {\"questions\":[{\"id\":\"" + attributeId + "\",\"question\":[\"Question\"],\"jsonQuestion\":\"Question\"}]} -->\n" +
-			"<div class=\"schema-faq wp-block-yoast-faq-block\"><div class=\"schema-faq-section\" id=\"" + attributeId + "\"><strong class=\"schema-faq-question\">Question</strong> </div> </div>\n" +
+		const paper = new Paper( "<!-- wp:yoast/faq-block {\"questions\":" +
+			"[{\"id\":\"" + attributeId + "\",\"question\":[\"Question\"],\"jsonQuestion\":\"Question\"}]} -->\n" +
+			"<div class=\"schema-faq wp-block-yoast-faq-block\">" +
+			"<div class=\"schema-faq-section\" id=\"" + attributeId + "\">" +
+			"<strong class=\"schema-faq-question\">Question</strong> </div> </div>\n" +
 			"<!-- /wp:yoast/faq-block -->",
 		{
 			wpBlocks: [
