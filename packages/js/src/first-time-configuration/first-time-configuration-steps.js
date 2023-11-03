@@ -223,7 +223,7 @@ export default function FirstTimeConfigurationSteps() {
 		dispatch( { type: "SET_ERROR_FIELDS", payload: value } );
 	} );
 
-	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ( ! state.companyLogo && ! state.companyLogoFallback ) );
+	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ( ! state.companyLogo && ! state.companyLogoFallback ) || ! state.websiteName );
 	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ( ! state.personLogo && ! state.personLogoFallback ) );
 
 	/**
