@@ -2,11 +2,12 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Not_Admin_Ajax_Conditional;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Woocommerce_Beta_Editor_Presenter;
-use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast_Notification;
 use Yoast_Notification_Center;
 
@@ -16,8 +17,6 @@ use Yoast_Notification_Center;
  * @class Woocommerce_Beta_Editor_Watcher
  */
 class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
-
-	use No_Conditionals;
 
 	/**
 	 * The notification ID.
@@ -68,6 +67,15 @@ class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 		$this->notification_helper = $notification_helper;
 		$this->short_link_helper   = $short_link_helper;
 		$this->presenter           = new Woocommerce_Beta_Editor_Presenter( $this->short_link_helper );
+	}
+
+	/**
+	 * Returns the conditionals based on which this loadable should be active.
+	 *
+	 * @return string[] The conditionals.
+	 */
+	public static function get_conditionals() {
+		return [ Admin_Conditional::class, Not_Admin_Ajax_Conditional::class ];
 	}
 
 	/**

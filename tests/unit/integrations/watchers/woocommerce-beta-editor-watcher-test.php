@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Not_Admin_Ajax_Conditional;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Woocommerce_Beta_Editor_Watcher;
@@ -85,6 +87,15 @@ class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 			Short_Link_Helper::class,
 			self::getPropertyValue( $this->instance, 'short_link_helper' )
 		);
+	}
+
+	/**
+	 * Tests that the integration is loaded under the right conditions.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		self::assertEquals( [ Admin_Conditional::class, Not_Admin_Ajax_Conditional::class ], Woocommerce_Beta_Editor_Watcher::get_conditionals() );
 	}
 
 	/**
