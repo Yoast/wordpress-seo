@@ -37,8 +37,6 @@ describe( "YoastShortcodePlugin", () => {
 	} );
 
 	it( "should initialize YoastShortcodePlugin and register it", () => {
-		plugin.declareReady();
-
 		expect( mockRegisterPlugin ).toHaveBeenCalledWith( "YoastShortcodePlugin", { status: "loading" } );
 	} );
 
@@ -48,12 +46,58 @@ describe( "YoastShortcodePlugin", () => {
 		expect( mockPluginReady ).toHaveBeenCalledWith( "YoastShortcodePlugin" );
 	} );
 
+	it( "should declare the YoastShortcodePlugin reloaded", () => {
+		plugin.declareReloaded();
+
+		expect( mockPluginReloaded ).toHaveBeenCalledWith( "YoastShortcodePlugin" );
+	} );
+
+	it( "should register the modifications", () => {
+		plugin.registerModifications();
+
+		expect( mockRegisterModification ).toHaveBeenCalledWith( "content", expect.any( Function ), "YoastShortcodePlugin"  );
+	} );
+
 	it( "should return true if the shortcode is unparsed", () => {
 		expect( plugin.isUnparsedShortcode( "caption" ) ).toBeTruthy();
 	} );
 
 	it( "should return the unparsed shortcodes", () => {
 		expect( plugin.getUnparsedShortcodes( [ "caption", "wpseo_breadcrumb" ] ) ).toEqual( [ "caption", "wpseo_breadcrumb" ] );
+	} );
+
+	it( "should replace parsed shortcodes in the content", () => {
+		const content = "[wpseo_breadcrumb]<p>A paragraph</p>";
+		plugin.parsedShortcodes = [
+			{ shortcode: "[wpseo_breadcrumb]", output: "<span>Home » <span>shortcodes</span></span>" },
+		];
+		const result = plugin.replaceShortcodes( content );
+		expect( result ).toEqual( "<span>Home » <span>shortcodes</span></span><p>A paragraph</p>" );
+	} );
+
+	it( "should match and return capturing shortcodes from the content", () => {
+		const inputText = "This is a sample [wpseo_breadcrumb] text with an image with caption [caption id=\"attachment_8\" align=\"alignnone\"" +
+			" width=\"230\"]<img class='size-medium wp-image-8' src='https://wacky-fowl.localsite.io/" +
+			"95fa1-230x300.jpg' alt='A tortie cat, not wayang kulit' width='230' height='300'>" +
+			"</img> A tortie cat, not a red panda.[/caption].";
+		const capturingShortcodes = plugin.matchCapturingShortcodes( inputText );
+		expect( capturingShortcodes ).toEqual( [
+			"[caption id=\"attachment_8\" align=\"alignnone\" width=\"230\"]" +
+			"<img class='size-medium wp-image-8' src='https://wacky-fowl.localsite.io/95fa1-230x300.jpg' alt='A tortie cat, " +
+			"not wayang kulit' width='230' height='300'></img> A tortie cat, not a red panda.[/caption]",
+		] );
+	} );
+
+	it( "should match and return non-capturing shortcodes from the content", () => {
+		const inputText = "This is a sample [wpseo_breadcrumb] text with an image with caption [caption id=\"attachment_8\" align=\"alignnone\"" +
+			" width=\"230\"]<img class='size-medium wp-image-8' src='https://wacky-fowl.localsite.io/" +
+			"95fa1-230x300.jpg' alt='A tortie cat, not wayang kulit' width='230' height='300'>" +
+			"</img> A tortie cat, not a red panda.[/caption].";
+		const capturingShortcodes = plugin.matchNonCapturingShortcodes( inputText );
+		expect( capturingShortcodes ).toEqual( [
+			"[wpseo_breadcrumb]",
+			"[caption id=\"attachment_8\" align=\"alignnone\" width=\"230\"]",
+		] );
 	} );
 
 	it( "should extract shortcodes from a given piece of text", () => {
@@ -75,7 +119,7 @@ describe( "YoastShortcodePlugin", () => {
 			"[wpseo_breadcrumb]" ] );
 	} );
 
-	it( "should parse shortcodes through AJAX and save parsed shortcodes", ( done ) => {
+	it( "should parse shortcodes through AJAX and save parsed shortcodes to `parsedShortcodes` array", ( done ) => {
 		// Simulate an AJAX response with parsed shortcodes
 		const shortcodeResults = JSON.stringify( [
 			{ shortcode: "[shortcode1]", output: "Parsed Output 1" },
@@ -95,6 +139,11 @@ describe( "YoastShortcodePlugin", () => {
 		plugin.parseShortcodes( [ "[shortcode1]", "[shortcode2]" ], () => {
 			// Expect that saveParsedShortcodes was called with the correct parsed shortcodes.
 			expect( saveParsedShortcodes ).toHaveBeenCalledWith( shortcodeResults, expect.any( Function ) );
+			// Expect that shortcode results are saved in `parsedShortcodes` array.
+			expect( plugin.parsedShortcodes ).toEqual( [
+				{ shortcode: "[shortcode1]", output: "Parsed Output 1" },
+				{ shortcode: "[shortcode2]", output: "Parsed Output 2" },
+			] );
 
 			done();
 		} );
