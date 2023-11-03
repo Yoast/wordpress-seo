@@ -1,10 +1,11 @@
 /* External dependencies */
 import { Line } from "react-chartjs-2";
-import { CategoryScale, Chart, LineController,	LineElement, LinearScale, PointElement, TimeScale, Legend, Tooltip } from "chart.js";
+import { CategoryScale, Chart, LineController,	LineElement, LinearScale, PointElement, TimeScale, Legend, Tooltip, Interaction } from "chart.js";
 import "chartjs-adapter-moment";
 import PropTypes from "prop-types";
 import { noop } from "lodash";
 import moment from "moment";
+import { getRelativePosition } from "chart.js/helpers";
 
 Chart.register( CategoryScale, LineController,	LineElement, PointElement, LinearScale, TimeScale, Legend, Tooltip );
 
@@ -30,6 +31,44 @@ const CHART_COLORS = [
 	"#b1887c",
 	"#cc9300",
 ];
+
+const MAX_Y_RANGE_FOR_INTERSECT = 10;
+
+Interaction.modes.xPoint = ( chart, e, _, useFinalPosition ) => {
+	const position = getRelativePosition( e, chart );
+
+	let items = [];
+
+	// Extract all items in x range with cursor.
+	Interaction.evaluateInteractionItems( chart, "x", position, ( element, datasetIndex, index ) => {
+		if ( element.inXRange( position.x, useFinalPosition ) ) {
+			items.push( { element, datasetIndex, index } );
+		}
+	} );
+
+	if ( items.length === 0 ) {
+		return items;
+	}
+
+	// Extract closest x value among items in x range with cursor
+	const closestX = items.reduce( ( prev, curr ) => {
+		if ( Math.abs( position.x - prev.element.x ) < Math.abs( position.x - curr.element.x ) ) {
+			return prev;
+		}
+		return curr;
+	} ).element.x;
+
+	// Return only items that have the same x value. This aims to avoid returning
+	// many points within the same series if they are a lot of them e.g. on "Last year" period
+	items = items.filter( ( item ) => item.element.x === closestX );
+
+	// Return items only if one of them at least intersects with the cursor on y-axis.
+	// Using intersect=true (default true) on options.interaction or options.plugins.tooltip
+	// or on Interaction.evaluateInteractionItems doesn't allow to display the tooltip only when hovering on points.
+	const intersect = items.some( ( item ) => Math.abs( item.element.y - position.y ) < MAX_Y_RANGE_FOR_INTERSECT );
+
+	return intersect ? items : [];
+};
 
 /**
  * Renders the Wincher ranking history chart.
@@ -86,8 +125,7 @@ export default function WincherRankingHistoryChart( { datasets, isChartShown } )
 							title: ( x ) => moment( x[ 0 ].raw.x ).utc().format( "YYYY-MM-DD" ),
 						},
 						titleAlign: "center",
-						intersect: false,
-						mode: "point",
+						mode: "xPoint",
 						position: "nearest",
 						usePointStyle: true,
 						boxHeight: 7,
