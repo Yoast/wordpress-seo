@@ -7,6 +7,7 @@ import matchWordsHelper from "../../../src/languageProcessing/languages/ja/helpe
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 import japaneseMemoizedSentenceTokenizer from "../../../src/languageProcessing/languages/ja/helpers/memoizedSentenceTokenizer";
 import buildTree from "../../specHelpers/parse/buildTree";
+import splitIntoTokensCustom from "../../../src/languageProcessing/languages/id/helpers/splitIntoTokensCustom";
 
 /**
  * Adds morphological forms to the mock researcher.
@@ -2100,6 +2101,7 @@ const buildIndonesianMockResearcher = function( keyphraseForms ) {
 	{ areHyphensWordBoundaries: false },
 	{
 		memoizedTokenizer: memoizedSentenceTokenizer,
+		splitIntoTokensCustom: splitIntoTokensCustom,
 	} );
 };
 
