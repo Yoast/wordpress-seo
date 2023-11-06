@@ -120,7 +120,15 @@ async function saveFinishedSteps( finishedSteps ) {
  * @returns {Object} The initial state.
  */
 function calculateInitialState( windowObject, isStepFinished ) {
-	const { companyName, companyLogo, companyOrPersonOptions, shouldForceCompany, fallbackCompanyName } = windowObject;
+	const {
+		companyName,
+		companyLogo,
+		companyOrPersonOptions,
+		shouldForceCompany,
+		fallbackCompanyName,
+		websiteName,
+		fallbackWebsiteName,
+	} = windowObject;
 	let { companyOrPerson } = windowObject;
 	if ( ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) || shouldForceCompany ) {
 		// Set the stage for a prefilled step 2 in case the customer does seem to have consciously finished step 2 without setting data.
@@ -139,6 +147,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
 		stepErrors: {},
 		editedSteps: [],
 		companyName: companyName || fallbackCompanyName,
+		websiteName: websiteName || fallbackWebsiteName,
 	};
 }
 
