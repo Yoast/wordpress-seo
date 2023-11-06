@@ -147,11 +147,11 @@ export function disableMarkerButtons() {
 
 /**
  * Calls the function in the YoastSEO.js app that enables the marker (eye)icons.
- *
+ * @param {Array} shortcodesToBeParsed The array of shortcodes to be parsed.
  * @returns {void}
  */
-export function enableMarkerButtons() {
-	if ( ! isUndefined( store ) ) {
+export function enableMarkerButtons( shortcodesToBeParsed ) {
+	if ( ! isUndefined( store ) && shortcodesToBeParsed.length === 0 ) {
 		store.dispatch( actions.setMarkerStatus( "enabled" ) );
 	}
 }

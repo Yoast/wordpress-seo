@@ -132,24 +132,25 @@ export default function initPostScraper( $, store, editorData ) {
 
 	/**
 	 * Determines if markers should be shown.
-	 *
+	 * @param {Array} shortcodesToBeParsed The array of shortcodes to be parsed.
 	 * @returns {boolean} True when markers should be shown.
 	 */
-	function displayMarkers() {
-		return ! isBlockEditor() && wpseoScriptData.metabox.show_markers === "1";
+	function displayMarkers( shortcodesToBeParsed ) {
+		return ! isBlockEditor() && wpseoScriptData.metabox.show_markers === "1" && shortcodesToBeParsed.length === 0;
 	}
 
 	/**
 	 * Updates the store to indicate if the markers should be hidden.
 	 *
 	 * @param {Object} store The store.
+	 * @param {Array} shortcodesToBeParsed The array of shortcodes to be parsed.
 	 *
 	 * @returns {void}
 	 */
-	function updateMarkerStatus( store ) {
+	function updateMarkerStatus( store, shortcodesToBeParsed ) {
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
-		if ( typeof window.tinyMCE === "undefined" || ! displayMarkers() ) {
+		if ( typeof window.tinyMCE === "undefined" || ! displayMarkers( shortcodesToBeParsed ) || shortcodesToBeParsed.length > 0 ) {
 			store.dispatch( setMarkerStatus( "disabled" ) );
 		}
 	}
@@ -255,11 +256,12 @@ export default function initPostScraper( $, store, editorData ) {
 	 * Returns the arguments necessary to initialize the app.
 	 *
 	 * @param {Object} store The store.
+	 * @param {Array} shortcodesToBeParsed The array of shortcodes to be parsed.
 	 *
 	 * @returns {Object} The arguments to initialize the app
 	 */
-	function getAppArgs( store ) {
-		updateMarkerStatus( store );
+	function getAppArgs( store, shortcodesToBeParsed ) {
+		updateMarkerStatus( store, shortcodesToBeParsed );
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
@@ -371,10 +373,10 @@ export default function initPostScraper( $, store, editorData ) {
 
 	/**
 	 * Handles page builder compatibility, regarding the marker buttons.
-	 *
+	 * @param {Array} shortcodesToBeParsed The array of shortcodes to be parsed.
 	 * @returns {void}
 	 */
-	function handlePageBuilderCompatibility() {
+	function handlePageBuilderCompatibility( shortcodesToBeParsed ) {
 		const compatibilityHelper = new CompatibilityHelper();
 
 		if ( compatibilityHelper.isClassicEditorHidden() ) {
@@ -390,7 +392,7 @@ export default function initPostScraper( $, store, editorData ) {
 				},
 				classicEditorShown: () => {
 					if ( ! tinyMCEHelper.isTextViewActive() ) {
-						tinyMCEHelper.enableMarkerButtons();
+						tinyMCEHelper.enableMarkerButtons( shortcodesToBeParsed );
 					}
 				},
 			} );
@@ -434,7 +436,11 @@ export default function initPostScraper( $, store, editorData ) {
 
 		tinyMCEHelper.setStore( store );
 		tinyMCEHelper.wpTextViewOnInitCheck();
-		handlePageBuilderCompatibility();
+		let shortcodesToBeParsed = [];
+
+		shortcodesToBeParsed = applyFilters( "yoast.analysis.shortcodes", shortcodesToBeParsed );
+
+		handlePageBuilderCompatibility( shortcodesToBeParsed );
 
 		// Avoid error when snippet metabox is not rendered.
 		if ( metaboxContainer.length === 0 ) {
@@ -444,7 +450,7 @@ export default function initPostScraper( $, store, editorData ) {
 		postDataCollector = initializePostDataCollector( editorData );
 		publishBox.initialize();
 
-		const appArgs = getAppArgs( store );
+		const appArgs = getAppArgs( store, shortcodesToBeParsed );
 		app = new App( appArgs );
 
 		// Content analysis
@@ -496,10 +502,6 @@ export default function initPostScraper( $, store, editorData ) {
 		// Analysis plugins
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
-
-		let shortcodesToBeParsed = [];
-
-		shortcodesToBeParsed = applyFilters( "yoast.analysis.shortcodes", shortcodesToBeParsed );
 
 		// Parses the shortcodes when `shortcodesToBeParsed` is provided.
 		if ( shortcodesToBeParsed.length > 0 ) {
