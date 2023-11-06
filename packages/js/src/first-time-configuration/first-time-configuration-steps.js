@@ -233,7 +233,7 @@ export default function FirstTimeConfigurationSteps() {
 	} );
 
 	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ( ! state.companyLogo && ! state.companyLogoFallback ) || ! state.websiteName );
-	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ( ! state.personLogo && ! state.personLogoFallback ) );
+	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ( ! state.personLogo && ! state.personLogoFallback ) || ! state.websiteName );
 
 	/**
 	 * Runs checks of finishing the site representation step.
