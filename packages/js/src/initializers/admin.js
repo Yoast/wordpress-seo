@@ -339,9 +339,17 @@ export default function initAdmin( jQuery ) {
 
 				jQuery( window ).trigger( "yoast-seo-tab-change" );
 				if ( id === "first-time-configuration" ) {
-					jQuery( "#yoast-first-time-configuration-notice" ).slideUp();
+					// All notices when in the first time configuration tab.
+					jQuery( ".notice-yoast" ).slideUp();
+					// Hide the premium upsell when in the first time configuration tab.
+					jQuery( ".yoast_premium_upsell" ).slideUp();
+					jQuery( "#sidebar-container" ).hide();
 				} else {
-					jQuery( "#yoast-first-time-configuration-notice" ).slideDown();
+					// Show the notices when not in the first time configuration tab.
+					jQuery( ".notice-yoast" ).slideDown();
+					// Show the premium upsell when not in the first time configuration tab.
+					jQuery( ".yoast_premium_upsell" ).slideDown();
+					jQuery( "#sidebar-container" ).show();
 				}
 			} else {
 				// Re-establish the focus on the first time configuration tab if the user clicks 'Cancel' on the pop-up
