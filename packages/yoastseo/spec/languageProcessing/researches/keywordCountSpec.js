@@ -479,6 +479,52 @@ const testCases = [
 				} } ) ],
 		skip: false,
 	},
+	{
+		description: "matches a keyphrase with a hyphen if exact matching is used",
+		paper: new Paper( "<p>A sentence about a red-panda.</p>", { keyword: "\"red-panda\"", locale: "en_US" } ),
+		keyphraseForms: [ [ "red-panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( { marked: "A sentence about a <yoastmark class='yoast-text-mark'>red-panda</yoastmark>.",
+				original: "A sentence about a red-panda.",
+				position: {
+					endOffset: 31,
+					startOffset: 22,
+					startOffsetBlock: 19,
+					endOffsetBlock: 28,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				} } ) ],
+		skip: false,
+	},
+	{
+		description: "doesn't match an occurrence of the keyphrase with a hyphen if exact matching is used and the keyphrase" +
+			"doesn't contain a hyphen",
+		paper: new Paper( "<p>A sentence about a red-panda.</p>", { keyword: "\"red panda\"", locale: "en_US" } ),
+		keyphraseForms: [ [ "red panda" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+		skip: false,
+	},
+	{
+		description: "doesn't match an occurrence of the keyphrase without a hyphen if exact matching is used and the keyphrase" +
+			"contains a hyphen",
+		paper: new Paper( "<p>A sentence about a red panda.</p>", { keyword: "\"red-panda\"", locale: "en_US" } ),
+		keyphraseForms: [ [ "red-panda" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+		skip: false,
+	},
+	{
+		description: "doesn't match an occurrence of the keyphrase with an en-dash if exact matching is used and the keyphrase" +
+			"contains a hyphen",
+		paper: new Paper( "<p>A sentence about a red-panda.</p>", { keyword: "\"red–panda\"", locale: "en_US" } ),
+		keyphraseForms: [ [ "red–panda" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+		skip: false,
+	},
 ];
 
 describe.each( testCases )( "Test for counting the keyphrase in a text in english", function( {
@@ -2461,6 +2507,49 @@ describe( "Test for counting the keyphrase in a text for Indonesian", () => {
 				},
 			} ),
 		] );
+	} );
+	it( "counts keyphrase occurrences with hyphens when using exact matching", function() {
+		const mockPaper = new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword-keyword, adipiscing elit.</p>",
+			{ keyword: "\"keyword-keyword\"", locale: "id_ID" } );
+		const researcher = buildIndonesianMockResearcher( [ [ "keyword-keyword" ] ] );
+		buildTree( mockPaper, researcher );
+
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
+			new Mark( {
+				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>, adipiscing elit.",
+				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, adipiscing elit.",
+				position: {
+					endOffset: 58,
+					startOffset: 43,
+					startOffsetBlock: 40,
+					endOffsetBlock: 55,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		] );
+	} );
+	it( "doesn't count keyphrase occurrences containing hyphens when using exact matching, and when the keyphrase doesn't" +
+		"contain a hyphen", function() {
+		const mockPaper = new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword-keyword, adipiscing elit.</p>",
+			{ keyword: "\"keyword keyword\"", locale: "id_ID" } );
+		const researcher = buildIndonesianMockResearcher( [ [ "keyword keyword" ] ] );
+		buildTree( mockPaper, researcher );
+
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 0 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [] );
+	} );
+	it( "doesn't count keyphrase occurrences without hyphens when using exact matching, and when the keyphrase" +
+		"contains a hyphen", function() {
+		const mockPaper = new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword keyword, adipiscing elit.</p>",
+			{ keyword: "\"keyword-keyword\"", locale: "id_ID" } );
+		const researcher = buildIndonesianMockResearcher( [ [ "keyword-keyword" ] ] );
+		buildTree( mockPaper, researcher );
+
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 0 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [] );
 	} );
 } );
 
