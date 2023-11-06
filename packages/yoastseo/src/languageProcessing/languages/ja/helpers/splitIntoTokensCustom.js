@@ -4,19 +4,17 @@ import TinySegmenter from "tiny-segmenter";
 /**
  * Split sentence into tokens.
  *
- * @param {Sentence} sentence The sentence to split.
+ * @param {Sentence} text The text to split.
  *
  * @returns {Token[]} The tokens.
  */
-function splitIntoTokensCustom( sentence ) {
-	// Retrieve sentence from sentence class
-	const sentenceText = sentence.text;
+function splitIntoTokensCustom( text ) {
 	// Return empty string if sentence is empty
-	if ( sentenceText === "" ) {
+	if ( text === "" ) {
 		return [];
 	}
 	// Split sentences into words that are also tokens
-	const words = new TinySegmenter().segment( sentenceText );
+	const words = new TinySegmenter().segment( text );
 	return map( words );
 }
 export default splitIntoTokensCustom;

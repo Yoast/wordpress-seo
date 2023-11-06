@@ -41,7 +41,7 @@ import wordCountInText from "./researches/wordCountInText.js";
 import memoizedTokenizer from "./helpers/sentence/memoizedSentenceTokenizer";
 
 /**
- * The researches contains all the researches
+ * The researcher contains all the researches, helpers, data, and config.
  */
 export default class AbstractResearcher {
 	/**

@@ -31,7 +31,7 @@ const wordSeparatorsRegex = /([\s\t\u00A0\u2013\u2014[\]])/;
  * @param {string} text 				The text to tokenize.
  * @returns {string[]} An array of tokens.
  */
-const getWordsForHTMLParser = ( text ) => {
+function splitIntoTokensCustom( text ) {
 	if ( ! text ) {
 		return [];
 	}
@@ -41,6 +41,6 @@ const getWordsForHTMLParser = ( text ) => {
 
 	// Remove punctuation from the beginning and end of word tokens, and make them into separate tokens.
 	return createPunctuationTokens( rawTokens );
-};
+}
 
-export default getWordsForHTMLParser;
+export default splitIntoTokensCustom;

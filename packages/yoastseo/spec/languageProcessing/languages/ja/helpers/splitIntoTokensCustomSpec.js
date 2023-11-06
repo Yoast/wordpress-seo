@@ -3,55 +3,40 @@ import splitIntoTokensCustom from "../../../../../src/languageProcessing/languag
 const testcases = [
 	{
 		description: "should return an empty result sentence is empty",
-		sentence: { text: "", sourceCodeRange: { startOffset: 0, endOffset: 0 } },
+		sentenceText: "",
 		expected: [],
 	},
 	{
 		description: "should correctly tokenize a simple Japanese sentence without punctuations",
-		sentence: {
-			text: "犬が大好き",
-			sourceCodeRange: { startOffset: 0, endOffset: 5 },
-		},
+		sentenceText: "犬が大好き",
 		expected: [ "犬", "が", "大好き" ],
 	},
 	{
 		description: "should correctly tokenize a Japanese sentence with Japanese punctuations",
-		sentence: {
-			text: "犬が大好き\u3002",
-			sourceCodeRange: { startOffset: 0, endOffset: 6 },
-		},
+		sentenceText: "犬が大好き\u3002",
 		expected: [ "犬", "が", "大好き", "。" ],
 
 	},
 	{
 		description: "should correctly tokenize a Japanese sentence with English punctuations",
-		sentence: {
-			text: "犬が大好き.",
-			sourceCodeRange: { startOffset: 0, endOffset: 6 },
-		},
+		sentenceText: "犬が大好き.",
 		expected: [ "犬", "が", "大好き", "." ],
 	},
 	{
 		description: "should correctly tokenize a Japanese sentence with quotation marks inside",
-		sentence: {
-			text: "犬「が」大好き\u3002",
-			sourceCodeRange: { startOffset: 0, endOffset: 8 },
-		},
+		sentenceText: "犬「が」大好き\u3002",
 		expected: [ "犬", "「", "が", "」", "大好き", "。" ],
 	},
 	{
 		description: "should correctly tokenize a Japanese sentence with quotation marks around",
-		sentence: {
-			text: "『犬が大好き\u3002』",
-			sourceCodeRange: { startOffset: 0, endOffset: 8 },
-		},
+		sentenceText: "『犬が大好き\u3002』",
 		expected: [ "『", "犬", "が", "大好き", "。", "』" ],
 	},
 ];
 
-describe.each( testcases )( "splitIntoTokensCustom for Japanese: %p", ( { description, sentence, expected } ) => {
+describe.each( testcases )( "splitIntoTokensCustom for Japanese: %p", ( { description, sentenceText, expected } ) => {
 	it( description, () => {
-		const tokens = splitIntoTokensCustom( sentence );
+		const tokens = splitIntoTokensCustom( sentenceText );
 		expect( tokens ).toEqual( expected );
 	} );
 } );

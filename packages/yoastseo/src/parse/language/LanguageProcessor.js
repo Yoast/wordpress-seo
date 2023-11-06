@@ -59,21 +59,14 @@ class LanguageProcessor {
 		// Retrieve sentence from sentence class
 		const sentenceText = sentence.text;
 
-		// If there is a custom getWords helper use its output for retrieving words/tokens.
+		// If there is a custom splitIntoTokens helper use its output for retrieving tokens.
 		const tokenTextsCustom = this.researcher.getHelper( "splitIntoTokensCustom" );
 		if ( tokenTextsCustom ) {
-			const tokensCustom = tokenTextsCustom( sentence );
+			const tokensCustom = tokenTextsCustom( sentenceText );
 			return tokensCustom.map( tokenText => new Token( tokenText ) );
 		}
 
-		/*
-		 * If hyphens shouldn't be treated as a word boundary, use a custom regex for splitting the text into tokens that
-		 * doesn't include hyphens. For example in Indonesian, hyphens are used to form plural forms
-		 * of nouns, e.g. 'buku' is the singular form for 'book' and 'buku-buku' is the plural form. So it makes sense to
-		 * not split words on hyphens in Indonesian and consider 'buku-buku' as one word rather than two.
-		 */
-		const tokenTexts = areHyphensWordBoundaries ? getWordsForHTMLParser( sentenceText )
-			: getWordsForHTMLParser( sentenceText, /([\s\t\u00A0\u2013\u2014])/ );
+		const tokenTexts = getWordsForHTMLParser( sentenceText );
 
 		return tokenTexts.map( tokenText => new Token( tokenText ) );
 	}
