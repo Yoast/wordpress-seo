@@ -120,8 +120,16 @@ async function saveFinishedSteps( finishedSteps ) {
  * @returns {Object} The initial state.
  */
 function calculateInitialState( windowObject, isStepFinished ) {
-	let { companyOrPerson, companyName, companyLogo, companyOrPersonOptions, shouldForceCompany } = windowObject; // eslint-disable-line prefer-const
-
+	const {
+		companyName,
+		companyLogo,
+		companyOrPersonOptions,
+		shouldForceCompany,
+		fallbackCompanyName,
+		websiteName,
+		fallbackWebsiteName,
+	} = windowObject;
+	let { companyOrPerson } = windowObject;
 	if ( ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) || shouldForceCompany ) {
 		// Set the stage for a prefilled step 2 in case the customer does seem to have consciously finished step 2 without setting data.
 		companyOrPerson = "company";
@@ -138,6 +146,8 @@ function calculateInitialState( windowObject, isStepFinished ) {
 		errorFields: [],
 		stepErrors: {},
 		editedSteps: [],
+		companyName: companyName || fallbackCompanyName,
+		websiteName: websiteName || fallbackWebsiteName,
 	};
 }
 
@@ -222,8 +232,8 @@ export default function FirstTimeConfigurationSteps() {
 		dispatch( { type: "SET_ERROR_FIELDS", payload: value } );
 	} );
 
-	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ( ! state.companyLogo && ! state.companyLogoFallback ) );
-	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ( ! state.personLogo && ! state.personLogoFallback ) );
+	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ( ! state.companyLogo && ! state.companyLogoFallback ) || ! state.websiteName );
+	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ( ! state.personLogo && ! state.personLogoFallback ) || ! state.websiteName );
 
 	/**
 	 * Runs checks of finishing the site representation step.
