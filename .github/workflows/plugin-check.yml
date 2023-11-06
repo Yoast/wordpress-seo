@@ -51,3 +51,4 @@ jobs:
         uses: swissspidy/wp-plugin-check-action@main
         with:
             build-dir: ./artifact
+            exclude-directories: vendor_prefixed
