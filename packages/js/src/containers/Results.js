@@ -7,11 +7,13 @@ export default compose( [
 		const {
 			getActiveMarker,
 			getIsPremium,
+			getMarksButtonStatus,
 		} = select( "yoast-seo/editor" );
 
 		return {
 			activeMarker: getActiveMarker(),
 			isPremium: getIsPremium(),
+			marksButtonStatus: getMarksButtonStatus(),
 		};
 	} ),
 	withDispatch( dispatch => {
