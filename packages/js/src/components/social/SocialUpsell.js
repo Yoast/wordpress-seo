@@ -26,10 +26,13 @@ const SocialUpsell = ( props ) => {
 
 	let labelText;
 	if ( props.socialMediumName === "Twitter" ) {
-		labelText = "Twitter share preview"
-	} else (
-		labelText = "Social share preview"
-	)
+		labelText = sprintf(
+			__( "Twitter share preview", "wordpress-seo" ),
+		);
+	} else {
+		labelText = sprintf(
+			__( "Social share preview", "wordpress-seo" ) );
+	}
 
 	const { locationContext } = useRootContext();
 
@@ -51,10 +54,7 @@ const SocialUpsell = ( props ) => {
 				>
 					<div className={ "yst-grayscale yst-opacity-50" }>
 						<Label>
-							{ sprintf(
-							/* translators: %1$s expands to Social or Twitter. */
-								__( labelText, "wordpress-seo" ), props.socialMediumName
-							) }
+							{ labelText }
 						</Label>
 
 						<FacebookPreview
