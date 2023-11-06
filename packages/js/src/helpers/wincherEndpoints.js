@@ -58,18 +58,20 @@ export async function authenticate( responseData ) {
  * Gets the tracked keyphrases data via POST.
  *
  * @param {Array}   keyphrases     The keyphrases to get the data for.
+ * @param {string}  startAt     The keyphrases to get the data for.
  * @param {String}  permalink  	The post's/page's permalink. Optional.
  * @param {AbortSignal} signal (optional) Abort signal.
  *
  * @returns {Promise} The API response promise.
  */
-export async function getKeyphrases( keyphrases = null, permalink = null, signal ) {
+export async function getKeyphrases( keyphrases = null, startAt = null, permalink = null, signal ) {
 	return await callEndpoint( {
 		path: "yoast/v1/wincher/keyphrases",
 		method: "POST",
 		data: {
 			keyphrases,
 			permalink,
+			startAt,
 		},
 		signal,
 	} );

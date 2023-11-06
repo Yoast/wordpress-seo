@@ -10,8 +10,6 @@ use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
  * Represents the introduction for the AI generate titles and introduction upsell.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
- *
- * @makePublic
  */
 class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introduction_Interface {
 
@@ -48,12 +46,26 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	}
 
 	/**
+	 * Returns the ID.
+	 *
+	 * @return string
+	 */
+	public function get_id() {
+		return 'ai-generate-titles-and-descriptions-upsell';
+	}
+
+	/**
 	 * Returns the unique name.
+	 *
+	 * @deprecated 21.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_name() {
-		return 'ai-generate-titles-and-descriptions-upsell';
+		_deprecated_function( __METHOD__, 'Yoast SEO 21.6', 'Please use get_id() instead' );
+
+		return $this->get_id();
 	}
 
 	/**
@@ -77,10 +89,6 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 
 		if ( $this->options_helper->get( 'previous_version', '' ) === '' ) {
 			// The current installation is a new one (not upgraded yet).
-			return false;
-		}
-
-		if ( ! $this->is_version_between( $this->product_helper->get_version(), '20.11-RC4', '21.1-RC0' ) ) {
 			return false;
 		}
 

@@ -261,7 +261,7 @@ const testCases = [
 					attributeId: "",
 					clientId: "",
 					isFirstSection: false } } ),
-		 ],
+		],
 		skip: false,
 	},
 	{
@@ -1174,6 +1174,41 @@ const testCasesWithSpecialCharacters = [
 				position: { endOffset: 9, startOffset: 3,
 					startOffsetBlock: 0,
 					endOffsetBlock: 6,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				} }
+			),
+		],
+		skip: false,
+	},
+	{
+		description: "can match keyphrases in texts that contain <br> tags",
+		paper: new Paper( "<p>This is a test.<br>This is<br />another<br>test.</p>", { keyword: "test" } ),
+		keyphraseForms: [ [ "test" ] ],
+		expectedCount: 2,
+		expectedMarkings: [
+			new Mark( {
+				original: "This is a test.",
+				marked: "This is a <yoastmark class='yoast-text-mark'>test</yoastmark>.",
+				position: {
+					startOffset: 13,
+					endOffset: 17,
+					startOffsetBlock: 10,
+					endOffsetBlock: 14,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				} }
+			),
+			new Mark( {
+				original: "\nThis is\nanother\ntest.",
+				marked: "\nThis is\nanother\n<yoastmark class='yoast-text-mark'>test</yoastmark>.",
+				position: {
+					startOffset: 46,
+					endOffset: 50,
+					startOffsetBlock: 43,
+					endOffsetBlock: 47,
 					attributeId: "",
 					clientId: "",
 					isFirstSection: false,
@@ -2195,6 +2230,35 @@ describe( "Test for counting the keyphrase in a text for Japanese", () => {
 		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいいです。",
 				original: "私の猫はかわいいです。" } ) ] );
+	} );
+
+	it( "counts the keyphrase occurrence inside an image caption.", function() {
+		const mockPaper = new Paper( "<p>[caption id=\"attachment_157\" align=\"alignnone\" width=\"225\"]<img " +
+			"src=\"http://one.wordpress.test/wp-content/uploads/2023/07/IMG_0967_2-1-225x300.jpg\" alt=\"\" " +
+			"width=\"225\" height=\"300\" /> 一日一冊の本を読むのはできるかどうかやってみます。[/caption]</p>", {
+			locale: "ja",
+			keyphrase: "一冊の本を読む",
+			shortcodes: [
+				"wp_caption",
+				"caption",
+				"gallery",
+				"playlist" ],
+		} );
+		const keyphraseForms = [
+			[ "一冊" ],
+			[ "本" ],
+			[ "読む", "読み", "読ま", "読め", "読も", "読ん", "読める", "読ませ", "読ませる", "読まれ", "読まれる", "読もう" ],
+		];
+		const researcher = buildJapaneseMockResearcher( keyphraseForms, wordsCountHelper, matchWordsHelper );
+		buildTree( mockPaper, researcher );
+
+
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
+			new Mark( {
+				marked: "一日<yoastmark class='yoast-text-mark'>一冊</yoastmark>の<yoastmark " +
+					"class='yoast-text-mark'>本</yoastmark>を<yoastmark class='yoast-text-mark'>読む</yoastmark>のはできるかどうかやってみます。",
+				original: "一日一冊の本を読むのはできるかどうかやってみます。" } ) ] );
 	} );
 
 	it( "counts/marks a string of text with multiple occurrences of the same keyphrase in it.", function() {
