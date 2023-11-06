@@ -44,9 +44,6 @@ jobs:
       - name: "Grunt: create artifact"
         run: grunt artifact
 
-      - name: "Copy composer.json"
-        run: cp composer.json ./artifact
-
       - name: Run plugin check
         uses: swissspidy/wp-plugin-check-action@main
         with:
