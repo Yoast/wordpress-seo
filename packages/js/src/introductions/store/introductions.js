@@ -4,7 +4,7 @@ import { get, map } from "lodash";
 export const INTRODUCTIONS_NAME = "introductions";
 
 const adapter = createEntityAdapter( {
-	selectId: introduction => introduction.name,
+	selectId: introduction => introduction.id,
 	sortComparer: ( a, b ) => {
 		if ( a.priority === b.priority ) {
 			return 0;
@@ -15,10 +15,10 @@ const adapter = createEntityAdapter( {
 
 /**
  * @param {Object} introduction The introduction.
- * @returns {{name: string, priority: number}} The prepared introduction.
+ * @returns {{id: string, priority: number}} The prepared introduction.
  */
 const prepareIntroduction = introduction => ( {
-	name: introduction.name || nanoid(),
+	id: introduction.id || nanoid(),
 	priority: introduction.priority || 0,
 } );
 

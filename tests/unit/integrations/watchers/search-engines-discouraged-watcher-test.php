@@ -23,6 +23,13 @@ use Yoast_Notification_Center;
 class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 
 	/**
+	 * Holds the admin user mock instance.
+	 *
+	 * @var WP_User
+	 */
+	private $admin_user;
+
+	/**
 	 * Yoast_Notification_Center mock.
 	 *
 	 * @var Mockery\MockInterface|Yoast_Notification_Center
@@ -69,6 +76,9 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
+
+		$this->admin_user     = Mockery::mock( WP_User::class );
+		$this->admin_user->ID = 1;
 
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 		$this->notification_helper = Mockery::mock( Notification_Helper::class );
@@ -338,9 +348,9 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 				->expects( 'restore_notification' );
 			$this->notification_center
 				->expects( 'add_notification' );
-			Monkey\Functions\expect( 'wp_get_current_user' )
+			Monkey\Functions\expect( 'get_current_user_id' )
 				->once()
-				->andReturn( null );
+				->andReturn( $this->admin_user->ID );
 		}
 		else {
 			$this->notification_helper

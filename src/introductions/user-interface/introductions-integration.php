@@ -153,7 +153,7 @@ class Introductions_Integration implements Integration_Interface {
 			$metadata = [];
 		}
 		foreach ( $introductions as $introduction ) {
-			$metadata[ $introduction['name'] ] = true;
+			$metadata[ $introduction['id'] ] = true;
 		}
 		$this->user_helper->update_meta( $user_id, '_yoast_wpseo_introductions', $metadata );
 	}

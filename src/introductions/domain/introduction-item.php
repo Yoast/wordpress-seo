@@ -8,11 +8,11 @@ namespace Yoast\WP\SEO\Introductions\Domain;
 class Introduction_Item {
 
 	/**
-	 * The unique name.
+	 * The ID.
 	 *
 	 * @var string
 	 */
-	private $name;
+	private $id;
 
 	/**
 	 * The priority.
@@ -24,11 +24,11 @@ class Introduction_Item {
 	/**
 	 * Constructs the instance.
 	 *
-	 * @param string $name     The unique name.
+	 * @param string $id       The ID.
 	 * @param int    $priority The priority.
 	 */
-	public function __construct( $name, $priority ) {
-		$this->name     = $name;
+	public function __construct( $id, $priority ) {
+		$this->id       = $id;
 		$this->priority = $priority;
 	}
 
@@ -39,18 +39,18 @@ class Introduction_Item {
 	 */
 	public function to_array() {
 		return [
-			'name'     => $this->get_name(),
+			'id'       => $this->get_id(),
 			'priority' => $this->get_priority(),
 		];
 	}
 
 	/**
-	 * Returns the unique name.
+	 * Returns the ID.
 	 *
 	 * @return string
 	 */
-	public function get_name() {
-		return $this->name;
+	public function get_id() {
+		return $this->id;
 	}
 
 	/**
