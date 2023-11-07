@@ -348,7 +348,7 @@ Release date: 2023-11-28
 
 #### Enhancements
 
-* Improves the _Track SEO performance_ functionality in the Yoast SEO metabox/sidebar.
+* Improves the _Track SEO performance_ functionality by adding a graph that plots keyphrase trends over time.
 
 #### Bugfixes
 
