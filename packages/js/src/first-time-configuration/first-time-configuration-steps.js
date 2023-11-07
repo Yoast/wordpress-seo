@@ -366,7 +366,9 @@ export default function FirstTimeConfigurationSteps() {
 	 * @returns {boolean} Whether the stepper can continue to the next step.
 	 */
 	function beforeContinueIndexationStep() {
-		if ( ! showRunIndexationAlert && indexingState === "idle" ) {
+		// When: not already showing the alert AND indexation state is "idle" (not yet interacted with) AND indexation is not disabled.
+		if ( ! showRunIndexationAlert && indexingState === "idle" && window.yoastIndexingData.disabled !== "1" ) {
+			// Then: show an alert to notify users that indexation is helpful.
 			setShowRunIndexationAlert( true );
 			return false;
 		}
