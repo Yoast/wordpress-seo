@@ -344,8 +344,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->once()
 			->andReturn( Indexing_Reasons::REASON_INDEXING_FAILED );
 
-		Monkey\Functions\expect( 'wp_get_current_user' )
-			->andReturn( 'user' );
+		$admin_user     = Mockery::mock( WP_User::class );
+		$admin_user->ID = 1;
+		Monkey\Functions\expect( 'get_current_user_id' )
+			->andReturn( $admin_user->ID );
 
 		$this->notification_helper
 			->expects( 'restore_notification' )
@@ -400,8 +402,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $reason );
 
-		Monkey\Functions\expect( 'wp_get_current_user' )
-			->andReturn( 'user' );
+		$admin_user     = Mockery::mock( WP_User::class );
+		$admin_user->ID = 1;
+		Monkey\Functions\expect( 'get_current_user_id' )
+			->andReturn( $admin_user->ID );
 
 		$this->notification_helper
 			->expects( 'restore_notification' )

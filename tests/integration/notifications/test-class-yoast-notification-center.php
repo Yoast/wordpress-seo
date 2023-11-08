@@ -800,13 +800,16 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this->get_notification_center();
 
-		$user_mock_1 = $this->mock_wp_user( 1, [ 'wpseo_manage_options' => true ] );
-		$user_mock_2 = $this->mock_wp_user( 2, [ 'wpseo_manage_options' => true ] );
+		$user_1 = $this->factory->user->create_and_get();
+		$user_1->add_cap( 'wpseo_manage_options' );
+
+		$user_2 = $this->factory->user->create_and_get();
+		$user_2->add_cap( 'wpseo_manage_options' );
 
 		$notification_for_user_1 = new Yoast_Notification(
 			'Hello, user 1!',
 			[
-				'user'         => $user_mock_1,
+				'user_id'      => $user_1->ID,
 				'capabilities' => [ 'wpseo_manage_options' ],
 			]
 		);
@@ -814,7 +817,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_for_user_2 = new Yoast_Notification(
 			'Hello, user 2!',
 			[
-				'user'         => $user_mock_2,
+				'user_id'      => $user_2->ID,
 				'capabilities' => [ 'wpseo_manage_options' ],
 			]
 		);
@@ -823,10 +826,10 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$instance->add_notification( $notification_for_user_2 );
 
 		$expected_for_user_1 = [ $notification_for_user_1 ];
-		$actual_for_user_1   = $instance->get_notifications_for_user( 1 );
+		$actual_for_user_1   = $instance->get_notifications_for_user( $user_1->ID );
 
 		$expected_for_user_2 = [ $notification_for_user_2 ];
-		$actual_for_user_2   = $instance->get_notifications_for_user( 2 );
+		$actual_for_user_2   = $instance->get_notifications_for_user( $user_2->ID );
 
 		$this->assertEquals( $expected_for_user_1, $actual_for_user_1 );
 		$this->assertEquals( $expected_for_user_2, $actual_for_user_2 );
@@ -841,13 +844,14 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this->get_notification_center();
 
-		$user_mock = $this->mock_wp_user( 3, [ 'wpseo_manage_options' => true ] );
+		$user = $this->factory->user->create_and_get();
+		$user->add_cap( 'wpseo_manage_options' );
 
 		$notification = new Yoast_Notification(
 			'Hello, user 3!',
 			[
 				'id'           => 'Yoast_Notification_Test',
-				'user'         => $user_mock,
+				'user_id'      => $user->ID,
 				'capabilities' => [ 'wpseo_manage_options' ],
 			]
 		);
@@ -856,7 +860,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$instance->add_notification( $notification );
 
 		$expected = [ $notification ];
-		$actual   = $instance->get_notifications_for_user( 3 );
+		$actual   = $instance->get_notifications_for_user( $user->ID );
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -916,36 +920,5 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_center->setup_current_notifications();
 
 		return $notification_center;
-	}
-
-	/**
-	 * Creates a mock WordPress user.
-	 *
-	 * @param int   $user_id The ID of the user.
-	 * @param array $caps    A map, mapping capabilities to `true` (user has capability) or `false` ( user has not).
-	 *
-	 * @return PHPUnit_Framework_MockObject_Invocation_Object | WP_User
-	 */
-	private function mock_wp_user( $user_id, $caps ) {
-		$user_mock = $this
-			->getMockBuilder( 'WP_User' )
-			->setMethods( [ 'has_cap' ] )
-			->getMock();
-
-		$user_mock
-			->expects( $this->any() )
-			->method( 'has_cap' )
-			->with( $this->isType( 'string' ) )
-			->willReturn(
-				$this->returnCallback(
-					static function( $argument ) use ( $caps ) {
-						return isset( $caps[ $argument ] ) ? $caps[ $argument ] : false;
-					}
-				)
-			);
-
-		$user_mock->ID = $user_id;
-
-		return $user_mock;
 	}
 }

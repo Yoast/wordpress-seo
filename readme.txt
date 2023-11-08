@@ -348,7 +348,7 @@ Release date: 2023-11-28
 
 #### Enhancements
 
-* Improves the _Track SEO performance_ functionality in the Yoast SEO metabox/sidebar.
+* Improves the _Track SEO performance_ functionality by adding a graph that plots keyphrase trends over time.
 
 #### Bugfixes
 
@@ -358,6 +358,7 @@ Release date: 2023-11-28
 #### Other
 
 * Adds defensive coding to the supress warnings on archive pages with the `/%category%/%postname%/` permalink structure. Props to [@Mte90](https://github.com/Mte90).
+* Adds notification when WooCommerce new beta product editor is enabled.
 
 = 21.5 =
 

@@ -22,6 +22,13 @@ use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dis
 class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 
 	/**
+	 * Holds the admin user mock instance.
+	 *
+	 * @var WP_User
+	 */
+	private $admin_user;
+
+	/**
 	 * Holds the Options_Helper instance.
 	 *
 	 * @var Mockery\MockInterface|Options_Helper
@@ -56,6 +63,9 @@ class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 		parent::set_up();
 
 		$this->stubTranslationFunctions();
+
+		$this->admin_user     = Mockery::mock( WP_User::class );
+		$this->admin_user->ID = 1;
 
 		$this->options                            = Mockery::mock( Options_Helper::class );
 		$this->notification_center                = Mockery::mock( Yoast_Notification_Center::class );
@@ -310,9 +320,12 @@ class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 			[
 				'esc_url'             => 'https://yoa.st/3.0-content-types',
 				'admin_url'           => 'admin.php?page=wpseo_page_settings',
-				'wp_get_current_user' => Mockery::mock( WP_User::class ),
 			]
 		);
+
+		Monkey\Functions\expect( 'get_current_user_id' )
+			->once()
+			->andReturn( $this->admin_user->ID );
 
 		$this->notification_center
 			->expects( 'add_notification' )

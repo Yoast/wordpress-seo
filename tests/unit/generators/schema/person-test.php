@@ -394,20 +394,6 @@ class Person_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the person Schema piece is shown on author archive pages.
-	 *
-	 * @covers ::is_needed
-	 * @covers ::site_represents_current_author
-	 */
-	public function test_is_shown_on_author_archive_pages() {
-		$this->instance->context->indexable = (object) [
-			'object_type' => 'user',
-		];
-
-		$this->assertTrue( $this->instance->is_needed( $this->instance->context ) );
-	}
-
-	/**
 	 * Tests is not needed when the site represents an organization.
 	 *
 	 * @covers ::is_needed
