@@ -1,4 +1,5 @@
 /* External dependencies */
+import { useMemo } from "@wordpress/element";
 import { Line } from "react-chartjs-2";
 import { CategoryScale, Chart, LineController,	LineElement, LinearScale, PointElement, TimeScale, Legend, Tooltip, Interaction } from "chart.js";
 import "chartjs-adapter-moment";
@@ -77,13 +78,18 @@ Interaction.modes.xPoint = ( chart, e, _, useFinalPosition ) => {
  *
  * @returns {null|wp.Element} The Wincher ranking history chart.
  */
-export default function WincherRankingHistoryChart( { datasets, isChartShown } ) {
+export default function WincherRankingHistoryChart( { datasets, isChartShown, keyphrases } ) {
 	if ( ! isChartShown ) {
 		return null;
 	}
 
-	const data = datasets.map( ( dataset, index ) => {
-		const color = CHART_COLORS[ index % CHART_COLORS.length ];
+	const colors = useMemo( () => Object.fromEntries(
+		[ ...keyphrases ].sort()
+			.map( ( keyphrase, index ) => [ keyphrase, CHART_COLORS[ index % CHART_COLORS.length ] ] )
+	), [ keyphrases ] );
+
+	const data = datasets.map( ( dataset ) => {
+		const color = colors[ dataset.label ];
 		return {
 			...dataset,
 			data: dataset.data.map( ( { datetime, value } ) => ( {
@@ -180,4 +186,5 @@ WincherRankingHistoryChart.propTypes = {
 		} )
 	).isRequired,
 	isChartShown: PropTypes.bool.isRequired,
+	keyphrases: PropTypes.array.isRequired,
 };

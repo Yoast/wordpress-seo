@@ -408,6 +408,7 @@ const TableContent = ( props ) => {
 			<WincherRankingHistoryChart
 				isChartShown={ isChartShown }
 				datasets={ chartData }
+				keyphrases={ keyphrases }
 			/>
 		</ChartWrapper>
 
