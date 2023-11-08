@@ -15,14 +15,14 @@ let store;
  *
  * @type {string}
  */
-export var tmceId = "content";
+export const tmceId = "content";
 
 /**
  * The HTML 'id' attribute for the tinyMCE editor on the edit term page.
  *
  * @type {string}
  */
-export var termsTmceId = "description";
+export const termsTmceId = "description";
 
 /**
  * Sets the store.
@@ -46,7 +46,7 @@ function tinyMCEElementContent( contentID ) {
 }
 
 /**
- * Returns whether or not the tinyMCE script is available on the page.
+ * Returns whether the tinyMCE script is available on the page.
  *
  * @returns {boolean} True when tinyMCE is loaded.
  */
@@ -73,7 +73,7 @@ function isTinyMCEBodyAvailable( editorID ) {
 }
 
 /**
- * Returns whether or not a tinyMCE editor with the given ID is available.
+ * Returns whether a tinyMCE editor with the given ID is available.
  *
  * @param {string} editorID The ID of the tinyMCE editor.
  *
@@ -84,7 +84,7 @@ export function isTinyMCEAvailable( editorID ) {
 		return false;
 	}
 
-	var editor = tinyMCE.get( editorID );
+	const editor = tinyMCE.get( editorID );
 
 	return (
 		editor !== null && ! editor.isHidden()
@@ -98,7 +98,7 @@ export function isTinyMCEAvailable( editorID ) {
  */
 export function getContentTinyMce( contentID ) {
 	// If no TinyMCE object available
-	var content = "";
+	let content = "";
 	if ( isTinyMCEAvailable( contentID ) === false || isTinyMCEBodyAvailable( contentID ) === false ) {
 		content = tinyMCEElementContent( contentID );
 	} else {
@@ -122,7 +122,7 @@ export function addEventHandler( editorId, events, callback ) {
 	}
 
 	tinyMCE.on( "addEditor", function( evt ) {
-		var editor = evt.editor;
+		const editor = evt.editor;
 
 		if ( editor.id !== editorId ) {
 			return;
@@ -147,11 +147,11 @@ export function disableMarkerButtons() {
 
 /**
  * Calls the function in the YoastSEO.js app that enables the marker (eye)icons.
- * @param {Array} shortcodesToBeParsed The array of shortcodes to be parsed.
+ *
  * @returns {void}
  */
-export function enableMarkerButtons( shortcodesToBeParsed ) {
-	if ( ! isUndefined( store ) && shortcodesToBeParsed.length === 0 ) {
+export function enableMarkerButtons() {
+	if ( ! isUndefined( store ) ) {
 		store.dispatch( actions.setMarkerStatus( "enabled" ) );
 	}
 }
