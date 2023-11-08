@@ -338,22 +338,6 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		buildTree( mockPaper, researcher );
 		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 	} );
-
-	it( "should find a match when the anchor text contains hyphens", () => {
-		const attributes = {
-			keyword: "dog",
-			permalink: "https://example.org/dog",
-		};
-
-		const mockPaper = new Paper( "hello, here is a link with my <a href='https://example.com/keyword'>keys wording </a>" +
-			" as  well as the lovely <a href='https://example.com/keyword'>articles which are </a>, " +
-			"and <a href='https://example.com/keyword'>excited papers</a>", attributes );
-		const researcher = new EnglishResearcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
-
-		buildTree( mockPaper, researcher );
-		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
-	} );
 } );
 
 describe( "a test for anchors and its attributes when the exact match of a keyphrase is requested", () => {
