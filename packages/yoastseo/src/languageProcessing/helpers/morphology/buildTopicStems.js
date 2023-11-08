@@ -74,10 +74,10 @@ const buildStems = function( keyphrase, stemmer, functionWords, areHyphensWordBo
 
 	/*
 	 * 	If hyphens should be treated as word boundaries, pass a custom word boundary regex string that includes hyphens
-	 * (u002d) and en-dashes (u2013).
+	 * (u002d) and en-dashes (u2013). Otherwise, pass a regex that includes only en-dashes.
 	 */
 	let keyphraseWords = areHyphensWordBoundaries ? getWords( keyphrase, "[\\s\\u2013\\u002d]" )
-		: getWords( keyphrase );
+		: getWords( keyphrase, "[\\s\\u2013]" );
 
 	// Filter function words from keyphrase. Don't filter if the keyphrase only consists of function words.
 	const wordsWithoutFunctionWords = keyphraseWords.filter( ( word ) => ! functionWords.includes( word ) );
