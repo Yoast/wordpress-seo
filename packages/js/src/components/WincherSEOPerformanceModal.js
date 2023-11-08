@@ -100,6 +100,11 @@ export default function WincherSEOPerformanceModal( props ) {
 	const title = __( "Track SEO performance", "wordpress-seo" );
 
 	const svgAriaProps = useSvgAria();
+	const suffixIcon = {
+		icon: "pencil-square",
+		color: colors.$black,
+		size: "20px",
+	};
 
 	return (
 		<Fragment>
@@ -131,11 +136,8 @@ export default function WincherSEOPerformanceModal( props ) {
 			{ location === "metabox" && <MetaboxModalButton
 				hasPadding={ false }
 				hasSeparator={ true }
-				suffixIconCollapsed={ {
-					icon: "pencil-square",
-					color: colors.$black,
-					size: "20px",
-				} }
+				suffixIcon={ suffixIcon }
+				suffixIconCollapsed={ suffixIcon }
 				id={ `wincher-open-button-${location}` }
 				title={ title }
 				onToggle={ onModalOpen }
