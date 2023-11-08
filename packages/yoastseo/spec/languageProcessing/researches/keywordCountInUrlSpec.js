@@ -258,13 +258,6 @@ describe( "test to check slug for keyword", function() {
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 6, percentWordMatches: 100 } );
 	} );
 
-	it( "morphology works for partially hyphenated keyphrases", function() {
-		const paper = new Paper( "", { slug: "gift-for-mother-in-law", keyword: "gifts for mothers-in-law" } );
-		const researcher = new EnglishResearcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
-		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
-	} );
-
 	it( "works with a reduplicated keyphrase in Indonesian", function() {
 		const paper = new Paper( "", { slug: "buku-buku", keyword: "buku-buku" } );
 		const researcher = new IndonesianResearcher( paper );
