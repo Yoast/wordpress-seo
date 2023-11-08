@@ -258,11 +258,7 @@ describe( "test to check slug for keyword", function() {
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 6, percentWordMatches: 100 } );
 	} );
 
-	/*
-	 * This is an edge case that does not work because 'olds' is not recognized as a form of 'old' (which makes sense),
-	 * even though 'two-year-olds' is a valid form of 'two-year-old'.
-	 */
-	xit( "morphology works for partially hyphenated keyphrases", function() {
+	it( "morphology works for partially hyphenated keyphrases", function() {
 		const paper = new Paper( "", { slug: "gift-for-mother-in-law", keyword: "gifts for mothers-in-law" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
