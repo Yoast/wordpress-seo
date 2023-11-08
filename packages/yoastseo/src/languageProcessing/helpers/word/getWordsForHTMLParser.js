@@ -1,7 +1,8 @@
 import createPunctuationTokens from "./createPunctuationTokens";
 
 /*
- * The following regex matches a word separator. A word separator is either a whitespace, a tab or a non-breaking space.
+ * The following regex matches a word separator. A word separator is either a whitespace, a tab, a non-breaking space,
+ * a hyphen, and en-dash or an em-dash.
  * Brackets are added to deal correctly with shortcodes downstream.
  * The regex is used to split a text into tokens.
  * Do not add punctuation marks to this regex, as they are handled separately inside splitIntoTokens().
