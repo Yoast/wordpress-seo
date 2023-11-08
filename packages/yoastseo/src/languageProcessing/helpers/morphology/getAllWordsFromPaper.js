@@ -28,10 +28,10 @@ export default function( paper, areHyphensWordBoundaries ) {
 
 	/*
      * If hyphens should be treated as word boundaries, pass a custom word boundary regex string that includes hyphens
- 	 * (u002d) and en-dashes (u2013).
+ 	 * (u002d) and en-dashes (u2013). Otherwise, pass a regex that includes only en-dashes.
  	 */
 	const words = areHyphensWordBoundaries ? getWords( paperContent, "[\\s\\u2013\\u002d]" )
-		: getWords( paperContent );
+		: getWords( paperContent, "[\\s\\u2013]" );
 
 	return words.map(
 		word => normalizeSingle( escapeRegExp( word ) ) );
