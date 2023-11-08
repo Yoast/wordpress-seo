@@ -180,7 +180,7 @@ class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_current_user_id' )
 			->once()
-			->andReturn( 1 );	
+			->andReturn( 1 );
 
 		$this->notification_helper
 			->expects( 'restore_notification' )
