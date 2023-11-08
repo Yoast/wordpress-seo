@@ -62,6 +62,7 @@ const {
 	refreshSnippetEditor,
 	setReadabilityResults,
 	setSeoResultsForKeyword,
+	updateShortcodesForParsing,
 } = actions;
 
 // Plugin class prototypes (not the instances) are being used by other plugins from the window.
@@ -132,25 +133,24 @@ export default function initPostScraper( $, store, editorData ) {
 
 	/**
 	 * Determines if markers should be shown.
-	 * @param {Array} shortcodesToBeParsed The array of shortcodes to be parsed.
+	 *
 	 * @returns {boolean} True when markers should be shown.
 	 */
-	function displayMarkers( shortcodesToBeParsed ) {
-		return ! isBlockEditor() && wpseoScriptData.metabox.show_markers === "1" && shortcodesToBeParsed.length === 0;
+	function displayMarkers() {
+		return ! isBlockEditor() && wpseoScriptData.metabox.show_markers;
 	}
 
 	/**
 	 * Updates the store to indicate if the markers should be hidden.
 	 *
 	 * @param {Object} store The store.
-	 * @param {Array} shortcodesToBeParsed The array of shortcodes to be parsed.
 	 *
 	 * @returns {void}
 	 */
-	function updateMarkerStatus( store, shortcodesToBeParsed ) {
+	function updateMarkerStatus( store ) {
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
-		if ( typeof window.tinyMCE === "undefined" || ! displayMarkers( shortcodesToBeParsed ) || shortcodesToBeParsed.length > 0 ) {
+		if ( typeof window.tinyMCE === "undefined" || ! displayMarkers() ) {
 			store.dispatch( setMarkerStatus( "disabled" ) );
 		}
 	}
@@ -256,12 +256,11 @@ export default function initPostScraper( $, store, editorData ) {
 	 * Returns the arguments necessary to initialize the app.
 	 *
 	 * @param {Object} store The store.
-	 * @param {Array} shortcodesToBeParsed The array of shortcodes to be parsed.
 	 *
 	 * @returns {Object} The arguments to initialize the app
 	 */
-	function getAppArgs( store, shortcodesToBeParsed ) {
-		updateMarkerStatus( store, shortcodesToBeParsed );
+	function getAppArgs( store ) {
+		updateMarkerStatus( store );
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
@@ -373,10 +372,9 @@ export default function initPostScraper( $, store, editorData ) {
 
 	/**
 	 * Handles page builder compatibility, regarding the marker buttons.
-	 * @param {Array} shortcodesToBeParsed The array of shortcodes to be parsed.
 	 * @returns {void}
 	 */
-	function handlePageBuilderCompatibility( shortcodesToBeParsed ) {
+	function handlePageBuilderCompatibility() {
 		const compatibilityHelper = new CompatibilityHelper();
 
 		if ( compatibilityHelper.isClassicEditorHidden() ) {
@@ -392,7 +390,7 @@ export default function initPostScraper( $, store, editorData ) {
 				},
 				classicEditorShown: () => {
 					if ( ! tinyMCEHelper.isTextViewActive() ) {
-						tinyMCEHelper.enableMarkerButtons( shortcodesToBeParsed );
+						tinyMCEHelper.enableMarkerButtons();
 					}
 				},
 			} );
@@ -436,11 +434,8 @@ export default function initPostScraper( $, store, editorData ) {
 
 		tinyMCEHelper.setStore( store );
 		tinyMCEHelper.wpTextViewOnInitCheck();
-		let shortcodesToBeParsed = [];
 
-		shortcodesToBeParsed = applyFilters( "yoast.analysis.shortcodes", shortcodesToBeParsed );
-
-		handlePageBuilderCompatibility( shortcodesToBeParsed );
+		handlePageBuilderCompatibility();
 
 		// Avoid error when snippet metabox is not rendered.
 		if ( metaboxContainer.length === 0 ) {
@@ -450,7 +445,7 @@ export default function initPostScraper( $, store, editorData ) {
 		postDataCollector = initializePostDataCollector( editorData );
 		publishBox.initialize();
 
-		const appArgs = getAppArgs( store, shortcodesToBeParsed );
+		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
 
 		// Content analysis
@@ -502,9 +497,13 @@ export default function initPostScraper( $, store, editorData ) {
 		// Analysis plugins
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
+		let shortcodesToBeParsed = [];
 
+		shortcodesToBeParsed = applyFilters( "yoast.analysis.shortcodes", shortcodesToBeParsed );
 		// Parses the shortcodes when `shortcodesToBeParsed` is provided.
 		if ( shortcodesToBeParsed.length > 0 ) {
+			store.dispatch( updateShortcodesForParsing( shortcodesToBeParsed ) );
+
 			window.YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( {
 				registerPlugin: app.registerPlugin,
 				registerModification: app.registerModification,
