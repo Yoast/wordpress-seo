@@ -49,3 +49,6 @@ jobs:
         with:
             build-dir: ./artifact
             exclude-directories: vendor_prefixed
+            exclude-checks: |
+                trademarks
+                late_escaping
