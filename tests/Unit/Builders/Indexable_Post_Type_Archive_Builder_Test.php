@@ -65,17 +65,23 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 		$post_type_helper = Mockery::mock( Post_Type_Helper::class );
 		$post_type_helper->expects( 'is_post_type_archive_indexable' )->andReturnTrue();
 
-		$wpdb        = Mockery::mock( wpdb::class );
-		$wpdb->posts = 'wp_posts';
+		$wpdb            = Mockery::mock( wpdb::class );
+		$wpdb->posts     = 'wp_posts';
+		$GLOBALS['wpdb'] = $wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
+
 		$wpdb->expects( 'prepare' )->once()->with(
 			"
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM {$wpdb->posts} AS p
-			WHERE p.post_status IN (%s)
-				AND p.post_password = ''
-				AND p.post_type = %s
-		",
-			[ 'publish', 'my-post-type' ]
+				SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+				FROM %i AS p
+				WHERE p.post_status IN (%s)
+					AND p.post_password = ''
+					AND p.post_type = %s
+				",
+			[
+				0 => 'wp_posts',
+				1 => 'publish',
+				2 => 'my-post-type',
+			]
 		)->andReturn( 'PREPARED_QUERY' );
 		$wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
