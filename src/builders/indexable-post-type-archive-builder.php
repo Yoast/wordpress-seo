@@ -141,6 +141,7 @@ class Indexable_Post_Type_Archive_Builder {
 		$replacements = \array_merge( [ $wpdb->posts ], $post_statuses, [ $post_type ] );
 
 		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
 		return $wpdb->get_row(
 			$wpdb->prepare(
 				'

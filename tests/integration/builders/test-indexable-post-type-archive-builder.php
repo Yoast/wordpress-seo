@@ -91,7 +91,7 @@ class Indexable_Post_Type_Archive_Builder_Test extends WPSEO_UnitTestCase {
 		$this->post_type_helper
 			->shouldReceive( 'is_post_type_archive_indexable' )
 			->once()
-			->andReturn( $is_post_public);
+			->andReturn( $is_post_public );
 
 		$this->post_helper
 			->shouldReceive( 'get_public_post_statuses' )
