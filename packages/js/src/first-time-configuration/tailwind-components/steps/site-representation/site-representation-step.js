@@ -104,7 +104,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 			id="website-name-input"
 			name="website-name"
 			label={ __( "Website name", "wordpress-seo" ) }
-			value={ ( state.websiteName === "" ) ? state.fallbackWebsiteName : state.websiteName }
+			value={ state.websiteName || state.fallbackWebsiteName }
 			onChange={ handleWebsiteNameChange }
 			feedback={ {
 				isVisible: state.errorFields.includes( "website_name" ),

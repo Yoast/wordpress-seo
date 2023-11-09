@@ -8,7 +8,17 @@ namespace Yoast\WP\SEO\Introductions\Domain;
 interface Introduction_Interface {
 
 	/**
+	 * Returns the ID.
+	 *
+	 * @return string
+	 */
+	public function get_id();
+
+	/**
 	 * Returns the unique name.
+	 *
+	 * @deprecated 21.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */

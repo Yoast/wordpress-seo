@@ -82,7 +82,7 @@ class Introductions_Collector_Test extends TestCase {
 				'user_introductions_metadata' => [],
 				'expected_result'             => [
 					[
-						'name'     => 'test1',
+						'id'       => 'test1',
 						'priority' => 1,
 					],
 				],
@@ -98,11 +98,11 @@ class Introductions_Collector_Test extends TestCase {
 				'user_introductions_metadata' => [],
 				'expected_result'             => [
 					[
-						'name'     => 'test1',
+						'id'       => 'test1',
 						'priority' => 1,
 					],
 					[
-						'name'     => 'test2',
+						'id'       => 'test2',
 						'priority' => 2,
 					],
 				],
@@ -117,7 +117,7 @@ class Introductions_Collector_Test extends TestCase {
 				'user_introductions_metadata' => [],
 				'expected_result'             => [
 					[
-						'name'     => 'test2',
+						'id'       => 'test2',
 						'priority' => 2,
 					],
 				],
@@ -133,7 +133,7 @@ class Introductions_Collector_Test extends TestCase {
 				'user_introductions_metadata' => [],
 				'expected_result'             => [
 					[
-						'name'     => 'test2',
+						'id'       => 'test2',
 						'priority' => 2,
 					],
 				],
@@ -150,7 +150,7 @@ class Introductions_Collector_Test extends TestCase {
 				'user_introductions_metadata' => [],
 				'expected_result'             => [
 					[
-						'name'     => 'test1',
+						'id'       => 'test1',
 						'priority' => 1,
 					],
 				],
@@ -171,7 +171,7 @@ class Introductions_Collector_Test extends TestCase {
 				],
 				'expected_result'             => [
 					[
-						'name'     => 'test2',
+						'id'       => 'test2',
 						'priority' => 2,
 					],
 				],
@@ -190,11 +190,11 @@ class Introductions_Collector_Test extends TestCase {
 				'user_introductions_metadata' => false,
 				'expected_result'             => [
 					[
-						'name'     => 'test1',
+						'id'       => 'test1',
 						'priority' => 1,
 					],
 					[
-						'name'     => 'test2',
+						'id'       => 'test2',
 						'priority' => 2,
 					],
 				],
@@ -215,7 +215,7 @@ class Introductions_Collector_Test extends TestCase {
 				'user_introductions_metadata' => [],
 				'expected_result'             => [
 					[
-						'name'     => 'test1',
+						'id'       => 'test1',
 						'priority' => 1,
 					],
 				],

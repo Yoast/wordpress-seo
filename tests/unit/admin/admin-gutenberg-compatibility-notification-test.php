@@ -23,6 +23,13 @@ use Yoast_Notification_Center;
 class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 
 	/**
+	 * Holds the admin user mock instance.
+	 *
+	 * @var WP_User
+	 */
+	private $admin_user;
+
+	/**
 	 * Holds the WPSEO_Gutenberg_Compatibility mock instance.
 	 *
 	 * @var WPSEO_Gutenberg_Compatibility
@@ -48,6 +55,11 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
+
+		$this->stubTranslationFunctions();
+
+		$this->admin_user     = Mockery::mock( WP_User::class );
+		$this->admin_user->ID = 1;
 
 		$this->gutenberg_compatibility_mock = Mockery::mock( WPSEO_Gutenberg_Compatibility::class )->makePartial();
 		$this->notification_center_mock     = Mockery::mock( Yoast_Notification_Center::class );
@@ -120,21 +132,16 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 	 * @covers WPSEO_Gutenberg_Compatibility::get_installed_version
 	 */
 	public function test_manage_notification_gutenberg_show_notification() {
-		Monkey\Functions\stubs(
-			[
-				'__'                  => null,
-				'wp_get_current_user' => static function() {
-					return null;
-				},
-			]
-		);
-
 		$this->gutenberg_compatibility_mock->allows(
 			[
 				'is_installed'        => true,
 				'is_fully_compatible' => false,
 			]
 		);
+
+		Monkey\Functions\expect( 'get_current_user_id' )
+			->once()
+			->andReturn( $this->admin_user->ID );
 
 		$this->notification_center_mock->expects( 'add_notification' )->once()->withArgs(
 			static function ( $arg ) {
