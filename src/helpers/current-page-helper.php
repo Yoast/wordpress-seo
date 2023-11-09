@@ -482,10 +482,12 @@ class Current_Page_Helper {
 	 * @return int The amoumt of queried terms.
 	 */
 	protected function count_queried_terms() {
-		$wp_query      = $this->wp_query_wrapper->get_main_query();
-		$term          = $wp_query->get_queried_object();
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+		$term     = $wp_query->get_queried_object();
+
+
 		$queried_terms = $wp_query->tax_query->queried_terms;
-		if ( empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
+		if ( is_null( $term ) || empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
 			return 0;
 		}
 

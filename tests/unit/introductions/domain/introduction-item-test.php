@@ -37,7 +37,7 @@ class Introduction_Item_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertEquals( 'test', $this->getPropertyValue( $this->instance, 'name' ) );
+		$this->assertEquals( 'test', $this->getPropertyValue( $this->instance, 'id' ) );
 		$this->assertEquals( 5, $this->getPropertyValue( $this->instance, 'priority' ) );
 	}
 
@@ -49,7 +49,7 @@ class Introduction_Item_Test extends TestCase {
 	public function test_to_array() {
 		$this->assertEquals(
 			[
-				'name'     => 'test',
+				'id'       => 'test',
 				'priority' => 5,
 			],
 			$this->instance->to_array()
@@ -57,12 +57,12 @@ class Introduction_Item_Test extends TestCase {
 	}
 
 	/**
-	 * Tests getting the name.
+	 * Tests getting the ID.
 	 *
-	 * @covers ::get_name
+	 * @covers ::get_id
 	 */
-	public function test_get_name() {
-		$this->assertEquals( 'test', $this->instance->get_name() );
+	public function test_get_id() {
+		$this->assertEquals( 'test', $this->instance->get_id() );
 	}
 
 	/**

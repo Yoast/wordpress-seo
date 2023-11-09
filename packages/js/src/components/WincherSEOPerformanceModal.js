@@ -6,6 +6,9 @@ import { useSvgAria } from "@yoast/ui-library/src";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+/* Yoast dependencies */
+import { MetaboxButton } from "./MetaboxButton";
+
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
 import Modal from "./modals/Modal";
@@ -33,7 +36,13 @@ export function openModal( props ) {
 
 	if ( ! keyphrases.length ) {
 		// This is fragile, should replace with a real React ref.
-		document.querySelector( "#focus-keyword-input-sidebar" ).focus();
+		let input = document.querySelector( "#focus-keyword-input-metabox" );
+
+		// In elementor we use input-sidebar
+		if ( ! input ) {
+			input = document.querySelector( "#focus-keyword-input-sidebar" );
+		}
+		input.focus();
 		onNoKeyphraseSet();
 
 		return;
@@ -106,6 +115,18 @@ export default function WincherSEOPerformanceModal( props ) {
 				onClick={ onModalOpen }
 			/>
 			}
+
+			{ location === "metabox" && (
+				<div className="yst-root">
+					<MetaboxButton
+						id={ `wincher-open-button-${location}` }
+						onClick={ onModalOpen }
+					>
+						<MetaboxButton.Text>{ title }</MetaboxButton.Text>
+						<ChartBarIcon className="yst-h-5 yst-w-5 yst-text-slate-500" { ...svgAriaProps } />
+					</MetaboxButton>
+				</div>
+			) }
 		</Fragment>
 	);
 }

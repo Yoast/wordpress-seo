@@ -120,8 +120,10 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 		// Mock that the Yoast SEO Multilingual plugin is not installed and activated.
 		$this->wpml_wpseo_conditional->expects( 'is_met' )->andReturnFalse();
 
-		Monkey\Functions\expect( 'wp_get_current_user' )
-			->andReturn( 'user' );
+		$admin_user     = Mockery::mock( WP_User::class );
+		$admin_user->ID = 1;
+		Monkey\Functions\expect( 'get_current_user_id' )
+			->andReturn( $admin_user->ID );
 
 		$this->notification_center
 			->expects( 'add_notification' )

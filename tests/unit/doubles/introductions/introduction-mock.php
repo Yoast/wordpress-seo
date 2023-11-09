@@ -10,11 +10,11 @@ use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 class Introduction_Mock implements Introduction_Interface {
 
 	/**
-	 * Holds the name.
+	 * Holds the ID.
 	 *
 	 * @var string
 	 */
-	private $name;
+	private $id;
 
 	/**
 	 * Holds the priority.
@@ -33,19 +33,33 @@ class Introduction_Mock implements Introduction_Interface {
 	/**
 	 * Constructs the introduction mock.
 	 */
-	public function __construct( $name, $priority, $should_show ) {
-		$this->name        = $name;
+	public function __construct( $id, $priority, $should_show ) {
+		$this->id          = $id;
 		$this->priority    = $priority;
 		$this->should_show = $should_show;
 	}
 
 	/**
+	 * Returns the ID.
+	 *
+	 * @return string
+	 */
+	public function get_id() {
+		return $this->id;
+	}
+
+	/**
 	 * Returns the unique name.
+	 *
+	 * @deprecated 21.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_name() {
-		return $this->name;
+		_deprecated_function( __METHOD__, 'Yoast SEO 21.6', 'Please use get_id() instead' );
+
+		return $this->id;
 	}
 
 	/**
