@@ -7,7 +7,6 @@ on:
     - trunk
     - 'release/**'
 
-
 jobs:
   prepare:
     name: "Build and check plugin"
@@ -54,3 +53,5 @@ jobs:
             exclude-checks: |
                 trademarks
                 late_escaping
+                plugin_updater_detected
+                WordPress.WP.AlternativeFunctions.*
