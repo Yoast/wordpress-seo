@@ -358,7 +358,7 @@ Release date: 2023-11-28
 #### Other
 
 * Adds defensive coding to the suppress warnings on archive pages with the `/%category%/%postname%/` permalink structure. Props to [@Mte90](https://github.com/Mte90).
-* Adds a notification when WooCommerce new beta product editor is enabled.
+* Adds a notification when WooCommerce's new beta product editor is enabled.
 
 = 21.5 =
 
