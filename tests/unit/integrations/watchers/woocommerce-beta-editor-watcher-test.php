@@ -178,9 +178,9 @@ class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 			->with( 'https://yoa.st/learn-how-disable-beta-woocommerce-product-editor' )
 			->andReturn( 'https://yoa.st/learn-how-disable-beta-woocommerce-product-editor' );
 
-		Monkey\Functions\expect( 'wp_get_current_user' )
+		Monkey\Functions\expect( 'get_current_user_id' )
 			->once()
-			->andReturn( (object) [ 'ID' => 1 ] );
+			->andReturn( 1 );
 
 		$this->notification_helper
 			->expects( 'restore_notification' )
