@@ -41,13 +41,15 @@ jobs:
       - name: Yarn install
         run: yarn install
 
-      - name: "Grunt: create artifact"
-        run: grunt artifact
+      - name: "Grunt: create plugin"
+        run: |
+          grunt artifact
+          mv artifact wordpress-seo
 
       - name: Run plugin check
         uses: swissspidy/wp-plugin-check-action@main
         with:
-            build-dir: ./artifact
+            build-dir: ./wordpress-seo
             exclude-directories: vendor_prefixed
             exclude-checks: |
                 trademarks
