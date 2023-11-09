@@ -458,7 +458,7 @@ export default function initPostScraper( $, store, editorData ) {
 			editorData,
 			store,
 			customAnalysisData,
-			app.pluggable,
+			window.YoastSEO.app.pluggable,
 			select( "core/block-editor" )
 		);
 		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks()( paper, marks );
@@ -511,10 +511,10 @@ export default function initPostScraper( $, store, editorData ) {
 			store.dispatch( updateShortcodesForParsing( shortcodesToBeParsed ) );
 
 			window.YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( {
-				registerPlugin: app.registerPlugin,
-				registerModification: app.registerModification,
-				pluginReady: app.pluginReady,
-				pluginReloaded: app.pluginReloaded,
+				registerPlugin: window.YoastSEO.app.registerPlugin,
+				registerModification: window.YoastSEO.app.registerModification,
+				pluginReady: window.YoastSEO.app.pluginReady,
+				pluginReloaded: window.YoastSEO.app.pluginReloaded,
 			}, shortcodesToBeParsed );
 		}
 

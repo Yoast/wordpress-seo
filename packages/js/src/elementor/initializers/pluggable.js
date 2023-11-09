@@ -11,8 +11,11 @@ let pluggable = null;
  */
 const getPluggable = () => {
 	if ( pluggable === null ) {
-		const refresh = dispatch( "yoast-seo/editor" ).runAnalysis;
-		pluggable = new Pluggable( refresh );
+		// const refresh = dispatch( "yoast-seo/editor" ).runAnalysis;
+		// pluggable = new Pluggable( refresh );
+		// Instead of initializing a new Pluggable plugin, here we need to use the initialized in post scrapper.
+		// I think this way we can get the registered modifications.
+		pluggable = window.YoastSEO.app.pluggable;
 	}
 
 	return pluggable;
