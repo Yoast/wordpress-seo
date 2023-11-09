@@ -102,6 +102,7 @@ class YoastShortcodePlugin {
 	}
 
 	/**
+	 * Replaces the unparsed shortcodes with the parsed ones.
 	 * The callback used to replace the shortcodes.
 	 *
 	 * @param {String} data The text to replace the shortcodes in.
@@ -125,7 +126,7 @@ class YoastShortcodePlugin {
 	/* DATA SOURCING */
 
 	/**
-	 * Get data from input fields and store them in an analyzerData object. This object will be used to fill
+	 * Gets data from input fields and store them in an analyzerData object. This object will be used to fill
 	 * the analyzer and the snippet preview.
 	 *
 	 * @param {function} callback To declare either ready or reloaded after parsing.
@@ -142,7 +143,7 @@ class YoastShortcodePlugin {
 	}
 
 	/**
-	 * Bind elements to be able to reload the dataset if shortcodes get added.
+	 * Binds elements to be able to reload the dataset if shortcodes get added.
 	 *
 	 * @returns {void}
 	 */
@@ -301,14 +302,16 @@ class YoastShortcodePlugin {
 	/**
 	 * Saves the shortcodes that were parsed with AJAX to `this.parsedShortcodes`
 	 *
-	 * @param {Array}    shortcodeResults Shortcodes that must be saved.
+	 * @param {String}   shortcodeResults Shortcodes that must be saved. This is the response from the jQuery.
 	 * @param {function} callback         Callback to execute of saving shortcodes.
 	 *
 	 * @returns {void}
 	 */
 	saveParsedShortcodes( shortcodeResults, callback ) {
+		// Parse the stringified shortcode results to an array.
 		shortcodeResults = JSON.parse( shortcodeResults );
 
+		// Push each shortcode result to the array of parsed shortcodes.
 		shortcodeResults.forEach( result => {
 			this.parsedShortcodes.push( result );
 		} );

@@ -2,14 +2,13 @@ import YoastShortcodePlugin from "../../../src/analysis/plugins/shortcode-plugin
 
 describe( "YoastShortcodePlugin", () => {
 	let plugin;
-	// Mock the functions and objects needed for the class
+	// Mock the functions and objects needed for the class.
 	const mockRegisterPlugin = jest.fn();
 	const mockRegisterModification = jest.fn();
 	const mockPluginReady = jest.fn();
 	const mockPluginReloaded = jest.fn();
 	const shortcodesToBeParsed = [ "caption", "wpseo_breadcrumb" ];
 
-	// Mock the global objects and functions used in the class
 	global.tinyMCE = {};
 	// eslint-disable-next-line camelcase
 	global.wpseoScriptData = { analysis: { plugins: { shortcodes: { wpseo_filter_shortcodes_nonce: "nonce" } } } };
