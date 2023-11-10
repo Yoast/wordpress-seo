@@ -54,4 +54,4 @@ jobs:
                 trademarks
                 late_escaping
                 plugin_updater_detected
-                WordPress.WP.AlternativeFunctions.*
+                plugin_review_phpcs
