@@ -222,4 +222,88 @@ class Introductions_Collector_Test extends TestCase {
 			],
 		];
 	}
+
+	/**
+	 * Tests the constructor and filter.
+	 *
+	 * @covers ::__construct
+	 * @covers ::add_introductions
+	 * @covers ::is_available_introduction
+	 *
+	 * @dataProvider collector_is_available_introduction_data
+	 *
+	 * @param array $initial_introductions  The introductions via dependency injection.
+	 * @param array $filtered_introductions The introductions after the filter.
+	 * @param mixed $to_test_introduction   The given introduction to check against.
+	 * @param array $expected_result        The array with the applicable introduction data.
+	 *
+	 * @return void
+	 */
+	public function test_is_available_introduction(
+		$initial_introductions,
+		$filtered_introductions,
+		$to_test_introduction,
+		$expected_result
+	) {
+		Monkey\Filters\expectApplied( 'wpseo_introductions' )
+			->once()
+			->with( $initial_introductions )
+			->andReturn( $filtered_introductions );
+
+		$sut = new Introductions_Collector( ...$initial_introductions );
+		$this->assertEquals( $expected_result, $sut->is_available_introduction( $to_test_introduction ) );
+	}
+
+	/**
+	 * Data provider for the `test_is_available_introduction()` test.
+	 *
+	 * @return array
+	 */
+	public function collector_is_available_introduction_data() {
+		$introductions = [
+			'test1' => new Introduction_Mock( 'test1', 1, true ),
+			'test2' => new Introduction_Mock( 'test2', 2, true ),
+		];
+
+		return [
+			'no introductions' => [
+				'initial_introductions'  => [],
+				'filtered_introductions' => [],
+				'to_test_introduction'   => '',
+				'expected_result'        => false,
+			],
+			'introduction is known in initial introductions' => [
+				'initial_introductions'  => [
+					$introductions['test1'],
+				],
+				'filtered_introductions' => [
+					$introductions['test1'],
+				],
+				'to_test_introduction'   => $introductions['test1']->get_id(),
+				'expected_result'        => true,
+			],
+			'introduction is known in filtered introductions' => [
+				'initial_introductions'  => [
+					$introductions['test1'],
+				],
+				'filtered_introductions' => [
+					$introductions['test1'],
+					$introductions['test2'],
+				],
+				'to_test_introduction'   => $introductions['test2']->get_id(),
+				'expected_result'        => true,
+			],
+			'introduction is unknown' => [
+				'initial_introductions'  => [
+					$introductions['test1'],
+				],
+				'filtered_introductions' => [
+					$introductions['test1'],
+					$introductions['test2'],
+				],
+				'to_test_introduction'   => 'unknown-introduction',
+				'expected_result'        => false,
+			],
+		];
+	}
 }

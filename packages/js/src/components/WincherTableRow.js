@@ -269,7 +269,7 @@ export function getPositionalDataByState( props ) {
 			<td>
 				<PositionAndViewLinkWrapper>
 					{ getKeyphrasePosition( rowData ) }
-					<ButtonStyledLink variant="secondary" href={ viewLinkURL } style={ { height: 28, marginLeft: 12 } }>
+					<ButtonStyledLink variant="secondary" href={ viewLinkURL } style={ { height: 28, marginLeft: 12 } } rel="noopener" target="_blank">
 						{ __( "View", "wordpress-seo" ) }
 					</ButtonStyledLink>
 				</PositionAndViewLinkWrapper>
