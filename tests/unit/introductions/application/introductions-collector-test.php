@@ -266,13 +266,13 @@ class Introductions_Collector_Test extends TestCase {
 		];
 
 		return [
-			'no introductions'        => [
+			'no introductions' => [
 				'initial_introductions'  => [],
 				'filtered_introductions' => [],
 				'to_test_introduction'   => '',
 				'expected_result'        => false,
 			],
-			'introduction is known'   => [
+			'introduction is known in initial introductions' => [
 				'initial_introductions'  => [
 					$introductions['test1'],
 				],
@@ -280,6 +280,17 @@ class Introductions_Collector_Test extends TestCase {
 					$introductions['test1'],
 				],
 				'to_test_introduction'   => $introductions['test1']->get_id(),
+				'expected_result'        => true,
+			],
+			'introduction is known in filtered introductions' => [
+				'initial_introductions'  => [
+					$introductions['test1'],
+				],
+				'filtered_introductions' => [
+					$introductions['test1'],
+					$introductions['test2'],
+				],
+				'to_test_introduction'   => $introductions['test2']->get_id(),
 				'expected_result'        => true,
 			],
 			'introduction is unknown' => [
@@ -290,7 +301,7 @@ class Introductions_Collector_Test extends TestCase {
 					$introductions['test1'],
 					$introductions['test2'],
 				],
-				'to_test_introduction'   => 'unknowintroduction',
+				'to_test_introduction'   => 'unknown-introduction',
 				'expected_result'        => false,
 			],
 		];

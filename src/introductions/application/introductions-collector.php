@@ -111,9 +111,9 @@ class Introductions_Collector {
 	}
 
 	/**
-	 * Returns if the given introduction id is a know ID to the system.
+	 * Checks if the given introduction ID is a known ID to the system.
 	 *
-	 * @param string $introduction_id The introduction id to check.
+	 * @param string $introduction_id The introduction ID to check.
 	 *
 	 * @return bool
 	 */

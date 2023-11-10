@@ -269,7 +269,6 @@ class Introductions_Seen_Route_Test extends TestCase {
 	 * @covers ::set_introduction_seen
 	 */
 	public function test_set_introduction_seen_invalid_id() {
-		$user_id         = 1;
 		$introduction_id = 'intro';
 		$this->introductions_collector->expects( 'is_available_introduction' )->with( $introduction_id )->andReturnFalse();
 		$this->introductions_seen_repository
