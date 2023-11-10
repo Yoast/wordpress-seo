@@ -122,7 +122,7 @@ export default function WincherSEOPerformanceModal( props ) {
 						id={ `wincher-open-button-${location}` }
 						onClick={ onModalOpen }
 					>
-						<MetaboxButton.Text className="yst-ml-2">{ title }</MetaboxButton.Text>
+						<MetaboxButton.Text>{ title }</MetaboxButton.Text>
 						<ChartBarIcon className="yst-h-5 yst-w-5 yst-text-slate-500" { ...svgAriaProps } />
 					</MetaboxButton>
 				</div>
