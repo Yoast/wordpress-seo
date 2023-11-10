@@ -109,4 +109,21 @@ class Introductions_Collector {
 
 		return false;
 	}
+
+	/**
+	 * Returns if the given introduction id is a know ID to the system.
+	 *
+	 * @param string $introduction_id The introduction id to check.
+	 *
+	 * @return bool
+	 */
+	public function is_available_introduction( string $introduction_id ): bool {
+		foreach ( $this->introductions as $introduction ) {
+			if ( $introduction->get_id() === $introduction_id ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
