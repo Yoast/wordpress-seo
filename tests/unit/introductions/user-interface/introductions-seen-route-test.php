@@ -9,6 +9,7 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Introductions\Application\Introductions_Collector;
 use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
 use Yoast\WP\SEO\Introductions\User_Interface\Introductions_Seen_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -44,6 +45,13 @@ class Introductions_Seen_Route_Test extends TestCase {
 	private $introductions_seen_repository;
 
 	/**
+	 * Holds the introductions seen repository.
+	 *
+	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Introductions\Application\Introductions_Collector
+	 */
+	private $introductions_collector;
+
+	/**
 	 * Sets up the test fixtures.
 	 */
 	protected function set_up() {
@@ -53,8 +61,9 @@ class Introductions_Seen_Route_Test extends TestCase {
 
 		$this->introductions_seen_repository = Mockery::mock( Introductions_Seen_Repository::class );
 		$this->user_helper                   = Mockery::mock( User_Helper::class );
+		$this->introductions_collector       = Mockery::mock( Introductions_Collector::class );
 
-		$this->instance = new Introductions_Seen_Route( $this->introductions_seen_repository, $this->user_helper );
+		$this->instance = new Introductions_Seen_Route( $this->introductions_seen_repository, $this->user_helper, $this->introductions_collector );
 	}
 
 	/**
@@ -138,6 +147,7 @@ class Introductions_Seen_Route_Test extends TestCase {
 		$user_id         = 1;
 		$introduction_id = 'intro';
 		$this->user_helper->expects( 'get_current_user_id' )->andReturn( $user_id );
+		$this->introductions_collector->expects( 'is_available_introduction' )->with( $introduction_id )->andReturnTrue();
 		$this->introductions_seen_repository
 			->expects( 'set_introduction' )
 			->once()
@@ -183,6 +193,7 @@ class Introductions_Seen_Route_Test extends TestCase {
 		$user_id         = 1;
 		$introduction_id = 'intro';
 		$this->user_helper->expects( 'get_current_user_id' )->andReturn( $user_id );
+		$this->introductions_collector->expects( 'is_available_introduction' )->with( $introduction_id )->andReturnTrue();
 		$this->introductions_seen_repository
 			->expects( 'set_introduction' )
 			->once()
@@ -228,6 +239,7 @@ class Introductions_Seen_Route_Test extends TestCase {
 		$user_id         = -1;
 		$introduction_id = 'intro';
 		$this->user_helper->expects( 'get_current_user_id' )->andReturn( $user_id );
+		$this->introductions_collector->expects( 'is_available_introduction' )->with( $introduction_id )->andReturnTrue();
 		$this->introductions_seen_repository
 			->expects( 'set_introduction' )
 			->once()
@@ -247,6 +259,43 @@ class Introductions_Seen_Route_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			'WP_Error',
+			$this->instance->set_introduction_seen( $wp_rest_request )
+		);
+	}
+
+	/**
+	 * Tests the set_introduction_seen route's happy path.
+	 *
+	 * @covers ::set_introduction_seen
+	 */
+	public function test_set_introduction_seen_invalid_id() {
+		$introduction_id = 'intro';
+		$this->introductions_collector->expects( 'is_available_introduction' )->with( $introduction_id )->andReturnFalse();
+		$this->introductions_seen_repository
+			->expects( 'set_introduction' )
+			->never();
+		$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
+		$wp_rest_response_mock
+			->expects( '__construct' )
+			->with(
+				[],
+				400
+			)
+			->once();
+
+		$wp_rest_request = Mockery::mock( WP_REST_Request::class );
+		$wp_rest_request
+			->expects( 'get_params' )
+			->once()
+			->andReturn(
+				[
+					'introduction_id' => $introduction_id,
+					'is_seen'         => true,
+				]
+			);
+
+		$this->assertInstanceOf(
+			'WP_REST_Response',
 			$this->instance->set_introduction_seen( $wp_rest_request )
 		);
 	}
