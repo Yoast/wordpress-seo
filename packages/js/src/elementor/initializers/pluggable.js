@@ -1,6 +1,3 @@
-import { dispatch } from "@wordpress/data";
-import Pluggable from "../../lib/Pluggable";
-
 // Holds the singleton used in getPluggable.
 let pluggable = null;
 
@@ -11,10 +8,7 @@ let pluggable = null;
  */
 const getPluggable = () => {
 	if ( pluggable === null ) {
-		// const refresh = dispatch( "yoast-seo/editor" ).runAnalysis;
-		// pluggable = new Pluggable( refresh );
-		// Instead of initializing a new Pluggable plugin, here we need to use the initialized in post scrapper.
-		// I think this way we can get the registered modifications.
+		// Use the initialized pluggable plugin in post-scrapper.
 		pluggable = window.YoastSEO.app.pluggable;
 	}
 
@@ -63,7 +57,7 @@ export const registerModification = ( modification, callable, pluginName, priori
 };
 
 /**
- * Register a plugin with YoastSEO.
+ * Registers a plugin with YoastSEO.
  *
  * A plugin can be declared "ready" right at registration or later using `this.ready`.
  *
