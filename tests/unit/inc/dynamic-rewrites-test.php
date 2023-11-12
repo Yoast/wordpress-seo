@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Inc;
 use Mockery;
 use Brain\Monkey;
 use Yoast_Dynamic_Rewrites;
+use RuntimeException;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 
@@ -57,13 +58,38 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 */
-	public function test_construct() {
-		$GLOBALS['wp_rewrite'] = mockery::mock( 'WP_Rewrite' );
-
+	public function test_construct_with_runtime_exception() {
+		$this->expectException( RuntimeException::class );
 		$instance = new Yoast_Dynamic_Rewrites();
 
 		$this->assertNotEmpty( $instance->wp_rewrite, 'WP_Rewrite instance is set.' );
 		$this->assertInstanceOf( 'WP_Rewrite', $instance->wp_rewrite, 'WP_Rewrite instance is set with the given parameter.' );
+	}
+
+	/**
+	 * Test construct method.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct() {
+		$GLOBALS['wp_rewrite'] = $this->wp_rewrite;
+		$instance              = new Yoast_Dynamic_Rewrites();
+
+		$this->assertNotEmpty( $instance->wp_rewrite, 'WP_Rewrite instance is set.' );
+		$this->assertInstanceOf( 'WP_Rewrite', $instance->wp_rewrite, 'WP_Rewrite instance is set with the given parameter.' );
+	}
+
+	/**
+	 * Tests instance method.
+	 *
+	 * @covers ::instance
+	 */
+	public function test_instance() {
+		global $wp_rewrite;
+		$wp_rewrite            = Mockery::mock( 'WP_Rewrite' );
+		$GLOBALS['wp_rewrite'] = $wp_rewrite;
+		$this->assertInstanceOf( 'Yoast_Dynamic_Rewrites', Yoast_Dynamic_Rewrites::instance(), 'Instance is returned.' );
+		$this->assertSame( Yoast_Dynamic_Rewrites::instance(), Yoast_Dynamic_Rewrites::instance(), 'Same instance is returned.' );
 	}
 
 	/**
@@ -170,6 +196,7 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 				'regex'    => 'sitemap_index\.xml$',
 				'query'    => 'index.php?sitemap=1',
 				'priority' => 'top',
+				'index'    => 'index.php',
 				'expected' => [
 					'sitemap_index\.xml$' => 'index.php?sitemap=1',
 					'test'                => '123',
@@ -179,9 +206,19 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 				'regex'    => 'sitemap_index\.xml$',
 				'query'    => 'index.php?sitemap=1',
 				'priority' => 'bottom',
+				'index'    => 'index.php',
 				'expected' => [
 					'test'                => '123',
 					'sitemap_index\.xml$' => 'index.php?sitemap=1',
+				],
+			],
+			'Do not further handle external rules' => [
+				'regex'    => 'sitemap_index\.xml$',
+				'query'    => 'index.php?sitemap=1',
+				'priority' => 'bottom',
+				'index'    => 'nothing.php',
+				'expected' => [
+					'test'                => '123',
 				],
 			],
 		];
@@ -198,16 +235,52 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 * @param string $regex Regex.
 	 * @param string $query Query.
 	 * @param string $priority Priority.
+	 * @param string $index Index.
 	 * @param string $expected Expected result.
 	 */
-	public function test_add_rule( $regex, $query, $priority, $expected ) {
+	public function test_add_rule( $regex, $query, $priority, $index, $expected ) {
 
 		$this->wp_rewrite
 			->expects( 'add_rule' )
 			->once()
 			->with( $regex, $query, $priority );
 
+		$this->wp_rewrite->index = $index;
+
 		$this->instance->add_rule( $regex, $query, $priority );
+		$rewrite_rules = [ 'test' => '123' ];
+		$result        = $this->instance->filter_rewrite_rules_option( $rewrite_rules );
+
+		$this->assertSame( $result, $expected );
+	}
+
+	/**
+	 * Tests add_rule method.
+	 *
+	 * @covers ::add_rule
+	 * @covers ::filter_rewrite_rules_option
+	 */
+	public function test_add_rule_with_query() {
+		$regex    = 'sitemap_index\.xml$';
+		$query    = 'index.php?sitemap=1';
+		$priority = 'bottom';
+		$expected = [
+			'test'                => '123',
+			'sitemap_index\.xml$' => 'index.php?sitemap=1',
+		];
+
+		Monkey\Functions\expect( 'add_query_arg' )
+			->once()
+			->with( [], 'index.php' )
+			->andReturn( $query );
+
+		$this->wp_rewrite
+			->expects( 'add_rule' )
+			->once()
+			->with( $regex, $query, $priority );
+
+		$this->instance->add_rule( $regex, [], $priority );
+
 		$rewrite_rules = [ 'test' => '123' ];
 		$result        = $this->instance->filter_rewrite_rules_option( $rewrite_rules );
 
