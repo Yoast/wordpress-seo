@@ -497,14 +497,13 @@ export default function initPostScraper( $, store, editorData ) {
 		// Analysis plugins
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
+		const validShortcodes = wpseoScriptData.analysis.plugins.shortcodes.wpseo_shortcode_tags;
 		let shortcodesToBeParsed = [];
 
 		shortcodesToBeParsed = applyFilters( "yoast.analysis.shortcodes", shortcodesToBeParsed );
 
 		// Make sure the added shortcodes are valid. They are valid if they are included in `wpseo_shortcode_tags`.
-		shortcodesToBeParsed = shortcodesToBeParsed.filter( shortcode => {
-			return wpseoScriptData.analysis.plugins.shortcodes.wpseo_shortcode_tags.includes( shortcode );
-		} );
+		shortcodesToBeParsed = shortcodesToBeParsed.filter( shortcode => validShortcodes.includes( shortcode ) );
 
 		// Parses the shortcodes when `shortcodesToBeParsed` is provided.
 		if ( shortcodesToBeParsed.length > 0 ) {

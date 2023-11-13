@@ -3,11 +3,11 @@
 /* global ajaxurl */
 /* global _ */
 
-const shortcodeNameMatcher = "[^<>&/\\[\\]\x00-\x20=]+?";
-const shortcodeAttributesMatcher = "( [^\\]]+?)?";
+const SHORTCODE_NAME_MATCHER = "[^<>&/\\[\\]\x00-\x20=]+?";
+const SHORTCODE_ATTRIBUTES_MATCHER = "( [^\\]]+?)?";
 
-const shortcodeStartRegex = new RegExp( "\\[" + shortcodeNameMatcher + shortcodeAttributesMatcher + "\\]", "g" );
-const shortcodeEndRegex = new RegExp( "\\[/" + shortcodeNameMatcher + "\\]", "g" );
+const SHORTCODE_START_REGEX = new RegExp( "\\[" + SHORTCODE_NAME_MATCHER + SHORTCODE_ATTRIBUTES_MATCHER + "\\]", "g" );
+const SHORTCODE_END_REGEX = new RegExp( "\\[/" + SHORTCODE_NAME_MATCHER + "\\]", "g" );
 
 /**
  * The Yoast Shortcode plugin parses the shortcodes in a given piece of text. It analyzes multiple input fields for
@@ -17,7 +17,7 @@ class YoastShortcodePlugin {
 	/**
 	 * Constructs the YoastShortcodePlugin.
 	 *
-	 * @property {RegExp} keywordRegex Used to match a given string for valid shortcode keywords.
+	 * @property {RegExp} shortcodesRegex Used to match a given string for a valid shortcode.
 	 * @property {RegExp} closingTagRegex Used to match a given string for shortcode closing tags.
 	 * @property {RegExp} nonCaptureRegex Used to match a given string for non-capturing shortcodes.
 	 * @property {Array} parsedShortcodes Used to store parsed shortcodes.
@@ -39,12 +39,12 @@ class YoastShortcodePlugin {
 		registerPlugin( "YoastShortcodePlugin", { status: "loading" } );
 		this.bindElementEvents();
 
-		const keywordRegexString = "(" + shortcodesToBeParsed.join( "|" ) + ")";
+		const shortcodesRegexString = "(" + shortcodesToBeParsed.join( "|" ) + ")";
 
-		// The regex for matching shortcodes based on the available shortcode keywords.
-		this.keywordRegex = new RegExp( keywordRegexString, "g" );
-		this.closingTagRegex = new RegExp( "\\[\\/" + keywordRegexString + "\\]", "g" );
-		this.nonCaptureRegex = new RegExp( "\\[" + keywordRegexString + "[^\\]]*?\\]", "g" );
+		// The regex for matching shortcodes based on the list of shortcodes.
+		this.shortcodesRegex = new RegExp( shortcodesRegexString, "g" );
+		this.closingTagRegex = new RegExp( "\\[\\/" + shortcodesRegexString + "\\]", "g" );
+		this.nonCaptureRegex = new RegExp( "\\[" + shortcodesRegexString + "[^\\]]*?\\]", "g" );
 
 		/**
 		 * The array of parsedShortcode objects.
@@ -95,8 +95,8 @@ class YoastShortcodePlugin {
 	 * @returns {String} The text with removed unknown shortcodes.
 	 */
 	removeUnknownShortCodes( data ) {
-		data = data.replace( shortcodeStartRegex, "" );
-		data = data.replace( shortcodeEndRegex, "" );
+		data = data.replace( SHORTCODE_START_REGEX, "" );
+		data = data.replace( SHORTCODE_END_REGEX, "" );
 
 		return data;
 	}
@@ -244,11 +244,11 @@ class YoastShortcodePlugin {
 		let captures = [];
 
 		// First identify which tags are being used in a capturing shortcode by looking for closing tags.
-		const captureKeywords = ( text.match( this.closingTagRegex ) || [] ).join( " " ).match( this.keywordRegex ) || [];
+		const captureShortcodes = ( text.match( this.closingTagRegex ) || [] ).join( " " ).match( this.shortcodesRegex ) || [];
 
-		// Fetch the capturing shortcodes and strip them from the text, so we can easily match the non-capturing shortcodes.
-		captureKeywords.forEach( captureKeyword => {
-			const captureRegex = "\\[" + captureKeyword + "[^\\]]*?\\].*?\\[\\/" + captureKeyword + "\\]";
+		// Fetch the capturing shortcodes.
+		captureShortcodes.forEach( captureShortcode => {
+			const captureRegex = "\\[" + captureShortcode + "[^\\]]*?\\].*?\\[\\/" + captureShortcode + "\\]";
 			const matches = text.match( new RegExp( captureRegex, "g" ) ) || [];
 
 			captures = captures.concat( matches );
