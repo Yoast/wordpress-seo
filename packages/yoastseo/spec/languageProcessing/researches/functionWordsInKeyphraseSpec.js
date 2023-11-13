@@ -28,10 +28,10 @@ describe( "Test for checking if the keyphrase contains function words only", fun
 		expect( functionWordsInKeyphrase( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( true );
 	} );
 
-	it( "returns false if function words are separated by hyphens in a language where hyphens shouldn't be treated as" +
-		"word boundaries (Indonesian)", function() {
-		const mockPaper = new Paper( "", { keyword: "sekenanya-mudah" } );
-		expect( functionWordsInKeyphrase( mockPaper, new IndonesianResearcher( mockPaper ) ) ).toBe( false );
+	it( "returns true also if the function words are separated by hyphens in a language where normally hyphens aren't" +
+		"treated as word boundaries", function() {
+		const mockPaper = new Paper( "", { keyword: "dua-lima" } );
+		expect( functionWordsInKeyphrase( mockPaper, new IndonesianResearcher( mockPaper ) ) ).toBe( true );
 	} );
 
 	it( "returns false when the default researcher is used", function() {

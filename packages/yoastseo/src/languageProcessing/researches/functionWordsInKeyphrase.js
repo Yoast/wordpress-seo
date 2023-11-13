@@ -22,24 +22,18 @@ export default function( paper, researcher ) {
 		return false;
 	}
 
-	const areHyphensWordBoundaries = researcher.getConfig( "areHyphensWordBoundaries" );
-
 	/*
-     * For keyphrase matching, we want to split words on hyphens and en-dashes, except if in a specific language hyphens
-     * shouldn't be treated as word boundaries. For example in Indonesian, hyphens are used to create plural forms of nouns,
-     * such as "buku-buku" being a plural form of "buku". We want to treat forms like "buku-buku" as one word, so we shouldn't
-     * split words on hyphens in Indonesian.
-     * If hyphens should be treated as word boundaries, pass a custom word boundary regex string to the getWords helper
-     * that includes hyphens (u002d) and en-dashes (u2013). Otherwise, pass a regex that only includes en-dashes.
+     * We use a word boundary regex that includes hyphens for all languages. This means that we also consider keyphrases that
+     * consist of function words separated by hyphens (e.g. 'two-year-old') as containing only function words.
+     * Since many hyphenated phrases can also be written without hyphens, this way the behavior for hyphenated phrases
+     * matches the behavior for unhyphenated phrases.
+     * In Indonesian we normally don't want to treat hyphens as word boundaries, but in this case it makes sense because
+     * in Indonesian you can also have function words seperated by hyphens (e.g. 'dua-lima').
+     * As a downside, single function words containing hyphens (e.g. 'vis-à-vis') won't be automatically matched, but we
+     * are solving this by adding each word from such function words as separate entries in the function words lists.
      */
-	let keyphraseWords;
-	if ( getWordsCustomHelper ) {
-		keyphraseWords = getWordsCustomHelper( keyphrase );
-	} else if ( areHyphensWordBoundaries ) {
-		keyphraseWords = getWords( keyphrase, "[\\s\\u2013\\u002d]" );
-	} else {
-		keyphraseWords = getWords( keyphrase, "[\\s\\u2013]" );
-	}
+	let keyphraseWords = getWordsCustomHelper ? getWordsCustomHelper( keyphrase )
+		: getWords( keyphrase, "[\\s\\u2013\\u002d]" );
 
 	keyphraseWords = filter( keyphraseWords, function( word ) {
 		return ( ! includes( functionWords, word.trim().toLocaleLowerCase() ) );
