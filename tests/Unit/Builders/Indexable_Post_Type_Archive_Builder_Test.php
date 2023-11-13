@@ -77,11 +77,7 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 					AND p.post_password = ''
 					AND p.post_type = %s
 				",
-			[
-				0 => 'wp_posts',
-				1 => 'publish',
-				2 => 'my-post-type',
-			]
+			[ 'wp_posts', 'publish', 'my-post-type' ]
 		)->andReturn( 'PREPARED_QUERY' );
 		$wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
