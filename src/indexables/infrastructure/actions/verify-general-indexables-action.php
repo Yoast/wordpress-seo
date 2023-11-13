@@ -31,7 +31,7 @@ class Verify_General_Indexables_Action implements Verify_Indexables_Action_Inter
 	/**
 	 * The constructor.
 	 *
-	 * @param Indexable_Repository $repository The indexable repository.
+	 * @param Indexable_Repository $repository        The indexable repository.
 	 * @param Indexable_Builder    $indexable_builder The indexable builder.
 	 */
 	public function __construct( Indexable_Repository $repository, Indexable_Builder $indexable_builder ) {
@@ -50,7 +50,7 @@ class Verify_General_Indexables_Action implements Verify_Indexables_Action_Inter
 	 * Rebuilds the indexables for the general pages.
 	 *
 	 * @param Last_Batch_Count $last_batch_count The last batch count domain object.
-	 * @param Batch_Size       $batch_size The batch size domain object.
+	 * @param Batch_Size       $batch_size       The batch size domain object.
 	 *
 	 * @return bool
 	 */

@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Indexables\Application\Commands;
 
 use Yoast\WP\SEO\Indexables\Domain\Abstract_Indexables_Command;
-use Yoast\WP\SEO\Indexables\Domain\Batch_Size;
 use Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action;
 
 /**
@@ -21,9 +20,9 @@ class Verify_Non_Timestamp_Indexables_Command extends Abstract_Indexables_Comman
 	/**
 	 * The constructor.
 	 *
-	 * @param int    $last_batch            The last batch count.
-	 * @param int    $batch_size            The batch size.
-	 * @param string $current_action        The current verification action.
+	 * @param int    $last_batch     The last batch count.
+	 * @param int    $batch_size     The batch size.
+	 * @param string $current_action The current verification action.
 	 */
 	public function __construct( int $last_batch, int $batch_size, string $current_action ) {
 		$this->current_action = new Current_Verification_Action( $current_action );

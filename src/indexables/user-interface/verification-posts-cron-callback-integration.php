@@ -62,8 +62,7 @@ class Verification_Posts_Cron_Callback_Integration implements Integration_Interf
 	 * @param Verification_Cron_Schedule_Handler     $cron_schedule_handler                  The cron schedule handler.
 	 * @param Options_Helper                         $options_helper                         The options helper.
 	 * @param Verification_Cron_Batch_Handler        $cron_batch_handler                     The cron batch handler.
-	 * @param Verify_Post_Indexables_Command_Handler $verify_post_indexables_command_handler The verify post indexables
-	 *                                                                                       command handler.
+	 * @param Verify_Post_Indexables_Command_Handler $verify_post_indexables_command_handler The verify post indexables command handler.
 	 */
 	public function __construct(
 		Cron_Verification_Gate $cron_verification_gate,

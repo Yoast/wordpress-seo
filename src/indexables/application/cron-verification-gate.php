@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Indexables\Application;
 
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * The Cron_Verification_Gate class.

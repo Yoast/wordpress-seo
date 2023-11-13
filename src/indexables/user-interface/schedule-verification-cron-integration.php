@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Indexables\User_Interface;
 
 use Yoast\WP\SEO\Conditionals\Traits\Admin_Conditional_Trait;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 

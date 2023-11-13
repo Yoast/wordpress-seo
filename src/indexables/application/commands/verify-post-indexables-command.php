@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Indexables\Application\Commands;
 use Yoast\WP\SEO\Indexables\Domain\Abstract_Indexables_Command;
 use Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count;
 
-
 /**
  * The Verify_Post_Indexables_Command class.
  */

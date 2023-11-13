@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Indexables\Domain;
 
-use WP_Post;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
@@ -93,7 +92,7 @@ class Outdated_Post_Indexables_List implements \Iterator, \Countable {
 	 *
 	 * @return int
 	 */
-	public function count():int {
+	public function count(): int {
 		return \count( $this->post_indexables_list );
 	}
 }

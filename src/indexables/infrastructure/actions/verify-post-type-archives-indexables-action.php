@@ -48,11 +48,15 @@ class Verify_Post_Type_Archives_Indexables_Action implements Verify_Indexables_A
 	/**
 	 * The constructor.
 	 *
-	 * @param Post_Type_Helper     $post_type_helper The post type helper.
-	 * @param Indexable_Builder    $indexable_builder The indexable builder.
+	 * @param Post_Type_Helper     $post_type_helper     The post type helper.
+	 * @param Indexable_Builder    $indexable_builder    The indexable builder.
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 */
-	public function __construct( Post_Type_Helper $post_type_helper, Indexable_Builder $indexable_builder, Indexable_Repository $indexable_repository ) {
+	public function __construct(
+		Post_Type_Helper $post_type_helper,
+		Indexable_Builder $indexable_builder,
+		Indexable_Repository $indexable_repository
+	) {
 
 		$this->post_type_helper     = $post_type_helper;
 		$this->indexable_builder    = $indexable_builder;
@@ -63,7 +67,7 @@ class Verify_Post_Type_Archives_Indexables_Action implements Verify_Indexables_A
 	 * Rebuilds the indexables for post type archives.
 	 *
 	 * @param Last_Batch_Count $last_batch_count The last batch count domain object.
-	 * @param Batch_Size       $batch_size The batch size domain object.
+	 * @param Batch_Size       $batch_size       The batch size domain object.
 	 *
 	 * @return bool
 	 */

@@ -46,8 +46,8 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 	/**
 	 * The constructor.
 	 *
-	 * @param Taxonomy_Helper        $taxonomy The taxonomy helper.
-	 * @param Indexable_Repository   $repository The indexable repository.
+	 * @param Taxonomy_Helper        $taxonomy     The taxonomy helper.
+	 * @param Indexable_Repository   $repository   The indexable repository.
 	 * @param Indexable_Link_Builder $link_builder The link builder.
 	 */
 	public function __construct(
@@ -64,7 +64,7 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 	 * Re builds indexables for term links.
 	 *
 	 * @param Last_Batch_Count $last_batch_count The last batch count domain object.
-	 * @param Batch_Size       $batch_size The batch size domain object.
+	 * @param Batch_Size       $batch_size       The batch size domain object.
 	 *
 	 * @return bool
 	 */
@@ -113,7 +113,7 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 	/**
 	 * Creates the query to get all the taxonomy link options.
 	 *
-	 * @param int $limit The query limit.
+	 * @param int $limit      The query limit.
 	 * @param int $batch_size The batch size for the queries.
 	 *
 	 * @return string|null
@@ -133,6 +133,7 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 			$offset_query   = 'OFFSET %d';
 			$replacements[] = ( $limit + $batch_size );
 		}
+
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		return $this->wpdb->prepare(
 			"

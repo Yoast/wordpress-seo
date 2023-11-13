@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Indexables\Application\Ports;
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Outdated_Posts_Found_Exception;
 use Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count;
 use Yoast\WP\SEO\Indexables\Domain\Outdated_Post_Indexables_List;
-use Yoast\WP\SEO\Indexables\Domain\Plugin_Deactivated_Timestamp;
 
 interface Outdated_Post_Indexables_Repository_Interface {
 
@@ -19,7 +18,5 @@ interface Outdated_Post_Indexables_Repository_Interface {
 	 * @throws No_Outdated_Posts_Found_Exception When there are no outdated posts found.
 	 * @return Outdated_Post_Indexables_List
 	 */
-	public function get_outdated_post_indexables(
-		Last_Batch_Count $count
-	): Outdated_Post_Indexables_List;
+	public function get_outdated_post_indexables( Last_Batch_Count $count ): Outdated_Post_Indexables_List;
 }

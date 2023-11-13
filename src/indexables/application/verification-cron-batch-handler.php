@@ -32,7 +32,7 @@ class Verification_Cron_Batch_Handler {
 	 *
 	 * @return int
 	 */
-	public function get_current_post_indexables_batch():int {
+	public function get_current_post_indexables_batch(): int {
 		return $this->options_helper->get( 'cron_verify_post_indexables_last_batch', 0 );
 	}
 
@@ -52,7 +52,7 @@ class Verification_Cron_Batch_Handler {
 	 *
 	 * @return int
 	 */
-	public function get_current_non_timestamped_indexables_batch():int {
+	public function get_current_non_timestamped_indexables_batch(): int {
 		return $this->options_helper->get( 'cron_verify_non_timestamped_indexables_last_batch', 0 );
 	}
 
@@ -60,11 +60,14 @@ class Verification_Cron_Batch_Handler {
 	 * Sets the `cron_verify_non_timestamped_indexables_last_batch` option.
 	 *
 	 * @param Last_Batch_Count $last_batch_count The current batch count.
-	 * @param Batch_Size       $batch_size The batch size.
+	 * @param Batch_Size       $batch_size       The batch size.
 	 *
 	 * @return void
 	 */
-	public function set_current_non_timestamped_indexables_batch( Last_Batch_Count $last_batch_count, Batch_Size $batch_size ) {
+	public function set_current_non_timestamped_indexables_batch(
+		Last_Batch_Count $last_batch_count,
+		Batch_Size $batch_size
+	) {
 		$batch_count = ( $last_batch_count->get_last_batch() + $batch_size->get_batch_size() );
 		$this->options_helper->set( 'cron_verify_non_timestamped_indexables_last_batch', $batch_count );
 	}

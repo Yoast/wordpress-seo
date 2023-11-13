@@ -9,7 +9,6 @@ use Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action;
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Verification_Action_Left_Exception;
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\Verify_Action_Not_Found_Exception;
 use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_General_Indexables_Action;
-use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Post_Links_Indexables_Action;
 use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Post_Type_Archives_Indexables_Action;
 use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Indexables_Action;
 use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Links_Indexables_Action;
@@ -61,10 +60,10 @@ class Verify_Indexable_Action_Factory implements Verify_Indexables_Action_Factor
 	/**
 	 * The constructor.
 	 *
-	 * @param Verify_Term_Indexables_Action               $verify_term_indexables_action The instance.
-	 * @param Verify_General_Indexables_Action            $verify_general_indexables_action The instance.
+	 * @param Verify_Term_Indexables_Action               $verify_term_indexables_action               The instance.
+	 * @param Verify_General_Indexables_Action            $verify_general_indexables_action            The instance.
 	 * @param Verify_Post_Type_Archives_Indexables_Action $verify_post_type_archives_indexables_action The instance.
-	 * @param Verify_Term_Links_Indexables_Action         $verify_term_links_indexables_action The instance.
+	 * @param Verify_Term_Links_Indexables_Action         $verify_term_links_indexables_action         The instance.
 	 */
 	public function __construct(
 		Verify_Term_Indexables_Action $verify_term_indexables_action,
@@ -104,7 +103,8 @@ class Verify_Indexable_Action_Factory implements Verify_Indexables_Action_Factor
 	/**
 	 * Determines the next verification action that needs to be taken.
 	 *
-	 * @param Current_Verification_Action $current_verification_action_object The current verification object to determine the next one for.
+	 * @param Current_Verification_Action $current_verification_action_object The current verification object to
+	 *                                                                        determine the next one for.
 	 *
 	 * @throws No_Verification_Action_Left_Exception Throws when there are no verification actions left.
 	 * @return Current_Verification_Action
