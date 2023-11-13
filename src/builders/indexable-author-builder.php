@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use wpdb;
 use Yoast\WP\SEO\Exceptions\Indexable\Author_Not_Built_Exception;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -48,33 +47,23 @@ class Indexable_Author_Builder {
 	protected $post_helper;
 
 	/**
-	 * The WPDB instance.
-	 *
-	 * @var wpdb
-	 */
-	protected $wpdb;
-
-	/**
 	 * Indexable_Author_Builder constructor.
 	 *
 	 * @param Author_Archive_Helper      $author_archive The author archive helper.
 	 * @param Indexable_Builder_Versions $versions       The Indexable version manager.
 	 * @param Options_Helper             $options_helper The options helper.
 	 * @param Post_Helper                $post_helper    The post helper.
-	 * @param wpdb                       $wpdb           The WPDB instance.
 	 */
 	public function __construct(
 		Author_Archive_Helper $author_archive,
 		Indexable_Builder_Versions $versions,
 		Options_Helper $options_helper,
-		Post_Helper $post_helper,
-		wpdb $wpdb
+		Post_Helper $post_helper
 	) {
 		$this->author_archive = $author_archive;
 		$this->version        = $versions->get_latest_version_for_type( 'user' );
 		$this->options_helper = $options_helper;
 		$this->post_helper    = $post_helper;
-		$this->wpdb           = $wpdb;
 	}
 
 	/**
@@ -194,20 +183,24 @@ class Indexable_Author_Builder {
 	 * @return object An object with last_modified and published_at timestamps.
 	 */
 	protected function get_object_timestamps( $author_id ) {
+		global $wpdb;
 		$post_statuses = $this->post_helper->get_public_post_statuses();
 
-		$sql = "
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (" . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
-				AND p.post_password = ''
-				AND p.post_author = %d
-		";
+		$replacements = \array_merge( [ $wpdb->posts ], $post_statuses, [ $author_id ] );
 
-		$replacements = \array_merge( $post_statuses, [ $author_id ] );
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We are using wpdb prepare.
-		return $this->wpdb->get_row( $this->wpdb->prepare( $sql, $replacements ) );
+		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+		return $wpdb->get_row(
+			$wpdb->prepare(
+				'
+				SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+				FROM %i AS p
+				WHERE p.post_status IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+					AND p.post_password = ''
+					AND p.post_author = %d
+				",
+				$replacements
+			)
+		);
 	}
 
 	/**
