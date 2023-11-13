@@ -38,13 +38,17 @@ import KeywordUpsell from "../../../components/modals/KeywordUpsell";
  *
  * @constructor
  */
-export default function ElementorFill( { isLoading, onLoad, settings } ) {
+export default function ElementorFill( { isLoading, onLoad, settings, setMarkerStatus } ) {
 	useEffect( () => {
 		setTimeout( () => {
 			if ( isLoading ) {
 				onLoad();
 			}
 		} );
+		// When we display the upsell, the highlighting button should be disabled.
+		if ( settings.shouldUpsell ) {
+			setMarkerStatus( "disabled" );
+		}
 	} );
 
 	if ( isLoading ) {
@@ -141,5 +145,6 @@ ElementorFill.propTypes = {
 	isLoading: PropTypes.bool.isRequired,
 	onLoad: PropTypes.func.isRequired,
 	settings: PropTypes.object.isRequired,
+	setMarkerStatus: PropTypes.func.isRequired,
 };
 /* eslint-enable complexity */
