@@ -128,6 +128,7 @@ class ReadabilityAnalysis extends Component {
 	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
+		const highlightingUpsellLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.highlighting_readability_analysis" ];
 
 		if ( isNil( this.props.overallScore ) ) {
 			score.className = "loading";
@@ -152,7 +153,8 @@ class ReadabilityAnalysis extends Component {
 											prefixIconCollapsed={ getIconForScore( score.className ) }
 											id={ `yoast-readability-analysis-collapsible-${ location }` }
 										>
-											{ this.props.shouldUpsell && this.props.isElementorEditor && <HighlightingButtonUpsell link={ "" } /> }
+											{ this.props.shouldUpsell && this.props.isElementorEditor &&
+												<HighlightingButtonUpsell link={ highlightingUpsellLink } /> }
 											{ this.renderResults( upsellResults ) }
 										</Collapsible>
 									);

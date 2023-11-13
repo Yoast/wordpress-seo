@@ -169,6 +169,8 @@ const InclusiveLanguageAnalysis = ( props ) => {
 	 * @returns {JSX.Element} The inclusive language for the sidebar.
 	 */
 	function renderSidebar( results, inclusiveLanguageScore ) {
+		const highlightingUpsellLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.highlighting_inclusive_analysis" ];
+
 		return (
 			<Collapsible
 				title={ __( "Inclusive language", "wordpress-seo" ) }
@@ -177,7 +179,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 				prefixIconCollapsed={ getIconForScore( inclusiveLanguageScore.className ) }
 				id={ "yoast-inclusive-language-analysis-collapsible-sidebar" }
 			>
-				{ props.shouldUpsell && props.isElementorEditor && <HighlightingButtonUpsell link={ "" } /> }
+				{ props.shouldUpsell && props.isElementorEditor && <HighlightingButtonUpsell link={ highlightingUpsellLink } /> }
 				{ isMultilingualPluginActive() ? renderMultilingualPluginDetectedNotice() : null }
 				{ results.length >= 1 ? renderResults() : renderGoodJob() }
 			</Collapsible>
