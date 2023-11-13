@@ -53,5 +53,5 @@ jobs:
             exclude-checks: |
                 trademarks
                 late_escaping
-                plugin_updater_detected
+                plugin_updater
                 plugin_review_phpcs
