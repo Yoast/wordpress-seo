@@ -18,6 +18,7 @@ import HelpLink from "../HelpLink";
 import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
 import { isWordComplexitySupported } from "../../helpers/assessmentUpsellHelpers";
 import { addQueryArgs } from "@wordpress/url";
+import HighlightingButtonUpsell from "../../elementor/components/HighlightingButtonUpsell";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -151,6 +152,7 @@ class ReadabilityAnalysis extends Component {
 											prefixIconCollapsed={ getIconForScore( score.className ) }
 											id={ `yoast-readability-analysis-collapsible-${ location }` }
 										>
+											{ this.props.shouldUpsell && this.props.isElementorEditor && <HighlightingButtonUpsell link={ "" } /> }
 											{ this.renderResults( upsellResults ) }
 										</Collapsible>
 									);
@@ -183,11 +185,13 @@ ReadabilityAnalysis.propTypes = {
 	marksButtonStatus: PropTypes.string.isRequired,
 	overallScore: PropTypes.number,
 	shouldUpsell: PropTypes.bool,
+	isElementorEditor: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
 	overallScore: null,
 	shouldUpsell: false,
+	isElementorEditor: false,
 };
 
 export default withSelect( select => {

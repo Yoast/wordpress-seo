@@ -115,10 +115,14 @@ export default function ElementorFill( { isLoading, onLoad, settings, setMarkerS
 				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 15 }>
 					<ReadabilityAnalysis
 						shouldUpsell={ settings.shouldUpsell }
+						isElementorEditor={ true }
 					/>
 				</SidebarItem> }
 				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem renderPriority={ 19 }>
-					<InclusiveLanguageAnalysis />
+					<InclusiveLanguageAnalysis
+						shouldUpsell={ settings.shouldUpsell }
+						isElementorEditor={ true }
+					/>
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }

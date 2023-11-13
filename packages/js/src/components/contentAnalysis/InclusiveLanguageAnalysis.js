@@ -18,6 +18,7 @@ import HelpLink from "../HelpLink";
 import Portal from "../portals/Portal";
 import { Alert, SvgIcon } from "@yoast/components";
 import isMultilingualPluginActive from "../../analysis/isMultilingualPluginActive";
+import HighlightingButtonUpsell from "../../elementor/components/HighlightingButtonUpsell";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -176,6 +177,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 				prefixIconCollapsed={ getIconForScore( inclusiveLanguageScore.className ) }
 				id={ "yoast-inclusive-language-analysis-collapsible-sidebar" }
 			>
+				{ props.shouldUpsell && props.isElementorEditor && <HighlightingButtonUpsell link={ "" } /> }
 				{ isMultilingualPluginActive() ? renderMultilingualPluginDetectedNotice() : null }
 				{ results.length >= 1 ? renderResults() : renderGoodJob() }
 			</Collapsible>
@@ -232,11 +234,15 @@ InclusiveLanguageAnalysis.propTypes = {
 	// eslint-disable-next-line react/no-unused-prop-types
 	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled", "hidden" ] ).isRequired,
 	overallScore: PropTypes.number,
+	shouldUpsell: PropTypes.bool,
+	isElementorEditor: PropTypes.bool,
 };
 
 InclusiveLanguageAnalysis.defaultProps = {
 	results: [],
 	overallScore: null,
+	shouldUpsell: false,
+	isElementorEditor: false,
 };
 
 export default withSelect( select => {
