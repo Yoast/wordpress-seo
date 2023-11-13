@@ -12,23 +12,23 @@ let functionWords = [];
  * Strips all function words from the start of the given string.
  *
  * @param {string} str 							The string from which to strip the function words.
- * @param {boolean}	areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
  * @returns {boolean} Whether the string consists of function words only.
  */
-const stripFunctionWordsFromStart = function( str, areHyphensWordBoundaries ) {
+const stripFunctionWordsFromStart = function( str ) {
 	str = str.toLocaleLowerCase();
 
 	/*
- 	 * For keyphrase matching, we want to split words on hyphens and en-dashes, except if in a specific language hyphens
- 	 * shouldn't be treated as word boundaries. For example in Indonesian, hyphens are used to create plural forms of nouns,
- 	 * such as "buku-buku" being a plural form of "buku". We want to treat forms like "buku-buku" as one word, so we shouldn't
- 	 * split words on hyphens in Indonesian.
- 	 * If hyphens should be treated as word boundaries, pass a custom word boundary regex string to the getWords helper
- 	 * that includes hyphens (u002d) and en-dashes (u2013). Otherwise, pass a regex that only includes en-dashes.
+ 	 * We use a word boundary regex that includes hyphens for all languages. This means that when we filter out function
+ 	 * words from the beginning of the title, we also filter out words separated by hyphens (e.g. three-piece), as well as
+ 	 * function words attached to a content word with a hyphen (e.g. 'after' in 'after-school).
+ 	 * In Indonesian we normally don't want to treat hyphens as word boundaries, but in this case it makes sense because
+ 	 * an Indonesian title can also contain function words seperated by hyphens at the beginning of the title (e.g. 'dua'
+ 	 * and 'lima' in 'dua-lima ribuan').
+ 	 * As a downside, function words containing hyphens (e.g. 'vis-à-vis') won't be filtered out, but we are solving this
+ 	 * by adding each word from such function words as separate entries in the function words lists.
   	 */
-	let titleWords = areHyphensWordBoundaries ? getWords( str.toLocaleLowerCase(), "[\\s\\u2013\\u002d]" )
-		: getWords( str.toLocaleLowerCase(), "[\\s\\u2013]" );
+	let titleWords = getWords( str.toLocaleLowerCase(), "[\\s\\u2013\\u002d]" );
 
 	// Strip all function words from the start of the string.
 	titleWords = filter( titleWords, function( word ) {
@@ -90,8 +90,6 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 	const title = paper.getTitle();
 	const locale = paper.getLocale();
 
-	const areHyphensWordBoundaries = researcher.getConfig( "areHyphensWordBoundaries" );
-
 	const result = { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false  };
 
 	// Check if the keyphrase is enclosed in double quotation marks to ensure that only exact matches are processed.
@@ -108,7 +106,7 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 	if ( keywordMatched.count > 0 ) {
 		result.exactMatchFound = true;
 		result.allWordsFound = true;
-		result.position = adjustPosition( title, keywordMatched.position, areHyphensWordBoundaries );
+		result.position = adjustPosition( title, keywordMatched.position );
 
 		return result;
 	}
@@ -119,7 +117,7 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 		if ( keywordMatchedBeforeSanitizing.count > 0 ) {
 			result.exactMatchFound = true;
 			result.allWordsFound = true;
-			result.position = adjustPosition( title, keywordMatchedBeforeSanitizing.position, areHyphensWordBoundaries );
+			result.position = adjustPosition( title, keywordMatchedBeforeSanitizing.position );
 		}
 		return result;
 	}
