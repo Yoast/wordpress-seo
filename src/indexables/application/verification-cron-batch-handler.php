@@ -28,7 +28,7 @@ class Verification_Cron_Batch_Handler {
 	}
 
 	/**
-	 * Gets the `cron_verify_post_indexables_last_batch` option
+	 * Gets the `cron_verify_post_indexables_last_batch` option.
 	 *
 	 * @return int
 	 */
@@ -37,7 +37,7 @@ class Verification_Cron_Batch_Handler {
 	}
 
 	/**
-	 * Sets the `cron_verify_post_indexables_last_batch` option
+	 * Sets the `cron_verify_post_indexables_last_batch` option.
 	 *
 	 * @param int $batch_count The batch count.
 	 *
@@ -48,7 +48,7 @@ class Verification_Cron_Batch_Handler {
 	}
 
 	/**
-	 * Gets the `cron_verify_non_timestamped_indexables_last_batch` option
+	 * Gets the `cron_verify_non_timestamped_indexables_last_batch` option.
 	 *
 	 * @return int
 	 */

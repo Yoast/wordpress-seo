@@ -76,7 +76,6 @@ class Outdated_Post_Indexables_Repository implements Outdated_Post_Indexables_Re
 	): Outdated_Post_Indexables_List {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-
 		$post_types             = $this->post_type_helper->get_indexable_post_types();
 		$excluded_post_statuses = $this->post_helper->get_excluded_post_statuses();
 		$query                  = $this->indexable_repository->query();

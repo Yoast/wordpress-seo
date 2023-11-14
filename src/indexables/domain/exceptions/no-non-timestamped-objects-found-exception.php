@@ -15,7 +15,7 @@ class No_Non_Timestamped_Objects_Found_Exception extends \Exception {
 	 *
 	 * @return No_Non_Timestamped_Objects_Found_Exception The exception.
 	 */
-	public static function because_no_objects_queried() {
+	public static function because_no_objects_queried(): self {
 		return new self(
 			'No objects found.'
 		);

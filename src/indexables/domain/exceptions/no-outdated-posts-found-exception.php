@@ -15,7 +15,7 @@ class No_Outdated_Posts_Found_Exception extends Exception {
 	 *
 	 * @return No_Outdated_Posts_Found_Exception The exception.
 	 */
-	public static function because_no_outdated_posts_queried() {
+	public static function because_no_outdated_posts_queried(): self {
 		return new self(
 			'No outdated posts found.'
 		);

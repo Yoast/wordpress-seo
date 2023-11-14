@@ -35,11 +35,11 @@ class Batch_Size {
 	/**
 	 * Checks if the batch is bigger than the count.
 	 *
-	 * @param int|null $count The count to check.
+	 * @param int $count The count to check.
 	 *
 	 * @return bool
 	 */
-	public function should_keep_going( ?int $count ): bool {
+	public function should_keep_going( int $count ): bool {
 		return $count >= $this->get_batch_size();
 	}
 }

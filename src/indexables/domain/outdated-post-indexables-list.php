@@ -37,7 +37,7 @@ class Outdated_Post_Indexables_List implements \Iterator, \Countable {
 	 *
 	 * @return void
 	 */
-	public function add_post_indexable( Indexable $post ) {
+	public function add_post_indexable( Indexable $post ): void {
 		$this->post_indexables_list[] = $post;
 	}
 
@@ -56,7 +56,6 @@ class Outdated_Post_Indexables_List implements \Iterator, \Countable {
 	 * @return Indexable
 	 */
 	public function current(): Indexable {
-
 		return $this->post_indexables_list[ $this->position ];
 	}
 

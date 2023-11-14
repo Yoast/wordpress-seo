@@ -57,7 +57,6 @@ class Verify_Post_Type_Archives_Indexables_Action implements Verify_Indexables_A
 		Indexable_Builder $indexable_builder,
 		Indexable_Repository $indexable_repository
 	) {
-
 		$this->post_type_helper     = $post_type_helper;
 		$this->indexable_builder    = $indexable_builder;
 		$this->indexable_repository = $indexable_repository;

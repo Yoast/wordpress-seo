@@ -10,12 +10,12 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 class Verification_Cron_Schedule_Handler {
 
 	/**
-	 * The name of the CRON job.
+	 * The name of the cron job.
 	 */
 	public const INDEXABLE_VERIFY_POST_INDEXABLES_NAME = 'wpseo_indexable_verify_post_indexables';
 
 	/**
-	 * The name of the CRON job.
+	 * The name of the cron job.
 	 */
 	public const INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME = 'wpseo_indexable_verify_non_timestamped_indexables';
 

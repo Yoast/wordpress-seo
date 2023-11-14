@@ -64,7 +64,6 @@ class Verify_Term_Indexables_Action implements Verify_Indexables_Action_Interfac
 			$this->repository->build_by_id_and_type( (int) $term_id, 'term' );
 		}
 
-
 		return $batch_size->should_keep_going( \count( $term_ids ) );
 	}
 
@@ -86,9 +85,9 @@ class Verify_Term_Indexables_Action implements Verify_Indexables_Action_Interfac
 	 * @param int $limit      The query limit.
 	 * @param int $batch_size The batch size for the queries.
 	 *
-	 * @return string|null
+	 * @return string
 	 */
-	private function get_query( $limit, $batch_size ) {
+	private function get_query( int $limit, int $batch_size ) {
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
 		$public_taxonomies = $this->taxonomy->get_indexable_taxonomies();
 

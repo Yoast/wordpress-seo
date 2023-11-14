@@ -27,13 +27,6 @@ class Verification_Posts_Cron_Callback_Integration implements Integration_Interf
 	private $cron_schedule_handler;
 
 	/**
-	 * The options helper instance.
-	 *
-	 * @var Options_Helper $options_helper
-	 */
-	private $options_helper;
-
-	/**
 	 * The cron batch handler instance.
 	 *
 	 * @var Verification_Cron_Batch_Handler $cron_batch_handler
@@ -60,20 +53,17 @@ class Verification_Posts_Cron_Callback_Integration implements Integration_Interf
 	 * @param Cron_Verification_Gate                 $cron_verification_gate                 The cron verification
 	 *                                                                                       gate.
 	 * @param Verification_Cron_Schedule_Handler     $cron_schedule_handler                  The cron schedule handler.
-	 * @param Options_Helper                         $options_helper                         The options helper.
 	 * @param Verification_Cron_Batch_Handler        $cron_batch_handler                     The cron batch handler.
 	 * @param Verify_Post_Indexables_Command_Handler $verify_post_indexables_command_handler The verify post indexables command handler.
 	 */
 	public function __construct(
 		Cron_Verification_Gate $cron_verification_gate,
 		Verification_Cron_Schedule_Handler $cron_schedule_handler,
-		Options_Helper $options_helper,
 		Verification_Cron_Batch_Handler $cron_batch_handler,
 		Verify_Post_Indexables_Command_Handler $verify_post_indexables_command_handler
 	) {
 		$this->cron_verification_gate                 = $cron_verification_gate;
 		$this->cron_schedule_handler                  = $cron_schedule_handler;
-		$this->options_helper                         = $options_helper;
 		$this->cron_batch_handler                     = $cron_batch_handler;
 		$this->verify_post_indexables_command_handler = $verify_post_indexables_command_handler;
 	}
@@ -102,6 +92,7 @@ class Verification_Posts_Cron_Callback_Integration implements Integration_Interf
 
 			return;
 		}
+
 		/**
 		 * Filter: 'Yoast\WP\SEO\post_verify_indexing_limit_size' - Adds the possibility to limit the number of items that are indexed when in cron action.
 		 *

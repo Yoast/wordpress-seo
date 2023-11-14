@@ -29,6 +29,13 @@ class Verify_General_Indexables_Action implements Verify_Indexables_Action_Inter
 	protected $indexable_builder;
 
 	/**
+	 * The wp query.
+	 *
+	 * @var \wpdb $wpdb
+	 */
+	private $wpdb;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Indexable_Repository $repository        The indexable repository.
@@ -38,13 +45,6 @@ class Verify_General_Indexables_Action implements Verify_Indexables_Action_Inter
 		$this->repository        = $repository;
 		$this->indexable_builder = $indexable_builder;
 	}
-
-	/**
-	 * The wp query.
-	 *
-	 * @var \wpdb $wpdb
-	 */
-	private $wpdb;
 
 	/**
 	 * Rebuilds the indexables for the general pages.

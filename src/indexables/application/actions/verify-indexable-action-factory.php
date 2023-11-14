@@ -26,7 +26,6 @@ class Verify_Indexable_Action_Factory implements Verify_Indexables_Action_Factor
 		'general',
 		'post-type-archives',
 		'term_links',
-		'post_links',
 	];
 
 	/**
@@ -109,12 +108,11 @@ class Verify_Indexable_Action_Factory implements Verify_Indexables_Action_Factor
 	 * @throws No_Verification_Action_Left_Exception Throws when there are no verification actions left.
 	 * @return Current_Verification_Action
 	 */
-	public function determine_next_verify_action( Current_Verification_Action $current_verification_action_object
-	): Current_Verification_Action {
+	public function determine_next_verify_action( Current_Verification_Action $current_verification_action_object ): Current_Verification_Action {
 		$current_verification_action = $current_verification_action_object->get_action();
 
 		if ( \in_array( $current_verification_action, self::VERIFICATION_MAPPING, true ) ) {
-			$key = array_search( $current_verification_action, self::VERIFICATION_MAPPING, true );
+			$key = \array_search( $current_verification_action, self::VERIFICATION_MAPPING, true );
 			if ( isset( self::VERIFICATION_MAPPING[ ++$key ] ) ) {
 				return new Current_Verification_Action( self::VERIFICATION_MAPPING[ $key ] );
 			}

@@ -76,7 +76,6 @@ class Verify_Non_Timestamp_Indexables_Command_Handler {
 	 * @return void
 	 */
 	public function handle( Verify_Non_Timestamp_Indexables_Command $verify_non_timestamp_indexables_command ): void {
-
 		try {
 			$verification_action = $this->verify_indexables_action_factory->get( $verify_non_timestamp_indexables_command->get_current_action() );
 		} catch ( Verify_Action_Not_Found_Exception $exception ) {

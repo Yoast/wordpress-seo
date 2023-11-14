@@ -26,11 +26,11 @@ class Cron_Verification_Gate {
 	}
 
 	/**
-	 * Determine whether cron verification of indexables should be performed.
+	 * Determines whether cron verification of indexables should be performed.
 	 *
 	 * @return bool Should cron verification be performed.
 	 */
-	public function should_verify_on_cron() {
+	public function should_verify_on_cron(): bool {
 		if ( ! $this->indexable_helper->should_index_indexables() ) {
 			return false;
 		}
