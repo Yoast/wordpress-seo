@@ -277,7 +277,7 @@ class Results extends Component {
 					onEditButtonClick={ this.handleEditButtonClick }
 					marksButtonClassName={ this.props.marksButtonClassName }
 					editButtonClassName={ this.props.editButtonClassName }
-					marksButtonStatus={ this.props.marksButtonStatus }
+					marksButtonStatus={ this.props.shortcodesForParsing.length > 0 ? "disabled" : this.props.marksButtonStatus }
 					headingLevel={ 3 }
 					keywordKey={ this.props.keywordKey }
 					isPremium={ this.props.isPremium }
@@ -308,6 +308,7 @@ Results.propTypes = {
 		considerations: PropTypes.string,
 		goodResults: PropTypes.string,
 	} ),
+	shortcodesForParsing: PropTypes.array,
 };
 
 Results.defaultProps = {
@@ -321,6 +322,7 @@ Results.defaultProps = {
 	location: "",
 	isPremium: false,
 	resultCategoryLabels: {},
+	shortcodesForParsing: [],
 };
 
 export default Results;

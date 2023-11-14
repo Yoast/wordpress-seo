@@ -66,7 +66,7 @@ class ReadabilityAnalysis extends Component {
 					results={ this.props.results }
 					upsellResults={ upsellResults }
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
-					marksButtonStatus={ this.props.shortcodesForParsing.length > 0 ? "disabled" : this.props.marksButtonStatus }
+					marksButtonStatus={ this.props.marksButtonStatus }
 				/>
 			</Fragment>
 		);
@@ -183,25 +183,21 @@ ReadabilityAnalysis.propTypes = {
 	marksButtonStatus: PropTypes.string.isRequired,
 	overallScore: PropTypes.number,
 	shouldUpsell: PropTypes.bool,
-	shortcodesForParsing: PropTypes.array,
 };
 
 ReadabilityAnalysis.defaultProps = {
 	overallScore: null,
 	shouldUpsell: false,
-	shortcodesForParsing: [],
 };
 
 export default withSelect( select => {
 	const {
 		getReadabilityResults,
 		getMarkButtonStatus,
-		getShortcodesForParsing,
 	} = select( "yoast-seo/editor" );
 
 	return {
 		...getReadabilityResults(),
 		marksButtonStatus: getMarkButtonStatus(),
-		shortcodesForParsing: getShortcodesForParsing(),
 	};
 } )( ReadabilityAnalysis );

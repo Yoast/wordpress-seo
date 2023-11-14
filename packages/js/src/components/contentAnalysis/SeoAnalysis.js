@@ -265,7 +265,6 @@ SeoAnalysis.propTypes = {
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
-	shortcodesForParsing: PropTypes.array,
 };
 
 SeoAnalysis.defaultProps = {
@@ -275,7 +274,6 @@ SeoAnalysis.defaultProps = {
 	shouldUpsell: false,
 	shouldUpsellWordFormRecognition: false,
 	overallScore: null,
-	shortcodesForParsing: [],
 };
 
 export default withSelect( ( select, ownProps ) => {
@@ -283,14 +281,13 @@ export default withSelect( ( select, ownProps ) => {
 		getFocusKeyphrase,
 		getMarksButtonStatus,
 		getResultsForKeyword,
-		getShortcodesForParsing,
 	} = select( "yoast-seo/editor" );
 
 	const keyword = getFocusKeyphrase();
 
 	return {
 		...getResultsForKeyword( keyword ),
-		marksButtonStatus: ownProps.hideMarksButtons || getShortcodesForParsing().length > 0 ? "disabled" : getMarksButtonStatus(),
+		marksButtonStatus: ownProps.hideMarksButtons ? "disabled" : getMarksButtonStatus(),
 		keyword,
 	};
 } )( SeoAnalysis );

@@ -84,7 +84,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 				<Results
 					results={ props.results }
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
-					marksButtonStatus={ props.shortcodesForParsing.length > 0 ? "disabled" : props.marksButtonStatus }
+					marksButtonStatus={ props.marksButtonStatus }
 					resultCategoryLabels={ {
 						problems: __( "Non-inclusive phrases", "wordpress-seo" ),
 						improvements: __( "Potentially non-inclusive phrases", "wordpress-seo" ),
@@ -232,25 +232,21 @@ InclusiveLanguageAnalysis.propTypes = {
 	// eslint-disable-next-line react/no-unused-prop-types
 	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled", "hidden" ] ).isRequired,
 	overallScore: PropTypes.number,
-	shortcodesForParsing: PropTypes.array,
 };
 
 InclusiveLanguageAnalysis.defaultProps = {
 	results: [],
 	overallScore: null,
-	shortcodesForParsing: [],
 };
 
 export default withSelect( select => {
 	const {
 		getInclusiveLanguageResults,
 		getMarkButtonStatus,
-		getShortcodesForParsing,
 	} = select( "yoast-seo/editor" );
 
 	return {
 		...getInclusiveLanguageResults(),
 		marksButtonStatus: getMarkButtonStatus(),
-		shortcodesForParsing: getShortcodesForParsing(),
 	};
 } )( InclusiveLanguageAnalysis );
