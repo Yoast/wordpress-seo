@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use wpdb;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
