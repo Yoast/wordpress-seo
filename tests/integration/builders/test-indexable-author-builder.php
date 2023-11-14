@@ -66,11 +66,12 @@ class Indexable_Author_Builder_Test extends WPSEO_UnitTestCase {
 		$this->options_helper = new Options_Helper();
 		$this->author_archive = Mockery::mock( Author_Archive_Helper::class );
 		$this->versions       = new Indexable_Builder_Versions();
-		$string               = new String_Helper();
-		$pt                   = new Post_Type_Helper( $this->options_helper );
 
-		$this->post_helper = new Post_Helper( $string, $pt );
-		$this->instance    = new Indexable_Author_Builder( $this->author_archive, $this->versions, $this->options_helper, $this->post_helper );
+		$string_helper     = new String_Helper();
+		$post_type_helper  = new Post_Type_Helper( $this->options_helper );
+		$this->post_helper = new Post_Helper( $string_helper, $post_type_helper );
+
+		$this->instance = new Indexable_Author_Builder( $this->author_archive, $this->versions, $this->options_helper, $this->post_helper );
 	}
 
 	/**
