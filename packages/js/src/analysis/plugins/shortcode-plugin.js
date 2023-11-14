@@ -1,7 +1,7 @@
 /* global tinyMCE */
 /* global wpseoScriptData */
 /* global ajaxurl */
-/* global _ */
+import { debounce } from "lodash";
 
 const SHORTCODE_NAME_MATCHER = "[^<>&/\\[\\]\x00-\x20=]+?";
 const SHORTCODE_ATTRIBUTES_MATCHER = "( [^\\]]+?)?";
@@ -116,10 +116,8 @@ class YoastShortcodePlugin {
 	 * @returns {string} The text with replaced shortcodes.
 	 */
 	replaceShortcodes( data ) {
-		const parsedShortcodes = this.parsedShortcodes;
-
-		if ( typeof data === "string" && parsedShortcodes.length > 0 ) {
-			parsedShortcodes.forEach( ( { shortcode, output } ) => {
+		if ( typeof data === "string" ) {
+			this.parsedShortcodes.forEach( ( { shortcode, output } ) => {
 				data = data.replace( shortcode, output );
 			} );
 		}
