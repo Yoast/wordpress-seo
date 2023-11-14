@@ -13,7 +13,11 @@ describe( "YoastShortcodePlugin", () => {
 	// eslint-disable-next-line camelcase
 	global.wpseoScriptData = { analysis: { plugins: { shortcodes: { wpseo_filter_shortcodes_nonce: "nonce" } } } };
 	global.ajaxurl = "http://example.com/ajax";
-	global._ = { debounce: jest.fn() };
+
+	jest.mock( "lodash", () => ( {
+		...jest.requireActual( "lodash" ),
+		debounce: jest.fn( fn => fn ),
+	} ) );
 
 	beforeEach( () => {
 		plugin = new YoastShortcodePlugin(
@@ -28,11 +32,7 @@ describe( "YoastShortcodePlugin", () => {
 	} );
 
 	afterEach( () => {
-		mockRegisterPlugin.mockClear();
-		mockRegisterModification.mockClear();
-		mockPluginReady.mockClear();
-		mockPluginReloaded.mockClear();
-		global._.debounce.mockClear();
+		jest.clearAllMocks();
 	} );
 
 	it( "should initialize YoastShortcodePlugin and register it", () => {
