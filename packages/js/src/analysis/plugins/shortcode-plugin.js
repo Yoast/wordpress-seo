@@ -10,6 +10,13 @@ const SHORTCODE_START_REGEX = new RegExp( "\\[" + SHORTCODE_NAME_MATCHER + SHORT
 const SHORTCODE_END_REGEX = new RegExp( "\\[/" + SHORTCODE_NAME_MATCHER + "\\]", "g" );
 
 /**
+ * @typedef ParsedShortcode
+ * @type {object}
+ * @property {string} shortcode The unparsed shortcode.
+ * @property {string} output The parsed shortcode.
+ */
+
+/**
  * The Yoast Shortcode plugin parses the shortcodes in a given piece of text. It analyzes multiple input fields for
  * shortcodes which it will preload using AJAX.
  */
@@ -47,9 +54,8 @@ class YoastShortcodePlugin {
 		this.nonCaptureRegex = new RegExp( "\\[" + shortcodesRegexString + "[^\\]]*?\\]", "g" );
 
 		/**
-		 * The array of parsedShortcode objects.
-		 *
-		 * @type {Object[]}
+		 * The array of parsed shortcode objects.
+		 * @type {ParsedShortcode[]}
 		 */
 		this.parsedShortcodes = [];
 
@@ -91,8 +97,8 @@ class YoastShortcodePlugin {
 	 * Removes all unknown shortcodes. Not all plugins properly registered their shortcodes in the WordPress backend.
 	 * Since we cannot use the data from these shortcodes they must be removed.
 	 *
-	 * @param {String} data The text to remove unknown shortcodes.
-	 * @returns {String} The text with removed unknown shortcodes.
+	 * @param {string} data The text to remove unknown shortcodes.
+	 * @returns {string} The text with removed unknown shortcodes.
 	 */
 	removeUnknownShortCodes( data ) {
 		data = data.replace( SHORTCODE_START_REGEX, "" );
@@ -105,9 +111,9 @@ class YoastShortcodePlugin {
 	 * Replaces the unparsed shortcodes with the parsed ones.
 	 * The callback used to replace the shortcodes.
 	 *
-	 * @param {String} data The text to replace the shortcodes in.
+	 * @param {string} data The text to replace the shortcodes in.
 	 *
-	 * @returns {String} The text with replaced shortcodes.
+	 * @returns {string} The text with replaced shortcodes.
 	 */
 	replaceShortcodes( data ) {
 		const parsedShortcodes = this.parsedShortcodes;
@@ -149,7 +155,7 @@ class YoastShortcodePlugin {
 	 */
 	bindElementEvents() {
 		const contentElement = document.getElementById( "content" ) || false;
-		const callback =  _.debounce(	this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ), 500 );
+		const callback = debounce(	this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ), 500 );
 
 		if ( contentElement ) {
 			contentElement.addEventListener( "keyup", callback );
@@ -168,7 +174,7 @@ class YoastShortcodePlugin {
 	 * Gets content from the content field, if tinyMCE is initialized, use the getContent function to
 	 * get the data from tinyMCE.
 	 *
-	 * @returns {String} The content from tinyMCE.
+	 * @returns {string} The content from tinyMCE.
 	 */
 	getContentTinyMCE() {
 		let content = document.getElementById( "content" ) ? document.getElementById( "content" ).value : "";
@@ -186,7 +192,7 @@ class YoastShortcodePlugin {
 	 *
 	 * @param {Array} shortcodes The shortcodes to check.
 	 *
-	 * @returns {Boolean|Array} Array with unparsed shortcodes.
+	 * @returns {boolean|Array} Array with unparsed shortcodes.
 	 */
 	getUnparsedShortcodes( shortcodes ) {
 		if ( typeof shortcodes !== "object" ) {
@@ -200,9 +206,9 @@ class YoastShortcodePlugin {
 	/**
 	 * Checks if a given shortcode was already parsed.
 	 *
-	 * @param {String} shortcodeToCheck The shortcode to check.
+	 * @param {string} shortcodeToCheck The shortcode to check.
 	 *
-	 * @returns {Boolean} True when shortcode is not parsed yet.
+	 * @returns {boolean} True when shortcode is not parsed yet.
 	 */
 	isUnparsedShortcode( shortcodeToCheck ) {
 		return ! this.parsedShortcodes.some( ( { shortcode } ) => shortcode === shortcodeToCheck );
@@ -211,9 +217,9 @@ class YoastShortcodePlugin {
 	/**
 	 * Gets the shortcodes from a given piece of text.
 	 *
-	 * @param {String} text Text to extract shortcodes from.
+	 * @param {string} text Text to extract shortcodes from.
 	 *
-	 * @returns {Boolean|Array} The matched shortcodes.
+	 * @returns {boolean|Array} The matched shortcodes.
 	 */
 	getShortcodes( text ) {
 		if ( typeof text !== "string" ) {
@@ -236,7 +242,7 @@ class YoastShortcodePlugin {
 	/**
 	 * Matches the capturing shortcodes from a given piece of text.
 	 *
-	 * @param {String} text Text to get the capturing shortcodes from.
+	 * @param {string} text Text to get the capturing shortcodes from.
 	 *
 	 * @returns {Array} The capturing shortcodes.
 	 */
@@ -260,7 +266,7 @@ class YoastShortcodePlugin {
 	/**
 	 * Matches the non-capturing shortcodes from a given piece of text.
 	 *
-	 * @param {String} text Text to get the non-capturing shortcodes from.
+	 * @param {string} text Text to get the non-capturing shortcodes from.
 	 *
 	 * @returns {Array}	The non-capturing shortcodes.
 	 */
@@ -302,7 +308,7 @@ class YoastShortcodePlugin {
 	/**
 	 * Saves the shortcodes that were parsed with AJAX to `this.parsedShortcodes`
 	 *
-	 * @param {String}   shortcodeResults Shortcodes that must be saved. This is the response from the jQuery.
+	 * @param {string}   shortcodeResults Shortcodes that must be saved. This is the response from the jQuery.
 	 * @param {function} callback         Callback to execute of saving shortcodes.
 	 *
 	 * @returns {void}
