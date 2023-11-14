@@ -1,7 +1,7 @@
 /* global tinyMCE */
 /* global wpseoScriptData */
 /* global ajaxurl */
-import { debounce } from "lodash";
+import { debounce, flatten } from "lodash";
 
 const SHORTCODE_NAME_MATCHER = "[^<>&/\\[\\]\x00-\x20=]+?";
 const SHORTCODE_ATTRIBUTES_MATCHER = "( [^\\]]+?)?";
@@ -245,20 +245,13 @@ class YoastShortcodePlugin {
 	 * @returns {Array} The capturing shortcodes.
 	 */
 	matchCapturingShortcodes( text ) {
-		let captures = [];
-
 		// First identify which tags are being used in a capturing shortcode by looking for closing tags.
 		const captureShortcodes = ( text.match( this.closingTagRegex ) || [] ).join( " " ).match( this.shortcodesRegex ) || [];
 
-		// Fetch the capturing shortcodes.
-		captureShortcodes.forEach( captureShortcode => {
+		return flatten( captureShortcodes.map( captureShortcode => {
 			const captureRegex = "\\[" + captureShortcode + "[^\\]]*?\\].*?\\[\\/" + captureShortcode + "\\]";
-			const matches = text.match( new RegExp( captureRegex, "g" ) ) || [];
-
-			captures = captures.concat( matches );
-		} );
-
-		return captures;
+			return text.match( new RegExp( captureRegex, "g" ) ) || [];
+		} ) );
 	}
 
 	/**

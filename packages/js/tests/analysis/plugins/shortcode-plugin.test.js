@@ -87,6 +87,12 @@ describe( "YoastShortcodePlugin", () => {
 		] );
 	} );
 
+	it( "should return an empty array if no match is found for the capturing shortcodes", () => {
+		const inputText = "This is a sample text without shortcodes";
+		const capturingShortcodes = plugin.matchCapturingShortcodes( inputText );
+		expect( capturingShortcodes ).toEqual( [] );
+	} );
+
 	it( "should match and return non-capturing shortcodes from the content", () => {
 		const inputText = "This is a sample [wpseo_breadcrumb] text with an image with caption [caption id=\"attachment_8\" align=\"alignnone\"" +
 			" width=\"230\"]<img class='size-medium wp-image-8' src='https://wacky-fowl.localsite.io/" +
