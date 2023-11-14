@@ -10,7 +10,7 @@ let pluggable = null;
  */
 const getPluggable = () => {
 	if ( pluggable === null ) {
-		// Use the initialized pluggable plugin in post-scrapper if it's available.
+		// Use the initialized pluggable plugin in `post-scraper.js` if it's available.
 		// Otherwise, initiate a new Pluggable plugin.
 		const refresh = dispatch( "yoast-seo/editor" ).runAnalysis;
 		pluggable = window.YoastSEO.app && window.YoastSEO.app.pluggable
