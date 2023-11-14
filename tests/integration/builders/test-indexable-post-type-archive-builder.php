@@ -100,7 +100,8 @@ class Indexable_Post_Type_Archive_Builder_Test extends WPSEO_UnitTestCase {
 
 		$post_type = $post['post_type'];
 		register_post_type( $post_type, [ 'public' => $is_post_public ] );
-		wp_insert_post( $post );
+
+		self::factory()->post->create( $post );
 
 		$indexable      = new Indexable();
 		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );

@@ -85,17 +85,20 @@ class Indexable_Author_Builder_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_build( $post, $is_post_public ) {
 
-		$user_id = wp_insert_user(
-			[
-				'user_login' => 'paolo',
-				'user_pass'  => 'password',
-			]
+		$user_args = array(
+			'user_login' => 'paolo',
+			'user_pass'  => 'password',
 		);
+
+		$user_id = self::factory()->user->create_and_get( $user_args )->ID;
+
 		wp_set_current_user( $user_id );
 
 		$post_type = $post['post_type'];
 		register_post_type( $post_type, [ 'public' => $is_post_public ] );
 		wp_insert_post( $post );
+
+		self::factory()->post->create( $post );
 
 		$this->author_archive->expects( 'are_disabled' )
 			->once()
