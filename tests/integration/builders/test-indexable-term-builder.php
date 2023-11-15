@@ -149,7 +149,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 			[
 				'post_title'   => 'Draft test post',
 				'post_date'   => '1978-09-13 08:50:00',
-				'post_status' => 'draft',
+				'post_status' => 'publish',
 			],
 		];
 	}
