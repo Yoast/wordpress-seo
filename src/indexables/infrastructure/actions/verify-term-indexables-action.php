@@ -63,7 +63,6 @@ class Verify_Term_Indexables_Action implements Verify_Indexables_Action_Interfac
 		foreach ( $term_ids as $term_id ) {
 			$this->repository->build_by_id_and_type( (int) $term_id, 'term' );
 		}
-
 		return $batch_size->should_keep_going( \count( $term_ids ) );
 	}
 
