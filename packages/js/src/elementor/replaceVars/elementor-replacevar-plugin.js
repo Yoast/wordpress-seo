@@ -1,5 +1,5 @@
 import { get } from "lodash";
-import { registerPlugin, registerModification } from "../initializers/pluggable";
+import { registerPlugin, registerModification } from "../../initializers/pluggable";
 import * as replacementVariables from "../replaceVars/general";
 
 const PLUGIN_NAME = "replaceVariablePlugin";

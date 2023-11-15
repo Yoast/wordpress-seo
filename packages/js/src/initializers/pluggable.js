@@ -1,5 +1,5 @@
 import { dispatch } from "@wordpress/data";
-import Pluggable from "../../lib/Pluggable";
+import Pluggable from "../lib/Pluggable";
 
 // Holds the singleton used in getPluggable.
 let pluggable = null;
@@ -11,8 +11,11 @@ let pluggable = null;
  */
 const getPluggable = () => {
 	if ( pluggable === null ) {
+		// Uses the initialized Pluggable plugin in `post-scraper.js` or `term-scraper.js` if available. If not, initiates a new Pluggable plugin.
 		const refresh = dispatch( "yoast-seo/editor" ).runAnalysis;
-		pluggable = new Pluggable( refresh );
+		pluggable = window.YoastSEO.app && window.YoastSEO.app.pluggable
+			? window.YoastSEO.app.pluggable
+			: new Pluggable( refresh );
 	}
 
 	return pluggable;
@@ -60,7 +63,7 @@ export const registerModification = ( modification, callable, pluginName, priori
 };
 
 /**
- * Register a plugin with YoastSEO.
+ * Registers a plugin with YoastSEO.
  *
  * A plugin can be declared "ready" right at registration or later using `this.ready`.
  *
