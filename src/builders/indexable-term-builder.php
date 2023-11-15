@@ -50,7 +50,7 @@ class Indexable_Term_Builder {
 	public function __construct(
 		Taxonomy_Helper $taxonomy_helper,
 		Indexable_Builder_Versions $versions,
-		Post_Helper $post_helper,
+		Post_Helper $post_helper
 	) {
 		$this->taxonomy_helper = $taxonomy_helper;
 		$this->version         = $versions->get_latest_version_for_type( 'term' );
@@ -248,7 +248,7 @@ class Indexable_Term_Builder {
 		global $wpdb;
 		$post_statuses = $this->post_helper->get_public_post_statuses();
 
-		$replacements = \array_merge( [ $wpdb->posts, $taxonomy, $term_id ], $post_statuses );
+		$replacements = \array_merge( [ $wpdb->posts, $wpdb->term_relationships, $wpdb->term_taxonomy, $taxonomy, $term_id ], $post_statuses );
 
 		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
 		return $wpdb->get_row(
@@ -256,9 +256,9 @@ class Indexable_Term_Builder {
 				"
 			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
 			FROM %i AS p
-			INNER JOIN {$wpdb->term_relationships} AS term_rel
+			INNER JOIN %i AS term_rel
 				ON		term_rel.object_id = p.ID
-			INNER JOIN {$wpdb->term_taxonomy} AS term_tax
+			INNER JOIN %i AS term_tax
 				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
 				AND		term_tax.taxonomy = %s
 				AND		term_tax.term_id = %d
