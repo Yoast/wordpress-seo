@@ -4,20 +4,23 @@
  *
  * @package WPSEO\Tests\Formatter
  */
-use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
-use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 
-use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WPTestUtils\WPIntegration\TestCase;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
-use Yoast\WP\SEO\Helpers\String_Helper;
+use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
+use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
+use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
+use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Built_Exception;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
-use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
+use Yoast\WP\SEO\Helpers\String_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
-use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WPTestUtils\WPIntegration\TestCase;
-use Yoast\WP\SEO\Helpers\Image_Helper;
 
 /**
  * Integration Test Class.
@@ -106,15 +109,17 @@ class Indexable_Term_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the build method.
+	 * Tests the build method's happy path.
 	 *
-	 * @dataProvider build_dataprovider
 	 * @covers ::build
-	 *
-	 * @param array $post            The post to insert.
-	 * @param bool  $is_post_public  Whether the post type is public.
 	 */
-	public function test_build( $post_data ) {
+	public function test_build() {
+		$post_data = [ 
+			'post_title' => 'Test post',
+			'post_date'   => '1978-09-13 08:50:00',
+			'post_status' => 'publish' 
+		];
+
 		$post_id = self::factory()->post->create( $post_data );
 		$term_id = self::factory()->category->create();
 		self::factory()->term->add_post_terms( $post_id, $term_id, 'category', true );
@@ -135,22 +140,57 @@ class Indexable_Term_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Data provider for the test_build method.
+	 * Tests the build method when the term the indexable should be built for does not exist.
+	 *
+	 * @covers ::build
 	 */
-	public function build_dataprovider() {
-		yield 'Should build the indexable when the post type is public' => [
-			[ 
-				'post_title' => 'Test post',
-				'post_date'   => '1978-09-13 08:50:00',
-				'post_status' => 'publish' ]
-		];
+	public function test_build_term_not_found() {
+		$term_id = -1;
 
-		yield 'Should not build the indexable when the post type is not public' => [
-			[
-				'post_title'   => 'Draft test post',
-				'post_date'   => '1978-09-13 08:50:00',
-				'post_status' => 'publish',
-			],
-		];
+		$indexable      = new Indexable();
+		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
+
+		$this->expectException( Term_Not_Found_Exception::class );
+
+		$this->instance->build( $term_id, $indexable );
+	}
+
+	/**
+	 * Tests the build method when the category of the term the indexable should be built is not indexable (i.e. it is not public).
+	 *
+	 * @covers ::build
+	 */
+	public function test_build_category_not_indexable() {
+
+		register_taxonomy( 'test_tax', 'post',[
+			'public'            => false,
+			'query_var'         => false,
+		] );
+
+		$term_id = self::factory()->term->create( ['taxonomy' => 'test_tax',
+		'name'     => 'test_term']);
+		
+		$indexable      = new Indexable();
+		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
+
+		$this->expectException( Term_Not_Built_Exception::class );
+
+		$this->instance->build( $term_id, $indexable );
+	}
+
+		/**
+	 * Tests the build method when the termpassed to the build function is invalid.
+	 *
+	 * @covers ::build
+	 */
+	public function test_build_invalid_term() {
+		$term = '';
+
+		$indexable      = new Indexable();
+		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
+
+		$this->expectException( Invalid_Term_Exception::class );
+
+		$this->instance->build( $term, $indexable );
 	}
 }
