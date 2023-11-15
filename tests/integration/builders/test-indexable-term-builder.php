@@ -43,7 +43,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 */
 	private $taxonomy_helper;
 
-
 	/**
 	 * The image helper.
 	 *
@@ -91,17 +90,17 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 */
 	public function setUp(): void {
 		parent::setUp();
-		$this->options_helper  = new Options_Helper();
-		$this->versions        = new Indexable_Builder_Versions();
+		$this->options_helper = new Options_Helper();
+		$this->versions       = new Indexable_Builder_Versions();
 
-		$this->image_helper = Mockery::mock( Image_Helper::class );
+		$this->image_helper            = Mockery::mock( Image_Helper::class );
 		$this->open_graph_image_helper = Mockery::mock( Open_Graph_Image_Helper::class );
-		$this->twitter_image_helper = Mockery::mock( Twitter_Image_Helper::class );
+		$this->twitter_image_helper    = Mockery::mock( Twitter_Image_Helper::class );
 
-		$string_helper     = new String_Helper();
-		$post_type_helper  = new Post_Type_Helper( $this->options_helper );
+		$string_helper         = new String_Helper();
+		$post_type_helper      = new Post_Type_Helper( $this->options_helper );
 		$this->taxonomy_helper = new Taxonomy_Helper( $this->options_helper, $string_helper );
-		$this->post_helper = new Post_Helper( $string_helper, $post_type_helper );
+		$this->post_helper     = new Post_Helper( $string_helper, $post_type_helper );
 
 		$this->instance = new Indexable_Term_Builder( $this->taxonomy_helper, $this->versions, $this->post_helper );
 
@@ -114,10 +113,10 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
-		$post_data = [ 
-			'post_title' => 'Test post',
+		$post_data = [
+			'post_title'  => 'Test post',
 			'post_date'   => '1978-09-13 08:50:00',
-			'post_status' => 'publish' 
+			'post_status' => 'publish',
 		];
 
 		$post_id = self::factory()->post->create( $post_data );
@@ -162,14 +161,22 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 */
 	public function test_build_category_not_indexable() {
 
-		register_taxonomy( 'test_tax', 'post',[
-			'public'            => false,
-			'query_var'         => false,
-		] );
+		register_taxonomy(
+			'test_tax',
+			'post',
+			[
+				'public'            => false,
+				'query_var'         => false,
+			]
+		);
 
-		$term_id = self::factory()->term->create( ['taxonomy' => 'test_tax',
-		'name'     => 'test_term']);
-		
+		$term_id = self::factory()->term->create(
+			[
+				'taxonomy' => 'test_tax',
+				'name'     => 'test_term',
+			]
+		);
+
 		$indexable      = new Indexable();
 		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
 
@@ -179,10 +186,10 @@ class Indexable_Term_Builder_Test extends TestCase {
 	}
 
 		/**
-	 * Tests the build method when the termpassed to the build function is invalid.
-	 *
-	 * @covers ::build
-	 */
+		 * Tests the build method when the termpassed to the build function is invalid.
+		 *
+		 * @covers ::build
+		 */
 	public function test_build_invalid_term() {
 		$term = '';
 
