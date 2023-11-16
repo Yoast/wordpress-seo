@@ -47,33 +47,23 @@ class Indexable_Home_Page_Builder {
 	protected $post_helper;
 
 	/**
-	 * The WPDB instance.
-	 *
-	 * @var wpdb
-	 */
-	protected $wpdb;
-
-	/**
 	 * Indexable_Home_Page_Builder constructor.
 	 *
 	 * @param Options_Helper             $options     The options helper.
 	 * @param Url_Helper                 $url_helper  The url helper.
 	 * @param Indexable_Builder_Versions $versions    Knows the latest version of each Indexable type.
 	 * @param Post_Helper                $post_helper The post helper.
-	 * @param wpdb                       $wpdb        The WPDB instance.
 	 */
 	public function __construct(
 		Options_Helper $options,
 		Url_Helper $url_helper,
 		Indexable_Builder_Versions $versions,
-		Post_Helper $post_helper,
-		wpdb $wpdb
+		Post_Helper $post_helper
 	) {
 		$this->options     = $options;
 		$this->url_helper  = $url_helper;
 		$this->version     = $versions->get_latest_version_for_type( 'home-page' );
 		$this->post_helper = $post_helper;
-		$this->wpdb        = $wpdb;
 	}
 
 	/**
@@ -127,17 +117,23 @@ class Indexable_Home_Page_Builder {
 	 * @return object An object with last_modified and published_at timestamps.
 	 */
 	protected function get_object_timestamps() {
+		global $wpdb;
 		$post_statuses = $this->post_helper->get_public_post_statuses();
 
-		$sql = "
+		$replacements = \array_merge( [ $wpdb->posts ], $post_statuses );
+
+		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+		return $wpdb->get_row(
+			$wpdb->prepare(
+				'
 			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (" . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+			FROM %i AS p
+			WHERE p.post_status IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
 				AND p.post_password = ''
 				AND p.post_type = 'post'
-		";
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We are using wpdb prepare.
-		return $this->wpdb->get_row( $this->wpdb->prepare( $sql, $post_statuses ) );
+			",
+				$replacements
+			)
+		);
 	}
 }
