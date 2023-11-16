@@ -1,5 +1,6 @@
 import { dispatch } from "@wordpress/data";
-import Pluggable from "../../lib/Pluggable";
+import Pluggable from "../lib/Pluggable";
+
 // Holds the singleton used in getPluggable.
 let pluggable = null;
 
@@ -10,8 +11,7 @@ let pluggable = null;
  */
 const getPluggable = () => {
 	if ( pluggable === null ) {
-		// Use the initialized pluggable plugin in `post-scraper.js` if it's available.
-		// Otherwise, initiate a new Pluggable plugin.
+		// Uses the initialized Pluggable plugin in `post-scraper.js` or `term-scraper.js` if available. If not, initiates a new Pluggable plugin.
 		const refresh = dispatch( "yoast-seo/editor" ).runAnalysis;
 		pluggable = window.YoastSEO.app && window.YoastSEO.app.pluggable
 			? window.YoastSEO.app.pluggable
