@@ -78,8 +78,8 @@ class Verify_Post_Type_Archives_Indexables_Action implements Verify_Indexables_A
 
 		$indexables = [];
 		foreach ( $archives as $post_type_archive ) {
-			$archive_indexable = $this->indexable_repository->find_for_post_type_archive( $post_type_archive, false );
-			$indexables[]      = $this->indexable_builder->build_for_post_type_archive( $post_type_archive, $archive_indexable );
+			$archive_indexable = $this->indexable_repository->find_for_post_type_archive( $post_type_archive->name, false );
+			$indexables[]      = $this->indexable_builder->build_for_post_type_archive( $post_type_archive->name, $archive_indexable );
 		}
 
 		return $batch_size->should_keep_going( \count( $indexables ) );
