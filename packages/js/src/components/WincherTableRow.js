@@ -49,6 +49,9 @@ export const TrackingTdWrapper = styled.td.attrs( { className: "yoast-table--nop
 const PositionAndViewLinkWrapper = styled.div`
 	display: flex;
 	align-items: center;
+	& > a {
+		box-sizing: border-box;
+	}
 `;
 
 const PositionOverTimeButton = styled.button`
