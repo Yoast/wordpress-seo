@@ -27,6 +27,18 @@ class Yoast_Notification_Test extends WPSEO_UnitTestCase {
 	private $verify_capability_match_filter_args = [];
 
 	/**
+	 * Create user with proper caps.
+	 */
+	public function set_up() {
+		parent::set_up();
+
+		$user = $this->factory->user->create_and_get();
+		$user->add_cap( 'wpseo_manage_options' );
+
+		wp_set_current_user( $user->ID );
+	}
+
+	/**
 	 * No ID is not persistent.
 	 */
 	public function test_not_persistent() {
@@ -40,12 +52,13 @@ class Yoast_Notification_Test extends WPSEO_UnitTestCase {
 	public function test_set_defaults() {
 		$subject = new Yoast_Notification( 'message', [] );
 		$test    = $subject->to_array();
+		$user    = wp_get_current_user();
 
 		$this->assertEquals(
 			[
 				'type'             => 'updated',
 				'id'               => '',
-				'user'             => wp_get_current_user(),
+				'user_id'          => $user->ID,
 				'nonce'            => null,
 				'priority'         => 0.5,
 				'data_json'        => [],
@@ -167,6 +180,7 @@ class Yoast_Notification_Test extends WPSEO_UnitTestCase {
 				'capability_check' => 'any',
 			]
 		);
+
 
 		$this->assertTrue( $subject->display_for_current_user() );
 

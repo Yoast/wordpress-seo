@@ -8,6 +8,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Introductions\Application\Introductions_Collector;
 use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -29,6 +30,13 @@ class Introductions_Seen_Route implements Route_Interface {
 	const ROUTE_PREFIX = '/introductions/(?P<introduction_id>[\w-]+)/seen';
 
 	/**
+	 * Holds the introductions collector instance.
+	 *
+	 * @var Introductions_Collector
+	 */
+	private $introductions_collector;
+
+	/**
 	 * Holds the repository.
 	 *
 	 * @var Introductions_Seen_Repository
@@ -47,13 +55,16 @@ class Introductions_Seen_Route implements Route_Interface {
 	 *
 	 * @param Introductions_Seen_Repository $introductions_seen_repository The repository.
 	 * @param User_Helper                   $user_helper                   The user helper.
+	 * @param Introductions_Collector       $introductions_collector       The introduction collector.
 	 */
 	public function __construct(
 		Introductions_Seen_Repository $introductions_seen_repository,
-		User_Helper $user_helper
+		User_Helper $user_helper,
+		Introductions_Collector $introductions_collector
 	) {
 		$this->introductions_seen_repository = $introductions_seen_repository;
 		$this->user_helper                   = $user_helper;
+		$this->introductions_collector       = $introductions_collector;
 	}
 
 	/**
@@ -100,25 +111,28 @@ class Introductions_Seen_Route implements Route_Interface {
 		$introduction_id = $params['introduction_id'];
 		$is_seen         = $params['is_seen'];
 
-		try {
-			$user_id = $this->user_helper->get_current_user_id();
-			$result  = $this->introductions_seen_repository->set_introduction( $user_id, $introduction_id, $is_seen );
-		} catch ( Exception $exception ) {
-			return new WP_Error(
-				'wpseo_introductions_seen_error',
-				$exception->getMessage(),
-				(object) []
+		if ( $this->introductions_collector->is_available_introduction( $introduction_id ) ) {
+			try {
+				$user_id = $this->user_helper->get_current_user_id();
+				$result  = $this->introductions_seen_repository->set_introduction( $user_id, $introduction_id, $is_seen );
+			} catch ( Exception $exception ) {
+				return new WP_Error(
+					'wpseo_introductions_seen_error',
+					$exception->getMessage(),
+					(object) []
+				);
+			}
+
+			return new WP_REST_Response(
+				[
+					'json' => (object) [
+						'success' => $result,
+					],
+				],
+				( $result ) ? 200 : 400
 			);
 		}
-
-		return new WP_REST_Response(
-			[
-				'json' => (object) [
-					'success' => $result,
-				],
-			],
-			( $result ) ? 200 : 400
-		);
+		return new WP_REST_Response( [], 400 );
 	}
 
 	/**
