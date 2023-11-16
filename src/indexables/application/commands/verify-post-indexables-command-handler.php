@@ -91,8 +91,9 @@ class Verify_Post_Indexables_Command_Handler {
 			return;
 		}
 
-		$next_batch = ( $verify_post_indexables_command->get_last_batch_count()
-				->get_last_batch() + $verify_post_indexables_command->get_batch_size()->get_batch_size() );
-		$this->verification_cron_batch_handler->set_current_post_indexables_batch( $next_batch );
+		$this->verification_cron_batch_handler->set_current_post_indexables_batch(
+			$verify_post_indexables_command->get_last_batch_count(),
+			$verify_post_indexables_command->get_batch_size()
+		);
 	}
 }

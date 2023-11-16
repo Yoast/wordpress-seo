@@ -74,20 +74,9 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_query returns a prepared query.
 		$terms = $this->wpdb->get_results( $query );
 
-		$term_list = \array_map(
-			static function ( $term ) {
-				return (object) [
-					'id'      => (int) $term->term_id,
-					'type'    => 'term',
-					'content' => $term->description,
-				];
-			},
-			$terms
-		);
-
 		$indexables = [];
-		foreach ( $term_list as $term ) {
-			$indexable = $this->repository->find_by_id_and_type( $term->id, $term->type );
+		foreach ( $terms as $term ) {
+			$indexable = $this->repository->find_by_id_and_type( (int) $term->id, 'term' );
 			if ( $indexable ) {
 				$this->link_builder->build( $indexable, $term->content );
 
@@ -116,15 +105,12 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 	 * @param int $limit      The query limit.
 	 * @param int $batch_size The batch size for the queries.
 	 *
-	 * @return string|null
+	 * @return string
 	 */
 	private function get_query( $limit, $batch_size ) {
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
 		$public_taxonomies = $this->taxonomy->get_indexable_taxonomies();
-
-		$replacements = [];
-		\array_push( $replacements, ...$public_taxonomies );
-
+		$replacements      = $public_taxonomies;
 
 		$limit_query    = 'LIMIT %d';
 		$replacements[] = $batch_size;
@@ -134,13 +120,14 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 			$replacements[] = ( $limit + $batch_size );
 		}
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder, WordPress.DB.PreparedSQL.InterpolatedNotPrepared  -- Reason: These can be removed in the next version of WPCS.
 		return $this->wpdb->prepare(
-			"
+			'
 			SELECT term_id, description
-			FROM {$taxonomy_table} AS T
-			WHERE taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
+			FROM %i AS T
+			WHERE taxonomy IN (' . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
 			$limit_query $offset_query",
+			$taxonomy_table,
 			$replacements
 		);
 	}

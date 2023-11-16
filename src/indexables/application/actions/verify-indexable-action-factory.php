@@ -14,7 +14,8 @@ use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Indexables_Action
 use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Links_Indexables_Action;
 
 /**
- * The Verify_Indexable_Action_Factory class
+ * The Verify_Indexable_Action_Factory class.
+ * This class determines and selects the right indexing action for the current type of indexable that is indexed.
  */
 class Verify_Indexable_Action_Factory implements Verify_Indexables_Action_Factory_Interface {
 

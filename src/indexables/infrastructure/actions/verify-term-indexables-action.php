@@ -90,9 +90,7 @@ class Verify_Term_Indexables_Action implements Verify_Indexables_Action_Interfac
 	private function get_query( int $limit, int $batch_size ) {
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
 		$public_taxonomies = $this->taxonomy->get_indexable_taxonomies();
-
-		$replacements = [];
-		\array_push( $replacements, ...$public_taxonomies );
+		$replacements      = $public_taxonomies;
 
 		$limit_query    = 'LIMIT %d';
 		$replacements[] = $batch_size;

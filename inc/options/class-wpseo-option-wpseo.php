@@ -394,8 +394,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'first_activated_on':
 				case 'indexing_started':
 				case 'activation_redirect_timestamp_free':
-				case 'cron_verify_post_indexables_last_batch':
-				case 'cron_verify_non_timestamped_indexables_last_batch':
 					$clean[ $key ] = false;
 					if ( isset( $dirty[ $key ] ) ) {
 						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
@@ -403,7 +401,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 						}
 					}
 					break;
-
+				case 'cron_verify_post_indexables_last_batch':
+				case 'cron_verify_non_timestamped_indexables_last_batch':
+					$clean[ $key ] = 0;
+					if ( isset( $dirty[ $key ] ) && WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
+						$clean[ $key ] = $dirty[ $key ];
+					}
+					break;
 				case 'tracking':
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : null );
 					break;
