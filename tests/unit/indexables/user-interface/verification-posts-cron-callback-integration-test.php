@@ -5,15 +5,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Indexables\User_Interface;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Non_Timestamp_Indexables_Command_Handler;
 use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command_Handler;
 use Yoast\WP\SEO\Indexables\Application\Cron_Verification_Gate;
-use Yoast\WP\SEO\Indexables\Application\Next_Verification_Action_Handler;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
-use Yoast\WP\SEO\Indexables\User_Interface\Mark_Deactivation_Integration;
-use Yoast\WP\SEO\Indexables\User_Interface\Verification_No_Timestamp_Cron_Callback_Integration;
 use Yoast\WP\SEO\Indexables\User_Interface\Verification_Posts_Cron_Callback_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -32,13 +27,6 @@ class Verification_Posts_Cron_Callback_Integration_Test extends TestCase {
 	 * @var Verification_Posts_Cron_Callback_Integration
 	 */
 	private $instance;
-
-	/**
-	 * The options helper.
-	 *
-	 * @var \Mockery\MockInterface|Options_Helper
-	 */
-	private $options_helper;
 
 	/**
 	 * The cron schedule handler.
@@ -78,10 +66,9 @@ class Verification_Posts_Cron_Callback_Integration_Test extends TestCase {
 
 		$this->cron_verification_gate                  = Mockery::mock( Cron_Verification_Gate::class );
 		$this->cron_schedule_handler                   = Mockery::mock( Verification_Cron_Schedule_Handler::class );
-		$this->options_helper                          = Mockery::mock( Options_Helper::class );
 		$this->verification_cron_batch_handler         = Mockery::mock( Verification_Cron_Batch_Handler::class );
 		$this->verify_posts_indexables_command_handler = Mockery::mock( Verify_Post_Indexables_Command_Handler::class );
-		$this->instance                                = new Verification_Posts_Cron_Callback_Integration( $this->cron_verification_gate, $this->cron_schedule_handler, $this->options_helper, $this->verification_cron_batch_handler, $this->verify_posts_indexables_command_handler );
+		$this->instance                                = new Verification_Posts_Cron_Callback_Integration( $this->cron_verification_gate, $this->cron_schedule_handler, $this->verification_cron_batch_handler, $this->verify_posts_indexables_command_handler );
 	}
 
 	/**

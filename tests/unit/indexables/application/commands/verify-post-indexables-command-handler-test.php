@@ -119,7 +119,7 @@ class Verify_Post_Indexables_Command_Handler_Test extends TestCase {
 		$this->indexables_builder->expects()->build( $indexable_mock3 );
 
 		$this->cron_batch_handler->expects( 'set_current_post_indexables_batch' )
-			->with( 1 );
+			->with( $this->command->get_last_batch_count(), $this->command->get_batch_size() );
 		$this->instance->handle( $this->command );
 	}
 

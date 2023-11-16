@@ -64,8 +64,8 @@ class Verification_Cron_Batch_Handler_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_set_current_post_indexables_batch() {
-		$this->options_helper->expects()->set( 'cron_verify_post_indexables_last_batch', 5 );
-		$this->instance->set_current_post_indexables_batch( 5 );
+		$this->options_helper->expects()->set( 'cron_verify_post_indexables_last_batch', 15 );
+		$this->instance->set_current_post_indexables_batch( new Last_Batch_Count( 10 ), new Batch_Size( 5 ) );
 	}
 
 	/**
