@@ -18,7 +18,7 @@ const populateStore = store => {
 	// Initialize the focus keyphrase.
 	store.dispatch( actions.loadFocusKeyword() );
 	// Hide marker buttons.
-	store.dispatch( actions.setMarkerStatus( "hidden" ) );
+	store.dispatch( actions.setMarkerStatus( "enabled" ) );
 
 	store.dispatch(
 		actions.setSettings( {
