@@ -7,15 +7,10 @@
 
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder;
+use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
+use Yoast\WP\SEO\Generated\Cached_Container;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Helpers\Image_Helper;
-use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Helpers\Post_Helper;
-use Yoast\WP\SEO\Helpers\String_Helper;
-use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
-use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
@@ -34,34 +29,6 @@ class Indexable_Home_Page_Builder_Test extends WPSEO_UnitTestCase {
 	private $options_helper;
 
 	/**
-	 * The taxonomy helper.
-	 *
-	 * @var Taxonomy_Helper
-	 */
-	private $taxonomy_helper;
-
-	/**
-	 * The image helper.
-	 *
-	 * @var Mockery\MockInterface|Image_Helper
-	 */
-	private $image_helper;
-
-	/**
-	 * The image helper.
-	 *
-	 * @var Mockery\MockInterface|Open_Graph_Image_Helper
-	 */
-	private $open_graph_image_helper;
-
-	/**
-	 * The image helper.
-	 *
-	 * @var Mockery\MockInterface|Twitter_Image_Helper
-	 */
-	private $twitter_image_helper;
-
-	/**
 	 * The indexable builder versions value.
 	 *
 	 * @var Indexable_Builder_Versions
@@ -69,18 +36,11 @@ class Indexable_Home_Page_Builder_Test extends WPSEO_UnitTestCase {
 	private $versions;
 
 	/**
-	 * The post helper.
-	 *
-	 * @var Post_Helper
-	 */
-	private $post_helper;
-
-	/**
-	 * The URL helper.
+	 * The url helper.
 	 *
 	 * @var Url_Helper
 	 */
-	protected $url_helper;
+	private $url_helper;
 
 	/**
 	 * The instance.
@@ -94,29 +54,24 @@ class Indexable_Home_Page_Builder_Test extends WPSEO_UnitTestCase {
 	 */
 	public function setUp(): void {
 		parent::setUp();
+		$container = $this->get_container();
 
-		
-		$this->options_helper          = new Options_Helper();
-		$this->versions                = new Indexable_Builder_Versions();
-		$this->image_helper            = Mockery::mock( Image_Helper::class );
-		$this->open_graph_image_helper = Mockery::mock( Open_Graph_Image_Helper::class );
-		$this->twitter_image_helper    = Mockery::mock( Twitter_Image_Helper::class );
-		$this->url_helper              = new Url_Helper();
-
-		$string_helper    = new String_Helper();
-		$post_type_helper = new Post_Type_Helper( $this->options_helper );
-
-		$this->taxonomy_helper         = new Taxonomy_Helper( $this->options_helper, $string_helper );
-		$this->post_helper             = new Post_Helper( $string_helper, $post_type_helper );
+		$this->options_helper = new Options_Helper();
+		$this->url_helper     = new Url_Helper();
+		$this->versions       = new Indexable_Builder_Versions();
 
 		$this->instance = new Indexable_Home_Page_Builder(
 			$this->options_helper,
 			$this->url_helper,
 			$this->versions,
-			$this->post_helper
+			$container->get( 'Yoast\WP\SEO\Helpers\Post_Helper' )
 		);
 
-		$this->instance->set_social_image_helpers( $this->image_helper, $this->open_graph_image_helper, $this->twitter_image_helper );
+		$this->instance->set_social_image_helpers(
+			$container->get( 'Yoast\WP\SEO\Helpers\Image_Helper' ),
+			$container->get( 'Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper' ),
+			$container->get( 'Yoast\WP\SEO\Helpers\Twitter\Image_Helper' )
+		);
 	}
 
 	/**
@@ -125,7 +80,7 @@ class Indexable_Home_Page_Builder_Test extends WPSEO_UnitTestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
-		$description = "A cool description";
+		$description = 'A cool description';
 		$this->options_helper->set( 'metadesc-home-wpseo', $description );
 
 		$post_data = [
@@ -166,7 +121,7 @@ class Indexable_Home_Page_Builder_Test extends WPSEO_UnitTestCase {
 	public function test_build_with_fallback_description() {
 		$this->options_helper->set( 'metadesc-home-wpseo', '' );
 
-		$fallback_description = "A cool fallback description";
+		$fallback_description = 'A cool fallback description';
 		update_option( 'blogdescription', $fallback_description );
 
 		$post_data = [
@@ -191,26 +146,47 @@ class Indexable_Home_Page_Builder_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers ::build
 	 */
-	/* WIP
 	public function test_build_when_open_graph_image_is_present() {
+		$fake_image_path   = '/wp-content/uploads/cat.jpg';
+		$fake_image_width  = 1024;
+		$fake_image_height = 768;
+
+		$expected_image    = [
+			'width'  => $fake_image_width,
+			'height' => $fake_image_height,
+			'url'    => \home_url() . $fake_image_path,
+			'path'   => $fake_image_path,
+			'size'   => 'full',
+			'alt'    => '',
+			'pixels' => ( $fake_image_width * $fake_image_height ),
+			'type'   => 'image/jpeg',
+		];
+
 		// Create the attachement post.
 		$id = wp_insert_attachment(
-			array(
+			[
 				'post_title'     => 'Attachment Title',
 				'post_type'      => 'attachment',
 				'post_parent'    => 0,
 				'post_mime_type' => 'image/jpeg',
-				'guid'           => 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test-image.jpg',
-			)
+				'guid'           => \home_url() . $fake_image_path,
+			]
+		);
+
+		$expected_image['id'] = $id;
+
+		\update_post_meta( $id, '_wp_attached_file', $fake_image_path );
+		\update_post_meta(
+			$id,
+			'_wp_attachment_metadata',
+			[
+				'width'  => $fake_image_width,
+				'height' => $fake_image_height,
+			]
 		);
 
 		$this->options_helper->set( 'open_graph_frontpage_image_id', $id );
 
-		$this->open_graph_image_helper
-			->shouldReceive( 'get_image_by_id' )
-			->with( $id )
-			->once()
-			->andReturn( 'http://example.org/wp-content/uploads/test-image.jpg' );
 		$post_data = [
 			'post_title'  => 'Test post',
 			'post_date'   => '1978-09-13 08:50:00',
@@ -225,6 +201,22 @@ class Indexable_Home_Page_Builder_Test extends WPSEO_UnitTestCase {
 		$result = $this->instance->build( $indexable );
 
 		$this->assertInstanceOf( Indexable::class, $result );
+		$this->assertEquals( \home_url() . $fake_image_path, $result->open_graph_image );
+		$this->assertEqualsCanonicalizing( $expected_image, (array) json_decode( $result->open_graph_image_meta ) );
 	}
-	*/
+
+	/**
+	 * Method to get our service container.
+	 *
+	 * @return Cached_Container|null
+	 */
+	private function get_container() {
+		if ( \file_exists( __DIR__ . '/../../../src/generated/container.php' ) ) {
+			require_once __DIR__ . '/../../../src/generated/container.php';
+
+			return new Cached_Container();
+		}
+
+		return null;
+	}
 }
