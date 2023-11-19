@@ -127,12 +127,14 @@
 				<element value="config"/>
 				<element value="src"/>
 				<element value="tests/Unit"/>
+				<element value="tests/WP"/>
 				<element value="src/deprecated/src"/>
 			</property>
 
 			<!-- Allow for the tests being in a non-standard directory in YoastSEO Free. -->
 			<property name="prefixes" type="array" extend="true">
 				<element value="Yoast\WP\SEO\Tests\Unit"/>
+				<element value="Yoast\WP\SEO\Tests\WP"/>
 			</property>
 		</properties>
 	</rule>
@@ -310,7 +312,7 @@
 		<exclude-pattern>/tests/Unit/*_*/*\.php$</exclude-pattern>
 	</rule>
 	<rule ref="Yoast.Commenting.FileComment.Unnecessary">
-		<exclude-pattern>/tests/Unit/bootstrap\.php$</exclude-pattern>
+		<exclude-pattern>/tests/*/bootstrap\.php$</exclude-pattern>
 	</rule>
 
 </ruleset>
