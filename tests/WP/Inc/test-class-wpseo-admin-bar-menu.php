@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Inc
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
+class WPSEO_Admin_Bar_Menu_Test extends TestCase {
 
 	/**
 	 * WP SEO manager user ID.

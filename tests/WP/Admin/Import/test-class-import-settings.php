@@ -5,12 +5,14 @@
  * @package WPSEO\Tests\Admin\Import\Plugins
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Test importing meta data from SEOPressor.
  *
  * @group imports
  */
-class WPSEO_Import_Settings_Test extends WPSEO_UnitTestCase {
+class WPSEO_Import_Settings_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.

@@ -5,12 +5,14 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  *
  * @group upgrades
  */
-class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
+class WPSEO_Upgrade_Test extends TestCase {
 
 	/**
 	 * Retrieves the instance to test against.

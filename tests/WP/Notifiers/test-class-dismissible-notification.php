@@ -5,12 +5,14 @@
  * @package WPSEO\Tests\Notifiers
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  *
  * @group notifiers
  */
-class WPSEO_Dismissible_Notification_Test extends WPSEO_UnitTestCase {
+class WPSEO_Dismissible_Notification_Test extends TestCase {
 
 	/**
 	 * Tests the listen method when required value is not present in the request URL.

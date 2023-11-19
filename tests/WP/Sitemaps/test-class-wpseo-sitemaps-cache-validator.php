@@ -5,6 +5,8 @@
  * @package WPSEO\Tests\Sitemaps
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Class WPSEO_Sitemaps_Cache_Validator_Test.
  *
@@ -12,7 +14,7 @@
  *
  * @group sitemaps
  */
-class WPSEO_Sitemaps_Cache_Validator_Test extends WPSEO_UnitTestCase {
+class WPSEO_Sitemaps_Cache_Validator_Test extends TestCase {
 
 	/**
 	 * Test the building of cache keys.

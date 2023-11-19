@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Option_Tab_Test extends WPSEO_UnitTestCase {
+class WPSEO_Option_Tab_Test extends TestCase {
 
 	/**
 	 * Tests that the name is returned properly.

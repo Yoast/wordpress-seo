@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Inc
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
+class WPSEO_Primary_Term_Test extends TestCase {
 
 	/**
 	 * Name of the taxonomy.

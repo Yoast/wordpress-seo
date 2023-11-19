@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 use Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_Dismiss_New_Route;
+use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
  * Class WPSEO_Content_Type_Visibility_Dismiss_Notifications_Test.
@@ -16,7 +17,7 @@ use Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_
  *
  * @coversDefaultClass Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_Dismiss_New_Route
  */
-class Content_Type_Visibility_Dismiss_New_Route_Test extends WPSEO_UnitTestCase {
+class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 
 	/**
 	 * The instance to test.

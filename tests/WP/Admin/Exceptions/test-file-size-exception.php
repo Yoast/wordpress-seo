@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin\Exceptions
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_File_Size_Exception_Test extends WPSEO_UnitTestCase {
+class WPSEO_File_Size_Exception_Test extends TestCase {
 
 	/**
 	 * Tests that the externally hosted error message is as expected.

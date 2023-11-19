@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin\Watchers
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
+class WPSEO_Slug_Change_Watcher_Test extends TestCase {
 
 	/**
 	 * Post ID.

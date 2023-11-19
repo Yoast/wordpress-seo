@@ -5,10 +5,12 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
+class WPSEO_Rank_Test extends TestCase {
 
 	/**
 	 * Tests whether the get_rank function returns the correct rank.

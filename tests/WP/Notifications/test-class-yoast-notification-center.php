@@ -5,12 +5,14 @@
  * @package Yoast\Tests\Notifications
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Class Test_Yoast_Notification_Center.
  *
  * @coversDefaultClass Yoast_Notification_Center
  */
-class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
+class Yoast_Notification_Center_Test extends TestCase {
 
 	/**
 	 * User ID.

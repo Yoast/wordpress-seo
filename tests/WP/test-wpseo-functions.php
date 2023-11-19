@@ -5,10 +5,12 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
+class WPSEO_Functions_Test extends TestCase {
 
 	/**
 	 * Tests whether wpseo_replace_vars correctly replaces replacevars.

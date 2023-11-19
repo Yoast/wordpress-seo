@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
+class Yoast_Network_Settings_API_Test extends TestCase {
 
 	/**
 	 * Tests registering a setting.

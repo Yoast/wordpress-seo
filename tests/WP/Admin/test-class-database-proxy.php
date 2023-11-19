@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
+class WPSEO_Database_Proxy_Test extends TestCase {
 
 	/**
 	 * Table name for use by the DB Proxy.

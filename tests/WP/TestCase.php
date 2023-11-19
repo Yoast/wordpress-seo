@@ -1,17 +1,14 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Framework
- */
+
+namespace Yoast\WP\SEO\Tests\WP;
 
 use Yoast\WP\SEO\Initializers\Migration_Runner;
-use Yoast\WPTestUtils\WPIntegration\TestCase;
+use Yoast\WPTestUtils\WPIntegration\TestCase as WPTestUtils_TestCase;
 
 /**
  * TestCase base class for convenience methods.
  */
-abstract class WPSEO_UnitTestCase extends TestCase {
+abstract class TestCase extends WPTestUtils_TestCase {
 
 	/**
 	 * Make sure to do migrations before WP_UnitTestCase starts messing with the DB.
@@ -22,7 +19,7 @@ abstract class WPSEO_UnitTestCase extends TestCase {
 		parent::set_up();
 
 		// Run migrations.
-		$migration_runner = YoastSEO()->classes->get( Migration_Runner::class );
+		$migration_runner = \YoastSEO()->classes->get( Migration_Runner::class );
 		$migration_runner->run_migrations( 'free' );
 	}
 }

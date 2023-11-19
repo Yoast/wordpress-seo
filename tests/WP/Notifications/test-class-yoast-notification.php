@@ -5,12 +5,14 @@
  * @package Yoast\Tests\Notifications
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Class Yoast_Notification_Test.
  *
  * @covers Yoast_Notification
  */
-class Yoast_Notification_Test extends WPSEO_UnitTestCase {
+class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test capability filters get set.

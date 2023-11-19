@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Inc
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
+class WPSEO_Post_Type_Test extends TestCase {
 
 	/**
 	 * Remove the custom post type after each test.

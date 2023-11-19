@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin\Import\Plugins
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Test importing meta data from Smartcrawl_SEO.
  */
-class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
+class WPSEO_Import_Smartcrawl_SEO_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.

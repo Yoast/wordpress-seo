@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Capabilities
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Register_Capabilities_Test extends WPSEO_UnitTestCase {
+class WPSEO_Register_Capabilities_Test extends TestCase {
 
 	/**
 	 * Tests whether the list of registered capabilities contains the correct capabilities.

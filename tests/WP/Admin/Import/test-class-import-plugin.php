@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin\Import\Plugins
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Tests for our wrapper import class.
  */
-class WPSEO_Import_Plugin_Test extends WPSEO_UnitTestCase {
+class WPSEO_Import_Plugin_Test extends TestCase {
 
 	/**
 	 * Test message for detect without data.

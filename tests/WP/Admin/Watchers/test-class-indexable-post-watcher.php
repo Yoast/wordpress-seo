@@ -8,6 +8,7 @@
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Models\Indexable_Hierarchy;
+use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
  * Tests the post watcher, which creates indexables and related objects when a post object is created/updated/deleted.
@@ -21,7 +22,7 @@ use Yoast\WP\SEO\Models\Indexable_Hierarchy;
  * - Building author indexables
  * - Unhappy paths
  */
-class Indexable_Post_Watcher_Test extends WPSEO_UnitTestCase {
+class Indexable_Post_Watcher_Test extends TestCase {
 
 	/**
 	 * An indexable should be created whenever a post is created.

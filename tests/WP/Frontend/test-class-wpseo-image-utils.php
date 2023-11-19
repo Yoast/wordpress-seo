@@ -5,10 +5,12 @@
  * @package WPSEO\Frontend
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Tests WPSEO_Image_Utils.
  */
-final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
+final class WPSEO_Image_Utils_Test extends TestCase {
 
 	/**
 	 * Tests getting the full image for an existing attachment.

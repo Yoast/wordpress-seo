@@ -5,10 +5,12 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
+class WPSEO_Admin_Asset_Test extends TestCase {
 
 	/**
 	 * Tests the constructor when no name and src are passed.

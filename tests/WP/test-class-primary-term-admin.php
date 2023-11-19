@@ -5,10 +5,12 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
+class WPSEO_Primary_Term_Admin_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

@@ -5,10 +5,12 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
+class WPSEO_Rewrite_Test extends TestCase {
 
 	/**
 	 * Name of the option indicating whether the rewrite options should be flushed.

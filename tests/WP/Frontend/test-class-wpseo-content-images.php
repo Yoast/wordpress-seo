@@ -5,12 +5,14 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * OpenGraph tests.
  *
  * @group OpenGraph
  */
-class WPSEO_Content_Images_Test extends WPSEO_UnitTestCase {
+class WPSEO_Content_Images_Test extends TestCase {
 
 	/**
 	 * Test getting the image from post content.

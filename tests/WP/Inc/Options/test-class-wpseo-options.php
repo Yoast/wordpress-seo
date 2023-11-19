@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Inc\Options
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Options_Test extends WPSEO_UnitTestCase {
+class WPSEO_Options_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.

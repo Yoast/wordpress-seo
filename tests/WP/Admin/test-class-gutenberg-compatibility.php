@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Gutenberg_Compatibility_Test extends WPSEO_UnitTestCase {
+class WPSEO_Gutenberg_Compatibility_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

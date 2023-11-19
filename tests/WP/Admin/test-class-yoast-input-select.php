@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
+class Yoast_Input_Select_Test extends TestCase {
 
 	/**
 	 * Testing with options.

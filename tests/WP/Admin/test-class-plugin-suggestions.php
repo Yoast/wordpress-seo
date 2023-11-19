@@ -5,12 +5,14 @@
  * @package WPSEO\Tests\Admin
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  *
  * @coversDefaultClass WPSEO_Suggested_Plugins
  */
-class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
+class WPSEO_Plugin_Suggestions_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

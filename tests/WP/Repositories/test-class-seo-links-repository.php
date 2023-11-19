@@ -7,13 +7,14 @@
 
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
+use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
  * Class SEO_Links_Repository_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Repositories\SEO_Links_Repository
  */
-class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
+class SEO_Links_Repository_Test extends TestCase {
 
 	/**
 	 * The instance to test.

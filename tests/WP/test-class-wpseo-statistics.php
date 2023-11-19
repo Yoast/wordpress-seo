@@ -5,10 +5,12 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Tests the WPSEO_Statistics class
  */
-class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
+class WPSEO_Statistics_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

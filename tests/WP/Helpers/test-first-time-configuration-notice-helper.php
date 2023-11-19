@@ -8,6 +8,7 @@
 use Yoast\WP\SEO\Helpers\First_Time_Configuration_Notice_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
  * Class First_Time_Configuration_Notice_Helper_Test.
@@ -15,7 +16,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  *
  * @coversDefaultClass Yoast\WP\SEO\Helpers\First_Time_Configuration_Notice_Helper
  */
-class First_Time_Configuration_Notice_Helper_Test extends WPSEO_UnitTestCase {
+class First_Time_Configuration_Notice_Helper_Test extends TestCase {
 
 	/**
 	 * The options' helper.

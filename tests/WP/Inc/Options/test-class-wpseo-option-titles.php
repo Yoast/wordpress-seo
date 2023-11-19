@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Inc\Options
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Option_Titles_Test extends WPSEO_UnitTestCase {
+class WPSEO_Option_Titles_Test extends TestCase {
 
 	/**
 	 * Tests if the enrich_defaults() cache is properly invalidated

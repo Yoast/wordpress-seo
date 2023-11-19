@@ -5,10 +5,12 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
+class WPSEO_Breadcrumbs_Test extends TestCase {
 
 	/**
 	 * Placeholder test to prevent PHPUnit from throwing errors.

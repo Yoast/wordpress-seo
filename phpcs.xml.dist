@@ -54,8 +54,8 @@
 				 Ref: https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/wiki/Customizable-sniff-properties#custom-unit-test-classes
 			-->
 			<property name="custom_test_class_whitelist" type="array">
-				<element value="WPSEO_UnitTestCase"/>
 				<element value="Yoast\WP\SEO\Tests\Unit\TestCase"/>
+				<element value="Yoast\WP\SEO\Tests\WP\TestCase"/>
 			</property>
 		</properties>
 	</rule>

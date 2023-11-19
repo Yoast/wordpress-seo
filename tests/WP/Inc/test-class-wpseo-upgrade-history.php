@@ -5,12 +5,14 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  *
  * @group upgrades
  */
-class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
+class WPSEO_Upgrade_History_Test extends TestCase {
 
 	/**
 	 * Option name.

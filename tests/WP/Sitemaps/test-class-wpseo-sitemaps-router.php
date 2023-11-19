@@ -5,12 +5,14 @@
  * @package WPSEO\Tests\Sitemaps
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Class WPSEO_Sitemaps_Router_Test.
  *
  * @group sitemaps
  */
-class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
+class WPSEO_Sitemaps_Router_Test extends TestCase {
 
 	/**
 	 * Temporary home URL storage.

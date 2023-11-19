@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Formatter
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
+class WPSEO_Term_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Holds the term instance.

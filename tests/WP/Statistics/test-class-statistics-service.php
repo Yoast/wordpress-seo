@@ -5,12 +5,14 @@
  * @package WPSEO\Tests\Statistics
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  *
  * @coversDefaultClass WPSEO_Statistics_Service
  */
-class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
+class WPSEO_Statistics_Service_Test extends TestCase {
 
 	/**
 	 * Reset after each test.

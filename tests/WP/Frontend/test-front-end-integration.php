@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
+use Yoast\WP\SEO\Tests\WP\TestCase;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -19,7 +20,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @coversDefaultClass Yoast\WP\SEO\Integrations\Front_End_Integration
  */
-class Front_End_Integration_Test extends WPSEO_UnitTestCase {
+class Front_End_Integration_Test extends TestCase {
 
 	/**
 	 * The memoizer for the meta tags context.

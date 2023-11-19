@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
+class WPSEO_File_Size_Service_Test extends TestCase {
 
 	/**
 	 * Tests the retrieval of the file size for external hosted file.

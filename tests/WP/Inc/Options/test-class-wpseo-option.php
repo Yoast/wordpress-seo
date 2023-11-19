@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Inc\Options
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Option_Test extends WPSEO_UnitTestCase {
+class WPSEO_Option_Test extends TestCase {
 
 	/**
 	 * Tests that disabled variables cannot be updated.

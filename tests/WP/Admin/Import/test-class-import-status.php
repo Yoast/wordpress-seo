@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin\Import
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Tests for our import status object.
  */
-class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
+class WPSEO_Import_Status_Test extends TestCase {
 
 	/**
 	 * Tests whether we can set a status message for the detect action.

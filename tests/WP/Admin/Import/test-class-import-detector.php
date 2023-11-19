@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin\Import\Plugins
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Test whether we can detect plugin data to import successfully.
  */
-class WPSEO_Import_External_Detector_Test extends WPSEO_UnitTestCase {
+class WPSEO_Import_External_Detector_Test extends TestCase {
 
 	/**
 	 * Test whether we can return properly when there's no plugin data.

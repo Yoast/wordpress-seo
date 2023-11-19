@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Inc\Options
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Option_WPSEO_Test extends WPSEO_UnitTestCase {
+class WPSEO_Option_WPSEO_Test extends TestCase {
 
 	/**
 	 * Features which can be disabled via the network settings.

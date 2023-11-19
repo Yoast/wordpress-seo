@@ -5,10 +5,12 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
+class WPSEO_Utils_Test extends TestCase {
 
 	/**
 	 * Tests whether is_apache correctly returns if the site runs on apache.

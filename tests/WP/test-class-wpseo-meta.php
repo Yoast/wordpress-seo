@@ -5,12 +5,14 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  *
  * @todo Test for defaults.
  */
-class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
+class WPSEO_Meta_Test extends TestCase {
 
 	/**
 	 * Tests if data can be stored.

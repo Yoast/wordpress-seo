@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Inc\Options
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
+class WPSEO_Taxonomy_Meta_Test extends TestCase {
 
 	/**
 	 * Tests the method without a term object.

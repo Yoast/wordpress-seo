@@ -5,12 +5,14 @@
  * @package WPSEO\Tests\Admin
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Person Schema notification tests.
  *
  * @group Person_Schema
  */
-class WPSEO_Schema_Person_Upgrade_Notification_Test extends WPSEO_UnitTestCase {
+class WPSEO_Schema_Person_Upgrade_Notification_Test extends TestCase {
 
 	/**
 	 * Remove the notification when Person is not selected.

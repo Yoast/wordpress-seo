@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Formatter
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
+class WPSEO_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Test with getting the values.

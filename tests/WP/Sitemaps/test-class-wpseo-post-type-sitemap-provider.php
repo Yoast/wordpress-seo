@@ -5,13 +5,15 @@
  * @package WPSEO\Tests\Sitemaps
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Class WPSEO_Post_Type_Sitemap_Provider_Test.
  *
  * @group sitemaps
  * @coversDefaultClass \Yoast\WP\SEO\Models\SEO_Links\WPSEO_Post_Type_Sitemap_Provider
  */
-class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
+class WPSEO_Post_Type_Sitemap_Provider_Test extends TestCase {
 
 	/**
 	 * Sitemap Provider instance.

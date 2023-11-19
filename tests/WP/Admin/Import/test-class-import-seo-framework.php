@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin\Import\Plugins
  */
 
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
 /**
  * Test importing meta data from SEO Framework.
  */
-class WPSEO_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
+class WPSEO_Import_SEO_Framework_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.
