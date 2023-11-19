@@ -60,9 +60,6 @@ class WPSEO_Dismissible_Notification_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Dismissible_Notification::handle
 	 */
 	public function test_handle_where_situation_is_applicable() {
-
-		$this->expect_reflection_deprecation_warning_php74();
-
 		$notification_center = $this
 			->getMockBuilder( 'Yoast_Notification_Center' )
 			->disableOriginalConstructor()
