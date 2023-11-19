@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Author_Builder
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder
  */
 final class Indexable_Home_Page_Builder_Test extends TestCase {
