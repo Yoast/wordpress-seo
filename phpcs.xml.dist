@@ -304,4 +304,9 @@
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound"/>
 	</rule>
 
+	<!-- The below issues will be fixed in YoastCS 3.0, after which these excludes can be removed. -->
+	<rule ref="Yoast.Commenting.FileComment.Unnecessary">
+		<exclude-pattern>/tests/Unit/bootstrap\.php$</exclude-pattern>
+	</rule>
+
 </ruleset>
