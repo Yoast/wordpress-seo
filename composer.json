@@ -51,7 +51,7 @@
 	"autoload-dev": {
 		"classmap": [
 			"config/",
-			"tests/integration"
+			"tests/WP"
 		],
 		"psr-4": {
 			"Yoast\\WP\\SEO\\Tests\\Unit\\": "tests/Unit/"
@@ -113,11 +113,17 @@
 		"coverage": [
 			"@php ./vendor/phpunit/phpunit/phpunit"
 		],
+		"test-wp": [
+			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-wp.xml.dist --no-coverage"
+		],
+		"coverage-wp": [
+			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-wp.xml.dist"
+		],
 		"integration-test": [
-			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist --no-coverage"
+			"@test-wp"
 		],
 		"integration-coverage": [
-			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
+			"@coverage-wp"
 		],
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
@@ -168,8 +174,10 @@
 		"fix-cs": "Auto-fix code style violations in the PHP files.",
 		"test": "Run the unit tests without code coverage.",
 		"coverage": "Run the unit tests with code coverage.",
-		"integration-test": "Run the integration tests without code coverage.",
-		"integration-coverage": "Run the integration tests with code coverage.",
+		"test-wp": "Run the WP unit tests without code coverage.",
+		"coverage-wp": "Run the WP unit tests with code coverage.",
+		"integration-test": "Deprecated. Alias for the \"test-wp\" script.",
+		"integration-coverage": "Deprecated. Alias for the \"coverage-wp\" script.",
 		"prefix-dependencies": "Create the vendor_prefixed directory.",
 		"prefix-oauth2-client": "Prefix the OAuth2 Client dependencies and place them in the vendor_prefixed directory.",
 		"prefix-symfony": "Prefix the Symfony dependencies and place them in the vendor_prefixed directory.",

@@ -26,6 +26,7 @@ phpcs.xml
 .phpcs.xml
 phpunit.xml
 phpunit-integration.xml
+phpunit-wp.xml
 .phpunit.result.cache
 build/
 
