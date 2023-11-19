@@ -86,7 +86,7 @@
 				<element value="admin/views/tool-bulk-editor.php"/>
 				<!-- Don't trigger on test bootstrap files. -->
 				<element value="tests/integration/bootstrap.php"/>
-				<element value="tests/unit/bootstrap.php"/>
+				<element value="tests/Unit/bootstrap.php"/>
 			</property>
 
 			<!-- Remove the following prefixes from the names of object structures. -->
@@ -107,7 +107,7 @@
 		<properties>
 			<property name="doubles_path" type="array" extend="true">
 				<element value="/tests/integration/doubles"/>
-				<element value="/tests/unit/doubles"/>
+				<element value="/tests/Unit/Doubles"/>
 			</property>
 		</properties>
 	</rule>
@@ -126,7 +126,7 @@
 			<property name="src_directory" type="array">
 				<element value="config"/>
 				<element value="src"/>
-				<element value="tests/unit"/>
+				<element value="tests/Unit"/>
 				<element value="src/deprecated/src"/>
 			</property>
 
@@ -240,33 +240,33 @@
 
 	<!-- The unit tests are not run within the context of a WP install, so overwritting globals is fine. -->
 	<rule ref="WordPress.WP.GlobalVariablesOverride">
-		<exclude-pattern>/tests/unit/*</exclude-pattern>
+		<exclude-pattern>/tests/Unit/*</exclude-pattern>
 	</rule>
 
 	<!-- Allow for the double/mock classes to override methods just to change the visibility. -->
 	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
 		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
-		<exclude-pattern>/tests/unit/doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/Unit/Doubles/*</exclude-pattern>
 	</rule>
 
 	<!-- Test mock/double classes do not have to be prefixed. -->
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound">
 		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
-		<exclude-pattern>/tests/unit/doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/Unit/Doubles/*</exclude-pattern>
 	</rule>
 
 	<!-- For documentation of the double/mock classes, please refer to the _real_ classes. -->
 	<rule ref="Squiz.Commenting.FunctionComment.Missing">
 		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
-		<exclude-pattern>/tests/unit/doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/Unit/Doubles/*</exclude-pattern>
 	</rule>
 	<rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
 		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
-		<exclude-pattern>/tests/unit/doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/Unit/Doubles/*</exclude-pattern>
 	</rule>
 	<rule ref="Squiz.Commenting.VariableComment.Missing">
 		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
-		<exclude-pattern>/tests/unit/doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/Unit/Doubles/*</exclude-pattern>
 	</rule>
 
 
@@ -286,7 +286,7 @@
 		<include-pattern>/config/*\.php$</include-pattern>
 		<include-pattern>/lib/*\.php$</include-pattern>
 		<include-pattern>/src/*\.php$</include-pattern>
-		<include-pattern>/tests/unit/*\.php$</include-pattern>
+		<include-pattern>/tests/Unit/*\.php$</include-pattern>
 	</rule>
 
 	<!-- Only enable the prefix all globals rules for the "new" code for now.
@@ -298,13 +298,22 @@
 		<include-pattern>*/config/*\.php$</include-pattern>
 		<include-pattern>*/lib/*\.php$</include-pattern>
 		<include-pattern>*/src/*\.php$</include-pattern>
-		<include-pattern>*/tests/unit/*\.php$</include-pattern>
+		<include-pattern>*/tests/Unit/*\.php$</include-pattern>
 
 		<!-- Exclude hooks everywhere for the time being until the prefixes will be fixed. -->
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound"/>
 	</rule>
 
 	<!-- The below issues will be fixed in YoastCS 3.0, after which these excludes can be removed. -->
+	<rule ref="Yoast.Files.FileName.InvalidClassFileName">
+		<exclude-pattern>/tests/Unit/*\.php$</exclude-pattern>
+	</rule>
+	<rule ref="Yoast.Files.FileName.InvalidTraitFileName">
+		<exclude-pattern>/tests/Unit/*\.php$</exclude-pattern>
+	</rule>
+	<rule ref="Yoast.NamingConventions.NamespaceName.Invalid">
+		<exclude-pattern>/tests/Unit/*_*/*\.php$</exclude-pattern>
+	</rule>
 	<rule ref="Yoast.Commenting.FileComment.Unnecessary">
 		<exclude-pattern>/tests/Unit/bootstrap\.php$</exclude-pattern>
 	</rule>
