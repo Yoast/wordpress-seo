@@ -30,12 +30,12 @@ final class Metabox_Editor_Test extends TestCase {
 		parent::set_up();
 		$this->subject = new WPSEO_Metabox_Editor();
 
-		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! \defined( 'WPSEO_FILE' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 			\define( 'WPSEO_FILE', $this->get_wpseo_file() );
 		}
-		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! \defined( 'WPSEO_VERSION' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 			\define( 'WPSEO_VERSION', '16.6' );
 		}
 	}
