@@ -6,7 +6,6 @@
  */
 
 use Yoast\WP\SEO\Conditionals\Deactivating_Yoast_Seo_Conditional;
-use Yoast\WP\SEO\Helpers\Redirect_Helper;
 
 /**
  * Rewrite setup and handling for sitemaps functionality.
