@@ -85,10 +85,10 @@ class Indexable_Author_Builder_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_build( $post, $is_post_public ) {
 
-		$user_args = array(
+		$user_args = [
 			'user_login' => 'paolo',
 			'user_pass'  => 'password',
-		);
+		];
 
 		$user_id = self::factory()->user->create_and_get( $user_args )->ID;
 

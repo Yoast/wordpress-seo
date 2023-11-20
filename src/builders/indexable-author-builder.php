@@ -189,6 +189,7 @@ class Indexable_Author_Builder {
 		$replacements = \array_merge( [ $wpdb->posts ], $post_statuses, [ $author_id ] );
 
 		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		return $wpdb->get_row(
 			$wpdb->prepare(
 				'

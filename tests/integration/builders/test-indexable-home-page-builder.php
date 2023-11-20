@@ -151,7 +151,7 @@ class Indexable_Home_Page_Builder_Test extends WPSEO_UnitTestCase {
 		$fake_image_width  = 1024;
 		$fake_image_height = 768;
 
-		$expected_image    = [
+		$expected_image = [
 			'width'  => $fake_image_width,
 			'height' => $fake_image_height,
 			'url'    => \home_url() . $fake_image_path,

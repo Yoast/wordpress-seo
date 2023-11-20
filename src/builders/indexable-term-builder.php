@@ -251,6 +251,7 @@ class Indexable_Term_Builder {
 		$replacements = \array_merge( [ $wpdb->posts, $wpdb->term_relationships, $wpdb->term_taxonomy, $taxonomy, $term_id ], $post_statuses );
 
 		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		return $wpdb->get_row(
 			$wpdb->prepare(
 				"
