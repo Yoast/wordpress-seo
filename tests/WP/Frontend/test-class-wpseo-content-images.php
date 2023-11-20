@@ -5,6 +5,7 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Content_Images_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -20,7 +21,7 @@ class WPSEO_Content_Images_Test extends TestCase {
 	 * @covers WPSEO_Content_Images::get_images_from_content
 	 */
 	public function test_get_only_valid_images_from_content() {
-		$class_instance = new WPSEO_Content_Images_Double();
+		$class_instance = new Content_Images_Double();
 
 		$external_image       = 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg';
 		$non_attachment_image = get_home_url() . '/wp-content/plugins/wordpress-seo/tests/integration/assets/yoast.png';

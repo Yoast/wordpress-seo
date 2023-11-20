@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Inc;
+
+use WPSEO_Content_Images;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Content_Images_Double extends WPSEO_Content_Images {
+class Content_Images_Double extends WPSEO_Content_Images {
 
 	/**
 	 * Grabs the images from the content.
