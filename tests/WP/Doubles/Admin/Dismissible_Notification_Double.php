@@ -1,14 +1,14 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Admin;
+
+use WPSEO_Dismissible_Notification;
+use Yoast_Notification;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Dismissible_Notification_Double extends WPSEO_Dismissible_Notification {
+class Dismissible_Notification_Double extends WPSEO_Dismissible_Notification {
 
 	/**
 	 * Test double. Listens to an argument in the request URL and triggers an action.

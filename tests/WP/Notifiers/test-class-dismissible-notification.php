@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Notifiers
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Admin\Dismissible_Notification_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -21,7 +22,7 @@ class WPSEO_Dismissible_Notification_Test extends TestCase {
 	 */
 	public function test_listen_when_notification_is_not_dismissed() {
 		$handler = $this
-			->getMockBuilder( 'WPSEO_Dismissible_Notification_Double' )
+			->getMockBuilder( Dismissible_Notification_Double::class )
 			->setMethods( [ 'get_listener_value' ] )
 			->getMock();
 
@@ -40,7 +41,7 @@ class WPSEO_Dismissible_Notification_Test extends TestCase {
 	 */
 	public function test_listen_when_notification_will_be_dismissed() {
 		$handler = $this
-			->getMockBuilder( 'WPSEO_Dismissible_Notification_Double' )
+			->getMockBuilder( Dismissible_Notification_Double::class )
 			->setMethods( [ 'get_listener_value', 'dismiss' ] )
 			->getMock();
 
@@ -73,7 +74,7 @@ class WPSEO_Dismissible_Notification_Test extends TestCase {
 			->method( 'add_notification' );
 
 		$handler = $this
-			->getMockBuilder( 'WPSEO_Dismissible_Notification_Double' )
+			->getMockBuilder( Dismissible_Notification_Double::class )
 			->setMethods( [ 'is_applicable' ] )
 			->getMock();
 
@@ -102,7 +103,7 @@ class WPSEO_Dismissible_Notification_Test extends TestCase {
 			->method( 'remove_notification_by_id' );
 
 		$handler = $this
-			->getMockBuilder( 'WPSEO_Dismissible_Notification_Double' )
+			->getMockBuilder( Dismissible_Notification_Double::class )
 			->setMethods( [ 'is_applicable' ] )
 			->getMock();
 
@@ -121,7 +122,7 @@ class WPSEO_Dismissible_Notification_Test extends TestCase {
 	 */
 	public function test_dismiss() {
 		$handler = $this
-			->getMockBuilder( 'WPSEO_Dismissible_Notification_Double' )
+			->getMockBuilder( Dismissible_Notification_Double::class )
 			->setMethods( [ 'set_dismissal_state', 'redirect_to_dashboard' ] )
 			->getMock();
 
@@ -143,7 +144,7 @@ class WPSEO_Dismissible_Notification_Test extends TestCase {
 	 */
 	public function test_is_applicable_with_dismissed_notice() {
 		$instance = $this
-			->getMockBuilder( 'WPSEO_Dismissible_Notification_Double' )
+			->getMockBuilder( Dismissible_Notification_Double::class )
 			->setMethods( [ 'is_notice_dismissed' ] )
 			->getMock();
 
@@ -162,7 +163,7 @@ class WPSEO_Dismissible_Notification_Test extends TestCase {
 	 */
 	public function test_is_applicable_with_non_dismissed_notice() {
 		$instance = $this
-			->getMockBuilder( 'WPSEO_Dismissible_Notification_Double' )
+			->getMockBuilder( Dismissible_Notification_Double::class )
 			->setMethods( [ 'is_notice_dismissed' ] )
 			->getMock();
 
