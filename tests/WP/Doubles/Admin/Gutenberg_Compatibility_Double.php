@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Admin
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Admin;
+
+use WPSEO_Gutenberg_Compatibility;
 
 /**
- * Class WPSEO_Gutenberg_Compatibility_Double.
+ * Class Gutenberg_Compatibility_Double.
  */
-class WPSEO_Gutenberg_Compatibility_Double extends WPSEO_Gutenberg_Compatibility {
+class Gutenberg_Compatibility_Double extends WPSEO_Gutenberg_Compatibility {
 
 	/**
 	 * Sets the installed version for easier testing.

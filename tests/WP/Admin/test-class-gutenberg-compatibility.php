@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Admin
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Admin\Gutenberg_Compatibility_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -15,7 +16,7 @@ class WPSEO_Gutenberg_Compatibility_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var WPSEO_Gutenberg_Compatibility_Double
+	 * @var Gutenberg_Compatibility_Double
 	 */
 	private $default_mock;
 
@@ -26,7 +27,7 @@ class WPSEO_Gutenberg_Compatibility_Test extends TestCase {
 		parent::set_up();
 
 		$mock = $this
-			->getMockBuilder( 'WPSEO_Gutenberg_Compatibility_Double' )
+			->getMockBuilder( Gutenberg_Compatibility_Double::class )
 			->setMethods( [ 'detect_installed_gutenberg_version', 'get_latest_release', 'get_minimum_supported_version' ] )
 			->getMock();
 
@@ -40,7 +41,7 @@ class WPSEO_Gutenberg_Compatibility_Test extends TestCase {
 	 */
 	public function test_gutenberg_is_installed() {
 		$mock = $this
-			->getMockBuilder( 'WPSEO_Gutenberg_Compatibility_Double' )
+			->getMockBuilder( Gutenberg_Compatibility_Double::class )
 			->setMethods( [ 'detect_installed_gutenberg_version' ] )
 			->getMock();
 
@@ -56,7 +57,7 @@ class WPSEO_Gutenberg_Compatibility_Test extends TestCase {
 	 */
 	public function test_gutenberg_not_installed() {
 		$mock = $this
-			->getMockBuilder( 'WPSEO_Gutenberg_Compatibility_Double' )
+			->getMockBuilder( Gutenberg_Compatibility_Double::class )
 			->setMethods( [ 'detect_installed_gutenberg_version' ] )
 			->getMock();
 
