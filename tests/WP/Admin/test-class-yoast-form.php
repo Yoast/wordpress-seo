@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Admin
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Admin\Yoast_Form_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**

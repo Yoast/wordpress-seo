@@ -1,9 +1,9 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\Tests\Admin
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Admin;
+
+use WPSEO_Option;
+use Yoast_Form;
 
 /**
  * Class Yoast_Form_Double.
