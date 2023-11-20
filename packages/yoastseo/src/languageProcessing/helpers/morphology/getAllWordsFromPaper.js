@@ -4,6 +4,7 @@ import { normalizeSingle } from "../sanitize/quotes";
 import parseSlug from "../url/parseSlug";
 import getWords from "../word/getWords";
 import getImagesInTree from "../image/getImagesInTree";
+import { WORD_BOUNDARY_WITH_HYPHEN, WORD_BOUNDARY_WITHOUT_HYPHEN } from "../../../config/wordBoundariesWithoutPunctuation";
 
 /**
  * Gets all words found in the text, title, slug and meta description of a given paper.
@@ -27,11 +28,11 @@ export default function( paper, areHyphensWordBoundaries ) {
 	].join( " " );
 
 	/*
-     * If hyphens should be treated as word boundaries, pass a custom word boundary regex string that includes hyphens
- 	 * (u002d) and en-dashes (u2013). Otherwise, pass a regex that includes only en-dashes.
+     * If hyphens should be treated as word boundaries, pass a custom word boundary regex string that includes whitespaces,
+     * hyphens (u002d), and en-dashes (u2013). Otherwise, pass a regex that includes only whitespaces and en-dashes.
  	 */
-	const words = areHyphensWordBoundaries ? getWords( paperContent, "[\\s\\u2013\\u002d]" )
-		: getWords( paperContent, "[\\s\\u2013]" );
+	const words = areHyphensWordBoundaries ? getWords( paperContent, WORD_BOUNDARY_WITH_HYPHEN )
+		: getWords( paperContent, WORD_BOUNDARY_WITHOUT_HYPHEN );
 
 	return words.map(
 		word => normalizeSingle( escapeRegExp( word ) ) );

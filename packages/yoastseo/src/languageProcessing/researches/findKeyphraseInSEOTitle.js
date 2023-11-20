@@ -5,6 +5,7 @@ import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInStrin
 import { escapeRegExp, filter, includes, isEmpty } from "lodash-es";
 import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
 import getWords from "../helpers/word/getWords";
+import { WORD_BOUNDARY_WITH_HYPHEN } from "../../config/wordBoundariesWithoutPunctuation";
 
 let functionWords = [];
 
@@ -19,16 +20,17 @@ const stripFunctionWordsFromStart = function( str ) {
 	str = str.toLocaleLowerCase();
 
 	/*
- 	 * We use a word boundary regex that includes hyphens for all languages. This means that when we filter out function
- 	 * words from the beginning of the title, we also filter out words separated by hyphens (e.g. 'three-piece'), as well as
- 	 * function words attached to a content word with a hyphen (e.g. 'after' in 'after-school).
+ 	 * We use a word boundary regex that includes whitespaces, en-dashes, and hyphens for all languages.
+ 	 * This means that when we filter out function words from the beginning of the title, we also filter out words
+ 	 * separated by hyphens (e.g. 'three-piece'), as well as function words attached to a content word with a hyphen
+ 	 * (e.g. 'after' in 'after-school).
  	 * In Indonesian we normally don't want to treat hyphens as word boundaries, but in this case it makes sense because
  	 * an Indonesian title can also contain function words seperated by hyphens at the beginning of the title (e.g. 'dua'
  	 * and 'lima' in 'dua-lima ribuan').
  	 * As a downside, single function words containing hyphens (e.g. 'vis-à-vis') won't be filtered out, but we are solving this
  	 * by adding each word from such function words as separate entries in the function words lists.
   	 */
-	let titleWords = getWords( str.toLocaleLowerCase(), "[\\s\\u2013\\u002d]" );
+	let titleWords = getWords( str.toLocaleLowerCase(), WORD_BOUNDARY_WITH_HYPHEN );
 
 	// Strip all function words from the start of the string.
 	titleWords = filter( titleWords, function( word ) {

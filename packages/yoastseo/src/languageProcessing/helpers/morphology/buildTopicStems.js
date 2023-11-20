@@ -1,5 +1,6 @@
 import getWords from "../word/getWords.js";
 import { normalizeSingle } from "../sanitize/quotes";
+import { WORD_BOUNDARY_WITH_HYPHEN, WORD_BOUNDARY_WITHOUT_HYPHEN } from "../../../config/wordBoundariesWithoutPunctuation";
 
 import { isUndefined, escapeRegExp, memoize } from "lodash-es";
 import isDoubleQuoted from "../match/isDoubleQuoted";
@@ -73,11 +74,11 @@ const buildStems = function( keyphrase, stemmer, functionWords, areHyphensWordBo
 	}
 
 	/*
-	 * 	If hyphens should be treated as word boundaries, pass a custom word boundary regex string that includes hyphens
-	 * (u002d) and en-dashes (u2013). Otherwise, pass a regex that includes only en-dashes.
+	 * 	If hyphens should be treated as word boundaries, pass a custom word boundary regex string that includes whitespaces,
+	 *  hyphens (u002d), and en-dashes (u2013). Otherwise, pass a regex that includes only whitespaces and en-dashes.
 	 */
-	let keyphraseWords = areHyphensWordBoundaries ? getWords( keyphrase, "[\\s\\u2013\\u002d]" )
-		: getWords( keyphrase, "[\\s\\u2013]" );
+	let keyphraseWords = areHyphensWordBoundaries ? getWords( keyphrase, WORD_BOUNDARY_WITH_HYPHEN )
+		: getWords( keyphrase, WORD_BOUNDARY_WITHOUT_HYPHEN );
 
 	// Filter function words from keyphrase. Don't filter if the keyphrase only consists of function words.
 	const wordsWithoutFunctionWords = keyphraseWords.filter( ( word ) => ! functionWords.includes( word ) );

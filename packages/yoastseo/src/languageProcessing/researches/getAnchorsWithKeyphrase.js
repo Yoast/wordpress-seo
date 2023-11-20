@@ -6,6 +6,7 @@ import matchTextWithArray from "../helpers/match/matchTextWithArray";
 import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
 import urlHelper from "../helpers/url/url.js";
+import { WORD_BOUNDARY_WITH_HYPHEN, WORD_BOUNDARY_WITHOUT_HYPHEN } from "../../config/wordBoundariesWithoutPunctuation";
 
 let functionWords = [];
 
@@ -94,15 +95,16 @@ function getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpe
         * such as "buku-buku" being a plural form of "buku". We want to treat forms like "buku-buku" as one word, so we shouldn't
         * split words on hyphens in Indonesian.
         * If hyphens should be treated as word boundaries, pass a custom word boundary regex string to the getWords helper
-        * that includes hyphens (u002d) and en-dashes (u2013). Otherwise, pass a regex that only includes en-dashes.
+        * that includes whitespaces, hyphens (u002d), and en-dashes (u2013). Otherwise, pass a regex that only includes
+        * whitespaces and en-dashes.
         */
 		let anchorWords;
 		if ( getWordsCustomHelper ) {
 			anchorWords = uniq( getWordsCustomHelper( currentAnchorText ) );
 		} else if ( areHyphensWordBoundaries ) {
-			anchorWords = uniq( getWords( currentAnchorText, "[\\s\\u2013\\u002d]" ) );
+			anchorWords = uniq( getWords( currentAnchorText, WORD_BOUNDARY_WITH_HYPHEN ) );
 		} else {
-			anchorWords = uniq( getWords( currentAnchorText, "[\\s\\u2013]" ) );
+			anchorWords = uniq( getWords( currentAnchorText, WORD_BOUNDARY_WITHOUT_HYPHEN ) );
 		}
 
 		/*

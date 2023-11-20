@@ -81,11 +81,18 @@ describe( "a test for getting words from a sentence", function() {
 			"is", "very", "cute", "A", "subheading", "3", "text", "text", "text", "A", "subheading", "4", "more", "text" ] );
 	} );
 
-	it( "gets words when a non-default word boundary regex is used (words should be split on spaces, hyphens, and en-dashes", function() {
+	it( "gets words when a non-default word boundary regex is used (words should be split on spaces, hyphens, and en-dashes)", function() {
 		const text = "Exercise is good for your cat's well-being but giving too many treats post–exercise is not";
 		expect( getWords( text, "[\\s\\u2013\\u002d]" ).length ).toBe( 17 );
 		expect( getWords( text, "[\\s\\u2013\\u002d]" ) ).toEqual( [ "Exercise", "is", "good",
 			"for", "your", "cat's", "well", "being", "but", "giving", "too", "many", "treats", "post", "exercise", "is", "not" ] );
+	} );
+
+	it( "gets words when a non-default word boundary regex is used (words should be split on spaces and en-dashes)", function() {
+		const text = "Exercise is good for your cat's well-being but giving too many treats post–exercise is not";
+		expect( getWords( text, "[\\s\\u2013]" ).length ).toBe( 16 );
+		expect( getWords( text, "[\\s\\u2013]" ) ).toEqual( [ "Exercise", "is", "good",
+			"for", "your", "cat's", "well-being", "but", "giving", "too", "many", "treats", "post", "exercise", "is", "not" ] );
 	} );
 } );
 
