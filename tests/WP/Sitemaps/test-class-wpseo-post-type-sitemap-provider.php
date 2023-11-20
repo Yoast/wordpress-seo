@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Post_Type_Sitemap_Provider_Double;
+use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Sitemaps_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -104,7 +105,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends TestCase {
 		set_query_var( 'sitemap_n', '2' );
 
 		// Load the sitemap.
-		$sitemaps = new WPSEO_Sitemaps_Double();
+		$sitemaps = new Sitemaps_Double();
 		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
 
 		// Expect an empty list to be output.
@@ -129,7 +130,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends TestCase {
 		set_query_var( 'sitemap_n', '2' );
 
 		// Load the sitemap.
-		$sitemaps = new WPSEO_Sitemaps_Double();
+		$sitemaps = new Sitemaps_Double();
 		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
 
 		// Expect an empty page (404) to be returned.

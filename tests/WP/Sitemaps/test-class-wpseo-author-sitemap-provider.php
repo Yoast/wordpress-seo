@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Sitemaps
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Sitemaps_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -147,7 +148,7 @@ class WPSEO_Author_Sitemap_Provider_Test extends TestCase {
 		set_query_var( 'sitemap_n', '2' );
 
 		// Loads the sitemap.
-		$sitemaps = new WPSEO_Sitemaps_Double();
+		$sitemaps = new Sitemaps_Double();
 		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
 
 		// Expects an empty page (404) to be returned.
@@ -167,7 +168,7 @@ class WPSEO_Author_Sitemap_Provider_Test extends TestCase {
 		set_query_var( 'sitemap', 'author' );
 
 		// Loads the sitemap.
-		$sitemaps = new WPSEO_Sitemaps_Double();
+		$sitemaps = new Sitemaps_Double();
 		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
 
 		// Expects an empty page (404) to be returned.

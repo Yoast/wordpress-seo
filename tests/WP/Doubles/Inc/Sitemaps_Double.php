@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Inc;
+
+use WPSEO_Sitemaps;
 
 /**
  * Overwrite couple functions of the WPSEO Sitemaps class for testing.
  */
-class WPSEO_Sitemaps_Double extends WPSEO_Sitemaps {
+class Sitemaps_Double extends WPSEO_Sitemaps {
 
 	/**
 	 * Class constructor.
@@ -23,7 +22,7 @@ class WPSEO_Sitemaps_Double extends WPSEO_Sitemaps {
 	 * Overwrite sitemap_close() so we don't die on outputting the sitemap.
 	 */
 	public function sitemap_close() {
-		remove_all_actions( 'wp_footer' );
+		\remove_all_actions( 'wp_footer' );
 	}
 
 	/**

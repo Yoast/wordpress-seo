@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Sitemaps
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Sitemaps_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -19,7 +20,7 @@ class WPSEO_Sitemap_Provider_Overlap_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var WPSEO_Sitemaps_Double
+	 * @var Sitemaps_Double
 	 */
 	private static $class_instance;
 
@@ -39,7 +40,7 @@ class WPSEO_Sitemap_Provider_Overlap_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		self::$class_instance = new WPSEO_Sitemaps_Double();
+		self::$class_instance = new Sitemaps_Double();
 
 		// Reset the instance.
 		self::$class_instance->reset();
