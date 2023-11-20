@@ -179,7 +179,6 @@ const InclusiveLanguageAnalysis = ( props ) => {
 				prefixIconCollapsed={ getIconForScore( inclusiveLanguageScore.className ) }
 				id={ "yoast-inclusive-language-analysis-collapsible-sidebar" }
 			>
-				{ props.shouldUpsell && props.isElementorEditor && <HighlightingButtonUpsell link={ highlightingUpsellLink } /> }
 				{ isMultilingualPluginActive() ? renderMultilingualPluginDetectedNotice() : null }
 				{ results.length >= 1 ? renderResults() : renderGoodJob() }
 			</Collapsible>

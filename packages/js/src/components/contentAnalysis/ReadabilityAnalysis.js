@@ -153,8 +153,6 @@ class ReadabilityAnalysis extends Component {
 											prefixIconCollapsed={ getIconForScore( score.className ) }
 											id={ `yoast-readability-analysis-collapsible-${ location }` }
 										>
-											{ this.props.shouldUpsell && this.props.isElementorEditor &&
-												<HighlightingButtonUpsell link={ highlightingUpsellLink } /> }
 											{ this.renderResults( upsellResults ) }
 										</Collapsible>
 									);
