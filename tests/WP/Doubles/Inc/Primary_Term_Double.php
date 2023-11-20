@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Inc;
+
+use WPSEO_Primary_Term;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Primary_Term_Double extends WPSEO_Primary_Term {
+class Primary_Term_Double extends WPSEO_Primary_Term {
 
 	/**
 	 * Overwrite the get_terms method, because it uses a dependency.

@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Inc
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Primary_Term_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -39,7 +40,7 @@ class WPSEO_Primary_Term_Test extends TestCase {
 	 * @covers WPSEO_Primary_Term::get_primary_term
 	 */
 	public function test_get_primary_term_WHERE_primary_term_EXISTS() {
-		$class_instance = new WPSEO_Primary_Term_Double( $this->taxonomy_name, $this->post_id );
+		$class_instance = new Primary_Term_Double( $this->taxonomy_name, $this->post_id );
 		$class_instance->set_primary_term( $this->primary_term_id );
 
 		$this->assertEquals( $this->primary_term_id, $class_instance->get_primary_term() );
