@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Statistics
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Statistics_Mock;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**

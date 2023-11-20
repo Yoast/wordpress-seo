@@ -1,9 +1,8 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Inc;
+
+use WPSEO_Statistics;
 
 /**
  * Test Helper Class.
@@ -17,7 +16,7 @@ class Statistics_Mock extends WPSEO_Statistics {
 	}
 
 	public function get_post_count( $rank ) {
-		if ( array_key_exists( $rank->get_rank(), $this->rank_counts ) ) {
+		if ( \array_key_exists( $rank->get_rank(), $this->rank_counts ) ) {
 			return $this->rank_counts[ $rank->get_rank() ];
 		}
 
