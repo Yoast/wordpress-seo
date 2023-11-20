@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Tests\WP\Doubles\Admin\Plugin_Availability_Double;
+use Yoast\WP\SEO\Tests\WP\Doubles\Admin\Suggested_Plugins_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -18,7 +19,7 @@ class WPSEO_Plugin_Suggestions_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var WPSEO_Suggested_Plugins_Double
+	 * @var Suggested_Plugins_Double
 	 */
 	protected $class_instance;
 
@@ -41,7 +42,7 @@ class WPSEO_Plugin_Suggestions_Test extends TestCase {
 			->setMethods( [ 'add_notification', 'remove_notification' ] )
 			->getMock();
 
-		$this->class_instance = new WPSEO_Suggested_Plugins_Double( $plugin_availability, $notification_center_mock );
+		$this->class_instance = new Suggested_Plugins_Double( $plugin_availability, $notification_center_mock );
 
 		$this->notification_center = $notification_center_mock;
 	}

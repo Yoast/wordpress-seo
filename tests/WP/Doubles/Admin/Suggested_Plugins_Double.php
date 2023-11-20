@@ -1,14 +1,15 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Admin;
+
+use WPSEO_Plugin_Availability;
+use WPSEO_Suggested_Plugins;
+use Yoast_Notification_Center;
 
 /**
- * Class WPSEO_Suggested_Plugins_Double.
+ * Class Suggested_Plugins_Double.
  */
-class WPSEO_Suggested_Plugins_Double extends WPSEO_Suggested_Plugins {
+class Suggested_Plugins_Double extends WPSEO_Suggested_Plugins {
 
 	/**
 	 * WPSEO_Suggested_Plugins_Double constructor.
