@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Admin;
+
+use WPSEO_Abstract_Capability_Manager;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Capability_Manager_Double extends WPSEO_Abstract_Capability_Manager {
+class Capability_Manager_Double extends WPSEO_Abstract_Capability_Manager {
 
 	/**
 	 * Adds the registered capabilities to the system.

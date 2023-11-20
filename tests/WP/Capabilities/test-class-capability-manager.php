@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Capabilities
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Admin\Capability_Manager_Double;
 use Yoast\WPTestUtils\WPIntegration\TestCase;
 
 /**
@@ -19,7 +20,7 @@ class Capability_Manager_Test extends TestCase {
 	 * @covers WPSEO_Capability_Manager::register
 	 */
 	public function test_register() {
-		$instance = new WPSEO_Capability_Manager_Double();
+		$instance = new Capability_Manager_Double();
 
 		$this->assertNotContains( 'capability', $instance->get_capabilities() );
 
@@ -38,7 +39,7 @@ class Capability_Manager_Test extends TestCase {
 	 * @covers WPSEO_Capability_Manager::register
 	 */
 	public function test_register_overwrite() {
-		$instance = new WPSEO_Capability_Manager_Double();
+		$instance = new Capability_Manager_Double();
 
 		$instance->register( 'capability', [ 'role1' ] );
 		$instance->register( 'capability', [ 'role2' ], true );
@@ -57,7 +58,7 @@ class Capability_Manager_Test extends TestCase {
 	 * @covers WPSEO_Capability_Manager::register
 	 */
 	public function test_register_add() {
-		$instance = new WPSEO_Capability_Manager_Double();
+		$instance = new Capability_Manager_Double();
 
 		$instance->register( 'capability', [ 'role1' ] );
 		$instance->register( 'capability', [ 'role2' ] );
@@ -75,7 +76,7 @@ class Capability_Manager_Test extends TestCase {
 	 * @covers WPSEO_Abstract_Capability_Manager::filter_roles
 	 */
 	public function test_filter_roles() {
-		$instance = new WPSEO_Capability_Manager_Double();
+		$instance = new Capability_Manager_Double();
 
 		add_filter( 'capability_roles', [ $this, 'do_filter_roles' ] );
 
