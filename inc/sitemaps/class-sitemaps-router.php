@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Conditionals\Deactivating_Yoast_Seo_Conditional;
+use Yoast\WP\SEO\Helpers\Redirect_Helper;
 
 /**
  * Rewrite setup and handling for sitemaps functionality.
@@ -100,8 +101,7 @@ class WPSEO_Sitemaps_Router {
 			return;
 		}
 
-		wp_safe_redirect( home_url( '/sitemap_index.xml' ), 301, 'Yoast SEO' );
-		exit;
+		YoastSEO()->helpers->redirect->do_safe_redirect( home_url( '/sitemap_index.xml' ), 301, 'Yoast SEO' );
 	}
 
 	/**

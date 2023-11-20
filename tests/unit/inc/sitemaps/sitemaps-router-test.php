@@ -26,6 +26,13 @@ class Sitemaps_Router_Test extends TestCase {
 	protected $deacrivating_yoast_conditional;
 
 	/**
+	 * Mock of the redirect helper.
+	 *
+	 * @var Mockery\Mock|Redirect_Helper
+	 */
+	protected $redirect_helper;
+
+	/**
 	 * The mock container to use for the test.
 	 *
 	 * @var Mockery\Mock|Container
@@ -335,5 +342,40 @@ class Sitemaps_Router_Test extends TestCase {
 				'base'                   => '/',
 			],
 		];
+	}
+
+	/**
+	 * Tests template_redirect method.
+	 *
+	 * @covers ::template_redirect
+	 */
+	public function test_template_redirect_exit() {
+		global $wp_query;
+		$wp_query         = Mockery::mock( 'WP_Query' );
+		$wp_query->is_404 = true;
+
+		$_SERVER['HTTPS']       = true;
+		$_SERVER['SERVER_NAME'] = 'example.com';
+		$_SERVER['REQUEST_URI'] = '/sitemap.xml';
+		$_SERVER['HTTP_HOST']   = 'example.com';
+
+		Functions\expect( 'home_url' )
+			->with( '/sitemap.xml' )
+			->once()
+			->andReturn( 'http://example.com/sitemap.xml' );
+
+		$this->redirect_helper = Mockery::mock( Redirect_Helper::class );
+		$container             = $this->create_container_with( [ Redirect_Helper::class => $this->redirect_helper ] );
+
+		$this->redirect_helper
+			->expects( 'do_safe_redirect' )
+			->with( 'http://example.com/sitemap.xml', 301, 'Yoast SEO' )
+			->once();
+
+		Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
+
+		$this->instance->template_redirect();
 	}
 }
