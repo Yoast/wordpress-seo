@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_Sitemaps_Router
  */
-class Sitemaps_Router_Test extends TestCase {
+class WPSEO_Sitemaps_Router_Test extends TestCase {
 
 	/**
 	 * Mock of the deactivating Yoast SEO conditional.
