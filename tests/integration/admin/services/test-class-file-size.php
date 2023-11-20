@@ -41,9 +41,6 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_File_Size_Service::get
 	 */
 	public function test_get_with_unknown_failure() {
-
-		$this->expect_reflection_deprecation_warning_php74();
-
 		$instance = $this
 			->getMockBuilder( 'WPSEO_File_Size_Service' )
 			->setMethods( [ 'get_file_url', 'calculate_file_size' ] )
@@ -71,9 +68,6 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_File_Size_Service::get
 	 */
 	public function test_get_on_success() {
-
-		$this->expect_reflection_deprecation_warning_php74();
-
 		$instance = $this
 			->getMockBuilder( 'WPSEO_File_Size_Service' )
 			->setMethods( [ 'get_file_url', 'get_file_size' ] )
