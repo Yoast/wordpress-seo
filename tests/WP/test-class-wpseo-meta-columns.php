@@ -5,6 +5,7 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Admin\Meta_Columns_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -15,7 +16,7 @@ class WPSEO_Meta_Columns_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var WPSEO_Meta_Columns_Double
+	 * @var Meta_Columns_Double
 	 */
 	private static $class_instance;
 
@@ -25,7 +26,7 @@ class WPSEO_Meta_Columns_Test extends TestCase {
 	public static function set_up_before_class() {
 		parent::set_up_before_class();
 
-		self::$class_instance = new WPSEO_Meta_Columns_Double();
+		self::$class_instance = new Meta_Columns_Double();
 	}
 
 	/**

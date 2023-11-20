@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Admin;
+
+use WPSEO_Meta_Columns;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
+class Meta_Columns_Double extends WPSEO_Meta_Columns {
 
 	/**
 	 * The current post type.
@@ -75,7 +74,7 @@ class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
 	 * Gets the current post type.
 	 */
 	public function get_current_post_type() {
-		if ( ! is_null( $this->current_post_type ) ) {
+		if ( ! \is_null( $this->current_post_type ) ) {
 			return $this->current_post_type;
 		}
 		else {
