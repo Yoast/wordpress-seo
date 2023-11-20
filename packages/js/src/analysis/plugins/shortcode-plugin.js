@@ -2,6 +2,8 @@
 /* global wpseoScriptData */
 /* global ajaxurl */
 import { debounce, flatten } from "lodash";
+import { applyFilters } from "@wordpress/hooks";
+import { actions } from "@yoast/externals/redux";
 
 const SHORTCODE_NAME_MATCHER = "[^<>&/\\[\\]\x00-\x20=]+?";
 const SHORTCODE_ATTRIBUTES_MATCHER = "( [^\\]]+?)?";
@@ -27,7 +29,7 @@ class YoastShortcodePlugin {
 	 * @property {RegExp} shortcodesRegex Used to match a given string for a valid shortcode.
 	 * @property {RegExp} closingTagRegex Used to match a given string for shortcode closing tags.
 	 * @property {RegExp} nonCaptureRegex Used to match a given string for non-capturing shortcodes.
-	 * @property {Array} parsedShortcodes Used to store parsed shortcodes.
+	 * @property {ParsedShortcode[]} parsedShortcodes Used to store parsed shortcodes.
 	 *
 	 * @param {Object}   interface                      Object Formerly Known as App, but for backwards compatibility
 	 *                                                  still passed here as one argument.
@@ -35,7 +37,7 @@ class YoastShortcodePlugin {
 	 * @param {function} interface.registerModification Register a modification with Yoast SEO.
 	 * @param {function} interface.pluginReady          Notify Yoast SEO that the plugin is ready.
 	 * @param {function} interface.pluginReloaded       Notify Yoast SEO that the plugin has been reloaded.
-	 * @param {Array}	shortcodesToBeParsed The array of shortcodes to be parsed.
+	 * @param {string[]} shortcodesToBeParsed The array of shortcodes to be parsed.
 	 * @returns {void}
 	 */
 	constructor( { registerPlugin, registerModification, pluginReady, pluginReloaded }, shortcodesToBeParsed ) {
@@ -92,7 +94,6 @@ class YoastShortcodePlugin {
 		this._registerModification( "content", this.replaceShortcodes.bind( this ), "YoastShortcodePlugin" );
 	}
 
-
 	/**
 	 * Removes all unknown shortcodes. Not all plugins properly registered their shortcodes in the WordPress backend.
 	 * Since we cannot use the data from these shortcodes they must be removed.
@@ -135,7 +136,7 @@ class YoastShortcodePlugin {
 	 *
 	 * @param {function} callback To declare either ready or reloaded after parsing.
 	 *
-	 * @returns {void}
+	 * @returns {function} The callback function.
 	 */
 	loadShortcodes( callback ) {
 		const unparsedShortcodes = this.getUnparsedShortcodes( this.getShortcodes( this.getContentTinyMCE() ) );
@@ -152,8 +153,8 @@ class YoastShortcodePlugin {
 	 * @returns {void}
 	 */
 	bindElementEvents() {
-		const contentElement = document.getElementById( "content" ) || false;
-		const callback = debounce(	this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ), 500 );
+		const contentElement = document.querySelector( ".wp-editor-area" );
+		const callback = debounce( this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ), 500 );
 
 		if ( contentElement ) {
 			contentElement.addEventListener( "keyup", callback );
@@ -175,7 +176,7 @@ class YoastShortcodePlugin {
 	 * @returns {string} The content from tinyMCE.
 	 */
 	getContentTinyMCE() {
-		let content = document.getElementById( "content" ) ? document.getElementById( "content" ).value : "";
+		let content = document.querySelector( ".wp-editor-area" ) ? document.querySelector( ".wp-editor-area" ).value : "";
 		if ( typeof tinyMCE !== "undefined" && typeof tinyMCE.editors !== "undefined" && tinyMCE.editors.length !== 0 ) {
 			content = tinyMCE.get( "content" ) ? tinyMCE.get( "content" ).getContent() : "";
 		}
@@ -271,7 +272,7 @@ class YoastShortcodePlugin {
 	 * @param {Array} shortcodes shortcodes to be parsed.
 	 * @param {function} callback function to be called in the context of the AJAX callback.
 	 *
-	 * @returns {void}
+	 * @returns {boolean|function} The callback function or false if no function has been supplied.
 	 */
 	parseShortcodes( shortcodes, callback ) {
 		if ( typeof callback !== "function" ) {
@@ -297,25 +298,55 @@ class YoastShortcodePlugin {
 	}
 
 	/**
-	 * Saves the shortcodes that were parsed with AJAX to `this.parsedShortcodes`
+	 * Saves the shortcodes that were parsed to `this.parsedShortcodes`, and then call the callback function.
 	 *
-	 * @param {string}   shortcodeResults Shortcodes that must be saved. This is the response from the jQuery.
-	 * @param {function} callback         Callback to execute of saving shortcodes.
+	 * @param {string}   shortcodeResults Shortcodes that must be saved. This is the response from the AJAX request.
+	 * @param {function} callback         Callback to execute after saving shortcodes.
 	 *
 	 * @returns {void}
 	 */
 	saveParsedShortcodes( shortcodeResults, callback ) {
 		// Parse the stringified shortcode results to an array.
-		shortcodeResults = JSON.parse( shortcodeResults );
+		const shortcodes = JSON.parse( shortcodeResults );
 
-		// Push each shortcode result to the array of parsed shortcodes.
-		shortcodeResults.forEach( result => {
-			this.parsedShortcodes.push( result );
-		} );
+		// Push the shortcodes to the array of parsed shortcodes.
+		this.parsedShortcodes.push( ...shortcodes );
 
 		callback();
 	}
 }
 
-
 export default YoastShortcodePlugin;
+
+const {
+	updateShortcodesForParsing,
+} = actions;
+
+/**
+ * Initializes the shortcode plugin.
+ *
+ * @param {App} app The app object.
+ * @param {Object} store The redux store.
+ *
+ * @returns {void}
+ */
+export function initShortcodePlugin( app, store ) {
+	let shortcodesToBeParsed = [];
+	shortcodesToBeParsed = applyFilters( "yoast.analysis.shortcodes", shortcodesToBeParsed );
+
+	// Make sure the added shortcodes are valid. They are valid if they are included in `wpseo_shortcode_tags`.
+	const validShortcodes = wpseoScriptData.analysis.plugins.shortcodes.wpseo_shortcode_tags;
+	shortcodesToBeParsed = shortcodesToBeParsed.filter( shortcode => validShortcodes.includes( shortcode ) );
+
+	// Parses the shortcodes when `shortcodesToBeParsed` is provided.
+	if ( shortcodesToBeParsed.length > 0 ) {
+		store.dispatch( updateShortcodesForParsing( shortcodesToBeParsed ) );
+
+		window.YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( {
+			registerPlugin: app.registerPlugin,
+			registerModification: app.registerModification,
+			pluginReady: app.pluginReady,
+			pluginReloaded: app.pluginReloaded,
+		}, shortcodesToBeParsed );
+	}
+}

@@ -2,18 +2,14 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import {
-	isUndefined,
-	debounce,
-} from "lodash";
+import { debounce, isUndefined } from "lodash";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
-import { applyFilters } from "@wordpress/hooks";
 
 // Internal dependencies.
 import YoastReplaceVarPlugin from "../analysis/plugins/replacevar-plugin";
 import YoastReusableBlocksPlugin from "../analysis/plugins/reusable-blocks-plugin";
-import YoastShortcodePlugin from "../analysis/plugins/shortcode-plugin";
+import YoastShortcodePlugin, { initShortcodePlugin } from "../analysis/plugins/shortcode-plugin";
 import YoastMarkdownPlugin from "../analysis/plugins/markdown-plugin";
 import * as tinyMCEHelper from "../lib/tinymce";
 import CompatibilityHelper from "../compatibility/compatibilityHelper";
@@ -62,7 +58,6 @@ const {
 	refreshSnippetEditor,
 	setReadabilityResults,
 	setSeoResultsForKeyword,
-	updateShortcodesForParsing,
 } = actions;
 
 // Plugin class prototypes (not the instances) are being used by other plugins from the window.
@@ -87,7 +82,6 @@ export default function initPostScraper( $, store, editorData ) {
 	let app;
 	let postDataCollector;
 	const customAnalysisData = new CustomAnalysisData();
-
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
@@ -497,25 +491,7 @@ export default function initPostScraper( $, store, editorData ) {
 		// Analysis plugins
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
-		const validShortcodes = wpseoScriptData.analysis.plugins.shortcodes.wpseo_shortcode_tags;
-		let shortcodesToBeParsed = [];
-
-		shortcodesToBeParsed = applyFilters( "yoast.analysis.shortcodes", shortcodesToBeParsed );
-
-		// Make sure the added shortcodes are valid. They are valid if they are included in `wpseo_shortcode_tags`.
-		shortcodesToBeParsed = shortcodesToBeParsed.filter( shortcode => validShortcodes.includes( shortcode ) );
-
-		// Parses the shortcodes when `shortcodesToBeParsed` is provided.
-		if ( shortcodesToBeParsed.length > 0 ) {
-			store.dispatch( updateShortcodesForParsing( shortcodesToBeParsed ) );
-
-			window.YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( {
-				registerPlugin: app.registerPlugin,
-				registerModification: app.registerModification,
-				pluginReady: app.pluginReady,
-				pluginReloaded: app.pluginReloaded,
-			}, shortcodesToBeParsed );
-		}
+		initShortcodePlugin( app, store );
 
 		if ( isBlockEditor() ) {
 			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, window.YoastSEO.app.refresh );
