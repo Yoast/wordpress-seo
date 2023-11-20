@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Inc;
+
+use WPSEO_Admin_Bar_Menu;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Admin_Bar_Menu_Double extends WPSEO_Admin_Bar_Menu {
+class Admin_Bar_Menu_Double extends WPSEO_Admin_Bar_Menu {
 
 	/**
 	 * Gets the focus keyword for a given post.

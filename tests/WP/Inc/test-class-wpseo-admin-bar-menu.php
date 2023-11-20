@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Inc
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Admin_Bar_Menu_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -270,7 +271,7 @@ class WPSEO_Admin_Bar_Menu_Test extends TestCase {
 
 		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $post->ID );
 
-		$instance = new WPSEO_Admin_Bar_Menu_Double();
+		$instance = new Admin_Bar_Menu_Double();
 
 		$this->assertEquals( 'focus keyword', $instance->get_post_focus_keyword( $post ) );
 	}
@@ -281,7 +282,7 @@ class WPSEO_Admin_Bar_Menu_Test extends TestCase {
 	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword
 	 */
 	public function test_get_post_focus_keyword_with_invalid_object() {
-		$instance = new WPSEO_Admin_Bar_Menu_Double();
+		$instance = new Admin_Bar_Menu_Double();
 
 		$this->assertEquals( '', $instance->get_post_focus_keyword( null ) );
 	}
@@ -293,7 +294,7 @@ class WPSEO_Admin_Bar_Menu_Test extends TestCase {
 	 */
 	public function test_get_post_focus_keyword_with_valid_object_but_no_id_property() {
 		$post     = new stdClass();
-		$instance = new WPSEO_Admin_Bar_Menu_Double();
+		$instance = new Admin_Bar_Menu_Double();
 
 		$this->assertEquals( '', $instance->get_post_focus_keyword( $post ) );
 	}
@@ -307,7 +308,7 @@ class WPSEO_Admin_Bar_Menu_Test extends TestCase {
 		add_filter( 'wpseo_use_page_analysis', '__return_false' );
 
 		$post     = self::factory()->post->create_and_get();
-		$instance = new WPSEO_Admin_Bar_Menu_Double();
+		$instance = new Admin_Bar_Menu_Double();
 
 		$this->assertEquals( '', $instance->get_post_focus_keyword( $post ) );
 	}
