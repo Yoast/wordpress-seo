@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Sitemaps
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Sitemaps_Renderer_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -189,10 +190,10 @@ class WPSEO_Sitemaps_Renderer_Test extends TestCase {
 	/**
 	 * Tests getting the fallback url if the plugin is loaded from a different domain.
 	 *
-	 * @covers WPSEO_Sitemaps_Renderer_Double::get_xsl_url
+	 * @covers Sitemaps_Renderer_Double::get_xsl_url
 	 */
 	public function test_is_home_url_returned_correctly() {
-		$class_instance = new WPSEO_Sitemaps_Renderer_Double();
+		$class_instance = new Sitemaps_Renderer_Double();
 
 		add_filter( 'plugins_url', [ $this, 'change_plugin_url' ] );
 		$this->assertEquals( 'http://example.org/main-sitemap.xsl', $class_instance->get_xsl_url() );

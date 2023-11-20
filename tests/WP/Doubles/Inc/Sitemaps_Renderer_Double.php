@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Inc;
+
+use WPSEO_Sitemaps_Renderer;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Sitemaps_Renderer_Double extends WPSEO_Sitemaps_Renderer {
+class Sitemaps_Renderer_Double extends WPSEO_Sitemaps_Renderer {
 
 	/**
 	 * Returns the XSL URL.
