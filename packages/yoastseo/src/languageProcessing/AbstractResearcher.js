@@ -179,7 +179,7 @@ export default class AbstractResearcher {
 			throw new MissingArgument( "Failed to add the custom researcher config. Config name cannot be empty." );
 		}
 
-		if ( isUndefined( config ) || isEmpty( config ) ) {
+		if ( isUndefined( config ) || ( isEmpty( config ) && config === Object( config ) ) ) {
 			throw new MissingArgument( "Failed to add the custom researcher config. Config cannot be empty." );
 		}
 

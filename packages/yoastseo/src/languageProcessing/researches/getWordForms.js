@@ -179,26 +179,22 @@ function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, st
  *
  * @param {Paper}       paper       							The paper.
  * @param {Researcher}  researcher  							The researcher.
- * @param {boolean}  	hyphensAreAlwaysWordBoundaries  		Whether hyphens should be treated as word boundaries for
- * 																all languages, regardless of the researcher's config.
  *
  * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms, based on the forms
  * found in the text or created forms.
  */
-export default function( paper, researcher, hyphensAreAlwaysWordBoundaries = false ) {
+export default function( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
 	const stemmer = researcher.getHelper( "getStemmer" )( researcher );
 	const createBasicWordForms = researcher.getHelper( "createBasicWordForms" );
 	const language = researcher.getConfig( "language" );
 	/*
-	 * Whether we want to split words on hyphens depends on the language. If hyphensAreAlwaysWordBoundaries is true, we
-	 * want to split words on hyphens in all languages.
-	 * Otherwise, this depends on the researcher's config. In most languages, we do want to consider
-	 * hyphens word boundaries. But for example in Indonesian, hyphens are used to form plural forms
-	 * of nouns, e.g. 'buku' is the singular form for 'book' and 'buku-buku' is the plural form. So it makes sense to
-	 * not split words on hyphens in Indonesian and consider 'buku-buku' as one word rather than two.
+	 * Whether we want to split words on hyphens depends on the language.
+	 * In most languages, we do want to consider hyphens word boundaries. But for example in Indonesian, hyphens are used
+	 * to form plural forms of nouns, e.g. 'buku' is the singular form for 'book' and 'buku-buku' is the plural form.
+	 * So it makes sense to not split words on hyphens in Indonesian and consider 'buku-buku' as one word rather than two.
 	 */
-	const areHyphensWordBoundaries = hyphensAreAlwaysWordBoundaries ? true : researcher.getConfig( "areHyphensWordBoundaries" );
+	const areHyphensWordBoundaries = researcher.getConfig( "areHyphensWordBoundaries" );
 
 	const allWordsFromPaper = getAllWordsFromPaper( paper, areHyphensWordBoundaries ).map( word => word.toLocaleLowerCase( language ) );
 	const keyphrase = paper.getKeyword().toLocaleLowerCase( language ).trim();
