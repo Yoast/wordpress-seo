@@ -258,16 +258,16 @@ class Indexable_Term_Builder_Test extends TestCase {
 			"
 			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
 			FROM %i AS p
-			INNER JOIN {$this->wpdb->term_relationships} AS term_rel
+			INNER JOIN %i AS term_rel
 				ON		term_rel.object_id = p.ID
-			INNER JOIN {$this->wpdb->term_taxonomy} AS term_tax
+			INNER JOIN %i AS term_tax
 				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
 				AND		term_tax.taxonomy = %s
 				AND		term_tax.term_id = %d
 			WHERE	p.post_status IN (%s)
 				AND		p.post_password = ''
 			",
-			[ $this->wpdb->posts, 'category', 1, 'publish' ]
+			[ $this->wpdb->posts, $this->wpdb->term_relationships, $this->wpdb->term_taxonomy, 'category', 1, 'publish' ]
 		)->andReturn( 'PREPARED_QUERY' );
 
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
