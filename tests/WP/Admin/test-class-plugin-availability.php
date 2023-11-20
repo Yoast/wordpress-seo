@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Admin
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Admin\Plugin_Availability_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -27,7 +28,7 @@ class WPSEO_Plugin_Availability_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$plugin_availability = new WPSEO_Plugin_Availability_Double();
+		$plugin_availability = new Plugin_Availability_Double();
 		$plugin_availability->register();
 
 		self::$class_instance = $plugin_availability;

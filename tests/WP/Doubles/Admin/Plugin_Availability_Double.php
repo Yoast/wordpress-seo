@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Admin
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Admin;
+
+use WPSEO_Plugin_Availability;
 
 /**
- * Class WPSEO_Plugin_Availability_Double.
+ * Class Plugin_Availability_Double.
  */
-class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
+class Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 
 	/**
 	 * Array containing fake dependency slugs.
@@ -138,7 +137,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 	 * @return bool Whether or not the dependency is available.
 	 */
 	public function is_dependency_available( $dependency ) {
-		return in_array( $dependency['slug'], $this->available_dependencies, true );
+		return \in_array( $dependency['slug'], $this->available_dependencies, true );
 	}
 
 	/**
