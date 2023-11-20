@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Inc;
+
+use WPSEO_Sitemap_Image_Parser;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Sitemap_Image_Parser_Double extends WPSEO_Sitemap_Image_Parser {
+class Sitemap_Image_Parser_Double extends WPSEO_Sitemap_Image_Parser {
 
 	/**
 	 * Parse gallery shortcodes in a given content.

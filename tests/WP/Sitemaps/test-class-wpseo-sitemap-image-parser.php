@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Sitemaps
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Sitemap_Image_Parser_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -59,9 +60,9 @@ class WPSEO_Sitemap_Image_Parser_Test extends TestCase {
 		/**
 		 * The test instance.
 		 *
-		 * @var WPSEO_Sitemap_Image_Parser_Double $image_parser
+		 * @var Sitemap_Image_Parser_Double $image_parser
 		 */
-		$image_parser = $this->getMockBuilder( 'WPSEO_Sitemap_Image_Parser_Double' )
+		$image_parser = $this->getMockBuilder( Sitemap_Image_Parser_Double::class )
 			->setMethods( [ 'get_content_galleries', 'get_gallery_attachments' ] )
 			->getMock();
 
