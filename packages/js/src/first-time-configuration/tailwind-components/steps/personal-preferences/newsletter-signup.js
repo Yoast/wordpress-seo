@@ -94,8 +94,8 @@ export function NewsletterSignup( { gdprLink } ) {
 					sprintf(
 						// translators: %1$s expands to "Yoast SEO", %2$s expands to "Yoast SEO"
 						__(
-							"Subscribe to the %1$s newsletter to receive best-practices on improving your rankings, saving time on SEO tasks, stay up-to-date with the latest SEO news, " +
-							"and expert guidance on how to make the most of %2$s!",
+							"Subscribe to the %1$s newsletter to receive best practices for improving your rankings, save time on SEO tasks, stay up-to-date with the latest SEO news, " +
+							"and get expert guidance on how to make the most of %2$s!",
 							"wordpress-seo"
 						),
 						"Yoast SEO",
