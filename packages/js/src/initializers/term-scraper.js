@@ -13,6 +13,7 @@ import { termsTmceId } from "../lib/tinymce";
 import Pluggable from "../lib/Pluggable";
 import requestWordsToHighlight from "../analysis/requestWordsToHighlight.js";
 import YoastReplaceVarPlugin from "../analysis/plugins/replacevar-plugin";
+import YoastShortcodePlugin, { initShortcodePlugin } from "../analysis/plugins/shortcode-plugin";
 
 // UI dependencies.
 import { update as updateTrafficLight } from "../ui/trafficLight";
@@ -56,6 +57,7 @@ window.yoastHideMarkers = true;
 
 // Plugin class prototypes (not the instances) are being used by other plugins from the window.
 window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
+window.YoastShortcodePlugin = YoastShortcodePlugin;
 
 /**
  * @summary Initializes the term scraper script.
@@ -372,6 +374,7 @@ export default function initTermScraper( $, store, editorData ) {
 		// Init Plugins.
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
+		initShortcodePlugin( app, store );
 
 		// For backwards compatibility.
 		window.YoastSEO.analyzerArgs = args;

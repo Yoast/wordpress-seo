@@ -13,8 +13,6 @@ use Yoast\WPTestUtils\WPIntegration\TestCase;
  */
 abstract class WPSEO_UnitTestCase extends TestCase {
 
-	use Yoast_SEO_ReflectionToString_Deprecation_Handler;
-
 	/**
 	 * Make sure to do migrations before WP_UnitTestCase starts messing with the DB.
 	 *

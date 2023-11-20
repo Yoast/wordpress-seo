@@ -50,9 +50,12 @@
 	},
 	"autoload-dev": {
 		"classmap": [
-			"tests/",
-			"config/"
-		]
+			"config/",
+			"tests/integration"
+		],
+		"psr-4": {
+			"Yoast\\WP\\SEO\\Tests\\Unit\\": "tests/Unit/"
+		}
 	},
 	"config": {
 		"allow-plugins": {
