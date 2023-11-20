@@ -154,7 +154,7 @@ jobs:
 
       # Check out the premium config repo ahead of running the tests to prevent issues with permissions.
       - name: Checkout premium configuration
-        if: ${{ steps.checks-run.outputs.should == 'true' && matrix.needs_premium_config == 'true' }}
+        if: ${{ steps.checks-run.outputs.should == 'true' && matrix.needs_premium_config == true }}
         uses: actions/checkout@v3
         with:
           repository: Yoast/YoastSEO.js-premium-configuration
