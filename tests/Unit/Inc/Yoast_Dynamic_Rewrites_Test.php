@@ -60,6 +60,7 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 */
 	public function test_construct_with_runtime_exception() {
 		$this->expectException( RuntimeException::class );
+		$GLOBALS['wp_rewrite'] = null;
 		$instance = new Yoast_Dynamic_Rewrites();
 
 		$this->assertNotEmpty( $instance->wp_rewrite, 'WP_Rewrite instance is set.' );
