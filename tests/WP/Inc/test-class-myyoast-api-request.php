@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Inc
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Inc\MyYoast_Api_Request_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -124,7 +125,7 @@ class WPSEO_MyYoast_Api_Request_Test extends TestCase {
 	 */
 	public function test_enrich_request_arguments() {
 		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Api_Request_Double' )
+			->getMockBuilder( MyYoast_Api_Request_Double::class )
 			->setMethods( [ 'get_request_body', 'get_installed_addon_versions' ] )
 			->setConstructorArgs( [ 'endpoint' ] )
 			->getMock();
@@ -171,7 +172,7 @@ class WPSEO_MyYoast_Api_Request_Test extends TestCase {
 	 */
 	public function test_enrich_request_arguments_with_empty_request_body() {
 		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Api_Request_Double' )
+			->getMockBuilder( MyYoast_Api_Request_Double::class )
 			->setMethods( [ 'get_request_body', 'get_installed_addon_versions' ] )
 			->setConstructorArgs( [ 'endpoint' ] )
 			->getMock();
@@ -215,7 +216,7 @@ class WPSEO_MyYoast_Api_Request_Test extends TestCase {
 
 		add_filter( 'pre_http_request', [ $this, 'return_error_object' ] );
 
-		$instance = new WPSEO_MyYoast_Api_Request_Double( 'some_url', [] );
+		$instance = new MyYoast_Api_Request_Double( 'some_url', [] );
 		$instance->do_request( 'some_url', [] );
 
 		remove_filter( 'pre_http_request', [ $this, 'return_error_object' ] );

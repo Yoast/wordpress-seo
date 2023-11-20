@@ -1,14 +1,14 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Inc;
+
+use WPSEO_MyYoast_Api_Request;
+use WPSEO_MyYoast_Bad_Request_Exception;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_MyYoast_Api_Request_Double extends WPSEO_MyYoast_Api_Request {
+class MyYoast_Api_Request_Double extends WPSEO_MyYoast_Api_Request {
 
 	/**
 	 * Checks if MyYoast tokens are allowed and adds the token to the request body.
