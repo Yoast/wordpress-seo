@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Admin
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Admin\Editor_Specific_Replace_Vars_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -15,7 +16,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var WPSEO_Admin_Editor_Specific_Replace_Vars_Double
+	 * @var Editor_Specific_Replace_Vars_Double
 	 */
 	protected $class_instance;
 
@@ -25,7 +26,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->class_instance = new WPSEO_Admin_Editor_Specific_Replace_Vars_Double();
+		$this->class_instance = new Editor_Specific_Replace_Vars_Double();
 	}
 
 	/**

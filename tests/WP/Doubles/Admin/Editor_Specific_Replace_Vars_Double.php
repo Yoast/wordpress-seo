@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Admin;
+
+use WPSEO_Admin_Editor_Specific_Replace_Vars;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Admin_Editor_Specific_Replace_Vars_Double extends WPSEO_Admin_Editor_Specific_Replace_Vars {
+class Editor_Specific_Replace_Vars_Double extends WPSEO_Admin_Editor_Specific_Replace_Vars {
 
 	/**
 	 * Adds the replavement variables for the given page types.
