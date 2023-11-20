@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Sitemaps
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Post_Type_Sitemap_Provider_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -141,7 +142,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * @covers ::get_sitemap_links
 	 */
 	public function test_get_sitemap_links() {
-		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
+		$sitemap_provider = new Post_Type_Sitemap_Provider_Double();
 
 		$current_show_on_front  = get_option( 'show_on_front' );
 		$current_page_on_front  = (int) get_option( 'page_on_front' );
@@ -196,7 +197,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * @covers ::get_excluded_posts
 	 */
 	public function test_get_excluded_posts_with_set_filter() {
-		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
+		$sitemap_provider = new Post_Type_Sitemap_Provider_Double();
 
 		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'filter_with_output' ] );
 
@@ -219,7 +220,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * @covers ::get_excluded_posts
 	 */
 	public function test_get_excluded_posts_with_set_filter_that_has_invalid_return_value() {
-		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
+		$sitemap_provider = new Post_Type_Sitemap_Provider_Double();
 
 		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'filter_with_invalid_output' ] );
 
@@ -264,7 +265,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends TestCase {
 	 */
 	public function test_get_url() {
 		$current_home     = get_option( 'home' );
-		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
+		$sitemap_provider = new Post_Type_Sitemap_Provider_Double();
 
 		$post_object = $this->factory()->post->create_and_get();
 		$post_url    = $sitemap_provider->get_url( $post_object );
