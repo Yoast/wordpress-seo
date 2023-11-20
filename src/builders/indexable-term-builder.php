@@ -252,9 +252,10 @@ class Indexable_Term_Builder {
 
 		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
 		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 		return $wpdb->get_row(
 			$wpdb->prepare(
-				"
+				'
 			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
 			FROM %i AS p
 			INNER JOIN %i AS term_rel
@@ -263,7 +264,7 @@ class Indexable_Term_Builder {
 				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
 				AND		term_tax.taxonomy = %s
 				AND		term_tax.term_id = %d
-			WHERE	p.post_status IN (" . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+			WHERE	p.post_status IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
 				AND		p.post_password = ''
 			",
 				$replacements
