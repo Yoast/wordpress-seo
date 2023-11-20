@@ -1,9 +1,6 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Integrations;
 
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 
