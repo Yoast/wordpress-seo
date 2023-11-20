@@ -38,17 +38,13 @@ import KeywordUpsell from "../../../components/modals/KeywordUpsell";
  *
  * @constructor
  */
-export default function ElementorFill( { isLoading, onLoad, settings, setMarkerStatus } ) {
+export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	useEffect( () => {
 		setTimeout( () => {
 			if ( isLoading ) {
 				onLoad();
 			}
 		} );
-		// When we display the upsell, the highlighting button should be disabled.
-		if ( settings.shouldUpsell ) {
-			setMarkerStatus( "disabled" );
-		}
 	} );
 
 	if ( isLoading ) {
@@ -108,6 +104,7 @@ export default function ElementorFill( { isLoading, onLoad, settings, setMarkerS
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
 							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+							isElementorEditor={ true }
 						/>
 						{ settings.shouldUpsell && <PremiumSEOAnalysisModal /> }
 					</Fragment>
@@ -149,6 +146,5 @@ ElementorFill.propTypes = {
 	isLoading: PropTypes.bool.isRequired,
 	onLoad: PropTypes.func.isRequired,
 	settings: PropTypes.object.isRequired,
-	setMarkerStatus: PropTypes.func.isRequired,
 };
 /* eslint-enable complexity */

@@ -16,11 +16,10 @@ export default compose( [
 		};
 	} ),
 	withDispatch( dispatch => {
-		const { loadSnippetEditorData, setMarkerStatus } = dispatch( "yoast-seo/editor" );
+		const { loadSnippetEditorData } = dispatch( "yoast-seo/editor" );
 
 		return {
 			onLoad: loadSnippetEditorData,
-			setMarkerStatus: setMarkerStatus,
 		};
 	} ),
 ] )( ElementorFill );
