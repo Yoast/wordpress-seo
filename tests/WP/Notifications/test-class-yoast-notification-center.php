@@ -5,6 +5,7 @@
  * @package Yoast\Tests\Notifications
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Admin\Yoast_Notification_Center_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -775,7 +776,7 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 */
 	public function test_has_stored_notifications( $stored_notifications, $expected, $message ) {
 		$instance = $this
-			->getMockBuilder( 'Yoast_Notification_Center_Double' )
+			->getMockBuilder( Yoast_Notification_Center_Double::class )
 			->setMethods( [ 'get_stored_notifications' ] )
 			->getMock();
 

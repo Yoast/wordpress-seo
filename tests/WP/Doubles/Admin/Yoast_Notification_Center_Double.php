@@ -1,12 +1,11 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\Tests\Notifications
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Admin;
+
+use Yoast_Notification_Center;
 
 /**
- * Class Test_Yoast_Notification_Center.
+ * Class Yoast_Notification_Center_Double.
  */
 class Yoast_Notification_Center_Double extends Yoast_Notification_Center {
 
