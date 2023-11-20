@@ -110,7 +110,7 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_sanitize_rewrite_rules_option() {
+	public static function data_provider_sanitize_rewrite_rules_option() {
 		return [
 			'Empty rewrite_rules' => [
 				'rewrite_rules' => '',
@@ -143,7 +143,7 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_filter_rewrite_rules_option() {
+	public static function data_provider_filter_rewrite_rules_option() {
 		return [
 			'Empty rewrite_rules' => [
 				'rewrite_rules' => '',
@@ -189,7 +189,7 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_add_rule() {
+	public static function data_provider_add_rule() {
 
 		return [
 			'Priority is top' => [
