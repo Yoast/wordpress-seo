@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Inc;
+
+use WPSEO_Upgrade;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Upgrade_Double extends WPSEO_Upgrade {
+class Upgrade_Double extends WPSEO_Upgrade {
 
 	/**
 	 * Override the constructor to avoid calling that logic.

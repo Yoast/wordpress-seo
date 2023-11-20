@@ -5,6 +5,7 @@
  * @package WPSEO\Tests
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Upgrade_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -17,10 +18,10 @@ class WPSEO_Upgrade_Test extends TestCase {
 	/**
 	 * Retrieves the instance to test against.
 	 *
-	 * @return WPSEO_Upgrade_Double
+	 * @return Upgrade_Double
 	 */
 	protected function get_instance() {
-		return new WPSEO_Upgrade_Double();
+		return new Upgrade_Double();
 	}
 
 	/**
