@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test double file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\WP\Doubles\Admin;
+
+use WPSEO_Import_Settings;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Import_Settings_Double extends WPSEO_Import_Settings {
+class Import_Settings_Double extends WPSEO_Import_Settings {
 
 	/**
 	 * Parse the options.

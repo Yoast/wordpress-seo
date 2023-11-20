@@ -5,6 +5,7 @@
  * @package WPSEO\Tests\Admin\Import\Plugins
  */
 
+use Yoast\WP\SEO\Tests\WP\Doubles\Admin\Import_Settings_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -17,7 +18,7 @@ class WPSEO_Import_Settings_Test extends TestCase {
 	/**
 	 * Holds the class instance.
 	 *
-	 * @var WPSEO_Import_Settings_Double
+	 * @var Import_Settings_Double
 	 */
 	private $class_instance;
 
@@ -27,7 +28,7 @@ class WPSEO_Import_Settings_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->class_instance = new WPSEO_Import_Settings_Double();
+		$this->class_instance = new Import_Settings_Double();
 	}
 
 	/**
