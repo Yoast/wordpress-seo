@@ -66,7 +66,7 @@ function getAnchorsContainingTopic( anchors, topicForms, locale, matchWordCustom
  *
  * @param {Array}       anchors             		An array with all anchors from the paper.
  * @param {Object}      topicForms          		The object with topicForms. It contains all forms of the keyphrase and synonyms.
- * @param {String}      locale              		The locale of the paper.
+ * @param {string}      locale              		The locale of the paper.
  * @param {Object}      customHelpers       		An object containing custom helpers.
  * @param {Object[]}    exactMatchRequest   		An array of objects containing the keyphrase and information on whether
  * 													the exact match has been requested.

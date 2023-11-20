@@ -240,7 +240,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 	} );
 
 	it( "should find a match of a reduplicated keyphrase form in the anchor text in Indonesian, when the keyphrase form would" +
-		"not be matched if it was split on hyphens", () => {
+		" not be matched if it was split on hyphens", () => {
 		const attributes = {
 			keyword: "kayuh",
 			permalink: "https://example.org/kupu",

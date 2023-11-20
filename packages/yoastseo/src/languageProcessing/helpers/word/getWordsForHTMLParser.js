@@ -5,7 +5,7 @@ import createPunctuationTokens from "./createPunctuationTokens";
  * a hyphen, and en-dash or an em-dash.
  * Brackets are added to deal correctly with shortcodes downstream.
  * The regex is used to split a text into tokens.
- * Do not add punctuation marks to this regex, as they are handled separately inside splitIntoTokens().
+ * Do not add punctuation marks to this regex, as they are handled separately inside `createPunctuationTokens()`.
  * The word separator explicitly only contains characters that split two words and not a word and a space.
  * - A space is a word separator because it separates two words if it occurs between two words. For example: "foo bar"
  * - A tab is a word separator because it separates two words if it occurs between two words. For example: "foo	bar"
@@ -14,10 +14,10 @@ import createPunctuationTokens from "./createPunctuationTokens";
  *   For example: "foo–bar".
  * - Open and closing brackets are added to deal correctly with shortcodes downstream.
  */
-const wordSeparatorsRegex = /([\s\t\u00A0\u2013\u2014\u002d[\]])/;
+const WORD_SEPARATORS_REGEX = /([\s\t\u00A0\u2013\u2014\u002d[\]])/;
 
 /**
- * Tokenizes a text similar to getWords, but in a suitable way for the HTML parser.
+ * Tokenizes a text in a similar way as in `getWords`, but in a suitable way for the HTML parser.
  * 1. It does not normalize whitespace.
  * This operation is too risky for the HTML parser because it may throw away characters and as a result, the token positions are corrupted.
  * 2. It does not remove punctuation marks but keeps them.
@@ -36,7 +36,7 @@ const getWordsForHTMLParser = ( text ) => {
 	}
 
 	// Split the sentence string into tokens. Those tokens are unrefined as they may contain punctuation.
-	const rawTokens = text.split( wordSeparatorsRegex ).filter( x => x !== "" );
+	const rawTokens = text.split( WORD_SEPARATORS_REGEX ).filter( x => x !== "" );
 
 	// Remove punctuation from the beginning and end of word tokens, and make them into separate tokens.
 	return createPunctuationTokens( rawTokens );

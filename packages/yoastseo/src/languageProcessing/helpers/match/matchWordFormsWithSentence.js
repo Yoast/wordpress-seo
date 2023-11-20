@@ -15,10 +15,7 @@ export const tokenizeKeyphraseFormsForExactMatching = ( wordForms, customSplitIn
 	// Tokenize word form of the keyphrase.
 	const wordFormText = wordForms[ 0 ];
 
-	if ( customSplitIntoTokensHelper ) {
-		return customSplitIntoTokensHelper( wordFormText );
-	}
-	return getWordsForHTMLParser( wordFormText );
+	return customSplitIntoTokensHelper ? customSplitIntoTokensHelper( wordFormText ) : getWordsForHTMLParser( wordFormText );
 };
 
 /**

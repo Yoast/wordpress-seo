@@ -45,11 +45,10 @@ const stripFunctionWordsFromStart = function( str ) {
  *
  * @param {string} title 						The SEO title of the paper.
  * @param {number} position 					The position of the keyphrase in the SEO title.
- * @param {boolean}	areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
  * @returns {number} Potentially adjusted position of the keyphrase in the SEO title.
  */
-const adjustPosition = function( title, position, areHyphensWordBoundaries ) {
+const adjustPosition = function( title, position ) {
 	// Don't do anything if position is already 0.
 	if ( position === 0 ) {
 		return position;
@@ -62,7 +61,7 @@ const adjustPosition = function( title, position, areHyphensWordBoundaries ) {
 
 	// Strip all function words from the beginning of the SEO title.
 	const titleBeforeKeyword = title.substr( 0, position );
-	if ( stripFunctionWordsFromStart( titleBeforeKeyword, areHyphensWordBoundaries ) ) {
+	if ( stripFunctionWordsFromStart( titleBeforeKeyword ) ) {
 		/*
 		 * Return position 0 if there are no words left in the SEO title before the keyword after filtering
 		 * the function words (such that "keyword" in "the keyword" is still counted as position 0).

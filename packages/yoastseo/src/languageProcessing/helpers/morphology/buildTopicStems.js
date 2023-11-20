@@ -52,7 +52,7 @@ function StemOriginalPair( stem, original ) {
  * for all content words (i.e., excluding prepositions, articles, conjunctions, if the function words list is available).
  *
  * @param {string}   keyphrase     				The keyphrase of the paper (or a synonym phrase) to get stem for.
- * @param {Function} stemmer       				The language-specific stemmer.
+ * @param {function} stemmer       				The language-specific stemmer.
  * @param {string[]} functionWords 				The language-specific function words.
  * @param {boolean}	 areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
@@ -99,7 +99,7 @@ const buildStems = function( keyphrase, stemmer, functionWords, areHyphensWordBo
  *
  * @param {string}   keyphrase     				The paper's keyphrase.
  * @param {string[]} synonyms     				The paper's synonyms.
- * @param {Function} stemmer       				The language-specific stemmer (if available).
+ * @param {function} stemmer       				The language-specific stemmer (if available).
  * @param {string[]} functionWords 				The language-specific function words.
  * @param {boolean}	 areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
@@ -123,7 +123,7 @@ const collectKeyphraseAndSynonymsStems = function( keyphrase, synonyms, stemmer,
  * because by default memoize caches by the first key only, which in the current case would mean that the function would
  * return the cached forms if the keyphrase has not changed (without checking if synonyms were changed).
  *
- * @param {Function} stemmer       				The language-specific stemmer (if available).
+ * @param {function} stemmer       				The language-specific stemmer (if available).
  * @param {string[]} functionWords 				The language-specific function words.
  * @param {boolean}	 areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
@@ -142,8 +142,8 @@ const primeLanguageSpecificData = memoize( ( stemmer, functionWords, areHyphensW
  * the results of previous calls of this function.
  *
  * @param {string}      keyphrase       			The paper's keyphrase.
- * @param {string}      synonyms        			The paper's synonyms.
- * @param {Function}    stemmer         			The language-specific stemmer (if available).
+ * @param {string[]}    synonyms        			The paper's synonyms.
+ * @param {function}    stemmer         			The language-specific stemmer (if available).
  * @param {string[]}    functionWords   			The language-specific function words.
  * @param {boolean}		areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
