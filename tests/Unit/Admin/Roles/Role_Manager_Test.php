@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Admin\Roles;
 
 use Brain\Monkey;
 use stdClass;
-use WPSEO_Role_Manager_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Admin\Role_Manager_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -18,7 +18,7 @@ class Role_Manager_Test extends TestCase {
 	 * @covers WPSEO_Abstract_Role_Manager::register
 	 */
 	public function test_register() {
-		$instance = new WPSEO_Role_Manager_Mock();
+		$instance = new Role_Manager_Mock();
 
 		$this->assertNotContains( 'role', $instance->get_roles() );
 
@@ -33,7 +33,7 @@ class Role_Manager_Test extends TestCase {
 	 * @covers WPSEO_Abstract_Role_Manager::get_capabilities
 	 */
 	public function test_get_capabilities() {
-		$instance = new WPSEO_Role_Manager_Mock();
+		$instance = new Role_Manager_Mock();
 
 		Monkey\Functions\expect( 'get_role' )
 			->once()
@@ -53,7 +53,7 @@ class Role_Manager_Test extends TestCase {
 	 * @covers WPSEO_Abstract_Role_Manager::get_capabilities
 	 */
 	public function test_get_capabilities_bad_input() {
-		$instance = new WPSEO_Role_Manager_Mock();
+		$instance = new Role_Manager_Mock();
 
 		Monkey\Functions\expect( 'get_role' )
 			->once()
