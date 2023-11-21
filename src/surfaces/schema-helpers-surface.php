@@ -16,6 +16,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Schema\ID_Helper $id
  * @property Schema\Image_Helper $image
  * @property Schema\Language_Helper $language
+ * @property Schema\Person_Helper $person
  */
 class Schema_Helpers_Surface {
 
