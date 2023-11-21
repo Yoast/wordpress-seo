@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Admin;
+
+use WPSEO_Abstract_Role_Manager;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Role_Manager_Mock extends WPSEO_Abstract_Role_Manager {
+class Role_Manager_Mock extends WPSEO_Abstract_Role_Manager {
 
 	/**
 	 * Added roles.
