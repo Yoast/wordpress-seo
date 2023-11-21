@@ -20,7 +20,7 @@ $GLOBALS['wp_version'] = '1.0';
 \define( 'WPSEO_VERSION', '1.0' );
 
 if ( ! \defined( 'WPSEO_PATH' ) ) {
-	\define( 'WPSEO_PATH', \dirname( \dirname( __DIR__ ) ) . '/' );
+	\define( 'WPSEO_PATH', \dirname( __DIR__, 2 ) . '/' );
 }
 
 if ( ! \defined( 'WPSEO_FILE' ) ) {
