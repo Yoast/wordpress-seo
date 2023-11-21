@@ -18,7 +18,6 @@ import HelpLink from "../HelpLink";
 import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
 import { isWordComplexitySupported } from "../../helpers/assessmentUpsellHelpers";
 import { addQueryArgs } from "@wordpress/url";
-import HighlightingButtonUpsell from "../../elementor/components/HighlightingButtonUpsell";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;

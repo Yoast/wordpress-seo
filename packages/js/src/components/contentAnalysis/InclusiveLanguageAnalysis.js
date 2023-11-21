@@ -18,7 +18,6 @@ import HelpLink from "../HelpLink";
 import Portal from "../portals/Portal";
 import { Alert, SvgIcon } from "@yoast/components";
 import isMultilingualPluginActive from "../../analysis/isMultilingualPluginActive";
-import HighlightingButtonUpsell from "../../elementor/components/HighlightingButtonUpsell";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
