@@ -46,7 +46,7 @@ class ReadabilityAnalysis extends Component {
 	 * @returns {wp.Element} The Readability Analysis results.
 	 */
 	renderResults( upsellResults ) {
-		const highlightingUpsellLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.highlighting_readability_analysis" ];
+		const highlightingUpsellLink = "shortlinks.upsell.sidebar.highlighting_readability_analysis";
 
 		return (
 			<Fragment>

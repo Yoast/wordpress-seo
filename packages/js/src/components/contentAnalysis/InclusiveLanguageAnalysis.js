@@ -65,7 +65,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 	 * @returns {JSX.Element} The results of the analysis.
 	 */
 	function renderResults() {
-		const highlightingUpsellLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.highlighting_inclusive_analysis" ];
+		const highlightingUpsellLink = "shortlinks.upsell.sidebar.highlighting_inclusive_analysis";
 
 		return (
 			<Fragment>

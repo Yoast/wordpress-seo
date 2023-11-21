@@ -197,7 +197,7 @@ class SeoAnalysis extends Component {
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
 		const isPremium = getL10nObject().isPremium;
-		const highlightingUpsellLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.highlighting_seo_analysis" ];
+		const highlightingUpsellLink = "shortlinks.upsell.sidebar.highlighting_seo_analysis";
 
 		if ( score.className !== "loading" && this.props.keyword === "" ) {
 			score.className = "na";
