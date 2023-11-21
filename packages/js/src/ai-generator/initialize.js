@@ -16,7 +16,7 @@ import { ModalContent } from "./components/modal-content";
  */
 const AiGeneratorUpsell = ( { fieldId } ) => {
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const handleCkick = useCallback( () => {
+	const handleClick = useCallback( () => {
 		setIsModalOpenTrue();
 	}, [ setIsModalOpenTrue ] );
 	const focusElementRef = useRef( null );
@@ -27,7 +27,7 @@ const AiGeneratorUpsell = ( { fieldId } ) => {
 				type="button"
 				id={ `yst-replacevar__use-ai-button__${ fieldId }` }
 				className="yst-replacevar__use-ai-button-upsell"
-				onClick={ handleCkick }
+				onClick={ handleClick }
 			>
 				{ __( "Use AI", "wordpress-seo" ) }
 			</button>
