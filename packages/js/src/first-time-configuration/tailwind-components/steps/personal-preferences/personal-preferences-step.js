@@ -1,5 +1,5 @@
 import { Fragment } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
@@ -27,7 +27,7 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 		<h4 className="yst-text-slate-900 yst-text-base yst-leading-6 yst-font-normal">
 			{
 				__( "Are you open to help us improve our services?",
-				"wordpress-seo" )
+					"wordpress-seo" )
 			}
 		</h4>
 		{ !! state.isMainSite && ! state.isTrackingAllowedMultisite && <Alert type={ "warning" } className="yst-mt-2">
@@ -36,7 +36,15 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 		{ ! state.isMainSite && <Alert type={ "warning" } className="yst-mt-2">
 			{ __( "This feature has been disabled since subsites never send tracking data.", "wordpress-seo" ) }
 		</Alert> }
-		<p className={ classNames( "yst-text-normal yst-mt-2 yst-mb-4", state.isMainSite && state.isTrackingAllowedMultisite ? "" : "yst-opacity-50" ) }>{ __( "Can we collect anonymous information about your website to enhance Yoast SEO?", "wordpress-seo" ) }</p>
+		<p className={ classNames( "yst-text-normal yst-mt-2 yst-mb-4", state.isMainSite && state.isTrackingAllowedMultisite ? "" : "yst-opacity-50" ) }>
+			{
+				sprintf(
+					/* translators: 1: Yoast SEO. */
+					__( "Can we collect anonymous information about your website to enhance $1%s?", "wordpress-seo" ),
+					"Yoast SEO"
+				)
+			}
+		</p>
 		{ <RadioGroup
 			id="yoast-configuration-tracking-radio-button"
 			name="yoast-configuration-tracking"
