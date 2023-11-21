@@ -240,13 +240,19 @@ class Results extends Component {
 		window.YoastSEO.analysis.applyMarks( new Paper( "", {} ), [] );
 	}
 
+	/**
+	 * Renders the modal for the highlighting upsell.
+	 *
+	 * @param {boolean} isOpen Whether the modal should be opened.
+	 * @param {function} closeModal A callback function invoked when the modal is closed.
+	 * @returns {wp.Element} The modal for the highlighting upsell element.
+	 */
 	renderHighlightingUpsell( isOpen, closeModal ) {
 		const upsellDescription = __(
-			"Get highlights for your analysis checks. " +
-			"Save time – highlight the analysis checks in your text, so you don't have to search for them. Now also in Elementor!",
+			"Highlight areas of improvement in your text, no more searching for a needle in a haystack, straight to optimizing! Now also in Elementor!",
 			"wordpress-seo" );
 
-		return isOpen && <Modal
+		return ( isOpen && <Modal
 			title={ __( "Unlock Premium SEO analysis", "wordpress-seo" ) }
 			onRequestClose={ closeModal }
 			additionalClassName=""
@@ -257,7 +263,7 @@ class Results extends Component {
 			<ModalSmallContainer>
 				<PremiumSEOAnalysisUpsell buyLink={ this.props.highlightingUpsellLink } description={ upsellDescription } />
 			</ModalSmallContainer>
-		</Modal>;
+		</Modal> );
 	}
 
 	/**
