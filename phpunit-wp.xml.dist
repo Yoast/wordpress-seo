@@ -20,7 +20,7 @@
 	>
 	<testsuites>
 		<testsuite name="yoastseo">
-			<directory prefix="test-" suffix=".php">./tests/WP</directory>
+			<directory suffix="Test.php">./tests/WP</directory>
 		</testsuite>
 	</testsuites>
 

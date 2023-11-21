@@ -242,7 +242,7 @@
 
 	<!-- The unit tests are not run within the context of a WP install, so overwritting globals is fine. -->
 	<rule ref="WordPress.WP.GlobalVariablesOverride">
-		<exclude-pattern>/tests/Unit/*</exclude-pattern>
+		<exclude-pattern>/tests/*</exclude-pattern>
 	</rule>
 
 	<!-- Allow for the double/mock classes to override methods just to change the visibility. -->
@@ -283,7 +283,7 @@
 		<include-pattern>/config/*\.php$</include-pattern>
 		<include-pattern>/lib/*\.php$</include-pattern>
 		<include-pattern>/src/*\.php$</include-pattern>
-		<include-pattern>/tests/Unit/*\.php$</include-pattern>
+		<include-pattern>/tests/*\.php$</include-pattern>
 	</rule>
 
 	<!-- Only enable the prefix all globals rules for the "new" code for now.
@@ -295,7 +295,7 @@
 		<include-pattern>*/config/*\.php$</include-pattern>
 		<include-pattern>*/lib/*\.php$</include-pattern>
 		<include-pattern>*/src/*\.php$</include-pattern>
-		<include-pattern>*/tests/Unit/*\.php$</include-pattern>
+		<include-pattern>*/tests/*\.php$</include-pattern>
 
 		<!-- Exclude hooks everywhere for the time being until the prefixes will be fixed. -->
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound"/>
@@ -303,13 +303,13 @@
 
 	<!-- The below issues will be fixed in YoastCS 3.0, after which these excludes can be removed. -->
 	<rule ref="Yoast.Files.FileName.InvalidClassFileName">
-		<exclude-pattern>/tests/Unit/*\.php$</exclude-pattern>
+		<exclude-pattern>/tests/*\.php$</exclude-pattern>
 	</rule>
 	<rule ref="Yoast.Files.FileName.InvalidTraitFileName">
 		<exclude-pattern>/tests/Unit/*\.php$</exclude-pattern>
 	</rule>
 	<rule ref="Yoast.NamingConventions.NamespaceName.Invalid">
-		<exclude-pattern>/tests/Unit/*_*/*\.php$</exclude-pattern>
+		<exclude-pattern>/tests/(Unit|WP)/*_*/*\.php$</exclude-pattern>
 	</rule>
 	<rule ref="Yoast.Commenting.FileComment.Unnecessary">
 		<exclude-pattern>/tests/*/bootstrap\.php$</exclude-pattern>

@@ -50,11 +50,10 @@
 	},
 	"autoload-dev": {
 		"classmap": [
-			"config/",
-			"tests/WP"
+			"config/"
 		],
 		"psr-4": {
-			"Yoast\\WP\\SEO\\Tests\\Unit\\": "tests/Unit/"
+			"Yoast\\WP\\SEO\\Tests\\": "tests/"
 		}
 	},
 	"config": {
@@ -84,7 +83,7 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=129",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=127",
 			"@putenv YOASTCS_THRESHOLD_WARNINGS=202",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
