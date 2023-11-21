@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper
  */
-class Indexable_To_Postmeta_Helper_Test extends TestCase {
+final class Indexable_To_Postmeta_Helper_Test extends TestCase {
 
 	/**
 	 * Query wrapper instance.

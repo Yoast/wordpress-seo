@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Wincher_Helper
  */
-class Wincher_Helper_Test extends TestCase {
+final class Wincher_Helper_Test extends TestCase {
 
 	/**
 	 * The instance to test.

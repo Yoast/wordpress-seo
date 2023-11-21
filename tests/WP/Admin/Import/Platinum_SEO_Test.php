@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test importing meta data from Platinum SEO.
  */
-class Platinum_SEO_Test extends TestCase {
+final class Platinum_SEO_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.

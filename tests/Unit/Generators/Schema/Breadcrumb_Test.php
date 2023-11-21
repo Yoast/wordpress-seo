@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Breadcrumb
  */
-class Breadcrumb_Test extends TestCase {
+final class Breadcrumb_Test extends TestCase {
 
 	/**
 	 * Holds the breadcrumb instance.

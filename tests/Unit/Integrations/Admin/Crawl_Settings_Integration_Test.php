@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Crawl_Settings_Integration_Test extends TestCase {
+final class Crawl_Settings_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

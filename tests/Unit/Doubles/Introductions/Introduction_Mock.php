@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 /**
  * Introduction for easy testing of different values.
  */
-class Introduction_Mock implements Introduction_Interface {
+final class Introduction_Mock implements Introduction_Interface {
 
 	/**
 	 * Holds the ID.

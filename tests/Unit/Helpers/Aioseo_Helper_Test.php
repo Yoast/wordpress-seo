@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Aioseo_Helper
  * @phpcs:disable Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
-class Aioseo_Helper_Test extends TestCase {
+final class Aioseo_Helper_Test extends TestCase {
 
 	/**
 	 * The instance under test.

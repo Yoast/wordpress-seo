@@ -10,7 +10,7 @@ use Yoast_Form;
 /**
  * Unit Test Class.
  */
-class Option_Tabs_Test extends TestCase {
+final class Option_Tabs_Test extends TestCase {
 
 	/**
 	 * Tests the retrieval of the base.

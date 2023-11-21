@@ -23,7 +23,7 @@ use Yoast_Notification_Center;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Attachment_Watcher
  */
-class Indexable_Attachment_Watcher_Test extends TestCase {
+final class Indexable_Attachment_Watcher_Test extends TestCase {
 
 	/**
 	 * The indexing helper.

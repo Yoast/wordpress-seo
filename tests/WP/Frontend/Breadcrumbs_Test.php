@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Breadcrumbs_Test extends TestCase {
+final class Breadcrumbs_Test extends TestCase {
 
 	/**
 	 * Placeholder test to prevent PHPUnit from throwing errors.

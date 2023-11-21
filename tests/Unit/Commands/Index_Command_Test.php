@@ -28,7 +28,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Commands\Index_Command
  * @covers \Yoast\WP\SEO\Commands\Index_Command
  */
-class Index_Command_Test extends TestCase {
+final class Index_Command_Test extends TestCase {
 
 	/**
 	 * The post indexation action.

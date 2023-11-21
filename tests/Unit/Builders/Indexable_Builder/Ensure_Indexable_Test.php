@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-class Ensure_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
+final class Ensure_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
 	 * Sets up the test.

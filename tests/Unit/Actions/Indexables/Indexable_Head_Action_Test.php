@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action
  */
-class Indexable_Head_Action_Test extends TestCase {
+final class Indexable_Head_Action_Test extends TestCase {
 
 	/**
 	 * Represents the meta surface.

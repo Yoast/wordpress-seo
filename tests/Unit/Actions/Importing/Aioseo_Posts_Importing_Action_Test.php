@@ -32,7 +32,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action
  * @phpcs:disable Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
-class Aioseo_Posts_Importing_Action_Test extends TestCase {
+final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions
  */
-class Indexable_Builder_Versions_Test extends TestCase {
+final class Indexable_Builder_Versions_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

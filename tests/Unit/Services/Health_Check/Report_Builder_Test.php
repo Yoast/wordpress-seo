@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Report_Builder
  */
-class Report_Builder_Test extends TestCase {
+final class Report_Builder_Test extends TestCase {
 
 	/**
 	 * The Report_Builder instance to be tested.

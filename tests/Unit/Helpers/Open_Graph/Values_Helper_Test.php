@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Open_Graph\Values_Helper
  */
-class Values_Helper_Test extends TestCase {
+final class Values_Helper_Test extends TestCase {
 
 	/**
 	 * The instance under test.

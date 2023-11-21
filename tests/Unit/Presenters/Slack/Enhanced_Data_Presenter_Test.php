@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group slack
  */
-class Enhanced_Data_Presenter_Test extends TestCase {
+final class Enhanced_Data_Presenter_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

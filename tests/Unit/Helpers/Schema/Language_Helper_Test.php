@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Schema\Language_Helper
  */
-class Language_Helper_Test extends TestCase {
+final class Language_Helper_Test extends TestCase {
 
 	/**
 	 * Tests the add piece language.

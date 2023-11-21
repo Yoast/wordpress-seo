@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group adjacent
  */
-class Archive_Adjacent_Test extends TestCase {
+final class Archive_Adjacent_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 

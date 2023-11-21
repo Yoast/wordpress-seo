@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Register_Capabilities_Test extends TestCase {
+final class Register_Capabilities_Test extends TestCase {
 
 	/**
 	 * Tests whether the list of registered capabilities contains the correct capabilities.

@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * @group integrations
  * @group front-end
  */
-class Force_Rewrite_Title_Test extends TestCase {
+final class Force_Rewrite_Title_Test extends TestCase {
 
 	/**
 	 * The options helper.

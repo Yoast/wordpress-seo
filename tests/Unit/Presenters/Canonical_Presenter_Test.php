@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group canonical
  */
-class Canonical_Presenter_Test extends TestCase {
+final class Canonical_Presenter_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.

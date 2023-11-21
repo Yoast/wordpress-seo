@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_Plugin_Importers
  */
-class Importers_Test extends TestCase {
+final class Importers_Test extends TestCase {
 
 	/**
 	 * Tests that plugin importers return the expected set of plugin importers.

@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_Admin_User_Profile
  */
-class User_Profile_Test extends TestCase {
+final class User_Profile_Test extends TestCase {
 
 	/**
 	 * Holds the instance to test.

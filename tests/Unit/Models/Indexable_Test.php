@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group models
  */
-class Indexable_Test extends TestCase {
+final class Indexable_Test extends TestCase {
 
 	/**
 	 * Holds the instance to test.

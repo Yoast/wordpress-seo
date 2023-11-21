@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group image-utils
  */
-class Image_Utils_Test extends TestCase {
+final class Image_Utils_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

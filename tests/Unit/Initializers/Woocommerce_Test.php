@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Woocommerce_Test extends TestCase {
+final class Woocommerce_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.

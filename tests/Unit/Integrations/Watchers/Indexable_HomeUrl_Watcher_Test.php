@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_HomeUrl_Watcher
  */
-class Indexable_HomeUrl_Watcher_Test extends TestCase {
+final class Indexable_HomeUrl_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

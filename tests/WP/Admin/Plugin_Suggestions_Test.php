@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @coversDefaultClass WPSEO_Suggested_Plugins
  */
-class Plugin_Suggestions_Test extends TestCase {
+final class Plugin_Suggestions_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group twitter
  * @group twitter-site
  */
-class Site_Presenter_Test extends TestCase {
+final class Site_Presenter_Test extends TestCase {
 
 	/**
 	 * Represents the site presenter.

@@ -8,7 +8,7 @@ use Yoast_Input_Select;
 /**
  * Unit Test Class.
  */
-class Input_Select_Test extends TestCase {
+final class Input_Select_Test extends TestCase {
 
 	/**
 	 * Testing with options.

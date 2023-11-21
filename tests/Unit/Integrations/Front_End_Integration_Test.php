@@ -26,7 +26,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @group integrations
  */
-class Front_End_Integration_Test extends TestCase {
+final class Front_End_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.

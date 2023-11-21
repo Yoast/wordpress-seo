@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action
  */
-class Indexable_Term_Indexation_Action_Test extends TestCase {
+final class Indexable_Term_Indexation_Action_Test extends TestCase {
 
 	/**
 	 * The post type helper mock.

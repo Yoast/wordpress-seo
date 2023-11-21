@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group schema
  */
-class Schema_Presenter_Test extends TestCase {
+final class Schema_Presenter_Test extends TestCase {
 
 	/**
 	 * The Schema presenter instance.

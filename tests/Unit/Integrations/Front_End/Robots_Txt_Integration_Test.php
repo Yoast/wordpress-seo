@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class Robots_Txt_Integration_Test extends TestCase {
+final class Robots_Txt_Integration_Test extends TestCase {
 
 	/**
 	 * Holds the options helper.

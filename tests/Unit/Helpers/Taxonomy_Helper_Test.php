@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Taxonomy_Helper
  */
-class Taxonomy_Helper_Test extends TestCase {
+final class Taxonomy_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

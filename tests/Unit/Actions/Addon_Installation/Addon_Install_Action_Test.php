@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @covers \Yoast\WP\SEO\Actions\Addon_Installation\Addon_Install_Action
  */
-class Addon_Install_Action_Test extends TestCase {
+final class Addon_Install_Action_Test extends TestCase {
 
 	/**
 	 * The wpseo addon manager.

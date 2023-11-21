@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  * @group sitemaps
  * @coversDefaultClass WPSEO_Taxonomy_Sitemap_Provider
  */
-class Taxonomy_Sitemap_Provider_Test extends TestCase {
+final class Taxonomy_Sitemap_Provider_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

@@ -20,7 +20,7 @@ use Yoast_Dashboard_Widget;
  *
  * @coversDefaultClass WPSEO_Admin
  */
-class Admin_Features_Test extends TestCase {
+final class Admin_Features_Test extends TestCase {
 
 	/**
 	 * Returns an instance with set expectations for the dependencies.

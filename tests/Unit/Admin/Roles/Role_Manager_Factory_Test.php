@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Unit Test Class.
  */
-class Role_Manager_Factory_Test extends TestCase {
+final class Role_Manager_Factory_Test extends TestCase {
 
 	/**
 	 * Tests getting the role manager.

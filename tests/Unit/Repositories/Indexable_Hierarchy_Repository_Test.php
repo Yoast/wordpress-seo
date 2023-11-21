@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group repositories
  */
-class Indexable_Hierarchy_Repository_Test extends TestCase {
+final class Indexable_Hierarchy_Repository_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\WooCommerce_Post_Edit
  */
-class WooCommerce_Post_Edit_Test extends TestCase {
+final class WooCommerce_Post_Edit_Test extends TestCase {
 
 	/**
 	 * The WooCommerce post edit integration under test.

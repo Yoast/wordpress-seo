@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Uninstall_Integration_Test extends TestCase {
+final class Uninstall_Integration_Test extends TestCase {
 
 	/**
 	 * The class under test.

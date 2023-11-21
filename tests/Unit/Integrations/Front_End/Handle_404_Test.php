@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * @group integrations
  * @group front-end
  */
-class Handle_404_Test extends TestCase {
+final class Handle_404_Test extends TestCase {
 
 	/**
 	 * The wp query Wrapper helper.

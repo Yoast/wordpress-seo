@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group debug
  */
-class Marker_Open_Presenter_Test extends TestCase {
+final class Marker_Open_Presenter_Test extends TestCase {
 
 	/**
 	 * Tests the presentation of the open debug marker.

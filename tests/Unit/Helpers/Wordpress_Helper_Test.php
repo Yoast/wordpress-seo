@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Wordpress_Helper
  */
-class Wordpress_Helper_Test extends TestCase {
+final class Wordpress_Helper_Test extends TestCase {
 
 	/**
 	 * The instance under test.

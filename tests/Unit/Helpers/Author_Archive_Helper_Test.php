@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Author_Archive_Helper
  */
-class Author_Archive_Helper_Test extends TestCase {
+final class Author_Archive_Helper_Test extends TestCase {
 
 	/**
 	 * Class instance to use for the test.

@@ -26,7 +26,7 @@ use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Config\OAuth_Client
  */
-class OAuth_Client_Test extends TestCase {
+final class OAuth_Client_Test extends TestCase {
 
 	/**
 	 * The response object.

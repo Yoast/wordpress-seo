@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \WPSEO_Metabox
  */
-class Metabox_Test extends TestCase {
+final class Metabox_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

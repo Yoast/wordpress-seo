@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher
  */
-class Indexable_Permalink_Watcher_Test extends TestCase {
+final class Indexable_Permalink_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

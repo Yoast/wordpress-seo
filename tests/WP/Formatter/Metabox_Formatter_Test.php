@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Metabox_Formatter_Test extends TestCase {
+final class Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Test with getting the values.

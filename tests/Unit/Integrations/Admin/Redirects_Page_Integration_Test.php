@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Redirects_Page_Integration_Test extends TestCase {
+final class Redirects_Page_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

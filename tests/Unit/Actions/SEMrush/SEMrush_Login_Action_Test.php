@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\SEMrush\SEMrush_Login_Action
  */
-class SEMrush_Login_Action_Test extends TestCase {
+final class SEMrush_Login_Action_Test extends TestCase {
 
 	/**
 	 * The instance.

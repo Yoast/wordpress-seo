@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @coversDefaultClass Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder
  */
-class Indexable_Home_Page_Builder_Test extends TestCase {
+final class Indexable_Home_Page_Builder_Test extends TestCase {
 
 	/**
 	 * The instance.

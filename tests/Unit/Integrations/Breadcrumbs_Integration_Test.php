@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Breadcrumbs_Integration_Test extends TestCase {
+final class Breadcrumbs_Integration_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

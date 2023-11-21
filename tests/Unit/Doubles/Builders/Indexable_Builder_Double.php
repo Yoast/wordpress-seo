@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Models\Indexable;
 /**
  * Class Primary_Term_Builder_Double
  */
-class Indexable_Builder_Double extends Indexable_Builder {
+final class Indexable_Builder_Double extends Indexable_Builder {
 
 	/**
 	 * Saves and returns an indexable (on production environments only).

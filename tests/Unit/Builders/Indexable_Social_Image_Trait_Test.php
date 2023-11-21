@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Social_Image_Trait
  * @covers \Yoast\WP\SEO\Builders\Indexable_Social_Image_Trait
  */
-class Indexable_Social_Image_Trait_Test extends TestCase {
+final class Indexable_Social_Image_Trait_Test extends TestCase {
 
 	/**
 	 * The instance under test.

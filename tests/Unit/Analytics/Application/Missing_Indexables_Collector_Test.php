@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Application\Missing_Indexables_Collector
  */
-class Missing_Indexables_Collector_Test extends TestCase {
+final class Missing_Indexables_Collector_Test extends TestCase {
 
 	/**
 	 * Tests the constructor and filter.

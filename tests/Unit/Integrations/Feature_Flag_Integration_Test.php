@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Feature_Flag_Integration_Test extends TestCase {
+final class Feature_Flag_Integration_Test extends TestCase {
 
 	/**
 	 * The instance under test.

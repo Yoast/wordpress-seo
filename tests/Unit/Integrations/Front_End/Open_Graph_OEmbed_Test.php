@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class Open_Graph_OEmbed_Test extends TestCase {
+final class Open_Graph_OEmbed_Test extends TestCase {
 
 	/**
 	 * The meta surface.

@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class WP_Robots_Integration_Test extends TestCase {
+final class WP_Robots_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the meta tags context memoizer.

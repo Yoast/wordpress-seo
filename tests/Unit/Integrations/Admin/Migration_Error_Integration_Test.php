@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Migration_Error_Integration
  */
-class Migration_Error_Integration_Test extends TestCase {
+final class Migration_Error_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the migration status class.

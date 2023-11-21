@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Yoast_Form_Test extends TestCase {
+final class Yoast_Form_Test extends TestCase {
 
 	/**
 	 * Tests setting the form option with a valid option having a `WPSEO_Option` class.

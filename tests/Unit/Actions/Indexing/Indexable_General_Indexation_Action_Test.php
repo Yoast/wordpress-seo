@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action
  */
-class Indexable_General_Indexation_Action_Test extends TestCase {
+final class Indexable_General_Indexation_Action_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

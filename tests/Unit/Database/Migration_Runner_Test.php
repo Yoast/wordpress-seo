@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Initializers\Migration_Runner
  * @covers \Yoast\WP\SEO\Initializers\Migration_Runner
  */
-class Migration_Runner_Test extends TestCase {
+final class Migration_Runner_Test extends TestCase {
 
 	/**
 	 * Setup the tests.

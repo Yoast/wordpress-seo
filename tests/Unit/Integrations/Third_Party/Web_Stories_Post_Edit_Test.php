@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group third-party
  */
-class Web_Stories_Post_Edit_Test extends TestCase {
+final class Web_Stories_Post_Edit_Test extends TestCase {
 
 	/**
 	 * The Web Stories integration.

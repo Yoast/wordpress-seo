@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Check
  */
-class Default_Tagline_Check_Test extends TestCase {
+final class Default_Tagline_Check_Test extends TestCase {
 
 	/**
 	 * The Default_Tagline_Check instance to be tested.

@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Search_Engines_Discouraged_Presenter_Test extends TestCase {
+final class Search_Engines_Discouraged_Presenter_Test extends TestCase {
 
 	/**
 	 * The instance to test.

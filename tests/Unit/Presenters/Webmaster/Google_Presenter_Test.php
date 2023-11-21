@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group webmaster
  */
-class Google_Presenter_Test extends TestCase {
+final class Google_Presenter_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

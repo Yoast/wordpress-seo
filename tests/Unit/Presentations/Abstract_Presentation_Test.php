@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Abstract_Presentation
  */
-class Abstract_Presentation_Test extends TestCase {
+final class Abstract_Presentation_Test extends TestCase {
 
 	/**
 	 * Holds the abstract presentation mock instance.

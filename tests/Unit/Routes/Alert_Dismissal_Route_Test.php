@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Routes\Alert_Dismissal_Route
  */
-class Alert_Dismissal_Route_Test extends TestCase {
+final class Alert_Dismissal_Route_Test extends TestCase {
 
 	/**
 	 * Represents the alert dismissal action.

@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Links_Table_Runner
  */
-class Links_Table_Runner_Test extends TestCase {
+final class Links_Table_Runner_Test extends TestCase {
 
 	/**
 	 * The Links_Table_Runner instance to be tested.

@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action
  */
-class Term_Link_Indexing_Action_Test extends TestCase {
+final class Term_Link_Indexing_Action_Test extends TestCase {
 
 	/**
 	 * The link builder.

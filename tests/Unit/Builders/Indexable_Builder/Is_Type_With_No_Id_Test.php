@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Builder_Double;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-class Is_Type_With_No_Id_Test extends Abstract_Indexable_Builder_TestCase {
+final class Is_Type_With_No_Id_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
 	 * Sets up the test.

@@ -29,7 +29,7 @@ use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dis
  *
  * @group integrations
  */
-class Settings_Integration_Test extends TestCase {
+final class Settings_Integration_Test extends TestCase {
 
 	/**
 	 * The class under test.

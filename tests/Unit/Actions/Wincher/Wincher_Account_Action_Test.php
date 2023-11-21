@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action
  */
-class Wincher_Account_Action_Test extends TestCase {
+final class Wincher_Account_Action_Test extends TestCase {
 
 	/**
 	 * The instance.

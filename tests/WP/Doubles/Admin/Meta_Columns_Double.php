@@ -7,7 +7,7 @@ use WPSEO_Meta_Columns;
 /**
  * Test Helper Class.
  */
-class Meta_Columns_Double extends WPSEO_Meta_Columns {
+final class Meta_Columns_Double extends WPSEO_Meta_Columns {
 
 	/**
 	 * The current post type.

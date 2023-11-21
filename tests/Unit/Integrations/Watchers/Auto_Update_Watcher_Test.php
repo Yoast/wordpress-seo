@@ -16,7 +16,7 @@ use Yoast_Notification_Center;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Auto_Update_Watcher
  */
-class Auto_Update_Watcher_Test extends TestCase {
+final class Auto_Update_Watcher_Test extends TestCase {
 
 	/**
 	 * Yoast_Notification_Center mock.

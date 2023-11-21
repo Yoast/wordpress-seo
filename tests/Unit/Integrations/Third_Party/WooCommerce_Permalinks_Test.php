@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group woocommerce
  */
-class WooCommerce_Permalinks_Test extends TestCase {
+final class WooCommerce_Permalinks_Test extends TestCase {
 
 	/**
 	 * The test instance.

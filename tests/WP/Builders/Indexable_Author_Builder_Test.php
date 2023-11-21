@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Builders\Indexable_Author_Builder
  */
-class Indexable_Author_Builder_Test extends TestCase {
+final class Indexable_Author_Builder_Test extends TestCase {
 
 	/**
 	 * The instance.

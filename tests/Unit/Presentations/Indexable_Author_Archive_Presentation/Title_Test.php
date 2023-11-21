@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group title
  */
-class Title_Test extends TestCase {
+final class Title_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 

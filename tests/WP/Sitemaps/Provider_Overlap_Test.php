@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @covers WPSEO_Sitemaps
  */
-class Provider_Overlap_Test extends TestCase {
+final class Provider_Overlap_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

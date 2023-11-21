@@ -17,7 +17,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @group memoizers
  */
-class Presentation_Memoizer_Test extends TestCase {
+final class Presentation_Memoizer_Test extends TestCase {
 
 	/**
 	 * The service container.

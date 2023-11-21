@@ -32,7 +32,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Importable_Detector_Service
  */
-class Importable_Detector_Service_Test extends TestCase {
+final class Importable_Detector_Service_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

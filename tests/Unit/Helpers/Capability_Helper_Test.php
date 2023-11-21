@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Capability_Helper
  */
-class Capability_Helper_Test extends TestCase {
+final class Capability_Helper_Test extends TestCase {
 
 	/**
 	 * The instance under test.

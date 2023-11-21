@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group front-end
  * @group woocommerce
  */
-class Wincher_Publish_Test extends TestCase {
+final class Wincher_Publish_Test extends TestCase {
 
 	/**
 	 * The test instance.

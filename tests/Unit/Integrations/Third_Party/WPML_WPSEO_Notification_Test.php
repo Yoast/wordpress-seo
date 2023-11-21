@@ -16,7 +16,7 @@ use Yoast_Notification_Center;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\WPML_WPSEO_Notification
  */
-class WPML_WPSEO_Notification_Test extends TestCase {
+final class WPML_WPSEO_Notification_Test extends TestCase {
 
 	/**
 	 * Yoast_Notification_Center mock.

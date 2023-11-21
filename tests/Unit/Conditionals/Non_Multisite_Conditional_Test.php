@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional
  */
-class Non_Multisite_Conditional_Test extends TestCase {
+final class Non_Multisite_Conditional_Test extends TestCase {
 
 	/**
 	 * The schema blocks feature flag conditional.

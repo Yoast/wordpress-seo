@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group upgrades
  */
-class Upgrade_Test extends TestCase {
+final class Upgrade_Test extends TestCase {
 
 	/**
 	 * Retrieves the instance to test against.

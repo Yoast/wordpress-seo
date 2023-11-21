@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Organization
  */
-class Organization_Test extends TestCase {
+final class Organization_Test extends TestCase {
 
 	/**
 	 * The instance to test.

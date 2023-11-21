@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Meta_Columns_Test extends TestCase {
+final class Meta_Columns_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

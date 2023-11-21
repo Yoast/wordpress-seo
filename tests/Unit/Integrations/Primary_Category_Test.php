@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Primary_Category_Test extends TestCase {
+final class Primary_Category_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

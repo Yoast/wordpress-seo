@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Schema\Image_Helper
  */
-class Image_Helper_Test extends TestCase {
+final class Image_Helper_Test extends TestCase {
 
 	/**
 	 * The instance to test.

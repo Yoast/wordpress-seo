@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group helpers
  */
-class Indexable_Helper_Test extends TestCase {
+final class Indexable_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the class to test.

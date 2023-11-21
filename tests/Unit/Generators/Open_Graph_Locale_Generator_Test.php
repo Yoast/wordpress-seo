@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group generators
  * @group open-graph
  */
-class Open_Graph_Locale_Generator_Test extends TestCase {
+final class Open_Graph_Locale_Generator_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

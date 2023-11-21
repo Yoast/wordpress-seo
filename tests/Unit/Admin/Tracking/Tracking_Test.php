@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Analytics\Application\To_Be_Cleaned_Indexables_Collector;
  *
  * @group tracking
  */
-class Tracking_Test extends TestCase {
+final class Tracking_Test extends TestCase {
 
 	/**
 	 * Tests the constructor on a non-production setup.

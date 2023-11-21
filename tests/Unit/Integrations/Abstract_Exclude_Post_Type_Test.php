@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Abstract_Exclude_Post_Type
  */
-class Abstract_Exclude_Post_Type_Test extends TestCase {
+final class Abstract_Exclude_Post_Type_Test extends TestCase {
 
 	/**
 	 * The child instance of Elementor exclusion under test.

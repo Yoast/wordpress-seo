@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  */
-class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase {
+final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase {
 
 	/**
 	 * Tests the build in case of an image link and 'disable attachment` optionis false.

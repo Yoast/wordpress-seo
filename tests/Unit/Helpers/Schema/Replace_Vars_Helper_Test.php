@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper
  */
-class Replace_Vars_Helper_Test extends TestCase {
+final class Replace_Vars_Helper_Test extends TestCase {
 
 	/**
 	 * Meta_Tags_Context_Memoizer mock.

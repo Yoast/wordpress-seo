@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Builder_Double;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-class Save_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
+final class Save_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
 	 * Sets up the test.

@@ -26,7 +26,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @package Yoast\Tests\Builders
  */
-class Indexable_Hierarchy_Builder_Test extends TestCase {
+final class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 	/**
 	 * Holds the Indexable_Hierarchy_Repository instance.

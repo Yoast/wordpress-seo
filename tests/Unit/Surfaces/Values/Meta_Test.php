@@ -19,7 +19,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @group surfaces
  */
-class Meta_Test extends TestCase {
+final class Meta_Test extends TestCase {
 
 	/**
 	 * The context

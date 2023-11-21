@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class Category_Term_Description_Test extends TestCase {
+final class Category_Term_Description_Test extends TestCase {
 
 	/**
 	 * The test instance.

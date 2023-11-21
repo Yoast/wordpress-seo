@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group watchers
  */
-class Option_Wpseo_Watcher_Test extends TestCase {
+final class Option_Wpseo_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-class Set_Indexable_Repository_Test extends Abstract_Indexable_Builder_TestCase {
+final class Set_Indexable_Repository_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
 	 * Tests setting the indexable repository.

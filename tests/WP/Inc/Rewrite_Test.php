@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Rewrite_Test extends TestCase {
+final class Rewrite_Test extends TestCase {
 
 	/**
 	 * Name of the option indicating whether the rewrite options should be flushed.

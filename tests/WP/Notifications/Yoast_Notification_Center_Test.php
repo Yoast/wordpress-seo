@@ -13,7 +13,7 @@ use Yoast_Notification_Center;
  *
  * @coversDefaultClass Yoast_Notification_Center
  */
-class Yoast_Notification_Center_Test extends TestCase {
+final class Yoast_Notification_Center_Test extends TestCase {
 
 	/**
 	 * User ID.

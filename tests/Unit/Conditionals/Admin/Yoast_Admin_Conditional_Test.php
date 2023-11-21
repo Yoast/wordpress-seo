@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Admin\Yoast_Admin_Conditional
  */
-class Yoast_Admin_Conditional_Test extends TestCase {
+final class Yoast_Admin_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the test instance.

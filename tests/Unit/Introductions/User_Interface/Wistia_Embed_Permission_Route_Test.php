@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\User_Interface\Wistia_Embed_Permission_Route
  */
-class Wistia_Embed_Permission_Route_Test extends TestCase {
+final class Wistia_Embed_Permission_Route_Test extends TestCase {
 
 	/**
 	 * Holds the instance.

@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Migration_Error_Presenter_Test extends TestCase {
+final class Migration_Error_Presenter_Test extends TestCase {
 
 	/**
 	 * Tests the present method.

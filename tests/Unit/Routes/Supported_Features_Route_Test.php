@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Routes\Supported_Features_Route
  */
-class Supported_Features_Route_Test extends TestCase {
+final class Supported_Features_Route_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

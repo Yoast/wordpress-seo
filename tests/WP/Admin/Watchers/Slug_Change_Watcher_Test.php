@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Slug_Change_Watcher_Test extends TestCase {
+final class Slug_Change_Watcher_Test extends TestCase {
 
 	/**
 	 * Post ID.

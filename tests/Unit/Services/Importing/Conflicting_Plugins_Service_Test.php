@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Conflicting_Plugins_Service
  */
-class Conflicting_Plugins_Service_Test extends TestCase {
+final class Conflicting_Plugins_Service_Test extends TestCase {
 
 	/**
 	 * The class under test.

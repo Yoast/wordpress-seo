@@ -10,7 +10,7 @@ use Yoast\WPTestUtils\WPIntegration\TestCase;
  *
  * @coversDefaultClass WPSEO_Taxonomy
  */
-class Taxonomy_Test extends TestCase {
+final class Taxonomy_Test extends TestCase {
 
 	/**
 	 * Make sure certain pages are marked as term edit.

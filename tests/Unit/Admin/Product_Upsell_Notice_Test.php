@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_Product_Upsell_Notice
  */
-class Product_Upsell_Notice_Test extends TestCase {
+final class Product_Upsell_Notice_Test extends TestCase {
 
 	/**
 	 * Test the dismiss_notice_listener function.

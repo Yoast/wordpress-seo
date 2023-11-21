@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Cron_Integration_Test extends TestCase {
+final class Cron_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

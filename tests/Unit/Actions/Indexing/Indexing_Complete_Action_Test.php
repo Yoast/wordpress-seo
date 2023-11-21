@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexing_Complete_Action
  */
-class Indexing_Complete_Action_Test extends TestCase {
+final class Indexing_Complete_Action_Test extends TestCase {
 
 	/**
 	 * The indexing complete action under test.

@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group third-party
  */
-class Jetpack_Test extends TestCase {
+final class Jetpack_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

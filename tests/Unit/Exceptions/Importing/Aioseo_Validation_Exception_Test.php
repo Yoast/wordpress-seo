@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Exceptions\Importing\Aioseo_Validation_Exception
  */
-class Aioseo_Validation_Exception_Test extends TestCase {
+final class Aioseo_Validation_Exception_Test extends TestCase {
 
 	/**
 	 * Tests the constructor.

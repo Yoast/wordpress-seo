@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action
  */
-class Indexable_Post_Indexation_Action_Test extends TestCase {
+final class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 	/**
 	 * The post type helper mock.

@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Domain\Introductions_Bucket
  */
-class Introductions_Bucket_Test extends TestCase {
+final class Introductions_Bucket_Test extends TestCase {
 
 	/**
 	 * Tests the constructor.

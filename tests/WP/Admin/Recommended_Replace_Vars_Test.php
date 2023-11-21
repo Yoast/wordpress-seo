@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Recommended_Replace_Vars_Test extends TestCase {
+final class Recommended_Replace_Vars_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

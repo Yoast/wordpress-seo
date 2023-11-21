@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Current_Page_Helper
  */
-class Current_Page_Helper_Test extends TestCase {
+final class Current_Page_Helper_Test extends TestCase {
 
 	/**
 	 * Query wrapper instance.

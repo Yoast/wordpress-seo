@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Academy_Integration
  */
-class Academy_Integration_Test extends TestCase {
+final class Academy_Integration_Test extends TestCase {
 
 	const PAGE = 'wpseo_page_academy';
 

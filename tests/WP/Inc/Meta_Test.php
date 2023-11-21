@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @todo Test for defaults.
  */
-class Meta_Test extends TestCase {
+final class Meta_Test extends TestCase {
 
 	/**
 	 * Tests if data can be stored.

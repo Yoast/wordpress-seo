@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\WP_Robots_Conditional
  */
-class WP_Robots_Conditional_Test extends TestCase {
+final class WP_Robots_Conditional_Test extends TestCase {
 
 	/**
 	 * Represents the insstance to test.

@@ -11,7 +11,7 @@ use Yoast_Notification_Center;
  *
  * @group notifiers
  */
-class Dismissible_Notification_Test extends TestCase {
+final class Dismissible_Notification_Test extends TestCase {
 
 	/**
 	 * Tests the listen method when required value is not present in the request URL.

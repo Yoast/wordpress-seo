@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Option_Titles_Test extends TestCase {
+final class Option_Titles_Test extends TestCase {
 
 	/**
 	 * Tests if the enrich_defaults() cache is properly invalidated

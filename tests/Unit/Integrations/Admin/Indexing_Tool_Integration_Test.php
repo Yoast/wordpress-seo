@@ -26,7 +26,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group indexing
  */
-class Indexing_Tool_Integration_Test extends TestCase {
+final class Indexing_Tool_Integration_Test extends TestCase {
 
 	/**
 	 * The indexation integration under test.

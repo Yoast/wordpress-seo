@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group Person_Schema
  */
-class Schema_Person_Upgrade_Notification_Test extends TestCase {
+final class Schema_Person_Upgrade_Notification_Test extends TestCase {
 
 	/**
 	 * Remove the notification when Person is not selected.

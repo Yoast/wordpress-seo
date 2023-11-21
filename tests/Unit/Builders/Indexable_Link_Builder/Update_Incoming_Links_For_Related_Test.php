@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Link_Builder_Double;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  */
-class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Link_Builder_TestCase {
+final class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Link_Builder_TestCase {
 
 	/**
 	 * Sets up the tests.

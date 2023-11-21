@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Asset_Test extends TestCase {
+final class Asset_Test extends TestCase {
 
 	/**
 	 * Tests the constructor when no name and src are passed.

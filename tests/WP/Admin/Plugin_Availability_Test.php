@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @coversDefaultClass WPSEO_Plugin_Availability
  */
-class Plugin_Availability_Test extends TestCase {
+final class Plugin_Availability_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

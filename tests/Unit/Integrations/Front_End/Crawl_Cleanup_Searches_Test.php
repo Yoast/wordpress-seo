@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class Crawl_Cleanup_Searches_Test extends TestCase {
+final class Crawl_Cleanup_Searches_Test extends TestCase {
 
 	/**
 	 * Robots helper.

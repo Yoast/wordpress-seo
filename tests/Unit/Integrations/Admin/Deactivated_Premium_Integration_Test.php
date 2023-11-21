@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Deactivated_Premium_Integration
  */
-class Deactivated_Premium_Integration_Test extends TestCase {
+final class Deactivated_Premium_Integration_Test extends TestCase {
 
 	/**
 	 * Mock of the options helper.

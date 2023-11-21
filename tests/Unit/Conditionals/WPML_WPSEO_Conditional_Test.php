@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Conditionals\Third_Party\WPML_WPSEO_Conditional
  */
-class WPML_WPSEO_Conditional_Test extends TestCase {
+final class WPML_WPSEO_Conditional_Test extends TestCase {
 
 	/**
 	 * The schema blocks feature flag conditional.

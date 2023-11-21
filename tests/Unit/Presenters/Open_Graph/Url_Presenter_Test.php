@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group open-graph
  */
-class Url_Presenter_Test extends TestCase {
+final class Url_Presenter_Test extends TestCase {
 
 	/**
 	 * The URL presenter instance.

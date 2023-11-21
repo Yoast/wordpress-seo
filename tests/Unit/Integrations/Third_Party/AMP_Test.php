@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group third-party
  */
-class AMP_Test extends TestCase {
+final class AMP_Test extends TestCase {
 
 	/**
 	 * The AMP integration.

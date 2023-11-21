@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group routes
  * @group indexing
  */
-class Abstract_Indexation_Route_Test extends TestCase {
+final class Abstract_Indexation_Route_Test extends TestCase {
 
 	/**
 	 * Tests the respond with method.

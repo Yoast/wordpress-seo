@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group sitemaps
  */
-class Cache_Test extends TestCase {
+final class Cache_Test extends TestCase {
 
 	/**
 	 * Clean up.

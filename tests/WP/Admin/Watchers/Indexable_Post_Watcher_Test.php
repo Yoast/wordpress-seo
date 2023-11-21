@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  * - Building author indexables
  * - Unhappy paths
  */
-class Indexable_Post_Watcher_Test extends TestCase {
+final class Indexable_Post_Watcher_Test extends TestCase {
 
 	/**
 	 * An indexable should be created whenever a post is created.

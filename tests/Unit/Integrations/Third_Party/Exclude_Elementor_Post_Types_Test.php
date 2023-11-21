@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\Exclude_Elementor_Post_Types
  */
-class Exclude_Elementor_Post_Types_Test extends TestCase {
+final class Exclude_Elementor_Post_Types_Test extends TestCase {
 
 	/**
 	 * The instance under test.

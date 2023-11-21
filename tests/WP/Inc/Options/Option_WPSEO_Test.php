@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Option_WPSEO_Test extends TestCase {
+final class Option_WPSEO_Test extends TestCase {
 
 	/**
 	 * Features which can be disabled via the network settings.

@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Get_Request_Conditional
  */
-class Get_Request_Conditional_Test extends TestCase {
+final class Get_Request_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the GET request conditional under test.

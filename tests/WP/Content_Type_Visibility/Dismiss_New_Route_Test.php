@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_Dismiss_New_Route
  */
-class Dismiss_New_Route_Test extends TestCase {
+final class Dismiss_New_Route_Test extends TestCase {
 
 	/**
 	 * The instance to test.

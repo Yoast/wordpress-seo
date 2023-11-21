@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\Introductions_Collector
  */
-class Introductions_Collector_Test extends TestCase {
+final class Introductions_Collector_Test extends TestCase {
 
 	/**
 	 * Tests the constructor and filter.

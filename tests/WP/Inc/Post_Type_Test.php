@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Post_Type_Test extends TestCase {
+final class Post_Type_Test extends TestCase {
 
 	/**
 	 * Remove the custom post type after each test.

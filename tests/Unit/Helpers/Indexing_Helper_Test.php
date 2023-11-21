@@ -27,7 +27,7 @@ use Yoast_Notification_Center;
  * @group helpers
  * @group indexing
  */
-class Indexing_Helper_Test extends TestCase {
+final class Indexing_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the class to test.

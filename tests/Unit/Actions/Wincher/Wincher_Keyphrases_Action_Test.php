@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action
  */
-class Wincher_Keyphrases_Action_Test extends TestCase {
+final class Wincher_Keyphrases_Action_Test extends TestCase {
 
 	/**
 	 * The class instance.

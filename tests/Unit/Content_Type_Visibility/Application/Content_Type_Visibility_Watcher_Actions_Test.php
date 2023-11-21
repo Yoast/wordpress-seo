@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dis
  *
  * @coversDefaultClass \Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions
  */
-class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
+final class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 
 	/**
 	 * Holds the admin user mock instance.

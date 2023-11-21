@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\String_Helper
  */
-class String_Helper_Test extends TestCase {
+final class String_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

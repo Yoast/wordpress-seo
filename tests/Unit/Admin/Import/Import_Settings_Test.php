@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_Import_Settings
  */
-class Import_Settings_Test extends TestCase {
+final class Import_Settings_Test extends TestCase {
 
 	/**
 	 * Holds the test instance.

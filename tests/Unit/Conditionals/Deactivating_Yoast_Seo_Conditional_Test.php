@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Deactivating_Yoast_Seo_Conditional
  */
-class Deactivating_Yoast_Seo_Conditional_Test extends TestCase {
+final class Deactivating_Yoast_Seo_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the conditional that checks whether Yoast SEO is being deactivated.

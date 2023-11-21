@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Crawl_Cleanup_Permalinks_Test extends TestCase {
+final class Crawl_Cleanup_Permalinks_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.

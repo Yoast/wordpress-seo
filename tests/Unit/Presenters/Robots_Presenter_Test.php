@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Robots_Presenter_Test extends TestCase {
+final class Robots_Presenter_Test extends TestCase {
 
 	/**
 	 * The robots presenter instance.

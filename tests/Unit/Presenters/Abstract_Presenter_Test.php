@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Abstract_Presenter_Test extends TestCase {
+final class Abstract_Presenter_Test extends TestCase {
 
 	/**
 	 * Tests the outputting of the value.

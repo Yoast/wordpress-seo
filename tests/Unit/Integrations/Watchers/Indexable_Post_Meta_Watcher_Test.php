@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Meta_Watcher
  */
-class Indexable_Post_Meta_Watcher_Test extends TestCase {
+final class Indexable_Post_Meta_Watcher_Test extends TestCase {
 
 	/**
 	 * The post watcher.

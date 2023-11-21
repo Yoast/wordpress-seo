@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Indexing_Error_Presenter
  */
-class Indexing_Error_Presenter_Test extends TestCase {
+final class Indexing_Error_Presenter_Test extends TestCase {
 
 	/**
 	 * The mocked short link helper.

@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Repositories\SEO_Links_Repository
  */
-class SEO_Links_Repository_Test extends TestCase {
+final class SEO_Links_Repository_Test extends TestCase {
 
 	/**
 	 * The instance to test.

@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Taxonomy_Fields_Presenter_Test extends TestCase {
+final class Taxonomy_Fields_Presenter_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

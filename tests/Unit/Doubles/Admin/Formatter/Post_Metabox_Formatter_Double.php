@@ -7,7 +7,7 @@ use WPSEO_Post_Metabox_Formatter;
 /**
  * Test Helper Class.
  */
-class Post_Metabox_Formatter_Double extends WPSEO_Post_Metabox_Formatter {
+final class Post_Metabox_Formatter_Double extends WPSEO_Post_Metabox_Formatter {
 
 	/**
 	 * Gets the image URL for the post's social preview.

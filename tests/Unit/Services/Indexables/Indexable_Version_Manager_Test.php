@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager
  */
-class Indexable_Version_Manager_Test extends TestCase {
+final class Indexable_Version_Manager_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

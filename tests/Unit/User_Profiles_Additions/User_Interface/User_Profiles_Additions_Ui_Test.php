@@ -18,7 +18,7 @@ use Yoast\WP\SEO\User_Profiles_Additions\User_Interface\User_Profiles_Additions_
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class User_Profiles_Additions_Ui_Test extends TestCase {
+final class User_Profiles_Additions_Ui_Test extends TestCase {
 
 	/**
 	 * The mocked asset manager.

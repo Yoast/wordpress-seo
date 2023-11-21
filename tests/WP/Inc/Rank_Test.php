@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Rank_Test extends TestCase {
+final class Rank_Test extends TestCase {
 
 	/**
 	 * Tests whether the get_rank function returns the correct rank.

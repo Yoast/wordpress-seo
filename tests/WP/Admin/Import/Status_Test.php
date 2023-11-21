@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Tests for our import status object.
  */
-class Status_Test extends TestCase {
+final class Status_Test extends TestCase {
 
 	/**
 	 * Tests whether we can set a status message for the detect action.

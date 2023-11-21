@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class Indexing_Controls_Test extends TestCase {
+final class Indexing_Controls_Test extends TestCase {
 
 	/**
 	 * Robots helper.

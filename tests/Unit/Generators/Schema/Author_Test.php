@@ -25,7 +25,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Author
  */
-class Author_Test extends TestCase {
+final class Author_Test extends TestCase {
 
 	/**
 	 * Holds the Schema ID helper.

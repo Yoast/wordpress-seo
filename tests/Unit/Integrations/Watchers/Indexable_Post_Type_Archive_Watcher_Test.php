@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
+final class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the indexable repository.

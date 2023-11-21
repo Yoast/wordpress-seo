@@ -11,7 +11,7 @@ use Yoast_Input_Validation;
  *
  * @group input-validation
  */
-class Input_Validation_Test extends TestCase {
+final class Input_Validation_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.

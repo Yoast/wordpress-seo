@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Ancestor_Watcher
  */
-class Indexable_Ancestor_Watcher_Test extends TestCase {
+final class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the indexable repository.

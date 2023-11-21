@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  * @group sitemaps
  * @coversDefaultClass \Yoast\WP\SEO\Models\SEO_Links\WPSEO_Post_Type_Sitemap_Provider
  */
-class Post_Type_Sitemap_Provider_Test extends TestCase {
+final class Post_Type_Sitemap_Provider_Test extends TestCase {
 
 	/**
 	 * Sitemap Provider instance.

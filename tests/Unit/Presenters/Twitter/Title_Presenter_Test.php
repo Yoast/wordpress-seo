@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group twitter-title
  */
-class Title_Presenter_Test extends TestCase {
+final class Title_Presenter_Test extends TestCase {
 
 	/**
 	 * The indexable presentation.

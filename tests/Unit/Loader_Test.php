@@ -17,7 +17,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Loader
  */
-class Loader_Test extends TestCase {
+final class Loader_Test extends TestCase {
 
 	/**
 	 * Tests loading initializers before integrations.

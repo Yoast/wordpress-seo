@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class RSS_Footer_Embed_Test extends TestCase {
+final class RSS_Footer_Embed_Test extends TestCase {
 
 	/**
 	 * The instance to test against.

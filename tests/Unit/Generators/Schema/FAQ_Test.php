@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Generators\Schema\FAQ
  */
-class FAQ_Test extends TestCase {
+final class FAQ_Test extends TestCase {
 
 	/**
 	 * Holds the HTML helper.

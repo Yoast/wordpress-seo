@@ -28,7 +28,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group indexing
  */
-class Background_Indexing_Integration_Test extends TestCase {
+final class Background_Indexing_Integration_Test extends TestCase {
 
 	/**
 	 * The indexation integration under test.

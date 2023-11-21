@@ -7,7 +7,7 @@ use WPSEO_Sitemaps;
 /**
  * Overwrite couple functions of the WPSEO Sitemaps class for testing.
  */
-class Sitemaps_Double extends WPSEO_Sitemaps {
+final class Sitemaps_Double extends WPSEO_Sitemaps {
 
 	/**
 	 * Class constructor.

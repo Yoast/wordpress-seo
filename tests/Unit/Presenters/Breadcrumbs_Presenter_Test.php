@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group breadcrumbs
  */
-class Breadcrumbs_Presenter_Test extends TestCase {
+final class Breadcrumbs_Presenter_Test extends TestCase {
 
 	/**
 	 * The options helper mock.

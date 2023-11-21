@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @coversDefaultClass WPSEO_Statistics_Service
  */
-class Statistics_Service_Test extends TestCase {
+final class Statistics_Service_Test extends TestCase {
 
 	/**
 	 * Reset after each test.

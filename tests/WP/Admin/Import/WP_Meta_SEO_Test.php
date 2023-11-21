@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test importing meta data from WP Meta SEO.
  */
-class WP_Meta_SEO_Test extends TestCase {
+final class WP_Meta_SEO_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.

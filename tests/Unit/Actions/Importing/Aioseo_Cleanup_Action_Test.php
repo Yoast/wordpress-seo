@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Cleanup_Action
  */
-class Aioseo_Cleanup_Action_Test extends TestCase {
+final class Aioseo_Cleanup_Action_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

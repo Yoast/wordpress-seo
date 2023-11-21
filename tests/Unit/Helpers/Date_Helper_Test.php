@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group helpers
  */
-class Date_Helper_Test extends TestCase {
+final class Date_Helper_Test extends TestCase {
 
 	/**
 	 * The date helper instance.

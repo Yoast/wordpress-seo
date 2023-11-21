@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_Shortcode_Filter
  */
-class Shortcode_Filter_Test extends TestCase {
+final class Shortcode_Filter_Test extends TestCase {
 
 	/**
 	 * The test instance.

@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test whether we can detect plugin data to import successfully.
  */
-class Plugins_Detector_Test extends TestCase {
+final class Plugins_Detector_Test extends TestCase {
 
 	/**
 	 * Test whether we can return properly when there's no plugin data.

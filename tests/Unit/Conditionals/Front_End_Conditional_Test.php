@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Front_End_Conditional
  */
-class Front_End_Conditional_Test extends TestCase {
+final class Front_End_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the instance to test.

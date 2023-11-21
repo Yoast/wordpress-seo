@@ -7,7 +7,7 @@ use WPSEO_Health_Check;
 /**
  * Class Health_Check_Double exposes protected properties and methods needed by the unit tests.
  */
-class Health_Check_Double extends WPSEO_Health_Check {
+final class Health_Check_Double extends WPSEO_Health_Check {
 
 	/**
 	 * Indicates that the test has executed.

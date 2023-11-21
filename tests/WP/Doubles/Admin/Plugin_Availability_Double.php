@@ -7,7 +7,7 @@ use WPSEO_Plugin_Availability;
 /**
  * Class Plugin_Availability_Double.
  */
-class Plugin_Availability_Double extends WPSEO_Plugin_Availability {
+final class Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 
 	/**
 	 * Array containing fake dependency slugs.

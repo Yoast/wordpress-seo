@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group routes
  * @group workout
  */
-class First_Time_Configuration_Route_Test extends TestCase {
+final class First_Time_Configuration_Route_Test extends TestCase {
 
 	/**
 	 * Represents the action.

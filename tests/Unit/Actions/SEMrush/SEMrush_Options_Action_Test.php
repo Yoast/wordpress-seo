@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\SEMrush\SEMrush_Options_Action
  */
-class SEMrush_Options_Action_Test extends TestCase {
+final class SEMrush_Options_Action_Test extends TestCase {
 
 	/**
 	 * The class instance.

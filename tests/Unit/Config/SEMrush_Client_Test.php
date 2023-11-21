@@ -20,7 +20,7 @@ use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Config\SEMrush_Client
  */
-class SEMrush_Client_Test extends TestCase {
+final class SEMrush_Client_Test extends TestCase {
 
 	/**
 	 * The response object.

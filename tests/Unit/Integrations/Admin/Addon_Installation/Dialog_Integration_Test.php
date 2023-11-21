@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @covers \Yoast\WP\SEO\Integrations\Admin\Addon_Installation\Dialog_Integration
  */
-class Dialog_Integration_Test extends TestCase {
+final class Dialog_Integration_Test extends TestCase {
 
 	/**
 	 * The addon manager.

@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Primary_Term_Watcher
  */
-class Primary_Term_Watcher_Test extends TestCase {
+final class Primary_Term_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
