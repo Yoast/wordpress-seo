@@ -35,8 +35,8 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 
 	const richResultsMessage = addLinkToString(
 		sprintf(
-			/* translators: %1$s expands to opening 'a' HTML tag, %2$s expands to closing 'a' HTML tag */
-			__( "Completing this step helps Google to understand your site even better. Bonus: You’ll improve your chance of getting %1$srich results%2$s!", "wordpress-seo" ),
+			/* translators: %1$s expands to opening 'a' HTML tag, %2$s expands to closing 'a' HTML tag. */
+			__( "Completing this step helps Google to understand your site even better. Bonus: You'll improve your chance of getting %1$srich results%2$s!", "wordpress-seo" ),
 			"<a>",
 			"</a>"
 		),

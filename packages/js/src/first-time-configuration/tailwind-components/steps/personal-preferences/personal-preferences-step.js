@@ -26,8 +26,8 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 		</Fragment> }
 		<h4 className="yst-text-slate-900 yst-text-base yst-leading-6 yst-font-normal">
 			{
-				 __( "Are you open to help us improve our services?",
-				 "wordpress-seo" )
+				__( "Are you open to help us improve our services?",
+				"wordpress-seo" )
 			}
 		</h4>
 		{ !! state.isMainSite && ! state.isTrackingAllowedMultisite && <Alert type={ "warning" } className="yst-mt-2">
