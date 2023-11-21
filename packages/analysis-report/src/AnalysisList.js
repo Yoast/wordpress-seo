@@ -108,6 +108,8 @@ export default function AnalysisList( props ) {
 				isPremium={ props.isPremium }
 				onResultChange={ props.onResultChange }
 				markButtonFactory={ props.markButtonFactory }
+				shouldUpsellHighlighting={ props.shouldUpsellHighlighting }
+				renderHighlightingUpsell={ props.renderHighlightingUpsell }
 			/>;
 		} ) }
 	</AnalysisListBase>;
@@ -124,6 +126,8 @@ AnalysisList.propTypes = {
 	onEditButtonClick: PropTypes.func,
 	isPremium: PropTypes.bool,
 	onResultChange: PropTypes.func,
+	shouldUpsellHighlighting: PropTypes.bool,
+	renderHighlightingUpsell: PropTypes.func,
 };
 
 AnalysisList.defaultProps = {
@@ -135,4 +139,6 @@ AnalysisList.defaultProps = {
 	onEditButtonClick: noop,
 	isPremium: false,
 	onResultChange: noop,
+	shouldUpsellHighlighting: false,
+	renderHighlightingUpsell: noop,
 };

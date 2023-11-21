@@ -70,8 +70,7 @@ class ReadabilityAnalysis extends Component {
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ this.props.marksButtonStatus }
 					highlightingUpsellLink={ highlightingUpsellLink }
-					shouldUpsell={ this.props.shouldUpsell }
-					isElementorEditor={ this.props.isElementorEditor }
+					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 				/>
 			</Fragment>
 		);
@@ -188,13 +187,13 @@ ReadabilityAnalysis.propTypes = {
 	marksButtonStatus: PropTypes.string.isRequired,
 	overallScore: PropTypes.number,
 	shouldUpsell: PropTypes.bool,
-	isElementorEditor: PropTypes.bool,
+	shouldUpsellHighlighting: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
 	overallScore: null,
 	shouldUpsell: false,
-	isElementorEditor: false,
+	shouldUpsellHighlighting: false,
 };
 
 export default withSelect( select => {

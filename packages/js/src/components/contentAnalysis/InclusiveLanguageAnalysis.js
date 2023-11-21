@@ -92,8 +92,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 						improvements: __( "Potentially non-inclusive phrases", "wordpress-seo" ),
 					} }
 					highlightingUpsellLink={ highlightingUpsellLink }
-					shouldUpsell={ props.shouldUpsell }
-					isElementorEditor={ props.isElementorEditor }
+					shouldUpsellHighlighting={ props.shouldUpsellHighlighting }
 				/>
 			</Fragment>
 		);
@@ -237,15 +236,13 @@ InclusiveLanguageAnalysis.propTypes = {
 	// eslint-disable-next-line react/no-unused-prop-types
 	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled", "hidden" ] ).isRequired,
 	overallScore: PropTypes.number,
-	shouldUpsell: PropTypes.bool,
-	isElementorEditor: PropTypes.bool,
+	shouldUpsellHighlighting: PropTypes.bool,
 };
 
 InclusiveLanguageAnalysis.defaultProps = {
 	results: [],
 	overallScore: null,
-	shouldUpsell: false,
-	isElementorEditor: false,
+	shouldUpsellHighlighting: false,
 };
 
 export default withSelect( select => {

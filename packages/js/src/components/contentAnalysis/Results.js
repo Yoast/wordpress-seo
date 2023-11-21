@@ -2,7 +2,7 @@ import { __ } from "@wordpress/i18n";
 import { doAction } from "@wordpress/hooks";
 import PropTypes from "prop-types";
 import { ContentAnalysis } from "@yoast/analysis-report";
-import { Component, Fragment, useCallback, useState } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
 import { isUndefined } from "lodash";
 import { Paper } from "yoastseo";
 
@@ -40,6 +40,7 @@ class Results extends Component {
 		this.handleMarkButtonClick = this.handleMarkButtonClick.bind( this );
 		this.handleEditButtonClick = this.handleEditButtonClick.bind( this );
 		this.handleResultsChange   = this.handleResultsChange.bind( this );
+		this.renderHighlightingUpsell = this.renderHighlightingUpsell.bind( this );
 	}
 
 	/**
@@ -239,15 +240,7 @@ class Results extends Component {
 		window.YoastSEO.analysis.applyMarks( new Paper( "", {} ), [] );
 	}
 
-	renderHighlightingUpsell() {
-		const [ isOpen, setIsOpen ] = useState( false );
-
-		const closeModal = useCallback( () => setIsOpen( false ), [] );
-
-		if ( this.props.activeMarker ) {
-			setIsOpen( true );
-		}
-
+	renderHighlightingUpsell( isOpen, closeModal ) {
 		const upsellDescription = __(
 			"Get highlights for your analysis checks. " +
 			"Save time – highlight the analysis checks in your text, so you don't have to search for them. Now also in Elementor!",
@@ -314,6 +307,8 @@ class Results extends Component {
 					isPremium={ this.props.isPremium }
 					resultCategoryLabels={ labels }
 					onResultChange={ this.handleResultsChange }
+					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+					renderHighlightingUpsell={ this.renderHighlightingUpsell }
 				/>
 			</Fragment>
 		);
@@ -339,9 +334,8 @@ Results.propTypes = {
 		considerations: PropTypes.string,
 		goodResults: PropTypes.string,
 	} ),
-	isElementorEditor: PropTypes.bool,
+	shouldUpsellHighlighting: PropTypes.bool,
 	highlightingUpsellLink: PropTypes.string,
-	shouldUpsell: PropTypes.bool,
 };
 
 Results.defaultProps = {
@@ -355,9 +349,8 @@ Results.defaultProps = {
 	location: "",
 	isPremium: false,
 	resultCategoryLabels: {},
-	isElementorEditor: false,
+	shouldUpsellHighlighting: false,
 	highlightingUpsellLink: "",
-	shouldUpsell: false,
 };
 
 export default Results;

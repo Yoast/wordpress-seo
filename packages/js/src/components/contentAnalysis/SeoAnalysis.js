@@ -245,9 +245,8 @@ class SeoAnalysis extends Component {
 												editButtonClassName="yoast-tooltip yoast-tooltip-w"
 												marksButtonStatus={ this.props.marksButtonStatus }
 												location={ location }
+												shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 												highlightingUpsellLink={ highlightingUpsellLink }
-												shouldUpsell={ this.props.shouldUpsell }
-												isElementorEditor={ this.props.isElementorEditor }
 											/>
 										</Collapsible>
 										{ this.renderTabIcon( location, score.className ) }
@@ -269,7 +268,7 @@ SeoAnalysis.propTypes = {
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
-	isElementorEditor: PropTypes.bool,
+	shouldUpsellHighlighting: PropTypes.bool,
 };
 
 SeoAnalysis.defaultProps = {
@@ -279,7 +278,7 @@ SeoAnalysis.defaultProps = {
 	shouldUpsell: false,
 	shouldUpsellWordFormRecognition: false,
 	overallScore: null,
-	isElementorEditor: false,
+	shouldUpsellHighlighting: false,
 };
 
 export default withSelect( ( select, ownProps ) => {

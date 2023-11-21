@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { noop } from "lodash";
@@ -79,6 +79,11 @@ const createMarkButton = ( {
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
 const AnalysisResult = ( { markButtonFactory, ...props } ) => {
+	const [ isOpen, setIsOpen ] = useState( false );
+
+	const closeModal = useCallback( () => setIsOpen( false ), [] );
+	const openModal = useCallback( () => setIsOpen( true ), [] );
+
 	markButtonFactory = markButtonFactory || createMarkButton;
 	const { id, marker, hasMarksButton } = props;
 
@@ -86,7 +91,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 	if ( ! areMarkButtonsHidden( props ) ) {
 		marksButton = markButtonFactory(
 			{
-				onClick: props.onButtonClickMarks,
+				onClick: props.shouldUpsellHighlighting ? openModal : props.onButtonClickMarks,
 				status: props.marksButtonStatus,
 				className: props.marksButtonClassName,
 				id: props.buttonIdMarks,
@@ -118,6 +123,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( props.text, ALLOWED_TAGS ) } } />
 			</AnalysisResultText>
 			{ marksButton }
+			{ props.renderHighlightingUpsell( isOpen, closeModal ) }
 			{
 				props.hasEditButton && props.isPremium &&
 				<IconCTAEditButton
@@ -157,6 +163,8 @@ AnalysisResult.propTypes = {
 		PropTypes.func,
 		PropTypes.array,
 	] ),
+	shouldUpsellHighlighting: PropTypes.bool,
+	renderHighlightingUpsell: PropTypes.func,
 };
 
 AnalysisResult.defaultProps = {
@@ -173,6 +181,8 @@ AnalysisResult.defaultProps = {
 	onResultChange: noop,
 	id: "",
 	marker: noop,
+	shouldUpsellHighlighting: false,
+	renderHighlightingUpsell: noop,
 };
 
 export default AnalysisResult;
