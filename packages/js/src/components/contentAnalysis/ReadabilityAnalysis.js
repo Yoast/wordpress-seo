@@ -46,6 +46,8 @@ class ReadabilityAnalysis extends Component {
 	 * @returns {wp.Element} The Readability Analysis results.
 	 */
 	renderResults( upsellResults ) {
+		const highlightingUpsellLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.highlighting_readability_analysis" ];
+
 		return (
 			<Fragment>
 				<AnalysisHeader>
@@ -67,6 +69,9 @@ class ReadabilityAnalysis extends Component {
 					upsellResults={ upsellResults }
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ this.props.marksButtonStatus }
+					highlightingUpsellLink={ highlightingUpsellLink }
+					shouldUpsell={ this.props.shouldUpsell }
+					isElementorEditor={ this.props.isElementorEditor }
 				/>
 			</Fragment>
 		);
@@ -127,7 +132,6 @@ class ReadabilityAnalysis extends Component {
 	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
-		const highlightingUpsellLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.highlighting_readability_analysis" ];
 
 		if ( isNil( this.props.overallScore ) ) {
 			score.className = "loading";

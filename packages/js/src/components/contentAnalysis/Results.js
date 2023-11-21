@@ -2,11 +2,14 @@ import { __ } from "@wordpress/i18n";
 import { doAction } from "@wordpress/hooks";
 import PropTypes from "prop-types";
 import { ContentAnalysis } from "@yoast/analysis-report";
-import { Component, Fragment } from "@wordpress/element";
+import { Component, Fragment, useCallback, useState } from "@wordpress/element";
 import { isUndefined } from "lodash";
 import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
+import Modal, { defaultModalClassName } from "../modals/Modal";
+import { ModalSmallContainer } from "../modals/Container";
+import PremiumSEOAnalysisUpsell from "../modals/PremiumSEOAnalysisUpsell";
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
@@ -236,6 +239,34 @@ class Results extends Component {
 		window.YoastSEO.analysis.applyMarks( new Paper( "", {} ), [] );
 	}
 
+	renderHighlightingUpsell() {
+		const [ isOpen, setIsOpen ] = useState( false );
+
+		const closeModal = useCallback( () => setIsOpen( false ), [] );
+
+		if ( this.props.activeMarker ) {
+			setIsOpen( true );
+		}
+
+		const upsellDescription = __(
+			"Get highlights for your analysis checks. " +
+			"Save time – highlight the analysis checks in your text, so you don't have to search for them. Now also in Elementor!",
+			"wordpress-seo" );
+
+		return isOpen && <Modal
+			title={ __( "Unlock Premium SEO analysis", "wordpress-seo" ) }
+			onRequestClose={ closeModal }
+			additionalClassName=""
+			className={ `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding` }
+			id="yoast-premium-seo-analysis-modal"
+			shouldCloseOnClickOutside={ true }
+		>
+			<ModalSmallContainer>
+				<PremiumSEOAnalysisUpsell buyLink={ this.props.highlightingUpsellLink } description={ upsellDescription } />
+			</ModalSmallContainer>
+		</Modal>;
+	}
+
 	/**
 	 * Renders the Results component.
 	 *
@@ -308,6 +339,9 @@ Results.propTypes = {
 		considerations: PropTypes.string,
 		goodResults: PropTypes.string,
 	} ),
+	isElementorEditor: PropTypes.bool,
+	highlightingUpsellLink: PropTypes.string,
+	shouldUpsell: PropTypes.bool,
 };
 
 Results.defaultProps = {
@@ -321,6 +355,9 @@ Results.defaultProps = {
 	location: "",
 	isPremium: false,
 	resultCategoryLabels: {},
+	isElementorEditor: false,
+	highlightingUpsellLink: "",
+	shouldUpsell: false,
 };
 
 export default Results;

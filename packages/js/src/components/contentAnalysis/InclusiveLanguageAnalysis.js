@@ -65,6 +65,8 @@ const InclusiveLanguageAnalysis = ( props ) => {
 	 * @returns {JSX.Element} The results of the analysis.
 	 */
 	function renderResults() {
+		const highlightingUpsellLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.highlighting_inclusive_analysis" ];
+
 		return (
 			<Fragment>
 				<AnalysisHeader>
@@ -89,6 +91,9 @@ const InclusiveLanguageAnalysis = ( props ) => {
 						problems: __( "Non-inclusive phrases", "wordpress-seo" ),
 						improvements: __( "Potentially non-inclusive phrases", "wordpress-seo" ),
 					} }
+					highlightingUpsellLink={ highlightingUpsellLink }
+					shouldUpsell={ props.shouldUpsell }
+					isElementorEditor={ props.isElementorEditor }
 				/>
 			</Fragment>
 		);
@@ -168,8 +173,6 @@ const InclusiveLanguageAnalysis = ( props ) => {
 	 * @returns {JSX.Element} The inclusive language for the sidebar.
 	 */
 	function renderSidebar( results, inclusiveLanguageScore ) {
-		const highlightingUpsellLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.highlighting_inclusive_analysis" ];
-
 		return (
 			<Collapsible
 				title={ __( "Inclusive language", "wordpress-seo" ) }

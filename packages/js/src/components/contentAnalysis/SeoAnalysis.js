@@ -197,6 +197,7 @@ class SeoAnalysis extends Component {
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
 		const isPremium = getL10nObject().isPremium;
+		const highlightingUpsellLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.highlighting_seo_analysis" ];
 
 		if ( score.className !== "loading" && this.props.keyword === "" ) {
 			score.className = "na";
@@ -244,6 +245,9 @@ class SeoAnalysis extends Component {
 												editButtonClassName="yoast-tooltip yoast-tooltip-w"
 												marksButtonStatus={ this.props.marksButtonStatus }
 												location={ location }
+												highlightingUpsellLink={ highlightingUpsellLink }
+												shouldUpsell={ this.props.shouldUpsell }
+												isElementorEditor={ this.props.isElementorEditor }
 											/>
 										</Collapsible>
 										{ this.renderTabIcon( location, score.className ) }
@@ -265,6 +269,7 @@ SeoAnalysis.propTypes = {
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
+	isElementorEditor: PropTypes.bool,
 };
 
 SeoAnalysis.defaultProps = {
@@ -274,6 +279,7 @@ SeoAnalysis.defaultProps = {
 	shouldUpsell: false,
 	shouldUpsellWordFormRecognition: false,
 	overallScore: null,
+	isElementorEditor: false,
 };
 
 export default withSelect( ( select, ownProps ) => {
