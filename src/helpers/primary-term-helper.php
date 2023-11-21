@@ -19,7 +19,7 @@ class Primary_Term_Helper {
 	public function get_primary_term_taxonomies( $post_id ) {
 		$post_type      = \get_post_type( $post_id );
 		$all_taxonomies = \get_object_taxonomies( $post_type, 'objects' );
-		$all_taxonomies = \array_filter( $all_taxonomies, [ $this, 'filter_hierarchical_taxonomies' ] );
+		$filtered_taxonomies = \array_filter( $all_taxonomies, [ $this, 'filter_hierarchical_taxonomies' ] );
 
 		/**
 		 * Filters which taxonomies for which the user can choose the primary term.
@@ -30,7 +30,7 @@ class Primary_Term_Helper {
 		 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
 		 *                               enabled.
 		 */
-		$taxonomies = (array) \apply_filters( 'wpseo_primary_term_taxonomies', $all_taxonomies, $post_type, $all_taxonomies );
+		$taxonomies = (array) \apply_filters( 'wpseo_primary_term_taxonomies', $filtered_taxonomies, $post_type, $all_taxonomies );
 
 		return $taxonomies;
 	}
