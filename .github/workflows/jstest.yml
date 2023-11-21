@@ -134,6 +134,9 @@ jobs:
     name: "TestJS - ${{ matrix.package }}${{ github.event_name == 'pull_request' && ' (onlyChanged)' || ' (full)' }}"
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Checks for changes
         uses: dorny/paths-filter@v2
         id: changes
@@ -147,10 +150,6 @@ jobs:
         id: checks-run
         run: |
           echo "should=${{ github.event_name != 'pull_request' || steps.changes.outputs.src == 'true' }}" >> "$GITHUB_OUTPUT"
-
-      - name: Checkout code
-        if: ${{ steps.checks-run.outputs.should == 'true' }}
-        uses: actions/checkout@v3
 
       # Check out the premium config repo ahead of running the tests to prevent issues with permissions.
       - name: Checkout premium configuration
