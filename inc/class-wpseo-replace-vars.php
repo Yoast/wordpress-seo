@@ -362,6 +362,13 @@ class WPSEO_Replace_Vars {
 	private function retrieve_date() {
 		$replacement = null;
 
+		/*
+		 * Terms do not have dates, so return an empty string.
+		 */
+		if ( self::is_a_term( $this->args ) ) {
+			return '';
+		}
+
 		if ( $this->args->post_date !== '' ) {
 			// Returns a string.
 			$replacement = YoastSEO()->helpers->date->format_translated( $this->args->post_date, get_option( 'date_format' ) );
@@ -384,6 +391,17 @@ class WPSEO_Replace_Vars {
 		}
 
 		return $replacement;
+	}
+
+	/**
+	 * Check whether the given object is a term.
+	 *
+	 * @param Object $object The object to check.
+	 *
+	 * @return bool Whether the current object is a term.
+	 */
+	private static function is_a_term( $object ) {
+		return ! empty( $object->taxonomy ) && ! empty( $object->term_id );
 	}
 
 	/**
