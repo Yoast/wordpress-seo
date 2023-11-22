@@ -3,6 +3,7 @@ const DependencyExtractionWebpackPlugin = require( "@wordpress/dependency-extrac
 const defaultConfig = require( "@wordpress/scripts/config/webpack.config" );
 const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
 const { BundleAnalyzerPlugin } = require( "webpack-bundle-analyzer" );
+const { camelCase, kebabCase } = require( "lodash" );
 
 // Internal dependencies
 const { yoastExternals } = require( "./externals" );
@@ -51,10 +52,10 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 						return [ "yoast", yoastExternals[ request ] ];
 					}
 					if ( request.startsWith( "lodash/" ) ) {
-						return [ "lodash", request.substr( 7 ) ];
+						return [ "lodash", request.substring( 7 ) ];
 					}
 					if ( request.startsWith( "lodash-es/" ) ) {
-						return [ "lodash", request.substr( 10 ) ];
+						return [ "lodash", request.substring( 10 ) ];
 					}
 					if ( request === "react-select" ) {
 						return [ "yoast", "reactSelect" ];
@@ -63,7 +64,11 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 						return [ "yoast", "reactSelectAsync" ];
 					}
 					if ( request.startsWith( "@yoast/externals/" ) ) {
-						return [ "yoast", "externals", request.substr( 17 ) ];
+						return [ "yoast", "externals", request.substring( 17 ) ];
+					}
+					if ( request.startsWith( "@woocommerce/" ) ) {
+						// .replace( /-([a-z])/g, ( _, p1 ) => p1.toUpperCase() )
+						return [ "wc", camelCase( request.substring( 13 ) ) ];
 					}
 				},
 				/**
@@ -85,7 +90,10 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 						return "yoast-seo-react-select";
 					}
 					if ( request.startsWith( "@yoast/externals/" ) ) {
-						return "yoast-seo-externals-" + request.substr( 17 );
+						return "yoast-seo-externals-" + request.substring( 17 );
+					}
+					if ( request.startsWith( "@woocommerce/" ) ) {
+						return "wc-" + kebabCase( request.substring( 13 ) );
 					}
 				},
 			} ),

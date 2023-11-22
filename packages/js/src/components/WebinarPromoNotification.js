@@ -18,7 +18,7 @@ const WebinarPromoNotification = ( {
 	url,
 	...props
 } ) => {
-	const isPremium = useSelect( select => select( store ).getIsPremium() );
+	const isPremium = useSelect( select => select( store ).getIsPremium(), [ store ] );
 
 	return isPremium ? null : (
 		<ConnectedPersistentDismissableNotification

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "yoast-seo/seo",
+  "version": "0.0.0",
+  "title": "SEO",
+  "category": "widgets",
+  "icon": "plugins",
+  "description": "SEO for the WooCommerce Product Editor",
+  "attributes": {
+    "__contentEditable": {
+      "type": "string",
+      "__experimentalRole": "content"
+    }
+  },
+  "supports": {
+    "align": false,
+    "html": false,
+    "multiple": false,
+    "reusable": false,
+    "inserter": false,
+    "lock": false,
+    "__experimentalToolbar": false
+  },
+  "textdomain": "wordpress-seo",
+  "editorScript": "yoast-seo-woocommerce-editor-seo",
+  "usesContext": [
+    "postType"
+  ]
+}
