@@ -55,9 +55,7 @@ async function runAnalysis( worker, data ) {
 		if ( inclusiveLanguage ) {
 			// Recreate the getMarker function after the worker is done.
 			inclusiveLanguage.results.forEach( result => {
-				result.getMarker = () => () => {
-					window.YoastSEO.analysis.applyMarks( paper, result.marks );
-				}
+				result.getMarker = () => () => window.YoastSEO.analysis.applyMarks( paper, result.marks );
 			} );
 
 			inclusiveLanguage.results = sortResultsByIdentifier( inclusiveLanguage.results );
