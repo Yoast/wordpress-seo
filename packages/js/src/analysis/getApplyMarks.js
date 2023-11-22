@@ -51,7 +51,7 @@ function applyMarks( paper, marks ) {
 		applyAsAnnotations( marks );
 	}
 
-	doAction( "yoast.seo.applyMarks", marks );
+	doAction( "yoast.analysis.applyMarks", marks );
 }
 
 /**
