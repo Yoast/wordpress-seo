@@ -97,7 +97,7 @@ class Results extends Component {
 				ariaLabel={ ariaLabel }
 			/>
 			{ this.props.shouldUpsellHighlighting && <div className="yst-root">
-				<Badge className="yst-absolute yst-px-[2px] yst-py-[2px] yst--right-[6px] yst--top-[8px]" size="small" variant="upsell">
+				<Badge className="yst-absolute yst-px-[2px] yst-py-[2px] yst--right-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
 					<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" { ...svgAriaProps } />
 				</Badge>
 			</div> }
