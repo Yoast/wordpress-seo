@@ -48,7 +48,24 @@ describe( "Filters various elements from HTML", function() {
 	it( "filters out all textareas", function() {
 		expect( htmlParser( "Hi, this is a <textarea>Test</textarea>test." ) ).toEqual( "Hi, this is a test." );
 	} );
+	it( "filters out comments", function() {
+		expect( htmlParser( "<!--more Continue reading-->" ) ).toEqual( "" );
+	} );
 	it( "filters out elements that have a class name that should be ignored", function() {
+		const text = '<div class="elementor-button-wrapper">' +
+			'<a class="elementor-button elementor-button-link elementor-size-sm" href="#">' +
+			'<span class="elementor-button-content-wrapper">' +
+			'<span class="elementor-button-text">Click here</span>' +
+			"</span>" +
+			"</a>" +
+			"</div>" +
+			'<div class="elementor-spacer">' +
+			'<div class="elementor-spacer-inner">' +
+			"</div>" +
+			"</div>";
+		expect( htmlParser( text ) ).toEqual( "" );
+	} );
+	it( "filters out elements with multiple classes correctly", function() {
 		expect( htmlParser( "<div class='test elementor-progress-wrapper test'><div>Test</div></div><div><p>Hi, this is a test.</p></div>" ) )
 			.toEqual( "<div><p>Hi, this is a test.</p></div>" );
 	} );
