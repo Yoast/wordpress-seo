@@ -10,6 +10,9 @@ import mapResults from "./mapResults";
 import Modal, { defaultModalClassName } from "../modals/Modal";
 import { ModalSmallContainer } from "../modals/Container";
 import PremiumSEOAnalysisUpsell from "../modals/PremiumSEOAnalysisUpsell";
+import { IconButtonToggle } from "@yoast/components";
+import { Badge, useSvgAria } from "@yoast/ui-library";
+import { LockClosedIcon } from "@heroicons/react/solid";
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
@@ -41,6 +44,7 @@ class Results extends Component {
 		this.handleEditButtonClick = this.handleEditButtonClick.bind( this );
 		this.handleResultsChange   = this.handleResultsChange.bind( this );
 		this.renderHighlightingUpsell = this.renderHighlightingUpsell.bind( this );
+		this.createMarkButton = this.createMarkButton.bind( this );
 	}
 
 	/**
@@ -59,6 +63,45 @@ class Results extends Component {
 				mappedResults: mapResults( this.props.results, this.props.keywordKey ),
 			} );
 		}
+	}
+
+	/**
+	 * Factory method which creates a new instance of the default mark button.
+	 *
+	 * @param {string} ariaLabel 	The button aria-label.
+	 * @param {string} id 			The button id.
+	 * @param {string} className 	The button class name.
+	 * @param {string} status 		Status of the buttons. Supports: "enabled", "disabled", "hidden".
+	 * @param {function} onClick 	Onclick handler.
+	 * @param {boolean} isPressed 	Whether the button is in a pressed state.
+	 *
+	 * @returns {JSX.Element} A new mark button.
+	 */
+	createMarkButton( {
+		ariaLabel,
+		id,
+		className,
+		status,
+		onClick,
+		isPressed,
+	} ) {
+		const svgAriaProps = useSvgAria();
+		return <Fragment>
+			<IconButtonToggle
+				marksButtonStatus={ status }
+				className={ className }
+				onClick={ onClick }
+				id={ id }
+				icon="eye"
+				pressed={ isPressed }
+				ariaLabel={ ariaLabel }
+			/>
+			{ this.props.shouldUpsellHighlighting && <div className="yst-root">
+				<Badge className="yst-absolute yst-px-[2px] yst-py-[2px] yst--right-[6px] yst--top-[8px]" size="small" variant="upsell">
+					<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" { ...svgAriaProps } />
+				</Badge>
+			</div> }
+		</Fragment>;
 	}
 
 	/**
@@ -321,6 +364,7 @@ class Results extends Component {
 					onResultChange={ this.handleResultsChange }
 					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 					renderHighlightingUpsell={ this.renderHighlightingUpsell }
+					markButtonFactory={ this.createMarkButton }
 				/>
 			</Fragment>
 		);

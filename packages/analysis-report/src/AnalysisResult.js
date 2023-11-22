@@ -16,6 +16,7 @@ const AnalysisResultBase = styled.li`
 	padding: 0;
 	display: flex;
 	align-items: flex-start;
+	position: relative;
 `;
 
 const ScoreIcon = styled( SvgIcon )`
@@ -43,12 +44,13 @@ const areMarkButtonsHidden = function( props ) {
 /**
  * Factory method which creates a new instance of the default mark button.
  *
- * @param {String} ariaLabel The button aria-label.
- * @param {String} id The button id.
- * @param {String} className The button class name.
- * @param {String} status Status of the buttons. Supports: "enabled", "disabled".
- * @param {Function} onClick Onclick handler.
- * @param {Boolean} isPressed Whether the button is in a pressed state.
+ * @param {string} ariaLabel 	The button aria-label.
+ * @param {string} id 			The button id.
+ * @param {string} className 	The button class name.
+ * @param {string} status 		Status of the buttons. Supports: "enabled", "disabled", "hidden".
+ * @param {function} onClick 	Onclick handler.
+ * @param {boolean} isPressed 	Whether the button is in a pressed state.
+ *
  * @returns {JSX.Element} A new mark button.
  */
 const createMarkButton = ( {
