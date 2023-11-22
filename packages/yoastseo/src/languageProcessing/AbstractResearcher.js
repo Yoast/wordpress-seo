@@ -41,7 +41,7 @@ import wordCountInText from "./researches/wordCountInText.js";
 import memoizedTokenizer from "./helpers/sentence/memoizedSentenceTokenizer";
 
 /**
- * The researches contains all the researches
+ * The researcher contains all the researches.
  */
 export default class AbstractResearcher {
 	/**
@@ -185,7 +185,7 @@ export default class AbstractResearcher {
 	}
 
 	/**
-	 * Check whether or not the research is known by the Researcher.
+	 * Check whether the research is known by the Researcher.
 	 *
 	 * @param {string} name The name to reference the research by.
 	 *
@@ -199,7 +199,7 @@ export default class AbstractResearcher {
 	}
 
 	/**
-	 * Check whether or not the helper is known by the Researcher.
+	 * Check whether the helper is known by the Researcher.
 	 *
 	 * @param {string} name The name to reference the helper by.
 	 *
@@ -213,7 +213,7 @@ export default class AbstractResearcher {
 	}
 
 	/**
-	 * Check whether or not the config is known by the Researcher.
+	 * Check whether the config is known by the Researcher.
 	 *
 	 * @param {string} name The name to reference the config by.
 	 *

@@ -15,7 +15,7 @@ on:
       - 'composer.json'
       - 'composer.lock'
       - 'phpunit.xml.dist'
-      - 'phpunit-integration.xml.dist'
+      - 'phpunit-wp.xml.dist'
       - 'wpml-config.xml'
       - '.github/workflows/test.yml'
       - 'config/scripts/install-wp-tests.sh'
@@ -27,7 +27,7 @@ on:
       - 'composer.json'
       - 'composer.lock'
       - 'phpunit.xml.dist'
-      - 'phpunit-integration.xml.dist'
+      - 'phpunit-wp.xml.dist'
       - 'wpml-config.xml'
       - '.github/workflows/test.yml'
       - 'config/scripts/install-wp-tests.sh'
@@ -47,14 +47,14 @@ jobs:
 
     strategy:
       matrix:
-        php_version: ["7.4", "8.0", "8.1"]
+        php_version: ["7.4", "8.0", "8.2"]
         coverage: [false]
 
         # Run code coverage only on high/low PHP.
         include:
         - php_version: 7.2
           coverage: true
-        - php_version: 8.2
+        - php_version: 8.3
           coverage: true
 
     name: "Unit Test: PHP ${{ matrix.php_version }}"
@@ -131,7 +131,7 @@ jobs:
           COVERALLS_FLAG_NAME: unit-php-${{ matrix.php_version }}
         run: php-coveralls -v -x build/logs/clover.xml
 
-  integration-test:
+  wp-test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -165,9 +165,15 @@ jobs:
           - php_version: "8.2"
             wp_version: "6.3"
             multisite: true
+            coverage: false
+
+          # WP 6.4 is the earliest version which supports PHP 8.3.
+          - php_version: '8.3'
+            wp_version: 'trunk'
+            multisite: true
             coverage: true
 
-    name: "Integration Test: PHP ${{ matrix.php_version }} | WP ${{ matrix.wp_version }}${{ matrix.multisite == true && ' (+ ms)' || '' }}"
+    name: "WP Test: PHP ${{ matrix.php_version }} | WP ${{ matrix.wp_version }}${{ matrix.multisite == true && ' (+ ms)' || '' }}"
 
     # Allow builds to fail on as-of-yet unreleased WordPress versions.
     continue-on-error: ${{ matrix.wp_version == 'trunk' }}
@@ -234,23 +240,23 @@ jobs:
         shell: bash
         run: config/scripts/install-wp-tests.sh wordpress_test root '' 127.0.0.1:3306 ${{ matrix.wp_version }}
 
-      - name: Run unit tests - single site
+      - name: Run WP tests - single site
         if: ${{ matrix.coverage == false }}
-        run: composer integration-test
+        run: composer test-wp
 
-      - name: Run unit tests - multisite
+      - name: Run WP tests - multisite
         if: ${{ matrix.multisite == true && matrix.coverage == false }}
-        run: composer integration-test
+        run: composer test-wp
         env:
           WP_MULTISITE: 1
 
-      - name: Run unit tests with code coverage - single site
+      - name: Run WP tests with code coverage - single site
         if: ${{ matrix.coverage == true }}
-        run: composer integration-coverage
+        run: composer coverage-wp
 
-      - name: Run unit tests with code coverage - multisite
+      - name: Run WP tests with code coverage - multisite
         if: ${{ matrix.multisite == true && matrix.coverage == true }}
-        run: composer integration-coverage -- --coverage-clover build/logs/clover-integration-ms.xml
+        run: composer coverage-wp -- --coverage-clover build/logs/clover-wp-ms.xml
         env:
           WP_MULTISITE: 1
 
@@ -264,19 +270,19 @@ jobs:
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
           COVERALLS_PARALLEL: true
-          COVERALLS_FLAG_NAME: intgr-php-${{ matrix.php_version }}-wp-${{ matrix.wp_version }}
-        run: php-coveralls -v -x build/logs/clover-integration.xml
+          COVERALLS_FLAG_NAME: php-${{ matrix.php_version }}-wp-${{ matrix.wp_version }}
+        run: php-coveralls -v -x build/logs/clover-wp.xml
 
       - name: Upload coverage results to Coveralls - multisite
         if: ${{ success() && matrix.multisite == true && matrix.coverage == true }}
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
           COVERALLS_PARALLEL: true
-          COVERALLS_FLAG_NAME: intgr-php-${{ matrix.php_version }}-wp-${{ matrix.wp_version }}-ms
-        run: php-coveralls -v -x build/logs/clover-integration-ms.xml
+          COVERALLS_FLAG_NAME: php-${{ matrix.php_version }}-wp-${{ matrix.wp_version }}-ms
+        run: php-coveralls -v -x build/logs/clover-wp-ms.xml
 
   coveralls-finish:
-    needs: [unit-test, integration-test]
+    needs: [unit-test, wp-test]
     runs-on: ubuntu-latest
 
     steps:

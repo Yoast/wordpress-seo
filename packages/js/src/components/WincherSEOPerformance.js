@@ -466,7 +466,7 @@ export default function WincherSEOPerformance( props ) {
 
 			<ConnectToWincher isLoggedIn={ isLoggedIn } onLogin={ onLoginCallback } />
 			<GetUserMessage { ...props } onLogin={ onLoginCallback } />
-			<TableContent { ...props } historyDaysLimit={ trackingInfo?.historyDays || 0 } />
+			<TableContent { ...props } historyDaysLimit={ trackingInfo?.historyDays || 31 } />
 		</Wrapper>
 	);
 }

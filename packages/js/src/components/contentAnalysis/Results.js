@@ -293,6 +293,12 @@ class Results extends Component {
 
 		const labels = Object.assign( defaultLabels, resultCategoryLabels );
 
+		let marksButtonStatus = this.props.marksButtonStatus;
+		// If the marks are enabled, but we are also parsing shortcodes, disable the markers.
+		if ( marksButtonStatus === "enabled" && this.props.shortcodesForParsing.length > 0 ) {
+			marksButtonStatus = "disabled";
+		}
+
 		return (
 			<Fragment>
 				<ContentAnalysis
@@ -307,7 +313,7 @@ class Results extends Component {
 					onEditButtonClick={ this.handleEditButtonClick }
 					marksButtonClassName={ this.props.marksButtonClassName }
 					editButtonClassName={ this.props.editButtonClassName }
-					marksButtonStatus={ this.props.marksButtonStatus }
+					marksButtonStatus={ marksButtonStatus }
 					headingLevel={ 3 }
 					keywordKey={ this.props.keywordKey }
 					isPremium={ this.props.isPremium }
@@ -326,7 +332,7 @@ Results.propTypes = {
 	upsellResults: PropTypes.array,
 	marksButtonClassName: PropTypes.string,
 	editButtonClassName: PropTypes.string,
-	marksButtonStatus: PropTypes.string,
+	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled", "hidden" ] ),
 	setActiveMarker: PropTypes.func.isRequired,
 	setMarkerPauseStatus: PropTypes.func.isRequired,
 	activeMarker: PropTypes.string,
@@ -340,6 +346,7 @@ Results.propTypes = {
 		considerations: PropTypes.string,
 		goodResults: PropTypes.string,
 	} ),
+	shortcodesForParsing: PropTypes.array,
 	shouldUpsellHighlighting: PropTypes.bool,
 	highlightingUpsellLink: PropTypes.string,
 };
@@ -355,6 +362,7 @@ Results.defaultProps = {
 	location: "",
 	isPremium: false,
 	resultCategoryLabels: {},
+	shortcodesForParsing: [],
 	shouldUpsellHighlighting: false,
 	highlightingUpsellLink: "",
 };

@@ -16,7 +16,7 @@ import { LocationProvider } from "@yoast/externals/contexts";
  */
 export const isCloseEvent = ( event ) => {
 	let shouldClose = true;
-	if ( event.type === "blur" ) {
+	if ( event?.type === "blur" ) {
 		// Catch any blur events that are not supposed to blur to modal, by identifying the clicked item.
 		const { relatedTarget } = event;
 
