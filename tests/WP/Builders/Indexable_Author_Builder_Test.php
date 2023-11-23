@@ -91,7 +91,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$user_id = self::factory()->user->create_and_get( $user_args )->ID;
 		\update_user_meta( $user_id, 'wpseo_title', 'Title' );
 		\update_user_meta( $user_id, 'wpseo_metadesc', 'Description' );
-		\update_user_meta( $user_id, 'wpseo_noindex_author', 'on');
+		\update_user_meta( $user_id, 'wpseo_noindex_author', 'on' );
 
 		\wp_set_current_user( $user_id );
 
