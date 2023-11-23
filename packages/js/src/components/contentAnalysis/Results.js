@@ -1,18 +1,19 @@
-import { __ } from "@wordpress/i18n";
-import { doAction } from "@wordpress/hooks";
-import PropTypes from "prop-types";
 import { ContentAnalysis } from "@yoast/analysis-report";
-import { Component, Fragment } from "@wordpress/element";
-import { isUndefined } from "lodash";
-import { Paper } from "yoastseo";
-
-import mapResults from "./mapResults";
-import Modal, { defaultModalClassName } from "../modals/Modal";
-import { ModalSmallContainer } from "../modals/Container";
-import PremiumSEOAnalysisUpsell from "../modals/PremiumSEOAnalysisUpsell";
 import { IconButtonToggle } from "@yoast/components";
 import { Badge } from "@yoast/ui-library";
 import { LockClosedIcon } from "@heroicons/react/solid";
+import { __ } from "@wordpress/i18n";
+import { Component, Fragment } from "@wordpress/element";
+import { doAction } from "@wordpress/hooks";
+
+import { isUndefined } from "lodash";
+import PropTypes from "prop-types";
+import { Paper } from "yoastseo";
+
+import mapResults from "./mapResults";
+import { ModalSmallContainer } from "../modals/Container";
+import Modal, { defaultModalClassName } from "../modals/Modal";
+import PremiumSEOAnalysisUpsell from "../modals/PremiumSEOAnalysisUpsell";
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
@@ -95,13 +96,13 @@ class Results extends Component {
 				pressed={ isPressed }
 				ariaLabel={ ariaLabel }
 			/>
-			{ this.props.shouldUpsellHighlighting && <div className="yst-root">
-				<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--right-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
-					<LockClosedIcon
-						className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false }
-					/>
-				</Badge>
-			</div> }
+			{ this.props.shouldUpsellHighlighting &&
+				<div className="yst-root">
+					<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--right-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
+						<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false } />
+					</Badge>
+				</div>
+			}
 		</Fragment>;
 	}
 
@@ -289,25 +290,27 @@ class Results extends Component {
 	 *
 	 * @param {boolean} isOpen Whether the modal should be opened.
 	 * @param {function} closeModal A callback function invoked when the modal is closed.
-	 * @returns {wp.Element} The modal for the highlighting upsell element.
+	 * @returns {boolean|wp.Element} The modal for the highlighting upsell element, or false if the modal is closed.
 	 */
 	renderHighlightingUpsell( isOpen, closeModal ) {
 		const upsellDescription = __(
 			"Highlight areas of improvement in your text, no more searching for a needle in a haystack, straight to optimizing! Now also in Elementor!",
 			"wordpress-seo" );
 
-		return ( isOpen && <Modal
-			title={ __( "Unlock Premium SEO analysis", "wordpress-seo" ) }
-			onRequestClose={ closeModal }
-			additionalClassName=""
-			className={ `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding` }
-			id="yoast-premium-seo-analysis-modal"
-			shouldCloseOnClickOutside={ true }
-		>
-			<ModalSmallContainer>
-				<PremiumSEOAnalysisUpsell buyLink={ this.props.highlightingUpsellLink } description={ upsellDescription } />
-			</ModalSmallContainer>
-		</Modal> );
+		return isOpen && (
+			<Modal
+				title={ __( "Unlock Premium SEO analysis", "wordpress-seo" ) }
+				onRequestClose={ closeModal }
+				additionalClassName=""
+				className={ `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding` }
+				id="yoast-premium-seo-analysis-modal"
+				shouldCloseOnClickOutside={ true }
+			>
+				<ModalSmallContainer>
+					<PremiumSEOAnalysisUpsell buyLink={ this.props.highlightingUpsellLink } description={ upsellDescription } />
+				</ModalSmallContainer>
+			</Modal>
+		);
 	}
 
 	/**
