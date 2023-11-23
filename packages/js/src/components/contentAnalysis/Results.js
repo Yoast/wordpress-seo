@@ -303,7 +303,7 @@ class Results extends Component {
 				onRequestClose={ closeModal }
 				additionalClassName=""
 				className={ `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding` }
-				id="yoast-premium-seo-analysis-modal"
+				id="yoast-premium-seo-analysis-highlighting-modal"
 				shouldCloseOnClickOutside={ true }
 			>
 				<ModalSmallContainer>
