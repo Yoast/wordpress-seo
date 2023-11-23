@@ -11,7 +11,7 @@ import Modal, { defaultModalClassName } from "../modals/Modal";
 import { ModalSmallContainer } from "../modals/Container";
 import PremiumSEOAnalysisUpsell from "../modals/PremiumSEOAnalysisUpsell";
 import { IconButtonToggle } from "@yoast/components";
-import { Badge, useSvgAria } from "@yoast/ui-library";
+import { Badge } from "@yoast/ui-library";
 import { LockClosedIcon } from "@heroicons/react/solid";
 
 /**
@@ -85,7 +85,6 @@ class Results extends Component {
 		onClick,
 		isPressed,
 	} ) {
-		const svgAriaProps = useSvgAria();
 		return <Fragment>
 			<IconButtonToggle
 				marksButtonStatus={ status }
@@ -98,7 +97,9 @@ class Results extends Component {
 			/>
 			{ this.props.shouldUpsellHighlighting && <div className="yst-root">
 				<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--right-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
-					<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" { ...svgAriaProps } />
+					<LockClosedIcon
+						className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false }
+					/>
 				</Badge>
 			</div> }
 		</Fragment>;
