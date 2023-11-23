@@ -198,13 +198,13 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-				SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+				SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
 				FROM %i AS p
-				WHERE p.post_status IN (%s)
-					AND p.post_password = ''
-					AND p.post_author = %d
+				WHERE p.%i IN (%s)
+					AND p.%i = ''
+					AND p.%i = %d
 				",
-			[ 'wp_posts', 'publish', 1 ]
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ]
 		)->andReturn( 'PREPARED_QUERY' );
 
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
@@ -282,13 +282,13 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-				SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+				SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
 				FROM %i AS p
-				WHERE p.post_status IN (%s)
-					AND p.post_password = ''
-					AND p.post_author = %d
+				WHERE p.%i IN (%s)
+					AND p.%i = ''
+					AND p.%i = %d
 				",
-			[ 'wp_posts', 'publish', 1 ]
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ]
 		)->andReturn( 'PREPARED_QUERY' );
 
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
@@ -359,13 +359,13 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-				SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+				SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
 				FROM %i AS p
-				WHERE p.post_status IN (%s)
-					AND p.post_password = ''
-					AND p.post_author = %d
+				WHERE p.%i IN (%s)
+					AND p.%i = ''
+					AND p.%i = %d
 				",
-			[ 'wp_posts', 'publish', 1 ]
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ]
 		)->andReturn( 'PREPARED_QUERY' );
 
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
@@ -448,13 +448,13 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-				SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+				SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
 				FROM %i AS p
-				WHERE p.post_status IN (%s)
-					AND p.post_password = ''
-					AND p.post_author = %d
+				WHERE p.%i IN (%s)
+					AND p.%i = ''
+					AND p.%i = %d
 				",
-			[ 'wp_posts', 'publish', 1 ]
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ]
 		)->andReturn( 'PREPARED_QUERY' );
 
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(

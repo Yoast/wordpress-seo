@@ -120,7 +120,14 @@ class Indexable_Home_Page_Builder {
 		global $wpdb;
 		$post_statuses = $this->post_helper->get_public_post_statuses();
 
-		$replacements = \array_merge( [ $wpdb->posts ], $post_statuses );
+		$replacements   = [];
+		$replacements[] = 'post_modified_gmt';
+		$replacements[] = 'post_date_gmt';
+		$replacements[] = $wpdb->posts;
+		$replacements[] = 'post_status';
+		$replacements   = \array_merge( $replacements, $post_statuses );
+		$replacements[] = 'post_password';
+		$replacements[] = 'post_type';
 
 		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
 		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
@@ -128,14 +135,15 @@ class Indexable_Home_Page_Builder {
 		return $wpdb->get_row(
 			$wpdb->prepare(
 				'
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
 			FROM %i AS p
-			WHERE p.post_status IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
-				AND p.post_password = ''
-				AND p.post_type = 'post'
+			WHERE p.%i IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+				AND p.%i = ''
+				AND p.%i = 'post'
 			",
 				$replacements
 			)
 		);
+		//phpcs:enable
 	}
 }

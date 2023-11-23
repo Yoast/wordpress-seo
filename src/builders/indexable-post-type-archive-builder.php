@@ -138,21 +138,31 @@ class Indexable_Post_Type_Archive_Builder {
 		global $wpdb;
 		$post_statuses = $this->post_helper->get_public_post_statuses();
 
-		$replacements = \array_merge( [ $wpdb->posts ], $post_statuses, [ $post_type ] );
+		$replacements   = [];
+		$replacements[] = 'post_modified_gmt';
+		$replacements[] = 'post_date_gmt';
+		$replacements[] = $wpdb->posts;
+		$replacements[] = 'post_status';
+		$replacements   = \array_merge( $replacements, $post_statuses );
+		$replacements[] = 'post_password';
+		$replacements[] = 'post_type';
+		$replacements[] = $post_type;
 
 		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
 		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 		return $wpdb->get_row(
 			$wpdb->prepare(
 				'
-				SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+				SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
 				FROM %i AS p
-				WHERE p.post_status IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
-					AND p.post_password = ''
-					AND p.post_type = %s
+				WHERE p.%i IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+					AND p.%i = ''
+					AND p.%i = %s
 				",
 				$replacements
 			)
 		);
+		//phpcs:enable
 	}
 }

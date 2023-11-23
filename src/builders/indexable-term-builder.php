@@ -248,7 +248,23 @@ class Indexable_Term_Builder {
 		global $wpdb;
 		$post_statuses = $this->post_helper->get_public_post_statuses();
 
-		$replacements = \array_merge( [ $wpdb->posts, $wpdb->term_relationships, $wpdb->term_taxonomy, $taxonomy, $term_id ], $post_statuses );
+		$replacements   = [];
+		$replacements[] = 'post_modified_gmt';
+		$replacements[] = 'post_date_gmt';
+		$replacements[] = $wpdb->posts;
+		$replacements[] = $wpdb->term_relationships;
+		$replacements[] = 'object_id';
+		$replacements[] = 'ID';
+		$replacements[] = $wpdb->term_taxonomy;
+		$replacements[] = 'term_taxonomy_id';
+		$replacements[] = 'term_taxonomy_id';
+		$replacements[] = 'taxonomy';
+		$replacements[] = $taxonomy;
+		$replacements[] = 'term_id';
+		$replacements[] = $term_id;
+		$replacements[] = 'post_status';
+		$replacements   = \array_merge( $replacements, $post_statuses );
+		$replacements[] = 'post_password';
 
 		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
 		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
@@ -256,19 +272,20 @@ class Indexable_Term_Builder {
 		return $wpdb->get_row(
 			$wpdb->prepare(
 				'
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
 			FROM %i AS p
 			INNER JOIN %i AS term_rel
-				ON		term_rel.object_id = p.ID
+				ON		term_rel.%i = p.%i
 			INNER JOIN %i AS term_tax
-				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
-				AND		term_tax.taxonomy = %s
-				AND		term_tax.term_id = %d
-			WHERE	p.post_status IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
-				AND		p.post_password = ''
+				ON		term_tax.%i = term_rel.%i
+				AND		term_tax.%i = %s
+				AND		term_tax.%i = %d
+			WHERE	p.%i IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+				AND		p.%i = ''
 			",
 				$replacements
 			)
 		);
+		//phpcs:enable
 	}
 }
