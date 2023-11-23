@@ -181,6 +181,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -857,6 +858,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -1509,6 +1511,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -2137,6 +2140,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -2813,6 +2817,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -3526,6 +3531,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -4202,6 +4208,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -4708,6 +4715,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -5214,6 +5222,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -5793,6 +5802,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
