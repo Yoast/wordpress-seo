@@ -1,27 +1,24 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Formatter
- */
+namespace Yoast\WP\SEO\Tests\WP\Builders;
 
-use Yoast\WP\SEO\Helpers\Options_Helper;
+use Mockery;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
-use Yoast\WP\SEO\Helpers\String_Helper;
+use Yoast\WP\SEO\Builders\Indexable_Post_Type_Archive_Builder;
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Type_Not_Built_Exception;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
+use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Exceptions\Indexable\Author_Not_Built_Exception;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
+use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
  * Integration Test Class.
  *
- * @coversDefaultClass Yoast\WP\SEO\Builders\Indexable_Author_Builder
+ * @coversDefaultClass Yoast\WP\SEO\Builders\Indexable_Post_Type_Archive_Builder
  */
-class Indexable_Author_Builder_Test extends WPSEO_UnitTestCase {
+class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 
 	/**
 	 * The options helper.
@@ -29,13 +26,6 @@ class Indexable_Author_Builder_Test extends WPSEO_UnitTestCase {
 	 * @var Options_Helper
 	 */
 	private $options_helper;
-
-	/**
-	 * The author archive helper.
-	 *
-	 * @var Mockery\MockInterface|Author_Archive_Helper
-	 */
-	private $author_archive;
 
 	/**
 	 * The indexable builder versions value.
@@ -52,9 +42,23 @@ class Indexable_Author_Builder_Test extends WPSEO_UnitTestCase {
 	private $post_helper;
 
 	/**
+	 * The string helper.
+	 *
+	 * @var String_Helper
+	 */
+	private $string_helper;
+
+	/**
+	 * The post type helper.
+	 *
+	 * @var Mockery\MockInterface|Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
 	 * The instance.
 	 *
-	 * @var Indexable_Author_Builder
+	 * @var Indexable_Post_Type_Archive_Builder
 	 */
 	private $instance;
 
@@ -63,15 +67,13 @@ class Indexable_Author_Builder_Test extends WPSEO_UnitTestCase {
 	 */
 	public function setUp(): void {
 		parent::setUp();
-		$this->options_helper = new Options_Helper();
-		$this->author_archive = Mockery::mock( Author_Archive_Helper::class );
 		$this->versions       = new Indexable_Builder_Versions();
+		$this->options_helper = new Options_Helper();
+		$this->string_helper  = new String_Helper();
 
-		$string_helper     = new String_Helper();
-		$post_type_helper  = new Post_Type_Helper( $this->options_helper );
-		$this->post_helper = new Post_Helper( $string_helper, $post_type_helper );
-
-		$this->instance = new Indexable_Author_Builder( $this->author_archive, $this->versions, $this->options_helper, $this->post_helper );
+		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
+		$this->post_helper      = Mockery::mock( Post_Helper::class );
+		$this->instance         = new Indexable_Post_Type_Archive_Builder( $this->options_helper, $this->versions, $this->post_helper, $this->post_type_helper );
 	}
 
 	/**
@@ -84,44 +86,29 @@ class Indexable_Author_Builder_Test extends WPSEO_UnitTestCase {
 	 * @param bool  $is_post_public  Whether the post type is public.
 	 */
 	public function test_build( $post, $is_post_public ) {
+		$this->post_type_helper
+			->shouldReceive( 'is_post_type_archive_indexable' )
+			->once()
+			->andReturn( $is_post_public );
 
-		$user_args = [
-			'user_login' => 'paolo',
-			'user_pass'  => 'password',
-		];
-
-		$user_id = self::factory()->user->create_and_get( $user_args )->ID;
-
-		wp_set_current_user( $user_id );
+		$this->post_helper
+			->shouldReceive( 'get_public_post_statuses' )
+			->once()
+			->andReturn( [ 'publish' ] );
 
 		$post_type = $post['post_type'];
 		register_post_type( $post_type, [ 'public' => $is_post_public ] );
-		wp_insert_post( $post );
 
 		self::factory()->post->create( $post );
-
-		$this->author_archive->expects( 'are_disabled' )
-			->once()
-			->andReturn( false );
-
-		$this->author_archive->expects( 'author_has_public_posts_wp' )
-			->with( $user_id )
-			->once()
-			->andReturn( $is_post_public );
-
-		$this->author_archive->expects( 'author_has_public_posts' )
-			->with( $user_id )
-			->once()
-			->andReturn( $is_post_public );
 
 		$indexable      = new Indexable();
 		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
 
 		if ( ! $is_post_public ) {
-			$this->expectException( Author_Not_Built_Exception::class );
+			$this->expectException( Post_Type_Not_Built_Exception::class );
 		}
 
-		$result = $this->instance->build( $user_id, $indexable );
+		$result = $this->instance->build( $post_type, $indexable );
 
 		if ( $is_post_public ) {
 			$this->assertInstanceOf( Indexable::class, $result );

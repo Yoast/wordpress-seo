@@ -1,17 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Formatter
- */
+namespace Yoast\WP\SEO\Tests\WP\Builders;
 
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder;
-use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
 use Yoast\WP\SEO\Generated\Cached_Container;
-use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Tests\WP\TestCase;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
@@ -19,7 +15,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @coversDefaultClass Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder
  */
-class Indexable_Home_Page_Builder_Test extends WPSEO_UnitTestCase {
+class Indexable_Home_Page_Builder_Test extends TestCase {
 
 	/**
 	 * The options helper.

@@ -1,11 +1,7 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Formatter
- */
+namespace Yoast\WP\SEO\Tests\WP\Builders;
 
-use Yoast\WPTestUtils\WPIntegration\TestCase;
+use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
@@ -20,6 +16,7 @@ use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
+use Yoast\WP\SEO\Tests\WP\TestCase;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
