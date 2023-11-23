@@ -207,7 +207,7 @@ class Woocommerce_Editor_Initializer implements Initializer_Interface {
 	 * @return array The conditionals that must be met to load this.
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class, WooCommerce_Conditional::class ];
+		return [];// Admin_Conditional::class, WooCommerce_Conditional::class ];
 	}
 
 	/**
@@ -216,6 +216,9 @@ class Woocommerce_Editor_Initializer implements Initializer_Interface {
 	 * @return void
 	 */
 	public function initialize() {
+//		\add_filter( 'woocommerce_rest_prepare_product_object', [ $this, 'prepare_product_data' ], 10, 3 );
+//		\add_action( 'woocommerce_rest_insert_product_object', [ $this, 'save_product_data' ], 10, 3 );
+
 		// Specific "conditional" checks: current page and feature enabled.
 		if ( ! $this->is_on_page() || ! $this->is_product_block_editor_enabled() ) {
 			return;
@@ -243,20 +246,20 @@ class Woocommerce_Editor_Initializer implements Initializer_Interface {
 			return;
 		}
 
-//		\register_post_meta(
-//			'post',
-//			\WPSEO_Meta::$meta_prefix . 'focuskw',
-//			[
-//				'show_in_rest' => true,
-//				'single'       => true,
-//				'type'         => 'string',
-//				'sanitize_callback' => [ \WPSEO_Meta::class, 'sanitize_post_meta' ],
-//				'default' => '',
-//			]
-//		);
-//		var_dump( \apply_filters( "default_post_metadata", [], $post->ID, '', false, 'post' ) );
-//		var_dump( \get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true ) );
-//		die;
+		//		\register_post_meta(
+		//			'post',
+		//			\WPSEO_Meta::$meta_prefix . 'focuskw',
+		//			[
+		//				'show_in_rest' => true,
+		//				'single'       => true,
+		//				'type'         => 'string',
+		//				'sanitize_callback' => [ \WPSEO_Meta::class, 'sanitize_post_meta' ],
+		//				'default' => '',
+		//			]
+		//		);
+		//		var_dump( \apply_filters( "default_post_metadata", [], $post->ID, '', false, 'post' ) );
+		//		var_dump( \get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true ) );
+		//		die;
 
 		$this->asset_manager->enqueue_script( self::ASSET_HANDLE );
 		//		$this->asset_manager->enqueue_style( self::ASSET_HANDLE );
@@ -274,15 +277,15 @@ class Woocommerce_Editor_Initializer implements Initializer_Interface {
 	 * @see https://developer.wordpress.org/reference/functions/register_block_type/
 	 */
 	public function register_blocks() {
-//		\register_post_meta(
-//			'product',
-//			'_yoast_wpseo_focuskw',
-//			[
-//				'show_in_rest' => true,
-//				'single'       => true,
-//				'type'         => 'string',
-//			]
-//		);
+		//		\register_post_meta(
+		//			'product',
+		//			'_yoast_wpseo_focuskw',
+		//			[
+		//				'show_in_rest' => true,
+		//				'single'       => true,
+		//				'type'         => 'string',
+		//			]
+		//		);
 
 		foreach ( self::BLOCKS as $block ) {
 			\register_block_type( \WPSEO_PATH . 'packages/js/src/woocommerce-editor/blocks/' . $block );
@@ -340,6 +343,36 @@ class Woocommerce_Editor_Initializer implements Initializer_Interface {
 				'attributes' => [],
 			]
 		);
+	}
+
+	/**
+	 * Adds our data to the WooCommerce REST API product request.
+	 *
+	 * @param \WP_REST_Response $response The response.
+	 * @param \WC_Data          $data     The data.
+	 * @param \WP_REST_Request  $request  The request.
+	 *
+	 * @return mixed
+	 */
+	public function prepare_product_data( $response, $data, $request ) {
+		$id = $data->get_id();
+
+		$response->data['focuskw'] = \get_post_meta( $id, '_yoast_wpseo_focuskw', true );
+
+		return $response;
+	}
+
+	/**
+	 * Saves our product data when receiving a WooCommerce REST API product request.
+	 *
+	 * @param \WC_Data         $data     The data.
+	 * @param \WP_REST_Request $request  The request.
+	 * @param bool             $creating Whether this is a create or insert request.
+	 */
+	public function save_product_data( $data, $request, $creating = true ) {
+		var_dump( $data );
+		var_dump( $request->get_params() );
+		die;
 	}
 
 	/**

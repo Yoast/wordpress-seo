@@ -2,10 +2,11 @@ import { __experimentalUseProductEntityProp as useProductEntityProp, useValidati
 import { useBlockProps } from "@wordpress/block-editor";
 import { Slot } from "@wordpress/components";
 import { useEntityProp, useEntityRecord } from "@wordpress/core-data";
-import { useDispatch } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { useEffect } from "@wordpress/element";
 import { Root } from "@yoast/externals/contexts";
 import sortComponentsByRenderPriority from "../../../helpers/sortComponentsByRenderPriority";
+import { FocusKeyphrase } from "../../components/focus-keyphrase";
 import { SLOTS, STORES } from "../../constants";
 
 const ROOT_CONTEXT = { locationContext: "product-seo" };
@@ -29,7 +30,7 @@ export const Edit = ( { attributes, context: { postType } } ) => {
 
 	const validation = useValidation( "testing", async function validate( ...args ) {
 		console.error( "validating!", ...args );
-		return "TEST ERROR";
+		return false;// "TEST ERROR";
 	} );
 	window.test = validation;
 
@@ -70,13 +71,17 @@ export const Edit = ( { attributes, context: { postType } } ) => {
 	console.log( "editor data", { content, title, excerptOnly, slug, snippetPreviewImageUrl } );
 
 	//	const [ meta, setMeta ] = useEntityProp( "postType", postType, "meta_data" );
-	const [ metaFocusKeyphrase, setMetaFocusKeyphrase ] = useProductEntityProp( "meta_data._yoast_seo_focuskw", { postType, fallbackValue: "" } );
+	const [ metaFocusKeyphrase, setMetaFocusKeyphrase ] = useProductEntityProp( "meta_data._yoast_wpseo_focuskw", { postType, fallbackValue: "" } );
+	const focusKeyphrase = useSelect( select => select( STORES.editor ).getFocusKeyphrase(), [] );
 	console.log( { metaFocusKeyphrase } );
 
 	const { setFocusKeyword } = useDispatch( STORES.editor );
 	useEffect( () => {
 		setFocusKeyword( metaFocusKeyphrase );
 	}, [ metaFocusKeyphrase, setFocusKeyword ] );
+	//	useEffect( () => {
+	//		setMetaFocusKeyphrase( focusKeyphrase );
+	//	}, [ focusKeyphrase, setMetaFocusKeyphrase ] );
 
 	//	const metaFieldValue = meta._yoast_seo_focuskw;
 	//	const updateMetaValue = ( newValue ) => {
@@ -87,6 +92,7 @@ export const Edit = ( { attributes, context: { postType } } ) => {
 	return <div { ...blockProps }>
 		<Root context={ ROOT_CONTEXT }>
 			<div ref={ validation.ref } />
+			<FocusKeyphrase value={ metaFocusKeyphrase } onChange={ setMetaFocusKeyphrase } />
 			<Slot name={ SLOTS.seo }>
 				{ ( fills ) => sortComponentsByRenderPriority( fills ) }
 			</Slot>
