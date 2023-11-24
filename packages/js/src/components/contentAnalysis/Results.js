@@ -1,12 +1,19 @@
-import { __ } from "@wordpress/i18n";
-import { doAction } from "@wordpress/hooks";
-import PropTypes from "prop-types";
 import { ContentAnalysis } from "@yoast/analysis-report";
+import { IconButtonToggle } from "@yoast/components";
+import { Badge } from "@yoast/ui-library";
+import { LockClosedIcon } from "@heroicons/react/solid";
+import { __ } from "@wordpress/i18n";
 import { Component, Fragment } from "@wordpress/element";
+import { doAction } from "@wordpress/hooks";
+
 import { isUndefined } from "lodash";
+import PropTypes from "prop-types";
 import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
+import { ModalSmallContainer } from "../modals/Container";
+import Modal, { defaultModalClassName } from "../modals/Modal";
+import PremiumSEOAnalysisUpsell from "../modals/PremiumSEOAnalysisUpsell";
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
@@ -37,6 +44,8 @@ class Results extends Component {
 		this.handleMarkButtonClick = this.handleMarkButtonClick.bind( this );
 		this.handleEditButtonClick = this.handleEditButtonClick.bind( this );
 		this.handleResultsChange   = this.handleResultsChange.bind( this );
+		this.renderHighlightingUpsell = this.renderHighlightingUpsell.bind( this );
+		this.createMarkButton = this.createMarkButton.bind( this );
 	}
 
 	/**
@@ -55,6 +64,46 @@ class Results extends Component {
 				mappedResults: mapResults( this.props.results, this.props.keywordKey ),
 			} );
 		}
+	}
+
+	/**
+	 * Factory method which creates a new instance of the default mark button.
+	 *
+	 * @param {string} ariaLabel 	The button aria-label.
+	 * @param {string} id 			The button id.
+	 * @param {string} className 	The button class name.
+	 * @param {string} status 		Status of the buttons. Supports: "enabled", "disabled", "hidden".
+	 * @param {function} onClick 	Onclick handler.
+	 * @param {boolean} isPressed 	Whether the button is in a pressed state.
+	 *
+	 * @returns {JSX.Element} A new mark button.
+	 */
+	createMarkButton( {
+		ariaLabel,
+		id,
+		className,
+		status,
+		onClick,
+		isPressed,
+	} ) {
+		return <Fragment>
+			<IconButtonToggle
+				marksButtonStatus={ status }
+				className={ className }
+				onClick={ onClick }
+				id={ id }
+				icon="eye"
+				pressed={ isPressed }
+				ariaLabel={ ariaLabel }
+			/>
+			{ this.props.shouldUpsellHighlighting &&
+				<div className="yst-root">
+					<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--right-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
+						<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false } />
+					</Badge>
+				</div>
+			}
+		</Fragment>;
 	}
 
 	/**
@@ -237,6 +286,34 @@ class Results extends Component {
 	}
 
 	/**
+	 * Renders the modal for the highlighting upsell.
+	 *
+	 * @param {boolean} isOpen Whether the modal should be opened.
+	 * @param {function} closeModal A callback function invoked when the modal is closed.
+	 * @returns {boolean|wp.Element} The modal for the highlighting upsell element, or false if the modal is closed.
+	 */
+	renderHighlightingUpsell( isOpen, closeModal ) {
+		const upsellDescription = __(
+			"Highlight areas of improvement in your text, no more searching for a needle in a haystack, straight to optimizing! Now also in Elementor!",
+			"wordpress-seo" );
+
+		return isOpen && (
+			<Modal
+				title={ __( "Unlock Premium SEO analysis", "wordpress-seo" ) }
+				onRequestClose={ closeModal }
+				additionalClassName=""
+				className={ `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding` }
+				id="yoast-premium-seo-analysis-highlighting-modal"
+				shouldCloseOnClickOutside={ true }
+			>
+				<ModalSmallContainer>
+					<PremiumSEOAnalysisUpsell buyLink={ this.props.highlightingUpsellLink } description={ upsellDescription } />
+				</ModalSmallContainer>
+			</Modal>
+		);
+	}
+
+	/**
 	 * Renders the Results component.
 	 *
 	 * @returns {wp.Element} The React element.
@@ -289,6 +366,9 @@ class Results extends Component {
 					isPremium={ this.props.isPremium }
 					resultCategoryLabels={ labels }
 					onResultChange={ this.handleResultsChange }
+					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+					renderHighlightingUpsell={ this.renderHighlightingUpsell }
+					markButtonFactory={ this.createMarkButton }
 				/>
 			</Fragment>
 		);
@@ -315,6 +395,8 @@ Results.propTypes = {
 		goodResults: PropTypes.string,
 	} ),
 	shortcodesForParsing: PropTypes.array,
+	shouldUpsellHighlighting: PropTypes.bool,
+	highlightingUpsellLink: PropTypes.string,
 };
 
 Results.defaultProps = {
@@ -329,6 +411,8 @@ Results.defaultProps = {
 	isPremium: false,
 	resultCategoryLabels: {},
 	shortcodesForParsing: [],
+	shouldUpsellHighlighting: false,
+	highlightingUpsellLink: "",
 };
 
 export default Results;
