@@ -615,6 +615,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'elementor-' . $flat_version,
 			],
 			[
+				'name' => 'site-editor',
+				'src'  => 'site-editor-' . $flat_version,
+			],
+			[
 				'name' => 'tailwind',
 				'src'  => 'tailwind-' . $flat_version,
 			],
