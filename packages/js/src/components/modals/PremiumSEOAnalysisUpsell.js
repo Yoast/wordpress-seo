@@ -5,6 +5,10 @@ import { useRootContext } from "@yoast/externals/contexts";
 import PropTypes from "prop-types";
 import UpsellBox from "../UpsellBox";
 
+const upsellDescription = __(
+	"Check your text on even more SEO criteria and get an enhanced keyphrase analysis, making it easier to optimize your content.",
+	"wordpress-seo" );
+
 /**
  * Creates the content for a PremiumSEOAnalysisUpsell modal.
  *
@@ -28,7 +32,7 @@ const PremiumSEOAnalysisUpsell = ( props ) => {
 	return (
 		<UpsellBox
 			title={ __( "Get more help with writing content that ranks", "wordpress-seo" ) }
-			description={ __( "Check your text on even more SEO criteria and get an enhanced keyphrase analysis, making it easier to optimize your content.", "wordpress-seo" ) }
+			description={ props.description }
 			benefitsTitle={ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
 			benefits={ benefits }
 			upsellButtonText={
@@ -52,6 +56,11 @@ const PremiumSEOAnalysisUpsell = ( props ) => {
 
 PremiumSEOAnalysisUpsell.propTypes = {
 	buyLink: PropTypes.string.isRequired,
+	description: PropTypes.string,
+};
+
+PremiumSEOAnalysisUpsell.defaultProps = {
+	description: upsellDescription,
 };
 
 
