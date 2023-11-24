@@ -7,7 +7,6 @@ use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Built_Exception;
-use Yoast\WP\SEO\Generated\Cached_Container;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
@@ -28,55 +27,6 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 class Indexable_Term_Builder_Test extends TestCase {
 
 	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options_helper;
-
-	/**
-	 * The taxonomy helper.
-	 *
-	 * @var Taxonomy_Helper
-	 */
-	private $taxonomy_helper;
-
-	/**
-	 * The image helper.
-	 *
-	 * @var Mockery\MockInterface|Image_Helper
-	 */
-	private $image_helper;
-
-	/**
-	 * The image helper.
-	 *
-	 * @var Mockery\MockInterface|Open_Graph_Image_Helper
-	 */
-	private $open_graph_image_helper;
-
-	/**
-	 * The image helper.
-	 *
-	 * @var Mockery\MockInterface|Twitter_Image_Helper
-	 */
-	private $twitter_image_helper;
-
-	/**
-	 * The indexable builder versions value.
-	 *
-	 * @var Indexable_Builder_Versions
-	 */
-	private $versions;
-
-	/**
-	 * The post helper.
-	 *
-	 * @var Post_Helper
-	 */
-	private $post_helper;
-
-	/**
 	 * The instance.
 	 *
 	 * @var Indexable_Term_Builder
@@ -90,6 +40,11 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 */
 	private $term_id;
 
+	/**
+	 * Holds the meta data for our term.
+	 *
+	 * @var array
+	 */
 	private $wpseo_taxonomy_meta;
 
 	/**
@@ -130,22 +85,18 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		update_option( 'wpseo_taxonomy_meta', $this->wpseo_taxonomy_meta );
 
-		$container = $this->get_container();
-
-		$this->options_helper = new Options_Helper();
-		$this->versions       = new Indexable_Builder_Versions();
-
-		$this->taxonomy_helper = $container->get( 'Yoast\WP\SEO\Helpers\Taxonomy_Helper' );
-		$this->post_helper     = $container->get( 'Yoast\WP\SEO\Helpers\Post_Helper' );
-
-		$this->instance = new Indexable_Term_Builder( $this->taxonomy_helper, $this->versions, $this->post_helper );
-
+		$this->instance = new Indexable_Term_Builder(
+			YoastSEO()->helpers->taxonomy,
+			YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
+			YoastSEO()->helpers->post
+		);
 
 		$this->instance->set_social_image_helpers(
-			$container->get( 'Yoast\WP\SEO\Helpers\Image_Helper' ),
-			$container->get( 'Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper' ),
-			$container->get( 'Yoast\WP\SEO\Helpers\Twitter\Image_Helper' )
-		);  }
+			YoastSEO()->helpers->image,
+			YoastSEO()->classes->get( 'Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper' ),
+			YoastSEO()->classes->get( 'Yoast\WP\SEO\Helpers\Twitter\Image_Helper' )
+		);
+	}
 
 	/**
 	 * Tests the build method's happy path.
@@ -235,20 +186,5 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$this->expectException( Invalid_Term_Exception::class );
 
 		$this->instance->build( $term, $indexable );
-	}
-
-	/**
-	 * Method to get our service container.
-	 *
-	 * @return Cached_Container|null
-	 */
-	private function get_container() {
-		if ( \file_exists( __DIR__ . '/../../../src/generated/container.php' ) ) {
-			require_once __DIR__ . '/../../../src/generated/container.php';
-
-			return new Cached_Container();
-		}
-
-		return null;
 	}
 }
