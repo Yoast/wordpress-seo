@@ -845,13 +845,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			return;
 		}
-
+		$wpseo_always_register_metaboxes_on_admin_filter = apply_filters( 'wpseo_always_register_metaboxes_on_admin', false );
+		$display_metabox = $this->display_metabox();
 		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
-		if ( ( $is_editor === false && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->display_metabox() === false ) {
-			return;
+		if( $pagenow !== 'site-editor.php' ){
+			if ( ( $is_editor === false && $wpseo_always_register_metaboxes_on_admin_filter === false ) || $display_metabox === false ) {
+				return;
+			}
 		}
-
+	
 		$post_id = get_queried_object_id();
+		if( $pagenow === 'site-editor.php'){
+			$post_id = get_the_ID();
+		}
+		
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( empty( $post_id ) && isset( $_GET['post'] ) && is_string( $_GET['post'] ) ) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
