@@ -339,6 +339,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Outputs the meta box.
 	 */
 	public function meta_box() {
+		// These hidden fields are used for the sidebar.
 		$this->render_hidden_fields();
 		$this->render_tabs();
 	}

@@ -19,7 +19,7 @@ window.wpseoShortcodePluginL10n = window.wpseoScriptData.analysis.plugins.shortc
 window.YoastSEO = window.YoastSEO || {};
 
 domReady( () => {
-	// Initialize the tab behavior of the metabox.
+	// Initialize the tab behavior of the metabox. Can be removed without breaking sidebar.
 	initTabs( jQuery );
 
 	// Initialize the primary category integration.
