@@ -101,6 +101,9 @@ jobs:
           grunt --version
           yarn run jest --version
 
+      - name: Build all packages
+        run: yarn run build --ignore "@yoast/wordpress-seo"
+
       - name: Show Jest version
         run: yarn run jest --version
         working-directory: packages/${{ matrix.package }}
@@ -193,6 +196,9 @@ jobs:
           yarn --version
           grunt --version
           yarn run jest --version
+
+      - name: Build all packages
+        run: yarn run build --ignore "@yoast/wordpress-seo"
 
       - name: Show Jest version
         if: ${{ steps.checks-run.outputs.should == 'true' }}
