@@ -25,6 +25,8 @@ const permanentFilters = [
 	elementHasClass( "elementor-icon-box-wrapper" ),
 	elementHasClass( "elementor-counter" ),
 	elementHasClass( "elementor-progress-wrapper" ),
+	// This element is used for the progress bar widget title.
+	elementHasClass( "elementor-title" ),
 	elementHasClass( "elementor-alert" ),
 	elementHasClass( "elementor-soundcloud-wrapper" ),
 	elementHasClass( "elementor-shortcode" ),

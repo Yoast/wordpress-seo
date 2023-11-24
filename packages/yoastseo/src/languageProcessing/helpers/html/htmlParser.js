@@ -44,6 +44,7 @@ const IGNORED_CLASSES = [
 	"elementor-soundcloud-wrapper",
 	"elementor-shortcode",
 	"elementor-menu-anchor",
+	"elementor-title",
 ];
 
 /**
