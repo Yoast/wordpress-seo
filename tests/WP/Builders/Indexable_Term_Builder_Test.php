@@ -83,10 +83,52 @@ class Indexable_Term_Builder_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * The term id.
+	 *
+	 * @var int
+	 */
+	private $term_id;
+
+	private $wpseo_taxonomy_meta;
+
+	/**
 	 * Sets up the test class.
 	 */
 	public function setUp(): void {
 		parent::setUp();
+
+		$post_id = self::factory()->post->create(
+			[
+				'post_title'  => 'Test post',
+				'post_date'   => '1978-09-13 08:50:00',
+				'post_status' => 'publish',
+			]
+		);
+
+		$this->term_id = self::factory()->category->create(
+			[
+				'name'     => 'test_term',
+				'taxonomy' => 'category',
+			]
+		);
+
+		self::factory()->term->add_post_terms( $post_id, $this->term_id, 'category', true );
+
+		$this->wpseo_taxonomy_meta = [
+			'category' => [
+				$this->term_id            => [
+					'wpseo_focuskw'        => 'cool category',
+					'wpseo_linkdex'        => '39',
+					'wpseo_content_score'  => '0',
+					'wpseo_noindex'        => 'index',
+					'wpseo_is_cornerstone' => '1',
+				],
+				'wpseo_already_validated' => 'true',
+			],
+		];
+
+		update_option( 'wpseo_taxonomy_meta', $this->wpseo_taxonomy_meta );
+
 		$this->options_helper = new Options_Helper();
 		$this->versions       = new Indexable_Builder_Versions();
 
@@ -110,29 +152,32 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
-		$post_data = [
-			'post_title'  => 'Test post',
-			'post_date'   => '1978-09-13 08:50:00',
-			'post_status' => 'publish',
-		];
-
-		$post_id = self::factory()->post->create( $post_data );
-		$term_id = self::factory()->category->create();
-		self::factory()->term->add_post_terms( $post_id, $term_id, 'category', true );
+		$term = \get_term( $this->term_id );
 
 		$indexable      = new Indexable();
 		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
 
 		$this->image_helper
 			->shouldReceive( 'get_term_content_image' )
-			->with( $term_id )
+			->with( $this->term_id )
 			->once()
-			->andReturn( 'lel' );
+			->andReturn( 'content' );
 
-		$result = $this->instance->build( $term_id, $indexable );
+		$result = $this->instance->build( $this->term_id, $indexable );
 
-		$this->assertInstanceOf( Indexable::class, $result );
-		$this->assertEquals( '1978-09-13 08:50:00', $result->object_published_at );
+		$this->assertInstanceOf( Indexable::class, $result, 'The result should be an instance of Indexable.' );
+		$this->assertEquals( 'term', $result->object_type, 'The object type should be term.' );
+		$this->assertEquals( $this->term_id, $result->object_id, 'The object id should be the term id.' );
+		$this->assertEquals( \get_current_blog_id(), $result->blog_id, 'The blog id should be the current blog id.' );
+		$this->assertEquals( $term->taxonomy, $result->object_sub_type, 'The object sub type should be the term taxonomy.' );
+		$this->assertEquals( $term->name, $result->breadcrumb_title, 'The breadcrumb title should be the term name.' );
+		$this->assertEquals( \get_term_link( $term, $term->taxonomy ), $result->permalink, 'The permalink should be the term link.' );
+		$this->assertEquals( $this->wpseo_taxonomy_meta['category'][ $this->term_id ]['wpseo_linkdex'], $result->primary_focus_keyword_score, 'The primary focus keyword score should be the term linkdex.' );
+		$this->assertTrue( $result->is_public, 'The term should be public.' );
+		$this->assertFalse( $result->is_robots_noindex, 'The term should not be noindex.' );
+		$this->assertTrue( $result->is_cornerstone, 'The term should be a cornerstone.' );
+
+		$this->assertEquals( '1978-09-13 08:50:00', $result->object_published_at, 'The object published at should be the post date.' );
 	}
 
 	/**
@@ -157,7 +202,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_category_not_indexable() {
-
 		register_taxonomy(
 			'test_tax',
 			'post',
@@ -182,11 +226,11 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$this->instance->build( $term_id, $indexable );
 	}
 
-		/**
-		 * Tests the build method when the termpassed to the build function is invalid.
-		 *
-		 * @covers ::build
-		 */
+	/**
+	 * Tests the build method when the termpassed to the build function is invalid.
+	 *
+	 * @covers ::build
+	 */
 	public function test_build_invalid_term() {
 		$term = '';
 
