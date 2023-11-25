@@ -61,7 +61,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # The prefix-dependencies task makes use of reflection-based PHP code that only works on PHP > 7.2.
       - name: Install PHP 7.x for generating the vendor_prefixed directory and dependency injection
@@ -187,7 +187,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # The prefix-dependencies task makes use of reflection-based PHP code that only works on PHP > 7.2.
       - name: Install PHP 7.x for generating the vendor_prefixed directory and dependency injection

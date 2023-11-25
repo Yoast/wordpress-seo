@@ -57,7 +57,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # The ubuntu images come with Node, npm and yarn pre-installed.
       # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
