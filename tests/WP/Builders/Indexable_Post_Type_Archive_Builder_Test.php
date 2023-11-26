@@ -102,7 +102,7 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 
 		self::factory()->post->create( $post );
 
-		$indexable = new Indexable();
+		$indexable      = new Indexable();
 		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
 
 		$this->expectException( Post_Type_Not_Built_Exception::class );
