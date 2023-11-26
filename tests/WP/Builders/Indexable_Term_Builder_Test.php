@@ -138,6 +138,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
 
 		$this->expectException( Term_Not_Found_Exception::class );
+		$this->expectExceptionMessage( 'The term could not be found.' );
 
 		$this->instance->build( $term_id, $indexable );
 	}
@@ -168,6 +169,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
 
 		$this->expectException( Term_Not_Built_Exception::class );
+		$this->expectExceptionMessage( "The term $term_id could not be built because it's not indexable" );
 
 		$this->instance->build( $term_id, $indexable );
 	}
@@ -184,6 +186,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
 
 		$this->expectException( Invalid_Term_Exception::class );
+		$this->expectExceptionMessage( 'The term is considered invalid. The following reason was given by WordPress:' );
 
 		$this->instance->build( $term, $indexable );
 	}

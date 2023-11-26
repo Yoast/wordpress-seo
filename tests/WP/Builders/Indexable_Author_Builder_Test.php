@@ -56,7 +56,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the build method.
+	 * Tests the build method's happy path.
 	 *
 	 * @covers ::build
 	 */
@@ -75,20 +75,20 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$result = $this->instance->build( $this->user_id, $indexable );
 
-		$this->assertEquals( $this->user_id, $result->object_id );
-		$this->assertEquals( 'user', $result->object_type );
-		$this->assertEquals( \get_author_posts_url( $this->user_id ), $result->permalink );
-		$this->assertEquals( false, $result->is_cornerstone );
-		$this->assertEquals( 'Title', $result->title );
-		$this->assertEquals( 'Description', $result->description );
-		$this->assertEquals( true, $result->is_robots_noindex );
-		$this->assertNull( $result->is_robots_nofollow );
-		$this->assertNull( $result->is_robots_noarchive );
-		$this->assertNull( $result->is_robots_noimageindex );
-		$this->assertNull( $result->is_robots_nosnippet );
-		$this->assertEquals( \get_current_blog_id(), $result->blog_id );
-		$this->assertInstanceOf( Indexable::class, $result );
-		$this->assertEquals( '1978-09-13 08:50:00', $result->object_published_at );
+		$this->assertEquals( $this->user_id, $result->object_id, 'object_id is not correct.' );
+		$this->assertEquals( 'user', $result->object_type, 'object_type should be "user".' );
+		$this->assertEquals( \get_author_posts_url( $this->user_id ), $result->permalink, 'permalink is not correct.' );
+		$this->assertEquals( false, $result->is_cornerstone, 'is_cornerstone should be false.' );
+		$this->assertEquals( 'Title', $result->title, 'title should be "title".' );
+		$this->assertEquals( 'Description', $result->description, 'description should be "description".' );
+		$this->assertEquals( true, $result->is_robots_noindex, 'is_robots_noindex should be true.' );
+		$this->assertNull( $result->is_robots_nofollow, 'is_robots_nofollow should be null.' );
+		$this->assertNull( $result->is_robots_noarchive, 'is_robots_noarchive should be null.' );
+		$this->assertNull( $result->is_robots_noimageindex, 'is_robots_noimageindex should be null.' );
+		$this->assertNull( $result->is_robots_nosnippe, 'is_robots_nosnippe should be null.' );
+		$this->assertEquals( \get_current_blog_id(), $result->blog_id, 'blog_id should be the current blog id.' );
+		$this->assertInstanceOf( Indexable::class, $result, 'result should be an instance of Indexable.' );
+		$this->assertEquals( '1978-09-13 08:50:00', $result->object_published_at, 'object_published_at should be "1978-09-13 08:50:00".' );
 	}
 
 	/**
@@ -98,6 +98,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 */
 	public function test_build_when_author_has_no_public_posts() {
 		$this->expectException( Author_Not_Built_Exception::class );
+		$this->expectExceptionMessage( 'Indexable for author with id ' . \get_current_user_id() . ' is not being built, since author archives are not indexed for users without posts.' );
 
 		$this->instance->build( $this->user_id, new Indexable() );
 	}
@@ -120,6 +121,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		YoastSEO()->helpers->options->set( 'disable-author', true );
 
 		$this->expectException( Author_Not_Built_Exception::class );
+		$this->expectExceptionMessage( 'Indexable for author with id ' . \get_current_user_id() . ' is not being built, since author archives are disabled.' );
 
 		$this->instance->build( $this->user_id, new Indexable() );
 	}
@@ -138,19 +140,19 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$result = $this->instance->build( $this->user_id, $indexable );
 
-		$this->assertEquals( $this->user_id, $result->object_id );
-		$this->assertEquals( 'user', $result->object_type );
-		$this->assertEquals( \get_author_posts_url( $this->user_id ), $result->permalink );
-		$this->assertEquals( false, $result->is_cornerstone );
-		$this->assertEquals( 'Title', $result->title );
-		$this->assertEquals( 'Description', $result->description );
-		$this->assertEquals( true, $result->is_robots_noindex );
-		$this->assertNull( $result->is_robots_nofollow );
-		$this->assertNull( $result->is_robots_noarchive );
-		$this->assertNull( $result->is_robots_noimageindex );
-		$this->assertNull( $result->is_robots_nosnippet );
-		$this->assertEquals( \get_current_blog_id(), $result->blog_id );
-		$this->assertInstanceOf( Indexable::class, $result );
-		$this->assertEquals( null, $result->object_published_at );
+		$this->assertEquals( $this->user_id, $result->object_id, 'object_id is not correct.' );
+		$this->assertEquals( 'user', $result->object_type, 'object_type should be "user".' );
+		$this->assertEquals( \get_author_posts_url( $this->user_id ), $result->permalink, 'permalink is not correct.' );
+		$this->assertEquals( false, $result->is_cornerstone, 'is_cornerstone should be false.' );
+		$this->assertEquals( 'Title', $result->title, 'title should be "title".' );
+		$this->assertEquals( 'Description', $result->description, 'description should be "description".' );
+		$this->assertEquals( true, $result->is_robots_noindex, 'is_robots_noindex should be true.' );
+		$this->assertNull( $result->is_robots_nofollow, 'is_robots_nofollow should be null.' );
+		$this->assertNull( $result->is_robots_noarchive, 'is_robots_noarchive should be null.' );
+		$this->assertNull( $result->is_robots_noimageindex, 'is_robots_noimageindex should be null.' );
+		$this->assertNull( $result->is_robots_nosnippe, 'is_robots_nosnippe should be null.' );
+		$this->assertEquals( \get_current_blog_id(), $result->blog_id, 'blog_id should be the current blog id.' );
+		$this->assertInstanceOf( Indexable::class, $result, 'result should be an instance of Indexable.' );
+		$this->assertNull( $result->object_published_at, 'object_published_at should be null.' );
 	}
 }

@@ -42,7 +42,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the build method.
+	 * Tests the build method's happy path.
 	 *
 	 * @covers ::build
 	 */
@@ -63,21 +63,21 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		$result = $this->instance->build( $indexable );
 
-		$this->assertInstanceOf( Indexable::class, $result );
-		$this->assertEquals( '1978-09-13 08:50:00', $result->object_published_at );
-		$this->assertEquals( '1978-09-13 08:50:00', $result->object_last_modified );
-		$this->assertEquals( 'home-page', $result->object_type );
-		$this->assertEquals( YoastSEO()->helpers->options->get( 'title-home-wpseo' ), $result->title );
-		$this->assertEquals( YoastSEO()->helpers->options->get( 'breadcrumbs-home' ), $result->breadcrumb_title );
-		$this->assertEquals( YoastSEO()->helpers->url->home(), $result->permalink );
-		$this->assertEquals( $description, $result->description );
-		$this->assertEquals( \get_current_blog_id(), $result->blog_id );
-		$this->assertNull( $result->open_graph_image_source );
-		$this->assertNull( $result->open_graph_image_meta );
-		$this->assertEquals( YoastSEO()->helpers->options->get( 'open_graph_frontpage_title' ), $result->open_graph_title );
-		$this->assertEquals( YoastSEO()->helpers->options->get( 'open_graph_frontpage_image' ), $result->open_graph_image );
-		$this->assertEquals( YoastSEO()->helpers->options->get( 'open_graph_frontpage_image_id' ), $result->open_graph_image_id );
-		$this->assertEquals( YoastSEO()->helpers->options->get( 'open_graph_frontpage_desc' ), $result->open_graph_description );
+		$this->assertInstanceOf( Indexable::class, $result, 'The result should be an instance of Indexable.' );
+		$this->assertEquals( '1978-09-13 08:50:00', $result->object_published_at, 'object_published_at should be 1978-09-13 08:50:00.' );
+		$this->assertEquals( '1978-09-13 08:50:00', $result->object_last_modified, 'object_last_modified should be 1978-09-13 08:50:00.' );
+		$this->assertEquals( 'home-page', $result->object_type, 'object_type should be home-page.' );
+		$this->assertEquals( YoastSEO()->helpers->options->get( 'title-home-wpseo' ), $result->title, 'title should be the same as the title-home-wpseo option.' );
+		$this->assertEquals( YoastSEO()->helpers->options->get( 'breadcrumbs-home' ), $result->breadcrumb_title, 'breadcrumb_title should be the same as the breadcrumbs-home option.' );
+		$this->assertEquals( YoastSEO()->helpers->url->home(), $result->permalink, 'permalink should be the same as the home url.' );
+		$this->assertEquals( $description, $result->description, 'description is not correct.' );
+		$this->assertEquals( \get_current_blog_id(), $result->blog_id, 'blog_id should be the id of the current blog.' );
+		$this->assertNull( $result->open_graph_image_source, 'open_graph_image_source should be null.' );
+		$this->assertNull( $result->open_graph_image_meta, 'open_graph_image_meta should be null.' );
+		$this->assertEquals( YoastSEO()->helpers->options->get( 'open_graph_frontpage_title' ), $result->open_graph_title, 'open_graph_title should be the same as the open_graph_frontpage_title option.' );
+		$this->assertEquals( YoastSEO()->helpers->options->get( 'open_graph_frontpage_image' ), $result->open_graph_image, 'open_graph_image should be the same as the open_graph_frontpage_image option.' );
+		$this->assertEquals( YoastSEO()->helpers->options->get( 'open_graph_frontpage_image_id' ), $result->open_graph_image_id, 'open_graph_image_id should be the same as the open_graph_frontpage_image_id option.' );
+		$this->assertEquals( YoastSEO()->helpers->options->get( 'open_graph_frontpage_desc' ), $result->open_graph_description, 'open_graph_description should be the same as the open_graph_frontpage_desc option.' );
 	}
 
 	/**
@@ -104,8 +104,8 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		$result = $this->instance->build( $indexable );
 
-		$this->assertInstanceOf( Indexable::class, $result );
-		$this->assertEquals( $fallback_description, $result->description );
+		$this->assertInstanceOf( Indexable::class, $result, 'The result should be an instance of Indexable.' );
+		$this->assertEquals( $fallback_description, $result->description, 'description is not correct.' );
 	}
 
 	/**
@@ -167,8 +167,8 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		$result = $this->instance->build( $indexable );
 
-		$this->assertInstanceOf( Indexable::class, $result );
-		$this->assertEquals( \home_url() . $fake_image_path, $result->open_graph_image );
-		$this->assertEqualsCanonicalizing( $expected_image, (array) json_decode( $result->open_graph_image_meta ) );
+		$this->assertInstanceOf( Indexable::class, $result, 'The result should be an instance of Indexable.' );
+		$this->assertEquals( \home_url() . $fake_image_path, $result->open_graph_image, 'open_graph_image is not correct.' );
+		$this->assertEqualsCanonicalizing( $expected_image, (array) json_decode( $result->open_graph_image_meta ), 'open_graph_image_meta is not correct.' );
 	}
 }
