@@ -103,6 +103,7 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 		self::factory()->post->create( $post );
 
 		$indexable = new Indexable();
+		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
 
 		$this->expectException( Post_Type_Not_Built_Exception::class );
 		$this->expectExceptionMessage( 'The post type ' . $post_type . ' could not be indexed because it does not meet indexing requirements.' );
@@ -128,6 +129,7 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 		);
 
 		$indexable = new Indexable();
+		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
 
 		$this->expectException( Post_Type_Not_Built_Exception::class );
 		$this->expectExceptionMessage( 'The post type ' . $post_type . ' could not be indexed because it does not meet indexing requirements.' );
