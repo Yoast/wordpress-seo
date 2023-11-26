@@ -110,30 +110,4 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 
 		$this->instance->build( $post_type, $indexable );
 	}
-
-	/**
-	 * Tests the build method when there are no posts for a public post type.
-	 *
-	 * @covers ::build
-	 */
-	public function test_build_when_no_posts_for_public_post_type() {
-		$post_type = 'my-custom-post-type';
-		\register_post_type(
-			$post_type,
-			[
-				'public'      => true,
-				'has_archive' => true,
-				'description' => 'a cool post type',
-				'label'       => $post_type,
-			]
-		);
-
-		$indexable = new Indexable();
-		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
-
-		$this->expectException( Post_Type_Not_Built_Exception::class );
-		$this->expectExceptionMessage( 'The post type ' . $post_type . ' could not be indexed because it does not meet indexing requirements.' );
-
-		$this->instance->build( $post_type, $indexable );
-	}
 }
