@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\WP\Builders;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Author_Not_Built_Exception;
+use Yoast\WP\SEO\Generators\Schema\Author;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
@@ -154,5 +155,39 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->assertEquals( \get_current_blog_id(), $result->blog_id, 'blog_id should be the current blog id.' );
 		$this->assertInstanceOf( Indexable::class, $result, 'result should be an instance of Indexable.' );
 		$this->assertNull( $result->object_published_at, 'object_published_at should be null.' );
+	}
+
+	/**
+	 * Tests the build method in case wpseo_should_build_and_save_user_indexable is used.
+	 *
+	 * @covers ::build
+	 */
+	public function test_build_when_author_is_filtered() {
+
+		YoastSEO()->helpers->options->set( 'noindex-author-noposts-wpseo', false );
+
+		self::factory()->post->create(
+			[
+				'post_type'   => 'post',
+				'post_date'   => '1978-09-13 08:50:00',
+				'post_status' => 'publish',
+				'post_author' => $this->user_id,
+			]
+		);
+
+		YoastSEO()->helpers->options->set( 'disable-author', true );
+
+		\add_filter(
+			'wpseo_should_build_and_save_user_indexable',
+			static function( $exception, $user_id ) {
+				return new Author_Not_Built_Exception( 'Author not built because of filter.' );
+			},
+			10,
+			2
+		);
+		$this->expectException( Author_Not_Built_Exception::class );
+		$this->expectExceptionMessage( 'Author not built because of filter' );
+
+		$this->instance->build( $this->user_id, new Indexable() );
 	}
 }
