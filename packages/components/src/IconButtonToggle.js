@@ -9,9 +9,11 @@ import { colors, rgba } from "@yoast/style-guide";
 import SvgIcon from "./SvgIcon";
 
 const IconButtonBase = styled.button`
+	align-items: center;
+	justify-content: center;
 	box-sizing: border-box;
 	min-width: 32px;
-	display: inline-block;
+	display: inline-flex;
 	border: 1px solid ${ colors.$color_button_border };
 	background-color: ${ props => props.pressed ? props.pressedBackground : props.unpressedBackground };
 	box-shadow: ${ props => props.pressed
