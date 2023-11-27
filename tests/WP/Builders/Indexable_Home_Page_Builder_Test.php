@@ -36,8 +36,8 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		$this->instance->set_social_image_helpers(
 			YoastSEO()->helpers->image,
-			YoastSEO()->classes->get( 'Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper' ),
-			YoastSEO()->classes->get( 'Yoast\WP\SEO\Helpers\Twitter\Image_Helper' )
+			YoastSEO()->helpers->open_graph->image,
+			YoastSEO()->helpers->twitter->image
 		);
 	}
 
