@@ -40,7 +40,7 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 			{
 				sprintf(
 					/* translators: 1: Yoast SEO. */
-					__( "Can we collect anonymous information about your website to enhance $1%s?", "wordpress-seo" ),
+					__( "Can we collect anonymous information about your website to enhance %1$s?", "wordpress-seo" ),
 					"Yoast SEO"
 				)
 			}
