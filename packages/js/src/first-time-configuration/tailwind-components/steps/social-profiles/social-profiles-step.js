@@ -62,7 +62,7 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 		return <Fragment>
 			<p>{
 				__(
-					"We need a little more help from you! Add your organization's Facebook and Twitter profile so we can optimize the metadata for those platforms too.",
+					"Fantastic work! Add your organization's social media accounts below. This allows us to fine-tune the metadata for these platforms.",
 					"wordpress-seo"
 				)
 			}</p>
