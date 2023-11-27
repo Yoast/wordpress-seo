@@ -4,8 +4,6 @@ import { filter, flatMap, isEmpty, negate } from "lodash-es";
 // Internal dependencies.
 import { getBlocks } from "../html/html.js";
 import { imageRegex } from "../image/imageInText";
-import excludeTableOfContentsTag from "../sanitize/excludeTableOfContentsTag";
-import excludeEstimatedReadingTime from "../sanitize/excludeEstimatedReadingTime";
 import { stripBlockTagsAtStartEnd } from "../sanitize/stripHTMLTags";
 import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace";
 import defaultSentenceTokenizer from "./memoizedSentenceTokenizer";
@@ -27,10 +25,6 @@ const paragraphTagsRegex = new RegExp( "^(<p>|</p>)$" );
  */
 export default function( text, memoizedTokenizer = defaultSentenceTokenizer ) {
 	// We don't remove the other HTML tags here since removing them might lead to incorrect results when running the sentence tokenizer.
-	// Remove Table of Contents.
-	text = excludeTableOfContentsTag( text );
-	// Remove Estimated reading time.
-	text = excludeEstimatedReadingTime( text );
 	// Unify only non-breaking spaces and not the other whitespaces since a whitespace could signify a sentence break or a new line.
 	text = unifyNonBreakingSpace( text );
 	/*

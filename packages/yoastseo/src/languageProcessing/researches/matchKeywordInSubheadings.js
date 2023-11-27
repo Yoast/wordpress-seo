@@ -1,5 +1,4 @@
 import { getSubheadingContentsTopLevel } from "../helpers/html/getSubheadings";
-import excludeTableOfContentsTag from "../helpers/sanitize/excludeTableOfContentsTag";
 import stripSomeTags from "../helpers/sanitize/stripNonTextTags";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
@@ -46,7 +45,7 @@ export default function matchKeywordInSubheadings( paper, researcher ) {
 	let text = paper.getText();
 	text = removeHtmlBlocks( text );
 	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
-	text = stripSomeTags( excludeTableOfContentsTag( text ) );
+	text = stripSomeTags( text );
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
 	const result = { count: 0, matches: 0, percentReflectingTopic: 0 };
