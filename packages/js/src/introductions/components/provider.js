@@ -23,14 +23,14 @@ export const IntroductionProvider = ( { children, initialComponents } ) => {
 	const [ components, setComponents ] = useState( initialComponents );
 	const introductions = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectIntroductions(), [] );
 
-	const registerComponent = useCallback( ( name, Component ) => {
-		const introduction = find( introductions, { name } );
+	const registerComponent = useCallback( ( id, Component ) => {
+		const introduction = find( introductions, { id } );
 		if ( ! introduction ) {
 			// Bail when unknown.
-			console.error( "Warning: Introductions received a registration for an unknown key:", name );
+			console.error( "Warning: Introductions received a registration for an unknown key:", id );
 			return;
 		}
-		setComponents( currentComponents => ( { ...currentComponents, [ name ]: Component } ) );
+		setComponents( currentComponents => ( { ...currentComponents, [ id ]: Component } ) );
 	}, [ introductions, setComponents ] );
 
 	useEffect( () => {

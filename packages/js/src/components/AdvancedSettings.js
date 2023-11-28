@@ -31,7 +31,7 @@ const getNoIndexOptions = ( editorContext ) => {
 		return [
 			{
 				name: sprintf(
-					/* Translators: %s translates to "yes" or "no", %s translates to the Post Label in plural form */
+					/* translators: the first %s translates to "yes" or "no", the second %s translates to the content type label in plural form */
 					__( "%s (current default for %s)", "wordpress-seo" ),
 					noIndex,
 					editorContext.postTypeNamePlural
@@ -45,7 +45,7 @@ const getNoIndexOptions = ( editorContext ) => {
 	return [
 		{
 			name: sprintf(
-				/* Translators: %s translates to the "yes" or "no" ,%s translates to the Post Label in plural form */
+				/* translators: the first %s translates to "yes" or "no", the second %s translates to the content type label in plural form */
 				__( "%s (current default for %s)", "wordpress-seo" ),
 				noIndex,
 				editorContext.postTypeNamePlural
@@ -81,12 +81,7 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 					</Alert>
 				}
 				<Select
-					label={
-						sprintf(
-							/* Translators: %s translates to the Post Label in singular form */
-							__( "Allow search engines to show this %s in search results?", "wordpress-seo" ),
-							editorContext.postTypeNameSingular
-						) }
+					label={ __( "Allow search engines to show this content in search results?", "wordpress-seo" ) }
 					onChange={ onNoIndexChange }
 					id={ join( [ "yoast-meta-robots-noindex", location ] ) }
 					options={ metaRobotsNoIndexOptions }
@@ -116,7 +111,7 @@ MetaRobotsNoIndex.defaultProps = {
  *
  * @returns {JSX.Element} The Meta Robots No-Follow option.
  */
-const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
+const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange } ) => {
 	return <LocationConsumer>
 		{ location => {
 			const id = join( [ "yoast-meta-robots-nofollow", location ] );
@@ -124,11 +119,7 @@ const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
 			return <RadioButtonGroup
 				id={ id }
 				options={ [ { value: "0", label: "Yes" }, { value: "1", label: "No" } ] }
-				label={ sprintf(
-					/* Translators: %s translates to the Post Label in singular form */
-					__( "Should search engines follow links on this %s", "wordpress-seo" ),
-					postTypeName
-				) }
+				label={ __( "Should search engines follow links on this content?", "wordpress-seo" ) }
 				groupName={ id }
 				onChange={ onNoFollowChange }
 				selected={ noFollow }
@@ -143,7 +134,6 @@ const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
 MetaRobotsNoFollow.propTypes = {
 	noFollow: PropTypes.string.isRequired,
 	onNoFollowChange: PropTypes.func.isRequired,
-	postTypeName: PropTypes.string.isRequired,
 };
 
 /**
@@ -318,7 +308,6 @@ const AdvancedSettings = ( props ) => {
 	const noFollowProps = {
 		noFollow,
 		onNoFollowChange,
-		postTypeName: editorContext.postTypeNameSingular,
 	};
 
 	const advancedProps = {

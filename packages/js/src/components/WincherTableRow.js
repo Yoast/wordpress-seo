@@ -6,14 +6,66 @@ import { isEmpty } from "lodash";
 import moment from "moment";
 
 /* Yoast dependencies */
-import { SvgIcon, Toggle } from "@yoast/components";
-import { makeOutboundLink } from "@yoast/helpers";
+import { Checkbox, SvgIcon, Toggle, ButtonStyledLink } from "@yoast/components";
 
 /* Internal dependencies */
 import AreaChart from "./AreaChart";
 import WincherSEOPerformanceLoading from "./modals/WincherSEOPerformanceLoading";
+import styled from "styled-components";
 
-const ViewLink = makeOutboundLink();
+export const CaretIcon = styled( SvgIcon )`
+	margin-left: 2px;
+	flex-shrink: 0;
+	rotate: ${ props => props.isImproving ? "-90deg" : "90deg" };
+`;
+
+export const PositionChangeValue = styled.span`
+	color: ${ props => props.isImproving ? "#69AB56" : "#DC3332" };
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 20px;
+	margin-right: 2px;
+	margin-left: 12px;
+`;
+
+export const SelectKeyphraseCheckboxWrapper = styled.td`
+	padding-right: 0 !important;
+
+	& > div {
+		margin: 0px;
+	}
+`;
+
+export const KeyphraseTdWrapper = styled.td`
+	padding-left: 2px !important;
+`;
+
+export const TrackingTdWrapper = styled.td.attrs( { className: "yoast-table--nopadding" } )`
+	& > div {
+		justify-content: center;
+	}
+`;
+
+const PositionAndViewLinkWrapper = styled.div`
+	display: flex;
+	align-items: center;
+`;
+
+const PositionOverTimeButton = styled.button`
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+    display: flex;
+    align-items: center;
+`;
+
+const WincherTableRowElement = styled.tr`
+	background-color: ${ props => props.isEnabled ? "#FFFFFF" : "#F9F9F9" } !important;
+`;
 
 /**
  * Transforms the Wincher Position data to x/y points for the SVG area chart.
@@ -74,7 +126,6 @@ export function PositionOverTimeChart( { chartData } ) {
 		strokeWidth={ 1.8 }
 		strokeColor="#498afc"
 		fillColor="#ade3fc"
-		className="yoast-related-keyphrases-modal__chart"
 		mapChartDataToTableData={ mapAreaChartDataToTableData }
 		dataTableCaption={
 			__( "Keyphrase position in the last 90 days on a scale from 0 to 100.", "wordpress-seo" )
@@ -133,6 +184,45 @@ export function getKeyphrasePosition( keyphrase ) {
 }
 
 /**
+ * Humanize the last updated date string
+ *
+ * @param {string} dateString The date string to format.
+ *
+ * @returns {string} The formatted last updated date.
+ */
+const formatLastUpdated = ( dateString ) => moment( dateString ).fromNow();
+
+/**
+ * Displays the position over time cell.
+ *
+ * @param {object} rowData The position over time data.
+ *
+ * @returns {wp.Element} The position over time table cell.
+ */
+export const PositionOverTimeCell = ( { rowData } ) => {
+	if ( ! rowData?.position?.change ) {
+		return <PositionOverTimeChart chartData={ rowData } />;
+	}
+
+	const isImproving = rowData.position.change < 0;
+	return (
+		<Fragment>
+			<PositionOverTimeChart chartData={ rowData } />
+			<PositionChangeValue isImproving={ isImproving }>{ Math.abs( rowData.position.change ) }</PositionChangeValue>
+			<CaretIcon
+				icon={ "caret-right" }
+				color={ isImproving ? "#69AB56" : "#DC3332" }
+				size={ "14px" } isImproving={ isImproving }
+			/>
+		</Fragment>
+	);
+};
+
+PositionOverTimeCell.propTypes = {
+	rowData: PropTypes.object,
+};
+
+/**
  * Gets the positional data based on the current UI state and returns the appropiate UI element.
  *
  * @param {Object} props The props to use.
@@ -140,7 +230,16 @@ export function getKeyphrasePosition( keyphrase ) {
  * @returns {wp.Element} The rendered element.
  */
 export function getPositionalDataByState( props ) {
-	const { rowData, websiteId } = props;
+	const { rowData, websiteId, keyphrase, onSelectKeyphrases } = props;
+
+	/**
+	 * Fires when click on position over time
+	 *
+	 * @returns {void}
+	 */
+	const onPositionOverTimeClick = useCallback( () => {
+		onSelectKeyphrases( [ keyphrase ] );
+	}, [ onSelectKeyphrases, keyphrase ] );
 
 	const isEnabled          = ! isEmpty( rowData );
 	const hasFreshData = rowData && rowData.updated_at && moment( rowData.updated_at ) >= moment().subtract( 7, "days" );
@@ -152,34 +251,35 @@ export function getPositionalDataByState( props ) {
 
 	if ( ! isEnabled ) {
 		return (
-			<Fragment>
-				<td>?</td>
-				<td className="yoast-table--nopadding">?</td>
-				<td className="yoast-table--nobreak" />
-			</Fragment>
+			<td className="yoast-table--nopadding" colSpan="3">
+				<i>{ __( "Activate tracking to show the ranking position", "wordpress-seo" ) }</i>
+			</td>
 		);
 	}
 	if ( ! hasFreshData ) {
 		return (
-			<Fragment>
-				<td className="yoast-table--nopadding" colSpan="3">
-					<WincherSEOPerformanceLoading />
-				</td>
-			</Fragment>
+			<td className="yoast-table--nopadding" colSpan="3">
+				<WincherSEOPerformanceLoading />
+			</td>
 		);
 	}
 
 	return (
 		<Fragment>
-			<td>{ getKeyphrasePosition( rowData ) }</td>
-			<td className="yoast-table--nopadding">{ <PositionOverTimeChart chartData={ rowData } /> }</td>
-			<td className="yoast-table--nobreak">
-				{
-					<ViewLink href={ viewLinkURL }>
+			<td>
+				<PositionAndViewLinkWrapper>
+					{ getKeyphrasePosition( rowData ) }
+					<ButtonStyledLink variant="secondary" href={ viewLinkURL } style={ { height: 28, marginLeft: 12 } } rel="noopener" target="_blank">
 						{ __( "View", "wordpress-seo" ) }
-					</ViewLink>
-				}
+					</ButtonStyledLink>
+				</PositionAndViewLinkWrapper>
 			</td>
+			<td className="yoast-table--nopadding">
+				<PositionOverTimeButton onClick={ onPositionOverTimeClick }>
+					<PositionOverTimeCell rowData={ rowData } />
+				</PositionOverTimeButton>
+			</td>
+			<td>{ formatLastUpdated( rowData.updated_at ) }</td>
 		 </Fragment>
 	);
 }
@@ -201,9 +301,13 @@ export default function WincherTableRow( props ) {
 		isFocusKeyphrase,
 		isDisabled,
 		isLoading,
+		isSelected,
+		onSelectKeyphrases,
 	} = props;
 
 	const isEnabled  = ! isEmpty( rowData );
+
+	const hasHistory = ! isEmpty( rowData?.position?.history );
 
 	const toggleAction = useCallback(
 		() => {
@@ -220,14 +324,35 @@ export default function WincherTableRow( props ) {
 		[ keyphrase, onTrackKeyphrase, onUntrackKeyphrase, isEnabled, rowData, isDisabled ]
 	);
 
-	return <tr>
-		<td className="yoast-table--nopadding">
-			{ renderToggleState( { keyphrase, isEnabled, toggleAction, isLoading } ) }
-		</td>
-		<td>{ keyphrase }{ isFocusKeyphrase && <span>*</span> }</td>
+	/**
+	 * Fires when checkbox value changes
+	 *
+	 * @returns {void}
+	 */
+	const onChange = useCallback( () => {
+		onSelectKeyphrases( prev => isSelected ? prev.filter( e => e !== keyphrase ) : prev.concat( keyphrase ) );
+	}, [ onSelectKeyphrases, isSelected, keyphrase ] );
+
+	return <WincherTableRowElement isEnabled={ isEnabled }>
+		<SelectKeyphraseCheckboxWrapper>
+			{ hasHistory && <Checkbox
+				id={ "select-" + keyphrase }
+				onChange={ onChange }
+				checked={ isSelected }
+				label=""
+			/> }
+		</SelectKeyphraseCheckboxWrapper>
+
+		<KeyphraseTdWrapper>
+			{ keyphrase }{ isFocusKeyphrase && <span>*</span> }
+		</KeyphraseTdWrapper>
 
 		{ getPositionalDataByState( props ) }
-	</tr>;
+
+		<TrackingTdWrapper>
+			{ renderToggleState( { keyphrase, isEnabled, toggleAction, isLoading } ) }
+		</TrackingTdWrapper>
+	</WincherTableRowElement>;
 }
 
 WincherTableRow.propTypes = {
@@ -240,6 +365,8 @@ WincherTableRow.propTypes = {
 	isLoading: PropTypes.bool,
 	// eslint-disable-next-line react/no-unused-prop-types
 	websiteId: PropTypes.string,
+	isSelected: PropTypes.bool.isRequired,
+	onSelectKeyphrases: PropTypes.func.isRequired,
 };
 
 WincherTableRow.defaultProps = {

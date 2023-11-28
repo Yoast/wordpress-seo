@@ -17,7 +17,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	<h1 id="wpseo-title"><?php echo \esc_html( \get_admin_page_title() ); ?></h1>
 	<div class="wpseo_content_wrapper" style="position: relative;">
 		<div style="position: absolute;top: 0;bottom: 0;left: 0;right: 0;z-index: 100; display: flex;justify-content: center;align-items: center;background: radial-gradient(#ffffffcf 20%, #ffffff00 50%);">
-			<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href="<?php echo \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/4e0/' ) ); ?>" target="_blank">
+			<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href="<?php echo \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/redirect-manager-upsell' ) ); ?>" target="_blank">
 				<?php
 				echo \esc_html__( 'Unlock with Premium', 'wordpress-seo' )
 					// phpcs:ignore WordPress.Security.EscapeOutput -- Already escapes correctly.

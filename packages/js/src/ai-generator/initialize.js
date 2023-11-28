@@ -32,7 +32,7 @@ const AiGeneratorUpsell = ( { fieldId } ) => {
 				{ __( "Use AI", "wordpress-seo" ) }
 			</button>
 			<Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
-				<Modal.Panel className="yst-max-w-lg yst-p-0 yst-bg-gradient-to-b yst-from-[#EDD2E1] yst-rounded-3xl">
+				<Modal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl yst-introduction-modal-panel">
 					<ModalContent onClose={ setIsModalOpenFalse } focusElementRef={ focusElementRef } />
 				</Modal.Panel>
 			</Modal>
@@ -44,19 +44,25 @@ AiGeneratorUpsell.propTypes = {
 	fieldId: PropTypes.string.isRequired,
 };
 
+const STORE = "yoast-seo/editor";
+
 /**
  * Initializes the AI Generator upsell.
  *
  * @returns {void}
  */
 const initializeAiGenerator = () => {
-	const isPremium = select( "yoast-seo/editor" ).getIsPremium();
+	const isPremium = select( STORE ).getIsPremium();
+	const isWooSeoUpsell = select( STORE ).getIsWooSeoUpsell();
+	const isProduct = select( STORE ).getIsProduct();
+
+	const shouldShowAiGeneratorUpsell =  ( isProduct ) ? ! isPremium || isWooSeoUpsell : ! isPremium;
 
 	addFilter(
 		"yoast.replacementVariableEditor.additionalButtons",
 		"yoast/yoast-seo-premium/AiGenerator",
 		( buttons, { fieldId } ) => {
-			if ( ! isPremium ) {
+			if ( shouldShowAiGeneratorUpsell ) {
 				buttons.push(
 					<Fill name={ `yoast.replacementVariableEditor.additionalButtons.${ fieldId }` }>
 						<AiGeneratorUpsell fieldId={ fieldId } />

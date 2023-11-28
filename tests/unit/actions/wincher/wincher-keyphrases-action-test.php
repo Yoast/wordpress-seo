@@ -264,6 +264,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 					[
 						'keywords' => [ 'yoast seo', 'wincher' ],
 						'url'      => null,
+						'start_at' => null,
 					]
 				),
 				[
@@ -324,6 +325,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 					[
 						'keywords' => [ 'yoast seo' ],
 						'url'      => null,
+						'start_at' => null,
 					]
 				),
 				[
@@ -384,6 +386,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 					[
 						'keywords' => [ 'yoast seo' ],
 						'url'      => null,
+						'start_at' => null,
 					]
 				),
 				[
@@ -440,6 +443,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 					[
 						'keywords' => [ 'yoast seo', 'blog seo' ],
 						'url'      => 'https://yoast.com/blog/',
+						'start_at' => null,
 					]
 				),
 				[
