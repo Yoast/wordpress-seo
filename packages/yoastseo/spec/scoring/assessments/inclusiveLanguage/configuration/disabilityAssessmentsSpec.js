@@ -244,7 +244,7 @@ describe( "A test for Disability assessments", function() {
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains wheelchair-bound.</yoastmark>",
 			original: "This sentence contains wheelchair-bound." } } ]
@@ -266,7 +266,7 @@ describe( "A test for Disability assessments", function() {
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains hard-of-hearing.</yoastmark>",
 			original: "This sentence contains hard-of-hearing." } } ]
@@ -289,7 +289,7 @@ describe( "A test for Disability assessments", function() {
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains high-functioning autism.</yoastmark>",
 			original: "This sentence contains high-functioning autism." } } ]
@@ -312,7 +312,7 @@ describe( "A test for Disability assessments", function() {
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains low-functioning autism.</yoastmark>",
 			original: "This sentence contains low-functioning autism." } } ]
@@ -335,7 +335,7 @@ describe( "A test for Disability assessments", function() {
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains brain-damaged.</yoastmark>",
 			original: "This sentence contains brain-damaged." } } ]
@@ -786,7 +786,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains differently-abled.</yoastmark>",
 			original: "This sentence contains differently-abled." } } ]
