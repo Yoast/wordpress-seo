@@ -26,9 +26,9 @@ import { sprintf } from "@wordpress/i18n";
 /*
  * Used for derogatory terms, such as 'cripple'.
  *
- * "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead."
+ * "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s."
  */
-const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead.";
+const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s.";
 
 /*
  * Used for terms that are inclusive only if you are referring to a medical condition, for example 'manic' or 'OCD'.

@@ -410,7 +410,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "cripple",
 				text: "He's afraid to look like a cripple.",
 				expectedFeedback: "Avoid using <i>a cripple</i> as it is derogatory. Consider using an alternative, such as " +
-					"<i>person with a physical disability, a physically disabled person</i> instead. " +
+					"<i>person with a physical disability, a physically disabled person</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -1250,7 +1250,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
 		expect( assessment.getResult().score ).toBe( 3 );
 		expect( assessment.getResult().text ).toBe( "Avoid using <i>imbecile</i> as it is derogatory. Consider using an alternative, " +
-			"such as <i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i> instead. " +
+			"such as <i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>. " +
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 	} );
 } );
