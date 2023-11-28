@@ -6,7 +6,7 @@ parserOptions:
 
 settings:
   react:
-    version: "16.8"
+    version: "18.2"
 
 rules:
   no-prototype-builtins: 0
