@@ -881,28 +881,28 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		const testData = [
 			// The negated phrase for 'crazy about' without an intensifier.
 			{
-				identifier: "to be not crazy about",
+				identifier: "to not be crazy about",
 				text: "They are not crazy about this album.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>to be not impressed by, to be not enthusiastic about, to be not into, " +
+					"Consider using an alternative, such as <i>to not be impressed by, to not be enthusiastic about, to not be into, " +
 					"to not like</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 			// The negated phrase for 'crazy about' with an intensifier.
 			{
-				identifier: "to be not crazy about",
+				identifier: "to not be crazy about",
 				text: "They are not too crazy about this album.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>to be not impressed by, to be not enthusiastic about, to be not into, " +
+					"Consider using an alternative, such as <i>to not be impressed by, to not be enthusiastic about, to not be into, " +
 					"to not like</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 			// The contracted negated phrase for 'crazy about' with an intensifier.
 			{
-				identifier: "to be not crazy about",
+				identifier: "to not be crazy about",
 				text: "They aren't too crazy about this album.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>to be not impressed by, to be not enthusiastic about, to be not into, " +
+					"Consider using an alternative, such as <i>to not be impressed by, to not be enthusiastic about, to not be into, " +
 					"to not like</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -912,7 +912,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 	it( "should not show the feedback for the negated form of 'crazy about' when the non-negated form is used.", () => {
 		const mockPaper = new Paper( "I am so crazy about this album." );
 		const mockResearcher = Factory.buildMockResearcher( [ "I am so crazy about this album." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "to be not crazy about" ) );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "to not be crazy about" ) );
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		expect( isApplicable ).toBeFalsy();
 	} );

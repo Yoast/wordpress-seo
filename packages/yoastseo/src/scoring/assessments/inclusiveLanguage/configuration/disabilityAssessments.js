@@ -404,9 +404,9 @@ const disabilityAssessments =  [
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
-		identifier: "to be not crazy about",
+		identifier: "to not be crazy about",
 		nonInclusivePhrases: [ "crazy about" ],
-		inclusiveAlternatives: "<i>to be not impressed by, to be not enthusiastic about, to be not into, to not like</i>",
+		inclusiveAlternatives: "<i>to not be impressed by, to not be enthusiastic about, to not be into, to not like</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: phrasesWithCrazyFeedback,
 		// Target only when preceded by a form of "to be", the negation "not", and an optional intensifier (e.g. "is not so crazy about" ).
