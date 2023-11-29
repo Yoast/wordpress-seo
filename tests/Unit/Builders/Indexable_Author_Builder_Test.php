@@ -62,13 +62,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 	protected $post_helper;
 
 	/**
-	 * The wpdb instance
-	 *
-	 * @var wpdb|Mockery\MockInterface
-	 */
-	protected $wpdb;
-
-	/**
 	 * The class under test.
 	 *
 	 * @var Indexable_Author_Builder
@@ -76,10 +69,19 @@ class Indexable_Author_Builder_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * The wpdb instance
+	 *
+	 * @var wpdb|Mockery\MockInterface
+	 */
+	protected $wpdb;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
 		parent::set_up();
+		$this->wpdb        = Mockery::mock( wpdb::class );
+		$this->wpdb->posts = 'wp_posts';
 
 		$this->versions = Mockery::mock( Indexable_Builder_Versions::class );
 		$this->versions
@@ -92,10 +94,8 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->post_helper    = Mockery::mock( Post_Helper::class );
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 
-		$this->wpdb        = Mockery::mock( wpdb::class );
-		$this->wpdb->posts = 'wp_posts';
 
-		$this->instance = new Indexable_Author_Builder( $this->author_archive, $this->versions, $this->options_helper, $this->post_helper, $this->wpdb );
+		$this->instance = new Indexable_Author_Builder( $this->author_archive, $this->versions, $this->options_helper, $this->post_helper );
 	}
 
 	/**
@@ -194,16 +194,19 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->with( 'noindex-author-noposts-wpseo', false )
 			->andReturn( true );
 
+		$GLOBALS['wpdb'] = $this->wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
+
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (%s)
-				AND p.post_password = ''
-				AND p.post_author = %d
-		",
-			[ 'publish', 1 ]
+				SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
+				FROM %i AS p
+				WHERE p.%i IN (%s)
+					AND p.%i = ''
+					AND p.%i = %d
+				",
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ]
 		)->andReturn( 'PREPARED_QUERY' );
+
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
 				'last_modified' => '1234-12-12 00:00:00',
@@ -275,16 +278,19 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->with( 'noindex-author-noposts-wpseo', false )
 			->andReturn( true );
 
+		$GLOBALS['wpdb'] = $this->wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
+
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (%s)
-				AND p.post_password = ''
-				AND p.post_author = %d
-		",
-			[ 'publish', 1 ]
+				SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
+				FROM %i AS p
+				WHERE p.%i IN (%s)
+					AND p.%i = ''
+					AND p.%i = %d
+				",
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ]
 		)->andReturn( 'PREPARED_QUERY' );
+
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
 				'last_modified' => '1234-12-12 00:00:00',
@@ -349,16 +355,19 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->with( 'noindex-author-noposts-wpseo', false )
 			->andReturn( true );
 
+		$GLOBALS['wpdb'] = $this->wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
+
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (%s)
-				AND p.post_password = ''
-				AND p.post_author = %d
-		",
-			[ 'publish', 1 ]
+				SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
+				FROM %i AS p
+				WHERE p.%i IN (%s)
+					AND p.%i = ''
+					AND p.%i = %d
+				",
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ]
 		)->andReturn( 'PREPARED_QUERY' );
+
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
 				'last_modified' => '1234-12-12 00:00:00',
@@ -435,16 +444,19 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->with( 'noindex-author-noposts-wpseo', false )
 			->andReturn( true );
 
+		$GLOBALS['wpdb'] = $this->wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
+
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (%s)
-				AND p.post_password = ''
-				AND p.post_author = %d
-		",
-			[ 'publish', 1 ]
+				SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
+				FROM %i AS p
+				WHERE p.%i IN (%s)
+					AND p.%i = ''
+					AND p.%i = %d
+				",
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ]
 		)->andReturn( 'PREPARED_QUERY' );
+
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
 				'last_modified' => '1234-12-12 00:00:00',
