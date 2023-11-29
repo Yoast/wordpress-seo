@@ -2,7 +2,8 @@ import Assessment from "../../../src/scoring/assessments/assessment";
 import Paper from "../../../src/values/Paper";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 
-describe( "test hasEnoughContentForAssessment", () => {
+
+describe( "A test for the isApplicable and getResult methods", () => {
 	it( "should return a not implemented exception", () => {
 		const mockPaper = new Paper( "" );
 		const mockResearcher = new DefaultResearcher( mockPaper );
@@ -11,7 +12,8 @@ describe( "test hasEnoughContentForAssessment", () => {
 		expect( mockAssessment.isApplicable( mockPaper, mockResearcher ) ).toBeTruthy();
 		expect( () => mockAssessment.getResult( mockPaper, mockResearcher ) ).toThrowError();
 	} );
-
+} );
+describe( "test hasEnoughContentForAssessment", () => {
 	it( "should return true if text is more than 50 chars and no specification for contentNeededForAssessment", () => {
 		const mockPaper = new Paper( "This is a text that contains at least fifty characters." );
 		const mockAssessment = new Assessment();
