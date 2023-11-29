@@ -1,7 +1,7 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { styled } from "styled-components";
+import styled from "styled-components";
 
 /* Internal dependencies */
 import { SocialMetadataPreviewForm } from "@yoast/social-metadata-forms";
