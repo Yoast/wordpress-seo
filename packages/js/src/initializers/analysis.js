@@ -6,7 +6,7 @@ import { refreshDelay } from "../analysis/constants";
 import handleWorkerError from "../analysis/handleWorkerError";
 import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
-import { applyModifications } from "../elementor/initializers/pluggable";
+import { applyModifications } from "./pluggable";
 
 /**
  * Runs the analysis.

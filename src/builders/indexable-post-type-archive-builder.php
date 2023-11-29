@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use wpdb;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Type_Not_Built_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
@@ -46,33 +45,23 @@ class Indexable_Post_Type_Archive_Builder {
 	protected $post_type_helper;
 
 	/**
-	 * The WPDB instance.
-	 *
-	 * @var wpdb
-	 */
-	protected $wpdb;
-
-	/**
 	 * Indexable_Post_Type_Archive_Builder constructor.
 	 *
 	 * @param Options_Helper             $options          The options helper.
 	 * @param Indexable_Builder_Versions $versions         The latest version of each Indexable builder.
 	 * @param Post_Helper                $post_helper      The post helper.
 	 * @param Post_Type_Helper           $post_type_helper The post type helper.
-	 * @param wpdb                       $wpdb             The WPDB instance.
 	 */
 	public function __construct(
 		Options_Helper $options,
 		Indexable_Builder_Versions $versions,
 		Post_Helper $post_helper,
-		Post_Type_Helper $post_type_helper,
-		wpdb $wpdb
+		Post_Type_Helper $post_type_helper
 	) {
 		$this->options          = $options;
 		$this->version          = $versions->get_latest_version_for_type( 'post-type-archive' );
 		$this->post_helper      = $post_helper;
 		$this->post_type_helper = $post_type_helper;
-		$this->wpdb             = $wpdb;
 	}
 
 	/**
@@ -146,19 +135,34 @@ class Indexable_Post_Type_Archive_Builder {
 	 * @return object An object with last_modified and published_at timestamps.
 	 */
 	protected function get_object_timestamps( $post_type ) {
+		global $wpdb;
 		$post_statuses = $this->post_helper->get_public_post_statuses();
 
-		$sql = "
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (" . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
-				AND p.post_password = ''
-				AND p.post_type = %s
-		";
+		$replacements   = [];
+		$replacements[] = 'post_modified_gmt';
+		$replacements[] = 'post_date_gmt';
+		$replacements[] = $wpdb->posts;
+		$replacements[] = 'post_status';
+		$replacements   = \array_merge( $replacements, $post_statuses );
+		$replacements[] = 'post_password';
+		$replacements[] = 'post_type';
+		$replacements[] = $post_type;
 
-		$replacements = \array_merge( $post_statuses, [ $post_type ] );
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We are using wpdb prepare.
-		return $this->wpdb->get_row( $this->wpdb->prepare( $sql, $replacements ) );
+		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		return $wpdb->get_row(
+			$wpdb->prepare(
+				'
+				SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
+				FROM %i AS p
+				WHERE p.%i IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+					AND p.%i = ''
+					AND p.%i = %s
+				",
+				$replacements
+			)
+		);
+		//phpcs:enable
 	}
 }

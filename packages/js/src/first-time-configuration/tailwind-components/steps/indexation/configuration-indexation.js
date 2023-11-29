@@ -46,7 +46,7 @@ export function ConfigurationIndexation( { indexingStateCallback, indexingState,
 			<Alert type="success">
 				{ indexingState === "already_done" && ! isStepperFinished
 					? __( "We've already successfully analyzed your site. You can move on to the next step.", "wordpress-seo" )
-					: __( "We've successfully analyzed your site!", "wordpress-seo" )
+					: __( "We've successfully analyzed your site & optimized your SEO data!", "wordpress-seo" )
 				}
 			</Alert>
 		</Transition>
