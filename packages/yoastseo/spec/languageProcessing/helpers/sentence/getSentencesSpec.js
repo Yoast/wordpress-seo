@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import getSentences from "../../../../src/languageProcessing/helpers/sentence/getSentences.js";
 import defaultSentenceTokenizer from "../../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 import japaneseSentenceTokenizer from "../../../../src/languageProcessing/languages/ja/helpers/memoizedSentenceTokenizer";

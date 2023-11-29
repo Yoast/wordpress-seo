@@ -1,3 +1,3 @@
 module.exports = {
-	presets: [ "@yoast/babel-preset" ],
+	presets: [ "@babel/preset-env" ],
 };

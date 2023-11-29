@@ -1,6 +1,5 @@
 module.exports = {
-	preset: "@yoast/jest-preset",
-
+	testEnvironment: "jsdom",
 	testMatch: [
 		"**/spec/**/*.js",
 	],
@@ -19,7 +18,7 @@ module.exports = {
 
 	transform: {
 		"^.+\\.jsx?$": "babel-jest",
-		"^.+\\.html$": "<rootDir>/spec/specHelpers/rawLoader",
+		"^.+\\.html$": "jest-html-loader",
 	},
 	transformIgnorePatterns: [
 		"<rootDir>/node_modules/(?!lodash-es/.*)",
