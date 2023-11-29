@@ -46,7 +46,7 @@ class Person extends Abstract_Schema_Piece {
 			return false;
 		}
 
-		return $this->context->site_represents === 'person' || $this->context->indexable->object_type === 'user';
+		return $this->context->site_represents === 'person';
 	}
 
 	/**

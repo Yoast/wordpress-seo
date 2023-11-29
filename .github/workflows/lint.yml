@@ -37,13 +37,13 @@ jobs:
       matrix:
         # Lint against the highest/lowest supported versions of each PHP major.
         # And also do a run against "nightly" (the current dev version of PHP).
-        php_version: ["7.2", "7.4", "8.0", "8.1", "8.2"]
+        php_version: ["7.2", "7.4", "8.0", "8.2", "8.3"]
 
     name: "Lint: PHP ${{ matrix.php_version }}"
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # For the purpose of linting the code, we need the `vendor-prefixed` directory to
       # be created as the prefixed code should be linted to ensure there are no parse errors

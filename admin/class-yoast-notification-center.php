@@ -716,7 +716,6 @@ class Yoast_Notification_Center {
 	 * @return void
 	 */
 	private function retrieve_notifications_from_storage( $user_id ) {
-
 		if ( $this->notifications_retrieved ) {
 			return;
 		}
@@ -732,6 +731,7 @@ class Yoast_Notification_Center {
 
 		if ( is_array( $stored_notifications ) ) {
 			$notifications = array_map( [ $this, 'array_to_notification' ], $stored_notifications );
+
 			// Apply array_values to ensure we get a 0-indexed array.
 			$notifications = array_values( array_filter( $notifications, [ $this, 'filter_notification_current_user' ] ) );
 
@@ -839,6 +839,13 @@ class Yoast_Notification_Center {
 			&& \is_subclass_of( $notification_data['message'], Abstract_Presenter::class, false )
 		) {
 			$notification_data['message'] = $notification_data['message']->present();
+		}
+
+		if ( isset( $notification_data['options']['user'] ) ) {
+			$notification_data['options']['user_id'] = $notification_data['options']['user']->ID;
+			unset( $notification_data['options']['user'] );
+
+			$this->notifications_need_storage = true;
 		}
 
 		return new Yoast_Notification(
