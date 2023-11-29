@@ -1,13 +1,25 @@
 /* External dependencies */
-import { SimulatedLabel } from "@yoast/components";
-import React, { Component } from "react";
 import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { styled } from "styled-components";
 
 /* Internal dependencies */
 import { SocialMetadataPreviewForm } from "@yoast/social-metadata-forms";
 import FacebookPreview from "../facebook/FacebookPreview";
 import TwitterPreview from "../twitter/TwitterPreview";
 import { recommendedReplacementVariablesShape, replacementVariablesShape } from "@yoast/replacement-variable-editor";
+
+
+/**
+ * A div element that looks like it can be interacted with like a label.
+ */
+const SharePreviewTitle = styled.div`
+	font-size: 14px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	margin: 4px 0;
+	color: #303030;
+	font-weight: 500;
+`;
 
 /**
  * A form with an image selection button, a title input field and a description field and the social preview.
@@ -150,9 +162,9 @@ class SocialPreviewEditor extends Component {
 
 		return (
 			<React.Fragment>
-				{ socialPreviewLabel && <SimulatedLabel>
+				{ socialPreviewLabel && <SharePreviewTitle>
 					{ socialPreviewLabel }
-				</SimulatedLabel> }
+				</SharePreviewTitle> }
 				<this.SocialPreview
 					onMouseHover={ this.setHoveredField }
 					onSelect={ this.setActiveField }
