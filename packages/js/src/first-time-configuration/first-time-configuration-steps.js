@@ -1,10 +1,9 @@
 /* global wpseoFirstTimeConfigurationData */
 import apiFetch from "@wordpress/api-fetch";
 import { useCallback, useReducer, useState, useEffect, useRef } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import { uniq } from "lodash";
 
-import { addLinkToString } from "../helpers/stringHelpers.js";
 import { configurationReducer } from "./tailwind-components/helpers/index.js";
 import SocialProfilesStep from "./tailwind-components/steps/social-profiles/social-profiles-step";
 import Stepper, { Step } from "./tailwind-components/stepper";
@@ -471,27 +470,9 @@ export default function FirstTimeConfigurationSteps() {
 
 	return (
 		<div id="yoast-configuration" className="yst-max-w-[715px] yst-mt-6 yst-p-8 yst-rounded-lg yst-bg-white yst-shadow yst-text-slate-600">
-			<h2 id="yoast-configuration-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get your site ranked!", "wordpress-seo" ) }</h2>
-			<p className="yst-py-2">
-				{
-					addLinkToString(
-						sprintf(
-							// translators: %1$s and %3$s are replaced by opening and closing anchor tags. %2$s is replaced by "Yoast SEO"
-							__(
-								"Put the %1$s%2$s indexables squad%3$s to work! Make Google understand your site.",
-								"wordpress-seo"
-							),
-							"<a>",
-							"Yoast SEO",
-							"</a>"
-						),
-						window.wpseoFirstTimeConfigurationData.shortlinks.configIndexables,
-						"yoast-configuration-guide-link"
-					)
-				}
-			</p>
-			<p className="yst-mb-6">
-				{ __( "The Yoast indexables squad can't wait to get your site in tip-top shape for the search engines. Help us and take these 5 steps in order to put our Yoast indexables to work!", "wordpress-seo" ) }
+			<h2 id="yoast-configuration-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get it ranked!", "wordpress-seo" ) }</h2>
+			<p className="yst-pt-2 yst-mb-6">
+				{ __( "Let's get your site in tip-top shape for the search engines. Simply follow these 5 steps to make Google understand what your site is about.", "wordpress-seo" ) }
 			</p>
 			<hr id="configuration-hr-top" />
 			{ /* eslint-disable react/jsx-no-bind */ }

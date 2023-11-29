@@ -35,8 +35,8 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 
 	const richResultsMessage = addLinkToString(
 		sprintf(
-			/* translators: %1$s expands to opening 'a' HTML tag, %2$s expands to closing 'a' HTML tag */
-			__( "Completing this step will help Google to understand your website, and improve your chance of getting %1$srich results%2$s.", "wordpress-seo" ),
+			/* translators: %1$s expands to opening 'a' HTML tag, %2$s expands to closing 'a' HTML tag. */
+			__( "Completing this step helps Google to understand your site even better. Bonus: You'll improve your chance of getting %1$srich results%2$s!", "wordpress-seo" ),
 			"<a>",
 			"</a>"
 		),
@@ -78,7 +78,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				state.shouldForceCompany
 					? richResultsMessage
 					: <Fragment>
-						{ __( "Help us out here! Is your site about an organization or a person? ", "wordpress-seo" ) }
+						{ __( "Tell us! Is your site about an organization or a person? ", "wordpress-seo" ) }
 						{ richResultsMessage }
 					</Fragment>
 			}
@@ -146,20 +146,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 			isVisible={ siteRepresentationEmpty }
 			className="yst-mt-6"
 		>
-			{
-				addLinkToString(
-					sprintf(
-						__(
-							"Please be aware that you need to fill out all settings in this step to get the most value out of structured data. %1$sRead more about the importance of structured data%2$s.",
-							"wordpress-seo"
-						),
-						"<a>",
-						"</a>"
-					),
-					"https://yoa.st/config-workout-structured-data",
-					"yoast-configuration-structured-data-link"
-				)
-			}
+			{ __( "You're almost there! Complete all settings in this step so search engines know what your site is about.", "wordpress-seo" ) }
 		</FadeInAlert>
 	</Fragment>;
 }

@@ -484,6 +484,10 @@
 	max-width: 712px;
 }
 
+.yoast-wincher-seo-performance-modal__content {
+	padding: 25px 32px 32px;
+}
+
 #yoast-get-related-keyphrases-sidebar,
 #yoast-get-related-keyphrases-metabox {
 	margin-top: 8px;

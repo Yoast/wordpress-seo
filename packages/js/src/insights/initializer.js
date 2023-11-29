@@ -44,8 +44,8 @@ const createUpdater = () => {
  * @returns {function} The subscriber.
  */
 const createSubscriber = () => {
-	const { getEditorDataContent, getContentLocale } = select( "yoast-seo/editor" );
-	const collector = createCollector( getEditorDataContent, getContentLocale );
+	const { getContentLocale } = select( "yoast-seo/editor" );
+	const collector = createCollector( getContentLocale, collectData );
 	const updater = createUpdater();
 
 	// Force an initial update after 1.5 seconds.

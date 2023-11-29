@@ -2,16 +2,14 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import {
-	isUndefined,
-	debounce,
-} from "lodash";
+import { debounce, isUndefined } from "lodash";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
 
 // Internal dependencies.
 import YoastReplaceVarPlugin from "../analysis/plugins/replacevar-plugin";
 import YoastReusableBlocksPlugin from "../analysis/plugins/reusable-blocks-plugin";
+import YoastShortcodePlugin, { initShortcodePlugin } from "../analysis/plugins/shortcode-plugin";
 import YoastMarkdownPlugin from "../analysis/plugins/markdown-plugin";
 import * as tinyMCEHelper from "../lib/tinymce";
 import CompatibilityHelper from "../compatibility/compatibilityHelper";
@@ -52,7 +50,6 @@ import { actions } from "@yoast/externals/redux";
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
 
-
 const {
 	setFocusKeyword,
 	setMarkerStatus,
@@ -65,6 +62,7 @@ const {
 
 // Plugin class prototypes (not the instances) are being used by other plugins from the window.
 window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
+window.YoastShortcodePlugin = YoastShortcodePlugin;
 
 /**
  * @summary Initializes the post scraper script.
@@ -84,7 +82,6 @@ export default function initPostScraper( $, store, editorData ) {
 	let app;
 	let postDataCollector;
 	const customAnalysisData = new CustomAnalysisData();
-
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
@@ -134,7 +131,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
-		return ! isBlockEditor() && wpseoScriptData.metabox.show_markers === "1";
+		return ! isBlockEditor() && wpseoScriptData.metabox.show_markers;
 	}
 
 	/**
@@ -369,7 +366,6 @@ export default function initPostScraper( $, store, editorData ) {
 
 	/**
 	 * Handles page builder compatibility, regarding the marker buttons.
-	 *
 	 * @returns {void}
 	 */
 	function handlePageBuilderCompatibility() {
@@ -432,6 +428,7 @@ export default function initPostScraper( $, store, editorData ) {
 
 		tinyMCEHelper.setStore( store );
 		tinyMCEHelper.wpTextViewOnInitCheck();
+
 		handlePageBuilderCompatibility();
 
 		// Avoid error when snippet metabox is not rendered.
@@ -494,6 +491,7 @@ export default function initPostScraper( $, store, editorData ) {
 		// Analysis plugins
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
+		initShortcodePlugin( app, store );
 
 		if ( isBlockEditor() ) {
 			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, window.YoastSEO.app.refresh );

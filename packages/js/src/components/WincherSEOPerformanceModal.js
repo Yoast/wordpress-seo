@@ -96,7 +96,7 @@ export default function WincherSEOPerformanceModal( props ) {
 				title={ title }
 				onRequestClose={ onModalClose }
 				icon={ <YoastIcon /> }
-				additionalClassName="yoast-wincher-seo-performance-modal"
+				additionalClassName="yoast-wincher-seo-performance-modal yoast-gutenberg-modal__no-padding"
 				shouldCloseOnClickOutside={ shouldCloseOnClickOutside }
 			>
 				<ModalContainer

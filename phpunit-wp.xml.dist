@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
+		backupGlobals="false"
+		backupStaticAttributes="false"
+		bootstrap="tests/WP/bootstrap.php"
+		colors="true"
+		convertDeprecationsToExceptions="true"
+		convertErrorsToExceptions="true"
+		convertNoticesToExceptions="true"
+		convertWarningsToExceptions="true"
+		forceCoversAnnotation="true"
+		processIsolation="false"
+		stopOnError="false"
+		stopOnFailure="false"
+		stopOnIncomplete="false"
+		stopOnSkipped="false"
+		verbose="true"
+	>
+	<testsuites>
+		<testsuite name="yoastseo">
+			<directory suffix="Test.php">./tests/WP</directory>
+		</testsuite>
+	</testsuites>
+
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="false">
+			<file>./wp-seo.php</file>
+			<file>./wp-seo-main.php</file>
+			<directory>./admin</directory>
+			<directory>./inc</directory>
+			<directory>./src</directory>
+			<exclude>
+				<directory suffix=".php">./src/deprecated</directory>
+				<file>./inc/wpseo-functions-deprecated.php</file>
+			</exclude>
+		</whitelist>
+	</filter>
+
+	<logging>
+		<log type="coverage-text" target="php://stdout" showOnlySummary="true"/>
+		<log type="coverage-clover" target="build/logs/clover-wp.xml"/>
+	</logging>
+
+</phpunit>
