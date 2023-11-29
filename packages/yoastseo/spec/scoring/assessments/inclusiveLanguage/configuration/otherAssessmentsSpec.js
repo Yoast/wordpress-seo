@@ -31,8 +31,8 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 				identifier: "mentallyNormal",
 				text: "He is a mentally normal person.",
 				expectedFeedback: "Avoid using <i>mentally normal</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>without mental health conditions</i>," +
-					" <i>with a good mental health</i>, <i>mentally healthy</i>. If possible, be more specific," +
+					"Consider using an alternative, such as <i>people >without mental health conditions</i>," +
+					" <i>people with a good mental health</i>, <i>mentally healthy people</i>. If possible, be more specific," +
 					" for example <i>people who don’t have anxiety disorders</i>, <i>people who haven’t experienced trauma</i>, etc." +
 					" Be careful when using mental health descriptors to describe specific people and try to avoid making assumptions" +
 					" about someone’s mental health or attempting to diagnose them. " +
@@ -80,8 +80,8 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 				identifier: "mentallyAbnormal",
 				text: "This person seems mentally abnormal.",
 				expectedFeedback: "Avoid using <i>mentally abnormal</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>with a mental health condition</i>, <i>with mental health problems</i>." +
-					" If possible, be more specific, for example <i>people who have anxiety disorders, people " +
+					"Consider using an alternative, such as <i>people with a mental health condition</i>, <i>people with" +
+					" mental health problems</i>. If possible, be more specific, for example <i>people who have anxiety disorders, people " +
 					"who have experienced trauma</i>, etc. Be careful when using mental health descriptors to describe" +
 					" specific people and try to avoid making assumptions about someone’s mental health or attempting to diagnose them. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",

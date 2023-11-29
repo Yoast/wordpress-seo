@@ -37,11 +37,12 @@ const otherAssessments = [
 	{
 		identifier: "mentallyNormal",
 		nonInclusivePhrases: [ "mentally normal" ],
-		inclusiveAlternatives: [ "<i>without mental health conditions</i>, <i>with a good mental health</i>, <i>mentally healthy</i>" ],
+		inclusiveAlternatives: [ "<i>people without mental health conditions</i>, <i>people with a good mental health</i>," +
+		" <i>mentally healthy people</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ harmfulNonInclusive, "Consider using an alternative, such as %2$s. If possible, be more specific," +
 		" for example <i>people who don’t have anxiety disorders</i>, <i>people who haven’t experienced trauma</i>, etc." +
-		" Be careful when using mental health descriptors to describe specific people and try to avoid making assumptions" +
+		" Be careful when using mental health descriptors to describe specific people, and try to avoid making assumptions" +
 		" about someone’s mental health or attempting to diagnose them." ].join( " " ),
 	},
 	{
@@ -68,11 +69,11 @@ const otherAssessments = [
 	{
 		identifier: "mentallyAbnormal",
 		nonInclusivePhrases: [ "mentally abnormal" ],
-		inclusiveAlternatives: [ "<i>with a mental health condition</i>, <i>with mental health problems</i>" ],
+		inclusiveAlternatives: [ "<i>people with a mental health condition</i>, <i>people with mental health problems</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ harmfulNonInclusive, "Consider using an alternative, such as %2$s. If possible, be more specific," +
 		" for example <i>people who have anxiety disorders, people who have experienced trauma</i>, etc." +
-		" Be careful when using mental health descriptors to describe specific people and try to avoid making assumptions" +
+		" Be careful when using mental health descriptors to describe specific people, and try to avoid making assumptions" +
 		" about someone’s mental health or attempting to diagnose them." ].join( " " ),
 	},
 	{
