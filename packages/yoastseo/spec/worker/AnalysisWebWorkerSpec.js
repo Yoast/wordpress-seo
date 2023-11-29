@@ -28,8 +28,6 @@ import EnglishResearcher from "../../src/languageProcessing/languages/en/Researc
 let researcher = new EnglishResearcher();
 const morphologyData = getMorphologyData( "en" );
 
-jest.useRealTimers();
-
 /**
  * Creates a mocked scope.
  *
@@ -464,14 +462,13 @@ describe( "AnalysisWebWorker", () => {
 				} );
 			} );
 
-			test( "calls analyze", done => {
+			test( "calls analyze", () => {
 				const paper = new Paper( "This is the content." );
 				const spy = jest.spyOn( worker, "analyze" );
 
 				worker.analyzeDone = () => {
 					expect( spy ).toHaveBeenCalledTimes( 1 );
 					expect( spy ).toHaveBeenCalledWith( 0, { paper } );
-					done();
 				};
 
 				scope.onmessage( createMessage( "initialize" ) );
@@ -731,7 +728,7 @@ describe( "AnalysisWebWorker", () => {
 				} );
 			} );
 
-			test( "calls analyzeRelatedKeywords", done => {
+			test( "calls analyzeRelatedKeywords", () => {
 				const paper = new Paper( "This is the content." );
 				const relatedKeywords = { a: { keyword: "content", synonyms: "" } };
 				const spy = jest.spyOn( worker, "analyzeRelatedKeywords" );
@@ -739,7 +736,6 @@ describe( "AnalysisWebWorker", () => {
 				worker.analyzeRelatedKeywordsDone = () => {
 					expect( spy ).toHaveBeenCalledTimes( 1 );
 					expect( spy ).toHaveBeenCalledWith( 0, { paper, relatedKeywords } );
-					done();
 				};
 
 				scope.onmessage( createMessage( "initialize" ) );
