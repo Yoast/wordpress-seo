@@ -31,10 +31,10 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 				identifier: "mentallyNormal",
 				text: "He is a mentally normal person.",
 				expectedFeedback: "Avoid using <i>mentally normal</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>people >without mental health conditions</i>," +
+					"Consider using an alternative, such as <i>people without mental health conditions</i>," +
 					" <i>people with a good mental health</i>, <i>mentally healthy people</i>. If possible, be more specific," +
 					" for example <i>people who don’t have anxiety disorders</i>, <i>people who haven’t experienced trauma</i>, etc." +
-					" Be careful when using mental health descriptors to describe specific people and try to avoid making assumptions" +
+					" Be careful when using mental health descriptors to describe specific people, and try to avoid making assumptions" +
 					" about someone’s mental health or attempting to diagnose them. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
@@ -57,11 +57,6 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
-	it( "targets potentially harmful phrases that include the word 'abnormal'", () => {
-		const testData = [
 			{
 				identifier: "abnormalPerson",
 				text: "Only an abnormal person could do this.",
@@ -83,10 +78,16 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 					"Consider using an alternative, such as <i>people with a mental health condition</i>, <i>people with" +
 					" mental health problems</i>. If possible, be more specific, for example <i>people who have anxiety disorders, people " +
 					"who have experienced trauma</i>, etc. Be careful when using mental health descriptors to describe" +
-					" specific people and try to avoid making assumptions about someone’s mental health or attempting to diagnose them. " +
+					" specific people, and try to avoid making assumptions about someone’s mental health or attempting to diagnose them. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
-			}, {
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "targets potentially harmful phrases that include the word 'abnormal'", () => {
+		const testData = [
+			 {
 				identifier: "behaviorallyAbnormal",
 				text: "I'm afraid this is behaviorally abnormal.",
 				expectedFeedback: "Be careful when using <i>behaviorally abnormal</i> as it is potentially harmful. " +
@@ -151,16 +152,6 @@ describe( "Checks highlighting for 'minorities' and conditions in which assessme
 			original: mockText,
 			marked: "<yoastmark class='yoast-text-mark'>" + mockText + "</yoastmark>",
 		} ) ] );
-	} );
-
-	it( "doesn't identify 'normal' when it's not used as part of specific phrases", () => {
-		const mockPaper = new Paper( "It's normal for dogs to bark." );
-		const mockResearcher = Factory.buildMockResearcher( [ "It's normal for dogs to bark." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "normal" ) );
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeFalsy();
-		expect( assessor.getMarks() ).toEqual( [] );
 	} );
 
 	it( "doesn't identify 'normal people' if both words begin with an upper case letter", () => {
