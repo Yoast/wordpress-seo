@@ -163,4 +163,24 @@ describe( "Checks highlighting for 'minorities' and conditions in which assessme
 		expect( isApplicable ).toBeFalsy();
 		expect( assessor.getMarks() ).toEqual( [] );
 	} );
+
+	it( "doesn't show the feedback for 'normal people' if it's preceded by 'mentally'", () => {
+		const mockPaper = new Paper( "We are mentally normal people." );
+		const mockResearcher = Factory.buildMockResearcher( [ "We are mentally normal people." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "normalPeople" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeFalsy();
+		expect( assessor.getMarks() ).toEqual( [] );
+	} );
+
+	it( "doesn't show the feedback for 'normal person' if it's preceded by 'behaviorally'", () => {
+		const mockPaper = new Paper( "We are mentally normal people." );
+		const mockResearcher = Factory.buildMockResearcher( [ "I am a behaviorally normal person." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "normalPerson" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeFalsy();
+		expect( assessor.getMarks() ).toEqual( [] );
+	} );
 } );

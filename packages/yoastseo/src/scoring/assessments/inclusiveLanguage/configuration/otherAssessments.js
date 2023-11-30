@@ -5,6 +5,8 @@ import {
 	potentiallyHarmful,
 	potentiallyHarmfulUnlessAnimalsObjects,
 } from "./feedbackStrings";
+import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
+import { isPrecededByException } from "../helpers/isPrecededByException";
 
 const otherAssessments = [
 	{
@@ -24,6 +26,10 @@ const otherAssessments = [
 		"experience, or behavior" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isPrecededByException( words, [ "mentally", "behaviorally", "behaviourally" ] ) );
+		},
 	},
 	{
 		identifier: "normalPeople",
@@ -33,6 +39,10 @@ const otherAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		caseSensitive: true,
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isPrecededByException( words, [ "mentally", "behaviorally", "behaviourally" ] ) );
+		},
 	},
 	{
 		identifier: "mentallyNormal",
