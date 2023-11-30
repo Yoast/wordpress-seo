@@ -1,6 +1,3 @@
-[![Build Status](https://travis-ci.org/Yoast/YoastSEO.js.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
-[![Build Status](https://travis-ci.org/Yoast/YoastSEO.js.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
-
 # YoastSEO.js
 
 Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
@@ -83,7 +80,7 @@ worker.initialize( {
 
 ### Usage of internal components
 
-If you want to have a more barebones API, or are in an environment without access to Web Worker you can use the internal objects:
+If you want to have a more bare-bones API, or are in an environment without access to Web Worker you can use the internal objects:
 
 ```js
 import { AbstractResearcher, Paper } from "yoastseo";
@@ -145,6 +142,7 @@ The following readability assessments are available for all languages:
 - sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )
 - paragraph length
 - subheading distribution
+- text presence
 
 ### Inclusive language analysis
 
