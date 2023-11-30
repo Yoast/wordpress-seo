@@ -361,7 +361,7 @@ Release date: 2023-12-12
 
 * Adds linting and testing to ensure that the plugin has no known incompatibilities with PHP 8.3.
 * Improves the discoverability of the security policy.
-* Improves the indication given to the users in the first-time configuration.
+* Improves the instructions in the first-time configuration so that they're easier to follow.
 * Improves the new installation screen layout and design.
 * Provides a filter to add a list of shortcodes to be parsed and thus included in our content analysis in Classic editor.
 
