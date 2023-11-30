@@ -12,7 +12,7 @@
   "private": false,
   "scripts": {
     "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc",
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "eslint . --max-warnings=0"
   },
   "jest": {
@@ -28,7 +28,12 @@
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/jest/__mocks__/styleMock.js",
       "^lodash-es$": "lodash"
-    }
+    },
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/deprecated/**/*.js"
+    ]
   },
   "publishConfig": {
     "access": "public"
