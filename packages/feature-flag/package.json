@@ -11,7 +11,7 @@
   "license": "GPL-3.0",
   "private": false,
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
     "lint": "eslint ./src ./tests --max-warnings=0",
     "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
   },
