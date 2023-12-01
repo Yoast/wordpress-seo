@@ -54,7 +54,7 @@ class WPSEO_Sitemaps_Router_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->deacrivating_yoast_conditional = Mockery::mock( Deactivating_Yoast_Seo_Conditional::class );
+		$this->deactivating_yoast_conditional = Mockery::mock( Deactivating_Yoast_Seo_Conditional::class );
 		$this->container                      = $this->create_container_with(
 			[
 				Deactivating_Yoast_Seo_Conditional::class => $this->deacrivating_yoast_conditional,
