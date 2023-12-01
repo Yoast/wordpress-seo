@@ -79,7 +79,7 @@ class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->deacrivating_yoast_conditional->expects( 'is_met' )
+		$this->deactivating_yoast_conditional->expects( 'is_met' )
 			->once()
 			->andReturnTrue();
 
