@@ -2,9 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\WP\Inc;
 
-use Brain\Monkey;
-use Yoast_Dynamic_Rewrites;
 use RuntimeException;
+use Yoast_Dynamic_Rewrites;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 
@@ -36,7 +35,6 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 * Tear down the class which was tested.
 	 */
 	public function tear_down() {
-
 		parent::tear_down();
 		unset( $GLOBALS['wp_rewrite'] );
 	}
