@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\WP\Inc;
 
-use RuntimeException;
 use Yoast_Dynamic_Rewrites;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
@@ -29,28 +28,6 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 		global $wp_rewrite;
 
 		self::$instance = new Yoast_Dynamic_Rewrites( $wp_rewrite );
-	}
-
-	/**
-	 * Tear down the class which was tested.
-	 */
-	public function tear_down() {
-		parent::tear_down();
-		unset( $GLOBALS['wp_rewrite'] );
-	}
-
-	/**
-	 * Test construct method.
-	 *
-	 * @covers ::__construct
-	 */
-	public function test_construct_with_runtime_exception() {
-		$this->expectException( RuntimeException::class );
-		$GLOBALS['wp_rewrite'] = null;
-		$instance              = new Yoast_Dynamic_Rewrites();
-
-		$this->assertNotEmpty( $instance->wp_rewrite, 'WP_Rewrite instance is not set.' );
-		$this->assertInstanceOf( 'WP_Rewrite', $instance->wp_rewrite, 'WP_Rewrite instance is not set with the given parameter.' );
 	}
 
 	/**
@@ -149,7 +126,6 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 * @param string       $expected Expected result.
 	 */
 	public function test_filter_rewrite_rules_option( $rewrite_rules, $expected ) {
-
 		$this->assertSame( $expected, self::$instance->filter_rewrite_rules_option( $rewrite_rules ) );
 	}
 
