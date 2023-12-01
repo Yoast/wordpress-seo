@@ -16,14 +16,6 @@
     "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
   },
   "devDependencies": {},
-  "jest": {
-    "testURL": "http://localhost",
-    "testRegex": ".*Test.js$",
-    "transformIgnorePatterns": [
-      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
-    ],
-    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
-  },
   "publishConfig": {
     "access": "public"
   }
