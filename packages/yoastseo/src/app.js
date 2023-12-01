@@ -103,7 +103,7 @@ function createDefaultSnippetPreview() {
  * @returns {boolean}                   Whether or not it's a valid SnippetPreview object.
  */
 function isValidSnippetPreview( snippetPreview ) {
-	return ! isUndefined( snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( snippetPreview );
+	return ! isUndefined( snippetPreview ) && Object.prototype.isPrototypeOf.call( SnippetPreview.prototype,  snippetPreview );
 }
 
 /**
