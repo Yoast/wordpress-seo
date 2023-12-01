@@ -63,8 +63,8 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 		$GLOBALS['wp_rewrite'] = null;
 		$instance = new Yoast_Dynamic_Rewrites();
 
-		$this->assertNotEmpty( $instance->wp_rewrite, 'WP_Rewrite instance is set.' );
-		$this->assertInstanceOf( 'WP_Rewrite', $instance->wp_rewrite, 'WP_Rewrite instance is set with the given parameter.' );
+		$this->assertNotEmpty( $instance->wp_rewrite, 'WP_Rewrite instance is not set.' );
+		$this->assertInstanceOf( 'WP_Rewrite', $instance->wp_rewrite, 'WP_Rewrite instance is not set with the given parameter.' );
 	}
 
 	/**
