@@ -60,7 +60,7 @@
   "dependencies": {
     "@wordpress/i18n": "^4.46.0",
     "@yoast/feature-flag": "^0.5.2",
-    "htmlparser2": "^9.0.0",
+    "htmlparser2": "^3.9.2",
     "lodash-es": "^4.17.21",
     "loglevel": "^1.8.1",
     "parse5": "^7.1.2",
