@@ -1,14 +1,8 @@
 # Grunt aliases
 ---
-# Check health of the project via eslint.
-check:
-  - 'eslint'
 # Retrieve the Premium configuration files.
 'get-premium-configuration':
   - 'shell:get-current-branch'
   - 'shell:clone-premium-configuration'
   - 'shell:checkout-premium-configuration'
   - 'shell:pull-premium-configuration'
-# Default task: check health.
-default:
-  - check
