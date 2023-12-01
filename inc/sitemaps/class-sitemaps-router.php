@@ -63,7 +63,7 @@ class WPSEO_Sitemaps_Router {
 	 * @codeCoverageIgnore
 	 */
 	public function init() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 21.6' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 21.7' );
 
 		global $wp;
 
