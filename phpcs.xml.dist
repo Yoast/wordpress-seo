@@ -54,8 +54,8 @@
 				 Ref: https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/wiki/Customizable-sniff-properties#custom-unit-test-classes
 			-->
 			<property name="custom_test_class_whitelist" type="array">
-				<element value="WPSEO_UnitTestCase"/>
 				<element value="Yoast\WP\SEO\Tests\Unit\TestCase"/>
+				<element value="Yoast\WP\SEO\Tests\WP\TestCase"/>
 			</property>
 		</properties>
 	</rule>
@@ -85,8 +85,8 @@
 				<!-- Don't trigger on select view related files. -->
 				<element value="admin/views/tool-bulk-editor.php"/>
 				<!-- Don't trigger on test bootstrap files. -->
-				<element value="tests/integration/bootstrap.php"/>
 				<element value="tests/Unit/bootstrap.php"/>
+				<element value="tests/WP/bootstrap.php"/>
 			</property>
 
 			<!-- Remove the following prefixes from the names of object structures. -->
@@ -106,8 +106,8 @@
 	<rule ref="Yoast.Files.TestDoubles">
 		<properties>
 			<property name="doubles_path" type="array" extend="true">
-				<element value="/tests/integration/doubles"/>
 				<element value="/tests/Unit/Doubles"/>
+				<element value="/tests/WP/Doubles"/>
 			</property>
 		</properties>
 	</rule>
@@ -127,12 +127,14 @@
 				<element value="config"/>
 				<element value="src"/>
 				<element value="tests/Unit"/>
+				<element value="tests/WP"/>
 				<element value="src/deprecated/src"/>
 			</property>
 
 			<!-- Allow for the tests being in a non-standard directory in YoastSEO Free. -->
 			<property name="prefixes" type="array" extend="true">
 				<element value="Yoast\WP\SEO\Tests\Unit"/>
+				<element value="Yoast\WP\SEO\Tests\WP"/>
 			</property>
 		</properties>
 	</rule>
@@ -240,33 +242,28 @@
 
 	<!-- The unit tests are not run within the context of a WP install, so overwritting globals is fine. -->
 	<rule ref="WordPress.WP.GlobalVariablesOverride">
-		<exclude-pattern>/tests/Unit/*</exclude-pattern>
+		<exclude-pattern>/tests/*</exclude-pattern>
 	</rule>
 
 	<!-- Allow for the double/mock classes to override methods just to change the visibility. -->
 	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
-		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
-		<exclude-pattern>/tests/Unit/Doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/*/Doubles/*</exclude-pattern>
 	</rule>
 
 	<!-- Test mock/double classes do not have to be prefixed. -->
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound">
-		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
-		<exclude-pattern>/tests/Unit/Doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/*/Doubles/*</exclude-pattern>
 	</rule>
 
 	<!-- For documentation of the double/mock classes, please refer to the _real_ classes. -->
 	<rule ref="Squiz.Commenting.FunctionComment.Missing">
-		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
-		<exclude-pattern>/tests/Unit/Doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/*/Doubles/*</exclude-pattern>
 	</rule>
 	<rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
-		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
-		<exclude-pattern>/tests/Unit/Doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/*/Doubles/*</exclude-pattern>
 	</rule>
 	<rule ref="Squiz.Commenting.VariableComment.Missing">
-		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
-		<exclude-pattern>/tests/Unit/Doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/*/Doubles/*</exclude-pattern>
 	</rule>
 
 
@@ -286,7 +283,7 @@
 		<include-pattern>/config/*\.php$</include-pattern>
 		<include-pattern>/lib/*\.php$</include-pattern>
 		<include-pattern>/src/*\.php$</include-pattern>
-		<include-pattern>/tests/Unit/*\.php$</include-pattern>
+		<include-pattern>/tests/*\.php$</include-pattern>
 	</rule>
 
 	<!-- Only enable the prefix all globals rules for the "new" code for now.
@@ -298,7 +295,7 @@
 		<include-pattern>*/config/*\.php$</include-pattern>
 		<include-pattern>*/lib/*\.php$</include-pattern>
 		<include-pattern>*/src/*\.php$</include-pattern>
-		<include-pattern>*/tests/Unit/*\.php$</include-pattern>
+		<include-pattern>*/tests/*\.php$</include-pattern>
 
 		<!-- Exclude hooks everywhere for the time being until the prefixes will be fixed. -->
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound"/>
@@ -306,16 +303,16 @@
 
 	<!-- The below issues will be fixed in YoastCS 3.0, after which these excludes can be removed. -->
 	<rule ref="Yoast.Files.FileName.InvalidClassFileName">
-		<exclude-pattern>/tests/Unit/*\.php$</exclude-pattern>
+		<exclude-pattern>/tests/*\.php$</exclude-pattern>
 	</rule>
 	<rule ref="Yoast.Files.FileName.InvalidTraitFileName">
 		<exclude-pattern>/tests/Unit/*\.php$</exclude-pattern>
 	</rule>
 	<rule ref="Yoast.NamingConventions.NamespaceName.Invalid">
-		<exclude-pattern>/tests/Unit/*_*/*\.php$</exclude-pattern>
+		<exclude-pattern>/tests/(Unit|WP)/*_*/*\.php$</exclude-pattern>
 	</rule>
 	<rule ref="Yoast.Commenting.FileComment.Unnecessary">
-		<exclude-pattern>/tests/Unit/bootstrap\.php$</exclude-pattern>
+		<exclude-pattern>/tests/*/bootstrap\.php$</exclude-pattern>
 	</rule>
 
 </ruleset>
