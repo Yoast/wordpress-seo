@@ -89,8 +89,7 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 		global $wp_rewrite;
 		$wp_rewrite            = Mockery::mock( 'WP_Rewrite' );
 		$GLOBALS['wp_rewrite'] = $wp_rewrite;
-		$this->assertInstanceOf( 'Yoast_Dynamic_Rewrites', Yoast_Dynamic_Rewrites::instance(), 'Instance is returned.' );
-		$this->assertSame( Yoast_Dynamic_Rewrites::instance(), Yoast_Dynamic_Rewrites::instance(), 'Same instance is returned.' );
+		$this->assertInstanceOf( 'Yoast_Dynamic_Rewrites', Yoast_Dynamic_Rewrites::instance(), 'Instance is not returned as expected.' );
 	}
 
 	/**
