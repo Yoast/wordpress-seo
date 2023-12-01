@@ -158,6 +158,12 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 npm test
 ```
 
+Or using yarn:
+
+```bash
+yarn test
+```
+
 Generate coverage using the `--coverage` flag.
 
 ## Code style
@@ -165,7 +171,7 @@ Generate coverage using the `--coverage` flag.
 To test your code style:
 
 ```bash
-grunt check
+yarn lint
 ```
 
 ## Testing with Yoast SEO
@@ -176,16 +182,32 @@ In the YoastSEO.js directory, run:
 npm link
 ```
 
-Then, in the [Yoast SEO](https://github.com/Yoast/wordpress-seo) directory, assuming you have a complete development version, run:
+Or using yarn:
+
+```bash
+yarn link
+```
+
+Then, in the project directory where you want to test the package, assuming you have a complete development version, run:
 
 ```bash
 npm link yoastseo
+```
+Or using yarn:
+
+```bash
+yarn link yoastseo
 ```
 
 If you want to unlink, simply do:
 
 ```bash
 npm unlink yoastseo
+```
+Or using yarn:
+
+```bash
+yarn unlink yoastseo
 ```
 
 ## Contributing
@@ -199,7 +221,7 @@ If you discover any security related issues, please email security [at] yoast.co
 ## Credits
 
 - [Team Yoast](https://github.com/orgs/Yoast/people)
-- [All Contributors](https://github.com/Yoast/YoastSEO.js/graphs/contributors)
+- [All Contributors](https://github.com/Yoast/wordpress-seo/graphs/contributors)
 
 ## License
 
