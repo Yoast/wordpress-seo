@@ -23,7 +23,7 @@ class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 *
 	 * @var Mockery\Mock|Deactivating_Yoast_Seo_Conditional
 	 */
-	protected $deacrivating_yoast_conditional;
+	protected $deactivating_yoast_conditional;
 
 	/**
 	 * Mock of the redirect helper.
