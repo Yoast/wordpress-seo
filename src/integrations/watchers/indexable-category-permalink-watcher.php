@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Yoast\WP\SEO\Config\Indexing_Reasons;
 use WPSEO_Utils;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 
 /**
  * Watches the stripcategorybase key in wpseo_titles, in order to clear the permalink of the category indexables.
