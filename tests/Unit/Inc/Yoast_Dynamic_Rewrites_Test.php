@@ -101,9 +101,9 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertNotFalse( \has_action( 'init', [ $this->instance, 'trigger_dynamic_rewrite_rules_hook' ] ), 'Register action for dynamic rewrites.' );
-		$this->assertNotFalse( \has_filter( 'option_rewrite_rules', [ $this->instance, 'filter_rewrite_rules_option' ] ), 'Adds option_rewrite_rules.' );
-		$this->assertNotFalse( \has_filter( 'sanitize_option_rewrite_rules', [ $this->instance, 'sanitize_rewrite_rules_option' ] ), 'Adds sanitize_option_rewrite_rules.' );
+		$this->assertNotFalse( \has_action( 'init', [ $this->instance, 'trigger_dynamic_rewrite_rules_hook' ] ), 'Does not have expected init action.' );
+		$this->assertNotFalse( \has_filter( 'option_rewrite_rules', [ $this->instance, 'filter_rewrite_rules_option' ] ), 'Does not have expected option_rewrite_rules filter.' );
+		$this->assertNotFalse( \has_filter( 'sanitize_option_rewrite_rules', [ $this->instance, 'sanitize_rewrite_rules_option' ] ), 'Does not have expected sanitize_option_rewrite_rules filter.' );
 	}
 
 	/**
