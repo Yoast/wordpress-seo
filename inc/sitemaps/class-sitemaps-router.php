@@ -57,6 +57,22 @@ class WPSEO_Sitemaps_Router {
 	}
 
 	/**
+	 * Stop trailing slashes on sitemap.xml URLs.
+	 *
+	 * @param string $redirect The redirect URL currently determined.
+	 *
+	 * @return bool|string
+	 */
+	public function redirect_canonical( $redirect ) {
+
+		if ( get_query_var( 'sitemap' ) || get_query_var( 'yoast-sitemap-xsl' ) ) {
+			return false;
+		}
+
+		return $redirect;
+	}
+
+	/**
 	 * Redirects sitemap.xml to sitemap_index.xml.
 	 */
 	public function template_redirect() {
