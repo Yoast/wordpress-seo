@@ -73,6 +73,16 @@ module.exports = {
 		"/spec/languageProcessing/languages/el/helpers/internal/stemmerCoverage/generateStems.js",
 		"/spec/scoring/assessments/inclusiveLanguage/testHelpers",
 	],
+	collectCoverageFrom: [
+		"src/**/*.{js,jsx,ts,tsx}",
+	],
+	coverageReporters: [
+		"json",
+		"lcov",
+		"text",
+		"clover",
+		"text-summary",
+	],
 	coverageThreshold: {
 		global: {
 			branches: 74,
