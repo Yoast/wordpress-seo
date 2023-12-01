@@ -57,42 +57,6 @@ class WPSEO_Sitemaps_Router {
 	}
 
 	/**
-	 * Sets up rewrite rules.
-	 *
-	 * @deprecated 21.6
-	 * @codeCoverageIgnore
-	 */
-	public function init() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 21.7' );
-
-		global $wp;
-
-		$wp->add_query_var( 'sitemap' );
-		$wp->add_query_var( 'sitemap_n' );
-		$wp->add_query_var( 'yoast-sitemap-xsl' );
-
-		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
-		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
-		add_rewrite_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?yoast-sitemap-xsl=$matches[1]', 'top' );
-	}
-
-	/**
-	 * Stop trailing slashes on sitemap.xml URLs.
-	 *
-	 * @param string $redirect The redirect URL currently determined.
-	 *
-	 * @return bool|string
-	 */
-	public function redirect_canonical( $redirect ) {
-
-		if ( get_query_var( 'sitemap' ) || get_query_var( 'yoast-sitemap-xsl' ) ) {
-			return false;
-		}
-
-		return $redirect;
-	}
-
-	/**
 	 * Redirects sitemap.xml to sitemap_index.xml.
 	 */
 	public function template_redirect() {
