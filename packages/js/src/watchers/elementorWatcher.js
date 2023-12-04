@@ -1,8 +1,8 @@
 import { dispatch } from "@wordpress/data";
 import { get, debounce } from "lodash";
 import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
-import {registerElementorUIHookAfter, registerElementorUIHookBefore} from "../helpers/elementorHook";
-import {markers, Paper} from "yoastseo";
+import { registerElementorUIHookAfter, registerElementorUIHookBefore } from "../helpers/elementorHook";
+import { markers, Paper } from "yoastseo";
 
 const editorData = {
 	content: "",
