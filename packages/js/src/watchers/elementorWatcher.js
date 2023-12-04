@@ -1,7 +1,8 @@
 import { dispatch } from "@wordpress/data";
 import { get, debounce } from "lodash";
 import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
-import { registerElementorUIHookAfter } from "../helpers/elementorHook";
+import {registerElementorUIHookAfter, registerElementorUIHookBefore} from "../helpers/elementorHook";
+import {markers, Paper} from "yoastseo";
 
 const editorData = {
 	content: "",
@@ -11,6 +12,34 @@ const editorData = {
 	imageUrl: "",
 };
 
+export const MARK_TAG = "yoastmark";
+
+/**
+ * Returns whether or not the elementor widget has marks
+ *
+ * @param {*} widget The widget.
+ * @returns {boolean} Whether or not there are marks inside the editor.
+ */
+export function widgetHasMarks( widget ) {
+	var content = widget.innerHTML;
+
+	return -1 !== content.indexOf( "<" + MARK_TAG );
+}
+
+/**
+ * Remove all marks from elementor.
+ *
+ * @returns {void}
+ */
+function removeMarks() {
+	const currentDocument = window.elementor.documents.getCurrent();
+
+	currentDocument.$element.find( ".elementor-widget-container" ).each( ( index, element ) => {
+		if ( widgetHasMarks( element ) ) {
+			element.innerHTML = markers.removeMarks( element.innerHTML );
+		}
+	} );
+}
 /**
  * Gets the post content.
  *
@@ -103,6 +132,20 @@ function handleEditorChange() {
 	}
 }
 
+/**
+ * Remove highlighting from Elementor widgets and uncheck highlight button when panel editor open.
+ *
+ * @returns {void}
+ */
+function handlePanelEditorOpen() {
+	removeMarks();
+
+	dispatch( "yoast-seo/editor" ).setActiveMarker( null );
+	dispatch( "yoast-seo/editor" ).setMarkerPauseStatus( false );
+
+	window.YoastSEO.analysis.applyMarks( new Paper( "", {} ), [] );
+}
+
 const debouncedHandleEditorChange = debounce( handleEditorChange, 500 );
 
 /**
@@ -111,6 +154,7 @@ const debouncedHandleEditorChange = debounce( handleEditorChange, 500 );
  * @returns {void}
  */
 export default function initialize() {
+	registerElementorUIHookBefore( "panel/editor/open", "yoast-seo-content-scraper-panel-editor-open", handlePanelEditorOpen );
 	// This hook will fire when the Elementor preview becomes available.
 	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo-content-scraper-attach-preview", debouncedHandleEditorChange );
 
