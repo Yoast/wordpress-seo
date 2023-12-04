@@ -19,7 +19,8 @@
 		"issues": "https://github.com/Yoast/wordpress-seo/issues",
 		"forum": "https://wordpress.org/support/plugin/wordpress-seo",
 		"wiki": "https://github.com/Yoast/wordpress-seo/wiki",
-		"source": "https://github.com/Yoast/wordpress-seo"
+		"source": "https://github.com/Yoast/wordpress-seo",
+		"security": "https://yoast.com/security-program/"
 	},
 	"require": {
 		"php": "^7.2.5 || ^8.0",

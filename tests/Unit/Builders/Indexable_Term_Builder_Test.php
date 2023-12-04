@@ -118,8 +118,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$this->instance = new Indexable_Term_Builder_Double(
 			$this->taxonomy,
 			$this->versions,
-			$this->post_helper,
-			$this->wpdb
+			$this->post_helper
 		);
 
 		$this->image            = Mockery::mock( Image_Helper::class );
@@ -253,21 +252,24 @@ class Indexable_Term_Builder_Test extends TestCase {
 			);
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
+		$GLOBALS['wpdb'] = $this->wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
+
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM	{$this->wpdb->posts} AS p
-			INNER JOIN {$this->wpdb->term_relationships} AS term_rel
-				ON		term_rel.object_id = p.ID
-			INNER JOIN {$this->wpdb->term_taxonomy} AS term_tax
-				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
-				AND		term_tax.taxonomy = %s
-				AND		term_tax.term_id = %d
-			WHERE	p.post_status IN (%s)
-				AND		p.post_password = ''
-		",
-			[ 'category', 1, 'publish' ]
+			SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
+			FROM %i AS p
+			INNER JOIN %i AS term_rel
+				ON		term_rel.%i = p.%i
+			INNER JOIN %i AS term_tax
+				ON		term_tax.%i = term_rel.%i
+				AND		term_tax.%i = %s
+				AND		term_tax.%i = %d
+			WHERE	p.%i IN (%s)
+				AND		p.%i = ''
+			",
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, $this->wpdb->term_relationships, 'object_id', 'ID', $this->wpdb->term_taxonomy, 'term_taxonomy_id', 'term_taxonomy_id', 'taxonomy', 'category', 'term_id', 1, 'post_status', 'publish', 'post_password' ]
 		)->andReturn( 'PREPARED_QUERY' );
+
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
 				'last_modified' => '1234-12-12 00:00:00',
