@@ -45,6 +45,7 @@ const IGNORED_CLASSES = [
 	"elementor-shortcode",
 	"elementor-menu-anchor",
 	"elementor-title",
+	"elementor-toggle"
 ];
 
 /**
