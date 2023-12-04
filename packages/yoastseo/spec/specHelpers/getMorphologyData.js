@@ -2,7 +2,7 @@ import en from "../../premium-configuration/data/morphologyData-en-v5.json";
 import de from "../../premium-configuration/data/morphologyData-de-v10.json";
 import nl from "../../premium-configuration/data/morphologyData-nl-v9.json";
 import es from "../../premium-configuration/data/morphologyData-es-v10.json";
-import fr from "../../premium-configuration/data/morphologyData-fr-v10.json";
+import fr from "../../premium-configuration/data/morphologyData-fr-v11.json";
 import ru from "../../premium-configuration/data/morphologyData-ru-v10.json";
 import it from "../../premium-configuration/data/morphologyData-it-v10.json";
 import pt from "../../premium-configuration/data/morphologyData-pt-v9.json";
