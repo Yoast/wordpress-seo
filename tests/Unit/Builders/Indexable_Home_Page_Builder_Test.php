@@ -186,8 +186,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 			$this->options_mock,
 			$this->url_mock,
 			$this->versions,
-			$this->post_helper,
-			$this->wpdb
+			$this->post_helper
 		);
 		$this->instance->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );
 	}
@@ -212,15 +211,17 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
+		$GLOBALS['wpdb'] = $this->wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
+
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (%s)
-				AND p.post_password = ''
-				AND p.post_type = 'post'
-		",
-			[ 'publish' ]
+			SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
+			FROM %i AS p
+			WHERE p.%i IN (%s)
+				AND p.%i = ''
+				AND p.%i = 'post'
+			",
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_type' ]
 		)->andReturn( 'PREPARED_QUERY' );
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
@@ -256,15 +257,17 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
+		$GLOBALS['wpdb'] = $this->wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
+
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (%s)
-				AND p.post_password = ''
-				AND p.post_type = 'post'
-		",
-			[ 'publish' ]
+			SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
+			FROM %i AS p
+			WHERE p.%i IN (%s)
+				AND p.%i = ''
+				AND p.%i = 'post'
+			",
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_type' ]
 		)->andReturn( 'PREPARED_QUERY' );
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
@@ -299,15 +302,17 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
+		$GLOBALS['wpdb'] = $this->wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
+
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (%s)
-				AND p.post_password = ''
-				AND p.post_type = 'post'
-		",
-			[ 'publish' ]
+			SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
+			FROM %i AS p
+			WHERE p.%i IN (%s)
+				AND p.%i = ''
+				AND p.%i = 'post'
+			",
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_type' ]
 		)->andReturn( 'PREPARED_QUERY' );
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
