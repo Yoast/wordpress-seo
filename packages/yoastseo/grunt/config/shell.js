@@ -35,9 +35,9 @@ module.exports = function( grunt ) {
 	}
 
 	/**
-	 * Gets the bash command to checkout the correct branch on the premium-configuration directory.
+	 * Gets the bash command to check out the correct branch on the premium-configuration directory.
 	 *
-	 * @returns {string} The bash command to checkout the correct branch on the premium-configuration directory.
+	 * @returns {string} The bash command to check out the correct branch on the premium-configuration directory.
 	 */
 	function checkoutPremiumConfigurationCommand() {
 		const commands = [];
