@@ -18,8 +18,9 @@ const StyledMention = styled.span`
   	line-height: 1.25;
 }
 	&:hover {
-		color: ${ colors.$color_white };
-		background-color: ${ colors.$color_pink_dark };
+      color: rgb(15 23 42);
+	  background-color: rgb(226 232 240);
+	  cursor: auto;
 	}
 `;
 
