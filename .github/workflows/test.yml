@@ -273,13 +273,3 @@ jobs:
           file: build/logs/clover-wp-ms.xml
           flag-name: php-${{ matrix.php_version }}-wp-${{ matrix.wp_version }}-ms
           parallel: true
-
-  coveralls-finish:
-    needs: [unit-test, wp-test]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Coveralls Finished
-        uses: coverallsapp/github-action@v2
-        with:
-          parallel-finished: true
