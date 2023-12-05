@@ -15,10 +15,11 @@ const disallowedDependencies = [
 	/**
 	 * References `Element`, a DOM interface not available in web workers.
 	 *
-	 * Was renamed, hence the two variants.
+	 * `wp-inert-polyfill` was renamed to `wp-polyfill-inert`, hence the two variants.
 	 */
 	"wp-inert-polyfill",
 	"wp-polyfill-inert",
+	// Elementor 3.18.0 added `wp-polyfill`.
 	"wp-polyfill",
 ];
 
