@@ -53,7 +53,7 @@ const otherAssessments = [
 		feedbackFormat: [ harmfulNonInclusive, "Consider using an alternative, such as %2$s. If possible, be more specific," +
 		" for example <i>people who don’t have anxiety disorders</i>, <i>people who haven’t experienced trauma</i>, etc." +
 		" Be careful when using mental health descriptors to describe specific people, and try to avoid making assumptions" +
-		" about someone’s mental health or attempting to diagnose them." ].join( " " ),
+		" about someone’s mental health." ].join( " " ),
 	},
 	{
 		identifier: "behaviorallyNormal",
@@ -84,7 +84,7 @@ const otherAssessments = [
 		feedbackFormat: [ harmfulNonInclusive, "Consider using an alternative, such as %2$s. If possible, be more specific," +
 		" for example <i>people who have anxiety disorders, people who have experienced trauma</i>, etc." +
 		" Be careful when using mental health descriptors to describe specific people, and try to avoid making assumptions" +
-		" about someone’s mental health or attempting to diagnose them." ].join( " " ),
+		" about someone’s mental health." ].join( " " ),
 	},
 	{
 		identifier: "behaviorallyAbnormal",

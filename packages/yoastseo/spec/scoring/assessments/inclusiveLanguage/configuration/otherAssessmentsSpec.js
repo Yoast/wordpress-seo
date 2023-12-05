@@ -35,7 +35,7 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 					" <i>people with a good mental health</i>, <i>mentally healthy people</i>. If possible, be more specific," +
 					" for example <i>people who don’t have anxiety disorders</i>, <i>people who haven’t experienced trauma</i>, etc." +
 					" Be careful when using mental health descriptors to describe specific people, and try to avoid making assumptions" +
-					" about someone’s mental health or attempting to diagnose them. " +
+					" about someone’s mental health. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -78,7 +78,7 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 					"Consider using an alternative, such as <i>people with a mental health condition</i>, <i>people with" +
 					" mental health problems</i>. If possible, be more specific, for example <i>people who have anxiety disorders, people " +
 					"who have experienced trauma</i>, etc. Be careful when using mental health descriptors to describe" +
-					" specific people, and try to avoid making assumptions about someone’s mental health or attempting to diagnose them. " +
+					" specific people, and try to avoid making assumptions about someone’s mental health. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
