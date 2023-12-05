@@ -19,6 +19,7 @@ const disallowedDependencies = [
 	 */
 	"wp-inert-polyfill",
 	"wp-polyfill-inert",
+	"wp-polyfill",
 ];
 
 /**
