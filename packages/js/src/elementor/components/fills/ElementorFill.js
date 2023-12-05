@@ -76,6 +76,33 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 						<SEMrushRelatedKeyphrases />
 					</Fill> }
 				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 10 }>
+					<Fragment>
+						<SeoAnalysis
+							shouldUpsell={ settings.shouldUpsell }
+							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+						/>
+						{ settings.shouldUpsell && <PremiumSEOAnalysisModal /> }
+					</Fragment>
+				</SidebarItem> }
+				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 15 }>
+					<ReadabilityAnalysis
+						shouldUpsell={ settings.shouldUpsell }
+					/>
+				</SidebarItem> }
+				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem renderPriority={ 19 }>
+					<InclusiveLanguageAnalysis />
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
+					{ settings.shouldUpsell && <KeywordUpsell /> }
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
+					<SidebarItem key="wincher-seo-performance" renderPriority={ 23 }>
+						<WincherSEOPerformanceModal location="sidebar" shouldCloseOnClickOutside={ false } />
+					</SidebarItem> }
+				{ settings.shouldUpsell && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 24 }>
+					<InternalLinkingSuggestionsUpsell />
+				</SidebarItem> }
 				<SidebarItem renderPriority={ 25 }>
 					<SearchAppearanceModal />
 				</SidebarItem>
@@ -99,33 +126,6 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 						<AdvancedSettings location="sidebar" />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 10 }>
-					<Fragment>
-						<SeoAnalysis
-							shouldUpsell={ settings.shouldUpsell }
-							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-						/>
-						{ settings.shouldUpsell && <PremiumSEOAnalysisModal /> }
-					</Fragment>
-				</SidebarItem> }
-				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 15 }>
-					<ReadabilityAnalysis
-						shouldUpsell={ settings.shouldUpsell }
-					/>
-				</SidebarItem> }
-				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem renderPriority={ 19 }>
-					<InclusiveLanguageAnalysis />
-				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
-					{ settings.shouldUpsell && <KeywordUpsell /> }
-				</SidebarItem> }
-				{ settings.shouldUpsell && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 23 }>
-					<InternalLinkingSuggestionsUpsell />
-				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
-					<SidebarItem key="wincher-seo-performance" renderPriority={ 23 }>
-						<WincherSEOPerformanceModal location="sidebar" shouldCloseOnClickOutside={ false } />
-					</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
 					<CollapsibleCornerstone />
 				</SidebarItem> }

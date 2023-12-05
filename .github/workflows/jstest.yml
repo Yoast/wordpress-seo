@@ -77,7 +77,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # The ubuntu images come with Node, npm and yarn pre-installed.
       # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
@@ -85,7 +85,7 @@ jobs:
       # This action also handles the caching of the Yarn dependencies.
       # https://github.com/actions/setup-node
       - name: Set up node and enable caching of dependencies
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '14'
           cache: 'yarn'
@@ -135,7 +135,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checks for changes
         uses: dorny/paths-filter@v2
@@ -154,7 +154,7 @@ jobs:
       # Check out the premium config repo ahead of running the tests to prevent issues with permissions.
       - name: Checkout premium configuration
         if: ${{ steps.checks-run.outputs.should == 'true' && matrix.needs_premium_config == true }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: Yoast/YoastSEO.js-premium-configuration
           path: packages/yoastseo/premium-configuration
@@ -168,7 +168,7 @@ jobs:
       # https://github.com/actions/setup-node
       - name: Set up node and enable caching of dependencies
         if: ${{ steps.checks-run.outputs.should == 'true' }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '14'
           cache: 'yarn'

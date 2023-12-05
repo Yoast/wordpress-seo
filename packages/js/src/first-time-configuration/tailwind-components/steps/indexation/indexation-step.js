@@ -23,19 +23,9 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 	return <Fragment>
 		<div className="yst-flex yst-flex-row yst-justify-between yst-flex-wrap yst-mb-8">
 			<p className="yst-text-sm yst-whitespace-pre-line yst-w-[463px]">
-				{ addLinkToString(
-					sprintf(
-						__( "Let’s analyze your site just like Google does and get those indexables into action by running the SEO data " +
-							"optimization! Our indexables will immediately improve technical issues without you needing to do anything!\n" +
-							"\nIf you have a lot of content, that optimization could take a while. But trust us, it’s worth it! " +
-							"Want to read more, %1$scheck out the benefits of the indexables squad.%2$s", "wordpress-seo" ),
-						"<a>",
-						"</a>"
-					),
-					window.wpseoFirstTimeConfigurationData.shortlinks.configIndexablesBenefits,
-					"yoast-configuration-index-data-link"
-				)
-				}
+				{ __( "Let's start by running the SEO data optimization. That means we'll scan your site and create a database with " +
+				"optimized SEO data. It won't change any content or settings on your site and you don't need to do anything, just hit start!\n" +
+				"\nNote: If you have a lot of content, this optimization could take a moment. But trust us, it's worth it!", "wordpress-seo" ) }
 			</p>
 			<ConfigurationStartImage className="yst-h-28 yst-w-24 yst-mr-6" />
 		</div>
