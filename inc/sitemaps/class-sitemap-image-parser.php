@@ -153,7 +153,7 @@ class WPSEO_Sitemap_Image_Parser {
 		 * @param array $images  Array of image items.
 		 * @param int   $term_id ID of the post.
 		 */
-		$images = apply_filters( 'wpseo_sitemap_term_url_images', $images, $term->ID );
+		$images = apply_filters( 'wpseo_sitemap_term_url_images', $images, $term->term_id );
 
 		return $images;
 	}
