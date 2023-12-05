@@ -7,7 +7,61 @@ on:
       - "release/**"
       - "hotfix/[0-9]+.[0-9]+*"
       - "feature/**"
+    paths:
+      # From test.yml
+      - '**.php' # Includes config/*.php and lib/*.php files.
+      - '**.xsl'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpunit.xml.dist'
+      - 'phpunit-wp.xml.dist'
+      - 'wpml-config.xml'
+      - '.github/workflows/test.yml'
+      - 'config/scripts/install-wp-tests.sh'
+      - 'tests/**'
+      # From jstest.yml
+      - '**.js' # Includes Gruntfile.js.
+      - '.browserslistrc'
+      - '.eslintignore'
+      - '.eslintrc'
+      - '.nvmrc'
+      - '.yarnrc'
+      - 'lerna.json'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.github/workflows/jstest.yml'
+      - '.yarn/**'
+      - 'apps/**'
+      - 'config/grunt/**'
+      - 'packages/**'
   pull_request:
+    paths:
+      # From test.yml
+      - '**.php' # Includes config/*.php and lib/*.php files.
+      - '**.xsl'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpunit.xml.dist'
+      - 'phpunit-wp.xml.dist'
+      - 'wpml-config.xml'
+      - '.github/workflows/test.yml'
+      - 'config/scripts/install-wp-tests.sh'
+      - 'tests/**'
+      # From jstest.yml
+      - '**.js' # Includes Gruntfile.js.
+      - '.browserslistrc'
+      - '.eslintignore'
+      - '.eslintrc'
+      - '.nvmrc'
+      - '.yarnrc'
+      - 'lerna.json'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.github/workflows/jstest.yml'
+      - '.yarn/**'
+      - 'apps/**'
+      - 'config/grunt/**'
+      - 'packages/**'
 
 # Don't run a second workflow for the same PR or commit if one is already running.
 concurrency:
