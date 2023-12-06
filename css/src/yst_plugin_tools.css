@@ -639,48 +639,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	font-weight: 600;
 }
 
-.yoast-sidebar__product .sidebar__sale_banner_container {
-	width: calc(100% + 48px);
-	margin-left: -24px;
-	overflow-x: hidden;
-	overflow-y: initial;
-	margin-top: -40px;
-}
-
-.yoast-sidebar__product .sidebar__sale_banner_container .sidebar__sale_banner {
-	background: #000;
-	color: #fcd34d;
-	width: calc(100% + 60px);
-	line-height: 30px;
-	margin-left: -30px;
-	transform: rotate(-5deg);
-	font-size: 20px;
-	font-weight: 500;
-	letter-spacing: 0.5px;
-	text-align: center;
-	z-index: 1;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	box-shadow: 0 -1px 4px 0 #fcd34d, 0 1px 4px 0 #fcd34d, 0 -1px 0 0 #fcd34d, 0 1px 0 0 #fcd34d;
-	padding: 7px 0;
-}
-
-.yoast-sidebar__product .sidebar__sale_banner_container .sidebar__sale_banner .banner_text {
-	display: inline-block;
-	margin: 0 40px;
-}
-
-.yoast-sidebar__product .sidebar__sale_text {
-	text-align: center;
-	border-top: solid 1px #ffffff;
-	font-style: italic;
-
-}
-.yoast-sidebar__product .sidebar__sale_text p {
-	font-size: 12.5px;
-	margin: 12.5px 0;
-}
-
 .yoast-sidebar__section {
 	box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
 	border: 1px solid #dcdcdc;
@@ -754,18 +712,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
   padding: 16px;
 }
 
-.black-friday-container {
-	display: flex;
-	background-color: #1F2937;
-	padding: 8px 16px;
-	border-bottom: 2px solid #FCD34D;
-}
-
-.black-friday-container span {
-	color:#FCD34D;
-	font-size: 1.2rem;
-	font-weight: 600;
-}
 .yoast_premium_upsell--header {
   color: #A4286A;
   margin-top: 0.3em;
