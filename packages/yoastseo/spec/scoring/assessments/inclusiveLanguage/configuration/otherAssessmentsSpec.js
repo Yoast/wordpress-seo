@@ -14,7 +14,7 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 				text: "He is a normal person.",
 				expectedFeedback: "Avoid using <i>normal person</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>typical person, average person</i> or describing the" +
-					" specific trait, experience, or behavior. " +
+					" person's specific trait, experience, or behavior. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -22,8 +22,8 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 				identifier: "normalPeople",
 				text: "They are normal people right.",
 				expectedFeedback: "Avoid using <i>normal people</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>typical people, average people</i> or describing the" +
-					" specific trait, experience, or behavior. " +
+					"Consider using an alternative, such as <i>typical people, average people</i> or describing" +
+					" people's specific trait, experience, or behavior. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},

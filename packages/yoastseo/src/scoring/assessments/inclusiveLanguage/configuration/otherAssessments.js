@@ -22,7 +22,7 @@ const otherAssessments = [
 	{
 		identifier: "normalPerson",
 		nonInclusivePhrases: [ "normal person" ],
-		inclusiveAlternatives: [ "<i>typical person, average person</i> or describing the specific trait, " +
+		inclusiveAlternatives: [ "<i>typical person, average person</i> or describing the person's specific trait, " +
 		"experience, or behavior" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
@@ -34,7 +34,7 @@ const otherAssessments = [
 	{
 		identifier: "normalPeople",
 		nonInclusivePhrases: [ "normal people", "Normal people" ],
-		inclusiveAlternatives: [ "<i>typical people, average people</i> or describing the specific trait, " +
+		inclusiveAlternatives: [ "<i>typical people, average people</i> or describing people's specific trait, " +
 		"experience, or behavior" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
