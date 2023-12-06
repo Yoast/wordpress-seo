@@ -46,12 +46,6 @@ const medicalCondition = harmfulPotentiallyNonInclusive +
  */
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
-/*
- * Used for phrases with 'crazy'. We don't want to mention the whole phrase in the feedback but only the non-inclusive word 'crazy'.
- *
- * "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as %2$s."
- */
-const phrasesWithCrazyFeedback = [ "Avoid using <i>crazy</i> as it is potentially harmful.", alternative ].join( " " );
 
 const disabilityAssessments =  [
 	{
@@ -408,7 +402,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "crazy about" ],
 		inclusiveAlternatives: "<i>to not be impressed by, to not be enthusiastic about, to not be into, to not like</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: phrasesWithCrazyFeedback,
+		feedbackFormat: [ "Avoid using <i>to not be crazy about</i> as it is potentially harmful.", alternative ].join( " " ),
 		// Target only when preceded by a form of "to be", the negation "not", and an optional intensifier (e.g. "is not so crazy about" ).
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
@@ -420,7 +414,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "crazy about" ],
 		inclusiveAlternatives: "<i>to love, to be obsessed with, to be infatuated with</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: phrasesWithCrazyFeedback,
+		feedbackFormat: [ "Avoid using <i>to be crazy about</i> as it is potentially harmful.", alternative ].join( " " ),
 		// Target only when preceded by a form of "to be" and an optional intensifier (e.g. "am so crazy about")
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
@@ -432,7 +426,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "crazy in love" ],
 		inclusiveAlternatives: "<i>wildly in love, head over heels, infatuated</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: phrasesWithCrazyFeedback,
+		feedbackFormat: potentiallyHarmful,
 	},
 	{
 		identifier: "to go crazy",
@@ -440,7 +434,7 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>to go wild, to go out of control, to go up the wall, to be aggravated," +
 			" to get confused</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: [ "Avoid using <i>to go crazy</i> as it is potentially harmful.", alternative ].join( " " ),
 		// Target only when preceded by a form of "to go" (e.g. 'going crazy').
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
@@ -453,7 +447,7 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
 			"to make one's blood boil, to exasperate, to get into one's head</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: [ "Avoid using <i>to drive crazy</i> as it is potentially harmful.", alternative ].join( " " ),
 		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
