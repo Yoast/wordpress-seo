@@ -6,8 +6,6 @@
  * @since   5.1
  */
 
-use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
-
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -129,19 +127,6 @@ $new_tab_message         = sprintf(
 	esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' )
 );
 
-$sale_badge         = '';
-$premium_sale_badge = '';
-
-if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
-	/* translators: %1$s expands to opening span, %2$s expands to closing span */
-	$sale_badge_span = sprintf( esc_html__( '%1$sSALE 30%% OFF!%2$s', 'wordpress-seo' ), '<span>', '</span>' );
-
-	$sale_badge = '<div class="yoast-seo-premium-extension-sale-badge">' . $sale_badge_span . '</div>';
-
-	$premium_sale_badge = ( $has_valid_premium_subscription ) ? '' : $sale_badge;
-
-}
-
 ?>
 
 <div class="wrap yoast wpseo_table_page">
@@ -150,7 +135,6 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 
 	<div id="extensions">
 		<section class="yoast-seo-premium-extension">
-			<?php echo $premium_sale_badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Output is already escaped ?>
 			<h2>
 				<?php
 				printf(
@@ -299,9 +283,6 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 				}
 				?>
 				<section class="yoast-promoblock secondary yoast-promo-extension">
-					<?php if ( ! $addon_manager->has_valid_subscription( $slug ) || ! $addon_manager->is_installed( $slug ) ) : ?>
-						<?php echo $sale_badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Output already escaped ?>
-					<?php endif; ?>
 					<h3>
 						<img alt="" width="100" height="100" src="<?php echo esc_url( $extension['image'] ); ?>"/>
 						<?php echo esc_html( $extension['display_title'] ); ?>
