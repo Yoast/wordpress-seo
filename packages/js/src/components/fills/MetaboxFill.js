@@ -23,27 +23,17 @@ import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../modals/KeywordUpsell";
-import { BlackFridayProductEditorChecklistPromotion } from "../BlackFridayProductEditorChecklistPromotion";
-import { BlackFridayPromotion } from "../BlackFridayPromotion";
-import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
-import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
-
-const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
-const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 
 /* eslint-disable complexity */
 /**
  * Creates the Metabox component.
  *
- * @param {Object} settings 				The feature toggles.
+ * @param {Object} settings he feature toggles.
  *
  * @returns {wp.Element} The Metabox component.
  */
 export default function MetaboxFill( { settings } ) {
 	const isTerm = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsTerm(), [] );
-	const isProduct = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsProduct(), [] );
-
-	const shouldShowWooCommerceChecklistPromo = isProduct && isWooCommerceActive();
 
 	return (
 		<>
@@ -54,13 +44,6 @@ export default function MetaboxFill( { settings } ) {
 					renderPriority={ 1 }
 				>
 					<Warning />
-				</SidebarItem>
-				<SidebarItem
-					key="time-constrained-notification"
-					renderPriority={ 2 }
-				>
-					{ shouldShowWooCommerceChecklistPromo && <BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck /> }
-					<BlackFridayPromotionWithMetaboxWarningsCheck image={ null } hasIcon={ false } location={ "metabox" } />
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput

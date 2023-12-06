@@ -20,9 +20,6 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import WebinarPromoNotification from "../WebinarPromoNotification";
-import { BlackFridayPromotion } from "../BlackFridayPromotion";
-import { BlackFridaySidebarChecklistPromotion } from "../BlackFridaySidebarChecklistPromotion";
-import { shouldShowWebinarPromotionNotificationInSidebar } from "../../helpers/shouldShowWebinarPromotionNotification";
 import KeywordUpsell from "../modals/KeywordUpsell";
 
 /* eslint-disable complexity */
@@ -39,7 +36,6 @@ import KeywordUpsell from "../modals/KeywordUpsell";
  */
 export default function SidebarFill( { settings } ) {
 	const webinarIntroBlockEditorUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
-	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
 
 	return (
 		<Fragment>
@@ -47,12 +43,7 @@ export default function SidebarFill( { settings } ) {
 				<SidebarItem key="warning" renderPriority={ 1 }>
 					<Warning />
 					<div style={ { margin: "0 16px" } }>
-						{ /* eslint-disable max-len */ }
-						{ shouldShowWebinarPromotionNotificationInSidebar() &&
-							<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
-						}
-						{ isWooCommerce && <BlackFridaySidebarChecklistPromotion hasIcon={ false } /> }
-						<BlackFridayPromotion image={ null } hasIcon={ false } />
+						<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
 					</div>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
