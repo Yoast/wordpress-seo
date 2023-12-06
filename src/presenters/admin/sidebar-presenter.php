@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Presenters\Admin;
 
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
-use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
  * Presenter class for the Yoast SEO sidebar.
@@ -17,8 +16,6 @@ class Sidebar_Presenter extends Abstract_Presenter {
 	 * @return string The sidebar HTML.
 	 */
 	public function present() {
-		$title = \__( 'BLACK FRIDAY - 30% OFF', 'wordpress-seo' );
-
 		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
 		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
 		\ob_start();
@@ -45,13 +42,6 @@ class Sidebar_Presenter extends Abstract_Presenter {
 									sizes="(min-width: 1321px) 75px">
 							</figure>
 						</figure>
-						<?php if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) : ?>
-							<div class="sidebar__sale_banner_container">
-								<div class="sidebar__sale_banner">
-										<span class="banner_text"><?php echo \esc_html( $title ); ?></span>
-								</div>
-							</div>
-						<?php endif; ?>
 						<h2 class="yoast-get-premium-title">
 							<?php
 							/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
@@ -63,26 +53,11 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							echo \esc_html__( 'Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support and much, much more!', 'wordpress-seo' );
 							?>
 						</p>
-						<?php if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) : ?>
-							<div class="sidebar__sale_text">
-								<p>
-									<?php
-									/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-									\printf( \esc_html__( '%1$s SAVE 30%% %2$s on your 12 month subscription', 'wordpress-seo' ), '<strong>', '</strong>' );
-									?>
-								</p>
-							</div>
-						<?php endif; ?>
 						<p class="plugin-buy-button">
 							<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
 								<?php
-								if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
-									echo \esc_html__( 'Claim your 30% off now!', 'wordpress-seo' );
-								}
-								else {
 									/* translators: %s expands to Yoast SEO Premium */
 									\printf( \esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
-								}
 								?>
 								<span aria-hidden="true" class="yoast-button-upsell__caret"></span>
 							</a>
