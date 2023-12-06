@@ -50,17 +50,19 @@ use Yoast\WP\SEO\Config\Migration_Status;
  */
 class ORM implements \ArrayAccess {
 
-	/*
-	 * --- CLASS CONSTANTS ---
+	/**
+	 * The condition fragment used for a query.
+	 *
+	 * @param string
 	 */
-
 	const CONDITION_FRAGMENT = 0;
 
-	const CONDITION_VALUES = 1;
-
-	/*
-	 * --- INSTANCE PROPERTIES ---
+	/**
+	 * The values used for a query's condition.
+	 *
+	 * @param array
 	 */
+	const CONDITION_VALUES = 1;
 
 	/**
 	 * Holds the class name. Wrapped find_one and find_many classes will return an instance or instances of this class.
@@ -217,6 +219,20 @@ class ORM implements \ArrayAccess {
 	 */
 	protected $instance_id_column = null;
 
+	/**
+	 * The cache-group prefix.
+	 *
+	 * @var string
+	 */
+	protected static $cache_group_prefix = 'yoast-seo';
+
+	/**
+	 * Whether this site has persistent cache or not.
+	 *
+	 * @var bool
+	 */
+	private static $has_persistent_cache;
+
 	/*
 	 * --- STATIC METHODS ---
 	 */
@@ -255,8 +271,8 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Internal helper method for executing statements.
 	 *
-	 * @param string $query      The query.
-	 * @param array  $parameters An array of parameters to be bound in to the query.
+	 * @param string $query          The query.
+	 * @param array  $parameters     An array of parameters to be bound in to the query.
 	 *
 	 * @return bool|int Response of wpdb::query
 	 */
@@ -641,9 +657,7 @@ class ORM implements \ArrayAccess {
 		if ( \is_array( $this->get_id_column_name() ) ) {
 			return \count( \array_filter( $this->id(), 'is_null' ) );
 		}
-		else {
-			return \is_null( $this->id() ) ? 1 : 0;
-		}
+		return \is_null( $this->id() ) ? 1 : 0;
 	}
 
 	/**
@@ -1950,7 +1964,17 @@ class ORM implements \ArrayAccess {
 	protected function run() {
 		global $wpdb;
 
-		$query   = $this->build_select();
+		$query = $this->build_select();
+
+		// Generate a unique cache key for this query.
+		$cache_key = 'query_' . md5( $query . json_encode( $this->values ) ); // phpcs:ignore Yoast.Yoast.AlternativeFunctions
+
+		// Get the cache and bail early if it's set.
+		$cached = self::get_cache( $cache_key, $this->table_name );
+		if ( $cached !== false ) {
+			return $cached;
+		}
+
 		$success = self::execute( $query, $this->values );
 
 		if ( $success === false ) {
@@ -1970,6 +1994,8 @@ class ORM implements \ArrayAccess {
 		foreach ( $wpdb->last_result as $row ) {
 			$rows[] = \get_object_vars( $row );
 		}
+
+		self::set_cache( $cache_key, $rows, $this->table_name );
 
 		return $rows;
 	}
@@ -2194,6 +2220,10 @@ class ORM implements \ArrayAccess {
 		$this->dirty_fields = [];
 		$this->expr_fields  = [];
 
+		if ( $success ) {
+			$this->flush_group_caches( $this->table_name );
+		}
+
 		return $success;
 	}
 
@@ -2288,6 +2318,10 @@ class ORM implements \ArrayAccess {
 			$success = $success && (bool) self::execute( $query, $values );
 		}
 
+		if ( $success ) {
+			self::flush_group_caches( $this->table_name );
+		}
+
 		return $success;
 	}
 
@@ -2311,6 +2345,10 @@ class ORM implements \ArrayAccess {
 		$success            = self::execute( $query, \array_merge( $values, $this->values ) );
 		$this->dirty_fields = [];
 		$this->expr_fields  = [];
+
+		if ( $success ) {
+			self::flush_group_caches( $this->table_name );
+		}
 
 		return $success;
 	}
@@ -2421,7 +2459,13 @@ class ORM implements \ArrayAccess {
 	public function delete() {
 		$query = [ 'DELETE FROM', $this->quote_identifier( $this->table_name ), $this->add_id_column_conditions() ];
 
-		return self::execute( \implode( ' ', $query ), \is_array( $this->id( true ) ) ? \array_values( $this->id( true ) ) : [ $this->id( true ) ] );
+		// Get the ID.
+		$id = $this->id( true );
+
+		// Flush caches.
+		self::flush_group_caches( $this->table_name );
+
+		return self::execute( \implode( ' ', $query ), \is_array( $id ) ? \array_values( $id ) : [ $id ] );
 	}
 
 	/**
@@ -2441,6 +2485,10 @@ class ORM implements \ArrayAccess {
 			]
 		);
 
+		// Flush caches.
+		self::flush_group_caches( $this->table_name );
+
+		// Execute the query.
 		return self::execute( $query, $this->values );
 	}
 
@@ -2540,5 +2588,125 @@ class ORM implements \ArrayAccess {
 	 */
 	public function __isset( $key ) {
 		return $this->offsetExists( $key );
+	}
+
+	/**
+	 * Whether this site has persistent caching implemented.
+	 *
+	 * @return bool
+	 */
+	private static function has_persistent_cache() {
+		if ( self::$has_persistent_cache === false || self::$has_persistent_cache === true ) {
+			return self::$has_persistent_cache;
+		}
+
+		// Check if the site is using an external object cache.
+		if ( \function_exists( 'wp_using_ext_object_cache' )
+			&& \wp_using_ext_object_cache()
+		) {
+			self::$has_persistent_cache = true;
+			return true;
+		}
+
+		// Defensive coding - cover all bases.
+		// This will prevent errors below if WP_CONTENT_DIR is not defined.
+		if ( ! defined( 'WP_CONTENT_DIR' ) ) {
+			return false;
+		}
+
+		// Check if the site is using a persistent drop-in (object-cache.php).
+		// This _should_ be covered by the `wp_using_ext_object_cache()` check,
+		// but sometimes isn't depending on the timing of the cache.
+		if ( \file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
+			self::$has_persistent_cache = true;
+			return true;
+		}
+
+		// No persistent caching was detected.
+		self::$has_persistent_cache = false;
+		return false;
+	}
+
+	/**
+	 * Get a cache.
+	 *
+	 * @param string $key      Cache key.
+	 * @param mixed  $group_id Cache group ID.
+	 *
+	 * @return mixed The cache value.
+	 */
+	public static function get_cache( $key, $group_id = '' ) {
+		// Bail early if the site doesnt have persistent caching.
+		if ( ! self::has_persistent_cache() ) {
+			return false;
+		}
+		$cache_group = self::get_cache_group( $group_id );
+		return \wp_cache_get( $key, $cache_group );
+	}
+
+	/**
+	 * Set a cache.
+	 *
+	 * @param string $key      Cache key.
+	 * @param mixed  $value    Cache value.
+	 * @param mixed  $group_id Cache group ID.
+	 *
+	 * @return void
+	 */
+	private static function set_cache( $key, $value, $group_id = '' ) {
+		// Bail early if the site doesnt have persistent caching.
+		if ( ! self::has_persistent_cache() ) {
+			return;
+		}
+		/**
+		 * Set the cache, with a timeout of 10 minutes.
+		 *
+		 * The 10-minute is long enough to significantly improve performance,
+		 * but short enough to not cause issues with stale data.
+		 *
+		 * Individual cache-groups are purged when a record is updated or deleted.
+		 */
+		\wp_cache_set( $key, $value, self::get_cache_group( $group_id ), ( 10 * MINUTE_IN_SECONDS ) );
+	}
+
+	/**
+	 * Flushes the cache for the given group IDs.
+	 *
+	 * @param mixed $group_id Cache group ID.
+	 *
+	 * @return void
+	 */
+	public static function flush_group_caches( $group_id = '' ) {
+		// Bail early if the site doesnt have persistent caching.
+		if ( ! self::has_persistent_cache() ) {
+			return;
+		}
+		// Bail early if the cache doesn't support group-flushing.
+		if ( \function_exists( 'wp_cache_supports' ) && ! \wp_cache_supports( 'flush_group' ) ) {
+			return;
+		}
+		// Bail early if the `wp_cache_flush_group` function doesn't exist.
+		if ( ! \function_exists( 'wp_cache_flush_group' ) ) {
+			return;
+		}
+		\wp_cache_flush_group( self::get_cache_group( $group_id ) );
+	}
+
+	/**
+	 * Get the cache-group to use in cached queries.
+	 *
+	 * @param string $id The ID to use in the cache-group.
+	 *
+	 * @return mixed
+	 */
+	private static function get_cache_group( $id = '' ) {
+		// Bail early if the site doesnt have persistent caching.
+		if ( ! self::has_persistent_cache() ) {
+			return false;
+		}
+		if ( ! $id ) {
+			return static::$cache_group_prefix;
+		}
+		return static::$cache_group_prefix . '-' . $id;
 	}
 }
