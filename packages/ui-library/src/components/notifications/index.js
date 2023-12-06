@@ -121,6 +121,7 @@ export const Notification = ( {
 				{ onDismiss && (
 					<div className="yst-flex-shrink-0 yst-flex">
 						<button
+							type="button"
 							onClick={ handleDismiss }
 							className="yst-bg-white yst-rounded-md yst-inline-flex yst-text-slate-400 hover:yst-text-slate-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
 						>
