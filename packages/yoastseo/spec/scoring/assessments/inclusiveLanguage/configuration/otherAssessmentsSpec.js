@@ -133,7 +133,7 @@ describe( "Checks highlighting for 'minorities' and conditions in which assessme
 		const mockText = "This ad is aimed at minorities.";
 		const mockPaper = new Paper( mockText );
 		const mockResearcher = new EnglishResearcher( mockPaper );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "minorities" )  );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "minorities" ) );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		const assessmentResult = assessor.getResult();

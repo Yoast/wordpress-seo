@@ -244,7 +244,7 @@ describe( "A test for Disability assessments", function() {
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains wheelchair-bound.</yoastmark>",
 			original: "This sentence contains wheelchair-bound." } } ]
@@ -266,7 +266,7 @@ describe( "A test for Disability assessments", function() {
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains hard-of-hearing.</yoastmark>",
 			original: "This sentence contains hard-of-hearing." } } ]
@@ -289,7 +289,7 @@ describe( "A test for Disability assessments", function() {
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains high-functioning autism.</yoastmark>",
 			original: "This sentence contains high-functioning autism." } } ]
@@ -312,7 +312,7 @@ describe( "A test for Disability assessments", function() {
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains low-functioning autism.</yoastmark>",
 			original: "This sentence contains low-functioning autism." } } ]
@@ -335,7 +335,7 @@ describe( "A test for Disability assessments", function() {
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains brain-damaged.</yoastmark>",
 			original: "This sentence contains brain-damaged." } } ]
@@ -410,7 +410,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "cripple",
 				text: "He's afraid to look like a cripple.",
 				expectedFeedback: "Avoid using <i>a cripple</i> as it is derogatory. Consider using an alternative, such as " +
-					"<i>person with a physical disability, a physically disabled person</i> instead. " +
+					"<i>person with a physical disability, a physically disabled person</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -786,7 +786,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains differently-abled.</yoastmark>",
 			original: "This sentence contains differently-abled." } } ]
@@ -881,28 +881,28 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		const testData = [
 			// The negated phrase for 'crazy about' without an intensifier.
 			{
-				identifier: "to be not crazy about",
+				identifier: "to not be crazy about",
 				text: "They are not crazy about this album.",
 				expectedFeedback: "Avoid using <i>to not be crazy about</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>to be not impressed by, to be not enthusiastic about, to be not into, " +
+					"Consider using an alternative, such as <i>to not be impressed by, to not be enthusiastic about, to not be into, " +
 					"to not like</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 			// The negated phrase for 'crazy about' with an intensifier.
 			{
-				identifier: "to be not crazy about",
+				identifier: "to not be crazy about",
 				text: "They are not too crazy about this album.",
 				expectedFeedback: "Avoid using <i>to not be crazy about</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>to be not impressed by, to be not enthusiastic about, to be not into, " +
+					"Consider using an alternative, such as <i>to not be impressed by, to not be enthusiastic about, to not be into, " +
 					"to not like</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 			// The contracted negated phrase for 'crazy about' with an intensifier.
 			{
-				identifier: "to be not crazy about",
+				identifier: "to not be crazy about",
 				text: "They aren't too crazy about this album.",
 				expectedFeedback: "Avoid using <i>to not be crazy about</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>to be not impressed by, to be not enthusiastic about, to be not into, " +
+					"Consider using an alternative, such as <i>to not be impressed by, to not be enthusiastic about, to not be into, " +
 					"to not like</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -912,7 +912,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 	it( "should not show the feedback for the negated form of 'crazy about' when the non-negated form is used.", () => {
 		const mockPaper = new Paper( "I am so crazy about this album." );
 		const mockResearcher = Factory.buildMockResearcher( [ "I am so crazy about this album." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "to be not crazy about" ) );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "to not be crazy about" ) );
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		expect( isApplicable ).toBeFalsy();
 	} );
@@ -1250,7 +1250,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
 		expect( assessment.getResult().score ).toBe( 3 );
 		expect( assessment.getResult().text ).toBe( "Avoid using <i>imbecile</i> as it is derogatory. Consider using an alternative, " +
-			"such as <i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i> instead. " +
+			"such as <i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>. " +
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 	} );
 } );
