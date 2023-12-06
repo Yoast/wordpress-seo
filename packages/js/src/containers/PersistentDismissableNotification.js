@@ -33,7 +33,7 @@ const PersistentDismissableNotification = ( {
 				</div>
 				{ Image && <Image height="60" /> }
 			</div>
-			<button className="notice-dismiss" onClick={ onDismissed }>
+			<button type="button" className="notice-dismiss" onClick={ onDismissed }>
 				<span className="screen-reader-text">
 					{
 						/* translators: Hidden accessibility text. */
