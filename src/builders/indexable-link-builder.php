@@ -77,7 +77,6 @@ class Indexable_Link_Builder {
 	 * @param Post_Helper          $post_helper          The post helper.
 	 * @param Options_Helper       $options_helper       The options helper.
 	 * @param Post_Type_Helper     $post_type_helper     The post type helper.
-	 *
 	 */
 	public function __construct(
 		SEO_Links_Repository $seo_links_repository,
@@ -498,8 +497,8 @@ class Indexable_Link_Builder {
 					}
 
 					[ , $width, $height ] = \wp_get_attachment_image_src( $model->target_post_id, 'full' );
-					$model->width  = $width;
-					$model->height = $height;
+					$model->width         = $width;
+					$model->height        = $height;
 				}
 				else {
 					$model->width  = 0;
