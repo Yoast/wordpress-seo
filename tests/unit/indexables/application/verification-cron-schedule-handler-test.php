@@ -33,6 +33,13 @@ class Verification_Cron_Schedule_Handler_Test extends TestCase {
 	private $cron_verification_gate;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var \Mockery\MockInterface|Options_Helper
+	 */
+	private $option_helper;
+
+	/**
 	 * The setup function.
 	 *
 	 * @return void
@@ -41,22 +48,22 @@ class Verification_Cron_Schedule_Handler_Test extends TestCase {
 		parent::setUp();
 
 		$this->cron_verification_gate = Mockery::mock( Cron_Verification_Gate::class );
-		$options_helper               = Mockery::mock( Options_Helper::class );
-		$options_helper->expects( 'get' )->with( 'activation_redirect_timestamp_free', 0 )->andReturn( 2 );
+		$this->option_helper          = Mockery::mock( Options_Helper::class );
 
-		$this->instance = new Verification_Cron_Schedule_Handler( $this->cron_verification_gate, $options_helper );
+		$this->instance = new Verification_Cron_Schedule_Handler( $this->cron_verification_gate, $this->option_helper );
 	}
 
 	/**
 	 * Tests the schedule_indexable_verification method.
 	 *
 	 * @covers ::schedule_indexable_verification
+	 * @covers ::__construct
 	 *
 	 * @dataProvider schedule_indexable_verification_provider
 	 *
-	 * @param bool $should_verify If the indexable verification is enabled.
-	 * @param bool $post_scheduled If the cron is scheduled.
-	 * @param bool $timestamp_scheduled If the cron is scheduled.
+	 * @param bool $should_verify          If the indexable verification is enabled.
+	 * @param bool $post_scheduled         If the cron is scheduled.
+	 * @param bool $timestamp_scheduled    If the cron is scheduled.
 	 * @param int  $time_wp_schedule_event How many times this functions should be called.
 	 *
 	 * @return void
@@ -68,6 +75,8 @@ class Verification_Cron_Schedule_Handler_Test extends TestCase {
 		$time_wp_schedule_event
 	) {
 		$this->cron_verification_gate->expects( 'should_verify_on_cron' )->twice()->andReturn( $should_verify );
+		$this->option_helper->expects( 'get' )->with( 'activation_redirect_timestamp_free', 0 )->andReturn( 2 );
+
 		if ( $should_verify ) {
 			Monkey\Functions\expect( 'wp_next_scheduled' )
 				->once()
@@ -124,5 +133,84 @@ class Verification_Cron_Schedule_Handler_Test extends TestCase {
 			'timestamp_cron_scheduled' => false,
 			'time_wp_schedule_event'   => 1,
 		];
+	}
+
+	/**
+	 * Tests the unschedule_verify_post_indexables_cron method.
+	 *
+	 * @covers ::unschedule_verify_post_indexables_cron
+	 *
+	 * @return void
+	 */
+	public function test_unschedule_verify_post_indexables_cron() {
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )
+			->once()
+			->with( Verification_Cron_Schedule_Handler::INDEXABLE_VERIFY_POST_INDEXABLES_NAME )
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'wp_unschedule_event' )
+			->once()
+			->with( true, Verification_Cron_Schedule_Handler::INDEXABLE_VERIFY_POST_INDEXABLES_NAME );
+
+		$this->instance->unschedule_verify_post_indexables_cron();
+	}
+
+	/**
+	 * Tests the unschedule_verify_post_indexables_cron method.
+	 *
+	 * @covers ::unschedule_verify_post_indexables_cron
+	 *
+	 * @return void
+	 */
+	public function test_unschedule_verify_post_indexables_cron_without_running_cron() {
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )
+			->once()
+			->with( Verification_Cron_Schedule_Handler::INDEXABLE_VERIFY_POST_INDEXABLES_NAME )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'wp_unschedule_event' )
+			->never();
+		$this->instance->unschedule_verify_post_indexables_cron();
+	}
+
+	/**
+	 * Tests the unschedule_verify_post_indexables_cron method.
+	 *
+	 * @covers ::unschedule_verify_non_timestamped_indexables_cron
+	 *
+	 * @return void
+	 */
+	public function test_unschedule_verify_non_timestamped_indexables_cron() {
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )
+			->once()
+			->with( Verification_Cron_Schedule_Handler::INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME )
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'wp_unschedule_event' )
+			->once()
+			->with( true, Verification_Cron_Schedule_Handler::INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME );
+		$this->instance->unschedule_verify_non_timestamped_indexables_cron();
+	}
+
+	/**
+	 * Tests the unschedule_verify_non_timestamped_indexables_cron method.
+	 *
+	 * @covers ::unschedule_verify_non_timestamped_indexables_cron
+	 *
+	 * @return void
+	 */
+	public function test_unschedule_verify_non_timestamped_indexables_cron_without_running_cron() {
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )
+			->once()
+			->with( Verification_Cron_Schedule_Handler::INDEXABLE_VERIFY_NON_TIMESTAMPED_INDEXABLES_NAME )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'wp_unschedule_event' )
+			->never();
+		$this->instance->unschedule_verify_non_timestamped_indexables_cron();
 	}
 }

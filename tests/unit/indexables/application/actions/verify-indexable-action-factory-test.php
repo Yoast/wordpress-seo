@@ -81,6 +81,7 @@ class Verify_Indexable_Action_Factory_Test extends TestCase {
 	 * Tests the get function.
 	 *
 	 * @covers ::get
+	 * @covers ::__construct
 	 *
 	 * @dataProvider indexable_action_factory_data_provider
 	 *
@@ -156,7 +157,7 @@ class Verify_Indexable_Action_Factory_Test extends TestCase {
 	public function test_determine_next_verify_action_no_actions_left() {
 		$this->expectException( No_Verification_Action_Left_Exception::class );
 
-		$this->instance->determine_next_verify_action( new Current_Verification_Action( 'post_links' ) );
+		$this->instance->determine_next_verify_action( new Current_Verification_Action( 'term_links' ) );
 	}
 
 	/**

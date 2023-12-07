@@ -40,6 +40,7 @@ class Verify_Non_Timestamp_Indexables_Command_Test extends TestCase {
 	 * Tests the get current action object.
 	 *
 	 * @covers ::get_current_action
+	 * @covers ::__construct
 	 *
 	 * @return void
 	 */

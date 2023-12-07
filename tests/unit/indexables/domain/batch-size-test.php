@@ -46,7 +46,7 @@ class Batch_Size_Test extends TestCase {
 	/**
 	 * Tests the get function.
 	 *
-	 * @covers ::get_batch_size
+	 * @covers ::should_keep_going
 	 * @covers ::__construct
 	 * @return void
 	 */

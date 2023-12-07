@@ -90,6 +90,7 @@ class Verify_Non_Timestamp_Indexables_Command_Handler_Test extends TestCase {
 	 * Tests the handle function.
 	 *
 	 * @covers ::handle
+	 * @covers ::__construct
 	 * @return void
 	 */
 	public function test_handle_with_next_batch() {

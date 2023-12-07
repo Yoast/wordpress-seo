@@ -40,6 +40,7 @@ class Verify_Post_Indexables_Command_Test extends TestCase {
 	 * Tests the last batch count object.
 	 *
 	 * @covers ::get_last_batch_count
+	 * @covers ::__construct
 	 *
 	 * @return void
 	 */

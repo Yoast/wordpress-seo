@@ -95,6 +95,7 @@ class Verify_Post_Indexables_Command_Handler_Test extends TestCase {
 	 * Tests the handle function.
 	 *
 	 * @covers ::handle
+	 * @covers ::__construct
 	 * @return void
 	 */
 	public function test_handle_with_next_batch() {
@@ -133,6 +134,37 @@ class Verify_Post_Indexables_Command_Handler_Test extends TestCase {
 		$this->outdated_post_indexables_repository->expects( 'get_outdated_post_indexables' )
 			->with( $this->command->get_last_batch_count() )
 			->andThrow( new No_Outdated_Posts_Found_Exception() );
+		$this->cron_schedule_handler->expects( 'unschedule_verify_post_indexables_cron' )->once();
+		$this->instance->handle( $this->command );
+	}
+
+	/**
+	 * Tests the handle function when there is no next batch.
+	 *
+	 * @covers ::handle
+	 * @return void
+	 */
+	public function test_handle_with_no_next_batch() {
+		$this->command                             = new Verify_Post_Indexables_Command( 10, 0 );
+		$indexable_list  = new Outdated_Post_Indexables_List();
+		$indexable_mock  = Mockery::mock( Indexable::class );
+		$indexable_mock1 = Mockery::mock( Indexable::class );
+		$indexable_mock2 = Mockery::mock( Indexable::class );
+		$indexable_mock3 = Mockery::mock( Indexable::class );
+		$indexable_list->add_post_indexable( $indexable_mock );
+		$indexable_list->add_post_indexable( $indexable_mock1 );
+		$indexable_list->add_post_indexable( $indexable_mock2 );
+		$indexable_list->add_post_indexable( $indexable_mock3 );
+		$this->outdated_post_indexables_repository->expects( 'get_outdated_post_indexables' )
+			->with( $this->command->get_last_batch_count() )
+			->andReturn( $indexable_list );
+
+
+		$this->indexables_builder->expects()->build( $indexable_mock );
+		$this->indexables_builder->expects()->build( $indexable_mock1 );
+		$this->indexables_builder->expects()->build( $indexable_mock2 );
+		$this->indexables_builder->expects()->build( $indexable_mock3 );
+
 		$this->cron_schedule_handler->expects( 'unschedule_verify_post_indexables_cron' )->once();
 		$this->instance->handle( $this->command );
 	}

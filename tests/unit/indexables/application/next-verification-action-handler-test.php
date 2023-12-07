@@ -48,6 +48,7 @@ class Next_Verification_Action_Handler_Test extends TestCase {
 	 * Tests the get function.
 	 *
 	 * @covers ::get_current_verification_action
+	 * @covers ::__construct
 	 * @return void
 	 */
 	public function test_get_current_verification_action() {

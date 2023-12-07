@@ -49,6 +49,7 @@ class Verification_Cron_Batch_Handler_Test extends TestCase {
 	 * Tests the get function.
 	 *
 	 * @covers ::get_current_post_indexables_batch
+	 * @covers ::__construct
 	 * @return void
 	 */
 	public function test_get_current_post_indexables_batch() {

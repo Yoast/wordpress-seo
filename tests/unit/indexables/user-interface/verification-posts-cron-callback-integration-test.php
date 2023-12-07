@@ -75,6 +75,7 @@ class Verification_Posts_Cron_Callback_Integration_Test extends TestCase {
 	 * Tests the register_hooks function.
 	 *
 	 * @covers ::register_hooks
+	 * @covers ::__construct
 	 * @return void
 	 */
 	public function test_register_hooks() {

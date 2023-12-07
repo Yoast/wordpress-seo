@@ -38,6 +38,7 @@ class Outdated_Post_Indexables_List_Test extends TestCase {
 	 * Tests the add_post_indexable function.
 	 *
 	 * @covers ::add_post_indexable
+	 * @covers ::current
 	 * @covers ::__construct
 	 * @return void
 	 */
@@ -54,6 +55,7 @@ class Outdated_Post_Indexables_List_Test extends TestCase {
 	 * @covers ::key
 	 * @covers ::next
 	 * @covers ::rewind
+	 * @covers ::valid
 	 * @covers ::count
 	 * @return void
 	 */
