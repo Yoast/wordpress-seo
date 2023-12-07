@@ -8,7 +8,6 @@ use WPSEO_Image_Utils;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Models\SEO_Links;
@@ -63,33 +62,23 @@ class Indexable_Link_Builder {
 	protected $indexable_repository;
 
 	/**
-	 * The post type helper.
-	 *
-	 * @var Post_Type_Helper
-	 */
-	protected $post_type_helper;
-
-	/**
 	 * Indexable_Link_Builder constructor.
 	 *
 	 * @param SEO_Links_Repository $seo_links_repository The SEO links repository.
 	 * @param Url_Helper           $url_helper           The URL helper.
 	 * @param Post_Helper          $post_helper          The post helper.
 	 * @param Options_Helper       $options_helper       The options helper.
-	 * @param Post_Type_Helper     $post_type_helper     The post type helper.
 	 */
 	public function __construct(
 		SEO_Links_Repository $seo_links_repository,
 		Url_Helper $url_helper,
 		Post_Helper $post_helper,
-		Options_Helper $options_helper,
-		Post_Type_Helper $post_type_helper
+		Options_Helper $options_helper
 	) {
 		$this->seo_links_repository = $seo_links_repository;
 		$this->url_helper           = $url_helper;
 		$this->post_helper          = $post_helper;
 		$this->options_helper       = $options_helper;
-		$this->post_type_helper     = $post_type_helper;
 	}
 
 	/**
@@ -719,12 +708,6 @@ class Indexable_Link_Builder {
 		$counts = $this->seo_links_repository->get_incoming_link_counts_for_indexable_ids( $related_indexable_ids );
 		if ( \wp_cache_supports( 'flush_group' ) ) {
 			\wp_cache_flush_group( 'orphaned_counts' );
-		}
-		else {
-			$indexable_post_types = $this->post_type_helper->get_indexable_post_types();
-			foreach ( $indexable_post_types as $post_type ) {
-				\wp_cache_delete( 'orphaned_count_' . $post_type );
-			}
 		}
 
 		foreach ( $counts as $count ) {
