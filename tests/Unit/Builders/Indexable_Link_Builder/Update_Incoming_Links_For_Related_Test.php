@@ -27,8 +27,7 @@ final class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Li
 			$this->seo_links_repository,
 			$this->url_helper,
 			$this->post_helper,
-			$this->options_helper,
-			$this->post_type_helper
+			$this->options_helper
 		);
 
 		$this->instance->set_dependencies( $this->indexable_repository, $this->image_helper );

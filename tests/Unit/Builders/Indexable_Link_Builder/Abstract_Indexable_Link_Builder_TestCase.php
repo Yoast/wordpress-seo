@@ -78,13 +78,6 @@ abstract class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
 	protected $image_url;
 
 	/**
-	 * The post type helper.
-	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Post_Type_Helper
-	 */
-	protected $post_type_helper;
-
-	/**
 	 * Sets up the tests.
 	 *
 	 * @return void
@@ -98,14 +91,12 @@ abstract class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
 		$this->image_helper         = Mockery::mock( Image_Helper::class );
 		$this->post_helper          = Mockery::mock( Post_Helper::class );
 		$this->options_helper       = Mockery::mock( Options_Helper::class );
-		$this->post_type_helper     = Mockery::mock( Post_Type_Helper::class );
 
 		$this->instance = new Indexable_Link_Builder(
 			$this->seo_links_repository,
 			$this->url_helper,
 			$this->post_helper,
-			$this->options_helper,
-			$this->post_type_helper
+			$this->options_helper
 		);
 		$this->instance->set_dependencies( $this->indexable_repository, $this->image_helper );
 
