@@ -5,9 +5,6 @@ const config = {
 	],
 	testURL: "http://localhost",
 	setupTestFrameworkScriptFile: "<rootDir>/tests/setupTests.js",
-	moduleNameMapper: {
-		"^lodash-es$": "lodash",
-	},
 	collectCoverageFrom: [
 		"src/**/*.{js,jsx,ts,tsx}",
 	],

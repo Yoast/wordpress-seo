@@ -6,8 +6,6 @@ const config = {
 	testURL: "http://localhost",
 	setupTestFrameworkScriptFile: "<rootDir>/jest/setupTests.js",
 	moduleNameMapper: {
-		"^lodash-es$": "lodash",
-		"^lodash-es/(.*)$": "lodash/$1",
 		"\\.css$": "<rootDir>/jest/__mocks__/styleMock.js",
 	},
 	collectCoverageFrom: [

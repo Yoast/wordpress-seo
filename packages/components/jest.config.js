@@ -4,13 +4,9 @@ const config = {
 		"**/*Test.[jt]s",
 	],
 	testURL: "http://localhost",
-	transformIgnorePatterns: [
-		"/node_modules/(?!yoastseo|lodash-es).+\\.js$",
-	],
 	setupTestFrameworkScriptFile: "<rootDir>/jest/setupTests.js",
 	moduleNameMapper: {
 		"\\.css$": "<rootDir>/jest/CSSStub.js",
-		"^lodash-es$": "lodash",
 	},
 	collectCoverageFrom: [
 		"src/**/*.{js,jsx,ts,tsx}",

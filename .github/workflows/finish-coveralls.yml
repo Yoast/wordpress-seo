@@ -94,7 +94,6 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           check-regexp: Test|TestJS
 
-
       - name: "Coveralls Finished"
         uses: coverallsapp/github-action@v2
         env:
