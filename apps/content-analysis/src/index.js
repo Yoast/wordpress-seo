@@ -17,6 +17,7 @@ const storageStates = [
 	"configuration",
 	"options",
 	"paper",
+	"performance",
 ];
 const preloadedState = {
 	configuration: {
@@ -39,6 +40,11 @@ const preloadedState = {
 		locale: "",
 		slug: "",
 		permalink: "https://example.org/",
+	},
+	performance: {
+		batchSize: 50,
+		researches: [],
+		results: {},
 	},
 };
 
