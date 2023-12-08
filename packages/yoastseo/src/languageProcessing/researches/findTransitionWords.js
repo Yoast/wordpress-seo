@@ -1,11 +1,9 @@
 import createRegexFromDoubleArray from "../helpers/regex/createRegexFromDoubleArray.js";
-import getSentences from "../helpers/sentence/getSentences.js";
 import { normalizeSingle as normalizeSingleQuotes } from "../helpers/sanitize/quotes.js";
 import { isWordInSentence as matchWordInSentence } from "../helpers/word/matchWordInSentence.js";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
 
 import { flattenDeep } from "lodash-es";
-import { filterShortcodesFromHTML } from "../helpers";
+import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
 
 let regexFromDoubleArray = null;
 let regexFromDoubleArrayCacheKey = "";
@@ -34,7 +32,6 @@ function getRegexFromDoubleArray( twoPartTransitionWords ) {
  * @returns {Array} The found transitional words.
  */
 const matchTwoPartTransitionWords = function( sentence, twoPartTransitionWords ) {
-	sentence = normalizeSingleQuotes( sentence );
 	const twoPartTransitionWordsRegex = getRegexFromDoubleArray( twoPartTransitionWords );
 	return sentence.match( twoPartTransitionWordsRegex );
 };
@@ -47,8 +44,25 @@ const matchTwoPartTransitionWords = function( sentence, twoPartTransitionWords )
  * @returns {Array} The found transitional words.
  */
 const matchTransitionWords = function( sentence, transitionWords ) {
-	sentence = normalizeSingleQuotes( sentence );
-	return transitionWords.filter( word => matchWordInSentence( word, sentence ) );
+	return transitionWords.filter( transitionWord => {
+		// Split into [ "as", "can", "be", "seen" ]
+		transitionWord = transitionWord.toLocaleLowerCase().split( " " );
+
+		// Single words we can just find in the tokens.
+		if ( transitionWord.length === 1 ) {
+			return sentence.tokens.find( token => token.text.toLocaleLowerCase() === transitionWord[ 0 ] );
+		}
+
+		// For multiple words, we need to (1) find them, (2) check if all have been found, (3) check if they are in order.
+		// Problem: what if the words appear multiple times in the sentence? We really need them to be in order.
+		const wordIndices = transitionWord.map( word => sentence.tokens.findIndex( token => {
+			return token.text.toLocaleLowerCase() === word;
+		} ) );
+		if ( wordIndices.includes( -1 ) ) {
+			return false;
+		}
+		return wordIndices.every( ( wordIndex, i ) => i === wordIndices.length - 1 || wordIndex + 2 === wordIndices[ i + 1 ] );
+	} );
 };
 
 /**
@@ -66,11 +80,11 @@ const checkSentencesForTransitionWords = function( sentences, transitionWords, t
 
 	sentences.forEach( sentence => {
 		if ( twoPartTransitionWords ) {
-			const twoPartMatches = matchTwoPartTransitionWords( sentence, twoPartTransitionWords );
+			const twoPartMatches = matchTwoPartTransitionWords( sentence.text, twoPartTransitionWords );
 
 			if ( twoPartMatches !== null ) {
 				results.push( {
-					sentence: sentence,
+					sentence: sentence.text,
 					transitionWords: twoPartMatches,
 				} );
 
@@ -84,7 +98,7 @@ const checkSentencesForTransitionWords = function( sentences, transitionWords, t
 
 		if ( transitionWordMatches.length !== 0 ) {
 			results.push( {
-				sentence: sentence,
+				sentence: sentence.text,
 				transitionWords: transitionWordMatches,
 			} );
 		}
@@ -107,12 +121,8 @@ export default function( paper, researcher ) {
 	const matchTransitionWordsHelper = researcher.getHelper( "matchTransitionWordsHelper" );
 	const transitionWords = researcher.getConfig( "transitionWords" );
 	const twoPartTransitionWords = researcher.getConfig( "twoPartTransitionWords" );
-	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
-	let text = paper.getText();
-	text = removeHtmlBlocks( text );
-	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
-	const sentences = getSentences( text, memoizedTokenizer );
+	const sentences = getSentencesFromTree( paper );
 	const sentenceResults = checkSentencesForTransitionWords( sentences, transitionWords, twoPartTransitionWords, matchTransitionWordsHelper );
 
 	return {
