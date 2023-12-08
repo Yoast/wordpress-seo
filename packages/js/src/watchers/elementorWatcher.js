@@ -49,7 +49,11 @@ function getContent( editorDocument ) {
 	const content = [];
 
 	editorDocument.$element.find( ".elementor-widget-container" ).each( ( index, element ) => {
-		content.push( element.innerHTML.trim() );
+		// We remove \n and \t from the HTML as Elementor formats the HTML after saving.
+		// As this spacing is purely cosmetic, we can remove it for analysis purposes.
+		// When we apply the marks, we do need to make the same amendments.
+		const rawHtml = element.innerHTML.replace( /[\n\t]/g, "" ).trim();
+		content.push( rawHtml );
 	} );
 
 	return content.join( "" );
@@ -152,7 +156,7 @@ const debouncedHandleEditorChange = debounce( handleEditorChange, 500 );
  * @returns {void}
  */
 export default function initialize() {
-	// This hook will fire 250ms after a widget is edited.
+	// This hook will fire 500ms after a widget is edited -- this allows Elementor to set the cursor at the end of the widget.
 	registerElementorUIHookBefore( "panel/editor/open", "yoast-seo-reset-marks-edit", debounce( resetMarks, 500 ) );
 	// This hook will fire just before the document is saved.
 	registerElementorUIHookBefore( "document/save/save", "yoast-seo-reset-marks-save", resetMarks );
