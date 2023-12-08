@@ -3,6 +3,7 @@ import {
 	SWITCH_MODE,
 	UPDATE_DATA,
 	UPDATE_REPLACEMENT_VARIABLE,
+	UPDATE_REPLACEMENT_VARIABLES_BATCH,
 	HIDE_REPLACEMENT_VARIABLES,
 	REMOVE_REPLACEMENT_VARIABLE,
 	CUSTOM_FIELD_RESULTS,
@@ -10,7 +11,7 @@ import {
 	UPDATE_WORDS_TO_HIGHLIGHT,
 	LOAD_SNIPPET_EDITOR_DATA,
 } from "../actions/snippetEditor";
-import { pushNewReplaceVar, replaceSpaces } from "../../helpers/replacementVariableHelpers";
+import { pushNewReplaceVar, replaceSpaces, createLabelFromName } from "../../helpers/replacementVariableHelpers";
 import { firstToUpperCase } from "../../helpers/stringHelpers";
 
 /**
@@ -63,6 +64,48 @@ function updateReplacementVariable( state, action ) {
 	if ( isNewReplaceVar ) {
 		nextReplacementVariables = pushNewReplaceVar( nextReplacementVariables, action );
 	}
+
+	return {
+		...state,
+		replacementVariables: nextReplacementVariables,
+	};
+}
+
+/**
+ * Updates a replacement variables in batch, adding it if it doesn't exist.
+ *
+ * @param {Object} state The current state.
+ * @param {Object} action The action that was just dispatched.
+ *
+ * @returns {Object} The new state.
+ */
+function updateReplacementVariablesBatch( state, action ) {
+	const existingVariables = {};
+	const nextReplacementVariables = state.replacementVariables.map( ( replaceVar ) => {
+		const updatedVariable = action.updatedVariables[ replaceVar.name ];
+		if ( updatedVariable ) {
+			existingVariables[ replaceVar.name ] = true;
+			return {
+				name: replaceVar.name,
+				label: updatedVariable.label || replaceVar.label,
+				value: updatedVariable.value,
+				hidden: replaceVar.hidden,
+			};
+		}
+
+		return replaceVar;
+	} );
+
+	Object.keys( action.updatedVariables ).forEach( ( name ) => {
+		if ( ! existingVariables[ name ] ) {
+			nextReplacementVariables.push( {
+				name,
+				label: action.updatedVariables[ name ].label || createLabelFromName( name ),
+				value: action.updatedVariables[ name ].value,
+				hidden: false,
+			} );
+		}
+	} );
 
 	return {
 		...state,
@@ -132,6 +175,9 @@ function snippetEditorReducer( state = getInitialState(), action ) {
 
 		case UPDATE_REPLACEMENT_VARIABLE:
 			return updateReplacementVariable( state, action );
+
+		case UPDATE_REPLACEMENT_VARIABLES_BATCH:
+			return updateReplacementVariablesBatch( state, action );
 
 		case CUSTOM_FIELD_RESULTS:
 			return customFieldResults( state, action );

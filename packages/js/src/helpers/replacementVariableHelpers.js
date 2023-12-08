@@ -10,10 +10,10 @@ import {
 import { stripTags } from "@wordpress/sanitize";
 
 /* Internal dependencies */
-import { updateReplacementVariable } from "../redux/actions/snippetEditor";
+import { updateReplacementVariable, updateReplacementVariablesBatch } from "../redux/actions/snippetEditor";
 import { firstToUpperCase } from "./stringHelpers";
 
-import { strings } from "@yoast/helpers";
+import { strings, decodeHTML } from "@yoast/helpers";
 const { stripHTMLTags } = strings;
 
 export const nonReplaceVars = [ "slug", "content", "contentImage", "snippetPreviewImageURL" ];
@@ -166,9 +166,12 @@ export function prepareCustomTaxonomyForDispatch( name ) {
  * @returns {Object}                 The restructured replacevars object without custom_taxonomies.
  */
 export function mapCustomTaxonomies( replaceVars, store ) {
+	console.log( store );
 	if ( ! replaceVars.custom_taxonomies ) {
 		return replaceVars;
 	}
+
+	const updatedVariables = {};
 
 	forEach( replaceVars.custom_taxonomies, ( value, key ) => {
 		const {
@@ -178,9 +181,22 @@ export function mapCustomTaxonomies( replaceVars, store ) {
 			descriptionLabel,
 		} = prepareCustomTaxonomyForDispatch( key );
 
-		store.dispatch( updateReplacementVariable( name, value.name, label ) );
-		store.dispatch( updateReplacementVariable( descriptionName, value.description, descriptionLabel ) );
+		const valueName = ( typeof value.name === "string" ) ? decodeHTML( value.name ) : value.name;
+		const valueDescription = ( typeof value.description === "string" ) ? decodeHTML( value.description ) : value.description;
+
+		updatedVariables[ name ] = {
+			value: valueName,
+			label,
+		};
+		updatedVariables[ descriptionName ] = {
+			value: valueDescription,
+			label: descriptionLabel,
+		};
+		 store.dispatch( updateReplacementVariable( name, value.name, label ) );
+		// store.dispatch( updateReplacementVariable( descriptionName, value.description, descriptionLabel ) );
 	} );
+
+	store.dispatch( updateReplacementVariablesBatch( updatedVariables ) );
 
 	return omit( {
 		...replaceVars,
