@@ -1,5 +1,6 @@
 import { punctuationRegexEnd, punctuationRegexStart } from "../sanitize/removePunctuation";
 import { hashedHtmlEntitiesRegexEnd, hashedHtmlEntitiesRegexStart } from "../../../helpers/htmlEntities";
+import abbreviations from "../../languages/en/config/abbreviations";
 
 /*
  * The following regex matches a word separator. A word separator is either a whitespace, a slash, a
@@ -13,6 +14,8 @@ import { hashedHtmlEntitiesRegexEnd, hashedHtmlEntitiesRegexStart } from "../../
  * - Open and closing brackets are added to deal correctly with shortcodes downstream.
  */
 const wordSeparatorsRegex = /([\s\t\u00A0[\]])/;
+
+const ABBREVIATIONS = abbreviations.map( abbreviation => abbreviation.toLocaleLowerCase() );
 
 /**
  * Tokenizes a text similar to getWords, but in a suitable way for the HTML parser.
@@ -49,8 +52,10 @@ const getWordsForHTMLParser = ( text ) => {
 			token = token.slice( 1 );
 		}
 		// Add all punctuation marks that occur after the last letter of the token to the posttokens array.
-		// Also, prevent matching with a hashed HTML entity at the end of the token.
-		while ( punctuationRegexEnd.test( token ) && ! hashedHtmlEntitiesRegexEnd.test( token ) ) {
+		// Also, prevent matching with a hashed HTML entity at the end of the token, or an abbreviation.
+		while ( punctuationRegexEnd.test( token ) &&
+		! hashedHtmlEntitiesRegexEnd.test( token ) &&
+		! ABBREVIATIONS.includes( token.toLocaleLowerCase() ) ) {
 			// Using unshift here because we are iterating from the end of the string to the beginning,
 			// and we want to keep the order of the punctuation marks.
 			// Therefore, we add them to the start of the array.

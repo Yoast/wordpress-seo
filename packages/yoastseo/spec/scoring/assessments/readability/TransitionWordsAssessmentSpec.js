@@ -5,6 +5,7 @@ import TransitionWordsAssessment from "../../../../src/scoring/assessments/reada
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
+import buildTree from "../../../specHelpers/parse/buildTree";
 
 const shortTextJapanese = "熱".repeat( 399 );
 const longTextJapanese = "熱".repeat( 400 );
@@ -107,6 +108,7 @@ describe( "An assessment for transition word percentage", function() {
 			"However, a cat with the toy looks happier. She is given raw food. Seniors don't like it.<br></br>\n" +
 			"</p>" );
 		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
 		const result = new TransitionWordsAssessment().getResult( paper, researcher );
 
 		expect( result.getScore() ).toEqual( 9 );
@@ -217,10 +219,11 @@ describe( "A test for marking sentences containing a transition word", function(
 			"However, a cat with the toy looks happier. She is given raw food. Seniors don't like it.<br></br>\n" +
 			"</p>" );
 		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
 		const expected = [
 			new Mark( {
-				original: "However, a cat with the toy looks happier.",
-				marked: "<yoastmark class='yoast-text-mark'>However, a cat with the toy looks happier.</yoastmark>" } ),
+				original: " However, a cat with the toy looks happier.",
+				marked: "<yoastmark class='yoast-text-mark'> However, a cat with the toy looks happier.</yoastmark>" } ),
 		];
 		expect( new TransitionWordsAssessment().getMarks( paper, researcher ) ).toEqual( expected );
 	} );

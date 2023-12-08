@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import transitionWordsResearch from "../../../src/languageProcessing/researches/findTransitionWords.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
@@ -240,6 +239,7 @@ describe( "a test for finding transition words from a string", function() {
 	it( "works with normalizes quotes", function() {
 		// Transition word: what’s more.
 		mockPaper = new Paper( "what’s more", {} );
+		buildTree( mockPaper, mockResearcher );
 		result = transitionWordsResearch( mockPaper, mockResearcher );
 
 		expect( result ).toEqual( {
@@ -266,6 +266,7 @@ describe( "a test for finding transition words from a string", function() {
 			transitionWordSentences: 1,
 		};
 
+		buildTree( mockPaper, mockResearcher );
 		result = transitionWordsResearch( mockPaper, mockResearcher );
 
 		expect( result ).toEqual( expected );
@@ -280,26 +281,28 @@ describe( "a test for finding transition words from a string", function() {
 			transitionWordSentences: 0,
 		};
 
+		buildTree( mockPaper, mockResearcher );
 		result = transitionWordsResearch( mockPaper, mockResearcher );
 
 		expect( result ).toEqual( expected );
 	} );
 
 	it( "does recognize transition words with full stops, like 'e.g.'.", function() {
-		// Non-transition word: eggs.
+		// Transition words: e.g., i.e.
 		mockPaper = new Paper( "E.g. potatoes. I.e. apples." );
 		const expected = {
 			sentenceResults: [ {
 				sentence: "E.g. potatoes.",
 				transitionWords: [ "e.g." ],
 			}, {
-				sentence: "I.e. apples.",
+				sentence: " I.e. apples.",
 				transitionWords: [ "i.e." ],
 			} ],
 			totalSentences: 2,
 			transitionWordSentences: 2,
 		};
 
+		buildTree( mockPaper, mockResearcher );
 		result = transitionWordsResearch( mockPaper, mockResearcher );
 
 		expect( result ).toEqual( expected );
