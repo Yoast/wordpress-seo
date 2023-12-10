@@ -40,10 +40,12 @@ const Template = args => {
 	);
 };
 
-export const Factory = Template.bind( {} );
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	children: "Everything is fine!",
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		children: "Everything is fine!",
+	},
 };

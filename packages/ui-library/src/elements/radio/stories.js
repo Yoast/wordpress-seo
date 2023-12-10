@@ -8,17 +8,16 @@ export default {
 	parameters: { docs: { description: { component } } },
 };
 
-export const Factory = ( args ) => (
-	<Radio { ...args } />
-);
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	id: "radio",
-	name: "name",
-	value: "value",
-	label: "I am a radio button.",
+export const Factory = {
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		id: "radio",
+		name: "name",
+		value: "value",
+		label: "I am a radio button.",
+	},
 };
 
 export const Variants = ( args ) => (
@@ -32,10 +31,17 @@ export const Variants = ( args ) => (
 );
 Variants.parameters = { docs: { description: { story: variants } } };
 
-export const DangerousLabel = ( args ) => (
-	<div className="yst-flex yst-flex-col yst-gap-4">
-		<Radio id="radio-dangerous" name="option-dangerous" value="D" label={ "&bull; Dangerous label." } isLabelDangerousHtml={ true } />
-	</div>
-);
-DangerousLabel.storyName = "Dangerous label";
-DangerousLabel.parameters = { docs: { description: { story: dangerousLabel } } };
+export const DangerousLabel = {
+	name: "Dangerous label",
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: dangerousLabel } },
+	},
+	args: {
+		id: "radio-dangerous",
+		name: "option-dangerous",
+		value: "D",
+		label: "&bull; Dangerous label.",
+		isLabelDangerousHtml: true,
+	},
+};

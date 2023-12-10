@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { useArgs } from "@storybook/preview-api";
+import React, { useCallback } from "react";
 import Pagination from ".";
 
 export default {
@@ -17,32 +19,37 @@ export default {
 	},
 };
 
-export const Factory = ( args ) => {
-	const [ current, setCurrent ] = useState( args.current );
-	return <Pagination { ...args } current={ current } onNavigate={ setCurrent } />;
-};
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	current: 1,
-	total: 10,
-	screenReaderTextPrevious: "Previous",
-	screenReaderTextNext: "Next",
+const Template = ( args ) => {
+	const [ , updateArgs ] = useArgs();
+	const handleNavigate = useCallback( newCurrent => updateArgs( { current: newCurrent } ), [ updateArgs ] );
+
+	return <Pagination { ...args } onNavigate={ handleNavigate } />;
 };
 
-export const VariantText = ( args ) => {
-	const [ current, setCurrent ] = useState( args.current );
-	return <Pagination { ...args } current={ current } onNavigate={ setCurrent } />;
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		current: 1,
+		total: 10,
+		screenReaderTextPrevious: "Previous",
+		screenReaderTextNext: "Next",
+	},
 };
-VariantText.storyName = "Variant text";
-VariantText.parameters = {
-	controls: { disable: false },
-};
-VariantText.args = {
-	current: 1,
-	total: 10,
-	screenReaderTextPrevious: "Previous",
-	screenReaderTextNext: "Next",
-	variant: "text",
+
+export const VariantText = {
+	render: Template.bind( {} ),
+	name: "Variant text",
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		current: 1,
+		total: 10,
+		screenReaderTextPrevious: "Previous",
+		screenReaderTextNext: "Next",
+		variant: "text",
+	},
 };

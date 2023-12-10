@@ -12,7 +12,6 @@ export default {
 };
 
 export const Factory = {
-	component: ( args ) => <Code { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},
@@ -34,6 +33,7 @@ export const Variants = ( args ) => (
 	</div>
 );
 Variants.parameters = {
+	controls: { disable: true },
 	docs: {
 		description: {
 			story: variants,

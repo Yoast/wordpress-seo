@@ -43,7 +43,7 @@ export const notificationClassNameMap = {
  * @param {string} dismissScreenReaderLabel Screen reader label for dismiss button.
  * @returns {JSX.Element} The Notification component.
  */
-export const Notification = ( {
+const Notification = ( {
 	children,
 	id,
 	variant = "info",

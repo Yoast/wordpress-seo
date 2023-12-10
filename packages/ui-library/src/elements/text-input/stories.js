@@ -1,4 +1,3 @@
-import React from "react";
 import TextInput from ".";
 import { component } from "./docs";
 
@@ -15,7 +14,6 @@ export default {
 };
 
 export const Factory = {
-	component: ( args ) => <TextInput { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},

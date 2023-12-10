@@ -18,14 +18,13 @@ export default {
 	},
 };
 
-export const Factory = ( { children, ...args } ) => (
-	<Badge { ...args }>{ children }</Badge>
-);
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	children: "Badge factory",
+export const Factory = {
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		children: "Badge factory",
+	},
 };
 
 export const Variants = ( args ) => (

@@ -1,4 +1,3 @@
-import React from "react";
 import ProgressBar from ".";
 import { component } from "./docs";
 
@@ -8,14 +7,13 @@ export default {
 	parameters: { docs: { description: { component } } },
 };
 
-export const Factory = ( { children, ...args } ) => (
-	<ProgressBar { ...args } />
-);
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	min: 0,
-	max: 100,
-	progress: 50,
+export const Factory = {
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		min: 0,
+		max: 100,
+		progress: 50,
+	},
 };

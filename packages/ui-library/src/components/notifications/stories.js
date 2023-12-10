@@ -1,13 +1,13 @@
 import { keys } from "lodash";
 import React from "react";
-import Notifications, { Notification, notificationClassNameMap } from ".";
+import Notifications, { notificationClassNameMap } from ".";
 import { childrenNotification, component, descriptionList, error, info, success, warning } from "./docs";
 
 export default {
 	title: "2) Components/Notifications",
-	component: Notification,
+	component: Notifications.Notification,
 	argTypes: {
-		children: { control: "text" },
+		children: { control: { disable: true } },
 		position: {
 			options: [ "bottom-center", "bottom-left", "top-center" ],
 			type: "select",
@@ -49,22 +49,26 @@ export default {
 			},
 		},
 	},
+	decorators: [
+		( Story ) => (
+			<div className="yst-h-48 yst-bg-slate-100">
+				<Story />
+			</div>
+		),
+	],
 };
 
-const Template = ( args ) => <Notifications.Notification { ...args } />;
-
-export const Factory = ( args ) => (
-	<>
-		<div className="yst-mb-3">Default position is bottom-left.</div>
-		<div className="yst-fixed yst-left-0 yst-z-50">
-			<Notifications position={ args.position }>
-				<Notifications.Notification { ...args } />
-			</Notifications>
-		</div>
-	</>
+const Template = ( { position, ...args } ) => (
+	<Notifications position={ position }>
+		<Notifications.Notification { ...args } />
+	</Notifications>
 );
-Factory.args = {
-	id: "notification-factory",
+
+export const Factory = {
+	render: Template.bind( {} ),
+	args: {
+		id: "notification-factory",
+	},
 };
 
 export const Info = Template.bind( {} );

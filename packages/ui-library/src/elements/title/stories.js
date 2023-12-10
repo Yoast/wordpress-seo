@@ -18,14 +18,13 @@ export default {
 	},
 };
 
-export const Factory = ( { children, ...args } ) => (
-	<Title { ...args }>{ children }</Title>
-);
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	children: "Title factory",
+export const Factory = {
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		children: "Title factory",
+	},
 };
 
 export const As = args => (

@@ -1,4 +1,3 @@
-import React from "react";
 import Root from ".";
 
 export default {
@@ -21,12 +20,12 @@ export default {
 	},
 };
 
-export const Factory = ( { children, ...args } ) => (
-	<Root { ...args }>{ children }</Root>
-);
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	children: "Start of your React tree",
+export const Factory = {
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		children: "Start of your React tree",
+		context: { isRtl: false },
+	},
 };

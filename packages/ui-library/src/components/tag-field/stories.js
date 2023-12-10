@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { useArgs } from "@storybook/preview-api";
 import { map, noop } from "lodash";
 import React, { useCallback, useState } from "react";
 import TagField from ".";
@@ -25,30 +27,37 @@ export default {
 };
 
 const Template = args => {
-	const [ tags, setTags ] = useState( args?.tags || [] );
+	const [ { tags }, updateArgs ] = useArgs();
 	const addTag = useCallback( tag => {
-		setTags( [ ...tags, tag ] );
-	}, [ tags, setTags ] );
+		updateArgs( { tags: [ ...tags, tag ] } );
+	}, [ tags, updateArgs ] );
 	const removeTag = useCallback( index => {
-		setTags( [ ...tags.slice( 0, index ), ...tags.slice( index + 1 ) ] );
-	}, [ tags, setTags ] );
+		updateArgs( { tags: [ ...tags.slice( 0, index ), ...tags.slice( index + 1 ) ] } );
+	}, [ tags, updateArgs ] );
 
 	return (
-		<TagField { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
+		<TagField { ...args } tags={ tags || [] } onAddTag={ addTag } onRemoveTag={ removeTag } />
 	);
 };
 
-export const Factory = Template.bind( {} );
-Factory.parameters = {
-	controls: { disable: false },
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+	},
 };
 
-export const WithLabelAndDescription = Template.bind( {} );
-WithLabelAndDescription.storyName = "With label and description";
-WithLabelAndDescription.args = {
-	id: "tag-field-1",
-	label: "Tag field with a label",
-	description: "Tag field with a description.",
+export const WithLabelAndDescription = {
+	render: Template.bind( {} ),
+	name: "With label and description",
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		id: "tag-field-1",
+		label: "Tag field with a label",
+		description: "Tag field with a description.",
+	},
 };
 
 export const Validation = () => (

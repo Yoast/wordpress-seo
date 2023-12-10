@@ -30,7 +30,6 @@ Factory.args = {
 };
 
 export const Anchor = {
-	component: Factory.bind( {} ),
 	parameters: {
 		docs: {
 			description: {
@@ -47,7 +46,6 @@ export const Anchor = {
 };
 
 export const Button = {
-	component: Factory.bind( {} ),
 	parameters: {
 		docs: {
 			description: {
@@ -76,7 +74,7 @@ export const Button = {
 };
 
 export const CustomComponent = {
-	component: Factory.bind( {} ),
+	name: "Custom component",
 	parameters: {
 		docs: {
 			description: {
@@ -98,5 +96,3 @@ export const CustomComponent = {
 		children: "component",
 	},
 };
-
-CustomComponent.storyName = "Custom component";

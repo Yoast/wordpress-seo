@@ -8,11 +8,15 @@ export default {
 	component: Toggle,
 	argTypes: {
 		as: { options: [ "button", "div", "span" ] },
+		type: {
+			control: "string",
+			description: "When `as` is `button`, the type is forced to `button` for proper behavior in HTML forms.",
+		},
 	},
 	parameters: { docs: { description: { component } } },
 };
 
-export const Factory = ( args ) => {
+const Template = ( args ) => {
 	const [ checked, setChecked ] = useState( args.checked || false );
 	const handleChange = useCallback( setChecked, [ setChecked ] );
 
@@ -21,13 +25,15 @@ export const Factory = ( args ) => {
 	);
 };
 
-Factory.parameters = {
-	controls: { disable: false },
-};
-
-Factory.args = {
-	id: "id-1",
-	screenReaderLabel: "Toggle",
-	checked: false,
-	onChange: noop,
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		id: "id-1",
+		screenReaderLabel: "Toggle",
+		checked: false,
+		onChange: noop,
+	},
 };

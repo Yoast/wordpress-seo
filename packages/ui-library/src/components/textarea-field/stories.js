@@ -23,15 +23,16 @@ export default {
 };
 
 export const Factory = {
-	component: args => <TextareaField { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},
 };
 
 export const WithLabelAndDescription = {
-	component: Factory.component.bind( {} ),
-	storyName: "With label and description",
+	name: "With label and description",
+	parameters: {
+		controls: { disable: false },
+	},
 	args: {
 		id: "textarea-field-1",
 		label: "Textarea field with a label",

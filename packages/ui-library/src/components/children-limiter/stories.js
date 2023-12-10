@@ -30,18 +30,20 @@ const Template = args => {
 	return <ChildrenLimiter { ...args } renderButton={ renderMoreOrLessButton } />;
 };
 
-export const Factory = Template.bind( {} );
-Factory.parameters = {
-	controls: { disable: false },
-	docs: {
-		source: {
-			transform: ( args ) => (
-				"const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {\n" +
-				"\treturn <Button className=\"yst-my-1.5\" onClick={ toggle } { ...ariaProps }>{ show ? \"Less\" : \"More\" }</Button>\n" +
-				"}, [] );\n" +
-				"\n" +
-				`return ${ args.replace( "renderButton={() => {}}", "renderButton={ renderMoreOrLessButton }" ) };`
-			),
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+		docs: {
+			source: {
+				transform: ( args ) => (
+					"const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {\n" +
+					"\treturn <Button className=\"yst-my-1.5\" onClick={ toggle } { ...ariaProps }>{ show ? \"Less\" : \"More\" }</Button>\n" +
+					"}, [] );\n" +
+					"\n" +
+					`return ${ args.replace( "renderButton={() => {}}", "renderButton={ renderMoreOrLessButton }" ) };`
+				),
+			},
 		},
 	},
 };

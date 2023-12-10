@@ -20,17 +20,18 @@ export default {
 	},
 };
 
-export const Factory = ( args ) => <Paper { ...args } />;
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	children: "Paper factory",
-	className: "yst-p-6",
+export const Factory = {
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		children: "Paper factory",
+		className: "yst-p-6",
+	},
 };
 
 export const WithHeaderAndContent = {
-	component: Factory.bind( {} ),
+	name: "With header and content",
 	parameters: {
 		docs: {
 			description: {

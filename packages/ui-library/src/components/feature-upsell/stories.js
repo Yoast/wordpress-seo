@@ -5,13 +5,7 @@ import { card, component } from "./docs";
 export default {
 	title: "2) Components/Feature upsell",
 	component: FeatureUpsell,
-	parameters: {
-		docs: {
-			description: {
-				component,
-			},
-		},
-	},
+	parameters: { docs: { description: { component } } },
 	argTypes: {
 		children: { control: "text" },
 	},
@@ -20,17 +14,20 @@ export default {
 	},
 };
 
-const Template = args => <FeatureUpsell { ...args } />;
-
-export const Factory = Template.bind( {} );
-Factory.parameters = {
-	controls: { disable: false },
+export const Factory = {
+	parameters: {
+		controls: { disable: false },
+	},
 };
 
-export const Card = Template.bind( {} );
-Card.args = {
-	variant: "card",
-	cardLink: "#",
-	cardText: "Upgrade",
+export const Card = {
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: card } },
+	},
+	args: {
+		variant: "card",
+		cardLink: "#",
+		cardText: "Upgrade",
+	},
 };
-Card.parameters = { docs: { description: { story: card } } };

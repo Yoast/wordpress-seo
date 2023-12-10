@@ -2,7 +2,7 @@ import { filter, find, includes, map, noop, toLower } from "lodash";
 import React, { useCallback, useMemo, useState } from "react";
 import Autocomplete from ".";
 import { VALIDATION_VARIANTS } from "../../constants";
-import { component, validation, withLabel, withPlaceholder, withSelectedLabel } from "./docs";
+import { component, validation, withLabel, withNullable, withPlaceholder, withSelectedLabel } from "./docs";
 
 export default {
 	title: "1) Elements/Autocomplete",
@@ -19,6 +19,14 @@ export default {
 			},
 		},
 	},
+	decorators: [
+		Story => (
+			// Min height to make room for options dropdown.
+			<div style={ { minHeight: 200 } }>
+				<Story />
+			</div>
+		),
+	],
 };
 
 const dummyOptions = [
@@ -46,95 +54,88 @@ const Template = ( args ) => {
 	const handleQueryChange = useCallback( event => setQuery( event.target.value ), [ setQuery ] );
 
 	return (
-		// Min height to make room for options dropdown.
-		<div style={ { minHeight: 200 } }>
-			<Autocomplete
-				selectedLabel={ selectedOption?.label || "" }
-				{ ...args }
-				value={ value }
-				onChange={ handleChange }
-				onQueryChange={ handleQueryChange }
-			>
-				{ filteredOptions.map( option => (
-					<Autocomplete.Option key={ option.value } value={ option.value }>
-						{ option.label }
-					</Autocomplete.Option>
-				) ) }
-			</Autocomplete>
-		</div>
+		<Autocomplete
+			selectedLabel={ selectedOption?.label || "" }
+			{ ...args }
+			value={ value }
+			onChange={ handleChange }
+			onQueryChange={ handleQueryChange }
+		>
+			{ filteredOptions.map( option => (
+				<Autocomplete.Option key={ option.value } value={ option.value }>
+					{ option.label }
+				</Autocomplete.Option>
+			) ) }
+		</Autocomplete>
 	);
 };
 
-export const Factory = Template.bind( {} );
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	id: "factory",
-	value: "",
-	placeholder: "Type to autocomplete options",
-};
-
-export const WithLabel = Template.bind( {} );
-
-WithLabel.storyName = "With label";
-
-WithLabel.parameters = {
-	controls: { disable: false },
-	docs: { description: { story: withLabel } },
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		id: "factory",
+		value: "",
+		placeholder: "Type to autocomplete options",
+	},
 };
 
-WithLabel.args = {
-	id: "with-label",
-	value: "",
-	label: "Example label",
+export const WithLabel = {
+	render: Template.bind( {} ),
+	name: "With label",
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: withLabel } },
+	},
+	args: {
+		id: "with-label",
+		value: "",
+		label: "Example label",
+	},
 };
 
-export const Nullable = Template.bind( {} );
-
-Nullable.storyName = "Nullable";
-
-Nullable.parameters = {
-	controls: { disable: false },
-	docs: { description: { story: "Allow empty values with reset button `X` or deleting the option and clicking outside the field." } },
+export const Nullable = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: withNullable } },
+	},
+	args: {
+		id: "nullable",
+		value: "",
+		placeholder: "Type to autocomplete options",
+		nullable: true,
+	},
 };
 
-Nullable.args = {
-	id: "with-label",
-	value: "",
-	label: "Example label",
-	nullable: true,
-	placeholder: "None...",
+export const WithPlaceholder = {
+	render: Template.bind( {} ),
+	name: "With placeholder",
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: withPlaceholder } },
+	},
+	args: {
+		id: "with-placeholder",
+		value: "",
+		placeholder: "Search a value...",
+	},
 };
 
-export const WithPlaceholder = Template.bind( {} );
-
-WithPlaceholder.storyName = "With placeholder";
-
-WithPlaceholder.parameters = {
-	controls: { disable: false },
-	docs: { description: { story: withPlaceholder } },
-};
-
-WithPlaceholder.args = {
-	id: "with-placeholder",
-	value: "",
-	placeholder: "Search a value...",
-};
-
-export const WithSelectedLabel = Template.bind( {} );
-
-WithSelectedLabel.storyName = "With selected label";
-
-WithSelectedLabel.parameters = {
-	controls: { disable: false },
-	docs: { description: { story: withSelectedLabel } },
-};
-
-WithSelectedLabel.args = {
-	value: "option-1",
-	id: "selected-label",
-	selectedLabel: "Option 1",
+export const WithSelectedLabel = {
+	render: Template.bind( {} ),
+	name: "With selected label",
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: withSelectedLabel } },
+	},
+	args: {
+		value: "option-1",
+		id: "selected-label",
+		selectedLabel: "Option 1",
+	},
 };
 
 export const Validation = () => (
@@ -168,5 +169,4 @@ export const Validation = () => (
 		) ) }
 	</div>
 );
-
 Validation.parameters = { docs: { description: { story: validation } } };

@@ -1,4 +1,3 @@
-import React from "react";
 import Label from ".";
 import { component } from "./docs";
 
@@ -11,12 +10,11 @@ export default {
 	parameters: { docs: { description: { component } } },
 };
 
-export const Factory = ( { ...args } ) => (
-	<Label { ...args } />
-);
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	label: "Label factory",
+export const Factory = {
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		label: "Label factory",
+	},
 };

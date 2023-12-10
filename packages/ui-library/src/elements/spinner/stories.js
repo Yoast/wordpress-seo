@@ -3,6 +3,13 @@ import React from "react";
 import Spinner, { classNameMap } from ".";
 import { component, sizes, variants } from "./docs";
 
+const WithBlackBackground = ( { withBlackBackground = true, children } ) => (
+	<div className="yst-relative yst-w-fit">
+		{ withBlackBackground && <div className="yst-absolute yst-inset-0 yst--m-2 yst-bg-black" /> }
+		{ children }
+	</div>
+);
+
 export default {
 	title: "1) Elements/Spinner",
 	component: Spinner,
@@ -31,24 +38,30 @@ export default {
 			},
 		},
 	},
+	decorators: [
+		( Story, context ) => (
+			<WithBlackBackground withBlackBackground={ context.args.variant === "white" }>
+				<Story />
+			</WithBlackBackground>
+		),
+	],
 };
 
-export const Factory = ( args ) => (
-	<div className={ args.variant ? "white" && "yst-bg-black yst-w-14 yst-p-2" : "" }>
-		<Spinner { ...args } />
-	</div>
-);
+export const Factory = {
+	parameters: {
+		controls: { disable: false },
+	},
+};
 
 export const Variants = ( args ) => (
 	<div className="yst-flex yst-gap-5">
 		<Spinner variant="default" />
 		<Spinner variant="primary" />
-		<div className="yst-bg-black yst-p-2">
+		<WithBlackBackground>
 			<Spinner variant="white" />
-		</div>
+		</WithBlackBackground>
 	</div>
 );
-
 Variants.parameters = {
 	docs: { description: { story: variants } },
 };
@@ -60,7 +73,6 @@ export const Sizes = ( args ) => (
 		<Spinner size="8" />
 	</div>
 );
-
 Sizes.parameters = {
 	docs: { description: { story: sizes } },
 };

@@ -1,6 +1,5 @@
-// eslint-disable react/display-name
 import { map, noop } from "lodash";
-import React, { useCallback, useState } from "react";
+import React from "react";
 import TextField from ".";
 import { VALIDATION_VARIANTS } from "../../constants";
 
@@ -26,22 +25,16 @@ export default {
 };
 
 export const Factory = {
-	component: args => {
-		const [ value, setValue ] = useState( args.value || "" );
-		const handleChange = useCallback( setValue, [ setValue ] );
-
-		return (
-			<TextField { ...args } value={ value } onChange={ handleChange } />
-		);
-	},
 	parameters: {
 		controls: { disable: false },
 	},
 };
 
 export const WithLabelAndDescription = {
-	storyName: "With label and description",
-	component: Factory.component.bind( {} ),
+	name: "With label and description",
+	parameters: {
+		controls: { disable: false },
+	},
 	args: {
 		id: "input-field-1",
 		label: "Input field with a label",

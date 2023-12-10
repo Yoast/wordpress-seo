@@ -44,6 +44,7 @@
     "@storybook/addon-styling-webpack": "^0.0.6",
     "@storybook/addons": "^7.6.17",
     "@storybook/mdx2-csf": "^1.1.0",
+    "@storybook/preview-api": "^7.6.17",
     "@storybook/react": "^7.6.17",
     "@storybook/react-webpack5": "^7.6.17",
     "@storybook/theming": "^7.6.17",

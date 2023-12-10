@@ -18,8 +18,17 @@ export default {
 			},
 		},
 	},
+	decorators: [
+		( Story ) => (
+			// Min height to make room for options dropdown.
+			<div style={ { minHeight: 200 } }>
+				<Story />
+			</div>
+		),
+	],
 };
-const options = [
+
+const OPTIONS = [
 	{ value: "1", label: "Option 1" },
 	{ value: "2", label: "Option 2" },
 	{ value: "3", label: "Option 3" },
@@ -28,66 +37,67 @@ const options = [
 
 const Template = ( args ) => {
 	const [ value, setValue ] = useState( args.value || "" );
-	const [ selectedLabel, setSelectedLabel ] = useState( value ? options.find( option => option.value === value ).label : "" );
+	const [ selectedLabel, setSelectedLabel ] = useState( value ? OPTIONS.find( option => option.value === value ).label : "" );
 	const handleChange = useCallback( ( val ) => {
-		const selected = options.find( option => option.value === val );
+		const selected = OPTIONS.find( option => option.value === val );
 		setSelectedLabel( selected.label );
 		setValue( val );
 	}, [ setValue ] );
 
 	return (
-		// Min height to make room for options dropdown.
-		<div style={ { minHeight: 200 } }>
-			<Select { ...args } value={ value } onChange={ handleChange } selectedLabel={ selectedLabel } />
-		</div>
+		<Select { ...args } value={ value } onChange={ handleChange } selectedLabel={ selectedLabel } />
 	);
 };
 
-
-export const Factory = Template.bind( {} );
-Factory.parameters = {
-	controls: { disable: false },
-	actions: { disable: false },
-};
-Factory.args = {
-	id: "select",
-	value: "1",
-	selectedLabel: "Option 1",
-	children: options.map( option => <Select.Option key={ option.value } { ...option } /> ),
-
-};
-
-export const OptionsProp = Template.bind( {} );
-OptionsProp.args = {
-	id: "select-field-4",
-	name: "name-4",
-	value: "3",
-	label: "Select field with a options as array",
-	options: [
-		{ value: "1", label: "Option 1" },
-		{ value: "2", label: "Option 2" },
-		{ value: "3", label: "Option 3" },
-		{ value: "4", label: "Option 4" },
-	],
-};
-OptionsProp.storyName = "Options prop";
-OptionsProp.parameters = {
-	docs: { description: { story: optionsProp } },
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+		actions: { disable: false },
+	},
+	args: {
+		id: "select",
+		value: "1",
+		selectedLabel: "Option 1",
+		children: OPTIONS.map( option => <Select.Option key={ option.value } { ...option } /> ),
+	},
 };
 
-export const ChildrenProp = Template.bind( {} );
-ChildrenProp.storyName = "Children prop";
-ChildrenProp.args = {
-	id: "select-field-5",
-	name: "name-5",
-	value: "3",
-	label: "Select field with options as exposed React components",
-	children: options.map( option => <Select.Option key={ option.value } { ...option } /> ),
+export const OptionsProp = {
+	render: Template.bind( {} ),
+	name: "Options prop",
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: optionsProp } },
+	},
+	args: {
+		id: "select-field-4",
+		name: "name-4",
+		value: "3",
+		label: "Select field with a options as array",
+		options: [
+			{ value: "1", label: "Option 1" },
+			{ value: "2", label: "Option 2" },
+			{ value: "3", label: "Option 3" },
+			{ value: "4", label: "Option 4" },
+		],
+	},
 };
 
-
-ChildrenProp.parameters = {
-	docs: { description: { story: childrenProp } },
+export const ChildrenProp = {
+	render: Template.bind( {} ),
+	name: "Children prop",
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: childrenProp } },
+	},
+	args: {
+		id: "select-field-5",
+		name: "name-5",
+		value: "3",
+		label: "Select field with options as exposed React components",
+		children: OPTIONS.map( option => <Select.Option key={ option.value } { ...option } /> ),
+	},
 };
 
 export const Validation = () => (
@@ -119,5 +129,4 @@ export const Validation = () => (
 		) ) }
 	</div>
 );
-
 Validation.parameters = { docs: { description: { story: validation } } };

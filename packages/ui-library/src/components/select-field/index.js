@@ -55,7 +55,6 @@ const SelectField = forwardRef( ( {
 SelectField.displayName = "SelectField";
 SelectField.propTypes = {
 	id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	description: PropTypes.node,
 	disabled: PropTypes.bool,
