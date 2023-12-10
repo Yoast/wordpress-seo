@@ -3,6 +3,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 /**
  * Creates a media query and returns a boolean that informs whether the query is met.
  *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/MediaQueryList
+ *
  * @param {string} [mediaQueryString] The media query to check against.
  *
  * @returns {Object} An object with a .matches field that is true if the media query is met.
