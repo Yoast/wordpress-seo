@@ -18,20 +18,21 @@ module.exports = {
 		getAbsolutePath( "@storybook/addon-essentials" ),
 		getAbsolutePath( "@storybook/addon-a11y" ),
 		{
-			name: "@storybook/addon-styling-webpack",
+			name: getAbsolutePath( "@storybook/addon-styling-webpack" ),
 			options: {
 				rules: [
 					{
 						test: /\.css$/,
+						sideEffects: true,
 						use: [
-							"style-loader",
+							getAbsolutePath( "style-loader" ),
 							{
-								loader: "css-loader",
+								loader: getAbsolutePath( "css-loader" ),
 								options: { importLoaders: 1 },
 							},
 							{
-								loader: "postcss-loader",
-								options: { implementation: require.resolve( "postcss" ) },
+								loader: getAbsolutePath( "postcss-loader" ),
+								options: { implementation: getAbsolutePath( "postcss" ) },
 							},
 						],
 					},
