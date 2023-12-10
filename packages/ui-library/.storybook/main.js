@@ -4,7 +4,7 @@ function getAbsolutePath( value ) {
 	return dirname( require.resolve( join( value, "package.json" ) ) );
 }
 
-module.exports = {
+const config = {
 	stories: [
 		"../src/introduction.stories.mdx",
 		"../src/installation.stories.mdx",
@@ -54,3 +54,5 @@ module.exports = {
 		autodocs: true,
 	},
 };
+
+export default config;
