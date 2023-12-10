@@ -451,7 +451,7 @@
     "@babel/plugin-syntax-object-rest-spread" "^7.8.3"
     "@babel/plugin-transform-parameters" "^7.20.7"
 
-"@babel/plugin-proposal-optional-chaining@^7.12.7", "@babel/plugin-proposal-optional-chaining@^7.17.12":
+"@babel/plugin-proposal-optional-chaining@^7.12.7", "@babel/plugin-proposal-optional-chaining@^7.17.12", "@babel/plugin-proposal-optional-chaining@^7.21.0":
   version "7.21.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-optional-chaining/-/plugin-proposal-optional-chaining-7.21.0.tgz#886f5c8978deb7d30f678b2e24346b287234d3ea"
   integrity sha512-p4zeefM72gpmEe2fkUr/OnOXpWEf8nAgk7ZYVqqfFiyIG7oFfVZcCrU64hWn5xp4tQ9LkV4bTIa5rD0KANpKNA==
@@ -1048,7 +1048,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.22.5"
 
-"@babel/plugin-transform-runtime@^7.16.0", "@babel/plugin-transform-runtime@^7.17.12":
+"@babel/plugin-transform-runtime@^7.16.0", "@babel/plugin-transform-runtime@^7.17.12", "@babel/plugin-transform-runtime@^7.23.7":
   version "7.23.7"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-runtime/-/plugin-transform-runtime-7.23.7.tgz#52bbd20054855beb9deae3bee9ceb05289c343e6"
   integrity sha512-fa0hnfmiXc9fq/weK34MUV0drz2pOL/vfKWvN7Qw127hiUPabFCUMgAbYWcchRzMJit4o5ARsK/s+5h0249pLw==
@@ -1137,7 +1137,7 @@
     "@babel/helper-create-regexp-features-plugin" "^7.22.15"
     "@babel/helper-plugin-utils" "^7.22.5"
 
-"@babel/preset-env@^7.12.11", "@babel/preset-env@^7.16.0", "@babel/preset-env@^7.20.2":
+"@babel/preset-env@^7.12.11", "@babel/preset-env@^7.16.0", "@babel/preset-env@^7.20.2", "@babel/preset-env@^7.23.8":
   version "7.23.8"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.23.8.tgz#7d6f8171ea7c221ecd28059e65ad37c20e441e3e"
   integrity sha512-lFlpmkApLkEP6woIKprO6DO60RImpatTQKtz4sUcDjVcK8M8mQ4sZsuxaTMNOZf0sqAq/ReYW1ZBHnOQwKpLWA==
@@ -1327,7 +1327,7 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
-"@babel/preset-react@^7.12.10", "@babel/preset-react@^7.18.6":
+"@babel/preset-react@^7.12.10", "@babel/preset-react@^7.18.6", "@babel/preset-react@^7.23.3":
   version "7.23.3"
   resolved "https://registry.yarnpkg.com/@babel/preset-react/-/preset-react-7.23.3.tgz#f73ca07e7590f977db07eb54dbe46538cc015709"
   integrity sha512-tbkHOS9axH6Ysf2OUEqoSZ6T3Fa2SrNH6WTWSPBboxKzdxNc9qOICeLXkNG0ZEwbQ1HY8liwOce4aN/Ceyuq6w==
