@@ -60,11 +60,13 @@ const preview = {
 			},
 		},
 		docs: {
-			transformSource: ( src, storyContext ) => {
-				try {
-					return storyContext.unboundStoryFn( storyContext ).template;
-				} catch ( e ) {
-					return null;
+			source: {
+				transform: ( src, storyContext ) => {
+					try {
+						return storyContext.unboundStoryFn( storyContext ).template;
+					} catch ( e ) {
+						return null;
+					}
 				}
 			},
 		},

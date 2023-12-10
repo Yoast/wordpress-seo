@@ -34,12 +34,14 @@ export const Factory = Template.bind( {} );
 Factory.parameters = {
 	controls: { disable: false },
 	docs: {
-		transformSource: ( args ) => (
-			"const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {\n" +
-			"\treturn <Button className=\"yst-my-1.5\" onClick={ toggle } { ...ariaProps }>{ show ? \"Less\" : \"More\" }</Button>\n" +
-			"}, [] );\n" +
-			"\n" +
-			`return ${ args.replace( "renderButton={() => {}}", "renderButton={ renderMoreOrLessButton }" ) };`
-		),
+		source: {
+			transform: ( args ) => (
+				"const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {\n" +
+				"\treturn <Button className=\"yst-my-1.5\" onClick={ toggle } { ...ariaProps }>{ show ? \"Less\" : \"More\" }</Button>\n" +
+				"}, [] );\n" +
+				"\n" +
+				`return ${ args.replace( "renderButton={() => {}}", "renderButton={ renderMoreOrLessButton }" ) };`
+			),
+		},
 	},
 };

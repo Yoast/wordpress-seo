@@ -207,8 +207,10 @@ NavigationContext.parameters = {
 		description: {
 			story: "The `useNavigationContext` hook is exported. The context contains: `activePath`, `isMobileMenuOpen` and `setMobileMenuOpen` for if you need more control or create your own `SubmenuItem`.",
 		},
-		transformSource: () => "import { useNavigationContext } from \"@yoast/ui-library\";\n\n" +
-			"const { activePath, isMobileMenuOpen, setMobileMenuOpen } = useNavigationContext();",
+		source: {
+			transform: () => "import { useNavigationContext } from \"@yoast/ui-library\";\n\n" +
+				"const { activePath, isMobileMenuOpen, setMobileMenuOpen } = useNavigationContext();",
+		},
 	},
 };
 NavigationContext.args = {
