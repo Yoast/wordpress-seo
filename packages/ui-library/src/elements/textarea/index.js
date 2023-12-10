@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { forwardRef } from "@wordpress/element";
+import React, { forwardRef } from "react";
 
 /**
  * @param {boolean} [disabled=false] Whether the input is disabled.
@@ -34,8 +34,8 @@ const propTypes = {
 	rows: PropTypes.number,
 };
 
+Textarea.displayName = "Textarea";
 Textarea.propTypes = propTypes;
-
 Textarea.defaultProps = {
 	className: "",
 	disabled: false,

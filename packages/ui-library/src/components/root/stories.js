@@ -1,3 +1,4 @@
+import React from "react";
 import Root from ".";
 
 export default {
@@ -7,9 +8,9 @@ export default {
 		docs: {
 			description: {
 				component:
-                    "The `Root` component provides your React tree with a `RootContext` which contains general options such as `isRtl` to indicate right to left language direction. " +
-                    "It also provides a `.yst-root` CSS class for scoping our CSS in opinionated environments. " +
-                    "You can use the `RootContext` by using the `useRootContext` hook exported from `@yoast/ui-library/hooks`." +
+					"The `Root` component provides your React tree with a `RootContext` which contains general options such as `isRtl` to indicate right to left language direction. " +
+					"It also provides a `.yst-root` CSS class for scoping our CSS in opinionated environments. " +
+					"You can use the `RootContext` by using the `useRootContext` hook exported from `@yoast/ui-library/hooks`." +
 					"\n\n" +
 					"Please note that the CSS scoping adds one level of CSS specificity. Therefore `@yoast/tailwindcss-preset` does the following:\n" +
 					"1. Enables the `important` rule for all utilities.\n" +

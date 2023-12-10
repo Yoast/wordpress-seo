@@ -1,7 +1,7 @@
 import { Dialog } from "@headlessui/react";
 import { MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
-import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
+import React, { useCallback } from "react";
 import { useNavigationContext } from "./index";
 
 /**

@@ -3,8 +3,8 @@ import { CheckIcon, XIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import { useSvgAria } from "../../hooks";
-import { forwardRef } from "@wordpress/element";
 
 /**
  * @param {string} id ID.
@@ -91,8 +91,8 @@ const propTypes = {
 	className: PropTypes.string,
 };
 
+Toggle.displayName = "Toggle";
 Toggle.propTypes = propTypes;
-
 Toggle.defaultProps = {
 	as: "button",
 	checked: false,

@@ -1,6 +1,6 @@
-import { forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 
 /**
  * @param {string} [type="text"] The type of input.
@@ -39,8 +39,8 @@ const propTypes = {
 	readOnly: PropTypes.bool,
 };
 
+TextInput.displayName = "TextInput";
 TextInput.propTypes = propTypes;
-
 TextInput.defaultProps = {
 	type: "text",
 	className: "",

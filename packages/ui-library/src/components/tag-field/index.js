@@ -1,6 +1,6 @@
-import { forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Label from "../../elements/label";
 import TagInput from "../../elements/tag-input";
 import { ValidationInput, ValidationMessage } from "../../elements/validation";
@@ -68,8 +68,8 @@ const propTypes = {
 	} ),
 };
 
+TagField.displayName = "TagField";
 TagField.propTypes = propTypes;
-
 TagField.defaultProps = {
 	labelSuffix: null,
 	disabled: false,

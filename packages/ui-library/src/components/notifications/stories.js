@@ -1,6 +1,7 @@
 import { keys } from "lodash";
+import React from "react";
 import Notifications, { Notification, notificationClassNameMap } from ".";
-import { component, info, warning, success, error, descriptionList, childrenNotification } from "./docs";
+import { childrenNotification, component, descriptionList, error, info, success, warning } from "./docs";
 
 export default {
 	title: "2) Components/Notifications",

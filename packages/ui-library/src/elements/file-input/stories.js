@@ -1,6 +1,7 @@
-import { noop } from "lodash";
-import { StoryComponent } from ".";
 import { DesktopComputerIcon } from "@heroicons/react/outline";
+import { noop } from "lodash";
+import React from "react";
+import { StoryComponent } from ".";
 import { component, differentIcon, disabled, withDescription } from "./docs";
 
 export default {

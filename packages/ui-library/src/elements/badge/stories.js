@@ -1,3 +1,4 @@
+import React from "react";
 import { StoryComponent } from ".";
 import { component, sizes, variants } from "./docs";
 

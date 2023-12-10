@@ -1,6 +1,6 @@
-import { forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 
 /**
  * @param {string} label Content of the Label. Note that this is a string ONLY for a11y reasons.
@@ -32,8 +32,8 @@ const propTypes = {
 	className: PropTypes.string,
 };
 
+Label.displayName = "Label";
 Label.propTypes = propTypes;
-
 Label.defaultProps = {
 	label: "",
 	children: "",

@@ -1,10 +1,10 @@
 /* eslint-disable complexity */
 import { Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
-import { createContext, useCallback, useContext, useEffect, useState } from "@wordpress/element";
 import classNames from "classnames";
 import { isArray, keys, noop } from "lodash";
 import PropTypes from "prop-types";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { ValidationIcon } from "../../elements/validation";
 
 const NotificationsContext = createContext( { position: "bottom-left" } );

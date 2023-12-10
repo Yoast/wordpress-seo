@@ -1,8 +1,8 @@
-import { useCallback, useMemo, useState } from "@wordpress/element";
-import { filter, find, includes, toLower, noop, map } from "lodash";
+import { filter, find, includes, map, noop, toLower } from "lodash";
+import React, { useCallback, useMemo, useState } from "react";
 import Autocomplete, { StoryComponent } from ".";
 import { VALIDATION_VARIANTS } from "../../constants";
-import { component, withLabel, withPlaceholder, withSelectedLabel, validation } from "./docs";
+import { component, validation, withLabel, withPlaceholder, withSelectedLabel } from "./docs";
 
 export default {
 	title: "1) Elements/Autocomplete",

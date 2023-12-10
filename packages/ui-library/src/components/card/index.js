@@ -1,6 +1,6 @@
-import { PropTypes } from "prop-types";
 import classNames from "classnames";
-import { forwardRef } from "@wordpress/element";
+import { PropTypes } from "prop-types";
+import React, { forwardRef } from "react";
 
 /**
  * @param {string} as The element to render as.
@@ -75,8 +75,8 @@ const propTypes = {
 	className: PropTypes.string,
 };
 
+Card.displayName = "Card";
 Card.propTypes = propTypes;
-
 Card.defaultProps = {
 	as: "div",
 	className: "",

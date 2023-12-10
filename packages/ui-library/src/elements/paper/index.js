@@ -1,6 +1,6 @@
-import { forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Content from "./content";
 import Header from "./header";
 
@@ -24,8 +24,9 @@ const propTypes = {
 	className: PropTypes.string,
 	children: PropTypes.node.isRequired,
 };
-Paper.propTypes = propTypes;
 
+Paper.displayName = "Paper";
+Paper.propTypes = propTypes;
 Paper.defaultProps = {
 	as: "div",
 	className: "",

@@ -1,3 +1,4 @@
+import React from "react";
 import ErrorBoundary from ".";
 import { Alert, Button } from "../../";
 import { useToggleState } from "../../hooks";

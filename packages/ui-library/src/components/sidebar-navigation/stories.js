@@ -1,4 +1,5 @@
 import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
+import React from "react";
 import SidebarNavigation from ".";
 import Table from "../../elements/table";
 

@@ -1,3 +1,4 @@
+import React from "react";
 import { StoryComponent } from ".";
 import { component, dangerousLabel, variants } from "./docs";
 

@@ -1,7 +1,7 @@
-import { useCallback, useState } from "@wordpress/element";
+import React, { useCallback, useState } from "react";
 import { StoryComponent } from ".";
 import Badge from "../../elements/badge";
-import { component, withLabelAndDescription, checked, withLabelSuffix } from "./docs";
+import { checked, component, withLabelAndDescription, withLabelSuffix } from "./docs";
 
 export default {
 	title: "2) Components/Toggle field",

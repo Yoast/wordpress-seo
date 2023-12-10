@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Autocomplete from "../../elements/autocomplete";
 import { ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
-import { forwardRef } from "@wordpress/element";
 
 /**
  * @param {string} id Identifier.
@@ -40,7 +40,10 @@ const AutocompleteField = forwardRef( ( {
 				{ ...props }
 			/>
 			{ validation?.message && (
-				<ValidationMessage variant={ validation?.variant } id={ ids.validation } className="yst-autocomplete-field__validation">{ validation.message }</ValidationMessage>
+				<ValidationMessage
+					variant={ validation?.variant } id={ ids.validation }
+					className="yst-autocomplete-field__validation"
+				>{ validation.message }</ValidationMessage>
 			) }
 			{ description && <div id={ ids.description } className="yst-autocomplete-field__description">{ description }</div> }
 		</div>
@@ -59,8 +62,8 @@ const propTypes = {
 	className: PropTypes.string,
 };
 
+AutocompleteField.displayName = "AutocompleteField";
 AutocompleteField.propTypes = propTypes;
-
 AutocompleteField.defaultProps = {
 	validation: {},
 	className: "",

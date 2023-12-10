@@ -1,7 +1,7 @@
-// eslint-disable react/display-name
-import { noop, map } from "lodash";
-import { VALIDATION_VARIANTS } from "../../constants";
+import { map, noop } from "lodash";
+import React from "react";
 import { StoryComponent } from ".";
+import { VALIDATION_VARIANTS } from "../../constants";
 
 export default {
 	title: "2) Components/Textarea field",

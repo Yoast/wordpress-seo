@@ -1,5 +1,5 @@
-import { useCallback, useState } from "@wordpress/element";
 import { noop } from "lodash";
+import React, { useCallback, useState } from "react";
 import { StoryComponent } from ".";
 import { component } from "./docs";
 

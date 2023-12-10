@@ -1,5 +1,5 @@
+import React, { useCallback, useState } from "react";
 import { StoryComponent } from ".";
-import { useCallback, useState } from "@wordpress/element";
 import { component } from "./docs";
 
 export default {
@@ -37,12 +37,12 @@ export default {
 		onRemoveTag: {
 			control: "function",
 			description: "`TagInput.Tag` prop",
-			table: { type: { required: true, summary: "function"  } },
+			table: { type: { required: true, summary: "function" } },
 		},
 		onSetTags: {
 			control: "function",
 			description: "Sets the tags to the given array.",
-			table: { type: { required: true, summary: "function"  } },
+			table: { type: { required: true, summary: "function" } },
 		},
 		screenReaderRemoveTag: {
 			description: "`TagInput.Tag` prop",

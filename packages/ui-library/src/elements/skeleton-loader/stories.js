@@ -1,5 +1,6 @@
+import React from "react";
 import SkeletonLoader from ".";
-import { circular, component, profile, size, color, fontSize } from "./docs";
+import { circular, color, component, fontSize, profile, size } from "./docs";
 
 export default {
 	title: "1) Elements/Skeleton loader",

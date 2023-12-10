@@ -1,8 +1,8 @@
-import { useCallback, useState } from "@wordpress/element";
-import { noop, map } from "lodash";
+import { map, noop } from "lodash";
+import React, { useCallback, useState } from "react";
+import SelectField, { StoryComponent } from ".";
 import { VALIDATION_VARIANTS } from "../../constants";
 import { Badge } from "../../index";
-import SelectField, { StoryComponent } from ".";
 
 const options = [
 	{ value: "1", label: "Option 1" },

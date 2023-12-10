@@ -1,4 +1,4 @@
-// eslint-disable react/display-name
+import React from "react";
 import Paper, { StoryComponent } from ".";
 import { StoryComponent as Title } from "../title";
 import { component, withHeaderAndContent } from "./docs";

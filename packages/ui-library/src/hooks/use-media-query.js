@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useEffect, useState } from "@wordpress/element";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 /**
  * Creates a media query and returns a boolean that informs whether the query is met.

@@ -1,8 +1,7 @@
-import { useState, useCallback } from "@wordpress/element";
 import { noop } from "lodash";
-import { component, variants, withLabelAndDescription, withValue, childrenProp } from "./docs";
-
+import React, { useCallback, useState } from "react";
 import RadioGroup from ".";
+import { childrenProp, component, variants, withLabelAndDescription, withValue } from "./docs";
 
 export default {
 	title: "2) Components/Radio group",

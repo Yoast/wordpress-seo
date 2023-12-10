@@ -72,8 +72,5 @@
     "prop-types": "^15.8.1",
     "react-animate-height": "^3.1.0",
     "react-error-boundary": "^3.1.4"
-  },
-  "peerDependencies": {
-    "@wordpress/element": "^4.1.1"
   }
 }

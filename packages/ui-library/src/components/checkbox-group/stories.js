@@ -1,6 +1,6 @@
-import { useCallback, useState } from "@wordpress/element";
+import React, { useCallback, useState } from "react";
 import CheckboxGroup from ".";
-import { component, withLabelAndDescription, withValues, childrenProp, disabled } from "./docs";
+import { childrenProp, component, disabled, withLabelAndDescription, withValues } from "./docs";
 
 export default {
 	title: "2) Components/Checkbox group",

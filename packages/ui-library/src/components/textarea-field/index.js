@@ -1,6 +1,6 @@
-import { forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Label from "../../elements/label";
 import Textarea from "../../elements/textarea";
 import { ValidationInput, ValidationMessage } from "../../elements/validation";
@@ -75,8 +75,8 @@ const propTypes = {
 	} ),
 };
 
+TextareaField.displayName = "TextareaField";
 TextareaField.propTypes = propTypes;
-
 TextareaField.defaultProps = {
 	className: "",
 	description: null,

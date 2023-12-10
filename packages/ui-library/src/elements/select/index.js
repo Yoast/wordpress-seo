@@ -1,11 +1,11 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
-import { Fragment, useCallback, useMemo, forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef, Fragment, useCallback, useMemo } from "react";
 import { useSvgAria } from "../../hooks";
-import { ValidationInput } from "../validation";
 import Label from "../label";
+import { ValidationInput } from "../validation";
 
 const optionPropType = {
 	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
@@ -146,11 +146,8 @@ const propTypes = {
 	buttonProps: PropTypes.object,
 };
 
+Select.displayName = "Select";
 Select.propTypes = propTypes;
-
-Select.Option = Option;
-Select.Option.displayName = "Select.Option";
-
 Select.defaultProps = {
 	options: [],
 	children: null,
@@ -163,6 +160,9 @@ Select.defaultProps = {
 	className: "",
 	buttonProps: {},
 };
+
+Select.Option = Option;
+Select.Option.displayName = "Select.Option";
 
 // eslint-disable-next-line require-jsdoc
 export const StoryComponent = props => <Select { ...props } />;

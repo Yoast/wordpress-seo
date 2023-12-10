@@ -1,3 +1,4 @@
+import React from "react";
 import { classNameMap, StoryComponent } from ".";
 import { component, sizes, states, variants } from "./docs";
 

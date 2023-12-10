@@ -1,9 +1,10 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Select from "../../elements/select";
 import { ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
-import { forwardRef } from "@wordpress/element";
+
 /**
  * @param {string} id Identifier.
  * @param {JSX.Element} error Error node.
@@ -64,16 +65,16 @@ const propTypes = {
 	className: PropTypes.string,
 };
 
+SelectField.displayName = "SelectField";
 SelectField.propTypes = propTypes;
-
-SelectField.Option = Select.Option;
-SelectField.Option.displayName = "SelectField.Option";
-
 SelectField.defaultProps = {
 	disabled: false,
 	validation: {},
 	className: "",
 };
+
+SelectField.Option = Select.Option;
+SelectField.Option.displayName = "SelectField.Option";
 
 // eslint-disable-next-line require-jsdoc
 export const StoryComponent = props => <SelectField { ...props } />;

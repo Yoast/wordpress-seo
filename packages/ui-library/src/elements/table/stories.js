@@ -1,3 +1,4 @@
+import React from "react";
 import Table from ".";
 import { component, tableBody, tableCell, tableHead, tableHeader, tableRow } from "./docs";
 

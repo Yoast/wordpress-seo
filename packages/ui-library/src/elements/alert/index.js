@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import { ValidationIcon, ValidationMessage } from "../validation";
-import { forwardRef } from "@wordpress/element";
 
 export const classNameMap = {
 	variant: {
@@ -58,8 +58,8 @@ const propTypes = {
 	role: PropTypes.oneOf( Object.keys( roleMap ) ),
 };
 
+Alert.displayName = "Alert";
 Alert.propTypes = propTypes;
-
 Alert.defaultProps = {
 	as: "span",
 	variant: "info",

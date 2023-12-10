@@ -1,6 +1,6 @@
-// eslint-disable react/display-name
+import React from "react";
 import { StoryComponent } from ".";
-import { component, anchor, button, customComponent } from "./docs";
+import { anchor, button, component, customComponent } from "./docs";
 
 export default {
 	title: "1) Elements/Link",

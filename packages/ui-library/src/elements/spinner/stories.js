@@ -1,5 +1,6 @@
-import { classNameMap, StoryComponent } from ".";
 import { keys } from "lodash";
+import React from "react";
+import { classNameMap, StoryComponent } from ".";
 import { component, sizes, variants } from "./docs";
 
 export default {

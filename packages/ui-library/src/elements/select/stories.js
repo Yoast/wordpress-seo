@@ -1,8 +1,8 @@
-import { useCallback, useState } from "@wordpress/element";
-import { noop, map } from "lodash";
-import { VALIDATION_VARIANTS } from "../validation/constants";
+import { map, noop } from "lodash";
+import React, { useCallback, useState } from "react";
 import Select, { StoryComponent } from ".";
-import { component, optionsProp, childrenProp, validation } from "./docs";
+import { VALIDATION_VARIANTS } from "../validation/constants";
+import { childrenProp, component, optionsProp, validation } from "./docs";
 
 export default {
 	title: "1) Elements/Select",

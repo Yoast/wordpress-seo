@@ -1,8 +1,8 @@
-import { useState, useCallback, forwardRef } from "@wordpress/element";
+import { DocumentAddIcon } from "@heroicons/react/outline";
+import classNames from "classnames";
 import { isEmpty, noop } from "lodash";
 import PropTypes from "prop-types";
-import classNames from "classnames";
-import { DocumentAddIcon } from "@heroicons/react/outline";
+import React, { forwardRef, useCallback, useState } from "react";
 
 import Link from "../link";
 
@@ -114,6 +114,8 @@ const propTypes = {
 	className: PropTypes.string,
 };
 
+FileInput.displayName = "FileInput";
+FileInput.propTypes = propTypes;
 FileInput.defaultProps = {
 	selectDescription: "",
 	disabled: false,
@@ -121,8 +123,6 @@ FileInput.defaultProps = {
 	className: "",
 	onDrop: noop,
 };
-
-FileInput.propTypes = propTypes;
 
 // eslint-disable-next-line require-jsdoc
 export const StoryComponent = props => <FileInput { ...props } />;

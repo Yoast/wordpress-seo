@@ -1,5 +1,6 @@
+import React from "react";
 import FeatureUpsell from ".";
-import { component, card } from "./docs";
+import { card, component } from "./docs";
 
 export default {
 	title: "2) Components/Feature upsell",

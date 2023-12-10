@@ -1,5 +1,6 @@
-import { Button } from "../../index";
+import React from "react";
 import Card, { StoryComponent } from ".";
+import { Button } from "../../index";
 
 export default {
 	title: "2) Components/Card",
@@ -56,7 +57,7 @@ WithoutHeader.args = {
 			<Card.Content className="yst-h-24">This is Card content with a fixed height.</Card.Content>
 			<Card.Footer>
 				<Button className="yst-w-full">
-					 Footer with full-width button
+					Footer with full-width button
 				</Button>
 			</Card.Footer>
 		</>

@@ -1,10 +1,10 @@
 /* eslint-disable react/forbid-foreign-prop-types */
 /* eslint-disable jsx-a11y/tabindex-no-positive */
 import { XIcon } from "@heroicons/react/solid";
-import { useCallback, useState, forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import { isString, map, noop } from "lodash";
 import PropTypes from "prop-types";
+import React, { forwardRef, useCallback, useState } from "react";
 import { Badge } from "../../index";
 
 /**
@@ -105,7 +105,7 @@ const TagInput = forwardRef( ( {
 				if ( text.length !== 0 || tags.length === 0 ) {
 					break;
 				}
-				onRemoveTag( tags.length - 1  );
+				onRemoveTag( tags.length - 1 );
 				if ( event.ctrlKey ) {
 					onSetTags( [] );
 				}
@@ -161,11 +161,8 @@ const propTypes = {
 	screenReaderRemoveTag: PropTypes.string,
 };
 
+TagInput.displayName = "TagInput";
 TagInput.propTypes = propTypes;
-
-TagInput.Tag = Tag;
-TagInput.Tag.displayName = "TagInput.Tag";
-
 TagInput.defaultProps = {
 	tags: [],
 	children: null,
@@ -177,6 +174,9 @@ TagInput.defaultProps = {
 	onBlur: noop,
 	screenReaderRemoveTag: "Remove tag",
 };
+
+TagInput.Tag = Tag;
+TagInput.Tag.displayName = "TagInput.Tag";
 
 export default TagInput;
 

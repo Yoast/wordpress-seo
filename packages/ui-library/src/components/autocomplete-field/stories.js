@@ -1,6 +1,6 @@
+import { filter, find, includes, map, noop, toLower } from "lodash";
+import React, { useCallback, useMemo, useState } from "react";
 import AutocompleteField, { StoryComponent } from ".";
-import { useCallback, useMemo, useState } from "@wordpress/element";
-import { filter, find, includes, toLower, noop, map } from "lodash";
 import { VALIDATION_VARIANTS } from "../../constants";
 
 export default {
@@ -43,7 +43,7 @@ const Template = ( { ...args } ) => {
 	const handleQueryChange = useCallback( event => setQuery( event.target.value ), [ setQuery ] );
 
 	return (
-	// Min height to make room for options dropdown.
+		// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
 			<StoryComponent
 				selectedLabel={ selectedOption?.label || "" }

@@ -1,9 +1,8 @@
-import { useCallback, useContext, createContext, useMemo, forwardRef } from "@wordpress/element";
-import { values, includes, isEmpty, isNull, capitalize } from "lodash";
-import { DocumentTextIcon, XIcon } from "@heroicons/react/outline";
-import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
-
+import { DocumentTextIcon, XIcon } from "@heroicons/react/outline";
+import { capitalize, includes, isEmpty, isNull, values } from "lodash";
+import PropTypes from "prop-types";
+import React, { createContext, forwardRef, useCallback, useContext, useMemo } from "react";
 import FileInput from "../../elements/file-input";
 import ProgressBar from "../../elements/progress-bar";
 import { ValidationIcon } from "../../elements/validation";
@@ -212,8 +211,8 @@ const propTypes = {
 	onAbort: PropTypes.func.isRequired,
 };
 
+FileImport.displayName = "FileImport";
 FileImport.propTypes = propTypes;
-
 FileImport.defaultProps = {
 	feedbackDescription: "",
 	progressMin: null,

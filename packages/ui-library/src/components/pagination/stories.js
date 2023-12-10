@@ -1,4 +1,4 @@
-import { useState } from "@wordpress/element";
+import React, { useState } from "react";
 import Pagination from ".";
 
 export default {

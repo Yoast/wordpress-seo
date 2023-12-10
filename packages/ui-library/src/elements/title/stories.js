@@ -1,5 +1,6 @@
+import React from "react";
 import { StoryComponent } from ".";
-import { component, as, sizes } from "./docs";
+import { as, component, sizes } from "./docs";
 
 export default {
 	title: "1) Elements/Title",

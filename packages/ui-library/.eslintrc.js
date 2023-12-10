@@ -17,19 +17,6 @@ module.exports = {
 		},
 	},
 	rules: {
-		// We use 'wp.element.createElement' instead of the 'react' package directly.
-		"react/react-in-jsx-scope": "off",
-		"no-restricted-imports": [
-			"error",
-			{
-				name: "react",
-				message: "Please use @wordpress/element instead. No need to import just for JSX.",
-			},
-			{
-				name: "react-dom",
-				message: "Please use @wordpress/element instead.",
-			},
-		],
 		"no-unused-expressions": [
 			"error",
 			{

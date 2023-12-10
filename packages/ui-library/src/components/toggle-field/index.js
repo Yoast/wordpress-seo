@@ -1,9 +1,9 @@
 import { Switch } from "@headlessui/react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Label from "../../elements/label";
 import Toggle from "../../elements/toggle";
-import { forwardRef } from "@wordpress/element";
 
 /**
  * @param {JSX.node} children Children are rendered below the checkbox group.
@@ -70,8 +70,8 @@ const propTypes = {
 	"aria-label": PropTypes.string,
 };
 
+ToggleField.displayName = "ToggleField";
 ToggleField.propTypes = propTypes;
-
 ToggleField.defaultProps = {
 	children: null,
 	labelSuffix: null,

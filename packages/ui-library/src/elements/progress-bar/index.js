@@ -1,6 +1,6 @@
-import { useMemo, forwardRef } from "@wordpress/element";
-import PropTypes from "prop-types";
 import classNames from "classnames";
+import PropTypes from "prop-types";
+import React, { forwardRef, useMemo } from "react";
 
 /**
  * @param {number} min The minimal value.
@@ -31,8 +31,8 @@ const propTypes = {
 	className: PropTypes.string,
 };
 
+ProgressBar.displayName = "ProgressBar";
 ProgressBar.propTypes = propTypes;
-
 ProgressBar.defaultProps = {
 	className: "",
 };

@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { forwardRef } from "@wordpress/element";
+import React, { forwardRef } from "react";
 
 const classNameMap = {
 	variant: {
@@ -45,8 +45,8 @@ const propTypes = {
 	className: PropTypes.string,
 };
 
+Link.displayName = "Link";
 Link.propTypes = propTypes;
-
 Link.defaultProps = {
 	as: "a",
 	variant: "default",

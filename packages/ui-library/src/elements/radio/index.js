@@ -1,9 +1,9 @@
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import { useSvgAria } from "../../hooks";
 import Label from "../label";
-import { forwardRef } from "@wordpress/element";
 
 const classNameMap = {
 	variant: {
@@ -111,8 +111,8 @@ const propTypes = {
 	className: PropTypes.string,
 };
 
+Radio.displayName = "Radio";
 Radio.propTypes = propTypes;
-
 Radio.defaultProps = {
 	screenReaderLabel: "",
 	variant: "default",
