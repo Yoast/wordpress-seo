@@ -38,6 +38,7 @@
     "@babel/preset-react": "^7.23.3",
     "@mdx-js/react": "^2.1.5",
     "@storybook/addon-a11y": "^7.6.17",
+    "@storybook/addon-docs": "^7.6.17",
     "@storybook/addon-essentials": "^7.6.17",
     "@storybook/addon-links": "^7.6.17",
     "@storybook/addon-styling-webpack": "^0.0.6",
