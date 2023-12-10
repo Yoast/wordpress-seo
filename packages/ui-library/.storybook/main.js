@@ -27,4 +27,8 @@ module.exports = {
 	features: {
 		previewMdx2: true,
 	},
+	framework: {
+		name: "@storybook/react-webpack5",
+		options: {},
+	},
 };
