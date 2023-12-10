@@ -8,11 +8,10 @@ import { useDescribedBy } from "../../hooks";
 
 /**
  * @param {string} id The ID of the input.
- * @param {function} onChange The input change handler.
  * @param {string} label The label.
  * @param {string} [className] The HTML class.
  * @param {JSX.node} [description] A description.
- * @param {Object} [error] The validation state.
+ * @param {Object} [validation] The validation state.
  * @param {boolean} disabled Whether the input is disabled.
  * @param {boolean} readOnly Whether the input is read-only.
  * @param {Object} [props] Any extra properties for the Textarea.
