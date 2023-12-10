@@ -1,10 +1,10 @@
 import React from "react";
-import Card, { StoryComponent } from ".";
+import Card from ".";
 import { Button } from "../../index";
 
 export default {
 	title: "2) Components/Card",
-	component: StoryComponent,
+	component: Card,
 	parameters: {
 		docs: {
 			description: {
@@ -31,7 +31,7 @@ const Template = ( { children } ) => {
 	return (
 		<div className="yst-flex yst-gap-5 yst-justify-center">
 			<div className="yst-w-1/3">
-				<StoryComponent>{ children }</StoryComponent>
+				<Card>{ children }</Card>
 			</div>
 		</div>
 	);

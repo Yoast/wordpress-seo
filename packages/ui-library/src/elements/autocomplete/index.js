@@ -221,9 +221,3 @@ Autocomplete.Option = Option;
 Autocomplete.Option.displayName = "Autocomplete.Option";
 
 export default Autocomplete;
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Autocomplete { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Autocomplete.defaultProps;
-StoryComponent.displayName = "Autocomplete";

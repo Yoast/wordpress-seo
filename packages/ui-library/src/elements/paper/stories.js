@@ -1,11 +1,11 @@
 import React from "react";
-import Paper, { StoryComponent } from ".";
-import { StoryComponent as Title } from "../title";
+import Paper from ".";
+import Title from "../title";
 import { component, withHeaderAndContent } from "./docs";
 
 export default {
 	title: "1) Elements/Paper",
-	component: StoryComponent,
+	component: Paper,
 	argTypes: {
 		children: { control: "text" },
 		as: { options: [ "div", "main", "section" ] },
@@ -20,7 +20,7 @@ export default {
 	},
 };
 
-export const Factory = ( args ) => <StoryComponent { ...args } />;
+export const Factory = ( args ) => <Paper { ...args } />;
 Factory.parameters = {
 	controls: { disable: false },
 };

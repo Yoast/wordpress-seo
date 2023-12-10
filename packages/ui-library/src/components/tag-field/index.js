@@ -55,7 +55,8 @@ const TagField = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+TagField.displayName = "TagField";
+TagField.propTypes = {
 	id: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	labelSuffix: PropTypes.node,
@@ -67,9 +68,6 @@ const propTypes = {
 		message: PropTypes.node,
 	} ),
 };
-
-TagField.displayName = "TagField";
-TagField.propTypes = propTypes;
 TagField.defaultProps = {
 	labelSuffix: null,
 	disabled: false,
@@ -77,11 +75,5 @@ TagField.defaultProps = {
 	description: null,
 	validation: {},
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <TagField { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = TagField.defaultProps;
-StoryComponent.displayName = "TagField";
 
 export default TagField;

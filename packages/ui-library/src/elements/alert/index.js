@@ -68,11 +68,3 @@ Alert.defaultProps = {
 };
 
 export default Alert;
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Alert { ...props } />;
-// eslint-disable-next-line react/forbid-foreign-prop-types
-StoryComponent.propTypes = Alert.propTypes;
-// eslint-disable-next-line react/no-typos
-StoryComponent.DefaultProps = Alert.defaultProps;
-StoryComponent.displayName = "Alert";

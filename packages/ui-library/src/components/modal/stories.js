@@ -2,7 +2,7 @@ import { noop, times } from "lodash";
 import PropTypes from "prop-types";
 import React, { createRef, useCallback, useRef, useState } from "react";
 import RawModal, { classNameMap } from ".";
-import { StoryComponent as Button } from "../../elements/button";
+import Button from "../../elements/button";
 import TextInput from "../../elements/text-input";
 import { classNameMap as titleClassNameMap } from "../../elements/title";
 

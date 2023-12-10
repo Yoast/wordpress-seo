@@ -62,7 +62,8 @@ const TextareaField = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+TextareaField.displayName = "TextareaField";
+TextareaField.propTypes = {
 	id: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	className: PropTypes.string,
@@ -74,9 +75,6 @@ const propTypes = {
 		message: PropTypes.node,
 	} ),
 };
-
-TextareaField.displayName = "TextareaField";
-TextareaField.propTypes = propTypes;
 TextareaField.defaultProps = {
 	className: "",
 	description: null,
@@ -84,11 +82,5 @@ TextareaField.defaultProps = {
 	readOnly: false,
 	validation: {},
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <TextareaField { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = TextareaField.defaultProps;
-StoryComponent.displayName = "TextareaField";
 
 export default TextareaField;

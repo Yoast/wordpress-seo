@@ -149,7 +149,8 @@ const TagInput = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+TagInput.displayName = "TagInput";
+TagInput.propTypes = {
 	tags: PropTypes.arrayOf( PropTypes.string ),
 	children: PropTypes.node,
 	className: PropTypes.string,
@@ -160,9 +161,6 @@ const propTypes = {
 	onBlur: PropTypes.func,
 	screenReaderRemoveTag: PropTypes.string,
 };
-
-TagInput.displayName = "TagInput";
-TagInput.propTypes = propTypes;
 TagInput.defaultProps = {
 	tags: [],
 	children: null,
@@ -179,10 +177,3 @@ TagInput.Tag = Tag;
 TagInput.Tag.displayName = "TagInput.Tag";
 
 export default TagInput;
-
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <TagInput { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = TagInput.defaultProps;
-StoryComponent.displayName = "TagInput";

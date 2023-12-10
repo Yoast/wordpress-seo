@@ -64,9 +64,3 @@ Badge.defaultProps = {
 };
 
 export default Badge;
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Badge { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Badge.defaultProps;
-StoryComponent.displayName = "Badge";

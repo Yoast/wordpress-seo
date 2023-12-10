@@ -192,7 +192,8 @@ const FileImport = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+FileImport.displayName = "FileImport";
+FileImport.propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
@@ -210,10 +211,9 @@ const propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onAbort: PropTypes.func.isRequired,
 };
-
-FileImport.displayName = "FileImport";
-FileImport.propTypes = propTypes;
 FileImport.defaultProps = {
+	children: null,
+	selectDescription: "",
 	feedbackDescription: "",
 	progressMin: null,
 	progressMax: null,
@@ -226,11 +226,5 @@ FileImport.Loading = createStatusConditionalRender( FILE_IMPORT_STATUS.loading )
 FileImport.Success = createStatusConditionalRender( FILE_IMPORT_STATUS.success );
 FileImport.Aborted = createStatusConditionalRender( FILE_IMPORT_STATUS.aborted );
 FileImport.Error = createStatusConditionalRender( FILE_IMPORT_STATUS.error );
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <FileImport { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = FileImport.defaultProps;
-StoryComponent.displayName = "FileImport";
 
 export default FileImport;

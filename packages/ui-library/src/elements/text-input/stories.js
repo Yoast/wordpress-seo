@@ -1,10 +1,10 @@
 import React from "react";
-import { StoryComponent } from ".";
+import TextInput from ".";
 import { component } from "./docs";
 
 export default {
 	title: "1) Elements/Text input",
-	component: StoryComponent,
+	component: TextInput,
 	parameters: {
 		docs: {
 			description: {
@@ -15,7 +15,7 @@ export default {
 };
 
 export const Factory = {
-	component: ( args ) => <StoryComponent { ...args } />,
+	component: ( args ) => <TextInput { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},

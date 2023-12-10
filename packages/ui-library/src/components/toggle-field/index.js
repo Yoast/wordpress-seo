@@ -57,7 +57,8 @@ const ToggleField = forwardRef( ( {
 	</Switch.Group>
 ) );
 
-const propTypes = {
+ToggleField.displayName = "ToggleField";
+ToggleField.propTypes = {
 	id: PropTypes.string.isRequired,
 	children: PropTypes.node,
 	label: PropTypes.string.isRequired,
@@ -69,21 +70,13 @@ const propTypes = {
 	className: PropTypes.string,
 	"aria-label": PropTypes.string,
 };
-
-ToggleField.displayName = "ToggleField";
-ToggleField.propTypes = propTypes;
 ToggleField.defaultProps = {
 	children: null,
 	labelSuffix: null,
 	description: null,
 	disabled: false,
 	className: "",
+	"aria-label": null,
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <ToggleField { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = ToggleField.defaultProps;
-StoryComponent.displayName = "ToggleField";
 
 export default ToggleField;

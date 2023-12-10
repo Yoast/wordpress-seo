@@ -1,10 +1,10 @@
 import React from "react";
-import { classNameMap, roleMap, StoryComponent } from ".";
+import Alert, { classNameMap, roleMap } from ".";
 import { component, variants } from "./docs";
 
 export default {
 	title: "1) Elements/Alert",
-	component: StoryComponent,
+	component: Alert,
 	argTypes: {
 		children: { control: "text" },
 		as: {
@@ -33,7 +33,7 @@ export default {
 };
 
 export const Factory = ( { children, ...args } ) => (
-	<StoryComponent { ...args }>{ children }</StoryComponent>
+	<Alert { ...args }>{ children }</Alert>
 );
 Factory.parameters = {
 	jest: "snapshot",
@@ -47,10 +47,10 @@ export const Variants = ( args ) => {
 	const Link = <a href="https://yoast.com">with a link</a>;
 	return (
 		<div className="yst-flex yst-flex-col yst-gap-2">
-			<StoryComponent variant="info">This is an information alert { Link }. (default)</StoryComponent>
-			<StoryComponent variant="warning">This is a warning alert { Link }.</StoryComponent>
-			<StoryComponent variant="success" role="alert">This is a success alert { Link }.</StoryComponent>
-			<StoryComponent variant="error" role="alert">This is an error alert { Link }.</StoryComponent>
+			<Alert variant="info">This is an information alert { Link }. (default)</Alert>
+			<Alert variant="warning">This is a warning alert { Link }.</Alert>
+			<Alert variant="success" role="alert">This is a success alert { Link }.</Alert>
+			<Alert variant="error" role="alert">This is an error alert { Link }.</Alert>
 		</div>
 	);
 };

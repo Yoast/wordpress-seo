@@ -1,10 +1,10 @@
 import React from "react";
-import { classNameMap, StoryComponent } from ".";
+import Button, { classNameMap } from ".";
 import { component, sizes, states, variants } from "./docs";
 
 export default {
 	title: "1) Elements/Button",
-	component: StoryComponent,
+	component: Button,
 	argTypes: {
 		children: { control: "text" },
 		as: {
@@ -31,7 +31,7 @@ export const Factory = ( { children, ...args } ) => {
 		args.href = "#!";
 	}
 	return (
-		<StoryComponent { ...args }>{ children }</StoryComponent>
+		<Button { ...args }>{ children }</Button>
 	);
 };
 Factory.parameters = {
@@ -43,21 +43,21 @@ Factory.args = {
 
 export const Variants = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
-		<StoryComponent variant="primary">Primary (default)</StoryComponent>
-		<StoryComponent variant="secondary">Secondary</StoryComponent>
-		<StoryComponent variant="tertiary">Tertiary</StoryComponent>
-		<StoryComponent variant="error">Error</StoryComponent>
-		<StoryComponent variant="upsell">Upsell</StoryComponent>
+		<Button variant="primary">Primary (default)</Button>
+		<Button variant="secondary">Secondary</Button>
+		<Button variant="tertiary">Tertiary</Button>
+		<Button variant="error">Error</Button>
+		<Button variant="upsell">Upsell</Button>
 	</div>
 );
 Variants.parameters = { docs: { description: { story: variants } } };
 
 export const Sizes = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
-		<StoryComponent size="extra-large">Extra large</StoryComponent>
-		<StoryComponent size="large">Large</StoryComponent>
-		<StoryComponent size="default">Default</StoryComponent>
-		<StoryComponent size="small">Small</StoryComponent>
+		<Button size="extra-large">Extra large</Button>
+		<Button size="large">Large</Button>
+		<Button size="default">Default</Button>
+		<Button size="small">Small</Button>
 	</div>
 );
 Sizes.parameters = {
@@ -69,9 +69,9 @@ Sizes.parameters = { docs: { description: { story: sizes } } };
 
 export const States = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
-		<StoryComponent isLoading={ true }>Loading</StoryComponent>
-		<StoryComponent disabled={ true }>Disabled</StoryComponent>
-		<StoryComponent disabled={ true } className="yst-pointer-events-none">Disabled & without pointer-events</StoryComponent>
+		<Button isLoading={ true }>Loading</Button>
+		<Button disabled={ true }>Disabled</Button>
+		<Button disabled={ true } className="yst-pointer-events-none">Disabled & without pointer-events</Button>
 	</div>
 );
 States.parameters = {

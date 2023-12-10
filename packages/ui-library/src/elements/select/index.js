@@ -127,7 +127,8 @@ const Select = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+Select.displayName = "Select";
+Select.propTypes = {
 	id: PropTypes.string.isRequired,
 	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
 	options: PropTypes.arrayOf( PropTypes.shape( optionPropType ) ),
@@ -145,9 +146,6 @@ const propTypes = {
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
 };
-
-Select.displayName = "Select";
-Select.propTypes = propTypes;
 Select.defaultProps = {
 	options: [],
 	children: null,
@@ -163,11 +161,5 @@ Select.defaultProps = {
 
 Select.Option = Option;
 Select.Option.displayName = "Select.Option";
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Select { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Select.defaultProps;
-StoryComponent.displayName = "Select";
 
 export default Select;

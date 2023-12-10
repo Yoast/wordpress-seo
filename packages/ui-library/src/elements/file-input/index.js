@@ -99,7 +99,8 @@ const FileInput = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+FileInput.displayName = "FileInput";
+FileInput.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
@@ -113,9 +114,6 @@ const propTypes = {
 	onDrop: PropTypes.func,
 	className: PropTypes.string,
 };
-
-FileInput.displayName = "FileInput";
-FileInput.propTypes = propTypes;
 FileInput.defaultProps = {
 	selectDescription: "",
 	disabled: false,
@@ -123,11 +121,5 @@ FileInput.defaultProps = {
 	className: "",
 	onDrop: noop,
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <FileInput { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = FileInput.defaultProps;
-StoryComponent.displayName = "FileInput";
 
 export default FileInput;

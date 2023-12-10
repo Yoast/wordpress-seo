@@ -26,23 +26,15 @@ const Code = forwardRef( ( { children, variant = "default", className = "", ...p
 	</code>
 ) );
 
-const propTypes = {
+Code.displayName = "Code";
+Code.propTypes = {
 	children: PropTypes.node.isRequired,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	className: PropTypes.string,
 };
-
-Code.displayName = "Code";
-Code.propTypes = propTypes;
 Code.defaultProps = {
 	variant: "default",
 	className: "",
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Code { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Code.defaultProps;
-StoryComponent.displayName = "Code";
 
 export default Code;

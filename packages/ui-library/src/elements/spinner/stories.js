@@ -1,11 +1,11 @@
 import { keys } from "lodash";
 import React from "react";
-import { classNameMap, StoryComponent } from ".";
+import Spinner, { classNameMap } from ".";
 import { component, sizes, variants } from "./docs";
 
 export default {
 	title: "1) Elements/Spinner",
-	component: StoryComponent,
+	component: Spinner,
 	argTypes: {
 		className: { control: "text" },
 		variant: {
@@ -35,16 +35,16 @@ export default {
 
 export const Factory = ( args ) => (
 	<div className={ args.variant ? "white" && "yst-bg-black yst-w-14 yst-p-2" : "" }>
-		<StoryComponent { ...args } />
+		<Spinner { ...args } />
 	</div>
 );
 
 export const Variants = ( args ) => (
 	<div className="yst-flex yst-gap-5">
-		<StoryComponent variant="default" />
-		<StoryComponent variant="primary" />
+		<Spinner variant="default" />
+		<Spinner variant="primary" />
 		<div className="yst-bg-black yst-p-2">
-			<StoryComponent variant="white" />
+			<Spinner variant="white" />
 		</div>
 	</div>
 );
@@ -55,9 +55,9 @@ Variants.parameters = {
 
 export const Sizes = ( args ) => (
 	<div className="yst-flex yst-gap-5">
-		<StoryComponent size="3" />
-		<StoryComponent size="4" />
-		<StoryComponent size="8" />
+		<Spinner size="3" />
+		<Spinner size="4" />
+		<Spinner size="8" />
 	</div>
 );
 

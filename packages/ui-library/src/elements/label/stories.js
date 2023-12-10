@@ -1,10 +1,10 @@
 import React from "react";
-import { StoryComponent } from ".";
+import Label from ".";
 import { component } from "./docs";
 
 export default {
 	title: "1) Elements/Label",
-	component: StoryComponent,
+	component: Label,
 	argTypes: {
 		as: { options: [ "label", "span", "div" ] },
 	},
@@ -12,7 +12,7 @@ export default {
 };
 
 export const Factory = ( { ...args } ) => (
-	<StoryComponent { ...args } />
+	<Label { ...args } />
 );
 Factory.parameters = {
 	controls: { disable: false },

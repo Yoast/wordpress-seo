@@ -1,11 +1,11 @@
 import { noop } from "lodash";
 import React, { useCallback, useState } from "react";
-import { StoryComponent } from ".";
+import Toggle from ".";
 import { component } from "./docs";
 
 export default {
 	title: "1) Elements/Toggle",
-	component: StoryComponent,
+	component: Toggle,
 	argTypes: {
 		as: { options: [ "button", "div", "span" ] },
 	},
@@ -17,7 +17,7 @@ export const Factory = ( args ) => {
 	const handleChange = useCallback( setChecked, [ setChecked ] );
 
 	return (
-		<StoryComponent { ...args } checked={ checked } onChange={ handleChange } />
+		<Toggle { ...args } checked={ checked } onChange={ handleChange } />
 	);
 };
 

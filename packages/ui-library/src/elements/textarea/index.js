@@ -27,26 +27,18 @@ const Textarea = forwardRef( ( {
 	/>
 ) );
 
-const propTypes = {
+Textarea.displayName = "Textarea";
+Textarea.propTypes = {
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
 	cols: PropTypes.number,
 	rows: PropTypes.number,
 };
-
-Textarea.displayName = "Textarea";
-Textarea.propTypes = propTypes;
 Textarea.defaultProps = {
 	className: "",
 	disabled: false,
 	cols: 20,
 	rows: 2,
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Textarea { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Textarea.defaultProps;
-StoryComponent.displayName = "Textarea";
 
 export default Textarea;

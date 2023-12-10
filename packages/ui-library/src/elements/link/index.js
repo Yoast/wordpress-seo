@@ -38,25 +38,17 @@ const Link = forwardRef( ( {
 	</Component>
 ) );
 
-const propTypes = {
+Link.displayName = "Link";
+Link.propTypes = {
 	children: PropTypes.node.isRequired,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	as: PropTypes.elementType,
 	className: PropTypes.string,
 };
-
-Link.displayName = "Link";
-Link.propTypes = propTypes;
 Link.defaultProps = {
 	as: "a",
 	variant: "default",
 	className: "",
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Link { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Link.defaultProps;
-StoryComponent.displayName = "Link";
 
 export default Link;

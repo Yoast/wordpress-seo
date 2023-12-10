@@ -1,12 +1,12 @@
 // eslint-disable react/display-name
 import { map, noop } from "lodash";
 import React, { useCallback, useState } from "react";
-import { StoryComponent } from ".";
+import TextField from ".";
 import { VALIDATION_VARIANTS } from "../../constants";
 
 export default {
 	title: "2) Components/Text field",
-	component: StoryComponent,
+	component: TextField,
 	argTypes: {
 		description: { control: "text" },
 		labelSuffix: { control: "text" },
@@ -31,7 +31,7 @@ export const Factory = {
 		const handleChange = useCallback( setValue, [ setValue ] );
 
 		return (
-			<StoryComponent { ...args } value={ value } onChange={ handleChange } />
+			<TextField { ...args } value={ value } onChange={ handleChange } />
 		);
 	},
 	parameters: {
@@ -52,7 +52,7 @@ export const WithLabelAndDescription = {
 export const Validation = () => (
 	<div className="yst-space-y-8">
 		{ map( VALIDATION_VARIANTS, variant => (
-			<StoryComponent
+			<TextField
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }

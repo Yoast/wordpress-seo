@@ -25,27 +25,18 @@ const Label = forwardRef( ( {
 	</Component>
 ) );
 
-const propTypes = {
+Label.displayName = "Label";
+Label.propTypes = {
 	label: PropTypes.string,
 	children: PropTypes.string,
 	as: PropTypes.elementType,
 	className: PropTypes.string,
 };
-
-Label.displayName = "Label";
-Label.propTypes = propTypes;
 Label.defaultProps = {
 	label: "",
 	children: "",
 	as: "label",
 	className: "",
 };
-
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Label { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Label.defaultProps;
-StoryComponent.displayName = "Label";
 
 export default Label;

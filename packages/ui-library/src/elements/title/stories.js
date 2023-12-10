@@ -1,10 +1,10 @@
 import React from "react";
-import { StoryComponent } from ".";
+import Title from ".";
 import { as, component, sizes } from "./docs";
 
 export default {
 	title: "1) Elements/Title",
-	component: StoryComponent,
+	component: Title,
 	argTypes: {
 		children: { control: "text" },
 		as: { options: [ "h1", "h2", "h3", "h4", "h5", "h6", "span" ] },
@@ -19,7 +19,7 @@ export default {
 };
 
 export const Factory = ( { children, ...args } ) => (
-	<StoryComponent { ...args }>{ children }</StoryComponent>
+	<Title { ...args }>{ children }</Title>
 );
 Factory.parameters = {
 	controls: { disable: false },
@@ -30,11 +30,11 @@ Factory.args = {
 
 export const As = args => (
 	<div className="yst-flex yst-flex-col yst-gap-2">
-		<StoryComponent as="h1">As h1</StoryComponent>
-		<StoryComponent as="h2">As h2</StoryComponent>
-		<StoryComponent as="h3">As h3</StoryComponent>
-		<StoryComponent as="h4">As h4</StoryComponent>
-		<StoryComponent as="span" size="2">As span with size 2</StoryComponent>
+		<Title as="h1">As h1</Title>
+		<Title as="h2">As h2</Title>
+		<Title as="h3">As h3</Title>
+		<Title as="h4">As h4</Title>
+		<Title as="span" size="2">As span with size 2</Title>
 	</div>
 );
 As.parameters = {
@@ -43,10 +43,10 @@ As.parameters = {
 
 export const Sizes = args => (
 	<div className="yst-flex yst-flex-col yst-gap-2">
-		<StoryComponent size="1">Size 1</StoryComponent>
-		<StoryComponent size="2">Size 2</StoryComponent>
-		<StoryComponent size="3">Size 3</StoryComponent>
-		<StoryComponent size="4">Size 4</StoryComponent>
+		<Title size="1">Size 1</Title>
+		<Title size="2">Size 2</Title>
+		<Title size="3">Size 3</Title>
+		<Title size="4">Size 4</Title>
 	</div>
 );
 Sizes.parameters = {

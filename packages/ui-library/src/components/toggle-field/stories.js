@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from "react";
-import { StoryComponent } from ".";
+import ToggleField from ".";
 import Badge from "../../elements/badge";
 import { checked, component, withLabelAndDescription, withLabelSuffix } from "./docs";
 
 export default {
 	title: "2) Components/Toggle field",
-	component: StoryComponent,
+	component: ToggleField,
 	argTypes: {
 		children: { control: "text" },
 		description: { control: "text" },
@@ -25,7 +25,7 @@ const Template = ( args ) => {
 	const handleChange = useCallback( setIsChecked, [ setIsChecked ] );
 
 	return (
-		<StoryComponent { ...args } checked={ isChecked } onChange={ handleChange } />
+		<ToggleField { ...args } checked={ isChecked } onChange={ handleChange } />
 	);
 };
 

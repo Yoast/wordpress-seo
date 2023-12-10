@@ -85,7 +85,6 @@ CheckboxGroup.propTypes = {
 };
 
 CheckboxGroup.Checkbox = Checkbox;
-
 CheckboxGroup.Checkbox.displayName = "CheckboxGroup.Checkbox";
 
 export default CheckboxGroup;

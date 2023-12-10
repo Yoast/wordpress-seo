@@ -54,24 +54,16 @@ const Spinner = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+Spinner.displayName = "Spinner";
+Spinner.propTypes = {
 	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),
 	size: PropTypes.oneOf( keys( classNameMap.size ) ),
 	className: PropTypes.string,
 };
-
-Spinner.displayName = "Spinner";
-Spinner.propTypes = propTypes;
 Spinner.defaultProps = {
 	variant: "default",
 	size: "4",
 	className: "",
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Spinner { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Spinner.defaultProps;
-StoryComponent.displayName = "Spinner";
 
 export default Spinner;

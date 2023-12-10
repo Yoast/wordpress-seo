@@ -39,25 +39,17 @@ const Title = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+Title.displayName = "Title";
+Title.propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
 	size: PropTypes.oneOf( Object.keys( classNameMap.size ) ),
 	className: PropTypes.string,
 };
-
-Title.displayName = "Title";
-Title.propTypes = propTypes;
 Title.defaultProps = {
 	as: "h1",
 	size: undefined,
 	className: "",
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Title { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Title.defaultProps;
-StoryComponent.displayName = "Title";
 
 export default Title;

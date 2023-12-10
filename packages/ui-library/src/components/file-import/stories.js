@@ -1,12 +1,12 @@
 import { noop, values } from "lodash";
 import React, { useCallback, useState } from "react";
-import FileImport, { FILE_IMPORT_STATUS, StoryComponent } from ".";
+import FileImport, { FILE_IMPORT_STATUS } from ".";
 import Alert from "../../elements/alert";
 import { aborted, component, error, loading, selected } from "./docs";
 
 export default {
 	title: "2) Components/File import",
-	component: StoryComponent,
+	component: FileImport,
 	argTypes: {
 		children: { control: "text" },
 		status: { options: values( FILE_IMPORT_STATUS ) },

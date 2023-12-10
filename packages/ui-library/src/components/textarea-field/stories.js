@@ -1,11 +1,11 @@
 import { map, noop } from "lodash";
 import React from "react";
-import { StoryComponent } from ".";
+import TextareaField from ".";
 import { VALIDATION_VARIANTS } from "../../constants";
 
 export default {
 	title: "2) Components/Textarea field",
-	component: StoryComponent,
+	component: TextareaField,
 	argTypes: {
 		description: { control: "text" },
 	},
@@ -23,7 +23,7 @@ export default {
 };
 
 export const Factory = {
-	component: args => <StoryComponent { ...args } />,
+	component: args => <TextareaField { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},
@@ -42,7 +42,7 @@ export const WithLabelAndDescription = {
 export const Validation = () => (
 	<div className="yst-space-y-8">
 		{ map( VALIDATION_VARIANTS, variant => (
-			<StoryComponent
+			<TextareaField
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }

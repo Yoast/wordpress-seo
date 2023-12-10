@@ -1,10 +1,10 @@
 import React from "react";
-import { StoryComponent } from ".";
+import Textarea from ".";
 import { component } from "./docs";
 
 export default {
 	title: "1) Elements/Textarea",
-	component: StoryComponent,
+	component: Textarea,
 	argTypes: {
 		cols: {
 			table: {
@@ -27,7 +27,7 @@ export default {
 };
 
 export const Factory = {
-	component: ( args ) => <StoryComponent { ...args } />,
+	component: ( args ) => <Textarea { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},

@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from "react";
-import { StoryComponent } from ".";
+import TagInput from ".";
 import { component } from "./docs";
 
 export default {
 	title: "1) Elements/Tag input",
-	component: StoryComponent,
+	component: TagInput,
 	parameters: {
 		docs: {
 			description: {
@@ -78,7 +78,7 @@ const Template = args => {
 		setTags( [ ...tags.slice( 0, index ), ...tags.slice( index + 1 ) ] );
 	}, [ tags, setTags ] );
 	return (
-		<StoryComponent { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } onSetTags={ setTags } />
+		<TagInput { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } onSetTags={ setTags } />
 	);
 };
 

@@ -1,11 +1,11 @@
 import { filter, find, includes, map, noop, toLower } from "lodash";
 import React, { useCallback, useMemo, useState } from "react";
-import AutocompleteField, { StoryComponent } from ".";
+import AutocompleteField from ".";
 import { VALIDATION_VARIANTS } from "../../constants";
 
 export default {
 	title: "2) Components/Autocomplete field",
-	component: StoryComponent,
+	component: AutocompleteField,
 	argTypes: {
 		description: { control: "text" },
 	},
@@ -45,7 +45,7 @@ const Template = ( { ...args } ) => {
 	return (
 		// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<StoryComponent
+			<AutocompleteField
 				selectedLabel={ selectedOption?.label || "" }
 				{ ...args }
 				value={ value }
@@ -57,7 +57,7 @@ const Template = ( { ...args } ) => {
 						{ option.label }
 					</AutocompleteField.Option>
 				) ) }
-			</StoryComponent>
+			</AutocompleteField>
 		</div>
 	);
 };
@@ -139,7 +139,7 @@ ChildrenProp.parameters = { docs: { description: { story: "The `children` prop c
 export const Validation = () => (
 	<div className="yst-space-y-8">
 		{ map( VALIDATION_VARIANTS, variant => (
-			<StoryComponent
+			<AutocompleteField
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }

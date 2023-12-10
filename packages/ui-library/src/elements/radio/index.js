@@ -99,7 +99,8 @@ const Radio = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+Radio.displayName = "Radio";
+Radio.propTypes = {
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
@@ -110,9 +111,6 @@ const propTypes = {
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
-
-Radio.displayName = "Radio";
-Radio.propTypes = propTypes;
 Radio.defaultProps = {
 	screenReaderLabel: "",
 	variant: "default",
@@ -120,11 +118,5 @@ Radio.defaultProps = {
 	className: "",
 	isLabelDangerousHtml: false,
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Radio { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Radio.defaultProps;
-StoryComponent.displayName = "Radio";
 
 export default Radio;

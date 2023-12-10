@@ -1,12 +1,12 @@
 import { map, noop } from "lodash";
 import React, { useCallback, useState } from "react";
-import Select, { StoryComponent } from ".";
+import Select from ".";
 import { VALIDATION_VARIANTS } from "../validation/constants";
 import { childrenProp, component, optionsProp, validation } from "./docs";
 
 export default {
 	title: "1) Elements/Select",
-	component: StoryComponent,
+	component: Select,
 	argTypes: {
 		children: { control: "text" },
 		labelSuffix: { control: "text" },
@@ -38,7 +38,7 @@ const Template = ( args ) => {
 	return (
 		// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<StoryComponent { ...args } value={ value } onChange={ handleChange } selectedLabel={ selectedLabel } />
+			<Select { ...args } value={ value } onChange={ handleChange } selectedLabel={ selectedLabel } />
 		</div>
 	);
 };
@@ -93,7 +93,7 @@ ChildrenProp.parameters = {
 export const Validation = () => (
 	<div className="yst-space-y-8">
 		{ map( VALIDATION_VARIANTS, variant => (
-			<StoryComponent
+			<Select
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }

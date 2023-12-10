@@ -1,15 +1,15 @@
 import React from "react";
-import { StoryComponent } from ".";
+import ProgressBar from ".";
 import { component } from "./docs";
 
 export default {
 	title: "1) Elements/Progress bar",
-	component: StoryComponent,
+	component: ProgressBar,
 	parameters: { docs: { description: { component } } },
 };
 
 export const Factory = ( { children, ...args } ) => (
-	<StoryComponent { ...args } />
+	<ProgressBar { ...args } />
 );
 Factory.parameters = {
 	controls: { disable: false },

@@ -68,7 +68,8 @@ const TextField = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+TextField.displayName = "TextField";
+TextField.propTypes = {
 	id: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	label: PropTypes.string.isRequired,
@@ -82,9 +83,6 @@ const propTypes = {
 		message: PropTypes.node,
 	} ),
 };
-
-TextField.displayName = "TextField";
-TextField.propTypes = propTypes;
 TextField.defaultProps = {
 	labelSuffix: null,
 	disabled: false,
@@ -93,11 +91,5 @@ TextField.defaultProps = {
 	description: null,
 	validation: {},
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <TextField { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = TextField.defaultProps;
-StoryComponent.displayName = "TextField";
 
 export default TextField;

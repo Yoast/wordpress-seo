@@ -1,11 +1,11 @@
 import { map, noop } from "lodash";
 import React, { useCallback, useState } from "react";
-import { StoryComponent } from ".";
+import TagField from ".";
 import { VALIDATION_VARIANTS } from "../../constants";
 
 export default {
 	title: "2) Components/Tag field",
-	component: StoryComponent,
+	component: TagField,
 	parameters: {
 		docs: {
 			description: {
@@ -34,7 +34,7 @@ const Template = args => {
 	}, [ tags, setTags ] );
 
 	return (
-		<StoryComponent { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
+		<TagField { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
 	);
 };
 
@@ -54,7 +54,7 @@ WithLabelAndDescription.args = {
 export const Validation = () => (
 	<div className="yst-space-y-8">
 		{ map( VALIDATION_VARIANTS, variant => (
-			<StoryComponent
+			<TagField
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }
