@@ -12,12 +12,24 @@ module.exports = {
 		"@storybook/addon-essentials",
 		"@storybook/addon-a11y",
 		{
-			name: "@storybook/addon-postcss",
+			name: "@storybook/addon-styling-webpack",
 			options: {
-				postcssLoaderOptions: {
-					// Provide our own copy of PostCSS.
-					implementation: require( "postcss" ),
-				},
+				rules: [
+					{
+						test: /\.css$/,
+						use: [
+							"style-loader",
+							{
+								loader: "css-loader",
+								options: { importLoaders: 1 },
+							},
+							{
+								loader: "postcss-loader",
+								options: { implementation: require.resolve( "postcss" ) },
+							},
+						],
+					},
+				],
 			},
 		},
 	],

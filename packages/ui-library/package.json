@@ -40,7 +40,7 @@
     "@storybook/addon-a11y": "^7.6.17",
     "@storybook/addon-essentials": "^7.6.17",
     "@storybook/addon-links": "^7.6.17",
-    "@storybook/addon-postcss": "^2.0.0",
+    "@storybook/addon-styling-webpack": "^0.0.6",
     "@storybook/addons": "^7.6.17",
     "@storybook/mdx2-csf": "^1.1.0",
     "@storybook/react": "^7.6.17",
