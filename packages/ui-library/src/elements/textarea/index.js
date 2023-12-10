@@ -4,12 +4,14 @@ import React, { forwardRef } from "react";
 
 /**
  * @param {boolean} [disabled=false] Whether the input is disabled.
+ * @param {string} [cols] Textarea columns (width).
  * @param {string} [rows] Textarea rows (height).
  * @param {string} [className=""] CSS class.
  * @returns {JSX.Element} Textarea component.
  */
 const Textarea = forwardRef( ( {
 	disabled,
+	cols,
 	rows,
 	className,
 	...props
@@ -17,6 +19,7 @@ const Textarea = forwardRef( ( {
 	<textarea
 		ref={ ref }
 		disabled={ disabled }
+		cols={ cols }
 		rows={ rows }
 		className={ classNames(
 			"yst-textarea",
