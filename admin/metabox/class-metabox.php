@@ -102,6 +102,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
 		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
 		$this->replace_vars_post           = new Replace_Vars_Post();
+		$this->post = $this->get_metabox_post();
 	}
 
 	/**
