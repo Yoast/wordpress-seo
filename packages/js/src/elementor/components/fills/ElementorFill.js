@@ -8,6 +8,7 @@ import { InternalLinkingSuggestionsUpsell } from "../../../components/modals/Int
 
 // Internal dependencies.
 import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
+import { useFirstEligibleNotification } from "../../../hooks/use-first-eligible-notification";
 import InsightsModal from "../../../insights/components/insights-modal";
 import Alert from "../../containers/Alert";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
@@ -22,10 +23,6 @@ import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphras
 import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanceModal";
 import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
-import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
-import { BlackFridaySidebarChecklistPromotion } from "../../../components/BlackFridaySidebarChecklistPromotion";
-import { BlackFridayPromotion } from "../../../components/BlackFridayPromotion";
-import { shouldShowWebinarPromotionNotificationInSidebar } from "../../../helpers/shouldShowWebinarPromotionNotification";
 import KeywordUpsell from "../../../components/modals/KeywordUpsell";
 
 /* eslint-disable complexity */
@@ -39,6 +36,9 @@ import KeywordUpsell from "../../../components/modals/KeywordUpsell";
  * @constructor
  */
 export default function ElementorFill( { isLoading, onLoad, settings } ) {
+	const webinarIntroUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
+	const FirstEligibleNotification = useFirstEligibleNotification( { webinarIntroUrl } );
+
 	useEffect( () => {
 		setTimeout( () => {
 			if ( isLoading ) {
@@ -51,22 +51,13 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 		return null;
 	}
 
-	const webinarIntroElementorUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
-	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
-
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
 			<Fill name="YoastElementor">
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
-
-					{ shouldShowWebinarPromotionNotificationInSidebar() &&
-						<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } />
-					}
-					{ isWooCommerce && <BlackFridaySidebarChecklistPromotion hasIcon={ false } /> }
-					<BlackFridayPromotion image={ null } hasIcon={ false } />
-
+					{ FirstEligibleNotification && <FirstEligibleNotification /> }
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
 					<KeywordInput
