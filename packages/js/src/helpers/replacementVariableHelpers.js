@@ -191,8 +191,6 @@ export function mapCustomTaxonomies( replaceVars, store ) {
 			value: valueDescription,
 			label: descriptionLabel,
 		};
-		 store.dispatch( updateReplacementVariable( name, value.name, label ) );
-		// store.dispatch( updateReplacementVariable( descriptionName, value.description, descriptionLabel ) );
 	} );
 
 	store.dispatch( updateReplacementVariablesBatch( updatedVariables ) );
