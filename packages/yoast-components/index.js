@@ -14,7 +14,7 @@ import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
 
 const getRtlStyle = getDirectionalStyle;
-
+console.log( 'wao' );
 /**
  * @deprecated since 5.13.1. Use the `OnboardingWizard` from the `@yoast/configuration-wizard` package instead.
  *
