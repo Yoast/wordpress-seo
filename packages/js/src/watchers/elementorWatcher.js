@@ -2,8 +2,7 @@ import { dispatch, select } from "@wordpress/data";
 import { debounce, get } from "lodash";
 import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
 import { registerElementorUIHookAfter, registerElementorUIHookBefore } from "../helpers/elementorHook";
-import { markers, helpers, Paper } from "yoastseo";
-import { unifyNonBreakingSpace } from "yoastseo/src/languageProcessing/helpers/";
+import { markers, Paper } from "yoastseo";
 
 const editorData = {
 	content: "",
