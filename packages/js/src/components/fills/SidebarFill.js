@@ -60,29 +60,6 @@ export default function SidebarFill( { settings } ) {
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 				</SidebarItem> }
-				<SidebarItem key="search-appearance" renderPriority={ 25 }>
-					<SearchAppearanceModal />
-				</SidebarItem>
-				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-appearance" renderPriority={ 26 }>
-					<SocialAppearanceModal
-						useOpenGraphData={ settings.useOpenGraphData }
-						useTwitterData={ settings.useTwitterData }
-					/>
-				</SidebarItem> }
-				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 28 }>
-					<SidebarCollapsible
-						title={ __( "Schema", "wordpress-seo" ) }
-					>
-						<SchemaTabContainer />
-					</SidebarCollapsible>
-				</SidebarItem> }
-				{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 29 }>
-					<SidebarCollapsible
-						title={ __( "Advanced", "wordpress-seo" ) }
-					>
-						<AdvancedSettings />
-					</SidebarCollapsible>
-				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo" renderPriority={ 10 }>
 					<Fragment>
 						<SeoAnalysis
@@ -103,16 +80,39 @@ export default function SidebarFill( { settings } ) {
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
-				{ settings.shouldUpsell && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 23 }>
-					<InternalLinkingSuggestionsUpsell />
-				</SidebarItem> }
-				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
-					<CollapsibleCornerstone />
-				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive && <SidebarItem renderPriority={ 23 }>
 					<WincherSEOPerformanceModal
 						location="sidebar"
 					/>
+				</SidebarItem> }
+				{ settings.shouldUpsell && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 25 }>
+					<InternalLinkingSuggestionsUpsell />
+				</SidebarItem> }
+				<SidebarItem key="search-appearance" renderPriority={ 26 }>
+					<SearchAppearanceModal />
+				</SidebarItem>
+				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-appearance" renderPriority={ 27 }>
+					<SocialAppearanceModal
+						useOpenGraphData={ settings.useOpenGraphData }
+						useTwitterData={ settings.useTwitterData }
+					/>
+				</SidebarItem> }
+				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 28 }>
+					<SidebarCollapsible
+						title={ __( "Schema", "wordpress-seo" ) }
+					>
+						<SchemaTabContainer />
+					</SidebarCollapsible>
+				</SidebarItem> }
+				{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 29 }>
+					<SidebarCollapsible
+						title={ __( "Advanced", "wordpress-seo" ) }
+					>
+						<AdvancedSettings />
+					</SidebarCollapsible>
+				</SidebarItem> }
+				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
+					<CollapsibleCornerstone />
 				</SidebarItem> }
 				{ settings.isInsightsEnabled && <SidebarItem renderPriority={ 32 }>
 					<InsightsModal location="sidebar" />

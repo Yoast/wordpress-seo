@@ -4,6 +4,9 @@ import InvalidTypeError from "./errors/invalidType";
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.
  *
+ * Please note that there is a newer copy of this plugin in `packages/js/src/lib/Pluggable.js`.
+ * For internal use, please use the newer copy for all interfaces except for registering assessments.
+ *
  * A plugin for YoastSEO.js is basically a piece of JavaScript that hooks into YoastSEO.js by registering modifications.
  * In order to do so, it must first register itself as a plugin with YoastSEO.js. To keep our content analysis fast, we
  * don't allow asynchronous modifications. That's why we require plugins to preload all data they need in order to modify

@@ -7,8 +7,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Yoast dependencies */
-import { colors } from "@yoast/style-guide";
-import { Collapsible } from "@yoast/components";
+import { MetaboxButton } from "./MetaboxButton";
 
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
@@ -23,17 +22,6 @@ const StyledHeroIcon = styled( ChartBarIcon )`
 	width: 18px;
 	height: 18px;
 	margin: 3px;
-`;
-
-const MetaboxModalButton = styled( Collapsible )`
-	h2 > button {
-		padding-left: 24px;
-		padding-top: 16px;
-
-		&:hover {
-			background-color: #f0f0f0;
-		}
-	}
 `;
 
 /**
@@ -108,7 +96,7 @@ export default function WincherSEOPerformanceModal( props ) {
 				title={ title }
 				onRequestClose={ onModalClose }
 				icon={ <YoastIcon /> }
-				additionalClassName="yoast-wincher-seo-performance-modal"
+				additionalClassName="yoast-wincher-seo-performance-modal yoast-gutenberg-modal__no-padding"
 				shouldCloseOnClickOutside={ shouldCloseOnClickOutside }
 			>
 				<ModalContainer
@@ -128,18 +116,17 @@ export default function WincherSEOPerformanceModal( props ) {
 			/>
 			}
 
-			{ location === "metabox" && <MetaboxModalButton
-				hasPadding={ false }
-				hasSeparator={ true }
-				suffixIconCollapsed={ {
-					icon: "pencil-square",
-					color: colors.$black,
-					size: "20px",
-				} }
-				id={ `wincher-open-button-${location}` }
-				title={ title }
-				onToggle={ onModalOpen }
-			/> }
+			{ location === "metabox" && (
+				<div className="yst-root">
+					<MetaboxButton
+						id={ `wincher-open-button-${location}` }
+						onClick={ onModalOpen }
+					>
+						<MetaboxButton.Text>{ title }</MetaboxButton.Text>
+						<ChartBarIcon className="yst-h-5 yst-w-5 yst-text-slate-500" { ...svgAriaProps } />
+					</MetaboxButton>
+				</div>
+			) }
 		</Fragment>
 	);
 }

@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import SnippetPreviewSection from "../../components/SnippetPreviewSection";
 import withLocation from "../../helpers/withLocation";
 import { strings } from "@yoast/helpers";
-import { applyModifications } from "../initializers/pluggable";
+import { applyModifications } from "../../initializers/pluggable";
 import { getCurrentReplacementVariablesForEditor } from "../replaceVars/elementor-replacevar-plugin";
 
 const { stripHTMLTags } = strings;
