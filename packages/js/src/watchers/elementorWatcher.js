@@ -1,8 +1,9 @@
-import { dispatch } from "@wordpress/data";
-import { get, debounce } from "lodash";
+import { dispatch, select } from "@wordpress/data";
+import { debounce, get } from "lodash";
 import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
 import { registerElementorUIHookAfter, registerElementorUIHookBefore } from "../helpers/elementorHook";
-import { markers, Paper } from "yoastseo";
+import { markers, helpers, Paper } from "yoastseo";
+import { unifyNonBreakingSpace } from "yoastseo/src/languageProcessing/helpers/";
 
 const editorData = {
 	content: "",
@@ -20,8 +21,17 @@ const MARK_TAG = "yoastmark";
  * @param {Object} widget The widget.
  * @returns {boolean} Whether there are marks in the HTML of the widget.
  */
-export function widgetHasMarks( widget ) {
+function widgetHasMarks( widget ) {
 	return widget.innerHTML.indexOf( "<" + MARK_TAG ) !== -1;
+}
+
+/**
+ * Retrieves all Elementor widget containers.
+ * @returns {jQuery[]} Elementor widget containers.
+ */
+function getWidgetContainers() {
+	const currentDocument = window.elementor.documents.getCurrent();
+	return currentDocument.$element.find( ".elementor-widget-container" );
 }
 
 /**
@@ -30,9 +40,7 @@ export function widgetHasMarks( widget ) {
  * @returns {void}
  */
 function removeMarks() {
-	const currentDocument = window.elementor.documents.getCurrent();
-
-	currentDocument.$element.find( ".elementor-widget-container" ).each( ( index, element ) => {
+	getWidgetContainers().each( ( index, element ) => {
 		if ( widgetHasMarks( element ) ) {
 			element.innerHTML = markers.removeMarks( element.innerHTML );
 		}
@@ -51,8 +59,9 @@ function getContent( editorDocument ) {
 	editorDocument.$element.find( ".elementor-widget-container" ).each( ( index, element ) => {
 		// We remove \n and \t from the HTML as Elementor formats the HTML after saving.
 		// As this spacing is purely cosmetic, we can remove it for analysis purposes.
+		// We also convert &nbsp; elements to regular spaces.
 		// When we apply the marks, we do need to make the same amendments.
-		const rawHtml = element.innerHTML.replace( /[\n\t]/g, "" ).trim();
+		const rawHtml = element.innerHTML.replace( /[\n\t]/g, "" ).replace( /&nbsp;/g, " " ).trim();
 		content.push( rawHtml );
 	} );
 
@@ -95,6 +104,7 @@ function getEditorData( editorDocument ) {
 	};
 }
 
+/* eslint-disable complexity */
 /**
  * Dispatches new data when the editor is dirty.
  *
@@ -103,11 +113,14 @@ function getEditorData( editorDocument ) {
 function handleEditorChange() {
 	const currentDocument = window.elementor.documents.getCurrent();
 
-	/*
-	Quit early if the change was caused by switching out of the wp-post/page document.
-	This can happen when users go to Site Settings, for example.
-	*/
+	// Quit early if the change was caused by switching out of the wp-post/page document.
+	// This can happen when users go to Site Settings, for example.
 	if ( ! [ "wp-post", "wp-page" ].includes( currentDocument.config.type ) ) {
+		return;
+	}
+
+	// Quit early if the highlighting functionality is on.
+	if ( select( "yoast-seo/editor" ).getActiveMarker() ) {
 		return;
 	}
 
@@ -133,6 +146,7 @@ function handleEditorChange() {
 		dispatch( "yoast-seo/editor" ).setEditorDataImageUrl( editorData.imageUrl );
 	}
 }
+/* eslint-enable complexity */
 
 /**
  * Removes highlighting from Elementor widgets and reset the highlighting button.
@@ -148,7 +162,19 @@ function resetMarks() {
 	window.YoastSEO.analysis.applyMarks( new Paper( "", {} ), [] );
 }
 
-const debouncedHandleEditorChange = debounce( handleEditorChange, 500 );
+const debouncedHandleEditorChange = debounce( handleEditorChange, 1500 );
+
+/**
+ * Observes changes to any of the widget containers through a MutationObserver.
+ *
+ * @returns {void}
+ */
+function observeChanges() {
+	const observer = new MutationObserver( debouncedHandleEditorChange );
+	getWidgetContainers().each( ( _, element ) => {
+		observer.observe( element, { attributes: true, childList: true, subtree: true } );
+	} );
+}
 
 /**
  * Initializes the watcher by coupling the change handlers to the change events.
@@ -162,7 +188,8 @@ export default function initialize() {
 	registerElementorUIHookBefore( "document/save/save", "yoast-seo-reset-marks-save", resetMarks );
 
 	// This hook will fire when the Elementor preview becomes available.
-	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo-content-scraper-attach-preview", debouncedHandleEditorChange );
+	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo-content-scraper-initial", debouncedHandleEditorChange );
+	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo-content-scraper", debounce( observeChanges, 500 ) );
 
 	// This hook will fire when the contents of the editor are modified.
 	registerElementorUIHookAfter( "document/save/set-is-modified", "yoast-seo-content-scraper-on-modified", debouncedHandleEditorChange );
