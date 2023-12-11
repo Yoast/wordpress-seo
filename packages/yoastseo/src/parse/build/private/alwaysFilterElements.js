@@ -32,8 +32,6 @@ const permanentFilters = [
 	elementHasClass( "elementor-shortcode" ),
 	elementHasClass( "elementor-menu-anchor" ),
 	elementHasClass( "e-rating" ),
-	// This element changes internal html without notification and this leads to position base highlighting break.
-	elementHasClass( "elementor-toggle" ),
 	// Filters out HTML elements.
 	/* Elements are filtered out when: they contain content outside of the author's control (incl. quotes and embedded
 	content); their content isn't natural language (e.g. code); they contain metadata hidden from the page visitor
