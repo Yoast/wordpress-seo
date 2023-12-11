@@ -145,7 +145,7 @@ class Verify_Post_Indexables_Command_Handler_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_handle_with_no_next_batch() {
-		$this->command                             = new Verify_Post_Indexables_Command( 10, 0 );
+		$this->command   = new Verify_Post_Indexables_Command( 10, 0 );
 		$indexable_list  = new Outdated_Post_Indexables_List();
 		$indexable_mock  = Mockery::mock( Indexable::class );
 		$indexable_mock1 = Mockery::mock( Indexable::class );

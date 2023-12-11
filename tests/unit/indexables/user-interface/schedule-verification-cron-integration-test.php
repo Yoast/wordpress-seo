@@ -46,9 +46,9 @@ class Schedule_Verification_Cron_Integration_Test extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->cron_schedule_handler                           = Mockery::mock( Verification_Cron_Schedule_Handler::class );
+		$this->cron_schedule_handler = Mockery::mock( Verification_Cron_Schedule_Handler::class );
 
-		$this->instance = new Schedule_Verification_Cron_Integration(  $this->cron_schedule_handler );
+		$this->instance = new Schedule_Verification_Cron_Integration( $this->cron_schedule_handler );
 	}
 
 	/**
@@ -59,11 +59,13 @@ class Schedule_Verification_Cron_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_hooks() {
-		Monkey\Functions\expect( 'add_action', )
+		Monkey\Functions\expect( 'add_action' )
 			->with(
 				'wpseo_activate',
-				[$this->cron_schedule_handler,
-				'schedule_indexable_verification']
+				[
+					$this->cron_schedule_handler,
+					'schedule_indexable_verification',
+				]
 			);
 
 		$this->instance->register_hooks();
