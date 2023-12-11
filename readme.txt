@@ -354,7 +354,7 @@ Yoast SEO 21.7 is out now. In this release, we bring an improved first-time conf
 
 #### Bugfixes
 
-* Fixes a bug where an additional `Organization, Person` schema piece would be wrongly generated for author pages when a website representing an organization was set to represent a person different than the author.
+* Fixes a bug where an additional `Organization, Person` schema piece would be wrongly generated for author pages when a website representing an organization was set to represent a person different from the author.
 * Fixes a bug where the initial state for the website name would be empty when saving the site representation step in the first time configuration.
 * Fixes a bug where modifications to the analysis data would not be included in the Insights analysis.
 * Fixes a bug where the "view" button for tracking SEO performance would have the wrong size when editing a post in Elementor and Classic editor.
