@@ -166,7 +166,6 @@ export function prepareCustomTaxonomyForDispatch( name ) {
  * @returns {Object}                 The restructured replacevars object without custom_taxonomies.
  */
 export function mapCustomTaxonomies( replaceVars, store ) {
-	console.log( store );
 	if ( ! replaceVars.custom_taxonomies ) {
 		return replaceVars;
 	}
