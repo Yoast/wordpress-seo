@@ -874,11 +874,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 * contenteditable fields.
 		 */
 		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
-		if( $pagenow === 'site-editor.php'){
-			$post_edit_handle = 'post-edit';
-		}
-		$temp = WPSEO_Utils::get_admin_l10n();
-		$asset_manager->localize_script( 'post-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+
+		$asset_manager->localize_script( $post_edit_handle, 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+
 		$replaceVars = $this->replacment_vars_post->get_post_replace_vars( $post );
 
 		$plugins_script_data = [
@@ -932,7 +930,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'wistiaEmbedPermission'      => YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( \get_current_user_id() ),
 		];
 
-		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
+		if ( post_type_supports( $post->post_type, 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );
 
 			// @todo replace this translation with JavaScript translations.
