@@ -893,7 +893,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$asset_manager->localize_script( $post_edit_handle, 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 
-		$replaceVars = $this->replace_vars_post->get_post_replace_vars( $this->get_metabox_post() );
+		$replaceVars = $this->replace_vars_post->get_post_replace_vars( $this->post );
 
 		$plugins_script_data = [
 			'replaceVars' => $replaceVars,
