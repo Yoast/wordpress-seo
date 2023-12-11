@@ -292,20 +292,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function get_metabox_script_data() {
 		$permalink = '';
 
-		if ( is_object( $this->get_metabox_post() ) ) {
-			$permalink = get_sample_permalink( $this->get_metabox_post()->ID );
+		if ( is_object( $this->post ) ) {
+			$permalink = get_sample_permalink( $this->post->ID );
 			$permalink = $permalink[0];
 		}
 
 		$post_formatter = new WPSEO_Metabox_Formatter(
-			new WPSEO_Post_Metabox_Formatter( $this->get_metabox_post(), [], $permalink )
+			new WPSEO_Post_Metabox_Formatter( $this->post, [], $permalink )
 		);
 
 		$values = $post_formatter->get_values();
 
 		/** This filter is documented in admin/filters/class-cornerstone-filter.php. */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
-		if ( $values['cornerstoneActive'] && ! in_array( $this->get_metabox_post()->post_type, $post_types, true ) ) {
+		if ( $values['cornerstoneActive'] && ! in_array( $this->post->post_type, $post_types, true ) ) {
 			$values['cornerstoneActive'] = false;
 		}
 
@@ -326,7 +326,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether the current post type has taxonomies.
 	 */
 	private function current_post_type_has_taxonomies() {
-		$post_taxonomies = get_object_taxonomies( get_post_type() );
+		$post_taxonomies = get_object_taxonomies( $this->post->post_type );
 
 		return ! empty( $post_taxonomies );
 	}
@@ -338,7 +338,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string String describing the current scope.
 	 */
 	private function determine_scope() {
-		if ( $this->get_metabox_post()->post_type === 'page' ) {
+		if ( $this->post->post_type === 'page' ) {
 			return 'page';
 		}
 
@@ -362,19 +362,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
+		echo new Meta_Fields_Presenter( $this->post, 'general' );
 
 		if ( $this->is_advanced_metadata_enabled ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'advanced' );
+			echo new Meta_Fields_Presenter( $this->post, 'advanced' );
 		}
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema', $this->get_metabox_post()->post_type );
+		echo new Meta_Fields_Presenter( $this->post, 'schema', $this->post->post_type );
 
 		if ( $this->social_is_enabled ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
+			echo new Meta_Fields_Presenter( $this->post, 'social' );
 		}
 
 		/**
@@ -524,7 +524,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function do_meta_box( $meta_field_def, $key = '' ) {
 		$content      = '';
 		$esc_form_key = esc_attr( WPSEO_Meta::$form_prefix . $key );
-		$meta_value   = WPSEO_Meta::get_value( $key, $this->get_metabox_post()->ID );
+		$meta_value   = WPSEO_Meta::get_value( $key, $this->post->ID );
 
 		$class = '';
 		if ( isset( $meta_field_def['class'] ) && $meta_field_def['class'] !== '' ) {
@@ -926,8 +926,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'isPost'                     => true,
 			'isBlockEditor'              => $is_block_editor,
 			'postId'                     => $post_id,
-			'postStatus'                 => get_post_status( $post_id ),
-			'postType'                   => get_post_type( $post_id ),
+			'postStatus'                 => $this->post->post_status,
+			'postType'                   => $this->post->post_type,
 			'usedKeywordsNonce'          => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 			'analysis'                   => [
 				'plugins' => $plugins_script_data,
@@ -940,13 +940,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
 			'isWooCommerceActive'        => $woocommerce_active,
-			'woocommerceUpsell'          => get_post_type( $post_id ) === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
+			'woocommerceUpsell'          => $this->post->post_type === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
 			'linkParams'                 => WPSEO_Shortlinker::get_query_params(),
 			'pluginUrl'                  => \plugins_url( '', \WPSEO_FILE ),
 			'wistiaEmbedPermission'      => YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( \get_current_user_id() ),
 		];
 
-		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
+		if ( post_type_supports( $this->post->post_type, 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );
 
 			// @todo replace this translation with JavaScript translations.
