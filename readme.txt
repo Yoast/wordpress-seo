@@ -354,8 +354,8 @@ Yoast SEO 21.7 is out now. In this release, we bring an improved first-time conf
 
 #### Bugfixes
 
-* Fixes a bug where an additional `Organization, Person` schema piece is wrongly generated for author pages in case a website representing an organization was previously set to represent a person different from the author.
-* Fixes a bug where initial state for site name would be empty when saving site representation step in first time configuration.
+* Fixes a bug where an additional `Organization, Person` schema piece would be wrongly generated for author pages when a website representing an organization was set to represent a person different than the author.
+* Fixes a bug where the initial state for the website name would be empty when saving the site representation step in the first time configuration.
 * Fixes a bug where modifications to the analysis data would not be included in the Insights analysis.
 * Fixes a bug where the "view" button for tracking SEO performance would have the wrong size when editing a post in Elementor and Classic editor.
 
@@ -365,7 +365,7 @@ Yoast SEO 21.7 is out now. In this release, we bring an improved first-time conf
 * Improves the discoverability of the security policy.
 * Improves the instructions in the first-time configuration so that they're easier to follow.
 * Improves the new installation screen layout and design.
-* Provides a filter to add a list of shortcodes to be parsed and thus included in our content analysis in Classic editor.
+* Provides a filter to add a list of shortcodes so they can be parsed and then included in our content analysis in Classic editor.
 
 = 21.6 =
 
