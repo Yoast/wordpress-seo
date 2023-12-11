@@ -361,7 +361,7 @@ Yoast SEO 21.7 is out now. In this release, we bring an improved first-time conf
 
 #### Other
 
-* Adds linting and testing to ensure that the plugin has no known incompatibilities with PHP 8.3.
+* Adds checks to ensure that the plugin has no known incompatibilities with PHP 8.3.
 * Improves the discoverability of the security policy.
 * Improves the instructions in the first-time configuration so that they're easier to follow.
 * Improves the new installation screen layout and design.
