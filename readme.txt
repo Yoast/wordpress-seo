@@ -211,7 +211,7 @@ Take your WordPress SEO to new heights with these powerful Yoast SEO add-ons:
 
 * [Yoast News SEO](https://yoa.st/1uv): Amplify your visibility and performance in Google News, allowing your news website to reach a broader audience.
 
-* [Yoast WooCommerce SEO](https://yoa.st/3rh): Enhance your online shop's discoverability with extra tools and functionality designed specifically for online stores, helping you drive more targeted traffic and dominate the search results for your products. Comes with generative AI tools to help you write great titles and meta descriptions for your products!
+* [Yoast WooCommerce SEO](https://yoa.st/3rh): Enhance your online shop's discoverability with extra tools and functionality designed specifically for online stores, helping you drive more targeted traffic and dominate the search results for your products. Comes with generative AI tools to help you write great titles and meta descriptions for your products! Also, use WooCommerce SEO to easily import and export global identifiers like GTIN8, UPC, and ISBN for your products.
 
 ### BUG REPORTS
 
@@ -346,16 +346,18 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-12-12
 
+Yoast SEO 21.7 is out now. In this release, we bring an improved first-time configuration, making it easier for people to get started. Also, we fixed several bugs and added some enhancements. Find out more about what's new in Yoast SEO 21.7 in [our release post](https://yoa.st/release-12-12-23)!
+
 #### Enhancements
 
 * Removes a superfluous warning in the first time configuration when the site environment is non-production.
 
 #### Bugfixes
 
-* Fixes a bug where an additional `Organization, Person` schema piece is wrongly generated for author pages in case a website representing an organization was previously set to represent a person different than the author.
+* Fixes a bug where an additional `Organization, Person` schema piece is wrongly generated for author pages in case a website representing an organization was previously set to represent a person different from the author.
 * Fixes a bug where initial state for site name would be empty when saving site representation step in first time configuration.
 * Fixes a bug where modifications to the analysis data would not be included in the Insights analysis.
-* Fixes a bug where the \"view\" button for tracking SEO performance would have the wrong size when editing a post in Elementor and Classic editor.
+* Fixes a bug where the "view" button for tracking SEO performance would have the wrong size when editing a post in Elementor and Classic editor.
 
 #### Other
 
