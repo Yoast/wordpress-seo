@@ -5,14 +5,10 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
-use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Active_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
-use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
-use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 use Yoast\WP\SEO\Integrations\Admin\Editor\Replace_Vars_Post;
+use Yoast\WP\SEO\Integrations\Admin\Editor\Editor_Post_Data;
 
 /**
  * This class generates the metabox on the edit post / page as well as contains all page analysis functionality.
@@ -76,6 +72,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $replace_vars_post;
 
 	/**
+	 * The post editor script data class.
+	 * 
+	 * @var Editor_Post_Data
+	 */
+	protected $editor_post_data;
+
+	/**
+     * The asset manager.
+     * 
+     * @var WPSEO_Admin_Asset_Manager
+     */
+    protected $asset_manager;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -92,6 +102,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'add_attachment', [ $this, 'save_postdata' ] );
 		add_action( 'admin_init', [ $this, 'translate_meta_boxes' ] );
 
+
 		$this->editor = new WPSEO_Metabox_Editor();
 		$this->editor->register_hooks();
 
@@ -102,6 +113,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
 		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
 		$this->replace_vars_post           = new Replace_Vars_Post();
+		$this->asset_manager               = new WPSEO_Admin_Asset_Manager();
+		$this->editor_post_data            = new Editor_Post_Data( $this->asset_manager, $this->replace_vars_post );
 		$this->post = $this->get_metabox_post();
 	}
 
@@ -285,42 +298,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Passes variables to js for use with the post-scraper.
-	 *
-	 * @return array
-	 */
-	public function get_metabox_script_data() {
-		$permalink = '';
-
-		if ( is_object( $this->post ) ) {
-			$permalink = get_sample_permalink( $this->post->ID );
-			$permalink = $permalink[0];
-		}
-
-		$post_formatter = new WPSEO_Metabox_Formatter(
-			new WPSEO_Post_Metabox_Formatter( $this->post, [], $permalink )
-		);
-
-		$values = $post_formatter->get_values();
-
-		/** This filter is documented in admin/filters/class-cornerstone-filter.php. */
-		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
-		if ( $values['cornerstoneActive'] && ! in_array( $this->post->post_type, $post_types, true ) ) {
-			$values['cornerstoneActive'] = false;
-		}
-
-		if ( $values['semrushIntegrationActive'] && $this->post->post_type === 'attachment' ) {
-			$values['semrushIntegrationActive'] = 0;
-		}
-
-		if ( $values['wincherIntegrationActive'] && $this->post->post_type === 'attachment' ) {
-			$values['wincherIntegrationActive'] = 0;
-		}
-
-		return $values;
-	}
-
-	/**
 	 * Determines whether or not the current post type has registered taxonomies.
 	 *
 	 * @return bool Whether the current post type has taxonomies.
@@ -360,21 +337,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	protected function render_hidden_fields() {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
-
+        $hidden_fields = '';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-		echo new Meta_Fields_Presenter( $this->post, 'general' );
+		$hidden_fields .= new Meta_Fields_Presenter( $this->post, 'general' );
 
 		if ( $this->is_advanced_metadata_enabled ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-			echo new Meta_Fields_Presenter( $this->post, 'advanced' );
+			$hidden_fields .= new Meta_Fields_Presenter( $this->post, 'advanced' );
 		}
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-		echo new Meta_Fields_Presenter( $this->post, 'schema', $this->post->post_type );
+		$hidden_fields .= new Meta_Fields_Presenter( $this->post, 'schema', $this->post->post_type );
 
 		if ( $this->social_is_enabled ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-			echo new Meta_Fields_Presenter( $this->post, 'social' );
+			$hidden_fields .= new Meta_Fields_Presenter( $this->post, 'social' );
 		}
 
 		/**
@@ -383,7 +360,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 * @api string $post_content The metabox content string.
 		 */
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
-		echo apply_filters( 'wpseo_content_meta_section_content', '' );
+		$hidden_fields .= apply_filters( 'wpseo_content_meta_section_content', '' );
+		echo $hidden_fields;
 	}
 
 	/**
@@ -844,13 +822,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function enqueue() {
 		global $pagenow;
 
-		$asset_manager = new WPSEO_Admin_Asset_Manager();
-
 		$is_editor = self::is_post_overview( $pagenow ) || self::is_post_edit( $pagenow );
 
 		if ( self::is_post_overview( $pagenow ) ) {
-			$asset_manager->enqueue_style( 'edit-page' );
-			$asset_manager->enqueue_script( 'edit-page' );
+			$this->asset_manager->enqueue_style( 'edit-page' );
+			$this->asset_manager->enqueue_script( 'edit-page' );
 
 			return;
 		}
@@ -872,18 +848,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_media( [ 'post' => $post_id ] );
 		}
 
-		$asset_manager->enqueue_style( 'metabox-css' );
-		$asset_manager->enqueue_style( 'scoring' );
-		$asset_manager->enqueue_style( 'monorepo' );
-		$asset_manager->enqueue_style( 'ai-generator' );
+		$this->asset_manager->enqueue_style( 'metabox-css' );
+		$this->asset_manager->enqueue_style( 'scoring' );
+		$this->asset_manager->enqueue_style( 'monorepo' );
+		$this->asset_manager->enqueue_style( 'ai-generator' );
 
 		$is_block_editor  = WP_Screen::get()->is_block_editor();
 		$post_edit_handle = 'post-edit';
 		if ( ! $is_block_editor ) {
 			$post_edit_handle = 'post-edit-classic';
 		}
-		$asset_manager->enqueue_script( $post_edit_handle );
-		$asset_manager->enqueue_style( 'admin-css' );
+		$this->asset_manager->enqueue_script( $post_edit_handle );
+		$this->asset_manager->enqueue_style( 'admin-css' );
 
 		/**
 		 * Removes the emoji script as it is incompatible with both React and any
@@ -891,63 +867,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 */
 		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
-		$asset_manager->localize_script( $post_edit_handle, 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+		$this->asset_manager->localize_script( $post_edit_handle, 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 
-		$replaceVars = $this->replace_vars_post->get_post_replace_vars( $this->post );
-
-		$plugins_script_data = [
-			'replaceVars' => $replaceVars,
-			'shortcodes' => [
-				'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
-				'wpseo_filter_shortcodes_nonce' => \wp_create_nonce( 'wpseo-filter-shortcodes' ),
-			],
-		];
-
-		$worker_script_data = [
-			'url'                     => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-analysis-worker' ),
-			'dependencies'            => YoastSEO()->helpers->asset->get_dependency_urls_by_handle( 'yoast-seo-analysis-worker' ),
-			'keywords_assessment_url' => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-used-keywords-assessment' ),
-			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
-		];
-
-		$alert_dismissal_action            = YoastSEO()->classes->get( Alert_Dismissal_Action::class );
-		$dismissed_alerts                  = $alert_dismissal_action->all_dismissed();
-		$woocommerce_conditional           = new WooCommerce_Conditional();
-		$woocommerce_active                = $woocommerce_conditional->is_met();
-		$wpseo_plugin_availability_checker = new WPSEO_Plugin_Availability();
-		$woocommerce_seo_file              = 'wpseo-woocommerce/wpseo-woocommerce.php';
-		$woocommerce_seo_active            = $wpseo_plugin_availability_checker->is_active( $woocommerce_seo_file );
-
-		$script_data = [
-			// @todo replace this translation with JavaScript translations.
-			'media'                      => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
-			'metabox'                    => $this->get_metabox_script_data(),
-			'userLanguageCode'           => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-			'isPost'                     => true,
-			'isBlockEditor'              => $is_block_editor,
-			'postId'                     => $post_id,
-			'postStatus'                 => $this->post->post_status,
-			'postType'                   => $this->post->post_type,
-			'usedKeywordsNonce'          => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
-			'analysis'                   => [
-				'plugins' => $plugins_script_data,
-				'worker'  => $worker_script_data,
-			],
-			'dismissedAlerts'            => $dismissed_alerts,
-			'currentPromotions'          => YoastSEO()->classes->get( Yoast\WP\SEO\Promotions\Application\Promotion_Manager::class )->get_current_promotions(),
-			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'blackFridayBlockEditorUrl'  => ( YoastSEO()->classes->get( Yoast\WP\SEO\Promotions\Application\Promotion_Manager::class )->is( 'black-friday-2023-checklist' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : '',
-			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
-			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
-			'isWooCommerceActive'        => $woocommerce_active,
-			'woocommerceUpsell'          => $this->post->post_type === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
-			'linkParams'                 => WPSEO_Shortlinker::get_query_params(),
-			'pluginUrl'                  => \plugins_url( '', \WPSEO_FILE ),
-			'wistiaEmbedPermission'      => YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( \get_current_user_id() ),
-		];
+		$script_data = $this->editor_post_data->get_script_data($this->post);
 
 		if ( post_type_supports( $this->post->post_type, 'thumbnail' ) ) {
-			$asset_manager->enqueue_style( 'featured-image' );
+			$this->asset_manager->enqueue_style( 'featured-image' );
 
 			// @todo replace this translation with JavaScript translations.
 			$script_data['featuredImage'] = [
@@ -955,8 +880,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			];
 		}
 
-		$asset_manager->localize_script( $post_edit_handle, 'wpseoScriptData', $script_data );
-		$asset_manager->enqueue_user_language_script();
+		$this->asset_manager->localize_script( $post_edit_handle, 'wpseoScriptData', $script_data );
+		$this->asset_manager->enqueue_user_language_script();
 	}
 
 	/**
@@ -986,21 +911,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return [];
-	}
-
-	/**
-	 * Returns an array with shortcode tags for all registered shortcodes.
-	 *
-	 * @return array
-	 */
-	private function get_valid_shortcode_tags() {
-		$shortcode_tags = [];
-
-		foreach ( $GLOBALS['shortcode_tags'] as $tag => $description ) {
-			$shortcode_tags[] = $tag;
-		}
-
-		return $shortcode_tags;
 	}
 
 	/**
