@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
+use Yoast\WP\SEO\Integrations\Admin\Editor\Replace_Vars_Post;
 
 /**
  * This class generates the metabox on the edit post / page as well as contains all page analysis functionality.
@@ -54,6 +55,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $editor;
 
 	/**
+	 * The replacement variables for a post.
+	 *
+	 * @var Replace_Vars_Post
+	 */
+	protected $replacment_vars_post;
+
+	/**
 	 * The Metabox post.
 	 *
 	 * @var WP_Post
@@ -93,6 +101,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
 		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
+		$this->replacment_vars_post        = new Replace_Vars_Post();
+
+		$this->post = $this->get_metabox_post();
 	}
 
 	/**
@@ -283,19 +294,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$permalink = '';
 
 		if ( is_object( $this->get_metabox_post() ) ) {
-			$permalink = get_sample_permalink( $this->get_metabox_post()->ID );
+			$permalink = get_sample_permalink( $this->post->ID );
 			$permalink = $permalink[0];
 		}
 
 		$post_formatter = new WPSEO_Metabox_Formatter(
-			new WPSEO_Post_Metabox_Formatter( $this->get_metabox_post(), [], $permalink )
+			new WPSEO_Post_Metabox_Formatter( $this->post, [], $permalink )
 		);
 
 		$values = $post_formatter->get_values();
 
 		/** This filter is documented in admin/filters/class-cornerstone-filter.php. */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
-		if ( $values['cornerstoneActive'] && ! in_array( $this->get_metabox_post()->post_type, $post_types, true ) ) {
+		if ( $values['cornerstoneActive'] && ! in_array( $this->post->post_type, $post_types, true ) ) {
 			$values['cornerstoneActive'] = false;
 		}
 
@@ -308,31 +319,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return $values;
-	}
-
-	/**
-	 * Determines whether or not the current post type has registered taxonomies.
-	 *
-	 * @return bool Whether the current post type has taxonomies.
-	 */
-	private function current_post_type_has_taxonomies() {
-		$post_taxonomies = get_object_taxonomies( get_post_type() );
-
-		return ! empty( $post_taxonomies );
-	}
-
-	/**
-	 * Determines the scope based on the post type.
-	 * This can be used by the replacevar plugin to determine if a replacement needs to be executed.
-	 *
-	 * @return string String describing the current scope.
-	 */
-	private function determine_scope() {
-		if ( $this->get_metabox_post()->post_type === 'page' ) {
-			return 'page';
-		}
-
-		return 'post';
 	}
 
 	/**
@@ -353,19 +339,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
+		echo new Meta_Fields_Presenter( $this->post, 'general' );
 
 		if ( $this->is_advanced_metadata_enabled ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'advanced' );
+			echo new Meta_Fields_Presenter( $this->post, 'advanced' );
 		}
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema', $this->get_metabox_post()->post_type );
+		echo new Meta_Fields_Presenter( $this->post, 'schema', $this->post->post_type );
 
 		if ( $this->social_is_enabled ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
+			echo new Meta_Fields_Presenter( $this->post, 'social' );
 		}
 
 		/**
@@ -515,7 +501,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function do_meta_box( $meta_field_def, $key = '' ) {
 		$content      = '';
 		$esc_form_key = esc_attr( WPSEO_Meta::$form_prefix . $key );
-		$meta_value   = WPSEO_Meta::get_value( $key, $this->get_metabox_post()->ID );
+		$meta_value   = WPSEO_Meta::get_value( $key, $this->post->ID );
 
 		$class = '';
 		if ( isset( $meta_field_def['class'] ) && $meta_field_def['class'] !== '' ) {
@@ -535,7 +521,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		// Add a hide_on_pages option that returns nothing when the field is rendered on a page.
-		if ( isset( $meta_field_def['hide_on_pages'] ) && $meta_field_def['hide_on_pages'] && get_post_type() === 'page' ) {
+		if ( isset( $meta_field_def['hide_on_pages'] ) && $meta_field_def['hide_on_pages'] && $this->post->post_type === 'page' ) {
 			return '';
 		}
 
@@ -834,6 +820,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function enqueue() {
 		global $pagenow;
+		$post = $this->get_metabox_post();
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 
@@ -848,15 +835,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$wpseo_always_register_metaboxes_on_admin_filter = apply_filters( 'wpseo_always_register_metaboxes_on_admin', false );
 		$display_metabox = $this->display_metabox();
 		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
-		if( $pagenow !== 'site-editor.php' ){
-			if ( ( $is_editor === false && $wpseo_always_register_metaboxes_on_admin_filter === false ) || $display_metabox === false ) {
-				return;
-			}
+		
+		if ( ( $is_editor === false && $wpseo_always_register_metaboxes_on_admin_filter === false ) || $display_metabox === false ) {
+			return;
 		}
 	
 		$post_id = get_queried_object_id();
 		if( $pagenow === 'site-editor.php'){
-			$post_id = get_the_ID();
+			$post_id = $post->ID;
 		}
 		
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
@@ -888,18 +874,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 * contenteditable fields.
 		 */
 		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
-
-		$asset_manager->localize_script( $post_edit_handle, 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+		if( $pagenow === 'site-editor.php'){
+			$post_edit_handle = 'post-edit';
+		}
+		$temp = WPSEO_Utils::get_admin_l10n();
+		$asset_manager->localize_script( 'post-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+		$replaceVars = $this->replacment_vars_post->get_post_replace_vars( $post );
 
 		$plugins_script_data = [
-			'replaceVars' => [
-				'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
-				'replace_vars'             => $this->get_replace_vars(),
-				'hidden_replace_vars'      => $this->get_hidden_replace_vars(),
-				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
-				'scope'                    => $this->determine_scope(),
-				'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
-			],
+			'replaceVars' => $replaceVars,
 			'shortcodes' => [
 				'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
 				'wpseo_filter_shortcodes_nonce' => \wp_create_nonce( 'wpseo-filter-shortcodes' ),
@@ -929,8 +912,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'isPost'                     => true,
 			'isBlockEditor'              => $is_block_editor,
 			'postId'                     => $post_id,
-			'postStatus'                 => get_post_status( $post_id ),
-			'postType'                   => get_post_type( $post_id ),
+			'postStatus'                 => $post->post_status,
+			'postType'                   => $post->post_type,
 			'usedKeywordsNonce'          => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 			'analysis'                   => [
 				'plugins' => $plugins_script_data,
@@ -943,7 +926,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
 			'isWooCommerceActive'        => $woocommerce_active,
-			'woocommerceUpsell'          => get_post_type( $post_id ) === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
+			'woocommerceUpsell'          => $post->post_type === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
 			'linkParams'                 => WPSEO_Shortlinker::get_query_params(),
 			'pluginUrl'                  => \plugins_url( '', \WPSEO_FILE ),
 			'wistiaEmbedPermission'      => YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( \get_current_user_id() ),
@@ -968,6 +951,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return WP_Post|array
 	 */
 	protected function get_metabox_post() {
+		global $pagenow;
+
 		if ( $this->post !== null ) {
 			return $this->post;
 		}
@@ -985,6 +970,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( isset( $GLOBALS['post'] ) ) {
 			$this->post = $GLOBALS['post'];
 
+			return $this->post;
+		}
+
+		if( $pagenow === 'site-editor.php'){
+			$post_id = get_the_ID();
+			$this->post = get_post( $post_id );
 			return $this->post;
 		}
 
@@ -1007,175 +998,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Prepares the replace vars for localization.
-	 *
-	 * @return array Replace vars.
-	 */
-	private function get_replace_vars() {
-		$cached_replacement_vars = [];
-
-		$vars_to_cache = [
-			'date',
-			'id',
-			'sitename',
-			'sitedesc',
-			'sep',
-			'page',
-			'currentdate',
-			'currentyear',
-			'currentmonth',
-			'currentday',
-			'post_year',
-			'post_month',
-			'post_day',
-			'name',
-			'author_first_name',
-			'author_last_name',
-			'permalink',
-			'post_content',
-			'category_title',
-			'tag',
-			'category',
-		];
-
-		foreach ( $vars_to_cache as $var ) {
-			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $this->get_metabox_post() );
-		}
-
-		// Merge custom replace variables with the WordPress ones.
-		return array_merge( $cached_replacement_vars, $this->get_custom_replace_vars( $this->get_metabox_post() ) );
-	}
-
-	/**
-	 * Returns the list of replace vars that should be hidden inside the editor.
-	 *
-	 * @return string[] The hidden replace vars.
-	 */
-	protected function get_hidden_replace_vars() {
-		return ( new WPSEO_Replace_Vars() )->get_hidden_replace_vars();
-	}
-
-	/**
-	 * Prepares the recommended replace vars for localization.
-	 *
-	 * @return array Recommended replacement variables.
-	 */
-	private function get_recommended_replace_vars() {
-		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
-
-		// What is recommended depends on the current context.
-		$post_type = $recommended_replace_vars->determine_for_post( $this->get_metabox_post() );
-
-		return $recommended_replace_vars->get_recommended_replacevars_for( $post_type );
-	}
-
-	/**
-	 * Gets the custom replace variables for custom taxonomies and fields.
-	 *
-	 * @param WP_Post $post The post to check for custom taxonomies and fields.
-	 *
-	 * @return array Array containing all the replacement variables.
-	 */
-	private function get_custom_replace_vars( $post ) {
-		return [
-			'custom_fields'     => $this->get_custom_fields_replace_vars( $post ),
-			'custom_taxonomies' => $this->get_custom_taxonomies_replace_vars( $post ),
-		];
-	}
-
-	/**
-	 * Gets the custom replace variables for custom taxonomies.
-	 *
-	 * @param WP_Post $post The post to check for custom taxonomies.
-	 *
-	 * @return array Array containing all the replacement variables.
-	 */
-	private function get_custom_taxonomies_replace_vars( $post ) {
-		$taxonomies          = get_object_taxonomies( $post, 'objects' );
-		$custom_replace_vars = [];
-
-		foreach ( $taxonomies as $taxonomy_name => $taxonomy ) {
-
-			if ( is_string( $taxonomy ) ) { // If attachment, see https://core.trac.wordpress.org/ticket/37368 .
-				$taxonomy_name = $taxonomy;
-				$taxonomy      = get_taxonomy( $taxonomy_name );
-			}
-
-			if ( $taxonomy->_builtin && $taxonomy->public ) {
-				continue;
-			}
-
-			$custom_replace_vars[ $taxonomy_name ] = [
-				'name'        => $taxonomy->name,
-				'description' => $taxonomy->description,
-			];
-		}
-
-		return $custom_replace_vars;
-	}
-
-	/**
-	 * Gets the custom replace variables for custom fields.
-	 *
-	 * @param WP_Post $post The post to check for custom fields.
-	 *
-	 * @return array Array containing all the replacement variables.
-	 */
-	private function get_custom_fields_replace_vars( $post ) {
-		$custom_replace_vars = [];
-
-		// If no post object is passed, return the empty custom_replace_vars array.
-		if ( ! is_object( $post ) ) {
-			return $custom_replace_vars;
-		}
-
-		$custom_fields = get_post_custom( $post->ID );
-
-		// If $custom_fields is an empty string or generally not an array, return early.
-		if ( ! is_array( $custom_fields ) ) {
-			return $custom_replace_vars;
-		}
-
-		$meta = YoastSEO()->meta->for_post( $post->ID );
-
-		if ( ! $meta ) {
-			return $custom_replace_vars;
-		}
-
-		// Simply concatenate all fields containing replace vars so we can handle them all with a single regex find.
-		$replace_vars_fields = implode(
-			' ',
-			[
-				$meta->presentation->title,
-				$meta->presentation->meta_description,
-			]
-		);
-
-		preg_match_all( '/%%cf_([A-Za-z0-9_]+)%%/', $replace_vars_fields, $matches );
-		$fields_to_include = $matches[1];
-		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
-			// Skip private custom fields.
-			if ( substr( $custom_field_name, 0, 1 ) === '_' ) {
-				continue;
-			}
-
-			// Skip custom fields that are not used, new ones will be fetched dynamically.
-			if ( ! in_array( $custom_field_name, $fields_to_include, true ) ) {
-				continue;
-			}
-
-			// Skip custom field values that are serialized.
-			if ( is_serialized( $custom_field[0] ) ) {
-				continue;
-			}
-
-			$custom_replace_vars[ $custom_field_name ] = $custom_field[0];
-		}
-
-		return $custom_replace_vars;
-	}
-
-	/**
 	 * Checks if the page is the post overview page.
 	 *
 	 * @param string $page The page to check for the post overview page.
@@ -1195,7 +1017,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public static function is_post_edit( $page ) {
 		return $page === 'post.php'
-			|| $page === 'post-new.php';
+			|| $page === 'post-new.php'
+			|| $page === 'site-editor.php';
 	}
 
 	/**
