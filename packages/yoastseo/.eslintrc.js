@@ -25,7 +25,7 @@ module.exports = {
 		},
 	},
 	rules: {
-		complexity: [ "warn", 6 ],
+		complexity: [ "warn", 10 ],
 		"no-new": "off",
 		"max-statements": "off",
 		"new-cap": "off",
