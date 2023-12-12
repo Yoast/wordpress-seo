@@ -1,6 +1,7 @@
 import { combineReducers, registerStore } from "@wordpress/data";
 import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { get, pickBy } from "lodash";
+import AnalysisFields from "../helpers/fields/AnalysisFields";
 import * as controls from "../redux/controls";
 
 /**
@@ -11,6 +12,10 @@ import * as controls from "../redux/controls";
  * @returns {void}
  */
 const populateStore = store => {
+	// Initialize the SEO analysis results and score.
+	store.dispatch( actions.setSeoResultsForKeyword( AnalysisFields.keyphrase, [] ) );
+	store.dispatch( actions.setOverallSeoScore( AnalysisFields.seoScore, AnalysisFields.keyphrase ) );
+
 	store.dispatch(
 		actions.setSettings( {
 			socialPreviews: {

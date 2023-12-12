@@ -1,6 +1,7 @@
 import { combineReducers, registerStore } from "@wordpress/data";
 import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { get, pickBy } from "lodash";
+import AnalysisFields from "../../helpers/fields/AnalysisFields";
 import * as controls from "../../redux/controls";
 import * as snippetEditorActions from "../redux/actions/snippetEditor";
 import * as analysisSelectors from "../redux/selectors/analysis";
@@ -17,6 +18,9 @@ const populateStore = store => {
 	store.dispatch( actions.loadCornerstoneContent() );
 	// Initialize the focus keyphrase.
 	store.dispatch( actions.loadFocusKeyword() );
+	// Initialize the SEO analysis results and score.
+	store.dispatch( actions.setSeoResultsForKeyword( AnalysisFields.keyphrase, [] ) );
+	store.dispatch( actions.setOverallSeoScore( AnalysisFields.seoScore, AnalysisFields.keyphrase ) );
 	// Show marker buttons.
 	store.dispatch( actions.setMarkerStatus( "enabled" ) );
 
