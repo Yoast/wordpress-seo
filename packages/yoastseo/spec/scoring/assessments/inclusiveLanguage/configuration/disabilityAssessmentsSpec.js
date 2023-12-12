@@ -255,17 +255,8 @@ describe( "A test for Disability assessments", function() {
 			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
 		} );
 	} );
-	it( "should not target 'bipolar' when followed by exception words.", () => {
-		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "bipolar" ) );
-		[ "disorder"  ].map( ( exceptionWord ) => {
-			const testSentence = `We ${exceptionWord}.`;
-			const mockPaper = new Paper( testSentence );
-			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
-			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
-		} );
-	} );
 	it( "should not target 'paranoid' when followed by exception words.", () => {
-		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "bipolar" ) );
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "paranoid" ) );
 		[ "delusion", "delusions", "personality disorder", "ideation"  ].map( ( exceptionWord ) => {
 			const testSentence = `We ${exceptionWord}.`;
 			const mockPaper = new Paper( testSentence );
@@ -1233,7 +1224,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 	it( "should return the appropriate score and feedback string for: 'bipolar'", () => {
 		const testData = [
 			{
-				identifier: "bipolar",
+				identifier: "schizophrenic",
 				text: "She dances in a bipolar way.",
 				expectedFeedback: "Be careful when using <i>bipolar</i> as it is potentially harmful. Unless you are referencing the " +
 					"specific medical condition, consider using another alternative to describe the trait or behavior, such as " +
