@@ -5,7 +5,7 @@ import initializeAiGenerator from "./ai-generator/initialize";
 import initEditorStore from "./elementor/initializers/editor-store";
 import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlightFocusKeyphraseForms";
 import initializeIntroduction from "./elementor/initializers/introduction";
-import { applyModifications, pluginReady, pluginReloaded, registerModification, registerPlugin } from "./elementor/initializers/pluggable";
+import { applyModifications, pluginReady, pluginReloaded, registerModification, registerPlugin } from "./initializers/pluggable";
 import initializeUsedKeywords from "./elementor/initializers/used-keywords-assessment";
 import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
 import { isWordProofIntegrationActive } from "./helpers/wordproof";

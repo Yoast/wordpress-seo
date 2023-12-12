@@ -211,7 +211,7 @@ Take your WordPress SEO to new heights with these powerful Yoast SEO add-ons:
 
 * [Yoast News SEO](https://yoa.st/1uv): Amplify your visibility and performance in Google News, allowing your news website to reach a broader audience.
 
-* [Yoast WooCommerce SEO](https://yoa.st/3rh): Enhance your online shop's discoverability with extra tools and functionality designed specifically for online stores, helping you drive more targeted traffic and dominate the search results for your products. Comes with generative AI tools to help you write great titles and meta descriptions for your products!
+* [Yoast WooCommerce SEO](https://yoa.st/3rh): Enhance your online shop's discoverability with extra tools and functionality designed specifically for online stores, helping you drive more targeted traffic and dominate the search results for your products. Comes with generative AI tools to help you write great titles and meta descriptions for your products! Also, use WooCommerce SEO to easily import and export global identifiers like GTIN8, UPC, and ISBN for your products.
 
 ### BUG REPORTS
 
@@ -342,6 +342,31 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 21.7 =
+
+Release date: 2023-12-12
+
+Yoast SEO 21.7 is out now. In this release, we bring an improved first-time configuration, making it easier for people to get started. Also, we fixed several bugs and added some enhancements. Find out more about what's new in Yoast SEO 21.7 in [our release post](https://yoa.st/release-12-12-23)!
+
+#### Enhancements
+
+* Removes a superfluous warning in the first time configuration when the site environment is non-production.
+
+#### Bugfixes
+
+* Fixes a bug where an additional `Organization, Person` schema piece would be wrongly generated for author pages when a website representing an organization was set to represent a person different from the author.
+* Fixes a bug where the initial state for the website name would be empty when saving the site representation step in the first time configuration.
+* Fixes a bug where modifications to the analysis data would not be included in the Insights analysis.
+* Fixes a bug where the "view" button for tracking SEO performance would have the wrong size when editing a post in Elementor and Classic editor.
+
+#### Other
+
+* Adds checks to ensure that the plugin has no known incompatibilities with PHP 8.3.
+* Improves the discoverability of the security policy.
+* Improves the instructions in the first-time configuration so that they're easier to follow.
+* Improves the new installation screen layout and design.
+* Provides a filter to add a list of shortcodes so they can be parsed and then included in our content analysis in Classic editor.
+
 = 21.6 =
 
 Release date: 2023-11-28
@@ -361,38 +386,6 @@ Discover what's new in Yoast SEO 21.6! Have you seen our AI-powered tool that he
 
 * Adds a notification when WooCommerce's new beta product editor is enabled.
 * Adds defensive coding to the suppress warnings on archive pages with the `/%category%/%postname%/` permalink structure. Props to [@Mte90](https://github.com/Mte90).
-
-= 21.5 =
-
-Release date: 2023-10-31
-
-Yoast SEO 21.5 is out today! In this release, you'll find improvements to our inclusive language feature, updates to handling RSS feeds and much more. Find out more about what's new in Yoast SEO 21.5 in [our release post](https://yoa.st/release-31-10-23)!
-
-#### Enhancements
-
-* Adds support for the new `wp_attachment_pages_enabled` option introduced by WordPress 6.4, reducing the chances of inconsistencies with Yoast SEO's own \"Enable media pages\" setting.
-* Improves the _inclusive language_ analysis by making the feedback more clear and consistent, refining the list of targeted phrases, and adding more alternatives for some of the non-inclusive phrases. Specifically, this includes the following changes:
-	* Aligns the traffic light color and written feedback for all phrases.
-	* Makes some feedback strings more accurate by replacing the word ‘overgeneralizing’ with ‘harmful’.
-	* Adds ‘Rom’ and ‘Roma’ as additional alternatives to ‘gypsy’.
-	* Adds additional alternatives to ‘homosexuals’.
-	* Improves the feedback shown for the phrases ‘abnormal behaviour’, ‘behaviourally normal’, and ‘behaviourally abnormal’.
-	* Improves the feedback shown for the word ‘minorities’.
-	* Removes ‘narcissistic’ as a targeted phrase when followed by ‘personality disorder’.
-	* Removes ‘Ebonics’ and ‘normal behaviour’ from the list of targeted phrases.
-* Removes the automatic `rel=nofollow` attribute for links in the RSS feed.
-
-#### Bugfixes
-
-* Fixes a bug where console warnings about incorrect prop types would be shown on the integrations page.
-
-#### Other
-
-* Prevents the Pattern Category taxonomy (introduced in WordPress 6.4) to be indexed and hides it in the settings page.
-* Improves the FAQ block description by removing any reference to the previous restriction of one block per post.
-* Improves the inline documentation for the `WPSEO_Option` class. Props to [costdev](https://github.com/costdev).
-* Leverages Script Strategy feature to add the async attribute to the `wordproof` script in case WordPress version is 6.3 or higher. Props to [adamsilverstein](https://github.com/adamsilverstein).
-* Sets the WordPress tested up to version to 6.4.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
