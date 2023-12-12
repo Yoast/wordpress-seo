@@ -88,7 +88,7 @@ function updateSeoResultsForKeyword( state, action ) {
 	}
 
 	return Object.assign( {}, state, {
-		[ action.keyword ]: { results: action.results },
+		[ action.keyword ]: { ...state[ action.keyword ], results: action.results },
 	} );
 }
 
