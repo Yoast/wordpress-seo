@@ -56,6 +56,15 @@ class WPSEO_Sitemaps_Router {
 		return $query_vars;
 	}
 
+/**
+	 * Sets up rewrite rules.
+	 *
+	 * @deprecated 21.8
+	 * @codeCoverageIgnore
+	 */
+	public function init() {
+		_deprecated_function( __METHOD__, 'Yoast SEO 21.8' );
+	}
 	/**
 	 * Stop trailing slashes on sitemap.xml URLs.
 	 *
