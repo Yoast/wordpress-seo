@@ -75,12 +75,12 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	}
 
 	/**
-	 * Tests add_rule method.
+	 * Tests add_rule method with empty query.
 	 *
 	 * @covers ::add_rule
 	 * @covers ::filter_rewrite_rules_option
 	 */
-	public function test_add_rule_with_query() {
+	public function test_add_rule_without_query() {
 		$regex    = 'sitemap_index\.xml$';
 		$priority = 'top';
 		$expected = [
