@@ -147,6 +147,14 @@ class WPSEO_Sitemap_Image_Parser {
 			];
 		}
 
+		/**
+		 * Filter images to be included for the term in XML sitemap.
+		 *
+		 * @param array $images  Array of image items.
+		 * @param int   $term_id ID of the post.
+		 */
+		$images = apply_filters( 'wpseo_sitemap_urlimages_term', $images, $term->term_id );
+
 		return $images;
 	}
 
