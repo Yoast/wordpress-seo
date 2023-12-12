@@ -672,6 +672,7 @@ a.promoblock:hover {
   font-size: 1.5rem;
   color: rgb(166 30 105);
   display: flex;
+  justify-content: space-between;
 }
 
 .yoast-seo-premium-extension img {
@@ -713,10 +714,6 @@ a.promoblock:hover {
   font-size: .9rem;
   line-height: 24px;
   font-weight: 400;
-}
-
-.yoast-seo-premium-benefits__description:before {
-  content: "– ";
 }
 
 .yoast-link--license, .yoast-link--more-info {
