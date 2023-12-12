@@ -53,7 +53,7 @@ class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	}
 
 	/**
-	 * Tests add_rule method.
+	 * Tests the `add_rule` method when adding rules to the top of the list.
 	 *
 	 * @covers ::add_rule
 	 * @covers ::filter_rewrite_rules_option
