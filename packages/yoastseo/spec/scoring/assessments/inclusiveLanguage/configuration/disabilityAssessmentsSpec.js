@@ -221,7 +221,61 @@ describe( "A test for Disability assessments", function() {
 	} );
 	it( "should not target 'binge'' when followed by exception words.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "binge" ) );
-		[ "drink", "drinks", "drinking" ].map( ( exceptionWord ) => {
+		[ "drink", "drinks", "drinking", "eating disorder", "and purge", "behavior", "behaviors", "behaviour", "behaviours" ].map( ( exceptionWord ) => {
+			const testSentence = `We ${exceptionWord}.`;
+			const mockPaper = new Paper( testSentence );
+			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
+			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
+		} );
+	} );
+	it( "should not target 'bingeing' when followed by exception words.", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "bingeing" ) );
+		[ "and purging", "behavior", "behaviors", "behaviour", "behaviours"  ].map( ( exceptionWord ) => {
+			const testSentence = `We ${exceptionWord}.`;
+			const mockPaper = new Paper( testSentence );
+			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
+			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
+		} );
+	} );
+	it( "should not target 'binged' when followed by exception words.", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "binged" ) );
+		[ "and purged"  ].map( ( exceptionWord ) => {
+			const testSentence = `We ${exceptionWord}.`;
+			const mockPaper = new Paper( testSentence );
+			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
+			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
+		} );
+	} );
+	it( "should not target 'binges' when followed by exception words.", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "binged" ) );
+		[ "and purges"  ].map( ( exceptionWord ) => {
+			const testSentence = `We ${exceptionWord}.`;
+			const mockPaper = new Paper( testSentence );
+			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
+			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
+		} );
+	} );
+	it( "should not target 'bipolar' when followed by exception words.", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "bipolar" ) );
+		[ "disorder"  ].map( ( exceptionWord ) => {
+			const testSentence = `We ${exceptionWord}.`;
+			const mockPaper = new Paper( testSentence );
+			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
+			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
+		} );
+	} );
+	it( "should not target 'paranoid' when followed by exception words.", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "bipolar" ) );
+		[ "delusion", "delusions", "personality disorder", "ideation"  ].map( ( exceptionWord ) => {
+			const testSentence = `We ${exceptionWord}.`;
+			const mockPaper = new Paper( testSentence );
+			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
+			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
+		} );
+	} );
+	it( "should not target 'manic' when followed by exception words.", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "manic" ) );
+		[ "episode", "episodes", "state", "states", "symptoms", "and depressive episodes", "and hypomanic", "oror hypomanic"  ].map( ( exceptionWord ) => {
 			const testSentence = `We ${exceptionWord}.`;
 			const mockPaper = new Paper( testSentence );
 			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
@@ -1170,6 +1224,20 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				expectedFeedback: "Be careful when using <i>manic</i> as it is potentially harmful. Unless you are referencing the " +
 					"specific medical condition, consider using another alternative to describe the trait or behavior, such as " +
 					"<i>excited, raving, unbalanced, wild</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'bipolar'", () => {
+		const testData = [
+			{
+				identifier: "bipolar",
+				text: "She dances in a bipolar way.",
+				expectedFeedback: "Be careful when using <i>bipolar</i> as it is potentially harmful. Unless you are referencing the " +
+					"specific medical condition, consider using another alternative to describe the trait or behavior, such as " +
+					"<i>of two minds, chaotic, confusing</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
