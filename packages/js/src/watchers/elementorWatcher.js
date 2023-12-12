@@ -164,15 +164,13 @@ function resetMarks() {
 const debouncedHandleEditorChange = debounce( handleEditorChange, 1500 );
 
 /**
- * Observes changes to any of the widget containers through a MutationObserver.
+ * Observes changes to the whole document through a MutationObserver.
  *
  * @returns {void}
  */
 function observeChanges() {
 	const observer = new MutationObserver( debouncedHandleEditorChange );
-	getWidgetContainers().each( ( _, element ) => {
-		observer.observe( element, { attributes: true, childList: true, subtree: true } );
-	} );
+	observer.observe( window.document, { attributes: true, childList: true, subtree: true, characterData: true } );
 }
 
 /**
