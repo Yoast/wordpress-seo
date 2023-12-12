@@ -181,32 +181,41 @@ const PremiumUpsellList = () => {
 				</Title>
 				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-pl-[1em] yst-list-outside yst-text-slate-800 yst-mt-6">
 					<li>
-						<span className="yst-font-semibold">{ __( "Use AI", "wordpress-seo" ) }</span>
+						<span className="yst-font-semibold">{ __( "AI", "wordpress-seo" ) }</span>
 						:&nbsp;
-						{ __( "Quickly create titles & meta descriptions", "wordpress-seo" ) }
+						{ __( "Better SEO titles and meta descriptions, faster", "wordpress-seo" ) }
+						.
 					</li>
 					<li>
-						<span className="yst-font-semibold">{ __( "No more dead links", "wordpress-seo" ) }</span>
+						<span className="yst-font-semibold">{ __( "Multiple keywords", "wordpress-seo" ) }</span>
 						:&nbsp;
-						{ __( "Easy redirect manager", "wordpress-seo" ) }
-					</li>
-					<li><span className="yst-font-semibold">{ __( "Superfast internal linking suggestions", "wordpress-seo" ) }</span></li>
-					<li>
-						<span className="yst-font-semibold">{ __( "Social media preview", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "Facebook & Twitter", "wordpress-seo" ) }
+						{ __( "Rank higher for more searches", "wordpress-seo" ) }
+						.
 					</li>
 					<li>
-						<span className="yst-font-semibold">{ __( "Multiple keyphrases", "wordpress-seo" ) }</span>
+						<span className="yst-font-semibold">{ __( "Super fast", "wordpress-seo" ) }</span>
 						:&nbsp;
-						{ __( "Increase your SEO reach", "wordpress-seo" ) }
+						{ __( "internal linking suggestions", "wordpress-seo" ) }
+						.
 					</li>
 					<li>
-						<span className="yst-font-semibold">{ __( "SEO Workouts", "wordpress-seo" ) }</span>
+						<span className="yst-font-semibold">{ __( "No more broken links", "wordpress-seo" ) }</span>
 						:&nbsp;
-						{ __( "Get guided in routine SEO tasks", "wordpress-seo" ) }
+						{ __( "Automatic redirect manager", "wordpress-seo" ) }
+						.
 					</li>
-					<li><span className="yst-font-semibold">{ __( "24/7 email support", "wordpress-seo" ) }</span></li>
+					<li>
+						<span className="yst-font-semibold">{ __( "Social preview", "wordpress-seo" ) }</span>
+						:&nbsp;
+						{ __( "Appealing previews people actually want to click on", "wordpress-seo" ) }
+						.
+					</li>
+					<li>
+						<span className="yst-font-semibold">{ __( "24/7 support", "wordpress-seo" ) }</span>
+						:&nbsp;
+						{ __( "Also on evenings and weekends", "wordpress-seo" ) }
+						.
+					</li>
 					<li><span className="yst-font-semibold">{ __( "No ads!", "wordpress-seo" ) }</span></li>
 				</ul>
 				<Button
@@ -221,7 +230,7 @@ const PremiumUpsellList = () => {
 				>
 					{ isBlackFriday ? __( "Claim your 30% off now!", "wordpress-seo" ) : sprintf(
 					/* translators: %s expands to "Yoast SEO" Premium */
-						__( "Get %s", "wordpress-seo" ),
+						__( "Explore %s now!", "wordpress-seo" ),
 						"Yoast SEO Premium"
 					) }
 					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />

@@ -53,13 +53,12 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		$url = WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
 
 		$arguments = [
-			'<strong>' . esc_html__( 'Use AI', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Quickly create titles & meta descriptions', 'wordpress-seo' ),
-			'<strong>' . esc_html__( 'No more dead links', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Easy redirect manager', 'wordpress-seo' ),
-			'<strong>' . esc_html__( 'Superfast internal linking suggestions', 'wordpress-seo' ) . '</strong>',
-			'<strong>' . esc_html__( 'Social media preview', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Facebook & Twitter', 'wordpress-seo' ),
-			'<strong>' . esc_html__( 'Multiple keyphrases', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Increase your SEO reach', 'wordpress-seo' ),
-			'<strong>' . esc_html__( 'SEO Workouts', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Get guided in routine SEO tasks', 'wordpress-seo' ),
-			'<strong>' . esc_html__( '24/7 email support', 'wordpress-seo' ) . '</strong>',
+			'<strong>' . esc_html__( 'AI', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Better SEO titles and meta descriptions, faster', 'wordpress-seo' ) . '.',
+			'<strong>' . esc_html__( 'Multiple keywords', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Rank higher for more searches', 'wordpress-seo' ) . '.',
+			'<strong>' . esc_html__( 'Super fast', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'internal linking suggestions', 'wordpress-seo' ) . '.',
+			'<strong>' . esc_html__( 'No more broken links', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Automatic redirect manager', 'wordpress-seo' ) . '.',
+			'<strong>' . esc_html__( 'Social preview', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Appealing previews people actually want to click on', 'wordpress-seo' ) . '.',
+			'<strong>' . esc_html__( '24/7 support', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Also on evenings and weekends', 'wordpress-seo' ) . '.',
 			'<strong>' . esc_html__( 'No ads!', 'wordpress-seo' ) . '</strong>',
 		];
 
@@ -68,7 +67,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		$class = $this->get_html_class();
 
 		/* translators: %s expands to Yoast SEO Premium */
-		$button_text = YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ? \esc_html__( 'Claim your 30% off now!', 'wordpress-seo' ) : sprintf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		$button_text = YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ? \esc_html__( 'Claim your 30% off now!', 'wordpress-seo' ) : sprintf( esc_html__( 'Explore %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' );
 		/* translators: Hidden accessibility text. */
 		$button_text .= '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
 			'<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
