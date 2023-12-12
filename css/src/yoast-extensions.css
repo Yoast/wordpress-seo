@@ -698,7 +698,9 @@ a.promoblock:hover {
 }
 .yoast-seo-premium-benefits__item {
   margin-bottom: 8px;
-  line-height: 1;
+  font-size: .9rem;
+  line-height: 24px;
+  font-weight: 400;
 }
 .yoast-seo-premium-benefits__item span {
   color: rgb(64,64,64);

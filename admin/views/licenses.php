@@ -161,28 +161,64 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 				?>
 				<ul class="yoast-seo-premium-benefits yoast-list--usp">
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'AI', 'wordpress-seo' ); ?>: </span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Better SEO titles and meta descriptions, faster', 'wordpress-seo' ); ?></span>
+						<?php
+						printf(
+							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+							esc_html__( '%1$sAI%2$s: Better SEO titles and meta descriptions, faster', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						);
+						?>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Multiple keywords', 'wordpress-seo' ); ?>: </span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Rank higher for more searches', 'wordpress-seo' ); ?></span>
+						<?php
+						printf(
+							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+							esc_html__( '%1$sMultiple keywords%2$s: Rank higher for more searches', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						);
+						?>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Super fast', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'internal linking suggestions', 'wordpress-seo' ); ?></span>
+						<?php
+						printf(
+							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+							esc_html__( '%1$sSuper fast%2$s internal linking suggestions', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						);
+						?>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'No more broken links', 'wordpress-seo' ); ?>: </span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Automatic redirect manager', 'wordpress-seo' ); ?></span>
+						<?php
+						printf(
+							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+							esc_html__( '%1$sNo more broken links%2$s: Automatic redirect manager', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						);
+						?>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Appealing social previews', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'people actually want to click on', 'wordpress-seo' ); ?></span>
+						<?php
+						printf(
+							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+							esc_html__( '%1$sAppealing social previews%2$s people actually want to click on', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						);
+						?>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( '24/7 support', 'wordpress-seo' ); ?>: </span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Also on evenings and weekends', 'wordpress-seo' ); ?></span>
+						<?php
+						printf(
+							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+							esc_html__( '%1$s24/7 support%2$s: Also on evenings and weekends', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						);
+						?>
 					</li>
 				</ul>
 			<?php endif; ?>

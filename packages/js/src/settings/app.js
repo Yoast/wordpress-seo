@@ -2,7 +2,7 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, ArrowNarrowRightIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
-import { useCallback, useMemo } from "@wordpress/element";
+import { createInterpolateElement, useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, ChildrenLimiter, ErrorBoundary, Paper, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
@@ -10,6 +10,7 @@ import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { getPremiumBenefits } from "../helpers/get-premium-benefits";
 import { ErrorFallback, Notifications, Search, SidebarNavigation, SidebarRecommendations, YoastLogo } from "./components";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
@@ -180,43 +181,11 @@ const PremiumUpsellList = () => {
 					) }
 				</Title>
 				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-pl-[1em] yst-list-outside yst-text-slate-800 yst-mt-6">
-					<li>
-						<span className="yst-font-semibold">{ __( "AI", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "Better SEO titles and meta descriptions, faster", "wordpress-seo" ) }
-						.
-					</li>
-					<li>
-						<span className="yst-font-semibold">{ __( "Multiple keywords", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "Rank higher for more searches", "wordpress-seo" ) }
-						.
-					</li>
-					<li>
-						<span className="yst-font-semibold">{ __( "Super fast", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "internal linking suggestions", "wordpress-seo" ) }
-						.
-					</li>
-					<li>
-						<span className="yst-font-semibold">{ __( "No more broken links", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "Automatic redirect manager", "wordpress-seo" ) }
-						.
-					</li>
-					<li>
-						<span className="yst-font-semibold">{ __( "Social preview", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "Appealing previews people actually want to click on", "wordpress-seo" ) }
-						.
-					</li>
-					<li>
-						<span className="yst-font-semibold">{ __( "24/7 support", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "Also on evenings and weekends", "wordpress-seo" ) }
-						.
-					</li>
-					<li><span className="yst-font-semibold">{ __( "No ads!", "wordpress-seo" ) }</span></li>
+					{ getPremiumBenefits().map( ( benefit, index ) => (
+						<li key={ `upsell-benefit-${ index }` }>
+							{ createInterpolateElement( benefit, { strong: <span className="yst-font-semibold" /> } ) }
+						</li>
+					) ) }
 				</ul>
 				<Button
 					as="a"
