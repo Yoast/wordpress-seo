@@ -28,7 +28,7 @@ jobs:
         uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308 # v2.4.3
         with:
           message: |
-            @${{ github.actor }} Please be aware that following packages have been abandoned and shouldn't be actively maintained anymore:
+            @${{ github.actor }} Please be aware that following packages have been abandoned and are not actively maintained anymore:
             | Package name  | Path |
             | ------------- | ------------- |
             | yoast-components  | [packages/yoast-components](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoast-components) |
