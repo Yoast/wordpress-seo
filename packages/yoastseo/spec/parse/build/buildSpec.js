@@ -854,17 +854,6 @@ describe( "The parse function", () => {
 			attributes: {},
 			childNodes: [ {
 				name: "p",
-				isImplicit: true,
-				attributes: {},
-				sentences: [],
-				childNodes: [],
-				sourceCodeLocation: {
-					startOffset: 0,
-					endOffset: 45,
-				},
-			},
-			{
-				name: "p",
 				isImplicit: false,
 				attributes: {},
 				sentences: [ {

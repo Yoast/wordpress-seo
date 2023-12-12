@@ -98,14 +98,14 @@ export default function MetaboxFill( { settings } ) {
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
-				{ settings.shouldUpsell && ! isTerm && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 23 }>
-					<InternalLinkingSuggestionsUpsell />
-				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
-					<SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>
+					<SidebarItem key="wincher-seo-performance" renderPriority={ 23 }>
 						<WincherSEOPerformanceModal location="metabox" />
 					</SidebarItem>
 				}
+				{ settings.shouldUpsell && ! isTerm && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 25 }>
+					<InternalLinkingSuggestionsUpsell />
+				</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
 					<CollapsibleCornerstone />
 				</SidebarItem> }
