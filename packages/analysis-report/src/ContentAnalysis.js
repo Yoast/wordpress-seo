@@ -67,6 +67,8 @@ class ContentAnalysis extends React.Component {
 					onEditButtonClick={ this.props.onEditButtonClick }
 					isPremium={ this.props.isPremium }
 					onResultChange={ this.props.onResultChange }
+					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+					renderHighlightingUpsell={ this.props.renderHighlightingUpsell }
 				/>
 			</StyledCollapsible>
 		);
@@ -152,6 +154,8 @@ ContentAnalysis.propTypes = {
 		goodResults: PropTypes.string,
 	} ),
 	onResultChange: PropTypes.func,
+	shouldUpsellHighlighting: PropTypes.bool,
+	renderHighlightingUpsell: PropTypes.func,
 };
 
 ContentAnalysis.defaultProps = {
@@ -172,6 +176,8 @@ ContentAnalysis.defaultProps = {
 	isPremium: false,
 	resultCategoryLabels: {},
 	onResultChange: () => {},
+	shouldUpsellHighlighting: false,
+	renderHighlightingUpsell: () => {},
 };
 
 export default ContentAnalysis;

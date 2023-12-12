@@ -81,6 +81,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
 							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+							shouldUpsellHighlighting={ settings.shouldUpsell }
 						/>
 						{ settings.shouldUpsell && <PremiumSEOAnalysisModal /> }
 					</Fragment>
@@ -88,10 +89,13 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 15 }>
 					<ReadabilityAnalysis
 						shouldUpsell={ settings.shouldUpsell }
+						shouldUpsellHighlighting={ settings.shouldUpsell }
 					/>
 				</SidebarItem> }
 				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem renderPriority={ 19 }>
-					<InclusiveLanguageAnalysis />
+					<InclusiveLanguageAnalysis
+						shouldUpsellHighlighting={ settings.shouldUpsell }
+					/>
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }

@@ -4,6 +4,7 @@ import { select } from "@wordpress/data";
 import * as tinyMCEHelper from "../lib/tinymce";
 import { tinyMCEDecorator } from "../decorator/tinyMCE";
 import { isAnnotationAvailable, applyAsAnnotations } from "../decorator/gutenberg";
+import { doAction } from "@wordpress/hooks";
 
 /**
  * Create decorators for each editor and applies marks to each editor
@@ -49,6 +50,8 @@ function applyMarks( paper, marks ) {
 		// Apply marks to other blocks
 		applyAsAnnotations( marks );
 	}
+
+	doAction( "yoast.analysis.applyMarks", marks );
 }
 
 /**
