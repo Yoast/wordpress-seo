@@ -3,6 +3,7 @@ import { debounce, get } from "lodash";
 import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
 import { registerElementorUIHookAfter, registerElementorUIHookBefore } from "../helpers/elementorHook";
 import { markers, Paper } from "yoastseo";
+import { refreshDelay } from "../analysis/constants";
 
 const editorData = {
 	content: "",
@@ -161,7 +162,7 @@ function resetMarks() {
 	window.YoastSEO.analysis.applyMarks( new Paper( "", {} ), [] );
 }
 
-const debouncedHandleEditorChange = debounce( handleEditorChange, 1500 );
+const debouncedHandleEditorChange = debounce( handleEditorChange, refreshDelay );
 
 /**
  * Observes changes to the whole document through a MutationObserver.
@@ -180,13 +181,13 @@ function observeChanges() {
  */
 export default function initialize() {
 	// This hook will fire 500ms after a widget is edited -- this allows Elementor to set the cursor at the end of the widget.
-	registerElementorUIHookBefore( "panel/editor/open", "yoast-seo-reset-marks-edit", debounce( resetMarks, 500 ) );
+	registerElementorUIHookBefore( "panel/editor/open", "yoast-seo-reset-marks-edit", debounce( resetMarks, refreshDelay ) );
 	// This hook will fire just before the document is saved.
 	registerElementorUIHookBefore( "document/save/save", "yoast-seo-reset-marks-save", resetMarks );
 
 	// This hook will fire when the Elementor preview becomes available.
 	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo-content-scraper-initial", debouncedHandleEditorChange );
-	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo-content-scraper", debounce( observeChanges, 500 ) );
+	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo-content-scraper", debounce( observeChanges, refreshDelay ) );
 
 	// This hook will fire when the contents of the editor are modified.
 	registerElementorUIHookAfter( "document/save/set-is-modified", "yoast-seo-content-scraper-on-modified", debouncedHandleEditorChange );
