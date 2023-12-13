@@ -1,60 +1,57 @@
-import { shallow } from "enzyme";
-import React from "react";
 import { useSelect } from "@wordpress/data";
 import TextLength from "../../../src/insights/components/text-length";
+import { render, screen } from "../../test-utils";
 
-jest.mock( "@wordpress/data", () => (
-	{
-		useSelect: jest.fn(),
-	}
-) );
-
+jest.mock( "@wordpress/data", () => ( { useSelect: jest.fn() } ) );
 
 /**
  * Mocks the WordPress `useSelect` hook.
  *
- * @param {object} textLengthObject The result of text length research.
+ * @param {Object} textLength The result of text length research.
  *
- * @returns {void}
+ * @returns {function} The mock.
  */
-function mockSelect( textLengthObject ) {
-	const select = jest.fn(
-		() => (
-			{
-				getTextLength: jest.fn( () => textLengthObject ),
-			}
-		)
-	);
+const mockSelect = textLength => useSelect.mockImplementation( select => select( () => ( {
+	getTextLength: () => textLength,
+} ) ) );
 
-	useSelect.mockImplementation(
-		selectFunction => selectFunction( select )
-	);
-}
+beforeAll( () => {
+	global.wpseoAdminL10n = {
+		"shortlinks-insights-word_count": "https://example.com/link",
+	};
+} );
+afterAll( () => {
+	delete global.wpseoAdminL10n;
+} );
 
-describe( "a test for TextLength component", () => {
-	it( "returns the props for languages that use word as the unit for text length measurement", () => {
-		mockSelect( {
-			count: 300,
-			unit: "words",
-		} );
-		const render = shallow( <TextLength /> );
+describe( "TextLength", () => {
+	it( "renders the text length measurements for words", () => {
+		mockSelect( { count: 300, unit: "words" } );
+		render( <TextLength /> );
 
-		expect( render.props().amount ).toBe( 300 );
-		expect( render.props().linkText ).toBe( "Learn more about word count" );
-		expect( render.props().title ).toBe( "Word count" );
-		expect( render.props().unit ).toBe( "words" );
+		expect( screen.getByText( "Word count" ) ).toBeInTheDocument();
+
+		const link = screen.getByText( "Learn more about word count" );
+		expect( link ).toBeInTheDocument();
+		expect( link.parentElement ).toBeInstanceOf( HTMLAnchorElement );
+		expect( link.parentElement.href ).toBe( "https://example.com/link" );
+
+		expect( screen.getByText( "300" ) ).toBeInTheDocument();
+		expect( screen.getByText( "words" ) ).toBeInTheDocument();
 	} );
 
-	it( "returns the props for languages that use character as the unit for text length measurement", () => {
-		mockSelect( {
-			count: 300,
-			unit: "character",
-		} );
-		const render = shallow( <TextLength /> );
+	it( "renders the text length measurements for characters", () => {
+		mockSelect( { count: 300, unit: "character" } );
+		render( <TextLength /> );
 
-		expect( render.props().amount ).toBe( 300 );
-		expect( render.props().linkText ).toBe( "Learn more about character count" );
-		expect( render.props().title ).toBe( "Character count" );
-		expect( render.props().unit ).toBe( "characters" );
+		expect( screen.getByText( "Character count" ) ).toBeInTheDocument();
+
+		const link = screen.getByText( "Learn more about character count" );
+		expect( link ).toBeInTheDocument();
+		expect( link.parentElement ).toBeInstanceOf( HTMLAnchorElement );
+		expect( link.parentElement.href ).toBe( "https://example.com/link" );
+
+		expect( screen.getByText( "300" ) ).toBeInTheDocument();
+		expect( screen.getByText( "characters" ) ).toBeInTheDocument();
 	} );
 } );

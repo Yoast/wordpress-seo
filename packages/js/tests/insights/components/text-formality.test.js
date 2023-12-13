@@ -1,63 +1,54 @@
-import TextFormality from "../../../src/insights/components/text-formality";
-import React from "react";
-import { shallow } from "enzyme";
-import TextFormalityUpsell from "../../../src/insights/components/text-formality-upsell";
 import { useSelect } from "@wordpress/data";
+import TextFormality from "../../../src/insights/components/text-formality";
+import { render, screen } from "../../test-utils";
 
-window.wpseoAdminL10n = {
-	"shortlinks-insights-text_formality_info_free": "https://yoa.st/formality-free",
-	"shortlinks-insights-text_formality_info_premium": "https://yoa.st/formality",
-};
+jest.mock( "@wordpress/data", () => ( {
+	// `registerStore` is used in WP components' Slot component, used in the TextFormality component.
+	registerStore: jest.requireActual( "@wordpress/data" ).registerStore,
+	useSelect: jest.fn(),
+} ) );
 
-jest.mock( "@wordpress/data", () => (
-	{
-		useSelect: jest.fn(),
-	}
-) );
+beforeAll( () => {
+	global.wpseoAdminL10n = {
+		"shortlinks-insights-text_formality_info_free": "https://yoa.st/formality-free",
+		"shortlinks-insights-text_formality_info_premium": "https://yoa.st/formality",
+	};
+	global.wpseoScriptData = {
+		metabox: {
+			isPremium: false,
+		},
+	};
+} );
+afterAll( () => {
+	delete global.wpseoAdminL10n;
+	delete global.wpseoScriptData;
+} );
 
 /**
  * Mocks the WordPress `useSelect` hook.
  *
- * @param {boolean} isFormalitySupported    Whether Formality feature is available.
+ * @param {boolean} isFormalitySupported Whether Formality feature is available.
  *
- * @returns {void}
+ * @returns {function} The mock.
  */
-function mockSelect( isFormalitySupported ) {
-	const select = jest.fn(
-		() => (
-			{
-				isFormalitySupported: jest.fn( () => isFormalitySupported ),
-			}
-		)
-	);
+const mockSelect = isFormalitySupported => useSelect.mockImplementation( select => select( () => ( {
+	isFormalitySupported: () => isFormalitySupported,
+} ) ) );
 
-	useSelect.mockImplementation(
-		selectFunction => selectFunction( select )
-	);
-}
-
-describe( "a test for TextFormality component", () => {
+describe( "TextFormality", () => {
 	it( "should not render the component if the locale is non-English", () => {
 		mockSelect( false );
-		window.wpseoScriptData = {
-			metabox: {
-				isPremium: false,
-			},
-		};
-		const render = shallow( <TextFormality location="sidebar" name="YoastTextFormalitySidebar" /> );
 
-		expect( render.find( TextFormalityUpsell ) ).toHaveLength( 0 );
+		render( <TextFormality location="sidebar" name="YoastTextFormalitySidebar" /> );
+
+		expect( screen.queryByText( "will help you assess the formality level of your text." ) ).not.toBeInTheDocument();
 	} );
+
 	it( "renders the component in sidebar in Free when the locale is English", () => {
 		mockSelect( true );
 
-		window.wpseoScriptData = {
-			metabox: {
-				isPremium: false,
-			},
-		};
-		const render = shallow( <TextFormality location="sidebar" name="YoastTextFormalitySidebar" /> );
+		render( <TextFormality location="sidebar" name="YoastTextFormalitySidebar" /> );
 
-		expect( render.find( TextFormalityUpsell ) ).toHaveLength( 1 );
+		expect( screen.getByText( "will help you assess the formality level of your text." ) ).toBeInTheDocument();
 	} );
 } );

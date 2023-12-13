@@ -1,47 +1,84 @@
 import Search from "../../src/settings/components/search";
-import { shallow } from "enzyme";
+import "../__mocks__/intersection-observer";
+import "../__mocks__/navigator";
+import { fireEvent, render, screen, waitFor } from "../test-utils";
 
-jest.mock( "react-router-dom" );
+jest.mock( "@wordpress/data", () => ( {
+	useSelect: select => select( () => ( {
+		selectQueryableSearchIndex: () => ( {
+			test: {
+				fieldId: "id",
+				fieldLabel: "Item",
+				keywords: "test",
+				route: "/group",
+				routeLabel: "Group",
+			},
+		} ),
+	} ) ),
+} ) );
 
-describe( "Search test", () => {
-	let wrapper;
+describe( "Search", () => {
 	beforeEach( () => {
-		wrapper = shallow( <Search /> );
+		global.navigator.userAgent = "Mozilla/5.0 (Macintosh)";
+		render( <Search /> );
 	} );
 
-	it( "Should have 'Quick Search' text on search button", () => {
-		expect( wrapper.find( "button" ).first().text() ).toContain( "Quick search..." );
+	it( "should have a search button", () => {
+		const button = screen.getByRole( "button" );
+		expect( button ).toHaveTextContent( "Quick search..." );
+		expect( button ).toMatchSnapshot();
 	} );
 
-	it( "should open Modal", () => {
-		wrapper.find( "button" ).at( 0 ).simulate( "click" );
-		expect( wrapper.find( "Modal" ).prop( "isOpen" ) ).toBe( true );
-	} );
+	describe( "modal", () => {
+		beforeEach( async() => {
+			fireEvent.click( screen.getByRole( "button" ) );
+			await screen.findByRole( "dialog" );
+		} );
 
-	it( "Input should have placeholder", () => {
-		wrapper.find( "button" ).at( 0 ).simulate( "click" );
-		expect( wrapper.find( "#input-search" ).prop( "placeholder" ) ).toContain( "Search..." );
-	} );
+		it( "should open", () => {
+			const modal = screen.getByRole( "dialog" );
+			expect( modal ).toBeTruthy();
+			expect( modal ).toMatchSnapshot();
+		} );
 
-	it( "Should not search under 3 characters", () => {
-		wrapper.find( "button" ).at( 0 ).simulate( "click" );
-		wrapper.find( "#input-search" ).at( 0 ).simulate( "change", { target: { value: "se" } } );
-		expect( wrapper.find( "SearchNoResultsContent" ).find( "p" ).text() ).toContain( "Please enter a search term with at least 3 characters." );
-	} );
+		it( "should contain a combobox", () => {
+			const input = screen.getByRole( "combobox" );
+			expect( input.placeholder ).toBe( "Search..." );
+			expect( input ).toHaveFocus();
+		} );
 
-	it( "should match button text to input value", () => {
-		wrapper.find( "button" ).at( 0 ).simulate( "click" );
-		wrapper.find( "#input-search" ).at( 0 ).simulate( "change", { target: { value: "seo title" } } );
-		expect( wrapper.find( "button" ).first().text() ).toContain( "seo title" );
-	} );
+		describe( "close button", () => {
+			it( "should be present", () => {
+				expect( screen.getByRole( "button", { name: "Close" } ) ).toBeTruthy();
+			} );
 
-	it( "Results not found", () => {
-		wrapper.find( "button" ).at( 0 ).simulate( "click" );
-		wrapper.find( "#input-search" ).at( 0 ).simulate( "change", { target: { value: "random" } } );
-		expect( wrapper.find( "SearchNoResultsContent" ).find( "p" ).text() ).toContain( "We couldn’t find anything with that term." );
-	} );
+			it( "should close on click", async() => {
+				expect( screen.getByRole( "dialog" ) ).toBeTruthy();
+				fireEvent.click( screen.getByRole( "button", { name: "Close" } ) );
+				expect( screen.queryByRole( "dialog" ) ).toBe( null );
+			} );
+		} );
 
-	it( "should match search snapshot", () => {
-		expect( wrapper.debug() ).toMatchSnapshot();
+		it( "should contain title and description", () => {
+			expect( screen.getByText( "Search" ) ).toBeTruthy();
+			expect( screen.getByText( "Please enter a search term with at least 3 characters." ) ).toBeTruthy();
+		} );
+
+		it( "should show search results", async() => {
+			fireEvent.change( screen.getByRole( "combobox" ), { target: { value: "test" } } );
+			await waitFor( () => {
+				const items = screen.getAllByRole( "presentation" );
+				expect( items.length ).toBe( 2 );
+				expect( items[ 0 ] ).toHaveTextContent( "Group" );
+				expect( items[ 1 ] ).toHaveTextContent( "Item" );
+				expect( screen.getByRole( "listbox" ) ).toMatchSnapshot();
+			}, { timeout: 1000 } );
+		} );
+
+		it( "should show no results found", async() => {
+			fireEvent.change( screen.getByRole( "combobox" ), { target: { value: "somethingthatisnotfound" } } );
+			expect( screen.getByText( "No results found" ) ).toBeTruthy();
+			expect( screen.getByText( "We couldn’t find anything with that term." ) ).toBeTruthy();
+		} );
 	} );
 } );

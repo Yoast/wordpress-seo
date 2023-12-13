@@ -20,6 +20,8 @@
     "@wordpress/i18n": "^1.2.3",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "styled-components": "^5.3.6",
     "tokenizer2": "^2.0.1",
     "whatwg-fetch": "1.1.1",
@@ -27,11 +29,7 @@
   },
   "devDependencies": {
     "jest-styled-components": "^7.0.3",
-    "react-test-renderer": "^16.14.0"
-  },
-  "peerDependencies": {
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0"
+    "react-test-renderer": "^18.2.0"
   },
   "jest": {
     "testURL": "http://localhost",
