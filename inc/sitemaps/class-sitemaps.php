@@ -535,7 +535,7 @@ class WPSEO_Sitemaps {
 					ORDER BY date DESC
 				";
 
-				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery -- They are prepared on the lines above and a direct query is required.
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery -- They are prepared on the lines above and a direct query is required.
 				foreach ( $wpdb->get_results( $sql ) as $obj ) {
 					$post_type_dates[ $obj->post_type ] = $obj->date;
 				}

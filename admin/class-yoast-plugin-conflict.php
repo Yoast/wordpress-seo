@@ -75,7 +75,7 @@ class Yoast_Plugin_Conflict {
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['action'] ) && is_string( $_GET['action'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information and only comparing the variable in a condition.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information and only comparing the variable in a condition.
 			$action = wp_unslash( $_GET['action'] );
 			if ( $action === 'deactivate' ) {
 				$this->remove_deactivated_plugin();

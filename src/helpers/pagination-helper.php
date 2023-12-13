@@ -196,7 +196,7 @@ class Pagination_Helper {
 		$key_query_loop = $this->get_key_query_loop();
 
 		if ( $key_query_loop ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Recommended -- Validated in get_key_query_loop().
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Recommended -- Validated in get_key_query_loop().
 			$page_number = (int) $_GET[ $key_query_loop ];
 			if ( $page_number > 1 ) {
 				return $page_number;

@@ -107,7 +107,7 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 		// Now, we'll also loop through the replace_vars array, which holds the mappings between the AiOSEO variables and the Yoast variables.
 		// We'll replace all the AiOSEO variables in the temporary table with their Yoast equivalents.
 		foreach ( $this->replace_vars as $aioseo_variable => $yoast_variable ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: We need this query and this is done at many other places as well, for example class-import-rankmath.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: We need this query and this is done at many other places as well, for example class-import-rankmath.
 			$wpdb->query(
 				$wpdb->prepare(
 					'UPDATE tmp_meta_table SET meta_value = REPLACE( meta_value, %s, %s )',
@@ -184,7 +184,7 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 			$aioseo_variable = "#{$aioseo_prefix}-{$unique_custom_field_or_taxonomy}";
 			$yoast_variable  = "%%{$yoast_prefix}_{$unique_custom_field_or_taxonomy}%%";
 
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->query(
 				$wpdb->prepare(
 					'UPDATE tmp_meta_table SET meta_value = REPLACE( meta_value, %s, %s )',
@@ -195,7 +195,7 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 		}
 	}
 
-	// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 
 	/**
 	 * Retrieve all the meta values from the temporary meta table that contain
@@ -216,7 +216,7 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 		);
 	}
 
-	// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+	// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 
 	/**
 	 * Detects whether there is AIOSEO data to import by looking whether the AIOSEO data have been cleaned up.
