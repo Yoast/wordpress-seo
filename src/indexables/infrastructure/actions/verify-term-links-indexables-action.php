@@ -70,15 +70,14 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 	 */
 	public function re_build_indexables( Last_Batch_Count $last_batch_count, Batch_Size $batch_size ): bool {
 		$query = $this->get_query( $last_batch_count->get_last_batch(), $batch_size->get_batch_size() );
-
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_query returns a prepared query.
 		$terms = $this->wpdb->get_results( $query );
 
 		$indexables = [];
 		foreach ( $terms as $term ) {
-			$indexable = $this->repository->find_by_id_and_type( (int) $term->id, 'term' );
+			$indexable = $this->repository->find_by_id_and_type( (int) $term->term_id, 'term' );
 			if ( $indexable ) {
-				$this->link_builder->build( $indexable, $term->content );
+				$this->link_builder->build( $indexable, $term->description );
 
 				$indexables[] = $indexable;
 			}
@@ -110,7 +109,8 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 	private function get_query( $limit, $batch_size ) {
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
 		$public_taxonomies = $this->taxonomy->get_indexable_taxonomies();
-		$replacements      = $public_taxonomies;
+		$replacements[]    = $taxonomy_table;
+		$replacements      = array_merge( $replacements, $public_taxonomies );
 
 		$limit_query    = 'LIMIT %d';
 		$replacements[] = $batch_size;
@@ -119,7 +119,6 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 			$offset_query   = 'OFFSET %d';
 			$replacements[] = ( $limit + $batch_size );
 		}
-
 		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder, WordPress.DB.PreparedSQL.InterpolatedNotPrepared  -- Reason: These can be removed in the next version of WPCS.
 		return $this->wpdb->prepare(
 			'
@@ -127,7 +126,6 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 			FROM %i AS T
 			WHERE taxonomy IN (' . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
 			$limit_query $offset_query",
-			$taxonomy_table,
 			$replacements
 		);
 	}

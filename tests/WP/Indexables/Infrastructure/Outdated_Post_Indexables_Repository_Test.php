@@ -18,6 +18,12 @@ use function YoastSEO;
  * @coversDefaultClass Yoast\WP\SEO\Indexables\Infrastructure\Outdated_Post_Indexables_Repository
  */
 class Dismiss_New_Route_Test extends TestCase {
+
+	/**
+	 * The post object.
+	 *
+	 * @var \WP_Post
+	 */
 	protected $post2;
 
 	/**
@@ -51,40 +57,35 @@ class Dismiss_New_Route_Test extends TestCase {
 			$wpdb,
 			YoastSEO()->helpers->post_type,
 			YoastSEO()->helpers->post,
-			YoastSEO()->classes->get( Indexable_Repository::class ) );
+			YoastSEO()->classes->get( Indexable_Repository::class )
+		);
 
 		$post1 = self::factory()->post->create_and_get(
 			[
-				'post_type'   => 'post',
-				'post_date'   => '2024-09-13 08:50:00',
-				'post_modified_gmt'   => '2024-09-13 08:50:00',
-				'post_status' => 'publish',
-				'post_author' => $this->user_id,
+				'post_type'         => 'post',
+				'post_date'         => '2022-09-13 08:50:00',
+				'post_modified_gmt' => '2022-09-13 08:50:00',
+				'post_status'       => 'publish',
+				'post_author'       => $this->user_id,
 			]
 		);
 
 		$this->post2 = self::factory()->post->create_and_get(
 			[
-				'post_type'   => 'post',
-				'post_date'   => '2024-09-13 08:50:00',
-				'post_modified_gmt'   => '2024-09-13 08:50:00',
-				'post_status' => 'publish',
-				'post_author' => $this->user_id,
+				'post_type'         => 'post',
+				'post_date'         => '2022-09-13 08:50:00',
+				'post_modified_gmt' => '2022-09-13 08:50:00',
+				'post_status'       => 'publish',
+				'post_author'       => $this->user_id,
 			]
 		);
-
-		$indexable      = new Indexable();
-		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
-
-		YoastSEO()->classes->get( Indexable_Builder::class )->build_for_id_and_type( $post1->ID, 'post' );
-		YoastSEO()->classes->get( Indexable_Builder::class )->build_for_id_and_type( $this->post2->ID, 'post' );
 	}
 
 	/**
 	 * Tests the get_outdated_post_indexables method.
 	 *
 	 * @covers ::get_outdated_post_indexables
-	 *
+	 * @covers ::__construct
 	 */
 	public function test_get_no_outdated_indexables() {
 		$last_batch = new Last_Batch_Count( 0 );
@@ -96,18 +97,18 @@ class Dismiss_New_Route_Test extends TestCase {
 	 * Tests the get_outdated_post_indexables method.
 	 *
 	 * @covers ::get_outdated_post_indexables
-	 *
 	 */
 	public function test_get_outdated_indexables_with_outdated_post() {
 		$last_batch = new Last_Batch_Count( 0 );
 		global $wpdb;
-		$db_result = $wpdb->query( "UPDATE ".$wpdb->posts." SET post_modified_gmt='2022-11-24 13:10:39' where id=".$this->post2->ID );
-
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Will be supported later.
+		$db_result = $wpdb->query( $wpdb->prepare( " UPDATE %i SET %i='2022-11-24 13:10:39' where id=%d", [ $wpdb->posts, 'post_modified_gmt', $this->post2->ID ] ) );
+		// phpcs:enable
 		$result = $this->instance->get_outdated_post_indexables( $last_batch );
 
-		var_dump($result);die;
-		$this->assertSame($result->count(),1);
 
-		$this->assertSame((int) $result->current()->ID, (int) $this->post2->ID);
+		$this->assertSame( $result->count(), 1 );
+
+		$this->assertSame( (int) $result->current()->ID, (int) $this->post2->ID );
 	}
 }
