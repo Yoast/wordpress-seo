@@ -12,7 +12,7 @@
   "private": false,
   "scripts": {
     "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc",
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "eslint . --max-warnings=0"
   },
   "jest": {
@@ -22,34 +22,36 @@
       "^.+\\.jsx?$": "babel-jest"
     },
     "transformIgnorePatterns": [
-      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+      "/node_modules/(?!yoastseo|lodash-es|memize).+\\.js$"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/jest/__mocks__/styleMock.js",
       "^lodash-es$": "lodash"
-    }
+    },
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/deprecated/**/*.js"
+    ]
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^2.19.0",
+    "@wordpress/i18n": "^4.42.13",
     "@yoast/replacement-variable-editor": "^1.17.0",
     "@yoast/social-metadata-forms": "^1.17.0",
     "@yoast/style-guide": "^0.13.0",
-    "lodash": "^4.17.11",
-    "prop-types": "^15.6.0",
+    "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "redux": "^3.7.2",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@yoast/browserslist-config": "^1.2.2",
-    "browserslist": "^4.7.3",
-    "jest-styled-components": "^7.0.3",
+    "jest-styled-components": "^7.1.1",
     "raf": "^3.4.1",
     "react-test-renderer": "^18.2.0"
   },
