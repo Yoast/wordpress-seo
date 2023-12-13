@@ -401,6 +401,14 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$front_page['chf'] = 'daily';
 			$front_page['pri'] = 1;
 
+			$images = [];
+			/**
+			 * Filter images to be included for the term in XML sitemap.
+			 *
+			 * @return array $images  Array of image items.
+			 */
+			$front_page['images'] = apply_filters( 'wpseo_sitemap_urlimages_front_page', $images );
+
 			$links[] = $front_page;
 		}
 		elseif ( $post_type !== 'page' ) {
