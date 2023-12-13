@@ -1,6 +1,6 @@
 <?php
-
-namespace Yoast\WP\SEO\Tests\WP\Indexables\Actions\Infrastructure;
+// @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
+namespace Yoast\WP\SEO\Tests\WP\Indexables\Infrastructure\Actions;
 
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
@@ -17,6 +17,8 @@ use function YoastSEO;
 
 /**
  * Integration Test Class for Verify_Post_Type_Archives_Indexables_Action.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  *
  * @coversDefaultClass Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Post_Type_Archives_Indexables_Action
  */

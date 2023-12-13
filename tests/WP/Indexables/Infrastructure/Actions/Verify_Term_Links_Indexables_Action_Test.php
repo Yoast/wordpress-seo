@@ -1,18 +1,11 @@
 <?php
+// @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
+namespace Yoast\WP\SEO\Tests\WP\Indexables\Infrastructure\Actions;
 
-namespace Yoast\WP\SEO\Tests\WP\Indexables\Actions\Infrastructure;
-
-use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Indexables\Domain\Batch_Size;
-use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Outdated_Posts_Found_Exception;
 use Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count;
-use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_General_Indexables_Action;
-use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Post_Type_Archives_Indexables_Action;
-use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Indexables_Action;
 use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Links_Indexables_Action;
-use Yoast\WP\SEO\Indexables\Infrastructure\Outdated_Post_Indexables_Repository;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\WP\TestCase;
