@@ -100,7 +100,7 @@ describe( "Export of the inclusive language configuration", () => {
 		expect( retrieveRule( assessment.rule.toString() ) ).toEqual( "" );
 
 		assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "binge" ) );
-		expect( retrieveRule( assessment.rule.toString() ) ).toEqual( "NotFollowedBy: \"drink\", \"drinks\" \"drinking\", \"eating disorder\", \"and purge\", \"behavior\", \"behaviors\", \"behaviour\", \"behaviours\"" );
+		expect( retrieveRule( assessment.rule.toString() ) ).toEqual( "NotFollowedBy: \"drink\", \"drinks\", \"drinking\", +\"eating disorder\", \"and purge\", \"behavior\", \"behaviors\", \"behaviour\", \"behaviours\"" );
 
 		assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "seniors" ) );
 		expect( retrieveRule( assessment.rule.toString() ) ).
