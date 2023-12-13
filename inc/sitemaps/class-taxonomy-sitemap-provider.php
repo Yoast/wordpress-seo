@@ -211,19 +211,20 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses() );
 
-		// Grab last modified date.
-		$sql = "
-			SELECT MAX(p.post_modified_gmt) AS lastmod
-			FROM	$wpdb->posts AS p
-			INNER JOIN $wpdb->term_relationships AS term_rel
-				ON		term_rel.object_id = p.ID
-			INNER JOIN $wpdb->term_taxonomy AS term_tax
-				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
-				AND		term_tax.taxonomy = %s
-				AND		term_tax.term_id = %d
-			WHERE	p.post_status IN ('" . implode( "','", $post_statuses ) . "')
-				AND		p.post_password = ''
-		";
+		$replacements   = [];
+		$replacements[] = 'post_modified_gmt';
+		$replacements[] = $wpdb->posts;
+		$replacements[] = $wpdb->term_relationships;
+		$replacements[] = 'object_id';
+		$replacements[] = 'ID';
+		$replacements[] = $wpdb->term_taxonomy;
+		$replacements[] = 'term_taxonomy_id';
+		$replacements[] = 'term_taxonomy_id';
+		$replacements[] = 'taxonomy';
+		$replacements[] = 'term_id';
+		$replacements[] = 'post_status';
+		$replacements   = array_merge( $replacements, $post_statuses );
+		$replacements[] = 'post_password';
 
 		/**
 		 * Filter: 'wpseo_exclude_from_sitemap_by_term_ids' - Allow excluding terms by ID.
@@ -253,7 +254,28 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
-			$url['mod'] = $wpdb->get_var( $wpdb->prepare( $sql, $term->taxonomy, $term->term_id ) );
+			$current_replacements = $replacements;
+			array_splice( $current_replacements, 9, 0, $term->taxonomy );
+			array_splice( $current_replacements, 11, 0, $term->term_id );
+
+			$url['mod'] = $wpdb->get_var(
+				//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+				$wpdb->prepare(
+					'
+			SELECT MAX(p.%i) AS lastmod
+			FROM	%i AS p
+			INNER JOIN %i AS term_rel
+				ON		term_rel.%i = p.%i
+			INNER JOIN %i AS term_tax
+				ON		term_tax.%i = term_rel.%i
+				AND		term_tax.%i = %s
+				AND		term_tax.%i = %d
+			WHERE	p.%i IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+				AND		p.%i = ''
+			",
+					$current_replacements
+				)
+			);
 
 			if ( $this->include_images ) {
 				$url['images'] = $this->get_image_parser()->get_term_images( $term );
