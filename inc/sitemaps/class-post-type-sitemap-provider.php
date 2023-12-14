@@ -682,7 +682,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
 			$wpdb->prepare(
 				'
-			WITH ordering AS (SELECT ROW_NUMBER() OVER (ORDER BY %i) AS n, post_modified_gmt
+			WITH %i AS (SELECT ROW_NUMBER() OVER (ORDER BY %i) AS n, post_modified_gmt
 							  FROM %i USE INDEX ( %i )
 							  WHERE %i IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ')
 								 AND %i = %s
