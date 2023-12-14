@@ -690,7 +690,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 								 AND %i = %s
 							  ORDER BY %i)
 			SELECT %i
-			FROM ordering
+			FROM %i
 			WHERE MOD(n, %d) = 0;
 			',
 				$replacements
