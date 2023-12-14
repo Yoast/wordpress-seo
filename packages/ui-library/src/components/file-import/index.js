@@ -169,7 +169,7 @@ const FileImport = forwardRef( ( {
 									<ValidationIcon variant="info" className="yst-w-5 yst-h-5" />
 								</Transition>
 								<Transition show={ isLoading } { ...statusIconTransitionProps }>
-									<button onClick={ onAbort } className="yst-file-import__abort-button">
+									<button type="button" onClick={ onAbort } className="yst-file-import__abort-button">
 										<span className="yst-sr-only">{ abortScreenReaderLabel }</span>
 										<XIcon />
 									</button>
