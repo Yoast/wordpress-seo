@@ -164,7 +164,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 						<?php
 						printf(
 							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-							esc_html__( '%1$sAI%2$s: Better SEO titles and meta descriptions, faster', 'wordpress-seo' ),
+							esc_html__( '%1$sAI%2$s: Better SEO titles and meta descriptions, faster.', 'wordpress-seo' ),
 							'<strong>',
 							'</strong>'
 						);
@@ -174,7 +174,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 						<?php
 						printf(
 							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-							esc_html__( '%1$sMultiple keywords%2$s: Rank higher for more searches', 'wordpress-seo' ),
+							esc_html__( '%1$sMultiple keywords%2$s: Rank higher for more searches.', 'wordpress-seo' ),
 							'<strong>',
 							'</strong>'
 						);
@@ -184,7 +184,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 						<?php
 						printf(
 							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-							esc_html__( '%1$sSuper fast%2$s internal linking suggestions', 'wordpress-seo' ),
+							esc_html__( '%1$sSuper fast%2$s internal linking suggestions.', 'wordpress-seo' ),
 							'<strong>',
 							'</strong>'
 						);
@@ -194,7 +194,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 						<?php
 						printf(
 							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-							esc_html__( '%1$sNo more broken links%2$s: Automatic redirect manager', 'wordpress-seo' ),
+							esc_html__( '%1$sNo more broken links%2$s: Automatic redirect manager.', 'wordpress-seo' ),
 							'<strong>',
 							'</strong>'
 						);
@@ -204,7 +204,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 						<?php
 						printf(
 							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-							esc_html__( '%1$sAppealing social previews%2$s people actually want to click on', 'wordpress-seo' ),
+							esc_html__( '%1$sAppealing social previews%2$s people actually want to click on.', 'wordpress-seo' ),
 							'<strong>',
 							'</strong>'
 						);
@@ -214,7 +214,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 						<?php
 						printf(
 							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-							esc_html__( '%1$s24/7 support%2$s: Also on evenings and weekends', 'wordpress-seo' ),
+							esc_html__( '%1$s24/7 support%2$s: Also on evenings and weekends.', 'wordpress-seo' ),
 							'<strong>',
 							'</strong>'
 						);
