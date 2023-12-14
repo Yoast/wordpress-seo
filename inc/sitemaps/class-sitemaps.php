@@ -511,6 +511,8 @@ class WPSEO_Sitemaps {
 				$replacements[] = 'post_type';
 				$replacements[] = 'date';
 
+				//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+				//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 				$dates = $wpdb->get_results(
 					//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
 					$wpdb->prepare(

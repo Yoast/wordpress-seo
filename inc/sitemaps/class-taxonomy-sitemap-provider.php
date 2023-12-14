@@ -258,6 +258,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			array_splice( $current_replacements, 9, 0, $term->taxonomy );
 			array_splice( $current_replacements, 11, 0, $term->term_id );
 
+			//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+			//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 			$url['mod'] = $wpdb->get_var(
 				//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
 				$wpdb->prepare(
