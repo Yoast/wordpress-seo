@@ -56,14 +56,14 @@ class Site_Editor_Integration implements Integration_Interface {
 	 * Enqueue Gutenberg block assets for backend editor.
 	 */
 	public function enqueue_block_editor_assets() {
-		$this->asset_manager->enqueue_script( 'block-editor' );
-        global $post;
-        $post_id =2;
-        $post = get_post($post_id); 
-        setup_postdata($post);
+		$this->asset_manager->enqueue_script( 'site-editor' );
+        // global $post;
+        // $post_id =2;
+        // $post = get_post($post_id); 
+        // setup_postdata($post);
         
         
-        $GLOBALS['wpseo_metabox']      = new WPSEO_Metabox();
-		$GLOBALS['wpseo_meta_columns'] = new WPSEO_Meta_Columns();
+        // $GLOBALS['wpseo_metabox']      = new WPSEO_Metabox();
+		// $GLOBALS['wpseo_meta_columns'] = new WPSEO_Meta_Columns();
 	}
 }

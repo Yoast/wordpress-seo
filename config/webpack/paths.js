@@ -16,6 +16,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"analysis-worker": `${ sourceDirectory }/analysis-worker.js`,
 	"api-client": `${ sourceDirectory }/api-client.js`,
 	"block-editor": `${ sourceDirectory }/block-editor.js`,
+	"site-editor": `${ sourceDirectory }/site-editor.js`,
 	"bulk-editor": `${ sourceDirectory }/bulk-editor.js`,
 	"classic-editor": `${ sourceDirectory }/classic-editor.js`,
 	"crawl-settings": `${ sourceDirectory }/crawl-settings.js`,
