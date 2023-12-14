@@ -36,7 +36,7 @@ class Site_Editor_Integration implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
 	 */
 	public function __construct(
-		WPSEO_Admin_Asset_Manager $asset_manager,
+		WPSEO_Admin_Asset_Manager $asset_manager
 	) {
 		$this->asset_manager = $asset_manager;
 	}
@@ -59,10 +59,10 @@ class Site_Editor_Integration implements Integration_Interface {
 		$this->asset_manager->enqueue_script( 'site-editor' );
         // global $post;
         // $post_id =2;
-        // $post = get_post($post_id); 
+        // $post = get_post($post_id);
         // setup_postdata($post);
-        
-        
+
+
         // $GLOBALS['wpseo_metabox']      = new WPSEO_Metabox();
 		// $GLOBALS['wpseo_meta_columns'] = new WPSEO_Meta_Columns();
 	}
