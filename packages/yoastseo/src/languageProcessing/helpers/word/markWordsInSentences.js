@@ -4,6 +4,7 @@ import addMark from "../../../markers/addMarkSingleWord";
 import Mark from "../../../values/Mark";
 import { escapeRegExp } from "lodash-es";
 import getAnchorsFromText from "../link/getAnchorsFromText";
+import { normalizeSingle } from "../sanitize/quotes";
 
 // Regex to deconstruct an anchor into open tag, content and close tag.
 const anchorDeconstructionRegex = /(<a[\s]+[^>]+>)([^]*?)(<\/a>)/;
@@ -76,14 +77,18 @@ const getMarkedAnchors = function( sentence, wordsRegex ) {
  * @returns {string} The sentence with marks.
  */
 export const collectMarkingsInSentence = function( sentence, wordsFoundInSentence, matchWordCustomHelper ) {
-	wordsFoundInSentence = wordsFoundInSentence.map( word => escapeRegExp( word ) );
+	wordsFoundInSentence = wordsFoundInSentence.map( word => {
+		word = escapeRegExp( word );
+		word = normalizeSingle( word );
+		return word;
+	} );
 	// If a language has a custom helper to match words, we disable the word boundary when creating the regex.
 	const wordsRegex = matchWordCustomHelper ? arrayToRegex( wordsFoundInSentence, true ) : arrayToRegex( wordsFoundInSentence );
 
 	// Retrieve the anchors and mark the anchors' text if the words are found in the anchors' text.
 	const { anchors, markedAnchors } = getMarkedAnchors( sentence, wordsRegex );
 
-	let markup = sentence.replace( wordsRegex, function( x ) {
+	let markup = normalizeSingle( sentence ).replace( wordsRegex, function( x ) {
 		return addMark( x );
 	} );
 
