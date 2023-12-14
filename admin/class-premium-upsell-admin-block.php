@@ -53,13 +53,42 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		$url = WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
 
 		$arguments = [
-			'<strong>' . esc_html__( 'Use AI', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Quickly create titles & meta descriptions', 'wordpress-seo' ),
-			'<strong>' . esc_html__( 'No more dead links', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Easy redirect manager', 'wordpress-seo' ),
-			'<strong>' . esc_html__( 'Superfast internal linking suggestions', 'wordpress-seo' ) . '</strong>',
-			'<strong>' . esc_html__( 'Social media preview', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Facebook & Twitter', 'wordpress-seo' ),
-			'<strong>' . esc_html__( 'Multiple keyphrases', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Increase your SEO reach', 'wordpress-seo' ),
-			'<strong>' . esc_html__( 'SEO Workouts', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Get guided in routine SEO tasks', 'wordpress-seo' ),
-			'<strong>' . esc_html__( '24/7 email support', 'wordpress-seo' ) . '</strong>',
+			sprintf(
+				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+				esc_html__( '%1$sAI%2$s: Better SEO titles and meta descriptions, faster.', 'wordpress-seo' ),
+				'<strong>',
+				'</strong>'
+			),
+			sprintf(
+				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+				esc_html__( '%1$sMultiple keywords%2$s: Rank higher for more searches.', 'wordpress-seo' ),
+				'<strong>',
+				'</strong>'
+			),
+			sprintf(
+				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+				esc_html__( '%1$sSuper fast%2$s internal linking suggestions.', 'wordpress-seo' ),
+				'<strong>',
+				'</strong>'
+			),
+			sprintf(
+				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+				esc_html__( '%1$sNo more broken links%2$s: Automatic redirect manager.', 'wordpress-seo' ),
+				'<strong>',
+				'</strong>'
+			),
+			sprintf(
+				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+				esc_html__( '%1$sAppealing social previews%2$s people actually want to click on.', 'wordpress-seo' ),
+				'<strong>',
+				'</strong>'
+			),
+			sprintf(
+				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+				esc_html__( '%1$s24/7 support%2$s: Also on evenings and weekends.', 'wordpress-seo' ),
+				'<strong>',
+				'</strong>'
+			),
 			'<strong>' . esc_html__( 'No ads!', 'wordpress-seo' ) . '</strong>',
 		];
 
@@ -68,7 +97,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		$class = $this->get_html_class();
 
 		/* translators: %s expands to Yoast SEO Premium */
-		$button_text = YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ? \esc_html__( 'Claim your 30% off now!', 'wordpress-seo' ) : sprintf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		$button_text = YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ? \esc_html__( 'Claim your 30% off now!', 'wordpress-seo' ) : sprintf( esc_html__( 'Explore %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' );
 		/* translators: Hidden accessibility text. */
 		$button_text .= '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
 			'<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';

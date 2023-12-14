@@ -60,7 +60,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						</h2>
 						<p>
 							<?php
-							echo \esc_html__( 'Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support and much, much more!', 'wordpress-seo' );
+							echo \esc_html__( 'Get AI to write SEO titles and meta descriptions faster. Reach a wider audience with multiple keywords. Get automatic internal linking suggestions. And much, much more!', 'wordpress-seo' );
 							?>
 						</p>
 						<?php if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) : ?>
