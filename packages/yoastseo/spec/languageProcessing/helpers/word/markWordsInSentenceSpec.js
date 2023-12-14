@@ -98,6 +98,26 @@ describe( "Adds Yoast marks to specific words in a sentence", function() {
 					"and a <yoastmark class='yoast-text-mark'>hamster</yoastmark>.",
 			original: "A cat and a turtle and a hamster." } ) ] );
 	} );
+
+	it( "should find a match of words with different types of apostrophe and add Yoast marks for them", () => {
+		let sentences = "The red panda’s coat is mainly red or orange-brown with a black belly and legs.";
+		let wordsToMark = [ "red", "panda's" ];
+		expect( markWordsInASentence( sentences, wordsToMark, false ) ).toEqual(
+			[ new Mark( {
+				marked: "The <yoastmark class='yoast-text-mark'>red panda's</yoastmark> coat is mainly" +
+					" <yoastmark class='yoast-text-mark'>red</yoastmark> or orange-brown with a black belly and legs.",
+				original: "The red panda’s coat is mainly red or orange-brown with a black belly and legs." } ) ]
+		);
+
+		sentences = "The red panda's coat is mainly red or orange-brown with a black belly and legs.";
+		wordsToMark = [ "red", "panda’s" ];
+		expect( markWordsInASentence( sentences, wordsToMark, false ) ).toEqual(
+			[ new Mark( {
+				marked: "The <yoastmark class='yoast-text-mark'>red panda's</yoastmark> coat is mainly" +
+					" <yoastmark class='yoast-text-mark'>red</yoastmark> or orange-brown with a black belly and legs.",
+				original: "The red panda's coat is mainly red or orange-brown with a black belly and legs." } ) ]
+		);
+	} );
 } );
 
 describe( "Adds Yoast marks to specific words in a sentence for languages with custom helper to match words", function() {
