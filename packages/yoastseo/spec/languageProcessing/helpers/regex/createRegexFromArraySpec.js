@@ -1,5 +1,3 @@
-/* eslint-disable no-irregular-whitespace */
-/* eslint-disable no-useless-escape */
 import arrayToRegex from "../../../../src/languageProcessing/helpers/regex/createRegexFromArray.js";
 
 describe( "a test creating a regex from an array with strings", function() {
