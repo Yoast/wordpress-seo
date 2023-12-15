@@ -291,7 +291,7 @@ const SiteFeatures = () => {
 								isPremiumFeature={ true }
 								hasPremiumBadge={ true }
 								isPremiumLink="https://yoa.st/get-link-suggestions"
-								title={ __( "Link suggestions", "wordpress-seo" ) }
+								title={ __( "Internal linking suggestions", "wordpress-seo" ) }
 							>
 								<p>{ __( "No need to figure out what to link to. You get linking suggestions for relevant posts and pages to make your website easier to navigate.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-suggestions-link" link={ isPremium ? "https://yoa.st/17g" : "https://yoa.st/4ev" } ariaLabel={ __( "Link suggestions", "wordpress-seo" ) } />
