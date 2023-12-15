@@ -342,6 +342,21 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 21.8 =
+
+Release date: 2023-12-26
+
+#### Enhancements
+
+* Improves the centering of the eye icon in the highlighting button across editors.
+
+#### Other
+
+* Adds a JavaScript action (`yoast.analysis.applyMarks`) that allow users to implement the highlighting functionality in other editors.
+* Adds a notification in the sidebar to leave a quick review.
+* Removes a set of Elementor widgets from the content analysis.
+* Re-orders menu items in block editor metabox and sidebar, classic editor metabox and Elementor editor sidebar to be consistent with Yoast SEO Premium.
+
 = 21.7 =
 
 Release date: 2023-12-12
@@ -366,26 +381,6 @@ Yoast SEO 21.7 is out now. In this release, we bring an improved first-time conf
 * Improves the instructions in the first-time configuration so that they're easier to follow.
 * Improves the new installation screen layout and design.
 * Provides a filter to add a list of shortcodes so they can be parsed and then included in our content analysis in Classic editor.
-
-= 21.6 =
-
-Release date: 2023-11-28
-
-Discover what's new in Yoast SEO 21.6! Have you seen our AI-powered tool that helps you easily craft engaging titles and meta descriptions? Ready for even more AI capabilities? Upgrade to Premium and unlock full access to AI-driven SEO tools to take your website to new heights. Start optimizing smarter, not harder! Find out more about what's new in Yoast SEO 21.6 in [our release post](https://yoa.st/release-28-11-23)!
-
-#### Enhancements
-
-* Improves the _Track SEO performance_ functionality by adding a graph that plots keyphrase trends over time.
-
-#### Bugfixes
-
-* Fixes a bug where encoded characters would be stripped from canonical URLs in the taxonomy metabox. Props to [@stodorovic](https://github.com/stodorovic).
-* Fixes a bug where the Wincher integration would cause PHP warnings with PHP 8+.
-
-#### Other
-
-* Adds a notification when WooCommerce's new beta product editor is enabled.
-* Adds defensive coding to the suppress warnings on archive pages with the `/%category%/%postname%/` permalink structure. Props to [@Mte90](https://github.com/Mte90).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

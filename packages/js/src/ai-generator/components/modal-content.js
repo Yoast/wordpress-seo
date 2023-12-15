@@ -33,7 +33,7 @@ export const ModalContent = () => {
 		);
 		postModalprops.newToText = sprintf(
 			/* translators: %1$s expands to Yoast SEO Premium and Yoast WooCommerce SEO. */
-			__( "New to %1$s", "wordpress-seo" ),
+			__( "New in %1$s", "wordpress-seo" ),
 			upsellPremiumWooLabel
 		);
 		postModalprops.title = __( "Generate product titles & descriptions with AI!", "wordpress-seo" );

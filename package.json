@@ -35,7 +35,10 @@
     "prestart": "grunt build:css && grunt copy:js-dependencies",
     "start": "wp-scripts start --config config/webpack/webpack.config.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@draft-js-plugins/mention": "^5.0.0",
+    "draft-js": "^0.11.7"
+  },
   "devDependencies": {
     "@babel/core": "^7.18.5",
     "@slack/webhook": "^5.0.2",
@@ -56,9 +59,6 @@
     "core-js": "^2.6.12",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
-    "enzyme-to-json": "^3.6.1",
     "eslint": "^7.32.0",
     "eslint-config-yoast": "^6.0.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
@@ -74,16 +74,13 @@
     "node-fetch": "^2.6.1",
     "postcss": "^8.4.14",
     "postcss-cli": "^9.1.0",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "react-test-renderer": "^16.14.0",
     "readline-sync": "^1.4.9",
     "shusher": "^0.1.1",
     "tmp": "^0.1.0",
     "typescript": "^4.2.4"
   },
   "yoast": {
-    "pluginVersion": "21.7"
+    "pluginVersion": "21.8-RC4"
   },
   "version": "0.0.0"
 }
