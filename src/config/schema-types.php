@@ -166,5 +166,4 @@ class Schema_Types {
 			]
 		);
 	}
-
 }
