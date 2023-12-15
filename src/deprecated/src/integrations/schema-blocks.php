@@ -117,14 +117,4 @@ class Schema_Blocks implements Integration_Interface {
 	public function output() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.5' );
 	}
-
-	/**
-	 * Loads the translations and localizes the schema-blocks script file.
-	 *
-	 * @codeCoverageIgnore
-	 * @deprecated 18.0
-	 */
-	public function load_translations() {
-		\_deprecated_function( __FUNCTION__, '18.0' );
-	}
 }
