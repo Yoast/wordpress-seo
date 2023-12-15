@@ -4,7 +4,7 @@ import addMark from "../../../markers/addMarkSingleWord";
 import Mark from "../../../values/Mark";
 import { escapeRegExp } from "lodash-es";
 import getAnchorsFromText from "../link/getAnchorsFromText";
-import { normalizeSingle } from "../sanitize/quotes";
+import { SINGLE_QUOTES_ARRAY, SINGLE_QUOTES_REGEX } from "../sanitize/quotes";
 
 // Regex to deconstruct an anchor into open tag, content and close tag.
 const anchorDeconstructionRegex = /(<a[\s]+[^>]+>)([^]*?)(<\/a>)/;
@@ -77,18 +77,35 @@ const getMarkedAnchors = function( sentence, wordsRegex ) {
  * @returns {string} The sentence with marks.
  */
 export const collectMarkingsInSentence = function( sentence, wordsFoundInSentence, matchWordCustomHelper ) {
-	wordsFoundInSentence = wordsFoundInSentence.map( word => {
-		word = escapeRegExp( word );
-		word = normalizeSingle( word );
-		return word;
+	const allWordsFound = [];
+	wordsFoundInSentence.forEach( word => {
+		// Check if the word in `wordsFoundInSentence` contains a single quote.
+		const matchedSingleQuote = word.match( SINGLE_QUOTES_REGEX );
+		if ( matchedSingleQuote ) {
+			/*
+			 * If yes, make all different combinations of the word with different types of single quotes in the array.
+			 * Later, a regex will be created for all words that were found in the sentence including their variations.
+			 *
+			 * For example:
+			 * `wordsFoundInSentence`: [ "red", "panda’s" ]
+			 * For the word "panda’s", we'll create the following variations:
+			 * "panda's", "panda‘s", "panda’s", "panda‛s", "panda`s", "panda‹s", "panda›s"
+			 * And those variations will be added to `allWordsFound`.
+			 */
+			SINGLE_QUOTES_ARRAY.forEach( singleQuote => {
+				allWordsFound.push( escapeRegExp( word.replace( matchedSingleQuote.toString(), singleQuote ) ) );
+			} );
+		}
+		allWordsFound.push( escapeRegExp( word ) );
 	} );
+
 	// If a language has a custom helper to match words, we disable the word boundary when creating the regex.
-	const wordsRegex = matchWordCustomHelper ? arrayToRegex( wordsFoundInSentence, true ) : arrayToRegex( wordsFoundInSentence );
+	const wordsRegex = matchWordCustomHelper ? arrayToRegex( allWordsFound, true ) : arrayToRegex( allWordsFound );
 
 	// Retrieve the anchors and mark the anchors' text if the words are found in the anchors' text.
 	const { anchors, markedAnchors } = getMarkedAnchors( sentence, wordsRegex );
 
-	let markup = normalizeSingle( sentence ).replace( wordsRegex, function( x ) {
+	let markup = sentence.replace( wordsRegex, function( x ) {
 		return addMark( x );
 	} );
 
