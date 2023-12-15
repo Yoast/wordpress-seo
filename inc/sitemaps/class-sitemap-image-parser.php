@@ -121,10 +121,14 @@ class WPSEO_Sitemap_Image_Parser {
 		/**
 		 * Filter images to be included for the post in XML sitemap.
 		 *
-		 * @param array $images  Array of image items.
-		 * @param int   $post_id ID of the post.
+		 * @param array  $images Array of image items.
+		 * @param int    $post_id ID of the post.
+		 * @return array $image_list Array of image items.
 		 */
-		$images = apply_filters( 'wpseo_sitemap_urlimages', $images, $post->ID );
+		$image_list = apply_filters( 'wpseo_sitemap_urlimages', $images, $post->ID );
+		if ( isset( $image_list ) && is_array( $image_list ) ) {
+			$images = $image_list;
+		}
 
 		return $images;
 	}
@@ -150,10 +154,14 @@ class WPSEO_Sitemap_Image_Parser {
 		/**
 		 * Filter images to be included for the term in XML sitemap.
 		 *
-		 * @param array $images  Array of image items.
-		 * @param int   $term_id ID of the post.
+		 * @param array  $image_list Array of image items.
+		 * @param int    $term_id ID of the post.
+		 * @return array $image_list Array of image items.
 		 */
-		$images = apply_filters( 'wpseo_sitemap_urlimages_term', $images, $term->term_id );
+		$image_list = apply_filters( 'wpseo_sitemap_urlimages_term', $images, $term->term_id );
+		if ( isset( $image_list ) && is_array( $image_list ) ) {
+			$images = $image_list;
+		}
 
 		return $images;
 	}
