@@ -292,14 +292,11 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 		<section class="yoast-promo-extensions">
 			<h2>
 				<?php
-				$yoast_outrank_copy = sprintf( esc_html__( 'Outrank your competitors even further', 'wordpress-seo' ) );
-				$yoast_outrank_copy = '<span class="yoast-heading-highlight">' . $yoast_outrank_copy . '</span>';
-
 				printf(
-					/* translators: 1: expands to Outrank your competitors even further, 2: expands to Yoast SEO */
-					esc_html__( '%1$s with %2$s plugins', 'wordpress-seo' ),
-					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $yoast_seo_extensions is properly escaped.
-					$yoast_outrank_copy,
+					/* translators: %1$s expands to a span opening tag, %2$s expands to a span closing tag, %3$s expands to Yoast SEO */
+					esc_html__( '%1$sOutrank your competitors even further%2$s with these %3$s plugins', 'wordpress-seo' ),
+					'<span class="yoast-heading-highlight">',
+					'</span>',
 					'Yoast SEO'
 				);
 				?>
