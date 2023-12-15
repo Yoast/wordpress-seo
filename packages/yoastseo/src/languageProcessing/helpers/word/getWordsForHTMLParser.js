@@ -9,10 +9,11 @@ import { hashedHtmlEntitiesRegexEnd, hashedHtmlEntitiesRegexStart } from "../../
  * The word separator explicitly only contains characters that split two words and not a word and a space.
  * - A space is a word separator because it separates two words if it occurs between two words. For example: "foo bar"
  * - A tab is a word separator because it separates two words if it occurs between two words. For example: "foo	bar"
- * - A non-breaking space is a word separator because it separates two words if it occurs between two words. For example: "foo\u00A0bar"
+ * - Non-breaking spaces are word separators because they separate two words if it occurs between two words. For example: "foo\u00A0bar".
+ *   Note that &nbsp; is portrayed here as #nbsp; -- we transformed the & to # to prevent parse5 from converting it to a space.
  * - Open and closing brackets are added to deal correctly with shortcodes downstream.
  */
-const wordSeparatorsRegex = /([\s\t\u00A0[\]])/;
+const wordSeparatorsRegex = /([\s\t\u00A0[\]]|#nbsp;)/;
 
 /**
  * Tokenizes a text similar to getWords, but in a suitable way for the HTML parser.
