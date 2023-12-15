@@ -405,6 +405,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			/**
 			 * Filter images to be included for the term in XML sitemap.
 			 *
+			 * @param array  $images Array of image items.
 			 * @return array $image_list Array of image items.
 			 */
 			$image_list = apply_filters( 'wpseo_sitemap_urlimages_front_page', $images );
