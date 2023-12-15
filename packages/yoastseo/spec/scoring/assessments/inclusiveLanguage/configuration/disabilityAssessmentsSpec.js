@@ -219,10 +219,11 @@ describe( "A test for Disability assessments", function() {
 
 		expect( isApplicable ).toBeFalsy();
 	} );
-	it( "should not target 'binge'' when followed by exception words.", () => {
+	it( "should not target 'binge' when followed by exception words.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "binge" ) );
-		[ "drink", "drinks", "drinking", "eating disorder", "and purge", "behavior", "behaviors", "behaviour", "behaviours" ].map( ( exceptionWord ) => {
-			const testSentence = `We ${exceptionWord}.`;
+		const exceptionWords = [ "drink", "drinks", "drinking", "eating disorder", "and purge", "behavior", "behaviors", "behaviour", "behaviours" ];
+		exceptionWords.map( ( exceptionWord ) => {
+			const testSentence = `We binge ${exceptionWord}.`;
 			const mockPaper = new Paper( testSentence );
 			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
 			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
@@ -230,8 +231,8 @@ describe( "A test for Disability assessments", function() {
 	} );
 	it( "should not target 'bingeing' when followed by exception words.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "bingeing" ) );
-		[ "and purging", "behavior", "behaviors", "behaviour", "behaviours"  ].map( ( exceptionWord ) => {
-			const testSentence = `We ${exceptionWord}.`;
+		[ "and purging", "behavior", "behaviors", "behaviour", "behaviours" ].map( ( exceptionWord ) => {
+			const testSentence = `We were bingeing ${exceptionWord}.`;
 			const mockPaper = new Paper( testSentence );
 			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
 			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
@@ -239,17 +240,17 @@ describe( "A test for Disability assessments", function() {
 	} );
 	it( "should not target 'binged' when followed by exception words.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "binged" ) );
-		[ "and purged"  ].map( ( exceptionWord ) => {
-			const testSentence = `We ${exceptionWord}.`;
+		[ "and purged" ].map( ( exceptionWord ) => {
+			const testSentence = `We binged ${exceptionWord}.`;
 			const mockPaper = new Paper( testSentence );
 			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
 			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
 		} );
 	} );
 	it( "should not target 'binges' when followed by exception words.", () => {
-		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "binged" ) );
-		[ "and purges"  ].map( ( exceptionWord ) => {
-			const testSentence = `We ${exceptionWord}.`;
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "binges" ) );
+		[ "and purges" ].map( ( exceptionWord ) => {
+			const testSentence = `He binges ${exceptionWord}.`;
 			const mockPaper = new Paper( testSentence );
 			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
 			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
@@ -257,8 +258,9 @@ describe( "A test for Disability assessments", function() {
 	} );
 	it( "should not target 'paranoid' when followed by exception words.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "paranoid" ) );
-		[ "delusion", "delusions", "personality disorder", "ideation"  ].map( ( exceptionWord ) => {
-			const testSentence = `We ${exceptionWord}.`;
+		const exceptionWords = [ "delusion", "delusions", "personality disorder", "ideation" ];
+		exceptionWords.map( ( exceptionWord ) => {
+			const testSentence = `They displayed a paranoid ${exceptionWord}.`;
 			const mockPaper = new Paper( testSentence );
 			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
 			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
@@ -266,8 +268,9 @@ describe( "A test for Disability assessments", function() {
 	} );
 	it( "should not target 'manic' when followed by exception words.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "manic" ) );
-		[ "episode", "episodes", "state", "states", "symptoms", "and depressive episodes", "and hypomanic", "oror hypomanic"  ].map( ( exceptionWord ) => {
-			const testSentence = `We ${exceptionWord}.`;
+		const exceptionWords = [ "episode", "episodes", "state", "states", "symptoms", "and depressive episodes", "and hypomanic", "or hypomanic" ];
+		exceptionWords.map( ( exceptionWord ) => {
+			const testSentence = `We were going through a manic ${exceptionWord}.`;
 			const mockPaper = new Paper( testSentence );
 			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
 			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
