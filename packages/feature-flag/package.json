@@ -15,7 +15,9 @@
     "lint": "eslint ./src ./tests --max-warnings=0",
     "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@yoast/browserslist-config": "^1.2.2"
+  },
   "jest": {
     "testURL": "http://localhost",
     "testRegex": ".*Test.js$",
