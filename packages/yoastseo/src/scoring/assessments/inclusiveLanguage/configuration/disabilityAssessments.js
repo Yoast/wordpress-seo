@@ -47,7 +47,7 @@ const medicalCondition = harmfulPotentiallyNonInclusive +
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
-const disabilityAssessments =  [
+const disabilityAssessments = [
 	{
 		identifier: "binge",
 		nonInclusivePhrases: [ "binge" ],
@@ -56,7 +56,8 @@ const disabilityAssessments =  [
 		feedbackFormat: "Be careful when using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, such as %2$s.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
-			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "drink", "drinks", "drinking" ] ) ),
+			.filter( isNotFollowedByException( words, nonInclusivePhrase,
+				[ "drink", "drinks", "drinking", "eating disorder", "and purge", "behavior", "behaviors", "behaviour", "behaviours" ] ) ),
 	},
 	{
 		identifier: "bingeing",
@@ -65,6 +66,9 @@ const disabilityAssessments =  [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, such as %2$s.",
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase,
+				[ "and purging", "behavior", "behaviors", "behaviour", "behaviours" ] ) ),
 	},
 	{
 		identifier: "binged",
@@ -73,6 +77,8 @@ const disabilityAssessments =  [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, such as %2$s.",
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "and purged" ] ) ),
 	},
 	{
 		identifier: "binges",
@@ -81,6 +87,8 @@ const disabilityAssessments =  [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, such as %2$s.",
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "and purges" ] ) ),
 	},
 	{
 		identifier: "wheelchairBound",
@@ -160,8 +168,8 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
-			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "toilet", "toilets", "parking", "bathroom",
-				"bathrooms", "stall", "stalls" ] ) ),
+			.filter( isNotFollowedByException( words, nonInclusivePhrase,
+				[ "toilet", "toilets", "parking", "bathroom", "bathrooms", "stall", "stalls" ] ) ),
 	},
 	{
 		identifier: "insane",
@@ -500,6 +508,8 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>of two minds, chaotic, confusing</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "disorder" ] ) ),
 	},
 	{
 		identifier: "paranoid",
@@ -507,6 +517,9 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>overly suspicious, unreasonable, defensive</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase,
+				[ "personality disorder", "delusion", "delusions", "ideation" ] ) ),
 	},
 	{
 		identifier: "manic",
@@ -514,6 +527,9 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>excited, raving, unbalanced, wild</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase,
+				[ "episode", "episodes", "state", "states", "symptoms", "and depressive episodes", "and hypomanic", "or hypomanic" ] ) ),
 	},
 	{
 		identifier: "hysterical",
