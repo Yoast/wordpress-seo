@@ -104,7 +104,7 @@ describe( "Adds Yoast marks to specific words in a sentence", function() {
 		let wordsToMark = [ "red", "panda's" ];
 		expect( markWordsInASentence( sentences, wordsToMark, false ) ).toEqual(
 			[ new Mark( {
-				marked: "The <yoastmark class='yoast-text-mark'>red panda's</yoastmark> coat is mainly" +
+				marked: "The <yoastmark class='yoast-text-mark'>red panda’s</yoastmark> coat is mainly" +
 					" <yoastmark class='yoast-text-mark'>red</yoastmark> or orange-brown with a black belly and legs.",
 				original: "The red panda’s coat is mainly red or orange-brown with a black belly and legs." } ) ]
 		);
@@ -116,6 +116,15 @@ describe( "Adds Yoast marks to specific words in a sentence", function() {
 				marked: "The <yoastmark class='yoast-text-mark'>red panda's</yoastmark> coat is mainly" +
 					" <yoastmark class='yoast-text-mark'>red</yoastmark> or orange-brown with a black belly and legs.",
 				original: "The red panda's coat is mainly red or orange-brown with a black belly and legs." } ) ]
+		);
+
+		sentences = "« The ‹black-footed› cat has tawny fur that is entirely covered with black spots. »";
+		wordsToMark = [ "black-footed", "cat" ];
+		expect( markWordsInASentence( sentences, wordsToMark, false ) ).toEqual(
+			[ new Mark( {
+				marked: "« The ‹<yoastmark class='yoast-text-mark'>black-footed</yoastmark>› <yoastmark class='yoast-text-mark'>cat</yoastmark> " +
+					"has tawny fur that is entirely covered with black spots. »",
+				original: "« The ‹black-footed› cat has tawny fur that is entirely covered with black spots. »" } ) ]
 		);
 	} );
 } );
