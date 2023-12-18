@@ -13,8 +13,6 @@ use Yoast_Notification_Center;
 
 /**
  * Shows a notification for users who have Woocommerce product beta editor enabled.
- *
- * @class Woocommerce_Beta_Editor_Watcher
  */
 class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 
