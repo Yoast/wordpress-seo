@@ -60,7 +60,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 		/* translators: %1$s expands to Yoast WooCommerce SEO. */
 		__( "You have %1$s activated on your site, automatically setting the Page type for your products to 'Item Page'. As a result, the Page type selection is disabled.", "wordpress-seo" ),
 		"Yoast WooCommerce SEO"
-	) 
+	);
 
 	useEffect( () => {
 		if ( isNew ) {
