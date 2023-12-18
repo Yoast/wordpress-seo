@@ -47,8 +47,8 @@ final class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 			->with( null, 'admin.php?page=wpseo_tools' )
 			->andReturn( 'https://example.org/wp-admin/admin.php?page=wpseo_tools' );
 
-		$expected = '<p>Something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
-			'Please <a href="https://example.org/wp-admin/admin.php?page=wpseo_tools">re-start the process</a>.</p>';
+		$expected = '<p>Something has gone wrong and we couldn\'t complete the optimization of your SEO data. '
+			. 'Please <a href="https://example.org/wp-admin/admin.php?page=wpseo_tools">re-start the process</a>.</p>';
 
 		$this->assertSame( $expected, $instance->present() );
 	}
@@ -84,9 +84,9 @@ final class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 			->with( null, 'admin.php?page=wpseo_tools' )
 			->andReturn( 'https://example.org/wp-admin/admin.php?page=wpseo_tools' );
 
-		$expected = '<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
-			'Please make sure to activate your subscription in MyYoast by completing ' .
-			'<a href="https://example.org/wp-admin/admin.php?page=wpseo_tools">these steps</a>.</p>';
+		$expected = '<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. '
+			. 'Please make sure to activate your subscription in MyYoast by completing '
+			. '<a href="https://example.org/wp-admin/admin.php?page=wpseo_tools">these steps</a>.</p>';
 
 		$this->assertSame( $expected, $instance->present() );
 	}

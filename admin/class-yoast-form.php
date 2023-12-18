@@ -97,12 +97,12 @@ class Yoast_Form {
 				$hidden_fields_cb = 'settings_fields';
 			}
 
-			echo '<form action="' .
-				esc_url( $action_url ) .
-				'" method="post" id="wpseo-conf"' .
-				$enctype . ' accept-charset="' . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- nothing to escape.
-				esc_attr( get_bloginfo( 'charset' ) ) .
-				'" novalidate="novalidate">';
+			echo '<form action="'
+				. esc_url( $action_url )
+				. '" method="post" id="wpseo-conf"'
+				. $enctype . ' accept-charset="' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- nothing to escape.
+				. esc_attr( get_bloginfo( 'charset' ) )
+				. '" novalidate="novalidate">';
 			call_user_func( $hidden_fields_cb, $option_long_name );
 		}
 		$this->set_option( $option );
@@ -909,12 +909,12 @@ class Yoast_Form {
 
 		$upsell_button = '';
 		if ( $has_premium_upsell ) {
-			$upsell_button = '<a class="yoast-button yoast-button--buy yoast-button--small" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href=' .
-							esc_url( $attr['premium_upsell_url'] ) . ' target="_blank">' .
-							esc_html__( 'Unlock with Premium!', 'wordpress-seo' ) .
+			$upsell_button = '<a class="yoast-button yoast-button--buy yoast-button--small" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href='
+							. esc_url( $attr['premium_upsell_url'] ) . ' target="_blank">'
+							. esc_html__( 'Unlock with Premium!', 'wordpress-seo' )
 							/* translators: Hidden accessibility text. */
-							'<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
-							'<span aria-hidden="true" class="yoast-button--buy__caret"></span></a>';
+							. '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
+							. '<span aria-hidden="true" class="yoast-button--buy__caret"></span></a>';
 		}
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All variable output is escaped above.

@@ -176,11 +176,11 @@ final class Structured_Data_Blocks_Test extends TestCase {
 	public function how_to_images_provider() {
 		return [
 			[
-				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>' .
-				'<ol class="schema-how-to-steps"><li class="schema-how-to-step" id="how-to-step-1688388022851">' .
-				'<strong class="schema-how-to-step-name">Step 1</strong> <p class="schema-how-to-step-text">Do this step</p>' .
-				'</li><li class="schema-how-to-step" id="how-to-step-1688636978021"><strong class="schema-how-to-step-name">' .
-				'Step 2</strong> <p class="schema-how-to-step-text">Do those steps</p> </li></ol>',
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>'
+				. '<ol class="schema-how-to-steps"><li class="schema-how-to-step" id="how-to-step-1688388022851">'
+				. '<strong class="schema-how-to-step-name">Step 1</strong> <p class="schema-how-to-step-text">Do this step</p>'
+				. '</li><li class="schema-how-to-step" id="how-to-step-1688636978021"><strong class="schema-how-to-step-name">'
+				. 'Step 2</strong> <p class="schema-how-to-step-text">Do those steps</p> </li></ol>',
 				[
 					'durationText'        => 'The amount of time it will take:',
 					'defaultDurationText' => 'Time needed:',
@@ -196,11 +196,11 @@ final class Structured_Data_Blocks_Test extends TestCase {
 						],
 					],
 				],
-				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>' .
-				'<ol class="schema-how-to-steps"><li class="schema-how-to-step" id="how-to-step-1688388022851">' .
-				'<strong class="schema-how-to-step-name">Step 1</strong> <p class="schema-how-to-step-text">Do this step</p>' .
-				'</li><li class="schema-how-to-step" id="how-to-step-1688636978021"><strong class="schema-how-to-step-name">' .
-				'Step 2</strong> <p class="schema-how-to-step-text">Do those steps</p> </li></ol>',
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>'
+				. '<ol class="schema-how-to-steps"><li class="schema-how-to-step" id="how-to-step-1688388022851">'
+				. '<strong class="schema-how-to-step-name">Step 1</strong> <p class="schema-how-to-step-text">Do this step</p>'
+				. '</li><li class="schema-how-to-step" id="how-to-step-1688636978021"><strong class="schema-how-to-step-name">'
+				. 'Step 2</strong> <p class="schema-how-to-step-text">Do those steps</p> </li></ol>',
 				'A test case for when there is no image in the block',
 			],
 		];
