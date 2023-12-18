@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder;
 
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
+use Generator;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Models\SEO_Links;
@@ -400,7 +401,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	/**
 	 * Provides data for the test_build_ignore_content_scan test.
 	 *
-	 * @return \Generator
+	 * @return Generator
 	 */
 	public function provide_no_content_scan() {
 		yield 'No content so no links' => [

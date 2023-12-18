@@ -20,22 +20,22 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	/**
 	 * Holds the product helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Product_Helper
+	 * @var Product_Helper
 	 */
 	private $product_helper;
 
 	/**
 	 * Holds the options' helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Options_Helper
+	 * @var Options_Helper
 	 */
 	private $options_helper;
 
 	/**
 	 * Constructs the introduction.
 	 *
-	 * @param \Yoast\WP\SEO\Helpers\Product_Helper $product_helper The product helper.
-	 * @param \Yoast\WP\SEO\Helpers\Options_Helper $options_helper The options' helper.
+	 * @param Product_Helper $product_helper The product helper.
+	 * @param Options_Helper $options_helper The options' helper.
 	 */
 	public function __construct(
 		Product_Helper $product_helper,

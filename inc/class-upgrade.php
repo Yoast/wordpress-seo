@@ -8,6 +8,7 @@
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
+use Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher;
 
 /**
  * This code handles the option upgrades.
@@ -818,7 +819,7 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_1591() {
 		$enabled_auto_updates = \get_option( 'auto_update_plugins' );
-		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$addon_update_watcher = YoastSEO()->classes->get( Addon_Update_Watcher::class );
 		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', [], $enabled_auto_updates );
 	}
 
@@ -827,7 +828,7 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_162() {
 		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
-		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$addon_update_watcher = YoastSEO()->classes->get( Addon_Update_Watcher::class );
 		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
 	}
 
@@ -862,7 +863,7 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_1771() {
 		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
-		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$addon_update_watcher = YoastSEO()->classes->get( Addon_Update_Watcher::class );
 		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
 	}
 

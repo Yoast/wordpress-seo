@@ -20,14 +20,14 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 	/**
 	 * Holds the instance.
 	 *
-	 * @var \Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository
+	 * @var Introductions_Seen_Repository
 	 */
 	private $instance;
 
 	/**
 	 * Holds the user helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\User_Helper
+	 * @var Mockery\MockInterface|User_Helper
 	 */
 	private $user_helper;
 

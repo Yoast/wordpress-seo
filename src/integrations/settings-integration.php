@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use WP_Post;
 use WP_Post_Type;
 use WP_Taxonomy;
 use WP_User;
@@ -558,7 +559,7 @@ class Settings_Integration implements Integration_Interface {
 		if ( isset( $policy ) && \is_int( $policy ) ) {
 			$policy_array['id'] = $policy;
 			$post               = \get_post( $policy );
-			if ( $post instanceof \WP_Post ) {
+			if ( $post instanceof WP_Post ) {
 				if ( $post->post_status !== 'publish' || $post->post_password !== '' ) {
 					return $policies;
 				}

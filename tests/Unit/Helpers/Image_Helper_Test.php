@@ -40,28 +40,28 @@ final class Image_Helper_Test extends TestCase {
 	/**
 	 *  The Indexable_Repository instance.
 	 *
-	 * @var \Mockery\MockInterface|Indexable_Repository
+	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
 	protected $indexable_repository;
 
 	/**
 	 *  The SEO_Links_Repository instance.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Repositories\SEO_Links_Repository
+	 * @var Mockery\MockInterface|SEO_Links_Repository
 	 */
 	protected $indexable_seo_links_repository;
 
 	/**
 	 *  The Options_Helper instance.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Options_Helper
+	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	protected $options_helper;
 
 	/**
 	 *  The Url_Helper instance.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Url_Helper
+	 * @var Mockery\MockInterface|Url_Helper
 	 */
 	protected $url_helper;
 

@@ -32,14 +32,14 @@ final class Wistia_Embed_Permission_Route_Test extends TestCase {
 	/**
 	 * Holds the user helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\User_Helper
+	 * @var Mockery\MockInterface|User_Helper
 	 */
 	private $user_helper;
 
 	/**
 	 * Holds the Wistia embed permissions repository.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\User_Helper
+	 * @var Mockery\MockInterface|User_Helper
 	 */
 	private $wistia_embed_permission_repository;
 
