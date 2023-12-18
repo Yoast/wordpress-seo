@@ -12,7 +12,7 @@ final class Abstract_Indexing_Action_Double extends Abstract_Indexing_Action {
 	/**
 	 * A needed constant for testing.
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_unindexed_double';
+	public const UNINDEXED_COUNT_TRANSIENT = 'wpseo_unindexed_double';
 
 	/**
 	 * Empty function for testing.

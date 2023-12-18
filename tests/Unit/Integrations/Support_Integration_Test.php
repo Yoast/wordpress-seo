@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  */
 final class Support_Integration_Test extends TestCase {
 
-	const PAGE = 'wpseo_page_support';
+	public const PAGE = 'wpseo_page_support';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager mock.

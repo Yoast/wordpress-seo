@@ -21,14 +21,14 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	 *
 	 * @var string
 	 */
-	const PLUGIN = null;
+	public const PLUGIN = null;
 
 	/**
 	 * The type the class deals with.
 	 *
 	 * @var string
 	 */
-	const TYPE = null;
+	public const TYPE = null;
 
 	/**
 	 * The AIOSEO helper.

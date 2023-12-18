@@ -22,21 +22,21 @@ class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const ROUTE_PREFIX = 'new-content-type-visibility';
+	public const ROUTE_PREFIX = 'new-content-type-visibility';
 
 	/**
 	 * Represents post type dismiss route.
 	 *
 	 * @var string
 	 */
-	const POST_TYPE_DISMISS_ROUTE = self::ROUTE_PREFIX . '/dismiss-post-type';
+	public const POST_TYPE_DISMISS_ROUTE = self::ROUTE_PREFIX . '/dismiss-post-type';
 
 	/**
 	 * Represents taxonomy dismiss route.
 	 *
 	 * @var string
 	 */
-	const TAXONOMY_DISMISS_ROUTE = self::ROUTE_PREFIX . '/dismiss-taxonomy';
+	public const TAXONOMY_DISMISS_ROUTE = self::ROUTE_PREFIX . '/dismiss-taxonomy';
 
 	/**
 	 * Holds the Options_Helper instance.

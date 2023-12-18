@@ -26,12 +26,12 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	/**
 	 * The plugin of the action.
 	 */
-	const PLUGIN = 'aioseo';
+	public const PLUGIN = 'aioseo';
 
 	/**
 	 * The type of the action.
 	 */
-	const TYPE = 'posts';
+	public const TYPE = 'posts';
 
 	/**
 	 * The map of aioseo to yoast meta.

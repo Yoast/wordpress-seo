@@ -20,7 +20,7 @@ class Workouts_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const WORKOUTS_ROUTE = '/workouts';
+	public const WORKOUTS_ROUTE = '/workouts';
 
 	/**
 	 * The Options helper.

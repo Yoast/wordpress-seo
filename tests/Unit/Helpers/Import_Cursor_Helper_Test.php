@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  */
 final class Import_Cursor_Helper_Test extends TestCase {
 
-	const CURSOR_ID = 'MY_CURSOR_IS_COOL';
+	public const CURSOR_ID = 'MY_CURSOR_IS_COOL';
 
 	/**
 	 * Represents the instance to test.

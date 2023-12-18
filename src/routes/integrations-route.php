@@ -20,14 +20,14 @@ class Integrations_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const INTEGRATIONS_ROUTE = '/integrations';
+	public const INTEGRATIONS_ROUTE = '/integrations';
 
 	/**
 	 * Represents a route to set the state of an integration.
 	 *
 	 * @var string
 	 */
-	const SET_ACTIVE_ROUTE = '/set_active';
+	public const SET_ACTIVE_ROUTE = '/set_active';
 
 	/**
 	 *  The integrations action.

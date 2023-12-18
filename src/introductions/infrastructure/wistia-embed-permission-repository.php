@@ -12,9 +12,9 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  */
 class Wistia_Embed_Permission_Repository {
 
-	const USER_META_KEY = '_yoast_wpseo_wistia_embed_permission';
+	public const USER_META_KEY = '_yoast_wpseo_wistia_embed_permission';
 
-	const DEFAULT_VALUE = false;
+	public const DEFAULT_VALUE = false;
 
 	/**
 	 * Holds the User_Helper instance.

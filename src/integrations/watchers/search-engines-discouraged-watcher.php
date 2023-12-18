@@ -24,7 +24,7 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	/**
 	 * The notification ID.
 	 */
-	const NOTIFICATION_ID = 'wpseo-search-engines-discouraged';
+	public const NOTIFICATION_ID = 'wpseo-search-engines-discouraged';
 
 	/**
 	 * The Yoast notification center.

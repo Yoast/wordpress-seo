@@ -17,14 +17,14 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 *
 	 * @var string
 	 */
-	const WPSEO_FREE_PLUGIN_ID = 'wordpress-seo/wp-seo.php';
+	public const WPSEO_FREE_PLUGIN_ID = 'wordpress-seo/wp-seo.php';
 
 	/**
 	 * A list of Yoast add-on identifiers.
 	 *
 	 * @var string[]
 	 */
-	const ADD_ON_PLUGIN_FILES = [
+	public const ADD_ON_PLUGIN_FILES = [
 		'wordpress-seo-premium/wp-seo-premium.php',
 		'wpseo-video/video-seo.php',
 		'wpseo-local/local-seo.php', // When installing Local through a released zip, the path is different from the path on a dev environment.

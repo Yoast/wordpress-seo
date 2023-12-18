@@ -15,12 +15,12 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 	/**
 	 * The plugin of the action.
 	 */
-	const PLUGIN = 'aioseo';
+	public const PLUGIN = 'aioseo';
 
 	/**
 	 * The type of the action.
 	 */
-	const TYPE = 'cleanup';
+	public const TYPE = 'cleanup';
 
 	/**
 	 * The AIOSEO meta_keys to be cleaned up.

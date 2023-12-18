@@ -54,9 +54,9 @@ class ORM implements \ArrayAccess {
 	 * --- CLASS CONSTANTS ---
 	 */
 
-	const CONDITION_FRAGMENT = 0;
+	public const CONDITION_FRAGMENT = 0;
 
-	const CONDITION_VALUES = 1;
+	public const CONDITION_VALUES = 1;
 
 	/*
 	 * --- INSTANCE PROPERTIES ---

@@ -61,7 +61,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @var string
 	 */
-	const ALLOW_KEY_PREFIX = 'allow_';
+	public const ALLOW_KEY_PREFIX = 'allow_';
 
 	/**
 	 * Option name - MUST be set in concrete class and set to public.

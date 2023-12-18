@@ -19,21 +19,21 @@ class Wincher_Keyphrases_Action {
 	 *
 	 * @var string
 	 */
-	const KEYPHRASES_ADD_URL = 'https://api.wincher.com/beta/websites/%s/keywords/bulk';
+	public const KEYPHRASES_ADD_URL = 'https://api.wincher.com/beta/websites/%s/keywords/bulk';
 
 	/**
 	 * The Wincher tracked keyphrase retrieval URL.
 	 *
 	 * @var string
 	 */
-	const KEYPHRASES_URL = 'https://api.wincher.com/beta/yoast/%s';
+	public const KEYPHRASES_URL = 'https://api.wincher.com/beta/yoast/%s';
 
 	/**
 	 * The Wincher delete tracked keyphrase URL.
 	 *
 	 * @var string
 	 */
-	const KEYPHRASE_DELETE_URL = 'https://api.wincher.com/beta/websites/%s/keywords/%s';
+	public const KEYPHRASE_DELETE_URL = 'https://api.wincher.com/beta/websites/%s/keywords/%s';
 
 	/**
 	 * The Wincher_Client instance.

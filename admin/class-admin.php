@@ -19,7 +19,7 @@ class WPSEO_Admin {
 	 *
 	 * @var string
 	 */
-	const PAGE_IDENTIFIER = 'wpseo_dashboard';
+	public const PAGE_IDENTIFIER = 'wpseo_dashboard';
 
 	/**
 	 * Array of classes that add admin functionality.

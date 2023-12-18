@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
  */
 class Academy_Integration implements Integration_Interface {
 
-	const PAGE = 'wpseo_page_academy';
+	public const PAGE = 'wpseo_page_academy';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.

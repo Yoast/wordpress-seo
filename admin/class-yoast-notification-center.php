@@ -17,7 +17,7 @@ class Yoast_Notification_Center {
 	 *
 	 * @var string
 	 */
-	const STORAGE_KEY = 'yoast_notifications';
+	public const STORAGE_KEY = 'yoast_notifications';
 
 	/**
 	 * The singleton instance of this object.

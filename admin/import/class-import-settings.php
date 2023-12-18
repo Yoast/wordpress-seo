@@ -17,7 +17,7 @@ class WPSEO_Import_Settings {
 	 *
 	 * @var string
 	 */
-	const NONCE_ACTION = 'wpseo-import-settings';
+	public const NONCE_ACTION = 'wpseo-import-settings';
 
 	/**
 	 * Holds the import status instance.
