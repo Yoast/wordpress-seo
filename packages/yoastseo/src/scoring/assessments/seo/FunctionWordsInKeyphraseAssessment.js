@@ -57,7 +57,6 @@ class FunctionWordsInKeyphraseAssessment extends Assessment {
 				 * %4$s expands to the focus keyphrase of the article.
 				 */
 				__(
-					// eslint-disable-next-line max-len
 					"%1$sFunction words in keyphrase%3$s: Your keyphrase \"%4$s\" contains function words only. %2$sLearn more about what makes a good keyphrase.%3$s",
 					"wordpress-seo"
 				),

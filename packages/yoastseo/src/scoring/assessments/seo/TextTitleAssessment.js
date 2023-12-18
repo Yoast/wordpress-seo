@@ -97,7 +97,6 @@ export default class TextTitleAssessment extends Assessment {
 				 * %1$s and %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag.
 				 */
 				__(
-					// eslint-disable-next-line max-len
 					"%1$sTitle%3$s: Your page does not have a title yet. %2$sAdd one%3$s!",
 					"wordpress-seo-premium"
 				),

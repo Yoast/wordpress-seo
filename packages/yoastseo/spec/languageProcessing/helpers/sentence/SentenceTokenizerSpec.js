@@ -265,8 +265,10 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 			{ type: "sentence", src: '" in The Musical Times in , who commented "Praise is due to Mr Mercer' },
 			{ type: "full-stop", src: "." },
 		];
-		// eslint-disable-next-line max-len
-		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "The reprint was favourably reviewed by \"A. B.\" in The Musical Times in , who commented \"Praise is due to Mr Mercer." ]  );
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(
+			[
+				"The reprint was favourably reviewed by \"A. B.\" in The Musical Times in , who commented \"Praise is due to Mr Mercer.",
+			]  );
 	} );
 
 	it( "recognizes sentence boundary when a sentence starts with initials", function() {
@@ -288,8 +290,9 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 			{ type: "full-stop", src: "." },
 
 		];
-		// eslint-disable-next-line max-len
-		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "This is a sentence.", "E.F. is a good writer.",  "G. H. is a very very great personality." ]  );
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(
+			[ "This is a sentence.", "E.F. is a good writer.",  "G. H. is a very very great personality." ]
+		);
 	} );
 
 	it( "recognizes sentence boundary when a sentence ends with initials", function() {
