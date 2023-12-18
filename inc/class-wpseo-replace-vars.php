@@ -366,21 +366,17 @@ class WPSEO_Replace_Vars {
 			// Returns a string.
 			$replacement = YoastSEO()->helpers->date->format_translated( $this->args->post_date, get_option( 'date_format' ) );
 		}
-		else {
-			if ( get_query_var( 'day' ) && get_query_var( 'day' ) !== '' ) {
-				// Returns a string.
-				$replacement = get_the_date();
-			}
-			else {
-				if ( single_month_title( ' ', false ) && single_month_title( ' ', false ) !== '' ) {
-					// Returns a string.
-					$replacement = single_month_title( ' ', false );
-				}
-				elseif ( get_query_var( 'year' ) !== '' ) {
-					// Returns an integer, let's cast to string.
-					$replacement = (string) get_query_var( 'year' );
-				}
-			}
+		elseif ( get_query_var( 'day' ) && get_query_var( 'day' ) !== '' ) {
+			// Returns a string.
+			$replacement = get_the_date();
+		}
+		elseif ( single_month_title( ' ', false ) && single_month_title( ' ', false ) !== '' ) {
+			// Returns a string.
+			$replacement = single_month_title( ' ', false );
+		}
+		elseif ( get_query_var( 'year' ) !== '' ) {
+			// Returns an integer, let's cast to string.
+			$replacement = (string) get_query_var( 'year' );
 		}
 
 		return $replacement;

@@ -2055,10 +2055,8 @@ class ORM implements \ArrayAccess {
 					}
 				}
 			}
-			else {
-				if ( $id === null ) {
-					throw new \Exception( 'Primary key ID missing from row or is null' );
-				}
+			elseif ( $id === null ) {
+				throw new \Exception( 'Primary key ID missing from row or is null' );
 			}
 		}
 
@@ -2114,10 +2112,8 @@ class ORM implements \ArrayAccess {
 			if ( $expr === false && isset( $this->expr_fields[ $field ] ) ) {
 				unset( $this->expr_fields[ $field ] );
 			}
-			else {
-				if ( $expr === true ) {
-					$this->expr_fields[ $field ] = true;
-				}
+			elseif ( $expr === true ) {
+				$this->expr_fields[ $field ] = true;
 			}
 		}
 

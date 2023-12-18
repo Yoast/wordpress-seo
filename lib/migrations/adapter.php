@@ -794,10 +794,8 @@ class Adapter {
 					$column_type_sql .= \sprintf( '(%d)', $precision );
 				}
 			}
-			else {
-				if ( $scale ) {
-					throw new Exception( "Error adding $type column: precision cannot be empty if scale is specified" );
-				}
+			elseif ( $scale ) {
+				throw new Exception( "Error adding $type column: precision cannot be empty if scale is specified" );
 			}
 		}
 		elseif ( $type === 'enum' ) {
