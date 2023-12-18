@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\User_Interface\Introductions_Integration
  */
-class Introductions_Integration_Test extends TestCase {
+final class Introductions_Integration_Test extends TestCase {
 
 	/**
 	 * Holds the instance.

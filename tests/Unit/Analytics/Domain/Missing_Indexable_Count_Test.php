@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Count
  */
-class Missing_Indexable_Count_Test extends TestCase {
+final class Missing_Indexable_Count_Test extends TestCase {
 
 	/**
 	 * The sut.

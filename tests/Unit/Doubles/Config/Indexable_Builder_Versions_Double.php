@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 /**
  * Class Indexable_Builder_Versions_Double
  */
-class Indexable_Builder_Versions_Double extends Indexable_Builder_Versions {
+final class Indexable_Builder_Versions_Double extends Indexable_Builder_Versions {
 
 	/**
 	 * Accessor for protected field indexable_builder_versions_by_type used in tests.

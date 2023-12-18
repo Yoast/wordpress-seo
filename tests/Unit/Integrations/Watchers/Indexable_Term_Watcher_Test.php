@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher
  * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher
  */
-class Indexable_Term_Watcher_Test extends TestCase {
+final class Indexable_Term_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the indexable repository.

@@ -8,7 +8,7 @@ use YoastSEO_Vendor\League\OAuth2\Client\Provider\AbstractProvider;
 /**
  * Class SEMrush_Client_Double
  */
-class SEMrush_Client_Double extends SEMrush_Client {
+final class SEMrush_Client_Double extends SEMrush_Client {
 
 	/**
 	 * Helper method so provider can be replaced with a mocked version.

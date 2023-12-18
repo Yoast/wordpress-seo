@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group adjacent
  */
-class Rel_Prev_Test extends TestCase {
+final class Rel_Prev_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 

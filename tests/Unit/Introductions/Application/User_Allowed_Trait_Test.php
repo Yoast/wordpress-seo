@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\User_Allowed_Trait
  */
-class User_Allowed_Trait_Test extends TestCase {
+final class User_Allowed_Trait_Test extends TestCase {
 
 	/**
 	 * Holds the test instance.

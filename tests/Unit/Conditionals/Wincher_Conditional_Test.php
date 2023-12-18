@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Wincher_Conditional
  */
-class Wincher_Conditional_Test extends TestCase {
+final class Wincher_Conditional_Test extends TestCase {
 
 	/**
 	 * The schema blocks feature flag conditional.

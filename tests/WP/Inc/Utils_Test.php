@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Utils_Test extends TestCase {
+final class Utils_Test extends TestCase {
 
 	/**
 	 * Tests whether is_apache correctly returns if the site runs on apache.

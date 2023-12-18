@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action
  */
-class Abstract_Aioseo_Importing_Action_Test extends TestCase {
+final class Abstract_Aioseo_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Represents the mock instance to test.

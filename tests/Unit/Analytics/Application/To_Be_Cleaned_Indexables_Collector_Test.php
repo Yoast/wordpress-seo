@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Application\To_Be_Cleaned_Indexables_Collector
  */
-class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
+final class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
 
 	/**
 	 * The sut.

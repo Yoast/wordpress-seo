@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Primary_Term_Test extends TestCase {
+final class Primary_Term_Test extends TestCase {
 
 	/**
 	 * Name of the taxonomy.

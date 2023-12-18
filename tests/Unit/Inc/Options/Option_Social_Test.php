@@ -12,7 +12,7 @@ use Yoast_Input_Validation;
  *
  * @group option-social
  */
-class Option_Social_Test extends TestCase {
+final class Option_Social_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.

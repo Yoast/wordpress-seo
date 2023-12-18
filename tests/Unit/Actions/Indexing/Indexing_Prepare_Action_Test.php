@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action
  */
-class Indexing_Prepare_Action_Test extends TestCase {
+final class Indexing_Prepare_Action_Test extends TestCase {
 
 	/**
 	 * The mocked indexing helper.

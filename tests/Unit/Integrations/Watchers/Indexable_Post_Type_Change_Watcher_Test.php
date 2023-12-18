@@ -29,7 +29,7 @@ use Yoast_Notification_Center;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
+final class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 
 	/**
 	 * Holds the Options_Helper instance.

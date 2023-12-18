@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\WP;
 /**
  * Unit Test Class.
  */
-class Functions_Test extends TestCase {
+final class Functions_Test extends TestCase {
 
 	/**
 	 * Tests whether wpseo_replace_vars correctly replaces replacevars.

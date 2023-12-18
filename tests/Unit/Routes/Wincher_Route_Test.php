@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group routes
  * @group semrush
  */
-class Wincher_Route_Test extends TestCase {
+final class Wincher_Route_Test extends TestCase {
 
 	/**
 	 * Represents the login action.

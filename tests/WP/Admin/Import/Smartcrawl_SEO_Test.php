@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test importing meta data from Smartcrawl_SEO.
  */
-class Smartcrawl_SEO_Test extends TestCase {
+final class Smartcrawl_SEO_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.

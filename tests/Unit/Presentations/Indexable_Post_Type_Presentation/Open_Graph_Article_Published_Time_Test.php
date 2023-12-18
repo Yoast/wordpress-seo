@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group open-graph
  */
-class Open_Graph_Article_Published_Time_Test extends TestCase {
+final class Open_Graph_Article_Published_Time_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 

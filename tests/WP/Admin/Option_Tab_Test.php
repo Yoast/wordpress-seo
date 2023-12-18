@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Option_Tab_Test extends TestCase {
+final class Option_Tab_Test extends TestCase {
 
 	/**
 	 * Tests that the name is returned properly.

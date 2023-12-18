@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Social_Profiles_Helper
  */
-class Social_Profiles_Helper_Test extends TestCase {
+final class Social_Profiles_Helper_Test extends TestCase {
 
 	/**
 	 * The Social_Profiles_Helper instance to be tested.

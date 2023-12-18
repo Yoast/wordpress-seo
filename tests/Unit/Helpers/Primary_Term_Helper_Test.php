@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Primary_Term_Helper
  */
-class Primary_Term_Helper_Test extends TestCase {
+final class Primary_Term_Helper_Test extends TestCase {
 
 	/**
 	 * Class instance to use for the test.

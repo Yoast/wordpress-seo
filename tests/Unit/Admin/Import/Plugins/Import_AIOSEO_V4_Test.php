@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_Import_AIOSEO_V4
  */
-class Import_AIOSEO_V4_Test extends TestCase {
+final class Import_AIOSEO_V4_Test extends TestCase {
 
 	/**
 	 * The instance under test.

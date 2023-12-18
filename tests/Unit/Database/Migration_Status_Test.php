@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Config\Migration_Status
  * @covers \Yoast\WP\SEO\Config\Migration_Status
  */
-class Migration_Status_Test extends TestCase {
+final class Migration_Status_Test extends TestCase {
 
 	/**
 	 * Tests whether the migration is run when the migration option key exists.

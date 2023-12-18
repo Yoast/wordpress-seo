@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Values\Robots\User_Agent_List;
  *
  * @group presenters
  */
-class Robots_Txt_Presenter_Test extends TestCase {
+final class Robots_Txt_Presenter_Test extends TestCase {
 
 	/**
 	 * The robots txt helper.

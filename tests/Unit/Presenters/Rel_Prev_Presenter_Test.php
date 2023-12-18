@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group rel-prev
  */
-class Rel_Prev_Presenter_Test extends TestCase {
+final class Rel_Prev_Presenter_Test extends TestCase {
 
 	/**
 	 * The rel prev presenter instance.

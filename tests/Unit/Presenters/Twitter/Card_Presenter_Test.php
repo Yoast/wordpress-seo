@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group twitter
  * @group twitter-card
  */
-class Card_Presenter_Test extends TestCase {
+final class Card_Presenter_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

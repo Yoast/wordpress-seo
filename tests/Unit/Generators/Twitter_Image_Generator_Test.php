@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Values\Images;
  * @group twitter
  * @group twitter-image
  */
-class Twitter_Image_Generator_Test extends TestCase {
+final class Twitter_Image_Generator_Test extends TestCase {
 
 	/**
 	 * Twitter image generator mock.

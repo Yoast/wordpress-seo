@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Import_Tool_Selected_Conditional
  */
-class Import_Tool_Selected_Conditional_Test extends TestCase {
+final class Import_Tool_Selected_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the conditional that checks whether the import tool is selected.

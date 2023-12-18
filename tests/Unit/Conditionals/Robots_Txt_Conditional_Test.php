@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Robots_Txt_Conditional
  */
-class Robots_Txt_Conditional_Test extends TestCase {
+final class Robots_Txt_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the Front_End_Conditional instance.

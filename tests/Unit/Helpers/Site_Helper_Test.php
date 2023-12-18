@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Site_Helper
  */
-class Site_Helper_Test extends TestCase {
+final class Site_Helper_Test extends TestCase {
 
 	/**
 	 * The instance to test.

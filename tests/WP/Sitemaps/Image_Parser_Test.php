@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group sitemaps
  */
-class Image_Parser_Test extends TestCase {
+final class Image_Parser_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Helpers\Import_Cursor_Helper
  */
-class Import_Cursor_Helper_Test extends TestCase {
+final class Import_Cursor_Helper_Test extends TestCase {
 
 	const CURSOR_ID = 'MY_CURSOR_IS_COOL';
 

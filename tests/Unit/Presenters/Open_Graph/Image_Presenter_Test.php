@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group open-graph
  * @group open-graph-image
  */
-class Image_Presenter_Test extends TestCase {
+final class Image_Presenter_Test extends TestCase {
 
 	/**
 	 * The image presenter instance.

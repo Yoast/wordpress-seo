@@ -30,7 +30,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group indexing
  */
-class Indexing_Route_Test extends TestCase {
+final class Indexing_Route_Test extends TestCase {
 
 	/**
 	 * Represents the post indexation action.

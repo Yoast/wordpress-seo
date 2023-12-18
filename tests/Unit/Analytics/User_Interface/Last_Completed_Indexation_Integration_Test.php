@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\User_Interface\Last_Completed_Indexation_Integration
  */
-class Last_Completed_Indexation_Integration_Test extends TestCase {
+final class Last_Completed_Indexation_Integration_Test extends TestCase {
 
 	/**
 	 * The sut.

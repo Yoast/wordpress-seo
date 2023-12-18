@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Attachment_Redirections_Enabled_Conditional
  */
-class Attachment_Redirections_Enabled_Conditional_Test extends TestCase {
+final class Attachment_Redirections_Enabled_Conditional_Test extends TestCase {
 
 	/**
 	 * Represents the conditional to test.

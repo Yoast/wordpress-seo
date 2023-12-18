@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group repositories
  */
-class Indexable_Cleanup_Repository_Test extends TestCase {
+final class Indexable_Cleanup_Repository_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.

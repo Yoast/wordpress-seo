@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Admin\Posts_Overview_Or_Ajax_Conditional
  */
-class Posts_Overview_Or_Ajax_Conditional_Test extends TestCase {
+final class Posts_Overview_Or_Ajax_Conditional_Test extends TestCase {
 
 	/**
 	 * The breadcrumbs enabled conditional.

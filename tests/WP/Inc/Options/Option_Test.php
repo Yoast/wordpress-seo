@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Option_Test extends TestCase {
+final class Option_Test extends TestCase {
 
 	/**
 	 * Tests that disabled variables cannot be updated.

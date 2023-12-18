@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Admin_Columns_Cache_Integration
  */
-class Admin_Columns_Cache_Integration_Test extends TestCase {
+final class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 	/**
 	 * Holds the admin columns cache integration.

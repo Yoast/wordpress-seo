@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Options_Test extends TestCase {
+final class Options_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.

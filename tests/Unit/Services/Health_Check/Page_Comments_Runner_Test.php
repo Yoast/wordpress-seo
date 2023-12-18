@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Page_Comments_Runner
  */
-class Page_Comments_Runner_Test extends TestCase {
+final class Page_Comments_Runner_Test extends TestCase {
 
 	/**
 	 * The Page_Comments_Runner instance to be tested.

@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Database_Proxy_Test extends TestCase {
+final class Database_Proxy_Test extends TestCase {
 
 	/**
 	 * Table name for use by the DB Proxy.

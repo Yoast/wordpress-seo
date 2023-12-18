@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group MyYoast
  */
-class MyYoast_Api_Request_Test extends TestCase {
+final class MyYoast_Api_Request_Test extends TestCase {
 
 	/**
 	 * Tests firing the request (happy path).

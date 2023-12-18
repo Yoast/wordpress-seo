@@ -24,7 +24,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @group indexables
  * @group surfaces
  */
-class Meta_Surface_Test extends TestCase {
+final class Meta_Surface_Test extends TestCase {
 
 	/**
 	 * The container.

@@ -30,7 +30,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Post_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Post_Builder
  */
-class Indexable_Post_Builder_Test extends TestCase {
+final class Indexable_Post_Builder_Test extends TestCase {
 
 	/**
 	 * Holds the Indexable instance.

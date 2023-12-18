@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional
  */
-class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
+final class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the Yoast admin and dashboard conditional under test.

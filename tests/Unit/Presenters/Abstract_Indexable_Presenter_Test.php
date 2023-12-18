@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Abstract_Indexable_Presenter_Test extends TestCase {
+final class Abstract_Indexable_Presenter_Test extends TestCase {
 
 	/**
 	 * Tests the outputting of the value.

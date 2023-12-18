@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group imports
  */
-class Settings_Test extends TestCase {
+final class Settings_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.

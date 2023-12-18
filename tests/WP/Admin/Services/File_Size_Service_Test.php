@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class File_Size_Service_Test extends TestCase {
+final class File_Size_Service_Test extends TestCase {
 
 	/**
 	 * Tests the retrieval of the file size for external hosted file.

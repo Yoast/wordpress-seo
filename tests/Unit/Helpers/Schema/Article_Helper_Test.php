@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Schema\Article_Helper
  */
-class Article_Helper_Test extends TestCase {
+final class Article_Helper_Test extends TestCase {
 
 	/**
 	 * The instance to test.

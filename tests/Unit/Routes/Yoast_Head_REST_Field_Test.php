@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group routes
  * @group indexables
  */
-class Yoast_Head_REST_Field_Test extends TestCase {
+final class Yoast_Head_REST_Field_Test extends TestCase {
 
 	/**
 	 * The post type helper.

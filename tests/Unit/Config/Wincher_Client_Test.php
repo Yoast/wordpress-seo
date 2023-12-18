@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Wrappers\WP_Remote_Handler;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Config\Wincher_Client
  */
-class Wincher_Client_Test extends TestCase {
+final class Wincher_Client_Test extends TestCase {
 
 	/**
 	 * The optins helper.

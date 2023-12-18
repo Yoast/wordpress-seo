@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Unit Test Class.
  */
-class Role_Manager_Test extends TestCase {
+final class Role_Manager_Test extends TestCase {
 
 	/**
 	 * Tests the registration of a role.

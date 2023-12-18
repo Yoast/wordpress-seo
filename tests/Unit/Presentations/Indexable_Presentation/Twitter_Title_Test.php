@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group twitter
  * @group twitter-title
  */
-class Twitter_Title_Test extends TestCase {
+final class Twitter_Title_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 

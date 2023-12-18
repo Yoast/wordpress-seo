@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Web_Stories_Conditional
  */
-class Web_Stories_Conditional_Test extends TestCase {
+final class Web_Stories_Conditional_Test extends TestCase {
 
 	/**
 	 * The breadcrumbs enabled conditional.

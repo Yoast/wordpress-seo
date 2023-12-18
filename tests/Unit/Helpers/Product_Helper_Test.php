@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group helpers
  */
-class Product_Helper_Test extends TestCase {
+final class Product_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

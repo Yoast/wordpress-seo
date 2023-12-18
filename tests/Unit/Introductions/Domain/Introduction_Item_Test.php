@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Domain\Introduction_Item
  */
-class Introduction_Item_Test extends TestCase {
+final class Introduction_Item_Test extends TestCase {
 
 	/**
 	 * Holds the test instance.

@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group opengraph
  */
-class Meta_Author_Presenter_Test extends TestCase {
+final class Meta_Author_Presenter_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

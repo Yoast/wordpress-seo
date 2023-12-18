@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Values\Images;
  *
  * @group values
  */
-class Images_Test extends TestCase {
+final class Images_Test extends TestCase {
 
 	/**
 	 * Represents the image helper.

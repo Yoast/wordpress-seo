@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group sitemaps
  */
-class Router_Test extends TestCase {
+final class Router_Test extends TestCase {
 
 	/**
 	 * Temporary home URL storage.

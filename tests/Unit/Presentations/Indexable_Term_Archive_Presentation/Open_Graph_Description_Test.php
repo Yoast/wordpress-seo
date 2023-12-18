@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group open-graph
  * @group open-graph-description
  */
-class Open_Graph_Description_Test extends TestCase {
+final class Open_Graph_Description_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 

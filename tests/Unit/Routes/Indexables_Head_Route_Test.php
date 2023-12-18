@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group routes
  * @group indexables
  */
-class Indexables_Head_Route_Test extends TestCase {
+final class Indexables_Head_Route_Test extends TestCase {
 
 	/**
 	 * Represents the head action.

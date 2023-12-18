@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\No_Tool_Selected_Conditional
  */
-class No_Tool_Selected_Conditional_Test extends TestCase {
+final class No_Tool_Selected_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the conditional that checks whether no specific tool is selected.

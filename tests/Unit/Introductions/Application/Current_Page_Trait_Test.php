@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\Current_Page_Trait
  */
-class Current_Page_Trait_Test extends TestCase {
+final class Current_Page_Trait_Test extends TestCase {
 
 	/**
 	 * Holds the test instance.

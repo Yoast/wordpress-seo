@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Post_Type_Helper
  */
-class Post_Type_Helper_Test extends TestCase {
+final class Post_Type_Helper_Test extends TestCase {
 
 	/**
 	 * The instance to test.

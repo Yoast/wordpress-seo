@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Helpers\Import_Helper
  */
-class Import_Helper_Test extends TestCase {
+final class Import_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

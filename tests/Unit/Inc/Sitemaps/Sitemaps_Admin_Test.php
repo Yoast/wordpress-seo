@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group sitemaps
  */
-class Sitemaps_Admin_Test extends TestCase {
+final class Sitemaps_Admin_Test extends TestCase {
 
 	/**
 	 * Class instance to use for the test.

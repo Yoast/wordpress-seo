@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group sitemaps
  */
-class Author_Sitemap_Provider_Test extends TestCase {
+final class Author_Sitemap_Provider_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

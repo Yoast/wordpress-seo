@@ -11,7 +11,7 @@ use Yoast_Notification;
  *
  * @covers Yoast_Notification
  */
-class Yoast_Notification_Test extends TestCase {
+final class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test capability filters get set.

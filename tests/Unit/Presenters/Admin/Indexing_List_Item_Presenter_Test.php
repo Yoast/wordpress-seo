@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @covers \Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter
  */
-class Indexing_List_Item_Presenter_Test extends TestCase {
+final class Indexing_List_Item_Presenter_Test extends TestCase {
 
 	/**
 	 * The short link helper.

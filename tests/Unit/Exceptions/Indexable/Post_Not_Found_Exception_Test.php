@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception
  */
-class Post_Not_Found_Exception_Test extends TestCase {
+final class Post_Not_Found_Exception_Test extends TestCase {
 
 	/**
 	 * Tests the constructor.

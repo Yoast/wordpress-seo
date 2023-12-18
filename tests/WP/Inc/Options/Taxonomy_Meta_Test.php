@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Taxonomy_Meta_Test extends TestCase {
+final class Taxonomy_Meta_Test extends TestCase {
 
 	/**
 	 * Tests the method without a term object.

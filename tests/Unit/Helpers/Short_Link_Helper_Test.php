@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Short_Link_Helper
  */
-class Short_Link_Helper_Test extends TestCase {
+final class Short_Link_Helper_Test extends TestCase {
 
 	/**
 	 * The options helper.

@@ -25,7 +25,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Article
  */
-class Article_Test extends TestCase {
+final class Article_Test extends TestCase {
 
 	/**
 	 * The article helper.

@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Post_Metabox_Formatter_Test extends TestCase {
+final class Post_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * The post.

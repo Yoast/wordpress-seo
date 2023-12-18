@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Woocommerce_Beta_Editor_Presenter_Test extends TestCase {
+final class Woocommerce_Beta_Editor_Presenter_Test extends TestCase {
 
 	/**
 	 * The short link helper.

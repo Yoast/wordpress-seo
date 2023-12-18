@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class First_Time_Configuration_Notice_Integration_Test extends TestCase {
+final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 
 	/**
 	 * The options' helper.

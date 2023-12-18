@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group Metabox
  */
-class Metabox_Section_Additional_Test extends TestCase {
+final class Metabox_Section_Additional_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.

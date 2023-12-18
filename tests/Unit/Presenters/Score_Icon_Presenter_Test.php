@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Score_Icon_Presenter_Test extends TestCase {
+final class Score_Icon_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.

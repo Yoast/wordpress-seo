@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Activation_Cleanup_Integration
  */
-class Activation_Cleanup_Integration_Test extends TestCase {
+final class Activation_Cleanup_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the indexable repository.

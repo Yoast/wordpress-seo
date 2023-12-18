@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group helpers
  */
-class Permalink_Helper_Test extends TestCase {
+final class Permalink_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the class to test.

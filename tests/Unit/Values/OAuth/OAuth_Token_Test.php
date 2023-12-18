@@ -16,7 +16,7 @@ use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
  * @group values
  * @group oauth
  */
-class OAuth_Token_Test extends TestCase {
+final class OAuth_Token_Test extends TestCase {
 
 	/**
 	 * The created_at property.

@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional
  */
-class Elementor_Edit_Conditional_Test extends TestCase {
+final class Elementor_Edit_Conditional_Test extends TestCase {
 
 	/**
 	 * The instance under test.

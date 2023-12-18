@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository
  */
-class Introductions_Seen_Repository_Test extends TestCase {
+final class Introductions_Seen_Repository_Test extends TestCase {
 
 	/**
 	 * Holds the instance.

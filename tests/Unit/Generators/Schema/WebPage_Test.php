@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\WebPage
  */
-class WebPage_Test extends TestCase {
+final class WebPage_Test extends TestCase {
 
 	/**
 	 * The instance to test.

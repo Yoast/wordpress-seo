@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Wincher_Enabled_Conditional
  */
-class Wincher_Enabled_Conditional_Test extends TestCase {
+final class Wincher_Enabled_Conditional_Test extends TestCase {
 
 	/**
 	 * The Wincher enabled conditional.

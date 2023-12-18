@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group twitter
  * @group twitter-description
  */
-class Description_Presenter_Test extends TestCase {
+final class Description_Presenter_Test extends TestCase {
 
 	/**
 	 * The WPSEO Replace Vars object.

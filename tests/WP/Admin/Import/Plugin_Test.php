@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Tests for our wrapper import class.
  */
-class Plugin_Test extends TestCase {
+final class Plugin_Test extends TestCase {
 
 	/**
 	 * Test message for detect without data.

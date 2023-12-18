@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @coversDefaultClass Yoast_Dynamic_Rewrites
  */
-class Yoast_Dynamic_Rewrites_Test extends TestCase {
+final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

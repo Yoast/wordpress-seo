@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional
  */
-class Yoast_Tools_Page_Conditional_Test extends TestCase {
+final class Yoast_Tools_Page_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the Yoast admin tools page conditional.

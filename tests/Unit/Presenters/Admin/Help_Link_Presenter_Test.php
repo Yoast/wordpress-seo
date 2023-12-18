@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Help_Link_Presenter_Test extends TestCase {
+final class Help_Link_Presenter_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.

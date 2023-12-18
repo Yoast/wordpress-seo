@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_MyYoast_Proxy
  */
-class MyYoast_Proxy_Test extends TestCase {
+final class MyYoast_Proxy_Test extends TestCase {
 
 	/**
 	 * Tests determine the proxy options for the research webworker file.

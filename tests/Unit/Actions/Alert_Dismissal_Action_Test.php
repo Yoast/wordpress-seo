@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Alert_Dismissal_Action
  */
-class Alert_Dismissal_Action_Test extends TestCase {
+final class Alert_Dismissal_Action_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.

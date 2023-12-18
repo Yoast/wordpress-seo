@@ -19,7 +19,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @coversDefaultClass Yoast\WP\SEO\Integrations\Front_End_Integration
  */
-class Front_End_Integration_Test extends TestCase {
+final class Front_End_Integration_Test extends TestCase {
 
 	/**
 	 * The memoizer for the meta tags context.

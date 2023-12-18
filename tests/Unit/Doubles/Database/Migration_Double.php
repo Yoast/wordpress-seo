@@ -8,7 +8,7 @@ use Yoast\WP\Lib\Migrations\Migration;
 /**
  * Class Migration_Double.
  */
-class Migration_Double extends Migration {
+final class Migration_Double extends Migration {
 
 	/**
 	 * Whether or not this migration was run.

@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
  */
-class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
+final class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

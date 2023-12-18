@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Robots_Txt_Helper
  */
-class Robots_Txt_Helper_Test extends TestCase {
+final class Robots_Txt_Helper_Test extends TestCase {
 
 	/**
 	 * Holds the Robots_Txt_Helper.

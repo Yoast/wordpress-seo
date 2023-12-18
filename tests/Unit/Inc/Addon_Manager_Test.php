@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group MyYoast
  */
-class Addon_Manager_Test extends TestCase {
+final class Addon_Manager_Test extends TestCase {
 
 	/**
 	 * Dummy future date for use by the tests.

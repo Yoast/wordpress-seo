@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Score_Icon_Helper
  */
-class Score_Icon_Helper_Test extends TestCase {
+final class Score_Icon_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the Score_Icon_Helper.

@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Admin_Bar_Menu_Test extends TestCase {
+final class Admin_Bar_Menu_Test extends TestCase {
 
 	/**
 	 * WP SEO manager user ID.

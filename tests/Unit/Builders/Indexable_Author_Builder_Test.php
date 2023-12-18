@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Author_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Author_Builder
  */
-class Indexable_Author_Builder_Test extends TestCase {
+final class Indexable_Author_Builder_Test extends TestCase {
 
 	/**
 	 * The indexable mock.

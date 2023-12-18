@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Date_Archive_Presentation
  */
-class Open_Graph_URL_Test extends TestCase {
+final class Open_Graph_URL_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 

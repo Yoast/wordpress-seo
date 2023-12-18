@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Metabox_Test extends TestCase {
+final class Metabox_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

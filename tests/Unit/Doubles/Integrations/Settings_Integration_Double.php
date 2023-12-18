@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Integrations\Settings_Integration;
 /**
  * Class Settings_Integration_Double.
  */
-class Settings_Integration_Double extends Settings_Integration {
+final class Settings_Integration_Double extends Settings_Integration {
 
 	/**
 	 * Returns the post types that should be transformed.

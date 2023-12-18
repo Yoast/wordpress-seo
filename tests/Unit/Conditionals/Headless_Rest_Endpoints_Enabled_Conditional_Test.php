@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Headless_Rest_Endpoints_Enabled_Conditional
  */
-class Headless_Rest_Endpoints_Enabled_Conditional_Test extends TestCase {
+final class Headless_Rest_Endpoints_Enabled_Conditional_Test extends TestCase {
 
 	/**
 	 * Represents the conditional to test.

@@ -34,7 +34,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group generators
  * @group schema
  */
-class Schema_Generator_Test extends TestCase {
+final class Schema_Generator_Test extends TestCase {
 
 	/**
 	 * The instance to test.

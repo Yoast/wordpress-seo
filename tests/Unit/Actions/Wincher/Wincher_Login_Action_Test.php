@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Wincher\Wincher_Login_Action
  */
-class Wincher_Login_Action_Test extends TestCase {
+final class Wincher_Login_Action_Test extends TestCase {
 
 	/**
 	 * The instance.

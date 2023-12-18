@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group routes
  * @group import
  */
-class Importing_Route_Test extends TestCase {
+final class Importing_Route_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

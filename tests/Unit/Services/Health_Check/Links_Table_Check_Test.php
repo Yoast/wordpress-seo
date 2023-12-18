@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Links_Table_Check
  */
-class Links_Table_Check_Test extends TestCase {
+final class Links_Table_Check_Test extends TestCase {
 
 	/**
 	 * The Links_Table_Check instance to be tested.

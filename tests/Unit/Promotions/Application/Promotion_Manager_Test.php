@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Promotions\Application\Promotion_Manager
  */
-class Promotion_Manager_Test extends TestCase {
+final class Promotion_Manager_Test extends TestCase {
 
 	/**
 	 * Represents the class to test.

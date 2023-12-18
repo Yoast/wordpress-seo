@@ -26,7 +26,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
+final class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.

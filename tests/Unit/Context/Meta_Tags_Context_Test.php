@@ -26,7 +26,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group context
  */
-class Meta_Tags_Context_Test extends TestCase {
+final class Meta_Tags_Context_Test extends TestCase {
 
 	/**
 	 * The options helper.

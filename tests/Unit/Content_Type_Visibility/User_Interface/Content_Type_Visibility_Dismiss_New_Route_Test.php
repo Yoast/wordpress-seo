@@ -19,7 +19,7 @@ use WP_REST_Response;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
+final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 
 	/**
 	 * Holds the Options_Helper instance.

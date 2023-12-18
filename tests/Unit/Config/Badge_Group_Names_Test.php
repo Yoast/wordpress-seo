@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Config\Badge_Group_Names
  */
-class Badge_Group_Names_Test extends TestCase {
+final class Badge_Group_Names_Test extends TestCase {
 
 	/* We'll be testing with this existing group. */
 	const TESTING_GROUP = Badge_Group_Names::GROUP_GLOBAL_TEMPLATES;

@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test importing meta data from WooThemes SEO.
  */
-class WooThemes_SEO_Test extends TestCase {
+final class WooThemes_SEO_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.

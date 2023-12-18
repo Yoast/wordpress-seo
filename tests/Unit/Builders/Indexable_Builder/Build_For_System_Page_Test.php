@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-class Build_For_System_Page_Test extends Abstract_Indexable_Builder_TestCase {
+final class Build_For_System_Page_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
 	 * Sets up the test.

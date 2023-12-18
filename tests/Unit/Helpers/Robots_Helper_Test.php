@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Robots_Helper
  */
-class Robots_Helper_Test extends TestCase {
+final class Robots_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the robots helper.

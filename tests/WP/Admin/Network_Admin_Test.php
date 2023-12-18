@@ -9,7 +9,7 @@ use Yoast_Network_Admin;
 /**
  * Unit Test Class.
  */
-class Network_Admin_Test extends TestCase {
+final class Network_Admin_Test extends TestCase {
 
 	/**
 	 * Network administrator user ID.

@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Main_Double;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Main
  */
-class Main_Test extends TestCase {
+final class Main_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.

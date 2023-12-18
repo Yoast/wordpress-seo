@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Postname_Permalink_Runner
  */
-class Postname_Permalink_Runner_Test extends TestCase {
+final class Postname_Permalink_Runner_Test extends TestCase {
 
 	/**
 	 * The Postname_Permalink_Runner instance to be tested.

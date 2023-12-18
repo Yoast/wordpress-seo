@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group twitter
  */
-class Twitter_Site_Test extends TestCase {
+final class Twitter_Site_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 

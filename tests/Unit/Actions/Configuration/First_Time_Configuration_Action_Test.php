@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Configuration\First_Time_Configuration_Action
  */
-class First_Time_Configuration_Action_Test extends TestCase {
+final class First_Time_Configuration_Action_Test extends TestCase {
 
 	/**
 	 * The class instance.

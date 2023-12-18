@@ -11,7 +11,7 @@ use WPSEO_Admin_Gutenberg_Compatibility_Notification;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Gutenberg_Compatibility_Notification_Double extends WPSEO_Admin_Gutenberg_Compatibility_Notification {
+final class Gutenberg_Compatibility_Notification_Double extends WPSEO_Admin_Gutenberg_Compatibility_Notification {
 
 	/**
 	 * Sets the dependency instances.

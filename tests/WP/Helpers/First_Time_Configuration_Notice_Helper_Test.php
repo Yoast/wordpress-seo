@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Helpers\First_Time_Configuration_Notice_Helper
  */
-class First_Time_Configuration_Notice_Helper_Test extends TestCase {
+final class First_Time_Configuration_Notice_Helper_Test extends TestCase {
 
 	/**
 	 * The options' helper.

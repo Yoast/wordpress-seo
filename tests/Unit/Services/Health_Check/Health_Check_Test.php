@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Health_Check
  */
-class Health_Check_Test extends TestCase {
+final class Health_Check_Test extends TestCase {
 
 	/**
 	 * A partially mocked test double of Health_Check.

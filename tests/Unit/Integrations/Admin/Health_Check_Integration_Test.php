@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Integrations\Admin\Health_Check_Integration
  */
-class Health_Check_Integration_Test extends TestCase {
+final class Health_Check_Integration_Test extends TestCase {
 
 	/**
 	 * The Health_Check_Integration instance to be tested.

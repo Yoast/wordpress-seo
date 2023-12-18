@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Deactivate_Conflicting_Plugins_Action
  */
-class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
+final class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 
 	/**
 	 * The class under test.

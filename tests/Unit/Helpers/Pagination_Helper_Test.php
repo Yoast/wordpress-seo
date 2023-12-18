@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Wrappers\WP_Rewrite_Wrapper;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Pagination_Helper
  */
-class Pagination_Helper_Test extends TestCase {
+final class Pagination_Helper_Test extends TestCase {
 
 	/**
 	 * Class instance to use for the test.

@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Attachment_Cleanup_Helper
  */
-class Attachment_Cleanup_Helper_Test extends TestCase {
+final class Attachment_Cleanup_Helper_Test extends TestCase {
 
 	/**
 	 * The instance under test.

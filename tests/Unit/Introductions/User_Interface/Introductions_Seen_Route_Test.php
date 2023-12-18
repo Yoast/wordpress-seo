@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\User_Interface\Introductions_Seen_Route
  */
-class Introductions_Seen_Route_Test extends TestCase {
+final class Introductions_Seen_Route_Test extends TestCase {
 
 	/**
 	 * Holds the instance.

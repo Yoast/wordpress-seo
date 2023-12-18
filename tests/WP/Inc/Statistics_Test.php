@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Tests the WPSEO_Statistics class
  */
-class Statistics_Test extends TestCase {
+final class Statistics_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

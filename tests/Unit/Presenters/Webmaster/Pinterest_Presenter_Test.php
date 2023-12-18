@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group webmaster
  */
-class Pinterest_Presenter_Test extends TestCase {
+final class Pinterest_Presenter_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

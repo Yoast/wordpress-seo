@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Bucket
  */
-class To_Be_Cleaned_Indexable_Bucket_Test extends TestCase {
+final class To_Be_Cleaned_Indexable_Bucket_Test extends TestCase {
 
 	/**
 	 * The sut.

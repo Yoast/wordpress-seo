@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group Formatter
  */
-class Post_Metabox_Formatter_Test extends TestCase {
+final class Post_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

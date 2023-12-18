@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Date_Archive_Presentation
  */
-class Canonical_Test extends TestCase {
+final class Canonical_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 

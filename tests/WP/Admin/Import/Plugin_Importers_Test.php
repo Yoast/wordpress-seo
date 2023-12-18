@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test whether we register our plugin importers.
  */
-class Plugin_Importers_Test extends TestCase {
+final class Plugin_Importers_Test extends TestCase {
 
 	/**
 	 * Makes sure we can get a list of importers.

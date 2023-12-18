@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher
  */
-class Addon_Update_Watcher_Test extends TestCase {
+final class Addon_Update_Watcher_Test extends TestCase {
 
 	/**
 	 * The instance under test.

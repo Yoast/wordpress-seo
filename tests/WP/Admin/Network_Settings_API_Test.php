@@ -8,7 +8,7 @@ use Yoast_Network_Settings_API;
 /**
  * Unit Test Class.
  */
-class Network_Settings_API_Test extends TestCase {
+final class Network_Settings_API_Test extends TestCase {
 
 	/**
 	 * Tests registering a setting.

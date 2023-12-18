@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test importing meta data from Greg's High Performance SEO.
  */
-class Greg_SEO_Test extends TestCase {
+final class Greg_SEO_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.

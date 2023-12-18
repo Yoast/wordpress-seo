@@ -20,7 +20,7 @@ use Yoast_Notification_Center;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Search_Engines_Discouraged_Watcher
  */
-class Search_Engines_Discouraged_Watcher_Test extends TestCase {
+final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 
 	/**
 	 * Holds the admin user mock instance.

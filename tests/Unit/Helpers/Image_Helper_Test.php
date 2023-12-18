@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group helpers
  */
-class Image_Helper_Test extends TestCase {
+final class Image_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

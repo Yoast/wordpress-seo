@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Actions\Indexing\Abstract_Indexing_Action;
 /**
  * The abstract indexing action double.
  */
-class Abstract_Indexing_Action_Double extends Abstract_Indexing_Action {
+final class Abstract_Indexing_Action_Double extends Abstract_Indexing_Action {
 
 	/**
 	 * A needed constant for testing.

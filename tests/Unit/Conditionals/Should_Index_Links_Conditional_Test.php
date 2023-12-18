@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Should_Index_Links_Conditional
  */
-class Should_Index_Links_Conditional_Test extends TestCase {
+final class Should_Index_Links_Conditional_Test extends TestCase {
 
 	/**
 	 * Represents the conditional to test.

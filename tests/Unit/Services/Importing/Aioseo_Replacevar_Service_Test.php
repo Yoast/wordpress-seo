@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service
  */
-class Aioseo_Replacevar_Service_Test extends TestCase {
+final class Aioseo_Replacevar_Service_Test extends TestCase {
 
 	/**
 	 * The class under test.

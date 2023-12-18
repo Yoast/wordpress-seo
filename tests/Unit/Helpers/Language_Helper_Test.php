@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group helpers
  */
-class Language_Helper_Test extends TestCase {
+final class Language_Helper_Test extends TestCase {
 
 	/**
 	 * The language helper.

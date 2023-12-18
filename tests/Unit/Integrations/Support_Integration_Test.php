@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Support_Integration
  */
-class Support_Integration_Test extends TestCase {
+final class Support_Integration_Test extends TestCase {
 
 	const PAGE = 'wpseo_page_support';
 

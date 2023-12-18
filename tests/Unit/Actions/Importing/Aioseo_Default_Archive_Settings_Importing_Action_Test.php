@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Default_Archive_Settings_Importing_Action
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded, Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
-class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
+final class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

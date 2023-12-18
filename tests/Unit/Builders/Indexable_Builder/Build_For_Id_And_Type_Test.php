@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-class Build_For_Id_And_Type_Test extends Abstract_Indexable_Builder_TestCase {
+final class Build_For_Id_And_Type_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
 	 * Tests building an indexable for the post type archive.

@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presentations
  */
-class Permalink_Test extends TestCase {
+final class Permalink_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 

@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Promotions\Domain\Time_Interval;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Promotions\Domain\Time_Interval
  */
-class Time_Interval_Test extends TestCase {
+final class Time_Interval_Test extends TestCase {
 
 	/**
 	 * Represents the class to test.

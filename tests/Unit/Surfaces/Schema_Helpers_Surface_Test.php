@@ -16,7 +16,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ServiceNotFo
  *
  * @group surfaces
  */
-class Schema_Helpers_Surface_Test extends TestCase {
+final class Schema_Helpers_Surface_Test extends TestCase {
 
 	/**
 	 * The container.

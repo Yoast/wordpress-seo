@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group generators
  * @group breadcrumbs
  */
-class Breadcrumbs_Generator_Test extends TestCase {
+final class Breadcrumbs_Generator_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.

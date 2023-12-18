@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestCase {
+final class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestCase {
 
 	/**
 	 * Holds the instance.

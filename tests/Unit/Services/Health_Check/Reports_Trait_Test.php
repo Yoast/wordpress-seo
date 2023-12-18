@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Tests\Unit\Doubles\Services\Health_Check\Reports_Trait_Double
  */
-class Reports_Trait_Test extends TestCase {
+final class Reports_Trait_Test extends TestCase {
 
 	/**
 	 * The Reports_Trait_Double instance to be tested.

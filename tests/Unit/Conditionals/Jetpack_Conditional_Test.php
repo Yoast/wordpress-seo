@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Jetpack_Conditional
  */
-class Jetpack_Conditional_Test extends TestCase {
+final class Jetpack_Conditional_Test extends TestCase {
 
 	/**
 	 * The breadcrumbs enabled conditional.

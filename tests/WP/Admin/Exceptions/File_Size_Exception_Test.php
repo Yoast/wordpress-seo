@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class File_Size_Exception_Test extends TestCase {
+final class File_Size_Exception_Test extends TestCase {
 
 	/**
 	 * Tests that the externally hosted error message is as expected.

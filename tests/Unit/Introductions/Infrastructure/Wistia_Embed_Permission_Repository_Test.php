@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository
  */
-class Wistia_Embed_Permission_Repository_Test extends TestCase {
+final class Wistia_Embed_Permission_Repository_Test extends TestCase {
 
 	/**
 	 * Holds the instance.

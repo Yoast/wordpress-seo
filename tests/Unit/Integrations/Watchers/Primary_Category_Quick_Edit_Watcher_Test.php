@@ -27,7 +27,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
  */
-class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
+final class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the options helper.

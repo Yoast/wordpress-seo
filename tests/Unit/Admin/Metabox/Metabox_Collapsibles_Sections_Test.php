@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group Metabox
  */
-class Metabox_Collapsibles_Sections_Test extends TestCase {
+final class Metabox_Collapsibles_Sections_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.

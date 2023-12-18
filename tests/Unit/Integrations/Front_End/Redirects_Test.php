@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class Redirects_Test extends TestCase {
+final class Redirects_Test extends TestCase {
 
 	/**
 	 * The test instance.

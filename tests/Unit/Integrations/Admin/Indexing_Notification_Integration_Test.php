@@ -29,7 +29,7 @@ use Yoast_Notification_Center;
  * @group integrations
  * @group indexing
  */
-class Indexing_Notification_Integration_Test extends TestCase {
+final class Indexing_Notification_Integration_Test extends TestCase {
 
 	/**
 	 * The indexing tool integration.

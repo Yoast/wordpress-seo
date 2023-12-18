@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Paper_Presenter_Test
  */
-class Paper_Presenter_Test extends TestCase {
+final class Paper_Presenter_Test extends TestCase {
 
 	/**
 	 * Tests whether the \WPSEO_Paper_Presenter can be used with a content option instead of a view file.

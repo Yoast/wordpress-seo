@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group memoizers
  */
-class Meta_Tags_Context_Memoizer_Test extends TestCase {
+final class Meta_Tags_Context_Memoizer_Test extends TestCase {
 
 	/**
 	 * The blocks helper.

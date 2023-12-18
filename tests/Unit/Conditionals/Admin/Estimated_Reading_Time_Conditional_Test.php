@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional
  */
-class Estimated_Reading_Time_Conditional_Test extends TestCase {
+final class Estimated_Reading_Time_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the Post_Conditional instance.

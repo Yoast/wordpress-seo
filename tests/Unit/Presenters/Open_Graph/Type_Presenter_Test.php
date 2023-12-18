@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group open-graph
  * @group type-presenter
  */
-class Type_Presenter_Test extends TestCase {
+final class Type_Presenter_Test extends TestCase {
 
 	/**
 	 * The indexable presentation.

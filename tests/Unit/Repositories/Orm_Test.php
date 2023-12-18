@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\Lib\ORM
  */
-class Orm_Test extends TestCase {
+final class Orm_Test extends TestCase {
 
 	/**
 	 * The instance to test.

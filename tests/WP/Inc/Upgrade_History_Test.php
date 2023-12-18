@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group upgrades
  */
-class Upgrade_History_Test extends TestCase {
+final class Upgrade_History_Test extends TestCase {
 
 	/**
 	 * Option name.

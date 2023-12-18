@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Builders\Indexable_Post_Type_Archive_Builder
  */
-class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
+final class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 
 	/**
 	 * The instance.

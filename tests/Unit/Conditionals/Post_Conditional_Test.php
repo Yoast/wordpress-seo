@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Admin\Post_Conditional
  */
-class Post_Conditional_Test extends TestCase {
+final class Post_Conditional_Test extends TestCase {
 
 	/**
 	 * The breadcrumbs enabled conditional.

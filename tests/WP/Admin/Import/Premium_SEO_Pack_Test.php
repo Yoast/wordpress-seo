@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test importing meta data from AIOSEO.
  */
-class Premium_SEO_Pack_Test extends TestCase {
+final class Premium_SEO_Pack_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.

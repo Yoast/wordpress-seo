@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group twitter
  * @group twitter-image
  */
-class Image_Presenter_Test extends TestCase {
+final class Image_Presenter_Test extends TestCase {
 
 	/**
 	 * The image presenter instance.

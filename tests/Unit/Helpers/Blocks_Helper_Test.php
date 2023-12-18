@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Blocks_Helper
  */
-class Blocks_Helper_Test extends TestCase {
+final class Blocks_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the post helper.

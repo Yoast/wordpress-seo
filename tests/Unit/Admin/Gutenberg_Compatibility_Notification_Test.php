@@ -20,7 +20,7 @@ use Yoast_Notification_Center;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Gutenberg_Compatibility_Notification_Test extends TestCase {
+final class Gutenberg_Compatibility_Notification_Test extends TestCase {
 
 	/**
 	 * Holds the admin user mock instance.

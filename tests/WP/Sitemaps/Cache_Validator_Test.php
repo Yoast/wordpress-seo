@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group sitemaps
  */
-class Cache_Validator_Test extends TestCase {
+final class Cache_Validator_Test extends TestCase {
 
 	/**
 	 * Test the building of cache keys.

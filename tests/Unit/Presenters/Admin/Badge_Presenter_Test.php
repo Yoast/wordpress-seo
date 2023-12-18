@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Badge_Presenter_Test extends TestCase {
+final class Badge_Presenter_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.

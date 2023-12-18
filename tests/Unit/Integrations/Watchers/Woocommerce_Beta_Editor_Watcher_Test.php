@@ -20,7 +20,7 @@ use Yoast_Notification_Center;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Woocommerce_Beta_Editor_Watcher
  */
-class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
+final class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 
 	/**
 	 * Yoast_Notification_Center mock.

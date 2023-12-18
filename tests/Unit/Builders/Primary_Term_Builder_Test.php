@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Primary_Term_Builder
  * @covers \Yoast\WP\SEO\Builders\Primary_Term_Builder
  */
-class Primary_Term_Builder_Test extends TestCase {
+final class Primary_Term_Builder_Test extends TestCase {
 
 	/**
 	 * Holds the primary term builder under test.
