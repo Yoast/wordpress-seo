@@ -1,5 +1,5 @@
 const SINGLE_QUOTES_ARRAY = [ "'", "‘", "’", "‛", "`", "‹", "›" ];
-const SINGLE_QUOTES_REGEX = /['‘’‛`‹›]/g;
+const SINGLE_QUOTES_REGEX = new RegExp( "[" + SINGLE_QUOTES_ARRAY.join( "" ) + "]", "g" );
 
 /**
  * Normalizes single quotes to 'regular' quotes.
