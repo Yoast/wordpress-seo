@@ -1,4 +1,4 @@
-import transliterationsMap from "../../../config/transliterations.js";
+import transliterationsMap from "../../../config/getTransliterations.js";
 
 /**
  * Replaces all special characters from the text based on the transliterations map.
