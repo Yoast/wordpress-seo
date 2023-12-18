@@ -156,8 +156,8 @@ class WPSEO_Sitemaps {
 	 */
 	public function register_sitemap( $name, $building_function, $rewrite = '' ) {
 		add_action( 'wpseo_do_sitemap_' . $name, $building_function );
-		if ( ! empty( $rewrite ) ) {
-			add_rewrite_rule( $rewrite, 'index.php?sitemap=' . $name, 'top' );
+		if ( $rewrite ) {
+			Yoast_Dynamic_Rewrites::instance()->add_rule( $rewrite, 'index.php?sitemap=' . $name, 'top' );
 		}
 	}
 
@@ -172,8 +172,8 @@ class WPSEO_Sitemaps {
 	 */
 	public function register_xsl( $name, $building_function, $rewrite = '' ) {
 		add_action( 'wpseo_xsl_' . $name, $building_function );
-		if ( ! empty( $rewrite ) ) {
-			add_rewrite_rule( $rewrite, 'index.php?yoast-sitemap-xsl=' . $name, 'top' );
+		if ( $rewrite ) {
+			Yoast_Dynamic_Rewrites::instance()->add_rule( $rewrite, 'index.php?yoast-sitemap-xsl=' . $name, 'top' );
 		}
 	}
 
