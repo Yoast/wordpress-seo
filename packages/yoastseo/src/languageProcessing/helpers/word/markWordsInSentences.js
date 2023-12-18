@@ -80,8 +80,8 @@ export const collectMarkingsInSentence = function( sentence, wordsFoundInSentenc
 	const allWordsFound = [];
 	wordsFoundInSentence.forEach( word => {
 		// Check if the word in `wordsFoundInSentence` contains a single quote.
-		const matchedSingleQuote = word.match( SINGLE_QUOTES_REGEX );
-		if ( matchedSingleQuote ) {
+		const matchedSingleQuotes = word.match( SINGLE_QUOTES_REGEX );
+		if ( matchedSingleQuotes ) {
 			/*
 			 * If yes, make all different combinations of the word with different types of single quotes in the array.
 			 * Later, a regex will be created for all words that were found in the sentence including their variations.
@@ -93,10 +93,13 @@ export const collectMarkingsInSentence = function( sentence, wordsFoundInSentenc
 			 * And those variations will be added to `allWordsFound`.
 			 */
 			SINGLE_QUOTES_ARRAY.forEach( singleQuote => {
-				allWordsFound.push( escapeRegExp( word.replace( matchedSingleQuote.toString(), singleQuote ) ) );
+				matchedSingleQuotes.forEach( match => {
+					allWordsFound.push( escapeRegExp( word.replace( match, singleQuote ) ) );
+				} );
 			} );
+		} else {
+			allWordsFound.push( escapeRegExp( word ) );
 		}
-		allWordsFound.push( escapeRegExp( word ) );
 	} );
 
 	// If a language has a custom helper to match words, we disable the word boundary when creating the regex.
