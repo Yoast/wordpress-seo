@@ -3,6 +3,8 @@ import { Component } from "@wordpress/element";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { noop, isEmpty } from "lodash";
+import { TextControl } from "@wordpress/components";
+import { select, dispatch } from "@wordpress/data";
 
 /* Yoast dependencies */
 import { addFocusStyle, SvgIcon, InputField } from "@yoast/components";
@@ -29,7 +31,7 @@ const KeywordFieldLabelContainer = styled.span`
 	margin-bottom: 0.5em;
 `;
 
-const KeywordField = styled( InputField )`
+const KeywordField = styled( TextControl )`
 	flex: 1 !important;
 	box-sizing: border-box;
 	max-width: 100%;
@@ -135,12 +137,16 @@ class KeywordInputComponent extends Component {
 	/**
 	 * Handles changes in the KeywordInput, sets the state if a change has been made.
 	 *
-	 * @param {SyntheticEvent} event The onChange event.
+	 * @param {SyntheticEvent} content The onChange event.
 	 *
 	 * @returns {void}
 	 */
-	handleChange( event ) {
-		this.props.onChange( event.target.value );
+	handleChange( content ) {
+		const editPost = dispatch( "core/editor" ).editPost;
+		editPost( {
+			meta: { _yoast_wpseo_focuskw: content },
+		} );
+		this.props.onChange( content );
 	}
 
 	/**
@@ -194,7 +200,7 @@ class KeywordInputComponent extends Component {
 		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword, onFocusKeyword, hasError } = this.props;
 		// The aria label should not be shown if there is a visible label.
 		const showAriaLabel = ! showLabel;
-
+		const meta = select( "core/editor" ).getEditedPostAttribute( "meta" );
 		const showRemoveKeywordButton = onRemoveKeyword !== noop;
 
 		return (
@@ -212,7 +218,7 @@ class KeywordInputComponent extends Component {
 						onChange={ this.handleChange }
 						onFocus={ onFocusKeyword }
 						onBlur={ onBlurKeyword }
-						value={ keyword }
+						defaultValue={ meta._yoast_wpseo_focuskw }
 						autoComplete="off"
 					/>
 					{ showRemoveKeywordButton && (
