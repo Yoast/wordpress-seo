@@ -79,7 +79,7 @@ const getMarkedAnchors = function( sentence, wordsRegex ) {
 export const collectMarkingsInSentence = function( sentence, wordsFoundInSentence, matchWordCustomHelper ) {
 	const allWordsFound = [];
 	wordsFoundInSentence.forEach( word => {
-		// Check if the word in `wordsFoundInSentence` contains a single quote.
+		// Check if the word in `wordsFoundInSentence` contains single quote(s).
 		const matchedSingleQuotes = word.match( SINGLE_QUOTES_REGEX );
 		if ( matchedSingleQuotes ) {
 			/*
@@ -93,8 +93,8 @@ export const collectMarkingsInSentence = function( sentence, wordsFoundInSentenc
 			 * And those variations will be added to `allWordsFound`.
 			 */
 			SINGLE_QUOTES_ARRAY.forEach( singleQuote => {
-				matchedSingleQuotes.forEach( match => {
-					allWordsFound.push( escapeRegExp( word.replace( match, singleQuote ) ) );
+				matchedSingleQuotes.forEach( matchedSingleQuote => {
+					allWordsFound.push( escapeRegExp( word.replace( new RegExp( matchedSingleQuote, "g" ), singleQuote ) ) );
 				} );
 			} );
 		} else {

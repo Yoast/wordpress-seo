@@ -128,7 +128,7 @@ describe( "Adds Yoast marks to specific words in a sentence", function() {
 		);
 
 		sentences = "The fo'c'sle is the upper deck of a sailing ship forward of the foremast.";
-		wordsToMark = [ "fo'c'sle" ];
+		wordsToMark = [ "fo’c’sle" ];
 		expect( markWordsInASentence( sentences, wordsToMark, false ) ).toEqual(
 			[ new Mark( {
 				marked: "The <yoastmark class='yoast-text-mark'>fo'c'sle</yoastmark> is the upper deck of a sailing ship forward of the foremast.",
