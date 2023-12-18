@@ -266,9 +266,9 @@ final class Indexing_Tool_Integration_Test extends TestCase {
 			],
 		];
 
-		$injected_data['errorMessage'] = '<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
-			'Please click the button again to re-start the process. If the problem persists, please contact support.</p>' .
-			'<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>';
+		$injected_data['errorMessage'] = '<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. '
+			. 'Please click the button again to re-start the process. If the problem persists, please contact support.</p>'
+			. '<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>';
 
 		Monkey\Functions\expect( 'rest_url' )
 			->andReturn( 'https://example.org/wp-ajax/' );

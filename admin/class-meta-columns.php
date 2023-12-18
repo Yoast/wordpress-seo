@@ -97,19 +97,19 @@ class WPSEO_Meta_Columns {
 		$added_columns = [];
 
 		if ( $this->analysis_seo->is_enabled() ) {
-			$added_columns['wpseo-score'] = '<span class="yoast-column-seo-score yoast-column-header-has-tooltip" data-tooltip-text="' .
-											esc_attr__( 'SEO score', 'wordpress-seo' ) .
-											'"><span class="screen-reader-text">' .
-											__( 'SEO score', 'wordpress-seo' ) .
-											'</span></span></span>';
+			$added_columns['wpseo-score'] = '<span class="yoast-column-seo-score yoast-column-header-has-tooltip" data-tooltip-text="'
+											. esc_attr__( 'SEO score', 'wordpress-seo' )
+											. '"><span class="screen-reader-text">'
+											. __( 'SEO score', 'wordpress-seo' )
+											. '</span></span></span>';
 		}
 
 		if ( $this->analysis_readability->is_enabled() ) {
-			$added_columns['wpseo-score-readability'] = '<span class="yoast-column-readability yoast-column-header-has-tooltip" data-tooltip-text="' .
-														esc_attr__( 'Readability score', 'wordpress-seo' ) .
-														'"><span class="screen-reader-text">' .
-														__( 'Readability score', 'wordpress-seo' ) .
-														'</span></span></span>';
+			$added_columns['wpseo-score-readability'] = '<span class="yoast-column-readability yoast-column-header-has-tooltip" data-tooltip-text="'
+														. esc_attr__( 'Readability score', 'wordpress-seo' )
+														. '"><span class="screen-reader-text">'
+														. __( 'Readability score', 'wordpress-seo' )
+														. '</span></span></span>';
 		}
 
 		$added_columns['wpseo-title']    = __( 'SEO Title', 'wordpress-seo' );

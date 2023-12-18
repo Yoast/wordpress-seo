@@ -109,8 +109,8 @@ final class Indexing_Error_Presenter_Test extends TestCase {
 		$actual = $this->instance->present();
 
 		self::assertEquals(
-			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please click the button again to re-start the process. </p>' .
-			'<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
+			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please click the button again to re-start the process. </p>'
+			. '<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
 			$actual
 		);
 	}
@@ -136,9 +136,9 @@ final class Indexing_Error_Presenter_Test extends TestCase {
 		$actual = $this->instance->present();
 
 		self::assertEquals(
-			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
-			'Please make sure to activate your subscription in MyYoast by completing <a href="https://yoa.st/3wv">these steps</a>.</p>' .
-			'<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
+			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. '
+			. 'Please make sure to activate your subscription in MyYoast by completing <a href="https://yoa.st/3wv">these steps</a>.</p>'
+			. '<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
 			$actual
 		);
 	}
@@ -164,9 +164,9 @@ final class Indexing_Error_Presenter_Test extends TestCase {
 		$actual = $this->instance->present();
 
 		self::assertEquals(
-			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
-			'Please click the button again to re-start the process. If the problem persists, please contact support.</p>' .
-			'<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
+			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. '
+			. 'Please click the button again to re-start the process. If the problem persists, please contact support.</p>'
+			. '<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
 			$actual
 		);
 	}

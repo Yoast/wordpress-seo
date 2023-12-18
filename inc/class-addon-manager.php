@@ -411,16 +411,16 @@ class WPSEO_Addon_Manager {
 				);
 			}
 			echo '<br><br>';
-			echo '<strong><span class="yoast-dashicons-notice warning dashicons dashicons-warning"></span> ' .
-				sprintf(
+			echo '<strong><span class="yoast-dashicons-notice warning dashicons dashicons-warning"></span> '
+				. sprintf(
 					/* translators: %1$s is the plugin name, %2$s and %3$s are a link. */
 					esc_html__( '%1$s can\'t be updated because your product subscription is expired. %2$sRenew your product subscription%3$s to get updates again and use all the features of %1$s.', 'wordpress-seo' ),
 					esc_html( $plugin_data['name'] ),
 					'<a href="' . esc_url( WPSEO_Shortlinker::get( $addon_link ) ) . '">',
 					'</a>'
-				) .
+				)
 			    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped above.
-				$sale_copy
+				. $sale_copy
 				. '</strong>';
 		}
 	}
