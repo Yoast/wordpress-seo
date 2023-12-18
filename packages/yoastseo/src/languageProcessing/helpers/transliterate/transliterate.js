@@ -1,5 +1,3 @@
-/** @module stringProcessing/replaceDiacritics */
-
 import transliterationsMap from "../../../config/transliterations.js";
 
 /**
