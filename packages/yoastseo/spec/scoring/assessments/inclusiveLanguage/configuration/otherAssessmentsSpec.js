@@ -14,7 +14,7 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 				text: "He is a normal person.",
 				expectedFeedback: "Avoid using <i>normal person</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>typical person, average person</i> or describing the" +
-					" specific characteristic, experience, or behavior. " +
+					" person's specific trait, experience, or behavior. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -22,8 +22,8 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 				identifier: "normalPeople",
 				text: "They are normal people right.",
 				expectedFeedback: "Avoid using <i>normal people</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>typical people, average people</i> or describing the" +
-					" specific characteristics, experiences, or behaviors. " +
+					"Consider using an alternative, such as <i>typical people, average people</i> or describing" +
+					" people's specific trait, experience, or behavior. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -32,10 +32,9 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 				text: "He is a mentally normal person.",
 				expectedFeedback: "Avoid using <i>mentally normal</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>people without mental health conditions</i>," +
-					" <i>people with a good mental health</i>, <i>mentally healthy people</i>. If possible, be more specific," +
-					" for example <i>people who don’t have anxiety disorders</i>, <i>people who haven’t experienced trauma</i>, etc." +
-					" Be careful when using mental health descriptors to describe specific people, and try to avoid making assumptions" +
-					" about someone’s mental health. " +
+					" <i>mentally healthy people</i>. If possible, be more specific." +
+					" For example: <i>people who don’t have anxiety disorders</i>, <i>people who haven't experienced trauma</i>, etc." +
+					" Be careful when using mental health descriptors and try to avoid making assumptions about someone's mental health. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -61,14 +60,14 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 				identifier: "abnormalPerson",
 				text: "Only an abnormal person could do this.",
 				expectedFeedback: "Avoid using <i>abnormal person</i> as it is potentially harmful. Consider using an alternative, " +
-					"such as describing the person's specific characteristic, experience, or behavior. " +
+					"such as describing the person's specific trait, experience, or behavior. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			}, {
 				identifier: "abnormalPeople",
 				text: "There are lots of abnormal people in my family.",
 				expectedFeedback: "Avoid using <i>abnormal people</i> as it is potentially harmful. Consider using an alternative, " +
-					"such as describing the people's specific characteristics, experiences, or behaviors. " +
+					"such as describing people's specific trait, experience, or behavior. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			}, {
@@ -76,9 +75,9 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 				text: "This person seems mentally abnormal.",
 				expectedFeedback: "Avoid using <i>mentally abnormal</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>people with a mental health condition</i>, <i>people with" +
-					" mental health problems</i>. If possible, be more specific, for example <i>people who have anxiety disorders, people " +
-					"who have experienced trauma</i>, etc. Be careful when using mental health descriptors to describe" +
-					" specific people, and try to avoid making assumptions about someone’s mental health. " +
+					" mental health problems</i>. If possible, be more specific. For example: <i>people who have anxiety disorders," +
+					" people who have experienced trauma</i>, etc. Be careful when using mental health descriptors and" +
+					" try to avoid making assumptions about someone's mental health. " +
 					"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
