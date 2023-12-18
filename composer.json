@@ -24,6 +24,7 @@
 	},
 	"require": {
 		"php": "^7.2.5 || ^8.0",
+		"ext-filter": "*",
 		"composer/installers": "^1.12 || ^2.0"
 	},
 	"require-dev": {
@@ -37,6 +38,12 @@
 		"wordproof/wordpress-sdk": "1.3.5",
 		"yoast/wp-test-utils": "^1.2",
 		"yoast/yoastcs": "^2.3.1"
+	},
+	"suggest": {
+		"ext-bcmath": "For more accurate calculations",
+		"ext-dom": "Improves image sitemap",
+		"ext-libxml": "Improves image sitemap",
+		"ext-mbstring": "For cyrillic support"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
