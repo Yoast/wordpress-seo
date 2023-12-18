@@ -126,6 +126,14 @@ describe( "Adds Yoast marks to specific words in a sentence", function() {
 					"has tawny fur that is entirely covered with black spots. »",
 				original: "« The ‹black-footed› cat has tawny fur that is entirely covered with black spots. »" } ) ]
 		);
+
+		sentences = "The fo'c'sle is the upper deck of a sailing ship forward of the foremast.";
+		wordsToMark = [ "fo'c'sle" ];
+		expect( markWordsInASentence( sentences, wordsToMark, false ) ).toEqual(
+			[ new Mark( {
+				marked: "The <yoastmark class='yoast-text-mark'>fo'c'sle</yoastmark> is the upper deck of a sailing ship forward of the foremast.",
+				original: "The fo'c'sle is the upper deck of a sailing ship forward of the foremast." } ) ]
+		);
 	} );
 } );
 
