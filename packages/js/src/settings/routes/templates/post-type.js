@@ -273,7 +273,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							id={ `input-wpseo_titles-schema-page-type-${ name }` }
 							label={ __( "Page type", "wordpress-seo" ) }
 							options={ shouldDisablePageTypeSelect ? pageTypes.filter( ( { value } ) => value === "ItemPage" ) : pageTypes }
-							className="yst-max-w-sm"
+							className="yst-max-w-xl"
 							description={ shouldDisablePageTypeSelect ? disabledPageTypeSelectorDescription : "" }
 							disabled={ shouldDisablePageTypeSelect }
 						/>
