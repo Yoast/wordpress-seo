@@ -107,7 +107,7 @@ class WPSEO_Replace_Vars {
 			elseif ( strpos( $var_to_replace, 'cf_' ) === 0 || strpos( $var_to_replace, 'ct_' ) === 0 ) {
 				trigger_error( esc_html__( 'A replacement variable can not start with "%%cf_" or "%%ct_" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
 			}
-			elseif ( ! method_exists( __CLASS__, 'retrieve_' . $var_to_replace ) ) {
+			elseif ( ! method_exists( self::class, 'retrieve_' . $var_to_replace ) ) {
 				if ( $var_to_replace !== '' && ! isset( self::$external_replacements[ $var_to_replace ] ) ) {
 					self::$external_replacements[ $var_to_replace ] = $replace_function;
 					$replacement_variable                           = new WPSEO_Replacement_Variable( $var_to_replace, $var_to_replace, $help_text );
@@ -156,7 +156,7 @@ class WPSEO_Replace_Vars {
 
 		// Clean $omit array.
 		if ( is_array( $omit ) && $omit !== [] ) {
-			$omit = array_map( [ __CLASS__, 'remove_var_delimiter' ], $omit );
+			$omit = array_map( [ self::class, 'remove_var_delimiter' ], $omit );
 		}
 
 		$replacements = [];
@@ -195,7 +195,7 @@ class WPSEO_Replace_Vars {
 		if ( apply_filters( 'wpseo_replacements_final', true ) === true && ( isset( $matches[1] ) && is_array( $matches[1] ) ) ) {
 			// Remove non-replaced variables.
 			$remove = array_diff( $matches[1], $omit ); // Make sure the $omit variables do not get removed.
-			$remove = array_map( [ __CLASS__, 'add_var_delimiter' ], $remove );
+			$remove = array_map( [ self::class, 'add_var_delimiter' ], $remove );
 			$text   = str_replace( $remove, '', $text );
 		}
 

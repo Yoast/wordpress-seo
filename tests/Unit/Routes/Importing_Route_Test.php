@@ -198,6 +198,6 @@ final class Importing_Route_Test extends TestCase {
 			]
 		);
 
-		$this->assertInstanceOf( 'WP_Error', $response );
+		$this->assertInstanceOf( WP_Error::class, $response );
 	}
 }

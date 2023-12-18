@@ -122,7 +122,7 @@ final class Indexables_Head_Route_Test extends TestCase {
 			->with( 'https://example.org' )
 			->andReturnFirstArg();
 
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->get_head( $request ) );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->get_head( $request ) );
 	}
 
 	/**

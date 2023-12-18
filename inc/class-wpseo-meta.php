@@ -304,7 +304,7 @@ class WPSEO_Meta {
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
-					[ 'sanitize_callback' => [ __CLASS__, 'sanitize_post_meta' ] ]
+					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ]
 				);
 
 				// Set the $fields_index property for efficiency.
@@ -327,8 +327,8 @@ class WPSEO_Meta {
 
 		self::filter_schema_article_types();
 
-		add_filter( 'update_post_metadata', [ __CLASS__, 'remove_meta_if_default' ], 10, 5 );
-		add_filter( 'add_post_metadata', [ __CLASS__, 'dont_save_meta_if_default' ], 10, 4 );
+		add_filter( 'update_post_metadata', [ self::class, 'remove_meta_if_default' ], 10, 5 );
+		add_filter( 'add_post_metadata', [ self::class, 'dont_save_meta_if_default' ], 10, 4 );
 	}
 
 	/**

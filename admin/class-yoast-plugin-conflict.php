@@ -54,7 +54,7 @@ class Yoast_Plugin_Conflict {
 
 		if ( is_null( self::$instance ) ) {
 			if ( ! is_string( $class_name ) || $class_name === '' ) {
-				$class_name = __CLASS__;
+				$class_name = self::class;
 			}
 
 			self::$instance = new $class_name();

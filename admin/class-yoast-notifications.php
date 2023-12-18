@@ -88,7 +88,7 @@ class Yoast_Notifications {
 		}
 
 		// Needed for adminbar and Notifications page.
-		add_action( 'admin_init', [ __CLASS__, 'collect_notifications' ], 99 );
+		add_action( 'admin_init', [ self::class, 'collect_notifications' ], 99 );
 
 		// Add AJAX hooks.
 		add_action( 'wp_ajax_yoast_dismiss_notification', [ $this, 'ajax_dismiss_notification' ] );
@@ -223,12 +223,12 @@ class Yoast_Notifications {
 		$notifications            = $notification_center->get_sorted_notifications();
 		self::$notification_count = count( $notifications );
 
-		self::$errors           = array_filter( $notifications, [ __CLASS__, 'filter_error_notifications' ] );
-		self::$dismissed_errors = array_filter( self::$errors, [ __CLASS__, 'filter_dismissed_notifications' ] );
+		self::$errors           = array_filter( $notifications, [ self::class, 'filter_error_notifications' ] );
+		self::$dismissed_errors = array_filter( self::$errors, [ self::class, 'filter_dismissed_notifications' ] );
 		self::$active_errors    = array_diff( self::$errors, self::$dismissed_errors );
 
-		self::$warnings           = array_filter( $notifications, [ __CLASS__, 'filter_warning_notifications' ] );
-		self::$dismissed_warnings = array_filter( self::$warnings, [ __CLASS__, 'filter_dismissed_notifications' ] );
+		self::$warnings           = array_filter( $notifications, [ self::class, 'filter_warning_notifications' ] );
+		self::$dismissed_warnings = array_filter( self::$warnings, [ self::class, 'filter_dismissed_notifications' ] );
 		self::$active_warnings    = array_diff( self::$warnings, self::$dismissed_warnings );
 	}
 
