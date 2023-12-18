@@ -1,4 +1,3 @@
-/* eslint-disable no-irregular-whitespace */
 import createWordRegex from "../../../../src/languageProcessing/helpers/regex/createWordRegex.js";
 
 describe( "creates regex from keyword", function() {
