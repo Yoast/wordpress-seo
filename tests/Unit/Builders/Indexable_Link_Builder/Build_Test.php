@@ -217,7 +217,6 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 			);
 		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 3, 0 );
 
-
 		$links = $this->instance->build( $indexable, $content );
 
 		$this->assertEquals( 2, \count( $links ) );
@@ -394,8 +393,6 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 			->with( $indexable->id )
 			->once()
 			->andReturn( [] );
-
-
 
 		self::assertSame( $output_result, $this->instance->build( $indexable, $input_content ) );
 	}

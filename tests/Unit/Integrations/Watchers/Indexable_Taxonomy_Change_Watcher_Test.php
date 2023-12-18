@@ -128,7 +128,13 @@ final class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 	 * @param int   $schedule_cleanup_times       The times we schedule cleanup.
 	 */
 	public function test_check_taxonomy_public_availability(
-		$is_json_request, $public_taxonomies, $get_public_taxonomies_times, $last_known_public_taxonomies, $set_public_taxonomies_times, $delete_transient_times, $schedule_cleanup_times
+		$is_json_request,
+		$public_taxonomies,
+		$get_public_taxonomies_times,
+		$last_known_public_taxonomies,
+		$set_public_taxonomies_times,
+		$delete_transient_times,
+		$schedule_cleanup_times
 	) {
 		Functions\expect( 'wp_is_json_request' )
 			->once()

@@ -228,7 +228,7 @@ final class Social_Profiles_Helper_Test extends TestCase {
 			if ( $field === 'other_social_urls' ) {
 				$social_profiles[ $field ] = \array_filter(
 					$social_profiles[ $field ],
-					static function( $other_social_url ) {
+					static function ( $other_social_url ) {
 						return $other_social_url !== '';
 					}
 				);

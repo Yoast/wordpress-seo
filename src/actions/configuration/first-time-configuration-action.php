@@ -332,7 +332,7 @@ class First_Time_Configuration_Action {
 	 *
 	 * @return array The old values.
 	 */
-	private function get_old_values( array $fields_names ) : array {
+	private function get_old_values( array $fields_names ): array {
 		$old_values = [];
 
 		foreach ( $fields_names as $field_name ) {

@@ -18,4 +18,3 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * Don't use it in your code as it will be removed shortly.
  */
 do_action( 'wpseo_settings_tab_site_analysis_internal', $yform );
-

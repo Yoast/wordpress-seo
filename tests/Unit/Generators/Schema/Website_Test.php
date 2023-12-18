@@ -103,7 +103,7 @@ final class Website_Test extends TestCase {
 		$this->language->expects( 'add_piece_language' )
 			->once()
 			->andReturnUsing(
-				static function( $data ) {
+				static function ( $data ) {
 					$data['inLanguage'] = 'language';
 
 					return $data;
@@ -159,7 +159,7 @@ final class Website_Test extends TestCase {
 		$this->language->expects( 'add_piece_language' )
 			->once()
 			->andReturnUsing(
-				static function( $data ) {
+				static function ( $data ) {
 					$data['inLanguage'] = 'language';
 
 					return $data;

@@ -82,7 +82,6 @@ final class Dismiss_New_Route_Test extends TestCase {
 		$this->options             = new Options_Helper();
 		$this->notification_center = $this->get_notification_center();
 
-
 		$dismiss_notifications = new Content_Type_Visibility_Dismiss_Notifications( $this->options );
 		$this->instance        = new Content_Type_Visibility_Dismiss_New_Route( $dismiss_notifications );
 
@@ -223,7 +222,6 @@ final class Dismiss_New_Route_Test extends TestCase {
 			->once()
 			->andReturn( [] );
 
-
 		$request                  = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/dismiss-taxonomy' );
 		$request['taxonomy_name'] = 'books-category';
 
@@ -267,7 +265,6 @@ final class Dismiss_New_Route_Test extends TestCase {
 			->with( 'new_post_types', [] )
 			->once()
 			->andReturn( $new_post_types );
-
 
 		$request                   = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/dismiss-post-type' );
 		$request['post_type_name'] = 'book';

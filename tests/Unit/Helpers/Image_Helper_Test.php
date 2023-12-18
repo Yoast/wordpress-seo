@@ -75,7 +75,6 @@ final class Image_Helper_Test extends TestCase {
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 
-
 		$this->indexable_repository           = Mockery::mock( Indexable_Repository::class );
 		$this->indexable_seo_links_repository = Mockery::mock( SEO_Links_Repository::class );
 		$this->options_helper                 = Mockery::mock( Options_Helper::class );

@@ -531,7 +531,6 @@ final class Background_Indexing_Integration_Test extends TestCase {
 			->with( 1 )
 			->andReturn( 0 );
 
-
 		$this->term_indexation->expects( 'index' )->once();
 		$this->post_indexation->expects( 'index' )->once();
 		$this->general_indexation->expects( 'index' )->once();
@@ -552,7 +551,6 @@ final class Background_Indexing_Integration_Test extends TestCase {
 	 */
 	public function test_index_with_wp_cron_with_cron_indexing_disabled() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
-
 
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
@@ -616,7 +614,6 @@ final class Background_Indexing_Integration_Test extends TestCase {
 			->expects( 'should_index_indexables' )
 			->once()
 			->andReturn( true );
-
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12345 );
 		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'wpseo_indexable_index_batch' );

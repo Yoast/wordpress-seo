@@ -92,4 +92,3 @@ class User_Profiles_Additions_Ui implements Integration_Interface {
 		echo '</div>';
 	}
 }
-

@@ -166,7 +166,7 @@ final class HowTo_Test extends TestCase {
 		$this->language
 			->shouldReceive( 'add_piece_language' )
 			->andReturnUsing(
-				static function( $data ) {
+				static function ( $data ) {
 					$data['inLanguage'] = 'language';
 
 					return $data;

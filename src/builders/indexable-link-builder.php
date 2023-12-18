@@ -383,7 +383,7 @@ class Indexable_Link_Builder {
 		$home_url    = \wp_parse_url( \home_url() );
 		$current_url = \wp_parse_url( $indexable->permalink );
 		$links       = \array_map(
-			function( $link ) use ( $home_url, $indexable ) {
+			function ( $link ) use ( $home_url, $indexable ) {
 				return $this->create_internal_link( $link, $home_url, $indexable );
 			},
 			$links
@@ -633,7 +633,7 @@ class Indexable_Link_Builder {
 		return \array_udiff(
 			$links_a,
 			$links_b,
-			static function( SEO_Links $link_a, SEO_Links $link_b ) {
+			static function ( SEO_Links $link_a, SEO_Links $link_b ) {
 				return \strcmp( $link_a->url, $link_b->url );
 			}
 		);

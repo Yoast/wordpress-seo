@@ -128,7 +128,13 @@ final class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	 * @param int   $schedule_cleanup_times       The times we schedule the cleanup.
 	 */
 	public function test_check_post_types_public_availability(
-		$is_json_request, $public_post_types, $get_public_post_types_times, $last_known_public_post_types, $set_public_post_types_times, $delete_transient_times, $schedule_cleanup_times
+		$is_json_request,
+		$public_post_types,
+		$get_public_post_types_times,
+		$last_known_public_post_types,
+		$set_public_post_types_times,
+		$delete_transient_times,
+		$schedule_cleanup_times
 	) {
 		Functions\expect( 'wp_is_json_request' )
 			->once()

@@ -506,7 +506,6 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 			->with( 'prepared_clean_query' )
 			->andReturn( $ids );
 
-
 		$this->wpdb->shouldReceive( 'query' )
 			->once()
 			->with( "DELETE FROM wp_yoast_indexable WHERE object_type = 'user' AND object_id IN( " . \implode( ',', $ids ) . ' )' )
