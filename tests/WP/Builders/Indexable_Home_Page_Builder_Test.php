@@ -28,16 +28,16 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 		parent::setUp();
 
 		$this->instance = new Indexable_Home_Page_Builder(
-			YoastSEO()->helpers->options,
-			YoastSEO()->helpers->url,
-			YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
-			YoastSEO()->helpers->post
+			\YoastSEO()->helpers->options,
+			\YoastSEO()->helpers->url,
+			\YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
+			\YoastSEO()->helpers->post
 		);
 
 		$this->instance->set_social_image_helpers(
-			YoastSEO()->helpers->image,
-			YoastSEO()->helpers->open_graph->image,
-			YoastSEO()->helpers->twitter->image
+			\YoastSEO()->helpers->image,
+			\YoastSEO()->helpers->open_graph->image,
+			\YoastSEO()->helpers->twitter->image
 		);
 	}
 
@@ -48,7 +48,7 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 	 */
 	public function test_build() {
 		$description = 'A cool description';
-		YoastSEO()->helpers->options->set( 'metadesc-home-wpseo', $description );
+		\YoastSEO()->helpers->options->set( 'metadesc-home-wpseo', $description );
 
 		$post_data = [
 			'post_title'  => 'Test post',
@@ -67,17 +67,17 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->assertEquals( '1978-09-13 08:50:00', $result->object_published_at, 'object_published_at should be 1978-09-13 08:50:00.' );
 		$this->assertEquals( '1978-09-13 08:50:00', $result->object_last_modified, 'object_last_modified should be 1978-09-13 08:50:00.' );
 		$this->assertEquals( 'home-page', $result->object_type, 'object_type should be home-page.' );
-		$this->assertEquals( YoastSEO()->helpers->options->get( 'title-home-wpseo' ), $result->title, 'title should be the same as the title-home-wpseo option.' );
-		$this->assertEquals( YoastSEO()->helpers->options->get( 'breadcrumbs-home' ), $result->breadcrumb_title, 'breadcrumb_title should be the same as the breadcrumbs-home option.' );
-		$this->assertEquals( YoastSEO()->helpers->url->home(), $result->permalink, 'permalink should be the same as the home url.' );
+		$this->assertEquals( \YoastSEO()->helpers->options->get( 'title-home-wpseo' ), $result->title, 'title should be the same as the title-home-wpseo option.' );
+		$this->assertEquals( \YoastSEO()->helpers->options->get( 'breadcrumbs-home' ), $result->breadcrumb_title, 'breadcrumb_title should be the same as the breadcrumbs-home option.' );
+		$this->assertEquals( \YoastSEO()->helpers->url->home(), $result->permalink, 'permalink should be the same as the home url.' );
 		$this->assertEquals( $description, $result->description, 'description is not correct.' );
 		$this->assertEquals( \get_current_blog_id(), $result->blog_id, 'blog_id should be the id of the current blog.' );
 		$this->assertNull( $result->open_graph_image_source, 'open_graph_image_source should be null.' );
 		$this->assertNull( $result->open_graph_image_meta, 'open_graph_image_meta should be null.' );
-		$this->assertEquals( YoastSEO()->helpers->options->get( 'open_graph_frontpage_title' ), $result->open_graph_title, 'open_graph_title should be the same as the open_graph_frontpage_title option.' );
-		$this->assertEquals( YoastSEO()->helpers->options->get( 'open_graph_frontpage_image' ), $result->open_graph_image, 'open_graph_image should be the same as the open_graph_frontpage_image option.' );
-		$this->assertEquals( YoastSEO()->helpers->options->get( 'open_graph_frontpage_image_id' ), $result->open_graph_image_id, 'open_graph_image_id should be the same as the open_graph_frontpage_image_id option.' );
-		$this->assertEquals( YoastSEO()->helpers->options->get( 'open_graph_frontpage_desc' ), $result->open_graph_description, 'open_graph_description should be the same as the open_graph_frontpage_desc option.' );
+		$this->assertEquals( \YoastSEO()->helpers->options->get( 'open_graph_frontpage_title' ), $result->open_graph_title, 'open_graph_title should be the same as the open_graph_frontpage_title option.' );
+		$this->assertEquals( \YoastSEO()->helpers->options->get( 'open_graph_frontpage_image' ), $result->open_graph_image, 'open_graph_image should be the same as the open_graph_frontpage_image option.' );
+		$this->assertEquals( \YoastSEO()->helpers->options->get( 'open_graph_frontpage_image_id' ), $result->open_graph_image_id, 'open_graph_image_id should be the same as the open_graph_frontpage_image_id option.' );
+		$this->assertEquals( \YoastSEO()->helpers->options->get( 'open_graph_frontpage_desc' ), $result->open_graph_description, 'open_graph_description should be the same as the open_graph_frontpage_desc option.' );
 	}
 
 	/**
@@ -86,10 +86,10 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_with_fallback_description() {
-		YoastSEO()->helpers->options->set( 'metadesc-home-wpseo', '' );
+		\YoastSEO()->helpers->options->set( 'metadesc-home-wpseo', '' );
 
 		$fallback_description = 'A cool fallback description';
-		update_option( 'blogdescription', $fallback_description );
+		\update_option( 'blogdescription', $fallback_description );
 
 		$post_data = [
 			'post_title'  => 'Test post',
@@ -130,7 +130,7 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 		];
 
 		// Create the attachement post.
-		$id = wp_insert_attachment(
+		$id = \wp_insert_attachment(
 			[
 				'post_title'     => 'Attachment Title',
 				'post_type'      => 'attachment',
@@ -152,7 +152,7 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 			]
 		);
 
-		YoastSEO()->helpers->options->set( 'open_graph_frontpage_image_id', $id );
+		\YoastSEO()->helpers->options->set( 'open_graph_frontpage_image_id', $id );
 
 		$post_data = [
 			'post_title'  => 'Test post',
@@ -169,6 +169,6 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		$this->assertInstanceOf( Indexable::class, $result, 'The result should be an instance of Indexable.' );
 		$this->assertEquals( \home_url() . $fake_image_path, $result->open_graph_image, 'open_graph_image is not correct.' );
-		$this->assertEqualsCanonicalizing( $expected_image, (array) json_decode( $result->open_graph_image_meta ), 'open_graph_image_meta is not correct.' );
+		$this->assertEqualsCanonicalizing( $expected_image, (array) \json_decode( $result->open_graph_image_meta ), 'open_graph_image_meta is not correct.' );
 	}
 }

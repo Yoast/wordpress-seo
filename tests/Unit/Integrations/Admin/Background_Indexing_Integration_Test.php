@@ -309,7 +309,7 @@ final class Background_Indexing_Integration_Test extends TestCase {
 		$added_schedules          = $this->instance->add_cron_schedule( [] );
 		$expected_added_schedules = [
 			'fifteen_minutes' => [
-				'interval' => ( 15 * MINUTE_IN_SECONDS ),
+				'interval' => ( 15 * \MINUTE_IN_SECONDS ),
 				'display'  => 'Every fifteen minutes',
 			],
 		];

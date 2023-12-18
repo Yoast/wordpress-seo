@@ -89,7 +89,7 @@ class Wordproof implements Integration_Interface {
 		 */
 		\add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ], 10, 0 );
 
-		if ( version_compare( strtok( get_bloginfo( 'version' ), '-' ), '6.3', '>=' ) ) {
+		if ( \version_compare( \strtok( \get_bloginfo( 'version' ), '-' ), '6.3', '>=' ) ) {
 			\add_action(
 				'wp_enqueue_scripts',
 				static function () {
