@@ -163,14 +163,6 @@
 	#############################################################################
 	-->
 
-	<!-- Composer scripts are not WordPress and have console output. -->
-	<rule ref="WordPress.Security.EscapeOutput.OutputNotEscaped">
-		<exclude-pattern>/config/composer/*</exclude-pattern>
-	</rule>
-	<rule ref="WordPress.PHP.DiscouragedPHPFunctions">
-		<exclude-pattern>/config/composer/*</exclude-pattern>
-	</rule>
-
 	<!-- Exclude the "lib" folder from select naming conventions.
 		 The intention is to extract this to a separate package, so the names are
 		 based on the "future" package. -->
