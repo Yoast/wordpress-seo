@@ -390,7 +390,7 @@ class WPSEO_Replace_Vars {
 	 */
 	private function retrieve_excerpt() {
 		$replacement = null;
-		$locale      = \get_locale();
+		$locale      = get_locale();
 
 		// Japanese doesn't have a jp_JP variant in WP.
 		$limit = ( $locale === 'ja' ) ? 80 : 156;
@@ -1144,7 +1144,7 @@ class WPSEO_Replace_Vars {
 			return null;
 		}
 
-		return \get_the_date( 'Y', $this->args->ID );
+		return get_the_date( 'Y', $this->args->ID );
 	}
 
 	/**
@@ -1157,7 +1157,7 @@ class WPSEO_Replace_Vars {
 			return null;
 		}
 
-		return \get_the_date( 'F', $this->args->ID );
+		return get_the_date( 'F', $this->args->ID );
 	}
 
 	/**
@@ -1170,7 +1170,7 @@ class WPSEO_Replace_Vars {
 			return null;
 		}
 
-		return \get_the_date( 'd', $this->args->ID );
+		return get_the_date( 'd', $this->args->ID );
 	}
 
 	/**
@@ -1217,7 +1217,7 @@ class WPSEO_Replace_Vars {
 			return null;
 		}
 
-		return \get_permalink( $this->args->ID );
+		return get_permalink( $this->args->ID );
 	}
 
 	/**

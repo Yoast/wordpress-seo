@@ -33,7 +33,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		$premium_version = YoastSEO()->helpers->product->get_premium_version();
 
 		if ( $feature->premium && $feature->premium_version ) {
-			$not_supported_in_current_premium_version = $is_premium && \version_compare( $premium_version, $feature->premium_version, '<' );
+			$not_supported_in_current_premium_version = $is_premium && version_compare( $premium_version, $feature->premium_version, '<' );
 
 			if ( $not_supported_in_current_premium_version ) {
 				continue;

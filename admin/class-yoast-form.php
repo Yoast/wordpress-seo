@@ -475,7 +475,7 @@ class Yoast_Form {
 			'disabled'    => false,
 		];
 
-		$attr = \wp_parse_args( $attr, $defaults );
+		$attr = wp_parse_args( $attr, $defaults );
 		$val  = $this->get_field_value( $variable, '' );
 
 		if ( isset( $attr['type'] ) && $attr['type'] === 'url' ) {
@@ -508,13 +508,13 @@ class Yoast_Form {
 		printf(
 			'<input type="%1$s" name="%2$s" id="%3$s" class="%4$s"%5$s%6$s%7$s value="%8$s"%9$s>',
 			$type,
-			\esc_attr( $this->option_name . '[' . $variable . ']' ),
-			\esc_attr( $variable ),
-			\esc_attr( $attr['class'] ),
-			isset( $attr['placeholder'] ) ? ' placeholder="' . \esc_attr( $attr['placeholder'] ) . '"' : '',
-			isset( $attr['autocomplete'] ) ? ' autocomplete="' . \esc_attr( $attr['autocomplete'] ) . '"' : '',
+			esc_attr( $this->option_name . '[' . $variable . ']' ),
+			esc_attr( $variable ),
+			esc_attr( $attr['class'] ),
+			isset( $attr['placeholder'] ) ? ' placeholder="' . esc_attr( $attr['placeholder'] ) . '"' : '',
+			isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '',
 			$aria_attributes,
-			\esc_attr( $val ),
+			esc_attr( $val ),
 			$this->get_disabled_attribute( $variable, $attr )
 		);
 		// phpcs:enable

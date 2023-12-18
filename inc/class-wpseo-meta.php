@@ -402,7 +402,7 @@ class WPSEO_Meta {
 					/** This filter is documented in inc/options/class-wpseo-option-titles.php */
 					$allowed_article_types = apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES );
 
-					if ( ! \array_key_exists( $default_schema_article_type, $allowed_article_types ) ) {
+					if ( ! array_key_exists( $default_schema_article_type, $allowed_article_types ) ) {
 						$default_schema_article_type = WPSEO_Options::get_default( 'wpseo_titles', 'schema-article-type-' . $post_type );
 					}
 					$field_defs['schema_article_type']['default'] = $default_schema_article_type;

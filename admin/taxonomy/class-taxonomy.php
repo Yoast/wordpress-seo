@@ -165,7 +165,7 @@ class WPSEO_Taxonomy {
 						],
 						'shortcodes' => [
 							'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
-							'wpseo_filter_shortcodes_nonce' => \wp_create_nonce( 'wpseo-filter-shortcodes' ),
+							'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
 						],
 					],
 					'worker'  => [
@@ -180,10 +180,10 @@ class WPSEO_Taxonomy {
 					'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 				],
 				'metabox'           => $this->localize_term_scraper_script( $tag_id ),
-				'userLanguageCode'  => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+				'userLanguageCode'  => WPSEO_Language_Utils::get_language( get_user_locale() ),
 				'isTerm'            => true,
 				'postId'            => $tag_id,
-				'usedKeywordsNonce' => \wp_create_nonce( 'wpseo-keyword-usage' ),
+				'usedKeywordsNonce' => wp_create_nonce( 'wpseo-keyword-usage' ),
 				'linkParams'        => WPSEO_Shortlinker::get_query_params(),
 			];
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
@@ -214,7 +214,7 @@ class WPSEO_Taxonomy {
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: Nonce is already checked by WordPress before executing this action.
 			if ( isset( $_POST[ $key ] ) && is_string( $_POST[ $key ] ) ) {
 				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: $data is getting sanitized later.
-				$data                  = \wp_unslash( $_POST[ $key ] );
+				$data                  = wp_unslash( $_POST[ $key ] );
 				$new_meta_data[ $key ] = ( $key !== 'wpseo_canonical' ) ? WPSEO_Utils::sanitize_text_field( $data ) : WPSEO_Utils::sanitize_url( $data );
 			}
 

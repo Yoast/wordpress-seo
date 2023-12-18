@@ -150,7 +150,7 @@ class WPSEO_Admin_Asset_Manager {
 	 * @param array  $data        The l10n data.
 	 */
 	public function localize_script( $handle, $object_name, $data ) {
-		\wp_localize_script( $this->prefix . $handle, $object_name, $data );
+		wp_localize_script( $this->prefix . $handle, $object_name, $data );
 	}
 
 	/**
@@ -161,7 +161,7 @@ class WPSEO_Admin_Asset_Manager {
 	 * @param string $position Optional. Whether to add the inline script before the handle or after.
 	 */
 	public function add_inline_script( $handle, $data, $position = 'after' ) {
-		\wp_add_inline_script( $this->prefix . $handle, $data, $position );
+		wp_add_inline_script( $this->prefix . $handle, $data, $position );
 	}
 
 	/**
@@ -219,7 +219,7 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return bool True when the script is enqueued.
 	 */
 	public function is_script_enqueued( $script ) {
-		return \wp_script_is( $this->prefix . $script );
+		return wp_script_is( $this->prefix . $script );
 	}
 
 	/**

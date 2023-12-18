@@ -469,7 +469,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 						if ( is_array( $items ) ) {
 							foreach ( $items as $item_key => $item ) {
-								if ( ! \is_string( $item_key ) || ! \is_numeric( $item ) ) {
+								if ( ! is_string( $item_key ) || ! is_numeric( $item ) ) {
 									unset( $items[ $item_key ] );
 								}
 							}

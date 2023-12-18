@@ -48,7 +48,7 @@ class WPSEO_Admin_Pages {
 	public function init() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-		if ( \in_array( $page, [ Settings_Integration::PAGE, Academy_Integration::PAGE, Support_Integration::PAGE ], true ) ) {
+		if ( in_array( $page, [ Settings_Integration::PAGE, Academy_Integration::PAGE, Support_Integration::PAGE ], true ) ) {
 			// Bail, this is managed in the applicable integration.
 			return;
 		}
@@ -88,7 +88,7 @@ class WPSEO_Admin_Pages {
 		$woocommerce_conditional = new WooCommerce_Conditional();
 
 		$script_data = [
-			'userLanguageCode'               => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+			'userLanguageCode'               => WPSEO_Language_Utils::get_language( get_user_locale() ),
 			'dismissedAlerts'                => $dismissed_alerts,
 			'isRtl'                          => is_rtl(),
 			'isPremium'                      => YoastSEO()->helpers->product->is_premium(),
@@ -97,7 +97,7 @@ class WPSEO_Admin_Pages {
 			'webinarIntroSettingsUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-settings' ),
 			'webinarIntroFirstTimeConfigUrl' => $this->get_webinar_shortlink(),
 			'linkParams'                     => WPSEO_Shortlinker::get_query_params(),
-			'pluginUrl'                      => \plugins_url( '', \WPSEO_FILE ),
+			'pluginUrl'                      => plugins_url( '', WPSEO_FILE ),
 		];
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.

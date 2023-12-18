@@ -895,7 +895,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			],
 			'shortcodes' => [
 				'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
-				'wpseo_filter_shortcodes_nonce' => \wp_create_nonce( 'wpseo-filter-shortcodes' ),
+				'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
 			],
 		];
 
@@ -918,13 +918,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			// @todo replace this translation with JavaScript translations.
 			'media'                      => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'                    => $this->get_metabox_script_data(),
-			'userLanguageCode'           => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+			'userLanguageCode'           => WPSEO_Language_Utils::get_language( get_user_locale() ),
 			'isPost'                     => true,
 			'isBlockEditor'              => $is_block_editor,
 			'postId'                     => $post_id,
 			'postStatus'                 => get_post_status( $post_id ),
 			'postType'                   => get_post_type( $post_id ),
-			'usedKeywordsNonce'          => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
+			'usedKeywordsNonce'          => wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 			'analysis'                   => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
@@ -938,8 +938,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'isWooCommerceActive'        => $woocommerce_active,
 			'woocommerceUpsell'          => get_post_type( $post_id ) === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
 			'linkParams'                 => WPSEO_Shortlinker::get_query_params(),
-			'pluginUrl'                  => \plugins_url( '', \WPSEO_FILE ),
-			'wistiaEmbedPermission'      => YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( \get_current_user_id() ),
+			'pluginUrl'                  => plugins_url( '', WPSEO_FILE ),
+			'wistiaEmbedPermission'      => YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( get_current_user_id() ),
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {

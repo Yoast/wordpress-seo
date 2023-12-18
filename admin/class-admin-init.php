@@ -341,7 +341,7 @@ class WPSEO_Admin_Init {
 	/**
 	 * Adds a custom Yoast section within the Classic Editor publish box.
 	 *
-	 * @param \WP_Post $post The current post object.
+	 * @param WP_Post $post The current post object.
 	 *
 	 * @return void
 	 */
