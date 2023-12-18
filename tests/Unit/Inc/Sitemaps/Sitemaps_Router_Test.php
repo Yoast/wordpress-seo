@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_Sitemaps_Router
  */
-final class WPSEO_Sitemaps_Router_Test extends TestCase {
+final class Sitemaps_Router_Test extends TestCase {
 
 	/**
 	 * Mock of the deactivating Yoast SEO conditional.
@@ -57,10 +57,10 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 		$this->deactivating_yoast_conditional = Mockery::mock( Deactivating_Yoast_Seo_Conditional::class );
 		$this->container                      = $this->create_container_with(
 			[
-				Deactivating_Yoast_Seo_Conditional::class => $this->deacrivating_yoast_conditional,
+				Deactivating_Yoast_Seo_Conditional::class => $this->deactivating_yoast_conditional,
 			]
 		);
-		$this->deacrivating_yoast_conditional->expects( 'is_met' )
+		$this->deactivating_yoast_conditional->expects( 'is_met' )
 			->once()
 			->andReturnFalse();
 
