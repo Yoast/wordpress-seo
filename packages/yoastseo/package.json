@@ -28,7 +28,7 @@
     "clean": "rm -rf build",
     "pretest": "grunt get-premium-configuration",
     "test": "jest",
-    "lint": "eslint src",
+    "lint": "eslint src spec --max-warnings 19",
     "prepublishOnly": "yarn build"
   },
   "engines": {
