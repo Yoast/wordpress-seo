@@ -79,7 +79,7 @@ final class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals( [], Cleanup_Integration::get_conditionals() );
+		$this->assertEquals( [], Cleanup_Integration::get_conditionals() );
 	}
 
 	/**

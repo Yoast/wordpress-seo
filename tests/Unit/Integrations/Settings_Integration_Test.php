@@ -123,7 +123,7 @@ final class Settings_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Settings_Conditional::class,
 			],

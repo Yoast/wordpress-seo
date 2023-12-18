@@ -90,7 +90,7 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 	public function test_set_helper() {
 		$this->instance->set_helper( Mockery::mock( Post_Type_Helper::class ) );
 
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Post_Type_Helper::class,
 			$this->getPropertyValue( $this->instance, 'post_type_helper' )
 		);

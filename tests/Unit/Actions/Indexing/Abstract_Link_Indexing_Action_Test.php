@@ -87,15 +87,15 @@ final class Abstract_Link_Indexing_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Link_Builder::class,
 			$this->getPropertyValue( $this->instance, 'link_builder' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Repository::class,
 			$this->getPropertyValue( $this->instance, 'repository' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			'wpdb',
 			$this->getPropertyValue( $this->instance, 'wpdb' )
 		);
@@ -111,6 +111,6 @@ final class Abstract_Link_Indexing_Action_Test extends TestCase {
 			->with( 5 )
 			->andReturn( 25 );
 
-		static::assertEquals( 25, $this->instance->get_limit() );
+		$this->assertEquals( 25, $this->instance->get_limit() );
 	}
 }

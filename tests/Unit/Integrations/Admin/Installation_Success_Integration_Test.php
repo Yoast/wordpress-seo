@@ -60,7 +60,7 @@ final class Installation_Success_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Admin_Conditional::class,
 			],
@@ -74,12 +74,12 @@ final class Installation_Success_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Options_Helper::class,
 			$this->getPropertyValue( $this->instance, 'options_helper' )
 		);
 
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Product_Helper::class,
 			$this->getPropertyValue( $this->instance, 'product_helper' )
 		);

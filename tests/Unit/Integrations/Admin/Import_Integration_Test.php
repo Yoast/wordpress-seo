@@ -76,15 +76,15 @@ final class Import_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
 			self::getPropertyValue( $this->instance, 'asset_manager' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Importable_Detector_Service::class,
 			self::getPropertyValue( $this->instance, 'importable_detector' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Importing_Route::class,
 			self::getPropertyValue( $this->instance, 'importing_route' )
 		);

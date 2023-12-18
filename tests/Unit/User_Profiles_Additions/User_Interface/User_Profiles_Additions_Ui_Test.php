@@ -74,7 +74,7 @@ final class User_Profiles_Additions_Ui_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[ User_Profile_Conditional::class ],
 			User_Profiles_Additions_Ui::get_conditionals()
 		);

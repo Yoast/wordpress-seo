@@ -49,9 +49,9 @@ final class WP_Robots_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Meta_Tags_Context_Memoizer::class,
-			static::getPropertyValue( $this->instance, 'context_memoizer' )
+			$this->getPropertyValue( $this->instance, 'context_memoizer' )
 		);
 	}
 
@@ -63,7 +63,7 @@ final class WP_Robots_Integration_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		static::assertNotFalse( \has_filter( 'wp_robots', [ $this->instance, 'add_robots' ] ) );
+		$this->assertNotFalse( \has_filter( 'wp_robots', [ $this->instance, 'add_robots' ] ) );
 	}
 
 	/**
@@ -72,7 +72,7 @@ final class WP_Robots_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Front_End_Conditional::class,
 				WP_Robots_Conditional::class,
@@ -102,7 +102,7 @@ final class WP_Robots_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $context );
 
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				'index'  => true,
 				'follow' => true,
@@ -144,7 +144,7 @@ final class WP_Robots_Integration_Test extends TestCase {
 			]
 		);
 
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				'follow'            => true,
 				'index'             => true,
@@ -180,7 +180,7 @@ final class WP_Robots_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $context );
 
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				'follow'            => true,
 				'index'             => true,
@@ -223,7 +223,7 @@ final class WP_Robots_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $context );
 
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				'follow'  => true,
 				'noindex' => true,
@@ -264,7 +264,7 @@ final class WP_Robots_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $context );
 
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				'index'  => true,
 				'follow' => true,
@@ -305,7 +305,7 @@ final class WP_Robots_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $context );
 
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				'index'             => true,
 				'follow'            => true,
@@ -348,7 +348,7 @@ final class WP_Robots_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $context );
 
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				'index'        => true,
 				'nofollow'     => true,

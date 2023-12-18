@@ -83,7 +83,7 @@ final class Academy_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Academy_Integration::class,
 			new Academy_Integration(
 				$this->asset_manager,
@@ -100,7 +100,7 @@ final class Academy_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Admin_Conditional::class,
 				User_Can_Manage_Wpseo_Options_Conditional::class,

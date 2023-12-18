@@ -37,7 +37,7 @@ final class WP_Robots_Conditional_Test extends TestCase {
 	 * @covers ::is_met
 	 */
 	public function test_is_met_without_having_wp_robots_function() {
-		static::assertFalse( $this->instance->is_met() );
+		$this->assertFalse( $this->instance->is_met() );
 	}
 
 	/**
@@ -48,6 +48,6 @@ final class WP_Robots_Conditional_Test extends TestCase {
 	public function test_is_met() {
 		Monkey\Functions\expect( 'wp_robots' )->never();
 
-		static::assertTrue( $this->instance->is_met() );
+		$this->assertTrue( $this->instance->is_met() );
 	}
 }

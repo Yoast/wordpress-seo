@@ -40,7 +40,7 @@ final class Redirects_Page_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Admin_Conditional::class,
 				Premium_Inactive_Conditional::class,

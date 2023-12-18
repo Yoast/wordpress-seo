@@ -242,7 +242,7 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertSame(
+		$this->assertSame(
 			[
 				Admin_Conditional::class,
 				Not_Admin_Ajax_Conditional::class,

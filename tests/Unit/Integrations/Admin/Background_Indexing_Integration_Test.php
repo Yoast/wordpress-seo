@@ -168,7 +168,7 @@ final class Background_Indexing_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Migrations_Conditional::class,
 			],
@@ -182,31 +182,31 @@ final class Background_Indexing_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Post_Indexation_Action::class,
 			$this->getPropertyValue( $this->instance, 'post_indexation' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Term_Indexation_Action::class,
 			$this->getPropertyValue( $this->instance, 'term_indexation' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Post_Type_Archive_Indexation_Action::class,
 			$this->getPropertyValue( $this->instance, 'post_type_archive_indexation' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_General_Indexation_Action::class,
 			$this->getPropertyValue( $this->instance, 'general_indexation' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Indexing_Complete_Action::class,
 			$this->getPropertyValue( $this->instance, 'complete_indexation_action' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexing_Helper::class,
 			$this->getPropertyValue( $this->instance, 'indexing_helper' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Yoast_Admin_And_Dashboard_Conditional::class,
 			$this->getPropertyValue( $this->instance, 'yoast_admin_and_dashboard_conditional' )
 		);
