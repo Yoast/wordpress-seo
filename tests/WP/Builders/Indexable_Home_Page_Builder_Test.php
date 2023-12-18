@@ -30,7 +30,7 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->instance = new Indexable_Home_Page_Builder(
 			\YoastSEO()->helpers->options,
 			\YoastSEO()->helpers->url,
-			\YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
+			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
 			\YoastSEO()->helpers->post
 		);
 
