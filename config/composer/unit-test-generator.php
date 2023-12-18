@@ -15,14 +15,14 @@ class Unit_Test_Generator {
 	/**
 	 * Path to the unit test folder.
 	 *
-	 * @private
+	 * @access private
 	 */
 	public const UNIT_TESTS_FOLDER = 'tests/unit';
 
 	/**
 	 * Path to the unit test folder in Premium.
 	 *
-	 * @private
+	 * @access private
 	 */
 	public const UNIT_TESTS_FOLDER_PREMIUM = 'tests/unit/premium';
 
