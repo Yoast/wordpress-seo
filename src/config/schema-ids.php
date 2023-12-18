@@ -53,13 +53,6 @@ class Schema_IDs {
 	const PRIMARY_IMAGE_HASH = '#primaryimage';
 
 	/**
-	 * Hash used for the WebPage's `@id`.
-	 *
-	 * @deprecated 19.3
-	 */
-	const WEBPAGE_HASH = '';
-
-	/**
 	 * Hash used for the Website's `@id`.
 	 */
 	const WEBSITE_HASH = '#website';

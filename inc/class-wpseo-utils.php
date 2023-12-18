@@ -1095,30 +1095,4 @@ class WPSEO_Utils {
 		$feature_flag_integration = YoastSEO()->classes->get( Feature_Flag_Integration::class );
 		return $feature_flag_integration->get_enabled_features();
 	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Translates a decimal analysis score into a textual one.
-	 *
-	 * @since 1.8.0
-	 * @deprecated 19.5
-	 * @codeCoverageIgnore
-	 *
-	 * @param int  $val       The decimal score to translate.
-	 * @param bool $css_value Whether to return the i18n translated score or the CSS class value.
-	 *
-	 * @return string
-	 */
-	public static function translate_score( $val, $css_value = true ) {
-		_deprecated_function( __METHOD__, 'Yoast SEO 19.5', 'YoastSEO()->helpers->score_icon' );
-
-		$seo_rank = WPSEO_Rank::from_numeric_score( $val );
-
-		if ( $css_value ) {
-			return $seo_rank->get_css_class();
-		}
-
-		return $seo_rank->get_label();
-	}
 }

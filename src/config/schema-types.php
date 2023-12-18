@@ -166,24 +166,4 @@ class Schema_Types {
 			]
 		);
 	}
-
-	/**
-	 * Gets the values of the article type options.
-	 *
-	 * @deprecated 19.12
-	 * @codeCoverageIgnore
-	 *
-	 * @return array[] The values of the Schema article type options.
-	 */
-	public function get_article_type_options_values() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
-		$article_types       = $this->get_article_type_options();
-		$article_type_values = [];
-
-		foreach ( $article_types as $type ) {
-			$article_type_values[] = $type['value'];
-		}
-
-		return $article_type_values;
-	}
 }
