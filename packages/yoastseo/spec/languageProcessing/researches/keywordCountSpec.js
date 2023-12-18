@@ -538,7 +538,7 @@ describe.each( testCases )( "Test for counting the keyphrase in a text in englis
 
 const testCasesWithSpecialCharacters = [
 	{
-		description: "counts the keyphrase occurrence in the text with &nbsp;",
+		description: "counts the keyphrase occurrence in a text with &nbsp;",
 		paper: new Paper( "<p>a string with nbsp to match the key&nbsp;word.</p>", { keyword: "key word" } ),
 		keyphraseForms: [ [ "key" ], [ "word" ] ],
 		expectedCount: 1,
