@@ -60,6 +60,8 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Add hooks late enough for taxonomy object to be available for checks.
+	 *
+	 * @return void
 	 */
 	public function admin_init() {
 
@@ -80,6 +82,8 @@ class WPSEO_Taxonomy {
 	 * Show the SEO inputs for term.
 	 *
 	 * @param stdClass|WP_Term $term Term to show the edit boxes for.
+	 *
+	 * @return void
 	 */
 	public function term_metabox( $term ) {
 		if ( WPSEO_Metabox::is_internet_explorer() ) {
@@ -121,6 +125,8 @@ class WPSEO_Taxonomy {
 	 * Queue assets for taxonomy screens.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @return void
 	 */
 	public function admin_enqueue_scripts() {
 
@@ -201,6 +207,8 @@ class WPSEO_Taxonomy {
 	 * @param int    $term_id  ID of the term to save data for.
 	 * @param int    $tt_id    The taxonomy_term_id for the term.
 	 * @param string $taxonomy The taxonomy the term belongs to.
+	 *
+	 * @return void
 	 */
 	public function update_term( $term_id, $tt_id, $taxonomy ) {
 		// Bail if this is a multisite installation and the site has been switched.
@@ -252,6 +260,8 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Allows post-kses-filtered HTML in term descriptions.
+	 *
+	 * @return void
 	 */
 	public function custom_category_descriptions_allow_html() {
 		remove_filter( 'term_description', 'wp_kses_data' );
@@ -262,6 +272,8 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Output the WordPress editor.
+	 *
+	 * @return void
 	 */
 	public function custom_category_description_editor() {
 		wp_editor( '', 'description' );

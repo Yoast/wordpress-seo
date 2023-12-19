@@ -31,6 +31,8 @@ class WPSEO_Admin_User_Profile {
 	 * @param int    $meta_id   The ID of the meta option changed.
 	 * @param int    $object_id The ID of the user.
 	 * @param string $meta_key  The key of the meta field changed.
+	 *
+	 * @return void
 	 */
 	public function clear_author_sitemap_cache( $meta_id, $object_id, $meta_key ) {
 		if ( $meta_key === '_yoast_wpseo_profile_updated' ) {
@@ -42,6 +44,8 @@ class WPSEO_Admin_User_Profile {
 	 * Updates the user metas that (might) have been set on the user profile page.
 	 *
 	 * @param int $user_id User ID of the updated user.
+	 *
+	 * @return void
 	 */
 	public function process_user_option_update( $user_id ) {
 		update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
@@ -69,6 +73,8 @@ class WPSEO_Admin_User_Profile {
 	 * Add the inputs needed for SEO values to the User Profile page.
 	 *
 	 * @param WP_User $user User instance to output for.
+	 *
+	 * @return void
 	 */
 	public function user_profile( $user ) {
 		wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );

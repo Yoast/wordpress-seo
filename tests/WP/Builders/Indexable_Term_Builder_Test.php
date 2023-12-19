@@ -41,6 +41,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up(): void {
 		parent::set_up();
@@ -94,6 +96,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests the build method's happy path.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 		$term = \get_term( $this->term_id );
@@ -122,6 +126,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests the build method when the term the indexable should be built for does not exist.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_term_not_found() {
 		$term_id = -1;
@@ -139,6 +145,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests the build method when the category of the term the indexable should be built is not indexable (i.e. it is not public).
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_category_not_indexable() {
 		\register_taxonomy(
@@ -170,6 +178,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests the build method when the termpassed to the build function is invalid.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_invalid_term() {
 		$term = '';

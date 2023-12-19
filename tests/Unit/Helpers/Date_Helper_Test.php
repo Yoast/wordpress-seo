@@ -24,6 +24,8 @@ final class Date_Helper_Test extends TestCase {
 
 	/**
 	 * Performs the setup.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -40,6 +42,8 @@ final class Date_Helper_Test extends TestCase {
 	 * @param string $date     The date to format.
 	 * @param string $format   The format.
 	 * @param string $expected The expected value.
+	 *
+	 * @return void
 	 */
 	public function test_format( $date, $format, $expected ) {
 		$this->assertSame( $expected, $this->instance->format( $date, $format ) );
@@ -109,6 +113,8 @@ final class Date_Helper_Test extends TestCase {
 	 * @param string $timestamp The timestamp to format.
 	 * @param string $format    The format.
 	 * @param string $expected  The expected value.
+	 *
+	 * @return void
 	 */
 	public function test_format_timestamp( $timestamp, $format, $expected ) {
 		$this->assertSame( $expected, $this->instance->format_timestamp( $timestamp, $format ) );
@@ -148,6 +154,8 @@ final class Date_Helper_Test extends TestCase {
 	 * Tests to a translated format.
 	 *
 	 * @covers ::format_translated
+	 *
+	 * @return void
 	 */
 	public function test_format_translated() {
 		Monkey\Functions\expect( 'date_i18n' )
@@ -169,6 +177,8 @@ final class Date_Helper_Test extends TestCase {
 	 *
 	 * @param mixed $input    The date to validate.
 	 * @param bool  $expected The expected function return value.
+	 *
+	 * @return void
 	 */
 	public function test_is_valid_datetime( $input, $expected ) {
 		$this->assertSame( $expected, $this->instance->is_valid_datetime( $input ) );

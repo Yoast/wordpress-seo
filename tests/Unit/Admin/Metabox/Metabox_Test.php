@@ -25,6 +25,8 @@ final class Metabox_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -44,6 +46,8 @@ final class Metabox_Test extends TestCase {
 	 * Tests that the `yoast_free_additional_metabox_sections` filter is called.
 	 *
 	 * @covers ::get_additional_tabs
+	 *
+	 * @return void
 	 */
 	public function test_get_additional_meta_sections_calls_filter() {
 		Monkey\Filters\expectApplied( 'yoast_free_additional_metabox_sections' )
@@ -57,6 +61,8 @@ final class Metabox_Test extends TestCase {
 	 * Tests that it converts entries to a WPSEO_Metabox_Section_Additional instance.
 	 *
 	 * @covers ::get_additional_tabs
+	 *
+	 * @return void
 	 */
 	public function test_get_additional_meta_sections() {
 		Monkey\Filters\expectApplied( 'yoast_free_additional_metabox_sections' )
@@ -90,6 +96,8 @@ final class Metabox_Test extends TestCase {
 	 * Tests that any non-array entries are ignored.
 	 *
 	 * @covers ::get_additional_tabs
+	 *
+	 * @return void
 	 */
 	public function test_get_additional_meta_sections_ignores_non_arrays() {
 		Monkey\Filters\expectApplied( 'yoast_free_additional_metabox_sections' )
@@ -121,6 +129,8 @@ final class Metabox_Test extends TestCase {
 	 * Tests that any invalid section entries are ignored. In this case without a name property.
 	 *
 	 * @covers ::get_additional_tabs
+	 *
+	 * @return void
 	 */
 	public function test_get_additional_meta_sections_ignores_invalid_sections() {
 		Monkey\Filters\expectApplied( 'yoast_free_additional_metabox_sections' )

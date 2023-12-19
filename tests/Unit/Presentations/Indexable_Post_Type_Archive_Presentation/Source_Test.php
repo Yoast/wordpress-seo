@@ -17,6 +17,8 @@ final class Source_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -28,6 +30,8 @@ final class Source_Test extends TestCase {
 	 * Tests the generation of the source.
 	 *
 	 * @covers ::generate_source
+	 *
+	 * @return void
 	 */
 	public function test_generate_source() {
 		$this->indexable->object_sub_type = 'post';

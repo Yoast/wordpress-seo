@@ -58,6 +58,8 @@ final class Sitemaps_Admin_Test extends TestCase {
 	 * Tests the status transition on a development setup.
 	 *
 	 * @covers WPSEO_Sitemaps_Admin::status_transition
+	 *
+	 * @return void
 	 */
 	public function test_status_transition_on_development() {
 		Monkey\Functions\stubs(
@@ -95,6 +97,8 @@ final class Sitemaps_Admin_Test extends TestCase {
 	 * Tests the status transition on a production setup.
 	 *
 	 * @covers WPSEO_Sitemaps_Admin::status_transition
+	 *
+	 * @return void
 	 */
 	public function test_status_transition_on_production() {
 		global $wp_rewrite;

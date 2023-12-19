@@ -77,6 +77,8 @@ final class Introductions_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -102,6 +104,8 @@ final class Introductions_Integration_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals( [ Yoast_Admin_Conditional::class ], Introductions_Integration::get_conditionals() );
@@ -111,6 +115,8 @@ final class Introductions_Integration_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -143,6 +149,8 @@ final class Introductions_Integration_Test extends TestCase {
 	 * Tests if enqueuing assets when not on an installation page.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		Actions\expectAdded( 'admin_enqueue_scripts' )
@@ -156,6 +164,8 @@ final class Introductions_Integration_Test extends TestCase {
 	 * Tests if not enqueuing assets when not on an installation page.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks_installation_page() {
 		$_GET['page'] = 'wpseo_installation_successful_free';
@@ -171,6 +181,8 @@ final class Introductions_Integration_Test extends TestCase {
 	 *
 	 * @covers ::enqueue_assets
 	 * @covers ::update_user_introductions
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_assets() {
 		// Initial user ID.
@@ -207,6 +219,8 @@ final class Introductions_Integration_Test extends TestCase {
 	 * Tests enqueuing the assets without introductions.
 	 *
 	 * @covers ::enqueue_assets
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_assets_without_introductions() {
 		// Initial user ID.
@@ -229,6 +243,8 @@ final class Introductions_Integration_Test extends TestCase {
 	 * Tests updating the first user introductions (no metadata yet).
 	 *
 	 * @covers ::update_user_introductions
+	 *
+	 * @return void
 	 */
 	public function test_update_first_user_introductions() {
 		// Initial user ID.
@@ -267,6 +283,8 @@ final class Introductions_Integration_Test extends TestCase {
 	 *
 	 * @param array $introductions The introductions.
 	 * @param int   $user_id       The user ID.
+	 *
+	 * @return void
 	 */
 	private function expect_localized_data_for( $introductions, $user_id ) {
 		$is_premium              = false;

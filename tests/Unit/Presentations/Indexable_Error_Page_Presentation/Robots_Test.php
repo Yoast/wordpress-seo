@@ -18,6 +18,8 @@ final class Robots_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ final class Robots_Test extends TestCase {
 	 * Tests that the robots is set to no index.
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_dont_index() {
 		$actual   = $this->instance->generate_robots();

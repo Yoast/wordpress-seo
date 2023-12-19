@@ -33,6 +33,8 @@ final class Locale_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -49,6 +51,8 @@ final class Locale_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct locale.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->presentation->open_graph_locale = 'nl_BE';
@@ -66,6 +70,8 @@ final class Locale_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_filter() {
 		$this->presentation->open_graph_locale = 'nl_BE';
@@ -86,6 +92,8 @@ final class Locale_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct locale when the admin bar is showing a class is added.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$this->presentation->open_graph_locale = 'nl_BE';

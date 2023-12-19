@@ -28,6 +28,8 @@ class Loader_Pass implements CompilerPassInterface {
 	 * Checks all definitions to ensure all classes implementing the Integration interface are registered with the Loader class.
 	 *
 	 * @param ContainerBuilder $container The container.
+	 *
+	 * @return void
 	 */
 	public function process( ContainerBuilder $container ) {
 		if ( ! $container->hasDefinition( Loader::class ) ) {
@@ -51,6 +53,8 @@ class Loader_Pass implements CompilerPassInterface {
 	 *
 	 * @param Definition $definition        The definition to process.
 	 * @param Definition $loader_definition The loader definition.
+	 *
+	 * @return void
 	 */
 	private function process_definition( Definition $definition, Definition $loader_definition ) {
 		$class = $definition->getClass();

@@ -93,6 +93,8 @@ final class Indexing_Tool_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -125,6 +127,8 @@ final class Indexing_Tool_Integration_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -165,6 +169,8 @@ final class Indexing_Tool_Integration_Test extends TestCase {
 	 * Tests the get_conditionals method.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$actual   = Indexing_Tool_Integration::get_conditionals();
@@ -181,6 +187,8 @@ final class Indexing_Tool_Integration_Test extends TestCase {
 	 * Tests the register hooks method.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		Monkey\Actions\expectAdded( 'wpseo_tools_overview_list_items_internal' );
@@ -195,6 +203,8 @@ final class Indexing_Tool_Integration_Test extends TestCase {
 	 * @covers ::enqueue_scripts
 	 * @covers ::get_indexing_endpoints
 	 * @covers ::get_importing_endpoints
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_scripts() {
 		$this->indexing_helper
@@ -301,6 +311,8 @@ final class Indexing_Tool_Integration_Test extends TestCase {
 	 * Tests the rendering of the list item, when the user does not have the right rights.
 	 *
 	 * @covers ::render_indexing_list_item
+	 *
+	 * @return void
 	 */
 	public function test_render_indexing_list_item_not_allowed() {
 		// Arrange.
@@ -317,6 +329,8 @@ final class Indexing_Tool_Integration_Test extends TestCase {
 	 * Tests the rendering of the list item, when the user has the right rights.
 	 *
 	 * @covers ::render_indexing_list_item
+	 *
+	 * @return void
 	 */
 	public function test_render_indexing_list_item_is_allowed() {
 		// Arrange.

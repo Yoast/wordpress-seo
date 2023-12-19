@@ -398,6 +398,8 @@ TPL;
 	 *
 	 * @throws ReflectionException When the class to generate the unit test for cannot be found.
 	 * @throws RuntimeException    When the required command line argument is missing.
+	 *
+	 * @return void
 	 */
 	public static function generate_unit_test( Event $event ) {
 		$args = $event->getArguments();

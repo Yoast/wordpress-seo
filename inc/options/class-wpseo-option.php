@@ -293,6 +293,8 @@ abstract class WPSEO_Option {
 	 * @param array  $dirty Dirty data with the new values.
 	 * @param array  $old   Old data.
 	 * @param array  $clean Clean data by reference, normally the default values.
+	 *
+	 * @return void
 	 */
 	public function validate_verification_string( $key, $dirty, $old, &$clean ) {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
@@ -368,6 +370,8 @@ abstract class WPSEO_Option {
 	 * @param array  $dirty Dirty data with the new values.
 	 * @param array  $old   Old data.
 	 * @param array  $clean Clean data by reference, normally the default values.
+	 *
+	 * @return void
 	 */
 	public function validate_url( $key, $dirty, $old, &$clean ) {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {

@@ -68,6 +68,8 @@ final class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -89,6 +91,8 @@ final class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -106,6 +110,8 @@ final class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -126,6 +132,8 @@ final class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 	 * @param int   $set_public_taxonomies_times  The times we get the last known public taxonomies.
 	 * @param int   $delete_transient_times       The times we delete the transients.
 	 * @param int   $schedule_cleanup_times       The times we schedule cleanup.
+	 *
+	 * @return void
 	 */
 	public function test_check_taxonomy_public_availability(
 		$is_json_request,

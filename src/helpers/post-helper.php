@@ -53,6 +53,8 @@ class Post_Helper {
 	 * @required
 	 *
 	 * @param Indexable_Repository $repository The indexable repository.
+	 *
+	 * @return void
 	 */
 	public function set_indexable_repository( Indexable_Repository $repository ) {
 		$this->repository = $repository;

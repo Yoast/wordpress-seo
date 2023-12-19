@@ -89,6 +89,8 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 
 	/**
 	 * Registers the appropriate hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_save_indexable', [ $this, 'reset_children' ], \PHP_INT_MAX, 2 );
@@ -178,6 +180,8 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 * Updates the indexable hierarchy and indexable permalink.
 	 *
 	 * @param Indexable $indexable The indexable to update the hierarchy and permalink for.
+	 *
+	 * @return void
 	 */
 	protected function update_hierarchy_and_permalink( $indexable ) {
 		if ( \is_a( $indexable, Indexable::class ) ) {

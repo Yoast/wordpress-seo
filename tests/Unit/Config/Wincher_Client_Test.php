@@ -43,6 +43,8 @@ final class Wincher_Client_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -54,6 +56,8 @@ final class Wincher_Client_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->options_helper

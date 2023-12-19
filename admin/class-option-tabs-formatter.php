@@ -29,6 +29,8 @@ class WPSEO_Option_Tabs_Formatter {
 	 * Outputs the option tabs.
 	 *
 	 * @param WPSEO_Option_Tabs $option_tabs Option Tabs to get tabs from.
+	 *
+	 * @return void
 	 */
 	public function run( WPSEO_Option_Tabs $option_tabs ) {
 

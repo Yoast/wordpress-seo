@@ -33,6 +33,8 @@ final class Wistia_Embed_Permission_Repository_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -46,6 +48,8 @@ final class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -63,6 +67,8 @@ final class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 *
 	 * @param mixed $meta     Value `get_meta` returns.
 	 * @param bool  $expected The expected value.
+	 *
+	 * @return void
 	 *
 	 * @throws Exception Invalid User ID.
 	 */
@@ -103,6 +109,8 @@ final class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 *
 	 * @covers ::get_value_for_user
 	 *
+	 * @return void
+	 *
 	 * @throws Exception Invalid User ID.
 	 */
 	public function test_get_value_for_invalid_user_id() {
@@ -128,6 +136,8 @@ final class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 * @param string   $value_as_string The value as a string. Testing the logic there.
 	 * @param bool|int $update_return   The return value for the update_meta call.
 	 * @param bool     $expected        The expected return value.
+	 *
+	 * @return void
 	 *
 	 * @throws Exception Invalid User ID.
 	 */

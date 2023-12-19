@@ -20,6 +20,8 @@ final class Sitemaps_Double extends WPSEO_Sitemaps {
 
 	/**
 	 * Overwrite sitemap_close() so we don't die on outputting the sitemap.
+	 *
+	 * @return void
 	 */
 	public function sitemap_close() {
 		\remove_all_actions( 'wp_footer' );
@@ -27,6 +29,8 @@ final class Sitemaps_Double extends WPSEO_Sitemaps {
 
 	/**
 	 * Reset.
+	 *
+	 * @return void
 	 */
 	public function reset() {
 		$this->bad_sitemap = false;

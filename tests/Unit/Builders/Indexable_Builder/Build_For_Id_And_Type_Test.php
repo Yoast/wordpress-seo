@@ -19,6 +19,8 @@ final class Build_For_Id_And_Type_Test extends Abstract_Indexable_Builder_TestCa
 	 * @covers ::build
 	 * @covers ::ensure_indexable
 	 * @covers ::maybe_build_author_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_for_id_and_type_with_post() {
 
@@ -36,6 +38,8 @@ final class Build_For_Id_And_Type_Test extends Abstract_Indexable_Builder_TestCa
 	 * Expectation for build method.
 	 *
 	 * @param array $defaults The defaults to expect.
+	 *
+	 * @return void
 	 */
 	public function expect_build( $defaults ) {
 		$this->expect_ensure_indexable( $defaults, $this->indexable );

@@ -74,6 +74,8 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	 * @required
 	 *
 	 * @param Import_Helper $import_helper The import helper.
+	 *
+	 * @return void
 	 */
 	public function set_import_helper( Import_Helper $import_helper ) {
 		$this->import_helper = $import_helper;

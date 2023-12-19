@@ -42,6 +42,8 @@ final class Abstract_Exclude_Post_Type_Test extends TestCase {
 
 	/**
 	 * Sets up the child classes under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -58,6 +60,8 @@ final class Abstract_Exclude_Post_Type_Test extends TestCase {
 	 * for the integrations to work.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		Monkey\Filters\expectAdded( 'wpseo_indexable_excluded_post_types' )
@@ -83,6 +87,8 @@ final class Abstract_Exclude_Post_Type_Test extends TestCase {
 	 * Tests the abstract method to get conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals( [], Abstract_Exclude_Post_Type::get_conditionals() );
@@ -92,6 +98,8 @@ final class Abstract_Exclude_Post_Type_Test extends TestCase {
 	 * Tests the addition to exclusions.
 	 *
 	 * @covers ::exclude_post_types
+	 *
+	 * @return void
 	 */
 	public function test_exclude_post_types() {
 		$instance = Mockery::mock( Abstract_Exclude_Post_Type::class )->makePartial();

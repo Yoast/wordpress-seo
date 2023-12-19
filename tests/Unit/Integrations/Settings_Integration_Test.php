@@ -68,6 +68,8 @@ final class Settings_Integration_Test extends TestCase {
 
 	/**
 	 * Runs the setup to prepare the needed instance
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		$asset_manager           = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
@@ -121,6 +123,8 @@ final class Settings_Integration_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -135,6 +139,8 @@ final class Settings_Integration_Test extends TestCase {
 	 * Tests the addition of a submenu page.
 	 *
 	 * @covers ::add_settings_saved_page
+	 *
+	 * @return void
 	 */
 	public function test_add_submenu_page() {
 
@@ -156,6 +162,8 @@ final class Settings_Integration_Test extends TestCase {
 	 * Tests construct method.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -297,6 +305,8 @@ final class Settings_Integration_Test extends TestCase {
 	 * @param array $post_types     The post types to transform.
 	 * @param array $new_post_types The new post types.
 	 * @param array $expected       The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_transform_post_types( $post_types, $new_post_types, $expected ) {
 
@@ -393,6 +403,8 @@ final class Settings_Integration_Test extends TestCase {
 	 * @param array $post_type_names The post type names.
 	 * @param array $new_taxonomies  The new taxonomies.
 	 * @param array $expected        The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_transform_taxonomies( $taxonomies, $post_type_names, $new_taxonomies, $expected ) {
 

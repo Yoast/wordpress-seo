@@ -275,6 +275,8 @@ class Indexing_Route extends Abstract_Indexation_Route {
 
 	/**
 	 * Registers the routes used to index indexables.
+	 *
+	 * @return void
 	 */
 	public function register_routes() {
 		$route_args = [

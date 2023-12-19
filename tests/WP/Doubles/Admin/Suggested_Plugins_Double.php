@@ -25,6 +25,8 @@ final class Suggested_Plugins_Double extends WPSEO_Suggested_Plugins {
 
 	/**
 	 * Immediately execute the hooks for testing purposes.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		$this->availability_checker->register();

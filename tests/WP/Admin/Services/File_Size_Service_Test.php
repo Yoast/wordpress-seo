@@ -15,6 +15,8 @@ final class File_Size_Service_Test extends TestCase {
 	 * Tests the retrieval of the file size for external hosted file.
 	 *
 	 * @covers WPSEO_File_Size_Service::get
+	 *
+	 * @return void
 	 */
 	public function test_get_for_externally_hosted_file() {
 		$request = new WP_REST_Request();
@@ -40,6 +42,8 @@ final class File_Size_Service_Test extends TestCase {
 	 * Tests the retrieval of the file size when unknown error occurs.
 	 *
 	 * @covers WPSEO_File_Size_Service::get
+	 *
+	 * @return void
 	 */
 	public function test_get_with_unknown_failure() {
 		$instance = $this
@@ -67,6 +71,8 @@ final class File_Size_Service_Test extends TestCase {
 	 * Tests the retrieval of the file size is successful.
 	 *
 	 * @covers WPSEO_File_Size_Service::get
+	 *
+	 * @return void
 	 */
 	public function test_get_on_success() {
 		$instance = $this
@@ -95,6 +101,8 @@ final class File_Size_Service_Test extends TestCase {
 	 *
 	 * @covers WPSEO_File_Size_Service::get
 	 * @covers WPSEO_File_Size_Service::get_file_url
+	 *
+	 * @return void
 	 */
 	public function test_get_file_url_for_externally_hosted_file() {
 		$request = new WP_REST_Request();
@@ -121,6 +129,8 @@ final class File_Size_Service_Test extends TestCase {
 	 *
 	 * @covers WPSEO_File_Size_Service::get
 	 * @covers WPSEO_File_Size_Service::get_file_url
+	 *
+	 * @return void
 	 */
 	public function test_get_file_url_for_local_file() {
 		$request = new WP_REST_Request();

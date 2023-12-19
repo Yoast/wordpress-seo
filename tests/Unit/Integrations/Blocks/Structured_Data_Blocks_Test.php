@@ -41,6 +41,8 @@ final class Structured_Data_Blocks_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -60,6 +62,8 @@ final class Structured_Data_Blocks_Test extends TestCase {
 	 * Tests __construct method.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -156,6 +160,8 @@ final class Structured_Data_Blocks_Test extends TestCase {
 	 * @param array  $attributes The block attributes.
 	 * @param string $content    The post content.
 	 * @param string $message    The error message if the assert fails.
+	 *
+	 * @return void
 	 */
 	public function test_present_duration_text( $expected, $attributes, $content, $message ) {
 		$this->assertSame(
@@ -216,6 +222,8 @@ final class Structured_Data_Blocks_Test extends TestCase {
 	 * @param array  $attributes The block attributes.
 	 * @param string $content    The post content.
 	 * @param string $message    The error message if the assert fails.
+	 *
+	 * @return void
 	 */
 	public function test_optimize_how_to_images( $expected, $attributes, $content, $message ) {
 		Monkey\Functions\expect( 'register_shutdown_function' )

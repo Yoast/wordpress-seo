@@ -43,6 +43,8 @@ final class Aioseo_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -61,6 +63,8 @@ final class Aioseo_Helper_Test extends TestCase {
 	 * Tests retrieving the AIOSEO table name along with the db prefix.
 	 *
 	 * @covers ::get_table
+	 *
+	 * @return void
 	 */
 	public function test_get_table() {
 		$table = $this->instance->get_table();
@@ -76,6 +80,8 @@ final class Aioseo_Helper_Test extends TestCase {
 	 *
 	 * @param bool $table_exists    Whether the AIOSEO table exists.
 	 * @param bool $expected_result The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_aioseo_exists( $table_exists, $expected_result ) {
 		$this->wpdb_helper->expects( 'table_exists' )
@@ -96,6 +102,8 @@ final class Aioseo_Helper_Test extends TestCase {
 	 *
 	 * @param string $retrieved_option Whether the AIOSEO table exists.
 	 * @param array  $expected_result  The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_global_option( $retrieved_option, $expected_result ) {
 		Monkey\Functions\expect( 'get_option' )

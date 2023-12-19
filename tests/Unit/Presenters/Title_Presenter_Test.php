@@ -50,6 +50,8 @@ final class Title_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -92,6 +94,8 @@ final class Title_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct title.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->indexable_presentation->title = 'example_title';
@@ -114,6 +118,8 @@ final class Title_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns an empty string when the title is empty.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_title_is_empty() {
 		$this->indexable_presentation->title = '';
@@ -136,6 +142,8 @@ final class Title_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_filter() {
 		$this->indexable_presentation->title = 'example_title';

@@ -182,6 +182,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 	/**
 	 * Make sure we can recognize the right action for the double cleaning.
+	 *
+	 * @return void
 	 */
 	public function end_of_init() {
 		do_action( 'wpseo_double_clean_titles' );

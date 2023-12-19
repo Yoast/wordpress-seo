@@ -20,6 +20,8 @@ final class Language_Helper_Test extends TestCase {
 	 * Tests the add piece language.
 	 *
 	 * @covers ::add_piece_language
+	 *
+	 * @return void
 	 */
 	public function test_add_piece_language() {
 		$instance = new Language_Helper();

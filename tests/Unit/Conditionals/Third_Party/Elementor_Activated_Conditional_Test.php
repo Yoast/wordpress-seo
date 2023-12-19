@@ -24,6 +24,8 @@ final class Elementor_Activated_Conditional_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ final class Elementor_Activated_Conditional_Test extends TestCase {
 	 * Tests that the condition is not met when the Elementor plugin is not active.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met() {
 		self::assertFalse( $this->instance->is_met() );
@@ -44,6 +48,8 @@ final class Elementor_Activated_Conditional_Test extends TestCase {
 	 * Tests that the condition is met when the Elementor plugin is active.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met() {
 		if ( ! \defined( 'ELEMENTOR__FILE__' ) ) {

@@ -16,6 +16,8 @@ final class Register_Capabilities_Test extends TestCase {
 	 * Tests whether the list of registered capabilities contains the correct capabilities.
 	 *
 	 * @covers WPSEO_Register_Capabilities::register
+	 *
+	 * @return void
 	 */
 	public function test_register() {
 		$manager = WPSEO_Capability_Manager_Factory::get();
@@ -42,6 +44,8 @@ final class Register_Capabilities_Test extends TestCase {
 	 * @param string $role             Which role to test. 'network_administrator' is also allowed.
 	 * @param string $access           Access setting value to test. Either 'admin' or 'superadmin'.
 	 * @param bool   $expected_has_cap Whether the expected capability check result is true or false.
+	 *
+	 * @return void
 	 */
 	public function test_filter_user_has_wpseo_manage_options_cap( $role, $access, $expected_has_cap ) {
 		$this->skipWithoutMultisite();

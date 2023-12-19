@@ -18,6 +18,8 @@ final class Open_Graph_Article_Publisher_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ final class Open_Graph_Article_Publisher_Test extends TestCase {
 	 * Tests the situation where the article author is given.
 	 *
 	 * @covers ::generate_open_graph_article_publisher
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_article_publisher() {
 
@@ -41,6 +45,8 @@ final class Open_Graph_Article_Publisher_Test extends TestCase {
 	 * Tests the situation where no article author is given.
 	 *
 	 * @covers ::generate_open_graph_article_publisher
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_article_publisher_no_publisher() {
 		$this->context->open_graph_publisher = '';

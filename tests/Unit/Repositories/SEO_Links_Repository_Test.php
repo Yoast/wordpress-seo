@@ -39,6 +39,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up(): void {
 		parent::set_up();
@@ -58,6 +60,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the query method.
 	 *
 	 * @covers ::query
+	 *
+	 * @return void
 	 */
 	public function test_query() {
 		$seo_links_repository = new SEO_Links_Repository();
@@ -69,6 +73,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the find_all_by_post_id method.
 	 *
 	 * @covers ::find_all_by_post_id
+	 *
+	 * @return void
 	 */
 	public function test_find_all_by_post_id() {
 		$this->instance->expects( $this->once() )
@@ -88,6 +94,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the find_all_by_indexable_id method.
 	 *
 	 * @covers ::find_all_by_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_find_all_by_indexable_id() {
 		$indexable_id    = 1;
@@ -107,6 +115,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the find_one_by_url method.
 	 *
 	 * @covers ::find_one_by_url
+	 *
+	 * @return void
 	 */
 	public function test_find_one_by_url() {
 		$url             = 'https://example.com';
@@ -127,6 +137,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the find_all_by_target_post_id.
 	 *
 	 * @covers ::find_all_by_target_post_id
+	 *
+	 * @return void
 	 */
 	public function test_find_all_by_target_post_id() {
 		$target_post_id  = 5;
@@ -146,6 +158,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the update_target_indexable_id method.
 	 *
 	 * @covers ::update_target_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_update_target_indexable_id() {
 		$link_id             = 1;
@@ -166,6 +180,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the delete_all_by_post_id method.
 	 *
 	 * @covers ::delete_all_by_post_id
+	 *
+	 * @return void
 	 */
 	public function test_delete_all_by_post_id() {
 		$post_id = 1;
@@ -184,6 +200,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the delete_all_by_post_id_where_indexable_id_null method.
 	 *
 	 * @covers ::delete_all_by_post_id_where_indexable_id_null
+	 *
+	 * @return void
 	 */
 	public function test_delete_all_by_post_id_where_indexable_id_null() {
 		$post_id = 1;
@@ -203,6 +221,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the delete_all_by_indexable_id method.
 	 *
 	 * @covers ::delete_all_by_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_delete_all_by_indexable_id() {
 		$indexable_id = 1;
@@ -221,6 +241,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the get_incoming_link_counts_for_post_ids method.
 	 *
 	 * @covers ::get_incoming_link_counts_for_post_ids
+	 *
+	 * @return void
 	 */
 	public function test_get_incoming_link_counts_for_post_ids() {
 		$post_ids        = [ 1, 2 ];
@@ -295,6 +317,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * @dataProvider get_incoming_link_counts_for_indexable_ids_provider
 	 * @param array $indexable_counts The indexable counts.
 	 * @param array $expected         The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_incoming_link_counts_for_indexable_ids( $indexable_counts, $expected ) {
 		$indexable_ids = [ 1, 2 ];
@@ -316,6 +340,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the delete_many_by_id.
 	 *
 	 * @covers ::delete_many_by_id
+	 *
+	 * @return void
 	 */
 	public function test_delete_many_by_id() {
 		$ids = [ 1, 2 ];
@@ -334,6 +360,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the insert_many method.
 	 *
 	 * @covers ::insert_many
+	 *
+	 * @return void
 	 */
 	public function test_insert_many() {
 		$links = [ new SEO_Links(), new SEO_Links() ];

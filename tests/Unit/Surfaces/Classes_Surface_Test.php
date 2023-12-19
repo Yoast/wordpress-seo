@@ -48,6 +48,8 @@ final class Classes_Surface_Test extends TestCase {
 	 * Tests the get function.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$actual = $this->instance->get( 'Yoast\WP\SEO\Example' );
@@ -59,6 +61,8 @@ final class Classes_Surface_Test extends TestCase {
 	 * The get method should rethrow exceptions from the container.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get_invalid_service() {
 		$this->expectException( ServiceNotFoundException::class );

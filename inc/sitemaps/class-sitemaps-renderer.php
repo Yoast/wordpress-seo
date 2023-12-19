@@ -166,6 +166,8 @@ class WPSEO_Sitemaps_Renderer {
 	 * Set a custom stylesheet for this sitemap. Set to empty to just remove the default stylesheet.
 	 *
 	 * @param string $stylesheet Full XML-stylesheet declaration.
+	 *
+	 * @return void
 	 */
 	public function set_stylesheet( $stylesheet ) {
 		$this->stylesheet = $stylesheet;

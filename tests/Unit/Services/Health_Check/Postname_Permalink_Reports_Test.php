@@ -39,6 +39,8 @@ final class Postname_Permalink_Reports_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -62,6 +64,8 @@ final class Postname_Permalink_Reports_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_success_result
+	 *
+	 * @return void
 	 */
 	public function test_creates_success_report_correctly() {
 		$expected = [ 'correct' ];
@@ -96,6 +100,8 @@ final class Postname_Permalink_Reports_Test extends TestCase {
 	 * @covers ::get_has_no_postname_in_permalink_result
 	 * @covers ::get_has_no_postname_in_permalink_description
 	 * @covers ::get_has_no_postname_in_permalink_actions
+	 *
+	 * @return void
 	 */
 	public function test_creates_has_no_postname_in_permalink_correctly() {
 		$expected = [ 'correct' ];

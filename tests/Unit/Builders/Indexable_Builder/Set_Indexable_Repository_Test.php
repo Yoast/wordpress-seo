@@ -30,6 +30,8 @@ final class Set_Indexable_Repository_Test extends Abstract_Indexable_Builder_Tes
 	 * Tests setting the indexable repository.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -98,6 +100,8 @@ final class Set_Indexable_Repository_Test extends Abstract_Indexable_Builder_Tes
 	 * Tests setting the indexable repository.
 	 *
 	 * @covers ::set_indexable_repository
+	 *
+	 * @return void
 	 */
 	public function test_set_indexable_repository() {
 		$indexable_repository = Mockery::mock( 'Yoast\WP\SEO\Repositories\Indexable_Repository' );

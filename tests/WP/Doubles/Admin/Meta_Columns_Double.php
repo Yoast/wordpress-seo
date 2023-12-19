@@ -65,6 +65,8 @@ final class Meta_Columns_Double extends WPSEO_Meta_Columns {
 	 * Sets the current post type.
 	 *
 	 * @param string|null $post_type The post type.
+	 *
+	 * @return void
 	 */
 	public function set_current_post_type( $post_type ) {
 		$this->current_post_type = $post_type;

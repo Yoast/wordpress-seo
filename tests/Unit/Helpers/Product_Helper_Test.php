@@ -24,6 +24,8 @@ final class Product_Helper_Test extends TestCase {
 
 	/**
 	 * Prepares the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ final class Product_Helper_Test extends TestCase {
 	 * @covers ::get_name
 	 * @covers ::get_product_name
 	 * @covers ::is_premium
+	 *
+	 * @return void
 	 */
 	public function test_get_name_not_premium() {
 		$this->assertSame( 'Yoast SEO plugin', $this->instance->get_name() );
@@ -48,6 +52,8 @@ final class Product_Helper_Test extends TestCase {
 	 * @covers ::get_name
 	 * @covers ::get_product_name
 	 * @covers ::is_premium
+	 *
+	 * @return void
 	 */
 	public function test_get_name_premium() {
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Intended use, constant already exists.
@@ -60,6 +66,8 @@ final class Product_Helper_Test extends TestCase {
 	 * Retrieves the premium version when premium is not active.
 	 *
 	 * @covers ::get_premium_version
+	 *
+	 * @return void
 	 */
 	public function test_get_premium_version_null() {
 		$this->assertNull( $this->instance->get_premium_version() );
@@ -69,6 +77,8 @@ final class Product_Helper_Test extends TestCase {
 	 * Retrieves the premium version.
 	 *
 	 * @covers ::get_premium_version
+	 *
+	 * @return void
 	 */
 	public function test_get_premium_version() {
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Intended use, constant already exists.
@@ -81,6 +91,8 @@ final class Product_Helper_Test extends TestCase {
 	 * Retrieves the version.
 	 *
 	 * @covers ::get_version
+	 *
+	 * @return void
 	 */
 	public function test_get_version() {
 		$this->assertSame( '1.0', $this->instance->get_version() );

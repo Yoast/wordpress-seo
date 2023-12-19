@@ -35,6 +35,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 
 	/**
 	 * Method that runs before each test case.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -47,6 +49,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 	 * Tests if the dependencies are set correct.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -59,6 +63,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -70,6 +76,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 	 * Tests the retrieval of the current conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -86,6 +94,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 	 *
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
+	 *
+	 * @return void
 	 */
 	public function test_add_robots_string_given() {
 		$context = (object) [
@@ -120,6 +130,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 	 * @covers ::format_robots
 	 * @covers ::enforce_robots_congruence
 	 * @covers ::sort_robots
+	 *
+	 * @return void
 	 */
 	public function test_add_robots_overwrite_robots_value_set_to_true() {
 		$context = (object) [
@@ -162,6 +174,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 	 * @covers ::format_robots
 	 * @covers ::enforce_robots_congruence
 	 * @covers ::sort_robots
+	 *
+	 * @return void
 	 */
 	public function test_add_robots_with_noimageindex() {
 		$context = (object) [
@@ -205,6 +219,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 	 * @covers ::format_robots
 	 * @covers ::enforce_robots_congruence
 	 * @covers ::sort_robots
+	 *
+	 * @return void
 	 */
 	public function test_add_robots_with_noindex_set() {
 		$context = (object) [
@@ -248,6 +264,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 	 * @covers ::format_robots
 	 * @covers ::enforce_robots_congruence
 	 * @covers ::sort_robots
+	 *
+	 * @return void
 	 */
 	public function test_add_robots_with_index_true_and_noindex_false() {
 		$context = (object) [
@@ -289,6 +307,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 	 * @covers ::format_robots
 	 * @covers ::enforce_robots_congruence
 	 * @covers ::sort_robots
+	 *
+	 * @return void
 	 */
 	public function test_add_robots_with_noimageindex_and_maximagepreview_empty() {
 		$context = (object) [
@@ -329,6 +349,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 	 * @covers ::format_robots
 	 * @covers ::enforce_robots_congruence
 	 * @covers ::sort_robots
+	 *
+	 * @return void
 	 */
 	public function test_enforce_robots_congruence() {
 		$context = (object) [

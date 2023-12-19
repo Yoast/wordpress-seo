@@ -18,6 +18,8 @@ final class Open_Graph_Article_Author_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -31,6 +33,8 @@ final class Open_Graph_Article_Author_Test extends TestCase {
 	 * Tests the situation where the article author is given.
 	 *
 	 * @covers ::generate_open_graph_article_author
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_article_author() {
 		$this->instance
@@ -51,6 +55,8 @@ final class Open_Graph_Article_Author_Test extends TestCase {
 	 * Tests the situation where no article author is given.
 	 *
 	 * @covers ::generate_open_graph_article_author
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_article_author_no_author() {
 		$this->instance

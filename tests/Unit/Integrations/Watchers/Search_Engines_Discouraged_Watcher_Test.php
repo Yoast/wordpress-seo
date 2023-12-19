@@ -73,6 +73,8 @@ final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -99,6 +101,8 @@ final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		self::assertInstanceOf(
@@ -127,6 +131,8 @@ final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 * Tests registering the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		Monkey\Actions\expectAdded( 'admin_init' );
@@ -171,6 +177,8 @@ final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 * @param string $current_page_file               The php file loaded for the current page.
 	 * @param string $current_yoast_page              The current Yoast admin page.
 	 * @param bool   $expect_called                   Whether the notice show function should have been called.
+	 *
+	 * @return void
 	 */
 	public function test_maybe_show_search_engines_discouraged_notice(
 		$blog_public_option_value,
@@ -313,6 +321,8 @@ final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 * @param bool   $remove_notification_called    Whether the remove notification function should be called.
 	 * @param bool   $maybe_add_notification_called Whether the add notification function should be called.
 	 * @param bool   $notification_should_be_added  Whether the notification should be added.
+	 *
+	 * @return void
 	 */
 	public function test_manage_search_engines_discouraged_notification( $blog_public_option_value, $ignore_notice, $notification_exists, $remove_notification_called, $maybe_add_notification_called, $notification_should_be_added ) {
 		Monkey\Functions\expect( 'get_option' )

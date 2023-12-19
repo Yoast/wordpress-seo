@@ -34,6 +34,8 @@ final class Open_Graph_Locale_Generator_Test extends TestCase {
 
 	/**
 	 * Setup the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -52,6 +54,8 @@ final class Open_Graph_Locale_Generator_Test extends TestCase {
 	 * @param string $locale   The locale that is returned.
 	 * @param string $expected The expected value.
 	 * @param string $message  The message to show when test fails.
+	 *
+	 * @return void
 	 */
 	public function test_generate( $locale, $expected, $message ) {
 		Monkey\Functions\expect( 'get_locale' )

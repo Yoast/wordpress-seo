@@ -22,6 +22,8 @@ final class Migration_Error_Presenter_Test extends TestCase {
 	 * Tests the present method.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->stubEscapeFunctions();
@@ -48,6 +50,8 @@ final class Migration_Error_Presenter_Test extends TestCase {
 
 	/**
 	 * Holds expectations for the shortlinker.
+	 *
+	 * @return void
 	 */
 	private function expect_shortlinker() {
 		$short_link_mock = Mockery::mock( Short_Link_Helper::class );

@@ -77,6 +77,8 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 * Tests the construct method.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->deactivating_yoast_conditional->expects( 'is_met' )
@@ -99,6 +101,8 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 * Tests add_query_vars method.
 	 *
 	 * @covers ::add_query_vars
+	 *
+	 * @return void
 	 */
 	public function test_add_query_vars() {
 		$this->instance->add_query_vars( [] );
@@ -112,6 +116,8 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 * Tests add_rewrite_rules method.
 	 *
 	 * @covers ::add_rewrite_rules
+	 *
+	 * @return void
 	 */
 	public function test_add_rewrite_rules() {
 		$dynamic_rewrites = Mockery::mock( 'Yoast_Dynamic_Rewrites' );
@@ -142,6 +148,8 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 * @param bool $is_yoast_sitemap_xsl Whether the yoast-sitemap-xsl query var is set.
 	 * @param bool $redirect             Whether to redirect.
 	 * @param bool $expected             Whether to redirect.
+	 *
+	 * @return void
 	 */
 	public function test_redirect_canonical( $is_sitemap, $is_yoast_sitemap_xsl, $redirect, $expected ) {
 		Functions\expect( 'get_query_var' )
@@ -201,6 +209,8 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 * Tests template_redirect method.
 	 *
 	 * @covers ::template_redirect
+	 *
+	 * @return void
 	 */
 	public function test_template_redirect() {
 		global $wp_query;
@@ -224,6 +234,8 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 * @param string $http_host   The HTTP host.
 	 * @param string $home_url    The home URL.
 	 * @param bool   $expected    Whether to redirect.
+	 *
+	 * @return void
 	 */
 	public function test_needs_sitemap_index_redirect( $https, $server_name, $request_uri, $is_404, $http_host, $home_url, $expected ) {
 		$_SERVER['HTTPS']       = $https;
@@ -298,6 +310,8 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 *
 	 * @param bool   $using_index_permalinks Whether index permalinks are used.
 	 * @param string $base                   The base.
+	 *
+	 * @return void
 	 */
 	public function test_get_base_url( $using_index_permalinks, $base ) {
 		global $wp_rewrite;
@@ -348,6 +362,8 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 * Tests template_redirect method.
 	 *
 	 * @covers ::template_redirect
+	 *
+	 * @return void
 	 */
 	public function test_template_redirect_exit() {
 		global $wp_query;

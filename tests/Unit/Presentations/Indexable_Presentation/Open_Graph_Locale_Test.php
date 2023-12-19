@@ -19,6 +19,8 @@ final class Open_Graph_Locale_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,6 +32,8 @@ final class Open_Graph_Locale_Test extends TestCase {
 	 * Tests whether the locale is returned.
 	 *
 	 * @covers ::generate_open_graph_locale
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_locale() {
 		Monkey\Functions\expect( 'get_locale' )
@@ -42,6 +46,8 @@ final class Open_Graph_Locale_Test extends TestCase {
 	 * Tests whether the wpseo_locale filter is applied.
 	 *
 	 * @covers ::generate_open_graph_locale
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_locale_with_filter() {
 		Monkey\Functions\expect( 'get_locale' )
@@ -59,6 +65,8 @@ final class Open_Graph_Locale_Test extends TestCase {
 	 * Tests whether the locale is returned after fixing the locale.
 	 *
 	 * @covers ::generate_open_graph_locale
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_locale_when_fix_locales_is_set() {
 		Monkey\Functions\expect( 'get_locale' )
@@ -71,6 +79,8 @@ final class Open_Graph_Locale_Test extends TestCase {
 	 * Tests whether the locale is returned after it is converted.
 	 *
 	 * @covers ::generate_open_graph_locale
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_locale_when_converting() {
 		Monkey\Functions\expect( 'get_locale' )
@@ -83,6 +93,8 @@ final class Open_Graph_Locale_Test extends TestCase {
 	 * Tests whether en_US is used as a fallback.
 	 *
 	 * @covers ::generate_open_graph_locale
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_locale_with_fallback() {
 		Monkey\Functions\expect( 'get_locale' )

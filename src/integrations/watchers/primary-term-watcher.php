@@ -82,6 +82,8 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 * Initializes the integration.
 	 *
 	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'save_post', [ $this, 'save_primary_terms' ], \PHP_INT_MAX );
@@ -92,6 +94,8 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 * Saves all selected primary terms.
 	 *
 	 * @param int $post_id Post ID to save primary terms for.
+	 *
+	 * @return void
 	 */
 	public function save_primary_terms( $post_id ) {
 		// Bail if this is a multisite installation and the site has been switched.
@@ -113,6 +117,8 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 *
 	 * @param int     $post_id  Post ID to save primary term for.
 	 * @param WP_Term $taxonomy Taxonomy to save primary term for.
+	 *
+	 * @return void
 	 */
 	protected function save_primary_term( $post_id, $taxonomy ) {
 		if ( isset( $_POST[ WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term' ] ) && \is_string( $_POST[ WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term' ] ) ) {

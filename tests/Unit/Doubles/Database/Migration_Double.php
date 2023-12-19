@@ -27,6 +27,8 @@ final class Migration_Double extends Migration {
 	/**
 	 * Migration up.
 	 *
+	 * @return void
+	 *
 	 * @throws Exception A migration error.
 	 */
 	public function up() {
@@ -39,6 +41,8 @@ final class Migration_Double extends Migration {
 
 	/**
 	 * Migration down.
+	 *
+	 * @return void
 	 */
 	public function down() {
 		// Nothing to do.

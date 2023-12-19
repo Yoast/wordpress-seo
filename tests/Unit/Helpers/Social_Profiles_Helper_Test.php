@@ -31,6 +31,8 @@ final class Social_Profiles_Helper_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -55,6 +57,8 @@ final class Social_Profiles_Helper_Test extends TestCase {
 	 * @param int   $validate_twitter_id_times   The times we're gonna validate twitter ids.
 	 * @param int   $update_user_meta_times      The times we're gonna set the the social profiles.
 	 * @param array $expected                    The expected field names which failed to be saved in the db.
+	 *
+	 * @return void
 	 */
 	public function test_set_person_social_profiles( $social_profiles, $validate_social_url_results, $validate_social_url_times, $validate_twitter_id_results, $validate_twitter_id_times, $update_user_meta_times, $expected ) {
 		$person_id = 123;
@@ -206,6 +210,8 @@ final class Social_Profiles_Helper_Test extends TestCase {
 	 * @param int   $validate_twitter_id_times   The times we're gonna validate twitter ids.
 	 * @param int   $set_option_times            The times we're gonna set the social profiles.
 	 * @param array $expected                    The expected field names which failed to be saved in the db.
+	 *
+	 * @return void
 	 */
 	public function test_set_organization_social_profiles( $social_profiles, $validate_social_url_results, $validate_social_url_times, $validate_twitter_id_results, $validate_twitter_id_times, $set_option_times, $expected ) {
 		$fields = [

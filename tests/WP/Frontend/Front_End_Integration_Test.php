@@ -71,6 +71,8 @@ final class Front_End_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up(): void {
 		parent::set_up();
@@ -103,6 +105,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * @param string $prev     The value to be set as the `prev` property of the instance.
 	 * @param string $next     The value to be set as the `next` property of the instance.
 	 * @param string $expected Expected result.
+	 *
+	 * @return void
 	 */
 	public function test_adjacent_rel_url( $link, $rel, $prev, $next, $expected ) {
 		$this->instance->set_prev( $prev );

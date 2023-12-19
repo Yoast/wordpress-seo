@@ -39,6 +39,8 @@ final class Badge_Group_Names_Test extends TestCase {
 
 	/**
 	 * Set up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -50,6 +52,8 @@ final class Badge_Group_Names_Test extends TestCase {
 	 * Tests whether an unknown group is eligible for a "new" badge.
 	 *
 	 * @covers ::is_still_eligible_for_new_badge
+	 *
+	 * @return void
 	 */
 	public function test_unknown_group_is_eligible_for_new_badge() {
 		$unknown_group = 'unknown_group';
@@ -64,6 +68,8 @@ final class Badge_Group_Names_Test extends TestCase {
 	 * Tests if the global templates group is no longer eligible for a "new" badge on the set version.
 	 *
 	 * @covers ::is_still_eligible_for_new_badge
+	 *
+	 * @return void
 	 */
 	public function test_global_templates_group_is_eligible_for_new_badge() {
 		$expiry_version = self::VERSION_NO_LONGER_NEW;
@@ -78,6 +84,8 @@ final class Badge_Group_Names_Test extends TestCase {
 	 * Tests if the global templates group is no longer eligible for a "new" badge on the set RC version.
 	 *
 	 * @covers ::is_still_eligible_for_new_badge
+	 *
+	 * @return void
 	 */
 	public function test_global_templates_group_is_eligible_for_new_badge_release_candidate() {
 		$expiry_version = self::VERSION_NO_LONGER_NEW_RC;
@@ -92,6 +100,8 @@ final class Badge_Group_Names_Test extends TestCase {
 	 * Tests if the global templates group is no longer eligible for a "new" badge on the next minor version.
 	 *
 	 * @covers ::is_still_eligible_for_new_badge
+	 *
+	 * @return void
 	 */
 	public function test_global_templates_group_no_longer_eligible_for_new_badge_on_next_minor() {
 		$expiry_version = self::VERSION_NEXT_MINOR;
@@ -106,6 +116,8 @@ final class Badge_Group_Names_Test extends TestCase {
 	 * Tests if the global templates group is no longer eligible for a "new" badge on the next major version.
 	 *
 	 * @covers ::is_still_eligible_for_new_badge
+	 *
+	 * @return void
 	 */
 	public function test_global_templates_group_no_longer_eligible_for_new_badge_on_next_major() {
 		$expiry_version = self::VERSION_NEXT_MAJOR;
@@ -120,6 +132,8 @@ final class Badge_Group_Names_Test extends TestCase {
 	 * Tests if the global templates group is eligible for a "new" badge on the previous version.
 	 *
 	 * @covers ::is_still_eligible_for_new_badge
+	 *
+	 * @return void
 	 */
 	public function test_global_templates_group_no_longer_eligible_for_new_badge_on_previous_version() {
 		$expiry_version = self::VERSION_STILL_NEW;

@@ -101,6 +101,8 @@ final class Indexing_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -134,6 +136,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 * Tests if the class attributes are set properly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -150,6 +154,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 * Sets the setting of the indexing actions.
 	 *
 	 * @covers ::set_indexing_actions
+	 *
+	 * @return void
 	 */
 	public function test_set_indexing_actions() {
 		$this->assertInstanceOf(
@@ -184,6 +190,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 * @covers ::prepare
 	 * @covers ::set_first_time
 	 * @covers ::set_started
+	 *
+	 * @return void
 	 */
 	public function test_prepare() {
 		$this->options_helper
@@ -218,6 +226,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 * @covers ::complete
 	 * @covers ::set_started
 	 * @covers ::set_reason
+	 *
+	 * @return void
 	 */
 	public function test_complete() {
 		$this->options_helper
@@ -242,6 +252,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 * Tests setting the indexing reason.
 	 *
 	 * @covers ::set_reason
+	 *
+	 * @return void
 	 */
 	public function test_set_reason() {
 		$reason = 'permalinks_changed';
@@ -263,6 +275,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 * Tests getting the indexing reason.
 	 *
 	 * @covers ::has_reason
+	 *
+	 * @return void
 	 */
 	public function test_has_reason() {
 		$this->options_helper
@@ -277,6 +291,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 * Tests getting the indexing reason.
 	 *
 	 * @covers ::has_reason
+	 *
+	 * @return void
 	 */
 	public function test_get_reason() {
 		$this->options_helper
@@ -292,6 +308,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 * Tests getting the indexing start time.
 	 *
 	 * @covers ::get_started
+	 *
+	 * @return void
 	 */
 	public function test_get_started() {
 		$start_time = 160934509;
@@ -308,6 +326,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 * Tests getting whether a site still has to be indexed for the first time.
 	 *
 	 * @covers ::is_initial_indexing
+	 *
+	 * @return void
 	 */
 	public function test_is_initial_indexing() {
 		$this->options_helper
@@ -323,6 +343,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 * Tests the retrieval of the unindexed count.
 	 *
 	 * @covers ::get_unindexed_count
+	 *
+	 * @return void
 	 */
 	public function test_get_unindexed_count() {
 		$this->post_indexation
@@ -363,6 +385,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 *
 	 * @covers ::get_filtered_unindexed_count
 	 * @covers ::get_limited_unindexed_count
+	 *
+	 * @return void
 	 */
 	public function test_get_filtered_unindexed_count() {
 		$this->post_indexation
@@ -406,6 +430,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 *
 	 * @covers ::get_limited_filtered_unindexed_count
 	 * @covers ::get_limited_unindexed_count
+	 *
+	 * @return void
 	 */
 	public function test_get__limitedfiltered_unindexed_count() {
 		$limit = 25;
@@ -436,6 +462,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 *
 	 * @covers ::get_limited_filtered_unindexed_count
 	 * @covers ::get_limited_unindexed_count
+	 *
+	 * @return void
 	 */
 	public function test_get__limitedfiltered_unindexed_count_no_limit() {
 		$limit = 25;
@@ -489,6 +517,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 *
 	 * @covers ::get_limited_filtered_unindexed_count_background
 	 * @covers ::get_limited_unindexed_count
+	 *
+	 * @return void
 	 */
 	public function test_get__limitedfiltered_unindexed_count_background() {
 		$limit = 25;
@@ -519,6 +549,8 @@ final class Indexing_Helper_Test extends TestCase {
 	 *
 	 * @covers ::get_limited_filtered_unindexed_count_background
 	 * @covers ::get_limited_unindexed_count
+	 *
+	 * @return void
 	 */
 	public function test_get__limitedfiltered_unindexed_count_background_no_limit() {
 		$limit = 25;

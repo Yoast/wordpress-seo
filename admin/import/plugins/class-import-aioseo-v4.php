@@ -176,6 +176,8 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 	 * @param string   $aioseo_prefix                      The AiOSEO prefix to use
 	 *                                                     (e.g. `custom-field` for custom fields or `tax_name` for custom taxonomies).
 	 * @param string   $yoast_prefix                       The Yoast prefix to use (e.g. `cf` for custom fields).
+	 *
+	 * @return void
 	 */
 	protected function replace_custom_field_or_taxonomy_replace_vars( $unique_custom_fields_or_taxonomies, $wpdb, $aioseo_prefix, $yoast_prefix ) {
 		foreach ( $unique_custom_fields_or_taxonomies as $unique_custom_field_or_taxonomy ) {

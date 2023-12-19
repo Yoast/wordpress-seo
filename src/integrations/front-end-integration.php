@@ -232,6 +232,8 @@ class Front_End_Integration implements Integration_Interface {
 	 *
 	 * Removes some actions to remove metadata that WordPress shows on the frontend,
 	 * to avoid duplicate and/or mismatched metadata.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_filter( 'render_block', [ $this, 'query_loop_next_prev' ], 1, 2 );
@@ -372,6 +374,8 @@ class Front_End_Integration implements Integration_Interface {
 	 * Presents the head in the front-end. Resets wp_query if it's not the main query.
 	 *
 	 * @codeCoverageIgnore It just calls a WordPress function.
+	 *
+	 * @return void
 	 */
 	public function call_wpseo_head() {
 		global $wp_query;
@@ -388,6 +392,8 @@ class Front_End_Integration implements Integration_Interface {
 
 	/**
 	 * Echoes all applicable presenters for a page.
+	 *
+	 * @return void
 	 */
 	public function present_head() {
 		$context    = $this->context_memoizer->for_current_page();

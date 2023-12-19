@@ -17,6 +17,8 @@ final class Replace_Vars_Object_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -28,6 +30,8 @@ final class Replace_Vars_Object_Test extends TestCase {
 	 * Tests whether an empty array is returned.
 	 *
 	 * @covers ::generate_source
+	 *
+	 * @return void
 	 */
 	public function test_generate_source() {
 		$this->assertEquals( [], $this->instance->generate_source() );

@@ -18,6 +18,8 @@ final class Title_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ final class Title_Test extends TestCase {
 	 * Tests whether the title is returned when it is set.
 	 *
 	 * @covers ::generate_title
+	 *
+	 * @return void
 	 */
 	public function test_title() {
 		$this->indexable->title = 'Title';
@@ -40,6 +44,8 @@ final class Title_Test extends TestCase {
 	 * Tests whether the default title is returned when no title is set.
 	 *
 	 * @covers ::generate_title
+	 *
+	 * @return void
 	 */
 	public function test_title_without_set_title() {
 		$this->options

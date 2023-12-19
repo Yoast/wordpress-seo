@@ -24,6 +24,8 @@ final class Jetpack_Conditional_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ final class Jetpack_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when the Jetpack class does not exist.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met() {
 		$this->assertEquals( false, $this->instance->is_met() );
@@ -44,6 +48,8 @@ final class Jetpack_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when the Jetpack class exists.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met() {
 		Mockery::mock( 'Jetpack' );

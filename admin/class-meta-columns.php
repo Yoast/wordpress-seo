@@ -66,6 +66,8 @@ class WPSEO_Meta_Columns {
 
 	/**
 	 * Sets up up the hooks.
+	 *
+	 * @return void
 	 */
 	public function setup_hooks() {
 		$this->set_post_type_hooks();
@@ -127,6 +129,8 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @param string $column_name Column to display the content for.
 	 * @param int    $post_id     Post to display the column content for.
+	 *
+	 * @return void
 	 */
 	public function column_content( $column_name, $post_id ) {
 		if ( $this->display_metabox() === false ) {
@@ -240,6 +244,8 @@ class WPSEO_Meta_Columns {
 
 	/**
 	 * Adds a dropdown that allows filtering on the posts SEO Quality.
+	 *
+	 * @return void
 	 */
 	public function posts_filter_dropdown() {
 		if ( ! $this->can_display_filter() ) {
@@ -766,6 +772,8 @@ class WPSEO_Meta_Columns {
 
 	/**
 	 * Sets up the hooks for the post_types.
+	 *
+	 * @return void
 	 */
 	private function set_post_type_hooks() {
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();

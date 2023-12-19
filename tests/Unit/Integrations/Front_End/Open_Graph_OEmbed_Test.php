@@ -36,6 +36,8 @@ final class Open_Graph_OEmbed_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -51,6 +53,8 @@ final class Open_Graph_OEmbed_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -63,6 +67,8 @@ final class Open_Graph_OEmbed_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertEquals( $this->meta, $this->getPropertyValue( $this->instance, 'meta' ) );
@@ -72,6 +78,8 @@ final class Open_Graph_OEmbed_Test extends TestCase {
 	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -91,6 +99,8 @@ final class Open_Graph_OEmbed_Test extends TestCase {
 	 *
 	 * @param array $expected  The expected value.
 	 * @param array $meta_data The meta data to use.
+	 *
+	 * @return void
 	 */
 	public function test_set_oembed_data_with_no_data_set( $expected, $meta_data ) {
 		$post = (object) [ 'ID' => 1337 ];

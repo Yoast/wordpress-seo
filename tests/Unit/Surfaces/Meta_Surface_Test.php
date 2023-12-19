@@ -113,6 +113,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the current page function.
 	 *
 	 * @covers ::for_current_page
+	 *
+	 * @return void
 	 */
 	public function test_for_current_page() {
 		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
@@ -127,6 +129,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the current page function.
 	 *
 	 * @covers ::for_home_page
+	 *
+	 * @return void
 	 */
 	public function test_for_home_page() {
 		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
@@ -144,6 +148,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the current page function.
 	 *
 	 * @covers ::for_home_page
+	 *
+	 * @return void
 	 */
 	public function test_for_home_page_no_indexable() {
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'page_on_front' )->andReturn( 0 );
@@ -157,6 +163,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the current page function.
 	 *
 	 * @covers ::for_home_page
+	 *
+	 * @return void
 	 */
 	public function test_for_home_page_static_page() {
 		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
@@ -174,6 +182,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the current page function.
 	 *
 	 * @covers ::for_home_page
+	 *
+	 * @return void
 	 */
 	public function test_for_home_page_0_page_on_front() {
 		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
@@ -191,6 +201,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the current page function.
 	 *
 	 * @covers ::for_home_page
+	 *
+	 * @return void
 	 */
 	public function test_for_home_page_static_page_no_indexable() {
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'page_on_front' )->andReturn( 1 );
@@ -204,6 +216,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the current page function.
 	 *
 	 * @covers ::for_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_for_posts_page() {
 		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
@@ -220,6 +234,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the current page function.
 	 *
 	 * @covers ::for_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_for_posts_page_no_indexable() {
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'page_for_posts' )->andReturn( 0 );
@@ -232,6 +248,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the current page function.
 	 *
 	 * @covers ::for_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_for_posts_page_with_page() {
 		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
@@ -248,6 +266,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the current page function.
 	 *
 	 * @covers ::for_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_for_posts_page_with_page_no_indexable() {
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'page_for_posts' )->andReturn( 1 );
@@ -260,6 +280,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the post type archive function.
 	 *
 	 * @covers ::for_post_type_archive
+	 *
+	 * @return void
 	 */
 	public function test_for_post_type_archive() {
 		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
@@ -275,6 +297,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the post type archive function.
 	 *
 	 * @covers ::for_post_type_archive
+	 *
+	 * @return void
 	 */
 	public function test_for_post_type_archive_no_indexable() {
 		$this->repository->expects( 'find_for_post_type_archive' )->once()->with( 'post_type' )->andReturn( null );
@@ -285,6 +309,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the search result function.
 	 *
 	 * @covers ::for_search_result
+	 *
+	 * @return void
 	 */
 	public function test_for_search_result() {
 		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
@@ -300,6 +326,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the search result function.
 	 *
 	 * @covers ::for_search_result
+	 *
+	 * @return void
 	 */
 	public function test_for_search_result_no_indexable() {
 		$this->repository->expects( 'find_for_system_page' )->once()->with( 'search-result' )->andReturn( null );
@@ -310,6 +338,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the 404 function.
 	 *
 	 * @covers ::for_404
+	 *
+	 * @return void
 	 */
 	public function test_for_404() {
 		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
@@ -325,6 +355,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the 404 function.
 	 *
 	 * @covers ::for_404
+	 *
+	 * @return void
 	 */
 	public function test_for_404_no_indexable() {
 		$this->repository->expects( 'find_for_system_page' )->once()->with( '404' )->andReturn( null );
@@ -335,6 +367,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the post function.
 	 *
 	 * @covers ::for_post
+	 *
+	 * @return void
 	 */
 	public function test_for_post() {
 		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
@@ -350,6 +384,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the posts function.
 	 *
 	 * @covers ::for_posts
+	 *
+	 * @return void
 	 */
 	public function test_for_posts() {
 		$this->container->expects( 'get' )->times( 15 )->andReturn( null );
@@ -369,6 +405,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the post function.
 	 *
 	 * @covers ::for_post
+	 *
+	 * @return void
 	 */
 	public function test_for_post_no_indexable() {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( null );
@@ -379,6 +417,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the term function.
 	 *
 	 * @covers ::for_term
+	 *
+	 * @return void
 	 */
 	public function test_for_term() {
 		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
@@ -394,6 +434,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the term function.
 	 *
 	 * @covers ::for_term
+	 *
+	 * @return void
 	 */
 	public function test_for_term_no_indexable() {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'term' )->andReturn( null );
@@ -404,6 +446,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the author function.
 	 *
 	 * @covers ::for_author
+	 *
+	 * @return void
 	 */
 	public function test_for_author() {
 		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
@@ -419,6 +463,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the author function.
 	 *
 	 * @covers ::for_author
+	 *
+	 * @return void
 	 */
 	public function test_for_author_no_indexable() {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'user' )->andReturn( null );
@@ -436,6 +482,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * @param int    $object_id       The object id.
 	 * @param string $page_type       The page type.
 	 * @param bool   $is_date_archive Optional. Whether the page is a date archive. Defaults to false.
+	 *
+	 * @return void
 	 */
 	public function test_for_url( $object_type, $object_sub_type, $object_id, $page_type, $is_date_archive = false ) {
 		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
@@ -558,6 +606,8 @@ final class Meta_Surface_Test extends TestCase {
 	 * @dataProvider data_for_url_with_unexpected_value
 	 *
 	 * @param string $url The malformed/invalid URL.
+	 *
+	 * @return void
 	 */
 	public function test_for_url_with_unexpected_value( $url ) {
 

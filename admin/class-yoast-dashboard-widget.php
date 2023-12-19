@@ -47,6 +47,8 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Register WordPress hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dashboard_assets' ] );
@@ -66,6 +68,8 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Adds dashboard widget to WordPress.
+	 *
+	 * @return void
 	 */
 	public function add_dashboard_widget() {
 		add_filter( 'postbox_classes_dashboard_wpseo-dashboard-overview', [ $this, 'wpseo_dashboard_overview_class' ] );
@@ -91,6 +95,8 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Displays the dashboard widget.
+	 *
+	 * @return void
 	 */
 	public function display_dashboard_widget() {
 		echo '<div id="yoast-seo-dashboard-widget"></div>';
@@ -98,6 +104,8 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Enqueues assets for the dashboard if the current page is the dashboard.
+	 *
+	 * @return void
 	 */
 	public function enqueue_dashboard_assets() {
 		if ( ! $this->is_dashboard_screen() ) {

@@ -24,6 +24,8 @@ final class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up(): void {
 		parent::set_up();
@@ -40,6 +42,8 @@ final class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 	 * Tests the build method's happy path.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 		$post_type = 'my-custom-post-type';
@@ -82,6 +86,8 @@ final class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 	 * Tests the build method when the post type is not public.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_when_post_type_not_public() {
 		$post_type = 'my-private-post-type';

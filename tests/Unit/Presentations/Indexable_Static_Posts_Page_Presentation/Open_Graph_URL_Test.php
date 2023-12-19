@@ -18,6 +18,8 @@ final class Open_Graph_URL_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ final class Open_Graph_URL_Test extends TestCase {
 	 * Tests the situation where the permalink is returned.
 	 *
 	 * @covers ::generate_open_graph_url
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_url_and_return_permalink() {
 		$this->indexable->permalink = 'https://example.com/static-posts-page';

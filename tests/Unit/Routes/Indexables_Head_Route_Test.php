@@ -49,6 +49,8 @@ final class Indexables_Head_Route_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -61,6 +63,8 @@ final class Indexables_Head_Route_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -75,6 +79,8 @@ final class Indexables_Head_Route_Test extends TestCase {
 	 * Tests the registration of the routers.
 	 *
 	 * @covers ::register_routes
+	 *
+	 * @return void
 	 */
 	public function test_register_routes() {
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -101,6 +107,8 @@ final class Indexables_Head_Route_Test extends TestCase {
 	 * Tests the retrieval of the head state.
 	 *
 	 * @covers ::get_head
+	 *
+	 * @return void
 	 */
 	public function test_get_head() {
 		$this->stubEscapeFunctions();
@@ -129,6 +137,8 @@ final class Indexables_Head_Route_Test extends TestCase {
 	 * Tests the url is a valid url, with invalid url given as input.
 	 *
 	 * @covers ::is_valid_url
+	 *
+	 * @return void
 	 */
 	public function test_is_valid_url_with_invalid_url_given() {
 		Monkey\Functions\expect( 'utf8_uri_encode' )
@@ -142,6 +152,8 @@ final class Indexables_Head_Route_Test extends TestCase {
 	 * Tests the url is a valid url, with valid url given as input.
 	 *
 	 * @covers ::is_valid_url
+	 *
+	 * @return void
 	 */
 	public function test_is_valid_url_with_valid_url_given() {
 		Monkey\Functions\expect( 'utf8_uri_encode' )

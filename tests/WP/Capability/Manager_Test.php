@@ -15,6 +15,8 @@ final class Manager_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Capability_Manager::get_capabilities
 	 * @covers WPSEO_Capability_Manager::register
+	 *
+	 * @return void
 	 */
 	public function test_register() {
 		$instance = new Capability_Manager_Double();
@@ -34,6 +36,8 @@ final class Manager_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Capability_Manager::get_capabilities
 	 * @covers WPSEO_Capability_Manager::register
+	 *
+	 * @return void
 	 */
 	public function test_register_overwrite() {
 		$instance = new Capability_Manager_Double();
@@ -53,6 +57,8 @@ final class Manager_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Capability_Manager::get_capabilities
 	 * @covers WPSEO_Capability_Manager::register
+	 *
+	 * @return void
 	 */
 	public function test_register_add() {
 		$instance = new Capability_Manager_Double();
@@ -71,6 +77,8 @@ final class Manager_Test extends TestCase {
 	 * Tests whether capabilities are correctly filtered.
 	 *
 	 * @covers WPSEO_Abstract_Capability_Manager::filter_roles
+	 *
+	 * @return void
 	 */
 	public function test_filter_roles() {
 		$instance = new Capability_Manager_Double();

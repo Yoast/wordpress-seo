@@ -19,6 +19,8 @@ final class Open_Graph_URL_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,6 +32,8 @@ final class Open_Graph_URL_Test extends TestCase {
 	 * Tests whether generate_open_graph_url calls the `get_date_archive_permalink` method of the current page helper.
 	 *
 	 * @covers ::generate_open_graph_url
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_url() {
 		$this->current_page

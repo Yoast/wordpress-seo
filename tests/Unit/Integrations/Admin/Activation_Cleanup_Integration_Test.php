@@ -35,6 +35,8 @@ final class Activation_Cleanup_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -47,6 +49,8 @@ final class Activation_Cleanup_Integration_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -59,6 +63,8 @@ final class Activation_Cleanup_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		Monkey\Actions\has( 'wpseo_activate', [ $this->instance, 'register_cleanup_routine' ] );
@@ -70,6 +76,8 @@ final class Activation_Cleanup_Integration_Test extends TestCase {
 	 * Tests the registration of the cleanup routine when there is no cleanup routine running.
 	 *
 	 * @covers ::register_cleanup_routine
+	 *
+	 * @return void
 	 */
 	public function test_register_cleanup_routine_no_running() {
 		Monkey\Functions\expect( 'wp_next_scheduled' )
@@ -92,6 +100,8 @@ final class Activation_Cleanup_Integration_Test extends TestCase {
 	 * Tests that there is no registration of the cleanup routine if it is already running.
 	 *
 	 * @covers ::register_cleanup_routine
+	 *
+	 * @return void
 	 */
 	public function test_register_cleanup_routine_already_running() {
 		Monkey\Functions\expect( 'wp_next_scheduled' )
@@ -115,6 +125,8 @@ final class Activation_Cleanup_Integration_Test extends TestCase {
 	 * This is measured by checking if the first_activated_on is less than 5minutes ago.
 	 *
 	 * @covers ::register_cleanup_routine
+	 *
+	 * @return void
 	 */
 	public function test_register_cleanup_routine_first_time_install() {
 		$this->options_helper->expects( 'get' )

@@ -36,6 +36,8 @@ final class Enhanced_Data_Presenter_Test extends TestCase {
 
 	/**
 	 * Setup of the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -54,6 +56,8 @@ final class Enhanced_Data_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$post_content = '';
@@ -88,6 +92,8 @@ final class Enhanced_Data_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_no_post() {
 		$post_content = '';
@@ -120,6 +126,8 @@ final class Enhanced_Data_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$post_content = '';

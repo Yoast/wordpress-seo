@@ -34,6 +34,8 @@ final class Creator_Presenter_Test extends TestCase {
 
 	/**
 	 * Setup of the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -48,6 +50,8 @@ final class Creator_Presenter_Test extends TestCase {
 	 * Tests the presentation for a set twitter creator.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->stubEscapeFunctions();
@@ -66,6 +70,8 @@ final class Creator_Presenter_Test extends TestCase {
 	 * Tests the presentation of an empty creator.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_with_empty_twitter_creator() {
 		$this->presentation->twitter_creator = '';
@@ -77,6 +83,8 @@ final class Creator_Presenter_Test extends TestCase {
 	 * Tests the retrieval of the raw value.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$this->presentation->twitter_creator = '@TwitterHandle';
@@ -88,6 +96,8 @@ final class Creator_Presenter_Test extends TestCase {
 	 * Tests the presentation for a set twitter creator when the admin bar is showing a class is added.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$this->stubEscapeFunctions();

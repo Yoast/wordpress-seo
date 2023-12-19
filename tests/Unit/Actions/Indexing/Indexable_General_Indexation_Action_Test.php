@@ -34,6 +34,8 @@ final class Indexable_General_Indexation_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -48,6 +50,8 @@ final class Indexable_General_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
 	 * @covers ::query
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed() {
 		$this->set_query();
@@ -67,6 +71,8 @@ final class Indexable_General_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
 	 * @covers ::query
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed_transient_set() {
 		Monkey\Functions\expect( 'get_transient' )
@@ -80,6 +86,8 @@ final class Indexable_General_Indexation_Action_Test extends TestCase {
 	 * Tests the retrieval of the limit
 	 *
 	 * @covers ::get_limit
+	 *
+	 * @return void
 	 */
 	public function test_get_limit() {
 		$this->assertEquals( 4, $this->instance->get_limit() );
@@ -92,6 +100,8 @@ final class Indexable_General_Indexation_Action_Test extends TestCase {
 	 * @covers ::index
 	 * @covers ::query
 	 * @covers ::get_limit
+	 *
+	 * @return void
 	 */
 	public function test_index() {
 		$this->set_query();
@@ -122,6 +132,8 @@ final class Indexable_General_Indexation_Action_Test extends TestCase {
 
 	/**
 	 * Sets the expectations for the query method.
+	 *
+	 * @return void
 	 */
 	private function set_query() {
 		$this->indexable_repository

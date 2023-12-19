@@ -59,6 +59,8 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		if ( ! $this->tracking_enabled() ) {
@@ -110,6 +112,8 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	 *
 	 * @param bool $force Whether to send the tracking data ignoring the two
 	 *                    weeks time threshold. Default false.
+	 *
+	 * @return void
 	 */
 	public function send( $force = false ) {
 		if ( ! $this->should_send_tracking( $force ) ) {

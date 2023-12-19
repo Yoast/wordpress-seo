@@ -116,6 +116,8 @@ class Support_Integration implements Integration_Interface {
 
 	/**
 	 * Displays the page.
+	 *
+	 * @return void
 	 */
 	public function display_page() {
 		echo '<div id="yoast-seo-support"></div>';

@@ -36,6 +36,8 @@ final class Aioseo_Replacevar_Service_Test extends TestCase {
 	 *
 	 * @param string $aioseo_data         The data from AIOSEO to be transformed.
 	 * @param string $expected_yoast_data The transformed data to be imported in Yoast.
+	 *
+	 * @return void
 	 */
 	public function test_transform( $aioseo_data, $expected_yoast_data ) {
 		$result = $this->aioseo_replacevar_handler->transform( $aioseo_data );

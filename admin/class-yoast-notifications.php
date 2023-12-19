@@ -76,6 +76,8 @@ class Yoast_Notifications {
 
 	/**
 	 * Add hooks
+	 *
+	 * @return void
 	 */
 	private function add_hooks() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
@@ -97,6 +99,8 @@ class Yoast_Notifications {
 
 	/**
 	 * Enqueue assets.
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -106,6 +110,8 @@ class Yoast_Notifications {
 
 	/**
 	 * Handle ajax request to dismiss a notification.
+	 *
+	 * @return void
 	 */
 	public function ajax_dismiss_notification() {
 
@@ -122,6 +128,8 @@ class Yoast_Notifications {
 
 	/**
 	 * Handle ajax request to restore a notification.
+	 *
+	 * @return void
 	 */
 	public function ajax_restore_notification() {
 
@@ -140,6 +148,8 @@ class Yoast_Notifications {
 	 * Create AJAX response data.
 	 *
 	 * @param string $type Notification type.
+	 *
+	 * @return void
 	 */
 	private function output_ajax_response( $type ) {
 
@@ -215,6 +225,8 @@ class Yoast_Notifications {
 
 	/**
 	 * Collect the notifications and group them together.
+	 *
+	 * @return void
 	 */
 	public static function collect_notifications() {
 

@@ -144,6 +144,8 @@ final class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCa
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -169,6 +171,8 @@ final class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCa
 	 * Tests the getting of the source option_name.
 	 *
 	 * @covers ::get_source_option_name
+	 *
+	 * @return void
 	 */
 	public function test_get_source_option_name() {
 		$source_option_name = $this->instance->get_source_option_name();
@@ -185,6 +189,8 @@ final class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCa
 	 * @param bool  $expected_unflattened The expected unflattened retrieved data.
 	 * @param bool  $expected             The expected retrieved data.
 	 * @param int   $times                The expected times we will look for the chunked unimported settings.
+	 *
+	 * @return void
 	 */
 	public function test_query( $query_results, $expected_unflattened, $expected, $times ) {
 		Monkey\Functions\expect( 'get_option' )
@@ -217,6 +223,8 @@ final class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCa
 	 * @param int    $times                  The times that we will import each setting, if any.
 	 * @param int    $transform_times        The times that we will transform each setting, if any.
 	 * @param int    $transform_robots_times The times that we will transform each robot setting, if any.
+	 *
+	 * @return void
 	 */
 	public function test_map( $setting, $setting_value, $times, $transform_times, $transform_robots_times ) {
 		$this->mock_instance->build_mapping();
@@ -253,6 +261,8 @@ final class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCa
 	 * Tests returning a setting map of the robot setting for one subset of default archives.
 	 *
 	 * @covers ::pluck_robot_setting_from_mapping
+	 *
+	 * @return void
 	 */
 	public function test_pluck_robot_setting_from_mapping() {
 		$robot_setting_from_mapping = $this->instance->pluck_robot_setting_from_mapping();
@@ -274,6 +284,8 @@ final class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCa
 	 *
 	 * @param array $aioseo_settings The AIOSEO settings.
 	 * @param bool  $expected_result The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_isset_settings_tab( $aioseo_settings, $expected_result ) {
 		$isset_settings_tab = $this->instance->isset_settings_tab( $aioseo_settings );

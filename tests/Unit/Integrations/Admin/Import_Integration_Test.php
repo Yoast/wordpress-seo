@@ -52,6 +52,8 @@ final class Import_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -74,6 +76,8 @@ final class Import_Integration_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -94,6 +98,8 @@ final class Import_Integration_Test extends TestCase {
 	 * Tests the get_conditionals method.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$actual   = Import_Integration::get_conditionals();
@@ -109,6 +115,8 @@ final class Import_Integration_Test extends TestCase {
 	 * Tests the register hooks method.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' );
@@ -124,6 +132,8 @@ final class Import_Integration_Test extends TestCase {
 	 * @covers ::get_import_failure_alert
 	 * @covers ::get_validation_failure_alert
 	 * @covers ::sort_actions
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_import_script() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )

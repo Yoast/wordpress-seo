@@ -26,6 +26,8 @@ final class Import_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		$this->instance = new Import_Helper();
@@ -39,6 +41,8 @@ final class Import_Helper_Test extends TestCase {
 	 *
 	 * @param array $unflattened_settings        An array of settings to be flattened.
 	 * @param array $expected_flattened_settings The expected flattened settings.
+	 *
+	 * @return void
 	 */
 	public function test_flatten_settings( $unflattened_settings, $expected_flattened_settings ) {
 		$flattened_settings = $this->instance->flatten_settings( $unflattened_settings );

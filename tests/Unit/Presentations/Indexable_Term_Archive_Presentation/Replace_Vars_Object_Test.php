@@ -18,6 +18,8 @@ final class Replace_Vars_Object_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -31,6 +33,8 @@ final class Replace_Vars_Object_Test extends TestCase {
 	 * Tests whether the term is returned.
 	 *
 	 * @covers ::generate_source
+	 *
+	 * @return void
 	 */
 	public function test_generate_source() {
 		Monkey\Functions\expect( 'get_term' )

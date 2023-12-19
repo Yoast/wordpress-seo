@@ -63,6 +63,8 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Setup the help texts and external replacements as statics so they will be available to all instances.
+	 *
+	 * @return void
 	 */
 	public static function setup_statics_once() {
 		if ( self::$help_texts === [] ) {
@@ -1275,6 +1277,8 @@ class WPSEO_Replace_Vars {
 	 *
 	 * @param string                     $type                 Type of variable: 'basic' or 'advanced'.
 	 * @param WPSEO_Replacement_Variable $replacement_variable The replacement variable to register.
+	 *
+	 * @return void
 	 */
 	private static function register_help_text( $type, WPSEO_Replacement_Variable $replacement_variable ) {
 		$identifier = $replacement_variable->get_variable();
@@ -1450,6 +1454,8 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Set/translate the help texts for the WPSEO standard basic variables.
+	 *
+	 * @return void
 	 */
 	private static function set_basic_help_texts() {
 		/* translators: %s: wp_title() function. */
@@ -1500,6 +1506,8 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Set/translate the help texts for the WPSEO standard advanced variables.
+	 *
+	 * @return void
 	 */
 	private static function set_advanced_help_texts() {
 		$replacement_variables = [

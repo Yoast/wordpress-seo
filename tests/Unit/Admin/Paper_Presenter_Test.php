@@ -17,6 +17,8 @@ final class Paper_Presenter_Test extends TestCase {
 	 * @covers WPSEO_Paper_Presenter::get_output
 	 * @covers WPSEO_Paper_Presenter::get_view_variables
 	 * @covers WPSEO_Paper_Presenter::collapsible_config
+	 *
+	 * @return void
 	 */
 	public function test_get_paper_presenter_output_without_view_file() {
 		$this->stubEscapeFunctions();

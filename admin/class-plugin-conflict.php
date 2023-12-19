@@ -47,6 +47,8 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	 * If the activated plugin is conflicting with ours a notice will be shown.
 	 *
 	 * @param string|bool $plugin Optional plugin basename to check.
+	 *
+	 * @return void
 	 */
 	public static function hook_check_for_plugin_conflicts( $plugin = false ) {
 		// The instance of the plugin.

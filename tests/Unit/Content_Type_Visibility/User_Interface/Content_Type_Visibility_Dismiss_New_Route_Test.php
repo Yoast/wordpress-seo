@@ -36,6 +36,8 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 
 	/**
 	 * Set up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -49,6 +51,8 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 	 * Tests the __construct method.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -62,6 +66,8 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 	 * Tests the register_routes method.
 	 *
 	 * @covers ::register_routes
+	 *
+	 * @return void
 	 */
 	public function test_register_routes() {
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -109,6 +115,8 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 	 * Tests the can_dismiss method.
 	 *
 	 * @covers ::can_dismiss
+	 *
+	 * @return void
 	 */
 	public function test_can_dismiss() {
 		Monkey\Functions\expect( 'current_user_can' )
@@ -123,6 +131,8 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 	 * Tests the validate_taxonomy method.
 	 *
 	 * @covers ::validate_taxonomy
+	 *
+	 * @return void
 	 */
 	public function test_validate_taxonomy() {
 		$taxonomy = 'category';
@@ -139,6 +149,8 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 	 * Tests the validate_post_type method.
 	 *
 	 * @covers ::validate_post_type
+	 *
+	 * @return void
 	 */
 	public function test_validate_post_type() {
 		$post_type = 'book';
@@ -155,6 +167,8 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 	 * Tests post_type_dismiss_callback method.
 	 *
 	 * @covers ::post_type_dismiss_callback
+	 *
+	 * @return void
 	 */
 	public function test_post_type_dismiss_callback() {
 		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
@@ -187,6 +201,8 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 	 * Tests taxonomy_dismiss_callback method.
 	 *
 	 * @covers ::taxonomy_dismiss_callback
+	 *
+	 * @return void
 	 */
 	public function test_taxonomy_dismiss_callback() {
 		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );

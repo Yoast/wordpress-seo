@@ -19,6 +19,8 @@ final class Open_Graph_Description_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -31,6 +33,8 @@ final class Open_Graph_Description_Test extends TestCase {
 	 * Tests the situation where the Open Graph description is given.
 	 *
 	 * @covers ::generate_open_graph_description
+	 *
+	 * @return void
 	 */
 	public function test_with_set_open_graph_description() {
 		$this->indexable->open_graph_description = 'Open Graph description';
@@ -42,6 +46,8 @@ final class Open_Graph_Description_Test extends TestCase {
 	 * Tests the situation where the description from template is given.
 	 *
 	 * @covers ::generate_open_graph_description
+	 *
+	 * @return void
 	 */
 	public function test_with_description_from_template() {
 		$this->indexable->object_type            = 'post-type-archive';
@@ -67,6 +73,8 @@ final class Open_Graph_Description_Test extends TestCase {
 	 * Tests the situation where the meta description is given.
 	 *
 	 * @covers ::generate_open_graph_description
+	 *
+	 * @return void
 	 */
 	public function test_with_meta_description() {
 		$this->indexable->object_type            = 'post-type-archive';
@@ -86,6 +94,8 @@ final class Open_Graph_Description_Test extends TestCase {
 	 * Tests the situation where the term description is given.
 	 *
 	 * @covers ::generate_open_graph_description
+	 *
+	 * @return void
 	 */
 	public function test_with_term_description() {
 		$this->indexable->object_type            = 'post-type-archive';

@@ -96,6 +96,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -137,6 +139,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 *
 	 * @param Mockery\MockInterface|Indexable $indexable_mock The indexable mock object.
 	 * @param array                           $expectations   The expectation of the 'set' method of the mock object.
+	 *
+	 * @return void
 	 */
 	protected function set_indexable_set_expectations( $indexable_mock, $expectations ) {
 		foreach ( $expectations as $key => $value ) {
@@ -148,6 +152,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * Mocks a Twitter image that has been set by the user.
 	 *
 	 * @param Mockery\Mock|Indexable $indexable_mock The mocked indexable.
+	 *
+	 * @return void
 	 */
 	protected function twitter_image_set_by_user( $indexable_mock ) {
 		$indexable_mock->orm->shouldReceive( 'get' )
@@ -172,6 +178,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 *
 	 * @param Mockery\Mock|Indexable $indexable_mock The mocked indexable.
 	 * @param array                  $image_meta     The mocked meta data of the image.
+	 *
+	 * @return void
 	 */
 	protected function open_graph_image_set_by_user( $indexable_mock, $image_meta ) {
 		$indexable_mock->orm->shouldReceive( 'get' )
@@ -196,6 +204,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -208,6 +218,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests the formatting of the indexable data.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 		$term = (object) [
@@ -372,6 +384,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests that build throws an exception when no term was returned.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_term_null() {
 		Monkey\Functions\expect( 'get_term' )
@@ -388,6 +402,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests that build throws an exception when the term is a WP error.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_term_error() {
 		$error = Mockery::mock( WP_Error::class );
@@ -409,6 +425,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests that build returns false when the term link is a WP error.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_term_link_error() {
 		$term = (object) [ 'taxonomy' => 'tax' ];
@@ -438,6 +456,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * to `true`.
 	 *
 	 * @covers ::get_noindex_value
+	 *
+	 * @return void
 	 */
 	public function test_get_noindex_value_noindex() {
 		$this->assertTrue( $this->instance->get_noindex_value( 'noindex' ) );
@@ -448,6 +468,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * to `true`.
 	 *
 	 * @covers ::get_noindex_value
+	 *
+	 * @return void
 	 */
 	public function test_get_noindex_value_index() {
 		$this->assertFalse( $this->instance->get_noindex_value( 'index' ) );
@@ -458,6 +480,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * to `true`.
 	 *
 	 * @covers ::get_noindex_value
+	 *
+	 * @return void
 	 */
 	public function test_get_noindex_value_invalid() {
 		$this->assertNull( $this->instance->get_noindex_value( 'invalid' ) );
@@ -465,6 +489,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 
 	/**
 	 * Tests that an alternative image is found in the content, if one exists.
+	 *
+	 * @return void
 	 */
 	public function test_find_alternative_image_content_image() {
 		$indexable_mock      = Mockery::mock( Indexable::class );
@@ -492,6 +518,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 
 	/**
 	 * Tests that an alternative image is found in the content, if one exists.
+	 *
+	 * @return void
 	 */
 	public function test_find_alternative_image_no_content_image() {
 		$indexable_mock      = Mockery::mock( Indexable::class );
@@ -513,6 +541,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests the get_keyword_score method.
 	 *
 	 * @covers ::get_keyword_score
+	 *
+	 * @return void
 	 */
 	public function test_get_keyword_score() {
 		$this->assertSame( 2, $this->instance->get_keyword_score( 'keyword', 2 ) );
@@ -522,6 +552,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests the get_keyword_score method.
 	 *
 	 * @covers ::get_keyword_score
+	 *
+	 * @return void
 	 */
 	public function test_get_keyword_score_no_keyword() {
 		$this->assertNull( $this->instance->get_keyword_score( '', 2 ) );
@@ -531,6 +563,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * Test the get_meta_value method.
 	 *
 	 * @covers ::get_meta_value
+	 *
+	 * @return void
 	 */
 	public function test_get_meta_value() {
 		$term_meta = [
@@ -546,6 +580,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * when the meta key does not exist.
 	 *
 	 * @covers ::get_meta_value
+	 *
+	 * @return void
 	 */
 	public function test_get_meta_value_non_existing_meta_key() {
 		$term_meta = [
@@ -561,6 +597,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	 * when the meta value is empty.
 	 *
 	 * @covers ::get_meta_value
+	 *
+	 * @return void
 	 */
 	public function test_get_meta_value_empty_value() {
 		$term_meta = [

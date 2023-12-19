@@ -22,6 +22,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up(): void {
 		parent::set_up();
@@ -45,6 +47,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 
 	/**
 	 * Tears down the test class.
+	 *
+	 * @return void
 	 */
 	public function tear_down(): void {
 		global $wpdb;
@@ -58,6 +62,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the query method.
 	 *
 	 * @covers ::query
+	 *
+	 * @return void
 	 */
 	public function test_query() {
 
@@ -68,6 +74,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the find_all_by_post_id method.
 	 *
 	 * @covers ::find_all_by_post_id
+	 *
+	 * @return void
 	 */
 	public function test_find_all_by_post_id_no_result() {
 
@@ -83,6 +91,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the find_all_by_post_id method.
 	 *
 	 * @covers ::find_all_by_post_id
+	 *
+	 * @return void
 	 */
 	public function test_find_all_by_post_id_with_result() {
 
@@ -109,6 +119,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the insert_many method.
 	 *
 	 * @covers ::insert_many
+	 *
+	 * @return void
 	 */
 	public function test_insert_many() {
 		global $wpdb;
@@ -157,6 +169,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the find_all_by_indexable_id method.
 	 *
 	 * @covers ::find_all_by_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_find_all_by_indexable_id_no_results_found() {
 		$result = $this->instance->find_all_by_indexable_id( 3 );
@@ -169,6 +183,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests the find_all_by_indexable_id method.
 	 *
 	 * @covers ::find_all_by_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_find_all_by_indexable_id_with_results_found() {
 
@@ -183,6 +199,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests find_one_by_url method.
 	 *
 	 * @covers ::find_one_by_url
+	 *
+	 * @return void
 	 */
 	public function test_find_one_by_url() {
 
@@ -196,6 +214,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * Tests find_all_by_target_post_id.
 	 *
 	 * @covers ::find_all_by_target_post_id
+	 *
+	 * @return void
 	 */
 	public function test_find_all_by_target_post_id() {
 		$result = $this->instance->find_all_by_target_post_id( '112' );
@@ -250,6 +270,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 * @param int  $target_indexable_id The target indexable id to update.
 	 * @param bool $expected_result     The expected result.
 	 * @param int  $in_db               The expected result in the database.
+	 *
+	 * @return void
 	 */
 	public function test_update_target_indexable_id( $link_id, $target_indexable_id, $expected_result, $in_db ) {
 		global $wpdb;
@@ -289,6 +311,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @param int $post_id         The post id.
 	 * @param int $expected_result The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_delete_all_by_post_id( $post_id, $expected_result ) {
 		global $wpdb;
@@ -342,6 +366,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @param int $post_id         The post id.
 	 * @param int $expected_result The number of links deleted.
+	 *
+	 * @return void
 	 */
 	public function test_delete_all_by_post_id_where_indexable_id_null( $post_id, $expected_result ) {
 		global $wpdb;
@@ -406,6 +432,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @param int $indexable_id    The indexable id.
 	 * @param int $expected_result The number of links deleted.
+	 *
+	 * @return void
 	 */
 	public function test_delete_all_by_indexable_id( $indexable_id, $expected_result ) {
 		global $wpdb;
@@ -476,6 +504,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @param array $post_ids        The post ids.
 	 * @param array $expected_result The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_incoming_link_counts_for_post_ids( $post_ids, $expected_result ) {
 		global $wpdb;
@@ -524,6 +554,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @param array $ids             The ids.
 	 * @param int   $expected_result The number of links deleted.
+	 *
+	 * @return void
 	 */
 	public function test_delete_many_by_id( $ids, $expected_result ) {
 		global $wpdb;
@@ -605,6 +637,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @param array $indexable_ids   The indexable ids.
 	 * @param array $expected_result The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_incoming_link_counts_for_indexable_ids( $indexable_ids, $expected_result ) {
 		global $wpdb;

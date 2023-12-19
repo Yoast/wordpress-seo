@@ -27,6 +27,8 @@ final class Redirects_Page_Integration_Test extends TestCase {
 
 	/**
 	 * Set up the fixtures for the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -38,6 +40,8 @@ final class Redirects_Page_Integration_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -53,6 +57,8 @@ final class Redirects_Page_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -63,6 +69,8 @@ final class Redirects_Page_Integration_Test extends TestCase {
 	 * Tests the addition of a submenu page.
 	 *
 	 * @covers ::add_submenu_page
+	 *
+	 * @return void
 	 */
 	public function test_add_submenu_page() {
 		Monkey\Functions\expect( '__' )

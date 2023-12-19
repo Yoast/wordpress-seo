@@ -154,6 +154,8 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	/**
 	 * Checks whether the notification should be shown and adds
 	 * it to the notification center if this is the case.
+	 *
+	 * @return void
 	 */
 	public function maybe_create_notification() {
 		if ( ! $this->should_show_notification() ) {
@@ -170,6 +172,8 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	/**
 	 * Checks whether the notification should not be shown anymore and removes
 	 * it from the notification center if this is the case.
+	 *
+	 * @return void
 	 */
 	public function maybe_cleanup_notification() {
 		$notification = $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID );

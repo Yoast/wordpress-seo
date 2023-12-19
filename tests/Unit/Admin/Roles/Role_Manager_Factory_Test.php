@@ -14,6 +14,8 @@ final class Role_Manager_Factory_Test extends TestCase {
 	 * Tests getting the role manager.
 	 *
 	 * @covers WPSEO_Role_Manager_Factory::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$instance  = WPSEO_Role_Manager_Factory::get();

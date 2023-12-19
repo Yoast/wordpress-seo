@@ -59,6 +59,8 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -76,6 +78,8 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 	 * Tests setting the social image helpers.
 	 *
 	 * @covers ::set_social_image_helpers
+	 *
+	 * @return void
 	 */
 	public function test_set_social_image_helpers() {
 		$this->instance->set_social_image_helpers( $this->image, $this->open_graph_image, $this->twitter_image );
@@ -98,6 +102,8 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 	 * Tests the resetting of social images.
 	 *
 	 * @covers ::reset_social_images
+	 *
+	 * @return void
 	 */
 	public function test_reset_social_images() {
 		$this->indexable      = Mockery::mock( Indexable::class );
@@ -121,6 +127,8 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 	 *
 	 * @covers ::handle_social_images
 	 * @covers ::set_open_graph_image_meta_data
+	 *
+	 * @return void
 	 */
 	public function test_handle_social_images_when_images_are_set_by_user() {
 		$this->indexable      = Mockery::mock( Indexable::class );
@@ -172,6 +180,8 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 	 * @covers ::handle_social_images
 	 * @covers ::set_open_graph_image_meta_data
 	 * @covers ::set_alternative_image
+	 *
+	 * @return void
 	 */
 	public function test_handle_social_images_when_twitter_image_is_not_set_by_user() {
 		$this->indexable      = Mockery::mock( Indexable::class );
@@ -241,6 +251,8 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 	 * @covers ::handle_social_images
 	 * @covers ::set_open_graph_image_meta_data
 	 * @covers ::set_alternative_image
+	 *
+	 * @return void
 	 */
 	public function test_handle_social_images_when_og_image_is_not_set_by_user() {
 		$this->indexable      = Mockery::mock( Indexable::class );
@@ -288,6 +300,8 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 	 * @covers ::handle_social_images
 	 * @covers ::set_open_graph_image_meta_data
 	 * @covers ::set_alternative_image
+	 *
+	 * @return void
 	 */
 	public function test_handle_social_images_when_twitter_image_id_is_not_set_by_user() {
 		$this->indexable      = Mockery::mock( Indexable::class );
@@ -350,6 +364,8 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 	 * @covers ::handle_social_images
 	 * @covers ::set_open_graph_image_meta_data
 	 * @covers ::set_alternative_image
+	 *
+	 * @return void
 	 */
 	public function test_handle_social_images_when_og_image_id_is_not_set_by_user() {
 		$this->indexable      = Mockery::mock( Indexable::class );
@@ -392,6 +408,8 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 
 	/**
 	 * Mocks a Twitter image that has been set by the user.
+	 *
+	 * @return void
 	 */
 	protected function twitter_image_set_by_user() {
 		$this->indexable->orm->shouldReceive( 'get' )
@@ -413,6 +431,8 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 
 	/**
 	 * Mocks a missing Twitter image.
+	 *
+	 * @return void
 	 */
 	protected function no_twitter_image() {
 		$this->indexable->orm->shouldReceive( 'get' )
@@ -430,6 +450,8 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 
 	/**
 	 * Mocks a missing Open Graph image.
+	 *
+	 * @return void
 	 */
 	protected function no_open_graph_image() {
 		$this->indexable->orm->shouldReceive( 'get' )
@@ -449,6 +471,8 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 	 * Mocks an Open Graph image that is set by the user.
 	 *
 	 * @param array $image_meta The mocked meta data of the image.
+	 *
+	 * @return void
 	 */
 	protected function open_graph_image_set_by_user( $image_meta ) {
 		$this->indexable->orm->shouldReceive( 'get' )

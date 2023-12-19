@@ -32,6 +32,8 @@ final class Wincher_Enabled_Conditional_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -44,6 +46,8 @@ final class Wincher_Enabled_Conditional_Test extends TestCase {
 	 * Tests if the class attributes are set propertly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -56,6 +60,8 @@ final class Wincher_Enabled_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when the integration is disabled.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met() {
 		$this->options_helper
@@ -71,6 +77,8 @@ final class Wincher_Enabled_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when the integration is enabled.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met() {
 		$this->options_helper

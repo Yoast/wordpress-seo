@@ -35,6 +35,8 @@ final class Crawl_Cleanup_Basic_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -47,6 +49,8 @@ final class Crawl_Cleanup_Basic_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -59,6 +63,8 @@ final class Crawl_Cleanup_Basic_Test extends TestCase {
 	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		\add_action( 'wp_head', 'wp_generator' );

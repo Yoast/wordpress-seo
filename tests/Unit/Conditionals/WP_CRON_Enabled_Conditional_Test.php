@@ -23,6 +23,8 @@ final class WP_CRON_Enabled_Conditional_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -34,6 +36,8 @@ final class WP_CRON_Enabled_Conditional_Test extends TestCase {
 	 * Tests that the condition is met when there is no DISABLE_WP_CRON define.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met() {
 		$this->assertTrue( $this->instance->is_met() );
@@ -43,6 +47,8 @@ final class WP_CRON_Enabled_Conditional_Test extends TestCase {
 	 * Tests that the condition is not met when there is a true DISABLE_WP_CRON define.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met() {
 		if ( ! \defined( 'DISABLE_WP_CRON' ) ) {

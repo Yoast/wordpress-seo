@@ -19,6 +19,8 @@ final class Twitter_Card_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,6 +32,8 @@ final class Twitter_Card_Test extends TestCase {
 	 * Tests whether an empty string is returned.
 	 *
 	 * @covers ::generate_twitter_card
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_card() {
 		$this->context->twitter_card = 'summary';

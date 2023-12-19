@@ -28,6 +28,8 @@ final class Url_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -39,6 +41,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests the building of an absolute url.
 	 *
 	 * @covers ::build_absolute_url
+	 *
+	 * @return void
 	 */
 	public function test_build_absolute_url() {
 		Monkey\Functions\expect( 'home_url' )
@@ -67,6 +71,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests the building of an absolute url with a relative url given.
 	 *
 	 * @covers ::build_absolute_url
+	 *
+	 * @return void
 	 */
 	public function test_build_absolute_url_relative_url() {
 		Monkey\Functions\expect( 'home_url' )
@@ -253,6 +259,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests retrieving of the file extension.
 	 *
 	 * @covers ::get_extension_from_url
+	 *
+	 * @return void
 	 */
 	public function test_get_extension_from_url() {
 		Monkey\Functions\expect( 'wp_parse_url' )
@@ -269,6 +277,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests retrieving of the file extension with no path present.
 	 *
 	 * @covers ::get_extension_from_url
+	 *
+	 * @return void
 	 */
 	public function test_get_extension_from_url_no_path() {
 		Monkey\Functions\expect( 'wp_parse_url' )
@@ -285,6 +295,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests retrieving of the file extension with no extension present.
 	 *
 	 * @covers ::get_extension_from_url
+	 *
+	 * @return void
 	 */
 	public function test_get_extension_from_url_no_extension() {
 		Monkey\Functions\expect( 'wp_parse_url' )
@@ -301,6 +313,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests the ensure absolute url with an array given as argument.
 	 *
 	 * @covers ::ensure_absolute_url
+	 *
+	 * @return void
 	 */
 	public function test_ensure_absolute_url_with_array_given() {
 		$this->assertEquals( [ 'array' ], $this->instance->ensure_absolute_url( [ 'array' ] ) );
@@ -310,6 +324,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests the ensure absolute url with an array given as argument.
 	 *
 	 * @covers ::ensure_absolute_url
+	 *
+	 * @return void
 	 */
 	public function test_ensure_absolute_url_with_empty_string_given() {
 		$this->assertEquals( '', $this->instance->ensure_absolute_url( '' ) );
@@ -320,6 +336,8 @@ final class Url_Helper_Test extends TestCase {
 	 *
 	 * @covers ::ensure_absolute_url
 	 * @covers ::is_relative
+	 *
+	 * @return void
 	 */
 	public function test_ensure_absolute_url_with_relative_url_given() {
 		Monkey\Functions\expect( 'home_url' )
@@ -346,6 +364,8 @@ final class Url_Helper_Test extends TestCase {
 	 *
 	 * @covers ::ensure_absolute_url
 	 * @covers ::is_relative
+	 *
+	 * @return void
 	 */
 	public function test_ensure_absolute_url_with_absolute_url_given() {
 		$this->assertEquals( 'https://example.org/page', $this->instance->ensure_absolute_url( 'https://example.org/page' ) );
@@ -355,6 +375,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests if an url is relative with a relative url given as argument.
 	 *
 	 * @covers ::is_relative
+	 *
+	 * @return void
 	 */
 	public function test_if_url_is_relative() {
 		$this->assertTrue( $this->instance->is_relative( '/relative.html' ) );
@@ -364,6 +386,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests if an url is relative with a relative url given as argument.
 	 *
 	 * @covers ::is_relative
+	 *
+	 * @return void
 	 */
 	public function test_if_url_is_relative_with_non_relative_url_given() {
 		$this->assertFalse( $this->instance->is_relative( 'https://relative.html' ) );
@@ -373,6 +397,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests if an url is relative with a protocol-less url given as argument.
 	 *
 	 * @covers ::is_relative
+	 *
+	 * @return void
 	 */
 	public function test_if_url_is_relative_with_protocol_less_url_given() {
 		$this->assertFalse( $this->instance->is_relative( '//relative.html' ) );
@@ -382,6 +408,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests the home url with a path given.
 	 *
 	 * @covers ::home
+	 *
+	 * @return void
 	 */
 	public function test_home_with_path_given() {
 		Monkey\Functions\expect( 'home_url' )
@@ -395,6 +423,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests the home url with no path given and home url is site root.
 	 *
 	 * @covers ::home
+	 *
+	 * @return void
 	 */
 	public function test_home_with_home_at_site_root() {
 		Monkey\Functions\expect( 'home_url' )
@@ -415,6 +445,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests the home url with no path given and home url is site root.
 	 *
 	 * @covers ::home
+	 *
+	 * @return void
 	 */
 	public function test_home_with_home_at_site_root_already_slashed() {
 		Monkey\Functions\expect( 'home_url' )
@@ -431,6 +463,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests the home url with the home in a subdirectory.
 	 *
 	 * @covers ::home
+	 *
+	 * @return void
 	 */
 	public function test_home_with_home_in_subdirectory() {
 		Monkey\Functions\expect( 'home_url' )
@@ -451,6 +485,8 @@ final class Url_Helper_Test extends TestCase {
 	 * Tests the home url with the home in a subdirectory.
 	 *
 	 * @covers ::home
+	 *
+	 * @return void
 	 */
 	public function test_home() {
 		Monkey\Functions\expect( 'home_url' )
@@ -475,6 +511,8 @@ final class Url_Helper_Test extends TestCase {
 	 * @param bool   $is_image  Whether or not the link is an image.
 	 * @param string $link_type The expected link type.
 	 * @param string $message   The assertion message.
+	 *
+	 * @return void
 	 */
 	public function test_get_link_type( $url, $home_url, $is_image, $link_type, $message ) {
 		if ( \is_null( $home_url ) ) {
@@ -597,6 +635,8 @@ final class Url_Helper_Test extends TestCase {
 	 *
 	 * @param array  $params   The input parameters.
 	 * @param string $expected The expected output.
+	 *
+	 * @return void
 	 */
 	public function test_recreate_current_url( $params, $expected ) {
 		if ( ! empty( $params['HTTPS'] ) ) {

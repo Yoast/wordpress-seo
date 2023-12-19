@@ -21,6 +21,8 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	public static function set_up_before_class() {
 		parent::set_up_before_class();
@@ -34,6 +36,8 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 *
 	 * @covers ::add_rule
 	 * @covers ::filter_rewrite_rules_option
+	 *
+	 * @return void
 	 */
 	public function test_add_rule_bottom() {
 		$regex    = 'sitemap_index\.xml$';
@@ -56,6 +60,8 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 *
 	 * @covers ::add_rule
 	 * @covers ::filter_rewrite_rules_option
+	 *
+	 * @return void
 	 */
 	public function test_add_rule_top() {
 		$regex    = 'sitemap_index\.xml$';
@@ -78,6 +84,8 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 *
 	 * @covers ::add_rule
 	 * @covers ::filter_rewrite_rules_option
+	 *
+	 * @return void
 	 */
 	public function test_add_rule_without_query() {
 		$regex    = 'sitemap_index\.xml$';

@@ -39,6 +39,8 @@ final class Metabox_Collapsibles_Sections_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Collapsible::link
 	 *
 	 * @param string $expected Substring expected to be found in the actual output.
+	 *
+	 * @return void
 	 */
 	public function test_display_content_with_collapsible( $expected ) {
 		$collapsibles = [];
@@ -84,6 +86,8 @@ final class Metabox_Collapsibles_Sections_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Collapsible::__construct
 	 * @covers WPSEO_Metabox_Collapsible::content
 	 * @covers WPSEO_Metabox_Collapsible::link
+	 *
+	 * @return void
 	 */
 	public function test_display_link_with_collapsible() {
 		$collapsibles = [];

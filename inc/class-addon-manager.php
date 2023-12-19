@@ -396,6 +396,8 @@ class WPSEO_Addon_Manager {
 	 * If the plugin is lacking an active subscription, throw a warning.
 	 *
 	 * @param array $plugin_data The data for the plugin in this row.
+	 *
+	 * @return void
 	 */
 	public function expired_subscription_warning( $plugin_data ) {
 		$subscription = $this->get_subscription( $plugin_data['slug'] );
@@ -461,6 +463,8 @@ class WPSEO_Addon_Manager {
 
 	/**
 	 * Validates the addons and show a notice for the ones that are invalid.
+	 *
+	 * @return void
 	 */
 	public function validate_addons() {
 		$notification_center = Yoast_Notification_Center::get();

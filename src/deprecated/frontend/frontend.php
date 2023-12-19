@@ -140,6 +140,8 @@ class WPSEO_Frontend {
 
 	/**
 	 * Outputs the meta robots value.
+	 *
+	 * @return void
 	 */
 	public function robots() {
 		_deprecated_function( __METHOD__, 'Yoast SEO 14.0' );
@@ -223,6 +225,8 @@ class WPSEO_Frontend {
 	 * Adds 'prev' and 'next' links to archives.
 	 *
 	 * @link http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
+	 *
+	 * @return void
 	 */
 	public function adjacent_rel_links() {
 		_deprecated_function( __METHOD__, 'Yoast SEO 14.0' );

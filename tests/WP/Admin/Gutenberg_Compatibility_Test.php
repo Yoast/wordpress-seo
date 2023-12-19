@@ -19,6 +19,8 @@ final class Gutenberg_Compatibility_Test extends TestCase {
 
 	/**
 	 * Set up our double class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ final class Gutenberg_Compatibility_Test extends TestCase {
 	 * Tests the situation where Gutenberg is installed.
 	 *
 	 * @covers WPSEO_Gutenberg_Compatibility::is_installed
+	 *
+	 * @return void
 	 */
 	public function test_gutenberg_is_installed() {
 		$mock = $this
@@ -51,6 +55,8 @@ final class Gutenberg_Compatibility_Test extends TestCase {
 	 * Tests the situation where Gutenberg is not installed.
 	 *
 	 * @covers WPSEO_Gutenberg_Compatibility::is_installed
+	 *
+	 * @return void
 	 */
 	public function test_gutenberg_not_installed() {
 		$mock = $this
@@ -67,6 +73,8 @@ final class Gutenberg_Compatibility_Test extends TestCase {
 	 * Tests the installed Gutenberg version when Gutenberg is available.
 	 *
 	 * @covers WPSEO_Gutenberg_Compatibility::get_installed_version
+	 *
+	 * @return void
 	 */
 	public function test_gutenberg_version_detection() {
 		$this->default_mock->set_installed_gutenberg_version( '3.3.0' );
@@ -78,6 +86,8 @@ final class Gutenberg_Compatibility_Test extends TestCase {
 	 * Tests the installed Gutenberg version when Gutenberg is not available.
 	 *
 	 * @covers WPSEO_Gutenberg_Compatibility::get_installed_version
+	 *
+	 * @return void
 	 */
 	public function test_gutenberg_version_detection_when_not_installed() {
 		$this->assertEquals( $this->default_mock->get_installed_version(), '' );
@@ -87,6 +97,8 @@ final class Gutenberg_Compatibility_Test extends TestCase {
 	 * Tests that the installed Gutenberg version is considered fully compatible.
 	 *
 	 * @covers WPSEO_Gutenberg_Compatibility::is_fully_compatible
+	 *
+	 * @return void
 	 */
 	public function test_gutenberg_version_is_fully_compatible() {
 		$this->default_mock
@@ -103,6 +115,8 @@ final class Gutenberg_Compatibility_Test extends TestCase {
 	 * Tests that the installed Gutenberg version is not considered fully compatible.
 	 *
 	 * @covers WPSEO_Gutenberg_Compatibility::is_fully_compatible
+	 *
+	 * @return void
 	 */
 	public function test_gutenberg_version_is_not_fully_compatible() {
 		$this->default_mock
@@ -119,6 +133,8 @@ final class Gutenberg_Compatibility_Test extends TestCase {
 	 * Tests that the installed Gutenberg version is below the minimum supported version.
 	 *
 	 * @covers WPSEO_Gutenberg_Compatibility::is_below_minimum
+	 *
+	 * @return void
 	 */
 	public function test_gutenberg_version_is_below_minimum() {
 		$this->default_mock
@@ -135,6 +151,8 @@ final class Gutenberg_Compatibility_Test extends TestCase {
 	 * Tests that the installed Gutenberg version is not below the minimum supported version.
 	 *
 	 * @covers WPSEO_Gutenberg_Compatibility::is_below_minimum
+	 *
+	 * @return void
 	 */
 	public function test_gutenberg_version_is_not_below_minimum() {
 		$this->default_mock

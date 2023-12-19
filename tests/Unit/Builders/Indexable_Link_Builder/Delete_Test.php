@@ -20,6 +20,8 @@ final class Delete_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 * Tests the delete method.
 	 *
 	 * @covers ::delete
+	 *
+	 * @return void
 	 */
 	public function test_delete() {
 		$indexable     = Mockery::mock( Indexable_Mock::class );
@@ -44,6 +46,8 @@ final class Delete_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @covers ::update_incoming_links_for_related_indexables
 	 * @covers ::delete
+	 *
+	 * @return void
 	 */
 	public function test_delete_and_update_incoming_links_for_related_indexables() {
 		$indexable                     = Mockery::mock( Indexable_Mock::class );

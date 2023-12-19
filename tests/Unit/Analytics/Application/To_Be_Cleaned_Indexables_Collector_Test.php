@@ -27,6 +27,8 @@ final class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
 	 * Gets the data for the collector.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_collector_get(): void {
 		$indexable_cleanup_repository_mock = Mockery::mock( Indexable_Cleanup_Repository::class );

@@ -22,6 +22,8 @@ final class Report_Builder_Factory_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -32,6 +34,8 @@ final class Report_Builder_Factory_Test extends TestCase {
 	 * Checks if the factory returns a Report_Builder instance.
 	 *
 	 * @covers ::create
+	 *
+	 * @return void
 	 */
 	public function test_returns_report_builder() {
 		$actual = $this->instance->create( 'identifier' );

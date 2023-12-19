@@ -34,6 +34,8 @@ final class Import_Settings_Test extends TestCase {
 	 * Test the import function.
 	 *
 	 * @covers ::import
+	 *
+	 * @return void
 	 */
 	public function test_import() {
 		Monkey\Functions\expect( 'check_admin_referer' )
@@ -57,6 +59,8 @@ final class Import_Settings_Test extends TestCase {
 	 * Test the import function when the user does not have capabilities.
 	 *
 	 * @covers ::import
+	 *
+	 * @return void
 	 */
 	public function test_import_no_capability() {
 		Monkey\Functions\expect( 'check_admin_referer' )
@@ -77,6 +81,8 @@ final class Import_Settings_Test extends TestCase {
 	 * Test the import function when post variable is not set.
 	 *
 	 * @covers ::import
+	 *
+	 * @return void
 	 */
 	public function test_import_post_null() {
 		Monkey\Functions\expect( 'check_admin_referer' )
@@ -99,6 +105,8 @@ final class Import_Settings_Test extends TestCase {
 	 * Test the import function when post variable is emtpy string.
 	 *
 	 * @covers ::import
+	 *
+	 * @return void
 	 */
 	public function test_import_post_empty() {
 		Monkey\Functions\expect( 'check_admin_referer' )

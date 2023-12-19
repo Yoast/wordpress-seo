@@ -24,6 +24,8 @@ final class Indexable_Builder_Versions_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ final class Indexable_Builder_Versions_Test extends TestCase {
 	 * Tests the content the Indexable builder version array.
 	 *
 	 * @covers \Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions
+	 *
+	 * @return void
 	 */
 	public function test_get_versions() {
 		// Get the protected field from the test double.
@@ -60,6 +64,8 @@ final class Indexable_Builder_Versions_Test extends TestCase {
 	 *
 	 * @param mixed $key      The key of the indexable builder to check.
 	 * @param mixed $expected The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_latest_version_for_type( $key, $expected ) {
 		// Arrange.

@@ -49,6 +49,8 @@ class WPSEO_Endpoint_Statistics implements WPSEO_Endpoint {
 
 	/**
 	 * Registers the REST routes that are available on the endpoint.
+	 *
+	 * @return void
 	 */
 	public function register() {
 		// Register fetch config.

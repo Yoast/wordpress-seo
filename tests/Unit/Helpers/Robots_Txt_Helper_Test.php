@@ -36,6 +36,8 @@ final class Robots_Txt_Helper_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertIsObject(
@@ -55,6 +57,8 @@ final class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @param array $arguments The arguments to be passed to the function.
 	 * @param array $expected  The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_add_disallow( $arguments, $expected ) {
 		foreach ( $arguments as $argument ) {
@@ -140,6 +144,8 @@ final class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @param array $arguments The arguments to be passed to the function.
 	 * @param array $expected  The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_add_allow( $arguments, $expected ) {
 		foreach ( $arguments as $argument ) {
@@ -225,6 +231,8 @@ final class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @param array $sitemaps The sitemaps to be passed to the function.
 	 * @param array $expected The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_add_sitemap( $sitemaps, $expected ) {
 		foreach ( $sitemaps as $sitemap ) {

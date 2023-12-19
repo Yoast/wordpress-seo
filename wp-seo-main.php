@@ -137,6 +137,8 @@ if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
  * Run single site / network-wide activation of the plugin.
  *
  * @param bool $networkwide Whether the plugin is being activated network-wide.
+ *
+ * @return void
  */
 function wpseo_activate( $networkwide = false ) {
 	if ( ! is_multisite() || ! $networkwide ) {
@@ -155,6 +157,8 @@ function wpseo_activate( $networkwide = false ) {
  * Run single site / network-wide de-activation of the plugin.
  *
  * @param bool $networkwide Whether the plugin is being de-activated network-wide.
+ *
+ * @return void
  */
 function wpseo_deactivate( $networkwide = false ) {
 	if ( ! is_multisite() || ! $networkwide ) {
@@ -170,6 +174,8 @@ function wpseo_deactivate( $networkwide = false ) {
  * Run network-wide (de-)activation of the plugin.
  *
  * @param bool $activate True for plugin activation, false for de-activation.
+ *
+ * @return void
  */
 function wpseo_network_activate_deactivate( $activate = true ) {
 	global $wpdb;
@@ -194,6 +200,8 @@ function wpseo_network_activate_deactivate( $activate = true ) {
 
 /**
  * Runs on activation of the plugin.
+ *
+ * @return void
  */
 function _wpseo_activate() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
@@ -247,6 +255,8 @@ function _wpseo_activate() {
 
 /**
  * On deactivation, flush the rewrite rules so XML sitemaps stop working.
+ *
+ * @return void
  */
 function _wpseo_deactivate() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
@@ -277,6 +287,8 @@ function _wpseo_deactivate() {
  *            {@link https://core.trac.wordpress.org/ticket/24205} }}
  *
  * @param int|WP_Site $blog_id Blog ID.
+ *
+ * @return void
  */
 function wpseo_on_activate_blog( $blog_id ) {
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
@@ -298,6 +310,8 @@ function wpseo_on_activate_blog( $blog_id ) {
 
 /**
  * Load translations.
+ *
+ * @return void
  */
 function wpseo_load_textdomain() {
 	$wpseo_path = str_replace( '\\', '/', WPSEO_PATH );
@@ -316,6 +330,8 @@ add_action( 'plugins_loaded', 'wpseo_load_textdomain' );
 
 /**
  * On plugins_loaded: load the minimum amount of essential files for this plugin.
+ *
+ * @return void
  */
 function wpseo_init() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
@@ -379,6 +395,8 @@ function wpseo_init() {
 
 /**
  * Loads the rest api endpoints.
+ *
+ * @return void
  */
 function wpseo_init_rest_api() {
 	// We can't do anything when requirements are not met.
@@ -400,6 +418,8 @@ function wpseo_init_rest_api() {
 
 /**
  * Used to load the required files on the plugins_loaded hook, instead of immediately.
+ *
+ * @return void
  */
 function wpseo_admin_init() {
 	new WPSEO_Admin_Init();
@@ -478,6 +498,8 @@ $wpseo_register_capabilities->register_hooks();
 
 /**
  * Wraps for notifications center class.
+ *
+ * @return void
  */
 function load_yoast_notifications() {
 	// Init Yoast_Notification_Center class.
@@ -502,6 +524,8 @@ function yoast_wpseo_missing_spl() {
 
 /**
  * Returns the notice in case of missing spl extension.
+ *
+ * @return void
  */
 function yoast_wpseo_missing_spl_notice() {
 	$message = esc_html__( 'The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
@@ -523,6 +547,8 @@ function yoast_wpseo_missing_autoload() {
 
 /**
  * Returns the notice in case of missing Composer autoload.
+ *
+ * @return void
  */
 function yoast_wpseo_missing_autoload_notice() {
 	/* translators: %1$s expands to Yoast SEO, %2$s / %3$s: links to the installation manual in the Readme for the Yoast SEO code repository on GitHub */
@@ -548,6 +574,8 @@ function yoast_wpseo_missing_filter() {
 
 /**
  * Returns the notice in case of missing filter extension.
+ *
+ * @return void
  */
 function yoast_wpseo_missing_filter_notice() {
 	$message = esc_html__( 'The filter extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
@@ -558,6 +586,8 @@ function yoast_wpseo_missing_filter_notice() {
  * Echo's the Activation failed notice with any given message.
  *
  * @param string $message Message string.
+ *
+ * @return void
  */
 function yoast_wpseo_activation_failed_notice( $message ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- This function is only called in 3 places that are safe.
@@ -566,6 +596,8 @@ function yoast_wpseo_activation_failed_notice( $message ) {
 
 /**
  * The method will deactivate the plugin, but only once, done by the static $is_deactivated.
+ *
+ * @return void
  */
 function yoast_wpseo_self_deactivate() {
 	static $is_deactivated;

@@ -44,6 +44,8 @@ class WPSEO_Admin_Pages {
 
 	/**
 	 * Make sure the needed scripts are loaded for admin pages.
+	 *
+	 * @return void
 	 */
 	public function init() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
@@ -59,6 +61,8 @@ class WPSEO_Admin_Pages {
 
 	/**
 	 * Loads the required styles for the config page.
+	 *
+	 * @return void
 	 */
 	public function config_page_styles() {
 		wp_enqueue_style( 'dashboard' );
@@ -77,6 +81,8 @@ class WPSEO_Admin_Pages {
 
 	/**
 	 * Loads the required scripts for the config page.
+	 *
+	 * @return void
 	 */
 	public function config_page_scripts() {
 		$this->asset_manager->enqueue_script( 'settings' );
@@ -147,6 +153,8 @@ class WPSEO_Admin_Pages {
 
 	/**
 	 * Enqueues and handles all the tool dependencies.
+	 *
+	 * @return void
 	 */
 	private function enqueue_tools_scripts() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.

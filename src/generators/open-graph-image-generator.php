@@ -137,6 +137,8 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 	 *
 	 * @param Indexable $indexable       The indexable.
 	 * @param Images    $image_container The image container.
+	 *
+	 * @return void
 	 */
 	protected function add_from_indexable( Indexable $indexable, Images $image_container ) {
 		if ( $indexable->open_graph_image_meta ) {
@@ -170,6 +172,8 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 	 * Retrieves the default Open Graph image.
 	 *
 	 * @param Images $image_container The image container.
+	 *
+	 * @return void
 	 */
 	protected function add_from_default( Images $image_container ) {
 		if ( $image_container->has_images() ) {
@@ -194,6 +198,8 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 	 *
 	 * @param Meta_Tags_Context $context         The context.
 	 * @param Images            $image_container The image container.
+	 *
+	 * @return void
 	 */
 	protected function add_from_templates( Meta_Tags_Context $context, Images $image_container ) {
 		if ( $image_container->has_images() ) {

@@ -115,6 +115,8 @@ class WPSEO_Sitemaps {
 	 * Initialize sitemap providers classes.
 	 *
 	 * @since 5.3
+	 *
+	 * @return void
 	 */
 	public function init_sitemaps_providers() {
 
@@ -135,6 +137,8 @@ class WPSEO_Sitemaps {
 
 	/**
 	 * Check the current request URI, if we can determine it's probably an XML sitemap, kill loading the widgets.
+	 *
+	 * @return void
 	 */
 	public function reduce_query_load() {
 		if ( ! isset( $_SERVER['REQUEST_URI'] ) ) {
@@ -153,6 +157,8 @@ class WPSEO_Sitemaps {
 	 * @param string   $name              The name of the sitemap.
 	 * @param callback $building_function Function to build your sitemap.
 	 * @param string   $rewrite           Optional. Regular expression to match your sitemap with.
+	 *
+	 * @return void
 	 */
 	public function register_sitemap( $name, $building_function, $rewrite = '' ) {
 		add_action( 'wpseo_do_sitemap_' . $name, $building_function );
@@ -169,6 +175,8 @@ class WPSEO_Sitemaps {
 	 * @param string   $name              The name of the XSL file.
 	 * @param callback $building_function Function to build your XSL file.
 	 * @param string   $rewrite           Optional. Regular expression to match your sitemap with.
+	 *
+	 * @return void
 	 */
 	public function register_xsl( $name, $building_function, $rewrite = '' ) {
 		add_action( 'wpseo_xsl_' . $name, $building_function );
@@ -182,6 +190,8 @@ class WPSEO_Sitemaps {
 	 * in a one-off process.
 	 *
 	 * @param int $current_page The part that should be generated.
+	 *
+	 * @return void
 	 */
 	public function set_n( $current_page ) {
 		if ( is_scalar( $current_page ) && intval( $current_page ) > 0 ) {
@@ -193,6 +203,8 @@ class WPSEO_Sitemaps {
 	 * Set the sitemap content to display after you have generated it.
 	 *
 	 * @param string $sitemap The generated sitemap to output.
+	 *
+	 * @return void
 	 */
 	public function set_sitemap( $sitemap ) {
 		$this->sitemap = $sitemap;
@@ -202,6 +214,8 @@ class WPSEO_Sitemaps {
 	 * Set as true to make the request 404. Used stop the display of empty sitemaps or invalid requests.
 	 *
 	 * @param bool $is_bad Is this a bad request. True or false.
+	 *
+	 * @return void
 	 */
 	public function set_bad_sitemap( $is_bad ) {
 		$this->bad_sitemap = (bool) $is_bad;
@@ -211,6 +225,8 @@ class WPSEO_Sitemaps {
 	 * Prevent stupid plugins from running shutdown scripts when we're obviously not outputting HTML.
 	 *
 	 * @since 1.4.16
+	 *
+	 * @return void
 	 */
 	public function sitemap_close() {
 		remove_all_actions( 'wp_footer' );
@@ -221,6 +237,8 @@ class WPSEO_Sitemaps {
 	 * Hijack requests for potential sitemaps and XSL files.
 	 *
 	 * @param WP_Query $query Main query instance.
+	 *
+	 * @return void
 	 */
 	public function redirect( $query ) {
 
@@ -332,6 +350,8 @@ class WPSEO_Sitemaps {
 	 * Sets $bad_sitemap if this isn't for the root sitemap, a post type or taxonomy.
 	 *
 	 * @param string $type The requested sitemap's identifier.
+	 *
+	 * @return void
 	 */
 	public function build_sitemap( $type ) {
 
@@ -382,6 +402,8 @@ class WPSEO_Sitemaps {
 
 	/**
 	 * Build the root sitemap (example.com/sitemap_index.xml) which lists sub-sitemaps for other content types.
+	 *
+	 * @return void
 	 */
 	public function build_root_map() {
 
@@ -415,6 +437,8 @@ class WPSEO_Sitemaps {
 	 * @since 1.4.13
 	 *
 	 * @param string $type Type to output.
+	 *
+	 * @return void
 	 */
 	public function xsl_output( $type ) {
 
@@ -445,6 +469,8 @@ class WPSEO_Sitemaps {
 
 	/**
 	 * Spit out the generated sitemap.
+	 *
+	 * @return void
 	 */
 	public function output() {
 		$this->send_headers();
@@ -592,6 +618,8 @@ class WPSEO_Sitemaps {
 
 	/**
 	 * Sends all the required HTTP Headers.
+	 *
+	 * @return void
 	 */
 	private function send_headers() {
 		if ( headers_sent() ) {

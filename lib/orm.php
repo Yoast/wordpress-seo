@@ -1979,6 +1979,8 @@ class ORM implements ArrayAccess {
 
 	/**
 	 * Resets the Idiorm instance state.
+	 *
+	 * @return void
 	 */
 	private function reset_idiorm_state() {
 		$this->values                       = [];
@@ -2476,6 +2478,8 @@ class ORM implements ArrayAccess {
 	 *
 	 * @param string|int $offset Key.
 	 * @param mixed      $value  Value.
+	 *
+	 * @return void
 	 */
 	#[ReturnTypeWillChange]
 	public function offsetSet( $offset, $value ) {
@@ -2489,6 +2493,8 @@ class ORM implements ArrayAccess {
 	 * Removes the given key from the data.
 	 *
 	 * @param mixed $offset Key.
+	 *
+	 * @return void
 	 */
 	#[ReturnTypeWillChange]
 	public function offsetUnset( $offset ) {
@@ -2516,6 +2522,8 @@ class ORM implements ArrayAccess {
 	 *
 	 * @param string|int $key   Key.
 	 * @param mixed      $value Value.
+	 *
+	 * @return void
 	 */
 	public function __set( $key, $value ) {
 		$this->offsetSet( $key, $value );
@@ -2525,6 +2533,8 @@ class ORM implements ArrayAccess {
 	 * Handles magic unset via offset.
 	 *
 	 * @param mixed $key Key.
+	 *
+	 * @return void
 	 */
 	public function __unset( $key ) {
 		$this->offsetUnset( $key );

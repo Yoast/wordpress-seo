@@ -43,6 +43,8 @@ final class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -57,6 +59,8 @@ final class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -73,6 +77,8 @@ final class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends
 	 * Tests getting the ID.
 	 *
 	 * @covers ::get_id
+	 *
+	 * @return void
 	 */
 	public function test_get_name() {
 		$this->assertSame( 'ai-generate-titles-and-descriptions-upsell', $this->instance->get_id() );
@@ -82,6 +88,8 @@ final class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends
 	 * Tests getting the priority.
 	 *
 	 * @covers ::get_priority
+	 *
+	 * @return void
 	 */
 	public function test_get_priority() {
 		$this->assertSame( 10, $this->instance->get_priority() );
@@ -99,6 +107,8 @@ final class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends
 	 * @param bool   $user_can_edit_posts Whether the user can edit posts.
 	 * @param array  $times               The amount of times for expectations. Instead of adding logic to the tests.
 	 * @param bool   $expected            The expected result (whether the introduction should show).
+	 *
+	 * @return void
 	 */
 	public function test_should_show(
 		$is_premium,

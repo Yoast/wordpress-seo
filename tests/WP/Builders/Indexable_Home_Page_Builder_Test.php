@@ -24,6 +24,8 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up(): void {
 		parent::set_up();
@@ -46,6 +48,8 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 	 * Tests the build method's happy path.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 		$description = 'A cool description';
@@ -85,6 +89,8 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 	 * Tests the build method when no description has been provided.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_with_fallback_description() {
 		\YoastSEO()->helpers->options->set( 'metadesc-home-wpseo', '' );
@@ -113,6 +119,8 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 	 * Tests the build method when an Open Graph image is present.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_when_open_graph_image_is_present() {
 		$fake_image_path   = '/wp-content/uploads/cat.jpg';

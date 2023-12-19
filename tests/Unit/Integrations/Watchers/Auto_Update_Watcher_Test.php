@@ -34,6 +34,8 @@ final class Auto_Update_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -49,6 +51,8 @@ final class Auto_Update_Watcher_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		self::assertInstanceOf(
@@ -61,6 +65,8 @@ final class Auto_Update_Watcher_Test extends TestCase {
 	 * Tests registering the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		Monkey\Actions\expectAdded( 'admin_init' );
@@ -72,6 +78,8 @@ final class Auto_Update_Watcher_Test extends TestCase {
 	 * Tests the removal of the notification.
 	 *
 	 * @covers ::remove_notification
+	 *
+	 * @return void
 	 */
 	public function test_remove_notification() {
 		$this->notification_center

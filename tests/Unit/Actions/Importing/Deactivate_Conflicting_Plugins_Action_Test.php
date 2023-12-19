@@ -88,6 +88,8 @@ final class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 *
 	 * @param string $plugin The plugin that's being imported.
 	 * @param string $type   The type of data being imported.
+	 *
+	 * @return void
 	 */
 	public function test_is_compatible_with( $plugin, $type ) {
 		// Arrange.
@@ -138,6 +140,8 @@ final class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 *
 	 * @param string $plugin The plugin that's being imported.
 	 * @param string $type   The type of data being imported.
+	 *
+	 * @return void
 	 */
 	public function test_is_not_compatible_with( $plugin, $type ) {
 		// Arrange.
@@ -182,6 +186,8 @@ final class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 * Test the get_total_unindexed method
 	 *
 	 * @covers ::get_total_unindexed
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed() {
 		// Arrange.
@@ -202,6 +208,8 @@ final class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 * Test the index method
 	 *
 	 * @covers ::index
+	 *
+	 * @return void
 	 */
 	public function test_index() {
 		// Arrange.
@@ -227,6 +235,8 @@ final class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 * Tests the get_limit method.
 	 *
 	 * @covers ::get_limit
+	 *
+	 * @return void
 	 */
 	public function test_get_limit() {
 		// Act.
@@ -245,6 +255,8 @@ final class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 *
 	 * @param int $limit    The requested maximum.
 	 * @param int $expected The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_limited_unindexed_count( $limit, $expected ) {
 		// Arrange.

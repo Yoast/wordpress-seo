@@ -23,6 +23,8 @@ final class Deactivating_Yoast_Seo_Conditional_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -36,6 +38,8 @@ final class Deactivating_Yoast_Seo_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when the GET var doesn't contain an action.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met_when_no_action() {
 		unset( $_GET['action'] );
@@ -47,6 +51,8 @@ final class Deactivating_Yoast_Seo_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when the GET var doesn't contain a 'deactivate' action.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met_when_no_deactivate_action() {
 		$_GET['action'] = 'not deactivate';
@@ -58,6 +64,8 @@ final class Deactivating_Yoast_Seo_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when the GET var doesn't contain a plugin.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met_when_no_plugin() {
 		unset( $_GET['plugin'] );
@@ -69,6 +77,8 @@ final class Deactivating_Yoast_Seo_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when the GET var doesn't contain a yoast seo plugin.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met_when_no_yoast_seo_plugin() {
 		$_GET['plugin'] = 'not wordpress-seo/wp-seo.php';
@@ -80,6 +90,8 @@ final class Deactivating_Yoast_Seo_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when the Yoast SEO plugin is getting deactivated.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_when_deactivate_action_and_yoast_seo_plugin() {
 		$this->assertTrue( $this->instance->is_met() );

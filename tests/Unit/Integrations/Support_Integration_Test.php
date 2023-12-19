@@ -74,6 +74,8 @@ final class Support_Integration_Test extends TestCase {
 
 	/**
 	 * Runs the setup to prepare the needed instance
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		$this->stubTranslationFunctions();
@@ -97,6 +99,8 @@ final class Support_Integration_Test extends TestCase {
 	 * Tests __construct method.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -114,6 +118,8 @@ final class Support_Integration_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -152,6 +158,8 @@ final class Support_Integration_Test extends TestCase {
 	 *
 	 * @param string $current_page The current page.
 	 * @param int    $action_times The number of times the action should be called.
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks_on_support_page( $current_page, $action_times ) {
 
@@ -179,6 +187,8 @@ final class Support_Integration_Test extends TestCase {
 	 * Tests the addition of the page to the submenu.
 	 *
 	 * @covers ::add_page
+	 *
+	 * @return void
 	 */
 	public function test_add_page() {
 		$pages = $this->instance->add_page(
@@ -202,6 +212,8 @@ final class Support_Integration_Test extends TestCase {
 	 * Test display_page
 	 *
 	 * @covers ::display_page
+	 *
+	 * @return void
 	 */
 	public function test_display_page() {
 		$this->expectOutputString( '<div id="yoast-seo-support"></div>' );
@@ -212,6 +224,8 @@ final class Support_Integration_Test extends TestCase {
 	 * Test remove_notices
 	 *
 	 * @covers ::remove_notices
+	 *
+	 * @return void
 	 */
 	public function test_remove_notices() {
 		Monkey\Functions\expect( 'remove_all_actions' )
@@ -343,6 +357,8 @@ final class Support_Integration_Test extends TestCase {
 	 * Test for get_script_data that is used in enqueue_assets.
 	 *
 	 * @covers ::get_script_data
+	 *
+	 * @return void
 	 */
 	public function test_get_script_data() {
 		$link_params = $this->expect_get_script_data();

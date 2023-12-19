@@ -24,6 +24,8 @@ final class Import_Tool_Selected_Conditional_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ final class Import_Tool_Selected_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when on the main Yoast admin tools page.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met_on_yoast_admin_tools_page() {
 		$_GET['page'] = 'wpseo_tools';
@@ -47,6 +51,8 @@ final class Import_Tool_Selected_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when on the import tool page.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_on_specific_tools_page() {
 		$_GET['tool'] = 'import-export';

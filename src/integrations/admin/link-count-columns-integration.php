@@ -105,6 +105,8 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 
 	/**
 	 * Register hooks that need to be registered after `init` due to all post types not yet being registered.
+	 *
+	 * @return void
 	 */
 	public function register_init_hooks() {
 		$public_post_types = \apply_filters( 'wpseo_link_count_post_types', $this->post_type_helper->get_accessible_post_types() );
@@ -219,6 +221,8 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 *
 	 * @param string $column_name Column to display the content for.
 	 * @param int    $post_id     Post to display the column content for.
+	 *
+	 * @return void
 	 */
 	public function column_content( $column_name, $post_id ) {
 		$indexable = $this->admin_columns_cache->get_indexable( $post_id );

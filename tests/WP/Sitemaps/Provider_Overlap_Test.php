@@ -24,6 +24,8 @@ final class Provider_Overlap_Test extends TestCase {
 
 	/**
 	 * Set up our double class.
+	 *
+	 * @return void
 	 */
 	public static function set_up_before_class() {
 		parent::set_up_before_class();
@@ -34,6 +36,8 @@ final class Provider_Overlap_Test extends TestCase {
 
 	/**
 	 * Set up our double class and register the taxonomy.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -49,6 +53,8 @@ final class Provider_Overlap_Test extends TestCase {
 
 	/**
 	 * Clean up the taxonomy.
+	 *
+	 * @return void
 	 */
 	public function tear_down() {
 		\unregister_taxonomy( 'author' );
@@ -57,6 +63,8 @@ final class Provider_Overlap_Test extends TestCase {
 
 	/**
 	 * Makes sure the private taxonomy "author" does not override the "Author" sitemap.
+	 *
+	 * @return void
 	 */
 	public function test_private_taxonomy_author_overlap() {
 		// Create a user with a post.
@@ -79,6 +87,8 @@ final class Provider_Overlap_Test extends TestCase {
 
 	/**
 	 * Makes sure the private taxonomy "author" does not override the "Author" sitemap.
+	 *
+	 * @return void
 	 */
 	public function test_private_taxonomy_author_overlap_author_in_sitemap() {
 		// Create a user with a post.

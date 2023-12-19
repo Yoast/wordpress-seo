@@ -18,6 +18,8 @@ final class Twitter_Title_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ final class Twitter_Title_Test extends TestCase {
 	 * Tests whether the Twitter title is returned when it is set.
 	 *
 	 * @covers ::generate_twitter_title
+	 *
+	 * @return void
 	 */
 	public function test_twitter_title() {
 		$this->indexable->title = 'Twitter title';

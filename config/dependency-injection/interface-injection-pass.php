@@ -24,6 +24,8 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 	 * are registered with the Loader class.
 	 *
 	 * @param ContainerBuilder $container The container.
+	 *
+	 * @return void
 	 */
 	public function process( ContainerBuilder $container ) {
 		try {

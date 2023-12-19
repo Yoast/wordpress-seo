@@ -22,6 +22,8 @@ final class Default_Tagline_Runner_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ final class Default_Tagline_Runner_Test extends TestCase {
 	 *
 	 * @covers ::run
 	 * @covers ::is_successful
+	 *
+	 * @return void
 	 */
 	public function test_returns_successful() {
 		Monkey\Functions\expect( 'get_option' )
@@ -55,6 +59,8 @@ final class Default_Tagline_Runner_Test extends TestCase {
 	 *
 	 * @covers ::run
 	 * @covers ::is_successful
+	 *
+	 * @return void
 	 */
 	public function test_retuns_not_successful() {
 		Monkey\Functions\expect( 'get_option' )
