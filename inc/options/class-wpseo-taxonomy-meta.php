@@ -291,7 +291,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 					break;
 			}
 
-			$clean[ $key ] = apply_filters( 'wpseo_sanitize_tax_meta_' . $key, $clean[ $key ], ( isset( $meta_data[ $key ] ) ? $meta_data[ $key ] : null ), ( isset( $old_meta[ $key ] ) ? $old_meta[ $key ] : null ) );
+			$clean[ $key ] = apply_filters( 'wpseo_sanitize_tax_meta_' . $key, $clean[ $key ], ( $meta_data[ $key ] ?? null ), ( $old_meta[ $key ] ?? null ) );
 		}
 
 		// Only save the non-default values.

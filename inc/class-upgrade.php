@@ -913,7 +913,7 @@ class WPSEO_Upgrade {
 
 		// Transfer the progress of the old Configuration Workout.
 		$workout_data      = WPSEO_Options::get( 'workouts_data' );
-		$old_conf_progress = isset( $workout_data['configuration']['finishedSteps'] ) ? $workout_data['configuration']['finishedSteps'] : [];
+		$old_conf_progress = ( $workout_data['configuration']['finishedSteps'] ?? [] );
 
 		if ( in_array( 'optimizeSeoData', $old_conf_progress, true ) && in_array( 'siteRepresentation', $old_conf_progress, true ) ) {
 			// If completed ‘SEO optimization’ and ‘Site representation’ step, we assume the workout was completed.

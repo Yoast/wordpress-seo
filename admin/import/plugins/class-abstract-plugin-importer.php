@@ -240,7 +240,7 @@ abstract class WPSEO_Plugin_Importer {
 	 */
 	protected function meta_keys_clone( $clone_keys ) {
 		foreach ( $clone_keys as $clone_key ) {
-			$result = $this->meta_key_clone( $clone_key['old_key'], $clone_key['new_key'], isset( $clone_key['convert'] ) ? $clone_key['convert'] : [] );
+			$result = $this->meta_key_clone( $clone_key['old_key'], $clone_key['new_key'], ( $clone_key['convert'] ?? [] ) );
 			if ( ! $result ) {
 				return false;
 			}

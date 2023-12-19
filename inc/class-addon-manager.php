@@ -579,7 +579,7 @@ class WPSEO_Addon_Manager {
 			'banners'          => $this->get_banners( $subscription->product->slug ),
 			// If we have extracted Yoast Free's data before, use that. If not, resort to the defaults.
 			'tested'           => YOAST_SEO_WP_TESTED,
-			'requires'         => isset( $yoast_free_data->requires ) ? $yoast_free_data->requires : $defaults['requires'],
+			'requires'         => ( $yoast_free_data->requires ?? $defaults['requires'] ),
 			'requires_php'     => YOAST_SEO_PHP_REQUIRED,
 		];
 	}
@@ -833,7 +833,7 @@ class WPSEO_Addon_Manager {
 				'last_updated' => $subscription->product->lastUpdated,
 				'store_url'    => $subscription->product->storeUrl,
 				// Ternary operator is necessary because download can be undefined.
-				'download'     => isset( $subscription->product->download ) ? $subscription->product->download : null,
+				'download'     => ( $subscription->product->download ?? null ),
 				'changelog'    => $subscription->product->changelog,
 			],
 		];
