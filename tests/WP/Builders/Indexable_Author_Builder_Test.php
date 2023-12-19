@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\WP\Builders;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Author_Not_Built_Exception;
-use Yoast\WP\SEO\Generators\Schema\Author;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 

@@ -2,14 +2,13 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Content_Type_Visibility\User_Interface;
 
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_Dismiss_New_Route;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use WP_REST_Request;
 use WP_REST_Response;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
+use Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_Dismiss_New_Route;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Content_Type_Visibility_Dismiss_New_Route.

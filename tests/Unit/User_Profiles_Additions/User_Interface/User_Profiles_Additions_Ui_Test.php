@@ -4,9 +4,10 @@ namespace Yoast\WP\SEO\Tests\Unit\User_Profiles_Additions\User_Interface;
 
 use Brain\Monkey;
 use Mockery;
+use WP_User;
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Conditionals\User_Profile_Conditional;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\User_Profiles_Additions\User_Interface\User_Profiles_Additions_Ui;
 
@@ -119,7 +120,7 @@ final class User_Profiles_Additions_Ui_Test extends TestCase {
 	 */
 	public function test_add_hook_to_user_profile() {
 
-		$user = Mockery::mock( \WP_User::class );
+		$user = Mockery::mock( WP_User::class );
 
 		$this->product_helper
 			->expects( 'is_premium' )

@@ -17,9 +17,10 @@
 /**
  * Holds the dependency injection container.
  *
- * @var \Symfony\Component\DependencyInjection\ContainerBuilder $container
+ * @var ContainerBuilder $container
  */
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Yoast\WP\SEO\Actions\Indexables_Page_Action;
 use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;

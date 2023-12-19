@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Inc;
 
-use Mockery;
 use Brain\Monkey;
-use Yoast_Dynamic_Rewrites;
+use Mockery;
 use RuntimeException;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Dynamic_Rewrites;
 
 
 /**

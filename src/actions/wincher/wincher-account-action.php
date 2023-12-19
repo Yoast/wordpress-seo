@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Actions\Wincher;
 
+use Exception;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
@@ -59,7 +60,7 @@ class Wincher_Account_Action {
 				'historyDays' => $history,
 				'status'      => 200,
 			];
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			return (object) [
 				'status' => $e->getCode(),
 				'error'  => $e->getMessage(),
@@ -94,7 +95,7 @@ class Wincher_Account_Action {
 				'months'    => null,
 				'status'    => 200,
 			];
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			return (object) [
 				'status' => $e->getCode(),
 				'error'  => $e->getMessage(),

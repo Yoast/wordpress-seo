@@ -33,21 +33,21 @@ final class Introductions_Seen_Route_Test extends TestCase {
 	/**
 	 * Holds the user helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\User_Helper
+	 * @var Mockery\MockInterface|User_Helper
 	 */
 	private $user_helper;
 
 	/**
 	 * Holds the introductions seen repository.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository
+	 * @var Mockery\MockInterface|Introductions_Seen_Repository
 	 */
 	private $introductions_seen_repository;
 
 	/**
 	 * Holds the introductions seen repository.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Introductions\Application\Introductions_Collector
+	 * @var Mockery\MockInterface|Introductions_Collector
 	 */
 	private $introductions_collector;
 

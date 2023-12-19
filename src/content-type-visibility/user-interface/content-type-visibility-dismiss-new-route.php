@@ -2,12 +2,12 @@
 
 namespace Yoast\WP\SEO\Content_Type_Visibility\User_Interface;
 
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\Routes\Route_Interface;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 use WP_REST_Request;
 use WP_REST_Response;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
+use Yoast\WP\SEO\Main;
+use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
  * Handles the dismiss route for "New" badges of new content types in settings menu.

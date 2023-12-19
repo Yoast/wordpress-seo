@@ -2,6 +2,9 @@
 
 namespace Yoast\WP\Lib;
 
+use ArrayAccess;
+use Exception;
+use InvalidArgumentException;
 use ReturnTypeWillChange;
 use wpdb;
 use Yoast\WP\SEO\Config\Migration_Status;
@@ -48,7 +51,7 @@ use Yoast\WP\SEO\Config\Migration_Status;
  *
  * @see http://www.php-fig.org/psr/psr-1/
  */
-class ORM implements \ArrayAccess {
+class ORM implements ArrayAccess {
 
 	/*
 	 * --- CLASS CONSTANTS ---
@@ -634,8 +637,8 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @return int The amount of null columns.
 	 *
-	 * @throws \Exception Primary key ID contains null value(s).
-	 * @throws \Exception Primary key ID missing from row or is null.
+	 * @throws Exception Primary key ID contains null value(s).
+	 * @throws Exception Primary key ID missing from row or is null.
 	 */
 	public function count_null_id_columns() {
 		if ( \is_array( $this->get_id_column_name() ) ) {
@@ -2042,8 +2045,8 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @return array|mixed|null
 	 *
-	 * @throws \Exception Primary key ID contains null value(s).
-	 * @throws \Exception Primary key ID missing from row or is null.
+	 * @throws Exception Primary key ID contains null value(s).
+	 * @throws Exception Primary key ID missing from row or is null.
 	 */
 	public function id( $disallow_null = false ) {
 		$id = $this->get( $this->get_id_column_name() );
@@ -2051,12 +2054,12 @@ class ORM implements \ArrayAccess {
 			if ( \is_array( $id ) ) {
 				foreach ( $id as $id_part ) {
 					if ( $id_part === null ) {
-						throw new \Exception( 'Primary key ID contains null value(s)' );
+						throw new Exception( 'Primary key ID contains null value(s)' );
 					}
 				}
 			}
 			elseif ( $id === null ) {
-				throw new \Exception( 'Primary key ID missing from row or is null' );
+				throw new Exception( 'Primary key ID missing from row or is null' );
 			}
 		}
 
@@ -2145,8 +2148,8 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @return bool True on success.
 	 *
-	 * @throws \Exception Primary key ID contains null value(s).
-	 * @throws \Exception Primary key ID missing from row or is null.
+	 * @throws Exception Primary key ID contains null value(s).
+	 * @throws Exception Primary key ID missing from row or is null.
 	 */
 	public function save() {
 		global $wpdb;
@@ -2200,14 +2203,14 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @return array The distinct set of columns that are dirty in at least one of the models.
 	 *
-	 * @throws \InvalidArgumentException Instance to be inserted is not a new one.
+	 * @throws InvalidArgumentException Instance to be inserted is not a new one.
 	 */
 	public function get_dirty_column_names( $models ) {
 		$dirty_column_names = [];
 
 		foreach ( $models as $model ) {
 			if ( ! $model->orm->is_new() ) {
-				throw new \InvalidArgumentException( 'Instance to be inserted is not a new one' );
+				throw new InvalidArgumentException( 'Instance to be inserted is not a new one' );
 			}
 
 			// Remove any expression fields as they are already baked into the query.
@@ -2229,13 +2232,13 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @return bool True for successful insert, false for failed.
 	 *
-	 * @throws \InvalidArgumentException Invalid instances to be inserted.
-	 * @throws \InvalidArgumentException Instance to be inserted is not a new one.
+	 * @throws InvalidArgumentException Invalid instances to be inserted.
+	 * @throws InvalidArgumentException Instance to be inserted is not a new one.
 	 */
 	public function insert_many( $models ) {
 		// Validate the input first.
 		if ( ! \is_array( $models ) ) {
-			throw new \InvalidArgumentException( 'Invalid instances to be inserted' );
+			throw new InvalidArgumentException( 'Invalid instances to be inserted' );
 		}
 
 		if ( empty( $models ) ) {
@@ -2411,8 +2414,8 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @return string The delete query.
 	 *
-	 * @throws \Exception Primary key ID contains null value(s).
-	 * @throws \Exception Primary key ID missing from row or is null.
+	 * @throws Exception Primary key ID contains null value(s).
+	 * @throws Exception Primary key ID missing from row or is null.
 	 */
 	public function delete() {
 		$query = [ 'DELETE FROM', $this->quote_identifier( $this->table_name ), $this->add_id_column_conditions() ];

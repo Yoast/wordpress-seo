@@ -23,21 +23,21 @@ final class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends
 	/**
 	 * Holds the instance.
 	 *
-	 * @var \Yoast\WP\SEO\Introductions\Application\Ai_Generate_Titles_And_Descriptions_Introduction_Upsell
+	 * @var Ai_Generate_Titles_And_Descriptions_Introduction_Upsell
 	 */
 	private $instance;
 
 	/**
 	 * Holds the product helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Product_Helper
+	 * @var Mockery\MockInterface|Product_Helper
 	 */
 	private $product_helper;
 
 	/**
 	 * Holds the options helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Options_Helper
+	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper;
 

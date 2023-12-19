@@ -29,49 +29,49 @@ final class Introductions_Integration_Test extends TestCase {
 	/**
 	 * Holds the instance.
 	 *
-	 * @var \Yoast\WP\SEO\Introductions\User_Interface\Introductions_Integration
+	 * @var Introductions_Integration
 	 */
 	private $instance;
 
 	/**
 	 * Holds the admin asset manager.
 	 *
-	 * @var \Mockery\MockInterface|\WPSEO_Admin_Asset_Manager
+	 * @var Mockery\MockInterface|WPSEO_Admin_Asset_Manager
 	 */
 	private $admin_asset_manager;
 
 	/**
 	 * Holds the introductions collector.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Tests\Unit\Introductions\Application\Introductions_Collector
+	 * @var Mockery\MockInterface|Introductions_Collector
 	 */
 	private $introductions_collector;
 
 	/**
 	 * Holds the product helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Product_Helper
+	 * @var Mockery\MockInterface|Product_Helper
 	 */
 	private $product_helper;
 
 	/**
 	 * Holds the user helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\User_Helper
+	 * @var Mockery\MockInterface|User_Helper
 	 */
 	private $user_helper;
 
 	/**
 	 * Holds the short link helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Short_Link_Helper
+	 * @var Mockery\MockInterface|Short_Link_Helper
 	 */
 	private $short_link_helper;
 
 	/**
 	 * Holds the wistia embed permission repository.
 	 *
-	 * @var \Mockery\MockInterface|Wistia_Embed_Permission_Repository
+	 * @var Mockery\MockInterface|Wistia_Embed_Permission_Repository
 	 */
 	private $wistia_embed_permission_repository;
 

@@ -6,10 +6,10 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Options;
 use WPSEO_Tracking;
-use Yoast\WP\SEO\Helpers\Environment_Helper;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Analytics\Application\Missing_Indexables_Collector;
 use Yoast\WP\SEO\Analytics\Application\To_Be_Cleaned_Indexables_Collector;
+use Yoast\WP\SEO\Helpers\Environment_Helper;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

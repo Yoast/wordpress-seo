@@ -27,7 +27,7 @@ final class Yoast_Admin_Conditional_Test extends TestCase {
 	/**
 	 * Holds the current page helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Current_Page_Helper
+	 * @var Mockery\MockInterface|Current_Page_Helper
 	 */
 	private $current_page_helper;
 
