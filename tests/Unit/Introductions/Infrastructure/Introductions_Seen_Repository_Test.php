@@ -61,8 +61,8 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 	 *
 	 * @dataProvider provide_get_all_introductions_test_data
 	 *
-	 * @param mixed   $meta     Value `get_meta` returns.
-	 * @param boolean $expected The expected value.
+	 * @param mixed $meta     Value `get_meta` returns.
+	 * @param bool  $expected The expected value.
 	 *
 	 * @throws Invalid_User_Id_Exception Invalid User ID.
 	 */
