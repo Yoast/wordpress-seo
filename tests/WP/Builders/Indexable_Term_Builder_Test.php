@@ -78,7 +78,7 @@ final class Indexable_Term_Builder_Test extends TestCase {
 
 		$this->instance = new Indexable_Term_Builder(
 			\YoastSEO()->helpers->taxonomy,
-			\YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
+			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
 			\YoastSEO()->helpers->post
 		);
 
