@@ -85,7 +85,7 @@ final class Metabox_Test extends TestCase {
 		$stub
 			->expects( $this->any() )
 			->method( 'is_metabox_hidden' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$stub->add_meta_box();
 

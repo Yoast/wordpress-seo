@@ -326,7 +326,7 @@ final class Meta_Columns_Test extends TestCase {
 		// Option may be filled if the user has not set it.
 		$user->expects( $this->any() )
 			->method( 'has_prop' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$expected = [ 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' ];
 		$received = self::$class_instance->column_hidden( [] );
@@ -348,7 +348,7 @@ final class Meta_Columns_Test extends TestCase {
 
 		$user->expects( $this->any() )
 			->method( 'has_prop' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$expected = [
 			'wpseo-title',
@@ -371,7 +371,7 @@ final class Meta_Columns_Test extends TestCase {
 
 		$user->expects( $this->any() )
 			->method( 'has_prop' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$expected = [ 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' ];
 

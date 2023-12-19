@@ -92,7 +92,7 @@ final class Gutenberg_Compatibility_Test extends TestCase {
 		$this->default_mock
 			->expects( $this->once() )
 			->method( 'get_latest_release' )
-			->will( $this->returnValue( '3.3.0' ) );
+			->willReturn( '3.3.0' );
 
 		$this->default_mock->set_installed_gutenberg_version( '3.3.0' );
 
@@ -108,7 +108,7 @@ final class Gutenberg_Compatibility_Test extends TestCase {
 		$this->default_mock
 			->expects( $this->once() )
 			->method( 'get_latest_release' )
-			->will( $this->returnValue( '3.4.0' ) );
+			->willReturn( '3.4.0' );
 
 		$this->default_mock->set_installed_gutenberg_version( '3.3.0' );
 
@@ -124,7 +124,7 @@ final class Gutenberg_Compatibility_Test extends TestCase {
 		$this->default_mock
 			->expects( $this->once() )
 			->method( 'get_minimum_supported_version' )
-			->will( $this->returnValue( '2.8.0' ) );
+			->willReturn( '2.8.0' );
 
 		$this->default_mock->set_installed_gutenberg_version( '2.7.0' );
 
@@ -140,7 +140,7 @@ final class Gutenberg_Compatibility_Test extends TestCase {
 		$this->default_mock
 			->expects( $this->once() )
 			->method( 'get_minimum_supported_version' )
-			->will( $this->returnValue( '2.8.0' ) );
+			->willReturn( '2.8.0' );
 
 		$this->default_mock->set_installed_gutenberg_version( '2.9.0' );
 

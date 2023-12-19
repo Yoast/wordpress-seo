@@ -73,7 +73,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 	public function test_find_all_by_post_id() {
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
-			->will( $this->returnValue( $this->orm_mock ) );
+			->willReturn( $this->orm_mock );
 
 		$post_id         = 1;
 		$expected_result = [ new SEO_Links(), new SEO_Links() ];
@@ -95,7 +95,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
-			->will( $this->returnValue( $this->orm_mock ) );
+			->willReturn( $this->orm_mock );
 
 		$this->orm_mock->shouldReceive( 'where' )->with( 'indexable_id', $indexable_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'find_many' )->andReturn( $expected_result );
@@ -114,7 +114,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
-			->will( $this->returnValue( $this->orm_mock ) );
+			->willReturn( $this->orm_mock );
 
 		$this->orm_mock->shouldReceive( 'select' )->with( 'target_post_id' )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'where' )->with( 'url', $url )->andReturn( $this->orm_mock );
@@ -134,7 +134,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
-			->will( $this->returnValue( $this->orm_mock ) );
+			->willReturn( $this->orm_mock );
 
 		$this->orm_mock->shouldReceive( 'where' )->with( 'target_post_id', $target_post_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'find_many' )->andReturn( $expected_result );
@@ -153,7 +153,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
-			->will( $this->returnValue( $this->orm_mock ) );
+			->willReturn( $this->orm_mock );
 
 		$this->orm_mock->shouldReceive( 'set' )->with( 'target_indexable_id', $target_indexable_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'where' )->with( 'id', $link_id )->andReturn( $this->orm_mock );
@@ -172,7 +172,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
-			->will( $this->returnValue( $this->orm_mock ) );
+			->willReturn( $this->orm_mock );
 
 		$this->orm_mock->shouldReceive( 'where' )->with( 'post_id', $post_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'delete_many' )->andReturn( true );
@@ -190,7 +190,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
-			->will( $this->returnValue( $this->orm_mock ) );
+			->willReturn( $this->orm_mock );
 
 		$this->orm_mock->shouldReceive( 'where' )->with( 'post_id', $post_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'where_null' )->with( 'indexable_id' )->andReturn( $this->orm_mock );
@@ -209,7 +209,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
-			->will( $this->returnValue( $this->orm_mock ) );
+			->willReturn( $this->orm_mock );
 
 		$this->orm_mock->shouldReceive( 'where' )->with( 'indexable_id', $indexable_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'delete_many' )->andReturn( true );
@@ -237,7 +237,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
-			->will( $this->returnValue( $this->orm_mock ) );
+			->willReturn( $this->orm_mock );
 
 		$this->orm_mock->shouldReceive( 'select_expr' )->with( 'COUNT( id )', 'incoming' )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'select' )->with( 'target_post_id', 'post_id' )->andReturn( $this->orm_mock );
@@ -301,7 +301,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
-			->will( $this->returnValue( $this->orm_mock ) );
+			->willReturn( $this->orm_mock );
 
 		$this->orm_mock->shouldReceive( 'select_expr' )->with( 'COUNT( id )', 'incoming' )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'select' )->with( 'target_indexable_id' )->andReturn( $this->orm_mock );
@@ -322,7 +322,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
-			->will( $this->returnValue( $this->orm_mock ) );
+			->willReturn( $this->orm_mock );
 
 		$this->orm_mock->shouldReceive( 'where_in' )->with( 'id', $ids )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'delete_many' )->andReturn( true );
@@ -340,7 +340,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 
 		$this->instance->expects( $this->once() )
 			->method( 'query' )
-			->will( $this->returnValue( $this->orm_mock ) );
+			->willReturn( $this->orm_mock );
 
 		$this->orm_mock->shouldReceive( 'insert_many' )->with( $links )->andReturn( true );
 

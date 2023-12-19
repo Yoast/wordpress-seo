@@ -173,7 +173,7 @@ final class Smartcrawl_SEO_Test extends TestCase {
 			->getMock();
 		$wpdb->expects( $this->any() )
 			->method( 'query' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 		$result          = $class_instance->run_import();
 		$expected_result = $this->status( 'import', false );
 		$expected_result->set_msg( 'The Yoast SEO importer functionality uses temporary database tables. It seems your WordPress install does not have the capability to do this, please consult your hosting provider.' );
@@ -266,7 +266,7 @@ final class Smartcrawl_SEO_Test extends TestCase {
 			->getMock();
 		$wpdb->expects( $this->any() )
 			->method( 'query' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$result          = $class_instance->run_cleanup();
 		$expected_result = $this->status( 'cleanup', false );

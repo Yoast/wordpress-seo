@@ -67,7 +67,7 @@ final class Image_Parser_Test extends TestCase {
 		$image_parser
 			->expects( $this->once() )
 			->method( 'get_content_galleries' )
-			->will( $this->returnValue( [ [ 'id' => 1 ] ] ) );
+			->willReturn( [ [ 'id' => 1 ] ] );
 
 		$a = (object) [ 'a', 'b' ];
 		$b = (object) 1234;
@@ -78,7 +78,7 @@ final class Image_Parser_Test extends TestCase {
 		$image_parser
 			->expects( $this->once() )
 			->method( 'get_gallery_attachments' )
-			->will( $this->returnValue( $attachments ) );
+			->willReturn( $attachments );
 
 		$attachments = $image_parser->parse_galleries( '' );
 
