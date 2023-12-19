@@ -381,7 +381,7 @@ class WPSEO_Utils {
 			return $value;
 		}
 		elseif ( is_float( $value ) ) {
-			// phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
+			// phpcs:ignore Universal.Operators.StrictComparisons -- Purposeful loose comparison.
 			if ( (int) $value == $value && ! is_nan( $value ) ) {
 				return (int) $value;
 			}
@@ -510,7 +510,7 @@ class WPSEO_Utils {
 				if ( $bc ) {
 					$result = bcdiv( $number1, $number2, $precision ); // String, or NULL if right_operand is 0.
 				}
-				elseif ( $number2 != 0 ) { // phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
+				elseif ( $number2 != 0 ) { // phpcs:ignore Universal.Operators.StrictComparisons -- Purposeful loose comparison.
 					$result = ( $number1 / $number2 );
 				}
 
@@ -525,7 +525,7 @@ class WPSEO_Utils {
 				if ( $bc ) {
 					$result = bcmod( $number1, $number2 ); // String, or NULL if modulus is 0.
 				}
-				elseif ( $number2 != 0 ) { // phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
+				elseif ( $number2 != 0 ) { // phpcs:ignore Universal.Operators.StrictComparisons -- Purposeful loose comparison.
 					$result = ( $number1 % $number2 );
 				}
 
@@ -542,7 +542,7 @@ class WPSEO_Utils {
 					$result = bccomp( $number1, $number2, $precision ); // Returns int 0, 1 or -1.
 				}
 				else {
-					// phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
+					// phpcs:ignore Universal.Operators.StrictComparisons -- Purposeful loose comparison.
 					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : -1 );
 				}
 				break;
@@ -557,7 +557,7 @@ class WPSEO_Utils {
 					}
 				}
 				else {
-					// phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
+					// phpcs:ignore Universal.Operators.StrictComparisons -- Purposeful loose comparison.
 					$result = ( intval( $result ) == $result ) ? intval( $result ) : floatval( $result );
 				}
 			}
@@ -929,7 +929,7 @@ class WPSEO_Utils {
 			$data = apply_filters( 'wpseo_debug_json_data', $data );
 		}
 
-		// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_wp_json_encodeWithAdditionalParams -- This is the definition of format_json_encode.
+		// phpcs:ignore Yoast.Yoast.JsonEncodeAlternative.FoundWithAdditionalParams -- This is the definition of format_json_encode.
 		return wp_json_encode( $data, $flags );
 	}
 

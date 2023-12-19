@@ -155,7 +155,7 @@ class Crawl_Cleanup_Helper {
 		}
 
 		// Fix reply to comment links, whoever decided this should be a GET variable?
-        // phpcs:ignore WordPress.Security -- We know this is scary.
+		// phpcs:ignore WordPress.Security -- We know this is scary.
 		if ( isset( $_SERVER['REQUEST_URI'] ) && \preg_match( '`(\?replytocom=[^&]+)`', \sanitize_text_field( $_SERVER['REQUEST_URI'] ), $matches ) ) {
 			$proper_url .= \str_replace( '?replytocom=', '#comment-', $matches[0] );
 		}
