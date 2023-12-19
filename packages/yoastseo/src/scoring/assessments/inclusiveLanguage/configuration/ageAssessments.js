@@ -1,4 +1,4 @@
-import { potentiallyHarmful, potentiallyHarmfulUnless, potentiallyHarmfulUnlessNonInclusive, harmfulNonInclusive } from "./feedbackStrings";
+import { potentiallyHarmful, potentiallyHarmfulUnless, harmfulNonInclusive } from "./feedbackStrings";
 import { isPrecededByException } from "../helpers/isPrecededByException";
 import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
@@ -38,8 +38,8 @@ const ageAssessments = [
 		identifier: "agingDependants",
 		nonInclusivePhrases: [ "aging dependants" ],
 		inclusiveAlternatives: [ "<i>older people</i>", "<i>people older than 70</i>" ],
-		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnlessNonInclusive, specificAgeGroup ].join( " " ),
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 	},
 	{
 		identifier: "elderly",
