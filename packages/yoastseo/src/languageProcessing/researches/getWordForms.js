@@ -177,8 +177,8 @@ function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, st
 /**
  * Gets all matching word forms for the keyphrase and synonyms.
  *
- * @param {Paper}       paper       							The paper.
- * @param {Researcher}  researcher  							The researcher.
+ * @param {Paper}       paper       	The paper.
+ * @param {Researcher}  researcher  	The researcher.
  *
  * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms, based on the forms
  * found in the text or created forms.
@@ -190,9 +190,9 @@ export default function( paper, researcher ) {
 	const language = researcher.getConfig( "language" );
 	/*
 	 * Whether we want to split words on hyphens depends on the language.
-	 * In most languages, we do want to consider hyphens word boundaries. But for example in Indonesian, hyphens are used
+	 * In all languages apart from Indonesian, we consider hyphens as word boundaries. But in Indonesian, hyphens are used
 	 * to form plural forms of nouns, e.g. 'buku' is the singular form for 'book' and 'buku-buku' is the plural form.
-	 * So it makes sense to not split words on hyphens in Indonesian and consider 'buku-buku' as one word rather than two.
+	 * This is why we don't split words on hyphens in Indonesian and we consider 'buku-buku' as one word rather than two.
 	 */
 	const areHyphensWordBoundaries = researcher.getConfig( "areHyphensWordBoundaries" );
 

@@ -47,8 +47,8 @@ function StemOriginalPair( stem, original ) {
 
 /**
  * Analyzes the focus keyword string or one synonym phrase.
- * Checks if morphology is requested or if the user wants to match exact string.
- * If morphology is required the module finds a stem for all words (if no function words list available) or
+ * Checks if morphology is requested or if the user wants to match the exact string.
+ * If morphology is required, the module finds a stem for all words (if no function words list is available), or
  * for all content words (i.e., excluding prepositions, articles, conjunctions, if the function words list is available).
  *
  * @param {string}   keyphrase     				The keyphrase of the paper (or a synonym phrase) to get stem for.
@@ -64,7 +64,7 @@ const buildStems = function( keyphrase, stemmer, functionWords, areHyphensWordBo
 		return new TopicPhrase();
 	}
 
-	// If the keyphrase is embedded in double quotation marks, return keyword itself, without outer-most quotation marks.
+	// If the keyphrase is embedded in double quotation marks, return the keyprhase itself, without the outermost quotation marks.
 	if ( isDoubleQuoted( keyphrase ) ) {
 		keyphrase = keyphrase.substring( 1, keyphrase.length - 1 );
 		return new TopicPhrase(
@@ -80,7 +80,7 @@ const buildStems = function( keyphrase, stemmer, functionWords, areHyphensWordBo
 	let keyphraseWords = areHyphensWordBoundaries ? getWords( keyphrase, WORD_BOUNDARY_WITH_HYPHEN )
 		: getWords( keyphrase, WORD_BOUNDARY_WITHOUT_HYPHEN );
 
-	// Filter function words from keyphrase. Don't filter if the keyphrase only consists of function words.
+	// Filter function words from the keyphrase. Don't filter if the keyphrase only consists of function words.
 	const wordsWithoutFunctionWords = keyphraseWords.filter( ( word ) => ! functionWords.includes( word ) );
 	if ( wordsWithoutFunctionWords.length > 0 ) {
 		keyphraseWords = wordsWithoutFunctionWords;

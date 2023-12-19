@@ -90,12 +90,12 @@ function getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpe
 		const currentAnchorText = currentAnchor.innerText();
 
 		/*
-        * For keyphrase matching, we want to split words on hyphens and en-dashes, except if in a specific language hyphens
-        * shouldn't be treated as word boundaries. For example in Indonesian, hyphens are used to create plural forms of nouns,
+        * For keyphrase matching, we want to split words on hyphens and en-dashes, except for languages where hyphens shouldn't
+        * be treated as word boundaries. Currently, the latter only applies to Indonesian, where hyphens are used to create plural forms of nouns,
         * such as "buku-buku" being a plural form of "buku". We want to treat forms like "buku-buku" as one word, so we shouldn't
         * split words on hyphens in Indonesian.
-        * If hyphens should be treated as word boundaries, pass a custom word boundary regex string to the getWords helper
-        * that includes whitespaces, hyphens (u002d), and en-dashes (u2013). Otherwise, pass a regex that only includes
+        * For languages where hyphens are treated as word boundaries we pass a custom word boundary regex string to the getWords helper
+        * that includes whitespaces, hyphens (u002d), and en-dashes (u2013). Otherwise, we pass a word boundary regex that only includes
         * whitespaces and en-dashes.
         */
 		let anchorWords;

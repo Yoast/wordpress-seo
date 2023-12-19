@@ -12,7 +12,7 @@ let functionWords = [];
 /**
  * Strips all function words from the start of the given string.
  *
- * @param {string} str 							The string from which to strip the function words.
+ * @param {string} str The string from which to strip the function words.
  *
  * @returns {boolean} Whether the string consists of function words only.
  */
@@ -43,8 +43,8 @@ const stripFunctionWordsFromStart = function( str ) {
 /**
  * Checks the position of the keyphrase in the SEO title.
  *
- * @param {string} title 						The SEO title of the paper.
- * @param {number} position 					The position of the keyphrase in the SEO title.
+ * @param {string} title 		The SEO title of the paper.
+ * @param {number} position 	The position of the keyphrase in the SEO title.
  *
  * @returns {number} Potentially adjusted position of the keyphrase in the SEO title.
  */
