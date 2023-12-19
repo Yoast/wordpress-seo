@@ -8,7 +8,6 @@ use RuntimeException;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Dynamic_Rewrites;
 
-
 /**
  * Unit Test Class.
  *

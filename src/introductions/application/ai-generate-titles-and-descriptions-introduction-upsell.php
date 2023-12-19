@@ -14,8 +14,8 @@ use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introduction_Interface {
 
 	use Current_Page_Trait;
-	use Version_Trait;
 	use User_Allowed_Trait;
+	use Version_Trait;
 
 	/**
 	 * Holds the product helper.

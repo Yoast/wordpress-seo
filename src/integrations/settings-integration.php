@@ -28,7 +28,6 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
-
 /**
  * Class Settings_Integration.
  */
@@ -276,7 +275,6 @@ class Settings_Integration implements Integration_Interface {
 			\add_action( 'admin_init', [ $this, 'register_setting' ] );
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
-
 		}
 	}
 

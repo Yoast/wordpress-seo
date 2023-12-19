@@ -1,4 +1,5 @@
 <?php
+
 namespace Yoast\WP\SEO\Tests\Unit\Admin\Import;
 
 use Brain\Monkey;

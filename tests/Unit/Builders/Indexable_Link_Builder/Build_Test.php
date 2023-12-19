@@ -155,7 +155,6 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 		}
 		if ( $ignore_content_scan ) {
 			Functions\expect( 'apply_filters' )->once()->with( 'wpseo_force_skip_image_content_parsing', false )->andReturn( true );
-
 		}
 
 		// Inside create_links->create_internal_link method.
