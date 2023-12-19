@@ -1,7 +1,7 @@
 import { flatten } from "lodash-es";
 
 /**
- * Splits words from an array that contain hyphen and adds the elements to the array if they are not yet there.
+ * Splits words from an array that contain hyphens and adds the elements to the array if they are not yet there.
  *
  * @param {Array} array The array to check and modify.
  *
