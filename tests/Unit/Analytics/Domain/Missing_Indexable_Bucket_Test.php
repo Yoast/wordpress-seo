@@ -27,8 +27,8 @@ final class Missing_Indexable_Bucket_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function setUp(): void {
-		parent::setUp();
+	protected function set_up(): void {
+		parent::set_up();
 
 		$this->sut = new Missing_Indexable_Bucket();
 	}

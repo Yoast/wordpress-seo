@@ -30,8 +30,8 @@ final class Post_Type_Helper_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function setUp(): void {
-		parent::setUp();
+	protected function set_up(): void {
+		parent::set_up();
 		$options_helper = Mockery::mock( Options_Helper::class );
 		$this->instance = new Post_Type_Helper( $options_helper );
 	}

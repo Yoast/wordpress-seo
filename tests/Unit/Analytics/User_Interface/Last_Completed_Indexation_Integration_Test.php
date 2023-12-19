@@ -35,8 +35,8 @@ final class Last_Completed_Indexation_Integration_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function setUp(): void {
-		parent::setUp();
+	protected function set_up(): void {
+		parent::set_up();
 
 		$this->options_helper_mock = Mockery::mock( Options_Helper::class );
 

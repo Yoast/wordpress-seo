@@ -40,8 +40,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp(): void {
-		parent::setUp();
+	public function set_up(): void {
+		parent::set_up();
 
 		global $wpdb;
 		$wpdb = (object) [ 'prefix' => 'wp_' ];
