@@ -228,12 +228,12 @@ final class Premium_SEO_Pack_Test extends TestCase {
 			->getMock();
 		$wpdb->expects( $this->any() )
 			->method( 'query' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		// For this to work the detect() function needs to run first and return the right table.
 		$wpdb->expects( $this->any() )
 			->method( 'get_var' )
-			->will( $this->returnValue( $wpdb->prefix . 'psp' ) );
+			->willReturn( $wpdb->prefix . 'psp' );
 
 		$result          = $class_instance->run_cleanup();
 		$expected_result = $this->status( 'cleanup', false );

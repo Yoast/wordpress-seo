@@ -232,7 +232,7 @@ final class Admin_Bar_Menu_Test extends TestCase {
 		$admin_bar_menu
 			->expects( $this->once() )
 			->method( 'meets_requirements' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$admin_bar_menu->register_hooks();
 		$this->assertIsInt( \has_action( 'admin_bar_menu', [ $admin_bar_menu, 'add_menu' ], 95 ) );

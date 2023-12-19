@@ -27,7 +27,7 @@ final class Dismissible_Notification_Test extends TestCase {
 		$handler
 			->expects( $this->once() )
 			->method( 'get_listener_value' )
-			->will( $this->returnValue( null ) );
+			->willReturn( null );
 
 		$handler->listen();
 	}
@@ -46,7 +46,7 @@ final class Dismissible_Notification_Test extends TestCase {
 		$handler
 			->expects( $this->once() )
 			->method( 'get_listener_value' )
-			->will( $this->returnValue( '' ) );
+			->willReturn( '' );
 
 		$handler
 			->expects( $this->once() )
@@ -79,7 +79,7 @@ final class Dismissible_Notification_Test extends TestCase {
 		$handler
 			->expects( $this->once() )
 			->method( 'is_applicable' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$handler->handle( $notification_center );
 	}
@@ -108,7 +108,7 @@ final class Dismissible_Notification_Test extends TestCase {
 		$handler
 			->expects( $this->once() )
 			->method( 'is_applicable' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$handler->handle( $notification_center );
 	}
@@ -149,7 +149,7 @@ final class Dismissible_Notification_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'is_notice_dismissed' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$this->assertFalse( $instance->is_applicable() );
 	}
@@ -168,7 +168,7 @@ final class Dismissible_Notification_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'is_notice_dismissed' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$this->assertTrue( $instance->is_applicable() );
 	}

@@ -246,7 +246,7 @@ final class Editor_Specific_Replace_Vars_Test extends TestCase {
 		$class_instance
 			->expects( $this->once() )
 			->method( 'has_for_page_type' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$this->assertEquals( 'post_archive', $class_instance->determine_for_archive( 'post' ) );
 	}

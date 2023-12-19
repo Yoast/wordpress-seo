@@ -194,7 +194,7 @@ final class Network_Admin_Test extends TestCase {
 		$admin
 			->expects( $this->once() )
 			->method( 'meets_requirements' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$admin->register_hooks();
 		$this->assertIsInt( \has_action( 'admin_action_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, [ $admin, 'handle_update_options_request' ] ) );

@@ -28,7 +28,7 @@ final class File_Size_Service_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'is_externally_hosted' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$response = $instance->get( $request );
 
@@ -50,12 +50,12 @@ final class File_Size_Service_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_file_url' )
-			->will( $this->returnValue( 'unknown.file' ) );
+			->willReturn( 'unknown.file' );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'calculate_file_size' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$response = $instance->get( new WP_REST_Request() );
 
@@ -77,12 +77,12 @@ final class File_Size_Service_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_file_url' )
-			->will( $this->returnValue( 'local.file' ) );
+			->willReturn( 'local.file' );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_file_size' )
-			->will( $this->returnValue( 2048 ) );
+			->willReturn( 2048 );
 
 		$response = $instance->get( new WP_REST_Request() );
 
@@ -108,7 +108,7 @@ final class File_Size_Service_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'is_externally_hosted' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$response = $instance->get( $request );
 
@@ -134,12 +134,12 @@ final class File_Size_Service_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'is_externally_hosted' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_file_size' )
-			->will( $this->returnValue( 2048 ) );
+			->willReturn( 2048 );
 
 		$response = $instance->get( $request );
 

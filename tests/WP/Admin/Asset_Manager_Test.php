@@ -49,19 +49,15 @@ final class Asset_Manager_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'scripts_to_be_registered' )
-			->will(
-				$this->returnValue(
-					[ 'script' ]
-				)
+			->willReturn(
+				[ 'script' ]
 			);
 
 		$instance
 			->expects( $this->once() )
 			->method( 'styles_to_be_registered' )
-			->will(
-				$this->returnValue(
-					[ 'style' ]
-				)
+			->willReturn(
+				[ 'style' ]
 			);
 
 		$instance

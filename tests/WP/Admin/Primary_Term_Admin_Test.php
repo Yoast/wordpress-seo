@@ -38,7 +38,7 @@ final class Primary_Term_Admin_Test extends TestCase {
 		$this->class_instance
 			->expects( $this->once() )
 			->method( 'get_primary_term_taxonomies' )
-			->will( $this->returnValue( [] ) );
+			->willReturn( [] );
 
 		$this->class_instance
 			->expects( $this->never() )
@@ -60,7 +60,7 @@ final class Primary_Term_Admin_Test extends TestCase {
 		$this->class_instance
 			->expects( $this->once() )
 			->method( 'get_primary_term_taxonomies' )
-			->will( $this->returnValue( $taxonomies ) );
+			->willReturn( $taxonomies );
 
 		$this->class_instance
 			->expects( $this->once() )
@@ -127,7 +127,7 @@ final class Primary_Term_Admin_Test extends TestCase {
 		$this->class_instance
 			->expects( $this->once() )
 			->method( 'get_primary_term_taxonomies' )
-			->will( $this->returnValue( $taxonomies ) );
+			->willReturn( $taxonomies );
 
 		$this->class_instance->enqueue_assets();
 

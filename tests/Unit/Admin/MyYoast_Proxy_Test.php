@@ -34,11 +34,11 @@ final class MyYoast_Proxy_Test extends TestCase {
 
 		$instance->expects( $this->once() )
 			->method( 'get_proxy_file' )
-			->will( $this->returnValue( 'research-webworker' ) );
+			->willReturn( 'research-webworker' );
 
 		$instance->expects( $this->once() )
 				->method( 'get_plugin_version' )
-				->will( $this->returnValue( '1.0' ) );
+				->willReturn( '1.0' );
 
 		$expected = [
 			'content_type' => 'text/javascript; charset=UTF-8',
@@ -155,7 +155,7 @@ final class MyYoast_Proxy_Test extends TestCase {
 
 		$instance->expects( $this->once() )
 				->method( 'get_proxy_file' )
-				->will( $this->returnValue( 'unknown-file' ) );
+				->willReturn( 'unknown-file' );
 
 		$instance->expects( $this->never() )
 				->method( 'get_plugin_version' );
@@ -163,7 +163,7 @@ final class MyYoast_Proxy_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'set_header' )
-			->with( $this->equalTo( 'HTTP/1.0 501 Requested file not implemented' ) );
+			->with( 'HTTP/1.0 501 Requested file not implemented' );
 
 		$instance->render_proxy_page();
 	}
@@ -187,12 +187,12 @@ final class MyYoast_Proxy_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_proxy_file' )
-			->will( $this->returnValue( 'research-webworker' ) );
+			->willReturn( 'research-webworker' );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_plugin_version' )
-			->will( $this->returnValue( '1.0' ) );
+			->willReturn( '1.0' );
 
 		$instance
 			->expects( $this->exactly( 2 ) )
@@ -241,12 +241,12 @@ final class MyYoast_Proxy_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_proxy_file' )
-			->will( $this->returnValue( 'research-webworker' ) );
+			->willReturn( 'research-webworker' );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_plugin_version' )
-			->will( $this->returnValue( '1.0' ) );
+			->willReturn( '1.0' );
 
 		$instance
 			->expects( $this->exactly( 5 ) )
