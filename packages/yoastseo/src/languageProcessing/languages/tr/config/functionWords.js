@@ -41,7 +41,7 @@ const quantifiers = [ "hepsi", "bazısı", "çoğu", "birçoğu", "birazı", "he
 	"yeteri kadar", "birkaç", "bir", "her iki", "hiç bir", "diğer", "tüm", "bir kısım", "pek çok", "her bir" ];
 
 const reflexivePronouns = [ "kendi", "kendim", "kendimi", "kendime", "kendimde", "kendimden", "kendin", "kendini", "kendine", "kendinde", "kendinden",
-	"kendisi", "kendiyle", "kendileri", "kendilerine", "kendilerinde", "kendilerinden", "kendileriyle"  ];
+	"kendisi", "kendiyle", "kendileri", "kendilerine", "kendilerinde", "kendilerinden", "kendileriyle" ];
 
 const indefinitePronouns = [ "kimi", "kimse", "biri", "birisi", "başkası", "bazısı", "bir çoğu", "bir takımı", "birkaçı", "birazı", "herkes", "hepsi",
 	"hepimiz", "hiçbiri", "herhangi biri", "her biri", "şey", "falan", "filan", "falanca", "öteberi", "tümü", "bütünü", "kimileri", "kimseler",

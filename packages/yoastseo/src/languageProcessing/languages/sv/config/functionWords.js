@@ -64,7 +64,7 @@ const copulaInfinitive = [ "vara", "bli", "finnas", "befinna", "tyckas" ];
 
 const delexicalizedVerbs = [ "gående", "gällande", "gällde", "gäller", "gällt", "går", "gått", "gav", "ger", "gett", "gick",
 	"givande", "giver", "gjorde", "gjort", "gör", "görande", "kom", "kommande", "kommer", "kommit", "ligger", "ligges", "lå",
-	"ligget", "liggande",  "ställer", "ställde", "ställt", "ställ", "ställande", "ställd", "ställas", "ställs", "ställes", "ställdes",
+	"ligget", "liggande", "ställer", "ställde", "ställt", "ställ", "ställande", "ställd", "ställas", "ställs", "ställes", "ställdes",
 	"ställts", "tagande", "tager", "tagit", "tar", "tog", "utgör", "utgjorde", "utgjort", "utgörande", "utgjord", "utgöras",
 	"utgörs", "utgöres", "utgjordes", "utgjorts" ];
 
@@ -101,7 +101,7 @@ const generalAdverbs = [ "aldrig", "allmänt", "alltid", "delvis", "direkt", "hu
 const vagueNouns = [ "antal", "antalet", "antals", "antalets", "antalen", "antalens", "bit", "bitar", "bitarna", "bitarnas",
 	"bitars", "biten", "bitens", "bits", "del", "delar", "delarna", "delarnas", "delars", "delen", "delens", "dels", "detalj",
 	"detaljen", "detaljens", "detaljer", "detaljerna", "detaljernas", "detaljers", "detaljs", "exempel", "exempels", "exemplet",
-	"exemplets", "exemplen", "exemplens",  "person", "personen", "personens", "personer", "personerna", "personernas",
+	"exemplets", "exemplen", "exemplens", "person", "personen", "personens", "personer", "personerna", "personernas",
 	"personers", "persons", "procent", "punkt", "punkten", "punktens", "punkter", "punkterna", "punkternas", "punkters",
 	"sak", "saken", "sakens", "saker", "sakerna", "sakernas", "sakers", "saks", "sätt", "sätten", "sättens", "sättet",
 	"sättets", "sätts", "skillnad", "skillnaden", "skillnadens", "skillnader", "skillnaderna", "skillnadernas",

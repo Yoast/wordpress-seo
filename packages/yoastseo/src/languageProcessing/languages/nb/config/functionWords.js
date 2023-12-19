@@ -85,7 +85,7 @@ const recipeWords = [ "g" ];
 
 const timeWords = [ "år", "året", "går", "dag", "nå", "tid", "tiden", "morgen", "dager", "minutt", "minutter", "dagen", "uke",
 	"uker", "måneder", "stund", "timer", "time", "morges", "ettermiddag", "tidlig", "fjor", "kveld", "natt", "fogårs", "vinter",
-	"sommer", "vår", "høst"  ];
+	"sommer", "vår", "høst" ];
 
 const vagueNouns = [ "ting", "tingene" ];
 

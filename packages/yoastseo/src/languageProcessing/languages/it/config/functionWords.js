@@ -64,7 +64,7 @@ const interrogativeAdverbs = [ "com'è", "com'era", "com'erano", "donde", "d'ond
 const pronominalAdverbs = [ "ne" ];
 
 // 'Via' not included because of primary meaning 'street'.
-const locativeAdverbs = [ "accanto", "altrove", "attorno", "dappertutto", "giù", "là", "laggiù", "lassù", "lì",  "ovunque",
+const locativeAdverbs = [ "accanto", "altrove", "attorno", "dappertutto", "giù", "là", "laggiù", "lassù", "lì", "ovunque",
 	"qua", "quaggiù", "quassù", "qui" ];
 
 // 'Essere' is already part of the otherAuxiliaries list.
@@ -186,7 +186,7 @@ const delexicalizedVerbsInfinitive = [ "fare" ];
 These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
  Keyword combinations containing these adjectives/adverbs are fine.
  */
-const generalAdjectivesAdverbs = [ "anteriore",  "anteriori", "precedente", "precedenti", "facile", "facili", "facilissimo",
+const generalAdjectivesAdverbs = [ "anteriore", "anteriori", "precedente", "precedenti", "facile", "facili", "facilissimo",
 	"facilissima", "facilissimi", "facilissime", "semplice", "semplici", "semplicissima", "semplicissimo",
 	"semplicissimi", "semplicissime", "semplicemente", "rapido", "rapida", "rapidi", "rapide", "veloce", "veloci", "differente",
 	"difficile", "difficili", "difficilissimo", "difficilissima", "difficilissimi", "difficilissime", "basso", "bassa", "bassi", "basse",
