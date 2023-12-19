@@ -234,7 +234,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		$separator_options = [];
 
 		foreach ( $separators as $key => $label ) {
-			$aria_label = isset( $separator_list[ $key ]['label'] ) ? $separator_list[ $key ]['label'] : '';
+			$aria_label = ( $separator_list[ $key ]['label'] ?? '' );
 
 			$separator_options[ $key ] = [
 				'label'      => $label,

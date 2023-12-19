@@ -60,8 +60,8 @@ class WPSEO_Taxonomy_Fields_Presenter {
 
 		$label            = $this->get_label( $field_configuration['label'], $esc_field_name );
 		$field            = $this->get_field( $field_configuration['type'], $esc_field_name, $this->get_field_value( $field_name ), $options );
-		$help_content     = isset( $field_configuration['options']['help'] ) ? $field_configuration['options']['help'] : '';
-		$help_button_text = isset( $field_configuration['options']['help-button'] ) ? $field_configuration['options']['help-button'] : '';
+		$help_content     = ( $field_configuration['options']['help'] ?? '' );
+		$help_button_text = ( $field_configuration['options']['help-button'] ?? '' );
 		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $help_content );
 
 		return $this->parse_row( $label, $help, $field );

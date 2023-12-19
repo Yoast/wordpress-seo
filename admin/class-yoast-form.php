@@ -805,8 +805,8 @@ class Yoast_Form {
 			$aria_label = '';
 
 			if ( is_array( $value ) ) {
-				$label      = isset( $value['label'] ) ? $value['label'] : '';
-				$aria_label = isset( $value['aria_label'] ) ? $value['aria_label'] : '';
+				$label      = ( $value['label'] ?? '' );
+				$aria_label = ( $value['aria_label'] ?? '' );
 			}
 
 			$key_esc = esc_attr( $key );

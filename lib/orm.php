@@ -1158,7 +1158,7 @@ class ORM implements ArrayAccess {
 	protected function get_compound_id_column_values( $value ) {
 		$filtered = [];
 		foreach ( $this->get_id_column_name() as $key ) {
-			$filtered[ $key ] = isset( $value[ $key ] ) ? $value[ $key ] : null;
+			$filtered[ $key ] = ( $value[ $key ] ?? null );
 		}
 
 		return $filtered;
@@ -1260,7 +1260,7 @@ class ORM implements ArrayAccess {
 			}
 			$firstsub = true;
 			foreach ( $value as $key => $item ) {
-				$op = \is_string( $operator ) ? $operator : ( isset( $operator[ $key ] ) ? $operator[ $key ] : '=' );
+				$op = \is_string( $operator ) ? $operator : ( $operator[ $key ] ?? '=' );
 				if ( $op === '=' && $item === null ) {
 					$op = 'IS';
 				}
@@ -2015,13 +2015,13 @@ class ORM implements ArrayAccess {
 		if ( \is_array( $key ) ) {
 			$result = [];
 			foreach ( $key as $column ) {
-				$result[ $column ] = isset( $this->data[ $column ] ) ? $this->data[ $column ] : null;
+				$result[ $column ] = ( $this->data[ $column ] ?? null );
 			}
 
 			return $result;
 		}
 		else {
-			return isset( $this->data[ $key ] ) ? $this->data[ $key ] : null;
+			return ( $this->data[ $key ] ?? null );
 		}
 	}
 
