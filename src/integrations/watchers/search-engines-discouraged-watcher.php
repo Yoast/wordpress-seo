@@ -14,8 +14,6 @@ use Yoast_Notification_Center;
 
 /**
  * Shows a notification for users who have access for robots disabled.
- *
- * @class Search_Engines_Discouraged_Watcher
  */
 class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 

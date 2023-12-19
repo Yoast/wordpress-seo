@@ -98,12 +98,12 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @dataProvider build_provider
 	 *
-	 * @param string $content   The content.
-	 * @param string $link_type The link type.
-	 * @param bool   $is_image  Whether the link is an image.
+	 * @param string $content              The content.
+	 * @param string $link_type            The link type.
+	 * @param bool   $is_image             Whether the link is an image.
 	 * @param bool   $ignore_content_scan  Whether content scanning should be ignored.
-	 * @param bool   $should_content_regex  Whether the image id should be extracted with a regex.
-	 * @param bool   $should_doc_scan  Whether the doc document should be used.
+	 * @param bool   $should_content_regex Whether the image id should be extracted with a regex.
+	 * @param bool   $should_doc_scan      Whether the doc document should be used.
 	 */
 	public function test_build( $content, $link_type, $is_image, $ignore_content_scan, $should_content_regex, $should_doc_scan ) {
 		$indexable              = Mockery::mock( Indexable_Mock::class );

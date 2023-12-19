@@ -211,7 +211,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns the message around changed URLs.
 	 *
-	 * @param string $first_sentence The first sentence of the notification.
+	 * @param string $first_sentence  The first sentence of the notification.
 	 * @param string $second_sentence The second sentence of the notification.
 	 *
 	 * @return string The full notification.

@@ -140,8 +140,8 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 *
 	 * @param bool $is_sitemap           Whether the sitemap query var is set.
 	 * @param bool $is_yoast_sitemap_xsl Whether the yoast-sitemap-xsl query var is set.
-	 * @param bool $redirect            Whether to redirect.
-	 * @param bool $expected            Whether to redirect.
+	 * @param bool $redirect             Whether to redirect.
+	 * @param bool $expected             Whether to redirect.
 	 */
 	public function test_redirect_canonical( $is_sitemap, $is_yoast_sitemap_xsl, $redirect, $expected ) {
 		Functions\expect( 'get_query_var' )
@@ -217,13 +217,13 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 *
 	 * @dataProvider needs_sitemap_index_redirect_data_provider
 	 *
-	 * @param bool   $https        Whether the request is over HTTPS.
-	 * @param string $server_name  The server name.
-	 * @param string $request_uri  The request URI.
-	 * @param bool   $is_404       Whether the request is a 404.
-	 * @param string $http_host    The HTTP host.
-	 * @param string $home_url     The home URL.
-	 * @param bool   $expected     Whether to redirect.
+	 * @param bool   $https       Whether the request is over HTTPS.
+	 * @param string $server_name The server name.
+	 * @param string $request_uri The request URI.
+	 * @param bool   $is_404      Whether the request is a 404.
+	 * @param string $http_host   The HTTP host.
+	 * @param string $home_url    The home URL.
+	 * @param bool   $expected    Whether to redirect.
 	 */
 	public function test_needs_sitemap_index_redirect( $https, $server_name, $request_uri, $is_404, $http_host, $home_url, $expected ) {
 		$_SERVER['HTTPS']       = $https;

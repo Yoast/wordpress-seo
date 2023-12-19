@@ -260,7 +260,7 @@ final class Support_Integration_Test extends TestCase {
 	 * @dataProvider data_provider_enqueu_black_friday_style
 	 *
 	 * @param bool $is_black_friday Whether it is black friday or not.
-	 * @param int  $expected The number of times the action should be called.
+	 * @param int  $expected        The number of times the action should be called.
 	 * @return void
 	 */
 	public function test_enqueue_assets( $is_black_friday, $expected ) {

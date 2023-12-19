@@ -61,8 +61,8 @@ final class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 *
 	 * @dataProvider provide_get_value_for_user_test_data
 	 *
-	 * @param mixed   $meta     Value `get_meta` returns.
-	 * @param boolean $expected The expected value.
+	 * @param mixed $meta     Value `get_meta` returns.
+	 * @param bool  $expected The expected value.
 	 *
 	 * @throws Exception Invalid User ID.
 	 */

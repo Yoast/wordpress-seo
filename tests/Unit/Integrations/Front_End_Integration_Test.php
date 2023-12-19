@@ -729,9 +729,9 @@ final class Front_End_Integration_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_query_loop_next_prev
 	 *
-	 * @param string $html HTML of the link.
+	 * @param string $html       HTML of the link.
 	 * @param string $block_name Block name.
-	 * @param string $variable Variable name.
+	 * @param string $variable   Variable name.
 	 */
 	public function test_query_loop_links( $html, $block_name, $variable ) {
 

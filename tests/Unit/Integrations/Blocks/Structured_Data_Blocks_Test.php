@@ -152,10 +152,10 @@ final class Structured_Data_Blocks_Test extends TestCase {
 	 * @covers       ::present_duration_text
 	 * @dataProvider how_to_block_provider
 	 *
-	 * @param string $expected The expected content.
+	 * @param string $expected   The expected content.
 	 * @param array  $attributes The block attributes.
-	 * @param string $content The post content.
-	 * @param string $message The error message if the assert fails.
+	 * @param string $content    The post content.
+	 * @param string $message    The error message if the assert fails.
 	 */
 	public function test_present_duration_text( $expected, $attributes, $content, $message ) {
 		$this->assertSame(
@@ -212,10 +212,10 @@ final class Structured_Data_Blocks_Test extends TestCase {
 	 * @covers       ::optimize_how_to_images
 	 * @dataProvider how_to_images_provider
 	 *
-	 * @param string $expected The expected content.
+	 * @param string $expected   The expected content.
 	 * @param array  $attributes The block attributes.
-	 * @param string $content The post content.
-	 * @param string $message The error message if the assert fails.
+	 * @param string $content    The post content.
+	 * @param string $message    The error message if the assert fails.
 	 */
 	public function test_optimize_how_to_images( $expected, $attributes, $content, $message ) {
 		Monkey\Functions\expect( 'register_shutdown_function' )

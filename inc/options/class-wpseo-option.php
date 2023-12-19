@@ -867,7 +867,7 @@ abstract class WPSEO_Option {
 	/**
 	 * Check whether a given array key conforms to one of the variable array key patterns for this option.
 	 *
-	 * @usedby validate_option() methods for options with variable array keys.
+	 * @used-by validate_option() methods for options with variable array keys.
 	 *
 	 * @param string $key Array key to check.
 	 *

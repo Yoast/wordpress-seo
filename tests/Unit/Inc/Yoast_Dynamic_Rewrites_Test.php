@@ -131,7 +131,7 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 * @dataProvider data_provider_sanitize_rewrite_rules_option
 	 *
 	 * @param string|array $rewrite_rules Rewrite rules.
-	 * @param string       $expected Expected result.
+	 * @param string       $expected      Expected result.
 	 */
 	public function test_sanitize_rewrite_rules_option( $rewrite_rules, $expected ) {
 
@@ -164,7 +164,7 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 * @dataProvider data_provider_filter_rewrite_rules_option
 	 *
 	 * @param string|array $rewrite_rules Rewrite rules.
-	 * @param string       $expected Expected result.
+	 * @param string       $expected      Expected result.
 	 */
 	public function test_filter_rewrite_rules_option( $rewrite_rules, $expected ) {
 

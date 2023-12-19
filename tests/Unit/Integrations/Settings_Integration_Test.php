@@ -294,9 +294,9 @@ final class Settings_Integration_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_transform_post_types
 	 *
-	 * @param array $post_types The post types to transform.
+	 * @param array $post_types     The post types to transform.
 	 * @param array $new_post_types The new post types.
-	 * @param array $expected   The expected result.
+	 * @param array $expected       The expected result.
 	 */
 	public function test_transform_post_types( $post_types, $new_post_types, $expected ) {
 
@@ -389,10 +389,10 @@ final class Settings_Integration_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_transform_taxonomies
 	 *
-	 * @param array $taxonomies The taxonomies to transform.
+	 * @param array $taxonomies      The taxonomies to transform.
 	 * @param array $post_type_names The post type names.
-	 * @param array $new_taxonomies The new taxonomies.
-	 * @param array $expected   The expected result.
+	 * @param array $new_taxonomies  The new taxonomies.
+	 * @param array $expected        The expected result.
 	 */
 	public function test_transform_taxonomies( $taxonomies, $post_type_names, $new_taxonomies, $expected ) {
 

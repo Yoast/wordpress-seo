@@ -38,8 +38,8 @@ class Content_Type_Visibility_Watcher_Actions implements Integration_Interface {
 	/**
 	 * Indexable_Post_Type_Change_Watcher constructor.
 	 *
-	 * @param Options_Helper                                $options             The options helper.
-	 * @param Yoast_Notification_Center                     $notification_center The notification center.
+	 * @param Options_Helper                                $options                            The options helper.
+	 * @param Yoast_Notification_Center                     $notification_center                The notification center.
 	 * @param Content_Type_Visibility_Dismiss_Notifications $content_type_dismiss_notifications The content type dismiss notifications.
 	 */
 	public function __construct(
