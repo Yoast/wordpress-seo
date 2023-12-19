@@ -80,6 +80,8 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Aioseo_Importing_Ac
 
 	/**
 	 * Get the total number of conflicting plugins.
+	 *
+	 * @return int
 	 */
 	public function get_total_unindexed() {
 		return \count( $this->get_detected_plugins() );
@@ -98,6 +100,8 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Aioseo_Importing_Ac
 
 	/**
 	 * Deactivate conflicting plugins.
+	 *
+	 * @return array
 	 */
 	public function index() {
 		$detected_plugins = $this->get_detected_plugins();

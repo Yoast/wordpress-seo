@@ -32,6 +32,8 @@ class To_Be_Cleaned_Indexables_Collector implements WPSEO_Collection {
 
 	/**
 	 * Gets the data for the collector.
+	 *
+	 * @return array
 	 */
 	public function get() {
 		$to_be_cleaned_indexable_bucket = new To_Be_Cleaned_Indexable_Bucket();

@@ -101,6 +101,8 @@ class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 	 * @param string          $param   The parameter.
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @param string          $key     The key.
+	 *
+	 * @return bool
 	 */
 	public function validate_post_type( $param, $request, $key ) {
 		return \post_type_exists( $param );
@@ -128,6 +130,8 @@ class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 	 * @param string          $param   The parameter.
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @param string          $key     The key.
+	 *
+	 * @return bool
 	 */
 	public function validate_taxonomy( $param, $request, $key ) {
 		return \taxonomy_exists( $param );
