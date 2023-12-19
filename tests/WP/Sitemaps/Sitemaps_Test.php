@@ -22,6 +22,8 @@ final class Sitemaps_Test extends TestCase {
 
 	/**
 	 * Set up our double class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ final class Sitemaps_Test extends TestCase {
 	 * @covers WPSEO_Sitemaps::redirect
 	 *
 	 * @param string $expected_output Substring expected to be found in the actual output.
+	 *
+	 * @return void
 	 */
 	public function test_post_sitemap( $expected_output ) {
 		self::$class_instance->reset();
@@ -68,6 +72,8 @@ final class Sitemaps_Test extends TestCase {
 	 * @covers WPSEO_Sitemaps::redirect
 	 *
 	 * @param string $expected_output Substring expected to be found in the actual output.
+	 *
+	 * @return void
 	 */
 	public function test_main_sitemap( $expected_output ) {
 
@@ -100,6 +106,8 @@ final class Sitemaps_Test extends TestCase {
 	 * Tests the wpseo_sitemap_index_links filter.
 	 *
 	 * @covers WPSEO_Sitemaps::build_root_map
+	 *
+	 * @return void
 	 */
 	public function test_index_links_filter() {
 
@@ -129,6 +137,8 @@ final class Sitemaps_Test extends TestCase {
 	 * Test for last modified date.
 	 *
 	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
+	 *
+	 * @return void
 	 */
 	public function test_last_modified_post_type() {
 
@@ -158,6 +168,8 @@ final class Sitemaps_Test extends TestCase {
 	 * Test for last modified date with invalid post types.
 	 *
 	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
+	 *
+	 * @return void
 	 */
 	public function test_last_modified_with_invalid_post_type() {
 		$this->assertFalse( WPSEO_Sitemaps::get_last_modified_gmt( [ 'invalid_post_type' ] ) );

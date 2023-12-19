@@ -18,6 +18,8 @@ final class Rel_Prev_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ final class Rel_Prev_Test extends TestCase {
 	 * Tests the situation where the rel adjacent is disabled.
 	 *
 	 * @covers ::generate_rel_prev
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_prev_is_disabled() {
 		$this->pagination
@@ -43,6 +47,8 @@ final class Rel_Prev_Test extends TestCase {
 	 * Tests the situation where the current page is the first page.
 	 *
 	 * @covers ::generate_rel_prev
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_prev_is_first_page() {
 		$this->pagination
@@ -62,6 +68,8 @@ final class Rel_Prev_Test extends TestCase {
 	 * Tests the situation where the previous page is the first page.
 	 *
 	 * @covers ::generate_rel_prev
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_prev_is_second_page() {
 		$this->instance->canonical = 'https://example.com/2019/11/';
@@ -88,6 +96,8 @@ final class Rel_Prev_Test extends TestCase {
 	 * Tests the situation where the current page is the third (or more) page.
 	 *
 	 * @covers ::generate_rel_prev
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_prev_is_third_page() {
 		$this->instance->canonical = 'https://example.com/2019/11/page/2/';

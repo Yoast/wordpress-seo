@@ -77,6 +77,8 @@ final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -97,6 +99,8 @@ final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 * Tests the getting of the source option_name.
 	 *
 	 * @covers ::get_source_option_name
+	 *
+	 * @return void
 	 */
 	public function test_get_source_option_name() {
 		$this->expectException( Exception::class );
@@ -113,6 +117,8 @@ final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 * @param array $query_results            The results from the query.
 	 * @param bool  $expected_finished        Whether the importing action is finished or not.
 	 * @param int   $expected_unindexed_count The count of the total unindexed data.
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed( $query_results, $expected_finished, $expected_unindexed_count ) {
 		$this->mock_instance->expects( 'query' )
@@ -136,6 +142,8 @@ final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 * @param array $query_results            The results from the query.
 	 * @param bool  $expected_finished        Whether the importing action is finished or not.
 	 * @param int   $expected_unindexed_count The limited count of the unindexed data.
+	 *
+	 * @return void
 	 */
 	public function test_get_limited_unindexed_count( $query_results, $expected_finished, $expected_unindexed_count ) {
 		$this->mock_instance->expects( 'query' )
@@ -160,6 +168,8 @@ final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 * @param array $query_results             The results from the query.
 	 * @param bool  $expected_finished         Whether the importing action is expected to be finished or not.
 	 * @param array $expected_created_settings The created settings that are expected to be returned.
+	 *
+	 * @return void
 	 */
 	public function test_index( $query_results, $expected_finished, $expected_created_settings ) {
 		$this->mock_instance->expects( 'get_limit' )
@@ -209,6 +219,8 @@ final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 * @param int    $limit           The maximum number of unimported objects to be returned.
 	 * @param string $cursor          The current cursor indicating where the import has been left off.
 	 * @param array  $expected        The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_unimported_chunk( $importable_data, $limit, $cursor, $expected ) {
 		$this->mock_instance->expects( 'get_cursor_id' )
@@ -242,6 +254,8 @@ final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 * @param string $setting         The name of the setting.
 	 * @param string $setting_value   The values of the setting.
 	 * @param array  $setting_mapping The mapping of the setting to Yoast formats.
+	 *
+	 * @return void
 	 */
 	public function test_import_single_setting( $setting, $setting_value, $setting_mapping ) {
 		$this->options->expects( 'get_default' )

@@ -40,6 +40,8 @@ final class Search_Engines_Discouraged_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get_message
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		Monkey\Functions\expect( 'admin_url' )

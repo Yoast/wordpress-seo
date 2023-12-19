@@ -21,6 +21,8 @@ final class Promotion_Manager_Test extends TestCase {
 
 	/**
 	 * Setup the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -31,6 +33,8 @@ final class Promotion_Manager_Test extends TestCase {
 	 * Tests the is function which tests if a promotion is currently active.
 	 *
 	 * @covers ::is
+	 *
+	 * @return void
 	 */
 	public function test_is() {
 		$this->assertTrue( $this->instance->is( 'fake_promotion' ) );
@@ -42,6 +46,8 @@ final class Promotion_Manager_Test extends TestCase {
 	 * Tests the get_promotions_list function which returns the list of promotions.
 	 *
 	 * @covers ::get_promotions_list
+	 *
+	 * @return void
 	 */
 	public function test_get_promotions_list() {
 		$this->assertCount( 2, $this->instance->get_promotions_list() );
@@ -52,6 +58,8 @@ final class Promotion_Manager_Test extends TestCase {
 	 * Tests the get_current_promotions function which returns the list of active promotions.
 	 *
 	 * @covers ::get_current_promotions
+	 *
+	 * @return void
 	 */
 	public function test_get_current_promotions() {
 		$this->assertCount( 1, $this->instance->get_current_promotions() );

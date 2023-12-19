@@ -26,6 +26,8 @@ final class HTML_Helper_Test extends TestCase {
 
 	/**
 	 * Set up a new instance of the class under test before each test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -44,6 +46,8 @@ final class HTML_Helper_Test extends TestCase {
 	 *
 	 * @param mixed  $input    The input to sanitize.
 	 * @param string $expected The expected return value.
+	 *
+	 * @return void
 	 */
 	public function test_sanitize( $input, $expected ) {
 		$this->assertSame( $expected, $this->instance->sanitize( $input ) );
@@ -94,6 +98,8 @@ final class HTML_Helper_Test extends TestCase {
 	 *
 	 * @param mixed  $input    The input to sanitize.
 	 * @param string $expected The expected return value.
+	 *
+	 * @return void
 	 */
 	public function test_smart_strip_tags( $input, $expected ) {
 		$this->assertSame( $expected, $this->instance->smart_strip_tags( $input ) );

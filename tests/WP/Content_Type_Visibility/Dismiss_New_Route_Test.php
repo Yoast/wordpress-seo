@@ -75,6 +75,8 @@ final class Dismiss_New_Route_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up(): void {
 		parent::set_up();
@@ -122,6 +124,8 @@ final class Dismiss_New_Route_Test extends TestCase {
 	 * @param array  $new_post_types The new post types.
 	 * @param string $post_type_name The post type name.
 	 * @param string $message        The message.
+	 *
+	 * @return void
 	 */
 	public function test_post_type_dismiss( $new_post_types, $post_type_name, $message ) {
 		$this->content_type_visibility_notifications->new_post_type( $new_post_types );
@@ -174,6 +178,8 @@ final class Dismiss_New_Route_Test extends TestCase {
 	 * @param array  $new_taxonomies The new post types.
 	 * @param string $taxonomy_name  The post type name.
 	 * @param string $message        The message.
+	 *
+	 * @return void
 	 */
 	public function test_taxonomy_dismiss( $new_taxonomies, $taxonomy_name, $message ) {
 		$this->content_type_visibility_notifications->new_taxonomy( $new_taxonomies );
@@ -200,6 +206,8 @@ final class Dismiss_New_Route_Test extends TestCase {
 	 * Tests the taxonomy_dismiss method when is fails.
 	 *
 	 * @covers ::taxonomy_dismiss_callback
+	 *
+	 * @return void
 	 */
 	public function test_taxonomy_dismiss_fail() {
 		$new_taxonomies = [ 'books-category', 'movie-category' ];
@@ -244,6 +252,8 @@ final class Dismiss_New_Route_Test extends TestCase {
 	 * Tests the taxonomy_dismiss method when is fails.
 	 *
 	 * @covers ::post_type_dismiss_callback
+	 *
+	 * @return void
 	 */
 	public function test_post_type_dismiss_fail() {
 		$new_post_types = [ 'book', 'movie' ];

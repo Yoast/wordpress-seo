@@ -34,6 +34,8 @@ final class BbPress_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -46,6 +48,8 @@ final class BbPress_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -58,6 +62,8 @@ final class BbPress_Test extends TestCase {
 	 * Tests the registration of the hooks with breadcrumbs disabled.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks_with_breadcrumbs_disabled() {
 		$this->options
@@ -75,6 +81,8 @@ final class BbPress_Test extends TestCase {
 	 * Tests the registration of the hooks with breadcrumbs disabled..
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks_with_breadcrumbs_enabled() {
 		$this->options

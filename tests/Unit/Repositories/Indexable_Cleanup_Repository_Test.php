@@ -68,6 +68,8 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();

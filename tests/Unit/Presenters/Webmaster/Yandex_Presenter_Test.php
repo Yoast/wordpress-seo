@@ -41,6 +41,8 @@ final class Yandex_Presenter_Test extends TestCase {
 
 	/**
 	 * Setup of the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -61,6 +63,8 @@ final class Yandex_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'yandex-ver' );
@@ -78,6 +82,8 @@ final class Yandex_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_empty_output() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( '' );
@@ -92,6 +98,8 @@ final class Yandex_Presenter_Test extends TestCase {
 	 * Tests retrieving a Yandex site verification string.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'yandex-ver' );
@@ -107,6 +115,8 @@ final class Yandex_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'yandex-ver' );

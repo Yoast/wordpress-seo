@@ -23,6 +23,8 @@ final class Language_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ final class Language_Helper_Test extends TestCase {
 	 * @dataProvider supported_language_provider
 	 *
 	 * @param string $language The language to test.
+	 *
+	 * @return void
 	 */
 	public function test_is_word_form_recognition_active( $language ) {
 		$this->assertTrue( $this->instance->is_word_form_recognition_active( $language ) );
@@ -59,6 +63,8 @@ final class Language_Helper_Test extends TestCase {
 	 * @dataProvider language_with_function_word_support_provider
 	 *
 	 * @param string $language The language to test.
+	 *
+	 * @return void
 	 */
 	public function test_has_function_word_support( $language ) {
 		$this->assertTrue( $this->instance->has_function_word_support( $language ) );

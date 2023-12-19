@@ -111,6 +111,8 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	 * @required
 	 *
 	 * @param Aioseo_Helper $aioseo_helper The AIOSEO helper.
+	 *
+	 * @return void
 	 */
 	public function set_aioseo_helper( Aioseo_Helper $aioseo_helper ) {
 		$this->aioseo_helper = $aioseo_helper;

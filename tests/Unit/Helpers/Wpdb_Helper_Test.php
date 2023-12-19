@@ -32,6 +32,8 @@ final class Wpdb_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -44,6 +46,8 @@ final class Wpdb_Helper_Test extends TestCase {
 	 * Tests the checking of the table existance.
 	 *
 	 * @covers ::table_exists
+	 *
+	 * @return void
 	 */
 	public function test_table_exists() {
 		$this->wpdb->expects( 'get_var' )

@@ -24,6 +24,8 @@ final class Content_Images_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ final class Content_Images_Test extends TestCase {
 	 * Test getting images from the post content.
 	 *
 	 * @covers ::get_images_from_content
+	 *
+	 * @return void
 	 */
 	public function test_get_images_from_content() {
 
@@ -67,6 +71,8 @@ final class Content_Images_Test extends TestCase {
 	 * Test what happens when the post content isn't a string.
 	 *
 	 * @covers ::get_images_from_content
+	 *
+	 * @return void
 	 */
 	public function test_get_images_from_when_content_not_a_string() {
 

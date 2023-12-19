@@ -61,6 +61,8 @@ class WPSEO_Sitemaps_Router {
 	 *
 	 * @deprecated 21.8
 	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	public function init() {
 		_deprecated_function( __METHOD__, 'Yoast SEO 21.8' );
@@ -84,6 +86,8 @@ class WPSEO_Sitemaps_Router {
 
 	/**
 	 * Redirects sitemap.xml to sitemap_index.xml.
+	 *
+	 * @return void
 	 */
 	public function template_redirect() {
 		if ( ! $this->needs_sitemap_index_redirect() ) {

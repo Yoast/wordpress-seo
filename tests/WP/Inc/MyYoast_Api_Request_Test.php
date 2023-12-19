@@ -21,6 +21,8 @@ final class MyYoast_Api_Request_Test extends TestCase {
 	 *
 	 * @covers WPSEO_MyYoast_Api_Request::fire
 	 * @covers WPSEO_MyYoast_Api_Request::get_response
+	 *
+	 * @return void
 	 */
 	public function test_fire() {
 		$instance = $this
@@ -48,6 +50,8 @@ final class MyYoast_Api_Request_Test extends TestCase {
 	 *
 	 * @covers WPSEO_MyYoast_Api_Request::fire
 	 * @covers WPSEO_MyYoast_Api_Request::get_error_message
+	 *
+	 * @return void
 	 */
 	public function test_fire_with_bad_request_exception_being_thrown() {
 		$instance = $this
@@ -75,6 +79,8 @@ final class MyYoast_Api_Request_Test extends TestCase {
 	 *
 	 * @covers WPSEO_MyYoast_Api_Request::fire
 	 * @covers WPSEO_MyYoast_Api_Request::decode_response
+	 *
+	 * @return void
 	 */
 	public function test_decode_response() {
 		$instance = $this
@@ -102,6 +108,8 @@ final class MyYoast_Api_Request_Test extends TestCase {
 	 *
 	 * @covers WPSEO_MyYoast_Api_Request::fire
 	 * @covers WPSEO_MyYoast_Api_Request::decode_response
+	 *
+	 * @return void
 	 */
 	public function test_decode_response_wrong_output() {
 		$instance = $this
@@ -123,6 +131,8 @@ final class MyYoast_Api_Request_Test extends TestCase {
 	 * Tests the enriching of the request headers.
 	 *
 	 * @covers WPSEO_MyYoast_Api_Request::enrich_request_arguments
+	 *
+	 * @return void
 	 */
 	public function test_enrich_request_arguments() {
 		$instance = $this
@@ -166,6 +176,8 @@ final class MyYoast_Api_Request_Test extends TestCase {
 	 * Tests the enriching of the request headers with empty request body.
 	 *
 	 * @covers WPSEO_MyYoast_Api_Request::enrich_request_arguments
+	 *
+	 * @return void
 	 */
 	public function test_enrich_request_arguments_with_empty_request_body() {
 		$instance = $this
@@ -204,6 +216,8 @@ final class MyYoast_Api_Request_Test extends TestCase {
 	 * Unit test to make sure this is fixed: https://github.com/Yoast/wordpress-seo/issues/12560
 	 *
 	 * @covers WPSEO_MyYoast_Api_Request::do_request
+	 *
+	 * @return void
 	 */
 	public function test_exception_arguments() {
 		$this->expectException( WPSEO_MyYoast_Bad_Request_Exception::class );

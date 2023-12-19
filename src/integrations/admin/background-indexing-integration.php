@@ -165,6 +165,8 @@ class Background_Indexing_Integration implements Integration_Interface {
 
 	/**
 	 * Register hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'register_shutdown_indexing' ] );

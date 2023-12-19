@@ -26,6 +26,8 @@ final class Exclude_Attachment_Post_Type_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -38,6 +40,8 @@ final class Exclude_Attachment_Post_Type_Test extends TestCase {
 	 * database migrations have run.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		self::assertEquals( [ Attachment_Redirections_Enabled_Conditional::class ], Exclude_Attachment_Post_Type::get_conditionals() );
@@ -48,6 +52,8 @@ final class Exclude_Attachment_Post_Type_Test extends TestCase {
 	 * from being indexed.
 	 *
 	 * @covers ::exclude_post_types
+	 *
+	 * @return void
 	 */
 	public function test_exclude_attachment_post_type() {
 		$actual = $this->instance->exclude_post_types( [ 'other_excluded_post_type' ] );

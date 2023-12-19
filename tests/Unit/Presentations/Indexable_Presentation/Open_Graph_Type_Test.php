@@ -18,6 +18,8 @@ final class Open_Graph_Type_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ final class Open_Graph_Type_Test extends TestCase {
 	 * Tests the situation where the Open Graph type is given.
 	 *
 	 * @covers ::generate_open_graph_type
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_type() {
 		$this->assertEquals( 'website', $this->instance->generate_open_graph_type() );

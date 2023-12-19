@@ -52,6 +52,8 @@ final class Gutenberg_Compatibility_Notification_Test extends TestCase {
 
 	/**
 	 * Set up the mocked dependencies.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -77,6 +79,8 @@ final class Gutenberg_Compatibility_Notification_Test extends TestCase {
 	 * @param bool $installed        The return value of WPSEO_Gutenberg_Compatibility::is_installed.
 	 * @param bool $fully_compatible The return value of WPSEO_Gutenberg_Compatibility::is_fully_compatible.
 	 * @param bool $filter_value     The return value of the 'yoast_display_gutenberg_compat_notification' filter.
+	 *
+	 * @return void
 	 */
 	public function test_manage_notification_remove_notification( $installed, $fully_compatible, $filter_value ) {
 
@@ -130,6 +134,8 @@ final class Gutenberg_Compatibility_Notification_Test extends TestCase {
 	 * Tests the condition that adds the Gutenberg compatibility notification.
 	 *
 	 * @covers WPSEO_Gutenberg_Compatibility::get_installed_version
+	 *
+	 * @return void
 	 */
 	public function test_manage_notification_gutenberg_show_notification() {
 		$this->gutenberg_compatibility_mock->allows(

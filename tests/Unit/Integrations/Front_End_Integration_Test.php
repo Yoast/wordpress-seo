@@ -85,6 +85,8 @@ final class Front_End_Integration_Test extends TestCase {
 
 	/**
 	 * Method that runs before each test case.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -118,6 +120,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -130,6 +134,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -145,6 +151,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * Tests calling wpseo_head and it's interaction with wp_query.
 	 *
 	 * @covers ::call_wpseo_head
+	 *
+	 * @return void
 	 */
 	public function test_call_wpseo_head() {
 		global $wp_query;
@@ -163,6 +171,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * Tests the present_head.
 	 *
 	 * @covers ::present_head
+	 *
+	 * @return void
 	 */
 	public function test_present_head() {
 		$this->context_memoizer
@@ -194,6 +204,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
+	 *
+	 * @return void
 	 */
 	public function test_get_presenters_for_singular_page() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
@@ -260,6 +272,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
+	 *
+	 * @return void
 	 */
 	public function test_get_presenters_for_static_home_page() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
@@ -330,6 +344,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
+	 *
+	 * @return void
 	 */
 	public function test_get_presenters_for_error_page() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
@@ -377,6 +393,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
+	 *
+	 * @return void
 	 */
 	public function test_get_presenters_for_non_singular_page() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
@@ -447,6 +465,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
+	 *
+	 * @return void
 	 */
 	public function test_get_presenters_for_theme_without_title_tag_and_force_rewrite_titles_disabled() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( false );
@@ -498,6 +518,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
+	 *
+	 * @return void
 	 */
 	public function test_get_presenters_for_theme_on_rest_request() {
 
@@ -545,6 +567,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
+	 *
+	 * @return void
 	 */
 	public function test_get_presenters_for_theme_without_title_tag_and_force_rewrite_titles_enabled() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( false );
@@ -594,6 +618,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * Tests the filter robots presenter method without having the wp_robots function.
 	 *
 	 * @covers ::filter_robots_presenter
+	 *
+	 * @return void
 	 */
 	public function test_filter_robots_presenter_with_wp_robots_absent() {
 		$presenters = [
@@ -609,6 +635,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * Tests the filter robots presenter without having the wp_robots attached to the wp_head action.
 	 *
 	 * @covers ::filter_robots_presenter
+	 *
+	 * @return void
 	 */
 	public function test_filter_robots_presenter_and_wp_robots_not_attached_to_wp_head_filter() {
 		Monkey\Functions\expect( 'wp_robots' )->never();
@@ -626,6 +654,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * Tests the filter robots presenter with having wp_robots attached to the wp_head action.
 	 *
 	 * @covers ::filter_robots_presenter
+	 *
+	 * @return void
 	 */
 	public function test_filter_robots_presenter_and_wp_robots_to_wp_head_filter() {
 		Monkey\Functions\expect( 'wp_robots' )->never();
@@ -656,6 +686,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * Tests the filter robots presenter with having wp_robots attached to the wp_head action.
 	 *
 	 * @covers ::filter_robots_presenter
+	 *
+	 * @return void
 	 */
 	public function test_rest_request_should_output_robots_presenter() {
 		Monkey\Functions\expect( 'wp_robots' )->never();
@@ -687,6 +719,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * Tests the should_title_presenter_be_removed function.
 	 *
 	 * @covers ::should_title_presenter_be_removed
+	 *
+	 * @return void
 	 */
 	public function test_should_title_presenter_be_removed() {
 		Monkey\Functions\expect( 'get_theme_support' )
@@ -732,6 +766,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * @param string $html       HTML of the link.
 	 * @param string $block_name Block name.
 	 * @param string $variable   Variable name.
+	 *
+	 * @return void
 	 */
 	public function test_query_loop_links( $html, $block_name, $variable ) {
 
@@ -746,6 +782,8 @@ final class Front_End_Integration_Test extends TestCase {
 	 * Tests that wpseo_adjacent_rel_url is used when query loop is used without inheriting the query args.
 	 *
 	 * @covers ::query_loop_next_prev
+	 *
+	 * @return void
 	 */
 	public function test_query_loop_next_prev() {
 

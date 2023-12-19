@@ -34,6 +34,8 @@ final class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_not_premium() {
 		$product_helper = Mockery::mock( Product_Helper::class );
@@ -58,6 +60,8 @@ final class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_premium_no_license() {
 		$product_helper = Mockery::mock( Product_Helper::class );
@@ -96,6 +100,8 @@ final class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_premium_with_license() {
 		$product_helper = Mockery::mock( Product_Helper::class );

@@ -24,6 +24,8 @@ final class Indexing_List_Item_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -38,6 +40,8 @@ final class Indexing_List_Item_Presenter_Test extends TestCase {
 	 * Tests the present method.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->short_link_helper

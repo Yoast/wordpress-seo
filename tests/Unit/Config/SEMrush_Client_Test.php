@@ -66,6 +66,8 @@ final class SEMrush_Client_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -80,6 +82,8 @@ final class SEMrush_Client_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 
@@ -110,6 +114,8 @@ final class SEMrush_Client_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly when a token already exists.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct_with_pre_existing_token() {
 		$this->options_helper

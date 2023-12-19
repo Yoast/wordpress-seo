@@ -30,6 +30,8 @@ final class Plugin_Suggestions_Test extends TestCase {
 
 	/**
 	 * Set up our double class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -49,6 +51,8 @@ final class Plugin_Suggestions_Test extends TestCase {
 	 * Tests the adding of a notification when a viable plugin is available to suggest.
 	 *
 	 * @covers ::add_notifications
+	 *
+	 * @return void
 	 */
 	public function test_add_notification_for_suggested_plugin() {
 		$this->notification_center->expects( $this->once() )->method( 'add_notification' );
@@ -60,6 +64,8 @@ final class Plugin_Suggestions_Test extends TestCase {
 	 * Tests the removal of a notification when no viable plugin is available to suggest.
 	 *
 	 * @covers ::add_notifications
+	 *
+	 * @return void
 	 */
 	public function test_remove_notification_for_suggested_plugin() {
 		$this->notification_center->expects( $this->once() )->method( 'remove_notification' );

@@ -87,6 +87,8 @@ class Crawl_Cleanup_Basic implements Integration_Interface {
 
 	/**
 	 * Removes X-Pingback and X-Powered-By headers as they're unneeded.
+	 *
+	 * @return void
 	 */
 	public function clean_headers() {
 		if ( \headers_sent() ) {

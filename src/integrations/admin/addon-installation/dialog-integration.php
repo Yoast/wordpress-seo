@@ -52,6 +52,8 @@ class Dialog_Integration implements Integration_Interface {
 
 	/**
 	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'start_addon_installation' ] );

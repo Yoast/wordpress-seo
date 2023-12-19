@@ -17,6 +17,8 @@ final class Schema_Person_Upgrade_Notification_Test extends TestCase {
 	 * Remove the notification when Person is not selected.
 	 *
 	 * @covers WPSEO_Schema_Person_Upgrade_Notification::handle_notification
+	 *
+	 * @return void
 	 */
 	public function test_remove_notification_not_person() {
 		$instance = $this->getMockBuilder( WPSEO_Schema_Person_Upgrade_Notification::class )
@@ -34,6 +36,8 @@ final class Schema_Person_Upgrade_Notification_Test extends TestCase {
 	 * Remove the notification if a person is selected.
 	 *
 	 * @covers WPSEO_Schema_Person_Upgrade_Notification::handle_notification
+	 *
+	 * @return void
 	 */
 	public function test_remove_notification_user_id_set() {
 		$instance = $this->getMockBuilder( WPSEO_Schema_Person_Upgrade_Notification::class )
@@ -52,6 +56,8 @@ final class Schema_Person_Upgrade_Notification_Test extends TestCase {
 	 * Add a notification when Person is selected, but no person is selected.
 	 *
 	 * @covers WPSEO_Schema_Person_Upgrade_Notification::handle_notification
+	 *
+	 * @return void
 	 */
 	public function test_add_notification() {
 		$instance = $this->getMockBuilder( WPSEO_Schema_Person_Upgrade_Notification::class )

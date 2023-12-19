@@ -26,6 +26,8 @@ final class Indexable_Date_Archive_Builder_Test extends TestCase {
 	 * Tests the formatting of the indexable data.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 		$options_mock = Mockery::mock( Options_Helper::class );

@@ -24,6 +24,8 @@ final class Image_Utils_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ final class Image_Utils_Test extends TestCase {
 	 * Test whether the first image is returned from a term description.
 	 *
 	 * @covers ::get_first_content_image_for_term
+	 *
+	 * @return void
 	 */
 	public function test_get_first_content_image_for_term() {
 
@@ -63,6 +67,8 @@ final class Image_Utils_Test extends TestCase {
 	 * @param mixed  $images   The images to get first image from.
 	 * @param mixed  $expected The expected value.
 	 * @param string $message  The message to show when the test fails.
+	 *
+	 * @return void
 	 */
 	public function test_get_first_image( $images, $expected, $message ) {
 		$first_image = $this->instance->get_first_image( $images );

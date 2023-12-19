@@ -104,6 +104,8 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 * @param bool   $ignore_content_scan  Whether content scanning should be ignored.
 	 * @param bool   $should_content_regex Whether the image id should be extracted with a regex.
 	 * @param bool   $should_doc_scan      Whether the doc document should be used.
+	 *
+	 * @return void
 	 */
 	public function test_build( $content, $link_type, $is_image, $ignore_content_scan, $should_content_regex, $should_doc_scan ) {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
@@ -231,6 +233,8 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 * @covers ::set_dependencies
 	 * @covers ::build
 	 * @covers ::gather_images
+	 *
+	 * @return void
 	 */
 	public function test_build_target_indexable_does_not_exist() {
 		$content          = '<a href="https://site.com/target">link</a>';
@@ -352,6 +356,8 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 * Tests the build method with no links.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_no_links() {
 				$indexable      = Mockery::mock( Indexable_Mock::class );
@@ -378,6 +384,8 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @param string $input_content The input content.
 	 * @param array  $output_result The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_build_ignore_content_scan( $input_content, $output_result ) {
 
@@ -421,6 +429,8 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 * @param array  $new_seo_link The new seo link.
 	 * @param array  $old_seo_link The old seo link.
 	 * @param array  $delete_ids   The delete ids.
+	 *
+	 * @return void
 	 */
 	public function expect_update_related_indexables( $indexable, $new_seo_link, $old_seo_link, $delete_ids ) {
 

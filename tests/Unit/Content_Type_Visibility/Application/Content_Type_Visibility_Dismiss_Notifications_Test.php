@@ -33,6 +33,8 @@ final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase 
 
 	/**
 	 * Set up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -47,6 +49,8 @@ final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase 
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -152,6 +156,8 @@ final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase 
 	 * Tests the dismiss_notifications method.
 	 *
 	 * @covers ::dismiss_notifications
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_notifications() {
 
@@ -207,6 +213,8 @@ final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase 
 	 *
 	 * @param bool $show_new_content_type_notification Shouls show notification.
 	 * @param int  $reset_notification                 The reset notification times.
+	 *
+	 * @return void
 	 */
 	public function test_maybe_add_settings_notification( $show_new_content_type_notification, $reset_notification ) {
 
@@ -228,6 +236,8 @@ final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase 
 	 * Tests the post_type_dismiss method.
 	 *
 	 * @covers ::post_type_dismiss
+	 *
+	 * @return void
 	 */
 	public function test_post_type_dismiss_not_new() {
 
@@ -251,6 +261,8 @@ final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase 
 	 * Tests the post_type_dismiss method.
 	 *
 	 * @covers ::post_type_dismiss
+	 *
+	 * @return void
 	 */
 	public function test_post_type_dismiss_with_new_success() {
 
@@ -285,6 +297,8 @@ final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase 
 	 * Tests the post_type_dismiss method.
 	 *
 	 * @covers ::post_type_dismiss
+	 *
+	 * @return void
 	 */
 	public function test_post_type_dismiss_with_new_fail() {
 
@@ -313,6 +327,8 @@ final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase 
 	 * Tests the taxonomy_dismiss method.
 	 *
 	 * @covers ::post_type_dismiss
+	 *
+	 * @return void
 	 */
 	public function test_taxonomy_dismiss_not_new() {
 
@@ -336,6 +352,8 @@ final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase 
 	 * Tests the taxonomy_dismiss method.
 	 *
 	 * @covers ::taxonomy_dismiss
+	 *
+	 * @return void
 	 */
 	public function test_taxonomy_dismiss_with_new_success() {
 
@@ -370,6 +388,8 @@ final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase 
 	 * Tests the taxonomy_dismiss method.
 	 *
 	 * @covers ::taxonomy_dismiss
+	 *
+	 * @return void
 	 */
 	public function test_taxonomy_dismiss_with_new_fail() {
 

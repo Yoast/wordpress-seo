@@ -15,6 +15,8 @@ final class Get_Permalink_Test extends Abstract_Indexable_Link_Builder_TestCase 
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -95,6 +97,8 @@ final class Get_Permalink_Test extends Abstract_Indexable_Link_Builder_TestCase 
 	 * @param array  $home_url       The home URL schema and host.
 	 * @param string $set_url_scheme The URL scheme.
 	 * @param string $expected       The expected permalink.
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink( $link, $home_url, $set_url_scheme, $expected ) {
 

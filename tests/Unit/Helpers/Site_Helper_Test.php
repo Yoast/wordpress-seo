@@ -24,6 +24,8 @@ final class Site_Helper_Test extends TestCase {
 
 	/**
 	 * Set up.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ final class Site_Helper_Test extends TestCase {
 	 * Tests retrieval of the site name.
 	 *
 	 * @covers ::get_site_name
+	 *
+	 * @return void
 	 */
 	public function test_get_site_name() {
 		Monkey\Functions\expect( 'wp_strip_all_tags' )
@@ -54,6 +58,8 @@ final class Site_Helper_Test extends TestCase {
 	 * Checks the result of is_multisite_and_switched.
 	 *
 	 * @covers ::is_multisite_and_switched
+	 *
+	 * @return void
 	 */
 	public function test_is_multisite_and_switched() {
 		Monkey\Functions\stubs(

@@ -33,6 +33,8 @@ final class Canonical_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$instance               = new Canonical_Presenter();
@@ -57,6 +59,8 @@ final class Canonical_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_empty() {
 		$instance               = new Canonical_Presenter();
@@ -74,6 +78,8 @@ final class Canonical_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_filter() {
 		$instance               = new Canonical_Presenter();
@@ -100,6 +106,8 @@ final class Canonical_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_when_robots_is_noindex() {
 		$instance               = new Canonical_Presenter();
@@ -117,6 +125,8 @@ final class Canonical_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$instance               = new Canonical_Presenter();

@@ -23,6 +23,8 @@ final class XMLRPC_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -34,6 +36,8 @@ final class XMLRPC_Test extends TestCase {
 	 * Tests whether we hook the noindex header as expected.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();

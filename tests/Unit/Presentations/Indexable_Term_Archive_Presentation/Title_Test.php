@@ -18,6 +18,8 @@ final class Title_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ final class Title_Test extends TestCase {
 	 * Tests the situation where the title is set.
 	 *
 	 * @covers ::generate_title
+	 *
+	 * @return void
 	 */
 	public function test_with_title() {
 		$this->indexable->title = 'Title';
@@ -41,6 +45,8 @@ final class Title_Test extends TestCase {
 	 * but the SEO title for categories in general is set.
 	 *
 	 * @covers ::generate_title
+	 *
+	 * @return void
 	 */
 	public function test_with_general_category_seo_title() {
 		$this->instance
@@ -63,6 +69,8 @@ final class Title_Test extends TestCase {
 	 * therefore we fall back to the default options title.
 	 *
 	 * @covers ::generate_title
+	 *
+	 * @return void
 	 */
 	public function test_with_default_fallback() {
 		$this->instance

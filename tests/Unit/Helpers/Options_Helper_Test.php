@@ -24,6 +24,8 @@ final class Options_Helper_Test extends TestCase {
 
 	/**
 	 * Prepares the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ final class Options_Helper_Test extends TestCase {
 	 * Tests the retrieval of a title default.
 	 *
 	 * @covers ::get_title_default
+	 *
+	 * @return void
 	 */
 	public function test_get_title_default() {
 		$this->instance
@@ -55,6 +59,8 @@ final class Options_Helper_Test extends TestCase {
 	 * Tests the retrieval of an unknown title default.
 	 *
 	 * @covers ::get_title_default
+	 *
+	 * @return void
 	 */
 	public function test_get_title_default_with_no_default_available() {
 		$this->instance

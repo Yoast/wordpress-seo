@@ -32,6 +32,8 @@ final class Metabox_Section_Additional_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Section_Additional::display_content
 	 *
 	 * @param string $expected Substring expected to be found in the actual output.
+	 *
+	 * @return void
 	 */
 	public function test_display_content( $expected ) {
 		$section = new WPSEO_Metabox_Section_Additional( 'additional-tab', 'Additional Tab', 'Additional Content' );
@@ -64,6 +66,8 @@ final class Metabox_Section_Additional_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Section_Additional::display_link
 	 *
 	 * @param string $expected Substring expected to be found in the actual output.
+	 *
+	 * @return void
 	 */
 	public function test_display_link( $expected ) {
 		$section = new WPSEO_Metabox_Section_Additional(
@@ -102,6 +106,8 @@ final class Metabox_Section_Additional_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Metabox_Section_Additional::__construct
 	 * @covers WPSEO_Metabox_Section_Additional::display_link
+	 *
+	 * @return void
 	 */
 	public function test_display_link_no_aria_label() {
 		$section = new WPSEO_Metabox_Section_Additional(

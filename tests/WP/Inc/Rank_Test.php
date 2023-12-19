@@ -14,6 +14,8 @@ final class Rank_Test extends TestCase {
 	 * Tests whether the get_rank function returns the correct rank.
 	 *
 	 * @covers WPSEO_Rank::get_rank
+	 *
+	 * @return void
 	 */
 	public function test_get_rank() {
 		$rank = new WPSEO_Rank( WPSEO_Rank::GOOD );
@@ -24,6 +26,8 @@ final class Rank_Test extends TestCase {
 	 * Tests whether the defaults of the constructor are there.
 	 *
 	 * @covers WPSEO_Rank::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$rank_non_existant = new WPSEO_Rank( 100000 );
@@ -38,6 +42,8 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @param int    $rank     Ranking.
 	 * @param string $expected Expected CSS class.
+	 *
+	 * @return void
 	 */
 	public function test_get_css_class( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -68,6 +74,8 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @param int    $rank     Ranking.
 	 * @param string $expected Expected label.
+	 *
+	 * @return void
 	 */
 	public function test_get_label( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -98,6 +106,8 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @param int    $rank     Ranking.
 	 * @param string $expected Expected label.
+	 *
+	 * @return void
 	 */
 	public function test_get_inclusive_language_label( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -128,6 +138,8 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @param int    $rank     Ranking.
 	 * @param string $expected Expected drop-down label.
+	 *
+	 * @return void
 	 */
 	public function test_get_drop_down_label( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -158,6 +170,8 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @param int    $rank     Ranking.
 	 * @param string $expected Expected drop-down label.
+	 *
+	 * @return void
 	 */
 	public function test_get_drop_down_readability_labels( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -186,6 +200,8 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @param int    $rank     Ranking.
 	 * @param string $expected Expected drop-down label.
+	 *
+	 * @return void
 	 */
 	public function test_get_drop_down_inclusive_language_labels( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -214,6 +230,8 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @param int    $rank     Ranking.
 	 * @param string $expected Expected start score.
+	 *
+	 * @return void
 	 */
 	public function test_get_starting_score( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -244,6 +262,8 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @param int    $rank     Ranking.
 	 * @param string $expected Expected end score.
+	 *
+	 * @return void
 	 */
 	public function test_get_end_score( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -274,6 +294,8 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @param int $score    Numeric score.
 	 * @param int $expected Expected ranking.
+	 *
+	 * @return void
 	 */
 	public function test_from_numeric_score( $score, $expected ) {
 		$rank = WPSEO_Rank::from_numeric_score( $score );
@@ -305,6 +327,8 @@ final class Rank_Test extends TestCase {
 	 * Tests whether all the SEO ranks are instances of the WPSEO_Rank class.
 	 *
 	 * @covers WPSEO_Rank::get_all_ranks
+	 *
+	 * @return void
 	 */
 	public function test_get_all_ranks() {
 		$ranks = WPSEO_Rank::get_all_ranks();
@@ -318,6 +342,8 @@ final class Rank_Test extends TestCase {
 	 * Tests whether all the readability ranks are instances of the WPSEO_Rank class.
 	 *
 	 * @covers WPSEO_Rank::get_all_readability_ranks
+	 *
+	 * @return void
 	 */
 	public function test_get_all_readability_ranks() {
 		$ranks = WPSEO_Rank::get_all_readability_ranks();
@@ -331,6 +357,8 @@ final class Rank_Test extends TestCase {
 	 * Tests whether all the inclusive language ranks are instances of the WPSEO_Rank class.
 	 *
 	 * @covers WPSEO_Rank::get_all_inclusive_language_ranks
+	 *
+	 * @return void
 	 */
 	public function test_get_all_inclusive_language_ranks() {
 		$ranks = WPSEO_Rank::get_all_inclusive_language_ranks();

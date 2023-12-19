@@ -226,6 +226,8 @@ class WPSEO_Database_Proxy {
 
 	/**
 	 * Executed before a query will be ran.
+	 *
+	 * @return void
 	 */
 	protected function pre_execution() {
 		if ( $this->suppress_errors ) {
@@ -235,6 +237,8 @@ class WPSEO_Database_Proxy {
 
 	/**
 	 * Executed after a query has been ran.
+	 *
+	 * @return void
 	 */
 	protected function post_execution() {
 		if ( $this->suppress_errors ) {

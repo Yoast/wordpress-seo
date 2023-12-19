@@ -47,6 +47,8 @@ class Indexable_Post_Meta_Watcher implements Integration_Interface {
 	 * Initializes the integration.
 	 *
 	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		// Register all posts whose meta have changed.

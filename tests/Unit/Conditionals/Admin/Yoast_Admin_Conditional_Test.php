@@ -33,6 +33,8 @@ final class Yoast_Admin_Conditional_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -45,6 +47,8 @@ final class Yoast_Admin_Conditional_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -63,6 +67,8 @@ final class Yoast_Admin_Conditional_Test extends TestCase {
 	 * @param bool $is_admin          Whether on the admin.
 	 * @param bool $is_yoast_seo_page Whether on a Yoast SEO page.
 	 * @param bool $expected          The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_is_met( $is_admin, $is_yoast_seo_page, $expected ) {
 		Functions\when( 'is_admin' )->justReturn( $is_admin );

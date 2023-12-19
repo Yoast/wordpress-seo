@@ -44,6 +44,8 @@ final class User_Profiles_Additions_Ui_Test extends TestCase {
 
 	/**
 	 * Set up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -57,6 +59,8 @@ final class User_Profiles_Additions_Ui_Test extends TestCase {
 	 * Test construct method.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -73,6 +77,8 @@ final class User_Profiles_Additions_Ui_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -85,6 +91,8 @@ final class User_Profiles_Additions_Ui_Test extends TestCase {
 	 * Test enqueue_assets method.
 	 *
 	 * @covers ::enqueue_assets
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_assets() {
 
@@ -105,6 +113,8 @@ final class User_Profiles_Additions_Ui_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -117,6 +127,8 @@ final class User_Profiles_Additions_Ui_Test extends TestCase {
 	 * Tests the `add_hook_to_user_profile` method.
 	 *
 	 * @covers ::add_hook_to_user_profile
+	 *
+	 * @return void
 	 */
 	public function test_add_hook_to_user_profile() {
 

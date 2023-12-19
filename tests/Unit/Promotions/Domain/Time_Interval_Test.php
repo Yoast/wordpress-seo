@@ -21,6 +21,8 @@ final class Time_Interval_Test extends TestCase {
 
 	/**
 	 * Setup the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -33,6 +35,8 @@ final class Time_Interval_Test extends TestCase {
 	 * Tests setting the start date.
 	 *
 	 * @covers ::set_start_date
+	 *
+	 * @return void
 	 */
 	public function test_set_start_date() {
 		$new_start_date = \gmmktime( 11, 00, 00, 12, 23, 2021 );
@@ -46,6 +50,8 @@ final class Time_Interval_Test extends TestCase {
 	 * Tests checking if a time is within the interval.
 	 *
 	 * @covers ::contains
+	 *
+	 * @return void
 	 */
 	public function test_contains() {
 		$time = \gmmktime( 11, 00, 00, 12, 23, 2022 );
@@ -57,6 +63,8 @@ final class Time_Interval_Test extends TestCase {
 	 * Tests setting the end date.
 	 *
 	 * @covers ::set_end_date
+	 *
+	 * @return void
 	 */
 	public function test_set_end_date() {
 		$new_end_date = \gmmktime( 11, 00, 00, 12, 23, 2026 );

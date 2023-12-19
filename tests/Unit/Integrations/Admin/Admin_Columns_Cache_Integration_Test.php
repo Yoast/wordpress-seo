@@ -37,6 +37,8 @@ final class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -50,6 +52,8 @@ final class Admin_Columns_Cache_Integration_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::fill_cache
+	 *
+	 * @return void
 	 */
 	public function test_fill_cache() {
 		global $wp_query;
@@ -79,6 +83,8 @@ final class Admin_Columns_Cache_Integration_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::fill_cache
+	 *
+	 * @return void
 	 */
 	public function test_fill_cache_with_posts() {
 		global $wp_query;
@@ -106,6 +112,8 @@ final class Admin_Columns_Cache_Integration_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::fill_cache
+	 *
+	 * @return void
 	 */
 	public function test_fill_cache_with_broken_indexable() {
 		global $wp_query;
@@ -139,6 +147,8 @@ final class Admin_Columns_Cache_Integration_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::fill_cache
+	 *
+	 * @return void
 	 */
 	public function test_fill_cache_with_non_post_query() {
 		global $wp_query;

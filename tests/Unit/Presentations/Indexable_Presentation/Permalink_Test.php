@@ -18,6 +18,8 @@ final class Permalink_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ final class Permalink_Test extends TestCase {
 	 * Tests the permalink getter method.
 	 *
 	 * @covers ::generate_permalink
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink() {
 		$this->indexable->permalink = 'https://example.com/permalink/';
@@ -53,6 +57,8 @@ final class Permalink_Test extends TestCase {
 	 * Tests the permalink getter method with dynamic permalinks enabled.
 	 *
 	 * @covers ::generate_permalink
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink_with_dynamic_permalinks() {
 		$this->indexable->permalink = 'https://example.com/permalink/';
@@ -75,6 +81,8 @@ final class Permalink_Test extends TestCase {
 	 * Tests the permalink getter method on attachment page.
 	 *
 	 * @covers ::generate_permalink
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink_on_attachment_page() {
 		$this->indexable->permalink = 'https://example.com/permalink/';

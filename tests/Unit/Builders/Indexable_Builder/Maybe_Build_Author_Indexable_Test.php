@@ -19,6 +19,8 @@ final class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder
 
 	/**
 	 * Sets up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();

@@ -19,6 +19,8 @@ final class Open_Graph_URL_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,6 +32,8 @@ final class Open_Graph_URL_Test extends TestCase {
 	 * Tests the situation where the search link is returned.
 	 *
 	 * @covers ::generate_open_graph_url
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_url() {
 		Monkey\Functions\expect( 'get_search_query' )
@@ -47,6 +51,8 @@ final class Open_Graph_URL_Test extends TestCase {
 	 * Tests the situation where the canonical is returned.
 	 *
 	 * @covers ::generate_open_graph_url
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_url_invalid_query() {
 		Monkey\Functions\expect( 'get_search_query' )

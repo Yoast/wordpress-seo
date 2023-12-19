@@ -46,6 +46,8 @@ final class Indexing_Error_Presenter_Test extends TestCase {
 
 	/**
 	 * Set up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -72,6 +74,8 @@ final class Indexing_Error_Presenter_Test extends TestCase {
 	 * Tests the constructor of the error presenter.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		self::assertInstanceOf(
@@ -95,6 +99,8 @@ final class Indexing_Error_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 * @covers ::generate_first_paragraph
 	 * @covers ::generate_second_paragraph
+	 *
+	 * @return void
 	 */
 	public function test_present_not_premium_no_valid_premium_subscription() {
 		$this->product_helper
@@ -122,6 +128,8 @@ final class Indexing_Error_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 * @covers ::generate_first_paragraph
 	 * @covers ::generate_second_paragraph
+	 *
+	 * @return void
 	 */
 	public function test_present_premium_no_valid_premium_subscription() {
 		$this->product_helper
@@ -150,6 +158,8 @@ final class Indexing_Error_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 * @covers ::generate_first_paragraph
 	 * @covers ::generate_second_paragraph
+	 *
+	 * @return void
 	 */
 	public function test_present_premium_valid_premium_subscription() {
 		$this->product_helper

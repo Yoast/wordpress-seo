@@ -25,6 +25,8 @@ final class Orm_Test extends TestCase {
 
 	/**
 	 * Setup the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -36,6 +38,8 @@ final class Orm_Test extends TestCase {
 	 * Test_insert_many_throws_on_invalid_argument.
 	 *
 	 * @covers ::insert_many
+	 *
+	 * @return void
 	 */
 	public function test_insert_many_throws_on_invalid_argument() {
 		// Arrange.
@@ -50,6 +54,8 @@ final class Orm_Test extends TestCase {
 	 * Test_insert_many_early_return_for_empty_array.
 	 *
 	 * @covers ::insert_many
+	 *
+	 * @return void
 	 */
 	public function test_insert_many_early_return_for_empty_array() {
 		// Arrange.
@@ -66,6 +72,8 @@ final class Orm_Test extends TestCase {
 	 * Test_insert_many_throws_on_not_new_model.
 	 *
 	 * @covers ::insert_many
+	 *
+	 * @return void
 	 */
 	public function test_insert_many_throws_on_not_new_model() {
 		// Arrange.

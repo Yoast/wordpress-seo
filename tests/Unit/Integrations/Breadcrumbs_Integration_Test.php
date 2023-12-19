@@ -43,6 +43,8 @@ final class Breadcrumbs_Integration_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -59,6 +61,8 @@ final class Breadcrumbs_Integration_Test extends TestCase {
 	 * Tests the get_conditionals functions.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals( [], Breadcrumbs_Integration::get_conditionals() );
@@ -68,6 +72,8 @@ final class Breadcrumbs_Integration_Test extends TestCase {
 	 * Tests the render function.
 	 *
 	 * @covers ::render
+	 *
+	 * @return void
 	 */
 	public function test_render() {
 		$indexable_presentation              = Mockery::mock( Indexable_Presentation_Mock::class );

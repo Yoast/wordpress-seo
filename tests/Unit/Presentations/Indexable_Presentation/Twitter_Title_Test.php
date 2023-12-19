@@ -19,6 +19,8 @@ final class Twitter_Title_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,6 +32,8 @@ final class Twitter_Title_Test extends TestCase {
 	 * Tests the situation where the Twitter title is set.
 	 *
 	 * @covers ::generate_twitter_title
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_title_with_set_twitter_title() {
 		$this->indexable->twitter_title = 'Twitter title';
@@ -45,6 +49,8 @@ final class Twitter_Title_Test extends TestCase {
 	 * - this is different from the OG title
 	 *
 	 * @covers ::generate_twitter_title
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_title_with_title_from_values_helper_and_open_graph_enabled() {
 		$this->context->open_graph_enabled = true;
@@ -66,6 +72,8 @@ final class Twitter_Title_Test extends TestCase {
 	 * - this is different from the OG title
 	 *
 	 * @covers ::generate_twitter_title
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_title_with_title_from_values_helper_same_as_og_title() {
 		$this->context->open_graph_enabled = true;
@@ -83,6 +91,8 @@ final class Twitter_Title_Test extends TestCase {
 	 * Tests the situation where no Twitter title is set, the Open Graph title is set, and Open Graph is enabled.
 	 *
 	 * @covers ::generate_twitter_title
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_title_with_set_open_graph_title_and_open_graph_enabled() {
 		$this->context->open_graph_enabled = true;
@@ -99,6 +109,8 @@ final class Twitter_Title_Test extends TestCase {
 	 * Tests the situation where no Twitter title is set, the Open Graph title is set, and Open Graph is disabled.
 	 *
 	 * @covers ::generate_twitter_title
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_title_with_set_open_graph_title_and_open_graph_disabled() {
 		$this->context->open_graph_enabled = false;
@@ -112,6 +124,8 @@ final class Twitter_Title_Test extends TestCase {
 	 * Tests the situation where no Twitter title is set, the Open Graph title isn't set, and Open Graph is enabled.
 	 *
 	 * @covers ::generate_twitter_title
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_title_with_no_set_open_graph_title_and_open_graph_enabled() {
 		$this->context->open_graph_enabled = true;
@@ -129,6 +143,8 @@ final class Twitter_Title_Test extends TestCase {
 	 * Tests the situation where no Twitter and Open Graph titles are set, but the SEO title is set.
 	 *
 	 * @covers ::generate_twitter_title
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_title_with_set_seo_title() {
 		$this->indexable->title           = 'SEO title';
@@ -147,6 +163,8 @@ final class Twitter_Title_Test extends TestCase {
 	 * The helper is called twice: the first time from the Twitter method, the second time from the Open Graph method.
 	 *
 	 * @covers ::generate_twitter_title
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_title_with_empty_return_value() {
 		$this->values_helper

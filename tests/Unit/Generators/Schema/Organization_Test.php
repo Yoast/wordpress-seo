@@ -75,6 +75,8 @@ final class Organization_Test extends TestCase {
 
 	/**
 	 * Initializes the test environment.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -112,6 +114,8 @@ final class Organization_Test extends TestCase {
 	 *
 	 * @param array $profiles_input    The social profiles input for the options.
 	 * @param array $profiles_expected The social profiles expected output.
+	 *
+	 * @return void
 	 */
 	public function test_generate( $profiles_input, $profiles_expected ) {
 		$this->context->company_alternate_name      = '';
@@ -175,6 +179,8 @@ final class Organization_Test extends TestCase {
 	 *
 	 * @param array $profiles_input    The social profiles input for the options.
 	 * @param array $profiles_expected The social profiles expected output.
+	 *
+	 * @return void
 	 */
 	public function test_generate_without_logo_meta( $profiles_input, $profiles_expected ) {
 		$this->context->company_alternate_name      = 'Alt Company Name';
@@ -235,6 +241,8 @@ final class Organization_Test extends TestCase {
 	 * Tests is needed when the site represents a company.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_needed() {
 		$this->context->site_represents = 'company';
@@ -246,6 +254,8 @@ final class Organization_Test extends TestCase {
 	 * Tests is not needed when the site does not represent a company.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_not_needed() {
 		$this->context->site_represents = false;

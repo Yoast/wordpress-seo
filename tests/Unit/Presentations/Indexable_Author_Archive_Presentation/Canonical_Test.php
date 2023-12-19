@@ -19,6 +19,8 @@ final class Canonical_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,6 +32,8 @@ final class Canonical_Test extends TestCase {
 	 * Tests the situation where the canonical is set.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_with_canonical() {
 		$this->indexable->canonical = 'https://example.com/author/';
@@ -41,6 +45,8 @@ final class Canonical_Test extends TestCase {
 	 * Tests the situation where there is no permalink set.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_without_permalink() {
 		$this->indexable_helper
@@ -63,6 +69,8 @@ final class Canonical_Test extends TestCase {
 	 * Tests the situation without pagination.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_without_pagination() {
 		$this->indexable->permalink = 'https://example.com/author/';
@@ -92,6 +100,8 @@ final class Canonical_Test extends TestCase {
 	 * Tests the situation with pagination.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_with_pagination() {
 		$this->indexable->permalink = 'https://example.com/author/';
@@ -127,6 +137,8 @@ final class Canonical_Test extends TestCase {
 	 * Tests the situation without pagination and with dynamic permalinks enabled.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_without_pagination_with_dynamic_permalinks() {
 		$this->indexable->permalink = 'https://example.com/author/';
@@ -154,6 +166,8 @@ final class Canonical_Test extends TestCase {
 	 * Tests the situation with pagination and with dynamic permalinks enabled.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_with_pagination_with_dynamic_permalinks() {
 		$this->indexable->permalink = 'https://example.com/author/';

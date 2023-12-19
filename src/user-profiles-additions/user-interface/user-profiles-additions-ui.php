@@ -77,6 +77,8 @@ class User_Profiles_Additions_Ui implements Integration_Interface {
 	 * Add the inputs needed for SEO values to the User Profile page.
 	 *
 	 * @param WP_User $user User instance to output for.
+	 *
+	 * @return void
 	 */
 	public function add_hook_to_user_profile( $user ) {
 		$this->enqueue_assets();

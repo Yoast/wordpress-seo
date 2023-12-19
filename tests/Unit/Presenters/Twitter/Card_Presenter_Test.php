@@ -27,6 +27,8 @@ final class Card_Presenter_Test extends TestCase {
 
 	/**
 	 * Setup of the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -41,6 +43,8 @@ final class Card_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->instance->presentation = new Indexable_Presentation();
@@ -60,6 +64,8 @@ final class Card_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_empty_twitter_creator() {
 		$this->instance->presentation = new Indexable_Presentation();
@@ -74,6 +80,8 @@ final class Card_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$this->instance->presentation = new Indexable_Presentation();

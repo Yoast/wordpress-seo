@@ -22,6 +22,8 @@ final class Image_Parser_Test extends TestCase {
 
 	/**
 	 * Set up our double class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -33,6 +35,8 @@ final class Image_Parser_Test extends TestCase {
 	 * Tests the get_images function.
 	 *
 	 * @covers WPSEO_Sitemap_Image_Parser::get_images
+	 *
+	 * @return void
 	 */
 	public function test_get_images() {
 
@@ -53,6 +57,8 @@ final class Image_Parser_Test extends TestCase {
 	 * @covers WPSEO_Sitemap_Image_Parser::get_gallery_attachments
 	 *
 	 * @link https://github.com/Yoast/wordpress-seo/issues/8634
+	 *
+	 * @return void
 	 */
 	public function test_parse_galleries() {
 		/**

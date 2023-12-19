@@ -26,6 +26,8 @@ final class Image_Helper_Test extends TestCase {
 
 	/**
 	 * Setup.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ final class Image_Helper_Test extends TestCase {
 	 * Tests retrieval image size.
 	 *
 	 * @covers ::get_image_size
+	 *
+	 * @return void
 	 */
 	public function test_get_image_size() {
 		Monkey\Filters\expectApplied( 'wpseo_twitter_image_size' )

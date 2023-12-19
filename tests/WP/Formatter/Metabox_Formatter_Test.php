@@ -19,6 +19,8 @@ final class Metabox_Formatter_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Formatter::get_values
 	 * @covers WPSEO_Metabox_Formatter::get_defaults
 	 * @covers WPSEO_Metabox_Formatter::get_translations
+	 *
+	 * @return void
 	 */
 	public function test_getting_the_values() {
 		$class_instance = new WPSEO_Metabox_Formatter(
@@ -44,6 +46,8 @@ final class Metabox_Formatter_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Formatter::get_values
 	 * @covers WPSEO_Metabox_Formatter::get_defaults
 	 * @covers WPSEO_Metabox_Formatter::get_translations
+	 *
+	 * @return void
 	 */
 	public function test_with_fake_language_file() {
 		$file_name = \WPSEO_PATH . 'languages/wordpress-seo-' . \get_user_locale() . '.json';
@@ -81,6 +85,8 @@ final class Metabox_Formatter_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Metabox_Formatter::__construct
 	 * @covers Yoast\WP\SEO\Helpers\Language_Helper::is_word_form_recognition_active
+	 *
+	 * @return void
 	 */
 	public function test_word_form_recognition_is_active() {
 		\add_filter(
@@ -109,6 +115,8 @@ final class Metabox_Formatter_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Metabox_Formatter::__construct
 	 * @covers Yoast\WP\SEO\Helpers\Language_Helper::is_word_form_recognition_active
+	 *
+	 * @return void
 	 */
 	public function test_word_form_recognition_is_not_active() {
 		\add_filter(

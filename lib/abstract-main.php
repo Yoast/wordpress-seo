@@ -31,6 +31,8 @@ abstract class Abstract_Main {
 	/**
 	 * Loads the plugin.
 	 *
+	 * @return void
+	 *
 	 * @throws Exception If loading fails and YOAST_ENVIRONMENT is development.
 	 */
 	public function load() {

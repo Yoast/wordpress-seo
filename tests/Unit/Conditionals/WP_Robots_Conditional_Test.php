@@ -24,6 +24,8 @@ final class WP_Robots_Conditional_Test extends TestCase {
 
 	/**
 	 * Handles the setup.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ final class WP_Robots_Conditional_Test extends TestCase {
 	 * Tests the scenario where the wp_robots isn't present.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_without_having_wp_robots_function() {
 		$this->assertFalse( $this->instance->is_met() );
@@ -44,6 +48,8 @@ final class WP_Robots_Conditional_Test extends TestCase {
 	 * Tests the scenario where the wp_robots isn't present.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met() {
 		Monkey\Functions\expect( 'wp_robots' )->never();

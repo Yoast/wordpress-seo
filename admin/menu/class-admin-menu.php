@@ -22,6 +22,8 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 
 	/**
 	 * Registers the menu item submenus.
+	 *
+	 * @return void
 	 */
 	public function register_settings_page() {
 		$manage_capability   = $this->get_manage_capability();

@@ -33,6 +33,8 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -46,6 +48,8 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -63,6 +67,8 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 	 *
 	 * @param mixed $meta     Value `get_meta` returns.
 	 * @param bool  $expected The expected value.
+	 *
+	 * @return void
 	 *
 	 * @throws Invalid_User_Id_Exception Invalid User ID.
 	 */
@@ -103,6 +109,8 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 	 *
 	 * @covers ::get_all_introductions
 	 *
+	 * @return void
+	 *
 	 * @throws Invalid_User_Id_Exception Invalid User ID.
 	 */
 	public function test_get_all_introductions_with_invalid_user_id() {
@@ -121,6 +129,8 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 	 * Tests setting the introductions calls update_meta().
 	 *
 	 * @covers ::set_all_introductions
+	 *
+	 * @return void
 	 */
 	public function test_set_all_introductions() {
 		$user_id       = 1;
@@ -143,6 +153,8 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 	 * @param string $introduction_id The introduction ID.
 	 * @param mixed  $meta            The get_meta return value.
 	 * @param bool   $expected        The expected result.
+	 *
+	 * @return void
 	 *
 	 * @throws Invalid_User_Id_Exception Invalid User ID.
 	 */
@@ -212,6 +224,8 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 	 * @param bool   $is_seen         Whether the introduction is seen.
 	 * @param mixed  $meta            The get_meta return value.
 	 * @param array  $expected_meta   The expected meta.
+	 *
+	 * @return void
 	 *
 	 * @throws Invalid_User_Id_Exception Invalid User ID.
 	 */

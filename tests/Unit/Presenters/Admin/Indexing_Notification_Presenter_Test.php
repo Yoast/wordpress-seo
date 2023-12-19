@@ -25,6 +25,8 @@ final class Indexing_Notification_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -40,6 +42,8 @@ final class Indexing_Notification_Presenter_Test extends TestCase {
 	 * to be indexed.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_few_indexables() {
 		Monkey\Functions\expect( 'get_admin_url' )
@@ -63,6 +67,8 @@ final class Indexing_Notification_Presenter_Test extends TestCase {
 	 * to be indexed.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_some_indexables() {
 		Monkey\Functions\expect( 'get_admin_url' )
@@ -86,6 +92,8 @@ final class Indexing_Notification_Presenter_Test extends TestCase {
 	 * to be indexed.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_many_indexables() {
 		$this->short_link_helper

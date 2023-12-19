@@ -31,6 +31,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up(): void {
 		parent::set_up();
@@ -60,6 +62,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	 * Tests the build method's happy path.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 		self::factory()->post->create(
@@ -96,6 +100,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	 * Tests the build method in case author has no public posts.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_when_author_has_no_public_posts() {
 		$this->expectException( Author_Not_Built_Exception::class );
@@ -108,6 +114,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	 * Tests the build method in case author archives are disabled.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_when_author_archives_are_disabled() {
 		self::factory()->post->create(
@@ -131,6 +139,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	 * Tests the build method in case author has no public posts but indexing is enabled.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_when_author_has_no_public_posts_and_indexing_is_enabled() {
 		\YoastSEO()->helpers->options->set( 'noindex-author-noposts-wpseo', false );
@@ -160,6 +170,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	 * Tests the build method in case wpseo_should_build_and_save_user_indexable is used.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_when_author_is_filtered() {
 

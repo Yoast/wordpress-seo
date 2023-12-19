@@ -250,6 +250,8 @@ abstract class WPSEO_Plugin_Importer {
 
 	/**
 	 * Sets the import status to false and returns a message about why it failed.
+	 *
+	 * @return void
 	 */
 	protected function set_missing_db_rights_status() {
 		$this->status->set_status( false );
@@ -279,6 +281,8 @@ abstract class WPSEO_Plugin_Importer {
 	 * @param string $new_key The key to save.
 	 * @param mixed  $value   The value to set the key to.
 	 * @param int    $post_id The Post to save the meta for.
+	 *
+	 * @return void
 	 */
 	protected function maybe_save_post_meta( $new_key, $value, $post_id ) {
 		// Big. Fat. Sigh. Mostly used for _yst_is_cornerstone, but might be useful for other hidden meta's.

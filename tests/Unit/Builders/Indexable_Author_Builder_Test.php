@@ -77,6 +77,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -142,6 +144,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 		$this->author_archive
@@ -227,6 +231,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	 * Tests whether the author is being built when it is explicitly included by the `'wpseo_should_build_and_save_user_indexable'` filter.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_when_user_is_explicitly_included_by_filter() {
 		$this->author_archive
@@ -312,6 +318,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_without_alternative_image() {
 		$this->author_archive
@@ -396,6 +404,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_with_undefined_author_meta() {
 		$this->author_archive
@@ -478,6 +488,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	 * are disabled in general.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_throws_exception_when_author_archives_are_disabled() {
 		$this->author_archive
@@ -506,6 +518,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	 * are disabled for users without posts and the user does not have posts.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_throws_exception_when_user_has_no_posts() {
 		$user_id = 1;
@@ -533,6 +547,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	 * Tests that no indexable is built for a user if it is excluded in a filter.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_throws_an_exception_when_user_is_excluded_in_filter() {
 		$user_id = 1;

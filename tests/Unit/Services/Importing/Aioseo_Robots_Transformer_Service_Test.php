@@ -54,6 +54,8 @@ final class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 	 * @param int    $get_global_robot_settings_times The times the get_global_robot_settings() is called.
 	 * @param bool   $global_setting_value            What the get_global_robot_settings() returns.
 	 * @param bool   $expected_result                 The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_transform_robot_setting( $aioseo_options, $setting_name, $setting_value, $mapping, $get_global_robot_settings_times, $global_setting_value, $expected_result ) {
 		Monkey\Functions\expect( 'get_option' )

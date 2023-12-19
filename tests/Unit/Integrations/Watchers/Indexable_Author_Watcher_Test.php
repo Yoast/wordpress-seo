@@ -47,6 +47,8 @@ final class Indexable_Author_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -60,6 +62,8 @@ final class Indexable_Author_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -73,6 +77,8 @@ final class Indexable_Author_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -85,6 +91,8 @@ final class Indexable_Author_Watcher_Test extends TestCase {
 	 * Tests if the indexable is being deleted.
 	 *
 	 * @covers ::delete_indexable
+	 *
+	 * @return void
 	 */
 	public function test_delete_indexable() {
 		$id = 1;
@@ -105,6 +113,8 @@ final class Indexable_Author_Watcher_Test extends TestCase {
 	 * Tests if the indexable is being deleted.
 	 *
 	 * @covers ::delete_indexable
+	 *
+	 * @return void
 	 */
 	public function test_delete_indexable_not_found() {
 		$id = 1;
@@ -122,6 +132,8 @@ final class Indexable_Author_Watcher_Test extends TestCase {
 	 * Tests the save meta functionality.
 	 *
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_indexable() {
 		$id = 1;
@@ -153,6 +165,8 @@ final class Indexable_Author_Watcher_Test extends TestCase {
 	 * Tests the save meta functionality.
 	 *
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_indexable_not_found() {
 		$id = 1;

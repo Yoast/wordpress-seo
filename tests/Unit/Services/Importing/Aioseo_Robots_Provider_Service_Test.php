@@ -50,6 +50,8 @@ final class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	 * @param array  $aioseo_options  The AIOSEO settings.
 	 * @param string $setting         The setting we're working with.
 	 * @param bool   $expected_result The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_global_robot_settings( $aioseo_options, $setting, $expected_result ) {
 		$this->aioseo_helper->expects( 'get_global_option' )
@@ -69,6 +71,8 @@ final class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	 * @param array $aioseo_options  The AIOSEO settings.
 	 * @param array $mapping         The mapping of the setting we're working with.
 	 * @param bool  $expected_result The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_subtype_robot_setting( $aioseo_options, $mapping, $expected_result ) {
 		Monkey\Functions\expect( 'get_option' )

@@ -37,6 +37,8 @@ final class WooCommerce_Permalinks_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -49,6 +51,8 @@ final class WooCommerce_Permalinks_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -61,6 +65,8 @@ final class WooCommerce_Permalinks_Test extends TestCase {
 	 * Tests if the constructor sets the right properties.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -73,6 +79,8 @@ final class WooCommerce_Permalinks_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -85,6 +93,8 @@ final class WooCommerce_Permalinks_Test extends TestCase {
 	 * Filters the product from the post types.
 	 *
 	 * @covers ::filter_product_from_post_types
+	 *
+	 * @return void
 	 */
 	public function test_filter_product_from_post_types() {
 		$this->assertEquals(
@@ -106,6 +116,8 @@ final class WooCommerce_Permalinks_Test extends TestCase {
 	 * Tests resetting the product on product_base change.
 	 *
 	 * @covers ::reset_woocommerce_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_reset_woocommerce_permalinks_product_base() {
 		$this->indexable_helper
@@ -127,6 +139,8 @@ final class WooCommerce_Permalinks_Test extends TestCase {
 	 * Tests resetting the product on product_base change.
 	 *
 	 * @covers ::reset_woocommerce_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_reset_woocommerce_permalinks_attribute_base() {
 		$this->indexable_helper
@@ -161,6 +175,8 @@ final class WooCommerce_Permalinks_Test extends TestCase {
 	 * Tests resetting the product on product_base change.
 	 *
 	 * @covers ::reset_woocommerce_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_reset_woocommerce_permalinks_terms_base() {
 		$this->indexable_helper

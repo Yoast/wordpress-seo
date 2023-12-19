@@ -125,6 +125,8 @@ class Adapter {
 
 	/**
 	 * Create the schema table, if necessary.
+	 *
+	 * @return void
 	 */
 	public function create_schema_version_table() {
 		if ( ! $this->has_table( $this->get_schema_version_table_name() ) ) {
@@ -137,6 +139,8 @@ class Adapter {
 
 	/**
 	 * Starts a transaction.
+	 *
+	 * @return void
 	 */
 	public function start_transaction() {
 		if ( $this->in_transaction() === false ) {
@@ -146,6 +150,8 @@ class Adapter {
 
 	/**
 	 * Commits a transaction.
+	 *
+	 * @return void
 	 */
 	public function commit_transaction() {
 		if ( $this->in_transaction() ) {
@@ -155,6 +161,8 @@ class Adapter {
 
 	/**
 	 * Rollbacks a transaction.
+	 *
+	 * @return void
 	 */
 	public function rollback_transaction() {
 		if ( $this->in_transaction() ) {

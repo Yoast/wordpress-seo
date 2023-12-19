@@ -25,6 +25,8 @@ final class Wordpress_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -36,6 +38,8 @@ final class Wordpress_Helper_Test extends TestCase {
 	 * Tests retrieval of the global WordPress version
 	 *
 	 * @covers ::get_wordpress_version
+	 *
+	 * @return void
 	 */
 	public function test_get_wordpress_version() {
 		global $wp_version;

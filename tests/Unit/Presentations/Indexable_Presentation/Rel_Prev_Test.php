@@ -17,6 +17,8 @@ final class Rel_Prev_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -28,6 +30,8 @@ final class Rel_Prev_Test extends TestCase {
 	 * Tests whether an empty string is returned.
 	 *
 	 * @covers ::generate_rel_prev
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_prev_and_return_empty() {
 		$this->assertEmpty( $this->instance->generate_rel_prev() );

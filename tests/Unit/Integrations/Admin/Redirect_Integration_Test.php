@@ -34,6 +34,8 @@ final class Redirect_Integration_Test extends TestCase {
 
 	/**
 	 * Set up the fixtures for the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -47,6 +49,8 @@ final class Redirect_Integration_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertEquals( $this->redirect, $this->getPropertyValue( $this->instance, 'redirect' ) );
@@ -56,6 +60,8 @@ final class Redirect_Integration_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -70,6 +76,8 @@ final class Redirect_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -84,6 +92,8 @@ final class Redirect_Integration_Test extends TestCase {
 	 *
 	 * @param string $current_page   The current page parameter.
 	 * @param int    $redirect_times The times we will redirect.
+	 *
+	 * @return void
 	 */
 	public function test_old_settings_redirect( $current_page, $redirect_times ) {
 		$_GET['page'] = $current_page;

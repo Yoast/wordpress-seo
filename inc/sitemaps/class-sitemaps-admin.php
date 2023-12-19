@@ -36,6 +36,8 @@ class WPSEO_Sitemaps_Admin {
 	 * @param string  $new_status New post status.
 	 * @param string  $old_status Old post status.
 	 * @param WP_Post $post       Post object.
+	 *
+	 * @return void
 	 */
 	public function status_transition( $new_status, $old_status, $post ) {
 		if ( $new_status !== 'publish' ) {
@@ -71,6 +73,8 @@ class WPSEO_Sitemaps_Admin {
 
 	/**
 	 * Notify Google of the updated sitemap.
+	 *
+	 * @return void
 	 */
 	public function ping_search_engines() {
 
@@ -106,6 +110,8 @@ class WPSEO_Sitemaps_Admin {
 	 * @param string  $new_status New post status.
 	 * @param string  $old_status Old post status.
 	 * @param WP_Post $post       Post object.
+	 *
+	 * @return void
 	 */
 	private function status_transition_bulk( $new_status, $old_status, $post ) {
 		$this->importing_post_types[] = get_post_type( $post );
@@ -114,6 +120,8 @@ class WPSEO_Sitemaps_Admin {
 
 	/**
 	 * After import finished, walk through imported post_types and update info.
+	 *
+	 * @return void
 	 */
 	public function status_transition_bulk_finished() {
 		if ( ! defined( 'WP_IMPORTING' ) ) {

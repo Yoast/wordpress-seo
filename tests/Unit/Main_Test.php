@@ -48,6 +48,8 @@ final class Main_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -63,6 +65,8 @@ final class Main_Test extends TestCase {
 	 * Tests the DI container.
 	 *
 	 * @covers ::get_container
+	 *
+	 * @return void
 	 */
 	public function test_surfaces() {
 		// Deprecated classes call _deprecated_function in the constructor, so stub the function to do nothing.
@@ -99,6 +103,8 @@ final class Main_Test extends TestCase {
 	 * @dataProvider data_declared_inaccessible_properties
 	 *
 	 * @param string $name Property name.
+	 *
+	 * @return void
 	 */
 	public function test_get_on_inaccessible_property_is_forbidden( $name ) {
 		$this->expectException( Exception::class );
@@ -120,6 +126,8 @@ final class Main_Test extends TestCase {
 	 * @dataProvider data_undeclared_properties
 	 *
 	 * @param string $name Property name.
+	 *
+	 * @return void
 	 */
 	public function test_set_is_forbidden( $name ) {
 		$this->expectException( Forbidden_Property_Mutation_Exception::class );
@@ -140,6 +148,8 @@ final class Main_Test extends TestCase {
 	 * @dataProvider data_undeclared_properties
 	 *
 	 * @param string $name Property name.
+	 *
+	 * @return void
 	 */
 	public function test_unset_is_forbidden( $name ) {
 		$this->expectException( Forbidden_Property_Mutation_Exception::class );

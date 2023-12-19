@@ -14,6 +14,8 @@ final class Build_For_System_Page_Test extends Abstract_Indexable_Builder_TestCa
 
 	/**
 	 * Sets up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -31,6 +33,8 @@ final class Build_For_System_Page_Test extends Abstract_Indexable_Builder_TestCa
 	 * @covers ::ensure_indexable
 	 * @covers ::build
 	 * @covers ::save_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_for_system_page() {
 
@@ -47,6 +51,8 @@ final class Build_For_System_Page_Test extends Abstract_Indexable_Builder_TestCa
 	 * Expectation for build method.
 	 *
 	 * @param array $defaults The defaults to expect.
+	 *
+	 * @return void
 	 */
 	public function expect_build( $defaults ) {
 

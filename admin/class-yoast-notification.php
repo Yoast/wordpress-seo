@@ -148,6 +148,8 @@ class Yoast_Notification {
 
 	/**
 	 * Make sure the nonce is up to date.
+	 *
+	 * @return void
 	 */
 	public function refresh_nonce() {
 		if ( $this->options['id'] ) {
@@ -418,6 +420,8 @@ class Yoast_Notification {
 	 *
 	 * @param string $value Attribute value.
 	 * @param string $key   Attribute name.
+	 *
+	 * @return void
 	 */
 	private function parse_attributes( &$value, $key ) {
 		$value = sprintf( '%s="%s"', sanitize_key( $key ), esc_attr( $value ) );

@@ -118,6 +118,8 @@ class Yoast_Plugin_Conflict {
 	 * Checks for given $plugin_sections for conflicts.
 	 *
 	 * @param array $plugin_sections Set of sections.
+	 *
+	 * @return void
 	 */
 	public function check_plugin_conflicts( $plugin_sections ) {
 		foreach ( $plugin_sections as $plugin_section => $readable_plugin_section ) {
@@ -164,6 +166,8 @@ class Yoast_Plugin_Conflict {
 	 *
 	 * @param string $plugin_section          Type of conflict group (such as Open Graph or sitemap).
 	 * @param string $readable_plugin_section This is the value for the translation.
+	 *
+	 * @return void
 	 */
 	protected function set_error( $plugin_section, $readable_plugin_section ) {
 
@@ -200,6 +204,8 @@ class Yoast_Plugin_Conflict {
 	 * Clear the notification for a plugin.
 	 *
 	 * @param string $plugin_file Clear the optional notification for this plugin.
+	 *
+	 * @return void
 	 */
 	public function clear_error( $plugin_file ) {
 		$identifier = $this->get_notification_identifier( $plugin_file );
@@ -212,6 +218,8 @@ class Yoast_Plugin_Conflict {
 	 * Loop through the $this->plugins to check if one of the plugins is active.
 	 *
 	 * This method will store the active plugins in $this->active_plugins.
+	 *
+	 * @return void
 	 */
 	protected function search_active_plugins() {
 		foreach ( $this->plugins as $plugin_section => $plugins ) {
@@ -224,6 +232,8 @@ class Yoast_Plugin_Conflict {
 	 *
 	 * @param array  $plugins        Set of plugins.
 	 * @param string $plugin_section Type of conflict group (such as Open Graph or sitemap).
+	 *
+	 * @return void
 	 */
 	protected function check_plugins_active( $plugins, $plugin_section ) {
 		foreach ( $plugins as $plugin ) {
@@ -252,6 +262,8 @@ class Yoast_Plugin_Conflict {
 	 *
 	 * @param string $plugin_section Type of conflict group (such as Open Graph or sitemap).
 	 * @param string $plugin         Plugin basename string.
+	 *
+	 * @return void
 	 */
 	protected function add_active_plugin( $plugin_section, $plugin ) {
 		if ( ! array_key_exists( $plugin_section, $this->active_conflicting_plugins ) ) {
@@ -299,6 +311,8 @@ class Yoast_Plugin_Conflict {
 
 	/**
 	 * When being in the deactivation process the currently deactivated plugin has to be removed.
+	 *
+	 * @return void
 	 */
 	private function remove_deactivated_plugin() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: On the deactivation screen the nonce is already checked by WordPress itself.

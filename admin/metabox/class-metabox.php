@@ -117,6 +117,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Adds an alternative metabox for internet explorer users.
+	 *
+	 * @return void
 	 */
 	public function internet_explorer_metabox() {
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
@@ -167,6 +169,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * IMPORTANT: if you want to add a new string (option) somewhere, make sure you add that array key to
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
+	 *
+	 * @return void
 	 */
 	public static function translate_meta_boxes() {
 		WPSEO_Meta::$meta_fields['general']['title']['title']    = __( 'SEO title', 'wordpress-seo' );
@@ -338,6 +342,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Outputs the meta box.
+	 *
+	 * @return void
 	 */
 	public function meta_box() {
 		$this->render_hidden_fields();
@@ -831,6 +837,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Enqueues all the needed JS and CSS.
 	 *
 	 * @todo [JRF => whomever] Create css/metabox-mp6.css file and add it to the below allowed colors array when done.
+	 *
+	 * @return void
 	 */
 	public function enqueue() {
 		global $pagenow;

@@ -137,6 +137,8 @@ final class HowTo_Test extends TestCase {
 
 	/**
 	 * Setup the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -195,6 +197,8 @@ final class HowTo_Test extends TestCase {
 	 * Tests whether the how to Schema piece is needed.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_needed() {
 		$this->meta_tags_context->blocks = [
@@ -215,6 +219,8 @@ final class HowTo_Test extends TestCase {
 	 * @covers ::add_steps
 	 * @covers ::add_duration
 	 * @covers ::add_step_description
+	 *
+	 * @return void
 	 */
 	public function test_generate_schema() {
 		$this->meta_tags_context->blocks = $this->base_blocks;
@@ -228,6 +234,8 @@ final class HowTo_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_steps
+	 *
+	 * @return void
 	 */
 	public function test_schema_text_falls_back_to_block_name() {
 		$blocks = $this->base_blocks;
@@ -252,6 +260,8 @@ final class HowTo_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_steps
+	 *
+	 * @return void
 	 */
 	public function test_empty_step() {
 		$blocks = $this->base_blocks;
@@ -276,6 +286,8 @@ final class HowTo_Test extends TestCase {
 	 * @covers ::add_steps
 	 * @covers ::add_step_image
 	 * @covers ::get_image_schema
+	 *
+	 * @return void
 	 */
 	public function test_generate_step_with_image() {
 		// Step with a text and an image.
@@ -332,6 +344,8 @@ final class HowTo_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_duration
+	 *
+	 * @return void
 	 */
 	public function test_block_has_no_duration() {
 		$blocks = $this->base_blocks;
@@ -352,6 +366,8 @@ final class HowTo_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_steps
+	 *
+	 * @return void
 	 */
 	public function test_schema_text_falls_back_to_block_text() {
 		$blocks = $this->base_blocks;

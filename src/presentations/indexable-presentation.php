@@ -174,6 +174,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @param Open_Graph_Image_Generator  $open_graph_image_generator  The Open Graph image generator.
 	 * @param Twitter_Image_Generator     $twitter_image_generator     The Twitter image generator.
 	 * @param Breadcrumbs_Generator       $breadcrumbs_generator       The breadcrumbs generator.
+	 *
+	 * @return void
 	 */
 	public function set_generators(
 		Schema_Generator $schema_generator,
@@ -202,6 +204,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @param Indexable_Helper    $indexable    The indexable helper.
 	 * @param Permalink_Helper    $permalink    The permalink helper.
 	 * @param Values_Helper       $values       The values helper.
+	 *
+	 * @return void
 	 */
 	public function set_helpers(
 		Image_Helper $image,

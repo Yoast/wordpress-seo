@@ -63,6 +63,8 @@ class WPSEO_Sitemaps_Cache {
 
 	/**
 	 * Setup context for static calls.
+	 *
+	 * @return void
 	 */
 	public function init() {
 
@@ -294,6 +296,8 @@ class WPSEO_Sitemaps_Cache {
 
 	/**
 	 * Invalidate storage for cache types queued to clear.
+	 *
+	 * @return void
 	 */
 	public static function clear_queued() {
 
@@ -320,6 +324,8 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @param string $option Option name.
 	 * @param string $type   Sitemap type.
+	 *
+	 * @return void
 	 */
 	public static function register_clear_on_option_update( $option, $type = '' ) {
 

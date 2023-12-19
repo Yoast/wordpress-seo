@@ -50,6 +50,8 @@ final class Images_Test extends TestCase {
 
 	/**
 	 * Setup the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -69,6 +71,8 @@ final class Images_Test extends TestCase {
 	 * Test adding an image by id.
 	 *
 	 * @covers ::add_image_by_id
+	 *
+	 * @return void
 	 */
 	public function test_add_image_by_id() {
 		$this->open_graph_image
@@ -93,6 +97,8 @@ final class Images_Test extends TestCase {
 	 * Test adding an image by id with no image being found.
 	 *
 	 * @covers ::add_image_by_id
+	 *
+	 * @return void
 	 */
 	public function test_add_image_by_id_no_image_found() {
 		$this->open_graph_image

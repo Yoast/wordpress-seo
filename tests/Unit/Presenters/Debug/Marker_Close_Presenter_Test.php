@@ -22,6 +22,8 @@ final class Marker_Close_Presenter_Test extends TestCase {
 	 * Tests the presentation of the close debug marker.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->stubEscapeFunctions();
@@ -46,6 +48,8 @@ final class Marker_Close_Presenter_Test extends TestCase {
 	 * Tests the presentation of the close debug marker.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_disabled_by_filter() {
 		$product = Mockery::mock( Product_Helper::class );
@@ -68,6 +72,8 @@ final class Marker_Close_Presenter_Test extends TestCase {
 	 * Tests the get method.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$instance = new Marker_Close_Presenter();

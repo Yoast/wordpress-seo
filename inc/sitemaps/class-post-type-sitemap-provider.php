@@ -263,6 +263,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Check for relevant post type before invalidation.
 	 *
 	 * @param int $post_id Post ID to possibly invalidate for.
+	 *
+	 * @return void
 	 */
 	public function save_post( $post_id ) {
 

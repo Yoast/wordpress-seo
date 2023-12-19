@@ -27,6 +27,8 @@ final class Rel_Prev_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -41,6 +43,8 @@ final class Rel_Prev_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->instance->presentation = new Indexable_Presentation();
@@ -62,6 +66,8 @@ final class Rel_Prev_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_empty() {
 		$this->instance->presentation = new Indexable_Presentation();
@@ -81,6 +87,8 @@ final class Rel_Prev_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_when_robots_is_noindex() {
 		$this->instance->presentation = new Indexable_Presentation();
@@ -97,6 +105,8 @@ final class Rel_Prev_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_filter() {
 		$this->instance->presentation = new Indexable_Presentation();
@@ -122,6 +132,8 @@ final class Rel_Prev_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$this->instance->presentation = new Indexable_Presentation();

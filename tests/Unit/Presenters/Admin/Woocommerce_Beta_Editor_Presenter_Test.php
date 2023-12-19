@@ -49,6 +49,8 @@ final class Woocommerce_Beta_Editor_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get_message
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 

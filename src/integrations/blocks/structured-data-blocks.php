@@ -65,6 +65,8 @@ class Structured_Data_Blocks implements Integration_Interface {
 
 	/**
 	 * Registers hooks for Structured Data Blocks with WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
@@ -142,6 +144,8 @@ class Structured_Data_Blocks implements Integration_Interface {
 
 	/**
 	 * Enqueue Gutenberg block assets for backend editor.
+	 *
+	 * @return void
 	 */
 	public function enqueue_block_editor_assets() {
 		/**

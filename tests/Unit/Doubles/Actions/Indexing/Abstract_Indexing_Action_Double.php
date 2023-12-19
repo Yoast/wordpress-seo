@@ -27,6 +27,8 @@ final class Abstract_Indexing_Action_Double extends Abstract_Indexing_Action {
 
 	/**
 	 * Empty function for testing.
+	 *
+	 * @return string
 	 */
 	protected function get_count_query() {
 		return '';
@@ -34,6 +36,8 @@ final class Abstract_Indexing_Action_Double extends Abstract_Indexing_Action {
 
 	/**
 	 * Empty function for testing.
+	 *
+	 * @return string
 	 */
 	public function index() {
 		return '';
@@ -41,6 +45,8 @@ final class Abstract_Indexing_Action_Double extends Abstract_Indexing_Action {
 
 	/**
 	 * Empty function for testing.
+	 *
+	 * @return int
 	 */
 	public function get_limit() {
 		return 10;
@@ -48,6 +54,8 @@ final class Abstract_Indexing_Action_Double extends Abstract_Indexing_Action {
 
 	/**
 	 * Empty function for testing.
+	 *
+	 * @return int
 	 */
 	public function get_total_unindexed() {
 		return 15;

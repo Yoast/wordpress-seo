@@ -58,6 +58,8 @@ final class Abstract_Link_Indexing_Action_Test extends TestCase {
 
 	/**
 	 * Does the setup.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -85,6 +87,8 @@ final class Abstract_Link_Indexing_Action_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -105,6 +109,8 @@ final class Abstract_Link_Indexing_Action_Test extends TestCase {
 	 * Tests the retrieval of the indexing limit.
 	 *
 	 * @covers ::get_limit
+	 *
+	 * @return void
 	 */
 	public function test_get_limit() {
 		Monkey\Filters\expectApplied( 'wpseo_link_indexing_limit' )

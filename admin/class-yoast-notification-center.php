@@ -99,6 +99,8 @@ class Yoast_Notification_Center {
 
 	/**
 	 * Dismiss a notification.
+	 *
+	 * @return void
 	 */
 	public static function ajax_dismiss_notification() {
 		$notification_center = self::get();
@@ -304,6 +306,8 @@ class Yoast_Notification_Center {
 	 * Add notification to the cookie.
 	 *
 	 * @param Yoast_Notification $notification Notification object instance.
+	 *
+	 * @return void
 	 */
 	public function add_notification( Yoast_Notification $notification ) {
 
@@ -411,6 +415,8 @@ class Yoast_Notification_Center {
 	 *
 	 * @param Yoast_Notification $notification Notification to remove.
 	 * @param bool               $resolve      Resolve as fixed.
+	 *
+	 * @return void
 	 */
 	public function remove_notification( Yoast_Notification $notification, $resolve = true ) {
 
@@ -523,6 +529,8 @@ class Yoast_Notification_Center {
 
 	/**
 	 * AJAX display notifications.
+	 *
+	 * @return void
 	 */
 	public function ajax_get_notifications() {
 		$echo = false;
@@ -541,6 +549,8 @@ class Yoast_Notification_Center {
 
 	/**
 	 * Remove storage when the plugin is deactivated.
+	 *
+	 * @return void
 	 */
 	public function deactivate_hook() {
 
@@ -767,6 +777,8 @@ class Yoast_Notification_Center {
 
 	/**
 	 * Clear local stored notifications.
+	 *
+	 * @return void
 	 */
 	private function clear_notifications() {
 
@@ -897,6 +909,8 @@ class Yoast_Notification_Center {
 	 *
 	 * @param callable $callback Callback that performs the transaction.
 	 * @param array    $args     Arguments to pass to the callback.
+	 *
+	 * @return void
 	 */
 	private function add_transaction_to_queue( $callback, $args ) {
 		$this->queued_transactions[] = [ $callback, $args ];

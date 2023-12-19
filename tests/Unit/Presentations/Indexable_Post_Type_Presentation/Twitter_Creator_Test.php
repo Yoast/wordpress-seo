@@ -20,6 +20,8 @@ final class Twitter_Creator_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ final class Twitter_Creator_Test extends TestCase {
 	 * Tests that the author's twitter handle is correctly output.
 	 *
 	 * @covers ::generate_twitter_creator
+	 *
+	 * @return void
 	 */
 	public function test_author_meta_twitter() {
 		Monkey\Functions\expect( 'get_the_author_meta' )
@@ -61,6 +65,8 @@ final class Twitter_Creator_Test extends TestCase {
 	 * handle is available.
 	 *
 	 * @covers ::generate_twitter_creator
+	 *
+	 * @return void
 	 */
 	public function test_fallback_to_twitter_site() {
 		Monkey\Functions\expect( 'get_the_author_meta' )
@@ -88,6 +94,8 @@ final class Twitter_Creator_Test extends TestCase {
 	 * Tests that the twitter handle is empty when no author or site twitter handle are available.
 	 *
 	 * @covers ::generate_twitter_creator
+	 *
+	 * @return void
 	 */
 	public function test_empty_no_author_twitter_no_site_twitter() {
 		Monkey\Functions\expect( 'get_the_author_meta' )
@@ -115,6 +123,8 @@ final class Twitter_Creator_Test extends TestCase {
 	 * Tests that the `wpseo_twitter_creator_account` is properly applied.
 	 *
 	 * @covers ::generate_twitter_creator
+	 *
+	 * @return void
 	 */
 	public function test_filter() {
 		Monkey\Functions\expect( 'get_the_author_meta' )

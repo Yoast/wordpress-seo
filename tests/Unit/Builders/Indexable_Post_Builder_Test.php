@@ -90,6 +90,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 
 	/**
 	 * Initializes the test mocks.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -124,6 +126,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 *
 	 * @param Mockery\MockInterface|Indexable $indexable_mock The indexable mock object.
 	 * @param array                           $expectations   The expectation of the 'set' method of the mock object.
+	 *
+	 * @return void
 	 */
 	protected function set_indexable_set_expectations( $indexable_mock, $expectations ) {
 		foreach ( $expectations as $key => $value ) {
@@ -141,6 +145,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 
 	/**
 	 * Mocks a Twitter image that has been set by the user.
+	 *
+	 * @return void
 	 */
 	protected function twitter_image_set_by_user() {
 		$this->indexable->orm->shouldReceive( 'get' )
@@ -164,6 +170,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Mocks an Open Graph image that is set by the user.
 	 *
 	 * @param array $image_meta The mocked meta data of the image.
+	 *
+	 * @return void
 	 */
 	protected function open_graph_image_set_by_user( $image_meta ) {
 		$this->indexable->orm->shouldReceive( 'get' )
@@ -188,6 +196,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -204,6 +214,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests that the set_indexable_repository method sets the indexable repository.
 	 *
 	 * @covers ::set_indexable_repository
+	 *
+	 * @return void
 	 */
 	public function test_set_indexable_repository() {
 		$this->instance->set_indexable_repository( $this->indexable_repository );
@@ -223,6 +235,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 *
 	 * @param array $postmeta        The postmeta of the post.
 	 * @param array $expected_result The expected indexable values.
+	 *
+	 * @return void
 	 */
 	public function test_build( $postmeta, $expected_result ) {
 		Monkey\Functions\expect( 'get_permalink' )->once()->with( 1 )->andReturn( 'https://permalink' );
@@ -432,6 +446,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests if the build function returns false when the options_helper->is_post_indexable criterium is not met.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_post_not_indexable() {
 		$this->indexable = Mockery::mock( Indexable::class );
@@ -449,6 +465,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests find_alternative_image when the post is an attachment.
 	 *
 	 * @covers ::find_alternative_image
+	 *
+	 * @return void
 	 */
 	public function test_find_alternative_image_from_attachment() {
 		$this->indexable      = Mockery::mock( Indexable::class );
@@ -480,6 +498,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests find_alternative_image when a featured image is set on the post.
 	 *
 	 * @covers ::find_alternative_image
+	 *
+	 * @return void
 	 */
 	public function test_find_alternative_image_from_featured_image() {
 		$this->indexable      = Mockery::mock( Indexable::class );
@@ -512,6 +532,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * but not a featured image.
 	 *
 	 * @covers ::find_alternative_image
+	 *
+	 * @return void
 	 */
 	public function test_find_alternative_image_from_gallery() {
 		$this->indexable      = Mockery::mock( Indexable::class );
@@ -560,6 +582,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * but not a featured image.
 	 *
 	 * @covers ::find_alternative_image
+	 *
+	 * @return void
 	 */
 	public function test_find_alternative_image_from_post_content() {
 		$this->indexable      = Mockery::mock( Indexable::class );
@@ -612,6 +636,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * but not a featured image.
 	 *
 	 * @covers ::find_alternative_image
+	 *
+	 * @return void
 	 */
 	public function test_find_alternative_image_no_image() {
 		$this->indexable      = Mockery::mock( Indexable::class );
@@ -644,6 +670,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests counting the number of pages in a paginated post when there are multiple pages.
 	 *
 	 * @covers ::get_number_of_pages_for_post
+	 *
+	 * @return void
 	 */
 	public function test_get_number_of_pages_for_post_multiple_pages() {
 		$post = (object) [
@@ -662,6 +690,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests that get_robots_noindex transforms a meta value of 2 to `false`.
 	 *
 	 * @covers ::get_robots_noindex
+	 *
+	 * @return void
 	 */
 	public function test_get_robots_noindex_noindex() {
 		$this->assertFalse( $this->instance->get_robots_noindex( 2 ) );
@@ -671,6 +701,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests that get_robots_noindex transforms an invalid meta value of 2 to `null`.
 	 *
 	 * @covers ::get_robots_noindex
+	 *
+	 * @return void
 	 */
 	public function test_get_robots_noindex_invalid() {
 		$this->assertNull( $this->instance->get_robots_noindex( 'invalid' ) );
@@ -680,6 +712,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests the get_permalink method.
 	 *
 	 * @covers ::get_permalink
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink() {
 		$permalink = 'https://example.org/permalink';
@@ -697,6 +731,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests the get_permalink method when the post is an attachment.
 	 *
 	 * @covers ::get_permalink
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink_attachment() {
 		$permalink = 'https://example.org/permalink-of-attachment';
@@ -714,6 +750,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests the get_keyword_score method.
 	 *
 	 * @covers ::get_keyword_score
+	 *
+	 * @return void
 	 */
 	public function test_get_keyword_score() {
 		$this->assertSame( 3, $this->instance->get_keyword_score( 'keyword', 3 ) );
@@ -723,6 +761,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests that the keyword score is set to `null` when no keyword is set.
 	 *
 	 * @covers ::get_keyword_score
+	 *
+	 * @return void
 	 */
 	public function test_get_keyword_score_no_keyword() {
 		$this->assertNull( $this->instance->get_keyword_score( '', 3 ) );
@@ -732,6 +772,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests is_public for when the post is protected.
 	 *
 	 * @covers ::is_public
+	 *
+	 * @return void
 	 */
 	public function test_is_public_post_protected() {
 		$this->indexable->is_protected = true;
@@ -743,6 +785,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests is_public for when the post is noindex.
 	 *
 	 * @covers ::is_public
+	 *
+	 * @return void
 	 */
 	public function test_is_public_post_noindex() {
 		$this->indexable->is_protected      = false;
@@ -755,6 +799,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests is_public for when the post is an attachment.
 	 *
 	 * @covers ::is_public
+	 *
+	 * @return void
 	 */
 	public function test_is_public_post_is_attachment() {
 		$this->indexable->is_protected      = false;
@@ -768,6 +814,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests is_public for when the post status is not public.
 	 *
 	 * @covers ::is_public
+	 *
+	 * @return void
 	 */
 	public function test_is_public_post_status_is_not_public() {
 		$this->indexable->is_protected      = false;
@@ -784,6 +832,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests is_public for when the post noindex is false.
 	 *
 	 * @covers ::is_public
+	 *
+	 * @return void
 	 */
 	public function test_is_public_post_noindex_false() {
 		$this->indexable->is_protected      = false;
@@ -800,6 +850,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests is_public for when the post noindex is null.
 	 *
 	 * @covers ::is_public
+	 *
+	 * @return void
 	 */
 	public function test_is_public_post_noindex_null() {
 		$this->indexable->is_protected      = false;
@@ -816,6 +868,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests is_public_attachment when the post parent is null.
 	 *
 	 * @covers ::is_public_attachment
+	 *
+	 * @return void
 	 */
 	public function test_is_public_attachment_post_parent_null() {
 		$this->indexable->post_parent = null;
@@ -827,6 +881,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests is_public_attachment when the post parent is zero.
 	 *
 	 * @covers ::is_public_attachment
+	 *
+	 * @return void
 	 */
 	public function test_is_public_attachment_post_parent_zero() {
 		$this->indexable->post_parent = 0;
@@ -838,6 +894,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests is_public_attachment with a post parent.
 	 *
 	 * @covers ::is_public_attachment
+	 *
+	 * @return void
 	 */
 	public function test_is_public_attachment_with_post_parent() {
 		$this->indexable->post_parent = 1337;
@@ -849,6 +907,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests has_public_posts for when the indexable does not represent an attachment.
 	 *
 	 * @covers ::has_public_posts
+	 *
+	 * @return void
 	 */
 	public function test_has_public_posts_no_attachment() {
 		$this->indexable->object_sub_type = 'post';
@@ -860,6 +920,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests has_public_posts for when the attachment does not have a post parent.
 	 *
 	 * @covers ::has_public_posts
+	 *
+	 * @return void
 	 */
 	public function test_has_public_posts_attachment_no_parent() {
 		$this->indexable->object_sub_type = 'attachment';
@@ -872,6 +934,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests has_public_posts for when the attachment does not have the post status inherit.
 	 *
 	 * @covers ::has_public_posts
+	 *
+	 * @return void
 	 */
 	public function test_has_public_posts_attachment_no_inherit() {
 		$this->indexable->object_sub_type = 'attachment';
@@ -885,6 +949,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests has_public_posts for when the attachment has a post parent.
 	 *
 	 * @covers ::has_public_posts
+	 *
+	 * @return void
 	 */
 	public function test_has_public_posts_attachment_with_post_parent() {
 		$this->indexable->object_sub_type = 'attachment';
@@ -906,6 +972,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests has_public_posts for when the attachment has a post parent but the ORM throws an false.
 	 *
 	 * @covers ::has_public_posts
+	 *
+	 * @return void
 	 */
 	public function test_has_public_posts_attachment_with_post_parent_false() {
 		$this->indexable->object_sub_type = 'attachment';
@@ -927,6 +995,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests that build throws an exception when no post could be found.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_term_null() {
 		$this->post
@@ -947,6 +1017,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 *
 	 * @covers ::build
 	 * @covers ::should_exclude_post
+	 *
+	 * @return void
 	 */
 	public function test_build_post_type_excluded() {
 		$post_id = 1;

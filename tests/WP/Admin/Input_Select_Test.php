@@ -18,6 +18,8 @@ final class Input_Select_Test extends TestCase {
 	 * @covers Yoast_Input_Select::output_html
 	 * @covers Yoast_Input_Select::get_select_values
 	 * @covers Yoast_Input_Select::get_attributes
+	 *
+	 * @return void
 	 */
 	public function test_html_with_options() {
 		$select = new Yoast_Input_Select(
@@ -44,6 +46,8 @@ final class Input_Select_Test extends TestCase {
 	 * @covers Yoast_Input_Select::output_html
 	 * @covers Yoast_Input_Select::get_select_values
 	 * @covers Yoast_Input_Select::get_attributes
+	 *
+	 * @return void
 	 */
 	public function test_html_without_options() {
 		$select = new Yoast_Input_Select( 'test-id', 'test-field', [], false );
@@ -61,6 +65,8 @@ final class Input_Select_Test extends TestCase {
 	 * @covers Yoast_Input_Select::get_html
 	 * @covers Yoast_Input_Select::output_html
 	 * @covers Yoast_Input_Select::get_select_values
+	 *
+	 * @return void
 	 */
 	public function test_html_with_options_and_one_active() {
 		$select = new Yoast_Input_Select(
@@ -87,6 +93,8 @@ final class Input_Select_Test extends TestCase {
 	 * @covers Yoast_Input_Select::output_html
 	 * @covers Yoast_Input_Select::get_select_values
 	 * @covers Yoast_Input_Select::get_attributes
+	 *
+	 * @return void
 	 */
 	public function test_html_with_one_option_without_key() {
 		$select = new Yoast_Input_Select( 'test-id', 'test-field', [ '' => 'bar' ], false );
@@ -104,6 +112,8 @@ final class Input_Select_Test extends TestCase {
 	 * @covers Yoast_Input_Select::output_html
 	 * @covers Yoast_Input_Select::get_select_values
 	 * @covers Yoast_Input_Select::get_attributes
+	 *
+	 * @return void
 	 */
 	public function test_html_with_one_option_without_value() {
 		$select = new Yoast_Input_Select( 'test-id', 'test-field', [ 'foo' => '' ], false );
@@ -120,6 +130,8 @@ final class Input_Select_Test extends TestCase {
 	 * @covers Yoast_Input_Select::output_html
 	 * @covers Yoast_Input_Select::get_select_values
 	 * @covers Yoast_Input_Select::get_attributes
+	 *
+	 * @return void
 	 */
 	public function test_html_printing_the_output() {
 		$select = new Yoast_Input_Select( 'test-id', 'test-field', [], false );
@@ -138,6 +150,8 @@ final class Input_Select_Test extends TestCase {
 	 * @covers Yoast_Input_Select::get_select_values
 	 * @covers Yoast_Input_Select::get_attributes
 	 * @covers Yoast_Input_Select::parse_attribute
+	 *
+	 * @return void
 	 */
 	public function test_html_with_adding_attribute() {
 		$select = new Yoast_Input_Select( 'test-id', 'test-field', [ 'foo' => '' ], false );

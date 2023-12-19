@@ -24,6 +24,8 @@ final class String_Helper_Test extends TestCase {
 
 	/**
 	 * Setup.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ final class String_Helper_Test extends TestCase {
 	 * Tests the stripping of all tags.
 	 *
 	 * @covers ::strip_all_tags
+	 *
+	 * @return void
 	 */
 	public function test_strip_all_tags() {
 		$this->assertSame( 'This is an anchor', $this->instance->strip_all_tags( 'This is an <a>anchor</a>' ) );
@@ -44,6 +48,8 @@ final class String_Helper_Test extends TestCase {
 	 * Tests the standardization of the whitespace.
 	 *
 	 * @covers ::standardize_whitespace
+	 *
+	 * @return void
 	 */
 	public function test_standardize_whitespace() {
 		$this->assertSame( 'this is a string', $this->instance->standardize_whitespace( " \nthis\r\ris  a string \t" ) );
@@ -53,6 +59,8 @@ final class String_Helper_Test extends TestCase {
 	 * Tests the stripping of shortcodes from a string.
 	 *
 	 * @covers ::strip_shortcode
+	 *
+	 * @return void
 	 */
 	public function test_strip_shortcode() {
 		Monkey\Functions\expect( 'strip_shortcodes' )

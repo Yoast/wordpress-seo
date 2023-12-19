@@ -412,6 +412,8 @@ class WPSEO_Utils {
 	 * Clears the WP or W3TC cache depending on which is used.
 	 *
 	 * @since 1.8.0
+	 *
+	 * @return void
 	 */
 	public static function clear_cache() {
 		if ( function_exists( 'w3tc_pgcache_flush' ) ) {
@@ -426,6 +428,8 @@ class WPSEO_Utils {
 	 * Clear rewrite rules.
 	 *
 	 * @since 1.8.0
+	 *
+	 * @return void
 	 */
 	public static function clear_rewrites() {
 		update_option( 'rewrite_rules', '' );

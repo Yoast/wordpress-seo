@@ -38,6 +38,8 @@ final class Reports_Trait_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -53,6 +55,8 @@ final class Reports_Trait_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::set_test_identifier
 	 * @covers ::get_test_identifier
+	 *
+	 * @return void
 	 */
 	public function test_sets_identifier() {
 		$expected = 'identifier';
@@ -71,6 +75,8 @@ final class Reports_Trait_Test extends TestCase {
 	 * @covers ::set_test_identifier
 	 * @covers ::get_report_builder
 	 * @covers ::get_report_builder_public
+	 *
+	 * @return void
 	 */
 	public function test_sets_identifier_on_report_builder() {
 		$expected = 'identifier';

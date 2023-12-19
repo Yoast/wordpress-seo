@@ -52,6 +52,8 @@ final class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -72,6 +74,8 @@ final class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		self::assertInstanceOf(
@@ -92,6 +96,8 @@ final class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 	 * Tests that the integration is loaded under the right conditions.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		self::assertEquals( [ Admin_Conditional::class, Not_Admin_Ajax_Conditional::class ], Woocommerce_Beta_Editor_Watcher::get_conditionals() );
@@ -101,6 +107,8 @@ final class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 	 * Tests registering the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -112,6 +120,8 @@ final class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 	 * Tests the admin_init callback when woocommerce_beta_editor is diabled.
 	 *
 	 * @covers ::manage_woocommerce_beta_editor_notification
+	 *
+	 * @return void
 	 */
 	public function test_manage_woocommerce_beta_editor_disable() {
 
@@ -132,6 +142,8 @@ final class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 	 * Tests the admin_init callback when woocommerce_beta_editor is enabled with active notification.
 	 *
 	 * @covers ::manage_woocommerce_beta_editor_notification
+	 *
+	 * @return void
 	 */
 	public function test_manage_woocommerce_beta_editor_notification_active_and_enable() {
 
@@ -154,6 +166,8 @@ final class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::manage_woocommerce_beta_editor_notification
 	 * @covers ::notification
+	 *
+	 * @return void
 	 */
 	public function test_manage_woocommerce_beta_editor_notification_not_active_and_enable() {
 

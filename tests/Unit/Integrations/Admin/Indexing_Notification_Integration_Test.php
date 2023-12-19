@@ -103,6 +103,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -132,6 +134,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -169,6 +173,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 * Tests whether the notification is created.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks_maybe_create_notification() {
 		$this->page_helper
@@ -193,6 +199,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 * Tests whether the notification is cleaned up on the `wpseo_dashboard` page.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks_maybe_cleanup_notification() {
 		$this->page_helper
@@ -221,6 +229,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 * Tests whether the notification is shown when there is a reason set.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks_create_notification_on_reason() {
 		$this->page_helper
@@ -240,6 +250,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 * Tests the get_conditionals method.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertSame(
@@ -257,6 +269,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 *
 	 * @covers ::maybe_create_notification
 	 * @covers ::should_show_notification
+	 *
+	 * @return void
 	 */
 	public function test_create_notification_no_unindexed_items() {
 		$this->environment_helper
@@ -286,6 +300,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 *
 	 * @covers ::maybe_create_notification
 	 * @covers ::should_show_notification
+	 *
+	 * @return void
 	 */
 	public function test_create_notification_with_having_indexing_started() {
 		$this->environment_helper
@@ -313,6 +329,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::maybe_create_notification
 	 * @covers ::should_show_notification
 	 * @covers ::notification
+	 *
+	 * @return void
 	 */
 	public function test_maybe_create_notification_with_indexing_failed_reason() {
 		$this->environment_helper
@@ -370,6 +388,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 * @dataProvider reason_provider
 	 *
 	 * @param string $reason The reason for indexing.
+	 *
+	 * @return void
 	 */
 	public function test_maybe_create_notification_with_indexing_reasons( $reason ) {
 		$this->environment_helper
@@ -435,6 +455,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 * Tests removing the notification from the notification center when there is no notification.
 	 *
 	 * @covers ::maybe_cleanup_notification
+	 *
+	 * @return void
 	 */
 	public function test_maybe_cleanup_notification_when_null() {
 		$this->notification_center
@@ -455,6 +477,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 *
 	 * @covers ::maybe_cleanup_notification
 	 * @covers ::should_show_notification
+	 *
+	 * @return void
 	 */
 	public function test_maybe_cleanup_notification_when_there_is_something_to_index() {
 		$this->environment_helper
@@ -490,6 +514,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 *
 	 * @covers ::maybe_cleanup_notification
 	 * @covers ::should_show_notification
+	 *
+	 * @return void
 	 */
 	public function test_maybe_cleanup_notification_when_the_user_has_started_indexing_without_finishing() {
 		$this->environment_helper
@@ -522,6 +548,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 * Tests removing the notification from the notification center.
 	 *
 	 * @covers ::maybe_cleanup_notification
+	 *
+	 * @return void
 	 */
 	public function test_maybe_cleanup_notification() {
 		$this->environment_helper
@@ -557,6 +585,8 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 *
 	 * @covers ::maybe_create_notification
 	 * @covers ::should_show_notification
+	 *
+	 * @return void
 	 */
 	public function test_create_notification_no_prod_site() {
 		$this->environment_helper

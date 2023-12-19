@@ -19,6 +19,8 @@ final class Introductions_Bucket_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$instance = new Introductions_Bucket();
@@ -29,6 +31,8 @@ final class Introductions_Bucket_Test extends TestCase {
 	 * Tests adding introductions.
 	 *
 	 * @covers ::add_introduction
+	 *
+	 * @return void
 	 */
 	public function test_add_introduction() {
 		$instance = new Introductions_Bucket();
@@ -43,6 +47,8 @@ final class Introductions_Bucket_Test extends TestCase {
 	 * Tests converting items to an array.
 	 *
 	 * @covers ::to_array
+	 *
+	 * @return void
 	 */
 	public function test_to_array() {
 		$instance = new Introductions_Bucket();

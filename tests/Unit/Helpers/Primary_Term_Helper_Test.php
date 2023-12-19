@@ -25,6 +25,8 @@ final class Primary_Term_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -39,6 +41,8 @@ final class Primary_Term_Helper_Test extends TestCase {
 	 *
 	 * @covers ::get_primary_term_taxonomies
 	 * @covers ::filter_hierarchical_taxonomies
+	 *
+	 * @return void
 	 */
 	public function test_get_primary_term_taxonomies() {
 		$taxonomies = [
@@ -80,6 +84,8 @@ final class Primary_Term_Helper_Test extends TestCase {
 	 *
 	 * @covers ::get_primary_term_taxonomies
 	 * @covers ::filter_hierarchical_taxonomies
+	 *
+	 * @return void
 	 */
 	public function test_get_primary_term_taxonomies_no_hierarchical() {
 

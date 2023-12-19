@@ -18,6 +18,8 @@ final class Robots_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ final class Robots_Test extends TestCase {
 	 * Tests whether generate_robots calls the right functions of the robot helper.
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_dont_index_post_type() {
 		$this->indexable->object_id       = 1337;
@@ -52,6 +56,8 @@ final class Robots_Test extends TestCase {
 	 * Tests whether generate_robots calls the right functions of the robot helper.
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_index_post_type() {
 		$this->indexable->object_id       = 1337;

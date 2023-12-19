@@ -31,6 +31,8 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -45,6 +47,8 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 
 	/**
 	 * Tear down the class which was tested.
+	 *
+	 * @return void
 	 */
 	protected function tear_down() {
 		parent::tear_down();
@@ -56,6 +60,8 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 * Test construct method.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct_with_runtime_exception() {
 		$this->expectException( RuntimeException::class );
@@ -70,6 +76,8 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 * Test construct method.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$GLOBALS['wp_rewrite'] = $this->wp_rewrite;
@@ -83,6 +91,8 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 * Tests instance method.
 	 *
 	 * @covers ::instance
+	 *
+	 * @return void
 	 */
 	public function test_instance() {
 		global $wp_rewrite;
@@ -95,6 +105,8 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 * Test register_hooks method.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -131,6 +143,8 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 *
 	 * @param string|array $rewrite_rules Rewrite rules.
 	 * @param string       $expected      Expected result.
+	 *
+	 * @return void
 	 */
 	public function test_sanitize_rewrite_rules_option( $rewrite_rules, $expected ) {
 
@@ -164,6 +178,8 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 *
 	 * @param string|array $rewrite_rules Rewrite rules.
 	 * @param string       $expected      Expected result.
+	 *
+	 * @return void
 	 */
 	public function test_filter_rewrite_rules_option( $rewrite_rules, $expected ) {
 
@@ -174,6 +190,8 @@ final class Yoast_Dynamic_Rewrites_Test extends TestCase {
 	 * Tests trigger_dynamic_rewrite_rules_hook method.
 	 *
 	 * @covers ::trigger_dynamic_rewrite_rules_hook
+	 *
+	 * @return void
 	 */
 	public function test_trigger_dynamic_rewrite_rules_hook() {
 		Monkey\Functions\expect( 'do_action' )

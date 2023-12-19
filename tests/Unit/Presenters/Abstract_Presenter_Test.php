@@ -19,6 +19,8 @@ final class Abstract_Presenter_Test extends TestCase {
 	 * Tests the outputting of the value.
 	 *
 	 * @covers ::__toString
+	 *
+	 * @return void
 	 */
 	public function test_to_string() {
 		$instance = Mockery::mock( Abstract_Presenter::class )->makePartial();

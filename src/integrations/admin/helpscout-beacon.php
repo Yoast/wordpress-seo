@@ -141,6 +141,8 @@ class HelpScout_Beacon implements Integration_Interface {
 
 	/**
 	 * Enqueues the HelpScout script.
+	 *
+	 * @return void
 	 */
 	public function enqueue_help_scout_script() {
 		// Make sure plugins can filter in their "stuff", before we check whether we're outputting a beacon.
@@ -154,6 +156,8 @@ class HelpScout_Beacon implements Integration_Interface {
 
 	/**
 	 * Outputs a small piece of javascript for the beacon.
+	 *
+	 * @return void
 	 */
 	public function output_beacon_js() {
 		if ( ! $this->is_beacon_page() ) {
@@ -444,6 +448,8 @@ class HelpScout_Beacon implements Integration_Interface {
 
 	/**
 	 * Allows filtering of the HelpScout settings. Hooked to admin_head to prevent timing issues, not too early, not too late.
+	 *
+	 * @return void
 	 */
 	protected function filter_settings() {
 		$filterable_helpscout_setting = [

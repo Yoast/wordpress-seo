@@ -70,6 +70,8 @@ class WPSEO_Remote_Request {
 	 * Sets the request body.
 	 *
 	 * @param mixed $body The body to set.
+	 *
+	 * @return void
 	 */
 	public function set_body( $body ) {
 		$this->args['body'] = $body;

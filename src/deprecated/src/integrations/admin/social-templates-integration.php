@@ -65,6 +65,8 @@ class Social_Templates_Integration implements Integration_Interface {
 	 *
 	 * @deprecated 20.3
 	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
@@ -108,6 +110,8 @@ class Social_Templates_Integration implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 *
 	 * @param Yoast_Form $yform The form builder.
+	 *
+	 * @return void
 	 */
 	public function social_author_archives( $yform ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
@@ -125,6 +129,8 @@ class Social_Templates_Integration implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 *
 	 * @param Yoast_Form $yform The form builder.
+	 *
+	 * @return void
 	 */
 	public function social_date_archives( $yform ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
@@ -143,6 +149,8 @@ class Social_Templates_Integration implements Integration_Interface {
 	 *
 	 * @param Yoast_Form $yform          The form builder.
 	 * @param string     $post_type_name The name of the current post_type that gets the social fields added.
+	 *
+	 * @return void
 	 */
 	public function social_post_type( $yform, $post_type_name ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
@@ -164,6 +172,8 @@ class Social_Templates_Integration implements Integration_Interface {
 	 *
 	 * @param Yoast_Form $yform          The form builder.
 	 * @param string     $post_type_name The name of the current post_type that gets the social fields added.
+	 *
+	 * @return void
 	 */
 	public function social_post_types_archive( $yform, $post_type_name ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
@@ -182,6 +192,8 @@ class Social_Templates_Integration implements Integration_Interface {
 	 *
 	 * @param Yoast_Form  $yform    The form builder.
 	 * @param WP_Taxonomy $taxonomy The taxonomy that gets the social fields added.
+	 *
+	 * @return void
 	 */
 	public function social_taxonomies( $yform, $taxonomy ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
@@ -199,6 +211,8 @@ class Social_Templates_Integration implements Integration_Interface {
 	 * @param string     $identifier            A page-wide unique identifier for data storage and unique DOM elements.
 	 * @param string     $page_type_recommended Recommended type of page for a list of replaceable variables.
 	 * @param string     $page_type_specific    Editor specific type of page for a list of replaceable variables.
+	 *
+	 * @return void
 	 */
 	protected function build_social_fields( Yoast_Form $yform, $identifier, $page_type_recommended, $page_type_specific ) {
 		$image_url_field_id    = 'social-image-url-' . $identifier;

@@ -25,6 +25,8 @@ final class Values_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -36,6 +38,8 @@ final class Values_Helper_Test extends TestCase {
 	 * Tests the get_open_graph_title method.
 	 *
 	 * @covers ::get_open_graph_title
+	 *
+	 * @return void
 	 */
 	public function test_get_open_graph_title() {
 		$title          = 'The SEO Title';
@@ -52,6 +56,8 @@ final class Values_Helper_Test extends TestCase {
 	 * Tests the get_open_graph_description method.
 	 *
 	 * @covers ::get_open_graph_description
+	 *
+	 * @return void
 	 */
 	public function test_get_open_graph_description() {
 		$description    = 'The SEO Description';

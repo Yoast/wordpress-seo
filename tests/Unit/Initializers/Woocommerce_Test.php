@@ -23,6 +23,8 @@ final class Woocommerce_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -34,6 +36,8 @@ final class Woocommerce_Test extends TestCase {
 	 * Tests the initialization.
 	 *
 	 * @covers ::initialize
+	 *
+	 * @return void
 	 */
 	public function test_initialize() {
 		$this->instance->initialize();

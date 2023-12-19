@@ -35,6 +35,8 @@ final class Option_WPSEO_Test extends TestCase {
 	 * @group  ms-required
 	 * @covers WPSEO_Option::validate
 	 * @covers WPSEO_Option::prevent_disabled_options_update
+	 *
+	 * @return void
 	 */
 	public function test_verify_features_against_network() {
 		$this->skipWithoutMultisite();

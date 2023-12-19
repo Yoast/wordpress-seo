@@ -99,6 +99,8 @@ class WebPage extends Abstract_Schema_Piece {
 	 * If we have an image, make it the primary image of the page.
 	 *
 	 * @param array $data WebPage schema data.
+	 *
+	 * @return array
 	 */
 	public function add_image( $data ) {
 		if ( $this->context->has_image ) {

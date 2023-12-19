@@ -45,6 +45,8 @@ final class First_Time_Configuration_Notice_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up(): void {
 		parent::set_up();
@@ -59,6 +61,8 @@ final class First_Time_Configuration_Notice_Helper_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -210,6 +214,8 @@ final class First_Time_Configuration_Notice_Helper_Test extends TestCase {
 	 * Tests should_show_alternate_message.
 	 *
 	 * @covers ::should_show_alternate_message
+	 *
+	 * @return void
 	 */
 	public function test_should_show_alternate_message() {
 		$result = $this->instance->should_show_alternate_message();

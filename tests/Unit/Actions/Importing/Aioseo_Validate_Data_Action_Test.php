@@ -107,6 +107,8 @@ final class Aioseo_Validate_Data_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -145,6 +147,8 @@ final class Aioseo_Validate_Data_Action_Test extends TestCase {
 	 * @param array $completed_option    The persistent completed option.
 	 * @param int   $get_completed_times The times we're gonna get the persistent completed option.
 	 * @param int   $expected_result     The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed( $completed_option, $get_completed_times, $expected_result ) {
 		$this->options->expects( 'get' )
@@ -165,6 +169,8 @@ final class Aioseo_Validate_Data_Action_Test extends TestCase {
 	 * @param array $completed_option    The persistent completed option.
 	 * @param int   $get_completed_times The times we're gonna get the persistent completed option.
 	 * @param int   $expected_result     The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_limited_unindexed_count( $completed_option, $get_completed_times, $expected_result ) {
 		$this->options->expects( 'get' )
@@ -187,6 +193,8 @@ final class Aioseo_Validate_Data_Action_Test extends TestCase {
 	 * @param array $aioseo_columns       The columns in the AIOSEO indexable table.
 	 * @param int   $aioseo_columns_times The columns in the AIOSEO indexable table.
 	 * @param bool  $expected_result      The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_validate_aioseo_table( $table_exists, $needed_data, $aioseo_columns, $aioseo_columns_times, $expected_result ) {
 		$this->aioseo_helper->expects( 'aioseo_exists' )
@@ -221,6 +229,8 @@ final class Aioseo_Validate_Data_Action_Test extends TestCase {
 	 * @param bool   $isset_settings_tab Whether the tab of each subsetting is set in the options.
 	 * @param int    $isset_times        The times we'll check if the subsetting tab is set in the options.
 	 * @param bool   $expected_result    The expected result of the validate_aioseo_settings().
+	 *
+	 * @return void
 	 */
 	public function test_validate_aioseo_settings( $aioseo_settings, $get_option_times, $isset_settings_tab, $isset_times, $expected_result ) {
 		$this->custom_archive_settings_importing_action->expects( 'get_source_option_name' )
@@ -286,6 +296,8 @@ final class Aioseo_Validate_Data_Action_Test extends TestCase {
 	 * @param string $aioseo_global_settings The AIOSEO global settings.
 	 * @param int    $aioseo_posts_settings  The post AIOSEO settings.
 	 * @param bool   $expected_result        The expected result of the validate_post_robot_settings().
+	 *
+	 * @return void
 	 */
 	public function test_validate_post_robot_settings( $aioseo_global_settings, $aioseo_posts_settings, $expected_result ) {
 		$post_robot_mapping = [
@@ -332,6 +344,8 @@ final class Aioseo_Validate_Data_Action_Test extends TestCase {
 	 * @param array $aioseo_settings     The AIOSEO settings.
 	 * @param int   $get_option_times    The times we retrieve the AIOSEO settings.
 	 * @param bool  $expected_result     The expected result of the validate_default_robot_settings().
+	 *
+	 * @return void
 	 */
 	public function test_validate_default_robot_settings( $robot_setting_map, $pluck_setting_times, $aioseo_settings, $get_option_times, $expected_result ) {
 		$this->custom_archive_settings_importing_action->expects( 'pluck_robot_setting_from_mapping' )

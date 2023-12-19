@@ -29,6 +29,8 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 	 * @covers ::enhance_link_from_indexable
 	 * @covers ::get_post_id
 	 * @covers ::update_related_indexables
+	 *
+	 * @return void
 	 */
 	public function test_build_create_internal_link() {
 
@@ -102,6 +104,8 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 	 * @covers ::enhance_link_from_indexable
 	 * @covers ::get_post_id
 	 * @covers ::update_related_indexables
+	 *
+	 * @return void
 	 */
 	public function test_build_create_internal_link_disable_attachment_true_file_doesnt_exist() {
 
@@ -177,6 +181,8 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 	 * @covers ::enhance_link_from_indexable
 	 * @covers ::get_post_id
 	 * @covers ::update_related_indexables
+	 *
+	 * @return void
 	 */
 	public function test_build_create_internal_link_disable_attachment_true_file_exist() {
 
@@ -240,6 +246,8 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 	 * @covers ::enhance_link_from_indexable
 	 * @covers ::get_post_id
 	 * @covers ::update_related_indexables
+	 *
+	 * @return void
 	 */
 	public function test_build_create_internal_link_disable_attachment_true_file_not_found() {
 
@@ -316,6 +324,8 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 	 * @covers ::enhance_link_from_indexable
 	 * @covers ::get_post_id
 	 * @covers ::update_related_indexables
+	 *
+	 * @return void
 	 */
 	public function test_build_create_internal_link_disable_attachment_true_get_attachment_by_url_not_empty() {
 

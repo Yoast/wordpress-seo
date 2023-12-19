@@ -34,6 +34,8 @@ final class Site_Presenter_Test extends TestCase {
 
 	/**
 	 * Setup of the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -50,6 +52,8 @@ final class Site_Presenter_Test extends TestCase {
 	 * Tests the presentation of an empty creator.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_with_empty_twitter_site() {
 		$this->presentation->twitter_site = '';
@@ -62,6 +66,8 @@ final class Site_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_filter() {
 		$this->presentation->twitter_site = '@TwitterHandle';
@@ -83,6 +89,8 @@ final class Site_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get_twitter_id
+	 *
+	 * @return void
 	 */
 	public function test_present_with_get_twitter_id_fixing_url_as_input() {
 		$this->presentation->twitter_site = 'http://twitter.com/TwitterHandle';
@@ -100,6 +108,8 @@ final class Site_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get_twitter_id
+	 *
+	 * @return void
 	 */
 	public function test_present_with_get_twitter_id() {
 		$this->presentation->twitter_site = 'http://twitter.com/';
@@ -112,6 +122,8 @@ final class Site_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::get
 	 * @covers ::get_twitter_id
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$this->presentation->twitter_site = 'https://twitter.com/TwitterHandle';
@@ -129,6 +141,8 @@ final class Site_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::get
 	 * @covers ::get_twitter_id
+	 *
+	 * @return void
 	 */
 	public function test_get_with_no_handle_returned() {
 		$this->presentation->twitter_site = '';
@@ -146,6 +160,8 @@ final class Site_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$this->presentation->twitter_site = '@TwitterHandle';

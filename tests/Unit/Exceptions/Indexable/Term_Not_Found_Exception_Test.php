@@ -18,6 +18,8 @@ final class Term_Not_Found_Exception_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->stubTranslationFunctions();

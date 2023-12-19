@@ -16,6 +16,8 @@ final class Robots_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -27,6 +29,8 @@ final class Robots_Test extends TestCase {
 	 * Tests whether generate_robots calls the right functions of the robot helper.
 	 *
 	 * @covers \Yoast\WP\SEO\Presentations\Indexable_Date_Archive_Presentation::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots() {
 		$this->options
@@ -51,6 +55,8 @@ final class Robots_Test extends TestCase {
 	 * Tests whether generate_robots return noindex if archive indexation has been disabled.
 	 *
 	 * @covers \Yoast\WP\SEO\Presentations\Indexable_Date_Archive_Presentation::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_date_archive_noindex() {
 		$this->options
