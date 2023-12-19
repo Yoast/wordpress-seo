@@ -269,4 +269,5 @@ Select.propTypes = {
 Select.defaultProps = {
 	...selectDefaultProps,
 	onOptionFocus: null,
+	disabled: false,
 };
