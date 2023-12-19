@@ -24,8 +24,8 @@ final class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp(): void {
-		parent::setUp();
+	public function set_up(): void {
+		parent::set_up();
 
 		$this->instance = new Indexable_Post_Type_Archive_Builder(
 			\YoastSEO()->helpers->options,

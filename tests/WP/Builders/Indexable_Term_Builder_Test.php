@@ -41,8 +41,8 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp(): void {
-		parent::setUp();
+	public function set_up(): void {
+		parent::set_up();
 
 		$post_id = self::factory()->post->create(
 			[

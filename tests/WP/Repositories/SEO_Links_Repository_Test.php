@@ -23,8 +23,8 @@ final class SEO_Links_Repository_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp(): void {
-		parent::setUp();
+	public function set_up(): void {
+		parent::set_up();
 		global $wpdb;
 
 		$wpdb->insert(
@@ -46,12 +46,12 @@ final class SEO_Links_Repository_Test extends TestCase {
 	/**
 	 * Tears down the test class.
 	 */
-	public function tearDown(): void {
+	public function tear_down(): void {
 		global $wpdb;
 
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}yoast_seo_links" );
 
-		parent::tearDown();
+		parent::tear_down();
 	}
 
 	/**
