@@ -116,7 +116,7 @@ class Content_Type_Visibility_Dismiss_Notifications {
 	/**
 	 * Check if there is a new content type to show notification only once in the settings.
 	 *
-	 * @return bool $show_new_content_type_notification Should the notification be shown.
+	 * @return bool Should the notification be shown.
 	 */
 	public function maybe_add_settings_notification() {
 		$show_new_content_type_notification = $this->options->get( 'show_new_content_type_notification', false );
