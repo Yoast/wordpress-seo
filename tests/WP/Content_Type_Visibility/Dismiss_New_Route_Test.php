@@ -78,7 +78,7 @@ final class Dismiss_New_Route_Test extends TestCase {
 	 */
 	public function set_up(): void {
 		parent::set_up();
-		global $wpdb;
+
 		$this->options             = new Options_Helper();
 		$this->notification_center = $this->get_notification_center();
 
