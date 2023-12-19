@@ -20,7 +20,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	 *
 	 * NOTE: when changing this array, be sure to update the array in Conflicting_Plugins_Service too.
 	 *
-	 * @var array
+	 * @var array<string, array<string>>
 	 */
 	protected $plugins = [
 		// The plugin which are writing OG metadata.
