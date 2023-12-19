@@ -18,6 +18,7 @@
     "@wordpress/blocks": "^11.1.2",
     "@wordpress/components": "^13.0.3",
     "@wordpress/compose": "^3.25.3",
+    "@wordpress/core-data": "^6.3.4",
     "@wordpress/data": "^4.10.0",
     "@wordpress/dom-ready": "^2.10.0",
     "@wordpress/element": "^2.19.1",
