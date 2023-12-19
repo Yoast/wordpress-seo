@@ -3,7 +3,7 @@
  * Yoast SEO Plugin.
  *
  * @package   WPSEO\Main
- * @copyright Copyright (C) 2008-2022, Yoast BV - support@yoast.com
+ * @copyright Copyright (C) 2008-2024, Yoast BV - support@yoast.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  *
  * @wordpress-plugin
@@ -16,7 +16,7 @@
  * Text Domain: wordpress-seo
  * Domain Path: /languages/
  * License:     GPL v3
- * Requires at least: 6.2
+ * Requires at least: 6.3
  * Requires PHP: 7.2.5
  *
  * WC requires at least: 7.1
