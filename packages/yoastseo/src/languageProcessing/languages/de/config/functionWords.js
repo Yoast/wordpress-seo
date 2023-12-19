@@ -20,7 +20,7 @@ const ordinalNumerals = [ "erste", "erster", "ersten", "erstem", "erstes", "zwei
 	"fünfte", "fünfter", "fünftes", "fünften", "fünftem", "fuenfte", "fuenfter", "fuenftem", "fuenften", "fuenftes",
 	"sechste", "sechster", "sechstes", "sechsten", "sechstem", "siebte", "siebter", "siebten", "siebtem", "siebtes",
 	"achte", "achter", "achten", "achtem", "achtes", "neunte", "neunter", "neuntes", "neunten", "neuntem", "zehnte",
-	"zehnter", "zehnten", "zehntem", "zehntes",  "elfte", "elfter", "elftes", "elften", "elftem", "zwölfte", "zwölfter",
+	"zehnter", "zehnten", "zehntem", "zehntes", "elfte", "elfter", "elftes", "elften", "elftem", "zwölfte", "zwölfter",
 	"zwölften", "zwölftem", "zwölftes", "zwoelfte", "zwoelfter", "zwoelften", "zwoelftem", "zwoelftes", "dreizehnte",
 	"dreizehnter", "dreizehntes", "dreizehnten", "dreizehntem", "vierzehnte", "vierzehnter", "vierzehntes", "vierzehnten",
 	"vierzehntem", "fünfzehnte", "fünfzehnten", "fünfzehntem", "fünfzehnter", "fünfzehntes", "fuenfzehnte", "fuenfzehnten",
@@ -63,11 +63,11 @@ const indefinitePronouns = [ "andere", "anderer", "anderem", "anderen", "anderes
 	"irgendjemand", "irgendjemanden", "irgendjemandem", "irgendjemandes", "irgendwie", "wer", "wen", "wem", "wessen", "was",
 	"welchen", "welchem", "welche", "jeder", "jedes", "jedem", "jeden", "jede", "jedweder", "jedweden", "jedwedem",
 	"jedwedes", "jedwede", "jeglicher", "jeglichen", "jeglichem", "jegliches", "jegliche", "jedermann", "jedermanns", "jemand",
-	"jemanden", "jemandem", "jemands",  "jemandes", "man", "meinesgleichen", "sämtlich", "saemtlich", "sämtlicher", "saemtlicher",
+	"jemanden", "jemandem", "jemands", "jemandes", "man", "meinesgleichen", "sämtlich", "saemtlich", "sämtlicher", "saemtlicher",
 	"sämtlichen", "saemtlichen", "sämtlichem", "saemtlichem", "sämtliches", "saemtliches", "sämtliche", "saemtliche", "solche",
 	"solcher", "solchen", "solchem", "solches", "niemand", "niemanden", "niemandem", "niemandes", "niemands", "nichts", "zweiter" ];
 
-const interrogativeProAdverbs =  [ "warum", "wie", "wo", "woher", "wohin", "wann" ];
+const interrogativeProAdverbs = [ "warum", "wie", "wo", "woher", "wohin", "wann" ];
 
 const pronominalAdverbs = [ "dahinter", "damit", "daneben", "daran", "daraus", "darin", "darunter", "darüber", "darueber",
 	"davon", "dazwischen", "hieran", "hierauf", "hieraus", "hierbei", "hierfuer", "hierfür", "hiergegen", "hierhinter",
@@ -104,7 +104,7 @@ const otherAuxiliaries = [ "habe", "hast", "hat", "habt", "habest", "habet", "ha
 const otherAuxiliariesInfinitive = [ "haben", "dürfen", "duerfen", "können", "koennen", "mögen", "moegen", "müssen", "muessen",
 	"sollen", "wollen", "lassen" ];
 
-// Forms from 'aussehen' with two parts, like 'sehe aus', are not included, because we remove words on an single word basis.
+// Forms from 'aussehen' with two parts, like 'sehe aus', are not included, because we remove words on a single word basis.
 const copula = [ "bleibe", "bleibst", "bleibt", "bleibest", "bleibet", "blieb", "bliebst", "bliebt", "blieben", "bliebe",
 	"bliebest", "bliebet", "heiße", "heißt", "heißest", "heißet", "heisse", "heisst", "heissest", "heisset", "hieß", "hießest",
 	"hießt", "hießen", "hieße", "hießet", "hiess", "hiessest", "hiesst", "hiessen", "hiesse", "hiesset", "giltst",
@@ -163,7 +163,7 @@ const additionalTransitionWords = [ "etwa", "absolut", "unbedingt", "wieder", "d
 	"besonders", "hauptsächlich", "hauptsaechlich", "jetzt", "eben", "heutzutage", "eindeutig", "wirklich", "echt",
 	"wahrhaft", "ehrlich", "aufrichtig", "wahrheitsgemäß", "letztlich", "einmalig", "unübertrefflich", "normalerweise",
 	"gewöhnlich", "gewoehnlich", "üblicherweise", "ueblicherweise", "sonst", "fast", "nahezu", "beinahe", "knapp", "annähernd", "annaehernd",
-	"geradezu", "bald", "vielleicht", "wahrscheinlich", "wohl", "voraussichtlich",  "zugegeben", "ursprünglich", "insgesamt",
+	"geradezu", "bald", "vielleicht", "wahrscheinlich", "wohl", "voraussichtlich", "zugegeben", "ursprünglich", "insgesamt",
 	"tatsächlich", "eigentlich", "wahrhaftig", "bereits", "schon", "oft", "häufig", "haeufig", "regelmäßig", "regelmaeßig", "gleichmäßig",
 	"gleichmaeßig", "einfach", "lediglich", "bloß", "bloss", "halt", "wahlweise", "eventuell", "manchmal",
 	"teilweise", "nie", "niemals", "nimmer", "jemals", "allzeit", "irgendeinmal", "anders", "momentan", "gegenwärtig",
@@ -240,7 +240,7 @@ const generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "
 	"ganzem", "ganze", "ganzes", "gern", "gerne", "oben", "unten", "zurück", "zurueck", "nicht", "eher", "ehere", "eherem", "eheren",
 	"eheres", "eheste", "ehestem", "ehensten", "ehesten" ];
 
-const interjections = [  "ach", "aha", "oh", "au", "bäh", "baeh", "igitt", "huch", "hurra", "hoppla", "nanu", "oha", "olala", "pfui", "tja",
+const interjections = [ "ach", "aha", "oh", "au", "bäh", "baeh", "igitt", "huch", "hurra", "hoppla", "nanu", "oha", "olala", "pfui", "tja",
 	"uups", "wow", "grr", "äh", "aeh", "ähm", "aehm", "öhm", "oehm", "hm", "mei", "mhm", "okay", "richtig", "eijeijeijei" ];
 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.

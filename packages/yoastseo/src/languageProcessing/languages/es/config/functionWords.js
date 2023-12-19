@@ -33,7 +33,7 @@ const demonstrativePronouns = [ "este", "ese", "aquel", "esta", "esa", "aquella"
 const possessivePronouns = [ "mi", "mis", "mío", "míos", "mía", "mías", "nuestro", "nuestros", "nuestra", "nuestras", "tuyo", "tuyos", "tuya",
 	"tuyas", "tu", "tus", "vuestro", "vuestros", "vuestra", "vuestras", "suyo", "suyos", "suya", "suyas", "su", "sus" ];
 
-const quantifiers = [ "bastante", "bastantes", "mucho", "muchas", "mucha", "muchos",  "más", "muchísimo", "muchísima", "muchísimos", "muchísimas",
+const quantifiers = [ "bastante", "bastantes", "mucho", "muchas", "mucha", "muchos", "más", "muchísimo", "muchísima", "muchísimos", "muchísimas",
 	"demasiado", "demasiada", "demasiados", "demasiadas", "poco", "poca", "pocos", "pocas", "menos", "poquísimo", "poquísima", "poquísimos",
 	"poquísimas", "demás", "otros", "otras", "todo", "toda", "todos", "todas" ];
 

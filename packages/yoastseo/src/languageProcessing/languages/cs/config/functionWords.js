@@ -105,7 +105,7 @@ const recipeWords = [];
 const timeWords = [ "den", "dnes", "čas", "ráno", "zítra", "dneska", "minut", "včera", "času", "dní", "dni", "dny",
 	"hodinu", "hodin", "týdny", "měsíce", "roku", "měsíců" ];
 
-const vagueNouns = [ "věc", "věci", "můžeš", "člověk", "lidi", "člověka", "člověku", "člověče", "člověku",  "člověkovi",
+const vagueNouns = [ "věc", "věci", "můžeš", "člověk", "lidi", "člověka", "člověku", "člověče", "člověku", "člověkovi",
 	"lidech", "lidem", "lidé", "lidí", "člověkem", "lidmi", "chlap", "místa" ];
 
 const miscellaneous = [ "atd.", "bůhvíkdo", "bůhvíjaký", "bůhvíčí", "nevímco", "nevímkdo a podobně", "si", "ne", "ně",
