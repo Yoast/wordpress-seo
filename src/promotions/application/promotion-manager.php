@@ -21,7 +21,7 @@ class Promotion_Manager implements Promotion_Manager_Interface {
 	/**
 	 * Class constructor.
 	 *
-	 * @param Promotion_Interface ...$promotions list of promotions.
+	 * @param Promotion_Interface ...$promotions List of promotions.
 	 */
 	public function __construct( Promotion_Interface ...$promotions ) {
 		$this->promotions_list = $promotions;
