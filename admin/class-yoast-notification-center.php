@@ -22,14 +22,14 @@ class Yoast_Notification_Center {
 	/**
 	 * The singleton instance of this object.
 	 *
-	 * @var \Yoast_Notification_Center
+	 * @var Yoast_Notification_Center
 	 */
 	private static $instance = null;
 
 	/**
 	 * Holds the notifications.
 	 *
-	 * @var \Yoast_Notification[][]
+	 * @var Yoast_Notification[][]
 	 */
 	private $notifications = [];
 
@@ -834,7 +834,7 @@ class Yoast_Notification_Center {
 		}
 
 		if ( isset( $notification_data['message'] )
-			&& \is_subclass_of( $notification_data['message'], Abstract_Presenter::class, false )
+			&& is_subclass_of( $notification_data['message'], Abstract_Presenter::class, false )
 		) {
 			$notification_data['message'] = $notification_data['message']->present();
 		}

@@ -33,9 +33,9 @@ class WPSEO_Sitemaps_Admin {
 	 * if the post is being published, is a post type that a sitemap is built for
 	 * and is a post that is included in sitemaps.
 	 *
-	 * @param string   $new_status New post status.
-	 * @param string   $old_status Old post status.
-	 * @param \WP_Post $post       Post object.
+	 * @param string  $new_status New post status.
+	 * @param string  $old_status Old post status.
+	 * @param WP_Post $post       Post object.
 	 */
 	public function status_transition( $new_status, $old_status, $post ) {
 		if ( $new_status !== 'publish' ) {
@@ -103,9 +103,9 @@ class WPSEO_Sitemaps_Admin {
 	 * When importing is done, if we have a post_type that is saved in the sitemap
 	 * try to ping the search engines.
 	 *
-	 * @param string   $new_status New post status.
-	 * @param string   $old_status Old post status.
-	 * @param \WP_Post $post       Post object.
+	 * @param string  $new_status New post status.
+	 * @param string  $old_status Old post status.
+	 * @param WP_Post $post       Post object.
 	 */
 	private function status_transition_bulk( $new_status, $old_status, $post ) {
 		$this->importing_post_types[] = get_post_type( $post );

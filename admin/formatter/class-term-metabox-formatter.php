@@ -241,7 +241,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		 * @param string $template_option_name The subname of the option in which the template you want to get is saved.
 		 * @param string $taxonomy             The name of the taxonomy.
 		 */
-		return \apply_filters( 'wpseo_social_template_taxonomy', '', $template_option_name, $this->term->taxonomy );
+		return apply_filters( 'wpseo_social_template_taxonomy', '', $template_option_name, $this->term->taxonomy );
 	}
 
 	/**

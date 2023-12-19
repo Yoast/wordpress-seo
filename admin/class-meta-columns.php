@@ -416,13 +416,13 @@ class WPSEO_Meta_Columns {
 			 *
 			 * @param array $keyphrase The keyphrase used in the filter.
 			 */
-			$keyphrase_filter = \apply_filters(
+			$keyphrase_filter = apply_filters(
 				'wpseo_change_keyphrase_filter_in_request',
 				$this->get_keyword_filter( $current_keyword_filter ),
 				$current_keyword_filter
 			);
 
-			if ( \is_array( $keyphrase_filter ) ) {
+			if ( is_array( $keyphrase_filter ) ) {
 				$active_filters = array_merge(
 					$active_filters,
 					[ $keyphrase_filter ]
@@ -437,7 +437,7 @@ class WPSEO_Meta_Columns {
 		 *
 		 * @param array $active_filters The current applicable filters.
 		 */
-		return \apply_filters( 'wpseo_change_applicable_filters', $active_filters );
+		return apply_filters( 'wpseo_change_applicable_filters', $active_filters );
 	}
 
 	/**
@@ -463,7 +463,7 @@ class WPSEO_Meta_Columns {
 			 * @param array  $order_by        The current order by.
 			 * @param string $order_by_column The current order by column.
 			 */
-			$order_by = \apply_filters( 'wpseo_change_order_by', $order_by, $order_by_column );
+			$order_by = apply_filters( 'wpseo_change_order_by', $order_by, $order_by_column );
 
 			$vars = array_merge( $vars, $order_by );
 		}

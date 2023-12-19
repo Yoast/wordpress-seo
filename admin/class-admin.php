@@ -214,7 +214,7 @@ class WPSEO_Admin {
 	 * @return array
 	 */
 	public function add_action_link( $links, $file ) {
-		$first_time_configuration_notice_helper = \YoastSEO()->helpers->first_time_configuration_notice;
+		$first_time_configuration_notice_helper = YoastSEO()->helpers->first_time_configuration_notice;
 
 		if ( $file === WPSEO_BASENAME && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			if ( is_network_admin() ) {

@@ -802,7 +802,7 @@ class WPSEO_Utils {
 	 * @return string The post type, or an empty string.
 	 */
 	public static function get_post_type() {
-		$wp_screen = \get_current_screen();
+		$wp_screen = get_current_screen();
 
 		if ( $wp_screen !== null && ! empty( $wp_screen->post_type ) ) {
 			return $wp_screen->post_type;
@@ -843,7 +843,7 @@ class WPSEO_Utils {
 		else {
 			$label_object = WPSEO_Taxonomy::get_labels();
 
-			$wp_screen = \get_current_screen();
+			$wp_screen = get_current_screen();
 
 			if ( $wp_screen !== null && ! empty( $wp_screen->taxonomy ) ) {
 				$taxonomy_slug = $wp_screen->taxonomy;

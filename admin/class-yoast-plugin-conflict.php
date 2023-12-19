@@ -106,7 +106,7 @@ class Yoast_Plugin_Conflict {
 			$sections_checked = [];
 		}
 
-		if ( ! \in_array( $plugin_section, $sections_checked, true ) ) {
+		if ( ! in_array( $plugin_section, $sections_checked, true ) ) {
 			$sections_checked[] = $plugin_section;
 			return ( ! empty( $this->active_conflicting_plugins[ $plugin_section ] ) );
 		}
@@ -128,9 +128,9 @@ class Yoast_Plugin_Conflict {
 		}
 
 		// List of all active sections.
-		$sections = \array_keys( $plugin_sections );
+		$sections = array_keys( $plugin_sections );
 		// List of all sections.
-		$all_plugin_sections = \array_keys( $this->plugins );
+		$all_plugin_sections = array_keys( $this->plugins );
 
 		/*
 		 * Get all sections that are inactive.
@@ -138,10 +138,10 @@ class Yoast_Plugin_Conflict {
 		 *
 		 * This happens when Sitemaps or OpenGraph implementations toggle active/disabled.
 		 */
-		$inactive_sections = \array_diff( $all_plugin_sections, $sections );
+		$inactive_sections = array_diff( $all_plugin_sections, $sections );
 		if ( ! empty( $inactive_sections ) ) {
 			foreach ( $inactive_sections as $section ) {
-				\array_walk( $this->plugins[ $section ], [ $this, 'clear_error' ] );
+				array_walk( $this->plugins[ $section ], [ $this, 'clear_error' ] );
 			}
 		}
 
@@ -152,10 +152,10 @@ class Yoast_Plugin_Conflict {
 
 			// If there are active plugins, filter them from being cleared.
 			if ( isset( $this->active_conflicting_plugins[ $section ] ) ) {
-				$inactive_plugins = \array_diff( $this->plugins[ $section ], $this->active_conflicting_plugins[ $section ] );
+				$inactive_plugins = array_diff( $this->plugins[ $section ], $this->active_conflicting_plugins[ $section ] );
 			}
 
-			\array_walk( $inactive_plugins, [ $this, 'clear_error' ] );
+			array_walk( $inactive_plugins, [ $this, 'clear_error' ] );
 		}
 	}
 
@@ -241,7 +241,7 @@ class Yoast_Plugin_Conflict {
 	 * @return bool
 	 */
 	protected function check_plugin_is_active( $plugin ) {
-		return \in_array( $plugin, $this->all_active_plugins, true );
+		return in_array( $plugin, $this->all_active_plugins, true );
 	}
 
 	/**
@@ -254,11 +254,11 @@ class Yoast_Plugin_Conflict {
 	 * @param string $plugin         Plugin basename string.
 	 */
 	protected function add_active_plugin( $plugin_section, $plugin ) {
-		if ( ! \array_key_exists( $plugin_section, $this->active_conflicting_plugins ) ) {
+		if ( ! array_key_exists( $plugin_section, $this->active_conflicting_plugins ) ) {
 			$this->active_conflicting_plugins[ $plugin_section ] = [];
 		}
 
-		if ( ! \in_array( $plugin, $this->active_conflicting_plugins[ $plugin_section ], true ) ) {
+		if ( ! in_array( $plugin, $this->active_conflicting_plugins[ $plugin_section ], true ) ) {
 			$this->active_conflicting_plugins[ $plugin_section ][] = $plugin;
 		}
 	}
@@ -274,7 +274,7 @@ class Yoast_Plugin_Conflict {
 	 */
 	protected function find_plugin_category( $plugin ) {
 		foreach ( $this->plugins as $plugin_section => $plugins ) {
-			if ( \in_array( $plugin, $plugins, true ) ) {
+			if ( in_array( $plugin, $plugins, true ) ) {
 				return $plugin_section;
 			}
 		}
@@ -288,7 +288,7 @@ class Yoast_Plugin_Conflict {
 	 * @return string|bool Plugin name or false when no name is set.
 	 */
 	protected function get_plugin_name( $plugin ) {
-		$plugin_details = \get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
 
 		if ( $plugin_details['Name'] !== '' ) {
 			return $plugin_details['Name'];
@@ -308,7 +308,7 @@ class Yoast_Plugin_Conflict {
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: On the deactivation screen the nonce is already checked by WordPress itself.
 		$deactivated_plugin = sanitize_text_field( wp_unslash( $_GET['plugin'] ) );
-		$key_to_remove      = \array_search( $deactivated_plugin, $this->all_active_plugins, true );
+		$key_to_remove      = array_search( $deactivated_plugin, $this->all_active_plugins, true );
 
 		if ( $key_to_remove !== false ) {
 			unset( $this->all_active_plugins[ $key_to_remove ] );
@@ -323,6 +323,6 @@ class Yoast_Plugin_Conflict {
 	 * @return string
 	 */
 	private function get_notification_identifier( $plugin_file ) {
-		return \md5( $plugin_file );
+		return md5( $plugin_file );
 	}
 }

@@ -818,7 +818,7 @@ class WPSEO_Upgrade {
 	 * Performs the 15.9.1 upgrade routine.
 	 */
 	private function upgrade_1591() {
-		$enabled_auto_updates = \get_option( 'auto_update_plugins' );
+		$enabled_auto_updates = get_option( 'auto_update_plugins' );
 		$addon_update_watcher = YoastSEO()->classes->get( Addon_Update_Watcher::class );
 		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', [], $enabled_auto_updates );
 	}
@@ -827,7 +827,7 @@ class WPSEO_Upgrade {
 	 * Performs the 16.2 upgrade routine.
 	 */
 	private function upgrade_162() {
-		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
+		$enabled_auto_updates = get_site_option( 'auto_update_plugins' );
 		$addon_update_watcher = YoastSEO()->classes->get( Addon_Update_Watcher::class );
 		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
 	}
@@ -850,11 +850,11 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_172() {
-		\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
-		\wp_unschedule_hook( 'wpseo_cleanup_indexables' );
+		wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
+		wp_unschedule_hook( 'wpseo_cleanup_indexables' );
 
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
@@ -862,7 +862,7 @@ class WPSEO_Upgrade {
 	 * Performs the 17.7.1 upgrade routine.
 	 */
 	private function upgrade_1771() {
-		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
+		$enabled_auto_updates = get_site_option( 'auto_update_plugins' );
 		$addon_update_watcher = YoastSEO()->classes->get( Addon_Update_Watcher::class );
 		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
 	}
@@ -958,12 +958,12 @@ class WPSEO_Upgrade {
 	 * Performs the 19.11 upgrade routine.
 	 */
 	private function upgrade_1911() {
-		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_post_types' ] );
-		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_taxonomies' ] );
+		add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_post_types' ] );
+		add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_taxonomies' ] );
 		$this->deduplicate_unindexed_indexable_rows();
 		$this->remove_indexable_rows_for_disabled_authors_archive();
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
@@ -980,9 +980,9 @@ class WPSEO_Upgrade {
 
 		$this->clean_unindexed_indexable_rows_with_no_object_id();
 
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
 			// This schedules the cleanup routine cron again, since in combination of premium cleans up the prominent words table. We also want to cleanup possible orphaned hierarchies from the above cleanups.
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
@@ -990,8 +990,8 @@ class WPSEO_Upgrade {
 	 * Performs the 20.5 upgrade routine.
 	 */
 	private function upgrade_205() {
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
@@ -1009,8 +1009,8 @@ class WPSEO_Upgrade {
 	 * Schedules another cleanup scheduled action.
 	 */
 	private function upgrade_208() {
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
@@ -1058,7 +1058,7 @@ class WPSEO_Upgrade {
 		$wpdb->show_errors = false;
 
 		// Clean up indexables of private taxonomies.
-		$private_taxonomies = \get_taxonomies( [ 'public' => false ], 'names' );
+		$private_taxonomies = get_taxonomies( [ 'public' => false ], 'names' );
 
 		if ( empty( $private_taxonomies ) ) {
 			return;
@@ -1072,7 +1072,7 @@ class WPSEO_Upgrade {
 			"DELETE FROM $indexable_table
 			WHERE object_type = 'term'
 			AND object_sub_type IN ("
-				. \implode( ', ', \array_fill( 0, \count( $private_taxonomies ), '%s' ) )
+				. implode( ', ', array_fill( 0, count( $private_taxonomies ), '%s' ) )
 				. ')',
 			$private_taxonomies
 		);
@@ -1423,7 +1423,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$included_post_types = \YoastSEO()->helpers->post_type->get_indexable_post_types();
+		$included_post_types = YoastSEO()->helpers->post_type->get_indexable_post_types();
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
@@ -1437,7 +1437,7 @@ class WPSEO_Upgrade {
 				"DELETE FROM $indexable_table
 				WHERE object_type = 'post'
 				AND object_sub_type IS NOT NULL
-				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_post_types ), '%s' ) ) . ' )',
+				AND object_sub_type NOT IN ( " . implode( ', ', array_fill( 0, count( $included_post_types ), '%s' ) ) . ' )',
 				$included_post_types
 			);
 		}
@@ -1467,7 +1467,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$included_taxonomies = \YoastSEO()->helpers->taxonomy->get_indexable_taxonomies();
+		$included_taxonomies = YoastSEO()->helpers->taxonomy->get_indexable_taxonomies();
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_taxonomies ) ) {
@@ -1480,7 +1480,7 @@ class WPSEO_Upgrade {
 				"DELETE FROM $indexable_table
 				WHERE object_type = 'term'
 				AND object_sub_type IS NOT NULL
-				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_taxonomies ), '%s' ) ) . ' )',
+				AND object_sub_type NOT IN ( " . implode( ', ', array_fill( 0, count( $included_taxonomies ), '%s' ) ) . ' )',
 				$included_taxonomies
 			);
 		}
@@ -1593,7 +1593,7 @@ class WPSEO_Upgrade {
 	private function remove_indexable_rows_for_disabled_authors_archive() {
 		global $wpdb;
 
-		if ( ! \YoastSEO()->helpers->author_archive->are_disabled() ) {
+		if ( ! YoastSEO()->helpers->author_archive->are_disabled() ) {
 			return;
 		}
 
@@ -1627,7 +1627,7 @@ class WPSEO_Upgrade {
 	private function get_indexable_deduplication_query_for_type( $object_type, $duplicates, $wpdb ) {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$filtered_duplicates = \array_filter(
+		$filtered_duplicates = array_filter(
 			$duplicates,
 			static function ( $duplicate ) use ( $object_type ) {
 				return $duplicate['object_type'] === $object_type;
@@ -1647,8 +1647,8 @@ class WPSEO_Upgrade {
 			"DELETE FROM
 				$indexable_table
 			WHERE
-				object_id IN ( " . \implode( ', ', \array_fill( 0, \count( $filtered_duplicates ), '%d' ) ) . ' )
-				AND id NOT IN ( ' . \implode( ', ', \array_fill( 0, \count( $filtered_duplicates ), '%d' ) ) . ' )
+				object_id IN ( " . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
+				AND id NOT IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
 				AND object_type = %s',
 			array_merge( array_values( $object_ids ), array_values( $newest_indexable_ids ), [ $object_type ] )
 		);

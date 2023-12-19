@@ -220,7 +220,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Hijack requests for potential sitemaps and XSL files.
 	 *
-	 * @param \WP_Query $query Main query instance.
+	 * @param WP_Query $query Main query instance.
 	 */
 	public function redirect( $query ) {
 
