@@ -120,7 +120,7 @@ class WPSEO_Database_Proxy {
 	 *
 	 * @return false|int False when the upsert request is invalid, int on number of rows changed.
 	 */
-	public function upsert( array $data, array $where = null, $format = null, $where_format = null ) {
+	public function upsert( array $data, ?array $where = null, $format = null, $where_format = null ) {
 		if ( $where_format !== null ) {
 			_deprecated_argument( __METHOD__, '7.7.0', 'The where_format argument is deprecated' );
 		}

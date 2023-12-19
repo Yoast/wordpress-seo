@@ -40,7 +40,7 @@ class WPSEO_Admin_Asset_Manager {
 	 * @param WPSEO_Admin_Asset_Location|null $asset_location The provider of the asset location.
 	 * @param string                          $prefix         The prefix for naming assets.
 	 */
-	public function __construct( WPSEO_Admin_Asset_Location $asset_location = null, $prefix = self::PREFIX ) {
+	public function __construct( ?WPSEO_Admin_Asset_Location $asset_location = null, $prefix = self::PREFIX ) {
 		if ( $asset_location === null ) {
 			$asset_location = self::create_default_location();
 		}

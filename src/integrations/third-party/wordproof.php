@@ -49,7 +49,7 @@ class Wordproof implements Integration_Interface {
 	 * @param Wordproof_Helper          $wordproof     The WordProof helper instance.
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager The WPSEO admin asset manager instance.
 	 */
-	public function __construct( Wordproof_Helper $wordproof, WPSEO_Admin_Asset_Manager $asset_manager = null ) {
+	public function __construct( Wordproof_Helper $wordproof, ?WPSEO_Admin_Asset_Manager $asset_manager = null ) {
 		if ( ! $asset_manager ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
 		}
