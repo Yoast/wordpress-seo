@@ -53,9 +53,8 @@ class Meta_Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 		/**
 		 * Filter: 'wpseo_metadesc' - Allow changing the Yoast SEO meta description sentence.
 		 *
-		 * @api string $meta_description The description sentence.
-		 *
-		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 * @param string                 $meta_description The description sentence.
+		 * @param Indexable_Presentation $presentation     The presentation of an indexable.
 		 */
 		$meta_description = \apply_filters( 'wpseo_metadesc', $meta_description, $this->presentation );
 		$meta_description = $this->helpers->string->strip_all_tags( \stripslashes( $meta_description ) );

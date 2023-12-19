@@ -216,7 +216,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 			/**
 			 * Filter: 'wpseo_enable_tracking' - Enables the data tracking of Yoast SEO Premium and add-ons.
 			 *
-			 * @api string $is_enabled The enabled state. Default is false.
+			 * @param string $is_enabled The enabled state. Default is false.
 			 */
 			$tracking = apply_filters( 'wpseo_enable_tracking', false );
 

@@ -606,7 +606,7 @@ class Yoast_Notification_Center {
 		/**
 		 * Filter: 'yoast_notifications_before_storage' - Allows developer to filter notifications before saving them.
 		 *
-		 * @api Yoast_Notification[] $notifications
+		 * @param Yoast_Notification[] $notifications
 		 */
 		$filtered_merged_notifications = apply_filters( 'yoast_notifications_before_storage', $merged_notifications );
 

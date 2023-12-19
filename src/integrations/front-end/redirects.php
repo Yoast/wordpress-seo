@@ -210,10 +210,10 @@ class Redirects implements Integration_Interface {
 		/**
 		 * Allows the developer to change the target redirection URL for attachments.
 		 *
-		 * @api string $attachment_url The attachment URL for the queried object.
-		 * @api object $queried_object The queried object.
-		 *
 		 * @since 7.5.3
+		 *
+		 * @param string $attachment_url The attachment URL for the queried object.
+		 * @param object $queried_object The queried object.
 		 */
 		return \apply_filters(
 			'wpseo_attachment_redirect_url',

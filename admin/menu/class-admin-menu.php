@@ -99,7 +99,7 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 		/**
 		 * Filter: 'wpseo_submenu_pages' - Collects all submenus that need to be shown.
 		 *
-		 * @api array $submenu_pages List with all submenu pages.
+		 * @param array $submenu_pages List with all submenu pages.
 		 */
 		return (array) apply_filters( 'wpseo_submenu_pages', $submenu_pages );
 	}

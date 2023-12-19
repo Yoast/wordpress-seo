@@ -103,7 +103,7 @@ class WPSEO_Sitemaps_Renderer {
 		/**
 		 * Filters the `urlset` for a sitemap by type.
 		 *
-		 * @api string $urlset The output for the sitemap's `urlset`.
+		 * @param string $urlset The output for the sitemap's `urlset`.
 		 */
 		$xml = apply_filters( "wpseo_sitemap_{$type}_urlset", $urlset );
 
@@ -239,9 +239,8 @@ class WPSEO_Sitemaps_Renderer {
 		/**
 		 * Filters the output for the sitemap URL tag.
 		 *
-		 * @api   string $output The output for the sitemap url tag.
-		 *
-		 * @param array $url The sitemap URL array on which the output is based.
+		 * @param string $output The output for the sitemap url tag.
+		 * @param array  $url    The sitemap URL array on which the output is based.
 		 */
 		return apply_filters( 'wpseo_sitemap_url', $output, $url );
 	}

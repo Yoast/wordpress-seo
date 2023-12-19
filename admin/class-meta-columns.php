@@ -412,9 +412,8 @@ class WPSEO_Meta_Columns {
 			 *
 			 * @internal
 			 *
-			 * @api array $keyword_filter The current keyword filter.
-			 *
-			 * @param array $keyphrase The keyphrase used in the filter.
+			 * @param array $keyphrase      The keyphrase used in the filter.
+			 * @param array $keyword_filter The current keyword filter.
 			 */
 			$keyphrase_filter = apply_filters(
 				'wpseo_change_keyphrase_filter_in_request',

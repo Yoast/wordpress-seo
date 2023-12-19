@@ -91,9 +91,8 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		/**
 		 * Filter: 'wpseo_post_edit_values' - Allows changing the values Yoast SEO uses inside the post editor.
 		 *
-		 * @api array $values The key-value map Yoast SEO uses inside the post editor.
-		 *
-		 * @param WP_Post $post The post opened in the editor.
+		 * @param array   $values The key-value map Yoast SEO uses inside the post editor.
+		 * @param WP_Post $post   The post opened in the editor.
 		 */
 		return apply_filters( 'wpseo_post_edit_values', $values, $this->post );
 	}

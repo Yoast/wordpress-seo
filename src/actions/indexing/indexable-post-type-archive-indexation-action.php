@@ -127,7 +127,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 		/**
 		 * Filter 'wpseo_post_type_archive_indexation_limit' - Allow filtering the number of posts indexed during each indexing pass.
 		 *
-		 * @api int The maximum number of posts indexed.
+		 * @param int $limit The maximum number of posts indexed.
 		 */
 		$limit = \apply_filters( 'wpseo_post_type_archive_indexation_limit', 25 );
 

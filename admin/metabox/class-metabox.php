@@ -371,7 +371,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		/**
 		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
 		 *
-		 * @api string $post_content The metabox content string.
+		 * @param string $post_content The metabox content string.
 		 */
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
 		echo apply_filters( 'wpseo_content_meta_section_content', '' );

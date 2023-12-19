@@ -132,7 +132,7 @@ class WPSEO_Admin_Init {
 		 * the WPSEO metaboxes are only registered on the typical pages (lean loading) or always
 		 * registered when in admin.
 		 *
-		 * @api bool Whether to always register the metaboxes or not. Defaults to false.
+		 * @param bool $register_metaboxes Whether to always register the metaboxes or not. Defaults to false.
 		 */
 		if ( apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) ) {
 			return true;
@@ -353,7 +353,7 @@ class WPSEO_Admin_Init {
 			/**
 			 * Fires after the post time/date setting in the Publish meta box.
 			 *
-			 * @api \WP_Post The current post object.
+			 * @param WP_Post $post The current post object.
 			 */
 			do_action( 'wpseo_publishbox_misc_actions', $post );
 		}

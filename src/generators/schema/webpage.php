@@ -138,7 +138,7 @@ class WebPage extends Abstract_Schema_Piece {
 		/**
 		 * Filter: 'wpseo_schema_webpage_potential_action_target' - Allows filtering of the schema WebPage potentialAction target.
 		 *
-		 * @api array $targets The URLs for the WebPage potentialAction target.
+		 * @param array $targets The URLs for the WebPage potentialAction target.
 		 */
 		$targets = \apply_filters( 'wpseo_schema_webpage_potential_action_target', [ $url ] );
 

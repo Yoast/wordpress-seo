@@ -107,7 +107,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 		/**
 		 * Filter 'wpseo_term_indexation_limit' - Allow filtering the number of terms indexed during each indexing pass.
 		 *
-		 * @api int The maximum number of terms indexed.
+		 * @param int $limit The maximum number of terms indexed.
 		 */
 		$limit = \apply_filters( 'wpseo_term_indexation_limit', 25 );
 

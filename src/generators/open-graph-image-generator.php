@@ -84,7 +84,7 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 			/**
 			 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the Open Graph tags.
 			 *
-			 * @api Yoast\WP\SEO\Values\Open_Graph\Images The current object.
+			 * @param Yoast\WP\SEO\Values\Open_Graph\Images $image_container The current object.
 			 */
 			\apply_filters( 'wpseo_add_opengraph_images', $image_container );
 		} catch ( Error $error ) {
@@ -98,7 +98,7 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 			/**
 			 * Filter: wpseo_add_opengraph_additional_images - Allows to add additional images to the Open Graph tags.
 			 *
-			 * @api Yoast\WP\SEO\Values\Open_Graph\Images The current object.
+			 * @param Yoast\WP\SEO\Values\Open_Graph\Images $image_container The current object.
 			 */
 			\apply_filters( 'wpseo_add_opengraph_additional_images', $image_container );
 		} catch ( Error $error ) {

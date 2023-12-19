@@ -75,7 +75,7 @@ abstract class WPSEO_Abstract_Capability_Manager implements WPSEO_Capability_Man
 		/**
 		 * Filter: Allow changing roles that a capability is added to.
 		 *
-		 * @api array $roles The default roles to be filtered.
+		 * @param array $roles The default roles to be filtered.
 		 */
 		$filtered = apply_filters( $capability . '_roles', $roles );
 

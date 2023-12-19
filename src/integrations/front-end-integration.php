@@ -396,7 +396,7 @@ class Front_End_Integration implements Integration_Interface {
 		/**
 		 * Filter 'wpseo_frontend_presentation' - Allow filtering the presentation used to output our meta values.
 		 *
-		 * @api Indexable_Presention The indexable presentation.
+		 * @param Indexable_Presention $presentation The indexable presentation.
 		 */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
 
@@ -441,10 +441,8 @@ class Front_End_Integration implements Integration_Interface {
 		/**
 		 * Filter 'wpseo_frontend_presenters' - Allow filtering the presenter instances in or out of the request.
 		 *
-		 * @param array             $presenters The presenters.
-		 * @param Meta_Tags_Context $context    The meta tags context for the current page.
-		 *
-		 * @api Abstract_Indexable_Presenter[] List of presenter instances.
+		 * @param Abstract_Indexable_Presenter[] $presenters List of presenter instances.
+		 * @param Meta_Tags_Context              $context    The meta tags context for the current page.
 		 */
 		$presenter_instances = \apply_filters( 'wpseo_frontend_presenters', $presenters, $context );
 

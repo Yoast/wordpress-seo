@@ -2250,7 +2250,7 @@ class ORM implements ArrayAccess {
 		/**
 		 * Filter: 'wpseo_chunk_bulked_insert_queries' - Allow filtering the chunk size of each bulked INSERT query.
 		 *
-		 * @api int The chunk size of the bulked INSERT queries.
+		 * @param int $chunk_size The chunk size of the bulked INSERT queries.
 		 */
 		$chunk = \apply_filters( 'wpseo_chunk_bulk_insert_queries', 100 );
 		$chunk = ! \is_int( $chunk ) ? 100 : $chunk;
