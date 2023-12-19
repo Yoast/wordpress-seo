@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group sitemaps
  */
-class Author_Sitemap_Provider_Test extends TestCase {
+final class Author_Sitemap_Provider_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -24,6 +24,8 @@ class Author_Sitemap_Provider_Test extends TestCase {
 
 	/**
 	 * Sets up our double class.
+	 *
+	 * @return void
 	 */
 	public static function set_up_before_class() {
 		parent::set_up_before_class();
@@ -40,6 +42,8 @@ class Author_Sitemap_Provider_Test extends TestCase {
 	 * Checks if an OutOfBoundsException is thrown, when there are no users in the sitemap.
 	 *
 	 * @covers WPSEO_Author_Sitemap_Provider::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_author_excluded_from_sitemap_by_zero_posts() {
 		$this->expectException( OutOfBoundsException::class );
@@ -59,6 +63,8 @@ class Author_Sitemap_Provider_Test extends TestCase {
 	 * Tests if a user is NOT excluded from the sitemap when there are posts.
 	 *
 	 * @covers WPSEO_Author_Sitemap_Provider::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_author_not_excluded_from_sitemap_non_zero_posts() {
 		// Removes authors with no posts.
@@ -84,6 +90,8 @@ class Author_Sitemap_Provider_Test extends TestCase {
 	 * Tests if a user is NOT excluded from the sitemap when there are no posts.
 	 *
 	 * @covers WPSEO_Author_Sitemap_Provider::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_author_not_excluded_from_sitemap_by_zero_posts() {
 		// Doesn't remove authors with no posts.
@@ -113,6 +121,8 @@ class Author_Sitemap_Provider_Test extends TestCase {
 	 * Checks if an OutOfBoundsException is thrown, when there are no users in the sitemap.
 	 *
 	 * @covers WPSEO_Author_Sitemap_Provider::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_author_exclusion() {
 		$this->expectException( OutOfBoundsException::class );
@@ -133,6 +143,8 @@ class Author_Sitemap_Provider_Test extends TestCase {
 	 * Makes sure the filtered out entries do not cause a sitemap index link to return a 404.
 	 *
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_index_links
+	 *
+	 * @return void
 	 */
 	public function test_get_index_links_empty_sitemap() {
 		// Doesn't remove authors with no posts.
@@ -159,6 +171,8 @@ class Author_Sitemap_Provider_Test extends TestCase {
 	 * Makes sure there is no sitemap when the author archives have been disabled.
 	 *
 	 * @covers WPSEO_Author_Sitemap_Provider::get_index_links
+	 *
+	 * @return void
 	 */
 	public function test_get_index_links_disabled_archive() {
 		// Disables the author archive.
@@ -183,6 +197,8 @@ class Author_Sitemap_Provider_Test extends TestCase {
 	 * the max entries limit (thus a second sitemap is created).
 	 *
 	 * @covers WPSEO_Author_Sitemap_Provider::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_throw_no_exception_on_second_sitemap() {
 		// Creates two users, without any posts.
@@ -208,6 +224,8 @@ class Author_Sitemap_Provider_Test extends TestCase {
 	 * Checks if an OutOfBoundsException is thrown, when there are no users in the sitemap.
 	 *
 	 * @covers WPSEO_Author_Sitemap_Provider::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_no_users_empty_author_sitemap() {
 		$this->expectException( OutOfBoundsException::class );

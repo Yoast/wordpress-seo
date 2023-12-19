@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test importing meta data from AIOSEO.
  */
-class Squirrly_Test extends TestCase {
+final class Squirrly_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.
@@ -23,6 +23,8 @@ class Squirrly_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -31,6 +33,8 @@ class Squirrly_Test extends TestCase {
 
 	/**
 	 * Drops our table and returns to normal WPDB testing state.
+	 *
+	 * @return void
 	 */
 	public function tear_down() {
 		$this->class_instance->run_cleanup();
@@ -45,6 +49,8 @@ class Squirrly_Test extends TestCase {
 	 * Tests the plugin name function.
 	 *
 	 * @covers WPSEO_Import_Squirrly::get_plugin_name
+	 *
+	 * @return void
 	 */
 	public function test_plugin_name() {
 		$this->assertEquals( 'Squirrly SEO', $this->class_instance->get_plugin_name() );
@@ -54,6 +60,8 @@ class Squirrly_Test extends TestCase {
 	 * Tests whether this importer has been registered.
 	 *
 	 * @covers WPSEO_Plugin_Importers::get
+	 *
+	 * @return void
 	 */
 	public function test_importer_registered() {
 		$this->assertContains( WPSEO_Import_Squirrly::class, WPSEO_Plugin_Importers::get() );
@@ -65,6 +73,8 @@ class Squirrly_Test extends TestCase {
 	 * @covers WPSEO_Import_Squirrly::__construct
 	 * @covers WPSEO_Import_Squirrly::run_detect
 	 * @covers WPSEO_Import_Squirrly::detect
+	 *
+	 * @return void
 	 */
 	public function test_detect_without_data() {
 		$expected = $this->status( 'detect', false );
@@ -78,6 +88,8 @@ class Squirrly_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Squirrly::run_detect
 	 * @covers WPSEO_Import_Squirrly::detect
+	 *
+	 * @return void
 	 */
 	public function test_detect_with_data() {
 		$this->setup_post();
@@ -88,6 +100,8 @@ class Squirrly_Test extends TestCase {
 	 * Tests whether we can return properly when there's nothing to import.
 	 *
 	 * @covers WPSEO_Import_Squirrly::run_import
+	 *
+	 * @return void
 	 */
 	public function test_import_without_data() {
 		$result = $this->class_instance->run_import();
@@ -104,6 +118,8 @@ class Squirrly_Test extends TestCase {
 	 * @covers WPSEO_Import_Squirrly::maybe_add_focus_kw
 	 * @covers WPSEO_Import_Squirrly::retrieve_posts_query
 	 * @covers WPSEO_Import_Squirrly::retrieve_posts
+	 *
+	 * @return void
 	 */
 	public function test_import_with_data() {
 		$post_id = $this->setup_post();
@@ -136,6 +152,8 @@ class Squirrly_Test extends TestCase {
 	 * @covers WPSEO_Import_Squirrly::import_post_values
 	 * @covers WPSEO_Import_Squirrly::maybe_save_post_meta
 	 * @covers WPSEO_Import_Squirrly::retrieve_post_data
+	 *
+	 * @return void
 	 */
 	public function test_import_without_overwriting_data() {
 		$post_id = $this->setup_post( true );
@@ -167,6 +185,8 @@ class Squirrly_Test extends TestCase {
 	 * @covers WPSEO_Import_Squirrly::maybe_save_post_meta
 	 * @covers WPSEO_Import_Squirrly::maybe_add_focus_kw
 	 * @covers WPSEO_Import_Squirrly::retrieve_post_data
+	 *
+	 * @return void
 	 */
 	public function test_import_without_focus_keyword() {
 		$post_id = $this->setup_post( true );
@@ -198,6 +218,8 @@ class Squirrly_Test extends TestCase {
 	 * @covers WPSEO_Import_Squirrly::import_meta_helper
 	 * @covers WPSEO_Import_Squirrly::import_post_values
 	 * @covers WPSEO_Import_Squirrly::retrieve_post_data
+	 *
+	 * @return void
 	 */
 	public function test_import_without_seo_column_in_db() {
 		$this->setup_post();
@@ -215,6 +237,8 @@ class Squirrly_Test extends TestCase {
 	 * Tests whether we can properly return an error when there is no data to clean.
 	 *
 	 * @covers WPSEO_Import_Squirrly::run_cleanup
+	 *
+	 * @return void
 	 */
 	public function test_cleanup_without_data() {
 		$result = $this->class_instance->run_cleanup();
@@ -226,6 +250,8 @@ class Squirrly_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Squirrly::run_cleanup
 	 * @covers WPSEO_Import_Squirrly::cleanup
+	 *
+	 * @return void
 	 */
 	public function test_cleanup() {
 		\remove_all_filters( 'query' );
@@ -247,6 +273,8 @@ class Squirrly_Test extends TestCase {
 	 * @covers WPSEO_Import_Squirrly::__construct
 	 * @covers WPSEO_Import_Squirrly::run_cleanup
 	 * @covers WPSEO_Import_Squirrly::cleanup
+	 *
+	 * @return void
 	 */
 	public function test_cleanup_gone_bad() {
 		$class_instance = new WPSEO_Import_Squirrly();
@@ -262,12 +290,12 @@ class Squirrly_Test extends TestCase {
 			->getMock();
 		$wpdb->expects( $this->any() )
 			->method( 'query' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		// For this to work the detect() function needs to run first and return the right table.
 		$wpdb->expects( $this->any() )
 			->method( 'get_var' )
-			->will( $this->returnValue( $wpdb->prefix . 'qss' ) );
+			->willReturn( $wpdb->prefix . 'qss' );
 
 		$result          = $class_instance->run_cleanup();
 		$expected_result = $this->status( 'cleanup', false );
@@ -364,6 +392,8 @@ class Squirrly_Test extends TestCase {
 	 *
 	 * @param int   $post_id Post ID.
 	 * @param array $blob    Data to throw into the `seo` column.
+	 *
+	 * @return void
 	 */
 	private function insert_post( $post_id, $blob ) {
 		global $wpdb;
@@ -390,6 +420,8 @@ class Squirrly_Test extends TestCase {
 
 	/**
 	 * Creates a copy of the Squirrly SEO DB table.
+	 *
+	 * @return void
 	 */
 	private function create_table() {
 		// We need to test creating and dropping tables, so we can't have this.

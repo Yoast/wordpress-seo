@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\Version_Trait
  */
-class Version_Trait_Test extends TestCase {
+final class Version_Trait_Test extends TestCase {
 
 	/**
 	 * Holds the test instance.

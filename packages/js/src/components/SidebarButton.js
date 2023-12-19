@@ -15,6 +15,7 @@ const SidebarButton = ( props ) => {
 				id={ props.id }
 				onClick={ props.onClick }
 				className="components-button components-panel__body-toggle"
+				type="button"
 			>
 				{ props.prefixIcon && ( <span
 					className="yoast-icon-span"

@@ -1,4 +1,5 @@
 <?php
+
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
@@ -15,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Short_Link_Helper
  */
-class Short_Link_Helper_Test extends TestCase {
+final class Short_Link_Helper_Test extends TestCase {
 
 	/**
 	 * The options helper.
@@ -40,6 +41,8 @@ class Short_Link_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -72,6 +75,8 @@ class Short_Link_Helper_Test extends TestCase {
 	 * @param string $link               The link to build upon.
 	 * @param array  $args_list          The list of arguments to add to the link.
 	 * @param string $expected           The expected url.
+	 *
+	 * @return void
 	 */
 	public function test_build( $is_premium, $first_activated_on, $locale, $link, $args_list, $expected ) {
 		$this->product_helper
@@ -153,6 +158,8 @@ class Short_Link_Helper_Test extends TestCase {
 	 * @param string $locale             The locale of the user.
 	 * @param string $page               The page to get the query params for.
 	 * @param array  $expected           The expected query params values.
+	 *
+	 * @return void
 	 */
 	public function test_get_query_params( $is_premium, $first_activated_on, $locale, $page, $expected ) {
 		$_GET['page'] = $page;

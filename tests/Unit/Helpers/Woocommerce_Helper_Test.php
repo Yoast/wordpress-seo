@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Woocommerce_Helper
  */
-class Woocommerce_Helper_Test extends TestCase {
+final class Woocommerce_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -26,6 +26,8 @@ class Woocommerce_Helper_Test extends TestCase {
 
 	/**
 	 * Sets the instance.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ class Woocommerce_Helper_Test extends TestCase {
 	 * Tests if WooCommerce is in active.
 	 *
 	 * @covers ::is_active
+	 *
+	 * @return void
 	 */
 	public function test_if_woocommerce_is_inactive() {
 		$this->assertFalse( $this->instance->is_active() );
@@ -46,6 +50,8 @@ class Woocommerce_Helper_Test extends TestCase {
 	 * Tests if WooCommerce is active.
 	 *
 	 * @covers ::is_active
+	 *
+	 * @return void
 	 */
 	public function test_if_woocommerce_is_active() {
 		Mockery::mock( 'overload:WooCommerce' );
@@ -57,6 +63,8 @@ class Woocommerce_Helper_Test extends TestCase {
 	 * Tests the situation when WooCommerce isn't activated.
 	 *
 	 * @covers ::get_shop_page_id
+	 *
+	 * @return void
 	 */
 	public function test_get_shop_page_id_not_applicable() {
 		$this->assertSame( -1, $this->instance->get_shop_page_id() );
@@ -66,6 +74,8 @@ class Woocommerce_Helper_Test extends TestCase {
 	 * Tests retrieval of the shop page id.
 	 *
 	 * @covers ::get_shop_page_id
+	 *
+	 * @return void
 	 */
 	public function test_get_shop_page_id() {
 		Monkey\Functions\expect( 'wc_get_page_id' )
@@ -78,6 +88,8 @@ class Woocommerce_Helper_Test extends TestCase {
 	 * Tests if current page is a shop page with the WooCommerce function not present.
 	 *
 	 * @covers ::is_shop_page
+	 *
+	 * @return void
 	 */
 	public function test_is_shop_page_function_not_existing() {
 		$this->assertFalse( $this->instance->is_shop_page() );
@@ -87,6 +99,8 @@ class Woocommerce_Helper_Test extends TestCase {
 	 * Tests if current page isn't a shop page.
 	 *
 	 * @covers ::is_shop_page
+	 *
+	 * @return void
 	 */
 	public function test_is_shop_page_not_being_the_shop_page() {
 		Monkey\Functions\expect( 'is_shop' )
@@ -99,6 +113,8 @@ class Woocommerce_Helper_Test extends TestCase {
 	 * Tests if current page is a shop page and contain search results.
 	 *
 	 * @covers ::is_shop_page
+	 *
+	 * @return void
 	 */
 	public function test_is_shop_page_being_a_search_page() {
 		Monkey\Functions\expect( 'is_shop' )
@@ -114,6 +130,8 @@ class Woocommerce_Helper_Test extends TestCase {
 	 * Tests if current page is a shop page.
 	 *
 	 * @covers ::is_shop_page
+	 *
+	 * @return void
 	 */
 	public function test_is_shop_page() {
 		Monkey\Functions\expect( 'is_shop' )

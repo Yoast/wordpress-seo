@@ -32,6 +32,8 @@ class To_Be_Cleaned_Indexables_Collector implements WPSEO_Collection {
 
 	/**
 	 * Gets the data for the collector.
+	 *
+	 * @return array
 	 */
 	public function get() {
 		$to_be_cleaned_indexable_bucket = new To_Be_Cleaned_Indexable_Bucket();
@@ -75,7 +77,7 @@ class To_Be_Cleaned_Indexables_Collector implements WPSEO_Collection {
 		 * Action: Adds the possibility to add additional to be cleaned objects.
 		 *
 		 * @internal
-		 * @api To_Be_Cleaned_Indexable_Bucket An indexable cleanup bucket. New values are instances of To_Be_Cleaned_Indexable_Count.
+		 * @param To_Be_Cleaned_Indexable_Bucket $bucket An indexable cleanup bucket. New values are instances of To_Be_Cleaned_Indexable_Count.
 		 */
 		\do_action( 'wpseo_add_cleanup_counts_to_indexable_bucket', $to_be_cleaned_indexable_bucket );
 	}

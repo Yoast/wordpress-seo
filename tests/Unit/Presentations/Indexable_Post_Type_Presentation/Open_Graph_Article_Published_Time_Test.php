@@ -13,12 +13,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group open-graph
  */
-class Open_Graph_Article_Published_Time_Test extends TestCase {
+final class Open_Graph_Article_Published_Time_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,6 +32,8 @@ class Open_Graph_Article_Published_Time_Test extends TestCase {
 	 * Tests that the published time is returned for a post.
 	 *
 	 * @covers ::generate_open_graph_article_published_time
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_article_published_time_post() {
 		$this->indexable->object_sub_type = 'post';
@@ -53,6 +57,8 @@ class Open_Graph_Article_Published_Time_Test extends TestCase {
 	 * Tests that no published time is returned for a page.
 	 *
 	 * @covers ::generate_open_graph_article_published_time
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_article_published_time_page() {
 		$this->indexable->object_sub_type = 'page';
@@ -72,6 +78,8 @@ class Open_Graph_Article_Published_Time_Test extends TestCase {
 	 * Tests that a published time is returned for a page when the publish date is enabled with the wpseo_opengraph_show_publish_date filter.
 	 *
 	 * @covers ::generate_open_graph_article_published_time
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_article_published_time_page_enabled() {
 		$this->indexable->object_sub_type = 'page';

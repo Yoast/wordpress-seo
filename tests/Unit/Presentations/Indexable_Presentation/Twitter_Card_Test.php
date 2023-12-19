@@ -13,12 +13,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group twitter
  * @group twitter-card
  */
-class Twitter_Card_Test extends TestCase {
+final class Twitter_Card_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,6 +32,8 @@ class Twitter_Card_Test extends TestCase {
 	 * Tests whether an empty string is returned.
 	 *
 	 * @covers ::generate_twitter_card
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_card() {
 		$this->context->twitter_card = 'summary';

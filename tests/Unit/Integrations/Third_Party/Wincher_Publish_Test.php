@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group front-end
  * @group woocommerce
  */
-class Wincher_Publish_Test extends TestCase {
+final class Wincher_Publish_Test extends TestCase {
 
 	/**
 	 * The test instance.
@@ -63,6 +63,8 @@ class Wincher_Publish_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -89,6 +91,8 @@ class Wincher_Publish_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -106,6 +110,8 @@ class Wincher_Publish_Test extends TestCase {
 	 * Tests if the constructor sets the right properties.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$instance = new Wincher_Publish(
@@ -140,6 +146,8 @@ class Wincher_Publish_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -152,6 +160,8 @@ class Wincher_Publish_Test extends TestCase {
 	 * Tests the track request function.
 	 *
 	 * @covers ::track_request
+	 *
+	 * @return void
 	 */
 	public function test_track_request() {
 		$post = Mockery::mock( WP_Post::class );
@@ -188,6 +198,8 @@ class Wincher_Publish_Test extends TestCase {
 	 * Tests the track request function without keyphrases.
 	 *
 	 * @covers ::track_request
+	 *
+	 * @return void
 	 */
 	public function test_track_request_without_keyphrases() {
 		$post = Mockery::mock( WP_Post::class );
@@ -212,6 +224,8 @@ class Wincher_Publish_Test extends TestCase {
 	 * Tests the track request function when an invalid post instance is passed.
 	 *
 	 * @covers ::track_request
+	 *
+	 * @return void
 	 */
 	public function test_track_request_with_invalid_post_instance() {
 		$this->keyphrases_action
@@ -234,6 +248,8 @@ class Wincher_Publish_Test extends TestCase {
 	 * Tests the track request after REST API request.
 	 *
 	 * @covers ::track_after_rest_api_request
+	 *
+	 * @return void
 	 */
 	public function test_track_after_rest_api_request() {
 		$post = Mockery::mock( WP_Post::class );
@@ -250,6 +266,8 @@ class Wincher_Publish_Test extends TestCase {
 	 * Tests the track request after the POST request.
 	 *
 	 * @covers ::track_after_post_request
+	 *
+	 * @return void
 	 */
 	public function test_track_after_post_request() {
 		$post = Mockery::mock( WP_Post::class );
@@ -271,6 +289,8 @@ class Wincher_Publish_Test extends TestCase {
 	 * Tests the track request doesn't execute after the POST request when it's in combination with a REST request.
 	 *
 	 * @covers ::track_after_post_request
+	 *
+	 * @return void
 	 */
 	public function test_track_after_post_request_during_rest_request() {
 		$post = Mockery::mock( WP_Post::class );

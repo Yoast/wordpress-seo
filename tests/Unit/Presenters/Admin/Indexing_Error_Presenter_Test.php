@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Indexing_Error_Presenter
  */
-class Indexing_Error_Presenter_Test extends TestCase {
+final class Indexing_Error_Presenter_Test extends TestCase {
 
 	/**
 	 * The mocked short link helper.
@@ -46,6 +46,8 @@ class Indexing_Error_Presenter_Test extends TestCase {
 
 	/**
 	 * Set up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -72,6 +74,8 @@ class Indexing_Error_Presenter_Test extends TestCase {
 	 * Tests the constructor of the error presenter.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		self::assertInstanceOf(
@@ -95,6 +99,8 @@ class Indexing_Error_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 * @covers ::generate_first_paragraph
 	 * @covers ::generate_second_paragraph
+	 *
+	 * @return void
 	 */
 	public function test_present_not_premium_no_valid_premium_subscription() {
 		$this->product_helper
@@ -109,8 +115,8 @@ class Indexing_Error_Presenter_Test extends TestCase {
 		$actual = $this->instance->present();
 
 		self::assertEquals(
-			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please click the button again to re-start the process. </p>' .
-			'<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
+			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please click the button again to re-start the process. </p>'
+			. '<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
 			$actual
 		);
 	}
@@ -122,6 +128,8 @@ class Indexing_Error_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 * @covers ::generate_first_paragraph
 	 * @covers ::generate_second_paragraph
+	 *
+	 * @return void
 	 */
 	public function test_present_premium_no_valid_premium_subscription() {
 		$this->product_helper
@@ -136,9 +144,9 @@ class Indexing_Error_Presenter_Test extends TestCase {
 		$actual = $this->instance->present();
 
 		self::assertEquals(
-			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
-			'Please make sure to activate your subscription in MyYoast by completing <a href="https://yoa.st/3wv">these steps</a>.</p>' .
-			'<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
+			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. '
+			. 'Please make sure to activate your subscription in MyYoast by completing <a href="https://yoa.st/3wv">these steps</a>.</p>'
+			. '<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
 			$actual
 		);
 	}
@@ -150,6 +158,8 @@ class Indexing_Error_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 * @covers ::generate_first_paragraph
 	 * @covers ::generate_second_paragraph
+	 *
+	 * @return void
 	 */
 	public function test_present_premium_valid_premium_subscription() {
 		$this->product_helper
@@ -164,9 +174,9 @@ class Indexing_Error_Presenter_Test extends TestCase {
 		$actual = $this->instance->present();
 
 		self::assertEquals(
-			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
-			'Please click the button again to re-start the process. If the problem persists, please contact support.</p>' .
-			'<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
+			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. '
+			. 'Please click the button again to re-start the process. If the problem persists, please contact support.</p>'
+			. '<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
 			$actual
 		);
 	}

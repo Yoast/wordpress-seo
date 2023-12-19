@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Woocommerce_Test extends TestCase {
+final class Woocommerce_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.
@@ -23,6 +23,8 @@ class Woocommerce_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -34,6 +36,8 @@ class Woocommerce_Test extends TestCase {
 	 * Tests the initialization.
 	 *
 	 * @covers ::initialize
+	 *
+	 * @return void
 	 */
 	public function test_initialize() {
 		$this->instance->initialize();

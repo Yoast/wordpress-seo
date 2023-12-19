@@ -9,12 +9,14 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Asset_Test extends TestCase {
+final class Asset_Test extends TestCase {
 
 	/**
 	 * Tests the constructor when no name and src are passed.
 	 *
 	 * @covers WPSEO_Admin_Asset::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor_missing_name() {
 		$this->expectException( InvalidArgumentException::class );
@@ -26,6 +28,8 @@ class Asset_Test extends TestCase {
 	 * Tests the constructor when no src is passed.
 	 *
 	 * @covers WPSEO_Admin_Asset::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor_missing_src() {
 		$this->expectException( InvalidArgumentException::class );
@@ -46,6 +50,8 @@ class Asset_Test extends TestCase {
 	 * @covers WPSEO_Admin_Asset::get_media
 	 * @covers WPSEO_Admin_Asset::is_in_footer
 	 * @covers WPSEO_Admin_Asset::has_rtl
+	 *
+	 * @return void
 	 */
 	public function test_constructor_default_values() {
 		$asset_args = [
@@ -72,6 +78,8 @@ class Asset_Test extends TestCase {
 	 * @covers WPSEO_Admin_Asset::is_in_footer
 	 * @covers WPSEO_Admin_Asset::get_suffix
 	 * @covers WPSEO_Admin_Asset::has_rtl
+	 *
+	 * @return void
 	 */
 	public function test_getters() {
 		$asset_args = [

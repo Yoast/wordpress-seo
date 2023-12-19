@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group twitter
  * @group twitter-description
  */
-class Description_Presenter_Test extends TestCase {
+final class Description_Presenter_Test extends TestCase {
 
 	/**
 	 * The WPSEO Replace Vars object.
@@ -36,6 +36,8 @@ class Description_Presenter_Test extends TestCase {
 
 	/**
 	 * Setup of the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -53,6 +55,8 @@ class Description_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->instance->presentation      = new Indexable_Presentation();
@@ -76,6 +80,8 @@ class Description_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_empty_twitter_description() {
 		$this->instance->presentation      = new Indexable_Presentation();
@@ -95,6 +101,8 @@ class Description_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$this->instance->presentation      = new Indexable_Presentation();

@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group sitemaps
  */
-class Router_Test extends TestCase {
+final class Router_Test extends TestCase {
 
 	/**
 	 * Temporary home URL storage.
@@ -29,6 +29,8 @@ class Router_Test extends TestCase {
 
 	/**
 	 * Set up our class.
+	 *
+	 * @return void
 	 */
 	public static function set_up_before_class() {
 		parent::set_up_before_class();
@@ -39,6 +41,8 @@ class Router_Test extends TestCase {
 	 * Tests redirecting of the canonical.
 	 *
 	 * @covers WPSEO_Sitemaps_Router::redirect_canonical
+	 *
+	 * @return void
 	 */
 	public function test_redirect_canonical() {
 		global $wp_query;
@@ -64,6 +68,8 @@ class Router_Test extends TestCase {
 	 *
 	 * @param string $home_url The home URL to set.
 	 * @param string $expected The expected test result.
+	 *
+	 * @return void
 	 */
 	public function test_get_base_url( $home_url, $expected ) {
 		\update_option( 'home', $home_url );
@@ -102,6 +108,8 @@ class Router_Test extends TestCase {
 	 * @param string   $home_url    The home URL to set.
 	 * @param WP_Query $wp_query    WP_Query instance to set.
 	 * @param bool     $expected    The expected test result.
+	 *
+	 * @return void
 	 */
 	public function test_needs_sitemap_index_redirect( $server_vars, $home_url, $wp_query, $expected ) {
 		$server_orig   = $_SERVER;

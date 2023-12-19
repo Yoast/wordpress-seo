@@ -16,12 +16,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group routes
  * @group indexing
  */
-class Abstract_Indexation_Route_Test extends TestCase {
+final class Abstract_Indexation_Route_Test extends TestCase {
 
 	/**
 	 * Tests the respond with method.
 	 *
 	 * @covers ::respond_with
+	 *
+	 * @return void
 	 */
 	public function test_respond_with() {
 		$options_helper = Mockery::mock( Options_Helper::class );

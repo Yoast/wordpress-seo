@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Values\Robots\User_Agent_List;
  *
  * @group presenters
  */
-class Robots_Txt_Presenter_Test extends TestCase {
+final class Robots_Txt_Presenter_Test extends TestCase {
 
 	/**
 	 * The robots txt helper.
@@ -33,6 +33,8 @@ class Robots_Txt_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -54,6 +56,8 @@ class Robots_Txt_Presenter_Test extends TestCase {
 	 * @param array  $robots_txt_user_agents Output for the registered user agents.
 	 * @param array  $sitemaps               Output for the registered sitemaps.
 	 * @param string $expected               The expected output to be written to robots.txt.
+	 *
+	 * @return void
 	 */
 	public function test_present( $robots_txt_user_agents, $sitemaps, $expected ) {
 		$this->robots_txt_helper

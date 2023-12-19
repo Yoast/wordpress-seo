@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Web_Stories_Conditional
  */
-class Web_Stories_Conditional_Test extends TestCase {
+final class Web_Stories_Conditional_Test extends TestCase {
 
 	/**
 	 * The breadcrumbs enabled conditional.
@@ -24,6 +24,8 @@ class Web_Stories_Conditional_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ class Web_Stories_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when the Story_Post_Type class does not exist.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met() {
 		$this->assertEquals( false, $this->instance->is_met() );
@@ -44,6 +48,8 @@ class Web_Stories_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when the Story_Post_Type class exists.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met() {
 		Monkey\Functions\expect( '\Google\Web_Stories\get_plugin_instance' )->never();

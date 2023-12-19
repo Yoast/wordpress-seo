@@ -13,12 +13,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group robots
  */
-class Robots_Test extends TestCase {
+final class Robots_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -32,6 +34,8 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 * @covers ::get_base_robots
 	 * @covers ::filter_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots() {
 		$actual   = $this->instance->generate_robots();
@@ -53,6 +57,8 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 * @covers ::get_base_robots
 	 * @covers ::filter_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_with_filter_return_false() {
 		Monkey\Filters\expectApplied( 'wpseo_robots' )
@@ -76,6 +82,8 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 * @covers ::get_base_robots
 	 * @covers ::filter_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_with_filter_returning_duplicates() {
 		Monkey\Filters\expectApplied( 'wpseo_robots' )
@@ -99,6 +107,8 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 * @covers ::get_base_robots
 	 * @covers ::filter_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_with_array_filter() {
 		Monkey\Filters\expectApplied( 'wpseo_robots_array' )
@@ -135,6 +145,8 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 * @covers ::get_base_robots
 	 * @covers ::filter_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_strip_values_when_noindex() {
 		$this->instance->model->is_robots_noindex      = true;

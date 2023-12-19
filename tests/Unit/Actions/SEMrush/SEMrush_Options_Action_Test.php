@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\SEMrush\SEMrush_Options_Action
  */
-class SEMrush_Options_Action_Test extends TestCase {
+final class SEMrush_Options_Action_Test extends TestCase {
 
 	/**
 	 * The class instance.
@@ -32,6 +32,8 @@ class SEMrush_Options_Action_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -44,6 +46,8 @@ class SEMrush_Options_Action_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -56,6 +60,8 @@ class SEMrush_Options_Action_Test extends TestCase {
 	 * Tests setting the country code in the database.
 	 *
 	 * @covers ::set_country_code
+	 *
+	 * @return void
 	 */
 	public function test_successful_set_country_code() {
 		$this->options_helper
@@ -77,6 +83,8 @@ class SEMrush_Options_Action_Test extends TestCase {
 	 * Tests failing when setting the country code in the database.
 	 *
 	 * @covers ::set_country_code
+	 *
+	 * @return void
 	 */
 	public function test_unsuccessful_set_country_code() {
 		$this->options_helper

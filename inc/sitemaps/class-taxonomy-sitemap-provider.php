@@ -94,10 +94,11 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$hide_empty_tax = apply_filters( 'wpseo_sitemap_exclude_empty_terms_taxonomy', $hide_empty, $taxonomy_name );
 
 			$term_args      = [
+				'taxonomy'   => $taxonomy_name,
 				'hide_empty' => $hide_empty_tax,
 				'fields'     => 'ids',
 			];
-			$taxonomy_terms = get_terms( $taxonomy_name, $term_args );
+			$taxonomy_terms = get_terms( $term_args );
 
 			if ( count( $taxonomy_terms ) > 0 ) {
 				$all_taxonomies[ $taxonomy_name ] = $taxonomy_terms;
@@ -228,7 +229,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filter: 'wpseo_exclude_from_sitemap_by_term_ids' - Allow excluding terms by ID.
 		 *
-		 * @api array $terms_to_exclude The terms to exclude.
+		 * @param array $terms_to_exclude The terms to exclude.
 		 */
 		$terms_to_exclude = apply_filters( 'wpseo_exclude_from_sitemap_by_term_ids', [] );
 

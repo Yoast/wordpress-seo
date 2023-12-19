@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Domain\Introduction_Item
  */
-class Introduction_Item_Test extends TestCase {
+final class Introduction_Item_Test extends TestCase {
 
 	/**
 	 * Holds the test instance.
@@ -35,6 +35,8 @@ class Introduction_Item_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertEquals( 'test', $this->getPropertyValue( $this->instance, 'id' ) );
@@ -45,6 +47,8 @@ class Introduction_Item_Test extends TestCase {
 	 * Tests converting to an array.
 	 *
 	 * @covers ::to_array
+	 *
+	 * @return void
 	 */
 	public function test_to_array() {
 		$this->assertEquals(
@@ -60,6 +64,8 @@ class Introduction_Item_Test extends TestCase {
 	 * Tests getting the ID.
 	 *
 	 * @covers ::get_id
+	 *
+	 * @return void
 	 */
 	public function test_get_id() {
 		$this->assertEquals( 'test', $this->instance->get_id() );
@@ -69,6 +75,8 @@ class Introduction_Item_Test extends TestCase {
 	 * Tests getting the priority.
 	 *
 	 * @covers ::get_priority
+	 *
+	 * @return void
 	 */
 	public function test_get_priority() {
 		$this->assertEquals( 5, $this->instance->get_priority() );

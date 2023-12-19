@@ -10,12 +10,14 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @todo Test for defaults.
  */
-class Meta_Test extends TestCase {
+final class Meta_Test extends TestCase {
 
 	/**
 	 * Tests if data can be stored.
 	 *
 	 * @covers WPSEO_Meta::set_value
+	 *
+	 * @return void
 	 */
 	public function test_set_value() {
 		// Create and go to post.
@@ -30,6 +32,8 @@ class Meta_Test extends TestCase {
 	 * Tests if data can be retrieved.
 	 *
 	 * @covers WPSEO_Meta::get_value
+	 *
+	 * @return void
 	 */
 	public function test_get_value() {
 
@@ -57,6 +61,8 @@ class Meta_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Meta::set_value
 	 * @covers WPSEO_Meta::get_value
+	 *
+	 * @return void
 	 */
 	public function test_get_value_non_registered_field() {
 
@@ -81,6 +87,8 @@ class Meta_Test extends TestCase {
 	 * be returned.
 	 *
 	 * @covers WPSEO_Meta::get_value
+	 *
+	 * @return void
 	 */
 	public function test_get_value_unregistered_field_serialized() {
 
@@ -101,6 +109,8 @@ class Meta_Test extends TestCase {
 	 * Tests if a non existing key returns an empty string.
 	 *
 	 * @covers WPSEO_Meta::get_value
+	 *
+	 * @return void
 	 */
 	public function test_get_value_non_existing_key() {
 
@@ -117,6 +127,8 @@ class Meta_Test extends TestCase {
 	 * Tests if data with slashes remains the same after storing.
 	 *
 	 * @covers WPSEO_Meta::get_value
+	 *
+	 * @return void
 	 */
 	public function test_set_value_slashed() {
 		$post_id = $this->factory->post->create();
@@ -137,6 +149,8 @@ class Meta_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Meta::set_value
 	 * @covers WPSEO_Meta::get_value
+	 *
+	 * @return void
 	 */
 	public function test_get_and_set_value_slashed_array() {
 		$post_id = $this->factory->post->create();
@@ -157,6 +171,8 @@ class Meta_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Meta::set_value
 	 * @covers WPSEO_Meta::get_value
+	 *
+	 * @return void
 	 */
 	public function test_get_and_set_value_serialized_and_slashed_array() {
 		$post_id = $this->factory->post->create();
@@ -176,6 +192,8 @@ class Meta_Test extends TestCase {
 	 * Tests if default meta values are removed when updating post_meta.
 	 *
 	 * @covers WPSEO_Meta::remove_meta_if_default
+	 *
+	 * @return void
 	 */
 	public function test_remove_meta_if_default() {
 		// Create and go to post.
@@ -199,6 +217,8 @@ class Meta_Test extends TestCase {
 	 * Tests if default meta values aren't saved when updating post_meta.
 	 *
 	 * @covers WPSEO_Meta::dont_save_meta_if_default
+	 *
+	 * @return void
 	 */
 	public function test_dont_save_meta_if_default() {
 		// Create and go to post.
@@ -221,6 +241,8 @@ class Meta_Test extends TestCase {
 	 * Tests if default meta values are detected as default meta values.
 	 *
 	 * @covers WPSEO_Meta::meta_value_is_default
+	 *
+	 * @return void
 	 */
 	public function test_meta_value_is_default() {
 		$meta_key   = WPSEO_Meta::$meta_prefix . 'meta-robots-noindex';
@@ -233,6 +255,8 @@ class Meta_Test extends TestCase {
 	 * Tests if two arrays are recursively merged, the latter overwriting the first.
 	 *
 	 * @covers WPSEO_Meta::array_merge_recursive_distinct
+	 *
+	 * @return void
 	 */
 	public function test_array_merge_recursive_distinct() {
 
@@ -256,6 +280,8 @@ class Meta_Test extends TestCase {
 	 * Tests if meta robots validation prioritizes and cleans the output.
 	 *
 	 * @covers WPSEO_Meta::validate_meta_robots_adv
+	 *
+	 * @return void
 	 */
 	public function test_validate_meta_robots_adv() {
 

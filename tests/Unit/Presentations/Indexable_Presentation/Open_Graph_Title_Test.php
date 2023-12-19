@@ -13,12 +13,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group open-graph
  * @group open-graph-title
  */
-class Open_Graph_Title_Test extends TestCase {
+final class Open_Graph_Title_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,6 +32,8 @@ class Open_Graph_Title_Test extends TestCase {
 	 * Tests the situation where the Open Graph title is set.
 	 *
 	 * @covers ::generate_open_graph_title
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_title_when_open_graph_title_is_set() {
 		$this->indexable->open_graph_title = 'Example of Open Graph title';
@@ -42,6 +46,8 @@ class Open_Graph_Title_Test extends TestCase {
 	 * Tests the situation where the Open Graph title is not set and the value from the helper is used.
 	 *
 	 * @covers ::generate_open_graph_title
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_title_from_helper() {
 		$title_from_helper      = 'Example of title from the helper';
@@ -58,6 +64,8 @@ class Open_Graph_Title_Test extends TestCase {
 	 * Tests the situation where the Open Graph title is not set, and the SEO title is returned.
 	 *
 	 * @covers ::generate_open_graph_title
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_title_with_seo_title() {
 		$this->indexable->title = 'Example of SEO title';

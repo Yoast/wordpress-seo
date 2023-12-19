@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { select } from "@wordpress/data";
-import PersistentDismissableNotification from "../containers/PersistentDismissableNotification";
+import ConnectedPersistentDismissableNotification from "../containers/PersistentDismissableNotification";
 
 /**
  * @param {string}      store The Redux store identifier from which to determine dismissed state.
@@ -24,7 +24,7 @@ export const TimeConstrainedNotification = ( {
 	const promotionActive = select( store ).isPromotionActive( promoId );
 
 	return (
-		promotionActive && <PersistentDismissableNotification
+		promotionActive && <ConnectedPersistentDismissableNotification
 			alertKey={ alertKey }
 			store={ store }
 			id={ alertKey }
@@ -33,7 +33,7 @@ export const TimeConstrainedNotification = ( {
 			{ ...props }
 		>
 			{ children }
-		</PersistentDismissableNotification>
+		</ConnectedPersistentDismissableNotification>
 	);
 };
 

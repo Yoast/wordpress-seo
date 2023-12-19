@@ -12,7 +12,7 @@ use Yoast_Integration_Toggles;
  *
  * @covers \Yoast_Integration_Toggles
  */
-class Integration_Toggles_Test extends TestCase {
+final class Integration_Toggles_Test extends TestCase {
 
 	/**
 	 * Test the basic functionality of the Yoast_Integration_Toggles class.

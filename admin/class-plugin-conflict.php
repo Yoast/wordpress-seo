@@ -37,7 +37,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	 *
 	 * @return Yoast_Plugin_Conflict
 	 */
-	public static function get_instance( $class_name = __CLASS__ ) {
+	public static function get_instance( $class_name = self::class ) {
 		return parent::get_instance( $class_name );
 	}
 
@@ -47,6 +47,8 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	 * If the activated plugin is conflicting with ours a notice will be shown.
 	 *
 	 * @param string|bool $plugin Optional plugin basename to check.
+	 *
+	 * @return void
 	 */
 	public static function hook_check_for_plugin_conflicts( $plugin = false ) {
 		// The instance of the plugin.

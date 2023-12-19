@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service
  */
-class Aioseo_Replacevar_Service_Test extends TestCase {
+final class Aioseo_Replacevar_Service_Test extends TestCase {
 
 	/**
 	 * The class under test.
@@ -36,6 +36,8 @@ class Aioseo_Replacevar_Service_Test extends TestCase {
 	 *
 	 * @param string $aioseo_data         The data from AIOSEO to be transformed.
 	 * @param string $expected_yoast_data The transformed data to be imported in Yoast.
+	 *
+	 * @return void
 	 */
 	public function test_transform( $aioseo_data, $expected_yoast_data ) {
 		$result = $this->aioseo_replacevar_handler->transform( $aioseo_data );

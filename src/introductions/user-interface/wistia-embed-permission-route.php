@@ -24,7 +24,7 @@ class Wistia_Embed_Permission_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const ROUTE_PREFIX = '/wistia_embed_permission';
+	public const ROUTE_PREFIX = '/wistia_embed_permission';
 
 	/**
 	 * Holds the repository.

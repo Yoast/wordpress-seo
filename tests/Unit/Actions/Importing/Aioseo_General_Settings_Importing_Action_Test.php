@@ -23,9 +23,10 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_General_Settings_Importing_Action
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded, Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
+final class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -131,6 +132,8 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -157,6 +160,8 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	 * Tests the getting of the source option_name.
 	 *
 	 * @covers ::get_source_option_name
+	 *
+	 * @return void
 	 */
 	public function test_get_source_option_name() {
 		$source_option_name = $this->instance->get_source_option_name();
@@ -173,6 +178,8 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	 * @param bool  $expected_unflattened The expected unflattened retrieved data.
 	 * @param bool  $expected             The expected retrieved data.
 	 * @param int   $times                The expected times we will look for the chunked unimported settings.
+	 *
+	 * @return void
 	 */
 	public function test_query( $query_results, $expected_unflattened, $expected, $times ) {
 		Monkey\Functions\expect( 'get_option' )
@@ -206,6 +213,8 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	 * @param int    $transform_times The times that we will transform each setting, if any.
 	 * @param int    $image_times     The times that we will use the image helper.
 	 * @param int    $set_image_times The times that we will set image data.
+	 *
+	 * @return void
 	 */
 	public function test_map( $setting, $setting_value, $times, $transform_times, $image_times, $set_image_times ) {
 		$this->mock_instance->build_mapping();
@@ -257,6 +266,8 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @param string $separator               The separator.
 	 * @param string $expected_transformation The expected transformed separator.
+	 *
+	 * @return void
 	 */
 	public function test_transform_separator( $separator, $expected_transformation ) {
 		$transformed_separator = $this->mock_instance->transform_separator( $separator );
@@ -272,6 +283,8 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @param string $site_represents         The site represents setting.
 	 * @param string $expected_transformation The expected transformed separator.
+	 *
+	 * @return void
 	 */
 	public function test_transform_site_represents( $site_represents, $expected_transformation ) {
 		$transformed_site_represents = $this->mock_instance->transform_site_represents( $site_represents );
@@ -283,6 +296,8 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	 * Tests returning a setting map of the robot setting for one subset of general settings.
 	 *
 	 * @covers ::pluck_robot_setting_from_mapping
+	 *
+	 * @return void
 	 */
 	public function test_pluck_robot_setting_from_mapping() {
 		$robot_setting_from_mapping = $this->instance->pluck_robot_setting_from_mapping();
@@ -297,6 +312,8 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @param array $aioseo_settings The AIOSEO settings.
 	 * @param bool  $expected_result The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_isset_settings_tab( $aioseo_settings, $expected_result ) {
 		$isset_settings_tab = $this->instance->isset_settings_tab( $aioseo_settings );

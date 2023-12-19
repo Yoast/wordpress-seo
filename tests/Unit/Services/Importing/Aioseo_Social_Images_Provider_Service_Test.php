@@ -15,9 +15,10 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Social_Images_Provider_Service
- * @phpcs:disable Yoast.Yoast.AlternativeFunctions.json_encode_json_encode,Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
+final class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 
 	/**
 	 * The class under test.
@@ -59,6 +60,8 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	 * @param string $aioseo_options  The AIOSEO settings coming from the db.
 	 * @param string $social_setting  The social settings we're working with, eg. open-graph or twitter.
 	 * @param string $expected_source The source that's expected to be retrieved.
+	 *
+	 * @return void
 	 */
 	public function test_get_default_social_image_source( $aioseo_options, $social_setting, $expected_source ) {
 		$this->aioseo_helper->expects( 'get_global_option' )
@@ -79,6 +82,8 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	 * @param string $aioseo_options The AIOSEO settings coming from the db.
 	 * @param string $social_setting The social settings we're working with, eg. open-graph or twitter.
 	 * @param string $expected_url   The URL that's expected to be retrieved.
+	 *
+	 * @return void
 	 */
 	public function test_get_default_custom_social_image( $aioseo_options, $social_setting, $expected_url ) {
 		$this->aioseo_helper->expects( 'get_global_option' )
@@ -99,6 +104,8 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	 * @param string $post_content_image The post's content image.
 	 * @param int    $post_content_times The times we'll look for the post's content image.
 	 * @param string $expected_url       The URL that's expected to be retrieved.
+	 *
+	 * @return void
 	 */
 	public function test_get_first_image_in_content( $gallery_image, $post_content_image, $post_content_times, $expected_url ) {
 		$post_id = 123;
@@ -130,6 +137,8 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	 * @param string $source_attachment       The image source for an attachment id.
 	 * @param int    $source_attachment_times The times we'll look for the image source for an attachment id.
 	 * @param string $expected_url            The URL that's expected to be retrieved.
+	 *
+	 * @return void
 	 */
 	public function test_get_first_attached_image( $post_type, $attachment_type_times, $children, $children_times, $source_attachment, $source_attachment_times, $expected_url ) {
 		$post_id = 123;
@@ -175,6 +184,8 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	 * @param string $source_attachment       The image source for an attachment id.
 	 * @param int    $source_attachment_times The times we'll look for the image source for an attachment id.
 	 * @param string $expected_url            The URL that's expected to be retrieved.
+	 *
+	 * @return void
 	 */
 	public function test_get_featured_image( $feature_image_id, $source_attachment, $source_attachment_times, $expected_url ) {
 		$post_id = 123;

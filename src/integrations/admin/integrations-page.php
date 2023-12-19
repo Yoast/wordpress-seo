@@ -90,6 +90,8 @@ class Integrations_Page implements Integration_Interface {
 
 	/**
 	 * Enqueue the integrations app.
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
@@ -202,6 +204,8 @@ class Integrations_Page implements Integration_Interface {
 
 	/**
 	 * Renders the target for the React to mount to.
+	 *
+	 * @return void
 	 */
 	public function render_target() {
 		?>

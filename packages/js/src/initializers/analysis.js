@@ -7,6 +7,7 @@ import handleWorkerError from "../analysis/handleWorkerError";
 import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
 import { applyModifications } from "./pluggable";
+import getApplyMarks from "../analysis/getApplyMarks";
 
 /**
  * Runs the analysis.
@@ -28,6 +29,11 @@ async function runAnalysis( worker, data ) {
 			// Only update the main results, which are located under the empty string key.
 			const seoResults = seo[ "" ];
 
+			// Recreate the getMarker function after the worker is done.
+			seoResults.results.forEach( result => {
+				result.getMarker = () => () => window.YoastSEO.analysis.applyMarks( paper, result.marks );
+			} );
+
 			seoResults.results = sortResultsByIdentifier( seoResults.results );
 
 			dispatch( "yoast-seo/editor" ).setSeoResultsForKeyword( paper.getKeyword(), seoResults.results );
@@ -35,6 +41,11 @@ async function runAnalysis( worker, data ) {
 		}
 
 		if ( readability ) {
+			// Recreate the getMarker function after the worker is done.
+			readability.results.forEach( result => {
+				result.getMarker = () => () => window.YoastSEO.analysis.applyMarks( paper, result.marks );
+			} );
+
 			readability.results = sortResultsByIdentifier( readability.results );
 
 			dispatch( "yoast-seo/editor" ).setReadabilityResults( readability.results );
@@ -42,6 +53,11 @@ async function runAnalysis( worker, data ) {
 		}
 
 		if ( inclusiveLanguage ) {
+			// Recreate the getMarker function after the worker is done.
+			inclusiveLanguage.results.forEach( result => {
+				result.getMarker = () => () => window.YoastSEO.analysis.applyMarks( paper, result.marks );
+			} );
+
 			inclusiveLanguage.results = sortResultsByIdentifier( inclusiveLanguage.results );
 
 			dispatch( "yoast-seo/editor" ).setInclusiveLanguageResults( inclusiveLanguage.results );
@@ -106,10 +122,14 @@ export default function initAnalysis() {
 	// Create and initialize the worker.
 	const worker = createAnalysisWorker();
 	worker.initialize(
-		// Get the analysis configuration and extend it with the is cornerstone content value.
-		getAnalysisConfiguration( { useCornerstone: isCornerstoneContent() } )
+		// Get the analysis configuration and extend it with the is cornerstone content value and the marker function.
+		getAnalysisConfiguration( {
+			useCornerstone: isCornerstoneContent(),
+			marker: getApplyMarks(),
+		} )
 	).catch( handleWorkerError );
 
+	window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks()( paper, marks );
 	// Initialize the data for the "is dirty" checks.
 	let previousAnalysisData = collectData();
 	let previousIsCornerstone = isCornerstoneContent();

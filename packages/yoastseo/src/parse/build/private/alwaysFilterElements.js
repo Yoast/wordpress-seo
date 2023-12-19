@@ -15,8 +15,23 @@ const permanentFilters = [
 	// Comments are filtered out in `filterBeforeTokenizing.js` step.
 	elementHasClass( "yoast-table-of-contents" ),
 	elementHasClass( "yoast-reading-time__wrapper" ),
-	// Filters for the Elementor widget Yoast Breadcrumbs.
+	// Filters for Elementor widgets
 	elementHasID( "breadcrumbs" ),
+	elementHasClass( "elementor-button-wrapper" ),
+	elementHasClass( "elementor-divider" ),
+	elementHasClass( "elementor-spacer" ),
+	elementHasClass( "elementor-custom-embed" ),
+	elementHasClass( "elementor-icon-wrapper" ),
+	elementHasClass( "elementor-icon-box-wrapper" ),
+	elementHasClass( "elementor-counter" ),
+	elementHasClass( "elementor-progress-wrapper" ),
+	// This element is used for the progress bar widget title.
+	elementHasClass( "elementor-title" ),
+	elementHasClass( "elementor-alert" ),
+	elementHasClass( "elementor-soundcloud-wrapper" ),
+	elementHasClass( "elementor-shortcode" ),
+	elementHasClass( "elementor-menu-anchor" ),
+	elementHasClass( "e-rating" ),
 	// Filters out HTML elements.
 	/* Elements are filtered out when: they contain content outside of the author's control (incl. quotes and embedded
 	content); their content isn't natural language (e.g. code); they contain metadata hidden from the page visitor

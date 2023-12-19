@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Term_Metabox_Formatter_Test extends TestCase {
+final class Term_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Holds the term instance.
@@ -27,6 +27,8 @@ class Term_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Creates a post to use in the tests.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -40,6 +42,8 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Term_Metabox_Formatter::__construct
 	 * @covers WPSEO_Term_Metabox_Formatter::get_values
+	 *
+	 * @return void
 	 */
 	public function test_no_taxonomy_no_term_and_no_options() {
 		$instance = new WPSEO_Term_Metabox_Formatter( null, null, [] );
@@ -61,6 +65,8 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	 * @covers WPSEO_Term_Metabox_Formatter::get_title_template
 	 * @covers WPSEO_Term_Metabox_Formatter::get_metadesc_template
 	 * @covers WPSEO_Term_Metabox_Formatter::get_template
+	 *
+	 * @return void
 	 */
 	public function test_with_taxonomy_and_term_and_without_options() {
 		WPSEO_Options::set( 'title-tax-' . $this->taxonomy->name, '' );
@@ -85,6 +91,8 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	 * @covers WPSEO_Term_Metabox_Formatter::get_title_template
 	 * @covers WPSEO_Term_Metabox_Formatter::get_metadesc_template
 	 * @covers WPSEO_Term_Metabox_Formatter::get_template
+	 *
+	 * @return void
 	 */
 	public function test_with_taxonomy_term_and_options() {
 		WPSEO_Options::set( 'title-tax-post_tag', 'This is a title' );
@@ -103,6 +111,8 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	 * @covers WPSEO_Term_Metabox_Formatter::get_title_template
 	 * @covers WPSEO_Term_Metabox_Formatter::get_metadesc_template
 	 * @covers WPSEO_Term_Metabox_Formatter::get_template
+	 *
+	 * @return void
 	 */
 	public function test_with_taxonomy_term_and_options_with_title_option_missing() {
 		WPSEO_Options::set( 'title-tax-post_tag', '' );

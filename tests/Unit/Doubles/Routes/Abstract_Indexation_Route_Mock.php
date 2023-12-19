@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Routes\Abstract_Indexation_Route;
 /**
  * Represents the Abstract_Indexation_Route mock.
  */
-class Abstract_Indexation_Route_Mock extends Abstract_Indexation_Route {
+final class Abstract_Indexation_Route_Mock extends Abstract_Indexation_Route {
 
 	/**
 	 * Responds to an indexation request.

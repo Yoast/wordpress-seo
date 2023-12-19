@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group repositories
  */
-class Indexable_Cleanup_Repository_Test extends TestCase {
+final class Indexable_Cleanup_Repository_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.
@@ -68,6 +68,8 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -505,7 +507,6 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 			->once()
 			->with( 'prepared_clean_query' )
 			->andReturn( $ids );
-
 
 		$this->wpdb->shouldReceive( 'query' )
 			->once()

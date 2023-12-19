@@ -65,6 +65,8 @@ const InclusiveLanguageAnalysis = ( props ) => {
 	 * @returns {JSX.Element} The results of the analysis.
 	 */
 	function renderResults() {
+		const highlightingUpsellLink = "shortlinks.upsell.sidebar.highlighting_inclusive_analysis";
+
 		return (
 			<Fragment>
 				<AnalysisHeader>
@@ -89,6 +91,8 @@ const InclusiveLanguageAnalysis = ( props ) => {
 						problems: __( "Non-inclusive phrases", "wordpress-seo" ),
 						improvements: __( "Potentially non-inclusive phrases", "wordpress-seo" ),
 					} }
+					highlightingUpsellLink={ highlightingUpsellLink }
+					shouldUpsellHighlighting={ props.shouldUpsellHighlighting }
 				/>
 			</Fragment>
 		);
@@ -232,11 +236,13 @@ InclusiveLanguageAnalysis.propTypes = {
 	// eslint-disable-next-line react/no-unused-prop-types
 	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled", "hidden" ] ).isRequired,
 	overallScore: PropTypes.number,
+	shouldUpsellHighlighting: PropTypes.bool,
 };
 
 InclusiveLanguageAnalysis.defaultProps = {
 	results: [],
 	overallScore: null,
+	shouldUpsellHighlighting: false,
 };
 
 export default withSelect( select => {

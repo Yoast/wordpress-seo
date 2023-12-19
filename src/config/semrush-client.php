@@ -19,7 +19,7 @@ class SEMrush_Client extends OAuth_Client {
 	/**
 	 * The option's key.
 	 */
-	const TOKEN_OPTION = 'semrush_tokens';
+	public const TOKEN_OPTION = 'semrush_tokens';
 
 	/**
 	 * SEMrush_Client constructor.

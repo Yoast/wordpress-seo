@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group routes
  * @group semrush
  */
-class Wincher_Route_Test extends TestCase {
+final class Wincher_Route_Test extends TestCase {
 
 	/**
 	 * Represents the login action.
@@ -53,6 +53,8 @@ class Wincher_Route_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -71,6 +73,8 @@ class Wincher_Route_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -91,6 +95,8 @@ class Wincher_Route_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -103,6 +109,8 @@ class Wincher_Route_Test extends TestCase {
 	 * Tests the registration of the routes.
 	 *
 	 * @covers ::register_routes
+	 *
+	 * @return void
 	 */
 	public function test_register_routes() {
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -215,6 +223,8 @@ class Wincher_Route_Test extends TestCase {
 	 * Tests that the code is a valid code, with invalid code given as input.
 	 *
 	 * @covers ::has_valid_code
+	 *
+	 * @return void
 	 */
 	public function test_is_valid_code_with_invalid_code_given() {
 		$this->assertFalse( $this->instance->has_valid_code( '' ) );
@@ -224,6 +234,8 @@ class Wincher_Route_Test extends TestCase {
 	 * Tests that the code is a valid code, with valid code given as input.
 	 *
 	 * @covers ::has_valid_code
+	 *
+	 * @return void
 	 */
 	public function test_is_valid_code_with_valid_code_given() {
 		$this->assertTrue( $this->instance->has_valid_code( '123456' ) );
@@ -233,6 +245,8 @@ class Wincher_Route_Test extends TestCase {
 	 * Tests the website ID is valid.
 	 *
 	 * @covers ::has_valid_website_id
+	 *
+	 * @return void
 	 */
 	public function test_is_valid_website_when_valid_id_is_passed() {
 		$this->assertTrue( $this->instance->has_valid_website_id( 12345 ) );
@@ -242,6 +256,8 @@ class Wincher_Route_Test extends TestCase {
 	 * Tests the website ID is invalid.
 	 *
 	 * @covers ::has_valid_website_id
+	 *
+	 * @return void
 	 */
 	public function test_is_valid_website_when_invalid_id_is_passed() {
 		$this->assertFalse( $this->instance->has_valid_website_id( '' ) );
@@ -251,6 +267,8 @@ class Wincher_Route_Test extends TestCase {
 	 * Tests that the user can use the wincher endpoints.
 	 *
 	 * @covers ::can_use_wincher
+	 *
+	 * @return void
 	 */
 	public function test_can_use_wincher() {
 		Monkey\Functions\expect( 'current_user_can' )
@@ -265,6 +283,8 @@ class Wincher_Route_Test extends TestCase {
 	 * Tests that the user can't use the wincher endpoints.
 	 *
 	 * @covers ::can_use_wincher
+	 *
+	 * @return void
 	 */
 	public function test_can_use_wincher_fails() {
 		Monkey\Functions\expect( 'current_user_can' )
@@ -284,6 +304,8 @@ class Wincher_Route_Test extends TestCase {
 	 * Tests the authentication route.
 	 *
 	 * @covers ::authenticate
+	 *
+	 * @return void
 	 */
 	public function test_authenticate() {
 		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
@@ -311,6 +333,8 @@ class Wincher_Route_Test extends TestCase {
 	 * Tests the track_keyphrases route.
 	 *
 	 * @covers ::track_keyphrases
+	 *
+	 * @return void
 	 */
 	public function test_track_keyphrases() {
 		$limit_response = (object) [
@@ -347,6 +371,8 @@ class Wincher_Route_Test extends TestCase {
 	 * Tests the get_tracked_keyphrases route.
 	 *
 	 * @covers ::get_tracked_keyphrases
+	 *
+	 * @return void
 	 */
 	public function test_get_tracked_keyphrases() {
 		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
@@ -383,6 +409,8 @@ class Wincher_Route_Test extends TestCase {
 	 * Tests the get_tracked_keyphrases route with ranking.
 	 *
 	 * @covers ::get_tracked_keyphrases
+	 *
+	 * @return void
 	 */
 	public function test_get_tracked_keyphrases_without_permalink() {
 		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
@@ -419,6 +447,8 @@ class Wincher_Route_Test extends TestCase {
 	 * Tests the untrack_keyphrase route.
 	 *
 	 * @covers ::untrack_keyphrase
+	 *
+	 * @return void
 	 */
 	public function test_untrack_keyphrase() {
 		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );

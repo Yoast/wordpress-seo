@@ -21,7 +21,7 @@ class WPML_WPSEO_Notification implements Integration_Interface {
 	 *
 	 * @internal
 	 */
-	const NOTIFICATION_ID = 'wpml-wpseo-not-installed';
+	public const NOTIFICATION_ID = 'wpml-wpseo-not-installed';
 
 	/**
 	 * The short link helper.

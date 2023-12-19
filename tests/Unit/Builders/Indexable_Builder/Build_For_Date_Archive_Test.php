@@ -10,10 +10,12 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-class Build_For_Date_Archive_Test extends Abstract_Indexable_Builder_TestCase {
+final class Build_For_Date_Archive_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
 	 * Sets up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -26,6 +28,8 @@ class Build_For_Date_Archive_Test extends Abstract_Indexable_Builder_TestCase {
 	 * @covers ::build_for_date_archive
 	 * @covers ::ensure_indexable
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_for_date_archive_without_indexable() {
 		$this->expect_build( [ 'object_type' => 'date-archive' ] );
@@ -39,6 +43,8 @@ class Build_For_Date_Archive_Test extends Abstract_Indexable_Builder_TestCase {
 	 * @covers ::build_for_date_archive
 	 * @covers ::ensure_indexable
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_for_date_archive_with_indexable() {
 		$this->expect_deep_copy_indexable( $this->indexable );
@@ -59,6 +65,8 @@ class Build_For_Date_Archive_Test extends Abstract_Indexable_Builder_TestCase {
 	 * Expectation for build method.
 	 *
 	 * @param array $defaults The defaults to expect.
+	 *
+	 * @return void
 	 */
 	private function expect_build( $defaults ) {
 		$this->expect_ensure_indexable( $defaults, $this->indexable );

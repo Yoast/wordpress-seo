@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Primary_Term_Builder
  * @covers \Yoast\WP\SEO\Builders\Primary_Term_Builder
  */
-class Primary_Term_Builder_Test extends TestCase {
+final class Primary_Term_Builder_Test extends TestCase {
 
 	/**
 	 * Holds the primary term builder under test.
@@ -53,6 +53,8 @@ class Primary_Term_Builder_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -72,6 +74,8 @@ class Primary_Term_Builder_Test extends TestCase {
 	 * Tests that the constructor successfully creates the primary term builder.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_successfully_creates_primary_term_builder() {
 		$primary_term_builder = new Primary_Term_Builder(
@@ -100,6 +104,8 @@ class Primary_Term_Builder_Test extends TestCase {
 	 * Tests building of primary terms.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 		$post_id = 123;
@@ -135,6 +141,8 @@ class Primary_Term_Builder_Test extends TestCase {
 	 * Tests that no primary terms are built when no applicable taxonomies are available.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_empty_taxonomies() {
 		$post_id = 123;
@@ -155,6 +163,8 @@ class Primary_Term_Builder_Test extends TestCase {
 	 * Tests the saving of a primary term, the happy path.
 	 *
 	 * @covers ::save_primary_term
+	 *
+	 * @return void
 	 */
 	public function test_save_primary_term() {
 		$primary_term = Mockery::mock( Primary_Term_Mock::class );
@@ -185,6 +195,8 @@ class Primary_Term_Builder_Test extends TestCase {
 	 * Tests the saving of a primary term, the happy path.
 	 *
 	 * @covers ::save_primary_term
+	 *
+	 * @return void
 	 */
 	public function test_save_primary_term_of_custom_taxonomy() {
 		$primary_term = Mockery::mock( Primary_Term_Mock::class );
@@ -215,6 +227,8 @@ class Primary_Term_Builder_Test extends TestCase {
 	 * Tests the saving of a primary term when no term is selected.
 	 *
 	 * @covers ::save_primary_term
+	 *
+	 * @return void
 	 */
 	public function test_save_primary_term_with_no_term_selected() {
 		$this->meta

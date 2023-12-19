@@ -2,14 +2,13 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Content_Type_Visibility\User_Interface;
 
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_Dismiss_New_Route;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use WP_REST_Request;
 use WP_REST_Response;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
+use Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_Dismiss_New_Route;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Content_Type_Visibility_Dismiss_New_Route.
@@ -19,7 +18,7 @@ use WP_REST_Response;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
+final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 
 	/**
 	 * Holds the Options_Helper instance.
@@ -37,6 +36,8 @@ class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 
 	/**
 	 * Set up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -50,6 +51,8 @@ class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 	 * Tests the __construct method.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -63,6 +66,8 @@ class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 	 * Tests the register_routes method.
 	 *
 	 * @covers ::register_routes
+	 *
+	 * @return void
 	 */
 	public function test_register_routes() {
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -75,8 +80,8 @@ class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 					'permission_callback' => [ $this->instance, 'can_dismiss' ],
 					'args'                => [
 						'postTypeName' => [
-							'validate_callback' => function( $param, $request, $key ) {
-								return post_type_exists( $param );
+							'validate_callback' => static function ( $param ) {
+								return \post_type_exists( $param );
 							},
 						],
 					],
@@ -94,8 +99,8 @@ class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 						'permission_callback' => [ $this->instance, 'can_dismiss' ],
 						'args'                => [
 							'taxonomyName' => [
-								'validate_callback' => function( $param, $request, $key ) {
-									return taxonomy_exists( $param );
+								'validate_callback' => static function ( $param ) {
+									return \taxonomy_exists( $param );
 								},
 							],
 						],
@@ -110,6 +115,8 @@ class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 	 * Tests the can_dismiss method.
 	 *
 	 * @covers ::can_dismiss
+	 *
+	 * @return void
 	 */
 	public function test_can_dismiss() {
 		Monkey\Functions\expect( 'current_user_can' )
@@ -124,6 +131,8 @@ class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 	 * Tests the validate_taxonomy method.
 	 *
 	 * @covers ::validate_taxonomy
+	 *
+	 * @return void
 	 */
 	public function test_validate_taxonomy() {
 		$taxonomy = 'category';
@@ -140,6 +149,8 @@ class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 	 * Tests the validate_post_type method.
 	 *
 	 * @covers ::validate_post_type
+	 *
+	 * @return void
 	 */
 	public function test_validate_post_type() {
 		$post_type = 'book';
@@ -156,6 +167,8 @@ class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 	 * Tests post_type_dismiss_callback method.
 	 *
 	 * @covers ::post_type_dismiss_callback
+	 *
+	 * @return void
 	 */
 	public function test_post_type_dismiss_callback() {
 		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
@@ -184,11 +197,13 @@ class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 		$this->assertInstanceOf( WP_REST_Response::class, $result );
 	}
 
-		/**
-		 * Tests taxonomy_dismiss_callback method.
-		 *
-		 * @covers ::taxonomy_dismiss_callback
-		 */
+	/**
+	 * Tests taxonomy_dismiss_callback method.
+	 *
+	 * @covers ::taxonomy_dismiss_callback
+	 *
+	 * @return void
+	 */
 	public function test_taxonomy_dismiss_callback() {
 		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 

@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class Comment_Link_Fixer_Test extends TestCase {
+final class Comment_Link_Fixer_Test extends TestCase {
 
 	/**
 	 * The redirect helper.
@@ -43,6 +43,8 @@ class Comment_Link_Fixer_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -58,6 +60,8 @@ class Comment_Link_Fixer_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -71,6 +75,8 @@ class Comment_Link_Fixer_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$_GET['replytocom'] = 'true';
@@ -89,6 +95,8 @@ class Comment_Link_Fixer_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks_replytocom_null() {
 		$_GET['replytocom'] = null;
@@ -107,6 +115,8 @@ class Comment_Link_Fixer_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks_replytocom_non_string() {
 		$_GET['replytocom'] = 5;
@@ -124,6 +134,8 @@ class Comment_Link_Fixer_Test extends TestCase {
 	 * Tests the situation on a non singular page.
 	 *
 	 * @covers ::replytocom_redirect
+	 *
+	 * @return void
 	 */
 	public function test_replytocom_redirect_not_single() {
 		$_GET['replytocom'] = true;
@@ -136,6 +148,8 @@ class Comment_Link_Fixer_Test extends TestCase {
 	 * Tests the replytocom redirect with no query param not set.
 	 *
 	 * @covers ::replytocom_redirect
+	 *
+	 * @return void
 	 */
 	public function test_replytocom_redirect_no_param() {
 		$this->assertFalse( $this->instance->replytocom_redirect() );
@@ -145,6 +159,8 @@ class Comment_Link_Fixer_Test extends TestCase {
 	 * Tests the replytocom redirect.
 	 *
 	 * @covers ::replytocom_redirect
+	 *
+	 * @return void
 	 */
 	public function test_replytocom_redirect() {
 		$this->redirect->expects( 'do_safe_redirect' )->once()->with( 'https://permalink#comment-unique_hash', 301 )->andReturn( true );
@@ -163,6 +179,8 @@ class Comment_Link_Fixer_Test extends TestCase {
 	 * Tests the replytocom redirect with having a query string.
 	 *
 	 * @covers ::replytocom_redirect
+	 *
+	 * @return void
 	 */
 	public function test_replytocom_redirect_with_query_string() {
 		$this->redirect->expects( 'do_safe_redirect' )->once()->with( 'https://permalink?param=foo#comment-unique_hash', 301 )->andReturn( true );
@@ -183,6 +201,8 @@ class Comment_Link_Fixer_Test extends TestCase {
 	 * Tests the removal of the reply to com.
 	 *
 	 * @covers ::remove_reply_to_com
+	 *
+	 * @return void
 	 */
 	public function test_remove_reply_to_com() {
 		$link     = '<a href="http://yoast.com/post?replytocom=123#respond">Reply to Comment</a>';

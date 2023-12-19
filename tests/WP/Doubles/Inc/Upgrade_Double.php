@@ -7,7 +7,7 @@ use WPSEO_Upgrade;
 /**
  * Test Helper Class.
  */
-class Upgrade_Double extends WPSEO_Upgrade {
+final class Upgrade_Double extends WPSEO_Upgrade {
 
 	/**
 	 * Override the constructor to avoid calling that logic.

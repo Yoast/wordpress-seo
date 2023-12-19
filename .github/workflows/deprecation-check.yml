@@ -1,0 +1,42 @@
+name: Deprecation check
+
+on:
+  pull_request:
+    paths:
+      - packages/yoast-components/**
+      - packages/babel-preset/**
+      - packages/e2e-tests/**
+      - packages/helpers/**
+      - packages/style-guide/**
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  notify-of-deprecations:
+    name: 'notify of changes in deprecated packages'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Place a comment on the PR
+        uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308 # v2.4.3
+        with:
+          message: |
+            @${{ github.actor }} Please be aware that following packages have been abandoned and are not actively maintained anymore:
+            | Package name  | Path |
+            | ------------- | ------------- |
+            | yoast-components  | [packages/yoast-components](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoast-components) |
+            | @yoast/babel-preset  | [packages/babel-preset](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/babel-preset) |
+            | @yoast/e2e-tests  | [packages/e2e-tests ](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/e2e-tests ) |
+            | @yoast/helpers | [packages/helpers](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/helpers) |
+            | @yoast/jest-preset | [packages/jest-preset](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/jest-preset) |
+            | @yoast/style-guide | [packages/style-guide](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/style-guide) |
+
+            Please consider using [the other packages](https://github.com/Yoast/wordpress-seo/tree/trunk/packages) instead.
+          comment_tag: deprecation-check

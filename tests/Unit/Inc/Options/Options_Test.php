@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group options
  */
-class Options_Test extends TestCase {
+final class Options_Test extends TestCase {
 
 	/**
 	 * Tests clearing the cache.
 	 *
 	 * @covers ::clear_cache
+	 *
+	 * @return void
 	 */
 	public function test_clear_cache() {
 		Options_Double::$option_values = '123';
@@ -31,6 +33,8 @@ class Options_Test extends TestCase {
 	 * Test getting settings values.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$test = Options_Double::get( 'test' );
@@ -44,6 +48,8 @@ class Options_Test extends TestCase {
 	 * Test setting settings values.
 	 *
 	 * @covers ::set
+	 *
+	 * @return void
 	 */
 	public function test_set() {
 		$this->assertEquals( '', Options_Double::get( 'website_name' ) );
@@ -57,6 +63,8 @@ class Options_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$instance = new Options_Double();

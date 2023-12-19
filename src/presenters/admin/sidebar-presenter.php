@@ -45,7 +45,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 									sizes="(min-width: 1321px) 75px">
 							</figure>
 						</figure>
-						<?php if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) : ?>
+						<?php if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) : ?>
 							<div class="sidebar__sale_banner_container">
 								<div class="sidebar__sale_banner">
 										<span class="banner_text"><?php echo \esc_html( $title ); ?></span>
@@ -60,10 +60,10 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						</h2>
 						<p>
 							<?php
-							echo \esc_html__( 'Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support and much, much more!', 'wordpress-seo' );
+							echo \esc_html__( 'Get AI to write SEO titles and meta descriptions faster. Reach a wider audience with multiple keywords. Get automatic internal linking suggestions. And much, much more!', 'wordpress-seo' );
 							?>
 						</p>
-						<?php if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) : ?>
+						<?php if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) : ?>
 							<div class="sidebar__sale_text">
 								<p>
 									<?php
@@ -76,7 +76,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						<p class="plugin-buy-button">
 							<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
 								<?php
-								if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+								if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
 									echo \esc_html__( 'Claim your 30% off now!', 'wordpress-seo' );
 								}
 								else {

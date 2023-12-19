@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Current_Page_Helper
  */
-class Current_Page_Helper_Test extends TestCase {
+final class Current_Page_Helper_Test extends TestCase {
 
 	/**
 	 * Query wrapper instance.
@@ -49,6 +49,8 @@ class Current_Page_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -67,6 +69,8 @@ class Current_Page_Helper_Test extends TestCase {
 
 	/**
 	 * Performs the operations to restore the status quo ante.
+	 *
+	 * @return void
 	 */
 	protected function tear_down() {
 		$_GET['page'] = $this->original_get_page;
@@ -78,6 +82,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests that get_non_cached_date_archive_permalink calls the expected methods on a day archive.
 	 *
 	 * @covers ::get_non_cached_date_archive_permalink
+	 *
+	 * @return void
 	 */
 	public function test_get_non_cached_date_archive_permalink_day() {
 		$wp_query = Mockery::mock( WP_Query::class );
@@ -104,6 +110,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests that get_non_cached_date_archive_permalink calls the expected methods on a month archive.
 	 *
 	 * @covers ::get_non_cached_date_archive_permalink
+	 *
+	 * @return void
 	 */
 	public function test_get_non_cached_date_archive_permalink_month() {
 		$wp_query = Mockery::mock( WP_Query::class );
@@ -129,6 +137,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests that get_non_cached_date_archive_permalink calls the expected methods on a year archive.
 	 *
 	 * @covers ::get_non_cached_date_archive_permalink
+	 *
+	 * @return void
 	 */
 	public function test_get_non_cached_date_archive_permalink_year() {
 		$wp_query = Mockery::mock( WP_Query::class );
@@ -153,6 +163,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests that get_non_cached_date_archive_permalink calls the expected methods - unexpected fallback.
 	 *
 	 * @covers ::get_non_cached_date_archive_permalink
+	 *
+	 * @return void
 	 */
 	public function test_get_non_cached_date_archive_permalink_fallback() {
 		$wp_query = Mockery::mock( WP_Query::class );
@@ -172,6 +184,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests if the current page is a simple page.
 	 *
 	 * @covers ::is_simple_page
+	 *
+	 * @return void
 	 */
 	public function test_is_simple_page() {
 		$this->instance->expects( 'get_simple_page_id' )->andReturn( 1 );
@@ -183,6 +197,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests the retrieval of the simple page id on a singular page.
 	 *
 	 * @covers ::get_simple_page_id
+	 *
+	 * @return void
 	 */
 	public function test_get_simple_page_id_on_singular_page() {
 		Monkey\Functions\expect( 'is_singular' )
@@ -200,6 +216,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests the retrieval of the simple page id on a posts page.
 	 *
 	 * @covers ::get_simple_page_id
+	 *
+	 * @return void
 	 */
 	public function test_get_simple_page_id_on_posts_page() {
 		$this->instance->expects( 'is_posts_page' )->andReturnTrue();
@@ -220,6 +238,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests the retrieval of the simple page id with the default value being filtered..
 	 *
 	 * @covers ::get_simple_page_id
+	 *
+	 * @return void
 	 */
 	public function test_get_simple_page_id_with_default_value_being_filtered() {
 		$this->instance->expects( 'is_posts_page' )->andReturnFalse();
@@ -240,6 +260,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests the retrieval of the front page id.
 	 *
 	 * @covers ::get_front_page_id
+	 *
+	 * @return void
 	 */
 	public function test_get_front_page_id() {
 		Monkey\Functions\expect( 'get_option' )
@@ -259,6 +281,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests the retrieval of the front page id having no page being set as the front page..
 	 *
 	 * @covers ::get_front_page_id
+	 *
+	 * @return void
 	 */
 	public function test_get_front_page_id_having_no_page_set_as_front_page() {
 		Monkey\Functions\expect( 'get_option' )
@@ -277,6 +301,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests retrieval of the term id with no term page matches.
 	 *
 	 * @covers ::get_term_id
+	 *
+	 * @return void
 	 */
 	public function test_get_term_id() {
 		$this->wp_query_wrapper
@@ -294,6 +320,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests retrieval of the term id with category as current page.
 	 *
 	 * @covers ::get_term_id
+	 *
+	 * @return void
 	 */
 	public function test_get_term_id_for_category() {
 		$this->wp_query_wrapper
@@ -314,6 +342,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests retrieval of the term id with tag as current page.
 	 *
 	 * @covers ::get_term_id
+	 *
+	 * @return void
 	 */
 	public function test_get_term_id_for_tag() {
 		$this->wp_query_wrapper
@@ -336,6 +366,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * wp_error given.
 	 *
 	 * @covers ::get_term_id
+	 *
+	 * @return void
 	 */
 	public function test_get_term_id_for_taxonomy() {
 		$this->wp_query_wrapper
@@ -362,6 +394,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * wp_error given.
 	 *
 	 * @covers ::get_term_id
+	 *
+	 * @return void
 	 */
 	public function test_get_term_id_for_taxonomy_that_gives_wp_error() {
 		$this->wp_query_wrapper
@@ -387,6 +421,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests the retrieval of the queried post type.
 	 *
 	 * @covers ::get_queried_post_type
+	 *
+	 * @return void
 	 */
 	public function test_queried_post_type() {
 		$this->wp_query_wrapper
@@ -405,6 +441,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests the retrieval of the queried post type.
 	 *
 	 * @covers ::get_queried_post_type
+	 *
+	 * @return void
 	 */
 	public function test_queried_post_type_with_multiple_post_types() {
 		$this->wp_query_wrapper
@@ -423,6 +461,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests is page is the home page and shows posts.
 	 *
 	 * @covers ::is_home_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_is_home_posts_page() {
 		$this->wp_query_wrapper
@@ -450,6 +490,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests that is_static_posts_page returns false if the query is not for the posts page.
 	 *
 	 * @covers ::is_static_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_is_static_posts_page_invalid_page_for_posts() {
 		$wp_query = Mockery::mock( WP_Query::class );
@@ -473,6 +515,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * and the queried object is a WP_Post.
 	 *
 	 * @covers ::is_static_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_is_static_posts_page_posts_page_and_post() {
 		$wp_query = Mockery::mock( WP_Query::class );
@@ -498,6 +542,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests that is_static_posts_page returns false if the query is not for the posts page.
 	 *
 	 * @covers ::is_static_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_is_static_posts_page_not_posts_page() {
 		$wp_query = Mockery::mock( WP_Query::class );
@@ -520,6 +566,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests that get_date_archive_permalink calls the expected methods when the static variable is not set.
 	 *
 	 * @covers ::get_date_archive_permalink
+	 *
+	 * @return void
 	 */
 	public function test_get_date_archive_permalink_static_not_set() {
 		$this->instance
@@ -536,6 +584,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * because that test will set the static variable.
 	 *
 	 * @covers ::get_date_archive_permalink
+	 *
+	 * @return void
 	 */
 	public function test_get_date_archive_permalink_static_set() {
 		$this->instance
@@ -549,6 +599,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests is page is the home page and shows posts, but with having no page_on_front set.
 	 *
 	 * @covers ::is_home_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_is_home_posts_page_with_page_on_front_not_set() {
 		$this->wp_query_wrapper
@@ -575,6 +627,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests is page is the home page and shows posts, but having current page not being the home page.
 	 *
 	 * @covers ::is_home_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_is_home_posts_page_not_on_the_home_page() {
 		$this->wp_query_wrapper
@@ -594,6 +648,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests if the page is a static page set as the home page.
 	 *
 	 * @covers ::is_home_static_page
+	 *
+	 * @return void
 	 */
 	public function test_is_home_static_page() {
 		$this->wp_query_wrapper
@@ -632,6 +688,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests if the page is a static page, with current page not the front page
 	 *
 	 * @covers ::is_home_static_page
+	 *
+	 * @return void
 	 */
 	public function test_is_home_static_page_not_the_front_page() {
 		$this->wp_query_wrapper
@@ -654,6 +712,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * set as posts.
 	 *
 	 * @covers ::is_home_static_page
+	 *
+	 * @return void
 	 */
 	public function test_is_home_static_page_and_show_on_front_is_posts() {
 		$this->wp_query_wrapper
@@ -680,6 +740,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests if the page is a posts page.
 	 *
 	 * @covers ::is_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_is_posts_page() {
 		$this->wp_query_wrapper
@@ -701,6 +763,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests if the page is a posts page with current page not being the home page.
 	 *
 	 * @covers ::is_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_is_posts_page_not_on_the_home() {
 		$this->wp_query_wrapper
@@ -722,6 +786,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests if the page is a posts page with the option show_on_front not having the value page.
 	 *
 	 * @covers ::is_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_is_posts_page_with_option_not_set() {
 		$this->wp_query_wrapper
@@ -743,6 +809,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests if the page has multiple terms on a non term archive page.
 	 *
 	 * @covers ::is_multiple_terms_page
+	 *
+	 * @return void
 	 */
 	public function test_is_multiple_terms_page_non_terms_archive() {
 		$this->instance->expects( 'is_term_archive' )->andReturnFalse();
@@ -754,6 +822,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests if the page has multiple terms on a term archive having on queried term.
 	 *
 	 * @covers ::is_multiple_terms_page
+	 *
+	 * @return void
 	 */
 	public function test_is_multiple_terms_page_having_one_queried_term() {
 		$this->instance->expects( 'is_term_archive' )->andReturnTrue();
@@ -766,6 +836,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Tests if the page has multiple terms on a term archive having on queried term.
 	 *
 	 * @covers ::is_multiple_terms_page
+	 *
+	 * @return void
 	 */
 	public function test_is_multiple_terms_page() {
 		$this->instance->expects( 'is_term_archive' )->andReturnTrue();
@@ -778,6 +850,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test is_yoast_seo_page function.
 	 *
 	 * @covers ::is_yoast_seo_page
+	 *
+	 * @return void
 	 */
 	public function test_is_yoast_seo_page() {
 		$_GET['page'] = 'wpseo_something';
@@ -789,6 +863,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test is_yoast_seo_page function when page is not set.
 	 *
 	 * @covers ::is_yoast_seo_page
+	 *
+	 * @return void
 	 */
 	public function test_is_yoast_seo_page_page_not_set() {
 		unset( $_GET['page'] );
@@ -800,6 +876,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test is_yoast_seo_page function when page is null.
 	 *
 	 * @covers ::is_yoast_seo_page
+	 *
+	 * @return void
 	 */
 	public function test_is_yoast_seo_page_page_is_null() {
 		$_GET['page'] = null;
@@ -811,6 +889,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test is_yoast_seo_page function when page is something else than a string.
 	 *
 	 * @covers ::is_yoast_seo_page
+	 *
+	 * @return void
 	 */
 	public function test_is_yoast_seo_page_page_is_int() {
 		$_GET['page'] = 13;
@@ -822,6 +902,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test get_current_yoast_seo_page function.
 	 *
 	 * @covers ::get_current_yoast_seo_page
+	 *
+	 * @return void
 	 */
 	public function test_get_current_yoast_seo_page() {
 		$_GET['page'] = 'wpseo_something';
@@ -833,6 +915,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test get_current_yoast_seo_page function when page is not set.
 	 *
 	 * @covers ::get_current_yoast_seo_page
+	 *
+	 * @return void
 	 */
 	public function test_get_current_yoast_seo_page_page_not_set() {
 		unset( $_GET['page'] );
@@ -844,6 +928,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test get_current_yoast_seo_page function when page is null.
 	 *
 	 * @covers ::get_current_yoast_seo_page
+	 *
+	 * @return void
 	 */
 	public function test_get_current_yoast_seo_page_page_is_null() {
 		$_GET['page'] = null;
@@ -855,6 +941,8 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test get_current_yoast_seo_page function when page is something else than a string.
 	 *
 	 * @covers ::get_current_yoast_seo_page
+	 *
+	 * @return void
 	 */
 	public function test_get_current_yoast_seo_page_page_is_int() {
 		$_GET['page'] = 13;

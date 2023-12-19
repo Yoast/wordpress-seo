@@ -20,10 +20,12 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Initializers\Migration_Runner
  * @covers \Yoast\WP\SEO\Initializers\Migration_Runner
  */
-class Migration_Runner_Test extends TestCase {
+final class Migration_Runner_Test extends TestCase {
 
 	/**
 	 * Setup the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -36,6 +38,8 @@ class Migration_Runner_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -49,6 +53,8 @@ class Migration_Runner_Test extends TestCase {
 	 *
 	 * @covers ::initialize
 	 * @covers ::run_free_migrations
+	 *
+	 * @return void
 	 */
 	public function test_initialize() {
 		$instance = Mockery::mock( Migration_Runner::class )->makePartial();
@@ -63,6 +69,8 @@ class Migration_Runner_Test extends TestCase {
 	 * Tests the initializing when everything goes as planned.
 	 *
 	 * @covers ::run_migrations
+	 *
+	 * @return void
 	 */
 	public function test_migration_success() {
 		$status_mock  = Mockery::mock( Migration_Status::class );
@@ -92,6 +100,8 @@ class Migration_Runner_Test extends TestCase {
 	 * Tests the initializing when the migration should not run.
 	 *
 	 * @covers ::run_migrations
+	 *
+	 * @return void
 	 */
 	public function test_migration_should_not_run() {
 		$status_mock  = Mockery::mock( Migration_Status::class );
@@ -109,6 +119,8 @@ class Migration_Runner_Test extends TestCase {
 	 * Tests the initializing when the migration is locked.
 	 *
 	 * @covers ::run_migrations
+	 *
+	 * @return void
 	 */
 	public function test_migration_locked() {
 		$status_mock  = Mockery::mock( Migration_Status::class );
@@ -127,6 +139,8 @@ class Migration_Runner_Test extends TestCase {
 	 * Tests the initializing when no migrations are present.
 	 *
 	 * @covers ::run_migrations
+	 *
+	 * @return void
 	 */
 	public function test_migration_with_no_migrations() {
 		$status_mock  = Mockery::mock( Migration_Status::class );
@@ -147,6 +161,8 @@ class Migration_Runner_Test extends TestCase {
 	 * Tests the initializing when everything goes wrong.
 	 *
 	 * @covers ::run_migrations
+	 *
+	 * @return void
 	 */
 	public function test_migration_error() {
 		$this->expectException( Exception::class );

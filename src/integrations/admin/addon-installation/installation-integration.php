@@ -73,6 +73,8 @@ class Installation_Integration implements Integration_Interface {
 
 	/**
 	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_install_and_activate_addons', [ $this, 'install_and_activate_addons' ] );

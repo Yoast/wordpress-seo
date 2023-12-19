@@ -26,7 +26,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group indexing
  */
-class Indexing_Tool_Integration_Test extends TestCase {
+final class Indexing_Tool_Integration_Test extends TestCase {
 
 	/**
 	 * The indexation integration under test.
@@ -93,6 +93,8 @@ class Indexing_Tool_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -125,37 +127,39 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
 			self::getPropertyValue( $this->instance, 'asset_manager' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Helper::class,
 			self::getPropertyValue( $this->instance, 'indexable_helper' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Short_Link_Helper::class,
 			self::getPropertyValue( $this->instance, 'short_link_helper' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexing_Helper::class,
 			self::getPropertyValue( $this->instance, 'indexing_helper' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			WPSEO_Addon_Manager::class,
 			self::getPropertyValue( $this->instance, 'addon_manager' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Product_Helper::class,
 			self::getPropertyValue( $this->instance, 'product_helper' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Importable_Detector_Service::class,
 			self::getPropertyValue( $this->instance, 'importable_detector' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Importing_Route::class,
 			self::getPropertyValue( $this->instance, 'importing_route' )
 		);
@@ -165,6 +169,8 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	 * Tests the get_conditionals method.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$actual   = Indexing_Tool_Integration::get_conditionals();
@@ -181,6 +187,8 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	 * Tests the register hooks method.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		Monkey\Actions\expectAdded( 'wpseo_tools_overview_list_items_internal' );
@@ -195,6 +203,8 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	 * @covers ::enqueue_scripts
 	 * @covers ::get_indexing_endpoints
 	 * @covers ::get_importing_endpoints
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_scripts() {
 		$this->indexing_helper
@@ -266,9 +276,9 @@ class Indexing_Tool_Integration_Test extends TestCase {
 			],
 		];
 
-		$injected_data['errorMessage'] = '<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
-			'Please click the button again to re-start the process. If the problem persists, please contact support.</p>' .
-			'<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>';
+		$injected_data['errorMessage'] = '<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. '
+			. 'Please click the button again to re-start the process. If the problem persists, please contact support.</p>'
+			. '<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>';
 
 		Monkey\Functions\expect( 'rest_url' )
 			->andReturn( 'https://example.org/wp-ajax/' );
@@ -301,6 +311,8 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	 * Tests the rendering of the list item, when the user does not have the right rights.
 	 *
 	 * @covers ::render_indexing_list_item
+	 *
+	 * @return void
 	 */
 	public function test_render_indexing_list_item_not_allowed() {
 		// Arrange.
@@ -317,6 +329,8 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	 * Tests the rendering of the list item, when the user has the right rights.
 	 *
 	 * @covers ::render_indexing_list_item
+	 *
+	 * @return void
 	 */
 	public function test_render_indexing_list_item_is_allowed() {
 		// Arrange.

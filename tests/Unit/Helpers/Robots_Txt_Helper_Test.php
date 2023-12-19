@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Robots_Txt_Helper
  */
-class Robots_Txt_Helper_Test extends TestCase {
+final class Robots_Txt_Helper_Test extends TestCase {
 
 	/**
 	 * Holds the Robots_Txt_Helper.
@@ -36,6 +36,8 @@ class Robots_Txt_Helper_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertIsObject(
@@ -55,6 +57,8 @@ class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @param array $arguments The arguments to be passed to the function.
 	 * @param array $expected  The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_add_disallow( $arguments, $expected ) {
 		foreach ( $arguments as $argument ) {
@@ -140,6 +144,8 @@ class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @param array $arguments The arguments to be passed to the function.
 	 * @param array $expected  The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_add_allow( $arguments, $expected ) {
 		foreach ( $arguments as $argument ) {
@@ -225,6 +231,8 @@ class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @param array $sitemaps The sitemaps to be passed to the function.
 	 * @param array $expected The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_add_sitemap( $sitemaps, $expected ) {
 		foreach ( $sitemaps as $sitemap ) {
