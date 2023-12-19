@@ -300,12 +300,18 @@ class WPSEO_Meta {
 
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
+				$args = ['sanitize_callback' => [ __CLASS__, 'sanitize_post_meta' ]];
+
+				if( $key === 'focuskw' ) {
+					$args['show_in_rest'] = true;
+					$args['type'] = 'string';
+					$args['single'] = true;
+				}
 
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
-					[ 'show_in_rest' => true,
-					  'sanitize_callback' => [ __CLASS__, 'sanitize_post_meta' ] ]
+					$args
 				);
 
 				// Set the $fields_index property for efficiency.
