@@ -219,7 +219,7 @@ class Post_Helper {
 		/**
 		 * Filter: 'wpseo_public_post_statuses' - List of public post statuses.
 		 *
-		 * @api array $post_statuses Post status list, defaults to array( 'publish' ).
+		 * @param array $post_statuses Post status list, defaults to array( 'publish' ).
 		 */
 		return \apply_filters( 'wpseo_public_post_statuses', [ 'publish' ] );
 	}

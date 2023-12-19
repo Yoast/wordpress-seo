@@ -753,7 +753,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		/**
 		 * Filter: 'wpseo_use_page_analysis' Determines if the analysis should be enabled.
 		 *
-		 * @api bool Determines if the analysis should be enabled.
+		 * @param bool $enabled Determines if the analysis should be enabled.
 		 */
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
 			return '';

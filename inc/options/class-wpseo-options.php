@@ -200,7 +200,7 @@ class WPSEO_Options {
 		/**
 		 * Filter: wpseo_options - Allow developers to change the option name to include.
 		 *
-		 * @api array The option names to include in get_all and reset().
+		 * @param array $option_names The option names to include in get_all and reset().
 		 */
 		return apply_filters( 'wpseo_options', $option_names );
 	}

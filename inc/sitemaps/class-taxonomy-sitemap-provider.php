@@ -229,7 +229,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filter: 'wpseo_exclude_from_sitemap_by_term_ids' - Allow excluding terms by ID.
 		 *
-		 * @api array $terms_to_exclude The terms to exclude.
+		 * @param array $terms_to_exclude The terms to exclude.
 		 */
 		$terms_to_exclude = apply_filters( 'wpseo_exclude_from_sitemap_by_term_ids', [] );
 

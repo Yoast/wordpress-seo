@@ -118,7 +118,7 @@ class Schema_Types {
 		 *
 		 * Make sure when you filter this to also filter `wpseo_schema_article_types`.
 		 *
-		 * @api array $schema_article_types_labels The available schema article types and their labels.
+		 * @param array $schema_article_types_labels The available schema article types and their labels.
 		 */
 		return \apply_filters(
 			'wpseo_schema_article_types_labels',

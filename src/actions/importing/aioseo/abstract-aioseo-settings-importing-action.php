@@ -232,7 +232,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 		/**
 		 * Filter 'wpseo_aioseo_<identifier>_import_cursor' - Allow filtering the value of the aioseo settings import cursor.
 		 *
-		 * @api int The value of the aioseo posttype default settings import cursor.
+		 * @param int $import_cursor The value of the aioseo posttype default settings import cursor.
 		 */
 		$cursor = \apply_filters( 'wpseo_aioseo_' . $this->get_type() . '_import_cursor', $cursor );
 
@@ -257,7 +257,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 		/**
 		 * Filter 'wpseo_aioseo_<identifier>_indexation_limit' - Allow filtering the number of settings imported during each importing pass.
 		 *
-		 * @api int The maximum number of posts indexed.
+		 * @param int $max_posts The maximum number of posts indexed.
 		 */
 		$limit = \apply_filters( 'wpseo_aioseo_' . $this->get_type() . '_indexation_limit', 25 );
 

@@ -163,7 +163,7 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 		/**
 		 * Filter 'wpseo_aioseo_cleanup_limit' - Allow filtering the number of posts indexed during each indexing pass.
 		 *
-		 * @api int The maximum number of posts cleaned up.
+		 * @param int $max_posts The maximum number of posts cleaned up.
 		 */
 		$limit = \apply_filters( 'wpseo_aioseo_cleanup_limit', 25 );
 

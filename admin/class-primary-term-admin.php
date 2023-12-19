@@ -193,8 +193,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		/**
 		 * Filters which taxonomies for which the user can choose the primary term.
 		 *
-		 * @api array    $taxonomies An array of taxonomy objects that are primary_term enabled.
-		 *
+		 * @param array  $taxonomies     An array of taxonomy objects that are primary_term enabled.
 		 * @param string $post_type      The post type for which to filter the taxonomies.
 		 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
 		 *                               enabled.

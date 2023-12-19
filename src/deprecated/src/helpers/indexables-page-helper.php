@@ -73,7 +73,7 @@ class Indexables_Page_Helper {
 		/**
 		 * Filter 'wpseo_indexables_list_size' - Allow filtering the size of the Indexables lists.
 		 *
-		 * @api int The size of the Indexables lists.
+		 * @param int $list_size The size of the Indexables lists.
 		 */
 		return \apply_filters_deprecated( 'wpseo_indexables_list_size', [ self::LIST_SIZE ], 'Yoast SEO 20.4' );
 	}
@@ -92,7 +92,7 @@ class Indexables_Page_Helper {
 		/**
 		 * Filter 'wpseo_indexables_buffer_size' - Allow filtering the size of the buffer for the Indexables lists, in terms of how many times bigger it is from the lists' size.
 		 *
-		 * @api int The size of the buffer for the Indexables lists, in terms of how many times bigger it is from the lists' size.
+		 * @param int $buffer_size The size of the buffer for the Indexables lists, in terms of how many times bigger it is from the lists' size.
 		 */
 		$times = \apply_filters_deprecated( 'wpseo_indexables_buffer_size', [ self::BUFFER_SIZE ], 'Yoast SEO 20.4' );
 		if ( $times < 3 ) {
@@ -116,7 +116,7 @@ class Indexables_Page_Helper {
 		/**
 		 * Filter 'wpseo_posts_threshold' - Allow filtering the minimum threshold for the amount of posts in the site, in order for Indexable lists to be relevant.
 		 *
-		 * @api int The minimum threshold for the amount of posts in the site, in order for Indexable lists to be relevant.
+		 * @param int $post_threshold The minimum threshold for the amount of posts in the site, in order for Indexable lists to be relevant.
 		 */
 		return \apply_filters_deprecated( 'wpseo_posts_threshold', [ self::POSTS_THRESHOLD ], 'Yoast SEO 20.4' );
 	}
@@ -135,7 +135,7 @@ class Indexables_Page_Helper {
 		/**
 		 * Filter 'wpseo_analyzed_posts_threshold' - Allow filtering the minimum threshold for the amount of analyzed posts in the site, in order for Indexable lists to be relevant.
 		 *
-		 * @api int The minimum threshold for the amount of analyzed posts in the site, in order for Indexable lists to be relevant.
+		 * @param int $analysed_post_threshold The minimum threshold for the amount of analyzed posts in the site, in order for Indexable lists to be relevant.
 		 */
 		return \apply_filters_deprecated( 'wpseo_analyzed_posts_threshold', [ self::ANALYSED_POSTS_THRESHOLD ], 'Yoast SEO 20.4' );
 	}

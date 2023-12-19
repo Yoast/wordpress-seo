@@ -211,7 +211,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		/**
 		 * Allow altering the array with separator options.
 		 *
-		 * @api array $separator_options Array with the separator options.
+		 * @param array $separator_options Array with the separator options.
 		 */
 		$filtered_separators = apply_filters( 'wpseo_separator_options', $separators );
 
@@ -640,7 +640,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 						 *
 						 * Make sure when you filter this to also filter `wpseo_schema_article_types_labels`.
 						 *
-						 * @api array $schema_article_types The available schema article types.
+						 * @param array $schema_article_types The available schema article types.
 						 */
 						if ( array_key_exists( $dirty[ $key ], apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES ) ) ) {
 							$clean[ $key ] = $dirty[ $key ];
@@ -927,7 +927,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			/**
 			 * Allow altering the array with variable array key patterns.
 			 *
-			 * @api  array  $patterns  Array with the variable array key patterns.
+			 * @param array $patterns Array with the variable array key patterns.
 			 */
 			$patterns = apply_filters( 'wpseo_option_titles_variable_array_key_patterns', $patterns );
 
@@ -1018,7 +1018,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		/**
 		 * Allows altering the separator options array.
 		 *
-		 * @api array $separators Array with the separator options.
+		 * @param array $separators Array with the separator options.
 		 */
 		$separator_list = apply_filters( 'wpseo_separator_option_list', $separators );
 

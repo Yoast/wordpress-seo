@@ -109,7 +109,7 @@ class WPSEO_Upgrade {
 		/**
 		 * Filter: 'wpseo_run_upgrade' - Runs the upgrade hook which are dependent on Yoast SEO.
 		 *
-		 * @api string - The current version of Yoast SEO
+		 * @param string $version The current version of Yoast SEO
 		 */
 		do_action( 'wpseo_run_upgrade', $version );
 

@@ -147,7 +147,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 		/**
 		 * Filter: 'wpseo_enable_structured_data_blocks' - Allows disabling Yoast's schema blocks entirely.
 		 *
-		 * @api bool If false, our structured data blocks won't show.
+		 * @param bool $enable If false, our structured data blocks won't show.
 		 */
 		if ( ! \apply_filters( 'wpseo_enable_structured_data_blocks', true ) ) {
 			return;

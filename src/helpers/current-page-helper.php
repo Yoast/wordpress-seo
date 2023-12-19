@@ -90,7 +90,7 @@ class Current_Page_Helper {
 		/**
 		 * Filter: Allow changing the default page id.
 		 *
-		 * @api int $page_id The default page id.
+		 * @param int $page_id The default page id.
 		 */
 		return \apply_filters( 'wpseo_frontend_page_type_simple_page_id', 0 );
 	}

@@ -157,7 +157,7 @@ class WPSEO_Admin {
 		/**
 		 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages.
 		 *
-		 * @api string unsigned The capability.
+		 * @param string $capability The capability.
 		 */
 		return apply_filters( 'wpseo_manage_options_capability', 'wpseo_manage_options' );
 	}

@@ -167,10 +167,9 @@ class WPSEO_Replace_Vars {
 		/**
 		 * Filter: 'wpseo_replacements' - Allow customization of the replacements before they are applied.
 		 *
-		 * @api     array   $replacements The replacements.
-		 *
-		 * @param array $args The object some of the replacement values might come from,
-		 *                    could be a post, taxonomy or term.
+		 * @param array $replacements The replacements.
+		 * @param array $args         The object some of the replacement values might come from,
+		 *                            could be a post, taxonomy or term.
 		 */
 		$replacements = apply_filters( 'wpseo_replacements', $replacements, $this->args );
 
@@ -190,7 +189,7 @@ class WPSEO_Replace_Vars {
 		 *
 		 * @example <code>add_filter( 'wpseo_replacements_final', '__return_false' );</code>
 		 *
-		 * @api     bool $final
+		 * @param bool $final
 		 */
 		if ( apply_filters( 'wpseo_replacements_final', true ) === true && ( isset( $matches[1] ) && is_array( $matches[1] ) ) ) {
 			// Remove non-replaced variables.
@@ -1587,8 +1586,8 @@ class WPSEO_Replace_Vars {
 		 * Allows filtering of the terms list used to replace %%category%%, %%tag%%
 		 * and %%ct_<custom-tax-name>%% variables.
 		 *
-		 * @api    string    $output    Comma-delimited string containing the terms.
-		 * @api    string    $taxonomy  The taxonomy of the terms.
+		 * @param string $output   Comma-delimited string containing the terms.
+		 * @param string $taxonomy The taxonomy of the terms.
 		 */
 		return apply_filters( 'wpseo_terms', $output, $taxonomy );
 	}

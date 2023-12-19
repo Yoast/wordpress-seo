@@ -380,7 +380,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 		/**
 		 * Filter 'wpseo_aioseo_post_indexation_limit' - Allow filtering the number of posts indexed during each indexing pass.
 		 *
-		 * @api int The maximum number of posts indexed.
+		 * @param int $max_posts The maximum number of posts indexed.
 		 */
 		$limit = \apply_filters( 'wpseo_aioseo_post_indexation_limit', 25 );
 
@@ -445,7 +445,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 		/**
 		 * Filter 'wpseo_aioseo_post_cursor' - Allow filtering the value of the aioseo post import cursor.
 		 *
-		 * @api int The value of the aioseo post import cursor.
+		 * @param int $import_cursor The value of the aioseo post import cursor.
 		 */
 		$cursor = \apply_filters( 'wpseo_aioseo_post_import_cursor', $cursor );
 

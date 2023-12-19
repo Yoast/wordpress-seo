@@ -91,7 +91,7 @@ class Article extends Abstract_Schema_Piece {
 		/**
 		 * Filter: 'wpseo_schema_article_keywords_taxonomy' - Allow changing the taxonomy used to assign keywords to a post type Article data.
 		 *
-		 * @api string $taxonomy The chosen taxonomy.
+		 * @param string $taxonomy The chosen taxonomy.
 		 */
 		$taxonomy = \apply_filters( 'wpseo_schema_article_keywords_taxonomy', 'post_tag' );
 
@@ -109,7 +109,7 @@ class Article extends Abstract_Schema_Piece {
 		/**
 		 * Filter: 'wpseo_schema_article_sections_taxonomy' - Allow changing the taxonomy used to assign keywords to a post type Article data.
 		 *
-		 * @api string $taxonomy The chosen taxonomy.
+		 * @param string $taxonomy The chosen taxonomy.
 		 */
 		$taxonomy = \apply_filters( 'wpseo_schema_article_sections_taxonomy', 'category' );
 
@@ -176,7 +176,7 @@ class Article extends Abstract_Schema_Piece {
 		/**
 		 * Filter: 'wpseo_schema_article_potential_action_target' - Allows filtering of the schema Article potentialAction target.
 		 *
-		 * @api array $targets The URLs for the Article potentialAction target.
+		 * @param array $targets The URLs for the Article potentialAction target.
 		 */
 		$targets = \apply_filters( 'wpseo_schema_article_potential_action_target', [ $this->context->canonical . '#respond' ] );
 

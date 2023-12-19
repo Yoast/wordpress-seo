@@ -43,7 +43,7 @@ class WPSEO_Utils {
 		 * Filter: 'wpseo_allow_system_file_edit' - Allow developers to change whether the editing of
 		 * .htaccess and robots.txt is allowed.
 		 *
-		 * @api bool $allowed Whether file editing is allowed.
+		 * @param bool $allowed Whether file editing is allowed.
 		 */
 		return apply_filters( 'wpseo_allow_system_file_edit', $allowed );
 	}
@@ -920,7 +920,7 @@ class WPSEO_Utils {
 			/**
 			 * Filter the Yoast SEO development mode.
 			 *
-			 * @api array $data Allows filtering of the JSON data for debug purposes.
+			 * @param array $data Allows filtering of the JSON data for debug purposes.
 			 */
 			$data = apply_filters( 'wpseo_debug_json_data', $data );
 		}
