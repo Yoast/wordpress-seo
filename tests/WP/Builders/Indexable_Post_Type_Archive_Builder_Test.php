@@ -1,4 +1,5 @@
 <?php
+
 namespace Yoast\WP\SEO\Tests\WP\Builders;
 
 use Yoast\WP\Lib\ORM;

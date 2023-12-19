@@ -93,7 +93,6 @@ class Crawl_Cleanup_Helper {
 		 *
 		 * @param array $allowed_extravars The list of the allowed vars (empty by default).
 		 */
-
 		$allowed_extravars = \apply_filters( 'Yoast\WP\SEO\allowlist_permalink_vars', $default_allowed_extravars );
 
 		$clean_permalinks_extra_variables = $this->options_helper->get( 'clean_permalinks_extra_variables' );

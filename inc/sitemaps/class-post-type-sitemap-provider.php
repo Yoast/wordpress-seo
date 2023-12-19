@@ -402,6 +402,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$front_page['pri'] = 1;
 
 			$images = [];
+
 			/**
 			 * Filter images to be included for the term in XML sitemap.
 			 *

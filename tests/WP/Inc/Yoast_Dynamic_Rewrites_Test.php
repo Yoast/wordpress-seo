@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\WP\Inc;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 use Yoast_Dynamic_Rewrites;
 
-
 /**
  * Unit Test Class.
  *
