@@ -89,7 +89,7 @@ class Content_Type_Visibility_Dismiss_Notifications {
 	 * Checks if there are new content types or taxonomies.
 	 *
 	 * @param array $new_content_types The new content types.
-	 * @return bool
+	 * @return void
 	 */
 	public function maybe_dismiss_notifications( $new_content_types = [] ) {
 
