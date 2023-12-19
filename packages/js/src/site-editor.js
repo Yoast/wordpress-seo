@@ -70,7 +70,7 @@ const EditorFills = () => {
 			title={ PLUGIN_TITLE }
 		>
 			<TextControl
-				label="Meta Block Field"
+				label="Focus Keyphrase"
 				defaultValue={ post?.meta?._yoast_wpseo_focuskw }
 				onChange={ saveToStore }
 			/>
