@@ -17,7 +17,7 @@ class Invalid_User_Id_Exception extends InvalidArgumentException {
 	 *
 	 * @param string         $message  [optional] The Exception message to throw.
 	 * @param int            $code     [optional] The Exception code.
-	 * @param null|Throwable $previous [optional] The previous throwable used for the exception chaining.
+	 * @param Throwable|null $previous [optional] The previous throwable used for the exception chaining.
 	 */
 	public function __construct( // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found -- Reason: A default message is used.
 		$message = 'Invalid User ID',
