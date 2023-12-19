@@ -1,7 +1,9 @@
-import { select, subscribe } from "@wordpress/data";
+import { select, subscribe, dispatch, use } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { PluginSidebar, PluginSidebarMoreMenuItem } from "@wordpress/edit-site";
 import { registerPlugin } from "@wordpress/plugins";
+import { useEffect, useState, useCallback } from "@wordpress/element";
+import { TextControl } from "@wordpress/components";
 
 const PLUGIN_TITLE = "Yoast SEO";
 
@@ -10,32 +12,76 @@ const PLUGIN_TITLE = "Yoast SEO";
  *
  * @returns {Component} The editor fills component.
  */
-const EditorFills = () => (
-	<>
+const EditorFills = () => {
+	const [ url, setUrl ] = useState( new URLSearchParams( window.location.search ) );
+	const [ post, setPost ] = useState( {
+		id: "",
+		type: "",
+	} );
+
+	useEffect( () => {
+		/**
+		 * Handles the url change.
+		 * @returns {void}
+		 */
+		const handleUrlChange = () => {
+			const urlObj = new URLSearchParams( window.location.search );
+			setUrl( urlObj );
+		};
+
+		window.addEventListener( "popstate", handleUrlChange );
+
+		return () => {
+			window.removeEventListener( "popstate", handleUrlChange );
+		};
+	}, [] );
+
+	useEffect( () => {
+		 setPost( {
+			 id: url.get( "postId" ),
+			 type: url.get( "postType" ),
+		 } );
+	}, [ url ] );
+
+	 const subscribeToGetData = () => {
+		if ( post.id && post.type ) {
+			const data = select( "core" ).getEntityRecord( "postType", post.type, post.id );
+			if ( data ) {
+				setPost( data );
+			}
+		}
+	 };
+
+	 subscribe( subscribeToGetData );
+
+	 const saveToStore = useCallback( ( content ) => {
+		const { editEntityRecord } = dispatch( "core" );
+		editEntityRecord( "postType", post.type, post.id, {
+			meta: { _yoast_wpseo_focuskw: content } } );
+	}, [ post ] );
+
+
+	return <>
 		<PluginSidebarMoreMenuItem target="seo-sidebar">
 			{ PLUGIN_TITLE }
 		</PluginSidebarMoreMenuItem>
 		<PluginSidebar
 			name="seo-sidebar"
 			title={ PLUGIN_TITLE }
-		/>
-	</>
-);
-
-let previousContext = {};
-const subscribeToEditedPost = () => {
-	const context = select( "core/edit-site" ).getEditedPostContext();
-	if ( context?.postType !== previousContext?.postType || context?.postId !== previousContext?.postId || context?.templateSlug !== previousContext?.templateSlug ) {
-		previousContext = context;
-		console.log( "CONTEXT CHANGED", context );
-	}
+		>
+			<TextControl
+				label="Meta Block Field"
+				defaultValue={ post?.meta?._yoast_wpseo_focuskw }
+				onChange={ saveToStore }
+			/>
+		</PluginSidebar>
+	</>;
 };
+
 
 domReady( () => {
 	// TODO: find a way to listen to the editor switching to a post/page/whatever
-	subscribe( subscribeToEditedPost );
 
-	//
 	//	const postId = select( "core/edit-site" ).getEditedPostContext().postId;
 	//	window.yoast = window.yoast || {};
 	//
