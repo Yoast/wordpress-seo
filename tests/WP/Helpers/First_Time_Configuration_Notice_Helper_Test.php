@@ -46,8 +46,8 @@ final class First_Time_Configuration_Notice_Helper_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp(): void {
-		parent::setUp();
+	public function set_up(): void {
+		parent::set_up();
 		$this->options_helper         = new Options_Helper();
 		$this->indexing_helper        = Mockery::mock( Indexing_Helper::class );
 		$this->show_alternate_message = false;

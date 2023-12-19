@@ -31,8 +31,8 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp(): void {
-		parent::setUp();
+	public function set_up(): void {
+		parent::set_up();
 
 		$this->user_id = self::factory()->user->create_and_get(
 			[

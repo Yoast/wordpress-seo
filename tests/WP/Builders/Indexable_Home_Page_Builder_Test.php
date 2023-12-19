@@ -24,8 +24,8 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp(): void {
-		parent::setUp();
+	public function set_up(): void {
+		parent::set_up();
 
 		$this->instance = new Indexable_Home_Page_Builder(
 			\YoastSEO()->helpers->options,
