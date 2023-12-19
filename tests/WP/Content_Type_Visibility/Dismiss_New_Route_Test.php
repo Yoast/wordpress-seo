@@ -240,11 +240,11 @@ final class Dismiss_New_Route_Test extends TestCase {
 		);
 	}
 
-		/**
-		 * Tests the taxonomy_dismiss method when is fails.
-		 *
-		 * @covers ::post_type_dismiss_callback
-		 */
+	/**
+	 * Tests the taxonomy_dismiss method when is fails.
+	 *
+	 * @covers ::post_type_dismiss_callback
+	 */
 	public function test_post_type_dismiss_fail() {
 		$new_post_types = [ 'book', 'movie' ];
 		$this->content_type_visibility_notifications->new_taxonomy( $new_post_types );

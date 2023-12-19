@@ -28,11 +28,11 @@ class Content_Type_Visibility_Watcher_Actions implements Integration_Interface {
 	 */
 	private $notification_center;
 
-		/**
-		 * The notifications center.
-		 *
-		 * @var Content_Type_Visibility_Dismiss_Notifications
-		 */
+	/**
+	 * The notifications center.
+	 *
+	 * @var Content_Type_Visibility_Dismiss_Notifications
+	 */
 	private $content_type_dismiss_notifications;
 
 	/**

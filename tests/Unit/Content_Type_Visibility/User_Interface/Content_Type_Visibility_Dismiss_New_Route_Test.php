@@ -183,11 +183,11 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 		$this->assertInstanceOf( WP_REST_Response::class, $result );
 	}
 
-		/**
-		 * Tests taxonomy_dismiss_callback method.
-		 *
-		 * @covers ::taxonomy_dismiss_callback
-		 */
+	/**
+	 * Tests taxonomy_dismiss_callback method.
+	 *
+	 * @covers ::taxonomy_dismiss_callback
+	 */
 	public function test_taxonomy_dismiss_callback() {
 		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 

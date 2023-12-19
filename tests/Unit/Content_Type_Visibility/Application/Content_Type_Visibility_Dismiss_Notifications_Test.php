@@ -180,11 +180,11 @@ final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase 
 			->andReturn( 0 );
 	}
 
-		/**
-		 * Data provider for maybe_add_settings_notification.
-		 *
-		 * @return array
-		 */
+	/**
+	 * Data provider for maybe_add_settings_notification.
+	 *
+	 * @return array
+	 */
 	public static function data_provider_maybe_add_settings_notification() {
 		return [
 			'Show notification and reset' => [
@@ -309,11 +309,11 @@ final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase 
 		$this->assertSame( $expected, $response );
 	}
 
-		/**
-		 * Tests the taxonomy_dismiss method.
-		 *
-		 * @covers ::post_type_dismiss
-		 */
+	/**
+	 * Tests the taxonomy_dismiss method.
+	 *
+	 * @covers ::post_type_dismiss
+	 */
 	public function test_taxonomy_dismiss_not_new() {
 
 		$this->options
