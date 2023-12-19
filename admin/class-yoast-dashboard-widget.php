@@ -36,7 +36,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	 *
 	 * @param WPSEO_Statistics|null $statistics WPSEO_Statistics instance.
 	 */
-	public function __construct( WPSEO_Statistics $statistics = null ) {
+	public function __construct( ?WPSEO_Statistics $statistics = null ) {
 		if ( $statistics === null ) {
 			$statistics = new WPSEO_Statistics();
 		}

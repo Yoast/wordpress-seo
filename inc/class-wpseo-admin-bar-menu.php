@@ -119,11 +119,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @param WPSEO_Shortlinker|null         $shortlinker          The shortlinker.
 	 */
 	public function __construct(
-		WPSEO_Admin_Asset_Manager $asset_manager = null,
-		Indexable_Repository $indexable_repository = null,
-		Score_Icon_Helper $score_icon_helper = null,
-		Product_Helper $product_helper = null,
-		WPSEO_Shortlinker $shortlinker = null
+		?WPSEO_Admin_Asset_Manager $asset_manager = null,
+		?Indexable_Repository $indexable_repository = null,
+		?Score_Icon_Helper $score_icon_helper = null,
+		?Product_Helper $product_helper = null,
+		?WPSEO_Shortlinker $shortlinker = null
 	) {
 		if ( ! $asset_manager ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
