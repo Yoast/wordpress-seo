@@ -1,3 +1,4 @@
+import { singleWords } from "./transitionWords";
 /**
  * Returns an object with exceptions for the prominent words researcher
  * @returns {Object} The object filled with exception arrays.
@@ -304,7 +305,7 @@ export const filteredAtBeginningAndEnding = [].concat( articles, prepositions, p
 	demonstrativePronouns, intensifiers, quantifiers );
 
 // These word categories are filtered everywhere within word combinations.
-export const filteredAnywhere = [].concat( transitionWords, adverbialGenitives, personalPronounsNominative, personalPronounsAccusative,
+export const filteredAnywhere = [].concat( transitionWords, singleWords, adverbialGenitives, personalPronounsNominative, personalPronounsAccusative,
 	reflexivePronouns, interjections, cardinalNumerals, otherAuxiliaries, copula, interviewVerbs,
 	delexicalizedVerbs, indefinitePronouns, subordinatingConjunctions, interrogativeDeterminers,
 	interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs,
@@ -315,7 +316,7 @@ export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demon
 	personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers,
 	interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs,
 	otherAuxiliaries, copula, prepositions, coordinatingConjunctions, subordinatingConjunctions, interviewVerbs,
-	transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
+	transitionWords, singleWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
 	recipeWords, vagueNouns, miscellaneous, titlesPreceding, vocativeParticles, relativePronouns, prepositionPrecedingPronouns );
 
 export default {
