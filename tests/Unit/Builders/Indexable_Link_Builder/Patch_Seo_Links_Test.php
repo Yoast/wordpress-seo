@@ -120,10 +120,8 @@ final class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCas
 			->times( $update_target_indexable_id_times )
 			->andReturn( [] );
 
-		if ( $update_target_indexable_id_times !== 0 ) {
-			Functions\expect( 'wp_cache_supports' )->once()->andReturnTrue();
-			Functions\expect( 'wp_cache_flush_group' )->once()->andReturnTrue();
-		}
+		Functions\expect( 'wp_cache_supports' )->times( $update_target_indexable_id_times )->andReturnTrue();
+		Functions\expect( 'wp_cache_flush_group' )->times( $update_target_indexable_id_times )->andReturnTrue();
 
 		$this->instance->patch_seo_links( $indexable );
 	}

@@ -108,10 +108,8 @@ final class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Li
 				->once();
 		}
 
-		if ( $get_incoming_link_counts_for_indexable_ids_times !== 0 ) {
-			Functions\expect( 'wp_cache_supports' )->once()->andReturnTrue();
-			Functions\expect( 'wp_cache_flush_group' )->once()->andReturnTrue();
-		}
+		Functions\expect( 'wp_cache_supports' )->times( $get_incoming_link_counts_for_indexable_ids_times )->andReturnTrue();
+		Functions\expect( 'wp_cache_flush_group' )->times( $get_incoming_link_counts_for_indexable_ids_times )->andReturnTrue();
 
 		$this->instance->exposed_update_incoming_links_for_related_indexables( $related_indexable_ids );
 	}
