@@ -1,5 +1,3 @@
-import { flatten } from "lodash-es";
-
 /**
  * Splits words from an array that contain hyphens and adds the elements to the array if they are not yet there.
  *
@@ -8,12 +6,12 @@ import { flatten } from "lodash-es";
  * @returns {Array} A new array with the elements containing hyphens split.
  */
 export default function( array ) {
-	const newArray = array;
+	let newArray = array;
 	array.forEach( element => {
 		element = element.split( "-" );
 		if ( element.length > 0 && element.filter( unit => ! array.includes( unit ) ).length > 0 ) {
-			newArray.push( element );
+			newArray = newArray.concat( element );
 		}
 	} );
-	return flatten( newArray );
+	return newArray;
 }
