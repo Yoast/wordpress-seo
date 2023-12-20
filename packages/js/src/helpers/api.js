@@ -13,7 +13,7 @@ import apiFetch from "@wordpress/api-fetch";
 export async function handleAPIResponse( apiRequest, onSuccessCallback, onFailureCallback, expectedStatusCode = 200 ) {
 	try {
 		const response = await apiRequest();
-
+console.log("1234567890");
 		// No response if the request was aborted.
 		if ( response ) {
 			if ( response.status === expectedStatusCode ) {
