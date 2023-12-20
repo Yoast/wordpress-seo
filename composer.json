@@ -28,7 +28,7 @@
 		"composer/installers": "^1.12 || ^2.0"
 	},
 	"require-dev": {
-		"guzzlehttp/guzzle": "7.8.0",
+		"guzzlehttp/guzzle": "7.8.1",
 		"humbug/php-scoper": "^0.13.4",
 		"league/oauth2-client": "2.7.0",
 		"psr/container": "1.0.0",
