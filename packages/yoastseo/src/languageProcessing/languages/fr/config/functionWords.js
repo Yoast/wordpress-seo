@@ -247,6 +247,11 @@ export const filteredAnywhere = transformWordsWithHyphens( [].concat( transition
 	indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeAdjectives, relativePronouns,
 	locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns ) );
 
+/* For `cannotDirectlyPrecedePassiveParticiple` and `cannotBeBetweenPassiveAuxiliaryAndParticiple`,
+ we don't transform the hyphenated words from the list. This is because by transforming them using `transformWordsWithHyphens`,
+ we could cause inaccuracy in detecting French passive voice.
+ */
+
 // These word categories cannot directly precede a passive participle.
 export const cannotDirectlyPrecedePassiveParticiple = [].concat( articles, prepositions, personalPronounsStressed,
 	personalPronounsAccusative, possessivePronouns, reflexivePronouns, indefinitePronouns, interrogativeProAdverbs,
