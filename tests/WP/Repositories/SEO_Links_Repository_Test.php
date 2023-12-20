@@ -236,7 +236,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_test_update_target_indexable_id() {
+	public static function data_provider_test_update_target_indexable_id() {
 		return [
 			'The update should be succesful, with no change' => [
 				'link_id'             => 113,
@@ -289,7 +289,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_test_delete_all_by_post_id() {
+	public static function data_provider_test_delete_all_by_post_id() {
 		return [
 			'The delete should be succesful' => [
 				'post_id'         => 110,
@@ -344,7 +344,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_test_delete_all_by_post_id_where_indexable_id_null() {
+	public static function data_provider_test_delete_all_by_post_id_where_indexable_id_null() {
 		return [
 			'The delete should be succesful' => [
 				'post_id'         => 110,
@@ -410,7 +410,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_test_delete_all_by_indexable_id() {
+	public static function data_provider_test_delete_all_by_indexable_id() {
 		return [
 			'The delete should be succesful' => [
 				'indexable_id'    => 101,
@@ -464,7 +464,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_get_incoming_link_counts_for_post_ids() {
+	public static function data_provider_get_incoming_link_counts_for_post_ids() {
 		return [
 			'One item in post_ids array with result' => [
 				'post_ids'        => [ 154 ],
@@ -532,7 +532,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_test_delete_many_by_id() {
+	public static function data_provider_test_delete_many_by_id() {
 		return [
 			'The delete should be succesful' => [
 				'ids'             => [ 222, 113 ],
@@ -588,7 +588,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_test_get_incoming_link_counts_for_indexable_ids() {
+	public static function data_provider_test_get_incoming_link_counts_for_indexable_ids() {
 		return [
 			'One target indexable id' => [
 				'indexable_ids'   => [ 355 ],

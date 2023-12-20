@@ -354,7 +354,7 @@ final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_donot_map() {
+	public static function provider_donot_map() {
 		$aioseo_indexable = [
 			'id'      => 123,
 			'post_id' => 234,
@@ -771,7 +771,7 @@ final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_social_image_url_import() {
+	public static function provider_social_image_url_import() {
 		$open_graph_mapping = [
 			'yoast_name'                   => 'open_graph_image',
 			'social_image_import'          => true,

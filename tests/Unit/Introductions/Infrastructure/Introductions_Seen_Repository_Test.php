@@ -87,7 +87,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provide_get_all_introductions_test_data() {
+	public static function provide_get_all_introductions_test_data() {
 		return [
 			'nothing stored'    => [
 				'meta'     => '',
@@ -173,7 +173,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provide_is_introduction_seen_test_data() {
+	public static function provide_is_introduction_seen_test_data() {
 		return [
 			'seen'             => [
 				'introduction_id' => 'foo',
@@ -248,7 +248,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provide_set_introduction_test_data() {
+	public static function provide_set_introduction_test_data() {
 		return [
 			'seen'      => [
 				'introduction_id' => 'foo',

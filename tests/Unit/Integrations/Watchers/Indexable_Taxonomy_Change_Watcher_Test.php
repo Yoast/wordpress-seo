@@ -199,7 +199,7 @@ final class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_check_taxonomy_public_availability() {
+	public static function provider_check_taxonomy_public_availability() {
 
 		return [
 			'When it is ajax request' => [

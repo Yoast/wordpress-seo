@@ -248,7 +248,7 @@ final class First_Time_Configuration_Route_Test extends TestCase {
 	 *
 	 * @return array Data for can_edit_user function.
 	 */
-	public function can_edit_user_provider() {
+	public static function can_edit_user_provider() {
 		$success = [
 			'can_edit' => (object) [
 				'success' => true,

@@ -119,7 +119,7 @@ final class Aioseo_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_global_option() {
+	public static function provider_get_global_option() {
 		$retrieved_aioseo_options = [
 			'option1' => 'value1',
 			'option2' => 'value2',
@@ -135,7 +135,7 @@ final class Aioseo_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_aioseo_exists() {
+	public static function provider_aioseo_exists() {
 		return [
 			[ false, false ],
 			[ true, true ],

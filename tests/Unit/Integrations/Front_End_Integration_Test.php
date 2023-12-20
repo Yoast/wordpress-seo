@@ -741,7 +741,7 @@ final class Front_End_Integration_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_query_loop_next_prev() {
+	public static function data_provider_query_loop_next_prev() {
 		return [
 			'Next link' => [
 				'html'       => '<a href="/?query-1-page=2">Next</a>',

@@ -280,7 +280,7 @@ final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_import_single_setting() {
+	public static function provider_import_single_setting() {
 		return [
 			[
 				'/separator',
@@ -306,7 +306,7 @@ final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_total_unindexed() {
+	public static function provider_get_total_unindexed() {
 		return [
 			[ [], true, 0 ],
 			[ [ 0 ], false, 1 ],
@@ -319,7 +319,7 @@ final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_limited_unindexed() {
+	public static function provider_get_limited_unindexed() {
 		return [
 			[ [], true, 0 ],
 			[ [ 0 ], false, 1 ],
@@ -332,7 +332,7 @@ final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_index() {
+	public static function provider_index() {
 		return [
 			[ [], true, [] ],
 			[
@@ -365,7 +365,7 @@ final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_unimported_chunk() {
+	public static function provider_get_unimported_chunk() {
 		$aioseo_settings = [
 			'post'       => [
 				'title'           => 'title1',

@@ -355,7 +355,7 @@ final class Pagination_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_get_current_post_page_number() {
+	public static function data_provider_get_current_post_page_number() {
 		return [
 			'query_var page number' => [
 				'query_var_paged'    => '2',
@@ -415,7 +415,7 @@ final class Pagination_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_get_current_page_number() {
+	public static function data_provider_get_current_page_number() {
 		return [
 			'Query var paged' => [
 				'query_var_paged' => 100,
@@ -506,7 +506,7 @@ final class Pagination_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_get_key_query_loop() {
+	public static function data_provider_get_key_query_loop() {
 		return [
 			'Key with one digit number' => [
 				'key'     => 'query-1-page',
@@ -565,7 +565,7 @@ final class Pagination_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_test_get_page_number_from_query_loop() {
+	public static function data_provider_test_get_page_number_from_query_loop() {
 		return [
 			'Key with one digit number' => [
 				'key'     => 'query-1-page',

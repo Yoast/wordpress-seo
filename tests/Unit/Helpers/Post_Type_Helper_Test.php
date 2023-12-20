@@ -68,7 +68,7 @@ final class Post_Type_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function post_type_archive_provider() {
+	public static function post_type_archive_provider() {
 		$book              = new stdClass();
 		$book->name        = 'books';
 		$book->has_archive = true;
@@ -112,7 +112,7 @@ final class Post_Type_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function post_type_archive_object_provider() {
+	public static function post_type_archive_object_provider() {
 		$book              = new stdClass();
 		$book->name        = 'books';
 		$book->has_archive = true;

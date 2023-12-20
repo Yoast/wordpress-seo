@@ -154,7 +154,7 @@ final class Open_Graph_Helpers_Surface_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provide_classes() {
+	public static function provide_classes() {
 		return [
 			'get helpers from the helpers namespace'        => [
 				'helper_name' => 'test',

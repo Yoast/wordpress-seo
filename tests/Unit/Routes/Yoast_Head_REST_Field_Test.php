@@ -304,7 +304,7 @@ final class Yoast_Head_REST_Field_Test extends TestCase {
 	 *
 	 * @return array A mapping of methods and expected inputs.
 	 */
-	public function method_provider() {
+	public static function method_provider() {
 		return [
 			[
 				'for_post',

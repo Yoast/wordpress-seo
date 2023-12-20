@@ -92,7 +92,7 @@ final class Indexable_Builder_Versions_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_get_latest_version_for_type() {
+	public static function data_get_latest_version_for_type() {
 		$default = Indexable_Builder_Versions::DEFAULT_INDEXABLE_BUILDER_VERSION;
 
 		return [

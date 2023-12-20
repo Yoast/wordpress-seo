@@ -275,7 +275,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function get_incoming_link_counts_for_indexable_ids_provider() {
+	public static function get_incoming_link_counts_for_indexable_ids_provider() {
 		return [
 			'Indexable counts is false' => [
 				'indexable_counts' => false,

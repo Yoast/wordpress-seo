@@ -136,7 +136,7 @@ final class Support_Integration_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function register_hooks_provider() {
+	public static function register_hooks_provider() {
 		return [
 			'Not on support page' => [
 				'current_page' => 'not support page',
@@ -252,7 +252,7 @@ final class Support_Integration_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_enqueu_black_friday_style() {
+	public static function data_provider_enqueu_black_friday_style() {
 		return [
 			'is black friday' => [
 				'is_black_friday' => true,

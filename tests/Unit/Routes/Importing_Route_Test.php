@@ -174,7 +174,7 @@ final class Importing_Route_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function all_routes() {
+	public static function all_routes() {
 		return [
 			[
 				'aioseo',

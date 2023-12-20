@@ -209,7 +209,7 @@ final class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_featured_image() {
+	public static function provider_get_featured_image() {
 		return [
 			[ 234, 234, 1, 'https://example.com/featured-image.png' ],
 			[ false, 'irrelevant', 0, '' ],
@@ -221,7 +221,7 @@ final class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_first_attached_image() {
+	public static function provider_get_first_attached_image() {
 		$no_attachments = [];
 
 		$multiple_attachments = [
@@ -245,7 +245,7 @@ final class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_first_image_in_content() {
+	public static function provider_get_first_image_in_content() {
 		return [
 			[ 'https://example.com/gallery-image.png', 'irrelevant', 0, 'https://example.com/gallery-image.png' ],
 			[ '', 'https://example.com/post-content-image.png', 1, 'https://example.com/post-content-image.png' ],
@@ -257,7 +257,7 @@ final class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_default_custom_social_image() {
+	public static function provider_get_default_custom_social_image() {
 		$image_url      = 'https://example.com/image.png';
 		$empty_settings = [];
 
@@ -333,7 +333,7 @@ final class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_default_social_image_source() {
+	public static function provider_get_default_social_image_source() {
 		$empty_settings = [];
 
 		$fb_default_image            = [

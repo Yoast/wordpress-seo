@@ -73,7 +73,7 @@ final class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @return array Data to use for test_add_disallow.
 	 */
-	public function add_disallow_dataprovider() {
+	public static function add_disallow_dataprovider() {
 		$single_disallow_rule                         = [
 			'arguments' => [
 				[ '*', '/admin.php' ],
@@ -160,7 +160,7 @@ final class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @return array Data to use for test_add_allow.
 	 */
-	public function add_allow_dataprovider() {
+	public static function add_allow_dataprovider() {
 		$single_allow_rule                         = [
 			'arguments' => [
 				[ '*', '/admin.php' ],
@@ -247,7 +247,7 @@ final class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @return array Data to use for test_add_sitemap.
 	 */
-	public function add_sitemap_dataprovider() {
+	public static function add_sitemap_dataprovider() {
 		$single_sitemap    = [
 			'sitemaps' => [
 				'http://sitemap.com/sitemap_index.xml',

@@ -81,7 +81,7 @@ final class User_Profile_Test extends TestCase {
 	 *
 	 * @return array The data for test_process_user_option_update_with_dataprovider.
 	 */
-	public function process_user_option_update_dataprovider() {
+	public static function process_user_option_update_dataprovider() {
 		$all_set                               = [
 			[
 				'wpseo_author_title' => [

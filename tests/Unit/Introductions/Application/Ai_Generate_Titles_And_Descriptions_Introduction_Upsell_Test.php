@@ -140,7 +140,7 @@ final class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends
 	 *
 	 * @return array
 	 */
-	public function should_show_data() {
+	public static function should_show_data() {
 		return [
 			'showing'                                 => [
 				'is_premium'          => false,

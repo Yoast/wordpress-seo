@@ -120,7 +120,7 @@ final class Academy_Integration_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function register_hooks_provider() {
+	public static function register_hooks_provider() {
 		return [
 			'Not on academy page' => [
 				'current_page' => 'not academy page',

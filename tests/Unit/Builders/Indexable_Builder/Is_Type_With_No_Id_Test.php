@@ -45,7 +45,7 @@ final class Is_Type_With_No_Id_Test extends Abstract_Indexable_Builder_TestCase 
 	 *
 	 * @return array The test data.
 	 */
-	public function is_type_with_no_id_provider() {
+	public static function is_type_with_no_id_provider() {
 		return [
 			'Home page type' => [
 				'type'     => 'home-page',

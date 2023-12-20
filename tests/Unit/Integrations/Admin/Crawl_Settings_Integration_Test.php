@@ -120,7 +120,7 @@ final class Crawl_Settings_Integration_Test extends TestCase {
 	 *
 	 * @return array The data for the test: $is_network_admin, $get_response, $expected.
 	 */
-	public function enqueue_assets_provider() {
+	public static function enqueue_assets_provider() {
 		return [
 			[ true, null, 0 ],
 			[ false, null, 0 ],

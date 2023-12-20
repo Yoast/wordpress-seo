@@ -115,7 +115,7 @@ final class Redirect_Integration_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_old_settings_redirect() {
+	public static function provider_old_settings_redirect() {
 		return [
 			[ 'wpseo_titles', 1 ],
 			[ 'NOT_wpseo_titles', 0 ],

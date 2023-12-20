@@ -225,7 +225,7 @@ final class Metabox_Test extends TestCase {
 	 *
 	 * @return array The data to use.
 	 */
-	public function save_metabox_field_provider() {
+	public static function save_metabox_field_provider() {
 		return [
 			[
 				// Related issue for this case: https://github.com/Yoast/wordpress-seo/issues/14476.

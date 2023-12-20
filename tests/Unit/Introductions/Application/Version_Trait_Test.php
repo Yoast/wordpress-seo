@@ -54,7 +54,7 @@ final class Version_Trait_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function is_version_between_get_data() {
+	public static function is_version_between_get_data() {
 		return [
 			'minor version'     => [
 				'version'     => '21.0',

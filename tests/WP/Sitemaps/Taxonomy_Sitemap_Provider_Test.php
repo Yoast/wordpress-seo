@@ -103,7 +103,7 @@ final class Taxonomy_Sitemap_Provider_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_is_valis_taxonomy() {
+	public static function data_provider_is_valis_taxonomy() {
 		return [
 			'Pattern Categories' => [
 				'taxonomy' => 'wp_pattern_category',

@@ -86,7 +86,7 @@ final class Score_Icon_Helper_Test extends TestCase {
 	 *
 	 * @return array The readability data.
 	 */
-	public function readability_provider() {
+	public static function readability_provider() {
 		return [
 			'not available' => [
 				'score'       => 0,
@@ -141,7 +141,7 @@ final class Score_Icon_Helper_Test extends TestCase {
 	 *
 	 * @return array The inclusive language data.
 	 */
-	public function inclusive_language_provider() {
+	public static function inclusive_language_provider() {
 		return [
 			'not available' => [
 				'score'       => 0,
@@ -200,7 +200,7 @@ final class Score_Icon_Helper_Test extends TestCase {
 	 *
 	 * @return array The SEO data.
 	 */
-	public function seo_provider() {
+	public static function seo_provider() {
 		return [
 			'not available'      => [
 				'is_indexable'   => true,

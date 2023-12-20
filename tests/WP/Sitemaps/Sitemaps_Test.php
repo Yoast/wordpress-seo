@@ -57,7 +57,7 @@ final class Sitemaps_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_post_sitemap() {
+	public static function data_post_sitemap() {
 		return [
 			[ '<?xml' ],
 			[ '<urlset ' ],
@@ -93,7 +93,7 @@ final class Sitemaps_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_main_sitemap() {
+	public static function data_main_sitemap() {
 		return [
 			[ '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' ],
 			[ '<sitemap>' ],

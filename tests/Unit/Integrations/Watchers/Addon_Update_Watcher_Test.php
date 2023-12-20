@@ -481,7 +481,7 @@ final class Addon_Update_Watcher_Test extends TestCase {
 	 *
 	 * @return string[][] The data.
 	 */
-	public function plugin_provider() {
+	public static function plugin_provider() {
 		return [
 			[ 'wordpress-seo-premium/wp-seo-premium.php' ],
 			[ 'wpseo-video/video-seo.php' ],

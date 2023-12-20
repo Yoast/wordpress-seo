@@ -122,7 +122,7 @@ final class Import_Cursor_Helper_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_cursor_invalid function.
 	 */
-	public function not_set_cursor_values() {
+	public static function not_set_cursor_values() {
 		return [
 			[ 0 ],
 			[ -1 ],
@@ -167,7 +167,7 @@ final class Import_Cursor_Helper_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_cursor function.
 	 */
-	public function set_cursor_values() {
+	public static function set_cursor_values() {
 		return [
 			[ 1338 ],
 			[ 1337.5 ],

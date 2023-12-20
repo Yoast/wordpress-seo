@@ -81,7 +81,7 @@ final class Router_Test extends TestCase {
 	 *
 	 * @return array Test data to use.
 	 */
-	public function data_get_base_url() {
+	public static function data_get_base_url() {
 		return [
 			'Tests the base URL of the sitemap for an http home url' => [
 				'home_url' => 'http://example.org',
@@ -160,7 +160,7 @@ final class Router_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function data_needs_sitemap_index_redirect() {
+	public static function data_needs_sitemap_index_redirect() {
 		$server_vars_sets = [
 			[
 				'SERVER_NAME' => 'testsite.org',

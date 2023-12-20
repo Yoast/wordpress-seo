@@ -244,7 +244,7 @@ final class Breadcrumbs_Generator_Test extends TestCase {
 	 *
 	 * @return array The data to use.
 	 */
-	public function generate_provider() {
+	public static function generate_provider() {
 		return [
 			'hide-blog-page' => [
 				'scenario'         => 'hide-blog-page',
@@ -344,7 +344,7 @@ final class Breadcrumbs_Generator_Test extends TestCase {
 	 *
 	 * @return array[] Test data to use.
 	 */
-	public function date_archive_provider() {
+	public static function date_archive_provider() {
 		return [
 			'for_day' => [
 				'scenario'     => 'day',

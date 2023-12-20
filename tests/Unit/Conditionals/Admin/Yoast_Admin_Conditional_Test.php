@@ -85,7 +85,7 @@ final class Yoast_Admin_Conditional_Test extends TestCase {
 	 *
 	 * @return array The data.
 	 */
-	public function is_met_data() {
+	public static function is_met_data() {
 		return [
 			'on a Yoast admin page'     => [
 				'is_admin'          => true,

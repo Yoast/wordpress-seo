@@ -47,7 +47,7 @@ final class Save_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function save_indexable_provider() {
+	public static function save_indexable_provider() {
 		$before = Mockery::mock( Indexable::class );
 		return [
 			'Should index and save' => [

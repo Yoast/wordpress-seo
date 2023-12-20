@@ -963,7 +963,7 @@ final class Yoast_Notification_Center_Test extends TestCase {
 	 *
 	 * @return array The test values.
 	 */
-	public function has_stored_notifications_provider() {
+	public static function has_stored_notifications_provider() {
 		return [
 			[
 				'stored_notifications' => false,
