@@ -95,7 +95,7 @@ final class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends Test
 	 *
 	 * @var array
 	 */
-	protected $full_settings_to_import = [
+	protected static $full_settings_to_import = [
 		'post'       => [
 			'show'            => true,
 			'title'           => 'Post Title',
@@ -137,7 +137,7 @@ final class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends Test
 	 *
 	 * @var array
 	 */
-	protected $flattened_settings_to_import = [
+	protected static $flattened_settings_to_import = [
 		'/post/show'                              => true,
 		'/post/title'                             => 'Post Title',
 		'/post/metaDescription'                   => 'Post Desc',
@@ -337,7 +337,7 @@ final class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends Test
 	 *
 	 * @return array
 	 */
-	public function provider_isset_settings_tab() {
+	public static function provider_isset_settings_tab() {
 		$aioseo_settings_with_subsetting_set = [
 			'searchAppearance' => [
 				'postTypes' => 'settings',
@@ -360,7 +360,7 @@ final class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends Test
 	 *
 	 * @return array
 	 */
-	public function provider_import_redirect_attachment() {
+	public static function provider_import_redirect_attachment() {
 		return [
 			[ 'disabled', false ],
 			[ 'attachment', true ],
@@ -373,7 +373,7 @@ final class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends Test
 	 *
 	 * @return array
 	 */
-	public function provider_map() {
+	public static function provider_map() {
 		return [
 			[ '/post/title', 'Post Title', 1, 1, 0 ],
 			[ '/post/metaDescription', 'Post Desc', 1, 1, 0 ],
@@ -397,10 +397,10 @@ final class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends Test
 	 *
 	 * @return array
 	 */
-	public function provider_query() {
+	public static function provider_query() {
 		$full_settings = [
 			'searchAppearance' => [
-				'postTypes'   => $this->full_settings_to_import,
+				'postTypes'   => self::$full_settings_to_import,
 				'archives'    => [
 					'author' => [
 						'title'           => 'title1',
@@ -410,10 +410,10 @@ final class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends Test
 			],
 		];
 
-		$full_settings_expected = $this->flattened_settings_to_import;
+		$full_settings_expected = self::$flattened_settings_to_import;
 
 		return [
-			[ \json_encode( $full_settings ), $this->full_settings_to_import, $full_settings_expected, 1 ],
+			[ \json_encode( $full_settings ), self::$full_settings_to_import, $full_settings_expected, 1 ],
 		];
 	}
 }

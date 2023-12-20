@@ -59,7 +59,7 @@ final class Utils_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function translate_score_provider() {
+	public static function translate_score_provider() {
 		return [
 			[ 0, true, 'na' ],
 			[ 1, true, 'bad' ],
@@ -211,7 +211,7 @@ final class Utils_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function sanitize_url_provider() {
+	public static function sanitize_url_provider() {
 		return [
 			// Related issue: https://github.com/Yoast/wordpress-seo/issues/17099.
 			'with_at_sign_in_url_path'       => [

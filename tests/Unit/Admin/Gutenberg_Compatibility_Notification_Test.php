@@ -110,7 +110,7 @@ final class Gutenberg_Compatibility_Notification_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_manage_notification_remove_notification() {
+	public static function data_provider_manage_notification_remove_notification() {
 		return [
 			'filter is false'  => [
 				'installed'        => true,

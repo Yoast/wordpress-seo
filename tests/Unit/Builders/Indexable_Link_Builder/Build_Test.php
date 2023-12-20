@@ -27,7 +27,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function build_provider() {
+	public static function build_provider() {
 		return [
 			[
 				'
@@ -410,7 +410,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @return Generator
 	 */
-	public function provide_no_content_scan() {
+	public static function provide_no_content_scan() {
 		yield 'No content so no links' => [
 			'input_content' => '',
 			'output_result' => [],

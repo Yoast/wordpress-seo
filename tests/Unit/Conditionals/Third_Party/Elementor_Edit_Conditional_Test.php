@@ -70,7 +70,7 @@ final class Elementor_Edit_Conditional_Test extends TestCase {
 	 *
 	 * @return array[] The data for test_is_met.
 	 */
-	public function is_met_dataprovider() {
+	public static function is_met_dataprovider() {
 		$action_in_get          = [
 			'pagenow_new'   => 'post.php',
 			'get_action'    => 'elementor',

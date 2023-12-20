@@ -847,7 +847,7 @@ final class Addon_Manager_Test extends TestCase {
 	 *
 	 * @return array Values for the test.
 	 */
-	public function check_for_updates_provider() {
+	public static function check_for_updates_provider() {
 		return [
 			[
 				'addons'   => [],
@@ -945,7 +945,7 @@ final class Addon_Manager_Test extends TestCase {
 	 *
 	 * @return array Values for the test.
 	 */
-	public function get_plugin_information_provider() {
+	public static function get_plugin_information_provider() {
 		return [
 			[
 				'action'   => 'wrong_action',
@@ -1107,7 +1107,7 @@ final class Addon_Manager_Test extends TestCase {
 	 *
 	 * @return array[] The data for test_get_myyoast_site_information.
 	 */
-	public function get_myyoast_site_information_dataprovider() {
+	public static function get_myyoast_site_information_dataprovider() {
 		$normal_call            = [
 			'pagenow_new'      => 'plugins.php',
 			'page'             => 'wpseo_licences',

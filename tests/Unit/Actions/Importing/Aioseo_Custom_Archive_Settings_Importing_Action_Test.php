@@ -103,7 +103,7 @@ final class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCas
 	 *
 	 * @var array
 	 */
-	protected $full_settings_to_import = [
+	protected static $full_settings_to_import = [
 		'book'  => [
 			'show'            => true,
 			'title'           => 'Book Title',
@@ -127,7 +127,7 @@ final class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCas
 	 *
 	 * @var array
 	 */
-	protected $flattened_settings_to_import = [
+	protected static $flattened_settings_to_import = [
 		'/book/show'                              => true,
 		'/book/title'                             => 'Book Title',
 		'/book/metaDescription'                   => 'Book Desc',
@@ -304,7 +304,7 @@ final class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCas
 	 *
 	 * @return array
 	 */
-	public function provider_isset_settings_tab() {
+	public static function provider_isset_settings_tab() {
 		$aioseo_settings_with_subsetting_set = [
 			'searchAppearance' => [
 				'archives' => 'settings',
@@ -327,7 +327,7 @@ final class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCas
 	 *
 	 * @return array
 	 */
-	public function provider_map() {
+	public static function provider_map() {
 		return [
 			[ '/book/title', 'Book Title', 1, 1, 0 ],
 			[ '/book/metaDescription', 'Book Desc', 1, 1, 0 ],
@@ -344,10 +344,10 @@ final class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCas
 	 *
 	 * @return array
 	 */
-	public function provider_query() {
+	public static function provider_query() {
 		$full_settings = [
 			'searchAppearance' => [
-				'archives'   => $this->full_settings_to_import,
+				'archives'   => self::$full_settings_to_import,
 				'postypes'   => [
 					'post' => [
 						'title'           => 'title1',
@@ -363,10 +363,10 @@ final class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCas
 			],
 		];
 
-		$full_settings_expected = $this->flattened_settings_to_import;
+		$full_settings_expected = self::$flattened_settings_to_import;
 
 		return [
-			[ \json_encode( $full_settings ), $this->full_settings_to_import, $full_settings_expected, 1 ],
+			[ \json_encode( $full_settings ), self::$full_settings_to_import, $full_settings_expected, 1 ],
 		];
 	}
 }

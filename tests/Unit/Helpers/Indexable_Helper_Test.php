@@ -137,7 +137,7 @@ final class Indexable_Helper_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function get_page_type_for_indexable_provider() {
+	public static function get_page_type_for_indexable_provider() {
 		return [
 			[ 'post', 'page', true, false, 'Static_Home_Page' ],
 			[ 'post', 'page', false, true, 'Static_Posts_Page' ],
@@ -197,7 +197,7 @@ final class Indexable_Helper_Test extends TestCase {
 	 *
 	 * @return array[]
 	 */
-	public function should_index_for_production_environment_provider() {
+	public static function should_index_for_production_environment_provider() {
 		return [
 			[ 'production', true ],
 			[ 'staging', false ],
@@ -242,7 +242,7 @@ final class Indexable_Helper_Test extends TestCase {
 	 *
 	 * @return array[]
 	 */
-	public function provider_check_if_default_indexable() {
+	public static function provider_check_if_default_indexable() {
 		$all_default_fields     = [
 			[
 				'field_name'  => 'title',
@@ -306,7 +306,7 @@ final class Indexable_Helper_Test extends TestCase {
 	 *
 	 * @return array[]
 	 */
-	public function provider_check_if_default_field() {
+	public static function provider_check_if_default_field() {
 		return [
 			[ 'title', null, true ],
 			[ 'title', 'not null', false ],

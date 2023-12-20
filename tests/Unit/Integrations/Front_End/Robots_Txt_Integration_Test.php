@@ -276,7 +276,7 @@ final class Robots_Txt_Integration_Test extends TestCase {
 	 *
 	 * @return array The multisite to test.
 	 */
-	public function multisite_provider() {
+	public static function multisite_provider() {
 		return [
 			'Multisite subdomain' => [
 				'multisite' => [
@@ -546,7 +546,7 @@ final class Robots_Txt_Integration_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_remove_default_robots() {
+	public static function data_remove_default_robots() {
 		return [
 			'Original input doesn\'t contain default string' => [
 				'input'    => 'User-agent: \*Disallow: /wp-admin/',

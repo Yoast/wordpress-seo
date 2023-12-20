@@ -90,7 +90,7 @@ final class Twitter_Image_Test extends TestCase {
 	 *
 	 * @return array The data to provide.
 	 */
-	public function twitter_image_provider() {
+	public static function twitter_image_provider() {
 		return [
 			[
 				'image_source'    => 'set-by-user',
@@ -123,7 +123,7 @@ final class Twitter_Image_Test extends TestCase {
 	 *
 	 * @return array The data to provide.
 	 */
-	public function twitter_image_open_graph_fallback_provider() {
+	public static function twitter_image_open_graph_fallback_provider() {
 		return [
 			[
 				'image_source'              => 'featured-image',

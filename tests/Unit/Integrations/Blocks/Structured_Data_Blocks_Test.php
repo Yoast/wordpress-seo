@@ -80,7 +80,7 @@ final class Structured_Data_Blocks_Test extends TestCase {
 	 *
 	 * @return array[]
 	 */
-	public function how_to_block_provider() {
+	public static function how_to_block_provider() {
 		return [
 			[
 				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>',
@@ -179,7 +179,7 @@ final class Structured_Data_Blocks_Test extends TestCase {
 	 *
 	 * @return array[]
 	 */
-	public function how_to_images_provider() {
+	public static function how_to_images_provider() {
 		return [
 			[
 				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>'

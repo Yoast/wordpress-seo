@@ -443,7 +443,7 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 *
 	 * @return array A mapping of methods and expected inputs.
 	 */
-	public function reason_provider() {
+	public static function reason_provider() {
 		return [
 			[ 'permalink_settings_changed' ],
 			[ 'category_base_changed' ],

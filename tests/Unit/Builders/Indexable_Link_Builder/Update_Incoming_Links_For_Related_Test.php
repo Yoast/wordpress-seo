@@ -38,7 +38,7 @@ final class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Li
 	 *
 	 * @return array
 	 */
-	public function data_provider_update_incoming_links_for_related_indexables() {
+	public static function data_provider_update_incoming_links_for_related_indexables() {
 		return [
 			'no related indexables' => [
 				'related_indexable_ids'                            => [],

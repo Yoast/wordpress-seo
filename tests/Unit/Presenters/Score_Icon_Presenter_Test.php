@@ -62,7 +62,7 @@ final class Score_Icon_Presenter_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function present_provider() {
+	public static function present_provider() {
 		return [
 			'title and class' => [
 				'title'     => 'title',

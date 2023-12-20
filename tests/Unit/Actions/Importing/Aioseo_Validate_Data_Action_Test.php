@@ -380,7 +380,7 @@ final class Aioseo_Validate_Data_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_validate_default_robot_settings() {
+	public static function provider_validate_default_robot_settings() {
 		$robot_setting_map_custom_archives_empty    = [];
 		$robot_setting_map_default_archives_all_set = [
 			'option_name' => 'aioseo_options_dynamic',
@@ -505,7 +505,7 @@ final class Aioseo_Validate_Data_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_validate_post_robot_settings() {
+	public static function provider_validate_post_robot_settings() {
 		$aioseo_global_settings_all_set = [
 			'searchAppearance' => [
 				'advanced' => [
@@ -622,7 +622,7 @@ final class Aioseo_Validate_Data_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_validate_aioseo_settings() {
+	public static function provider_validate_aioseo_settings() {
 		$aioseo_settings = [
 			'searchAppearance' => [
 				'archive'    => 'settings',
@@ -689,7 +689,7 @@ final class Aioseo_Validate_Data_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_validate_aioseo_table() {
+	public static function provider_validate_aioseo_table() {
 		return [
 			[ false, [ 'irrelevant' ], [ 'irrelevant' ], 0, false ],
 			[
@@ -729,7 +729,7 @@ final class Aioseo_Validate_Data_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_unindexed() {
+	public static function provider_get_unindexed() {
 		$completed                 = [
 			'aioseo_validate_data' => true,
 		];

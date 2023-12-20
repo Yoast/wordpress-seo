@@ -88,7 +88,7 @@ final class Primary_Category_Test extends TestCase {
 	 *
 	 * @return array The test data to use.
 	 */
-	public function post_link_category_provider() {
+	public static function post_link_category_provider() {
 		return [
 			[
 				'category_id' => 52,

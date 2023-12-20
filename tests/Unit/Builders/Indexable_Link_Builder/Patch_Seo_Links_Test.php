@@ -21,7 +21,7 @@ final class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCas
 	 *
 	 * @return array
 	 */
-	public function patch_seo_links_provider() {
+	public static function patch_seo_links_provider() {
 		$object                                  = (object) [ 'type' => 'not SEO_Links' ];
 		$seo_link                                = new SEO_Links_Mock();
 		$seo_link->target_indexable_id           = null;

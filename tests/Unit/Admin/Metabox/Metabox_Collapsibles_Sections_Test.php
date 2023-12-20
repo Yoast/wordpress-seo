@@ -67,7 +67,7 @@ final class Metabox_Collapsibles_Sections_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_display_content_with_collapsible() {
+	public static function data_display_content_with_collapsible() {
 		return [
 			[ 'Collapsible 1 label' ],
 			[ 'Collapsible 1 content' ],

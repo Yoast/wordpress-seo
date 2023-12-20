@@ -57,7 +57,7 @@ final class Current_Page_Trait_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function is_on_installation_page_get_data() {
+	public static function is_on_installation_page_get_data() {
 		return [
 			'no page'                   => [
 				'page'     => '',

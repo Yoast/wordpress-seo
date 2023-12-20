@@ -47,7 +47,7 @@ final class Meta_Columns_Test extends TestCase {
 	 *
 	 * @return array The SEO filters dataprovider.
 	 */
-	public function determine_seo_filters_dataprovider() {
+	public static function determine_seo_filters_dataprovider() {
 		return [
 			[
 				'bad',
@@ -126,7 +126,7 @@ final class Meta_Columns_Test extends TestCase {
 	 *
 	 * @return array The readability filters dataprovider.
 	 */
-	public function determine_readability_filters_dataprovider() {
+	public static function determine_readability_filters_dataprovider() {
 		return [
 			[
 				'bad',
@@ -169,7 +169,7 @@ final class Meta_Columns_Test extends TestCase {
 	 *
 	 * @return array The Readability filters dataprovider.
 	 */
-	public function build_filter_query_dataprovider() {
+	public static function build_filter_query_dataprovider() {
 		return [
 			[
 				[],

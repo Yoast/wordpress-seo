@@ -106,7 +106,7 @@ final class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function is_compatible_with_testdata() {
+	public static function is_compatible_with_testdata() {
 		return [
 			[
 				null,
@@ -158,7 +158,7 @@ final class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function is_compatible_with_wrong_testdata() {
+	public static function is_compatible_with_wrong_testdata() {
 		return [
 			[
 				null,
@@ -278,7 +278,7 @@ final class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function get_limited_data() {
+	public static function get_limited_data() {
 		return [
 			[ 5, 4 ],
 			[ 4, 4 ],

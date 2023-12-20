@@ -81,7 +81,7 @@ final class Image_Utils_Test extends TestCase {
 	 *
 	 * @return array Data to execute for each run.
 	 */
-	public function get_first_image_provider() {
+	public static function get_first_image_provider() {
 		return [
 			[
 				'images'   => [ 'https://example.com/media/first_image.jpg', 'https://example.com/media/second_image.jpg' ],

@@ -138,7 +138,7 @@ final class Disable_Core_Sitemaps_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function template_redirect_data() {
+	public static function template_redirect_data() {
 		return [
 			[ null, null ],
 			[ '/', null ],

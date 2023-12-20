@@ -274,7 +274,7 @@ final class Crawl_Cleanup_Searches_Test extends TestCase {
 	 *
 	 * @return Generator
 	 */
-	public function provide_query_string_parameters() {
+	public static function provide_query_string_parameters() {
 		yield 'Redirects because there are more then 5 characters' => [
 			'input_query_string'  => 'this_is_longer_then_5',
 			'output_query_string' => 'this_',

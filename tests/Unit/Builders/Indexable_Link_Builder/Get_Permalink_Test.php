@@ -36,7 +36,7 @@ final class Get_Permalink_Test extends Abstract_Indexable_Link_Builder_TestCase 
 	 *
 	 * @return array
 	 */
-	public function data_provider_get_permalink() {
+	public static function data_provider_get_permalink() {
 		return [
 			'No www with anchor' => [
 				'link'           => 'http://example.com/page#section',

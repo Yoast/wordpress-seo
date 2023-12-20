@@ -70,7 +70,7 @@ final class Open_Graph_Locale_Generator_Test extends TestCase {
 	 *
 	 * @return array The data to use for the test.
 	 */
-	public function generate_provider() {
+	public static function generate_provider() {
 		return [
 			[
 				'locale'   => 'ca',

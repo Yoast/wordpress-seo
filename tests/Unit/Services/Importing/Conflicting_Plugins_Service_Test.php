@@ -155,7 +155,7 @@ final class Conflicting_Plugins_Service_Test extends TestCase {
 	 *
 	 * @return array[] Data to use for test_detect_deactivating_conflicting_plugins_plugin_is_int.
 	 */
-	public function detect_deactivating_conflicting_plugins_dataprovider() {
+	public static function detect_deactivating_conflicting_plugins_dataprovider() {
 		$action_is_null       = [
 			'action'   => null,
 			'plugin'   => 'xml-sitemaps/xml-sitemaps.php',

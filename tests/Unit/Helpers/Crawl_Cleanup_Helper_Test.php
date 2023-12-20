@@ -117,7 +117,7 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function should_avoid_redirect_provider() {
+	public static function should_avoid_redirect_provider() {
 		return [
 			[ true, false, null, false, true ],
 			[ false, true, null, false, true ],
@@ -170,7 +170,7 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function get_allowed_extravars_provider() {
+	public static function get_allowed_extravars_provider() {
 		return [
 			[ 'variable1,variable2,variable3', [], [ 'variable1', 'variable2', 'variable3' ] ],
 			[ '', [], [] ],
@@ -226,7 +226,7 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function front_page_url_provider() {
+	public static function front_page_url_provider() {
 		return [
 			[ true, false, 0, 1, 0, 'http://basic.wordpress.test/' ],
 			[ false, true, 1, 0, 1, 'http://basic.wordpress.test/permalink' ],
@@ -288,7 +288,7 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function page_not_found_url_provider() {
+	public static function page_not_found_url_provider() {
 		return [
 			[ true, true, true, '', null, 0, 0, 0, '', '' ],
 			[ false, false, true, '', null, 0, 0, 0, '', '' ],
@@ -355,7 +355,7 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function taxonomy_url_provider() {
+	public static function taxonomy_url_provider() {
 		return [
 			[ false, 0, 1, 'http://basic.wordpress.test/products' ],
 			[ true, 1, 0, 'http://basic.wordpress.test/products/feed' ],
@@ -422,7 +422,7 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function query_var_page_url_provider() {
+	public static function query_var_page_url_provider() {
 		$proper_url = 'http://basic.wordpress.test';
 		return [
 			[ true, $proper_url, 1, 1, 'http://basic.wordpress.test/page/test/?s=test' ],
@@ -462,7 +462,7 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function is_query_var_page_provider() {
+	public static function is_query_var_page_provider() {
 		$proper_url = 'http://basic.wordpress.test';
 		return [
 			[ '', null, null, false ],
@@ -540,7 +540,7 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function get_url_type_provider() {
+	public static function get_url_type_provider() {
 		return [
 			[ true, false, false, false, false, false, false, false, 0, 'singular_url' ],
 			[ false, true, false, false, false, false, false, false, 0, 'front_page_url' ],

@@ -351,7 +351,7 @@ final class Asset_Manager_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function flatten_version_provider() {
+	public static function flatten_version_provider() {
 		return [
 			[ '3.0', '300' ],
 			[ '1.4', '140' ],

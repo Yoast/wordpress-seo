@@ -235,7 +235,7 @@ final class Recommended_Replace_Vars_Test extends TestCase {
 	 *
 	 * @return array With the $page_type and $expected variables.
 	 */
-	public function get_recommended_replacevars_provider() {
+	public static function get_recommended_replacevars_provider() {
 		// This is basically a copy of the $recommended_replace_vars in WPSEO_Admin_Recommended_Replace_Vars.
 		return [
 			// Posts.

@@ -128,7 +128,7 @@ final class Capabilities_Utils_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function get_applicable_roles_provider() {
+	public static function get_applicable_roles_provider() {
 		return [
 			[
 				'role'     => (object) [

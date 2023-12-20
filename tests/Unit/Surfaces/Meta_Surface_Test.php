@@ -584,7 +584,7 @@ final class Meta_Surface_Test extends TestCase {
 	 *
 	 * @return array The test parameters.
 	 */
-	public function for_url_provider() {
+	public static function for_url_provider() {
 		return [
 			'Static_Home_Page'   => [ 'post', 'post', 1, 'Static_Home_Page' ],
 			'Static_Posts_Page'  => [ 'post', 'post', 1, 'Static_Posts_Page' ],
@@ -627,7 +627,7 @@ final class Meta_Surface_Test extends TestCase {
 	 *
 	 * @return array The test parameters.
 	 */
-	public function data_for_url_with_unexpected_value() {
+	public static function data_for_url_with_unexpected_value() {
 		return [
 			'malformed_url' => [ 'http:///example.com' ],
 			'invalid_url'   => [ '' ],

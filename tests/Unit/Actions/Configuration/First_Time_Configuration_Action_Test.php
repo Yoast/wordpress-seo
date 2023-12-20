@@ -116,7 +116,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_site_representation function.
 	 */
-	public function site_representation_provider() {
+	public static function site_representation_provider() {
 		$success_company = [
 			'params'                => [
 				'company_or_person' => 'company',
@@ -220,7 +220,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_social_profiles function.
 	 */
-	public function social_profiles_provider() {
+	public static function social_profiles_provider() {
 		$success_all = [
 			'set_profiles_results' => [],
 			'get_profiles_results' => [
@@ -307,7 +307,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_enable_tracking function.
 	 */
-	public function enable_tracking_provider() {
+	public static function enable_tracking_provider() {
 		$false_to_true = [
 			'params'                => [
 				'tracking' => true,
@@ -413,7 +413,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @return array Data for test_check_capability function.
 	 */
-	public function check_capability_provider() {
+	public static function check_capability_provider() {
 		$success = [
 			'user_id'  => 123,
 			'can_edit' => true,
@@ -473,7 +473,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @return array Data for save_configuration_state function.
 	 */
-	public function configuration_provider() {
+	public static function configuration_provider() {
 		$success_save = [
 			'params'                => [
 				'finishedSteps'     => [ 'step1 ' ],

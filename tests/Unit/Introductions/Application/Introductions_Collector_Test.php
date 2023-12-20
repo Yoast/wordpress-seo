@@ -58,7 +58,7 @@ final class Introductions_Collector_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function collector_get_data() {
+	public static function collector_get_data() {
 		$introductions = [
 			'test1' => new Introduction_Mock( 'test1', 1, true ),
 			'test2' => new Introduction_Mock( 'test2', 2, true ),
@@ -259,7 +259,7 @@ final class Introductions_Collector_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function collector_is_available_introduction_data() {
+	public static function collector_is_available_introduction_data() {
 		$introductions = [
 			'test1' => new Introduction_Mock( 'test1', 1, true ),
 			'test2' => new Introduction_Mock( 'test2', 2, true ),

@@ -84,7 +84,7 @@ final class Register_Capabilities_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function data_filter_user_has_wpseo_manage_options_cap() {
+	public static function data_filter_user_has_wpseo_manage_options_cap() {
 		return [
 			[ 'wpseo_manager', 'superadmin', true ],
 			[ 'administrator', 'superadmin', false ],
