@@ -17,12 +17,14 @@ const selectProps = {
 	options: PropTypes.arrayOf( selectOption ).isRequired,
 	selected: PropTypes.oneOfType( [ PropTypes.arrayOf( PropTypes.string ), PropTypes.string ] ),
 	onChange: PropTypes.func,
+	disabled: PropTypes.bool,
 	...FieldGroupProps,
 };
 const selectDefaultProps = {
 	name: "",
 	selected: [],
 	onChange: () => {},
+	disabled: false,
 	...FieldGroupDefaultProps,
 };
 
@@ -269,5 +271,4 @@ Select.propTypes = {
 Select.defaultProps = {
 	...selectDefaultProps,
 	onOptionFocus: null,
-	disabled: false,
 };
