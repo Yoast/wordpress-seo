@@ -75,6 +75,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      # Wait for the PHP and JS tests to start.
+      - name: Sleep for 30 seconds
+        run: sleep 30s
+        shell: bash
+
       # Wait for the PHP and JS tests to finish.
       # NOTE: The ref value should be different when triggered by pull_request event.
       #       See: https://github.com/lewagon/wait-on-check-action/issues/25.
