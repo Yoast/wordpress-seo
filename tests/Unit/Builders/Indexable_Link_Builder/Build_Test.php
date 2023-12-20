@@ -219,7 +219,6 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 			);
 		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 3, 0 );
 
-
 		Functions\expect( 'wp_cache_supports' )->once()->andReturnTrue();
 		Functions\expect( 'wp_cache_flush_group' )->once()->andReturnTrue();
 

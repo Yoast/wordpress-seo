@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder;
 
-use Mockery;
 use Brain\Monkey\Functions;
+use Mockery;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
 

@@ -9,7 +9,6 @@ use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
