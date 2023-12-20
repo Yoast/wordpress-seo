@@ -10,12 +10,9 @@ import jQuery from "jquery";
 		var newId = "#" + newClass + "-";
 		var existingId = newId.replace( "new", "existing" );
 		var columnValue = currentTable.find( "th[id^=col_existing_yoast]" ).first().text().replace( "Existing ", "" );
-
 		var saveMethod = newClass.replace( "-new-", "_save_" );
 		var saveAllMethod = "wpseo_save_all_" + currentTable.attr( "class" ).split( "wpseo_bulk_" )[ 1 ];
-
 		var bulkType = saveMethod.replace( "wpseo_save_", "" );
-
 		var options = {
 			newClass: "." + newClass,
 			newId: newId,
@@ -23,7 +20,6 @@ import jQuery from "jquery";
 		};
 
 		var instance = {
-
 			submit_new: function( id ) {
 				instance.submitNew( id );
 			},
