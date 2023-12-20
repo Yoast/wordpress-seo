@@ -208,6 +208,7 @@ jobs:
         working-directory: packages/${{ matrix.package }}
 
       - name: Upload coverage results to Coveralls
+        if: ${{ steps.checks-run.outputs.should == 'true' }}
         uses: coverallsapp/github-action@v2
         with:
           flag-name: package-${{ matrix.package }}
