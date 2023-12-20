@@ -121,6 +121,8 @@ jobs:
       - name: Upload coverage results to Coveralls
         if: ${{ success() && matrix.coverage == true }}
         uses: coverallsapp/github-action@v2
+        env:
+          COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
           format: clover
           file: build/logs/clover.xml
@@ -259,6 +261,8 @@ jobs:
       - name: Upload coverage results to Coveralls - single site
         if: ${{ success() && matrix.coverage == true }}
         uses: coverallsapp/github-action@v2
+        env:
+          COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
           format: clover
           file: build/logs/clover-wp.xml
@@ -268,6 +272,8 @@ jobs:
       - name: Upload coverage results to Coveralls - multisite
         if: ${{ success() && matrix.multisite == true && matrix.coverage == true }}
         uses: coverallsapp/github-action@v2
+        env:
+          COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
           format: clover
           file: build/logs/clover-wp-ms.xml
