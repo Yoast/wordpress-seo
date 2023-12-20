@@ -1,8 +1,8 @@
-module.exports = {
-	preset: "@yoast/jest-preset",
-	setupFilesAfterEnv: [ "<rootDir>/tools/jest/setupTests.js" ],
+/** @type {import('jest').Config} */
+const config = {
+	testEnvironment: "node",
 	testMatch: [
-		"**/tests/**/*Test.[jt]s",
+		"**/*Test.[jt]s",
 	],
 	collectCoverageFrom: [
 		"src/**/*.{js,jsx,ts,tsx}",
@@ -15,3 +15,5 @@ module.exports = {
 		"text-summary",
 	],
 };
+
+module.exports = config;
