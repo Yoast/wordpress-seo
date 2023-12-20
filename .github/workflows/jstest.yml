@@ -9,6 +9,7 @@ on:
       - 'release/**'
       - 'hotfix/[0-9]+.[0-9]+*'
       - 'feature/**'
+      - "de/test**"
     paths:
       - '**.js' # Includes Gruntfile.js.
       - '.browserslistrc'
