@@ -26,7 +26,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @package Yoast\Tests\Builders
  */
-class Indexable_Hierarchy_Builder_Test extends TestCase {
+final class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 	/**
 	 * Holds the Indexable_Hierarchy_Repository instance.
@@ -72,6 +72,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 	/**
 	 * Runs the setup steps.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -101,6 +103,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::add_ancestors_for_post
 	 * @covers ::find_primary_term_id_for_post
 	 * @covers ::get_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_no_parents() {
 		$indexable                = new Indexable_Mock();
@@ -135,6 +139,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::add_ancestors_for_post
 	 * @covers ::find_primary_term_id_for_post
 	 * @covers ::get_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_no_parents_and_has_ancestors_set_to_false() {
 		$indexable                = $this->get_indexable( 1, 'post' );
@@ -172,6 +178,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::build
 	 * @covers ::save_ancestors
 	 * @covers ::add_ancestors_for_post
+	 *
+	 * @return void
 	 */
 	public function test_parents_not_set() {
 		$indexable                = new Indexable_Mock();
@@ -199,6 +207,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::find_primary_term_id_for_post
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_post_parents() {
 		$indexable                = new Indexable_Mock();
@@ -254,6 +264,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::find_primary_term_id_for_post
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_post_parent_with_no_indexable_id_set() {
 		$indexable                   = $this->get_indexable( 1, 'post' );
@@ -314,6 +326,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::add_ancestors_for_post
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_post_parents_with_an_unindexed_ancestor() {
 		$indexable        = $this->get_indexable( 1, 'post' );
@@ -369,6 +383,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::add_ancestors_for_post
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_post_parents_with_parent_already_added() {
 		$indexable        = $this->get_indexable( 1, 'post' );
@@ -425,6 +441,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::add_ancestors_for_post
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_post_parents_having_the_parent_is_the_main_object() {
 		$indexable = $this->get_indexable( 1, 'post' );
@@ -481,6 +499,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
 	 * @covers ::get_primary_term_id
+	 *
+	 * @return void
 	 */
 	public function test_primary_term_parents() {
 		$indexable                = new Indexable_Mock();
@@ -545,6 +565,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
 	 * @covers ::get_primary_term_id
+	 *
+	 * @return void
 	 */
 	public function test_primary_term_parents_and_term_is_unindexed() {
 		$indexable = $this->get_indexable( 1, 'post' );
@@ -618,6 +640,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
 	 * @covers ::get_primary_term_id
+	 *
+	 * @return void
 	 */
 	public function test_many_primary_term_parents() {
 		$indexable                = new Indexable_Mock();
@@ -708,6 +732,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
 	 * @covers ::get_primary_term_id
+	 *
+	 * @return void
 	 */
 	public function test_term_parent() {
 		$indexable                = new Indexable_Mock();
@@ -778,6 +804,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::find_primary_term_id_for_post
 	 * @covers ::get_indexable_id
 	 * @covers ::get_primary_term_id
+	 *
+	 * @return void
 	 */
 	public function test_term_parent_where_terms_not_array() {
 		$indexable                = new Indexable_Mock();
@@ -831,6 +859,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::find_primary_term_id_for_post
 	 * @covers ::get_indexable_id
 	 * @covers ::get_primary_term_id
+	 *
+	 * @return void
 	 */
 	public function test_term_parent_where_terms_empty() {
 		$indexable                = new Indexable_Mock();
@@ -888,6 +918,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
 	 * @covers ::get_primary_term_id
+	 *
+	 * @return void
 	 */
 	public function test_deepest_term_parent() {
 		$indexable                = new Indexable_Mock();
@@ -984,6 +1016,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_term_parents
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_term() {
 		$indexable                = new Indexable_Mock();
@@ -1039,6 +1073,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_term_parents
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_term_with_ancestor_not_indexed() {
 		$indexable                     = $this->get_indexable( 1, 'term' );
@@ -1094,6 +1130,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_term_parents
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_term_with_ancestor_is_the_main_object() {
 		$indexable = $this->get_indexable( 1, 'term' );
@@ -1147,6 +1185,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_term_parents
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
+	 *
+	 * @return void
 	 */
 	public function test_term_with_ancestor_is_already_added() {
 		$indexable        = $this->get_indexable( 1, 'term' );
@@ -1228,6 +1268,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::is_invalid_ancestor
 	 * @covers ::get_indexable_id
 	 * @covers ::get_primary_term_id
+	 *
+	 * @return void
 	 */
 	public function test_primary_term_parents_with_no_primary_term_set() {
 		$indexable = $this->get_indexable( 1, 'post' );

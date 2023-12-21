@@ -72,7 +72,7 @@ class Person extends Abstract_Schema_Piece {
 		/**
 		 * Filter: 'wpseo_schema_person_user_id' - Allows filtering of user ID used for person output.
 		 *
-		 * @api int|bool $user_id The user ID currently determined.
+		 * @param int|bool $user_id The user ID currently determined.
 		 */
 		$user_id = \apply_filters( 'wpseo_schema_person_user_id', $this->context->site_user_id );
 
@@ -96,10 +96,9 @@ class Person extends Abstract_Schema_Piece {
 		/**
 		 * Filter: 'wpseo_schema_person_social_profiles' - Allows filtering of social profiles per user.
 		 *
-		 * @param int $user_id The current user we're grabbing social profiles for.
-		 *
-		 * @api string[] $social_profiles The array of social profiles to retrieve. Each should be a user meta field
-		 *                                key. As they are retrieved using the WordPress function `get_the_author_meta`.
+		 * @param string[] $social_profiles The array of social profiles to retrieve. Each should be a user meta field
+		 *                                  key. As they are retrieved using the WordPress function `get_the_author_meta`.
+		 * @param int      $user_id         The current user we're grabbing social profiles for.
 		 */
 		$social_profiles = \apply_filters( 'wpseo_schema_person_social_profiles', $this->social_profiles, $user_id );
 
@@ -181,7 +180,7 @@ class Person extends Abstract_Schema_Piece {
 		}
 
 		if ( \is_array( $this->type ) && \in_array( 'Organization', $this->type, true ) ) {
-			$data_logo    = isset( $data['image']['@id'] ) ? $data['image']['@id'] : $schema_id;
+			$data_logo    = ( $data['image']['@id'] ?? $schema_id );
 			$data['logo'] = [ '@id' => $data_logo ];
 		}
 

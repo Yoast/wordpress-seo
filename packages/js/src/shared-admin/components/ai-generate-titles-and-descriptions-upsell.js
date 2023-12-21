@@ -55,32 +55,18 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 				<span className="yst-introduction-modal-uppercase">
 					{ newToText }
 				</span>
-
-				{ ! isProductCopy && <span className="yst-uppercase yst-text-slate-700"> 21.0</span> }
 			</div>
 			<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
 				<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
 					{ title }
 				</h3>
 				<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
-					{ isProductCopy ? createInterpolateElement(
-						sprintf(
-							/* translators: %1$s and %2$s are anchor tag; %3$s is the arrow icon. */
-							__(
-								"Speed up your workflow with generative AI. Get high-quality product title and description suggestions for your search and social appearance. %1$sLearn more%2$s%3$s",
-								"wordpress-seo"
-							),
-							"<a>",
-							"<ArrowNarrowRightIcon />",
-							"</a>"
-						),
-						learnMoreLinkStructure
-					)
-						: createInterpolateElement(
+					{ isProductCopy
+						? createInterpolateElement(
 							sprintf(
-							/* translators: %1$s and %2$s are anchor tag; %3$s is the arrow icon. */
+								/* translators: %1$s and %2$s are anchor tag; %3$s is the arrow icon. */
 								__(
-									"Speed up your workflow with generative AI. Get high-quality title and description suggestions for your search and social appearance. %1$sLearn more%2$s%3$s",
+									"Let AI do some of the thinking for you and help you save time. Get high-quality suggestions for product titles and meta descriptions to make your pages rank high and make you look good on social media. %1$sLearn more%2$s%3$s",
 									"wordpress-seo"
 								),
 								"<a>",
@@ -88,7 +74,21 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 								"</a>"
 							),
 							learnMoreLinkStructure
-						) }
+						)
+						: createInterpolateElement(
+							sprintf(
+								/* translators: %1$s and %2$s are anchor tag; %3$s is the arrow icon. */
+								__(
+									"Let AI do some of the thinking for you and help you save time. Get high-quality suggestions for titles and meta descriptions to make your pages rank high and make you look good on social media. %1$sLearn more%2$s%3$s",
+									"wordpress-seo"
+								),
+								"<a>",
+								"<ArrowNarrowRightIcon />",
+								"</a>"
+							),
+							learnMoreLinkStructure
+						)
+					}
 				</div>
 			</div>
 			<div className="yst-w-full yst-flex yst-mt-10">
@@ -143,11 +143,11 @@ AiGenerateTitlesAndDescriptionsUpsell.propTypes = {
 	bundleNote: PropTypes.oneOfType( [
 		PropTypes.string,
 		PropTypes.element,
-	  ] ),
+	] ),
 };
 
 AiGenerateTitlesAndDescriptionsUpsell.defaultProps = {
-	title: __( "Generate titles & descriptions with Yoast AI!", "wordpress-seo" ),
+	title: __( "Use AI to write your titles & meta descriptions!", "wordpress-seo" ),
 	upsellLabel: sprintf(
 		/* translators: %1$s expands to Yoast SEO Premium. */
 		__( "Unlock with %1$s", "wordpress-seo" ),
@@ -155,7 +155,7 @@ AiGenerateTitlesAndDescriptionsUpsell.defaultProps = {
 	),
 	newToText: sprintf(
 		/* translators: %1$s expands to Yoast SEO Premium. */
-		__( "New to %1$s", "wordpress-seo" ),
+		__( "New in %1$s", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	),
 	isProductCopy: false,

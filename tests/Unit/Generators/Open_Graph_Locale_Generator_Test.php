@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group generators
  * @group open-graph
  */
-class Open_Graph_Locale_Generator_Test extends TestCase {
+final class Open_Graph_Locale_Generator_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -34,6 +34,8 @@ class Open_Graph_Locale_Generator_Test extends TestCase {
 
 	/**
 	 * Setup the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -52,6 +54,8 @@ class Open_Graph_Locale_Generator_Test extends TestCase {
 	 * @param string $locale   The locale that is returned.
 	 * @param string $expected The expected value.
 	 * @param string $message  The message to show when test fails.
+	 *
+	 * @return void
 	 */
 	public function test_generate( $locale, $expected, $message ) {
 		Monkey\Functions\expect( 'get_locale' )
@@ -66,7 +70,7 @@ class Open_Graph_Locale_Generator_Test extends TestCase {
 	 *
 	 * @return array The data to use for the test.
 	 */
-	public function generate_provider() {
+	public static function generate_provider() {
 		return [
 			[
 				'locale'   => 'ca',

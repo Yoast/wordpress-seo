@@ -191,8 +191,8 @@ class WP_Robots_Integration implements Integration_Interface {
 					'follow'            => 2,
 					'nofollow'          => 3,
 				];
-				$ai    = isset( $order[ $a ] ) ? $order[ $a ] : 4;
-				$bi    = isset( $order[ $b ] ) ? $order[ $b ] : 4;
+				$ai    = ( $order[ $a ] ?? 4 );
+				$bi    = ( $order[ $b ] ?? 4 );
 
 				return ( $ai - $bi );
 			}

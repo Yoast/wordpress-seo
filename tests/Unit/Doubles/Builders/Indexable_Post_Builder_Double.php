@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Models\Indexable;
 /**
  * Class Indexable_Post_Builder_Double.
  */
-class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
+final class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 
 	/**
 	 * Determines the value of is_public.

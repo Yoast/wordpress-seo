@@ -22,7 +22,7 @@ class Language_Helper {
 		/**
 		 * Filter: 'wpseo_schema_piece_language' - Allow changing the Schema piece language.
 		 *
-		 * @api string $type The Schema piece language.
+		 * @param string $type The Schema piece language.
 		 */
 		$data['inLanguage'] = \apply_filters( 'wpseo_schema_piece_language', \get_bloginfo( 'language' ), $data );
 

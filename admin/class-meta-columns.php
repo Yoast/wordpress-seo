@@ -66,6 +66,8 @@ class WPSEO_Meta_Columns {
 
 	/**
 	 * Sets up up the hooks.
+	 *
+	 * @return void
 	 */
 	public function setup_hooks() {
 		$this->set_post_type_hooks();
@@ -97,19 +99,19 @@ class WPSEO_Meta_Columns {
 		$added_columns = [];
 
 		if ( $this->analysis_seo->is_enabled() ) {
-			$added_columns['wpseo-score'] = '<span class="yoast-column-seo-score yoast-column-header-has-tooltip" data-tooltip-text="' .
-											esc_attr__( 'SEO score', 'wordpress-seo' ) .
-											'"><span class="screen-reader-text">' .
-											__( 'SEO score', 'wordpress-seo' ) .
-											'</span></span></span>';
+			$added_columns['wpseo-score'] = '<span class="yoast-column-seo-score yoast-column-header-has-tooltip" data-tooltip-text="'
+											. esc_attr__( 'SEO score', 'wordpress-seo' )
+											. '"><span class="screen-reader-text">'
+											. __( 'SEO score', 'wordpress-seo' )
+											. '</span></span></span>';
 		}
 
 		if ( $this->analysis_readability->is_enabled() ) {
-			$added_columns['wpseo-score-readability'] = '<span class="yoast-column-readability yoast-column-header-has-tooltip" data-tooltip-text="' .
-														esc_attr__( 'Readability score', 'wordpress-seo' ) .
-														'"><span class="screen-reader-text">' .
-														__( 'Readability score', 'wordpress-seo' ) .
-														'</span></span></span>';
+			$added_columns['wpseo-score-readability'] = '<span class="yoast-column-readability yoast-column-header-has-tooltip" data-tooltip-text="'
+														. esc_attr__( 'Readability score', 'wordpress-seo' )
+														. '"><span class="screen-reader-text">'
+														. __( 'Readability score', 'wordpress-seo' )
+														. '</span></span></span>';
 		}
 
 		$added_columns['wpseo-title']    = __( 'SEO Title', 'wordpress-seo' );
@@ -127,6 +129,8 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @param string $column_name Column to display the content for.
 	 * @param int    $post_id     Post to display the column content for.
+	 *
+	 * @return void
 	 */
 	public function column_content( $column_name, $post_id ) {
 		if ( $this->display_metabox() === false ) {
@@ -240,6 +244,8 @@ class WPSEO_Meta_Columns {
 
 	/**
 	 * Adds a dropdown that allows filtering on the posts SEO Quality.
+	 *
+	 * @return void
 	 */
 	public function posts_filter_dropdown() {
 		if ( ! $this->can_display_filter() ) {
@@ -412,17 +418,16 @@ class WPSEO_Meta_Columns {
 			 *
 			 * @internal
 			 *
-			 * @api array $keyword_filter The current keyword filter.
-			 *
-			 * @param array $keyphrase The keyphrase used in the filter.
+			 * @param array $keyphrase      The keyphrase used in the filter.
+			 * @param array $keyword_filter The current keyword filter.
 			 */
-			$keyphrase_filter = \apply_filters(
+			$keyphrase_filter = apply_filters(
 				'wpseo_change_keyphrase_filter_in_request',
 				$this->get_keyword_filter( $current_keyword_filter ),
 				$current_keyword_filter
 			);
 
-			if ( \is_array( $keyphrase_filter ) ) {
+			if ( is_array( $keyphrase_filter ) ) {
 				$active_filters = array_merge(
 					$active_filters,
 					[ $keyphrase_filter ]
@@ -437,7 +442,7 @@ class WPSEO_Meta_Columns {
 		 *
 		 * @param array $active_filters The current applicable filters.
 		 */
-		return \apply_filters( 'wpseo_change_applicable_filters', $active_filters );
+		return apply_filters( 'wpseo_change_applicable_filters', $active_filters );
 	}
 
 	/**
@@ -463,7 +468,7 @@ class WPSEO_Meta_Columns {
 			 * @param array  $order_by        The current order by.
 			 * @param string $order_by_column The current order by column.
 			 */
-			$order_by = \apply_filters( 'wpseo_change_order_by', $order_by, $order_by_column );
+			$order_by = apply_filters( 'wpseo_change_order_by', $order_by, $order_by_column );
 
 			$vars = array_merge( $vars, $order_by );
 		}
@@ -767,6 +772,8 @@ class WPSEO_Meta_Columns {
 
 	/**
 	 * Sets up the hooks for the post_types.
+	 *
+	 * @return void
 	 */
 	private function set_post_type_hooks() {
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();

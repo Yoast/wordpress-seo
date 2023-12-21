@@ -139,6 +139,8 @@ abstract class Abstract_Indexable_Builder_TestCase extends TestCase {
 
 	/**
 	 * Sets up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -184,6 +186,8 @@ abstract class Abstract_Indexable_Builder_TestCase extends TestCase {
 	/**
 	 * Expectation in save_indexable when indexable is not saved.
 	 * Used for skipping save_indexable method when outside test scope.
+	 *
+	 * @return void
 	 */
 	public function expect_save_indexable_skip() {
 		$this->indexable_helper
@@ -198,6 +202,8 @@ abstract class Abstract_Indexable_Builder_TestCase extends TestCase {
 	 *
 	 * @param array          $defaults         The defaults to expect.
 	 * @param Indexable_Mock $return_indexable The indexable to expect.
+	 *
+	 * @return void
 	 */
 	public function expect_ensure_indexable( $defaults, $return_indexable ) {
 		$this->indexable_repository
@@ -214,6 +220,8 @@ abstract class Abstract_Indexable_Builder_TestCase extends TestCase {
 
 	/**
 	 * Expectation for maybe_build_author_indexable method.
+	 *
+	 * @return void
 	 */
 	public function expect_maybe_build_author_indexable() {
 		$author_indexable = Mockery::mock( Indexable_Mock::class );
@@ -235,6 +243,8 @@ abstract class Abstract_Indexable_Builder_TestCase extends TestCase {
 	 * Expectations for deep_copy_indexable method.
 	 *
 	 * @param Indexable_Mock $indexable The indexable to expect.
+	 *
+	 * @return void
 	 */
 	public function expect_deep_copy_indexable( $indexable ) {
 		$indexable->expects( 'as_array' )

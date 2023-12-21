@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Generators\Schema\FAQ
  */
-class FAQ_Test extends TestCase {
+final class FAQ_Test extends TestCase {
 
 	/**
 	 * Holds the HTML helper.
@@ -42,6 +42,8 @@ class FAQ_Test extends TestCase {
 
 	/**
 	 * Setup the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -65,6 +67,8 @@ class FAQ_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::generate_question_block
 	 * @covers ::add_accepted_answer_property
+	 *
+	 * @return void
 	 */
 	public function test_generate() {
 		$this->stubEscapeFunctions();
@@ -154,6 +158,8 @@ class FAQ_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::generate_question_block
 	 * @covers ::add_accepted_answer_property
+	 *
+	 * @return void
 	 */
 	public function test_generate_does_not_output_questions_with_no_answer() {
 		$this->stubEscapeFunctions();
@@ -227,6 +233,8 @@ class FAQ_Test extends TestCase {
 	 * FAQ blocks are on the page.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_not_needed_when_no_faq_blocks() {
 		$meta_tags_context         = new Meta_Tags_Context_Mock();
@@ -242,6 +250,8 @@ class FAQ_Test extends TestCase {
 	 * on the page.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_needed() {
 		$this->stubEscapeFunctions();

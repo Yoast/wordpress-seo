@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Slug_Change_Watcher_Test extends TestCase {
+final class Slug_Change_Watcher_Test extends TestCase {
 
 	/**
 	 * Post ID.
@@ -68,6 +68,8 @@ class Slug_Change_Watcher_Test extends TestCase {
 	 * Tests showing notification when a post is moved to trash.
 	 *
 	 * @covers WPSEO_Slug_Change_Watcher::detect_post_trash
+	 *
+	 * @return void
 	 */
 	public function test_detect_post_trash() {
 		$instance = $this
@@ -88,6 +90,8 @@ class Slug_Change_Watcher_Test extends TestCase {
 	 * Tests showing notification when a non visible post is moved to trash.
 	 *
 	 * @covers WPSEO_Slug_Change_Watcher::detect_post_trash
+	 *
+	 * @return void
 	 */
 	public function test_detect_post_trash_no_visible_post_status() {
 
@@ -116,6 +120,8 @@ class Slug_Change_Watcher_Test extends TestCase {
 	 * Tests showing notification when a post is deleted.
 	 *
 	 * @covers WPSEO_Slug_Change_Watcher::detect_post_delete
+	 *
+	 * @return void
 	 */
 	public function test_detect_post_delete() {
 		$instance = $this
@@ -136,6 +142,8 @@ class Slug_Change_Watcher_Test extends TestCase {
 	 * Tests not showing the notification when the nav menu item is deleted.
 	 *
 	 * @covers WPSEO_Slug_Change_Watcher::detect_post_delete
+	 *
+	 * @return void
 	 */
 	public function test_detect_post_delete_menu_item() {
 		$instance = $this
@@ -156,6 +164,8 @@ class Slug_Change_Watcher_Test extends TestCase {
 	 * Tests not showing the notification when a trashed post is deleted.
 	 *
 	 * @covers WPSEO_Slug_Change_Watcher::detect_post_delete
+	 *
+	 * @return void
 	 */
 	public function test_detect_post_delete_trashed_post() {
 		// Make sure we're working with a trashed post.
@@ -183,6 +193,8 @@ class Slug_Change_Watcher_Test extends TestCase {
 	 * Tests not showing the notification when a post revision is deleted.
 	 *
 	 * @covers WPSEO_Slug_Change_Watcher::detect_post_delete
+	 *
+	 * @return void
 	 */
 	public function test_detect_post_delete_revision() {
 		$revision_id = \wp_save_post_revision( self::$post_id );
@@ -205,6 +217,8 @@ class Slug_Change_Watcher_Test extends TestCase {
 	 * Tests not showing the notification when a pending post is deleted.
 	 *
 	 * @covers WPSEO_Slug_Change_Watcher::detect_post_delete
+	 *
+	 * @return void
 	 */
 	public function test_detect_post_delete_when_not_visible() {
 
@@ -233,6 +247,8 @@ class Slug_Change_Watcher_Test extends TestCase {
 	 * Tests showing the notification when a term of a public taxonomy is deleted.
 	 *
 	 * @covers WPSEO_Slug_Change_Watcher::detect_term_delete
+	 *
+	 * @return void
 	 */
 	public function test_detect_term_delete() {
 		$instance = $this
@@ -253,6 +269,8 @@ class Slug_Change_Watcher_Test extends TestCase {
 	 * Tests showing the notification when a term of a non-public taxonomy is deleted.
 	 *
 	 * @covers WPSEO_Slug_Change_Watcher::detect_term_delete
+	 *
+	 * @return void
 	 */
 	public function test_detect_term_delete_when_not_viewable() {
 		$instance = $this
@@ -273,6 +291,8 @@ class Slug_Change_Watcher_Test extends TestCase {
 	 * Tests showing the notification when a non-existing term is deleted.
 	 *
 	 * @covers WPSEO_Slug_Change_Watcher::detect_term_delete
+	 *
+	 * @return void
 	 */
 	public function test_detect_term_delete_when_not_exists() {
 		$instance = $this

@@ -7,7 +7,7 @@ use WPSEO_Options;
 /**
  * Test Helper Class.
  */
-class Options_Double extends WPSEO_Options {
+final class Options_Double extends WPSEO_Options {
 
 	public static $option_values = null;
 

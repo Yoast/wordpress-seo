@@ -83,18 +83,6 @@ function wpseo_import_external_select( $name, $plugins ) {
 		 */
 		do_action( 'wpseo_import_other_plugins_internal' );
 
-		/**
-		 * Hook used to import other plugins.
-		 *
-		 * @deprecated 19.10 No replacement available.
-		 */
-		do_action_deprecated(
-			'wpseo_import_other_plugins',
-			[],
-			'19.10',
-			'',
-			'This action is going away with no replacement. If you want to add settings that interact with Yoast SEO, please create your own settings page.'
-		);
 		?>
 		<input type="submit" class="button button-primary" name="import_external"
 			value="<?php esc_attr_e( 'Import', 'wordpress-seo' ); ?>"/>

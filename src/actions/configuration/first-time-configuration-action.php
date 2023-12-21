@@ -13,7 +13,7 @@ class First_Time_Configuration_Action {
 	/**
 	 * The fields for the site representation payload.
 	 */
-	const SITE_REPRESENTATION_FIELDS = [
+	public const SITE_REPRESENTATION_FIELDS = [
 		'company_or_person',
 		'company_name',
 		'website_name',
@@ -332,7 +332,7 @@ class First_Time_Configuration_Action {
 	 *
 	 * @return array The old values.
 	 */
-	private function get_old_values( array $fields_names ) : array {
+	private function get_old_values( array $fields_names ): array {
 		$old_values = [];
 
 		foreach ( $fields_names as $field_name ) {

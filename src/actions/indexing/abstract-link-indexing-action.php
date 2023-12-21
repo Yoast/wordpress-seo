@@ -98,7 +98,7 @@ abstract class Abstract_Link_Indexing_Action extends Abstract_Indexing_Action {
 		/**
 		 * Filter 'wpseo_link_indexing_limit' - Allow filtering the number of texts indexed during each link indexing pass.
 		 *
-		 * @api int The maximum number of texts indexed.
+		 * @param int $limit The maximum number of texts indexed.
 		 */
 		return \apply_filters( 'wpseo_link_indexing_limit', 5 );
 	}

@@ -71,7 +71,7 @@ class Website extends Abstract_Schema_Piece {
 		/**
 		 * Filter: 'disable_wpseo_json_ld_search' - Allow disabling of the json+ld output.
 		 *
-		 * @api bool $display_search Whether or not to display json+ld search on the frontend.
+		 * @param bool $display_search Whether or not to display json+ld search on the frontend.
 		 */
 		if ( \apply_filters( 'disable_wpseo_json_ld_search', false ) ) {
 			return $data;
@@ -80,7 +80,7 @@ class Website extends Abstract_Schema_Piece {
 		/**
 		 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for Yoast SEO.
 		 *
-		 * @api string $search_url The search URL for this site with a `{search_term_string}` variable.
+		 * @param string $search_url The search URL for this site with a `{search_term_string}` variable.
 		 */
 		$search_url = \apply_filters( 'wpseo_json_ld_search_url', $this->context->site_url . '?s={search_term_string}' );
 

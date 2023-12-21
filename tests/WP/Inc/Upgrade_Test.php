@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group upgrades
  */
-class Upgrade_Test extends TestCase {
+final class Upgrade_Test extends TestCase {
 
 	/**
 	 * Retrieves the instance to test against.
@@ -27,6 +27,8 @@ class Upgrade_Test extends TestCase {
 	 * Tests if the option is fetched from the database.
 	 *
 	 * @covers WPSEO_Upgrade::get_option_from_database
+	 *
+	 * @return void
 	 */
 	public function test_get_option_from_database() {
 
@@ -47,6 +49,8 @@ class Upgrade_Test extends TestCase {
 	 * Tests that option filters are not applied on option retrieval.
 	 *
 	 * @covers WPSEO_Upgrade::get_option_from_database
+	 *
+	 * @return void
 	 */
 	public function test_get_option_from_database_no_filters_applied() {
 		// Tests if the option is fetched from the database.
@@ -72,6 +76,8 @@ class Upgrade_Test extends TestCase {
 	 * Tests to make sure non-existing option returns an empty array.
 	 *
 	 * @covers WPSEO_Upgrade::get_option_from_database
+	 *
+	 * @return void
 	 */
 	public function test_get_option_from_database_non_existent() {
 		$instance = $this->get_instance();
@@ -82,6 +88,8 @@ class Upgrade_Test extends TestCase {
 	 * Tests to make sure invalid keys are removed upon cleanup.
 	 *
 	 * @covers WPSEO_Upgrade::cleanup_option_data
+	 *
+	 * @return void
 	 */
 	public function test_cleanup_option_data() {
 		// Testing the sanitization of the options framework.
@@ -109,6 +117,8 @@ class Upgrade_Test extends TestCase {
 	 * Tests to make sure non-existing options are not saved.
 	 *
 	 * @covers WPSEO_Upgrade::cleanup_option_data
+	 *
+	 * @return void
 	 */
 	public function test_cleanup_option_data_no_data() {
 		$instance = $this->get_instance();
@@ -122,6 +132,8 @@ class Upgrade_Test extends TestCase {
 	 * Tests to make sure a valid setting is being saved.
 	 *
 	 * @covers WPSEO_Upgrade::save_option_setting
+	 *
+	 * @return void
 	 */
 	public function test_save_option_setting() {
 		// Only set the new data if found on the source.
@@ -144,6 +156,8 @@ class Upgrade_Test extends TestCase {
 	 * Tests to make sure an option is not saved if the source misses the needed key.
 	 *
 	 * @covers WPSEO_Upgrade::save_option_setting
+	 *
+	 * @return void
 	 */
 	public function test_save_option_setting_not_set() {
 		// Only set the new data if found on the source.
@@ -164,6 +178,8 @@ class Upgrade_Test extends TestCase {
 	 * Tests to make sure triggers are being called in the finish up method.
 	 *
 	 * @covers WPSEO_Upgrade::finish_up
+	 *
+	 * @return void
 	 */
 	public function test_finish_up() {
 		$instance = $this->get_instance();

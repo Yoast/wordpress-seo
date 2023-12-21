@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Crawl_Settings_Integration_Test extends TestCase {
+final class Crawl_Settings_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -42,6 +42,8 @@ class Crawl_Settings_Integration_Test extends TestCase {
 
 	/**
 	 * Set up the fixtures for the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -55,9 +57,11 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Admin_Conditional::class,
 			],
@@ -69,6 +73,8 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		Monkey\Functions\stubTranslationFunctions();
@@ -90,6 +96,8 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	 * @param bool   $is_network_admin Whether the current page is a network admin page.
 	 * @param string $get_response     The response of the GET request.
 	 * @param int    $expected         The times admin_asset_manager->enqueue_script( 'crawl-settings' ) is called.
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_assets( $is_network_admin, $get_response, $expected ) {
 
@@ -112,7 +120,7 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	 *
 	 * @return array The data for the test: $is_network_admin, $get_response, $expected.
 	 */
-	public function enqueue_assets_provider() {
+	public static function enqueue_assets_provider() {
 		return [
 			[ true, null, 0 ],
 			[ false, null, 0 ],
@@ -125,6 +133,8 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	 * Tests the add_crawl_settings_tab_content method.
 	 *
 	 * @covers ::add_crawl_settings_tab_content
+	 *
+	 * @return void
 	 */
 	public function add_crawl_settings_tab_content() {
 

@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Robots_Presenter_Test extends TestCase {
+final class Robots_Presenter_Test extends TestCase {
 
 	/**
 	 * The robots presenter instance.
@@ -32,6 +32,8 @@ class Robots_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -49,6 +51,8 @@ class Robots_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct meta tag.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->stubEscapeFunctions();
@@ -68,6 +72,8 @@ class Robots_Presenter_Test extends TestCase {
 	 * Tests the situation where the presentation is empty.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_empty() {
 		$this->presentation->robots = [];
@@ -79,6 +85,8 @@ class Robots_Presenter_Test extends TestCase {
 	 * Tests the retrieval of the raw value.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$this->presentation->robots = [

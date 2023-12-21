@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action
  */
-class Indexing_Prepare_Action_Test extends TestCase {
+final class Indexing_Prepare_Action_Test extends TestCase {
 
 	/**
 	 * The mocked indexing helper.
@@ -33,6 +33,8 @@ class Indexing_Prepare_Action_Test extends TestCase {
 
 	/**
 	 * Set up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -45,6 +47,8 @@ class Indexing_Prepare_Action_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertEquals( $this->indexing, $this->getPropertyValue( $this->instance, 'indexing_helper' ) );
@@ -54,6 +58,8 @@ class Indexing_Prepare_Action_Test extends TestCase {
 	 * Tests the prepare method.
 	 *
 	 * @covers ::prepare
+	 *
+	 * @return void
 	 */
 	public function test_prepare() {
 		$this->indexing

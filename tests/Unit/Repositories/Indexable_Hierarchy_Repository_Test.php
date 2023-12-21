@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group repositories
  */
-class Indexable_Hierarchy_Repository_Test extends TestCase {
+final class Indexable_Hierarchy_Repository_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -50,6 +50,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * Tests setting the builder object.
 	 *
 	 * @covers ::set_builder
+	 *
+	 * @return void
 	 */
 	public function test_set_builder() {
 		$this->instance->set_builder( $this->builder );
@@ -64,6 +66,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * Tests the retrieval of the find_ancestors when having already results.
 	 *
 	 * @covers ::find_ancestors
+	 *
+	 * @return void
 	 */
 	public function test_find_ancestors_having_results() {
 		$indexable     = Mockery::mock( Indexable_Mock::class );
@@ -109,6 +113,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * Tests retrieval of the ancestors when having no results the first time we query.
 	 *
 	 * @covers ::find_ancestors
+	 *
+	 * @return void
 	 */
 	public function test_find_ancestors_having_no_results_first_time() {
 		$indexable     = Mockery::mock( Indexable_Mock::class );
@@ -167,6 +173,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * Tests removing all ancestors for given indexable.
 	 *
 	 * @covers ::clear_ancestors
+	 *
+	 * @return void
 	 */
 	public function test_clear_ancestors() {
 		$orm_object = Mockery::mock( ORM::class )->makePartial();
@@ -189,6 +197,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * Tests adding an ancestor.
 	 *
 	 * @covers ::add_ancestor
+	 *
+	 * @return void
 	 */
 	public function test_add_ancestor() {
 		$hierarchy               = Mockery::mock( Indexable_Hierarchy_Mock::class );
@@ -224,6 +234,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * represents the Indexable_Hierarchy.
 	 *
 	 * @covers ::query
+	 *
+	 * @return void
 	 */
 	public function test_query() {
 		$wpdb         = Mockery::mock( wpdb::class );
@@ -241,6 +253,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * Tests the retrieval of the children for an indexable.
 	 *
 	 * @covers ::find_children
+	 *
+	 * @return void
 	 */
 	public function test_find_children() {
 		$indexable     = Mockery::mock( Indexable_Mock::class );
@@ -288,6 +302,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * Tests the retrieval of the children for an indexable that has no children.
 	 *
 	 * @covers ::find_children
+	 *
+	 * @return void
 	 */
 	public function test_find_children_with_no_children_found() {
 		$indexable     = Mockery::mock( Indexable_Mock::class );

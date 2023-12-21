@@ -124,7 +124,7 @@ jobs:
       # Retention is normally 90 days, but this artifact is only for review
       # and use in the next step, so no need to keep it for more than a day.
       - name: Upload the artifact folder
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ success() }}
         with:
           name: deploy-artifact
@@ -196,7 +196,7 @@ jobs:
 
       # The artifact will be unpacked into the root directory of the repository.
       - name: Download and unpack the prepared artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: deploy-artifact
 

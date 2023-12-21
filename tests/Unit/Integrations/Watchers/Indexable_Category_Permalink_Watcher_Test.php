@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher
  * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher
  */
-class Indexable_Category_Permalink_Watcher_Test extends TestCase {
+final class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the options helper.
@@ -61,6 +61,8 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -89,6 +91,8 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -100,6 +104,8 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	 * Tests with the old value being false. This is the case when the option is saved the first time.
 	 *
 	 * @covers ::check_option
+	 *
+	 * @return void
 	 */
 	public function test_check_option_with_old_value_being_false() {
 		$this->indexable_helper
@@ -113,6 +119,8 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	 * Tests the method with one argument not being an array.
 	 *
 	 * @covers ::check_option
+	 *
+	 * @return void
 	 */
 	public function test_check_option_with_one_value_not_being_an_array() {
 		$this->indexable_helper
@@ -126,6 +134,8 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	 * Tests the method with both arguments not being an array.
 	 *
 	 * @covers ::check_option
+	 *
+	 * @return void
 	 */
 	public function test_check_option_with_values_not_being_an_array() {
 		$this->indexable_helper
@@ -139,6 +149,8 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	 * Tests the method when both values aren't set.
 	 *
 	 * @covers ::check_option
+	 *
+	 * @return void
 	 */
 	public function test_check_option_with_values_not_being_set() {
 		$this->indexable_helper
@@ -152,12 +164,18 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	 * Tests the method when the value for stripcategory base has changed.
 	 *
 	 * @covers ::check_option
+	 *
+	 * @return void
 	 */
 	public function test_check_option_stripcategorybase_changed() {
 		$this->indexable_helper
 			->expects( 'reset_permalink_indexables' )
 			->with( 'term', 'category', Indexing_Reasons::REASON_CATEGORY_BASE_PREFIX )
 			->once();
+
+		Monkey\Functions\expect( 'update_option' )
+			->once()
+			->with( 'rewrite_rules', '' );
 
 		$this->instance->check_option( [ 'stripcategorybase' => 0 ], [ 'stripcategorybase' => 1 ] );
 	}

@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Health_Check
  */
-class Health_Check_Test extends TestCase {
+final class Health_Check_Test extends TestCase {
 
 	/**
 	 * A partially mocked test double of Health_Check.
@@ -50,6 +50,8 @@ class Health_Check_Test extends TestCase {
 	 *
 	 * @covers ::run_and_get_result
 	 * @covers ::set_runner
+	 *
+	 * @return void
 	 */
 	public function test_calls_run() {
 		$this->runner
@@ -64,6 +66,8 @@ class Health_Check_Test extends TestCase {
 	 *
 	 * @covers ::run_and_get_result
 	 * @covers ::set_runner
+	 *
+	 * @return void
 	 */
 	public function test_returns_result_from_implementation() {
 		$expected = [ 'return value' ];
@@ -83,6 +87,8 @@ class Health_Check_Test extends TestCase {
 	 * Checks if get_test_identifier() generates a lowercase string with the 'yoast-' prefix and its whitespace replaced by dashes.
 	 *
 	 * @covers ::get_test_identifier
+	 *
+	 * @return void
 	 */
 	public function test_outputs_valid_test_identifier() {
 		// Test identifier generation depends on the name of the subclass, so we can't use the (partial) mock of the test double here.
@@ -98,6 +104,8 @@ class Health_Check_Test extends TestCase {
 	 * Checks if get_test_identifier() functions correctly when the implementation is not in a namespace.
 	 *
 	 * @covers ::get_test_identifier
+	 *
+	 * @return void
 	 */
 	public function test_get_test_identifier_exits_early() {
 		$this->instance = Mockery::mock( Health_Check::class )->makePartial();

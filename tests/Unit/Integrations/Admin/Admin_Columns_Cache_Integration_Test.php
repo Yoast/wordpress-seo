@@ -7,8 +7,8 @@ use Mockery;
 use WP_Post;
 use WP_Query;
 use Yoast\WP\SEO\Integrations\Admin\Admin_Columns_Cache_Integration;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Admin_Columns_Cache_Integration
  */
-class Admin_Columns_Cache_Integration_Test extends TestCase {
+final class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 	/**
 	 * Holds the admin columns cache integration.
@@ -37,6 +37,8 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -50,6 +52,8 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::fill_cache
+	 *
+	 * @return void
 	 */
 	public function test_fill_cache() {
 		global $wp_query;
@@ -79,6 +83,8 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::fill_cache
+	 *
+	 * @return void
 	 */
 	public function test_fill_cache_with_posts() {
 		global $wp_query;
@@ -106,6 +112,8 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::fill_cache
+	 *
+	 * @return void
 	 */
 	public function test_fill_cache_with_broken_indexable() {
 		global $wp_query;
@@ -123,7 +131,6 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 		$results = [
 			(object) [
-				'object_id' => 1,
 				false,
 				false,
 				'object_id' => 2,
@@ -140,6 +147,8 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::fill_cache
+	 *
+	 * @return void
 	 */
 	public function test_fill_cache_with_non_post_query() {
 		global $wp_query;

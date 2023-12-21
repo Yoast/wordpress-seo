@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group Metabox
  */
-class Metabox_Editor_Test extends TestCase {
+final class Metabox_Editor_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -23,17 +23,19 @@ class Metabox_Editor_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
 		$this->subject = new WPSEO_Metabox_Editor();
 
-		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! \defined( 'WPSEO_FILE' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 			\define( 'WPSEO_FILE', $this->get_wpseo_file() );
 		}
-		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! \defined( 'WPSEO_VERSION' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 			\define( 'WPSEO_VERSION', '16.6' );
 		}
 	}
@@ -62,6 +64,8 @@ class Metabox_Editor_Test extends TestCase {
 	 * Tests adding the css inside the editor.
 	 *
 	 * @covers WPSEO_Metabox_Editor::add_css_inside_editor
+	 *
+	 * @return void
 	 */
 	public function test_add_css_inside_editor_empty() {
 		Monkey\Functions\expect( 'plugins_url' )
@@ -81,6 +85,8 @@ class Metabox_Editor_Test extends TestCase {
 	 * Tests adding the css inside the editor with having preexisting css.
 	 *
 	 * @covers WPSEO_Metabox_Editor::add_css_inside_editor
+	 *
+	 * @return void
 	 */
 	public function test_add_css_inside_editor_preexisting() {
 		Monkey\Functions\expect( 'plugins_url' )
@@ -101,6 +107,8 @@ class Metabox_Editor_Test extends TestCase {
 	 * Tests adding a custom element.
 	 *
 	 * @covers WPSEO_Metabox_Editor::add_custom_element
+	 *
+	 * @return void
 	 */
 	public function test_add_custom_element() {
 		$expected = [
@@ -116,6 +124,8 @@ class Metabox_Editor_Test extends TestCase {
 	 * Tests adding a custom element with having preexistings elements.
 	 *
 	 * @covers WPSEO_Metabox_Editor::add_custom_element
+	 *
+	 * @return void
 	 */
 	public function test_add_custom_element_preexisting() {
 		$expected = [
@@ -131,6 +141,8 @@ class Metabox_Editor_Test extends TestCase {
 	 * Tests adding a custom element that also contains other properties.
 	 *
 	 * @covers WPSEO_Metabox_Editor::add_custom_element
+	 *
+	 * @return void
 	 */
 	public function test_add_custom_element_other_properties() {
 		$expected = [

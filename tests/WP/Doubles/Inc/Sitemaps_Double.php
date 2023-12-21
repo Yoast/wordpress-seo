@@ -7,7 +7,7 @@ use WPSEO_Sitemaps;
 /**
  * Overwrite couple functions of the WPSEO Sitemaps class for testing.
  */
-class Sitemaps_Double extends WPSEO_Sitemaps {
+final class Sitemaps_Double extends WPSEO_Sitemaps {
 
 	/**
 	 * Class constructor.
@@ -20,6 +20,8 @@ class Sitemaps_Double extends WPSEO_Sitemaps {
 
 	/**
 	 * Overwrite sitemap_close() so we don't die on outputting the sitemap.
+	 *
+	 * @return void
 	 */
 	public function sitemap_close() {
 		\remove_all_actions( 'wp_footer' );
@@ -27,6 +29,8 @@ class Sitemaps_Double extends WPSEO_Sitemaps {
 
 	/**
 	 * Reset.
+	 *
+	 * @return void
 	 */
 	public function reset() {
 		$this->bad_sitemap = false;

@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group watchers
  */
-class Option_Wpseo_Watcher_Test extends TestCase {
+final class Option_Wpseo_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -26,6 +26,8 @@ class Option_Wpseo_Watcher_Test extends TestCase {
 
 	/**
 	 * Does the setup.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ class Option_Wpseo_Watcher_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers \Yoast\WP\SEO\Integrations\Watchers\Option_Wpseo_Watcher::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -48,6 +52,8 @@ class Option_Wpseo_Watcher_Test extends TestCase {
 	 * Tests with the new value being true.
 	 *
 	 * @covers \Yoast\WP\SEO\Integrations\Watchers\Option_Wpseo_Watcher::check_semrush_option_disabled
+	 *
+	 * @return void
 	 */
 	public function test_check_semrush_option_disabled_with_new_value_being_true() {
 		$this->assertFalse( $this->instance->check_semrush_option_disabled( null, [ 'semrush_integration_active' => true ] ) );
@@ -57,6 +63,8 @@ class Option_Wpseo_Watcher_Test extends TestCase {
 	 * Tests with the new value being false .
 	 *
 	 * @covers \Yoast\WP\SEO\Integrations\Watchers\Option_Wpseo_Watcher::check_semrush_option_disabled
+	 *
+	 * @return void
 	 */
 	public function test_check_semrush_option_disabled_with_new_value_being_false() {
 		$options_helper = Mockery::mock( Options_Helper::class );

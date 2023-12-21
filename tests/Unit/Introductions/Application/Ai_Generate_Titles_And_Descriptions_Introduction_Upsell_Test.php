@@ -18,31 +18,33 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestCase {
+final class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestCase {
 
 	/**
 	 * Holds the instance.
 	 *
-	 * @var \Yoast\WP\SEO\Introductions\Application\Ai_Generate_Titles_And_Descriptions_Introduction_Upsell
+	 * @var Ai_Generate_Titles_And_Descriptions_Introduction_Upsell
 	 */
 	private $instance;
 
 	/**
 	 * Holds the product helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Product_Helper
+	 * @var Mockery\MockInterface|Product_Helper
 	 */
 	private $product_helper;
 
 	/**
 	 * Holds the options helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Options_Helper
+	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper;
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -57,6 +59,8 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -73,6 +77,8 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 	 * Tests getting the ID.
 	 *
 	 * @covers ::get_id
+	 *
+	 * @return void
 	 */
 	public function test_get_name() {
 		$this->assertSame( 'ai-generate-titles-and-descriptions-upsell', $this->instance->get_id() );
@@ -82,6 +88,8 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 	 * Tests getting the priority.
 	 *
 	 * @covers ::get_priority
+	 *
+	 * @return void
 	 */
 	public function test_get_priority() {
 		$this->assertSame( 10, $this->instance->get_priority() );
@@ -99,6 +107,8 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 	 * @param bool   $user_can_edit_posts Whether the user can edit posts.
 	 * @param array  $times               The amount of times for expectations. Instead of adding logic to the tests.
 	 * @param bool   $expected            The expected result (whether the introduction should show).
+	 *
+	 * @return void
 	 */
 	public function test_should_show(
 		$is_premium,
@@ -130,7 +140,7 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell_Test extends TestC
 	 *
 	 * @return array
 	 */
-	public function should_show_data() {
+	public static function should_show_data() {
 		return [
 			'showing'                                 => [
 				'is_premium'          => false,

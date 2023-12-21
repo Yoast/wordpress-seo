@@ -25,6 +25,8 @@ class Conflicting_Plugins_Service {
 	 * Deactivates the specified plugin(s) if any, or the entire list of known conflicting plugins.
 	 *
 	 * @param string|array|false $plugins Optional. The plugin filename, or array of plugin filenames, to deactivate.
+	 *
+	 * @return void
 	 */
 	public function deactivate_conflicting_plugins( $plugins = false ) {
 		// If no plugins are specified, deactivate any known conflicting plugins that are active.

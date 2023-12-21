@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group meta-description
  */
-class Meta_Description_Test extends TestCase {
+final class Meta_Description_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ class Meta_Description_Test extends TestCase {
 	 * Tests whether the meta description is returned when it is set.
 	 *
 	 * @covers ::generate_meta_description
+	 *
+	 * @return void
 	 */
 	public function test_meta_description() {
 		$this->indexable->description = 'Meta description example';
@@ -40,6 +44,8 @@ class Meta_Description_Test extends TestCase {
 	 * Tests whether the options meta description is returned when there is no indexable meta description.
 	 *
 	 * @covers ::generate_meta_description
+	 *
+	 * @return void
 	 */
 	public function test_meta_description_without_indexable() {
 		$this->options
@@ -55,6 +61,8 @@ class Meta_Description_Test extends TestCase {
 	 * Tests whether the default meta description (an empty string)) is returned when there is no options meta description.
 	 *
 	 * @covers ::generate_meta_description
+	 *
+	 * @return void
 	 */
 	public function test_meta_description_without_options_meta_description() {
 		$this->options

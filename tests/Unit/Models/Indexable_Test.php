@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group models
  */
-class Indexable_Test extends TestCase {
+final class Indexable_Test extends TestCase {
 
 	/**
 	 * Holds the instance to test.
@@ -27,6 +27,8 @@ class Indexable_Test extends TestCase {
 
 	/**
 	 * Sets up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -39,6 +41,8 @@ class Indexable_Test extends TestCase {
 	 * Tests the save method.
 	 *
 	 * @covers ::save
+	 *
+	 * @return void
 	 */
 	public function test_save() {
 		$permalink = 'https://example.com/';
@@ -76,6 +80,8 @@ class Indexable_Test extends TestCase {
 	 * Tests that the trailing slash is enforced in the permalink.
 	 *
 	 * @covers ::save
+	 *
+	 * @return void
 	 */
 	public function test_save_trailing_slash() {
 		$permalink_no_slash = 'https://example.com';
@@ -112,6 +118,8 @@ class Indexable_Test extends TestCase {
 	 * Tests that the primary_focus_keyword is truncated when longer than 191 characters.
 	 *
 	 * @covers ::save
+	 *
+	 * @return void
 	 */
 	public function test_save_primary_focus_keyword_truncated() {
 		$keyword_truncated = 'This is a primary focus keyphrase that is longer than hundred and ninety one characters. This is way too long for your normal primary focus one characters. This is way too long for your norma';
@@ -129,6 +137,8 @@ class Indexable_Test extends TestCase {
 	 * Tests that no "passing null to non-nullable" deprecation notice is thrown on PHP 8.1.
 	 *
 	 * @covers ::save
+	 *
+	 * @return void
 	 */
 	public function test_save_without_changes() {
 		$this->instance->orm->expects( 'get' )->once()->with( 'permalink' );
@@ -142,6 +152,8 @@ class Indexable_Test extends TestCase {
 	 * Tests get_extension.
 	 *
 	 * @covers ::get_extension
+	 *
+	 * @return void
 	 */
 	public function test_get_extension() {
 		$this->assertSame( 'expected extension', $this->instance->get_extension( 'extension' ) );
@@ -151,6 +163,8 @@ class Indexable_Test extends TestCase {
 	 * Tests get_extension via has_one.
 	 *
 	 * @covers ::get_extension
+	 *
+	 * @return void
 	 */
 	public function test_get_extension_has_one() {
 		$this->instance->mock_has_one = Mockery::mock( ORM::class );
@@ -167,6 +181,8 @@ class Indexable_Test extends TestCase {
 	 *
 	 * @covers ::sanitize_permalink
 	 * @covers ::save
+	 *
+	 * @return void
 	 */
 	public function test_do_trailing_slash_permalink_when_unindexed() {
 		$permalink = 'unindexed';

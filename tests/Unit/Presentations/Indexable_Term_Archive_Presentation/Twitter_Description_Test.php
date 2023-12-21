@@ -13,12 +13,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group twitter
  * @group twitter-description
  */
-class Twitter_Description_Test extends TestCase {
+final class Twitter_Description_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -31,6 +33,8 @@ class Twitter_Description_Test extends TestCase {
 	 * Tests the situation where the Twitter description is given.
 	 *
 	 * @covers ::generate_twitter_description
+	 *
+	 * @return void
 	 */
 	public function test_with_set_twitter_description() {
 		$this->indexable->twitter_description = 'Twitter description';
@@ -42,6 +46,8 @@ class Twitter_Description_Test extends TestCase {
 	 * Tests the situation where the meta description is given.
 	 *
 	 * @covers ::generate_twitter_description
+	 *
+	 * @return void
 	 */
 	public function test_with_term_description_with_open_graph_enabled() {
 		$this->indexable->twitter_description = '';
@@ -70,6 +76,8 @@ class Twitter_Description_Test extends TestCase {
 	 * Tests the situation where the meta description is given.
 	 *
 	 * @covers ::generate_twitter_description
+	 *
+	 * @return void
 	 */
 	public function test_with_term_description_with_open_graph_enabled_and_have_open_graph_description() {
 		$this->indexable->twitter_description = '';
@@ -92,6 +100,8 @@ class Twitter_Description_Test extends TestCase {
 	 * Tests the situation where the meta description is given.
 	 *
 	 * @covers ::generate_twitter_description
+	 *
+	 * @return void
 	 */
 	public function test_with_term_description_with_open_graph_disabled() {
 		$this->indexable->twitter_description = '';

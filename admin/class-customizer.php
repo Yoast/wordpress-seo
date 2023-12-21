@@ -59,6 +59,8 @@ class WPSEO_Customizer {
 	 * Function to support WordPress Customizer.
 	 *
 	 * @param WP_Customize_Manager $wp_customize Manager class instance.
+	 *
+	 * @return void
 	 */
 	public function wpseo_customize_register( $wp_customize ) {
 		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
@@ -79,6 +81,8 @@ class WPSEO_Customizer {
 
 	/**
 	 * Add the breadcrumbs section to the customizer.
+	 *
+	 * @return void
 	 */
 	private function breadcrumbs_section() {
 		$section_args = [
@@ -102,6 +106,8 @@ class WPSEO_Customizer {
 
 	/**
 	 * Adds the breadcrumbs show blog checkbox.
+	 *
+	 * @return void
 	 */
 	private function breadcrumbs_blog_show_setting() {
 		$index        = 'breadcrumbs-display-blog-page';
@@ -125,6 +131,8 @@ class WPSEO_Customizer {
 
 	/**
 	 * Adds the breadcrumbs separator text field.
+	 *
+	 * @return void
 	 */
 	private function breadcrumbs_separator_setting() {
 		$index        = 'breadcrumbs-sep';
@@ -138,6 +146,8 @@ class WPSEO_Customizer {
 
 	/**
 	 * Adds the breadcrumbs home anchor text field.
+	 *
+	 * @return void
 	 */
 	private function breadcrumbs_home_setting() {
 		$index        = 'breadcrumbs-home';
@@ -150,6 +160,8 @@ class WPSEO_Customizer {
 
 	/**
 	 * Adds the breadcrumbs prefix text field.
+	 *
+	 * @return void
 	 */
 	private function breadcrumbs_prefix_setting() {
 		$index        = 'breadcrumbs-prefix';
@@ -162,6 +174,8 @@ class WPSEO_Customizer {
 
 	/**
 	 * Adds the breadcrumbs archive prefix text field.
+	 *
+	 * @return void
 	 */
 	private function breadcrumbs_archiveprefix_setting() {
 		$index        = 'breadcrumbs-archiveprefix';
@@ -174,6 +188,8 @@ class WPSEO_Customizer {
 
 	/**
 	 * Adds the breadcrumbs search prefix text field.
+	 *
+	 * @return void
 	 */
 	private function breadcrumbs_searchprefix_setting() {
 		$index        = 'breadcrumbs-searchprefix';
@@ -186,6 +202,8 @@ class WPSEO_Customizer {
 
 	/**
 	 * Adds the breadcrumb 404 prefix text field.
+	 *
+	 * @return void
 	 */
 	private function breadcrumbs_404_setting() {
 		$index        = 'breadcrumbs-404crumb';
@@ -206,6 +224,8 @@ class WPSEO_Customizer {
 	 *                                     Will default to 'wpseo-' . $index.
 	 * @param array       $custom_settings Optional. Customizer setting arguments.
 	 *                                     Only those different from the default need to be passed.
+	 *
+	 * @return void
 	 */
 	private function add_setting_and_control( $index, $control_args, $id = null, $custom_settings = [] ) {
 		$setting                  = sprintf( $this->setting_template, $index );

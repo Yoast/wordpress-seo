@@ -11,18 +11,12 @@
   "license": "GPL-3.0",
   "private": false,
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
     "lint": "eslint ./src ./tests --max-warnings=0",
     "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
   },
-  "devDependencies": {},
-  "jest": {
-    "testURL": "http://localhost",
-    "testRegex": ".*Test.js$",
-    "transformIgnorePatterns": [
-      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
-    ],
-    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
+  "devDependencies": {
+    "@yoast/browserslist-config": "^1.2.2"
   },
   "publishConfig": {
     "access": "public"

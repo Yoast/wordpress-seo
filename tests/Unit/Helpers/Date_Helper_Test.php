@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group helpers
  */
-class Date_Helper_Test extends TestCase {
+final class Date_Helper_Test extends TestCase {
 
 	/**
 	 * The date helper instance.
@@ -24,6 +24,8 @@ class Date_Helper_Test extends TestCase {
 
 	/**
 	 * Performs the setup.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -40,9 +42,11 @@ class Date_Helper_Test extends TestCase {
 	 * @param string $date     The date to format.
 	 * @param string $format   The format.
 	 * @param string $expected The expected value.
+	 *
+	 * @return void
 	 */
 	public function test_format( $date, $format, $expected ) {
-		static::assertSame( $expected, $this->instance->format( $date, $format ) );
+		$this->assertSame( $expected, $this->instance->format( $date, $format ) );
 	}
 
 	/**
@@ -50,7 +54,7 @@ class Date_Helper_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function format_provider() {
+	public static function format_provider() {
 		return [
 			'Test formatting the date, the default way' => [
 				'date'     => '2020-12-31 13:37:00',
@@ -109,9 +113,11 @@ class Date_Helper_Test extends TestCase {
 	 * @param string $timestamp The timestamp to format.
 	 * @param string $format    The format.
 	 * @param string $expected  The expected value.
+	 *
+	 * @return void
 	 */
 	public function test_format_timestamp( $timestamp, $format, $expected ) {
-		static::assertSame( $expected, $this->instance->format_timestamp( $timestamp, $format ) );
+		$this->assertSame( $expected, $this->instance->format_timestamp( $timestamp, $format ) );
 	}
 
 	/**
@@ -119,7 +125,7 @@ class Date_Helper_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function format_timestamp_provider() {
+	public static function format_timestamp_provider() {
 		return [
 			'Test formatting a date given as timestamp' => [
 				'timestamp' => '1973-11-29 21:33:09',
@@ -148,6 +154,8 @@ class Date_Helper_Test extends TestCase {
 	 * Tests to a translated format.
 	 *
 	 * @covers ::format_translated
+	 *
+	 * @return void
 	 */
 	public function test_format_translated() {
 		Monkey\Functions\expect( 'date_i18n' )
@@ -155,7 +163,7 @@ class Date_Helper_Test extends TestCase {
 			->with( \DATE_W3C, '1609421820' )
 			->andReturn( '2020-12-31' );
 
-		static::assertSame(
+		$this->assertSame(
 			'2020-12-31',
 			$this->instance->format_translated( '2020-12-31 13:37:00' )
 		);
@@ -169,9 +177,11 @@ class Date_Helper_Test extends TestCase {
 	 *
 	 * @param mixed $input    The date to validate.
 	 * @param bool  $expected The expected function return value.
+	 *
+	 * @return void
 	 */
 	public function test_is_valid_datetime( $input, $expected ) {
-		static::assertSame( $expected, $this->instance->is_valid_datetime( $input ) );
+		$this->assertSame( $expected, $this->instance->is_valid_datetime( $input ) );
 	}
 
 	/**
@@ -179,7 +189,7 @@ class Date_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_is_valid_datetime() {
+	public static function data_is_valid_datetime() {
 		return [
 			'Valid datetime string' => [
 				'input'    => '2015-02-25T04:44:44+00:00',
