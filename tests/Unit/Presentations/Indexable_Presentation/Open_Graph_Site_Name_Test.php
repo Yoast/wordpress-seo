@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group open-graph
  */
-class Open_Graph_Site_Name_Test extends TestCase {
+final class Open_Graph_Site_Name_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ class Open_Graph_Site_Name_Test extends TestCase {
 	 * Tests the situation where the Open Graph site name is given.
 	 *
 	 * @covers ::generate_open_graph_site_name
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_site_name() {
 		$this->context->wordpress_site_name = 'My Site';
@@ -40,6 +44,8 @@ class Open_Graph_Site_Name_Test extends TestCase {
 	 * Tests the situation where an empty value is returned.
 	 *
 	 * @covers ::generate_open_graph_site_name
+	 *
+	 * @return void
 	 */
 	public function test_generate_title_with_empty_return_value() {
 		$this->assertEmpty( $this->instance->generate_open_graph_site_name() );

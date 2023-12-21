@@ -61,7 +61,7 @@ class WPSEO_Tracking_Plugin_Data implements WPSEO_Collection {
 	public function set_auto_update_plugin_list() {
 
 		$auto_update_plugins      = [];
-		$auto_update_plugin_files = \get_option( 'auto_update_plugins' );
+		$auto_update_plugin_files = get_option( 'auto_update_plugins' );
 		if ( $auto_update_plugin_files ) {
 			foreach ( $auto_update_plugin_files as $auto_update_plugin ) {
 				$data                                 = get_plugin_data( WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $auto_update_plugin );
@@ -84,7 +84,7 @@ class WPSEO_Tracking_Plugin_Data implements WPSEO_Collection {
 		return [
 			'name'          => $plugin['Name'],
 			'version'       => $plugin['Version'],
-			'auto_updating' => \array_key_exists( $plugin['Name'], $this->auto_update_plugin_list ),
+			'auto_updating' => array_key_exists( $plugin['Name'], $this->auto_update_plugin_list ),
 		];
 	}
 }

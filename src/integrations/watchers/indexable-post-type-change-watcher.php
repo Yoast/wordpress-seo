@@ -109,7 +109,6 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			return;
 		}
 
-
 		// We look for new public post types.
 		$newly_made_public_post_types = \array_diff( $public_post_types, $last_known_public_post_types );
 		// We look for post types that from public have been made private.
@@ -132,7 +131,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 
 			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_POST_TYPE_MADE_PUBLIC );
 
-			do_action( 'new_public_post_type_notifications', $newly_made_public_post_types );
+			\do_action( 'new_public_post_type_notifications', $newly_made_public_post_types );
 		}
 
 		// There are post types that have been made private.
@@ -143,7 +142,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 				\wp_schedule_single_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 			}
 
-			do_action( 'clean_new_public_post_type_notifications', $newly_made_non_public_post_types );
+			\do_action( 'clean_new_public_post_type_notifications', $newly_made_non_public_post_types );
 		}
 	}
 }

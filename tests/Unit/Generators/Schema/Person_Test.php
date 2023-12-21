@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Person
  */
-class Person_Test extends TestCase {
+final class Person_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -53,6 +53,8 @@ class Person_Test extends TestCase {
 
 	/**
 	 * Initializes the test environment.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -82,6 +84,8 @@ class Person_Test extends TestCase {
 	 * @covers ::set_image_from_avatar
 	 * @covers ::get_social_profiles
 	 * @covers ::url_social_site
+	 *
+	 * @return void
 	 */
 	public function test_generate_happy_path() {
 		$this->instance->context->site_user_id     = 1337;
@@ -147,6 +151,8 @@ class Person_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::determine_user_id
+	 *
+	 * @return void
 	 */
 	public function test_generate_no_user_id() {
 		$this->instance->context->site_user_id = 1337;
@@ -161,6 +167,8 @@ class Person_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::determine_user_id
+	 *
+	 * @return void
 	 */
 	public function test_generate_user_id_zero() {
 		$this->instance->context->site_user_id = 1337;
@@ -176,6 +184,8 @@ class Person_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::determine_user_id
 	 * @covers ::build_person_data
+	 *
+	 * @return void
 	 */
 	public function test_generate_without_userdata() {
 		$this->instance->context->site_user_id = 1337;
@@ -201,6 +211,8 @@ class Person_Test extends TestCase {
 	 * @covers ::set_image_from_options
 	 * @covers ::set_image_from_avatar
 	 * @covers ::get_social_profiles
+	 *
+	 * @return void
 	 */
 	public function test_generate_without_user_description_or_social_profiles() {
 		$this->instance->context->site_user_id    = 1337;
@@ -235,6 +247,8 @@ class Person_Test extends TestCase {
 	 * @covers ::add_image
 	 * @covers ::set_image_from_avatar
 	 * @covers ::get_social_profiles
+	 *
+	 * @return void
 	 */
 	public function test_generate_image_from_avatar() {
 		$this->instance->context->site_user_id    = 1337;
@@ -272,6 +286,8 @@ class Person_Test extends TestCase {
 	 * @covers ::add_image
 	 * @covers ::set_image_from_avatar
 	 * @covers ::get_social_profiles
+	 *
+	 * @return void
 	 */
 	public function test_generate_invalid_avatar_url() {
 		$this->instance->context->site_user_id    = 1337;
@@ -309,6 +325,8 @@ class Person_Test extends TestCase {
 	 * @covers ::set_image_from_options
 	 * @covers ::set_image_from_avatar
 	 * @covers ::get_social_profiles
+	 *
+	 * @return void
 	 */
 	public function test_generate_social_profiles_non_array() {
 		$this->instance->context->site_user_id    = 1337;
@@ -345,6 +363,8 @@ class Person_Test extends TestCase {
 	 * @covers ::set_image_from_avatar
 	 * @covers ::get_social_profiles
 	 * @covers ::url_social_site
+	 *
+	 * @return void
 	 */
 	public function test_generate_social_profiles_non_string_or_falsy_values() {
 		$this->instance->context->site_user_id    = 1337;
@@ -386,6 +406,8 @@ class Person_Test extends TestCase {
 	 *
 	 * @covers ::is_needed
 	 * @covers ::site_represents_current_author
+	 *
+	 * @return void
 	 */
 	public function test_is_shown_when_site_represents_person() {
 		$this->instance->context->site_represents = 'person';
@@ -398,6 +420,8 @@ class Person_Test extends TestCase {
 	 *
 	 * @covers ::is_needed
 	 * @covers ::site_represents_current_author
+	 *
+	 * @return void
 	 */
 	public function test_is_not_needed_site_represents_organization() {
 		$this->instance->context->site_represents        = 'organization';
@@ -411,6 +435,8 @@ class Person_Test extends TestCase {
 	 *
 	 * @covers ::is_needed
 	 * @covers ::site_represents_current_author
+	 *
+	 * @return void
 	 */
 	public function test_is_not_needed_post_with_same_author_as_site_represents() {
 		$this->instance->context->site_represents            = 'person';
@@ -438,6 +464,8 @@ class Person_Test extends TestCase {
 	 * @covers ::set_image_from_avatar
 	 * @covers ::get_social_profiles
 	 * @covers ::url_social_site
+	 *
+	 * @return void
 	 */
 	public function test_generate_duplicated_URLs() {
 		$this->instance->context->site_user_id     = 1337;
@@ -514,6 +542,8 @@ class Person_Test extends TestCase {
 	 * Sets the tests for determine_user_id.
 	 *
 	 * @param string $scenario The scenario to set.
+	 *
+	 * @return void
 	 */
 	protected function expects_for_determine_user_id( $scenario = 'default' ) {
 		$user_id = $this->instance->context->site_user_id;
@@ -537,6 +567,8 @@ class Person_Test extends TestCase {
 	 * Sets the tests for get_userdata inside build_person_data.
 	 *
 	 * @param object|false $user_data The user data get_userdata returns. An object representing WP_User or false.
+	 *
+	 * @return void
 	 */
 	protected function expects_for_get_userdata( $user_data ) {
 		Functions\expect( 'get_userdata' )
@@ -575,6 +607,8 @@ class Person_Test extends TestCase {
 	 * Sets the tests for get_social_profiles.
 	 *
 	 * @param string[] $social_profiles The social profiles after the `wpseo_schema_person_social_profiles` filter.
+	 *
+	 * @return void
 	 */
 	protected function expects_for_social_profiles( $social_profiles ) {
 		Filters\expectApplied( 'wpseo_schema_person_social_profiles' )

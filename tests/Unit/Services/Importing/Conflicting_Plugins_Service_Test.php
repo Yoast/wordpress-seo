@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Conflicting_Plugins_Service
  */
-class Conflicting_Plugins_Service_Test extends TestCase {
+final class Conflicting_Plugins_Service_Test extends TestCase {
 
 	/**
 	 * The class under test.
@@ -35,6 +35,8 @@ class Conflicting_Plugins_Service_Test extends TestCase {
 	 * @covers ::detect_conflicting_plugins
 	 * @covers ::get_active_plugins
 	 * @covers ::ignore_deactivating_plugin
+	 *
+	 * @return void
 	 */
 	public function test_detect_no_conflicting_plugins() {
 		// Arrange.
@@ -56,6 +58,8 @@ class Conflicting_Plugins_Service_Test extends TestCase {
 	 * @covers ::detect_conflicting_plugins
 	 * @covers ::get_active_plugins
 	 * @covers ::ignore_deactivating_plugin
+	 *
+	 * @return void
 	 */
 	public function test_detect_conflicting_plugins() {
 		// Arrange.
@@ -82,6 +86,8 @@ class Conflicting_Plugins_Service_Test extends TestCase {
 	 * @covers ::detect_conflicting_plugins
 	 * @covers ::get_active_plugins
 	 * @covers ::ignore_deactivating_plugin
+	 *
+	 * @return void
 	 */
 	public function test_detect_deactivating_conflicting_plugins() {
 		// Arrange.
@@ -122,6 +128,8 @@ class Conflicting_Plugins_Service_Test extends TestCase {
 	 * @param mixed $action   The value of $_GET['action'].
 	 * @param mixed $plugin   The value of $_GET['plugin'].
 	 * @param array $expected The expected return value of detect_conflicting_plugins.
+	 *
+	 * @return void
 	 */
 	public function test_detect_deactivating_conflicting_plugins_plugin_is_int( $action, $plugin, $expected ) {
 		Monkey\Functions\expect( 'get_option' )
@@ -147,7 +155,7 @@ class Conflicting_Plugins_Service_Test extends TestCase {
 	 *
 	 * @return array[] Data to use for test_detect_deactivating_conflicting_plugins_plugin_is_int.
 	 */
-	public function detect_deactivating_conflicting_plugins_dataprovider() {
+	public static function detect_deactivating_conflicting_plugins_dataprovider() {
 		$action_is_null       = [
 			'action'   => null,
 			'plugin'   => 'xml-sitemaps/xml-sitemaps.php',

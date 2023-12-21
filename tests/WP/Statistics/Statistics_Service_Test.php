@@ -11,10 +11,12 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @coversDefaultClass WPSEO_Statistics_Service
  */
-class Statistics_Service_Test extends TestCase {
+final class Statistics_Service_Test extends TestCase {
 
 	/**
 	 * Reset after each test.
+	 *
+	 * @return void
 	 */
 	public function tear_down() {
 		\delete_transient( WPSEO_Statistics_Service::CACHE_TRANSIENT_KEY );
@@ -26,6 +28,8 @@ class Statistics_Service_Test extends TestCase {
 	 * Tests filtering the zero counts.
 	 *
 	 * @covers ::get_statistics
+	 *
+	 * @return void
 	 */
 	public function test_filter_zero_counts() {
 		$statistics = new Statistics_Mock(
@@ -48,6 +52,8 @@ class Statistics_Service_Test extends TestCase {
 	 * for a specific author.
 	 *
 	 * @covers ::get_statistics
+	 *
+	 * @return void
 	 */
 	public function test_seo_score_links() {
 		$statistics = new Statistics_Mock(
@@ -72,6 +78,8 @@ class Statistics_Service_Test extends TestCase {
 	 * Tests the rendering of generated link that navigates to an overview with post of that type.
 	 *
 	 * @covers ::get_statistics
+	 *
+	 * @return void
 	 */
 	public function test_admin_seo_score_links() {
 		$user = \wp_get_current_user();
@@ -101,6 +109,8 @@ class Statistics_Service_Test extends TestCase {
 	 * Tests the total amount of seo scores.
 	 *
 	 * @covers ::get_statistics
+	 *
+	 * @return void
 	 */
 	public function test_page_counts() {
 		$statistics = new Statistics_Mock(

@@ -14,12 +14,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group open-graph
  * @group open-graph-image
  */
-class Open_Graph_Images_Test extends TestCase {
+final class Open_Graph_Images_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -31,6 +33,8 @@ class Open_Graph_Images_Test extends TestCase {
 	 * Tests the situation where the post is password protected.
 	 *
 	 * @covers ::generate_open_graph_images
+	 *
+	 * @return void
 	 */
 	public function test_for_password_protected_post() {
 		Monkey\Functions\expect( 'post_password_required' )
@@ -44,6 +48,8 @@ class Open_Graph_Images_Test extends TestCase {
 	 * Tests the situation where the parent method is called.
 	 *
 	 * @covers ::generate_open_graph_images
+	 *
+	 * @return void
 	 */
 	public function test_with_parent_call() {
 		Monkey\Functions\expect( 'post_password_required' )

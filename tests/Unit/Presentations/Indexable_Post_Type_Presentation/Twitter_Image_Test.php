@@ -14,12 +14,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group twitter
  * @group twitter-image
  */
-class Twitter_Image_Test extends TestCase {
+final class Twitter_Image_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -31,6 +33,8 @@ class Twitter_Image_Test extends TestCase {
 	 * Tests the situation where the post is password protected.
 	 *
 	 * @covers ::generate_twitter_image
+	 *
+	 * @return void
 	 */
 	public function test_for_password_protected_post() {
 		Monkey\Functions\expect( 'post_password_required' )
@@ -44,6 +48,8 @@ class Twitter_Image_Test extends TestCase {
 	 * Tests the situation where the Twitter image is given.
 	 *
 	 * @covers ::generate_twitter_image
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_image() {
 		Monkey\Functions\expect( 'post_password_required' )

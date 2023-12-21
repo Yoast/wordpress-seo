@@ -71,7 +71,7 @@ class WPSEO_Metabox_Formatter {
 			'keywordTab'                         => __( 'Keyphrase:', 'wordpress-seo' ),
 			'removeKeyword'                      => __( 'Remove keyphrase', 'wordpress-seo' ),
 			'contentLocale'                      => get_locale(),
-			'userLocale'                         => \get_user_locale(),
+			'userLocale'                         => get_user_locale(),
 			'translations'                       => $this->get_translations(),
 			'keyword_usage'                      => [],
 			'title_template'                     => '',
@@ -231,7 +231,7 @@ class WPSEO_Metabox_Formatter {
 	private function get_content_analysis_component_translations() {
 		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
 		return [
-			'locale'                                         => \get_user_locale(),
+			'locale'                                         => get_user_locale(),
 			'content-analysis.errors'                        => __( 'Errors', 'wordpress-seo' ),
 			'content-analysis.problems'                      => __( 'Problems', 'wordpress-seo' ),
 			'content-analysis.improvements'                  => __( 'Improvements', 'wordpress-seo' ),
@@ -251,7 +251,7 @@ class WPSEO_Metabox_Formatter {
 	 * @return array
 	 */
 	private function get_translations() {
-		$locale = \get_user_locale();
+		$locale = get_user_locale();
 
 		$file = WPSEO_PATH . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) ) {

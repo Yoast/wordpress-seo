@@ -19,15 +19,17 @@ final class Asset_Analysis_Worker_Location_Test extends TestCase {
 
 	/**
 	 * Prepare the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
-		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! \defined( 'WPSEO_FILE' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 			\define( 'WPSEO_FILE', $this->get_wpseo_file() );
 		}
-		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! \defined( 'WPSEO_VERSION' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 			\define( 'WPSEO_VERSION', '16.6' );
 		}
 	}
@@ -45,6 +47,8 @@ final class Asset_Analysis_Worker_Location_Test extends TestCase {
 	 * Tests the get_url function.
 	 *
 	 * @covers ::get_url
+	 *
+	 * @return void
 	 */
 	public function test_get_url() {
 		$version  = 'test-version';
@@ -70,6 +74,8 @@ final class Asset_Analysis_Worker_Location_Test extends TestCase {
 	 * Tests the get_url function when we pass a name.
 	 *
 	 * @covers ::get_url
+	 *
+	 * @return void
 	 */
 	public function test_get_url_with_name() {
 		$custom_file_name = 'custom-name';

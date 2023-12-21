@@ -13,10 +13,12 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Link_Builder_Double;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  */
-class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Link_Builder_TestCase {
+final class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Link_Builder_TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -36,7 +38,7 @@ class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Link_Bui
 	 *
 	 * @return array
 	 */
-	public function data_provider_update_incoming_links_for_related_indexables() {
+	public static function data_provider_update_incoming_links_for_related_indexables() {
 		return [
 			'no related indexables' => [
 				'related_indexable_ids'                            => [],
@@ -84,6 +86,8 @@ class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Link_Bui
 	 * @param int[] $related_indexable_ids                            The IDs of all related indexables.
 	 * @param array $expected_counts                                  The expected counts.
 	 * @param int   $get_incoming_link_counts_for_indexable_ids_times The number of times the method should be called.
+	 *
+	 * @return void
 	 */
 	public function test_update_incoming_links_for_related_indexables( $related_indexable_ids, $expected_counts, $get_incoming_link_counts_for_indexable_ids_times ) {
 

@@ -26,6 +26,8 @@ final class Capabilities_Utils_Test extends TestCase {
 
 	/**
 	 * Does the setup.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -50,6 +52,8 @@ final class Capabilities_Utils_Test extends TestCase {
 	 * Test happy path of the method.
 	 *
 	 * @covers ::get_applicable_users
+	 *
+	 * @return void
 	 */
 	public function test_get_applicable_users() {
 		$this->roles
@@ -79,6 +83,8 @@ final class Capabilities_Utils_Test extends TestCase {
 	 * Test the method with no found roles.
 	 *
 	 * @covers ::get_applicable_users
+	 *
+	 * @return void
 	 */
 	public function test_get_applicable_users_no_roles_found() {
 		$this->roles
@@ -102,6 +108,8 @@ final class Capabilities_Utils_Test extends TestCase {
 	 * @param object|null $role     The role data that is returned.
 	 * @param array       $expected The expected value.
 	 * @param string      $message  The message to show when test fails.
+	 *
+	 * @return void
 	 */
 	public function test_get_applicable_roles( $role, $expected, $message ) {
 		$this->roles
@@ -120,7 +128,7 @@ final class Capabilities_Utils_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function get_applicable_roles_provider() {
+	public static function get_applicable_roles_provider() {
 		return [
 			[
 				'role'     => (object) [

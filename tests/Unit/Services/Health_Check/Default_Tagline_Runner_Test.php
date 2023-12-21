@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Runner
  */
-class Default_Tagline_Runner_Test extends TestCase {
+final class Default_Tagline_Runner_Test extends TestCase {
 
 	/**
 	 * The Default_Tagline_Runner instance to be tested.
@@ -22,6 +22,8 @@ class Default_Tagline_Runner_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ class Default_Tagline_Runner_Test extends TestCase {
 	 *
 	 * @covers ::run
 	 * @covers ::is_successful
+	 *
+	 * @return void
 	 */
 	public function test_returns_successful() {
 		Monkey\Functions\expect( 'get_option' )
@@ -55,6 +59,8 @@ class Default_Tagline_Runner_Test extends TestCase {
 	 *
 	 * @covers ::run
 	 * @covers ::is_successful
+	 *
+	 * @return void
 	 */
 	public function test_retuns_not_successful() {
 		Monkey\Functions\expect( 'get_option' )

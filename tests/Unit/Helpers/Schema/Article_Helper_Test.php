@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Schema\Article_Helper
  */
-class Article_Helper_Test extends TestCase {
+final class Article_Helper_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -25,6 +25,8 @@ class Article_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ class Article_Helper_Test extends TestCase {
 	 *
 	 * @covers ::is_article_post_type
 	 * @covers ::is_author_supported
+	 *
+	 * @return void
 	 */
 	public function test_is_article_post_type() {
 		Monkey\Functions\expect( 'post_type_supports' )
@@ -51,6 +55,8 @@ class Article_Helper_Test extends TestCase {
 	 *
 	 * @covers ::is_article_post_type
 	 * @covers ::is_author_supported
+	 *
+	 * @return void
 	 */
 	public function test_is_article_post_type_with_no_post_type_given() {
 		Monkey\Functions\expect( 'get_post_type' )
@@ -69,6 +75,8 @@ class Article_Helper_Test extends TestCase {
 	 *
 	 * @covers ::is_article_post_type
 	 * @covers ::is_author_supported
+	 *
+	 * @return void
 	 */
 	public function test_is_article_post_type_with_false_given_as_post_type() {
 		Monkey\Functions\expect( 'post_type_supports' )
@@ -83,6 +91,8 @@ class Article_Helper_Test extends TestCase {
 	 *
 	 * @covers ::is_article_post_type
 	 * @covers ::is_author_supported
+	 *
+	 * @return void
 	 */
 	public function test_is_article_post_type_with_post_type_not_supported() {
 		Monkey\Functions\expect( 'post_type_supports' )

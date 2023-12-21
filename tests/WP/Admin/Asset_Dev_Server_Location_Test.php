@@ -25,6 +25,8 @@ final class Asset_Dev_Server_Location_Test extends TestCase {
 	 * Basic get_url test.
 	 *
 	 * @covers WPSEO_Admin_Asset_Dev_Server_Location::get_url
+	 *
+	 * @return void
 	 */
 	public function test_get_url() {
 		$asset = new WPSEO_Admin_Asset( $this->asset_defaults );
@@ -40,6 +42,8 @@ final class Asset_Dev_Server_Location_Test extends TestCase {
 	 * Tests that the constructor accepts a different dev server URL.
 	 *
 	 * @covers WPSEO_Admin_Asset_Dev_Server_Location::get_url
+	 *
+	 * @return void
 	 */
 	public function test_get_url_different_url() {
 		$asset = new WPSEO_Admin_Asset( $this->asset_defaults );

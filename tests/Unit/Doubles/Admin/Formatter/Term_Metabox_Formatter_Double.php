@@ -7,7 +7,7 @@ use WPSEO_Term_Metabox_Formatter;
 /**
  * Test Helper Class.
  */
-class Term_Metabox_Formatter_Double extends WPSEO_Term_Metabox_Formatter {
+final class Term_Metabox_Formatter_Double extends WPSEO_Term_Metabox_Formatter {
 
 	/**
 	 * Gets the image URL for the term's social preview.

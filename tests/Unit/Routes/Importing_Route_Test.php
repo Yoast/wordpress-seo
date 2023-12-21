@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group routes
  * @group import
  */
-class Importing_Route_Test extends TestCase {
+final class Importing_Route_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -45,6 +45,8 @@ class Importing_Route_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -85,6 +87,8 @@ class Importing_Route_Test extends TestCase {
 	 * Tests the registration of the routes.
 	 *
 	 * @covers ::register_routes
+	 *
+	 * @return void
 	 */
 	public function test_register_routes() {
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -113,6 +117,8 @@ class Importing_Route_Test extends TestCase {
 	 * @param bool   $is_enabled        Whether the action is enabled.
 	 * @param int    $index_times       The times the action will be executed.
 	 * @param string $expected_response The class of the expected response.
+	 *
+	 * @return void
 	 */
 	public function test_execute_import_aioseo_posts( $plugin, $type, $is_enabled, $index_times, $expected_response ) {
 		Mockery::mock( 'overload:' . WP_REST_Response::class );
@@ -146,6 +152,8 @@ class Importing_Route_Test extends TestCase {
 	 * Tests getting the right endpoint for a given plugin and type.
 	 *
 	 * @covers ::get_endpoint
+	 *
+	 * @return void
 	 */
 	public function test_get_endpoints() {
 		$aioseo_posts_endpoint = $this->instance->get_endpoint( 'aioseo', 'posts' );
@@ -166,7 +174,7 @@ class Importing_Route_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function all_routes() {
+	public static function all_routes() {
 		return [
 			[
 				'aioseo',
@@ -189,6 +197,8 @@ class Importing_Route_Test extends TestCase {
 	 * Tests whether a WP_Error object is returned on a non-existing rount.
 	 *
 	 * @covers ::execute
+	 *
+	 * @return void
 	 */
 	public function test_execute_non_existent_route() {
 		$response = $this->instance->execute(
@@ -198,6 +208,6 @@ class Importing_Route_Test extends TestCase {
 			]
 		);
 
-		$this->assertInstanceOf( 'WP_Error', $response );
+		$this->assertInstanceOf( WP_Error::class, $response );
 	}
 }

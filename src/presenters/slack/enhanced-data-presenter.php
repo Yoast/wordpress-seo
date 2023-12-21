@@ -58,8 +58,7 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_enhanced_slack_data' - Allows filtering of the enhanced data for sharing on Slack.
 		 *
-		 * @api array $data The enhanced Slack sharing data.
-		 *
+		 * @param array                  $data         The enhanced Slack sharing data.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		return \apply_filters( 'wpseo_enhanced_slack_data', $data, $this->presentation );

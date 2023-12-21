@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group open-graph
  * @group type-presenter
  */
-class Type_Presenter_Test extends TestCase {
+final class Type_Presenter_Test extends TestCase {
 
 	/**
 	 * The indexable presentation.
@@ -34,6 +34,8 @@ class Type_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -50,6 +52,8 @@ class Type_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct open graph type.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->presentation->open_graph_type = 'article';
@@ -66,6 +70,8 @@ class Type_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns an empty string when the open graph type is empty.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_type_is_empty() {
 		$this->presentation->open_graph_type = '';
@@ -81,6 +87,8 @@ class Type_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_filter() {
 		$this->presentation->open_graph_type = 'website';
@@ -101,6 +109,8 @@ class Type_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct open graph type when the admin bar is showing a class is added.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$this->presentation->open_graph_type = 'article';

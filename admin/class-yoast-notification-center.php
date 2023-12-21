@@ -17,19 +17,19 @@ class Yoast_Notification_Center {
 	 *
 	 * @var string
 	 */
-	const STORAGE_KEY = 'yoast_notifications';
+	public const STORAGE_KEY = 'yoast_notifications';
 
 	/**
 	 * The singleton instance of this object.
 	 *
-	 * @var \Yoast_Notification_Center
+	 * @var Yoast_Notification_Center
 	 */
 	private static $instance = null;
 
 	/**
 	 * Holds the notifications.
 	 *
-	 * @var \Yoast_Notification[][]
+	 * @var Yoast_Notification[][]
 	 */
 	private $notifications = [];
 
@@ -99,6 +99,8 @@ class Yoast_Notification_Center {
 
 	/**
 	 * Dismiss a notification.
+	 *
+	 * @return void
 	 */
 	public static function ajax_dismiss_notification() {
 		$notification_center = self::get();
@@ -304,6 +306,8 @@ class Yoast_Notification_Center {
 	 * Add notification to the cookie.
 	 *
 	 * @param Yoast_Notification $notification Notification object instance.
+	 *
+	 * @return void
 	 */
 	public function add_notification( Yoast_Notification $notification ) {
 
@@ -411,6 +415,8 @@ class Yoast_Notification_Center {
 	 *
 	 * @param Yoast_Notification $notification Notification to remove.
 	 * @param bool               $resolve      Resolve as fixed.
+	 *
+	 * @return void
 	 */
 	public function remove_notification( Yoast_Notification $notification, $resolve = true ) {
 
@@ -523,12 +529,14 @@ class Yoast_Notification_Center {
 
 	/**
 	 * AJAX display notifications.
+	 *
+	 * @return void
 	 */
 	public function ajax_get_notifications() {
 		$echo = false;
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form data.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form data.
 		if ( isset( $_POST['version'] ) && is_string( $_POST['version'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only comparing the variable in a condition.
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only comparing the variable in a condition.
 			$echo = wp_unslash( $_POST['version'] ) === '2';
 		}
 
@@ -541,6 +549,8 @@ class Yoast_Notification_Center {
 
 	/**
 	 * Remove storage when the plugin is deactivated.
+	 *
+	 * @return void
 	 */
 	public function deactivate_hook() {
 
@@ -606,7 +616,7 @@ class Yoast_Notification_Center {
 		/**
 		 * Filter: 'yoast_notifications_before_storage' - Allows developer to filter notifications before saving them.
 		 *
-		 * @api Yoast_Notification[] $notifications
+		 * @param Yoast_Notification[] $notifications
 		 */
 		$filtered_merged_notifications = apply_filters( 'yoast_notifications_before_storage', $merged_notifications );
 
@@ -693,18 +703,16 @@ class Yoast_Notification_Center {
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information and only using this variable in a comparison.
 		$request_method = isset( $_SERVER['REQUEST_METHOD'] ) && is_string( $_SERVER['REQUEST_METHOD'] ) ? strtoupper( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : '';
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: This function does not sanitize variables.
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing -- Reason: This function does not verify a nonce.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing -- Reason: This function does not verify a nonce.
 		if ( $request_method === 'POST' ) {
 			if ( isset( $_POST[ $key ] ) && is_string( $_POST[ $key ] ) ) {
 				return wp_unslash( $_POST[ $key ] );
 			}
 		}
-		else {
-			if ( isset( $_GET[ $key ] ) && is_string( $_GET[ $key ] ) ) {
-				return wp_unslash( $_GET[ $key ] );
-			}
+		elseif ( isset( $_GET[ $key ] ) && is_string( $_GET[ $key ] ) ) {
+			return wp_unslash( $_GET[ $key ] );
 		}
-		// phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		// phpcs:enable WordPress.Security.NonceVerification.Missing,WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		return '';
 	}
 
@@ -769,6 +777,8 @@ class Yoast_Notification_Center {
 
 	/**
 	 * Clear local stored notifications.
+	 *
+	 * @return void
 	 */
 	private function clear_notifications() {
 
@@ -836,7 +846,7 @@ class Yoast_Notification_Center {
 		}
 
 		if ( isset( $notification_data['message'] )
-			&& \is_subclass_of( $notification_data['message'], Abstract_Presenter::class, false )
+			&& is_subclass_of( $notification_data['message'], Abstract_Presenter::class, false )
 		) {
 			$notification_data['message'] = $notification_data['message']->present();
 		}
@@ -899,6 +909,8 @@ class Yoast_Notification_Center {
 	 *
 	 * @param callable $callback Callback that performs the transaction.
 	 * @param array    $args     Arguments to pass to the callback.
+	 *
+	 * @return void
 	 */
 	private function add_transaction_to_queue( $callback, $args ) {
 		$this->queued_transactions[] = [ $callback, $args ];

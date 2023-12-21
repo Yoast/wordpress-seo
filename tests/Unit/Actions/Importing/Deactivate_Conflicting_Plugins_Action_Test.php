@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Deactivate_Conflicting_Plugins_Action
  */
-class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
+final class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 
 	/**
 	 * The class under test.
@@ -88,6 +88,8 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 *
 	 * @param string $plugin The plugin that's being imported.
 	 * @param string $type   The type of data being imported.
+	 *
+	 * @return void
 	 */
 	public function test_is_compatible_with( $plugin, $type ) {
 		// Arrange.
@@ -104,7 +106,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function is_compatible_with_testdata() {
+	public static function is_compatible_with_testdata() {
 		return [
 			[
 				null,
@@ -138,6 +140,8 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 *
 	 * @param string $plugin The plugin that's being imported.
 	 * @param string $type   The type of data being imported.
+	 *
+	 * @return void
 	 */
 	public function test_is_not_compatible_with( $plugin, $type ) {
 		// Arrange.
@@ -154,7 +158,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function is_compatible_with_wrong_testdata() {
+	public static function is_compatible_with_wrong_testdata() {
 		return [
 			[
 				null,
@@ -182,6 +186,8 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 * Test the get_total_unindexed method
 	 *
 	 * @covers ::get_total_unindexed
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed() {
 		// Arrange.
@@ -202,6 +208,8 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 * Test the index method
 	 *
 	 * @covers ::index
+	 *
+	 * @return void
 	 */
 	public function test_index() {
 		// Arrange.
@@ -227,6 +235,8 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 * Tests the get_limit method.
 	 *
 	 * @covers ::get_limit
+	 *
+	 * @return void
 	 */
 	public function test_get_limit() {
 		// Act.
@@ -245,6 +255,8 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 *
 	 * @param int $limit    The requested maximum.
 	 * @param int $expected The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_limited_unindexed_count( $limit, $expected ) {
 		// Arrange.
@@ -266,7 +278,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function get_limited_data() {
+	public static function get_limited_data() {
 		return [
 			[ 5, 4 ],
 			[ 4, 4 ],

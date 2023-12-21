@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action
  */
-class Term_Link_Indexing_Action_Test extends TestCase {
+final class Term_Link_Indexing_Action_Test extends TestCase {
 
 	/**
 	 * The link builder.
@@ -60,6 +60,8 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 
 	/**
 	 * Set up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -86,11 +88,13 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 * Tests setting the helper.
 	 *
 	 * @covers ::set_helper
+	 *
+	 * @return void
 	 */
 	public function test_set_helper() {
 		$this->instance->set_helper( Mockery::mock( Taxonomy_Helper::class ) );
 
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Taxonomy_Helper::class,
 			$this->getPropertyValue( $this->instance, 'taxonomy_helper' )
 		);
@@ -101,6 +105,8 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 *
 	 * @covers ::get_count_query
 	 * @covers \Yoast\WP\SEO\Actions\Indexing\Abstract_Link_Indexing_Action::get_total_unindexed
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed() {
 		$expected_query = "
@@ -149,6 +155,8 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 * @covers ::get_count_query
 	 * @covers ::get_total_unindexed
 	 * @covers \Yoast\WP\SEO\Actions\Indexing\Abstract_Link_Indexing_Action::get_limited_unindexed_count
+	 *
+	 * @return void
 	 */
 	public function test_get_limited_unindexed_count() {
 		$expected_query = "
@@ -195,6 +203,8 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 * Tests getting the total unindexed.
 	 *
 	 * @covers \Yoast\WP\SEO\Actions\Indexing\Abstract_Link_Indexing_Action::get_total_unindexed
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed_cached() {
 		Functions\expect( 'get_transient' )
@@ -209,6 +219,8 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 * Tests getting the total unindexed.
 	 *
 	 * @covers \Yoast\WP\SEO\Actions\Indexing\Abstract_Link_Indexing_Action::get_total_unindexed
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed_failed_query() {
 		Functions\expect( 'get_transient' )
@@ -256,6 +268,8 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 *
 	 * @covers ::get_objects
 	 * @covers \Yoast\WP\SEO\Actions\Indexing\Abstract_Link_Indexing_Action::index
+	 *
+	 * @return void
 	 */
 	public function test_index() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
@@ -323,6 +337,8 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 *
 	 * @covers ::get_objects
 	 * @covers \Yoast\WP\SEO\Actions\Indexing\Abstract_Link_Indexing_Action::index
+	 *
+	 * @return void
 	 */
 	public function test_index_without_link_count() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
@@ -387,6 +403,8 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 * Tests that the transients are not deleted when no indexables have been created.
 	 *
 	 * @covers ::get_objects
+	 *
+	 * @return void
 	 */
 	public function test_index_no_indexables_created() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );

@@ -13,14 +13,14 @@ class SEMrush_Phrases_Action {
 	/**
 	 * The transient cache key.
 	 */
-	const TRANSIENT_CACHE_KEY = 'wpseo_semrush_related_keyphrases_%s_%s';
+	public const TRANSIENT_CACHE_KEY = 'wpseo_semrush_related_keyphrases_%s_%s';
 
 	/**
 	 * The SEMrush keyphrase URL.
 	 *
 	 * @var string
 	 */
-	const KEYPHRASES_URL = 'https://oauth.semrush.com/api/v1/keywords/phrase_fullsearch';
+	public const KEYPHRASES_URL = 'https://oauth.semrush.com/api/v1/keywords/phrase_fullsearch';
 
 	/**
 	 * The SEMrush_Client instance.

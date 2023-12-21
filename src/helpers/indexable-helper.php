@@ -108,6 +108,8 @@ class Indexable_Helper {
 	 * @required
 	 *
 	 * @param Indexable_Repository $repository The indexable repository.
+	 *
+	 * @return void
 	 */
 	public function set_indexable_repository( Indexable_Repository $repository ) {
 		$this->repository = $repository;
@@ -161,6 +163,8 @@ class Indexable_Helper {
 	 * @param string|null $type    The type of the indexable.
 	 * @param string|null $subtype The subtype. Can be null.
 	 * @param string      $reason  The reason that the permalink has been changed.
+	 *
+	 * @return void
 	 */
 	public function reset_permalink_indexables( $type = null, $subtype = null, $reason = Indexing_Reasons::REASON_PERMALINK_SETTINGS ) {
 		$result = $this->repository->reset_permalink( $type, $subtype );

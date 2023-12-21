@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group repositories
  */
-class Indexable_Cleanup_Repository_Test extends TestCase {
+final class Indexable_Cleanup_Repository_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.
@@ -68,6 +68,8 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -193,7 +195,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_orphaned_from_table() {
+	public static function data_orphaned_from_table() {
 		return [
 			[ 50, 'Indexable_Hierarchy', 'indexable_id' ],
 			[ 50, 'SEO_Links', 'indexable_id' ],
@@ -506,7 +508,6 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 			->with( 'prepared_clean_query' )
 			->andReturn( $ids );
 
-
 		$this->wpdb->shouldReceive( 'query' )
 			->once()
 			->with( "DELETE FROM wp_yoast_indexable WHERE object_type = 'user' AND object_id IN( " . \implode( ',', $ids ) . ' )' )
@@ -605,7 +606,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_clean_indexables_for_object_type_and_source_table() {
+	public static function data_clean_indexables_for_object_type_and_source_table() {
 		return [
 			[ 50, 'posts', 'ID', 'post' ],
 			[ 50, 'terms', 'term_id', 'term' ],

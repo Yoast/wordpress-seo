@@ -45,23 +45,6 @@
     "jest-styled-components": "^7.0.3"
   },
   "peerDependencies": {},
-  "jest": {
-    "testEnvironment": "jest-environment-jsdom",
-    "testURL": "http://localhost",
-    "testRegex": ".*Test.js$",
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "transformIgnorePatterns": [
-      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
-    ],
-    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
-    "moduleNameMapper": {
-      "\\.css$": "<rootDir>/tests/CSSStub.js",
-      "^lodash-es$": "lodash",
-      "^lodash-es/(.*)$": "lodash/$1"
-    }
-  },
   "publishConfig": {
     "access": "public"
   }

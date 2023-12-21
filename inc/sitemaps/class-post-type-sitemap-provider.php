@@ -175,8 +175,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @param int    $max_entries  Entries per sitemap.
 	 * @param int    $current_page Current page of the sitemap.
 	 *
-	 * @throws OutOfBoundsException When an invalid page is requested.
 	 * @return array
+	 *
+	 * @throws OutOfBoundsException When an invalid page is requested.
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 
@@ -262,6 +263,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Check for relevant post type before invalidation.
 	 *
 	 * @param int $post_id Post ID to possibly invalidate for.
+	 *
+	 * @return void
 	 */
 	public function save_post( $post_id ) {
 
@@ -313,7 +316,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filter: 'wpseo_exclude_from_sitemap_by_post_ids' - Allow extending and modifying the posts to exclude.
 		 *
-		 * @api array $posts_to_exclude The posts to exclude.
+		 * @param array $posts_to_exclude The posts to exclude.
 		 */
 		$excluded_posts_ids = apply_filters( 'wpseo_exclude_from_sitemap_by_post_ids', $excluded_posts_ids );
 		if ( ! is_array( $excluded_posts_ids ) ) {
@@ -402,6 +405,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$front_page['pri'] = 1;
 
 			$images = [];
+
 			/**
 			 * Filter images to be included for the term in XML sitemap.
 			 *

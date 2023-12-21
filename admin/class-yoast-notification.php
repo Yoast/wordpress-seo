@@ -16,35 +16,35 @@ class Yoast_Notification {
 	 *
 	 * @var string
 	 */
-	const MATCH_ALL = 'all';
+	public const MATCH_ALL = 'all';
 
 	/**
 	 * Type of capability check.
 	 *
 	 * @var string
 	 */
-	const MATCH_ANY = 'any';
+	public const MATCH_ANY = 'any';
 
 	/**
 	 * Notification type.
 	 *
 	 * @var string
 	 */
-	const ERROR = 'error';
+	public const ERROR = 'error';
 
 	/**
 	 * Notification type.
 	 *
 	 * @var string
 	 */
-	const WARNING = 'warning';
+	public const WARNING = 'warning';
 
 	/**
 	 * Notification type.
 	 *
 	 * @var string
 	 */
-	const UPDATED = 'updated';
+	public const UPDATED = 'updated';
 
 	/**
 	 * Options of this Notification.
@@ -118,7 +118,7 @@ class Yoast_Notification {
 	 * @return WP_User The user to show this notification for.
 	 */
 	public function get_user() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 21.6' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 21.6' );
 		return null;
 	}
 
@@ -148,6 +148,8 @@ class Yoast_Notification {
 
 	/**
 	 * Make sure the nonce is up to date.
+	 *
+	 * @return void
 	 */
 	public function refresh_nonce() {
 		if ( $this->options['id'] ) {
@@ -418,6 +420,8 @@ class Yoast_Notification {
 	 *
 	 * @param string $value Attribute value.
 	 * @param string $key   Attribute name.
+	 *
+	 * @return void
 	 */
 	private function parse_attributes( &$value, $key ) {
 		$value = sprintf( '%s="%s"', sanitize_key( $key ), esc_attr( $value ) );

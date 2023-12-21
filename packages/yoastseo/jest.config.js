@@ -1,8 +1,23 @@
 module.exports = {
-	testEnvironment: "jsdom",
-	testMatch: [
-		"**/spec/**/*.js",
+	moduleFileExtensions: [
+		"js",
 	],
+	transform: {
+		"^.+\\.jsx?$": "babel-jest",
+		"^.+\\.html$": "jest-html-loader",
+	},
+	transformIgnorePatterns: [
+		"<rootDir>/node_modules/(?!lodash-es/.*)",
+	],
+	testRegex: "/spec/.*\\.(js)$",
+	testEnvironment: "jsdom",
+	moduleDirectories: [
+		"node_modules",
+	],
+	moduleNameMapper: {
+		"^lodash-es$": "lodash",
+		"^lodash-es/(.*)$": "lodash/$1",
+	},
 	testPathIgnorePatterns: [
 		"<rootDir>/node_modules/",
 		// Removes the spec/test helpers.
@@ -16,19 +31,18 @@ module.exports = {
 		"<rootDir>/spec/languageProcessing/languages/[a-z][a-z]/helpers/internal/stemmerCoverage/generateStems.js",
 	],
 
-	transform: {
-		"^.+\\.jsx?$": "babel-jest",
-		"^.+\\.html$": "jest-html-loader",
-	},
-	transformIgnorePatterns: [
-		"<rootDir>/node_modules/(?!lodash-es/.*)",
-	],
-
 	collectCoverage: true,
 	// We need to make this a bit more specific -- e.g. don't include some language-specific config files.
 	collectCoverageFrom: [
 		"**/src/**/*.js",
 		"!**/src/**/index.js",
+	],
+	coverageReporters: [
+		"json",
+		"lcov",
+		"text",
+		"clover",
+		"text-summary",
 	],
 	coverageThreshold: {
 		global: {
@@ -37,10 +51,5 @@ module.exports = {
 			lines: 83,
 			statements: 83,
 		},
-	},
-
-	moduleNameMapper: {
-		"^lodash-es$": "lodash",
-		"^lodash-es/(.*)$": "lodash/$1",
 	},
 };

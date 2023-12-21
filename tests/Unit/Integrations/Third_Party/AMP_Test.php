@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group third-party
  */
-class AMP_Test extends TestCase {
+final class AMP_Test extends TestCase {
 
 	/**
 	 * The AMP integration.
@@ -34,6 +34,8 @@ class AMP_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -46,6 +48,8 @@ class AMP_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -58,6 +62,8 @@ class AMP_Test extends TestCase {
 	 * Tests register hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -70,6 +76,8 @@ class AMP_Test extends TestCase {
 	 * Tests remove amp meta output.
 	 *
 	 * @covers ::remove_amp_meta_output
+	 *
+	 * @return void
 	 */
 	public function test_remove_amp_meta_output() {
 		\add_action( 'amp_post_template_head', 'amp_post_template_add_title' );

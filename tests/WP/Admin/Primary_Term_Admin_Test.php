@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Primary_Term_Admin_Test extends TestCase {
+final class Primary_Term_Admin_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -20,6 +20,8 @@ class Primary_Term_Admin_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -33,12 +35,14 @@ class Primary_Term_Admin_Test extends TestCase {
 	 * When there are no taxonomies, make sure the js-templates-primary-term view is not included.
 	 *
 	 * @covers WPSEO_Primary_Term_Admin::wp_footer
+	 *
+	 * @return void
 	 */
 	public function test_wp_footer_INCLUDE_NO_taxonomies() {
 		$this->class_instance
 			->expects( $this->once() )
 			->method( 'get_primary_term_taxonomies' )
-			->will( $this->returnValue( [] ) );
+			->willReturn( [] );
 
 		$this->class_instance
 			->expects( $this->never() )
@@ -51,6 +55,8 @@ class Primary_Term_Admin_Test extends TestCase {
 	 * When there are taxonomies, make sure the js-template-primary-term view is included.
 	 *
 	 * @covers WPSEO_Primary_Term_Admin::wp_footer
+	 *
+	 * @return void
 	 */
 	public function test_wp_footer_INCLUDE_WITH_taxonomies() {
 		$taxonomies = [
@@ -60,7 +66,7 @@ class Primary_Term_Admin_Test extends TestCase {
 		$this->class_instance
 			->expects( $this->once() )
 			->method( 'get_primary_term_taxonomies' )
-			->will( $this->returnValue( $taxonomies ) );
+			->willReturn( $taxonomies );
 
 		$this->class_instance
 			->expects( $this->once() )
@@ -75,6 +81,8 @@ class Primary_Term_Admin_Test extends TestCase {
 	 * - js/dist/wp-seo-metabox-category.js.
 	 *
 	 * @covers WPSEO_Primary_Term_Admin::enqueue_assets
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_assets_EMPTY_taxonomies_DO_NOT_enqueue_scripts() {
 		$this->class_instance->enqueue_assets();
@@ -88,6 +96,8 @@ class Primary_Term_Admin_Test extends TestCase {
 	 * - js/dist/wp-seo-metabox-category.js.
 	 *
 	 * @covers WPSEO_Primary_Term_Admin::enqueue_assets
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_assets_DO_NOT_enqueue_scripts() {
 		$this->class_instance
@@ -105,6 +115,8 @@ class Primary_Term_Admin_Test extends TestCase {
 	 * - js/dist/wp-seo-metabox-category.js.
 	 *
 	 * @covers WPSEO_Primary_Term_Admin::enqueue_assets
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_assets_WITH_taxonomies_DO_enqueue_scripts() {
 		global $pagenow;
@@ -127,7 +139,7 @@ class Primary_Term_Admin_Test extends TestCase {
 		$this->class_instance
 			->expects( $this->once() )
 			->method( 'get_primary_term_taxonomies' )
-			->will( $this->returnValue( $taxonomies ) );
+			->willReturn( $taxonomies );
 
 		$this->class_instance->enqueue_assets();
 

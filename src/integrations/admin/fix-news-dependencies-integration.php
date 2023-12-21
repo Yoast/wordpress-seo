@@ -26,6 +26,8 @@ class Fix_News_Dependencies_Integration implements Integration_Interface {
 
 	/**
 	 * Registers an action to disable script concatenation.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		global $pagenow;

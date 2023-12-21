@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group meta-description
  */
-class Meta_Description_Test extends TestCase {
+final class Meta_Description_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ class Meta_Description_Test extends TestCase {
 	 * Tests the situation where the meta description is set.
 	 *
 	 * @covers ::generate_meta_description
+	 *
+	 * @return void
 	 */
 	public function test_with_meta_description() {
 		$this->indexable->description = 'This is the meta description';
@@ -40,6 +44,8 @@ class Meta_Description_Test extends TestCase {
 	 * Tests the situation where the meta description is not set.
 	 *
 	 * @covers ::generate_meta_description
+	 *
+	 * @return void
 	 */
 	public function test_without_meta_description() {
 		$this->indexable->description = null;

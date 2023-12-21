@@ -18,14 +18,14 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	 *
 	 * @var string
 	 */
-	const PAGE_IDENTIFIER = 'wpseo_myyoast_proxy';
+	public const PAGE_IDENTIFIER = 'wpseo_myyoast_proxy';
 
 	/**
 	 * The cache control's max age. Used in the header of a successful proxy response.
 	 *
 	 * @var int
 	 */
-	const CACHE_CONTROL_MAX_AGE = DAY_IN_SECONDS;
+	public const CACHE_CONTROL_MAX_AGE = DAY_IN_SECONDS;
 
 	/**
 	 * Registers the hooks when the user is on the right page.

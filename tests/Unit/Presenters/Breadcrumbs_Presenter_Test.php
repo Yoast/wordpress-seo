@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group breadcrumbs
  */
-class Breadcrumbs_Presenter_Test extends TestCase {
+final class Breadcrumbs_Presenter_Test extends TestCase {
 
 	/**
 	 * The options helper mock.
@@ -42,6 +42,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -67,6 +69,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::filter
+	 *
+	 * @return void
 	 */
 	public function test_present_happy_path() {
 		$breadcrumb_1 = [
@@ -136,6 +140,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the presenter of the breadcrumbs when the breadcrumbs are not in array format.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_breadcrumbs_not_array() {
 		$breadcrumb = 'breadcrumb_string';
@@ -149,6 +155,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the presenter of the breadcrumbs when the breadcrumbs are empty.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_breadcrumbs_empty() {
 		$breadcrumb = '';
@@ -162,6 +170,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the presenter of the breadcrumbs when the output is empty.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_empty_output() {
 		$breadcrumb_1 = [];
@@ -193,6 +203,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::filter
+	 *
+	 * @return void
 	 */
 	public function test_present_no_breadcrumbs_prefix() {
 		$breadcrumb_1 = [
@@ -261,6 +273,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * and all goes well.
 	 *
 	 * @covers ::crumb_to_link
+	 *
+	 * @return void
 	 */
 	public function test_crumb_to_link_not_last_element() {
 		$breadcrumb = [
@@ -285,6 +299,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests whether the filter is applied when creating a breadcrumb element string.
 	 *
 	 * @covers ::crumb_to_link
+	 *
+	 * @return void
 	 */
 	public function test_crumb_to_link_filter_applied() {
 		$breadcrumb = [
@@ -315,6 +331,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * and a title is set.
 	 *
 	 * @covers ::crumb_to_link
+	 *
+	 * @return void
 	 */
 	public function test_crumb_to_link_title_is_set() {
 		$breadcrumb = [
@@ -341,6 +359,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * and the last element should be bolded.
 	 *
 	 * @covers ::crumb_to_link
+	 *
+	 * @return void
 	 */
 	public function test_crumb_to_link_last_element_bold() {
 		$breadcrumb = [
@@ -373,6 +393,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * and the last element should not be bolded.
 	 *
 	 * @covers ::crumb_to_link
+	 *
+	 * @return void
 	 */
 	public function test_crumb_to_link_last_element_not_bold() {
 		$breadcrumb = [
@@ -405,6 +427,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * when it's the last element.
 	 *
 	 * @covers ::crumb_to_link
+	 *
+	 * @return void
 	 */
 	public function test_crumb_to_link_add_closing_elements() {
 		$breadcrumb = [
@@ -436,6 +460,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the creation of a breadcrumb element string when the breadcrumb text is not set.
 	 *
 	 * @covers ::crumb_to_link
+	 *
+	 * @return void
 	 */
 	public function test_crumb_to_link_with_text_not_set() {
 		$breadcrumb = [ 'url' => 'home_url' ];
@@ -447,6 +473,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the creation of a breadcrumb element string when the breadcrumb text is not a string.
 	 *
 	 * @covers ::crumb_to_link
+	 *
+	 * @return void
 	 */
 	public function test_crumb_to_link_with_text_not_string() {
 		$breadcrumb = [
@@ -461,6 +489,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the creation of a breadcrumb element string when the breadcrumb text is empty.
 	 *
 	 * @covers ::crumb_to_link
+	 *
+	 * @return void
 	 */
 	public function test_crumb_to_link_with_empty_text() {
 		$breadcrumb = [
@@ -476,6 +506,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * but the breadcrumb URL is not set.
 	 *
 	 * @covers ::crumb_to_link
+	 *
+	 * @return void
 	 */
 	public function test_crumb_to_link_with_url_not_set() {
 		$breadcrumb = [ 'text' => 'home_text' ];
@@ -490,6 +522,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * but the breadcrumb URL is not a string.
 	 *
 	 * @covers ::crumb_to_link
+	 *
+	 * @return void
 	 */
 	public function test_crumb_to_link_with_url_not_string() {
 		$breadcrumb = [
@@ -507,6 +541,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * but the breadcrumb URL is empty.
 	 *
 	 * @covers ::crumb_to_link
+	 *
+	 * @return void
 	 */
 	public function test_crumb_to_link_with_url_empty() {
 		$breadcrumb = [
@@ -523,6 +559,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the retrieval of the HTML ID attribute when the ID is set through the filter.
 	 *
 	 * @covers ::get_id
+	 *
+	 * @return void
 	 */
 	public function test_get_id_where_id_is_set_in_filter() {
 		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_id' )
@@ -542,6 +580,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * is not a string.
 	 *
 	 * @covers ::get_id
+	 *
+	 * @return void
 	 */
 	public function test_get_id_not_string() {
 		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_id' )
@@ -556,6 +596,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the retrieval of the HTML ID attribute when the ID is not set through the filter.
 	 *
 	 * @covers ::get_id
+	 *
+	 * @return void
 	 */
 	public function test_get_id_no_id_set() {
 		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_id' )
@@ -570,6 +612,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the retrieval of the HTML class attribute when the class is set through the filter.
 	 *
 	 * @covers ::get_class
+	 *
+	 * @return void
 	 */
 	public function test_get_class_where_class_is_set_in_filter() {
 		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_class' )
@@ -589,6 +633,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * is not a string.
 	 *
 	 * @covers ::get_class
+	 *
+	 * @return void
 	 */
 	public function test_get_class_not_string() {
 		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_class' )
@@ -603,6 +649,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the retrieval of the HTML class attribute when the class is not set through the filter.
 	 *
 	 * @covers ::get_class
+	 *
+	 * @return void
 	 */
 	public function test_get_class_no_class_set() {
 		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_class' )
@@ -617,6 +665,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the retrieval of the wrapper element name when the wrapper is set through the filter.
 	 *
 	 * @covers ::get_wrapper
+	 *
+	 * @return void
 	 */
 	public function test_get_wrapper_where_wrapper_is_set_in_filter() {
 		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_wrapper' )
@@ -639,6 +689,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * when the wrapper that is set through the filter, is not a string.
 	 *
 	 * @covers ::get_wrapper
+	 *
+	 * @return void
 	 */
 	public function test_get_wrapper_where_wrapper_not_a_string() {
 		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_wrapper' )
@@ -659,6 +711,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * when the wrapper that is set through the filter, is empty.
 	 *
 	 * @covers ::get_wrapper
+	 *
+	 * @return void
 	 */
 	public function test_get_wrapper_where_wrapper_empty() {
 		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_wrapper' )
@@ -678,6 +732,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the retrieval of the separator.
 	 *
 	 * @covers ::get_separator
+	 *
+	 * @return void
 	 */
 	public function test_get_separator() {
 		$this->options->expects( 'get' )
@@ -701,6 +757,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the retrieval of the crumb element name.
 	 *
 	 * @covers ::get_element
+	 *
+	 * @return void
 	 */
 	public function test_get_element() {
 		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_single_link_wrapper' )
@@ -717,6 +775,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the retrieval of the raw value.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$breadcrumb_1 = [

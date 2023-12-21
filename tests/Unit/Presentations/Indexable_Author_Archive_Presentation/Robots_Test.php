@@ -13,12 +13,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Author_Archive_Presentation
  */
-class Robots_Test extends TestCase {
+final class Robots_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,6 +32,8 @@ class Robots_Test extends TestCase {
 	 * Tests the global don't index author archives option.
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_global_dont_index_author_archives() {
 		$this->mock_global_author_option( true );
@@ -47,6 +51,8 @@ class Robots_Test extends TestCase {
 	 * Tests don't index without a current author (safety check).
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_global_dont_index_without_current_author() {
 		$this->mock_global_author_option();
@@ -71,6 +77,8 @@ class Robots_Test extends TestCase {
 	 * Tests the global don't index without posts.
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_global_dont_index_without_posts() {
 		$this->mock_global_author_option();
@@ -91,6 +99,8 @@ class Robots_Test extends TestCase {
 	 * Tests the global don't index without posts, but with posts.
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_global_dont_index_without_posts_with_posts() {
 		$this->mock_global_author_option();
@@ -115,6 +125,8 @@ class Robots_Test extends TestCase {
 	 * Tests the user's don't index option.
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_user_dont_index() {
 		$this->mock_global_author_option();
@@ -136,6 +148,8 @@ class Robots_Test extends TestCase {
 	 * Mocks option helper's get with `noindex-author-wpseo`.
 	 *
 	 * @param mixed $return_value Optional. What `get` should return.
+	 *
+	 * @return void
 	 */
 	private function mock_global_author_option( $return_value = false ) {
 		$this->options
@@ -147,6 +161,8 @@ class Robots_Test extends TestCase {
 
 	/**
 	 * Mocks Post_Type_Helper's `get_public_post_types`.
+	 *
+	 * @return void
 	 */
 	private function mock_get_author_archive_post_types() {
 		$this->author_archive
@@ -160,6 +176,8 @@ class Robots_Test extends TestCase {
 	 * Mocks user helper's `get_meta` with `wpseo_noindex_author`.
 	 *
 	 * @param mixed $return_value Optional. What `get` should return.
+	 *
+	 * @return void
 	 */
 	private function mock_author_no_index_option( $return_value = 'off' ) {
 		$this->user
@@ -174,6 +192,8 @@ class Robots_Test extends TestCase {
 	 *
 	 * @param mixed $options_get_return_value      Optional. What `get` should return.
 	 * @param mixed $user_count_posts_return_value Optional. What `count_posts` should return.
+	 *
+	 * @return void
 	 */
 	private function mock_global_author_posts_count_option( $options_get_return_value = false, $user_count_posts_return_value = 0 ) {
 		$this->options
@@ -193,6 +213,8 @@ class Robots_Test extends TestCase {
 	 * Mocks WP_Query_Wrapper's `get_query`.
 	 *
 	 * @param mixed $return_value Optional. What `get_queried_object` should return.
+	 *
+	 * @return void
 	 */
 	private function setup_get_userdata( $return_value = false ) {
 		Monkey\Functions\expect( 'get_userdata' )

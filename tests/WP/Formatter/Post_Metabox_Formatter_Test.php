@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Post_Metabox_Formatter_Test extends TestCase {
+final class Post_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * The post.
@@ -20,6 +20,8 @@ class Post_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Creates a post to use in the tests.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	 * @covers WPSEO_Post_Metabox_Formatter::search_url
 	 * @covers WPSEO_Post_Metabox_Formatter::edit_url
 	 * @covers WPSEO_Post_Metabox_Formatter::base_url_for_js
+	 *
+	 * @return void
 	 */
 	public function test_no_post_with_empty_options() {
 		$instance = new WPSEO_Post_Metabox_Formatter( null, [], '' );
@@ -53,6 +57,8 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	 * @covers WPSEO_Post_Metabox_Formatter::get_title_template
 	 * @covers WPSEO_Post_Metabox_Formatter::get_metadesc_template
 	 * @covers WPSEO_Post_Metabox_Formatter::get_template
+	 *
+	 * @return void
 	 */
 	public function test_post_with_empty_options() {
 		WPSEO_Options::set( 'keyword_usage', [ '' => [] ] );
@@ -71,6 +77,8 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	 * Testing with a post and needed options being set.
 	 *
 	 * @covers WPSEO_Post_Metabox_Formatter::get_metadesc_date
+	 *
+	 * @return void
 	 */
 	public function test_metabox_metadescription_date() {
 		WPSEO_Options::set( 'title-post', 'This is the title' );
@@ -88,6 +96,8 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Post_Metabox_Formatter::get_values
 	 * @covers WPSEO_Post_Metabox_Formatter::base_url_for_js
+	 *
+	 * @return void
 	 */
 	public function test_post_on_add_page() {
 
@@ -106,6 +116,8 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Post_Metabox_Formatter::get_values
 	 * @covers WPSEO_Post_Metabox_Formatter::base_url_for_js
+	 *
+	 * @return void
 	 */
 	public function test_with_permalink_structure() {
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, [], 'http://example.org/test/%postname%/' );
@@ -119,6 +131,8 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Post_Metabox_Formatter::get_values
 	 * @covers WPSEO_Post_Metabox_Formatter::base_url_for_js
+	 *
+	 * @return void
 	 */
 	public function test_with_page_permalink_structure() {
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, [], 'http://example.org/test/%pagename%/' );
@@ -132,6 +146,8 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Post_Metabox_Formatter::get_values
 	 * @covers WPSEO_Post_Metabox_Formatter::base_url_for_js
+	 *
+	 * @return void
 	 */
 	public function test_with_unreplaceble_permalink_structure() {
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, [], '%isnotreplaced%/' );

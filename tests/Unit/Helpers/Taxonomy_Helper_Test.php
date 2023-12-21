@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Taxonomy_Helper
  */
-class Taxonomy_Helper_Test extends TestCase {
+final class Taxonomy_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -41,6 +41,8 @@ class Taxonomy_Helper_Test extends TestCase {
 
 	/**
 	 * Prepares the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -54,6 +56,8 @@ class Taxonomy_Helper_Test extends TestCase {
 	 * Tests the status when the option value is set to false.
 	 *
 	 * @covers ::is_indexable
+	 *
+	 * @return void
 	 */
 	public function test_is_indexable() {
 		$this->options
@@ -68,6 +72,8 @@ class Taxonomy_Helper_Test extends TestCase {
 	 * Tests the status when the option value is set to true.
 	 *
 	 * @covers ::is_indexable
+	 *
+	 * @return void
 	 */
 	public function test_is_indexable_with_no_index_set_to_true() {
 		$this->options
@@ -82,6 +88,8 @@ class Taxonomy_Helper_Test extends TestCase {
 	 * Tests that the WordPress function is called with the expected parameters.
 	 *
 	 * @covers ::get_public_taxonomies
+	 *
+	 * @return void
 	 */
 	public function test_get_public_taxonomies() {
 		Functions\expect( 'get_taxonomies' )
@@ -96,6 +104,8 @@ class Taxonomy_Helper_Test extends TestCase {
 	 * Tests that the WordPress function is called with the expected parameters.
 	 *
 	 * @covers ::get_public_taxonomies
+	 *
+	 * @return void
 	 */
 	public function test_get_public_taxonomies_with_objects() {
 		Functions\expect( 'get_taxonomies' )
@@ -110,6 +120,8 @@ class Taxonomy_Helper_Test extends TestCase {
 	 * Tests the retrieval of the term description
 	 *
 	 * @covers ::get_term_description
+	 *
+	 * @return void
 	 */
 	public function test_get_term_description() {
 		Functions\expect( 'term_description' )

@@ -23,10 +23,6 @@
 	"bugs": {
 		"url": "https://github.com/Yoast/javascript/issues"
 	},
-	"jest": {
-		"testRegex": ".*Test.js$",
-		"testEnvironment": "node"
-	},
 	"devDependencies": {
 		"browserslist": "^4.7.3"
 	}

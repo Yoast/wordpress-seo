@@ -20,12 +20,12 @@ class Wincher_Client extends OAuth_Client {
 	/**
 	 * The option's key.
 	 */
-	const TOKEN_OPTION = 'wincher_tokens';
+	public const TOKEN_OPTION = 'wincher_tokens';
 
 	/**
 	 * Name of the temporary PKCE cookie.
 	 */
-	const PKCE_TRANSIENT_NAME = 'yoast_wincher_pkce';
+	public const PKCE_TRANSIENT_NAME = 'yoast_wincher_pkce';
 
 	/**
 	 * The WP_Remote_Handler instance.

@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @covers \Yoast\WP\SEO\Presenters\Admin\Indexing_Failed_Notification_Presenter
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Indexing_Failed_Notification_Presenter
  */
-class Indexing_Failed_Notification_Presenter_Test extends TestCase {
+final class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.
@@ -34,6 +34,8 @@ class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_not_premium() {
 		$product_helper = Mockery::mock( Product_Helper::class );
@@ -47,8 +49,8 @@ class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 			->with( null, 'admin.php?page=wpseo_tools' )
 			->andReturn( 'https://example.org/wp-admin/admin.php?page=wpseo_tools' );
 
-		$expected = '<p>Something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
-			'Please <a href="https://example.org/wp-admin/admin.php?page=wpseo_tools">re-start the process</a>.</p>';
+		$expected = '<p>Something has gone wrong and we couldn\'t complete the optimization of your SEO data. '
+			. 'Please <a href="https://example.org/wp-admin/admin.php?page=wpseo_tools">re-start the process</a>.</p>';
 
 		$this->assertSame( $expected, $instance->present() );
 	}
@@ -58,6 +60,8 @@ class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_premium_no_license() {
 		$product_helper = Mockery::mock( Product_Helper::class );
@@ -84,9 +88,9 @@ class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 			->with( null, 'admin.php?page=wpseo_tools' )
 			->andReturn( 'https://example.org/wp-admin/admin.php?page=wpseo_tools' );
 
-		$expected = '<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
-			'Please make sure to activate your subscription in MyYoast by completing ' .
-			'<a href="https://example.org/wp-admin/admin.php?page=wpseo_tools">these steps</a>.</p>';
+		$expected = '<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. '
+			. 'Please make sure to activate your subscription in MyYoast by completing '
+			. '<a href="https://example.org/wp-admin/admin.php?page=wpseo_tools">these steps</a>.</p>';
 
 		$this->assertSame( $expected, $instance->present() );
 	}
@@ -96,6 +100,8 @@ class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_premium_with_license() {
 		$product_helper = Mockery::mock( Product_Helper::class );

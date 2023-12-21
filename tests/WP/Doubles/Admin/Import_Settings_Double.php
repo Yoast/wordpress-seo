@@ -7,7 +7,7 @@ use WPSEO_Import_Settings;
 /**
  * Test Helper Class.
  */
-class Import_Settings_Double extends WPSEO_Import_Settings {
+final class Import_Settings_Double extends WPSEO_Import_Settings {
 
 	/**
 	 * Parse the options.

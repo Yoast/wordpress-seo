@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
+final class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the indexable repository.
@@ -48,6 +48,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -61,6 +63,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -74,6 +78,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -85,6 +91,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * the first time.
 	 *
 	 * @covers ::check_option
+	 *
+	 * @return void
 	 */
 	public function test_check_option_first_time_save() {
 		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
@@ -115,6 +123,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * want to accept arrays.
 	 *
 	 * @covers ::check_option
+	 *
+	 * @return void
 	 */
 	public function test_check_option_wrong_input_given() {
 		$this->assertFalse( $this->instance->check_option( 'string', 'string' ) );
@@ -126,6 +136,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::check_option
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_update_wpseo_titles_value() {
 		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
@@ -157,6 +169,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::check_option
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_update_wpseo_titles_value_new() {
 		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
@@ -188,6 +202,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::check_option
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_update_wpseo_titles_value_switched() {
 		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
@@ -237,6 +253,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::check_option
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_update_wpseo_titles_value_same_value() {
 		// No assertions made so this will fail if any method is called on our mocks.
@@ -249,6 +267,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::check_option
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_update_wpseo_titles_value_without_change() {
 		// No assertions made so this will fail if any method is called on our mocks.
@@ -260,6 +280,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_indexable_without_indexable() {
 		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
