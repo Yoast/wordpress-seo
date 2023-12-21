@@ -730,17 +730,22 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	private function get_all_dates( $post_type, $max_entries ) {
 		global $wpdb;
 
-		$post_statuses  = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
-		$replacements   = [];
-		$replacements[] = 'post_modified_gmt';
-		$replacements[] = $wpdb->posts;
-		$replacements[] = 'type_status_date';
-		$replacements[] = 'post_status';
-		$replacements   = array_merge( $replacements, $post_statuses );
-		$replacements[] = 'post_type';
-		$replacements[] = $post_type;
-		$replacements[] = $max_entries;
-		$replacements[] = 'post_modified_gmt';
+		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
+		$replacements  = array_merge(
+			[
+				'post_modified_gmt',
+				$wpdb->posts,
+				'type_status_date',
+				'post_status',
+			],
+			$post_statuses,
+			[
+				'post_type',
+				$post_type,
+				$max_entries,
+				'post_modified_gmt',
+			]
+		);
 
 		return $wpdb->get_col(
 			//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
