@@ -74,7 +74,6 @@ class SingleH1Assessment extends Assessment {
 			resultText: sprintf(
 				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				__(
-					// eslint-disable-next-line max-len
 					"%1$sSingle title%3$s: H1s should only be used as your main title. Find all H1s in your text that aren't your main title and %2$schange them to a lower heading level%3$s!",
 					"wordpress-seo"
 				),

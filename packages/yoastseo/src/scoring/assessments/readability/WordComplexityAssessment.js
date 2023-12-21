@@ -83,7 +83,6 @@ export default class WordComplexityAssessment extends Assessment {
 					/* translators: %1$s expands to the title of the "Word complexity" assessment (translated to the current language)
 					 and links to an article on yoast.com.*/
 					__(
-						// eslint-disable-next-line max-len
 						"%1$s: You are not using too many complex words, which makes your text easy to read. Good job!",
 						"wordpress-seo-premium"
 					),
@@ -99,7 +98,6 @@ export default class WordComplexityAssessment extends Assessment {
 					 and links to an article on yoast.com. %2$s expand to the percentage of the complex words found in the text.
 					 %3$s expand to a link on yoast.com, %4$s expands to the anchor end tag. */
 				__(
-					// eslint-disable-next-line max-len
 					"%1$s: %2$s of the words in your text are considered complex. %3$sTry to use shorter and more familiar words to improve readability%4$s.",
 					"wordpress-seo-premium"
 				),

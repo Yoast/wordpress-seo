@@ -164,7 +164,6 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 				resultText: sprintf(
 					/* translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
 					__(
-						// eslint-disable-next-line max-len
 						"%1$sKeyphrase in subheading%3$s: More than 75%% of your H2 and H3 subheadings reflect the topic of your copy. That's too much. %2$sDon't over-optimize%3$s!",
 						"wordpress-seo"
 					),

@@ -138,9 +138,7 @@ export default class TextImagesAssessment extends Assessment {
 						* %1$d expands to the number of images found in the text,
 						* %2$d expands to the recommended number of images in the text, */
 						_n(
-							// eslint-disable-next-line max-len
 							"%3$sImages and videos%5$s: Only %1$d image or video appears on this page. We recommend at least %2$d. %4$sAdd more relevant images or videos%5$s!",
-							// eslint-disable-next-line max-len
 							"%3$sImages and videos%5$s: Only %1$d images or videos appear on this page. We recommend at least %2$d. %4$sAdd more relevant images or videos%5$s!",
 							mediaCount,
 							"wordpress-seo"

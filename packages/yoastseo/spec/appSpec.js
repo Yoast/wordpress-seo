@@ -34,7 +34,7 @@ describe( "Creating an App", function() {
 		expect( function() {
 			new App( {
 				callbacks: {
-					getData: function() {
+					getData: () => {
 						return {};
 					},
 				},
@@ -60,7 +60,7 @@ describe( "Creating an App", function() {
 					output: "outputID",
 				},
 				callbacks: {
-					getData: function() {
+					getData: () => {
 						return {};
 					},
 				},
@@ -74,7 +74,7 @@ describe( "Creating an App", function() {
 				output: "outputID",
 			},
 			callbacks: {
-				getData: function() {
+				getData: () => {
 					return {};
 				},
 			},
@@ -90,7 +90,7 @@ describe( "Creating an App", function() {
 				snippet: "snippetID",
 			},
 			callbacks: {
-				getData: function() {
+				getData: () => {
 					return {};
 				},
 			},
@@ -104,7 +104,7 @@ describe( "Creating an App", function() {
 				output: "outputID",
 			},
 			callbacks: {
-				getData: function() {
+				getData: () => {
 					return {};
 				},
 			},

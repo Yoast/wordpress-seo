@@ -172,7 +172,7 @@ describe( "A test for topic phrase objects", function() {
 			new StemOriginalPair( "movie", "movies" ),
 			new StemOriginalPair( "work", "work" ),
 		],
-		false,
+		false
 	);
 
 	it( "constructs a topic phrase", () => {
@@ -206,7 +206,7 @@ describe( "A test for topic phrase objects", function() {
 				new StemOriginalPair( "movie", "movie" ),
 				new StemOriginalPair( "work", "work" ),
 			],
-			true,
+			true
 		);
 		expect( exactMatchTopicPhrase.getStems() ).toEqual( [] );
 	} );

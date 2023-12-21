@@ -1,5 +1,7 @@
-// eslint-disable-next-line max-len
-import { isPrecededByException, isNotPrecededByException } from "../../../../../src/scoring/assessments/inclusiveLanguage/helpers/isPrecededByException";
+import {
+	isPrecededByException,
+	isNotPrecededByException,
+} from "../../../../../src/scoring/assessments/inclusiveLanguage/helpers/isPrecededByException";
 
 xdescribe( "Test isFollowedByException", () => {
 	it( "returns the right value when term is preceded by an exception", () => {

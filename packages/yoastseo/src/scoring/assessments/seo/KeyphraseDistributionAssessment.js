@@ -94,7 +94,6 @@ class KeyphraseDistributionAssessment extends Assessment {
 					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
 					__(
-						// eslint-disable-next-line max-len
 						"%1$sKeyphrase distribution%3$s: %2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s.",
 						"wordpress-seo-premium"
 					),
@@ -113,7 +112,6 @@ class KeyphraseDistributionAssessment extends Assessment {
 					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
 					__(
-						// eslint-disable-next-line max-len
 						"%1$sKeyphrase distribution%3$s: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
 						"wordpress-seo-premium"
 					),
@@ -134,7 +132,6 @@ class KeyphraseDistributionAssessment extends Assessment {
 					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
 					__(
-						// eslint-disable-next-line max-len
 						"%1$sKeyphrase distribution%3$s: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
 						"wordpress-seo-premium"
 					),
