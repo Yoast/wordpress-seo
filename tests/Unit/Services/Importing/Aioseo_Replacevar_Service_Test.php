@@ -50,7 +50,7 @@ final class Aioseo_Replacevar_Service_Test extends TestCase {
 	 *
 	 * @return array The data to provide.
 	 */
-	public function transform_provider() {
+	public static function transform_provider() {
 		return [
 			[
 				'aioseo_data'         => '#archive_title',

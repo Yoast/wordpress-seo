@@ -134,7 +134,7 @@ final class Option_Social_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function validate_option_valid_data_provider() {
+	public static function validate_option_valid_data_provider() {
 		return [
 			[
 				'expected' => [ 'og_default_image_id' => 'value' ],
@@ -196,7 +196,7 @@ final class Option_Social_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function validate_option_invalid_data_provider() {
+	public static function validate_option_invalid_data_provider() {
 		return [
 			[
 				'expected'  => [ 'facebook_site' => '' ],
@@ -220,7 +220,7 @@ final class Option_Social_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function validate_option_invalid_array_data_provider() {
+	public static function validate_option_invalid_array_data_provider() {
 		return [
 			[
 				'expected'  => [

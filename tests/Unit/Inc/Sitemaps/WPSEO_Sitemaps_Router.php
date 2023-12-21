@@ -170,7 +170,7 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function redirect_canonical_data_provider() {
+	public static function redirect_canonical_data_provider() {
 		return [
 			'no sitemap' => [
 				'is_sitemap'           => false,
@@ -260,7 +260,7 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function needs_sitemap_index_redirect_data_provider() {
+	public static function needs_sitemap_index_redirect_data_provider() {
 		return [
 			'no https 1' => [
 				'https'       => false,
@@ -345,7 +345,7 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function get_base_url_data_provider() {
+	public static function get_base_url_data_provider() {
 		return [
 			'index permalinks' => [
 				'using_index_permalinks' => true,

@@ -118,7 +118,7 @@ final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	 *
 	 * @return array The data for the test.
 	 */
-	public function dismiss_first_time_configuration_notice_provider() {
+	public static function dismiss_first_time_configuration_notice_provider() {
 		return [
 			[
 				'check_ajax_referer'                   => true,
@@ -179,7 +179,7 @@ final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	 *
 	 * @return array The data for the test.
 	 */
-	public function first_time_configuration_notice_provider() {
+	public static function first_time_configuration_notice_provider() {
 
 		// In case of change in js, make sure to match the tabs and line breaks for this test to pass (avoid 4 spaces as tab).
 		$default_message = '<div id="yoast-first-time-configuration-notice" class="notice notice-yoast yoast is-dismissible"><div class="notice-yoast__container"><div><div class="notice-yoast__header"><span class="yoast-icon"></span><h2 class="notice-yoast__header-heading">First-time SEO configuration</h2></div><p>Get started quickly with the <a href="">Yoast SEO First-time configuration</a> and configure Yoast SEO with the optimal SEO settings for your site!</p></div><img src="images/mirrored_fit_bubble_woman_1_optim.svg" alt="" height="60" width="75"/></div></div><script>

@@ -363,7 +363,7 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 *
 	 * @return array The data to provide.
 	 */
-	public function provider_build() {
+	public static function provider_build() {
 		$postmeta_set_with_missing_data                     = [
 			'_yoast_wpseo_linkdex'                        => [ '100' ],
 			'_yoast_wpseo_is_cornerstone'                 => [ '1' ],

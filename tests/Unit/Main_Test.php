@@ -163,7 +163,7 @@ final class Main_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_declared_inaccessible_properties() {
+	public static function data_declared_inaccessible_properties() {
 		return [
 			'container'       => [ 'container' ],
 			'cached_surfaces' => [ 'cached_surfaces' ],
@@ -175,7 +175,7 @@ final class Main_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_undeclared_properties() {
+	public static function data_undeclared_properties() {
 		return [
 			'xyz'     => [ 'xyz' ],
 			'unknown' => [ 'unknown' ],

@@ -233,7 +233,7 @@ final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 *
 	 * @return array Data for test_maybe_show_search_engines_discouraged_notice.
 	 */
-	public function maybe_show_search_engines_discouraged_notice_dataprovider() {
+	public static function maybe_show_search_engines_discouraged_notice_dataprovider() {
 		$should_show_notice             = [
 			'blog_public_option_value'        => '0',
 			'current_user_can_manage_options' => true,
@@ -377,7 +377,7 @@ final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 *
 	 * @return array data for manage_search_engines_discouraged_notification.
 	 */
-	public function manage_search_engines_discouraged_notification_dataprovider() {
+	public static function manage_search_engines_discouraged_notification_dataprovider() {
 		$should_add_notification        = [
 			'blog_public_option_value'      => '0',
 			'ignore_notice'                 => false,

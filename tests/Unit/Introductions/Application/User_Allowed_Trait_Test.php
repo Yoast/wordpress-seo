@@ -62,7 +62,7 @@ final class User_Allowed_Trait_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function is_user_allowed_get_data() {
+	public static function is_user_allowed_get_data() {
 		return [
 			'no capabilities'                                => [
 				'capabilities'     => [],

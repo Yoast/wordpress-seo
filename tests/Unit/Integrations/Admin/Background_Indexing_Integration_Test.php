@@ -761,7 +761,7 @@ final class Background_Indexing_Integration_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function data_schedule_cron_indexing() {
+	public static function data_schedule_cron_indexing() {
 		return [
 			'Cron job is not scheduled when not on the right pages' => [
 				'admin_dashboard_conditional_result' => false,

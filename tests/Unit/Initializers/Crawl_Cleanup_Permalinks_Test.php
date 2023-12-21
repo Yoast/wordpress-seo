@@ -142,7 +142,7 @@ final class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function register_hooks_provider() {
+	public static function register_hooks_provider() {
 		return [
 			[ null, 'returned_value_campaign_tracking_urls', 'returned_value_clean_permalinks', 0, 0 ],
 			[ null, 'returned_value_campaign_tracking_urls', null, 0, 0 ],
@@ -206,7 +206,7 @@ final class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function utm_redirect_provider() {
+	public static function utm_redirect_provider() {
 		return [
 			[ null, null, 0 ],
 			[ 'random_post_slug', null, 0 ],
@@ -279,7 +279,7 @@ final class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function clean_permalinks_no_redirect_provider() {
+	public static function clean_permalinks_no_redirect_provider() {
 		return [
 			[ true, 0, null, null, 0 ],
 			[ false, 1, 'http://www.example.com/?unknown=123', [ 'query' => [] ], 0 ],
@@ -358,7 +358,7 @@ final class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function clean_permalinks_provider() {
+	public static function clean_permalinks_provider() {
 		$allowed_params = [
 			'query'         => [ 'unknown' => '123' ],
 			'allowed_query' => [ 'utm_medium' => 'allowed' ],
@@ -473,7 +473,7 @@ final class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function clean_permalinks_with_page_var_provider() {
+	public static function clean_permalinks_with_page_var_provider() {
 		$allowed_params = [
 			'query'         => [ 'unknown' => '123' ],
 			'allowed_query' => [ 'utm_medium' => 'allowed' ],

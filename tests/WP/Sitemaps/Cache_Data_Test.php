@@ -143,7 +143,7 @@ final class Cache_Data_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_set_status_string() {
+	public static function data_set_status_string() {
 		return [
 			'Ok using interface constant' => [
 				'input'    => WPSEO_Sitemap_Cache_Data::OK,

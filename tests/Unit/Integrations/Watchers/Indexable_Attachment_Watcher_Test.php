@@ -102,7 +102,7 @@ final class Indexable_Attachment_Watcher_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function check_option_provider() {
+	public static function check_option_provider() {
 		return [
 			'Old and new values are not arrays' => [
 				'old_value'                => 1,

@@ -56,7 +56,7 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_css_class() {
+	public static function provider_get_css_class() {
 		return [
 			[ WPSEO_Rank::BAD, 'bad' ],
 			[ WPSEO_Rank::OK, 'ok' ],
@@ -88,7 +88,7 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_label() {
+	public static function provider_get_label() {
 		return [
 			[ WPSEO_Rank::NO_FOCUS, 'Not available' ],
 			[ WPSEO_Rank::NO_INDEX, 'No index' ],
@@ -120,7 +120,7 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_inclusive_language_label() {
+	public static function provider_get_inclusive_language_label() {
 		return [
 			[ WPSEO_Rank::NO_FOCUS, 'Not available' ],
 			[ WPSEO_Rank::NO_INDEX, 'No index' ],
@@ -152,7 +152,7 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_drop_down_label() {
+	public static function provider_get_drop_down_label() {
 		return [
 			[ WPSEO_Rank::NO_FOCUS, 'SEO: No Focus Keyphrase' ],
 			[ WPSEO_Rank::BAD, 'SEO: Needs improvement' ],
@@ -184,7 +184,7 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_drop_down_readability_labels() {
+	public static function provider_get_drop_down_readability_labels() {
 		return [
 			[ WPSEO_Rank::BAD, 'Readability: Needs improvement' ],
 			[ WPSEO_Rank::OK, 'Readability: OK' ],
@@ -214,7 +214,7 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_drop_down_inclusive_language_labels() {
+	public static function provider_get_drop_down_inclusive_language_labels() {
 		return [
 			[ WPSEO_Rank::BAD, 'Inclusive language: Needs improvement' ],
 			[ WPSEO_Rank::OK, 'Inclusive language: Potentially non-inclusive' ],
@@ -244,7 +244,7 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_starting_score() {
+	public static function provider_get_starting_score() {
 		return [
 			[ WPSEO_Rank::NO_INDEX, -1 ],
 			[ WPSEO_Rank::NO_FOCUS, 0 ],
@@ -276,7 +276,7 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_end_score() {
+	public static function provider_get_end_score() {
 		return [
 			[ WPSEO_Rank::NO_INDEX, -1 ],
 			[ WPSEO_Rank::NO_FOCUS, 0 ],
@@ -308,7 +308,7 @@ final class Rank_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_from_numeric_score() {
+	public static function provider_from_numeric_score() {
 		return [
 			[ 0, WPSEO_Rank::NO_FOCUS ],
 			[ 1, WPSEO_Rank::BAD ],

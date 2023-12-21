@@ -51,7 +51,7 @@ final class Language_Helper_Test extends TestCase {
 	 *
 	 * @return string[][] The dataset.
 	 */
-	public function supported_language_provider() {
+	public static function supported_language_provider() {
 		return [ [ 'de' ], [ 'en' ], [ 'es' ], [ 'fr' ], [ 'it' ], [ 'nl' ], [ 'ru' ], [ 'id' ], [ 'pt' ], [ 'pl' ], [ 'ar' ], [ 'sv' ], [ 'he' ], [ 'hu' ], [ 'nb' ], [ 'tr' ], [ 'cs' ], [ 'sk' ], [ 'el' ], [ 'ja' ] ];
 	}
 
@@ -75,7 +75,7 @@ final class Language_Helper_Test extends TestCase {
 	 *
 	 * @return string[][] The dataset.
 	 */
-	public function language_with_function_word_support_provider() {
+	public static function language_with_function_word_support_provider() {
 		return [
 			[ 'en' ],
 			[ 'de' ],

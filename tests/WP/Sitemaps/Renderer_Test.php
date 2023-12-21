@@ -126,7 +126,7 @@ final class Renderer_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_encode_and_escape() {
+	public static function data_encode_and_escape() {
 		return [
 			'Full URL which will validate with the filter - contains plain &' => [
 				'loc'      => 'http://example.com/page-name?s=keyword&p=2#anchor',

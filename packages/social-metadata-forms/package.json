@@ -15,22 +15,6 @@
 		"test": "jest",
 		"lint": "eslint . --max-warnings=0"
 	},
-	"jest": {
-    "testEnvironment": "jest-environment-jsdom",
-		"testURL": "http://localhost",
-		"testRegex": ".*Test.js$",
-		"transform": {
-			"^.+\\.jsx?$": "babel-jest"
-		},
-		"transformIgnorePatterns": [
-			"/node_modules/(?!yoastseo|lodash-es|memize).+\\.js$"
-		],
-		"setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
-		"moduleNameMapper": {
-          "\\.css$": "<rootDir>/jest/__mocks__/styleMock.js",
-          "^lodash-es$": "lodash"
-        }
-	},
 	"publishConfig": {
 		"access": "public"
 	},

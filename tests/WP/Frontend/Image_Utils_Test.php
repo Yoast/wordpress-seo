@@ -158,7 +158,7 @@ final class Image_Utils_Test extends TestCase {
 	 *
 	 * @return array Data.
 	 */
-	public function data_get_usable_dimensions() {
+	public static function data_get_usable_dimensions() {
 		return [
 			[ 200, 200, true ],
 			[ 200, 199, false ],
@@ -198,7 +198,7 @@ final class Image_Utils_Test extends TestCase {
 	 *
 	 * @return array Data.
 	 */
-	public function data_get_absolute_path() {
+	public static function data_get_absolute_path() {
 		$uploads = \wp_get_upload_dir();
 
 		return [
@@ -225,7 +225,7 @@ final class Image_Utils_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function get_data_provider() {
+	public static function get_data_provider() {
 		$attachment_id = self::factory()->attachment->create();
 		return [
 			[

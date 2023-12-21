@@ -86,7 +86,7 @@ final class Shortcode_Filter_Test extends TestCase {
 	 *
 	 * @return array The test data to use.
 	 */
-	public function provider_do_filter() {
+	public static function provider_do_filter() {
 		return [
 			'Valid shortcodes' => [
 				'post_data'           => [

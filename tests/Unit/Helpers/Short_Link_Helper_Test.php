@@ -116,7 +116,7 @@ final class Short_Link_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function build_dataprovider() {
+	public static function build_dataprovider() {
 		return [
 			'premium' => [
 				'is_premium'               => true,
@@ -200,7 +200,7 @@ final class Short_Link_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function get_query_params_dataprovider() {
+	public static function get_query_params_dataprovider() {
 		return [
 			'screen' => [
 				'is_premium'         => true,

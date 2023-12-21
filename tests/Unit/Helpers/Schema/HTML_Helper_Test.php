@@ -58,7 +58,7 @@ final class HTML_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_sanitize() {
+	public static function data_sanitize() {
 		return [
 			'Empty text string' => [
 				'input'    => '',
@@ -110,7 +110,7 @@ final class HTML_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_smart_strip_tags() {
+	public static function data_smart_strip_tags() {
 		return [
 			'Empty text string' => [
 				'input'    => '',
@@ -183,7 +183,7 @@ text string',
 	 *
 	 * @return array
 	 */
-	public function data_incorrect_input_types() {
+	public static function data_incorrect_input_types() {
 		return [
 			'null' => [
 				'input'    => null,

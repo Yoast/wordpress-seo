@@ -268,7 +268,7 @@ final class Organization_Test extends TestCase {
 	 *
 	 * @return array The test data to use.
 	 */
-	public function generate_provider() {
+	public static function generate_provider() {
 		return [
 			'Every possible social profile filled' => [
 				'profiles_input'    => [

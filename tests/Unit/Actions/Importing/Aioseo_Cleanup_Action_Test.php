@@ -206,7 +206,7 @@ final class Aioseo_Cleanup_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_index() {
+	public static function provider_index() {
 		$successful_result = [
 			'metadata_cleanup'   => 10,
 			'indexables_cleanup' => true,
@@ -223,7 +223,7 @@ final class Aioseo_Cleanup_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_unindexed() {
+	public static function provider_get_unindexed() {
 		$completed                 = [
 			'aioseo_cleanup' => true,
 		];

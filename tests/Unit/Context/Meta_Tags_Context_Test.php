@@ -163,7 +163,7 @@ final class Meta_Tags_Context_Test extends TestCase {
 	 *
 	 * @return array Test data to use.
 	 */
-	public function generate_schema_page_type_provider() {
+	public static function generate_schema_page_type_provider() {
 		return [
 			[
 				'indexable' => [
@@ -358,7 +358,7 @@ final class Meta_Tags_Context_Test extends TestCase {
 	 *
 	 * @return array Test data to use.
 	 */
-	public function generate_schema_article_type_provider() {
+	public static function generate_schema_article_type_provider() {
 		return [
 			[
 				'indexable'            => [

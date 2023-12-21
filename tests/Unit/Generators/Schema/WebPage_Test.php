@@ -556,7 +556,7 @@ final class WebPage_Test extends TestCase {
 	 *
 	 * @return array The data to use.
 	 */
-	public function provider_for_generate() {
+	public static function provider_for_generate() {
 		return [
 			[
 				'values_to_test' => [
@@ -645,7 +645,7 @@ final class WebPage_Test extends TestCase {
 	 *
 	 * @return array The data to use.
 	 */
-	public function provider_for_is_needed() {
+	public static function provider_for_is_needed() {
 		return [
 			[
 				'object_type'     => 'user',

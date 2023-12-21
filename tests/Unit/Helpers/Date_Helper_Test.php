@@ -54,7 +54,7 @@ final class Date_Helper_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function format_provider() {
+	public static function format_provider() {
 		return [
 			'Test formatting the date, the default way' => [
 				'date'     => '2020-12-31 13:37:00',
@@ -125,7 +125,7 @@ final class Date_Helper_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function format_timestamp_provider() {
+	public static function format_timestamp_provider() {
 		return [
 			'Test formatting a date given as timestamp' => [
 				'timestamp' => '1973-11-29 21:33:09',
@@ -189,7 +189,7 @@ final class Date_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_is_valid_datetime() {
+	public static function data_is_valid_datetime() {
 		return [
 			'Valid datetime string' => [
 				'input'    => '2015-02-25T04:44:44+00:00',

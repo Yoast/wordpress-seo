@@ -100,7 +100,7 @@ final class Social_Profiles_Helper_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_person_social_profiles function.
 	 */
-	public function set_person_social_profiles() {
+	public static function set_person_social_profiles() {
 		$success_all = [
 			'social_profiles'             => [
 				'facebook'   => 'https://facebook.com/janedoe',
@@ -260,7 +260,7 @@ final class Social_Profiles_Helper_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_organization_social_profiles function.
 	 */
-	public function set_organization_social_profiles() {
+	public static function set_organization_social_profiles() {
 		$success_all = [
 			'social_profiles'             => [
 				'facebook_site'          => '',

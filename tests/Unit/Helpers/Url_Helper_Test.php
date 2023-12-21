@@ -127,7 +127,7 @@ final class Url_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_get_url_path() {
+	public static function data_get_url_path() {
 		return [
 			'URL is an empty string' => [
 				'url_input' => '',
@@ -206,7 +206,7 @@ final class Url_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_get_url_host() {
+	public static function data_get_url_host() {
 		return [
 			'URL is an empty string' => [
 				'url_input' => '',
@@ -537,7 +537,7 @@ final class Url_Helper_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function get_link_type_test_data() {
+	public static function get_link_type_test_data() {
 		return [
 			[
 				[
@@ -682,7 +682,7 @@ final class Url_Helper_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function recreate_current_url_test_data() {
+	public static function recreate_current_url_test_data() {
 		return [
 			'HTTP with request uri' => [
 				'params'   => [

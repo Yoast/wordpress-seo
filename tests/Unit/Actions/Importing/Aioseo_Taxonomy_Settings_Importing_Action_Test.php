@@ -95,7 +95,7 @@ final class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @var array
 	 */
-	protected $full_settings_to_import = [
+	protected static $full_settings_to_import = [
 		'category'      => [
 			'show'            => true,
 			'title'           => 'Category Title',
@@ -127,7 +127,7 @@ final class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @var array
 	 */
-	protected $flattened_settings_to_import = [
+	protected static $flattened_settings_to_import = [
 		'/category/show'                                  => true,
 		'/category/title'                                 => 'Category Title',
 		'/category/metaDescription'                       => 'Category Desc',
@@ -400,7 +400,7 @@ final class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_isset_settings_tab() {
+	public static function provider_isset_settings_tab() {
 		$aioseo_settings_with_subsetting_set = [
 			'searchAppearance' => [
 				'taxonomies' => 'settings',
@@ -423,7 +423,7 @@ final class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_map() {
+	public static function provider_map() {
 		return [
 			[ '/category/title', 'Category Title', 1, 1, 0 ],
 			[ '/category/metaDescription', 'Category Desc', 1, 1, 0 ],
@@ -443,10 +443,10 @@ final class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_query() {
+	public static function provider_query() {
 		$full_settings = [
 			'searchAppearance' => [
-				'taxonomies'   => $this->full_settings_to_import,
+				'taxonomies'   => self::$full_settings_to_import,
 				'postypes'     => [
 					'post' => [
 						'title'           => 'title1',
@@ -456,10 +456,10 @@ final class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 			],
 		];
 
-		$full_settings_expected = $this->flattened_settings_to_import;
+		$full_settings_expected = self::$flattened_settings_to_import;
 
 		return [
-			[ \json_encode( $full_settings ), $this->full_settings_to_import, $full_settings_expected, 1 ],
+			[ \json_encode( $full_settings ), self::$full_settings_to_import, $full_settings_expected, 1 ],
 		];
 	}
 }

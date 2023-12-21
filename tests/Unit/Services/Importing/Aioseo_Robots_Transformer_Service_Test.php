@@ -75,7 +75,7 @@ final class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_transform_robot_setting() {
+	public static function provider_transform_robot_setting() {
 		$mapping = [
 			'option_name' => 'aioseo_table',
 			'type'        => 'type',

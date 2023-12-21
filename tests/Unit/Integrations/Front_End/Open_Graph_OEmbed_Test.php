@@ -119,7 +119,7 @@ final class Open_Graph_OEmbed_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function set_oembed_data() {
+	public static function set_oembed_data() {
 		return [
 			'with-no-data-set'            => [
 				'expected'  => [],

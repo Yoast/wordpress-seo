@@ -87,7 +87,7 @@ final class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provide_get_value_for_user_test_data() {
+	public static function provide_get_value_for_user_test_data() {
 		return [
 			'stored string 1'    => [
 				'meta'     => '1',
@@ -156,7 +156,7 @@ final class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provide_set_value_for_user_test_data() {
+	public static function provide_set_value_for_user_test_data() {
 		return [
 			'true with new entry'          => [
 				'input_value'     => true,

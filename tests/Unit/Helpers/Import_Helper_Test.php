@@ -55,7 +55,7 @@ final class Import_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_flatten_settings() {
+	public static function provider_flatten_settings() {
 
 		$full_custom_archive_settings_to_import      = [
 			'book'  => [

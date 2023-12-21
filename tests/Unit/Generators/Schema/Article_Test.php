@@ -320,7 +320,7 @@ final class Article_Test extends TestCase {
 	 *
 	 * @return array The data to use.
 	 */
-	public function provider_for_generate() {
+	public static function provider_for_generate() {
 		return [
 			[
 				'values_to_test' => [

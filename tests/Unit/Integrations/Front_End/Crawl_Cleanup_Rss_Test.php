@@ -119,7 +119,7 @@ final class Crawl_Cleanup_Rss_Test extends TestCase {
 	 *
 	 * @return array[]
 	 */
-	public function maybe_disable_feeds_dataprovider() {
+	public static function maybe_disable_feeds_dataprovider() {
 		return [
 			'singular, feed enabled' => [
 				'types'           => [

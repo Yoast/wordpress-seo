@@ -195,7 +195,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_orphaned_from_table() {
+	public static function data_orphaned_from_table() {
 		return [
 			[ 50, 'Indexable_Hierarchy', 'indexable_id' ],
 			[ 50, 'SEO_Links', 'indexable_id' ],
@@ -606,7 +606,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_clean_indexables_for_object_type_and_source_table() {
+	public static function data_clean_indexables_for_object_type_and_source_table() {
 		return [
 			[ 50, 'posts', 'ID', 'post' ],
 			[ 50, 'terms', 'term_id', 'term' ],

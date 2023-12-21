@@ -375,7 +375,7 @@ final class WooCommerce_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function meta_value_provider() {
+	public static function meta_value_provider() {
 		return [
 			'has_model_value' => [
 				'expected'       => 'This is a value',

@@ -79,7 +79,7 @@ final class Robots_Txt_Presenter_Test extends TestCase {
 	 *
 	 * @return array The data used for test_present.
 	 */
-	public function present_dataprovider() {
+	public static function present_dataprovider() {
 		$no_disallow_allow_directives_registered = [
 			'robots_txt_user_agents' => ( new User_Agent_List() )->get_user_agents(),
 			'sitemaps'               => [

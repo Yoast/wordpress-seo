@@ -87,7 +87,7 @@ final class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_subtype_robot_setting() {
+	public static function provider_get_subtype_robot_setting() {
 		$mapping = [
 			'option_name' => 'aioseo_table',
 			'type'        => 'type',
@@ -134,7 +134,7 @@ final class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_global_robot_settings() {
+	public static function provider_get_global_robot_settings() {
 		$empty_settings = '';
 
 		$default_global = [

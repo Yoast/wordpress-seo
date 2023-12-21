@@ -199,7 +199,7 @@ final class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_check_post_types_public_availability() {
+	public static function provider_check_post_types_public_availability() {
 
 		return [
 			'When it is ajax request' => [

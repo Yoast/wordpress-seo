@@ -45,7 +45,7 @@ final class Missing_Indexables_Collector_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function collector_get_data() {
+	public static function collector_get_data() {
 		$indexation_action = new Abstract_Indexing_Action_Double();
 
 		return [
