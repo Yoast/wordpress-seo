@@ -525,18 +525,41 @@ class WPSEO_Sitemaps {
 
 			if ( ! empty( $post_type_names ) ) {
 				$post_statuses = array_map( 'esc_sql', self::get_post_statuses() );
+				$replacements  = array_merge(
+					[
+						'post_type',
+						'post_modified_gmt',
+						'date',
+						$wpdb->posts,
+						'post_status',
+					],
+					$post_statuses,
+					[ 'post_type' ],
+					array_keys( $post_type_names ),
+					[
+						'post_type',
+						'date',
+					]
+				);
 
-				$sql = "
-					SELECT post_type, MAX(post_modified_gmt) AS date
-					FROM $wpdb->posts
-					WHERE post_status IN ('" . implode( "','", $post_statuses ) . "')
-						AND post_type IN ('" . implode( "','", $post_type_names ) . "')
-					GROUP BY post_type
-					ORDER BY date DESC
-				";
+				//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+				//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+				$dates = $wpdb->get_results(
+					//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+					$wpdb->prepare(
+						'
+					SELECT %i, MAX(%i) AS %i
+					FROM %i
+					WHERE %i IN (' . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ')
+						AND %i IN (' . implode( ', ', array_fill( 0, count( $post_type_names ), '%s' ) ) . ')
+					GROUP BY %i
+					ORDER BY %i DESC
+				',
+						$replacements
+					)
+				);
 
-				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery -- They are prepared on the lines above and a direct query is required.
-				foreach ( $wpdb->get_results( $sql ) as $obj ) {
+				foreach ( $dates as $obj ) {
 					$post_type_dates[ $obj->post_type ] = $obj->date;
 				}
 			}
