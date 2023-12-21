@@ -686,7 +686,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$replacements[] = $wpdb->posts;
 		$replacements[] = 'type_status_date';
 		$replacements[] = 'post_status';
-		$replacements   = \array_merge( $replacements, $post_statuses );
+		$replacements   = array_merge( $replacements, $post_statuses );
 		$replacements[] = 'post_type';
 		$replacements[] = $post_type;
 		$replacements[] = 'post_modified_gmt';
@@ -702,7 +702,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				'
 			WITH %i AS (SELECT ROW_NUMBER() OVER (ORDER BY %i) AS n, post_modified_gmt
 							  FROM %i USE INDEX ( %i )
-							  WHERE %i IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ')
+							  WHERE %i IN (' . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ')
 								 AND %i = %s
 							  ORDER BY %i)
 			SELECT %i
@@ -731,7 +731,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$replacements[] = $wpdb->posts;
 		$replacements[] = 'type_status_date';
 		$replacements[] = 'post_status';
-		$replacements   = \array_merge( $replacements, $post_statuses );
+		$replacements   = array_merge( $replacements, $post_statuses );
 		$replacements[] = 'post_type';
 		$replacements[] = $post_type;
 		$replacements[] = $max_entries;
@@ -744,7 +744,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			SELECT %i
 			    FROM ( SELECT @rownum:=0 ) init
 			    JOIN %i USE INDEX( %i )
-			    WHERE %i IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ')
+			    WHERE %i IN (' . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ')
 			      AND %i = %s
 			      AND ( @rownum:=@rownum+1 ) %% %d = 0
 			    ORDER BY %i ASC

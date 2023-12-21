@@ -531,9 +531,9 @@ class WPSEO_Sitemaps {
 				$replacements[] = 'date';
 				$replacements[] = $wpdb->posts;
 				$replacements[] = 'post_status';
-				$replacements   = \array_merge( $replacements, $post_statuses );
+				$replacements   = array_merge( $replacements, $post_statuses );
 				$replacements[] = 'post_type';
-				$replacements   = \array_merge( $replacements, $post_type_names );
+				$replacements   = array_merge( $replacements, $post_type_names );
 				$replacements[] = 'post_type';
 				$replacements[] = 'date';
 
@@ -545,8 +545,8 @@ class WPSEO_Sitemaps {
 						'
 					SELECT %i, MAX(%i) AS %i
 					FROM %i
-					WHERE %i IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ')
-						AND %i IN (' . \implode( ', ', \array_fill( 0, \count( $post_type_names ), '%s' ) ) . ')
+					WHERE %i IN (' . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ')
+						AND %i IN (' . implode( ', ', array_fill( 0, count( $post_type_names ), '%s' ) ) . ')
 					GROUP BY %i
 					ORDER BY %i DESC
 				',

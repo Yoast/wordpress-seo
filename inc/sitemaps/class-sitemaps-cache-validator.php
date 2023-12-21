@@ -194,8 +194,8 @@ class WPSEO_Sitemaps_Cache_Validator {
 		$wpdb->query(
 			$wpdb->prepare(
 			//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
-				'DELETE FROM %i WHERE ' . \implode( ' OR', \array_fill( 0, \count( $where ), '%s' ) ),
-				\array_merge( [ $wpdb->options ], $where )
+				'DELETE FROM %i WHERE ' . implode( ' OR', array_fill( 0, count( $where ), '%s' ) ),
+				array_merge( [ $wpdb->options ], $where )
 			)
 		);
 

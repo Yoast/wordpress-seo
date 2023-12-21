@@ -273,7 +273,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				ON		term_tax.%i = term_rel.%i
 				AND		term_tax.%i = %s
 				AND		term_tax.%i = %d
-			WHERE	p.%i IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+			WHERE	p.%i IN (' . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ")
 				AND		p.%i = ''
 			",
 					$current_replacements
