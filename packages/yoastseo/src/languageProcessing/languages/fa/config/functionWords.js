@@ -1,4 +1,6 @@
 import { singleWords as singleWordTransitionWords } from "./transitionWords";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
+
 /**
  * Returns an array with function words.
  *
@@ -111,10 +113,10 @@ const transitionWords = [ "دوباره", "قطعاً", "حتماً", "اصلا�
 	"هم", "مانند", "مثل", "شبیه به", "ولی", "اما", "امّا", "لیکن", "ولو", "در ضمن", "در کنار", "ترجیحاً", "وگرنه", "پس", "سپس",
 	"وقتی", "زمانی که", "به خاطر", "مخصوصاً", "مشخصاً", "در کل", "بعد", "قبل", "تا" ];
 
-export const all = [].concat( cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
+export const all = transformWordsWithHyphens( [].concat( cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
 	quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
 	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
 	timeWords, vagueNouns, titles, transitionWords, postposition, reciprocalNouns, possessivePronouns, fractions,
-	articles, singleWordTransitionWords );
+	articles, singleWordTransitionWords ) );
 
 export default all;

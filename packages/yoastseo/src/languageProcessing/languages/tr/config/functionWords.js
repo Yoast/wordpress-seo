@@ -1,9 +1,11 @@
+import { singleWords as transitionWords } from "./transitionWords";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
+
 /**
  * Returns an object with function words.
  *
  * @returns {Object} The object filled with various categories of function word arrays.
  */
-import { singleWords as transitionWords } from "./transitionWords";
 
 const articles = [ "bir" ];
 
@@ -106,9 +108,9 @@ const reflectionWords = [ "hapşu", "hapşırık", "hapşurmak", "horr", "horult
 const titlesPrecedingOrFollowing = [ "bayan", "bay", "hanımefendi", "hanfendi", "hanım", "beyefendi", "beyfendi", "bey", "sayın", "profesör",
 	"prof.", "doktor", "dr." ];
 
-export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, fractions, pronouns, interrogatives,
+export const all = transformWordsWithHyphens( [].concat( articles, cardinalNumerals, ordinalNumerals, fractions, pronouns, interrogatives,
 	quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
 	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
-	timeWords, vagueNouns, reflectionWords, titlesPrecedingOrFollowing, transitionWords );
+	timeWords, vagueNouns, reflectionWords, titlesPrecedingOrFollowing, transitionWords ) );
 
 export default all;

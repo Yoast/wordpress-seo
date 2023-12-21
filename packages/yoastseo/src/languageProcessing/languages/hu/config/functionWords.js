@@ -1,4 +1,5 @@
 import { singleWords as transitionWords } from "./transitionWords";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
 
 /**
  * Returns an object with function words.
@@ -275,9 +276,9 @@ const miscellaneous = [
 	"egyhatod", "egyheted", "egynyolcad", "egykilenced", "egytized", "század", "ezred" ];
 
 
-export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
+export const all = transformWordsWithHyphens( [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
 	quantifiers, reflexivePronouns, indefinitePronouns, postpositions, conjunctions, interviewVerbs,
 	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
-	timeWords, vagueNouns, miscellaneous, transitionWords );
+	timeWords, vagueNouns, miscellaneous, transitionWords ) );
 
 export default all;

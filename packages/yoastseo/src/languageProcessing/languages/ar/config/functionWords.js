@@ -1,4 +1,6 @@
 import { singleWords } from "./transitionWords";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
+
 /**
  * Returns an object with exceptions for the prominent words researcher
  * @returns {Object} The object filled with exception arrays.
@@ -298,26 +300,26 @@ const transitionWords = [ "عندما", "مثل", "بالطبع", "لأن", "إ�
 	"إلا", "الا" ];
 
 // These word categories are filtered at the ending of word combinations.
-export const filteredAtEnding = [].concat( ordinalNumerals, generalAdjectivesAdverbs );
+export const filteredAtEnding = transformWordsWithHyphens( [].concat( ordinalNumerals, generalAdjectivesAdverbs ) );
 
 // These word categories are filtered at the beginning and ending of word combinations.
-export const filteredAtBeginningAndEnding = [].concat( articles, prepositions, prepositionPrecedingPronouns, coordinatingConjunctions,
-	demonstrativePronouns, intensifiers, quantifiers );
+export const filteredAtBeginningAndEnding = transformWordsWithHyphens( [].concat( articles, prepositions, prepositionPrecedingPronouns,
+	coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers ) );
 
 // These word categories are filtered everywhere within word combinations.
-export const filteredAnywhere = [].concat( transitionWords, singleWords, adverbialGenitives, personalPronounsNominative, personalPronounsAccusative,
-	reflexivePronouns, interjections, cardinalNumerals, otherAuxiliaries, copula, interviewVerbs,
-	delexicalizedVerbs, indefinitePronouns, subordinatingConjunctions, interrogativeDeterminers,
+export const filteredAnywhere = transformWordsWithHyphens( [].concat( transitionWords, singleWords, adverbialGenitives,
+	personalPronounsNominative, personalPronounsAccusative, reflexivePronouns, interjections, cardinalNumerals,
+	otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, subordinatingConjunctions, interrogativeDeterminers,
 	interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs,
-	recipeWords, timeWords, vagueNouns, vocativeParticles, relativePronouns );
+	recipeWords, timeWords, vagueNouns, vocativeParticles, relativePronouns ) );
 
 // This export contains all of the above words.
-export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, reflexivePronouns,
+export const all = transformWordsWithHyphens( [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, reflexivePronouns,
 	personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers,
 	interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs,
 	otherAuxiliaries, copula, prepositions, coordinatingConjunctions, subordinatingConjunctions, interviewVerbs,
 	transitionWords, singleWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
-	recipeWords, vagueNouns, miscellaneous, titlesPreceding, vocativeParticles, relativePronouns, prepositionPrecedingPronouns );
+	recipeWords, vagueNouns, miscellaneous, titlesPreceding, vocativeParticles, relativePronouns, prepositionPrecedingPronouns ) );
 
 export default {
 	filteredAtEnding,
