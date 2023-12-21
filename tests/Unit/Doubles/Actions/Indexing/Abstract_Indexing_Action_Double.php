@@ -7,12 +7,12 @@ use Yoast\WP\SEO\Actions\Indexing\Abstract_Indexing_Action;
 /**
  * The abstract indexing action double.
  */
-class Abstract_Indexing_Action_Double extends Abstract_Indexing_Action {
+final class Abstract_Indexing_Action_Double extends Abstract_Indexing_Action {
 
 	/**
 	 * A needed constant for testing.
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_unindexed_double';
+	public const UNINDEXED_COUNT_TRANSIENT = 'wpseo_unindexed_double';
 
 	/**
 	 * Empty function for testing.
@@ -27,6 +27,8 @@ class Abstract_Indexing_Action_Double extends Abstract_Indexing_Action {
 
 	/**
 	 * Empty function for testing.
+	 *
+	 * @return string
 	 */
 	protected function get_count_query() {
 		return '';
@@ -34,6 +36,8 @@ class Abstract_Indexing_Action_Double extends Abstract_Indexing_Action {
 
 	/**
 	 * Empty function for testing.
+	 *
+	 * @return string
 	 */
 	public function index() {
 		return '';
@@ -41,6 +45,8 @@ class Abstract_Indexing_Action_Double extends Abstract_Indexing_Action {
 
 	/**
 	 * Empty function for testing.
+	 *
+	 * @return int
 	 */
 	public function get_limit() {
 		return 10;
@@ -48,6 +54,8 @@ class Abstract_Indexing_Action_Double extends Abstract_Indexing_Action {
 
 	/**
 	 * Empty function for testing.
+	 *
+	 * @return int
 	 */
 	public function get_total_unindexed() {
 		return 15;

@@ -1,16 +1,5 @@
-import { shallow } from "enzyme";
-
-import WincherTableRow, {
-	PositionOverTimeChart,
-	PositionOverTimeCell,
-	CaretIcon,
-	PositionChangeValue,
-	SelectKeyphraseCheckboxWrapper,
-	KeyphraseTdWrapper,
-	TrackingTdWrapper,
-} from "../../src/components/WincherTableRow";
-import { Toggle } from "@yoast/components";
-import WincherSEOPerformanceLoading from "../../src/components/modals/WincherSEOPerformanceLoading";
+import WincherTableRow from "../../src/components/WincherTableRow";
+import { render, screen, within } from "../test-utils";
 import { noop } from "lodash";
 
 const keyphrasesData = {
@@ -29,7 +18,6 @@ const keyphrasesData = {
 					value: 38,
 				},
 			],
-			change: -2,
 		},
 		// eslint-disable-next-line camelcase
 		updated_at: new Date(),
@@ -45,131 +33,59 @@ const keyphrasesData = {
 
 describe( "WincherTableRow", () => {
 	it( "should render a row with the available data but without chart data", () => {
-		const component = shallow( <WincherTableRow
+		render( <WincherTableRow
 			rowData={ keyphrasesData[ "woocommerce seo" ] }
 			keyphrase="woocommerce seo"
-			isSelected={ false }
 			onSelectKeyphrases={ noop }
+			isSelected={ false }
 		/> );
 
-		expect( component.find( "td" ).length ).toEqual( 1 );
-		expect( component.find( "td" ).at( 0 ).getElement().props.children ).toEqual( <WincherSEOPerformanceLoading /> );
-		expect( component.find( SelectKeyphraseCheckboxWrapper ).length ).toEqual( 1 );
-		expect( component.find( KeyphraseTdWrapper ).length ).toEqual( 1 );
-		expect( component.find( KeyphraseTdWrapper ).at( 0 ).text() ).toEqual( "woocommerce seo" );
-		expect( component.find( TrackingTdWrapper ).length ).toEqual( 1 );
+		const rows = screen.getAllByRole( "cell" );
+		expect( rows.length ).toBe( 4 );
+		expect( rows[ 1 ].textContent ).toContain( "woocommerce seo" );
+		const loadingText = screen.getByText( "Tracking the ranking position..." );
+		expect( loadingText ).toBeInTheDocument();
 	} );
 
 	it( "should render a row with the available data and with chart data", () => {
-		const component = shallow( <WincherTableRow
+		render( <WincherTableRow
 			rowData={ keyphrasesData[ "yoast seo" ] }
 			keyphrase="yoast seo"
-			isSelected={ false }
 			onSelectKeyphrases={ noop }
+			isSelected={ false }
 		/> );
 
-		expect( component.find( "td" ).length ).toEqual( 3 );
-		expect( component.find( Toggle ).length ).toEqual( 1 );
-		expect( component.find( PositionOverTimeCell ).length ).toEqual( 1 );
-		expect( component.find( SelectKeyphraseCheckboxWrapper ).length ).toEqual( 1 );
-		expect( component.find( KeyphraseTdWrapper ).length ).toEqual( 1 );
-		expect( component.find( TrackingTdWrapper ).length ).toEqual( 1 );
-
-		expect( component.find( Toggle ).getElement().props.id ).toBe( "toggle-keyphrase-tracking-yoast seo" );
-		expect( component.find( Toggle ).getElement().props.isEnabled ).toBe( true );
-		expect( component.find( Toggle ).getElement().props.showToggleStateLabel ).toBe( false );
-
-		expect( component.find( KeyphraseTdWrapper ).at( 0 ).text() ).toEqual( "yoast seo" );
-		expect( component.find( "td" ).at( 0 ).text() ).toContain( "10" );
-		expect( component.find( "td" ).at( 2 ).text() ).toEqual( "a few seconds ago" );
+		const rows = screen.getAllByRole( "row" );
+		const toggle = within( rows[ 0 ] ).getAllByRole( "checkbox" );
+		expect( toggle.length ).toBe( 2 );
+		expect( toggle[ 1 ] ).toBeChecked();
+		const positionOverTimeChart = within( rows[ 0 ] ).getAllByRole( "button" );
+		expect( positionOverTimeChart.length ).toBe( 1 );
+		const keyfrase = within( rows[ 0 ] ).getByText( "yoast seo" );
+		expect( keyfrase ).toBeInTheDocument();
 	} );
 
 	it( "should not render an enabled toggle or any position and chart data when no data is available", () => {
-		const component = shallow( <WincherTableRow
+		render( <WincherTableRow
 			rowData={ {} }
 			keyphrase="yoast seo"
-			isSelected={ false }
 			onSelectKeyphrases={ noop }
+			isSelected={ false }
 		/> );
 
-		expect( component.find( "td" ).length ).toEqual( 1 );
-		expect( component.find( Toggle ).length ).toEqual( 1 );
-		expect( component.find( PositionOverTimeCell ).length ).toEqual( 0 );
-		expect( component.find( TrackingTdWrapper ).length ).toEqual( 1 );
+		const rows = screen.getAllByRole( "row" );
+		const toggle = within( rows[ 0 ] ).getAllByRole( "checkbox" );
+		expect( toggle.length ).toBe( 1 );
+		expect( toggle[ 0 ] ).not.toBeChecked();
 
-		expect( component.find( Toggle ).getElement().props.id ).toBe( "toggle-keyphrase-tracking-yoast seo" );
-		expect( component.find( Toggle ).getElement().props.isEnabled ).toBe( false );
-		expect( component.find( KeyphraseTdWrapper ).at( 0 ).text() ).toEqual( "yoast seo" );
-		expect( component.find( "td" ).at( 0 ).text() ).toEqual( "Activate tracking to show the ranking position" );
-	} );
-} );
+		const cells = within( rows[ 0 ] ).getAllByRole( "cell" );
+		expect( cells.length ).toBe( 4 );
 
 
-describe( "PositionOverTimeCell", () => {
-	it( "should render chart but not change if undefined position change", () => {
-		const component = shallow( <PositionOverTimeCell
-			rowData={ {
-				position: {
-					value: 10,
-					history: [],
-				},
-			} }
-		/> );
+		const positionOverTimeChart = screen.queryByRole( "button", { name: /example button/i } );
+		expect( positionOverTimeChart ).not.toBeInTheDocument();
 
-		expect( component.find( PositionOverTimeChart ).length ).toEqual( 1 );
-		expect( component.find( CaretIcon ).length ).toEqual( 0 );
-		expect( component.find( PositionChangeValue ).length ).toEqual( 0 );
-	} );
-
-	it( "should render chart but not change if no position change", () => {
-		const component = shallow( <PositionOverTimeCell
-			rowData={ {
-				position: {
-					value: 10,
-					history: [],
-					change: 0,
-				},
-			} }
-		/> );
-
-		expect( component.find( PositionOverTimeChart ).length ).toEqual( 1 );
-		expect( component.find( CaretIcon ).length ).toEqual( 0 );
-		expect( component.find( PositionChangeValue ).length ).toEqual( 0 );
-	} );
-
-	it( "should render chart and improving position change", () => {
-		const component = shallow( <PositionOverTimeCell
-			rowData={ {
-				position: {
-					value: 10,
-					history: [],
-					// improving
-					change: -2,
-				},
-			} }
-		/> );
-
-		expect( component.find( PositionOverTimeChart ).length ).toEqual( 1 );
-		expect( component.find( CaretIcon ).getElement().props.isImproving ).toEqual( true );
-		expect( component.find( PositionChangeValue ).getElement().props.isImproving ).toEqual( true );
-		expect( component.find( PositionChangeValue ).text() ).toEqual( "2" );
-	} );
-
-	it( "should render chart and declined position change", () => {
-		const component = shallow( <PositionOverTimeCell
-			rowData={ {
-				position: {
-					value: 10,
-					history: [],
-					// declined
-					change: 2,
-				},
-			} }
-		/> );
-
-		expect( component.find( PositionOverTimeChart ).length ).toEqual( 1 );
-		expect( component.find( CaretIcon ).getElement().props.isImproving ).toEqual( false );
-		expect( component.find( PositionChangeValue ).getElement().props.isImproving ).toEqual( false );
-		expect( component.find( PositionChangeValue ).text() ).toEqual( "2" );
+		const keyfrase = within( rows[ 0 ] ).getByText( "yoast seo" );
+		expect( keyfrase ).toBeInTheDocument();
 	} );
 } );

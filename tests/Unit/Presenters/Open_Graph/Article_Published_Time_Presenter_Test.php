@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group open-graph
  */
-class Article_Published_Time_Presenter_Test extends TestCase {
+final class Article_Published_Time_Presenter_Test extends TestCase {
 
 	/**
 	 * The article published time presenter instance.
@@ -33,6 +33,8 @@ class Article_Published_Time_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -47,6 +49,8 @@ class Article_Published_Time_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct published time tag.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->stubEscapeFunctions();
@@ -65,6 +69,8 @@ class Article_Published_Time_Presenter_Test extends TestCase {
 	 * Tests the presenter with an empty published time.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_empty_published_time() {
 		$this->presentation->open_graph_article_published_time = '';
@@ -78,6 +84,8 @@ class Article_Published_Time_Presenter_Test extends TestCase {
 	 * Tests the retrieval of the raw value.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$this->presentation->open_graph_article_published_time = '2019-10-08T12:26:31+00:00';
@@ -89,6 +97,8 @@ class Article_Published_Time_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct published time tag when the admin bar is showing a class is added.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$this->stubEscapeFunctions();

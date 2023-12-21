@@ -17,14 +17,14 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 	/**
 	 * The transient cache key.
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_terms';
+	public const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_terms';
 
 	/**
 	 * The transient cache key for limited counts.
 	 *
 	 * @var string
 	 */
-	const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
+	public const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
 
 	/**
 	 * The post type helper.
@@ -107,7 +107,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 		/**
 		 * Filter 'wpseo_term_indexation_limit' - Allow filtering the number of terms indexed during each indexing pass.
 		 *
-		 * @api int The maximum number of terms indexed.
+		 * @param int $limit The maximum number of terms indexed.
 		 */
 		$limit = \apply_filters( 'wpseo_term_indexation_limit', 25 );
 

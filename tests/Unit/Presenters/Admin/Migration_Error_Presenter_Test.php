@@ -16,12 +16,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Migration_Error_Presenter_Test extends TestCase {
+final class Migration_Error_Presenter_Test extends TestCase {
 
 	/**
 	 * Tests the present method.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->stubEscapeFunctions();
@@ -48,6 +50,8 @@ class Migration_Error_Presenter_Test extends TestCase {
 
 	/**
 	 * Holds expectations for the shortlinker.
+	 *
+	 * @return void
 	 */
 	private function expect_shortlinker() {
 		$short_link_mock = Mockery::mock( Short_Link_Helper::class );

@@ -1,4 +1,4 @@
-// Readbility assessments.
+// Readability assessments.
 import ParagraphTooLongAssessment from "./readability/ParagraphTooLongAssessment";
 import PassiveVoiceAssessment from "./readability/PassiveVoiceAssessment";
 import SentenceBeginningsAssessment from "./readability/SentenceBeginningsAssessment";
@@ -38,7 +38,7 @@ const readability = {
 	TransitionWordsAssessment,
 };
 
-// We expose the deprecated UrlKeywordAssessment for backwards compatibility.
+// We expose the deprecated assessments for backwards compatibility.
 const seo = {
 	FunctionWordsInKeyphraseAssessment,
 	InternalLinksAssessment,

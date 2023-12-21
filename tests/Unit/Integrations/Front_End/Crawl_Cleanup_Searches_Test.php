@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class Crawl_Cleanup_Searches_Test extends TestCase {
+final class Crawl_Cleanup_Searches_Test extends TestCase {
 
 	/**
 	 * Robots helper.
@@ -45,6 +45,8 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -59,6 +61,8 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -71,6 +75,8 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->options_helper
@@ -107,6 +113,8 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 	 * Tests that nothing happens on a non search page.
 	 *
 	 * @covers ::validate_search
+	 *
+	 * @return void
 	 */
 	public function test_validate_search_not_search() {
 		$query = Mockery::mock( WP_Query::class );
@@ -266,7 +274,7 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 	 *
 	 * @return Generator
 	 */
-	public function provide_query_string_parameters() {
+	public static function provide_query_string_parameters() {
 		yield 'Redirects because there are more then 5 characters' => [
 			'input_query_string'  => 'this_is_longer_then_5',
 			'output_query_string' => 'this_',

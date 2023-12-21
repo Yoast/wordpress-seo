@@ -10,7 +10,7 @@ abstract class Health_Check {
 	/**
 	 * The prefix to add to the test identifier. Used to differentiate between Yoast's health checks, and other health checks.
 	 */
-	const TEST_IDENTIFIER_PREFIX = 'yoast-';
+	public const TEST_IDENTIFIER_PREFIX = 'yoast-';
 
 	/**
 	 * The object that runs the actual health check.
@@ -35,7 +35,7 @@ abstract class Health_Check {
 	 * @return string The identifier that WordPress requires.
 	 */
 	public function get_test_identifier() {
-		$full_class_name            = \get_class( $this );
+		$full_class_name            = static::class;
 		$class_name_backslash_index = \strrpos( $full_class_name, '\\' );
 
 		$class_name = $full_class_name;

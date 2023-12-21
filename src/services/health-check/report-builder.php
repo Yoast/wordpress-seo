@@ -10,17 +10,17 @@ class Report_Builder {
 	/**
 	 * Passed health check.
 	 */
-	const STATUS_GOOD = 'good';
+	public const STATUS_GOOD = 'good';
 
 	/**
 	 * Changes are recommended but not necessary.
 	 */
-	const STATUS_RECOMMENDED = 'recommended';
+	public const STATUS_RECOMMENDED = 'recommended';
 
 	/**
 	 * Significant issues that the user should consider fixing.
 	 */
-	const STATUS_CRITICAL = 'critical';
+	public const STATUS_CRITICAL = 'critical';
 
 	/**
 	 * The user-facing label.

@@ -11,6 +11,9 @@ use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
 
 /**
  * Class to handle Composer actions and events.
+ *
+ * @phpcs:disable WordPress.Security.EscapeOutput -- This file is not distributed, so this is fine.
+ * @phpcs:disable WordPress.PHP.DiscouragedPHPFunctions -- This file is not distributed, so this is fine.
  */
 class Actions {
 
@@ -48,6 +51,8 @@ class Actions {
 	 * Provides a coding standards option choice.
 	 *
 	 * @param Event $event Composer event.
+	 *
+	 * @return void
 	 */
 	public static function check_coding_standards( Event $event ) {
 		$io = $event->getIO();
@@ -164,9 +169,11 @@ class Actions {
 	}
 
 	/**
-	 * Runs PHPCS on the staged files.
+	 * Runs PHPCS on the files changed in the current branch.
 	 *
 	 * Used by the composer check-branch-cs command.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param Event $event Composer event that triggered this script.
 	 *
@@ -208,6 +215,8 @@ class Actions {
 	/**
 	 * Runs PHPCS on changed files compared to some git reference.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $compare The git reference.
 	 *
 	 * @return int Exit code passed from the coding standards check.
@@ -241,15 +250,15 @@ class Actions {
 	/**
 	 * Filter files on extension.
 	 *
-	 * @param array  $files     List of files.
-	 * @param string $extension Extension to filter on.
+	 * @param array<string> $files     List of files.
+	 * @param string        $extension Extension to filter on.
 	 *
-	 * @return array Filtered list of files.
+	 * @return array<string> Filtered list of files.
 	 */
-	private static function filter_files( $files, $extension ) {
+	private static function filter_files( array $files, string $extension ): array {
 		return \array_filter(
 			$files,
-			static function( $file ) use ( $extension ) {
+			static function ( $file ) use ( $extension ) {
 				return \substr( $file, ( 0 - \strlen( $extension ) ) ) === $extension;
 			}
 		);
@@ -365,7 +374,7 @@ TPL;
 		}
 
 		/*
-		 * Don't run the branch check in CI/GH Actions as it prevents the errors from being show inline.
+		 * Don't run the branch check in CI/GH Actions as it prevents the errors from being shown inline.
 		 * The GH Actions script will run this via a separate script step.
 		 */
 		if ( $above_threshold === true && $in_ci === false ) {
@@ -389,14 +398,16 @@ TPL;
 	 *
 	 * @throws ReflectionException When the class to generate the unit test for cannot be found.
 	 * @throws RuntimeException    When the required command line argument is missing.
+	 *
+	 * @return void
 	 */
 	public static function generate_unit_test( Event $event ) {
 		$args = $event->getArguments();
 
 		if ( empty( $args[0] ) ) {
 			throw new RuntimeException(
-				'You must provide an argument with the fully qualified class name' .
-				'for which you want a unit test to be generated.'
+				'You must provide an argument with the fully qualified class name'
+				. 'for which you want a unit test to be generated.'
 			);
 		}
 

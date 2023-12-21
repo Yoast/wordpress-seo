@@ -70,6 +70,8 @@ class WPSEO_Taxonomy_Metabox {
 
 	/**
 	 * Shows the Yoast SEO metabox for the term.
+	 *
+	 * @return void
 	 */
 	public function display() {
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title() returns a hard-coded string.

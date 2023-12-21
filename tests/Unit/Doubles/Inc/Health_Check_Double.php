@@ -7,7 +7,7 @@ use WPSEO_Health_Check;
 /**
  * Class Health_Check_Double exposes protected properties and methods needed by the unit tests.
  */
-class Health_Check_Double extends WPSEO_Health_Check {
+final class Health_Check_Double extends WPSEO_Health_Check {
 
 	/**
 	 * Indicates that the test has executed.
@@ -25,6 +25,8 @@ class Health_Check_Double extends WPSEO_Health_Check {
 
 	/**
 	 * Runs the test and returns the result.
+	 *
+	 * @return void
 	 */
 	public function run() {
 		$this->has_run = true;
@@ -60,6 +62,8 @@ class Health_Check_Double extends WPSEO_Health_Check {
 
 	/**
 	 * Adds a text to the bottom of the Site Health check to indicate it is a Yoast SEO Site Health Check.
+	 *
+	 * @return void
 	 */
 	public function add_yoast_signature() {
 		parent::add_yoast_signature();

@@ -6,22 +6,24 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Options;
 use WPSEO_Tracking;
-use Yoast\WP\SEO\Helpers\Environment_Helper;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Analytics\Application\Missing_Indexables_Collector;
 use Yoast\WP\SEO\Analytics\Application\To_Be_Cleaned_Indexables_Collector;
+use Yoast\WP\SEO\Helpers\Environment_Helper;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.
  *
  * @group tracking
  */
-class Tracking_Test extends TestCase {
+final class Tracking_Test extends TestCase {
 
 	/**
 	 * Tests the constructor on a non-production setup.
 	 *
 	 * @covers WPSEO_Tracking::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor_empty_if_not_in_production() {
 		Monkey\Functions\stubs(
@@ -53,6 +55,8 @@ class Tracking_Test extends TestCase {
 	 * Tests the constructor on a non-production setup.
 	 *
 	 * @covers WPSEO_Tracking::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor_not_empty_if_in_production() {
 		Monkey\Functions\stubs(
@@ -83,6 +87,8 @@ class Tracking_Test extends TestCase {
 	 * Tests get_collector method.
 	 *
 	 * @covers WPSEO_Tracking::get_collector
+	 *
+	 * @return void
 	 */
 	public function test_get_collector() {
 

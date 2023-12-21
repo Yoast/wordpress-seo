@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class Robots_Txt_Integration_Test extends TestCase {
+final class Robots_Txt_Integration_Test extends TestCase {
 
 	/**
 	 * Holds the options helper.
@@ -52,6 +52,8 @@ class Robots_Txt_Integration_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -67,6 +69,8 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf( Robots_Txt_Integration::class, $this->instance );
@@ -88,6 +92,8 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -100,6 +106,8 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->options_helper
@@ -121,6 +129,8 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 *
 	 * @covers ::filter_robots
 	 * @covers ::maybe_add_xml_sitemap
+	 *
+	 * @return void
 	 */
 	public function test_public_site_with_sitemaps() {
 		global $wp_rewrite;
@@ -184,6 +194,8 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * @covers ::is_yoast_active_for_network
 	 *
 	 * @param array $multisite The multisite data.
+	 *
+	 * @return void
 	 */
 	public function test_multisite_sitemaps( $multisite ) {
 		$this->options_helper
@@ -264,7 +276,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 *
 	 * @return array The multisite to test.
 	 */
-	public function multisite_provider() {
+	public static function multisite_provider() {
 		return [
 			'Multisite subdomain' => [
 				'multisite' => [
@@ -307,6 +319,8 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * @covers ::is_sitemap_enabled_for
 	 * @covers ::is_yoast_active_on
 	 * @covers ::is_yoast_active_for_network
+	 *
+	 * @return void
 	 */
 	public function test_multisite_sitemaps_without_yoast_seo_active() {
 		global $wp_rewrite;
@@ -388,6 +402,8 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * @covers ::is_sitemap_enabled_for
 	 * @covers ::is_yoast_active_on
 	 * @covers ::is_yoast_active_for_network
+	 *
+	 * @return void
 	 */
 	public function test_multisite_sitemaps_option_not_found() {
 		global $wp_rewrite;
@@ -461,6 +477,8 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 *
 	 * @covers ::filter_robots
 	 * @covers ::maybe_add_xml_sitemap
+	 *
+	 * @return void
 	 */
 	public function test_public_site_without_sitemaps() {
 		$this->options_helper
@@ -503,7 +521,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 		// Turn off everything else, so this will only test the remove_default_robots() method.
 		\add_filter(
 			'wpseo_should_add_subdirectory_multisite_xml_sitemaps',
-			static function() {
+			static function () {
 				return false;
 			}
 		);
@@ -528,7 +546,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_remove_default_robots() {
+	public static function data_remove_default_robots() {
 		return [
 			'Original input doesn\'t contain default string' => [
 				'input'    => 'User-agent: \*Disallow: /wp-admin/',
@@ -553,6 +571,8 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * Tests if the right disallow rules for the internal site search is added to the Robots_Txt_Helper.
 	 *
 	 * @covers ::add_disallow_search_to_robots
+	 *
+	 * @return void
 	 */
 	public function test_add_disallow_search_to_robots() {
 		$robots_txt_helper = Mockery::mock( Robots_Txt_Helper::class );
@@ -582,6 +602,8 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * Tests if the right disallow rules for the WP-JSON API is added to the Robots_Txt_Helper.
 	 *
 	 * @covers ::add_disallow_wp_json_to_robots
+	 *
+	 * @return void
 	 */
 	public function test_add_disallow_wp_json_to_robots() {
 		$robots_txt_helper = Mockery::mock( Robots_Txt_Helper::class );
@@ -605,6 +627,8 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * Tests if the right disallow rule for AdsBot is added to the Robots_Txt_Helper.
 	 *
 	 * @covers ::add_disallow_adsbot
+	 *
+	 * @return void
 	 */
 	public function test_add_disallow_adsbot() {
 		$robots_txt_helper = Mockery::mock( Robots_Txt_Helper::class );

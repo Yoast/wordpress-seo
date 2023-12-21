@@ -58,7 +58,7 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification implements WPSEO_WordPres
 		 * Filter: 'yoast_display_gutenberg_compat_notification' - Allows developer to disable the Gutenberg compatibility
 		 * notification.
 		 *
-		 * @api bool
+		 * @param bool $display_notification
 		 */
 		$display_notification = apply_filters( 'yoast_display_gutenberg_compat_notification', true );
 

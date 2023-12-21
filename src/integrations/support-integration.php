@@ -15,9 +15,9 @@ use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
  */
 class Support_Integration implements Integration_Interface {
 
-	const PAGE = 'wpseo_page_support';
+	public const PAGE = 'wpseo_page_support';
 
-	const CAPABILITY = 'wpseo_manage_options';
+	public const CAPABILITY = 'wpseo_manage_options';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -116,6 +116,8 @@ class Support_Integration implements Integration_Interface {
 
 	/**
 	 * Displays the page.
+	 *
+	 * @return void
 	 */
 	public function display_page() {
 		echo '<div id="yoast-seo-support"></div>';
@@ -131,7 +133,7 @@ class Support_Integration implements Integration_Interface {
 		\remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		$this->asset_manager->enqueue_script( 'support' );
 		$this->asset_manager->enqueue_style( 'support' );
-		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
 			$this->asset_manager->enqueue_style( 'black-friday-banner' );
 		}
 		$this->asset_manager->localize_script( 'support', 'wpseoScriptData', $this->get_script_data() );
@@ -159,7 +161,7 @@ class Support_Integration implements Integration_Interface {
 			'preferences'   => [
 				'isPremium'      => $this->product_helper->is_premium(),
 				'isRtl'          => \is_rtl(),
-				'promotions'     => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
+				'promotions'     => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 				'pluginUrl'      => \plugins_url( '', \WPSEO_FILE ),
 				'upsellSettings' => [
 					'actionId'     => 'load-nfd-ctb',

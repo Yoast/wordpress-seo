@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @covers \Yoast\WP\SEO\Integrations\Admin\Addon_Installation\Dialog_Integration
  */
-class Dialog_Integration_Test extends TestCase {
+final class Dialog_Integration_Test extends TestCase {
 
 	/**
 	 * The addon manager.
@@ -32,6 +32,8 @@ class Dialog_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -42,6 +44,8 @@ class Dialog_Integration_Test extends TestCase {
 
 	/**
 	 * Tests the register hooks method.
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 
@@ -52,6 +56,8 @@ class Dialog_Integration_Test extends TestCase {
 
 	/**
 	 * Tests if the install argument is not provided the dialog is not shown.
+	 *
+	 * @return void
 	 */
 	public function test_start_addon_installation_returns_when_install_url_parameter_is_false() {
 
@@ -65,6 +71,8 @@ class Dialog_Integration_Test extends TestCase {
 
 	/**
 	 * Tests if there are no subscriptions, the dialog is not shown.
+	 *
+	 * @return void
 	 */
 	public function test_start_addon_installation_when_no_owned_subscriptions() {
 
@@ -91,6 +99,8 @@ class Dialog_Integration_Test extends TestCase {
 
 	/**
 	 * Tests that the addon installation fetches the latest data from MyYoast.
+	 *
+	 * @return void
 	 */
 	public function test_start_addon_installation_bust_myyoast_cache_and_fetches_info() {
 

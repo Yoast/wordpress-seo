@@ -33,9 +33,11 @@ class WPSEO_Sitemaps_Admin {
 	 * if the post is being published, is a post type that a sitemap is built for
 	 * and is a post that is included in sitemaps.
 	 *
-	 * @param string   $new_status New post status.
-	 * @param string   $old_status Old post status.
-	 * @param \WP_Post $post       Post object.
+	 * @param string  $new_status New post status.
+	 * @param string  $old_status Old post status.
+	 * @param WP_Post $post       Post object.
+	 *
+	 * @return void
 	 */
 	public function status_transition( $new_status, $old_status, $post ) {
 		if ( $new_status !== 'publish' ) {
@@ -71,6 +73,8 @@ class WPSEO_Sitemaps_Admin {
 
 	/**
 	 * Notify Google of the updated sitemap.
+	 *
+	 * @return void
 	 */
 	public function ping_search_engines() {
 
@@ -81,7 +85,7 @@ class WPSEO_Sitemaps_Admin {
 		/**
 		 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default).
 		 *
-		 * @api boolean $allow_ping The boolean that is set to true by default.
+		 * @param bool $allow_ping The boolean that is set to true by default.
 		 */
 		if ( apply_filters( 'wpseo_allow_xml_sitemap_ping', true ) === false ) {
 			return;
@@ -103,9 +107,11 @@ class WPSEO_Sitemaps_Admin {
 	 * When importing is done, if we have a post_type that is saved in the sitemap
 	 * try to ping the search engines.
 	 *
-	 * @param string   $new_status New post status.
-	 * @param string   $old_status Old post status.
-	 * @param \WP_Post $post       Post object.
+	 * @param string  $new_status New post status.
+	 * @param string  $old_status Old post status.
+	 * @param WP_Post $post       Post object.
+	 *
+	 * @return void
 	 */
 	private function status_transition_bulk( $new_status, $old_status, $post ) {
 		$this->importing_post_types[] = get_post_type( $post );
@@ -114,6 +120,8 @@ class WPSEO_Sitemaps_Admin {
 
 	/**
 	 * After import finished, walk through imported post_types and update info.
+	 *
+	 * @return void
 	 */
 	public function status_transition_bulk_finished() {
 		if ( ! defined( 'WP_IMPORTING' ) ) {

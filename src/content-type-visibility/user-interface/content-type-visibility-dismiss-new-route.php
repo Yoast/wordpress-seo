@@ -2,12 +2,12 @@
 
 namespace Yoast\WP\SEO\Content_Type_Visibility\User_Interface;
 
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\Routes\Route_Interface;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 use WP_REST_Request;
 use WP_REST_Response;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
+use Yoast\WP\SEO\Main;
+use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
  * Handles the dismiss route for "New" badges of new content types in settings menu.
@@ -22,21 +22,21 @@ class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const ROUTE_PREFIX = 'new-content-type-visibility';
+	public const ROUTE_PREFIX = 'new-content-type-visibility';
 
 	/**
 	 * Represents post type dismiss route.
 	 *
 	 * @var string
 	 */
-	const POST_TYPE_DISMISS_ROUTE = self::ROUTE_PREFIX . '/dismiss-post-type';
+	public const POST_TYPE_DISMISS_ROUTE = self::ROUTE_PREFIX . '/dismiss-post-type';
 
 	/**
 	 * Represents taxonomy dismiss route.
 	 *
 	 * @var string
 	 */
-	const TAXONOMY_DISMISS_ROUTE = self::ROUTE_PREFIX . '/dismiss-taxonomy';
+	public const TAXONOMY_DISMISS_ROUTE = self::ROUTE_PREFIX . '/dismiss-taxonomy';
 
 	/**
 	 * Holds the Options_Helper instance.
@@ -101,9 +101,11 @@ class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 	 * @param string          $param   The parameter.
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @param string          $key     The key.
+	 *
+	 * @return bool
 	 */
 	public function validate_post_type( $param, $request, $key ) {
-		return post_type_exists( $param );
+		return \post_type_exists( $param );
 	}
 
 	/**
@@ -128,9 +130,11 @@ class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 	 * @param string          $param   The parameter.
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @param string          $key     The key.
+	 *
+	 * @return bool
 	 */
 	public function validate_taxonomy( $param, $request, $key ) {
-		return taxonomy_exists( $param );
+		return \taxonomy_exists( $param );
 	}
 
 	/**

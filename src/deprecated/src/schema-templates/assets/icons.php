@@ -17,17 +17,17 @@ class Icons {
 	/**
 	 * Represents the start of the SVG tag.
 	 */
-	const SVG_START_TAG = "<svg xmlns='http://www.w3.org/2000/svg' fill='none' style='fill:none' viewBox='0 0 24 24' stroke='currentColor' height='%SIZE%' width='%SIZE%' >";
+	public const SVG_START_TAG = "<svg xmlns='http://www.w3.org/2000/svg' fill='none' style='fill:none' viewBox='0 0 24 24' stroke='currentColor' height='%SIZE%' width='%SIZE%' >";
 
 	/**
 	 * The default height and width of an icon.
 	 */
-	const SIZE_DEFAULT = 24;
+	public const SIZE_DEFAULT = 24;
 
 	/**
 	 * The height and width of an icon in a variation picker.
 	 */
-	const SIZE_VARIATION = 36;
+	public const SIZE_VARIATION = 36;
 
 	/**
 	 * The Heroicons academic cap svg icon.

@@ -5,6 +5,7 @@ export const UPDATE_DATA = "SNIPPET_EDITOR_UPDATE_DATA";
 export const FIND_CUSTOM_FIELDS = "SNIPPET_EDITOR_FIND_CUSTOM_FIELDS";
 export const CUSTOM_FIELD_RESULTS = "SNIPPET_EDITOR_CUSTOM_FIELD_RESULTS";
 export const UPDATE_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE";
+export const UPDATE_REPLACEMENT_VARIABLES_BATCH = "SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLES_BATCH";
 export const HIDE_REPLACEMENT_VARIABLES = "SNIPPET_EDITOR_HIDE_REPLACEMENT_VARIABLES";
 export const REMOVE_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_REMOVE_REPLACEMENT_VARIABLE";
 export const REFRESH = "SNIPPET_EDITOR_REFRESH";
@@ -83,6 +84,20 @@ export function updateReplacementVariable( name, value, label = "", hidden = fal
 		value: unescapedValue,
 		label,
 		hidden,
+	};
+}
+
+/**
+ * Updates replacement variables in redux.
+ *
+ * @param {object} updatedVariables   The object containing all the replacement variables.
+ *
+ * @returns {Object} An action for redux.
+ */
+export function updateReplacementVariablesBatch( updatedVariables ) {
+	return {
+		type: UPDATE_REPLACEMENT_VARIABLES_BATCH,
+		updatedVariables,
 	};
 }
 

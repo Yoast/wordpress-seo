@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Page_Comments_Runner
  */
-class Page_Comments_Runner_Test extends TestCase {
+final class Page_Comments_Runner_Test extends TestCase {
 
 	/**
 	 * The Page_Comments_Runner instance to be tested.
@@ -22,6 +22,8 @@ class Page_Comments_Runner_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ class Page_Comments_Runner_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::run
 	 * @covers ::is_successful
+	 *
+	 * @return void
 	 */
 	public function test_returns_successful() {
 		Monkey\Functions\expect( 'get_option' )
@@ -54,6 +58,8 @@ class Page_Comments_Runner_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::run
 	 * @covers ::is_successful
+	 *
+	 * @return void
 	 */
 	public function test_retuns_not_successful() {
 		Monkey\Functions\expect( 'get_option' )

@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Models\Indexable;
 /**
  * Class Indexable_Term_Builder_Double.
  */
-class Indexable_Term_Builder_Double extends Indexable_Term_Builder {
+final class Indexable_Term_Builder_Double extends Indexable_Term_Builder {
 
 	/**
 	 * Converts the meta noindex value to the indexable value.

@@ -15,7 +15,7 @@ class Yoast_Notifications {
 	 *
 	 * @var string
 	 */
-	const ADMIN_PAGE = 'wpseo_dashboard';
+	public const ADMIN_PAGE = 'wpseo_dashboard';
 
 	/**
 	 * Total notifications count.
@@ -76,6 +76,8 @@ class Yoast_Notifications {
 
 	/**
 	 * Add hooks
+	 *
+	 * @return void
 	 */
 	private function add_hooks() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
@@ -88,7 +90,7 @@ class Yoast_Notifications {
 		}
 
 		// Needed for adminbar and Notifications page.
-		add_action( 'admin_init', [ __CLASS__, 'collect_notifications' ], 99 );
+		add_action( 'admin_init', [ self::class, 'collect_notifications' ], 99 );
 
 		// Add AJAX hooks.
 		add_action( 'wp_ajax_yoast_dismiss_notification', [ $this, 'ajax_dismiss_notification' ] );
@@ -97,6 +99,8 @@ class Yoast_Notifications {
 
 	/**
 	 * Enqueue assets.
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -106,6 +110,8 @@ class Yoast_Notifications {
 
 	/**
 	 * Handle ajax request to dismiss a notification.
+	 *
+	 * @return void
 	 */
 	public function ajax_dismiss_notification() {
 
@@ -122,6 +128,8 @@ class Yoast_Notifications {
 
 	/**
 	 * Handle ajax request to restore a notification.
+	 *
+	 * @return void
 	 */
 	public function ajax_restore_notification() {
 
@@ -140,6 +148,8 @@ class Yoast_Notifications {
 	 * Create AJAX response data.
 	 *
 	 * @param string $type Notification type.
+	 *
+	 * @return void
 	 */
 	private function output_ajax_response( $type ) {
 
@@ -215,6 +225,8 @@ class Yoast_Notifications {
 
 	/**
 	 * Collect the notifications and group them together.
+	 *
+	 * @return void
 	 */
 	public static function collect_notifications() {
 
@@ -223,12 +235,12 @@ class Yoast_Notifications {
 		$notifications            = $notification_center->get_sorted_notifications();
 		self::$notification_count = count( $notifications );
 
-		self::$errors           = array_filter( $notifications, [ __CLASS__, 'filter_error_notifications' ] );
-		self::$dismissed_errors = array_filter( self::$errors, [ __CLASS__, 'filter_dismissed_notifications' ] );
+		self::$errors           = array_filter( $notifications, [ self::class, 'filter_error_notifications' ] );
+		self::$dismissed_errors = array_filter( self::$errors, [ self::class, 'filter_dismissed_notifications' ] );
 		self::$active_errors    = array_diff( self::$errors, self::$dismissed_errors );
 
-		self::$warnings           = array_filter( $notifications, [ __CLASS__, 'filter_warning_notifications' ] );
-		self::$dismissed_warnings = array_filter( self::$warnings, [ __CLASS__, 'filter_dismissed_notifications' ] );
+		self::$warnings           = array_filter( $notifications, [ self::class, 'filter_warning_notifications' ] );
+		self::$dismissed_warnings = array_filter( self::$warnings, [ self::class, 'filter_dismissed_notifications' ] );
 		self::$active_warnings    = array_diff( self::$warnings, self::$dismissed_warnings );
 	}
 

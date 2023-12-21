@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group generators
  * @group breadcrumbs
  */
-class Breadcrumbs_Generator_Test extends TestCase {
+final class Breadcrumbs_Generator_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -90,6 +90,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 
 	/**
 	 * Method that is called before each individual test case.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -118,6 +120,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 * @param bool   $breadcrumb_home Show the home breadcrumbs.
 	 * @param int    $front_page_id   The front page ID.
 	 * @param string $message         Message to show when test fails.
+	 *
+	 * @return void
 	 */
 	public function test_generate( $scenario, $page_for_posts, $breadcrumb_home, $front_page_id, $message ) {
 		$this->indexable                   = Mockery::mock( Indexable_Mock::class );
@@ -240,7 +244,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 *
 	 * @return array The data to use.
 	 */
-	public function generate_provider() {
+	public static function generate_provider() {
 		return [
 			'hide-blog-page' => [
 				'scenario'         => 'hide-blog-page',
@@ -321,6 +325,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 * @param bool   $is_paged     Is the page being paged.
 	 * @param int    $current_page The current page number.
 	 * @param array  $expected     The expected output.
+	 *
+	 * @return void
 	 */
 	public function test_with_date_archive( $scenario, $is_paged, $current_page, $expected ) {
 		$this->stubEscapeFunctions();
@@ -338,7 +344,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 *
 	 * @return array[] Test data to use.
 	 */
-	public function date_archive_provider() {
+	public static function date_archive_provider() {
 		return [
 			'for_day' => [
 				'scenario'     => 'day',
@@ -457,6 +463,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 * @param string $scenario     The scenario to set.
 	 * @param bool   $is_paged     When the page is paged.
 	 * @param bool   $current_page The current page number.
+	 *
+	 * @return void
 	 */
 	protected function setup_expectations_for_date_archive( $scenario, $is_paged, $current_page ) {
 		$this->indexable                   = Mockery::mock( Indexable_Mock::class );
@@ -561,6 +569,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 * Sets expectations based on the given scenario.
 	 *
 	 * @param string $scenario The scenario.
+	 *
+	 * @return void
 	 */
 	private function set_scenario( $scenario ) {
 		if ( $scenario === 'hide-blog-page' ) {

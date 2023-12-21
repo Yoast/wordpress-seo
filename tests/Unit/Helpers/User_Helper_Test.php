@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\User_Helper
  */
-class User_Helper_Test extends TestCase {
+final class User_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -24,6 +24,8 @@ class User_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ class User_Helper_Test extends TestCase {
 	 * And returns the return value of it.
 	 *
 	 * @covers ::get_meta
+	 *
+	 * @return void
 	 */
 	public function test_get_meta() {
 		Functions\expect( 'get_user_meta' )
@@ -51,6 +55,8 @@ class User_Helper_Test extends TestCase {
 	 * Tests that `count_posts` converts a string to an integer.
 	 *
 	 * @covers ::count_posts
+	 *
+	 * @return void
 	 */
 	public function test_count_user_posts() {
 		Functions\expect( 'count_user_posts' )
@@ -69,6 +75,8 @@ class User_Helper_Test extends TestCase {
 	 * And returns the return value of it.
 	 *
 	 * @covers ::get_the_author_meta
+	 *
+	 * @return void
 	 */
 	public function test_get_the_author_meta() {
 		Functions\expect( 'get_the_author_meta' )
@@ -85,6 +93,8 @@ class User_Helper_Test extends TestCase {
 	 * And returns the return value of it.
 	 *
 	 * @covers ::get_current_user_id
+	 *
+	 * @return void
 	 */
 	public function test_get_current_user_id() {
 		Functions\expect( 'get_current_user_id' )
@@ -100,6 +110,8 @@ class User_Helper_Test extends TestCase {
 	 * And returns the return value of it.
 	 *
 	 * @covers ::update_meta
+	 *
+	 * @return void
 	 */
 	public function test_update_meta() {
 		Functions\expect( 'update_user_meta' )
@@ -116,6 +128,8 @@ class User_Helper_Test extends TestCase {
 	 * And returns the return value of it.
 	 *
 	 * @covers ::delete_meta
+	 *
+	 * @return void
 	 */
 	public function test_delete_meta() {
 		Functions\expect( 'delete_user_meta' )

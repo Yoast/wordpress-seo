@@ -11,13 +11,15 @@ use WPSEO_Admin_Gutenberg_Compatibility_Notification;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Gutenberg_Compatibility_Notification_Double extends WPSEO_Admin_Gutenberg_Compatibility_Notification {
+final class Gutenberg_Compatibility_Notification_Double extends WPSEO_Admin_Gutenberg_Compatibility_Notification {
 
 	/**
 	 * Sets the dependency instances.
 	 *
 	 * @param WPSEO_Gutenberg_Compatibility $compatibility_checker The WPSEO_Gutenberg_Compatibility object.
 	 * @param Yoast_Notification_Center     $notification_center   The Yoast_Notification_Center object.
+	 *
+	 * @return void
 	 */
 	public function set_dependencies( $compatibility_checker, $notification_center ) {
 		$this->compatibility_checker = $compatibility_checker;

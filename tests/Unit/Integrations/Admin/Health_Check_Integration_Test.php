@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Integrations\Admin\Health_Check_Integration
  */
-class Health_Check_Integration_Test extends TestCase {
+final class Health_Check_Integration_Test extends TestCase {
 
 	/**
 	 * The Health_Check_Integration instance to be tested.
@@ -40,6 +40,8 @@ class Health_Check_Integration_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -61,6 +63,8 @@ class Health_Check_Integration_Test extends TestCase {
 	 * Checks if the integration has the Admin_Conditional (health check should only occur in the admin panel).
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_returns_admin_conditional() {
 		$actual   = $this->instance->get_conditionals();
@@ -73,6 +77,8 @@ class Health_Check_Integration_Test extends TestCase {
 	 * Checks if the register_hooks function hooks into WordPress correctly.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks_calls_wp_apply_filters() {
 		Monkey\Functions\expect( 'add_filter' )
@@ -89,6 +95,8 @@ class Health_Check_Integration_Test extends TestCase {
 	 * @covers ::add_health_checks
 	 * @covers ::is_valid_site_status_tests_array
 	 * @covers ::add_health_checks_to_site_status_tests
+	 *
+	 * @return void
 	 */
 	public function test_add_health_checks_generates_correct_array() {
 		$input = [
@@ -142,6 +150,8 @@ class Health_Check_Integration_Test extends TestCase {
 	 * @covers ::add_health_checks
 	 * @covers ::is_valid_site_status_tests_array
 	 * @covers ::add_health_checks_to_site_status_tests
+	 *
+	 * @return void
 	 */
 	public function test_other_type_returns_input() {
 		$input    = 'not-an-array';
@@ -158,6 +168,8 @@ class Health_Check_Integration_Test extends TestCase {
 	 * @covers ::add_health_checks
 	 * @covers ::is_valid_site_status_tests_array
 	 * @covers ::add_health_checks_to_site_status_tests
+	 *
+	 * @return void
 	 */
 	public function test_invalid_array_returns_array() {
 		$input    = [ 'some-other-array', 'structure' ];
@@ -174,6 +186,8 @@ class Health_Check_Integration_Test extends TestCase {
 	 * @covers ::add_health_checks
 	 * @covers ::is_valid_site_status_tests_array
 	 * @covers ::add_health_checks_to_site_status_tests
+	 *
+	 * @return void
 	 */
 	public function test_invalid_array_with_direct_returns_array() {
 		$input    = [

@@ -16,7 +16,7 @@ use Yoast_Notification_Center;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\WPML_WPSEO_Notification
  */
-class WPML_WPSEO_Notification_Test extends TestCase {
+final class WPML_WPSEO_Notification_Test extends TestCase {
 
 	/**
 	 * Yoast_Notification_Center mock.
@@ -48,6 +48,8 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -66,6 +68,8 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		self::assertInstanceOf(
@@ -86,6 +90,8 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 	 * Tests whether the right hooks and actions are registered.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_registers_the_right_hooks() {
 		Monkey\Actions\expectAdded( 'admin_notices' )
@@ -100,6 +106,8 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 	 * for the integration to load. E.g. when the WPML plugin is active.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_conditionals() {
 		$expected = [ WPML_Conditional::class ];
@@ -112,6 +120,8 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 	 *
 	 * @covers ::notify_not_installed
 	 * @covers ::get_notification
+	 *
+	 * @return void
 	 */
 	public function test_notifies_when_not_installed() {
 		$this->stubEscapeFunctions();
@@ -142,6 +152,8 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 	 *
 	 * @covers ::notify_not_installed
 	 * @covers ::get_notification
+	 *
+	 * @return void
 	 */
 	public function test_does_not_notify_when_installed() {
 		// Mock that Yoast SEO Multilingual plugin is installed and activated.

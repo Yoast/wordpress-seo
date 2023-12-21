@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\User_Interface\Introductions_Seen_Route
  */
-class Introductions_Seen_Route_Test extends TestCase {
+final class Introductions_Seen_Route_Test extends TestCase {
 
 	/**
 	 * Holds the instance.
@@ -33,26 +33,28 @@ class Introductions_Seen_Route_Test extends TestCase {
 	/**
 	 * Holds the user helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\User_Helper
+	 * @var Mockery\MockInterface|User_Helper
 	 */
 	private $user_helper;
 
 	/**
 	 * Holds the introductions seen repository.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository
+	 * @var Mockery\MockInterface|Introductions_Seen_Repository
 	 */
 	private $introductions_seen_repository;
 
 	/**
 	 * Holds the introductions seen repository.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Introductions\Application\Introductions_Collector
+	 * @var Mockery\MockInterface|Introductions_Collector
 	 */
 	private $introductions_collector;
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -70,6 +72,8 @@ class Introductions_Seen_Route_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -86,6 +90,8 @@ class Introductions_Seen_Route_Test extends TestCase {
 	 * Tests the get_conditionals function.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals( [], Introductions_Seen_Route::get_conditionals() );
@@ -95,6 +101,8 @@ class Introductions_Seen_Route_Test extends TestCase {
 	 * Tests the registration of the routes.
 	 *
 	 * @covers ::register_routes
+	 *
+	 * @return void
 	 */
 	public function test_register_routes() {
 		Functions\expect( 'register_rest_route' )
@@ -131,6 +139,8 @@ class Introductions_Seen_Route_Test extends TestCase {
 	 * Tests that the capability that is tested for is `edit_posts`.
 	 *
 	 * @covers ::permission_edit_posts
+	 *
+	 * @return void
 	 */
 	public function test_permission_manage_options() {
 		Functions\expect( 'current_user_can' )->once()->with( 'edit_posts' )->andReturn( true );
@@ -142,6 +152,8 @@ class Introductions_Seen_Route_Test extends TestCase {
 	 * Tests the set_introduction_seen route's happy path.
 	 *
 	 * @covers ::set_introduction_seen
+	 *
+	 * @return void
 	 */
 	public function test_set_introduction_seen() {
 		$user_id         = 1;
@@ -188,6 +200,8 @@ class Introductions_Seen_Route_Test extends TestCase {
 	 * Tests the set_introduction_seen route that failed.
 	 *
 	 * @covers ::set_introduction_seen
+	 *
+	 * @return void
 	 */
 	public function test_set_introduction_seen_failed() {
 		$user_id         = 1;
@@ -234,6 +248,8 @@ class Introductions_Seen_Route_Test extends TestCase {
 	 * Tests the set_introduction_seen route with error.
 	 *
 	 * @covers ::set_introduction_seen
+	 *
+	 * @return void
 	 */
 	public function test_set_wistia_embed_permission_with_error() {
 		$user_id         = -1;
@@ -267,6 +283,8 @@ class Introductions_Seen_Route_Test extends TestCase {
 	 * Tests the set_introduction_seen route's happy path.
 	 *
 	 * @covers ::set_introduction_seen
+	 *
+	 * @return void
 	 */
 	public function test_set_introduction_seen_invalid_id() {
 		$introduction_id = 'intro';

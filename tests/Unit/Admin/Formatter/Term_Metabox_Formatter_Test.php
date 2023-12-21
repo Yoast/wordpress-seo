@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group Formatter
  */
-class Term_Metabox_Formatter_Test extends TestCase {
+final class Term_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -41,6 +41,8 @@ class Term_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -56,6 +58,8 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	 * Get the image URL when there are no images in the description.
 	 *
 	 * @covers ::get_image_url
+	 *
+	 * @return void
 	 */
 	public function test_get_image_url_description_has_no_images() {
 		$expected = null;
@@ -74,6 +78,8 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	 * Get the image URL when there is one image in the description.
 	 *
 	 * @covers ::get_image_url
+	 *
+	 * @return void
 	 */
 	public function test_get_image_url_description_has_one_image() {
 		$expected = 'https://example.com/media/first_image.jpg';
@@ -92,6 +98,8 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	 * Get the image URL when there are multiple images in the description.
 	 *
 	 * @covers ::get_image_url
+	 *
+	 * @return void
 	 */
 	public function test_get_image_url_description_has_multiple_images() {
 		$expected = 'https://example.com/media/first_image.jpg';

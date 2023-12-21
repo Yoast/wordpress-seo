@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Robots_Txt_Conditional
  */
-class Robots_Txt_Conditional_Test extends TestCase {
+final class Robots_Txt_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the Front_End_Conditional instance.
@@ -33,6 +33,8 @@ class Robots_Txt_Conditional_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -46,6 +48,8 @@ class Robots_Txt_Conditional_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf( Robots_Txt_Conditional::class, $this->instance );
@@ -59,6 +63,8 @@ class Robots_Txt_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when the front end conditional is met.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_front_end() {
 		$this->front_end_conditional
@@ -74,6 +80,8 @@ class Robots_Txt_Conditional_Test extends TestCase {
 	 *
 	 * @covers ::is_met
 	 * @covers ::is_file_editor_page
+	 *
+	 * @return void
 	 */
 	public function test_is_met() {
 		global $pagenow;
@@ -95,6 +103,8 @@ class Robots_Txt_Conditional_Test extends TestCase {
 	 *
 	 * @covers ::is_met
 	 * @covers ::is_file_editor_page
+	 *
+	 * @return void
 	 */
 	public function test_is_met_subdomain_network_admin() {
 		global $pagenow;
@@ -125,6 +135,8 @@ class Robots_Txt_Conditional_Test extends TestCase {
 	 *
 	 * @covers ::is_met
 	 * @covers ::is_file_editor_page
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met_other_tool_page() {
 		global $pagenow;
@@ -146,6 +158,8 @@ class Robots_Txt_Conditional_Test extends TestCase {
 	 *
 	 * @covers ::is_met
 	 * @covers ::is_file_editor_page
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met_other_yoast_page() {
 		global $pagenow;
@@ -166,6 +180,8 @@ class Robots_Txt_Conditional_Test extends TestCase {
 	 *
 	 * @covers ::is_met
 	 * @covers ::is_file_editor_page
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met_other_page() {
 		global $pagenow;
@@ -185,6 +201,8 @@ class Robots_Txt_Conditional_Test extends TestCase {
 	 *
 	 * @covers ::is_met
 	 * @covers ::is_file_editor_page
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met_subdomain_non_network_admin() {
 		global $pagenow;

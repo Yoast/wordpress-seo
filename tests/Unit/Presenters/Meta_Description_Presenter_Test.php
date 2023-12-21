@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group twitter
  * @group twitter-description
  */
-class Meta_Description_Presenter_Test extends TestCase {
+final class Meta_Description_Presenter_Test extends TestCase {
 
 	/**
 	 * The WPSEO Replace Vars object.
@@ -51,6 +51,8 @@ class Meta_Description_Presenter_Test extends TestCase {
 
 	/**
 	 * Setup of the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -78,6 +80,8 @@ class Meta_Description_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_and_filter_happy_path() {
 		$this->indexable_presentation->meta_description = 'the_meta_description';
@@ -86,7 +90,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 			->expects( 'replace' )
 			->once()
 			->andReturnUsing(
-				static function( $replace_string ) {
+				static function ( $replace_string ) {
 					return $replace_string;
 				}
 			);
@@ -112,6 +116,8 @@ class Meta_Description_Presenter_Test extends TestCase {
 	 * Tests the presenter of the meta description when the meta description is empty.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_meta_description_not_string() {
 		$this->indexable_presentation->meta_description = '';
@@ -120,7 +126,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 			->expects( 'replace' )
 			->once()
 			->andReturnUsing(
-				static function( $replace_string ) {
+				static function ( $replace_string ) {
 					return $replace_string;
 				}
 			);
@@ -144,6 +150,8 @@ class Meta_Description_Presenter_Test extends TestCase {
 	 * and the current user can manage the options.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_meta_description_not_string_show_notice() {
 		$this->indexable_presentation->meta_description = '';
@@ -152,7 +160,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 			->expects( 'replace' )
 			->once()
 			->andReturnUsing(
-				static function( $replace_string ) {
+				static function ( $replace_string ) {
 					return $replace_string;
 				}
 			);
@@ -178,6 +186,8 @@ class Meta_Description_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_and_filter_with_class() {
 		$this->indexable_presentation->meta_description = 'the_meta_description';
@@ -186,7 +196,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 			->expects( 'replace' )
 			->once()
 			->andReturnUsing(
-				static function( $replace_string ) {
+				static function ( $replace_string ) {
 					return $replace_string;
 				}
 			);

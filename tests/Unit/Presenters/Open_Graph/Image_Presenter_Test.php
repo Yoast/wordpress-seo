@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group open-graph
  * @group open-graph-image
  */
-class Image_Presenter_Test extends TestCase {
+final class Image_Presenter_Test extends TestCase {
 
 	/**
 	 * The image presenter instance.
@@ -36,6 +36,8 @@ class Image_Presenter_Test extends TestCase {
 
 	/**
 	 * Setup some mocks.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -50,6 +52,8 @@ class Image_Presenter_Test extends TestCase {
 	 * Tests the present when no image is given.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_with_no_set_images() {
 		$this->presentation->open_graph_images = [];
@@ -61,6 +65,8 @@ class Image_Presenter_Test extends TestCase {
 	 * Tests the presentation with a set image.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_with_a_set_image() {
 		$this->stubEscapeFunctions();
@@ -89,6 +95,8 @@ class Image_Presenter_Test extends TestCase {
 	 * Tests the situation where the apply_filters returns a non-string value.
 	 *
 	 * @covers ::filter
+	 *
+	 * @return void
 	 */
 	public function test_filter_wrong_image_url_returned() {
 		$image = [ 'url' => 'https://example.com/image.jpg' ];
@@ -107,6 +115,8 @@ class Image_Presenter_Test extends TestCase {
 	 * Tests the situation where the apply_filters returns another image.
 	 *
 	 * @covers ::filter
+	 *
+	 * @return void
 	 */
 	public function test_filter() {
 		$image = [ 'url' => 'https://example.com/image.jpg' ];
@@ -125,6 +135,8 @@ class Image_Presenter_Test extends TestCase {
 	 * Tests the retrieval of the raw value.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$raw_image = [
@@ -149,6 +161,8 @@ class Image_Presenter_Test extends TestCase {
 	 * Tests the presentation with a set image when the admin bar is showing a class is added.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_with_a_set_image_with_class() {
 		$this->stubEscapeFunctions();
@@ -177,6 +191,8 @@ class Image_Presenter_Test extends TestCase {
 	 * Tests the presentation with an attachment page.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_with_attachment_page() {
 		$this->stubEscapeFunctions();

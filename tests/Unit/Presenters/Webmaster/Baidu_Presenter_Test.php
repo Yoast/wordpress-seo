@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group webmaster
  */
-class Baidu_Presenter_Test extends TestCase {
+final class Baidu_Presenter_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -41,6 +41,8 @@ class Baidu_Presenter_Test extends TestCase {
 
 	/**
 	 * Setup of the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -61,6 +63,8 @@ class Baidu_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'baidu' );
@@ -78,6 +82,8 @@ class Baidu_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_empty_presentation() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( '' );
@@ -92,6 +98,8 @@ class Baidu_Presenter_Test extends TestCase {
 	 * Tests retrieving a Baidu site verification string.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'baidu' );
@@ -106,6 +114,8 @@ class Baidu_Presenter_Test extends TestCase {
 	 * Test getting an empty value.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get_empty() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( '' );
@@ -121,6 +131,8 @@ class Baidu_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'baidu' );

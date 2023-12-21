@@ -25,7 +25,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
+final class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 	/**
 	 * The indexable builder mock.
@@ -64,6 +64,8 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 	/**
 	 * Set up the mocks before each test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -90,6 +92,8 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$instance = $this->instance;
@@ -107,6 +111,8 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_unindexed_post_type_archives
 	 * @covers ::get_post_types_with_archive_pages
 	 * @covers ::get_indexed_post_type_archives
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed() {
 		$indexed_post_types = [ 'books' ];
@@ -124,6 +130,8 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * Tests the get total unindexed method with cache.
 	 *
 	 * @covers ::get_total_unindexed
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed_cached() {
 		Monkey\Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_post_type_archives' )->andReturn( '10' );
@@ -139,6 +147,8 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_unindexed_post_type_archives
 	 * @covers ::get_post_types_with_archive_pages
 	 * @covers ::get_indexed_post_type_archives
+	 *
+	 * @return void
 	 */
 	public function test_index() {
 		$indexed_post_types   = [ 'movies' ];
@@ -166,6 +176,8 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_unindexed_post_type_archives
 	 * @covers ::get_post_types_with_archive_pages
 	 * @covers ::get_indexed_post_type_archives
+	 *
+	 * @return void
 	 */
 	public function test_index_when_limit_is_set_to_a_negative_number() {
 		$indexed_post_types   = [ 'movies' ];
@@ -194,6 +206,8 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_unindexed_post_type_archives
 	 * @covers ::get_post_types_with_archive_pages
 	 * @covers ::get_indexed_post_type_archives
+	 *
+	 * @return void
 	 */
 	public function test_index_when_limit_is_not_an_integer() {
 
@@ -223,6 +237,8 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_unindexed_post_type_archives
 	 * @covers ::get_post_types_with_archive_pages
 	 * @covers ::get_indexed_post_type_archives
+	 *
+	 * @return void
 	 */
 	public function test_index_no_indexables_created() {
 		$indexed_post_types = [ 'movies', 'books', 'posts' ];
@@ -242,9 +258,11 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * Sets the expectations for the indexable repository.
 	 *
 	 * @param array $post_types The post types for which to return indexables.
+	 *
+	 * @return void
 	 */
 	private function set_expectations_for_repository( $post_types ) {
-		$callback = static function( $post_type ) {
+		$callback = static function ( $post_type ) {
 			return [ 'object_sub_type' => $post_type ];
 		};
 		$results  = \array_map( $callback, $post_types );

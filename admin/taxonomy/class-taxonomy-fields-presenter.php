@@ -60,8 +60,8 @@ class WPSEO_Taxonomy_Fields_Presenter {
 
 		$label            = $this->get_label( $field_configuration['label'], $esc_field_name );
 		$field            = $this->get_field( $field_configuration['type'], $esc_field_name, $this->get_field_value( $field_name ), $options );
-		$help_content     = isset( $field_configuration['options']['help'] ) ? $field_configuration['options']['help'] : '';
-		$help_button_text = isset( $field_configuration['options']['help-button'] ) ? $field_configuration['options']['help-button'] : '';
+		$help_content     = ( $field_configuration['options']['help'] ?? '' );
+		$help_button_text = ( $field_configuration['options']['help-button'] ?? '' );
 		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $help_content );
 
 		return $this->parse_row( $label, $help, $field );
@@ -110,28 +110,28 @@ class WPSEO_Taxonomy_Fields_Presenter {
 				$field .= '<textarea class="large-text" rows="' . esc_attr( $rows ) . '" id="' . $field_name . '" name="' . $field_name . '"' . $aria_describedby . '>' . esc_textarea( $field_value ) . '</textarea>';
 				break;
 			case 'upload':
-				$field .= '<input' .
-					' id="' . $field_name . '"' .
-					' type="text"' .
-					' size="36"' .
-					' name="' . $field_name . '"' .
-					' value="' . esc_attr( $field_value ) . '"' . $aria_describedby . '' .
-					' readonly="readonly"' .
-					' /> ';
-				$field .= '<input' .
-					' id="' . esc_attr( $field_name ) . '_button"' .
-					' class="wpseo_image_upload_button button"' .
-					' data-target="' . esc_attr( $field_name ) . '"' .
-					' data-target-id="hidden_' . esc_attr( $field_name ) . '-id"' .
-					' type="button"' .
-					' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"' .
-					' /> ';
-				$field .= '<input' .
-					' id="' . esc_attr( $field_name ) . '_button"' .
-					' class="wpseo_image_remove_button button"' .
-					' type="button"' .
-					' value="' . esc_attr__( 'Clear Image', 'wordpress-seo' ) . '"' .
-					' />';
+				$field .= '<input'
+					. ' id="' . $field_name . '"'
+					. ' type="text"'
+					. ' size="36"'
+					. ' name="' . $field_name . '"'
+					. ' value="' . esc_attr( $field_value ) . '"' . $aria_describedby . ''
+					. ' readonly="readonly"'
+					. ' /> ';
+				$field .= '<input'
+					. ' id="' . esc_attr( $field_name ) . '_button"'
+					. ' class="wpseo_image_upload_button button"'
+					. ' data-target="' . esc_attr( $field_name ) . '"'
+					. ' data-target-id="hidden_' . esc_attr( $field_name ) . '-id"'
+					. ' type="button"'
+					. ' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"'
+					. ' /> ';
+				$field .= '<input'
+					. ' id="' . esc_attr( $field_name ) . '_button"'
+					. ' class="wpseo_image_remove_button button"'
+					. ' type="button"'
+					. ' value="' . esc_attr__( 'Clear Image', 'wordpress-seo' ) . '"'
+					. ' />';
 				break;
 			case 'select':
 				if ( is_array( $options ) && $options !== [] ) {

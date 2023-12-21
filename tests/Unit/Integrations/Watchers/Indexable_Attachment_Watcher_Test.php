@@ -23,7 +23,7 @@ use Yoast_Notification_Center;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Attachment_Watcher
  */
-class Indexable_Attachment_Watcher_Test extends TestCase {
+final class Indexable_Attachment_Watcher_Test extends TestCase {
 
 	/**
 	 * The indexing helper.
@@ -55,6 +55,8 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -74,6 +76,8 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	 * Tests the get_conditionals method.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertSame( [ Migrations_Conditional::class ], Indexable_Attachment_Watcher::get_conditionals() );
@@ -83,6 +87,8 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	 * Tests the register_hooks method.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 
@@ -96,7 +102,7 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function check_option_provider() {
+	public static function check_option_provider() {
 		return [
 			'Old and new values are not arrays' => [
 				'old_value'                => 1,
@@ -197,6 +203,8 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	 * @param int   $attachment_cleanup_times Number of times attachment_cleanup should be called.
 	 * @param mixed $wp_next_scheduled        Value of wp_next_scheduled.
 	 * @param int   $schedule_event_times     Number of times schedule_event should be called.
+	 *
+	 * @return void
 	 */
 	public function test_check_option( $old_value, $new_value, $delete_transient_times, $set_reason_times, $attachment_cleanup_times, $wp_next_scheduled, $schedule_event_times ) {
 

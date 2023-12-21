@@ -60,6 +60,8 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Add hooks late enough for taxonomy object to be available for checks.
+	 *
+	 * @return void
 	 */
 	public function admin_init() {
 
@@ -80,6 +82,8 @@ class WPSEO_Taxonomy {
 	 * Show the SEO inputs for term.
 	 *
 	 * @param stdClass|WP_Term $term Term to show the edit boxes for.
+	 *
+	 * @return void
 	 */
 	public function term_metabox( $term ) {
 		if ( WPSEO_Metabox::is_internet_explorer() ) {
@@ -121,6 +125,8 @@ class WPSEO_Taxonomy {
 	 * Queue assets for taxonomy screens.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @return void
 	 */
 	public function admin_enqueue_scripts() {
 
@@ -165,7 +171,7 @@ class WPSEO_Taxonomy {
 						],
 						'shortcodes' => [
 							'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
-							'wpseo_filter_shortcodes_nonce' => \wp_create_nonce( 'wpseo-filter-shortcodes' ),
+							'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
 						],
 					],
 					'worker'  => [
@@ -180,10 +186,10 @@ class WPSEO_Taxonomy {
 					'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 				],
 				'metabox'           => $this->localize_term_scraper_script( $tag_id ),
-				'userLanguageCode'  => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+				'userLanguageCode'  => WPSEO_Language_Utils::get_language( get_user_locale() ),
 				'isTerm'            => true,
 				'postId'            => $tag_id,
-				'usedKeywordsNonce' => \wp_create_nonce( 'wpseo-keyword-usage' ),
+				'usedKeywordsNonce' => wp_create_nonce( 'wpseo-keyword-usage' ),
 				'linkParams'        => WPSEO_Shortlinker::get_query_params(),
 			];
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
@@ -201,6 +207,8 @@ class WPSEO_Taxonomy {
 	 * @param int    $term_id  ID of the term to save data for.
 	 * @param int    $tt_id    The taxonomy_term_id for the term.
 	 * @param string $taxonomy The taxonomy the term belongs to.
+	 *
+	 * @return void
 	 */
 	public function update_term( $term_id, $tt_id, $taxonomy ) {
 		// Bail if this is a multisite installation and the site has been switched.
@@ -213,8 +221,8 @@ class WPSEO_Taxonomy {
 		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: Nonce is already checked by WordPress before executing this action.
 			if ( isset( $_POST[ $key ] ) && is_string( $_POST[ $key ] ) ) {
-				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: $data is getting sanitized later.
-				$data                  = \wp_unslash( $_POST[ $key ] );
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: $data is getting sanitized later.
+				$data                  = wp_unslash( $_POST[ $key ] );
 				$new_meta_data[ $key ] = ( $key !== 'wpseo_canonical' ) ? WPSEO_Utils::sanitize_text_field( $data ) : WPSEO_Utils::sanitize_url( $data );
 			}
 
@@ -252,6 +260,8 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Allows post-kses-filtered HTML in term descriptions.
+	 *
+	 * @return void
 	 */
 	public function custom_category_descriptions_allow_html() {
 		remove_filter( 'term_description', 'wp_kses_data' );
@@ -262,6 +272,8 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Output the WordPress editor.
+	 *
+	 * @return void
 	 */
 	public function custom_category_description_editor() {
 		wp_editor( '', 'description' );
@@ -389,7 +401,7 @@ class WPSEO_Taxonomy {
 	private static function get_tag_id() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['tag_ID'] ) && is_string( $_GET['tag_ID'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are casting to an integer.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are casting to an integer.
 			$tag_id = (int) wp_unslash( $_GET['tag_ID'] );
 			if ( $tag_id > 0 ) {
 				return $tag_id;

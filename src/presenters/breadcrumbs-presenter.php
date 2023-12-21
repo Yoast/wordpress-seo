@@ -101,9 +101,8 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the Yoast SEO breadcrumbs class.
 		 *
+		 * @param string                 $output       The HTML output.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
-		 *
-		 * @api string $output The HTML output.
 		 */
 		return \apply_filters( 'wpseo_breadcrumb_output', $output, $this->presentation );
 	}
@@ -158,9 +157,8 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_breadcrumb_single_link' - Allow changing of each link being put out by the Yoast SEO breadcrumbs class.
 		 *
-		 * @param array $link The link array.
-		 *
-		 * @api string $link_output The output string.
+		 * @param string $link_output The output string.
+		 * @param array  $link        The breadcrumb link array.
 		 */
 		return \apply_filters( 'wpseo_breadcrumb_single_link', $link, $breadcrumb );
 	}
@@ -175,7 +173,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			/**
 			 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the Yoast SEO breadcrumbs wrapper element.
 			 *
-			 * @api string $unsigned ID to add to the wrapper element.
+			 * @param string $unsigned ID to add to the wrapper element.
 			 */
 			$this->id = \apply_filters( 'wpseo_breadcrumb_output_id', '' );
 			if ( ! \is_string( $this->id ) ) {
@@ -200,7 +198,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			/**
 			 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the Yoast SEO breadcrumbs wrapper element.
 			 *
-			 * @api string $unsigned Class to add to the wrapper element.
+			 * @param string $unsigned Class to add to the wrapper element.
 			 */
 			$this->class = \apply_filters( 'wpseo_breadcrumb_output_class', '' );
 			if ( ! \is_string( $this->class ) ) {

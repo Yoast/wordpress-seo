@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group third-party
  */
-class Web_Stories_Test extends TestCase {
+final class Web_Stories_Test extends TestCase {
 
 	/**
 	 * The Web Stories integration.
@@ -42,6 +42,8 @@ class Web_Stories_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -54,6 +56,8 @@ class Web_Stories_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -66,6 +70,8 @@ class Web_Stories_Test extends TestCase {
 	 * Tests constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -78,6 +84,8 @@ class Web_Stories_Test extends TestCase {
 	 * Tests register hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -97,6 +105,8 @@ class Web_Stories_Test extends TestCase {
 	 * Tests filter_frontend_presenters method for stories.
 	 *
 	 * @covers ::filter_frontend_presenters
+	 *
+	 * @return void
 	 */
 	public function test_filter_frontend_presenters_stories() {
 		$context                             = new Meta_Tags_Context_Mock();
@@ -148,6 +158,8 @@ class Web_Stories_Test extends TestCase {
 	 * Tests filter_frontend_presenters method for other types.
 	 *
 	 * @covers ::filter_frontend_presenters
+	 *
+	 * @return void
 	 */
 	public function test_filter_frontend_presenters_other() {
 		$context                             = new Meta_Tags_Context_Mock();
@@ -169,6 +181,8 @@ class Web_Stories_Test extends TestCase {
 	 * Tests web_stories_story_head integration.
 	 *
 	 * @covers ::web_stories_story_head
+	 *
+	 * @return void
 	 */
 	public function test_web_stories_story_head() {
 		$this->instance->web_stories_story_head();
@@ -181,6 +195,8 @@ class Web_Stories_Test extends TestCase {
 	 * Tests filtering the meta description.
 	 *
 	 * @covers ::filter_meta_description
+	 *
+	 * @return void
 	 */
 	public function test_filter_meta_description_prefilled() {
 		$presentation = Mockery::mock( Indexable_Presentation::class );
@@ -192,6 +208,8 @@ class Web_Stories_Test extends TestCase {
 	 * Tests filtering the meta description.
 	 *
 	 * @covers ::filter_meta_description
+	 *
+	 * @return void
 	 */
 	public function test_filter_meta_description_different_object_sub_type() {
 		$indexable      = Mockery::mock( Indexable::class );
@@ -211,6 +229,8 @@ class Web_Stories_Test extends TestCase {
 	 * Tests filtering the meta description.
 	 *
 	 * @covers ::filter_meta_description
+	 *
+	 * @return void
 	 */
 	public function test_filter_meta_description() {
 		$indexable      = Mockery::mock( Indexable::class );
@@ -233,6 +253,8 @@ class Web_Stories_Test extends TestCase {
 	 * Tests filter schema article post types for stories.
 	 *
 	 * @covers ::filter_schema_article_type
+	 *
+	 * @return void
 	 */
 	public function test_filter_schema_article_type_stories() {
 		Mockery::namedMock( '\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
@@ -253,6 +275,8 @@ class Web_Stories_Test extends TestCase {
 	 * Tests filter schema article post types for other indexables.
 	 *
 	 * @covers ::filter_schema_article_type
+	 *
+	 * @return void
 	 */
 	public function test_filter_schema_article_type_others() {
 		Mockery::namedMock( '\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
@@ -269,5 +293,5 @@ class Web_Stories_Test extends TestCase {
 
 // phpcs:ignore -- Convert this to a double if more logic is needed.
 class Story_Post_Type_Stub {
-	const POST_TYPE_SLUG = 'web-story';
+	public const POST_TYPE_SLUG = 'web-story';
 }

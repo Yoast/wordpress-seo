@@ -10,10 +10,12 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-class Build_For_Home_Page_Test extends Abstract_Indexable_Builder_TestCase {
+final class Build_For_Home_Page_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
 	 * Sets up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -28,6 +30,8 @@ class Build_For_Home_Page_Test extends Abstract_Indexable_Builder_TestCase {
 	 * @covers ::build_for_home_page
 	 * @covers ::build
 	 * @covers ::ensure_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_for_home_page() {
 
@@ -40,6 +44,8 @@ class Build_For_Home_Page_Test extends Abstract_Indexable_Builder_TestCase {
 	 * Expectation for build method.
 	 *
 	 * @param array $defaults The defaults to expect.
+	 *
+	 * @return void
 	 */
 	public function expect_build( $defaults ) {
 		$this->expect_ensure_indexable( $defaults, $this->indexable );

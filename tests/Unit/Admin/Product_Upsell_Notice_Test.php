@@ -11,12 +11,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_Product_Upsell_Notice
  */
-class Product_Upsell_Notice_Test extends TestCase {
+final class Product_Upsell_Notice_Test extends TestCase {
 
 	/**
 	 * Test the dismiss_notice_listener function.
 	 *
 	 * @covers ::dismiss_notice_listener
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_notice_listener() {
 		$_GET['_wpnonce']      = 'test-nonce';
@@ -42,6 +44,8 @@ class Product_Upsell_Notice_Test extends TestCase {
 	 * Test the dismiss_notice_listener function when the nonce is null.
 	 *
 	 * @covers ::dismiss_notice_listener
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_notice_listener_nonce_is_null() {
 		$_GET['_wpnonce']      = null;
@@ -56,6 +60,8 @@ class Product_Upsell_Notice_Test extends TestCase {
 	 * Test the dismiss_notice_listener function when the nonce is incorrect.
 	 *
 	 * @covers ::dismiss_notice_listener
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_notice_listener_wrong_nonce() {
 		$_GET['_wpnonce']      = 'wrong-nonce';
@@ -73,6 +79,8 @@ class Product_Upsell_Notice_Test extends TestCase {
 	 * Test the dismiss_notice_listener function when the yoast_dismiss GET parameter is wrong.
 	 *
 	 * @covers ::dismiss_notice_listener
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_notice_listener_no_dismiss_get_parameter() {
 		$_GET['_wpnonce']      = 'test-nonce';
@@ -90,6 +98,8 @@ class Product_Upsell_Notice_Test extends TestCase {
 	 * Test the dismiss_notice_listener function when the yoast_dismiss GET parameter is null.
 	 *
 	 * @covers ::dismiss_notice_listener
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_notice_listener_dismiss_get_parameter_is_null() {
 		$_GET['_wpnonce']      = 'test-nonce';
