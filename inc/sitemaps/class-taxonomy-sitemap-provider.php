@@ -212,21 +212,23 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses() );
 
-		$replacements = [
-			'post_modified_gmt',
-			$wpdb->posts,
-			$wpdb->term_relationships,
-			'object_id',
-			'ID',
-			$wpdb->term_taxonomy,
-			'term_taxonomy_id',
-			'term_taxonomy_id',
-			'taxonomy',
-			'term_id',
-			'post_status',
-			...$post_statuses,
-			'post_password',
-		];
+		$replacements = array_merge(
+			[
+				'post_modified_gmt',
+				$wpdb->posts,
+				$wpdb->term_relationships,
+				'object_id',
+				'ID',
+				$wpdb->term_taxonomy,
+				'term_taxonomy_id',
+				'term_taxonomy_id',
+				'taxonomy',
+				'term_id',
+				'post_status',
+			],
+			$post_statuses,
+			[ 'post_password' ]
+		);
 
 		/**
 		 * Filter: 'wpseo_exclude_from_sitemap_by_term_ids' - Allow excluding terms by ID.

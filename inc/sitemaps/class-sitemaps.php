@@ -525,18 +525,22 @@ class WPSEO_Sitemaps {
 
 			if ( ! empty( $post_type_names ) ) {
 				$post_statuses = array_map( 'esc_sql', self::get_post_statuses() );
-				$replacements  = [
-					'post_type',
-					'post_modified_gmt',
-					'date',
-					$wpdb->posts,
-					'post_status',
-					...$post_statuses,
-					'post_type',
-					...$post_type_names,
-					'post_type',
-					'date',
-				];
+				$replacements  = array_merge(
+					[
+						'post_type',
+						'post_modified_gmt',
+						'date',
+						$wpdb->posts,
+						'post_status',
+					],
+					$post_statuses,
+					[ 'post_type' ],
+					array_keys( $post_type_names ),
+					[
+						'post_type',
+						'date',
+					]
+				);
 
 				//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
 				//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
