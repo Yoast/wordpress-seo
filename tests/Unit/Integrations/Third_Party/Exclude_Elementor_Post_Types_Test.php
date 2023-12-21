@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\Exclude_Elementor_Post_Types
  */
-class Exclude_Elementor_Post_Types_Test extends TestCase {
+final class Exclude_Elementor_Post_Types_Test extends TestCase {
 
 	/**
 	 * The instance under test.
@@ -25,6 +25,8 @@ class Exclude_Elementor_Post_Types_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ class Exclude_Elementor_Post_Types_Test extends TestCase {
 	 * the Elementor plugin is installed and activated.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		self::assertEquals(
@@ -49,6 +53,8 @@ class Exclude_Elementor_Post_Types_Test extends TestCase {
 	 * Tests that the correct post types are excluded.
 	 *
 	 * @covers ::exclude_post_types
+	 *
+	 * @return void
 	 */
 	public function test_exclude_elementor_post_types() {
 		$excluded_post_types = [];

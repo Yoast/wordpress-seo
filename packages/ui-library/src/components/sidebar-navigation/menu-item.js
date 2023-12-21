@@ -17,6 +17,7 @@ const MenuItem = ( { label, icon: Icon = null, children = null, defaultOpen = tr
 	return (
 		<div>
 			<button
+				type="button"
 				className="yst-group yst-flex yst-w-full yst-items-center yst-justify-between yst-gap-3 yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-text-slate-800 yst-rounded-md yst-no-underline hover:yst-text-slate-900 hover:yst-bg-slate-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
 				onClick={ toggleOpen }
 				aria-expanded={ isOpen }

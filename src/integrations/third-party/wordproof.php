@@ -49,7 +49,7 @@ class Wordproof implements Integration_Interface {
 	 * @param Wordproof_Helper          $wordproof     The WordProof helper instance.
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager The WPSEO admin asset manager instance.
 	 */
-	public function __construct( Wordproof_Helper $wordproof, WPSEO_Admin_Asset_Manager $asset_manager = null ) {
+	public function __construct( Wordproof_Helper $wordproof, ?WPSEO_Admin_Asset_Manager $asset_manager = null ) {
 		if ( ! $asset_manager ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
 		}
@@ -89,10 +89,10 @@ class Wordproof implements Integration_Interface {
 		 */
 		\add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ], 10, 0 );
 
-		if ( version_compare( strtok( get_bloginfo( 'version' ), '-' ), '6.3', '>=' ) ) {
+		if ( \version_compare( \strtok( \get_bloginfo( 'version' ), '-' ), '6.3', '>=' ) ) {
 			\add_action(
 				'wp_enqueue_scripts',
-				function() {
+				static function () {
 					\wp_script_add_data( WPSEO_Admin_Asset_Manager::PREFIX . 'wordproof-uikit', 'strategy', 'async' );
 				},
 				11,
@@ -136,6 +136,8 @@ class Wordproof implements Integration_Interface {
 
 	/**
 	 * Initializes the WordProof WordPress SDK.
+	 *
+	 * @return void
 	 */
 	public function sdk_setup() {
 
@@ -152,6 +154,8 @@ class Wordproof implements Integration_Interface {
 	 *
 	 * @param int $old_post_id The old post id.
 	 * @param int $new_post_id The new post id.
+	 *
+	 * @return void
 	 */
 	public function disable_timestamp_for_previous_legal_page( $old_post_id, $new_post_id ) {
 

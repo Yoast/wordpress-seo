@@ -1,74 +1,91 @@
-import React from "react";
 import { useSelect } from "@wordpress/data";
-import { shallow } from "enzyme";
-import FleschReadingEase from "../../../src/insights/components/flesch-reading-ease";
-import InsightsModal from "../../../src/insights/components/insights-modal";
-import TextFormality from "../../../src/insights/components/text-formality";
-import TextLength from "../../../src/insights/components/text-length";
 import { enableFeatures } from "@yoast/feature-flag";
+import { useToggleState } from "@yoast/ui-library";
+import { DIFFICULTY } from "yoastseo";
+import EditorModal from "../../../src/components/modals/editorModals/EditorModal";
+import InsightsModal from "../../../src/insights/components/insights-modal";
+import { fireEvent, render, screen, waitFor } from "../../test-utils";
 
-jest.mock( "@wordpress/data", () => (
-	{
-		withSelect: jest.fn(),
-		withDispatch: jest.fn(),
-		useSelect: jest.fn(),
-	}
-) );
+/**
+ * Mocked EditorModal container.
+ *
+ * Circumvent the WP data withSelect and withDispatch mocking problems.
+ * As `jest.requireActual` does not seem to work on WP data.
+ *
+ * @param {Object} props The props.
+ *
+ * @returns {JSX.Element} The element.
+ */
+const EditorModalMock = props => {
+	const [ isOpen, , , open, close ] = useToggleState( false );
 
-jest.mock( "../../../src/containers/EditorModal", () => jest.fn() );
+	return <EditorModal { ...props } postTypeName="mock" isOpen={ isOpen } open={ open } close={ close } />;
+};
+
+jest.mock( "../../../src/containers/EditorModal", () => EditorModalMock );
+
+jest.mock( "@wordpress/data", () => ( {
+	// `registerStore` is used in WP components' Slot component, used in the TextFormality component.
+	registerStore: jest.requireActual( "@wordpress/data" ).registerStore,
+	useSelect: jest.fn(),
+} ) );
 
 /**
  * Mocks the WordPress `useSelect` hook.
  *
- * @param {boolean} isFleschReadingEaseAvailable    Whether FRE is available.
- * @param {boolean} isElementorEditor               Whether the editor is the Elementor editor.
+ * @param {boolean} shouldUpsell Whether to upsell.
+ * @param {boolean} isProminentWordsAvailable Whether prominent words is available.
+ * @param {boolean} isFleschReadingEaseAvailable Whether FRE is available.
+ * @param {boolean} isFormalitySupported Whether text formality is supported.
+ * @param {boolean} isElementorEditor Whether the editor is the Elementor editor.
  *
- * @returns {void}
+ * @returns {function} The mock.
  */
-function mockSelect( isFleschReadingEaseAvailable, isElementorEditor ) {
-	const select = jest.fn(
-		() => (
-			{
-				isFleschReadingEaseAvailable: jest.fn( () => isFleschReadingEaseAvailable ),
-				getIsElementorEditor: jest.fn( () => isElementorEditor ),
+const mockSelect = ( shouldUpsell, isProminentWordsAvailable, isFleschReadingEaseAvailable, isFormalitySupported, isElementorEditor ) => {
+	return useSelect.mockImplementation( select => select( () => ( {
+		getPreference: ( preference, defaultValue ) => {
+			switch ( preference ) {
+				case "isProminentWordsAvailable":
+					return isProminentWordsAvailable;
+				case "shouldUpsell":
+					return shouldUpsell;
+				default:
+					return defaultValue;
 			}
-		)
-	);
+		},
+		getProminentWords: () => [],
+		getFleschReadingEaseScore: () => 0,
+		getFleschReadingEaseDifficulty: () => DIFFICULTY.NO_DATA,
+		getEstimatedReadingTime: () => 0,
+		getTextLength: () => ( { count: 0, unit: "word" } ),
+		isFleschReadingEaseAvailable: () => isFleschReadingEaseAvailable,
+		isFormalitySupported: () => isFormalitySupported,
+		getIsElementorEditor: () => isElementorEditor,
+	} ) ) );
+};
 
-	useSelect.mockImplementation(
-		selectFunction => selectFunction( select )
-	);
-}
-
-describe( "The insights collapsible component", () => {
-	it( "renders the Flesch reading ease (FRE) component if the FRE score and difficulty are available", () => {
-		mockSelect( true, false );
-		const render = shallow( <InsightsModal location={ "sidebar" } /> );
-
-		expect( render.find( FleschReadingEase ) ).toHaveLength( 1 );
+describe( "InsightsModal", () => {
+	afterEach( () => {
+		useSelect.mockRestore();
 	} );
-	it( "does not render the FRE component if the FRE score and difficulty are not available", () => {
-		mockSelect( false, false );
-		const render = shallow( <InsightsModal location={ "sidebar" } /> );
 
-		expect( render.find( FleschReadingEase ) ).toHaveLength( 0 );
-	} );
-	it( "renders the TextLength component", () => {
-		const render = shallow( <InsightsModal location={ "sidebar" } /> );
-
-		expect( render.find( TextLength ) ).toHaveLength( 1 );
-	} );
-	it( "does not render the Text formality component when the feature is disabled", () => {
-		mockSelect( true, true );
-		const render = shallow( <InsightsModal location={ "sidebar" } /> );
-
-		expect( render.find( TextFormality ) ).toHaveLength( 0 );
-	} );
-	it( "renders the Text formality component when the feature is enabled", () => {
+	it( "renders and opens the modal", async() => {
 		enableFeatures( [ "TEXT_FORMALITY" ] );
-		mockSelect( true, true );
-		const render = shallow( <InsightsModal location={ "sidebar" } /> );
+		mockSelect( true, true, true, true, false );
 
-		expect( render.find( TextFormality ) ).toHaveLength( 1 );
+		render( <InsightsModal location={ "sidebar" } /> );
+
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button.textContent ).toBe( "Insights" );
+		fireEvent.click( button );
+
+		await waitFor( () => {
+			expect( screen.getByText( "Prominent words" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Flesch reading ease" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Reading time" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Word count" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Text formality" ) ).toBeInTheDocument();
+		} );
 	} );
 } );

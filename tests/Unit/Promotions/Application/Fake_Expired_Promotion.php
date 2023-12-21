@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Promotions\Domain\Time_Interval;
 /**
  * Class representing a fake promotion which has been expired.
  */
-class Fake_Expired_Promotion extends Abstract_Promotion implements Promotion_Interface {
+final class Fake_Expired_Promotion extends Abstract_Promotion implements Promotion_Interface {
 
 	/**
 	 * Class constructor.

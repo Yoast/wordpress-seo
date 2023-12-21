@@ -84,13 +84,13 @@ class WPSEO_Taxonomy_Columns {
 			$new_columns[ $column_name ] = $column_value;
 
 			if ( $column_name === 'description' && $this->analysis_seo->is_enabled() ) {
-				$new_columns['wpseo-score'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'SEO score', 'wordpress-seo' ) . '"><span class="yoast-column-seo-score yoast-column-header-has-tooltip"><span class="screen-reader-text">' .
-											__( 'SEO score', 'wordpress-seo' ) . '</span></span></span>';
+				$new_columns['wpseo-score'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'SEO score', 'wordpress-seo' ) . '"><span class="yoast-column-seo-score yoast-column-header-has-tooltip"><span class="screen-reader-text">'
+											. __( 'SEO score', 'wordpress-seo' ) . '</span></span></span>';
 			}
 
 			if ( $column_name === 'description' && $this->analysis_readability->is_enabled() ) {
-				$new_columns['wpseo-score-readability'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'Readability score', 'wordpress-seo' ) . '"><span class="yoast-column-readability yoast-column-header-has-tooltip"><span class="screen-reader-text">' .
-														__( 'Readability score', 'wordpress-seo' ) . '</span></span></span>';
+				$new_columns['wpseo-score-readability'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'Readability score', 'wordpress-seo' ) . '"><span class="yoast-column-readability yoast-column-header-has-tooltip"><span class="screen-reader-text">'
+														. __( 'Readability score', 'wordpress-seo' ) . '</span></span></span>';
 			}
 		}
 
@@ -125,18 +125,16 @@ class WPSEO_Taxonomy_Columns {
 	 * @return string|null The current taxonomy or null when it is not set.
 	 */
 	public function get_current_taxonomy() {
-		// phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		// phpcs:disable WordPress.Security.NonceVerification.Missing,WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( ! empty( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] === 'POST' ) {
 			if ( isset( $_POST['taxonomy'] ) && is_string( $_POST['taxonomy'] ) ) {
 				return sanitize_text_field( wp_unslash( $_POST['taxonomy'] ) );
 			}
 		}
-		else {
-			if ( isset( $_GET['taxonomy'] ) && is_string( $_GET['taxonomy'] ) ) {
-				return sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) );
-			}
+		elseif ( isset( $_GET['taxonomy'] ) && is_string( $_GET['taxonomy'] ) ) {
+			return sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) );
 		}
-		// phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+		// phpcs:enable WordPress.Security.NonceVerification.Missing,WordPress.Security.NonceVerification.Recommended
 		return null;
 	}
 
@@ -146,18 +144,16 @@ class WPSEO_Taxonomy_Columns {
 	 * @return string|null
 	 */
 	private function get_taxonomy() {
-		// phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		// phpcs:disable WordPress.Security.NonceVerification.Missing,WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( wp_doing_ajax() ) {
 			if ( isset( $_POST['taxonomy'] ) && is_string( $_POST['taxonomy'] ) ) {
 				return sanitize_text_field( wp_unslash( $_POST['taxonomy'] ) );
 			}
 		}
-		else {
-			if ( isset( $_GET['taxonomy'] ) && is_string( $_GET['taxonomy'] ) ) {
-				return sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) );
-			}
+		elseif ( isset( $_GET['taxonomy'] ) && is_string( $_GET['taxonomy'] ) ) {
+			return sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) );
 		}
-		// phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+		// phpcs:enable WordPress.Security.NonceVerification.Missing,WordPress.Security.NonceVerification.Recommended
 		return null;
 	}
 

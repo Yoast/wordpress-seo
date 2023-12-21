@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group sitemaps
  */
-class Sitemaps_Admin_Test extends TestCase {
+final class Sitemaps_Admin_Test extends TestCase {
 
 	/**
 	 * Class instance to use for the test.
@@ -58,6 +58,8 @@ class Sitemaps_Admin_Test extends TestCase {
 	 * Tests the status transition on a development setup.
 	 *
 	 * @covers WPSEO_Sitemaps_Admin::status_transition
+	 *
+	 * @return void
 	 */
 	public function test_status_transition_on_development() {
 		Monkey\Functions\stubs(
@@ -95,6 +97,8 @@ class Sitemaps_Admin_Test extends TestCase {
 	 * Tests the status transition on a production setup.
 	 *
 	 * @covers WPSEO_Sitemaps_Admin::status_transition
+	 *
+	 * @return void
 	 */
 	public function test_status_transition_on_production() {
 		global $wp_rewrite;

@@ -63,6 +63,8 @@ class Yoast_Form {
 	 * @param string $option           The short name of the option to use for the current page.
 	 * @param bool   $contains_files   Whether the form should allow for file uploads.
 	 * @param bool   $option_long_name Group name of the option.
+	 *
+	 * @return void
 	 */
 	public function admin_header( $form = true, $option = 'wpseo', $contains_files = false, $option_long_name = false ) {
 		if ( ! $option_long_name ) {
@@ -97,12 +99,12 @@ class Yoast_Form {
 				$hidden_fields_cb = 'settings_fields';
 			}
 
-			echo '<form action="' .
-				esc_url( $action_url ) .
-				'" method="post" id="wpseo-conf"' .
-				$enctype . ' accept-charset="' . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- nothing to escape.
-				esc_attr( get_bloginfo( 'charset' ) ) .
-				'" novalidate="novalidate">';
+			echo '<form action="'
+				. esc_url( $action_url )
+				. '" method="post" id="wpseo-conf"'
+				. $enctype . ' accept-charset="' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- nothing to escape.
+				. esc_attr( get_bloginfo( 'charset' ) )
+				. '" novalidate="novalidate">';
 			call_user_func( $hidden_fields_cb, $option_long_name );
 		}
 		$this->set_option( $option );
@@ -114,6 +116,8 @@ class Yoast_Form {
 	 * @since 2.0
 	 *
 	 * @param string $option_name Option key.
+	 *
+	 * @return void
 	 */
 	public function set_option( $option_name ) {
 		$this->option_name = $option_name;
@@ -131,6 +135,8 @@ class Yoast_Form {
 	 *
 	 * @param bool $submit       Whether or not a submit button and form end tag should be shown.
 	 * @param bool $show_sidebar Whether or not to show the banner sidebar - used by premium plugins to disable it.
+	 *
+	 * @return void
 	 */
 	public function admin_footer( $submit = true, $show_sidebar = true ) {
 		if ( $submit ) {
@@ -182,6 +188,8 @@ class Yoast_Form {
 	 * Generates the sidebar for admin pages.
 	 *
 	 * @since 2.0
+	 *
+	 * @return void
 	 */
 	public function admin_sidebar() {
 		// No banners in Premium.
@@ -202,6 +210,8 @@ class Yoast_Form {
 	 *
 	 * @param string $text Label text string, which can contain escaped html.
 	 * @param array  $attr HTML attributes set.
+	 *
+	 * @return void
 	 */
 	public function label( $text, $attr ) {
 		$defaults = [
@@ -231,6 +241,8 @@ class Yoast_Form {
 	 *
 	 * @param string $text Legend text string.
 	 * @param array  $attr HTML attributes set.
+	 *
+	 * @return void
 	 */
 	public function legend( $text, $attr ) {
 		$defaults = [
@@ -253,6 +265,8 @@ class Yoast_Form {
 	 * @param string $label      The label to show for the variable.
 	 * @param bool   $label_left Whether the label should be left (true) or right (false).
 	 * @param array  $attr       Extra attributes to add to the checkbox.
+	 *
+	 * @return void
 	 */
 	public function checkbox( $variable, $label, $label_left = false, $attr = [] ) {
 		$val = $this->get_field_value( $variable, false );
@@ -294,6 +308,8 @@ class Yoast_Form {
 	 * @param string $variable The variables within the option to create the checkbox list for.
 	 * @param string $labels   The labels to show for the variable.
 	 * @param array  $attr     Extra attributes to add to the checkbox list.
+	 *
+	 * @return void
 	 */
 	public function checkbox_list( $variable, $labels, $attr = [] ) {
 		$defaults = [
@@ -335,6 +351,8 @@ class Yoast_Form {
 	 * @param bool   $strong   Whether the visual label is displayed in strong text. Default is false.
 	 *                         Starting from Yoast SEO 16.5, the visual label is forced to bold via CSS.
 	 * @param array  $attr     Extra attributes to add to the light switch.
+	 *
+	 * @return void
 	 */
 	public function light_switch( $variable, $label, $buttons = [], $reverse = true, $help = '', $strong = false, $attr = [] ) {
 		$val = $this->get_field_value( $variable, false );
@@ -375,6 +393,8 @@ class Yoast_Form {
 	 * @param string       $variable The variable within the option to create the text input field for.
 	 * @param string       $label    The label to show for the variable.
 	 * @param array|string $attr     Extra attributes to add to the input field. Can be class, disabled, autocomplete.
+	 *
+	 * @return void
 	 */
 	public function textinput( $variable, $label, $attr = [] ) {
 		$type = 'text';
@@ -424,6 +444,8 @@ class Yoast_Form {
 	 * @param string       $variable The variable within the option to create the text input field for.
 	 * @param string       $label    The label to show for the variable.
 	 * @param array|string $attr     Extra attributes to add to the input field. Can be class, disabled, autocomplete.
+	 *
+	 * @return void
 	 */
 	public function number( $variable, $label, $attr = [] ) {
 		$type     = 'number';
@@ -475,7 +497,7 @@ class Yoast_Form {
 			'disabled'    => false,
 		];
 
-		$attr = \wp_parse_args( $attr, $defaults );
+		$attr = wp_parse_args( $attr, $defaults );
 		$val  = $this->get_field_value( $variable, '' );
 
 		if ( isset( $attr['type'] ) && $attr['type'] === 'url' ) {
@@ -508,13 +530,13 @@ class Yoast_Form {
 		printf(
 			'<input type="%1$s" name="%2$s" id="%3$s" class="%4$s"%5$s%6$s%7$s value="%8$s"%9$s>',
 			$type,
-			\esc_attr( $this->option_name . '[' . $variable . ']' ),
-			\esc_attr( $variable ),
-			\esc_attr( $attr['class'] ),
-			isset( $attr['placeholder'] ) ? ' placeholder="' . \esc_attr( $attr['placeholder'] ) . '"' : '',
-			isset( $attr['autocomplete'] ) ? ' autocomplete="' . \esc_attr( $attr['autocomplete'] ) . '"' : '',
+			esc_attr( $this->option_name . '[' . $variable . ']' ),
+			esc_attr( $variable ),
+			esc_attr( $attr['class'] ),
+			isset( $attr['placeholder'] ) ? ' placeholder="' . esc_attr( $attr['placeholder'] ) . '"' : '',
+			isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '',
 			$aria_attributes,
-			\esc_attr( $val ),
+			esc_attr( $val ),
 			$this->get_disabled_attribute( $variable, $attr )
 		);
 		// phpcs:enable
@@ -530,6 +552,8 @@ class Yoast_Form {
 	 * @param string       $variable The variable within the option to create the textarea for.
 	 * @param string       $label    The label to show for the variable.
 	 * @param string|array $attr     The CSS class or an array of attributes to assign to the textarea.
+	 *
+	 * @return void
 	 */
 	public function textarea( $variable, $label, $attr = [] ) {
 		if ( ! is_array( $attr ) ) {
@@ -569,6 +593,8 @@ class Yoast_Form {
 	 * @param string $variable The variable within the option to create the hidden input for.
 	 * @param string $id       The ID of the element.
 	 * @param mixed  $val      Optional. The value to set in the input field. Otherwise the value from the options will be used.
+	 *
+	 * @return void
 	 */
 	public function hidden( $variable, $id = '', $val = null ) {
 		if ( is_null( $val ) ) {
@@ -598,6 +624,8 @@ class Yoast_Form {
 	 * @param bool   $show_label     Whether or not to show the label, if not, it will be applied as an aria-label.
 	 * @param array  $attr           Extra attributes to add to the select.
 	 * @param string $help           Optional. Inline Help HTML that will be printed after the label. Default is empty.
+	 *
+	 * @return void
 	 */
 	public function select( $variable, $label, array $select_options, $styled = 'unstyled', $show_label = true, $attr = [], $help = '' ) {
 		if ( empty( $select_options ) ) {
@@ -658,6 +686,8 @@ class Yoast_Form {
 	 * @param string $variable The variable within the option to create the file upload field for.
 	 * @param string $label    The label to show for the variable.
 	 * @param array  $attr     Extra attributes to add to the file upload input.
+	 *
+	 * @return void
 	 */
 	public function file_upload( $variable, $label, $attr = [] ) {
 		$val = $this->get_field_value( $variable, '' );
@@ -701,6 +731,8 @@ class Yoast_Form {
 	 * @param string $variable Option name.
 	 * @param string $label    Label message.
 	 * @param array  $attr     Extra attributes to add to the media input and buttons.
+	 *
+	 * @return void
 	 */
 	public function media_input( $variable, $label, $attr = [] ) {
 		$val      = $this->get_field_value( $variable, '' );
@@ -771,6 +803,8 @@ class Yoast_Form {
 	 * @param string $legend      Optional. The legend to show for the field set, if any.
 	 * @param array  $legend_attr Optional. The attributes for the legend, if any.
 	 * @param array  $attr        Extra attributes to add to the radio button.
+	 *
+	 * @return void
 	 */
 	public function radio( $variable, $values, $legend = '', $legend_attr = [], $attr = [] ) {
 		if ( ! is_array( $values ) || $values === [] ) {
@@ -805,8 +839,8 @@ class Yoast_Form {
 			$aria_label = '';
 
 			if ( is_array( $value ) ) {
-				$label      = isset( $value['label'] ) ? $value['label'] : '';
-				$aria_label = isset( $value['aria_label'] ) ? $value['aria_label'] : '';
+				$label      = ( $value['label'] ?? '' );
+				$aria_label = ( $value['aria_label'] ?? '' );
 			}
 
 			$key_esc = esc_attr( $key );
@@ -839,6 +873,8 @@ class Yoast_Form {
 	 * @param string $label    The visual label for the radio buttons group, used as the fieldset legend.
 	 * @param string $help     Inline Help that will be printed out before the visible toggles text.
 	 * @param array  $attr     Extra attributes to add to the toggle switch.
+	 *
+	 * @return void
 	 */
 	public function toggle_switch( $variable, $values, $label, $help = '', $attr = [] ) {
 		if ( ! is_array( $values ) || $values === [] ) {
@@ -909,12 +945,12 @@ class Yoast_Form {
 
 		$upsell_button = '';
 		if ( $has_premium_upsell ) {
-			$upsell_button = '<a class="yoast-button yoast-button--buy yoast-button--small" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href=' .
-							esc_url( $attr['premium_upsell_url'] ) . ' target="_blank">' .
-							esc_html__( 'Unlock with Premium!', 'wordpress-seo' ) .
+			$upsell_button = '<a class="yoast-button yoast-button--buy yoast-button--small" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href='
+							. esc_url( $attr['premium_upsell_url'] ) . ' target="_blank">'
+							. esc_html__( 'Unlock with Premium!', 'wordpress-seo' )
 							/* translators: Hidden accessibility text. */
-							'<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
-							'<span aria-hidden="true" class="yoast-button--buy__caret"></span></a>';
+							. '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
+							. '<span aria-hidden="true" class="yoast-button--buy__caret"></span></a>';
 		}
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All variable output is escaped above.

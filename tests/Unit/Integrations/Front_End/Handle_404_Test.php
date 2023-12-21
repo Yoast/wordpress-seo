@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * @group integrations
  * @group front-end
  */
-class Handle_404_Test extends TestCase {
+final class Handle_404_Test extends TestCase {
 
 	/**
 	 * The wp query Wrapper helper.
@@ -37,6 +37,8 @@ class Handle_404_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -51,6 +53,8 @@ class Handle_404_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -63,6 +67,8 @@ class Handle_404_Test extends TestCase {
 	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -75,6 +81,8 @@ class Handle_404_Test extends TestCase {
 	 *
 	 * @covers ::handle_404
 	 * @covers ::is_feed_404
+	 *
+	 * @return void
 	 */
 	public function test_404_for_a_non_feed() {
 		Monkey\Functions\expect( 'is_feed' )->once()->andReturn( false );
@@ -87,6 +95,8 @@ class Handle_404_Test extends TestCase {
 	 *
 	 * @covers ::handle_404
 	 * @covers ::is_feed_404
+	 *
+	 * @return void
 	 */
 	public function test_404_with_query_having_posts() {
 		Monkey\Functions\expect( 'is_feed' )
@@ -109,6 +119,8 @@ class Handle_404_Test extends TestCase {
 	 *
 	 * @covers ::handle_404
 	 * @covers ::is_feed_404
+	 *
+	 * @return void
 	 */
 	public function test_404_with_query_having_an_object() {
 		Monkey\Functions\expect( 'is_feed' )
@@ -132,6 +144,8 @@ class Handle_404_Test extends TestCase {
 	 *
 	 * @covers ::handle_404
 	 * @covers ::is_feed_404
+	 *
+	 * @return void
 	 */
 	public function test_404_when_page_is_not_an_archive_and_not_singular() {
 		Monkey\Functions\expect( 'is_feed' )
@@ -157,6 +171,8 @@ class Handle_404_Test extends TestCase {
 	 *
 	 * @covers ::handle_404
 	 * @covers ::is_feed_404
+	 *
+	 * @return void
 	 */
 	public function test_404_when_page_is_an_archive() {
 		Monkey\Functions\expect( 'is_feed' )
@@ -192,6 +208,8 @@ class Handle_404_Test extends TestCase {
 	 *
 	 * @covers ::handle_404
 	 * @covers ::is_feed_404
+	 *
+	 * @return void
 	 */
 	public function test_404_when_page_is_singular() {
 		Monkey\Functions\expect( 'is_feed' )
@@ -227,6 +245,8 @@ class Handle_404_Test extends TestCase {
 	 *
 	 * @covers ::handle_404
 	 * @covers ::set_404
+	 *
+	 * @return void
 	 */
 	public function test_404_when_page_is_404() {
 		$wp_query = Mockery::mock( WP_Query::class );

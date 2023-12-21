@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  * @group sitemaps
  * @coversDefaultClass \Yoast\WP\SEO\Models\SEO_Links\WPSEO_Post_Type_Sitemap_Provider
  */
-class Post_Type_Sitemap_Provider_Test extends TestCase {
+final class Post_Type_Sitemap_Provider_Test extends TestCase {
 
 	/**
 	 * Sitemap Provider instance.
@@ -32,6 +32,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 
 	/**
 	 * Set up our double class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -43,6 +45,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * No entries in the post or page types should still generate an index entry.
 	 *
 	 * @covers ::get_index_links
+	 *
+	 * @return void
 	 */
 	public function test_get_index_links_no_entries() {
 		$index_links = self::$class_instance->get_index_links( 1 );
@@ -53,6 +57,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Multiple pages of a post-type should result in multiple index entries.
 	 *
 	 * @covers ::get_index_links
+	 *
+	 * @return void
 	 */
 	public function test_get_index_links_one_entry_paged() {
 
@@ -73,6 +79,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Multiple entries should be on the same sitemap if not over page limit.
 	 *
 	 * @covers ::get_index_links
+	 *
+	 * @return void
 	 */
 	public function test_get_index_links_multiple_entries_non_paged() {
 		$this->factory->post->create();
@@ -87,6 +95,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Makes sure the filtered out entries do not cause a sitemap index link to return a 404.
 	 *
 	 * @covers ::get_index_links
+	 *
+	 * @return void
 	 */
 	public function test_get_index_links_empty_bucket() {
 
@@ -120,6 +130,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Makes sure invalid sitemap pages return no contents (404).
 	 *
 	 * @covers ::get_index_links
+	 *
+	 * @return void
 	 */
 	public function test_get_index_links_empty_sitemap() {
 		// Fetch the global sitemap.
@@ -140,6 +152,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Tests the sitemap links for the different homepage possibilities.
 	 *
 	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_get_sitemap_links() {
 		$sitemap_provider = new Post_Type_Sitemap_Provider_Double();
@@ -195,6 +209,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Tests the excluded posts with the usage of the filter.
 	 *
 	 * @covers ::get_excluded_posts
+	 *
+	 * @return void
 	 */
 	public function test_get_excluded_posts_with_set_filter() {
 		$sitemap_provider = new Post_Type_Sitemap_Provider_Double();
@@ -218,6 +234,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Tests the excluded posts with the usage of a filter that returns an invalid value.
 	 *
 	 * @covers ::get_excluded_posts
+	 *
+	 * @return void
 	 */
 	public function test_get_excluded_posts_with_set_filter_that_has_invalid_return_value() {
 		$sitemap_provider = new Post_Type_Sitemap_Provider_Double();
@@ -262,6 +280,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Tests if external URLs are not being included in the sitemap.
 	 *
 	 * @covers ::get_url
+	 *
+	 * @return void
 	 */
 	public function test_get_url() {
 		$current_home     = \get_option( 'home' );
@@ -287,6 +307,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Tests a regular post is added to the sitemap.
 	 *
 	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_regular_post() {
 		$this->factory->post->create();
@@ -299,6 +321,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Tests to make sure password protected posts are not in the sitemap.
 	 *
 	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_password_protected_post() {
 		// Create password protected post.
@@ -320,6 +344,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Tests to make sure a regular attachment is include in the sitemap.
 	 *
 	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_regular_attachment() {
 		// Enable attachments in the sitemap.
@@ -350,6 +376,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * @covers ::get_sitemap_links
 	 *
 	 * @link https://github.com/Yoast/wordpress-seo/issues/9194
+	 *
+	 * @return void
 	 */
 	public function test_password_protected_post_parent_attachment() {
 		// Enable attachments in the sitemap.

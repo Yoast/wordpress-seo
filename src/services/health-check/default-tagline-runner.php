@@ -10,7 +10,7 @@ class Default_Tagline_Runner implements Runner_Interface {
 	/**
 	 * The default WordPress tagline.
 	 */
-	const DEFAULT_BLOG_DESCRIPTION = 'Just another WordPress site';
+	public const DEFAULT_BLOG_DESCRIPTION = 'Just another WordPress site';
 
 	/**
 	 * Is set to true when the default tagline is set.

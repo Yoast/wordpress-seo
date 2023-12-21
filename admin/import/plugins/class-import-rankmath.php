@@ -109,6 +109,8 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 
 	/**
 	 * RankMath stores robots meta quite differently, so we have to parse it out.
+	 *
+	 * @return void
 	 */
 	private function import_meta_robots() {
 		global $wpdb;
@@ -132,6 +134,8 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 
 	/**
 	 * Imports some of the RankMath settings.
+	 *
+	 * @return void
 	 */
 	private function import_settings() {
 		$settings = [

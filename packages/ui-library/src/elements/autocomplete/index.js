@@ -63,7 +63,7 @@ const ClearSelection = ( { onChange, svgAriaProps, screenReaderText } ) => {
 		onChange( null );
 	}, [ onChange ] );
 
-	return <button className="yst-mr-4 yst-flex yst-items-center" onClick={ clear }>
+	return <button type="button" className="yst-mr-4 yst-flex yst-items-center" onClick={ clear }>
 		<span className="yst-sr-only">{ screenReaderText }</span>
 		<XIcon className="yst-text-slate-400 yst-w-5 yst-h-5" { ...svgAriaProps } />
 		<div className="yst-w-2 yst-mr-2 yst-border-r-slate-200 yst-border-r yst-h-7" />

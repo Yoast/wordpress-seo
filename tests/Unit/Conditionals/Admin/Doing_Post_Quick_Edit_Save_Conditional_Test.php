@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
  */
-class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
+final class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -26,6 +26,8 @@ class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 
 	/**
 	 * Set up.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 	 * Tests calling the method where the request isn't ajax.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_not_doing_ajax() {
 		Monkey\Functions\expect( 'wp_doing_ajax' )
@@ -49,6 +53,8 @@ class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 	 * Tests calling the method where the post doesn't have an action value.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_no_action_posted() {
 		Monkey\Functions\expect( 'wp_doing_ajax' )
@@ -64,6 +70,8 @@ class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 	 * Tests calling the method where the post doesn't have an action value.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_wrong_action_posted() {
 		Monkey\Functions\expect( 'wp_doing_ajax' )
@@ -81,6 +89,8 @@ class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 	 * Tests calling the method where the post doesn't have an action value.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met() {
 		Monkey\Functions\expect( 'wp_doing_ajax' )

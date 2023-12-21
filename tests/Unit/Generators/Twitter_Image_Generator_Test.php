@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Values\Images;
  * @group twitter
  * @group twitter-image
  */
-class Twitter_Image_Generator_Test extends TestCase {
+final class Twitter_Image_Generator_Test extends TestCase {
 
 	/**
 	 * Twitter image generator mock.
@@ -74,6 +74,8 @@ class Twitter_Image_Generator_Test extends TestCase {
 
 	/**
 	 * Setup the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -103,6 +105,8 @@ class Twitter_Image_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_indexable
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_image_id_from_indexable() {
 		$this->indexable->twitter_image_id = 1337;
@@ -120,6 +124,8 @@ class Twitter_Image_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_indexable
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_image_url_from_indexable() {
 		$this->indexable->twitter_image = 'image.jpg';

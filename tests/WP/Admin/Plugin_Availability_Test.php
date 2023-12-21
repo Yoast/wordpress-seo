@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @coversDefaultClass WPSEO_Plugin_Availability
  */
-class Plugin_Availability_Test extends TestCase {
+final class Plugin_Availability_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -21,6 +21,8 @@ class Plugin_Availability_Test extends TestCase {
 
 	/**
 	 * Set up our double class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ class Plugin_Availability_Test extends TestCase {
 	 * Tests whether or not a plugin exists.
 	 *
 	 * @covers ::get_plugin
+	 *
+	 * @return void
 	 */
 	public function test_plugin_existence() {
 		$expected = [
@@ -56,6 +60,8 @@ class Plugin_Availability_Test extends TestCase {
 	 *
 	 * @covers ::get_plugin
 	 * @covers ::is_available
+	 *
+	 * @return void
 	 */
 	public function test_plugin_availability() {
 		$plugin    = self::$class_instance->get_plugin( 'test-plugin' );
@@ -74,6 +80,8 @@ class Plugin_Availability_Test extends TestCase {
 	 *
 	 * @covers ::get_plugin
 	 * @covers ::is_installed
+	 *
+	 * @return void
 	 */
 	public function test_plugin_is_installed() {
 		$plugin    = self::$class_instance->get_plugin( 'test-plugin' );
@@ -92,6 +100,8 @@ class Plugin_Availability_Test extends TestCase {
 	 *
 	 * @covers ::get_plugin
 	 * @covers ::get_version
+	 *
+	 * @return void
 	 */
 	public function test_plugin_version() {
 		$plugin  = self::$class_instance->get_plugin( 'test-plugin' );
@@ -109,6 +119,8 @@ class Plugin_Availability_Test extends TestCase {
 	 * Tests for the detection of Premium plugins.
 	 *
 	 * @covers ::is_premium
+	 *
+	 * @return void
 	 */
 	public function test_plugin_is_premium() {
 		$is_premium_plugin = self::$class_instance->is_premium( self::$class_instance->get_plugin( 'test-plugin' ) );

@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Redirect_Integration_Test extends TestCase {
+final class Redirect_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -34,6 +34,8 @@ class Redirect_Integration_Test extends TestCase {
 
 	/**
 	 * Set up the fixtures for the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -47,6 +49,8 @@ class Redirect_Integration_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertEquals( $this->redirect, $this->getPropertyValue( $this->instance, 'redirect' ) );
@@ -56,9 +60,11 @@ class Redirect_Integration_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Admin_Conditional::class,
 			],
@@ -70,6 +76,8 @@ class Redirect_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -84,6 +92,8 @@ class Redirect_Integration_Test extends TestCase {
 	 *
 	 * @param string $current_page   The current page parameter.
 	 * @param int    $redirect_times The times we will redirect.
+	 *
+	 * @return void
 	 */
 	public function test_old_settings_redirect( $current_page, $redirect_times ) {
 		$_GET['page'] = $current_page;
@@ -105,7 +115,7 @@ class Redirect_Integration_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_old_settings_redirect() {
+	public static function provider_old_settings_redirect() {
 		return [
 			[ 'wpseo_titles', 1 ],
 			[ 'NOT_wpseo_titles', 0 ],

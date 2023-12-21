@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group helpers
  */
-class Image_Helper_Test extends TestCase {
+final class Image_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -41,6 +41,8 @@ class Image_Helper_Test extends TestCase {
 
 	/**
 	 * Setup.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -55,6 +57,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests the case where the url was missing in the given param.
 	 *
 	 * @covers ::is_image_url_valid
+	 *
+	 * @return void
 	 */
 	public function test_is_image_url_valid_with_missing_url() {
 		$this->assertFalse( $this->instance->is_image_url_valid( [] ) );
@@ -64,6 +68,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests the case where the image is validated the right way (Happy path).
 	 *
 	 * @covers ::is_image_url_valid
+	 *
+	 * @return void
 	 */
 	public function test_is_image_url_valid() {
 		$this->url
@@ -91,6 +97,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieval of the overridden image size.
 	 *
 	 * @covers ::get_override_image_size
+	 *
+	 * @return void
 	 */
 	public function test_get_override_image_size() {
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_image_size' )
@@ -105,6 +113,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieval of the overridden image size.
 	 *
 	 * @covers ::get_image_by_id
+	 *
+	 * @return void
 	 */
 	public function test_get_image_by_id_for_invalid_attachment() {
 		$this->image
@@ -120,6 +130,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieval of the overridden image size.
 	 *
 	 * @covers ::get_image_by_id
+	 *
+	 * @return void
 	 */
 	public function test_get_image_by_id_for_overridden_image_size() {
 		$this->image
@@ -146,6 +158,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieval of the overridden image size.
 	 *
 	 * @covers ::get_image_by_id
+	 *
+	 * @return void
 	 */
 	public function test_get_image_by_id_with_best_attachment_variation() {
 		$this->image

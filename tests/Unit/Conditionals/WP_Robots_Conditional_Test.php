@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\WP_Robots_Conditional
  */
-class WP_Robots_Conditional_Test extends TestCase {
+final class WP_Robots_Conditional_Test extends TestCase {
 
 	/**
 	 * Represents the insstance to test.
@@ -24,6 +24,8 @@ class WP_Robots_Conditional_Test extends TestCase {
 
 	/**
 	 * Handles the setup.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,19 +37,23 @@ class WP_Robots_Conditional_Test extends TestCase {
 	 * Tests the scenario where the wp_robots isn't present.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_without_having_wp_robots_function() {
-		static::assertFalse( $this->instance->is_met() );
+		$this->assertFalse( $this->instance->is_met() );
 	}
 
 	/**
 	 * Tests the scenario where the wp_robots isn't present.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met() {
 		Monkey\Functions\expect( 'wp_robots' )->never();
 
-		static::assertTrue( $this->instance->is_met() );
+		$this->assertTrue( $this->instance->is_met() );
 	}
 }

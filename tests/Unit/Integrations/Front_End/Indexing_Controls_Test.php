@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class Indexing_Controls_Test extends TestCase {
+final class Indexing_Controls_Test extends TestCase {
 
 	/**
 	 * Robots helper.
@@ -35,6 +35,8 @@ class Indexing_Controls_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -47,6 +49,8 @@ class Indexing_Controls_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -59,6 +63,8 @@ class Indexing_Controls_Test extends TestCase {
 	 * Tests the situation where the request is performed by a robot.
 	 *
 	 * @covers ::noindex_robots
+	 *
+	 * @return void
 	 */
 	public function test_no_index_robots() {
 		Monkey\Functions\expect( 'is_robots' )
@@ -77,6 +83,8 @@ class Indexing_Controls_Test extends TestCase {
 	 * Tests the situation where the request isn't performed by a robot.
 	 *
 	 * @covers ::noindex_robots
+	 *
+	 * @return void
 	 */
 	public function test_no_index_and_is_no_robots() {
 		Monkey\Functions\expect( 'is_robots' )->once()->andReturn( false );
@@ -90,6 +98,8 @@ class Indexing_Controls_Test extends TestCase {
 	 * Tests if the link is converted to a no-follow one.
 	 *
 	 * @covers ::nofollow_link
+	 *
+	 * @return void
 	 */
 	public function test_nofollow_link() {
 		$this->assertEquals(

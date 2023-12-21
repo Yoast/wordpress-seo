@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Option_Titles_Watcher
  * @covers \Yoast\WP\SEO\Integrations\Watchers\Option_Titles_Watcher
  */
-class Option_Titles_Watcher_Test extends TestCase {
+final class Option_Titles_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -29,6 +29,8 @@ class Option_Titles_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -40,6 +42,8 @@ class Option_Titles_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -52,6 +56,8 @@ class Option_Titles_Watcher_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -66,6 +72,8 @@ class Option_Titles_Watcher_Test extends TestCase {
 	 * @covers ::check_option
 	 * @covers ::get_relevant_keys
 	 * @covers ::delete_ancestors
+	 *
+	 * @return void
 	 */
 	public function test_check_option_with_old_value_being_false() {
 		Monkey\Functions\expect( 'get_post_types' )
@@ -80,6 +88,8 @@ class Option_Titles_Watcher_Test extends TestCase {
 	 * Tests the method with having one argument not being an array.
 	 *
 	 * @covers ::check_option
+	 *
+	 * @return void
 	 */
 	public function test_check_option_with_one_value_not_being_an_array() {
 		$this->assertFalse( $this->instance->check_option( 'string', [] ) );
@@ -90,6 +100,8 @@ class Option_Titles_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::check_option
 	 * @covers ::get_relevant_keys
+	 *
+	 * @return void
 	 */
 	public function test_check_option_with_no_public_post_types() {
 		Monkey\Functions\expect( 'get_post_types' )
@@ -106,6 +118,8 @@ class Option_Titles_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::check_option
 	 * @covers ::get_relevant_keys
+	 *
+	 * @return void
 	 */
 	public function test_check_option_with_get_post_types_return_non_array() {
 		Monkey\Functions\expect( 'get_post_types' )
@@ -122,6 +136,8 @@ class Option_Titles_Watcher_Test extends TestCase {
 	 * @covers ::check_option
 	 * @covers ::get_relevant_keys
 	 * @covers ::delete_ancestors
+	 *
+	 * @return void
 	 */
 	public function test_check_option_with_ancestors_being_removed() {
 		$wpdb         = Mockery::mock( wpdb::class );
@@ -193,6 +209,8 @@ class Option_Titles_Watcher_Test extends TestCase {
 	 * @covers ::check_option
 	 * @covers ::get_relevant_keys
 	 * @covers ::delete_ancestors
+	 *
+	 * @return void
 	 */
 	public function test_check_option_with_ancestors_not_being_removed() {
 		$wpdb         = Mockery::mock( wpdb::class );

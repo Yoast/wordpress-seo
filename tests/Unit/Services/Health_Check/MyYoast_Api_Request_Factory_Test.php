@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Health_Check\MyYoast_Api_Request_Factory
  */
-class MyYoast_Api_Request_Factory_Test extends TestCase {
+final class MyYoast_Api_Request_Factory_Test extends TestCase {
 
 	/**
 	 * The MyYoast_Api_Request_Factory instance to be tested.

@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_Admin_User_Profile
  */
-class User_Profile_Test extends TestCase {
+final class User_Profile_Test extends TestCase {
 
 	/**
 	 * Holds the instance to test.
@@ -24,6 +24,8 @@ class User_Profile_Test extends TestCase {
 
 	/**
 	 * Set up.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ class User_Profile_Test extends TestCase {
 	 * Tests process_user_option_update function when no nonce is present.
 	 *
 	 * @covers ::process_user_option_update
+	 *
+	 * @return void
 	 */
 	public function test_process_user_option_update_no_nonce() {
 		Monkey\Functions\expect( 'update_user_meta' )
@@ -52,6 +56,8 @@ class User_Profile_Test extends TestCase {
 	 * @covers ::process_user_option_update
 	 *
 	 * @param array $post_values The values of $_POST.
+	 *
+	 * @return void
 	 */
 	public function test_process_user_option_update_with_dataprovider( $post_values ) {
 		Monkey\Functions\expect( 'update_user_meta' )
@@ -75,7 +81,7 @@ class User_Profile_Test extends TestCase {
 	 *
 	 * @return array The data for test_process_user_option_update_with_dataprovider.
 	 */
-	public function process_user_option_update_dataprovider() {
+	public static function process_user_option_update_dataprovider() {
 		$all_set                               = [
 			[
 				'wpseo_author_title' => [

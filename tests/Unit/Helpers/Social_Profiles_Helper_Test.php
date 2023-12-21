@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Social_Profiles_Helper
  */
-class Social_Profiles_Helper_Test extends TestCase {
+final class Social_Profiles_Helper_Test extends TestCase {
 
 	/**
 	 * The Social_Profiles_Helper instance to be tested.
@@ -31,6 +31,8 @@ class Social_Profiles_Helper_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -55,6 +57,8 @@ class Social_Profiles_Helper_Test extends TestCase {
 	 * @param int   $validate_twitter_id_times   The times we're gonna validate twitter ids.
 	 * @param int   $update_user_meta_times      The times we're gonna set the the social profiles.
 	 * @param array $expected                    The expected field names which failed to be saved in the db.
+	 *
+	 * @return void
 	 */
 	public function test_set_person_social_profiles( $social_profiles, $validate_social_url_results, $validate_social_url_times, $validate_twitter_id_results, $validate_twitter_id_times, $update_user_meta_times, $expected ) {
 		$person_id = 123;
@@ -96,7 +100,7 @@ class Social_Profiles_Helper_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_person_social_profiles function.
 	 */
-	public function set_person_social_profiles() {
+	public static function set_person_social_profiles() {
 		$success_all = [
 			'social_profiles'             => [
 				'facebook'   => 'https://facebook.com/janedoe',
@@ -206,6 +210,8 @@ class Social_Profiles_Helper_Test extends TestCase {
 	 * @param int   $validate_twitter_id_times   The times we're gonna validate twitter ids.
 	 * @param int   $set_option_times            The times we're gonna set the social profiles.
 	 * @param array $expected                    The expected field names which failed to be saved in the db.
+	 *
+	 * @return void
 	 */
 	public function test_set_organization_social_profiles( $social_profiles, $validate_social_url_results, $validate_social_url_times, $validate_twitter_id_results, $validate_twitter_id_times, $set_option_times, $expected ) {
 		$fields = [
@@ -228,7 +234,7 @@ class Social_Profiles_Helper_Test extends TestCase {
 			if ( $field === 'other_social_urls' ) {
 				$social_profiles[ $field ] = \array_filter(
 					$social_profiles[ $field ],
-					static function( $other_social_url ) {
+					static function ( $other_social_url ) {
 						return $other_social_url !== '';
 					}
 				);
@@ -254,7 +260,7 @@ class Social_Profiles_Helper_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_organization_social_profiles function.
 	 */
-	public function set_organization_social_profiles() {
+	public static function set_organization_social_profiles() {
 		$success_all = [
 			'social_profiles'             => [
 				'facebook_site'          => '',

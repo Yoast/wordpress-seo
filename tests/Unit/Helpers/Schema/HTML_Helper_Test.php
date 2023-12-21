@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Schema\HTML_Helper
  */
-class HTML_Helper_Test extends TestCase {
+final class HTML_Helper_Test extends TestCase {
 
 	/**
 	 * Class instance to use for the test.
@@ -26,6 +26,8 @@ class HTML_Helper_Test extends TestCase {
 
 	/**
 	 * Set up a new instance of the class under test before each test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -44,6 +46,8 @@ class HTML_Helper_Test extends TestCase {
 	 *
 	 * @param mixed  $input    The input to sanitize.
 	 * @param string $expected The expected return value.
+	 *
+	 * @return void
 	 */
 	public function test_sanitize( $input, $expected ) {
 		$this->assertSame( $expected, $this->instance->sanitize( $input ) );
@@ -54,7 +58,7 @@ class HTML_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_sanitize() {
+	public static function data_sanitize() {
 		return [
 			'Empty text string' => [
 				'input'    => '',
@@ -94,6 +98,8 @@ class HTML_Helper_Test extends TestCase {
 	 *
 	 * @param mixed  $input    The input to sanitize.
 	 * @param string $expected The expected return value.
+	 *
+	 * @return void
 	 */
 	public function test_smart_strip_tags( $input, $expected ) {
 		$this->assertSame( $expected, $this->instance->smart_strip_tags( $input ) );
@@ -104,7 +110,7 @@ class HTML_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_smart_strip_tags() {
+	public static function data_smart_strip_tags() {
 		return [
 			'Empty text string' => [
 				'input'    => '',
@@ -177,7 +183,7 @@ text string',
 	 *
 	 * @return array
 	 */
-	public function data_incorrect_input_types() {
+	public static function data_incorrect_input_types() {
 		return [
 			'null' => [
 				'input'    => null,

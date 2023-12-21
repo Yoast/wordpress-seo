@@ -19,6 +19,8 @@ class AddIndexableObjectIdAndTypeIndex extends Migration {
 
 	/**
 	 * Migration up.
+	 *
+	 * @return void
 	 */
 	public function up() {
 		$this->add_index(
@@ -35,6 +37,8 @@ class AddIndexableObjectIdAndTypeIndex extends Migration {
 
 	/**
 	 * Migration down.
+	 *
+	 * @return void
 	 */
 	public function down() {
 		$this->remove_index(

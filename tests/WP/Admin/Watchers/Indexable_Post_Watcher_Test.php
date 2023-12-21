@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  * - Building author indexables
  * - Unhappy paths
  */
-class Indexable_Post_Watcher_Test extends TestCase {
+final class Indexable_Post_Watcher_Test extends TestCase {
 
 	/**
 	 * An indexable should be created whenever a post is created.
@@ -113,6 +113,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Indexable hierarchy should be deleted whenever a post is deleted.
 	 *
 	 * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher::delete_indexable
+	 *
+	 * @return void
 	 */
 	public function test_delete_post_with_hierarchy() {
 		$parent = $this->factory()->post->create_and_get(

@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Wincher_Token_Conditional
  */
-class Wincher_Token_Conditional_Test extends TestCase {
+final class Wincher_Token_Conditional_Test extends TestCase {
 
 	/**
 	 * The Wincher token conditional.
@@ -32,6 +32,8 @@ class Wincher_Token_Conditional_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -44,6 +46,8 @@ class Wincher_Token_Conditional_Test extends TestCase {
 	 * Tests if the class attributes are set propertly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -56,6 +60,8 @@ class Wincher_Token_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when there is no token.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met() {
 		$this->wincher_client
@@ -70,6 +76,8 @@ class Wincher_Token_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when there is a token.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met() {
 		$this->wincher_client

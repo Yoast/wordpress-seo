@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher
  */
-class Indexable_Permalink_Watcher_Test extends TestCase {
+final class Indexable_Permalink_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -61,6 +61,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 
 	/**
 	 * Does the setup.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -85,6 +87,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -97,6 +101,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -110,6 +116,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * Tests resetting the permalinks.
 	 *
 	 * @covers ::reset_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_reset_permalinks() {
 		$this->instance->expects( 'get_post_types' )->once()->andReturn( [ 'post' ] );
@@ -139,6 +147,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * Test resetting the permalinks for a post type.
 	 *
 	 * @covers ::reset_permalinks_post_type
+	 *
+	 * @return void
 	 */
 	public function test_reset_permalinks_post_type() {
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post' )->once();
@@ -151,6 +161,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * Test resetting the permalinks for a term.
 	 *
 	 * @covers ::reset_permalinks_term
+	 *
+	 * @return void
 	 */
 	public function test_reset_permalinks_term() {
 		$this->indexable_helper
@@ -165,6 +177,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * Test resetting the permalinks for the term tag.
 	 *
 	 * @covers ::reset_permalinks_term
+	 *
+	 * @return void
 	 */
 	public function test_reset_permalinks_for_term_tag() {
 		$this->indexable_helper
@@ -179,6 +193,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * Test forced flushing of permalinks.
 	 *
 	 * @covers ::force_reset_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_force_reset_permalinks() {
 
@@ -225,6 +241,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * Test forced flushing of tag base permalinks.
 	 *
 	 * @covers ::force_reset_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_force_reset_tag_base() {
 
@@ -276,6 +294,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * Test forced flushing of category base permalinks.
 	 *
 	 * @covers ::force_reset_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_force_reset_category_base() {
 
@@ -327,6 +347,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * Test forced flushing of permalinks not executing.
 	 *
 	 * @covers ::force_reset_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_force_reset_permalinks_not_executing() {
 
@@ -373,6 +395,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * Test that permalinks should be reset.
 	 *
 	 * @covers ::should_reset_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_should_reset_permalinks() {
 		Monkey\Functions\expect( 'get_option' )
@@ -393,6 +417,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * Test that permalinks should not be reset.
 	 *
 	 * @covers ::should_reset_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_shouldnt_reset_permalinks() {
 		Monkey\Functions\expect( 'get_option' )
@@ -413,6 +439,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * Test that custom taxonomy permalinks should be reset.
 	 *
 	 * @covers ::reset_altered_custom_taxonomies
+	 *
+	 * @return void
 	 */
 	public function test_should_reset_altered_custom_taxonomies() {
 		$this->taxonomy_helper
@@ -462,6 +490,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * Test that custom taxonomy permalinks shouldn't be reset.
 	 *
 	 * @covers ::reset_altered_custom_taxonomies
+	 *
+	 * @return void
 	 */
 	public function test_shouldnt_reset_altered_custom_taxonomies() {
 		$this->taxonomy_helper

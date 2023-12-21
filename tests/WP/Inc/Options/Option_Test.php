@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Option_Test extends TestCase {
+final class Option_Test extends TestCase {
 
 	/**
 	 * Tests that disabled variables cannot be updated.
@@ -17,6 +17,8 @@ class Option_Test extends TestCase {
 	 * @group  ms-required
 	 * @covers WPSEO_Option::validate
 	 * @covers WPSEO_Option::prevent_disabled_options_update
+	 *
+	 * @return void
 	 */
 	public function test_prevent_disabled_options_update() {
 		$this->skipWithoutMultisite();

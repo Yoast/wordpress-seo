@@ -7,7 +7,7 @@ use WPSEO_Content_Images;
 /**
  * Test Helper Class.
  */
-class Content_Images_Double extends WPSEO_Content_Images {
+final class Content_Images_Double extends WPSEO_Content_Images {
 
 	/**
 	 * Grabs the images from the content.

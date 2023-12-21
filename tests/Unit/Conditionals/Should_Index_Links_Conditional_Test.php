@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Should_Index_Links_Conditional
  */
-class Should_Index_Links_Conditional_Test extends TestCase {
+final class Should_Index_Links_Conditional_Test extends TestCase {
 
 	/**
 	 * Represents the conditional to test.
@@ -33,6 +33,8 @@ class Should_Index_Links_Conditional_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -45,6 +47,8 @@ class Should_Index_Links_Conditional_Test extends TestCase {
 	 * Tests if the class attributes are set propertly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -57,6 +61,8 @@ class Should_Index_Links_Conditional_Test extends TestCase {
 	 * Tests that the conditional returns the correct option value.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_option_enabled_option() {
 		$this->options

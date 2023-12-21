@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\User_Interface\Last_Completed_Indexation_Integration
  */
-class Last_Completed_Indexation_Integration_Test extends TestCase {
+final class Last_Completed_Indexation_Integration_Test extends TestCase {
 
 	/**
 	 * The sut.
@@ -35,8 +35,8 @@ class Last_Completed_Indexation_Integration_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function setUp(): void {
-		parent::setUp();
+	protected function set_up(): void {
+		parent::set_up();
 
 		$this->options_helper_mock = Mockery::mock( Options_Helper::class );
 

@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Notice_Presenter_Test extends TestCase {
+final class Notice_Presenter_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.
@@ -31,6 +31,8 @@ class Notice_Presenter_Test extends TestCase {
 	 * Test constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
@@ -52,6 +54,8 @@ class Notice_Presenter_Test extends TestCase {
 	 * Test the default Notice, without image and not dismissible.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_default_notice() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
@@ -78,6 +82,8 @@ class Notice_Presenter_Test extends TestCase {
 	 * Test when the Notice has an image.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_notice_with_image() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
@@ -106,6 +112,8 @@ class Notice_Presenter_Test extends TestCase {
 	 * Test when the Notice is dismissible.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_dismissble_notice() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
@@ -133,6 +141,8 @@ class Notice_Presenter_Test extends TestCase {
 	 * Test when the Notice is dismissible and has an image.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_dismissble_notice_with_image() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
@@ -161,6 +171,8 @@ class Notice_Presenter_Test extends TestCase {
 	 * Test when the Notice is dismissible and has an image and a button.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_dismissble_notice_with_image_and_button() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();

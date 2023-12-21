@@ -224,7 +224,7 @@ class Social_Profiles_Helper {
 			if ( $field_name === 'other_social_urls' ) {
 				$other_social_urls = \array_filter(
 					$social_profiles[ $field_name ],
-					static function( $other_social_url ) {
+					static function ( $other_social_url ) {
 						return $other_social_url !== '';
 					}
 				);

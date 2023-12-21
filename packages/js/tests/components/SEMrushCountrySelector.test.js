@@ -1,36 +1,59 @@
-import { shallow } from "enzyme";
 import { noop } from "lodash";
-import React from "react";
 import SEMrushCountrySelector from "../../../js/src/components/modals/SEMrushCountrySelector";
+import { fireEvent, render, screen, waitFor } from "../test-utils";
 
 jest.mock( "@wordpress/api-fetch", () => ( {
 	__esModule: true,
 	"default": () => ( { response: {} } ),
 } ) );
 
-window.jQuery = () => ( { on: noop } );
+const DOWN_ARROW = { keyCode: 40 };
 
 describe( "SEMrushCountrySelector", () => {
 	it( "successfully calls the associated newRequest function when the select country button is clicked", () => {
 		const onClickMock = jest.fn();
-		const component = shallow( <SEMrushCountrySelector
-			setCountry={ noop } newRequest={ onClickMock } setNoResultsFoundnewRequest={ noop }
-			setRequestSucceeded={ noop } setRequestLimitReached={ noop } setRequestFailed={ noop } setNoResultsFound={ noop }
+
+		render( <SEMrushCountrySelector
+			setCountry={ noop }
+			newRequest={ onClickMock }
+			setNoResultsFoundnewRequest={ noop }
+			setRequestSucceeded={ noop }
+			setRequestLimitReached={ noop }
+			setRequestFailed={ noop }
+			setNoResultsFound={ noop }
 		/> );
 
-		component.find( "#yoast-semrush-country-selector-button" ).simulate( "click" );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toHaveTextContent( "Select country" );
+
+		fireEvent.click( button );
 
 		expect( onClickMock ).toHaveBeenCalled();
 	} );
-	it( "successfully calls the associated setCountry function when the selected option has changed", () => {
+
+	it( "successfully calls the associated setCountry function when the selected option has changed", async() => {
 		const setCountryMock = jest.fn();
-		const component = shallow( <SEMrushCountrySelector
-			setCountry={ setCountryMock } newRequest={ noop } setNoResultsFoundnewRequest={ noop }
-			setRequestSucceeded={ noop } setRequestLimitReached={ noop } setRequestFailed={ noop } setNoResultsFound={ noop }
+
+		render( <SEMrushCountrySelector
+			setCountry={ setCountryMock }
+			newRequest={ noop }
+			setNoResultsFoundnewRequest={ noop }
+			setRequestSucceeded={ noop }
+			setRequestLimitReached={ noop }
+			setRequestFailed={ noop }
+			setNoResultsFound={ noop }
 		/> );
 
-		component.find( "#yoast-semrush-country-selector-select" ).simulate( "change" );
+		const select = document.getElementById( "yoast-semrush-country-selector-select" );
+		fireEvent.keyDown( select, DOWN_ARROW );
 
-		expect( setCountryMock ).toHaveBeenCalled();
+		let item;
+		await waitFor( () => {
+			item = screen.getByText( "United Kingdom - UK" );
+		}, { timeout: 1000 } );
+		fireEvent.click( item );
+
+		expect( setCountryMock ).toHaveBeenCalledWith( "uk" );
 	} );
 } );

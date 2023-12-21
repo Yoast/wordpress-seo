@@ -15,6 +15,8 @@ class Indexable_Post_Watcher_Double extends Indexable_Post_Watcher {
 	 * Updates the has_public_posts when the post indexable is built.
 	 *
 	 * @param Indexable $indexable The indexable to check.
+	 *
+	 * @return void
 	 */
 	public function update_has_public_posts( $indexable ) {
 		parent::update_has_public_posts( $indexable );
@@ -24,6 +26,8 @@ class Indexable_Post_Watcher_Double extends Indexable_Post_Watcher {
 	 * Updates the relations on post save or post status change.
 	 *
 	 * @param WP_Post $post The post that has been updated.
+	 *
+	 * @return void
 	 */
 	public function update_relations( $post ) {
 		parent::update_relations( $post );

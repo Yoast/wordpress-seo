@@ -10,12 +10,14 @@ use Yoast\WPTestUtils\WPIntegration\TestCase;
  *
  * @coversDefaultClass WPSEO_Taxonomy
  */
-class Taxonomy_Test extends TestCase {
+final class Taxonomy_Test extends TestCase {
 
 	/**
 	 * Make sure certain pages are marked as term edit.
 	 *
 	 * @covers ::is_term_edit
+	 *
+	 * @return void
 	 */
 	public function test_is_term_edit() {
 		$this->assertTrue( WPSEO_Taxonomy::is_term_edit( 'term.php' ) );
@@ -27,6 +29,8 @@ class Taxonomy_Test extends TestCase {
 	 * Make sure certain pages are marked as term overview.
 	 *
 	 * @covers ::is_term_overview
+	 *
+	 * @return void
 	 */
 	public function test_is_term_overview() {
 		$this->assertFalse( WPSEO_Taxonomy::is_term_overview( 'term.php' ) );
@@ -39,6 +43,8 @@ class Taxonomy_Test extends TestCase {
 	 * Test get_labels function.
 	 *
 	 * @covers ::get_labels
+	 *
+	 * @return void
 	 */
 	public function test_get_labels() {
 		$_GET['taxonomy'] = 'category';
@@ -49,6 +55,8 @@ class Taxonomy_Test extends TestCase {
 	 * Test get_labels function when the parameter is something other than a string.
 	 *
 	 * @covers ::get_labels
+	 *
+	 * @return void
 	 */
 	public function test_get_labels_get_parameter_overwritten() {
 		$_GET['taxonomy'] = 13;
@@ -59,6 +67,8 @@ class Taxonomy_Test extends TestCase {
 	 * Test get_labels function when the parameter is not set.
 	 *
 	 * @covers ::get_labels
+	 *
+	 * @return void
 	 */
 	public function test_get_labels_get_parameter_not_set() {
 		$this->assertEquals( null, WPSEO_Taxonomy::get_labels() );

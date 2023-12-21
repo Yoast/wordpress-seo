@@ -13,7 +13,7 @@ use Yoast_Notification_Center;
  *
  * @coversDefaultClass Yoast_Notification_Center
  */
-class Yoast_Notification_Center_Test extends TestCase {
+final class Yoast_Notification_Center_Test extends TestCase {
 
 	/**
 	 * User ID.
@@ -34,6 +34,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 
 	/**
 	 * Create user with proper caps.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -48,6 +50,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 
 	/**
 	 * Remove notifications on tearDown.
+	 *
+	 * @return void
 	 */
 	public function tear_down() {
 		$notification_center = Yoast_Notification_Center::get();
@@ -60,6 +64,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Test instance.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$subject = Yoast_Notification_Center::get();
@@ -71,6 +77,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Add notification.
 	 *
 	 * @covers ::add_notification
+	 *
+	 * @return void
 	 */
 	public function test_add_notification() {
 		$notification = new Yoast_Notification( 'notification' );
@@ -85,6 +93,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Add wrong notification.
 	 *
 	 * @covers ::add_notification
+	 *
+	 * @return void
 	 */
 	public function test_add_notification_twice() {
 		$notification = new Yoast_Notification( 'notification' );
@@ -104,6 +114,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Only one should be in the list.
 	 *
 	 * @covers ::add_notification
+	 *
+	 * @return void
 	 */
 	public function test_add_notification_twice_persistent() {
 		$notification = new Yoast_Notification( 'notification', [ 'id' => 'some_id' ] );
@@ -121,6 +133,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Test dismissed notification.
 	 *
 	 * @covers ::is_notification_dismissed
+	 *
+	 * @return void
 	 */
 	public function test_is_notification_dismissed() {
 		$notification_dismissal_key = 'notification_dismissal';
@@ -136,6 +150,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Clearing dismissal after it was set.
 	 *
 	 * @covers ::clear_dismissal
+	 *
+	 * @return void
 	 */
 	public function test_clear_dismissal() {
 		$notification = new Yoast_Notification( 'notification', [ 'id' => 'some_id' ] );
@@ -155,6 +171,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Clearing dismissal after it was set as string.
 	 *
 	 * @covers ::clear_dismissal
+	 *
+	 * @return void
 	 */
 	public function test_clear_dismissal_as_string() {
 		$notification = new Yoast_Notification( 'notification', [ 'id' => 'some_id' ] );
@@ -174,6 +192,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Clear dismissal with empty key.
 	 *
 	 * @covers ::clear_dismissal
+	 *
+	 * @return void
 	 */
 	public function test_clear_dismissal_empty_key() {
 		$subject = $this->get_notification_center();
@@ -184,6 +204,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Saving notifications to storage.
 	 *
 	 * @covers ::update_storage
+	 *
+	 * @return void
 	 */
 	public function test_update_storage() {
 
@@ -212,6 +234,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Not saving non-persistent notifications to storage.
 	 *
 	 * @covers ::update_storage
+	 *
+	 * @return void
 	 */
 	public function test_update_storage_non_persistent() {
 		$notification = new Yoast_Notification( 'b' );
@@ -231,6 +255,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 *
 	 * @covers ::has_stored_notifications
 	 * @covers ::remove_storage
+	 *
+	 * @return void
 	 */
 	public function test_remove_storage_without_notifications() {
 		$subject = new Yoast_Notification_Center_Double();
@@ -246,6 +272,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 *
 	 * @covers ::has_stored_notifications
 	 * @covers ::remove_storage
+	 *
+	 * @return void
 	 */
 	public function test_remove_storage_with_notifications() {
 		$notification = new Yoast_Notification( 'b', [ 'id' => 'fake_id' ] );
@@ -265,6 +293,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Sort one notification.
 	 *
 	 * @covers ::get_sorted_notifications
+	 *
+	 * @return void
 	 */
 	public function test_get_sorted_notifications() {
 		$notification = new Yoast_Notification( 'c' );
@@ -282,6 +312,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * No notification to sort, still an array.
 	 *
 	 * @covers ::get_sorted_notifications
+	 *
+	 * @return void
 	 */
 	public function test_get_sorted_notifications_empty() {
 		$subject = $this->get_notification_center();
@@ -296,6 +328,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Sort by type.
 	 *
 	 * @covers ::get_sorted_notifications
+	 *
+	 * @return void
 	 */
 	public function test_get_sorted_notifications_by_type() {
 		$message_1 = '1';
@@ -320,6 +354,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Sort by priority.
 	 *
 	 * @covers ::get_sorted_notifications
+	 *
+	 * @return void
 	 */
 	public function test_get_sorted_notifications_by_priority() {
 		$message_1 = '1';
@@ -350,6 +386,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Display notification.
 	 *
 	 * @covers Yoast_Notification_Center::display_notifications
+	 *
+	 * @return void
 	 */
 	public function test_display_notifications() {
 		$message = 'c';
@@ -382,6 +420,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 *
 	 * @covers Yoast_Notification_Center::add_notification
 	 * @covers Yoast_Notification_Center::display_notifications
+	 *
+	 * @return void
 	 */
 	public function test_display_notifications_not_for_current_user() {
 		$message = 'c';
@@ -415,6 +455,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 *
 	 * @covers Yoast_Notification_Center::add_notification
 	 * @covers Yoast_Notification_Center::display_notifications
+	 *
+	 * @return void
 	 */
 	public function test_display_dismissed_notification() {
 		$notification_dismissal_key = 'dismissed';
@@ -443,6 +485,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * When a notification already exists the list with an outdated nonce it should be updated.
 	 *
 	 * @covers Yoast_Notification_Center::add_notification
+	 *
+	 * @return void
 	 */
 	public function test_update_nonce_on_re_add_notification() {
 		// Put outdated notification in storage / notification center list.
@@ -475,6 +519,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Test if the persistent notification is seen as new.
 	 *
 	 * @covers Yoast_Notification_Center::get_new_notifications
+	 *
+	 * @return void
 	 */
 	public function test_notification_is_new() {
 		$id = 'my_id';
@@ -494,6 +540,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Test how many resolved notifications we have.
 	 *
 	 * @covers Yoast_Notification_Center::get_resolved_notification_count
+	 *
+	 * @return void
 	 */
 	public function test_resolved_notifications() {
 
@@ -508,6 +556,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Tests if the notification is not being dismissed.
 	 *
 	 * @covers Yoast_Notification_Center::maybe_dismiss_notification
+	 *
+	 * @return void
 	 */
 	public function test_maybe_dismiss_notification() {
 		$a = new Yoast_Notification( 'a' );
@@ -521,6 +571,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Test notification count.
 	 *
 	 * @covers Yoast_Notification_Center::get_notification_count
+	 *
+	 * @return void
 	 */
 	public function test_get_notification_count() {
 
@@ -540,6 +592,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * @group ms-required
 	 *
 	 * @covers Yoast_Notification_Center::dismiss_notification
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_notification_is_per_site() {
 		$this->skipWithoutMultisite();
@@ -568,6 +622,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * @group ms-required
 	 *
 	 * @covers Yoast_Notification_Center::restore_notification
+	 *
+	 * @return void
 	 */
 	public function test_restore_notification_is_per_site() {
 		$this->skipWithoutMultisite();
@@ -602,6 +658,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * @group ms-required
 	 *
 	 * @covers Yoast_Notification_Center::is_notification_dismissed
+	 *
+	 * @return void
 	 */
 	public function test_is_notification_dismissed_is_per_site() {
 		$this->skipWithoutMultisite();
@@ -628,6 +686,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Tests that checking for dismissed notifications falls back to user meta if no user options.
 	 *
 	 * @covers Yoast_Notification_Center::is_notification_dismissed
+	 *
+	 * @return void
 	 */
 	public function test_is_notification_dismissed_falls_back_to_user_meta() {
 
@@ -650,6 +710,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Tests that restoring a notification also clears old user metadata.
 	 *
 	 * @covers Yoast_Notification_Center::restore_notification
+	 *
+	 * @return void
 	 */
 	public function test_restore_notification_clears_user_meta() {
 
@@ -667,6 +729,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Tests that nonces are stripped when notifications are fetched from the database.
 	 *
 	 * @covers Yoast_Notification_Center::retrieve_notifications_from_storage
+	 *
+	 * @return void
 	 */
 	public function test_retrieve_notifications_from_storage_strips_nonces() {
 		$notification_center = Yoast_Notification_Center::get();
@@ -700,6 +764,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Tests that nonces are not stored in the database when persisting notifications.
 	 *
 	 * @covers Yoast_Notification_Center::update_storage
+	 *
+	 * @return void
 	 */
 	public function test_update_storage_strips_nonces() {
 		$notification_center = Yoast_Notification_Center::get();
@@ -722,6 +788,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Tests removal of a notification when there isn't any with given ID.
 	 *
 	 * @covers Yoast_Notification_Center::remove_notification_by_id
+	 *
+	 * @return void
 	 */
 	public function test_remove_notification_by_id_when_no_notification_is_found() {
 		$notification_center = $this
@@ -741,6 +809,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * Tests removal of a notification.
 	 *
 	 * @covers Yoast_Notification_Center::remove_notification_by_id
+	 *
+	 * @return void
 	 */
 	public function test_remove_notification_by_id_when_notification_is_found() {
 		$notification_center = $this
@@ -773,6 +843,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * @param mixed  $stored_notifications The return value of get_stored_notifications.
 	 * @param bool   $expected             The expected value: true or false.
 	 * @param string $message              Message to show when test fails.
+	 *
+	 * @return void
 	 */
 	public function test_has_stored_notifications( $stored_notifications, $expected, $message ) {
 		$instance = $this
@@ -792,6 +864,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * A notification can be added twice, if it is added for different users.
 	 *
 	 * @covers Yoast_Notification_Center::add_notification
+	 *
+	 * @return void
 	 */
 	public function test_add_notifications_for_multiple_users() {
 
@@ -836,6 +910,8 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 * A notification with the same ID should only be added once for a single user.
 	 *
 	 * @covers Yoast_Notification_Center::add_notification
+	 *
+	 * @return void
 	 */
 	public function test_add_notifications_only_once_for_user() {
 
@@ -887,7 +963,7 @@ class Yoast_Notification_Center_Test extends TestCase {
 	 *
 	 * @return array The test values.
 	 */
-	public function has_stored_notifications_provider() {
+	public static function has_stored_notifications_provider() {
 		return [
 			[
 				'stored_notifications' => false,

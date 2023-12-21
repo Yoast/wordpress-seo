@@ -28,6 +28,8 @@ class WPSEO_Rewrite {
 	 * Trigger a rewrite_rule flush on shutdown.
 	 *
 	 * @since 1.2.8
+	 *
+	 * @return void
 	 */
 	public function schedule_flush() {
 		add_action( 'shutdown', 'flush_rewrite_rules' );
