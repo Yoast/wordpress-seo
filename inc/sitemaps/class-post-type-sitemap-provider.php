@@ -680,19 +680,20 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
 
-		$replacements   = [];
-		$replacements[] = 'ordering';
-		$replacements[] = 'post_modified_gmt';
-		$replacements[] = $wpdb->posts;
-		$replacements[] = 'type_status_date';
-		$replacements[] = 'post_status';
-		$replacements   = array_merge( $replacements, $post_statuses );
-		$replacements[] = 'post_type';
-		$replacements[] = $post_type;
-		$replacements[] = 'post_modified_gmt';
-		$replacements[] = 'post_modified_gmt';
-		$replacements[] = 'ordering';
-		$replacements[] = $max_entries;
+		$replacements = [
+			'ordering',
+			'post_modified_gmt',
+			$wpdb->posts,
+			'type_status_date',
+			'post_status',
+			...$post_statuses,
+			'post_type',
+			$post_type,
+			'post_modified_gmt',
+			'post_modified_gmt',
+			'ordering',
+			$max_entries,
+		];
 
 		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
 		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
