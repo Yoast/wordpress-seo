@@ -186,59 +186,59 @@ const SiteRepresentation = () => {
 								>
 									<FormikWithErrorFieldWithDummy
 										as={ TextareaField }
-										name="wpseo-org-description"
-										id="input-wpseo-org-description"
+										name="wpseo_titles.org-description"
+										id="input-wpseo_titles-org-description"
 										label={ __( "Organization description", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
-										name="wpseo-org-email"
+										name="wpseo_titles.org-email"
 										id="input-wpseo-org-email"
 										label={ __( "Organization email address", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ Checkbox }
-										name="wpseo-org-seperate-email"
+										name="wpseo_titles.org-seperate-email"
 										id="input-wpseo-org-seperate-email"
 										label={ __( "Add a separate email address for contact.", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
-										name="wpseo-org-phone"
+										name="wpseo_titles.org-phone"
 										id="input-wpseo-org-phone"
 										label={ __( "Organization phone number", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ Checkbox }
-										name="wpseo-org-seperate-phone"
-										id="input-wpseo-org-seperate-phone"
+										name="wpseo_titles.org-seperate-phone"
+										id="input-wpseo_titles-org-seperate-phone"
 										label={ __( "Add a separate phone number for contact.", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 										checked={ false }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
-										name="wpseo-org-legal-name"
-										id="input-wpseo-org-legal-name"
+										name="wpseo_titles.org-legal-name"
+										id="input-wpseo_titles-org-legal-name"
 										label={ __( "Organization's legal name", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
-										name="wpseo-org-founding-date"
-										id="input-wpseo-org-founding-date"
+										name="wpseo_titles.org-founding-date"
+										id="input-wpseo_titles-org-founding-date"
 										label={ __( "Organization’s founding date", "wordpress-seo" ) }
 										type="date"
 										isDummy={ ! isPremium }
 									/>
 									<FormikDummySelectField
 										as={ SelectField }
-										name="wpseo-org-number-employees"
-										id="input-wpseo-org-number-employees"
+										name="wpseo_titles.org-number-employees"
+										id="input-wpseo_titles-org-number-employees"
 										label={ __( "Number of employees", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 										options={ [
@@ -369,43 +369,43 @@ const SiteRepresentation = () => {
 								>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
-										name="wpseo-org-vat-id"
-										id="input-wpseo-org-vat-id"
+										name="wpseo_titles.org-vat-id"
+										id="input-wpseo_titles-org-vat-id"
 										label={ __( "VAT ID", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
-										name="wpseo-org-tax-id"
-										id="input-wpseo-org-tax-id"
+										name="wpseo_titles.org-tax-id"
+										id="input-wpseo_titles-org-tax-id"
 										label={ __( "Tax ID", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
-										name="wpseo-org-iso"
-										id="input-wpseo-org-iso"
+										name="wpseo_titles.org-iso"
+										id="input-wpseo_titles-org-iso"
 										label={ __( "ISO 6523", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
-										name="wpseo-org-duns"
-										id="input-wpseo-org-duns"
+										name="wpseo_titles.org-duns"
+										id="input-wpseo_titles-org-duns"
 										label={ __( "DUNS", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
-										name="wpseo-org-leicode"
-										id="input-wpseo-org-leicode"
+										name="wpseo_titles.org-leicode"
+										id="input-wpseo_titles-org-leicode"
 										label={ __( "leiCode", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
-										name="wpseo-org-naics"
-										id="input-wpseo-org-naics"
+										name="wpseo_titles.org-naics"
+										id="input-wpseo_titles-org-naics"
 										label={ __( "NAICS", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
