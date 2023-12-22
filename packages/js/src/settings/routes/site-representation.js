@@ -221,7 +221,6 @@ const SiteRepresentation = () => {
 										id="input-wpseo_titles-org-seperate-phone"
 										label={ __( "Add a separate phone number for contact.", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
-										checked={ false }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
