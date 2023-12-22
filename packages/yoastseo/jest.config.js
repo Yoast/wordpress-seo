@@ -9,7 +9,9 @@ module.exports = {
 	transformIgnorePatterns: [
 		"<rootDir>/node_modules/(?!lodash-es/.*)",
 	],
-	testRegex: "/spec/.*\\.(js)$",
+	testMatch: [
+		"**/spec/**/*.js",
+	],
 	testEnvironment: "jsdom",
 	moduleDirectories: [
 		"node_modules",
