@@ -170,7 +170,10 @@ const SiteRepresentation = () => {
 							</FieldsetLayout>
 							<hr className="yst-my-8" />
 							<FieldsetLayout
-								title={ __( "Additional organization info", "wordpress-seo" ) }
+								title={ <>
+									{ __( "Additional organization info", "wordpress-seo" ) }
+									{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+								</> }
 								description={ __( "Enrich your organization's profile by providing more in-depth information. The more details you share, the better Google understands your website.", "wordpress-seo" ) }
 							>
 								<FeatureUpsell
@@ -353,7 +356,10 @@ const SiteRepresentation = () => {
 							</FieldsetLayout>
 							<hr className="yst-my-8" />
 							<FieldsetLayout
-								title={ __( "Organization identifiers", "wordpress-seo" ) }
+								title={ <>
+									{ __( "Organization identifiers", "wordpress-seo" ) }
+									{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+								</> }
 								description={ __( "Bacon ipsum dolor amet filet mignon cupim spare ribs drumstick shankle shank. Ground round jerky fatback, hamburger bacon turkey t-bone short loin jowl corned beef boudin.", "wordpress-seo" ) }
 							>
 								<FeatureUpsell
