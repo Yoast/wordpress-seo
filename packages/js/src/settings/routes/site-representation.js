@@ -4,16 +4,17 @@ import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
 import { createInterpolateElement, Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Badge, Button, FeatureUpsell, Link, Radio, RadioGroup, TextField } from "@yoast/ui-library";
+import { Alert, Badge, Button, Checkbox, FeatureUpsell, Link, Radio, RadioGroup, SelectField, TextField, TextareaField } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
 import { isEmpty } from "lodash";
 import AnimateHeight from "react-animate-height";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
-import { withFormikDummyField } from "../hocs";
+import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
+import { withFormikDummyField, withFormikDummySelectField } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
 const FormikWithErrorFieldWithDummy = withFormikDummyField( FormikWithErrorField );
+const FormikDummySelectField = withFormikDummySelectField( FormikValueChangeField );
 
 /**
  * @returns {JSX.Element} The site representation route.
@@ -169,6 +170,93 @@ const SiteRepresentation = () => {
 							</FieldsetLayout>
 							<hr className="yst-my-8" />
 							<FieldsetLayout
+								title={ __( "Additional organization info", "wordpress-seo" ) }
+								description={ __( "Enrich your organization's profile by providing more in-depth information. The more details you share, the better Google understands your website.", "wordpress-seo" ) }
+							>
+								<FeatureUpsell
+									shouldUpsell={ ! isPremium }
+									variant="card"
+									cardLink={ "test" }
+									cardText={ sprintf(
+										/* translators: %1$s expands to Premium. */
+										__( "Unlock with %1$s", "wordpress-seo" ),
+										"Premium"
+									) }
+									{ ...premiumUpsellConfig }
+								>
+									<FormikWithErrorFieldWithDummy
+										as={ TextareaField }
+										name="wpseo-org-description"
+										id="input-wpseo-org-description"
+										label={ __( "Organization description", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo-org-email"
+										id="input-wpseo-org-email"
+										label={ __( "Organization email address", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ Checkbox }
+										name="wpseo-org-seperate-email"
+										id="input-wpseo-org-seperate-email"
+										label={ __( "Add a separate email address for contact.", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo-org-phone"
+										id="input-wpseo-org-phone"
+										label={ __( "Organization phone number", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ Checkbox }
+										name="wpseo-org-seperate-phone"
+										id="input-wpseo-org-seperate-phone"
+										label={ __( "Add a separate phone number for contact.", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+										checked={ false }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo-org-legal-name"
+										id="input-wpseo-org-legal-name"
+										label={ __( "Organization's legal name", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo-org-founding-date"
+										id="input-wpseo-org-founding-date"
+										label={ __( "Organization’s founding date", "wordpress-seo" ) }
+										type="date"
+										isDummy={ ! isPremium }
+									/>
+									<FormikDummySelectField
+										as={ SelectField }
+										name="wpseo-org-number-employees"
+										id="input-wpseo-org-number-employees"
+										label={ __( "Number of employees", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+										options={ [
+											{ value: "1-10", label: __( "1-10", "wordpress-seo" ) },
+											{ value: "11-50", label: __( "11-50", "wordpress-seo" ) },
+											{ value: "51-200", label: __( "51-200", "wordpress-seo" ) },
+											{ value: "201-500", label: __( "201-500", "wordpress-seo" ) },
+											{ value: "501-1000", label: __( "501-1000", "wordpress-seo" ) },
+											{ value: "1001-5000", label: __( "1001-5000", "wordpress-seo" ) },
+											{ value: "5001-10000", label: __( "5001-10000", "wordpress-seo" ) },
+											{ value: "10001+", label: __( "10001+", "wordpress-seo" ) },
+										] }
+									/>
+
+								</FeatureUpsell>
+							</FieldsetLayout>
+							<hr className="yst-my-8" />
+							<FieldsetLayout
 								id="fieldset-wpseo_social-other_social_urls"
 								title={ __( "Other profiles", "wordpress-seo" ) }
 								description={ __( "Tell us if you have any other profiles on the web that belong to your organization. This can be any number of profiles, like YouTube, LinkedIn, Pinterest, or even Wikipedia.", "wordpress-seo" ) }
@@ -262,6 +350,66 @@ const SiteRepresentation = () => {
 										</>
 									) }
 								</FieldArray>
+							</FieldsetLayout>
+							<hr className="yst-my-8" />
+							<FieldsetLayout
+								title={ __( "Organization identifiers", "wordpress-seo" ) }
+								description={ __( "Bacon ipsum dolor amet filet mignon cupim spare ribs drumstick shankle shank. Ground round jerky fatback, hamburger bacon turkey t-bone short loin jowl corned beef boudin.", "wordpress-seo" ) }
+							>
+								<FeatureUpsell
+									shouldUpsell={ ! isPremium }
+									variant="card"
+									cardLink={ "test" }
+									cardText={ sprintf(
+										/* translators: %1$s expands to Premium. */
+										__( "Unlock with %1$s", "wordpress-seo" ),
+										"Premium"
+									) }
+									{ ...premiumUpsellConfig }
+								>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo-org-vat-id"
+										id="input-wpseo-org-vat-id"
+										label={ __( "VAT ID", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo-org-tax-id"
+										id="input-wpseo-org-tax-id"
+										label={ __( "Tax ID", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo-org-iso"
+										id="input-wpseo-org-iso"
+										label={ __( "ISO 6523", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo-org-duns"
+										id="input-wpseo-org-duns"
+										label={ __( "DUNS", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo-org-leicode"
+										id="input-wpseo-org-leicode"
+										label={ __( "leiCode", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo-org-naics"
+										id="input-wpseo-org-naics"
+										label={ __( "NAICS", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+									/>
+								</FeatureUpsell>
 							</FieldsetLayout>
 						</AnimateHeight>
 						<AnimateHeight
