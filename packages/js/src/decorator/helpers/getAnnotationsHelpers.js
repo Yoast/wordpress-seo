@@ -12,7 +12,7 @@ import { calculateAnnotationsForTextFormat } from "./searchBasedAnnotationHelper
  * @param {Object} block							The block object from the editor.
  * @param {Mark[]} marks							The marks to turn into annotations.
  *
- * @returns {Array}  An array of annotations for a specific block.
+ * @returns {[{startOffset: number, endOffset: number}]}  An array of annotations for a specific block.
  */
 function createAnnotations( html, richTextIdentifier, attributeWithAnnotationSupport, block, marks ) {
 	const blockClientId = block.clientId;
@@ -25,15 +25,12 @@ function createAnnotations( html, richTextIdentifier, attributeWithAnnotationSup
 
 	const richText = record.text;
 
-	return flatMap( marks, mark  => {
+	return flatMap( marks, mark => {
 		let annotations;
 		if ( mark.hasBlockPosition && mark.hasBlockPosition() ) {
 			annotations = createAnnotationsFromPositionBasedMarks( mark, blockClientId, block.name, html, richText );
 		} else {
-			annotations = calculateAnnotationsForTextFormat(
-				richText,
-				mark
-			);
+			annotations = calculateAnnotationsForTextFormat( richText, mark );
 		}
 
 		if ( ! annotations ) {
@@ -159,9 +156,9 @@ const getAnnotationsFromBlockAttributes = ( annotatableAttributesFromBlock, mark
  *
  * @param {Object} attributeWithAnnotationSupport	The attribute we have annotation support for.
  * @param {Object} block	The block object from the editor.
- * @param {Array}  marks	The marks to turn into annotations.
+ * @param {Mark[]} marks	The marks to turn into annotations.
  *
- * @returns {Array} The created annotations for Yoast FAQ block.
+ * @returns {[{startOffset: number, endOffset: number}]} The created annotations for Yoast FAQ block.
  */
 export const getAnnotationsForFAQ = ( attributeWithAnnotationSupport, block, marks ) => {
 	const annotatableTextsFromBlock = block.attributes[ attributeWithAnnotationSupport.key ];
@@ -177,9 +174,9 @@ export const getAnnotationsForFAQ = ( attributeWithAnnotationSupport, block, mar
  *
  * @param {Object} attributeWithAnnotationSupport The attribute we have annotation support for.
  * @param {Object} block	The block object from the editor.
- * @param {Array}  marks	The marks to turn into annotations.
+ * @param {Mark[]}  marks	The marks to turn into annotations.
  *
- * @returns {Array} The created annotations for Yoast How-To block.
+ * @returns {[{startOffset: number, endOffset: number}]} The created annotations for Yoast How-To block.
  */
 export const getAnnotationsForHowTo = ( attributeWithAnnotationSupport, block, marks ) => {
 	const annotatableTextsFromBlock = block.attributes[ attributeWithAnnotationSupport.key ];
@@ -204,17 +201,32 @@ export const getAnnotationsForHowTo = ( attributeWithAnnotationSupport, block, m
 };
 
 /**
+ * Retrieves the HTML for a RichText block given its identifier.
+ * Before, the HTML content could be retrieved by directly calling on the RichText block's attributes.
+ * Since Gutenberg 17.3.0, that returns a RichTextData object, from which we can retrieve the HTML through `toString()`.
+ * Note that we can not use getBlockContent from `@wordpress/blocks` here, as the richTextIdentifier may differ per block.
+ *
+ * @param {Object} block The block.
+ * @param {string} richTextIdentifier The identifier.
+ * @returns {string} The HTML.
+ */
+const getBlockHtml = ( block, richTextIdentifier ) => {
+	const richTextData = block.attributes[ richTextIdentifier ];
+	return typeof richTextData === "string" ? richTextData : richTextData.toString();
+};
+
+/**
  * Gets the annotations for non-Yoast blocks.
  *
  * @param {Object} attributeWithAnnotationSupport The attribute we have annotation support for.
  * @param {Object} block	The block object from the editor.
- * @param {Array}  marks	The marks to turn into annotations.
+ * @param {Mark[]} marks	The marks to turn into annotations.
  *
- * @returns {Array} The annotations to apply.
+ * @returns {[{startOffset: number, endOffset: number}]} The annotations to apply.
  */
 export function getAnnotationsForWPBlock( attributeWithAnnotationSupport, block, marks ) {
 	const richTextIdentifier = attributeWithAnnotationSupport.key;
-	const blockHtml = block.attributes[ richTextIdentifier ];
+	const blockHtml = getBlockHtml( block, richTextIdentifier );
 
 	return createAnnotations( blockHtml, richTextIdentifier, attributeWithAnnotationSupport, block, marks );
 }
