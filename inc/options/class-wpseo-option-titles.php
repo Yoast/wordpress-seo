@@ -107,7 +107,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'org-phone'                        => '',
 		'org-seperate-phone'               => false,
 		'org-legal-name'                   => '',
-		'founding-date'                    => '',
+		'org-founding-date'                => '',
 		'org-number-employees'             => '',
 
 		'org-vat-id'                       => '',
@@ -435,7 +435,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'org-email':
 				case 'org-phone':
 				case 'org-legal-name':
-				case 'founding-date':
+				case 'org-founding-date':
 				case 'org-number-employees':
 				case 'org-vat-id':
 				case 'org-tax-id':
