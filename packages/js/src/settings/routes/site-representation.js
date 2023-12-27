@@ -9,12 +9,13 @@ import { Field, FieldArray, useFormikContext } from "formik";
 import { isEmpty } from "lodash";
 import AnimateHeight from "react-animate-height";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
+import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormikValueChangeField, FormLayout, RouteLayout, FormikCheckboxField } from "../components";
 import { withFormikDummyField, withFormikDummySelectField } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
 const FormikWithErrorFieldWithDummy = withFormikDummyField( FormikWithErrorField );
 const FormikDummySelectField = withFormikDummySelectField( FormikValueChangeField );
+const FormikCheckboxFieldWithDummy = withFormikDummyField( FormikCheckboxField );
 
 /**
  * @returns {JSX.Element} The site representation route.
@@ -197,25 +198,25 @@ const SiteRepresentation = () => {
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
 										name="wpseo_titles.org-email"
-										id="input-wpseo-org-email"
+										id="input-wpseo_titles-org-email"
 										label={ __( "Organization email address", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
-									<FormikWithErrorFieldWithDummy
+									<FormikCheckboxFieldWithDummy
 										as={ Checkbox }
 										name="wpseo_titles.org-seperate-email"
-										id="input-wpseo-org-seperate-email"
+										id="input-wpseo_titles-org-seperate-email"
 										label={ __( "Add a separate email address for contact.", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
 										name="wpseo_titles.org-phone"
-										id="input-wpseo-org-phone"
+										id="input-wpseo_titles-org-phone"
 										label={ __( "Organization phone number", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
-									<FormikWithErrorFieldWithDummy
+									<FormikCheckboxFieldWithDummy
 										as={ Checkbox }
 										name="wpseo_titles.org-seperate-phone"
 										id="input-wpseo_titles-org-seperate-phone"
