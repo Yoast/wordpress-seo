@@ -4,17 +4,17 @@ import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
 import { createInterpolateElement, Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Badge, Button, Checkbox, FeatureUpsell, Link, Radio, RadioGroup, SelectField, TextField, TextareaField } from "@yoast/ui-library";
+import { Alert, Badge, Button, Checkbox, FeatureUpsell, Link, Radio, RadioGroup, TextField, TextareaField } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
 import { isEmpty } from "lodash";
 import AnimateHeight from "react-animate-height";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormikValueChangeField, FormLayout, RouteLayout, FormikCheckboxField } from "../components";
+import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormikAutocompleteField, FormLayout, RouteLayout, FormikCheckboxField } from "../components";
 import { withFormikDummyField, withFormikDummySelectField } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
 const FormikWithErrorFieldWithDummy = withFormikDummyField( FormikWithErrorField );
-const FormikDummySelectField = withFormikDummySelectField( FormikValueChangeField );
+const FormikDummyAutocompleteField = withFormikDummySelectField( FormikAutocompleteField );
 const FormikCheckboxFieldWithDummy = withFormikDummyField( FormikCheckboxField );
 
 /**
@@ -235,16 +235,18 @@ const SiteRepresentation = () => {
 										name="wpseo_titles.org-founding-date"
 										id="input-wpseo_titles-org-founding-date"
 										label={ __( "Organization’s founding date", "wordpress-seo" ) }
+										placeholder={ __( "Select a date...", "wordpress-seo" ) }
 										type="date"
 										isDummy={ ! isPremium }
 									/>
-									<FormikDummySelectField
-										as={ SelectField }
+									<FormikDummyAutocompleteField
 										name="wpseo_titles.org-number-employees"
 										id="input-wpseo_titles-org-number-employees"
 										label={ __( "Number of employees", "wordpress-seo" ) }
+										placeholder={ __( "Select a range or add a specific number", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 										options={ [
+											{ value: "", label: "None" },
 											{ value: "1-10", label: __( "1-10", "wordpress-seo" ) },
 											{ value: "11-50", label: __( "11-50", "wordpress-seo" ) },
 											{ value: "51-200", label: __( "51-200", "wordpress-seo" ) },
