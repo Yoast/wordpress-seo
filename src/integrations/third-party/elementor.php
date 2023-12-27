@@ -613,7 +613,7 @@ class Elementor implements Integration_Interface {
 			$values['cornerstoneActive'] = false;
 		}
 
-		$values['markerStatus'] = $this->is_highlighting_available() ? 'enabled' : 'hidden';
+		$values['elementorMarkerStatus'] = $this->is_highlighting_available() ? 'enabled' : 'hidden';
 
 		return $values;
 	}

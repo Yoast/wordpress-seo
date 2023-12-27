@@ -18,7 +18,7 @@ const populateStore = store => {
 	// Initialize the focus keyphrase.
 	store.dispatch( actions.loadFocusKeyword() );
 	// Show marker buttons.
-	store.dispatch( actions.setMarkerStatus( window.wpseoScriptData.metabox.markerStatus ) );
+	store.dispatch( actions.setMarkerStatus( window.wpseoScriptData.metabox.elementorMarkerStatus ) );
 
 	store.dispatch(
 		actions.setSettings( {
