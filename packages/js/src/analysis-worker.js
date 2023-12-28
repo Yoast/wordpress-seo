@@ -9,7 +9,6 @@ self.window = self;
  * - regenerator-runtime: used for (transpiled) async functions.
  * - wp-hooks: dependency for wp-i18n.
  * - wp-i18n: used for translation strings.
- * - wp-polyfill: polyfills for old browsers.
  *
  * @type {string[]}
  */
@@ -18,7 +17,6 @@ const allowedDependencies = [
 	"regenerator-runtime",
 	"wp-hooks",
 	"wp-i18n",
-	"wp-polyfill",
 ];
 
 /**
