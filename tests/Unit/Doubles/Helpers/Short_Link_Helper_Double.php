@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 /**
  * Class Short_Link_Helper_Double.
  */
-class Short_Link_Helper_Double extends Short_Link_Helper {
+final class Short_Link_Helper_Double extends Short_Link_Helper {
 
 	/**
 	 * Gets the additional shortlink data.

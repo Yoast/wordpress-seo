@@ -90,7 +90,7 @@ class Current_Page_Helper {
 		/**
 		 * Filter: Allow changing the default page id.
 		 *
-		 * @api int $page_id The default page id.
+		 * @param int $page_id The default page id.
 		 */
 		return \apply_filters( 'wpseo_frontend_page_type_simple_page_id', 0 );
 	}
@@ -414,7 +414,7 @@ class Current_Page_Helper {
 	public function is_yoast_seo_page() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only using the variable in the strpos function.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only using the variable in the strpos function.
 			$current_page = \wp_unslash( $_GET['page'] );
 			return \strpos( $current_page, 'wpseo_' ) === 0;
 		}
@@ -485,9 +485,8 @@ class Current_Page_Helper {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 		$term     = $wp_query->get_queried_object();
 
-
 		$queried_terms = $wp_query->tax_query->queried_terms;
-		if ( is_null( $term ) || empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
+		if ( \is_null( $term ) || empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
 			return 0;
 		}
 

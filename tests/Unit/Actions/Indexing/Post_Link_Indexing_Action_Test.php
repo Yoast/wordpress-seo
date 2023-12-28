@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action
  */
-class Post_Link_Indexing_Action_Test extends TestCase {
+final class Post_Link_Indexing_Action_Test extends TestCase {
 
 	/**
 	 * The link builder.
@@ -60,6 +60,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -86,11 +88,13 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * Tests setting the helper.
 	 *
 	 * @covers ::set_helper
+	 *
+	 * @return void
 	 */
 	public function test_set_helper() {
 		$this->instance->set_helper( Mockery::mock( Post_Type_Helper::class ) );
 
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Post_Type_Helper::class,
 			$this->getPropertyValue( $this->instance, 'post_type_helper' )
 		);
@@ -101,6 +105,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 *
 	 * @covers ::get_count_query
 	 * @covers \Yoast\WP\SEO\Actions\Indexing\Abstract_Link_Indexing_Action::get_total_unindexed
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed() {
 		Functions\expect( 'get_transient' )
@@ -155,6 +161,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * @covers ::get_count_query
 	 * @covers ::get_total_unindexed
 	 * @covers ::get_limited_unindexed_count
+	 *
+	 * @return void
 	 */
 	public function test_get_limited_unindexed_count() {
 		Functions\expect( 'get_transient' )
@@ -207,6 +215,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * Tests the index function.
 	 *
 	 * @covers ::get_objects
+	 *
+	 * @return void
 	 */
 	public function test_index() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
@@ -280,6 +290,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * Tests the index function.
 	 *
 	 * @covers ::get_objects
+	 *
+	 * @return void
 	 */
 	public function test_index_without_link_count() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
@@ -352,6 +364,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * Tests that the transients are not deleted when no indexables have been created.
 	 *
 	 * @covers ::get_objects
+	 *
+	 * @return void
 	 */
 	public function test_index_no_indexables_created() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );

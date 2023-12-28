@@ -46,6 +46,8 @@ class ReadabilityAnalysis extends Component {
 	 * @returns {wp.Element} The Readability Analysis results.
 	 */
 	renderResults( upsellResults ) {
+		const highlightingUpsellLink = "shortlinks.upsell.sidebar.highlighting_readability_analysis";
+
 		return (
 			<Fragment>
 				<AnalysisHeader>
@@ -67,6 +69,8 @@ class ReadabilityAnalysis extends Component {
 					upsellResults={ upsellResults }
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ this.props.marksButtonStatus }
+					highlightingUpsellLink={ highlightingUpsellLink }
+					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 				/>
 			</Fragment>
 		);
@@ -183,11 +187,13 @@ ReadabilityAnalysis.propTypes = {
 	marksButtonStatus: PropTypes.string.isRequired,
 	overallScore: PropTypes.number,
 	shouldUpsell: PropTypes.bool,
+	shouldUpsellHighlighting: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
 	overallScore: null,
 	shouldUpsell: false,
+	shouldUpsellHighlighting: false,
 };
 
 export default withSelect( select => {

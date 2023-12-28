@@ -219,7 +219,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		/**
 		 * Filter: 'wpseo_enable_tracking' - Enables the data tracking of Yoast SEO Premium.
 		 *
-		 * @api string $is_enabled The enabled state. Default is false.
+		 * @param string $is_enabled The enabled state. Default is false.
 		 */
 		$this->defaults['tracking'] = apply_filters( 'wpseo_enable_tracking', false );
 
@@ -469,7 +469,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 						if ( is_array( $items ) ) {
 							foreach ( $items as $item_key => $item ) {
-								if ( ! \is_string( $item_key ) || ! \is_numeric( $item ) ) {
+								if ( ! is_string( $item_key ) || ! is_numeric( $item ) ) {
 									unset( $items[ $item_key ] );
 								}
 							}

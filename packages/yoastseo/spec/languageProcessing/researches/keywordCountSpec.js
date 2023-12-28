@@ -538,18 +538,30 @@ describe.each( testCases )( "Test for counting the keyphrase in a text in englis
 
 const testCasesWithSpecialCharacters = [
 	{
-		description: "counts the keyphrase occurrence in the text with &nbsp;",
+		description: "counts the keyphrase occurrence in a text with &nbsp;",
 		paper: new Paper( "<p>a string with nbsp to match the key&nbsp;word.</p>", { keyword: "key word" } ),
 		keyphraseForms: [ [ "key" ], [ "word" ] ],
 		expectedCount: 1,
 		expectedMarkings: [
-			new Mark( { marked: "a string with nbsp to match the <yoastmark class='yoast-text-mark'>key word</yoastmark>.",
-				original: "a string with nbsp to match the key word.",
+			new Mark( { marked: "a string with nbsp to match the <yoastmark class='yoast-text-mark'>key word</yoastmark>.",
+				original: "a string with nbsp to match the key word.",
 				position: {
 					startOffset: 35,
-					endOffset: 43,
+					endOffset: 38,
 					startOffsetBlock: 32,
-					endOffsetBlock: 40,
+					endOffsetBlock: 35,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+			new Mark( { marked: "a string with nbsp to match the <yoastmark class='yoast-text-mark'>key word</yoastmark>.",
+				original: "a string with nbsp to match the key word.",
+				position: {
+					startOffset: 44,
+					endOffset: 48,
+					startOffsetBlock: 41,
+					endOffsetBlock: 45,
 					attributeId: "",
 					clientId: "",
 					isFirstSection: false,
@@ -1045,8 +1057,12 @@ const testCasesWithSpecialCharacters = [
 				wpBlocks: [
 					{
 						attributes: {
-							// eslint-disable-next-line max-len
-							content: "<strong>Over the years, we’ve written&nbsp;quite a few articles about&nbsp;</strong><a href=\"https://yoast.com/tag/branding/\">branding</a><strong>. Branding is about getting people to relate to your company and products. It’s also about trying to make your brand synonymous with a certain product or service. This can be a lengthy and hard project. It can potentially cost you all of your revenue. It’s no wonder that branding is often associated with investing lots of money in marketing and promotion. However, for a lot of small business owners, the investment in branding will have to&nbsp;be made with a&nbsp;relatively small budget.&nbsp;</strong>",
+							content: "<strong>Over the years, we’ve written&nbsp;quite a few articles about&nbsp;</strong><a href=\"https://yoast." +
+								"com/tag/branding/\">branding</a><strong>. Branding is about getting people to relate to your company and products." +
+								" It’s also about trying to make your brand synonymous with a certain product or service. This can be a lengthy and" +
+								" hard project. It can potentially cost you all of your revenue. It’s no wonder that branding is often associated " +
+								"with investing lots of money in marketing and promotion. However, for a lot of small business owners, the " +
+								"investment in branding will have to&nbsp;be made with a&nbsp;relatively small budget.&nbsp;</strong>",
 						},
 						name: "core/paragraph",
 						clientId: "6860403c-0b36-43b2-96fa-2d30c10cb44c",
@@ -1060,14 +1076,14 @@ const testCasesWithSpecialCharacters = [
 		expectedMarkings: [
 
 			new Mark( {
-				// eslint-disable-next-line max-len
-				marked: " It's also about trying to make your brand <yoastmark class='yoast-text-mark'>synonymous</yoastmark> with a certain product or service.",
+				marked: " It's also about trying to make your brand <yoastmark class='yoast-text-mark'>synonymous</yoastmark> with a certain " +
+					"product or service.",
 				original: " It’s also about trying to make your brand synonymous with a certain product or service.",
 				position: {
-					startOffset: 295,
-					endOffset: 305,
-					startOffsetBlock: 266,
-					endOffsetBlock: 276,
+					startOffset: 305,
+					endOffset: 315,
+					startOffsetBlock: 276,
+					endOffsetBlock: 286,
 					attributeId: "",
 					clientId: "",
 					isFirstSection: false,
@@ -1091,8 +1107,10 @@ const testCasesWithSpecialCharacters = [
 				wpBlocks: [
 					{
 						attributes: {
-							// eslint-disable-next-line max-len
-							content: "You might be a local bakery with 10 employees, or a local industrial company employing up to 500 people. These all can be qualified as ‘small business’. All have the same main goal when they start: the need to establish a name in their field of expertise. There are multiple ways to do this, without a huge budget. In this post, I’ll share my thoughts on how to go about your own low-budget branding.",
+							content: "You might be a local bakery with 10 employees, or a local industrial company employing up to 500 people. " +
+								"These all can be qualified as ‘small business’. All have the same main goal when they start: the need to establish" +
+								" a name in their field of expertise. There are multiple ways to do this, without a huge budget. In this post, I’ll" +
+								" share my thoughts on how to go about your own low-budget branding.",
 						},
 						name: "core/paragraph",
 						clientId: "65be5146-3395-4845-8c7c-4a79fd6e3611",
@@ -1106,8 +1124,8 @@ const testCasesWithSpecialCharacters = [
 		expectedMarkings: [
 
 			new Mark( {
-				// eslint-disable-next-line max-len
-				marked: " All have the same main goal when they start: the need to establish a name in their field of <yoastmark class='yoast-text-mark'>expertise</yoastmark>.",
+				marked: " All have the same main goal when they start: the need to establish a name in their field of " +
+					"<yoastmark class='yoast-text-mark'>expertise</yoastmark>.",
 				original: " All have the same main goal when they start: the need to establish a name in their field of expertise.",
 				position: {
 					startOffset: 282,
@@ -1146,7 +1164,6 @@ const testCasesWithSpecialCharacters = [
 		keyphraseForms: [ [ "communicate" ] ],
 		expectedCount: 1,
 		expectedMarkings: [
-			// eslint-disable-next-line max-len
 			new Mark( {
 				marked: "Define and <yoastmark class='yoast-text-mark'>communicate</yoastmark> brand values",
 				original: "Define and communicate brand values",
@@ -1194,8 +1211,8 @@ const testCasesWithSpecialCharacters = [
 								innerBlocks: [
 									{
 										attributes: {
-											// eslint-disable-next-line max-len
-											content: "<strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry.",
+											content: "<strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and " +
+												"typesetting industry.",
 										},
 										name: "core/paragraph",
 										clientId: "3f0e68c1-287e-40ef-90c8-54b3ab61702a",
@@ -1227,8 +1244,8 @@ const testCasesWithSpecialCharacters = [
 		expectedCount: 2,
 		expectedMarkings: [
 			new Mark( {
-				marked: "Lorem <yoastmark class='yoast-text-mark'>Ipsum</yoastmark> is simply dummy text of the printing and typesetting industry.",
-				original: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+				marked: "Lorem <yoastmark class='yoast-text-mark'>Ipsum</yoastmark> is simply dummy text of the printing and typesetting industry.",
+				original: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
 				position: {
 					startOffset: 149,
 					endOffset: 154,

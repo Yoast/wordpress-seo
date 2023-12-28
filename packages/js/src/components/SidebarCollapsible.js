@@ -31,6 +31,7 @@ const SidebarCollapsible = ( props ) => {
 			<button
 				onClick={ handleClick }
 				className="components-button components-panel__body-toggle"
+				type="button"
 			>
 				<span
 					className="yoast-icon-span"

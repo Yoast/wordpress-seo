@@ -32,7 +32,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Importable_Detector_Service
  */
-class Importable_Detector_Service_Test extends TestCase {
+final class Importable_Detector_Service_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -169,6 +169,8 @@ class Importable_Detector_Service_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -230,6 +232,8 @@ class Importable_Detector_Service_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertTrue( \is_array( self::getPropertyValue( $this->instance, 'importers' ) ) );
@@ -246,6 +250,8 @@ class Importable_Detector_Service_Test extends TestCase {
 	 *
 	 * @covers ::detect_importers
 	 * @covers ::detect_cleanups
+	 *
+	 * @return void
 	 */
 	public function test_detect_no_importers() {
 		$this->mock_instance->expects( 'filter_actions' )
@@ -274,6 +280,8 @@ class Importable_Detector_Service_Test extends TestCase {
 	 *
 	 * @covers ::detect_importers
 	 * @covers ::detect_cleanups
+	 *
+	 * @return void
 	 */
 	public function test_detect_data_to_import_unifinished() {
 		$this->mock_instance->expects( 'filter_actions' )
@@ -323,6 +331,8 @@ class Importable_Detector_Service_Test extends TestCase {
 	 *
 	 * @covers ::detect_importers
 	 * @covers ::detect_cleanups
+	 *
+	 * @return void
 	 */
 	public function test_detect_data_to_import_finished() {
 		$this->mock_instance->expects( 'filter_actions' )
@@ -362,6 +372,8 @@ class Importable_Detector_Service_Test extends TestCase {
 	 *
 	 * @covers ::detect_importers
 	 * @covers ::detect_cleanups
+	 *
+	 * @return void
 	 */
 	public function test_detect_no_data_to_import_unfinished() {
 		$this->mock_instance->expects( 'filter_actions' )
@@ -406,6 +418,8 @@ class Importable_Detector_Service_Test extends TestCase {
 	 *
 	 * @covers ::detect_importers
 	 * @covers ::detect_cleanups
+	 *
+	 * @return void
 	 */
 	public function test_detect_no_data_when_no_enabled_importers() {
 		$this->mock_instance->expects( 'filter_actions' )

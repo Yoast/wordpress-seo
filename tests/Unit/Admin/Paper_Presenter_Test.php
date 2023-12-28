@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Paper_Presenter_Test
  */
-class Paper_Presenter_Test extends TestCase {
+final class Paper_Presenter_Test extends TestCase {
 
 	/**
 	 * Tests whether the \WPSEO_Paper_Presenter can be used with a content option instead of a view file.
@@ -17,6 +17,8 @@ class Paper_Presenter_Test extends TestCase {
 	 * @covers WPSEO_Paper_Presenter::get_output
 	 * @covers WPSEO_Paper_Presenter::get_view_variables
 	 * @covers WPSEO_Paper_Presenter::collapsible_config
+	 *
+	 * @return void
 	 */
 	public function test_get_paper_presenter_output_without_view_file() {
 		$this->stubEscapeFunctions();

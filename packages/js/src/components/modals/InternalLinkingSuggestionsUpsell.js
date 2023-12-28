@@ -4,6 +4,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { useRootContext } from "@yoast/externals/contexts";
 import { Badge, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { getPremiumBenefits } from "../../helpers/get-premium-benefits";
 import { MetaboxButton } from "../MetaboxButton";
 import SidebarButton from "../SidebarButton";
 import UpsellBox from "../UpsellBox";
@@ -45,15 +46,11 @@ export const InternalLinkingSuggestionsUpsell = () => {
 								__( "%s automatically suggests to what content you can link with easy drag-and-drop functionality, which is good for your SEO!", "wordpress-seo" ),
 								"Yoast SEO Premium"
 							) }
-							benefitsTitle={ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
-							benefits={ [
-								__( "Create content faster: Use AI to create titles & meta descriptions", "wordpress-seo" ),
-								__( "Get extra SEO checks with the Premium SEO analysis", "wordpress-seo" ),
-								__( "Get help ranking for multiple keyphrases", "wordpress-seo" ),
-								__( "Avoid dead links on your site", "wordpress-seo" ),
-								__( "Preview how your content looks when shared on social", "wordpress-seo" ),
-								__( "Get guidance & save time on routine SEO tasks", "wordpress-seo" ),
-							] }
+							benefitsTitle={
+								/* translators: %s expands to 'Yoast SEO Premium'. */
+								sprintf( "%s also gives you:", "Yoast SEO Premium" )
+							}
+							benefits={ getPremiumBenefits() }
 							upsellButtonText={
 								sprintf(
 									/* translators: %s expands to 'Yoast SEO Premium'. */

@@ -15,7 +15,7 @@ use Yoast_Feature_Toggles;
  *
  * @covers \Yoast_Feature_Toggles
  */
-class Feature_Toggles_Test extends TestCase {
+final class Feature_Toggles_Test extends TestCase {
 
 	/**
 	 * Limited data copy of the `$feature_toggles` array from the `Yoast_Feature_Toggles::load_toggles() method.

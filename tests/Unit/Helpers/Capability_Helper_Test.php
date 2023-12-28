@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Capability_Helper
  */
-class Capability_Helper_Test extends TestCase {
+final class Capability_Helper_Test extends TestCase {
 
 	/**
 	 * The instance under test.
@@ -27,6 +27,8 @@ class Capability_Helper_Test extends TestCase {
 
 	/**
 	 * Set up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -39,6 +41,8 @@ class Capability_Helper_Test extends TestCase {
 	 *
 	 * @covers ::get_applicable_users
 	 * @covers ::get_applicable_roles
+	 *
+	 * @return void
 	 */
 	public function test_get_applicable_users() {
 		$roles = [
@@ -81,6 +85,8 @@ class Capability_Helper_Test extends TestCase {
 	 *
 	 * @covers ::get_applicable_users
 	 * @covers ::get_applicable_roles
+	 *
+	 * @return void
 	 */
 	public function test_get_applicable_users_no_applicable_roles() {
 		$roles = [
@@ -111,6 +117,8 @@ class Capability_Helper_Test extends TestCase {
 	 * Tests the get_applicable_roles method.
 	 *
 	 * @covers ::get_applicable_roles
+	 *
+	 * @return void
 	 */
 	public function test_get_applicable_roles() {
 		$roles = [
@@ -144,6 +152,8 @@ class Capability_Helper_Test extends TestCase {
 	 * when a role does not exist.
 	 *
 	 * @covers ::get_applicable_roles
+	 *
+	 * @return void
 	 */
 	public function test_get_applicable_roles_no_role() {
 		$roles = [
@@ -195,6 +205,8 @@ class Capability_Helper_Test extends TestCase {
 	 *
 	 * @covers ::current_user_can
 	 * @covers ::has_any
+	 *
+	 * @return void
 	 */
 	public function test_current_user_can_wpseo_manage_options() {
 		Monkey\Functions\expect( 'current_user_can' )
@@ -210,6 +222,8 @@ class Capability_Helper_Test extends TestCase {
 	 *
 	 * @covers ::current_user_can
 	 * @covers ::has_any
+	 *
+	 * @return void
 	 */
 	public function test_current_user_can_other_capability() {
 		Monkey\Functions\expect( 'current_user_can' )
@@ -230,6 +244,8 @@ class Capability_Helper_Test extends TestCase {
 	 *
 	 * @covers ::current_user_can
 	 * @covers ::has_any
+	 *
+	 * @return void
 	 */
 	public function test_current_user_can_returns_false_when_user_has_no_appropriate_capability() {
 		Monkey\Functions\expect( 'current_user_can' )

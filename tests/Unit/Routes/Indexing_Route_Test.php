@@ -30,7 +30,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group indexing
  */
-class Indexing_Route_Test extends TestCase {
+final class Indexing_Route_Test extends TestCase {
 
 	/**
 	 * Represents the post indexation action.
@@ -118,6 +118,8 @@ class Indexing_Route_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -155,6 +157,8 @@ class Indexing_Route_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -207,6 +211,8 @@ class Indexing_Route_Test extends TestCase {
 	 * Tests the registration of the routes.
 	 *
 	 * @covers ::register_routes
+	 *
+	 * @return void
 	 */
 	public function test_register_routes() {
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -316,6 +322,8 @@ class Indexing_Route_Test extends TestCase {
 	 *
 	 * @covers ::index_posts
 	 * @covers ::run_indexation_action
+	 *
+	 * @return void
 	 */
 	public function test_index_posts() {
 		$this->post_indexation_action
@@ -341,6 +349,8 @@ class Indexing_Route_Test extends TestCase {
 	 *
 	 * @covers ::index_terms
 	 * @covers ::run_indexation_action
+	 *
+	 * @return void
 	 */
 	public function test_index_terms() {
 		$this->term_indexation_action
@@ -366,6 +376,8 @@ class Indexing_Route_Test extends TestCase {
 	 *
 	 * @covers ::index_post_type_archives
 	 * @covers ::run_indexation_action
+	 *
+	 * @return void
 	 */
 	public function test_index_post_type_archives() {
 		$this->post_type_archive_indexation_action
@@ -391,6 +403,8 @@ class Indexing_Route_Test extends TestCase {
 	 *
 	 * @covers ::index_general
 	 * @covers ::run_indexation_action
+	 *
+	 * @return void
 	 */
 	public function test_index_general() {
 		$this->general_indexation_action
@@ -417,6 +431,8 @@ class Indexing_Route_Test extends TestCase {
 	 *
 	 * @covers ::index_post_links
 	 * @covers ::run_indexation_action
+	 *
+	 * @return void
 	 */
 	public function test_index_post_links() {
 		$this->post_link_indexing_action
@@ -443,6 +459,8 @@ class Indexing_Route_Test extends TestCase {
 	 *
 	 * @covers ::index_term_links
 	 * @covers ::run_indexation_action
+	 *
+	 * @return void
 	 */
 	public function test_index_term_links() {
 		$this->term_link_indexing_action
@@ -468,6 +486,8 @@ class Indexing_Route_Test extends TestCase {
 	 * Tests if the current user can edit posts.
 	 *
 	 * @covers ::can_index
+	 *
+	 * @return void
 	 */
 	public function test_can_index() {
 		Monkey\Functions\expect( 'current_user_can' )
@@ -482,6 +502,8 @@ class Indexing_Route_Test extends TestCase {
 	 *
 	 * @covers ::index_general
 	 * @covers ::run_indexation_action
+	 *
+	 * @return void
 	 */
 	public function test_index_general_when_error_occurs() {
 		$this->general_indexation_action->expects( 'index' )->andThrow( new Exception( 'An exception during indexing' ) );

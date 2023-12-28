@@ -59,7 +59,7 @@ const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
 				<div className="yst-flex">
 					<YoastLogo className="yst-h-5 yst-w-5 yst-text-primary-500 yst-bg-white yst-z-10 yst-border-r yst-border-white" />
 					<JetpackBoostLogo className="yst-h-5 yst-w-5 yst--ml-0.5" />
-					<button className="yst-ml-auto" onClick={ onDismissed }>
+					<button type="button" className="yst-ml-auto" onClick={ onDismissed }>
 						<XIcon className="yst-h-4 yst-w-4 yst-text-gray-400" />
 						<span className="yst-sr-only">
 							{

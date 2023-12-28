@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Uninstall_Integration_Test extends TestCase {
+final class Uninstall_Integration_Test extends TestCase {
 
 	/**
 	 * The class under test.
@@ -24,6 +24,8 @@ class Uninstall_Integration_Test extends TestCase {
 
 	/**
 	 * Runs the setup to prepare the needed instance
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		$this->instance = new Uninstall_Integration();
@@ -33,6 +35,8 @@ class Uninstall_Integration_Test extends TestCase {
 	 * Test register hooks function.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		// Arrange.
@@ -51,6 +55,8 @@ class Uninstall_Integration_Test extends TestCase {
 	 *
 	 * @covers ::wpseo_uninstall
 	 * @covers ::clear_import_statuses
+	 *
+	 * @return void
 	 */
 	public function test_wpseo_uninstall() {
 		// Arrange.
@@ -74,6 +80,8 @@ class Uninstall_Integration_Test extends TestCase {
 	 *
 	 * @covers ::wpseo_uninstall
 	 * @covers ::clear_import_statuses
+	 *
+	 * @return void
 	 */
 	public function test_wpseo_uninstall_not_found() {
 		// Arrange.

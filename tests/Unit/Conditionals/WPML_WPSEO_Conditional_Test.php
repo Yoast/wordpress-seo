@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Conditionals\Third_Party\WPML_WPSEO_Conditional
  */
-class WPML_WPSEO_Conditional_Test extends TestCase {
+final class WPML_WPSEO_Conditional_Test extends TestCase {
 
 	/**
 	 * The schema blocks feature flag conditional.
@@ -24,6 +24,8 @@ class WPML_WPSEO_Conditional_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -34,6 +36,8 @@ class WPML_WPSEO_Conditional_Test extends TestCase {
 	 * Tests whether the conditional is not met when the plugin is inactive.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met() {
 		Monkey\Functions\expect( 'is_plugin_active' )
@@ -47,6 +51,8 @@ class WPML_WPSEO_Conditional_Test extends TestCase {
 	 * Tests whether the conditional is met when the plugin is active.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met() {
 		Monkey\Functions\expect( 'is_plugin_active' )

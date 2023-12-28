@@ -70,6 +70,8 @@ class Twitter_Image_Generator implements Generator_Interface {
 	 *
 	 * @param Indexable $indexable       The indexable.
 	 * @param Images    $image_container The image container.
+	 *
+	 * @return void
 	 */
 	protected function add_from_indexable( Indexable $indexable, Images $image_container ) {
 		if ( $indexable->twitter_image_id ) {

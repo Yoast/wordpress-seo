@@ -73,7 +73,7 @@ class Organization extends Abstract_Schema_Piece {
 		 * Filter: 'wpseo_schema_organization_social_profiles' - Allows filtering social profiles for the
 		 * represented organization.
 		 *
-		 * @api string[] $profiles
+		 * @param string[] $profiles
 		 */
 		$profiles = \apply_filters( 'wpseo_schema_organization_social_profiles', $profiles );
 

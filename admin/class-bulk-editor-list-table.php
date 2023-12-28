@@ -111,6 +111,15 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected $input_fields = [];
 
 	/**
+	 * The field in the database where meta field is saved.
+	 *
+	 * Should be set in the child class.
+	 *
+	 * @var string
+	 */
+	protected $target_db_field = '';
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param array $args The arguments.
@@ -147,6 +156,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * Prepares the data and renders the page.
+	 *
+	 * @return void
 	 */
 	public function show_page() {
 		$this->prepare_page_navigation();
@@ -158,6 +169,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * Used in the constructor to build a reference list of post types the current user can edit.
+	 *
+	 * @return void
 	 */
 	protected function populate_editable_post_types() {
 		$post_types = get_post_types(
@@ -191,6 +204,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * Will show the navigation for the table like page navigation and page filter.
 	 *
 	 * @param string $which Table nav location (such as top).
+	 *
+	 * @return void
 	 */
 	public function display_tablenav( $which ) {
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
@@ -279,9 +294,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$total_posts = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT COUNT(ID) FROM {$subquery}
-					WHERE post_status IN (" .
-						implode( ', ', array_fill( 0, count( $states ), '%s' ) ) .
-					')',
+					WHERE post_status IN ("
+						. implode( ', ', array_fill( 0, count( $states ), '%s' ) )
+					. ')',
 				$states
 			)
 		);
@@ -352,6 +367,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * Outputs extra table navigation.
 	 *
 	 * @param string $which Table nav location (such as top).
+	 *
+	 * @return void
 	 */
 	public function extra_tablenav( $which ) {
 
@@ -381,9 +398,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				$post_types = $wpdb->get_results(
 					$wpdb->prepare(
 						"SELECT DISTINCT post_type FROM {$subquery}
-							WHERE post_status IN (" .
-								implode( ', ', array_fill( 0, count( $states ), '%s' ) ) .
-							') ORDER BY post_type ASC',
+							WHERE post_status IN ("
+								. implode( ', ', array_fill( 0, count( $states ), '%s' ) )
+							. ') ORDER BY post_type ASC',
 						$states
 					)
 				);
@@ -441,6 +458,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * Sets the correct pagenumber and pageurl for the navigation.
+	 *
+	 * @return void
 	 */
 	public function prepare_page_navigation() {
 
@@ -485,6 +504,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * Preparing the requested pagerows and setting the needed variables.
+	 *
+	 * @return void
 	 */
 	public function prepare_items() {
 
@@ -518,6 +539,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * Setting the column headers.
+	 *
+	 * @return void
 	 */
 	protected function set_column_headers() {
 		$columns               = $this->get_columns();
@@ -570,6 +593,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * Total items is the number of all visible items.
 	 *
 	 * @param int $total_items Total items counts.
+	 *
+	 * @return void
 	 */
 	protected function set_pagination( $total_items ) {
 		// Calculate items per page.
@@ -679,6 +704,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * Getting all the items.
 	 *
 	 * @param string $query SQL query to use.
+	 *
+	 * @return void
 	 */
 	protected function get_items( $query ) {
 		global $wpdb;
@@ -722,6 +749,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * Based on $this->items and the defined columns, the table rows will be displayed.
+	 *
+	 * @return void
 	 */
 	public function display_rows() {
 
@@ -931,6 +960,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 *
 	 * This method will loop through the current items ($this->items) for getting the post_id. With this data
 	 * ($needed_ids) the method will query the meta-data table for getting the title.
+	 *
+	 * @return void
 	 */
 	protected function get_meta_data() {
 
@@ -982,6 +1013,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * Setting $this->meta_data.
 	 *
 	 * @param array $meta_data Meta data set.
+	 *
+	 * @return void
 	 */
 	protected function parse_meta_data( $meta_data ) {
 

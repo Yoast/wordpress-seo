@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Tests for our import status object.
  */
-class Status_Test extends TestCase {
+final class Status_Test extends TestCase {
 
 	/**
 	 * Tests whether we can set a status message for the detect action.
@@ -16,6 +16,8 @@ class Status_Test extends TestCase {
 	 * @covers WPSEO_Import_Status::__construct
 	 * @covers WPSEO_Import_Status::get_action
 	 * @covers WPSEO_Import_Status::get_msg
+	 *
+	 * @return void
 	 */
 	public function test_detect_message() {
 		$import = new WPSEO_Import_Status( 'detect', false, 'test message' );
@@ -29,6 +31,8 @@ class Status_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Status::get_msg
 	 * @covers WPSEO_Import_Status::get_action
+	 *
+	 * @return void
 	 */
 	public function test_import_message() {
 		$import = new WPSEO_Import_Status( 'import', true, 'test message' );
@@ -42,6 +46,8 @@ class Status_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Status::get_msg
 	 * @covers WPSEO_Import_Status::get_action
+	 *
+	 * @return void
 	 */
 	public function test_cleanup_message() {
 		$import = new WPSEO_Import_Status( 'cleanup', false, 'test message' );
@@ -54,6 +60,8 @@ class Status_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Status::set_action
 	 * @covers WPSEO_Import_Status::get_action
+	 *
+	 * @return void
 	 */
 	public function test_set_action() {
 		$import = new WPSEO_Import_Status( 'cleanup', false );
@@ -67,6 +75,8 @@ class Status_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Status::set_msg
 	 * @covers WPSEO_Import_Status::get_msg
+	 *
+	 * @return void
 	 */
 	public function test_set_msg() {
 		$import = new WPSEO_Import_Status( 'cleanup', false );
@@ -78,6 +88,8 @@ class Status_Test extends TestCase {
 	 * Tests whether we can set a status.
 	 *
 	 * @covers WPSEO_Import_Status::set_status
+	 *
+	 * @return void
 	 */
 	public function test_set_status() {
 		$import = new WPSEO_Import_Status( 'cleanup', false );
@@ -90,6 +102,8 @@ class Status_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Status::get_msg
 	 * @covers WPSEO_Import_Status::get_default_success_message
+	 *
+	 * @return void
 	 */
 	public function test_default_import_message_true() {
 		$import = new WPSEO_Import_Status( 'import', true );
@@ -100,6 +114,8 @@ class Status_Test extends TestCase {
 	 * Tests whether we can get a default message for a faulty import action.
 	 *
 	 * @covers WPSEO_Import_Status::get_msg
+	 *
+	 * @return void
 	 */
 	public function test_default_import_message_false() {
 		$import = new WPSEO_Import_Status( 'import', false );
@@ -111,6 +127,8 @@ class Status_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Status::get_msg
 	 * @covers WPSEO_Import_Status::get_default_success_message
+	 *
+	 * @return void
 	 */
 	public function test_default_detect_message_true() {
 		$import = new WPSEO_Import_Status( 'detect', true );
@@ -121,6 +139,8 @@ class Status_Test extends TestCase {
 	 * Tests whether we can get a default message for a faulty detect action.
 	 *
 	 * @covers WPSEO_Import_Status::get_msg
+	 *
+	 * @return void
 	 */
 	public function test_default_detect_message_false() {
 		$import = new WPSEO_Import_Status( 'detect', false );
@@ -132,6 +152,8 @@ class Status_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Status::get_msg
 	 * @covers WPSEO_Import_Status::get_default_success_message
+	 *
+	 * @return void
 	 */
 	public function test_default_cleanup_message_true() {
 		$import = new WPSEO_Import_Status( 'cleanup', true );
@@ -142,6 +164,8 @@ class Status_Test extends TestCase {
 	 * Tests whether we can get a default message for a faulty cleanup action.
 	 *
 	 * @covers WPSEO_Import_Status::get_msg
+	 *
+	 * @return void
 	 */
 	public function test_default_cleanup_message_false() {
 		$import = new WPSEO_Import_Status( 'cleanup', false );

@@ -2,17 +2,20 @@
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
+use Exception;
 use ReflectionClass;
+use ReflectionException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Yoast\WP\Lib\Migrations\Migration;
 use Yoast\WP\SEO\Commands\Command_Interface;
+use Yoast\WP\SEO\Conditionals\Conditional;
 use Yoast\WP\SEO\Initializers\Initializer_Interface;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Loader;
 use Yoast\WP\SEO\Routes\Route_Interface;
-use Yoast\WP\SEO\Conditionals\Conditional;
+
 /**
  * A pass is a step in the compilation process of the container.
  *
@@ -25,6 +28,8 @@ class Loader_Pass implements CompilerPassInterface {
 	 * Checks all definitions to ensure all classes implementing the Integration interface are registered with the Loader class.
 	 *
 	 * @param ContainerBuilder $container The container.
+	 *
+	 * @return void
 	 */
 	public function process( ContainerBuilder $container ) {
 		if ( ! $container->hasDefinition( Loader::class ) ) {
@@ -48,38 +53,39 @@ class Loader_Pass implements CompilerPassInterface {
 	 *
 	 * @param Definition $definition        The definition to process.
 	 * @param Definition $loader_definition The loader definition.
+	 *
+	 * @return void
 	 */
 	private function process_definition( Definition $definition, Definition $loader_definition ) {
 		$class = $definition->getClass();
-
 
 		try {
 			$reflect = new ReflectionClass( $class );
 			$path    = $this->normalize_slashes( $reflect->getFileName() );
 			if (
-				strpos( $path, 'src/helpers' ) !== false
-				|| strpos( $path, 'src/actions' ) !== false
-				|| strpos( $path, 'src/builders' ) !== false
-				|| strpos( $path, 'src/config' ) !== false
-				|| strpos( $path, 'src/context' ) !== false
-				|| strpos( $path, 'src/generators' ) !== false
-				|| strpos( $path, 'src/surfaces' ) !== false
-				|| strpos( $path, 'src/integrations' ) !== false
-				|| strpos( $path, 'src/loggers' ) !== false
-				|| strpos( $path, 'src/memoizers' ) !== false
-				|| strpos( $path, 'src/models' ) !== false
-				|| strpos( $path, 'src/presentations' ) !== false
-				|| strpos( $path, 'src/repositories' ) !== false
-				|| strpos( $path, 'src/services' ) !== false
-				|| strpos( $path, 'src/values' ) !== false
-				|| strpos( $path, 'src/wrappers' ) !== false
-				|| strpos( $path, 'src/wordpress' ) !== false
-				|| strpos( $path, 'src/loader' ) !== false
+				\strpos( $path, 'src/helpers' ) !== false
+				|| \strpos( $path, 'src/actions' ) !== false
+				|| \strpos( $path, 'src/builders' ) !== false
+				|| \strpos( $path, 'src/config' ) !== false
+				|| \strpos( $path, 'src/context' ) !== false
+				|| \strpos( $path, 'src/generators' ) !== false
+				|| \strpos( $path, 'src/surfaces' ) !== false
+				|| \strpos( $path, 'src/integrations' ) !== false
+				|| \strpos( $path, 'src/loggers' ) !== false
+				|| \strpos( $path, 'src/memoizers' ) !== false
+				|| \strpos( $path, 'src/models' ) !== false
+				|| \strpos( $path, 'src/presentations' ) !== false
+				|| \strpos( $path, 'src/repositories' ) !== false
+				|| \strpos( $path, 'src/services' ) !== false
+				|| \strpos( $path, 'src/values' ) !== false
+				|| \strpos( $path, 'src/wrappers' ) !== false
+				|| \strpos( $path, 'src/wordpress' ) !== false
+				|| \strpos( $path, 'src/loader' ) !== false
 			) {
 
 				$definition->setPublic( true );
 			}
-		} catch ( \Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+		} catch ( Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 			// Catch all for non-existing classes.
 		}
 
@@ -87,7 +93,7 @@ class Loader_Pass implements CompilerPassInterface {
 			$definition->setPublic( true );
 		}
 
-		if ( is_subclass_of( $class, Conditional::class ) ) {
+		if ( \is_subclass_of( $class, Conditional::class ) ) {
 			$definition->setPublic( true );
 		}
 
@@ -112,7 +118,7 @@ class Loader_Pass implements CompilerPassInterface {
 		}
 
 		if ( \is_subclass_of( $class, Migration::class ) ) {
-			$reflect = new \ReflectionClass( $class );
+			$reflect = new ReflectionClass( $class );
 			$path    = $reflect->getFileName();
 			$file    = \basename( $path, '.php' );
 			$version = \explode( '_', $file )[0];
@@ -137,7 +143,7 @@ class Loader_Pass implements CompilerPassInterface {
 			return false;
 		}
 
-		return strpos( $doc_comment, '* @makePublic' ) !== false;
+		return \strpos( $doc_comment, '* @makePublic' ) !== false;
 	}
 
 	/**
@@ -150,8 +156,8 @@ class Loader_Pass implements CompilerPassInterface {
 	private function get_method_doc_block( Definition $definition ) {
 		$classname = $definition->getClass();
 		try {
-			$reflection_class = new \ReflectionClass( $classname );
-		} catch ( \ReflectionException $exception ) {
+			$reflection_class = new ReflectionClass( $classname );
+		} catch ( ReflectionException $exception ) {
 			return '';
 		}
 

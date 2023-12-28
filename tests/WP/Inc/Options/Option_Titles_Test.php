@@ -8,13 +8,15 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Option_Titles_Test extends TestCase {
+final class Option_Titles_Test extends TestCase {
 
 	/**
 	 * Tests if the enrich_defaults() cache is properly invalidated
 	 * when a new post type or taxonomy is registered.
 	 *
 	 * @covers WPSEO_Option_Titles::enrich_defaults
+	 *
+	 * @return void
 	 */
 	public function test_enrich_defaults_cache_invalidation() {
 		$wpseo_option_titles = WPSEO_Option_Titles::get_instance();

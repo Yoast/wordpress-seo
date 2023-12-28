@@ -25,7 +25,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Article
  */
-class Article_Test extends TestCase {
+final class Article_Test extends TestCase {
 
 	/**
 	 * The article helper.
@@ -85,6 +85,8 @@ class Article_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -133,6 +135,8 @@ class Article_Test extends TestCase {
 	 * Tests the if needed method.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_needed() {
 		$this->context_mock->indexable->object_type     = 'post';
@@ -148,6 +152,8 @@ class Article_Test extends TestCase {
 	 * Tests the if needed method with no post.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_needed_no_post() {
 		$this->context_mock->indexable->object_type = 'home-page';
@@ -159,6 +165,8 @@ class Article_Test extends TestCase {
 	 * Tests the if needed method with no article post type.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_needed_no_article_post_type() {
 		$this->context_mock->indexable->object_type     = 'post';
@@ -174,6 +182,8 @@ class Article_Test extends TestCase {
 	 * Tests the if needed method when the site doesn't represent a person or organization.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_needed_no_site_represents() {
 		$this->context_mock->indexable->object_type = 'post';
@@ -197,6 +207,8 @@ class Article_Test extends TestCase {
 	 * @param array  $values_to_test The values that need to vary in order to test all the paths.
 	 * @param bool   $expected_value The expected generated article schema.
 	 * @param string $message        The message to show in case a test fails.
+	 *
+	 * @return void
 	 */
 	public function test_generate( $values_to_test, $expected_value, $message ) {
 		$this->context_mock->post->comment_status      = $values_to_test['post_comment_status'];
@@ -281,7 +293,7 @@ class Article_Test extends TestCase {
 		$this->language->expects( 'add_piece_language' )
 			->once()
 			->andReturnUsing(
-				static function( $data ) {
+				static function ( $data ) {
 					$data['inLanguage'] = 'language';
 
 					return $data;
@@ -308,7 +320,7 @@ class Article_Test extends TestCase {
 	 *
 	 * @return array The data to use.
 	 */
-	public function provider_for_generate() {
+	public static function provider_for_generate() {
 		return [
 			[
 				'values_to_test' => [

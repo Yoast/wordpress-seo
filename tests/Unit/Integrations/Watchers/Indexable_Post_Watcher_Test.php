@@ -29,7 +29,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher
  */
-class Indexable_Post_Watcher_Test extends TestCase {
+final class Indexable_Post_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the indexable repository.
@@ -89,6 +89,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 	/**
 	 * Initializes the test mocks.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -120,6 +122,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -133,6 +137,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -145,6 +151,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests if the indexable is being deleted.
 	 *
 	 * @covers ::delete_indexable
+	 *
+	 * @return void
 	 */
 	public function test_delete_indexable() {
 		$id   = 1;
@@ -183,6 +191,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests if the indexable is being deleted.
 	 *
 	 * @covers ::delete_indexable
+	 *
+	 * @return void
 	 */
 	public function test_delete_indexable_does_not_exist() {
 		$id = 1;
@@ -196,6 +206,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests the save meta functionality.
 	 *
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_indexable() {
 		$post_id      = 1;
@@ -253,6 +265,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::build_indexable
 	 * @covers ::is_multisite_and_switched
+	 *
+	 * @return void
 	 */
 	public function test_build_indexable_is_multisite_and_switched() {
 		$id = 1;
@@ -274,6 +288,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests the build_indexable functionality with an exception being thrown.
 	 *
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_indexable_with_thrown_exception() {
 		$post_id = 1;
@@ -300,6 +316,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests the save meta functionality.
 	 *
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_indexable_does_not_exist() {
 		$post_id      = 1;
@@ -343,6 +361,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests the updated where the indexable isn't for a post.
 	 *
 	 * @covers ::updated_indexable
+	 *
+	 * @return void
 	 */
 	public function test_updated_indexable_non_post() {
 		$this->instance
@@ -360,6 +380,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests that update_has_public_posts updates the author archive too.
 	 *
 	 * @covers ::update_has_public_posts
+	 *
+	 * @return void
 	 */
 	public function test_update_has_public_posts_with_post() {
 		$post_indexable                  = Mockery::mock( Indexable_Mock::class );
@@ -395,6 +417,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests that update_has_public_posts updates the author archive .
 	 *
 	 * @covers ::update_has_public_posts
+	 *
+	 * @return void
 	 */
 	public function test_update_has_public_posts_with_post_throwing_exceptions() {
 		$post_indexable                  = Mockery::mock( Indexable_Mock::class );
@@ -422,6 +446,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * the author can't be retrieved.
 	 *
 	 * @covers ::update_has_public_posts
+	 *
+	 * @return void
 	 */
 	public function test_update_has_public_posts_with_finding_user_returning_false() {
 		$post_indexable                  = Mockery::mock( Indexable_Mock::class );
@@ -451,6 +477,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * be removed from the indexable table).
 	 *
 	 * @covers ::reschedule_cleanup_if_author_has_no_posts
+	 *
+	 * @return void
 	 */
 	public function test_reschedule_cleanup_when_author_does_not_have_posts() {
 		$post_indexable                  = Mockery::mock( Indexable_Mock::class );
@@ -490,6 +518,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests the routine for updating the relations.
 	 *
 	 * @covers ::update_relations
+	 *
+	 * @return void
 	 */
 	public function test_update_relations() {
 		$post = (object) [
@@ -518,6 +548,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests the routine for updating the relations with no related indexables found.
 	 *
 	 * @covers ::update_relations
+	 *
+	 * @return void
 	 */
 	public function test_update_relations_with_no_indexables_found() {
 		$post = (object) [
@@ -539,6 +571,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests the retrieval of the related indexables for a post.
 	 *
 	 * @covers ::get_related_indexables
+	 *
+	 * @return void
 	 */
 	public function test_get_related_indexables() {
 		$post = (object) [

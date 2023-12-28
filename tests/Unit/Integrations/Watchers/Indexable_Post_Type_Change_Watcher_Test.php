@@ -29,7 +29,7 @@ use Yoast_Notification_Center;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
+final class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 
 	/**
 	 * Holds the Options_Helper instance.
@@ -68,6 +68,8 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -89,6 +91,8 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -106,6 +110,8 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -126,9 +132,17 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	 * @param int   $set_public_post_types_times  The times we get the last known public post types.
 	 * @param int   $delete_transient_times       The times we delete the transients.
 	 * @param int   $schedule_cleanup_times       The times we schedule the cleanup.
+	 *
+	 * @return void
 	 */
 	public function test_check_post_types_public_availability(
-		$is_json_request, $public_post_types, $get_public_post_types_times, $last_known_public_post_types, $set_public_post_types_times, $delete_transient_times, $schedule_cleanup_times
+		$is_json_request,
+		$public_post_types,
+		$get_public_post_types_times,
+		$last_known_public_post_types,
+		$set_public_post_types_times,
+		$delete_transient_times,
+		$schedule_cleanup_times
 	) {
 		Functions\expect( 'wp_is_json_request' )
 			->once()
@@ -185,7 +199,7 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_check_post_types_public_availability() {
+	public static function provider_check_post_types_public_availability() {
 
 		return [
 			'When it is ajax request' => [

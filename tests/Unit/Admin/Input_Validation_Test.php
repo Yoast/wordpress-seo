@@ -11,7 +11,7 @@ use Yoast_Input_Validation;
  *
  * @group input-validation
  */
-class Input_Validation_Test extends TestCase {
+final class Input_Validation_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
@@ -32,6 +32,8 @@ class Input_Validation_Test extends TestCase {
 	 *
 	 * @covers Yoast_Input_Validation::add_yoast_admin_document_title_errors
 	 * @covers Yoast_Input_Validation::is_yoast_option_group_name
+	 *
+	 * @return void
 	 */
 	public function test_document_title_updated_with_error() {
 		$admin_title = 'Original title';
@@ -59,6 +61,8 @@ class Input_Validation_Test extends TestCase {
 	 *
 	 * @covers Yoast_Input_Validation::add_yoast_admin_document_title_errors
 	 * @covers Yoast_Input_Validation::is_yoast_option_group_name
+	 *
+	 * @return void
 	 */
 	public function test_document_title_updated_with_errors() {
 		$admin_title = 'Original title';
@@ -92,6 +96,8 @@ class Input_Validation_Test extends TestCase {
 	 *
 	 * @covers Yoast_Input_Validation::add_yoast_admin_document_title_errors
 	 * @covers Yoast_Input_Validation::is_yoast_option_group_name
+	 *
+	 * @return void
 	 */
 	public function test_document_title_not_updated_with_non_yoast_errors() {
 		$admin_title = 'Original title';
@@ -119,6 +125,8 @@ class Input_Validation_Test extends TestCase {
 	 *
 	 * @covers Yoast_Input_Validation::add_yoast_admin_document_title_errors
 	 * @covers Yoast_Input_Validation::is_yoast_option_group_name
+	 *
+	 * @return void
 	 */
 	public function test_document_title_not_updated_with_settings_updated_error() {
 		$admin_title = 'Original title';
@@ -146,6 +154,8 @@ class Input_Validation_Test extends TestCase {
 	 *
 	 * @covers Yoast_Input_Validation::get_dirty_value
 	 * @covers Yoast_Input_Validation::add_dirty_value_to_settings_errors
+	 *
+	 * @return void
 	 */
 	public function test_get_dirty_value() {
 		$GLOBALS['wp_settings_errors'] = [
@@ -184,6 +194,8 @@ class Input_Validation_Test extends TestCase {
 	 *
 	 * @covers Yoast_Input_Validation::get_dirty_value_message
 	 * @covers Yoast_Input_Validation::get_dirty_value
+	 *
+	 * @return void
 	 */
 	public function test_get_dirty_value_message() {
 		$GLOBALS['wp_settings_errors'] = [
@@ -222,6 +234,8 @@ class Input_Validation_Test extends TestCase {
 	 *
 	 * @covers Yoast_Input_Validation::get_dirty_value_message
 	 * @covers Yoast_Input_Validation::get_dirty_value
+	 *
+	 * @return void
 	 */
 	public function test_get_dirty_value_message_without_errors() {
 		Monkey\Functions\expect( 'get_settings_errors' )

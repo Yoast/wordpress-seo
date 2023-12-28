@@ -66,6 +66,8 @@ class WPSEO_Options {
 
 	/**
 	 * Register our hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_action( 'registered_taxonomy', [ $this, 'clear_cache' ] );
@@ -91,6 +93,8 @@ class WPSEO_Options {
 	 * Registers an option to the options list.
 	 *
 	 * @param WPSEO_Option $option_instance Instance of the option.
+	 *
+	 * @return void
 	 */
 	public static function register_option( WPSEO_Option $option_instance ) {
 		$option_name = $option_instance->get_option_name();
@@ -200,7 +204,7 @@ class WPSEO_Options {
 		/**
 		 * Filter: wpseo_options - Allow developers to change the option name to include.
 		 *
-		 * @api array The option names to include in get_all and reset().
+		 * @param array $option_names The option names to include in get_all and reset().
 		 */
 		return apply_filters( 'wpseo_options', $option_names );
 	}
@@ -283,6 +287,8 @@ class WPSEO_Options {
 
 	/**
 	 * Resets the cache to null.
+	 *
+	 * @return void
 	 */
 	public static function clear_cache() {
 		static::$option_values = null;
@@ -290,6 +296,8 @@ class WPSEO_Options {
 
 	/**
 	 * Primes our cache.
+	 *
+	 * @return void
 	 */
 	private static function prime_cache() {
 		static::$option_values = static::get_all();

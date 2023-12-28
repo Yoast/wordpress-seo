@@ -13,7 +13,7 @@ class First_Time_Configuration_Action {
 	/**
 	 * The fields for the site representation payload.
 	 */
-	const SITE_REPRESENTATION_FIELDS = [
+	public const SITE_REPRESENTATION_FIELDS = [
 		'company_or_person',
 		'company_name',
 		'website_name',
@@ -78,9 +78,9 @@ class First_Time_Configuration_Action {
 		/**
 		 * Action: 'wpseo_post_update_site_representation' - Allows for Hiive event tracking.
 		 *
-		 * @param array The new values of the options.
-		 * @param array The old values of the options.
-		 * @param array The options that failed to be saved.
+		 * @param array $params     The new values of the options.
+		 * @param array $old_values The old values of the options.
+		 * @param array $failures   The options that failed to be saved.
 		 *
 		 * @internal
 		 */
@@ -115,9 +115,9 @@ class First_Time_Configuration_Action {
 		/**
 		 * Action: 'wpseo_post_update_social_profiles' - Allows for Hiive event tracking.
 		 *
-		 * @param array The new values of the options.
-		 * @param array The old values of the options.
-		 * @param array The options that failed to be saved.
+		 * @param array $params     The new values of the options.
+		 * @param array $old_values The old values of the options.
+		 * @param array $failures   The options that failed to be saved.
 		 *
 		 * @internal
 		 */
@@ -206,9 +206,9 @@ class First_Time_Configuration_Action {
 		/**
 		 * Action: 'wpseo_post_update_enable_tracking' - Allows for Hiive event tracking.
 		 *
-		 * @param array The new value.
-		 * @param array The old value.
-		 * @param bool  Whether the option failed to be stored.
+		 * @param array $new_value The new value.
+		 * @param array $old_value The old value.
+		 * @param bool  $failure   Whether the option failed to be stored.
 		 *
 		 * @internal
 		 */
@@ -332,7 +332,7 @@ class First_Time_Configuration_Action {
 	 *
 	 * @return array The old values.
 	 */
-	private function get_old_values( array $fields_names ) : array {
+	private function get_old_values( array $fields_names ): array {
 		$old_values = [];
 
 		foreach ( $fields_names as $field_name ) {

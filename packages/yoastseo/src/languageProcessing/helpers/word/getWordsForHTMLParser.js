@@ -2,17 +2,17 @@ import { punctuationRegexEnd, punctuationRegexStart } from "../sanitize/removePu
 import { hashedHtmlEntitiesRegexEnd, hashedHtmlEntitiesRegexStart } from "../../../helpers/htmlEntities";
 
 /*
- * The following regex matches a word separator. A word separator is either a whitespace, a slash, a
- * tab or a non-breaking space. Brackets are added to deal correctly with shortcodes downstream.
- * The regex is used to split a text into tokens.
+ * The following regex is used to split a text into tokens.
+ * The regex matches word separators. A word separator is either a whitespace, a slash, a tab or a non-breaking space.
+ * Opening and closing square brackets are added to deal correctly with shortcodes downstream.
  * Do not add punctuation marks to this regex, as they are handled separately inside splitIntoTokens().
  * The word separator explicitly only contains characters that split two words and not a word and a space.
- * - A space is a word separator because it separates two words if it occurs between two words. For example: "foo bar"
- * - A tab is a word separator because it separates two words if it occurs between two words. For example: "foo	bar"
- * - A non-breaking space is a word separator because it separates two words if it occurs between two words. For example: "foo\u00A0bar"
- * - Open and closing brackets are added to deal correctly with shortcodes downstream.
+ * - A space is a word separator because it separates two words if it occurs between them. For example: "foo bar"
+ * - A tab is a word separator because it separates two words if it occurs between them. For example: "foo	bar"
+ * - A non-breaking space is a word separator because it separates two words if it occurs between them. For example: "foo\u00A0bar".
+ * Note that &nbsp; is added here as #nbsp; -- we transform the & to # to prevent parse5 from converting it to a space and messing up highlighting.
  */
-const wordSeparatorsRegex = /([\s\t\u00A0[\]])/;
+const wordSeparatorsRegex = /([\s\t\u00A0[\]]|#nbsp;)/;
 
 /**
  * Tokenizes a text similar to getWords, but in a suitable way for the HTML parser.

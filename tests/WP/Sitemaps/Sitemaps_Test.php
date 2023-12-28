@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group sitemaps
  */
-class Sitemaps_Test extends TestCase {
+final class Sitemaps_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -22,6 +22,8 @@ class Sitemaps_Test extends TestCase {
 
 	/**
 	 * Set up our double class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ class Sitemaps_Test extends TestCase {
 	 * @covers WPSEO_Sitemaps::redirect
 	 *
 	 * @param string $expected_output Substring expected to be found in the actual output.
+	 *
+	 * @return void
 	 */
 	public function test_post_sitemap( $expected_output ) {
 		self::$class_instance->reset();
@@ -53,7 +57,7 @@ class Sitemaps_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_post_sitemap() {
+	public static function data_post_sitemap() {
 		return [
 			[ '<?xml' ],
 			[ '<urlset ' ],
@@ -68,6 +72,8 @@ class Sitemaps_Test extends TestCase {
 	 * @covers WPSEO_Sitemaps::redirect
 	 *
 	 * @param string $expected_output Substring expected to be found in the actual output.
+	 *
+	 * @return void
 	 */
 	public function test_main_sitemap( $expected_output ) {
 
@@ -87,7 +93,7 @@ class Sitemaps_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_main_sitemap() {
+	public static function data_main_sitemap() {
 		return [
 			[ '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' ],
 			[ '<sitemap>' ],
@@ -100,6 +106,8 @@ class Sitemaps_Test extends TestCase {
 	 * Tests the wpseo_sitemap_index_links filter.
 	 *
 	 * @covers WPSEO_Sitemaps::build_root_map
+	 *
+	 * @return void
 	 */
 	public function test_index_links_filter() {
 
@@ -111,7 +119,7 @@ class Sitemaps_Test extends TestCase {
 
 		\add_filter(
 			'wpseo_sitemap_index_links',
-			static function( $links ) {
+			static function ( $links ) {
 				$links[] = [
 					'loc'     => 'test-sitemap.xml',
 					'lastmod' => \date( '1' ),
@@ -129,6 +137,8 @@ class Sitemaps_Test extends TestCase {
 	 * Test for last modified date.
 	 *
 	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
+	 *
+	 * @return void
 	 */
 	public function test_last_modified_post_type() {
 
@@ -158,6 +168,8 @@ class Sitemaps_Test extends TestCase {
 	 * Test for last modified date with invalid post types.
 	 *
 	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
+	 *
+	 * @return void
 	 */
 	public function test_last_modified_with_invalid_post_type() {
 		$this->assertFalse( WPSEO_Sitemaps::get_last_modified_gmt( [ 'invalid_post_type' ] ) );

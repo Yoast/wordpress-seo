@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Date_Archive_Presentation
  */
-class Canonical_Test extends TestCase {
+final class Canonical_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ class Canonical_Test extends TestCase {
 	 * Tests whether generate_canonical calls the `get_date_archive_permalink` method of the current page helper.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_generate_canonical() {
 		$this->current_page
@@ -48,6 +52,8 @@ class Canonical_Test extends TestCase {
 	 * Tests whether generate_canonical uses the paginated url.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_generate_canonical_paginated() {
 		$this->current_page

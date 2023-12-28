@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-class Build_For_Id_And_Type_Test extends Abstract_Indexable_Builder_TestCase {
+final class Build_For_Id_And_Type_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
 	 * Tests building an indexable for the post type archive.
@@ -19,6 +19,8 @@ class Build_For_Id_And_Type_Test extends Abstract_Indexable_Builder_TestCase {
 	 * @covers ::build
 	 * @covers ::ensure_indexable
 	 * @covers ::maybe_build_author_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_for_id_and_type_with_post() {
 
@@ -36,6 +38,8 @@ class Build_For_Id_And_Type_Test extends Abstract_Indexable_Builder_TestCase {
 	 * Expectation for build method.
 	 *
 	 * @param array $defaults The defaults to expect.
+	 *
+	 * @return void
 	 */
 	public function expect_build( $defaults ) {
 		$this->expect_ensure_indexable( $defaults, $this->indexable );

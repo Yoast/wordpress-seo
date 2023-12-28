@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group indexing
  */
-class Import_Integration_Test extends TestCase {
+final class Import_Integration_Test extends TestCase {
 
 	/**
 	 * The import integration under test.
@@ -52,6 +52,8 @@ class Import_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -74,17 +76,19 @@ class Import_Integration_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
 			self::getPropertyValue( $this->instance, 'asset_manager' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Importable_Detector_Service::class,
 			self::getPropertyValue( $this->instance, 'importable_detector' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Importing_Route::class,
 			self::getPropertyValue( $this->instance, 'importing_route' )
 		);
@@ -94,6 +98,8 @@ class Import_Integration_Test extends TestCase {
 	 * Tests the get_conditionals method.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$actual   = Import_Integration::get_conditionals();
@@ -109,6 +115,8 @@ class Import_Integration_Test extends TestCase {
 	 * Tests the register hooks method.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' );
@@ -124,6 +132,8 @@ class Import_Integration_Test extends TestCase {
 	 * @covers ::get_import_failure_alert
 	 * @covers ::get_validation_failure_alert
 	 * @covers ::sort_actions
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_import_script() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )

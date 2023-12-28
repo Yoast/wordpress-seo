@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Admin\Post_Conditional
  */
-class Post_Conditional_Test extends TestCase {
+final class Post_Conditional_Test extends TestCase {
 
 	/**
 	 * The breadcrumbs enabled conditional.
@@ -23,6 +23,8 @@ class Post_Conditional_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -34,6 +36,8 @@ class Post_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when we are on admin pages.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met_for_admin_pages() {
 		// We are on an admin page.
@@ -47,6 +51,8 @@ class Post_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when the $pagenow global does not exist.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_for_new_post() {
 		// We are on an admin page.
@@ -60,6 +66,8 @@ class Post_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when the $pagenow global exists, and is a new post.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_for_edit_post() {
 		// We are on an admin page.

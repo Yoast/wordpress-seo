@@ -7,7 +7,7 @@ use WPSEO_Post_Type_Sitemap_Provider;
 /**
  * Test Helper Class.
  */
-class Post_Type_Sitemap_Provider_Double extends WPSEO_Post_Type_Sitemap_Provider {
+final class Post_Type_Sitemap_Provider_Double extends WPSEO_Post_Type_Sitemap_Provider {
 
 	/**
 	 * Produce array of URL parts for given post object.

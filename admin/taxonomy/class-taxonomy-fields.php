@@ -98,7 +98,7 @@ class WPSEO_Taxonomy_Fields {
 		/**
 		 * Filter: 'wpseo_taxonomy_content_fields' - Adds the possibility to register additional content fields.
 		 *
-		 * @api array - The additional fields.
+		 * @param array $additional_fields The additional fields.
 		 */
 		$additional_fields = apply_filters( 'wpseo_taxonomy_content_fields', [] );
 

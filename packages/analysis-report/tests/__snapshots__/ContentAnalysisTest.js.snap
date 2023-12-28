@@ -147,9 +147,20 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
 }
 
 .c19 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   box-sizing: border-box;
   min-width: 32px;
-  display: inline-block;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
@@ -181,6 +192,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -823,9 +835,20 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 }
 
 .c19 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   box-sizing: border-box;
   min-width: 32px;
-  display: inline-block;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
@@ -857,6 +880,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -1509,6 +1533,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -2103,9 +2128,20 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 }
 
 .c19 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   box-sizing: border-box;
   min-width: 32px;
-  display: inline-block;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
@@ -2137,6 +2173,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -2779,9 +2816,20 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
 }
 
 .c20 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   box-sizing: border-box;
   min-width: 32px;
-  display: inline-block;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
@@ -2813,6 +2861,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -3492,9 +3541,20 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 }
 
 .c19 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   box-sizing: border-box;
   min-width: 32px;
-  display: inline-block;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
@@ -3526,6 +3586,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -4168,9 +4229,20 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 }
 
 .c19 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   box-sizing: border-box;
   min-width: 32px;
-  display: inline-block;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
@@ -4202,6 +4274,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -4674,9 +4747,20 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 }
 
 .c19 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   box-sizing: border-box;
   min-width: 32px;
-  display: inline-block;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
@@ -4708,6 +4792,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -5180,9 +5265,20 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 }
 
 .c19 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   box-sizing: border-box;
   min-width: 32px;
-  display: inline-block;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
@@ -5214,6 +5310,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {
@@ -5759,9 +5856,20 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 }
 
 .c19 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   box-sizing: border-box;
   min-width: 32px;
-  display: inline-block;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
@@ -5793,6 +5901,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .c17 {

@@ -11,12 +11,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presentations
  */
-class Meta_Description_Test extends TestCase {
+final class Meta_Description_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -28,6 +30,8 @@ class Meta_Description_Test extends TestCase {
 	 * Tests the situation where the meta description is given.
 	 *
 	 * @covers ::generate_meta_description
+	 *
+	 * @return void
 	 */
 	public function test_generate_meta_description_when_meta_description_is_given() {
 		$this->indexable->description = 'Example of meta description';
@@ -39,6 +43,8 @@ class Meta_Description_Test extends TestCase {
 	 * Tests the situation where an empty value is returned.
 	 *
 	 * @covers ::generate_meta_description
+	 *
+	 * @return void
 	 */
 	public function test_generate_meta_description_with_empty_return_value() {
 		$this->assertEmpty( $this->instance->generate_meta_description() );

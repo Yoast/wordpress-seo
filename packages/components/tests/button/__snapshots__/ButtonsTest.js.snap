@@ -30,6 +30,7 @@ exports[`Icon CloseButton matches the Button snapshot 1`] = `
   aria-label="Close"
   className="yoast-close"
   onClick={[Function]}
+  type="button"
 >
   <svg
     aria-hidden="true"

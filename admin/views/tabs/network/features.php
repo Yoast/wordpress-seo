@@ -22,7 +22,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 <h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
 <div class="yoast-measure">
 	<?php
-	echo sprintf(
+	printf(
 		/* translators: %s expands to Yoast SEO */
 		esc_html__( 'This tab allows you to selectively disable %s features for all sites in the network. By default all features are enabled, which allows site admins to choose for themselves if they want to toggle a feature on or off for their site. When you disable a feature here, site admins will not be able to use that feature at all.', 'wordpress-seo' ),
 		'Yoast SEO'
@@ -33,7 +33,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		$premium_version = YoastSEO()->helpers->product->get_premium_version();
 
 		if ( $feature->premium && $feature->premium_version ) {
-			$not_supported_in_current_premium_version = $is_premium && \version_compare( $premium_version, $feature->premium_version, '<' );
+			$not_supported_in_current_premium_version = $is_premium && version_compare( $premium_version, $feature->premium_version, '<' );
 
 			if ( $not_supported_in_current_premium_version ) {
 				continue;

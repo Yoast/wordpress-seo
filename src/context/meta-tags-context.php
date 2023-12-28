@@ -306,7 +306,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		/**
 		 * Filter: 'wpseo_schema_company_name' - Allows filtering company name
 		 *
-		 * @api string $company_name.
+		 * @param string $company_name.
 		 */
 		$company_name = \apply_filters( 'wpseo_schema_company_name', $this->options->get( 'company_name' ) );
 
@@ -341,7 +341,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		/**
 		 * Filter: 'wpseo_schema_person_logo_id' - Allows filtering person logo id.
 		 *
-		 * @api integer $person_logo_id.
+		 * @param int $person_logo_id.
 		 */
 		return \apply_filters( 'wpseo_schema_person_logo_id', $person_logo_id );
 	}
@@ -362,7 +362,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		/**
 		 * Filter: 'wpseo_schema_person_logo_meta' - Allows filtering person logo meta.
 		 *
-		 * @api string $person_logo_meta.
+		 * @param string $person_logo_meta.
 		 */
 		return \apply_filters( 'wpseo_schema_person_logo_meta', $person_logo_meta );
 	}
@@ -382,7 +382,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		/**
 		 * Filter: 'wpseo_schema_company_logo_id' - Allows filtering company logo id.
 		 *
-		 * @api integer $company_logo_id.
+		 * @param int $company_logo_id.
 		 */
 		return \apply_filters( 'wpseo_schema_company_logo_id', $company_logo_id );
 	}
@@ -398,7 +398,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		/**
 		 * Filter: 'wpseo_schema_company_logo_meta' - Allows filtering company logo meta.
 		 *
-		 * @api string $company_logo_meta.
+		 * @param string $company_logo_meta.
 		 */
 		return \apply_filters( 'wpseo_schema_company_logo_meta', $company_logo_meta );
 	}
@@ -541,7 +541,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		/**
 		 * Filter: 'wpseo_schema_webpage_type' - Allow changing the WebPage type.
 		 *
-		 * @api string|array $type The WebPage type.
+		 * @param string|array $type The WebPage type.
 		 */
 		return \apply_filters( 'wpseo_schema_webpage_type', $type );
 	}
