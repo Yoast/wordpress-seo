@@ -199,11 +199,11 @@ const SiteRepresentation = () => {
 										as={ TextField }
 										name="wpseo_titles.org-email"
 										id="input-wpseo_titles-org-email"
+										type="email"
 										label={ __( "Organization email address", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
 									<FormikCheckboxFieldWithDummy
-										as={ Checkbox }
 										name="wpseo_titles.org-seperate-email"
 										id="input-wpseo_titles-org-seperate-email"
 										label={ __( "Add a separate email address for contact.", "wordpress-seo" ) }
@@ -217,7 +217,6 @@ const SiteRepresentation = () => {
 										isDummy={ ! isPremium }
 									/>
 									<FormikCheckboxFieldWithDummy
-										as={ Checkbox }
 										name="wpseo_titles.org-seperate-phone"
 										id="input-wpseo_titles-org-seperate-phone"
 										label={ __( "Add a separate phone number for contact.", "wordpress-seo" ) }
