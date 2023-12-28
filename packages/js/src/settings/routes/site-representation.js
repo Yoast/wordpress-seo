@@ -4,12 +4,12 @@ import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
 import { createInterpolateElement, Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Badge, Button, Checkbox, FeatureUpsell, Link, Radio, RadioGroup, TextField, TextareaField } from "@yoast/ui-library";
+import { Alert, Badge, Button, FeatureUpsell, Link, Radio, RadioGroup, TextField, TextareaField } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
 import { isEmpty } from "lodash";
 import AnimateHeight from "react-animate-height";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormikAutocompleteField, FormLayout, RouteLayout, FormikCheckboxField } from "../components";
+import { FieldsetLayout, FormikAutocompleteField, FormikCheckboxField, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
 import { withFormikDummyField, withFormikDummySelectField } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
