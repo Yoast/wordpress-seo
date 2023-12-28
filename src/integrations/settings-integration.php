@@ -620,6 +620,13 @@ class Settings_Integration implements Integration_Interface {
 			}
 		}
 
+		
+		if( \defined( 'WPSEO_LOCAL_FILE' ) ){
+			$local_options = WPSEO_Options::get_option( 'wpseo_local' );
+			$defaults[ 'wpseo_titles' ][ 'org-vat-id' ] = $local_options[ 'location_vat_id' ];
+			$defaults[ 'wpseo_titles' ][ 'org-tax-id' ] = $local_options[ 'location_tax_id' ];
+		}
+
 		return $defaults;
 	}
 
