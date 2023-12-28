@@ -9,15 +9,15 @@ import PropTypes from "prop-types";
  * @param {Object} props The props object.
  * @param {string} props.name The field name.
  * @param {string} props.id The field id.
+ * @param {boolean} props.disabled Whether the field is disabled.
  * @param {string} props.className The className.
  * @param {array} props.options The options.
  * @returns {JSX.Element} The page select component.
  */
-const FormikAutocompleteField = ( { name, id, options, className = "", ...props } ) => {
+const FormikAutocompleteField = ( { name, id, disabled, options, className, ...props } ) => {
 	const [ field, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 
 	const handleChange = useCallback( newValue => {
-		// setTouched( true, false );
 		setValue( newValue );
 	}, [ setValue, setTouched ] );
 
@@ -33,7 +33,7 @@ const FormikAutocompleteField = ( { name, id, options, className = "", ...props 
 			selectedLabel={ field.value }
 			onChange={ handleChange }
 			onQueryChange={ handleQueryChange }
-			className={ classNames( className, props.disabled && "yst-autocomplete--disabled" ) }
+			className={ classNames( className, disabled && "yst-autocomplete--disabled" ) }
 			{ ...props }
 		>
 			{ options && options.map( ( option ) =>
@@ -52,6 +52,12 @@ FormikAutocompleteField.propTypes = {
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
 	options: PropTypes.array,
+};
+
+FormikAutocompleteField.defaultProps = {
+	disabled: false,
+	className: "",
+	options: [],
 };
 
 export default FormikAutocompleteField;

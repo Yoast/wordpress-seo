@@ -21,8 +21,17 @@ const FormikCheckboxField = props => {
 };
 
 FormikCheckboxField.propTypes = {
+	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
-	checked: PropTypes.bool,
+	value: PropTypes.string.isRequired,
+	label: PropTypes.string.isRequired,
+	className: PropTypes.string,
+	disabled: PropTypes.bool,
+};
+
+FormikCheckboxField.defaultProps = {
+	className: "",
+	disabled: false,
 };
 
 export default FormikCheckboxField;
