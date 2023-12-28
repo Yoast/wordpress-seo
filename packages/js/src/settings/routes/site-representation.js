@@ -374,19 +374,35 @@ const SiteRepresentation = () => {
 									) }
 									{ ...premiumUpsellConfig }
 								>
+									{ isLocalSeoActive && isPremium && (
+										<Alert id="alert-local-seo-vat-or-tax-id" variant="info">
+											{ createInterpolateElement(
+												sprintf(
+													/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+													__( "You have Yoast Local SEO activated on your site. You can provide your VAT ID and Tax ID in the %1$s‘Business info’ settings%2$s.", "wordpress-seo" ),
+													"<a>",
+													"</a>"
+												),
+												{
+													// eslint-disable-next-line
+													a: <a href="/wp-admin/admin.php?page=wpseo_local" className="yst-underline yst-font-medium" />,
+												}
+											) }
+										</Alert>
+									) }
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
 										name="wpseo_titles.org-vat-id"
 										id="input-wpseo_titles-org-vat-id"
 										label={ __( "VAT ID", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
+										isDummy={ ! isPremium || isLocalSeoActive }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
 										name="wpseo_titles.org-tax-id"
 										id="input-wpseo_titles-org-tax-id"
 										label={ __( "Tax ID", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
+										isDummy={ ! isPremium || isLocalSeoActive }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
