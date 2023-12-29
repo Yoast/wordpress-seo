@@ -4,7 +4,7 @@ const config = {
 		"**/*Test.[jt]s",
 	],
 	testURL: "http://localhost",
-	setupTestFrameworkScriptFile: "<rootDir>/jest/setupTests.js",
+	setupFilesAfterEnv: [ "<rootDir>/jest/setupTests.js" ],
 	moduleNameMapper: {
 		"\\.css$": "<rootDir>/jest/__mocks__/styleMock.js",
 	},

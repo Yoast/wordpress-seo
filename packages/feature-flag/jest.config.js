@@ -4,7 +4,7 @@ const config = {
 		"**/*Test.[jt]s",
 	],
 	testURL: "http://localhost",
-	setupTestFrameworkScriptFile: "<rootDir>/tools/jest/setupTests.js",
+	setupFilesAfterEnv: [ "<rootDir>/tools/jest/setupTests.js" ],
 	collectCoverageFrom: [
 		"src/**/*.{js,jsx,ts,tsx}",
 	],

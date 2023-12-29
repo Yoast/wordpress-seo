@@ -33,7 +33,7 @@
     ],
     "testRegex": ".*Test.js$",
     "coverageDirectory": "coverage",
-    "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
+    "setupFilesAfterEnv": [ "<rootDir>/jest/setupTests.js" ],
     "collectCoverageFrom": [
       "**/*.js",
       "!**/*.*Test.js",
