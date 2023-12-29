@@ -45,6 +45,7 @@ const SiteRepresentation = () => {
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const mastodonPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-mastodon-integration" );
 	const mastodonUrlLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-mastodon" );
+	const businessInfoSettingsUrl = "/wp-admin/admin.php?page=wpseo_local";
 
 	const handleAddProfile = useCallback( async( arrayHelpers ) => {
 		await arrayHelpers.push( "" );
@@ -195,17 +196,34 @@ const SiteRepresentation = () => {
 										label={ __( "Organization description", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
+
+									{ isLocalSeoActive && isPremium && (
+										<Alert id="alert-local-seo-vat-or-tax-id" variant="info">
+											{ createInterpolateElement(
+												sprintf(
+													/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+													__( "You have Yoast Local SEO activated on your site. You can provide your email and phone in the %1$s‘Business info’ settings%2$s.", "wordpress-seo" ),
+													"<a>",
+													"</a>"
+												),
+												{
+													// eslint-disable-next-line
+													a: <a href={ businessInfoSettingsUrl } className="yst-underline yst-font-medium" />,
+												}
+											) }
+										</Alert>
+									) }
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
 										name="wpseo_titles.org-email"
 										id="input-wpseo_titles-org-email"
 										type="email"
 										label={ __( "Organization email address", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
+										isDummy={ ! isPremium || isLocalSeoActive }
 									/>
 									<FormikCheckboxFieldWithDummy
-										name="wpseo_titles.org-seperate-email"
-										id="input-wpseo_titles-org-seperate-email"
+										name="wpseo_titles.org-separate-email"
+										id="input-wpseo_titles-org-separate-email"
 										label={ __( "Add a separate email address for contact.", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
@@ -214,11 +232,11 @@ const SiteRepresentation = () => {
 										name="wpseo_titles.org-phone"
 										id="input-wpseo_titles-org-phone"
 										label={ __( "Organization phone number", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
+										isDummy={ ! isPremium || isLocalSeoActive }
 									/>
 									<FormikCheckboxFieldWithDummy
-										name="wpseo_titles.org-seperate-phone"
-										id="input-wpseo_titles-org-seperate-phone"
+										name="wpseo_titles.org-separate-phone"
+										id="input-wpseo_titles-org-separate-phone"
 										label={ __( "Add a separate phone number for contact.", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
@@ -385,7 +403,7 @@ const SiteRepresentation = () => {
 												),
 												{
 													// eslint-disable-next-line
-													a: <a href="/wp-admin/admin.php?page=wpseo_local" className="yst-underline yst-font-medium" />,
+													a: <a href={ businessInfoSettingsUrl } className="yst-underline yst-font-medium" />,
 												}
 											) }
 										</Alert>
