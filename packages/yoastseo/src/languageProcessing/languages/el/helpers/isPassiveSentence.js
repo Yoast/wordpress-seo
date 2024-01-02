@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { getWords, directPrecedenceException } = languageProcessing;
+const { processingHelpers: { getWords, directPrecedenceException } } = languageProcessing;
 
 import nonPassiveVerbStems from "../config/internal/nonPassiveVerbStems";
 import { passiveSuffixes } from "../config/internal/morphologicalPassiveSuffixes.js";

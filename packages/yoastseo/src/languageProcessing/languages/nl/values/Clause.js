@@ -1,7 +1,6 @@
 import { includes } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-const { directPrecedenceException, values } = languageProcessing;
-const { Clause } = values;
+const { processingHelpers: { directPrecedenceException }, values: { Clause } } = languageProcessing;
 
 import { cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords";
 import nonParticiples from "../config/internal/nonParticiples";

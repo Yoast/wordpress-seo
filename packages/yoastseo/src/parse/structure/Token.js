@@ -1,4 +1,4 @@
-import { normalizeSingle } from "../../languageProcessing";
+import { normalizeSingle } from "../../languageProcessing/helpers";
 
 /**
  * A token representing a word, whitespace or punctuation in the sentence.

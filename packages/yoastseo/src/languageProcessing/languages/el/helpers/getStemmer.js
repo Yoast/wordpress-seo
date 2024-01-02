@@ -1,7 +1,7 @@
 import { get } from "lodash-es";
 import { languageProcessing } from "yoastseo";
 import stem from "./internal/stem";
-const { baseStemmer } = languageProcessing;
+const { processingHelpers: { baseStemmer } } = languageProcessing;
 
 /**
  * Returns the stemmer for a researcher.

@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { getWords } = languageProcessing;
+const { processingHelpers: { getWords } } = languageProcessing;
 
 import participleStems from "../../config/internal/passiveVoiceParticiples";
 

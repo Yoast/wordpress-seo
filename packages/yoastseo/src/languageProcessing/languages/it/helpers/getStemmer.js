@@ -1,6 +1,6 @@
 import { get } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-const { baseStemmer } = languageProcessing;
+const { processingHelpers: { baseStemmer } } = languageProcessing;
 
 import stem from "./internal/stem";
 

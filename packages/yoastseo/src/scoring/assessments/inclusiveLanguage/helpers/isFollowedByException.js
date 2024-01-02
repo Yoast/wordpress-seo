@@ -1,4 +1,4 @@
-import { getWords } from "../../../../languageProcessing";
+import { getWords } from "../../../../languageProcessing/helpers";
 import { includesWordsAtPosition } from "./includesWordsAtPosition";
 
 /**

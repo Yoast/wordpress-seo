@@ -2,7 +2,7 @@ import { isFollowedByException } from "./isFollowedByException";
 import { isFollowedByParticiple } from "./isFollowedByParticiple";
 import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
 import { punctuationList } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
-import { getWords } from "../../../../languageProcessing";
+import { getWords } from "../../../../languageProcessing/helpers";
 
 // Filter tokens from the exception lists that cause trouble when passed to getWords.
 

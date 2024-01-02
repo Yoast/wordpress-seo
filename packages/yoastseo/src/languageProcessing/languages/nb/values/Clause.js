@@ -1,12 +1,11 @@
 
 import { languageProcessing } from "yoastseo";
-const { precedenceException, values } = languageProcessing;
-const { Clause } = values;
+const { processingHelpers: { precedenceException }, values: { Clause } } = languageProcessing;
 
 import getParticiples from "../helpers/internal/getParticiples";
 import {
 	cannotBeBetweenPassiveAuxiliaryAndParticiple,
-} from "../../nb/config/functionWords";
+} from "../config/functionWords";
 
 /**
  * Creates a Clause object for the Norwegian language.

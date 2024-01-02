@@ -1,10 +1,11 @@
 import { languageProcessing } from "yoastseo";
+const { processingHelpers } = languageProcessing;
 const {
 	exceptionListHelpers: {
 		checkIfWordEndingIsOnExceptionList,
 		checkIfWordIsOnListThatCanHavePrefix,
 	},
-} = languageProcessing;
+} = processingHelpers;
 
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding";

@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { sanitizeString } = languageProcessing;
+const { processingHelpers: { sanitizeString } } = languageProcessing;
 import removeURLs from "../../../helpers/sanitize/removeURLs.js";
 
 /**

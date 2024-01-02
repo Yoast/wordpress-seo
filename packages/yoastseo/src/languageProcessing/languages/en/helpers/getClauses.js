@@ -1,13 +1,9 @@
-import { languageProcessing } from "yoastseo";
-const { createRegexFromArray, getClauses } = languageProcessing;
-
-import Clause from "../values/Clause";
+import { includes } from "lodash-es";
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopwords from "../config/stopWords.js";
-import { includes } from "lodash-es";
-import stripSpaces from "../../../helpers/sanitize/stripSpaces";
-import { getIndicesByWordList as getIndicesOfList } from "../../../helpers/word/indices";
-
+import Clause from "../values/Clause";
+import { languageProcessing } from "yoastseo";
+const { processingHelpers: { createRegexFromArray, stripSpaces, getClauses, indices } } = languageProcessing;
 
 const options = {
 	Clause,
@@ -34,7 +30,7 @@ const getVerbsEndingInIngIndices = function( sentence ) {
 	let matches = sentence.match( options.regexes.verbEndingInIngRegex ) || [];
 	// Filters out words ending in -ing that aren't verbs.
 	matches = matches.filter( match => ! includes( options.ingExclusions, stripSpaces( match ) ) );
-	return getIndicesOfList( matches, sentence );
+	return indices.getIndicesByWordList( matches, sentence );
 };
 
 /**

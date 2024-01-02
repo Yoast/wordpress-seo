@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { getWords } = languageProcessing;
+const { processingHelpers: { getWords } } = languageProcessing;
 
 import passiveVerbs from "../config/internal/odikVerbs";
 import { verbPrefixes, odikSuffixes1, odikSuffixes2 } from "../config/internal/morphologicalPassiveAffixes";

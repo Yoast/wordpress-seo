@@ -1,6 +1,6 @@
 import getParticiples from "../helpers/internal/getParticiples.js";
 import { languageProcessing } from "yoastseo";
-const { nonDirectPrecedenceException, directPrecedenceException, values } = languageProcessing;
+const { processingHelpers: { nonDirectPrecedenceException, directPrecedenceException }, values } = languageProcessing;
 const { Clause } = values;
 import { cannotBeBetweenPassiveAuxiliaryAndParticiple, cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords";
 

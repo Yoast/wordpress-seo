@@ -1,4 +1,5 @@
 import { languageProcessing } from "yoastseo";
+const { processingHelpers } = languageProcessing;
 const {
 	exceptionListHelpers: {
 		checkIfWordEndingIsOnExceptionList,
@@ -8,7 +9,7 @@ const {
 		removeSuffixFromFullForm,
 		removeSuffixesFromFullForm,
 	},
-} = languageProcessing;
+} = processingHelpers;
 
 import detectAndStemSuffixes from "./detectAndStemSuffixes";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding.js";

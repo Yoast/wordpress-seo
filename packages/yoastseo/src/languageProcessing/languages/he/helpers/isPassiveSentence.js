@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { getWords } = languageProcessing;
+const { processingHelpers: { getWords } } = languageProcessing;
 
 import regularRootsHufal from "../config/internal/regularRootsHufal";
 import regularRootsNifal from "../config/internal/regularRootsNifal";

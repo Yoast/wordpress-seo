@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { baseStemmer } = languageProcessing;
+const { processingHelpers: { baseStemmer } } = languageProcessing;
 
 /**
  * Returns the stemmer for a researcher.

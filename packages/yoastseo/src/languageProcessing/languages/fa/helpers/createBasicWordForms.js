@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { regexHelpers: { searchAndReplaceWithRegex } } = languageProcessing;
+const { processingHelpers: { regexHelpers: { searchAndReplaceWithRegex } } } = languageProcessing;
 
 /**
  * Creates the basic affixed-forms of a given Farsi word

@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { getWords } = languageProcessing;
+const { processingHelpers: { getWords } } = languageProcessing;
 import getPassiveEndingsCzech from "../../config/internal/passiveVoiceEndings";
 
 /**

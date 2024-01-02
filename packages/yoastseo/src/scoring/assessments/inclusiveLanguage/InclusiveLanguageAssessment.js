@@ -5,7 +5,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 import addMark from "../../../markers/addMark";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { getWords } from "../../../languageProcessing";
+import { getWords } from "../../../languageProcessing/helpers";
 
 import { includesConsecutiveWords } from "./helpers/includesConsecutiveWords";
 

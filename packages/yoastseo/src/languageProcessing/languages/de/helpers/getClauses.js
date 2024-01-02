@@ -1,6 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { getClausesSplitOnStopWords, createRegexFromArray } = languageProcessing;
-
+const { processingHelpers: { createRegexFromArray, getClausesSplitOnStopWords } } = languageProcessing;
 import GermanClause from "../values/Clause";
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopwords from "../config/stopWords.js";

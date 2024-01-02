@@ -4,7 +4,7 @@ import {
 } from "../config/functionWords";
 import getParticiples from "../helpers/internal/getParticiples";
 import { languageProcessing } from "yoastseo";
-const { precedenceException, directPrecedenceException, values } = languageProcessing;
+const { processingHelpers: { precedenceException, directPrecedenceException }, values } = languageProcessing;
 const Clause = values.Clause;
 
 /**

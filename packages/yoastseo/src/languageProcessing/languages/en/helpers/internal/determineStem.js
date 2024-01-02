@@ -1,6 +1,6 @@
 import { isUndefined, flatten } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-const { buildFormRule, createRulesFromArrays } = languageProcessing;
+const { processingHelpers: { buildFormRule, createRulesFromArrays } } = languageProcessing;
 
 import getAdjectiveStem from "./getAdjectiveStem";
 import { getInfinitive, checkIrregulars as getIrregularVerbParadigm, endsWithIng } from "./getVerbStem.js";
