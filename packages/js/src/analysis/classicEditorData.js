@@ -8,6 +8,8 @@ import * as tmceHelper from "../lib/tinymce";
 import getContentLocale from "./getContentLocale";
 
 const { removeMarks } = markers;
+const { processingHelpers: { imageInText } } = languageProcessing;
+
 const {
 	updateReplacementVariable,
 	updateData,
@@ -264,7 +266,7 @@ export default class ClassicEditorData {
 			return "";
 		}
 
-		const images = languageProcessing.imageInText( content );
+		const images = imageInText( content );
 
 		if ( images.length === 0 ) {
 			return "";

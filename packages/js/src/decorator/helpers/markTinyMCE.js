@@ -1,6 +1,8 @@
 import { languageProcessing, markers } from "yoastseo";
 import { forEach, isEmpty, orderBy } from "lodash";
 
+const { processingHelpers: { getFieldsToMark, normalizeHTML } } = languageProcessing;
+
 export const MARK_TAG = "yoastmark";
 
 
@@ -38,7 +40,7 @@ function markTinyMCESearchBased( editor, paper, marks, html ) {
 	 * For example, [ "heading" ] means that we want to apply the markings in subheadings only, and not the other parts.
 	 * `selectedHTML` is an array of the HTML parts that we want to apply the marking to.
 	 */
-	const { fieldsToMark, selectedHTML } = languageProcessing.getFieldsToMark( marks, html );
+	const { fieldsToMark, selectedHTML } = getFieldsToMark( marks, html );
 
 	// Generate marked HTML.
 	forEach( marks, function( mark ) {
@@ -50,8 +52,8 @@ function markTinyMCESearchBased( editor, paper, marks, html ) {
 		 * This way, we make sure that the replacement can find a match between the original text of the marked object and the text in the page.
 		 */
 		if ( editor.id !== "acf_content" ) {
-			mark._properties.marked = languageProcessing.normalizeHTML( mark._properties.marked );
-			mark._properties.original = languageProcessing.normalizeHTML( mark._properties.original );
+			mark._properties.marked = normalizeHTML( mark._properties.marked );
+			mark._properties.original = normalizeHTML( mark._properties.original );
 		}
 
 		// Check if we want to mark only specific part of the HTML.

@@ -24,6 +24,8 @@ import SnippetEditorFields from "./SnippetEditorFields";
 import { lengthProgressShape } from "./constants";
 import ModeSwitcher from "./ModeSwitcher";
 
+const { processingHelpers: { stripSpaces } } = languageProcessing;
+
 const SearchPreviewDescription = styled.legend`
 	margin: 0 0 16px;
 	padding: 0;
@@ -416,7 +418,7 @@ class SnippetEditor extends React.Component {
 		let description = this.processReplacementVariables( originalData.description, replacementVariables );
 
 		// Strip multiple spaces and spaces at the beginning and end.
-		description = languageProcessing.stripSpaces( description );
+		description = stripSpaces( description );
 
 		const shortenedBaseUrl = baseUrl.replace( /^https?:\/\//i, "" );
 
