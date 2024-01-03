@@ -35,7 +35,7 @@ import { findWordFormsInString } from "./match/findKeywordFormsInString";
 
 import baseStemmer from "./morphology/baseStemmer";
 import buildFormRule from "./morphology/buildFormRule";
-import createRulesFromArrays, { createSingleRuleFromArray } from "./morphology/createRulesFromArrays";
+import { createRulesFromArrays, createSingleRuleFromArray } from "./morphology/createRulesFromArrays";
 import findMatchingEndingInArray from "./morphology/findMatchingEndingInArray";
 import flattenSortLength from "./morphology/flattenSortLength";
 import * as regexHelpers from "./morphology/regexHelpers";
