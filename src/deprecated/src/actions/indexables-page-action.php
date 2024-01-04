@@ -375,7 +375,7 @@ class Indexables_Page_Action {
 		$ignore_list = \array_values(
 			\array_filter(
 				$ignore_list,
-				static function( $indexable ) use ( $indexable_id ) {
+				static function ( $indexable ) use ( $indexable_id ) {
 					return $indexable !== $indexable_id;
 				}
 			)

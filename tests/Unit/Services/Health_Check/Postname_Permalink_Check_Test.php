@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Postname_Permalink_Check
  */
-class Postname_Permalink_Check_Test extends TestCase {
+final class Postname_Permalink_Check_Test extends TestCase {
 
 	/**
 	 * The Postname_Permalink_Check instance to be tested.
@@ -40,6 +40,8 @@ class Postname_Permalink_Check_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -58,6 +60,8 @@ class Postname_Permalink_Check_Test extends TestCase {
 	 * Checks if the label is a non-empty string.
 	 *
 	 * @covers ::get_test_label
+	 *
+	 * @return void
 	 */
 	public function test_label_returns_string() {
 		$actual = $this->instance->get_test_label();
@@ -69,6 +73,8 @@ class Postname_Permalink_Check_Test extends TestCase {
 	 *
 	 * @covers ::get_result
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_returns_successful_result() {
 		$expected = [ 'correct' ];
@@ -94,6 +100,8 @@ class Postname_Permalink_Check_Test extends TestCase {
 	 *
 	 * @covers ::get_result
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_returns_failed_result() {
 		$expected = [ 'correct' ];

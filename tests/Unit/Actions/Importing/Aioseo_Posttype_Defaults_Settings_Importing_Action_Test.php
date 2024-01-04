@@ -22,9 +22,10 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posttype_Defaults_Settings_Importing_Action
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded, Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
+final class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -94,7 +95,7 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @var array
 	 */
-	protected $full_settings_to_import = [
+	protected static $full_settings_to_import = [
 		'post'       => [
 			'show'            => true,
 			'title'           => 'Post Title',
@@ -136,7 +137,7 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @var array
 	 */
-	protected $flattened_settings_to_import = [
+	protected static $flattened_settings_to_import = [
 		'/post/show'                              => true,
 		'/post/title'                             => 'Post Title',
 		'/post/metaDescription'                   => 'Post Desc',
@@ -157,6 +158,8 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -182,6 +185,8 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 * Tests the getting of the source option_name.
 	 *
 	 * @covers ::get_source_option_name
+	 *
+	 * @return void
 	 */
 	public function test_get_source_option_name() {
 		$source_option_name = $this->instance->get_source_option_name();
@@ -198,6 +203,8 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 * @param bool  $expected_unflattened The expected unflattened retrieved data.
 	 * @param bool  $expected             The expected retrieved data.
 	 * @param int   $times                The expected times we will look for the chunked unimported settings.
+	 *
+	 * @return void
 	 */
 	public function test_query( $query_results, $expected_unflattened, $expected, $times ) {
 		Monkey\Functions\expect( 'get_option' )
@@ -230,6 +237,8 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 * @param int    $times                  The times that we will import each setting, if any.
 	 * @param int    $transform_times        The times that we will transform each setting, if any.
 	 * @param int    $transform_robots_times The times that we will transform each robot setting, if any.
+	 *
+	 * @return void
 	 */
 	public function test_map( $setting, $setting_value, $times, $transform_times, $transform_robots_times ) {
 		$posttypes = [
@@ -286,6 +295,8 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @param string $redirect_attachment     The redirect_attachment setting.
 	 * @param string $expected_transformation The expected transformed redirect_attachment setting.
+	 *
+	 * @return void
 	 */
 	public function test_import_redirect_attachment( $redirect_attachment, $expected_transformation ) {
 		$transformed_redirect_attachment = $this->mock_instance->import_redirect_attachment( $redirect_attachment );
@@ -297,6 +308,8 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 * Tests returning a setting map of the robot setting for one subset of posttypes.
 	 *
 	 * @covers ::pluck_robot_setting_from_mapping
+	 *
+	 * @return void
 	 */
 	public function test_pluck_robot_setting_from_mapping() {
 		$robot_setting_from_mapping = $this->instance->pluck_robot_setting_from_mapping();
@@ -311,6 +324,8 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @param array $aioseo_settings The AIOSEO settings.
 	 * @param bool  $expected_result The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_isset_settings_tab( $aioseo_settings, $expected_result ) {
 		$isset_settings_tab = $this->instance->isset_settings_tab( $aioseo_settings );
@@ -322,7 +337,7 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_isset_settings_tab() {
+	public static function provider_isset_settings_tab() {
 		$aioseo_settings_with_subsetting_set = [
 			'searchAppearance' => [
 				'postTypes' => 'settings',
@@ -345,7 +360,7 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_import_redirect_attachment() {
+	public static function provider_import_redirect_attachment() {
 		return [
 			[ 'disabled', false ],
 			[ 'attachment', true ],
@@ -358,7 +373,7 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_map() {
+	public static function provider_map() {
 		return [
 			[ '/post/title', 'Post Title', 1, 1, 0 ],
 			[ '/post/metaDescription', 'Post Desc', 1, 1, 0 ],
@@ -382,10 +397,10 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_query() {
+	public static function provider_query() {
 		$full_settings = [
 			'searchAppearance' => [
-				'postTypes'   => $this->full_settings_to_import,
+				'postTypes'   => self::$full_settings_to_import,
 				'archives'    => [
 					'author' => [
 						'title'           => 'title1',
@@ -395,10 +410,10 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 			],
 		];
 
-		$full_settings_expected = $this->flattened_settings_to_import;
+		$full_settings_expected = self::$flattened_settings_to_import;
 
 		return [
-			[ \json_encode( $full_settings ), $this->full_settings_to_import, $full_settings_expected, 1 ],
+			[ \json_encode( $full_settings ), self::$full_settings_to_import, $full_settings_expected, 1 ],
 		];
 	}
 }

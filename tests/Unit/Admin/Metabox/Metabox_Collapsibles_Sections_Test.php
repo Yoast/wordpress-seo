@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group Metabox
  */
-class Metabox_Collapsibles_Sections_Test extends TestCase {
+final class Metabox_Collapsibles_Sections_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.
@@ -39,6 +39,8 @@ class Metabox_Collapsibles_Sections_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Collapsible::link
 	 *
 	 * @param string $expected Substring expected to be found in the actual output.
+	 *
+	 * @return void
 	 */
 	public function test_display_content_with_collapsible( $expected ) {
 		$collapsibles = [];
@@ -65,7 +67,7 @@ class Metabox_Collapsibles_Sections_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_display_content_with_collapsible() {
+	public static function data_display_content_with_collapsible() {
 		return [
 			[ 'Collapsible 1 label' ],
 			[ 'Collapsible 1 content' ],
@@ -84,6 +86,8 @@ class Metabox_Collapsibles_Sections_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Collapsible::__construct
 	 * @covers WPSEO_Metabox_Collapsible::content
 	 * @covers WPSEO_Metabox_Collapsible::link
+	 *
+	 * @return void
 	 */
 	public function test_display_link_with_collapsible() {
 		$collapsibles = [];

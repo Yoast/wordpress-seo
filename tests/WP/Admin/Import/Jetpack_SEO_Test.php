@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test importing meta data from Jetpack SEO.
  */
-class Jetpack_SEO_Test extends TestCase {
+final class Jetpack_SEO_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.
@@ -22,6 +22,8 @@ class Jetpack_SEO_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -33,6 +35,8 @@ class Jetpack_SEO_Test extends TestCase {
 	 * Tests the plugin name function.
 	 *
 	 * @covers WPSEO_Import_Jetpack_SEO::get_plugin_name
+	 *
+	 * @return void
 	 */
 	public function test_plugin_name() {
 		$this->assertEquals( 'Jetpack', $this->class_instance->get_plugin_name() );
@@ -42,6 +46,8 @@ class Jetpack_SEO_Test extends TestCase {
 	 * Tests whether this importer has been registered.
 	 *
 	 * @covers WPSEO_Plugin_Importers::get
+	 *
+	 * @return void
 	 */
 	public function test_importer_registered() {
 		$this->assertContains( WPSEO_Import_Jetpack_SEO::class, WPSEO_Plugin_Importers::get() );
@@ -53,6 +59,8 @@ class Jetpack_SEO_Test extends TestCase {
 	 * @covers WPSEO_Import_Jetpack_SEO::__construct
 	 * @covers WPSEO_Import_Jetpack_SEO::run_detect
 	 * @covers WPSEO_Import_Jetpack_SEO::detect
+	 *
+	 * @return void
 	 */
 	public function test_detect_without_data() {
 		$this->assertEquals( $this->status( 'detect', false ), $this->class_instance->run_detect() );
@@ -63,6 +71,8 @@ class Jetpack_SEO_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Jetpack_SEO::run_detect
 	 * @covers WPSEO_Import_Jetpack_SEO::detect
+	 *
+	 * @return void
 	 */
 	public function test_detect() {
 		$this->setup_post();
@@ -73,6 +83,8 @@ class Jetpack_SEO_Test extends TestCase {
 	 * Tests whether we can return properly when there's nothing to import.
 	 *
 	 * @covers WPSEO_Import_Jetpack_SEO::run_import
+	 *
+	 * @return void
 	 */
 	public function test_import_without_data() {
 		$result = $this->class_instance->run_import();
@@ -85,6 +97,8 @@ class Jetpack_SEO_Test extends TestCase {
 	 * @covers WPSEO_Import_Jetpack_SEO::run_import
 	 * @covers WPSEO_Import_Jetpack_SEO::import
 	 * @covers WPSEO_Import_Jetpack_SEO::meta_key_clone
+	 *
+	 * @return void
 	 */
 	public function test_import() {
 		$post_id = $this->setup_post();
@@ -100,6 +114,8 @@ class Jetpack_SEO_Test extends TestCase {
 	 * Tests whether we can properly return an error when there is no data to clean.
 	 *
 	 * @covers WPSEO_Import_Jetpack_SEO::run_cleanup
+	 *
+	 * @return void
 	 */
 	public function test_cleanup_without_data() {
 		$result = $this->class_instance->run_cleanup();
@@ -111,6 +127,8 @@ class Jetpack_SEO_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Jetpack_SEO::run_cleanup
 	 * @covers WPSEO_Import_Jetpack_SEO::cleanup
+	 *
+	 * @return void
 	 */
 	public function test_cleanup() {
 		$post_id = $this->setup_post();

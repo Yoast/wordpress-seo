@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 /**
  * Class Meta_Tags_Context_Memoizer_Double.
  */
-class Meta_Tags_Context_Memoizer_Double extends Meta_Tags_Context_Memoizer {
+final class Meta_Tags_Context_Memoizer_Double extends Meta_Tags_Context_Memoizer {
 
 	/**
 	 * Used to manually set the internal cache for testing purposes.

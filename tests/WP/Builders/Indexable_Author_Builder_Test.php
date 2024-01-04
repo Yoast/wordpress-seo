@@ -1,10 +1,10 @@
 <?php
+
 namespace Yoast\WP\SEO\Tests\WP\Builders;
 
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Author_Not_Built_Exception;
-use Yoast\WP\SEO\Generators\Schema\Author;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Builders\Indexable_Author_Builder
  */
-class Indexable_Author_Builder_Test extends TestCase {
+final class Indexable_Author_Builder_Test extends TestCase {
 
 	/**
 	 * The instance.
@@ -31,9 +31,11 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
-	public function setUp(): void {
-		parent::setUp();
+	public function set_up(): void {
+		parent::set_up();
 
 		$this->user_id = self::factory()->user->create_and_get(
 			[
@@ -49,10 +51,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 		\wp_set_current_user( $this->user_id );
 
 		$this->instance = new Indexable_Author_Builder(
-			YoastSEO()->helpers->author_archive,
-			YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
-			YoastSEO()->helpers->options,
-			YoastSEO()->helpers->post
+			\YoastSEO()->helpers->author_archive,
+			\YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
+			\YoastSEO()->helpers->options,
+			\YoastSEO()->helpers->post
 		);
 	}
 
@@ -60,6 +62,8 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 * Tests the build method's happy path.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 		self::factory()->post->create(
@@ -96,6 +100,8 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 * Tests the build method in case author has no public posts.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_when_author_has_no_public_posts() {
 		$this->expectException( Author_Not_Built_Exception::class );
@@ -108,6 +114,8 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 * Tests the build method in case author archives are disabled.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_when_author_archives_are_disabled() {
 		self::factory()->post->create(
@@ -119,7 +127,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 			]
 		);
 
-		YoastSEO()->helpers->options->set( 'disable-author', true );
+		\YoastSEO()->helpers->options->set( 'disable-author', true );
 
 		$this->expectException( Author_Not_Built_Exception::class );
 		$this->expectExceptionMessage( 'Indexable for author with id ' . \get_current_user_id() . ' is not being built, since author archives are disabled.' );
@@ -131,10 +139,11 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 * Tests the build method in case author has no public posts but indexing is enabled.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_when_author_has_no_public_posts_and_indexing_is_enabled() {
-		YoastSEO()->helpers->options->set( 'noindex-author-noposts-wpseo', false );
-
+		\YoastSEO()->helpers->options->set( 'noindex-author-noposts-wpseo', false );
 
 		$indexable      = new Indexable();
 		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
@@ -161,10 +170,12 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 * Tests the build method in case wpseo_should_build_and_save_user_indexable is used.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_when_author_is_filtered() {
 
-		YoastSEO()->helpers->options->set( 'noindex-author-noposts-wpseo', false );
+		\YoastSEO()->helpers->options->set( 'noindex-author-noposts-wpseo', false );
 
 		self::factory()->post->create(
 			[
@@ -175,11 +186,11 @@ class Indexable_Author_Builder_Test extends TestCase {
 			]
 		);
 
-		YoastSEO()->helpers->options->set( 'disable-author', true );
+		\YoastSEO()->helpers->options->set( 'disable-author', true );
 
 		\add_filter(
 			'wpseo_should_build_and_save_user_indexable',
-			static function( $exception, $user_id ) {
+			static function ( $exception, $user_id ) {
 				return new Author_Not_Built_Exception( 'Author not built because of filter.' );
 			},
 			10,

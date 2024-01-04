@@ -246,7 +246,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		/**
 		 * Filter: 'wpseo_tracking_settings_include_list' - Allow filtering the settings included in tracking.
 		 *
-		 * @api string $include_list the list with included setting names.
+		 * @param string $include_list The list with included setting names.
 		 */
 		$this->include_list = apply_filters( 'wpseo_tracking_settings_include_list', $this->include_list );
 

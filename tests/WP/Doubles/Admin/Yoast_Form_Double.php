@@ -8,7 +8,7 @@ use Yoast_Form;
 /**
  * Class Yoast_Form_Double.
  */
-class Yoast_Form_Double extends Yoast_Form {
+final class Yoast_Form_Double extends Yoast_Form {
 
 	/**
 	 * Getter to retrieve the otherwise protected option instance property.

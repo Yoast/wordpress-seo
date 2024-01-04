@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Wordpress_Helper
  */
-class Wordpress_Helper_Test extends TestCase {
+final class Wordpress_Helper_Test extends TestCase {
 
 	/**
 	 * The instance under test.
@@ -25,6 +25,8 @@ class Wordpress_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -36,6 +38,8 @@ class Wordpress_Helper_Test extends TestCase {
 	 * Tests retrieval of the global WordPress version
 	 *
 	 * @covers ::get_wordpress_version
+	 *
+	 * @return void
 	 */
 	public function test_get_wordpress_version() {
 		global $wp_version;

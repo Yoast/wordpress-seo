@@ -241,7 +241,7 @@ const SiteFeatures = () => {
 								isPremiumLink="https://yoa.st/get-ai-generator"
 								title={ __( "AI title & description generator", "wordpress-seo" ) }
 							>
-								<p>{ __( "Use the power of Yoast AI to automatically generate compelling titles and descriptions for your posts and pages.", "wordpress-seo" ) }</p>
+								<p>{ __( "Use AI to write SEO titles and meta descriptions for your posts and pages. It speeds up your work and does some of the thinking for you!", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-ai-generator" link="https://yoa.st/ai-generator-feature" ariaLabel={ __( "AI title & description generator", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
@@ -291,9 +291,9 @@ const SiteFeatures = () => {
 								isPremiumFeature={ true }
 								hasPremiumBadge={ true }
 								isPremiumLink="https://yoa.st/get-link-suggestions"
-								title={ __( "Link suggestions", "wordpress-seo" ) }
+								title={ __( "Internal linking suggestions", "wordpress-seo" ) }
 							>
-								<p>{ __( "Get recommendations for relevant posts to link to and set up a great internal linking structure by connecting related content.", "wordpress-seo" ) }</p>
+								<p>{ __( "No need to figure out what to link to. You get linking suggestions for relevant posts and pages to make your website easier to navigate.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-suggestions-link" link={ isPremium ? "https://yoa.st/17g" : "https://yoa.st/4ev" } ariaLabel={ __( "Link suggestions", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>

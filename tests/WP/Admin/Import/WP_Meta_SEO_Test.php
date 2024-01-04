@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test importing meta data from WP Meta SEO.
  */
-class WP_Meta_SEO_Test extends TestCase {
+final class WP_Meta_SEO_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.
@@ -22,6 +22,8 @@ class WP_Meta_SEO_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -33,6 +35,8 @@ class WP_Meta_SEO_Test extends TestCase {
 	 * Tests the plugin name function.
 	 *
 	 * @covers WPSEO_Import_WP_Meta_SEO::get_plugin_name
+	 *
+	 * @return void
 	 */
 	public function test_plugin_name() {
 		$this->assertEquals( 'WP Meta SEO', $this->class_instance->get_plugin_name() );
@@ -42,6 +46,8 @@ class WP_Meta_SEO_Test extends TestCase {
 	 * Tests whether this importer has been registered.
 	 *
 	 * @covers WPSEO_Plugin_Importers::get
+	 *
+	 * @return void
 	 */
 	public function test_importer_registered() {
 		$this->assertContains( WPSEO_Import_WP_Meta_SEO::class, WPSEO_Plugin_Importers::get() );
@@ -52,6 +58,8 @@ class WP_Meta_SEO_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_WP_Meta_SEO::run_detect
 	 * @covers WPSEO_Import_WP_Meta_SEO::detect
+	 *
+	 * @return void
 	 */
 	public function test_detect_no_data() {
 		$this->assertEquals( $this->status( 'detect', false ), $this->class_instance->run_detect() );
@@ -63,6 +71,8 @@ class WP_Meta_SEO_Test extends TestCase {
 	 * @covers WPSEO_Import_WP_Meta_SEO::__construct
 	 * @covers WPSEO_Import_WP_Meta_SEO::run_detect
 	 * @covers WPSEO_Import_WP_Meta_SEO::detect
+	 *
+	 * @return void
 	 */
 	public function test_detect() {
 		$this->setup_post();
@@ -73,6 +83,8 @@ class WP_Meta_SEO_Test extends TestCase {
 	 * Tests whether we can return properly when there's nothing to import.
 	 *
 	 * @covers WPSEO_Import_WP_Meta_SEO::run_import
+	 *
+	 * @return void
 	 */
 	public function test_import_no_data() {
 		$this->assertEquals( $this->status( 'import', false ), $this->class_instance->run_import() );
@@ -85,6 +97,8 @@ class WP_Meta_SEO_Test extends TestCase {
 	 * @covers WPSEO_Import_WP_Meta_SEO::import
 	 * @covers WPSEO_Import_WP_Meta_SEO::meta_key_clone
 	 * @covers WPSEO_Import_WP_Meta_SEO::meta_keys_clone
+	 *
+	 * @return void
 	 */
 	public function test_import() {
 		$post_id = $this->setup_post();
@@ -106,6 +120,8 @@ class WP_Meta_SEO_Test extends TestCase {
 	 * Tests whether we can properly return an error when there is no data to clean.
 	 *
 	 * @covers WPSEO_Import_WP_Meta_SEO::run_cleanup
+	 *
+	 * @return void
 	 */
 	public function test_cleanup_no_data() {
 		$this->assertEquals( $this->status( 'cleanup', false ), $this->class_instance->run_cleanup() );
@@ -116,6 +132,8 @@ class WP_Meta_SEO_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_WP_Meta_SEO::run_cleanup
 	 * @covers WPSEO_Import_WP_Meta_SEO::cleanup
+	 *
+	 * @return void
 	 */
 	public function test_cleanup() {
 		$post_id = $this->setup_post();

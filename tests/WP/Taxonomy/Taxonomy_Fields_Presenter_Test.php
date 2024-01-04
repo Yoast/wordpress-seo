@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Taxonomy_Fields_Presenter_Test extends TestCase {
+final class Taxonomy_Fields_Presenter_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -26,6 +26,8 @@ class Taxonomy_Fields_Presenter_Test extends TestCase {
 
 	/**
 	 * Adding a term and set the class instance.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -38,6 +40,8 @@ class Taxonomy_Fields_Presenter_Test extends TestCase {
 	 * Test the result of the display_fields, with one field given.
 	 *
 	 * @covers WPSEO_Taxonomy_Fields_Presenter::html
+	 *
+	 * @return void
 	 */
 	public function test_display_fields() {
 		$output = $this->class_instance->html(
@@ -61,6 +65,8 @@ class Taxonomy_Fields_Presenter_Test extends TestCase {
 	 * Test the result of the display_fields, with one field given. The given field has no label set.
 	 *
 	 * @covers WPSEO_Taxonomy_Fields_Presenter::html
+	 *
+	 * @return void
 	 */
 	public function test_display_fields_no_label() {
 		$output = $this->class_instance->html(
@@ -84,6 +90,8 @@ class Taxonomy_Fields_Presenter_Test extends TestCase {
 	 * Test the result of the display_fields, with one field given. The given field has no description.
 	 *
 	 * @covers WPSEO_Taxonomy_Fields_Presenter::html
+	 *
+	 * @return void
 	 */
 	public function test_display_fields_no_description() {
 		$output = $this->class_instance->html(
@@ -104,6 +112,8 @@ class Taxonomy_Fields_Presenter_Test extends TestCase {
 	 * Test the result of the display_fields, with one field given. The given field is a select.
 	 *
 	 * @covers WPSEO_Taxonomy_Fields_Presenter::html
+	 *
+	 * @return void
 	 */
 	public function test_display_fields_select() {
 		$output = $this->class_instance->html(
@@ -131,6 +141,8 @@ class Taxonomy_Fields_Presenter_Test extends TestCase {
 	 * Test the result of the display_fields, with one field given. The given field is a select.
 	 *
 	 * @covers WPSEO_Taxonomy_Fields_Presenter::html
+	 *
+	 * @return void
 	 */
 	public function test_display_fields_checkbox() {
 		$output = $this->class_instance->html(
@@ -158,6 +170,8 @@ class Taxonomy_Fields_Presenter_Test extends TestCase {
 	 * Test the result of the display_fields, with one field given. The given field is a select.
 	 *
 	 * @covers WPSEO_Taxonomy_Fields_Presenter::html
+	 *
+	 * @return void
 	 */
 	public function test_display_fields_hidden() {
 		$output = $this->class_instance->html(
@@ -181,6 +195,8 @@ class Taxonomy_Fields_Presenter_Test extends TestCase {
 	 * Test the result of the display_fields, with one field given. The given field is a select.
 	 *
 	 * @covers WPSEO_Taxonomy_Fields_Presenter::html
+	 *
+	 * @return void
 	 */
 	public function test_display_fields_upload() {
 		$output = $this->class_instance->html(
@@ -208,6 +224,8 @@ class Taxonomy_Fields_Presenter_Test extends TestCase {
 	 * Test the result of the display_fields, with one field given. The given field is a select.
 	 *
 	 * @covers WPSEO_Taxonomy_Fields_Presenter::html
+	 *
+	 * @return void
 	 */
 	public function test_display_fields_with_description() {
 		$output = $this->class_instance->html(

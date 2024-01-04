@@ -36,7 +36,7 @@ class Image_Helper {
 		/**
 		 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size.
 		 *
-		 * @api string $featured_img Image size string.
+		 * @param string $featured_img Image size string.
 		 */
 		return (string) \apply_filters( 'wpseo_twitter_image_size', 'full' );
 	}

@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Woocommerce_Beta_Editor_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Woocommerce_Beta_Editor_Presenter_Test extends TestCase {
+final class Woocommerce_Beta_Editor_Presenter_Test extends TestCase {
 
 	/**
 	 * The short link helper.
@@ -49,6 +49,8 @@ class Woocommerce_Beta_Editor_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get_message
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 
@@ -62,7 +64,6 @@ class Woocommerce_Beta_Editor_Presenter_Test extends TestCase {
 			->once()
 			->with( 'https://yoa.st/learn-how-disable-beta-woocommerce-product-editor' )
 			->andReturn( 'https://yoa.st/learn-how-disable-beta-woocommerce-product-editor' );
-
 
 		$expected = '<p><strong>Compatibility issue: Yoast SEO is incompatible with the beta WooCommerce product editor.</strong> The Yoast SEO interface is currently unavailable in the beta WooCommerce product editor. To resolve any issues, please disable the beta editor. <a href="https://yoa.st/learn-how-disable-beta-woocommerce-product-editor" target="_blank">Learn how to disable the beta WooCommerce product editor.</a></p>';
 

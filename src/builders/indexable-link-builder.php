@@ -238,7 +238,7 @@ class Indexable_Link_Builder {
 		$attribute = \apply_filters( 'wpseo_image_attribute_containing_id', 'class' );
 
 		while ( $processor->next_tag( $query ) ) {
-			$src     = \htmlentities( $processor->get_attribute( 'src' ), ( ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 ), \get_bloginfo( 'charset' ) );
+			$src     = \htmlentities( $processor->get_attribute( 'src' ), ( \ENT_QUOTES | \ENT_SUBSTITUTE | \ENT_HTML401 ), \get_bloginfo( 'charset' ) );
 			$classes = $processor->get_attribute( $attribute );
 			$id      = $this->extract_id_of_classes( $classes );
 
@@ -268,13 +268,13 @@ class Indexable_Link_Builder {
 		 */
 		$attribute = \apply_filters( 'wpseo_image_attribute_containing_id', 'class' );
 
-		libxml_use_internal_errors( true );
+		\libxml_use_internal_errors( true );
 		$post_dom = new DOMDocument();
 		$post_dom->loadHTML( '<?xml encoding="' . $charset . '">' . $content );
-		libxml_clear_errors();
+		\libxml_clear_errors();
 
 		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
-			$src     = \htmlentities( $img->getAttribute( 'src' ), ( ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 ), $charset );
+			$src     = \htmlentities( $img->getAttribute( 'src' ), ( \ENT_QUOTES | \ENT_SUBSTITUTE | \ENT_HTML401 ), $charset );
 			$classes = $img->getAttribute( $attribute );
 			$id      = $this->extract_id_of_classes( $classes );
 
@@ -311,7 +311,7 @@ class Indexable_Link_Builder {
 
 		$matches = [];
 
-		if ( preg_match( $pattern, $classes, $matches ) ) {
+		if ( \preg_match( $pattern, $classes, $matches ) ) {
 			return (int) $matches[1];
 		}
 
@@ -345,11 +345,11 @@ class Indexable_Link_Builder {
 		 * @since 21.1
 		 */
 		$should_not_parse_content = \apply_filters( 'wpseo_force_skip_image_content_parsing', $should_not_parse_content );
-		if ( ! $should_not_parse_content && class_exists( WP_HTML_Tag_Processor::class ) ) {
+		if ( ! $should_not_parse_content && \class_exists( WP_HTML_Tag_Processor::class ) ) {
 			return $this->gather_images_wp( $content );
 		}
 
-		if ( ! $should_not_parse_content && class_exists( DOMDocument::class ) ) {
+		if ( ! $should_not_parse_content && \class_exists( DOMDocument::class ) ) {
 			return $this->gather_images_DOMDocument( $content );
 		}
 
@@ -383,7 +383,7 @@ class Indexable_Link_Builder {
 		$home_url    = \wp_parse_url( \home_url() );
 		$current_url = \wp_parse_url( $indexable->permalink );
 		$links       = \array_map(
-			function( $link ) use ( $home_url, $indexable ) {
+			function ( $link ) use ( $home_url, $indexable ) {
 				return $this->create_internal_link( $link, $home_url, $indexable );
 			},
 			$links
@@ -633,7 +633,7 @@ class Indexable_Link_Builder {
 		return \array_udiff(
 			$links_a,
 			$links_b,
-			static function( SEO_Links $link_a, SEO_Links $link_b ) {
+			static function ( SEO_Links $link_a, SEO_Links $link_b ) {
 				return \strcmp( $link_a->url, $link_b->url );
 			}
 		);

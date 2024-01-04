@@ -8,7 +8,7 @@
 	<!--
 	#############################################################################
 	COMMAND LINE ARGUMENTS
-	https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml
+	https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki/Annotated-ruleset.xml
 	#############################################################################
 	-->
 
@@ -50,14 +50,28 @@
 				<element value="yoast_seo"/>
 			</property>
 
-			<!-- Set the custom test class whitelist for all sniffs which use it in one go.
-				 Ref: https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/wiki/Customizable-sniff-properties#custom-unit-test-classes
+			<!-- Set the custom test class list for all sniffs which use it in one go.
+				 Ref: https://github.com/WordPress/WordPress-Coding-Standards/wiki/Customizable-sniff-properties#custom-unit-test-classes
 			-->
-			<property name="custom_test_class_whitelist" type="array">
+			<property name="custom_test_classes" type="array">
 				<element value="Yoast\WP\SEO\Tests\Unit\TestCase"/>
 				<element value="Yoast\WP\SEO\Tests\WP\TestCase"/>
 			</property>
+
+			<property name="psr4_paths" type="array">
+				<element key="Yoast\WP\SEO\Tests\\" value="tests/"/>
+			</property>
 		</properties>
+	</rule>
+
+	<!-- Enforce PSR1 compatible namespaces. -->
+	<rule ref="PSR1.Classes.ClassDeclaration">
+		<!-- YoastCS only applies this rule to test files. Overrule it to also apply to src files. -->
+		<include-pattern>*/config/*\.php$</include-pattern>
+		<include-pattern>*/src/*\.php$</include-pattern>
+
+		<exclude-pattern>*/src/deprecated/*\.php$</exclude-pattern>
+		<exclude-pattern>*/src/config/migrations/*\.php$</exclude-pattern>
 	</rule>
 
 
@@ -84,9 +98,6 @@
 				<element value="wp-seo-main.php"/>
 				<!-- Don't trigger on select view related files. -->
 				<element value="admin/views/tool-bulk-editor.php"/>
-				<!-- Don't trigger on test bootstrap files. -->
-				<element value="tests/Unit/bootstrap.php"/>
-				<element value="tests/WP/bootstrap.php"/>
 			</property>
 
 			<!-- Remove the following prefixes from the names of object structures. -->
@@ -103,15 +114,6 @@
 		<exclude-pattern>/src/config/migrations/*\.php$</exclude-pattern>
 	</rule>
 
-	<rule ref="Yoast.Files.TestDoubles">
-		<properties>
-			<property name="doubles_path" type="array" extend="true">
-				<element value="/tests/Unit/Doubles"/>
-				<element value="/tests/WP/Doubles"/>
-			</property>
-		</properties>
-	</rule>
-
 	<rule ref="Yoast.NamingConventions.ObjectNameDepth">
 		<properties>
 			<property name="max_words" value="5" />
@@ -126,15 +128,7 @@
 			<property name="src_directory" type="array">
 				<element value="config"/>
 				<element value="src"/>
-				<element value="tests/Unit"/>
-				<element value="tests/WP"/>
 				<element value="src/deprecated/src"/>
-			</property>
-
-			<!-- Allow for the tests being in a non-standard directory in YoastSEO Free. -->
-			<property name="prefixes" type="array" extend="true">
-				<element value="Yoast\WP\SEO\Tests\Unit"/>
-				<element value="Yoast\WP\SEO\Tests\WP"/>
 			</property>
 		</properties>
 	</rule>
@@ -144,7 +138,7 @@
 			<!-- We discovered that WP_Filesystem can lead to unexpected behaviour.
 				 See https://github.com/Yoast/wordpress-seo/pull/15713 -->
 			<property name="exclude" type="array" extend="true">
-				<element value="file_system_read"/>
+				<element value="file_system_operations"/>
 			</property>
 		</properties>
 	</rule>
@@ -155,6 +149,15 @@
 		</properties>
 	</rule>
 
+	<!-- Make sure custom capabilities are recognized. -->
+	<rule ref="WordPress.WP.Capabilities">
+		<properties>
+			<property name="custom_capabilities" type="array">
+				<element value="wpseo_manage_network_options"/>
+				<element value="wpseo_manage_options"/>
+			</property>
+		</properties>
+	</rule>
 
 	<!--
 	##########################################################################
@@ -163,22 +166,24 @@
 	#############################################################################
 	-->
 
-	<!-- Composer scripts are not WordPress and have console output. -->
-	<rule ref="WordPress.Security.EscapeOutput.OutputNotEscaped">
-		<exclude-pattern>/config/composer/*</exclude-pattern>
+	<!-- For named parameter support, the parameters in the overloaded methods *must*
+		 mirror the parameter name as used in Symfony itself.
+		 These cannot be changed until Symfony itself changes the names. -->
+	<rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames.namespaceFound">
+		<exclude-pattern>/config/dependency-injection/custom-loader\.php$</exclude-pattern>
 	</rule>
-	<rule ref="WordPress.PHP.DiscouragedPHPFunctions">
-		<exclude-pattern>/config/composer/*</exclude-pattern>
+	<rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames.resourceFound">
+		<exclude-pattern>/config/dependency-injection/custom-loader\.php$</exclude-pattern>
 	</rule>
 
 	<!-- Exclude the "lib" folder from select naming conventions.
 		 The intention is to extract this to a separate package, so the names are
 		 based on the "future" package. -->
 	<rule ref="Yoast.NamingConventions.NamespaceName">
-		<exclude-pattern>/lib/*</exclude-pattern>
+		<exclude-pattern type="relative">/lib/([a-z-]+/)?[^/]+\.php$</exclude-pattern>
 	</rule>
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound">
-		<exclude-pattern>/lib/*</exclude-pattern>
+		<exclude-pattern type="relative">/lib/([a-z-]+/)?[^/]+\.php$</exclude-pattern>
 	</rule>
 
 	<!-- Exclude select directories from the object depth naming convention check. -->
@@ -210,6 +215,9 @@
 	<!-- Exclude deprecated code from select sniffs regarding naming conventions.
 		 These classes are still available to prevent BC-breaks and renaming them would
 		 create a BC-break. -->
+	<rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames">
+		<exclude-pattern>/src/deprecated/*</exclude-pattern>
+	</rule>
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<exclude-pattern>/src/deprecated/*</exclude-pattern>
 	</rule>
@@ -230,6 +238,16 @@
 		<exclude-pattern>/tests/*</exclude-pattern>
 	</rule>
 
+	<!-- Valid usage: For setting up/tearing down a test situation, it is better to use the PHP native functions. -->
+	<rule ref="WordPress.WP.AlternativeFunctions.unlink_unlink">
+		<exclude-pattern>/tests/WP/Formatter/Metabox_Formatter_Test\.php$</exclude-pattern>
+	</rule>
+
+	<!-- Valid usage: Mocking the WP native wp_parse_url() function. -->
+	<rule ref="WordPress.WP.AlternativeFunctions.parse_url_parse_url">
+		<exclude-pattern>/tests/Unit/*\.php$</exclude-pattern>
+	</rule>
+
 	<!-- Test code does not go into production, so security is not an issue. -->
 	<rule ref="WordPress.Security">
 		<exclude-pattern>/tests/*</exclude-pattern>
@@ -238,21 +256,6 @@
 	<!-- Changing the cron interval to test things, is fine. -->
 	<rule ref="WordPress.WP.CronInterval">
 		<exclude-pattern>/tests/*</exclude-pattern>
-	</rule>
-
-	<!-- The unit tests are not run within the context of a WP install, so overwritting globals is fine. -->
-	<rule ref="WordPress.WP.GlobalVariablesOverride">
-		<exclude-pattern>/tests/*</exclude-pattern>
-	</rule>
-
-	<!-- Allow for the double/mock classes to override methods just to change the visibility. -->
-	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
-		<exclude-pattern>/tests/*/Doubles/*</exclude-pattern>
-	</rule>
-
-	<!-- Test mock/double classes do not have to be prefixed. -->
-	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound">
-		<exclude-pattern>/tests/*/Doubles/*</exclude-pattern>
 	</rule>
 
 	<!-- For documentation of the double/mock classes, please refer to the _real_ classes. -->
@@ -299,20 +302,6 @@
 
 		<!-- Exclude hooks everywhere for the time being until the prefixes will be fixed. -->
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound"/>
-	</rule>
-
-	<!-- The below issues will be fixed in YoastCS 3.0, after which these excludes can be removed. -->
-	<rule ref="Yoast.Files.FileName.InvalidClassFileName">
-		<exclude-pattern>/tests/*\.php$</exclude-pattern>
-	</rule>
-	<rule ref="Yoast.Files.FileName.InvalidTraitFileName">
-		<exclude-pattern>/tests/Unit/*\.php$</exclude-pattern>
-	</rule>
-	<rule ref="Yoast.NamingConventions.NamespaceName.Invalid">
-		<exclude-pattern>/tests/(Unit|WP)/*_*/*\.php$</exclude-pattern>
-	</rule>
-	<rule ref="Yoast.Commenting.FileComment.Unnecessary">
-		<exclude-pattern>/tests/*/bootstrap\.php$</exclude-pattern>
 	</rule>
 
 </ruleset>

@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Crawl_Cleanup_Helper_Test extends TestCase {
+final class Crawl_Cleanup_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.
@@ -58,6 +58,8 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -89,6 +91,8 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 * @param array  $get_response      Mock $_GET data.
 	 * @param bool   $is_user_logged_in Mock return value for is_user_logged_in().
 	 * @param int    $expected          Expected return value from the should_avoid_redirect() method.
+	 *
+	 * @return void
 	 */
 	public function test_should_avoid_redirect( $is_robots, $sitemap, $get_response, $is_user_logged_in, $expected ) {
 
@@ -113,7 +117,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function should_avoid_redirect_provider() {
+	public static function should_avoid_redirect_provider() {
 		return [
 			[ true, false, null, false, true ],
 			[ false, true, null, false, true ],
@@ -142,6 +146,8 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 * @param string $clean_permalinks_extra_variables Mock return value for clean_permalinks_extra_variables().
 	 * @param array  $permalink_vars                   The return value from the filter to add extra vars.
 	 * @param array  $expeted                          The allowed extra vars (is set in settings under 'Additional URL parameters to allow').
+	 *
+	 * @return void
 	 */
 	public function test_get_allowed_extravars( $clean_permalinks_extra_variables, $permalink_vars, $expeted ) {
 
@@ -164,7 +170,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function get_allowed_extravars_provider() {
+	public static function get_allowed_extravars_provider() {
 		return [
 			[ 'variable1,variable2,variable3', [], [ 'variable1', 'variable2', 'variable3' ] ],
 			[ '', [], [] ],
@@ -185,6 +191,8 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 * @param int    $home_url_times      The number of times home_url() is expected to be called.
 	 * @param int    $permalink_times     The number of times get_permalink() is expected to be called.
 	 * @param string $expected            Expected return value.
+	 *
+	 * @return void
 	 */
 	public function test_front_page_url( $is_home_posts_page, $is_home_static_page, $static_times, $home_url_times, $permalink_times, $expected ) {
 
@@ -218,7 +226,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function front_page_url_provider() {
+	public static function front_page_url_provider() {
 		return [
 			[ true, false, 0, 1, 0, 'http://basic.wordpress.test/' ],
 			[ false, true, 1, 0, 1, 'http://basic.wordpress.test/permalink' ],
@@ -243,6 +251,8 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 * @param int    $page_for_posts_times   The number of times times get_option(page_for_posts) is expected to be called.
 	 * @param string $current_url            Input value for $current_url parameter.
 	 * @param string $expected               Expected return value.
+	 *
+	 * @return void
 	 */
 	public function test_page_not_found_url( $is_multisite, $is_subdomain_install, $is_main_site, $home_url, $is_home_static_page, $home_static_page_times, $get_permalink_times, $page_for_posts_times, $current_url, $expected ) {
 
@@ -278,7 +288,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function page_not_found_url_provider() {
+	public static function page_not_found_url_provider() {
 		return [
 			[ true, true, true, '', null, 0, 0, 0, '', '' ],
 			[ false, false, true, '', null, 0, 0, 0, '', '' ],
@@ -301,6 +311,8 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 * @param int    $get_term_feed_link_times The number of times get_term_feed_link() is expected to be called.
 	 * @param int    $get_term_link_times      The number of times get_term_link() is expected to be called.
 	 * @param string $expected                 Expected return value.
+	 *
+	 * @return void
 	 */
 	public function test_taxonomy_url( $is_feed, $get_term_feed_link_times, $get_term_link_times, $expected ) {
 
@@ -343,7 +355,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function taxonomy_url_provider() {
+	public static function taxonomy_url_provider() {
 		return [
 			[ false, 0, 1, 'http://basic.wordpress.test/products' ],
 			[ true, 1, 0, 'http://basic.wordpress.test/products/feed' ],
@@ -354,6 +366,8 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 * Tests search_url.
 	 *
 	 * @covers ::search_url
+	 *
+	 * @return void
 	 */
 	public function test_search_url() {
 		Monkey\Functions\expect( 'get_search_query' )
@@ -379,6 +393,8 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 * @param int    $home_url         The number of times home_url() is expected to be called.
 	 * @param int    $get_search_query The number of times get_search_query() is expected to be called.
 	 * @param string $expected         Expected return value.
+	 *
+	 * @return void
 	 */
 	public function test_query_var_page_url( $is_search, $proper_url, $home_url, $get_search_query, $expected ) {
 		global $wp_query;
@@ -406,7 +422,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function query_var_page_url_provider() {
+	public static function query_var_page_url_provider() {
 		$proper_url = 'http://basic.wordpress.test';
 		return [
 			[ true, $proper_url, 1, 1, 'http://basic.wordpress.test/page/test/?s=test' ],
@@ -426,6 +442,8 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 * @param string $query_vars_paged WP_Query query_vars_paged input.
 	 * @param int    $post_count       WP_Query post_count input.
 	 * @param bool   $expected         Expected return value.
+	 *
+	 * @return void
 	 */
 	public function test_is_query_var_page( $proper_url, $query_vars_paged, $post_count, $expected ) {
 		global $wp_query;
@@ -444,7 +462,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function is_query_var_page_provider() {
+	public static function is_query_var_page_provider() {
 		$proper_url = 'http://basic.wordpress.test';
 		return [
 			[ '', null, null, false ],
@@ -458,6 +476,8 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 * Tests page_for_posts_url.
 	 *
 	 * @covers ::page_for_posts_url
+	 *
+	 * @return void
 	 */
 	public function test_page_for_posts_url() {
 
@@ -490,6 +510,8 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 * @param bool   $post_page       Mock return value for is_posts_page().
 	 * @param int    $post_page_times The number of times is_posts_page() is expected to be called.
 	 * @param string $expected        Expected return value.
+	 *
+	 * @return void
 	 */
 	public function test_get_url_type( $singular, $front, $category, $tag, $tax, $search, $is404, $post_page, $post_page_times, $expected ) {
 
@@ -518,7 +540,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function get_url_type_provider() {
+	public static function get_url_type_provider() {
 		return [
 			[ true, false, false, false, false, false, false, false, 0, 'singular_url' ],
 			[ false, true, false, false, false, false, false, false, 0, 'front_page_url' ],
@@ -535,6 +557,8 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 * Tests do_clean_redirect.
 	 *
 	 * @covers ::do_clean_redirect
+	 *
+	 * @return void
 	 */
 	public function test_do_clean_redirect() {
 		$proper_url = 'http://basic.wordpress.test';

@@ -28,7 +28,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group indexing
  */
-class Background_Indexing_Integration_Test extends TestCase {
+final class Background_Indexing_Integration_Test extends TestCase {
 
 	/**
 	 * The indexation integration under test.
@@ -123,6 +123,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -166,9 +168,11 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests the get_conditionals method.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Migrations_Conditional::class,
 			],
@@ -180,33 +184,35 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Post_Indexation_Action::class,
 			$this->getPropertyValue( $this->instance, 'post_indexation' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Term_Indexation_Action::class,
 			$this->getPropertyValue( $this->instance, 'term_indexation' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Post_Type_Archive_Indexation_Action::class,
 			$this->getPropertyValue( $this->instance, 'post_type_archive_indexation' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_General_Indexation_Action::class,
 			$this->getPropertyValue( $this->instance, 'general_indexation' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Indexing_Complete_Action::class,
 			$this->getPropertyValue( $this->instance, 'complete_indexation_action' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexing_Helper::class,
 			$this->getPropertyValue( $this->instance, 'indexing_helper' )
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Yoast_Admin_And_Dashboard_Conditional::class,
 			$this->getPropertyValue( $this->instance, 'yoast_admin_and_dashboard_conditional' )
 		);
@@ -216,6 +222,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests the register hooks method.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		Monkey\Actions\expectAdded( 'admin_init' );
@@ -234,6 +242,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests the add limit filters method.
 	 *
 	 * @covers ::add_limit_filters
+	 *
+	 * @return void
 	 */
 	public function test_add_limit_filters() {
 		Monkey\Filters\expectAdded( 'wpseo_post_indexation_limit' );
@@ -251,6 +261,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * @covers ::register_shutdown_indexing
 	 * @covers ::should_index_on_shutdown
 	 * @covers ::get_shutdown_limit
+	 *
+	 * @return void
 	 */
 	public function test_register_shutdown_indexing() {
 		$this->indexing_helper
@@ -293,6 +305,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests the add cron schedule method when malformed schedules are passed.
 	 *
 	 * @covers ::add_cron_schedule
+	 *
+	 * @return void
 	 */
 	public function test_add_cron_schedule_malformed() {
 		$added_schedules = $this->instance->add_cron_schedule( 'not array' );
@@ -304,12 +318,14 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests the add cron schedule method.
 	 *
 	 * @covers ::add_cron_schedule
+	 *
+	 * @return void
 	 */
 	public function test_add_cron_schedule() {
 		$added_schedules          = $this->instance->add_cron_schedule( [] );
 		$expected_added_schedules = [
 			'fifteen_minutes' => [
-				'interval' => ( 15 * MINUTE_IN_SECONDS ),
+				'interval' => ( 15 * \MINUTE_IN_SECONDS ),
 				'display'  => 'Every fifteen minutes',
 			],
 		];
@@ -323,6 +339,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * @covers ::register_shutdown_indexing
 	 * @covers ::should_index_on_shutdown
 	 * @covers ::get_shutdown_limit
+	 *
+	 * @return void
 	 */
 	public function test_register_shutdown_indexing_with_wp_cron_enabled() {
 		$this->indexing_helper
@@ -365,6 +383,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * @covers ::register_shutdown_indexing
 	 * @covers ::should_index_on_shutdown
 	 * @covers ::get_shutdown_limit
+	 *
+	 * @return void
 	 */
 	public function test_register_shutdown_indexing_on_invalid_pages() {
 		$this->yoast_admin_and_dashboard_conditional
@@ -385,6 +405,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * @covers ::register_shutdown_indexing
 	 * @covers ::should_index_on_shutdown
 	 * @covers ::get_shutdown_limit
+	 *
+	 * @return void
 	 */
 	public function test_register_shutdown_indexing_on_post_request() {
 		$this->yoast_admin_and_dashboard_conditional
@@ -409,6 +431,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * @covers ::register_shutdown_indexing
 	 * @covers ::should_index_on_shutdown
 	 * @covers ::get_shutdown_limit
+	 *
+	 * @return void
 	 */
 	public function test_register_shutdown_indexing_with_indexing_disabled() {
 		$this->yoast_admin_and_dashboard_conditional
@@ -439,6 +463,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * @covers ::register_shutdown_indexing
 	 * @covers ::should_index_on_shutdown
 	 * @covers ::get_shutdown_limit
+	 *
+	 * @return void
 	 */
 	public function test_register_shutdown_indexing_with_unindexed_objects() {
 		$this->yoast_admin_and_dashboard_conditional
@@ -477,6 +503,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests the shutdown indexing method.
 	 *
 	 * @covers ::index
+	 *
+	 * @return void
 	 */
 	public function test_index() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( false );
@@ -506,6 +534,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 *
 	 * @covers ::index
 	 * @covers ::should_index_on_cron
+	 *
+	 * @return void
 	 */
 	public function test_index_with_wp_cron() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
@@ -531,7 +561,6 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->with( 1 )
 			->andReturn( 0 );
 
-
 		$this->term_indexation->expects( 'index' )->once();
 		$this->post_indexation->expects( 'index' )->once();
 		$this->general_indexation->expects( 'index' )->once();
@@ -549,10 +578,11 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * @covers ::index
 	 * @covers ::should_index_on_cron
 	 * @covers ::unschedule_cron_indexing
+	 *
+	 * @return void
 	 */
 	public function test_index_with_wp_cron_with_cron_indexing_disabled() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
-
 
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
@@ -574,6 +604,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 *
 	 * @covers ::index
 	 * @covers ::should_index_on_cron
+	 *
+	 * @return void
 	 */
 	public function test_index_with_wp_cron_with_indexing_disabled() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
@@ -598,6 +630,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 *
 	 * @covers ::index
 	 * @covers ::should_index_on_cron
+	 *
+	 * @return void
 	 */
 	public function test_index_with_wp_cron_with_complete_index() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
@@ -617,7 +651,6 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-
 		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12345 );
 		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'wpseo_indexable_index_batch' );
 
@@ -629,6 +662,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 *
 	 * @covers ::index
 	 * @covers ::should_index_on_cron
+	 *
+	 * @return void
 	 */
 	public function test_index_with_wp_cron_with_complete_index_without_scheduled_task() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
@@ -674,6 +709,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * @param int  $get_unindexed_count_times          Times we'll calculate the unindexed objects count.
 	 * @param int  $get_unindexed_count_result         The unindexed objects count.
 	 * @param int  $schedule_event_times               Times we'll schedule a cron event.
+	 *
+	 * @return void
 	 */
 	public function test_schedule_cron_indexing( $admin_dashboard_conditional_result, $get_conditional_times, $get_conditional_result, $next_scheduled_times, $next_scheduled_result, $should_index_times, $should_index_result, $query_filter_result, $enable_filter_times, $enable_filter_result, $get_unindexed_count_times, $get_unindexed_count_result, $schedule_event_times ) {
 		$this->yoast_admin_and_dashboard_conditional
@@ -724,7 +761,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function data_schedule_cron_indexing() {
+	public static function data_schedule_cron_indexing() {
 		return [
 			'Cron job is not scheduled when not on the right pages' => [
 				'admin_dashboard_conditional_result' => false,
@@ -883,6 +920,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests that the background indexing pace stays untouched when not doing cron.
 	 *
 	 * @covers ::throttle_cron_indexing
+	 *
+	 * @return void
 	 */
 	public function test_throttle_cron_indexing() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( false );
@@ -896,6 +935,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests that the background indexing pace is throttled to 15 when doing cron.
 	 *
 	 * @covers ::throttle_cron_indexing
+	 *
+	 * @return void
 	 */
 	public function test_throttle_cron_indexing_while_doing_cron() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
@@ -912,6 +953,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests that the background link indexing pace stays untouched when not doing cron.
 	 *
 	 * @covers ::throttle_cron_link_indexing
+	 *
+	 * @return void
 	 */
 	public function test_throttle_cron_link_indexing() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( false );
@@ -925,6 +968,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests that the background link indexing pace is throttled to 15 when doing cron.
 	 *
 	 * @covers ::throttle_cron_link_indexing
+	 *
+	 * @return void
 	 */
 	public function test_throttle_cron_link_indexing_while_doing_cron() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );

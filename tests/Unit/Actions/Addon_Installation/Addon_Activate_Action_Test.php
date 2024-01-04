@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @covers \Yoast\WP\SEO\Actions\Addon_Installation\Addon_Activate_Action
  */
-class Addon_Activate_Action_Test extends TestCase {
+final class Addon_Activate_Action_Test extends TestCase {
 
 	/**
 	 * The wpseo addon manager.
@@ -42,6 +42,8 @@ class Addon_Activate_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -53,6 +55,8 @@ class Addon_Activate_Action_Test extends TestCase {
 
 	/**
 	 * Tests if the user as addon activation permissions.
+	 *
+	 * @return void
 	 */
 	public function test_activate_addon_user_has_no_activate_permissions() {
 		Monkey\Functions\expect( 'current_user_can' )
@@ -67,6 +71,8 @@ class Addon_Activate_Action_Test extends TestCase {
 
 	/**
 	 * Tests if an activated addon can be activated "again".
+	 *
+	 * @return void
 	 */
 	public function test_activate_addon_is_already_activated() {
 
@@ -88,6 +94,8 @@ class Addon_Activate_Action_Test extends TestCase {
 
 	/**
 	 * Tests if an exception is thrown on activation error.
+	 *
+	 * @return void
 	 */
 	public function test_activate_addon_activation_when_activation_fails() {
 
@@ -132,6 +140,8 @@ class Addon_Activate_Action_Test extends TestCase {
 
 	/**
 	 * Tests the addon activation happy path.
+	 *
+	 * @return void
 	 */
 	public function test_activate_addon() {
 

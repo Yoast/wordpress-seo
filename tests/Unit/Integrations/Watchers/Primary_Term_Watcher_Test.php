@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Primary_Term_Watcher
  */
-class Primary_Term_Watcher_Test extends TestCase {
+final class Primary_Term_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -60,6 +60,8 @@ class Primary_Term_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -85,6 +87,8 @@ class Primary_Term_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -97,6 +101,8 @@ class Primary_Term_Watcher_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -109,6 +115,8 @@ class Primary_Term_Watcher_Test extends TestCase {
 	 * Tests the removal of the primary terms for a post.
 	 *
 	 * @covers ::delete_primary_terms
+	 *
+	 * @return void
 	 */
 	public function test_delete_primary_terms() {
 		$this->primary_term
@@ -132,6 +140,8 @@ class Primary_Term_Watcher_Test extends TestCase {
 	 * Tests the removal of the primary terms for a post, with having no primary term.
 	 *
 	 * @covers ::delete_primary_terms
+	 *
+	 * @return void
 	 */
 	public function test_delete_primary_terms_no_primary_term_found() {
 		$this->primary_term
@@ -152,6 +162,8 @@ class Primary_Term_Watcher_Test extends TestCase {
 	 * Tests the saving of the primary terms on a switched multisite.
 	 *
 	 * @covers ::save_primary_terms
+	 *
+	 * @return void
 	 */
 	public function test_save_primary_terms_on_switched_multisite() {
 		$this->site
@@ -170,6 +182,8 @@ class Primary_Term_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::save_primary_terms
 	 * @covers ::save_primary_term
+	 *
+	 * @return void
 	 */
 	public function test_save_primary_terms() {
 		$post_id = 2;

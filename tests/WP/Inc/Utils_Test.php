@@ -8,12 +8,14 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Utils_Test extends TestCase {
+final class Utils_Test extends TestCase {
 
 	/**
 	 * Tests whether is_apache correctly returns if the site runs on apache.
 	 *
 	 * @covers WPSEO_Utils::is_apache
+	 *
+	 * @return void
 	 */
 	public function test_wpseo_is_apache() {
 		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.2.22';
@@ -27,6 +29,8 @@ class Utils_Test extends TestCase {
 	 * Tests whether is_apache correctly returns if the site runs on nginx.
 	 *
 	 * @covers WPSEO_Utils::is_nginx
+	 *
+	 * @return void
 	 */
 	public function test_wpseo_is_nginx() {
 		$_SERVER['SERVER_SOFTWARE'] = 'nginx/1.5.11';
@@ -40,6 +44,8 @@ class Utils_Test extends TestCase {
 	 * Tests whether trim_nbsp_from_string correctly strips no-break spaces.
 	 *
 	 * @covers WPSEO_Utils::trim_nbsp_from_string
+	 *
+	 * @return void
 	 */
 	public function test_wpseo_trim_nbsp_from_string() {
 		$old_string = ' This is an old string with&nbsp;as spaces.&nbsp;';
@@ -53,7 +59,7 @@ class Utils_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function translate_score_provider() {
+	public static function translate_score_provider() {
 		return [
 			[ 0, true, 'na' ],
 			[ 1, true, 'bad' ],
@@ -82,6 +88,8 @@ class Utils_Test extends TestCase {
 	 * When current page is not in the list of Yoast SEO Free, is_yoast_seo_free_page() should return false.
 	 *
 	 * @covers WPSEO_Utils::is_yoast_seo_free_page
+	 *
+	 * @return void
 	 */
 	public function test_current_page_not_in_yoast_seo_free_pages() {
 		$current_page = '';
@@ -94,6 +102,8 @@ class Utils_Test extends TestCase {
 	 * the function should return false.
 	 *
 	 * @covers WPSEO_Utils::is_yoast_seo_free_page
+	 *
+	 * @return void
 	 */
 	public function test_current_page_not_in_yoast_seo_free_pages_but_is_yoast_seo_addon_page() {
 		$current_page = 'wpseo_news';
@@ -105,6 +115,8 @@ class Utils_Test extends TestCase {
 	 * When the current page belongs to Yoast SEO Free, the function is_yoast_seo_free_page() should return true.
 	 *
 	 * @covers WPSEO_Utils::is_yoast_seo_free_page
+	 *
+	 * @return void
 	 */
 	public function test_current_page_in_yoast_seo_free_pages() {
 		$current_page = 'wpseo_dashboard';
@@ -116,6 +128,8 @@ class Utils_Test extends TestCase {
 	 * Tests whether the plugin is network-active or not.
 	 *
 	 * @covers WPSEO_Utils::is_plugin_network_active
+	 *
+	 * @return void
 	 */
 	public function test_is_plugin_network_active() {
 		$this->assertFalse( WPSEO_Utils::is_plugin_network_active() );
@@ -125,6 +139,8 @@ class Utils_Test extends TestCase {
 	 * Tests the retrieve enabled features function without the defined variable or filter.
 	 *
 	 * @covers WPSEO_Utils::retrieve_enabled_features
+	 *
+	 * @return void
 	 */
 	public function test_retrieve_enabled_features_without_define_or_filter() {
 		$this->assertEmpty( WPSEO_Utils::retrieve_enabled_features() );
@@ -134,6 +150,8 @@ class Utils_Test extends TestCase {
 	 * Tests the retrieve enabled features function with defined variables.
 	 *
 	 * @covers WPSEO_Utils::retrieve_enabled_features
+	 *
+	 * @return void
 	 */
 	public function test_retrieve_enabled_features_with_define() {
 		$expected = [];
@@ -144,6 +162,8 @@ class Utils_Test extends TestCase {
 	 * Tests the retrieve enabled features function with filter.
 	 *
 	 * @covers WPSEO_Utils::retrieve_enabled_features
+	 *
+	 * @return void
 	 */
 	public function test_retrieve_enabled_features_with_filter() {
 		$expected = [];
@@ -179,6 +199,8 @@ class Utils_Test extends TestCase {
 	 *
 	 * @param string $expected        Expected function outcome.
 	 * @param string $url_to_sanitize Input to pass to the function under test.
+	 *
+	 * @return void
 	 */
 	public function test_sanitize_url( $expected, $url_to_sanitize ) {
 		$this->assertEquals( $expected, WPSEO_Utils::sanitize_url( $url_to_sanitize ) );
@@ -189,7 +211,7 @@ class Utils_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function sanitize_url_provider() {
+	public static function sanitize_url_provider() {
 		return [
 			// Related issue: https://github.com/Yoast/wordpress-seo/issues/17099.
 			'with_at_sign_in_url_path'       => [

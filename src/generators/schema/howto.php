@@ -38,6 +38,8 @@ class HowTo extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data       Our How-To schema data.
 	 * @param array $attributes The block data attributes.
+	 *
+	 * @return void
 	 */
 	private function add_duration( &$data, $attributes ) {
 		if ( empty( $attributes['hasDuration'] ) ) {
@@ -58,6 +60,8 @@ class HowTo extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data  Our How-To schema data.
 	 * @param array $steps Our How-To block's steps.
+	 *
+	 * @return void
 	 */
 	private function add_steps( &$data, $steps ) {
 		foreach ( $steps as $step ) {
@@ -113,6 +117,8 @@ class HowTo extends Abstract_Schema_Piece {
 	 *
 	 * @param array  $schema_step Our Schema output for the Step.
 	 * @param string $json_text   The step text.
+	 *
+	 * @return void
 	 */
 	private function add_step_description( &$schema_step, $json_text ) {
 		$schema_step['itemListElement'] = [
@@ -128,6 +134,8 @@ class HowTo extends Abstract_Schema_Piece {
 	 *
 	 * @param array $schema_step Our Schema output for the Step.
 	 * @param array $step        The step block data.
+	 *
+	 * @return void
 	 */
 	private function add_step_image( &$schema_step, $step ) {
 		if ( isset( $step['text'] ) && \is_array( $step['text'] ) ) {
@@ -145,6 +153,8 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @param array $graph Our Schema data.
 	 * @param array $block The How-To block content.
 	 * @param int   $index The index of the current block.
+	 *
+	 * @return void
 	 */
 	protected function add_how_to( &$graph, $block, $index ) {
 		$data = [

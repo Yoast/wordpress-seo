@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+/* eslint-disable complexity */
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { noop } from "lodash";
@@ -16,6 +17,7 @@ const AnalysisResultBase = styled.li`
 	padding: 0;
 	display: flex;
 	align-items: flex-start;
+	position: relative;
 `;
 
 const ScoreIcon = styled( SvgIcon )`
@@ -43,12 +45,13 @@ const areMarkButtonsHidden = function( props ) {
 /**
  * Factory method which creates a new instance of the default mark button.
  *
- * @param {String} ariaLabel The button aria-label.
- * @param {String} id The button id.
- * @param {String} className The button class name.
- * @param {String} status Status of the buttons. Supports: "enabled", "disabled".
- * @param {Function} onClick Onclick handler.
- * @param {Boolean} isPressed Whether the button is in a pressed state.
+ * @param {string} ariaLabel 	The button aria-label.
+ * @param {string} id 			The button id.
+ * @param {string} className 	The button class name.
+ * @param {string} status 		Status of the buttons. Supports: "enabled", "disabled", "hidden".
+ * @param {function} onClick 	Onclick handler.
+ * @param {boolean} isPressed 	Whether the button is in a pressed state.
+ *
  * @returns {JSX.Element} A new mark button.
  */
 const createMarkButton = ( {
@@ -79,6 +82,11 @@ const createMarkButton = ( {
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
 const AnalysisResult = ( { markButtonFactory, ...props } ) => {
+	const [ isOpen, setIsOpen ] = useState( false );
+
+	const closeModal = useCallback( () => setIsOpen( false ), [] );
+	const openModal = useCallback( () => setIsOpen( true ), [] );
+
 	markButtonFactory = markButtonFactory || createMarkButton;
 	const { id, marker, hasMarksButton } = props;
 
@@ -86,7 +94,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 	if ( ! areMarkButtonsHidden( props ) ) {
 		marksButton = markButtonFactory(
 			{
-				onClick: props.onButtonClickMarks,
+				onClick: props.shouldUpsellHighlighting ? openModal : props.onButtonClickMarks,
 				status: props.marksButtonStatus,
 				className: props.marksButtonClassName,
 				id: props.buttonIdMarks,
@@ -118,6 +126,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( props.text, ALLOWED_TAGS ) } } />
 			</AnalysisResultText>
 			{ marksButton }
+			{ props.renderHighlightingUpsell( isOpen, closeModal ) }
 			{
 				props.hasEditButton && props.isPremium &&
 				<IconCTAEditButton
@@ -157,6 +166,8 @@ AnalysisResult.propTypes = {
 		PropTypes.func,
 		PropTypes.array,
 	] ),
+	shouldUpsellHighlighting: PropTypes.bool,
+	renderHighlightingUpsell: PropTypes.func,
 };
 
 AnalysisResult.defaultProps = {
@@ -173,6 +184,8 @@ AnalysisResult.defaultProps = {
 	onResultChange: noop,
 	id: "",
 	marker: noop,
+	shouldUpsellHighlighting: false,
+	renderHighlightingUpsell: noop,
 };
 
 export default AnalysisResult;

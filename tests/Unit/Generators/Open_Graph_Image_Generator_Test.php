@@ -26,7 +26,7 @@ use Yoast\WP\SEO\Values\Open_Graph\Images;
  * @group open-graph
  * @group open-graph-image
  */
-class Open_Graph_Image_Generator_Test extends TestCase {
+final class Open_Graph_Image_Generator_Test extends TestCase {
 
 	/**
 	 * Open graph image helper mock.
@@ -93,6 +93,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 
 	/**
 	 * Setup the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -129,6 +131,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_indexable
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_wpseo_add_opengraph_images_filter_throws_an_exception() {
 		$this->indexable->open_graph_image_id = 1337;
@@ -152,6 +156,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_indexable
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_wpseo_add_opengraph_additional_images_filter_throws_an_exception() {
 		$this->indexable->open_graph_image_id = 1337;
@@ -175,6 +181,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_indexable
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_image_id_from_indexable() {
 		$this->indexable->open_graph_image_id = 1337;
@@ -195,6 +203,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_indexable
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_image_url_from_indexable() {
 		$this->indexable->open_graph_image = 'image.jpg';
@@ -215,6 +225,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_indexable
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_image_url_from_indexable_with_open_graph_image_meta() {
 		$this->indexable->open_graph_image      = 'image.jpg';
@@ -242,6 +254,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_templates
+	 *
+	 * @return void
 	 */
 	public function test_with_add_from_templates_with_image_id() {
 		$this->context->presentation->open_graph_image_id = 100;
@@ -266,6 +280,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_templates
+	 *
+	 * @return void
 	 */
 	public function test_with_add_from_templates_with_image_url() {
 		$this->context->presentation->open_graph_image_id = null;
@@ -291,6 +307,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_templates
+	 *
+	 * @return void
 	 */
 	public function test_with_add_from_templates_when_having_images_already() {
 		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
@@ -309,6 +327,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_default
+	 *
+	 * @return void
 	 */
 	public function test_with_add_from_default_with_image_id() {
 		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
@@ -338,6 +358,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_default
+	 *
+	 * @return void
 	 */
 	public function test_with_add_from_default_with_image_url() {
 		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
@@ -373,6 +395,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_default
+	 *
+	 * @return void
 	 */
 	public function test_with_add_from_default_when_having_images_already() {
 		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
@@ -390,6 +414,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 * Tests the situation where we have a template set for the Author Archives.
 	 *
 	 * @covers ::generate_for_author_archive
+	 *
+	 * @return void
 	 */
 	public function test_for_author_archive_with_template() {
 		$this->instance
@@ -417,6 +443,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 * Tests the situation where we don't have a template set for the Author Archives.
 	 *
 	 * @covers ::generate_for_author_archive
+	 *
+	 * @return void
 	 */
 	public function test_for_author_archive_without_template() {
 		$this->instance

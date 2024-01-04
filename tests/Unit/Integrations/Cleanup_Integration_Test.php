@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Cleanup_Integration_Test extends TestCase {
+final class Cleanup_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.
@@ -42,6 +42,8 @@ class Cleanup_Integration_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -65,6 +67,8 @@ class Cleanup_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -77,9 +81,11 @@ class Cleanup_Integration_Test extends TestCase {
 	 * Tests that the class uses the right conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals( [], Cleanup_Integration::get_conditionals() );
+		$this->assertEquals( [], Cleanup_Integration::get_conditionals() );
 	}
 
 	/**
@@ -89,6 +95,8 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup() {
 		Monkey\Functions\expect( 'delete_option' )
@@ -126,6 +134,8 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_db_query_failed() {
 		Monkey\Functions\expect( 'delete_option' )
@@ -154,6 +164,8 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
 	 * @covers ::start_cron_job
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_starts_cron_job() {
 		Monkey\Functions\expect( 'delete_option' )
@@ -191,6 +203,8 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
 	 * @covers ::start_cron_job
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_cron_next_task() {
 		Monkey\Functions\expect( 'get_option' )
@@ -222,6 +236,8 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
 	 * @covers ::start_cron_job
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_cron_last_task() {
 		Monkey\Functions\expect( 'get_option' )
@@ -254,6 +270,8 @@ class Cleanup_Integration_Test extends TestCase {
 	 *
 	 * @covers ::run_cleanup_cron
 	 * @covers ::get_cleanup_tasks
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_cron_no_tasks_left() {
 		Monkey\Functions\expect( 'get_option' )
@@ -280,6 +298,8 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::run_cleanup_cron
 	 * @covers ::get_limit
 	 * @covers ::get_cleanup_tasks
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_cron_db_query_failed() {
 		Monkey\Functions\expect( 'get_option' )
@@ -313,6 +333,8 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::run_cleanup_cron
 	 * @covers ::get_limit
 	 * @covers ::get_cleanup_tasks
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_cron_items_left() {
 		Monkey\Functions\expect( 'get_option' )
@@ -338,6 +360,8 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::run_cleanup_cron
 	 * @covers ::get_limit
 	 * @covers ::get_cleanup_tasks
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_invalid_query_limit_from_filter() {
 		Monkey\Functions\expect( 'get_option' )

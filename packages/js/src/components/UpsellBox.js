@@ -95,10 +95,7 @@ class UpsellBox extends Component {
 			<StyledList role="list">
 				{ benefits.map( ( benefit, index ) => {
 					return <li key={ `upsell-benefit-${ index }` }>
-						{ createInterpolateElement(
-							benefit.replace( "<strong>", "{{strong}}" ).replace( "</strong>", "{{/strong}}" ),
-							{ strong: <strong /> }
-						) }
+						{ createInterpolateElement( benefit, { strong: <strong /> } ) }
 					</li>;
 				} ) }
 			</StyledList>

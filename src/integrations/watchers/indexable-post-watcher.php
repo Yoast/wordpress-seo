@@ -157,6 +157,8 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 *
 	 * @param Indexable $indexable The indexable.
 	 * @param WP_Post   $post      The post.
+	 *
+	 * @return void
 	 */
 	public function updated_indexable( $indexable, $post ) {
 		// Only interested in post indexables.
@@ -218,6 +220,8 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 * Updates the has_public_posts when the post indexable is built.
 	 *
 	 * @param Indexable $indexable The indexable to check.
+	 *
+	 * @return void
 	 */
 	protected function update_has_public_posts( $indexable ) {
 		// Update the author indexable's has public posts value.
@@ -259,6 +263,8 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 * Updates the relations on post save or post status change.
 	 *
 	 * @param WP_Post $post The post that has been updated.
+	 *
+	 * @return void
 	 */
 	protected function update_relations( $post ) {
 		$related_indexables = $this->get_related_indexables( $post );

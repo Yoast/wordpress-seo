@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Tests the WPSEO_Statistics class
  */
-class Statistics_Test extends TestCase {
+final class Statistics_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -29,6 +29,8 @@ class Statistics_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -40,6 +42,8 @@ class Statistics_Test extends TestCase {
 	 * Tests if the default state of the database (no posts) returns zero for all statistics.
 	 *
 	 * @covers WPSEO_Statistics::get_post_count
+	 *
+	 * @return void
 	 */
 	public function test_empty_statistics() {
 		$this->assertEquals( 0, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::BAD ) ) );
@@ -53,6 +57,8 @@ class Statistics_Test extends TestCase {
 	 * Tests if the statistics functions can correctly count the amount of posts in the database.
 	 *
 	 * @covers WPSEO_Statistics::get_post_count
+	 *
+	 * @return void
 	 */
 	public function test_filled_statistics_no_focus() {
 		$posts = $this->factory->post->create_many( 2, $this->default_post_args );
@@ -66,6 +72,8 @@ class Statistics_Test extends TestCase {
 	 * Tests if the statistics functions can correctly count the amount of posts in the database.
 	 *
 	 * @covers WPSEO_Statistics::get_post_count
+	 *
+	 * @return void
 	 */
 	public function test_filled_statistics_bad() {
 		$posts = $this->factory->post->create_many( 4, $this->default_post_args );
@@ -82,6 +90,8 @@ class Statistics_Test extends TestCase {
 	 * Tests if the statistics functions can correctly count the amount of posts in the database.
 	 *
 	 * @covers WPSEO_Statistics::get_post_count
+	 *
+	 * @return void
 	 */
 	public function test_filled_statistics_ok() {
 		$posts = $this->factory->post->create_many( 4, $this->default_post_args );
@@ -98,6 +108,8 @@ class Statistics_Test extends TestCase {
 	 * Tests if the statistics functions can correctly count the amount of posts in the database.
 	 *
 	 * @covers WPSEO_Statistics::get_post_count
+	 *
+	 * @return void
 	 */
 	public function test_filled_statistics_good() {
 		$posts = $this->factory->post->create_many( 4, $this->default_post_args );
@@ -114,6 +126,8 @@ class Statistics_Test extends TestCase {
 	 * Tests if the functions only count published posts.
 	 *
 	 * @covers WPSEO_Statistics::get_post_count
+	 *
+	 * @return void
 	 */
 	public function test_all_statistics_published_posts() {
 		$posts = $this->factory->post->create_many( 4, $this->default_post_args );
@@ -139,6 +153,8 @@ class Statistics_Test extends TestCase {
 	 * Tests if the functions only count published posts.
 	 *
 	 * @covers WPSEO_Statistics::get_post_count
+	 *
+	 * @return void
 	 */
 	public function test_only_published_posts() {
 		$posts = $this->factory->post->create_many( 4, [ 'post_status' => 'draft' ] );
@@ -158,6 +174,8 @@ class Statistics_Test extends TestCase {
 	 * Tests the no index statistics function.
 	 *
 	 * @covers WPSEO_Statistics::get_post_count
+	 *
+	 * @return void
 	 */
 	public function test_no_index_statistics() {
 		$posts = $this->factory->post->create_many( 7, $this->default_post_args );

@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Asset_Manager_Test extends TestCase {
+final class Asset_Manager_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -20,6 +20,8 @@ class Asset_Manager_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -32,6 +34,8 @@ class Asset_Manager_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::scripts_to_be_registered
 	 * @covers WPSEO_Admin_Asset_Manager::styles_to_be_registered
+	 *
+	 * @return void
 	 */
 	public function test_DEFAULT_register() {
 		$instance = $this
@@ -49,19 +53,15 @@ class Asset_Manager_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'scripts_to_be_registered' )
-			->will(
-				$this->returnValue(
-					[ 'script' ]
-				)
+			->willReturn(
+				[ 'script' ]
 			);
 
 		$instance
 			->expects( $this->once() )
 			->method( 'styles_to_be_registered' )
-			->will(
-				$this->returnValue(
-					[ 'style' ]
-				)
+			->willReturn(
+				[ 'style' ]
 			);
 
 		$instance
@@ -81,6 +81,8 @@ class Asset_Manager_Test extends TestCase {
 	 * Tests whether the function enqueue_script() enqueues the included script.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::enqueue_script
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_script() {
 		$class_instance = new WPSEO_Admin_Asset_Manager();
@@ -94,6 +96,8 @@ class Asset_Manager_Test extends TestCase {
 	 * Tests whether the function enqueue_style() enqueues the included style.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::enqueue_style
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_style() {
 		$class_instance = new WPSEO_Admin_Asset_Manager();
@@ -107,6 +111,8 @@ class Asset_Manager_Test extends TestCase {
 	 * Tests whether enqueue style doesn't enqueue when wrong data is fed.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::enqueue_style
+	 *
+	 * @return void
 	 */
 	public function test_wrong_enqueue_style() {
 		$class_instance = new WPSEO_Admin_Asset_Manager();
@@ -120,6 +126,8 @@ class Asset_Manager_Test extends TestCase {
 	 * Tests whether the function register_script() registers the included script.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
+	 *
+	 * @return void
 	 */
 	public function test_register_script() {
 		$asset_args = [
@@ -150,6 +158,8 @@ class Asset_Manager_Test extends TestCase {
 	 * Test if the Asset Manager works with a custom prefix.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
+	 *
+	 * @return void
 	 */
 	public function test_register_script_with_prefix() {
 		$prefix        = 'yoast-custom-prefix';
@@ -172,6 +182,8 @@ class Asset_Manager_Test extends TestCase {
 	 * Tests whether the register_style registers the included style.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_style
+	 *
+	 * @return void
 	 */
 	public function test_register_style() {
 		$asset_args = [
@@ -202,6 +214,8 @@ class Asset_Manager_Test extends TestCase {
 	 * Test if the Asset Manager works with a custom prefix.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_style
+	 *
+	 * @return void
 	 */
 	public function test_register_style_with_prefix() {
 		$prefix        = 'yoast-custom-prefix';
@@ -224,6 +238,8 @@ class Asset_Manager_Test extends TestCase {
 	 * Tests whether register_scripts registers multiple scripts correctly.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_scripts
+	 *
+	 * @return void
 	 */
 	public function test_register_scripts() {
 		$asset_args = [
@@ -259,6 +275,8 @@ class Asset_Manager_Test extends TestCase {
 	 * Tests whether register_style can actually register a style based on the required arguments.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_styles
+	 *
+	 * @return void
 	 */
 	public function test_register_styles() {
 		$asset_args = [
@@ -294,6 +312,8 @@ class Asset_Manager_Test extends TestCase {
 	 * Tests whether register_assets calls the functions register_scripts and register_styles.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_assets
+	 *
+	 * @return void
 	 */
 	public function test_register_assets() {
 
@@ -319,6 +339,8 @@ class Asset_Manager_Test extends TestCase {
 	 *
 	 * @param string $original Version number.
 	 * @param string $expected Expected output.
+	 *
+	 * @return void
 	 */
 	public function test_flatten_version( $original, $expected ) {
 		$this->assertEquals( $expected, $this->asset_manager->flatten_version( $original ) );
@@ -329,7 +351,7 @@ class Asset_Manager_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function flatten_version_provider() {
+	public static function flatten_version_provider() {
 		return [
 			[ '3.0', '300' ],
 			[ '1.4', '140' ],

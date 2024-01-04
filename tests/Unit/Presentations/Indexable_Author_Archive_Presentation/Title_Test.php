@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group title
  */
-class Title_Test extends TestCase {
+final class Title_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ class Title_Test extends TestCase {
 	 * Tests whether the title is returned when it is set.
 	 *
 	 * @covers ::generate_title
+	 *
+	 * @return void
 	 */
 	public function test_title() {
 		$this->indexable->title = 'Title';
@@ -40,6 +44,8 @@ class Title_Test extends TestCase {
 	 * Tests whether the options title is returned when there is no indexable title.
 	 *
 	 * @covers ::generate_title
+	 *
+	 * @return void
 	 */
 	public function test_title_without_indexable() {
 		$this->options
@@ -55,6 +61,8 @@ class Title_Test extends TestCase {
 	 * Tests whether the default title is returned when there is no options title.
 	 *
 	 * @covers ::generate_title
+	 *
+	 * @return void
 	 */
 	public function test_title_without_options_title() {
 		$this->options

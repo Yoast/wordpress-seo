@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Ancestor_Watcher
  */
-class Indexable_Ancestor_Watcher_Test extends TestCase {
+final class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the indexable repository.
@@ -84,6 +84,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -109,6 +111,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Tests the clear ancestors method when the object type is not a post or term.
 	 *
 	 * @covers ::reset_children
+	 *
+	 * @return void
 	 */
 	public function test_reset_children_for_non_allowed_object_type() {
 		$indexable        = Mockery::mock( Indexable_Mock::class );
@@ -123,6 +127,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Tests the clear ancestors method having the permalink not changed.
 	 *
 	 * @covers ::reset_children
+	 *
+	 * @return void
 	 */
 	public function test_reset_children_for_non_changed_permalink() {
 		$indexable        = Mockery::mock( Indexable_Mock::class );
@@ -140,6 +146,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Tests if the dependencies are set as expected.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -160,6 +168,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -172,6 +182,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -184,6 +196,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::reset_children
 	 * @covers ::update_hierarchy_and_permalink
+	 *
+	 * @return void
 	 */
 	public function test_reset_children() {
 		$indexable        = Mockery::mock( Indexable_Mock::class );
@@ -225,6 +239,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::reset_children
 	 * @covers ::update_hierarchy_and_permalink
+	 *
+	 * @return void
 	 */
 	public function test_reset_children_for_term() {
 		$indexable        = Mockery::mock( Indexable_Mock::class );
@@ -310,6 +326,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::get_children_for_term
 	 * @covers ::get_object_ids_for_term
+	 *
+	 * @return void
 	 */
 	public function test_get_children_for_term() {
 		$indexable_1              = Mockery::mock( Indexable_Mock::class );
@@ -384,6 +402,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Sets the expectations for the get_object_ids_for term method.
 	 *
 	 * @param int ...$object_ids The object ids.
+	 *
+	 * @return void
 	 */
 	private function set_expectations_for_get_object_ids_for_term( ...$object_ids ) {
 		$this->wpdb->term_taxonomy      = 'wp_term_taxonomy';
@@ -418,6 +438,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Sets the expectations for the update_hierarchy_and_permalink method.
 	 *
 	 * @param Indexable_Mock ...$indexables The indexables.
+	 *
+	 * @return void
 	 */
 	private function set_expectations_for_update_hierarchy_and_permalink( ...$indexables ) {
 		foreach ( $indexables as $indexable ) {

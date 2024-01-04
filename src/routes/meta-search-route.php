@@ -19,7 +19,7 @@ class Meta_Search_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const META_SEARCH_ROUTE = '/meta/search';
+	public const META_SEARCH_ROUTE = '/meta/search';
 
 	/**
 	 * Registers routes with WordPress.

@@ -24,59 +24,61 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\User_Interface\Introductions_Integration
  */
-class Introductions_Integration_Test extends TestCase {
+final class Introductions_Integration_Test extends TestCase {
 
 	/**
 	 * Holds the instance.
 	 *
-	 * @var \Yoast\WP\SEO\Introductions\User_Interface\Introductions_Integration
+	 * @var Introductions_Integration
 	 */
 	private $instance;
 
 	/**
 	 * Holds the admin asset manager.
 	 *
-	 * @var \Mockery\MockInterface|\WPSEO_Admin_Asset_Manager
+	 * @var Mockery\MockInterface|WPSEO_Admin_Asset_Manager
 	 */
 	private $admin_asset_manager;
 
 	/**
 	 * Holds the introductions collector.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Tests\Unit\Introductions\Application\Introductions_Collector
+	 * @var Mockery\MockInterface|Introductions_Collector
 	 */
 	private $introductions_collector;
 
 	/**
 	 * Holds the product helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Product_Helper
+	 * @var Mockery\MockInterface|Product_Helper
 	 */
 	private $product_helper;
 
 	/**
 	 * Holds the user helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\User_Helper
+	 * @var Mockery\MockInterface|User_Helper
 	 */
 	private $user_helper;
 
 	/**
 	 * Holds the short link helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Short_Link_Helper
+	 * @var Mockery\MockInterface|Short_Link_Helper
 	 */
 	private $short_link_helper;
 
 	/**
 	 * Holds the wistia embed permission repository.
 	 *
-	 * @var \Mockery\MockInterface|Wistia_Embed_Permission_Repository
+	 * @var Mockery\MockInterface|Wistia_Embed_Permission_Repository
 	 */
 	private $wistia_embed_permission_repository;
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -102,6 +104,8 @@ class Introductions_Integration_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals( [ Yoast_Admin_Conditional::class ], Introductions_Integration::get_conditionals() );
@@ -111,6 +115,8 @@ class Introductions_Integration_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -143,6 +149,8 @@ class Introductions_Integration_Test extends TestCase {
 	 * Tests if enqueuing assets when not on an installation page.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		Actions\expectAdded( 'admin_enqueue_scripts' )
@@ -156,6 +164,8 @@ class Introductions_Integration_Test extends TestCase {
 	 * Tests if not enqueuing assets when not on an installation page.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks_installation_page() {
 		$_GET['page'] = 'wpseo_installation_successful_free';
@@ -171,6 +181,8 @@ class Introductions_Integration_Test extends TestCase {
 	 *
 	 * @covers ::enqueue_assets
 	 * @covers ::update_user_introductions
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_assets() {
 		// Initial user ID.
@@ -207,6 +219,8 @@ class Introductions_Integration_Test extends TestCase {
 	 * Tests enqueuing the assets without introductions.
 	 *
 	 * @covers ::enqueue_assets
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_assets_without_introductions() {
 		// Initial user ID.
@@ -229,6 +243,8 @@ class Introductions_Integration_Test extends TestCase {
 	 * Tests updating the first user introductions (no metadata yet).
 	 *
 	 * @covers ::update_user_introductions
+	 *
+	 * @return void
 	 */
 	public function test_update_first_user_introductions() {
 		// Initial user ID.
@@ -267,6 +283,8 @@ class Introductions_Integration_Test extends TestCase {
 	 *
 	 * @param array $introductions The introductions.
 	 * @param int   $user_id       The user ID.
+	 *
+	 * @return void
 	 */
 	private function expect_localized_data_for( $introductions, $user_id ) {
 		$is_premium              = false;

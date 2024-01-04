@@ -39,8 +39,9 @@ describe( "Input", () => {
 		renderer.render( <Input type="invalidType" /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `type` of value `invalidType` supplied to `Input`" );
+		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
+		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
+		expect( console.error.mock.calls[ 0 ][ 2 ] ).toContain( "Invalid prop `type` of value `invalidType` supplied to `Input`" );
 	} );
 
 	it( "generates an input based on the defaults and additional, optional attributes", () => {
@@ -72,7 +73,8 @@ describe( "Input", () => {
 		renderer.render( <Input name="textInput" onChange={ 0 } /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `onChange` of type `number` supplied to `Input`, expected `function`." );
+		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
+		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
+		expect( console.error.mock.calls[ 0 ][ 2 ] ).toBe( "Invalid prop `onChange` of type `number` supplied to `Input`, expected `function`." );
 	} );
 } );

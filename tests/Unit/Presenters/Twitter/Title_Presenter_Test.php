@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group twitter-title
  */
-class Title_Presenter_Test extends TestCase {
+final class Title_Presenter_Test extends TestCase {
 
 	/**
 	 * The indexable presentation.
@@ -42,6 +42,8 @@ class Title_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -61,6 +63,8 @@ class Title_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct Twitter title.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->indexable_presentation->twitter_title = 'twitter_example_title';
@@ -68,7 +72,7 @@ class Title_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->andReturnUsing(
-				static function( $str ) {
+				static function ( $str ) {
 					return $str;
 				}
 			);
@@ -83,6 +87,8 @@ class Title_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns an empty string when the Twitter title is empty.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_twitter_title_is_empty() {
 		$this->indexable_presentation->twitter_title = '';
@@ -90,7 +96,7 @@ class Title_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->andReturnUsing(
-				static function( $str ) {
+				static function ( $str ) {
 					return $str;
 				}
 			);
@@ -104,6 +110,8 @@ class Title_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_filter() {
 		$this->indexable_presentation->twitter_title = 'twitter_example_title';
@@ -111,7 +119,7 @@ class Title_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->andReturnUsing(
-				static function( $str ) {
+				static function ( $str ) {
 					return $str;
 				}
 			);
@@ -132,6 +140,8 @@ class Title_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct Twitter title when the admin bar is showing a class is added.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$this->indexable_presentation->twitter_title = 'twitter_example_title';
@@ -139,7 +149,7 @@ class Title_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->andReturnUsing(
-				static function( $str ) {
+				static function ( $str ) {
 					return $str;
 				}
 			);

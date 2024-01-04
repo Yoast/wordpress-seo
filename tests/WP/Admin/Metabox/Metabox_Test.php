@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Metabox_Test extends TestCase {
+final class Metabox_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -24,6 +24,8 @@ class Metabox_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	public static function set_up_before_class() {
 		parent::set_up_before_class();
@@ -38,6 +40,8 @@ class Metabox_Test extends TestCase {
 	 * Tests that on certain pages, assets are not enqueued.
 	 *
 	 * @covers WPSEO_Metabox::enqueue
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_not_firing_on_options_page() {
 		global $pagenow;
@@ -54,6 +58,8 @@ class Metabox_Test extends TestCase {
 	 * Tests that enqueuing the necessary assets, works.
 	 *
 	 * @covers WPSEO_Metabox::enqueue
+	 *
+	 * @return void
 	 */
 	public function test_enqueue_firing_on_new_post_page() {
 		global $pagenow;
@@ -73,6 +79,8 @@ class Metabox_Test extends TestCase {
 	 * Tests that adding of valid metaboxes works properly.
 	 *
 	 * @covers WPSEO_Metabox::add_meta_box
+	 *
+	 * @return void
 	 */
 	public function test_add_metabox() {
 		global $wp_meta_boxes;
@@ -85,7 +93,7 @@ class Metabox_Test extends TestCase {
 		$stub
 			->expects( $this->any() )
 			->method( 'is_metabox_hidden' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$stub->add_meta_box();
 
@@ -102,6 +110,8 @@ class Metabox_Test extends TestCase {
 	 * Tests that saving postdata works properly.
 	 *
 	 * @covers WPSEO_Metabox::save_postdata
+	 *
+	 * @return void
 	 */
 	public function test_save_postdata() {
 		// Create and go to post.
@@ -178,6 +188,8 @@ class Metabox_Test extends TestCase {
 	 * @param string $field_value    The field value.
 	 * @param string $expected_value The expected value.
 	 * @param string $message        The message to show when test fails.
+	 *
+	 * @return void
 	 */
 	public function test_save_postdata_for_separate_fields( $field_name, $field_value, $expected_value, $message ) {
 		// Create and go to post.
@@ -213,7 +225,7 @@ class Metabox_Test extends TestCase {
 	 *
 	 * @return array The data to use.
 	 */
-	public function save_metabox_field_provider() {
+	public static function save_metabox_field_provider() {
 		return [
 			[
 				// Related issue for this case: https://github.com/Yoast/wordpress-seo/issues/14476.

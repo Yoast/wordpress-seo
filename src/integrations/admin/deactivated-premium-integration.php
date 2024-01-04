@@ -93,7 +93,7 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 				) . '">',
 				'</a>'
 			);
-            // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
+			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
 			echo new Notice_Presenter(
 				/* translators: 1: Yoast SEO Premium */
 				\sprintf( \__( 'Activate %1$s!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
@@ -103,7 +103,7 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 				true,
 				'yoast-premium-deactivated-notice'
 			);
-            // phpcs:enable
+			// phpcs:enable
 
 			// Enable permanently dismissing the notice.
 			echo "<script>

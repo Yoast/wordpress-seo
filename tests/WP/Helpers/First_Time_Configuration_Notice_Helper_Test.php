@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Helpers\First_Time_Configuration_Notice_Helper
  */
-class First_Time_Configuration_Notice_Helper_Test extends TestCase {
+final class First_Time_Configuration_Notice_Helper_Test extends TestCase {
 
 	/**
 	 * The options' helper.
@@ -45,9 +45,11 @@ class First_Time_Configuration_Notice_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
-	public function setUp(): void {
-		parent::setUp();
+	public function set_up(): void {
+		parent::set_up();
 		$this->options_helper         = new Options_Helper();
 		$this->indexing_helper        = Mockery::mock( Indexing_Helper::class );
 		$this->show_alternate_message = false;
@@ -59,6 +61,8 @@ class First_Time_Configuration_Notice_Helper_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -170,13 +174,13 @@ class First_Time_Configuration_Notice_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_first_time_configuration_not_finished
 	 *
-	 * @param string $user_role The user role.
-	 * @param array  $steps_complete The array of first time configuration steps.
-	 * @param bool   $first_time_install Whether this is a first installation.
-	 * @param bool   $is_initial_indexing Whether the indexing is initial.
+	 * @param string $user_role                       The user role.
+	 * @param array  $steps_complete                  The array of first time configuration steps.
+	 * @param bool   $first_time_install              Whether this is a first installation.
+	 * @param bool   $is_initial_indexing             Whether the indexing is initial.
 	 * @param bool   $is_finished_indexables_indexing Whether indexing has been finished.
-	 * @param bool   $expected The expected result.
-	 * @param string $title First time configuration title.
+	 * @param bool   $expected                        The expected result.
+	 * @param string $title                           First time configuration title.
 	 *
 	 * @return void
 	 */
@@ -210,6 +214,8 @@ class First_Time_Configuration_Notice_Helper_Test extends TestCase {
 	 * Tests should_show_alternate_message.
 	 *
 	 * @covers ::should_show_alternate_message
+	 *
+	 * @return void
 	 */
 	public function test_should_show_alternate_message() {
 		$result = $this->instance->should_show_alternate_message();

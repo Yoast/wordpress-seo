@@ -1,8 +1,16 @@
-import { shallow } from "enzyme";
 import { KeywordInput } from "../../../src/components/contentAnalysis/KeywordInput";
+import { render, screen } from "../../test-utils";
+
+beforeAll( () => {
+	global.wpseoAdminL10n = { "shortlinks.focus_keyword_info": "https://example.com/focus_keyword_info" };
+} );
+
+afterAll( () => {
+	delete global.wpseoAdminL10n;
+} );
 
 describe( "KeywordInput", () => {
-	let props = {};
+	let props;
 
 	beforeEach( () => {
 		props = {
@@ -14,56 +22,38 @@ describe( "KeywordInput", () => {
 
 	describe( "validate", () => {
 		it( "successfully validates that there is no keyphrase present", () => {
-			props = {
-				...props,
-				displayNoKeyphraseMessage: true,
-			};
+			render( <KeywordInput { ...props } displayNoKeyphraseMessage={ true } /> );
 
-			const component = shallow( <KeywordInput { ...props } /> );
-			const expected = [ "Please enter a focus keyphrase first to get related keyphrases" ];
-			const actual = component.instance().validate();
-
-			expect( actual ).toEqual( expect.arrayContaining( expected ) );
+			const alert = screen.getByRole( "alert" );
+			expect( alert ).toBeInTheDocument();
+			expect( alert.textContent ).toBe( "Please enter a focus keyphrase first to get related keyphrases" );
 		} );
 
 		it( "successfully validates that there is a comma in the keyphrase", () => {
-			props = {
-				...props,
-				keyword: "yoast seo,",
-			};
+			render( <KeywordInput { ...props } keyword="yoast seo," /> );
 
-			const component = shallow( <KeywordInput { ...props } /> );
-			const expected = [ "Are you trying to use multiple keyphrases? You should add them separately below." ];
-			const actual = component.instance().validate();
-
-			expect( actual ).toEqual( expect.arrayContaining( expected ) );
+			const alert = screen.getByRole( "alert" );
+			expect( alert ).toBeInTheDocument();
+			expect( alert.textContent ).toBe( "Are you trying to use multiple keyphrases? You should add them separately below." );
 		} );
 
 		it( "successfully validates that the keyphrase is longer than 191 characters", () => {
-			props = {
-				...props,
-				keyword: "yoast seo wordpress plugin to help improve your SEO through WordPress" +
-				         "yoast seo wordpress plugin to help improve your SEO through WordPress" +
-				         "yoast seo wordpress plugin to help improve your SEO through WordPress",
-			};
+			render( <KeywordInput
+				{ ...props }
+				keyword={ "yoast seo wordpress plugin to help improve your SEO through WordPress" +
+					"yoast seo wordpress plugin to help improve your SEO through WordPress" +
+					"yoast seo wordpress plugin to help improve your SEO through WordPress" }
+			/> );
 
-			const component = shallow( <KeywordInput { ...props } /> );
-			const expected = [ "Your keyphrase is too long. It can be a maximum of 191 characters." ];
-			const actual = component.instance().validate();
-
-			expect( actual ).toEqual( expect.arrayContaining( expected ) );
+			const alert = screen.getByRole( "alert" );
+			expect( alert ).toBeInTheDocument();
+			expect( alert.textContent ).toBe( "Your keyphrase is too long. It can be a maximum of 191 characters." );
 		} );
 
 		it( "doesn't return any errors when the keyphrase is valid", () => {
-			props = {
-				...props,
-				keyword: "yoast seo",
-			};
+			render( <KeywordInput { ...props } keyword="yoast seo" /> );
 
-			const component = shallow( <KeywordInput { ...props } /> );
-			const actual = component.instance().validate();
-
-			expect( actual ).toHaveLength( 0 );
+			expect( screen.queryByRole( "alert" ) ).not.toBeInTheDocument();
 		} );
 	} );
 } );

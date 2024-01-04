@@ -16,7 +16,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ServiceNotFo
  *
  * @group surfaces
  */
-class Schema_Helpers_Surface_Test extends TestCase {
+final class Schema_Helpers_Surface_Test extends TestCase {
 
 	/**
 	 * The container.
@@ -52,6 +52,8 @@ class Schema_Helpers_Surface_Test extends TestCase {
 	 *
 	 * @param string $helper_name Helper name.
 	 * @param string $classname   Expected class name.
+	 *
+	 * @return void
 	 */
 	public function test_magic_get( $helper_name, $classname ) {
 		$test_service = new stdClass();
@@ -69,6 +71,8 @@ class Schema_Helpers_Surface_Test extends TestCase {
 	 * @dataProvider provide_classes
 	 *
 	 * @param string $helper_name Helper name.
+	 *
+	 * @return void
 	 */
 	public function test_get_invalid_service( $helper_name ) {
 		$this->expectException( ServiceNotFoundException::class );
@@ -84,6 +88,8 @@ class Schema_Helpers_Surface_Test extends TestCase {
 	 *
 	 * @param string $helper_name Helper name.
 	 * @param string $classname   Expected class name.
+	 *
+	 * @return void
 	 */
 	public function test_isset_exists( $helper_name, $classname ) {
 		$this->container->set( $classname, new stdClass() );
@@ -100,6 +106,8 @@ class Schema_Helpers_Surface_Test extends TestCase {
 	 * @dataProvider provide_classes
 	 *
 	 * @param string $helper_name Helper name.
+	 *
+	 * @return void
 	 */
 	public function test_isset_does_not_exist( $helper_name ) {
 
@@ -115,6 +123,8 @@ class Schema_Helpers_Surface_Test extends TestCase {
 	 * @dataProvider provide_classes
 	 *
 	 * @param string $helper_name Helper name.
+	 *
+	 * @return void
 	 */
 	public function test_set_is_forbidden( $helper_name ) {
 		$this->expectException( Forbidden_Property_Mutation_Exception::class );
@@ -130,6 +140,8 @@ class Schema_Helpers_Surface_Test extends TestCase {
 	 * @dataProvider provide_classes
 	 *
 	 * @param string $helper_name Helper name.
+	 *
+	 * @return void
 	 */
 	public function test_unset_is_forbidden( $helper_name ) {
 		$this->expectException( Forbidden_Property_Mutation_Exception::class );
@@ -143,7 +155,7 @@ class Schema_Helpers_Surface_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provide_classes() {
+	public static function provide_classes() {
 		return [
 			'get helpers from the helpers namespace'        => [
 				'helper_name' => 'test',

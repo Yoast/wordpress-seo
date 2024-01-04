@@ -19,9 +19,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Support_Integration
  */
-class Support_Integration_Test extends TestCase {
+final class Support_Integration_Test extends TestCase {
 
-	const PAGE = 'wpseo_page_support';
+	public const PAGE = 'wpseo_page_support';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager mock.
@@ -74,6 +74,8 @@ class Support_Integration_Test extends TestCase {
 
 	/**
 	 * Runs the setup to prepare the needed instance
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		$this->stubTranslationFunctions();
@@ -97,9 +99,11 @@ class Support_Integration_Test extends TestCase {
 	 * Tests __construct method.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Support_Integration::class,
 			new Support_Integration(
 				$this->asset_manager,
@@ -114,9 +118,11 @@ class Support_Integration_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Admin_Conditional::class,
 				User_Can_Manage_Wpseo_Options_Conditional::class,
@@ -130,7 +136,7 @@ class Support_Integration_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function register_hooks_provider() {
+	public static function register_hooks_provider() {
 		return [
 			'Not on support page' => [
 				'current_page' => 'not support page',
@@ -152,6 +158,8 @@ class Support_Integration_Test extends TestCase {
 	 *
 	 * @param string $current_page The current page.
 	 * @param int    $action_times The number of times the action should be called.
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks_on_support_page( $current_page, $action_times ) {
 
@@ -179,6 +187,8 @@ class Support_Integration_Test extends TestCase {
 	 * Tests the addition of the page to the submenu.
 	 *
 	 * @covers ::add_page
+	 *
+	 * @return void
 	 */
 	public function test_add_page() {
 		$pages = $this->instance->add_page(
@@ -202,6 +212,8 @@ class Support_Integration_Test extends TestCase {
 	 * Test display_page
 	 *
 	 * @covers ::display_page
+	 *
+	 * @return void
 	 */
 	public function test_display_page() {
 		$this->expectOutputString( '<div id="yoast-seo-support"></div>' );
@@ -212,6 +224,8 @@ class Support_Integration_Test extends TestCase {
 	 * Test remove_notices
 	 *
 	 * @covers ::remove_notices
+	 *
+	 * @return void
 	 */
 	public function test_remove_notices() {
 		Monkey\Functions\expect( 'remove_all_actions' )
@@ -238,7 +252,7 @@ class Support_Integration_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_enqueu_black_friday_style() {
+	public static function data_provider_enqueu_black_friday_style() {
 		return [
 			'is black friday' => [
 				'is_black_friday' => true,
@@ -260,14 +274,13 @@ class Support_Integration_Test extends TestCase {
 	 * @dataProvider data_provider_enqueu_black_friday_style
 	 *
 	 * @param bool $is_black_friday Whether it is black friday or not.
-	 * @param int  $expected The number of times the action should be called.
+	 * @param int  $expected        The number of times the action should be called.
 	 * @return void
 	 */
 	public function test_enqueue_assets( $is_black_friday, $expected ) {
 		Monkey\Functions\expect( 'remove_action' )
 			->with( 'admin_print_scripts', 'print_emoji_detection_script' )
 			->once();
-
 
 		// In get_script_data method.
 		$this->assert_promotions();
@@ -344,6 +357,8 @@ class Support_Integration_Test extends TestCase {
 	 * Test for get_script_data that is used in enqueue_assets.
 	 *
 	 * @covers ::get_script_data
+	 *
+	 * @return void
 	 */
 	public function test_get_script_data() {
 		$link_params = $this->expect_get_script_data();

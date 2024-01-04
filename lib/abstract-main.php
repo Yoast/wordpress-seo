@@ -3,6 +3,7 @@
 namespace Yoast\WP\Lib;
 
 use Exception;
+use WPSEO_Utils;
 use Yoast\WP\Lib\Dependency_Injection\Container_Registry;
 use Yoast\WP\SEO\Exceptions\Forbidden_Property_Mutation_Exception;
 use Yoast\WP\SEO\Loader;
@@ -29,6 +30,8 @@ abstract class Abstract_Main {
 
 	/**
 	 * Loads the plugin.
+	 *
+	 * @return void
 	 *
 	 * @throws Exception If loading fails and YOAST_ENVIRONMENT is development.
 	 */
@@ -78,7 +81,7 @@ abstract class Abstract_Main {
 
 			return $this->cached_surfaces[ $property ];
 		}
-		throw new Exception( sprintf( 'Property $%s does not exist.', $property ) );
+		throw new Exception( \sprintf( 'Property $%s does not exist.', $property ) );
 	}
 
 	/**
@@ -161,7 +164,7 @@ abstract class Abstract_Main {
 	 */
 	protected function is_development() {
 		try {
-			return \WPSEO_Utils::is_development_mode();
+			return WPSEO_Utils::is_development_mode();
 		}
 		catch ( Exception $exception ) {
 			// E.g. when WordPress and/or WordPress SEO are not loaded.

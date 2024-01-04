@@ -36,6 +36,8 @@ class WPSEO_Shortlinker {
 	 * Echoes a version of the URL with a utm_content with the current version.
 	 *
 	 * @param string $url The URL to build upon.
+	 *
+	 * @return void
 	 */
 	public static function show( $url ) {
 		YoastSEO()->helpers->short_link->show( $url );

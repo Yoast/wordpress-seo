@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper;
 /**
  * Class Replace_Vars_Helper_Double
  */
-class Replace_Vars_Helper_Double extends Replace_Vars_Helper {
+final class Replace_Vars_Helper_Double extends Replace_Vars_Helper {
 
 	/**
 	 * Returns an anonymous function that in turn just returns the given value.

@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 /**
  * Introduction for easy testing of different values.
  */
-class Introduction_Mock implements Introduction_Interface {
+final class Introduction_Mock implements Introduction_Interface {
 
 	/**
 	 * Holds the ID.
@@ -57,7 +57,7 @@ class Introduction_Mock implements Introduction_Interface {
 	 * @return string
 	 */
 	public function get_name() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 21.6', 'Please use get_id() instead' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 21.6', 'Please use get_id() instead' );
 
 		return $this->id;
 	}

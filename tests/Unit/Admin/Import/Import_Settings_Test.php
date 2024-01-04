@@ -1,4 +1,5 @@
 <?php
+
 namespace Yoast\WP\SEO\Tests\Unit\Admin\Import;
 
 use Brain\Monkey;
@@ -10,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_Import_Settings
  */
-class Import_Settings_Test extends TestCase {
+final class Import_Settings_Test extends TestCase {
 
 	/**
 	 * Holds the test instance.
@@ -33,6 +34,8 @@ class Import_Settings_Test extends TestCase {
 	 * Test the import function.
 	 *
 	 * @covers ::import
+	 *
+	 * @return void
 	 */
 	public function test_import() {
 		Monkey\Functions\expect( 'check_admin_referer' )
@@ -56,6 +59,8 @@ class Import_Settings_Test extends TestCase {
 	 * Test the import function when the user does not have capabilities.
 	 *
 	 * @covers ::import
+	 *
+	 * @return void
 	 */
 	public function test_import_no_capability() {
 		Monkey\Functions\expect( 'check_admin_referer' )
@@ -76,6 +81,8 @@ class Import_Settings_Test extends TestCase {
 	 * Test the import function when post variable is not set.
 	 *
 	 * @covers ::import
+	 *
+	 * @return void
 	 */
 	public function test_import_post_null() {
 		Monkey\Functions\expect( 'check_admin_referer' )
@@ -98,6 +105,8 @@ class Import_Settings_Test extends TestCase {
 	 * Test the import function when post variable is emtpy string.
 	 *
 	 * @covers ::import
+	 *
+	 * @return void
 	 */
 	public function test_import_post_empty() {
 		Monkey\Functions\expect( 'check_admin_referer' )

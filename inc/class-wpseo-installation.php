@@ -34,6 +34,8 @@ class WPSEO_Installation {
 
 	/**
 	 * Sets the options on first install for showing the installation notice and disabling of the settings pages.
+	 *
+	 * @return void
 	 */
 	public function set_first_install_options() {
 		$options = get_option( 'wpseo' );
