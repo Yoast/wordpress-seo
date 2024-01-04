@@ -111,6 +111,15 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected $input_fields = [];
 
 	/**
+	 * The field in the database where meta field is saved.
+	 *
+	 * Should be set in the child class.
+	 *
+	 * @var string
+	 */
+	protected $target_db_field = '';
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param array $args The arguments.

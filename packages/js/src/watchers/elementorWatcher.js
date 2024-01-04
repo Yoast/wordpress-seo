@@ -59,9 +59,8 @@ function getContent( editorDocument ) {
 	editorDocument.$element.find( ".elementor-widget-container" ).each( ( index, element ) => {
 		// We remove \n and \t from the HTML as Elementor formats the HTML after saving.
 		// As this spacing is purely cosmetic, we can remove it for analysis purposes.
-		// We also convert &nbsp; elements to regular spaces.
 		// When we apply the marks, we do need to make the same amendments.
-		const rawHtml = element.innerHTML.replace( /[\n\t]/g, "" ).replace( /&nbsp;/g, " " ).trim();
+		const rawHtml = element.innerHTML.replace( /[\n\t]/g, "" ).trim();
 		content.push( rawHtml );
 	} );
 
