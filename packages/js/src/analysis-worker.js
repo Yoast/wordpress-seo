@@ -33,6 +33,7 @@ function loadDependencies( dependencies ) {
 		}
 
 		// Check if we allow this dependency to be loaded.
+		// A dependency is allowed if it's in the `allowedDependencies` list or if it's an internal dependency.
 		if ( ! ( allowedDependencies.includes( dependency ) || dependency.startsWith( "yoast-seo" ) ) ) {
 			continue;
 		}
