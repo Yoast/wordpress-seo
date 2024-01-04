@@ -3,8 +3,7 @@ import sanitizeString from "../sanitize/sanitizeString";
 import { filter, flatMap } from "lodash-es";
 import removePunctuation, { punctuationRegexString } from "../sanitize/removePunctuation.js";
 
-const punctuationRegexStr = `([${punctuationRegexString}])`;
-const punctuationRegex = new RegExp( punctuationRegexStr, "g" );
+const punctuationRegex = new RegExp( `([${punctuationRegexString}])`, "g" );
 
 /**
  * Returns an array with words used in the text.
