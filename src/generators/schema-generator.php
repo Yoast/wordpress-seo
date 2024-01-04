@@ -57,7 +57,6 @@ class Schema_Generator implements Generator_Interface {
 			/**
 			 * Filter: 'wpseo_pre_schema_block_type_<block-type>' - Allows hooking things to change graph output based on the blocks on the page.
 			 *
-			 * @param string                  $block_type The block type.
 			 * @param WP_Block_Parser_Block[] $blocks     All the blocks of this block type.
 			 * @param Meta_Tags_Context       $context    A value object with context variables.
 			 */
