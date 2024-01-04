@@ -9,13 +9,12 @@ import { Field, FieldArray, useFormikContext } from "formik";
 import { isEmpty } from "lodash";
 import AnimateHeight from "react-animate-height";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikAutocompleteField, FormikCheckboxField, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
+import { FieldsetLayout, FormikAutocompleteField, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
 import { withFormikDummyField, withFormikDummySelectField } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
 const FormikWithErrorFieldWithDummy = withFormikDummyField( FormikWithErrorField );
 const FormikDummyAutocompleteField = withFormikDummySelectField( FormikAutocompleteField );
-const FormikCheckboxFieldWithDummy = withFormikDummyField( FormikCheckboxField );
 
 /**
  * @returns {JSX.Element} The site representation route.
@@ -221,24 +220,12 @@ const SiteRepresentation = () => {
 										label={ __( "Organization email address", "wordpress-seo" ) }
 										isDummy={ ! isPremium || isLocalSeoActive }
 									/>
-									<FormikCheckboxFieldWithDummy
-										name="wpseo_titles.org-separate-email"
-										id="input-wpseo_titles-org-separate-email"
-										label={ __( "Add as a separate email address for contact.", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
-									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
 										name="wpseo_titles.org-phone"
 										id="input-wpseo_titles-org-phone"
 										label={ __( "Organization phone number", "wordpress-seo" ) }
 										isDummy={ ! isPremium || isLocalSeoActive }
-									/>
-									<FormikCheckboxFieldWithDummy
-										name="wpseo_titles.org-separate-phone"
-										id="input-wpseo_titles-org-separate-phone"
-										label={ __( "Add as a separate phone number for contact.", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
@@ -264,18 +251,42 @@ const SiteRepresentation = () => {
 										isDummy={ ! isPremium }
 										options={ [
 											{ value: "", label: "None" },
-											{ value: "1-10", label: __( "1-10", "wordpress-seo" ) },
-											{ value: "11-50", label: __( "11-50", "wordpress-seo" ) },
-											{ value: "51-200", label: __( "51-200", "wordpress-seo" ) },
-											{ value: "201-500", label: __( "201-500", "wordpress-seo" ) },
-											{ value: "501-1000", label: __( "501-1000", "wordpress-seo" ) },
-											{ value: "1001-5000", label: __( "1001-5000", "wordpress-seo" ) },
-											{ value: "5001-10000", label: __( "5001-10000", "wordpress-seo" ) },
-											{ value: "10001+", label: __( "10001+", "wordpress-seo" ) },
+											{ value: "1-10", label: __( "1-10 employees", "wordpress-seo" ) },
+											{ value: "11-50", label: __( "11-50 employees", "wordpress-seo" ) },
+											{ value: "51-200", label: __( "51-200 employees", "wordpress-seo" ) },
+											{ value: "201-500", label: __( "201-500 employees", "wordpress-seo" ) },
+											{ value: "501-1000", label: __( "501-1000 employees", "wordpress-seo" ) },
+											{ value: "1001-5000", label: __( "1001-5000 employees", "wordpress-seo" ) },
+											{ value: "5001-10000", label: __( "5001-10000 employees", "wordpress-seo" ) },
 										] }
 									/>
 
 								</FeatureUpsell>
+							</FieldsetLayout>
+							<hr className="yst-my-8" />
+							<FieldsetLayout
+								title={ <>
+									{ __( "Organization contact info", "wordpress-seo" ) }
+									{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+								</> }
+								description={ __( "Please tell us more about how customers can contact your organization. This information will help Google in displaying the best available information to help customers.", "wordpress-seo" ) }
+							>
+								<FormikWithErrorFieldWithDummy
+									as={ TextField }
+									name="wpseo_titles.org-contact-email"
+									id="input-wpseo_titles-org-contact-email"
+									type="email"
+									label={ __( "Contact email address", "wordpress-seo" ) }
+									isDummy={ ! isPremium }
+								/>
+								<FormikWithErrorFieldWithDummy
+									as={ TextField }
+									name="wpseo_titles.org-contact-phone"
+									id="input-wpseo_titles-org-contact-phone"
+									label={ __( "Contact phone number", "wordpress-seo" ) }
+									isDummy={ ! isPremium }
+								/>
+
 							</FieldsetLayout>
 							<hr className="yst-my-8" />
 							<FieldsetLayout
