@@ -350,6 +350,10 @@ Release date: 2024-01-09
 
 * Improves the centering of the eye icon in the highlighting button across editors.
 
+#### Bugfixes
+
+* Fixes a bug where highlighting for the _keyphrase density_ assessment would not work when using the latest version of Gutenberg (17.3.0).
+
 #### Other
 
 * Adds a JavaScript action (`yoast.analysis.applyMarks`) that allow users to implement the highlighting functionality in other editors.
