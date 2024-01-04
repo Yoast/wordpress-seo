@@ -30,7 +30,7 @@ const FormikAutocompleteField = ( { name, id, disabled, options, className, ...p
 			{ ...field }
 			name={ name }
 			id={ id }
-			selectedLabel={ field.value }
+			selectedLabel={ options.find( option => option.value === field.value ).label }
 			onChange={ handleChange }
 			onQueryChange={ handleQueryChange }
 			className={ classNames( className, disabled && "yst-autocomplete--disabled" ) }
