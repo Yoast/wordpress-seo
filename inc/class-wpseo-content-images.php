@@ -98,7 +98,8 @@ class WPSEO_Content_Images {
 		/**
 		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis.
 		 *
-		 * @param string $post_content The Post content string.
+		 * @param string  $post_content The Post content string.
+		 * @param WP_Post $post         The current post.
 		 */
 		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
 
