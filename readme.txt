@@ -348,6 +348,7 @@ Release date: 2024-01-09
 
 #### Enhancements
 
+* Aligns the styling of the replacement variables in the post editor with the styling in the settings.
 * Improves the centering of the eye icon in the highlighting button across editors.
 
 #### Bugfixes
