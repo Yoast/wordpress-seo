@@ -194,6 +194,7 @@ const SiteRepresentation = () => {
 										id="input-wpseo_titles-org-description"
 										label={ __( "Organization description", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
+										// The maxLength limitation is a random number for sanity check.
 										maxLength={ 2000 }
 									/>
 
