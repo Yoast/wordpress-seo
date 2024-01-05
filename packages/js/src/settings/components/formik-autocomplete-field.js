@@ -1,4 +1,4 @@
-import { useCallback } from "@wordpress/element";
+import { useCallback, useState, useEffect } from "@wordpress/element";
 import { AutocompleteField } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useField } from "formik";
@@ -16,21 +16,36 @@ import PropTypes from "prop-types";
  */
 const FormikAutocompleteField = ( { name, id, disabled, options, className, ...props } ) => {
 	const [ field, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
+	const [ selectedLabel, setSelectedLabel ] = useState( "" );
+
+	const handleSelectedLabel = ( value ) => {
+		if ( options.find( option => option.value === value )?.label ) {
+			setSelectedLabel( options.find( option => option.value === value ).label );
+		} else {
+			setSelectedLabel( value );
+		}
+	};
 
 	const handleChange = useCallback( newValue => {
 		setValue( newValue );
+		handleSelectedLabel( newValue );
 	}, [ setValue, setTouched ] );
 
 	const handleQueryChange = useCallback( event => {
 	    setValue( event.target.value );
+		handleSelectedLabel( event.target.value );
 	}, [ setValue ] );
+
+	useEffect( () => {
+		handleSelectedLabel( field.value );
+	}, [] );
 
 	return (
 		<AutocompleteField
 			{ ...field }
 			name={ name }
 			id={ id }
-			selectedLabel={ options.find( option => option.value === field.value ).label }
+			selectedLabel={ selectedLabel }
 			onChange={ handleChange }
 			onQueryChange={ handleQueryChange }
 			className={ classNames( className, disabled && "yst-autocomplete--disabled" ) }
