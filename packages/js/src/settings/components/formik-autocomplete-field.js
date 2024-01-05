@@ -18,6 +18,11 @@ const FormikAutocompleteField = ( { name, id, disabled, options, className, ...p
 	const [ field, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const [ selectedLabel, setSelectedLabel ] = useState( "" );
 
+	/**
+	 * Sets the selected label.
+	 * @param {string} value The selected value.
+	 * @returns {void}
+	 */
 	const handleSelectedLabel = ( value ) => {
 		if ( options.find( option => option.value === value )?.label ) {
 			setSelectedLabel( options.find( option => option.value === value ).label );
