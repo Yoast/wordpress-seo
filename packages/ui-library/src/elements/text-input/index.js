@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
  */
 const TextInput = forwardRef( ( {
 	type,
+	value,
 	className,
 	disabled,
 	readOnly,
@@ -21,6 +22,8 @@ const TextInput = forwardRef( ( {
 		ref={ ref }
 		type={ type }
 		className={ classNames(
+			type === "date" && "yst-date-picker",
+			type === "date" && ! value && "yst-date-picker-placeholder",
 			"yst-text-input",
 			disabled && "yst-text-input--disabled",
 			readOnly && "yst-text-input--read-only",
@@ -37,6 +40,7 @@ const propTypes = {
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
 	readOnly: PropTypes.bool,
+	value: PropTypes.string,
 };
 
 TextInput.propTypes = propTypes;
@@ -46,6 +50,7 @@ TextInput.defaultProps = {
 	className: "",
 	disabled: false,
 	readOnly: false,
+	value: "",
 };
 
 export default TextInput;
