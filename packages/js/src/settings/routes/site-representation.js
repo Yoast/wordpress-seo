@@ -194,6 +194,7 @@ const SiteRepresentation = () => {
 										id="input-wpseo_titles-org-description"
 										label={ __( "Organization description", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
+										maxLength={ 2000 }
 									/>
 
 									{ isLocalSeoActive && isPremium && (
