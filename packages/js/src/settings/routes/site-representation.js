@@ -236,6 +236,7 @@ const SiteRepresentation = () => {
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
+										className="yst-w-1/2 yst-date-picker"
 										name="wpseo_titles.org-founding-date"
 										id="input-wpseo_titles-org-founding-date"
 										label={ __( "Organization’s founding date", "wordpress-seo" ) }
@@ -245,6 +246,7 @@ const SiteRepresentation = () => {
 									/>
 									<FormikDummyAutocompleteField
 										name="wpseo_titles.org-number-employees"
+										className="yst-w-3/5"
 										id="input-wpseo_titles-org-number-employees"
 										label={ __( "Number of employees", "wordpress-seo" ) }
 										placeholder={ __( "Select a range or add a specific number", "wordpress-seo" ) }
