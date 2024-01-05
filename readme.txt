@@ -346,6 +346,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-01-09
 
+We've just released Yoast SEO 21.8. In this release, we've focused on general enhancements and fixes to improve how your WordPress SEO plugin functions. Find out more about what's new in Yoast SEO 21.8 in [our release post](https://yoa.st/release-9-1-24)!
+
 #### Enhancements
 
 * Aligns the styling of the replacement variables in the post editor with the styling in the settings.
