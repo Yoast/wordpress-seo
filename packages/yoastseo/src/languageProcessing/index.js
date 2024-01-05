@@ -1,4 +1,4 @@
-import AbstractResearcher from "./AbstractResearcher";
+export { default as AbstractResearcher } from "./AbstractResearcher";
 import * as values from "./values";
 import * as researches from "./researches";
 import * as processingHelpers from "./helpers";
@@ -24,11 +24,4 @@ const languageConfigs = {
 	wordComplexityConfigFrench,
 };
 
-export {
-	AbstractResearcher,
-	languageConfigs,
-	languageHelpers,
-	processingHelpers,
-	researches,
-	values,
-};
+export { languageConfigs, languageHelpers, values, researches, processingHelpers };

@@ -1,5 +1,3 @@
-import TreeBuilder from "./TreeBuilder";
-
 /**
  * This module contains the main logic to transform a formatted text (for now only HTML is supported)
  * to a tree representation.
@@ -10,5 +8,4 @@ import TreeBuilder from "./TreeBuilder";
  *
  * @see module:parsedPaper/structure
  */
-
-export default TreeBuilder;
+export { default as TreeBuilder } from "./TreeBuilder";

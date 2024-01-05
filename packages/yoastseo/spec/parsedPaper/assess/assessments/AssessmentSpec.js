@@ -1,6 +1,6 @@
 import { Assessment } from "../../../../src/parsedPaper/assess/assessments";
 import PaperParser from "../../../../src/parsedPaper/build/PaperParser";
-import TreeBuilder from "../../../../src/parsedPaper/build/tree";
+import { TreeBuilder } from "../../../../src/parsedPaper/build/tree";
 import TreeResearcher from "../../../../src/parsedPaper/research/TreeResearcher";
 import Paper from "../../../../src/values/Paper";
 

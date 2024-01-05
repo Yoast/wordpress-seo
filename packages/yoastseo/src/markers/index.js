@@ -1,7 +1,2 @@
-import removeMarks from "./removeMarks";
-import addMark from "./addMark";
-
-export {
-	addMark,
-	removeMarks,
-};
+export { default as removeMarks } from "./removeMarks";
+export { default as  addMark } from "./addMark";
