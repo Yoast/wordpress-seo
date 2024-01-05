@@ -24,7 +24,7 @@ const FormikAutocompleteField = ( { name, id, disabled, options, className, ...p
 	 * @returns {void}
 	 */
 	const handleSelectedLabel = ( value ) => {
-		if ( options.find( option => option.value === value )?.label ) {
+		if ( value && options.find( option => option.value === value )?.label ) {
 			setSelectedLabel( options.find( option => option.value === value ).label );
 		} else {
 			setSelectedLabel( value );
