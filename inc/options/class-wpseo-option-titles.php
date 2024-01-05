@@ -103,9 +103,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		'org-description'                  => '',
 		'org-email'                        => '',
-		'org-separate-email'               => false,
 		'org-phone'                        => '',
-		'org-separate-phone'               => false,
+		'org-contact-email'                => '',
+		'org-contact-phone'                => '',
 		'org-legal-name'                   => '',
 		'org-founding-date'                => '',
 		'org-number-employees'             => '',
@@ -165,6 +165,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'social-description-',
 		'social-image-url-',
 		'social-image-id-',
+		'org-',
 	];
 
 	/**
@@ -431,18 +432,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'social-title-author-wpseo', 'social-title-archive-wpseo'
 				 *  'open_graph_frontpage_title'
 				 */
-				case 'org-description':
-				case 'org-email':
-				case 'org-phone':
-				case 'org-legal-name':
-				case 'org-founding-date':
-				case 'org-number-employees':
-				case 'org-vat-id':
-				case 'org-tax-id':
-				case 'org-iso':
-				case 'org-duns':
-				case 'org-leicode':
-				case 'org-naics':
+				case 'org-':
 				case 'website_name':
 				case 'alternate_website_name':
 				case 'title-':
