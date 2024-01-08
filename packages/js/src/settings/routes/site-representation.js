@@ -171,140 +171,6 @@ const SiteRepresentation = () => {
 							</FieldsetLayout>
 							<hr className="yst-my-8" />
 							<FieldsetLayout
-								title={ <>
-									{ __( "Additional organization info", "wordpress-seo" ) }
-									{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
-								</> }
-								description={ __( "Enrich your organization's profile by providing more in-depth information. The more details you share, the better Google understands your website.", "wordpress-seo" ) }
-							>
-								<FeatureUpsell
-									shouldUpsell={ ! isPremium }
-									variant="card"
-									cardLink={ "test" }
-									cardText={ sprintf(
-										/* translators: %1$s expands to Premium. */
-										__( "Unlock with %1$s", "wordpress-seo" ),
-										"Premium"
-									) }
-									{ ...premiumUpsellConfig }
-								>
-									<FormikWithErrorFieldWithDummy
-										as={ TextareaField }
-										name="wpseo_titles.org-description"
-										id="input-wpseo_titles-org-description"
-										label={ __( "Organization description", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
-										// The maxLength limitation is a random number for sanity check.
-										maxLength={ 2000 }
-									/>
-
-									{ isLocalSeoActive && isPremium && (
-										<Alert id="alert-local-seo-vat-or-tax-id" variant="info">
-											{ createInterpolateElement(
-												sprintf(
-													/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-													__( "You have Yoast Local SEO activated on your site. You can provide your email and phone in the %1$s‘Business info’ settings%2$s.", "wordpress-seo" ),
-													"<a>",
-													"</a>"
-												),
-												{
-													// eslint-disable-next-line
-													a: <a href={ businessInfoSettingsUrl } className="yst-underline yst-font-medium" />,
-												}
-											) }
-										</Alert>
-									) }
-									<FormikWithErrorFieldWithDummy
-										as={ TextField }
-										name="wpseo_titles.org-email"
-										id="input-wpseo_titles-org-email"
-										type="email"
-										label={ __( "Organization email address", "wordpress-seo" ) }
-										isDummy={ ! isPremium || isLocalSeoActive }
-									/>
-									<FormikWithErrorFieldWithDummy
-										as={ TextField }
-										name="wpseo_titles.org-phone"
-										id="input-wpseo_titles-org-phone"
-										label={ __( "Organization phone number", "wordpress-seo" ) }
-										isDummy={ ! isPremium || isLocalSeoActive }
-									/>
-									<FormikWithErrorFieldWithDummy
-										as={ TextField }
-										name="wpseo_titles.org-legal-name"
-										id="input-wpseo_titles-org-legal-name"
-										label={ __( "Organization's legal name", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
-									/>
-									<FormikWithErrorFieldWithDummy
-										as={ TextField }
-										className="yst-w-1/2"
-										name="wpseo_titles.org-founding-date"
-										id="input-wpseo_titles-org-founding-date"
-										label={ __( "Organization’s founding date", "wordpress-seo" ) }
-										placeholder={ __( "Select a date...", "wordpress-seo" ) }
-										type="date"
-										isDummy={ ! isPremium }
-									/>
-									<FormikDummyAutocompleteField
-										name="wpseo_titles.org-number-employees"
-										className="yst-w-3/5"
-										id="input-wpseo_titles-org-number-employees"
-										label={ __( "Number of employees", "wordpress-seo" ) }
-										placeholder={ __( "Select a range or add a specific number", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
-										options={ [
-											{ value: "", label: "None" },
-											{ value: "1-10", label: __( "1-10 employees", "wordpress-seo" ) },
-											{ value: "11-50", label: __( "11-50 employees", "wordpress-seo" ) },
-											{ value: "51-200", label: __( "51-200 employees", "wordpress-seo" ) },
-											{ value: "201-500", label: __( "201-500 employees", "wordpress-seo" ) },
-											{ value: "501-1000", label: __( "501-1000 employees", "wordpress-seo" ) },
-											{ value: "1001-5000", label: __( "1001-5000 employees", "wordpress-seo" ) },
-											{ value: "5001-10000", label: __( "5001-10000 employees", "wordpress-seo" ) },
-										] }
-									/>
-
-								</FeatureUpsell>
-							</FieldsetLayout>
-							<hr className="yst-my-8" />
-							<FieldsetLayout
-								title={ <>
-									{ __( "Organization contact info", "wordpress-seo" ) }
-									{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
-								</> }
-								description={ __( "Please tell us more about how customers can contact your organization. This information will help Google in displaying the best available information to help customers.", "wordpress-seo" ) }
-							>
-								<FeatureUpsell
-									shouldUpsell={ ! isPremium }
-									variant="card"
-									cardLink={ "test" }
-									cardText={ sprintf(
-										/* translators: %1$s expands to Premium. */
-										__( "Unlock with %1$s", "wordpress-seo" ),
-										"Premium"
-									) }
-									{ ...premiumUpsellConfig }
-								>
-									<FormikWithErrorFieldWithDummy
-										as={ TextField }
-										name="wpseo_titles.org-contact-email"
-										id="input-wpseo_titles-org-contact-email"
-										type="email"
-										label={ __( "Contact email address", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
-									/>
-									<FormikWithErrorFieldWithDummy
-										as={ TextField }
-										name="wpseo_titles.org-contact-phone"
-										id="input-wpseo_titles-org-contact-phone"
-										label={ __( "Contact phone number", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
-									/>
-								</FeatureUpsell>
-							</FieldsetLayout>
-							<hr className="yst-my-8" />
-							<FieldsetLayout
 								id="fieldset-wpseo_social-other_social_urls"
 								title={ __( "Other profiles", "wordpress-seo" ) }
 								description={ __( "Tell us if you have any other profiles on the web that belong to your organization. This can be any number of profiles, like YouTube, LinkedIn, Pinterest, or even Wikipedia.", "wordpress-seo" ) }
@@ -399,6 +265,141 @@ const SiteRepresentation = () => {
 									) }
 								</FieldArray>
 							</FieldsetLayout>
+							<hr className="yst-my-8" />
+							<FieldsetLayout
+								title={ <>
+									{ __( "Additional organization info", "wordpress-seo" ) }
+									{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+								</> }
+								description={ __( "Enrich your organization's profile by providing more in-depth information. The more details you share, the better Google understands your website.", "wordpress-seo" ) }
+							>
+								<FeatureUpsell
+									shouldUpsell={ ! isPremium }
+									variant="card"
+									cardLink={ "test" }
+									cardText={ sprintf(
+										/* translators: %1$s expands to Premium. */
+										__( "Unlock with %1$s", "wordpress-seo" ),
+										"Premium"
+									) }
+									{ ...premiumUpsellConfig }
+								>
+									<FormikWithErrorFieldWithDummy
+										as={ TextareaField }
+										name="wpseo_titles.org-description"
+										id="input-wpseo_titles-org-description"
+										label={ __( "Organization description", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+										// The maxLength limitation is a random number for sanity check.
+										maxLength={ 2000 }
+									/>
+
+									{ isLocalSeoActive && isPremium && (
+										<Alert id="alert-local-seo-vat-or-tax-id" variant="info">
+											{ createInterpolateElement(
+												sprintf(
+													/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+													__( "You have Yoast Local SEO activated on your site. You can provide your email and phone in the %1$s‘Business info’ settings%2$s.", "wordpress-seo" ),
+													"<a>",
+													"</a>"
+												),
+												{
+													// eslint-disable-next-line
+													a: <a href={ businessInfoSettingsUrl } className="yst-underline yst-font-medium" />,
+												}
+											) }
+										</Alert>
+									) }
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo_titles.org-email"
+										id="input-wpseo_titles-org-email"
+										type="email"
+										label={ __( "Organization email address", "wordpress-seo" ) }
+										isDummy={ ! isPremium || isLocalSeoActive }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo_titles.org-phone"
+										id="input-wpseo_titles-org-phone"
+										label={ __( "Organization phone number", "wordpress-seo" ) }
+										isDummy={ ! isPremium || isLocalSeoActive }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo_titles.org-legal-name"
+										id="input-wpseo_titles-org-legal-name"
+										label={ __( "Organization's legal name", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										className="yst-w-1/2"
+										name="wpseo_titles.org-founding-date"
+										id="input-wpseo_titles-org-founding-date"
+										label={ __( "Organization’s founding date", "wordpress-seo" ) }
+										placeholder={ __( "Select a date...", "wordpress-seo" ) }
+										type="date"
+										isDummy={ ! isPremium }
+									/>
+									<FormikDummyAutocompleteField
+										name="wpseo_titles.org-number-employees"
+										className="yst-w-3/5"
+										id="input-wpseo_titles-org-number-employees"
+										label={ __( "Number of employees", "wordpress-seo" ) }
+										placeholder={ __( "Select a range / Enter a number", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+										options={ [
+											{ value: "", label: "None" },
+											{ value: "1-10", label: __( "1-10 employees", "wordpress-seo" ) },
+											{ value: "11-50", label: __( "11-50 employees", "wordpress-seo" ) },
+											{ value: "51-200", label: __( "51-200 employees", "wordpress-seo" ) },
+											{ value: "201-500", label: __( "201-500 employees", "wordpress-seo" ) },
+											{ value: "501-1000", label: __( "501-1000 employees", "wordpress-seo" ) },
+											{ value: "1001-5000", label: __( "1001-5000 employees", "wordpress-seo" ) },
+											{ value: "5001-10000", label: __( "5001-10000 employees", "wordpress-seo" ) },
+										] }
+									/>
+
+								</FeatureUpsell>
+							</FieldsetLayout>
+							<hr className="yst-my-8" />
+							<FieldsetLayout
+								title={ <>
+									{ __( "Organization contact info", "wordpress-seo" ) }
+									{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+								</> }
+								description={ __( "Please tell us more about how customers can contact your organization. This information will help Google in displaying the best available information to help customers.", "wordpress-seo" ) }
+							>
+								<FeatureUpsell
+									shouldUpsell={ ! isPremium }
+									variant="card"
+									cardLink={ "test" }
+									cardText={ sprintf(
+										/* translators: %1$s expands to Premium. */
+										__( "Unlock with %1$s", "wordpress-seo" ),
+										"Premium"
+									) }
+									{ ...premiumUpsellConfig }
+								>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo_titles.org-contact-email"
+										id="input-wpseo_titles-org-contact-email"
+										type="email"
+										label={ __( "Contact email address", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+									/>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo_titles.org-contact-phone"
+										id="input-wpseo_titles-org-contact-phone"
+										label={ __( "Contact phone number", "wordpress-seo" ) }
+										isDummy={ ! isPremium }
+									/>
+								</FeatureUpsell>
+							</FieldsetLayout>
+
 							<hr className="yst-my-8" />
 							<FieldsetLayout
 								title={ <>
