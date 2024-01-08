@@ -48,7 +48,7 @@ overrides:
       require-jsdoc: [ 1, { "require": { "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } } ]
       no-useless-escape: 1
       import/no-named-as-default: 0
-      import/no-unresolved: [ "error", { ignore: [ "premium-configuration/data/morphologyData" ] } ]
+      import/no-unresolved: [ "error", { ignore: [ "premium-configuration/data/morphologyData", "@yoast/feature-flag" ] } ]
   - files:
       - "packages/yoast-components/**/*.js"
     rules:
