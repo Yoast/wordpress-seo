@@ -76,6 +76,7 @@ overrides:
       import/no-duplicates: 0
       import/named: 0
       import/no-extraneous-dependencies: 0
+      import/no-unresolved: [ "error", { ignore: [ "^@yoast/(analysis-report|components|helpers|replacement-variable-editor|search-metadata-previews|style-guide)" ] } ]
     env:
       jest: true
   - files:
