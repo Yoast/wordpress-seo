@@ -104,8 +104,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'org-description'                  => '',
 		'org-email'                        => '',
 		'org-phone'                        => '',
-		'org-contact-email'                => '',
-		'org-contact-phone'                => '',
 		'org-legal-name'                   => '',
 		'org-founding-date'                => '',
 		'org-number-employees'             => '',

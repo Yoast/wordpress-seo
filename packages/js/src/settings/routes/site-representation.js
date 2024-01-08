@@ -366,43 +366,6 @@ const SiteRepresentation = () => {
 							<hr className="yst-my-8" />
 							<FieldsetLayout
 								title={ <>
-									{ __( "Organization contact info", "wordpress-seo" ) }
-									{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
-								</> }
-								description={ __( "Please tell us more about how customers can contact your organization. This information will help Google in displaying the best available information to help customers.", "wordpress-seo" ) }
-							>
-								<FeatureUpsell
-									shouldUpsell={ ! isPremium }
-									variant="card"
-									cardLink={ "test" }
-									cardText={ sprintf(
-										/* translators: %1$s expands to Premium. */
-										__( "Unlock with %1$s", "wordpress-seo" ),
-										"Premium"
-									) }
-									{ ...premiumUpsellConfig }
-								>
-									<FormikWithErrorFieldWithDummy
-										as={ TextField }
-										name="wpseo_titles.org-contact-email"
-										id="input-wpseo_titles-org-contact-email"
-										type="email"
-										label={ __( "Contact email address", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
-									/>
-									<FormikWithErrorFieldWithDummy
-										as={ TextField }
-										name="wpseo_titles.org-contact-phone"
-										id="input-wpseo_titles-org-contact-phone"
-										label={ __( "Contact phone number", "wordpress-seo" ) }
-										isDummy={ ! isPremium }
-									/>
-								</FeatureUpsell>
-							</FieldsetLayout>
-
-							<hr className="yst-my-8" />
-							<FieldsetLayout
-								title={ <>
 									{ __( "Organization identifiers", "wordpress-seo" ) }
 									{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
 								</> }
