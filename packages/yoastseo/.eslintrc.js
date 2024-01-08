@@ -11,8 +11,10 @@ module.exports = {
 		node: true,
 		jest: true,
 	},
+	parser: "@babel/eslint-parser",
 	plugins: [
 		"@stylistic",
+		"tree-shaking",
 	],
 	parserOptions: {
 		ecmaVersion: 2019,
@@ -68,5 +70,14 @@ module.exports = {
 		"import/no-named-as-default": "off",
 		"import/no-named-as-default-member": "off",
 		"import/no-extraneous-dependencies": "off",
+		// Tree-shaking rules.
+		"tree-shaking/no-side-effects-in-initialization": [
+			"warn",
+			{
+				noSideEffectsWhenCalled: [
+					{ "function": "describe" },
+				],
+			},
+		],
 	},
 };

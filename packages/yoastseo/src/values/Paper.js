@@ -1,3 +1,4 @@
+/* eslint-disable tree-shaking/no-side-effects-in-initialization */
 import { defaults, isEmpty, isEqual, isNil } from "lodash-es";
 
 /**
