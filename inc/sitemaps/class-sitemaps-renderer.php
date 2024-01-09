@@ -101,6 +101,13 @@ class WPSEO_Sitemaps_Renderer {
 			. 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
 		/**
+		 * Filters the `urlset` for all sitemaps.
+		 *
+		 * @param string $urlset The output for the sitemap's `urlset`.
+		 */
+		$urlset = apply_filters( "wpseo_sitemap_urlset", $urlset );
+
+		/**
 		 * Filters the `urlset` for a sitemap by type.
 		 *
 		 * @param string $urlset The output for the sitemap's `urlset`.
