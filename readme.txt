@@ -344,17 +344,21 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 21.8 =
 
-Release date: 2023-12-26
+Release date: 2024-01-09
 
 #### Enhancements
 
 * Improves the centering of the eye icon in the highlighting button across editors.
 
+#### Bugfixes
+
+* Fixes a bug where highlighting for the _keyphrase density_ assessment would not work when using the latest version of Gutenberg (17.3.0).
+
 #### Other
 
 * Adds a JavaScript action (`yoast.analysis.applyMarks`) that allow users to implement the highlighting functionality in other editors.
 * Adds a notification in the sidebar to leave a quick review.
-* Removes a set of Elementor widgets from the content analysis.
+* Removes a set of Elementor widgets from the content analysis to make the analysis results more accurate.
 * Re-orders menu items in block editor metabox and sidebar, classic editor metabox and Elementor editor sidebar to be consistent with Yoast SEO Premium.
 
 = 21.7 =

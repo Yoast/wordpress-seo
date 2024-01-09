@@ -1,19 +1,21 @@
 import createPunctuationTokens from "./createPunctuationTokens";
 
 /*
- * The following regex matches a word separator. A word separator is either a whitespace, a tab, a non-breaking space,
- * a hyphen, an en-dash or an em-dash.
- * Brackets are added to deal correctly with shortcodes downstream.
+*  The following regex is used to split a text into tokens.
+ * The regex matches word separators. A word separator is either a whitespace, a slash, a
+ * tab, a non-breaking space, a hyphen, an en-dash or an em-dash.
+ * Opening and closing square brackets are added to deal correctly with shortcodes downstream.
  * The regex is used to split a text into tokens.
  * Do not add punctuation marks to this regex, as they are handled separately inside `createPunctuationTokens()`.
  * The word separator explicitly only contains characters that split two words and not a word and a space.
  * - A space is a word separator because it separates two words if it occurs between them. For example: "foo bar"
  * - A tab is a word separator because it separates two words if it occurs between them. For example: "foo	bar"
- * - A non-breaking space (u00A0) is a word separator because it separates two words if it occurs between them. For example: "foo\u00A0bar"
+ * - A non-breaking space (u00A0) is a word separator because it separates two words if it occurs between them. For example: "foo\u00A0bar".
  * - An en-dash (u2013), an em-dash (u2014), and a hyphen (u002d) are word separators because they separate two words if they occur between them.
  *   For example: "foo–bar".
+ * Note that &nbsp; is added here as #nbsp; -- we transform the & to # to prevent parse5 from converting it to a space and messing up highlighting.
  */
-const WORD_SEPARATORS_REGEX = /([\s\t\u00A0\u2013\u2014\u002d[\]])/;
+const WORD_SEPARATORS_REGEX = /([\s\t\u00A0\u2013\u2014\u002d[\]]|#nbsp;)/;
 
 /**
  * Tokenizes a text similarly to `getWords`, but in a way that's suitable for the HTML parser.

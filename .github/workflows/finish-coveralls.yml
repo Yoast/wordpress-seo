@@ -84,7 +84,7 @@ jobs:
       # NOTE: The ref value should be different when triggered by pull_request event.
       #       See: https://github.com/lewagon/wait-on-check-action/issues/25.
       - name: "Wait on tests (PR)"
-        uses: lewagon/wait-on-check-action@e106e5c43e8ca1edea6383a39a01c5ca495fd812 # lewagon/wait-on-check-action@v1.3.1
+        uses: lewagon/wait-on-check-action@595dabb3acf442d47e29c9ec9ba44db0c6bdd18f # lewagon/wait-on-check-action@v1.3.3
         if: github.event_name == 'pull_request'
         with:
           ref: ${{ github.event.pull_request.head.sha }}
@@ -93,7 +93,7 @@ jobs:
 
       - name: "Wait on tests (push)"
         if: github.event_name != 'pull_request'
-        uses: lewagon/wait-on-check-action@e106e5c43e8ca1edea6383a39a01c5ca495fd812 # lewagon/wait-on-check-action@v1.3.1
+        uses: lewagon/wait-on-check-action@595dabb3acf442d47e29c9ec9ba44db0c6bdd18f # lewagon/wait-on-check-action@v1.3.3
         with:
           ref: ${{ github.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -105,5 +105,5 @@ jobs:
           COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
           github-token: ${{ secrets.COVERALLS_TOKEN }}
-          carryforward: "unit-php-7.2,unit-php-8.3,php-7.2-wp-6.3,php-7.2-wp-6.3-ms,php-8.3-wp-trunk,php-8.3-wp-trunk-ms,package-analysis-report,package-browserslist-config,package-components,package-feature-flag,package-helpers,package-js,package-replacement-variable-editor,package-search-metadata-previews,package-social-metadata-forms,package-social-metadata-previews,package-yoast-components"
+          carryforward: "unit-php-7.2,unit-php-8.3,php-7.2-wp-6.3,php-7.2-wp-6.3-ms,php-8.3-wp-trunk,php-8.3-wp-trunk-ms,package-analysis-report,package-browserslist-config,package-components,package-feature-flag,package-helpers,package-js,package-replacement-variable-editor,package-search-metadata-previews,package-social-metadata-forms,package-social-metadata-previews,package-yoast-components,package-yoastseo"
           parallel-finished: true
