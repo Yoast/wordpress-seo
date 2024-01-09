@@ -84,7 +84,7 @@ function initiallyOpenDocumentSettings() {
 	 * Using this knowledge to detect which selector we should use to get the opened panels.
 	 *
 	 * We can remove this logic path when WP 6.4 is no longer supported!
- 	 */
+	 */
 	const isNewerGutenberg = Boolean( dispatch( "core/editor" )?.toggleEditorPanelOpened );
 
 	if ( ! isNewerGutenberg ) {
@@ -100,7 +100,10 @@ function initiallyOpenDocumentSettings() {
 		return;
 	}
 
-	if ( ! select( "core/preferences" ).get( "core", "openPanels" ).includes( PANEL_NAME ) ) {
+	// Still using a fallback in here because there is window for error between Gutenberg 17.4.1 and 17.5.0.
+	const openPanels = select( "core/preferences" ).get( "core", "openPanels" ) || select( "core/preferences" ).get( "core/edit-post", "openPanels" );
+
+	if ( ! openPanels.includes( PANEL_NAME ) ) {
 		dispatch( "core/editor" ).toggleEditorPanelOpened( PANEL_NAME );
 	}
 }
