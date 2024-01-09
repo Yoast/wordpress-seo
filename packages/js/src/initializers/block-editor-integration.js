@@ -94,17 +94,17 @@ function initiallyOpenDocumentSettings() {
 		 *
 		 * Using `core/edit-post` instead of `core` (select) and `core/editor` (dispatch).
 		 */
-		if ( ! select( "core/preferences" ).get( "core/edit-post", "openPanels" ).includes( PANEL_NAME ) ) {
-			dispatch( "core/edit-post" ).toggleEditorPanelOpened( PANEL_NAME );
+		if ( ! select( "core/preferences" )?.get( "core/edit-post", "openPanels" )?.includes( PANEL_NAME ) ) {
+			dispatch( "core/edit-post" )?.toggleEditorPanelOpened( PANEL_NAME );
 		}
 		return;
 	}
 
 	// Still using a fallback in here because there is window for error between Gutenberg 17.4.1 and 17.5.0.
-	const openPanels = select( "core/preferences" ).get( "core", "openPanels" ) || select( "core/preferences" ).get( "core/edit-post", "openPanels" );
+	const openPanels = select( "core/preferences" )?.get( "core", "openPanels" ) || select( "core/preferences" )?.get( "core/edit-post", "openPanels" );
 
 	if ( ! openPanels.includes( PANEL_NAME ) ) {
-		dispatch( "core/editor" ).toggleEditorPanelOpened( PANEL_NAME );
+		dispatch( "core/editor" )?.toggleEditorPanelOpened( PANEL_NAME );
 	}
 }
 
