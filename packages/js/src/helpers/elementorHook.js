@@ -113,6 +113,20 @@ export function registerElementorUIHookAfter( hook, id, callback ) {
 	$e.hooks.registerUIAfter( new ElementorUIHook( hook, id, callback ) );
 }
 
+
+/**
+ * Initializes the Elementor UI before hooks and registers them.
+ *
+ * @param {string}   hook     The hook to register to.
+ * @param {string}   id       The id to register our callback behind.
+ * @param {function} callback The function to call when the hook is fired.
+ *
+ * @returns {void}
+ */
+export function registerElementorUIHookBefore( hook, id, callback ) {
+	$e.hooks.registerUIBefore( new ElementorUIHook( hook, id, callback ) );
+}
+
 /**
  * Initializes the Elementor Data hooks and registers them.
  *

@@ -3,7 +3,12 @@ import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { useRootContext } from "@yoast/externals/contexts";
 import PropTypes from "prop-types";
+import { getPremiumBenefits } from "../../helpers/get-premium-benefits";
 import UpsellBox from "../UpsellBox";
+
+const upsellDescription = __(
+	"Check your text on even more SEO criteria and get an enhanced keyphrase analysis, making it easier to optimize your content.",
+	"wordpress-seo" );
 
 /**
  * Creates the content for a PremiumSEOAnalysisUpsell modal.
@@ -13,24 +18,18 @@ import UpsellBox from "../UpsellBox";
  * @returns {wp.Element} The PremiumSEOAnalysisUpsell component.
  */
 const PremiumSEOAnalysisUpsell = ( props ) => {
-	const benefits = [
-		__( "Create content faster: Use AI to create titles & meta descriptions", "wordpress-seo" ),
-		__( "Get help ranking for multiple keyphrases", "wordpress-seo" ),
-		__( "Avoid dead links on your site", "wordpress-seo" ),
-		__( "Easily improve the structure of your site", "wordpress-seo" ),
-		__( "Preview how your content looks when shared on social", "wordpress-seo" ),
-		__( "Get guidance & save time on routine SEO tasks", "wordpress-seo" ),
-	];
-
 	const { locationContext } = useRootContext();
 	const buyLink = addQueryArgs( wpseoAdminL10n[ props.buyLink ], { context: locationContext } );
 
 	return (
 		<UpsellBox
 			title={ __( "Get more help with writing content that ranks", "wordpress-seo" ) }
-			description={ __( "Check your text on even more SEO criteria and get an enhanced keyphrase analysis, making it easier to optimize your content.", "wordpress-seo" ) }
-			benefitsTitle={ __( "What’s more in Yoast SEO Premium?", "wordpress-seo" ) }
-			benefits={ benefits }
+			description={ props.description }
+			benefitsTitle={
+				/* translators: %s expands to 'Yoast SEO Premium'. */
+				sprintf( "%s also gives you:", "Yoast SEO Premium" )
+			}
+			benefits={ getPremiumBenefits() }
 			upsellButtonText={
 				sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
@@ -52,6 +51,11 @@ const PremiumSEOAnalysisUpsell = ( props ) => {
 
 PremiumSEOAnalysisUpsell.propTypes = {
 	buyLink: PropTypes.string.isRequired,
+	description: PropTypes.string,
+};
+
+PremiumSEOAnalysisUpsell.defaultProps = {
+	description: upsellDescription,
 };
 
 
