@@ -46,6 +46,13 @@ class WPSEO_Database_Proxy {
 	protected $database;
 
 	/**
+	 * Holds the table prefix.
+	 *
+	 * @var string
+	 */
+	protected $table_prefix;
+
+	/**
 	 * Sets the class attributes and registers the table.
 	 *
 	 * @param wpdb   $database           The database object.
