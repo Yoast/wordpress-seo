@@ -6,7 +6,7 @@ import {
 	potentiallyHarmfulUnlessAnimalsObjects,
 } from "./feedbackStrings";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
-import { isPrecededByException } from "../helpers/isPrecededByException";
+import { isNotPrecededByException } from "../helpers/isPrecededByException";
 
 const otherAssessments = [
 	{
@@ -28,7 +28,7 @@ const otherAssessments = [
 		feedbackFormat: potentiallyHarmful,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isPrecededByException( words, [ "mentally", "behaviorally", "behaviourally" ] ) );
+				.filter( isNotPrecededByException( words, [ "mentally", "behaviorally", "behaviourally" ] ) );
 		},
 	},
 	{
@@ -41,7 +41,7 @@ const otherAssessments = [
 		caseSensitive: true,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isPrecededByException( words, [ "mentally", "behaviorally", "behaviourally" ] ) );
+				.filter( isNotPrecededByException( words, [ "mentally", "behaviorally", "behaviourally" ] ) );
 		},
 	},
 	{
