@@ -68,8 +68,8 @@ final class Indexables_Head_Route_Test extends TestCase {
 			'status' => 200,
 		];
 		yield 'Multiple words search string' => [
-			'url'    => \add_query_arg( 's', 'hello world', \trailingslashit( \home_url() ) ),
-			'status' => 200,
+			'url'    => \add_query_arg( 's', 'xxx yyy', \trailingslashit( \home_url() ) ),
+			'status' => 404,
 		];
 		yield 'Invalid URL' => [
 			'url'    => 'This is not a URL',
