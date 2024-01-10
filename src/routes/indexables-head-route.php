@@ -94,7 +94,8 @@ class Indexables_Head_Route implements Route_Interface {
 	 * @return bool Whether or not the url is valid.
 	 */
 	public function is_valid_url( $url ) {
-		if ( \filter_var( \utf8_uri_encode( $url ), \FILTER_VALIDATE_URL ) === false ) {
+		$url = \sanitize_url( \utf8_uri_encode( $url ) );
+		if ( \filter_var( $url, \FILTER_VALIDATE_URL ) === false ) {
 			return false;
 		}
 		return true;
