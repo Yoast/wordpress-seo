@@ -33,12 +33,12 @@ final class Indexables_Head_Route_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_get_head
 	 *
-	 * @param string $url    The url.
-	 * @param int    $status The expected status.
+	 * @param string $url             The url.
+	 * @param bool   $valid_head_data Wether the response contains valid data for the page head.
 	 *
 	 * @return void
 	 */
-	public function test_get_head( $url, $status ) {
+	public function test_get_head( $url, $valid_head_data ) {
 		$request = new WP_REST_Request( 'GET', '/yoast/v1/get_head' );
 		$request->set_param( 'url', $url );
 
@@ -51,29 +51,29 @@ final class Indexables_Head_Route_Test extends TestCase {
 		);
 
 		$this->assertEquals(
-			$status,
-			$response->status,
-			'get_head response status'
+			$valid_head_data,
+			\is_object( $response->data ) && \property_exists( $response->data, 'html' ) && \property_exists( $response->data, 'json' ),
+			'get_head valid data'
 		);
 	}
 
 	/**
 	 * Data provider for test_get_head.
 	 *
-	 * @return array<string,int>
+	 * @return array<string,bool>
 	 */
 	public function data_provider_get_head() {
 		yield 'Home URL' => [
-			'url'    => \trailingslashit( \home_url() ),
-			'status' => 200,
+			'url'             => \trailingslashit( \home_url() ),
+			'valid_head_data' => true,
 		];
 		yield 'Multiple words search string' => [
-			'url'    => \add_query_arg( 's', 'xxx yyy', \trailingslashit( \home_url() ) ),
-			'status' => 200,
+			'url'             => \add_query_arg( 's', 'xxx yyy', \trailingslashit( \home_url() ) ),
+			'valid_head_data' => true,
 		];
 		yield 'Invalid URL' => [
-			'url'    => 'This is not a URL',
-			'status' => 400,
+			'url'             => 'This is not a URL',
+			'valid_head_data' => false,
 		];
 	}
 }
