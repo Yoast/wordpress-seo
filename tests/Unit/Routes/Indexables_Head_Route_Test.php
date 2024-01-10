@@ -45,6 +45,8 @@ final class Indexables_Head_Route_Test extends TestCase {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -172,13 +174,13 @@ final class Indexables_Head_Route_Test extends TestCase {
 			'host'   => 'example.org',
 		];
 		Monkey\Functions\expect( 'utf8_uri_encode' )
-			->with( implode( '://', $url_parts ) )
+			->with( \implode( '://', $url_parts ) )
 			->andReturnFirstArg();
 
 		Monkey\Functions\expect( 'wp_parse_url' )->once()->andReturn( $url_parts );
 
-		Monkey\Functions\expect( 'esc_url_raw' )->once()->andReturn( implode( '://', $url_parts ) );
+		Monkey\Functions\expect( 'esc_url_raw' )->once()->andReturn( \implode( '://', $url_parts ) );
 
-		$this->assertTrue( $this->instance->is_valid_url( implode( '://', $url_parts ) ) );
+		$this->assertTrue( $this->instance->is_valid_url( \implode( '://', $url_parts ) ) );
 	}
 }

@@ -47,7 +47,7 @@ class Indexables_Head_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
 	public static function get_conditionals() {
 		return [ Headless_Rest_Endpoints_Enabled_Conditional::class ];
