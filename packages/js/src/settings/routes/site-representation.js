@@ -337,7 +337,7 @@ const SiteRepresentation = () => {
 										className="yst-w-1/2"
 										name="wpseo_titles.org-founding-date"
 										id="input-wpseo_titles-org-founding-date"
-										label={ __( "Organization’s founding date", "wordpress-seo" ) }
+										label={ __( "Organization's founding date", "wordpress-seo" ) }
 										placeholder={ __( "Select a date...", "wordpress-seo" ) }
 										type="date"
 										isDummy={ ! isPremium }
@@ -369,7 +369,7 @@ const SiteRepresentation = () => {
 									{ __( "Organization identifiers", "wordpress-seo" ) }
 									{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
 								</> }
-								description={ __( "Bacon ipsum dolor amet filet mignon cupim spare ribs drumstick shankle shank. Ground round jerky fatback, hamburger bacon turkey t-bone short loin jowl corned beef boudin.", "wordpress-seo" ) }
+								description={ __( "Please tell us more about your organization’s identifiers. This information will help Google to display accurate and helpful details about your organization.", "wordpress-seo" ) }
 							>
 								<FeatureUpsell
 									shouldUpsell={ ! isPremium }
