@@ -16,6 +16,14 @@ module.exports = {
 		"@stylistic",
 		"tree-shaking",
 	],
+	overrides: [
+		{
+			files: [ "spec/**/*.js" ],
+			rules: {
+				"tree-shaking/no-side-effects-in-initialization": "off",
+			},
+		},
+	],
 	parserOptions: {
 		ecmaVersion: 2019,
 		sourceType: "module",
