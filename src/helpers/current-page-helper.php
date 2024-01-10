@@ -49,10 +49,10 @@ class Current_Page_Helper {
 				return 'Home_Page';
 			case $this->is_simple_page():
 				return 'Post_Type';
-			case $this->is_post_type_archive():
-				return 'Post_Type_Archive';
 			case $this->is_term_archive():
 				return 'Term_Archive';
+			case $this->is_post_type_archive():
+				return 'Post_Type_Archive';
 			case $this->is_author_archive():
 				return 'Author_Archive';
 			case $this->is_date_archive():
