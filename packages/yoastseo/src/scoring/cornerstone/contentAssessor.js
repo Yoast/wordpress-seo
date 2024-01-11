@@ -1,3 +1,4 @@
+import { inherits } from "util";
 import Assessor from "../assessor.js";
 import ContentAssessor from "../contentAssessor";
 import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
@@ -50,7 +51,7 @@ const CornerStoneContentAssessor = function( researcher, options = {} ) {
 	];
 };
 
-require( "util" ).inherits( CornerStoneContentAssessor, ContentAssessor );
+inherits( CornerStoneContentAssessor, ContentAssessor );
 
 
 export default CornerStoneContentAssessor;
