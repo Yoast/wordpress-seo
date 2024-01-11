@@ -1,4 +1,4 @@
-import getWordsForHTMLParser from "../../../../src/languageProcessing/helpers/word/getWordsForHTMLParser";
+import splitIntoTokens from "../../../../src/languageProcessing/helpers/word/splitIntoTokens";
 
 const testCases = [
 	{
@@ -79,8 +79,8 @@ const testCases = [
 	},
 ];
 
-describe.each( testCases )( "getWordsForHTMLParser", ( { description, text, expectedResult } ) => {
+describe.each( testCases )( "splitIntoTokens", ( { description, text, expectedResult } ) => {
 	it( description, () => {
-		expect( getWordsForHTMLParser( text ) ).toEqual( expectedResult );
+		expect( splitIntoTokens( text ) ).toEqual( expectedResult );
 	} );
 } );

@@ -1,6 +1,6 @@
 import Sentence from "../structure/Sentence";
 import Token from "../structure/Token";
-import getWordsForHTMLParser from "../../languageProcessing/helpers/word/getWordsForHTMLParser";
+import splitIntoTokens from "../../languageProcessing/helpers/word/splitIntoTokens";
 
 const whitespaceRegex = /^\s+$/;
 
@@ -66,7 +66,7 @@ class LanguageProcessor {
 			return tokensCustom.map( tokenText => new Token( tokenText ) );
 		}
 
-		const tokenTexts = getWordsForHTMLParser( sentenceText );
+		const tokenTexts = splitIntoTokens( sentenceText );
 
 		return tokenTexts.map( tokenText => new Token( tokenText ) );
 	}

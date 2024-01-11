@@ -31,7 +31,7 @@ const WORD_SEPARATORS_REGEX = /([\s\t\u00A0\u2013\u2014\u002d[\]]|#nbsp;)/;
  *
  * @returns {string[]} 	An array of tokens.
  */
-const getWordsForHTMLParser = ( text ) => {
+const splitIntoTokens = ( text ) => {
 	if ( ! text ) {
 		return [];
 	}
@@ -43,4 +43,4 @@ const getWordsForHTMLParser = ( text ) => {
 	return createPunctuationTokens( rawTokens );
 };
 
-export default getWordsForHTMLParser;
+export default splitIntoTokens;

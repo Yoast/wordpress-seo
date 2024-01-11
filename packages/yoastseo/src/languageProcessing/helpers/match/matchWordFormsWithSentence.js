@@ -1,5 +1,5 @@
 import matchTextWithTransliteration from "./matchTextWithTransliteration";
-import getWordsForHTMLParser from "../word/getWordsForHTMLParser";
+import splitIntoTokens from "../word/splitIntoTokens";
 
 /**
  * Tokenizes the word form of the keyphrase for exact matching. This function gets the word form and tokenizes it.
@@ -15,7 +15,7 @@ export const tokenizeKeyphraseFormsForExactMatching = ( wordForms, customSplitIn
 	// Tokenize word form of the keyphrase.
 	const wordFormText = wordForms[ 0 ];
 
-	return customSplitIntoTokensHelper ? customSplitIntoTokensHelper( wordFormText ) : getWordsForHTMLParser( wordFormText );
+	return customSplitIntoTokensHelper ? customSplitIntoTokensHelper( wordFormText ) : splitIntoTokens( wordFormText );
 };
 
 /**
