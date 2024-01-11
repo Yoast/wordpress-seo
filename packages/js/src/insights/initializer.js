@@ -23,7 +23,7 @@ const createUpdater = () => {
 	 * @returns {void}
 	 */
 	return () => {
-		const paper = Paper.parse( collectData() );
+		const paper = Paper.prototype.parse( collectData() );
 
 		runResearch( "readingTime", paper ).then( response => setEstimatedReadingTime( response.result ) );
 		runResearch( "getFleschReadingScore", paper ).then( response => {
