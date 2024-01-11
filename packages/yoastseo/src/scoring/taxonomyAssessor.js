@@ -1,5 +1,3 @@
-import { inherits } from "util";
-
 import IntroductionKeywordAssessment from "./assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./assessments/seo/KeyphraseLengthAssessment";
 import KeyphraseDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
@@ -33,36 +31,39 @@ export const getTextLengthAssessment = function() {
 
 /**
  * Creates the Assessor used for taxonomy pages.
- *
- * @param {Researcher} researcher   The researcher used for the analysis.
- * @param {Object?} options         The options for this assessor.
- * @constructor
  */
-const TaxonomyAssessor = function( researcher, options ) {
-	Assessor.call( this, researcher, options );
-	this.type = "taxonomyAssessor";
+class TaxonomyAssessor extends Assessor {
+	/**
+	 * Creates a new taxonomy assessor.
+	 *
+	 * @param {Researcher}	researcher	The researcher to use.
+	 * @param {Object}		options		The assessor options.
+	 */
+	constructor( researcher, options ) {
+		super( researcher, options );
 
-	this._assessments = [
-		new IntroductionKeywordAssessment(),
-		new KeyphraseLengthAssessment(),
-		new KeyphraseDensityAssessment(),
-		new MetaDescriptionKeywordAssessment(),
-		new MetaDescriptionLengthAssessment(),
-		getTextLengthAssessment(),
-		new KeyphraseInSEOTitleAssessment(),
-		new PageTitleWidthAssessment(
-			{
-				scores: {
-					widthTooShort: 9,
-				},
-			}, true
-		),
-		new SlugKeywordAssessment(),
-		new FunctionWordsInKeyphrase(),
-		new SingleH1Assessment(),
-	];
-};
+		this.type = "taxonomyAssessor";
 
-inherits( TaxonomyAssessor, Assessor );
+		this._assessments = [
+			new IntroductionKeywordAssessment(),
+			new KeyphraseLengthAssessment(),
+			new KeyphraseDensityAssessment(),
+			new MetaDescriptionKeywordAssessment(),
+			new MetaDescriptionLengthAssessment(),
+			getTextLengthAssessment(),
+			new KeyphraseInSEOTitleAssessment(),
+			new PageTitleWidthAssessment(
+				{
+					scores: {
+						widthTooShort: 9,
+					},
+				}, true
+			),
+			new SlugKeywordAssessment(),
+			new FunctionWordsInKeyphrase(),
+			new SingleH1Assessment(),
+		];
+	}
+}
 
 export default TaxonomyAssessor;

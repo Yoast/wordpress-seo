@@ -1229,7 +1229,7 @@ export default class AnalysisWebWorker {
 		return await Promise.all( keywordKeys.map( key => {
 			this._relatedKeywords[ key ] = relatedKeywords[ key ];
 
-			const relatedPaper = Paper.parse( {
+			const relatedPaper = Paper.prototype.parse( {
 				...paper.serialize(),
 				keyword: this._relatedKeywords[ key ].keyword,
 				synonyms: this._relatedKeywords[ key ].synonyms,
