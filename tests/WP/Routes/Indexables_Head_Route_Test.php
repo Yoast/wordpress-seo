@@ -62,7 +62,7 @@ final class Indexables_Head_Route_Test extends TestCase {
 	 *
 	 * @return array<string,bool>
 	 */
-	public function data_provider_get_head() {
+	public static function data_provider_get_head() {
 		yield 'Home URL' => [
 			'url'             => \trailingslashit( \home_url() ),
 			'valid_head_data' => true,
