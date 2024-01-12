@@ -1,4 +1,4 @@
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import { getDirectionalStyle, join } from "@yoast/helpers";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
@@ -192,14 +192,11 @@ class SocialMetadataPreviewForm extends Component {
 		} = this.props;
 
 		const imageSelected = !! imageUrl;
-
-		/* Translators: %s expands to the social image. */
-		/* Translators: %s expands to the social medium name, i.e. Social or Twitter. */
-		const imageSelectTitle = sprintf( __( "%s image", "wordpress-seo" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Social or Twitter. */
-		const titleEditorTitle = sprintf( __( "%s title", "wordpress-seo" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Social or Twitter. */
-		const descEditorTitle = sprintf( __( "%s description", "wordpress-seo" ), socialMediumName );
+		const imageSelectTitle = socialMediumName === "Twitter" ? __( "Twitter image", "wordpress-seo" ) : __( "Social image", "wordpress-seo" );
+		const titleEditorTitle = socialMediumName === "Twitter" ? __( "Twitter title", "wordpress-seo" ) : __( "Social title", "wordpress-seo" );
+		const descEditorTitle = socialMediumName === "Twitter"
+			? __( "Twitter description", "wordpress-seo" )
+			: __( "Social description", "wordpress-seo" );
 
 		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
 
