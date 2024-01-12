@@ -4,6 +4,8 @@ import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Resea
 import RussianResearcher from "../../../src/languageProcessing/languages/ru/Researcher";
 import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";
 import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
+import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
+import HebrewResearcher from "../../../src/languageProcessing/languages/he/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import findKeyphraseInSEOTitle from "../../../src/languageProcessing/researches/findKeyphraseInSEOTitle.js";
@@ -366,6 +368,30 @@ describe( "Matches keywords in string", function() {
 		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.exactMatchKeyphrase ).toBe( true );
+		expect( result.allWordsFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns an exact match at place 0, even if the SEO title starts with a function word (Arabic).", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "القطط",
+			title: "بسبب القطط حياتي جيدة",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.allWordsFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns an exact match at place 0, even if the SEO title starts with a function word (Hebrew).", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "חתולים",
+			title: "בקיצור חתולים הם הטובים ביותר",
+		} );
+		const researcher = new HebrewResearcher( mockPaper );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.allWordsFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
