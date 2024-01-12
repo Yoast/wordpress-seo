@@ -21,7 +21,7 @@ const TextInput = forwardRef( ( {
 		ref={ ref }
 		type={ type }
 		className={ classNames(
-			type === "date" && ! props?.value && "yst-date-picker-placeholder",
+			! props?.value && "yst-text-input--empty",
 			"yst-text-input",
 			disabled && "yst-text-input--disabled",
 			readOnly && "yst-text-input--read-only",
