@@ -42,7 +42,7 @@
 		}
 		.yst-text-input--empty[type="date"]:not(:focus)::before {
 			content: attr(placeholder);
-			@apply yst-text-slate-400 yst-flex-grow yst-px-2;
+			@apply yst-text-slate-400 yst-flex-grow;
 		}
 	}
 }
