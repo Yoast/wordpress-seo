@@ -83,7 +83,14 @@ module.exports = {
 			"warn",
 			{
 				noSideEffectsWhenCalled: [
-					{ "function": "describe" },
+					{
+						module: "lodash-es",
+						functions: [ "debounce", "memoize" ],
+					},
+					{
+						module: "util",
+						functions: [ "inherits" ],
+					},
 				],
 			},
 		],
