@@ -17,14 +17,12 @@ const selectProps = {
 	options: PropTypes.arrayOf( selectOption ).isRequired,
 	selected: PropTypes.oneOfType( [ PropTypes.arrayOf( PropTypes.string ), PropTypes.string ] ),
 	onChange: PropTypes.func,
-	disabled: PropTypes.bool,
 	...FieldGroupProps,
 };
 const selectDefaultProps = {
 	name: "",
 	selected: [],
 	onChange: () => {},
-	disabled: false,
 	...FieldGroupDefaultProps,
 };
 
@@ -239,7 +237,6 @@ export class Select extends React.Component {
 			id,
 			options,
 			name,
-			disabled,
 			...fieldGroupProps
 		} = this.props;
 
@@ -255,7 +252,6 @@ export class Select extends React.Component {
 					onBlur={ this.onBlurHandler }
 					onInput={ this.onInputHandler }
 					onChange={ noop }
-					disabled={ disabled }
 				>
 					{ options.map( Option ) }
 				</select>
