@@ -299,7 +299,7 @@ class AssessmentResult {
 	 *
 	 * @returns {AssessmentResult} The parsed AssessmentResult.
 	 */
-	parse( serialized ) {
+	static parse( serialized ) {
 		const result = new AssessmentResult( {
 			text: serialized.text,
 			score: serialized.score,

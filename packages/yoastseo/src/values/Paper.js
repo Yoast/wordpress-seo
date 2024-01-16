@@ -344,7 +344,7 @@ class Paper {
 	 *
 	 * @returns {Paper} The parsed Paper.
 	 */
-	parse( serialized ) {
+	static parse( serialized ) {
 		// For ease of use, check if it is not already a Paper instance.
 		if ( serialized instanceof Paper ) {
 			return serialized;

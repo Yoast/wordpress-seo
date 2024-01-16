@@ -260,7 +260,7 @@ class Mark {
 	 *
 	 * @returns {Mark} The parsed Mark.
 	 */
-	parse( serialized ) {
+	static parse( serialized ) {
 		delete serialized._parseClass;
 		return new Mark( serialized );
 	}
