@@ -1150,19 +1150,23 @@ class WPSEO_Upgrade {
 			return;
 		}
 
-		$indexable_table = Model::get_table_name( 'Indexable' );
+		$replacements = [
+			Model::get_table_name( 'Indexable' ),
+			'object_type',
+			'object_sub_type',
+		];
+		$replacements = array_merge( $replacements, $private_taxonomies );
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
-		$query = $wpdb->prepare(
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
-			"DELETE FROM $indexable_table
-			WHERE object_type = 'term'
-			AND object_sub_type IN ("
-				. implode( ', ', array_fill( 0, count( $private_taxonomies ), '%s' ) )
-				. ')',
-			$private_taxonomies
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM %i
+				WHERE %i = 'term'
+				AND %i IN ("
+					. implode( ', ', array_fill( 0, count( $private_taxonomies ), '%s' ) )
+					. ')',
+				$replacements
+			)
 		);
-		$wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -1180,9 +1184,19 @@ class WPSEO_Upgrade {
 		$wpdb->show_errors = false;
 
 		// Reset the permalinks of the attachments in the indexable table.
-		$indexable_table = Model::get_table_name( 'Indexable' );
-		$query           = "UPDATE $indexable_table SET permalink = NULL WHERE object_type = 'post' AND object_sub_type = 'attachment'";
-		$wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: There is no user input.
+		$replacements = [
+			Model::get_table_name( 'Indexable' ),
+			'permalink',
+			'object_type',
+			'object_sub_type',
+		];
+
+		$wpdb->query(
+			$wpdb->prepare(
+				"UPDATE %i SET %i = NULL WHERE %i = 'post' AND %i = 'attachment'",
+				$replacements
+			)
+		);
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -1253,8 +1267,19 @@ class WPSEO_Upgrade {
 	private function remove_sitemap_validators() {
 		global $wpdb;
 
+		$replacements = [
+			$wpdb->options,
+			'option_name',
+			'wpseo_sitemap%validator%',
+		];
+
 		// Remove all sitemap validators.
-		$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'wpseo_sitemap%validator%'" );
+		$wpdb->query(
+			$wpdb->prepare(
+				'DELETE FROM %i WHERE %i LIKE %i',
+				$replacements
+			)
+		);
 	}
 
 	/**
@@ -1262,14 +1287,27 @@ class WPSEO_Upgrade {
 	 *
 	 * @param string $option_name Option to retrieve.
 	 *
-	 * @return array|mixed The content of the option if exists, otherwise an empty array.
+	 * @return int|string|bool|float|array<string|int|bool|float> The content of the option if exists, otherwise an empty array.
 	 */
 	protected function get_option_from_database( $option_name ) {
 		global $wpdb;
 
+		$replacements = [
+			'option_value',
+			$wpdb->options,
+			'option_name',
+			$option_name,
+		];
+
 		// Load option directly from the database, to avoid filtering and sanitization.
-		$sql     = $wpdb->prepare( 'SELECT option_value FROM ' . $wpdb->options . ' WHERE option_name = %s', $option_name );
-		$results = $wpdb->get_results( $sql, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is is already prepared.
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT %i FROM %i WHERE %i = %s',
+				$replacements
+			),
+			ARRAY_A
+		);
+
 		if ( ! empty( $results ) ) {
 			return maybe_unserialize( $results[0]['option_value'] );
 		}
@@ -1302,9 +1340,9 @@ class WPSEO_Upgrade {
 	/**
 	 * Saves an option setting to where it should be stored.
 	 *
-	 * @param array       $source_data    The option containing the value to be migrated.
-	 * @param string      $source_setting Name of the key in the "from" option.
-	 * @param string|null $target_setting Name of the key in the "to" option.
+	 * @param int|string|bool|float|array<string|int|bool|float> $source_data    The option containing the value to be migrated.
+	 * @param string                                             $source_setting Name of the key in the "from" option.
+	 * @param string|null                                        $target_setting Name of the key in the "to" option.
 	 *
 	 * @return void
 	 */
@@ -1513,29 +1551,41 @@ class WPSEO_Upgrade {
 
 		$included_post_types = YoastSEO()->helpers->post_type->get_indexable_post_types();
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
-			$delete_query = "
-				DELETE FROM $indexable_table
-				WHERE object_type = 'post'
-				AND object_sub_type IS NOT NULL";
-		}
-		else {
-			$delete_query = $wpdb->prepare(
-				"DELETE FROM $indexable_table
-				WHERE object_type = 'post'
-				AND object_sub_type IS NOT NULL
-				AND object_sub_type NOT IN ( " . implode( ', ', array_fill( 0, count( $included_post_types ), '%s' ) ) . ' )',
-				$included_post_types
+			$replacements = [
+				$indexable_table,
+				'object_type',
+				'object_sub_type',
+			];
+
+			$wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM %i
+					WHERE %i = 'post'
+					AND %i IS NOT NULL",
+					$replacements
+				)
 			);
 		}
-		// phpcs:enable
+		else {
+			$replacements = [
+				$indexable_table,
+				'object_type',
+				'object_sub_type',
+				'object_sub_type',
+			];
+			$replacements = array_merge( $replacements, $included_post_types );
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
-		$wpdb->query( $delete_query );
-		// phpcs:enable
+			$wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM %i
+					WHERE %i = 'post'
+					AND %i IS NOT NULL
+					AND %i NOT IN ( " . implode( ', ', array_fill( 0, count( $included_post_types ), '%s' ) ) . ' )',
+					$replacements
+				)
+			);
+		}
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -1557,28 +1607,41 @@ class WPSEO_Upgrade {
 
 		$included_taxonomies = YoastSEO()->helpers->taxonomy->get_indexable_taxonomies();
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_taxonomies ) ) {
-			$delete_query = "DELETE FROM $indexable_table
-				WHERE object_type = 'term'
-				AND object_sub_type IS NOT NULL";
-		}
-		else {
-			$delete_query = $wpdb->prepare(
-				"DELETE FROM $indexable_table
-				WHERE object_type = 'term'
-				AND object_sub_type IS NOT NULL
-				AND object_sub_type NOT IN ( " . implode( ', ', array_fill( 0, count( $included_taxonomies ), '%s' ) ) . ' )',
-				$included_taxonomies
+			$replacements = [
+				$indexable_table,
+				'object_type',
+				'object_sub_type',
+			];
+
+			$wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM %i
+					WHERE %i = 'term'
+					AND %i IS NOT NULL",
+					$replacements
+				)
 			);
 		}
-		// phpcs:enable
+		else {
+			$replacements = [
+				$indexable_table,
+				'object_type',
+				'object_sub_type',
+				'object_sub_type',
+			];
+			$replacements = array_merge( $replacements, $included_taxonomies );
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
-		$wpdb->query( $delete_query );
-		// phpcs:enable
+			$wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM %i
+					WHERE %i = 'term'
+					AND %i IS NOT NULL
+					AND %i NOT IN ( " . implode( ', ', array_fill( 0, count( $included_taxonomies ), '%s' ) ) . ' )',
+					$replacements
+				)
+			);
+		}
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -1595,29 +1658,39 @@ class WPSEO_Upgrade {
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 
-		$indexable_table = Model::get_table_name( 'Indexable' );
+		$replacements = [
+			'id',
+			'newest_id',
+			'object_id',
+			'object_type',
+			Model::get_table_name( 'Indexable' ),
+			'post_status',
+			'object_type',
+			'object_id',
+			'object_type',
+		];
 
-		$query = "
+		$duplicates = $wpdb->get_results(
+			$wpdb->prepare(
+				"
 			SELECT
-				MAX(id) as newest_id,
-				object_id,
-				object_type
+				MAX(%i) as %i,
+				%i,
+				%i
 			FROM
-				$indexable_table
+				%i
 			WHERE
-				post_status = 'unindexed'
-				AND object_type IN ( 'term', 'post', 'user' )
+				%i = 'unindexed'
+				AND %i IN ( 'term', 'post', 'user' )
 			GROUP BY
-				object_id,
-				object_type
+				%i,
+				%i
 			HAVING
-				count(*) > 1";
-
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
-		$duplicates = $wpdb->get_results( $query, ARRAY_A );
-		// phpcs:enable
+				count(*) > 1",
+				$replacements
+			),
+			ARRAY_A
+		);
 
 		if ( empty( $duplicates ) ) {
 			$wpdb->show_errors = $show_errors;
@@ -1657,18 +1730,22 @@ class WPSEO_Upgrade {
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 
-		$indexable_table = Model::get_table_name( 'Indexable' );
+		$replacements = [
+			Model::get_table_name( 'Indexable' ),
+			'post_status',
+			'object_type',
+			'object_id',
+		];
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: No user input, just a table name.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 		$wpdb->query(
-			"DELETE FROM $indexable_table
-			WHERE post_status = 'unindexed'
-			AND object_type NOT IN ( 'home-page', 'date-archive', 'post-type-archive', 'system-page' )
-			AND object_id IS NULL"
+			$wpdb->prepare(
+				"DELETE FROM %i
+				WHERE %i = 'unindexed'
+				AND %i NOT IN ( 'home-page', 'date-archive', 'post-type-archive', 'system-page' )
+				AND %i IS NULL",
+				$replacements
+			)
 		);
-		// phpcs:enable
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -1689,16 +1766,17 @@ class WPSEO_Upgrade {
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 
-		$indexable_table = Model::get_table_name( 'Indexable' );
+		$replacements = [
+			Model::get_table_name( 'Indexable' ),
+			'object_type',
+		];
 
-		$delete_query = "DELETE FROM $indexable_table WHERE object_type = 'user'";
-		// phpcs:enable
-
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
-		$wpdb->query( $delete_query );
-		// phpcs:enable
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM %i WHERE %i = 'user'",
+				$replacements
+			)
+		);
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -1706,9 +1784,9 @@ class WPSEO_Upgrade {
 	/**
 	 * Creates a query for de-duplicating indexables for a particular type.
 	 *
-	 * @param string $object_type The object type to deduplicate.
-	 * @param array  $duplicates  The result of the duplicate query.
-	 * @param wpdb   $wpdb        The wpdb object.
+	 * @param string                              $object_type The object type to deduplicate.
+	 * @param string|array<array<int,int,string>> $duplicates  The result of the duplicate query.
+	 * @param wpdb                                $wpdb        The wpdb object.
 	 *
 	 * @return string The query that removes all but one duplicate for each object of the object type.
 	 */
@@ -1729,18 +1807,25 @@ class WPSEO_Upgrade {
 		$object_ids           = wp_list_pluck( $filtered_duplicates, 'object_id' );
 		$newest_indexable_ids = wp_list_pluck( $filtered_duplicates, 'newest_id' );
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
-		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
+		$replacements   = [
+			Model::get_table_name( 'Indexable' ),
+			'object_id',
+		];
+		$replacements   = array_merge( $replacements, array_values( $object_ids ) );
+		$replacements[] = 'id';
+		$replacements   = array_merge( $replacements, array_values( $newest_indexable_ids ) );
+		$replacements[] = 'object_type';
+		$replacements[] = $object_type;
+
 		return $wpdb->prepare(
-			"DELETE FROM
-				$indexable_table
+			'DELETE FROM
+				%i
 			WHERE
-				object_id IN ( " . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
-				AND id NOT IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
-				AND object_type = %s',
-			array_merge( array_values( $object_ids ), array_values( $newest_indexable_ids ), [ $object_type ] )
+				%i IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
+				AND %i NOT IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
+				AND %i = %s',
+			$replacements
 		);
-		// phpcs:enable
 	}
 
 	/**
