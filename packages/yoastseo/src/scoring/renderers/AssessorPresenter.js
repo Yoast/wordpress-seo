@@ -5,7 +5,6 @@ import { assessmentPresenterResult as template } from "../../snippetPreview/temp
 import scoreToRating from "../interpreters/scoreToRating.js";
 import createConfig from "../../config/presenter.js";
 
-
 /**
  * Represents the AssessorPresenter.
  */
@@ -22,7 +21,7 @@ class AssessorPresenter {
 	 *
 	 * @constructor
 	 */
-	construct(  args ) {
+	constructor(  args ) {
 		this.keyword = args.keyword;
 		this.assessor = args.assessor;
 		this.output = args.targets.output;
