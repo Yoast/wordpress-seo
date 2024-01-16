@@ -3,14 +3,14 @@ import getLanguage from "yoastseo/src/languageProcessing/helpers/language/getLan
 
 // Import researches
 import findKeywordInFirstParagraph from "../../../../packages/yoastseo/src/languageProcessing/researches/findKeywordInFirstParagraph.js";
-import keywordCount from "../../../../packages/yoastseo/src/languageProcessing/researches/keywordCount";
-import getKeywordDensity from "../../../../packages/yoastseo/src/languageProcessing/researches/getKeywordDensity.js";
+import getKeyphraseCount from "../../../../packages/yoastseo/src/languageProcessing/researches/keywordCount";
+import getKeyphraseDensity from "../../../../packages/yoastseo/src/languageProcessing/researches/getKeywordDensity.js";
 import metaDescriptionKeyword from "../../../../packages/yoastseo/src/languageProcessing/researches/metaDescriptionKeyword.js";
 import matchKeywordInSubheadings from "../../../../packages/yoastseo/src/languageProcessing/researches/matchKeywordInSubheadings.js";
 import imageCount from "../../../../packages/yoastseo/src/languageProcessing/researches/imageCount.js";
 import altTagCount from "../../../../packages/yoastseo/src/languageProcessing/researches/altTagCount.js";
 import findKeyphraseInSEOTitle from "../../../../packages/yoastseo/src/languageProcessing/researches/findKeyphraseInSEOTitle.js";
-import keywordCountInSlug from "yoastseo/src/languageProcessing/researches/keywordCountInUrl";
+import { keywordCountInSlug } from "yoastseo/src/languageProcessing/researches/keywordCountInUrl";
 import keyphraseDistribution from "../../../../packages/yoastseo/src/languageProcessing/researches/keyphraseDistribution";
 
 /**
@@ -29,8 +29,8 @@ export default function( testPaper, morphologyData ) {
 	researcher.addResearchData( "morphology", morphologyData );
 
 	findKeywordInFirstParagraph( paper, researcher );
-	getKeywordDensity( paper, researcher );
-	keywordCount( paper, researcher );
+	getKeyphraseDensity( paper, researcher );
+	getKeyphraseCount( paper, researcher );
 	metaDescriptionKeyword( paper, researcher );
 	matchKeywordInSubheadings( paper, researcher );
 	imageCount( paper );
