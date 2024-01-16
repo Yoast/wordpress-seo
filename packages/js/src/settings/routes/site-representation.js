@@ -44,7 +44,7 @@ const SiteRepresentation = () => {
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const mastodonPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-mastodon-integration" );
 	const mastodonUrlLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-mastodon" );
-	const businessInfoSettingsUrl = "/wp-admin/admin.php?page=wpseo_local";
+	const businessInfoSettingsUrl = useSelectSettings( "selectPreference", [], "localSeoPageSettingUrl" );
 
 	const handleAddProfile = useCallback( async( arrayHelpers ) => {
 		await arrayHelpers.push( "" );

@@ -479,6 +479,7 @@ class Settings_Integration implements Integration_Interface {
 			'hasWooCommerceShopPage'        => $shop_page_id !== -1,
 			'editWooCommerceShopPageUrl'    => \get_edit_post_link( $shop_page_id, 'js' ),
 			'wooCommerceShopPageSettingUrl' => \get_admin_url( null, 'admin.php?page=wc-settings&tab=products' ),
+			'localSeoPageSettingUrl'        => \get_admin_url( null, 'admin.php?page=wpseo_local' ),
 			'homepageIsLatestPosts'         => $homepage_is_latest_posts,
 			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
