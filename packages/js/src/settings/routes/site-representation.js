@@ -299,8 +299,9 @@ const SiteRepresentation = () => {
 										<Alert id="alert-local-seo-vat-or-tax-id" variant="info">
 											{ createInterpolateElement(
 												sprintf(
-													/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-													__( "You have Yoast Local SEO activated on your site. You can provide your email and phone in the %1$s‘Business info’ settings%2$s.", "wordpress-seo" ),
+													/* translators: %1$s expands for Yoast Local SEO, %2$s and %3$s expands to a link tags. */
+													__( "You have %1$s activated on your site. You can provide your VAT ID and Tax ID in the %2$s‘Business info’ settings%3$s.", "wordpress-seo" ),
+													"Yoast Local SEO",
 													"<a>",
 													"</a>"
 												),
@@ -388,8 +389,9 @@ const SiteRepresentation = () => {
 										<Alert id="alert-local-seo-vat-or-tax-id" variant="info">
 											{ createInterpolateElement(
 												sprintf(
-													/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-													__( "You have Yoast Local SEO activated on your site. You can provide your VAT ID and Tax ID in the %1$s‘Business info’ settings%2$s.", "wordpress-seo" ),
+													/* translators: %1$s expands for Yoast Local SEO, %2$s and %3$s expands to a link tags. */
+													__( "You have %1$s activated on your site. You can provide your VAT ID and Tax ID in the %2$s‘Business info’ settings%3$s.", "wordpress-seo" ),
+													"Yoast Local SEO",
 													"<a>",
 													"</a>"
 												),
