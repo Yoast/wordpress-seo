@@ -1,4 +1,4 @@
-import { forwardRef, useCallback } from "@wordpress/element";
+import { forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 
@@ -16,9 +16,8 @@ const TextInput = forwardRef( ( {
 	disabled,
 	readOnly,
 	...props
-}, ref ) => {
-	const showPicker = useCallback( ( e ) => e.target.showPicker(), [] );
-	return <input
+}, ref ) => (
+	<input
 		ref={ ref }
 		type={ type }
 		className={ classNames(
@@ -31,9 +30,8 @@ const TextInput = forwardRef( ( {
 		disabled={ disabled }
 		readOnly={ readOnly }
 		{ ...props }
-		onFocus={ showPicker }
-	/>;
-} );
+	/>
+) );
 
 const propTypes = {
 	type: PropTypes.string,

@@ -50,6 +50,7 @@ const SiteRepresentation = () => {
 		await arrayHelpers.push( "" );
 		document.getElementById( `input-wpseo_social-other_social_urls-${ otherSocialUrls.length }` )?.focus();
 	}, [ otherSocialUrls ] );
+	const showPicker = useCallback( ( e ) => e.target.showPicker(), [] );
 
 	return (
 		<RouteLayout
@@ -341,6 +342,7 @@ const SiteRepresentation = () => {
 										placeholder={ __( "Select a date...", "wordpress-seo" ) }
 										type="date"
 										isDummy={ ! isPremium }
+										onFocus={ showPicker }
 									/>
 									<FormikDummyAutocompleteField
 										name="wpseo_titles.org-number-employees"
