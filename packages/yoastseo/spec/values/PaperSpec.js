@@ -229,18 +229,18 @@ describe( "Paper", function() {
 		} );
 
 		it( "creates a Paper instance from an Object", () => {
-			const paper = Paper.prototype.parse( serialized );
+			const paper = Paper.parse( serialized );
 			expect( paper instanceof Paper ).toBe( true );
 		} );
 
 		it( "detects a Paper instance and prevents a new instance", () => {
 			const paper = new Paper( "text", {} );
 			// Checks if the memory address is the same, which would fail if a new instance was made.
-			expect( Paper.prototype.parse( paper ) ).toBe( paper );
+			expect( Paper.parse( paper ) ).toBe( paper );
 		} );
 
 		describe( "contains the data", () => {
-			const paper = Paper.prototype.parse( serialized );
+			const paper = Paper.parse( serialized );
 
 			it( "contains the text", () => {
 				expect( paper._text ).toBe( "text" );

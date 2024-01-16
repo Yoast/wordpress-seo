@@ -87,7 +87,7 @@ class ProminentWord {
 	 *
 	 * @returns {ProminentWord} The parsed ProminentWord.
 	 */
-	parse( serialized ) {
+	static parse( serialized ) {
 		return new ProminentWord( serialized.word, serialized.stem, serialized.occurrences );
 	}
 }
