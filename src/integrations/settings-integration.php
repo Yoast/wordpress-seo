@@ -479,6 +479,7 @@ class Settings_Integration implements Integration_Interface {
 			'hasWooCommerceShopPage'        => $shop_page_id !== -1,
 			'editWooCommerceShopPageUrl'    => \get_edit_post_link( $shop_page_id, 'js' ),
 			'wooCommerceShopPageSettingUrl' => \get_admin_url( null, 'admin.php?page=wc-settings&tab=products' ),
+			'localSeoPageSettingUrl'        => \get_admin_url( null, 'admin.php?page=wpseo_local' ),
 			'homepageIsLatestPosts'         => $homepage_is_latest_posts,
 			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
@@ -618,6 +619,14 @@ class Settings_Integration implements Integration_Interface {
 			foreach ( $disallowed_settings as $disallowed_setting ) {
 				unset( $defaults[ $option_name ][ $disallowed_setting ] );
 			}
+		}
+
+		if ( \defined( 'WPSEO_LOCAL_FILE' ) ) {
+			$local_options                          = WPSEO_Options::get_option( 'wpseo_local' );
+			$defaults['wpseo_titles']['org-vat-id'] = $local_options['location_vat_id'];
+			$defaults['wpseo_titles']['org-tax-id'] = $local_options['location_tax_id'];
+			$defaults['wpseo_titles']['org-email']  = $local_options['location_email'];
+			$defaults['wpseo_titles']['org-phone']  = $local_options['location_phone'];
 		}
 
 		return $defaults;
