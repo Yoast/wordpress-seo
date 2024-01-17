@@ -112,7 +112,7 @@ class WPSEO_Rewrite {
 		$permalink_structure = get_option( 'permalink_structure' );
 
 		$blog_prefix = '';
-		if ( is_multisite() && ! is_subdomain_install() && is_main_site() && strpos( $permalink_structure, '/blog/' ) === 0 ) {
+		if ( is_main_site() && strpos( $permalink_structure, '/blog/' ) === 0 ) {
 			$blog_prefix = 'blog/';
 		}
 
