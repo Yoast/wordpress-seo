@@ -462,6 +462,16 @@ class Settings_Integration implements Integration_Interface {
 			$page_on_front = $page_for_posts;
 		}
 
+		$business_settings_url = \get_admin_url( null, 'admin.php?page=wpseo_local' );
+		if ( \defined( 'WPSEO_LOCAL_FILE' ) ) {
+			$local_options      = WPSEO_Options::get_option( 'wpseo_local' );
+			$multiple_locations = $local_options['use_multiple_locations'];
+			$same_organization  = $local_options['multiple_locations_same_organization'];
+			if ( $multiple_locations === 'on' && $same_organization !== 'on' ) {
+				$business_settings_url = \get_admin_url( null, 'edit.php?post_type=wpseo_locations' );
+			}
+		}
+
 		return [
 			'isPremium'                     => $this->product_helper->is_premium(),
 			'isRtl'                         => \is_rtl(),
@@ -479,7 +489,7 @@ class Settings_Integration implements Integration_Interface {
 			'hasWooCommerceShopPage'        => $shop_page_id !== -1,
 			'editWooCommerceShopPageUrl'    => \get_edit_post_link( $shop_page_id, 'js' ),
 			'wooCommerceShopPageSettingUrl' => \get_admin_url( null, 'admin.php?page=wc-settings&tab=products' ),
-			'localSeoPageSettingUrl'        => \get_admin_url( null, 'admin.php?page=wpseo_local' ),
+			'localSeoPageSettingUrl'        => $business_settings_url,
 			'homepageIsLatestPosts'         => $homepage_is_latest_posts,
 			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
