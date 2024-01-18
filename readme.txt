@@ -348,6 +348,7 @@ Release date: 2024-01-19
 
 #### Bugfixes
 
+* Fixes a bug where our block editor integration would no longer work together with Gutenberg 17.4.1.
 * Fixes a bug where our block editor integration would no longer work together with Gutenberg 17.5.
 
 = 21.8 =
