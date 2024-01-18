@@ -342,6 +342,32 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 21.8.1 =
+
+Release date: 2024-01-18
+
+#### Enhancements
+
+* Adds a filter to add images to the front page in sitemaps.
+* Adds a filter to allow adding images to terms in sitemaps.
+* Clears rewrite rules only for the strip category base option.
+* Removes the clearing of rewrite rules on every option update.
+* Replaces the sitemap rewrite rules mechanism, props to [felixarntz](https://github.com/felixarntz).
+
+#### Bugfixes
+
+* Fixes a bug where a post would be saved when trying to dismiss a notification while editing.
+* Fixes a bug where editing a product would either crash or be slow when there is a high number of registered attributes.
+* Fixes a bug where our block editor integration would no longer work in WP 6.5.
+* Fixes a bug where the `get_head` REST route would return a `rest_invalid_param` if the URL contains a multiple words search string. props to @lucymtc.
+* Fixes a bug where the Yoast plugin icon in the block editor would not have any horizontal spacing anymore when rendered in \"compact\" mode.
+
+#### Other
+
+* Be explicit about required PHP extensions.
+* Improves PHP 8.2 compatibility.
+* Sets the minimum supported WordPress version to 6.3.
+
 = 21.9 =
 
 Release date: 2024-01-23
