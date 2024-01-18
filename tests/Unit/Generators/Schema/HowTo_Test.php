@@ -280,6 +280,28 @@ final class HowTo_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that no Schema step is output when no steps are set.
+	 *
+	 * @covers ::generate
+	 *
+	 * @return void
+	 */
+	public function test_empty_steps() {
+		$blocks = $this->base_blocks;
+		// Remove the steps attribute.
+		unset(
+			$blocks['yoast/how-to-block'][0]['attrs']['steps']
+		);
+
+		$schema = $this->base_schema;
+		unset( $schema[0]['step'] );
+
+		$this->meta_tags_context->blocks = $blocks;
+		$actual_schema                   = $this->instance->generate();
+		$this->assertEquals( $schema, $actual_schema );
+	}
+
+	/**
 	 * Tests that an image Schema piece is output when a step has an image.
 	 *
 	 * @covers ::generate
