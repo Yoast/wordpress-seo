@@ -344,7 +344,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 21.8.1 =
 
-Release date: 2024-01-18
+Release date: 2024-01-19
 
 #### Bugfixes
 
