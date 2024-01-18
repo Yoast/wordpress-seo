@@ -342,6 +342,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 21.8.1 =
+
+Release date: 2024-01-18
+
+#### Bugfixes
+
+* Fixes a bug where our block editor integration would no longer work together with Gutenberg 17.5.
+
 = 21.8 =
 
 Release date: 2024-01-09
