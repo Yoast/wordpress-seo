@@ -55,7 +55,7 @@ const SiteRepresentation = () => {
 		),
 		{
 			// eslint-disable-next-line
-			a: <a href={ businessInfoSettingsUrl } className="yst-underline yst-font-medium" />,
+			a: <a href={ businessInfoSettingsUrl } target="_blank" className="yst-underline yst-font-medium" />,
 		}
 	);
 	let alertMessagePhoneEmail = createInterpolateElement(
@@ -68,7 +68,7 @@ const SiteRepresentation = () => {
 		),
 		{
 			// eslint-disable-next-line
-			a: <a href={ businessInfoSettingsUrl } className="yst-underline yst-font-medium" />,
+			a: <a href={ businessInfoSettingsUrl } target="_blank" className="yst-underline yst-font-medium" />,
 		}
 	);
 	if ( businessInfoSettingsUrl.includes( "wpseo_locations" ) ) {
