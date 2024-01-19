@@ -304,7 +304,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade_36() {
+	protected function upgrade_36() {
 		global $wpdb;
 
 		// Between 3.2 and 3.4 the sitemap options were saved with autoloading enabled.
@@ -358,7 +358,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade_49() {
+	protected function upgrade_49() {
 		global $wpdb;
 
 		/*
@@ -423,7 +423,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade_50() {
+	protected function upgrade_50() {
 		global $wpdb;
 
 		// Deletes the post meta value, which might created in the RC.
@@ -612,7 +612,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade_90() {
+	protected function upgrade_90() {
 		global $wpdb;
 
 		// Invalidate all sitemap cache transients.
