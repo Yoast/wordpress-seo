@@ -96,7 +96,7 @@ class WPSEO_Rewrite {
 		}
 
 		$this->redirect( $query_vars['wpseo_category_redirect'] );
-		return null;
+		return [];
 	}
 
 	/**
