@@ -61,4 +61,24 @@ final class Upgrade_Double extends WPSEO_Upgrade {
 	public function finish_up( $previous_version = null ) {
 		parent::finish_up( $previous_version );
 	}
+
+	public function upgrade_36() {
+		parent::upgrade_36();
+	}
+
+	public function upgrade_49() {
+		parent::upgrade_49();
+	}
+
+	public function upgrade_50() {
+		parent::upgrade_50();
+	}
+
+	public function upgrade_90() {
+		parent::upgrade_90();
+	}
+
+	public function clean_up_private_taxonomies_for_141() {
+		parent::clean_up_private_taxonomies_for_141();
+	}
 }
