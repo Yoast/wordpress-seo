@@ -194,7 +194,7 @@ const Content = ( props ) => {
 				options={ schemaPageTypeOptions }
 				label={ __( "Page type", "wordpress-seo" ) }
 				onChange={ props.schemaPageTypeChange }
-				selected={ props.schemaPageTypeSelected }
+				selected={ disablePageTypeSelect ? "ItemPage" : props.schemaPageTypeSelected }
 				disabled={ disablePageTypeSelect }
 			/>
 			{ props.showArticleTypeInput && <Select
