@@ -88,7 +88,7 @@ class WPSEO_Rewrite {
 	 *
 	 * @param array<string> $query_vars Query vars to check for existence of redirect var.
 	 *
-	 * @return array<string>|void The query vars.
+	 * @return array<string> The query vars.
 	 */
 	public function request( $query_vars ) {
 		if ( ! isset( $query_vars['wpseo_category_redirect'] ) ) {
