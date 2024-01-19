@@ -358,7 +358,6 @@ Release date: 2024-01-23
 
 * Fixes a bug where a post would be saved when trying to dismiss a notification while editing.
 * Fixes a bug where editing a product would either crash or be slow when there is a high number of registered attributes.
-* Fixes a bug where our block editor integration would no longer work in WP 6.5.
 * Fixes a bug where the Yoast plugin icon in the block editor would not have any horizontal spacing anymore when rendered in \"compact\" mode.
 
 #### Other
