@@ -4,6 +4,13 @@ namespace Yoast\WP\SEO\Tests\WP\Inc;
 
 use stdClass;
 use WPSEO_Options;
+use Yoast_Notification;
+use Yoast_Notification_Center;
+use Yoast\WP\Lib\Model;
+use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Upgrade_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
@@ -199,6 +206,201 @@ final class Upgrade_Test extends TestCase {
 		$this->assertNotEmpty( \get_option( 'wpseo_social' ) );
 	}
 
+	public function test_upgrade_36() {
+		global $wpdb;
+		
+		\add_option( 'wpseo_sitemap_test', 'test', '', 'yes' );
+		\add_option( 'wpseo_sitemap_test_no_autoload', 'test no autoload', '', 'no' );
+		
+		$instance = $this->get_instance();
+		$instance->upgrade_36();
+
+		$number_of_sitemap_options = $wpdb->query(
+			$wpdb->prepare( "SELECT *
+				FROM %i
+				WHERE %i LIKE %s
+				AND %i = 'yes'",
+				[ $wpdb->options, 'option_name', "wpseo_sitemap_%", 'autoload' ]
+			)
+		);
+
+		$number_of_sitemap_options_no_autoload = $wpdb->query(
+			$wpdb->prepare( "SELECT *
+				FROM %i
+				WHERE %i LIKE %s
+				AND %i = 'no'",
+				[ $wpdb->options, 'option_name', 'wpseo_sitemap_%', 'autoload' ]
+			)
+		);
+		$this->assertEquals( 0, $number_of_sitemap_options );
+		$this->assertEquals( 1, $number_of_sitemap_options_no_autoload );
+	}
+
+	public function test_upgrade_49() {
+		\wp_create_user( 'test_user', 'test password', 'test@test.org' );
+
+		$notifications = [
+			[
+				'options' => [ 'id' => 'wpseo-dismiss-about', 'is_dismissed' => false ],
+				'message' => 'Notification 1',
+			],
+			[
+				'options' => [ 'is_dismissed' => false ],
+				'message' => 'Notification 2',
+			],
+			[
+				'options' => [ 'id' => 'not-wpseo-dismiss-about', 'is_dismissed' => false ],
+				'message' => 'Notification 3',
+			],
+		];
+
+		\update_user_option( 1, Yoast_Notification_Center::STORAGE_KEY, array_values( $notifications ) );
+
+		$notifications = [
+			[
+				'options' => [ 'id' => 'wpseo-dismiss-about', 'is_dismissed' => false ],
+				'message' => 'Notification 4',
+			],
+			[
+				'options' => [ 'is_dismissed' => false ],
+				'message' => 'Notification 5',
+			]
+		];
+		
+		\update_user_option( 2, Yoast_Notification_Center::STORAGE_KEY, array_values( $notifications ) );
+
+		$instance = $this->get_instance();
+
+		$instance->upgrade_49();
+
+		$user_id1_notifications = \get_user_option( Yoast_Notification_Center::STORAGE_KEY, 1 );
+		$user_id2_notification = \get_user_option( Yoast_Notification_Center::STORAGE_KEY, 2 );
+
+		$this->assertEquals( 2, count( $user_id1_notifications ) );
+		$this->assertEquals( 1, count( $user_id2_notification ) );
+	}
+
+	public function test_upgrade_50() {
+		global $wpdb;
+
+		$post_id1 = self::factory()->post->create();
+		add_post_meta( $post_id1, '_yst_content_links_processed', true );
+		$post_id2 = self::factory()->post->create();
+		add_post_meta( $post_id2, '_yst_content_links_processed', false );
+
+		$instance = $this->get_instance();
+
+		$instance->upgrade_50();
+
+		$number_of_rows = $wpdb->query(
+			$wpdb->prepare( 'SELECT *
+				FROM %i
+				WHERE %i = "_yst_content_links_processed"',
+				[ $wpdb->postmeta, 'meta_key' ]
+			)
+		);
+
+		$this->assertEquals( 0, $number_of_rows );
+
+	}
+
+	public function test_upgrade_90() {
+		global $wpdb;
+		$instance = $this->get_instance();
+
+		\add_option( 'wpseo_sitemap_test', 'test', '', 'yes' );
+		\add_option( 'wpseo_sitemap_test_no_autoload', 'test no autoload', '', 'no' );
+
+		$instance->upgrade_90();
+		$number_of_sitemap_options = $wpdb->query( 
+			$wpdb->prepare( 'SELECT *
+				FROM %i
+				WHERE %i LIKE %s
+				AND %i = "yes"',
+				[ $wpdb->options, 'option_name', 'wpseo_sitemap_%', 'autoload' ]
+			)
+		);
+
+		$this->assertEquals( 0, $number_of_sitemap_options );
+	}
+
+	public function test_upgrade_125() {
+		global $wpdb;
+
+		$admin_id_1 = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin_id_1 );
+
+		$admin_role = get_role( 'administrator' );
+
+		$admin_role->add_cap( 'wpseo_manage_options', true );
+
+		$notification = new Yoast_Notification(
+			'This is a test notification.',
+			[
+				'type'         => Yoast_Notification::WARNING,
+				'id'           => 'wpseo-dismiss-wordpress-upgrade',
+				'capabilities' => 'wpseo_manage_options',
+				'priority'     => 0.8,
+			]
+		);
+
+		$center = Yoast_Notification_Center::get();
+		$center->add_notification( $notification );
+		
+		\add_user_meta( 1, 'wp_yoast_promo_hide_premium_upsell_admin_block', 'test', true );
+		
+		$instance = $this->get_instance();
+		$instance->upgrade_125();
+
+		$number_of_rows = $wpdb->query(
+			$wpdb->prepare( 'SELECT *
+				FROM %i
+				WHERE %i = %s',
+				[ $wpdb->usermeta, 'meta_key', 'wp_yoast_promo_hide_premium_upsell_admin_block' ]
+			)
+		);
+
+		$this->assertEquals( 0, $number_of_rows );
+		$this->assertNull( $center->get_notification_by_id( 'wpseo-dismiss-wordpress-upgrade' ) );
+	}
+
+	public function test_clean_up_private_taxonomies_for_141() {
+		global $wpdb;
+
+		register_taxonomy( 'wpseo_tax', 'post' );
+		$term_id = self::factory()->term->create( array( 'taxonomy' => 'wpseo_tax', 'public' => false ) );
+		
+		$term_builder = new Indexable_Term_Builder(
+			\YoastSEO()->helpers->taxonomy,
+			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
+			\YoastSEO()->helpers->post
+		);
+
+		$term_builder->set_social_image_helpers(
+			\YoastSEO()->helpers->image,
+			\YoastSEO()->helpers->open_graph->image,
+			\YoastSEO()->helpers->twitter->image
+		);
+
+		$indexable      = new Indexable();
+		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
+
+		$result = $term_builder->build( $term_id, $indexable );
+	
+		$wpdb->query(
+			$wpdb->prepare(
+				'UPDATE %i SET %i = false WHERE %i = %d',
+				[ Model::get_table_name( 'Indexable' ), 'term_taxonomy_id', $result->object_id ]
+			)
+		);
+
+		$instance = $this->get_instance();
+		$instance->clean_up_private_taxonomies_for_141();
+
+		$term = get_term( $term_id, $taxonomy );
+
+		$this->assertNull( $term );
+	}
 	/**
 	 * Provides a filter return value.
 	 *
