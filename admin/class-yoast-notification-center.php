@@ -605,7 +605,7 @@ class Yoast_Notification_Center {
 		 * This prevents the pluggable.php file from loading, as it's loaded after the plugins_loaded hook.
 		 * As we need functions defined in pluggable.php, make sure it's loaded.
    		 */
-		require ABSPATH . WPINC . '/pluggable.php';
+		require_once ABSPATH . WPINC . '/pluggable.php';
 
 		$notifications = $this->notifications;
 
