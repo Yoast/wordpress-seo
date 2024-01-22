@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.23.4",
-    "@babel/core": "^7.23.5",
+    "@babel/core": "^7.23.7",
     "@babel/eslint-parser": "^7.23.3",
     "@babel/preset-env": "^7.23.5",
     "@stylistic/eslint-plugin": "^1.5.3",
@@ -59,9 +59,9 @@
     "url": "https://github.com/Yoast/wordpress-seo/issues"
   },
   "dependencies": {
-    "@wordpress/i18n": "^4.46.0",
+    "@wordpress/i18n": "^4.49.0",
     "@yoast/feature-flag": "^0.5.2",
-    "htmlparser2": "^3.9.2",
+    "htmlparser2": "^3.10.1",
     "lodash-es": "^4.17.21",
     "loglevel": "^1.8.1",
     "parse5": "^7.1.2",
