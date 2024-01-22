@@ -150,7 +150,7 @@ const getDependenciesWithWantedVersions = ( dependencies, listedVersions ) => {
  * Syncs the dependencies for the specified package.
  * @param {string} packageFolder The package to sync the dependencies for.
  * @param {Object|Object<string,string>} wpDependencies The WordPress dependencies to sync with.
- * @returns {Promise<void>} A promise that resolves when the dependencies are synced.
+ * @returns {Promise<boolean>} A promise that resolves when the dependencies are synced.
  */
 const syncPackageDependenciesFor = async( packageFolder, wpDependencies ) => {
 	const packageJson = getPackageJsonForPackage( packageFolder );
@@ -158,16 +158,19 @@ const syncPackageDependenciesFor = async( packageFolder, wpDependencies ) => {
 	const dependenciesWithWantedVersions = getDependenciesWithWantedVersions( dependenciesToUpdate, wpDependencies );
 
 	if ( dependenciesWithWantedVersions.length === 0 ) {
+		console.log( "=============================================" );
 		console.info( "No WordPress dependencies found in:", packageJson.name );
-		return;
+		return true;
 	}
 
-	console.log( "===================================" );
+	console.log( "=============================================" );
 	console.log( `yarn workspace ${ packageJson.name } add ${ dependenciesWithWantedVersions.join( " " ) }` );
 	try {
 		execSync( `yarn workspace ${ packageJson.name } add ${ dependenciesWithWantedVersions.join( " " ) }`, { stdio: "inherit" } );
+		return true;
 	} catch ( e ) {
 		console.error( "Error updating dependencies for:", packageJson.name );
+		return false;
 	}
 };
 
@@ -194,13 +197,24 @@ const syncPackageDependencies = async() => {
 
 	const lowestSupportedWordPressVersion = getLowestSupportedWordPressVersion();
 	console.log( "Lowest supported WordPress version:", lowestSupportedWordPressVersion );
-	console.log( "===================================" );
 
 	const wpDependencies = getDependenciesFromPackageJson( await getWordPressPackageJson( lowestSupportedWordPressVersion ) );
 
-	packageFolders.forEach( ( packageFolder ) => {
-		syncPackageDependenciesFor( packageFolder, wpDependencies );
-	} );
+	const result = {};
+	for ( const packageFolder of packageFolders ) {
+		result[ packageFolder ] = await syncPackageDependenciesFor( packageFolder, wpDependencies );
+	}
+
+	console.log( "=============================================" );
+	console.log( "Result:" );
+	const successful = Object.keys( result ).filter( ( packageFolder ) => result[ packageFolder ] );
+	if ( successful.length > 0 ) {
+		console.log( "Successfully synced:", Object.values( successful ).join( ", " ) );
+	}
+	const failure = Object.keys( result ).filter( ( packageFolder ) => ! result[ packageFolder ] );
+	if ( failure.length > 0 ) {
+		console.log( "Errors occurred in:", Object.values( failure ).join( ", " ) );
+	}
 };
 
 syncPackageDependencies();
