@@ -28,7 +28,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array
+	 * @return array<Migrations_Conditional>
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -37,8 +37,8 @@ class Option_Titles_Watcher implements Integration_Interface {
 	/**
 	 * Checks if one of the relevant options has been changed.
 	 *
-	 * @param array $old_value The old value of the option.
-	 * @param array $new_value The new value of the option.
+	 * @param array<string,int,bool> $old_value The old value of the option.
+	 * @param array<string,int,bool> $new_value The new value of the option.
 	 *
 	 * @return bool Whether or not the ancestors are removed.
 	 */
@@ -76,7 +76,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 	/**
 	 * Retrieves the relevant keys.
 	 *
-	 * @return array Array with the relevant keys.
+	 * @return array<string> Array with the relevant keys.
 	 */
 	protected function get_relevant_keys() {
 		$post_types = \get_post_types( [ 'public' => true ], 'names' );
@@ -95,7 +95,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 	/**
 	 * Removes the ancestors for given post types.
 	 *
-	 * @param array $post_types The post types to remove hierarchy for.
+	 * @param array<string> $post_types The post types to remove hierarchy for.
 	 *
 	 * @return bool True when delete query was successful.
 	 */
@@ -109,6 +109,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 		$indexable_table  = Model::get_table_name( 'Indexable' );
 		$object_sub_types = \implode( ',', $post_types );
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Delete query.
 		$result = $wpdb->query(
 			$wpdb->prepare(
 				"
