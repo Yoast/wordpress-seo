@@ -1,6 +1,11 @@
 /**
  * This script is used to sync the WordPress dependencies in our package.json files with the versions in their package.json.
  *
+ * Usage:
+ * $ node config/scripts/sync-wp-dependencies.js [packageFolder1] [packageFolder2] ...
+ * If no packageFolders are specified, all packages will be updated.
+ *
+ * What does it do?
  * Steps:
  * 1. Get the lowest supported WordPress version from the PHP file.
  * 2. Get the package.json from the WordPress repository, using the WP version found in step 1 as tag.
@@ -153,7 +158,7 @@ const syncPackageDependenciesFor = async( packageFolder, wpDependencies ) => {
 	const dependenciesWithWantedVersions = getDependenciesWithWantedVersions( dependenciesToUpdate, wpDependencies );
 
 	if ( dependenciesWithWantedVersions.length === 0 ) {
-		console.info( "No dependencies to update for:", packageJson.name );
+		console.info( "No WordPress dependencies found in:", packageJson.name );
 		return;
 	}
 
