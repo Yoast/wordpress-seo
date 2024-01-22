@@ -8,8 +8,9 @@
  * 4. Update our packages with the versions from the WordPress package.json.
  * 5. Optionally, we could try and fix some obvious dependency errors we know about.
  */
-const fs = require( "fs" );
-const https = require( "https" );
+const { existsSync, readFileSync, readdirSync } = require( "fs" );
+const { get } = require( "https" );
+const { execSync } = require( "child_process" );
 
 const packageAllowList = [
 	"@wordpress/a11y",
@@ -36,7 +37,7 @@ const packageAllowList = [
  * @returns {null|string} The lowest supported WordPress version or null.
  */
 const getLowestSupportedWordPressVersion = () => {
-	const data = fs.readFileSync( "./wp-seo.php", "utf8" );
+	const data = readFileSync( "./wp-seo.php", "utf8" );
 
 	// Get the latest version number from the PHP file.
 	const match = data.match( /Requires at least: (\d+\.\d+)/ );
@@ -55,7 +56,7 @@ const getLowestSupportedWordPressVersion = () => {
  */
 const fetchData = ( url ) => new Promise( ( resolve, reject ) => {
 	// Get the package.json from the WordPress repository.
-	https.get( url, ( res ) => {
+	get( url, ( res ) => {
 		let data = "";
 
 		res.on( "data", ( chunk ) => {
@@ -103,7 +104,7 @@ const getWordPressPackageJson = ( wpVersion ) => {
  * @returns {Object<string,string>|null} The dependencies or null.
  */
 const getPackageJsonForPackage = ( packageName ) => {
-	const data = fs.readFileSync( `./packages/${ packageName }/package.json`, "utf8" );
+	const data = readFileSync( `./packages/${ packageName }/package.json`, "utf8" );
 	return tryJsonParse( data );
 };
 
@@ -131,28 +132,70 @@ const filterDependenciesFromPackageJson = ( dependencies, allowList ) => {
 };
 
 /**
- * Gets the yarn update command parameter.
- * @param {string[]} wantedDependencies The dependencies we want to update.
+ * Gets the dependencies with the wanted versions.
+ * @param {string[]} dependencies The dependencies we want to update.
  * @param {Object|Object<string,string>} listedVersions The versions of the dependencies we want to update.
- * @returns {string} The yarn update command parameter.
+ * @returns {string[]} The dependencies with the wanted versions.
  */
-const getYarnUpdateCommandParameter = ( wantedDependencies, listedVersions ) => {
-	return wantedDependencies.map( ( dependency ) => ( `${ dependency }@${ listedVersions[ dependency ] }` ) ).join( " " );
+const getDependenciesWithWantedVersions = ( dependencies, listedVersions ) => {
+	return dependencies.map( ( dependency ) => ( `${ dependency }@${ listedVersions[ dependency ] }` ) );
 };
 
-const syncPackageDependenciesFor = async( packageFolder ) => {
-	console.log( `Syncing dependencies for: packages/${ packageFolder }` );
-
-	const lowestSupportedWordPressVersion = getLowestSupportedWordPressVersion();
-	console.log( `Lowest supported WordPress version: ${ lowestSupportedWordPressVersion }` );
-
-	const wpDependencies = getDependenciesFromPackageJson( await getWordPressPackageJson( lowestSupportedWordPressVersion ) );
+/**
+ * Syncs the dependencies for the specified package.
+ * @param {string} packageFolder The package to sync the dependencies for.
+ * @param {Object|Object<string,string>} wpDependencies The WordPress dependencies to sync with.
+ * @returns {Promise<void>} A promise that resolves when the dependencies are synced.
+ */
+const syncPackageDependenciesFor = async( packageFolder, wpDependencies ) => {
 	const packageJson = getPackageJsonForPackage( packageFolder );
 	const dependenciesToUpdate = filterDependenciesFromPackageJson( getDependenciesFromPackageJson( packageJson ), packageAllowList );
-	const yarnUpdateCommandParameter = getYarnUpdateCommandParameter( dependenciesToUpdate, wpDependencies );
+	const dependenciesWithWantedVersions = getDependenciesWithWantedVersions( dependenciesToUpdate, wpDependencies );
 
-	console.log( "\nRun the command:" );
-	console.log( `yarn workspace ${ packageJson.name } add ${ yarnUpdateCommandParameter }` );
+	if ( dependenciesWithWantedVersions.length === 0 ) {
+		console.info( "No dependencies to update for:", packageJson.name );
+		return;
+	}
+
+	console.log( "===================================" );
+	console.log( `yarn workspace ${ packageJson.name } add ${ dependenciesWithWantedVersions.join( " " ) }` );
+	try {
+		execSync( `yarn workspace ${ packageJson.name } add ${ dependenciesWithWantedVersions.join( " " ) }`, { stdio: "inherit" } );
+	} catch ( e ) {
+		console.error( "Error updating dependencies for:", packageJson.name );
+	}
 };
 
-syncPackageDependenciesFor( process.argv[ 2 ] || "js" );
+/**
+ * Gets the package folders from the process arguments.
+ * Defaults to all packages if no arguments are provided.
+ * Filters out folders that don't have a package.json.
+ * @returns {string[]} Valid package folders.
+ */
+const getPackageFoldersFromArguments = () => {
+	let packages = process.argv.slice( 2 );
+	if ( packages.length === 0 ) {
+		packages = readdirSync( "./packages" );
+	}
+	return packages.filter( ( packageFolder ) => existsSync( `./packages/${ packageFolder }/package.json` ) );
+};
+
+const syncPackageDependencies = async() => {
+	const packageFolders = getPackageFoldersFromArguments();
+	if ( packageFolders.length === 0 ) {
+		console.error( "No valid package folders found" );
+		return;
+	}
+
+	const lowestSupportedWordPressVersion = getLowestSupportedWordPressVersion();
+	console.log( "Lowest supported WordPress version:", lowestSupportedWordPressVersion );
+	console.log( "===================================" );
+
+	const wpDependencies = getDependenciesFromPackageJson( await getWordPressPackageJson( lowestSupportedWordPressVersion ) );
+
+	packageFolders.forEach( ( packageFolder ) => {
+		syncPackageDependenciesFor( packageFolder, wpDependencies );
+	} );
+};
+
+syncPackageDependencies();
