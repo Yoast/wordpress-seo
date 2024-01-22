@@ -28,7 +28,7 @@ module.exports = [
 				filename: outputFilename,
 			},
 			combinedOutputFile: root + "src/generated/assets/plugin.php",
-			cssExtractFileName: root + "../../css/dist/plugin-" + pluginVersionSlug + ".css",
+			cssExtractFileName: "../../../css/dist/plugin-" + pluginVersionSlug + ".css",
 		}
 	),
 	baseConfig(

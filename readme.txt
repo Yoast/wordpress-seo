@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.4
-Stable tag: 21.8
+Stable tag: 21.8.1
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -366,6 +366,15 @@ Release date: 2024-01-23
 * Be explicit about required PHP extensions.
 * Improves PHP 8.2 compatibility.
 * Sets the minimum supported WordPress version to 6.3.
+
+= 21.8.1 =
+
+Release date: 2024-01-19
+
+#### Bugfixes
+
+* Fixes a bug where our block editor integration would no longer work together with Gutenberg 17.4.1.
+* Fixes a bug where our block editor integration would no longer work together with Gutenberg 17.5.
 
 = 21.8 =
 
