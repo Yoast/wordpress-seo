@@ -18,24 +18,90 @@ const { existsSync, readFileSync, readdirSync } = require( "fs" );
 const { get } = require( "https" );
 const { execSync } = require( "child_process" );
 
-const packageAllowList = [
+/**
+ * These are the dependencies we want to sync with the WordPress package.json.
+ * When using @wordpress/dependency-extraction-webpack-plugin in our Webpack config, these dependencies are extracted.
+ *
+ * @see https://github.com/WordPress/gutenberg/blob/trunk/packages/dependency-extraction-webpack-plugin/README.md#behavior-with-scripts
+ */
+const wpPackagesAllowList = [
+	"@babel/runtime/regenerator",
 	"@wordpress/a11y",
+	"@wordpress/annotations",
 	"@wordpress/api-fetch",
+	"@wordpress/autop",
+	"@wordpress/blob",
+	"@wordpress/block-directory",
 	"@wordpress/block-editor",
+	"@wordpress/block-library",
+	"@wordpress/block-serialization-default-parser",
 	"@wordpress/blocks",
+	"@wordpress/commands",
 	"@wordpress/components",
 	"@wordpress/compose",
+	"@wordpress/core-commands",
+	"@wordpress/core-data",
+	"@wordpress/customize-widgets",
 	"@wordpress/data",
+	"@wordpress/data-controls",
+	"@wordpress/date",
+	"@wordpress/deprecated",
+	"@wordpress/dom",
 	"@wordpress/dom-ready",
+	"@wordpress/edit-post",
+	"@wordpress/edit-site",
+	"@wordpress/edit-widgets",
+	"@wordpress/editor",
 	"@wordpress/element",
+	"@wordpress/escape-html",
+	"@wordpress/format-library",
 	"@wordpress/hooks",
 	"@wordpress/html-entities",
 	"@wordpress/i18n",
+	"@wordpress/icons",
+	"@wordpress/interface",
 	"@wordpress/is-shallow-equal",
+	"@wordpress/keyboard-shortcuts",
+	"@wordpress/keycodes",
+	"@wordpress/list-reusable-blocks",
+	"@wordpress/media-utils",
+	"@wordpress/notices",
+	"@wordpress/nux",
 	"@wordpress/plugins",
+	"@wordpress/preferences",
+	"@wordpress/preferences-persistence",
+	"@wordpress/primitives",
+	"@wordpress/priority-queue",
+	"@wordpress/private-apis",
+	"@wordpress/redux-routine",
+	"@wordpress/reusable-blocks",
 	"@wordpress/rich-text",
+	"@wordpress/router",
 	"@wordpress/server-side-render",
+	"@wordpress/shortcode",
+	"@wordpress/style-engine",
+	"@wordpress/token-list",
 	"@wordpress/url",
+	"@wordpress/viewport",
+	"@wordpress/warning",
+	"@wordpress/widgets",
+	"@wordpress/wordcount",
+	"jquery",
+	"lodash",
+	"moment",
+	"react",
+	"react-dom",
+];
+
+// These packages are considered tooling, and not meant to load into a WordPress environment.
+const packageFolderDisallowList = [
+	"babel-preset",
+	"browserslist-config",
+	"e2e-tests",
+	"eslint",
+	"jest-preset",
+	"postcss-preset",
+	"tailwindcss-preset",
 ];
 
 /**
@@ -129,12 +195,12 @@ const getDependenciesFromPackageJson = ( packageJson ) => {
 
 /**
  * Filters the dependencies, based on the allowList.
- * @param {Object|Object<string,string>} dependencies The dependencies to filter.
+ * @param {string[]} dependencies The dependencies to filter.
  * @param {string[]} allowList The allowList to filter with.
  * @returns {string[]} The filtered dependencies.
  */
-const filterDependenciesFromPackageJson = ( dependencies, allowList ) => {
-	return Object.keys( dependencies ).filter( ( dependency ) => allowList.includes( dependency ) );
+const filterDependencies = ( dependencies, allowList ) => {
+	return dependencies.filter( ( dependency ) => allowList.includes( dependency ) );
 };
 
 /**
@@ -155,7 +221,11 @@ const getDependenciesWithWantedVersions = ( dependencies, listedVersions ) => {
  */
 const syncPackageDependenciesFor = async( packageFolder, wpDependencies ) => {
 	const packageJson = getPackageJsonForPackage( packageFolder );
-	const dependenciesToUpdate = filterDependenciesFromPackageJson( getDependenciesFromPackageJson( packageJson ), packageAllowList );
+	let dependenciesToUpdate = Object.keys( getDependenciesFromPackageJson( packageJson ) );
+	// Filter out the dependencies we don't care about.
+	dependenciesToUpdate = filterDependencies( dependenciesToUpdate, wpPackagesAllowList );
+	// Filter out the dependencies that are unknown to WordPress.
+	dependenciesToUpdate = filterDependencies( dependenciesToUpdate, Object.keys( wpDependencies ) );
 	const dependenciesWithWantedVersions = getDependenciesWithWantedVersions( dependenciesToUpdate, wpDependencies );
 
 	if ( dependenciesWithWantedVersions.length === 0 ) {
@@ -178,7 +248,7 @@ const syncPackageDependenciesFor = async( packageFolder, wpDependencies ) => {
 /**
  * Gets the package folders from the process arguments.
  * Defaults to all packages if no arguments are provided.
- * Filters out folders that don't have a package.json.
+ * Filters out folders that we don't want, or that don't have a package.json.
  * @returns {string[]} Valid package folders.
  */
 const getPackageFoldersFromArguments = () => {
@@ -186,7 +256,13 @@ const getPackageFoldersFromArguments = () => {
 	if ( packages.length === 0 ) {
 		packages = readdirSync( "./packages" );
 	}
-	return packages.filter( ( packageFolder ) => existsSync( `./packages/${ packageFolder }/package.json` ) );
+
+	return packages.filter( ( packageFolder ) => (
+		// Ignore folders that are not packages that run inside a WordPress environment.
+		! packageFolderDisallowList.includes( packageFolder ) &&
+		// Ignore folders that don't have a package.json.
+		existsSync( `./packages/${ packageFolder }/package.json` )
+	) );
 };
 
 /**
