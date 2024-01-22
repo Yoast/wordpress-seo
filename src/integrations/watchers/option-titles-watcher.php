@@ -104,22 +104,24 @@ class Option_Titles_Watcher implements Integration_Interface {
 			return false;
 		}
 
-		$wpdb            = Wrapper::get_wpdb();
-		$total           = \count( $post_types );
-		$hierarchy_table = Model::get_table_name( 'Indexable_Hierarchy' );
-		$indexable_table = Model::get_table_name( 'Indexable' );
+		$wpdb             = Wrapper::get_wpdb();
+		$hierarchy_table  = Model::get_table_name( 'Indexable_Hierarchy' );
+		$indexable_table  = Model::get_table_name( 'Indexable' );
+		$object_sub_types = \implode( ',', $post_types );
 
 		$result = $wpdb->query(
 			$wpdb->prepare(
 				"
-				DELETE FROM `$hierarchy_table`
+				DELETE FROM %i
 				WHERE indexable_id IN(
 					SELECT id
-					FROM `$indexable_table`
+					FROM %i
 					WHERE object_type = 'post'
-					AND object_sub_type IN( " . \implode( ', ', \array_fill( 0, $total, '%s' ) ) . ' )
-				)',
-				$post_types
+					AND object_sub_type IN( %s )
+				)",
+				$hierarchy_table,
+				$indexable_table,
+				$object_sub_types
 			)
 		);
 
