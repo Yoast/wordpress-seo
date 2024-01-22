@@ -103,11 +103,10 @@ class Option_Titles_Watcher implements Integration_Interface {
 		if ( empty( $post_types ) ) {
 			return false;
 		}
-
-		$wpdb             = Wrapper::get_wpdb();
-		$hierarchy_table  = Model::get_table_name( 'Indexable_Hierarchy' );
-		$indexable_table  = Model::get_table_name( 'Indexable' );
-		$object_sub_types = \implode( ',', $post_types );
+		
+		$wpdb            = Wrapper::get_wpdb();
+		$hierarchy_table = Model::get_table_name( 'Indexable_Hierarchy' );
+		$indexable_table = Model::get_table_name( 'Indexable' );
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Delete query.
 		$result = $wpdb->query(
@@ -118,11 +117,11 @@ class Option_Titles_Watcher implements Integration_Interface {
 					SELECT id
 					FROM %i
 					WHERE object_type = 'post'
-					AND object_sub_type IN( %s )
-				)",
+					AND object_sub_type IN( " . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ' )
+				)',
 				$hierarchy_table,
 				$indexable_table,
-				$object_sub_types
+				...$post_types
 			)
 		);
 
