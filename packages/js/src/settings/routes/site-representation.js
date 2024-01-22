@@ -45,6 +45,60 @@ const SiteRepresentation = () => {
 	const mastodonPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-mastodon-integration" );
 	const mastodonUrlLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-mastodon" );
 	const businessInfoSettingsUrl = useSelectSettings( "selectPreference", [], "localSeoPageSettingUrl" );
+	let alertMessageIdentifiers = createInterpolateElement(
+		sprintf(
+			/* translators: %1$s expands for Yoast Local SEO, %2$s and %3$s expands to a link tags. */
+			__( "You have %1$s activated on your site. You can provide your VAT ID and Tax ID in the %2$s‘Business info’ settings%3$s.", "wordpress-seo" ),
+			"Yoast Local SEO",
+			"<a>",
+			"</a>"
+		),
+		{
+			// eslint-disable-next-line
+			a: <a href={ businessInfoSettingsUrl } target="_blank" className="yst-underline yst-font-medium" />,
+		}
+	);
+	let alertMessagePhoneEmail = createInterpolateElement(
+		sprintf(
+			/* translators: %1$s expands for Yoast Local SEO, %2$s and %3$s expands to a link tags. */
+			__( "You have %1$s activated on your site. You can provide your email and phone in the %2$s‘Business info’ settings%3$s.", "wordpress-seo" ),
+			"Yoast Local SEO",
+			"<a>",
+			"</a>"
+		),
+		{
+			// eslint-disable-next-line
+			a: <a href={ businessInfoSettingsUrl } target="_blank" className="yst-underline yst-font-medium" />,
+		}
+	);
+	if ( businessInfoSettingsUrl.includes( "wpseo_locations" ) ) {
+		alertMessageIdentifiers = createInterpolateElement(
+			sprintf(
+				/* translators: %1$s expands for Yoast Local SEO, %2$s and %3$s expands to a link tags. */
+				__( "You have %1$s activated on your site, and you've configured your business for multiple locations. This allows you to provide your VAT ID and Tax ID for %2$seach specific location%3$s.", "wordpress-seo" ),
+				"Yoast Local SEO",
+				"<a>",
+				"</a>"
+			),
+			{
+			// eslint-disable-next-line
+			a: <a href={ businessInfoSettingsUrl } target="_blank" className="yst-underline yst-font-medium" />,
+			}
+		);
+		alertMessagePhoneEmail = createInterpolateElement(
+			sprintf(
+				/* translators: %1$s expands for Yoast Local SEO, %2$s and %3$s expands to a link tags. */
+				__( "You have %1$s activated on your site, and you've configured your business for multiple locations. This allows you to provide your email and phone for %2$seach specific location%3$s.", "wordpress-seo" ),
+				"Yoast Local SEO",
+				"<a>",
+				"</a>"
+			),
+			{
+				// eslint-disable-next-line
+				a: <a href={ businessInfoSettingsUrl } target="_blank" className="yst-underline yst-font-medium" />,
+			}
+		);
+	}
 
 	const handleAddProfile = useCallback( async( arrayHelpers ) => {
 		await arrayHelpers.push( "" );
@@ -296,19 +350,7 @@ const SiteRepresentation = () => {
 
 									{ isLocalSeoActive && isPremium && (
 										<Alert id="alert-local-seo-vat-or-tax-id" variant="info">
-											{ createInterpolateElement(
-												sprintf(
-													/* translators: %1$s expands for Yoast Local SEO, %2$s and %3$s expands to a link tags. */
-													__( "You have %1$s activated on your site. You can provide your VAT ID and Tax ID in the %2$s‘Business info’ settings%3$s.", "wordpress-seo" ),
-													"Yoast Local SEO",
-													"<a>",
-													"</a>"
-												),
-												{
-													// eslint-disable-next-line
-													a: <a href={ businessInfoSettingsUrl } className="yst-underline yst-font-medium" />,
-												}
-											) }
+											{ alertMessagePhoneEmail }
 										</Alert>
 									) }
 									<FormikWithErrorFieldWithDummy
@@ -385,19 +427,7 @@ const SiteRepresentation = () => {
 								>
 									{ isLocalSeoActive && isPremium && (
 										<Alert id="alert-local-seo-vat-or-tax-id" variant="info">
-											{ createInterpolateElement(
-												sprintf(
-													/* translators: %1$s expands for Yoast Local SEO, %2$s and %3$s expands to a link tags. */
-													__( "You have %1$s activated on your site. You can provide your VAT ID and Tax ID in the %2$s‘Business info’ settings%3$s.", "wordpress-seo" ),
-													"Yoast Local SEO",
-													"<a>",
-													"</a>"
-												),
-												{
-													// eslint-disable-next-line
-													a: <a href={ businessInfoSettingsUrl } className="yst-underline yst-font-medium" />,
-												}
-											) }
+											{ alertMessageIdentifiers }
 										</Alert>
 									) }
 									<FormikWithErrorFieldWithDummy
