@@ -7,12 +7,15 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import WooCommerceUpsell from "./WooCommerceUpsell";
 import { get } from "lodash";
+import { useSelect } from "@wordpress/data";
 
 const NewsLandingPageLink = makeOutboundLink();
 
 const SchemaContainer = styled.div`
 	padding: 16px;
 `;
+
+const STORE = "yoast-seo/editor";
 
 /**
  * The NewsAlert upsell.
@@ -66,7 +69,10 @@ NewsAlert.propTypes = {
  * @returns {Object[]} A copy of the schema type options.
  */
 const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) => {
-	const schemaOption = schemaTypeOptions.find( option => option.value === defaultType );
+	const isProduct = useSelect( ( select ) => select( STORE ).getIsProduct(), [] );
+	const isWooSeoActive = useSelect( select => select( STORE ).getIsWooSeoActive(), [] );
+	const disablePageTypeSelect = isProduct && isWooSeoActive;
+	const schemaOption = disablePageTypeSelect ? { name: __( "Item Page", "wordpress-seo" ), value: "ItemPage" } : schemaTypeOptions.find( option => option.value === defaultType );
 	return [
 		{
 			name: sprintf(
@@ -149,6 +155,7 @@ function isNewsArticleType( selectedValue, defaultValue ) {
 	return false;
 }
 
+/* eslint-disable complexity */
 /**
  * Returns the content of the schema tab.
  *
@@ -163,6 +170,10 @@ const Content = ( props ) => {
 	const woocommerceUpsell = get( window, "wpseoScriptData.woocommerceUpsell", "" );
 	const [ focusedArticleType, setFocusedArticleType ] = useState( props.schemaArticleTypeSelected );
 	const woocommerceUpsellText = __( "Want your products stand out in search results with rich results like price, reviews and more?", "wordpress-seo" );
+	const isProduct = useSelect( ( select ) => select( STORE ).getIsProduct(), [] );
+	const isWooSeoActive = useSelect( select => select( STORE ).getIsWooSeoActive(), [] );
+
+	const disablePageTypeSelect = isProduct && isWooSeoActive;
 
 	const handleOptionChange = useCallback(
 		( _, value ) => {
@@ -191,7 +202,8 @@ const Content = ( props ) => {
 				options={ schemaPageTypeOptions }
 				label={ __( "Page type", "wordpress-seo" ) }
 				onChange={ props.schemaPageTypeChange }
-				selected={ props.schemaPageTypeSelected }
+				selected={ disablePageTypeSelect ? "ItemPage" : props.schemaPageTypeSelected }
+				disabled={ disablePageTypeSelect }
 			/>
 			{ props.showArticleTypeInput && <Select
 				id={ join( [ "yoast-schema-article-type", props.location ] ) }
@@ -205,10 +217,18 @@ const Content = ( props ) => {
 				location={ props.location }
 				show={ ! props.isNewsEnabled && isNewsArticleType( focusedArticleType, props.defaultArticleType ) }
 			/>
-			{ props.displayFooter && <p>{ footerWithLink( props.postTypeName ) }</p> }
+			{ props.displayFooter && ! disablePageTypeSelect && <p>{ footerWithLink( props.postTypeName ) }</p> }
+			{ disablePageTypeSelect && <p>
+				{ sprintf(
+					/* translators: %1$s expands to Yoast WooCommerce SEO. */
+					__( "You have %1$s activated on your site, automatically setting the Page type for your products to 'Item Page'. As a result, the Page type selection is disabled.", "wordpress-seo" ),
+					"Yoast WooCommerce SEO"
+				) }
+			</p> }
 		</Fragment>
 	);
 };
+/* eslint-enable complexity */
 
 const schemaTypeOptionsPropType = PropTypes.arrayOf( PropTypes.shape( {
 	name: PropTypes.string,
