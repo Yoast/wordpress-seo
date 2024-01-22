@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * This script is used to sync the WordPress dependencies in our package.json files with the versions in their package.json.
  *
@@ -188,6 +189,10 @@ const getPackageFoldersFromArguments = () => {
 	return packages.filter( ( packageFolder ) => existsSync( `./packages/${ packageFolder }/package.json` ) );
 };
 
+/**
+ * Syncs the WordPress dependencies for the specified packages (in command).
+ * @returns {Promise<void>} A promise that resolves when the dependencies are synced.
+ */
 const syncPackageDependencies = async() => {
 	const packageFolders = getPackageFoldersFromArguments();
 	if ( packageFolders.length === 0 ) {
