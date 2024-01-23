@@ -42,6 +42,7 @@ const config = {
 	],
 	core: {
 		disableTelemetry: true,
+		disableWhatsNewNotifications: true,
 	},
 	features: {
 		previewMdx2: true,
