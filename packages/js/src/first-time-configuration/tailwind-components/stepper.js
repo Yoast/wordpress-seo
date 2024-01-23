@@ -166,8 +166,8 @@ export function StepError( { id, message, className } ) {
 		className={ className }
 	>
 		{
-			/* translators: %1$s expands to the error message returned by the server */
 			sprintf(
+				/* translators: %1$s expands to the error message returned by the server */
 				__(
 					"An error has occurred: %1$s",
 					"wordpress-seo"

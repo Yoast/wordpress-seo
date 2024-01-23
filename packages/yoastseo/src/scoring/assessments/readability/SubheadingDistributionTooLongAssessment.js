@@ -314,11 +314,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 						score: this._config.scores.okSubheadings,
 						hasMarks: true,
 						resultText: sprintf(
-							/*
-							 * translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
-							 * not separated by subheadings, %4$d expands to the recommended number of words following a
-							 * subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag.
-							 */
+							/* translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
+							not separated by subheadings, %4$d expands to the recommended number of words or characters following a
+							subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag. */
 							_n(
 								// eslint-disable-next-line max-len
 								"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d %6$s and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
