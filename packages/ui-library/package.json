@@ -22,7 +22,7 @@
     "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build",
     "publish:storybook": "./scripts/publish-storybook.sh",
-    "test:storyshots": "yarn build:storybook --quiet && jest tests/storyshots.js",
+    "test:storyshots": "yarn build:storybook --test --quiet && jest tests/storyshots.js",
     "t_st": "yarn test:storyshots",
     "lint": "eslint src --max-warnings=0"
   },
