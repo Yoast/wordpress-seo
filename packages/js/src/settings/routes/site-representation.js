@@ -34,6 +34,8 @@ const SiteRepresentation = () => {
 	const personUser = useSelectSettings( "selectUserById", [ companyOrPersonId ], companyOrPersonId );
 	const googleKnowledgeGraphLink = useSelectSettings( "selectLink", [], "https://yoa.st/1-p" );
 	const structuredDataLink = useSelectSettings( "selectLink", [], "https://yoa.st/3r3" );
+	const organizationAdditionalInfoUpsellLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-org-additional-info-upsell" );
+	const organizationIdentifiersUpsellLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-org-identifiers" );
 	const organizationPersonLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-organization-person" );
 	const editUserUrl = useSelectSettings( "selectPreference", [], "editUserUrl" );
 	const isLocalSeoActive = useSelectSettings( "selectPreference", [], "isLocalSeoActive" );
@@ -330,7 +332,7 @@ const SiteRepresentation = () => {
 								<FeatureUpsell
 									shouldUpsell={ ! isPremium }
 									variant="card"
-									cardLink={ "test" }
+									cardLink={ organizationAdditionalInfoUpsellLink }
 									cardText={ sprintf(
 										/* translators: %1$s expands to Premium. */
 										__( "Unlock with %1$s", "wordpress-seo" ),
@@ -381,7 +383,7 @@ const SiteRepresentation = () => {
 										name="wpseo_titles.org-founding-date"
 										id="input-wpseo_titles-org-founding-date"
 										label={ __( "Organization's founding date", "wordpress-seo" ) }
-										placeholder={ __( "Select a date...", "wordpress-seo" ) }
+										aria-placeholder={ __( "Select a date...", "wordpress-seo" ) }
 										type="date"
 										isDummy={ ! isPremium }
 									/>
@@ -417,7 +419,7 @@ const SiteRepresentation = () => {
 								<FeatureUpsell
 									shouldUpsell={ ! isPremium }
 									variant="card"
-									cardLink={ "test" }
+									cardLink={ organizationIdentifiersUpsellLink }
 									cardText={ sprintf(
 										/* translators: %1$s expands to Premium. */
 										__( "Unlock with %1$s", "wordpress-seo" ),
