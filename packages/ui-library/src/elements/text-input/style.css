@@ -41,7 +41,7 @@
 			@apply yst-opacity-0;
 		}
 		.yst-text-input--empty[type="date"]:not(:focus)::before {
-			content: attr(aria-placeholder);
+			content: attr(placeholder);
 			@apply yst-text-slate-400 yst-flex-grow;
 		}
 	}
