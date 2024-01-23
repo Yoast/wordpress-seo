@@ -12,10 +12,12 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Score_Icon_Presenter_Test extends TestCase {
+final class Score_Icon_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -26,6 +28,8 @@ class Score_Icon_Presenter_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$instance = new Score_Icon_Presenter( 'foo', 'bar' );
@@ -44,6 +48,8 @@ class Score_Icon_Presenter_Test extends TestCase {
 	 * @param string $title     The title and screen reader text.
 	 * @param string $css_class The CSS class.
 	 * @param string $expected  The expected present output.
+	 *
+	 * @return void
 	 */
 	public function test_present( $title, $css_class, $expected ) {
 		$instance = new Score_Icon_Presenter( $title, $css_class );
@@ -56,7 +62,7 @@ class Score_Icon_Presenter_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function present_provider() {
+	public static function present_provider() {
 		return [
 			'title and class' => [
 				'title'     => 'title',

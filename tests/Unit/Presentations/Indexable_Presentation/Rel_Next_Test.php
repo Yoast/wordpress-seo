@@ -11,12 +11,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presentations
  */
-class Rel_Next_Test extends TestCase {
+final class Rel_Next_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -28,6 +30,8 @@ class Rel_Next_Test extends TestCase {
 	 * Tests whether an empty string is returned.
 	 *
 	 * @covers ::generate_rel_next
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_next_and_return_empty() {
 		$this->assertEmpty( $this->instance->generate_rel_next() );

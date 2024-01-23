@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Links_Table_Reports
  */
-class Links_Table_Reports_Test extends TestCase {
+final class Links_Table_Reports_Test extends TestCase {
 
 	/**
 	 * The Links_Table_Reports instance to be tested.
@@ -46,6 +46,8 @@ class Links_Table_Reports_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -71,6 +73,8 @@ class Links_Table_Reports_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::get_success_result
 	 * @covers ::get_success_description
+	 *
+	 * @return void
 	 */
 	public function test_creates_success_report_correctly() {
 		$expected = [ 'correct' ];
@@ -108,6 +112,8 @@ class Links_Table_Reports_Test extends TestCase {
 	 * @covers ::get_links_table_not_accessible_result
 	 * @covers ::get_links_table_not_accessible_description
 	 * @covers ::get_actions
+	 *
+	 * @return void
 	 */
 	public function test_creates_has_default_tagline_report_correctly() {
 		$expected = [ 'correct' ];

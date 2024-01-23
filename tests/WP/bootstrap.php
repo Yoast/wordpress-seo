@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\WP;
 use RuntimeException;
 use Yoast\WPTestUtils\WPIntegration;
 
-require_once \dirname( \dirname( __DIR__ ) ) . '/vendor/yoast/wp-test-utils/src/WPIntegration/bootstrap-functions.php';
+require_once \dirname( __DIR__, 2 ) . '/vendor/yoast/wp-test-utils/src/WPIntegration/bootstrap-functions.php';
 
 
 /* *****[ Ensure a couple of required files are present ]***** */
@@ -21,7 +21,7 @@ require_once \dirname( \dirname( __DIR__ ) ) . '/vendor/yoast/wp-test-utils/src/
  * @throws RuntimeException If the directory or file creation failed.
  */
 $yoast_seo_create_asset_files = static function () {
-	$target_dir = \dirname( \dirname( __DIR__ ) ) . '/src/generated/assets';
+	$target_dir = \dirname( __DIR__, 2 ) . '/src/generated/assets';
 
 	// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged -- Silencing warnings when function fails.
 	if ( @\is_dir( $target_dir ) === false ) {
@@ -82,7 +82,7 @@ require_once $_tests_dir . 'includes/functions.php';
 	 * Manually load the plugin being tested.
 	 */
 	static function () {
-		require \dirname( \dirname( __DIR__ ) ) . '/wp-seo.php';
+		require \dirname( __DIR__, 2 ) . '/wp-seo.php';
 	}
 );
 
@@ -101,7 +101,7 @@ require_once $_tests_dir . 'includes/functions.php';
 	 * @return string
 	 */
 	static function ( $url, $path, $plugin ) {
-		$plugin_dir = \dirname( \dirname( __DIR__ ) );
+		$plugin_dir = \dirname( __DIR__, 2 );
 		if ( $plugin === $plugin_dir . '/wp-seo.php' ) {
 			$url = \str_replace( \dirname( $plugin_dir ), '', $url );
 		}

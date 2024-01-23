@@ -25,6 +25,8 @@ class Indexable_Hierarchy_Repository {
 	 * @required
 	 *
 	 * @param Indexable_Hierarchy_Builder $builder The indexable hierarchy builder.
+	 *
+	 * @return void
 	 */
 	public function set_builder( Indexable_Hierarchy_Builder $builder ) {
 		$this->builder = $builder;

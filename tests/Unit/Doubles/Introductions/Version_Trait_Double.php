@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Introductions\Application\Version_Trait;
 /**
  * Exposes the version trait as public.
  */
-class Version_Trait_Double {
+final class Version_Trait_Double {
 
 	use Version_Trait {
 		is_version_between as public;

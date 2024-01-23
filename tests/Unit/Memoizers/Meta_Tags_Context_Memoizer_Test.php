@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group memoizers
  */
-class Meta_Tags_Context_Memoizer_Test extends TestCase {
+final class Meta_Tags_Context_Memoizer_Test extends TestCase {
 
 	/**
 	 * The blocks helper.
@@ -89,6 +89,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -119,6 +121,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -147,6 +151,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	 * Tests getting the meta tags context for the current page when it hasn't yet been cached.
 	 *
 	 * @covers ::for_current_page
+	 *
+	 * @return void
 	 */
 	public function test_for_current_page_without_cache() {
 		$this->indexable_repository
@@ -172,6 +178,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	 * Tests getting the meta tags context for the current page when it has been cached.
 	 *
 	 * @covers ::for_current_page
+	 *
+	 * @return void
 	 */
 	public function test_for_current_page_with_cache() {
 		$this->instance->set_cache( 'current_page', $this->meta_tags_context_mock );
@@ -183,6 +191,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	 * Tests getting the meta tags context given an indexable, when it already has been cached.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get_when_context_has_been_cached() {
 		$this->instance->set_cache( $this->indexable->id, $this->meta_tags_context_mock );
@@ -194,6 +204,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	 * Tests getting the meta tags context given an indexable (not a post), when it has not been cached.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get_without_cache() {
 		$this->meta_tags_context
@@ -214,6 +226,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	 * Tests getting the meta tags context given a post indexable, when it has not been cached.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get_without_cache_for_post() {
 		$this->indexable->object_type = 'post';
@@ -253,6 +267,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	 * a number of other methods to fill the cache again.
 	 *
 	 * @covers ::clear
+	 *
+	 * @return void
 	 */
 	public function test_clear_for_indexable() {
 		$this->instance->set_cache( $this->indexable->id, $this->meta_tags_context_mock );
@@ -280,6 +296,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	 * Tests clearing the memoization of an indexable that is not an instance of Indexable.
 	 *
 	 * @covers ::clear
+	 *
+	 * @return void
 	 */
 	public function test_clear_not_instance_of_indexable() {
 		$this->instance->set_cache( 'not_an_instance_of_Indexable', $this->meta_tags_context_mock );
@@ -307,6 +325,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	 * Tests clearing the memoization of the cache completely.
 	 *
 	 * @covers ::clear
+	 *
+	 * @return void
 	 */
 	public function test_clear_complete_cache() {
 		$this->instance->set_cache( $this->indexable->id, $this->meta_tags_context_mock );
@@ -332,6 +352,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 
 	/**
 	 * Mocks the get method for use in other methods.
+	 *
+	 * @return void
 	 */
 	protected function mock_get() {
 		$this->meta_tags_context

@@ -96,6 +96,8 @@ class WPSEO_Import_AIOSEO extends WPSEO_Plugin_Importer {
 	 * Imports the OpenGraph and Twitter settings for a single post.
 	 *
 	 * @param int $post_id Post ID.
+	 *
+	 * @return void
 	 */
 	private function import_post_opengraph( $post_id ) {
 		$meta = get_post_meta( $post_id, '_aioseop_opengraph_settings', true );

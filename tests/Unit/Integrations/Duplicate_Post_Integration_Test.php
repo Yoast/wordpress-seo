@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Duplicate_Post_Integration_Test extends TestCase {
+final class Duplicate_Post_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.
@@ -25,6 +25,8 @@ class Duplicate_Post_Integration_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -36,6 +38,8 @@ class Duplicate_Post_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -47,6 +51,8 @@ class Duplicate_Post_Integration_Test extends TestCase {
 	 * Tests calling exclude_zapier_meta.
 	 *
 	 * @covers ::exclude_zapier_meta
+	 *
+	 * @return void
 	 */
 	public function test_exclude_zapier_meta() {
 		$meta_excludelist = [

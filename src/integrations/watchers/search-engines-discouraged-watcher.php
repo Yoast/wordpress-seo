@@ -14,8 +14,6 @@ use Yoast_Notification_Center;
 
 /**
  * Shows a notification for users who have access for robots disabled.
- *
- * @class Search_Engines_Discouraged_Watcher
  */
 class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 
@@ -24,7 +22,7 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	/**
 	 * The notification ID.
 	 */
-	const NOTIFICATION_ID = 'wpseo-search-engines-discouraged';
+	public const NOTIFICATION_ID = 'wpseo-search-engines-discouraged';
 
 	/**
 	 * The Yoast notification center.

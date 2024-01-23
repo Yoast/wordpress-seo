@@ -78,6 +78,8 @@ abstract class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -117,6 +119,8 @@ abstract class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
 	 * @param int   $indexable_id          The indexable id.
 	 * @param array $insert_links          The links to insert.
 	 * @param array $links_by_indexable_id The links by indexable id.
+	 *
+	 * @return void
 	 */
 	public function expect_update_related_indexables_with_links_to_add( $indexable_id, $insert_links, $links_by_indexable_id = [] ) {
 
@@ -136,6 +140,8 @@ abstract class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
 	 * Expectations for build_permalink.
 	 *
 	 * @param string $permalink The permalink.
+	 *
+	 * @return void
 	 */
 	public function expect_build_permalink( $permalink ) {
 
@@ -159,6 +165,8 @@ abstract class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
 	 *
 	 * @param object $indexable The indexable.
 	 * @param object $seo_link  The seo link.
+	 *
+	 * @return void
 	 */
 	public function expect_seo_links_repository_query_create( $indexable, $seo_link ) {
 

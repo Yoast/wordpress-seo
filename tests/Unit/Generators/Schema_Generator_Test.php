@@ -34,7 +34,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group generators
  * @group schema
  */
-class Schema_Generator_Test extends TestCase {
+final class Schema_Generator_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -101,6 +101,8 @@ class Schema_Generator_Test extends TestCase {
 
 	/**
 	 * Sets up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -183,6 +185,8 @@ class Schema_Generator_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::generate
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_no_graph() {
 		$this->instance
@@ -213,6 +217,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 * @covers ::finalize_graph
 	 * @covers ::remove_empty_breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_no_blocks() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
@@ -319,6 +325,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 * @covers ::finalize_graph
 	 * @covers ::remove_empty_breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_empty_breadcrumb() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
@@ -403,6 +411,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_blocks() {
 		$this->stubEscapeFunctions();
@@ -469,6 +479,8 @@ class Schema_Generator_Test extends TestCase {
 	 * Tests the generate method with having a yoast-schema block.
 	 *
 	 * @covers ::generate
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_yoast_schema_block() {
 		$this->stubEscapeFunctions();
@@ -554,7 +566,7 @@ class Schema_Generator_Test extends TestCase {
 			],
 		];
 
-		static::assertEquals( $expected, $this->instance->generate( $this->context ) );
+		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
 	}
 
 	/**
@@ -563,6 +575,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_generator_have_identifier() {
 		$this->stubEscapeFunctions();
@@ -596,6 +610,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_block_not_having_generated_output() {
 		$this->stubEscapeFunctions();
@@ -659,6 +675,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
 	 * @covers ::validate_type
+	 *
+	 * @return void
 	 */
 	public function test_validate_type_singular_array() {
 		$this->context->blocks = [];
@@ -757,6 +775,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
 	 * @covers ::validate_type
+	 *
+	 * @return void
 	 */
 	public function test_validate_type_unique_array() {
 		$this->context->blocks = [];
@@ -853,6 +873,8 @@ class Schema_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
+	 *
+	 * @return void
 	 */
 	public function test_get_graph_pieces_on_single_post_with_password_required() {
 		$this->context->alternate_site_name        = '';
@@ -937,6 +959,8 @@ class Schema_Generator_Test extends TestCase {
 	 * Tests filtering the WebPage schema for password-protected posts.
 	 *
 	 * @covers ::protected_webpage_schema
+	 *
+	 * @return void
 	 */
 	public function test_filtering_the_webpage_schema() {
 		$graph_piece = [
@@ -967,6 +991,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_search_page() {
 		$this->context->alternate_site_name        = '';

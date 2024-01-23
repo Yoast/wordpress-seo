@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Editor_Specific_Replace_Vars_Test extends TestCase {
+final class Editor_Specific_Replace_Vars_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -20,6 +20,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -31,6 +33,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests adding replacement variables for page types.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::add_for_page_types
+	 *
+	 * @return void
 	 */
 	public function test_add_for_page_types() {
 		$this->class_instance->add_for_page_types(
@@ -48,6 +52,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Test adding replacement variables for page types with given variables being an empty array.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::add_for_page_types
+	 *
+	 * @return void
 	 */
 	public function test_add_for_page_types_with_empty_array() {
 		$this->class_instance->add_for_page_types( [ 'post' ], [] );
@@ -65,6 +71,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_generic
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_unique_replacement_variables
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::extract_names
+	 *
+	 * @return void
 	 */
 	public function test_get_shared_replace_vars_filters_editor_specific_replace_vars() {
 		$replace_vars_list = [
@@ -95,6 +103,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_term can detect a category.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_term
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_term_with_a_category() {
 		$this->assertEquals( 'category', $this->class_instance->determine_for_term( 'category' ) );
@@ -104,6 +114,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_term can detect a tag.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_term
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_term_with_a_tag() {
 		$this->assertEquals( 'post_tag', $this->class_instance->determine_for_term( 'post_tag' ) );
@@ -113,6 +125,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_term can detect a post_format.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_term
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_term_with_a_post_format() {
 		$this->assertEquals( 'post_format', $this->class_instance->determine_for_term( 'post_format' ) );
@@ -122,6 +136,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_term can detect a custom taxonomy.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_term
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_term_with_a_custom_taxonomy() {
 		$this->assertEquals( 'term-in-custom-taxonomy', $this->class_instance->determine_for_term( 'custom_taxonomy' ) );
@@ -131,6 +147,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_post defaults to post when no actual post variable is passed along.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_post
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_without_a_wp_post_instance() {
 		$this->assertEquals( 'post', $this->class_instance->determine_for_post( null ) );
@@ -140,6 +158,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_post can detect a page.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_post
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_with_a_page() {
 		$post = $this->create_and_get_with_post_type( 'page' );
@@ -151,6 +171,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_post can detect a post.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_post
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_with_a_post() {
 		$post = $this->create_and_get_with_post_type( 'post' );
@@ -162,6 +184,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_post can detect a custom post type.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_post
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_with_a_custom_post_type() {
 		$post = $this->create_and_get_with_post_type( 'some_plugin_post' );
@@ -173,6 +197,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_post_type works for a post.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_post_type
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_type_with_a_post() {
 		$this->assertEquals( 'post', $this->class_instance->determine_for_post_type( 'post' ) );
@@ -182,6 +208,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that the determine_for_post_type fallback works.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_post_type
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_type_with_a_fallback() {
 		$this->assertEquals( 'custom_post_type', $this->class_instance->determine_for_post_type( 'non-existing-post_type' ) );
@@ -191,6 +219,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that the determine_for_post_type custom fallback works.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_post_type
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_type_with_a_custom_fallback() {
 		$this->assertEquals( 'fallback_post_type', $this->class_instance->determine_for_post_type( 'non-existing-post_type', 'fallback_post_type' ) );
@@ -200,6 +230,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_archive works for the date_archive.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_archive
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_archive_with_author() {
 		$this->assertEquals( 'custom-post-type_archive', $this->class_instance->determine_for_archive( 'author' ) );
@@ -209,6 +241,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_archive works for the date_archive.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_archive
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_archive_with_date() {
 		$this->assertEquals( 'custom-post-type_archive', $this->class_instance->determine_for_archive( 'date' ) );
@@ -218,6 +252,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that the determine_for_archive fallback works.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_archive
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_archive_with_a_fallback() {
 		$this->assertEquals( 'custom-post-type_archive', $this->class_instance->determine_for_archive( 'non-existing-archive' ) );
@@ -227,6 +263,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests that the determine_for_archive custom fallback works.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_archive
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_archive_with_a_custom_fallback() {
 		$this->assertEquals( 'fallback_archive', $this->class_instance->determine_for_archive( 'non-existing-archive', 'fallback_archive' ) );
@@ -236,6 +274,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests whether determine_for_archive correctly returns editor specific replacevars for archive pages.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_archive
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_archive_with_a_existing_archive() {
 		$class_instance = $this
@@ -246,7 +286,7 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 		$class_instance
 			->expects( $this->once() )
 			->method( 'has_for_page_type' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$this->assertEquals( 'post_archive', $class_instance->determine_for_archive( 'post' ) );
 	}
@@ -256,6 +296,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * variables for the passed page type.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_for_page_type
+	 *
+	 * @return void
 	 */
 	public function test_has_editor_specific_replace_vars_existing() {
 		$this->assertEquals( true, $this->class_instance->has_for_page_type( 'post' ) );
@@ -266,6 +308,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * replacement variables for the passed page type.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_for_page_type
+	 *
+	 * @return void
 	 */
 	public function test_has_editor_specific_replace_vars_non_existing() {
 		$this->assertEquals( false, $this->class_instance->has_for_page_type( 'non-existing-replace-var' ) );
@@ -290,6 +334,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests the filter for the editor specific replacement variables.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get
+	 *
+	 * @return void
 	 */
 	public function test_editor_specific_replacement_variables_filter() {
 		\add_filter( 'wpseo_editor_specific_replace_vars', [ $this, 'filter_editor_specific_replacement_variables' ] );
@@ -318,6 +364,8 @@ class Editor_Specific_Replace_Vars_Test extends TestCase {
 	 * Tests the filter for the editor specific replacement variables.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get
+	 *
+	 * @return void
 	 */
 	public function test_editor_specific_replacement_variables_filter_with_wrong_return_value() {
 		\add_filter( 'wpseo_editor_specific_replace_vars', '__return_false' );

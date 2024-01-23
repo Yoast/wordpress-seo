@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group helpers
  */
-class Indexable_Helper_Test extends TestCase {
+final class Indexable_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the class to test.
@@ -59,6 +59,8 @@ class Indexable_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -75,6 +77,8 @@ class Indexable_Helper_Test extends TestCase {
 	 * Tests if the class attributes are set properly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -102,6 +106,8 @@ class Indexable_Helper_Test extends TestCase {
 	 * @param bool   $is_front_page      Whether or not the indexable is the front page.
 	 * @param bool   $is_posts_page      Whether or not the indexable is the posts page.
 	 * @param string $expected_page_type The expected page type.
+	 *
+	 * @return void
 	 */
 	public function test_get_page_type_for_indexable( $object_type, $object_sub_type, $is_front_page, $is_posts_page, $expected_page_type ) {
 		if ( $object_type === 'post' ) {
@@ -131,7 +137,7 @@ class Indexable_Helper_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function get_page_type_for_indexable_provider() {
+	public static function get_page_type_for_indexable_provider() {
 		return [
 			[ 'post', 'page', true, false, 'Static_Home_Page' ],
 			[ 'post', 'page', false, true, 'Static_Posts_Page' ],
@@ -153,10 +159,10 @@ class Indexable_Helper_Test extends TestCase {
 	 *
 	 * @param string $wp_environment  The WordPress environment to test for.
 	 * @param bool   $expected_result Either true or false.
+	 *
+	 * @return void
 	 */
-	public function test_should_index_for_production_environment(
-		$wp_environment, $expected_result
-	) {
+	public function test_should_index_for_production_environment( $wp_environment, $expected_result ) {
 		// Arrange.
 		$this->environment_helper
 			->shouldReceive( 'is_production_mode' )
@@ -174,6 +180,8 @@ class Indexable_Helper_Test extends TestCase {
 
 	/**
 	 * Tests setting the indexables completed flag after indexing the indexables has finished.
+	 *
+	 * @return void
 	 */
 	public function test_finish_indexing() {
 		$this->options
@@ -189,7 +197,7 @@ class Indexable_Helper_Test extends TestCase {
 	 *
 	 * @return array[]
 	 */
-	public function should_index_for_production_environment_provider() {
+	public static function should_index_for_production_environment_provider() {
 		return [
 			[ 'production', true ],
 			[ 'staging', false ],
@@ -208,6 +216,8 @@ class Indexable_Helper_Test extends TestCase {
 	 *
 	 * @param array $indexable_fields The fields of the indexable that we're checking.
 	 * @param bool  $expected_result  Either true or false.
+	 *
+	 * @return void
 	 */
 	public function test_check_if_default_indexable( $indexable_fields, $expected_result ) {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -232,7 +242,7 @@ class Indexable_Helper_Test extends TestCase {
 	 *
 	 * @return array[]
 	 */
-	public function provider_check_if_default_indexable() {
+	public static function provider_check_if_default_indexable() {
 		$all_default_fields     = [
 			[
 				'field_name'  => 'title',
@@ -280,6 +290,8 @@ class Indexable_Helper_Test extends TestCase {
 	 * @param string $field_name      The indexable field we're checking.
 	 * @param string $field_value     The indexable field's value.
 	 * @param bool   $expected_result Either true or false.
+	 *
+	 * @return void
 	 */
 	public function test_check_if_default_field( $field_name, $field_value, $expected_result ) {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
@@ -294,7 +306,7 @@ class Indexable_Helper_Test extends TestCase {
 	 *
 	 * @return array[]
 	 */
-	public function provider_check_if_default_field() {
+	public static function provider_check_if_default_field() {
 		return [
 			[ 'title', null, true ],
 			[ 'title', 'not null', false ],

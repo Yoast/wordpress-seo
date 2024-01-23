@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use WP_Post;
 use WP_Post_Type;
 use WP_Taxonomy;
 use WP_User;
@@ -15,46 +16,45 @@ use WPSEO_Shortlinker;
 use WPSEO_Sitemaps_Router;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Language_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
-
 
 /**
  * Class Settings_Integration.
  */
 class Settings_Integration implements Integration_Interface {
 
-	const PAGE = 'wpseo_page_settings';
+	public const PAGE = 'wpseo_page_settings';
 
 	/**
 	 * Holds the included WordPress options.
 	 *
 	 * @var string[]
 	 */
-	const WP_OPTIONS = [ 'blogdescription' ];
+	public const WP_OPTIONS = [ 'blogdescription' ];
 
 	/**
 	 * Holds the allowed option groups.
 	 *
 	 * @var array
 	 */
-	const ALLOWED_OPTION_GROUPS = [ 'wpseo', 'wpseo_titles', 'wpseo_social' ];
+	public const ALLOWED_OPTION_GROUPS = [ 'wpseo', 'wpseo_titles', 'wpseo_social' ];
 
 	/**
 	 * Holds the disallowed settings, per option group.
 	 *
 	 * @var array
 	 */
-	const DISALLOWED_SETTINGS = [
+	public const DISALLOWED_SETTINGS = [
 		'wpseo'        => [
 			'myyoast-oauth',
 			'semrush_tokens',
@@ -85,7 +85,7 @@ class Settings_Integration implements Integration_Interface {
 	 *
 	 * @var array
 	 */
-	const DISABLED_ON_MULTISITE_SETTINGS = [
+	public const DISABLED_ON_MULTISITE_SETTINGS = [
 		'wpseo' => [
 			'deny_search_crawling',
 			'deny_wp_json_crawling',
@@ -190,18 +190,18 @@ class Settings_Integration implements Integration_Interface {
 	/**
 	 * Constructs Settings_Integration.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager       The WPSEO_Admin_Asset_Manager.
-	 * @param WPSEO_Replace_Vars                            $replace_vars        The WPSEO_Replace_Vars.
-	 * @param Schema_Types                                  $schema_types        The Schema_Types.
-	 * @param Current_Page_Helper                           $current_page_helper The Current_Page_Helper.
-	 * @param Post_Type_Helper                              $post_type_helper    The Post_Type_Helper.
-	 * @param Language_Helper                               $language_helper     The Language_Helper.
-	 * @param Taxonomy_Helper                               $taxonomy_helper     The Taxonomy_Helper.
-	 * @param Product_Helper                                $product_helper      The Product_Helper.
-	 * @param Woocommerce_Helper                            $woocommerce_helper  The Woocommerce_Helper.
-	 * @param Article_Helper                                $article_helper      The Article_Helper.
-	 * @param User_Helper                                   $user_helper         The User_Helper.
-	 * @param Options_Helper                                $options             The options helper.
+	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager           The WPSEO_Admin_Asset_Manager.
+	 * @param WPSEO_Replace_Vars                            $replace_vars            The WPSEO_Replace_Vars.
+	 * @param Schema_Types                                  $schema_types            The Schema_Types.
+	 * @param Current_Page_Helper                           $current_page_helper     The Current_Page_Helper.
+	 * @param Post_Type_Helper                              $post_type_helper        The Post_Type_Helper.
+	 * @param Language_Helper                               $language_helper         The Language_Helper.
+	 * @param Taxonomy_Helper                               $taxonomy_helper         The Taxonomy_Helper.
+	 * @param Product_Helper                                $product_helper          The Product_Helper.
+	 * @param Woocommerce_Helper                            $woocommerce_helper      The Woocommerce_Helper.
+	 * @param Article_Helper                                $article_helper          The Article_Helper.
+	 * @param User_Helper                                   $user_helper             The User_Helper.
+	 * @param Options_Helper                                $options                 The options helper.
 	 * @param Content_Type_Visibility_Dismiss_Notifications $content_type_visibility The Content_Type_Visibility_Dismiss_Notifications instance.
 	 */
 	public function __construct(
@@ -275,7 +275,6 @@ class Settings_Integration implements Integration_Interface {
 			\add_action( 'admin_init', [ $this, 'register_setting' ] );
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
-
 		}
 	}
 
@@ -353,6 +352,8 @@ class Settings_Integration implements Integration_Interface {
 
 	/**
 	 * Displays the page.
+	 *
+	 * @return void
 	 */
 	public function display_page() {
 		echo '<div id="yoast-seo-settings"></div>';
@@ -369,7 +370,7 @@ class Settings_Integration implements Integration_Interface {
 		\wp_enqueue_media();
 		$this->asset_manager->enqueue_script( 'new-settings' );
 		$this->asset_manager->enqueue_style( 'new-settings' );
-		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
 			$this->asset_manager->enqueue_style( 'black-friday-banner' );
 		}
 		$this->asset_manager->localize_script( 'new-settings', 'wpseoScriptData', $this->get_script_data() );
@@ -465,7 +466,7 @@ class Settings_Integration implements Integration_Interface {
 			'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
 			'isLocalSeoActive'              => \defined( 'WPSEO_LOCAL_FILE' ),
 			'isNewsSeoActive'               => \defined( 'WPSEO_NEWS_FILE' ),
-			'promotions'                    => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
+			'promotions'                    => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 			'siteUrl'                       => \get_bloginfo( 'url' ),
 			'siteTitle'                     => \get_bloginfo( 'name' ),
 			'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
@@ -529,7 +530,6 @@ class Settings_Integration implements Integration_Interface {
 	private function get_site_basics_policies( $settings ) {
 		$policies = [];
 
-
 		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['publishing_principles_id'], 'publishing_principles_id' );
 		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['ownership_funding_info_id'], 'ownership_funding_info_id' );
 		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['actionable_feedback_policy_id'], 'actionable_feedback_policy_id' );
@@ -559,7 +559,7 @@ class Settings_Integration implements Integration_Interface {
 		if ( isset( $policy ) && \is_int( $policy ) ) {
 			$policy_array['id'] = $policy;
 			$post               = \get_post( $policy );
-			if ( $post instanceof \WP_Post ) {
+			if ( $post instanceof WP_Post ) {
 				if ( $post->post_status !== 'publish' || $post->post_password !== '' ) {
 					return $policies;
 				}

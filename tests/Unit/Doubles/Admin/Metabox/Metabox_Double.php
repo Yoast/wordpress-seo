@@ -8,7 +8,7 @@ use WPSEO_Metabox_Section_Additional;
 /**
  * Test Helper Class.
  */
-class Metabox_Double extends WPSEO_Metabox {
+final class Metabox_Double extends WPSEO_Metabox {
 
 	/**
 	 * Returns metabox sections that have been added by other plugins.

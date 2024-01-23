@@ -110,8 +110,16 @@ jobs:
         working-directory: packages/${{ matrix.package }}
 
       - name: Run Javascript tests
-        run: yarn test --ci
+        run: yarn test --ci --coverage
         working-directory: packages/${{ matrix.package }}
+
+      - name: Upload coverage results to Coveralls
+        uses: coverallsapp/github-action@v2
+        env:
+          COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
+        with:
+          flag-name: package-${{ matrix.package }}
+          parallel: true
 
 
   #########################################################################################
@@ -198,5 +206,14 @@ jobs:
 
       - name: Run Javascript tests
         if: ${{ steps.checks-run.outputs.should == 'true' }}
-        run: yarn test --ci
+        run: yarn test --ci --coverage
         working-directory: packages/${{ matrix.package }}
+
+      - name: Upload coverage results to Coveralls
+        if: ${{ steps.checks-run.outputs.should == 'true' }}
+        uses: coverallsapp/github-action@v2
+        env:
+          COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
+        with:
+          flag-name: package-${{ matrix.package }}
+          parallel: true

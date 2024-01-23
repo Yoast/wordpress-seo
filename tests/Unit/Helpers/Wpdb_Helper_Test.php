@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Wpdb_Helper
  */
-class Wpdb_Helper_Test extends TestCase {
+final class Wpdb_Helper_Test extends TestCase {
 
 	/**
 	 * Mocked version of the WP native wpdb object.
@@ -32,6 +32,8 @@ class Wpdb_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -44,6 +46,8 @@ class Wpdb_Helper_Test extends TestCase {
 	 * Tests the checking of the table existance.
 	 *
 	 * @covers ::table_exists
+	 *
+	 * @return void
 	 */
 	public function test_table_exists() {
 		$this->wpdb->expects( 'get_var' )

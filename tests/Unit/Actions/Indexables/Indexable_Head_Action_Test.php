@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action
  */
-class Indexable_Head_Action_Test extends TestCase {
+final class Indexable_Head_Action_Test extends TestCase {
 
 	/**
 	 * Represents the meta surface.
@@ -35,6 +35,8 @@ class Indexable_Head_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -47,6 +49,8 @@ class Indexable_Head_Action_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -68,6 +72,8 @@ class Indexable_Head_Action_Test extends TestCase {
 	 *
 	 * @param string     $method The method to call.
 	 * @param string|int $input  The data to pass.
+	 *
+	 * @return void
 	 */
 	public function test_retrieving_meta( $method, $input ) {
 		$meta = Mockery::mock( Meta::class );
@@ -102,6 +108,8 @@ class Indexable_Head_Action_Test extends TestCase {
 	 * Tests retrieval for a url that has meta.
 	 *
 	 * @covers ::for_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_retrieving_meta_for_posts_page() {
 		$meta = Mockery::mock( Meta::class );
@@ -137,6 +145,8 @@ class Indexable_Head_Action_Test extends TestCase {
 	 *
 	 * @param string     $method The method to call.
 	 * @param string|int $input  The data to pass.
+	 *
+	 * @return void
 	 */
 	public function test_retrieving_meta_with_meta_not_found( $method, $input ) {
 		$meta = Mockery::mock( Meta::class );
@@ -178,6 +188,8 @@ class Indexable_Head_Action_Test extends TestCase {
 	 * Tests retrieval for a url that has no meta data.
 	 *
 	 * @covers ::for_posts_page
+	 *
+	 * @return void
 	 */
 	public function test_retrieving_meta_for_posts_page_with_meta_not_found() {
 		$meta = Mockery::mock( Meta::class );
@@ -213,7 +225,7 @@ class Indexable_Head_Action_Test extends TestCase {
 	 *
 	 * @return array A mapping of methods and expected inputs.
 	 */
-	public function method_provider() {
+	public static function method_provider() {
 		return [
 			[ 'for_url', 'https://example.org/' ],
 			[ 'for_post', 1 ],

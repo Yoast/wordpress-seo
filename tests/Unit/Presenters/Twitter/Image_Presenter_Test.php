@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group twitter
  * @group twitter-image
  */
-class Image_Presenter_Test extends TestCase {
+final class Image_Presenter_Test extends TestCase {
 
 	/**
 	 * The image presenter instance.
@@ -34,6 +34,8 @@ class Image_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -51,6 +53,8 @@ class Image_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct image.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->presentation->twitter_image = 'relative_image.jpg';
@@ -67,6 +71,8 @@ class Image_Presenter_Test extends TestCase {
 	 * Tests the presenter with an empty image.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_empty_image() {
 		$this->presentation->twitter_image = '';
@@ -80,6 +86,8 @@ class Image_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_filter() {
 		$this->presentation->twitter_image = 'relative_image.jpg';
@@ -100,6 +108,8 @@ class Image_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct image when the admin bar is showing a class is added.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$this->presentation->twitter_image = 'relative_image.jpg';

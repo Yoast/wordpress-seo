@@ -75,8 +75,9 @@ describe( "Button", () => {
 		);
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `variant` of value `[object Object]` supplied to `Button`" );
+		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
+		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
+		expect( console.error.mock.calls[ 0 ][ 2 ] ).toContain( "Invalid prop `variant` of value `[object Object]` supplied to `Button`" );
 	} );
 } );
 

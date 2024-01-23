@@ -92,7 +92,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	 * @return array The source.
 	 */
 	public function generate_source() {
-		if ( ! empty( $this->model->object_id ) || is_null( \get_queried_object() ) ) {
+		if ( ! empty( $this->model->object_id ) || \is_null( \get_queried_object() ) ) {
 			return \get_term( $this->model->object_id, $this->model->object_sub_type );
 		}
 
@@ -152,7 +152,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		 * First we get the no index option for this taxonomy, because it can be overwritten the indexable value for
 		 * this specific term.
 		 */
-		if ( is_wp_error( $this->source ) || ! $this->taxonomy->is_indexable( $this->source->taxonomy ) ) {
+		if ( \is_wp_error( $this->source ) || ! $this->taxonomy->is_indexable( $this->source->taxonomy ) ) {
 			$robots['index'] = 'noindex';
 		}
 
@@ -176,7 +176,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		if ( is_wp_error( $this->source ) ) {
+		if ( \is_wp_error( $this->source ) ) {
 			return $this->model->title;
 		}
 
@@ -213,7 +213,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return false;
 		}
 
-		if ( is_wp_error( $this->source ) ) {
+		if ( \is_wp_error( $this->source ) ) {
 			return false;
 		}
 

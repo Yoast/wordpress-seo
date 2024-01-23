@@ -17,56 +17,56 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @var string
 	 */
-	const SITE_INFORMATION_TRANSIENT = 'wpseo_site_information';
+	public const SITE_INFORMATION_TRANSIENT = 'wpseo_site_information';
 
 	/**
 	 * Holds the name of the transient.
 	 *
 	 * @var string
 	 */
-	const SITE_INFORMATION_TRANSIENT_QUICK = 'wpseo_site_information_quick';
+	public const SITE_INFORMATION_TRANSIENT_QUICK = 'wpseo_site_information_quick';
 
 	/**
 	 * Holds the slug for YoastSEO free.
 	 *
 	 * @var string
 	 */
-	const FREE_SLUG = 'yoast-seo-wordpress';
+	public const FREE_SLUG = 'yoast-seo-wordpress';
 
 	/**
 	 * Holds the slug for YoastSEO Premium.
 	 *
 	 * @var string
 	 */
-	const PREMIUM_SLUG = 'yoast-seo-wordpress-premium';
+	public const PREMIUM_SLUG = 'yoast-seo-wordpress-premium';
 
 	/**
 	 * Holds the slug for Yoast News.
 	 *
 	 * @var string
 	 */
-	const NEWS_SLUG = 'yoast-seo-news';
+	public const NEWS_SLUG = 'yoast-seo-news';
 
 	/**
 	 * Holds the slug for Video.
 	 *
 	 * @var string
 	 */
-	const VIDEO_SLUG = 'yoast-seo-video';
+	public const VIDEO_SLUG = 'yoast-seo-video';
 
 	/**
 	 * Holds the slug for WooCommerce.
 	 *
 	 * @var string
 	 */
-	const WOOCOMMERCE_SLUG = 'yoast-seo-woocommerce';
+	public const WOOCOMMERCE_SLUG = 'yoast-seo-woocommerce';
 
 	/**
 	 * Holds the slug for Local.
 	 *
 	 * @var string
 	 */
-	const LOCAL_SLUG = 'yoast-seo-local';
+	public const LOCAL_SLUG = 'yoast-seo-local';
 
 	/**
 	 * The expected addon data.
@@ -396,6 +396,8 @@ class WPSEO_Addon_Manager {
 	 * If the plugin is lacking an active subscription, throw a warning.
 	 *
 	 * @param array $plugin_data The data for the plugin in this row.
+	 *
+	 * @return void
 	 */
 	public function expired_subscription_warning( $plugin_data ) {
 		$subscription = $this->get_subscription( $plugin_data['slug'] );
@@ -411,16 +413,16 @@ class WPSEO_Addon_Manager {
 				);
 			}
 			echo '<br><br>';
-			echo '<strong><span class="yoast-dashicons-notice warning dashicons dashicons-warning"></span> ' .
-				sprintf(
+			echo '<strong><span class="yoast-dashicons-notice warning dashicons dashicons-warning"></span> '
+				. sprintf(
 					/* translators: %1$s is the plugin name, %2$s and %3$s are a link. */
 					esc_html__( '%1$s can\'t be updated because your product subscription is expired. %2$sRenew your product subscription%3$s to get updates again and use all the features of %1$s.', 'wordpress-seo' ),
 					esc_html( $plugin_data['name'] ),
 					'<a href="' . esc_url( WPSEO_Shortlinker::get( $addon_link ) ) . '">',
 					'</a>'
-				) .
-			    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped above.
-				$sale_copy
+				)
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped above.
+				. $sale_copy
 				. '</strong>';
 		}
 	}
@@ -461,6 +463,8 @@ class WPSEO_Addon_Manager {
 
 	/**
 	 * Validates the addons and show a notice for the ones that are invalid.
+	 *
+	 * @return void
 	 */
 	public function validate_addons() {
 		$notification_center = Yoast_Notification_Center::get();
@@ -579,7 +583,7 @@ class WPSEO_Addon_Manager {
 			'banners'          => $this->get_banners( $subscription->product->slug ),
 			// If we have extracted Yoast Free's data before, use that. If not, resort to the defaults.
 			'tested'           => YOAST_SEO_WP_TESTED,
-			'requires'         => isset( $yoast_free_data->requires ) ? $yoast_free_data->requires : $defaults['requires'],
+			'requires'         => ( $yoast_free_data->requires ?? $defaults['requires'] ),
 			'requires_php'     => YOAST_SEO_PHP_REQUIRED,
 		];
 	}
@@ -726,7 +730,7 @@ class WPSEO_Addon_Manager {
 		$current_page = null;
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['page'] ) && is_string( $_GET['page'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only strictly comparing and thus no need to sanitize.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only strictly comparing and thus no need to sanitize.
 			$current_page = wp_unslash( $_GET['page'] );
 		}
 
@@ -833,7 +837,7 @@ class WPSEO_Addon_Manager {
 				'last_updated' => $subscription->product->lastUpdated,
 				'store_url'    => $subscription->product->storeUrl,
 				// Ternary operator is necessary because download can be undefined.
-				'download'     => isset( $subscription->product->download ) ? $subscription->product->download : null,
+				'download'     => ( $subscription->product->download ?? null ),
 				'changelog'    => $subscription->product->changelog,
 			],
 		];

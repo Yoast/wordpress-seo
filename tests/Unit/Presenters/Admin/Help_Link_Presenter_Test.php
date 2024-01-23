@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Help_Link_Presenter_Test extends TestCase {
+final class Help_Link_Presenter_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.
@@ -31,6 +31,8 @@ class Help_Link_Presenter_Test extends TestCase {
 	 * Test constructor
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
@@ -51,6 +53,8 @@ class Help_Link_Presenter_Test extends TestCase {
 	 * Tests when the Help link opens in a new browser tab.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_help_link_opens_in_new_browser_tab() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
@@ -67,6 +71,8 @@ class Help_Link_Presenter_Test extends TestCase {
 	 * Tests when the Help link does not open in a new browser tab.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_help_link_does_not_open_in_new_browser_tab() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();

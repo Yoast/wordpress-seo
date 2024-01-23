@@ -47,6 +47,8 @@ class Old_Configuration_Integration implements Integration_Interface {
 
 	/**
 	 * Renders the old configuration page.
+	 *
+	 * @return void
 	 */
 	public function render_page() {
 		// This page is never to be displayed.
@@ -54,6 +56,8 @@ class Old_Configuration_Integration implements Integration_Interface {
 
 	/**
 	 * Redirects from the old configuration page to the new configuration page.
+	 *
+	 * @return void
 	 */
 	public function redirect_to_new_configuration() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Data is not processed or saved.

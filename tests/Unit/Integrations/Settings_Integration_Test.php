@@ -8,8 +8,10 @@ use WPSEO_Admin_Asset_Manager;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Language_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
@@ -17,10 +19,8 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Integrations\Settings_Integration_Double;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Settings_Integration_Test.
@@ -29,7 +29,7 @@ use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dis
  *
  * @group integrations
  */
-class Settings_Integration_Test extends TestCase {
+final class Settings_Integration_Test extends TestCase {
 
 	/**
 	 * The class under test.
@@ -68,6 +68,8 @@ class Settings_Integration_Test extends TestCase {
 
 	/**
 	 * Runs the setup to prepare the needed instance
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		$asset_manager           = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
@@ -121,9 +123,11 @@ class Settings_Integration_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Settings_Conditional::class,
 			],
@@ -135,6 +139,8 @@ class Settings_Integration_Test extends TestCase {
 	 * Tests the addition of a submenu page.
 	 *
 	 * @covers ::add_settings_saved_page
+	 *
+	 * @return void
 	 */
 	public function test_add_submenu_page() {
 
@@ -156,6 +162,8 @@ class Settings_Integration_Test extends TestCase {
 	 * Tests construct method.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -294,9 +302,11 @@ class Settings_Integration_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_transform_post_types
 	 *
-	 * @param array $post_types The post types to transform.
+	 * @param array $post_types     The post types to transform.
 	 * @param array $new_post_types The new post types.
-	 * @param array $expected   The expected result.
+	 * @param array $expected       The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_transform_post_types( $post_types, $new_post_types, $expected ) {
 
@@ -389,10 +399,12 @@ class Settings_Integration_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_transform_taxonomies
 	 *
-	 * @param array $taxonomies The taxonomies to transform.
+	 * @param array $taxonomies      The taxonomies to transform.
 	 * @param array $post_type_names The post type names.
-	 * @param array $new_taxonomies The new taxonomies.
-	 * @param array $expected   The expected result.
+	 * @param array $new_taxonomies  The new taxonomies.
+	 * @param array $expected        The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_transform_taxonomies( $taxonomies, $post_type_names, $new_taxonomies, $expected ) {
 

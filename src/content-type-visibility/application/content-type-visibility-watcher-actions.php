@@ -7,7 +7,6 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Notification;
 use Yoast_Notification_Center;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 
 /**
  * Handles showing notifications for new content types.
@@ -29,18 +28,18 @@ class Content_Type_Visibility_Watcher_Actions implements Integration_Interface {
 	 */
 	private $notification_center;
 
-		/**
-		 * The notifications center.
-		 *
-		 * @var Content_Type_Visibility_Dismiss_Notifications
-		 */
+	/**
+	 * The notifications center.
+	 *
+	 * @var Content_Type_Visibility_Dismiss_Notifications
+	 */
 	private $content_type_dismiss_notifications;
 
 	/**
 	 * Indexable_Post_Type_Change_Watcher constructor.
 	 *
-	 * @param Options_Helper                                $options             The options helper.
-	 * @param Yoast_Notification_Center                     $notification_center The notification center.
+	 * @param Options_Helper                                $options                            The options helper.
+	 * @param Yoast_Notification_Center                     $notification_center                The notification center.
 	 * @param Content_Type_Visibility_Dismiss_Notifications $content_type_dismiss_notifications The content type dismiss notifications.
 	 */
 	public function __construct(

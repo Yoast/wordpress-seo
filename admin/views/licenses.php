@@ -140,7 +140,6 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 	$sale_badge = '<div class="yoast-seo-premium-extension-sale-badge">' . $sale_badge_span . '</div>';
 
 	$premium_sale_badge = ( $has_valid_premium_subscription ) ? '' : $sale_badge;
-
 }
 
 ?>

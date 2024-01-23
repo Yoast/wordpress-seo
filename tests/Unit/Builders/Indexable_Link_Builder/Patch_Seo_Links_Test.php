@@ -14,14 +14,14 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  */
-class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCase {
+final class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCase {
 
 	/**
 	 * Data provider for test_patch_seo_links;
 	 *
 	 * @return array
 	 */
-	public function patch_seo_links_provider() {
+	public static function patch_seo_links_provider() {
 		$object                                  = (object) [ 'type' => 'not SEO_Links' ];
 		$seo_link                                = new SEO_Links_Mock();
 		$seo_link->target_indexable_id           = null;
@@ -93,6 +93,8 @@ class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 * @param int      $links_times                      The times that find_all_by_target_post_id is executed.
 	 * @param array    $links                            The links.
 	 * @param int      $update_target_indexable_id_times The times that update_target_indexable_id is executed.
+	 *
+	 * @return void
 	 */
 	public function test_patch_seo_links( $indexable_id, $object_id, $links_times, $links, $update_target_indexable_id_times ) {
 		$indexable            = Mockery::mock( Indexable_Mock::class );

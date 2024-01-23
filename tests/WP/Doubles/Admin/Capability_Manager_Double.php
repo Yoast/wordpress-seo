@@ -7,15 +7,19 @@ use WPSEO_Abstract_Capability_Manager;
 /**
  * Test Helper Class.
  */
-class Capability_Manager_Double extends WPSEO_Abstract_Capability_Manager {
+final class Capability_Manager_Double extends WPSEO_Abstract_Capability_Manager {
 
 	/**
 	 * Adds the registered capabilities to the system.
+	 *
+	 * @return void
 	 */
 	public function add() {}
 
 	/**
 	 * Removes the registered capabilities from the system.
+	 *
+	 * @return void
 	 */
 	public function remove() {}
 

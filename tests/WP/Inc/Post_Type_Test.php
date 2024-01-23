@@ -9,10 +9,12 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Post_Type_Test extends TestCase {
+final class Post_Type_Test extends TestCase {
 
 	/**
 	 * Remove the custom post type after each test.
+	 *
+	 * @return void
 	 */
 	public function tear_down() {
 		// Remove possibly set post type.
@@ -26,6 +28,8 @@ class Post_Type_Test extends TestCase {
 	 * Tests the default situation with no custom post types being added.
 	 *
 	 * @covers WPSEO_Post_Type::get_accessible_post_types
+	 *
+	 * @return void
 	 */
 	public function test_get_accessible_post_types() {
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
@@ -38,6 +42,8 @@ class Post_Type_Test extends TestCase {
 	 * Tests the situation with a custom public post type.
 	 *
 	 * @covers WPSEO_Post_Type::get_accessible_post_types
+	 *
+	 * @return void
 	 */
 	public function test_get_accessible_post_types_with_a_custom_post_type() {
 		\register_post_type( 'custom-post-type', [ 'public' => true ] );
@@ -49,6 +55,8 @@ class Post_Type_Test extends TestCase {
 	 * Tests the situation with a custom public post type that is not publicly queryable.
 	 *
 	 * @covers WPSEO_Post_Type::get_accessible_post_types
+	 *
+	 * @return void
 	 */
 	public function test_get_accessible_post_types_with_a_custom_post_type_that_is_noy_publicly_queryable() {
 		\register_post_type(
@@ -66,6 +74,8 @@ class Post_Type_Test extends TestCase {
 	 * Tests the situation with a custom private post post type.
 	 *
 	 * @covers WPSEO_Post_Type::get_accessible_post_types
+	 *
+	 * @return void
 	 */
 	public function test_get_accessible_post_types_with_a_custom_private_post_type() {
 		\register_post_type( 'custom-post-type', [ 'public' => false ] );
@@ -77,6 +87,8 @@ class Post_Type_Test extends TestCase {
 	 * Tests the situation with a post type that is set to robots noindex.
 	 *
 	 * @covers WPSEO_Post_Type::get_accessible_post_types
+	 *
+	 * @return void
 	 */
 	public function test_get_accessible_post_types_with_a_non_indexable_post_type() {
 		$custom_post_type = \register_post_type( 'custom-post-type', [ 'public' => true ] );
@@ -91,6 +103,8 @@ class Post_Type_Test extends TestCase {
 	 * Tests the situation with a post type that isn't set to robots noindex.
 	 *
 	 * @covers WPSEO_Post_Type::get_accessible_post_types
+	 *
+	 * @return void
 	 */
 	public function test_get_accessible_post_types_with_an_indexable_post_type() {
 		$custom_post_type = \register_post_type( 'custom-post-type', [ 'public' => true ] );
@@ -104,6 +118,8 @@ class Post_Type_Test extends TestCase {
 	 * Tests the situation where a post type will be filtered by using the 'wpseo_accessible_post_types filter'.
 	 *
 	 * @covers WPSEO_Post_Type::get_accessible_post_types
+	 *
+	 * @return void
 	 */
 	public function test_get_accessible_post_types_with_a_filter_hook() {
 		$this->assertContains( 'attachment', WPSEO_Post_Type::get_accessible_post_types() );
@@ -117,6 +133,8 @@ class Post_Type_Test extends TestCase {
 	 * Tests the situation where a post type will be filtered by using the 'wpseo_accessible_post_types filter'.
 	 *
 	 * @covers WPSEO_Post_Type::get_accessible_post_types
+	 *
+	 * @return void
 	 */
 	public function test_get_accessible_post_types_with_a_filter_hook_that_returns_wrong_type() {
 		\add_filter( 'wpseo_accessible_post_types', '__return_true' );
@@ -130,6 +148,8 @@ class Post_Type_Test extends TestCase {
 	 * Tests the situation with a post type that isn't set to robots noindex.
 	 *
 	 * @covers WPSEO_Post_Type::is_post_type_indexable
+	 *
+	 * @return void
 	 */
 	public function test_is_post_type_indexable_with_indexable_post_type() {
 		$custom_post_type = \register_post_type( 'custom-post-type', [ 'public' => true ] );
@@ -143,6 +163,8 @@ class Post_Type_Test extends TestCase {
 	 * Tests the situation with a post type that is set to robots noindex.
 	 *
 	 * @covers WPSEO_Post_Type::is_post_type_indexable
+	 *
+	 * @return void
 	 */
 	public function test_is_post_type_indexable_with_non_indexable_post_type() {
 		$custom_post_type = \register_post_type( 'custom-post-type', [ 'public' => true ] );
@@ -156,6 +178,8 @@ class Post_Type_Test extends TestCase {
 	 * Test the situation where the attachment post type will be filtered.
 	 *
 	 * @covers WPSEO_Post_Type::filter_attachment_post_type
+	 *
+	 * @return void
 	 */
 	public function test_filter_attachment_post_type() {
 		$this->assertNotContains(
@@ -186,6 +210,8 @@ class Post_Type_Test extends TestCase {
 	 * Tests whether or (custom) post types are enabled in the REST API.
 	 *
 	 * @covers WPSEO_Post_Type::is_rest_enabled
+	 *
+	 * @return void
 	 */
 	public function test_rest_enabled_post_types() {
 		$this->assertTrue( WPSEO_Post_Type::is_rest_enabled( 'post' ) );

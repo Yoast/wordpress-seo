@@ -232,6 +232,8 @@ class Front_End_Integration implements Integration_Interface {
 	 *
 	 * Removes some actions to remove metadata that WordPress shows on the frontend,
 	 * to avoid duplicate and/or mismatched metadata.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_filter( 'render_block', [ $this, 'query_loop_next_prev' ], 1, 2 );
@@ -327,7 +329,7 @@ class Front_End_Integration implements Integration_Interface {
 				while ( $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
 					$href = $processor->get_attribute( 'href' );
 					if ( $href ) {
-						return $presentation->permalink . substr( $href, 1 );
+						return $presentation->permalink . \substr( $href, 1 );
 					}
 				}
 			}
@@ -372,6 +374,8 @@ class Front_End_Integration implements Integration_Interface {
 	 * Presents the head in the front-end. Resets wp_query if it's not the main query.
 	 *
 	 * @codeCoverageIgnore It just calls a WordPress function.
+	 *
+	 * @return void
 	 */
 	public function call_wpseo_head() {
 		global $wp_query;
@@ -388,6 +392,8 @@ class Front_End_Integration implements Integration_Interface {
 
 	/**
 	 * Echoes all applicable presenters for a page.
+	 *
+	 * @return void
 	 */
 	public function present_head() {
 		$context    = $this->context_memoizer->for_current_page();
@@ -396,7 +402,8 @@ class Front_End_Integration implements Integration_Interface {
 		/**
 		 * Filter 'wpseo_frontend_presentation' - Allow filtering the presentation used to output our meta values.
 		 *
-		 * @api Indexable_Presention The indexable presentation.
+		 * @param Indexable_Presention $presentation The indexable presentation.
+		 * @param Meta_Tags_Context    $context      The meta tags context for the current page.
 		 */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
 
@@ -430,7 +437,7 @@ class Front_End_Integration implements Integration_Interface {
 
 		$needed_presenters = $this->get_needed_presenters( $page_type );
 
-		$callback   = static function( $presenter ) {
+		$callback   = static function ( $presenter ) {
 			if ( ! \class_exists( $presenter ) ) {
 				return null;
 			}
@@ -441,10 +448,8 @@ class Front_End_Integration implements Integration_Interface {
 		/**
 		 * Filter 'wpseo_frontend_presenters' - Allow filtering the presenter instances in or out of the request.
 		 *
-		 * @param array             $presenters The presenters.
-		 * @param Meta_Tags_Context $context    The meta tags context for the current page.
-		 *
-		 * @api Abstract_Indexable_Presenter[] List of presenter instances.
+		 * @param Abstract_Indexable_Presenter[] $presenters List of presenter instances.
+		 * @param Meta_Tags_Context              $context    The meta tags context for the current page.
 		 */
 		$presenter_instances = \apply_filters( 'wpseo_frontend_presenters', $presenters, $context );
 

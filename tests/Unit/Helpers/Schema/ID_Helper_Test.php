@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Schema\ID_Helper
  */
-class ID_Helper_Test extends TestCase {
+final class ID_Helper_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -28,6 +28,8 @@ class ID_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -39,6 +41,8 @@ class ID_Helper_Test extends TestCase {
 	 * Tests retrieval of the user schema, the happy path.
 	 *
 	 * @covers ::get_user_schema_id
+	 *
+	 * @return void
 	 */
 	public function test_get_user_schema_id() {
 		$user             = Mockery::mock( WP_User::class );
@@ -67,6 +71,8 @@ class ID_Helper_Test extends TestCase {
 	 * Tests retrieval of the user schema where the user is not found.
 	 *
 	 * @covers ::get_user_schema_id
+	 *
+	 * @return void
 	 */
 	public function test_get_user_schema_id_no_user_found() {
 		$context           = Mockery::mock( Meta_Tags_Context_Mock::class );

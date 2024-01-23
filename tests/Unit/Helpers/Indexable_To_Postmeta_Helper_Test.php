@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper
  */
-class Indexable_To_Postmeta_Helper_Test extends TestCase {
+final class Indexable_To_Postmeta_Helper_Test extends TestCase {
 
 	/**
 	 * Query wrapper instance.
@@ -34,6 +34,8 @@ class Indexable_To_Postmeta_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -49,6 +51,8 @@ class Indexable_To_Postmeta_Helper_Test extends TestCase {
 	 * Tests the mapping of indexable data to postmeta.
 	 *
 	 * @covers ::map_to_postmeta
+	 *
+	 * @return void
 	 */
 	public function test_map_postmeta_with_full_yoast_indexable() {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
@@ -130,6 +134,8 @@ class Indexable_To_Postmeta_Helper_Test extends TestCase {
 	 * Tests the mapping of indexable data to postmeta, when the indexable is empty.
 	 *
 	 * @covers ::map_to_postmeta
+	 *
+	 * @return void
 	 */
 	public function test_map_postmeta_with_empty_yoast_indexable() {
 		$indexable      = Mockery::mock( Indexable_Mock::class );

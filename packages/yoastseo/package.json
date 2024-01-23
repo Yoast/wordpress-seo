@@ -32,6 +32,7 @@
     "@yoast/browserslist-config": "^1.2.2",
     "blob-polyfill": "^7.0.20220408",
     "console.table": "^0.10.0",
+    "eslint-config-yoast": "^6.0.0",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
@@ -56,93 +57,6 @@
     "parse5": "^5.1.0",
     "tiny-segmenter": "^0.2.0",
     "tokenizer2": "^2.0.1"
-  },
-  "jest": {
-    "collectCoverage": true,
-    "moduleFileExtensions": [
-      "js"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest",
-      "^.+\\.html$": "<rootDir>/spec/specHelpers/rawLoader"
-    },
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!lodash-es/.*)",
-      "<rootDir>/spec/fullTextTests/testText/*/*\\.html",
-      "<rootDir>/spec/scoring/collectionPages/fullTextTests/testTexts/*/*\\.html",
-      "<rootDir>/spec/scoring/productPages/fullTextTests/testTexts/*/*\\.html"
-    ],
-    "testRegex": "/spec/.*\\.(js)$",
-    "testEnvironment": "jsdom",
-    "moduleDirectories": [
-      "node_modules"
-    ],
-    "moduleNameMapper": {
-      "^lodash-es$": "lodash",
-      "^lodash-es/(.*)$": "lodash/$1"
-    },
-    "testPathIgnorePatterns": [
-      "/spec/specHelpers/*",
-      "/spec/fullTextTests/testTexts",
-      "/spec/scoring/collectionPages/fullTextTests/testTexts",
-      "/spec/scoring/productPages/fullTextTests/testTexts",
-      "/spec/languageProcessing/languages/es/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/languageProcessing/languages/es/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/fr/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/languageProcessing/languages/fr/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/fr/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/ru/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/languageProcessing/languages/ru/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/ru/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/it/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/languageProcessing/languages/it/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/it/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/pt/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/languageProcessing/languages/pt/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/pt/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/id/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/languageProcessing/languages/id/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/id/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/pl/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/languageProcessing/languages/pl/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/pl/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/ar/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/languageProcessing/languages/ar/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/ar/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/hu/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/languageProcessing/languages/hu/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/hu/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/sv/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/languageProcessing/languages/sv/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/sv/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/nb/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/languageProcessing/languages/nb/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/nb/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/tr/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/languageProcessing/languages/tr/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/tr/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/cs/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/cs/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/cs/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/languageProcessing/languages/sk/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/sk/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/sk/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/languageProcessing/languages/el/helpers/internal/stemmerCoverage/goldStandardStems.json",
-      "/spec/languageProcessing/languages/el/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/el/helpers/internal/stemmerCoverage/generateStems.js",
-      "/spec/scoring/assessments/inclusiveLanguage/testHelpers"
-    ],
-    "coveragePathIgnorePatterns": [
-      "js/templates.js"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 74,
-        "functions": 78,
-        "lines": 83,
-        "statements": 83
-      }
-    }
   },
   "yoast": {
     "premiumConfiguration": ""

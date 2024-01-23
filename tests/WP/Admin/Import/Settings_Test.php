@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group imports
  */
-class Settings_Test extends TestCase {
+final class Settings_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.
@@ -22,6 +22,8 @@ class Settings_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -33,6 +35,8 @@ class Settings_Test extends TestCase {
 	 * Tests the plugin name function.
 	 *
 	 * @covers WPSEO_Import_Settings::parse_options
+	 *
+	 * @return void
 	 */
 	public function test_parse_options_empty() {
 		$this->class_instance->parse_options( '' );
@@ -44,6 +48,8 @@ class Settings_Test extends TestCase {
 	 * Tests the import functionality.
 	 *
 	 * @covers WPSEO_Import_Settings::parse_options
+	 *
+	 * @return void
 	 */
 	public function test_parse_options() {
 		$this->assertEquals( true, WPSEO_Options::get( 'enable_admin_bar_menu' ) );
@@ -66,6 +72,8 @@ EO_DATA;
 	 * Tests the import functionality.
 	 *
 	 * @covers WPSEO_Import_Settings::parse_options
+	 *
+	 * @return void
 	 */
 	public function test_parse_options_invalid() {
 		$settings = <<<'EO_DATA'

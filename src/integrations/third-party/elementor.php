@@ -36,7 +36,7 @@ class Elementor implements Integration_Interface {
 	/**
 	 * The identifier for the elementor tab.
 	 */
-	const YOAST_TAB = 'yoast-tab';
+	public const YOAST_TAB = 'yoast-tab';
 
 	/**
 	 * Represents the post.
@@ -120,9 +120,9 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
-	 * @param Options_Helper            $options       The options helper.
-	 * @param Capability_Helper         $capability    The capability helper.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager     The asset manager.
+	 * @param Options_Helper            $options           The options helper.
+	 * @param Capability_Helper         $capability        The capability helper.
 	 * @param Promotion_Manager         $promotion_manager The promotion manager.
 	 */
 	public function __construct(
@@ -160,6 +160,8 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Registers our Elementor hooks.
 	 * This is done for pages with metabox on page load and not on ajax request.
+	 *
+	 * @return void
 	 */
 	public function register_elementor_hooks() {
 
@@ -192,6 +194,8 @@ class Elementor implements Integration_Interface {
 
 	/**
 	 * Register a panel tab slug, in order to allow adding controls to this tab.
+	 *
+	 * @return void
 	 */
 	public function add_yoast_panel_tab() {
 		Controls_Manager::add_tab( $this::YOAST_TAB, 'Yoast SEO' );
@@ -201,6 +205,8 @@ class Elementor implements Integration_Interface {
 	 * Register additional document controls.
 	 *
 	 * @param PageBase $document The PageBase document.
+	 *
+	 * @return void
 	 */
 	public function register_document_controls( $document ) {
 		// PageBase is the base class for documents like `post` `page` and etc.

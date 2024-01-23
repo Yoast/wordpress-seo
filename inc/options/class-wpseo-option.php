@@ -61,7 +61,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @var string
 	 */
-	const ALLOW_KEY_PREFIX = 'allow_';
+	public const ALLOW_KEY_PREFIX = 'allow_';
 
 	/**
 	 * Option name - MUST be set in concrete class and set to public.
@@ -186,9 +186,6 @@ abstract class WPSEO_Option {
 		 */
 		add_filter( 'sanitize_option_' . $this->option_name, [ $this, 'validate' ] );
 
-		// Flushes the rewrite rules when option is updated.
-		add_action( 'update_option_' . $this->option_name, [ 'WPSEO_Utils', 'clear_rewrites' ] );
-
 		/* Register our option for the admin pages */
 		add_action( 'admin_init', [ $this, 'register_setting' ] );
 
@@ -296,6 +293,8 @@ abstract class WPSEO_Option {
 	 * @param array  $dirty Dirty data with the new values.
 	 * @param array  $old   Old data.
 	 * @param array  $clean Clean data by reference, normally the default values.
+	 *
+	 * @return void
 	 */
 	public function validate_verification_string( $key, $dirty, $old, &$clean ) {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
@@ -371,6 +370,8 @@ abstract class WPSEO_Option {
 	 * @param array  $dirty Dirty data with the new values.
 	 * @param array  $old   Old data.
 	 * @param array  $clean Clean data by reference, normally the default values.
+	 *
+	 * @return void
 	 */
 	public function validate_url( $key, $dirty, $old, &$clean ) {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
@@ -870,7 +871,7 @@ abstract class WPSEO_Option {
 	/**
 	 * Check whether a given array key conforms to one of the variable array key patterns for this option.
 	 *
-	 * @usedby validate_option() methods for options with variable array keys.
+	 * @used-by validate_option() methods for options with variable array keys.
 	 *
 	 * @param string $key Array key to check.
 	 *

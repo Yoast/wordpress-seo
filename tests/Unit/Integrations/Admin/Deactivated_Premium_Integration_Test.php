@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Deactivated_Premium_Integration
  */
-class Deactivated_Premium_Integration_Test extends TestCase {
+final class Deactivated_Premium_Integration_Test extends TestCase {
 
 	/**
 	 * Mock of the options helper.
@@ -43,6 +43,8 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -61,6 +63,8 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 	 * Tests if the expected conditionals are given.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals( [ Admin_Conditional::class, Non_Multisite_Conditional::class ], Deactivated_Premium_Integration::get_conditionals() );
@@ -70,6 +74,8 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -82,6 +88,8 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 	 * Tests showing the notice.
 	 *
 	 * @covers ::premium_deactivated_notice
+	 *
+	 * @return void
 	 */
 	public function test_premium_deactivated_notice() {
 		$premium_file = 'wordpress-seo-premium/wp-seo-premium.php';
@@ -130,6 +138,8 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 	 * Tests showing the notice.
 	 *
 	 * @covers ::premium_deactivated_notice
+	 *
+	 * @return void
 	 */
 	public function test_premium_deactivated_notice_if_on_update_page() {
 		global $pagenow;
@@ -144,6 +154,8 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 	 * Tests showing the notice.
 	 *
 	 * @covers ::premium_deactivated_notice
+	 *
+	 * @return void
 	 */
 	public function test_premium_deactivated_notice_if_dismissed() {
 		global $pagenow;
@@ -160,6 +172,8 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 	 * Tests showing the notice.
 	 *
 	 * @covers ::premium_deactivated_notice
+	 *
+	 * @return void
 	 */
 	public function test_premium_deactivated_notice_if_no_capabilities() {
 		global $pagenow;
@@ -179,6 +193,8 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 	 * Tests showing the notice.
 	 *
 	 * @covers ::premium_deactivated_notice
+	 *
+	 * @return void
 	 */
 	public function test_premium_deactivated_notice_if_no_premium_installed() {
 		global $pagenow;
@@ -199,6 +215,8 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 	 * Tests dimsissing the notice.
 	 *
 	 * @covers ::dismiss_premium_deactivated_notice
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_premium_deactivated_notice() {
 		$this->options_helper->expects( 'set' )->with( 'dismiss_premium_deactivated_notice', true );

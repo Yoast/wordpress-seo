@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Routes;
 
+use Exception;
 use WP_Error;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
@@ -24,7 +25,7 @@ class Importing_Route extends Abstract_Action_Route {
 	 *
 	 * @var string
 	 */
-	const ROUTE = '/import/(?P<plugin>[\w-]+)/(?P<type>[\w-]+)';
+	public const ROUTE = '/import/(?P<plugin>[\w-]+)/(?P<type>[\w-]+)';
 
 	/**
 	 * List of available importers.
@@ -107,7 +108,7 @@ class Importing_Route extends Abstract_Action_Route {
 				$result,
 				$next_url
 			);
-		} catch ( \Exception $exception ) {
+		} catch ( Exception $exception ) {
 			if ( $exception instanceof Aioseo_Validation_Exception ) {
 				return new WP_Error(
 					'wpseo_error_validation',

@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Author_Archive_Helper
  */
-class Author_Archive_Helper_Test extends TestCase {
+final class Author_Archive_Helper_Test extends TestCase {
 
 	/**
 	 * Class instance to use for the test.
@@ -40,6 +40,8 @@ class Author_Archive_Helper_Test extends TestCase {
 	 * Tests whether the wpseo_author_archive_post_types filter is applied properly.
 	 *
 	 * @covers ::get_author_archive_post_types
+	 *
+	 * @return void
 	 */
 	public function test_get_author_archive_post_types_apply_filter() {
 		Monkey\Filters\expectApplied( 'wpseo_author_archive_post_types' )
@@ -54,6 +56,8 @@ class Author_Archive_Helper_Test extends TestCase {
 	 * Tests that true is returned when the author has a public post.
 	 *
 	 * @covers ::author_has_public_posts
+	 *
+	 * @return void
 	 */
 	public function test_author_has_public_posts_with_public_post() {
 		$this->instance->expects( 'author_has_a_public_post' )->once()->with( 1 )->andReturnTrue();
@@ -65,6 +69,8 @@ class Author_Archive_Helper_Test extends TestCase {
 	 * Tests that null is returned when the author has a post without noindex override.
 	 *
 	 * @covers ::author_has_public_posts
+	 *
+	 * @return void
 	 */
 	public function test_author_has_public_posts_with_post_without_override() {
 		$this->instance->expects( 'author_has_a_public_post' )->once()->with( 1 )->andReturnFalse();
@@ -77,6 +83,8 @@ class Author_Archive_Helper_Test extends TestCase {
 	 * Tests that false is returned when the author has no public posts and no posts without an override.
 	 *
 	 * @covers ::author_has_public_posts
+	 *
+	 * @return void
 	 */
 	public function test_author_has_public_posts_without_public_or_override_posts() {
 		$this->instance->expects( 'author_has_a_public_post' )->once()->with( 1 )->andReturnFalse();

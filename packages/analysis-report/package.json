@@ -25,7 +25,9 @@
     "@yoast/style-guide": "^0.13.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
@@ -39,11 +41,7 @@
     "eslint-plugin-react": "^7.29.4",
     "jest": "^27.5.1",
     "jest-styled-components": "^7.0.8",
-    "react-test-renderer": "^16.14.0"
-  },
-  "peerDependencies": {
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-test-renderer": "^18.2.0"
   },
   "publishConfig": {
     "access": "public"

@@ -7,10 +7,13 @@ module.exports = {
 		"/tests/helpers/factory.js",
 		"/tests/setupTests.js",
 		"/tests/decorator/__mocks__/@wordpress/rich-text/index.js",
+		"/tests/test-utils.js",
 	],
-
+	// https://testing-library.com/docs/react-testing-library/setup#jest-27
+	testEnvironment: "jest-environment-jsdom",
 	moduleNameMapper: {
-		"\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
+		"\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
+		"\\.(svg)$": "<rootDir>/tests/__mocks__/svgMock.js",
 		"\\.(css|less)$": "<rootDir>/tests/__mocks__/styleMock.js",
 		"find-with-regex": "<rootDir>/node_modules/find-with-regex/lib/index.js",
 		"^lodash-es$": "lodash",
@@ -19,10 +22,18 @@ module.exports = {
 	},
 	moduleDirectories: [
 		"<rootDir>/node_modules",
+		"<rootDir>/../../node_modules",
 		"node_modules",
 	],
-	snapshotSerializers: [
-		"enzyme-to-json/serializer",
+	collectCoverageFrom: [
+		"src/**/*.{js,jsx,ts,tsx}",
+	],
+	coverageReporters: [
+		"json",
+		"lcov",
+		"text",
+		"clover",
+		"text-summary",
 	],
 	testURL: "http://localhost/",
 };
