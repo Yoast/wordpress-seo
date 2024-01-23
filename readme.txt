@@ -348,8 +348,8 @@ Release date: 2024-02-06
 
 #### Bugfixes
 
-* Fixes a bug where category redirect to base url when using blog prefix in permalink structure and strip category slug.
-* Fixes a bug where the `get_head` REST route would return a `rest_invalid_param` if the URL contains a multiple words search string. props to @lucymtc.
+* Fixes a bug where using a `blog` prefix in the permalink structure with _Strip category base_ enabled would prevent the blog page from being accessible.
+* Fixes a bug where the `get_head` REST route would return a `rest_invalid_param` if the URL contains a multiple words search string. Props to @lucymtc.
 
 = 21.9 =
 
