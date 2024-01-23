@@ -342,6 +342,15 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 22.0 =
+
+Release date: 2024-02-06
+
+#### Bugfixes
+
+* Fixes a bug where using a `blog` prefix in the permalink structure with _Strip category base_ enabled would prevent the blog page from being accessible.
+* Fixes a bug where the `get_head` REST route would return a `rest_invalid_param` if the URL contains a multiple words search string. Props to @lucymtc.
+
 = 21.9 =
 
 Release date: 2024-01-23
@@ -367,37 +376,6 @@ We've just released Yoast SEO 21.9. This release comes with many behind-the-scen
 * Be explicit about required PHP extensions.
 * Improves PHP 8.2 compatibility.
 * Sets the minimum supported WordPress version to 6.3.
-
-= 21.8.1 =
-
-Release date: 2024-01-19
-
-#### Bugfixes
-
-* Fixes a bug where our block editor integration would no longer work together with Gutenberg 17.4.1.
-* Fixes a bug where our block editor integration would no longer work together with Gutenberg 17.5.
-
-= 21.8 =
-
-Release date: 2024-01-09
-
-We've just released Yoast SEO 21.8. In this release, we've focused on general enhancements and fixes to improve how your WordPress SEO plugin functions. Find out more about what's new in Yoast SEO 21.8 in [our release post](https://yoa.st/release-9-1-24)!
-
-#### Enhancements
-
-* Aligns the styling of the replacement variables in the post editor with the styling in the settings.
-* Improves the centering of the eye icon in the highlighting button across editors.
-
-#### Bugfixes
-
-* Fixes a bug where highlighting for the _keyphrase density_ assessment would not work when using the latest version of Gutenberg (17.3.0).
-
-#### Other
-
-* Adds a JavaScript action (`yoast.analysis.applyMarks`) that allow users to implement the highlighting functionality in other editors.
-* Adds a notification in the sidebar to leave a quick review.
-* Removes a set of Elementor widgets from the content analysis to make the analysis results more accurate.
-* Re-orders menu items in block editor metabox and sidebar, classic editor metabox and Elementor editor sidebar to be consistent with Yoast SEO Premium.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
