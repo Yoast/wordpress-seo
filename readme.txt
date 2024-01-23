@@ -346,6 +346,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-01-23
 
+We've just released Yoast SEO 21.9. This release comes with many behind-the-scenes improvements and general enhancements. Find out more about what's new in Yoast SEO 21.9 in [our release post](https://yoa.st/release-23-1-24)!
+
 #### Enhancements
 
 * Adds a filter to add images to the front page in sitemaps.
@@ -358,7 +360,7 @@ Release date: 2024-01-23
 
 * Fixes a bug where a post would be saved when trying to dismiss a notification while editing.
 * Fixes a bug where editing a product would either crash or be slow when there is a high number of registered attributes.
-* Fixes a bug where the Yoast plugin icon in the block editor would not have any horizontal spacing anymore when rendered in \"compact\" mode.
+* Fixes a bug where the Yoast plugin icon in the block editor would not have any horizontal spacing anymore when rendered in "compact" mode.
 
 #### Other
 
