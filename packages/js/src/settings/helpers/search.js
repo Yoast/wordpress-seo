@@ -1265,7 +1265,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 				route: "/site-representation",
 				routeLabel: __( "Site representation", "wordpress-seo" ),
 				fieldId: `input-wpseo_social-other_social_urls-${ index }`,
-				// translators: %1$s exapnds to array index + 1.
+				// translators: %1$s expands to array index + 1.
 				fieldLabel: sprintf( __( "Other profile %1$s", "wordpress-seo" ), index + 1 ),
 			} ) ),
 		},
