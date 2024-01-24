@@ -456,8 +456,6 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 
 		$sitemap_provider = new Post_Type_Sitemap_Provider_Double();
 
-		$index_links = $sitemap_provider->get_index_links( 1 );
-
 		$expected = [
 			[
 				'loc'    => 'http://example.org/?page_id=5',
