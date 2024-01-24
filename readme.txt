@@ -348,8 +348,17 @@ Release date: 2024-02-06
 
 #### Bugfixes
 
-* Fixes a bug where using a `blog` prefix in the permalink structure with _Strip category base_ enabled would prevent the blog page from being accessible.
 * Fixes a bug where the `get_head` REST route would return a `rest_invalid_param` if the URL contains a multiple words search string. Props to @lucymtc.
+* Fixes a bug where using a `blog` prefix in the permalink structure with _Strip category base_ enabled would prevent the blog page from being accessible.
+
+= 21.9.1 =
+
+Release date: 2024-01-25
+
+#### Bugfixes
+
+* Fixes a bug where a fatal error would occur when upgrading Yoast SEO on certain setups.
+* Fixes a bug where the image tag would be missing in the home page entry of the XML sitemap when using a static front page.
 
 = 21.9 =
 

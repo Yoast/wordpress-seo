@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '22.0-RC1' );
+define( 'WPSEO_VERSION', '22.0-RC2' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -342,28 +342,9 @@ function wpseo_init() {
 	WPSEO_Meta::init();
 
 	if ( version_compare( WPSEO_Options::get( 'version', 1 ), WPSEO_VERSION, '<' ) ) {
-		require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
-		require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
-		require_once ABSPATH . 'wp-admin/includes/file.php';
-		WP_Filesystem();
-
-		/*
-		 * We invalidate each subdir and the main files instead of the whole `wordpress-seo` dir
-		 * to avoid any timeout or resource exhaustion when building from source.
-		 */
-		if ( function_exists( 'wp_opcache_invalidate' ) ) {
-			// Since WP 5.5.
-			wp_opcache_invalidate( WPSEO_PATH . 'wp-seo-main.php' );
-			wp_opcache_invalidate( WPSEO_PATH . 'wp-seo.php' );
-		}
-		if ( function_exists( 'wp_opcache_invalidate_directory' ) ) {
-			// Since WP 6.2.
-			wp_opcache_invalidate_directory( WPSEO_PATH . 'admin' );
-			wp_opcache_invalidate_directory( WPSEO_PATH . 'inc' );
-			wp_opcache_invalidate_directory( WPSEO_PATH . 'lib' );
-			wp_opcache_invalidate_directory( WPSEO_PATH . 'src' );
-			wp_opcache_invalidate_directory( WPSEO_PATH . 'vendor' );
-			wp_opcache_invalidate_directory( WPSEO_PATH . 'vendor_prefixed' );
+		if ( function_exists( 'opcache_reset' ) ) {
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Prevent notices when opcache.restrict_api is set.
+			@opcache_reset();
 		}
 
 		new WPSEO_Upgrade();
