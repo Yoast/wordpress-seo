@@ -458,7 +458,7 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 
 		$expected = [
 			[
-				'loc'    => 'http://example.org/?page_id=5',
+				'loc'    => 'http://example.org/?page_id='.$post_id,
 				'chf'    => 'daily',
 				'pri'    => 1,
 				'images' => [ [ 'src' => 'http://example.org/wp-content/uploads/test.test/path/to/image.jpg' ] ],
