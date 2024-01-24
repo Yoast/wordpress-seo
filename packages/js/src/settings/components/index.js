@@ -7,6 +7,7 @@ export { default as FormikTagField } from "./formik-tag-field";
 export { default as FormikUserSelectField } from "./formik-user-select-field";
 export { default as FormikPageSelectField } from "./formik-page-select-field";
 export { default as FormikValueChangeField } from "./formik-value-change-field";
+export { default as FormikAutocompleteField } from "./formik-autocomplete-field";
 export { default as FormikWithErrorField } from "./formik-with-error-field";
 export { default as Notifications } from "./notifications";
 export { default as NewsSeoAlert } from "./news-seo-alert";

@@ -19,10 +19,10 @@ import {
 	RouteLayout,
 } from "../../components";
 import { safeToLocaleLower } from "../../helpers";
-import { withFormikDummyField } from "../../hocs";
+import { withFormikDummyField, withFormikDummyTagField } from "../../hocs";
 import { useSelectSettings, useDispatchSettings } from "../../hooks";
 
-const FormikTagFieldWithDummy = withFormikDummyField( FormikTagField );
+const FormikTagFieldWithDummy = withFormikDummyTagField( FormikTagField );
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
 /**
@@ -54,6 +54,13 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const pageAnalysisPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-custom-fields" );
 	const schemaLink = useSelectSettings( "selectLink", [], "https://yoa.st/post-type-schema" );
 	const { updatePostTypeReviewStatus } = useDispatchSettings();
+	const isWooCommerceSEOActive = useSelectSettings( "selectPreference", [], "isWooCommerceSEOActive" );
+	const shouldDisablePageTypeSelect = isWooCommerceSEOActive && name === "product";
+	const disabledPageTypeSelectorDescription =  sprintf(
+		/* translators: %1$s expands to Yoast WooCommerce SEO. */
+		__( "You have %1$s activated on your site, automatically setting the Page type for your products to 'Item Page'. As a result, the Page type selection is disabled.", "wordpress-seo" ),
+		"Yoast WooCommerce SEO"
+	);
 
 	useEffect( () => {
 		if ( isNew ) {
@@ -265,8 +272,10 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							name={ `wpseo_titles.schema-page-type-${ name }` }
 							id={ `input-wpseo_titles-schema-page-type-${ name }` }
 							label={ __( "Page type", "wordpress-seo" ) }
-							options={ pageTypes }
-							className="yst-max-w-sm"
+							options={ shouldDisablePageTypeSelect ? pageTypes.filter( ( { value } ) => value === "ItemPage" ) : pageTypes }
+							className="yst-max-w-5xl"
+							description={ shouldDisablePageTypeSelect ? disabledPageTypeSelectorDescription : "" }
+							disabled={ shouldDisablePageTypeSelect }
 						/>
 						{ hasSchemaArticleType && (
 							<div>

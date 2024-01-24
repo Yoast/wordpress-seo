@@ -67,7 +67,7 @@ jobs:
       - name: Set up node and enable caching of dependencies
         uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version-file: './.nvmrc'
           cache: 'yarn'
 
       - name: Yarn install
