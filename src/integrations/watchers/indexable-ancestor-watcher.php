@@ -41,13 +41,6 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	protected $indexable_hierarchy_repository;
 
 	/**
-	 * Represents the WordPress database object.
-	 *
-	 * @var wpdb
-	 */
-	protected $wpdb;
-
-	/**
 	 * Represents the permalink helper.
 	 *
 	 * @var Permalink_Helper
@@ -75,13 +68,11 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		Indexable_Repository $indexable_repository,
 		Indexable_Hierarchy_Builder $indexable_hierarchy_builder,
 		Indexable_Hierarchy_Repository $indexable_hierarchy_repository,
-		wpdb $wpdb,
 		Permalink_Helper $permalink_helper,
 		Post_Type_Helper $post_type_helper
 	) {
 		$this->indexable_repository           = $indexable_repository;
 		$this->indexable_hierarchy_builder    = $indexable_hierarchy_builder;
-		$this->wpdb                           = $wpdb;
 		$this->indexable_hierarchy_repository = $indexable_hierarchy_repository;
 		$this->permalink_helper               = $permalink_helper;
 		$this->post_type_helper               = $post_type_helper;
@@ -206,15 +197,17 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		};
 
 		$child_terms      = \array_filter( $child_indexables, $filter_terms );
-		$child_object_ids = \wp_list_pluck( $child_terms, 'object_id' );
+		$child_object_ids = \array_unshift( \wp_list_pluck( $child_terms, 'object_id' ), $term_id );
+
+		$wpdb = Wrapper::get_wpdb();
 
 		// Get the term-taxonomy id's for the term and its children.
-		$term_taxonomy_ids = $this->wpdb->get_col(
-			$this->wpdb->prepare(
+		$term_taxonomy_ids = $wpdb->get_col(
+			$wpdb->prepare(
 				'SELECT term_taxonomy_id
-				FROM ' . $this->wpdb->term_taxonomy . '
-				WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, ( \count( $child_object_ids ) + 1 ), '%s' ) ) . ' )',
-				$term_id,
+				FROM %i
+				WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, ( \count( $child_object_ids ) ), '%s' ) ) . ' )',
+				$wpdb->term_taxonomy,
 				...$child_object_ids
 			)
 		);
@@ -225,11 +218,12 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		}
 
 		// Get the (post) object id's that are attached to the term.
-		return $this->wpdb->get_col(
-			$this->wpdb->prepare(
+		return $wpdb->get_col(
+			$wpdb->prepare(
 				'SELECT DISTINCT object_id
-				FROM ' . $this->wpdb->term_relationships . '
+				FROM %i
 				WHERE term_taxonomy_id IN( ' . \implode( ', ', \array_fill( 0, \count( $term_taxonomy_ids ), '%s' ) ) . ' )',
+				$wpdb->term_relationships,
 				...$term_taxonomy_ids
 			)
 		);
