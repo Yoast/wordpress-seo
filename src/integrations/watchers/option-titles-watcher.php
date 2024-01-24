@@ -103,7 +103,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 		if ( empty( $post_types ) ) {
 			return false;
 		}
-		
+
 		$wpdb            = Wrapper::get_wpdb();
 		$hierarchy_table = Model::get_table_name( 'Indexable_Hierarchy' );
 		$indexable_table = Model::get_table_name( 'Indexable' );
