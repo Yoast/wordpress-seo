@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\WP\Sitemaps;
 
 use WPSEO_Options;
 use WPSEO_Post_Type_Sitemap_Provider;
+use WPSEO_Sitemaps;
 use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Post_Type_Sitemap_Provider_Double;
 use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Sitemaps_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
@@ -71,6 +72,7 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 		$this->factory->post->create();
 
 		$index_links = self::$class_instance->get_index_links( 1 );
+
 		$this->assertContains( 'http://example.org/post-sitemap.xml', $index_links[0] );
 		$this->assertContains( 'http://example.org/post-sitemap2.xml', $index_links[1] );
 	}
@@ -420,5 +422,52 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 */
 	public function return_one() {
 		return 1;
+	}
+
+	/**
+	 * Tests get_first_links;
+	 *
+	 * @covers ::get_first_links
+	 *
+	 * @return void
+	 */
+	public function test_get_first_links() {
+
+		$post_id = $this->factory->post->create(
+			[
+				'post_type'   => 'page',
+				'post_status' => 'publish',
+			]
+		);
+		\update_option( 'page_on_front', $post_id );
+
+		$image_path      = 'test.test/path/to/image.jpg';
+		$attachment_data = [
+			'guid'           => $image_path,
+			'post_mime_type' => 'image/jpeg',
+			'post_title'     => 'My Image',
+			'post_content'   => '',
+			'post_status'    => 'inherit',
+		];
+
+		// Create the attachment and get its ID.
+		$attachment_id = \wp_insert_attachment( $attachment_data, $image_path, $post_id );
+		\set_post_thumbnail( $post_id, $attachment_id );
+
+		$sitemap_provider = new Post_Type_Sitemap_Provider_Double();
+
+		$index_links = $sitemap_provider->get_index_links( 1 );
+
+		$expected = [
+			[
+				'loc'    => 'http://example.org/?page_id=5',
+				'chf'    => 'daily',
+				'pri'    => 1,
+				'images' => [ [ 'src' => 'http://example.org/wp-content/uploads/test.test/path/to/image.jpg' ] ],
+				'mod'    => WPSEO_Sitemaps::get_last_modified_gmt( 'page' ),
+			],
+		];
+
+		$this->assertEquals( $expected, $sitemap_provider->get_first_links( 'page' ) );
 	}
 }
