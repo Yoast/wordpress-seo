@@ -15,14 +15,14 @@ let store;
  *
  * @type {string}
  */
-export var tmceId = "content";
+export const tmceId = "content";
 
 /**
  * The HTML 'id' attribute for the tinyMCE editor on the edit term page.
  *
  * @type {string}
  */
-export var termsTmceId = "description";
+export const termsTmceId = "description";
 
 /**
  * Sets the store.
@@ -46,7 +46,7 @@ function tinyMCEElementContent( contentID ) {
 }
 
 /**
- * Returns whether or not the tinyMCE script is available on the page.
+ * Returns whether the tinyMCE script is available on the page.
  *
  * @returns {boolean} True when tinyMCE is loaded.
  */
@@ -73,7 +73,7 @@ function isTinyMCEBodyAvailable( editorID ) {
 }
 
 /**
- * Returns whether or not a tinyMCE editor with the given ID is available.
+ * Returns whether a tinyMCE editor with the given ID is available.
  *
  * @param {string} editorID The ID of the tinyMCE editor.
  *
@@ -84,7 +84,7 @@ export function isTinyMCEAvailable( editorID ) {
 		return false;
 	}
 
-	var editor = tinyMCE.get( editorID );
+	const editor = tinyMCE.get( editorID );
 
 	return (
 		editor !== null && ! editor.isHidden()
@@ -92,32 +92,20 @@ export function isTinyMCEAvailable( editorID ) {
 }
 
 /**
- * Converts the html entities for symbols back to the original symbol. For now this only converts the & symbol.
- * @param {String} text The text to replace the '&amp;' entities.
- * @returns {String} text Text with html entities replaced by the symbol.
- */
-function convertHtmlEntities( text ) {
-	// Create regular expression, this searches for the html entity '&amp;', the 'g' param is for searching the whole text.
-	var regularExpression = new RegExp( "&amp;", "g" );
-	return text.replace( regularExpression, "&" );
-}
-
-/**
  * Returns the value of the content field via TinyMCE object, or ff tinyMCE isn't initialized via the content element id.
- * Also converts 'amp;' to & in the content.
  * @param {String} contentID The (HTML) id attribute for the TinyMCE field.
  * @returns {String} Content from the TinyMCE editor.
  */
 export function getContentTinyMce( contentID ) {
 	// If no TinyMCE object available
-	var content = "";
+	let content = "";
 	if ( isTinyMCEAvailable( contentID ) === false || isTinyMCEBodyAvailable( contentID ) === false ) {
 		content = tinyMCEElementContent( contentID );
 	} else {
 		content = tinyMCE.get( contentID ).getContent();
 	}
 
-	return convertHtmlEntities( content );
+	return content;
 }
 /**
  * Adds an event handler to certain tinyMCE events.
@@ -134,7 +122,7 @@ export function addEventHandler( editorId, events, callback ) {
 	}
 
 	tinyMCE.on( "addEditor", function( evt ) {
-		var editor = evt.editor;
+		const editor = evt.editor;
 
 		if ( editor.id !== editorId ) {
 			return;

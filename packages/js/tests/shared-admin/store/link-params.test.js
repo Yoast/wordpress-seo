@@ -12,8 +12,26 @@ describe( "linkParams", () => {
 	} );
 
 	describe( "actions", () => {
-		it( "has no actions", () => {
-			expect( linkParamsActions ).toEqual( {} );
+		describe( "setLinkParams", () => {
+			it( "exists", () => {
+				expect( linkParamsActions.setLinkParams ).toBeTruthy();
+			} );
+
+			it( "is a function", () => {
+				expect( typeof linkParamsActions.setLinkParams ).toBe( "function" );
+			} );
+
+			it( "returns an action object", () => {
+				expect( linkParamsActions.setLinkParams( { foo: "bar" } ) ).toEqual( {
+					type: "linkParams/setLinkParams",
+					payload: { foo: "bar" },
+				} );
+			} );
+
+			it( "sets the state", () => {
+				const actual = linkParamsReducer( {}, linkParamsActions.setLinkParams( { foo: "bar" } ) );
+				expect( actual ).toEqual( { foo: "bar" } );
+			} );
 		} );
 	} );
 
@@ -76,6 +94,10 @@ describe( "linkParams", () => {
 
 			it( "adds the link params to the given url", () => {
 				expect( linkParamsSelectors.selectLink( state, "https://example.com" ) ).toBe( "https://example.com?foo=bar&one=two" );
+			} );
+
+			it( "adds extra params to the given url", () => {
+				expect( linkParamsSelectors.selectLink( state, "https://example.com", { extra: true } ) ).toBe( "https://example.com?foo=bar&one=two&extra=true" );
 			} );
 		} );
 	} );

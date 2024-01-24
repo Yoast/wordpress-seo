@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { useField } from "formik";
 import { debounce, find, isEmpty, map, values } from "lodash";
 import PropTypes from "prop-types";
-import { ASYNC_ACTION_STATUS } from "../constants";
+import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 /**
@@ -87,6 +87,7 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 			onQueryChange={ handleQueryChange }
 			className={ classNames( className, props.disabled && "yst-autocomplete--disabled" ) }
 			nullable={ true }
+			/* translators: Hidden accessibility text. */
 			clearButtonScreenReaderText={ __( "Clear selection", "wordpress-seo" ) }
 			{ ...props }
 		>

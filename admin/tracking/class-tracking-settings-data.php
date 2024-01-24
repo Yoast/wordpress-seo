@@ -192,6 +192,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'enable_metabox_insights',
 		'enable_link_suggestions',
 		'enable_index_now',
+		'enable_ai_generator',
 		'workouts',
 		'wincher_integration_active',
 		'wincher_tokens',
@@ -230,6 +231,9 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'deny_search_crawling',
 		'deny_wp_json_crawling',
 		'deny_adsbot_crawling',
+		'deny_ccbot_crawling',
+		'deny_google_extended_crawling',
+		'deny_gptbot_crawling',
 		'last_known_no_unindexed',
 	];
 
@@ -242,7 +246,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		/**
 		 * Filter: 'wpseo_tracking_settings_include_list' - Allow filtering the settings included in tracking.
 		 *
-		 * @api string $include_list the list with included setting names.
+		 * @param string $include_list The list with included setting names.
 		 */
 		$this->include_list = apply_filters( 'wpseo_tracking_settings_include_list', $this->include_list );
 

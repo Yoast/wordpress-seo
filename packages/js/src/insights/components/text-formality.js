@@ -24,6 +24,7 @@ const TextFormality = ( { location, name } ) => {
 		? get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_premium", "" )
 		: get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_free", "" );
 
+	/* translators: Hidden accessibility text. */
 	const linkText = __( "Read more about text formality.", "wordpress-seo" );
 
 	if ( ! isFormalitySupported ) {

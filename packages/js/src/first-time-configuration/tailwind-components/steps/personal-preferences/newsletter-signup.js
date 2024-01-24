@@ -83,19 +83,22 @@ export function NewsletterSignup( { gdprLink } ) {
 		<Fragment>
 			<h4 className="yst-text-slate-900 yst-text-base yst-leading-6 yst-font-normal">
 				{
-					// translators: %s is replaced by "Yoast"
-					sprintf( __( "%s newsletter", "wordpress-seo" ), "Yoast" )
+					__(
+						"Get free weekly SEO tips!",
+						"wordpress-seo"
+					)
 				}
 			</h4>
 			<p className="yst-my-2">
 				{
 					sprintf(
-						// translators: %1$s expands to "Yoast", %2$s expands to "Yoast SEO"
+						/* translators: %1$s expands to "Yoast SEO", %2$s expands to "Yoast SEO". */
 						__(
-							"Sign up for the %1$s newsletter to receive best-practice tips on how to rank, stay up-to-date with the latest SEO news and get guidance on how to use %2$s to the fullest!",
+							"Subscribe to the %1$s newsletter to receive best practices for improving your rankings, save time on SEO tasks, stay up-to-date with the latest SEO news, " +
+							"and get expert guidance on how to make the most of %2$s!",
 							"wordpress-seo"
 						),
-						"Yoast",
+						"Yoast SEO",
 						"Yoast SEO"
 					)
 				}
@@ -123,8 +126,9 @@ export function NewsletterSignup( { gdprLink } ) {
 					className="yst-button yst-button--primary yst-h-[45px] yst-items-center yst-mt-[27.5px] yst-shrink-0"
 					onClick={ onSignUpClick }
 					disabled={ signUpState === "loading" }
+					data-hiive-event-name="clicked_signup | personal preferences"
 				>
-					{ __( "Sign up!", "wordpress-seo" ) }
+					{ __( "Yes, give me your free tips!", "wordpress-seo" ) }
 				</button>
 			</div>
 			<p className="yst-text-slate-600 yst-text-xxs yst-leading-4">

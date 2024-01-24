@@ -619,10 +619,10 @@ ul.yoast-seo-social-share-buttons a {
   margin-bottom: 10px;
 }
 
-div.interface-pinned-items button.components-button[aria-label="Yoast SEO"] > svg,
-div.interface-pinned-items button.components-button[aria-label="Yoast SEO Premium"] > svg,
-.edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO"] > svg,
-.edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO Premium"] > svg {
+div.interface-pinned-items button.components-button:not(.is-compact)[aria-label="Yoast SEO"] > svg,
+div.interface-pinned-items button.components-button:not(.is-compact)[aria-label="Yoast SEO Premium"] > svg,
+.edit-post-pinned-plugins button.components-button:not(.is-compact)[aria-label="Yoast SEO"] > svg,
+.edit-post-pinned-plugins button.components-button:not(.is-compact)[aria-label="Yoast SEO Premium"] > svg {
 	max-width: 28px;
 	max-height: 28px;
 	width: 28px;

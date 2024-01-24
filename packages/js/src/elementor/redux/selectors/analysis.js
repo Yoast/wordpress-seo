@@ -2,7 +2,7 @@ import { strings } from "@yoast/helpers";
 import measureTextWidth from "../../../helpers/measureTextWidth";
 import { selectors } from "@yoast/externals/redux";
 
-import { applyModifications } from "../../initializers/pluggable";
+import { applyModifications } from "../../../initializers/pluggable";
 
 const {
 	getBaseUrlFromSettings,

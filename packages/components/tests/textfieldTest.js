@@ -24,8 +24,10 @@ describe( "A Textfield component", () => {
 		renderer.render( <Textfield /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type" );
+		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
+		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
+		expect( console.error.mock.calls[ 0 ][ 2 ] )
+			.toBe( "The prop `label` is marked as required in `Textfield`, but its value is `undefined`." );
 	} );
 
 	it( "generates a warning when a faulty value is passed", () => {
@@ -34,8 +36,9 @@ describe( "A Textfield component", () => {
 		renderer.render( <Textfield label="customLabel" value={ 0 } /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `value` of type `number` supplied to `Textfield`, expected `string`." );
+		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
+		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
+		expect( console.error.mock.calls[ 0 ][ 2 ] ).toBe( "Invalid prop `value` of type `number` supplied to `Textfield`, expected `string`." );
 	} );
 
 	it( "generates a multiline textarea based on the props", () => {

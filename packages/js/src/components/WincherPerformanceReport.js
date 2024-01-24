@@ -16,7 +16,7 @@ import { Alert, NewButton } from "@yoast/components";
 import WincherNoTrackedKeyphrasesAlert from "./modals/WincherNoTrackedKeyphrasesAlert";
 import { getKeyphrasePosition, PositionOverTimeChart } from "./WincherTableRow";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
-import WincherUpgradeCallout from "./modals/WincherUpgradeCallout";
+import WincherUpgradeCallout, { useTrackingInfo } from "./modals/WincherUpgradeCallout";
 
 const ViewLink = makeOutboundLink();
 const GetMoreInsightsLink = makeOutboundLink();
@@ -55,7 +55,7 @@ const WincherSEOPerformanceTableBlurredCell = styled.div`
 const ConnectToWincherWrapper = styled.p`
 	top: 47%;
 	left: 50%;
-	position: absolute; 
+	position: absolute;
 `;
 
 /**
@@ -328,14 +328,12 @@ GetUserMessage.propTypes = {
 const TableExplanation = ( { isLoggedIn } ) => {
 	const loggedInMessage = sprintf(
 		/* translators: %s expands to a link to Wincher login */
-		// eslint-disable-next-line max-len
 		__( "This overview only shows you keyphrases added to Yoast SEO. There may be other keyphrases added to your %s.", "wordpress-seo" ),
 		"{{wincherAccountLink/}}"
 	);
 
 	const notLoggedInMessage = sprintf(
 		/* translators: %s expands to a link to Wincher login */
-		// eslint-disable-next-line max-len
 		__( "This overview will show you your top performing keyphrases in Google. Connect with %s to get started.", "wordpress-seo" ),
 		"{{wincherLink/}}"
 	);
@@ -465,12 +463,13 @@ const WincherPerformanceReport = ( props ) => {
 	const data = isLoggedIn ? props.data : fakeWincherPerformanceData;
 	const isBlurred = ! isLoggedIn;
 	const hasResults = checkHasResults( data );
+	const trackingInfo = useTrackingInfo( isLoggedIn );
 
 	return (
 		<WicnherSEOPerformanceContainer
 			className={ className }
 		>
-			{ isLoggedIn && <WincherUpgradeCallout isTitleShortened={ true } /> }
+			{ isLoggedIn && <WincherUpgradeCallout isTitleShortened={ true } trackingInfo={ trackingInfo } /> }
 
 			<GetUserMessage { ...props } data={ data } isConnectSuccess={ isConnectSuccess && isLoggedIn } />
 

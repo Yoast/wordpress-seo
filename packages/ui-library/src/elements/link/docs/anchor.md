@@ -1,0 +1,1 @@
+Pass the `href`, `target` and `rel` props to get the attributes.<br>When using target `_blank`, please add a visually hidden text inside the link to notify screen reader users to the fact that the link opens in a new tab.

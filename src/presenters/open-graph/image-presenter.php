@@ -96,8 +96,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_opengraph_image' - Allow changing the Open Graph image.
 		 *
-		 * @api string - The URL of the Open Graph image.
-		 *
+		 * @param string                 $image_url    The URL of the Open Graph image.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		$image_url = \trim( \apply_filters( 'wpseo_opengraph_image', $image['url'], $this->presentation ) );

@@ -72,6 +72,14 @@ describe( "a test for getting words from a sentence", function() {
 		expect( getWords( text ) ).toEqual(  [ "Sri", "Tandjung", "noted", "that", "Javanese", "had", "been", "eating", "cooked", "native", "black",
 			"soybeans", "since", "the", "12th", "century" ] );
 	} );
+
+	it( "gets words from text containing html tags", function() {
+		const text = "<p>A very intelligent cat loves their human. A dog is very cute.</p><h3>A subheading 3" +
+			"</h3>text text text<h4>A subheading 4</h4>more text.";
+		expect( getWords( text ).length ).toBe( 23 );
+		expect( getWords( text ) ).toEqual( [ "A", "very", "intelligent", "cat", "loves", "their", "human", "A", "dog",
+			"is", "very", "cute", "A", "subheading", "3", "text", "text", "text", "A", "subheading", "4", "more", "text" ] );
+	} );
 } );
 
 describe( "language-specific tests for getting words", function() {

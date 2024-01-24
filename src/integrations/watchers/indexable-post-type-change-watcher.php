@@ -99,7 +99,8 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$public_post_types            = \array_keys( $this->post_type_helper->get_public_post_types() );
+		$public_post_types = $this->post_type_helper->get_indexable_post_types();
+
 		$last_known_public_post_types = $this->options->get( 'last_known_public_post_types', [] );
 
 		// Initializing the option on the first run.
@@ -122,7 +123,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		$this->options->set( 'last_known_public_post_types', $public_post_types );
 
 		// There are new post types that have been made public.
-		if ( ! empty( $newly_made_public_post_types ) ) {
+		if ( $newly_made_public_post_types ) {
 
 			// Force a notification requesting to start the SEO data optimization.
 			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
@@ -130,18 +131,18 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 
 			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_POST_TYPE_MADE_PUBLIC );
 
-			do_action( 'new_public_post_type_notifications', $newly_made_public_post_types );
+			\do_action( 'new_public_post_type_notifications', $newly_made_public_post_types );
 		}
 
 		// There are post types that have been made private.
-		if ( ! empty( $newly_made_non_public_post_types ) ) {
+		if ( $newly_made_non_public_post_types ) {
 			// Schedule a cron job to remove all the posts whose post type has been made private.
 			$cleanup_not_yet_scheduled = ! \wp_next_scheduled( Cleanup_Integration::START_HOOK );
 			if ( $cleanup_not_yet_scheduled ) {
 				\wp_schedule_single_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 			}
 
-			do_action( 'clean_new_public_post_type_notifications', $newly_made_non_public_post_types );
+			\do_action( 'clean_new_public_post_type_notifications', $newly_made_non_public_post_types );
 		}
 	}
 }

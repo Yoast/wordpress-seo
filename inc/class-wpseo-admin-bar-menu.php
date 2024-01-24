@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\Score_Icon_Helper;
 use Yoast\WP\SEO\Integrations\Support_Integration;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -22,35 +23,35 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @var string
 	 */
-	const MENU_IDENTIFIER = 'wpseo-menu';
+	public const MENU_IDENTIFIER = 'wpseo-menu';
 
 	/**
 	 * The identifier used for the Keyword Research submenu.
 	 *
 	 * @var string
 	 */
-	const KEYWORD_RESEARCH_SUBMENU_IDENTIFIER = 'wpseo-kwresearch';
+	public const KEYWORD_RESEARCH_SUBMENU_IDENTIFIER = 'wpseo-kwresearch';
 
 	/**
 	 * The identifier used for the Analysis submenu.
 	 *
 	 * @var string
 	 */
-	const ANALYSIS_SUBMENU_IDENTIFIER = 'wpseo-analysis';
+	public const ANALYSIS_SUBMENU_IDENTIFIER = 'wpseo-analysis';
 
 	/**
 	 * The identifier used for the Settings submenu.
 	 *
 	 * @var string
 	 */
-	const SETTINGS_SUBMENU_IDENTIFIER = 'wpseo-settings';
+	public const SETTINGS_SUBMENU_IDENTIFIER = 'wpseo-settings';
 
 	/**
 	 * The identifier used for the Network Settings submenu.
 	 *
 	 * @var string
 	 */
-	const NETWORK_SETTINGS_SUBMENU_IDENTIFIER = 'wpseo-network-settings';
+	public const NETWORK_SETTINGS_SUBMENU_IDENTIFIER = 'wpseo-network-settings';
 
 	/**
 	 * Asset manager instance.
@@ -118,11 +119,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @param WPSEO_Shortlinker|null         $shortlinker          The shortlinker.
 	 */
 	public function __construct(
-		WPSEO_Admin_Asset_Manager $asset_manager = null,
-		Indexable_Repository $indexable_repository = null,
-		Score_Icon_Helper $score_icon_helper = null,
-		Product_Helper $product_helper = null,
-		WPSEO_Shortlinker $shortlinker = null
+		?WPSEO_Admin_Asset_Manager $asset_manager = null,
+		?Indexable_Repository $indexable_repository = null,
+		?Score_Icon_Helper $score_icon_helper = null,
+		?Product_Helper $product_helper = null,
+		?WPSEO_Shortlinker $shortlinker = null
 	) {
 		if ( ! $asset_manager ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -156,6 +157,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		if ( is_null( $this->is_seo_enabled ) ) {
 			$this->is_seo_enabled = ( new WPSEO_Metabox_Analysis_SEO() )->is_enabled();
 		}
+
 		return $this->is_seo_enabled;
 	}
 
@@ -168,6 +170,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		if ( is_null( $this->is_readability_enabled ) ) {
 			$this->is_readability_enabled = ( new WPSEO_Metabox_Analysis_Readability() )->is_enabled();
 		}
+
 		return $this->is_readability_enabled;
 	}
 
@@ -180,6 +183,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		if ( is_null( $this->current_indexable ) ) {
 			$this->current_indexable = $this->indexable_repository->for_current_page();
 		}
+
 		return $this->current_indexable;
 	}
 
@@ -237,7 +241,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 						[
 							'parent' => self::MENU_IDENTIFIER,
 							'id'     => 'wpseo-seo-score',
-							'title'  => __( 'SEO score', 'wordpress-seo' ) . ': ' . $this->score_icon_helper->for_seo( $indexable, 'adminbar-sub-menu-score' )->present(),
+							'title'  => __( 'SEO score', 'wordpress-seo' ) . ': ' . $this->score_icon_helper->for_seo( $indexable, 'adminbar-sub-menu-score' )
+									->present(),
 							'meta'   => [ 'tabindex' => '0' ],
 						]
 					);
@@ -248,7 +253,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 						[
 							'parent' => self::MENU_IDENTIFIER,
 							'id'     => 'wpseo-readability-score',
-							'title'  => __( 'Readability', 'wordpress-seo' ) . ': ' . $this->score_icon_helper->for_readability( $indexable->readability_score, 'adminbar-sub-menu-score' )->present(),
+							'title'  => __( 'Readability', 'wordpress-seo' ) . ': ' . $this->score_icon_helper->for_readability( $indexable->readability_score, 'adminbar-sub-menu-score' )
+									->present(),
 							'meta'   => [ 'tabindex' => '0' ],
 						]
 					);
@@ -585,15 +591,23 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function add_premium_link( WP_Admin_Bar $wp_admin_bar ) {
+		$sale_percentage = '';
+		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+			$sale_percentage = sprintf(
+				'<span class="admin-bar-premium-promotion">%1$s</span>',
+				__( '-30%', 'wordpress-seo' )
+			);
+		}
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => self::MENU_IDENTIFIER,
 				'id'     => 'wpseo-get-premium',
 				// Circumvent an issue in the WP admin bar API in order to pass `data` attributes. See https://core.trac.wordpress.org/ticket/38636.
 				'title'  => sprintf(
-					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" style="padding:0;">%2$s &raquo;</a>',
+					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" style="padding:0;">%2$s &raquo; %3$s</a>',
 					$this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium' ),
-					__( 'Get Yoast SEO Premium', 'wordpress-seo' )
+					__( 'Get Yoast SEO Premium', 'wordpress-seo' ),
+					$sale_percentage
 				),
 				'meta'   => [
 					'tabindex' => '0',
@@ -739,7 +753,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		/**
 		 * Filter: 'wpseo_use_page_analysis' Determines if the analysis should be enabled.
 		 *
-		 * @api bool Determines if the analysis should be enabled.
+		 * @param bool $enabled Determines if the analysis should be enabled.
 		 */
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
 			return '';
@@ -850,7 +864,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			return '';
 		}
 
-		/* translators: %s: number of notifications */
+		/* translators: Hidden accessibility text; %s: number of notifications. */
 		$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count, 'wordpress-seo' ), number_format_i18n( $notification_count ) );
 
 		return sprintf( ' <div class="wp-core-ui wp-ui-notification yoast-issue-counter"><span class="yoast-issues-count" aria-hidden="true">%d</span><span class="screen-reader-text">%s</span></div>', $notification_count, $counter_screen_reader_text );

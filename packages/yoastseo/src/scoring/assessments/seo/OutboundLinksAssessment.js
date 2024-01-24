@@ -100,7 +100,7 @@ export default class OutboundLinksAssessment extends Assessment {
 	translateScore( linkStatistics ) {
 		if ( linkStatistics.externalTotal === 0 ) {
 			return sprintf(
-				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				__(
 					"%1$sOutbound links%3$s: No outbound links appear in this page. %2$sAdd some%3$s!",
 					"wordpress-seo"
@@ -113,7 +113,7 @@ export default class OutboundLinksAssessment extends Assessment {
 
 		if ( linkStatistics.externalNofollow === linkStatistics.externalTotal ) {
 			return sprintf(
-				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				__(
 					"%1$sOutbound links%3$s: All outbound links on this page are nofollowed. %2$sAdd some normal links%3$s.",
 					"wordpress-seo"
@@ -126,7 +126,7 @@ export default class OutboundLinksAssessment extends Assessment {
 
 		if ( linkStatistics.externalDofollow === linkStatistics.externalTotal ) {
 			return sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				__(
 					"%1$sOutbound links%2$s: Good job!",
 					"wordpress-seo"
@@ -138,7 +138,7 @@ export default class OutboundLinksAssessment extends Assessment {
 
 		if ( linkStatistics.externalDofollow < linkStatistics.externalTotal ) {
 			return sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				__(
 					"%1$sOutbound links%2$s: There are both nofollowed and normal outbound links on this page. Good job!",
 					"wordpress-seo"

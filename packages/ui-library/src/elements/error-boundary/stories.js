@@ -1,6 +1,7 @@
 import ErrorBoundary from ".";
 import { Alert, Button } from "../../";
 import { useToggleState } from "../../hooks";
+import { component } from "./docs";
 
 export default {
 	title: "1) Elements/Error boundary",
@@ -8,13 +9,7 @@ export default {
 	argTypes: {
 		children: { control: "text" },
 	},
-	parameters: {
-		docs: {
-			description: {
-				component: "An error boundary. See: https://github.com/bvaughn/react-error-boundary",
-			},
-		},
-	},
+	parameters: { docs: { description: { component } } },
 };
 
 const ShowError = ( { error, resetErrorBoundary } ) => (

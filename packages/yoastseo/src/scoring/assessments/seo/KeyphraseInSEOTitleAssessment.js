@@ -44,7 +44,7 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 
 		this.identifier = "keyphraseInSEOTitle";
 
-		/* Translators: This is the name of the 'Keyphrase in SEO title' SEO assessment.
+		/* translators: This is the name of the 'Keyphrase in SEO title' SEO assessment.
 		 It appears before the feedback in the analysis, for example in the feedback string:
 		 "Keyphrase in SEO title: The focus keyphrase appears at the beginning of the SEO title. Good job!" */
 		this.name = __( "Keyphrase in SEO title", "wordpress-seo" );
@@ -117,7 +117,7 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 				return {
 					score: this._config.scores.good,
 					resultText: sprintf(
-						/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
+						/* translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
 						 and links to an article on yoast.com. */
 						__(
 							"%1$s: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!",
@@ -130,7 +130,7 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 			return {
 				score: this._config.scores.okay,
 				resultText: sprintf(
-					/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
+					/* translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
 					 and links to an article on yoast.com. %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
 					__(
 						// eslint-disable-next-line max-len
@@ -150,7 +150,7 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 					return {
 						score: this._config.scores.good,
 						resultText: sprintf(
-							/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
+							/* translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
 							 and links to an article on yoast.com. */
 							__(
 								"%1$s: The focus keyphrase appears at the beginning of the SEO title. Good job!",
@@ -164,7 +164,7 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 				return {
 					score: this._config.scores.okay,
 					resultText: sprintf(
-						/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
+						/* translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
 						 and links to an article on yoast.com. %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 						__(
 							// eslint-disable-next-line max-len
@@ -180,7 +180,7 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 			return {
 				score: this._config.scores.okay,
 				resultText: sprintf(
-					/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
+					/* translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
 					 and links to an article on yoast.com. %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 					__(
 						// eslint-disable-next-line max-len
@@ -198,7 +198,7 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
-					/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
+					/* translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
 					 and links to an article on yoast.com. %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 					__(
 						// eslint-disable-next-line max-len
@@ -216,7 +216,7 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 		return {
 			score: this._config.scores.bad,
 			resultText: sprintf(
-				/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
+				/* translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
 				 and links to an article on yoast.com. %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
 				 %4$s expands to the keyphrase of the article, %5$s expands to the call to action text. */
 				__(

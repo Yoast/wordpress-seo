@@ -17,21 +17,21 @@ class WPSEO_Sitemaps_Cache_Validator {
 	 *
 	 * @var string
 	 */
-	const STORAGE_KEY_PREFIX = 'yst_sm_';
+	public const STORAGE_KEY_PREFIX = 'yst_sm_';
 
 	/**
 	 * Name of the option that holds the global validation value.
 	 *
 	 * @var string
 	 */
-	const VALIDATION_GLOBAL_KEY = 'wpseo_sitemap_cache_validator_global';
+	public const VALIDATION_GLOBAL_KEY = 'wpseo_sitemap_cache_validator_global';
 
 	/**
 	 * The format which creates the key of the option that holds the type validation value.
 	 *
 	 * @var string
 	 */
-	const VALIDATION_TYPE_KEY_FORMAT = 'wpseo_sitemap_%s_cache_validator';
+	public const VALIDATION_TYPE_KEY_FORMAT = 'wpseo_sitemap_%s_cache_validator';
 
 	/**
 	 * Get the cache key for a certain type and page.
@@ -189,8 +189,15 @@ class WPSEO_Sitemaps_Cache_Validator {
 		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_timeout_' . $like, '_' ) );
 
 		// Delete transients.
-		$query = sprintf( 'DELETE FROM %1$s WHERE %2$s', $wpdb->options, implode( ' OR ', $where ) );
-		$wpdb->query( $query );
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		$wpdb->query(
+			$wpdb->prepare(
+			//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+				'DELETE FROM %i WHERE ' . implode( ' OR', array_fill( 0, count( $where ), '%s' ) ),
+				array_merge( [ $wpdb->options ], $where )
+			)
+		);
 
 		wp_cache_delete( 'alloptions', 'options' );
 	}

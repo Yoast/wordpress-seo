@@ -25,20 +25,23 @@ export default function FinishStep() {
 		<div className="yst-flex yst-flex-row yst-justify-between yst-items-center yst--mt-4">
 			<div className="yst-mr-6">
 				<p className="yst-text-sm yst-mb-4">
-					{ sprintf(
-						/* translators: 1: Yoast. */
-						__( "Good job! By providing this information, %1$s has improved your site and told search engines what your site is all about.", "wordpress-seo" ),
-						"Yoast"
-					) }
+					{
+						sprintf(
+							/* translators: 1: Yoast. */
+							__( "Great work! Thanks to the details you've provided, %1$s has enhanced your site for search engines, giving them a clearer picture of what your site is all about.", "wordpress-seo" ),
+							"Yoast"
+						)
+					 }
 				</p>
 				<p className="yst-text-sm yst-mb-6">
-					{ __( "To increase your rankings, you need to regularly work on SEO. That can be overwhelming, so let’s start small!", "wordpress-seo" ) }
+					{ __( "If your goal is to increase your rankings, you need to work on your SEO regularly. That can be overwhelming, so let's tackle it one step at a time!", "wordpress-seo" ) }
 				</p>
 				<Button
 					as="a"
 					id="button-webinar-seo-dashboard"
 					href={ webinarIntroFirstTimeConfigUrl }
 					target="_blank"
+					data-hiive-event-name="clicked_to_onboarding_page"
 				>
 					{ sprintf(
 						/* translators: 1: Yoast SEO. */
@@ -51,6 +54,7 @@ export default function FinishStep() {
 					<Link
 						id="link-webinar-register"
 						onClick={ goToSEODashboard }
+						data-hiive-event-name="clicked_seo_dashboard"
 					>
 						{ __( "Or go to your SEO dashboard", "wordpress-seo" ) }
 					</Link>

@@ -1,5 +1,6 @@
 // eslint-disable react/display-name
 import { StoryComponent } from ".";
+import { component, variants } from "./docs";
 
 export default {
 	title: "1) Elements/Code",
@@ -7,13 +8,7 @@ export default {
 	argTypes: {
 		children: { control: "text" },
 	},
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple code component.",
-			},
-		},
-	},
+	parameters: { docs: { description: { component } } },
 };
 
 export const Factory = {
@@ -41,7 +36,7 @@ export const Variants = ( args ) => (
 Variants.parameters = {
 	docs: {
 		description: {
-			story: "Notice the default also expanding like a block due to the flex of the parent.",
+			story: variants,
 		},
 	},
 };

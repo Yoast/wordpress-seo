@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // External dependencies.
 import React, { PureComponent } from "react";
 import styled from "styled-components";
@@ -662,7 +663,10 @@ export default class SnippetPreview extends PureComponent {
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return <React.Fragment>
 			<ScreenReaderText>
-				{ __( "Url preview", "wordpress-seo" ) + ":" }
+				{
+					/* translators: Hidden accessibility text. */
+					__( "Url preview", "wordpress-seo" ) + ":"
+				}
 			</ScreenReaderText>
 			<Url>
 				<BaseUrlOverflowContainer
@@ -689,35 +693,28 @@ export default class SnippetPreview extends PureComponent {
 		/* eslint-enable jsx-a11y/mouse-events-have-key-events */
 	}
 
-	/**
-	 * Before we receive props we need to set the title and description in the
-	 * state.
-	 *
-	 * @param {Object} nextProps The props this component will receive.
-	 *
-	 * @returns {void}
-	 */
-	componentWillReceiveProps( nextProps ) {
-		const nextState = {};
-
-		if ( this.props.title !== nextProps.title ) {
-			nextState.title = nextProps.title;
-		}
-
-		if ( this.props.description !== nextProps.description ) {
-			nextState.description = nextProps.description;
-		}
-
-		this.setState( nextState );
-	}
 
 	/**
 	 * After a component updates we need to fit the title.
+	 * Before we receive props we need to set the title and description in the state.
+	 *
+	 * @param {Object} prevProps The previous props this component has received.
 	 *
 	 * @returns {void}
 	 */
-	componentDidUpdate() {
+	componentDidUpdate( prevProps ) {
+		const nextState = {};
+
+		if ( this.props.title !== prevProps.title ) {
+			nextState.title = this.props.title;
+		}
+
+		if ( this.props.description !== prevProps.description ) {
+			nextState.description = this.props.description;
+		}
+
 		this.setState( {
+			...nextState,
 			isDescriptionPlaceholder: ( ! this.props.description ),
 		} );
 
@@ -836,7 +833,10 @@ export default class SnippetPreview extends PureComponent {
 			return (
 				<PartContainer className="yoast-shopping-data-preview--desktop">
 					<ScreenReaderText>
-						{ __( "Shopping data preview:", "wordpress-seo" ) }
+						{
+							/* translators: Hidden accessibility text. */
+							__( "Shopping data preview:", "wordpress-seo" )
+						}
 					</ScreenReaderText>
 					<ProductDataDesktop shoppingData={ safeShoppingData } />
 				</PartContainer>
@@ -847,7 +847,10 @@ export default class SnippetPreview extends PureComponent {
 			return (
 				<PartContainer className="yoast-shopping-data-preview--mobile">
 					<ScreenReaderText>
-						{ __( "Shopping data preview:", "wordpress-seo" ) }
+						{
+							/* translators: Hidden accessibility text. */
+							__( "Shopping data preview:", "wordpress-seo" )
+						}
 					</ScreenReaderText>
 					<ProductDataMobile shoppingData={ safeShoppingData } />
 				</PartContainer>

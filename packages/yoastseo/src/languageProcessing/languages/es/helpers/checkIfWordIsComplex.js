@@ -16,12 +16,13 @@ const suffixesRegex = new RegExp( suffixes );
  *
  * @param {object} config The configuration needed for assessing the word's complexity, e.g., the frequency list.
  * @param {string} word The word to check.
+ * @param {object}	premiumData The object that contains data for the assessment including the frequency list.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( config, word ) {
+export default function checkIfWordIsComplex( config, word, premiumData ) {
 	const lengthLimit = config.wordLength;
-	const frequencyList = config.frequencyList;
+	const frequencyList = premiumData.frequencyList.list;
 
 	// The Spanish word is not complex if its length is 7 characters or fewer.
 	if ( word.length <= lengthLimit ) {

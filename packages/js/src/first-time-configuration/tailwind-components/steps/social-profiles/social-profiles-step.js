@@ -44,11 +44,12 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 			"</a>"
 
 		),
-		{   // eslint-disable-next-line jsx-a11y/anchor-has-content
+		{	// eslint-disable-next-line jsx-a11y/anchor-has-content
 			a: <a
 				id="yoast-configuration-person-social-profiles-user-link"
 				href={ window.wpseoScriptData.userEditUrl.replace( "{user_id}", state.personId ) }
 				target="_blank" rel="noopener noreferrer"
+				data-hiive-event-name="clicked_update_or_add_profile | social profiles"
 			/>,
 		} );
 
@@ -61,7 +62,7 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 		return <Fragment>
 			<p>{
 				__(
-					"We need a little more help from you! Add your organization's Facebook and Twitter profile so we can optimize the metadata for those platforms too.",
+					"Fantastic work! Add your organization's social media accounts below. This allows us to fine-tune the metadata for these platforms.",
 					"wordpress-seo"
 				)
 			}</p>

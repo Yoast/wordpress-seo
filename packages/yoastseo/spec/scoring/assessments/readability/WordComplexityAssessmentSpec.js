@@ -6,8 +6,10 @@ import Paper from "../../../../src/values/Paper.js";
 import Mark from "../../../../src/values/Mark";
 import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
 import wordComplexityHelperEnglish from "../../../../src/languageProcessing/languages/en/helpers/checkIfWordIsComplex";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
 
 let assessment = new WordComplexityAssessment();
+const morphologyData = getMorphologyData( "en" );
 
 describe( "a test for an assessment that checks complex words in a text", function() {
 	let researcher;
@@ -17,6 +19,7 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		researcher.addResearch( "wordComplexity", wordComplexity );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigEnglish );
+		researcher.addResearchData( "morphology", morphologyData );
 	} );
 
 	it( "should return with score 9 if the complex words are less than 10% in the text", function() {
@@ -67,7 +70,7 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		const result = assessment.getResult( runningPaper, researcher );
 
 		expect( result.getScore() ).toBe( 6 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 10.64% of the words in " +
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 10.11% of the words in " +
 			"your text are considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words " +
 			"to improve readability</a>." );
 		expect( result.hasMarks() ).toBe( true );
@@ -84,7 +87,7 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		const result = assessment.getResult( runningPaper, researcher );
 
 		expect( result.getScore() ).toBe( 3 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 10.64% of the words in " +
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 10.11% of the words in " +
 			"your text are considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words " +
 			"to improve readability</a>." );
 		expect( result.hasMarks() ).toBe( true );
@@ -132,6 +135,7 @@ describe( "tests for the assessment applicability", function() {
 			researcher.addResearch( "wordComplexity", wordComplexity );
 			researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 			researcher.addConfig( "wordComplexity", wordComplexityConfigEnglish );
+			researcher.addResearchData( "morphology", morphologyData );
 		} );
 
 		it( "returns false if there is no text available.", function() {

@@ -19,6 +19,8 @@ class ResetIndexableHierarchyTable extends Migration {
 
 	/**
 	 * Migration up.
+	 *
+	 * @return void
 	 */
 	public function up() {
 		$this->query( 'TRUNCATE TABLE ' . $this->get_table_name() );
@@ -26,6 +28,8 @@ class ResetIndexableHierarchyTable extends Migration {
 
 	/**
 	 * Migration down.
+	 *
+	 * @return void
 	 */
 	public function down() {
 		// Nothing to do.

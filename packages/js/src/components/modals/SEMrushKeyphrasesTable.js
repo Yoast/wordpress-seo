@@ -109,7 +109,10 @@ class SEMrushKeyphrasesTable extends Component {
 									className="dashicons"
 								>
 									<span className="screen-reader-text">
-										{ __( "Learn more about the related keyphrases volume", "wordpress-seo" ) }
+										{
+											/* translators: Hidden accessibility text. */
+											__( "Learn more about the related keyphrases volume", "wordpress-seo" )
+										}
 									</span>
 								</HelpLink>
 							</th>
@@ -123,7 +126,10 @@ class SEMrushKeyphrasesTable extends Component {
 									className="dashicons"
 								>
 									<span className="screen-reader-text">
-										{ __( "Learn more about the related keyphrases trend", "wordpress-seo" ) }
+										{
+											/* translators: Hidden accessibility text. */
+											__( "Learn more about the related keyphrases trend", "wordpress-seo" )
+										}
 									</span>
 								</HelpLink>
 							</th>

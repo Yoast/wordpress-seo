@@ -50,7 +50,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Shows an message when a post is about to get trashed.
+	 * Shows a message when a post is about to get trashed.
 	 *
 	 * @param int $post_id The current post ID.
 	 *
@@ -61,15 +61,18 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			return;
 		}
 
+		$post_label = $this->get_post_type_label( get_post_type( $post_id ) );
+
 		/* translators: %1$s expands to the translated name of the post type. */
-		$first_sentence = sprintf( __( 'You just trashed a %1$s.', 'wordpress-seo' ), $this->get_post_type_label( get_post_type( $post_id ) ) );
-		$message        = $this->get_message( $first_sentence );
+		$first_sentence  = sprintf( __( 'You just trashed a %1$s.', 'wordpress-seo' ), $post_label );
+		$second_sentence = __( 'Search engines and other websites can still send traffic to your trashed content.', 'wordpress-seo' );
+		$message         = $this->get_message( $first_sentence, $second_sentence );
 
 		$this->add_notification( $message );
 	}
 
 	/**
-	 * Shows an message when a post is about to get trashed.
+	 * Shows a message when a post is about to get trashed.
 	 *
 	 * @param int $post_id The current post ID.
 	 *
@@ -80,9 +83,12 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			return;
 		}
 
+		$post_label = $this->get_post_type_label( get_post_type( $post_id ) );
+
 		/* translators: %1$s expands to the translated name of the post type. */
-		$first_sentence = sprintf( __( 'You just deleted a %1$s.', 'wordpress-seo' ), $this->get_post_type_label( get_post_type( $post_id ) ) );
-		$message        = $this->get_message( $first_sentence );
+		$first_sentence  = sprintf( __( 'You just deleted a %1$s.', 'wordpress-seo' ), $post_label );
+		$second_sentence = __( 'Search engines and other websites can still send traffic to your deleted content.', 'wordpress-seo' );
+		$message         = $this->get_message( $first_sentence, $second_sentence );
 
 		$this->add_notification( $message );
 	}
@@ -98,15 +104,14 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 		if ( ! $this->is_term_viewable( $term_taxonomy_id ) ) {
 			return;
 		}
-		$term = \get_term_by( 'term_taxonomy_id', (int) $term_taxonomy_id );
 
-		$first_sentence = sprintf(
-			/* translators: 1: term label */
-			__( 'You just deleted a %1$s.', 'wordpress-seo' ),
-			$this->get_taxonomy_label_for_term( $term->term_id )
-		);
+		$term       = get_term_by( 'term_taxonomy_id', (int) $term_taxonomy_id );
+		$term_label = $this->get_taxonomy_label_for_term( $term->term_id );
 
-		$message = $this->get_message( $first_sentence );
+		/* translators: %1$s expands to the translated name of the term. */
+		$first_sentence  = sprintf( __( 'You just deleted a %1$s.', 'wordpress-seo' ), $term_label );
+		$second_sentence = __( 'Search engines and other websites can still send traffic to your deleted content.', 'wordpress-seo' );
+		$message         = $this->get_message( $first_sentence, $second_sentence );
 
 		$this->add_notification( $message );
 	}
@@ -140,7 +145,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 * @return bool Whether the term is viewable or not.
 	 */
 	protected function is_term_viewable( $term_taxonomy_id ) {
-		$term = \get_term_by( 'term_taxonomy_id', (int) $term_taxonomy_id );
+		$term = get_term_by( 'term_taxonomy_id', (int) $term_taxonomy_id );
 
 		if ( ! $term || is_wp_error( $term ) ) {
 			return false;
@@ -206,15 +211,16 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns the message around changed URLs.
 	 *
-	 * @param string $first_sentence The first sentence of the notification.
+	 * @param string $first_sentence  The first sentence of the notification.
+	 * @param string $second_sentence The second sentence of the notification.
 	 *
 	 * @return string The full notification.
 	 */
-	protected function get_message( $first_sentence ) {
+	protected function get_message( $first_sentence, $second_sentence ) {
 		return '<h2>' . __( 'Make sure you don\'t miss out on traffic!', 'wordpress-seo' ) . '</h2>'
 			. '<p>'
 			. $first_sentence
-			. ' ' . __( 'Search engines and other websites can still send traffic to your deleted post.', 'wordpress-seo' )
+			. ' ' . $second_sentence
 			. ' ' . __( 'You should create a redirect to ensure your visitors do not get a 404 error when they click on the no longer working URL.', 'wordpress-seo' )
 			/* translators: %s expands to Yoast SEO Premium */
 			. ' ' . sprintf( __( 'With %s, you can easily create such redirects.', 'wordpress-seo' ), 'Yoast SEO Premium' )
@@ -222,6 +228,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			. '<p><a class="yoast-button-upsell" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">'
 			/* translators: %s expands to Yoast SEO Premium */
 			. sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' )
+			/* translators: Hidden accessibility text. */
 			. '<span class="screen-reader-text">' . __( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
 			. '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>'
 			. '</a></p>';

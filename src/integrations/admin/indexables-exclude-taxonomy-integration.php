@@ -41,13 +41,15 @@ class Indexables_Exclude_Taxonomy_Integration implements Integration_Interface {
 	 *
 	 * @param array $excluded_taxonomies The excluded taxonomies.
 	 *
-	 * @return array The excluded post types, including the specific post type.
+	 * @return array The excluded taxonomies, including specific taxonomies.
 	 */
 	public function exclude_taxonomies_for_indexation( $excluded_taxonomies ) {
+		$taxonomies_to_exclude = \array_merge( $excluded_taxonomies, [ 'wp_pattern_category' ] );
+
 		if ( $this->options_helper->get( 'disable-post_format', false ) ) {
-			return \array_merge( $excluded_taxonomies, [ 'post_format' ] );
+			return \array_merge( $taxonomies_to_exclude, [ 'post_format' ] );
 		}
 
-		return $excluded_taxonomies;
+		return $taxonomies_to_exclude;
 	}
 }

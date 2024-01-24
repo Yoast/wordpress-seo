@@ -48,8 +48,7 @@ export function hasWincherTrackedKeyphrases( state ) {
 export function getWincherTrackableKeyphrases( state ) {
 	const isPremium = getL10nObject().isPremium;
 	const premiumStore = window.wp.data.select( "yoast-seo-premium/editor" );
-	const tracked = Object.keys( getWincherTrackedKeyphrases( state ) || {} ).map( k => k.trim() );
-	const keyphrases = [ state.focusKeyword.trim(), ...tracked ];
+	const keyphrases = [ state.focusKeyword.trim() ];
 
 	if ( isPremium && premiumStore ) {
 		// eslint-disable-next-line no-undefined

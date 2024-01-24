@@ -134,6 +134,8 @@ class Indexables_Page_Integration implements Integration_Interface {
 	 *
 	 * @deprecated 20.4
 	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );

@@ -128,6 +128,8 @@ class Workouts_Integration implements Integration_Interface {
 
 	/**
 	 * Enqueue the workouts app.
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
@@ -164,6 +166,8 @@ class Workouts_Integration implements Integration_Interface {
 
 	/**
 	 * Renders the target for the React to mount to.
+	 *
+	 * @return void
 	 */
 	public function render_target() {
 		if ( $this->should_update_premium() ) {
@@ -207,6 +211,7 @@ class Workouts_Integration implements Integration_Interface {
 			);
 			$button = '<a class="yoast-button yoast-button-upsell yoast-button--small" href="' . \esc_url( $url ) . '" target="_blank">'
 					. \esc_html__( 'Renew your subscription', 'wordpress-seo' )
+					/* translators: Hidden accessibility text. */
 					. '<span class="screen-reader-text">' . \__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
 					. '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>'
 					. '</a>';
@@ -236,6 +241,7 @@ class Workouts_Integration implements Integration_Interface {
 			);
 			$button = '<a class="yoast-button yoast-button--primary yoast-button--small" href="' . \esc_url( $url_button ) . '" target="_blank">'
 					. \esc_html__( 'Get help activating your subscription', 'wordpress-seo' )
+					/* translators: Hidden accessibility text. */
 					. '<span class="screen-reader-text">' . \__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
 					. '</a>';
 		}
@@ -243,7 +249,7 @@ class Workouts_Integration implements Integration_Interface {
 		$notice = new Notice_Presenter(
 			$title,
 			$copy,
-			'Assistent_Time_bubble_500x570.png',
+			null,
 			$button
 		);
 

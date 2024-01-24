@@ -6,6 +6,8 @@
  * @since   5.1
  */
 
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
+
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -20,6 +22,7 @@ $premium_extension = [
 	'title'    => 'Yoast SEO Premium',
 	/* translators: %1$s expands to Yoast SEO */
 	'desc'     => sprintf( __( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ), 'Yoast SEO' ),
+	'image'    => plugin_dir_url( WPSEO_FILE ) . 'packages/js/images/Yoast_SEO_Icon.svg',
 	'benefits' => [],
 ];
 
@@ -28,11 +31,11 @@ $extensions = [
 		'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),
 		'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zs' ),
 		'title'         => 'Local SEO',
-		'display_title' => __( 'Maximize your visibility for local searches', 'wordpress-seo' ),
+		'display_title' => __( 'Stand out for local searches', 'wordpress-seo' ),
 		'desc'          => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
 		'image'         => plugins_url( 'images/local_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 		'benefits'      => [
-			__( 'Attract more local customers to your website and physical store', 'wordpress-seo' ),
+			__( 'Attract more customers to your site and physical store', 'wordpress-seo' ),
 			__( 'Automatically get technical SEO best practices for local businesses', 'wordpress-seo' ),
 			__( 'Easily add maps, address finders, and opening hours to your content', 'wordpress-seo' ),
 			__( 'Optimize your business for multiple locations', 'wordpress-seo' ),
@@ -42,14 +45,14 @@ $extensions = [
 		'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zx/' ),
 		'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zw/' ),
 		'title'         => 'Video SEO',
-		'display_title' => __( 'Drive more traffic to your videos', 'wordpress-seo' ),
+		'display_title' => __( 'Drive more views to your videos', 'wordpress-seo' ),
 		'desc'          => __( 'Optimize your videos to show them off in search results and get more clicks!', 'wordpress-seo' ),
 		'image'         => plugins_url( 'images/video_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 		'benefits'      => [
-			__( 'Know that Google discovers your videos', 'wordpress-seo' ),
-			__( 'Load pages faster that include videos', 'wordpress-seo' ),
+			__( 'Automatically get technical SEO best practices for video content', 'wordpress-seo' ),
+			__( 'Make sure your videos load quickly for users', 'wordpress-seo' ),
 			__( 'Make your videos responsive for all screen sizes', 'wordpress-seo' ),
-			__( 'Get XML video sitemaps', 'wordpress-seo' ),
+			__( 'Optimize your video previews & thumbnails', 'wordpress-seo' ),
 		],
 	],
 	WPSEO_Addon_Manager::NEWS_SLUG  => [
@@ -63,7 +66,7 @@ $extensions = [
 			__( 'Optimize your site for Google News', 'wordpress-seo' ),
 			__( 'Ping Google on the publication of a new post', 'wordpress-seo' ),
 			__( 'Add all necessary schema.org markup', 'wordpress-seo' ),
-			__( 'Get XML news sitemaps', 'wordpress-seo' ),
+			__( 'Get XML sitemaps', 'wordpress-seo' ),
 		],
 	],
 ];
@@ -79,11 +82,12 @@ if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 		'desc'          => sprintf( __( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ), 'Yoast SEO' ),
 		'image'         => plugins_url( 'images/woo_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 		'benefits'      => [
-			__( 'Write product pages that rank with the enhanced SEO analysis', 'wordpress-seo' ),
-			__( 'Increase clicks of Google search with rich results', 'wordpress-seo' ),
+			__( 'Write product pages that rank using the SEO analysis', 'wordpress-seo' ),
+			__( 'Increase Google clicks with rich results', 'wordpress-seo' ),
 			__( 'Add global identifiers for variable products', 'wordpress-seo' ),
 			/* translators: %1$s expands to Yoast SEO, %2$s expands to WooCommerce */
 			sprintf( __( 'Seamless integration between %1$s and %2$s', 'wordpress-seo' ), 'Yoast SEO', 'WooCommerce' ),
+			__( 'Turn more visitors into customers!', 'wordpress-seo' ),
 		],
 		'buy_button'    => 'WooCommerce SEO',
 	];
@@ -104,9 +108,9 @@ $extensions['yoast-seo-plugin-subscription'] = [
 	'desc'          => '',
 	'image'         => plugins_url( 'images/plugin_subscription.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 	'benefits'      => [
-		__( 'Get all 5 Yoast plugins for WordPress with a big discount', 'wordpress-seo' ),
-		__( 'Reach new customers that live near your business', 'wordpress-seo' ),
-		__( 'Drive more traffic with your videos', 'wordpress-seo' ),
+		__( 'Get all 5 Yoast plugins for WordPress at a big discount', 'wordpress-seo' ),
+		__( 'Reach new customers who live near your business', 'wordpress-seo' ),
+		__( 'Drive more views to your videos', 'wordpress-seo' ),
 		__( 'Rank higher in Google\'s news carousel', 'wordpress-seo' ),
 		__( 'Drive more traffic to your online store', 'wordpress-seo' ),
 
@@ -122,8 +126,21 @@ $has_valid_premium_subscription = YoastSEO()->helpers->product->is_premium() && 
 $wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Yoast SEO' );
 $new_tab_message         = sprintf(
 	'<span class="screen-reader-text">%1$s</span>',
+	/* translators: Hidden accessibility text. */
 	esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' )
 );
+
+$sale_badge         = '';
+$premium_sale_badge = '';
+
+if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+	/* translators: %1$s expands to opening span, %2$s expands to closing span */
+	$sale_badge_span = sprintf( esc_html__( '%1$sSALE 30%% OFF!%2$s', 'wordpress-seo' ), '<span>', '</span>' );
+
+	$sale_badge = '<div class="yoast-seo-premium-extension-sale-badge">' . $sale_badge_span . '</div>';
+
+	$premium_sale_badge = ( $has_valid_premium_subscription ) ? '' : $sale_badge;
+}
 
 ?>
 
@@ -133,50 +150,74 @@ $new_tab_message         = sprintf(
 
 	<div id="extensions">
 		<section class="yoast-seo-premium-extension">
+			<?php echo $premium_sale_badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Output is already escaped ?>
 			<h2>
-				<?php
-				printf(
-					/* translators: 1: expands to a opening span tag, 2: expands to a closing span tag, 3: expands to Yoast SEO Premium */
-					esc_html__( '%1$sDrive more traffic to your site%2$s with %3$s', 'wordpress-seo' ),
-					'<span class="yoast-heading-highlight">',
-					'</span>',
-					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
-					$premium_extension['title']
-				);
-				?>
+				<?php esc_html_e( 'Rank higher in search results', 'wordpress-seo' ); ?>
+				<img alt="" width="100" height="100" src="<?php echo esc_url( $premium_extension['image'] ); ?>"/>
 			</h2>
-
 			<?php
 			if ( ! $has_valid_premium_subscription ) :
 				?>
 				<ul class="yoast-seo-premium-benefits yoast-list--usp">
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Reach bigger audiences', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Optimize a single post for synonyms and related keyphrases and get extra checks with the Premium SEO analysis', 'wordpress-seo' ); ?></span>
+						<?php
+						printf(
+							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+							esc_html__( '%1$sAI%2$s: Better SEO titles and meta descriptions, faster.', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						);
+						?>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Save time on doing SEO', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'The Yoast SEO workouts guide you through important routine SEO tasks', 'wordpress-seo' ); ?></span>
+						<?php
+						printf(
+							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+							esc_html__( '%1$sMultiple keywords%2$s: Rank higher for more searches.', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						);
+						?>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Improve your internal linking structure', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Get tools that tell you where and how to improve internal linking', 'wordpress-seo' ); ?></span>
+						<?php
+						printf(
+							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+							esc_html__( '%1$sSuper fast%2$s internal linking suggestions.', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						);
+						?>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Reduce your site\'s carbon footprint', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Save energy by reducing the crawlability of your site without hurting your rankings!', 'wordpress-seo' ); ?></span>
+						<?php
+						printf(
+							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+							esc_html__( '%1$sNo more broken links%2$s: Automatic redirect manager.', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						);
+						?>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Prevents 404s', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Easily create and manage redirects when you move or delete content', 'wordpress-seo' ); ?></span>
+						<?php
+						printf(
+							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+							esc_html__( '%1$sAppealing social previews%2$s people actually want to click on.', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						);
+						?>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Stand out on social media', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Check what your Facebook or Twitter post will look like before posting them', 'wordpress-seo' ); ?></span>
-					</li>
-					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Premium support', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Gain access to our 24/7 support team', 'wordpress-seo' ); ?></span>
+						<?php
+						printf(
+							/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
+							esc_html__( '%1$s24/7 support%2$s: Also on evenings and weekends.', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						);
+						?>
 					</li>
 				</ul>
 			<?php endif; ?>
@@ -232,14 +273,7 @@ $new_tab_message         = sprintf(
 
 				<a target="_blank"  href="<?php echo esc_url( $premium_extension['infoUrl'] ); ?>" class="yoast-link--more-info">
 					<?php
-					printf(
-						/* translators: Text between 1: and 2: will only be shown to screen readers. 3: expands to the product name. */
-						esc_html__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
-						'<span class="screen-reader-text">',
-						'</span>',
-						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
-						$premium_extension['title']
-					);
+					esc_html_e( 'Explore now', 'wordpress-seo' );
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 					echo $new_tab_message;
 					?>
@@ -247,7 +281,7 @@ $new_tab_message         = sprintf(
 			<?php endif; ?>
 			<?php if ( ! $has_valid_premium_subscription ) { ?>
 				<p>
-					<small class="yoast-money-back-guarantee"><?php esc_html_e( 'With 30-day money-back guarantee. No questions asked.', 'wordpress-seo' ); ?></small>
+					<small class="yoast-money-back-guarantee"><?php esc_html_e( 'With a 30-day money-back guarantee. No questions asked.', 'wordpress-seo' ); ?></small>
 				</p>
 			<?php } ?>
 		</section>
@@ -257,14 +291,11 @@ $new_tab_message         = sprintf(
 		<section class="yoast-promo-extensions">
 			<h2>
 				<?php
-				$yoast_outrank_copy = sprintf( esc_html__( 'Outrank your competitors even further', 'wordpress-seo' ) );
-				$yoast_outrank_copy = '<span class="yoast-heading-highlight">' . $yoast_outrank_copy . '</span>';
-
 				printf(
-					/* translators: 1: expands to Outrank your competitors even further, 2: expands to Yoast SEO */
-					esc_html__( '%1$s with %2$s extensions', 'wordpress-seo' ),
-					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $yoast_seo_extensions is properly escaped.
-					$yoast_outrank_copy,
+					/* translators: %1$s expands to a span opening tag, %2$s expands to a span closing tag, %3$s expands to Yoast SEO */
+					esc_html__( '%1$sOutrank your competitors even further%2$s with these %3$s plugins', 'wordpress-seo' ),
+					'<span class="yoast-heading-highlight">',
+					'</span>',
 					'Yoast SEO'
 				);
 				?>
@@ -279,6 +310,9 @@ $new_tab_message         = sprintf(
 				}
 				?>
 				<section class="yoast-promoblock secondary yoast-promo-extension">
+					<?php if ( ! $addon_manager->has_valid_subscription( $slug ) || ! $addon_manager->is_installed( $slug ) ) : ?>
+						<?php echo $sale_badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Output already escaped ?>
+					<?php endif; ?>
 					<h3>
 						<img alt="" width="100" height="100" src="<?php echo esc_url( $extension['image'] ); ?>"/>
 						<?php echo esc_html( $extension['display_title'] ); ?>
@@ -342,14 +376,7 @@ $new_tab_message         = sprintf(
 
 							<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $extension['infoUrl'] ); ?>">
 								<?php
-								printf(
-									/* translators: Text between 1: and 2: will only be shown to screen readers. 3: expands to the product name, e.g. "News SEO" or "all the Yoast Plugins" */
-									esc_html__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
-									'<span class="screen-reader-text">',
-									'</span>',
-									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
-									$extension['title']
-								);
+								esc_html_e( 'Explore now', 'wordpress-seo' );
 								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 								echo $new_tab_message;
 								?>

@@ -14,12 +14,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 ?>
 <div class="wrap yoast wpseo-admin-page page-wpseo_redirects">
-	<h1 id="wpseo-title"><?php echo \esc_html( \get_admin_page_title() ); ?></h1>
+	<h1 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h1>
 	<div class="wpseo_content_wrapper" style="position: relative;">
 		<div style="position: absolute;top: 0;bottom: 0;left: 0;right: 0;z-index: 100; display: flex;justify-content: center;align-items: center;background: radial-gradient(#ffffffcf 20%, #ffffff00 50%);">
-			<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href="<?php echo \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/4e0/' ) ); ?>" target="_blank">
+			<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href="<?php echo esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/redirect-manager-upsell' ) ); ?>" target="_blank">
 				<?php
-				echo \esc_html__( 'Unlock with Premium', 'wordpress-seo' )
+				echo esc_html__( 'Unlock with Premium', 'wordpress-seo' )
 					// phpcs:ignore WordPress.Security.EscapeOutput -- Already escapes correctly.
 					. WPSEO_Admin_Utils::get_new_tab_message();
 				?>
@@ -29,17 +29,17 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 			<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 				<a class="nav-tab nav-tab-active" id="tab-url-tab" href="#" tabindex="-1">
 					<?php
-					\esc_html_e( 'Redirects', 'wordpress-seo' )
+					esc_html_e( 'Redirects', 'wordpress-seo' )
 					?>
 				</a>
 				<a class="nav-tab" id="tab-url-tab" href="" tabindex="-1">
 					<?php
-					\esc_html_e( 'Regex Redirects', 'wordpress-seo' )
+					esc_html_e( 'Regex Redirects', 'wordpress-seo' )
 					?>
 				</a>
 				<a class="nav-tab" id="tab-url-tab" href="#" tabindex="-1">
 					<?php
-					\esc_html_e( 'Settings', 'wordpress-seo' )
+					esc_html_e( 'Settings', 'wordpress-seo' )
 					?>
 					</a>
 			</h2>
@@ -47,7 +47,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 			<div id="table-plain" class="tab-url redirect-table-tab">
 				<h2>
 					<?php
-					\esc_html_e( 'Plain redirects', 'wordpress-seo' )
+					esc_html_e( 'Plain redirects', 'wordpress-seo' )
 					?>
 				</h2>
 				<form class="wpseo-new-redirect-form" method="post">
@@ -56,14 +56,14 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 							<label class="textinput" for="wpseo_redirects_type">
 								<span class="title">
 									<?php
-									\esc_html_e( 'Type', 'wordpress-seo' )
+									esc_html_e( 'Type', 'wordpress-seo' )
 									?>
 								</span>
 							</label>
 							<select name="wpseo_redirects_type" id="wpseo_redirects_type" class="select select2-hidden-accessible" data-select2-id="wpseo_redirects_type" tabindex="-1" aria-hidden="true">
 								<option value="301" data-select2-id="2">
 									<?php
-									\esc_html_e( '301 Moved Permanently', 'wordpress-seo' )
+									esc_html_e( '301 Moved Permanently', 'wordpress-seo' )
 									?>
 								</option>
 							</select>
@@ -72,7 +72,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 									<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="false" aria-labelledby="select2-wpseo_redirects_type-container">
 										<span class="select2-selection__rendered" id="select2-wpseo_redirects_type-container" role="textbox" aria-readonly="true" title="301 Moved Permanently">
 											<?php
-											\esc_html_e( '301 Moved Permanently', 'wordpress-seo' )
+											esc_html_e( '301 Moved Permanently', 'wordpress-seo' )
 											?>
 										</span>
 										<span class="select2-selection__arrow" role="presentation">
@@ -97,7 +97,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 							<label class="textinput" for="wpseo_redirects_origin">
 								<span class="title">
 									<?php
-									\esc_html_e( 'Old URL', 'wordpress-seo' )
+									esc_html_e( 'Old URL', 'wordpress-seo' )
 									?>
 								</span>
 							</label>
@@ -109,7 +109,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 							<label class="textinput" for="wpseo_redirects_target">
 								<span class="title">
 									<?php
-									\esc_html_e( 'URL', 'wordpress-seo' )
+									esc_html_e( 'URL', 'wordpress-seo' )
 									?>
 								</span>
 							</label>
@@ -119,7 +119,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 						<button type="button" class="button button-primary" tabindex="-1">
 							<?php
-							\esc_html_e( 'Add Redirect', 'wordpress-seo' )
+							esc_html_e( 'Add Redirect', 'wordpress-seo' )
 							?>
 						</button>
 					</div>
@@ -134,11 +134,11 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 						<select name="redirect-type" id="filter-by-redirect" tabindex="-1">
 							<option selected="selected" value="0">
 								<?php
-								\esc_html_e( 'All redirect types', 'wordpress-seo' )
+								esc_html_e( 'All redirect types', 'wordpress-seo' )
 								?>
 							</option>
 						</select>
-						<input type="button" name="filter_action" id="post-query-submit" class="button" value="<?php \esc_attr_e( 'Filter', 'wordpress-seo' ); ?>" tabindex="-1">
+						<input type="button" name="filter_action" id="post-query-submit" class="button" value="<?php esc_attr_e( 'Filter', 'wordpress-seo' ); ?>" tabindex="-1">
 					</div>
 						<br class="clear">
 					</div>
@@ -152,7 +152,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 									<a href="#" tabindex="-1">
 										<span>
 										<?php
-										\esc_html_e( 'Type', 'wordpress-seo' )
+										esc_html_e( 'Type', 'wordpress-seo' )
 										?>
 										</span>
 										<span class="sorting-indicator"></span>
@@ -162,7 +162,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 									<a href="#" tabindex="-1">
 										<span>
 											<?php
-											\esc_html_e( 'Old URL', 'wordpress-seo' )
+											esc_html_e( 'Old URL', 'wordpress-seo' )
 											?>
 										</span>
 										<span class="sorting-indicator"></span>
@@ -172,7 +172,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 									<a href="#" tabindex="-1">
 										<span>
 											<?php
-											\esc_html_e( 'New URL', 'wordpress-seo' )
+											esc_html_e( 'New URL', 'wordpress-seo' )
 											?>
 										</span>
 										<span class="sorting-indicator"></span>
@@ -185,7 +185,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 							<tr class="no-items">
 								<td class="colspanchange" colspan="4">
 									<?php
-									\esc_html_e( 'No items found.', 'wordpress-seo' )
+									esc_html_e( 'No items found.', 'wordpress-seo' )
 									?>
 								</td>
 							</tr>
@@ -200,7 +200,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 									<a href="#" tabindex="-1">
 										<span>
 											<?php
-											\esc_html_e( 'Type', 'wordpress-seo' )
+											esc_html_e( 'Type', 'wordpress-seo' )
 											?>
 										</span>
 										<span class="sorting-indicator"></span></a>
@@ -209,7 +209,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 									<a href="#" tabindex="-1">
 										<span>
 											<?php
-											\esc_html_e( 'Old URL', 'wordpress-seo' )
+											esc_html_e( 'Old URL', 'wordpress-seo' )
 											?>
 										</span>
 										<span class="sorting-indicator"></span>
@@ -219,7 +219,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 									<a href="#" tabindex="-1">
 										<span>
 											<?php
-											\esc_html_e( 'New URL', 'wordpress-seo' )
+											esc_html_e( 'New URL', 'wordpress-seo' )
 											?>
 										</span>
 										<span class="sorting-indicator"></span></a>

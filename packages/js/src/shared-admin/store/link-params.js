@@ -7,7 +7,9 @@ export const LINK_PARAMS_NAME = "linkParams";
 const slice = createSlice( {
 	name: LINK_PARAMS_NAME,
 	initialState: {},
-	reducers: {},
+	reducers: {
+		setLinkParams: ( state, { payload } ) => payload,
+	},
 } );
 
 export const getInitialLinkParamsState = slice.getInitialState;
@@ -20,8 +22,9 @@ linkParamsSelectors.selectLink = createSelector(
 	[
 		linkParamsSelectors.selectLinkParams,
 		( state, url ) => url,
+		( state, url, extraParams = {} ) => extraParams,
 	],
-	( linkParams, link ) => addQueryArgs( link, linkParams )
+	( linkParams, link, extraParams ) => addQueryArgs( link, { ...linkParams, ...extraParams } )
 );
 
 export const linkParamsActions = slice.actions;

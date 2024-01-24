@@ -129,7 +129,7 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 	translateScore( descriptionLength, config ) {
 		if ( descriptionLength === 0 ) {
 			return sprintf(
-				/* Translators:  %1$s and %2$s expand to a links on yoast.com, %3$s expands to the anchor end tag */
+				/* translators:  %1$s and %2$s expand to a links on yoast.com, %3$s expands to the anchor end tag */
 				__(
 					// eslint-disable-next-line max-len
 					"%1$sMeta description length%3$s:  No meta description has been specified. Search engines will display copy from the page instead. %2$sMake sure to write one%3$s!",
@@ -143,7 +143,7 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 
 		if ( descriptionLength <= config.recommendedMaximumLength ) {
 			return sprintf(
-				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
+				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 				%4$d expands to the number of characters in the meta description, %5$d expands to
 				the total available number of characters in the meta description */
 				__(
@@ -161,7 +161,7 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 
 		if ( descriptionLength > config.maximumLength ) {
 			return sprintf(
-				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
+				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 				%4$d expands to	the total available number of characters in the meta description */
 				__(
 					// eslint-disable-next-line max-len
@@ -176,7 +176,7 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 		}
 
 		return sprintf(
-			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+			/* translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 			__( "%1$sMeta description length%2$s: Well done!", "wordpress-seo" ),
 			config.urlTitle,
 			"</a>"

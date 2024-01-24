@@ -1,10 +1,14 @@
 /* global wpseoAdminL10n */
-
 import { __, sprintf } from "@wordpress/i18n";
-import UpsellBox from "../UpsellBox";
-import PropTypes from "prop-types";
-import { useRootContext }  from "@yoast/externals/contexts";
 import { addQueryArgs } from "@wordpress/url";
+import { useRootContext } from "@yoast/externals/contexts";
+import PropTypes from "prop-types";
+import { getPremiumBenefits } from "../../helpers/get-premium-benefits";
+import UpsellBox from "../UpsellBox";
+
+const upsellDescription = __(
+	"Check your text on even more SEO criteria and get an enhanced keyphrase analysis, making it easier to optimize your content.",
+	"wordpress-seo" );
 
 /**
  * Creates the content for a PremiumSEOAnalysisUpsell modal.
@@ -14,21 +18,18 @@ import { addQueryArgs } from "@wordpress/url";
  * @returns {wp.Element} The PremiumSEOAnalysisUpsell component.
  */
 const PremiumSEOAnalysisUpsell = ( props ) => {
-	const intro = __( "Get extra, smarter recommendations about your site’s structure, content, and SEO opportunities.", "wordpress-seo" );
-
-	const benefits = [
-		__( "Target multiple focus keyphrases", "wordpress-seo" ),
-		__( "Use synonyms, plurals, and variations", "wordpress-seo" ),
-		__( "Unlock expert workouts and workflows", "wordpress-seo" ),
-	];
-
 	const { locationContext } = useRootContext();
 	const buyLink = addQueryArgs( wpseoAdminL10n[ props.buyLink ], { context: locationContext } );
 
 	return (
 		<UpsellBox
-			infoParagraphs={ [ intro ] }
-			benefits={ benefits }
+			title={ __( "Get more help with writing content that ranks", "wordpress-seo" ) }
+			description={ props.description }
+			benefitsTitle={
+				/* translators: %s expands to 'Yoast SEO Premium'. */
+				sprintf( "%s also gives you:", "Yoast SEO Premium" )
+			}
+			benefits={ getPremiumBenefits() }
 			upsellButtonText={
 				sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
@@ -50,6 +51,11 @@ const PremiumSEOAnalysisUpsell = ( props ) => {
 
 PremiumSEOAnalysisUpsell.propTypes = {
 	buyLink: PropTypes.string.isRequired,
+	description: PropTypes.string,
+};
+
+PremiumSEOAnalysisUpsell.defaultProps = {
+	description: upsellDescription,
 };
 
 

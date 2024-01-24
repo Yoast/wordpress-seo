@@ -19,21 +19,21 @@ class Wincher_Keyphrases_Action {
 	 *
 	 * @var string
 	 */
-	const KEYPHRASES_ADD_URL = 'https://api.wincher.com/beta/websites/%s/keywords/bulk';
+	public const KEYPHRASES_ADD_URL = 'https://api.wincher.com/beta/websites/%s/keywords/bulk';
 
 	/**
 	 * The Wincher tracked keyphrase retrieval URL.
 	 *
 	 * @var string
 	 */
-	const KEYPHRASES_URL = 'https://api.wincher.com/beta/yoast/%s';
+	public const KEYPHRASES_URL = 'https://api.wincher.com/beta/yoast/%s';
 
 	/**
 	 * The Wincher delete tracked keyphrase URL.
 	 *
 	 * @var string
 	 */
-	const KEYPHRASE_DELETE_URL = 'https://api.wincher.com/beta/websites/%s/keywords/%s';
+	public const KEYPHRASE_DELETE_URL = 'https://api.wincher.com/beta/websites/%s/keywords/%s';
 
 	/**
 	 * The Wincher_Client instance.
@@ -125,7 +125,7 @@ class Wincher_Keyphrases_Action {
 
 			// The endpoint returns a lot of stuff that we don't want/need.
 			$results['data'] = \array_map(
-				static function( $keyphrase ) {
+				static function ( $keyphrase ) {
 					return [
 						'id'         => $keyphrase['id'],
 						'keyword'    => $keyphrase['keyword'],
@@ -182,10 +182,11 @@ class Wincher_Keyphrases_Action {
 	 *
 	 * @param array|null  $used_keyphrases The currently used keyphrases. Optional.
 	 * @param string|null $permalink       The current permalink. Optional.
+	 * @param string|null $start_at        The position start date. Optional.
 	 *
 	 * @return object The keyphrase chart data.
 	 */
-	public function get_tracked_keyphrases( $used_keyphrases = null, $permalink = null ) {
+	public function get_tracked_keyphrases( $used_keyphrases = null, $permalink = null, $start_at = null ) {
 		try {
 			if ( $used_keyphrases === null ) {
 				$used_keyphrases = $this->collect_all_keyphrases();
@@ -213,6 +214,7 @@ class Wincher_Keyphrases_Action {
 					[
 						'keywords' => $used_keyphrases,
 						'url'      => $permalink,
+						'start_at' => $start_at,
 					]
 				),
 				[
@@ -310,7 +312,7 @@ class Wincher_Keyphrases_Action {
 	protected function filter_results_by_used_keyphrases( $results, $used_keyphrases ) {
 		return \array_filter(
 			$results,
-			static function( $result ) use ( $used_keyphrases ) {
+			static function ( $result ) use ( $used_keyphrases ) {
 				return \in_array( $result['keyword'], \array_map( 'strtolower', $used_keyphrases ), true );
 			}
 		);

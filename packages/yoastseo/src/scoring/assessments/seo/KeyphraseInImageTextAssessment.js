@@ -126,7 +126,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 			return {
 				score: this._config.scores.withAlt,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						"%1$sImage Keyphrase%3$s: Images on this page have alt attributes, but you have not set your keyphrase. %2$sFix that%3$s!",
 						"wordpress-seo"
@@ -143,7 +143,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 			return {
 				score: this._config.scores.withAltNonKeyword,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						// eslint-disable-next-line max-len
 						"%1$sImage Keyphrase%3$s: Images on this page do not have alt attributes with at least half of the words from your keyphrase. %2$sFix that%3$s!",
@@ -161,7 +161,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 			return {
 				score: this._config.scores.withAltTooFewKeywordMatches,
 				resultText: sprintf(
-					/* Translators: %1$d expands to the number of images containing an alt attribute with the keyword,
+					/* translators: %1$d expands to the number of images containing an alt attribute with the keyword,
 					 * %2$d expands to the total number of images, %3$s and %4$s expand to links on yoast.com,
 					 * %5$s expands to the anchor end tag. */
 					_n(
@@ -189,7 +189,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 			return {
 				score: this._config.scores.withAltGoodNumberOfKeywordMatches,
 				resultText: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com,
+					/* translators: %1$s expands to a link on yoast.com,
 					 * %2$s expands to the anchor end tag. */
 					__(
 						"%1$sImage Keyphrase%2$s: Good job!",
@@ -205,7 +205,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 			return {
 				score: this._config.scores.withAltTooManyKeywordMatches,
 				resultText: sprintf(
-					/* Translators: %1$d expands to the number of images containing an alt attribute with the keyword,
+					/* translators: %1$d expands to the number of images containing an alt attribute with the keyword,
                      * %2$d expands to the total number of images, %3$s and %4$s expand to a link on yoast.com,
 					 * %5$s expands to the anchor end tag. */
 					__(
@@ -226,7 +226,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 		return {
 			score: this._config.scores.noAlt,
 			resultText: sprintf(
-				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				__(
 					// eslint-disable-next-line max-len
 					"%1$sImage Keyphrase%3$s: Images on this page do not have alt attributes that reflect the topic of your text. %2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!",

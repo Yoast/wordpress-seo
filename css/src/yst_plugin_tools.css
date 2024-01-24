@@ -552,7 +552,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .yoast-sidebar__product {
-	background: #A4286A;
+	background: #a61e69;
 	padding: 24px;
 	margin-top: 34px;
 	border-radius: 8px;
@@ -567,6 +567,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 .yoast-get-premium-title {
   line-height: 27px;
+  margin-top: 0;
+  margin-bottom: 12px;
 }
 
 .yoast-get-premium-title span {
@@ -588,7 +590,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .yoast-sidebar__product p {
-	margin-bottom: 16px;
+	margin-bottom: 12px;
 	margin-top: 0;
 	font-size: 1rem;
 }
@@ -598,7 +600,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .yoast-sidebar__product .review-container {
-	margin-top: 24px;
+	margin-top: 16px;
 }
 
 .yoast-sidebar__product .review-container a {
@@ -606,9 +608,14 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	color: #FFFFFF;
 }
 
+.yoast-sidebar__product .review-container a .claim {
+	display: block;
+	color: #FFFFFF;
+	margin-bottom: 12px;
+}
+
 .yoast-sidebar__product .review-container .title {
-	font-weight: bold;
-	font-size: 14px;
+	font-weight: 500;
 	margin-bottom: 8px;
 	color: #FFFFFF;
 }
@@ -628,8 +635,50 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .yoast-sidebar__product .review-container .rating .rating-text {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.yoast-sidebar__product .sidebar__sale_banner_container {
+	width: calc(100% + 48px);
+	margin-left: -24px;
+	overflow-x: hidden;
+	overflow-y: initial;
+	margin-top: -40px;
+}
+
+.yoast-sidebar__product .sidebar__sale_banner_container .sidebar__sale_banner {
+	background: #000;
+	color: #fcd34d;
+	width: calc(100% + 60px);
+	line-height: 30px;
+	margin-left: -30px;
+	transform: rotate(-5deg);
 	font-size: 20px;
-	line-height: 24px;
+	font-weight: 500;
+	letter-spacing: 0.5px;
+	text-align: center;
+	z-index: 1;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	box-shadow: 0 -1px 4px 0 #fcd34d, 0 1px 4px 0 #fcd34d, 0 -1px 0 0 #fcd34d, 0 1px 0 0 #fcd34d;
+	padding: 7px 0;
+}
+
+.yoast-sidebar__product .sidebar__sale_banner_container .sidebar__sale_banner .banner_text {
+	display: inline-block;
+	margin: 0 40px;
+}
+
+.yoast-sidebar__product .sidebar__sale_text {
+	text-align: center;
+	border-top: solid 1px #ffffff;
+	font-style: italic;
+
+}
+.yoast-sidebar__product .sidebar__sale_text p {
+	font-size: 12.5px;
+	margin: 12.5px 0;
 }
 
 .yoast-sidebar__section {
@@ -695,13 +744,28 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .yoast_premium_upsell {
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
   border: 1px solid #dcdcdc;
-  padding: 16px;
   background-color: #fff;
-  max-width: 640px;
+  max-width: 715px;
   overflow: hidden;
   margin-top: 2em;
 }
 
+.yoast_premium_upsell--container {
+  padding: 16px;
+}
+
+.black-friday-container {
+	display: flex;
+	background-color: #1F2937;
+	padding: 8px 16px;
+	border-bottom: 2px solid #FCD34D;
+}
+
+.black-friday-container span {
+	color:#FCD34D;
+	font-size: 1.2rem;
+	font-weight: 600;
+}
 .yoast_premium_upsell--header {
   color: #A4286A;
   margin-top: 0.3em;
@@ -881,8 +945,16 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
     width: auto;
   }
   #sidebar-container {
+    display: flex;
+    gap: 0.7rem;
     width: auto;
     padding: 0;
+  }
+  .yoast-sidebar__product .sidebar__sale_banner_container {
+    overflow-y:hidden;
+  }
+  #sidebar-container .yoast-sidebar__section {
+    margin-top: 5rem;
   }
   /* Make the banners with product lists appear next to each other. */
   .yoast-sidebar__product-list {
@@ -955,6 +1027,15 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 @media screen and (max-width: 500px) {
+  .yoast-sidebar__product .sidebar__sale_banner_container .sidebar__sale_banner {
+    transform: rotate(-4deg);
+  }
+  #sidebar-container {
+    display: block;
+  }
+  #sidebar-container .yoast-sidebar__section {
+    margin-top: 20px;
+  }
   body.toplevel_page_wpseo_dashboard .wp-badge {
     padding-top: 80px;
     background-size: 100px 100px;

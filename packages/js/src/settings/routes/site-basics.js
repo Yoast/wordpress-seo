@@ -1,6 +1,6 @@
 import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, FeatureUpsell, Radio, RadioGroup, TextField, ToggleField } from "@yoast/ui-library";
+import { Alert, Badge, FeatureUpsell, Radio, RadioGroup, TextField, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import { get, map } from "lodash";
 import {
@@ -346,7 +346,10 @@ const SiteBasics = () => {
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
 					<FieldsetLayout
-						title={ __( "Site policies", "wordpress-seo" ) }
+						title={ <>
+							{ __( "Site policies", "wordpress-seo" ) }
+							{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+						</> }
 						description={ sitePoliciesDescription }
 					>
 						<FeatureUpsell

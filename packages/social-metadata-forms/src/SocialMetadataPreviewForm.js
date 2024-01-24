@@ -1,4 +1,4 @@
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import { getDirectionalStyle, join } from "@yoast/helpers";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
@@ -20,8 +20,25 @@ const getCaretColor = ( active ) => {
 };
 
 const CaretContainer = styled.div`
-	position: relative;`
+	position: relative;
+
+	${ props => ! props.isPremium && `
+		.yoast-image-select__preview {
+			width: 130px;
+			min-height: 72px;
+			max-height: 130px;
+		}
+	` };
+`
 ;
+
+CaretContainer.propTypes = {
+	isPremium: PropTypes.bool,
+};
+
+CaretContainer.defaultProps = {
+	isPremium: false,
+};
 
 const Caret = styled.div`
 	display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
@@ -68,17 +85,19 @@ export const withCaretStyle = ( WithoutCaretComponent ) => {
 		ComponentWithCaret.propTypes = {
 			isActive: PropTypes.bool.isRequired,
 			isHovered: PropTypes.bool.isRequired,
+			isPremium: PropTypes.bool,
 		};
 
 		// Destructure the props.
 		const {
 			isActive,
 			isHovered,
+			isPremium,
 			...withoutCaretProps
 		} = props;
 
 		return (
-			<CaretContainer>
+			<CaretContainer isPremium={ isPremium }>
 				<Caret isActive={ isActive } isHovered={ isHovered } />
 				<WithoutCaretComponent { ...withoutCaretProps } />
 			</CaretContainer>
@@ -173,13 +192,11 @@ class SocialMetadataPreviewForm extends Component {
 		} = this.props;
 
 		const imageSelected = !! imageUrl;
-
-		/* Translators: %s expands to the social medium name, i.e. Facebook. */
-		const imageSelectTitle = sprintf( __( "%s image", "wordpress-seo" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Facebook. */
-		const titleEditorTitle = sprintf( __( "%s title", "wordpress-seo" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Facebook. */
-		const descEditorTitle = sprintf( __( "%s description", "wordpress-seo" ), socialMediumName );
+		const imageSelectTitle = socialMediumName === "Twitter" ? __( "Twitter image", "wordpress-seo" ) : __( "Social image", "wordpress-seo" );
+		const titleEditorTitle = socialMediumName === "Twitter" ? __( "Twitter title", "wordpress-seo" ) : __( "Social title", "wordpress-seo" );
+		const descEditorTitle = socialMediumName === "Twitter"
+			? __( "Twitter description", "wordpress-seo" )
+			: __( "Social description", "wordpress-seo" );
 
 		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
 
@@ -202,6 +219,7 @@ class SocialMetadataPreviewForm extends Component {
 					selectImageButtonId={ join( [ lowerCaseSocialMediumName, "select-button", idSuffix ] ) }
 					replaceImageButtonId={ join( [ lowerCaseSocialMediumName, "replace-button", idSuffix ] ) }
 					removeImageButtonId={ join( [ lowerCaseSocialMediumName, "remove-button", idSuffix ] ) }
+					isPremium={ isPremium }
 				/>
 				<ReplacementVariableEditor
 					onChange={ onTitleChange }
@@ -247,7 +265,7 @@ class SocialMetadataPreviewForm extends Component {
 }
 
 SocialMetadataPreviewForm.propTypes = {
-	socialMediumName: PropTypes.oneOf( [ "Twitter", "Facebook" ] ).isRequired,
+	socialMediumName: PropTypes.oneOf( [ "Twitter", "Social" ] ).isRequired,
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,

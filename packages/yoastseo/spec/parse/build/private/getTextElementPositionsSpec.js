@@ -141,6 +141,21 @@ describe( "A test for getting positions of sentences", () => {
 		expect( getTextElementPositions( node, sentences ) ).toEqual( sentencesWithPositions );
 	} );
 
+	it( "should determine the correct token positions when the sentence contains a br tag", function() {
+		// HTML: <p>Hello<br />world!</p>.
+		const html = "<p>Hello<br />world!</p>";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		const paragraph = tree.childNodes[ 0 ];
+		const tokens = [ "Hello", "\n", "world", "!" ].map( string => new Token( string ) );
+
+		const [ hello, br, world, bang ] = getTextElementPositions( paragraph, tokens, 3 );
+
+		expect( hello.sourceCodeRange ).toEqual( { startOffset: 3, endOffset: 8 } );
+		expect( br.sourceCodeRange ).toEqual( { startOffset: 13, endOffset: 14 } );
+		expect( world.sourceCodeRange ).toEqual( { startOffset: 14, endOffset: 19 } );
+		expect( bang.sourceCodeRange ).toEqual( { startOffset: 19, endOffset: 20 } );
+	} );
+
 	it( "gets the sentence positions from a node that has a code child node", function() {
 		// HTML: <p>Hello <code>array.push( something )</code> code!</p>
 		const node = new Paragraph( {}, [
@@ -505,5 +520,79 @@ describe( "A test for getting positions of sentences", () => {
 		expect( space.sourceCodeRange ).toEqual( { startOffset: 15, endOffset: 16 } );
 		expect( world.sourceCodeRange ).toEqual( { startOffset: 16, endOffset: 21 } );
 		expect( bang.sourceCodeRange ).toEqual( { startOffset: 21, endOffset: 22 } );
+	} );
+
+	it( "should correctly add positions to an implicit paragraph", function() {
+		const html = "Hello world!";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		const paragraph = tree.childNodes[ 0 ];
+
+		const tokens = [ "Hello", " ", "world", "!" ].map( string => new Token( string ) );
+
+		const [ hello, space, world, bang ] = getTextElementPositions( paragraph, tokens );
+
+		expect( hello.sourceCodeRange ).toEqual( { startOffset: 0, endOffset: 5 } );
+		expect( space.sourceCodeRange ).toEqual( { startOffset: 5, endOffset: 6 } );
+		expect( world.sourceCodeRange ).toEqual( { startOffset: 6, endOffset: 11 } );
+		expect( bang.sourceCodeRange ).toEqual( { startOffset: 11, endOffset: 12 } );
+	} );
+
+	it( "should correctly add positions to two sentences in an implicit paragraph", function() {
+		const html = "Hello world! It is <strong>Yoast</strong>.";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		const paragraph = tree.childNodes[ 0 ];
+
+		expect( paragraph.sourceCodeLocation ).toEqual( { startOffset: 0, endOffset: 42 } );
+
+		const tokens = [ "Hello", " ", "world", "!" ].map( string => new Token( string ) );
+		const tokens2 = [ "It", " ", "is", " ", "Yoast", "." ].map( string => new Token( string ) );
+
+		const [ hello, space, world, bang ] = getTextElementPositions( paragraph, tokens );
+		const [ it, space2, is, space3, yoast, dot ] = getTextElementPositions( paragraph, tokens2, 13 );
+
+		expect( hello.sourceCodeRange ).toEqual( { startOffset: 0, endOffset: 5 } );
+		expect( space.sourceCodeRange ).toEqual( { startOffset: 5, endOffset: 6 } );
+		expect( world.sourceCodeRange ).toEqual( { startOffset: 6, endOffset: 11 } );
+		expect( bang.sourceCodeRange ).toEqual( { startOffset: 11, endOffset: 12 } );
+
+		expect( it.sourceCodeRange ).toEqual( { startOffset: 13, endOffset: 15 } );
+		expect( space2.sourceCodeRange ).toEqual( { startOffset: 15, endOffset: 16 } );
+		expect( is.sourceCodeRange ).toEqual( { startOffset: 16, endOffset: 18 } );
+		expect( space3.sourceCodeRange ).toEqual( { startOffset: 18, endOffset: 19 } );
+		expect( yoast.sourceCodeRange ).toEqual( { startOffset: 27, endOffset: 32 } );
+		expect( dot.sourceCodeRange ).toEqual( { startOffset: 41, endOffset: 42 } );
+	} );
+
+	it( "correctly calculates the position of an image caption", () => {
+		const html = "<div>[caption id=\"attachment_3341501\" align=\"alignnone\" width=\"300\"]" +
+			"<img class=\"cls\" src=\"yoast.com/image.jpg\" alt=\"alt\" width=\"300\" height=\"300\" />" +
+			" An image with the keyword in the caption.[/caption]</div>";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		const div = tree.childNodes[ 0 ];
+		const caption = div.childNodes[ 0 ];
+
+		const tokens = [ " ", "An", " ", "image", " ", "with", " ", "the", " ", "keyword", " ", "in", " ", "the", " ", "caption", "." ].map(
+			string => new Token( string ) );
+
+		const [ space0, an, space1, image, space2, withToken, space3, the,
+			space4, keyword, space5, inToken, space6, the2, space7, captionToken, dot ] = getTextElementPositions( caption, tokens, 148 );
+
+		expect( space0.sourceCodeRange ).toEqual( { startOffset: 148, endOffset: 149 } );
+		expect( an.sourceCodeRange ).toEqual( { startOffset: 149, endOffset: 151 } );
+		expect( space1.sourceCodeRange ).toEqual( { startOffset: 151, endOffset: 152 } );
+		expect( image.sourceCodeRange ).toEqual( { startOffset: 152, endOffset: 157 } );
+		expect( space2.sourceCodeRange ).toEqual( { startOffset: 157, endOffset: 158 } );
+		expect( withToken.sourceCodeRange ).toEqual( { startOffset: 158, endOffset: 162 } );
+		expect( space3.sourceCodeRange ).toEqual( { startOffset: 162, endOffset: 163 } );
+		expect( the.sourceCodeRange ).toEqual( { startOffset: 163, endOffset: 166 } );
+		expect( space4.sourceCodeRange ).toEqual( { startOffset: 166, endOffset: 167 } );
+		expect( keyword.sourceCodeRange ).toEqual( { startOffset: 167, endOffset: 174 } );
+		expect( space5.sourceCodeRange ).toEqual( { startOffset: 174, endOffset: 175 } );
+		expect( inToken.sourceCodeRange ).toEqual( { startOffset: 175, endOffset: 177 } );
+		expect( space6.sourceCodeRange ).toEqual( { startOffset: 177, endOffset: 178 } );
+		expect( the2.sourceCodeRange ).toEqual( { startOffset: 178, endOffset: 181 } );
+		expect( space7.sourceCodeRange ).toEqual( { startOffset: 181, endOffset: 182 } );
+		expect( captionToken.sourceCodeRange ).toEqual( { startOffset: 182, endOffset: 189 } );
+		expect( dot.sourceCodeRange ).toEqual( { startOffset: 189, endOffset: 190 } );
 	} );
 } );

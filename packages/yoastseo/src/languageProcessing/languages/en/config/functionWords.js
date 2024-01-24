@@ -53,7 +53,7 @@ const prepositions = [ "in", "from", "with", "under", "throughout", "atop", "for
 	"among", "apropos", "apud", "around", "as", "astride", "at", "ontop", "afore", "tofore", "behind", "ahind",
 	"below", "ablow", "beneath", "neath", "beside", "between", "atween", "beyond", "ayond", "by", "chez",
 	"circa", "spite", "down", "except", "into", "less", "like", "minus", "near", "nearer", "nearest", "anear", "notwithstanding",
-	"off", "onto", "opposite", "out", "outen", "over", "past", "per", "pre", "qua", "sans", "sauf", "sithence", "through",
+	"off", "onto", "opposite", "out", "outen", "over", "past", "per", "pre", "qua", "sans", "sithence", "through",
 	"thru", "truout", "toward", "underneath", "up", "upon", "upside", "versus", "via", "vis-à-vis", "without", "ago",
 	"apart", "aside", "aslant", "away", "withal", "towards", "amidst", "amongst", "midst", "whilst" ];
 

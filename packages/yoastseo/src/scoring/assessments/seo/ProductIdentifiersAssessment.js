@@ -127,7 +127,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 				return {
 					score: config.scores.ok,
 					text: sprintf(
-						/* Translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
+						/* translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
 						* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the feedback string
 						* "Your product is missing a product identifier (like a GTIN code)"
 						* or "Your product is missing a barcode (like a GTIN code)" */
@@ -148,7 +148,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return {
 				score: config.scores.good,
 				text: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
+					/* translators: %1$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
 					* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the feedback string
 					* "Your product has a product identifier" or "Your product has a barcode" */
 					__(
@@ -168,7 +168,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 				return {
 					score: config.scores.ok,
 					text: sprintf(
-						/* Translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
+						/* translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
 						* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the string
 						* "Not all your product variants have a product identifier"
 						* or "Not all your product variants have a barcode" */
@@ -187,7 +187,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return {
 				score: config.scores.good,
 				text: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
+					/* translators: %1$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
 					* %2$s expands to the string "Barcode" or "Product identifier" , %3$s expands to the feedback string
 					* "All your product variants have a product identifier" or "All your product variants have a barcode" */
 					__(

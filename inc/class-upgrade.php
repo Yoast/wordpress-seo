@@ -8,6 +8,7 @@
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
+use Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher;
 
 /**
  * This code handles the option upgrades.
@@ -108,7 +109,7 @@ class WPSEO_Upgrade {
 		/**
 		 * Filter: 'wpseo_run_upgrade' - Runs the upgrade hook which are dependent on Yoast SEO.
 		 *
-		 * @api string - The current version of Yoast SEO
+		 * @param string $version The current version of Yoast SEO
 		 */
 		do_action( 'wpseo_run_upgrade', $version );
 
@@ -135,6 +136,8 @@ class WPSEO_Upgrade {
 	 *
 	 * @param string $current_version The old version from which we are upgrading.
 	 * @param string $new_version     The version we are upgrading to.
+	 *
+	 * @return void
 	 */
 	protected function add_upgrade_history( $current_version, $new_version ) {
 		$upgrade_history = new WPSEO_Upgrade_History();
@@ -168,6 +171,8 @@ class WPSEO_Upgrade {
 	 * Run the Yoast SEO 1.5 upgrade routine.
 	 *
 	 * @param string $version Current plugin version.
+	 *
+	 * @return void
 	 */
 	private function upgrade_15( $version ) {
 		// Clean up options and meta.
@@ -177,6 +182,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Moves options that moved position in WPSEO 2.0.
+	 *
+	 * @return void
 	 */
 	private function upgrade_20() {
 		/**
@@ -194,6 +201,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Detects if taxonomy terms were split and updates the corresponding taxonomy meta's accordingly.
+	 *
+	 * @return void
 	 */
 	private function upgrade_21() {
 		$taxonomies = get_option( 'wpseo_taxonomy_meta', [] );
@@ -217,6 +226,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs upgrade functions to Yoast SEO 2.2.
+	 *
+	 * @return void
 	 */
 	private function upgrade_22() {
 		// Unschedule our tracking.
@@ -227,6 +238,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Schedules upgrade function to Yoast SEO 2.3.
+	 *
+	 * @return void
 	 */
 	private function upgrade_23() {
 		add_action( 'wp', [ $this, 'upgrade_23_query' ], 90 );
@@ -235,6 +248,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs upgrade query to Yoast SEO 2.3.
+	 *
+	 * @return void
 	 */
 	public function upgrade_23_query() {
 		$wp_query = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_sitemap-include&meta_value=never&order=ASC' );
@@ -266,6 +281,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs upgrade functions to Yoast SEO 3.0.
+	 *
+	 * @return void
 	 */
 	private function upgrade_30() {
 		// Remove the meta fields for sitemap prio.
@@ -274,6 +291,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs upgrade functions to Yoast SEO 3.3.
+	 *
+	 * @return void
 	 */
 	private function upgrade_33() {
 		// Notification dismissals have been moved to User Meta instead of global option.
@@ -282,6 +301,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs upgrade functions to Yoast SEO 3.6.
+	 *
+	 * @return void
 	 */
 	private function upgrade_36() {
 		global $wpdb;
@@ -292,6 +313,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Removes the about notice when its still in the database.
+	 *
+	 * @return void
 	 */
 	private function upgrade_40() {
 		$center = Yoast_Notification_Center::get();
@@ -300,6 +323,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Moves the content-analysis-active and keyword-analysis-acive options from wpseo-titles to wpseo.
+	 *
+	 * @return void
 	 */
 	private function upgrade_44() {
 		$wpseo_titles = $this->get_option_from_database( 'wpseo_titles' );
@@ -313,6 +338,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Renames the meta name for the cornerstone content. It was a public meta field and it has to be private.
+	 *
+	 * @return void
 	 */
 	private function upgrade_47() {
 		global $wpdb;
@@ -328,6 +355,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Removes the 'wpseo-dismiss-about' notice for every user that still has it.
+	 *
+	 * @return void
 	 */
 	private function upgrade_49() {
 		global $wpdb;
@@ -391,6 +420,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Adds the yoast_seo_links table to the database.
+	 *
+	 * @return void
 	 */
 	private function upgrade_50() {
 		global $wpdb;
@@ -401,6 +432,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Register new capabilities and roles.
+	 *
+	 * @return void
 	 */
 	private function upgrade_55() {
 		// Register roles.
@@ -623,6 +656,8 @@ class WPSEO_Upgrade {
 	 * Performs the 12.3 upgrade.
 	 *
 	 * Removes the about notice when its still in the database.
+	 *
+	 * @return void
 	 */
 	private function upgrade_123() {
 		$plugins = [
@@ -644,6 +679,8 @@ class WPSEO_Upgrade {
 	 * Performs the 12.4 upgrade.
 	 *
 	 * Removes the Google plus defaults from the database.
+	 *
+	 * @return void
 	 */
 	private function upgrade_124() {
 		$this->cleanup_option_data( 'wpseo_social' );
@@ -651,6 +688,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 12.5 upgrade.
+	 *
+	 * @return void
 	 */
 	public function upgrade_125() {
 		// Disables the force rewrite title when the theme supports it through WordPress.
@@ -668,6 +707,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 12.8 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_128() {
 		// Re-save wpseo to make sure bf_banner_2019_dismissed key is gone.
@@ -679,6 +720,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 13.2 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_132() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-tagline-notice' );
@@ -715,6 +758,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Perform the 14.0.3 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_1403() {
 		WPSEO_Options::set( 'ignore_indexation_warning', false );
@@ -722,6 +767,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 14.1 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_141() {
 		/*
@@ -738,6 +785,8 @@ class WPSEO_Upgrade {
 	 * Performs the 14.2 upgrade.
 	 *
 	 * Removes the yoast-acf-analysis notice when it's still in the database.
+	 *
+	 * @return void
 	 */
 	private function upgrade_142() {
 		add_action( 'init', [ $this, 'remove_acf_notification_for_142' ] );
@@ -745,6 +794,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 14.5 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_145() {
 		add_action( 'init', [ $this, 'set_indexation_completed_option_for_145' ] );
@@ -752,6 +803,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 14.9 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_149() {
 		$version = get_option( 'wpseo_license_server_version', 2 );
@@ -815,19 +868,23 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 15.9.1 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_1591() {
-		$enabled_auto_updates = \get_option( 'auto_update_plugins' );
-		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$enabled_auto_updates = get_option( 'auto_update_plugins' );
+		$addon_update_watcher = YoastSEO()->classes->get( Addon_Update_Watcher::class );
 		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', [], $enabled_auto_updates );
 	}
 
 	/**
 	 * Performs the 16.2 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_162() {
-		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
-		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$enabled_auto_updates = get_site_option( 'auto_update_plugins' );
+		$addon_update_watcher = YoastSEO()->classes->get( Addon_Update_Watcher::class );
 		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
 	}
 
@@ -849,25 +906,29 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_172() {
-		\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
-		\wp_unschedule_hook( 'wpseo_cleanup_indexables' );
+		wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
+		wp_unschedule_hook( 'wpseo_cleanup_indexables' );
 
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
 	/**
 	 * Performs the 17.7.1 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_1771() {
-		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
-		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$enabled_auto_updates = get_site_option( 'auto_update_plugins' );
+		$addon_update_watcher = YoastSEO()->classes->get( Addon_Update_Watcher::class );
 		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
 	}
 
 	/**
 	 * Performs the 17.9 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_179() {
 		WPSEO_Options::set( 'wincher_integration_active', true );
@@ -875,6 +936,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 18.3 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_183() {
 		$this->delete_post_meta( 'yoast-structured-data-blocks-images-cache' );
@@ -882,6 +945,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 18.6 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_186() {
 		if ( is_multisite() ) {
@@ -891,6 +956,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 18.9 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_189() {
 		// Make old users not get the Installation Success page after upgrading.
@@ -912,7 +979,7 @@ class WPSEO_Upgrade {
 
 		// Transfer the progress of the old Configuration Workout.
 		$workout_data      = WPSEO_Options::get( 'workouts_data' );
-		$old_conf_progress = isset( $workout_data['configuration']['finishedSteps'] ) ? $workout_data['configuration']['finishedSteps'] : [];
+		$old_conf_progress = ( $workout_data['configuration']['finishedSteps'] ?? [] );
 
 		if ( in_array( 'optimizeSeoData', $old_conf_progress, true ) && in_array( 'siteRepresentation', $old_conf_progress, true ) ) {
 			// If completed ‘SEO optimization’ and ‘Site representation’ step, we assume the workout was completed.
@@ -927,6 +994,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 19.1 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_191() {
 		if ( is_multisite() ) {
@@ -936,6 +1005,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 19.3 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_193() {
 		if ( empty( get_option( 'wpseo_premium', [] ) ) ) {
@@ -946,6 +1017,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 19.6 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_196() {
 		WPSEO_Options::set( 'ryte_indexability', false );
@@ -955,19 +1028,23 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 19.11 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_1911() {
-		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_post_types' ] );
-		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_taxonomies' ] );
+		add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_post_types' ] );
+		add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_taxonomies' ] );
 		$this->deduplicate_unindexed_indexable_rows();
 		$this->remove_indexable_rows_for_disabled_authors_archive();
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
 	/**
 	 * Performs the 20.2 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_202() {
 		if ( WPSEO_Options::get( 'disable-attachment', true ) ) {
@@ -979,18 +1056,20 @@ class WPSEO_Upgrade {
 
 		$this->clean_unindexed_indexable_rows_with_no_object_id();
 
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
 			// This schedules the cleanup routine cron again, since in combination of premium cleans up the prominent words table. We also want to cleanup possible orphaned hierarchies from the above cleanups.
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
 	/**
 	 * Performs the 20.5 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_205() {
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
@@ -998,6 +1077,8 @@ class WPSEO_Upgrade {
 	 * Performs the 20.7 upgrade routine.
 	 * Removes the metadata related to the settings page introduction modal for all the users.
 	 * Also, schedules another cleanup scheduled action.
+	 *
+	 * @return void
 	 */
 	private function upgrade_207() {
 		add_action( 'shutdown', [ $this, 'delete_user_introduction_meta' ] );
@@ -1006,10 +1087,12 @@ class WPSEO_Upgrade {
 	/**
 	 * Performs the 20.8 upgrade routine.
 	 * Schedules another cleanup scheduled action.
+	 *
+	 * @return void
 	 */
 	private function upgrade_208() {
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
@@ -1041,6 +1124,8 @@ class WPSEO_Upgrade {
 	 * Checks if the indexable indexation is completed.
 	 * If so, sets the `indexables_indexation_completed` option to `true`,
 	 * else to `false`.
+	 *
+	 * @return void
 	 */
 	public function set_indexation_completed_option_for_145() {
 		WPSEO_Options::set( 'indexables_indexation_completed', YoastSEO()->helpers->indexing->get_limited_filtered_unindexed_count( 1 ) === 0 );
@@ -1048,6 +1133,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Cleans up the private taxonomies from the indexables table for the upgrade routine to 14.1.
+	 *
+	 * @return void
 	 */
 	public function clean_up_private_taxonomies_for_141() {
 		global $wpdb;
@@ -1057,7 +1144,7 @@ class WPSEO_Upgrade {
 		$wpdb->show_errors = false;
 
 		// Clean up indexables of private taxonomies.
-		$private_taxonomies = \get_taxonomies( [ 'public' => false ], 'names' );
+		$private_taxonomies = get_taxonomies( [ 'public' => false ], 'names' );
 
 		if ( empty( $private_taxonomies ) ) {
 			return;
@@ -1071,7 +1158,7 @@ class WPSEO_Upgrade {
 			"DELETE FROM $indexable_table
 			WHERE object_type = 'term'
 			AND object_sub_type IN ("
-				. \implode( ', ', \array_fill( 0, \count( $private_taxonomies ), '%s' ) )
+				. implode( ', ', array_fill( 0, count( $private_taxonomies ), '%s' ) )
 				. ')',
 			$private_taxonomies
 		);
@@ -1082,6 +1169,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Resets the permalinks of attachments to `null` in the indexable table for the upgrade routine to 14.1.
+	 *
+	 * @return void
 	 */
 	private function reset_permalinks_of_attachments_for_141() {
 		global $wpdb;
@@ -1422,7 +1511,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$included_post_types = \YoastSEO()->helpers->post_type->get_indexable_post_types();
+		$included_post_types = YoastSEO()->helpers->post_type->get_indexable_post_types();
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
@@ -1436,7 +1525,7 @@ class WPSEO_Upgrade {
 				"DELETE FROM $indexable_table
 				WHERE object_type = 'post'
 				AND object_sub_type IS NOT NULL
-				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_post_types ), '%s' ) ) . ' )',
+				AND object_sub_type NOT IN ( " . implode( ', ', array_fill( 0, count( $included_post_types ), '%s' ) ) . ' )',
 				$included_post_types
 			);
 		}
@@ -1466,7 +1555,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$included_taxonomies = \YoastSEO()->helpers->taxonomy->get_indexable_taxonomies();
+		$included_taxonomies = YoastSEO()->helpers->taxonomy->get_indexable_taxonomies();
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_taxonomies ) ) {
@@ -1479,7 +1568,7 @@ class WPSEO_Upgrade {
 				"DELETE FROM $indexable_table
 				WHERE object_type = 'term'
 				AND object_sub_type IS NOT NULL
-				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_taxonomies ), '%s' ) ) . ' )',
+				AND object_sub_type NOT IN ( " . implode( ', ', array_fill( 0, count( $included_taxonomies ), '%s' ) ) . ' )',
 				$included_taxonomies
 			);
 		}
@@ -1592,7 +1681,7 @@ class WPSEO_Upgrade {
 	private function remove_indexable_rows_for_disabled_authors_archive() {
 		global $wpdb;
 
-		if ( ! \YoastSEO()->helpers->author_archive->are_disabled() ) {
+		if ( ! YoastSEO()->helpers->author_archive->are_disabled() ) {
 			return;
 		}
 
@@ -1626,7 +1715,7 @@ class WPSEO_Upgrade {
 	private function get_indexable_deduplication_query_for_type( $object_type, $duplicates, $wpdb ) {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$filtered_duplicates = \array_filter(
+		$filtered_duplicates = array_filter(
 			$duplicates,
 			static function ( $duplicate ) use ( $object_type ) {
 				return $duplicate['object_type'] === $object_type;
@@ -1646,8 +1735,8 @@ class WPSEO_Upgrade {
 			"DELETE FROM
 				$indexable_table
 			WHERE
-				object_id IN ( " . \implode( ', ', \array_fill( 0, \count( $filtered_duplicates ), '%d' ) ) . ' )
-				AND id NOT IN ( ' . \implode( ', ', \array_fill( 0, \count( $filtered_duplicates ), '%d' ) ) . ' )
+				object_id IN ( " . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
+				AND id NOT IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
 				AND object_type = %s',
 			array_merge( array_values( $object_ids ), array_values( $newest_indexable_ids ), [ $object_type ] )
 		);

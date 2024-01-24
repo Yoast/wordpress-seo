@@ -16,7 +16,7 @@ class Supported_Features_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const SUPPORTED_FEATURES_ROUTE = '/supported-features';
+	public const SUPPORTED_FEATURES_ROUTE = '/supported-features';
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.

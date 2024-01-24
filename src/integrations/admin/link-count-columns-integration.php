@@ -22,14 +22,14 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 *
 	 * @var string
 	 */
-	const COLUMN_LINKED = 'linked';
+	public const COLUMN_LINKED = 'linked';
 
 	/**
 	 * Partial column name.
 	 *
 	 * @var string
 	 */
-	const COLUMN_LINKS = 'links';
+	public const COLUMN_LINKS = 'links';
 
 	/**
 	 * The post type helper.
@@ -105,6 +105,8 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 
 	/**
 	 * Register hooks that need to be registered after `init` due to all post types not yet being registered.
+	 *
+	 * @return void
 	 */
 	public function register_init_hooks() {
 		$public_post_types = \apply_filters( 'wpseo_link_count_post_types', $this->post_type_helper->get_accessible_post_types() );
@@ -135,6 +137,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = \sprintf(
 			'<span class="yoast-linked-to yoast-column-header-has-tooltip" data-tooltip-text="%1$s"><span class="screen-reader-text">%2$s</span></span>',
 			\esc_attr__( 'Number of outgoing internal links in this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ),
+			/* translators: Hidden accessibility text. */
 			\esc_html__( 'Outgoing internal links', 'wordpress-seo' )
 		);
 
@@ -142,6 +145,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 			$columns[ 'wpseo-' . self::COLUMN_LINKED ] = \sprintf(
 				'<span class="yoast-linked-from yoast-column-header-has-tooltip" data-tooltip-text="%1$s"><span class="screen-reader-text">%2$s</span></span>',
 				\esc_attr__( 'Number of internal links linking to this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ),
+				/* translators: Hidden accessibility text. */
 				\esc_html__( 'Received internal links', 'wordpress-seo' )
 			);
 		}
@@ -217,6 +221,8 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 *
 	 * @param string $column_name Column to display the content for.
 	 * @param int    $post_id     Post to display the column content for.
+	 *
+	 * @return void
 	 */
 	public function column_content( $column_name, $post_id ) {
 		$indexable = $this->admin_columns_cache->get_indexable( $post_id );

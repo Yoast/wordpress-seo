@@ -5,7 +5,7 @@ import { sprintf, __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
 import styled from "styled-components";
-import { difference } from "lodash";
+import { difference, noop } from "lodash";
 
 /* Internal dependencies */
 import TaxonomyPicker from "./TaxonomyPicker";
@@ -18,6 +18,11 @@ const PrimaryTaxonomyPickerField = styled.div`
  * A component for selecting a primary taxonomy term.
  */
 class PrimaryTaxonomyPicker extends Component {
+	/**
+	 * Constructs a PrimaryTaxonomyPicker component.
+	 *
+	 * @param {Object} props The component's props.
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -255,13 +260,20 @@ PrimaryTaxonomyPicker.propTypes = {
 	primaryTaxonomyId: PropTypes.number,
 	setPrimaryTaxonomyId: PropTypes.func,
 	updateReplacementVariable: PropTypes.func,
-	receiveEntityRecords: PropTypes.func,
 	taxonomy: PropTypes.shape( {
 		name: PropTypes.string,
 		fieldId: PropTypes.string,
 		restBase: PropTypes.string,
 		singularLabel: PropTypes.string,
 	} ),
+};
+
+PrimaryTaxonomyPicker.defaultProps = {
+	selectedTermIds: [],
+	primaryTaxonomyId: -1,
+	setPrimaryTaxonomyId: noop,
+	updateReplacementVariable: noop,
+	taxonomy: {},
 };
 
 export default PrimaryTaxonomyPicker;

@@ -4,8 +4,7 @@ import removeURLs from "../../../helpers/sanitize/removeURLs.js";
 
 /**
  * Calculates the character count which serves as a measure of text length.
- * The character count includes letters, punctuation, and numbers. It doesn't include URLs, HTML tags, spaces, and the
- * content of the Table of Contents and Estimated Reading Time blocks.
+ * The character count includes letters, punctuation, and numbers. It doesn't include URLs, HTML tags, and spaces.
  *
  * @param {string} text The text to be counted.
  *

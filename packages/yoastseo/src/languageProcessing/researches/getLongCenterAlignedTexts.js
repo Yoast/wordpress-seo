@@ -44,6 +44,7 @@ function getLongCenterAlignedElements( elements, elementType ) {
 export default function( paper ) {
 	let text = paper.getText();
 	text = helpers.removeHtmlBlocks( text );
+	text = helpers.filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 
 	// Get all paragraphs from the text. We only retrieve the paragraphs with <p> tags.
 	const allParagraphs = helpers.matchStringWithRegex( text, paragraphsRegex );

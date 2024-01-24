@@ -43,6 +43,8 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	 *
 	 * @codeCoverageIgnore
 	 * @deprecated 20.3
+	 *
+	 * @return void
 	 */
 	public function enqueue_help_scout_script() {
 		_deprecated_function( __METHOD__, 'Yoast SEO 20.3', 'HelpScout_Beacon::enqueue_help_scout_script' );
@@ -53,6 +55,8 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	 *
 	 * @codeCoverageIgnore
 	 * @deprecated 20.3
+	 *
+	 * @return void
 	 */
 	public function output_beacon_js() {
 		_deprecated_function( __METHOD__, 'Yoast SEO 20.3', 'HelpScout_Beacon::output_beacon_js' );

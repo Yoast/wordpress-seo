@@ -148,7 +148,7 @@ class WPSEO_Image_Utils {
 		 *
 		 * Elements with keys not listed in the section will be discarded.
 		 *
-		 * @api array {
+		 * @param array $image_data {
 		 *     Array of image data
 		 *
 		 *     @type int    id       Image's ID as an attachment.
@@ -162,7 +162,7 @@ class WPSEO_Image_Utils {
 		 *     @type string url      Image's URL.
 		 *     @type int    filesize The file size in bytes, if already set.
 		 * }
-		 * @api int  Attachment ID.
+		 * @param int   $attachment_id Attachment ID.
 		 */
 		$image = apply_filters( 'wpseo_image_data', $image, $attachment_id );
 
@@ -186,7 +186,7 @@ class WPSEO_Image_Utils {
 		 * Filter: 'wpseo_image_image_weight_limit' - Determines what the maximum weight
 		 * (in bytes) of an image is allowed to be, default is 2 MB.
 		 *
-		 * @api int - The maximum weight (in bytes) of an image.
+		 * @param int $max_bytes The maximum weight (in bytes) of an image.
 		 */
 		$max_size = apply_filters( 'wpseo_image_image_weight_limit', 2097152 );
 
@@ -404,7 +404,7 @@ class WPSEO_Image_Utils {
 		/**
 		 * Filter: 'wpseo_image_sizes' - Determines which image sizes we'll loop through to get an appropriate image.
 		 *
-		 * @api array - The array of image sizes to loop through.
+		 * @param array<string> $sizes The array of image sizes to loop through.
 		 */
 		return apply_filters( 'wpseo_image_sizes', [ 'full', 'large', 'medium_large' ] );
 	}
@@ -496,14 +496,20 @@ class WPSEO_Image_Utils {
 	 */
 	public static function get_attachment_id_from_settings( $setting ) {
 		$image_id = WPSEO_Options::get( $setting . '_id', false );
-		if ( ! $image_id ) {
-			$image = WPSEO_Options::get( $setting, false );
-			if ( $image ) {
-				// There is not an option to put a URL in an image field in the settings anymore, only to upload it through the media manager.
-				// This means an attachment always exists, so doing this is only needed once.
-				$image_id = self::get_attachment_by_url( $image );
-				WPSEO_Options::set( $setting . '_id', $image_id );
-			}
+		if ( $image_id ) {
+			return $image_id;
+		}
+
+		$image = WPSEO_Options::get( $setting, false );
+		if ( $image ) {
+			// There is not an option to put a URL in an image field in the settings anymore, only to upload it through the media manager.
+			// This means an attachment always exists, so doing this is only needed once.
+			$image_id = self::get_attachment_by_url( $image );
+		}
+
+		// Only store a new ID if it is not 0, to prevent an update loop.
+		if ( $image_id ) {
+			WPSEO_Options::set( $setting . '_id', $image_id );
 		}
 
 		return $image_id;

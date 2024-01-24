@@ -56,7 +56,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install PHP
         uses: shivammathur/setup-php@v2
@@ -67,9 +67,9 @@ jobs:
       # This action also handles the caching of the Yarn dependencies.
       # https://github.com/actions/setup-node
       - name: Set up node and enable caching of dependencies
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version-file: './.nvmrc'
           cache: 'yarn'
 
       - name: "Debug info: show tooling versions"
@@ -86,7 +86,7 @@ jobs:
       # however, Composer packages downloaded are not cached via Grunt.
       # Running `composer install` ahead of time will ensure that the cache is warmed up
       # and available across runs of the same workflow.
-      # @link https://github.com/marketplace/actions/install-composer-dependencies
+      # @link https://github.com/marketplace/actions/install-php-dependencies-with-composer
       - name: Install Composer dependencies and run the prefixing script
         uses: ramsey/composer-install@v2
         with:
@@ -124,7 +124,7 @@ jobs:
       # Retention is normally 90 days, but this artifact is only for review
       # and use in the next step, so no need to keep it for more than a day.
       - name: Upload the artifact folder
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ success() }}
         with:
           name: deploy-artifact
@@ -167,7 +167,7 @@ jobs:
           fi
 
       - name: Checkout Yoast Dist repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ${{ env.DIST_ORG }}/${{ github.event.repository.name }}
           ref: ${{ env.DIST_DEFAULT_BRANCH }}
@@ -196,7 +196,7 @@ jobs:
 
       # The artifact will be unpacked into the root directory of the repository.
       - name: Download and unpack the prepared artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: deploy-artifact
 

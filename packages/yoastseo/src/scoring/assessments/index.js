@@ -1,4 +1,4 @@
-// Readbility assessments.
+// Readability assessments.
 import ParagraphTooLongAssessment from "./readability/ParagraphTooLongAssessment";
 import PassiveVoiceAssessment from "./readability/PassiveVoiceAssessment";
 import SentenceBeginningsAssessment from "./readability/SentenceBeginningsAssessment";
@@ -12,7 +12,7 @@ import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAs
 import InternalLinksAssessment from "./seo/InternalLinksAssessment";
 import IntroductionKeywordAssessment from "./seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "./seo/KeywordDensityAssessment";
+import KeyphraseDensityAssessment, { KeywordDensityAssessment } from "./seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "./seo/MetaDescriptionLengthAssessment";
 import OutboundLinksAssessment from "./seo/OutboundLinksAssessment";
@@ -38,12 +38,13 @@ const readability = {
 	TransitionWordsAssessment,
 };
 
-// We expose the deprecated UrlKeywordAssessment for backwards compatibility.
+// We expose the deprecated assessments for backwards compatibility.
 const seo = {
 	FunctionWordsInKeyphraseAssessment,
 	InternalLinksAssessment,
 	IntroductionKeywordAssessment,
 	KeyphraseLengthAssessment,
+	KeyphraseDensityAssessment,
 	KeywordDensityAssessment,
 	MetaDescriptionKeywordAssessment,
 	MetaDescriptionLengthAssessment,

@@ -37,8 +37,8 @@ const expectedResults = {
 		isApplicable: true,
 		score: 4,
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 5 times. " +
-			"That's less than the recommended minimum of 6 times for a text of this length. <a href='https://yoa.st/33w' " +
-			"target='_blank'>Focus on your keyphrase</a>!",
+			"That's less than the recommended minimum of 6 times for a text of this length. " +
+			"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -160,7 +160,7 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 25.31% of the words in your text are considered complex. " +
+		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 25.16% of the words in your text are considered complex. " +
 			"<a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
 	},
 	textAlignment: {

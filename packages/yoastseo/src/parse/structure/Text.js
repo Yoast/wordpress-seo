@@ -1,20 +1,26 @@
+import SourceCodeLocation from "./SourceCodeLocation";
 /**
  * A text.
  */
 class Text {
 	/**
-	 * Creates a new text.
+	 * Creates a new Text object, that consist of some text and a source code range.
 	 *
-	 * @param {string} value This text's value, e.g. its content.
+	 * @param {object} textNode The current #text node in the parse5 tree.
 	 */
-	constructor( value ) {
+	constructor( textNode ) {
 		this.name = "#text";
 		/**
 		 * This text's content.
 		 *
 		 * @type {string}
 		 */
-		this.value = value;
+		this.value = textNode.value;
+
+		this.sourceCodeRange = new SourceCodeLocation( {
+			startOffset: textNode.sourceCodeLocation.startOffset,
+			endOffset: textNode.sourceCodeLocation.endOffset,
+		} );
 	}
 }
 

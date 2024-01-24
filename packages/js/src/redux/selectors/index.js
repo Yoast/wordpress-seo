@@ -1,8 +1,19 @@
+import { linkParamsSelectors, pluginUrlSelectors, wistiaEmbedPermissionSelectors } from "../../shared-admin/store";
+
+export const { selectLinkParams, selectLinkParam, selectLink } = linkParamsSelectors;
+export const { selectPluginUrl, selectImageLink } = pluginUrlSelectors;
+export const {
+	selectWistiaEmbedPermission,
+	selectWistiaEmbedPermissionValue,
+	selectWistiaEmbedPermissionStatus,
+	selectWistiaEmbedPermissionError,
+} = wistiaEmbedPermissionSelectors;
 export * from "../../insights/redux/selectors";
 export * from "./advancedSettings";
 export * from "./analysis";
 export * from "./cornerstoneContent";
 export * from "./checklist";
+export * from "./currentPromotions";
 export * from "./editorContext";
 export * from "./editorData";
 export * from "./editorModals";
@@ -26,4 +37,5 @@ export * from "./WincherModal";
 export * from "./WincherRequest";
 export * from "./WincherSEOPerformance";
 export * from "./isPremium";
+export * from "./isWooSEO";
 export * from "./postId";

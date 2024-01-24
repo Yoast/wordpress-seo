@@ -135,6 +135,7 @@ const FleschReadingEase = () => {
 			unit={ __( "out of 100", "wordpress-seo" ) }
 			title={ __( "Flesch reading ease", "wordpress-seo" ) }
 			linkTo={ link }
+			/* translators: Hidden accessibility text. */
 			linkText={ __( "Learn more about Flesch reading ease", "wordpress-seo" ) }
 			description={ description }
 		/>

@@ -15,6 +15,7 @@ const SidebarButton = ( props ) => {
 				id={ props.id }
 				onClick={ props.onClick }
 				className="components-button components-panel__body-toggle"
+				type="button"
 			>
 				{ props.prefixIcon && ( <span
 					className="yoast-icon-span"
@@ -39,6 +40,7 @@ const SidebarButton = ( props ) => {
 						icon={ props.suffixIcon.icon }
 					/>
 				}
+				{ props.SuffixHeroIcon }
 			</button>
 		</h2>
 	</div>;
@@ -52,6 +54,7 @@ SidebarButton.propTypes = {
 	id: PropTypes.string,
 	subTitle: PropTypes.string,
 	suffixIcon: PropTypes.object,
+	SuffixHeroIcon: PropTypes.object,
 	prefixIcon: PropTypes.object,
 	children: PropTypes.node,
 };
@@ -59,6 +62,7 @@ SidebarButton.propTypes = {
 SidebarButton.defaultProps = {
 	id: "",
 	suffixIcon: null,
+	SuffixHeroIcon: null,
 	prefixIcon: null,
 	subTitle: "",
 	children: null,

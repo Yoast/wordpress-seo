@@ -90,6 +90,8 @@ class Indexing_Helper {
 	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexing (homepage etc) action.
 	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action    The post crosslink indexing action.
 	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action    The term crossling indexing action.
+	 *
+	 * @return void
 	 */
 	public function set_indexing_actions(
 		Indexable_Post_Indexation_Action $post_indexation,
@@ -118,6 +120,8 @@ class Indexing_Helper {
 	 * @required
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 *
+	 * @return void
 	 */
 	public function set_indexable_repository(
 		Indexable_Repository $indexable_repository
@@ -171,6 +175,8 @@ class Indexing_Helper {
 
 	/**
 	 * Removes any pre-existing notification, so that a new notification (with a possible new reason) can be added.
+	 *
+	 * @return void
 	 */
 	protected function remove_indexing_notification() {
 		$this->notification_center->remove_notification_by_id(

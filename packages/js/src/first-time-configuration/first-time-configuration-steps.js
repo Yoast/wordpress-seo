@@ -1,10 +1,9 @@
 /* global wpseoFirstTimeConfigurationData */
 import apiFetch from "@wordpress/api-fetch";
 import { useCallback, useReducer, useState, useEffect, useRef } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import { uniq } from "lodash";
 
-import { addLinkToString } from "../helpers/stringHelpers.js";
 import { configurationReducer } from "./tailwind-components/helpers/index.js";
 import SocialProfilesStep from "./tailwind-components/steps/social-profiles/social-profiles-step";
 import Stepper, { Step } from "./tailwind-components/stepper";
@@ -14,13 +13,7 @@ import IndexationStep from "./tailwind-components/steps/indexation/indexation-st
 import SiteRepresentationStep from "./tailwind-components/steps/site-representation/site-representation-step";
 import PersonalPreferencesStep from "./tailwind-components/steps/personal-preferences/personal-preferences-step";
 import FinishStep from "./tailwind-components/steps/finish/finish-step";
-
-const STEPS = {
-	optimizeSeoData: "optimizeSeoData",
-	siteRepresentation: "siteRepresentation",
-	socialProfiles: "socialProfiles",
-	personalPreferences: "personalPreferences",
-};
+import { STEPS } from "./constants";
 
 /* eslint-disable complexity */
 
@@ -126,8 +119,16 @@ async function saveFinishedSteps( finishedSteps ) {
  * @returns {Object} The initial state.
  */
 function calculateInitialState( windowObject, isStepFinished ) {
-	let { companyOrPerson, companyName, companyLogo, companyOrPersonOptions, shouldForceCompany } = windowObject; // eslint-disable-line prefer-const
-
+	const {
+		companyName,
+		companyLogo,
+		companyOrPersonOptions,
+		shouldForceCompany,
+		fallbackCompanyName,
+		websiteName,
+		fallbackWebsiteName,
+	} = windowObject;
+	let { companyOrPerson } = windowObject;
 	if ( ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) || shouldForceCompany ) {
 		// Set the stage for a prefilled step 2 in case the customer does seem to have consciously finished step 2 without setting data.
 		companyOrPerson = "company";
@@ -135,11 +136,17 @@ function calculateInitialState( windowObject, isStepFinished ) {
 
 	return {
 		...windowObject,
+		personId: Number( windowObject.personId ),
+		personLogoId: Number( windowObject.personLogoId ),
+		companyLogoId: Number( windowObject.companyLogoId ),
+		tracking: Number( windowObject.tracking ),
 		companyOrPerson,
 		companyOrPersonOptions,
 		errorFields: [],
 		stepErrors: {},
 		editedSteps: [],
+		companyName: companyName || fallbackCompanyName,
+		websiteName: websiteName || fallbackWebsiteName,
 	};
 }
 
@@ -224,8 +231,8 @@ export default function FirstTimeConfigurationSteps() {
 		dispatch( { type: "SET_ERROR_FIELDS", payload: value } );
 	} );
 
-	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ( ! state.companyLogo && ! state.companyLogoFallback ) );
-	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ( ! state.personLogo && ! state.personLogoFallback ) );
+	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ( ! state.companyLogo && ! state.companyLogoFallback ) || ! state.websiteName );
+	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ( ! state.personLogo && ! state.personLogoFallback ) || ! state.websiteName );
 
 	/**
 	 * Runs checks of finishing the site representation step.
@@ -358,7 +365,9 @@ export default function FirstTimeConfigurationSteps() {
 	 * @returns {boolean} Whether the stepper can continue to the next step.
 	 */
 	function beforeContinueIndexationStep() {
-		if ( ! showRunIndexationAlert && indexingState === "idle" ) {
+		// When: not already showing the alert AND indexation state is "idle" (not yet interacted with) AND indexation is not disabled.
+		if ( ! showRunIndexationAlert && indexingState === "idle" && window.yoastIndexingData.disabled !== "1" ) {
+			// Then: show an alert to notify users that indexation is helpful.
 			setShowRunIndexationAlert( true );
 			return false;
 		}
@@ -461,27 +470,9 @@ export default function FirstTimeConfigurationSteps() {
 
 	return (
 		<div id="yoast-configuration" className="yst-max-w-[715px] yst-mt-6 yst-p-8 yst-rounded-lg yst-bg-white yst-shadow yst-text-slate-600">
-			<h2 id="yoast-configuration-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get your site ranked!", "wordpress-seo" ) }</h2>
-			<p className="yst-py-2">
-				{
-					addLinkToString(
-						sprintf(
-							// translators: %1$s and %3$s are replaced by opening and closing anchor tags. %2$s is replaced by "Yoast SEO"
-							__(
-								"Put the %1$s%2$s indexables squad%3$s to work! Make Google understand your site.",
-								"wordpress-seo"
-							),
-							"<a>",
-							"Yoast SEO",
-							"</a>"
-						),
-						window.wpseoFirstTimeConfigurationData.shortlinks.configIndexables,
-						"yoast-configuration-guide-link"
-					)
-				}
-			</p>
-			<p className="yst-mb-6">
-				{ __( "The Yoast indexables squad can't wait to get your site in tip-top shape for the search engines. Help us and take these 5 steps in order to put our Yoast indexables to work!", "wordpress-seo" ) }
+			<h2 id="yoast-configuration-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get it ranked!", "wordpress-seo" ) }</h2>
+			<p className="yst-pt-2 yst-mb-6">
+				{ __( "Let's get your site in tip-top shape for the search engines. Simply follow these 5 steps to make Google understand what your site is about.", "wordpress-seo" ) }
 			</p>
 			<hr id="configuration-hr-top" />
 			{ /* eslint-disable react/jsx-no-bind */ }
@@ -497,7 +488,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isIndexationStepFinished }
 						>
 							<EditButton
-								id={ `button-${ STEPS.optimizeSeoData }-edit` }
+								stepId={ STEPS.optimizeSeoData }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -508,7 +499,7 @@ export default function FirstTimeConfigurationSteps() {
 						<Step.Content>
 							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } isStepperFinished={ isStepperFinished } />
 							<ContinueButton
-								id={ `button-${ STEPS.optimizeSeoData }-continue` }
+								stepId={ STEPS.optimizeSeoData }
 								additionalClasses="yst-mt-12"
 								beforeGo={ beforeContinueIndexationStep }
 								destination={ stepperFinishedOnce ? "last" : 1 }
@@ -523,7 +514,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep2Finished }
 						>
 							<EditButton
-								id={ `button-${ STEPS.siteRepresentation }-edit` }
+								stepId={ STEPS.siteRepresentation }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -553,7 +544,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep3Finished }
 						>
 							<EditButton
-								id={ `button-${ STEPS.socialProfiles }-edit` }
+								stepId={ STEPS.socialProfiles }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -578,7 +569,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep4Finished }
 						>
 							<EditButton
-								id={ `button-${ STEPS.personalPreferences }-edit` }
+								stepId={ STEPS.personalPreferences }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }

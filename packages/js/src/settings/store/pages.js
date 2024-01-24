@@ -4,7 +4,7 @@ import apiFetch from "@wordpress/api-fetch";
 import { decodeEntities } from "@wordpress/html-entities";
 import { buildQueryString } from "@wordpress/url";
 import { map, trim, pickBy } from "lodash";
-import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
+import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
 const pagesAdapter = createEntityAdapter();
 

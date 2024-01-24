@@ -15,7 +15,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 *
 	 * @var string
 	 */
-	const FILTER_QUERY_ARG = 'yoast_filter';
+	public const FILTER_QUERY_ARG = 'yoast_filter';
 
 	/**
 	 * Modify the query based on the FILTER_QUERY_ARG variable in $_GET.
@@ -49,6 +49,8 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 
 	/**
 	 * Registers the hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_action( 'admin_init', [ $this, 'add_filter_links' ], 11 );
