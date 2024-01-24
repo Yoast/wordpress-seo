@@ -346,7 +346,6 @@ function wpseo_init() {
 		require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		WP_Filesystem();
-
 		/*
 		 * We invalidate each subdir and the main files instead of the whole `wordpress-seo` dir
 		 * to avoid any timeout or resource exhaustion when building from source.
