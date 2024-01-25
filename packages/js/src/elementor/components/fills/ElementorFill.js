@@ -117,6 +117,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 				{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 29 }>
 					<SidebarCollapsible
 						title={ __( "Advanced", "wordpress-seo" ) }
+						buttonId="yoast-seo-elementor-advanced-button"
 					>
 						<AdvancedSettings location="sidebar" />
 					</SidebarCollapsible>
