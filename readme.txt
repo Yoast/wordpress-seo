@@ -342,6 +342,15 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 21.9.1 =
+
+Release date: 2024-01-25
+
+#### Bugfixes
+
+* Fixes a bug where a fatal error would occur when upgrading Yoast SEO on certain setups.
+* Fixes a bug where the image tag would be missing in the home page entry of the XML sitemap when using a static front page.
+
 = 21.9 =
 
 Release date: 2024-01-23
@@ -367,6 +376,7 @@ We've just released Yoast SEO 21.9. This release comes with many behind-the-scen
 * Be explicit about required PHP extensions.
 * Improves PHP 8.2 compatibility.
 * Sets the minimum supported WordPress version to 6.3.
+* Removes the `WEBPAGE_HASH` constant that had been deprecated in Yoast SEO 19.3 (July 2022).
 
 = 21.8.1 =
 
