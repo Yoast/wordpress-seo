@@ -43,7 +43,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|Indexable_Hierarchy_Repository
 	 */
-	private $hierarchy_repository;
+	private $indexable_hierarchy_repository;
 
 	/**
 	 * Represents the Permalink_Helper.
