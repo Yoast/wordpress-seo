@@ -1,68 +1,69 @@
-import React from "react";
 import { useSelect } from "@wordpress/data";
 import { enableFeatures } from "@yoast/feature-flag";
+import { DIFFICULTY } from "yoastseo";
 import InsightsCollapsible from "../../../src/insights/components/insights-collapsible";
-import { shallow } from "enzyme";
-import FleschReadingEase from "../../../src/insights/components/flesch-reading-ease";
-import TextFormality from "../../../src/insights/components/text-formality";
-import TextLength from "../../../src/insights/components/text-length";
+import { fireEvent, render, screen, waitFor } from "../../test-utils";
 
-jest.mock( "@wordpress/data", () => (
-	{
-		useSelect: jest.fn(),
-	}
-) );
+jest.mock( "@wordpress/data", () => ( {
+	// `registerStore` is used in WP components' Slot component, used in the TextFormality component.
+	registerStore: jest.requireActual( "@wordpress/data" ).registerStore,
+	useSelect: jest.fn(),
+} ) );
 
 /**
  * Mocks the WordPress `useSelect` hook.
  *
+ * @param {boolean} shouldUpsell Whether to upsell.
+ * @param {boolean} isProminentWordsAvailable Whether prominent words is available.
  * @param {boolean} isFleschReadingEaseAvailable Whether FRE is available.
+ * @param {boolean} isFormalitySupported Whether text formality is supported.
  *
- * @returns {void}
+ * @returns {function} The mock.
  */
-function mockSelect( isFleschReadingEaseAvailable ) {
-	const select = jest.fn(
-		() => (
-			{
-				isFleschReadingEaseAvailable: jest.fn( () => isFleschReadingEaseAvailable ),
+const mockSelect = ( shouldUpsell, isProminentWordsAvailable, isFleschReadingEaseAvailable, isFormalitySupported ) => {
+	return useSelect.mockImplementation( select => select( () => ( {
+		getPreference: ( preference, defaultValue ) => {
+			switch ( preference ) {
+				case "isProminentWordsAvailable":
+					return isProminentWordsAvailable;
+				case "shouldUpsell":
+					return shouldUpsell;
+				default:
+					return defaultValue;
 			}
-		)
-	);
+		},
+		getProminentWords: () => [],
+		getFleschReadingEaseScore: () => 0,
+		getFleschReadingEaseDifficulty: () => DIFFICULTY.NO_DATA,
+		getEstimatedReadingTime: () => 0,
+		getTextLength: () => ( { count: 0, unit: "word" } ),
+		isFleschReadingEaseAvailable: () => isFleschReadingEaseAvailable,
+		isFormalitySupported: () => isFormalitySupported,
+	} ) ) );
+};
 
-	useSelect.mockImplementation(
-		selectFunction => selectFunction( select )
-	);
-}
-
-describe( "The insights collapsible component", () => {
-	it( "renders the Flesch reading ease (FRE) component if the FRE score and difficulty are available", () => {
-		mockSelect( true );
-		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
-
-		expect( render.find( FleschReadingEase ) ).toHaveLength( 1 );
+describe( "InsightsCollapsible", () => {
+	afterEach( () => {
+		useSelect.mockRestore();
 	} );
-	it( "does not render the FRE component if the FRE score and difficulty are not available", () => {
-		mockSelect( false );
-		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
 
-		expect( render.find( FleschReadingEase ) ).toHaveLength( 0 );
-	} );
-	it( "renders the TextLength component", () => {
-		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
-
-		expect( render.find( TextLength ) ).toHaveLength( 1 );
-	} );
-	it( "does not render the Text formality component when the feature is disabled", () => {
-		mockSelect( true );
-		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
-
-		expect( render.find( TextFormality ) ).toHaveLength( 0 );
-	} );
-	it( "renders the Text formality component when the feature is enabled", () => {
+	it( "renders and opens the collapsible", async() => {
 		enableFeatures( [ "TEXT_FORMALITY" ] );
-		mockSelect( true );
-		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
+		mockSelect( true, true, true, true );
 
-		expect( render.find( TextFormality ) ).toHaveLength( 1 );
+		render( <InsightsCollapsible location={ "metabox" } /> );
+
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button.textContent ).toBe( "Insights" );
+		fireEvent.click( button );
+
+		await waitFor( () => {
+			expect( screen.getByText( "Prominent words" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Flesch reading ease" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Reading time" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Word count" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Text formality" ) ).toBeInTheDocument();
+		} );
 	} );
 } );

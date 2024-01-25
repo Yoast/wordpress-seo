@@ -65,6 +65,8 @@ class Structured_Data_Blocks implements Integration_Interface {
 
 	/**
 	 * Registers hooks for Structured Data Blocks with WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
@@ -142,12 +144,14 @@ class Structured_Data_Blocks implements Integration_Interface {
 
 	/**
 	 * Enqueue Gutenberg block assets for backend editor.
+	 *
+	 * @return void
 	 */
 	public function enqueue_block_editor_assets() {
 		/**
 		 * Filter: 'wpseo_enable_structured_data_blocks' - Allows disabling Yoast's schema blocks entirely.
 		 *
-		 * @api bool If false, our structured data blocks won't show.
+		 * @param bool $enable If false, our structured data blocks won't show.
 		 */
 		if ( ! \apply_filters( 'wpseo_enable_structured_data_blocks', true ) ) {
 			return;
@@ -178,8 +182,8 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * For example (in en-US): If 'days' is 1, it returns "1 day". If 'days' is 2, it returns "2 days".
 	 * If a number value is 0, we don't output the string.
 	 *
-	 * @param number $days Number of days.
-	 * @param number $hours Number of hours.
+	 * @param number $days    Number of days.
+	 * @param number $hours   Number of hours.
 	 * @param number $minutes Number of minutes.
 	 * @return array Array of pluralized durations.
 	 */
@@ -220,7 +224,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 		$hours           = ( $attributes['hours'] ?? 0 );
 		$minutes         = ( $attributes['minutes'] ?? 0 );
 		$elements        = $this->transform_duration_to_string( $days, $hours, $minutes );
-		$elements_length = count( $elements );
+		$elements_length = \count( $elements );
 
 		switch ( $elements_length ) {
 			case 1:

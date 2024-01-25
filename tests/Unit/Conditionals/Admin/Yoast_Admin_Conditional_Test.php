@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Admin\Yoast_Admin_Conditional
  */
-class Yoast_Admin_Conditional_Test extends TestCase {
+final class Yoast_Admin_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the test instance.
@@ -27,12 +27,14 @@ class Yoast_Admin_Conditional_Test extends TestCase {
 	/**
 	 * Holds the current page helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Current_Page_Helper
+	 * @var Mockery\MockInterface|Current_Page_Helper
 	 */
 	private $current_page_helper;
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -45,6 +47,8 @@ class Yoast_Admin_Conditional_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -63,6 +67,8 @@ class Yoast_Admin_Conditional_Test extends TestCase {
 	 * @param bool $is_admin          Whether on the admin.
 	 * @param bool $is_yoast_seo_page Whether on a Yoast SEO page.
 	 * @param bool $expected          The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_is_met( $is_admin, $is_yoast_seo_page, $expected ) {
 		Functions\when( 'is_admin' )->justReturn( $is_admin );
@@ -79,7 +85,7 @@ class Yoast_Admin_Conditional_Test extends TestCase {
 	 *
 	 * @return array The data.
 	 */
-	public function is_met_data() {
+	public static function is_met_data() {
 		return [
 			'on a Yoast admin page'     => [
 				'is_admin'          => true,

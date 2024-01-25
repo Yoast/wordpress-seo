@@ -13,12 +13,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group open-graph
  * @group open-graph-image
  */
-class Open_Graph_Images_Test extends TestCase {
+final class Open_Graph_Images_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,6 +32,8 @@ class Open_Graph_Images_Test extends TestCase {
 	 * Tests the situation where the featured image id is set.
 	 *
 	 * @covers ::generate_open_graph_images
+	 *
+	 * @return void
 	 */
 	public function test_with_open_graph_disabled() {
 		$this->context->open_graph_enabled = false;
@@ -41,6 +45,8 @@ class Open_Graph_Images_Test extends TestCase {
 	 * Tests the situation where the open_graph_image_id isn't set but the open_graph_image is.
 	 *
 	 * @covers ::generate_open_graph_images
+	 *
+	 * @return void
 	 */
 	public function test_with_generator_result() {
 		$this->indexable->open_graph_image = 'facebook_image.jpg';

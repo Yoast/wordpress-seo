@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Blocks_Helper
  */
-class Blocks_Helper_Test extends TestCase {
+final class Blocks_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the post helper.
@@ -33,6 +33,8 @@ class Blocks_Helper_Test extends TestCase {
 
 	/**
 	 * Set up a new instance of the class under test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -48,6 +50,8 @@ class Blocks_Helper_Test extends TestCase {
 	 * Tests retrieval of the blocks from the given post.
 	 *
 	 * @covers ::get_all_blocks_from_post
+	 *
+	 * @return void
 	 */
 	public function test_get_all_blocks_from_post() {
 		$this->post
@@ -74,6 +78,8 @@ class Blocks_Helper_Test extends TestCase {
 	 * Tests retrieval of the blocks from the given post but with not having blocks support.
 	 *
 	 * @covers ::get_all_blocks_from_post
+	 *
+	 * @return void
 	 */
 	public function test_get_all_blocks_from_post_with_no_block_support() {
 		$this->instance
@@ -91,6 +97,8 @@ class Blocks_Helper_Test extends TestCase {
 	 *
 	 * @covers ::get_all_blocks_from_content
 	 * @covers ::collect_blocks
+	 *
+	 * @return void
 	 */
 	public function test_get_all_blocks_from_content() {
 		Monkey\Functions\expect( 'parse_blocks' )
@@ -145,6 +153,8 @@ class Blocks_Helper_Test extends TestCase {
 	 * Tests retrieval of the blocks from the given content, but with no block support.
 	 *
 	 * @covers ::get_all_blocks_from_content
+	 *
+	 * @return void
 	 */
 	public function test_get_all_blocks_from_content_with_no_block_support() {
 		Monkey\Functions\expect( 'parse_blocks' )->never();

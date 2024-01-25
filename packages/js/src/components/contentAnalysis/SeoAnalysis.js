@@ -197,6 +197,7 @@ class SeoAnalysis extends Component {
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
 		const isPremium = getL10nObject().isPremium;
+		const highlightingUpsellLink = "shortlinks.upsell.sidebar.highlighting_seo_analysis";
 
 		if ( score.className !== "loading" && this.props.keyword === "" ) {
 			score.className = "na";
@@ -244,6 +245,8 @@ class SeoAnalysis extends Component {
 												editButtonClassName="yoast-tooltip yoast-tooltip-w"
 												marksButtonStatus={ this.props.marksButtonStatus }
 												location={ location }
+												shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+												highlightingUpsellLink={ highlightingUpsellLink }
 											/>
 										</Collapsible>
 										{ this.renderTabIcon( location, score.className ) }
@@ -265,6 +268,7 @@ SeoAnalysis.propTypes = {
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
+	shouldUpsellHighlighting: PropTypes.bool,
 };
 
 SeoAnalysis.defaultProps = {
@@ -274,6 +278,7 @@ SeoAnalysis.defaultProps = {
 	shouldUpsell: false,
 	shouldUpsellWordFormRecognition: false,
 	overallScore: null,
+	shouldUpsellHighlighting: false,
 };
 
 export default withSelect( ( select, ownProps ) => {

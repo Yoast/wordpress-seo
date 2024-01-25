@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action
  */
-class Wincher_Account_Action_Test extends TestCase {
+final class Wincher_Account_Action_Test extends TestCase {
 
 	/**
 	 * The instance.
@@ -40,6 +40,8 @@ class Wincher_Account_Action_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -56,6 +58,8 @@ class Wincher_Account_Action_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -73,6 +77,8 @@ class Wincher_Account_Action_Test extends TestCase {
 	 * Tests that the user has a valid limit and can track.
 	 *
 	 * @covers ::check_limit
+	 *
+	 * @return void
 	 */
 	public function test_check_limit() {
 		$this->client_instance
@@ -107,6 +113,8 @@ class Wincher_Account_Action_Test extends TestCase {
 	 * Tests that the user has an invalid limit and can't track.
 	 *
 	 * @covers ::check_limit
+	 *
+	 * @return void
 	 */
 	public function test_invalid_check_limit() {
 		$this->client_instance
@@ -141,6 +149,8 @@ class Wincher_Account_Action_Test extends TestCase {
 	 * Tests that the user has no limit.
 	 *
 	 * @covers ::check_limit
+	 *
+	 * @return void
 	 */
 	public function test_unlimited_check_limit() {
 		$this->client_instance
@@ -175,6 +185,8 @@ class Wincher_Account_Action_Test extends TestCase {
 	 * Tests that an invalid campaign type is not supported.
 	 *
 	 * @covers ::get_upgrade_campaign
+	 *
+	 * @return void
 	 */
 	public function test_invalid_get_upgrade_campaign_type() {
 		$this->client_instance
@@ -203,6 +215,8 @@ class Wincher_Account_Action_Test extends TestCase {
 	 * Tests that campaign month value need to be more than 0.
 	 *
 	 * @covers ::get_upgrade_campaign
+	 *
+	 * @return void
 	 */
 	public function test_invalid_get_upgrade_campaign_months() {
 		$this->client_instance
@@ -231,6 +245,8 @@ class Wincher_Account_Action_Test extends TestCase {
 	 * Tests a valid get upgrade campaign.
 	 *
 	 * @covers ::get_upgrade_campaign
+	 *
+	 * @return void
 	 */
 	public function test_valid_get_upgrade_campaign() {
 		$this->client_instance
@@ -259,6 +275,8 @@ class Wincher_Account_Action_Test extends TestCase {
 	 * Tests empty get upgrade campaign.
 	 *
 	 * @covers ::get_upgrade_campaign
+	 *
+	 * @return void
 	 */
 	public function test_empty_get_upgrade_campaign() {
 		$this->client_instance

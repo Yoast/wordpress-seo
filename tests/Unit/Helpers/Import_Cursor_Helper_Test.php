@@ -17,9 +17,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Helpers\Import_Cursor_Helper
  */
-class Import_Cursor_Helper_Test extends TestCase {
+final class Import_Cursor_Helper_Test extends TestCase {
 
-	const CURSOR_ID = 'MY_CURSOR_IS_COOL';
+	public const CURSOR_ID = 'MY_CURSOR_IS_COOL';
 
 	/**
 	 * Represents the instance to test.
@@ -37,6 +37,8 @@ class Import_Cursor_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		$this->options_helper = Mockery::Mock( Options_Helper::class );
@@ -48,6 +50,8 @@ class Import_Cursor_Helper_Test extends TestCase {
 	 * Test reading the cursor value from the option.
 	 *
 	 * @covers ::get_cursor
+	 *
+	 * @return void
 	 */
 	public function test_get_cursor() {
 		// Arrange.
@@ -67,6 +71,8 @@ class Import_Cursor_Helper_Test extends TestCase {
 	 * Test reading the cursor value from the option.
 	 *
 	 * @covers ::get_cursor
+	 *
+	 * @return void
 	 */
 	public function test_get_cursor_default() {
 		// Arrange.
@@ -90,6 +96,8 @@ class Import_Cursor_Helper_Test extends TestCase {
 	 * @covers ::set_cursor
 	 *
 	 * @param mixed $cursor_value The invalid cursor value.
+	 *
+	 * @return void
 	 */
 	public function test_set_cursor_invalid( $cursor_value ) {
 		// Arrange.
@@ -114,7 +122,7 @@ class Import_Cursor_Helper_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_cursor_invalid function.
 	 */
-	public function not_set_cursor_values() {
+	public static function not_set_cursor_values() {
 		return [
 			[ 0 ],
 			[ -1 ],
@@ -134,6 +142,8 @@ class Import_Cursor_Helper_Test extends TestCase {
 	 * @covers ::set_cursor
 	 *
 	 * @param array $testcase The associated array testcase.
+	 *
+	 * @return void
 	 */
 	public function test_set_cursor( $testcase ) {
 		// Arrange.
@@ -157,7 +167,7 @@ class Import_Cursor_Helper_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_cursor function.
 	 */
-	public function set_cursor_values() {
+	public static function set_cursor_values() {
 		return [
 			[ 1338 ],
 			[ 1337.5 ],

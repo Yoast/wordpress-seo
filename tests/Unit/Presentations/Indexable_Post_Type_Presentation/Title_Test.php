@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group title
  */
-class Title_Test extends TestCase {
+final class Title_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ class Title_Test extends TestCase {
 	 * Tests the situation where the specific post's SEO title is set.
 	 *
 	 * @covers ::generate_title
+	 *
+	 * @return void
 	 */
 	public function test_with_specific_post_seo_title() {
 		$this->indexable->title = 'Specific post SEO title';
@@ -41,6 +45,8 @@ class Title_Test extends TestCase {
 	 * but the SEO title for posts in general is set.
 	 *
 	 * @covers ::generate_title
+	 *
+	 * @return void
 	 */
 	public function test_with_general_post_seo_title() {
 		$this->indexable->object_sub_type = 'post';
@@ -60,6 +66,8 @@ class Title_Test extends TestCase {
 	 * and therefore we fall back to the installation default title for posts.
 	 *
 	 * @covers ::generate_title
+	 *
+	 * @return void
 	 */
 	public function test_with_post_installation_default_title() {
 		$this->indexable->object_sub_type = 'post';

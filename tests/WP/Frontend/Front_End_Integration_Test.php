@@ -6,7 +6,6 @@ use Mockery;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Request_Helper;
-use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
@@ -19,7 +18,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @coversDefaultClass Yoast\WP\SEO\Integrations\Front_End_Integration
  */
-class Front_End_Integration_Test extends TestCase {
+final class Front_End_Integration_Test extends TestCase {
 
 	/**
 	 * The memoizer for the meta tags context.
@@ -72,9 +71,11 @@ class Front_End_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
-	public function setUp(): void {
-		parent::setUp();
+	public function set_up(): void {
+		parent::set_up();
 		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
 		$this->container        = Mockery::mock( ContainerInterface::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
@@ -104,6 +105,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * @param string $prev     The value to be set as the `prev` property of the instance.
 	 * @param string $next     The value to be set as the `next` property of the instance.
 	 * @param string $expected Expected result.
+	 *
+	 * @return void
 	 */
 	public function test_adjacent_rel_url( $link, $rel, $prev, $next, $expected ) {
 		$this->instance->set_prev( $prev );

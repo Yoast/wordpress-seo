@@ -25,7 +25,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Author
  */
-class Author_Test extends TestCase {
+final class Author_Test extends TestCase {
 
 	/**
 	 * Holds the Schema ID helper.
@@ -118,6 +118,8 @@ class Author_Test extends TestCase {
 
 	/**
 	 * Sets up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -155,6 +157,8 @@ class Author_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::determine_user_id
+	 *
+	 * @return void
 	 */
 	public function test_generate_on_author_pages() {
 		$user_id = 123;
@@ -190,6 +194,8 @@ class Author_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::determine_user_id
+	 *
+	 * @return void
 	 */
 	public function test_generate_on_posts() {
 		$user_id = 123;
@@ -234,6 +240,8 @@ class Author_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::determine_user_id
+	 *
+	 * @return void
 	 */
 	public function test_generate_on_posts_when_site_does_not_represent_author() {
 		$user_id         = 123;
@@ -328,6 +336,8 @@ class Author_Test extends TestCase {
 	 * @param int   $user_id    The user id.
 	 * @param array $site_array The array of socials, mapping social site name to URL.
 	 *
+	 * @return void
+	 *
 	 * @throws ExpectationArgsRequired When args missing / wrong.
 	 */
 	private function expect_socials( $user_id, $site_array ) {
@@ -347,6 +357,8 @@ class Author_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::set_image_from_options
+	 *
+	 * @return void
 	 */
 	public function test_set_image_from_options_when_site_represents_current_author() {
 		$user_data                                       = (object) [
@@ -383,6 +395,8 @@ class Author_Test extends TestCase {
 	 * Tests the generated type when the site represents the current author.
 	 *
 	 * @covers ::generate
+	 *
+	 * @return void
 	 */
 	public function test_generate_type_when_site_represents_current_author() {
 		$user_data                                       = (object) [
@@ -419,6 +433,8 @@ class Author_Test extends TestCase {
 	 * Sets expectations on the helpers.
 	 *
 	 * @param object $user_data The user data object.
+	 *
+	 * @return void
 	 */
 	private function set_helpers_expectations( $user_data ) {
 		$this->id
@@ -452,6 +468,8 @@ class Author_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_not_shown_when_filter_does_not_output_valid_user_id() {
 		$user_id = 123;
@@ -484,6 +502,8 @@ class Author_Test extends TestCase {
 	 * Tests that the author is not output when no user id could be determined.
 	 *
 	 * @covers ::generate
+	 *
+	 * @return void
 	 */
 	public function test_not_generate_when_user_id_cannot_be_defined() {
 		// Set up the context with values.
@@ -509,6 +529,8 @@ class Author_Test extends TestCase {
 	 * Tests that the author Schema piece is output when the page is a author archive page.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_shown_when_on_author_page() {
 		$user_id = 123;
@@ -529,6 +551,8 @@ class Author_Test extends TestCase {
 	 * Tests that the author Schema piece is output on a post and the site is represented by an organization.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_shown_when_on_post_site_organization() {
 		$user_id         = 123;
@@ -560,6 +584,8 @@ class Author_Test extends TestCase {
 	 * on non-user archives and non-posts.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_not_shown_when_not_a_user_or_post_type() {
 		$user_id         = 123;

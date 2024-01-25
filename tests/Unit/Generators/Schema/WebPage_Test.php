@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\WebPage
  */
-class WebPage_Test extends TestCase {
+final class WebPage_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -74,6 +74,8 @@ class WebPage_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -128,6 +130,8 @@ class WebPage_Test extends TestCase {
 	 *                                                       'post_modified_gmt' as argument.
 	 * @param int    $calls_to_filter                        The number of calls to the
 	 *                                                       'wpseo_schema_webpage_potential_action_target' filter.
+	 *
+	 * @return void
 	 */
 	public function setup_generate_test(
 		$is_front_page,
@@ -189,6 +193,8 @@ class WebPage_Test extends TestCase {
 	 * @param array  $values_to_test The values that need to vary in order to test all the paths.
 	 * @param bool   $expected       The expected generated webpage schema.
 	 * @param string $message        The message to show in case a test fails.
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_provider( $values_to_test, $expected, $message ) {
 		$this->meta_tags_context->has_image = $values_to_test['has_image'];
@@ -214,6 +220,8 @@ class WebPage_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
+	 *
+	 * @return void
 	 */
 	public function test_generate_on_front_page_site_does_not_represents_reference() {
 		$this->setup_generate_test(
@@ -253,6 +261,8 @@ class WebPage_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
+	 *
+	 * @return void
 	 */
 	public function test_generate_on_front_page_site_represents_reference() {
 		$this->meta_tags_context->site_represents_reference = [ '@id' => $this->meta_tags_context->site_url . '#organization' ];
@@ -296,6 +306,8 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_author
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
+	 *
+	 * @return void
 	 */
 	public function test_generate_object_post_site_represents_true() {
 		$this->meta_tags_context->site_represents = true;
@@ -343,6 +355,8 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_author
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
+	 *
+	 * @return void
 	 */
 	public function test_generate_object_post_site_represents_false() {
 		$this->meta_tags_context->site_represents = false;
@@ -396,6 +410,8 @@ class WebPage_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
+	 *
+	 * @return void
 	 */
 	public function test_generate_description_not_empty() {
 		$this->meta_tags_context->description = 'the-description';
@@ -444,6 +460,8 @@ class WebPage_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
+	 *
+	 * @return void
 	 */
 	public function test_generate_object_type_home_page() {
 		$this->meta_tags_context->schema_page_type = 'CollectionPage';
@@ -480,6 +498,8 @@ class WebPage_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
+	 *
+	 * @return void
 	 */
 	public function test_generate_home_static_page() {
 		$this->meta_tags_context->schema_page_type = 'CollectionPage';
@@ -520,6 +540,8 @@ class WebPage_Test extends TestCase {
 	 * @param string $object_sub_type The object subtype.
 	 * @param bool   $expected        Whether is_needed returns true or false.
 	 * @param string $message         The message to show in case a test fails.
+	 *
+	 * @return void
 	 */
 	public function test_is_needed( $object_type, $object_sub_type, $expected, $message ) {
 		$this->meta_tags_context->indexable = (object) [
@@ -534,7 +556,7 @@ class WebPage_Test extends TestCase {
 	 *
 	 * @return array The data to use.
 	 */
-	public function provider_for_generate() {
+	public static function provider_for_generate() {
 		return [
 			[
 				'values_to_test' => [
@@ -623,7 +645,7 @@ class WebPage_Test extends TestCase {
 	 *
 	 * @return array The data to use.
 	 */
-	public function provider_for_is_needed() {
+	public static function provider_for_is_needed() {
 		return [
 			[
 				'object_type'     => 'user',

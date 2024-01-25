@@ -93,7 +93,6 @@ class Crawl_Cleanup_Helper {
 		 *
 		 * @param array $allowed_extravars The list of the allowed vars (empty by default).
 		 */
-
 		$allowed_extravars = \apply_filters( 'Yoast\WP\SEO\allowlist_permalink_vars', $default_allowed_extravars );
 
 		$clean_permalinks_extra_variables = $this->options_helper->get( 'clean_permalinks_extra_variables' );
@@ -156,7 +155,7 @@ class Crawl_Cleanup_Helper {
 		}
 
 		// Fix reply to comment links, whoever decided this should be a GET variable?
-        // phpcs:ignore WordPress.Security -- We know this is scary.
+		// phpcs:ignore WordPress.Security -- We know this is scary.
 		if ( isset( $_SERVER['REQUEST_URI'] ) && \preg_match( '`(\?replytocom=[^&]+)`', \sanitize_text_field( $_SERVER['REQUEST_URI'] ), $matches ) ) {
 			$proper_url .= \str_replace( '?replytocom=', '#comment-', $matches[0] );
 		}

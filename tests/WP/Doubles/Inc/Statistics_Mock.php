@@ -7,7 +7,7 @@ use WPSEO_Statistics;
 /**
  * Test Helper Class.
  */
-class Statistics_Mock extends WPSEO_Statistics {
+final class Statistics_Mock extends WPSEO_Statistics {
 
 	private $rank_counts;
 

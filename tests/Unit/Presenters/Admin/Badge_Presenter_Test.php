@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Badge_Presenter_Test extends TestCase {
+final class Badge_Presenter_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.
@@ -31,6 +31,8 @@ class Badge_Presenter_Test extends TestCase {
 	 * Test constructor
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$test = new Badge_Presenter( 'test-id', 'http://example.com/' );
@@ -43,6 +45,8 @@ class Badge_Presenter_Test extends TestCase {
 	 * Test constructor with a group.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct_with_group() {
 		$test = new Badge_Presenter( 'test-id', 'http://example.com/', 'test-group' );
@@ -56,6 +60,8 @@ class Badge_Presenter_Test extends TestCase {
 	 * Tests when the badge is initialized with a link.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_badge_with_link() {
 		$test = new Badge_Presenter( 'test1', 'http://example.com/' );
@@ -71,6 +77,8 @@ class Badge_Presenter_Test extends TestCase {
 	 * Tests when the badge is initialized without a link.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_badge_without_link() {
 		$test = new Badge_Presenter( 'test2' );
@@ -86,6 +94,8 @@ class Badge_Presenter_Test extends TestCase {
 	 * Tests when the badge is in an expired group.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_badge_with_expired_group() {
 		$test = Mockery::mock( Badge_Presenter::class )->makePartial();

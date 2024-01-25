@@ -44,7 +44,7 @@ export const Tag = ( { tag, index, disabled = false, onRemoveTag, screenReaderRe
 			onKeyDown={ handleKeyDown } { ...props } variant="plain" className="yst-tag-input__tag"
 		>
 			<span className="yst-mb-px">{ tag }</span>
-			<button onClick={ handleClick } className="yst-tag-input__remove-tag">
+			<button type="button" onClick={ handleClick } className="yst-tag-input__remove-tag">
 				<span className="yst-sr-only">{ screenReaderRemoveTag }</span>
 				<XIcon className="yst-h-3 yst-w-3" />
 			</button>

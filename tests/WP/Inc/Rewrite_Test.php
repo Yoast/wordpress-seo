@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Rewrite_Test extends TestCase {
+final class Rewrite_Test extends TestCase {
 
 	/**
 	 * Name of the option indicating whether the rewrite options should be flushed.
@@ -27,6 +27,8 @@ class Rewrite_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	public static function set_up_before_class() {
 		parent::set_up_before_class();
@@ -37,6 +39,8 @@ class Rewrite_Test extends TestCase {
 	 * Tests if the schedule_flush function sets the option to 1.
 	 *
 	 * @covers WPSEO_Rewrite::schedule_flush
+	 *
+	 * @return void
 	 */
 	public function test_schedule_flush() {
 		self::$class_instance->schedule_flush();
@@ -47,6 +51,8 @@ class Rewrite_Test extends TestCase {
 	 * Tests if the category base is overwritten correctly.
 	 *
 	 * @covers WPSEO_Rewrite::no_category_base
+	 *
+	 * @return void
 	 */
 	public function test_no_category_base() {
 
@@ -75,6 +81,8 @@ class Rewrite_Test extends TestCase {
 	 * Tests whether the query variables are as expected.
 	 *
 	 * @covers WPSEO_Rewrite::query_vars
+	 *
+	 * @return void
 	 */
 	public function test_query_vars() {
 		$this->assertEquals( [], self::$class_instance->query_vars( [] ) );
@@ -87,6 +95,8 @@ class Rewrite_Test extends TestCase {
 	 * Tests that the redirect method is never called when there aren't any query variables.
 	 *
 	 * @covers WPSEO_Rewrite::request
+	 *
+	 * @return void
 	 */
 	public function test_request_with_empty_query_vars() {
 
@@ -107,6 +117,8 @@ class Rewrite_Test extends TestCase {
 	 * Tests that the redirect method is called with the expected parameter when passing a query variable.
 	 *
 	 * @covers WPSEO_Rewrite::request
+	 *
+	 * @return void
 	 */
 	public function test_request_with_query_vars() {
 
@@ -126,6 +138,8 @@ class Rewrite_Test extends TestCase {
 	 * Tests if the rewrite rules are as expected. Has different expectations for multisite.
 	 *
 	 * @covers WPSEO_Rewrite::category_rewrite_rules
+	 *
+	 * @return void
 	 */
 	public function test_category_rewrite_rules() {
 

@@ -47,22 +47,24 @@ class WPSEO_Sitemaps_Cache {
 
 		add_action( 'init', [ $this, 'init' ] );
 
-		add_action( 'deleted_term_relationships', [ __CLASS__, 'invalidate' ] );
+		add_action( 'deleted_term_relationships', [ self::class, 'invalidate' ] );
 
-		add_action( 'update_option', [ __CLASS__, 'clear_on_option_update' ] );
+		add_action( 'update_option', [ self::class, 'clear_on_option_update' ] );
 
-		add_action( 'edited_terms', [ __CLASS__, 'invalidate_helper' ], 10, 2 );
-		add_action( 'clean_term_cache', [ __CLASS__, 'invalidate_helper' ], 10, 2 );
-		add_action( 'clean_object_term_cache', [ __CLASS__, 'invalidate_helper' ], 10, 2 );
+		add_action( 'edited_terms', [ self::class, 'invalidate_helper' ], 10, 2 );
+		add_action( 'clean_term_cache', [ self::class, 'invalidate_helper' ], 10, 2 );
+		add_action( 'clean_object_term_cache', [ self::class, 'invalidate_helper' ], 10, 2 );
 
-		add_action( 'user_register', [ __CLASS__, 'invalidate_author' ] );
-		add_action( 'delete_user', [ __CLASS__, 'invalidate_author' ] );
+		add_action( 'user_register', [ self::class, 'invalidate_author' ] );
+		add_action( 'delete_user', [ self::class, 'invalidate_author' ] );
 
-		add_action( 'shutdown', [ __CLASS__, 'clear_queued' ] );
+		add_action( 'shutdown', [ self::class, 'clear_queued' ] );
 	}
 
 	/**
 	 * Setup context for static calls.
+	 *
+	 * @return void
 	 */
 	public function init() {
 
@@ -294,6 +296,8 @@ class WPSEO_Sitemaps_Cache {
 
 	/**
 	 * Invalidate storage for cache types queued to clear.
+	 *
+	 * @return void
 	 */
 	public static function clear_queued() {
 
@@ -320,6 +324,8 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @param string $option Option name.
 	 * @param string $type   Sitemap type.
+	 *
+	 * @return void
 	 */
 	public static function register_clear_on_option_update( $option, $type = '' ) {
 

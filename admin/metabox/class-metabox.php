@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
  * This class generates the metabox on the edit post / page as well as contains all page analysis functionality.
@@ -116,6 +117,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Adds an alternative metabox for internet explorer users.
+	 *
+	 * @return void
 	 */
 	public function internet_explorer_metabox() {
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
@@ -166,6 +169,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * IMPORTANT: if you want to add a new string (option) somewhere, make sure you add that array key to
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
+	 *
+	 * @return void
 	 */
 	public static function translate_meta_boxes() {
 		WPSEO_Meta::$meta_fields['general']['title']['title']    = __( 'SEO title', 'wordpress-seo' );
@@ -337,6 +342,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Outputs the meta box.
+	 *
+	 * @return void
 	 */
 	public function meta_box() {
 		$this->render_hidden_fields();
@@ -370,7 +377,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		/**
 		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
 		 *
-		 * @api string $post_content The metabox content string.
+		 * @param string $post_content The metabox content string.
 		 */
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
 		echo apply_filters( 'wpseo_content_meta_section_content', '' );
@@ -632,28 +639,28 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 
 			case 'upload':
-				$content .= '<input' .
-					' id="' . $esc_form_key . '"' .
-					' type="text"' .
-					' size="36"' .
-					' class="' . $class . '"' .
-					' name="' . $esc_form_key . '"' .
-					' value="' . esc_attr( $meta_value ) . '"' . $aria_describedby .
-					' readonly="readonly"' .
-					' /> ';
-				$content .= '<input' .
-					' id="' . esc_attr( $esc_form_key ) . '_button"' .
-					' class="wpseo_image_upload_button button"' .
-					' data-target="' . esc_attr( $esc_form_key ) . '"' .
-					' data-target-id="' . esc_attr( $esc_form_key ) . '-id"' .
-					' type="button"' .
-					' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"' .
-					' /> ';
-				$content .= '<input' .
-					' class="wpseo_image_remove_button button"' .
-					' type="button"' .
-					' value="' . esc_attr__( 'Clear Image', 'wordpress-seo' ) . '"' .
-					' />';
+				$content .= '<input'
+					. ' id="' . $esc_form_key . '"'
+					. ' type="text"'
+					. ' size="36"'
+					. ' class="' . $class . '"'
+					. ' name="' . $esc_form_key . '"'
+					. ' value="' . esc_attr( $meta_value ) . '"' . $aria_describedby
+					. ' readonly="readonly"'
+					. ' /> ';
+				$content .= '<input'
+					. ' id="' . esc_attr( $esc_form_key ) . '_button"'
+					. ' class="wpseo_image_upload_button button"'
+					. ' data-target="' . esc_attr( $esc_form_key ) . '"'
+					. ' data-target-id="' . esc_attr( $esc_form_key ) . '-id"'
+					. ' type="button"'
+					. ' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"'
+					. ' /> ';
+				$content .= '<input'
+					. ' class="wpseo_image_remove_button button"'
+					. ' type="button"'
+					. ' value="' . esc_attr__( 'Clear Image', 'wordpress-seo' ) . '"'
+					. ' />';
 				break;
 		}
 
@@ -830,6 +837,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Enqueues all the needed JS and CSS.
 	 *
 	 * @todo [JRF => whomever] Create css/metabox-mp6.css file and add it to the below allowed colors array when done.
+	 *
+	 * @return void
 	 */
 	public function enqueue() {
 		global $pagenow;
@@ -894,7 +903,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			],
 			'shortcodes' => [
 				'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
-				'wpseo_filter_shortcodes_nonce' => \wp_create_nonce( 'wpseo-filter-shortcodes' ),
+				'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
 			],
 		];
 
@@ -917,28 +926,29 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			// @todo replace this translation with JavaScript translations.
 			'media'                      => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'                    => $this->get_metabox_script_data(),
-			'userLanguageCode'           => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+			'userLanguageCode'           => WPSEO_Language_Utils::get_language( get_user_locale() ),
 			'isPost'                     => true,
 			'isBlockEditor'              => $is_block_editor,
 			'postId'                     => $post_id,
 			'postStatus'                 => get_post_status( $post_id ),
 			'postType'                   => get_post_type( $post_id ),
-			'usedKeywordsNonce'          => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
+			'usedKeywordsNonce'          => wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 			'analysis'                   => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
 			'dismissedAlerts'            => $dismissed_alerts,
-			'currentPromotions'          => YoastSEO()->classes->get( Yoast\WP\SEO\Promotions\Application\Promotion_Manager::class )->get_current_promotions(),
+			'currentPromotions'          => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'blackFridayBlockEditorUrl'  => ( YoastSEO()->classes->get( Yoast\WP\SEO\Promotions\Application\Promotion_Manager::class )->is( 'black-friday-2023-checklist' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : '',
+			'blackFridayBlockEditorUrl'  => ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-checklist' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
+			'isWooCommerceSeoActive'     => $woocommerce_seo_active,
 			'isWooCommerceActive'        => $woocommerce_active,
 			'woocommerceUpsell'          => get_post_type( $post_id ) === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
 			'linkParams'                 => WPSEO_Shortlinker::get_query_params(),
-			'pluginUrl'                  => \plugins_url( '', \WPSEO_FILE ),
-			'wistiaEmbedPermission'      => YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( \get_current_user_id() ),
+			'pluginUrl'                  => plugins_url( '', WPSEO_FILE ),
+			'wistiaEmbedPermission'      => YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( get_current_user_id() ),
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
@@ -966,7 +976,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['post'] ) && is_string( $_GET['post'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, Sanitization happens in the validate_int function.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, Sanitization happens in the validate_int function.
 			$post_id = (int) WPSEO_Utils::validate_int( wp_unslash( $_GET['post'] ) );
 
 			$this->post = get_post( $post_id );

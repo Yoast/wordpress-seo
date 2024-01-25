@@ -9,6 +9,7 @@ import { get } from "lodash";
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import Warning from "../../containers/Warning";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
+import { useFirstEligibleNotification } from "../../hooks/use-first-eligible-notification";
 import InsightsModal from "../../insights/components/insights-modal";
 import { InternalLinkingSuggestionsUpsell } from "../modals/InternalLinkingSuggestionsUpsell";
 import SidebarItem from "../SidebarItem";
@@ -19,10 +20,6 @@ import SchemaTabContainer from "../../containers/SchemaTab";
 import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
-import WebinarPromoNotification from "../WebinarPromoNotification";
-import { BlackFridayPromotion } from "../BlackFridayPromotion";
-import { BlackFridaySidebarChecklistPromotion } from "../BlackFridaySidebarChecklistPromotion";
-import { shouldShowWebinarPromotionNotificationInSidebar } from "../../helpers/shouldShowWebinarPromotionNotification";
 import KeywordUpsell from "../modals/KeywordUpsell";
 
 /* eslint-disable complexity */
@@ -38,8 +35,8 @@ import KeywordUpsell from "../modals/KeywordUpsell";
  * @constructor
  */
 export default function SidebarFill( { settings } ) {
-	const webinarIntroBlockEditorUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
-	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
+	const webinarIntroUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
+	const FirstEligibleNotification = useFirstEligibleNotification( { webinarIntroUrl } );
 
 	return (
 		<Fragment>
@@ -47,12 +44,7 @@ export default function SidebarFill( { settings } ) {
 				<SidebarItem key="warning" renderPriority={ 1 }>
 					<Warning />
 					<div style={ { margin: "0 16px" } }>
-						{ /* eslint-disable max-len */ }
-						{ shouldShowWebinarPromotionNotificationInSidebar() &&
-							<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
-						}
-						{ isWooCommerce && <BlackFridaySidebarChecklistPromotion hasIcon={ false } /> }
-						<BlackFridayPromotion image={ null } hasIcon={ false } />
+						{ FirstEligibleNotification && <FirstEligibleNotification /> }
 					</div>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>

@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Migration_Error_Integration
  */
-class Migration_Error_Integration_Test extends TestCase {
+final class Migration_Error_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the migration status class.
@@ -37,6 +37,8 @@ class Migration_Error_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -52,6 +54,8 @@ class Migration_Error_Integration_Test extends TestCase {
 	 * Tests if the dependency is set right.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -64,6 +68,8 @@ class Migration_Error_Integration_Test extends TestCase {
 	 * Tests if the expected conditionals are given.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals( [ Admin_Conditional::class ], Migration_Error_Integration::get_conditionals() );
@@ -73,6 +79,8 @@ class Migration_Error_Integration_Test extends TestCase {
 	 * Tests the registratation of the hooks with having no error set.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks_with_no_error_set() {
 		$this->migration_status
@@ -89,6 +97,8 @@ class Migration_Error_Integration_Test extends TestCase {
 	 * Tests the registratation of the hooks with having no error set.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks_with_error_set() {
 		$this->migration_status
@@ -105,6 +115,8 @@ class Migration_Error_Integration_Test extends TestCase {
 	 * Tests the rendering of the migration error.
 	 *
 	 * @covers ::render_migration_error
+	 *
+	 * @return void
 	 */
 	public function test_render_migration_error() {
 		$this->migration_status->expects( 'get_error' )
@@ -131,6 +143,8 @@ class Migration_Error_Integration_Test extends TestCase {
 
 	/**
 	 * Holds expectations for the shortlinker.
+	 *
+	 * @return void
 	 */
 	private function expect_shortlinker() {
 		$short_link_mock = Mockery::mock( Short_Link_Helper::class );

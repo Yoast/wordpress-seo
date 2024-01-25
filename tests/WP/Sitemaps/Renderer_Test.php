@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group sitemaps
  */
-class Renderer_Test extends TestCase {
+final class Renderer_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -22,6 +22,8 @@ class Renderer_Test extends TestCase {
 
 	/**
 	 * Set up our double class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -33,6 +35,8 @@ class Renderer_Test extends TestCase {
 	 * Tests retrieval of a sitemap index.
 	 *
 	 * @covers WPSEO_Sitemaps_Renderer::get_index
+	 *
+	 * @return void
 	 */
 	public function test_get_index() {
 
@@ -54,6 +58,8 @@ class Renderer_Test extends TestCase {
 	 * Tests retrieval of a sitemap.
 	 *
 	 * @covers WPSEO_Sitemaps_Renderer::get_sitemap
+	 *
+	 * @return void
 	 */
 	public function test_get_sitemap() {
 
@@ -103,6 +109,8 @@ class Renderer_Test extends TestCase {
 	 *
 	 * @param string $loc      Page URL.
 	 * @param string $expected Expected URL as used in the XML sitemap output.
+	 *
+	 * @return void
 	 */
 	public function test_encode_and_escape( $loc, $expected ) {
 		$links = [ [ 'loc' => $loc ] ];
@@ -118,7 +126,7 @@ class Renderer_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_encode_and_escape() {
+	public static function data_encode_and_escape() {
 		return [
 			'Full URL which will validate with the filter - contains plain &' => [
 				'loc'      => 'http://example.com/page-name?s=keyword&p=2#anchor',
@@ -189,6 +197,8 @@ class Renderer_Test extends TestCase {
 	 * Tests getting the fallback url if the plugin is loaded from a different domain.
 	 *
 	 * @covers Sitemaps_Renderer_Double::get_xsl_url
+	 *
+	 * @return void
 	 */
 	public function test_is_home_url_returned_correctly() {
 		$class_instance = new Sitemaps_Renderer_Double();

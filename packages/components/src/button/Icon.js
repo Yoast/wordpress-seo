@@ -19,6 +19,7 @@ export const CloseButton = ( props ) => {
 	return <button
 		className="yoast-close"
 		aria-label={ __( "Close", "wordpress-seo" ) }
+		type="button"
 		{ ...props }
 	>
 		{ closeIcon }

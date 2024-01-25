@@ -29,6 +29,8 @@ trait Presentation_Instance_Builder {
 
 	/**
 	 * Builds an instance of Indexable_Error_Page_Presentation.
+	 *
+	 * @return void
 	 */
 	protected function set_instance() {
 		$this->indexable = new Indexable_Mock();

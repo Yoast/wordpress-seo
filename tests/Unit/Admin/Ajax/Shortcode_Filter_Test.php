@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_Shortcode_Filter
  */
-class Shortcode_Filter_Test extends TestCase {
+final class Shortcode_Filter_Test extends TestCase {
 
 	/**
 	 * The test instance.
@@ -23,6 +23,8 @@ class Shortcode_Filter_Test extends TestCase {
 
 	/**
 	 * Prepare the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -34,6 +36,8 @@ class Shortcode_Filter_Test extends TestCase {
 	 * Test constructor
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertNotFalse( Monkey\Actions\has( 'wp_ajax_wpseo_filter_shortcodes', [ $this->instance, 'do_filter' ] ) );
@@ -51,6 +55,8 @@ class Shortcode_Filter_Test extends TestCase {
 	 * @param array $parsed_shortcodes   The shortcode/expanded shortcode pair.
 	 * @param int   $error_times         The times that we're going to have an error.
 	 * @param int   $success_times       The times that we're going to have a success.
+	 *
+	 * @return void
 	 */
 	public function test_do_filter( $post_data, $shortcode_times, $expanded_shortcodes, $parsed_shortcodes, $error_times, $success_times ) {
 
@@ -80,7 +86,7 @@ class Shortcode_Filter_Test extends TestCase {
 	 *
 	 * @return array The test data to use.
 	 */
-	public function provider_do_filter() {
+	public static function provider_do_filter() {
 		return [
 			'Valid shortcodes' => [
 				'post_data'           => [

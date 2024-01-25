@@ -1,12 +1,9 @@
-import "raf/polyfill";
-import "jest-styled-components";
-import React from "react";
-import Enzyme from "enzyme";
-import EnzymeAdapter from "enzyme-adapter-react-16";
-import { setLocaleData } from "@wordpress/i18n";
+import "@testing-library/jest-dom";
 import { createElement } from "@wordpress/element";
-
-Enzyme.configure( { adapter: new EnzymeAdapter() } );
+import { setLocaleData } from "@wordpress/i18n";
+import "jest-styled-components";
+import "raf/polyfill";
+import React from "react";
 
 setLocaleData( {
 	"": {

@@ -17,7 +17,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @group memoizers
  */
-class Presentation_Memoizer_Test extends TestCase {
+final class Presentation_Memoizer_Test extends TestCase {
 
 	/**
 	 * The service container.
@@ -56,6 +56,8 @@ class Presentation_Memoizer_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -79,6 +81,8 @@ class Presentation_Memoizer_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -91,6 +95,8 @@ class Presentation_Memoizer_Test extends TestCase {
 	 * Tests getting the presentation of an indexable, when it already has been cached.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get_when_presentation_has_been_cached() {
 		$this->instance->set_cache( $this->indexable->id, $this->meta_tags_context_mock->presentation );
@@ -102,6 +108,8 @@ class Presentation_Memoizer_Test extends TestCase {
 	 * Tests getting the presentation of an indexable, when it has not been cached.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get_without_cache() {
 		$this->container
@@ -122,6 +130,8 @@ class Presentation_Memoizer_Test extends TestCase {
 	 * and the presentation has not been set.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get_without_cache_and_without_presentation() {
 		$this->container
@@ -149,6 +159,8 @@ class Presentation_Memoizer_Test extends TestCase {
 	 * a number of other methods to fill the cache again.
 	 *
 	 * @covers ::clear
+	 *
+	 * @return void
 	 */
 	public function test_clear_for_indexable() {
 		$this->instance->set_cache( 'not_an_instance_of_Indexable', $this->meta_tags_context_mock->presentation );
@@ -172,6 +184,8 @@ class Presentation_Memoizer_Test extends TestCase {
 	 * Tests clearing the memoization of an indexable when the ID is given.
 	 *
 	 * @covers ::clear
+	 *
+	 * @return void
 	 */
 	public function test_clear_for_indexable_when_id_is_given() {
 		$this->instance->set_cache( $this->indexable->id, $this->meta_tags_context_mock->presentation );
@@ -195,6 +209,8 @@ class Presentation_Memoizer_Test extends TestCase {
 	 * Tests clearing the memoization of an indexable when the indexable is null.
 	 *
 	 * @covers ::clear
+	 *
+	 * @return void
 	 */
 	public function test_clear_for_indexable_when_indexable_is_null() {
 		$this->instance->set_cache( $this->indexable->id, $this->meta_tags_context_mock->presentation );

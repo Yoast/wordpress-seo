@@ -12,7 +12,7 @@ use Yoast_Input_Validation;
  *
  * @group option-social
  */
-class Option_Social_Test extends TestCase {
+final class Option_Social_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.
@@ -36,6 +36,8 @@ class Option_Social_Test extends TestCase {
 	 * @param array  $dirty    New value for the option.
 	 * @param array  $clean    Clean value for the option, normally the defaults.
 	 * @param array  $old      Old value of the option.
+	 *
+	 * @return void
 	 */
 	public function test_validate_option_with_valid_data( $expected, $dirty, $clean, $old ) {
 		Monkey\Functions\stubs(
@@ -65,6 +67,8 @@ class Option_Social_Test extends TestCase {
 	 * @param array  $clean     Clean value for the option, normally the defaults.
 	 * @param array  $old       Old value of the option.
 	 * @param string $slug_name The option key.
+	 *
+	 * @return void
 	 */
 	public function test_validate_option_with_invalid_data( $expected, $dirty, $clean, $old, $slug_name ) {
 		$message = "<strong>{$dirty[ $slug_name ]}</strong> does not seem to be a valid url. Please correct.";
@@ -113,6 +117,8 @@ class Option_Social_Test extends TestCase {
 	 * @param array  $clean     Clean value for the option, normally the defaults.
 	 * @param array  $old       Old value of the option.
 	 * @param string $slug_name The option key.
+	 *
+	 * @return void
 	 */
 	public function test_validate_option_with_invalid_array_data( $expected, $dirty, $clean, $old, $slug_name ) {
 		$instance = new Option_Social_Double();
@@ -128,7 +134,7 @@ class Option_Social_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function validate_option_valid_data_provider() {
+	public static function validate_option_valid_data_provider() {
 		return [
 			[
 				'expected' => [ 'og_default_image_id' => 'value' ],
@@ -190,7 +196,7 @@ class Option_Social_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function validate_option_invalid_data_provider() {
+	public static function validate_option_invalid_data_provider() {
 		return [
 			[
 				'expected'  => [ 'facebook_site' => '' ],
@@ -214,7 +220,7 @@ class Option_Social_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function validate_option_invalid_array_data_provider() {
+	public static function validate_option_invalid_array_data_provider() {
 		return [
 			[
 				'expected'  => [

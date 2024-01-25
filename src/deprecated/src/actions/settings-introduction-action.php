@@ -13,9 +13,9 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  */
 class Settings_Introduction_Action {
 
-	const USER_META_KEY = '_yoast_settings_introduction';
+	public const USER_META_KEY = '_yoast_settings_introduction';
 
-	const DEFAULT_VALUES = [
+	public const DEFAULT_VALUES = [
 		'wistia_embed_permission' => false,
 		'show'                    => true,
 	];

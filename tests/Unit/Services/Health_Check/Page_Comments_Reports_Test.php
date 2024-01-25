@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Page_Comments_Reports
  */
-class Page_Comments_Reports_Test extends TestCase {
+final class Page_Comments_Reports_Test extends TestCase {
 
 	/**
 	 * The Page_Comments_Reports instance to be tested.
@@ -39,6 +39,8 @@ class Page_Comments_Reports_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -62,6 +64,8 @@ class Page_Comments_Reports_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_success_result
+	 *
+	 * @return void
 	 */
 	public function test_creates_success_report_correctly() {
 		$expected = [ 'correct' ];
@@ -95,6 +99,8 @@ class Page_Comments_Reports_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::get_has_comments_on_multiple_pages_result
 	 * @covers ::get_has_comments_on_multiple_pages_actions
+	 *
+	 * @return void
 	 */
 	public function test_creates_has_comments_on_multiple_pages() {
 		$expected = [ 'correct' ];

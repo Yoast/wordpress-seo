@@ -117,6 +117,8 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 * Adds a dedicated tab in the General sub-page.
 	 *
 	 * @param WPSEO_Options_Tabs $dashboard_tabs Object representing the tabs of the General sub-page.
+	 *
+	 * @return void
 	 */
 	public function add_first_time_configuration_tab( $dashboard_tabs ) {
 		$dashboard_tabs->add_tab(
@@ -130,6 +132,8 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 
 	/**
 	 * Adds the data for the first-time configuration to the wpseoFirstTimeConfigurationData object.
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.

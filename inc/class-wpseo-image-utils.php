@@ -148,7 +148,7 @@ class WPSEO_Image_Utils {
 		 *
 		 * Elements with keys not listed in the section will be discarded.
 		 *
-		 * @api array {
+		 * @param array $image_data {
 		 *     Array of image data
 		 *
 		 *     @type int    id       Image's ID as an attachment.
@@ -162,7 +162,7 @@ class WPSEO_Image_Utils {
 		 *     @type string url      Image's URL.
 		 *     @type int    filesize The file size in bytes, if already set.
 		 * }
-		 * @api int  Attachment ID.
+		 * @param int   $attachment_id Attachment ID.
 		 */
 		$image = apply_filters( 'wpseo_image_data', $image, $attachment_id );
 
@@ -186,7 +186,7 @@ class WPSEO_Image_Utils {
 		 * Filter: 'wpseo_image_image_weight_limit' - Determines what the maximum weight
 		 * (in bytes) of an image is allowed to be, default is 2 MB.
 		 *
-		 * @api int - The maximum weight (in bytes) of an image.
+		 * @param int $max_bytes The maximum weight (in bytes) of an image.
 		 */
 		$max_size = apply_filters( 'wpseo_image_image_weight_limit', 2097152 );
 
@@ -404,7 +404,7 @@ class WPSEO_Image_Utils {
 		/**
 		 * Filter: 'wpseo_image_sizes' - Determines which image sizes we'll loop through to get an appropriate image.
 		 *
-		 * @api array - The array of image sizes to loop through.
+		 * @param array<string> $sizes The array of image sizes to loop through.
 		 */
 		return apply_filters( 'wpseo_image_sizes', [ 'full', 'large', 'medium_large' ] );
 	}

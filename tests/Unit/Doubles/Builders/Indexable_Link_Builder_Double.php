@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 /**
  * Class Indexable_Link_Builder_Double.
  */
-class Indexable_Link_Builder_Double extends Indexable_Link_Builder {
+final class Indexable_Link_Builder_Double extends Indexable_Link_Builder {
 
 	/**
 	 * Returns a cleaned permalink for a given link.

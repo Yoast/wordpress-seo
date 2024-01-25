@@ -8,7 +8,7 @@ use Yoast\WP\Lib\Migrations\Migration;
 /**
  * Class Migration_Double.
  */
-class Migration_Double extends Migration {
+final class Migration_Double extends Migration {
 
 	/**
 	 * Whether or not this migration was run.
@@ -27,6 +27,8 @@ class Migration_Double extends Migration {
 	/**
 	 * Migration up.
 	 *
+	 * @return void
+	 *
 	 * @throws Exception A migration error.
 	 */
 	public function up() {
@@ -39,6 +41,8 @@ class Migration_Double extends Migration {
 
 	/**
 	 * Migration down.
+	 *
+	 * @return void
 	 */
 	public function down() {
 		// Nothing to do.

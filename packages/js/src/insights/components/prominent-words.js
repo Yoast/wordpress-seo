@@ -25,6 +25,7 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 		const link = get( window, "wpseoAdminL10n.shortlinks-insights-keyword_research_link", "" );
 		return createInterpolateElement(
 			sprintf(
+				// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 				__( "Read our %1$sultimate guide to keyword research%2$s to learn more about keyword research and keyword strategy.", "wordpress-seo" ),
 				"<a>",
 				"</a>"
