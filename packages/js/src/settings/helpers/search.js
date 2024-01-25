@@ -344,6 +344,10 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			keywords: [
 				__( "AI generator", "wordpress-seo" ),
 				__( "Artificial intelligence", "wordpress-seo" ),
+				__( "SEO title", "wordpress-seo" ),
+				__( "meta title", "wordpress-seo" ),
+				__( "meta description", "wordpress-seo" ),
+				__( "suggestions", "wordpress-seo" ),
 			],
 		},
 		disableadvanced_meta: {
