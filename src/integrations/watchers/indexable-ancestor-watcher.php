@@ -190,14 +190,14 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 * @return array<int> List with object ids for the term.
 	 */
 	protected function get_object_ids_for_term( $term_id, $child_indexables ) {
+		global $wpdb;
+
 		$filter_terms = static function ( $child ) {
 			return $child->object_type === 'term';
 		};
 
 		$child_terms      = \array_filter( $child_indexables, $filter_terms );
-		$child_object_ids = \array_unshift( \wp_list_pluck( $child_terms, 'object_id' ), $term_id );
-
-		$wpdb = Wrapper::get_wpdb();
+		$child_object_ids = \array_merge( [ $term_id ], \wp_list_pluck( $child_terms, 'object_id' ) );
 
 		// Get the term-taxonomy id's for the term and its children.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
