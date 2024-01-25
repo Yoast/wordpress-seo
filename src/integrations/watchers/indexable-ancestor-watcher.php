@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use wpdb;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
@@ -60,7 +59,6 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 * @param Indexable_Repository           $indexable_repository           The indexable repository.
 	 * @param Indexable_Hierarchy_Builder    $indexable_hierarchy_builder    The indexable hierarchy builder.
 	 * @param Indexable_Hierarchy_Repository $indexable_hierarchy_repository The indexable hierarchy repository.
-	 * @param wpdb                           $wpdb                           The wpdb object.
 	 * @param Permalink_Helper               $permalink_helper               The permalink helper.
 	 * @param Post_Type_Helper               $post_type_helper               The post type helper.
 	 */
@@ -90,7 +88,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array
+	 * @return array<Migrations_Conditional>
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -130,10 +128,10 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	/**
 	 * Finds all child indexables for the given term.
 	 *
-	 * @param int         $term_id          Term to fetch the indexable for.
-	 * @param Indexable[] $child_indexables The already known child indexables.
+	 * @param int              $term_id          Term to fetch the indexable for.
+	 * @param array<Indexable> $child_indexables The already known child indexables.
 	 *
-	 * @return array The list of additional child indexables for a given term.
+	 * @return array<Indexable> The list of additional child indexables for a given term.
 	 */
 	public function get_children_for_term( $term_id, array $child_indexables ) {
 		// Finds object_ids (posts) for the term.
@@ -186,10 +184,10 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	/**
 	 * Retrieves the object id's for a term based on the term-post relationship.
 	 *
-	 * @param int         $term_id          The term to get the object id's for.
-	 * @param Indexable[] $child_indexables The child indexables.
+	 * @param int              $term_id          The term to get the object id's for.
+	 * @param array<Indexable> $child_indexables The child indexables.
 	 *
-	 * @return array List with object ids for the term.
+	 * @return array<int> List with object ids for the term.
 	 */
 	protected function get_object_ids_for_term( $term_id, $child_indexables ) {
 		$filter_terms = static function ( $child ) {
@@ -202,6 +200,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		$wpdb = Wrapper::get_wpdb();
 
 		// Get the term-taxonomy id's for the term and its children.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$term_taxonomy_ids = $wpdb->get_col(
 			$wpdb->prepare(
 				'SELECT term_taxonomy_id
@@ -218,6 +217,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		}
 
 		// Get the (post) object id's that are attached to the term.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		return $wpdb->get_col(
 			$wpdb->prepare(
 				'SELECT DISTINCT object_id
