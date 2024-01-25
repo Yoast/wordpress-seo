@@ -29,7 +29,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
-	private $repository;
+	private $indexable_repository;
 
 	/**
 	 * Represents the Indexable Hierarchy Builder.
