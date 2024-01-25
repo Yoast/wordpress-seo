@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Indexables\Domain;
 
-use Yoast\WP\SEO\Indexables\Domain\Batch_Size;
 use Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -13,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action
  */
-class Current_Verification_Action_Test extends TestCase {
+final class Current_Verification_Action_Test extends TestCase {
 
 	/**
 	 * The instance.

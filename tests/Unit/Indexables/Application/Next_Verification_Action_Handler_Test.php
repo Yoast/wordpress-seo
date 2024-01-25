@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Indexables\Application;
 
 use Mockery;
+use Mockery\MockInterface;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Indexables\Application\Next_Verification_Action_Handler;
 use Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action;
@@ -15,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\Application\Next_Verification_Action_Handler
  */
-class Next_Verification_Action_Handler_Test extends TestCase {
+final class Next_Verification_Action_Handler_Test extends TestCase {
 
 	/**
 	 * The instance.
@@ -27,7 +28,7 @@ class Next_Verification_Action_Handler_Test extends TestCase {
 	/**
 	 * The options helper.
 	 *
-	 * @var \Mockery\MockInterface|Options_Helper
+	 * @var MockInterface|Options_Helper
 	 */
 	private $options_helper;
 

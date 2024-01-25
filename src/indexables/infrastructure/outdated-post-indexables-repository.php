@@ -20,7 +20,7 @@ class Outdated_Post_Indexables_Repository implements Outdated_Post_Indexables_Re
 	/**
 	 * The wp query.
 	 *
-	 * @var \wpdb $wpdb
+	 * @var wpdb $wpdb
 	 */
 	private $wpdb;
 
@@ -48,7 +48,7 @@ class Outdated_Post_Indexables_Repository implements Outdated_Post_Indexables_Re
 	/**
 	 * The constructor.
 	 *
-	 * @param \wpdb                $wpdb                 The wpdb instance.
+	 * @param wpdb                 $wpdb                 The wpdb instance.
 	 * @param Post_Type_Helper     $post_type_helper     The post type helper.
 	 * @param Post_Helper          $post_helper          The post helper.
 	 * @param Indexable_Repository $indexable_repository The indexable repository.

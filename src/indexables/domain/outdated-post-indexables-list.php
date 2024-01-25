@@ -2,12 +2,14 @@
 
 namespace Yoast\WP\SEO\Indexables\Domain;
 
+use Countable;
+use Iterator;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * The Outdated_Post_Indexables_List class.
  */
-class Outdated_Post_Indexables_List implements \Iterator, \Countable {
+class Outdated_Post_Indexables_List implements Iterator, Countable {
 
 	/**
 	 * The post indexables list.

@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Indexables\Domain;
 
-use Yoast\WP\SEO\Indexables\Domain\Batch_Size;
 use Yoast\WP\SEO\Indexables\Domain\Outdated_Post_Indexables_List;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -14,12 +13,12 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\Domain\Outdated_Post_Indexables_List
  */
-class Outdated_Post_Indexables_List_Test extends TestCase {
+final class Outdated_Post_Indexables_List_Test extends TestCase {
 
 	/**
 	 * The instance.
 	 *
-	 * @var \Yoast\WP\SEO\Indexables\Domain\Outdated_Post_Indexables_List
+	 * @var Outdated_Post_Indexables_List
 	 */
 	private $instance;
 

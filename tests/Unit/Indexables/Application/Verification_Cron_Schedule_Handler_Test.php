@@ -3,7 +3,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Indexables\Application;
 
 use Brain\Monkey;
+use Generator;
 use Mockery;
+use Mockery\MockInterface;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Indexables\Application\Cron_Verification_Gate;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
@@ -16,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler
  */
-class Verification_Cron_Schedule_Handler_Test extends TestCase {
+final class Verification_Cron_Schedule_Handler_Test extends TestCase {
 
 	/**
 	 * The instance.
@@ -28,14 +30,14 @@ class Verification_Cron_Schedule_Handler_Test extends TestCase {
 	/**
 	 * The cron verification gate.
 	 *
-	 * @var \Mockery\MockInterface|Cron_Verification_Gate
+	 * @var MockInterface|Cron_Verification_Gate
 	 */
 	private $cron_verification_gate;
 
 	/**
 	 * The options helper.
 	 *
-	 * @var \Mockery\MockInterface|Options_Helper
+	 * @var MockInterface|Options_Helper
 	 */
 	private $option_helper;
 
@@ -98,7 +100,7 @@ class Verification_Cron_Schedule_Handler_Test extends TestCase {
 	/**
 	 * Data provider for `test_schedule_indexable_verification`
 	 *
-	 * @return \Generator
+	 * @return Generator
 	 */
 	public function schedule_indexable_verification_provider() {
 		yield 'Both crons already scheduled.' => [

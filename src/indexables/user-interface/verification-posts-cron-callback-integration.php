@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Indexables\User_Interface;
 
 use Yoast\WP\SEO\Conditionals\Traits\Admin_Conditional_Trait;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command;
 use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command_Handler;
 use Yoast\WP\SEO\Indexables\Application\Cron_Verification_Gate;

@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\Application\Commands\Verify_Non_Timestamp_Indexables_Command
  */
-class Verify_Non_Timestamp_Indexables_Command_Test extends TestCase {
+final class Verify_Non_Timestamp_Indexables_Command_Test extends TestCase {
 
 	/**
 	 * The instance to test.

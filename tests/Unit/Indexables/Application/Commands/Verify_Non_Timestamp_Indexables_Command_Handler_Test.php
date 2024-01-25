@@ -26,7 +26,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Verify_Non_Timestamp_Indexables_Command_Handler_Test extends TestCase {
+final class Verify_Non_Timestamp_Indexables_Command_Handler_Test extends TestCase {
 
 	/**
 	 * The instance.

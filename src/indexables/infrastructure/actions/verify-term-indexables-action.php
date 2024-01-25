@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Indexables\Infrastructure\Actions;
 
+use wpdb;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Indexables\Domain\Actions\Verify_Indexables_Action_Interface;
 use Yoast\WP\SEO\Indexables\Domain\Batch_Size;
@@ -29,6 +30,13 @@ class Verify_Term_Indexables_Action implements Verify_Indexables_Action_Interfac
 	private $repository;
 
 	/**
+	 * The wp query.
+	 *
+	 * @var wpdb $wpdb
+	 */
+	private $wpdb;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Taxonomy_Helper      $taxonomy   The taxonomy helper.
@@ -38,13 +46,6 @@ class Verify_Term_Indexables_Action implements Verify_Indexables_Action_Interfac
 		$this->taxonomy   = $taxonomy;
 		$this->repository = $repository;
 	}
-
-	/**
-	 * The wp query.
-	 *
-	 * @var \wpdb $wpdb
-	 */
-	private $wpdb;
 
 	/**
 	 * Re builds indexables for term indexables.
@@ -69,12 +70,12 @@ class Verify_Term_Indexables_Action implements Verify_Indexables_Action_Interfac
 	/**
 	 * Sets the wpdb instance.
 	 *
-	 * @param \wpdb $wpdb The wpdb instance.
+	 * @param wpdb $wpdb The wpdb instance.
 	 *
 	 * @return void
 	 * @required
 	 */
-	public function set_wpdb( \wpdb $wpdb ) {
+	public function set_wpdb( wpdb $wpdb ) {
 		$this->wpdb = $wpdb;
 	}
 

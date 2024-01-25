@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\Domain\Batch_Size
  */
-class Batch_Size_Test extends TestCase {
+final class Batch_Size_Test extends TestCase {
 
 	/**
 	 * The instance.

@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\Application\Actions\Verify_Indexable_Action_Factory
  */
-class Verify_Indexable_Action_Factory_Test extends TestCase {
+final class Verify_Indexable_Action_Factory_Test extends TestCase {
 
 	/**
 	 * The term action.

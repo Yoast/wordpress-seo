@@ -33,6 +33,5 @@ interface Verify_Indexables_Action_Factory_Interface {
 	 * @throws No_Verification_Action_Left_Exception Throws when there are no verification actions left.
 	 * @return Current_Verification_Action
 	 */
-	public function determine_next_verify_action( Current_Verification_Action $current_verification_action_object
-	): Current_Verification_Action;
+	public function determine_next_verify_action( Current_Verification_Action $current_verification_action_object ): Current_Verification_Action;
 }

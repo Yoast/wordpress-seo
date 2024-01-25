@@ -7,20 +7,13 @@ use Mockery;
 use Mockery\MockInterface;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Non_Timestamp_Indexables_Command;
-use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Non_Timestamp_Indexables_Command_Handler;
 use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command;
 use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command_Handler;
-use Yoast\WP\SEO\Indexables\Application\Next_Verification_Action_Handler;
 use Yoast\WP\SEO\Indexables\Application\Ports\Outdated_Post_Indexables_Repository_Interface;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
-use Yoast\WP\SEO\Indexables\Domain\Actions\Verify_Indexables_Action_Factory_Interface;
-use Yoast\WP\SEO\Indexables\Domain\Current_Verification_Action;
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Outdated_Posts_Found_Exception;
-use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Verification_Action_Left_Exception;
-use Yoast\WP\SEO\Indexables\Domain\Exceptions\Verify_Action_Not_Found_Exception;
 use Yoast\WP\SEO\Indexables\Domain\Outdated_Post_Indexables_List;
-use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Indexables_Action;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -31,7 +24,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\Application\Commands\Verify_Post_Indexables_Command_Handler
  */
-class Verify_Post_Indexables_Command_Handler_Test extends TestCase {
+final class Verify_Post_Indexables_Command_Handler_Test extends TestCase {
 
 	/**
 	 * The instance.
@@ -113,7 +106,6 @@ class Verify_Post_Indexables_Command_Handler_Test extends TestCase {
 			->with( $this->command->get_last_batch_count() )
 			->andReturn( $indexable_list );
 
-
 		$this->indexables_builder->expects()->build( $indexable_mock );
 		$this->indexables_builder->expects()->build( $indexable_mock1 );
 		$this->indexables_builder->expects()->build( $indexable_mock2 );
@@ -158,7 +150,6 @@ class Verify_Post_Indexables_Command_Handler_Test extends TestCase {
 		$this->outdated_post_indexables_repository->expects( 'get_outdated_post_indexables' )
 			->with( $this->command->get_last_batch_count() )
 			->andReturn( $indexable_list );
-
 
 		$this->indexables_builder->expects()->build( $indexable_mock );
 		$this->indexables_builder->expects()->build( $indexable_mock1 );

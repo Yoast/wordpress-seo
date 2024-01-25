@@ -9,14 +9,13 @@ use Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Links_Indexables_
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\WP\TestCase;
-use function YoastSEO;
 
 /**
  * Integration Test Class for Verify_Term_Links_Indexables_Action.
  *
  * @coversDefaultClass Yoast\WP\SEO\Indexables\Infrastructure\Actions\Verify_Term_Links_Indexables_Action
  */
-class Verify_Term_Links_Indexables_Action_Test extends TestCase {
+final class Verify_Term_Links_Indexables_Action_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -32,9 +31,9 @@ class Verify_Term_Links_Indexables_Action_Test extends TestCase {
 		parent::setUp();
 		global $wpdb;
 		$this->instance = new Verify_Term_Links_Indexables_Action(
-			YoastSEO()->helpers->taxonomy,
-			YoastSEO()->classes->get( Indexable_Repository::class ),
-			YoastSEO()->classes->get( Indexable_Link_Builder::class )
+			\YoastSEO()->helpers->taxonomy,
+			\YoastSEO()->classes->get( Indexable_Repository::class ),
+			\YoastSEO()->classes->get( Indexable_Link_Builder::class )
 		);
 		$this->instance->set_wpdb( $wpdb );
 
@@ -55,7 +54,7 @@ class Verify_Term_Links_Indexables_Action_Test extends TestCase {
 		$last_batch      = new Last_Batch_Count( 0 );
 		$batch_size      = new Batch_Size( 10 );
 		$should_continue = $this->instance->re_build_indexables( $last_batch, $batch_size );
-		$taxonomies      = YoastSEO()->classes->get( Indexable_Repository::class )
+		$taxonomies      = \YoastSEO()->classes->get( Indexable_Repository::class )
 			->find_all_with_type( 'term', false );
 
 		foreach ( $taxonomies as $taxonomy ) {
@@ -73,7 +72,7 @@ class Verify_Term_Links_Indexables_Action_Test extends TestCase {
 		$last_batch      = new Last_Batch_Count( 0 );
 		$batch_size      = new Batch_Size( 1 );
 		$should_continue = $this->instance->re_build_indexables( $last_batch, $batch_size );
-		$taxonomies      = YoastSEO()->classes->get( Indexable_Repository::class )
+		$taxonomies      = \YoastSEO()->classes->get( Indexable_Repository::class )
 			->find_all_with_type( 'term', false );
 
 		foreach ( $taxonomies as $taxonomy ) {

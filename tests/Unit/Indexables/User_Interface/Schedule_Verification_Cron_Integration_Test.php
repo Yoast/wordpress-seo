@@ -4,15 +4,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Indexables\User_Interface;
 
 use Brain\Monkey;
 use Mockery;
+use Mockery\MockInterface;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Non_Timestamp_Indexables_Command_Handler;
-use Yoast\WP\SEO\Indexables\Application\Cron_Verification_Gate;
-use Yoast\WP\SEO\Indexables\Application\Next_Verification_Action_Handler;
-use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Schedule_Handler;
 use Yoast\WP\SEO\Indexables\User_Interface\Schedule_Verification_Cron_Integration;
-use Yoast\WP\SEO\Indexables\User_Interface\Verification_No_Timestamp_Cron_Callback_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -22,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\User_Interface\Schedule_Verification_Cron_Integration
  */
-class Schedule_Verification_Cron_Integration_Test extends TestCase {
+final class Schedule_Verification_Cron_Integration_Test extends TestCase {
 
 	/**
 	 * The instance.
@@ -34,7 +29,7 @@ class Schedule_Verification_Cron_Integration_Test extends TestCase {
 	/**
 	 * The cron schedule handler.
 	 *
-	 * @var \Mockery\MockInterface|Verification_Cron_Schedule_Handler
+	 * @var MockInterface|Verification_Cron_Schedule_Handler
 	 */
 	private $cron_schedule_handler;
 

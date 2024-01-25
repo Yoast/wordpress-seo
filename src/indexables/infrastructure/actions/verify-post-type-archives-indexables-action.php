@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Indexables\Infrastructure\Actions;
 
+use wpdb;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Indexables\Domain\Actions\Verify_Indexables_Action_Interface;
@@ -27,7 +28,7 @@ class Verify_Post_Type_Archives_Indexables_Action implements Verify_Indexables_A
 	/**
 	 * The wp query.
 	 *
-	 * @var \wpdb $wpdb
+	 * @var wpdb $wpdb
 	 */
 	private $wpdb;
 
@@ -88,12 +89,12 @@ class Verify_Post_Type_Archives_Indexables_Action implements Verify_Indexables_A
 	/**
 	 * Sets the wpdb instance.
 	 *
-	 * @param \wpdb $wpdb The wpdb instance.
+	 * @param wpdb $wpdb The wpdb instance.
 	 *
 	 * @return void
 	 * @required
 	 */
-	public function set_wpdb( \wpdb $wpdb ) {
+	public function set_wpdb( wpdb $wpdb ) {
 		$this->wpdb = $wpdb;
 	}
 }

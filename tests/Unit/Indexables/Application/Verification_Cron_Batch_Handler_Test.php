@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Indexables\Application;
 
 use Mockery;
+use Mockery\MockInterface;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler;
 use Yoast\WP\SEO\Indexables\Domain\Batch_Size;
@@ -16,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\Application\Verification_Cron_Batch_Handler
  */
-class Verification_Cron_Batch_Handler_Test extends TestCase {
+final class Verification_Cron_Batch_Handler_Test extends TestCase {
 
 	/**
 	 * The instance.
@@ -28,7 +29,7 @@ class Verification_Cron_Batch_Handler_Test extends TestCase {
 	/**
 	 * The options helper.
 	 *
-	 * @var \Mockery\MockInterface|Options_Helper
+	 * @var MockInterface|Options_Helper
 	 */
 	private $options_helper;
 

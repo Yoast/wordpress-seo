@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Indexables\Domain;
 
-use Yoast\WP\SEO\Indexables\Domain\Batch_Size;
 use Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -13,12 +12,12 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count
  */
-class Last_Batch_Count_Test extends TestCase {
+final class Last_Batch_Count_Test extends TestCase {
 
 	/**
 	 * The instance.
 	 *
-	 * @var \Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count
+	 * @var Last_Batch_Count
 	 */
 	private $instance;
 

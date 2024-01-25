@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Indexables\User_Interface;
 
 use Brain\Monkey;
 use Mockery;
+use Mockery\MockInterface;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Indexables\Application\Commands\Verify_Non_Timestamp_Indexables_Command_Handler;
@@ -20,9 +21,10 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\User_Interface\Verification_No_Timestamp_Cron_Callback_Integration
+ *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Verification_No_Timestamp_Cron_Callback_Integration_Test extends TestCase {
+final class Verification_No_Timestamp_Cron_Callback_Integration_Test extends TestCase {
 
 	/**
 	 * The instance.
@@ -34,42 +36,42 @@ class Verification_No_Timestamp_Cron_Callback_Integration_Test extends TestCase 
 	/**
 	 * The options helper.
 	 *
-	 * @var \Mockery\MockInterface|Options_Helper
+	 * @var MockInterface|Options_Helper
 	 */
 	private $options_helper;
 
 	/**
 	 * The cron schedule handler.
 	 *
-	 * @var \Mockery\MockInterface|Verification_Cron_Schedule_Handler
+	 * @var MockInterface|Verification_Cron_Schedule_Handler
 	 */
 	private $cron_schedule_handler;
 
 	/**
 	 * The cron verification gate.
 	 *
-	 * @var \Mockery\MockInterface|Cron_Verification_Gate
+	 * @var MockInterface|Cron_Verification_Gate
 	 */
 	private $cron_verification_gate;
 
 	/**
 	 * The verification cron batch handler.
 	 *
-	 * @var \Mockery\MockInterface|Verification_Cron_Batch_Handler
+	 * @var MockInterface|Verification_Cron_Batch_Handler
 	 */
 	private $verification_cron_batch_handler;
 
 	/**
 	 * The command handler.
 	 *
-	 * @var \Mockery\MockInterface|Verify_Non_Timestamp_Indexables_Command_Handler
+	 * @var MockInterface|Verify_Non_Timestamp_Indexables_Command_Handler
 	 */
 	private $verify_non_timestamp_indexables_command_handler;
 
 	/**
 	 * The next action handler.
 	 *
-	 * @var \Mockery\MockInterface|Next_Verification_Action_Handler
+	 * @var MockInterface|Next_Verification_Action_Handler
 	 */
 	private $next_verification_action_handler;
 

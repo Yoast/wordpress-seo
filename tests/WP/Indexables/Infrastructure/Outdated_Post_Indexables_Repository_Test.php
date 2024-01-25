@@ -2,27 +2,24 @@
 
 namespace Yoast\WP\SEO\Tests\WP\Indexables\Infrastructure;
 
-use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Builders\Indexable_Builder;
+use WP_Post;
 use Yoast\WP\SEO\Indexables\Domain\Exceptions\No_Outdated_Posts_Found_Exception;
 use Yoast\WP\SEO\Indexables\Domain\Last_Batch_Count;
 use Yoast\WP\SEO\Indexables\Infrastructure\Outdated_Post_Indexables_Repository;
-use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\WP\TestCase;
-use function YoastSEO;
 
 /**
  * Integration Test Class for Outdated_Post_Indexables_Repository.
  *
  * @coversDefaultClass Yoast\WP\SEO\Indexables\Infrastructure\Outdated_Post_Indexables_Repository
  */
-class Dismiss_New_Route_Test extends TestCase {
+final class Dismiss_New_Route_Test extends TestCase {
 
 	/**
 	 * The post object.
 	 *
-	 * @var \WP_Post
+	 * @var WP_Post
 	 */
 	protected $post2;
 
@@ -55,9 +52,9 @@ class Dismiss_New_Route_Test extends TestCase {
 		)->ID;
 		$this->instance = new Outdated_Post_Indexables_Repository(
 			$wpdb,
-			YoastSEO()->helpers->post_type,
-			YoastSEO()->helpers->post,
-			YoastSEO()->classes->get( Indexable_Repository::class )
+			\YoastSEO()->helpers->post_type,
+			\YoastSEO()->helpers->post,
+			\YoastSEO()->classes->get( Indexable_Repository::class )
 		);
 
 		$post1 = self::factory()->post->create_and_get(
@@ -105,7 +102,6 @@ class Dismiss_New_Route_Test extends TestCase {
 		$db_result = $wpdb->query( $wpdb->prepare( " UPDATE %i SET %i='2022-11-24 13:10:39' where id=%d", [ $wpdb->posts, 'post_modified_gmt', $this->post2->ID ] ) );
 		// phpcs:enable
 		$result = $this->instance->get_outdated_post_indexables( $last_batch );
-
 
 		$this->assertSame( $result->count(), 1 );
 

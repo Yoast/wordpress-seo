@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Indexables\Infrastructure\Actions;
 
+use wpdb;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Indexables\Domain\Actions\Verify_Indexables_Action_Interface;
@@ -39,7 +40,7 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 	/**
 	 * The wp query.
 	 *
-	 * @var \wpdb $wpdb
+	 * @var wpdb $wpdb
 	 */
 	private $wpdb;
 
@@ -89,12 +90,12 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 	/**
 	 * Sets the wpdb.
 	 *
-	 * @param \wpdb $wpdb The wpdb instance.
+	 * @param wpdb $wpdb The wpdb instance.
 	 *
 	 * @return void
 	 * @required
 	 */
-	public function set_wpdb( \wpdb $wpdb ) {
+	public function set_wpdb( wpdb $wpdb ) {
 		$this->wpdb = $wpdb;
 	}
 
@@ -110,7 +111,7 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
 		$public_taxonomies = $this->taxonomy->get_indexable_taxonomies();
 		$replacements[]    = $taxonomy_table;
-		$replacements      = array_merge( $replacements, $public_taxonomies );
+		$replacements      = \array_merge( $replacements, $public_taxonomies );
 
 		$limit_query    = 'LIMIT %d';
 		$replacements[] = $batch_size;

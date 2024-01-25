@@ -3,7 +3,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Indexables\Application;
 
 use Brain\Monkey;
+use Generator;
 use Mockery;
+use Mockery\MockInterface;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Indexables\Application\Cron_Verification_Gate;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -15,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Indexables\Application\Cron_Verification_Gate
  */
-class Cron_Verification_Gate_Test extends TestCase {
+final class Cron_Verification_Gate_Test extends TestCase {
 
 	/**
 	 * The instance.
@@ -27,7 +29,7 @@ class Cron_Verification_Gate_Test extends TestCase {
 	/**
 	 * The indexable helper.
 	 *
-	 * @var \Mockery\MockInterface|Indexable_Helper
+	 * @var MockInterface|Indexable_Helper
 	 */
 	private $indexable_helper;
 
@@ -47,7 +49,7 @@ class Cron_Verification_Gate_Test extends TestCase {
 	/**
 	 * Tests if the should verify on cron function gives the expected response.
 	 *
-	 * @param bool   $expected The expected result.
+	 * @param bool   $expected     The expected result.
 	 * @param string $should_index What the helper should return.
 	 * @param string $filter_value What the filter should return.
 	 *
@@ -66,7 +68,7 @@ class Cron_Verification_Gate_Test extends TestCase {
 	/**
 	 * Data provider for the `test_should_verify_on_cron` test.
 	 *
-	 * @return \Generator
+	 * @return Generator
 	 */
 	public function should_verify_on_cron_dataprovider() {
 		yield [
