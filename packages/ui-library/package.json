@@ -19,10 +19,10 @@
     "watch": "yarn watch:js & yarn watch:css",
     "watch:js": "yarn build:js --watch",
     "watch:css": "node ./scripts/watch-css.js",
-    "storybook": "start-storybook -p 6006",
-    "build:storybook": "build-storybook",
+    "storybook": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
+    "build:storybook": "NODE_OPTIONS=--openssl-legacy-provider build-storybook",
     "publish:storybook": "./scripts/publish-storybook.sh",
-    "test:storyshots": "yarn build-storybook --quiet && jest tests/storyshots.js",
+    "test:storyshots": "NODE_OPTIONS=--openssl-legacy-provider yarn build-storybook --quiet && jest tests/storyshots.js",
     "test": "yarn test:storyshots",
     "lint": "eslint src --max-warnings=0"
   },

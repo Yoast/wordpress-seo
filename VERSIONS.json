@@ -1,0 +1,36 @@
+{
+  "comment": "JSON format versions of tooling and languages used by automations to build, deploy and test this branch",
+  "tools": {
+    "composer": {
+      "name": "composer",
+      "version": "--2.2",
+      "comment": "Used with Jenkins GH-actions unknown ATM"
+    },
+    "node": {
+      "name": "nodeJS",
+      "node-version-file": "./.nvmrc",
+      "comment": "We use the version set in the .nvmrc file, so Devs will see the same version as CI and release processes"
+    },
+    "php": {
+      "name": "PHP",
+      "GH-Actions_version": "7.2",
+      "GH-Actions-comment": "This is hard code ATM in the GH-actions and is currently below the version we use to release",
+      "version": "7.4",
+      "possible version values": [
+        "7.4",
+        "8.0",
+        "8.1",
+        "8.2"
+      ],
+      "container": "bullseye",
+      "possible container values": [
+        "bullseye"
+      ],
+      "comment": "Used Jenkins container will be made of <version>-<container> see https://hub.docker.com/r/yoastseo/jenkins-plugin-release/tags"
+    },
+    "yarn": {
+      "name": "yarn",
+      "comment": "We use the version set in .yarnrc (line yarn-path), this is the method used by Yarn itself"
+    }
+  }
+}

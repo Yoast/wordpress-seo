@@ -64,6 +64,7 @@ function registerFormats() {
 			__( "Marking links with nofollow/sponsored has been disabled for WordPress installs < 5.4.", "wordpress-seo" ) +
 			" " +
 			sprintf(
+				// translators: %1$s expands to Yoast SEO.
 				__( "Please upgrade your WordPress version or install the Gutenberg plugin to get this %1$s feature.", "wordpress-seo" ),
 				"Yoast SEO"
 			)
