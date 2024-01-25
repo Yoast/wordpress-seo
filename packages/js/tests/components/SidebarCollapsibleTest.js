@@ -36,4 +36,10 @@ describe( "SidebarCollapsible", () => {
 
 		expect( icon ).toBeInTheDocument();
 	} );
+
+	it( "has id associated to inner button", async() => {
+		const { container } = render( <SidebarCollapsible buttonId="test-button-id" { ...defaultArgs } /> );
+		const button = container.querySelector( "#test-button-id" );
+		expect( button ).toBeInTheDocument();
+	} );
 } );
