@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Inc\Sitemaps;
 use Brain\Monkey;
 use Mockery;
 use WP_Post;
-use WP_Rewrite;
 use WPSEO_Options;
 use WPSEO_Sitemaps_Admin;
 use Yoast\WP\SEO\Helpers\Environment_Helper;
@@ -83,7 +82,6 @@ final class Sitemaps_Admin_Test extends TestCase {
 			->never();
 
 		$environment_helper = Mockery::mock( Environment_Helper::class );
-		$environment_helper->expects( 'is_production_mode' )->once()->andReturn( false );
 
 		$container = $this->create_container_with( [ Environment_Helper::class => $environment_helper ] );
 
@@ -101,11 +99,6 @@ final class Sitemaps_Admin_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_status_transition_on_production() {
-		global $wp_rewrite;
-
-		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
-		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
-
 		Monkey\Functions\stubs(
 			[
 				'wp_get_environment_type' => 'production',
@@ -122,28 +115,6 @@ final class Sitemaps_Admin_Test extends TestCase {
 		$this->options_mock
 			->shouldReceive( 'is_multisite' )
 			->andReturn( false );
-
-		Monkey\Filters\expectApplied( 'wpseo_allow_xml_sitemap_ping' )
-			->once()
-			->andReturn( true );
-
-		Monkey\Functions\expect( 'home_url' )
-			->once()
-			->andReturn( 'https://example.com' );
-
-		Monkey\Functions\expect( 'wp_parse_url' )
-			->once()
-			->andReturn( 'https' );
-
-		Monkey\Functions\expect( 'wp_remote_get' );
-
-		$environment_helper = Mockery::mock( Environment_Helper::class );
-		$environment_helper->expects( 'is_production_mode' )->once()->andReturn( true );
-
-		$container = $this->create_container_with( [ Environment_Helper::class => $environment_helper ] );
-
-		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->instance->status_transition( 'publish', 'draft', $this->mock_post );
 	}

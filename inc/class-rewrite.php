@@ -113,8 +113,10 @@ class WPSEO_Rewrite {
 		$permalink_structure = get_option( 'permalink_structure' );
 
 		$blog_prefix = '';
-		if ( is_main_site() && strpos( $permalink_structure, '/blog/' ) === 0 ) {
-			$blog_prefix = 'blog/';
+		if ( strpos( $permalink_structure, '/blog/' ) === 0 ) {
+			if ( ( is_multisite() && ! is_subdomain_install() ) || is_main_site() || is_main_network() ) {
+				$blog_prefix = 'blog/';
+			}
 		}
 
 		$categories = get_categories( [ 'hide_empty' => false ] );

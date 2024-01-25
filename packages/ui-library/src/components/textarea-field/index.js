@@ -22,12 +22,20 @@ const TextareaField = forwardRef( ( {
 	className = "",
 	description = "",
 	validation = {},
+	disabled,
+	readOnly,
 	...props
 }, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
 
 	return (
-		<div className={ classNames( "yst-textarea-field", className ) }>
+		<div
+			className={ classNames(
+				"yst-textarea-field",
+				disabled && "yst-textarea-field--disabled",
+				readOnly && "yst-textarea-field--read-only",
+				className ) }
+		>
 			<div className="yst-flex yst-items-center yst-mb-2">
 				<Label className="yst-textarea-field__label" htmlFor={ id }>{ label }</Label>
 			</div>
@@ -55,6 +63,8 @@ const propTypes = {
 	label: PropTypes.string.isRequired,
 	className: PropTypes.string,
 	description: PropTypes.node,
+	disabled: PropTypes.bool,
+	readOnly: PropTypes.bool,
 	validation: PropTypes.shape( {
 		variant: PropTypes.string,
 		message: PropTypes.node,
@@ -66,6 +76,8 @@ TextareaField.propTypes = propTypes;
 TextareaField.defaultProps = {
 	className: "",
 	description: null,
+	disabled: false,
+	readOnly: false,
 	validation: {},
 };
 

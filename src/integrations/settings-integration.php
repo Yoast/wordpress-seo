@@ -462,6 +462,16 @@ class Settings_Integration implements Integration_Interface {
 			$page_on_front = $page_for_posts;
 		}
 
+		$business_settings_url = \get_admin_url( null, 'admin.php?page=wpseo_local' );
+		if ( \defined( 'WPSEO_LOCAL_FILE' ) ) {
+			$local_options      = WPSEO_Options::get_option( 'wpseo_local' );
+			$multiple_locations = $local_options['use_multiple_locations'];
+			$same_organization  = $local_options['multiple_locations_same_organization'];
+			if ( $multiple_locations === 'on' && $same_organization !== 'on' ) {
+				$business_settings_url = \get_admin_url( null, 'edit.php?post_type=wpseo_locations' );
+			}
+		}
+
 		return [
 			'isPremium'                     => $this->product_helper->is_premium(),
 			'isRtl'                         => \is_rtl(),
@@ -479,6 +489,7 @@ class Settings_Integration implements Integration_Interface {
 			'hasWooCommerceShopPage'        => $shop_page_id !== -1,
 			'editWooCommerceShopPageUrl'    => \get_edit_post_link( $shop_page_id, 'js' ),
 			'wooCommerceShopPageSettingUrl' => \get_admin_url( null, 'admin.php?page=wc-settings&tab=products' ),
+			'localSeoPageSettingUrl'        => $business_settings_url,
 			'homepageIsLatestPosts'         => $homepage_is_latest_posts,
 			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
@@ -617,6 +628,49 @@ class Settings_Integration implements Integration_Interface {
 		foreach ( self::DISALLOWED_SETTINGS as $option_name => $disallowed_settings ) {
 			foreach ( $disallowed_settings as $disallowed_setting ) {
 				unset( $defaults[ $option_name ][ $disallowed_setting ] );
+			}
+		}
+
+		if ( \defined( 'WPSEO_LOCAL_FILE' ) ) {
+			$local_options      = WPSEO_Options::get_option( 'wpseo_local' );
+			$multiple_locations = $local_options['use_multiple_locations'];
+			$same_organization  = $local_options['multiple_locations_same_organization'];
+			$shared_info        = $local_options['multiple_locations_shared_business_info'];
+			if ( $multiple_locations !== 'on' || ( $multiple_locations === 'on' && $same_organization === 'on' && $shared_info === 'on' ) ) {
+				$defaults['wpseo_titles']['org-vat-id'] = $local_options['location_vat_id'];
+				$defaults['wpseo_titles']['org-tax-id'] = $local_options['location_tax_id'];
+				$defaults['wpseo_titles']['org-email']  = $local_options['location_email'];
+				$defaults['wpseo_titles']['org-phone']  = $local_options['location_phone'];
+			}
+
+			if ( $multiple_locations === 'on' && $same_organization === 'on' ) {
+				$primary_location = $local_options['multiple_locations_primary_location'];
+
+				$location_keys = [
+					'org-phone'  => [
+						'is_overridden' => '_wpseo_is_overridden_business_phone',
+						'value'         => '_wpseo_business_phone',
+					],
+					'org-email'  => [
+						'is_overridden' => '_wpseo_is_overridden_business_email',
+						'value'         => '_wpseo_business_email',
+					],
+					'org-tax-id' => [
+						'is_overridden' => '_wpseo_is_overridden_business_tax_id',
+						'value'         => '_wpseo_business_tax_id',
+					],
+					'org-vat-id' => [
+						'is_overridden' => '_wpseo_is_overridden_business_vat_id',
+						'value'         => '_wpseo_business_vat_id',
+					],
+				];
+
+				foreach ( $location_keys as $key => $meta_keys ) {
+					$is_overridden = \get_post_meta( $primary_location, $meta_keys['is_overridden'], true );
+					if ( ( $shared_info === 'on' && $is_overridden && $is_overridden === 'on' ) || $shared_info !== 'on' ) {
+						$defaults['wpseo_titles'][ $key ] = \get_post_meta( $primary_location, $meta_keys['value'], true );
+					}
+				}
 			}
 		}
 
