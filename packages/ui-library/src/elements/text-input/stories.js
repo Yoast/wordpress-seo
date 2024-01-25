@@ -1,3 +1,4 @@
+import React, { useCallback, useState } from "react";
 import TextInput from ".";
 import { component } from "./docs";
 
@@ -19,14 +20,13 @@ export const Factory = {
 	},
 };
 
-export const DatePicker = StoryComponent.bind( {} );
-
-DatePicker.parameters = {
-	controls: { disable: false },
+export const DatePicker = {
+	name: "Date picker input",
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		type: "date",
+		placeholder: "Add a date here...",
+	},
 };
-
-DatePicker.args = {
-	type: "date",
-};
-
-DatePicker.storyName = "Date picker input";
