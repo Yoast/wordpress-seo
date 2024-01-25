@@ -1,29 +1,30 @@
 {
-	"name": "@yoast/browserslist-config",
-	"version": "1.2.2",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/yoast/javascript",
-		"directory": "packages/browserslist-config"
-	},
-	"description": "The browserslist configuration for Yoast projects",
-	"author": "Team Yoast",
-	"homepage": "https://github.com/Yoast/javascript#readme",
-	"license": "GPL-3.0",
-	"private": false,
-	"main": "src/index.js",
-	"publishConfig": {
-		"access": "public"
-	},
-	"scripts": {
-		"test": "jest",
-		"lint": "eslint . --max-warnings=0",
-		"prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \\\"this.main='index.js'\\\""
-	},
-	"bugs": {
-		"url": "https://github.com/Yoast/javascript/issues"
-	},
-	"devDependencies": {
-		"browserslist": "^4.7.3"
-	}
+  "name": "@yoast/browserslist-config",
+  "version": "1.2.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yoast/javascript",
+    "directory": "packages/browserslist-config"
+  },
+  "description": "The browserslist configuration for Yoast projects",
+  "author": "Team Yoast",
+  "homepage": "https://github.com/Yoast/javascript#readme",
+  "license": "GPL-3.0",
+  "private": false,
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint . --max-warnings=0",
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \\\"this.main='index.js'\\\""
+  },
+  "bugs": {
+    "url": "https://github.com/Yoast/javascript/issues"
+  },
+  "devDependencies": {
+    "browserslist": "^4.7.3",
+    "jest": "^29.7.0"
+  }
 }

@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.4
-Stable tag: 21.8.1
+Stable tag: 21.9
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -342,9 +342,29 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 22.0 =
+
+Release date: 2024-02-06
+
+#### Bugfixes
+
+* Fixes a bug where the `get_head` REST route would return a `rest_invalid_param` if the URL contains a multiple words search string. Props to @lucymtc.
+* Fixes a bug where using a `blog` prefix in the permalink structure with _Strip category base_ enabled would prevent the blog page from being accessible.
+
+= 21.9.1 =
+
+Release date: 2024-01-25
+
+#### Bugfixes
+
+* Fixes a bug where a fatal error would occur when upgrading Yoast SEO on certain setups.
+* Fixes a bug where the image tag would be missing in the home page entry of the XML sitemap when using a static front page.
+
 = 21.9 =
 
 Release date: 2024-01-23
+
+We've just released Yoast SEO 21.9. This release comes with many behind-the-scenes improvements and general enhancements. Find out more about what's new in Yoast SEO 21.9 in [our release post](https://yoa.st/release-23-1-24)!
 
 #### Enhancements
 
@@ -358,45 +378,13 @@ Release date: 2024-01-23
 
 * Fixes a bug where a post would be saved when trying to dismiss a notification while editing.
 * Fixes a bug where editing a product would either crash or be slow when there is a high number of registered attributes.
-* Fixes a bug where our block editor integration would no longer work in WP 6.5.
-* Fixes a bug where the Yoast plugin icon in the block editor would not have any horizontal spacing anymore when rendered in \"compact\" mode.
+* Fixes a bug where the Yoast plugin icon in the block editor would not have any horizontal spacing anymore when rendered in "compact" mode.
 
 #### Other
 
 * Be explicit about required PHP extensions.
 * Improves PHP 8.2 compatibility.
 * Sets the minimum supported WordPress version to 6.3.
-
-= 21.8.1 =
-
-Release date: 2024-01-19
-
-#### Bugfixes
-
-* Fixes a bug where our block editor integration would no longer work together with Gutenberg 17.4.1.
-* Fixes a bug where our block editor integration would no longer work together with Gutenberg 17.5.
-
-= 21.8 =
-
-Release date: 2024-01-09
-
-We've just released Yoast SEO 21.8. In this release, we've focused on general enhancements and fixes to improve how your WordPress SEO plugin functions. Find out more about what's new in Yoast SEO 21.8 in [our release post](https://yoa.st/release-9-1-24)!
-
-#### Enhancements
-
-* Aligns the styling of the replacement variables in the post editor with the styling in the settings.
-* Improves the centering of the eye icon in the highlighting button across editors.
-
-#### Bugfixes
-
-* Fixes a bug where highlighting for the _keyphrase density_ assessment would not work when using the latest version of Gutenberg (17.3.0).
-
-#### Other
-
-* Adds a JavaScript action (`yoast.analysis.applyMarks`) that allow users to implement the highlighting functionality in other editors.
-* Adds a notification in the sidebar to leave a quick review.
-* Removes a set of Elementor widgets from the content analysis to make the analysis results more accurate.
-* Re-orders menu items in block editor metabox and sidebar, classic editor metabox and Elementor editor sidebar to be consistent with Yoast SEO Premium.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
