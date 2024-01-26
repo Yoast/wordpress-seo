@@ -125,7 +125,7 @@ export default class HowTo extends Component {
 	 *
 	 * @param {string} [prefix] The prefix to use.
 	 *
-	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the curent time in milliseconds.
+	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the current time in milliseconds.
 	 */
 	static generateId( prefix ) {
 		return `${ prefix }-${ new Date().getTime() }`;
@@ -186,7 +186,7 @@ export default class HowTo extends Component {
 	 * @param {number}       [index]      Optional. The index of the Step after which a new Step should be added.
 	 * @param {array|string} [name]       Optional. The title of the new Step. Default: empty.
 	 * @param {array|string} [text]       Optional. The description of the new Step. Default: empty.
-	 * @param {bool}         [focus=true] Optional. Whether or not to focus the new Step. Default: true.
+	 * @param {bool}         [focus=true] Optional. Whether to focus the new Step. Default: true.
 	 *
 	 * @returns {void}
 	 */
@@ -209,7 +209,7 @@ export default class HowTo extends Component {
 
 		if ( focus ) {
 			setTimeout( this.setFocus.bind( this, `${ index + 1 }:name` ) );
-			// When moving focus to a newly created step, return and don't use the speak() messaage.
+			// When moving focus to a newly created step, return and don't use the speak() message.
 			return;
 		}
 
@@ -395,7 +395,7 @@ export default class HowTo extends Component {
 
 	/**
 	 * Returns the component to be used to render
-	 * the How-to block on Wordpress (e.g. not in the editor).
+	 * the How-to block on WordPress (e.g. not in the editor).
 	 *
 	 * @param {object} props the attributes of the How-to block.
 	 *
@@ -463,7 +463,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Adds CSS classes to this how-to block"s list.
+	 * Adds CSS classes to this how-to block's list.
 	 *
 	 * @param {string} value The additional css classes.
 	 *
@@ -485,7 +485,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Returns the help text for this how-to block"s list type.
+	 * Returns the help text for this how-to block's list type.
 	 *
 	 * @param {boolean} checked Whether or not the list is unordered.
 	 *
@@ -543,7 +543,7 @@ export default class HowTo extends Component {
 			 * Prior to Gutenberg 5.3 the IconButton doesn't support refs. The ref
 			 * returns the Component instance and attempting to set focus on it
 			 * triggers a TypeError. To keep it simple, we accept a focus loss.
-			 * Starting from WordPress 5.2, Iconbutton does support refs so this
+			 * Starting from WordPress 5.2, IconButton does support refs so this
 			 * check can be removed in the future.
 			 */
 			if ( this.addDurationButton.current instanceof Component ) {
