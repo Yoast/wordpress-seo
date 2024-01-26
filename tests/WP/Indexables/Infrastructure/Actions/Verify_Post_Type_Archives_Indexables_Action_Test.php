@@ -28,6 +28,8 @@ final class Verify_Post_Type_Archives_Indexables_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function setUp(): void {
 		parent::setUp();
@@ -43,9 +45,10 @@ final class Verify_Post_Type_Archives_Indexables_Action_Test extends TestCase {
 	 * Tests the re_build_indexables method.
 	 *
 	 * @covers ::re_build_indexables
+	 *
+	 * @return void
 	 */
 	public function test_re_build_indexables() {
-		$repo            = \YoastSEO()->classes->get( Indexable_Repository::class );
 		$last_batch      = new Last_Batch_Count( 0 );
 		$batch_size      = new Batch_Size( 10 );
 		$should_continue = $this->instance->re_build_indexables( $last_batch, $batch_size );
@@ -63,6 +66,8 @@ final class Verify_Post_Type_Archives_Indexables_Action_Test extends TestCase {
 	 * Tests the re_build_indexables method.
 	 *
 	 * @covers ::re_build_indexables
+	 *
+	 * @return void
 	 */
 	public function test_re_build_indexables_should_continue() {
 		for ( $i = 0; $i < 10; $i++ ) {

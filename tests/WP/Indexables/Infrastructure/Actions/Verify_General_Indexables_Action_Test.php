@@ -26,6 +26,8 @@ final class Verify_General_Indexables_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function setUp(): void {
 		parent::setUp();
@@ -40,6 +42,8 @@ final class Verify_General_Indexables_Action_Test extends TestCase {
 	 * Tests the re_build_indexables method.
 	 *
 	 * @covers ::re_build_indexables
+	 *
+	 * @return void
 	 */
 	public function test_re_build_indexables() {
 		$repo       = \YoastSEO()->classes->get( Indexable_Repository::class );

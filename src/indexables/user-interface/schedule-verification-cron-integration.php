@@ -31,6 +31,8 @@ class Schedule_Verification_Cron_Integration implements Integration_Interface {
 
 	/**
 	 * Registers the action with WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_activate', [ $this->cron_schedule_handler, 'schedule_indexable_verification' ] );

@@ -66,24 +66,12 @@ class Verification_No_Timestamp_Cron_Callback_Integration implements Integration
 	/**
 	 * The constructor.
 	 *
-	 * @param Cron_Verification_Gate                          $cron_verification_gate                   The cron
-	 *                                                                                                  verification
-	 *                                                                                                  gate.
-	 * @param Verification_Cron_Schedule_Handler              $cron_schedule_handler                    The cron
-	 *                                                                                                  schedule
-	 *                                                                                                  handler.
-	 * @param Options_Helper                                  $options_helper                           The options
-	 *                                                                                                  helper.
-	 * @param Verification_Cron_Batch_Handler                 $cron_batch_handler                       The cron batch
-	 *                                                                                                  handler.
-	 * @param Verify_Non_Timestamp_Indexables_Command_Handler $non_timestamp_indexables_command_handler The non
-	 *                                                                                                  timestamp
-	 *                                                                                                  indexables
-	 *                                                                                                  command
-	 *                                                                                                  handler.
-	 * @param Next_Verification_Action_Handler                $verification_action_handler              The
-	 *                                                                                                  verification
-	 *                                                                                                  action handler.
+	 * @param Cron_Verification_Gate                          $cron_verification_gate                   The cron verification gate.
+	 * @param Verification_Cron_Schedule_Handler              $cron_schedule_handler                    The cron schedule handler.
+	 * @param Options_Helper                                  $options_helper                           The options helper.
+	 * @param Verification_Cron_Batch_Handler                 $cron_batch_handler                       The cron batch handler.
+	 * @param Verify_Non_Timestamp_Indexables_Command_Handler $non_timestamp_indexables_command_handler The non timestamp indexables command handler.
+	 * @param Next_Verification_Action_Handler                $verification_action_handler              The verification action handler.
 	 */
 	public function __construct(
 		Cron_Verification_Gate $cron_verification_gate,
@@ -103,6 +91,8 @@ class Verification_No_Timestamp_Cron_Callback_Integration implements Integration
 
 	/**
 	 * Registers the hooks with WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action(

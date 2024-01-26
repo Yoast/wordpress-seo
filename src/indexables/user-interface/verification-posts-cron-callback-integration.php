@@ -69,6 +69,8 @@ class Verification_Posts_Cron_Callback_Integration implements Integration_Interf
 
 	/**
 	 * Registers the hooks with WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action(

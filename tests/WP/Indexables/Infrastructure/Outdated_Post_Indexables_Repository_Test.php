@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Indexables\Infrastructure\Outdated_Post_Indexables_Repository
  */
-final class Dismiss_New_Route_Test extends TestCase {
+final class Outdated_Post_Indexables_Repository_Test extends TestCase {
 
 	/**
 	 * The post object.
@@ -39,6 +39,8 @@ final class Dismiss_New_Route_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function setUp(): void {
 		parent::setUp();
@@ -57,16 +59,6 @@ final class Dismiss_New_Route_Test extends TestCase {
 			\YoastSEO()->classes->get( Indexable_Repository::class )
 		);
 
-		$post1 = self::factory()->post->create_and_get(
-			[
-				'post_type'         => 'post',
-				'post_date'         => '2022-09-13 08:50:00',
-				'post_modified_gmt' => '2022-09-13 08:50:00',
-				'post_status'       => 'publish',
-				'post_author'       => $this->user_id,
-			]
-		);
-
 		$this->post2 = self::factory()->post->create_and_get(
 			[
 				'post_type'         => 'post',
@@ -83,6 +75,8 @@ final class Dismiss_New_Route_Test extends TestCase {
 	 *
 	 * @covers ::get_outdated_post_indexables
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_get_no_outdated_indexables() {
 		$last_batch = new Last_Batch_Count( 0 );
@@ -94,12 +88,14 @@ final class Dismiss_New_Route_Test extends TestCase {
 	 * Tests the get_outdated_post_indexables method.
 	 *
 	 * @covers ::get_outdated_post_indexables
+	 *
+	 * @return void
 	 */
 	public function test_get_outdated_indexables_with_outdated_post() {
 		$last_batch = new Last_Batch_Count( 0 );
 		global $wpdb;
 		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Will be supported later.
-		$db_result = $wpdb->query( $wpdb->prepare( " UPDATE %i SET %i='2022-11-24 13:10:39' where id=%d", [ $wpdb->posts, 'post_modified_gmt', $this->post2->ID ] ) );
+		$wpdb->query( $wpdb->prepare( " UPDATE %i SET %i='2022-11-24 13:10:39' where id=%d", [ $wpdb->posts, 'post_modified_gmt', $this->post2->ID ] ) );
 		// phpcs:enable
 		$result = $this->instance->get_outdated_post_indexables( $last_batch );
 

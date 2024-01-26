@@ -70,6 +70,8 @@ class Verify_Post_Indexables_Command_Handler {
 	 * Handles the Verify_Post_Indexables_Command command.
 	 *
 	 * @param Verify_Post_Indexables_Command $verify_post_indexables_command The command.
+	 *
+	 * @return void
 	 */
 	public function handle( Verify_Post_Indexables_Command $verify_post_indexables_command ): void {
 		try {

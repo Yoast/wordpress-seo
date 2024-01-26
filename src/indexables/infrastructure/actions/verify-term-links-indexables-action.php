@@ -110,6 +110,7 @@ class Verify_Term_Links_Indexables_Action implements Verify_Indexables_Action_In
 	private function get_query( $limit, $batch_size ) {
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
 		$public_taxonomies = $this->taxonomy->get_indexable_taxonomies();
+		$replacements      = [];
 		$replacements[]    = $taxonomy_table;
 		$replacements      = \array_merge( $replacements, $public_taxonomies );
 

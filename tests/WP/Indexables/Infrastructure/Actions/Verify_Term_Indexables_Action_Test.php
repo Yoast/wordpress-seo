@@ -25,6 +25,8 @@ final class Verify_Term_Indexables_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function setUp(): void {
 		parent::setUp();
@@ -47,6 +49,8 @@ final class Verify_Term_Indexables_Action_Test extends TestCase {
 	 * Tests the re_build_indexables method.
 	 *
 	 * @covers ::re_build_indexables
+	 *
+	 * @return void
 	 */
 	public function test_re_build_indexables() {
 		$last_batch      = new Last_Batch_Count( 0 );
@@ -65,6 +69,8 @@ final class Verify_Term_Indexables_Action_Test extends TestCase {
 	 * Tests the re_build_indexables method.
 	 *
 	 * @covers ::re_build_indexables
+	 *
+	 * @return void
 	 */
 	public function test_re_build_indexables_with_continue() {
 		$last_batch      = new Last_Batch_Count( 0 );

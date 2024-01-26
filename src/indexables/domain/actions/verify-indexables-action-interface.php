@@ -27,7 +27,7 @@ interface Verify_Indexables_Action_Interface {
 	 *
 	 * @param wpdb $wpdb The wpdb instance.
 	 *
-	 * @return mixed
+	 * @return void
 	 * @required
 	 */
 	public function set_wpdb( wpdb $wpdb );

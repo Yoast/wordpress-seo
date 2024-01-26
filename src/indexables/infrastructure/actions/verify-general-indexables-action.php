@@ -55,7 +55,7 @@ class Verify_General_Indexables_Action implements Verify_Indexables_Action_Inter
 	 *
 	 * @return bool
 	 */
-	public function re_build_indexables( Last_Batch_Count $last_batch_count, Batch_Size $batch_size ): bool {
+	public function re_build_indexables( Last_Batch_Count $last_batch_count, Batch_Size $batch_size ): bool { // @phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Because these come from the interface, and are not used for this particular implementation
 
 		$system_page = $this->repository->find_for_system_page( '404', false );
 		$this->indexable_builder->build_for_system_page( '404', $system_page );
