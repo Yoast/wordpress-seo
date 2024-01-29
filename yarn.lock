@@ -27,7 +27,7 @@
   dependencies:
     default-browser-id "3.0.0"
 
-"@babel/cli@^7.17.10", "@babel/cli@^7.23.4":
+"@babel/cli@^7.17.10", "@babel/cli@^7.23.9":
   version "7.23.9"
   resolved "https://registry.yarnpkg.com/@babel/cli/-/cli-7.23.9.tgz#06b3e76376ee53f14ac8ac422c884950c69e1b9e"
   integrity sha512-vB1UXmGDNEhcf1jNAHKT9IlYk1R+hehVTLFlCLHBi8gfuHQGP6uRjgXVYU0EVlI/qwAWpstqkBdf2aez3/z/5Q==
@@ -84,7 +84,7 @@
     json5 "^2.2.3"
     semver "^6.3.1"
 
-"@babel/core@^7.18.9", "@babel/core@^7.23.0", "@babel/core@^7.23.2", "@babel/core@^7.23.7":
+"@babel/core@^7.18.9", "@babel/core@^7.23.0", "@babel/core@^7.23.2", "@babel/core@^7.23.9":
   version "7.24.0"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.24.0.tgz#56cbda6b185ae9d9bed369816a8f4423c5f2ff1b"
   integrity sha512-fQfkg0Gjkza3nf0c7/w6Xf34BW4YvzNfACRLmmb7XRLa6XHdR+K9AlJlxneFfWYf6uhOzuzZVTjF/8KfndZANw==
@@ -114,7 +114,7 @@
     eslint-visitor-keys "^2.1.0"
     semver "^6.3.1"
 
-"@babel/eslint-parser@^7.23.3":
+"@babel/eslint-parser@^7.23.9":
   version "7.23.10"
   resolved "https://registry.yarnpkg.com/@babel/eslint-parser/-/eslint-parser-7.23.10.tgz#2d4164842d6db798873b40e0c4238827084667a2"
   integrity sha512-3wSYDPZVnhseRnxRJH6ZVTNknBz76AEnyC+AYYhasjP3Yy23qz0ERR7Fcd2SHmYuSFJ2kY9gaaDd3vyqU09eSw==
@@ -368,7 +368,7 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.23.6.tgz#ba1c9e512bda72a47e285ae42aff9d2a635a9e3b"
   integrity sha512-Z2uID7YJ7oNvAI20O9X0bblw7Qqs8Q2hFy0R9tAfnfLkp5MW0UH9eUvnDSnFwKZ0AvgS1ucqR4KzvVHgnke1VQ==
 
-"@babel/parser@^7.20.7", "@babel/parser@^7.23.0", "@babel/parser@^7.24.0":
+"@babel/parser@^7.20.7", "@babel/parser@^7.23.0", "@babel/parser@^7.23.9", "@babel/parser@^7.24.0":
   version "7.24.0"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.24.0.tgz#26a3d1ff49031c53a97d03b604375f028746a9ac"
   integrity sha512-QuP/FxEAzMSjXygs8v4N9dvdXzEHN4W1oF3PxuWAtPo08UdM17u89RDMgjLn/mlc56iM0HlLmVkO/wgR+rDgHg==
@@ -966,7 +966,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.22.5"
 
-"@babel/plugin-transform-runtime@^7.16.0", "@babel/plugin-transform-runtime@^7.17.12", "@babel/plugin-transform-runtime@^7.23.7":
+"@babel/plugin-transform-runtime@^7.16.0", "@babel/plugin-transform-runtime@^7.17.12":
   version "7.23.7"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-runtime/-/plugin-transform-runtime-7.23.7.tgz#52bbd20054855beb9deae3bee9ceb05289c343e6"
   integrity sha512-fa0hnfmiXc9fq/weK34MUV0drz2pOL/vfKWvN7Qw127hiUPabFCUMgAbYWcchRzMJit4o5ARsK/s+5h0249pLw==
@@ -976,6 +976,18 @@
     babel-plugin-polyfill-corejs2 "^0.4.7"
     babel-plugin-polyfill-corejs3 "^0.8.7"
     babel-plugin-polyfill-regenerator "^0.5.4"
+    semver "^6.3.1"
+
+"@babel/plugin-transform-runtime@^7.23.9":
+  version "7.24.0"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-runtime/-/plugin-transform-runtime-7.24.0.tgz#e308fe27d08b74027d42547081eefaf4f2ffbcc9"
+  integrity sha512-zc0GA5IitLKJrSfXlXmp8KDqLrnGECK7YRfQBmEKg1NmBOQ7e+KuclBEKJgzifQeUYLdNiAw4B4bjyvzWVLiSA==
+  dependencies:
+    "@babel/helper-module-imports" "^7.22.15"
+    "@babel/helper-plugin-utils" "^7.24.0"
+    babel-plugin-polyfill-corejs2 "^0.4.8"
+    babel-plugin-polyfill-corejs3 "^0.9.0"
+    babel-plugin-polyfill-regenerator "^0.5.5"
     semver "^6.3.1"
 
 "@babel/plugin-transform-shorthand-properties@^7.23.3":
@@ -1055,7 +1067,7 @@
     "@babel/helper-create-regexp-features-plugin" "^7.22.15"
     "@babel/helper-plugin-utils" "^7.22.5"
 
-"@babel/preset-env@^7.16.0", "@babel/preset-env@^7.20.2", "@babel/preset-env@^7.23.8":
+"@babel/preset-env@^7.16.0", "@babel/preset-env@^7.20.2":
   version "7.23.8"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.23.8.tgz#7d6f8171ea7c221ecd28059e65ad37c20e441e3e"
   integrity sha512-lFlpmkApLkEP6woIKprO6DO60RImpatTQKtz4sUcDjVcK8M8mQ4sZsuxaTMNOZf0sqAq/ReYW1ZBHnOQwKpLWA==
@@ -1227,7 +1239,7 @@
     core-js-compat "^3.31.0"
     semver "^6.3.1"
 
-"@babel/preset-env@^7.23.2":
+"@babel/preset-env@^7.23.2", "@babel/preset-env@^7.23.9":
   version "7.24.0"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.24.0.tgz#11536a7f4b977294f0bdfad780f01a8ac8e183fc"
   integrity sha512-ZxPEzV9IgvGn73iK0E6VB9/95Nd7aMFpbE0l8KQFDG70cOV9IxRP7Y2FUPmlK0v6ImlLqYX50iuZ3ZTVhOF2lA==
