@@ -659,7 +659,7 @@ class Settings_Integration implements Integration_Interface {
 			$defaults['wpseo_titles']['org-phone']  = $local_options['location_phone'];
 		}
 
-		if ( $multiple_locations === 'on' && $same_organization === 'on' && \wpseo_has_primary_location() ) {
+		if ( \wpseo_has_primary_location() ) {
 			$primary_location = $local_options['multiple_locations_primary_location'];
 
 			$location_keys = [
