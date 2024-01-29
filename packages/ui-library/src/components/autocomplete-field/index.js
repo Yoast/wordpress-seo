@@ -41,7 +41,8 @@ const AutocompleteField = forwardRef( ( {
 			/>
 			{ validation?.message && (
 				<ValidationMessage
-					variant={ validation?.variant } id={ ids.validation }
+					variant={ validation?.variant }
+					id={ ids.validation }
 					className="yst-autocomplete-field__validation"
 				>{ validation.message }</ValidationMessage>
 			) }
