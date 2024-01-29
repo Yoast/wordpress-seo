@@ -631,7 +631,9 @@ class Settings_Integration implements Integration_Interface {
 			}
 		}
 
-		$defaults = $this->get_defaults_from_local_seo( $defaults );
+		if ( \defined( 'WPSEO_LOCAL_FILE' ) ) {
+			$defaults = $this->get_defaults_from_local_seo( $defaults );
+		}
 
 		return $defaults;
 	}
@@ -645,9 +647,6 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array<string|int|bool> The settings defaults with local seo overides.
 	 */
 	protected function get_defaults_from_local_seo( $defaults ) {
-		if ( ! \defined( 'WPSEO_LOCAL_FILE' ) ) {
-			return $defaults;
-		}
 		$local_options      = \get_option( 'wpseo_local' );
 		$multiple_locations = $local_options['use_multiple_locations'];
 		$same_organization  = $local_options['multiple_locations_same_organization'];
