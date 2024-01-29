@@ -464,7 +464,7 @@ class Settings_Integration implements Integration_Interface {
 
 		$business_settings_url = \get_admin_url( null, 'admin.php?page=wpseo_local' );
 		if ( \defined( 'WPSEO_LOCAL_FILE' ) ) {
-			$local_options      = WPSEO_Options::get_option( 'wpseo_local' );
+			$local_options      = \get_option( 'wpseo_local' );
 			$multiple_locations = $local_options['use_multiple_locations'];
 			$same_organization  = $local_options['multiple_locations_same_organization'];
 			if ( $multiple_locations === 'on' && $same_organization !== 'on' ) {
@@ -648,7 +648,7 @@ class Settings_Integration implements Integration_Interface {
 		if ( ! \defined( 'WPSEO_LOCAL_FILE' ) ) {
 			return $defaults;
 		}
-		$local_options      = WPSEO_Options::get_option( 'wpseo_local' );
+		$local_options      = \get_option( 'wpseo_local' );
 		$multiple_locations = $local_options['use_multiple_locations'];
 		$same_organization  = $local_options['multiple_locations_same_organization'];
 		$shared_info        = $local_options['multiple_locations_shared_business_info'];
