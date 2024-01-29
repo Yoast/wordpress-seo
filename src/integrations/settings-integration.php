@@ -682,9 +682,10 @@ class Settings_Integration implements Integration_Interface {
 			];
 
 			foreach ( $location_keys as $key => $meta_keys ) {
-				$is_overridden = \get_post_meta( $primary_location, $meta_keys['is_overridden'], true );
-				if ( ( $shared_info === 'on' && $is_overridden && $is_overridden === 'on' ) || $shared_info !== 'on' ) {
-					$defaults['wpseo_titles'][ $key ] = ( \get_post_meta( $primary_location, $meta_keys['value'], true ) ?? '' );
+				$is_overridden = ( $shared_info === 'on' ) ? \get_post_meta( $primary_location, $meta_keys['is_overridden'], true ) : false;
+				if ( $is_overridden === 'on' || $shared_info !== 'on' ) {
+					$post_meta_value                  = \get_post_meta( $primary_location, $meta_keys['value'], true );
+					$defaults['wpseo_titles'][ $key ] = ( $post_meta_value ) ? $post_meta_value : '';
 				}
 			}
 		}
