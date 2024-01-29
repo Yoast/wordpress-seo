@@ -83,7 +83,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 * Adds an author property to the $data if the WebPage is not represented.
 	 *
 	 * @param array<string|array<string>> $data The WebPage schema.
-	 * @param WP_Post                                   $post The post the context is representing.
+	 * @param WP_Post                     $post The post the context is representing.
 	 *
 	 * @return array<string|array<string>> The WebPage schema.
 	 */
