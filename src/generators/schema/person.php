@@ -149,7 +149,7 @@ class Person extends Abstract_Schema_Piece {
 			$data['description'] = $this->helpers->schema->html->smart_strip_tags( $user_data->description );
 		}
 
-		if ( \in_array( 'ProfilePage', $this->context->schema_page_type, true ) ) {
+		if ( ! \is_null( $this->context->schema_page_type ) && \in_array( 'ProfilePage', $this->context->schema_page_type, true ) ) {
 			$data['mainEntityOfPage'] = [
 				'@id' => $this->context->main_schema_id,
 			];
