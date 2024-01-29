@@ -595,6 +595,12 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	font-size: 1rem;
 }
 
+.yoast-sidebar__product .price-micro-copy {
+	font-size: 11px;
+	text-align: center;
+	line-height: 19px;
+}
+
 .yoast-sidebar__product .plugin-buy-button .yoast-button-upsell {
 	width: 100%;
 }

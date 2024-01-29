@@ -20,7 +20,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 		$title = \__( 'BLACK FRIDAY - 30% OFF', 'wordpress-seo' );
 
 		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
-		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
+		$buy_yoast_seo_shortlink = 'https://yoast.com/checkout/?yst-add-to-cart=2811749';
 		\ob_start();
 		?>
 			<div class="wpseo_content_cell" id="sidebar-container">
@@ -81,11 +81,16 @@ class Sidebar_Presenter extends Abstract_Presenter {
 								}
 								else {
 									/* translators: %s expands to Yoast SEO Premium */
-									\printf( \esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+									\printf( \esc_html__( 'Explore %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 								}
 								?>
 								<span aria-hidden="true" class="yoast-button-upsell__caret"></span>
 							</a>
+						</p>
+						<p class="price-micro-copy">
+							<?php
+								echo \esc_html__( 'Only $/€/£99 per year (ex VAT) 30-day money back guarantee - No questions asked.', 'wordpress-seo' );
+							?>
 						</p>
 						<div class="review-container">
 							<a href="https://www.g2.com/products/yoast-yoast/reviews" target="_blank" rel="noopener">
