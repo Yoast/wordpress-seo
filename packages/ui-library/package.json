@@ -75,9 +75,11 @@
     "classnames": "^2.3.2",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-animate-height": "^3.1.0",
     "react-error-boundary": "^3.1.4"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
