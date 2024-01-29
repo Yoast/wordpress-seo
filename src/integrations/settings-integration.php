@@ -640,9 +640,9 @@ class Settings_Integration implements Integration_Interface {
 	 * Retrieves the organization schema values from Local SEO for defaults in Site representation fields.
 	 * Specifically for the org-vat-id, org-tax-id, org-email and org-phone options.
 	 *
-	 * @param array<string|int|bool> $post_types The post types.
+	 * @param array<string|int|bool> $defaults The settings defaults.
 	 *
-	 * @return array<string|int|bool> The schema.
+	 * @return array<string|int|bool> The settings defaults with local seo overides.
 	 */
 	protected function get_defaults_from_local_seo( $defaults ) {
 		if ( ! \defined( 'WPSEO_LOCAL_FILE' ) ) {

@@ -418,10 +418,38 @@ final class Settings_Integration_Test extends TestCase {
 		$this->assertSame( $expected, $result );
 	}
 
+		/**
+		 * Tests get_defaults_from_local_seo when local seo is not active.
+		 *
+		 * @covers ::get_defaults_from_local_seo
+		 * @return void
+		 */
+	public function test_get_defaults_from_local_seo_when_local_seo_is_not_active() {
+		$defaults = [
+			'wpseo_titles' => [
+				'org-email'                        => 'test@example.com',
+				'org-phone'                        => '+91 1234567890',
+				'org-vat-id'                       => '888888',
+				'org-tax-id'                       => '108108',
+			],
+		];
+
+		Monkey\Functions\expect( 'get_option' )
+			->never()
+			->with( 'wpseo_local' );
+
+		Monkey\Functions\expect( 'wpseo_has_primary_location' )
+			->never();
+
+		$result = $this->instance_double->get_defaults_from_local_seo( $defaults );
+
+		$this->assertSame( $result, $defaults );
+	}
+
 	/**
 	 * Data provider for test_get_defaults_from_local_seo.
 	 *
-	 * @return array
+	 * @return array<string,array<string,bool,int>>
 	 */
 	public static function data_provider_get_defaults_from_local_seo() {
 		$shared_info_expected = [
@@ -461,7 +489,6 @@ final class Settings_Integration_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_get_defaults_from_local_seo
 	 *
-	 * @param bool          $is_local_seo_active      Whether local seo is active.
 	 * @param int           $should_local_get_options Whether local seo should get options.
 	 * @param string        $multiple_locations       Whether multiple locations are enabled.
 	 * @param string        $same_organization        Whether same organization is enabled.
@@ -473,7 +500,9 @@ final class Settings_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_defaults_from_local_seo( $should_local_get_options, $multiple_locations, $same_organization, $primary_location, $shared_info, $has_primary_location, $expected ) {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! \defined( 'WPSEO_LOCAL_FILE' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 			\define( 'WPSEO_LOCAL_FILE', true );
 		}
 		$defaults = [
@@ -511,44 +540,15 @@ final class Settings_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests get_defaults_from_local_seo when local seo is not active.
-	 *
-	 * @covers ::get_defaults_from_local_seo
-	 * @return void
-	 */
-	public function test_get_defaults_from_local_seo_when_local_seo_is_not_active() {
-		if ( \defined( 'WPSEO_LOCAL_FILE' ) ) {
-			\define( 'WPSEO_LOCAL_FILE', false );
-		}
-		$defaults = [
-			'wpseo_titles' => [
-				'org-email'                        => 'test@example.com',
-				'org-phone'                        => '+91 1234567890',
-				'org-vat-id'                       => '888888',
-				'org-tax-id'                       => '108108',
-			],
-		];
-
-		Monkey\Functions\expect( 'get_option' )
-			->never()
-			->with( 'wpseo_local' );
-
-		Monkey\Functions\expect( 'wpseo_has_primary_location' )
-			->never();
-
-		$result = $this->instance_double->get_defaults_from_local_seo( $defaults );
-
-		$this->assertSame( $result, $defaults );
-	}
-
-	/**
 	 * Tests get_defaults_from_local_seo when there is primary location.
 	 *
 	 * @covers ::get_defaults_from_local_seo
 	 * @return void
 	 */
 	public function test_get_defaults_from_local_seo_when_there_is_primary_location() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! \defined( 'WPSEO_LOCAL_FILE' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 			\define( 'WPSEO_LOCAL_FILE', true );
 		}
 		$defaults = [
@@ -618,9 +618,12 @@ final class Settings_Integration_Test extends TestCase {
 	 * Tetst get_defaults_from_local_seo with shared business info and primary location.
 	 *
 	 * @covers ::get_defaults_from_local_seo
+	 * @return void
 	 */
 	public function test_get_defaults_from_local_seo_with_shared_business_info_and_primary_location() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! \defined( 'WPSEO_LOCAL_FILE' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 			\define( 'WPSEO_LOCAL_FILE', true );
 		}
 		$defaults = [
