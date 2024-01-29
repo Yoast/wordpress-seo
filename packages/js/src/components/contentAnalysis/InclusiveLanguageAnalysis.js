@@ -88,8 +88,8 @@ const InclusiveLanguageAnalysis = ( props ) => {
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ props.marksButtonStatus }
 					resultCategoryLabels={ {
-						problems: __( "Non-inclusive phrases", "wordpress-seo" ),
-						improvements: __( "Potentially non-inclusive phrases", "wordpress-seo" ),
+						problems: __( "Non-inclusive", "wordpress-seo" ),
+						improvements: __( "Potentially non-inclusive", "wordpress-seo" ),
 					} }
 					highlightingUpsellLink={ highlightingUpsellLink }
 					shouldUpsellHighlighting={ props.shouldUpsellHighlighting }
