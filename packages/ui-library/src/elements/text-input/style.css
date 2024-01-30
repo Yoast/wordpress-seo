@@ -32,5 +32,17 @@
 			yst-bg-slate-50
 			yst-cursor-default;
 		}
+
+		.yst-text-input[type="date"]::-webkit-calendar-picker-indicator{
+			@apply yst-p-0 yst-bg-center yst-bg-contain yst-w-5 yst-h-5;
+			background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="rgba(148, 163, 184, 1)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>');
+		}
+		.yst-text-input--empty[type="date"]:not(:focus)::-webkit-datetime-edit {
+			@apply yst-opacity-0;
+		}
+		.yst-text-input--empty[type="date"]:not(:focus)::before {
+			content: attr(placeholder);
+			@apply yst-text-slate-400 yst-flex-grow;
+		}
 	}
 }

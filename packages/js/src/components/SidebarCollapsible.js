@@ -32,6 +32,7 @@ const SidebarCollapsible = ( props ) => {
 				onClick={ handleClick }
 				className="components-button components-panel__body-toggle"
 				type="button"
+				id={ props.buttonId }
 			>
 				<span
 					className="yoast-icon-span"
@@ -69,10 +70,12 @@ SidebarCollapsible.propTypes = {
 	prefixIcon: PropTypes.object,
 	subTitle: PropTypes.string,
 	hasBetaBadgeLabel: PropTypes.bool,
+	buttonId: PropTypes.string,
 };
 
 SidebarCollapsible.defaultProps = {
 	prefixIcon: null,
 	subTitle: "",
 	hasBetaBadgeLabel: false,
+	buttonId: null,
 };
