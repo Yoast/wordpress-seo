@@ -78,7 +78,7 @@ This PR affects the following parts of the plugin, which may require extra testi
 
 ## Documentation
 
-* [ ] I have written documentation for this change.
+* [ ] I have written documentation for this change. For example, comments in the Relevant technical choices, comments in the code, documentation on Confluence / shared Google Drive / [Yoast developer portal](https://developer.yoast.com/), or other.
 
 ## Quality assurance
 
