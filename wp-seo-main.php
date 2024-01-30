@@ -342,27 +342,23 @@ function wpseo_init() {
 	WPSEO_Meta::init();
 
 	if ( version_compare( WPSEO_Options::get( 'version', 1 ), WPSEO_VERSION, '<' ) ) {
-		global $wp_filesystem;
-
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 
-		/*
-		 * We invalidate each subdir and the main files instead of the whole `wordpress-seo` dir
-		 * to avoid any timeout or resource exhaustion when building from source.
-		 */
 		if ( function_exists( 'wp_opcache_invalidate' ) ) {
 			// Since WP 5.5.
 			wp_opcache_invalidate( WPSEO_PATH . 'wp-seo-main.php' );
 			wp_opcache_invalidate( WPSEO_PATH . 'wp-seo.php' );
 		}
-		if ( function_exists( 'wp_opcache_invalidate_directory' ) ) {
-			// Since WP 6.2.
-			wp_opcache_invalidate_directory( WPSEO_PATH . 'admin' );
-			wp_opcache_invalidate_directory( WPSEO_PATH . 'inc' );
-			wp_opcache_invalidate_directory( WPSEO_PATH . 'lib' );
-			wp_opcache_invalidate_directory( WPSEO_PATH . 'src' );
-			wp_opcache_invalidate_directory( WPSEO_PATH . 'vendor' );
-			wp_opcache_invalidate_directory( WPSEO_PATH . 'vendor_prefixed' );
+
+		$skip_opcache_reset = wpseo_maybe_invalidate_directories();
+
+		/**
+		 * Filter: Adds the possibility to skip the opcache reset if invalidation dir by dir was not performed.
+		 *
+		 * @param bool $skip_opcache_reset Whether the opcache reset should be skipped.
+		 */
+		if ( ! apply_filters( 'wpseo_skip_opcache_reset', $skip_opcache_reset ) ) {
+			@opcache_reset();
 		}
 
 		new WPSEO_Upgrade();
@@ -390,6 +386,35 @@ function wpseo_init() {
 	foreach ( $integrations as $integration ) {
 		$integration->register_hooks();
 	}
+}
+
+/**
+ * Detects the FS access method and if possible invalidates the plugin directories.
+ *
+ * @return bool
+ */
+function wpseo_maybe_invalidate_directories() {
+	if ( ! function_exists( 'wp_opcache_invalidate_directory' ) ) {
+		return false;
+	}
+
+	ob_start();
+	$credentials = request_filesystem_credentials( admin_url() );
+	ob_end_clean();
+
+	if ( $credentials === false || ! WP_Filesystem( $credentials ) ) {
+		return false;
+	}
+
+	// Since WP 6.2.
+	wp_opcache_invalidate_directory( WPSEO_PATH . 'admin' );
+	wp_opcache_invalidate_directory( WPSEO_PATH . 'inc' );
+	wp_opcache_invalidate_directory( WPSEO_PATH . 'lib' );
+	wp_opcache_invalidate_directory( WPSEO_PATH . 'src' );
+	wp_opcache_invalidate_directory( WPSEO_PATH . 'vendor' );
+	wp_opcache_invalidate_directory( WPSEO_PATH . 'vendor_prefixed' );
+
+	return true;
 }
 
 /**
