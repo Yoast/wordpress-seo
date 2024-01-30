@@ -74,6 +74,10 @@ final class Upgrade_Double extends WPSEO_Upgrade {
 		parent::upgrade_50();
 	}
 
+	public function upgrade_74() {
+		parent::upgrade_74();
+	}
+
 	public function upgrade_90() {
 		parent::upgrade_90();
 	}

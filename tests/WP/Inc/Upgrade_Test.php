@@ -430,6 +430,26 @@ final class Upgrade_Test extends TestCase {
 		$this->assertEmpty( $private_taxonomy_indexables );
 	}
 
+	public function test_upgrade_74() {
+		global $wpdb;
+
+		\add_option( 'wpseo_sitemap_video_cache_validator', 'test no autoload', '', 'no' );
+
+		$instance = $this->get_instance();
+		$instance->upgrade_74();
+
+		$number_of_sitemap_validators = $wpdb->query(
+			$wpdb->prepare(
+				"SELECT *
+				FROM %i
+				WHERE option_name LIKE %s",
+				[ $wpdb->options, 'wpseo_sitemap%validator%' ]
+			)
+		);
+
+		$this->assertEquals( 0, $number_of_sitemap_validators );
+	}
+
 	/**
 	 * Provides a filter return value.
 	 *

@@ -560,7 +560,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade_74() {
+	protected function upgrade_74() {
 		$this->remove_sitemap_validators();
 	}
 
