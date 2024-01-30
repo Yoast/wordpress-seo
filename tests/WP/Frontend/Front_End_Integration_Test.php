@@ -156,11 +156,11 @@ final class Front_End_Integration_Test extends TestCase {
 				'expected' => 'https://example.org/?query-1-page=2',
 			],
 			'full url' => [
-				'link'     => 'https://example.org/?query-1-page=3',
+				'link'     => 'https://example.org/?query-1-page=2',
 				'rel'      => 'prev',
 				'prev'     => '<a href="https://example.org/?query-1-page=2">Prev</a>',
 				'next'     => '<a href="https://example.org/?query-1-page=4">Next</a>',
-				'expected' => 'https://example.org/?query-1-page=3',
+				'expected' => 'https://example.org/?query-1-page=2',
 			],
 		];
 	}
