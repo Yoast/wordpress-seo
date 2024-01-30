@@ -308,7 +308,7 @@ class Front_End_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Returns correct adjacent pages when QUery loop block does not inherit query from template.
+	 * Returns correct adjacent pages when Query loop block does not inherit query from template.
 	 *
 	 * @param string                      $link         The current link.
 	 * @param string                      $rel          Link relationship, prev or next.
