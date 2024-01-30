@@ -1,4 +1,5 @@
 import { assessments, helpers, languageProcessing } from "yoastseo";
+const { processingHelpers: { countMetaDescriptionLength } } = languageProcessing;
 
 /**
  * Gets the title progress.
@@ -36,7 +37,7 @@ export const getTitleProgress = ( title ) => {
  * @returns {Object} The description progress.
  */
 export const getDescriptionProgress = ( description, date, isCornerstone, isTaxonomy, locale ) => {
-	const descriptionLength = languageProcessing.countMetaDescriptionLength( date, description );
+	const descriptionLength = countMetaDescriptionLength( date, description );
 
 	// Override the default config if the cornerstone content toggle is on and it is not a taxonomy page.
 	const metaDescriptionLengthAssessment = ( isCornerstone && ! isTaxonomy ) ? new assessments.seo.MetaDescriptionLengthAssessment( {

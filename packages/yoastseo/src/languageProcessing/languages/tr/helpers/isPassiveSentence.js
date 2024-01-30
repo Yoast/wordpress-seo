@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { getWords } = languageProcessing;
+const { processingHelpers: { getWords } } = languageProcessing;
 
 import passiveEndings from "../config/internal/passiveEndings";
 import { nonPassivesFullForms, nonPassiveStems } from "../config/internal/nonPassiveExceptions";

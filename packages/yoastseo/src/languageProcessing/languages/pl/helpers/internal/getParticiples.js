@@ -1,6 +1,6 @@
 import { includes } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-const { getWords } = languageProcessing;
+const { processingHelpers: { getWords } } = languageProcessing;
 
 import participles from "../../config/internal/participles";
 

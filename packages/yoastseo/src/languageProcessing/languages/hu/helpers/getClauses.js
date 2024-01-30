@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { getClausesSplitOnStopWords, createRegexFromArray } = languageProcessing;
+const { processingHelpers: { getClausesSplitOnStopWords, createRegexFromArray } } = languageProcessing;
 
 import HungarianClause from "../values/Clause";
 import auxiliaries from "../config/internal/auxiliaries.js";

@@ -14,10 +14,11 @@ import { decodeHTML, getDirectionalStyle } from "@yoast/helpers";
 import { ScreenReaderText } from "@yoast/components";
 
 const {
-	transliterate,
-	createRegexFromArray,
-	replaceDiacritics: replaceSpecialCharactersAndDiacritics,
-} = languageProcessing;
+	processingHelpers: {
+		transliterate,
+		createRegexFromArray,
+		replaceDiacritics: replaceSpecialCharactersAndDiacritics,
+	} } = languageProcessing;
 
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
@@ -266,8 +267,8 @@ const MobilePartContainer = styled.div`
 `;
 
 const SiteName = styled.div`
-	line-height: 18x; 
-	font-size: 14px; 
+	line-height: 18x;
+	font-size: 14px;
 	color: black;
 	max-width: ${ props => props.screenMode === MODE_DESKTOP ? "100%" : MOBILE_SITENAME_LIMIT };
 	overflow: hidden;

@@ -1,9 +1,4 @@
-import Clause from "./Clause";
-import ProminentWord from "./ProminentWord";
-import Sentence from "./Sentence";
+export { default as Clause } from "./Clause";
+export { default as ProminentWord } from "./ProminentWord";
+export { default as Sentence } from "./Sentence";
 
-export {
-	Clause,
-	ProminentWord,
-	Sentence,
-};

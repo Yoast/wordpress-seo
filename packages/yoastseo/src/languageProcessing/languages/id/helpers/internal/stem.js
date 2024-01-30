@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { flattenSortLength, buildFormRule, createRulesFromArrays } = languageProcessing;
+const { processingHelpers: { flattenSortLength, buildFormRule, createRulesFromArrays } } = languageProcessing;
 
 import { calculateTotalNumberOfSyllables, removeEnding, checkBeginningsList } from "./stemHelpers";
 

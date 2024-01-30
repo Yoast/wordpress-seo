@@ -20,7 +20,7 @@ THE SOFTWARE.
 */
 
 import { languageProcessing } from "yoastseo";
-const { createSingleRuleFromArray, createRulesFromArrays } = languageProcessing;
+const { processingHelpers: { createSingleRuleFromArray, createRulesFromArrays } } = languageProcessing;
 
 /**
  * Determines whether a letter is a vowel.

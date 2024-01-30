@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { buildFormRule, createRulesFromArrays } = languageProcessing;
+const { processingHelpers: { buildFormRule, createRulesFromArrays } } = languageProcessing;
 
 const vowelCharacters = [ "a", "e", "i", "o", "u" ];
 

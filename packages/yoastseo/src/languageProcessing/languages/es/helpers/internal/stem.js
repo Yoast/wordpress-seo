@@ -4,10 +4,11 @@ import { languageProcessing } from "yoastseo";
 import checkVerbStemModifications from "./checkVerbStemModifications";
 
 const {
-	buildFormRule,
-	createRulesFromArrays,
-	findMatchingEndingInArray,
-} = languageProcessing;
+	processingHelpers: {
+		buildFormRule,
+		createRulesFromArrays,
+		findMatchingEndingInArray,
+	} } = languageProcessing;
 
 /**
  * Copyright (C) 2018 Domingo Martín Mancera

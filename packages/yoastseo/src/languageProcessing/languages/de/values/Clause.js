@@ -1,16 +1,12 @@
 import { includes, map } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-const { indices, values } = languageProcessing;
-const { getIndicesByWord, getIndicesByWordList } = indices;
-const { Clause } = values;
+const { processingHelpers: { indices }, values: { Clause } } = languageProcessing;
 
 import getParticiples from "../helpers/internal/getParticiples";
 import exceptionsParticiplesActive from "../config/internal/exceptionsParticiplesActive.js";
 import { participleLike as participleLikeAuxiliaries } from "../config/internal/passiveVoiceAuxiliaries.js";
 
-const exceptionsRegex =
-	/\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+-;!?:/»«‹›<>])/ig;
-
+const exceptionsRegex = /\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+-;!?:/»«‹›<>])/ig;
 
 /**
  * Creates a Clause object for the German language.
@@ -68,8 +64,8 @@ class GermanClause extends Clause {
 	 * @returns {boolean} Returns true if it is an exception, otherwise returns false.
 	 */
 	hasHabenSeinException( participle ) {
-		const participleIndices = getIndicesByWord( participle, this.getClauseText() );
-		let habenSeinIndices = getIndicesByWordList( [ "haben", "sein" ], this.getClauseText() );
+		const participleIndices = indices.getIndicesByWord( participle, this.getClauseText() );
+		let habenSeinIndices = indices.getIndicesByWordList( [ "haben", "sein" ], this.getClauseText() );
 
 		// Don't check further if there is no participle or no haben/sein.
 		if ( participleIndices.length === 0 || habenSeinIndices.length === 0 ) {

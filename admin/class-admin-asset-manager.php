@@ -8,7 +8,7 @@
 /**
  * This class registers all the necessary styles and scripts.
  *
- * Also has methods for the enqueing of scripts and styles.
+ * Also has methods for the enqueuing of scripts and styles.
  * It automatically adds a prefix to the handle.
  */
 class WPSEO_Admin_Asset_Manager {
@@ -81,7 +81,7 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
-	 * Registers scripts based on it's parameters.
+	 * Registers scripts based on its parameters.
 	 *
 	 * @param WPSEO_Admin_Asset $script The script to register.
 	 *
@@ -104,7 +104,7 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
-	 * Registers styles based on it's parameters.
+	 * Registers styles based on its parameters.
 	 *
 	 * @param WPSEO_Admin_Asset $style The style to register.
 	 *
@@ -439,7 +439,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 *     @type string   $name      The name of the asset.
 	 *     @type string   $src       The src of the asset.
-	 *     @type string[] $deps      The dependenies of the asset.
+	 *     @type string[] $deps      The dependencies of the asset.
 	 *     @type bool     $in_footer Whether or not the asset should be in the footer.
 	 * }
 	 */
@@ -485,7 +485,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 *     @type string   $name      The name of the asset.
 	 *     @type string   $src       The src of the asset.
-	 *     @type string[] $deps      The dependenies of the asset.
+	 *     @type string[] $deps      The dependencies of the asset.
 	 *     @type bool     $in_footer Whether or not the asset should be in the footer.
 	 * }
 	 */

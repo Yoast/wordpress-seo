@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { getWords } = languageProcessing;
+const { processingHelpers: { getWords } } = languageProcessing;
 
 const passiveParticipleEndings = "(ούμενους|ημένους|ούμενος|ούμενου|ούμενον|ούμενης|ούμενοι|ούμενων|ούμενες|μένους|" +
 	"ημένος|ημένου|ημένον|ημένοι|ημένων|ημένης|ημένες|ούμενη|ούμενο|ούμενα|μένος|μένου|μένον|μένοι|μένης|μένες|" +

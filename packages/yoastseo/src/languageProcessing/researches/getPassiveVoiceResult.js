@@ -1,10 +1,6 @@
-import getSentences from "../helpers/sentence/getSentences.js";
-import { stripFullTags as stripHTMLTags } from "../helpers/sanitize/stripHTMLTags.js";
-import Sentence from "../../languageProcessing/values/Sentence.js";
-
 import { forEach } from "lodash-es";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../helpers";
+import Sentence from "../values/Sentence";
+import { filterShortcodesFromHTML, getSentences, removeHtmlBlocks, stripHTMLTags } from "../helpers";
 
 /**
  * Looks for morphological passive voice.

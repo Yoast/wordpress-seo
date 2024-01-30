@@ -22,7 +22,7 @@ THE SOFTWARE.
 */
 
 import { languageProcessing } from "yoastseo";
-const { findMatchingEndingInArray } = languageProcessing;
+const { processingHelpers: { findMatchingEndingInArray } } = languageProcessing;
 
 /**
  * Checks whether the character is a vowel.

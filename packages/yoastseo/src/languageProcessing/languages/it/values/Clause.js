@@ -3,7 +3,7 @@ import { cannotDirectlyPrecedePassiveParticiple,
 	cannotBeBetweenPassiveAuxiliaryAndParticiple,
 } from "../config/functionWords.js";
 import getParticiples from "../helpers/internal/getParticiples.js";
-const { directPrecedenceException, precedenceException, values } = languageProcessing;
+const { processingHelpers: { directPrecedenceException, precedenceException }, values } = languageProcessing;
 const { Clause } = values;
 
 /**

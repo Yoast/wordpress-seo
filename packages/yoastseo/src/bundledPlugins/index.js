@@ -1,5 +1,1 @@
-import usedKeywords from "./previouslyUsedKeywords";
-
-export {
-	usedKeywords,
-};
+export { default as usedKeywords } from "./previouslyUsedKeywords";

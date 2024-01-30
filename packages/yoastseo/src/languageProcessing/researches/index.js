@@ -1,9 +1,3 @@
-import getLongCenterAlignedTexts from "./getLongCenterAlignedTexts";
-import wordComplexity from "./wordComplexity";
-import keyphraseDistribution from "./keyphraseDistribution";
-
-export {
-	getLongCenterAlignedTexts,
-	keyphraseDistribution,
-	wordComplexity,
-};
+export { default as getLongCenterAlignedTexts } from "./getLongCenterAlignedTexts";
+export { default as wordComplexity } from "./wordComplexity";
+export { default as keyphraseDistribution } from "./keyphraseDistribution";

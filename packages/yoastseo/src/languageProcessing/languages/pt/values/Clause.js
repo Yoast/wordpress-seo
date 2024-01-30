@@ -1,8 +1,8 @@
 import { languageProcessing } from "yoastseo";
 import { cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords";
 import getParticiples from "../helpers/internal/getParticiples";
-const { directPrecedenceException, values } = languageProcessing;
-const { Clause } = values;
+const { processingHelpers: { directPrecedenceException }, values: { Clause } } = languageProcessing;
+
 
 /**
  * Creates a Clause object for the Portuguese language.

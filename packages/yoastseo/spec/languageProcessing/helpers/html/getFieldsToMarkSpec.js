@@ -1,4 +1,4 @@
-import { getFieldsToMark } from "../../../../src/languageProcessing";
+import { getFieldsToMark } from "../../../../src/languageProcessing/helpers";
 import Mark from "../../../../src/values/Mark";
 
 describe( "a test to retrieve the text section to apply the marking to", () => {

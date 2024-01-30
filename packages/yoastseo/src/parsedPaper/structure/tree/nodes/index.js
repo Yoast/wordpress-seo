@@ -1,21 +1,9 @@
-import Heading from "./Heading";
-import LeafNode from "./LeafNode";
-import List from "./List";
-import ListItem from "./ListItem";
-import MetadataMiscellaneous from "./MetadataMiscellaneous";
-import MetadataText from "./MetadataText";
-import Node from "./Node";
-import Paragraph from "./Paragraph";
-import StructuredNode from "./StructuredNode";
-
-export {
-	Heading,
-	LeafNode,
-	List,
-	ListItem,
-	MetadataText,
-	MetadataMiscellaneous,
-	Node,
-	Paragraph,
-	StructuredNode,
-};
+export { default as Heading } from "./Heading";
+export { default as LeafNode } from "./LeafNode";
+export { default as List } from "./List";
+export { default as ListItem } from "./ListItem";
+export { default as MetadataMiscellaneous } from "./MetadataMiscellaneous";
+export { default as MetadataText } from "./MetadataText";
+export { default as Node } from "./Node";
+export { default as Paragraph } from "./Paragraph";
+export { default as StructuredNode } from "./StructuredNode";

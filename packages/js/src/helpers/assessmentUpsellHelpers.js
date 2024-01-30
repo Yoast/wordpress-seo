@@ -1,4 +1,5 @@
 import { languageProcessing, helpers } from "yoastseo";
+const { processingHelpers: { getLanguage } } = languageProcessing;
 
 /**
  * Checks if the content language has Word complexity assessment support.
@@ -8,7 +9,7 @@ import { languageProcessing, helpers } from "yoastseo";
 export function isWordComplexitySupported() {
 	const languagesWithSupport = helpers.getLanguagesWithWordComplexity();
 	const locale = window.wpseoScriptData.metabox.contentLocale;
-	const language = languageProcessing.getLanguage( locale );
+	const language = getLanguage( locale );
 
 	return languagesWithSupport.includes( language );
 }

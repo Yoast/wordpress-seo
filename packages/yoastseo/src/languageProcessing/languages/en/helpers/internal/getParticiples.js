@@ -1,6 +1,6 @@
 import { forEach, includes } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-const { matchRegularParticiples, getWords } = languageProcessing;
+const { processingHelpers: { matchRegularParticiples, getWords } } = languageProcessing;
 
 import irregularParticiples from "../../config/internal/passiveVoiceIrregulars";
 

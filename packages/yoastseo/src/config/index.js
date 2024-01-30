@@ -1,5 +1,1 @@
-import presenter from "./presenter";
-
-export {
-	presenter,
-};
+export { default as presenter } from "./presenter";

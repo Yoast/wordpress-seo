@@ -1,6 +1,6 @@
 import { forEach } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-const { getWords } = languageProcessing;
+const { processingHelpers: { getWords } } = languageProcessing;
 
 import regexFunctionFactory from "../../config/internal/passiveVoiceRegex.js";
 const regexFunction = regexFunctionFactory();

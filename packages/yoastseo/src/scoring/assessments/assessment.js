@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import { sanitizeString } from "../../languageProcessing";
-import { filterShortcodesFromHTML, removeHtmlBlocks } from "../../languageProcessing/helpers";
+import { filterShortcodesFromHTML, removeHtmlBlocks, sanitizeString } from "../../languageProcessing/helpers";
 
 /**
  * The base class for an Assessment.

@@ -1,3 +1,5 @@
+import { inherits } from "util";
+
 import Assessor from "./assessor.js";
 import ParagraphTooLong from "./assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "./assessments/readability/SentenceLengthInTextAssessment.js";
@@ -40,7 +42,7 @@ const ContentAssessor = function( researcher, options = {} ) {
 	];
 };
 
-require( "util" ).inherits( ContentAssessor, Assessor );
+inherits( ContentAssessor, Assessor );
 
 /**
  * Calculates the weighted rating for languages that have all assessments based on a given rating.

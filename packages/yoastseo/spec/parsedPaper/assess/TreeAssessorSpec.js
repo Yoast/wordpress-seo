@@ -1,5 +1,5 @@
 import { TreeAssessor } from "../../../src/parsedPaper/assess";
-import TreeBuilder from "../../../src/parsedPaper/build/tree";
+import { TreeBuilder } from "../../../src/parsedPaper/build/tree";
 import { TreeResearcher } from "../../../src/parsedPaper/research";
 import Paper from "../../../src/values/Paper";
 

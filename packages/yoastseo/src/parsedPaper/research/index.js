@@ -1,5 +1,3 @@
-import TreeResearcher from "./TreeResearcher";
-
 /**
  * Module for applying researches to text, represented as a tree structure.
  *
@@ -7,7 +5,4 @@ import TreeResearcher from "./TreeResearcher";
  *
  * @module parsedPaper/research
  */
-
-export {
-	TreeResearcher,
-};
+export { default as TreeResearcher } from "./TreeResearcher";

@@ -1,11 +1,12 @@
 import { languageProcessing } from "yoastseo";
+const { processingHelpers } = languageProcessing;
 const {
 	regexHelpers: { searchAndReplaceWithRegex, doesWordMatchRegex },
 	exceptionListHelpers: {
 		checkIfWordEndingIsOnExceptionList,
 		checkIfWordIsOnListThatCanHavePrefix,
 	},
-} = languageProcessing;
+} = processingHelpers;
 
 import { isVowelDoublingAllowed } from "./stemModificationHelpers";
 

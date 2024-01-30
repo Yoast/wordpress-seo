@@ -1,9 +1,10 @@
 /* eslint-disable max-statements, complexity */
 import { languageProcessing } from "yoastseo";
+const { processingHelpers } = languageProcessing;
 const {
 	exceptionListHelpers: { checkIfWordEndingIsOnExceptionList },
 	regexHelpers: { applyAllReplacements },
-} = languageProcessing;
+} = processingHelpers;
 
 /*
  * MIT License

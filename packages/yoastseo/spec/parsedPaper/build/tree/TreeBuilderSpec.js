@@ -1,4 +1,4 @@
-import TreeBuilder from "../../../../src/parsedPaper/build/tree";
+import { TreeBuilder } from "../../../../src/parsedPaper/build/tree";
 
 
 describe( "TreeBuilder", () => {

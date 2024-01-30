@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { areWordsInSentence } = languageProcessing;
+const { processingHelpers: { areWordsInSentence } } = languageProcessing;
 
 import passiveVerbs from "../config/internal/passiveVerbs";
 

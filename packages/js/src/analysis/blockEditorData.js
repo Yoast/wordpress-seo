@@ -8,6 +8,8 @@ import { reapplyAnnotationsForSelectedBlock } from "../decorator/gutenberg";
 import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCustomTaxonomies } from "../helpers/replacementVariableHelpers";
 import getContentLocale from "./getContentLocale";
 
+const { processingHelpers: { imageInText } } = languageProcessing;
+
 const {
 	updateReplacementVariable,
 	updateData,
@@ -270,7 +272,7 @@ export default class BlockEditorData {
 	 * @returns {string} The first image found in the content.
 	 */
 	calculateContentImage( content ) {
-		const images = languageProcessing.imageInText( content );
+		const images = imageInText( content );
 
 		if ( images.length === 0 ) {
 			return "";

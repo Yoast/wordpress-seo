@@ -1,10 +1,11 @@
 import { languageProcessing } from "yoastseo";
+const { processingHelpers } = languageProcessing;
 const {
 	exceptionListHelpers: {
 		checkIfWordEndingIsOnExceptionList,
 		checkIfWordIsOnListThatCanHavePrefix,
 	},
-} = languageProcessing;
+} = processingHelpers;
 
 /**
  * Checks whether the word is on any of the sub-lists of the noVowelDoublingList (ending match, exact match,

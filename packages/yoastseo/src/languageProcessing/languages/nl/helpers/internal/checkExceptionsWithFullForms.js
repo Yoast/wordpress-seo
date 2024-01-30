@@ -1,6 +1,6 @@
 import { flatten } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-const { flattenSortLength } = languageProcessing;
+const { processingHelpers: { flattenSortLength } } = languageProcessing;
 
 /**
  * Checks whether the word is on the verbs sub-list of the full forms list. Before checking the list, checks whether the word

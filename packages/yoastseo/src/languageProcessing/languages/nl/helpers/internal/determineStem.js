@@ -1,11 +1,13 @@
 import { flatten } from "lodash-es";
 import { languageProcessing } from "yoastseo";
+const { processingHelpers } = languageProcessing;
+
 const {
 	flattenSortLength,
 	exceptionListHelpers: {
 		checkExceptionListWithTwoStems,
 	},
-} = languageProcessing;
+} = processingHelpers;
 
 import stem from "./stem";
 import { stemTOrDFromEndOfWord } from "./stemTOrDFromEndOfWord";
