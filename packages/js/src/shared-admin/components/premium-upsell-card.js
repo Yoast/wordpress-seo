@@ -29,6 +29,10 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 			nowrap: <span className="yst-whitespace-nowrap" />,
 		}
 	);
+	const explorePremium = sprintf(
+		/* translators: %1$s expands to "Yoast SEO Premium". */
+		__( "Explore %1$s", "wordpress-seo" ), "Yoast SEO Premium"
+	);
 	const isBlackFriday = promotions.includes( "black-friday-2023-promotion" );
 	const saveMoneyText = createInterpolateElement(
 		sprintf(
@@ -72,9 +76,13 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 focus:yst-ring-offset-primary-500"
 				{ ...linkProps }
 			>
-				<span>{ isBlackFriday ? __( "Claim your 30% off now!", "wordpress-seo" ) : getPremium }</span>
+				<span>{ isBlackFriday ? __( "Claim your 30% off now!", "wordpress-seo" ) : explorePremium }</span>
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
+			<p className="yst-text-center yst-text-[11px] yst-leading[19px] yst-mt-2">
+				{ __( "Only $/€/£99 per year (ex VAT) 30-day money back guarantee - No questions asked.", "wordpress-seo" ) }
+			</p>
+			<hr className="yst-border-t-[1px] yst-border-purple-300 yst-my-4" />
 			<a
 				className="yst-block yst-mt-4 yst-no-underline"
 				href="https://www.g2.com/products/yoast-yoast/reviews"
