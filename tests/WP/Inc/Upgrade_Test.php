@@ -441,9 +441,9 @@ final class Upgrade_Test extends TestCase {
 
 		$number_of_sitemap_validators = $wpdb->query(
 			$wpdb->prepare(
-				"SELECT *
+				'SELECT *
 				FROM %i
-				WHERE option_name LIKE %s",
+				WHERE option_name LIKE %s',
 				[ $wpdb->options, 'wpseo_sitemap%validator%' ]
 			)
 		);
@@ -484,23 +484,23 @@ final class Upgrade_Test extends TestCase {
 				[ $indexables_table, $post_id ]
 			)
 		);
-		$indexables_for_non_public_posts =	$wpdb->get_results(
+		$indexables_for_non_public_posts = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT *
+				'SELECT *
 				FROM %i
-				WHERE object_id = %s",
-				[$indexables_table, $post_id ]
+				WHERE object_id = %s',
+				[ $indexables_table, $post_id ]
 			)
 		);
-		$instance = $this->get_instance();
+		$instance                        = $this->get_instance();
 		$instance->remove_indexable_rows_for_non_public_post_types();
 
-		$indexables_for_non_public_posts =	$wpdb->get_results(
+		$indexables_for_non_public_posts = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT *
+				'SELECT *
 				FROM %i
-				WHERE object_id = %s",
-				[$indexables_table, $post_id ]
+				WHERE object_id = %s',
+				[ $indexables_table, $post_id ]
 			)
 		);
 
@@ -509,37 +509,37 @@ final class Upgrade_Test extends TestCase {
 
 	public function test_remove_indexable_rows_for_non_public_post_types_when_no_public_post_types() {
 		global $wpdb;
-		
+
 		$post_id = self::factory()->post->create();
-		
+
 		$post_builder = new Indexable_Post_Builder(
 			\YoastSEO()->helpers->post,
 			\YoastSEO()->helpers->post_type,
 			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
 			\YoastSEO()->helpers->meta
 		);
-		
+
 		$post_builder->set_social_image_helpers(
 			\YoastSEO()->helpers->image,
 			\YoastSEO()->helpers->open_graph->image,
 			\YoastSEO()->helpers->twitter->image
 		);
-		
+
 		$indexable      = new Indexable();
 		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
-		
+
 		$post_builder->build( $post_id, $indexable );
-		
-		\add_filter( 'wpseo_indexable_forced_included_post_types', [ $this, 'override_public_post_types' ]);
+
+		\add_filter( 'wpseo_indexable_forced_included_post_types', [ $this, 'override_public_post_types' ] );
 
 		$instance = $this->get_instance();
 		$instance->remove_indexable_rows_for_non_public_post_types();
 
-		$indexables_for_non_public_posts =	$wpdb->get_results(
+		$indexables_for_non_public_posts = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT *
+				'SELECT *
 				FROM %i
-				WHERE object_id = %s",
+				WHERE object_id = %s',
 				[ Model::get_table_name( 'Indexable' ), $post_id ]
 			)
 		);
