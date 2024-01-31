@@ -87,11 +87,12 @@ class Sidebar_Presenter extends Abstract_Presenter {
 								<span aria-hidden="true" class="yoast-button-upsell__caret"></span>
 							</a>
 						</p>
-						<p class="price-micro-copy">
+						<p class="yoast-price-micro-copy">
 							<?php
 								echo \esc_html__( 'Only $/€/£99 per year (ex VAT) 30-day money back guarantee - No questions asked.', 'wordpress-seo' );
 							?>
 						</p>
+						<hr class="yoast-upsell-hr" aria-hidden="true">
 						<div class="review-container">
 							<a href="https://www.g2.com/products/yoast-yoast/reviews" target="_blank" rel="noopener">
 								<span class="claim">
