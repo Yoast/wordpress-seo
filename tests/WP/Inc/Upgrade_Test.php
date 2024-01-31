@@ -6,6 +6,7 @@ use stdClass;
 use WPSEO_Options;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Upgrade_Double;
@@ -448,6 +449,224 @@ final class Upgrade_Test extends TestCase {
 		);
 
 		$this->assertEquals( 0, $number_of_sitemap_validators );
+	}
+
+	public function test_remove_indexable_rows_for_non_public_post_types() {
+		global $wpdb;
+		$indexables_table = Model::get_table_name( 'Indexable' );
+
+		$post_id = self::factory()->post->create();
+
+		$post_builder = new Indexable_Post_Builder(
+			\YoastSEO()->helpers->post,
+			\YoastSEO()->helpers->post_type,
+			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
+			\YoastSEO()->helpers->meta
+		);
+
+		$post_builder->set_social_image_helpers(
+			\YoastSEO()->helpers->image,
+			\YoastSEO()->helpers->open_graph->image,
+			\YoastSEO()->helpers->twitter->image
+		);
+
+		$indexable      = new Indexable();
+		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
+
+		$post_builder->build( $post_id, $indexable );
+
+		// We simulate an attachmentindexable (which is a non-indexable post type) by changing the object_sub_type to attachment.
+		$wpdb->query(
+			$wpdb->prepare(
+				"UPDATE %i
+				SET object_sub_type = 'attachment'
+				WHERE object_id = %s",
+				[ $indexables_table, $post_id ]
+			)
+		);
+		$indexables_for_non_public_posts =	$wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT *
+				FROM %i
+				WHERE object_id = %s",
+				[$indexables_table, $post_id ]
+			)
+		);
+		$instance = $this->get_instance();
+		$instance->remove_indexable_rows_for_non_public_post_types();
+
+		$indexables_for_non_public_posts =	$wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT *
+				FROM %i
+				WHERE object_id = %s",
+				[$indexables_table, $post_id ]
+			)
+		);
+
+		$this->assertEmpty( $indexables_for_non_public_posts );
+	}
+
+	public function test_remove_indexable_rows_for_non_public_post_types_when_no_public_post_types() {
+		global $wpdb;
+		
+		$post_id = self::factory()->post->create();
+		
+		$post_builder = new Indexable_Post_Builder(
+			\YoastSEO()->helpers->post,
+			\YoastSEO()->helpers->post_type,
+			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
+			\YoastSEO()->helpers->meta
+		);
+		
+		$post_builder->set_social_image_helpers(
+			\YoastSEO()->helpers->image,
+			\YoastSEO()->helpers->open_graph->image,
+			\YoastSEO()->helpers->twitter->image
+		);
+		
+		$indexable      = new Indexable();
+		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
+		
+		$post_builder->build( $post_id, $indexable );
+		
+		\add_filter( 'wpseo_indexable_forced_included_post_types', [ $this, 'override_public_post_types' ]);
+
+		$instance = $this->get_instance();
+		$instance->remove_indexable_rows_for_non_public_post_types();
+
+		$indexables_for_non_public_posts =	$wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT *
+				FROM %i
+				WHERE object_id = %s",
+				[ Model::get_table_name( 'Indexable' ), $post_id ]
+			)
+		);
+
+		$this->assertEmpty( $indexables_for_non_public_posts );
+	}
+
+	public function test_remove_indexable_rows_for_non_public_taxonomies() {
+		global $wpdb;
+		$indexables_table = Model::get_table_name( 'Indexable' );
+
+		$taxonomy = 'wpseo_tax';
+
+		\register_taxonomy( $taxonomy, 'post' );
+
+		$term_id = self::factory()->term->create( [ 'taxonomy' => $taxonomy ] );
+
+		$term_builder = new Indexable_Term_Builder(
+			\YoastSEO()->helpers->taxonomy,
+			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
+			\YoastSEO()->helpers->post
+		);
+
+		$term_builder->set_social_image_helpers(
+			\YoastSEO()->helpers->image,
+			\YoastSEO()->helpers->open_graph->image,
+			\YoastSEO()->helpers->twitter->image
+		);
+
+		$indexable      = new Indexable();
+		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
+
+		$term_builder->build( $term_id, $indexable );
+
+		// We need to change the taxonomy visibility after we have created the term indexable, as
+		// we don't create them for private taxonomies anymore.
+		\register_taxonomy( $taxonomy, 'post', [ 'public' => false ] );
+
+		$wpdb->query(
+			$wpdb->prepare(
+				"UPDATE %i
+				SET is_public = false
+				WHERE object_type = 'term'
+				AND object_sub_type = %s",
+				[ $indexables_table, $taxonomy ]
+			)
+		);
+
+		$instance = $this->get_instance();
+		$instance->remove_indexable_rows_for_non_public_taxonomies();
+
+		$private_taxonomy_indexables = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT id FROM %i
+				WHERE object_type = 'term'
+				AND object_sub_type = %s",
+				[ $indexables_table, $taxonomy ]
+			)
+		);
+
+		$this->assertEmpty( $private_taxonomy_indexables );
+	}
+
+	public function test_remove_indexable_rows_for_non_public_taxonomies_when_no_public_taxonomies() {
+		global $wpdb;
+		$indexables_table = Model::get_table_name( 'Indexable' );
+
+		$taxonomy = 'wpseo_tax';
+
+		\register_taxonomy( $taxonomy, 'post' );
+
+		$term_id = self::factory()->term->create( [ 'taxonomy' => $taxonomy ] );
+
+		$term_builder = new Indexable_Term_Builder(
+			\YoastSEO()->helpers->taxonomy,
+			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
+			\YoastSEO()->helpers->post
+		);
+
+		$term_builder->set_social_image_helpers(
+			\YoastSEO()->helpers->image,
+			\YoastSEO()->helpers->open_graph->image,
+			\YoastSEO()->helpers->twitter->image
+		);
+
+		$indexable      = new Indexable();
+		$indexable->orm = ORM::for_table( 'wp_yoast_indexable' );
+
+		$term_builder->build( $term_id, $indexable );
+
+		\add_filter( 'wpseo_indexable_excluded_taxonomies', [ $this, 'override_excluded_taxonomies' ] );
+
+		// We need to change the taxonomy visibility after we have created the term indexable, as
+		// we don't create them for private taxonomies anymore.
+		\register_taxonomy( $taxonomy, 'post', [ 'public' => false ] );
+
+		$wpdb->query(
+			$wpdb->prepare(
+				"UPDATE %i
+				SET is_public = false
+				WHERE object_type = 'term'
+				AND object_sub_type = %s",
+				[ $indexables_table, $taxonomy ]
+			)
+		);
+
+		$instance = $this->get_instance();
+		$instance->remove_indexable_rows_for_non_public_taxonomies();
+
+		$private_taxonomy_indexables = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT id FROM %i
+				WHERE object_type = 'term'
+				AND object_sub_type = %s",
+				[ $indexables_table, $taxonomy ]
+			)
+		);
+
+		$this->assertEmpty( $private_taxonomy_indexables );
+	}
+
+	public function override_public_post_types( $public_post_types ) {
+		return [];
+	}
+
+	public function override_excluded_taxonomies( $excluded_taxonomies ) {
+		return \array_merge( $excluded_taxonomies, [ 'wpseo_tax', 'category', 'post_tag', 'post_format' ] );
 	}
 
 	/**

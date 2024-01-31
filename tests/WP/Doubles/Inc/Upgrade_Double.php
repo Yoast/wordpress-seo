@@ -85,4 +85,12 @@ final class Upgrade_Double extends WPSEO_Upgrade {
 	public function clean_up_private_taxonomies_for_141() {
 		parent::clean_up_private_taxonomies_for_141();
 	}
+
+	public function remove_indexable_rows_for_non_public_post_types() {
+		parent::remove_indexable_rows_for_non_public_post_types();
+	}
+
+	public function remove_indexable_rows_for_non_public_taxonomies() {
+		parent::remove_indexable_rows_for_non_public_taxonomies();
+	}
 }
