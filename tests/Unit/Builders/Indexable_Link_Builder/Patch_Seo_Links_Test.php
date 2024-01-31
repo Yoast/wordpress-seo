@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder;
 
+use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
@@ -118,6 +119,9 @@ final class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCas
 			->expects( 'get_incoming_link_counts_for_indexable_ids' )
 			->times( $update_target_indexable_id_times )
 			->andReturn( [] );
+
+		Functions\expect( 'wp_cache_supports' )->times( $update_target_indexable_id_times )->andReturnTrue();
+		Functions\expect( 'wp_cache_flush_group' )->times( $update_target_indexable_id_times )->andReturnTrue();
 
 		$this->instance->patch_seo_links( $indexable );
 	}
