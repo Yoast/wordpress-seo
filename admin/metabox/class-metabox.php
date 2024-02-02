@@ -7,7 +7,8 @@
 
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
-use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
+use Yoast\WP\SEO\Integrations\Admin\Editor\Editor_Post_Data;
+
 
 /**
  * This class generates the metabox on the edit post / page as well as contains all page analysis functionality.
@@ -64,13 +65,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $is_advanced_metadata_enabled;
 
 	/**
-	 * The replacement variables for a post class.
-	 * 
-	 * @var Replace_Vars_Post
-	 */
-	protected $replace_vars_post;
-
-	/**
 	 * The post editor script data class.
 	 * 
 	 * @var Editor_Post_Data
@@ -111,9 +105,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
 		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
-		$this->replace_vars_post           = new Replace_Vars_Post();
 		$this->asset_manager               = new WPSEO_Admin_Asset_Manager();
-		$this->editor_post_data            = new Editor_Post_Data( $this->asset_manager, $this->replace_vars_post );
+		$this->editor_post_data            = new Editor_Post_Data();
 		$this->post = $this->get_metabox_post();
 	}
 
@@ -876,54 +869,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$this->asset_manager->localize_script( $post_edit_handle, 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 
-		$plugins_script_data = [
-			'replaceVars' => [
-				'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
-				'replace_vars'             => $this->get_replace_vars(),
-				'hidden_replace_vars'      => $this->get_hidden_replace_vars(),
-				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
-				'scope'                    => $this->determine_scope(),
-				'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
-			],
-			'shortcodes' => [
-				'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
-				'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
-			],
-		];
 
 		if ( post_type_supports( $this->post->post_type, 'thumbnail' ) ) {
 			$this->asset_manager->enqueue_style( 'featured-image' );
-
-			// @todo replace this translation with JavaScript translations.
-			'media'                      => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
-			'metabox'                    => $this->get_metabox_script_data(),
-			'userLanguageCode'           => WPSEO_Language_Utils::get_language( get_user_locale() ),
-			'isPost'                     => true,
-			'isBlockEditor'              => $is_block_editor,
-			'postId'                     => $post_id,
-			'postStatus'                 => get_post_status( $post_id ),
-			'postType'                   => get_post_type( $post_id ),
-			'usedKeywordsNonce'          => wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
-			'analysis'                   => [
-				'plugins' => $plugins_script_data,
-				'worker'  => $worker_script_data,
-			],
-			'dismissedAlerts'            => $dismissed_alerts,
-			'currentPromotions'          => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
-			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'blackFridayBlockEditorUrl'  => ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-checklist' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : '',
-			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
-			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
-			'isWooCommerceSeoActive'     => $woocommerce_seo_active,
-			'isWooCommerceActive'        => $woocommerce_active,
-			'woocommerceUpsell'          => get_post_type( $post_id ) === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
-			'linkParams'                 => WPSEO_Shortlinker::get_query_params(),
-			'pluginUrl'                  => plugins_url( '', WPSEO_FILE ),
-			'wistiaEmbedPermission'      => YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( get_current_user_id() ),
-		];
+		}
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
-			$asset_manager->enqueue_style( 'featured-image' );
+			$this->asset_manager->enqueue_style( 'featured-image' );
+
+			$script_data = $this->editor_post_data->get_script_data( $this->post );
 
 			// @todo replace this translation with JavaScript translations.
 			$script_data['featuredImage'] = [
