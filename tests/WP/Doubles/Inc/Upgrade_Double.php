@@ -97,4 +97,16 @@ final class Upgrade_Double extends WPSEO_Upgrade {
 	public function deduplicate_unindexed_indexable_rows() {
 		parent::deduplicate_unindexed_indexable_rows();
 	}
+
+	public function clean_unindexed_indexable_rows_with_no_object_id() {
+		parent::clean_unindexed_indexable_rows_with_no_object_id();
+	}
+
+	public function remove_indexable_rows_for_disabled_authors_archive() {
+		parent::remove_indexable_rows_for_disabled_authors_archive();
+	}
+
+	public function get_indexable_deduplication_query_for_type( $object_type, $duplicates, $wpdb ) {
+		return parent::get_indexable_deduplication_query_for_type( $object_type, $duplicates, $wpdb );
+	}
 }
