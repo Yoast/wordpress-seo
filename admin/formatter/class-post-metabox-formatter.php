@@ -83,6 +83,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'social_description_template' => $this->get_social_description_template(),
 				'social_image_template'       => $this->get_social_image_template(),
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
+				'metaData'				      => $this->get_post_meta_data(),
 			];
 
 			$values = ( $values_to_set + $values );
@@ -313,5 +314,45 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	protected function is_insights_enabled() {
 		return WPSEO_Options::get( 'enable_metabox_insights', false );
+	}
+
+	/**
+	 * Get post meta data.
+	 *
+	 * @return void
+	 */
+	protected function get_post_meta_data() {
+		$post_type = $this->post->post_type;
+		$meta_data = [];
+		$fields = [];
+
+		$social_is_enabled            = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
+		$is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false;
+		
+		$fields = array_merge( $fields, WPSEO_Meta::get_meta_field_defs( 'general', $post_type ) );
+
+		if ( $is_advanced_metadata_enabled ) {
+			$fields = array_merge( $fields, WPSEO_Meta::get_meta_field_defs( 'advanced', $post_type ) );
+		}
+
+		$fields = array_merge( $fields, WPSEO_Meta::get_meta_field_defs( 'schema', $post_type ) );
+
+		if ( $social_is_enabled ) {
+			$fields = array_merge( $fields, WPSEO_Meta::get_meta_field_defs( 'social', $post_type ) );
+		}
+
+		foreach ( $fields as $key => $meta_field ) {
+			$form_key   = \esc_attr( WPSEO_Meta::$form_prefix . $key );
+			$meta_value = WPSEO_Meta::get_value( $key, $this->post->ID );
+
+			$default = '';
+			if ( isset( $meta_field['default'] ) ) {
+				$default = $meta_field['default'];
+			}
+			
+			$meta_data[ $form_key ] = \esc_attr( $meta_value ) ?  \esc_attr( $meta_value ) : $default;
+		}
+
+		return $meta_data;
 	}
 }
