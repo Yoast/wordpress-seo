@@ -29,7 +29,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 7 times. This is great!",
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The keyphrase was found 9 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -103,15 +103,14 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 26.7% of the sentences " +
-
+		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 28.6% of the sentences " +
 			"contain transition words, which is not enough. <a href='https://yoa.st/shopify45' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
 
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 23.3% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 25% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},
@@ -125,6 +124,12 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify5' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. " +
 			"That's great!",
+	},
+	wordComplexity: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: You are not using too many complex words, which makes " +
+			"your text easy to read. Good job!",
 	},
 };
 

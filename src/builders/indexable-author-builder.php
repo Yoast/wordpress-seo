@@ -2,8 +2,9 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use wpdb;
+use Yoast\WP\SEO\Exceptions\Indexable\Author_Not_Built_Exception;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
@@ -32,6 +33,13 @@ class Indexable_Author_Builder {
 	protected $version;
 
 	/**
+	 * Holds the options helper instance.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * Holds the taxonomy helper instance.
 	 *
 	 * @var Post_Helper
@@ -39,30 +47,23 @@ class Indexable_Author_Builder {
 	protected $post_helper;
 
 	/**
-	 * The WPDB instance.
-	 *
-	 * @var wpdb
-	 */
-	protected $wpdb;
-
-	/**
 	 * Indexable_Author_Builder constructor.
 	 *
 	 * @param Author_Archive_Helper      $author_archive The author archive helper.
 	 * @param Indexable_Builder_Versions $versions       The Indexable version manager.
+	 * @param Options_Helper             $options_helper The options helper.
 	 * @param Post_Helper                $post_helper    The post helper.
-	 * @param wpdb                       $wpdb           The WPDB instance.
 	 */
 	public function __construct(
 		Author_Archive_Helper $author_archive,
 		Indexable_Builder_Versions $versions,
-		Post_Helper $post_helper,
-		wpdb $wpdb
+		Options_Helper $options_helper,
+		Post_Helper $post_helper
 	) {
 		$this->author_archive = $author_archive;
 		$this->version        = $versions->get_latest_version_for_type( 'user' );
+		$this->options_helper = $options_helper;
 		$this->post_helper    = $post_helper;
-		$this->wpdb           = $wpdb;
 	}
 
 	/**
@@ -72,8 +73,15 @@ class Indexable_Author_Builder {
 	 * @param Indexable $indexable The indexable to format.
 	 *
 	 * @return Indexable The extended indexable.
+	 *
+	 * @throws Author_Not_Built_Exception When author is not built.
 	 */
 	public function build( $user_id, Indexable $indexable ) {
+		$exception = $this->check_if_user_should_be_indexed( $user_id );
+		if ( $exception ) {
+			throw $exception;
+		}
+
 		$meta_data = $this->get_meta_data( $user_id );
 
 		$indexable->object_id              = $user_id;
@@ -175,19 +183,66 @@ class Indexable_Author_Builder {
 	 * @return object An object with last_modified and published_at timestamps.
 	 */
 	protected function get_object_timestamps( $author_id ) {
+		global $wpdb;
 		$post_statuses = $this->post_helper->get_public_post_statuses();
 
-		$sql = "
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (" . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
-				AND p.post_password = ''
-				AND p.post_author = %d
-		";
+		$replacements   = [];
+		$replacements[] = 'post_modified_gmt';
+		$replacements[] = 'post_date_gmt';
+		$replacements[] = $wpdb->posts;
+		$replacements[] = 'post_status';
+		$replacements   = \array_merge( $replacements, $post_statuses );
+		$replacements[] = 'post_password';
+		$replacements[] = 'post_author';
+		$replacements[] = $author_id;
 
-		$replacements = \array_merge( $post_statuses, [ $author_id ] );
+		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		return $wpdb->get_row(
+			$wpdb->prepare(
+				'
+				SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
+				FROM %i AS p
+				WHERE p.%i IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+					AND p.%i = ''
+					AND p.%i = %d
+				",
+				$replacements
+			)
+		);
+		//phpcs:enable
+	}
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We are using wpdb prepare.
-		return $this->wpdb->get_row( $this->wpdb->prepare( $sql, $replacements ) );
+	/**
+	 * Checks if the user should be indexed.
+	 * Returns an exception with an appropriate message if not.
+	 *
+	 * @param string $user_id The user id.
+	 *
+	 * @return Author_Not_Built_Exception|null The exception if it should not be indexed, or `null` if it should.
+	 */
+	protected function check_if_user_should_be_indexed( $user_id ) {
+		$exception = null;
+
+		if ( $this->author_archive->are_disabled() ) {
+			$exception = Author_Not_Built_Exception::author_archives_are_disabled( $user_id );
+		}
+
+		// We will check if the author has public posts the WP way, instead of the indexable way, to make sure we get proper results even if SEO optimization is not run.
+		// In case the user has no public posts, we check if the user should be indexed anyway.
+		if ( $this->options_helper->get( 'noindex-author-noposts-wpseo', false ) === true && $this->author_archive->author_has_public_posts_wp( $user_id ) === false ) {
+			$exception = Author_Not_Built_Exception::author_archives_are_not_indexed_for_users_without_posts( $user_id );
+		}
+
+		/**
+		 * Filter: Include or exclude a user from being build and saved as an indexable.
+		 * Return an `Author_Not_Built_Exception` when the indexable should not be build, with an appropriate message telling why it should not be built.
+		 * Return `null` if the indexable should be build.
+		 *
+		 * @param Author_Not_Built_Exception|null $exception An exception if the indexable is not being built, `null` if the indexable should be built.
+		 * @param string                          $user_id   The ID of the user that should or should not be excluded.
+		 */
+		return \apply_filters( 'wpseo_should_build_and_save_user_indexable', $exception, $user_id );
 	}
 }

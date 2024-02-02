@@ -5,6 +5,8 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+use Yoast\WP\SEO\Conditionals\Deactivating_Yoast_Seo_Conditional;
+
 /**
  * Rewrite setup and handling for sitemaps functionality.
  */
@@ -14,26 +16,56 @@ class WPSEO_Sitemaps_Router {
 	 * Sets up init logic.
 	 */
 	public function __construct() {
+		// If we add rewrite rules during the plugin's deactivation, the flush_rewrite_rules that we perform afterwards won't properly flush those new rules.
+		if ( YoastSEO()->classes->get( Deactivating_Yoast_Seo_Conditional::class )->is_met() ) {
+			return;
+		}
 
-		add_action( 'init', [ $this, 'init' ], 1 );
+		add_action( 'yoast_add_dynamic_rewrite_rules', [ $this, 'add_rewrite_rules' ] );
+		add_filter( 'query_vars', [ $this, 'add_query_vars' ] );
+
 		add_filter( 'redirect_canonical', [ $this, 'redirect_canonical' ] );
 		add_action( 'template_redirect', [ $this, 'template_redirect' ], 0 );
 	}
 
 	/**
+	 * Adds rewrite routes for sitemaps.
+	 *
+	 * @param Yoast_Dynamic_Rewrites $dynamic_rewrites Dynamic rewrites handler instance.
+	 *
+	 * @return void
+	 */
+	public function add_rewrite_rules( $dynamic_rewrites ) {
+		$dynamic_rewrites->add_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
+		$dynamic_rewrites->add_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
+		$dynamic_rewrites->add_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?yoast-sitemap-xsl=$matches[1]', 'top' );
+	}
+
+	/**
+	 * Adds query variables for sitemaps.
+	 *
+	 * @param array $query_vars List of query variables to filter.
+	 *
+	 * @return array Filtered query variables.
+	 */
+	public function add_query_vars( $query_vars ) {
+		$query_vars[] = 'sitemap';
+		$query_vars[] = 'sitemap_n';
+		$query_vars[] = 'yoast-sitemap-xsl';
+
+		return $query_vars;
+	}
+
+	/**
 	 * Sets up rewrite rules.
+	 *
+	 * @deprecated 21.8
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	public function init() {
-
-		global $wp;
-
-		$wp->add_query_var( 'sitemap' );
-		$wp->add_query_var( 'sitemap_n' );
-		$wp->add_query_var( 'yoast-sitemap-xsl' );
-
-		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
-		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
-		add_rewrite_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?yoast-sitemap-xsl=$matches[1]', 'top' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 21.8' );
 	}
 
 	/**
@@ -54,14 +86,15 @@ class WPSEO_Sitemaps_Router {
 
 	/**
 	 * Redirects sitemap.xml to sitemap_index.xml.
+	 *
+	 * @return void
 	 */
 	public function template_redirect() {
 		if ( ! $this->needs_sitemap_index_redirect() ) {
 			return;
 		}
 
-		wp_safe_redirect( home_url( '/sitemap_index.xml' ), 301, 'Yoast SEO' );
-		exit;
+		YoastSEO()->helpers->redirect->do_safe_redirect( home_url( '/sitemap_index.xml' ), 301, 'Yoast SEO' );
 	}
 
 	/**

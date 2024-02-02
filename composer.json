@@ -1,12 +1,12 @@
 {
 	"name": "yoast/wordpress-seo",
 	"description": "Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.",
+	"license": "GPL-2.0-or-later",
+	"type": "wordpress-plugin",
 	"keywords": [
 		"wordpress",
 		"seo"
 	],
-	"homepage": "https://yoa.st/1ui",
-	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Team Yoast",
@@ -14,36 +14,36 @@
 			"homepage": "https://yoa.st/1--"
 		}
 	],
-	"type": "wordpress-plugin",
+	"homepage": "https://yoa.st/1ui",
 	"support": {
 		"issues": "https://github.com/Yoast/wordpress-seo/issues",
 		"forum": "https://wordpress.org/support/plugin/wordpress-seo",
 		"wiki": "https://github.com/Yoast/wordpress-seo/wiki",
-		"source": "https://github.com/Yoast/wordpress-seo"
+		"source": "https://github.com/Yoast/wordpress-seo",
+		"security": "https://yoast.com/security-program/"
 	},
 	"require": {
-		"php": "^5.6.20 || ^7.0 || ^8.0",
-		"composer/installers": "^1.12.0",
-		"yoast/i18n-module": "^3.1.1"
+		"php": "^7.2.5 || ^8.0",
+		"ext-filter": "*",
+		"composer/installers": "^1.12 || ^2.0"
 	},
 	"require-dev": {
+		"guzzlehttp/guzzle": "7.8.1",
 		"humbug/php-scoper": "^0.13.4",
-		"league/oauth2-client": "2.6.1",
-		"phpunit/phpunit": "^5.7",
+		"league/oauth2-client": "2.7.0",
 		"psr/container": "1.0.0",
 		"psr/log": "^1.0",
 		"symfony/config": "^3.4",
 		"symfony/dependency-injection": "^3.4",
-		"yoast/php-development-environment": "^1.0",
-		"yoast/wp-test-utils": "^1.0.0",
-		"yoast/yoastcs": "^2.2.1",
-		"chillerlan/php-qrcode": "^1.0.9",
-		"guzzlehttp/guzzle": "6.5.7",
-		"symfony/polyfill-intl-idn": "1.19.0",
-		"symfony/polyfill-intl-normalizer": "1.19.0",
-		"symfony/polyfill-php70": "1.19.0",
-		"symfony/polyfill-php72": "1.19.0",
-		"wordproof/wordpress-sdk": "1.3"
+		"wordproof/wordpress-sdk": "1.3.5",
+		"yoast/wp-test-utils": "^1.2",
+		"yoast/yoastcs": "^3.0"
+	},
+	"suggest": {
+		"ext-bcmath": "For more accurate calculations",
+		"ext-dom": "Improves image sitemap",
+		"ext-libxml": "Improves image sitemap",
+		"ext-mbstring": "For cyrillic support"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -58,17 +58,23 @@
 	},
 	"autoload-dev": {
 		"classmap": [
-			"tests/",
 			"config/"
-		]
+		],
+		"psr-4": {
+			"Yoast\\WP\\SEO\\Tests\\": "tests/"
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"composer/package-versions-deprecated": true,
+			"composer/installers": true
+		},
+		"platform": {
+			"php": "7.2.5"
+		}
 	},
 	"scripts": {
-		"test": [
-			"@php ./vendor/phpunit/phpunit/phpunit"
-		],
-		"integration-test": [
-			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
-		],
 		"lint": [
 			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude node_modules --exclude .git"
 		],
@@ -85,8 +91,8 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=173",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=217",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=2625",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=294",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs": [
@@ -108,22 +114,37 @@
 		"fix-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
 		],
+		"test": [
+			"@php ./vendor/phpunit/phpunit/phpunit --no-coverage"
+		],
+		"coverage": [
+			"@php ./vendor/phpunit/phpunit/phpunit"
+		],
+		"test-wp": [
+			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-wp.xml.dist --no-coverage"
+		],
+		"coverage-wp": [
+			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-wp.xml.dist"
+		],
+		"integration-test": [
+			"@test-wp"
+		],
+		"integration-coverage": [
+			"@coverage-wp"
+		],
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
 			"composer prefix-symfony",
-			"composer prefix-php-qrcode",
 			"composer prefix-wordproof"
 		],
 		"prefix-oauth2-client": [
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/deprecation-contracts --config=config/php-scoper/deprecation-contracts.inc.php --force --quiet",
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/guzzlehttp --config=config/php-scoper/guzzlehttp.inc.php --force --quiet",
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/psr --config=config/php-scoper/psr.inc.php --force --quiet"
 		],
 		"prefix-symfony": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/dependency-injection --config=config/php-scoper/dependency-injection.inc.php --force --quiet"
-		],
-		"prefix-php-qrcode": [
-			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/chillerlan/php-qrcode --config=config/php-scoper/php-qrcode.inc.php --force --quiet"
 		],
 		"prefix-wordproof": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/wordproof/wordpress-sdk --config=config/php-scoper/wordproof.inc.php --force --quiet"
@@ -134,22 +155,42 @@
 			"composer du --no-scripts",
 			"Yoast\\WP\\SEO\\Composer\\Actions::compile_dependency_injection_container"
 		],
-		"post-autoload-dump": [
-			"Yoast\\WP\\SEO\\Composer\\Actions::prefix_dependencies",
-			"composer compile-di"
-		],
 		"generate-migration": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::generate_migration"
 		],
 		"generate-unit-test": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::generate_unit_test"
+		],
+		"post-autoload-dump": [
+			"Yoast\\WP\\SEO\\Composer\\Actions::prefix_dependencies",
+			"composer compile-di"
 		]
 	},
-	"config": {
-		"allow-plugins": {
-			"dealerdirect/phpcodesniffer-composer-installer": true,
-			"composer/package-versions-deprecated": true,
-			"composer/installers": true
-		}
+	"scripts-descriptions": {
+		"lint": "Check the PHP files for parse errors.",
+		"lint-files": "Internal use.",
+		"lint-branch": "Check the PHP files changed in the current branch for parse errors.",
+		"lint-staged": "Check the staged PHP files for parse errors.",
+		"cs": "See a menu with the code style checking script options.",
+		"check-cs-thresholds": "Check the PHP files for code style violations and best practices and verify the number of issues does not exceed predefined thresholds.",
+		"check-cs": "Check the PHP files for code style violations and best practices, ignoring warnings.",
+		"check-cs-errors": "Alias for check-cs command",
+		"check-cs-warnings": "Check the PHP files for code style violations and best practices, including warnings.",
+		"check-staged-cs": "Check the staged PHP files for code style violations and best practices.",
+		"check-branch-cs": "Check the PHP files changed in the current branch for code style violations and best practices.",
+		"fix-cs": "Auto-fix code style violations in the PHP files.",
+		"test": "Run the unit tests without code coverage.",
+		"coverage": "Run the unit tests with code coverage.",
+		"test-wp": "Run the WP unit tests without code coverage.",
+		"coverage-wp": "Run the WP unit tests with code coverage.",
+		"integration-test": "Deprecated. Alias for the \"test-wp\" script.",
+		"integration-coverage": "Deprecated. Alias for the \"coverage-wp\" script.",
+		"prefix-dependencies": "Create the vendor_prefixed directory.",
+		"prefix-oauth2-client": "Prefix the OAuth2 Client dependencies and place them in the vendor_prefixed directory.",
+		"prefix-symfony": "Prefix the Symfony dependencies and place them in the vendor_prefixed directory.",
+		"prefix-wordproof": "Prefix the WordProof dependencies and place them in the vendor_prefixed directory.",
+		"compile-di": "Compile the dependency injection layer.",
+		"generate-migration": "Generate a migration.",
+		"generate-unit-test": "Generates a unit test template for the fully qualified class provided as a CLI arg."
 	}
 }

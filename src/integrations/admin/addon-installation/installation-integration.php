@@ -73,6 +73,8 @@ class Installation_Integration implements Integration_Interface {
 
 	/**
 	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_install_and_activate_addons', [ $this, 'install_and_activate_addons' ] );
@@ -84,7 +86,13 @@ class Installation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function install_and_activate_addons() {
-		if ( \filter_input( \INPUT_GET, 'action' ) !== 'install' ) {
+		if ( ! isset( $_GET['action'] ) || ! \is_string( $_GET['action'] ) ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only strictly comparing action below.
+		$action = \wp_unslash( $_GET['action'] );
+		if ( $action !== 'install' ) {
 			return;
 		}
 

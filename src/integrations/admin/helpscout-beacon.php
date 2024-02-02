@@ -9,7 +9,10 @@ use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Integrations\Settings_Integration;
+use Yoast\WP\SEO\Integrations\Support_Integration;
 
 /**
  * Class WPSEO_HelpScout
@@ -38,7 +41,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	protected $products = [];
 
 	/**
-	 * Whether to asks the user's consent before loading in HelpScout.
+	 * Whether to ask the user's consent before loading in HelpScout.
 	 *
 	 * @var bool
 	 */
@@ -65,18 +68,20 @@ class HelpScout_Beacon implements Integration_Interface {
 	 */
 	protected $base_pages = [
 		'wpseo_dashboard',
-		'wpseo_titles',
+		Settings_Integration::PAGE,
+		Academy_Integration::PAGE,
+		Support_Integration::PAGE,
 		'wpseo_search_console',
-		'wpseo_social',
 		'wpseo_tools',
 		'wpseo_licenses',
 		'wpseo_workouts',
+		'wpseo_integrations',
 	];
 
 	/**
 	 * The current admin page
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	protected $page;
 
@@ -102,10 +107,17 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * @param Migration_Status          $migration_status The migrations status.
 	 */
 	public function __construct( Options_Helper $options, WPSEO_Admin_Asset_Manager $asset_manager, Migration_Status $migration_status ) {
-		$this->options          = $options;
-		$this->asset_manager    = $asset_manager;
-		$this->ask_consent      = ! $this->options->get( 'tracking' );
-		$this->page             = \filter_input( \INPUT_GET, 'page', \FILTER_SANITIZE_STRING );
+		$this->options       = $options;
+		$this->asset_manager = $asset_manager;
+		$this->ask_consent   = ! $this->options->get( 'tracking' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			$this->page = \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
+		}
+		else {
+			$this->page = null;
+		}
 		$this->migration_status = $migration_status;
 
 		foreach ( $this->base_pages as $page ) {
@@ -129,6 +141,8 @@ class HelpScout_Beacon implements Integration_Interface {
 
 	/**
 	 * Enqueues the HelpScout script.
+	 *
+	 * @return void
 	 */
 	public function enqueue_help_scout_script() {
 		// Make sure plugins can filter in their "stuff", before we check whether we're outputting a beacon.
@@ -142,6 +156,8 @@ class HelpScout_Beacon implements Integration_Interface {
 
 	/**
 	 * Outputs a small piece of javascript for the beacon.
+	 *
+	 * @return void
 	 */
 	public function output_beacon_js() {
 		if ( ! $this->is_beacon_page() ) {
@@ -171,7 +187,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		/**
 		 * Filter: 'wpseo_helpscout_show_beacon' - Allows overriding whether we show the HelpScout beacon.
 		 *
-		 * @api bool - Whether we show the beacon or not.
+		 * @param bool $show_beacon Whether we show the beacon or not.
 		 */
 		return \apply_filters( 'wpseo_helpscout_show_beacon', $return );
 	}
@@ -432,18 +448,20 @@ class HelpScout_Beacon implements Integration_Interface {
 
 	/**
 	 * Allows filtering of the HelpScout settings. Hooked to admin_head to prevent timing issues, not too early, not too late.
+	 *
+	 * @return void
 	 */
 	protected function filter_settings() {
-		/**
-		 * Filter: 'wpseo_helpscout_beacon_settings' - Allows overriding the HelpScout beacon settings.
-		 *
-		 * @api string - The HelpScout beacon settings.
-		 */
 		$filterable_helpscout_setting = [
 			'products'  => $this->products,
 			'pages_ids' => $this->pages_ids,
 		];
 
+		/**
+		 * Filter: 'wpseo_helpscout_beacon_settings' - Allows overriding the HelpScout beacon settings.
+		 *
+		 * @param string $beacon_settings The HelpScout beacon settings.
+		 */
 		$helpscout_settings = \apply_filters( 'wpseo_helpscout_beacon_settings', $filterable_helpscout_setting );
 
 		$this->products  = $helpscout_settings['products'];

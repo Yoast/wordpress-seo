@@ -14,6 +14,15 @@ const paper = new Paper( content, {
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Cat_tree",
 	slug: "Cat_tree",
+	customData: {
+		canRetrieveVariantSkus: true,
+		hasGlobalSKU: true,
+		hasGlobalIdentifier: true,
+		hasVariants: true,
+		doAllVariantsHaveSKU: false,
+		doAllVariantsHaveIdentifier: false,
+		productType: "variable",
+	},
 } );
 
 const expectedResults = {
@@ -31,7 +40,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: -50,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 11 times. " +
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The keyphrase was found 11 times. " +
 			"That's way more than the recommended maximum of 8 times for a text of this length. <a href='https://yoa.st/shopify13' " +
 			"target='_blank'>Don't overoptimize</a>!",
 	},
@@ -87,6 +96,21 @@ const expectedResults = {
 		score: 0,
 		resultText: "",
 	},
+	productIdentifiers: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Not all your product variants" +
+			" have an identifier. " +
+			"<a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it" +
+			" will help search engines to better understand your content.</a>",
+	},
+	productSKU: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Not all your product variants have a SKU. You can add a SKU via " +
+			"the \"Variations\" tab in the Product data box. <a href='https://yoa.st/4lx' target='_blank'>Include " +
+			"it if you can, as it will help search engines to better understand your content.</a>",
+	},
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 9,
@@ -136,7 +160,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 21.1% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 19% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},
@@ -149,6 +173,12 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: There is at least one list on this page. Great!",
+	},
+	wordComplexity: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: You are not using too many complex words, which makes " +
+			"your text easy to read. Good job!",
 	},
 };
 

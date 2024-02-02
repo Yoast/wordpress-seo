@@ -53,6 +53,8 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	 *
 	 * This cache is used in showing the Yoast SEO columns on the posts overview
 	 * page (e.g. keyword score, incoming link count, etc.)
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		// Hook into tablenav to calculate links and linked.
@@ -63,6 +65,8 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	 * Makes sure we calculate all values in one query by filling our cache beforehand.
 	 *
 	 * @param string $target Extra table navigation location which is triggered.
+	 *
+	 * @return void
 	 */
 	public function maybe_fill_cache( $target ) {
 		if ( $target === 'top' ) {
@@ -72,6 +76,8 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 
 	/**
 	 * Fills the cache of indexables for all known post IDs.
+	 *
+	 * @return void
 	 */
 	public function fill_cache() {
 		global $wp_query;
@@ -109,7 +115,9 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 		$indexables = $this->indexable_repository->find_by_multiple_ids_and_type( $post_ids, 'post', false );
 
 		foreach ( $indexables as $indexable ) {
-			$this->indexable_cache[ $indexable->object_id ] = $indexable;
+			if ( $indexable instanceof Indexable ) {
+				$this->indexable_cache[ $indexable->object_id ] = $indexable;
+			}
 		}
 	}
 
@@ -168,7 +176,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 				$pages_map[ $page->ID ] = $page;
 			}
 
-			$pages = &$top_level_pages;
+			$pages = $top_level_pages;
 		}
 
 		$count      = 0;

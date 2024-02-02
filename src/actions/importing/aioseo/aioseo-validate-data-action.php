@@ -4,9 +4,9 @@
 namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use wpdb;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Exceptions\Importing\Aioseo_Validation_Exception;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
+use Yoast\WP\SEO\Exceptions\Importing\Aioseo_Validation_Exception;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Importing action for validating AIOSEO data before the import occurs.
@@ -16,12 +16,12 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	/**
 	 * The plugin of the action.
 	 */
-	const PLUGIN = 'aioseo';
+	public const PLUGIN = 'aioseo';
 
 	/**
 	 * The type of the action.
 	 */
-	const TYPE = 'validate_data';
+	public const TYPE = 'validate_data';
 
 	/**
 	 * The WordPress database instance.
@@ -101,7 +101,7 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	/**
 	 * Validates AIOSEO data.
 	 *
-	 * @return array|false An array of validated data or false if aioseo data did not pass validation.
+	 * @return array An array of validated data or false if aioseo data did not pass validation.
 	 *
 	 * @throws Aioseo_Validation_Exception If the validation fails.
 	 */
@@ -113,7 +113,6 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 		$validated_aioseo_table    = $this->validate_aioseo_table();
 		$validated_aioseo_settings = $this->validate_aioseo_settings();
 		$validated_robot_settings  = $this->validate_robot_settings();
-
 
 		if ( $validated_aioseo_table === false || $validated_aioseo_settings === false || $validated_robot_settings === false ) {
 			throw new Aioseo_Validation_Exception();
@@ -243,7 +242,7 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 		/**
 		 * Filter 'wpseo_aioseo_cleanup_limit' - Allow filtering the number of validations during each action pass.
 		 *
-		 * @api int The maximum number of validations.
+		 * @param int $limit The maximum number of validations.
 		 */
 		$limit = \apply_filters( 'wpseo_aioseo_validation_limit', 25 );
 

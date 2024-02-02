@@ -13,6 +13,13 @@ const paper = new Paper( content, {
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Cat_play_and_toys",
 	slug: "Cat_play_and_toys",
+	customData: {
+		canRetrieveGlobalSku: true,
+		hasGlobalSKU: true,
+		hasGlobalIdentifier: true,
+		hasVariants: false,
+		productType: "simple",
+	},
 } );
 
 const expectedResults = {
@@ -30,7 +37,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 4 times. This is great!",
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The keyphrase was found 4 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -85,6 +92,16 @@ const expectedResults = {
 		isApplicable: true,
 		score: 0,
 		resultText: "",
+	},
+	productIdentifiers: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Your product has an identifier. Good job!",
+	},
+	productSKU: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Your product has a SKU. Good job!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
@@ -142,6 +159,12 @@ const expectedResults = {
 		score: 3,
 		resultText: "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: No lists appear on this page. " +
 			"<a href='https://yoa.st/shopify39' target='_blank'>Add at least one ordered or unordered list</a>!",
+	},
+	wordComplexity: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: You are not using too many complex words, which makes " +
+			"your text easy to read. Good job!",
 	},
 };
 

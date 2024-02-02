@@ -7,6 +7,8 @@ import { createExceptionHandler, isSameOrigin, createBlobURL, createWorkerFallba
  */
 import "blob-polyfill";
 
+global.window.wpseoAdminL10n = [];
+
 describe( "The createWorker module", () => {
 	let originalWorker, originalURL;
 
@@ -32,18 +34,21 @@ describe( "The createWorker module", () => {
 
 	describe( "checks isSameOrigin function", () => {
 		it( "checks if two different URLS from different sites have the same origin (hostname, port, protocol)", () => {
-			const sameURL = isSameOrigin( "https://jestjs.io/docs/mock-functions", "https://developer.mozilla.org/en-US/docs/Web/API/Location/origin" );
+			const sameURL = isSameOrigin( "https://jestjs.io/docs/mock-functions",
+				"https://developer.mozilla.org/en-US/docs/Web/API/Location/origin" );
 			expect( sameURL ).toBeFalsy();
 		} );
 
 		it( "checks if two URLS of different posts on the same site have the same origin (hostname, port, protocol)", () => {
 			// eslint-disable-next-line max-len
-			const sameURL = isSameOrigin( "https://stackoverflow.com/questions/52968969/jest-url-createobjecturl-is-not-a-function", "https://stackoverflow.com/questions/41885841/how-can-i-mock-the-javascript-window-object-using-jest" );
+			const sameURL = isSameOrigin( "https://stackoverflow.com/questions/52968969/jest-url-createobjecturl-is-not-a-function",
+				"https://stackoverflow.com/questions/41885841/how-can-i-mock-the-javascript-window-object-using-jest" );
 			expect( sameURL ).toBeTruthy();
 		} );
 
 		it( "checks if two URLS with different scheme (http vs https) have the same origin (hostname, port, protocol/ scheme)", () => {
-			const sameURL = isSameOrigin( "http://jestjs.io/docs/mock-functions", "https://jestjs.io/docs/mock-functions" );
+			const sameURL = isSameOrigin( "http://jestjs.io/docs/mock-functions",
+				"https://jestjs.io/docs/mock-functions" );
 			expect( sameURL ).toBeFalsy();
 		} );
 	} );
@@ -127,6 +132,15 @@ describe( "The createWorker module", () => {
 		it( "creates a worker using the fallback when the worker script does not have the same origin", () => {
 			const worker = createWorker( "http://example.org/some/code.js" );
 			expect( worker ).toBeInstanceOf( global.Worker );
+		} );
+
+		it( "creates a worker using the fallback when we are editing a post with the Google Web Stories integration active", () => {
+			window.wpseoAdminL10n = { isWebStoriesIntegrationActive: 1 };
+
+			const worker = createWorker( "http://example.org/some/code.js" );
+			expect( worker ).toBeInstanceOf( global.Worker );
+
+			window.wpseoAdminL10n = { isWebStoriesIntegrationActive: 0 };
 		} );
 
 		it( "creates a worker using the fallback when the worker script cannot be created", () => {

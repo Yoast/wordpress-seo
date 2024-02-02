@@ -70,6 +70,15 @@ class WPSEO_Image_Utils {
 		$id = attachment_url_to_postid( $url );
 
 		if ( empty( $id ) ) {
+			/**
+			 * If no ID was found, maybe we're dealing with a scaled big image. So, let's try that.
+			 *
+			 * @see https://core.trac.wordpress.org/ticket/51058
+			 */
+			$id = self::get_scaled_image_id( $url );
+		}
+
+		if ( empty( $id ) ) {
 			wp_cache_set( $cache_key, 'not_found', '', ( 12 * HOUR_IN_SECONDS + wp_rand( 0, ( 4 * HOUR_IN_SECONDS ) ) ) );
 			return 0;
 		}
@@ -77,6 +86,24 @@ class WPSEO_Image_Utils {
 		// We have the Post ID, but it's not in the cache yet. We do that here and return.
 		wp_cache_set( $cache_key, $id, '', ( 24 * HOUR_IN_SECONDS + wp_rand( 0, ( 12 * HOUR_IN_SECONDS ) ) ) );
 		return $id;
+	}
+
+	/**
+	 * Tries getting the ID of a potentially scaled image.
+	 *
+	 * @param string $url The URL of the image.
+	 *
+	 * @return int|false The ID of the image or false for failure.
+	 */
+	protected static function get_scaled_image_id( $url ) {
+		$path_parts = pathinfo( $url );
+		if ( isset( $path_parts['dirname'], $path_parts['filename'], $path_parts['extension'] ) ) {
+			$scaled_url = trailingslashit( $path_parts['dirname'] ) . $path_parts['filename'] . '-scaled.' . $path_parts['extension'];
+
+			return attachment_url_to_postid( $scaled_url );
+		}
+
+		return false;
 	}
 
 	/**
@@ -121,7 +148,7 @@ class WPSEO_Image_Utils {
 		 *
 		 * Elements with keys not listed in the section will be discarded.
 		 *
-		 * @api array {
+		 * @param array $image_data {
 		 *     Array of image data
 		 *
 		 *     @type int    id       Image's ID as an attachment.
@@ -135,7 +162,7 @@ class WPSEO_Image_Utils {
 		 *     @type string url      Image's URL.
 		 *     @type int    filesize The file size in bytes, if already set.
 		 * }
-		 * @api int  Attachment ID.
+		 * @param int   $attachment_id Attachment ID.
 		 */
 		$image = apply_filters( 'wpseo_image_data', $image, $attachment_id );
 
@@ -159,7 +186,7 @@ class WPSEO_Image_Utils {
 		 * Filter: 'wpseo_image_image_weight_limit' - Determines what the maximum weight
 		 * (in bytes) of an image is allowed to be, default is 2 MB.
 		 *
-		 * @api int - The maximum weight (in bytes) of an image.
+		 * @param int $max_bytes The maximum weight (in bytes) of an image.
 		 */
 		$max_size = apply_filters( 'wpseo_image_image_weight_limit', 2097152 );
 
@@ -174,8 +201,8 @@ class WPSEO_Image_Utils {
 	/**
 	 * Find the right version of an image based on size.
 	 *
-	 * @param int    $attachment_id Attachment ID.
-	 * @param string $size          Size name.
+	 * @param int          $attachment_id Attachment ID.
+	 * @param string|array $size          Size name, or array of width and height in pixels (e.g [800,400]).
 	 *
 	 * @return array|false Returns an array with image data on success, false on failure.
 	 */
@@ -189,11 +216,24 @@ class WPSEO_Image_Utils {
 			$image = image_get_intermediate_size( $attachment_id, $size );
 		}
 
+		if ( ! is_array( $image ) ) {
+			$image_src = wp_get_attachment_image_src( $attachment_id, $size );
+			if ( is_array( $image_src ) && isset( $image_src[1] ) && isset( $image_src[2] ) ) {
+				$image           = [];
+				$image['url']    = $image_src[0];
+				$image['width']  = $image_src[1];
+				$image['height'] = $image_src[2];
+				$image['size']   = 'full';
+			}
+		}
+
 		if ( ! $image ) {
 			return false;
 		}
 
-		$image['size'] = $size;
+		if ( ! isset( $image['size'] ) ) {
+			$image['size'] = $size;
+		}
 
 		return self::get_data( $image, $attachment_id );
 	}
@@ -272,10 +312,16 @@ class WPSEO_Image_Utils {
 			return $image['filesize'];
 		}
 
+		if ( ! isset( $image['path'] ) ) {
+			return 0;
+		}
+
 		// If the file size for the file is over our limit, we're going to go for a smaller version.
-		// @todo Save the filesize to the image metadata.
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- If file size doesn't properly return, we'll not fail.
-		return @filesize( self::get_absolute_path( $image['path'] ) );
+		if ( function_exists( 'wp_filesize' ) ) {
+			return wp_filesize( self::get_absolute_path( $image['path'] ) );
+		}
+
+		return file_exists( $image['path'] ) ? (int) filesize( $image['path'] ) : 0;
 	}
 
 	/**
@@ -358,7 +404,7 @@ class WPSEO_Image_Utils {
 		/**
 		 * Filter: 'wpseo_image_sizes' - Determines which image sizes we'll loop through to get an appropriate image.
 		 *
-		 * @api array - The array of image sizes to loop through.
+		 * @param array<string> $sizes The array of image sizes to loop through.
 		 */
 		return apply_filters( 'wpseo_image_sizes', [ 'full', 'large', 'medium_large' ] );
 	}
@@ -450,14 +496,20 @@ class WPSEO_Image_Utils {
 	 */
 	public static function get_attachment_id_from_settings( $setting ) {
 		$image_id = WPSEO_Options::get( $setting . '_id', false );
-		if ( ! $image_id ) {
-			$image = WPSEO_Options::get( $setting, false );
-			if ( $image ) {
-				// There is not an option to put a URL in an image field in the settings anymore, only to upload it through the media manager.
-				// This means an attachment always exists, so doing this is only needed once.
-				$image_id = self::get_attachment_by_url( $image );
-				WPSEO_Options::set( $setting . '_id', $image_id );
-			}
+		if ( $image_id ) {
+			return $image_id;
+		}
+
+		$image = WPSEO_Options::get( $setting, false );
+		if ( $image ) {
+			// There is not an option to put a URL in an image field in the settings anymore, only to upload it through the media manager.
+			// This means an attachment always exists, so doing this is only needed once.
+			$image_id = self::get_attachment_by_url( $image );
+		}
+
+		// Only store a new ID if it is not 0, to prevent an update loop.
+		if ( $image_id ) {
+			WPSEO_Options::set( $setting . '_id', $image_id );
 		}
 
 		return $image_id;

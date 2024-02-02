@@ -17,6 +17,7 @@ describe( "a test for Arabic Researcher", function() {
 
 	it( "returns false if the default research is deleted in Arabic Researcher", function() {
 		expect( researcher.getResearch( "getFleschReadingScore" ) ).toBe( false );
+		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
 	} );
 
 	it( "returns false if the Arabic Researcher doesn't have a certain config", function() {

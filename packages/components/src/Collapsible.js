@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import IconsButton from "./buttons/IconsButton";
-import { SectionTitle } from "./SectionTitle";
+import { SectionTitle, StyledTitle } from "./SectionTitle";
 
 const Content = styled.div`
 	padding: 0 16px;
@@ -70,6 +70,12 @@ export function wrapInHeading( Component, props ) {
 		padding: 0 !important;
 		font-size: ${ props.fontSize } !important;
 		font-weight: ${ props.fontWeight } !important;
+		color: ${ props.color } !important;
+
+		${StyledTitle} {
+			font-weight: ${ props.fontWeight };
+			color: ${ props.color };
+		}
 	`;
 
 	return function Wrapped( componentProps ) {
@@ -105,32 +111,50 @@ const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1
  * @returns {ReactElement} A collapsible panel.
  */
 export function CollapsibleStateless( props ) {
-	let children = null;
-	if ( props.isOpen ) {
-		children = ( props.hasPadding ) ? <Content className="collapsible_content">{ props.children }</Content> : props.children;
+	const {
+		children,
+		className,
+		hasPadding,
+		hasSeparator,
+		Heading,
+		id,
+		isOpen,
+		onToggle,
+		prefixIcon,
+		prefixIconCollapsed,
+		suffixIcon,
+		suffixIconCollapsed,
+		subTitle,
+		title,
+		titleScreenReaderText,
+	} = props;
+
+	let wrappedChildren = children;
+	if ( isOpen && hasPadding ) {
+		wrappedChildren = <Content className="collapsible_content">{ children }</Content>;
 	}
-	const Container = ( props.hasSeparator ) ? StyledContainerTopLevel : StyledContainer;
+	const Container = ( hasSeparator ) ? StyledContainerTopLevel : StyledContainer;
 
 	return (
 		<Container
 			// Pass the classname to allow re-styling with styled-components.
-			className={ props.className }
+			className={ className }
 		>
-			<props.Heading
-				id={ props.id }
-				aria-expanded={ props.isOpen }
-				onClick={ props.onToggle }
-				prefixIcon={ props.isOpen ? props.prefixIcon : props.prefixIconCollapsed }
-				suffixIcon={ props.isOpen ? props.suffixIcon : props.suffixIconCollapsed }
-				hasSubTitle={ !! props.subTitle }
+			<Heading
+				id={ id }
+				aria-expanded={ isOpen }
+				onClick={ onToggle }
+				prefixIcon={ isOpen ? prefixIcon : prefixIconCollapsed }
+				suffixIcon={ isOpen ? suffixIcon : suffixIconCollapsed }
+				hasSubTitle={ !! subTitle }
 			>
 				<SectionTitle
-					title={ props.title }
-					titleScreenReaderText={ props.titleScreenReaderText }
-					subTitle={ props.subTitle }
+					title={ title }
+					titleScreenReaderText={ titleScreenReaderText }
+					subTitle={ subTitle }
 				/>
-			</props.Heading>
-			{ children }
+			</Heading>
+			{ wrappedChildren }
 		</Container>
 	);
 }
@@ -145,7 +169,6 @@ CollapsibleStateless.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	hasSeparator: PropTypes.bool,
 	hasPadding: PropTypes.bool,
-	initialIsOpen: PropTypes.bool,
 	onToggle: PropTypes.func.isRequired,
 	prefixIcon: PropTypes.shape( {
 		icon: PropTypes.string,
@@ -182,7 +205,6 @@ CollapsibleStateless.defaultProps = {
 	titleScreenReaderText: null,
 	hasSeparator: false,
 	hasPadding: false,
-	initialIsOpen: false,
 	prefixIcon: null,
 	prefixIconCollapsed: null,
 	suffixIcon: null,
@@ -239,7 +261,8 @@ export class Collapsible extends React.Component {
 		if (
 			props.headingProps.level !== state.headingProps.level ||
 			props.headingProps.fontSize !== state.headingProps.fontSize ||
-			props.headingProps.fontWeight !== state.headingProps.fontWeight
+			props.headingProps.fontWeight !== state.headingProps.fontWeight ||
+			props.headingProps.color !== state.headingProps.color
 		) {
 			return {
 				...state,
@@ -326,6 +349,7 @@ Collapsible.propTypes = {
 		level: PropTypes.number,
 		fontSize: PropTypes.string,
 		fontWeight: PropTypes.string,
+		color: PropTypes.string,
 	} ),
 	onToggle: PropTypes.func,
 };
@@ -354,6 +378,7 @@ Collapsible.defaultProps = {
 		level: 2,
 		fontSize: "1rem",
 		fontWeight: "normal",
+		color: colors.$color_headings,
 	},
 	onToggle: null,
 };

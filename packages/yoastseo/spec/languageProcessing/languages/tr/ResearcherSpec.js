@@ -21,6 +21,7 @@ describe( "a test for Turkish Researcher", function() {
 
 	it( "returns false if the default research is deleted in the Turkish Researcher", function() {
 		expect( researcher.getResearch( "getFleschReadingScore" ) ).toBe( false );
+		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
 	} );
 
 	it( "returns false if the Turkish Researcher doesn't have a certain config", function() {

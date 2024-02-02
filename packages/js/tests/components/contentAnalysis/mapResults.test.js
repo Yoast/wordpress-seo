@@ -9,31 +9,49 @@ const analysisResults = [
 		_identifier: "error",
 		score: -1,
 		text: "feedback string",
+		_hasBetaBadge: false,
+		_hasJumps: false,
+		editFieldName: "keyphrase",
 	} ),
 	new AssessmentResult( {
 		_identifier: "problem",
 		score: 0,
 		text: "feedback string",
+		_hasBetaBadge: false,
+		_hasJumps: false,
+		editFieldName: "keyphrase",
 	} ),
 	new AssessmentResult( {
 		_identifier: "improvement",
 		score: 3,
 		text: "feedback string",
+		_hasBetaBadge: false,
+		_hasJumps: false,
+		editFieldName: "keyphrase",
 	} ),
 	new AssessmentResult( {
 		_identifier: "consideration",
 		score: 6,
 		text: "feedback string",
+		_hasBetaBadge: true,
+		_hasJumps: true,
+		editFieldName: "keyphrase",
 	} ),
 	new AssessmentResult( {
 		_identifier: "good",
 		score: 9,
 		text: "feedback string",
+		_hasBetaBadge: false,
+		_hasJumps: false,
+		editFieldName: "",
 	} ),
 	new AssessmentResult( {
 		_identifier: "empty text",
 		score: 0,
 		text: "",
+		_hasBetaBadge: false,
+		_hasJumps: false,
+		editFieldName: "",
 	} ),
 ];
 
@@ -85,6 +103,9 @@ describe( "mapResults", () => {
 		expect( result.id ).toBe( expectedResult._identifier );
 		expect( result.text ).toBe( expectedResult.text );
 		expect( result.markerId ).toBe( expectedResult._identifier );
+		expect( result.hasBetaBadge ).toBe( expectedResult._hasBetaBadge );
+		expect( result.hasJumps ).toBe( expectedResult._hasJumps );
+		expect( result.editFieldName ).toBe( expectedResult.editFieldName );
 	} );
 
 	it( "maps a result, using a keywordKey", () => {
@@ -100,12 +121,15 @@ describe( "mapResults", () => {
 		expect( result.id ).toBe( expectedResult._identifier );
 		expect( result.text ).toBe( expectedResult.text );
 		expect( result.markerId ).toBe( `something:${expectedResult._identifier}` );
+		expect( result.hasBetaBadge ).toBe( expectedResult._hasBetaBadge );
+		expect( result.hasJumps ).toBe( expectedResult._hasJumps );
+		expect( result.editFieldName ).toBe( expectedResult.editFieldName );
 	} );
 } );
 
 describe( "getIconForScore", () => {
-	it( "has a fallback icon", () => {
-		const expected = { icon: "seo-score-none", color: colors.$color_red };
+	it( "has a fallback (default) icon", () => {
+		const expected = { icon: "seo-score-bad", color: colors.$color_red };
 		const actual = getIconForScore( "non-existing score" );
 
 		expect( actual.icon ).toBe( expected.icon );
@@ -128,7 +152,7 @@ describe( "getIconForScore", () => {
 		expect( actual.color ).toBe( expected.color );
 	} );
 
-	it( "has a ok icon", () => {
+	it( "has an ok icon", () => {
 		const expected = { icon: "seo-score-ok", color: colors.$color_ok };
 		const actual = getIconForScore( "ok" );
 

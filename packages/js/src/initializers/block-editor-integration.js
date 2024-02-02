@@ -1,37 +1,33 @@
-/* External dependencies */
+import { updateCategory } from "@wordpress/blocks";
+import { dispatch, select } from "@wordpress/data";
 import {
-	PluginPrePublishPanel,
-	PluginPostPublishPanel,
 	PluginDocumentSettingPanel,
+	PluginPostPublishPanel,
+	PluginPrePublishPanel,
 	PluginSidebar,
 	PluginSidebarMoreMenuItem,
 } from "@wordpress/edit-post";
-import { registerPlugin } from "@wordpress/plugins";
 import { Fragment } from "@wordpress/element";
-import { updateCategory } from "@wordpress/blocks";
-import { select, dispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
+import { registerPlugin } from "@wordpress/plugins";
 import { registerFormatType } from "@wordpress/rich-text";
-import { get } from "lodash-es";
-import { Slot } from "@wordpress/components";
+import { Root } from "@yoast/externals/contexts";
 import { actions } from "@yoast/externals/redux";
+import { get } from "lodash";
 import initializeWordProofForBlockEditor from "../../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/blockEditor";
-
-/* Internal dependencies */
-import PluginIcon from "../containers/PluginIcon";
-import SidebarFill from "../containers/SidebarFill";
-import MetaboxPortal from "../components/portals/MetaboxPortal";
-import { isAnnotationAvailable } from "../decorator/gutenberg";
-import SidebarSlot from "../components/slots/SidebarSlot";
-import { link } from "../inline-links/edit-link";
-import PrePublish from "../containers/PrePublish";
-import DocumentSidebar from "../containers/DocumentSidebar";
-import PostPublish from "../containers/PostPublish";
-import WincherPostPublish from "../containers/WincherPostPublish";
 import getL10nObject from "../analysis/getL10nObject";
 import YoastIcon from "../components/PluginIcon";
+import MetaboxPortal from "../components/portals/MetaboxPortal";
+import SidebarSlot from "../components/slots/SidebarSlot";
+import DocumentSidebar from "../containers/DocumentSidebar";
+import PluginIcon from "../containers/PluginIcon";
+import PostPublish from "../containers/PostPublish";
+import PrePublish from "../containers/PrePublish";
+import SidebarFill from "../containers/SidebarFill";
+import WincherPostPublish from "../containers/WincherPostPublish";
+import { isAnnotationAvailable } from "../decorator/gutenberg";
 import { isWordProofIntegrationActive } from "../helpers/wordproof";
-
+import { link } from "../inline-links/edit-link";
 
 /**
  * Registers the Yoast inline link format.
@@ -42,6 +38,13 @@ import { isWordProofIntegrationActive } from "../helpers/wordproof";
  */
 function registerFormats() {
 	if ( typeof get( window, "wp.blockEditor.__experimentalLinkControl" ) === "function" ) {
+		const unknownSettings = select( "core/rich-text" )
+			.getFormatType( "core/unknown" );
+
+		if ( typeof( unknownSettings ) !== "undefined" ) {
+			dispatch( "core/rich-text" ).removeFormatTypes( "core/unknown" );
+		}
+
 		[
 			link,
 		].forEach( ( { name, replaces, ...settings } ) => {
@@ -52,11 +55,16 @@ function registerFormats() {
 				registerFormatType( name, settings );
 			}
 		} );
+
+		if ( typeof( unknownSettings ) !== "undefined" ) {
+			registerFormatType( "core/unknown", unknownSettings );
+		}
 	} else {
 		console.warn(
 			__( "Marking links with nofollow/sponsored has been disabled for WordPress installs < 5.4.", "wordpress-seo" ) +
 			" " +
 			sprintf(
+				// translators: %1$s expands to Yoast SEO.
 				__( "Please upgrade your WordPress version or install the Gutenberg plugin to get this %1$s feature.", "wordpress-seo" ),
 				"Yoast SEO"
 			)
@@ -70,9 +78,34 @@ function registerFormats() {
  * @returns {void}
  */
 function initiallyOpenDocumentSettings() {
-	const firstLoad = ! select( "core/edit-post" ).getPreferences().panels[ "yoast-seo/document-panel" ];
-	if ( firstLoad ) {
-		dispatch( "core/edit-post" ).toggleEditorPanelOpened( "yoast-seo/document-panel" );
+	const PANEL_NAME = "yoast-seo/document-panel";
+
+	/**
+	 * In WP 6.5 the toggleEditorPanelOpened function was added to the core/editor store.
+	 * Using this knowledge to detect which selector we should use to get the opened panels.
+	 *
+	 * We can remove this logic path when WP 6.4 is no longer supported!
+	 */
+	const isNewerGutenberg = Boolean( dispatch( "core/editor" )?.toggleEditorPanelOpened );
+
+	if ( ! isNewerGutenberg ) {
+		/**
+		 * Using WP < 6.5 logic.
+		 * @see https://github.com/WordPress/gutenberg/pull/57529
+		 *
+		 * Using `core/edit-post` instead of `core` (select) and `core/editor` (dispatch).
+		 */
+		if ( ! select( "core/preferences" )?.get( "core/edit-post", "openPanels" )?.includes( PANEL_NAME ) ) {
+			dispatch( "core/edit-post" )?.toggleEditorPanelOpened( PANEL_NAME );
+		}
+		return;
+	}
+
+	// Still using a fallback in here because there is window for error between Gutenberg 17.4.1 and 17.5.0.
+	const openPanels = select( "core/preferences" )?.get( "core", "openPanels" ) || select( "core/preferences" )?.get( "core/edit-post", "openPanels" );
+
+	if ( ! openPanels.includes( PANEL_NAME ) ) {
+		dispatch( "core/editor" )?.toggleEditorPanelOpened( PANEL_NAME );
 	}
 }
 
@@ -98,9 +131,11 @@ function registerFills( store ) {
 	};
 	const preferences = store.getState().preferences;
 	const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
-	const showZapierPanel = preferences.isZapierIntegrationActive && ! preferences.isZapierConnected;
 	const showWincherPanel = preferences.isKeywordAnalysisActive && preferences.isWincherIntegrationActive;
 	initiallyOpenDocumentSettings();
+
+	const blockSidebarContext = { locationContext: "block-sidebar" };
+	const blockMetaboxContext = { locationContext: "block-metabox" };
 
 	/**
 	 * Renders the yoast editor fills.
@@ -119,11 +154,15 @@ function registerFills( store ) {
 				name="seo-sidebar"
 				title={ pluginTitle }
 			>
-				<SidebarSlot store={ store } theme={ theme } />
+				<Root context={ blockSidebarContext }>
+					<SidebarSlot store={ store } theme={ theme } />
+				</Root>
 			</PluginSidebar>
 			<Fragment>
 				<SidebarFill store={ store } theme={ theme } />
-				<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				<Root context={ blockMetaboxContext }>
+					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				</Root>
 			</Fragment>
 			{ analysesEnabled && <PluginPrePublishPanel
 				className="yoast-seo-sidebar-panel"
@@ -132,14 +171,6 @@ function registerFills( store ) {
 				icon={ <Fragment /> }
 			>
 				<PrePublish />
-			</PluginPrePublishPanel> }
-			{ isPremium && showZapierPanel && <PluginPrePublishPanel
-				className="yoast-seo-sidebar-panel"
-				title="Zapier"
-				initialOpen={ true }
-				icon={ <Fragment /> }
-			>
-				<Slot name="YoastZapierPrePublish" />
 			</PluginPrePublishPanel> }
 			<PluginPostPublishPanel
 				className="yoast-seo-sidebar-panel"

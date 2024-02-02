@@ -7,7 +7,7 @@
  * @package WPSEO\Admin\Google_Search_Console
  */
 
-_deprecated_file( __FILE__, 'WPSEO 9.5' );
+_deprecated_file( __FILE__, 'Yoast SEO 9.5' );
 
 echo '<h1 class="wpseo-redirect-url-title">';
 printf(

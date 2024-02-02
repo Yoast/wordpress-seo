@@ -1,10 +1,9 @@
 /* global wpseoFirstTimeConfigurationData */
 import apiFetch from "@wordpress/api-fetch";
 import { useCallback, useReducer, useState, useEffect, useRef } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import { uniq } from "lodash";
 
-import { addLinkToString } from "../helpers/stringHelpers.js";
 import { configurationReducer } from "./tailwind-components/helpers/index.js";
 import SocialProfilesStep from "./tailwind-components/steps/social-profiles/social-profiles-step";
 import Stepper, { Step } from "./tailwind-components/stepper";
@@ -14,19 +13,7 @@ import IndexationStep from "./tailwind-components/steps/indexation/indexation-st
 import SiteRepresentationStep from "./tailwind-components/steps/site-representation/site-representation-step";
 import PersonalPreferencesStep from "./tailwind-components/steps/personal-preferences/personal-preferences-step";
 import FinishStep from "./tailwind-components/steps/finish/finish-step";
-
-window.wpseoScriptData = window.wpseoScriptData || {};
-window.wpseoScriptData.searchAppearance = {
-	...window.wpseoScriptData.searchAppearance,
-	userEditUrl: "/wp-admin/user-edit.php?user_id={user_id}",
-};
-
-const STEPS = {
-	optimizeSeoData: "optimizeSeoData",
-	siteRepresentation: "siteRepresentation",
-	socialProfiles: "socialProfiles",
-	personalPreferences: "personalPreferences",
-};
+import { STEPS } from "./constants";
 
 /* eslint-disable complexity */
 
@@ -45,6 +32,7 @@ async function updateSiteRepresentation( state ) {
 		company_name: state.companyName,
 		company_logo: state.companyLogo,
 		company_logo_id: state.companyLogoId ? state.companyLogoId : 0,
+		website_name: state.websiteName,
 		person_logo: state.personLogo,
 		person_logo_id: state.personLogoId ? state.personLogoId : 0,
 		company_or_person_user_id: state.personId,
@@ -82,38 +70,6 @@ async function updateSocialProfiles( state ) {
 	} );
 	return await response.json;
 }
-
-/**
- * Updates the person social profiles in the database.
- *
- * @param {Object} state The state to save.
- *
- * @returns {Promise|bool} A promise, or false if the call fails.
- */
-async function updatePersonSocialProfiles( state ) {
-	const socialProfiles = {
-		/* eslint-disable camelcase */
-		user_id: state.personId,
-		facebook: state.personSocialProfiles.facebook,
-		instagram: state.personSocialProfiles.instagram,
-		linkedin: state.personSocialProfiles.linkedin,
-		myspace: state.personSocialProfiles.myspace,
-		pinterest: state.personSocialProfiles.pinterest,
-		soundcloud: state.personSocialProfiles.soundcloud,
-		tumblr: state.personSocialProfiles.tumblr,
-		twitter: state.personSocialProfiles.twitter,
-		youtube: state.personSocialProfiles.youtube,
-		wikipedia: state.personSocialProfiles.wikipedia,
-		/* eslint-enable camelcase */
-	};
-	const response = await apiFetch( {
-		path: "yoast/v1/configuration/person_social_profiles",
-		method: "POST",
-		data: socialProfiles,
-	} );
-	return await response.json;
-}
-
 /**
  * Updates the tracking option in the database.
  *
@@ -163,23 +119,34 @@ async function saveFinishedSteps( finishedSteps ) {
  * @returns {Object} The initial state.
  */
 function calculateInitialState( windowObject, isStepFinished ) {
-	let { companyOrPerson, companyName,	companyLogo, companyOrPersonOptions, shouldForceCompany } = windowObject; // eslint-disable-line prefer-const
-
-	if ( shouldForceCompany ) {
+	const {
+		companyName,
+		companyLogo,
+		companyOrPersonOptions,
+		shouldForceCompany,
+		fallbackCompanyName,
+		websiteName,
+		fallbackWebsiteName,
+	} = windowObject;
+	let { companyOrPerson } = windowObject;
+	if ( ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) || shouldForceCompany ) {
+		// Set the stage for a prefilled step 2 in case the customer does seem to have consciously finished step 2 without setting data.
 		companyOrPerson = "company";
-	} else if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) {
-		// Set the stage for an empty step 2 in case the customer does seem to have consciously finished step 2 without setting data.
-		companyOrPerson = "emptyChoice";
 	}
 
 	return {
 		...windowObject,
+		personId: Number( windowObject.personId ),
+		personLogoId: Number( windowObject.personLogoId ),
+		companyLogoId: Number( windowObject.companyLogoId ),
+		tracking: Number( windowObject.tracking ),
 		companyOrPerson,
 		companyOrPersonOptions,
-		personSocialProfiles: {},
 		errorFields: [],
 		stepErrors: {},
 		editedSteps: [],
+		companyName: companyName || fallbackCompanyName,
+		websiteName: websiteName || fallbackWebsiteName,
 	};
 }
 
@@ -238,7 +205,7 @@ export default function FirstTimeConfigurationSteps() {
 						// The classList replace will return false if the class was not present (and thus an adminbar counter).
 						const isAdminBarCounter = ! counterNode.classList.replace( "count-" + oldCount, "count-" + newCount );
 						// If the count reaches zero because of this, remove the red dot alltogether.
-						if ( isAdminBarCounter  && newCount === "0" ) {
+						if ( isAdminBarCounter && newCount === "0" ) {
 							counterNode.style.display = "none";
 						} else {
 							counterNode.firstChild.textContent = counterNode.firstChild.textContent.replace( oldCount, newCount );
@@ -264,8 +231,8 @@ export default function FirstTimeConfigurationSteps() {
 		dispatch( { type: "SET_ERROR_FIELDS", payload: value } );
 	} );
 
-	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ! state.companyLogo );
-	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ! state.personLogo );
+	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ( ! state.companyLogo && ! state.companyLogoFallback ) || ! state.websiteName );
+	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ( ! state.personLogo && ! state.personLogoFallback ) || ! state.websiteName );
 
 	/**
 	 * Runs checks of finishing the site representation step.
@@ -310,36 +277,8 @@ export default function FirstTimeConfigurationSteps() {
 	 */
 	function updateOnFinishSocialProfiles() {
 		if ( state.companyOrPerson === "person" ) {
-			if ( ! state.canEditUser ) {
-				return true;
-			}
-			return updatePersonSocialProfiles( state )
-				.then( ( response ) => {
-					if ( response.success === false ) {
-						setErrorFields( response.failures );
-						return Promise.reject( "There were errors saving social profiles" );
-					}
-					return response;
-				} )
-				.then( () => {
-					setErrorFields( [] );
-					removeStepError( STEPS.socialProfiles );
-					finishSteps( STEPS.socialProfiles );
-				} )
-				.then( () => {
-					return true;
-				} )
-				.catch(
-					( e ) => {
-						if ( e.failures ) {
-							setErrorFields( e.failures );
-						}
-						if ( e.message ) {
-							setStepError( STEPS.socialProfiles, e.message );
-						}
-						return false;
-					}
-				);
+			finishSteps( STEPS.socialProfiles );
+			return true;
 		}
 
 		return updateSocialProfiles( state )
@@ -378,13 +317,6 @@ export default function FirstTimeConfigurationSteps() {
 	 */
 	function updateOnFinishPersonalPreferences() {
 		return updateTracking( state )
-			.then( () => {
-				if ( !! state.tracking === true ) {
-					document.getElementById( "tracking-on" ).checked = true;
-				} else {
-					document.getElementById( "tracking-off" ).checked = true;
-				}
-			} )
 			.then( () => finishSteps( STEPS.personalPreferences ) )
 			.then( () => {
 				removeStepError( STEPS.personalPreferences );
@@ -433,7 +365,9 @@ export default function FirstTimeConfigurationSteps() {
 	 * @returns {boolean} Whether the stepper can continue to the next step.
 	 */
 	function beforeContinueIndexationStep() {
-		if ( ! showRunIndexationAlert && indexingState === "idle" ) {
+		// When: not already showing the alert AND indexation state is "idle" (not yet interacted with) AND indexation is not disabled.
+		if ( ! showRunIndexationAlert && indexingState === "idle" && window.yoastIndexingData.disabled !== "1" ) {
+			// Then: show an alert to notify users that indexation is helpful.
 			setShowRunIndexationAlert( true );
 			return false;
 		}
@@ -535,28 +469,10 @@ export default function FirstTimeConfigurationSteps() {
 	}, [ beforeUnloadEventHandler ] );
 
 	return (
-		<div id="yoast-configuration" className="yst-card yst-text-gray-500">
-			<h2 id="yoast-configuration-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get your site ranked!", "wordpress-seo" ) }</h2>
-			<p className="yst-py-2">
-				{
-					addLinkToString(
-						sprintf(
-							// translators: %1$s and %3$s are replaced by opening and closing anchor tags. %2$s is replaced by "Yoast SEO"
-							__(
-								"Put the %1$s%2$s indexables squad%3$s to work! Make Google understand your site.",
-								"wordpress-seo"
-							),
-							"<a>",
-							"Yoast SEO",
-							"</a>"
-						),
-						window.wpseoFirstTimeConfigurationData.shortlinks.configIndexables,
-						"yoast-configuration-guide-link"
-					)
-				}
-			</p>
-			<p className="yst-mb-6">
-				{ __( "The Yoast indexables squad can't wait to get your site in tip-top shape for the search engines. Help us and take these 5 steps in order to put our Yoast indexables to work!", "wordpress-seo" ) }
+		<div id="yoast-configuration" className="yst-max-w-[715px] yst-mt-6 yst-p-8 yst-rounded-lg yst-bg-white yst-shadow yst-text-slate-600">
+			<h2 id="yoast-configuration-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get it ranked!", "wordpress-seo" ) }</h2>
+			<p className="yst-pt-2 yst-mb-6">
+				{ __( "Let's get your site in tip-top shape for the search engines. Simply follow these 5 steps to make Google understand what your site is about.", "wordpress-seo" ) }
 			</p>
 			<hr id="configuration-hr-top" />
 			{ /* eslint-disable react/jsx-no-bind */ }
@@ -572,6 +488,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isIndexationStepFinished }
 						>
 							<EditButton
+								stepId={ STEPS.optimizeSeoData }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -582,6 +499,7 @@ export default function FirstTimeConfigurationSteps() {
 						<Step.Content>
 							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } isStepperFinished={ isStepperFinished } />
 							<ContinueButton
+								stepId={ STEPS.optimizeSeoData }
 								additionalClasses="yst-mt-12"
 								beforeGo={ beforeContinueIndexationStep }
 								destination={ stepperFinishedOnce ? "last" : 1 }
@@ -596,6 +514,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep2Finished }
 						>
 							<EditButton
+								stepId={ STEPS.siteRepresentation }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -612,6 +531,7 @@ export default function FirstTimeConfigurationSteps() {
 							/>
 							<Step.Error id="yoast-site-representation-step-error" message={ state.stepErrors[ STEPS.siteRepresentation ] || "" } />
 							<ConfigurationStepButtons
+								stepId={ STEPS.siteRepresentation }
 								stepperFinishedOnce={ stepperFinishedOnce }
 								saveFunction={ updateOnFinishSiteRepresentation }
 								setEditState={ setIsStepBeingEdited }
@@ -624,6 +544,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep3Finished }
 						>
 							<EditButton
+								stepId={ STEPS.socialProfiles }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -634,7 +555,12 @@ export default function FirstTimeConfigurationSteps() {
 						<Step.Content>
 							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } />
 							<Step.Error id="yoast-social-profiles-step-error" message={ state.stepErrors[ STEPS.socialProfiles ] || "" } />
-							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishSocialProfiles } setEditState={ setIsStepBeingEdited } />
+							<ConfigurationStepButtons
+								stepId={ STEPS.socialProfiles }
+								stepperFinishedOnce={ stepperFinishedOnce }
+								saveFunction={ updateOnFinishSocialProfiles }
+								setEditState={ setIsStepBeingEdited }
+							/>
 						</Step.Content>
 					</Step>
 					<Step>
@@ -643,6 +569,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep4Finished }
 						>
 							<EditButton
+								stepId={ STEPS.personalPreferences }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -653,7 +580,12 @@ export default function FirstTimeConfigurationSteps() {
 						<Step.Content>
 							<PersonalPreferencesStep state={ state } setTracking={ setTracking } />
 							<Step.Error id="yoast-personal-preferences-step-error" message={ state.stepErrors[ STEPS.personalPreferences ] || "" } />
-							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishPersonalPreferences } setEditState={ setIsStepBeingEdited } />
+							<ConfigurationStepButtons
+								stepId={ STEPS.personalPreferences }
+								stepperFinishedOnce={ stepperFinishedOnce }
+								saveFunction={ updateOnFinishPersonalPreferences }
+								setEditState={ setIsStepBeingEdited }
+							/>
 						</Step.Content>
 					</Step>
 					<Step>

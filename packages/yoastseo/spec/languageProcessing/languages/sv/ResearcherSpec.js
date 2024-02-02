@@ -21,6 +21,7 @@ describe( "a test for the Swedish Researcher", function() {
 
 	it( "returns false if the default research is deleted in the Swedish Researcher", function() {
 		expect( researcher.getResearch( "getFleschReadingScore" ) ).toBe( false );
+		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
 	} );
 
 	it( "returns false if the Swedish Researcher doesn't have a certain helper", function() {

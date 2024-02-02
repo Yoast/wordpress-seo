@@ -15,7 +15,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	 *
 	 * @var string
 	 */
-	const CACHE_TRANSIENT_KEY = 'wpseo-dashboard-totals';
+	public const CACHE_TRANSIENT_KEY = 'wpseo-dashboard-totals';
 
 	/**
 	 * Holds an instance of the admin asset manager.
@@ -36,7 +36,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	 *
 	 * @param WPSEO_Statistics|null $statistics WPSEO_Statistics instance.
 	 */
-	public function __construct( WPSEO_Statistics $statistics = null ) {
+	public function __construct( ?WPSEO_Statistics $statistics = null ) {
 		if ( $statistics === null ) {
 			$statistics = new WPSEO_Statistics();
 		}
@@ -47,6 +47,8 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Register WordPress hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dashboard_assets' ] );
@@ -66,6 +68,8 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Adds dashboard widget to WordPress.
+	 *
+	 * @return void
 	 */
 	public function add_dashboard_widget() {
 		add_filter( 'postbox_classes_dashboard_wpseo-dashboard-overview', [ $this, 'wpseo_dashboard_overview_class' ] );
@@ -91,6 +95,8 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Displays the dashboard widget.
+	 *
+	 * @return void
 	 */
 	public function display_dashboard_widget() {
 		echo '<div id="yoast-seo-dashboard-widget"></div>';
@@ -98,6 +104,8 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Enqueues assets for the dashboard if the current page is the dashboard.
+	 *
+	 * @return void
 	 */
 	public function enqueue_dashboard_assets() {
 		if ( ! $this->is_dashboard_screen() ) {
@@ -116,8 +124,6 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	 * @return array The translated strings.
 	 */
 	public function localize_dashboard_script() {
-		$is_wincher_active = YoastSEO()->helpers->wincher->is_active();
-
 		return [
 			'feed_header'          => sprintf(
 				/* translators: %1$s resolves to Yoast.com */
@@ -127,9 +133,6 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 			'feed_footer'          => __( 'Read more like this on our SEO blog', 'wordpress-seo' ),
 			'wp_version'           => substr( $GLOBALS['wp_version'], 0, 3 ) . '-' . ( is_plugin_active( 'classic-editor/classic-editor.php' ) ? '1' : '0' ),
 			'php_version'          => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION,
-			'is_wincher_active'    => ( $is_wincher_active ) ? 1 : 0,
-			'wincher_is_logged_in' => ( $is_wincher_active ) ? YoastSEO()->helpers->wincher->login_status() : false,
-			'wincher_website_id'   => WPSEO_Options::get( 'wincher_website_id', '' ),
 		];
 	}
 

@@ -11,6 +11,7 @@ const paper = new Paper( content, {
 	description: "Para indivíduos de muitas culturas, a música está extremamente ligada à sua vida.",
 	title: "Música",
 	titleWidth: 450,
+	textTitle: "Música",
 	locale: "pt_PT",
 	permalink: "https://pt.wikipedia.org/wiki/M%C3%BAsica",
 	slug: "Música",
@@ -31,7 +32,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 4,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 4 times. That's less" +
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 4 times. That's less" +
 			" than the recommended minimum of 22 times for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Focus on your" +
 			" keyphrase</a>!",
 	},
@@ -106,13 +107,6 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not contain" +
 			" the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
-	fleschReadingEase: {
-		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 38.9 in the test, which is considered" +
-			" difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve" +
-			" readability</a>.",
-	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 3,
@@ -164,6 +158,9 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33c' target='_blank'>Images</a>: Good job!",
+	},
+	wordComplexity: {
+		isApplicable: false,
 	},
 };
 

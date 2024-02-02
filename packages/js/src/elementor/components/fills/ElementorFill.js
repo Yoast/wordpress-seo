@@ -1,18 +1,21 @@
 // External dependencies.
 import { Fill } from "@wordpress/components";
-import { useEffect } from "@wordpress/element";
+import { Fragment, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import PropTypes from "prop-types";
+import { InternalLinkingSuggestionsUpsell } from "../../../components/modals/InternalLinkingSuggestionsUpsell";
 
 // Internal dependencies.
 import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
+import { useFirstEligibleNotification } from "../../../hooks/use-first-eligible-notification";
+import InsightsModal from "../../../insights/components/insights-modal";
 import Alert from "../../containers/Alert";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../../../components/SidebarItem";
-import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
-import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
-import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
+import SearchAppearanceModal from "../../../components/modals/editorModals/SearchAppearanceModal";
+import SocialAppearanceModal from "../../../components/modals/editorModals/SocialAppearanceModal";
+import PremiumSEOAnalysisModal from "../../../components/modals/PremiumSEOAnalysisModal";
 import SidebarCollapsible from "../../../components/SidebarCollapsible";
 import SchemaTabContainer from "../../../containers/SchemaTab";
 import AdvancedSettings from "../../../containers/AdvancedSettings";
@@ -20,7 +23,7 @@ import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphras
 import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanceModal";
 import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
-import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
+import KeywordUpsell from "../../../components/modals/KeywordUpsell";
 
 /* eslint-disable complexity */
 /**
@@ -33,6 +36,9 @@ import WebinarPromoNotification from "../../../components/WebinarPromoNotificati
  * @constructor
  */
 export default function ElementorFill( { isLoading, onLoad, settings } ) {
+	const webinarIntroUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
+	const FirstEligibleNotification = useFirstEligibleNotification( { webinarIntroUrl } );
+
 	useEffect( () => {
 		setTimeout( () => {
 			if ( isLoading ) {
@@ -45,15 +51,13 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 		return null;
 	}
 
-	const webinarIntroElementorUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
-
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
 			<Fill name="YoastElementor">
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
-					<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } />
+					{ FirstEligibleNotification && <FirstEligibleNotification /> }
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
 					<KeywordInput />
@@ -61,44 +65,66 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 						<SEMrushRelatedKeyphrases />
 					</Fill> }
 				</SidebarItem> }
-				<SidebarItem renderPriority={ 23 }>
-					<GooglePreviewModal />
+				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 10 }>
+					<Fragment>
+						<SeoAnalysis
+							shouldUpsell={ settings.shouldUpsell }
+							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+							shouldUpsellHighlighting={ settings.shouldUpsell }
+						/>
+						{ settings.shouldUpsell && <PremiumSEOAnalysisModal /> }
+					</Fragment>
+				</SidebarItem> }
+				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 15 }>
+					<ReadabilityAnalysis
+						shouldUpsell={ settings.shouldUpsell }
+						shouldUpsellHighlighting={ settings.shouldUpsell }
+					/>
+				</SidebarItem> }
+				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem renderPriority={ 19 }>
+					<InclusiveLanguageAnalysis
+						shouldUpsellHighlighting={ settings.shouldUpsell }
+					/>
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
+					{ settings.shouldUpsell && <KeywordUpsell /> }
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
+					<SidebarItem key="wincher-seo-performance" renderPriority={ 23 }>
+						<WincherSEOPerformanceModal location="sidebar" shouldCloseOnClickOutside={ false } />
+					</SidebarItem> }
+				{ settings.shouldUpsell && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 24 }>
+					<InternalLinkingSuggestionsUpsell />
+				</SidebarItem> }
+				<SidebarItem renderPriority={ 25 }>
+					<SearchAppearanceModal />
 				</SidebarItem>
-				{ settings.displayFacebook && <SidebarItem renderPriority={ 24 }>
-					<FacebookPreviewModal />
+				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-appearance" renderPriority={ 26 }>
+					<SocialAppearanceModal
+						useOpenGraphData={ settings.useOpenGraphData }
+						useTwitterData={ settings.useTwitterData }
+					/>
 				</SidebarItem> }
-				{ settings.displayTwitter && <SidebarItem renderPriority={ 25 }>
-					<TwitterPreviewModal />
-				</SidebarItem> }
-				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 26 }>
+				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 28 }>
 					<SidebarCollapsible
 						title={ __( "Schema", "wordpress-seo" ) }
 					>
 						<SchemaTabContainer />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 27 }>
+				{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 29 }>
 					<SidebarCollapsible
 						title={ __( "Advanced", "wordpress-seo" ) }
+						buttonId="yoast-seo-elementor-advanced-button"
 					>
 						<AdvancedSettings location="sidebar" />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
-					<ReadabilityAnalysis />
-				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
-					<SeoAnalysis
-						shouldUpsell={ settings.shouldUpsell }
-						shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-					/>
-				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
-				<SidebarItem key="wincher-seo-performance" renderPriority={ 21 }>
-					<WincherSEOPerformanceModal location="sidebar" shouldCloseOnClickOutside={ false } />
-				</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
 					<CollapsibleCornerstone />
+				</SidebarItem> }
+				{ settings.isInsightsEnabled && <SidebarItem renderPriority={ 32 }>
+					<InsightsModal location="elementor" />
 				</SidebarItem> }
 			</Fill>
 		</>

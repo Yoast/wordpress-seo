@@ -5,7 +5,7 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Helpers\Wordpress_Helper;
+use Yoast\WP\SEO\Integrations\Settings_Integration;
 
 /**
  * Class that holds most of the admin functionality for Yoast SEO.
@@ -19,7 +19,7 @@ class WPSEO_Admin {
 	 *
 	 * @var string
 	 */
-	const PAGE_IDENTIFIER = 'wpseo_dashboard';
+	public const PAGE_IDENTIFIER = 'wpseo_dashboard';
 
 	/**
 	 * Array of classes that add admin functionality.
@@ -86,7 +86,8 @@ class WPSEO_Admin {
 		}
 
 		$this->admin_features = [
-			'dashboard_widget' => new Yoast_Dashboard_Widget(),
+			'dashboard_widget'         => new Yoast_Dashboard_Widget(),
+			'wincher_dashboard_widget' => new Wincher_Dashboard_Widget(),
 		];
 
 		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
@@ -116,6 +117,8 @@ class WPSEO_Admin {
 
 	/**
 	 * Schedules a rewrite flush to happen at shutdown.
+	 *
+	 * @return void
 	 */
 	public function schedule_rewrite_flush() {
 		// Bail if this is a multisite installation and the site has been switched.
@@ -137,9 +140,13 @@ class WPSEO_Admin {
 
 	/**
 	 * Register assets needed on admin pages.
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
-		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_licenses' ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form data.
+		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+		if ( $page === 'wpseo_licenses' ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
 			$asset_manager->enqueue_style( 'extensions' );
 		}
@@ -154,19 +161,21 @@ class WPSEO_Admin {
 		/**
 		 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages.
 		 *
-		 * @api string unsigned The capability.
+		 * @param string $capability The capability.
 		 */
 		return apply_filters( 'wpseo_manage_options_capability', 'wpseo_manage_options' );
 	}
 
 	/**
 	 * Maps the manage_options cap on saving an options page to wpseo_manage_options.
+	 *
+	 * @return void
 	 */
 	public function map_manage_options_cap() {
 		// phpcs:ignore WordPress.Security -- The variable is only used in strpos and thus safe to not unslash or sanitize.
 		$option_page = ! empty( $_POST['option_page'] ) ? $_POST['option_page'] : '';
 
-		if ( strpos( $option_page, 'yoast_wpseo' ) === 0 ) {
+		if ( strpos( $option_page, 'yoast_wpseo' ) === 0 || strpos( $option_page, Settings_Integration::PAGE ) === 0 ) {
 			add_filter( 'option_page_capability_' . $option_page, [ $this, 'get_manage_options_cap' ] );
 		}
 	}
@@ -174,6 +183,8 @@ class WPSEO_Admin {
 	/**
 	 * Adds the ability to choose how many posts are displayed per page
 	 * on the bulk edit pages.
+	 *
+	 * @return void
 	 */
 	public function bulk_edit_options() {
 		$option = 'per_page';
@@ -211,6 +222,8 @@ class WPSEO_Admin {
 	 * @return array
 	 */
 	public function add_action_link( $links, $file ) {
+		$first_time_configuration_notice_helper = YoastSEO()->helpers->first_time_configuration_notice;
+
 		if ( $file === WPSEO_BASENAME && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			if ( is_network_admin() ) {
 				$settings_url = network_admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER );
@@ -225,6 +238,14 @@ class WPSEO_Admin {
 		// Add link to docs.
 		$faq_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yc' ) ) . '" target="_blank">' . __( 'FAQ', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $faq_link );
+
+		if ( $first_time_configuration_notice_helper->first_time_configuration_not_finished() && ! is_network_admin() ) {
+			$configuration_title = ( ! $first_time_configuration_notice_helper->should_show_alternate_message() ) ? 'first-time configuration' : 'SEO configuration';
+			/* translators: CTA to finish the first time configuration. %s: Either first-time SEO configuration or SEO configuration. */
+			$message  = sprintf( __( 'Finish your %s', 'wordpress-seo' ), $configuration_title );
+			$ftc_link = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '" target="_blank">' . $message . '</a>';
+			array_unshift( $links, $ftc_link );
+		}
 
 		$addon_manager = new WPSEO_Addon_Manager();
 		if ( YoastSEO()->helpers->product->is_premium() ) {
@@ -251,7 +272,7 @@ class WPSEO_Admin {
 		}
 
 		// Add link to premium landing page.
-		$premium_link = '<a style="font-weight: bold;" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yb' ) ) . '" target="_blank">' . __( 'Get Premium', 'wordpress-seo' ) . '</a>';
+		$premium_link = '<a style="font-weight: bold;" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yb' ) ) . '" target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2">' . __( 'Get Premium', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $premium_link );
 
 		return $links;
@@ -259,6 +280,8 @@ class WPSEO_Admin {
 
 	/**
 	 * Enqueues the (tiny) global JS needed for the plugin.
+	 *
+	 * @return void
 	 */
 	public function config_page_scripts() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -268,6 +291,8 @@ class WPSEO_Admin {
 
 	/**
 	 * Enqueues the (tiny) global stylesheet needed for the plugin.
+	 *
+	 * @return void
 	 */
 	public function enqueue_global_style() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -300,18 +325,12 @@ class WPSEO_Admin {
 
 	/**
 	 * Log the updated timestamp for user profiles when theme is changed.
+	 *
+	 * @return void
 	 */
 	public function switch_theme() {
-		$wordpress_helper  = new Wordpress_Helper();
-		$wordpress_version = $wordpress_helper->get_wordpress_version();
 
-		// Capability queries were only introduced in WP 5.9.
-		if ( version_compare( $wordpress_version, '5.8.99', '<' ) ) {
-			$users = get_users( [ 'who' => 'authors' ] );
-		}
-		else {
-			$users = get_users( [ 'capability' => [ 'edit_posts' ] ] );
-		}
+		$users = get_users( [ 'capability' => [ 'edit_posts' ] ] );
 
 		if ( is_array( $users ) && $users !== [] ) {
 			foreach ( $users as $user ) {
@@ -330,7 +349,7 @@ class WPSEO_Admin {
 			[
 				'isRtl'                   => is_rtl(),
 				'variable_warning'        => sprintf(
-					/* translators: %1$s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template, %2$s: expands to 'HelpScout beacon' */
+				/* translators: %1$s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template, %2$s: expands to 'HelpScout beacon' */
 					__( 'Warning: the variable %1$s cannot be used in this template. See the %2$s for more info.', 'wordpress-seo' ),
 					'<code>%s</code>',
 					'HelpScout beacon'
@@ -346,6 +365,8 @@ class WPSEO_Admin {
 
 	/**
 	 * Sets the upsell notice.
+	 *
+	 * @return void
 	 */
 	protected function set_upsell_notice() {
 		$upsell = new WPSEO_Product_Upsell_Notice();

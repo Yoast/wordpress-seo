@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Роти-буайя — блюдо индонезийской кухни, традиционный атрибут свадебного застолья в Джакарте и её окрестностях.",
 	title: "Roti buaya",
 	titleWidth: 450,
+	textTitle: "Roti buaya",
 	locale: "ru_RU",
 	permalink: "https://ru.wikipedia.org/wiki/Роти-буайя",
 	slug: "Роти-буайя",
@@ -29,7 +30,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The focus keyphrase was found 14 times. This is great!",
+			"The keyphrase was found 15 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -94,15 +95,11 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
-	fleschReadingEase: {
-		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 18.5 in the test, which is considered very difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve readability</a>.",
-	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: 1 section of your text is longer than 300 words and is not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>.",
+		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: The beginning of your " +
+			"text is longer than 300 words and is not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability.</a>",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
@@ -145,6 +142,19 @@ const expectedResults = {
 		score: 3,
 		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page. <a href='https://yoa.st/4f5'" +
 			" target='_blank'>Add some</a>!",
+	},
+	wordComplexity: {
+		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

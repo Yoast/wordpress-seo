@@ -31,7 +31,7 @@ const getNoIndexOptions = ( editorContext ) => {
 		return [
 			{
 				name: sprintf(
-					/* Translators: %s translates to "yes" or "no", %s translates to the Post Label in plural form */
+					/* translators: the first %s translates to "yes" or "no", the second %s translates to the content type label in plural form */
 					__( "%s (current default for %s)", "wordpress-seo" ),
 					noIndex,
 					editorContext.postTypeNamePlural
@@ -45,7 +45,7 @@ const getNoIndexOptions = ( editorContext ) => {
 	return [
 		{
 			name: sprintf(
-				/* Translators: %s translates to the "yes" or "no" ,%s translates to the Post Label in plural form */
+				/* translators: the first %s translates to "yes" or "no", the second %s translates to the content type label in plural form */
 				__( "%s (current default for %s)", "wordpress-seo" ),
 				noIndex,
 				editorContext.postTypeNamePlural
@@ -81,17 +81,13 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 					</Alert>
 				}
 				<Select
-					label={
-						sprintf(
-							/* Translators: %s translates to the Post Label in singular form */
-							__( "Allow search engines to show this %s in search results?", "wordpress-seo" ),
-							editorContext.postTypeNameSingular
-						) }
+					label={ __( "Allow search engines to show this content in search results?", "wordpress-seo" ) }
 					onChange={ onNoIndexChange }
 					id={ join( [ "yoast-meta-robots-noindex", location ] ) }
 					options={ metaRobotsNoIndexOptions }
 					selected={ noIndex }
 					linkTo={ wpseoAdminL10n[ "shortlinks.advanced.allow_search_engines" ] }
+					/* translators: Hidden accessibility text. */
 					linkText={ __( "Learn more about the no-index setting on our help page.", "wordpress-seo" ) }
 				/>
 			</Fragment>;
@@ -115,7 +111,7 @@ MetaRobotsNoIndex.defaultProps = {
  *
  * @returns {JSX.Element} The Meta Robots No-Follow option.
  */
-const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
+const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange } ) => {
 	return <LocationConsumer>
 		{ location => {
 			const id = join( [ "yoast-meta-robots-nofollow", location ] );
@@ -123,15 +119,12 @@ const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
 			return <RadioButtonGroup
 				id={ id }
 				options={ [ { value: "0", label: "Yes" }, { value: "1", label: "No" } ] }
-				label={ sprintf(
-					/* Translators: %s translates to the Post Label in singular form */
-					__( "Should search engines follow links on this %s", "wordpress-seo" ),
-					postTypeName
-				) }
+				label={ __( "Should search engines follow links on this content?", "wordpress-seo" ) }
 				groupName={ id }
 				onChange={ onNoFollowChange }
 				selected={ noFollow }
 				linkTo={ wpseoAdminL10n[ "shortlinks.advanced.follow_links" ] }
+				/* translators: Hidden accessibility text. */
 				linkText={ __( "Learn more about the no-follow setting on our help page.", "wordpress-seo" ) }
 			/>;
 		} }
@@ -141,7 +134,6 @@ const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
 MetaRobotsNoFollow.propTypes = {
 	noFollow: PropTypes.string.isRequired,
 	onNoFollowChange: PropTypes.func.isRequired,
-	postTypeName: PropTypes.string.isRequired,
 };
 
 /**
@@ -169,6 +161,7 @@ const MetaRobotsAdvanced = ( { advanced, onAdvancedChange } ) => {
 				] }
 				selected={ advanced }
 				linkTo={ wpseoAdminL10n[ "shortlinks.advanced.meta_robots" ] }
+				/* translators: Hidden accessibility text. */
 				linkText={ __( "Learn more about advanced meta robots settings on our help page.", "wordpress-seo" ) }
 			/>;
 		} }
@@ -197,6 +190,7 @@ const BreadcrumbsTitle = ( { breadcrumbsTitle, onBreadcrumbsTitleChange } ) => {
 					onChange={ onBreadcrumbsTitleChange }
 					value={ breadcrumbsTitle }
 					linkTo={ wpseoAdminL10n[ "shortlinks.advanced.breadcrumbs_title" ] }
+					/* translators: Hidden accessibility text. */
 					linkText={ __( "Learn more about the breadcrumbs title setting on our help page.", "wordpress-seo" ) }
 				/>;
 			}
@@ -226,6 +220,7 @@ const CanonicalURL = ( { canonical, onCanonicalChange } ) => {
 					onChange={ onCanonicalChange }
 					value={ canonical }
 					linkTo={ "https://yoa.st/canonical-url" }
+					/* translators: Hidden accessibility text. */
 					linkText={ __( "Learn more about canonical URLs on our help page.", "wordpress-seo" ) }
 				/>;
 			}
@@ -313,7 +308,6 @@ const AdvancedSettings = ( props ) => {
 	const noFollowProps = {
 		noFollow,
 		onNoFollowChange,
-		postTypeName: editorContext.postTypeNameSingular,
 	};
 
 	const advancedProps = {

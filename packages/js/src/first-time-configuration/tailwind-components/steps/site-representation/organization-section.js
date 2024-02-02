@@ -9,13 +9,15 @@ import { openMedia } from "../../../../helpers/selectMedia";
 /**
  * The Organization section.
  *
- * @param {function} dispatch     The function to update the container's state.
- * @param {string}   imageUrl         The image URL.
- * @param {string}   organizationName The name of the organization.
- * @param {bool}     isDisabled       A flag to disable the field.
+ * @param {function} dispatch                   The function to update the container's state.
+ * @param {string}   imageUrl                   The image URL.
+ * @param {string}   fallbackImageUrl           The fallback image URL for when there is no image.
+ * @param {string}   organizationName           The name of the organization.
+ * @param {string}   fallbackOrganizationName   The fallback name of the organization.
+ * @param {bool}     isDisabled                 A flag to disable the field.
  * @returns {WPElement} The organization section.
  */
-export function OrganizationSection( { dispatch, imageUrl, organizationName, errorFields } ) {
+export function OrganizationSection( { dispatch, imageUrl, fallbackImageUrl, organizationName, fallbackOrganizationName, errorFields } ) {
 	const openImageSelect = useCallback( () => {
 		openMedia( ( selectedImage ) => {
 			dispatch( { type: "SET_COMPANY_LOGO", payload: { ...selectedImage } } );
@@ -37,7 +39,7 @@ export function OrganizationSection( { dispatch, imageUrl, organizationName, err
 				id="organization-name-input"
 				name="organization-name"
 				label={ __( "Organization name", "wordpress-seo" ) }
-				value={ organizationName }
+				value={ ( organizationName === "" ) ? fallbackOrganizationName : organizationName }
 				onChange={ handleChange }
 				feedback={ {
 					isVisible: errorFields.includes( "company_name" ),
@@ -49,6 +51,7 @@ export function OrganizationSection( { dispatch, imageUrl, organizationName, err
 				className="yst-mt-6"
 				id="organization-logo-input"
 				url={ imageUrl }
+				fallbackUrl={ fallbackImageUrl }
 				onSelectImageClick={ openImageSelect }
 				onRemoveImageClick={ removeImage }
 				imageAltText=""
@@ -62,12 +65,16 @@ export function OrganizationSection( { dispatch, imageUrl, organizationName, err
 OrganizationSection.propTypes = {
 	dispatch: PropTypes.func.isRequired,
 	imageUrl: PropTypes.string,
+	fallbackImageUrl: PropTypes.string,
 	organizationName: PropTypes.string,
+	fallbackOrganizationName: PropTypes.string,
 	errorFields: PropTypes.array,
 };
 
 OrganizationSection.defaultProps = {
 	imageUrl: "",
+	fallbackImageUrl: "",
 	organizationName: "",
+	fallbackOrganizationName: "",
 	errorFields: [],
 };

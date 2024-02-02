@@ -18,14 +18,14 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	 *
 	 * @var string
 	 */
-	const PAGE_IDENTIFIER = 'wpseo_myyoast_proxy';
+	public const PAGE_IDENTIFIER = 'wpseo_myyoast_proxy';
 
 	/**
 	 * The cache control's max age. Used in the header of a successful proxy response.
 	 *
 	 * @var int
 	 */
-	const CACHE_CONTROL_MAX_AGE = DAY_IN_SECONDS;
+	public const CACHE_CONTROL_MAX_AGE = DAY_IN_SECONDS;
 
 	/**
 	 * Registers the hooks when the user is on the right page.
@@ -163,7 +163,9 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	 * @return bool True when the page request parameter equals the proxy page.
 	 */
 	protected function is_proxy_page() {
-		return filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+		return $page === self::PAGE_IDENTIFIER;
 	}
 
 	/**
@@ -171,10 +173,15 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return string The sanitized file request parameter.
+	 * @return string The sanitized file request parameter or an empty string if it does not exist.
 	 */
 	protected function get_proxy_file() {
-		return filter_input( INPUT_GET, 'file', FILTER_SANITIZE_STRING );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['file'] ) && is_string( $_GET['file'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			return sanitize_text_field( wp_unslash( $_GET['file'] ) );
+		}
+		return '';
 	}
 
 	/**
@@ -182,14 +189,17 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return string The sanitized plugin_version request parameter.
+	 * @return string The sanitized plugin_version request parameter or an empty string if it does not exist.
 	 */
 	protected function get_plugin_version() {
-		$plugin_version = filter_input( INPUT_GET, 'plugin_version', FILTER_SANITIZE_STRING );
-		// Replace slashes to secure against requiring a file from another path.
-		$plugin_version = str_replace( [ '/', '\\' ], '_', $plugin_version );
-
-		return $plugin_version;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['plugin_version'] ) && is_string( $_GET['plugin_version'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			$plugin_version = sanitize_text_field( wp_unslash( $_GET['plugin_version'] ) );
+			// Replace slashes to secure against requiring a file from another path.
+			return str_replace( [ '/', '\\' ], '_', $plugin_version );
+		}
+		return '';
 	}
 
 	/**

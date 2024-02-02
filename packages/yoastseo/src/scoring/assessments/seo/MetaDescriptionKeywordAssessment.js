@@ -55,6 +55,10 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
+		if ( assessmentResult.getScore() < 9  ) {
+			assessmentResult.setHasJumps( true );
+			assessmentResult.setEditFieldName( __( "meta description", "wordpress-seo" ) );
+		}
 
 		return assessmentResult;
 	}
@@ -70,7 +74,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.good,
 				resultText: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
 						"%1$sKeyphrase in meta description%2$s: Keyphrase or synonym appear in the meta description. Well done!",
 						"wordpress-seo"
@@ -87,7 +91,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 				score: this._config.scores.bad,
 				resultText: sprintf(
 					/**
-					 * Translators:
+					 * translators:
 					 * %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
 					 * %3$s expands to the number of sentences containing the keyphrase,
 					 * %4$s expands to a link on yoast.com, %5$s expands to the anchor end tag.
@@ -111,7 +115,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 			score: this._config.scores.bad,
 			resultText: sprintf(
 				/**
-				 * Translators:
+				 * translators:
 				 * %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 				 * %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag.
 				 */

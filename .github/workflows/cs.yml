@@ -1,11 +1,25 @@
 name: CS
 
 on:
-  # Run on all pushes (except to master) and on all pull requests.
+  # Run on all relevant pushes (except to main) and on all relevant pull requests.
   push:
     branches-ignore:
-      - 'master'
+      - 'main'
+    paths:
+      - '**.php' # Includes config/*.php files.
+      - 'composer.json'
+      - 'composer.lock'
+      - '.phpcs.xml.dist'
+      - 'phpcs.xml.dist'
+      - '.github/workflows/cs.yml'
   pull_request:
+    paths:
+      - '**.php' # Includes config/*.php files.
+      - 'composer.json'
+      - 'composer.lock'
+      - '.phpcs.xml.dist'
+      - 'phpcs.xml.dist'
+      - '.github/workflows/cs.yml'
   # Allow manually triggering the workflow.
   workflow_dispatch:
 
@@ -22,7 +36,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Determine the base branch for the file diff
         id: base_branch
@@ -30,11 +44,11 @@ jobs:
           BASE_REF: ${{ github.base_ref }}
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "::set-output name=NAME::$BASE_REF"
-            echo "::set-output name=REF::origin/$BASE_REF"
+            echo "NAME=$BASE_REF" >> $GITHUB_OUTPUT
+            echo "REF=origin/$BASE_REF" >> $GITHUB_OUTPUT
           else
-            echo '::set-output name=NAME::trunk'
-            echo "::set-output name=REF::origin/trunk"
+            echo 'NAME=trunk' >> $GITHUB_OUTPUT
+            echo "REF=origin/trunk" >> $GITHUB_OUTPUT
           fi
 
       - name: Fetch base branch
@@ -43,7 +57,7 @@ jobs:
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: 'latest'
           coverage: none
           tools: cs2pr
 
@@ -53,13 +67,16 @@ jobs:
         run: composer validate --no-check-all
 
       # Install dependencies and handle caching in one go.
-      # @link https://github.com/marketplace/actions/install-composer-dependencies
+      # @link https://github.com/marketplace/actions/install-php-dependencies-with-composer
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
+        with:
+          # Bust the cache at least once a week - output format: YYYY-MM-DD.
+          custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
 
       # Check the codestyle of the files against a threshold of expected errors and warnings.
-      - name: Check PHP code style against the threshold
-        run: composer check-cs-threshold
+      - name: Check PHP code style against the thresholds
+        run: composer check-cs-thresholds
 
       # Check the codestyle only of the files which were changed in the current branch.
       # This step will only be executed if the threshold check exited with a failure status.
@@ -67,9 +84,9 @@ jobs:
       # @link https://github.com/staabm/annotate-pull-request-from-checkstyle/
       - name: Check PHP code style for the changes made in the branch only
         if: ${{ failure() }}
-        continue-on-error: true
+        id: phpcs
         run: composer check-branch-cs -- ${{ steps.base_branch.outputs.REF }}
 
       - name: Show PHPCS results in PR
-        if: ${{ failure() }}
+        if: ${{ always() && steps.phpcs.outcome == 'failure' }}
         run: cs2pr ./phpcs-report.xml

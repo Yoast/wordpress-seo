@@ -4,12 +4,12 @@ import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
 import { Component } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { LocationConsumer } from "@yoast/externals/contexts";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { KeywordInput as KeywordInputComponent } from "yoast-components";
 import SEMrushModal from "../../containers/SEMrushRelatedKeyphrasesModal";
-import { LocationConsumer } from "@yoast/externals/contexts";
 import HelpLink from "../HelpLink";
+import KeywordInputComponent from "./KeywordInputComponent";
 
 const KeywordInputContainer = styled.div`
 	padding: 16px;
@@ -50,7 +50,10 @@ class KeywordInput extends Component {
 				className="dashicons"
 			>
 				<span className="screen-reader-text">
-					{ __( "Help on choosing the perfect focus keyphrase", "wordpress-seo" ) }
+					{
+						/* translators: Hidden accessibility text. */
+						__( "Help on choosing the perfect focus keyphrase", "wordpress-seo" )
+					}
 				</span>
 			</HelpLink>
 		);
@@ -62,7 +65,7 @@ class KeywordInput extends Component {
 	 * @returns {array} The detected errors.
 	 */
 	validate() {
-		const errors = [];
+		const errors = [ ...this.props.errors ];
 		const { keyword, displayNoKeyphraseMessage, displayNoKeyphrasForTrackingMessage } = this.props;
 
 		if ( keyword.trim().length === 0 ) {
@@ -131,6 +134,7 @@ KeywordInput.propTypes = {
 	isSEMrushIntegrationActive: PropTypes.bool,
 	displayNoKeyphraseMessage: PropTypes.bool,
 	displayNoKeyphrasForTrackingMessage: PropTypes.bool,
+	errors: PropTypes.arrayOf( PropTypes.string ),
 	helpLink: PropTypes.string,
 };
 
@@ -139,6 +143,7 @@ KeywordInput.defaultProps = {
 	isSEMrushIntegrationActive: false,
 	displayNoKeyphraseMessage: false,
 	displayNoKeyphrasForTrackingMessage: false,
+	errors: [],
 	helpLink: "",
 };
 
@@ -149,11 +154,12 @@ export default compose( [
 		const { getFocusKeyphrase,
 			getSEMrushNoKeyphraseMessage,
 			getIsSEMrushIntegrationActive,
-			hasWincherNoKeyphrase } = select( "yoast-seo/editor" );
+			hasWincherNoKeyphrase, getFocusKeyphraseErrors } = select( "yoast-seo/editor" );
 		return {
 			keyword: getFocusKeyphrase(),
 			displayNoKeyphraseMessage: getSEMrushNoKeyphraseMessage(),
 			displayNoKeyphrasForTrackingMessage: hasWincherNoKeyphrase(),
+			errors: getFocusKeyphraseErrors(),
 			isSEMrushIntegrationActive: getIsSEMrushIntegrationActive(),
 			helpLink: wpseoAdminL10n[ "shortlinks.focus_keyword_info" ],
 		};

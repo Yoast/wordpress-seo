@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { NewButton as Button } from "../button";
 import { __ } from "@wordpress/i18n";
-import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
 
 /**

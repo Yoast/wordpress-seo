@@ -48,11 +48,37 @@ describe( "a test for getting words from a sentence", function() {
 		] );
 	} );
 
+	it( "doesn't remove punctuation when doRemovePunctuation is false.", () => {
+		const text = "A sentence with words. And some; punctuation.";
+		const words = getWords( text, false );
+
+		expect( words ).toEqual( [
+			"A",
+			"sentence",
+			"with",
+			"words",
+			".",
+			"And",
+			"some",
+			";",
+			"punctuation",
+			".",
+		] );
+	} );
+
 	it( "doesn't return non-breaking space &nbsp; in the result", () => {
 		const text = "<p>Sri Tandjung noted that Javanese had been eating cooked (native black) soybeans since the 12th&nbsp;century.</p>\n";
 
 		expect( getWords( text ) ).toEqual(  [ "Sri", "Tandjung", "noted", "that", "Javanese", "had", "been", "eating", "cooked", "native", "black",
 			"soybeans", "since", "the", "12th", "century" ] );
+	} );
+
+	it( "gets words from text containing html tags", function() {
+		const text = "<p>A very intelligent cat loves their human. A dog is very cute.</p><h3>A subheading 3" +
+			"</h3>text text text<h4>A subheading 4</h4>more text.";
+		expect( getWords( text ).length ).toBe( 23 );
+		expect( getWords( text ) ).toEqual( [ "A", "very", "intelligent", "cat", "loves", "their", "human", "A", "dog",
+			"is", "very", "cute", "A", "subheading", "3", "text", "text", "text", "A", "subheading", "4", "more", "text" ] );
 	} );
 } );
 

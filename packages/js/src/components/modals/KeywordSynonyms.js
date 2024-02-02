@@ -1,11 +1,7 @@
-import interpolateComponents from "interpolate-components";
 import { __, sprintf } from "@wordpress/i18n";
-
-import { makeOutboundLink } from "@yoast/helpers";
 import PropTypes from "prop-types";
+import { getPremiumBenefits } from "../../helpers/get-premium-benefits";
 import UpsellBox from "../UpsellBox";
-
-const PremiumLandingPageLink = makeOutboundLink();
 
 /**
  * Creates the content for a keyword synonyms upsell modal.
@@ -14,66 +10,37 @@ const PremiumLandingPageLink = makeOutboundLink();
  *
  * @returns {wp.Element} The Keyword Synonyms upsell component.
  */
-const KeywordSynonyms = ( props ) => {
-	const intro = sprintf(
-		/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
-		__( "Great news: you can, with %1$s!", "wordpress-seo" ),
-		"{{link}}Yoast SEO Premium{{/link}}"
-	);
-
-	const interpolated = interpolateComponents( {
-		mixedString: intro,
-		components: { link: <PremiumLandingPageLink href={ props.link } /> },
-	} );
-
-	const benefits = [
-		`<strong>${ __( "Rank better with synonyms & related keyphrases", "wordpress-seo" ) }</strong>`,
-		sprintf(
-			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
-			__( "%1$sNo more dead links%2$s: easy redirect manager", "wordpress-seo" ),
-			"<strong>",
-			"</strong>"
-		),
-		`<strong>${ __( "Superfast internal linking suggestions", "wordpress-seo" ) }</strong>`,
-		sprintf(
-			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
-			__( "%1$sSocial media preview%2$s: Facebook & Twitter", "wordpress-seo" ),
-			"<strong>",
-			"</strong>"
-		),
-		`<strong>${ __( "24/7 email support", "wordpress-seo" ) }</strong>`,
-		`<strong>${ __( "No ads!", "wordpress-seo" ) }</strong>`,
-	];
-
-	const otherBenefits = sprintf(
-		/* translators: %s expands to 'Yoast SEO Premium'. */
-		__( "Other benefits of %s for you:", "wordpress-seo" ),
-		"Yoast SEO Premium"
-	);
-
-	return (
-		<UpsellBox
-			infoParagraphs={ [ interpolated, otherBenefits ] }
-			benefits={ benefits }
-			upsellButtonText={
-				sprintf(
-					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s", "wordpress-seo" ),
-					"Yoast SEO Premium"
-				)
-			}
-			upsellButton={ {
-				href: props.buyLink,
-				className: "yoast-button-upsell",
-				rel: null,
-			} }
-			upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
-		/>
-	);
-};
-
+const KeywordSynonyms = ( props ) => (
+	<UpsellBox
+		title={ __( "Write more natural and engaging content", "wordpress-seo" ) }
+		description={ sprintf(
+			/* translators: %s expands to "Yoast SEO Premium" */
+			__( "Synonyms help users understand your copy better. It’s easier to read for both users and Google. In %s, you can add synonyms for your focus keyphrase, and we’ll help you optimize for them.", "wordpress-seo" ),
+			"Yoast SEO Premium"
+		) }
+		benefitsTitle={
+			/* translators: %s expands to 'Yoast SEO Premium'. */
+			sprintf( "%s also gives you:", "Yoast SEO Premium" )
+		}
+		benefits={ getPremiumBenefits() }
+		upsellButtonText={
+			sprintf(
+				/* translators: %s expands to 'Yoast SEO Premium'. */
+				__( "Unlock with %s", "wordpress-seo" ),
+				"Yoast SEO Premium"
+			)
+		}
+		upsellButton={ {
+			href: props.buyLink,
+			className: "yoast-button-upsell",
+			rel: null,
+			"data-ctb-id": "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
+			"data-action": "load-nfd-ctb",
+		} }
+		upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
+	/>
+);
 KeywordSynonyms.propTypes = {
-	link: PropTypes.string.isRequired,
 	buyLink: PropTypes.string.isRequired,
 };
 

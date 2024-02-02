@@ -7,8 +7,6 @@
  * @phpcs:disable Yoast.Files.FileName.InvalidFunctionsFileName
  * @phpcs:disable Yoast.Commenting.FileComment.MissingPackageTag
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
- * @phpcs:disable WordPress.Arrays.CommaAfterArrayItem.NoComma
- * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
  * @phpcs:disable Squiz.Commenting.FunctionComment.Missing
  * @phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -20,12 +18,7 @@
  * @var $container \Symfony\Component\DependencyInjection\ContainerBuilder
  */
 
-use Yoast\WP\SEO\Integrations\Third_Party\Elementor_Exclude_Post_Types;
-use Yoast\WP\SEO\Integrations\Third_Party\Exclude_Elementor_Post_Types as Renamed_To_Exclude_Elementor_Post_Types;
-
-$renamed_classes = [
-	Elementor_Exclude_Post_Types::class => [ Renamed_To_Exclude_Elementor_Post_Types::class, '16.7' ],
-];
+$renamed_classes = [];
 
 foreach ( $renamed_classes as $original_class => $replacement ) {
 	list( $renamed_class, $version ) = $replacement;

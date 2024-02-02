@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Det här är en artikel om författaren Ester Nordströms liv.",
 	title: "Ester Blenda Nordström",
 	titleWidth: 450,
+	textTitle: "Ester Blenda Nordström",
 	locale: "sv_SE",
 	permalink: "https://sv.wikipedia.org/wiki/Ester-Blenda-Nordström",
 	slug: "Ester-Blenda-Nordström",
@@ -29,7 +30,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The focus keyphrase was found 6 times. This is great!",
+			"The keyphrase was found 6 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -92,9 +93,6 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
-	fleschReadingEase: {
-		isApplicable: false,
-	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 2,
@@ -138,6 +136,19 @@ const expectedResults = {
 		isApplicable: true,
 		score: 3,
 		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page. <a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
+	},
+	wordComplexity: {
+		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

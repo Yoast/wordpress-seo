@@ -33,11 +33,21 @@ This PR can be acceptance tested by following these steps:
 
 *
 
+#### Relevant test scenarios
+* [ ] Changes should be tested with the browser console open
+* [ ] Changes should be tested on different posts/pages/taxonomies/custom post types/custom taxonomies
+* [ ] Changes should be tested on different editors (Default Block/Gutenberg/Classic/Elementor/other)
+* [ ] Changes should be tested on different browsers
+* [ ] Changes should be tested on multisite
+<!--
+If you have checked any of the above cases, please add some context about the reason, what to check in the console,
+which type/editor/browser should be tested in particular, multisite with subfolders or subdomains, etc.
+-->
 
 ### Test instructions for QA when the code is in the RC
 <!--
 Sometimes some steps from the test instructions for the acceptance test aren't relevant anymore once the code has been merged or the feature is complete. If that is the case, do not check the checkbox below.
-QA is our Quality Assurance team. The RC is the release candidate zip that is tested before a release 
+QA is our Quality Assurance team. The RC is the release candidate zip that is tested before a release
 -->
 
 * [ ] QA should use the same steps as above.
@@ -68,13 +78,21 @@ This PR affects the following parts of the plugin, which may require extra testi
 
 ## Documentation
 
-* [ ] I have written documentation for this change.
+* [ ] I have written documentation for this change. For example, comments in the Relevant technical choices, comments in the code, documentation on Confluence / shared Google Drive / [Yoast developer portal](https://developer.yoast.com/), or other.
 
 ## Quality assurance
 
-* [ ] I have tested this code to the best of my abilities
-* [ ] I have added unittests to verify the code works as intended
+* [ ] I have tested this code to the best of my abilities.
+* [ ] During testing, I had activated [all plugins that Yoast SEO provides integrations for](https://github.com/Yoast/wordpress-seo/blob/trunk/readme.txt#L106).
+* [ ] I have added unit tests to verify the code works as intended.
 * [ ] If any part of the code is behind a feature flag, my test instructions also cover cases where the feature flag is switched off.
 * [ ] I have written this PR in accordance with my team's definition of done.
+* [ ] I have checked that the base branch is correctly set.
+
+## Innovation
+
+* [ ] No innovation project is applicable for this PR.
+* [ ] This PR falls under an innovation project. I have attached the `innovation` label.
+* [ ] I have added my hours to [the WBSO document](http://yoa.st/wbso).
 
 Fixes #

@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use wpdb;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
+use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
@@ -41,30 +41,20 @@ class Indexable_Term_Builder {
 	protected $post_helper;
 
 	/**
-	 * The WPDB instance.
-	 *
-	 * @var wpdb
-	 */
-	protected $wpdb;
-
-	/**
 	 * Indexable_Term_Builder constructor.
 	 *
 	 * @param Taxonomy_Helper            $taxonomy_helper The taxonomy helper.
 	 * @param Indexable_Builder_Versions $versions        The latest version of each Indexable Builder.
 	 * @param Post_Helper                $post_helper     The post helper.
-	 * @param wpdb                       $wpdb            The WPDB instance.
 	 */
 	public function __construct(
 		Taxonomy_Helper $taxonomy_helper,
 		Indexable_Builder_Versions $versions,
-		Post_Helper $post_helper,
-		wpdb $wpdb
+		Post_Helper $post_helper
 	) {
 		$this->taxonomy_helper = $taxonomy_helper;
 		$this->version         = $versions->get_latest_version_for_type( 'term' );
 		$this->post_helper     = $post_helper;
-		$this->wpdb            = $wpdb;
 	}
 
 	/**
@@ -75,7 +65,8 @@ class Indexable_Term_Builder {
 	 *
 	 * @return bool|Indexable The extended indexable. False when unable to build.
 	 *
-	 * @throws Invalid_Term_Exception When the term is invalid.
+	 * @throws Invalid_Term_Exception   When the term is invalid.
+	 * @throws Term_Not_Built_Exception When the term is not viewable.
 	 * @throws Term_Not_Found_Exception When the term is not found.
 	 */
 	public function build( $term_id, $indexable ) {
@@ -87,6 +78,11 @@ class Indexable_Term_Builder {
 
 		if ( \is_wp_error( $term ) ) {
 			throw new Invalid_Term_Exception( $term->get_error_message() );
+		}
+
+		$indexable_taxonomies = $this->taxonomy_helper->get_indexable_taxonomies();
+		if ( ! \in_array( $term->taxonomy, $indexable_taxonomies, true ) ) {
+			throw Term_Not_Built_Exception::because_not_indexable( $term_id );
 		}
 
 		$term_link = \get_term_link( $term, $term->taxonomy );
@@ -182,20 +178,21 @@ class Indexable_Term_Builder {
 	 */
 	protected function get_indexable_lookup() {
 		return [
-			'wpseo_canonical'             => 'canonical',
-			'wpseo_focuskw'               => 'primary_focus_keyword',
-			'wpseo_title'                 => 'title',
-			'wpseo_desc'                  => 'description',
-			'wpseo_content_score'         => 'readability_score',
-			'wpseo_bctitle'               => 'breadcrumb_title',
-			'wpseo_opengraph-title'       => 'open_graph_title',
-			'wpseo_opengraph-description' => 'open_graph_description',
-			'wpseo_opengraph-image'       => 'open_graph_image',
-			'wpseo_opengraph-image-id'    => 'open_graph_image_id',
-			'wpseo_twitter-title'         => 'twitter_title',
-			'wpseo_twitter-description'   => 'twitter_description',
-			'wpseo_twitter-image'         => 'twitter_image',
-			'wpseo_twitter-image-id'      => 'twitter_image_id',
+			'wpseo_canonical'                => 'canonical',
+			'wpseo_focuskw'                  => 'primary_focus_keyword',
+			'wpseo_title'                    => 'title',
+			'wpseo_desc'                     => 'description',
+			'wpseo_content_score'            => 'readability_score',
+			'wpseo_inclusive_language_score' => 'inclusive_language_score',
+			'wpseo_bctitle'                  => 'breadcrumb_title',
+			'wpseo_opengraph-title'          => 'open_graph_title',
+			'wpseo_opengraph-description'    => 'open_graph_description',
+			'wpseo_opengraph-image'          => 'open_graph_image',
+			'wpseo_opengraph-image-id'       => 'open_graph_image_id',
+			'wpseo_twitter-title'            => 'twitter_title',
+			'wpseo_twitter-description'      => 'twitter_description',
+			'wpseo_twitter-image'            => 'twitter_image',
+			'wpseo_twitter-image-id'         => 'twitter_image_id',
 		];
 	}
 
@@ -248,24 +245,47 @@ class Indexable_Term_Builder {
 	 * @return object An object with last_modified and published_at timestamps.
 	 */
 	protected function get_object_timestamps( $term_id, $taxonomy ) {
+		global $wpdb;
 		$post_statuses = $this->post_helper->get_public_post_statuses();
 
-		$sql = "
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM	{$this->wpdb->posts} AS p
-			INNER JOIN {$this->wpdb->term_relationships} AS term_rel
-				ON		term_rel.object_id = p.ID
-			INNER JOIN {$this->wpdb->term_taxonomy} AS term_tax
-				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
-				AND		term_tax.taxonomy = %s
-				AND		term_tax.term_id = %d
-			WHERE	p.post_status IN (" . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
-				AND		p.post_password = ''
-		";
+		$replacements   = [];
+		$replacements[] = 'post_modified_gmt';
+		$replacements[] = 'post_date_gmt';
+		$replacements[] = $wpdb->posts;
+		$replacements[] = $wpdb->term_relationships;
+		$replacements[] = 'object_id';
+		$replacements[] = 'ID';
+		$replacements[] = $wpdb->term_taxonomy;
+		$replacements[] = 'term_taxonomy_id';
+		$replacements[] = 'term_taxonomy_id';
+		$replacements[] = 'taxonomy';
+		$replacements[] = $taxonomy;
+		$replacements[] = 'term_id';
+		$replacements[] = $term_id;
+		$replacements[] = 'post_status';
+		$replacements   = \array_merge( $replacements, $post_statuses );
+		$replacements[] = 'post_password';
 
-		$replacements = \array_merge( [ $taxonomy, $term_id ], $post_statuses );
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We are using wpdb prepare.
-		return $this->wpdb->get_row( $this->wpdb->prepare( $sql, $replacements ) );
+		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		return $wpdb->get_row(
+			$wpdb->prepare(
+				'
+			SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
+			FROM %i AS p
+			INNER JOIN %i AS term_rel
+				ON		term_rel.%i = p.%i
+			INNER JOIN %i AS term_tax
+				ON		term_tax.%i = term_rel.%i
+				AND		term_tax.%i = %s
+				AND		term_tax.%i = %d
+			WHERE	p.%i IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+				AND		p.%i = ''
+			",
+				$replacements
+			)
+		);
+		//phpcs:enable
 	}
 }

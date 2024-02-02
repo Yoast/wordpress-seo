@@ -15,10 +15,11 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  */
 class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action_Interface, Limited_Indexing_Action_Interface {
 
+
 	/**
 	 * The transient cache key.
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_post_type_archives';
+	public const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_post_type_archives';
 
 	/**
 	 * The post type helper.
@@ -87,6 +88,13 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 
 		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $result, \DAY_IN_SECONDS );
 
+		/**
+		 * Action: 'wpseo_indexables_unindexed_calculated' - sets an option to timestamp when there are no unindexed indexables left.
+		 *
+		 * @internal
+		 */
+		\do_action( 'wpseo_indexables_unindexed_calculated', static::UNINDEXED_COUNT_TRANSIENT, $result );
+
 		return $result;
 	}
 
@@ -119,7 +127,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 		/**
 		 * Filter 'wpseo_post_type_archive_indexation_limit' - Allow filtering the number of posts indexed during each indexing pass.
 		 *
-		 * @api int The maximum number of posts indexed.
+		 * @param int $limit The maximum number of posts indexed.
 		 */
 		$limit = \apply_filters( 'wpseo_post_type_archive_indexation_limit', 25 );
 
@@ -157,8 +165,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	 */
 	protected function get_post_types_with_archive_pages() {
 		// We only want to index archive pages of public post types that have them.
-		$public_post_types       = $this->post_type->get_public_post_types( 'object' );
-		$post_types_with_archive = \array_filter( $public_post_types, [ $this->post_type, 'has_archive' ] );
+		$post_types_with_archive = $this->post_type->get_indexable_post_archives();
 
 		// We only need the post type names, not the objects.
 		$post_types = [];
@@ -185,7 +192,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 			return [];
 		}
 
-		$callback = static function( $result ) {
+		$callback = static function ( $result ) {
 			return $result['object_sub_type'];
 		};
 

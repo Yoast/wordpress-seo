@@ -7,8 +7,11 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/es
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/es/config/twoPartTransitionWords";
 import stopWords from "../../../../src/languageProcessing/languages/es/config/stopWords";
 import syllables from "../../../../src/languageProcessing/languages/es/config/syllables.json";
-const morphologyDataES = getMorphologyData( "es" );
+import checkIfWordIsComplex from "../../../../src/languageProcessing/languages/es/helpers/checkIfWordIsComplex";
+import wordComplexityConfig from "../../../../src/languageProcessing/languages/es/config/wordComplexity";
 import sentenceLength from "../../../../src/languageProcessing/languages/es/config/sentenceLength";
+
+const premiumData = getMorphologyData( "es" );
 
 describe( "a test for the Spanish Researcher", function() {
 	const researcher = new Researcher( new Paper( "Este es un documento nuevo!" ) );
@@ -19,6 +22,13 @@ describe( "a test for the Spanish Researcher", function() {
 
 	it( "returns true if the English Researcher has a specific research", function() {
 		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
+	} );
+
+	it( "checks if a word is complex in Spanish", function() {
+		researcher.addHelper( "checkIfWordIsComplex", checkIfWordIsComplex );
+
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "situados", premiumData.es ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "sobre", premiumData.es ) ).toEqual( false );
 	} );
 
 	it( "returns the Spanish function words", function() {
@@ -58,7 +68,7 @@ describe( "a test for the Spanish Researcher", function() {
 	} );
 
 	it( "stems a word using the Spanish stemmer", function() {
-		researcher.addResearchData( "morphology", morphologyDataES );
+		researcher.addResearchData( "morphology", premiumData );
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "gatos" ) ).toEqual( "gat" );
 	} );
 

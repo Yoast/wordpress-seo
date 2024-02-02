@@ -1,5 +1,5 @@
 /* global yoastIndexingData */
-import { Component, Fragment } from "@wordpress/element";
+import { Component, flushSync, Fragment } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
@@ -33,7 +33,7 @@ const STATE = {
 /**
  * Indexes the site and shows a progress bar indicating the indexing process' progress.
  */
-export class Indexation extends Component {
+class Indexation extends Component {
 	/**
 	 * Indexing constructor.
 	 *
@@ -139,19 +139,23 @@ export class Indexation extends Component {
 				const response = await this.doIndexingRequest( url, this.settings.restApi.nonce );
 				await this.doPostIndexingAction( endpoint, response );
 
-				this.setState( previousState => (
-					{
-						processed: previousState.processed + response.objects.length,
-						firstTime: false,
-					}
-				) );
+				flushSync( () => {
+					this.setState( previousState => (
+						{
+							processed: previousState.processed + response.objects.length,
+							firstTime: false,
+						}
+					) );
+				} );
 
 				url = response.next_url;
 			} catch ( error ) {
-				this.setState( {
-					state: STATE.ERRORED,
-					error: error,
-					firstTime: false,
+				flushSync( () => {
+					this.setState( {
+						state: STATE.ERRORED,
+						error: error,
+						firstTime: false,
+					} );
 				} );
 			}
 		}
@@ -283,6 +287,8 @@ export class Indexation extends Component {
 			type="button"
 			className="yst-button yst-button--secondary"
 			onClick={ this.startIndexing }
+			id="indexation-data-optimization"
+			data-hiive-event-name="clicked_start_data_optimization"
 		>
 			{ __( "Start SEO data optimization", "wordpress-seo" ) }
 		</button>;
@@ -315,6 +321,7 @@ export class Indexation extends Component {
 					type="button"
 					className="yst-button yst-button--secondary yst-button--disabled"
 					disabled={ true }
+					id="indexation-data-optimization"
 				>
 					{ __( "Start SEO data optimization", "wordpress-seo" ) }
 				</button>
@@ -339,7 +346,7 @@ export class Indexation extends Component {
 			percentageIndexed = ( this.state.processed / parseInt( this.state.amount, 10 ) ) * 100;
 		}
 
-		return <div className="yst-w-full yst-bg-gray-200 yst-rounded-full yst-h-2.5 yst-mb-4">
+		return <div className="yst-w-full yst-bg-slate-200 yst-rounded-full yst-h-2.5 yst-mb-4">
 			<div
 				className="yst-transition-[width] yst-ease-linear yst-bg-primary-500 yst-h-2.5 yst-rounded-full"
 				style={ { width: `${ percentageIndexed }%` } }

@@ -34,10 +34,17 @@ class WPSEO_Taxonomy {
 	private $analysis_readability;
 
 	/**
+	 * Holds the metabox inclusive language analysis instance.
+	 *
+	 * @var WPSEO_Metabox_Analysis_Inclusive_Language
+	 */
+	private $analysis_inclusive_language;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
-		$this->taxonomy = $this->get_taxonomy();
+		$this->taxonomy = $this::get_taxonomy();
 
 		add_action( 'edit_term', [ $this, 'update_term' ], 99, 3 );
 		add_action( 'init', [ $this, 'custom_category_descriptions_allow_html' ] );
@@ -46,12 +53,15 @@ class WPSEO_Taxonomy {
 		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
 			new WPSEO_Taxonomy_Columns();
 		}
-		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
-		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+		$this->analysis_seo                = new WPSEO_Metabox_Analysis_SEO();
+		$this->analysis_readability        = new WPSEO_Metabox_Analysis_Readability();
+		$this->analysis_inclusive_language = new WPSEO_Metabox_Analysis_Inclusive_Language();
 	}
 
 	/**
 	 * Add hooks late enough for taxonomy object to be available for checks.
+	 *
+	 * @return void
 	 */
 	public function admin_init() {
 
@@ -61,7 +71,8 @@ class WPSEO_Taxonomy {
 			return;
 		}
 
-		$this->insert_description_field_editor();
+		// Adds custom category description editor. Needs a hook that runs before the description field.
+		add_action( "{$this->taxonomy}_term_edit_form_top", [ $this, 'custom_category_description_editor' ] );
 
 		add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', [ $this, 'term_metabox' ], 90, 1 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
@@ -71,6 +82,8 @@ class WPSEO_Taxonomy {
 	 * Show the SEO inputs for term.
 	 *
 	 * @param stdClass|WP_Term $term Term to show the edit boxes for.
+	 *
+	 * @return void
 	 */
 	public function term_metabox( $term ) {
 		if ( WPSEO_Metabox::is_internet_explorer() ) {
@@ -112,6 +125,8 @@ class WPSEO_Taxonomy {
 	 * Queue assets for taxonomy screens.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @return void
 	 */
 	public function admin_enqueue_scripts() {
 
@@ -125,10 +140,11 @@ class WPSEO_Taxonomy {
 		$asset_manager->enqueue_style( 'scoring' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
-		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
+		$tag_id = $this::get_tag_id();
+
 		if (
 			self::is_term_edit( $pagenow )
-			&& ! empty( $tag_id )  // After we drop support for <4.5 this can be removed.
+			&& ! is_null( $tag_id )
 		) {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
@@ -147,13 +163,17 @@ class WPSEO_Taxonomy {
 			$asset_manager->localize_script( $term_edit_handle, 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 
 			$script_data = [
-				'analysis'         => [
+				'analysis'          => [
 					'plugins' => [
 						'replaceVars' => [
 							'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
 							'replace_vars'             => $this->get_replace_vars(),
 							'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 							'scope'                    => $this->determine_scope(),
+						],
+						'shortcodes' => [
+							'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
+							'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
 						],
 					],
 					'worker'  => [
@@ -163,14 +183,17 @@ class WPSEO_Taxonomy {
 						'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 					],
 				],
-				'media'            => [
+				'media'             => [
 					// @todo replace this translation with JavaScript translations.
 					'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 				],
-				'metabox'          => $this->localize_term_scraper_script(),
-				'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+				'metabox'           => $this->localize_term_scraper_script( $tag_id ),
+				'userLanguageCode'  => WPSEO_Language_Utils::get_language( get_user_locale() ),
 				'siteTimezone'     => \wp_timezone_string(),
-				'isTerm'           => true,
+				'isTerm'            => true,
+				'postId'            => $tag_id,
+				'usedKeywordsNonce' => wp_create_nonce( 'wpseo-keyword-usage' ),
+				'linkParams'        => WPSEO_Shortlinker::get_query_params(),
 			];
 			$asset_manager->localize_script( $term_edit_handle, 'wpseoScriptData', $script_data );
 			$asset_manager->enqueue_user_language_script();
@@ -187,6 +210,8 @@ class WPSEO_Taxonomy {
 	 * @param int    $term_id  ID of the term to save data for.
 	 * @param int    $tt_id    The taxonomy_term_id for the term.
 	 * @param string $taxonomy The taxonomy the term belongs to.
+	 *
+	 * @return void
 	 */
 	public function update_term( $term_id, $tt_id, $taxonomy ) {
 		// Bail if this is a multisite installation and the site has been switched.
@@ -197,9 +222,11 @@ class WPSEO_Taxonomy {
 		/* Create post array with only our values. */
 		$new_meta_data = [];
 		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
-			$posted_value = filter_input( INPUT_POST, $key );
-			if ( isset( $posted_value ) && $posted_value !== false ) {
-				$new_meta_data[ $key ] = $posted_value;
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: Nonce is already checked by WordPress before executing this action.
+			if ( isset( $_POST[ $key ] ) && is_string( $_POST[ $key ] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: $data is getting sanitized later.
+				$data                  = wp_unslash( $_POST[ $key ] );
+				$new_meta_data[ $key ] = ( $key !== 'wpseo_canonical' ) ? WPSEO_Utils::sanitize_text_field( $data ) : WPSEO_Utils::sanitize_url( $data );
 			}
 
 			// If analysis is disabled remove that analysis score value from the DB.
@@ -207,7 +234,6 @@ class WPSEO_Taxonomy {
 				$new_meta_data[ $key ] = '';
 			}
 		}
-		unset( $key, $default );
 
 		// Saving the values.
 		WPSEO_Taxonomy_Meta::set_values( $term_id, $taxonomy, $new_meta_data );
@@ -228,11 +254,17 @@ class WPSEO_Taxonomy {
 			return true;
 		}
 
+		if ( $key === 'wpseo_inclusive_language_score' && ! $this->analysis_inclusive_language->is_enabled() ) {
+			return true;
+		}
+
 		return false;
 	}
 
 	/**
 	 * Allows post-kses-filtered HTML in term descriptions.
+	 *
+	 * @return void
 	 */
 	public function custom_category_descriptions_allow_html() {
 		remove_filter( 'term_description', 'wp_kses_data' );
@@ -243,6 +275,8 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Output the WordPress editor.
+	 *
+	 * @return void
 	 */
 	public function custom_category_description_editor() {
 		wp_editor( '', 'description' );
@@ -251,11 +285,12 @@ class WPSEO_Taxonomy {
 	/**
 	 * Pass variables to js for use with the term-scraper.
 	 *
+	 * @param int $term_id The ID of the term to localize the script for.
+	 *
 	 * @return array
 	 */
-	public function localize_term_scraper_script() {
-		$term_id  = filter_input( INPUT_GET, 'tag_ID' );
-		$term     = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+	public function localize_term_scraper_script( $term_id ) {
+		$term     = get_term_by( 'id', $term_id, $this::get_taxonomy() );
 		$taxonomy = get_taxonomy( $term->taxonomy );
 
 		$term_formatter = new WPSEO_Metabox_Formatter(
@@ -286,7 +321,7 @@ class WPSEO_Taxonomy {
 	 * @return string String decribing the current scope.
 	 */
 	private function determine_scope() {
-		$taxonomy = $this->get_taxonomy();
+		$taxonomy = $this::get_taxonomy();
 
 		if ( $taxonomy === 'category' ) {
 			return 'category';
@@ -324,13 +359,15 @@ class WPSEO_Taxonomy {
 	/**
 	 * Function to get the labels for the current taxonomy.
 	 *
-	 * @return object Labels for the current taxonomy.
+	 * @return object|null Labels for the current taxonomy or null if the taxonomy is not set.
 	 */
 	public static function get_labels() {
-		$term     = filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
-		$taxonomy = get_taxonomy( $term );
-
-		return $taxonomy->labels;
+		$term = self::get_taxonomy();
+		if ( $term !== '' ) {
+			$taxonomy = get_taxonomy( $term );
+			return $taxonomy->labels;
+		}
+		return null;
 	}
 
 	/**
@@ -350,8 +387,30 @@ class WPSEO_Taxonomy {
 	 *
 	 * @return string
 	 */
-	private function get_taxonomy() {
-		return filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
+	private static function get_taxonomy() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['taxonomy'] ) && is_string( $_GET['taxonomy'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			return sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) );
+		}
+		return '';
+	}
+
+	/**
+	 * Get the current tag ID from the GET parameters.
+	 *
+	 * @return int|null the tag ID if it exists, null otherwise.
+	 */
+	private static function get_tag_id() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['tag_ID'] ) && is_string( $_GET['tag_ID'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are casting to an integer.
+			$tag_id = (int) wp_unslash( $_GET['tag_ID'] );
+			if ( $tag_id > 0 ) {
+				return $tag_id;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -360,8 +419,8 @@ class WPSEO_Taxonomy {
 	 * @return array The replacement variables.
 	 */
 	private function get_replace_vars() {
-		$term_id = filter_input( INPUT_GET, 'tag_ID' );
-		$term    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+		$term_id = $this::get_tag_id();
+		$term    = get_term_by( 'id', $term_id, $this::get_taxonomy() );
 
 		$cached_replacement_vars = [];
 
@@ -395,7 +454,11 @@ class WPSEO_Taxonomy {
 	 */
 	private function get_recommended_replace_vars() {
 		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
-		$taxonomy                 = filter_input( INPUT_GET, 'taxonomy' );
+		$taxonomy                 = $this::get_taxonomy();
+
+		if ( $taxonomy === '' ) {
+			return [];
+		}
 
 		// What is recommended depends on the current context.
 		$page_type = $recommended_replace_vars->determine_for_term( $taxonomy );
@@ -404,18 +467,17 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
-	 * Adds custom category description editor.
-	 * Needs a hook that runs before the description field. Prior to WP version 4.5 we need to use edit_form as
-	 * term_edit_form_top was introduced in WP 4.5. This can be removed after <4.5 is no longer supported.
+	 * Returns an array with shortcode tags for all registered shortcodes.
 	 *
-	 * @return void
+	 * @return array
 	 */
-	private function insert_description_field_editor() {
-		if ( version_compare( $GLOBALS['wp_version'], '4.5', '<' ) ) {
-			add_action( "{$this->taxonomy}_edit_form", [ $this, 'custom_category_description_editor' ] );
-			return;
+	private function get_valid_shortcode_tags() {
+		$shortcode_tags = [];
+
+		foreach ( $GLOBALS['shortcode_tags'] as $tag => $description ) {
+			$shortcode_tags[] = $tag;
 		}
 
-		add_action( "{$this->taxonomy}_term_edit_form_top", [ $this, 'custom_category_description_editor' ] );
+		return $shortcode_tags;
 	}
 }

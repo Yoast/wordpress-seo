@@ -4,7 +4,6 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import Assessment from "../assessment";
 import { merge } from "lodash-es";
 
-
 /**
  * Represents the assessment that checks whether there is enough text in the paper.
  */
@@ -31,18 +30,16 @@ export default class TextPresenceAssessment extends Assessment {
 	/**
 	 * Assesses that the paper has at least a little bit of content.
 	 *
-	 * @param {Paper}       paper       The paper to assess.
-	 * @param {Researcher}  researcher  The researcher.
+	 * @param {Paper} paper The paper to assess.
 	 *
 	 * @returns {AssessmentResult} The result of this assessment.
 	 */
-	// eslint-disable-next-line no-unused-vars
-	getResult( paper, researcher ) {
+	getResult( paper ) {
 		if ( ! this.hasEnoughContentForAssessment( paper ) ) {
 			const result = new AssessmentResult();
 
 			result.setText( sprintf(
-				/* Translators: %1$s and %3$s expand to links to articles on Yoast.com,
+				/* translators: %1$s and %3$s expand to links to articles on Yoast.com,
 				%2$s expands to the anchor end tag*/
 				__(
 					"%1$sNot enough content%2$s: %3$sPlease add some content to enable a good analysis%2$s.",

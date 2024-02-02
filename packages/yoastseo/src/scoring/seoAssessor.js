@@ -2,7 +2,7 @@ import { inherits } from "util";
 
 import IntroductionKeywordAssessment from "./assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
+import KeyphraseDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./assessments/seo/MetaDescriptionKeywordAssessment";
 import TextCompetingLinksAssessment from "./assessments/seo/TextCompetingLinksAssessment";
 import InternalLinksAssessment from "./assessments/seo/InternalLinksAssessment";
@@ -18,12 +18,13 @@ import OutboundLinks from "./assessments/seo/OutboundLinksAssessment";
 import TitleWidth from "./assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "./assessments/seo/SingleH1Assessment";
+
 /**
  * Creates the Assessor
  *
- * @param {object}  researcher      The researcher to use for the analysis.
- * @param {Object}  options         The options for this assessor.
- * @param {Object}  options.marker  The marker to pass the list of marks to.
+ * @param {Researcher}  researcher      The researcher to use for the analysis.
+ * @param {Object?}     options         The options for this assessor.
+ * @param {Function}    options.marker  The marker to pass the list of marks to.
  *
  * @constructor
  */
@@ -34,7 +35,7 @@ const SEOAssessor = function( researcher,  options ) {
 	this._assessments = [
 		new IntroductionKeywordAssessment(),
 		new KeyphraseLengthAssessment(),
-		new KeywordDensityAssessment(),
+		new KeyphraseDensityAssessment(),
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLength(),
 		new SubheadingsKeyword(),

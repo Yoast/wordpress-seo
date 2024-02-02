@@ -1,6 +1,74 @@
 @import url(../src/score_icon.css);
-.adminbar-seo-score {
+
+#wp-admin-bar-wpseo-menu .wpseo-score-icon {
   margin: 10px 0 0 4px !important;
+}
+
+#wp-admin-bar-wpseo-menu .wpseo-score-icon.adminbar-sub-menu-score {
+  margin: 11px 0 0 4px !important;
+}
+
+#wp-admin-bar-wpseo-menu-default .ab-item {
+  line-height: 2.46153846 !important;
+}
+
+#wp-admin-bar-wpseo-menu .ab-submenu {
+  margin-bottom: 5px;
+}
+
+#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium a {
+	font-weight: bold !important;
+	color: #fff !important;
+}
+
+#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium span {
+	color: rgb(252, 211, 77);
+	border: solid rgb(252, 211, 77) 1px;
+	font-size: 13px;
+	font-weight: 600;
+	background: rgb(31, 41, 55);
+	padding: 1px 4px;
+	border-radius: 14px;
+}
+
+#wpadminbar .yoast-menu-bf-sale-badge{
+    margin-left: 5px;
+    border-radius: 8px;
+    border: 1px solid #FCD34D;
+    background-color: #1F2937;
+    color: #FCD34D;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: normal;
+}
+
+#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu .wpseo-focus-keyword {
+	max-width: 100px !important;
+	display: inline-block !important;
+	text-overflow: ellipsis !important;
+	white-space: nowrap;
+	overflow: hidden;
+	vertical-align: bottom;
+}
+
+#wpadminbar .yoast-badge {
+	display: inline-block;
+	padding: 0 8px;
+	border-radius: 8px;
+	font-weight: 600;
+	line-height: 1.6;
+	margin-left: 4px;
+}
+
+#wpadminbar .yoast-beta-badge {
+	background-color: #CCE5FF;
+	color: #004973;
+}
+
+#wpadminbar .yoast-premium-badge {
+	background-color: #fff3cd;
+	color: #674e00;
 }
 
 #wpadminbar .yoast-issue-added,
@@ -25,6 +93,7 @@
   padding: 1px 7px 1px 6px !important;
   border-radius: 9px;
   color: white;
+  background-color: #d63638;
 }
 
 #wpadminbar .yoast-logo.svg {
@@ -42,7 +111,7 @@
 }
 
 @media screen and (max-width: 782px) {
-  .adminbar-seo-score {
+  #wp-admin-bar-wpseo-menu .wpseo-score-icon {
     margin: 16px 10px 0 2px !important;
   }
   #wpadminbar #wp-admin-bar-wpseo-menu {

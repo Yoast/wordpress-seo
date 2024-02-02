@@ -16,6 +16,7 @@ import Spinner from "./spinner";
  * @param {string}   props.id                 Id attribute.
  * @param {string}   props.imageAltText       Alternative text for image.
  * @param {string}   props.url                Url for image.
+ * @param {string}   props.fallbackUrl        Fallback url for image.
  * @param {string}   props.label              Label.
  * @param {function} props.onSelectImageClick Select image handler.
  * @param {function} props.onRemoveImageClick Remove image handler.
@@ -28,6 +29,7 @@ export default function ImageSelect( {
 	id,
 	imageAltText,
 	url,
+	fallbackUrl,
 	label,
 	onSelectImageClick,
 	onRemoveImageClick,
@@ -37,7 +39,7 @@ export default function ImageSelect( {
 } ) {
 	const imageClassName = classNames(
 		"yst-relative yst-w-full yst-h-48 yst-mt-2 yst-flex yst-justify-center yst-items-center yst-rounded-md yst-mb-4 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
-		error.isVisible ? "yst-border-red-300" : "yst-border-gray-300",
+		error.isVisible ? "yst-border-red-300" : "yst-border-slate-300",
 		// Only add border if no image is selected
 		"yst-border-2 yst-border-dashed"
 	);
@@ -48,23 +50,27 @@ export default function ImageSelect( {
 			return (
 				<div className="yst-text-center">
 					<Spinner size="10" color="gray-400" className="yst-inline-block" />
-					<p className="yst-mt-3">{ __( "Uploading image...", "admin-ui" ) }</p>
+					<p className="yst-mt-3">{ __( "Uploading image...", "wordpress-seo" ) }</p>
 				</div>
 			);
 		} else if ( url ) {
 			return <img src={ url } alt={ imageAltText } className="yst-w-full yst-h-full yst-object-contain" />;
+		} else if ( fallbackUrl ) {
+			return <img src={ fallbackUrl } alt={ imageAltText } className="yst-w-full yst-h-full yst-object-contain" />;
 		}
-		return <PhotographIcon id={ `${ id }-no-image-svg` } className="yst-w-14 yst-h-14 yst-text-gray-500" />;
+
+		return <PhotographIcon id={ `${ id }-no-image-svg` } className="yst-w-14 yst-h-14 yst-text-slate-500" />;
 	}, [ status, id, url, imageAltText ] );
 
 	return (
 		<div className={ classNames( "yst-max-w-sm", className ) } { ...getErrorAriaProps( id, error ) }>
-			<label htmlFor={ id } className="yst-block yst-mb-2 yst-font-medium yst-text-gray-700">{ label }</label>
+			<label htmlFor={ id } className="yst-block yst-mb-2 yst-font-medium yst-text-slate-700">{ label }</label>
 			<button
 				id={ id }
 				className={ imageClassName }
 				onClick={ onSelectImageClick }
 				type="button"
+				data-hiive-event-name="clicked_select_image"
 			>
 				{ renderPreview() }
 			</button>
@@ -74,8 +80,9 @@ export default function ImageSelect( {
 					id={ url ? id + "__replace-image" : id + "__select-image" }
 					className="yst-button yst-button yst-button--secondary yst-mr-2"
 					onClick={ onSelectImageClick }
+					data-hiive-event-name={ url ? "clicked_replace_image" : "clicked_select_image" }
 				>
-					{ url ? __( "Replace image", "admin-ui" ) : __( "Select image", "admin-ui" ) }
+					{ url ? __( "Replace image", "wordpress-seo" ) : __( "Select image", "wordpress-seo" ) }
 				</button>
 				{ url && (
 					<button
@@ -83,8 +90,9 @@ export default function ImageSelect( {
 						id={ id + "__remove-image" }
 						className="yst-button--remove"
 						onClick={ onRemoveImageClick }
+						data-hiive-event-name="clicked_remove_image"
 					>
-						{ __( "Remove image", "admin-ui" ) }
+						{ __( "Remove image", "wordpress-seo" ) }
 					</button>
 				) }
 			</div>
@@ -98,6 +106,7 @@ ImageSelect.propTypes = {
 	label: PropTypes.string,
 	id: PropTypes.string.isRequired,
 	url: PropTypes.string,
+	fallbackUrl: PropTypes.string,
 	imageAltText: PropTypes.string,
 	onRemoveImageClick: PropTypes.func,
 	onSelectImageClick: PropTypes.func,
@@ -112,6 +121,7 @@ ImageSelect.propTypes = {
 ImageSelect.defaultProps = {
 	label: "",
 	url: "",
+	fallbackUrl: "",
 	imageAltText: "",
 	onRemoveImageClick: noop,
 	onSelectImageClick: noop,

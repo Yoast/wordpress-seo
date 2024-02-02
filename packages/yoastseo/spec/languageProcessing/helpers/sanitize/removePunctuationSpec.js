@@ -8,7 +8,6 @@ describe( "a test for removing punctuation from a string", function() {
 	it( "returns string without dash at the beginning", function() {
 		expect( removePunctuation( "-test" ) ).toBe( "test" );
 	} );
-
 	it( "returns string with punctuation in middle of word untouched", function() {
 		expect( removePunctuation( "te-st" ) ).toBe( "te-st" );
 	} );
@@ -19,6 +18,23 @@ describe( "a test for removing punctuation from a string", function() {
 
 	it( "returns string without () around the word", function() {
 		expect( removePunctuation( "test)" ) ).toBe( "test" );
+	} );
+
+	it( "returns an empty string if &amp is encountered", function() {
+		expect( removePunctuation( "&amp" ) ).toBe( "" );
+	} );
+
+	it( "returns a space if a non-breaking-space is encountered", function() {
+		expect( removePunctuation( "&nbsp;" ) ).toBe( " " );
+	} );
+
+	it( "replaces multiple non-breaking-spaces in a string with spaces", function() {
+		expect( removePunctuation( "replaces&nbsp;multiple&nbsp;non-breaking-spaces&nbsp;in a string with " +
+			"spaces" ) ).toBe( "replaces multiple non-breaking-spaces in a string with spaces" );
+	} );
+
+	it( "replaces non-breaking-spaces at the beginning and end of a word with spaces", function() {
+		expect( removePunctuation( "&nbsp;dog&nbsp;" ) ).toBe( " dog " );
 	} );
 } );
 
@@ -38,6 +54,9 @@ describe( "Removing punctuation at the begin and end of a word", function() {
 		expect( removePunctuation( "'word&" ) ).toBe( "word" );
 		expect( removePunctuation( "“word”" ) ).toBe( "word" );
 		expect( removePunctuation( "„word‟" ) ).toBe( "word" );
+		expect( removePunctuation( "\\\\word\\" ) ).toBe( "word" );
+		expect( removePunctuation( "\\\\word\\\\" ) ).toBe( "word" );
+		expect( removePunctuation( "\\\\\"word\\" ) ).toBe( "word" );
 	} );
 } );
 

@@ -12,6 +12,8 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Constructor.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_filter( 'wpseo_content_meta_section_content', [ $this, 'add_input_fields' ] );
@@ -27,9 +29,11 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 * @return int The post ID.
 	 */
 	protected function get_current_id() {
-		$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
-		if ( empty( $post_id ) && isset( $GLOBALS['post_ID'] ) ) {
-			$post_id = filter_var( $GLOBALS['post_ID'], FILTER_SANITIZE_NUMBER_INT );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are casting to an integer.
+		$post_id = isset( $_GET['post'] ) && is_string( $_GET['post'] ) ? (int) wp_unslash( $_GET['post'] ) : 0;
+
+		if ( $post_id === 0 && isset( $GLOBALS['post_ID'] ) ) {
+			$post_id = (int) $GLOBALS['post_ID'];
 		}
 
 		return $post_id;
@@ -92,6 +96,8 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Adds primary term templates.
+	 *
+	 * @return void
 	 */
 	public function wp_footer() {
 		$taxonomies = $this->get_primary_term_taxonomies();
@@ -176,6 +182,8 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Includes templates file.
+	 *
+	 * @return void
 	 */
 	protected function include_js_templates() {
 		include_once WPSEO_PATH . 'admin/views/js-templates-primary-term.php';
@@ -196,8 +204,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		/**
 		 * Filters which taxonomies for which the user can choose the primary term.
 		 *
-		 * @api array    $taxonomies An array of taxonomy objects that are primary_term enabled.
-		 *
+		 * @param array  $taxonomies     An array of taxonomy objects that are primary_term enabled.
 		 * @param string $post_type      The post type for which to filter the taxonomies.
 		 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
 		 *                               enabled.

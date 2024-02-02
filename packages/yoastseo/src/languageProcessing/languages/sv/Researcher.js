@@ -9,10 +9,8 @@ import twoPartTransitionWords from "./config/twoPartTransitionWords";
 import keyphraseLength from "./config/keyphraseLength";
 
 // All helpers
-
 import getStemmer from "./helpers/getStemmer";
 import isPassiveSentence from "./helpers/isPassiveSentence";
-
 
 /**
  * The researches contains all the researches

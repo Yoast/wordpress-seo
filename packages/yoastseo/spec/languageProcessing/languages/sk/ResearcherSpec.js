@@ -17,6 +17,10 @@ describe( "a test for the Slovak Researcher", function() {
 		expect( researcher.hasResearch( "getParagraphLength" ) ).toBe( true );
 	} );
 
+	it( "returns false if the default research is deleted in the Slovak Researcher", function() {
+		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
+	} );
+
 	it( "returns the Slovak locale", function() {
 		expect( researcher.getConfig( "language" ) ).toEqual( "sk" );
 	} );

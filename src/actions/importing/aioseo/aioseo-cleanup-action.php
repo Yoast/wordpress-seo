@@ -15,12 +15,12 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 	/**
 	 * The plugin of the action.
 	 */
-	const PLUGIN = 'aioseo';
+	public const PLUGIN = 'aioseo';
 
 	/**
 	 * The type of the action.
 	 */
-	const TYPE = 'cleanup';
+	public const TYPE = 'cleanup';
 
 	/**
 	 * The AIOSEO meta_keys to be cleaned up.
@@ -46,8 +46,8 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 	/**
 	 * Class constructor.
 	 *
-	 * @param wpdb           $wpdb        The WordPress database instance.
-	 * @param Options_Helper $options     The options helper.
+	 * @param wpdb           $wpdb    The WordPress database instance.
+	 * @param Options_Helper $options The options helper.
 	 */
 	public function __construct(
 		wpdb $wpdb,
@@ -109,7 +109,6 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 		$aioseo_table_truncate_done = $this->wpdb->query( $this->truncate_query() );
 		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
-
 		if ( $meta_data === false && $aioseo_table_truncate_done === false ) {
 			return false;
 		}
@@ -164,7 +163,7 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 		/**
 		 * Filter 'wpseo_aioseo_cleanup_limit' - Allow filtering the number of posts indexed during each indexing pass.
 		 *
-		 * @api int The maximum number of posts cleaned up.
+		 * @param int $max_posts The maximum number of posts cleaned up.
 		 */
 		$limit = \apply_filters( 'wpseo_aioseo_cleanup_limit', 25 );
 

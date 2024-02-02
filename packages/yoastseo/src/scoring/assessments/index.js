@@ -1,5 +1,4 @@
-import FleschReadingEaseAssessment from "./readability/fleschReadingEaseAssessment";
-import ListAssessment from "./readability/ListAssessment";
+// Readability assessments.
 import ParagraphTooLongAssessment from "./readability/ParagraphTooLongAssessment";
 import PassiveVoiceAssessment from "./readability/PassiveVoiceAssessment";
 import SentenceBeginningsAssessment from "./readability/SentenceBeginningsAssessment";
@@ -7,14 +6,13 @@ import SentenceLengthInTextAssessment from "./readability/SentenceLengthInTextAs
 import SubheadingDistributionTooLongAssessment from "./readability/SubheadingDistributionTooLongAssessment";
 import TextPresenceAssessment from "./readability/TextPresenceAssessment";
 import TransitionWordsAssessment from "./readability/TransitionWordsAssessment";
-import WordComplexityAssessment from "./readability/wordComplexityAssessment";
 
+// SEO assessments.
 import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAssessment";
 import InternalLinksAssessment from "./seo/InternalLinksAssessment";
 import IntroductionKeywordAssessment from "./seo/IntroductionKeywordAssessment";
-import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment";
 import KeyphraseLengthAssessment from "./seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "./seo/KeywordDensityAssessment";
+import KeyphraseDensityAssessment, { KeywordDensityAssessment } from "./seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "./seo/MetaDescriptionLengthAssessment";
 import OutboundLinksAssessment from "./seo/OutboundLinksAssessment";
@@ -27,11 +25,10 @@ import KeyphraseInSEOTitleAssessment from "./seo/KeyphraseInSEOTitleAssessment";
 import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAssessment";
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
-import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
+
+import InclusiveLanguageAssessment from "./inclusiveLanguage/InclusiveLanguageAssessment";
 
 const readability = {
-	FleschReadingEaseAssessment,
-	ListAssessment,
 	ParagraphTooLongAssessment,
 	PassiveVoiceAssessment,
 	SentenceBeginningsAssessment,
@@ -39,17 +36,16 @@ const readability = {
 	SubheadingDistributionTooLongAssessment,
 	TextPresenceAssessment,
 	TransitionWordsAssessment,
-	WordComplexityAssessment,
 };
 
-// We expose the deprecated UrlKeywordAssessment for backwards compatibility.
+// We expose the deprecated assessments for backwards compatibility.
 const seo = {
 	FunctionWordsInKeyphraseAssessment,
 	InternalLinksAssessment,
 	IntroductionKeywordAssessment,
 	KeyphraseLengthAssessment,
+	KeyphraseDensityAssessment,
 	KeywordDensityAssessment,
-	KeyphraseDistributionAssessment,
 	MetaDescriptionKeywordAssessment,
 	MetaDescriptionLengthAssessment,
 	OutboundLinksAssessment,
@@ -63,10 +59,14 @@ const seo = {
 	UrlKeywordAssessment,
 	ImageKeyphraseAssessment,
 	ImageCountAssessment,
-	ImageAltTagsAssessment,
+};
+
+const inclusiveLanguage = {
+	InclusiveLanguageAssessment,
 };
 
 export {
 	readability,
 	seo,
+	inclusiveLanguage,
 };

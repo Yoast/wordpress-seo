@@ -76,7 +76,13 @@ function wpseo_import_external_select( $name, $plugins ) {
 		wpseo_import_external_select( 'import_external_plugin', $import_check->needs_import );
 		?>
 		<?php
-		do_action( 'wpseo_import_other_plugins' );
+
+		/**
+		 * WARNING: This hook is intended for internal use only.
+		 * Don't use it in your code as it will be removed shortly.
+		 */
+		do_action( 'wpseo_import_other_plugins_internal' );
+
 		?>
 		<input type="submit" class="button button-primary" name="import_external"
 			value="<?php esc_attr_e( 'Import', 'wordpress-seo' ); ?>"/>

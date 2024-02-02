@@ -123,6 +123,7 @@ class SocialPreviewEditor extends Component {
 			titleInputPlaceholder,
 			replacementVariables,
 			recommendedReplacementVariables,
+			onReplacementVariableSearchChange,
 			isPremium,
 			location,
 		} = this.props;
@@ -146,6 +147,7 @@ class SocialPreviewEditor extends Component {
 					imageWarnings={ imageWarnings }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
+					onReplacementVariableSearchChange={ onReplacementVariableSearchChange }
 					onMouseHover={ this.setHoveredField }
 					hoveredField={ this.state.hoveredField }
 					onSelect={ this.setActiveField }
@@ -174,6 +176,7 @@ SocialPreviewEditor.propTypes = {
 	titleInputPlaceholder: PropTypes.string,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
+	onReplacementVariableSearchChange: PropTypes.func,
 	location: PropTypes.string,
 	alt: PropTypes.string,
 };
@@ -185,6 +188,7 @@ SocialPreviewEditor.defaultProps = {
 	isPremium: false,
 	descriptionInputPlaceholder: "",
 	titleInputPlaceholder: "",
+	onReplacementVariableSearchChange: null,
 	location: "",
 	alt: "",
 };

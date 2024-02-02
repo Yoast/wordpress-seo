@@ -115,7 +115,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 				hasMarks: false,
 
 				text: sprintf(
-					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					/* translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 					__(
 						"%1$sParagraph length%2$s: None of the paragraphs are too long. Great job!",
 						"wordpress-seo"
@@ -129,7 +129,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 			score: score,
 			hasMarks: true,
 			text: sprintf(
-				/* Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
+				/* translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
 			%3$d expands to the number of paragraphs over the recommended word / character limit, %4$d expands to the word / character limit,
 			%6$s expands to the word 'words' or 'characters'. */
 				_n(

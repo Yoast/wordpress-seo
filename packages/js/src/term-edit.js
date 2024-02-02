@@ -1,11 +1,12 @@
 import domReady from "@wordpress/dom-ready";
 import jQuery from "jquery";
-
+import { noop } from "lodash";
+import initAdmin from "./initializers/admin";
+import initAdminMedia from "./initializers/admin-media";
+import initEditorStore from "./initializers/editor-store";
 import initTabs from "./initializers/metabox-tabs";
 import initTermScraper from "./initializers/term-scraper";
-import initAdminMedia from "./initializers/admin-media";
-import initAdmin from "./initializers/admin";
-import initEditorStore from "./initializers/editor-store";
+import initializeInsights from "./insights/initializer";
 import { termsTmceId } from "./lib/tinymce";
 
 domReady( () => {
@@ -23,8 +24,7 @@ domReady( () => {
 
 	// Initialize the editor integration
 	window.yoast.initEditorIntegration( store );
-	const editorData = new window.yoast.EditorData( () => {
-	}, store, termsTmceId );
+	const editorData = new window.yoast.EditorData( noop, store, termsTmceId );
 	editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars );
 
 	// Initialize the post scraper.
@@ -32,4 +32,7 @@ domReady( () => {
 
 	// Initialize the media library for our social settings.
 	initAdminMedia( jQuery );
+
+	// Initialize the insights.
+	initializeInsights();
 } );

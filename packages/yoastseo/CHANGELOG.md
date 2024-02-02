@@ -35,6 +35,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Fixes a bug where the results of the SEO analysis of the focus keyphrase were removed when more than two related keyphrases were analyzed.
 
 ### Non user facing
+* Fixes a bug where an invalid browser field in package.json would cause Vite to throw an error when building.
 * Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
 * Adds a feature-flag for Farsi support.
 * Makes Consecutive sentence, Passive voice and Transition words assessments available for Farsi when the Feature flag is enabled.
@@ -186,6 +187,14 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Removes the Flesch Reading Ease assessment from the blog posts and pages assessors.
 * Removes the `Images` assessment from related keyphrase analysis in `productPages`.
 * Refactors the transition words, passive voice, text presence, and sentence beginnings assessments into classes.
+
+## 1.91.2 March 2nd, 2023
+### Bugfixes
+* Fixes a potential security issue.
+
+## 1.91.1 January 25th, 2023
+### Bugfixes
+* Fixes a bug where an invalid browser field in package.json would cause Vite to throw an error when building.
 
 ## 1.89.0 January 25th, 2021
 ### Enhancements

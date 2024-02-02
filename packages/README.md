@@ -10,8 +10,6 @@ This monorepo includes reusable packages:
   - React components that can be used to visualise the outcome of the Yoast content analysis provided by [the yoastseo package](packages/yoastseo).
 - [@yoast/components](components)
   - All-purpose React components.
-- [@yoast/configuration-wizard](configuration-wizard)
-  - A wizard that guides users through their initial Yoast SEO plugin setup.
 - [@yoast/feature-flag](feature-flag)
   - A utility that keeps track of enabled and disabled features.
 - [@yoast/helpers](helpers)
@@ -20,8 +18,6 @@ This monorepo includes reusable packages:
   - The replacement variable editor currently used in the Search Metadata previews. In the future, this component will also be used in the Social Metadata previews.
 - [@yoast/replacement-variables](replacement-variables)
   - A platform-agnostic package providing a simple solution for replacing *variables* with their corresponding *values* in a text based on a set of *replacement variables*.
-- [@yoast/schema-blocks](schema-blocks)
-  - Classes and React components used in generating schema blocks from WordPress posts.
 - [@yoast/search-metadata-previews](search-metadata-previews)
   - React components that can be used to generate a preview of what a page will look like in Google's search results.
 - [@yoast/seo-integration](seo-integration)

@@ -2,8 +2,10 @@ import createRegexFromDoubleArray from "../helpers/regex/createRegexFromDoubleAr
 import getSentences from "../helpers/sentence/getSentences.js";
 import { normalizeSingle as normalizeSingleQuotes } from "../helpers/sanitize/quotes.js";
 import { isWordInSentence as matchWordInSentence } from "../helpers/word/matchWordInSentence.js";
+import removeHtmlBlocks from "../helpers/html/htmlParser";
 
 import { flattenDeep } from "lodash-es";
+import { filterShortcodesFromHTML } from "../helpers";
 
 let regexFromDoubleArray = null;
 let regexFromDoubleArrayCacheKey = "";
@@ -107,7 +109,10 @@ export default function( paper, researcher ) {
 	const twoPartTransitionWords = researcher.getConfig( "twoPartTransitionWords" );
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
-	const sentences = getSentences( paper.getText(), memoizedTokenizer );
+	let text = paper.getText();
+	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
+	const sentences = getSentences( text, memoizedTokenizer );
 	const sentenceResults = checkSentencesForTransitionWords( sentences, transitionWords, twoPartTransitionWords, matchTransitionWordsHelper );
 
 	return {

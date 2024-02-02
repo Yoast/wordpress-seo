@@ -50,8 +50,8 @@ export function getOptionActiveStyles( { active, selected } ) {
 	return classNames(
 		"yst-relative yst-cursor-default yst-select-none yst-py-2 yst-pl-3 yst-pr-9 yst-my-0",
 		selected && "yst-bg-primary-500 yst-text-white",
-		( active && ! selected ) && "yst-bg-primary-200 yst-text-gray-700",
-		( ! active && ! selected ) && "yst-text-gray-700"
+		( active && ! selected ) && "yst-bg-primary-200 yst-text-slate-700",
+		( ! active && ! selected ) && "yst-text-slate-700"
 	);
 }
 
@@ -145,6 +145,10 @@ export function configurationReducer( state, action ) {
 			newState.companyLogo = "";
 			newState.companyLogoId = "";
 			return newState;
+		case "CHANGE_WEBSITE_NAME":
+			newState = handleStepEdit( newState, 2 );
+			newState.websiteName = action.payload;
+			return newState;
 		case "SET_PERSON_LOGO":
 			newState = handleStepEdit( newState, 2 );
 			newState.personLogo = action.payload.url;
@@ -159,13 +163,6 @@ export function configurationReducer( state, action ) {
 			newState = handleStepEdit( newState, 2 );
 			newState.personId = action.payload.value;
 			newState.personName = action.payload.label;
-			return newState;
-		case "CHANGE_PERSON_SOCIAL_PROFILE":
-			newState = handleStepEdit( newState, 3 );
-			newState.personSocialProfiles[ action.payload.socialMedium ] = action.payload.value;
-			return newState;
-		case "INIT_PERSON_SOCIAL_PROFILES":
-			newState.personSocialProfiles = action.payload.socialProfiles;
 			return newState;
 		case "SET_CAN_EDIT_USER":
 			newState = handleStepEdit( newState, 2 );

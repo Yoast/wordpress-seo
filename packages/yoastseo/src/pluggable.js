@@ -1,12 +1,11 @@
-import { isUndefined } from "lodash-es";
-import { forEach } from "lodash-es";
-import { reduce } from "lodash-es";
-import { isString } from "lodash-es";
-import { isObject } from "lodash-es";
+import { forEach, isObject, isString, isUndefined, reduce } from "lodash-es";
 import InvalidTypeError from "./errors/invalidType";
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.
+ *
+ * Please note that there is a newer copy of this plugin in `packages/js/src/lib/Pluggable.js`.
+ * For internal use, please use the newer copy for all interfaces except for registering assessments.
  *
  * A plugin for YoastSEO.js is basically a piece of JavaScript that hooks into YoastSEO.js by registering modifications.
  * In order to do so, it must first register itself as a plugin with YoastSEO.js. To keep our content analysis fast, we
@@ -123,7 +122,7 @@ Pluggable.prototype._reloaded = function( pluginName ) {
  * @param {string}      pluginName 	    The plugin that is registering the modification.
  * @param {number}      priority	    (optional) Used to specify the order in which the callables associated with a particular filter are called.
  * 									    Lower numbers correspond with earlier execution.
- * @returns {boolean}                   Whether or not applying the hook was successfull.
+ * @returns {boolean}                   Whether or not applying the hook was successful.
  */
 Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
 	if ( typeof modification !== "string" ) {

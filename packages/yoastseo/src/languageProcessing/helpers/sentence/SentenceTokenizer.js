@@ -1,6 +1,4 @@
-import { map } from "lodash-es";
-import { isUndefined } from "lodash-es";
-import { isNaN } from "lodash-es";
+import { isNaN, isUndefined, map } from "lodash-es";
 
 import core from "tokenizer2/core";
 
@@ -25,8 +23,14 @@ const blockEndRegex = /^\s*[\])}]\s*$/;
 const abbreviationsPreparedForRegex = abbreviations.map( ( abbreviation ) => abbreviation.replace( ".", "\\." ) );
 const abbreviationsRegex = createRegexFromArray( abbreviationsPreparedForRegex );
 
-const wordBoundariesForRegex = "(^|[" + wordBoundaries().map( ( boundary ) => "\\" + boundary ).join( "" ) + "])";
+const wordBoundariesForRegex = "(^|$|[" + wordBoundaries().map( ( boundary ) => "\\" + boundary ).join( "" ) + "])";
 const lastCharacterPartOfInitialsRegex = new RegExp( wordBoundariesForRegex + "[A-Za-z]$" );
+
+// Constants to be used in isValidTagPair.
+// A regex to get the tag type.
+const tagTypeRegex = /<\/?([^\s]+?)(\s|>)/;
+// Semantic tags (as opposed to style tags) are tags that are used to structure the text.
+const semanticTags = [ "p", "div", "h1", "h2", "h3", "h4", "h5", "h6", "span", "li", "main" ];
 
 /**
  * Class for tokenizing a (html) text into sentences.
@@ -42,7 +46,7 @@ export default class SentenceTokenizer {
          * \u06D4 - Urdu full stop.
          * \u061f - Arabic question mark.
         */
-		this.sentenceDelimiters = "”〞〟„』\"?!\u2026\u06d4\u061f";
+		this.sentenceDelimiters = "”〞〟„』›»’‛`\"?!\u2026\u06d4\u061f";
 	}
 
 	/**
@@ -71,7 +75,7 @@ export default class SentenceTokenizer {
 	 * @returns {boolean} Whether or not the given HTML tag is a break tag.
 	 */
 	isBreakTag( htmlTag ) {
-		return /<br/.test( htmlTag );
+		return /<\/?br/.test( htmlTag );
 	}
 
 	/**
@@ -392,6 +396,28 @@ export default class SentenceTokenizer {
 	}
 
 	/**
+	 * Checks whether the given tokens are a valid html tag pair.
+	 * Note that this method is not a full html tag validator. It should be replaced with a better solution once the html parser is implemented.
+	 *
+	 * @param {object} firstToken   The first token to check. It is asserted that this token contains/is an opening html tag.
+	 * @param {object} lastToken    The last token to check. It is asserted that this token contains/is a closing html tag.
+	 *
+	 * @returns {boolean} True if the tokens are a valid html tag pair. Otherwise, False.
+	 */
+	isValidTagPair( firstToken, lastToken ) {
+		const firstTokenText = firstToken.src;
+		const lastTokenText = lastToken.src;
+
+		// Get the tag types.
+		const firstTagType = firstTokenText.match( tagTypeRegex )[ 1 ];
+		const lastTagType  = lastTokenText.match( tagTypeRegex )[ 1 ];
+
+
+		// Check if the tags are the same and if they are a semantic tag (p, div, h1, h2, h3, h4, h5, h6, span).
+		return firstTagType === lastTagType && semanticTags.includes( firstTagType );
+	}
+
+	/**
 	 * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
 	 *
 	 * @param {Object[]} tokenArray The tokens from the sentence tokenizer.
@@ -408,7 +434,8 @@ export default class SentenceTokenizer {
 			const firstToken = tokenArray[ 0 ];
 			const lastToken = tokenArray[ tokenArray.length - 1 ];
 
-			if ( firstToken && lastToken && firstToken.type === "html-start" && lastToken.type === "html-end" ) {
+			if ( firstToken && lastToken && firstToken.type === "html-start" &&
+				lastToken.type === "html-end" && this.isValidTagPair( firstToken, lastToken ) ) {
 				tokenArray = tokenArray.slice( 1, tokenArray.length - 1 );
 
 				sliced = true;
@@ -420,7 +447,6 @@ export default class SentenceTokenizer {
 			const nextToken = tokenArray[ i + 1 ];
 			const previousToken = tokenArray[ i - 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
-
 			nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
 
 			// For a new sentence we need to check the next two characters.
@@ -460,7 +486,7 @@ export default class SentenceTokenizer {
 						"sentence-delimiter" !== nextToken.type &&
 						this.isCharacterASpace( nextToken.src[ 0 ] ) ) {
 						// Don't split on quotation marks unless they're preceded by a full stop.
-						if ( this.isQuotation( token.src ) && previousToken.src !== "." ) {
+						if ( this.isQuotation( token.src ) && previousToken && previousToken.src !== "." ) {
 							break;
 						}
 						/*
@@ -468,7 +494,7 @@ export default class SentenceTokenizer {
 					     * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
 					     * b) The next token is a sentence start
 					    */
-						if ( token.src === "…" || token.src === "\"" ) {
+						if ( this.isQuotation( token.src ) || token.src === "…" ) {
 							currentSentence = this.getValidSentence( hasNextSentence,
 								nextSentenceStart,
 								nextCharacters,

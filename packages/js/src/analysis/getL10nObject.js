@@ -1,4 +1,4 @@
-import { get } from "lodash-es";
+import { get } from "lodash";
 
 /**
  * Returns the l10n object for the current page, either term or post.

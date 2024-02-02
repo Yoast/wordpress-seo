@@ -11,6 +11,7 @@ use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\Lib\Migrations\Adapter;
+use Yoast\WP\SEO\Presenters\Robots_Txt_Presenter;
 use Yoast\WP\SEO\WordPress\Wrapper;
 use Yoast_Notification_Center;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
@@ -23,7 +24,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @phpcs:disable PEAR.Files.IncludingFile.UseRequire
  */
 // WordPress factory functions.
-$container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] );
+$container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] )->setPublic( true );
 
 // Legacy classes.
 $container->register( WPSEO_Replace_Vars::class, WPSEO_Replace_Vars::class )->setFactory( [ Wrapper::class, 'get_replace_vars' ] )->setPublic( true );
@@ -37,6 +38,9 @@ $container->register( WPSEO_Utils::class, WPSEO_Utils::class )->setFactory( [ Wr
 $container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true )->setPublic( true );
 $container->register( WPSEO_Frontend::class, WPSEO_Frontend::class )->setAutowired( true )->setPublic( true );
 
+// Non-excluded from excluded directories.
+$container->register( Robots_Txt_Presenter::class, Robots_Txt_Presenter::class )->setAutowired( true )->setPublic( false );
+
 // The container itself.
 $container->setAlias( ContainerInterface::class, 'service_container' );
 
@@ -45,6 +49,7 @@ $container->register( Adapter::class, Adapter::class )->setAutowired( true )->se
 
 // Elegantly deprecate renamed classes.
 include __DIR__ . '/renamed-classes.php';
+include __DIR__ . '/deprecated-classes.php';
 
 $yoast_seo_excluded_files = [
 	'main.php',
@@ -62,6 +67,7 @@ $yoast_seo_excluded_directories = [
 	'surfaces/values',
 	'wordpress',
 	'values/oauth',
+	'values/robots',
 ];
 
 $yoast_seo_excluded = \implode( ',', \array_merge( $yoast_seo_excluded_directories, $yoast_seo_excluded_files ) );
@@ -71,7 +77,7 @@ $yoast_seo_base_definition = new Definition();
 $yoast_seo_base_definition
 	->setAutowired( true )
 	->setAutoconfigured( true )
-	->setPublic( true );
+	->setPublic( false );
 
 /**
  * Holds the dependency injection loader.

@@ -18,6 +18,10 @@ class ScreenReaderShortcut extends React.Component {
 	 */
 	constructor() {
 		super();
+
+		this.focus = this.focus.bind( this );
+		this.blur = this.blur.bind( this );
+
 		this.state = {
 			focused: false,
 		};
@@ -62,8 +66,8 @@ class ScreenReaderShortcut extends React.Component {
 				href={ "#" + this.props.anchor }
 				className="screen-reader-shortcut"
 				style={ this.getStyles() }
-				onFocus={ this.focus.bind( this ) }
-				onBlur={ this.blur.bind( this ) }
+				onFocus={ this.focus }
+				onBlur={ this.blur }
 			>{ this.props.children }</a>
 		);
 	}

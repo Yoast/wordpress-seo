@@ -7,7 +7,9 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/de
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/de/config/twoPartTransitionWords";
 import stopWords from "../../../../src/languageProcessing/languages/de/config/stopWords";
 import syllables from "../../../../src/languageProcessing/languages/de/config/syllables.json";
-const morphologyDataDE = getMorphologyData( "de" );
+import checkIfWordIsComplex from "../../../../src/languageProcessing/languages/de/helpers/checkIfWordIsComplex";
+import wordComplexityConfig from "../../../../src/languageProcessing/languages/de/config/wordComplexity";
+const premiumData = getMorphologyData( "de" );
 
 describe( "a test for the German Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -53,7 +55,7 @@ describe( "a test for the German Researcher", function() {
 	} );
 
 	it( "stems a word using the German stemmer", function() {
-		researcher.addResearchData( "morphology", morphologyDataDE );
+		researcher.addResearchData( "morphology", premiumData );
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "Katzen" ) ).toEqual( "Katz" );
 	} );
 
@@ -74,5 +76,18 @@ describe( "a test for the German Researcher", function() {
 			syllablesPer100Words: 200,
 		};
 		expect( researcher.getHelper( "fleschReadingScore" )( testStatistics ) ).toBe( 58 );
+	} );
+
+	it( "checks if a word is complex in German", function() {
+		researcher.addHelper( "checkIfWordIsComplex", checkIfWordIsComplex );
+
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "optimierungen", premiumData.de ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "boxen", premiumData.de ) ).toEqual( false );
+	} );
+
+	it( "checks if a word is a function word in German", function() {
+		expect( researcher.getHelper( "checkIfWordIsFunction" )( "verhältnismäßig" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsFunction" )( "Verhältnismäßig" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsFunction" )( "gebildeten" ) ).toEqual( false );
 	} );
 } );

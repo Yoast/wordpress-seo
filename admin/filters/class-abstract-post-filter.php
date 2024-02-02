@@ -15,7 +15,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 *
 	 * @var string
 	 */
-	const FILTER_QUERY_ARG = 'yoast_filter';
+	public const FILTER_QUERY_ARG = 'yoast_filter';
 
 	/**
 	 * Modify the query based on the FILTER_QUERY_ARG variable in $_GET.
@@ -49,6 +49,8 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 
 	/**
 	 * Registers the hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_action( 'admin_init', [ $this, 'add_filter_links' ], 11 );
@@ -94,11 +96,11 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	/**
 	 * Adds a filter link to the views.
 	 *
-	 * @param array $views Array with the views.
+	 * @param array<string, string> $views Array with the views.
 	 *
-	 * @return array Array of views including the added view.
+	 * @return array<string, string> Array of views including the added view.
 	 */
-	public function add_filter_link( array $views ) {
+	public function add_filter_link( $views ) {
 		$views[ 'yoast_' . $this->get_query_val() ] = sprintf(
 			'<a href="%1$s"%2$s>%3$s</a> (%4$s)',
 			esc_url( $this->get_filter_url() ),
@@ -145,11 +147,15 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	/**
 	 * Returns true when the filter is active.
 	 *
-	 * @return bool Whether or not the filter is active.
+	 * @return bool Whether the filter is active.
 	 */
 	protected function is_filter_active() {
-		return ( $this->is_supported_post_type( $this->get_current_post_type() )
-			&& filter_input( INPUT_GET, self::FILTER_QUERY_ARG ) === $this->get_query_val() );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET[ self::FILTER_QUERY_ARG ] ) && is_string( $_GET[ self::FILTER_QUERY_ARG ] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			return sanitize_text_field( wp_unslash( $_GET[ self::FILTER_QUERY_ARG ] ) ) === $this->get_query_val();
+		}
+		return false;
 	}
 
 	/**
@@ -158,11 +164,15 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 * @return string The current post type.
 	 */
 	protected function get_current_post_type() {
-		$filter_options = [
-			'options' => [ 'default' => 'post' ],
-		];
-
-		return filter_input( INPUT_GET, 'post_type', FILTER_DEFAULT, $filter_options );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['post_type'] ) && is_string( $_GET['post_type'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			$post_type = sanitize_text_field( wp_unslash( $_GET['post_type'] ) );
+			if ( ! empty( $post_type ) ) {
+				return $post_type;
+			}
+		}
+		return 'post';
 	}
 
 	/**

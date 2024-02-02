@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "完了形（かんりょうけい）とは、述語で表現される事象が、叙述中で基準となる時点で完了していることを表現する文法的形式。" +
 		"英語の\"have＋過去分詞\"などが代表的である。",
 	title: "完了形",
+	textTitle: "完了形",
 	titleWidth: 450,
 	locale: "ja",
 	permalink: "https://ja.wikipedia.org/wiki/%E5%AE%8C%E4%BA%86%E5%BD%A2",
@@ -29,7 +30,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 4,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 3 times. " +
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 3 times. " +
 			"That's less than the recommended minimum of 8 times for a text of this length. " +
 			"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
 	},
@@ -65,7 +66,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 3165 characters. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 3022 characters. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -106,9 +107,6 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. " +
 			"Large parts of your text do not contain the keyphrase or its synonyms. " +
 			"<a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
-	},
-	fleschReadingEase: {
-		isApplicable: false,
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -157,6 +155,19 @@ const expectedResults = {
 		score: 3,
 		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page. " +
 			"<a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
+	},
+	wordComplexity: {
+		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

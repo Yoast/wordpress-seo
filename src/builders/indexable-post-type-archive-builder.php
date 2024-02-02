@@ -2,9 +2,10 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use wpdb;
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Type_Not_Built_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
@@ -30,37 +31,37 @@ class Indexable_Post_Type_Archive_Builder {
 	protected $version;
 
 	/**
-	 * Holds the taxonomy helper instance.
+	 * Holds the post helper instance.
 	 *
 	 * @var Post_Helper
 	 */
 	protected $post_helper;
 
 	/**
-	 * The WPDB instance.
+	 * Holds the post type helper instance.
 	 *
-	 * @var wpdb
+	 * @var Post_Type_Helper
 	 */
-	protected $wpdb;
+	protected $post_type_helper;
 
 	/**
 	 * Indexable_Post_Type_Archive_Builder constructor.
 	 *
-	 * @param Options_Helper             $options     The options helper.
-	 * @param Indexable_Builder_Versions $versions    The latest version of each Indexable builder.
-	 * @param Post_Helper                $post_helper The post helper.
-	 * @param wpdb                       $wpdb        The WPDB instance.
+	 * @param Options_Helper             $options          The options helper.
+	 * @param Indexable_Builder_Versions $versions         The latest version of each Indexable builder.
+	 * @param Post_Helper                $post_helper      The post helper.
+	 * @param Post_Type_Helper           $post_type_helper The post type helper.
 	 */
 	public function __construct(
 		Options_Helper $options,
 		Indexable_Builder_Versions $versions,
 		Post_Helper $post_helper,
-		wpdb $wpdb
+		Post_Type_Helper $post_type_helper
 	) {
-		$this->options     = $options;
-		$this->version     = $versions->get_latest_version_for_type( 'post-type-archive' );
-		$this->post_helper = $post_helper;
-		$this->wpdb        = $wpdb;
+		$this->options          = $options;
+		$this->version          = $versions->get_latest_version_for_type( 'post-type-archive' );
+		$this->post_helper      = $post_helper;
+		$this->post_type_helper = $post_type_helper;
 	}
 
 	/**
@@ -70,8 +71,13 @@ class Indexable_Post_Type_Archive_Builder {
 	 * @param Indexable $indexable The indexable to format.
 	 *
 	 * @return Indexable The extended indexable.
+	 * @throws Post_Type_Not_Built_Exception Throws exception if the post type is excluded.
 	 */
 	public function build( $post_type, Indexable $indexable ) {
+		if ( ! $this->post_type_helper->is_post_type_archive_indexable( $post_type ) ) {
+			throw Post_Type_Not_Built_Exception::because_not_indexable( $post_type );
+		}
+
 		$indexable->object_type       = 'post-type-archive';
 		$indexable->object_sub_type   = $post_type;
 		$indexable->title             = $this->options->get( 'title-ptarchive-' . $post_type );
@@ -129,19 +135,34 @@ class Indexable_Post_Type_Archive_Builder {
 	 * @return object An object with last_modified and published_at timestamps.
 	 */
 	protected function get_object_timestamps( $post_type ) {
+		global $wpdb;
 		$post_statuses = $this->post_helper->get_public_post_statuses();
 
-		$sql = "
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
-			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (" . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
-				AND p.post_password = ''
-				AND p.post_type = %s
-		";
+		$replacements   = [];
+		$replacements[] = 'post_modified_gmt';
+		$replacements[] = 'post_date_gmt';
+		$replacements[] = $wpdb->posts;
+		$replacements[] = 'post_status';
+		$replacements   = \array_merge( $replacements, $post_statuses );
+		$replacements[] = 'post_password';
+		$replacements[] = 'post_type';
+		$replacements[] = $post_type;
 
-		$replacements = \array_merge( $post_statuses, [ $post_type ] );
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We are using wpdb prepare.
-		return $this->wpdb->get_row( $this->wpdb->prepare( $sql, $replacements ) );
+		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		return $wpdb->get_row(
+			$wpdb->prepare(
+				'
+				SELECT MAX(p.%i) AS last_modified, MIN(p.%i) AS published_at
+				FROM %i AS p
+				WHERE p.%i IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+					AND p.%i = ''
+					AND p.%i = %s
+				",
+				$replacements
+			)
+		);
+		//phpcs:enable
 	}
 }

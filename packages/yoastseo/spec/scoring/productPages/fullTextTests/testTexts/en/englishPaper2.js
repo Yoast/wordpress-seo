@@ -14,6 +14,14 @@ const paper = new Paper( content, {
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Monstera_deliciosa",
 	slug: "Monstera_deliciosa",
+	customData: {
+		canRetrieveGlobalSku: true,
+		hasGlobalSKU: false,
+		hasGlobalIdentifier: false,
+		hasVariants: false,
+		productType: "simple",
+	},
+
 } );
 
 const expectedResults = {
@@ -31,7 +39,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 2 times. This is great!",
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The keyphrase was found 2 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -88,6 +96,21 @@ const expectedResults = {
 		score: 0,
 		resultText: "",
 	},
+	productIdentifiers: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Your product is missing an identifier " +
+			"(like a GTIN code)." +
+			" <a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it will " +
+			"help search engines to better understand your content.</a>",
+	},
+	productSKU: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Your product is missing a SKU. " +
+			"<a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will " +
+			"help search engines to better understand your content.</a>",
+	},
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
@@ -108,10 +131,9 @@ const expectedResults = {
 	},
 	keyphraseDistribution: {
 		isApplicable: true,
-		score: 1,
-		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Very uneven. " +
-			"Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/shopify31' " +
-			"target='_blank'>Distribute them more evenly</a>.",
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not " +
+			"contain the keyphrase or its synonyms. <a href='https://yoa.st/shopify31' target='_blank'>Distribute them more evenly</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -139,7 +161,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 21.1% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 25% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},
@@ -152,6 +174,12 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: There is at least one list on this page. Great!",
+	},
+	wordComplexity: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: You are not using too many complex words, which makes " +
+			"your text easy to read. Good job!",
 	},
 };
 

@@ -252,7 +252,7 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 			<Fragment>
 				{ hasUpsells && <BeaconOffset isRtl={ window.wpseoAdminGlobalL10n.isRtl } /> }
 				{ show && <Frame className={ hasUpsells ? "BeaconFabButtonFrame" : "" } isRtl={ window.wpseoAdminGlobalL10n.isRtl }>
-					<Button onClick={ onClick }>
+					<Button type="button" onClick={ onClick }>
 						<SpeechBubble />
 					</Button>
 				</Frame> }

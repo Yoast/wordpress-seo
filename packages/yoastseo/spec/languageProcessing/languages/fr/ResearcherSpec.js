@@ -7,7 +7,9 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/fr
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/fr/config/twoPartTransitionWords";
 import stopWords from "../../../../src/languageProcessing/languages/fr/config/stopWords";
 import syllables from "../../../../src/languageProcessing/languages/fr/config/syllables.json";
-const morphologyDataFR = getMorphologyData( "fr" );
+import checkIfWordIsComplex from "../../../../src/languageProcessing/languages/fr/helpers/checkIfWordIsComplex";
+import wordComplexityConfig from "../../../../src/languageProcessing/languages/fr/config/wordComplexity";
+const premiumData = getMorphologyData( "fr" );
 
 describe( "a test for the French Researcher", function() {
 	const researcher = new Researcher( new Paper( "This is another paper!" ) );
@@ -53,7 +55,7 @@ describe( "a test for the French Researcher", function() {
 	} );
 
 	it( "stems a word using the French stemmer", function() {
-		researcher.addResearchData( "morphology", morphologyDataFR );
+		researcher.addResearchData( "morphology", premiumData );
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "chats" ) ).toEqual( "chat" );
 	} );
 
@@ -72,5 +74,11 @@ describe( "a test for the French Researcher", function() {
 			numberOfSentences: 20,
 		};
 		expect( researcher.getHelper( "fleschReadingScore" )( statistics ) ).toBe( 76.3 );
+	} );
+
+	it( "checks if a word is complex in French", function() {
+		researcher.addHelper( "checkIfWordIsComplex", checkIfWordIsComplex );
+
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "dictionnaire", premiumData.fr ) ).toEqual( true );
 	} );
 } );

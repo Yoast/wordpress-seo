@@ -1,14 +1,16 @@
+
 import domReady from "@wordpress/dom-ready";
 import jQuery from "jquery";
-
-import initTabs from "./initializers/metabox-tabs";
-import initPrimaryCategory from "./initializers/primary-category";
-import initPostScraper from "./initializers/post-scraper";
-import initFeaturedImageIntegration from "./initializers/featured-image";
-import initAdminMedia from "./initializers/admin-media";
+import { noop } from "lodash";
+import initializeAiGenerator from "./ai-generator/initialize";
 import initAdmin from "./initializers/admin";
+import initAdminMedia from "./initializers/admin-media";
 import initEditorStore from "./initializers/editor-store";
-import initializeEstimatedReadingTime from "./initializers/estimated-reading-time";
+import initFeaturedImageIntegration from "./initializers/featured-image";
+import initTabs from "./initializers/metabox-tabs";
+import initPostScraper from "./initializers/post-scraper";
+import initPrimaryCategory from "./initializers/primary-category";
+import initializeInsights from "./insights/initializer";
 
 // Backwards compatibility globals.
 window.wpseoPostScraperL10n = window.wpseoScriptData.metabox;
@@ -30,7 +32,7 @@ domReady( () => {
 
 	// Initialize the editor integration
 	window.yoast.initEditorIntegration( store );
-	const editorData = new window.yoast.EditorData( () => {}, store );
+	const editorData = new window.yoast.EditorData( noop, store );
 	editorData.initialize(
 		window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars,
 		window.wpseoScriptData.analysis.plugins.replaceVars.hidden_replace_vars
@@ -50,6 +52,14 @@ domReady( () => {
 	// Initialize global admin scripts.
 	initAdmin( jQuery );
 
-	// Initialize the Estimated Reading Time after 500ms to avoid blocking initial loading.
-	setTimeout( initializeEstimatedReadingTime, 500 );
+	// Initialize the insights.
+	initializeInsights();
+
+
+	const AI_IGNORED_POST_TYPES = [ "attachment" ];
+
+	if ( window.wpseoScriptData.postType && ! AI_IGNORED_POST_TYPES.includes( window.wpseoScriptData.postType ) ) {
+		// Initialize the AI Generator upsell.
+		initializeAiGenerator();
+	}
 } );

@@ -39,7 +39,7 @@ export default function Alert( { type, children, className } ) {
 	}
 
 	return (
-		<div className={ classNames( "yst-flex yst-p-4 yst-rounded-md last:yst-mb-0", color, className ) }>
+		<div className={ classNames( "yst-flex yst-p-4 yst-rounded-md", color, className ) }>
 			{ icon }
 			<div className="yst-flex-1 yst-ml-3 yst-text-sm">
 				{ children }

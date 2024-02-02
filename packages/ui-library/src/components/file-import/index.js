@@ -1,19 +1,19 @@
-import { useState, useCallback, useContext, createContext, useMemo } from "@wordpress/element";
-import { values, includes, isEmpty, isNull } from "lodash";
-import { DocumentAddIcon, DocumentTextIcon, XIcon } from "@heroicons/react/outline";
-import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/solid";
-import classNames from "classnames";
+import { useCallback, useContext, createContext, useMemo, forwardRef } from "@wordpress/element";
+import { values, includes, isEmpty, isNull, capitalize } from "lodash";
+import { DocumentTextIcon, XIcon } from "@heroicons/react/outline";
 import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 
-import Link from "../../elements/link";
+import FileInput from "../../elements/file-input";
 import ProgressBar from "../../elements/progress-bar";
-import { useRootContext } from "../../hooks";
+import { ValidationIcon } from "../../elements/validation";
 
 export const FILE_IMPORT_STATUS = {
 	idle: "idle",
+	selected: "selected",
 	loading: "loading",
 	success: "success",
+	aborted: "aborted",
 	error: "error",
 };
 
@@ -24,24 +24,44 @@ const FileImportContext = createContext( { status: FILE_IMPORT_STATUS.idle } );
  */
 const useFileImportContext = () => useContext( FileImportContext );
 
-/**
- * @param {JSX.node} children The React children.
- * @returns {JSX.Element} Success message component that renders when file import status is 'success'.
- */
-const Success = ( { children } ) => {
-	const { status } = useFileImportContext();
-	return status === FILE_IMPORT_STATUS.success ? children : null;
+const statusIconTransitionProps = {
+	enter: "yst-transition-opacity yst-ease-in-out yst-duration-1000 yst-delay-200",
+	enterFrom: "yst-opacity-0",
+	enterTo: "yst-opacity-100",
+	leave: "yst-transition-opacity yst-ease-in-out yst-duration-200",
+	leaveFrom: "yst-opacity-0",
+	leaveTo: "yst-opacity-100",
+	className: "yst-absolute",
 };
 
 /**
- *
- *
- * @param {JSX.node} children The React children.
- * @returns {JSX.Element} Error message component that renders when file import status is 'error'.
+ * @param {string} status A valid file import status.
+ * @returns {JSX.Element} Component that renders conditionally based on given file import status.
  */
-const Error = ( { children } ) => {
-	const { status } = useFileImportContext();
-	return status === FILE_IMPORT_STATUS.error ? children : null;
+const createStatusConditionalRender = ( status ) => {
+	/**
+	 * @param {JSX.node} children The React children.
+	 * @returns {JSX.Element} Component that renders conditionally based on given file import status.
+	 */
+	const HOC = ( { children } ) => {
+		const { status: currentStatus } = useFileImportContext();
+		return (
+			<Transition
+				show={ currentStatus === status }
+				enter="yst-transition-opacity yst-ease-in-out yst-duration-1000 yst-delay-200"
+				enterFrom="yst-opacity-0"
+				enterTo="yst-opacity-100"
+				className="yst-mt-6"
+			>
+				{ children }
+			</Transition>
+		);
+	};
+	HOC.propTypes = { children: PropTypes.node };
+	// Provide meaningful display name for React dev tools.
+	HOC.displayName = `FileImport.${ capitalize( status ) }`;
+
+	return HOC;
 };
 
 /**
@@ -54,9 +74,9 @@ const Error = ( { children } ) => {
  * @param {string} dropLabel The label for custom drop file functionality.
  * @param {string} screenReaderLabel The screen reader label for the file select.
  * @param {string} abortScreenReaderLabel The screen reader label for the abort button.
- * @param {JSX.Node} selectDescription The selectDescription.
+ * @param {JSX.node} selectDescription The selectDescription.
  * @param {"idle"|"loading"|"success"|"failure"} status The status the component should be in.
- * @param {Function} onChange The callback for when a file is imported.
+ * @param {function(File)} onChange The callback for when a file is imported.
  * @param {Function} onAbort The callback for when an file import is aborted.
  * @param {string} feedbackTitle The import feedback title.
  * @param {string} feedbackDescription The import feedback selectDescription.
@@ -65,7 +85,7 @@ const Error = ( { children } ) => {
  * @param {number} progress The import progress.
  * @returns {JSX.Element} The FileImport component.
  */
-const FileImport = ( {
+const FileImport = forwardRef( ( {
 	children = "",
 	id,
 	name,
@@ -74,26 +94,23 @@ const FileImport = ( {
 	screenReaderLabel,
 	abortScreenReaderLabel,
 	selectDescription,
-	status = FILE_IMPORT_STATUS.idle,
+	status,
 	onChange,
 	onAbort,
 	feedbackTitle,
-	feedbackDescription = "",
-	progressMin = null,
-	progressMax = null,
-	progress = null,
-	...props
-} ) => {
-	const [ isDragOver, setIsDragOver ] = useState( false );
-	const { isRtl } = useRootContext();
+	feedbackDescription,
+	progressMin,
+	progressMax,
+	progress,
+}, ref ) => {
+	const isSelected = useMemo( () => status === FILE_IMPORT_STATUS.selected, [ status ] );
+	const isLoading = useMemo( () => status === FILE_IMPORT_STATUS.loading, [ status ] );
+	const isSuccess = useMemo( () => status === FILE_IMPORT_STATUS.success, [ status ] );
+	const isAborted = useMemo( () => status === FILE_IMPORT_STATUS.aborted, [ status ] );
+	const isError = useMemo( () => status === FILE_IMPORT_STATUS.error, [ status ] );
 
 	const hasFeedback = useMemo( () => includes(
-		[ FILE_IMPORT_STATUS.loading, FILE_IMPORT_STATUS.success, FILE_IMPORT_STATUS.error ],
-		status,
-	), [ status ] );
-
-	const hasFinished = useMemo( () => includes(
-		[ FILE_IMPORT_STATUS.success, FILE_IMPORT_STATUS.error ],
+		[ FILE_IMPORT_STATUS.selected, FILE_IMPORT_STATUS.loading, FILE_IMPORT_STATUS.success, FILE_IMPORT_STATUS.aborted, FILE_IMPORT_STATUS.error ],
 		status,
 	), [ status ] );
 
@@ -103,65 +120,34 @@ const FileImport = ( {
 		}
 	}, [ onChange ] );
 
-	const handleDragEnter = useCallback( ( event ) => {
-		event.preventDefault();
-		if ( ! isEmpty( event.dataTransfer.items ) ) {
-			setIsDragOver( true );
-		}
-	}, [] );
-	const handleDragLeave = useCallback( ( event ) => {
-		event.preventDefault();
-		setIsDragOver( false );
-	}, [] );
-
-	const handleDragOver = useCallback( ( event ) => {
-		event.preventDefault();
-	}, [] );
-
 	const handleDrop = useCallback( ( event ) => {
-		event.preventDefault();
-		setIsDragOver( false );
 		if ( ! isEmpty( event.dataTransfer.files ) ) {
-			onChange( event.dataTransfer.files[ 0 ] );
+			const file = event.dataTransfer.files[ 0 ];
+			if ( file ) {
+				onChange( file );
+			}
 		}
-	}, [ setIsDragOver, onChange ] );
+	}, [ onChange ] );
 
 	return (
 		<FileImportContext.Provider value={ { status } }>
 			<div className="yst-file-import">
-				<div
-					onDragEnter={ handleDragEnter }
-					onDragLeave={ handleDragLeave }
-					onDragOver={ handleDragOver }
+				<FileInput
+					ref={ ref }
+					id={ id }
+					name={ name }
+					// Don't control value here to allow consecutive imports of the same file.
+					value=""
+					onChange={ handleChange }
 					onDrop={ handleDrop }
-					className={ classNames( "yst-file-import__select", {
-						"yst-is-drag-over": isDragOver,
-					} ) }
-				>
-					<div className="yst-file-import__select-content">
-						<DocumentAddIcon className="yst-file-import__select-icon" />
-						<div
-							className={ classNames(
-								"yst-file-import__select-labels", {
-									"yst-flex-row-reverse": isRtl,
-								} ) }
-						>
-							<input
-								type="file"
-								id={ id }
-								name={ name }
-								onChange={ handleChange }
-								className="yst-file-import__input"
-								aria-labelledby={ screenReaderLabel }
-								{ ...props }
-							/>
-							<Link as="label" htmlFor={ id } className="yst-file-import__select-label">{ selectLabel }</Link>
-							<span>&nbsp;</span>
-							{ dropLabel }
-						</div>
-						{ selectDescription && <span>{ selectDescription }</span> }
-					</div>
-				</div>
+					className="yst-file-import__input"
+					aria-labelledby={ screenReaderLabel }
+					disabled={ isLoading }
+					selectLabel={ selectLabel }
+					dropLabel={ dropLabel }
+					screenReaderLabel={ screenReaderLabel }
+					selectDescription={ selectDescription }
+				/>
 				<Transition
 					show={ hasFeedback }
 					enter="yst-transition-opacity yst-ease-in-out yst-duration-1000 yst-delay-200"
@@ -178,63 +164,36 @@ const FileImport = ( {
 									<ProgressBar min={ progressMin } max={ progressMax } progress={ progress } className="yst-mt-1.5" />
 								) }
 							</div>
-							<div>
-								<Transition
-									show={ status === FILE_IMPORT_STATUS.loading }
-									enter="yst-transition-opacity yst-ease-in-out yst-duration-1000 yst-delay-200"
-									enterFrom="yst-opacity-0"
-									enterTo="yst-opacity-100"
-									leave="yst-transition-opacity yst-ease-in-out yst-duration-200"
-									leaveFrom="yst-opacity-0"
-									leaveTo="yst-opacity-100"
-								>
-									<button onClick={ onAbort } className="yst-file-import__abort-button">
+							<div className="yst-relative yst-h-5 yst-w-5">
+								<Transition show={ isSelected } { ...statusIconTransitionProps }>
+									<ValidationIcon variant="info" className="yst-w-5 yst-h-5" />
+								</Transition>
+								<Transition show={ isLoading } { ...statusIconTransitionProps }>
+									<button type="button" onClick={ onAbort } className="yst-file-import__abort-button">
 										<span className="yst-sr-only">{ abortScreenReaderLabel }</span>
 										<XIcon />
 									</button>
 								</Transition>
-								<Transition
-									show={ status === FILE_IMPORT_STATUS.success }
-									enter="yst-transition-opacity yst-ease-in-out yst-duration-1000 yst-delay-200"
-									enterFrom="yst-opacity-0"
-									enterTo="yst-opacity-100"
-									leave="yst-transition-opacity yst-ease-in-out yst-duration-200"
-									leaveFrom="yst-opacity-0"
-									leaveTo="yst-opacity-100"
-								>
-									<CheckCircleIcon className="yst-file-import__status-icon yst-text-green-500" />
+								<Transition show={ isSuccess } { ...statusIconTransitionProps }>
+									<ValidationIcon variant="success" className="yst-w-5 yst-h-5" />
 								</Transition>
-								<Transition
-									show={ status === FILE_IMPORT_STATUS.error }
-									enter="yst-transition-opacity yst-ease-in-out yst-duration-1000 yst-delay-200"
-									enterFrom="yst-opacity-0"
-									enterTo="yst-opacity-100"
-									leave="yst-transition-opacity yst-ease-in-out yst-duration-200"
-									leaveFrom="yst-opacity-0"
-									leaveTo="yst-opacity-100"
-								>
-									<XCircleIcon className="yst-file-import__status-icon yst-text-red-500" />
+								<Transition show={ isAborted } { ...statusIconTransitionProps }>
+									<ValidationIcon variant="warning" className="yst-w-5 yst-h-5" />
+								</Transition>
+								<Transition show={ isError } { ...statusIconTransitionProps }>
+									<ValidationIcon variant="error" className="yst-w-5 yst-h-5" />
 								</Transition>
 							</div>
 						</header>
-						<Transition
-							show={ hasFinished }
-							enter="yst-transition-opacity yst-ease-in-out yst-duration-1000 yst-delay-200"
-							enterFrom="yst-opacity-0"
-							enterTo="yst-opacity-100"
-						>
-							<div className="yst-file-import__feedback-content">
-								{ children }
-							</div>
-						</Transition>
+						{ children }
 					</div>
 				</Transition>
 			</div>
 		</FileImportContext.Provider>
 	);
-};
+} );
 
-FileImport.propTypes = {
+const propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
@@ -253,7 +212,26 @@ FileImport.propTypes = {
 	onAbort: PropTypes.func.isRequired,
 };
 
-FileImport.Success = Success;
-FileImport.Error = Error;
+FileImport.propTypes = propTypes;
+
+FileImport.defaultProps = {
+	feedbackDescription: "",
+	progressMin: null,
+	progressMax: null,
+	progress: null,
+	status: FILE_IMPORT_STATUS.idle,
+};
+
+FileImport.Selected = createStatusConditionalRender( FILE_IMPORT_STATUS.selected );
+FileImport.Loading = createStatusConditionalRender( FILE_IMPORT_STATUS.loading );
+FileImport.Success = createStatusConditionalRender( FILE_IMPORT_STATUS.success );
+FileImport.Aborted = createStatusConditionalRender( FILE_IMPORT_STATUS.aborted );
+FileImport.Error = createStatusConditionalRender( FILE_IMPORT_STATUS.error );
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <FileImport { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = FileImport.defaultProps;
+StoryComponent.displayName = "FileImport";
 
 export default FileImport;

@@ -1,7 +1,8 @@
 /* eslint-disable complexity */
+import { getBlockContent } from "@wordpress/blocks";
 import { select, subscribe } from "@wordpress/data";
 import { actions } from "@yoast/externals/redux";
-import { debounce } from "lodash-es";
+import { debounce } from "lodash";
 import { languageProcessing } from "yoastseo";
 import { reapplyAnnotationsForSelectedBlock } from "../decorator/gutenberg";
 import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCustomTaxonomies } from "../helpers/replacementVariableHelpers";
@@ -13,6 +14,11 @@ const {
 	hideReplacementVariables,
 	setContentImage,
 	updateSettings,
+	setEditorDataContent,
+	setEditorDataTitle,
+	setEditorDataExcerpt,
+	setEditorDataImageUrl,
+	setEditorDataSlug,
 } = actions;
 
 const $ = global.jQuery;
@@ -61,7 +67,7 @@ export default class BlockEditorData {
 	 * @returns {Object} The initial data.
 	 */
 	getInitialData( replaceVars ) {
-		const gutenbergData = this.collectGutenbergData( this.getPostAttribute );
+		const gutenbergData = this.collectGutenbergData();
 
 		// Custom_fields and custom_taxonomies are objects instead of strings, which causes console errors.
 		replaceVars = mapCustomFields( replaceVars, this._store );
@@ -166,29 +172,37 @@ export default class BlockEditorData {
 
 		// When no custom slug is provided we should use the generated_slug attribute.
 		const slug = this.getPostAttribute( "slug" ) || generatedSlug;
-		return decodeURIComponent( slug );
+		try {
+			return decodeURI( slug );
+		} catch ( e ) {
+			return slug;
+		}
 	}
 
 	/**
-	 * Gets the base url from the permalink. The base url is the full url retrieved from permalink minus the slug.
-	 *
-	 * @param {string} slug The slug to strip from the permalink.
+	 * Gets the base url from the permalink parts.
 	 *
 	 * @returns {string} The base url.
 	 */
-	getPostBaseUrl( slug ) {
-		const permalink = select( "core/editor" ).getPermalink();
-		let url;
-		let baseUrl = "";
-		try {
-			url = new URL( permalink );
-			baseUrl = url.href;
-		} catch ( e ) {
+	getPostBaseUrl() {
+		const permalinkParts = select( "core/editor" ).getPermalinkParts();
+		if ( permalinkParts === null || ! permalinkParts?.prefix ) {
 			// Fallback on the base url retrieved from the wpseoScriptData.
-			baseUrl = window.wpseoScriptData.metabox.base_url;
+			return window.wpseoScriptData.metabox.base_url;
 		}
-		// Strip slug from the url.
-		baseUrl = baseUrl.replace( new RegExp( slug + "/$" ), "" );
+
+		let baseUrl = permalinkParts.prefix;
+		const isAutoDraft = select( "core/editor" ).isEditedPostNew();
+		if ( isAutoDraft ) {
+			// For post auto-drafts, the `baseUrl` includes the `?={ID}` that we do not want.
+			try {
+				const url = new URL( baseUrl );
+				baseUrl = url.origin + url.pathname;
+			} catch ( e ) {
+				// Ignore this error.
+			}
+		}
+
 		// Enforce ending with a slash because of the internal handling in the SnippetEditor component.
 		if ( ! baseUrl.endsWith( "/" ) ) {
 			baseUrl += "/";
@@ -198,27 +212,35 @@ export default class BlockEditorData {
 	}
 
 	/**
-	 * Collects the content, title, slug and excerpt of a post from Gutenberg.
+	 * Collects the data of a post from Gutenberg.
 	 *
-	 * @returns {{content: string, title: string, slug: string, excerpt: string}} The content, title, slug and excerpt.
+	 * @returns {{content: string, title: string, slug: string, excerpt: string, excerpt_only: string,
+	 * 			snippetPreviewImageURL: string, contentImage: string, baseUrl: string}} The collected data.
 	 */
 	collectGutenbergData() {
-		const content = this.getPostAttribute( "content" );
+		let content = select( "core/editor" ).getEditedPostContent();
+
+		// Gutenberg applies the `autop` function under the hood to all Classic (core/freeform) blocks.
+		// The most likely situation for these to appear in posts is through converting a post from Classic to Block editor.
+		// We account for that below, but not for the (unlikely) case when a Classic block is added to a post consisting of other blocks.
+		const blocks = select( "core/block-editor" ).getBlocks();
+		if ( blocks.length === 1 && blocks[ 0 ].name === "core/freeform" ) {
+			content = getBlockContent( blocks[ 0 ] );
+		}
+
 		const contentImage = this.calculateContentImage( content );
 		const excerpt = this.getPostAttribute( "excerpt" ) || "";
-		const limit = ( getContentLocale() === "ja" ) ? 80 : 156;
-		const slug = this.getSlug();
 
 		return {
 			content,
 			title: this.getPostAttribute( "title" ) || "",
-			slug: slug,
-			excerpt: excerpt || excerptFromContent( content, limit ),
+			slug: this.getSlug(),
+			excerpt: excerpt || excerptFromContent( content, getContentLocale() === "ja" ? 80 : 156 ),
 			// eslint-disable-next-line camelcase
 			excerpt_only: excerpt,
 			snippetPreviewImageURL: this.getFeaturedImage() || contentImage,
 			contentImage,
-			baseUrl: this.getPostBaseUrl( slug ),
+			baseUrl: this.getPostBaseUrl(),
 		};
 	}
 
@@ -249,24 +271,20 @@ export default class BlockEditorData {
 	 */
 	calculateContentImage( content ) {
 		const images = languageProcessing.imageInText( content );
-		let image = "";
 
 		if ( images.length === 0 ) {
 			return "";
 		}
 
-		do {
-			var currentImage = images.shift();
-			currentImage = $( currentImage );
+		const imageElements = $.parseHTML( images.join( "" ) );
 
-			var imageSource = currentImage.prop( "src" );
-
-			if ( imageSource ) {
-				image = imageSource;
+		for ( const imageElement of imageElements ) {
+			if ( imageElement.src ) {
+				return imageElement.src;
 			}
-		} while ( "" === image && images.length > 0 );
+		}
 
-		return image;
+		return "";
 	}
 
 	/**
@@ -277,21 +295,29 @@ export default class BlockEditorData {
 	 * @returns {void}
 	 */
 	handleEditorChange( newData ) {
+		// Handle content change.
+		if ( this._data.content !== newData.content ) {
+			this._store.dispatch( setEditorDataContent( newData.content ) );
+		}
 		// Handle title change.
 		if ( this._data.title !== newData.title ) {
+			this._store.dispatch( setEditorDataTitle( newData.title ) );
 			this._store.dispatch( updateReplacementVariable( "title", newData.title ) );
 		}
 		// Handle excerpt change.
 		if ( this._data.excerpt !== newData.excerpt ) {
+			this._store.dispatch( setEditorDataExcerpt( newData.excerpt ) );
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
 			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt_only ) );
 		}
 		// Handle slug change.
 		if ( this._data.slug !== newData.slug ) {
+			this._store.dispatch( setEditorDataSlug( newData.slug ) );
 			this._store.dispatch( updateData( { slug: newData.slug } ) );
 		}
 		// Handle snippet preview image change.
 		if ( this._data.snippetPreviewImageURL !== newData.snippetPreviewImageURL ) {
+			this._store.dispatch( setEditorDataImageUrl( newData.snippetPreviewImageURL ) );
 			this._store.dispatch( updateData( { snippetPreviewImageURL: newData.snippetPreviewImageURL } ) );
 		}
 		// Handle content image change.

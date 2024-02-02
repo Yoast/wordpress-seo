@@ -14,7 +14,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 /* translators: %1$s expands to Yoast SEO */
 $submit_button_value = sprintf( __( 'Export your %1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
 
-if ( filter_input( INPUT_POST, 'do_export' ) ) {
+// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: The nonce will be verified in WPSEO_Export below, We are only strictly comparing with '1'.
+if ( isset( $_POST['do_export'] ) && wp_unslash( $_POST['do_export'] ) === '1' ) {
 	$export = new WPSEO_Export();
 	$export->export();
 	return;

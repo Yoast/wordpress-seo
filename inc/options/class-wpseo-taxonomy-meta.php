@@ -51,27 +51,28 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @var array
 	 */
 	public static $defaults_per_term = [
-		'wpseo_title'                 => '',
-		'wpseo_desc'                  => '',
-		'wpseo_canonical'             => '',
-		'wpseo_bctitle'               => '',
-		'wpseo_noindex'               => 'default',
-		'wpseo_focuskw'               => '',
-		'wpseo_linkdex'               => '',
-		'wpseo_content_score'         => '',
-		'wpseo_focuskeywords'         => '[]',
-		'wpseo_keywordsynonyms'       => '[]',
-		'wpseo_is_cornerstone'        => '0',
+		'wpseo_title'                    => '',
+		'wpseo_desc'                     => '',
+		'wpseo_canonical'                => '',
+		'wpseo_bctitle'                  => '',
+		'wpseo_noindex'                  => 'default',
+		'wpseo_focuskw'                  => '',
+		'wpseo_linkdex'                  => '',
+		'wpseo_content_score'            => '',
+		'wpseo_inclusive_language_score' => '',
+		'wpseo_focuskeywords'            => '[]',
+		'wpseo_keywordsynonyms'          => '[]',
+		'wpseo_is_cornerstone'           => '0',
 
 		// Social fields.
-		'wpseo_opengraph-title'       => '',
-		'wpseo_opengraph-description' => '',
-		'wpseo_opengraph-image'       => '',
-		'wpseo_opengraph-image-id'    => '',
-		'wpseo_twitter-title'         => '',
-		'wpseo_twitter-description'   => '',
-		'wpseo_twitter-image'         => '',
-		'wpseo_twitter-image-id'      => '',
+		'wpseo_opengraph-title'          => '',
+		'wpseo_opengraph-description'    => '',
+		'wpseo_opengraph-image'          => '',
+		'wpseo_opengraph-image-id'       => '',
+		'wpseo_twitter-title'            => '',
+		'wpseo_twitter-description'      => '',
+		'wpseo_twitter-image'            => '',
+		'wpseo_twitter-image-id'         => '',
 	];
 
 	/**
@@ -118,6 +119,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 	/**
 	 * Add extra default options received from a filter.
+	 *
+	 * @return void
 	 */
 	public function enrich_defaults() {
 		$extra_defaults_per_term = apply_filters( 'wpseo_add_extra_taxmeta_term_defaults', [] );
@@ -290,7 +293,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 					break;
 			}
 
-			$clean[ $key ] = apply_filters( 'wpseo_sanitize_tax_meta_' . $key, $clean[ $key ], ( isset( $meta_data[ $key ] ) ? $meta_data[ $key ] : null ), ( isset( $old_meta[ $key ] ) ? $old_meta[ $key ] : null ) );
+			$clean[ $key ] = apply_filters( 'wpseo_sanitize_tax_meta_' . $key, $clean[ $key ], ( $meta_data[ $key ] ?? null ), ( $old_meta[ $key ] ?? null ) );
 		}
 
 		// Only save the non-default values.
@@ -408,7 +411,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 			return $tax_meta;
 		}
 
-
 		if ( isset( $tax_meta[ 'wpseo_' . $meta ] ) ) {
 			return $tax_meta[ 'wpseo_' . $meta ];
 		}
@@ -438,6 +440,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param int    $term_id     ID of the term to save data for.
 	 * @param string $taxonomy    The taxonomy the term belongs to.
 	 * @param array  $meta_values The values that will be saved.
+	 *
+	 * @return void
 	 */
 	public static function set_values( $term_id, $taxonomy, array $meta_values ) {
 		/* Validate the post values */
@@ -454,6 +458,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param string $taxonomy   The taxonomy the term belongs to.
 	 * @param string $meta_key   The target meta key to store the value in.
 	 * @param string $meta_value The value of the target meta key.
+	 *
+	 * @return void
 	 */
 	public static function set_value( $term_id, $taxonomy, $meta_key, $meta_value ) {
 
@@ -476,7 +482,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	public static function get_keyword_usage( $keyword, $current_term_id, $current_taxonomy ) {
 		$tax_meta = self::get_tax_meta();
 
-
 		$found = [];
 		// @todo Check for terms of all taxonomies, not only the current taxonomy.
 		foreach ( $tax_meta as $taxonomy_name => $terms ) {
@@ -497,6 +502,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param int    $term_id  ID of the term to save data for.
 	 * @param string $taxonomy The taxonomy the term belongs to.
 	 * @param array  $clean    Array with clean values.
+	 *
+	 * @return void
 	 */
 	private static function save_clean_values( $term_id, $taxonomy, array $clean ) {
 		$tax_meta = self::get_tax_meta();
@@ -531,6 +538,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * Saving the tax meta values to the database.
 	 *
 	 * @param array $tax_meta Array with the meta values for taxonomy.
+	 *
+	 * @return void
 	 */
 	private static function save_tax_meta( $tax_meta ) {
 		update_option( self::$name, $tax_meta );

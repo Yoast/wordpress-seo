@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Main;
 
 /**
@@ -78,6 +79,13 @@ class Index_Command implements Command_Interface {
 	private $prepare_indexing_action;
 
 	/**
+	 * Represents the indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * Generate_Indexables_Command constructor.
 	 *
 	 * @param Indexable_Post_Indexation_Action              $post_indexation_action              The post indexation
@@ -96,6 +104,7 @@ class Index_Command implements Command_Interface {
 	 *                                                                                           action.
 	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action           The term link indexation
 	 *                                                                                           action.
+	 * @param Indexable_Helper                              $indexable_helper                    The indexable helper.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation_action,
@@ -105,7 +114,8 @@ class Index_Command implements Command_Interface {
 		Indexable_Indexing_Complete_Action $complete_indexation_action,
 		Indexing_Prepare_Action $prepare_indexing_action,
 		Post_Link_Indexing_Action $post_link_indexing_action,
-		Term_Link_Indexing_Action $term_link_indexing_action
+		Term_Link_Indexing_Action $term_link_indexing_action,
+		Indexable_Helper $indexable_helper
 	) {
 		$this->post_indexation_action              = $post_indexation_action;
 		$this->term_indexation_action              = $term_indexation_action;
@@ -115,6 +125,7 @@ class Index_Command implements Command_Interface {
 		$this->prepare_indexing_action             = $prepare_indexing_action;
 		$this->post_link_indexing_action           = $post_link_indexing_action;
 		$this->term_link_indexing_action           = $term_link_indexing_action;
+		$this->indexable_helper                    = $indexable_helper;
 	}
 
 	/**
@@ -158,6 +169,14 @@ class Index_Command implements Command_Interface {
 	 * @return void
 	 */
 	public function index( $args = null, $assoc_args = null ) {
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			WP_CLI::log(
+				\__( 'Your WordPress environment is running on a non-production site. Indexables can only be created on production environments. Please check your `WP_ENVIRONMENT_TYPE` settings.', 'wordpress-seo' )
+			);
+
+			return;
+		}
+
 		if ( ! isset( $assoc_args['network'] ) ) {
 			$this->run_indexation_actions( $assoc_args );
 
@@ -251,6 +270,8 @@ class Index_Command implements Command_Interface {
 
 	/**
 	 * Clears the database related to the indexables.
+	 *
+	 * @return void
 	 */
 	protected function clear() {
 		global $wpdb;

@@ -2,16 +2,18 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
+use WPSEO_Admin_Asset;
 use WPSEO_Admin_Asset_Manager;
-use YoastSEO_Vendor\WordProof\SDK\Helpers\CertificateHelper;
-use YoastSEO_Vendor\WordProof\SDK\Helpers\PostMetaHelper;
-use YoastSEO_Vendor\WordProof\SDK\WordPressSDK;
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Integration_Active_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Plugin_Inactive_Conditional;
 use Yoast\WP\SEO\Config\Wordproof_App_Config;
 use Yoast\WP\SEO\Config\Wordproof_Translations;
 use Yoast\WP\SEO\Helpers\Wordproof_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use YoastSEO_Vendor\WordProof\SDK\Helpers\CertificateHelper;
+use YoastSEO_Vendor\WordProof\SDK\Helpers\PostMetaHelper;
+use YoastSEO_Vendor\WordProof\SDK\WordPressSDK;
 
 /**
  * Class WordProof
@@ -30,7 +32,7 @@ class Wordproof implements Integration_Interface {
 	/**
 	 * The WordProof helper instance.
 	 *
-	 * @var Wordproof_Helper $wordproof The helper instance.
+	 * @var Wordproof_Helper
 	 */
 	protected $wordproof;
 
@@ -44,10 +46,10 @@ class Wordproof implements Integration_Interface {
 	/**
 	 * The WordProof integration constructor.
 	 *
-	 * @param Wordproof_Helper          $wordproof The WordProof helper instance.
+	 * @param Wordproof_Helper          $wordproof     The WordProof helper instance.
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager The WPSEO admin asset manager instance.
 	 */
-	public function __construct( Wordproof_Helper $wordproof, WPSEO_Admin_Asset_Manager $asset_manager = null ) {
+	public function __construct( Wordproof_Helper $wordproof, ?WPSEO_Admin_Asset_Manager $asset_manager = null ) {
 		if ( ! $asset_manager ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
 		}
@@ -62,7 +64,11 @@ class Wordproof implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Wordproof_Plugin_Inactive_Conditional::class, Non_Multisite_Conditional::class ];
+		return [
+			Wordproof_Plugin_Inactive_Conditional::class,
+			Non_Multisite_Conditional::class,
+			Wordproof_Integration_Active_Conditional::class,
+		];
 	}
 
 	/**
@@ -83,10 +89,19 @@ class Wordproof implements Integration_Interface {
 		 */
 		\add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ], 10, 0 );
 
-		/**
-		 * Add async to the wordproof scripts.
-		 */
-		\add_filter( 'script_loader_tag', [ $this, 'add_async_to_script' ], 10, 3 );
+		if ( \version_compare( \strtok( \get_bloginfo( 'version' ), '-' ), '6.3', '>=' ) ) {
+			\add_action(
+				'wp_enqueue_scripts',
+				static function () {
+					\wp_script_add_data( WPSEO_Admin_Asset_Manager::PREFIX . 'wordproof-uikit', 'strategy', 'async' );
+				},
+				11,
+				0
+			);
+		}
+		else {
+			\add_filter( 'script_loader_tag', [ $this, 'add_async_to_script' ], 10, 3 );
+		}
 
 		/**
 		 * Removes the post meta timestamp key for the old privacy page.
@@ -104,7 +119,12 @@ class Wordproof implements Integration_Interface {
 		\add_filter( 'wordproof_timestamp_post_meta_key_overrides', [ $this, 'add_post_meta_key' ] );
 
 		/**
-		 * Called by the WordProof WordPress SDK to determine if the certficate should be shown.
+		 * Called by the WordProof WordPress SDK to determine if the post should be automatically timestamped.
+		 */
+		\add_filter( 'wordproof_timestamp_post_types', [ $this, 'wordproof_timestamp_post_types' ] );
+
+		/**
+		 * Called by the WordProof WordPress SDK to determine if the certificate should be shown.
 		 */
 		\add_filter( 'wordproof_timestamp_show_certificate', [ $this, 'show_certificate' ], 10, 2 );
 
@@ -116,6 +136,8 @@ class Wordproof implements Integration_Interface {
 
 	/**
 	 * Initializes the WordProof WordPress SDK.
+	 *
+	 * @return void
 	 */
 	public function sdk_setup() {
 
@@ -132,6 +154,8 @@ class Wordproof implements Integration_Interface {
 	 *
 	 * @param int $old_post_id The old post id.
 	 * @param int $new_post_id The new post id.
+	 *
+	 * @return void
 	 */
 	public function disable_timestamp_for_previous_legal_page( $old_post_id, $new_post_id ) {
 
@@ -141,14 +165,23 @@ class Wordproof implements Integration_Interface {
 	}
 
 	/**
-	 * Add the Yoast post meta key for the included WordProof SDK to determine if the post should be timestamped.
+	 * Return the Yoast post meta key for the SDK to determine if the post should be timestamped.
 	 *
-	 * @param array $array The array containing meta keys that should be used.
+	 * @param array $meta_keys The array containing meta keys that should be used.
 	 * @return array
 	 */
-	public function add_post_meta_key( $array ) {
-		$array[] = $this->post_meta_key;
-		return $array;
+	public function add_post_meta_key( $meta_keys ) {
+		return [ $this->post_meta_key ];
+	}
+
+	/**
+	 * Return an empty array to disable automatically timestamping selected post types.
+	 *
+	 * @param array $post_types The array containing post types that should be automatically timestamped.
+	 * @return array
+	 */
+	public function wordproof_timestamp_post_types( $post_types ) {
+		return [];
 	}
 
 	/**
@@ -195,13 +228,13 @@ class Wordproof implements Integration_Interface {
 	 */
 	public function enqueue_assets() {
 		if ( CertificateHelper::show() ) {
-			$flat_version = $this->asset_manager->flatten_version( WPSEO_VERSION );
+			$flat_version = $this->asset_manager->flatten_version( \WPSEO_VERSION );
 
 			/**
 			 * We are using the Admin asset manager to register and enqueue a file served for all visitors,
 			 * authenticated and unauthenticated users.
 			 */
-			$script = new \WPSEO_Admin_Asset(
+			$script = new WPSEO_Admin_Asset(
 				[
 					'name'    => 'wordproof-uikit',
 					'src'     => 'wordproof-uikit.js',
@@ -217,9 +250,9 @@ class Wordproof implements Integration_Interface {
 	/**
 	 * Adds async to the wordproof-uikit script.
 	 *
-	 * @param string $tag The script tag for the enqueued script.
+	 * @param string $tag    The script tag for the enqueued script.
 	 * @param string $handle The script's registered handle.
-	 * @param string $src The script's source URL.
+	 * @param string $src    The script's source URL.
 	 *
 	 * @return string The script's tag.
 	 *

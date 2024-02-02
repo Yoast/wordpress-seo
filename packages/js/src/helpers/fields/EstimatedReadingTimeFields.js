@@ -29,6 +29,8 @@ export default class EstimatedReadingTimeFields {
 	 * @returns {void}
 	 */
 	static set estimatedReadingTime( value ) {
-		EstimatedReadingTimeFields.estimatedReadingTimeElement.value = value;
+		if ( EstimatedReadingTimeFields.estimatedReadingTimeElement ) {
+			EstimatedReadingTimeFields.estimatedReadingTimeElement.value = value;
+		}
 	}
 }

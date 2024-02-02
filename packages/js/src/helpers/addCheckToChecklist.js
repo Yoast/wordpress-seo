@@ -1,5 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
+import getL10nObject from "../analysis/getL10nObject";
 
 /**
  * Adds a "No focus keyword was entered" result when no focus keyphrase
@@ -56,9 +57,10 @@ export function maybeAddSEOCheck( checklist, store ) {
 
 	if ( isContentAnalysisActive ) {
 		const seoScoreIndicator = getIndicatorForScore( store.getResultsForFocusKeyword().overallScore );
+		const isPremium = getL10nObject().isPremium;
 
 		checklist.push( {
-			label: __( "SEO analysis:", "wordpress-seo" ),
+			label: isPremium ? __( "Premium SEO analysis:", "wordpress-seo" ) : __( "SEO analysis:", "wordpress-seo" ),
 			score: seoScoreIndicator.className,
 			scoreValue: seoScoreIndicator.screenReaderReadabilityText,
 		} );
@@ -66,45 +68,23 @@ export function maybeAddSEOCheck( checklist, store ) {
 }
 
 /**
- * Checks if the array of blocks includes schema blocks.
+ * Adds the inclusive language check if it is active.
  *
- * @param {object[]} blocks The array of blocks.
- *
- * @returns {boolean} If the list of blocks contains schema blocks.
- */
-function includesSchemaBlocks( blocks ) {
-	return blocks.some( block => block.attributes[ "is-yoast-schema-block" ] === true );
-}
-
-/**
- * Adds a score item for the schema blocks validation results, indicating whether all the
- * schema blocks on the page have valid schema.
- *
- * This check is hidden when no schema validation results are known
- * (e.g. when no schema blocks exist on the page).
- *
- * @param {Object[]} checklist          The score items to add the score to.
- * @param {Object}   yoastSchemaStore   The `yoast-seo/schema-blocks` Yoast SEO redux store.
- * @param {Object}   wpBlockEditorStore The `core/block-editor` WordPress store.
+ * @param {Object[]} checklist The checklist on which to add the inclusive language score.
+ * @param {Object}   store     The Yoast SEO store.
  *
  * @returns {void}
  */
-export function maybeAddSchemaBlocksValidationCheck( checklist, yoastSchemaStore, wpBlockEditorStore ) {
-	const blocks = wpBlockEditorStore.getBlocks();
+export function maybeAddInclusiveLanguageCheck( checklist, store ) {
+	const { isInclusiveLanguageAnalysisActive } = store.getPreferences();
 
-	if ( ! includesSchemaBlocks( blocks ) ) {
-		return;
-	}
-	const schemaBlocksValidationResults = yoastSchemaStore.getSchemaBlocksValidationResults();
-	const validationResults = Object.values( schemaBlocksValidationResults );
-
-	if ( validationResults && validationResults.length > 0 ) {
-		const valid = validationResults.every( block => block.result <= 0 );
+	if ( isInclusiveLanguageAnalysisActive ) {
+		const scoreIndicator = getIndicatorForScore( store.getInclusiveLanguageResults().overallScore );
 
 		checklist.push( {
-			label: __( "Schema analysis:", "wordpress-seo" ),
-			score: valid ? "good" : "bad",
-			scoreValue: valid ? __( "Good", "wordpress-seo" ) : __( "Needs improvement", "wordpress-seo" ),
+			label: __( "Inclusive language:", "wordpress-seo" ),
+			score: scoreIndicator.className,
+			scoreValue: scoreIndicator.screenReaderInclusiveLanguageText,
 		} );
 	}
 }

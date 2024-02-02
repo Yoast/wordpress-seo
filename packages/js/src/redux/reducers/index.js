@@ -1,17 +1,29 @@
+import insights from "../../insights/redux/reducer";
+import {
+	LINK_PARAMS_NAME,
+	linkParamsReducer,
+	PLUGIN_URL_NAME,
+	pluginUrlReducer,
+	WISTIA_EMBED_PERMISSION_NAME,
+	wistiaEmbedPermissionReducer,
+} from "../../shared-admin/store";
+import analysis from "../reducers/contentAnalysis";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
-import { analysis } from "yoast-components";
 import analysisData from "./analysisData";
+import checklist from "./checklist";
+import currentPromotions from "./currentPromotions";
+import isCornerstone from "./cornerstoneContent";
 import dismissedAlerts from "./dismissedAlerts";
 import editorContext from "./editorContext";
 import editorData from "./editorData";
 import editorModals from "./editorModals";
-import estimatedReadingTime from "./estimatedReadingTime";
 import facebookEditor from "./facebookEditor";
 import focusKeyword from "./focusKeyword";
-import isCornerstone from "./cornerstoneContent";
-import isMarkerPaused from "./markerPauseStatus";
+import isPremium from "./isPremium";
 import marksButtonStatus from "./markerButtons";
+import isMarkerPaused from "./markerPauseStatus";
+import postId from "./postId";
 import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
 import schemaTab from "./schemaTab";
@@ -25,23 +37,27 @@ import warning from "./warning";
 import WincherModal from "./WincherModal";
 import WincherRequest from "./WincherRequest";
 import WincherSEOPerformance from "./WincherSEOPerformance";
-import isPremium from "./isPremium";
 
 export default {
 	activeMarker,
 	advancedSettings,
 	analysis,
 	analysisData,
+	checklist,
+	currentPromotions,
 	dismissedAlerts,
 	editorContext,
 	editorData,
 	editorModals,
-	estimatedReadingTime,
 	facebookEditor,
 	focusKeyword,
+	insights,
 	isCornerstone,
 	isMarkerPaused,
 	isPremium,
+	[ LINK_PARAMS_NAME ]: linkParamsReducer,
+	[ PLUGIN_URL_NAME ]: pluginUrlReducer,
+	postId,
 	marksButtonStatus,
 	preferences,
 	primaryTaxonomies,
@@ -56,4 +72,5 @@ export default {
 	WincherModal,
 	WincherRequest,
 	WincherSEOPerformance,
+	[ WISTIA_EMBED_PERMISSION_NAME ]: wistiaEmbedPermissionReducer,
 };

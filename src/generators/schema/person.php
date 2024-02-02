@@ -46,13 +46,13 @@ class Person extends Abstract_Schema_Piece {
 			return false;
 		}
 
-		return $this->context->site_represents === 'person' || $this->context->indexable->object_type === 'user';
+		return $this->context->site_represents === 'person';
 	}
 
 	/**
 	 * Returns Person Schema data.
 	 *
-	 * @return bool|array Person data on success, false on failure.
+	 * @return bool|array<string|string[]> Person data on success, false on failure.
 	 */
 	public function generate() {
 		$user_id = $this->determine_user_id();
@@ -72,7 +72,7 @@ class Person extends Abstract_Schema_Piece {
 		/**
 		 * Filter: 'wpseo_schema_person_user_id' - Allows filtering of user ID used for person output.
 		 *
-		 * @api int|bool $user_id The user ID currently determined.
+		 * @param int|bool $user_id The user ID currently determined.
 		 */
 		$user_id = \apply_filters( 'wpseo_schema_person_user_id', $this->context->site_user_id );
 
@@ -87,8 +87,8 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Retrieve a list of social profile URLs for Person.
 	 *
-	 * @param array $same_as_urls Array of SameAs URLs.
-	 * @param int   $user_id      User ID.
+	 * @param string[] $same_as_urls Array of SameAs URLs.
+	 * @param int      $user_id      User ID.
 	 *
 	 * @return string[] A list of SameAs URLs.
 	 */
@@ -96,10 +96,9 @@ class Person extends Abstract_Schema_Piece {
 		/**
 		 * Filter: 'wpseo_schema_person_social_profiles' - Allows filtering of social profiles per user.
 		 *
-		 * @param int $user_id The current user we're grabbing social profiles for.
-		 *
-		 * @api string[] $social_profiles The array of social profiles to retrieve. Each should be a user meta field
-		 *                                key. As they are retrieved using the WordPress function `get_the_author_meta`.
+		 * @param string[] $social_profiles The array of social profiles to retrieve. Each should be a user meta field
+		 *                                  key. As they are retrieved using the WordPress function `get_the_author_meta`.
+		 * @param int      $user_id         The current user we're grabbing social profiles for.
 		 */
 		$social_profiles = \apply_filters( 'wpseo_schema_person_social_profiles', $this->social_profiles, $user_id );
 
@@ -129,7 +128,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @param int  $user_id  The user ID to use.
 	 * @param bool $add_hash Wether or not the person's image url hash should be added to the image id.
 	 *
-	 * @return array An array of Schema Person data.
+	 * @return array<string|string[]> An array of Schema Person data.
 	 */
 	protected function build_person_data( $user_id, $add_hash = false ) {
 		$user_data = \get_userdata( $user_id );
@@ -150,6 +149,11 @@ class Person extends Abstract_Schema_Piece {
 			$data['description'] = $this->helpers->schema->html->smart_strip_tags( $user_data->description );
 		}
 
+		if ( \is_array( $this->context->schema_page_type ) && \in_array( 'ProfilePage', $this->context->schema_page_type, true ) ) {
+			$data['mainEntityOfPage'] = [
+				'@id' => $this->context->main_schema_id,
+			];
+		}
 		$data = $this->add_same_as_urls( $data, $user_data, $user_id );
 
 		/**
@@ -166,11 +170,11 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Returns an ImageObject for the persons avatar.
 	 *
-	 * @param array   $data      The Person schema.
-	 * @param WP_User $user_data User data.
-	 * @param bool    $add_hash  Wether or not the person's image url hash should be added to the image id.
+	 * @param array<string|string[]> $data      The Person schema.
+	 * @param WP_User                $user_data User data.
+	 * @param bool                   $add_hash  Wether or not the person's image url hash should be added to the image id.
 	 *
-	 * @return array The Person schema.
+	 * @return array<string|string[]> The Person schema.
 	 */
 	protected function add_image( $data, $user_data, $add_hash = false ) {
 		$schema_id = $this->context->site_url . Schema_IDs::PERSON_LOGO_HASH;
@@ -181,7 +185,7 @@ class Person extends Abstract_Schema_Piece {
 		}
 
 		if ( \is_array( $this->type ) && \in_array( 'Organization', $this->type, true ) ) {
-			$data_logo    = isset( $data['image']['@id'] ) ? $data['image']['@id'] : $schema_id;
+			$data_logo    = ( $data['image']['@id'] ?? $schema_id );
 			$data['logo'] = [ '@id' => $data_logo ];
 		}
 
@@ -191,12 +195,12 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Generate the person image from our settings.
 	 *
-	 * @param array   $data      The Person schema.
-	 * @param string  $schema_id The string used in the `@id` for the schema.
-	 * @param bool    $add_hash  Whether or not the person's image url hash should be added to the image id.
-	 * @param WP_User $user_data User data.
+	 * @param array<string|string[]> $data      The Person schema.
+	 * @param string                 $schema_id The string used in the `@id` for the schema.
+	 * @param bool                   $add_hash  Whether or not the person's image url hash should be added to the image id.
+	 * @param WP_User                $user_data User data.
 	 *
-	 * @return array The Person schema.
+	 * @return array<string|string[]> The Person schema.
 	 */
 	protected function set_image_from_options( $data, $schema_id, $add_hash = false, $user_data = null ) {
 		if ( $this->context->site_represents !== 'person' ) {
@@ -212,12 +216,12 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Generate the person logo from gravatar.
 	 *
-	 * @param array   $data      The Person schema.
-	 * @param WP_User $user_data User data.
-	 * @param string  $schema_id The string used in the `@id` for the schema.
-	 * @param bool    $add_hash  Wether or not the person's image url hash should be added to the image id.
+	 * @param array<string|string[]> $data      The Person schema.
+	 * @param WP_User                $user_data User data.
+	 * @param string                 $schema_id The string used in the `@id` for the schema.
+	 * @param bool                   $add_hash  Wether or not the person's image url hash should be added to the image id.
 	 *
-	 * @return array The Person schema.
+	 * @return array<string|string[]> The Person schema.
 	 */
 	protected function set_image_from_avatar( $data, $user_data, $schema_id, $add_hash = false ) {
 		// If we don't have an image in our settings, fall back to an avatar, if we're allowed to.
@@ -239,8 +243,8 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Returns an author's social site URL.
 	 *
-	 * @param string $social_site The social site to retrieve the URL for.
-	 * @param mixed  $user_id     The user ID to use function outside of the loop.
+	 * @param string    $social_site The social site to retrieve the URL for.
+	 * @param int|false $user_id     The user ID to use function outside of the loop.
 	 *
 	 * @return string
 	 */
@@ -285,11 +289,11 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Builds our SameAs array.
 	 *
-	 * @param array   $data      The Person schema data.
-	 * @param WP_User $user_data The user data object.
-	 * @param int     $user_id   The user ID to use.
+	 * @param array<string|string[]> $data      The Person schema data.
+	 * @param WP_User                $user_data The user data object.
+	 * @param int                    $user_id   The user ID to use.
 	 *
-	 * @return array The Person schema data.
+	 * @return array<string|string[]> The Person schema data.
 	 */
 	protected function add_same_as_urls( $data, $user_data, $user_id ) {
 		$same_as_urls = [];

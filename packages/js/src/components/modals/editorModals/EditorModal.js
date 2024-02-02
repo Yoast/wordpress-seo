@@ -16,7 +16,7 @@ import { LocationProvider } from "@yoast/externals/contexts";
  */
 export const isCloseEvent = ( event ) => {
 	let shouldClose = true;
-	if ( event.type === "blur" ) {
+	if ( event?.type === "blur" ) {
 		// Catch any blur events that are not supposed to blur to modal, by identifying the clicked item.
 		const { relatedTarget } = event;
 
@@ -38,7 +38,8 @@ export const isCloseEvent = ( event ) => {
  *
  * @returns {*} A button wrapped in a div.
  */
-const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open, shouldCloseOnClickOutside } ) => {
+const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open,
+	shouldCloseOnClickOutside, showChangesWarning, SuffixHeroIcon } ) => {
 	const requestClose = useCallback( ( event ) => {
 		// Prevent the modal from closing when the event is a false positive.
 		if ( ! isCloseEvent( event ) ) {
@@ -67,12 +68,12 @@ const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open, 
 						<div className="yoast-notice-container">
 							<hr />
 							<div className="yoast-button-container">
-								<p>
+								{ showChangesWarning && <p>
 									{
 										/* Translators: %s translates to the Post Label in singular form */
 										sprintf( __( "Make sure to save your %s for changes to take effect", "wordpress-seo" ), postTypeName )
 									}
-								</p>
+								</p> }
 								<button
 									className="yoast-button yoast-button--primary yoast-button--post-settings-modal"
 									type="button"
@@ -91,7 +92,9 @@ const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open, 
 			<SidebarButton
 				id={ id + "-open-button" }
 				title={ title }
-				suffixIcon={ { size: "20px", icon: "pencil-square" } }
+				SuffixHeroIcon={ SuffixHeroIcon }
+				// Fall back to the pencil square SVG icon if no hero icon has been passed.
+				suffixIcon={ SuffixHeroIcon ? null : { size: "20px", icon: "pencil-square" } }
 				onClick={ open }
 			/>
 		</Fragment>
@@ -107,10 +110,13 @@ EditorModal.propTypes = {
 	open: PropTypes.func.isRequired,
 	close: PropTypes.func.isRequired,
 	shouldCloseOnClickOutside: PropTypes.bool,
+	showChangesWarning: PropTypes.bool,
+	SuffixHeroIcon: PropTypes.object,
 };
 
 EditorModal.defaultProps = {
 	shouldCloseOnClickOutside: true,
+	showChangesWarning: true,
 };
 
 export default EditorModal;

@@ -23,7 +23,7 @@ class Wordproof_App_Config extends DefaultAppConfig {
 	/**
 	 * Returns if the WordProof Uikit should be loaded from a cdn.
 	 *
-	 * @return boolean True or false.
+	 * @return bool True or false.
 	 */
 	public function getLoadUikitFromCdn() {
 		return false;

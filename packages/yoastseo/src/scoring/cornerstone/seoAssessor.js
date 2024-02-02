@@ -2,7 +2,7 @@ import { inherits } from "util";
 
 import IntroductionKeywordAssessment from "../assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "../assessments/seo/KeywordDensityAssessment";
+import KeyphraseDensityAssessment from "../assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
 import TextCompetingLinksAssessment from "../assessments/seo/TextCompetingLinksAssessment";
 import InternalLinksAssessment from "../assessments/seo/InternalLinksAssessment";
@@ -23,9 +23,9 @@ import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
 /**
  * Creates the Assessor
  *
- * @param {object} researcher       The researcher used for the analysis.
- * @param {Object} options          The options for this assessor.
- * @param {Object} options.marker   The marker to pass the list of marks to.
+ * @param {Researcher} researcher    The researcher used for the analysis.
+ * @param {Object?} options          The options for this assessor.
+ * @param {Function} options.marker  The marker to pass the list of marks to.
  *
  * @constructor
  */
@@ -36,7 +36,7 @@ const CornerstoneSEOAssessor = function( researcher, options ) {
 	this._assessments = [
 		new IntroductionKeywordAssessment(),
 		new KeyphraseLengthAssessment(),
-		new KeywordDensityAssessment(),
+		new KeyphraseDensityAssessment(),
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLength( {
 			scores:	{

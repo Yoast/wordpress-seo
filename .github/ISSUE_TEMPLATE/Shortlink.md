@@ -23,7 +23,6 @@ _What type of content are you linking to?_
 _Where in the plugin will this link be?_
 
 - [ ] `banners`
-- [ ] `configuration-wizard`
 - [ ] `content-analysis`
 - [ ] `go-premium`
 - [ ] `helpcenter`

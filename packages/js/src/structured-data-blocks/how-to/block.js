@@ -20,8 +20,8 @@ const attributes = {
 		type: "string",
 	},
 	description: {
-		type: "array",
-		source: "children",
+		type: "string",
+		source: "html",
 		selector: ".schema-how-to-description",
 	},
 	jsonDescription: {

@@ -14,7 +14,7 @@ class Schema_Types {
 	 *
 	 * @var string[]
 	 */
-	const PAGE_TYPES = [
+	public const PAGE_TYPES = [
 		'WebPage'           => '',
 		'ItemPage'          => '',
 		'AboutPage'         => '',
@@ -36,7 +36,7 @@ class Schema_Types {
 	 *
 	 * @var string[]
 	 */
-	const ARTICLE_TYPES = [
+	public const ARTICLE_TYPES = [
 		'Article'                  => '',
 		'BlogPosting'              => '',
 		'SocialMediaPosting'       => '',
@@ -118,7 +118,7 @@ class Schema_Types {
 		 *
 		 * Make sure when you filter this to also filter `wpseo_schema_article_types`.
 		 *
-		 * @api array $schema_article_types_labels The available schema article types and their labels.
+		 * @param array $schema_article_types_labels The available schema article types and their labels.
 		 */
 		return \apply_filters(
 			'wpseo_schema_article_types_labels',
@@ -165,21 +165,5 @@ class Schema_Types {
 				],
 			]
 		);
-	}
-
-	/**
-	 * Gets the values of the article type options.
-	 *
-	 * @return array[] The values of the Schema article type options.
-	 */
-	public function get_article_type_options_values() {
-		$article_types       = $this->get_article_type_options();
-		$article_type_values = [];
-
-		foreach ( $article_types as $type ) {
-			$article_type_values[] = $type['value'];
-		}
-
-		return $article_type_values;
 	}
 }

@@ -15,4 +15,8 @@ describe( "A test to check if spaces followed by a period and spaces in the begi
 	it( "removes first/last character if space", function() {
 		expect( stripSpaces( " A text with spaces. " ) ).toBe( "A text with spaces." );
 	} );
+
+	it( "does not remove space when a period is followed by text", function() {
+		expect( stripSpaces( "A common file type is .rar." ) ).toBe( "A common file type is .rar." );
+	} );
 } );

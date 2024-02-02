@@ -60,4 +60,18 @@ $wpseo_no_index_author_label = sprintf(
 			<?php esc_html_e( 'Removes the readability analysis section from the metabox and disables all readability-related suggestions.', 'wordpress-seo' ); ?>
 		</p>
 	<?php endif; ?>
+
+	<?php if ( WPSEO_Options::get( 'inclusive_language_analysis_active', false ) ) : ?>
+		<input class="yoast-settings__checkbox double" type="checkbox" id="wpseo_inclusive_language_analysis_disable"
+			name="wpseo_inclusive_language_analysis_disable" aria-describedby="wpseo_inclusive_language_analysis_disable_desc"
+			value="on" <?php echo ( get_the_author_meta( 'wpseo_inclusive_language_analysis_disable', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
+		<label class="yoast-label-strong"
+			for="wpseo_inclusive_language_analysis_disable"><?php esc_html_e( 'Disable inclusive language analysis', 'wordpress-seo' ); ?></label>
+		<br>
+		<p class="description" id="wpseo_inclusive_language_analysis_disable_desc">
+			<?php esc_html_e( 'Removes the inclusive language analysis section from the metabox and disables all inclusive language-related suggestions.', 'wordpress-seo' ); ?>
+		</p>
+	<?php endif; ?>
+
+	<?php do_action( 'wpseo_render_user_profile', $user ); ?>
 </div>

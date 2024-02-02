@@ -20,6 +20,7 @@ describe( "a test for Indonesian Researcher", function() {
 
 	it( "returns false if the default research is deleted in the Indonesian Researcher", function() {
 		expect( researcher.getResearch( "getFleschReadingScore" ) ).toBe( false );
+		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
 	} );
 
 	it( "returns false if the Indonesian Researcher doesn't have a certain config", function() {

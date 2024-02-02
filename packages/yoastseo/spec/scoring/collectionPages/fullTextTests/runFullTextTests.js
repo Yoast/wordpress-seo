@@ -1,12 +1,17 @@
-import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
+import { createAnchorOpeningTag, getLanguagesWithWordComplexity } from "../../../../src/helpers";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
+import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
+import getWordComplexityConfig from "../../../specHelpers/getWordComplexityConfig";
+import getWordComplexityHelper from "../../../specHelpers/getWordComplexityHelper";
+import keyphraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
+import buildTree from "../../../../../yoastseo/spec/specHelpers/parse/buildTree";
 
-// Import SEO assessments
+// Import SEO assessments.
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "../../../../src/scoring/assessments/seo/KeywordDensityAssessment";
+import KeyphraseDensityAssessment from "../../../../src/scoring/assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "../../../../src/scoring/assessments/seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "../../../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment";
 import TextLengthAssessment from "../../../../src/scoring/assessments/seo/TextLengthAssessment";
@@ -17,7 +22,7 @@ import FunctionWordsInKeyphrase from "../../../../src/scoring/assessments/seo/Fu
 import SingleH1Assessment from "../../../../src/scoring/assessments/seo/SingleH1Assessment";
 import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 
-// Import Readability assessments.
+// Import Readability assessments
 import SubheadingDistributionTooLongAssessment from "../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
 import ParagraphTooLongAssessment from "../../../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
 import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
@@ -25,8 +30,9 @@ import TransitionWordsAssessment from "../../../../src/scoring/assessments/reada
 import PassiveVoiceAssessment from "../../../../src/scoring/assessments/readability/PassiveVoiceAssessment";
 import TextPresenceAssessment from "../../../../src/scoring/assessments/readability/TextPresenceAssessment";
 import SentenceBeginningsAssessment from "../../../../src/scoring/assessments/readability/SentenceBeginningsAssessment";
+import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
 
-// Import test papers
+// Import test papers.
 import testPapers from "./testTexts";
 
 testPapers.forEach( function( testPaper ) {
@@ -34,10 +40,20 @@ testPapers.forEach( function( testPaper ) {
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
 		const locale = paper.getLocale();
+		const language = getLanguage( locale );
 
-		const LanguageResearcher = getResearcher( getLanguage( locale ) );
+		const LanguageResearcher = getResearcher( language );
 		const researcher = new LanguageResearcher( paper );
 		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
+		researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
+		// Also register the research, helper, and config for Word Complexity for testing purposes.
+		if ( getLanguagesWithWordComplexity().includes( getLanguage( locale ) ) ) {
+			researcher.addResearch( "wordComplexity", wordComplexity );
+			researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( language ) );
+			researcher.addConfig( "wordComplexity", getWordComplexityConfig( language ) );
+		}
+
+		buildTree( paper, researcher );
 
 		const expectedResults = testPaper.expectedResults;
 		const result = {};
@@ -51,7 +67,7 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
 		} );
-		const keywordDensityAssessment = new KeywordDensityAssessment( {
+		const keyphraseDensityAssessment = new KeyphraseDensityAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
 		} );
@@ -92,8 +108,8 @@ testPapers.forEach( function( testPaper ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
 		} );
 		const keyphraseDistributionAssessment = new KeyphraseDistribution( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify30" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify31" ),
+			urlTitle: "https://yoa.st/shopify30",
+			urlCallToAction: "https://yoa.st/shopify31",
 		} );
 		const subheadingDistributionTooLongAssessment = new SubheadingDistributionTooLongAssessment( {
 			shouldNotAppearInShortText: true,
@@ -124,6 +140,10 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify5" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
 		} );
+		const wordComplexityAssessment = new WordComplexityAssessment( {
+			urlTitle: "https://yoa.st/shopify77",
+			urlCallToAction: "https://yoa.st/shopify78",
+		} );
 
 		// SEO assessments.
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {
@@ -149,11 +169,11 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the keywordDensity assessment", function() {
-			const isApplicable = keywordDensityAssessment.isApplicable( paper, researcher );
+			const isApplicable = keyphraseDensityAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.keywordDensity.isApplicable );
 
 			if ( isApplicable ) {
-				result.keywordDensity = keywordDensityAssessment.getResult(
+				result.keywordDensity = keyphraseDensityAssessment.getResult(
 					paper,
 					researcher
 				);
@@ -331,6 +351,17 @@ testPapers.forEach( function( testPaper ) {
 				result.sentenceBeginnings = sentenceBeginningAssessment.getResult( paper, researcher );
 				expect( result.sentenceBeginnings.getScore() ).toBe( expectedResults.sentenceBeginnings.score );
 				expect( result.sentenceBeginnings.getText() ).toBe( expectedResults.sentenceBeginnings.resultText );
+			}
+		} );
+
+		it( "returns a score and the associated feedback text for the wordComplexity assessment", function() {
+			const isApplicable = wordComplexityAssessment.isApplicable( paper, researcher );
+			expect( isApplicable ).toBe( expectedResults.wordComplexity.isApplicable );
+
+			if ( isApplicable ) {
+				result.wordComplexity = wordComplexityAssessment.getResult( paper, researcher );
+				expect( result.wordComplexity.getScore() ).toBe( expectedResults.wordComplexity.score );
+				expect( result.wordComplexity.getText() ).toBe( expectedResults.wordComplexity.resultText );
 			}
 		} );
 	} );

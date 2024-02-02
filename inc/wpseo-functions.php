@@ -182,21 +182,6 @@ function wpseo_wpml_config( $config ) {
 
 add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
 
-/**
- * Yoast SEO breadcrumb shortcode.
- * [wpseo_breadcrumb]
- *
- * @deprecated 14.0
- * @codeCoverageIgnore
- *
- * @return string
- */
-function wpseo_shortcode_yoast_breadcrumb() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 14.0' );
-
-	return '';
-}
-
 if ( ! function_exists( 'ctype_digit' ) ) {
 	/**
 	 * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*.
@@ -225,6 +210,8 @@ if ( ! function_exists( 'ctype_digit' ) ) {
  * @param string $new_term_id      New term id of the taxonomy term that was splitted.
  * @param string $term_taxonomy_id Term taxonomy id for the taxonomy that was affected.
  * @param string $taxonomy         The taxonomy that the taxonomy term was splitted for.
+ *
+ * @return void
  */
 function wpseo_split_shared_term( $old_term_id, $new_term_id, $term_taxonomy_id, $taxonomy ) {
 	$tax_meta = get_option( 'wpseo_taxonomy_meta', [] );
@@ -249,68 +236,4 @@ function wpseo_get_capabilities() {
 		do_action( 'wpseo_register_capabilities' );
 	}
 	return WPSEO_Capability_Manager_Factory::get()->get_capabilities();
-}
-
-if ( ! function_exists( 'wp_get_environment_type' ) ) {
-	/**
-	 * Retrieves the current environment type.
-	 *
-	 * The type can be set via the `WP_ENVIRONMENT_TYPE` global system variable,
-	 * or a constant of the same name.
-	 *
-	 * Possible values include 'local', 'development', 'staging', 'production'.
-	 * If not set, the type defaults to 'production'.
-	 *
-	 * Backfill for `wp_get_environment_type()` introduced in WordPress 5.5. Code
-	 * is adapted to the Yoast PHP coding standards.
-	 *
-	 * @return string The current environment type.
-	 */
-	function wp_get_environment_type() {
-		static $current_env = '';
-
-		if ( $current_env ) {
-			return $current_env;
-		}
-
-		$wp_environments = [
-			'local',
-			'development',
-			'staging',
-			'production',
-		];
-
-		// Check if the environment variable has been set, if `getenv` is available on the system.
-		if ( function_exists( 'getenv' ) ) {
-			$has_env = getenv( 'WP_ENVIRONMENT_TYPES' );
-			if ( $has_env !== false ) {
-				$wp_environments = explode( ',', $has_env );
-			}
-		}
-
-		// Fetch the environment types from a constant, this overrides the global system variable.
-		if ( defined( 'WP_ENVIRONMENT_TYPES' ) ) {
-			$wp_environments = WP_ENVIRONMENT_TYPES;
-		}
-
-		// Check if the environment variable has been set, if `getenv` is available on the system.
-		if ( function_exists( 'getenv' ) ) {
-			$has_env = getenv( 'WP_ENVIRONMENT_TYPE' );
-			if ( $has_env !== false ) {
-				$current_env = $has_env;
-			}
-		}
-
-		// Fetch the environment from a constant, this overrides the global system variable.
-		if ( defined( 'WP_ENVIRONMENT_TYPE' ) ) {
-			$current_env = WP_ENVIRONMENT_TYPE;
-		}
-
-		// Make sure the environment is an allowed one, and not accidentally set to an invalid value.
-		if ( ! in_array( $current_env, $wp_environments, true ) ) {
-			$current_env = 'production';
-		}
-
-		return $current_env;
-	}
 }

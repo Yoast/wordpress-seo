@@ -2,7 +2,7 @@
 // @wordpress/api loads directly from the wp-api script handle.
 import { loadPromise, models } from "@wordpress/api";
 import { actions } from "@yoast/externals/redux";
-import { filter, forEach, isUndefined, trim } from "lodash-es";
+import { filter, forEach, isUndefined, trim } from "lodash";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import ReplaceVar from "../../values/replaceVar";
 

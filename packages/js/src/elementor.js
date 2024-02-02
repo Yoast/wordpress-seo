@@ -1,18 +1,20 @@
 import { dispatch } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
-import { applyModifications, pluginReady, pluginReloaded, registerPlugin, registerModification } from "./elementor/initializers/pluggable";
+import initializeWordProofForElementorEditor from "../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/elementorEditor";
+import initializeAiGenerator from "./ai-generator/initialize";
+import initEditorStore from "./elementor/initializers/editor-store";
+import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlightFocusKeyphraseForms";
+import initializeIntroduction from "./elementor/initializers/introduction";
+import { applyModifications, pluginReady, pluginReloaded, registerModification, registerPlugin } from "./initializers/pluggable";
+import initializeUsedKeywords from "./elementor/initializers/used-keywords-assessment";
+import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
+import { isWordProofIntegrationActive } from "./helpers/wordproof";
 import initAnalysis, { collectData } from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
-import initializeEstimatedReadingTime from "./initializers/estimated-reading-time";
-import initEditorStore from "./elementor/initializers/editor-store";
-import initializeUsedKeywords from "./elementor/initializers/used-keywords-assessment";
+import initializeInsights from "./insights/initializer";
 import initElementorWatcher from "./watchers/elementorWatcher";
-import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlightFocusKeyphraseForms";
-import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
-import initializeIntroduction from "./elementor/initializers/introduction";
-import { isWordProofIntegrationActive } from "./helpers/wordproof";
-import initializeWordProofForElementorEditor from "../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/elementorEditor";
 
+/* eslint-disable complexity */
 /**
  * Initializes Yoast SEO for Elementor.
  *
@@ -55,8 +57,8 @@ function initialize() {
 	// Initialize the Used Keywords Assessment.
 	initializeUsedKeywords();
 
-	// Initialize Estimated Reading Time.
-	initializeEstimatedReadingTime();
+	// Initialize insights.
+	initializeInsights();
 
 	// Initialize focus keyphrase forms highlighting.
 	initHighlightFocusKeyphraseForms( window.YoastSEO.analysis.worker.runResearch );
@@ -71,9 +73,17 @@ function initialize() {
 		initializeWordProofForElementorEditor();
 	}
 
+	const AI_IGNORED_POST_TYPES = [ "attachment", "product" ];
+
+	if ( window.wpseoScriptData.postType && ! AI_IGNORED_POST_TYPES.includes( window.wpseoScriptData.postType ) ) {
+		// Initialize the AI Generator upsell.
+		initializeAiGenerator();
+	}
+
 	// Offer an action after our load.
 	doAction( "yoast.elementor.loaded" );
 }
+/* eslint-enable complexity */
 
 // Wait on `window.elementor`.
 jQuery( window ).on( "elementor:init", () => {

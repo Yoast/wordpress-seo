@@ -14,9 +14,16 @@ class WPSEO_Metabox_Editor {
 	 * Registers hooks to WordPress.
 	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
+		// For the Classic editor.
 		add_filter( 'mce_css', [ $this, 'add_css_inside_editor' ] );
+		// For the Block/Gutenberg editor.
+		// See https://github.com/danielbachhuber/gutenberg-migration-guide/blob/master/filter-mce-css.md.
+		add_action( 'enqueue_block_editor_assets', [ $this, 'add_editor_styles' ] );
+
 		add_filter( 'tiny_mce_before_init', [ $this, 'add_custom_element' ] );
 	}
 
@@ -42,6 +49,16 @@ class WPSEO_Metabox_Editor {
 		}
 
 		return $css_files;
+	}
+
+	/**
+	 * Enqueues the CSS to use in the TinyMCE editor.
+	 *
+	 * @return void
+	 */
+	public function add_editor_styles() {
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_style( 'inside-editor' );
 	}
 
 	/**

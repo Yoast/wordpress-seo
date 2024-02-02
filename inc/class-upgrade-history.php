@@ -50,6 +50,8 @@ class WPSEO_Upgrade_History {
 	 * @param string $old_version  The version we are upgrading from.
 	 * @param string $new_version  The version we are upgrading to.
 	 * @param array  $option_names The options that need to be stored.
+	 *
+	 * @return void
 	 */
 	public function add( $old_version, $new_version, array $option_names ) {
 		$option_data = [];

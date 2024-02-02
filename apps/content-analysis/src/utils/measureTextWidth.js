@@ -17,7 +17,7 @@ function createMeasurementElement() {
 	hiddenElement.style.height = 0;
 	hiddenElement.style.overflow = "hidden";
 	hiddenElement.style.fontFamily = "arial, sans-serif";
-	hiddenElement.style.fontSize = "18px";
+	hiddenElement.style.fontSize = "20px";
 	hiddenElement.style.fontWeight = "400";
 
 	document.body.appendChild( hiddenElement );

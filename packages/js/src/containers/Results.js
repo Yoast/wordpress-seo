@@ -6,10 +6,14 @@ export default compose( [
 	withSelect( select => {
 		const {
 			getActiveMarker,
+			getIsPremium,
+			getShortcodesForParsing,
 		} = select( "yoast-seo/editor" );
 
 		return {
 			activeMarker: getActiveMarker(),
+			isPremium: getIsPremium(),
+			shortcodesForParsing: getShortcodesForParsing(),
 		};
 	} ),
 	withDispatch( dispatch => {

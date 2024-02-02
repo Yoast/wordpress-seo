@@ -12,10 +12,10 @@ export const RootContext = createContext( defaultRootContext );
  * @param {{ isRtl: boolean }} context The root context value.
  * @returns {JSX.Element} The Root component.
  */
-const Root = ( { children, context } ) => {
+const Root = ( { children, context = {}, ...props } ) => {
 	return (
 		<RootContext.Provider value={ { ...defaultRootContext, ...context } }>
-			<div className="yst-root">
+			<div className="yst-root" { ...props }>
 				{ children }
 			</div>
 		</RootContext.Provider>
@@ -25,7 +25,7 @@ const Root = ( { children, context } ) => {
 Root.propTypes = {
 	children: PropTypes.node.isRequired,
 	context: PropTypes.shape( {
-		isRtl: PropTypes.bool.isRequired,
+		isRtl: PropTypes.bool,
 	} ),
 };
 

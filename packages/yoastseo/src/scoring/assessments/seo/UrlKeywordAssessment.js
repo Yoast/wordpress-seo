@@ -47,7 +47,10 @@ class SlugKeywordAssessment extends Assessment {
 		const calculatedResult = this.calculateResult();
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-
+		if ( assessmentResult.getScore() < 9  ) {
+			assessmentResult.setHasJumps( true );
+			assessmentResult.setEditFieldName( __( "slug", "wordpress-seo" ) );
+		}
 		return assessmentResult;
 	}
 
@@ -75,7 +78,7 @@ class SlugKeywordAssessment extends Assessment {
 				return {
 					score: this._config.scores.good,
 					resultText: sprintf(
-						/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+						/* translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 						__(
 							"%1$sKeyphrase in slug%2$s: Great work!",
 							"wordpress-seo"
@@ -89,7 +92,7 @@ class SlugKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.okay,
 				resultText: sprintf(
-					/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					/* translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!",
 						"wordpress-seo"
@@ -105,7 +108,7 @@ class SlugKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.good,
 				resultText: sprintf(
-					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					/* translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 					__(
 						"%1$sKeyphrase in slug%2$s: More than half of your keyphrase appears in the slug. That's great!",
 						"wordpress-seo"
@@ -118,7 +121,7 @@ class SlugKeywordAssessment extends Assessment {
 		return {
 			score: this._config.scores.okay,
 			resultText: sprintf(
-				/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				/* translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				__(
 					"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!",
 					"wordpress-seo"

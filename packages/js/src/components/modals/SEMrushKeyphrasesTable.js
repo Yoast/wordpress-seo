@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 import { Fragment, Component } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { isEmpty } from "lodash-es";
+import { isEmpty } from "lodash";
 
 /* Yoast dependencies */
 import { makeOutboundLink } from "@yoast/helpers";
@@ -109,7 +109,10 @@ class SEMrushKeyphrasesTable extends Component {
 									className="dashicons"
 								>
 									<span className="screen-reader-text">
-										{ __( "Learn more about the related keyphrases volume", "wordpress-seo" ) }
+										{
+											/* translators: Hidden accessibility text. */
+											__( "Learn more about the related keyphrases volume", "wordpress-seo" )
+										}
 									</span>
 								</HelpLink>
 							</th>
@@ -123,7 +126,10 @@ class SEMrushKeyphrasesTable extends Component {
 									className="dashicons"
 								>
 									<span className="screen-reader-text">
-										{ __( "Learn more about the related keyphrases trend", "wordpress-seo" ) }
+										{
+											/* translators: Hidden accessibility text. */
+											__( "Learn more about the related keyphrases trend", "wordpress-seo" )
+										}
 									</span>
 								</HelpLink>
 							</th>

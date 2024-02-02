@@ -4,9 +4,9 @@
         <custom-field action="translate">_yoast_wpseo_bctitle</custom-field>
         <custom-field action="translate">_yoast_wpseo_metadesc</custom-field>
         <custom-field action="translate">_yoast_wpseo_focuskw</custom-field>
-        <custom-field action="copy">_yoast_wpseo_meta-robots-noindex</custom-field>
-        <custom-field action="copy">_yoast_wpseo_meta-robots-nofollow</custom-field>
-        <custom-field action="copy">_yoast_wpseo_meta-robots-adv</custom-field>
+        <custom-field action="copy_once">_yoast_wpseo_meta-robots-noindex</custom-field>
+        <custom-field action="copy_once">_yoast_wpseo_meta-robots-nofollow</custom-field>
+        <custom-field action="copy_once">_yoast_wpseo_meta-robots-adv</custom-field>
         <custom-field action="ignore">_yoast_wpseo_canonical</custom-field>
         <custom-field action="ignore">_yoast_wpseo_redirect</custom-field>
         <custom-field action="translate">_yoast_wpseo_opengraph-description</custom-field>

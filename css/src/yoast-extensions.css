@@ -15,7 +15,7 @@
 @import url(../src/icons.css);
 .yoast-list--usp {
   padding: 0;
-  margin-bottom: 1em;
+  margin-bottom: 2rem;
   font-family: Arial, sans-serif;
 }
 
@@ -498,7 +498,7 @@ a.promoblock:hover {
   background-size: contain;
   width: 1em;
   height: 100%;
-  background-position: left 0.4em;
+  background-position: left 0.3em;
 }
 
 .yoast-button--purple {
@@ -645,8 +645,47 @@ a.promoblock:hover {
   }
 }
 
+.yoast-seo-premium-extension-sale-badge {
+  margin-top: -30px;
+}
+
+.yoast-seo-premium-extension-sale-badge span {
+  color: rgb(252, 211, 77);
+  font-size: 14px;
+  font-weight: 600;
+  background: rgb(31, 41, 55);
+  padding: 6px 12px;
+  border-radius: 14px;
+}
+
 .yoast-seo-premium-extension {
   margin: 2em 0.5em 1.5em;
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
+  border: 1px solid #dcdcdc;
+  padding: 16px;
+  background: #fff;
+  max-width: 712px;
+}
+
+.yoast-seo-premium-extension h2 {
+  margin-top: 16px;
+  font-size: 1.5rem;
+  color: rgb(166 30 105);
+  display: flex;
+  justify-content: space-between;
+}
+
+.yoast-seo-premium-extension img {
+  margin-left: 1rem;
+}
+@media screen and (max-width: 900px) {
+  .yoast-seo-premium-extension {
+    max-width: none;
+    width: calc( 100% - 8px );
+  }
+  .yoast-seo-premium-extension img {
+    display: none;
+  }
 }
 
 .yoast-seo-premium-extension:before, .yoast-seo-premium-extension:after {
@@ -657,13 +696,26 @@ a.promoblock:hover {
 .yoast-seo-premium-extension:after {
   clear: both;
 }
-
-.yoast-seo-premium-benefits__title {
-  font-weight: 600;
+.yoast-seo-premium-benefits__item {
+  margin-bottom: 8px;
+  font-size: .9rem;
+  line-height: 24px;
+  font-weight: 400;
+}
+.yoast-seo-premium-benefits__item span {
+  color: rgb(64,64,64);
 }
 
-.yoast-seo-premium-benefits__description:before {
-  content: "– ";
+.yoast-seo-premium-benefits__title {
+  font-weight: 700;
+  line-height: 24px;
+  font-size: .9rem;
+}
+
+.yoast-seo-premium-benefits__description {
+  font-size: .9rem;
+  line-height: 24px;
+  font-weight: 400;
 }
 
 .yoast-link--license, .yoast-link--more-info {
@@ -724,4 +776,11 @@ a.promoblock:hover {
   background: #dc3232;
 }
 
+.yoast-promoblock.secondary.yoast-promo-extension .yoast-button-container .yoast-subscription-discount {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: -8px;
+  margin-bottom: 8px;
+  text-align: center;
+}
 /*# sourceMappingURL=yoast-extensions.css.map */

@@ -47,6 +47,14 @@ class WPSEO_Custom_Fields {
 			LIMIT %d";
 		$fields = $wpdb->get_col( $wpdb->prepare( $sql, $limit ) );
 
+		/**
+		 * Filters the custom fields that are auto-completed and replaced as replacement variables
+		 * in the meta box and sidebar.
+		 *
+		 * @param string[] $fields The custom field names.
+		 */
+		$fields = apply_filters( 'wpseo_replacement_variables_custom_fields', $fields );
+
 		if ( is_array( $fields ) ) {
 			self::$custom_fields = array_map( [ 'WPSEO_Custom_Fields', 'add_custom_field_prefix' ], $fields );
 		}

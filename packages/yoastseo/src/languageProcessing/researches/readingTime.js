@@ -51,7 +51,7 @@ export default function( paper, researcher ) {
 	const charactersPerMinuteScore = charactersPerMinute[ language ];
 
 	// The default approach of calculating the text length is by counting the words in the text.
-	let textLength = wordCountInText( paper );
+	let textLength = wordCountInText( paper ).count;
 	let minutesToReadText;
 
 	if ( charactersPerMinuteScore ) {

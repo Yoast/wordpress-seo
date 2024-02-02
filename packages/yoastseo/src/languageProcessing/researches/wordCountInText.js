@@ -1,12 +1,29 @@
 import wordCount from "../helpers/word/countWords.js";
+import removeHtmlBlocks from "../helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../helpers";
+
+/**
+ * A result of the word count calculation.
+ *
+ * @typedef WordCountResult
+ * @param {number} count The number of words found in the text.
+ * @param {"word"} unit The unit used in the text length calculations, always "word".
+ */
 
 /**
  * Count the words in the text.
  *
  * @param {Paper} paper The Paper object.
  *
- * @returns {number} The amount of words found in the text.
+ * @returns {WordCountResult} The number of words found in the text, plus "word" as the unit used in calculating the text length.
  */
 export default function( paper ) {
-	return wordCount( paper.getText() );
+	let text = paper.getText();
+	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
+	return {
+		text: text,
+		count: wordCount( text ),
+		unit: "word",
+	};
 }

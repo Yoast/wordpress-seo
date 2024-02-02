@@ -113,7 +113,7 @@ module.exports = function( grunt ) {
 		"get-current-branch": {
 			command: getCurrentBranchCommand,
 			options: {
-				// eslint-disable-next-line handle-callback-err
+				// eslint-disable-next-line handle-callback-err,require-jsdoc
 				callback: function( err, stdout, stderr, cb ) {
 					grunt.config.set( "currentBranch", stdout );
 

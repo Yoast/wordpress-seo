@@ -54,14 +54,21 @@ class ContentAnalysis extends React.Component {
 				prefixIconCollapsed={ { icon: "angle-down", color: colors.$color_grey_dark, size: "18px" } }
 				suffixIcon={ null }
 				suffixIconCollapsed={ null }
-				headingProps={ { level: headingLevel, fontSize: "13px", fontWeight: "bold" } }
+				headingProps={ { level: headingLevel, fontSize: "13px", fontWeight: "500", color: "#1e1e1e" } }
 			>
 				<AnalysisList
 					results={ results }
 					marksButtonActivatedResult={ this.props.activeMarker }
 					marksButtonStatus={ this.props.marksButtonStatus }
 					marksButtonClassName={ this.props.marksButtonClassName }
+					editButtonClassName={ this.props.editButtonClassName }
+					markButtonFactory={ this.props.markButtonFactory }
 					onMarksButtonClick={ this.props.onMarkButtonClick }
+					onEditButtonClick={ this.props.onEditButtonClick }
+					isPremium={ this.props.isPremium }
+					onResultChange={ this.props.onResultChange }
+					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+					renderHighlightingUpsell={ this.props.renderHighlightingUpsell }
 				/>
 			</StyledCollapsible>
 		);
@@ -79,31 +86,44 @@ class ContentAnalysis extends React.Component {
 			goodResults,
 			considerationsResults,
 			errorsResults,
+			upsellResults,
 			headingLevel,
+			resultCategoryLabels,
 		} = this.props;
 		const errorsFound = errorsResults.length;
 		const problemsFound = problemsResults.length;
 		const improvementsFound = improvementsResults.length;
 		const considerationsFound = considerationsResults.length;
 		const goodResultsFound = goodResults.length;
+		const numberOfUpsellResults = upsellResults.length;
+
+		const defaultLabels = {
+			errors: __( "Errors", "wordpress-seo" ),
+			problems: __( "Problems", "wordpress-seo" ),
+			improvements: __( "Improvements", "wordpress-seo" ),
+			considerations: __( "Considerations", "wordpress-seo" ),
+			goodResults: __( "Good results", "wordpress-seo" ),
+		};
+
+		const labels = Object.assign( defaultLabels, resultCategoryLabels );
 
 		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
 			<ContentAnalysisContainer>
 				{ errorsFound > 0 &&
-					this.renderCollapsible( __( "Errors", "wordpress-seo" ), headingLevel, errorsResults )
+					this.renderCollapsible( labels.errors, headingLevel, errorsResults )
 				}
-				{ problemsFound > 0 &&
-					this.renderCollapsible( __( "Problems", "wordpress-seo" ), headingLevel, problemsResults )
+				{ ( problemsFound + numberOfUpsellResults ) > 0 &&
+					this.renderCollapsible( labels.problems, headingLevel, [ ...upsellResults, ...problemsResults ] )
 				}
 				{ improvementsFound > 0 &&
-					this.renderCollapsible( __( "Improvements", "wordpress-seo" ), headingLevel, improvementsResults )
+					this.renderCollapsible( labels.improvements, headingLevel, improvementsResults )
 				}
 				{ considerationsFound > 0 &&
-					this.renderCollapsible( __( "Considerations", "wordpress-seo" ), headingLevel, considerationsResults )
+					this.renderCollapsible( labels.considerations, headingLevel, considerationsResults )
 				}
 				{ goodResultsFound > 0 &&
-					this.renderCollapsible( __( "Good results", "wordpress-seo" ), headingLevel, goodResults )
+					this.renderCollapsible( labels.goodResults, headingLevel, goodResults )
 				}
 			</ContentAnalysisContainer>
 		);
@@ -112,28 +132,52 @@ class ContentAnalysis extends React.Component {
 
 ContentAnalysis.propTypes = {
 	onMarkButtonClick: PropTypes.func,
+	onEditButtonClick: PropTypes.func,
 	problemsResults: PropTypes.array,
 	improvementsResults: PropTypes.array,
 	goodResults: PropTypes.array,
 	considerationsResults: PropTypes.array,
 	errorsResults: PropTypes.array,
+	upsellResults: PropTypes.array,
 	headingLevel: PropTypes.number,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
+	markButtonFactory: PropTypes.func,
+	editButtonClassName: PropTypes.string,
 	activeMarker: PropTypes.string,
+	isPremium: PropTypes.bool,
+	resultCategoryLabels: PropTypes.shape( {
+		errors: PropTypes.string,
+		problems: PropTypes.string,
+		improvements: PropTypes.string,
+		considerations: PropTypes.string,
+		goodResults: PropTypes.string,
+	} ),
+	onResultChange: PropTypes.func,
+	shouldUpsellHighlighting: PropTypes.bool,
+	renderHighlightingUpsell: PropTypes.func,
 };
 
 ContentAnalysis.defaultProps = {
 	onMarkButtonClick: () => {},
+	onEditButtonClick: () => {},
 	problemsResults: [],
 	improvementsResults: [],
 	goodResults: [],
 	considerationsResults: [],
 	errorsResults: [],
+	upsellResults: [],
 	headingLevel: 4,
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
+	markButtonFactory: null,
+	editButtonClassName: "",
 	activeMarker: "",
+	isPremium: false,
+	resultCategoryLabels: {},
+	onResultChange: () => {},
+	shouldUpsellHighlighting: false,
+	renderHighlightingUpsell: () => {},
 };
 
 export default ContentAnalysis;

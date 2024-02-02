@@ -1,6 +1,4 @@
-import { isEmpty } from "lodash-es";
-import { forEach } from "lodash-es";
-import { includes } from "lodash-es";
+import { forEach, includes, isEmpty } from "lodash-es";
 
 /**
  * Checks whether a given word is directly preceded by a word from a list of words.

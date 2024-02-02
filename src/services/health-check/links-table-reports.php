@@ -9,6 +9,7 @@ use WPSEO_Shortlinker;
  * Presents a set of different messages for the Links_Table health check.
  */
 class Links_Table_Reports {
+
 	use Reports_Trait;
 
 	/**
@@ -21,9 +22,10 @@ class Links_Table_Reports {
 	/**
 	 * Constructor
 	 *
-	 * @param  Report_Builder_Factory $report_builder_factory The factory for result builder objects. This class uses the report builder to generate WordPress-friendly health check results.
-	 * @param  WPSEO_Shortlinker      $shortlinker Object used to add short links to the report description.
-	 * @return void
+	 * @param  Report_Builder_Factory $report_builder_factory The factory for result builder objects.
+	 *                                                        This class uses the report builder to generate WordPress-friendly
+	 *                                                        health check results.
+	 * @param  WPSEO_Shortlinker      $shortlinker            Object used to add short links to the report description.
 	 */
 	public function __construct(
 		Report_Builder_Factory $report_builder_factory,
@@ -66,7 +68,7 @@ class Links_Table_Reports {
 	 * @return string The description as a string.
 	 */
 	private function get_success_description() {
-		return sprintf(
+		return \sprintf(
 			/* translators: 1: Link to the Yoast SEO blog, 2: Link closing tag. */
 			\esc_html__( 'The text link counter helps you improve your site structure. %1$sFind out how the text link counter can enhance your SEO%2$s.', 'wordpress-seo' ),
 			'<a href="' . $this->shortlinker->get( 'https://yoa.st/3zw' ) . '" target="_blank">',
@@ -80,7 +82,7 @@ class Links_Table_Reports {
 	 * @return string The description as a string.
 	 */
 	private function get_links_table_not_accessible_description() {
-		return sprintf(
+		return \sprintf(
 			/* translators: 1: Yoast SEO. */
 			\__( 'For this feature to work, %1$s needs to create a table in your database. We were unable to create this table automatically.', 'wordpress-seo' ),
 			'Yoast SEO'
@@ -93,9 +95,9 @@ class Links_Table_Reports {
 	 * @return string The actions as a string.
 	 */
 	private function get_actions() {
-		return sprintf(
+		return \sprintf(
 			/* translators: 1: Link to the Yoast help center, 2: Link closing tag. */
-			esc_html__( '%1$sFind out how to solve this problem on our help center%2$s.', 'wordpress-seo' ),
+			\esc_html__( '%1$sFind out how to solve this problem on our help center%2$s.', 'wordpress-seo' ),
 			'<a href="' . $this->shortlinker->get( 'https://yoa.st/3zv' ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);

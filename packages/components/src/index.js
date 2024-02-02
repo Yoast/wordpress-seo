@@ -18,6 +18,7 @@ export * from "./help-icon";
 export * from "./tables";
 export * from "./new-badge";
 export * from "./premium-badge";
+export * from "./beta-badge";
 
 // Referenced index.js explicitly due to case-sensitive path conflicts.
 export * from "./toggle/index.js";
@@ -61,6 +62,7 @@ export { default as Heading } from "./Heading";
 export { default as HelpText } from "./HelpText";
 export { default as Icon } from "./Icon";
 export { default as IconButtonToggle } from "./IconButtonToggle.js";
+export { default as IconCTAEditButton } from "./IconCTAEditButton.js";
 export { default as IFrame } from "./IFrame";
 export { default as Input } from "./input/Input";
 export { default as WordOccurrenceInsights } from "./WordOccurrenceInsights";
@@ -94,7 +96,6 @@ export { default as YouTubeVideo } from "./YouTubeVideo";
 export { default as WordList } from "./WordList";
 export { default as WordOccurrences } from "./WordOccurrences";
 export { VariableEditorInputContainer } from "./input/InputContainer";
-export { default as InsightsCard } from "./insights-card/InsightsCard";
 
 export { ListTable, ZebrafiedListTable } from "./table/ListTable";
 export { Row } from "./table/Row";

@@ -25,7 +25,6 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.config, {
 			functionWords: [],
-
 		} );
 
 		Object.assign( this.helpers, {

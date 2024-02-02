@@ -2,7 +2,7 @@
 /* eslint-disable require-jsdoc */
 const fs = require( "fs" );
 const path = require( "path" );
-const execSync = require( "child_process" ).execSync;
+const { execSync } = require( "child_process" );
 
 // Define build directory.
 const BUILD_DIR = path.join( __dirname, "../build/css" );

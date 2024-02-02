@@ -31,12 +31,12 @@ class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 */
 	public function get() {
 		$title = $this->replace_vars( $this->presentation->open_graph_title );
+
 		/**
 		 * Filter: 'wpseo_opengraph_title' - Allow changing the Yoast SEO generated title.
 		 *
+		 * @param string                 $title        The title.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
-		 *
-		 * @api string $title The title.
 		 */
 		$title = (string) \trim( \apply_filters( 'wpseo_opengraph_title', $title, $this->presentation ) );
 		return $this->helpers->string->strip_all_tags( $title );

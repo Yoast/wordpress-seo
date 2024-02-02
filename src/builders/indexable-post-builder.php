@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Builders;
 
 use WP_Error;
 use WP_Post;
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
@@ -82,6 +83,8 @@ class Indexable_Post_Builder {
 	 * @required
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 *
+	 * @return void
 	 */
 	public function set_indexable_repository( Indexable_Repository $indexable_repository ) {
 		$this->indexable_repository = $indexable_repository;
@@ -96,10 +99,11 @@ class Indexable_Post_Builder {
 	 * @return bool|Indexable The extended indexable. False when unable to build.
 	 *
 	 * @throws Post_Not_Found_Exception When the post could not be found.
+	 * @throws Post_Not_Built_Exception When the post should not be indexed.
 	 */
 	public function build( $post_id, $indexable ) {
 		if ( ! $this->post_helper->is_post_indexable( $post_id ) ) {
-			return false;
+			throw Post_Not_Built_Exception::because_not_indexable( $post_id );
 		}
 
 		$post = $this->post_helper->get_post( $post_id );
@@ -109,7 +113,7 @@ class Indexable_Post_Builder {
 		}
 
 		if ( $this->should_exclude_post( $post ) ) {
-			return false;
+			throw Post_Not_Built_Exception::because_post_type_excluded( $post_id );
 		}
 
 		$indexable->object_id       = $post_id;
@@ -123,6 +127,8 @@ class Indexable_Post_Builder {
 		);
 
 		$indexable->readability_score = (int) $this->meta->get_value( 'content_score', $post_id );
+
+		$indexable->inclusive_language_score = (int) $this->meta->get_value( 'inclusive_language_score', $post_id );
 
 		$indexable->is_cornerstone    = ( $this->meta->get_value( 'is_cornerstone', $post_id ) === '1' );
 		$indexable->is_robots_noindex = $this->get_robots_noindex(
@@ -413,15 +419,15 @@ class Indexable_Post_Builder {
 	/**
 	 * Transforms an empty string into null. Leaves non-empty strings intact.
 	 *
-	 * @param string $string The string.
+	 * @param string $text The string.
 	 *
 	 * @return string|null The input string or null.
 	 */
-	protected function empty_string_to_null( $string ) {
-		if ( ! is_string( $string ) || $string === '' ) {
+	protected function empty_string_to_null( $text ) {
+		if ( ! \is_string( $text ) || $text === '' ) {
 			return null;
 		}
 
-		return $string;
+		return $text;
 	}
 }

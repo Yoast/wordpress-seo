@@ -157,7 +157,7 @@ Toggle.propTypes = {
 	disable: PropTypes.bool,
 	onToggleDisabled: PropTypes.func,
 	id: PropTypes.string.isRequired,
-	labelText: PropTypes.string.isRequired,
+	labelText: PropTypes.string,
 	showToggleStateLabel: PropTypes.bool,
 };
 

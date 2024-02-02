@@ -25,7 +25,7 @@ const WincherReconnectAlert = ( props ) => {
 	);
 
 	return (
-		<Alert type="error">
+		<Alert type="error" className={ props.className }>
 			{
 				interpolateComponents( {
 					mixedString: message,
@@ -54,6 +54,11 @@ const WincherReconnectAlert = ( props ) => {
 
 WincherReconnectAlert.propTypes = {
 	onReconnect: PropTypes.func.isRequired,
+	className: PropTypes.string,
+};
+
+WincherReconnectAlert.defaultProps = {
+	className: "",
 };
 
 export default WincherReconnectAlert;

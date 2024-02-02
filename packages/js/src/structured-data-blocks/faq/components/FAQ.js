@@ -7,7 +7,7 @@ import { speak } from "@wordpress/a11y";
 import Question from "./Question";
 import appendSpace from "../../../components/higherorder/appendSpace";
 
-import { IconButton } from "@wordpress/components";
+import { Button } from "@wordpress/components";
 import { Component, renderToString } from "@wordpress/element";
 
 const QuestionContentWithAppendedSpace = appendSpace( Question.Content );
@@ -229,13 +229,13 @@ export default class FAQ extends Component {
 	 */
 	getAddQuestionButton() {
 		return (
-			<IconButton
+			<Button
 				icon="insert"
 				onClick={ this.onAddQuestionButtonClick }
 				className="schema-faq-add-question"
 			>
 				{ __( "Add question", "wordpress-seo" ) }
-			</IconButton>
+			</Button>
 		);
 	}
 

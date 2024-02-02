@@ -72,8 +72,8 @@ module.exports = function( grunt ) {
 			command: "yarn list --pattern 'yoastseo|yoast-components' --depth=0",
 		},
 
-		"install-schema-blocks": {
-			command: "cd packages/schema-blocks && yarn install && yarn build && cd ../..",
+		"build-ui-library": {
+			command: "cd packages/ui-library && yarn build && cd ../..",
 		},
 
 		"check-for-uncommitted-changes": {
@@ -89,6 +89,13 @@ module.exports = function( grunt ) {
 			options: {
 				failOnError: false,
 			},
+		},
+
+		"postcss-dev": {
+			command: "yarn build:css:dev",
+		},
+		"postcss-release": {
+			command: "yarn build:css",
 		},
 	};
 	/* eslint-enable require-jsdoc */

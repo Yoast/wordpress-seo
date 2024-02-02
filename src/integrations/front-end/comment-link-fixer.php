@@ -43,9 +43,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 	 * @param Redirect_Helper $redirect The redirect helper.
 	 * @param Robots_Helper   $robots   The robots helper.
 	 */
-	public function __construct(
-		Redirect_Helper $redirect, Robots_Helper $robots
-	) {
+	public function __construct( Redirect_Helper $redirect, Robots_Helper $robots ) {
 		$this->redirect = $redirect;
 		$this->robots   = $robots;
 	}
@@ -64,7 +62,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 		}
 
 		// When users view a reply to a comment, this URL parameter is set. These should never be indexed separately.
-		if ( $this->has_replytocom_parameter() ) {
+		if ( $this->get_replytocom_parameter() !== null ) {
 			\add_filter( 'wpseo_robots_array', [ $this->robots, 'set_robots_no_index' ] );
 		}
 	}
@@ -74,10 +72,15 @@ class Comment_Link_Fixer implements Integration_Interface {
 	 *
 	 * @codeCoverageIgnore Wraps the filter input.
 	 *
-	 * @return string The value of replytocom.
+	 * @return string|null The value of replytocom or null if it does not exist.
 	 */
-	protected function has_replytocom_parameter() {
-		return \filter_input( \INPUT_GET, 'replytocom' );
+	protected function get_replytocom_parameter() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['replytocom'] ) && \is_string( $_GET['replytocom'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			return \sanitize_text_field( \wp_unslash( $_GET['replytocom'] ) );
+		}
+		return null;
 	}
 
 	/**

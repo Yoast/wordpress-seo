@@ -36,18 +36,12 @@ class WPSEO_Admin_Init {
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
+		add_action( 'admin_init', [ $this, 'remove_translations_notification' ], 15 );
 		add_action( 'admin_init', [ $this->asset_manager, 'register_assets' ] );
 		add_action( 'admin_init', [ $this, 'show_hook_deprecation_warnings' ] );
 		add_action( 'admin_init', [ 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ] );
 		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
 		add_action( 'post_submitbox_misc_actions', [ $this, 'add_publish_box_section' ] );
-
-		/*
-		 * The `admin_notices` hook fires on single site admin pages vs.
-		 * `network_admin_notices` which fires on multisite admin pages and
-		 * `user_admin_notices` which fires on multisite user admin pagss.
-		 */
-		add_action( 'admin_notices', [ $this, 'search_engines_discouraged_notice' ] );
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
@@ -59,9 +53,21 @@ class WPSEO_Admin_Init {
 
 	/**
 	 * Enqueue our styling for dismissible yoast notifications.
+	 *
+	 * @return void
 	 */
 	public function enqueue_dismissible() {
 		$this->asset_manager->enqueue_style( 'dismissible' );
+	}
+
+	/**
+	 * Removes any notification for incomplete translations.
+	 *
+	 * @return void
+	 */
+	public function remove_translations_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'i18nModuleTranslationAssistance' );
 	}
 
 	/**
@@ -103,26 +109,57 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function on_wpseo_admin_page() {
-		return $this->pagenow === 'admin.php' && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( ! isset( $_GET['page'] ) || ! is_string( $_GET['page'] ) ) {
+			return false;
+		}
+
+		if ( $this->pagenow !== 'admin.php' ) {
+			return false;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		$current_page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+		return strpos( $current_page, 'wpseo' ) === 0;
 	}
 
 	/**
-	 * Determine whether we should load the meta box class and if so, load it.
+	 * Whether we should load the meta box classes.
+	 *
+	 * @return bool true if we should load the meta box classes, false otherwise.
 	 */
-	private function load_meta_boxes() {
-
-		$is_editor      = WPSEO_Metabox::is_post_overview( $this->pagenow ) || WPSEO_Metabox::is_post_edit( $this->pagenow );
-		$is_inline_save = filter_input( INPUT_POST, 'action' ) === 'inline-save';
-
+	private function should_load_meta_boxes() {
 		/**
 		 * Filter: 'wpseo_always_register_metaboxes_on_admin' - Allow developers to change whether
 		 * the WPSEO metaboxes are only registered on the typical pages (lean loading) or always
 		 * registered when in admin.
 		 *
-		 * @api bool Whether to always register the metaboxes or not. Defaults to false.
+		 * @param bool $register_metaboxes Whether to always register the metaboxes or not. Defaults to false.
 		 */
-		if ( $is_editor || $is_inline_save || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
-		) {
+		if ( apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) ) {
+			return true;
+		}
+
+		// If we are in a post editor.
+		if ( WPSEO_Metabox::is_post_overview( $this->pagenow ) || WPSEO_Metabox::is_post_edit( $this->pagenow ) ) {
+			return true;
+		}
+
+		// If we are doing an inline save.
+		if ( check_ajax_referer( 'inlineeditnonce', '_inline_edit', false ) && isset( $_POST['action'] ) && sanitize_text_field( wp_unslash( $_POST['action'] ) ) === 'inline-save' ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determine whether we should load the meta box class and if so, load it.
+	 *
+	 * @return void
+	 */
+	private function load_meta_boxes() {
+		if ( $this->should_load_meta_boxes() ) {
 			$GLOBALS['wpseo_metabox']      = new WPSEO_Metabox();
 			$GLOBALS['wpseo_meta_columns'] = new WPSEO_Meta_Columns();
 		}
@@ -130,6 +167,8 @@ class WPSEO_Admin_Init {
 
 	/**
 	 * Determine if we should load our taxonomy edit class and if so, load it.
+	 *
+	 * @return void
 	 */
 	private function load_taxonomy_class() {
 		if (
@@ -144,6 +183,8 @@ class WPSEO_Admin_Init {
 	 * Determine if we should load our admin pages class and if so, load it.
 	 *
 	 * Loads admin page class for all admin pages starting with `wpseo_`.
+	 *
+	 * @return void
 	 */
 	private function load_admin_user_class() {
 		if ( in_array( $this->pagenow, [ 'user-edit.php', 'profile.php' ], true )
@@ -157,6 +198,8 @@ class WPSEO_Admin_Init {
 	 * Determine if we should load our admin pages class and if so, load it.
 	 *
 	 * Loads admin page class for all admin pages starting with `wpseo_`.
+	 *
+	 * @return void
 	 */
 	private function load_admin_page_class() {
 
@@ -164,19 +207,25 @@ class WPSEO_Admin_Init {
 			// For backwards compatabilty, this still needs a global, for now...
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages();
 
-			$page = filter_input( INPUT_GET, 'page' );
-			// Only register the yoast i18n when the page is a Yoast SEO page.
-			if ( WPSEO_Utils::is_yoast_seo_free_page( $page ) ) {
-				$this->register_i18n_promo_class();
-				if ( $page !== 'wpseo_titles' ) {
-					$this->register_premium_upsell_admin_block();
-				}
+			$page = null;
+
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			if ( isset( $_GET['page'] ) && is_string( $_GET['page'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+				$page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+			}
+
+			// Only renders Yoast SEO Premium upsells when the page is a Yoast SEO page.
+			if ( $page !== null && WPSEO_Utils::is_yoast_seo_free_page( $page ) ) {
+				$this->register_premium_upsell_admin_block();
 			}
 		}
 	}
 
 	/**
 	 * Loads the plugin suggestions.
+	 *
+	 * @return void
 	 */
 	private function load_plugin_suggestions() {
 		$suggestions = new WPSEO_Suggested_Plugins( new WPSEO_Plugin_Availability(), Yoast_Notification_Center::get() );
@@ -196,48 +245,9 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Registers the promotion class for our GlotPress instance, then creates a notification with the i18n promo.
-	 *
-	 * @link https://github.com/Yoast/i18n-module
-	 */
-	private function register_i18n_promo_class() {
-		// BC, because an older version of the i18n-module didn't have this class.
-		$i18n_module = new Yoast_I18n_WordPressOrg_v3(
-			[
-				'textdomain'  => 'wordpress-seo',
-				'plugin_name' => 'Yoast SEO',
-				'hook'        => 'wpseo_admin_promo_footer',
-			],
-			false
-		);
-
-		$message = $i18n_module->get_promo_message();
-
-		if ( $message !== '' ) {
-			$message .= $i18n_module->get_dismiss_i18n_message_button();
-		}
-
-		$notification_center = Yoast_Notification_Center::get();
-
-		$notification = new Yoast_Notification(
-			$message,
-			[
-				'type' => Yoast_Notification::WARNING,
-				'id'   => 'i18nModuleTranslationAssistance',
-			]
-		);
-
-		if ( $message ) {
-			$notification_center->add_notification( $notification );
-
-			return;
-		}
-
-		$notification_center->remove_notification( $notification );
-	}
-
-	/**
 	 * See if we should start our XML Sitemaps Admin class.
+	 *
+	 * @return void
 	 */
 	private function load_xml_sitemaps_admin() {
 		if ( WPSEO_Options::get( 'enable_xml_sitemap', false ) ) {
@@ -246,16 +256,9 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Checks whether search engines are discouraged from indexing the site.
-	 *
-	 * @return bool Whether search engines are discouraged from indexing the site.
-	 */
-	private function are_search_engines_discouraged() {
-		return (string) get_option( 'blog_public' ) === '0';
-	}
-
-	/**
 	 * Shows deprecation warnings to the user if a plugin has registered a filter we have deprecated.
+	 *
+	 * @return void
 	 */
 	public function show_hook_deprecation_warnings() {
 		global $wp_filter;
@@ -330,6 +333,8 @@ class WPSEO_Admin_Init {
 
 	/**
 	 * Shows a notice on the permalink settings page.
+	 *
+	 * @return void
 	 */
 	public function permalink_settings_notice() {
 		global $pagenow;
@@ -352,56 +357,9 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Determines whether and where the "search engines discouraged" admin notice should be displayed.
-	 *
-	 * @return bool Whether the "search engines discouraged" admin notice should be displayed.
-	 */
-	private function should_display_search_engines_discouraged_notice() {
-		$discouraged_pages = [
-			'index.php',
-			'plugins.php',
-			'update-core.php',
-		];
-
-		return (
-			$this->are_search_engines_discouraged()
-			&& WPSEO_Capability_Utils::current_user_can( 'manage_options' )
-			&& WPSEO_Options::get( 'ignore_search_engines_discouraged_notice', false ) === false
-			&& (
-				$this->on_wpseo_admin_page()
-				|| in_array( $this->pagenow, $discouraged_pages, true )
-			)
-		);
-	}
-
-	/**
-	 * Displays an admin notice when WordPress is set to discourage search engines from indexing the site.
-	 *
-	 * @return void
-	 */
-	public function search_engines_discouraged_notice() {
-		if ( ! $this->should_display_search_engines_discouraged_notice() ) {
-			return;
-		}
-
-		printf(
-			'<div id="robotsmessage" class="notice notice-error"><p><strong>%1$s</strong> %2$s <button type="button" id="robotsmessage-dismiss-button" class="button-link hide-if-no-js" data-nonce="%3$s">%4$s</button></p></div>',
-			esc_html__( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ),
-			sprintf(
-				/* translators: 1: Link start tag to the WordPress Reading Settings page, 2: Link closing tag. */
-				esc_html__( 'If you want search engines to show this site in their results, you must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ),
-				'<a href="' . esc_url( admin_url( 'options-reading.php' ) ) . '">',
-				'</a>'
-			),
-			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
-			esc_html__( 'I don\'t want this site to show in the search results.', 'wordpress-seo' )
-		);
-	}
-
-	/**
 	 * Adds a custom Yoast section within the Classic Editor publish box.
 	 *
-	 * @param \WP_Post $post The current post object.
+	 * @param WP_Post $post The current post object.
 	 *
 	 * @return void
 	 */
@@ -413,73 +371,9 @@ class WPSEO_Admin_Init {
 			/**
 			 * Fires after the post time/date setting in the Publish meta box.
 			 *
-			 * @api \WP_Post The current post object.
+			 * @param WP_Post $post The current post object.
 			 */
 			do_action( 'wpseo_publishbox_misc_actions', $post );
 		}
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Notify about the default tagline if the user hasn't changed it.
-	 *
-	 * @deprecated 13.2
-	 * @codeCoverageIgnore
-	 */
-	public function tagline_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
-	}
-
-	/**
-	 * Returns whether or not the site has the default tagline.
-	 *
-	 * @deprecated 13.2
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool
-	 */
-	public function has_default_tagline() {
-		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
-
-		$blog_description         = get_bloginfo( 'description' );
-		$default_blog_description = 'Just another WordPress site';
-
-		// We are using the WordPress internal translation.
-		$translated_blog_description = __( 'Just another WordPress site', 'default' );
-
-		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
-	}
-
-	/**
-	 * Shows an alert when the permalink doesn't contain %postname%.
-	 *
-	 * @deprecated 13.2
-	 * @codeCoverageIgnore
-	 */
-	public function permalink_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
-	}
-
-	/**
-	 * Add an alert if the blog is not publicly visible.
-	 *
-	 * @deprecated 14.1
-	 * @codeCoverageIgnore
-	 */
-	public function blog_public_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 14.1' );
-	}
-
-	/**
-	 * Handles the notifiers for the dashboard page.
-	 *
-	 * @deprecated 14.1
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function handle_notifications() {
-		_deprecated_function( __METHOD__, 'WPSEO 14.1' );
 	}
 }

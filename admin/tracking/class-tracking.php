@@ -5,6 +5,9 @@
  * @package WPSEO\Admin\Tracking
  */
 
+use Yoast\WP\SEO\Analytics\Application\Missing_Indexables_Collector;
+use Yoast\WP\SEO\Analytics\Application\To_Be_Cleaned_Indexables_Collector;
+
 /**
  * This class handles the tracking routine.
  */
@@ -56,6 +59,8 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		if ( ! $this->tracking_enabled() ) {
@@ -93,12 +98,12 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 		 * needs to receive the same arguments as those used when originally
 		 * scheduling the event otherwise it will always return false.
 		 */
-		if ( ! wp_next_scheduled( 'wpseo_send_tracking_data_after_core_update', true ) ) {
+		if ( ! wp_next_scheduled( 'wpseo_send_tracking_data_after_core_update', [ true ] ) ) {
 			/*
 			 * Schedule sending of data tracking 6 hours after a WordPress core
 			 * update. Pass a `true` parameter for the callback `$force` argument.
 			 */
-			wp_schedule_single_event( ( time() + ( HOUR_IN_SECONDS * 6 ) ), 'wpseo_send_tracking_data_after_core_update', true );
+			wp_schedule_single_event( ( time() + ( HOUR_IN_SECONDS * 6 ) ), 'wpseo_send_tracking_data_after_core_update', [ true ] );
 		}
 	}
 
@@ -106,7 +111,9 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	 * Sends the tracking data.
 	 *
 	 * @param bool $force Whether to send the tracking data ignoring the two
-	 *                    weeks time treshhold. Default false.
+	 *                    weeks time threshold. Default false.
+	 *
+	 * @return void
 	 */
 	public function send( $force = false ) {
 		if ( ! $this->should_send_tracking( $force ) ) {
@@ -188,6 +195,9 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 		$collector->add_collection( new WPSEO_Tracking_Theme_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Plugin_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Settings_Data() );
+		$collector->add_collection( new WPSEO_Tracking_Addon_Data() );
+		$collector->add_collection( YoastSEO()->classes->get( Missing_Indexables_Collector::class ) );
+		$collector->add_collection( YoastSEO()->classes->get( To_Be_Cleaned_Indexables_Collector::class ) );
 
 		return $collector;
 	}
@@ -210,7 +220,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 			/**
 			 * Filter: 'wpseo_enable_tracking' - Enables the data tracking of Yoast SEO Premium and add-ons.
 			 *
-			 * @api string $is_enabled The enabled state. Default is false.
+			 * @param string $is_enabled The enabled state. Default is false.
 			 */
 			$tracking = apply_filters( 'wpseo_enable_tracking', false );
 
@@ -221,7 +231,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 			return false;
 		}
 
-		if ( wp_get_environment_type() !== 'production' ) {
+		if ( ! YoastSEO()->helpers->environment->is_production_mode() ) {
 			return false;
 		}
 

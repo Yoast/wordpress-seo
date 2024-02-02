@@ -35,7 +35,8 @@ describe( "A cornerstone product page content assessor", function() {
 			"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
 			"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
 			"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod." );
-		it( "Should have 6 available assessments for a fully supported language", function() {
+		it( "Should have 6 available assessments for a fully supported language. " +
+			"This doesn't include Word complexity assessment since the registration is done from Shopify side.", function() {
 			const contentAssessor = new ContentAssessor( new EnglishResearcher( paper ), options );
 			contentAssessor.getPaper = function() {
 				return paper;
@@ -85,7 +86,7 @@ describe( "A cornerstone product page content assessor", function() {
 
 	describe( "has configuration overrides", () => {
 		const paper = new Paper( "a tortie cat ".repeat( 150 ) );
-		const assessor = new ContentAssessor( new DefaultResearcher( paper ), {
+		const assessor = new ContentAssessor( new EnglishResearcher( paper ), {
 			subheadingUrlTitle: "https://yoast.com/1",
 			subheadingCTAUrl: "https://yoast.com/2",
 			paragraphUrlTitle: "https://yoast.com/3",

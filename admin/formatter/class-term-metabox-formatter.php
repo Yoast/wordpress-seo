@@ -57,10 +57,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return bool Whether the social templates should be used.
 	 */
 	public function use_social_templates() {
-		return YoastSEO()->helpers->product->is_premium()
-			&& defined( 'WPSEO_PREMIUM_VERSION' )
-			&& version_compare( WPSEO_PREMIUM_VERSION, '16.5-RC0', '>=' )
-			&& WPSEO_Options::get( 'opengraph', false ) === true;
+		return WPSEO_Options::get( 'opengraph', false ) === true;
 	}
 
 	/**
@@ -88,6 +85,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'social_description_template' => $this->get_social_description_template(),
 				'social_image_template'       => $this->get_social_image_template(),
 				'wincherIntegrationActive'    => 0,
+				'isInsightsEnabled'           => $this->is_insights_enabled(),
 			];
 		}
 
@@ -118,9 +116,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string
 	 */
 	private function edit_url() {
-		global $wp_version;
-		$script_filename = version_compare( $wp_version, '4.5', '<' ) ? 'edit-tags' : 'term';
-		return admin_url( $script_filename . '.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' );
+		return admin_url( 'term.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' );
 	}
 
 	/**
@@ -132,7 +128,9 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 
 		$base_url = home_url( '/', null );
 		if ( ! WPSEO_Options::get( 'stripcategorybase', false ) ) {
-			$base_url = trailingslashit( $base_url . $this->taxonomy->rewrite['slug'] );
+			if ( $this->taxonomy->rewrite ) {
+				$base_url = trailingslashit( $base_url . $this->taxonomy->rewrite['slug'] );
+			}
 		}
 
 		return $base_url;
@@ -184,7 +182,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	private function get_social_title_template() {
 		if ( $this->use_social_templates ) {
-			return $this->get_template( 'social-title' );
+			return $this->get_social_template( 'title' );
 		}
 
 		return '';
@@ -197,7 +195,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	private function get_social_description_template() {
 		if ( $this->use_social_templates ) {
-			return $this->get_template( 'social-description' );
+			return $this->get_social_template( 'description' );
 		}
 
 		return '';
@@ -210,7 +208,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	private function get_social_image_template() {
 		if ( $this->use_social_templates ) {
-			return $this->get_template( 'social-image-url' );
+			return $this->get_social_template( 'image-url' );
 		}
 
 		return '';
@@ -226,5 +224,32 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	private function get_template( $template_option_name ) {
 		$needed_option = $template_option_name . '-tax-' . $this->term->taxonomy;
 		return WPSEO_Options::get( $needed_option, '' );
+	}
+
+	/**
+	 * Retrieves a social template.
+	 *
+	 * @param string $template_option_name The name of the option in which the template you want to get is saved.
+	 *
+	 * @return string
+	 */
+	private function get_social_template( $template_option_name ) {
+		/**
+		 * Filters the social template value for a given taxonomy.
+		 *
+		 * @param string $template             The social template value, defaults to empty string.
+		 * @param string $template_option_name The subname of the option in which the template you want to get is saved.
+		 * @param string $taxonomy             The name of the taxonomy.
+		 */
+		return apply_filters( 'wpseo_social_template_taxonomy', '', $template_option_name, $this->term->taxonomy );
+	}
+
+	/**
+	 * Determines whether the insights feature is enabled for this taxonomy.
+	 *
+	 * @return bool
+	 */
+	protected function is_insights_enabled() {
+		return WPSEO_Options::get( 'enable_metabox_insights', false );
 	}
 }

@@ -43,7 +43,7 @@ class WPSEO_Utils {
 		 * Filter: 'wpseo_allow_system_file_edit' - Allow developers to change whether the editing of
 		 * .htaccess and robots.txt is allowed.
 		 *
-		 * @api bool $allowed Whether file editing is allowed.
+		 * @param bool $allowed Whether file editing is allowed.
 		 */
 		return apply_filters( 'wpseo_allow_system_file_edit', $allowed );
 	}
@@ -110,30 +110,10 @@ class WPSEO_Utils {
 			$value = trim( $value );
 		}
 		elseif ( is_array( $value ) ) {
-			$value = array_map( [ __CLASS__, 'trim_recursive' ], $value );
+			$value = array_map( [ self::class, 'trim_recursive' ], $value );
 		}
 
 		return $value;
-	}
-
-	/**
-	 * Translates a decimal analysis score into a textual one.
-	 *
-	 * @since 1.8.0
-	 *
-	 * @param int  $val       The decimal score to translate.
-	 * @param bool $css_value Whether to return the i18n translated score or the CSS class value.
-	 *
-	 * @return string
-	 */
-	public static function translate_score( $val, $css_value = true ) {
-		$seo_rank = WPSEO_Rank::from_numeric_score( $val );
-
-		if ( $css_value ) {
-			return $seo_rank->get_css_class();
-		}
-
-		return $seo_rank->get_label();
 	}
 
 	/**
@@ -227,7 +207,7 @@ class WPSEO_Utils {
 		if ( isset( $parts['path'] ) && strpos( $parts['path'], '/' ) === 0 ) {
 			$path = explode( '/', wp_strip_all_tags( $parts['path'] ) );
 			$path = self::sanitize_encoded_text_field( $path );
-			$url .= implode( '/', $path );
+			$url .= str_replace( '%40', '@', implode( '/', $path ) );
 		}
 
 		if ( ! $url ) {
@@ -252,7 +232,7 @@ class WPSEO_Utils {
 		if ( strpos( $url, '%' ) !== false ) {
 			$url = preg_replace_callback(
 				'`%[a-fA-F0-9]{2}`',
-				static function( $octects ) {
+				static function ( $octects ) {
 					return strtolower( $octects[0] );
 				},
 				$url
@@ -273,7 +253,7 @@ class WPSEO_Utils {
 	 */
 	public static function sanitize_encoded_text_field( $value ) {
 		if ( is_array( $value ) ) {
-			return array_map( [ __CLASS__, 'sanitize_encoded_text_field' ], $value );
+			return array_map( [ self::class, 'sanitize_encoded_text_field' ], $value );
 		}
 
 		return rawurlencode( sanitize_text_field( rawurldecode( $value ) ) );
@@ -401,7 +381,7 @@ class WPSEO_Utils {
 			return $value;
 		}
 		elseif ( is_float( $value ) ) {
-			// phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
+			// phpcs:ignore Universal.Operators.StrictComparisons -- Purposeful loose comparison.
 			if ( (int) $value == $value && ! is_nan( $value ) ) {
 				return (int) $value;
 			}
@@ -432,6 +412,8 @@ class WPSEO_Utils {
 	 * Clears the WP or W3TC cache depending on which is used.
 	 *
 	 * @since 1.8.0
+	 *
+	 * @return void
 	 */
 	public static function clear_cache() {
 		if ( function_exists( 'w3tc_pgcache_flush' ) ) {
@@ -446,6 +428,8 @@ class WPSEO_Utils {
 	 * Clear rewrite rules.
 	 *
 	 * @since 1.8.0
+	 *
+	 * @return void
 	 */
 	public static function clear_rewrites() {
 		update_option( 'rewrite_rules', '' );
@@ -526,7 +510,7 @@ class WPSEO_Utils {
 				if ( $bc ) {
 					$result = bcdiv( $number1, $number2, $precision ); // String, or NULL if right_operand is 0.
 				}
-				elseif ( $number2 != 0 ) { // phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
+				elseif ( $number2 != 0 ) { // phpcs:ignore Universal.Operators.StrictComparisons -- Purposeful loose comparison.
 					$result = ( $number1 / $number2 );
 				}
 
@@ -541,7 +525,7 @@ class WPSEO_Utils {
 				if ( $bc ) {
 					$result = bcmod( $number1, $number2 ); // String, or NULL if modulus is 0.
 				}
-				elseif ( $number2 != 0 ) { // phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
+				elseif ( $number2 != 0 ) { // phpcs:ignore Universal.Operators.StrictComparisons -- Purposeful loose comparison.
 					$result = ( $number1 % $number2 );
 				}
 
@@ -558,7 +542,7 @@ class WPSEO_Utils {
 					$result = bccomp( $number1, $number2, $precision ); // Returns int 0, 1 or -1.
 				}
 				else {
-					// phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
+					// phpcs:ignore Universal.Operators.StrictComparisons -- Purposeful loose comparison.
 					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : -1 );
 				}
 				break;
@@ -573,7 +557,7 @@ class WPSEO_Utils {
 					}
 				}
 				else {
-					// phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
+					// phpcs:ignore Universal.Operators.StrictComparisons -- Purposeful loose comparison.
 					$result = ( intval( $result ) == $result ) ? intval( $result ) : floatval( $result );
 				}
 			}
@@ -680,28 +664,12 @@ class WPSEO_Utils {
 	public static function is_yoast_seo_free_page( $current_page ) {
 		$yoast_seo_free_pages = [
 			'wpseo_dashboard',
-			'wpseo_titles',
-			'wpseo_social',
-			'wpseo_advanced',
 			'wpseo_tools',
 			'wpseo_search_console',
 			'wpseo_licenses',
 		];
 
 		return in_array( $current_page, $yoast_seo_free_pages, true );
-	}
-
-	/**
-	 * Checks if we are in the premium or free plugin.
-	 *
-	 * @deprecated 16.0
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool True when we are in the premium plugin.
-	 */
-	public static function is_yoast_seo_premium() {
-		_deprecated_function( __FUNCTION__, '16.0', 'YoastSEO()->helpers->product->is_premium' );
-		return YoastSEO()->helpers->product->is_premium();
 	}
 
 	/**
@@ -826,7 +794,7 @@ class WPSEO_Utils {
 	/**
 	 * Determines whether the plugin is active for the entire network.
 	 *
-	 * @return bool Whether or not the plugin is network-active.
+	 * @return bool Whether the plugin is network-active.
 	 */
 	public static function is_plugin_network_active() {
 		return YoastSEO()->helpers->url->is_plugin_network_active();
@@ -838,15 +806,11 @@ class WPSEO_Utils {
 	 * @return string The post type, or an empty string.
 	 */
 	public static function get_post_type() {
-		global $post;
+		$wp_screen = get_current_screen();
 
-		if ( isset( $post->post_type ) ) {
-			return $post->post_type;
+		if ( $wp_screen !== null && ! empty( $wp_screen->post_type ) ) {
+			return $wp_screen->post_type;
 		}
-		elseif ( isset( $_GET['post_type'] ) ) {
-			return sanitize_text_field( wp_unslash( $_GET['post_type'] ) );
-		}
-
 		return '';
 	}
 
@@ -883,8 +847,12 @@ class WPSEO_Utils {
 		else {
 			$label_object = WPSEO_Taxonomy::get_labels();
 
-			$taxonomy_slug = filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
-			$no_index      = WPSEO_Options::get( 'noindex-tax-' . $taxonomy_slug, false );
+			$wp_screen = get_current_screen();
+
+			if ( $wp_screen !== null && ! empty( $wp_screen->taxonomy ) ) {
+				$taxonomy_slug = $wp_screen->taxonomy;
+				$no_index      = WPSEO_Options::get( 'noindex-tax-' . $taxonomy_slug, false );
+			}
 		}
 
 		$wpseo_admin_l10n = [
@@ -897,6 +865,7 @@ class WPSEO_Utils {
 			'isBreadcrumbsDisabled' => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
 			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
 			'isPrivateBlog'         => ( (string) get_option( 'blog_public' ) ) === '0',
+			'news_seo_is_active'    => ( defined( 'WPSEO_NEWS_FILE' ) ),
 		];
 
 		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );
@@ -955,12 +924,12 @@ class WPSEO_Utils {
 			/**
 			 * Filter the Yoast SEO development mode.
 			 *
-			 * @api array $data Allows filtering of the JSON data for debug purposes.
+			 * @param array $data Allows filtering of the JSON data for debug purposes.
 			 */
 			$data = apply_filters( 'wpseo_debug_json_data', $data );
 		}
 
-		// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_wp_json_encodeWithAdditionalParams -- This is the definition of format_json_encode.
+		// phpcs:ignore Yoast.Yoast.JsonEncodeAlternative.FoundWithAdditionalParams -- This is the definition of format_json_encode.
 		return wp_json_encode( $data, $flags );
 	}
 
@@ -1129,292 +1098,5 @@ class WPSEO_Utils {
 		 */
 		$feature_flag_integration = YoastSEO()->classes->get( Feature_Flag_Integration::class );
 		return $feature_flag_integration->get_enabled_features();
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * List all the available user roles.
-	 *
-	 * @since      1.8.0
-	 * @deprecated 15.0
-	 * @codeCoverageIgnore
-	 *
-	 * @return array
-	 */
-	public static function get_roles() {
-		_deprecated_function( __METHOD__, '15.0', 'wp_roles()->get_names()' );
-		$yoast_seo_wp_roles = wp_roles();
-
-		$roles = $yoast_seo_wp_roles->get_names();
-
-		return $roles;
-	}
-
-	/**
-	 * Checks if the current installation supports MyYoast access tokens.
-	 *
-	 * @deprecated 15.0
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool True if access_tokens are supported.
-	 */
-	public static function has_access_token_support() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.0' );
-		return false;
-	}
-
-	/**
-	 * Standardize whitespace in a string.
-	 *
-	 * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
-	 *
-	 * @since      1.8.0
-	 * @deprecated 15.2
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $text String input to standardize.
-	 *
-	 * @return string
-	 */
-	public static function standardize_whitespace( $text ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.2' );
-
-		return YoastSEO()->helpers->string->standardize_whitespace( $text );
-	}
-
-	/**
-	 * First strip out registered and enclosing shortcodes using native WordPress strip_shortcodes function.
-	 * Then strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
-	 *
-	 * @since      1.8.0
-	 * @deprecated 15.2
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $text Input string that might contain shortcodes.
-	 *
-	 * @return string String without shortcodes.
-	 */
-	public static function strip_shortcode( $text ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.2' );
-
-		return YoastSEO()->helpers->string->strip_shortcode( $text );
-	}
-
-	/**
-	 * Retrieves the title separator.
-	 *
-	 * @since      3.0.0
-	 * @deprecated 15.2
-	 * @codeCoverageIgnore
-	 *
-	 * @return string
-	 */
-	public static function get_title_separator() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.2', 'Yoast\WP\SEO\Helpers\Options_Helper::get_title_separator' );
-
-		return YoastSEO()->helpers->options->get_title_separator();
-	}
-
-	/**
-	 * Flush W3TC cache after successful update/add of taxonomy meta option.
-	 *
-	 * @since      1.8.0
-	 * @deprecated 15.3
-	 * @codeCoverageIgnore
-	 */
-	public static function flush_w3tc_cache() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.3' );
-	}
-
-	/**
-	 * Determines whether or not WooCommerce is active.
-	 *
-	 * @deprecated 15.3
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool Whether or not WooCommerce is active.
-	 */
-	public static function is_woocommerce_active() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.3' );
-
-		return YoastSEO()->helpers->woocommerce->is_active();
-	}
-
-	/**
-	 * Outputs a Schema blob.
-	 *
-	 * @deprecated 15.5
-	 * @codeCoverageIgnore
-	 *
-	 * @param array  $graph        The Schema graph array to output.
-	 * @param string $class_to_add The (optional) class to add to the script tag.
-	 *
-	 * @return bool
-	 */
-	public static function schema_output( $graph, $class_to_add = 'yoast-schema-graph' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
-
-		if ( ! is_array( $graph ) || empty( $graph ) ) {
-			return false;
-		}
-
-		// phpcs:ignore WordPress.Security.EscapeOutput -- Escaping happens in WPSEO_Utils::schema_tag, which should be whitelisted.
-		echo self::schema_tag( $graph, $class_to_add );
-		return true;
-	}
-
-	/**
-	 * Returns a script tag with Schema blob.
-	 *
-	 * @deprecated 15.5
-	 * @codeCoverageIgnore
-	 *
-	 * @param array  $graph        The Schema graph array to output.
-	 * @param string $class_to_add The (optional) class to add to the script tag.
-	 *
-	 * @return false|string A schema blob with script tags.
-	 */
-	public static function schema_tag( $graph, $class_to_add = 'yoast-schema-graph' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
-
-		if ( ! is_array( $graph ) || empty( $graph ) ) {
-			return false;
-		}
-
-		$output = [
-			'@context' => 'https://schema.org',
-			'@graph'   => $graph,
-		];
-		return "<script type='application/ld+json' class='" . esc_attr( $class_to_add ) . "'>" . self::format_json_encode( $output ) . '</script>' . "\n";
-	}
-
-	/**
-	 * Returns the SVG for the traffic light in the metabox.
-	 *
-	 * @deprecated 15.5
-	 * @codeCoverageIgnore
-	 *
-	 * @return string
-	 */
-	public static function traffic_light_svg() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
-
-		return <<<'SVG'
-<svg class="yst-traffic-light init" version="1.1" xmlns="http://www.w3.org/2000/svg"
-	 role="img" aria-hidden="true" focusable="false"
-	 x="0px" y="0px" viewBox="0 0 30 47" enable-background="new 0 0 30 47" xml:space="preserve">
-<g id="BG_1_">
-</g>
-<g id="traffic_light">
-	<g>
-		<g>
-			<g>
-				<path fill="#5B2942" d="M22,0H8C3.6,0,0,3.6,0,7.9v31.1C0,43.4,3.6,47,8,47h14c4.4,0,8-3.6,8-7.9V7.9C30,3.6,26.4,0,22,0z
-					 M27.5,38.8c0,3.1-2.6,5.7-5.8,5.7H8.3c-3.2,0-5.8-2.5-5.8-5.7V8.3c0-1.5,0.6-2.9,1.7-4c1.1-1,2.5-1.6,4.1-1.6h13.4
-					c1.5,0,3,0.6,4.1,1.6c1.1,1.1,1.7,2.5,1.7,4V38.8z"/>
-			</g>
-			<g class="traffic-light-color traffic-light-red">
-				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
-				<ellipse fill="#DC3232" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
-				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
-			</g>
-			<g class="traffic-light-color traffic-light-orange">
-				<ellipse fill="#F49A00" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
-				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
-				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
-			</g>
-			<g class="traffic-light-color traffic-light-green">
-				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
-				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
-				<ellipse fill="#63B22B" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
-			</g>
-			<g class="traffic-light-color traffic-light-empty">
-				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
-				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
-				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
-			</g>
-			<g class="traffic-light-color traffic-light-init">
-				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
-				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
-				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
-			</g>
-		</g>
-	</g>
-</g>
-</svg>
-SVG;
-	}
-
-	/**
-	 * Gets the plugin name from file.
-	 *
-	 * @since      2.3.3
-	 * @deprecated 15.5
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $plugin Plugin path relative to plugins directory.
-	 *
-	 * @return string|bool
-	 */
-	public static function get_plugin_name( $plugin ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
-
-		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
-
-		if ( $plugin_details['Name'] !== '' ) {
-			return $plugin_details['Name'];
-		}
-
-		return false;
-	}
-
-	/**
-	 * Returns a base64 URL for the svg for use in the menu.
-	 *
-	 * @since      3.3.0
-	 * @deprecated 15.5
-	 * @codeCoverageIgnore
-	 *
-	 * @param bool $base64 Whether or not to return base64'd output.
-	 *
-	 * @return string
-	 */
-	public static function get_icon_svg( $base64 = true ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
-
-		$svg = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" height="100%" style="fill:#82878c" viewBox="0 0 512 512" role="img" aria-hidden="true" focusable="false"><g><g><g><g><path d="M203.6,395c6.8-17.4,6.8-36.6,0-54l-79.4-204h70.9l47.7,149.4l74.8-207.6H116.4c-41.8,0-76,34.2-76,76V357c0,41.8,34.2,76,76,76H173C189,424.1,197.6,410.3,203.6,395z"/></g><g><path d="M471.6,154.8c0-41.8-34.2-76-76-76h-3L285.7,365c-9.6,26.7-19.4,49.3-30.3,68h216.2V154.8z"/></g></g><path stroke-width="2.974" stroke-miterlimit="10" d="M338,1.3l-93.3,259.1l-42.1-131.9h-89.1l83.8,215.2c6,15.5,6,32.5,0,48c-7.4,19-19,37.3-53,41.9l-7.2,1v76h8.3c81.7,0,118.9-57.2,149.6-142.9L431.6,1.3H338z M279.4,362c-32.9,92-67.6,128.7-125.7,131.8v-45c37.5-7.5,51.3-31,59.1-51.1c7.5-19.3,7.5-40.7,0-60l-75-192.7h52.8l53.3,166.8l105.9-294h58.1L279.4,362z"/></g></g></svg>';
-
-		if ( $base64 ) {
-			//phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- This encoding is intended.
-			return 'data:image/svg+xml;base64,' . base64_encode( $svg );
-		}
-
-		return $svg;
-	}
-
-	/**
-	 * Checks whether the current user is allowed to access the configuration.
-	 *
-	 * @since      1.8.0
-	 * @deprecated 15.5
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool
-	 */
-	public static function grant_access() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
-
-		if ( ! is_multisite() ) {
-			return true;
-		}
-
-		$options = get_site_option( 'wpseo_ms' );
-
-		if ( empty( $options['access'] ) || $options['access'] === 'admin' ) {
-			return current_user_can( 'wpseo_manage_options' );
-		}
-
-		return is_super_admin();
 	}
 }

@@ -1,12 +1,14 @@
-/* eslint-disable no-undefined */
 import classNames from "classnames";
+import { keys } from "lodash";
 import PropTypes from "prop-types";
 import Spinner from "../spinner";
+import { forwardRef } from "@wordpress/element";
 
-const classNameMap = {
+export const classNameMap = {
 	variant: {
 		primary: "yst-button--primary",
 		secondary: "yst-button--secondary",
+		tertiary: "yst-button--tertiary",
 		error: "yst-button--error",
 		upsell: "yst-button--upsell",
 	},
@@ -28,7 +30,7 @@ const classNameMap = {
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Button component.
  */
-const Button = ( {
+const Button = forwardRef( ( {
 	children,
 	as: Component,
 	type,
@@ -38,10 +40,12 @@ const Button = ( {
 	disabled,
 	className,
 	...props
-} ) => (
+}, ref ) => (
 	<Component
-		type={ type || ( Component === "button" && "button" ) }
+		// eslint-disable-next-line no-undefined
+		type={ type || ( Component === "button" && "button" ) || undefined }
 		disabled={ disabled }
+		ref={ ref }
 		className={ classNames(
 			"yst-button",
 			classNameMap.variant[ variant ],
@@ -52,24 +56,27 @@ const Button = ( {
 		) }
 		{ ...props }
 	>
-		{ isLoading && <Spinner size={ size === "small" ? "3" : "4" } className="yst-mr-2" /> }
+		{ isLoading && <Spinner size={ size === "small" ? "3" : "4" } className="yst--ml-1 yst-mr-2" /> }
 		{ children }
 	</Component>
-);
+) );
 
-Button.propTypes = {
+const propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
 	type: PropTypes.oneOf( [ "button", "submit" ] ),
-	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
-	size: PropTypes.oneOf( Object.keys( classNameMap.size ) ),
+	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),
+	size: PropTypes.oneOf( keys( classNameMap.size ) ),
 	isLoading: PropTypes.bool,
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
 
+Button.propTypes = propTypes;
+
 Button.defaultProps = {
 	as: "button",
+	// eslint-disable-next-line no-undefined
 	type: undefined,
 	variant: "primary",
 	size: "default",
@@ -79,3 +86,9 @@ Button.defaultProps = {
 };
 
 export default Button;
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Button { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Button.defaultProps;
+StoryComponent.displayName = "Button";

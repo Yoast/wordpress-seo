@@ -17,7 +17,7 @@ class WPSEO_Import_Settings {
 	 *
 	 * @var string
 	 */
-	const NONCE_ACTION = 'wpseo-import-settings';
+	public const NONCE_ACTION = 'wpseo-import-settings';
 
 	/**
 	 * Holds the import status instance.
@@ -52,7 +52,13 @@ class WPSEO_Import_Settings {
 			return;
 		}
 
-		$content = filter_input( INPUT_POST, 'settings_import' );
+		if ( ! isset( $_POST['settings_import'] ) || ! is_string( $_POST['settings_import'] ) ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: The raw content will be parsed afterwards.
+		$content = wp_unslash( $_POST['settings_import'] );
+
 		if ( empty( $content ) ) {
 			return;
 		}
@@ -85,6 +91,8 @@ class WPSEO_Import_Settings {
 	 * @param string $name         Name string.
 	 * @param array  $option_group Option group data.
 	 * @param array  $options      Options data.
+	 *
+	 * @return void
 	 */
 	protected function parse_option_group( $name, $option_group, $options ) {
 		// Make sure that the imported options are cleaned/converted on import.
@@ -98,6 +106,8 @@ class WPSEO_Import_Settings {
 	 * Imports the options if found.
 	 *
 	 * @param array $options The options parsed from the provided settings.
+	 *
+	 * @return void
 	 */
 	protected function import_options( $options ) {
 		if ( isset( $options['wpseo']['version'] ) && $options['wpseo']['version'] !== '' ) {

@@ -1,7 +1,8 @@
 import { getSubheadingContentsTopLevel } from "../helpers/html/getSubheadings";
-import excludeTableOfContentsTag from "../helpers/sanitize/excludeTableOfContentsTag";
 import stripSomeTags from "../helpers/sanitize/stripNonTextTags";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
+import removeHtmlBlocks from "../helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../helpers";
 
 /**
  * Computes the amount of subheadings reflecting the topic.
@@ -40,7 +41,11 @@ export default function matchKeywordInSubheadings( paper, researcher ) {
 	// A custom helper to match word in text.
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 
-	const text = stripSomeTags( excludeTableOfContentsTag( paper.getText() ) );
+
+	let text = paper.getText();
+	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
+	text = stripSomeTags( text );
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
 	const result = { count: 0, matches: 0, percentReflectingTopic: 0 };

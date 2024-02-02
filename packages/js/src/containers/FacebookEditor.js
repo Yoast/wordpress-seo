@@ -7,8 +7,9 @@ import FacebookWrapper from "../components/social/FacebookWrapper";
 import getL10nObject from "../analysis/getL10nObject";
 import withLocation from "../helpers/withLocation";
 import { openMedia, prepareFacebookPreviewImage } from "../helpers/selectMedia";
+import getMemoizedFindCustomFields from "../helpers/getMemoizedFindCustomFields";
 
-const socialMediumName = "Facebook";
+const socialMediumName = "Social";
 
 /**
  * Lazy function to open the media instance.
@@ -73,19 +74,24 @@ export default compose( [
 		};
 	} ),
 
-	withDispatch( dispatch => {
+	withDispatch( ( dispatch, ownProps, { select } ) => {
 		const {
 			setFacebookPreviewTitle,
 			setFacebookPreviewDescription,
 			clearFacebookPreviewImage,
 			loadFacebookPreviewData,
+			findCustomFields,
 		} = dispatch( "yoast-seo/editor" );
+
+		const postId = select( "yoast-seo/editor" ).getPostId();
+
 		return {
 			onSelectImageClick: selectMedia,
 			onRemoveImageClick: clearFacebookPreviewImage,
 			onDescriptionChange: setFacebookPreviewDescription,
 			onTitleChange: setFacebookPreviewTitle,
 			onLoad: loadFacebookPreviewData,
+			onReplacementVariableSearchChange: getMemoizedFindCustomFields( postId, findCustomFields ),
 		};
 	} ),
 
