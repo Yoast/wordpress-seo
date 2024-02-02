@@ -1006,11 +1006,9 @@ final class Upgrade_Test extends TestCase {
 	/**
 	 * Filter used to override the public post types.
 	 *
-	 * @param array<string> $public_post_types The public post types.
-	 *
 	 * @return array<string> An empty array to override the public post types.
 	 */
-	public function override_public_post_types( $public_post_types ) {
+	public function override_public_post_types() {
 		return [];
 	}
 
