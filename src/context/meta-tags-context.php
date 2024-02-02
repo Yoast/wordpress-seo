@@ -43,7 +43,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @property int             $site_user_id
  * @property string          $site_represents
  * @property array|false     $site_represents_reference
- * @property string          $schema_page_type
+ * @property string|string[] $schema_page_type
  * @property string|string[] $schema_article_type      Represents the type of article.
  * @property string          $main_schema_id
  * @property string|array    $main_entity_of_page
