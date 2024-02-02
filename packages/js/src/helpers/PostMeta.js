@@ -25,23 +25,13 @@ export default class PostMeta {
 	}
 
 	/**
-	 * Get the value of a field.
-	 *
-	 * @param {string} fieldId The field id.
-	 * @returns {value} The value of the field.
-	 */
-	static getFieldValue( fieldId ) {
-		return window.wpseoScriptData?.metabox.metadata[ fieldId ];
-	}
-
-	/**
 	 * Get the initial value of a field.
 	 *
 	 * @param {string} fieldId The field id.
 	 * @returns {value} The initial value of the field.
 	 */
 	static getInitialValue( fieldId ) {
-		return this.getFieldValue( this.mapIds[ fieldId ] );
+		return window.wpseoScriptData?.metabox.metadata[ this.mapIds[ fieldId ] ] ?? "";
 	}
 
 	/**
@@ -54,7 +44,7 @@ export default class PostMeta {
 		if ( this.booleanFields.includes( fieldId ) ) {
 			return value ? "1" : "0";
 		}
-		return value;
+		return value ?? "";
 	}
 
 	/**
