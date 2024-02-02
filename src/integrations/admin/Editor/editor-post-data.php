@@ -50,9 +50,9 @@ class Editor_Post_Data {
      * 
      * @param WPSEO_Admin_Asset_Manager $this->asset_manager The asset manager.
      */
-    public function __construct( WPSEO_Admin_Asset_Manager $asset_manager, Replace_Vars_Post $replace_vars_post ) {
-        $this->asset_manager = $asset_manager;
-        $this->replace_vars_post = $replace_vars_post;
+    public function __construct() {
+        $this->asset_manager = new WPSEO_Admin_Asset_Manager();
+        $this->replace_vars_post = new Replace_Vars_Post();
     }
 
     /**
