@@ -8,7 +8,6 @@ use Yoast\WP\Lib\Model;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
-use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Upgrade_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
@@ -30,11 +29,17 @@ final class Upgrade_Test extends TestCase {
 	 */
 	private $indexables_table;
 
+	/**
+	 * Set up the class which will be tested.
+	 *
+	 * @return void
+	 */
 	public function set_up() {
 		parent::set_up();
 
 		$this->indexables_table = Model::get_table_name( 'Indexable' );
 	}
+
 	/**
 	 * Retrieves the instance to test against.
 	 *
@@ -436,7 +441,7 @@ final class Upgrade_Test extends TestCase {
 	public function test_clean_up_private_taxonomies_for_141() {
 		global $wpdb;
 
-		$taxonomy         = 'wpseo_tax';
+		$taxonomy = 'wpseo_tax';
 
 		\register_taxonomy( $taxonomy, 'post' );
 
@@ -614,7 +619,7 @@ final class Upgrade_Test extends TestCase {
 				'SELECT *
 				FROM %i
 				WHERE object_id = %s',
-				[$this->indexables_table, $post_id ]
+				[ $this->indexables_table, $post_id ]
 			)
 		);
 
@@ -842,17 +847,17 @@ final class Upgrade_Test extends TestCase {
 
 		$null_ids = $wpdb->query(
 			$wpdb->prepare(
-				"SELECT *
+				'SELECT *
 				FROM %i
-				WHERE object_id IS NULL",
+				WHERE object_id IS NULL',
 				[ $this->indexables_table ]
 			)
 		);
 
 		$indexables = $wpdb->query(
 			$wpdb->prepare(
-				"SELECT *
-				FROM %i",
+				'SELECT *
+				FROM %i',
 				[ $this->indexables_table ]
 			)
 		);
@@ -899,7 +904,13 @@ final class Upgrade_Test extends TestCase {
 		$this->assertEquals( 0, $user_indexables );
 	}
 
-
+	/**
+	 * Tests the get_indexable_deduplication_query_for_type method.
+	 *
+	 * @covers WPSEO_Upgrade::get_indexable_deduplication_query_for_type
+	 *
+	 * @return void
+	 */
 	public function test_get_indexable_deduplication_query_for_type() {
 		global $wpdb;
 
@@ -942,32 +953,42 @@ final class Upgrade_Test extends TestCase {
 				HAVING
 					count(*) > 1",
 				[ $this->indexables_table ]
-			)
-			, ARRAY_A);
+			),
+			\ARRAY_A
+		);
 
 		$posts_ids = \array_column(
-			\array_filter( $duplicates, function ( $duplicate ) {
-				return $duplicate['object_type'] === 'post';
-			} ),
+			\array_filter(
+				$duplicates,
+				static function ( $duplicate ) {
+					return $duplicate['object_type'] === 'post';
+				}
+			),
 			'newest_id'
 		);
 		$terms_ids = \array_column(
-			\array_filter( $duplicates, function ( $duplicate ) {
-				return $duplicate['object_type'] === 'term';
-			} ),
+			\array_filter(
+				$duplicates,
+				static function ( $duplicate ) {
+					return $duplicate['object_type'] === 'term';
+				}
+			),
 			'newest_id'
 		);
 
-		$users_ids = \array_column(
-			\array_filter( $duplicates, function ( $duplicate ) {
-				return $duplicate['object_type'] === 'user';
-			} ),
+		$users_ids   = \array_column(
+			\array_filter(
+				$duplicates,
+				static function ( $duplicate ) {
+					return $duplicate['object_type'] === 'user';
+				}
+			),
 			'newest_id'
 		);
-		$instance = $this->get_instance();
-		$posts_query    = $instance->get_indexable_deduplication_query_for_type( 'post', $duplicates, $wpdb );
-		$terms_query    = $instance->get_indexable_deduplication_query_for_type( 'term', $duplicates, $wpdb );
-		$users_query    = $instance->get_indexable_deduplication_query_for_type( 'user', $duplicates, $wpdb );
+		$instance    = $this->get_instance();
+		$posts_query = $instance->get_indexable_deduplication_query_for_type( 'post', $duplicates, $wpdb );
+		$terms_query = $instance->get_indexable_deduplication_query_for_type( 'term', $duplicates, $wpdb );
+		$users_query = $instance->get_indexable_deduplication_query_for_type( 'user', $duplicates, $wpdb );
 
 		$this->assertStringContainsString( 'object_type = \'post\'', $posts_query );
 		$this->assertStringContainsString( 'object_id IN ( 1, 3 )', $posts_query );
