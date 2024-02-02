@@ -1,1 +1,1 @@
-Tooltips are a UI elements that automatically provide contextual information about an element when that owning element receives focus or is hovered over, but are otherwise not visible on the page. The tooltips are displayed automatically as a small box with a brief message after a short delay, without the user explicitly requesting them.
+Tooltips provide contextual information about an element when that owning element receives focus or is hovered over, but are otherwise not visible. They are displayed as small boxes containing a brief label or message.
