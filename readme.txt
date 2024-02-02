@@ -346,6 +346,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-02-06
 
+Yoast SEO 22.0 is out today. This release comes with many behind-the-scenes improvements and general enhancements. Find out more about what's new in Yoast SEO 22.0 in [our release post](https://yoa.st/release-6-2-24)!
+
 #### Bugfixes
 
 * Fixes a bug where the `get_head` REST route would return a `rest_invalid_param` if the URL contains a multiple words search string. Props to @lucymtc.
