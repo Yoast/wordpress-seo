@@ -207,6 +207,13 @@ final class Upgrade_Test extends TestCase {
 		$this->assertNotEmpty( \get_option( 'wpseo_social' ) );
 	}
 
+	/**
+	 * Tests the upgrade_36 upgrade routine.
+	 *
+	 * @covers WPSEO_Upgrade::upgrade_36
+	 *
+	 * @return void
+	 */
 	public function test_upgrade_36() {
 		global $wpdb;
 
@@ -239,6 +246,13 @@ final class Upgrade_Test extends TestCase {
 		$this->assertEquals( 1, $number_of_sitemap_options_no_autoload );
 	}
 
+	/**
+	 * Tests the upgrade_49 upgrade routine.
+	 *
+	 * @covers WPSEO_Upgrade::upgrade_49
+	 *
+	 * @return void
+	 */
 	public function test_upgrade_49() {
 		\wp_create_user( 'test_user', 'test password', 'test@test.org' );
 
@@ -292,6 +306,13 @@ final class Upgrade_Test extends TestCase {
 		$this->assertEquals( 1, \count( $user_id2_notification ) );
 	}
 
+	/**
+	 * Tests the upgrade_50 upgrade routine.
+	 *
+	 * @covers WPSEO_Upgrade::upgrade_50
+	 *
+	 * @return void
+	 */
 	public function test_upgrade_50() {
 		global $wpdb;
 
@@ -316,6 +337,13 @@ final class Upgrade_Test extends TestCase {
 		$this->assertEquals( 0, $number_of_rows );
 	}
 
+	/**
+	 * Tests the upgrade_90 upgrade routine.
+	 *
+	 * @covers WPSEO_Upgrade::upgrade_90
+	 *
+	 * @return void
+	 */
 	public function test_upgrade_90() {
 		global $wpdb;
 		$instance = $this->get_instance();
@@ -337,6 +365,13 @@ final class Upgrade_Test extends TestCase {
 		$this->assertEquals( 0, $number_of_sitemap_options );
 	}
 
+	/**
+	 * Tests the upgrade_125 upgrade routine.
+	 *
+	 * @covers WPSEO_Upgrade::upgrade_125
+	 *
+	 * @return void
+	 */
 	public function test_upgrade_125() {
 		global $wpdb;
 
@@ -378,6 +413,13 @@ final class Upgrade_Test extends TestCase {
 		$this->assertNull( $center->get_notification_by_id( 'wpseo-dismiss-wordpress-upgrade' ) );
 	}
 
+	/**
+	 * Tests the clean_up_private_taxonomies_for_141 method.
+	 *
+	 * @covers WPSEO_Upgrade::clean_up_private_taxonomies_for_141
+	 *
+	 * @return void
+	 */
 	public function test_clean_up_private_taxonomies_for_141() {
 		global $wpdb;
 
@@ -431,6 +473,13 @@ final class Upgrade_Test extends TestCase {
 		$this->assertEmpty( $private_taxonomy_indexables );
 	}
 
+	/**
+	 * Tests the upgrade_74 routine.
+	 *
+	 * @covers WPSEO_Upgrade::upgrade_74
+	 *
+	 * @return void
+	 */
 	public function test_upgrade_74() {
 		global $wpdb;
 
@@ -451,6 +500,13 @@ final class Upgrade_Test extends TestCase {
 		$this->assertEquals( 0, $number_of_sitemap_validators );
 	}
 
+	/**
+	 * Tests the remove_indexable_rows_for_non_public_post_types method.
+	 *
+	 * @covers WPSEO_Upgrade::remove_indexable_rows_for_non_public_post_types
+	 *
+	 * @return void
+	 */
 	public function test_remove_indexable_rows_for_non_public_post_types() {
 		global $wpdb;
 		$indexables_table = Model::get_table_name( 'Indexable' );
@@ -507,6 +563,13 @@ final class Upgrade_Test extends TestCase {
 		$this->assertEmpty( $indexables_for_non_public_posts );
 	}
 
+	/**
+	 * Tests the remove_indexable_rows_for_non_public_post_types method in case no public post types are present.
+	 *
+	 * @covers WPSEO_Upgrade::remove_indexable_rows_for_non_public_post_types
+	 *
+	 * @return void
+	 */
 	public function test_remove_indexable_rows_for_non_public_post_types_when_no_public_post_types() {
 		global $wpdb;
 
@@ -547,6 +610,13 @@ final class Upgrade_Test extends TestCase {
 		$this->assertEmpty( $indexables_for_non_public_posts );
 	}
 
+	/**
+	 * Tests the remove_indexable_rows_for_non_public_taxonomies method.
+	 *
+	 * @covers WPSEO_Upgrade::remove_indexable_rows_for_non_public_post_taxonomies
+	 *
+	 * @return void
+	 */
 	public function test_remove_indexable_rows_for_non_public_taxonomies() {
 		global $wpdb;
 		$indexables_table = Model::get_table_name( 'Indexable' );
@@ -603,6 +673,13 @@ final class Upgrade_Test extends TestCase {
 		$this->assertEmpty( $private_taxonomy_indexables );
 	}
 
+	/**
+	 * Tests the remove_indexable_rows_for_non_public_taxonomies method in case no public taxonomies are present.
+	 *
+	 * @covers WPSEO_Upgrade::remove_indexable_rows_for_non_public_post_taxonomies
+	 *
+	 * @return void
+	 */
 	public function test_remove_indexable_rows_for_non_public_taxonomies_when_no_public_taxonomies() {
 		global $wpdb;
 		$indexables_table = Model::get_table_name( 'Indexable' );
@@ -661,10 +738,91 @@ final class Upgrade_Test extends TestCase {
 		$this->assertEmpty( $private_taxonomy_indexables );
 	}
 
+	/**
+	 * Tests the deduplicate_unindexed_indexable_rows method.
+	 *
+	 * @covers WPSEO_Upgrade::deduplicate_unindexed_indexable_rows
+	 *
+	 * @return void
+	 */
+	public function test_deduplicate_unindexed_indexable_rows() {
+		global $wpdb;
+
+		$indexables_table = Model::get_table_name( 'Indexable' );
+
+		$wpdb->query(
+			$wpdb->prepare(
+				"INSERT INTO %i (object_id, object_type, post_status)
+				VALUES
+				(1, 'post', 'unindexed'),
+				(1, 'post', 'unindexed'),
+				(1, 'post', 'unindexed'),
+				(1, 'term', 'unindexed'),
+				(1, 'term', 'unindexed'),
+				(1, 'term', 'unindexed'),
+				(1, 'user', 'unindexed'),
+				(1, 'user', 'unindexed'),
+				(1, 'user', 'unindexed')",
+				[ $indexables_table ]
+			)
+		);
+
+		$instance = $this->get_instance();
+		$instance->deduplicate_unindexed_indexable_rows();
+
+		$posts = $wpdb->query(
+			$wpdb->prepare(
+				"SELECT *
+				FROM %i
+				WHERE object_id = 1
+				AND object_type = 'post'
+				AND post_status = 'unindexed'",
+				[ $indexables_table ]
+			)
+		);
+		$terms = $wpdb->query(
+			$wpdb->prepare(
+				"SELECT *
+				FROM %i
+				WHERE object_id = 1
+				AND object_type = 'user'
+				AND post_status = 'unindexed'",
+				[ $indexables_table ]
+			)
+		);
+		$users = $wpdb->query(
+			$wpdb->prepare(
+				"SELECT *
+				FROM %i
+				WHERE object_id = 1
+				AND object_type = 'user'
+				AND post_status = 'unindexed'",
+				[ $indexables_table ]
+			)
+		);
+		$this->assertEquals( 1, $posts );
+		$this->assertEquals( 1, $terms );
+		$this->assertEquals( 1, $users );
+	}
+
+	/**
+	 * Filter used to override the public post types.
+	 *
+	 * @param array<string> $public_post_types The public post types.
+	 *
+	 * @return array<string> An empty array to override the public post types.
+	 */
 	public function override_public_post_types( $public_post_types ) {
 		return [];
 	}
 
+	/**
+	 * Filter used to override the excluded taxonomies.
+	 *
+	 * @param array<string> $excluded_taxonomies The excluded taxonomies.
+	 *
+	 * @return array<string> The excluded taxonomies with all the taxonomies.
+	 */
 	public function override_excluded_taxonomies( $excluded_taxonomies ) {
 		return \array_merge( $excluded_taxonomies, [ 'wpseo_tax', 'category', 'post_tag', 'post_format' ] );
 	}

@@ -1588,7 +1588,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function deduplicate_unindexed_indexable_rows() {
+	protected function deduplicate_unindexed_indexable_rows() {
 		global $wpdb;
 
 		// If migrations haven't been completed successfully the following may give false errors. So suppress them.

@@ -93,4 +93,8 @@ final class Upgrade_Double extends WPSEO_Upgrade {
 	public function remove_indexable_rows_for_non_public_taxonomies() {
 		parent::remove_indexable_rows_for_non_public_taxonomies();
 	}
+
+	public function deduplicate_unindexed_indexable_rows() {
+		parent::deduplicate_unindexed_indexable_rows();
+	}
 }
