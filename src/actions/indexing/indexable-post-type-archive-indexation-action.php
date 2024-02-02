@@ -19,7 +19,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	/**
 	 * The transient cache key.
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_post_type_archives';
+	public const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_post_type_archives';
 
 	/**
 	 * The post type helper.
@@ -127,7 +127,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 		/**
 		 * Filter 'wpseo_post_type_archive_indexation_limit' - Allow filtering the number of posts indexed during each indexing pass.
 		 *
-		 * @api int The maximum number of posts indexed.
+		 * @param int $limit The maximum number of posts indexed.
 		 */
 		$limit = \apply_filters( 'wpseo_post_type_archive_indexation_limit', 25 );
 
@@ -192,7 +192,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 			return [];
 		}
 
-		$callback = static function( $result ) {
+		$callback = static function ( $result ) {
 			return $result['object_sub_type'];
 		};
 

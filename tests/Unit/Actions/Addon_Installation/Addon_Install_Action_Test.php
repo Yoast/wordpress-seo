@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @covers \Yoast\WP\SEO\Actions\Addon_Installation\Addon_Install_Action
  */
-class Addon_Install_Action_Test extends TestCase {
+final class Addon_Install_Action_Test extends TestCase {
 
 	/**
 	 * The wpseo addon manager.
@@ -44,6 +44,8 @@ class Addon_Install_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -55,6 +57,8 @@ class Addon_Install_Action_Test extends TestCase {
 
 	/**
 	 * Tests if the users has installation permissions.
+	 *
+	 * @return void
 	 */
 	public function test_install_addon_user_has_no_install_permissions() {
 
@@ -70,6 +74,8 @@ class Addon_Install_Action_Test extends TestCase {
 
 	/**
 	 * Tests if the addon is already installed.
+	 *
+	 * @return void
 	 */
 	public function test_install_addon_is_already_installed() {
 
@@ -91,6 +97,8 @@ class Addon_Install_Action_Test extends TestCase {
 
 	/**
 	 * Tests of the install addon throws an exception on error.
+	 *
+	 * @return void
 	 */
 	public function test_install_addon_thows_when_install_fails() {
 
@@ -152,6 +160,8 @@ class Addon_Install_Action_Test extends TestCase {
 
 	/**
 	 * Tests the install addon happy path.
+	 *
+	 * @return void
 	 */
 	public function test_install_addon() {
 

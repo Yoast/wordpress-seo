@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Actions\Wincher;
 
+use Exception;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
@@ -10,8 +11,8 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  */
 class Wincher_Account_Action {
 
-	const ACCOUNT_URL          = 'https://api.wincher.com/beta/account';
-	const UPGRADE_CAMPAIGN_URL = 'https://api.wincher.com/v1/yoast/upgrade-campaign';
+	public const ACCOUNT_URL          = 'https://api.wincher.com/beta/account';
+	public const UPGRADE_CAMPAIGN_URL = 'https://api.wincher.com/v1/yoast/upgrade-campaign';
 
 	/**
 	 * The Wincher_Client instance.
@@ -59,7 +60,7 @@ class Wincher_Account_Action {
 				'historyDays' => $history,
 				'status'      => 200,
 			];
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			return (object) [
 				'status' => $e->getCode(),
 				'error'  => $e->getMessage(),
@@ -75,9 +76,9 @@ class Wincher_Account_Action {
 	public function get_upgrade_campaign() {
 		try {
 			$result   = $this->client->get( self::UPGRADE_CAMPAIGN_URL );
-			$type     = isset( $result['type'] ) ? $result['type'] : null;
-			$months   = isset( $result['months'] ) ? $result['months'] : null;
-			$discount = isset( $result['value'] ) ? $result['value'] : null;
+			$type     = ( $result['type'] ?? null );
+			$months   = ( $result['months'] ?? null );
+			$discount = ( $result['value'] ?? null );
 
 			// We display upgrade discount only if it's a rate discount and positive months/discount.
 			if ( $type === 'RATE' && $months && $discount ) {
@@ -94,7 +95,7 @@ class Wincher_Account_Action {
 				'months'    => null,
 				'status'    => 200,
 			];
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			return (object) [
 				'status' => $e->getCode(),
 				'error'  => $e->getMessage(),

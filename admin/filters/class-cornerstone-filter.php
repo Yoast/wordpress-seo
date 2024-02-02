@@ -15,7 +15,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	 *
 	 * @var string
 	 */
-	const META_NAME = 'is_cornerstone';
+	public const META_NAME = 'is_cornerstone';
 
 	/**
 	 * Registers the hooks.
@@ -138,7 +138,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 		/**
 		 * Filter: 'wpseo_cornerstone_post_types' - Filters post types to exclude the cornerstone feature for.
 		 *
-		 * @api array - The accessible post types to filter.
+		 * @param array $post_types The accessible post types to filter.
 		 */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', parent::get_post_types() );
 		if ( ! is_array( $post_types ) ) {

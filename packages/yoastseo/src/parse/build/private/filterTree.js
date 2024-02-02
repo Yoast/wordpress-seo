@@ -1,3 +1,5 @@
+import { Paragraph } from "../../structure";
+
 /**
  * Checks if a node should be kept or discarded.
  * @param {Node} 		node 		A node.
@@ -29,6 +31,11 @@ export default function filterTree( node, filters ) {
 	// Recursively filters the node's children.
 	if ( node.childNodes ) {
 		node.childNodes = node.childNodes.filter( childNode => filterTree( childNode, filters ) );
+
+		// Drops implicit paragraphs if all their child nodes have been removed.
+		if ( node.childNodes.length === 0 && node instanceof Paragraph && node.isImplicit ) {
+			return;
+		}
 	}
 
 	return node;

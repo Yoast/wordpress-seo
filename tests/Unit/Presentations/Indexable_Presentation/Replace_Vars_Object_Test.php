@@ -11,12 +11,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presentations
  */
-class Replace_Vars_Object_Test extends TestCase {
+final class Replace_Vars_Object_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -28,6 +30,8 @@ class Replace_Vars_Object_Test extends TestCase {
 	 * Tests whether an empty array is returned.
 	 *
 	 * @covers ::generate_source
+	 *
+	 * @return void
 	 */
 	public function test_generate_source() {
 		$this->assertEquals( [], $this->instance->generate_source() );

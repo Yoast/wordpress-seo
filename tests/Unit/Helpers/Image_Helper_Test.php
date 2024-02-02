@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group helpers
  */
-class Image_Helper_Test extends TestCase {
+final class Image_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -40,33 +40,35 @@ class Image_Helper_Test extends TestCase {
 	/**
 	 *  The Indexable_Repository instance.
 	 *
-	 * @var \Mockery\MockInterface|Indexable_Repository
+	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
 	protected $indexable_repository;
 
 	/**
 	 *  The SEO_Links_Repository instance.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Repositories\SEO_Links_Repository
+	 * @var Mockery\MockInterface|SEO_Links_Repository
 	 */
 	protected $indexable_seo_links_repository;
 
 	/**
 	 *  The Options_Helper instance.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Options_Helper
+	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	protected $options_helper;
 
 	/**
 	 *  The Url_Helper instance.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Url_Helper
+	 * @var Mockery\MockInterface|Url_Helper
 	 */
 	protected $url_helper;
 
 	/**
 	 * Setup.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -74,7 +76,6 @@ class Image_Helper_Test extends TestCase {
 		$this->instance = Mockery::mock( Image_Helper::class )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
-
 
 		$this->indexable_repository           = Mockery::mock( Indexable_Repository::class );
 		$this->indexable_seo_links_repository = Mockery::mock( SEO_Links_Repository::class );
@@ -88,6 +89,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieving the first image url of a gallery when there is no gallery.
 	 *
 	 * @covers ::get_gallery_image
+	 *
+	 * @return void
 	 */
 	public function test_get_gallery_image_when_gallery_is_absent() {
 		Monkey\Functions\expect( 'get_post' )
@@ -105,6 +108,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieving the first image url of a gallery when there is an empty gallery.
 	 *
 	 * @covers ::get_gallery_image
+	 *
+	 * @return void
 	 */
 	public function test_get_gallery_image_when_gallery_is_empty() {
 		Monkey\Functions\expect( 'get_post' )
@@ -123,6 +128,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieving the first image url of a gallery when there is a gallery.
 	 *
 	 * @covers ::get_gallery_image
+	 *
+	 * @return void
 	 */
 	public function test_get_gallery_image_when_gallery_is_present() {
 		Monkey\Functions\expect( 'get_post' )
@@ -146,6 +153,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests if the attachment is a valid image.
 	 *
 	 * @covers ::is_valid_attachment
+	 *
+	 * @return void
 	 */
 	public function test_is_attachment_valid_image() {
 		Monkey\Functions\expect( 'wp_attachment_is_image' )
@@ -160,6 +169,8 @@ class Image_Helper_Test extends TestCase {
 	 * Test if the attachment is valid with false given as mimetype.
 	 *
 	 * @covers ::is_valid_attachment
+	 *
+	 * @return void
 	 */
 	public function test_is_valid_attachment_no_mime_type() {
 		Monkey\Functions\expect( 'wp_attachment_is_image' )
@@ -179,6 +190,8 @@ class Image_Helper_Test extends TestCase {
 	 * Test if the attachment is valid with false given as mimetype.
 	 *
 	 * @covers ::is_valid_attachment
+	 *
+	 * @return void
 	 */
 	public function test_is_valid_attachment() {
 		Monkey\Functions\expect( 'wp_attachment_is_image' )
@@ -204,6 +217,8 @@ class Image_Helper_Test extends TestCase {
 	 * Test if extension is a valid image extension.
 	 *
 	 * @covers ::is_extension_valid
+	 *
+	 * @return void
 	 */
 	public function test_is_extension_valid() {
 		$this->assertTrue( $this->instance->is_extension_valid( 'jpg' ) );
@@ -213,6 +228,8 @@ class Image_Helper_Test extends TestCase {
 	 * Test if the mime type is a validate image type.
 	 *
 	 * @covers ::is_valid_image_type
+	 *
+	 * @return void
 	 */
 	public function test_is_valid_image_type() {
 		$this->assertTrue( $this->instance->is_valid_image_type( 'image/jpeg' ) );
@@ -222,6 +239,8 @@ class Image_Helper_Test extends TestCase {
 	 * Test retrieval of the attachment images source.
 	 *
 	 * @covers ::get_attachment_image_source
+	 *
+	 * @return void
 	 */
 	public function test_get_attachment_image_source() {
 		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
@@ -236,6 +255,8 @@ class Image_Helper_Test extends TestCase {
 	 * Test retrieval of the attachment images source.
 	 *
 	 * @covers ::get_attachment_image_source
+	 *
+	 * @return void
 	 */
 	public function test_get_attachment_image_source_no_image_found() {
 		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
@@ -250,6 +271,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests the retrieval of the featured image id.
 	 *
 	 * @covers ::get_featured_image_id
+	 *
+	 * @return void
 	 */
 	public function test_get_featured_image_id() {
 		Monkey\Functions\expect( 'has_post_thumbnail' )
@@ -269,6 +292,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests the retrieval of the featured image id.
 	 *
 	 * @covers ::get_featured_image_id
+	 *
+	 * @return void
 	 */
 	public function test_get_featured_image_id_with_no_set_featured_image() {
 		Monkey\Functions\expect( 'has_post_thumbnail' )
@@ -283,6 +308,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieving of the first content image.
 	 *
 	 * @covers ::get_post_content_image
+	 *
+	 * @return void
 	 */
 	public function test_get_post_content_image() {
 		$this->instance
@@ -298,6 +325,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieving of the first content image with no image being found.
 	 *
 	 * @covers ::get_post_content_image
+	 *
+	 * @return void
 	 */
 	public function test_get_post_content_image_with_no_image_found() {
 		$this->instance
@@ -313,6 +342,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests getting the first image from the post content.
 	 *
 	 * @covers ::get_term_content_image
+	 *
+	 * @return void
 	 */
 	public function test_get_term_content_image() {
 		$this->instance
@@ -331,6 +362,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests whether an empty string is returned when the content contains no image.
 	 *
 	 * @covers ::get_term_content_image
+	 *
+	 * @return void
 	 */
 	public function test_get_term_content_image_no_image_in_content() {
 		$this->instance
@@ -346,6 +379,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieving the caption from the attachment.
 	 *
 	 * @covers ::get_caption
+	 *
+	 * @return void
 	 */
 	public function test_get_caption_with_attachment_caption() {
 		Monkey\Functions\expect( 'wp_get_attachment_caption' )
@@ -360,6 +395,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests the retrieving the caption where the caption is set in post meta.
 	 *
 	 * @covers ::get_caption
+	 *
+	 * @return void
 	 */
 	public function test_get_caption_with_caption_from_post_meta() {
 		Monkey\Functions\expect( 'wp_get_attachment_caption' )
@@ -377,6 +414,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieving the caption with no set caption.
 	 *
 	 * @covers ::get_caption
+	 *
+	 * @return void
 	 */
 	public function test_get_caption_with_no_set_caption() {
 		Monkey\Functions\expect( 'wp_get_attachment_caption' )
@@ -396,6 +435,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieving the meta data.
 	 *
 	 * @covers ::get_metadata
+	 *
+	 * @return void
 	 */
 	public function test_get_metadata() {
 		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
@@ -415,6 +456,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieving the meta data with no metadata found.
 	 *
 	 * @covers ::get_metadata
+	 *
+	 * @return void
 	 */
 	public function test_get_metadata_with_no_metadata_found() {
 		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
@@ -429,6 +472,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieving the meta data with unexpected return value.
 	 *
 	 * @covers ::get_metadata
+	 *
+	 * @return void
 	 */
 	public function test_get_metadata_with_wrong_metadata_return_type() {
 		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
@@ -443,6 +488,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieving the attachment image url.
 	 *
 	 * @covers ::get_attachment_image_url
+	 *
+	 * @return void
 	 */
 	public function test_get_attachment_image_url() {
 
@@ -461,6 +508,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests retrieving the attachment image url with no url found.
 	 *
 	 * @covers ::get_attachment_image_url
+	 *
+	 * @return void
 	 */
 	public function test_get_attachment_image_url_no_url_found() {
 

@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Integrations\Front_End_Integration;
 /**
  * Test Helper Class.
  */
-class Front_End_Integration_Double extends Front_End_Integration {
+final class Front_End_Integration_Double extends Front_End_Integration {
 
 	/**
 	 * Sets the `prev` property.

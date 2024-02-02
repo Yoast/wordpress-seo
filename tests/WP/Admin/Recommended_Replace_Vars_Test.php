@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Recommended_Replace_Vars_Test extends TestCase {
+final class Recommended_Replace_Vars_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -19,6 +19,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -31,6 +33,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_term can detect a category.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_term
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_term_with_a_category() {
 		$this->assertEquals( 'category', $this->class_instance->determine_for_term( 'category' ) );
@@ -40,6 +44,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_term can detect a tag.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_term
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_term_with_a_tag() {
 		$this->assertEquals( 'post_tag', $this->class_instance->determine_for_term( 'post_tag' ) );
@@ -49,6 +55,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_term can detect a post_format.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_term
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_term_with_a_post_format() {
 		$this->assertEquals( 'post_format', $this->class_instance->determine_for_term( 'post_format' ) );
@@ -58,6 +66,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_post defaults to post when no actual post variable is passed along.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_without_a_wp_post_instance() {
 		$this->assertEquals( 'post', $this->class_instance->determine_for_post( null ) );
@@ -68,6 +78,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::is_homepage
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_with_a_homepage() {
 		// Backup the current values for these options.
@@ -91,6 +103,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_post can detect a page.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_with_a_page() {
 		$post = $this->create_and_get_with_post_type( 'page' );
@@ -102,6 +116,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_post can detect a post.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_with_a_post() {
 		$post = $this->create_and_get_with_post_type( 'post' );
@@ -113,6 +129,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_post can detect a custom post type.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_with_a_custom_post_type() {
 		$post = $this->create_and_get_with_post_type( 'some_plugin_post' );
@@ -124,6 +142,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_post_type works for a post.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post_type
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_type_with_a_post() {
 		$this->assertEquals( 'post', $this->class_instance->determine_for_post_type( 'post' ) );
@@ -133,6 +153,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that the determine_for_post_type fallback works.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post_type
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_type_with_a_fallback() {
 		$this->assertEquals( 'custom_post_type', $this->class_instance->determine_for_post_type( 'non-existing-post_type' ) );
@@ -142,6 +164,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that the determine_for_post_type custom fallback works.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post_type
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_post_type_with_a_custom_fallback() {
 		$this->assertEquals( 'fallback_post_type', $this->class_instance->determine_for_post_type( 'non-existing-post_type', 'fallback_post_type' ) );
@@ -151,6 +175,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_archive works for the date_archive.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_archive
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_archive_with_author() {
 		$this->assertEquals( 'author_archive', $this->class_instance->determine_for_archive( 'author' ) );
@@ -160,6 +186,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that determine_for_archive works for the date_archive.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_archive
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_archive_with_date() {
 		$this->assertEquals( 'date_archive', $this->class_instance->determine_for_archive( 'date' ) );
@@ -169,6 +197,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that the determine_for_archive fallback works.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_archive
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_archive_with_a_fallback() {
 		$this->assertEquals( 'custom-post-type_archive', $this->class_instance->determine_for_archive( 'non-existing-archive' ) );
@@ -178,6 +208,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that the determine_for_archive custom fallback works.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_archive
+	 *
+	 * @return void
 	 */
 	public function test_determine_for_archive_with_a_custom_fallback() {
 		$this->assertEquals( 'fallback_archive', $this->class_instance->determine_for_archive( 'non-existing-archive', 'fallback_archive' ) );
@@ -191,6 +223,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 *
 	 * @param string $page_type The page type to get the recommended replacement variables for.
 	 * @param array  $expected  The expected recommended replacement variables.
+	 *
+	 * @return void
 	 */
 	public function test_get_recommended_replacevars( $page_type, $expected ) {
 		$this->assertEquals( $expected, $this->class_instance->get_recommended_replacevars_for( $page_type ) );
@@ -201,7 +235,7 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 *
 	 * @return array With the $page_type and $expected variables.
 	 */
-	public function get_recommended_replacevars_provider() {
+	public static function get_recommended_replacevars_provider() {
 		// This is basically a copy of the $recommended_replace_vars in WPSEO_Admin_Recommended_Replace_Vars.
 		return [
 			// Posts.
@@ -233,6 +267,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that get_recommended_replacevars works when there are no recommendations found.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars_for
+	 *
+	 * @return void
 	 */
 	public function test_get_recommended_replacevars_non_existing() {
 		$this->assertEquals( [], $this->class_instance->get_recommended_replacevars_for( 'non-existing-replace-var' ) );
@@ -242,6 +278,8 @@ class Recommended_Replace_Vars_Test extends TestCase {
 	 * Tests that get_recommended_replacevars works when a filter adds a non-array recommendation.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars_for
+	 *
+	 * @return void
 	 */
 	public function test_get_recommended_replacevars_non_array() {
 		$this->assertEquals( [], $this->class_instance->get_recommended_replacevars_for( 'non-array' ) );

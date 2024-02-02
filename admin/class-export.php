@@ -17,7 +17,7 @@ class WPSEO_Export {
 	 *
 	 * @var string
 	 */
-	const NONCE_ACTION = 'wpseo_export';
+	public const NONCE_ACTION = 'wpseo_export';
 
 	/**
 	 * Holds the export data.
@@ -35,6 +35,8 @@ class WPSEO_Export {
 
 	/**
 	 * Handles the export request.
+	 *
+	 * @return void
 	 */
 	public function export() {
 		check_admin_referer( self::NONCE_ACTION );
@@ -44,6 +46,8 @@ class WPSEO_Export {
 
 	/**
 	 * Outputs the export.
+	 *
+	 * @return void
 	 */
 	public function output() {
 		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
@@ -71,6 +75,8 @@ class WPSEO_Export {
 
 	/**
 	 * Exports the current site's WP SEO settings.
+	 *
+	 * @return void
 	 */
 	private function export_settings() {
 		$this->export_header();
@@ -82,6 +88,8 @@ class WPSEO_Export {
 
 	/**
 	 * Writes the header of the export.
+	 *
+	 * @return void
 	 */
 	private function export_header() {
 		$header = sprintf(
@@ -98,6 +106,8 @@ class WPSEO_Export {
 	 *
 	 * @param string $line          Line string.
 	 * @param bool   $newline_first Boolean flag whether to prepend with new line.
+	 *
+	 * @return void
 	 */
 	private function write_line( $line, $newline_first = false ) {
 		if ( $newline_first ) {
@@ -110,6 +120,8 @@ class WPSEO_Export {
 	 * Writes an entire option group to the export.
 	 *
 	 * @param string $opt_group Option group name.
+	 *
+	 * @return void
 	 */
 	private function write_opt_group( $opt_group ) {
 
@@ -125,7 +137,7 @@ class WPSEO_Export {
 			if ( is_array( $elem ) ) {
 				$count = count( $elem );
 				for ( $i = 0; $i < $count; $i++ ) {
-					$elem_check = isset( $elem[ $i ] ) ? $elem[ $i ] : null;
+					$elem_check = ( $elem[ $i ] ?? null );
 					$this->write_setting( $key . '[]', $elem_check );
 				}
 			}
@@ -140,6 +152,8 @@ class WPSEO_Export {
 	 *
 	 * @param string $key Key string.
 	 * @param string $val Value string.
+	 *
+	 * @return void
 	 */
 	private function write_setting( $key, $val ) {
 		if ( is_string( $val ) ) {

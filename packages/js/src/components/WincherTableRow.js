@@ -278,7 +278,7 @@ export function getPositionalDataByState( props ) {
 				</PositionAndViewLinkWrapper>
 			</td>
 			<td className="yoast-table--nopadding">
-				<PositionOverTimeButton onClick={ onPositionOverTimeClick }>
+				<PositionOverTimeButton type="button" onClick={ onPositionOverTimeClick }>
 					<PositionOverTimeCell rowData={ rowData } />
 				</PositionOverTimeButton>
 			</td>

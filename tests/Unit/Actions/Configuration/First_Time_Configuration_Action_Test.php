@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Configuration\First_Time_Configuration_Action
  */
-class First_Time_Configuration_Action_Test extends TestCase {
+final class First_Time_Configuration_Action_Test extends TestCase {
 
 	/**
 	 * The class instance.
@@ -42,6 +42,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -56,6 +58,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -80,6 +84,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 * @param bool[] $yoast_options_results The array of expected results.
 	 * @param bool   $wp_option_result      The result of the update_option call.
 	 * @param object $expected              The expected result object.
+	 *
+	 * @return void
 	 */
 	public function test_set_site_representation( $params, $times, $yoast_options_results, $wp_option_result, $expected ) {
 		$this->options_helper
@@ -110,7 +116,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_site_representation function.
 	 */
-	public function site_representation_provider() {
+	public static function site_representation_provider() {
 		$success_company = [
 			'params'                => [
 				'company_or_person' => 'company',
@@ -179,6 +185,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 * @param array  $set_profiles_results The expected results for set_organization_social_profiles().
 	 * @param array  $get_profiles_results The expected results for get_organization_social_profile_fields().
 	 * @param object $expected             The expected result object.
+	 *
+	 * @return void
 	 */
 	public function test_set_social_profiles( $set_profiles_results, $get_profiles_results, $expected ) {
 		$params = [
@@ -212,7 +220,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_social_profiles function.
 	 */
-	public function social_profiles_provider() {
+	public static function social_profiles_provider() {
 		$success_all = [
 			'set_profiles_results' => [],
 			'get_profiles_results' => [
@@ -275,6 +283,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 * @param int    $times         The number of times the Options_Helper::set is expected to be called.
 	 * @param bool   $option_result The success state of the option setting operation.
 	 * @param object $expected      The expected result object.
+	 *
+	 * @return void
 	 */
 	public function test_set_enable_tracking( $params, $old_value, $times, $option_result, $expected ) {
 		$this->options_helper
@@ -297,7 +307,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_enable_tracking function.
 	 */
-	public function enable_tracking_provider() {
+	public static function enable_tracking_provider() {
 		$false_to_true = [
 			'params'                => [
 				'tracking' => true,
@@ -384,6 +394,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 * @param int    $user_id  The id of the user.
 	 * @param bool   $can_edit The result of the current_user_can call.
 	 * @param object $expected The expected result object.
+	 *
+	 * @return void
 	 */
 	public function test_check_capability( $user_id, $can_edit, $expected ) {
 		Monkey\Functions\expect( 'current_user_can' )
@@ -401,7 +413,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @return array Data for test_check_capability function.
 	 */
-	public function check_capability_provider() {
+	public static function check_capability_provider() {
 		$success = [
 			'user_id'  => 123,
 			'can_edit' => true,
@@ -437,6 +449,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 * @param int    $times                 The number of times the Options_Helper::set is expected to be called.
 	 * @param bool[] $yoast_options_results The array of expected results.
 	 * @param object $expected              The expected result object.
+	 *
+	 * @return void
 	 */
 	public function test_save_configuration_state( $params, $times, $yoast_options_results, $expected ) {
 		$this->options_helper
@@ -459,7 +473,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @return array Data for save_configuration_state function.
 	 */
-	public function configuration_provider() {
+	public static function configuration_provider() {
 		$success_save = [
 			'params'                => [
 				'finishedSteps'     => [ 'step1 ' ],
@@ -522,6 +536,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 * Tests saving the configuration state in the database.
 	 *
 	 * @covers ::get_configuration_state
+	 *
+	 * @return void
 	 */
 	public function test_get_configuration_state() {
 
@@ -551,6 +567,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 * Tests failure path for saving the configuration state in the database.
 	 *
 	 * @covers ::get_configuration_state
+	 *
+	 * @return void
 	 */
 	public function test_get_configuration_state_failure() {
 		$this->options_helper

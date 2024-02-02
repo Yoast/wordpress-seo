@@ -15,14 +15,14 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 	 *
 	 * @var string
 	 */
-	const UPDATE_OPTIONS_ACTION = 'yoast_handle_network_options';
+	public const UPDATE_OPTIONS_ACTION = 'yoast_handle_network_options';
 
 	/**
 	 * Action identifier for restoring a site.
 	 *
 	 * @var string
 	 */
-	const RESTORE_SITE_ACTION = 'yoast_restore_site';
+	public const RESTORE_SITE_ACTION = 'yoast_restore_site';
 
 	/**
 	 * Gets the available sites as choices, e.g. for a dropdown.

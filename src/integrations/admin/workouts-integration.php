@@ -128,6 +128,8 @@ class Workouts_Integration implements Integration_Interface {
 
 	/**
 	 * Enqueue the workouts app.
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
@@ -164,6 +166,8 @@ class Workouts_Integration implements Integration_Interface {
 
 	/**
 	 * Renders the target for the React to mount to.
+	 *
+	 * @return void
 	 */
 	public function render_target() {
 		if ( $this->should_update_premium() ) {

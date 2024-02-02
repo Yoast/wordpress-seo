@@ -20,7 +20,7 @@ use Yoast_Dashboard_Widget;
  *
  * @coversDefaultClass WPSEO_Admin
  */
-class Admin_Features_Test extends TestCase {
+final class Admin_Features_Test extends TestCase {
 
 	/**
 	 * Returns an instance with set expectations for the dependencies.
@@ -50,6 +50,8 @@ class Admin_Features_Test extends TestCase {
 
 	/**
 	 * Sets up the YoastSEO function with the right expectations.
+	 *
+	 * @return void
 	 */
 	private function setup_yoastseo_with_expectations() {
 		$this->stubTranslationFunctions();
@@ -87,6 +89,8 @@ class Admin_Features_Test extends TestCase {
 	 * Test that admin_features returns the correct array when we're editing/creating a post.
 	 *
 	 * @covers ::get_admin_features
+	 *
+	 * @return void
 	 */
 	public function test_get_admin_features_ON_post_edit() {
 		global $pagenow;
@@ -109,6 +113,8 @@ class Admin_Features_Test extends TestCase {
 	 * When we're not on a post edit page, the primary category should not be added to the array.
 	 *
 	 * @covers ::get_admin_features
+	 *
+	 * @return void
 	 */
 	public function test_get_admin_features_NOT_ON_post_edit() {
 		global $pagenow;
@@ -130,6 +136,8 @@ class Admin_Features_Test extends TestCase {
 	 * Tests the update of contactmethods.
 	 *
 	 * @covers ::update_contactmethods
+	 *
+	 * @return void
 	 */
 	public function test_update_contactmethods() {
 		$this->setup_yoastseo_with_expectations();

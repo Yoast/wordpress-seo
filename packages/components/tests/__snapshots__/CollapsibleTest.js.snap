@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Collapsible matches the snapshot by default 1`] = `
-.c10 {
+.c11 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -86,9 +86,9 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   line-height: normal;
 }
 
-.c9 {
+.c10 {
   display: block;
-  white-space: nowrap;
+  line-height: 1.5;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #555;
@@ -136,6 +136,12 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
+  color: #555 !important;
+}
+
+.c1 .c9 {
+  font-weight: normal;
+  color: #555;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -163,14 +169,14 @@ exports[`Collapsible matches the snapshot by default 1`] = `
         className="c8"
       >
         <span
-          className="c9"
+          className="c9 c10"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c10 yoast-svg-icon yoast-svg-icon-chevron-down"
+        className="c11 yoast-svg-icon yoast-svg-icon-chevron-down"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -196,7 +202,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 `;
 
 exports[`Collapsible matches the snapshot by default 2`] = `
-.c10 {
+.c11 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -281,9 +287,9 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   line-height: normal;
 }
 
-.c9 {
+.c10 {
   display: block;
-  white-space: nowrap;
+  line-height: 1.5;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #555;
@@ -331,6 +337,12 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
+  color: #555 !important;
+}
+
+.c1 .c9 {
+  font-weight: normal;
+  color: #555;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -358,14 +370,14 @@ exports[`Collapsible matches the snapshot by default 2`] = `
         className="c8"
       >
         <span
-          className="c9"
+          className="c9 c10"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c10 yoast-svg-icon yoast-svg-icon-chevron-up"
+        className="c11 yoast-svg-icon yoast-svg-icon-chevron-up"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -403,7 +415,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
 `;
 
 exports[`Collapsible matches the snapshot by default when the collapsible has an ID 1`] = `
-.c10 {
+.c11 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -488,9 +500,9 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   line-height: normal;
 }
 
-.c9 {
+.c10 {
   display: block;
-  white-space: nowrap;
+  line-height: 1.5;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #555;
@@ -538,6 +550,12 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
+  color: #555 !important;
+}
+
+.c1 .c9 {
+  font-weight: normal;
+  color: #555;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -565,14 +583,14 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
         className="c8"
       >
         <span
-          className="c9"
+          className="c9 c10"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c10 yoast-svg-icon yoast-svg-icon-chevron-down"
+        className="c11 yoast-svg-icon yoast-svg-icon-chevron-down"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -598,7 +616,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
 `;
 
 exports[`Collapsible matches the snapshot by default when the collapsible has an ID 2`] = `
-.c10 {
+.c11 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -683,9 +701,9 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   line-height: normal;
 }
 
-.c9 {
+.c10 {
   display: block;
-  white-space: nowrap;
+  line-height: 1.5;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #555;
@@ -733,6 +751,12 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
+  color: #555 !important;
+}
+
+.c1 .c9 {
+  font-weight: normal;
+  color: #555;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -760,14 +784,14 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
         className="c8"
       >
         <span
-          className="c9"
+          className="c9 c10"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c10 yoast-svg-icon yoast-svg-icon-chevron-up"
+        className="c11 yoast-svg-icon yoast-svg-icon-chevron-up"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -805,7 +829,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
 `;
 
 exports[`Collapsible matches the snapshot when it is closed 1`] = `
-.c10 {
+.c11 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -890,9 +914,9 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   line-height: normal;
 }
 
-.c9 {
+.c10 {
   display: block;
-  white-space: nowrap;
+  line-height: 1.5;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #555;
@@ -940,6 +964,12 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
+  color: #555 !important;
+}
+
+.c1 .c9 {
+  font-weight: normal;
+  color: #555;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -967,14 +997,14 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
         className="c8"
       >
         <span
-          className="c9"
+          className="c9 c10"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c10 yoast-svg-icon yoast-svg-icon-chevron-down"
+        className="c11 yoast-svg-icon yoast-svg-icon-chevron-down"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -1000,7 +1030,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 `;
 
 exports[`Collapsible matches the snapshot when it is closed 2`] = `
-.c10 {
+.c11 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -1085,9 +1115,9 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   line-height: normal;
 }
 
-.c9 {
+.c10 {
   display: block;
-  white-space: nowrap;
+  line-height: 1.5;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #555;
@@ -1135,6 +1165,12 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
+  color: #555 !important;
+}
+
+.c1 .c9 {
+  font-weight: normal;
+  color: #555;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -1162,14 +1198,14 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
         className="c8"
       >
         <span
-          className="c9"
+          className="c9 c10"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c10 yoast-svg-icon yoast-svg-icon-chevron-up"
+        className="c11 yoast-svg-icon yoast-svg-icon-chevron-up"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -1207,7 +1243,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
 `;
 
 exports[`Collapsible matches the snapshot when it is open 1`] = `
-.c10 {
+.c11 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -1292,9 +1328,9 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   line-height: normal;
 }
 
-.c9 {
+.c10 {
   display: block;
-  white-space: nowrap;
+  line-height: 1.5;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #555;
@@ -1342,6 +1378,12 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
+  color: #555 !important;
+}
+
+.c1 .c9 {
+  font-weight: normal;
+  color: #555;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -1369,14 +1411,14 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
         className="c8"
       >
         <span
-          className="c9"
+          className="c9 c10"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c10 yoast-svg-icon yoast-svg-icon-chevron-up"
+        className="c11 yoast-svg-icon yoast-svg-icon-chevron-up"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -1414,7 +1456,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
 `;
 
 exports[`Collapsible matches the snapshot when it is open 2`] = `
-.c10 {
+.c11 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -1499,9 +1541,9 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   line-height: normal;
 }
 
-.c9 {
+.c10 {
   display: block;
-  white-space: nowrap;
+  line-height: 1.5;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #555;
@@ -1549,6 +1591,12 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
+  color: #555 !important;
+}
+
+.c1 .c9 {
+  font-weight: normal;
+  color: #555;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -1576,14 +1624,14 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
         className="c8"
       >
         <span
-          className="c9"
+          className="c9 c10"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c10 yoast-svg-icon yoast-svg-icon-chevron-down"
+        className="c11 yoast-svg-icon yoast-svg-icon-chevron-down"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -1686,9 +1734,9 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   line-height: normal;
 }
 
-.c9 {
+.c10 {
   display: block;
-  white-space: nowrap;
+  line-height: 1.5;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #555;
@@ -1736,6 +1784,11 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
+  color: !important;
+}
+
+.c1 .c9 {
+  font-weight: normal;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -1763,7 +1816,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
         className="c8"
       >
         <span
-          className="c9"
+          className="c9 c10"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -1863,9 +1916,9 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   line-height: normal;
 }
 
-.c9 {
+.c10 {
   display: block;
-  white-space: nowrap;
+  line-height: 1.5;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #555;
@@ -1913,6 +1966,11 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
+  color: !important;
+}
+
+.c1 .c9 {
+  font-weight: normal;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -1940,7 +1998,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
         className="c8"
       >
         <span
-          className="c9"
+          className="c9 c10"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -2040,9 +2098,9 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   line-height: normal;
 }
 
-.c9 {
+.c10 {
   display: block;
-  white-space: nowrap;
+  line-height: 1.5;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #555;
@@ -2090,6 +2148,11 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
+  color: !important;
+}
+
+.c1 .c9 {
+  font-weight: normal;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -2117,7 +2180,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
         className="c8"
       >
         <span
-          className="c9"
+          className="c9 c10"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -2225,9 +2288,9 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   line-height: normal;
 }
 
-.c10 {
+.c11 {
   display: block;
-  white-space: nowrap;
+  line-height: 1.5;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #555;
@@ -2275,6 +2338,11 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
+  color: !important;
+}
+
+.c1 .c10 {
+  font-weight: normal;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -2316,7 +2384,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
         className="c9"
       >
         <span
-          className="c10"
+          className="c10 c11"
         >
           Lorem ipsum dolor sit amet
           <span

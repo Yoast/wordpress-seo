@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action
  */
-class Wincher_Keyphrases_Action_Test extends TestCase {
+final class Wincher_Keyphrases_Action_Test extends TestCase {
 
 	/**
 	 * The class instance.
@@ -50,6 +50,8 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -68,6 +70,8 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -90,6 +94,8 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	 * Tests tracking of keyphrases.
 	 *
 	 * @covers ::track_keyphrases
+	 *
+	 * @return void
 	 */
 	public function test_track_keyphrases() {
 		$limits = (object) [
@@ -147,6 +153,8 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	 * Tests tracking of keyphrases where the limit is already reached.
 	 *
 	 * @covers ::track_keyphrases
+	 *
+	 * @return void
 	 */
 	public function test_track_keyphrases_where_limit_is_reached() {
 		$limits = (object) [
@@ -176,6 +184,8 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	 * Tests tracking of keyphrases where the limit will be exceeded.
 	 *
 	 * @covers ::track_keyphrases
+	 *
+	 * @return void
 	 */
 	public function test_track_keyphrases_where_limit_will_be_exceeded() {
 		$limits = (object) [
@@ -205,6 +215,8 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	 * Tests untracking of keyphrases.
 	 *
 	 * @covers ::untrack_keyphrase
+	 *
+	 * @return void
 	 */
 	public function test_untrack_keyphrase() {
 		$this->options_helper
@@ -236,6 +248,8 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	 * Tests retrieval of tracked keyphrases.
 	 *
 	 * @covers ::get_tracked_keyphrases
+	 *
+	 * @return void
 	 */
 	public function test_get_tracked_keyphrases() {
 		$this->options_helper
@@ -308,6 +322,8 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	 * Tests retrieval of keyphrases when there is no data available.
 	 *
 	 * @covers ::get_tracked_keyphrases
+	 *
+	 * @return void
 	 */
 	public function test_get_tracked_keyphrases_no_data_key() {
 		$this->options_helper
@@ -350,6 +366,8 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	 * Tests that the API is not called when there are no keyphrases.
 	 *
 	 * @covers ::get_tracked_keyphrases
+	 *
+	 * @return void
 	 */
 	public function test_get_tracked_keyphrases_does_not_call_api_when_no_keyphrases() {
 		$this->client_instance
@@ -369,6 +387,8 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	 * Tests retrieval of tracked keyphrases filtered with the used keyphrases.
 	 *
 	 * @covers ::get_tracked_keyphrases
+	 *
+	 * @return void
 	 */
 	public function test_get_tracked_keyphrases_filtered_by_used_keyphrases() {
 		$this->options_helper
@@ -426,6 +446,8 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	 * Tests retrieval of tracked keyphrases chart data filtered by the passed permalink.
 	 *
 	 * @covers ::get_tracked_keyphrases
+	 *
+	 * @return void
 	 */
 	public function test_get_tracked_keyphrases_with_permalink() {
 		$this->options_helper

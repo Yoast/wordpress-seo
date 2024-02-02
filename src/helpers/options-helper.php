@@ -76,7 +76,7 @@ class Options_Helper {
 		/**
 		 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s).
 		 *
-		 * @api string $replacement The current separator.
+		 * @param string $replacement The current separator.
 		 */
 		return \apply_filters( 'wpseo_replacements_filter_sep', $replacement );
 	}

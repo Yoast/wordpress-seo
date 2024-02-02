@@ -7,7 +7,7 @@ use Yoast\WP\Lib\ORM;
 /**
  * Class Orm_Double.
  */
-class Orm_Double extends ORM {
+final class Orm_Double extends ORM {
 
 	/**
 	 * "Public" constructor; shouldn't be called directly.

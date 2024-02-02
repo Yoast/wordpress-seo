@@ -24,6 +24,8 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 	 * are registered with the Loader class.
 	 *
 	 * @param ContainerBuilder $container The container.
+	 *
+	 * @return void
 	 */
 	public function process( ContainerBuilder $container ) {
 		try {
@@ -135,7 +137,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 	private function get_registered_subclasses_of( $all_definitions, Constructor_Details $definition_class ) {
 		return \array_filter(
 			$all_definitions,
-			static function( $other_definition ) use ( $definition_class ) {
+			static function ( $other_definition ) use ( $definition_class ) {
 				if ( $other_definition->isDeprecated() ) {
 					return false;
 				}

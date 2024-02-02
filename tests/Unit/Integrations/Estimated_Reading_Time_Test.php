@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Estimated_Reading_Time
  */
-class Estimated_Reading_Time_Test extends TestCase {
+final class Estimated_Reading_Time_Test extends TestCase {
 
 	/**
 	 * The class to test.
@@ -25,6 +25,8 @@ class Estimated_Reading_Time_Test extends TestCase {
 
 	/**
 	 * Setup.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -36,6 +38,8 @@ class Estimated_Reading_Time_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		Monkey\Filters\expectAdded( 'wpseo_metabox_entries_general' )
@@ -48,9 +52,11 @@ class Estimated_Reading_Time_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[ Estimated_Reading_Time_Conditional::class ],
 			Estimated_Reading_Time::get_conditionals()
 		);
@@ -60,6 +66,8 @@ class Estimated_Reading_Time_Test extends TestCase {
 	 * Tests the adding of the hidden fields.
 	 *
 	 * @covers ::add_estimated_reading_time_hidden_fields
+	 *
+	 * @return void
 	 */
 	public function test_add_estimated_reading_time_hidden_fields() {
 		$actual = $this->instance->add_estimated_reading_time_hidden_fields( [] );
@@ -79,6 +87,8 @@ class Estimated_Reading_Time_Test extends TestCase {
 	 * Tests only adding when the fields value is an array.
 	 *
 	 * @covers ::add_estimated_reading_time_hidden_fields
+	 *
+	 * @return void
 	 */
 	public function test_add_estimated_reading_time_hidden_fields_only_when_array() {
 		$actual = $this->instance->add_estimated_reading_time_hidden_fields( 'not-an-array' );

@@ -14,28 +14,28 @@ use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introduction_Interface {
 
 	use Current_Page_Trait;
-	use Version_Trait;
 	use User_Allowed_Trait;
+	use Version_Trait;
 
 	/**
 	 * Holds the product helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Product_Helper
+	 * @var Product_Helper
 	 */
 	private $product_helper;
 
 	/**
 	 * Holds the options' helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Options_Helper
+	 * @var Options_Helper
 	 */
 	private $options_helper;
 
 	/**
 	 * Constructs the introduction.
 	 *
-	 * @param \Yoast\WP\SEO\Helpers\Product_Helper $product_helper The product helper.
-	 * @param \Yoast\WP\SEO\Helpers\Options_Helper $options_helper The options' helper.
+	 * @param Product_Helper $product_helper The product helper.
+	 * @param Options_Helper $options_helper The options' helper.
 	 */
 	public function __construct(
 		Product_Helper $product_helper,
@@ -63,7 +63,7 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	 * @return string
 	 */
 	public function get_name() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 21.6', 'Please use get_id() instead' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 21.6', 'Please use get_id() instead' );
 
 		return $this->get_id();
 	}

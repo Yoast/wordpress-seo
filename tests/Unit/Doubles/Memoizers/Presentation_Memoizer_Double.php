@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Memoizers\Presentation_Memoizer;
 /**
  * Class Presentation_Memoizer_Double.
  */
-class Presentation_Memoizer_Double extends Presentation_Memoizer {
+final class Presentation_Memoizer_Double extends Presentation_Memoizer {
 
 	/**
 	 * Used to manually set the internal cache for testing purposes.

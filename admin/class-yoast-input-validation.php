@@ -99,6 +99,8 @@ class Yoast_Input_Validation {
 	 *
 	 * @param array $descriptions An associative array of error descriptions.
 	 *                            For each entry, the key must be the setting variable.
+	 *
+	 * @return void
 	 */
 	public static function set_error_descriptions( $descriptions = [] ) {
 		$defaults = [

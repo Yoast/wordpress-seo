@@ -80,7 +80,7 @@ class Post_Type_Helper {
 		/**
 		 * Filter: 'wpseo_accessible_post_types' - Allow changing the accessible post types.
 		 *
-		 * @api array $post_types The public post types.
+		 * @param array $post_types The public post types.
 		 */
 		$post_types = \apply_filters( 'wpseo_accessible_post_types', $post_types );
 
@@ -103,7 +103,7 @@ class Post_Type_Helper {
 		 * Filter: 'wpseo_indexable_excluded_post_types' - Allows excluding posts of a certain post
 		 * type from being saved to the indexable table.
 		 *
-		 * @api array $excluded_post_types The currently excluded post types that indexables will not be created for.
+		 * @param array $excluded_post_types The currently excluded post types that indexables will not be created for.
 		 */
 		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [] );
 
@@ -176,7 +176,7 @@ class Post_Type_Helper {
 		 * Filter: 'wpseo_indexable_forced_included_post_types' - Allows force including posts of a certain post
 		 * type to be saved to the indexable table.
 		 *
-		 * @api array $included_post_types The currently included post types that indexables will be created for.
+		 * @param array $included_post_types The currently included post types that indexables will be created for.
 		 */
 		$filtered_included_post_types = \apply_filters( 'wpseo_indexable_forced_included_post_types', $included_post_types );
 

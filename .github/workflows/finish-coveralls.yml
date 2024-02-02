@@ -1,0 +1,109 @@
+name: Finish Coveralls build
+on:
+  push:
+    branches:
+      - main
+      - trunk
+      - "release/**"
+      - "hotfix/[0-9]+.[0-9]+*"
+      - "feature/**"
+    paths:
+      # From test.yml
+      - '**.php' # Includes config/*.php and lib/*.php files.
+      - '**.xsl'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpunit.xml.dist'
+      - 'phpunit-wp.xml.dist'
+      - 'wpml-config.xml'
+      - '.github/workflows/test.yml'
+      - 'config/scripts/install-wp-tests.sh'
+      - 'tests/**'
+      # From jstest.yml
+      - '**.js' # Includes Gruntfile.js.
+      - '.browserslistrc'
+      - '.eslintignore'
+      - '.eslintrc'
+      - '.nvmrc'
+      - '.yarnrc'
+      - 'lerna.json'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.github/workflows/jstest.yml'
+      - '.yarn/**'
+      - 'apps/**'
+      - 'config/grunt/**'
+      - 'packages/**'
+  pull_request:
+    paths:
+      # From test.yml
+      - '**.php' # Includes config/*.php and lib/*.php files.
+      - '**.xsl'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpunit.xml.dist'
+      - 'phpunit-wp.xml.dist'
+      - 'wpml-config.xml'
+      - '.github/workflows/test.yml'
+      - 'config/scripts/install-wp-tests.sh'
+      - 'tests/**'
+      # From jstest.yml
+      - '**.js' # Includes Gruntfile.js.
+      - '.browserslistrc'
+      - '.eslintignore'
+      - '.eslintrc'
+      - '.nvmrc'
+      - '.yarnrc'
+      - 'lerna.json'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.github/workflows/jstest.yml'
+      - '.yarn/**'
+      - 'apps/**'
+      - 'config/grunt/**'
+      - 'packages/**'
+
+# Don't run a second workflow for the same PR or commit if one is already running.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  finish_coveralls_build:
+    name: "Finish coveralls build"
+    runs-on: ubuntu-latest
+    steps:
+
+      # Wait for the PHP and JS tests to start.
+      - name: Sleep for 30 seconds
+        run: sleep 30s
+        shell: bash
+
+      # Wait for the PHP and JS tests to finish.
+      # NOTE: The ref value should be different when triggered by pull_request event.
+      #       See: https://github.com/lewagon/wait-on-check-action/issues/25.
+      - name: "Wait on tests (PR)"
+        uses: lewagon/wait-on-check-action@595dabb3acf442d47e29c9ec9ba44db0c6bdd18f # lewagon/wait-on-check-action@v1.3.3
+        if: github.event_name == 'pull_request'
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          check-regexp: Test|TestJS
+
+      - name: "Wait on tests (push)"
+        if: github.event_name != 'pull_request'
+        uses: lewagon/wait-on-check-action@595dabb3acf442d47e29c9ec9ba44db0c6bdd18f # lewagon/wait-on-check-action@v1.3.3
+        with:
+          ref: ${{ github.sha }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          check-regexp: Test|TestJS
+
+      - name: "Coveralls Finished"
+        uses: coverallsapp/github-action@v2
+        env:
+          COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
+        with:
+          github-token: ${{ secrets.COVERALLS_TOKEN }}
+          carryforward: "unit-php-7.2,unit-php-8.3,php-7.2-wp-6.3,php-7.2-wp-6.3-ms,php-8.3-wp-trunk,php-8.3-wp-trunk-ms,package-analysis-report,package-browserslist-config,package-components,package-feature-flag,package-helpers,package-js,package-replacement-variable-editor,package-search-metadata-previews,package-social-metadata-forms,package-social-metadata-previews,package-yoast-components,package-yoastseo"
+          parallel-finished: true

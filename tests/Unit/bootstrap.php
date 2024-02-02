@@ -20,7 +20,7 @@ $GLOBALS['wp_version'] = '1.0';
 \define( 'WPSEO_VERSION', '1.0' );
 
 if ( ! \defined( 'WPSEO_PATH' ) ) {
-	\define( 'WPSEO_PATH', \dirname( \dirname( __DIR__ ) ) . '/' );
+	\define( 'WPSEO_PATH', \dirname( __DIR__, 2 ) . '/' );
 }
 
 if ( ! \defined( 'WPSEO_FILE' ) ) {
@@ -40,8 +40,8 @@ if ( ! \defined( 'WPSEO_BASENAME' ) ) {
 \define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 \define( 'YOAST_SEO_PHP_REQUIRED', '7.2.5' );
-\define( 'YOAST_SEO_WP_TESTED', '6.4.1' );
-\define( 'YOAST_SEO_WP_REQUIRED', '6.2' );
+\define( 'YOAST_SEO_WP_TESTED', '6.4.2' );
+\define( 'YOAST_SEO_WP_REQUIRED', '6.3' );
 
 if ( ! \defined( 'WPSEO_NAMESPACES' ) ) {
 	\define( 'WPSEO_NAMESPACES', true );

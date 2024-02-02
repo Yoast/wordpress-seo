@@ -29,7 +29,8 @@ class Schema_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_json_ld_output' - Allows disabling Yoast's schema output entirely.
 		 *
-		 * @api mixed If false or an empty array is returned, disable our output.
+		 * @param mixed  $deprecated If false or an empty array is returned, disable our output.
+		 * @param string $empty
 		 */
 		$return = \apply_filters( 'wpseo_json_ld_output', $deprecated_data, '' );
 		if ( $return === [] || $return === false ) {

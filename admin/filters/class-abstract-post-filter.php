@@ -15,7 +15,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 *
 	 * @var string
 	 */
-	const FILTER_QUERY_ARG = 'yoast_filter';
+	public const FILTER_QUERY_ARG = 'yoast_filter';
 
 	/**
 	 * Modify the query based on the FILTER_QUERY_ARG variable in $_GET.
@@ -49,6 +49,8 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 
 	/**
 	 * Registers the hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_action( 'admin_init', [ $this, 'add_filter_links' ], 11 );
@@ -94,11 +96,11 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	/**
 	 * Adds a filter link to the views.
 	 *
-	 * @param array $views Array with the views.
+	 * @param array<string, string> $views Array with the views.
 	 *
-	 * @return array Array of views including the added view.
+	 * @return array<string, string> Array of views including the added view.
 	 */
-	public function add_filter_link( array $views ) {
+	public function add_filter_link( $views ) {
 		$views[ 'yoast_' . $this->get_query_val() ] = sprintf(
 			'<a href="%1$s"%2$s>%3$s</a> (%4$s)',
 			esc_url( $this->get_filter_url() ),

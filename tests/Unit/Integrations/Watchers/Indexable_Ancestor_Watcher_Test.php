@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey\Functions;
 use Mockery;
-use wpdb;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
@@ -24,7 +23,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Ancestor_Watcher
  */
-class Indexable_Ancestor_Watcher_Test extends TestCase {
+final class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the indexable repository.
@@ -62,13 +61,6 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	protected $indexable_hierarchy_repository;
 
 	/**
-	 * WordPress database mock.
-	 *
-	 * @var Mockery\MockInterface|wpdb
-	 */
-	protected $wpdb;
-
-	/**
 	 * Represents the permalink helper.
 	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Permalink_Helper
@@ -84,6 +76,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -91,7 +85,6 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->indexable_repository           = Mockery::mock( Indexable_Repository::class );
 		$this->indexable_hierarchy_builder    = Mockery::mock( Indexable_Hierarchy_Builder::class );
 		$this->indexable_hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
-		$this->wpdb                           = Mockery::mock( wpdb::class );
 		$this->permalink_helper               = Mockery::mock( Permalink_Helper::class );
 		$this->post_type_helper               = Mockery::mock( Post_Type_Helper::class );
 
@@ -99,7 +92,6 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 			$this->indexable_repository,
 			$this->indexable_hierarchy_builder,
 			$this->indexable_hierarchy_repository,
-			$this->wpdb,
 			$this->permalink_helper,
 			$this->post_type_helper
 		);
@@ -109,6 +101,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Tests the clear ancestors method when the object type is not a post or term.
 	 *
 	 * @covers ::reset_children
+	 *
+	 * @return void
 	 */
 	public function test_reset_children_for_non_allowed_object_type() {
 		$indexable        = Mockery::mock( Indexable_Mock::class );
@@ -123,6 +117,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Tests the clear ancestors method having the permalink not changed.
 	 *
 	 * @covers ::reset_children
+	 *
+	 * @return void
 	 */
 	public function test_reset_children_for_non_changed_permalink() {
 		$indexable        = Mockery::mock( Indexable_Mock::class );
@@ -140,6 +136,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Tests if the dependencies are set as expected.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -160,6 +158,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -172,6 +172,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -184,6 +186,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::reset_children
 	 * @covers ::update_hierarchy_and_permalink
+	 *
+	 * @return void
 	 */
 	public function test_reset_children() {
 		$indexable        = Mockery::mock( Indexable_Mock::class );
@@ -225,6 +229,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::reset_children
 	 * @covers ::update_hierarchy_and_permalink
+	 *
+	 * @return void
 	 */
 	public function test_reset_children_for_term() {
 		$indexable        = Mockery::mock( Indexable_Mock::class );
@@ -310,6 +316,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::get_children_for_term
 	 * @covers ::get_object_ids_for_term
+	 *
+	 * @return void
 	 */
 	public function test_get_children_for_term() {
 		$indexable_1              = Mockery::mock( Indexable_Mock::class );
@@ -384,33 +392,39 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Sets the expectations for the get_object_ids_for term method.
 	 *
 	 * @param int ...$object_ids The object ids.
+	 *
+	 * @return void
 	 */
 	private function set_expectations_for_get_object_ids_for_term( ...$object_ids ) {
-		$this->wpdb->term_taxonomy      = 'wp_term_taxonomy';
-		$this->wpdb->term_relationships = 'wp_term_relationships';
+		global $wpdb;
+		$wpdb                     = Mockery::mock( wpdb::class );
+		$wpdb->term_taxonomy      = 'wp_term_taxonomy';
+		$wpdb->term_relationships = 'wp_term_relationships';
 
-		$this->wpdb->expects( 'prepare' )
+		$wpdb->expects( 'prepare' )
 			->with(
 				'SELECT term_taxonomy_id
-				FROM wp_term_taxonomy
+				FROM %i
 				WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, ( \count( $object_ids ) ), '%s' ) ) . ' )',
+				$wpdb->term_taxonomy,
 				...$object_ids
 			);
 
-		$this->wpdb->expects( 'get_col' )
+		$wpdb->expects( 'get_col' )
 			->andReturn( [ 321, 322, 323 ] );
 
-		$this->wpdb->expects( 'prepare' )
+		$wpdb->expects( 'prepare' )
 			->with(
 				'SELECT DISTINCT object_id
-				FROM wp_term_relationships
+				FROM %i
 				WHERE term_taxonomy_id IN( %s, %s, %s )',
+				$wpdb->term_relationships,
 				321,
 				322,
 				323
 			);
 
-		$this->wpdb->expects( 'get_col' )
+		$wpdb->expects( 'get_col' )
 			->andReturn( [ 431, 23, 21 ] );
 	}
 
@@ -418,6 +432,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Sets the expectations for the update_hierarchy_and_permalink method.
 	 *
 	 * @param Indexable_Mock ...$indexables The indexables.
+	 *
+	 * @return void
 	 */
 	private function set_expectations_for_update_hierarchy_and_permalink( ...$indexables ) {
 		foreach ( $indexables as $indexable ) {

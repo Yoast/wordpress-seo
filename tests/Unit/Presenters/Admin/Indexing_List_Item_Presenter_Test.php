@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @covers \Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter
  */
-class Indexing_List_Item_Presenter_Test extends TestCase {
+final class Indexing_List_Item_Presenter_Test extends TestCase {
 
 	/**
 	 * The short link helper.
@@ -24,6 +24,8 @@ class Indexing_List_Item_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -38,6 +40,8 @@ class Indexing_List_Item_Presenter_Test extends TestCase {
 	 * Tests the present method.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->short_link_helper

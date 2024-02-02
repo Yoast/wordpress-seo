@@ -114,6 +114,8 @@ class Force_Rewrite_Title implements Integration_Interface {
 
 	/**
 	 * Starts the output buffer so it can later be fixed by flush_cache().
+	 *
+	 * @return void
 	 */
 	public function force_rewrite_output_buffer() {
 		$this->ob_started = true;
@@ -159,6 +161,8 @@ class Force_Rewrite_Title implements Integration_Interface {
 	 * Starts the output buffering.
 	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	protected function start_output_buffering() {
 		\ob_start();

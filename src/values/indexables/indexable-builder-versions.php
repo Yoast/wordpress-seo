@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\Values\Indexables;
  */
 class Indexable_Builder_Versions {
 
-	const DEFAULT_INDEXABLE_BUILDER_VERSION = 1;
+	public const DEFAULT_INDEXABLE_BUILDER_VERSION = 1;
 
 	/**
 	 * The list of indexable builder versions defined by Yoast SEO Free.

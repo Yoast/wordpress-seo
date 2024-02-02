@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group woocommerce
  */
-class WooCommerce_Permalinks_Test extends TestCase {
+final class WooCommerce_Permalinks_Test extends TestCase {
 
 	/**
 	 * The test instance.
@@ -37,6 +37,8 @@ class WooCommerce_Permalinks_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -49,9 +51,11 @@ class WooCommerce_Permalinks_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[ WooCommerce_Conditional::class, Migrations_Conditional::class ],
 			Woocommerce_Permalinks::get_conditionals()
 		);
@@ -61,9 +65,11 @@ class WooCommerce_Permalinks_Test extends TestCase {
 	 * Tests if the constructor sets the right properties.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Indexable_Helper::class,
 			$this->getPropertyValue( $this->instance, 'indexable_helper' )
 		);
@@ -73,18 +79,22 @@ class WooCommerce_Permalinks_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		static::assertNotFalse( Monkey\Filters\has( 'wpseo_post_types_reset_permalinks', [ $this->instance, 'filter_product_from_post_types' ] ) );
-		static::assertNotFalse( Monkey\Actions\has( 'update_option_woocommerce_permalinks', [ $this->instance, 'reset_woocommerce_permalinks' ] ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'wpseo_post_types_reset_permalinks', [ $this->instance, 'filter_product_from_post_types' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'update_option_woocommerce_permalinks', [ $this->instance, 'reset_woocommerce_permalinks' ] ) );
 	}
 
 	/**
 	 * Filters the product from the post types.
 	 *
 	 * @covers ::filter_product_from_post_types
+	 *
+	 * @return void
 	 */
 	public function test_filter_product_from_post_types() {
 		$this->assertEquals(
@@ -106,6 +116,8 @@ class WooCommerce_Permalinks_Test extends TestCase {
 	 * Tests resetting the product on product_base change.
 	 *
 	 * @covers ::reset_woocommerce_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_reset_woocommerce_permalinks_product_base() {
 		$this->indexable_helper
@@ -127,6 +139,8 @@ class WooCommerce_Permalinks_Test extends TestCase {
 	 * Tests resetting the product on product_base change.
 	 *
 	 * @covers ::reset_woocommerce_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_reset_woocommerce_permalinks_attribute_base() {
 		$this->indexable_helper
@@ -161,6 +175,8 @@ class WooCommerce_Permalinks_Test extends TestCase {
 	 * Tests resetting the product on product_base change.
 	 *
 	 * @covers ::reset_woocommerce_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_reset_woocommerce_permalinks_terms_base() {
 		$this->indexable_helper

@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class Crawl_Cleanup_Rss_Test extends TestCase {
+final class Crawl_Cleanup_Rss_Test extends TestCase {
 
 	/**
 	 * Options helper.
@@ -35,6 +35,8 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -47,6 +49,8 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -59,6 +63,8 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->options_helper
@@ -83,6 +89,8 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	 * @param array $types          Flags identifying the type of feed.
 	 * @param array $options        Values set for the different options.
 	 * @param int   $expected_times Number of times (0 or 1) the removal of the feed function is expected.
+	 *
+	 * @return void
 	 */
 	public function test_maybe_disable_feeds( $types, $options, $expected_times ) {
 
@@ -111,7 +119,7 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	 *
 	 * @return array[]
 	 */
-	public function maybe_disable_feeds_dataprovider() {
+	public static function maybe_disable_feeds_dataprovider() {
 		return [
 			'singular, feed enabled' => [
 				'types'           => [

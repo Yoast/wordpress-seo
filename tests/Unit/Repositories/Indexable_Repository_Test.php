@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group repositories
  */
-class Indexable_Repository_Test extends TestCase {
+final class Indexable_Repository_Test extends TestCase {
 
 	/**
 	 * Represents the indexable builder.
@@ -76,6 +76,8 @@ class Indexable_Repository_Test extends TestCase {
 
 	/**
 	 * Setup the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -103,6 +105,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * Tests retrieval of ancestors with nothing found.
 	 *
 	 * @covers ::get_ancestors
+	 *
+	 * @return void
 	 */
 	public function test_get_ancestors_no_ancestors_found() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -120,6 +124,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * Tests retrieval of ancestors with one ancestor with no ancestor id found.
 	 *
 	 * @covers ::get_ancestors
+	 *
+	 * @return void
 	 */
 	public function test_get_ancestors_one_ancestor_that_has_no_ancestor_id_found() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -141,6 +147,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * Tests retrieval of ancestors with one found ancestor.
 	 *
 	 * @covers ::get_ancestors
+	 *
+	 * @return void
 	 */
 	public function test_get_ancestors_one_ancestor_that_has_ancestor_id_found() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -166,6 +174,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * Tests retrieval of ancestors with multiple ancestors found.
 	 *
 	 * @covers ::get_ancestors
+	 *
+	 * @return void
 	 */
 	public function test_get_ancestors_with_multiple_ancestors() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -192,6 +202,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * that the permalink of each ancestor is available.
 	 *
 	 * @covers ::get_ancestors
+	 *
+	 * @return void
 	 */
 	public function test_get_ancestors_checks_version() {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
@@ -222,6 +234,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * Tests that ensure permalink does not save when the permalink is still null.
 	 *
 	 * @covers ::get_ancestors
+	 *
+	 * @return void
 	 */
 	public function test_get_ancestors_ensures_permalink_no_save() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -249,6 +263,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * that the permalink of each ancestor is available when there is only one ancestor.
 	 *
 	 * @covers ::get_ancestors
+	 *
+	 * @return void
 	 */
 	public function test_get_ancestors_one_ancestor_ensures_permalink() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -307,6 +323,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * represents the Indexable.
 	 *
 	 * @covers ::query
+	 *
+	 * @return void
 	 */
 	public function test_query() {
 		$wpdb         = Mockery::mock( wpdb::class );
@@ -324,6 +342,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * Tests retrieval of the child indexables with no children found for indexable.
 	 *
 	 * @covers ::find_by_ids
+	 *
+	 * @return void
 	 */
 	public function test_find_by_ids() {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
@@ -357,6 +377,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * Tests if the reset_permalink method fires when no type and subtype are passed.
 	 *
 	 * @covers ::reset_permalink
+	 *
+	 * @return void
 	 */
 	public function test_reset_permalink() {
 		$orm_object = Mockery::mock( ORM::class );
@@ -389,6 +411,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * Tests if the reset_permalink method fires when type and subtype are passed.
 	 *
 	 * @covers ::reset_permalink
+	 *
+	 * @return void
 	 */
 	public function test_reset_permalink_with_args() {
 		$orm_object = Mockery::mock( ORM::class );
@@ -431,6 +455,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * Tests if the reset_permalink method fires when no type is passed, but a subtype is.
 	 *
 	 * @covers ::reset_permalink
+	 *
+	 * @return void
 	 */
 	public function test_reset_permalink_with_invalid_args() {
 		$orm_object = Mockery::mock( ORM::class );
@@ -467,6 +493,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * Tests if ensure_permalink sets the permalink to 'unindexed' when the post_status is 'unindexed'.
 	 *
 	 * @covers ::upgrade_indexable
+	 *
+	 * @return void
 	 */
 	public function test_permalink_set_to_unindexed_ensure_permalink() {
 		/**
@@ -489,6 +517,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * Test that the indexable is rebuilt if the version check says so.
 	 *
 	 * @covers ::upgrade_indexable
+	 *
+	 * @return void
 	 */
 	public function test_rebuild_indexable_if_outdated() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -502,6 +532,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * Test that the indexable is not rebuilt if the version check says not to.
 	 *
 	 * @covers ::upgrade_indexable
+	 *
+	 * @return void
 	 */
 	public function test_do_not_rebuild_indexable_if_up_to_date() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -517,6 +549,8 @@ class Indexable_Repository_Test extends TestCase {
 	 * @param Indexable      $indexable        The mocked indexable.
 	 * @param Indexable|null $indexable_result The mocked indexable after the upgrade routine is run.
 	 *                                         If not provided, or set to `null`, we expect the upgrade routine to not be triggered.
+	 *
+	 * @return void
 	 */
 	private function mock_version_check( $indexable, $indexable_result = null ) {
 		$this->version_manager

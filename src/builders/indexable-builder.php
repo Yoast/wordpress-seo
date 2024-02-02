@@ -157,6 +157,8 @@ class Indexable_Builder {
 	 * @required
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 *
+	 * @return void
 	 */
 	public function set_indexable_repository( Indexable_Repository $indexable_repository ) {
 		$this->indexable_repository = $indexable_repository;
@@ -282,9 +284,8 @@ class Indexable_Builder {
 		 * the intended action may cause problems when moving from a staging to a
 		 * production environment because indexable permalinks may get set incorrectly.
 		 *
-		 * @param Indexable $indexable The indexable to be saved.
-		 *
-		 * @api bool $intend_to_save True if YoastSEO intends to save the indexable.
+		 * @param bool      $intend_to_save True if YoastSEO intends to save the indexable.
+		 * @param Indexable $indexable      The indexable to be saved.
 		 */
 		$intend_to_save = \apply_filters( 'wpseo_should_save_indexable', $intend_to_save, $indexable );
 
@@ -300,9 +301,8 @@ class Indexable_Builder {
 			 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
 			 * when the indexable is updated.
 			 *
+			 * @param Indexable $indexable        The saved indexable.
 			 * @param Indexable $indexable_before The indexable before saving.
-			 *
-			 * @api Indexable $indexable The saved indexable.
 			 */
 			\do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
 		}

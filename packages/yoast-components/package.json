@@ -25,11 +25,9 @@
     },
     "unmockedModulePathPatterns": [
       "react",
-      "enzyme",
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/react-dom",
       "<rootDir>/node_modules/react-addons-test-utils",
-      "<rootDir>/node_modules/enzyme",
       "<rootDir>/node_modules/recompose",
       "<rootDir>/node_modules/lodash"
     ],
@@ -45,9 +43,6 @@
       "!a11y/examples/example.js",
       "!utils/helpers/*.js",
       "!coverage/**/*.js"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
     ],
     "transform": {
       "^.+\\.jsx?$": "babel-jest"

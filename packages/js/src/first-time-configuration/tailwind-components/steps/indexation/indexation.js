@@ -1,5 +1,5 @@
 /* global yoastIndexingData */
-import { Component, Fragment } from "@wordpress/element";
+import { Component, flushSync, Fragment } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
@@ -139,19 +139,23 @@ class Indexation extends Component {
 				const response = await this.doIndexingRequest( url, this.settings.restApi.nonce );
 				await this.doPostIndexingAction( endpoint, response );
 
-				this.setState( previousState => (
-					{
-						processed: previousState.processed + response.objects.length,
-						firstTime: false,
-					}
-				) );
+				flushSync( () => {
+					this.setState( previousState => (
+						{
+							processed: previousState.processed + response.objects.length,
+							firstTime: false,
+						}
+					) );
+				} );
 
 				url = response.next_url;
 			} catch ( error ) {
-				this.setState( {
-					state: STATE.ERRORED,
-					error: error,
-					firstTime: false,
+				flushSync( () => {
+					this.setState( {
+						state: STATE.ERRORED,
+						error: error,
+						firstTime: false,
+					} );
 				} );
 			}
 		}

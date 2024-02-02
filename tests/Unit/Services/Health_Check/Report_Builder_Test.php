@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Report_Builder
  */
-class Report_Builder_Test extends TestCase {
+final class Report_Builder_Test extends TestCase {
 
 	/**
 	 * The Report_Builder instance to be tested.
@@ -22,6 +22,8 @@ class Report_Builder_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ class Report_Builder_Test extends TestCase {
 	 *
 	 * @covers ::set_label
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_sets_label_correctly() {
 		$this->stub_plugin_dir_url();
@@ -56,6 +60,8 @@ class Report_Builder_Test extends TestCase {
 	 *
 	 * @covers ::set_test_identifier
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_sets_test_identifier_correctly() {
 		$this->stub_plugin_dir_url();
@@ -77,6 +83,8 @@ class Report_Builder_Test extends TestCase {
 	 * @covers ::get_badge
 	 * @covers ::get_badge_color
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_sets_status_good() {
 		$this->stub_plugin_dir_url();
@@ -101,6 +109,8 @@ class Report_Builder_Test extends TestCase {
 	 * @covers ::get_badge
 	 * @covers ::get_badge_color
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_sets_status_recommended() {
 		$this->stub_plugin_dir_url();
@@ -125,6 +135,8 @@ class Report_Builder_Test extends TestCase {
 	 * @covers ::get_badge
 	 * @covers ::get_badge_color
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_sets_status_critical() {
 		$this->stub_plugin_dir_url();
@@ -147,6 +159,8 @@ class Report_Builder_Test extends TestCase {
 	 *
 	 * @covers ::set_description
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_sets_description_correctly() {
 		$this->stub_plugin_dir_url();
@@ -168,6 +182,8 @@ class Report_Builder_Test extends TestCase {
 	 * @covers ::get_actions_with_signature
 	 * @covers ::get_signature
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_sets_actions_correctly() {
 		$this->stub_plugin_dir_url();
@@ -189,6 +205,8 @@ class Report_Builder_Test extends TestCase {
 	 * @covers ::get_badge_label
 	 * @covers ::get_badge_color
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_always_has_badge() {
 		$this->stub_plugin_dir_url();

@@ -15,12 +15,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Abstract_Indexable_Presenter_Test extends TestCase {
+final class Abstract_Indexable_Presenter_Test extends TestCase {
 
 	/**
 	 * Tests the outputting of the value.
 	 *
 	 * @covers ::replace_vars
+	 *
+	 * @return void
 	 */
 	public function test_replace_vars() {
 		$replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );

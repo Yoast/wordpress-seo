@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  * @group sitemaps
  * @coversDefaultClass WPSEO_Taxonomy_Sitemap_Provider
  */
-class Taxonomy_Sitemap_Provider_Test extends TestCase {
+final class Taxonomy_Sitemap_Provider_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -23,6 +23,8 @@ class Taxonomy_Sitemap_Provider_Test extends TestCase {
 
 	/**
 	 * Set up our double class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -34,6 +36,8 @@ class Taxonomy_Sitemap_Provider_Test extends TestCase {
 	 * Tests the retrieval of the index links.
 	 *
 	 * @covers ::get_index_links
+	 *
+	 * @return void
 	 */
 	public function test_get_index_links() {
 
@@ -60,6 +64,8 @@ class Taxonomy_Sitemap_Provider_Test extends TestCase {
 	 * Tests retrieval of the sitemap links.
 	 *
 	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_get_sitemap_links() {
 
@@ -74,6 +80,8 @@ class Taxonomy_Sitemap_Provider_Test extends TestCase {
 	 * Makes sure invalid sitemap pages return no contents (404).
 	 *
 	 * @covers ::get_index_links
+	 *
+	 * @return void
 	 */
 	public function test_get_index_links_empty_sitemap() {
 		// Fetch the global sitemap.
@@ -95,7 +103,7 @@ class Taxonomy_Sitemap_Provider_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_is_valis_taxonomy() {
+	public static function data_provider_is_valis_taxonomy() {
 		return [
 			'Pattern Categories' => [
 				'taxonomy' => 'wp_pattern_category',
@@ -125,6 +133,8 @@ class Taxonomy_Sitemap_Provider_Test extends TestCase {
 	 *
 	 * @param string $taxonomy Taxonomy name.
 	 * @param bool   $expected Expected result.
+	 *
+	 * @return void
 	 */
 	public function test_is_valid_taxonomy( $taxonomy, $expected ) {
 		$this->assertSame( $expected, self::$class_instance->is_valid_taxonomy( $taxonomy ) );

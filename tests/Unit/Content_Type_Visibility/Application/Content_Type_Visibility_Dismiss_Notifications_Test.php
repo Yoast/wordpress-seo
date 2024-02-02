@@ -2,12 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Content_Type_Visibility\Application;
 
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast_Notification_Center;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Content_Type_Visibility_Dismiss_Notifications_Test
@@ -16,7 +15,7 @@ use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dis
  *
  * @coversDefaultClass \Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications
  */
-class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
+final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 
 	/**
 	 * Holds the Options_Helper instance.
@@ -34,6 +33,8 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 
 	/**
 	 * Set up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -48,6 +49,8 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -122,12 +125,12 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_maybe_dismiss_notifications
 	 *
-	 * @param array $new_post_types The new post types.
-	 * @param array $new_taxonomies The new taxonomies.
+	 * @param array $new_post_types              The new post types.
+	 * @param array $new_taxonomies              The new taxonomies.
 	 * @param int   $dismiss_notifications_times The number of times the dismiss_notifications method should be called.
-	 * @param array $new_content_type The new content type.
-	 * @param int   $get_new_post_types_times The number of times the get method should be called.
-	 * @param int   $get_new_taxonomies_times The number of times the get method should be called.
+	 * @param array $new_content_type            The new content type.
+	 * @param int   $get_new_post_types_times    The number of times the get method should be called.
+	 * @param int   $get_new_taxonomies_times    The number of times the get method should be called.
 	 * @return void
 	 */
 	public function test_maybe_dismiss_notifications( $new_post_types, $new_taxonomies, $dismiss_notifications_times, $new_content_type, $get_new_post_types_times, $get_new_taxonomies_times ) {
@@ -153,6 +156,8 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 * Tests the dismiss_notifications method.
 	 *
 	 * @covers ::dismiss_notifications
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_notifications() {
 
@@ -181,11 +186,11 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 			->andReturn( 0 );
 	}
 
-		/**
-		 * Data provider for maybe_add_settings_notification.
-		 *
-		 * @return array
-		 */
+	/**
+	 * Data provider for maybe_add_settings_notification.
+	 *
+	 * @return array
+	 */
 	public static function data_provider_maybe_add_settings_notification() {
 		return [
 			'Show notification and reset' => [
@@ -208,6 +213,8 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 *
 	 * @param bool $show_new_content_type_notification Shouls show notification.
 	 * @param int  $reset_notification                 The reset notification times.
+	 *
+	 * @return void
 	 */
 	public function test_maybe_add_settings_notification( $show_new_content_type_notification, $reset_notification ) {
 
@@ -229,6 +236,8 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 * Tests the post_type_dismiss method.
 	 *
 	 * @covers ::post_type_dismiss
+	 *
+	 * @return void
 	 */
 	public function test_post_type_dismiss_not_new() {
 
@@ -252,6 +261,8 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 * Tests the post_type_dismiss method.
 	 *
 	 * @covers ::post_type_dismiss
+	 *
+	 * @return void
 	 */
 	public function test_post_type_dismiss_with_new_success() {
 
@@ -286,6 +297,8 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 * Tests the post_type_dismiss method.
 	 *
 	 * @covers ::post_type_dismiss
+	 *
+	 * @return void
 	 */
 	public function test_post_type_dismiss_with_new_fail() {
 
@@ -310,11 +323,13 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 		$this->assertSame( $expected, $response );
 	}
 
-		/**
-		 * Tests the taxonomy_dismiss method.
-		 *
-		 * @covers ::post_type_dismiss
-		 */
+	/**
+	 * Tests the taxonomy_dismiss method.
+	 *
+	 * @covers ::post_type_dismiss
+	 *
+	 * @return void
+	 */
 	public function test_taxonomy_dismiss_not_new() {
 
 		$this->options
@@ -337,6 +352,8 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 * Tests the taxonomy_dismiss method.
 	 *
 	 * @covers ::taxonomy_dismiss
+	 *
+	 * @return void
 	 */
 	public function test_taxonomy_dismiss_with_new_success() {
 
@@ -371,6 +388,8 @@ class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase {
 	 * Tests the taxonomy_dismiss method.
 	 *
 	 * @covers ::taxonomy_dismiss
+	 *
+	 * @return void
 	 */
 	public function test_taxonomy_dismiss_with_new_fail() {
 

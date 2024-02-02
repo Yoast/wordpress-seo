@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Post_Helper
  */
-class Post_Helper_Test extends TestCase {
+final class Post_Helper_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -41,6 +41,8 @@ class Post_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -56,6 +58,8 @@ class Post_Helper_Test extends TestCase {
 	 * Tests the get_post_title_with_fallback method when the post has a title.
 	 *
 	 * @covers ::get_post_title_with_fallback
+	 *
+	 * @return void
 	 */
 	public function test_get_post_title_with_fallback() {
 		Monkey\Functions\expect( 'get_the_title' )
@@ -72,6 +76,8 @@ class Post_Helper_Test extends TestCase {
 	 * Tests the get_post_title_with_fallback method when the post has an empty title.
 	 *
 	 * @covers ::get_post_title_with_fallback
+	 *
+	 * @return void
 	 */
 	public function test_get_post_title_with_fallback_no_title() {
 		Monkey\Functions\expect( 'get_the_title' )

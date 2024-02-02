@@ -7,7 +7,7 @@ use WPSEO_Meta_Columns;
 /**
  * Test Helper Class.
  */
-class Meta_Columns_Double extends WPSEO_Meta_Columns {
+final class Meta_Columns_Double extends WPSEO_Meta_Columns {
 
 	/**
 	 * The current post type.
@@ -65,6 +65,8 @@ class Meta_Columns_Double extends WPSEO_Meta_Columns {
 	 * Sets the current post type.
 	 *
 	 * @param string|null $post_type The post type.
+	 *
+	 * @return void
 	 */
 	public function set_current_post_type( $post_type ) {
 		$this->current_post_type = $post_type;
@@ -72,6 +74,8 @@ class Meta_Columns_Double extends WPSEO_Meta_Columns {
 
 	/**
 	 * Gets the current post type.
+	 *
+	 * @return string
 	 */
 	public function get_current_post_type() {
 		if ( ! \is_null( $this->current_post_type ) ) {

@@ -7,7 +7,7 @@ use WPSEO_Import_AIOSEO_V4;
 /**
  * Double for the WPSEO_Import_AIOSEO_V4 class, to be able to test its protected methods.
  */
-class Import_AIOSEO_V4_Double extends WPSEO_Import_AIOSEO_V4 {
+final class Import_AIOSEO_V4_Double extends WPSEO_Import_AIOSEO_V4 {
 
 	/**
 	 * Replaces the AiOSEO variables in our temporary table with Yoast variables (replace vars).

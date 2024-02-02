@@ -2,7 +2,7 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, ArrowNarrowRightIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
-import { useCallback, useMemo } from "@wordpress/element";
+import { createInterpolateElement, useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, ChildrenLimiter, ErrorBoundary, Paper, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
@@ -10,6 +10,7 @@ import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { getPremiumBenefits } from "../helpers/get-premium-benefits";
 import { ErrorFallback, Notifications, Search, SidebarNavigation, SidebarRecommendations, YoastLogo } from "./components";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
@@ -47,6 +48,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			<div className="yst-relative">
 				<hr className="yst-absolute yst-inset-x-0 yst-top-1/2 yst-bg-slate-200" />
 				<button
+					type="button"
 					className="yst-relative yst-flex yst-items-center yst-gap-1.5 yst-px-2.5 yst-py-1 yst-mx-auto yst-text-xs yst-font-medium yst-text-slate-700 yst-bg-slate-50 yst-rounded-full yst-border yst-border-slate-300 hover:yst-bg-white hover:yst-text-slate-800 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-ring-offset-2"
 					onClick={ toggle }
 					{ ...ariaProps }
@@ -180,34 +182,11 @@ const PremiumUpsellList = () => {
 					) }
 				</Title>
 				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-pl-[1em] yst-list-outside yst-text-slate-800 yst-mt-6">
-					<li>
-						<span className="yst-font-semibold">{ __( "Use AI", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "Quickly create titles & meta descriptions", "wordpress-seo" ) }
-					</li>
-					<li>
-						<span className="yst-font-semibold">{ __( "No more dead links", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "Easy redirect manager", "wordpress-seo" ) }
-					</li>
-					<li><span className="yst-font-semibold">{ __( "Superfast internal linking suggestions", "wordpress-seo" ) }</span></li>
-					<li>
-						<span className="yst-font-semibold">{ __( "Social media preview", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "Facebook & Twitter", "wordpress-seo" ) }
-					</li>
-					<li>
-						<span className="yst-font-semibold">{ __( "Multiple keyphrases", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "Increase your SEO reach", "wordpress-seo" ) }
-					</li>
-					<li>
-						<span className="yst-font-semibold">{ __( "SEO Workouts", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "Get guided in routine SEO tasks", "wordpress-seo" ) }
-					</li>
-					<li><span className="yst-font-semibold">{ __( "24/7 email support", "wordpress-seo" ) }</span></li>
-					<li><span className="yst-font-semibold">{ __( "No ads!", "wordpress-seo" ) }</span></li>
+					{ getPremiumBenefits().map( ( benefit, index ) => (
+						<li key={ `upsell-benefit-${ index }` }>
+							{ createInterpolateElement( benefit, { strong: <span className="yst-font-semibold" /> } ) }
+						</li>
+					) ) }
 				</ul>
 				<Button
 					as="a"
@@ -221,7 +200,7 @@ const PremiumUpsellList = () => {
 				>
 					{ isBlackFriday ? __( "Claim your 30% off now!", "wordpress-seo" ) : sprintf(
 					/* translators: %s expands to "Yoast SEO" Premium */
-						__( "Get %s", "wordpress-seo" ),
+						__( "Explore %s now!", "wordpress-seo" ),
 						"Yoast SEO Premium"
 					) }
 					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />

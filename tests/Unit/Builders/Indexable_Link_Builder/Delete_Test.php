@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder;
 
+use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
@@ -14,12 +15,14 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  */
-class Delete_Test extends Abstract_Indexable_Link_Builder_TestCase {
+final class Delete_Test extends Abstract_Indexable_Link_Builder_TestCase {
 
 	/**
 	 * Tests the delete method.
 	 *
 	 * @covers ::delete
+	 *
+	 * @return void
 	 */
 	public function test_delete() {
 		$indexable     = Mockery::mock( Indexable_Mock::class );
@@ -44,6 +47,8 @@ class Delete_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @covers ::update_incoming_links_for_related_indexables
 	 * @covers ::delete
+	 *
+	 * @return void
 	 */
 	public function test_delete_and_update_incoming_links_for_related_indexables() {
 		$indexable                     = Mockery::mock( Indexable_Mock::class );
@@ -79,6 +84,9 @@ class Delete_Test extends Abstract_Indexable_Link_Builder_TestCase {
 			->expects( 'update_incoming_link_count' )
 			->with( 3, 7 )
 			->once();
+
+		Functions\expect( 'wp_cache_supports' )->once()->andReturnTrue();
+		Functions\expect( 'wp_cache_flush_group' )->once()->andReturnTrue();
 
 		$this->instance->delete( $indexable );
 	}

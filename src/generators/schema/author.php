@@ -82,7 +82,7 @@ class Author extends Person {
 		/**
 		 * Filter: 'wpseo_schema_person_user_id' - Allows filtering of user ID used for person output.
 		 *
-		 * @api int|bool $user_id The user ID currently determined.
+		 * @param int|bool $user_id The user ID currently determined.
 		 */
 		$user_id = \apply_filters( 'wpseo_schema_person_user_id', $user_id );
 

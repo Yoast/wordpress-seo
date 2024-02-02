@@ -73,7 +73,7 @@
 		}
 
 		.yst-file-input__labels {
-			@apply yst-flex yst-font-normal yst-text-slate-800;
+			@apply yst-inline-block yst-font-normal yst-text-slate-800;
 		}
 
 		.yst-file-input__select-label {

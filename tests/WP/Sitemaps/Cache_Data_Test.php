@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group sitemaps
  */
-class Cache_Data_Test extends TestCase {
+final class Cache_Data_Test extends TestCase {
 
 	/**
 	 * Subject to test against.
@@ -23,6 +23,8 @@ class Cache_Data_Test extends TestCase {
 
 	/**
 	 * Create subject instance.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -34,6 +36,8 @@ class Cache_Data_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::set_sitemap
 	 * @covers WPSEO_Sitemap_Cache_Data::get_sitemap
+	 *
+	 * @return void
 	 */
 	public function test_get_set_sitemap() {
 		$sitemap = 'this is a sitemap';
@@ -47,6 +51,8 @@ class Cache_Data_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::get_sitemap
 	 * @covers WPSEO_Sitemap_Cache_Data::is_usable
+	 *
+	 * @return void
 	 */
 	public function test_set_sitemap_not_string() {
 		$sitemap         = new stdClass();
@@ -61,6 +67,8 @@ class Cache_Data_Test extends TestCase {
 	 * Test with invalid status.
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::get_status
+	 *
+	 * @return void
 	 */
 	public function test_set_invalid_status() {
 		$status = 'invalid';
@@ -74,6 +82,8 @@ class Cache_Data_Test extends TestCase {
 	 * Test status of sitemap without setting anything.
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::get_status
+	 *
+	 * @return void
 	 */
 	public function test_sitemap_status_unset() {
 		$this->assertSame( WPSEO_Sitemap_Cache_Data::UNKNOWN, $this->subject->get_status() );
@@ -84,6 +94,8 @@ class Cache_Data_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::set_sitemap
 	 * @covers WPSEO_Sitemap_Cache_Data::get_status
+	 *
+	 * @return void
 	 */
 	public function test_set_empty_sitemap_status() {
 		$sitemap = '';
@@ -97,6 +109,8 @@ class Cache_Data_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::get_status
 	 * @covers WPSEO_Sitemap_Cache_Data::is_usable
+	 *
+	 * @return void
 	 */
 	public function test_set_status_is_usable() {
 		$this->subject->set_status( WPSEO_Sitemap_Cache_Data::OK );
@@ -116,6 +130,8 @@ class Cache_Data_Test extends TestCase {
 	 *
 	 * @param string $input    Input to pass to set_status().
 	 * @param string $expected Expected get_status() function output.
+	 *
+	 * @return void
 	 */
 	public function test_set_status_string( $input, $expected ) {
 		$this->subject->set_status( $input );
@@ -127,7 +143,7 @@ class Cache_Data_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_set_status_string() {
+	public static function data_set_status_string() {
 		return [
 			'Ok using interface constant' => [
 				'input'    => WPSEO_Sitemap_Cache_Data::OK,
@@ -153,6 +169,8 @@ class Cache_Data_Test extends TestCase {
 	 * @covers WPSEO_Sitemap_Cache_Data::__unserialize
 	 * @covers WPSEO_Sitemap_Cache_Data::serialize
 	 * @covers WPSEO_Sitemap_Cache_Data::unserialize
+	 *
+	 * @return void
 	 */
 	public function test_serialize_unserialize() {
 		$sitemap = 'this is a sitemap';
