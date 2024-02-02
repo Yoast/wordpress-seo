@@ -321,7 +321,7 @@ final class Upgrade_Test extends TestCase {
 		$user_id2_notification  = \get_user_option( Yoast_Notification_Center::STORAGE_KEY, 2 );
 
 		$this->assertEquals( 2, \count( $user_id1_notifications ) );
-		$this->assertEquals( 1, \count( $user_id2_notification ) );
+		$this->assertEquals( 1, $user_id2_notification );
 	}
 
 	/**
