@@ -302,20 +302,12 @@ class WPSEO_Meta {
 			foreach ( $field_group as $key => $field_def ) {
 				$args = ['sanitize_callback' => [ __CLASS__, 'sanitize_post_meta' ]];
 
-				if( $key === 'focuskw' ) {
-					$args['show_in_rest'] = true;
-					$args['type'] = 'string';
-					$args['single'] = true;
-				}
-
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
 					[
 						'sanitize_callback' => [ __CLASS__, 'sanitize_post_meta'],
 						'show_in_rest' => true,
-						'type' => 'string',
-						'single' => true,
 					]
 				);
 
