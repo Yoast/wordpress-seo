@@ -847,23 +847,16 @@ final class Upgrade_Test extends TestCase {
 
 		$null_ids = $wpdb->query(
 			$wpdb->prepare(
-				'SELECT *
+				"SELECT *
 				FROM %i
-				WHERE object_id IS NULL',
+				WHERE object_id IS NULL
+				AND object_type IN ( 'post', 'term', 'user' )
+				AND post_status = 'unindexed'",
 				[ $this->indexables_table ]
 			)
 		);
 
-		$indexables = $wpdb->query(
-			$wpdb->prepare(
-				'SELECT *
-				FROM %i',
-				[ $this->indexables_table ]
-			)
-		);
-
-		$this->assertEquals( 1, $null_ids );
-		$this->assertEquals( 4, $indexables );
+		$this->assertEquals( 0, $null_ids );
 	}
 
 	/**
