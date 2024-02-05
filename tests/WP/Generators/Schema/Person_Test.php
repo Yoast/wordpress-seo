@@ -84,7 +84,6 @@ final class Person_Test extends TestCase {
 			\YoastSEO()->classes->get( Meta_Tags_Context::class ),
 			\YoastSEO()->classes->get( Presentation_Memoizer::class )
 		);
-		\YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 		$this->context = $meta_tags_context_memoizer->get( $built_indexable, 'page' );
 	}
 
