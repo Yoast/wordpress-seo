@@ -82,7 +82,7 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 			<p className="yst-text-center yst-text-[11px] yst-leading[19px] yst-mt-2">
 				{ __( "Only $/€/£99 per year (ex VAT) 30-day money back guarantee - No questions asked.", "wordpress-seo" ) }
 			</p>
-			<hr className="yst-border-t-[1px] yst-border-purple-300 yst-my-4" />
+			<hr className="yst-border-t yst-border-primary-300 yst-my-4" />
 			<a
 				className="yst-block yst-mt-4 yst-no-underline"
 				href="https://www.g2.com/products/yoast-yoast/reviews"
