@@ -79,7 +79,7 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 				<span>{ isBlackFriday ? __( "Claim your 30% off now!", "wordpress-seo" ) : explorePremium }</span>
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
-			<p className="yst-text-center yst-text-[11px] yst-leading[19px] yst-mt-2">
+			<p className="yst-text-center yst-text-[11px] yst-leading-[19px] yst-mt-2">
 				{ __( "Only $/€/£99 per year (ex VAT) 30-day money back guarantee - No questions asked.", "wordpress-seo" ) }
 			</p>
 			<hr className="yst-border-t yst-border-primary-300 yst-my-4" />
