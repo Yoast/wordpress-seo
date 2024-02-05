@@ -398,6 +398,12 @@ function wpseo_maybe_invalidate_directories() {
 		return false;
 	}
 
+	$access_type = get_filesystem_method();
+	if ( $access_type !== 'direct' ) {
+		return false;
+	}
+
+	// Prevent any output requesting credentials, even though we should be safe in 'direct' mode.
 	ob_start();
 	$credentials = request_filesystem_credentials( admin_url() );
 	ob_end_clean();
