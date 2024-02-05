@@ -282,6 +282,7 @@ final class FAQ_Test extends TestCase {
 	 * on the page.
 	 *
 	 * @covers ::is_needed
+	 * @covers ::generate_ids
 	 *
 	 * @return void
 	 */
