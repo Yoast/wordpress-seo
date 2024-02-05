@@ -81,7 +81,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 								}
 								else {
 									/* translators: %s expands to Yoast SEO Premium */
-									\printf( \esc_html__( 'Explore %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+									\printf( \esc_html__( 'Explore %1$s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 								}
 								?>
 								<span aria-hidden="true" class="yoast-button-upsell__caret"></span>
