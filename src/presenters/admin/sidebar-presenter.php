@@ -20,7 +20,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 		$title = \__( 'BLACK FRIDAY - 30% OFF', 'wordpress-seo' );
 
 		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
-		$buy_yoast_seo_shortlink = 'https://yoast.com/checkout/?yst-add-to-cart=2811749';
+		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
 		\ob_start();
 		?>
 			<div class="wpseo_content_cell" id="sidebar-container">
