@@ -5,8 +5,8 @@ export default {
 	title: "1) Elements/Tooltip",
 	component: StoryComponent,
 	argTypes: {
-		children: { control: "text" },
-		as: { options: [ "text", "span", "div" ] },
+		children: { control: "message" },
+		as: { options: [ "span", "div" ] },
 	},
 	parameters: { docs: { description: { component } } },
 };
@@ -14,9 +14,11 @@ export default {
 export const Factory = ( { children, ...args } ) => (
 	<StoryComponent { ...args } />
 );
+
 Factory.parameters = {
 	controls: { disable: false },
 };
+
 Factory.args = {
 	children: "Tooltip factory",
 };
