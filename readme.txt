@@ -342,6 +342,28 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 22.1 =
+
+Release date: 2024-02-20
+
+#### Enhancements
+
+* Encodes possible spaces in URLs used in `@id` and `url` `WebPage` schema piece properties when the schema represents a search results page.
+* Lowers the minimum amount of characters needed to use the search functionality on the settings page.
+* Makes the section headings stand out visually in the _SEO_, _readability_ and _inclusive language_ analysis tabs.
+
+#### Bugfixes
+
+* Fixes a bug where ending a _How-To_ or _FAQ_ block element with a backslash would generate errors when re-opening a saved post.
+* Fixes a bug where next and prev links in query loop would be wrong when disabling `Inherit query from template`.
+* Fixes a bug where the `ProfilePage` schema node would not be valid when it was manually chosen for a page.
+* Prevents fatal errors when used together with a plugin which hooks into `views_edit-{$post_type}` but does not return an array as expected.
+
+#### Other
+
+* Adds more information about Yoast SEO Premium price to the sidebar ad.
+* Adds price and saving information to the `Cover all your SEO bases` card in the `Premium` page.
+
 = 22.0 =
 
 Release date: 2024-02-06
@@ -352,42 +374,6 @@ Yoast SEO 22.0 is out today. This release comes with many behind-the-scenes impr
 
 * Fixes a bug where the `get_head` REST route would return a `rest_invalid_param` if the URL contains a multiple words search string. Props to @lucymtc.
 * Fixes a bug where using a `blog` prefix in the permalink structure with _Strip category base_ enabled would prevent the blog page from being accessible.
-
-= 21.9.1 =
-
-Release date: 2024-01-25
-
-#### Bugfixes
-
-* Fixes a bug where a fatal error would occur when upgrading Yoast SEO on certain setups.
-* Fixes a bug where the image tag would be missing in the home page entry of the XML sitemap when using a static front page.
-
-= 21.9 =
-
-Release date: 2024-01-23
-
-We've just released Yoast SEO 21.9. This release comes with many behind-the-scenes improvements and general enhancements. Find out more about what's new in Yoast SEO 21.9 in [our release post](https://yoa.st/release-23-1-24)!
-
-#### Enhancements
-
-* Adds a filter to add images to the front page in sitemaps.
-* Adds a filter to allow adding images to terms in sitemaps.
-* Clears rewrite rules only for the strip category base option.
-* Removes the clearing of rewrite rules on every option update.
-* Replaces the sitemap rewrite rules mechanism, props to [felixarntz](https://github.com/felixarntz).
-
-#### Bugfixes
-
-* Fixes a bug where a post would be saved when trying to dismiss a notification while editing.
-* Fixes a bug where editing a product would either crash or be slow when there is a high number of registered attributes.
-* Fixes a bug where the Yoast plugin icon in the block editor would not have any horizontal spacing anymore when rendered in "compact" mode.
-
-#### Other
-
-* Be explicit about required PHP extensions.
-* Improves PHP 8.2 compatibility.
-* Sets the minimum supported WordPress version to 6.3.
-* Removes the `WEBPAGE_HASH` constant that had been deprecated in Yoast SEO 19.3 (July 2022).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
