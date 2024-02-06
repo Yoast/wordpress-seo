@@ -306,7 +306,10 @@ class WPSEO_Meta {
 					self::$meta_prefix . $key,
 					[
 						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
-						'show_in_rest' => true,
+						'show_in_rest'      => true,
+						'type'              => 'string',
+						'default'           => ( \array_key_exists( 'default_value', $field_def ) ) ? $field_def['default_value'] : '',
+						'single'            => true,
 					]
 				);
 
