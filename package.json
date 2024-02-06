@@ -45,8 +45,8 @@
     "@tailwindcss/forms": "^0.5.2",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
-    "@wordpress/dependency-extraction-webpack-plugin": "^3.1.0",
-    "@wordpress/scripts": "^17.1.0",
+    "@wordpress/dependency-extraction-webpack-plugin": "^4.28.0",
+    "@wordpress/scripts": "^26.16.0",
     "@yoast/babel-preset": "^1.1.0",
     "@yoast/browserslist-config": "^1.2.2",
     "@yoast/grunt-plugin-tasks": "^2.4",
@@ -80,7 +80,7 @@
     "typescript": "^4.2.4"
   },
   "yoast": {
-    "pluginVersion": "21.9.1"
+    "pluginVersion": "22.0"
   },
   "version": "0.0.0"
 }

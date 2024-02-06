@@ -943,6 +943,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'blackFridayBlockEditorUrl'  => ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-checklist' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
+			'isWooCommerceSeoActive'     => $woocommerce_seo_active,
 			'isWooCommerceActive'        => $woocommerce_active,
 			'woocommerceUpsell'          => get_post_type( $post_id ) === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
 			'linkParams'                 => WPSEO_Shortlinker::get_query_params(),

@@ -31,4 +31,16 @@ final class Settings_Integration_Double extends Settings_Integration {
 	public function transform_taxonomies( $taxonomies, $post_type_names ) {
 		return parent::transform_taxonomies( $taxonomies, $post_type_names );
 	}
+
+	/**
+	 * Retrieves the organization schema values from Local SEO for defaults in Site representation fields.
+	 * Specifically for the org-vat-id, org-tax-id, org-email and org-phone options.
+	 *
+	 * @param array<string|int|bool> $post_types The post types.
+	 *
+	 * @return array<string|int|bool> The schema.
+	 */
+	public function get_defaults_from_local_seo( $defaults ) {
+		return parent::get_defaults_from_local_seo( $defaults );
+	}
 }
