@@ -76,6 +76,7 @@ const getExternalState = () => ( {
 		promotions: get( window, "wpseoScriptData.currentPromotions", [] ),
 	},
 	dismissedAlerts: get( window, "wpseoScriptData.dismissedAlerts", {} ),
+	// TODO: Refactor to use the preferences?
 	isPremium: Boolean( get( window, "wpseoScriptData.metabox.isPremium", false ) ),
 	// TODO: There are value below that come in via our hidden fields in the editor. Add those fields or rework.
 	isCornerstone: false,
@@ -96,9 +97,21 @@ const getExternalState = () => ( {
 			url: "",
 		},
 	},
+	snippetEditor: {
+		data: {
+			title: get( window, "wpseoScriptData.metabox.title_template", "" ),
+			description: get( window, "wpseoScriptData.metabox.metadesc_template", "" ),
+		},
+	},
 	// END TODO
 	preferences: {
+		isCornerstoneActive: get( window, "wpseoScriptData.metabox.cornerstoneActive", false ) === 1,
 		isWoocommerceActive: get( window, "wpseoScriptData.isWooCommerceActive", false ) === "1",
+		isAdvancedSettingsActive: get( window, "wpseoAdminL10n.displayAdvancedTab", false ) === "1",
+		isInsightsEnabled: Boolean( get( window, "wpseoScriptData.metabox.isInsightsEnabled", false ) ),
+		isPremium: Boolean( get( window, "wpseoScriptData.metabox.isPremium", false ) ),
+		isPost: get( window, "wpseoScriptData.isPost", false ) === "1",
+		isTerm: get( window, "wpseoScriptData.isTerm", false ) === "1",
 	},
 	settings: {
 		socialPreviews: {

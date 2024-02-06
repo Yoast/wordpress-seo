@@ -6,6 +6,7 @@ import initializeAnalysis, { collectData } from "../initializers/analysis";
 import { applyModifications, pluginReady, pluginReloaded, registerModification } from "../initializers/pluggable";
 import { YoastSeoApp } from "./components/yoast-seo-app";
 import { initializeStore } from "./store";
+import { syncFromMetadata, syncToMetadata } from "./sync";
 
 const PLUGIN_NAME = "yoast-seo-for-woocommerce-products";
 
@@ -22,6 +23,9 @@ domReady( () => {
 	window.YoastSEO.store = initializeStore();
 
 	// Initialize the editor data watcher.
+	const productId = Number.parseInt( window.wpseoScriptData.postId, 10 );
+	syncFromMetadata( productId );
+	syncToMetadata( productId );
 	/**
 	 * Can this concept be moved to selectors or hooks? Need to find the new place for this.
 	 * Basic details block is defined here: woocommerce/src/Internal/Features/ProductBlockEditor/ProductTemplates/SimpleProductTemplate.php

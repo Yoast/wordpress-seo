@@ -2,8 +2,9 @@
 
 namespace Yoast\WP\SEO\Woocommerce_Editor\User_Interface;
 
-use Automattic\WooCommerce\Admin\BlockTemplates\BlockInterface;
 use Automattic\WooCommerce\Admin\Features\Features;
+use Automattic\WooCommerce\Admin\Features\ProductBlockEditor\BlockRegistry;
+use Automattic\WooCommerce\Admin\Features\ProductBlockEditor\ProductTemplates\GroupInterface;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use WP_Post;
 use WP_Screen;
@@ -207,7 +208,7 @@ class Woocommerce_Editor_Initializer implements Initializer_Interface {
 	 * @return array The conditionals that must be met to load this.
 	 */
 	public static function get_conditionals() {
-		return [];// Admin_Conditional::class, WooCommerce_Conditional::class ];
+		return [ Admin_Conditional::class, WooCommerce_Conditional::class ];
 	}
 
 	/**
@@ -216,12 +217,23 @@ class Woocommerce_Editor_Initializer implements Initializer_Interface {
 	 * @return void
 	 */
 	public function initialize() {
-//		\add_filter( 'woocommerce_rest_prepare_product_object', [ $this, 'prepare_product_data' ], 10, 3 );
-//		\add_action( 'woocommerce_rest_insert_product_object', [ $this, 'save_product_data' ], 10, 3 );
+		//		\add_filter( 'woocommerce_rest_prepare_product_object', [ $this, 'prepare_product_data' ], 10, 3 );
+		//		\add_action( 'woocommerce_rest_insert_product_object', [ $this, 'save_product_data' ], 10, 3 );
+
+		//		global $wp_scripts;
+		//		// Loop over all registered scripts.
+		//		foreach ( $wp_scripts->registered as $handle => $script ) {
+		//			// Check if the handle starts with 'wc-'.
+		//			if ( \strpos( $handle, 'wc-' ) !== 0 ) {
+		//				continue;
+		//			}
+		//			var_dump($handle);
+		//		}
+		//		die;
 
 		// Specific "conditional" checks: current page and feature enabled.
 		if ( ! $this->is_on_page() || ! $this->is_product_block_editor_enabled() ) {
-			return;
+			//			return;
 		}
 
 		/**
@@ -262,7 +274,15 @@ class Woocommerce_Editor_Initializer implements Initializer_Interface {
 		//		die;
 
 		$this->asset_manager->enqueue_script( self::ASSET_HANDLE );
-		//		$this->asset_manager->enqueue_style( self::ASSET_HANDLE );
+		$this->asset_manager->enqueue_style( 'tailwind' );
+		$this->asset_manager->enqueue_style( 'monorepo' );
+		//		$this->asset_manager->enqueue_style( 'admin-global' );
+		// Needed for the score icons.
+		$this->asset_manager->enqueue_style( 'metabox-css' );
+		//		$this->asset_manager->enqueue_style( 'scoring' );
+		//		$this->asset_manager->enqueue_style( 'admin-css' );
+		//		$this->asset_manager->enqueue_style( 'ai-generator' );
+		//		$this->asset_manager->enqueue_style( 'featured-image' );
 		$this->asset_manager->localize_script( self::ASSET_HANDLE, 'wpseoScriptData', $this->get_script_data( $post ) );
 		$this->asset_manager->localize_script( self::ASSET_HANDLE, 'wpseoAdminGlobalL10n', $this->wincher_helper->get_admin_global_links() );
 		$this->asset_manager->localize_script( self::ASSET_HANDLE, 'wpseoAdminL10n', $this->get_admin_l10n( $post->post_type ) );
@@ -288,18 +308,19 @@ class Woocommerce_Editor_Initializer implements Initializer_Interface {
 		//		);
 
 		foreach ( self::BLOCKS as $block ) {
-			\register_block_type( \WPSEO_PATH . 'packages/js/src/woocommerce-editor/blocks/' . $block );
+			BlockRegistry::get_instance()
+				->register_block_type_from_metadata( \WPSEO_PATH . 'packages/js/src/woocommerce-editor/blocks/' . $block );
 		}
 	}
 
 	/**
 	 * Adds our SEO group or tab.
 	 *
-	 * @param \Automattic\WooCommerce\Admin\BlockTemplates\BlockInterface $general_group The WC general group.
+	 * @param \Automattic\WooCommerce\Admin\Features\ProductBlockEditor\ProductTemplates\GroupInterface $general_group The WC general group.
 	 *
 	 * @return void
 	 */
-	public function add_seo_group( BlockInterface $general_group ) {
+	public function add_seo_group( GroupInterface $general_group ) {
 		$parent = $general_group->get_parent();
 		if ( ! $parent ) {
 			return;
@@ -414,7 +435,7 @@ class Woocommerce_Editor_Initializer implements Initializer_Interface {
 			'isBlockEditor'         => WP_Screen::get()->is_block_editor(),
 			'isElementorEditor'     => false,
 			'isWooCommerceActive'   => true,
-			'wooCommerceUpsell'     => ! $this->plugin_availability->is_active( 'wpseo-woocommerce/wpseo-woocommerce.php' ),
+			'woocommerceUpsell'     => ! $this->plugin_availability->is_active( 'wpseo-woocommerce/wpseo-woocommerce.php' ),
 			'postId'                => $post->ID,
 			'postStatus'            => $post->post_status,
 			'postType'              => $post->post_type,
