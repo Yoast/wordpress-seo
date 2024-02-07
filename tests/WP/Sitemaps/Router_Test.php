@@ -79,7 +79,7 @@ final class Router_Test extends TestCase {
 	/**
 	 * Provides data for the get base url test.
 	 *
-	 * @return array Test data to use.
+	 * @return array<array<string>> Test data to use.
 	 */
 	public static function data_get_base_url() {
 		return [
@@ -104,10 +104,10 @@ final class Router_Test extends TestCase {
 	 * @covers       WPSEO_Sitemaps_Router::needs_sitemap_index_redirect
 	 * @dataProvider data_needs_sitemap_index_redirect
 	 *
-	 * @param array    $server_vars Associative array of `$_SERVER` vars to set.
-	 * @param string   $home_url    The home URL to set.
-	 * @param WP_Query $wp_query    WP_Query instance to set.
-	 * @param bool     $expected    The expected test result.
+	 * @param array<string> $server_vars Associative array of `$_SERVER` vars to set.
+	 * @param string        $home_url    The home URL to set.
+	 * @param WP_Query      $wp_query    WP_Query instance to set.
+	 * @param bool          $expected    The expected test result.
 	 *
 	 * @return void
 	 */
@@ -158,7 +158,7 @@ final class Router_Test extends TestCase {
 	 * [2] WP_Query: WP_Query instance to set.
 	 * [3] bool:     The expected test result.
 	 *
-	 * @return array The test data.
+	 * @return array<array<array<string>,string,WP_Query,bool>> The test data.
 	 */
 	public static function data_needs_sitemap_index_redirect() {
 		$server_vars_sets = [
