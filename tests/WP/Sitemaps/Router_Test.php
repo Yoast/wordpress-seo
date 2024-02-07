@@ -218,6 +218,12 @@ final class Router_Test extends TestCase {
 			}
 		}
 
+		$testdata["Should correctly interpret SERVER['HTTPS'] as true when set to 'On'"] = [
+			\array_merge( $testdata[1][0], [ 'HTTPS' => 'On' ] ),
+			$testdata[3][1],
+			$testdata[3][2],
+			$testdata[3][3],
+		];
 		return $testdata;
 	}
 }
