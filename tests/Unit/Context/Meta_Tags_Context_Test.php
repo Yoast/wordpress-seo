@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
+use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
@@ -92,6 +93,13 @@ final class Meta_Tags_Context_Test extends TestCase {
 	private $indexable_helper;
 
 	/**
+	 * The request helper.
+	 *
+	 * @var Request_Helper
+	 */
+	private $request_helper;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -123,6 +131,7 @@ final class Meta_Tags_Context_Test extends TestCase {
 		$this->permalink_helper     = Mockery::mock( Permalink_Helper::class );
 		$this->indexable_helper     = Mockery::mock( Indexable_Helper::class );
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
+		$this->request_helper	    = Mockery::mock( Request_Helper::class );
 
 		$this->instance = new Meta_Tags_Context(
 			$this->options,
@@ -134,7 +143,8 @@ final class Meta_Tags_Context_Test extends TestCase {
 			$this->user,
 			$this->permalink_helper,
 			$this->indexable_helper,
-			$this->indexable_repository
+			$this->indexable_repository,
+			$this->request_helper
 		);
 	}
 
