@@ -108,7 +108,8 @@ class WPSEO_Sitemaps_Router {
 		global $wp_query;
 
 		$protocol = 'http://';
-		if ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		if ( ! empty( $_SERVER['HTTPS'] ) && strtolower( $_SERVER['HTTPS'] ) === 'on' ) {
 			$protocol = 'https://';
 		}
 
