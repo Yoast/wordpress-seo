@@ -1,0 +1,34 @@
+@layer components {
+	.yst-root {
+		.yst-tooltip {
+			@apply
+			yst-absolute
+			yst-inline-block
+			yst-z-10
+			yst-mb-14
+			yst-px-2
+			yst-p-2
+			yst-bg-gray-800
+			yst-text-white
+			yst-rounded-lg
+		}
+
+		/* States */
+		/*.yst-tooltip--visible {*/
+		/*	@apply*/
+		/*	yst-opacity-100*/
+		/*	yst-visible*/
+		/*	yst-pointer-events-auto;*/
+		/*}*/
+
+		/* Elements */
+		/*.yst-tooltip__arrow {*/
+		/*	@apply*/
+		/*	yst-absolute*/
+		/*	yst-w-3*/
+		/*	yst-h-3*/
+		/*	yst-bg-white*/
+		/*	yst-shadow-md;*/
+		/*}*/
+	}
+}
