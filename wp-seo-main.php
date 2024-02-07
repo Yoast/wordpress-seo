@@ -351,6 +351,7 @@ function wpseo_init() {
 		 * @param bool $skip_opcache_reset Whether the opcache reset should be skipped.
 		 */
 		if ( ! apply_filters( 'wpseo_skip_opcache_reset', $skip_opcache_reset ) ) {
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Prevent notices when opcache.restrict_api is set.
 			@opcache_reset();
 		}
 
