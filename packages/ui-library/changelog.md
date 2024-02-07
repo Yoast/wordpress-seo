@@ -1,5 +1,22 @@
 # Changelog
 
+## 3.3.0
+
+Enhancements:
+
+* Adds support for readonly and disabled styling in `Textarea` component. [#21008](https://github.com/Yoast/wordpress-seo/pull/21008)
+* Adds styling and placeholder to date type of `TextInput` component. [#21008](https://github.com/Yoast/wordpress-seo/pull/21008)
+
+Bugfixes:
+
+* Adds missing button type to the Notifications' dismiss button. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
+* Adds missing button type to the SidebarNavigation MenuItem' button. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
+* Adds missing button type to the SidebarNavigation Mobile' open and close buttons. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
+* Adds missing button type to the Autocomplete' clear selection button. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
+* Adds missing button type to the TagInput' remove tag button. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
+* Fixes a bug where a longer text for the `selectLabel` value would cause alignment issues in the `FileInput` element. [#21054](https://github.com/Yoast/wordpress-seo/pull/21054)
+* Adds missing button type to the FileImport' abort button. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
+
 ## 3.2.1
 
 Bugfixes:
