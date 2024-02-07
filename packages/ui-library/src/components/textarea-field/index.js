@@ -46,6 +46,8 @@ const TextareaField = forwardRef( ( {
 				className="yst-textarea-field__input"
 				aria-describedby={ describedBy }
 				validation={ validation }
+				disabled={ disabled }
+				readOnly={ readOnly }
 				{ ...props }
 			/>
 			{ validation?.message && (
