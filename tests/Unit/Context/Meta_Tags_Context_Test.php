@@ -131,7 +131,7 @@ final class Meta_Tags_Context_Test extends TestCase {
 		$this->permalink_helper     = Mockery::mock( Permalink_Helper::class );
 		$this->indexable_helper     = Mockery::mock( Indexable_Helper::class );
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
-		$this->request_helper	    = Mockery::mock( Request_Helper::class );
+		$this->request_helper       = Mockery::mock( Request_Helper::class );
 
 		$this->instance = new Meta_Tags_Context(
 			$this->options,
