@@ -14,7 +14,7 @@
 			yst-rounded-md
 			yst-text-sm
 			yst-font-medium
-			yst-leading-4
+			yst-leading-5
 			yst-text-center
 
 			focus:yst-outline-none
@@ -111,25 +111,26 @@
 
 		.yst-button--large {
 			@apply
-			yst-py-2
+			yst-text-tiny
+			yst-leading-6
 			yst-px-3
-			yst-text-base
-			yst-leading-5;
+			yst-py-2;
 		}
 
 		.yst-button--extra-large {
 			@apply
-			yst-py-3
-			yst-px-6
 			yst-text-base
-			yst-leading-5;
+			yst-px-3.5
+			yst-py-2.5
+			yst-leading-6;
 		}
 
 		.yst-button--small {
 			@apply
 			yst-text-xs
-			yst-py-1.5
-			yst-px-2.5;
+			yst-leading-4
+			yst-px-2.5
+			yst-py-1.5;
 		}
 
 		/* States */
