@@ -75,6 +75,10 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 				<span>{ isBlackFriday ? __( "Claim your 30% off now!", "wordpress-seo" ) : getPremium }</span>
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
+			<p className="yst-text-center yst-text-xs yst-font-light yst-leading-5 yst-mt-2">
+				{ __( "Only $/€/£99 per year (ex VAT) 30-day money back guarantee - No questions asked.", "wordpress-seo" ) }
+			</p>
+			<hr className="yst-border-t yst-border-primary-300 yst-my-4" />
 			<a
 				className="yst-block yst-mt-4 yst-no-underline"
 				href="https://www.g2.com/products/yoast-yoast/reviews"

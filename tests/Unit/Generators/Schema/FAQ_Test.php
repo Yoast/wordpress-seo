@@ -229,6 +229,38 @@ final class FAQ_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that an empty attrs block does not block the schema generation.
+	 *
+	 * @covers ::generate
+	 *
+	 * @return void
+	 */
+	public function test_generate_empty_attrs() {
+		$this->stubEscapeFunctions();
+
+		$blocks = [
+			'yoast/faq-block' => [
+				[
+					'attrs' => [],
+				],
+			],
+		];
+
+		$meta_tags_context                 = new Meta_Tags_Context_Mock();
+		$meta_tags_context->blocks         = $blocks;
+		$meta_tags_context->main_schema_id = 'https://example.org/page/';
+		$meta_tags_context->canonical      = 'https://example.org/page/';
+
+		$this->instance->context = $meta_tags_context;
+
+		$expected = [];
+
+		$actual = $this->instance->generate();
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
 	 * Tests that no FAQ Schema pieces are needed when no
 	 * FAQ blocks are on the page.
 	 *
@@ -250,6 +282,7 @@ final class FAQ_Test extends TestCase {
 	 * on the page.
 	 *
 	 * @covers ::is_needed
+	 * @covers ::generate_ids
 	 *
 	 * @return void
 	 */
