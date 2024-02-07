@@ -77,6 +77,7 @@ class Open_Graph_Locale_Generator implements Generator_Interface {
 			'en_PI', // English (Pirate).
 			'en_UD', // English (Upside Down).
 			'en_US', // English (US).
+			'en_AU', // English (Australia).
 			'em_ZM',
 			'eo_EO', // Esperanto.
 			'es_ES', // Spanish (Spain).
