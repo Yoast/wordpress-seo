@@ -47,6 +47,7 @@ Variants.parameters = { docs: { description: { story: variants } } };
 
 export const Sizes = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
+		<StoryComponent size="extra-large">Extra Large</StoryComponent>
 		<StoryComponent size="large">Large</StoryComponent>
 		<StoryComponent size="default">Default</StoryComponent>
 		<StoryComponent size="small">Small</StoryComponent>

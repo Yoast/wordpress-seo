@@ -7,7 +7,7 @@
 			yst-justify-center
 			yst-py-2
 			yst-px-3
-			yst-border
+			yst-ring-inset
 			yst-shadow-sm
 			yst-no-underline
 			yst-cursor-pointer
@@ -38,7 +38,7 @@
 			@apply
 			yst-text-white
 			yst-bg-primary-500
-			yst-border-transparent
+			yst-ring-transparent
 
 			hover:yst-text-white
 			hover:yst-bg-primary-700
@@ -52,7 +52,7 @@
 			@apply
 			yst-text-slate-800
 			yst-bg-white
-			yst-border-slate-300
+			yst-ring-slate-300
 
 			hover:yst-text-slate-800
 			hover:yst-bg-slate-50
@@ -64,7 +64,7 @@
 
 		.yst-button--tertiary {
 			@apply
-			yst-border-none
+			yst-ring-0
 			yst-shadow-none
 			yst-text-primary-500
 			yst-bg-transparent
@@ -110,6 +110,14 @@
 		/* Sizes */
 
 		.yst-button--large {
+			@apply
+			yst-py-2
+			yst-px-3
+			yst-text-base
+			yst-leading-5;
+		}
+
+		.yst-button--extra-large {
 			@apply
 			yst-py-3
 			yst-px-6
