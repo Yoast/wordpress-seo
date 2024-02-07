@@ -342,18 +342,11 @@ function wpseo_init() {
 	WPSEO_Meta::init();
 
 	if ( version_compare( WPSEO_Options::get( 'version', 1 ), WPSEO_VERSION, '<' ) ) {
-		require_once ABSPATH . 'wp-admin/includes/file.php';
 
-		if ( function_exists( 'wp_opcache_invalidate' ) ) {
-			// Since WP 5.5.
-			wp_opcache_invalidate( WPSEO_PATH . 'wp-seo-main.php' );
-			wp_opcache_invalidate( WPSEO_PATH . 'wp-seo.php' );
-		}
-
-		$skip_opcache_reset = wpseo_maybe_invalidate_directories();
+		$skip_opcache_reset = wpseo_maybe_invalidate_opcache();
 
 		/**
-		 * Filter: Adds the possibility to skip the opcache reset if invalidation dir by dir was not performed.
+		 * Filter: Adds the possibility to skip the opcache reset if invalidation was not performed.
 		 *
 		 * @param bool $skip_opcache_reset Whether the opcache reset should be skipped.
 		 */
@@ -389,12 +382,14 @@ function wpseo_init() {
 }
 
 /**
- * Detects the FS access method and if possible invalidates the plugin directories.
+ * Detects if we can invalidate the opcache and does so.
  *
  * @return bool
  */
-function wpseo_maybe_invalidate_directories() {
-	if ( ! function_exists( 'wp_opcache_invalidate_directory' ) ) {
+function wpseo_maybe_invalidate_opcache() {
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+
+	if ( ! function_exists( 'wp_opcache_invalidate' ) || ! function_exists( 'wp_opcache_invalidate_directory' ) ) {
 		return false;
 	}
 
@@ -412,6 +407,9 @@ function wpseo_maybe_invalidate_directories() {
 		return false;
 	}
 
+	// Since WP 5.5.
+	wp_opcache_invalidate( WPSEO_PATH . 'wp-seo-main.php' );
+	wp_opcache_invalidate( WPSEO_PATH . 'wp-seo.php' );
 	// Since WP 6.2.
 	wp_opcache_invalidate_directory( WPSEO_PATH . 'admin' );
 	wp_opcache_invalidate_directory( WPSEO_PATH . 'inc' );
