@@ -147,11 +147,12 @@ const Autocomplete = forwardRef( ( {
 						onChange={ onQueryChange }
 					/>
 					{ props.nullable && selectedLabel &&
-					<ClearSelection
-						onChange={ onChange }
-						svgAriaProps={ svgAriaProps }
-						screenReaderText={ clearButtonScreenReaderText }
-					/> }
+						<ClearSelection
+							onChange={ onChange }
+							svgAriaProps={ svgAriaProps }
+							screenReaderText={ clearButtonScreenReaderText }
+						/>
+					}
 					{ ! validation?.message && (
 						<SelectorIcon className="yst-autocomplete__button-icon" { ...svgAriaProps } />
 					) }
