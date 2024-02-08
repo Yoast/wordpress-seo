@@ -14,3 +14,10 @@ export const getIsWooSeoUpsell = () => get( window, "wpseoScriptData.woocommerce
  * @returns {Boolean}       Whether the plugin is WooCommerce SEO or not.
  */
 export const getIsWooSeoActive = () => Boolean( get( window, "wpseoScriptData.isWooCommerceSeoActive", false ) );
+
+/**
+ * Checks if WooCommerce is active.
+ *
+ * @returns {boolean} True if WooCommerce is active.
+ */
+export const getIsWooCommerceActive = () => Boolean( get( window, "wpseoScriptData.isWooCommerceActive", false ) );
