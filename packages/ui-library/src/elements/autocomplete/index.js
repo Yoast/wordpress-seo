@@ -108,10 +108,12 @@ const Autocomplete = forwardRef( ( {
 	className,
 	buttonProps,
 	clearButtonScreenReaderText,
+	disabled,
 	...props
 }, ref ) => {
 	const getDisplayValue = useCallback( constant( selectedLabel ), [ selectedLabel ] );
 	const svgAriaProps = useSvgAria();
+	const tabIndex = disabled ? { tabIndex: -1 } : {};
 
 	return (
 		<Combobox
@@ -119,8 +121,12 @@ const Autocomplete = forwardRef( ( {
 			as="div"
 			value={ value }
 			onChange={ onChange }
-			className={ classNames( "yst-autocomplete", className ) }
+			className={ classNames(
+				"yst-autocomplete",
+				disabled && "yst-autocomplete--disabled",
+				className ) }
 			{ ...props }
+
 		>
 			{ label && <div className="yst-flex yst-items-center yst-mb-2">
 				<Combobox.Label { ...labelProps }>{ label }</Combobox.Label>
@@ -140,9 +146,14 @@ const Autocomplete = forwardRef( ( {
 						placeholder={ placeholder }
 						displayValue={ getDisplayValue }
 						onChange={ onQueryChange }
+						{ ...tabIndex }
 					/>
 					{ props.nullable && selectedLabel &&
-					<ClearSelection onChange={ onChange } svgAriaProps={ svgAriaProps } screenReaderText={ clearButtonScreenReaderText } /> }
+					<ClearSelection
+						onChange={ onChange }
+						svgAriaProps={ svgAriaProps }
+						screenReaderText={ clearButtonScreenReaderText }
+					/> }
 					{ ! validation?.message && (
 						<SelectorIcon className="yst-autocomplete__button-icon" { ...svgAriaProps } />
 					) }
@@ -187,6 +198,7 @@ const propTypes = {
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
 	clearButtonScreenReaderText: PropTypes.string,
+	disabled: PropTypes.bool,
 };
 Autocomplete.propTypes = propTypes;
 
@@ -202,6 +214,7 @@ Autocomplete.defaultProps = {
 	className: "",
 	buttonProps: {},
 	clearButtonScreenReaderText: "Clear",
+	disabled: false,
 };
 
 export default Autocomplete;
