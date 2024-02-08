@@ -123,7 +123,8 @@ const Autocomplete = forwardRef( ( {
 			className={ classNames(
 				"yst-autocomplete",
 				disabled && "yst-autocomplete--disabled",
-				className ) }
+				className,
+			) }
 			disabled={ disabled }
 			{ ...props }
 		>
