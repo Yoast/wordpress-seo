@@ -1,6 +1,5 @@
 import { useCallback, useState, useEffect } from "@wordpress/element";
 import { AutocompleteField } from "@yoast/ui-library";
-import classNames from "classnames";
 import { useField } from "formik";
 import PropTypes from "prop-types";
 
@@ -9,12 +8,11 @@ import PropTypes from "prop-types";
  * @param {Object} props The props object.
  * @param {string} props.name The field name.
  * @param {string} props.id The field id.
- * @param {boolean} props.disabled Whether the field is disabled.
  * @param {string} props.className The className.
  * @param {array} props.options The options.
  * @returns {JSX.Element} The page select component.
  */
-const FormikAutocompleteField = ( { name, id, disabled, options, className, ...props } ) => {
+const FormikAutocompleteField = ( { name, id, options, ...props } ) => {
 	const [ field, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const [ selectedLabel, setSelectedLabel ] = useState( "" );
 
@@ -53,7 +51,6 @@ const FormikAutocompleteField = ( { name, id, disabled, options, className, ...p
 			selectedLabel={ selectedLabel }
 			onChange={ handleChange }
 			onQueryChange={ handleQueryChange }
-			className={ classNames( className, disabled && "yst-autocomplete--disabled" ) }
 			{ ...props }
 		>
 			{ options && options.map( ( option ) =>
@@ -69,14 +66,10 @@ const FormikAutocompleteField = ( { name, id, disabled, options, className, ...p
 FormikAutocompleteField.propTypes = {
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
-	className: PropTypes.string,
-	disabled: PropTypes.bool,
 	options: PropTypes.array,
 };
 
 FormikAutocompleteField.defaultProps = {
-	disabled: false,
-	className: "",
 	options: [],
 };
 

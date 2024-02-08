@@ -30,10 +30,9 @@ PageSelectOptionsContent.propTypes = {
  * @param {Object} props The props object.
  * @param {string} props.name The field name.
  * @param {string} props.id The field id.
- * @param {string} props.className The className.
  * @returns {JSX.Element} The page select component.
  */
-const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
+const FormikPageSelectField = ( { name, id, ...props } ) => {
 	const siteBasicsPolicies = useSelectSettings( "selectPreference", [], "siteBasicsPolicies", {} );
 	const pages = useSelectSettings( "selectPagesWith", [ siteBasicsPolicies ], values( siteBasicsPolicies ) );
 	const { fetchPages } = useDispatchSettings();
@@ -85,7 +84,6 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 			placeholder={ __( "None", "wordpress-seo" ) }
 			selectedLabel={ selectedPage?.name }
 			onQueryChange={ handleQueryChange }
-			className={ classNames( className, props.disabled && "yst-autocomplete--disabled" ) }
 			nullable={ true }
 			/* translators: Hidden accessibility text. */
 			clearButtonScreenReaderText={ __( "Clear selection", "wordpress-seo" ) }
@@ -143,8 +141,6 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 FormikPageSelectField.propTypes = {
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
-	className: PropTypes.string,
-	disabled: PropTypes.bool,
 };
 
 export default FormikPageSelectField;
