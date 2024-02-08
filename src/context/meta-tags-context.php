@@ -621,6 +621,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string|null The main image URL.
 	 */
 	public function generate_main_image_url() {
+		if ( $this->request_helper->is_rest_request() ) {
+			return $this->get_main_image_url_for_rest_request();
+		}
+
 		if ( $this->main_image_id !== null ) {
 			return $this->image->get_attachment_image_url( $this->main_image_id, 'full' );
 		}
@@ -647,7 +651,27 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			return $this->get_main_image_id_for_rest_request();
 		}
 
-		return $this->get_main_image_id_for_regular_request();
+		switch ( true ) {
+			case \is_singular():
+				return $this->get_singular_post_image( $this->id );
+			case \is_author():
+			case \is_tax():
+			case \is_tag():
+			case \is_category():
+			case \is_search():
+			case \is_date():
+			case \is_post_type_archive():
+				if ( ! empty( $GLOBALS['wp_query']->posts ) ) {
+					if ( $GLOBALS['wp_query']->get( 'fields', 'all' ) === 'ids' ) {
+						return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0] );
+					}
+
+					return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0]->ID );
+				}
+				return null;
+			default:
+				return null;
+		}
 	}
 
 	/**
@@ -668,27 +692,15 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	}
 
 	/**
-	 * Gets the main image ID for non-REST requests.
+	 * Gets the main image URL for REST requests.
 	 *
-	 * @return int|null The main image ID.
+	 * @return string|null The main image URL.
 	 */
-	protected function get_main_image_id_for_regular_request() {
-		switch ( true ) {
-			case \is_singular():
-				return $this->get_singular_post_image( $this->id );
-			case \is_author():
-			case \is_tax():
-			case \is_tag():
-			case \is_category():
-			case \is_search():
-			case \is_date():
-			case \is_post_type_archive():
-				if ( ! empty( $GLOBALS['wp_query']->posts ) ) {
-					if ( $GLOBALS['wp_query']->get( 'fields', 'all' ) === 'ids' ) {
-						return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0] );
-					}
-
-					return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0]->ID );
+	private function get_main_image_url_for_rest_request() {
+		switch ( $this->page_type ) {
+			case 'Post_Type':
+				if ( $this->post instanceof WP_Post ) {
+					return $this->image->get_post_content_image( $this->post->ID );
 				}
 				return null;
 			default:
