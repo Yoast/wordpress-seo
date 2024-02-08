@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
  * @param {Object} props The props object.
  * @param {string} props.name The field name.
  * @param {string} props.id The field id.
- * @param {string} props.className The className.
  * @param {array} props.options The options.
  * @returns {JSX.Element} The page select component.
  */
