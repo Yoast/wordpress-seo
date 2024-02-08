@@ -6,7 +6,6 @@ use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Generators\Schema\Organization;
-use Yoast\WP\SEO\Generators\Schema\Person;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Memoizers\Presentation_Memoizer;
 use Yoast\WP\SEO\Models\Indexable;
@@ -119,7 +118,7 @@ final class Organization_Test extends TestCase {
 		$this->context->site_user_id     = 1;
 		$this->context->schema_page_type = [ 'ProfilePage' ];
 
-		$this->instance          = \YoastSEO()->classes->get( Person::class );
+		$this->instance          = \YoastSEO()->classes->get( Organization::class );
 		$this->instance->context = $this->context;
 		$this->instance->helpers = \YoastSEO()->helpers;
 		$webpage_schema_piece    = $this->instance->generate();
