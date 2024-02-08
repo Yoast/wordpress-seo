@@ -52,6 +52,12 @@ class Organization extends Abstract_Schema_Piece {
 			$organization['sameAs'] = $same_as;
 		}
 
+		if ( \is_array( $this->context->schema_page_type ) && \in_array( 'ProfilePage', $this->context->schema_page_type, true ) ) {
+			$organization['mainEntityOfPage'] = [
+				'@id' => $this->context->main_schema_id,
+			];
+		}
+
 		return $organization;
 	}
 
