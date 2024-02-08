@@ -348,7 +348,7 @@ Release date: 2024-02-20
 
 #### Enhancements
 
-* Add filter `wpseo_sitemap_urlset` to easily filter `<urlset>`'s for all XML sitemaps. Props to @jdevalk.
+* Adds the filter `wpseo_sitemap_urlset` to easily filter `<urlset>`'s for all XML sitemaps. Props to @jdevalk.
 * Encodes possible spaces in URLs used in `@id` and `url` `WebPage` schema piece properties when the schema represents a search results page.
 * Lowers the minimum amount of characters needed to use the search functionality on the settings page.
 * Makes the section headings stand out visually in the _SEO_, _readability_ and _inclusive language_ analysis tabs.
