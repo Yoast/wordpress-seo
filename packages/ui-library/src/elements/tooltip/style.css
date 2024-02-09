@@ -5,30 +5,30 @@
 			yst-absolute
 			yst-inline-block
 			yst-z-10
-			yst-mb-14
 			yst-px-2
 			yst-p-2
+			yst-border-none
 			yst-bg-gray-800
 			yst-text-white
+			yst-text-xs
 			yst-rounded-lg
+			yst-left-1/2
+			yst--translate-x-1/2
+			yst--translate-y-[110%];
+
+			&::before {
+				@apply
+				yst-content-['']
+				yst-absolute
+				yst-z-10
+				yst-left-1/2
+				yst-top-[98%]
+				yst--translate-x-1/2
+				yst-border-8
+				yst-border-x-transparent
+				yst-border-b-transparent
+				yst-border-t-gray-800;
+			}
 		}
-
-		/* States */
-		/*.yst-tooltip--visible {*/
-		/*	@apply*/
-		/*	yst-opacity-100*/
-		/*	yst-visible*/
-		/*	yst-pointer-events-auto;*/
-		/*}*/
-
-		/* Elements */
-		/*.yst-tooltip__arrow {*/
-		/*	@apply*/
-		/*	yst-absolute*/
-		/*	yst-w-3*/
-		/*	yst-h-3*/
-		/*	yst-bg-white*/
-		/*	yst-shadow-md;*/
-		/*}*/
 	}
 }

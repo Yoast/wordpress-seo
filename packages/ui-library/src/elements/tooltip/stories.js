@@ -1,5 +1,5 @@
 import { StoryComponent } from ".";
-import { component, variants } from "./docs";
+import { component } from "./docs";
 import { useState } from "@wordpress/element";
 import Badge from "../badge";
 
@@ -16,14 +16,17 @@ export const Factory = ( args ) => {
 	const [ isVisible, setIsVisible ] = useState( false );
 
 	return (
-		<Badge
-			as="button"
-			variant="plain"
-			onMouseEnter={ () => setIsVisible( true ) }
-			onMouseLeave={ () => setIsVisible( false ) }
-		> Hover me
-			<StoryComponent { ...args } isVisible={ isVisible } />
-		</Badge>
+		<div className="yst-my-12">
+			<Badge
+				as="button"
+				variant="plain"
+				onMouseEnter={ () => setIsVisible( true ) }
+				onMouseLeave={ () => setIsVisible( false ) }
+				className="yst-relative yst-flex yst-self-center yst-justify-center"
+			> Hover me
+				<StoryComponent { ...args } isVisible={ isVisible } />
+			</Badge>
+		</div>
 	);
 };
 
@@ -32,10 +35,5 @@ Factory.parameters = {
 };
 
 Factory.args = {
-	children: "Tooltips provide contextual information about an element when users hover over it.",
+	children: "I'm a tooltip",
 };
-export const Variants = ( args ) => (
-	<div className="" />
-);
-
-Variants.parameters = { docs: { description: { story: variants } } };
