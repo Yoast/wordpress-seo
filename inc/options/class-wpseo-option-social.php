@@ -285,7 +285,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 			return $twitter_id;
 		}
 
-		if ( preg_match( '`^http(?:s)?://(?:www\.)?twitter\.com/(?P<handle>[A-Za-z0-9_]{1,25})/?$`', $twitter_id, $matches ) ) {
+		if ( preg_match( '`^http(?:s)?://(?:www\.)?(?:twitter|x)\.com/(?P<handle>[A-Za-z0-9_]{1,25})/?$`', $twitter_id, $matches ) ) {
 			return $matches['handle'];
 		}
 
