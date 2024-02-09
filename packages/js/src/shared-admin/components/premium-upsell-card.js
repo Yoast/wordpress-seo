@@ -16,7 +16,7 @@ import { ReactComponent as G2Logo } from "./g2-logo-white.svg";
  * @returns {JSX.Element} The premium upsell card.
  */
 export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
-	const info = useMemo( () => __( "Get AI to write SEO titles and meta descriptions faster. Reach a wider audience with multiple keywords. Get automatic internal linking suggestions. And much, much more!", "wordpress-seo" ), [] );
+	const info = useMemo( () => __( "Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support, and much, much more!", "wordpress-seo" ), [] );
 	const getPremium = createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
@@ -76,7 +76,7 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
 			<p className="yst-text-center yst-text-xs yst-font-light yst-leading-5 yst-mt-2">
-				{ __( "Only $/€/£99 per year (ex VAT) 30-day money back guarantee - No questions asked.", "wordpress-seo" ) }
+				{ __( "Only $/€/£99 per year (ex VAT) 30-day money back guarantee.", "wordpress-seo" ) }
 			</p>
 			<hr className="yst-border-t yst-border-primary-300 yst-my-4" />
 			<a
