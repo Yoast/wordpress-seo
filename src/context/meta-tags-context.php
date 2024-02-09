@@ -748,7 +748,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 				return null;
 		}
 	}
-	
+
 	/**
 	 * Gets the main image URL for REST requests.
 	 *
