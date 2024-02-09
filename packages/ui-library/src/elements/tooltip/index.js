@@ -6,11 +6,10 @@ import PropTypes from "prop-types";
  * @param {string|JSX.node} [as] Base component.
  * @param {string} [className] CSS class.
  * @param {boolean} isVisible Default state.
- * @param {boolean} [disabled] Disabled flag.
  * @returns {JSX.Element} Tooltip component.
  */
 
-const Tooltip = forwardRef( ( { children, as: Component, className, isVisible, ...props }, ref ) => {
+const Tooltip = forwardRef( ( { children, as: Component, isVisible, className, ...props }, ref ) => {
 	return (
 		<>
 			{ isVisible && (
