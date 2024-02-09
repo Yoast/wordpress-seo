@@ -621,12 +621,12 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string|null The main image URL.
 	 */
 	public function generate_main_image_url() {
-		if ( $this->request_helper->is_rest_request() ) {
-			return $this->get_main_image_url_for_rest_request();
-		}
-
 		if ( $this->main_image_id !== null ) {
 			return $this->image->get_attachment_image_url( $this->main_image_id, 'full' );
+		}
+
+		if ( $this->request_helper->is_rest_request() ) {
+			return $this->get_main_image_url_for_rest_request();
 		}
 
 		if ( ! \is_singular() ) {
@@ -667,40 +667,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 					}
 
 					return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0]->ID );
-				}
-				return null;
-			default:
-				return null;
-		}
-	}
-
-	/**
-	 * Gets the main image ID for REST requests.
-	 *
-	 * @return int|null The main image ID.
-	 */
-	protected function get_main_image_id_for_rest_request() {
-		switch ( $this->page_type ) {
-			case 'Post_Type':
-				if ( $this->post instanceof WP_Post ) {
-					return $this->get_singular_post_image( $this->post->ID );
-				}
-				return null;
-			default:
-				return null;
-		}
-	}
-
-	/**
-	 * Gets the main image URL for REST requests.
-	 *
-	 * @return string|null The main image URL.
-	 */
-	private function get_main_image_url_for_rest_request() {
-		switch ( $this->page_type ) {
-			case 'Post_Type':
-				if ( $this->post instanceof WP_Post ) {
-					return $this->image->get_post_content_image( $this->post->ID );
 				}
 				return null;
 			default:
@@ -764,6 +730,40 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Gets the main image ID for REST requests.
+	 *
+	 * @return int|null The main image ID.
+	 */
+	private function get_main_image_id_for_rest_request() {
+		switch ( $this->page_type ) {
+			case 'Post_Type':
+				if ( $this->post instanceof WP_Post ) {
+					return $this->get_singular_post_image( $this->post->ID );
+				}
+				return null;
+			default:
+				return null;
+		}
+	}
+	
+	/**
+	 * Gets the main image URL for REST requests.
+	 *
+	 * @return string|null The main image URL.
+	 */
+	private function get_main_image_url_for_rest_request() {
+		switch ( $this->page_type ) {
+			case 'Post_Type':
+				if ( $this->post instanceof WP_Post ) {
+					return $this->image->get_post_content_image( $this->post->ID );
+				}
+				return null;
+			default:
+				return null;
+		}
 	}
 }
 
