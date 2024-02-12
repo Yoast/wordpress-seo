@@ -89,7 +89,11 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						</p>
 						<p class="yoast-price-micro-copy">
 							<?php
-								echo \esc_html__( 'Only $/€/£99 per year (ex VAT) 30-day money back guarantee.', 'wordpress-seo' );
+								echo \esc_html__( 'Only $/€/£99 per year (ex VAT)', 'wordpress-seo' );
+							?>
+							<br />
+							<?php
+								echo \esc_html__( '30-day money back guarantee.', 'wordpress-seo' );
 							?>
 						</p>
 						<hr class="yoast-upsell-hr" aria-hidden="true">
