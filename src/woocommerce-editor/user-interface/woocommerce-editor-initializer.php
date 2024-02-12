@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Woocommerce_Editor\User_Interface;
 
 use Automattic\WooCommerce\Admin\Features\Features;
 use Automattic\WooCommerce\Admin\Features\ProductBlockEditor\BlockRegistry;
-use Automattic\WooCommerce\Admin\Features\ProductBlockEditor\ProductTemplates\GroupInterface;
+use Automattic\WooCommerce\Admin\BlockTemplates\BlockInterface;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use WP_Post;
 use WP_Screen;
@@ -316,11 +316,11 @@ class Woocommerce_Editor_Initializer implements Initializer_Interface {
 	/**
 	 * Adds our SEO group or tab.
 	 *
-	 * @param \Automattic\WooCommerce\Admin\Features\ProductBlockEditor\ProductTemplates\GroupInterface $general_group The WC general group.
+	 * @param \Automattic\WooCommerce\Admin\BlockTemplates\BlockInterface $general_group The WC general group.
 	 *
 	 * @return void
 	 */
-	public function add_seo_group( GroupInterface $general_group ) {
+	public function add_seo_group( BlockInterface $general_group ) {
 		$parent = $general_group->get_parent();
 		if ( ! $parent ) {
 			return;
