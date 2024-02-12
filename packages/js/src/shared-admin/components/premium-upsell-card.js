@@ -76,18 +76,9 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
 			<p className="yst-text-center yst-text-xs yst-mx-2 yst-font-light yst-leading-5 yst-mt-2">
-				{
-					createInterpolateElement(
-						sprintf(
-							/* translators: %1$s expands to a line break tag. */
-							__( "Only $/€/£99 per year (ex VAT)%1$s30-day money back guarantee.", "wordpress-seo" ),
-							"<br />"
-						),
-						{
-							br: <br />,
-						}
-					)
-				}
+				{ __( "Only $/€/£99 per year (ex VAT)", "wordpress-seo" ) }
+				<br />
+				{ __( "30-day money back guarantee.", "wordpress-seo" ) }
 			</p>
 			<hr className="yst-border-t yst-border-primary-300 yst-my-4" />
 			<a
