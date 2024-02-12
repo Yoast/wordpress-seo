@@ -208,7 +208,7 @@ class Woocommerce_Editor_Initializer implements Initializer_Interface {
 	 * @return array The conditionals that must be met to load this.
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class, WooCommerce_Conditional::class ];
+		return [];// Admin_Conditional::class, WooCommerce_Conditional::class ];
 	}
 
 	/**
