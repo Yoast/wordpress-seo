@@ -2,7 +2,7 @@
 import { select } from "@wordpress/data";
 
 /* Internal dependencies */
-import TwitterFields from "../../helpers/fields/TwitterFields";
+import FieldSync from "../../helpers/fields/FieldSync";
 
 export const SET_TWITTER_TITLE = "SET_TWITTER_TITLE";
 export const SET_TWITTER_DESCRIPTION = "SET_TWITTER_DESCRIPTION";
@@ -19,9 +19,9 @@ export const LOAD_TWITTER_PREVIEW = "LOAD_TWITTER_PREVIEW";
  */
 export const setTwitterPreviewTitle = ( title ) => {
 	if ( title.trim() === select( "yoast-seo/editor" ).getSocialTitleTemplate().trim() ) {
-		TwitterFields.title = "";
+		FieldSync.setFieldValue( "twitter-title", "" );
 	} else {
-		TwitterFields.title = title;
+		FieldSync.setFieldValue( "twitter-title", title );
 	}
 
 	return { type: SET_TWITTER_TITLE, title };
@@ -36,9 +36,9 @@ export const setTwitterPreviewTitle = ( title ) => {
  */
 export const setTwitterPreviewDescription = ( description ) => {
 	if ( description.trim() === select( "yoast-seo/editor" ).getSocialDescriptionTemplate().trim() ) {
-		TwitterFields.description = "";
+		FieldSync.setFieldValue( "twitter-description", "" );
 	} else {
-		TwitterFields.description = description;
+		FieldSync.setFieldValue( "twitter-description", description );
 	}
 
 	return { type: SET_TWITTER_DESCRIPTION, description };
@@ -52,8 +52,8 @@ export const setTwitterPreviewDescription = ( description ) => {
  * @returns {Object} The action object.
  */
 export const setTwitterPreviewImage = ( image ) => {
-	TwitterFields.imageId = image.id;
-	TwitterFields.imageUrl = image.url;
+	FieldSync.setFieldValue( "twitter-image-id", image.id );
+	FieldSync.setFieldValue( "twitter-image", image.url );
 	return { type: SET_TWITTER_IMAGE, image };
 };
 
@@ -63,8 +63,8 @@ export const setTwitterPreviewImage = ( image ) => {
  * @returns {Object} The action object.
  */
 export const clearTwitterPreviewImage = () => {
-	TwitterFields.imageId = "";
-	TwitterFields.imageUrl = "";
+	FieldSync.setFieldValue( "twitter-image-id", "" );
+	FieldSync.setFieldValue( "twitter-image", "" );
 	return { type: CLEAR_TWITTER_IMAGE };
 };
 
@@ -81,9 +81,9 @@ export const loadTwitterPreviewData = () => {
 
 	return {
 		type: LOAD_TWITTER_PREVIEW,
-		imageId: TwitterFields.imageId,
-		imageUrl: TwitterFields.imageUrl,
-		description: TwitterFields.description || getSocialDescriptionTemplate(),
-		title: TwitterFields.title || getSocialTitleTemplate(),
+		imageId: FieldSync.getInitialValue( "twitter-image-id" ),
+		imageUrl: FieldSync.getInitialValue( "twitter-image" ),
+		description: FieldSync.getInitialValue( "twitter-description" ) || getSocialDescriptionTemplate(),
+		title: FieldSync.getInitialValue( "twitter-title" ) || getSocialTitleTemplate(),
 	};
 };
