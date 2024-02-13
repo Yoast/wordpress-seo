@@ -304,7 +304,11 @@ class WPSEO_Meta {
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
-					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ]
+					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
+					  'show_in_rest'      => true,
+					  'type'              => 'string',
+					  'single'            => true,
+					]
 				);
 
 				// Set the $fields_index property for efficiency.
