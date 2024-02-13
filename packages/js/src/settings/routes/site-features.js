@@ -241,7 +241,7 @@ const SiteFeatures = () => {
 								isPremiumLink="https://yoa.st/get-ai-generator"
 								title={ __( "AI title & description generator", "wordpress-seo" ) }
 							>
-								<p>{ __( "Use AI to write SEO titles and meta descriptions for your posts and pages. It speeds up your work and does some of the thinking for you!", "wordpress-seo" ) }</p>
+								<p>{ __( "Use AI to write SEO titles and meta descriptions for your content. It speeds up your work and does some of the thinking for you!", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-ai-generator" link="https://yoa.st/ai-generator-feature" ariaLabel={ __( "AI title & description generator", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
