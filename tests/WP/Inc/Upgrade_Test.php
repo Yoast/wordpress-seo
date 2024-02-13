@@ -41,6 +41,18 @@ final class Upgrade_Test extends TestCase {
 	}
 
 	/**
+	 * Tear down the class which was tested.
+	 *
+	 * @return void
+	 */
+	public function tear_down() {
+		parent::tear_down();
+
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->deactivate_hook();
+	}
+
+	/**
 	 * Retrieves the instance to test against.
 	 *
 	 * @return Upgrade_Double
@@ -272,7 +284,18 @@ final class Upgrade_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_upgrade_49() {
-		\wp_create_user( 'test_user', 'test password', 'test@test.org' );
+		$user_id       = $this->factory->user->create(
+			[
+				'user_login'   => 'User_Login',
+				'display_name' => 'User_Nicename',
+			]
+		);
+		$other_user_id = $this->factory->user->create(
+			[
+				'user_login'   => 'Other_User_Login',
+				'display_name' => 'Other_User_Nicename',
+			]
+		);
 
 		$notifications = [
 			[
@@ -295,7 +318,7 @@ final class Upgrade_Test extends TestCase {
 			],
 		];
 
-		\update_user_option( 1, Yoast_Notification_Center::STORAGE_KEY, \array_values( $notifications ) );
+		\update_user_option( $user_id, Yoast_Notification_Center::STORAGE_KEY, \array_values( $notifications ) );
 
 		$notifications = [
 			[
@@ -311,17 +334,17 @@ final class Upgrade_Test extends TestCase {
 			],
 		];
 
-		\update_user_option( 2, Yoast_Notification_Center::STORAGE_KEY, \array_values( $notifications ) );
+		\update_user_option( $other_user_id, Yoast_Notification_Center::STORAGE_KEY, \array_values( $notifications ) );
 
 		$instance = $this->get_instance();
 
 		$instance->upgrade_49();
 
-		$user_id1_notifications = \get_user_option( Yoast_Notification_Center::STORAGE_KEY, 1 );
-		$user_id2_notification  = \get_user_option( Yoast_Notification_Center::STORAGE_KEY, 2 );
+		$user_id1_notifications = \get_user_option( Yoast_Notification_Center::STORAGE_KEY, $user_id );
+		$user_id2_notification  = \get_user_option( Yoast_Notification_Center::STORAGE_KEY, $other_user_id );
 
 		$this->assertEquals( 2, \count( $user_id1_notifications ) );
-		$this->assertEquals( 1, $user_id2_notification );
+		$this->assertEquals( 1, \count( $user_id2_notification ) );
 	}
 
 	/**
