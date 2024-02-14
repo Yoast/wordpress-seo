@@ -6,6 +6,7 @@ import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
 import styled from "styled-components";
 import { difference, noop } from "lodash";
+import MetaboxFieldSync from "../helpers/fields/MetaboxFieldSync";
 
 /* Internal dependencies */
 import TaxonomyPicker from "./TaxonomyPicker";
@@ -30,8 +31,11 @@ class PrimaryTaxonomyPicker extends Component {
 		this.updateReplacementVariable = this.updateReplacementVariable.bind( this );
 
 		const { fieldId, name } = props.taxonomy;
-		this.input = document.getElementById( fieldId );
-		props.setPrimaryTaxonomyId( name, parseInt( this.input.value, 10 ) );
+
+		const initialPrimaryTaxonomyId = parseInt( MetaboxFieldSync.getInitialValue( `primary_${name}` ), 10 );
+
+		props.setPrimaryTaxonomyId( name, initialPrimaryTaxonomyId );
+
 
 		this.state = {
 			selectedTerms: [],
@@ -188,7 +192,7 @@ class PrimaryTaxonomyPicker extends Component {
 
 		this.props.setPrimaryTaxonomyId( name, termId );
 
-		this.input.value = termId === -1 ? "" : termId;
+		MetaboxFieldSync.setFieldValue( `primary_${name}`, termId === -1 ? "" : termId );
 	}
 
 	/**
