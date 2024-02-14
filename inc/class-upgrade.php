@@ -308,7 +308,12 @@ class WPSEO_Upgrade {
 		global $wpdb;
 
 		// Between 3.2 and 3.4 the sitemap options were saved with autoloading enabled.
-		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%" AND autoload = "yes"' );
+		$wpdb->query(
+			$wpdb->prepare(
+				'DELETE FROM %i WHERE option_name LIKE %s AND autoload = "yes"',
+				[ $wpdb->options, 'wpseo_sitemap_%' ]
+			)
+		);
 	}
 
 	/**
@@ -375,11 +380,10 @@ class WPSEO_Upgrade {
 			$wpdb->prepare(
 				'
 				SELECT user_id, meta_value
-				FROM ' . $wpdb->usermeta . '
+				FROM %i
 				WHERE meta_key = %s AND meta_value LIKE %s
 				',
-				$meta_key,
-				'%wpseo-dismiss-about%'
+				[ $wpdb->usermeta, $meta_key, '%wpseo-dismiss-about%' ]
 			),
 			ARRAY_A
 		);
@@ -427,7 +431,13 @@ class WPSEO_Upgrade {
 		global $wpdb;
 
 		// Deletes the post meta value, which might created in the RC.
-		$wpdb->query( 'DELETE FROM ' . $wpdb->postmeta . ' WHERE meta_key = "_yst_content_links_processed"' );
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM %i
+				WHERE meta_key = '_yst_content_links_processed'",
+				[ $wpdb->postmeta ]
+			)
+		);
 	}
 
 	/**
@@ -621,7 +631,13 @@ class WPSEO_Upgrade {
 		// Removes all scheduled tasks for hitting the sitemap index.
 		wp_clear_scheduled_hook( 'wpseo_hit_sitemap_index' );
 
-		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%"' );
+		$wpdb->query(
+			$wpdb->prepare(
+				'DELETE FROM %i
+				WHERE option_name LIKE %s',
+				[ $wpdb->options, 'wpseo_sitemap_%' ]
+			)
+		);
 	}
 
 	/**
@@ -698,7 +714,13 @@ class WPSEO_Upgrade {
 		}
 
 		global $wpdb;
-		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key = 'wp_yoast_promo_hide_premium_upsell_admin_block'" );
+		$wpdb->query(
+			$wpdb->prepare(
+				'DELETE FROM %i
+				WHERE meta_key = %s',
+				[ $wpdb->usermeta, 'wp_yoast_promo_hide_premium_upsell_admin_block' ]
+			)
+		);
 
 		// Removes the WordPress update notification, because it is no longer necessary when WordPress 5.3 is released.
 		$center = Yoast_Notification_Center::get();
