@@ -1,4 +1,4 @@
-import AnalysisFields from "../../helpers/fields/AnalysisFields";
+import MetaboxFieldSync from "../../helpers/fields/MetaboxFieldSync";
 
 const PREFIX = "WPSEO_";
 
@@ -14,7 +14,7 @@ export const SET_CORNERSTONE_CONTENT = `${ PREFIX }SET_CORNERSTONE_CONTENT`;
 export const loadCornerstoneContent = () => {
 	return {
 		type: SET_CORNERSTONE_CONTENT,
-		isCornerstone: AnalysisFields.isCornerstone,
+		isCornerstone: MetaboxFieldSync.getInitialValue( "is_cornerstone" ) === "1",
 	};
 };
 
@@ -26,7 +26,7 @@ export const loadCornerstoneContent = () => {
  * @returns {Object} The set cornerstone content action.
  */
 export const setCornerstoneContent = ( isCornerstone ) => {
-	AnalysisFields.isCornerstone = isCornerstone;
+	MetaboxFieldSync.setBooleanFieldValue( "is_cornerstone", isCornerstone );
 	return {
 		type: SET_CORNERSTONE_CONTENT,
 		isCornerstone,
@@ -39,7 +39,7 @@ export const setCornerstoneContent = ( isCornerstone ) => {
  * @returns {Object} The toggle cornerstone content action.
  */
 export const toggleCornerstoneContent = () => {
-	AnalysisFields.isCornerstone = ! AnalysisFields.isCornerstone;
+	MetaboxFieldSync.toggleFieldValue( "is_cornerstone" );
 	return {
 		type: TOGGLE_CORNERSTONE_CONTENT,
 	};

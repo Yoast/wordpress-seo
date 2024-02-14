@@ -2,7 +2,7 @@
 import { select } from "@wordpress/data";
 
 /* Internal dependencies */
-import FieldSync from "../../helpers/fields/FieldSync";
+import MetaboxFieldSync from "../../helpers/fields/MetaboxFieldSync";
 
 export const SET_TWITTER_TITLE = "SET_TWITTER_TITLE";
 export const SET_TWITTER_DESCRIPTION = "SET_TWITTER_DESCRIPTION";
@@ -19,9 +19,9 @@ export const LOAD_TWITTER_PREVIEW = "LOAD_TWITTER_PREVIEW";
  */
 export const setTwitterPreviewTitle = ( title ) => {
 	if ( title.trim() === select( "yoast-seo/editor" ).getSocialTitleTemplate().trim() ) {
-		FieldSync.setFieldValue( "twitter-title", "" );
+		MetaboxFieldSync.setFieldValue( "twitter-title", "" );
 	} else {
-		FieldSync.setFieldValue( "twitter-title", title );
+		MetaboxFieldSync.setFieldValue( "twitter-title", title );
 	}
 
 	return { type: SET_TWITTER_TITLE, title };
@@ -36,9 +36,9 @@ export const setTwitterPreviewTitle = ( title ) => {
  */
 export const setTwitterPreviewDescription = ( description ) => {
 	if ( description.trim() === select( "yoast-seo/editor" ).getSocialDescriptionTemplate().trim() ) {
-		FieldSync.setFieldValue( "twitter-description", "" );
+		MetaboxFieldSync.setFieldValue( "twitter-description", "" );
 	} else {
-		FieldSync.setFieldValue( "twitter-description", description );
+		MetaboxFieldSync.setFieldValue( "twitter-description", description );
 	}
 
 	return { type: SET_TWITTER_DESCRIPTION, description };
@@ -52,8 +52,8 @@ export const setTwitterPreviewDescription = ( description ) => {
  * @returns {Object} The action object.
  */
 export const setTwitterPreviewImage = ( image ) => {
-	FieldSync.setFieldValue( "twitter-image-id", image.id );
-	FieldSync.setFieldValue( "twitter-image", image.url );
+	MetaboxFieldSync.setFieldValue( "twitter-image-id", image.id );
+	MetaboxFieldSync.setFieldValue( "twitter-image", image.url );
 	return { type: SET_TWITTER_IMAGE, image };
 };
 
@@ -63,8 +63,8 @@ export const setTwitterPreviewImage = ( image ) => {
  * @returns {Object} The action object.
  */
 export const clearTwitterPreviewImage = () => {
-	FieldSync.setFieldValue( "twitter-image-id", "" );
-	FieldSync.setFieldValue( "twitter-image", "" );
+	MetaboxFieldSync.setFieldValue( "twitter-image-id", "" );
+	MetaboxFieldSync.setFieldValue( "twitter-image", "" );
 	return { type: CLEAR_TWITTER_IMAGE };
 };
 
@@ -81,9 +81,9 @@ export const loadTwitterPreviewData = () => {
 
 	return {
 		type: LOAD_TWITTER_PREVIEW,
-		imageId: FieldSync.getInitialValue( "twitter-image-id" ),
-		imageUrl: FieldSync.getInitialValue( "twitter-image" ),
-		description: FieldSync.getInitialValue( "twitter-description" ) || getSocialDescriptionTemplate(),
-		title: FieldSync.getInitialValue( "twitter-title" ) || getSocialTitleTemplate(),
+		imageId: MetaboxFieldSync.getInitialValue( "twitter-image-id" ),
+		imageUrl: MetaboxFieldSync.getInitialValue( "twitter-image" ),
+		description: MetaboxFieldSync.getInitialValue( "twitter-description" ) || getSocialDescriptionTemplate(),
+		title: MetaboxFieldSync.getInitialValue( "twitter-title" ) || getSocialTitleTemplate(),
 	};
 };

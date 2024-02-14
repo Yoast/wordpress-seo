@@ -3,7 +3,7 @@ import { dispatch } from "@wordpress/data";
 /**
  * This class is responsible for syncing hidden fields with store.
  */
-export default class FieldSync {
+export default class MetaboxFieldSync {
 	static isPost = window.wpseoScriptData?.isPost;
 	static metaPrefix = "_yoast_wpseo_";
 
@@ -13,7 +13,7 @@ export default class FieldSync {
 	static booleanFields = [ "isCornerstone", "wordproof_timestamp" ];
 
 	/**
-	 * Get input element by id for classic editor.
+	 * Get input element by key.
      *
 	 * @param {string} fieldKey The key of the input element.
 	 * @returns {HTMLElement} The input element.
@@ -29,6 +29,16 @@ export default class FieldSync {
 	 * @returns {value} The initial value of the field.
 	 */
 	static getInitialValue( fieldKey ) {
+		return window.wpseoScriptData?.metabox?.metadata[ fieldKey ];
+	}
+
+	/**
+	 * Get no index value.
+	 * @param {string} value The value.
+	 * @returns {void}
+	 */
+	static getNoIndex() {
+		const fieldKey = this.isPost ? "meta-robots-noindex" : "noindex";
 		return window.wpseoScriptData?.metabox.metadata[ fieldKey ];
 	}
 
@@ -39,42 +49,71 @@ export default class FieldSync {
 	 * @returns {void}
 	 */
 	static toggleFieldValue( fieldkey ) {
-		try {
-			const value = this.getInputElement( fieldkey );
-			const newValue = value === "1" ? "0" : "1";
+		const inputElement = this.getInputElement( fieldkey );
+		if ( inputElement ) {
+			const newValue = inputElement.value === "1" ? "0" : "1";
 			this.setFieldValue( fieldkey, newValue );
-		} finally {
-			// Do nothing.
 		}
 	}
 
 	/**
-	 * Prepare the value of a field.
+	 * Set the value of a boolean field.
 	 * @param {string} fieldKey The field key.
 	 * @param {value} value The value of the field.
 	 * @returns {value} The prepared value of the field.
 	 */
-	static preparedValue( fieldKey, value ) {
-		if ( this.booleanFields.includes( fieldKey ) ) {
-			return value ? "1" : "0";
+	static setBooleanFieldValue( fieldKey, value ) {
+		const inputElement = this.getInputElement( fieldKey );
+
+		if ( inputElement ) {
+			inputElement.value = value ? "1" : "0";
 		}
-		return value ?? "";
 	}
 
 	/**
 	 * Set the value of a field.
-	 * @param {string} fieldKey The field id.
+	 * @param {string} fieldId The field id.
+	 * @param {value} value The value of the field.
+	 * @returns {void}
+	 */
+	static setFieldValueBySingleId( fieldId, value ) {
+		const inputElement = document.getElementById( fieldId );
+
+		if ( inputElement ) {
+			inputElement.value = value ?? "";
+		}
+	}
+
+	/**
+	 * Set no index value.
+	 * @param {string} value The value.
+	 * @returns {void}
+	 */
+	static setNoIndex( value ) {
+		const inputElement = document.getElementById( this.isPost ? "yoast_wpseo_meta-robots-noindex" : "hidden_wpseo_noindex" );
+		if ( inputElement ) {
+			inputElement.value = value;
+		}
+	}
+
+	/**
+	 * Set the value of a field.
+	 * @param {string} fieldKey The field key.
 	 * @param {value} value The value of the field.
 	 * @returns {void}
 	 */
 	static setFieldValue( fieldKey, value ) {
 		const inputElement = this.getInputElement( fieldKey );
 
-		// If Classic Editor
-		if ( inputElement ) {
-			inputElement.value = value;
-			return;
+		try {
+			if ( inputElement ) {
+				inputElement.value = value ?? "";
+				return;
+			}
+		} catch ( e ) {
+			// Do nothing.
 		}
+
 
 		// If Block Editor and a post
 		try {

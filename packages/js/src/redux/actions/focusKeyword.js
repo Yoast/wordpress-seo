@@ -1,4 +1,4 @@
-import AnalysisFields from "../../helpers/fields/AnalysisFields";
+import MetaboxFieldSync from "../../helpers/fields/MetaboxFieldSync";
 
 const PREFIX = "WPSEO_";
 
@@ -13,7 +13,7 @@ export const SET_FOCUS_KEYWORD = `${ PREFIX }SET_FOCUS_KEYWORD`;
 export const loadFocusKeyword = () => {
 	return {
 		type: LOAD_FOCUS_KEYWORD,
-		keyword: AnalysisFields.keyphrase,
+		keyword: MetaboxFieldSync.getInitialValue( "focuskw" ),
 	};
 };
 
@@ -25,7 +25,7 @@ export const loadFocusKeyword = () => {
  * @returns {Object} Action.
  */
 export const setFocusKeyword = function( keyword ) {
-	AnalysisFields.keyphrase = keyword;
+	MetaboxFieldSync.setFieldValue( "focuskw", keyword );
 	return {
 		type: SET_FOCUS_KEYWORD,
 		keyword: keyword,

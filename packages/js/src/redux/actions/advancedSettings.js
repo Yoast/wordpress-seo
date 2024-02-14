@@ -1,4 +1,4 @@
-import AdvancedFields from "../../helpers/fields/AdvancedFields";
+import MetaboxFieldSync from "../../helpers/fields/MetaboxFieldSync";
 
 export const SET_NO_INDEX = "SET_NO_INDEX";
 export const SET_NO_FOLLOW = "SET_NO_FOLLOW";
@@ -16,7 +16,7 @@ export const LOAD_ADVANCED_SETTINGS = "LOAD_ADVANCED_SETTINGS";
  * @returns {Object} The action object.
  */
 export const setNoIndex = ( value ) => {
-	AdvancedFields.noIndex = value;
+	MetaboxFieldSync.setNoIndex( value );
 	return { type: SET_NO_INDEX, value };
 };
 
@@ -28,7 +28,7 @@ export const setNoIndex = ( value ) => {
  * @returns {Object} The action object.
  */
 export const setNoFollow = ( value ) => {
-	AdvancedFields.noFollow = value;
+	MetaboxFieldSync.setFieldValueBySingleId( "yoast_wpseo_meta-robots-nofollow", value );
 	return { type: SET_NO_FOLLOW, value };
 };
 
@@ -40,7 +40,7 @@ export const setNoFollow = ( value ) => {
  * @returns {Object} The action object.
  */
 export const setAdvanced = ( value ) => {
-	AdvancedFields.advanced = value.join( "," );
+	MetaboxFieldSync.setFieldValueBySingleId( "yoast_wpseo_meta-robots-adv", value.join( "," ) );
 	return { type: SET_ADVANCED, value };
 };
 
@@ -52,7 +52,7 @@ export const setAdvanced = ( value ) => {
  * @returns {Object} The action object.
  */
 export const setBreadcrumbsTitle = ( value ) => {
-	AdvancedFields.breadcrumbsTitle = value;
+	MetaboxFieldSync.setFieldValue( "bctitle", value );
 	return { type: SET_BREADCRUMBS_TITLE, value };
 };
 
@@ -64,7 +64,7 @@ export const setBreadcrumbsTitle = ( value ) => {
  * @returns {Object} The action object.
  */
 export const setCanonical = ( value ) => {
-	AdvancedFields.canonical = value;
+	MetaboxFieldSync.setFieldValue( "canonical", value );
 	return { type: SET_CANONICAL_URL, value };
 };
 
@@ -76,7 +76,7 @@ export const setCanonical = ( value ) => {
  * @returns {Object} The action object.
  */
 export const setWordProofTimestamp = ( value ) => {
-	AdvancedFields.wordproofTimestamp = value;
+	MetaboxFieldSync.setBooleanFieldValue( "wordproof_timestamp", value );
 	return { type: SET_WORDPROOF_TIMESTAMP, value };
 };
 
@@ -86,15 +86,17 @@ export const setWordProofTimestamp = ( value ) => {
  * @returns {object} The action object.
  */
 export const loadAdvancedSettingsData = () => {
+	const advancedValue = MetaboxFieldSync.getInitialValue( "meta-robots-adv" );
+	const advancedList = typeof advancedValue === "string" ? advancedValue.split( "," ) : [];
 	return {
 		type: LOAD_ADVANCED_SETTINGS,
 		settings: {
-			noIndex: AdvancedFields.noIndex,
-			noFollow: AdvancedFields.noFollow,
-			advanced: AdvancedFields.advanced.split( "," ),
-			breadcrumbsTitle: AdvancedFields.breadcrumbsTitle,
-			canonical: AdvancedFields.canonical,
-			wordproofTimestamp: AdvancedFields.wordproofTimestamp,
+			noIndex: MetaboxFieldSync.getNoIndex(),
+			noFollow: MetaboxFieldSync.getInitialValue( "meta-robots-nofollow" ),
+			advanced: advancedList,
+			breadcrumbsTitle: MetaboxFieldSync.getInitialValue( "bctitle" ),
+			canonical: MetaboxFieldSync.getInitialValue( "canonical" ),
+			wordproofTimestamp: MetaboxFieldSync.getInitialValue( "wordproof_timestamp" ) === "1",
 			isLoading: false,
 		},
 	};
