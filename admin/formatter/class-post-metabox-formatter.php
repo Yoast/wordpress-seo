@@ -353,6 +353,13 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 			$meta_data[ $key ] = \esc_attr( $meta_value ) ?  \esc_attr( $meta_value ) : $default;
 		}
 
+		$taxonomies = get_object_taxonomies( $post_type, 'objects' );
+		foreach ( $taxonomies as $taxonomy ) {
+			$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $this->post->ID );
+			$meta_data[ 'primary_' . $taxonomy->name ] = $primary_term_object->get_primary_term();
+		}
+
+
 		return $meta_data;
 	}
 }
