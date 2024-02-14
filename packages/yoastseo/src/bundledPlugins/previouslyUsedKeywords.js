@@ -105,14 +105,13 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 			expand to links on yoast.com, %4$s expands to the anchor end tag. */
 			text: sprintf( __(
 				// eslint-disable-next-line max-len
-				"%3$sPreviously used keyphrase%5$s: You've used this keyphrase %1$sonce before%2$s. %4$sDo not use your keyphrase more than once%5$s.",
+				"%3$sPreviously used keyphrase%2$s: You've used this keyphrase %1$sonce before%2$s. %4$sDo not use your keyphrase more than once%2$s.",
 				"wordpress-seo"
 			),
 			url,
 			"</a>",
 			this.urlTitle,
-			this.urlCallToAction,
-			"</a>"
+			this.urlCallToAction
 			),
 			score: 6,
 		};
@@ -132,15 +131,13 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 			the anchor end tag */
 			text: sprintf( __(
 				// eslint-disable-next-line max-len
-				"%4$sPreviously used keyphrase%6$s: You've used this keyphrase %1$s multiple times before%3$s. %5$sDo not use your keyphrase more than once%6$s.",
+				"%3$sPreviously used keyphrase%2$s: You've used this keyphrase %1$smultiple times before%2$s. %4$sDo not use your keyphrase more than once%2$s.",
 				"wordpress-seo"
 			),
 			url,
-			count,
 			"</a>",
 			this.urlTitle,
-			this.urlCallToAction,
-			"</a>"
+			this.urlCallToAction
 			),
 			score: 1,
 		};
