@@ -296,6 +296,24 @@ class WPSEO_Meta {
 		if ( is_array( $extra_fields ) ) {
 			self::$meta_fields = self::array_merge_recursive_distinct( $extra_fields, self::$meta_fields );
 		}
+		// register meta data for taxonomies.
+		$primay_terms[ 'primary_terms' ] = [];
+
+		$taxonomies = get_taxonomies();
+		foreach ( $taxonomies as $taxonomy_name ) {
+			$primay_terms[ 'primary_terms' ]['primary_' .$taxonomy_name ]= [
+				'type'          => 'hidden',
+				'title'         => '', // Translation added later.
+				'default_value' => '',
+				'description'   => '', // Translation added later.
+			];
+		} 
+
+		if ( $primay_terms && is_array( $primay_terms ) ) {
+			self::$meta_fields = self::array_merge_recursive_distinct( $primay_terms, self::$meta_fields );
+		}
+
+
 		unset( $extra_fields );
 
 		foreach ( self::$meta_fields as $subset => $field_group ) {
