@@ -1150,18 +1150,13 @@ class WPSEO_Upgrade {
 			return;
 		}
 
-		$replacements = [
-			Model::get_table_name( 'Indexable' ),
-			'object_type',
-			'object_sub_type',
-		];
-		$replacements = array_merge( $replacements, $private_taxonomies );
+		$replacements = array_merge( [ Model::get_table_name( 'Indexable' ) ], $private_taxonomies );
 
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM %i
-				WHERE %i = 'term'
-				AND %i IN ("
+				WHERE object_type = 'term'
+				AND object_sub_type IN ("
 					. implode( ', ', array_fill( 0, count( $private_taxonomies ), '%s' ) )
 					. ')',
 				$replacements
@@ -1184,17 +1179,10 @@ class WPSEO_Upgrade {
 		$wpdb->show_errors = false;
 
 		// Reset the permalinks of the attachments in the indexable table.
-		$replacements = [
-			Model::get_table_name( 'Indexable' ),
-			'permalink',
-			'object_type',
-			'object_sub_type',
-		];
-
 		$wpdb->query(
 			$wpdb->prepare(
-				"UPDATE %i SET %i = NULL WHERE %i = 'post' AND %i = 'attachment'",
-				$replacements
+				"UPDATE %i SET permalink = NULL WHERE object_type = 'post' AND object_sub_type = 'attachment'",
+				[ Model::get_table_name( 'Indexable' ) ]
 			)
 		);
 
@@ -1267,17 +1255,11 @@ class WPSEO_Upgrade {
 	private function remove_sitemap_validators() {
 		global $wpdb;
 
-		$replacements = [
-			$wpdb->options,
-			'option_name',
-			'wpseo_sitemap%validator%',
-		];
-
 		// Remove all sitemap validators.
 		$wpdb->query(
 			$wpdb->prepare(
-				'DELETE FROM %i WHERE %i LIKE %i',
-				$replacements
+				'DELETE FROM %i WHERE option_name LIKE %s',
+				[ $wpdb->options, 'wpseo_sitemap%validator%' ]
 			)
 		);
 	}
@@ -1292,18 +1274,11 @@ class WPSEO_Upgrade {
 	protected function get_option_from_database( $option_name ) {
 		global $wpdb;
 
-		$replacements = [
-			'option_value',
-			$wpdb->options,
-			'option_name',
-			$option_name,
-		];
-
 		// Load option directly from the database, to avoid filtering and sanitization.
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT %i FROM %i WHERE %i = %s',
-				$replacements
+				'SELECT option_value FROM %i WHERE option_name = %s',
+				[ $wpdb->options, $option_name ]
 			),
 			ARRAY_A
 		);
@@ -1552,37 +1527,23 @@ class WPSEO_Upgrade {
 		$included_post_types = YoastSEO()->helpers->post_type->get_indexable_post_types();
 
 		if ( empty( $included_post_types ) ) {
-			$replacements = [
-				$indexable_table,
-				'object_type',
-				'object_sub_type',
-			];
-
 			$wpdb->query(
 				$wpdb->prepare(
 					"DELETE FROM %i
-					WHERE %i = 'post'
-					AND %i IS NOT NULL",
-					$replacements
+					WHERE object_type = 'post'
+					AND object_sub_type IS NOT NULL",
+					[ $indexable_table ]
 				)
 			);
 		}
 		else {
-			$replacements = [
-				$indexable_table,
-				'object_type',
-				'object_sub_type',
-				'object_sub_type',
-			];
-			$replacements = array_merge( $replacements, $included_post_types );
-
 			$wpdb->query(
 				$wpdb->prepare(
 					"DELETE FROM %i
-					WHERE %i = 'post'
-					AND %i IS NOT NULL
-					AND %i NOT IN ( " . implode( ', ', array_fill( 0, count( $included_post_types ), '%s' ) ) . ' )',
-					$replacements
+					WHERE object_type = 'post'
+					AND object_sub_type IS NOT NULL
+					AND object_sub_type NOT IN ( " . implode( ', ', array_fill( 0, count( $included_post_types ), '%s' ) ) . ' )',
+					array_merge( [ $indexable_table ], $included_post_types )
 				)
 			);
 		}
@@ -1608,37 +1569,23 @@ class WPSEO_Upgrade {
 		$included_taxonomies = YoastSEO()->helpers->taxonomy->get_indexable_taxonomies();
 
 		if ( empty( $included_taxonomies ) ) {
-			$replacements = [
-				$indexable_table,
-				'object_type',
-				'object_sub_type',
-			];
-
 			$wpdb->query(
 				$wpdb->prepare(
 					"DELETE FROM %i
-					WHERE %i = 'term'
-					AND %i IS NOT NULL",
-					$replacements
+					WHERE object_type = 'term'
+					AND object_sub_type IS NOT NULL",
+					[ $indexable_table ]
 				)
 			);
 		}
 		else {
-			$replacements = [
-				$indexable_table,
-				'object_type',
-				'object_sub_type',
-				'object_sub_type',
-			];
-			$replacements = array_merge( $replacements, $included_taxonomies );
-
 			$wpdb->query(
 				$wpdb->prepare(
 					"DELETE FROM %i
-					WHERE %i = 'term'
-					AND %i IS NOT NULL
-					AND %i NOT IN ( " . implode( ', ', array_fill( 0, count( $included_taxonomies ), '%s' ) ) . ' )',
-					$replacements
+					WHERE object_type = 'term'
+					AND object_sub_type IS NOT NULL
+					AND object_sub_type NOT IN ( " . implode( ', ', array_fill( 0, count( $included_taxonomies ), '%s' ) ) . ' )',
+					array_merge( [ $indexable_table ], $included_taxonomies )
 				)
 			);
 		}
@@ -1658,36 +1605,24 @@ class WPSEO_Upgrade {
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 
-		$replacements = [
-			'id',
-			'newest_id',
-			'object_id',
-			'object_type',
-			Model::get_table_name( 'Indexable' ),
-			'post_status',
-			'object_type',
-			'object_id',
-			'object_type',
-		];
-
 		$duplicates = $wpdb->get_results(
 			$wpdb->prepare(
 				"
 			SELECT
-				MAX(%i) as %i,
-				%i,
-				%i
+				MAX(id) as newest_id,
+				object_id,
+				object_type
 			FROM
 				%i
 			WHERE
-				%i = 'unindexed'
-				AND %i IN ( 'term', 'post', 'user' )
+				post_status = 'unindexed'
+				AND object_type IN ( 'term', 'post', 'user' )
 			GROUP BY
-				%i,
-				%i
+				object_id,
+				object_type
 			HAVING
 				count(*) > 1",
-				$replacements
+				[ Model::get_table_name( 'Indexable' ) ]
 			),
 			ARRAY_A
 		);
@@ -1730,20 +1665,13 @@ class WPSEO_Upgrade {
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 
-		$replacements = [
-			Model::get_table_name( 'Indexable' ),
-			'post_status',
-			'object_type',
-			'object_id',
-		];
-
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM %i
-				WHERE %i = 'unindexed'
-				AND %i NOT IN ( 'home-page', 'date-archive', 'post-type-archive', 'system-page' )
-				AND %i IS NULL",
-				$replacements
+				WHERE post_status = 'unindexed'
+				AND object_type NOT IN ( 'home-page', 'date-archive', 'post-type-archive', 'system-page' )
+				AND object_id IS NULL",
+				[ Model::get_table_name( 'Indexable' ) ]
 			)
 		);
 
@@ -1766,15 +1694,10 @@ class WPSEO_Upgrade {
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 
-		$replacements = [
-			Model::get_table_name( 'Indexable' ),
-			'object_type',
-		];
-
 		$wpdb->query(
 			$wpdb->prepare(
-				"DELETE FROM %i WHERE %i = 'user'",
-				$replacements
+				"DELETE FROM %i WHERE object_type = 'user'",
+				[ Model::get_table_name( 'Indexable' ) ]
 			)
 		);
 
@@ -1807,23 +1730,16 @@ class WPSEO_Upgrade {
 		$object_ids           = wp_list_pluck( $filtered_duplicates, 'object_id' );
 		$newest_indexable_ids = wp_list_pluck( $filtered_duplicates, 'newest_id' );
 
-		$replacements   = [
-			Model::get_table_name( 'Indexable' ),
-			'object_id',
-		];
-		$replacements   = array_merge( $replacements, array_values( $object_ids ) );
-		$replacements[] = 'id';
-		$replacements   = array_merge( $replacements, array_values( $newest_indexable_ids ) );
-		$replacements[] = 'object_type';
+		$replacements   = array_merge( [ Model::get_table_name( 'Indexable' ) ], array_values( $object_ids ), array_values( $newest_indexable_ids ) );
 		$replacements[] = $object_type;
 
 		return $wpdb->prepare(
 			'DELETE FROM
 				%i
 			WHERE
-				%i IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
-				AND %i NOT IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
-				AND %i = %s',
+				object_id IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
+				AND id NOT IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
+				AND object_type = %s',
 			$replacements
 		);
 	}
