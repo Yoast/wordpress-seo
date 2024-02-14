@@ -8,12 +8,12 @@ import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
-import { createBasicWordForms } from "./helpers/createBasicWordForms";
+import { createBasicWordForms, stemBasicPrefixes } from "./helpers/createBasicWordForms";
 import getStemmer from "./helpers/getStemmer";
 import isPassiveSentence from "./helpers/isPassiveSentence";
 
 /**
- * The researches contains all the researches
+ * The researches contain all the researches
  */
 export default class Researcher extends AbstractResearcher {
 	/**
@@ -39,6 +39,7 @@ export default class Researcher extends AbstractResearcher {
 			createBasicWordForms,
 			getStemmer,
 			isPassiveSentence,
+			stemBasicPrefixes,
 		} );
 	}
 }

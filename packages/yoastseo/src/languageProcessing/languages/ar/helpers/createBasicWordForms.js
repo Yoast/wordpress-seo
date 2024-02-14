@@ -1,3 +1,26 @@
+const BASIC_PREFIXES = [ "ل", "ب", "ك", "و", "ف", "س", "أ", "ال", "وب", "ول", "لل", "فس", "فب", "فل", "وس",
+	"وال", "بال", "فال", "كال", "ولل", "وبال" ];
+
+/**
+ * Strips basic prefixes from a word.
+ *
+ * @param {string} word The word to strip the basic prefixes from.
+ * @returns {string} The word without the basic prefixes.
+ */
+export function stemBasicPrefixes( word ) {
+	/*
+ 	 * If a word starts with one of the prefixes, we strip it and create all possible
+	 * prefixed forms based on this stem.
+	 */
+	let stemmedWord = "";
+	BASIC_PREFIXES.forEach( prefix => {
+		if ( word.startsWith( prefix ) ) {
+			stemmedWord = word.slice( prefix.length );
+		}
+	} );
+	return stemmedWord;
+}
+
 /**
  * Creates basic word forms for a given Arabic word.
  *
@@ -6,9 +29,6 @@
  * @returns {Array}        Prefixed and de-prefixed variations of a word.
  */
 export function createBasicWordForms( word ) {
-	const prefixes = [ "ل", "ب", "ك", "و", "ف", "س", "أ", "ال", "وب", "ول", "لل", "فس", "فب", "فل", "وس",
-		 "وال", "بال", "فال", "كال", "ولل", "وبال" ];
-
 	const forms = [];
 
 	/*
@@ -16,23 +36,13 @@ export function createBasicWordForms( word ) {
 	 * beginning with a prefix-like letter might be exceptions where this is the
 	 * actual first letter of the word.
 	 */
-	forms.push( ...prefixes.map( prefix => prefix + word ) );
+	forms.push( ...BASIC_PREFIXES.map( prefix => prefix + word ) );
 
-	let stemmedWord = "";
+	const stemmedWord = stemBasicPrefixes( word );
 
-	/*
-	 * If a word starts with one of the prefixes, we strip it and create all possible
-	 * prefixed forms based on this stem.
-	 */
-	for ( const prefix of prefixes ) {
-		if ( word.startsWith( prefix ) ) {
-			stemmedWord = word.slice( prefix.length );
-		}
-	}
-
-	if ( stemmedWord.length > 0 ) {
+	if ( stemmedWord !== "" ) {
 		forms.push( stemmedWord );
-		forms.push( ...prefixes.map( prefix => prefix + stemmedWord ) );
+		forms.push( ...BASIC_PREFIXES.map( prefix => prefix + stemmedWord ) );
 	}
 
 	return forms;
