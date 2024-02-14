@@ -257,9 +257,9 @@ final class Upgrade_Test extends TestCase {
 			$wpdb->prepare(
 				"SELECT *
 				FROM %i
-				WHERE %i LIKE %s
-				AND %i = 'yes'",
-				[ $wpdb->options, 'option_name', 'wpseo_sitemap_%', 'autoload' ]
+				WHERE option_name LIKE %s
+				AND autoload = 'yes'",
+				[ $wpdb->options, 'wpseo_sitemap_%' ]
 			)
 		);
 
@@ -267,9 +267,9 @@ final class Upgrade_Test extends TestCase {
 			$wpdb->prepare(
 				"SELECT *
 				FROM %i
-				WHERE %i LIKE %s
-				AND %i = 'no'",
-				[ $wpdb->options, 'option_name', 'wpseo_sitemap_%', 'autoload' ]
+				WHERE option_name LIKE %s
+				AND autoload = 'no'",
+				[ $wpdb->options, 'wpseo_sitemap_%' ]
 			)
 		);
 		$this->assertEquals( 0, $number_of_sitemap_options );
@@ -370,8 +370,8 @@ final class Upgrade_Test extends TestCase {
 			$wpdb->prepare(
 				'SELECT *
 				FROM %i
-				WHERE %i = "_yst_content_links_processed"',
-				[ $wpdb->postmeta, 'meta_key' ]
+				WHERE meta_key = "_yst_content_links_processed"',
+				[ $wpdb->postmeta ]
 			)
 		);
 
@@ -397,9 +397,9 @@ final class Upgrade_Test extends TestCase {
 			$wpdb->prepare(
 				'SELECT *
 				FROM %i
-				WHERE %i LIKE %s
-				AND %i = "yes"',
-				[ $wpdb->options, 'option_name', 'wpseo_sitemap_%', 'autoload' ]
+				WHERE option_name LIKE %s
+				AND autoload = "yes"',
+				[ $wpdb->options, 'wpseo_sitemap_%' ]
 			)
 		);
 
@@ -445,8 +445,8 @@ final class Upgrade_Test extends TestCase {
 			$wpdb->prepare(
 				'SELECT *
 				FROM %i
-				WHERE %i = %s',
-				[ $wpdb->usermeta, 'meta_key', 'wp_yoast_promo_hide_premium_upsell_admin_block' ]
+				WHERE meta_key = %s',
+				[ $wpdb->usermeta, 'wp_yoast_promo_hide_premium_upsell_admin_block' ]
 			)
 		);
 
@@ -493,8 +493,8 @@ final class Upgrade_Test extends TestCase {
 
 		$wpdb->query(
 			$wpdb->prepare(
-				'UPDATE %i SET is_public = false WHERE %i = %d',
-				[ $this->indexables_table, 'object_id', $result->object_id ]
+				'UPDATE %i SET is_public = false WHERE object_id = %d',
+				[ $this->indexables_table, $result->object_id ]
 			)
 		);
 
