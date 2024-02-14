@@ -29,7 +29,7 @@ export default class MetaboxFieldSync {
 	 * @returns {value} The initial value of the field.
 	 */
 	static getInitialValue( fieldKey ) {
-		return window.wpseoScriptData?.metabox?.metadata[ fieldKey ];
+		return window.wpseoScriptData?.metabox?.metaData[ fieldKey ];
 	}
 
 	/**
@@ -39,7 +39,7 @@ export default class MetaboxFieldSync {
 	 */
 	static getNoIndex() {
 		const fieldKey = this.isPost ? "meta-robots-noindex" : "noindex";
-		return window.wpseoScriptData?.metabox.metadata[ fieldKey ];
+		return window.wpseoScriptData.metabox.metaData[ fieldKey ];
 	}
 
 	/**
