@@ -14,15 +14,19 @@ export default {
 
 export const Factory = ( args ) => {
 	const [ isVisible, setIsVisible ] = useState( false );
+	const handleMouseEnter = () => setIsVisible( true );
+	const handleMouseLeave = () => setIsVisible( false );
 
 	return (
-		<div className="yst-my-12">
+		// It gives more space within the Storybook container for the tooltip to be visible.
+		<div className="yst-my-4">
 			<Badge
 				as="button"
 				variant="plain"
-				onMouseEnter={ () => setIsVisible( true ) }
-				onMouseLeave={ () => setIsVisible( false ) }
-				className="yst-relative yst-flex yst-self-center yst-justify-center"
+				onMouseEnter={ handleMouseEnter }
+				onMouseLeave={ handleMouseLeave }
+				// The parent element nesting the tooltip should have a relative position.
+				className="yst-relative"
 			> Hover me
 				<StoryComponent { ...args } isVisible={ isVisible } />
 			</Badge>
@@ -31,7 +35,7 @@ export const Factory = ( args ) => {
 };
 
 Factory.parameters = {
-	controls: { disable: false },
+	controls: { placement: "top" },
 };
 
 Factory.args = {

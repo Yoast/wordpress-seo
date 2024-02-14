@@ -1,21 +1,24 @@
 import { forwardRef } from "@wordpress/element";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 
 /**
  * @param {string} children Content of the tooltip.
- * @param {string|JSX.node} [as] Base component.
+ * @param {string|JSX.Element} [as] Base component.
  * @param {string} [className] CSS class.
  * @param {boolean} isVisible Default state.
  * @returns {JSX.Element} Tooltip component.
  */
 
-const Tooltip = forwardRef( ( { children, as: Component, isVisible, className, ...props }, ref ) => {
+const Tooltip = forwardRef( ( { children, as: Component, className, isVisible, ...props }, ref ) => {
 	return (
 		<>
 			{ isVisible && (
 				<Component
 					ref={ ref }
-					className="yst-tooltip"
+					as={ Component }
+					isvisible={ isVisible }
+					className={ classNames( "yst-tooltip", className ) }
 					{ ...props }
 				>
 					{ children || null }
@@ -27,17 +30,17 @@ const Tooltip = forwardRef( ( { children, as: Component, isVisible, className, .
 
 const propTypes = {
 	as: PropTypes.elementType,
-	className: PropTypes.string,
 	children: PropTypes.string,
+	className: PropTypes.string,
 };
 
 Tooltip.propTypes = propTypes;
 
 Tooltip.defaultProps = {
-	children: "",
 	as: "div",
-	isVisible: false,
+	children: "",
 	className: "",
+	isVisible: false,
 };
 
 // eslint-disable-next-line require-jsdoc
