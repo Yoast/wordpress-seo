@@ -8,12 +8,14 @@ import DefaultResearcher from "../../../src/languageProcessing/languages/_defaul
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import findKeyphraseInSEOTitle from "../../../src/languageProcessing/researches/findKeyphraseInSEOTitle.js";
 import Paper from "../../../src/values/Paper.js";
+import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataDE = getMorphologyData( "de" ).de;
 const morphologyDataFR = getMorphologyData( "fr" ).fr;
 const morphologyDataRU = getMorphologyData( "ru" ).ru;
 const morphologyDataTR = getMorphologyData( "tr" ).tr;
+const morphologyDataAR = getMorphologyData( "ar" ).ar;
 
 let result;
 
@@ -415,3 +417,18 @@ describe( "Matches keywords in string", function() {
 	} );
 } );
 
+describe( "Matches keywords in string for Arabic", () => {
+	it( "returns the exact match and its position", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "استعمارية أمريكية",
+			title: "الاستعمارية الأمريكية: التوسع السياسي والاقتصادي أمريكي والثقافي",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+} );
