@@ -59,7 +59,6 @@ const adjustPosition = function( title, position ) {
 	return position;
 };
 
-
 /**
  * Counts the occurrences of the keyword in the SEO title. Returns the result that contains information on
  * (1) whether the exact match of the keyphrase was used in the SEO title,
@@ -118,6 +117,15 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 	const separateWordsMatched = findTopicFormsInString( topicForms, title, useSynonyms, locale, false );
 
 	if ( separateWordsMatched.percentWordMatches === 100 ) {
+		const stemBasicPrefixes = researcher.getHelper( "stemBasicPrefixes" );
+		if ( separateWordsMatched.position === 0 && stemBasicPrefixes ) {
+			let matchedKeywords = separateWordsMatched.matches;
+			matchedKeywords = matchedKeywords.map( matchedKeyword => stemBasicPrefixes( matchedKeyword ) );
+			if ( matchedKeywords.join( " " ) === keyword ) {
+				result.exactMatchFound = true;
+				result.position = 0;
+			}
+		}
 		result.allWordsFound = true;
 	}
 
