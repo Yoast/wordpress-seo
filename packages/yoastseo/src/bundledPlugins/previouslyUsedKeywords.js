@@ -90,7 +90,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 			text: sprintf(
 				/* translators:
 				%1$s expands to a link to an article on yoast.com,
-				%2$s expands to an anchor tag. */
+				%2$s expands to an anchor end tag. */
 				__( "%1$sPreviously used keyphrase%2$s: You've not used this keyphrase before, very good.", "wordpress-seo" ),
 				this.urlTitle,
 				"</a>"
@@ -101,8 +101,8 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 	if ( count === 1 ) {
 		url = `<a href='${this.postUrl.replace( "{id}", id )}' target='_blank'>`;
 		return {
-			/* translators: %1$s and %2$s expand to an admin link where the keyword is already used. %3$s and %4$s
-			expand to links on yoast.com, %4$s expands to the anchor end tag. */
+			/* translators: %1$s expands to an admin link where the keyphrase is already used,
+			 %2$s expands to the anchor end tag, %3$s and %4$s expand to links on yoast.com. */
 			text: sprintf( __(
 				// eslint-disable-next-line max-len
 				"%3$sPreviously used keyphrase%2$s: You've used this keyphrase %1$sonce before%2$s. %4$sDo not use your keyphrase more than once%2$s.",
@@ -126,9 +126,8 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 		}
 
 		return {
-			/* translators: %1$s and $3$s expand to the admin search page for the keyword, %2$d expands to the number
-			of times this keyword has been used before, %4$s and %5$s expand to links to yoast.com, %6$s expands to
-			the anchor end tag */
+			/* translators: %1$s expands to a link to the admin search page for the keyphrase,
+			 %2$d expands to the anchor end tag, %3$s and %4$s expand to links to yoast.com */
 			text: sprintf( __(
 				// eslint-disable-next-line max-len
 				"%3$sPreviously used keyphrase%2$s: You've used this keyphrase %1$smultiple times before%2$s. %4$sDo not use your keyphrase more than once%2$s.",
