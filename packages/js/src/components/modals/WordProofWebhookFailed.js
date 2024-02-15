@@ -44,6 +44,7 @@ const WordProofWebhookFailed = ( props ) => {
 				{
 					addLinkToString(
 						sprintf(
+							// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 							__(
 								"Find possible solutions in this %1$sArticle%2$s.",
 								"wordpress-seo"

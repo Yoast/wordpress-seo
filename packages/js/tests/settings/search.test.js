@@ -61,7 +61,7 @@ describe( "Search", () => {
 
 		it( "should contain title and description", () => {
 			expect( screen.getByText( "Search" ) ).toBeTruthy();
-			expect( screen.getByText( "Please enter a search term with at least 3 characters." ) ).toBeTruthy();
+			expect( screen.getByText( "Please enter a search term with at least 2 characters." ) ).toBeTruthy();
 		} );
 
 		it( "should show search results", async() => {

@@ -1,5 +1,5 @@
-import { potentiallyHarmful, potentiallyHarmfulUnless, potentiallyHarmfulUnlessNonInclusive, harmfulNonInclusive } from "./feedbackStrings";
-import { isPrecededByException } from "../helpers/isPrecededByException";
+import { potentiallyHarmful, potentiallyHarmfulUnless, harmfulNonInclusive } from "./feedbackStrings";
+import { isNotPrecededByException } from "../helpers/isPrecededByException";
 import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
@@ -38,8 +38,8 @@ const ageAssessments = [
 		identifier: "agingDependants",
 		nonInclusivePhrases: [ "aging dependants" ],
 		inclusiveAlternatives: [ "<i>older people</i>", "<i>people older than 70</i>" ],
-		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnlessNonInclusive, specificAgeGroup ].join( " " ),
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 	},
 	{
 		identifier: "elderly",
@@ -70,7 +70,7 @@ const ageAssessments = [
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isPrecededByException( words, [ "high school", "college", "graduating", "juniors and" ] ) )
+				.filter( isNotPrecededByException( words, [ "high school", "college", "graduating", "juniors and" ] ) )
 				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "in high school", "in college", "who are graduating" ] ) );
 		},
 	},

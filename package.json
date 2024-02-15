@@ -33,7 +33,8 @@
     "build:css:dev": "cross-env NODE_ENV=development postcss css/dist/*.css --verbose --replace",
     "webpack-analyze-bundle": "wp-scripts build --config config/webpack/webpack.config.js --webpack-bundle-analyzer",
     "prestart": "grunt build:css && grunt copy:js-dependencies",
-    "start": "wp-scripts start --config config/webpack/webpack.config.js"
+    "start": "wp-scripts start --config config/webpack/webpack.config.js",
+    "sync:wp-deps": "node config/scripts/sync-wp-dependencies.js"
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
@@ -45,8 +46,8 @@
     "@tailwindcss/forms": "^0.5.2",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
-    "@wordpress/dependency-extraction-webpack-plugin": "^3.1.0",
-    "@wordpress/scripts": "^17.1.0",
+    "@wordpress/dependency-extraction-webpack-plugin": "^4.28.0",
+    "@wordpress/scripts": "^26.16.0",
     "@yoast/babel-preset": "^1.1.0",
     "@yoast/browserslist-config": "^1.2.2",
     "@yoast/grunt-plugin-tasks": "^2.4",
@@ -80,7 +81,7 @@
     "typescript": "^4.2.4"
   },
   "yoast": {
-    "pluginVersion": "21.9-RC1"
+    "pluginVersion": "22.1-RC4"
   },
   "version": "0.0.0"
 }

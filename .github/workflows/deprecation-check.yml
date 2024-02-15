@@ -5,6 +5,7 @@ on:
     paths:
       - packages/yoast-components/**
       - packages/babel-preset/**
+      - packages/components/**
       - packages/e2e-tests/**
       - packages/helpers/**
       - packages/style-guide/**
@@ -31,8 +32,9 @@ jobs:
             @${{ github.actor }} Please be aware that following packages have been abandoned and are not actively maintained anymore:
             | Package name  | Path |
             | ------------- | ------------- |
-            | yoast-components  | [packages/yoast-components](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoast-components) |
-            | @yoast/babel-preset  | [packages/babel-preset](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/babel-preset) |
+            | yoast-components | [packages/yoast-components](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoast-components) |
+            | @yoast/babel-preset | [packages/babel-preset](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/babel-preset) |
+            | @yoast/components | [packages/components](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/components) |
             | @yoast/e2e-tests  | [packages/e2e-tests ](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/e2e-tests ) |
             | @yoast/helpers | [packages/helpers](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/helpers) |
             | @yoast/jest-preset | [packages/jest-preset](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/jest-preset) |

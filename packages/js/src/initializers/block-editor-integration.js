@@ -64,6 +64,7 @@ function registerFormats() {
 			__( "Marking links with nofollow/sponsored has been disabled for WordPress installs < 5.4.", "wordpress-seo" ) +
 			" " +
 			sprintf(
+				// translators: %1$s expands to Yoast SEO.
 				__( "Please upgrade your WordPress version or install the Gutenberg plugin to get this %1$s feature.", "wordpress-seo" ),
 				"Yoast SEO"
 			)
@@ -84,7 +85,7 @@ function initiallyOpenDocumentSettings() {
 	 * Using this knowledge to detect which selector we should use to get the opened panels.
 	 *
 	 * We can remove this logic path when WP 6.4 is no longer supported!
- 	 */
+	 */
 	const isNewerGutenberg = Boolean( dispatch( "core/editor" )?.toggleEditorPanelOpened );
 
 	if ( ! isNewerGutenberg ) {
@@ -94,14 +95,17 @@ function initiallyOpenDocumentSettings() {
 		 *
 		 * Using `core/edit-post` instead of `core` (select) and `core/editor` (dispatch).
 		 */
-		if ( ! select( "core/preferences" ).get( "core/edit-post", "openPanels" ).includes( PANEL_NAME ) ) {
-			dispatch( "core/edit-post" ).toggleEditorPanelOpened( PANEL_NAME );
+		if ( ! select( "core/preferences" )?.get( "core/edit-post", "openPanels" )?.includes( PANEL_NAME ) ) {
+			dispatch( "core/edit-post" )?.toggleEditorPanelOpened( PANEL_NAME );
 		}
 		return;
 	}
 
-	if ( ! select( "core/preferences" ).get( "core", "openPanels" ).includes( PANEL_NAME ) ) {
-		dispatch( "core/editor" ).toggleEditorPanelOpened( PANEL_NAME );
+	// Still using a fallback in here because there is window for error between Gutenberg 17.4.1 and 17.5.0.
+	const openPanels = select( "core/preferences" )?.get( "core", "openPanels" ) || select( "core/preferences" )?.get( "core/edit-post", "openPanels" );
+
+	if ( ! openPanels.includes( PANEL_NAME ) ) {
+		dispatch( "core/editor" )?.toggleEditorPanelOpened( PANEL_NAME );
 	}
 }
 

@@ -12,7 +12,7 @@ import { includesWordsAtPosition } from "./includesWordsAtPosition";
  */
 export function isPrecededByException( words, exceptions ) {
 	const splitExceptions = exceptions.map( exception => getWords( exception, "\\s", false ) );
-	return index => ! splitExceptions.some( exception => {
+	return index => splitExceptions.some( exception => {
 		const startIndex = index - exception.length;
 		if ( startIndex >= 0 ) {
 			return includesWordsAtPosition( exception, startIndex, words );
