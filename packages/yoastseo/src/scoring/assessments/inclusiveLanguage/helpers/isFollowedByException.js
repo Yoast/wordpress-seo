@@ -12,7 +12,7 @@ import { includesWordsAtPosition } from "./includesWordsAtPosition";
  * @returns {function} A function that checks whether the given list of words is contained in another list of words in the given order.
  */
 export function isFollowedByException( words, consecutiveWords, exceptions ) {
-	const splitExceptions = exceptions.map( exception => getWords( exception, false ) );
+	const splitExceptions = exceptions.map( exception => getWords( exception, "\\s", false ) );
 	return index => splitExceptions.some( exception => {
 		const startIndex = index + consecutiveWords.length;
 		if ( startIndex >= 0 ) {
