@@ -75,14 +75,14 @@ PostDataCollector.prototype.getData = function() {
 };
 
 /**
- * Returns the keyword from the DOM.
+ * Returns the keyword from the Store.
  *
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	var val = document.getElementById( "yoast_wpseo_focuskw" ) && document.getElementById( "yoast_wpseo_focuskw" ).value || "";
-
-	return val;
+	const store = select( "yoast-seo/editor" );
+	const keyword = store.getFocusKeyword();
+	return keyword;
 };
 
 /**
