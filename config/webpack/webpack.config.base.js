@@ -1,7 +1,7 @@
 // External dependencies
 const DependencyExtractionWebpackPlugin = require( "@wordpress/dependency-extraction-webpack-plugin" );
 const defaultConfig = require( "@wordpress/scripts/config/webpack.config" );
-const MiniCSSExtractPlugin = require( "mini-css-extract-plugin" );
+const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
 const { BundleAnalyzerPlugin } = require( "webpack-bundle-analyzer" );
 
 // Internal dependencies
@@ -31,7 +31,7 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 			...defaultConfig.plugins.filter(
 				( plugin ) =>
 					plugin.constructor.name !== "DependencyExtractionWebpackPlugin" &&
-					plugin.constructor.name !== "MiniCSSExtractPlugin" &&
+					plugin.constructor.name !== "MiniCssExtractPlugin" &&
 					plugin.constructor.name !== "CleanWebpackPlugin" &&
 					plugin.constructor.name !== "BundleAnalyzerPlugin"
 			),
@@ -89,7 +89,7 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 					}
 				},
 			} ),
-			new MiniCSSExtractPlugin( { filename: cssExtractFileName } ),
+			new MiniCssExtractPlugin( { filename: cssExtractFileName } ),
 			process.env.WP_BUNDLE_ANALYZER && new BundleAnalyzerPlugin( {
 				analyzerPort: analyzerPort++,
 			} ),

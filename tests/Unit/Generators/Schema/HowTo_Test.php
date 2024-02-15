@@ -216,6 +216,7 @@ final class HowTo_Test extends TestCase {
 	 * Test the happy path: a HowTo with a duration, including a step with a title and a description.
 	 *
 	 * @covers ::generate
+	 * @covers ::add_how_to
 	 * @covers ::add_steps
 	 * @covers ::add_duration
 	 * @covers ::add_step_description
@@ -233,6 +234,7 @@ final class HowTo_Test extends TestCase {
 	 * when no text is available.
 	 *
 	 * @covers ::generate
+	 * @covers ::add_how_to
 	 * @covers ::add_steps
 	 *
 	 * @return void
@@ -259,6 +261,7 @@ final class HowTo_Test extends TestCase {
 	 * (e.g. it does not contain a description, name and image).
 	 *
 	 * @covers ::generate
+	 * @covers ::add_how_to
 	 * @covers ::add_steps
 	 *
 	 * @return void
@@ -280,9 +283,32 @@ final class HowTo_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that no Schema step is output when no steps are set.
+	 *
+	 * @covers ::generate
+	 *
+	 * @return void
+	 */
+	public function test_empty_steps() {
+		$blocks = $this->base_blocks;
+		// Remove the steps attribute.
+		unset(
+			$blocks['yoast/how-to-block'][0]['attrs']['steps']
+		);
+
+		$schema = $this->base_schema;
+		unset( $schema[0]['step'] );
+
+		$this->meta_tags_context->blocks = $blocks;
+		$actual_schema                   = $this->instance->generate();
+		$this->assertEquals( $schema, $actual_schema );
+	}
+
+	/**
 	 * Tests that an image Schema piece is output when a step has an image.
 	 *
 	 * @covers ::generate
+	 * @covers ::add_how_to
 	 * @covers ::add_steps
 	 * @covers ::add_step_image
 	 * @covers ::get_image_schema
@@ -343,6 +369,7 @@ final class HowTo_Test extends TestCase {
 	 * when no duration information is available on the block.
 	 *
 	 * @covers ::generate
+	 * @covers ::add_how_to
 	 * @covers ::add_duration
 	 *
 	 * @return void
@@ -365,6 +392,7 @@ final class HowTo_Test extends TestCase {
 	 * when no name is available.
 	 *
 	 * @covers ::generate
+	 * @covers ::add_how_to
 	 * @covers ::add_steps
 	 *
 	 * @return void

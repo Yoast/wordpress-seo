@@ -87,7 +87,7 @@ jobs:
       - name: Set up node and enable caching of dependencies
         uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version-file: './.nvmrc'
           cache: 'yarn'
 
       - name: Yarn install
@@ -146,7 +146,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Checks for changes
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@0bc4621a3135347011ad047f9ecf449bf72ce2bd # dorny/paths-filter@v3.0.0
         id: changes
         with:
           filters: |
@@ -178,7 +178,7 @@ jobs:
         if: ${{ steps.checks-run.outputs.should == 'true' }}
         uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version-file: './.nvmrc'
           cache: 'yarn'
 
       - name: Yarn install
