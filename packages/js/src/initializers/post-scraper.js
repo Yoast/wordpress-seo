@@ -49,6 +49,7 @@ import { actions } from "@yoast/externals/redux";
 
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
+import { getFocusKeyphrase } from "../redux/selectors/focusKeyPhrase.js";
 
 const {
 	setFocusKeyword,
@@ -255,7 +256,9 @@ export default function initPostScraper( $, store, editorData ) {
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			store.dispatch( setFocusKeyword( $( "#yoast_wpseo_focuskw" ).val() ) );
+			const focuskw = getFocusKeyphrase();
+			store.dispatch( focuskw );
+
 
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
@@ -535,7 +538,8 @@ export default function initPostScraper( $, store, editorData ) {
 				focusKeyword = newFocusKeyword;
 				requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
 
-				$( "#yoast_wpseo_focuskw" ).val( focusKeyword );
+				setFocusKeyword( focusKeyword );
+
 				refreshAfterFocusKeywordChange();
 			}
 
