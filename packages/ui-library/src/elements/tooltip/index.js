@@ -2,23 +2,37 @@ import { forwardRef } from "@wordpress/element";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
+const classNameMap = {
+	position: {
+		top: "yst-tooltip--top",
+		right: "yst-tooltip--right",
+		bottom: "yst-tooltip--bottom",
+		left: "yst-tooltip--left",
+	},
+};
+
 /**
+ * @param {string} id ID.
  * @param {string} children Content of the tooltip.
  * @param {string|JSX.Element} [as] Base component.
  * @param {string} [className] CSS class.
+ * @param {string} [position] Position of the tooltip.
  * @param {boolean} isVisible Default state.
  * @returns {JSX.Element} Tooltip component.
  */
 
-const Tooltip = forwardRef( ( { children, as: Component, className, isVisible, ...props }, ref ) => {
+const Tooltip = forwardRef( ( { id, children, as: Component, className, isVisible, position, ...props }, ref ) => {
 	return (
 		<>
 			{ isVisible && (
 				<Component
 					ref={ ref }
-					as={ Component }
-					isvisible={ isVisible }
-					className={ classNames( "yst-tooltip", className ) }
+					className={ classNames( "yst-tooltip",
+						classNameMap.position[ position ],
+						className,
+					) }
+					role="tooltip"
+					id={ id }
 					{ ...props }
 				>
 					{ children || null }
@@ -30,8 +44,12 @@ const Tooltip = forwardRef( ( { children, as: Component, className, isVisible, .
 
 const propTypes = {
 	as: PropTypes.elementType,
+	id: PropTypes.string.isRequired,
 	children: PropTypes.string,
 	className: PropTypes.string,
+	// needs to be checked if this is the correct prop type
+	position: PropTypes.oneOf( Object.keys( classNameMap.position ) ),
+	isVisible: PropTypes.bool.isRequired,
 };
 
 Tooltip.propTypes = propTypes;
@@ -40,7 +58,7 @@ Tooltip.defaultProps = {
 	as: "div",
 	children: "",
 	className: "",
-	isVisible: false,
+	position: "top",
 };
 
 // eslint-disable-next-line require-jsdoc
