@@ -301,11 +301,12 @@ class WPSEO_Meta {
 
 		$taxonomies = get_taxonomies();
 		foreach ( $taxonomies as $taxonomy_name ) {
-			$primay_terms[ 'primary_terms' ]['primary_' .$taxonomy_name ]= [
+			$primay_terms[ 'primary_terms' ]['primary_' .$taxonomy_name ] = [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
+				'title'         => '', 
 				'default_value' => '',
-				'description'   => '', // Translation added later.
+				'description'   => '',
+				'value_type' 	=> 'integer'
 			];
 		} 
 
@@ -324,7 +325,7 @@ class WPSEO_Meta {
 					self::$meta_prefix . $key,
 					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
 					  'show_in_rest'      => true,
-					  'type'              => 'string',
+					  'type'              => $field_def[ "value_type" ] ?? 'string',
 					  'single'            => true,
 					]
 				);
