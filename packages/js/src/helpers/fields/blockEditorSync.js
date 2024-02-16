@@ -24,6 +24,13 @@ const getFacebookImageId = () => select( STORE )?.getFacebookImageId();
 const getNoIndex = () => select( STORE )?.getNoIndex();
 
 /**
+ * Retrieves the no index value.
+ *
+ * @returns {integer} The no index value.
+ */
+const getPrimaryTaxonomyId = () => select( STORE )?.getPrimaryTaxonomyId( "category" );
+
+/**
  * Creates an updater.
  * @returns {function} The updater.
  */
@@ -67,6 +74,7 @@ export const blockEditorSync = () => {
 			focusKeyphrase: getFocusKeyphrase,
 			facebookImageId: getFacebookImageId,
 			noIndex: getNoIndex,
+			primaryCategory: getPrimaryTaxonomyId,
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE );
