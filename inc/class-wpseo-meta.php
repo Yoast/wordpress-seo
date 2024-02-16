@@ -160,7 +160,7 @@ class WPSEO_Meta {
 					'2' => '', // Index - translation added later.
 					'1' => '', // No-index - translation added later.
 				],
-				'value_type' => 'integer',
+				'value_type'    => 'integer',
 			],
 			'meta-robots-nofollow' => [
 				'type'          => 'hidden',
@@ -280,13 +280,13 @@ class WPSEO_Meta {
 	public static function init() {
 		foreach ( self::$social_networks as $option => $network ) {
 			if ( WPSEO_Options::get( $option, false ) === true ) {
-				foreach ( self::$social_fields as $box => $type ) {
+				foreach ( self::$social_fields as $box => $field_def ) {
 					self::$meta_fields['social'][ $network . '-' . $box ] = [
-						'type'          => $type,
+						'type'          => $field_def['type'],
 						'title'         => '', // Translation added later.
 						'default_value' => '',
 						'description'   => '', // Translation added later.
-						'value_type'    => ( $type['value_type'] ?? 'string' ),
+						'value_type'    => ( $field_def['value_type'] ?? 'string' ),
 					];
 				}
 			}
