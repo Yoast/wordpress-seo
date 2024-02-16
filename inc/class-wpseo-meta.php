@@ -286,7 +286,7 @@ class WPSEO_Meta {
 						'title'         => '', // Translation added later.
 						'default_value' => '',
 						'description'   => '', // Translation added later.
-						'value_type'    => ( $field_def['value_type'] ?? 'string' ),
+						'value_type'    => $field_def['value_type'] ?? 'string',
 					];
 				}
 			}
@@ -323,14 +323,14 @@ class WPSEO_Meta {
 
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
-
+				$value_type = isset( $field_def[ 'value_type' ] ) ?  $field_def[ 'value_type' ] : 'string';
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
 					[
 						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
 						'show_in_rest'      => true,
-						'type'              => ( $field_def['value_type'] ?? 'string' ),
+						'type'              => $value_type,
 						'single'            => true,
 					]
 				);
