@@ -299,7 +299,7 @@ class WPSEO_Meta {
 		// register meta data for taxonomies.
 		$primay_terms[ 'primary_terms' ] = [];
 
-		$taxonomies = get_taxonomies();
+		$taxonomies = get_taxonomies( [ 'hierarchical' => true ], 'names' );
 		foreach ( $taxonomies as $taxonomy_name ) {
 			$primay_terms[ 'primary_terms' ]['primary_' .$taxonomy_name ] = [
 				'type'          => 'hidden',
@@ -462,7 +462,7 @@ class WPSEO_Meta {
 		$clean     = self::$defaults[ $meta_key ];
 
 		switch ( true ) {
-			case ( $meta_key === self::$meta_prefix . 'linkdex' ):
+			case ( $meta_key === self::$meta_prefix . 'linkdex' || $field_def[ 'value_type' ] === 'integer' || $field_def[ 'value_type' ] === 'number' ):
 				$int = WPSEO_Utils::validate_int( $meta_value );
 				if ( $int !== false && $int >= 0 ) {
 					$clean = strval( $int ); // Convert to string to make sure default check works.
