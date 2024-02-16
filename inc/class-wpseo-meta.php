@@ -160,6 +160,7 @@ class WPSEO_Meta {
 					'2' => '', // Index - translation added later.
 					'1' => '', // No-index - translation added later.
 				],
+				'value_type' => 'integer',
 			],
 			'meta-robots-nofollow' => [
 				'type'          => 'hidden',
