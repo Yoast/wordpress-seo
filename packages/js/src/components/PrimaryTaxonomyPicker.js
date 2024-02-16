@@ -32,10 +32,10 @@ class PrimaryTaxonomyPicker extends Component {
 
 		const { fieldId, name } = props.taxonomy;
 
-		const initialPrimaryTaxonomyId = parseInt( MetaboxFieldSync.getInitialValue( `primary_${name}` ), 10 );
-
-		props.setPrimaryTaxonomyId( name, initialPrimaryTaxonomyId );
-
+		this.input = document.getElementById( fieldId );
+		if ( this.input ) {
+			props.setPrimaryTaxonomyId( name, parseInt( this.input.value, 10 ) );
+		}
 
 		this.state = {
 			selectedTerms: [],
