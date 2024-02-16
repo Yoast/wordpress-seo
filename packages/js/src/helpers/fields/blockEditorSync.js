@@ -2,35 +2,26 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
 import { debounce, forEach, pickBy } from "lodash";
 import createWatcher, { createCollectorFromObject } from "../../helpers/create-watcher";
-
-const METADATA_IDS = {
-	focusKeyphrase: "_yoast_wpseo_focuskw",
-	facebookImageId: "_yoast_wpseo_opengraph-image-id",
-};
-
-const SYNC_TIME = {
-	wait: 1500,
-	max: 3000,
-};
+import { STORE, CORE_EDITOR_STORE, SYNC_TIME, METADATA_IDS } from "../../constants";
 
 /**
  * Retrieves the focus keyphrase.
  * @returns {string} The focus keyphrase.
  */
-const getFocusKeyphrase = () => select( "yoast-seo/editor" )?.getFocusKeyphrase();
+const getFocusKeyphrase = () => select( STORE )?.getFocusKeyphrase();
 
 /**
  * Retrieve facebook image id.
  * @returns {string} The facebook image id.
  */
-const getFacebookImageId = () => select( "yoast-seo/editor" )?.getFacebookImageId();
+const getFacebookImageId = () => select( STORE )?.getFacebookImageId();
 
 /**
  * Creates an updater.
  * @returns {function} The updater.
  */
 const createUpdater = () => {
-	const { editPost } = dispatch( "core/editor" );
+	const { editPost } = dispatch( CORE_EDITOR_STORE );
 
 	/**
 	 * Syncs the data to the WP entity record.
@@ -39,7 +30,7 @@ const createUpdater = () => {
 	 */
 	return ( data ) => {
 		// Unfortunately, we need to pass the full metadata to update a part of it.
-		const metadata = select( "core/editor" ).getCurrentPost().meta;
+		const metadata = select( CORE_EDITOR_STORE ).getCurrentPost().meta;
 		if ( ! metadata || ! data ) {
 			return;
 		}
@@ -70,7 +61,7 @@ const blockEditorSync = () => {
 			facebookImageId: getFacebookImageId,
 		} ),
 		createUpdater()
-	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), "yoast-seo/editor" );
+	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE );
 };
 
 export default blockEditorSync;
