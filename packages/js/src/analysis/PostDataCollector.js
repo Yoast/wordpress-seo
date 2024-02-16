@@ -16,6 +16,8 @@ import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import isContentAnalysisActive from "./isContentAnalysisActive";
 
+import { STORE } from "../constants";
+
 const { tmceId } = tmceHelper;
 const $ = jQuery;
 /**
@@ -80,8 +82,7 @@ PostDataCollector.prototype.getData = function() {
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	const store = select( "yoast-seo/editor" );
-	const keyword = store.getFocusKeyword();
+	const keyword = select( STORE ).getFocusKeyphrase();
 	return keyword;
 };
 
@@ -101,12 +102,12 @@ PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
 };
 
 /**
- * Returns the Meta from the DOM.
+ * Returns the Meta from the Store.
  *
  * @returns {string} The meta description.
  */
 PostDataCollector.prototype.getMeta = function() {
-	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
+	return select( STORE ).getDescription();
 };
 
 /**
