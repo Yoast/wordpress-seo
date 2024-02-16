@@ -1,5 +1,3 @@
-import { dispatch } from "@wordpress/data";
-
 /**
  * This class is responsible for syncing hidden fields with store.
  */
@@ -105,27 +103,9 @@ export default class MetaboxFieldSync {
 	static setFieldValue( fieldKey, value ) {
 		const inputElement = this.getInputElement( fieldKey );
 
-		try {
-			if ( inputElement ) {
-				inputElement.value = value ?? "";
-				return;
-			}
-		} catch ( e ) {
-			// Do nothing.
-		}
-
-
-		// If Block Editor and a post
-		try {
-			const editPost = dispatch( "core/editor" ).editPost;
-			editPost( {
-				meta: { [ this.metaPrefix + fieldKey ]: value.toString() },
-			} );
+		if ( inputElement && inputElement.value ) {
+			inputElement.value = value ?? "";
 			return;
-		} catch ( e ) {
-			// Do nothing.
 		}
-
-		// If Site Editor
 	}
 }
