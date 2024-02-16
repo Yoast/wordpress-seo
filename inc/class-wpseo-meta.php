@@ -262,10 +262,13 @@ class WPSEO_Meta {
 	 * @var array
 	 */
 	private static $social_fields = [
-		'title'       => 'hidden',
-		'description' => 'hidden',
-		'image'       => 'hidden',
-		'image-id'    => 'hidden',
+		'title'       => [ 'type' => 'hidden' ],
+		'description' => [ 'type' => 'hidden' ],
+		'image'       => [ 'type' => 'hidden' ],
+		'image-id'    => [
+			'type'       => 'hidden',
+			'value_type' => 'integer',
+		],
 	];
 
 	/**
@@ -280,9 +283,9 @@ class WPSEO_Meta {
 					self::$meta_fields['social'][ $network . '-' . $box ] = [
 						'type'          => $type,
 						'title'         => '', // Translation added later.
-						'show_in_rest'  => true,
 						'default_value' => '',
 						'description'   => '', // Translation added later.
+						'value_type'    => ( $type['value_type'] ?? 'string' ),
 					];
 				}
 			}
@@ -298,23 +301,22 @@ class WPSEO_Meta {
 			self::$meta_fields = self::array_merge_recursive_distinct( $extra_fields, self::$meta_fields );
 		}
 		// register meta data for taxonomies.
-		$primay_terms[ 'primary_terms' ] = [];
+		$primay_terms['primary_terms'] = [];
 
 		$taxonomies = get_taxonomies( [ 'hierarchical' => true ], 'names' );
 		foreach ( $taxonomies as $taxonomy_name ) {
-			$primay_terms[ 'primary_terms' ]['primary_' .$taxonomy_name ] = [
+			$primay_terms['primary_terms'][ 'primary_' . $taxonomy_name ] = [
 				'type'          => 'hidden',
-				'title'         => '', 
+				'title'         => '',
 				'default_value' => '',
 				'description'   => '',
-				'value_type' 	=> 'integer'
+				'value_type'    => 'integer',
 			];
-		} 
+		}
 
 		if ( $primay_terms && is_array( $primay_terms ) ) {
 			self::$meta_fields = self::array_merge_recursive_distinct( $primay_terms, self::$meta_fields );
 		}
-
 
 		unset( $extra_fields );
 
@@ -324,10 +326,11 @@ class WPSEO_Meta {
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
-					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
-					  'show_in_rest'      => true,
-					  'type'              => $field_def[ "value_type" ] ?? 'string',
-					  'single'            => true,
+					[
+						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
+						'show_in_rest'      => true,
+						'type'              => ( $field_def['value_type'] ?? 'string' ),
+						'single'            => true,
 					]
 				);
 
@@ -463,7 +466,7 @@ class WPSEO_Meta {
 		$clean     = self::$defaults[ $meta_key ];
 
 		switch ( true ) {
-			case ( $meta_key === self::$meta_prefix . 'linkdex' || $field_def[ 'value_type' ] === 'integer' || $field_def[ 'value_type' ] === 'number' ):
+			case ( $meta_key === self::$meta_prefix . 'linkdex' || $field_def['value_type'] === 'integer' || $field_def['value_type'] === 'number' ):
 				$int = WPSEO_Utils::validate_int( $meta_value );
 				if ( $int !== false && $int >= 0 ) {
 					$clean = strval( $int ); // Convert to string to make sure default check works.
