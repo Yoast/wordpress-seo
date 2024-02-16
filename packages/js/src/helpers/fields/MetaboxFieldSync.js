@@ -119,7 +119,7 @@ export default class MetaboxFieldSync {
 		try {
 			const editPost = dispatch( "core/editor" ).editPost;
 			editPost( {
-				meta: { [ this.metaPrefix + fieldKey ]: value },
+				meta: { [ this.metaPrefix + fieldKey ]: value.toString() },
 			} );
 			return;
 		} catch ( e ) {
