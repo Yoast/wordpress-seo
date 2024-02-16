@@ -2,7 +2,7 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import { debounce, isUndefined } from "lodash";
+import { debounce, isUndefined, get } from "lodash";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
 
@@ -256,8 +256,8 @@ export default function initPostScraper( $, store, editorData ) {
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			const focuskw = getFocusKeyphrase();
-			store.dispatch( focuskw );
+			const metaData = get( window, "wpseoScriptData.metabox.metaData", [] );
+			store.dispatch( setFocusKeyword( metaData.focuskw ) );
 
 
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
