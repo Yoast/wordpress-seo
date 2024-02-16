@@ -16,6 +16,8 @@ const getFocusKeyphrase = () => select( STORE )?.getFocusKeyphrase();
  */
 const getFacebookImageId = () => select( STORE )?.getFacebookImageId();
 
+const getNoIndex = () => select( STORE )?.getNoIndex();
+
 /**
  * Creates an updater.
  * @returns {function} The updater.
@@ -59,6 +61,7 @@ const blockEditorSync = () => {
 		createCollectorFromObject( {
 			focusKeyphrase: getFocusKeyphrase,
 			facebookImageId: getFacebookImageId,
+			noIndex: getNoIndex,
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE );
