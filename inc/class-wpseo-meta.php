@@ -160,7 +160,6 @@ class WPSEO_Meta {
 					'2' => '', // Index - translation added later.
 					'1' => '', // No-index - translation added later.
 				],
-				'value_type'    => 'integer',
 			],
 			'meta-robots-nofollow' => [
 				'type'          => 'hidden',
@@ -266,10 +265,7 @@ class WPSEO_Meta {
 		'title'       => [ 'type' => 'hidden' ],
 		'description' => [ 'type' => 'hidden' ],
 		'image'       => [ 'type' => 'hidden' ],
-		'image-id'    => [
-			'type'       => 'hidden',
-			'value_type' => 'integer',
-		],
+		'image-id'    => [ 'type' => 'hidden' ],
 	];
 
 	/**
@@ -286,7 +282,7 @@ class WPSEO_Meta {
 						'title'         => '', // Translation added later.
 						'default_value' => '',
 						'description'   => '', // Translation added later.
-						'value_type'    => $field_def['value_type'] ?? 'string',
+						'value_type'    => ( $field_def['value_type'] ?? 'string' ),
 					];
 				}
 			}
@@ -323,7 +319,7 @@ class WPSEO_Meta {
 
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
-				$value_type = isset( $field_def[ 'value_type' ] ) ?  $field_def[ 'value_type' ] : 'string';
+				$value_type = isset( $field_def['value_type'] ) ? $field_def['value_type'] : 'string';
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
