@@ -280,6 +280,7 @@ class WPSEO_Meta {
 					self::$meta_fields['social'][ $network . '-' . $box ] = [
 						'type'          => $type,
 						'title'         => '', // Translation added later.
+						'show_in_rest'  => true,
 						'default_value' => '',
 						'description'   => '', // Translation added later.
 					];
