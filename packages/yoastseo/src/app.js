@@ -573,7 +573,9 @@ App.prototype.initAssessorPresenters = function() {
 App.prototype.bindInputEvent = function() {
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
 		var elem = document.getElementById( this.config.elementTarget[ i ] );
-		elem.addEventListener( "input", this.refresh.bind( this ) );
+		if ( elem ) {
+			elem.addEventListener( "input", this.refresh.bind( this ) );
+		}
 	}
 };
 
