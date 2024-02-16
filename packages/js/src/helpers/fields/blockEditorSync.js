@@ -16,6 +16,11 @@ const getFocusKeyphrase = () => select( STORE )?.getFocusKeyphrase();
  */
 const getFacebookImageId = () => select( STORE )?.getFacebookImageId();
 
+/**
+ * Retrieves the no index value.
+ *
+ * @returns {integer} The no index value.
+ */
 const getNoIndex = () => select( STORE )?.getNoIndex();
 
 /**
@@ -56,7 +61,7 @@ const createUpdater = () => {
  * Initializes the sync: from Yoast editor store to product metadata.
  * @returns {function} The un-subscriber.
  */
-const blockEditorSync = () => {
+export const blockEditorSync = () => {
 	return subscribe( debounce( createWatcher(
 		createCollectorFromObject( {
 			focusKeyphrase: getFocusKeyphrase,
@@ -66,5 +71,3 @@ const blockEditorSync = () => {
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE );
 };
-
-export default blockEditorSync;
