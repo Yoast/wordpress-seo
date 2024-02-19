@@ -7,7 +7,7 @@ import { get } from "lodash";
  *
  * @returns {String} Twitter title.
  */
-export const getNoIndex = state => get( state, "advancedSettings.noIndex", "" );
+export const getNoIndex = state => get( state, "advancedSettings.noIndex", "0" );
 
 /**
  * Gets the twitter description from the state.
@@ -16,7 +16,7 @@ export const getNoIndex = state => get( state, "advancedSettings.noIndex", "" );
  *
  * @returns {String} Twitter description.
  */
-export const getNoFollow = state => get( state, "advancedSettings.noFollow", "" );
+export const getNoFollow = state => get( state, "advancedSettings.noFollow", "0" );
 
 /**
  * Gets the twitter image URL from the state.
