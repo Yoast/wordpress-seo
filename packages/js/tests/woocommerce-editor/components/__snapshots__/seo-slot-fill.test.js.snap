@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SeoSlotFill sorts the fills by renderPriority 1`] = `
+<div
+  data-testid="1"
+>
+  <div>
+    10
+  </div>
+  <div>
+    200
+  </div>
+</div>
+`;
