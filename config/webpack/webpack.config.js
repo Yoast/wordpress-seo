@@ -1,14 +1,15 @@
 // External dependencies
+const CopyWebpackPlugin = require( "copy-webpack-plugin" );
 const { existsSync, readdirSync } = require( "fs" );
-const { join } = require( "path" );
+const { join, resolve } = require( "path" );
 
 // Variables
 const root = join( __dirname, "../../" );
 
 // Internal dependencies
-const paths       = require( "./paths" );
+const paths = require( "./paths" );
 const packageJson = require( root + "package.json" );
-const baseConfig  = require( "./webpack.config.base" );
+const baseConfig = require( "./webpack.config.base" );
 const {
 	yoastPackages,
 	yoastExternals,
@@ -29,6 +30,17 @@ module.exports = [
 			},
 			combinedOutputFile: root + "src/generated/assets/plugin.php",
 			cssExtractFileName: "../../../css/dist/plugin-" + pluginVersionSlug + ".css",
+			plugins: [
+				new CopyWebpackPlugin( {
+					patterns: [
+						{
+							from: "**/block.json",
+							context: "packages/js/src",
+							to: resolve( "blocks" ),
+						},
+					],
+				} ),
+			],
 		}
 	),
 	baseConfig(
