@@ -60,6 +60,49 @@ const adjustPosition = function( title, position ) {
 };
 
 /**
+ * An object containing the results of the keyphrase in SEO title research.
+ *
+ * @typedef {Object} 	KeyphraseInSEOTitleResult
+ * @property {boolean}	exactMatchFound	Whether the exact match of the keyphrase was found in the SEO title.
+ * @property {boolean}	allWordsFound	Whether all content words from the keyphrase were found in the SEO title.
+ * @property {number} position The position of the keyphrase in the SEO title.
+ * @property {boolean} exactMatchKeyphrase Whether the exact match was requested.
+ */
+
+/**
+ * Checks if all content words from the keyphrase are found in the SEO title.
+ *
+ * @param {string} title The SEO title of the paper.
+ * @param {string} keyword The keyphrase of the paper.
+ * @param {string} locale The locale of the paper.
+ * @param {object} result The result object to store the results in.
+ * @param {Researcher} researcher The researcher to use for analysis.
+ * @returns {KeyphraseInSEOTitleResult} The new result object containing the results of the analysis.
+ */
+function checkIfAllWordsAreFound( title, keyword, locale, result, researcher ) {
+	const topicForms = researcher.getResearch( "morphology" );
+
+	// Use only keyphrase (not the synonyms) to match topic words in the SEO title.
+	const useSynonyms = false;
+
+	const separateWordsMatched = findTopicFormsInString( topicForms, title, useSynonyms, locale, false );
+
+	if ( separateWordsMatched.percentWordMatches === 100 ) {
+		const stemBasicPrefixes = researcher.getHelper( "stemBasicPrefixes" );
+		if ( separateWordsMatched.position === 0 && stemBasicPrefixes ) {
+			let matchedKeywords = separateWordsMatched.matches;
+			matchedKeywords = matchedKeywords.map( matchedKeyword => stemBasicPrefixes( matchedKeyword ) );
+			if ( matchedKeywords.join( " " ) === keyword ) {
+				result.exactMatchFound = true;
+				result.position = 0;
+			}
+		}
+		result.allWordsFound = true;
+	}
+	return result;
+}
+
+/**
  * Counts the occurrences of the keyword in the SEO title. Returns the result that contains information on
  * (1) whether the exact match of the keyphrase was used in the SEO title,
  * (2) whether all (content) words from the keyphrase were found in the SEO title,
@@ -68,7 +111,7 @@ const adjustPosition = function( title, position ) {
  * @param {Object} paper 			The paper containing SEO title and keyword.
  * @param {Researcher} researcher 	The researcher to use for analysis.
  *
- * @returns {Object} An object containing the information on whether the keyphrase was matched in the SEO title and how.
+ * @returns {KeyphraseInSEOTitleResult} An object containing the information on whether the keyphrase was matched in the SEO title and how.
  */
 const findKeyphraseInSEOTitle = function( paper, researcher ) {
 	functionWords = researcher.getConfig( "functionWords" );
@@ -77,7 +120,7 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 	const title = paper.getTitle();
 	const locale = paper.getLocale();
 
-	const result = { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false  };
+	let result = { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false  };
 
 	// Check if the keyphrase is enclosed in double quotation marks to ensure that only exact matches are processed.
 	const exactMatchRequest = processExactMatchRequest( keyword );
@@ -114,20 +157,7 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 	// Use only keyphrase (not the synonyms) to match topic words in the SEO title.
 	const useSynonyms = false;
 
-	const separateWordsMatched = findTopicFormsInString( topicForms, title, useSynonyms, locale, false );
-
-	if ( separateWordsMatched.percentWordMatches === 100 ) {
-		const stemBasicPrefixes = researcher.getHelper( "stemBasicPrefixes" );
-		if ( separateWordsMatched.position === 0 && stemBasicPrefixes ) {
-			let matchedKeywords = separateWordsMatched.matches;
-			matchedKeywords = matchedKeywords.map( matchedKeyword => stemBasicPrefixes( matchedKeyword ) );
-			if ( matchedKeywords.join( " " ) === keyword ) {
-				result.exactMatchFound = true;
-				result.position = 0;
-			}
-		}
-		result.allWordsFound = true;
-	}
+	result = checkIfAllWordsAreFound( title, keyword, locale, result, researcher );
 
 	return result;
 };
