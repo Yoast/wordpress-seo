@@ -11,6 +11,7 @@ describe( "Test findKeywordFormsInString: checks for the keyword forms are in th
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 0,
+			matches: [],
 			percentWordMatches: 0,
 			position: -1,
 		} );
@@ -22,6 +23,7 @@ describe( "Test findKeywordFormsInString: checks for the keyword forms are in th
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 1,
+			matches: [ "found" ],
 			percentWordMatches: 50,
 			position: 19,
 		} );
@@ -32,6 +34,7 @@ describe( "Test findKeywordFormsInString: checks for the keyword forms are in th
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 1,
+			matches: [ "found" ],
 			percentWordMatches: 33,
 			position: 19,
 		} );
@@ -42,6 +45,7 @@ describe( "Test findKeywordFormsInString: checks for the keyword forms are in th
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 2,
+			matches: [ "found", "found", "keys" ],
 			percentWordMatches: 67,
 			position: 19,
 		} );
@@ -52,6 +56,7 @@ describe( "Test findKeywordFormsInString: checks for the keyword forms are in th
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 3,
+			matches: [ "keyword", "found", "found", "found", "keys" ],
 			percentWordMatches: 100,
 			position: 19,
 		} );
@@ -64,6 +69,7 @@ describe( "Test findKeywordFormsInString: checks for the keyword forms are in th
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 0,
+			matches: [],
 			percentWordMatches: 0,
 			position: -1,
 		} );
@@ -76,6 +82,7 @@ describe( "Test findKeywordFormsInString: checks for the keyword forms are in th
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 0,
+			matches: [],
 			percentWordMatches: 0,
 			position: -1,
 		} );
@@ -87,6 +94,7 @@ describe( "Test findKeywordFormsInString: checks for the keyword forms are in th
 			"It's lunch time!"
 		) ).toEqual( {
 			countWordMatches: 0,
+			matches: [],
 			percentWordMatches: 0,
 			position: -1,
 		} );
@@ -108,6 +116,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 0,
+			matches: [],
 			percentWordMatches: 0,
 			keyphraseOrSynonym: "keyphrase",
 			position: -1,
@@ -126,6 +135,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 2,
+			matches: [ "lunch", "time" ],
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "keyphrase",
 			position: 5,
@@ -145,6 +155,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 1,
+			matches: [ "lunch" ],
 			percentWordMatches: 50,
 			keyphraseOrSynonym: "keyphrase",
 			position: 5,
@@ -164,6 +175,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 2,
+			matches: [ "lunch", "time" ],
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "keyphrase",
 			position: 5,
@@ -182,6 +194,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 2,
+			matches: [ "lunch", "time" ],
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "synonym",
 			position: 5,
@@ -201,6 +214,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 2,
+			matches: [ "lunch", "time" ],
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "keyphrase",
 			position: 5,
@@ -220,6 +234,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 2,
+			matches: [ "lunch", "time" ],
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "synonym",
 			position: 5,
@@ -239,6 +254,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 2,
+			matches: [ "lunch", "time" ],
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "synonym",
 			position: 5,
@@ -256,6 +272,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 1,
+			matches: [ "lunch" ],
 			percentWordMatches: 50,
 			keyphraseOrSynonym: "keyphrase",
 			position: 5,
@@ -273,6 +290,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 0,
+			matches: [],
 			percentWordMatches: 0,
 			keyphraseOrSynonym: "keyphrase",
 			position: -1,
@@ -290,6 +308,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			"en_EN"
 		) ).toEqual( {
 			countWordMatches: 1,
+			matches: [ "lunch" ],
 			percentWordMatches: 50,
 			keyphraseOrSynonym: "synonym",
 			position: 5,
@@ -306,6 +325,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			true
 		) ).toEqual( {
 			countWordMatches: 1,
+			matches: [ "lunch" ],
 			percentWordMatches: 50,
 			keyphraseOrSynonym: "keyphrase",
 			position: 5,
@@ -323,6 +343,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 				"id_ID"
 			) ).toEqual( {
 				countWordMatches: 1,
+				matches: [ "buku" ],
 				percentWordMatches: 100,
 				keyphraseOrSynonym: "keyphrase",
 				position: 0,
@@ -339,6 +360,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 				"id_ID"
 			) ).toEqual( {
 				countWordMatches: 0,
+				matches: [],
 				percentWordMatches: 0,
 				keyphraseOrSynonym: "keyphrase",
 				position: -1,
@@ -355,6 +377,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 				"id_ID"
 			) ).toEqual( {
 				countWordMatches: 1,
+				matches: [ "buku-buku", "buku-buku" ],
 				percentWordMatches: 100,
 				keyphraseOrSynonym: "keyphrase",
 				position: 0,
@@ -371,6 +394,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 				"id_ID"
 			) ).toEqual( {
 				countWordMatches: 0,
+				matches: [],
 				percentWordMatches: 0,
 				keyphraseOrSynonym: "keyphrase",
 				position: -1,
@@ -393,6 +417,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			matchWordCustomHelper
 		) ).toEqual( {
 			countWordMatches: 1,
+			matches: [ "待てる" ],
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "keyphrase",
 			position: 7,
@@ -412,6 +437,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			matchWordCustomHelper
 		) ).toEqual( {
 			countWordMatches: 1,
+			matches: [ "待てる" ],
 			percentWordMatches: 50,
 			keyphraseOrSynonym: "keyphrase",
 			position: 7,
@@ -430,6 +456,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			matchWordCustomHelper
 		) ).toEqual( {
 			countWordMatches: 1,
+			matches: [ "死ん" ],
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "synonym",
 			position: 10,
@@ -447,6 +474,7 @@ describe( "Test findKeywordFormsInString: checks for the keyword forms in the su
 			matchWordCustomHelper
 		) ).toEqual( {
 			countWordMatches: 1,
+			matches: [ "待てる" ],
 			percentWordMatches: 100,
 			position: 7,
 		} );
@@ -461,6 +489,7 @@ describe( "Test findKeywordFormsInString: checks for the keyword forms in the su
 			matchWordCustomHelper
 		) ).toEqual( {
 			countWordMatches: 1,
+			matches: [ "待てる" ],
 			percentWordMatches: 50,
 			position: 7,
 		} );
@@ -475,6 +504,7 @@ describe( "Test findKeywordFormsInString: checks for the keyword forms in the su
 			matchWordCustomHelper
 		) ).toEqual( {
 			countWordMatches: 2,
+			matches: [ "待てる", "書かせる" ],
 			percentWordMatches: 100,
 			position: 0,
 		} );
