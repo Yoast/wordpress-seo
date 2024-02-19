@@ -4,7 +4,10 @@ import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Resea
 import RussianResearcher from "../../../src/languageProcessing/languages/ru/Researcher";
 import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";
 import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
+import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
+import HebrewResearcher from "../../../src/languageProcessing/languages/he/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
+import IndonesianResearcher from "../../../src/languageProcessing/languages/id/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import findKeyphraseInSEOTitle from "../../../src/languageProcessing/researches/findKeyphraseInSEOTitle.js";
 import Paper from "../../../src/values/Paper.js";
@@ -15,6 +18,7 @@ const morphologyDataDE = getMorphologyData( "de" ).de;
 const morphologyDataFR = getMorphologyData( "fr" ).fr;
 const morphologyDataRU = getMorphologyData( "ru" ).ru;
 const morphologyDataTR = getMorphologyData( "tr" ).tr;
+const morphologyDataID = getMorphologyData( "id" ).id;
 const morphologyDataAR = getMorphologyData( "ar" ).ar;
 
 let result;
@@ -372,6 +376,30 @@ describe( "Matches keywords in string", function() {
 		expect( result.position ).toBe( 0 );
 	} );
 
+	it( "returns an exact match at place 0, even if the SEO title starts with a function word (Arabic).", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "القطط",
+			title: "بسبب القطط حياتي جيدة",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.allWordsFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns an exact match at place 0, even if the SEO title starts with a function word (Hebrew).", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "חתולים",
+			title: "בקיצור חתולים הם הטובים ביותר",
+		} );
+		const researcher = new HebrewResearcher( mockPaper );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.allWordsFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
 	it( "returns an exact match at place 0, even if the SEO title starts with multiple function words.", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "\"walking in nature\"",
@@ -394,6 +422,52 @@ describe( "Matches keywords in string", function() {
 		} );
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( false );
+		expect( result.allWordsFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns an exact match at place 0, even if the function word preceding the keyphrase is attached to it with a hyphen", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "school activities",
+			title: "after-school activities",
+		} );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( false );
+		expect( result.allWordsFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns an exact match at place 0, even if the keyphrase is preceded by function words separated by hyphens", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "suits for boys",
+			title: "three-piece suits for boys",
+		} );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( false );
+		expect( result.allWordsFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns an exact match at place 0, even if the keyphrase is preceded by function words separated by hyphens," +
+		"also in a language where hyphens should be treated as word boundaries in other cases", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "ribuan",
+			title: "dua-lima ribuan",
+		} );
+		const researcher = new IndonesianResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataID );
 
 		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
