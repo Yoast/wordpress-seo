@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Edit has a slot 1`] = `
+<div
+  data-testid="1"
+>
+  Foo
+</div>
+`;
+
+exports[`Edit provides the location 1`] = `
+<div
+  data-testid="1"
+>
+  sidebar
+</div>
+`;
+
+exports[`Edit provides the locationContext 1`] = `
+<div
+  data-testid="1"
+>
+  product-seo
+</div>
+`;
+
+exports[`Edit renders 1`] = `
+<div
+  data-testid="1"
+/>
+`;
