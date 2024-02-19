@@ -3,6 +3,7 @@ const DependencyExtractionWebpackPlugin = require( "@wordpress/dependency-extrac
 const defaultConfig = require( "@wordpress/scripts/config/webpack.config" );
 const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
 const { BundleAnalyzerPlugin } = require( "webpack-bundle-analyzer" );
+const { camelCase, kebabCase } = require( "lodash" );
 
 // Internal dependencies
 const { yoastExternals } = require( "./externals" );
@@ -65,6 +66,9 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 					if ( request.startsWith( "@yoast/externals/" ) ) {
 						return [ "yoast", "externals", request.substr( 17 ) ];
 					}
+					if ( request.startsWith( "@woocommerce/" ) ) {
+						return [ "wc", camelCase( request.substring( 13 ) ) ];
+					}
 				},
 				/**
 				 * Handles requests to externals.
@@ -86,6 +90,9 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 					}
 					if ( request.startsWith( "@yoast/externals/" ) ) {
 						return "yoast-seo-externals-" + request.substr( 17 );
+					}
+					if ( request.startsWith( "@woocommerce/" ) ) {
+						return "wc-" + kebabCase( request.substring( 13 ) );
 					}
 				},
 			} ),

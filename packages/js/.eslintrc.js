@@ -45,6 +45,10 @@ module.exports = {
 					// In a similar fashion as the above. Ignore the PHP dependency for WordProof, or we have to install the PHP dependencies.
 					"vendor_prefixed/wordproof",
 					"^@wordpress/(annotations|api|edit-post|sanitize)$",
+					// Ignore the `@woocommerce` packages because they are currently not compatible with our Node version (required 16, we use 18).
+					// Because we don't bundle these, this is only relevant for our JS tests and IDE autocomplete.
+					// This is a temporary exception, and should be removed once the packages are compatible.
+					"^@woocommerce/(block-templates|product-editor)",
 					"^jquery$",
 				],
 			},
