@@ -6,10 +6,18 @@ const DESCENDING_BASIC_PREFIXES = [ ...BASIC_PREFIXES ].sort( ( a, b ) => b.leng
 const BASIC_PREFIXES_REGEX = new RegExp( `^(${DESCENDING_BASIC_PREFIXES.join( "|" )})` );
 
 /**
+ * An object containing the stem and the prefix.
+ *
+ * @typedef {Object} 	StemAndPrefixPair
+ * @property {string}	stem The word without the basic prefixes.
+ * @property {string}	prefix The prefix that was matched.
+ */
+
+/**
  * Strips basic prefixes from a word.
  *
  * @param {string} word The word to strip the basic prefixes from.
- * @returns {object} The word without the basic prefixes and the prefix that was stripped.
+ * @returns {StemAndPrefixPair} The word without the basic prefixes and the prefix that was stripped.
  */
 export function stemBasicPrefixes( word ) {
 	/*
