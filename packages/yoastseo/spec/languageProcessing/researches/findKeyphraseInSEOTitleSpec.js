@@ -11,7 +11,6 @@ import IndonesianResearcher from "../../../src/languageProcessing/languages/id/R
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import findKeyphraseInSEOTitle from "../../../src/languageProcessing/researches/findKeyphraseInSEOTitle.js";
 import Paper from "../../../src/values/Paper.js";
-import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataDE = getMorphologyData( "de" ).de;
@@ -492,7 +491,22 @@ describe( "Matches keywords in string", function() {
 } );
 
 describe( "Matches keywords in string for Arabic", () => {
-	it( "returns the exact match and its position", () => {
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "استعمارية أمريكية",
+			title: "استعمارية أمريكية: التوسع السياسي والاقتصادي أمريكي والثقافي",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title and it's preceded by a definite article (function word)", () => {
 		const mockPaper = new Paper( "", {
 			keyword: "استعمارية أمريكية",
 			title: "الاستعمارية الأمريكية: التوسع السياسي والاقتصادي أمريكي والثقافي",
@@ -503,6 +517,62 @@ describe( "Matches keywords in string for Arabic", () => {
 
 		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should NOT find an exact match at position 0, when each word of the keyphrase is found preceded with prefix" +
+		"at the beginning of the SEO title but the prefixes are not the same", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "استعمارية أمريكية",
+			title: "الاستعمارية والأمريكية: التوسع السياسي والاقتصادي أمريكي والثقافي",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( false );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should NOT find an exact match at position 0, when the words of the keyphrase are separated by a different word", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "الباندا جميلة",
+			title: "الباندا اللواتي جميلة يمكن تلطيفهن",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( false );
+		expect( result.position ).toBe( -1 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title and it's preceded by a definite article (function word)", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "قط ينطق",
+			title: "القط ينطق: التوسع السياسي والاقتصادي أمريكي والثقافي",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title and it's preceded by a definite article (function word)", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "\"قط ينطق\"",
+			title: "قط ينطق: التوسع السياسي والاقتصادي أمريكي والثقافي",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 } );
