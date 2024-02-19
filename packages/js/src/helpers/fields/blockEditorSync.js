@@ -17,7 +17,14 @@ const getFocusKeyphrase = () => select( STORE )?.getFocusKeyphrase();
  *
  * @returns {integer} The no index value.
  */
-const getNoIndex = () => select( STORE )?.getNoIndex();
+const getNoIndex = () => String( select( STORE )?.getNoIndex() );
+
+/**
+ * Retrieves the no follow value.
+ *
+ * @returns {integer} The no follow value.
+ */
+const getNoFollow = () => String( select( STORE )?.getNoFollow() );
 
 /**
  * Retrieves the no index value.
@@ -45,10 +52,11 @@ const createUpdater = () => {
 		if ( ! metadata || ! data ) {
 			return;
 		}
-		console.log( data );
-		console.log( metadata );
+		console.log( { data } );
+		console.log( { metadata } );
 
 		const changedData = pickBy( data, ( value, key ) => value  !== metadata[ METADATA_IDS[ key ] ] );
+		console.log( { changedData } );
 
 		if ( changedData ) {
 			const newMetadata = {};
@@ -72,6 +80,7 @@ export const blockEditorSync = () => {
 		createCollectorFromObject( {
 			focusKeyphrase: getFocusKeyphrase,
 			noIndex: getNoIndex,
+			noFollow: getNoFollow,
 			primaryCategory: getPrimaryTaxonomyId,
 			facebookTitle: getFacebookTitle,
 			facebookDescription: getFacebookDescription,
