@@ -2,9 +2,11 @@ import KeyphraseInSEOTitleAssessment from "../../../../src/scoring/assessments/s
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
+import ArabicResearcher from "../../../../src/languageProcessing/languages/ar/Researcher";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 
 const morphologyDataJA = getMorphologyData( "ja" );
+const morphologyDataAR = getMorphologyData( "ar" );
 
 describe( "an assessment to check if the keyword is in the SEO title", function() {
 	it( "returns an assessment result with keyword not found", function() {
@@ -470,5 +472,23 @@ describe( "a test to check if the keyword is in the SEO title in Japanese", func
 			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"The focus keyphrase appears at the beginning of the SEO title. Good job!" );
 		} );
+	} );
+} );
+
+describe( "a test to check if the keyword is in the SEO title in Arabic", function() {
+	it( "returns an assessment result for a title with the keyphrase preceded by a definite article prefix", () => {
+		const paper = new Paper( "", {
+			keyword: "استعمارية أمريكية",
+			title: "الاستعمارية الأمريكية: التوسع السياسي والاقتصادي أمريكي والثقافي",
+			locale: "ar",
+		} );
+		const researcher = new ArabicResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>:" +
+			" The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!" );
 	} );
 } );
