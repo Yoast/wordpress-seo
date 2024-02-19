@@ -38,7 +38,7 @@ class WPSEO_Metabox_Formatter {
 	/**
 	 * Returns the values.
 	 *
-	 * @return array
+	 * @return array<string|string,array<string,int,bool>,bool,int>
 	 */
 	public function get_values() {
 		$defaults = $this->get_defaults();
@@ -50,15 +50,12 @@ class WPSEO_Metabox_Formatter {
 	/**
 	 * Returns array with all the values always needed by a scraper object.
 	 *
-	 * @return array Default settings for the metabox.
+	 * @return array<string|string,array<string,int,bool>,bool,int> Default settings for the metabox.
 	 */
 	private function get_defaults() {
-		$analysis_seo                = new WPSEO_Metabox_Analysis_SEO();
-		$analysis_readability        = new WPSEO_Metabox_Analysis_Readability();
-		$analysis_inclusive_language = new WPSEO_Metabox_Analysis_Inclusive_Language();
-		$schema_types                = new Schema_Types();
-		$is_wincher_active           = YoastSEO()->helpers->wincher->is_active();
-		$host                        = YoastSEO()->helpers->url->get_url_host( get_site_url() );
+		$schema_types      = new Schema_Types();
+		$is_wincher_active = YoastSEO()->helpers->wincher->is_active();
+		$host              = YoastSEO()->helpers->url->get_url_host( get_site_url() );
 
 		return [
 			'author_name'                        => get_the_author_meta( 'display_name' ),
@@ -76,15 +73,10 @@ class WPSEO_Metabox_Formatter {
 			'keyword_usage'                      => [],
 			'title_template'                     => '',
 			'metadesc_template'                  => '',
-			'contentAnalysisActive'              => $analysis_readability->is_enabled() ? 1 : 0,
-			'keywordAnalysisActive'              => $analysis_seo->is_enabled() ? 1 : 0,
-			'inclusiveLanguageAnalysisActive'    => $analysis_inclusive_language->is_enabled() ? 1 : 0,
-			'cornerstoneActive'                  => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
 			'semrushIntegrationActive'           => WPSEO_Options::get( 'semrush_integration_active', true ) ? 1 : 0,
 			'intl'                               => $this->get_content_analysis_component_translations(),
 			'isRtl'                              => is_rtl(),
 			'isPremium'                          => YoastSEO()->helpers->product->is_premium(),
-			'wordFormRecognitionActive'          => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
 			'siteIconUrl'                        => get_site_icon_url(),
 			'countryCode'                        => WPSEO_Options::get( 'semrush_country_code', false ),
 			'SEMrushLoginStatus'                 => WPSEO_Options::get( 'semrush_integration_active', true ) ? $this->get_semrush_login_status() : false,
@@ -98,13 +90,6 @@ class WPSEO_Metabox_Formatter {
 				'articleTypeOptions' => $schema_types->get_article_type_options(),
 			],
 			'twitterCardType'                    => 'summary_large_image',
-
-			/**
-			 * Filter to determine if the markers should be enabled or not.
-			 *
-			 * @param bool $showMarkers Should the markers being enabled. Default = true.
-			 */
-			'show_markers'                       => apply_filters( 'wpseo_enable_assessment_markers', true ),
 			'publish_box'                        => [
 				'labels' => [
 					'keyword'            => [
@@ -209,13 +194,6 @@ class WPSEO_Metabox_Formatter {
 			'wincherAutoAddKeyphrases'           => WPSEO_Options::get( 'wincher_automatically_add_keyphrases', false ),
 			'wordproofIntegrationActive'         => YoastSEO()->helpers->wordproof->is_active() ? 1 : 0,
 			'multilingualPluginActive'           => $this->multilingual_plugin_active(),
-
-			/**
-			 * Filter to determine whether the PreviouslyUsedKeyword assessment should run.
-			 *
-			 * @param bool $previouslyUsedKeywordActive Whether the PreviouslyUsedKeyword assessment should run.
-			 */
-			'previouslyUsedKeywordActive'        => apply_filters( 'wpseo_previously_used_keyword_active', true ),
 			'getJetpackBoostPrePublishLink'      => WPSEO_Shortlinker::get( 'https://yoa.st/jetpack-boost-get-prepublish?domain=' . $host ),
 			'upgradeJetpackBoostPrePublishLink'  => WPSEO_Shortlinker::get( 'https://yoa.st/jetpack-boost-upgrade-prepublish?domain=' . $host ),
 			'woocommerceUpsellSchemaLink'        => WPSEO_Shortlinker::get( 'https://yoa.st/product-schema-metabox' ),
@@ -226,7 +204,7 @@ class WPSEO_Metabox_Formatter {
 	/**
 	 * Returns required yoast-component translations.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	private function get_content_analysis_component_translations() {
 		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
@@ -248,7 +226,7 @@ class WPSEO_Metabox_Formatter {
 	/**
 	 * Returns Jed compatible YoastSEO.js translations.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	private function get_translations() {
 		$locale = get_user_locale();

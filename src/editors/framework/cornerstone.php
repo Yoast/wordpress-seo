@@ -1,0 +1,54 @@
+<?php
+
+namespace Yoast\WP\SEO\Editors\Framework;
+
+use Yoast\WP\SEO\Helpers\Options_Helper;
+
+/**
+ * Describes if the Cornerstone features is enabled.
+ */
+class Cornerstone implements Analysis_Feature_Interface {
+
+	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
+	 * The constructor.
+	 *
+	 * @param Options_Helper $options_helper The options helper.
+	 */
+	public function __construct( Options_Helper $options_helper ) {
+		$this->options_helper = $options_helper;
+	}
+
+	/**
+	 * Whether cornerstone is enabled.
+	 *
+	 * @return bool Whether cornerstone is enabled.
+	 */
+	public function is_enabled(): bool {
+		return $this->options_helper->get( 'enable_cornerstone_content', false ) ? 1 : 0;
+	}
+
+	/**
+	 * Gets the name.
+	 *
+	 * @return string The name.
+	 */
+	public function get_name(): string {
+		return 'cornerstone';
+	}
+
+	/**
+	 * Gets the legacy key.
+	 *
+	 * @return string The legacy key.
+	 */
+	public function get_legacy_key(): string {
+		return 'cornerstoneActive';
+	}
+}
