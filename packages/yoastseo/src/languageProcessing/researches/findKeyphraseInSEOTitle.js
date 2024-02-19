@@ -140,22 +140,6 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 
 		return result;
 	}
-	// If an exact match was not found, check the pre-sanitized version of the keyphrase for matching.
-	// This makes matching of keyphrases containing punctuation (e.g. ".rar") possible.
-	if ( ! keywordMatched ) {
-		const keywordMatchedBeforeSanitizing = keyword;
-		if ( keywordMatchedBeforeSanitizing.count > 0 ) {
-			result.exactMatchFound = true;
-			result.allWordsFound = true;
-			result.position = adjustPosition( title, keywordMatchedBeforeSanitizing.position );
-		}
-		return result;
-	}
-	// Check 2: Are all content words from the keyphrase in the SEO title?
-	const topicForms = researcher.getResearch( "morphology" );
-
-	// Use only keyphrase (not the synonyms) to match topic words in the SEO title.
-	const useSynonyms = false;
 
 	result = checkIfAllWordsAreFound( title, keyword, locale, result, researcher );
 
