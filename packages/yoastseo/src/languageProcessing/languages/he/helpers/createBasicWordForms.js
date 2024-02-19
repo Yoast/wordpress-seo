@@ -1,3 +1,8 @@
+import { stemBasicPrefixes } from "../../../helpers/morphology/stemBasicPrefixes.js";
+
+const BASIC_PREFIXES = [ "ב", "ה", "ו", "כ", "ל", "מ", "ש" ];
+const BASIC_PREFIXES_REGEX = new RegExp( `^(${BASIC_PREFIXES.join( "|" )})` );
+
 /**
  * Creates basic word forms for a given Hebrew word.
  *
@@ -5,8 +10,7 @@
  *
  * @returns {string[]} Prefixed and de-prefixed variations of a word.
  */
-export default function createBasicWordForms( word ) {
-	const prefixes = [ "ב", "ה", "ו", "כ", "ל", "מ", "ש" ];
+export function createBasicWordForms( word ) {
 	const forms = [];
 
 	/*
@@ -14,21 +18,17 @@ export default function createBasicWordForms( word ) {
 	 * beginning with a prefix-like letter might be exceptions where this is the
 	 * actual first letter of the word.
 	 */
-	forms.push( ...prefixes.map( prefix => prefix + word ) );
-
-	let stemmedWord = "";
+	forms.push( ...BASIC_PREFIXES.map( basicPrefix => basicPrefix + word ) );
 
 	/*
 	 * If a word starts with one of the prefixes, we strip it and create all possible
 	 * prefixed forms based on this stem.
 	 */
-	if ( prefixes.some( prefix => word.startsWith( prefix ) ) ) {
-		stemmedWord = word.slice( 1 );
-	}
+	const { stem, prefix } = stemBasicPrefixes( word, BASIC_PREFIXES_REGEX );
 
-	if ( stemmedWord.length > 0 ) {
-		forms.push( stemmedWord );
-		forms.push( ...prefixes.map( prefix => prefix + stemmedWord ) );
+	if ( prefix !== "" ) {
+		forms.push( stem );
+		forms.push( ...BASIC_PREFIXES.map( basicPrefix => basicPrefix + stem ) );
 	}
 
 	return forms;

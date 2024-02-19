@@ -1,39 +1,11 @@
 import { flattenDeep } from "lodash-es";
+import { stemBasicPrefixes } from "../../../helpers/morphology/stemBasicPrefixes.js";
+
 const BASIC_PREFIXES = [ "ل", "ب", "ك", "و", "ف", "س", "أ", "ال", "وب", "ول", "لل", "فس", "فب", "فل", "وس",
 	"وال", "بال", "فال", "كال", "ولل", "وبال" ];
 // Sort the prefixes by length, so we can match the longest prefix first.
 const DESCENDING_BASIC_PREFIXES = [ ...BASIC_PREFIXES ].sort( ( a, b ) => b.length - a.length );
 const BASIC_PREFIXES_REGEX = new RegExp( `^(${DESCENDING_BASIC_PREFIXES.join( "|" )})` );
-
-/**
- * An object containing the stem and the prefix.
- *
- * @typedef {Object} 	StemAndPrefixPair
- * @property {string}	stem The word without the basic prefixes.
- * @property {string}	prefix The prefix that was matched.
- */
-
-/**
- * Strips basic prefixes from a word.
- *
- * @param {string} word The word to strip the basic prefixes from.
- * @returns {StemAndPrefixPair} The word without the basic prefixes and the prefix that was stripped.
- */
-export function stemBasicPrefixes( word ) {
-	/*
- 	 * If a word starts with one of the prefixes, we strip it.
-	 */
-	let stemmedWord = word;
-	let prefix = "";
-	const isPrefixed = word.match( BASIC_PREFIXES_REGEX );
-
-	if ( isPrefixed ) {
-		prefix = isPrefixed[ 0 ];
-		stemmedWord = word.slice( prefix.length );
-	}
-
-	return { stem: stemmedWord, prefix: prefix };
-}
 
 /**
  * Creates basic word forms for a given Arabic word.
@@ -52,7 +24,7 @@ export function createBasicWordForms( word ) {
 	 */
 	forms.push( ...BASIC_PREFIXES.map( basicPrefix => basicPrefix + word ) );
 
-	const { stem, prefix } = stemBasicPrefixes( word );
+	const { stem, prefix } = stemBasicPrefixes( word, BASIC_PREFIXES_REGEX );
 
 	if ( prefix !== "" ) {
 		/*
