@@ -82,7 +82,7 @@ export const loadFacebookPreviewData = () => {
 
 	return {
 		type: LOAD_FACEBOOK_PREVIEW,
-		imageId: MetaboxFieldSync.getInitialValue( "opengraph-image-id" ),
+		imageId: Number( MetaboxFieldSync.getInitialValue( "opengraph-image-id" ) ),
 		imageUrl: MetaboxFieldSync.getInitialValue( "opengraph-image" ),
 		description: MetaboxFieldSync.getInitialValue( "opengraph-description" ) || getSocialDescriptionTemplate(),
 		title: MetaboxFieldSync.getInitialValue( "opengraph-title" ) || getSocialTitleTemplate(),

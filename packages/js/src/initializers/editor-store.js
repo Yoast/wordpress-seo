@@ -31,10 +31,6 @@ const populateStore = store => {
 	const metaData = get( window, "wpseoScriptData.metabox.metaData", [] );
 	store.dispatch( actions.setFocusKeyword( metaData.focuskw ) );
 
-	store.dispatch( actions.setFacebookPreviewTitle( metaData[ "opengraph-title" ] ) );
-	store.dispatch( actions.setFacebookPreviewDescription( metaData[ "opengraph-description" ] ) );
-	store.dispatch( actions.setFacebookPreviewImage( { url: metaData[ "opengraph-image" ], id: metaData[ "opengraph-image-id" ] } ) );
-
 	store.dispatch( actions.setTwitterPreviewTitle( metaData[ "twitter-title" ] ) );
 	store.dispatch( actions.setTwitterPreviewDescription( metaData[ "twitter-description" ] ) );
 	store.dispatch( actions.setTwitterPreviewImage( { url: metaData[ "twitter-image" ], id: metaData[ "twitter-image-id" ] } ) );

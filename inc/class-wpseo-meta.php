@@ -265,7 +265,7 @@ class WPSEO_Meta {
 		'title'       => [ 'type' => 'hidden' ],
 		'description' => [ 'type' => 'hidden' ],
 		'image'       => [ 'type' => 'hidden' ],
-		'image-id'    => [ 'type' => 'hidden' ],
+		'image-id'    => [ 'type' => 'hidden', 'value_type' => 'integer' ],
 	];
 
 	/**

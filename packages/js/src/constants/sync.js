@@ -1,8 +1,11 @@
 export const METADATA_IDS = {
 	focusKeyphrase: "_yoast_wpseo_focuskw",
-	facebookImageId: "_yoast_wpseo_opengraph-image-id",
 	noIndex: "_yoast_wpseo_meta-robots-noindex",
 	primaryCategory: "_yoast_wpseo_primary_category",
+	facebookTitle: "_yoast_wpseo_opengraph-title",
+	facebookDescription: "_yoast_wpseo_opengraph-description",
+	facebookImageUrl: "_yoast_wpseo_opengraph-image",
+	facebookImageId: "_yoast_wpseo_opengraph-image-id",
 };
 
 export const SYNC_TIME = {
