@@ -342,7 +342,15 @@ function wpseo_init() {
 	WPSEO_Meta::init();
 
 	if ( version_compare( WPSEO_Options::get( 'version', 1 ), WPSEO_VERSION, '<' ) ) {
-		if ( function_exists( 'opcache_reset' ) ) {
+
+		$skip_opcache_reset = wpseo_maybe_invalidate_opcache();
+
+		/**
+		 * Filter: Adds the possibility to skip the opcache reset if invalidation was not performed.
+		 *
+		 * @param bool $skip_opcache_reset Whether the opcache reset should be skipped.
+		 */
+		if ( ! apply_filters( 'wpseo_skip_opcache_reset', $skip_opcache_reset ) && function_exists( 'opcache_reset' ) ) {
 			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Prevent notices when opcache.restrict_api is set.
 			@opcache_reset();
 		}
@@ -372,6 +380,46 @@ function wpseo_init() {
 	foreach ( $integrations as $integration ) {
 		$integration->register_hooks();
 	}
+}
+
+/**
+ * Detects if we can invalidate the opcache and does so.
+ *
+ * @return bool
+ */
+function wpseo_maybe_invalidate_opcache() {
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+
+	if ( ! function_exists( 'wp_opcache_invalidate' ) || ! function_exists( 'wp_opcache_invalidate_directory' ) ) {
+		return false;
+	}
+
+	$access_type = get_filesystem_method();
+	if ( $access_type !== 'direct' ) {
+		return false;
+	}
+
+	// Prevent any output requesting credentials, even though we should be safe in 'direct' mode.
+	ob_start();
+	$credentials = request_filesystem_credentials( admin_url() );
+	ob_end_clean();
+
+	if ( $credentials === false || ! WP_Filesystem( $credentials ) ) {
+		return false;
+	}
+
+	// Since WP 5.5.
+	wp_opcache_invalidate( WPSEO_PATH . 'wp-seo-main.php' );
+	wp_opcache_invalidate( WPSEO_PATH . 'wp-seo.php' );
+	// Since WP 6.2.
+	wp_opcache_invalidate_directory( WPSEO_PATH . 'admin' );
+	wp_opcache_invalidate_directory( WPSEO_PATH . 'inc' );
+	wp_opcache_invalidate_directory( WPSEO_PATH . 'lib' );
+	wp_opcache_invalidate_directory( WPSEO_PATH . 'src' );
+	wp_opcache_invalidate_directory( WPSEO_PATH . 'vendor' );
+	wp_opcache_invalidate_directory( WPSEO_PATH . 'vendor_prefixed' );
+
+	return true;
 }
 
 /**
