@@ -29,7 +29,7 @@ export const setNoIndex = ( value ) => {
  */
 export const setNoFollow = ( value ) => {
 	MetaboxFieldSync.setFieldValueBySingleId( "yoast_wpseo_meta-robots-nofollow", value );
-	return { type: SET_NO_FOLLOW, value };
+	return { type: SET_NO_FOLLOW, value: String( value ) };
 };
 
 /**
