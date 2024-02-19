@@ -1,24 +1,30 @@
+import { flattenDeep } from "lodash-es";
 const BASIC_PREFIXES = [ "ل", "ب", "ك", "و", "ف", "س", "أ", "ال", "وب", "ول", "لل", "فس", "فب", "فل", "وس",
 	"وال", "بال", "فال", "كال", "ولل", "وبال" ];
+// Sort the prefixes by length, so we can match the longest prefix first.
+const DESCENDING_BASIC_PREFIXES = [ ...BASIC_PREFIXES ].sort( ( a, b ) => b.length - a.length );
+const BASIC_PREFIXES_REGEX = new RegExp( `^(${DESCENDING_BASIC_PREFIXES.join( "|" )})` );
 
 /**
  * Strips basic prefixes from a word.
  *
  * @param {string} word The word to strip the basic prefixes from.
- * @returns {string} The word without the basic prefixes.
+ * @returns {object} The word without the basic prefixes and the prefix that was stripped.
  */
 export function stemBasicPrefixes( word ) {
 	/*
- 	 * If a word starts with one of the prefixes, we strip it and create all possible
-	 * prefixed forms based on this stem.
+ 	 * If a word starts with one of the prefixes, we strip it.
 	 */
-	let stemmedWord = "";
-	BASIC_PREFIXES.forEach( prefix => {
-		if ( word.startsWith( prefix ) ) {
-			stemmedWord = word.slice( prefix.length );
-		}
-	} );
-	return stemmedWord;
+	let stemmedWord = word;
+	let prefix = "";
+	const isPrefixed = word.match( BASIC_PREFIXES_REGEX );
+
+	if ( isPrefixed ) {
+		prefix = isPrefixed[ 0 ];
+		stemmedWord = word.slice( prefix.length );
+	}
+
+	return { stem: stemmedWord, prefix: prefix };
 }
 
 /**
@@ -36,14 +42,17 @@ export function createBasicWordForms( word ) {
 	 * beginning with a prefix-like letter might be exceptions where this is the
 	 * actual first letter of the word.
 	 */
-	forms.push( ...BASIC_PREFIXES.map( prefix => prefix + word ) );
+	forms.push( ...BASIC_PREFIXES.map( basicPrefix => basicPrefix + word ) );
 
-	const stemmedWord = stemBasicPrefixes( word );
+	const { stem, prefix } = stemBasicPrefixes( word );
 
-	if ( stemmedWord !== "" ) {
-		forms.push( stemmedWord );
-		forms.push( ...BASIC_PREFIXES.map( prefix => prefix + stemmedWord ) );
+	if ( prefix !== "" ) {
+		/*
+		If a word starts with one of the prefixes, we strip it and attach all prefixes to the stem.
+		*/
+		forms.push( stem );
+		forms.push( ...BASIC_PREFIXES.map( basicPrefix => basicPrefix + stem ) );
 	}
 
-	return forms;
+	return flattenDeep( forms );
 }
