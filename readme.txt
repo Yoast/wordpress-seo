@@ -348,7 +348,7 @@ Release date: 2024-02-20
 
 #### Enhancements
 
-* Adds the filter `wpseo_sitemap_urlset` to easily filter `<urlset>`'s for all XML sitemaps. Props to @jdevalk.
+* Adds the filter `wpseo_sitemap_urlset` to easily filter `<urlset>` for all XML sitemaps. Props to @jdevalk.
 * Encodes possible spaces in URLs used in `@id` and `url` `WebPage` schema piece properties when the schema represents a search results page.
 * Lowers the minimum amount of characters needed to use the search functionality on the settings page.
 * Makes the section headings stand out visually in the _SEO_, _readability_ and _inclusive language_ analysis tabs.
@@ -356,10 +356,10 @@ Release date: 2024-02-20
 #### Bugfixes
 
 * Fixes a bug where ending a _How-To_ or _FAQ_ block element with a backslash would generate errors when re-opening a saved post.
-* Fixes a bug where fatal errors occurred when using a plugin that hooks into `views_edit-{$post_type}` but did not return an array as expected.
 * Fixes a bug where next and prev links in query loop would be wrong when disabling `Inherit query from template`.
-* Fixes a bug where some custom post types such as Divi layouts could be experiencing problems after activation or deactivation of Yoast SEO.
+* Fixes a bug where some custom post types such as Divi layouts would experience problems after activation or deactivation of Yoast SEO.
 * Fixes a bug where the `ProfilePage` schema node would not be valid when it was manually chosen for a page.
+* Fixes a bug where using a plugin that hooks into `views_edit-{$post_type}` would generate fatal errors when the plugin returned an unexpected array.
 
 #### Other
 
