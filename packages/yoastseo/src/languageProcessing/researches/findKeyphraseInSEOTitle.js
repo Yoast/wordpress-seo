@@ -90,7 +90,7 @@ const adjustPosition = function( title, position ) {
  * @param {string} locale The locale of the paper.
  * @param {object} result The result object to store the results in.
  * @param {Researcher} researcher The researcher to use for analysis.
- * @returns {KeyphraseInSEOTitleResult} The new result object containing the results of the analysis.
+ * @returns {object} The new result object containing the results of the analysis.
  */
 function checkIfAllWordsAreFound( title, keyword, locale, result, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
@@ -101,7 +101,7 @@ function checkIfAllWordsAreFound( title, keyword, locale, result, researcher ) {
 	const separateWordsMatched = findTopicFormsInString( topicForms, title, useSynonyms, locale, false );
 
 	if ( separateWordsMatched.percentWordMatches === 100 ) {
-		const stemBasicPrefixes = researcher.getHelper( "stemBasicPrefixes" );
+		const findExactMatchKeyphraseInSEOTitle = researcher.getHelper( "findExactMatchKeyphraseInSEOTitle" );
 		/*
 		If all words are found and the position of the found words is 0, we further check if the exact match is found
 		for languages with a helper to stem basic prefixes.
@@ -111,37 +111,13 @@ function checkIfAllWordsAreFound( title, keyword, locale, result, researcher ) {
 		In the above case, when the keyphrase is "منزل", and the SEO title starts with "المنزل", we want to consider this as an exact match
 		and the position of the found keyphrase is 0.
 		 */
-		if ( separateWordsMatched.position === 0 && stemBasicPrefixes ) {
-			const matches = separateWordsMatched.matches;
-			const matchedKeywordStems = [];
-			const matchedKeywordPrefixes = [];
-			matches.forEach( match => {
-				const { stem, prefix } = stemBasicPrefixes( match );
-				matchedKeywordStems.push( stem );
-				matchedKeywordPrefixes.push( prefix );
-			} );
-			/*
-			 We consider a match an exact match if:
-			 1. The matched stems are equal to the keyword.
-			 	This is to make sure for example that the keyword "جدول" is not matched with "الجدولين" in the title "الجدولين".
-			 2. All the matched prefixes are the same.
-			 	For multi-word keyphrases where each word receives "function word" prefix,
-			 	we consider an exact match only if the prefix attached to the all words are the same.
-			 	For example, we recognize an exact match between the keyphrase "منزل كبير" and the title "المنزل الكبير"
-			 	because In Arabic, when the adjective directly follows the definite noun, both the noun and the adjective take the definite article.
-			 */
-			if ( matchedKeywordStems.join( " " ) === keyword ) {
-				for ( const prefix of matchedKeywordPrefixes ) {
-					// eslint-disable-next-line max-depth
-					if ( prefix !== matchedKeywordPrefixes[ 0 ] && prefix !== "" ) {
-						result.exactMatchFound = false;
-						break;
-					} else {
-						result.exactMatchFound = true;
-					}
-				}
-				result.position = 0;
-			}
+		if ( separateWordsMatched.position === 0 && findExactMatchKeyphraseInSEOTitle ) {
+			const { exactMatchFound, position } = findExactMatchKeyphraseInSEOTitle( separateWordsMatched, keyword, result );
+			result = {
+				...result,
+				exactMatchFound: exactMatchFound,
+				position: position,
+			};
 		}
 		result.allWordsFound = true;
 	}
