@@ -346,10 +346,12 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-02-20
 
+Yoast SEO 22.1 is out today. In this release, you'll find various fixes and improvements, including better Schema support and a new XML sitemap filter. Find out more about what's new in Yoast SEO 22.1 in [our release post](https://yoa.st/release-20-2-24)!
+
 #### Enhancements
 
 * Adds the filter `wpseo_sitemap_urlset` to easily filter `<urlset>` for all XML sitemaps. Props to @jdevalk.
-* Encodes possible spaces in URLs used in `@id` and `url` `WebPage` schema piece properties when the schema represents a search results page.
+* Encodes possible spaces in URLs used in `@id` and `url` `WebPage` Schema piece properties when the Schema represents a search results page.
 * Lowers the minimum amount of characters needed to use the search functionality on the settings page.
 * Makes the section headings stand out visually in the _SEO_, _readability_ and _inclusive language_ analysis tabs.
 
