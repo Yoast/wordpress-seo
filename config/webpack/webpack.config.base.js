@@ -10,7 +10,7 @@ const { yoastExternals } = require( "./externals" );
 
 let analyzerPort = 8888;
 
-module.exports = function( { entry, output, combinedOutputFile, cssExtractFileName } ) {
+module.exports = function( { entry, output, combinedOutputFile, cssExtractFileName, plugins = [] } ) {
 	const exclude = /node_modules[/\\](?!(yoast-components|gutenberg|yoastseo|@wordpress|@yoast|parse5|chart.js)[/\\]).*/;
 	// The index of the babel-loader rule.
 	let ruleIndex = 0;
@@ -100,6 +100,7 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 			process.env.WP_BUNDLE_ANALYZER && new BundleAnalyzerPlugin( {
 				analyzerPort: analyzerPort++,
 			} ),
+			...plugins,
 		].filter( Boolean ),
 	};
 };
