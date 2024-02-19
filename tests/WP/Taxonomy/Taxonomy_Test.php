@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Tests\WP\Taxonomy;
 
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Taxonomy;
-use Yoast\WPTestUtils\WPIntegration\TestCase;
+use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
  * Unit Test Class.
@@ -54,8 +54,6 @@ final class Taxonomy_Test extends TestCase {
 	 * @return void
 	 */
 	public function tear_down() {
-		parent::tear_down();
-
 		// Dequeue all Yoast SEO scripts and styles.
 		$wp_scripts = \wp_scripts();
 		$wp_styles  = \wp_styles();
@@ -71,6 +69,8 @@ final class Taxonomy_Test extends TestCase {
 				\wp_dequeue_style( $wp_style->handle );
 			}
 		}
+
+		parent::tear_down();
 	}
 
 	/**
