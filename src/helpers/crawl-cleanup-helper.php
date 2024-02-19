@@ -181,7 +181,6 @@ class Crawl_Cleanup_Helper {
 		return '';
 	}
 
-
 	/**
 	 * Returns the proper URL for 404 page.
 	 *
