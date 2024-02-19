@@ -8,7 +8,8 @@ import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
-import { createBasicWordForms, stemBasicPrefixes } from "./helpers/createBasicWordForms";
+import { createBasicWordForms } from "./helpers/createBasicWordForms";
+import findExactMatchKeyphraseInSEOTitle from "./helpers/findExactMatchKeyphraseInSEOTitle";
 import getStemmer from "./helpers/getStemmer";
 import isPassiveSentence from "./helpers/isPassiveSentence";
 
@@ -39,7 +40,7 @@ export default class Researcher extends AbstractResearcher {
 			createBasicWordForms,
 			getStemmer,
 			isPassiveSentence,
-			stemBasicPrefixes,
+			findExactMatchKeyphraseInSEOTitle,
 		} );
 	}
 }
