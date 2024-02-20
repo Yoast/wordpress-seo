@@ -201,7 +201,7 @@ class SocialMetadataPreviewForm extends Component {
 
 		const xImage = socialMediumName === "X" ? __( "X image", "wordpress-seo" ) : null;
 		const twitterImage = socialMediumName === "Twitter" ? __( "Twitter image", "wordpress-seo" ) : null;
-		const socialImage = __( "Social image", "wordpress-seo" ) ;
+		const socialImage = __( "Social image", "wordpress-seo" );
 
 		const imageSelected = !! imageUrl;
 		const imageSelectTitle = xImage || twitterImage || socialImage;
