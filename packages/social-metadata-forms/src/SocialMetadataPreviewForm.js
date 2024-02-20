@@ -191,16 +191,22 @@ class SocialMetadataPreviewForm extends Component {
 			idSuffix,
 		} = this.props;
 
-		const xTitle = socialMediumName === "X" ? __( "X title", "wordpress-seo" ) : null;
-		const twitterTitle = socialMediumName === "Twitter" ? __( "Twitter title", "wordpress-seo" ) : null;
+		const xTitle = socialMediumName === "X"
+			? __( "X title", "wordpress-seo" ) : null;
+		const twitterTitle = socialMediumName === "Twitter"
+			? __( "Twitter title", "wordpress-seo" ) : null;
 		const socialTitle =  __( "Social title", "wordpress-seo" );
 
-		const xDescription = socialMediumName === "X" ? __( "X description", "wordpress-seo" ) : null;
-		const twitterDescription = socialMediumName === "Twitter" ? __( "Twitter description", "wordpress-seo" ) : null;
+		const xDescription = socialMediumName === "X"
+			? __( "X description", "wordpress-seo" ) : null;
+		const twitterDescription = socialMediumName === "Twitter"
+			? __( "Twitter description", "wordpress-seo" ) : null;
 		const socialDescription = __( "Social description", "wordpress-seo" );
 
-		const xImage = socialMediumName === "X" ? __( "X image", "wordpress-seo" ) : null;
-		const twitterImage = socialMediumName === "Twitter" ? __( "Twitter image", "wordpress-seo" ) : null;
+		const xImage = socialMediumName === "X"
+			? __( "X image", "wordpress-seo" ) : null;
+		const twitterImage = socialMediumName === "Twitter"
+			? __( "Twitter image", "wordpress-seo" ) : null;
 		const socialImage = __( "Social image", "wordpress-seo" );
 
 		const imageSelected = !! imageUrl;
