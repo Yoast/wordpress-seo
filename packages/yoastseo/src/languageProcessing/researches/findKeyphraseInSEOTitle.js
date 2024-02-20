@@ -1,8 +1,9 @@
-/** @module analyses/findKeyphraseInSEOTitle */
+import { escapeRegExp, filter, includes, isEmpty } from "lodash-es";
+
 import wordMatch from "../helpers/match/matchTextWithWord.js";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
+import { stemPrefixedFunctionWords } from "../helpers/morphology/stemPrefixedFunctionWords.js";
 
-import { escapeRegExp, filter, includes, isEmpty } from "lodash-es";
 import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
 import getWords from "../helpers/word/getWords";
 import { WORD_BOUNDARY_WITH_HYPHEN } from "../../config/wordBoundariesWithoutPunctuation";
@@ -73,6 +74,54 @@ const adjustPosition = function( title, position ) {
 };
 
 /**
+ * Finds the exact match of the keyphrase in the SEO title for languages that have prefixed function words.
+ *
+ * @param {object} matchesObject The matches object containing the array of matched words and the position of the match.
+ * @param {string} keyword The keyword to find in the SEO title.
+ * @param {object} result The result object to store the results in.
+ * @param {RegExp} prefixedFunctionWordsRegex The function to stem the prefixed function words.
+ * @returns {object} The new result object containing the results of the analysis.
+ */
+function findExactMatch( matchesObject, keyword, result, prefixedFunctionWordsRegex ) {
+	const matchedKeywordStems = [];
+	const matchedKeywordPrefixes = [];
+	matchesObject.matches.forEach( match => {
+		const { stem, prefix } = stemPrefixedFunctionWords( match, prefixedFunctionWordsRegex );
+		matchedKeywordStems.push( stem );
+		matchedKeywordPrefixes.push( prefix );
+	} );
+
+	/*
+	 We consider a match an exact match if:
+	 1. The matched stems are equal to the keyword.
+		This is to make sure for example that the keyword "חתול חמוד" is not matched with "החתולים החמודים"
+		in the title "החתולים החמודים" in Hebrew,
+		or the keyword "جدول" is not matched with "الجدولين" in the title "الجدولين" in Arabic.
+	 2. All the matched prefixes are the same.
+		For multi-word keyphrases where each word receives "function word" prefix,
+		we consider an exact match only if the prefix attached to the all words are the same.
+		For example, we recognize an exact match between the keyphrase "חתול חמוד" and the title "החתול החמוד" in Hebrew, or
+		between the keyphrase "منزل كبير" and the title "المنزل الكبير" in Arabic.
+	 	Because In Arabic and Hebrew, when the adjective directly follows the definite noun,
+	 	both the noun and the adjective take the definite article.
+	 */
+	if ( matchedKeywordStems.join( " " ) === keyword ) {
+		for ( const prefix of matchedKeywordPrefixes ) {
+			if ( prefix !== matchedKeywordPrefixes[ 0 ] && prefix !== "" ) {
+				result.exactMatchFound = false;
+				break;
+			} else {
+				result.exactMatchFound = true;
+			}
+		}
+		if ( matchesObject.position === 0 ) {
+			result.position = 0;
+		}
+	}
+	return result;
+}
+
+/**
  * An object containing the results of the keyphrase in SEO title research.
  *
  * @typedef {Object} 	KeyphraseInSEOTitleResult
@@ -101,7 +150,7 @@ function checkIfAllWordsAreFound( title, keyword, locale, result, researcher ) {
 	const separateWordsMatched = findTopicFormsInString( topicForms, title, useSynonyms, locale, false );
 
 	if ( separateWordsMatched.percentWordMatches === 100 ) {
-		const findExactMatchKeyphraseInSEOTitle = researcher.getHelper( "findExactMatchKeyphraseInSEOTitle" );
+		const prefixedFunctionWordsRegex = researcher.getConfig( "prefixedFunctionWordsRegex" );
 		/*
 		If all words are found and the position of the found words is 0, we further check if the exact match is found
 		for languages with a helper to stem basic prefixes.
@@ -111,8 +160,8 @@ function checkIfAllWordsAreFound( title, keyword, locale, result, researcher ) {
 		In the above case, when the keyphrase is "منزل", and the SEO title starts with "المنزل", we want to consider this as an exact match
 		and the position of the found keyphrase is 0.
 		 */
-		if ( separateWordsMatched.position === 0 && findExactMatchKeyphraseInSEOTitle ) {
-			const { exactMatchFound, position } = findExactMatchKeyphraseInSEOTitle( separateWordsMatched, keyword, result );
+		if ( separateWordsMatched.position === 0 && prefixedFunctionWordsRegex ) {
+			const { exactMatchFound, position } = findExactMatch( separateWordsMatched, keyword, result, prefixedFunctionWordsRegex );
 			result = {
 				...result,
 				exactMatchFound: exactMatchFound,

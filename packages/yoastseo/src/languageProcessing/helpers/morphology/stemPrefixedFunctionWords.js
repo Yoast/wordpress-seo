@@ -13,7 +13,7 @@
  * @param {RegExp} regex The regular expression to match the basic prefixes.
  * @returns {StemAndPrefixPair} The word without the basic prefixes and the prefix that was stripped.
  */
-export function stemBasicPrefixes( word, regex ) {
+export function stemPrefixedFunctionWords( word, regex ) {
 	/*
  	 * If a word starts with one of the prefixes, we strip it.
 	 */
