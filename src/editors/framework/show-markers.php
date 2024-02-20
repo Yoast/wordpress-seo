@@ -18,7 +18,7 @@ class Show_Markers implements Analysis_Feature_Interface {
 		 *
 		 * @param bool $showMarkers Should the markers being enabled. Default = true.
 		 */
-		return \apply_filters( 'wpseo_enable_assessment_markers', true );
+		return (bool) \apply_filters( 'wpseo_enable_assessment_markers', true );
 	}
 
 	/**

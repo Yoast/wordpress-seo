@@ -74,7 +74,7 @@ class Inclusive_Language_Analysis implements Analysis_Feature_Interface {
 	 * @return bool Whether this analysis is enabled globally.
 	 */
 	public function is_globally_enabled(): bool {
-		return $this->options_helper->get( 'inclusive_language_analysis_active', false );
+		return (bool) $this->options_helper->get( 'inclusive_language_analysis_active', false );
 	}
 
 	/**

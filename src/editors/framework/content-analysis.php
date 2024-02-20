@@ -49,7 +49,7 @@ class Content_Analysis implements Analysis_Feature_Interface {
 	 * @return bool Whether this analysis is enabled globally.
 	 */
 	private function is_globally_enabled(): bool {
-		return $this->options_helper->get( 'content_analysis_active', true );
+		return (bool) $this->options_helper->get( 'content_analysis_active', true );
 	}
 
 	/**

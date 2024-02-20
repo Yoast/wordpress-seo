@@ -18,7 +18,7 @@ class Previously_Used_Keyword implements Analysis_Feature_Interface {
 		 *
 		 * @param bool $previouslyUsedKeywordActive Whether the PreviouslyUsedKeyword assessment should run.
 		 */
-		return \apply_filters( 'wpseo_previously_used_keyword_active', true );
+		return (bool) \apply_filters( 'wpseo_previously_used_keyword_active', true );
 	}
 
 	/**

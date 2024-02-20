@@ -31,7 +31,7 @@ class Cornerstone implements Analysis_Feature_Interface {
 	 * @return bool Whether cornerstone is enabled.
 	 */
 	public function is_enabled(): bool {
-		return $this->options_helper->get( 'enable_cornerstone_content', false ) ? 1 : 0;
+		return (bool) $this->options_helper->get( 'enable_cornerstone_content', false );
 	}
 
 	/**
