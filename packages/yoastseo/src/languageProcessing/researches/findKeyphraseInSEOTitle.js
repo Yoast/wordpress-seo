@@ -161,15 +161,11 @@ function checkIfAllWordsAreFound( title, keyword, locale, result, researcher ) {
 		In the above case, when the keyphrase is "منزل", and the SEO title starts with "المنزل", we want to consider this as an exact match
 		and the position of the found keyphrase is 0.
 		 */
-		if ( separateWordsMatched.position === 0 && prefixedFunctionWordsRegex ) {
-			const { exactMatchFound, position } = findExactMatch(
-				separateWordsMatched.matches,
-				keyword,
-				result,
-				prefixedFunctionWordsRegex,
-				title,
-				locale
-			);
+		if ( prefixedFunctionWordsRegex ) {
+			const {
+				exactMatchFound,
+				position,
+			} = findExactMatch( separateWordsMatched.matches, keyword, result, prefixedFunctionWordsRegex, title, locale );
 			result = {
 				...result,
 				exactMatchFound: exactMatchFound,
