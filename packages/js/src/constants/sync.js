@@ -11,6 +11,9 @@ export const METADATA_IDS = {
 	twitterDescription: "_yoast_wpseo_twitter-description",
 	twitterImageUrl: "_yoast_wpseo_twitter-image",
 	twitterImageId: "_yoast_wpseo_twitter-image-id",
+	pageType: "_yoast_wpseo_schema_page_type",
+	articleType: "_yoast_wpseo_schema_article_type",
+
 };
 
 export const SYNC_TIME = {

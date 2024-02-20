@@ -1,4 +1,4 @@
-import SchemaFields from "../../helpers/SchemaFields";
+import MetaboxFieldSync from "../../helpers/fields/MetaboxFieldSync";
 
 export const SET_PAGE_TYPE = "SET_PAGE_TYPE";
 export const SET_ARTICLE_TYPE = "SET_ARTICLE_TYPE";
@@ -13,7 +13,7 @@ export const GET_SCHEMA_ARTICLE_DATA = "GET_SCHEMA_ARTICLE_DATA";
  * @returns {object} The action object.
  */
 export const setPageType = ( pageType ) => {
-	SchemaFields.pageType = pageType;
+	MetaboxFieldSync.setFieldValue( "schema_page_type", pageType );
 	return { type: SET_PAGE_TYPE, pageType };
 };
 
@@ -25,7 +25,7 @@ export const setPageType = ( pageType ) => {
  * @returns {object} The action object.
  */
 export const setArticleType = ( articleType ) => {
-	SchemaFields.articleType = articleType;
+	MetaboxFieldSync.setFieldValue( "schema_article_type", articleType );
 	return { type: SET_ARTICLE_TYPE, articleType };
 };
 
@@ -37,8 +37,8 @@ export const setArticleType = ( articleType ) => {
 export const getSchemaPageData = () => {
 	return {
 		type: GET_SCHEMA_PAGE_DATA,
-		pageType: SchemaFields.pageType,
-		defaultPageType: SchemaFields.defaultPageType,
+		pageType: MetaboxFieldSync.getInitialValue( "schema_page_type" ),
+		defaultPageType: MetaboxFieldSync.getInitialValue( "schema_page_type_default" ),
 	};
 };
 
@@ -50,7 +50,7 @@ export const getSchemaPageData = () => {
 export const getSchemaArticleData = () => {
 	return {
 		type: GET_SCHEMA_ARTICLE_DATA,
-		articleType: SchemaFields.articleType,
-		defaultArticleType: SchemaFields.defaultArticleType,
+		articleType: MetaboxFieldSync.getInitialValue( "schema_article_type" ),
+		defaultArticleType: MetaboxFieldSync.getInitialValue( "schema_article_type_default" ),
 	};
 };

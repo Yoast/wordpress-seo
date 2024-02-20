@@ -5,12 +5,8 @@ import createWatcher, { createCollectorFromObject } from "../../helpers/create-w
 import { STORE, CORE_EDITOR_STORE, SYNC_TIME, METADATA_IDS } from "../../constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
-
-/**
- * Retrieves the focus keyphrase.
- * @returns {string} The focus keyphrase.
- */
-const getFocusKeyphrase = () => select( STORE )?.getFocusKeyphrase();
+import { getPageType, getArticleType } from "./schemaFieldsStore";
+import { getFocusKeyphrase } from "./analysisFieldsStore";
 
 
 /**
@@ -92,6 +88,8 @@ export const blockEditorSync = () => {
 			twitterDescription: getTwitterDescription,
 			twitterImageUrl: getTwitterImageUrl,
 			twitterImageId: getTwitterImageId,
+			pageType: getPageType,
+			articleType: getArticleType,
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE );
