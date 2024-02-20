@@ -164,6 +164,37 @@ class SocialMetadataPreviewForm extends Component {
 	}
 
 	/**
+	 * Returns the titles for the fields based on the social medium name.
+	 *
+	 * @param {String} socialMediumName The name of the social medium.
+	 *
+	 * @returns {Object} The titles for the fields.
+	 */
+	getFieldsTitles( socialMediumName ) {
+		if ( socialMediumName === "Twitter" ) {
+			return {
+				imageSelectTitle: __( "Twitter image", "wordpress-seo" ),
+				titleEditorTitle: __( "Twitter title", "wordpress-seo" ),
+				descEditorTitle: __( "Twitter description", "wordpress-seo" ),
+			};
+		}
+
+		if ( socialMediumName === "X" ) {
+			return {
+				imageSelectTitle: __( "X image", "wordpress-seo" ),
+				titleEditorTitle: __( "X title", "wordpress-seo" ),
+				descEditorTitle: __( "X description", "wordpress-seo" ),
+			};
+		}
+
+		return {
+			imageSelectTitle: __( "Social image", "wordpress-seo" ),
+			titleEditorTitle: __( "Social title", "wordpress-seo" ),
+			descEditorTitle: __( "Social description", "wordpress-seo" ),
+		};
+	}
+
+	/**
 	 * Renders the component.
 	 *
 	 * @returns {React.Element} The rend
@@ -191,28 +222,11 @@ class SocialMetadataPreviewForm extends Component {
 			idSuffix,
 		} = this.props;
 
-		const xTitle = socialMediumName === "X"
-			? __( "X title", "wordpress-seo" ) : null;
-		const twitterTitle = socialMediumName === "Twitter"
-			? __( "Twitter title", "wordpress-seo" ) : null;
-		const socialTitle =  __( "Social title", "wordpress-seo" );
-
-		const xDescription = socialMediumName === "X"
-			? __( "X description", "wordpress-seo" ) : null;
-		const twitterDescription = socialMediumName === "Twitter"
-			? __( "Twitter description", "wordpress-seo" ) : null;
-		const socialDescription = __( "Social description", "wordpress-seo" );
-
-		const xImage = socialMediumName === "X"
-			? __( "X image", "wordpress-seo" ) : null;
-		const twitterImage = socialMediumName === "Twitter"
-			? __( "Twitter image", "wordpress-seo" ) : null;
-		const socialImage = __( "Social image", "wordpress-seo" );
-
+		const titles = this.getFieldsTitles( socialMediumName );
 		const imageSelected = !! imageUrl;
-		const imageSelectTitle = xImage || twitterImage || socialImage;
-		const titleEditorTitle = xTitle || twitterTitle || socialTitle;
-		const descEditorTitle = xDescription || twitterDescription || socialDescription;
+		const imageSelectTitle = titles.imageSelectTitle;
+		const titleEditorTitle = titles.titleEditorTitle;
+		const descEditorTitle = titles.descEditorTitle;
 
 		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
 
