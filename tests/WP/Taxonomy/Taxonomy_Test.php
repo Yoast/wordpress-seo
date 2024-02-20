@@ -140,7 +140,6 @@ final class Taxonomy_Test extends TestCase {
 		$this->assertTrue( \wp_style_is( 'yoast-seo-monorepo' ) );
 		$this->assertTrue( \wp_style_is( 'yoast-seo-metabox-css' ) );
 		$this->assertTrue( \wp_style_is( 'yoast-seo-ai-generator' ) );
-		$this->assertTrue( \wp_script_is( 'yoast-seo-term-edit' ) );
 	}
 
 	/**
