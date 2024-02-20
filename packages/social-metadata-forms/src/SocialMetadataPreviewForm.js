@@ -191,12 +191,22 @@ class SocialMetadataPreviewForm extends Component {
 			idSuffix,
 		} = this.props;
 
+		const xTitle = socialMediumName === "X" ? __( "X title", "wordpress-seo" ) : null;
+		const twitterTitle = socialMediumName === "Twitter" ? __( "Twitter title", "wordpress-seo" ) : null;
+		const socialTitle = socialMediumName === "Social" ? __( "Social title", "wordpress-seo" ) : null;
+
+		const xDescription = socialMediumName === "X" ? __( "X description", "wordpress-seo" ) : null;
+		const twitterDescription = socialMediumName === "Twitter" ? __( "Twitter description", "wordpress-seo" ) : null;
+		const socialDescription = socialMediumName === "Social" ? __( "Social description", "wordpress-seo" ) : null;
+
+		const xImage = socialMediumName === "X" ? __( "X image", "wordpress-seo" ) : null;
+		const twitterImage = socialMediumName === "Twitter" ? __( "Twitter image", "wordpress-seo" ) : null;
+		const socialImage = socialMediumName === "Social" ? __( "Social image", "wordpress-seo" ) : null;
+
 		const imageSelected = !! imageUrl;
-		const imageSelectTitle = socialMediumName === "Twitter" ? __( "Twitter image", "wordpress-seo" ) : __( "Social image", "wordpress-seo" );
-		const titleEditorTitle = socialMediumName === "Twitter" ? __( "Twitter title", "wordpress-seo" ) : __( "Social title", "wordpress-seo" );
-		const descEditorTitle = socialMediumName === "Twitter"
-			? __( "Twitter description", "wordpress-seo" )
-			: __( "Social description", "wordpress-seo" );
+		const imageSelectTitle = xImage || twitterImage || socialImage;
+		const titleEditorTitle = xTitle || twitterTitle || socialTitle;
+		const descEditorTitle = xDescription || twitterDescription || socialDescription;
 
 		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
 
