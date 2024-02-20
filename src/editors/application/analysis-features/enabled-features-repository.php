@@ -15,6 +15,13 @@ use Yoast\WP\SEO\Editors\Framework\Analysis_Feature_Interface;
 class Enabled_Features_Repository {
 
 	/**
+	 * All plugin features.
+	 *
+	 * @var Analysis_Feature_Interface[] $plugin_features
+	 */
+	private $plugin_features;
+
+	/**
 	 * The list of analysis features.
 	 *
 	 * @var Analysis_Features_List $enabled_analysis_features
@@ -28,11 +35,7 @@ class Enabled_Features_Repository {
 	 */
 	public function __construct( Analysis_Feature_Interface ...$plugin_features ) {
 		$this->enabled_analysis_features = new Analysis_Features_List();
-
-		foreach ( $plugin_features as $plugin_feature ) {
-			$analysis_feature = new Analysis_Feature( $plugin_feature->is_enabled(), $plugin_feature->get_name(), $plugin_feature->get_legacy_key() );
-			$this->enabled_analysis_features->add_feature( $analysis_feature );
-		}
+		$this->plugin_features           = $plugin_features;
 	}
 
 	/**
@@ -41,6 +44,12 @@ class Enabled_Features_Repository {
 	 * @return Analysis_Features_List The analysis list.
 	 */
 	public function get_enabled_features(): Analysis_Features_List {
+		if ( \count( $this->enabled_analysis_features ) === 0 ) {
+			foreach ( $this->plugin_features as $plugin_feature ) {
+				$analysis_feature = new Analysis_Feature( $plugin_feature->is_enabled(), $plugin_feature->get_name(), $plugin_feature->get_legacy_key() );
+				$this->enabled_analysis_features->add_feature( $analysis_feature );
+			}
+		}
 		return $this->enabled_analysis_features;
 	}
 }
