@@ -2,15 +2,6 @@ import { select } from "@wordpress/data";
 import { STORE } from "../../constants";
 
 /**
- * Gets the defaultPageType from the state.
- *
- * @param {Object} state The state.
- *
- * @returns {String} Default page type.
- */
-export const getDefaultPageType = () => select( STORE )?.getDefaultPageType();
-
-/**
  * Gets the pageType from the state.
  *
  * @param {Object} state The state.
@@ -18,15 +9,6 @@ export const getDefaultPageType = () => select( STORE )?.getDefaultPageType();
  * @returns {String} Page type.
  */
 export const getPageType = () => select( STORE )?.getPageType();
-
-/**
- * Gets the defaultArticleType from the state.
- *
- * @param {Object} state The state.
- *
- * @returns {String} Default article type.
- */
-export const getDefaultArticleType = () => select( STORE )?.getDefaultArticleType();
 
 /**
  * Gets the articleType from the state.
