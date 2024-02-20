@@ -4,7 +4,7 @@
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import { markers } from "yoastseo";
-import { select } from "@wordpress/data";
+import { select, dispatch } from "@wordpress/data";
 
 /* Internal dependencies */
 import measureTextWidth from "../helpers/measureTextWidth";
@@ -415,7 +415,7 @@ PostDataCollector.prototype.saveContentScore = function( score ) {
 		updateAdminBar( indicator );
 	}
 
-	$( "#yoast_wpseo_content_score" ).val( score );
+	dispatch( STORE ).setOverallReadabilityScore( score );
 };
 
 /**
