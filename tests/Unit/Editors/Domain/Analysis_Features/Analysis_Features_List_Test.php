@@ -1,0 +1,49 @@
+<?php
+
+namespace Yoast\WP\SEO\Tests\Unit\Editors\Domain\Analysis_Features;
+
+
+use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Features_List;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature;
+
+/**
+ * Class Analysis_Features_List_Test
+ *
+ * @group editors
+ *
+ * @coversDefaultClass \Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Features_List
+ */
+final class Analysis_Features_List_Test extends TestCase {
+	/**
+	 * The Analysis_Features_List.
+	 *
+	 * @var Analysis_Features_List
+	 */
+	private $instance;
+
+	/**
+	 * Set up the test.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+		$this->instance = new Analysis_Features_List();
+	}
+
+	/**
+	 * Tests the getters.
+	 *
+	 * @covers ::add_feature
+	 * @covers ::parse_to_legacy_array
+	 *
+	 * @return void
+	 */
+	public function test_parse_to_legacy_array() {
+
+		$this->instance->add_feature(new Analysis_Feature(false,'name','legacy-key-false'));
+		$this->instance->add_feature(new Analysis_Feature(true,'name','legacy-key-true'));
+		$this->assertSame(['legacy-key-false'=>false,'legacy-key-true'=>true],$this->instance->parse_to_legacy_array());
+	}
+}
