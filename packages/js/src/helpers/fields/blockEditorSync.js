@@ -32,7 +32,7 @@ const getNoFollow = () => String( select( STORE )?.getNoFollow() );
  *
  * @returns {integer} The no index value.
  */
-const getPrimaryTaxonomyId = () => select( STORE )?.getPrimaryTaxonomyId( "category" );
+const getPrimaryCategoryId = () => String( select( STORE )?.getPrimaryTaxonomyId( "category" ) );
 
 
 /**
@@ -50,19 +50,20 @@ const createUpdater = () => {
 	return ( data ) => {
 		// Unfortunately, we need to pass the full metadata to update a part of it.
 		const metadata = select( CORE_EDITOR_STORE ).getCurrentPost().meta;
+
 		if ( ! metadata || ! data ) {
 			return;
 		}
 		console.log( { data } );
 		console.log( { metadata } );
 
-		const changedData = pickBy( data, ( value, key ) => value  !== metadata[ METADATA_IDS[ key ] ] );
+		const changedData = pickBy( data, ( value, key ) => value !== metadata[ METADATA_IDS[ key ] ] );
 		console.log( { changedData } );
 
 		if ( changedData ) {
 			const newMetadata = {};
 			forEach( changedData, ( value, key ) => {
-				newMetadata[ METADATA_IDS[ key ] ] = value;
+				newMetadata[ METADATA_IDS[ key ] ] = String( value );
 			} );
 
 			editPost( {
@@ -82,7 +83,7 @@ export const blockEditorSync = () => {
 			focusKeyphrase: getFocusKeyphrase,
 			noIndex: getNoIndex,
 			noFollow: getNoFollow,
-			primaryCategory: getPrimaryTaxonomyId,
+			primaryCategory: getPrimaryCategoryId,
 			facebookTitle: getFacebookTitle,
 			facebookDescription: getFacebookDescription,
 			facebookImageUrl: getFacebookImageUrl,
