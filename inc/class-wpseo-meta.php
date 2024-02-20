@@ -282,7 +282,6 @@ class WPSEO_Meta {
 						'title'         => '', // Translation added later.
 						'default_value' => '',
 						'description'   => '', // Translation added later.
-						'value_type'    => ( $field_def['value_type'] ?? 'string' ),
 					];
 				}
 			}
@@ -307,7 +306,6 @@ class WPSEO_Meta {
 				'title'         => '',
 				'default_value' => '',
 				'description'   => '',
-				'value_type'    => 'integer',
 			];
 		}
 
@@ -319,14 +317,14 @@ class WPSEO_Meta {
 
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
-				$value_type = isset( $field_def['value_type'] ) ? $field_def['value_type'] : 'string';
+
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
 					[
 						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
 						'show_in_rest'      => true,
-						'type'              => $value_type,
+						'type'              => 'string',
 						'single'            => true,
 					]
 				);
@@ -463,7 +461,7 @@ class WPSEO_Meta {
 		$clean     = self::$defaults[ $meta_key ];
 
 		switch ( true ) {
-			case ( $meta_key === self::$meta_prefix . 'linkdex' || $field_def['value_type'] === 'integer' || $field_def['value_type'] === 'number' ):
+			case ( $meta_key === self::$meta_prefix . 'linkdex' ):
 				$int = WPSEO_Utils::validate_int( $meta_value );
 				if ( $int !== false && $int >= 0 ) {
 					$clean = strval( $int ); // Convert to string to make sure default check works.
