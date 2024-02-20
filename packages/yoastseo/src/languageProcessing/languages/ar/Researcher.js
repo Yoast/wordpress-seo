@@ -6,10 +6,10 @@ import firstWordExceptions from "./config/firstWordExceptions";
 import { all as functionWords } from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
+import { PREFIXED_FUNCTION_WORDS_REGEX } from "./config/prefixedFunctionWords";
 
 // All helpers
 import { createBasicWordForms } from "./helpers/createBasicWordForms";
-import findExactMatchKeyphraseInSEOTitle from "./helpers/findExactMatchKeyphraseInSEOTitle";
 import getStemmer from "./helpers/getStemmer";
 import isPassiveSentence from "./helpers/isPassiveSentence";
 
@@ -34,13 +34,13 @@ export default class Researcher extends AbstractResearcher {
 			functionWords,
 			transitionWords,
 			twoPartTransitionWords,
+			prefixedFunctionWordsRegex: PREFIXED_FUNCTION_WORDS_REGEX,
 		} );
 
 		Object.assign( this.helpers, {
 			createBasicWordForms,
 			getStemmer,
 			isPassiveSentence,
-			findExactMatchKeyphraseInSEOTitle,
 		} );
 	}
 }
