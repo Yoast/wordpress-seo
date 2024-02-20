@@ -6,8 +6,7 @@ import { STORE, CORE_EDITOR_STORE, SYNC_TIME, METADATA_IDS } from "../../constan
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
 import { getPageType, getArticleType } from "./schemaFieldsStore";
-import { getFocusKeyphrase } from "./analysisFieldsStore";
-
+import { getFocusKeyphrase, isCornerstoneContent, getContentScore } from "./analysisFieldsStore";
 
 /**
  * Retrieves the no index value.
@@ -90,6 +89,8 @@ export const blockEditorSync = () => {
 			twitterImageId: getTwitterImageId,
 			pageType: getPageType,
 			articleType: getArticleType,
+			isCornerstone: isCornerstoneContent,
+			contentScore: getContentScore,
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE );

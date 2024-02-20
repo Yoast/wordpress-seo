@@ -13,6 +13,8 @@ export const METADATA_IDS = {
 	twitterImageId: "_yoast_wpseo_twitter-image-id",
 	pageType: "_yoast_wpseo_schema_page_type",
 	articleType: "_yoast_wpseo_schema_article_type",
+	isCornerstone: "_yoast_wpseo_is_cornerstone",
+	contentScore: "_yoast_wpseo_content_score",
 
 };
 
