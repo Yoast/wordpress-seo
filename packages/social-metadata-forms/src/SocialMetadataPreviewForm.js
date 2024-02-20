@@ -265,7 +265,7 @@ class SocialMetadataPreviewForm extends Component {
 }
 
 SocialMetadataPreviewForm.propTypes = {
-	socialMediumName: PropTypes.oneOf( [ "Twitter", "𝕏", "Social" ] ).isRequired,
+	socialMediumName: PropTypes.oneOf( [ "Twitter", "X", "Social" ] ).isRequired,
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,
