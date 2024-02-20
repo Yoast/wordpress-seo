@@ -58,6 +58,15 @@ export const getTwitterImageType = state => get( state, "settings.socialPreviews
 export const getTwitterImageSrc = state => get( state, "twitterEditor.image.src", "" );
 
 /**
+ * Gets the twitter image id from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {integer} Twitter image id.
+ */
+export const getTwitterImageId = state => get( state, "twitterEditor.image.id", "" ).toString();
+
+/**
  * Gets the Twitter alt text from the state.
  *
  * @param {Object} state The state.

@@ -7,6 +7,10 @@ export const METADATA_IDS = {
 	facebookDescription: "_yoast_wpseo_opengraph-description",
 	facebookImageUrl: "_yoast_wpseo_opengraph-image",
 	facebookImageId: "_yoast_wpseo_opengraph-image-id",
+	twitterTitle: "_yoast_wpseo_twitter-title",
+	twitterDescription: "_yoast_wpseo_twitter-description",
+	twitterImageUrl: "_yoast_wpseo_twitter-image",
+	twitterImageId: "_yoast_wpseo_twitter-image-id",
 };
 
 export const SYNC_TIME = {

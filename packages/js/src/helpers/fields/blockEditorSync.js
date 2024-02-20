@@ -4,6 +4,7 @@ import { debounce, forEach, pickBy } from "lodash";
 import createWatcher, { createCollectorFromObject } from "../../helpers/create-watcher";
 import { STORE, CORE_EDITOR_STORE, SYNC_TIME, METADATA_IDS } from "../../constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
+import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
 
 /**
  * Retrieves the focus keyphrase.
@@ -86,6 +87,10 @@ export const blockEditorSync = () => {
 			facebookDescription: getFacebookDescription,
 			facebookImageUrl: getFacebookImageUrl,
 			facebookImageId: getFacebookImageId,
+			twitterTitle: getTwitterTitle,
+			twitterDescription: getTwitterDescription,
+			twitterImageUrl: getTwitterImageUrl,
+			twitterImageId: getTwitterImageId,
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE );
