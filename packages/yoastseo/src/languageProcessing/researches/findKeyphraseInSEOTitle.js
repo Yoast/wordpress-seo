@@ -75,6 +75,7 @@ const adjustPosition = function( title, position ) {
 
 /**
  * Creates a cartesian product of the given arrays.
+ * This function is taken from: https://stackoverflow.com/questions/12303989/cartesian-product-of-multiple-arrays-in-javascript
  *
  * @param {array} arrays The arrays to create the cartesian product of.
  *
@@ -87,7 +88,7 @@ function cartesian( ...arrays ) {
 /**
  * Finds the exact match of the keyphrase in the SEO title for languages that have prefixed function words.
  *
- * @param {array} matches The matches containing the array of matched words and the position of the match.
+ * @param {array} matches The array of matched words of the keyphrase in SEO title.
  * @param {string} keyphrase The keyphrase to find in the SEO title.
  * @param {object} result The result object to store the results in.
  * @param {RegExp} prefixedFunctionWordsRegex The function to stem the prefixed function words.
@@ -97,22 +98,41 @@ function cartesian( ...arrays ) {
  * @returns {object} The new result object containing the results of the analysis.
  */
 function findExactMatch( matches, keyphrase, result, prefixedFunctionWordsRegex, title, locale ) {
-	const matchedKeywordPrefixes = [];
+	let matchedPrefixedFunctionWords = [];
+	/*
+	For each matched word of the keyphrase, get the prefixed function word.
+	For example, for the matches array [ "القطط" ,"والوسيمة" ], the `matchedPrefixedFunctionWords` array will be [ "ال", "وال" ].
+	 */
 	matches.forEach( match => {
-		const { prefix } = stemPrefixedFunctionWords( match, prefixedFunctionWordsRegex );
-		matchedKeywordPrefixes.push( prefix );
+		const { prefix: prefixedFunctionWord  } = stemPrefixedFunctionWords( match, prefixedFunctionWordsRegex );
+		matchedPrefixedFunctionWords.push( prefixedFunctionWord );
 	} );
 
+	// Split the keyphrase into words. For example, the keyphrase "قطط وسيمة" will be split into [ قطط", "وسيمة" ].
 	const splitKeyphrase = keyphrase.split( " " );
 	let keyphraseVariations = [];
+
+	// Add an empty string to the array to account for the case where the word is not prefixed, remove duplicates.
+	matchedPrefixedFunctionWords = uniq( matchedPrefixedFunctionWords.concat( [ "" ] ) );
+	/*
+	 Create an array of arrays, where each array contains each word of the keyphrase with function word prefixes attached.
+	 For example, when the split keyphrase is [ "قطط", "وسيمة" ] and the matchedPrefixedFunctionWords is [ "ال", "وال", "" ],
+	 the array would be: [ [ "والقطط","القطط", "قطط" ], [ "والوسيمة" ,"الوسيمة", "وسيمة" ] ].
+	 */
 	const arrays = [];
 	splitKeyphrase.forEach( word => {
-		arrays.push( uniq( matchedKeywordPrefixes.concat( [ "" ] ).map( prefix => prefix + word ) ) );
+		arrays.push( matchedPrefixedFunctionWords.map( prefixedFunctionWord => prefixedFunctionWord + word ) );
 	} );
-
+	/*
+	Create the cartesian product of the created arrays: to create all possible combinations of the previously created arrays.
+	For example, the cartesian product of [ [ "والقطط","القطط", "قطط" ], [ "والوسيمة" ,"الوسيمة", "وسيمة" ] ] will be:
+	...[ [ "والقطط", "والوسيمة" ], [ "والقطط", "الوسيمة" ], [ "والقطط", "وسيمة" ], [ "القطط", "والوسيمة" ]]
+	 */
 	keyphraseVariations = cartesian( ...arrays );
+	// Turn the keyphrase combination array into strings. For example, [ "والقطط", "والوسيمة" ] will be turned into "والقطط والوسيمة".
 	keyphraseVariations = keyphraseVariations.map( variation => variation.join( " " ) );
 	keyphraseVariations.forEach( variation => {
+		// Check if the exact match of the keyphrase combination is found in the SEO title.
 		const foundMatch = wordMatch( title, variation, locale, false );
 		if ( foundMatch.count > 0 ) {
 			result.exactMatchFound = true;
@@ -154,12 +174,15 @@ function checkIfAllWordsAreFound( title, keyword, locale, result, researcher ) {
 		const prefixedFunctionWordsRegex = researcher.getConfig( "prefixedFunctionWordsRegex" );
 		/*
 		If all words are found and the position of the found words is 0, we further check if the exact match is found
-		for languages with a helper to stem basic prefixes.
-		Currently, we define "languages with a helper to stem basic prefixes" as languages that receive function words as prefixes,
-		instead of as a separate word. This is the case for Arabic and Hebrew.
+		for languages with a helper to stem prefixed function words, e.g. definite article.
+		Our support for this type of language is currently only for Arabic and Hebrew.
 		For example, in Arabic, the word "المنزل" (the house) is written as "ال" (the) + "منزل" (house).
-		In the above case, when the keyphrase is "منزل", and the SEO title starts with "المنزل", we want to consider this as an exact match
-		and the position of the found keyphrase is 0.
+		And in Hebrew, the word "הבית" (the house) is written as "ה" (the) + "בית" (house).
+		In the above case, when the keyphrase is "منزل", and the SEO title starts with "المنزل" in Arabic,
+		or when the keyphrase is "בית" and the SEO title is "הבית", we want to consider this as an exact match
+		and the position is 0 if it's found in the beginning of the SEO title.
+		This treatment is to align with the way we match the keyphrase in SEO title for other languages.
+		For example, in English, the keyphrase "house" is considered to be found in the SEO title "the house" at position 0.
 		 */
 		if ( prefixedFunctionWordsRegex ) {
 			const {
