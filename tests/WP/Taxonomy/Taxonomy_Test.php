@@ -103,6 +103,7 @@ final class Taxonomy_Test extends TestCase {
 		$pagenow = 'edit-tags.php';
 
 		// Verify no scripts are enqueued yet.
+		$this->assertTrue( \wp_style_is( 'yoast-seo-scoring', 'registered' ) );
 		$this->assertFalse( \wp_style_is( 'yoast-seo-scoring' ) );
 
 		// Verify that the right scripts are enqueued.
@@ -130,6 +131,7 @@ final class Taxonomy_Test extends TestCase {
 		$_GET['taxonomy'] = 'post_tag';
 
 		// Verify no scripts are enqueued yet.
+		$this->assertTrue( \wp_style_is( 'yoast-seo-scoring', 'registered' ) );
 		$this->assertFalse( \wp_style_is( 'yoast-seo-scoring' ) );
 
 		// Verify that the right scripts are enqueued.
