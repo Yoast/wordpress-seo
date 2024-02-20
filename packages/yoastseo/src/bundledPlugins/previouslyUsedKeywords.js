@@ -127,7 +127,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 
 		return {
 			/* translators: %1$s expands to a link to the admin search page for the keyphrase,
-			 %2$d expands to the anchor end tag, %3$s and %4$s expand to links to yoast.com */
+			 %2$s expands to the anchor end tag, %3$s and %4$s expand to links to yoast.com */
 			text: sprintf( __(
 				// eslint-disable-next-line max-len
 				"%3$sPreviously used keyphrase%2$s: You've used this keyphrase %1$smultiple times before%2$s. %4$sDo not use your keyphrase more than once%2$s.",
