@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder;
 
+use Brain\Monkey\Functions;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Link_Builder_Double;
 
 /**
@@ -22,7 +23,6 @@ final class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Li
 	 */
 	protected function set_up() {
 		parent::set_up();
-
 		$this->instance = new Indexable_Link_Builder_Double(
 			$this->seo_links_repository,
 			$this->url_helper,
@@ -40,12 +40,12 @@ final class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Li
 	 */
 	public static function data_provider_update_incoming_links_for_related_indexables() {
 		return [
-			'no related indexables' => [
+			'no related indexables'       => [
 				'related_indexable_ids'                            => [],
 				'expected_counts'                                  => [],
 				'get_incoming_link_counts_for_indexable_ids_times' => 0,
 			],
-			'one related indexable' => [
+			'one related indexable'       => [
 				'related_indexable_ids'                            => [ 108 ],
 				'expected_counts'                                  => [
 					[
@@ -89,7 +89,11 @@ final class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Li
 	 *
 	 * @return void
 	 */
-	public function test_update_incoming_links_for_related_indexables( $related_indexable_ids, $expected_counts, $get_incoming_link_counts_for_indexable_ids_times ) {
+	public function test_update_incoming_links_for_related_indexables(
+		$related_indexable_ids,
+		$expected_counts,
+		$get_incoming_link_counts_for_indexable_ids_times
+	) {
 
 		$this->seo_links_repository
 			->expects( 'get_incoming_link_counts_for_indexable_ids' )
@@ -103,6 +107,9 @@ final class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Li
 				->with( $count['target_indexable_id'], $count['incoming'] )
 				->once();
 		}
+
+		Functions\expect( 'wp_cache_supports' )->times( $get_incoming_link_counts_for_indexable_ids_times )->andReturnTrue();
+		Functions\expect( 'wp_cache_flush_group' )->times( $get_incoming_link_counts_for_indexable_ids_times )->andReturnTrue();
 
 		$this->instance->exposed_update_incoming_links_for_related_indexables( $related_indexable_ids );
 	}

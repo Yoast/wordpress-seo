@@ -182,7 +182,7 @@ export const App = () => {
 										<span className="yst-block yst-mt-4">{ createInterpolateElement(
 											sprintf(
 												/* translators: %1$s expands to an opening span tag, %2$s expands to a closing span tag. */
-												__( "%1$sSupport languages:%2$s English & Spanish", "wordpress-seo" ),
+												__( "%1$sSupport language:%2$s English", "wordpress-seo" ),
 												"<span>",
 												"</span>"
 											),
