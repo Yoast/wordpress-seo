@@ -1,10 +1,9 @@
 <?php
-
+// @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Tests\Unit\Editors\Domain\Analysis_Features;
 
-
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Analysis_Feature_Test
@@ -14,6 +13,7 @@ use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature;
  * @coversDefaultClass \Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature
  */
 final class Analysis_Feature_Test extends TestCase {
+
 	/**
 	 * The Analysis_Feature.
 	 *
@@ -28,7 +28,7 @@ final class Analysis_Feature_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-		$this->instance = new Analysis_Feature(true,'name','legacy-name');
+		$this->instance = new Analysis_Feature( true, 'name', 'legacy-name' );
 	}
 
 	/**
@@ -42,8 +42,8 @@ final class Analysis_Feature_Test extends TestCase {
 	 */
 	public function test_getters() {
 
-		$this->assertTrue($this->instance->is_enabled());
-		$this->assertSame('name',$this->instance->get_name());
+		$this->assertTrue( $this->instance->is_enabled() );
+		$this->assertSame( 'name', $this->instance->get_name() );
 	}
 
 	/**
@@ -55,7 +55,7 @@ final class Analysis_Feature_Test extends TestCase {
 	 */
 	public function test_to_array() {
 
-		$this->assertSame(['name'=>true],$this->instance->to_array());
+		$this->assertSame( [ 'name' => true ], $this->instance->to_array() );
 	}
 
 	/**
@@ -67,6 +67,6 @@ final class Analysis_Feature_Test extends TestCase {
 	 */
 	public function test_to_legacy_array() {
 
-		$this->assertSame(['legacy-name'=>true],$this->instance->to_legacy_array());
+		$this->assertSame( [ 'legacy-name' => true ], $this->instance->to_legacy_array() );
 	}
 }

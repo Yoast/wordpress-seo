@@ -2,16 +2,10 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Editors\Framework;
 
-
 use Mockery;
-use Brain\Monkey;
-use Yoast\WP\SEO\Editors\Framework\Content_Analysis;
-use Yoast\WP\SEO\Editors\Framework\Cornerstone;
 use Yoast\WP\SEO\Editors\Framework\Word_Form_Recognition;
 use Yoast\WP\SEO\Helpers\Language_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature;
 
 /**
  * Class Word_Form_Recognition_Test
@@ -70,19 +64,19 @@ final class Word_Form_Recognition_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_is_enabled
 	 *
-	 * @param $is_word_form_recognition_active bool If the current language is supported.
-	 * @param $expected bool The expected outcome.
+	 * @param bool $is_word_form_recognition_active If the current language is supported.
+	 * @param bool $expected                        The expected outcome.
 	 *
 	 * @return void
 	 */
 	public function test_is_enabled( $is_word_form_recognition_active, $expected ) {
 		$this->language
 			->expects( 'is_word_form_recognition_active' )
-			->with(  'language')
+			->with( 'language' )
 			->andReturn( $is_word_form_recognition_active );
 
 		$this->language
-			->expects( 'get_language' )->andReturn('language');
+			->expects( 'get_language' )->andReturn( 'language' );
 
 		$this->assertSame( $expected, $this->instance->is_enabled() );
 	}
@@ -90,17 +84,17 @@ final class Word_Form_Recognition_Test extends TestCase {
 	/**
 	 * Data provider for test_is_enabled.
 	 *
-	 * @return array
+	 * @return array<array<string|bool>>
 	 */
 	public static function data_provider_is_enabled() {
 		return [
 			'Enabled' => [
 				'is_word_form_recognition_active' => true,
-				'expected'                => true,
+				'expected'                        => true,
 			],
 			'Disabled' => [
 				'is_word_form_recognition_active' => false,
-				'expected'                => false,
+				'expected'                        => false,
 			],
 		];
 	}

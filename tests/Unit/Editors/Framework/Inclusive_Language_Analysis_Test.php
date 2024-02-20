@@ -2,17 +2,13 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Editors\Framework;
 
-
-use Mockery;
 use Brain\Monkey;
-use Yoast\WP\SEO\Editors\Framework\Content_Analysis;
+use Mockery;
 use Yoast\WP\SEO\Editors\Framework\Inclusive_Language_Analysis;
-use Yoast\WP\SEO\Editors\Framework\Keyword_Analysis;
 use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature;
 
 /**
  * Class Inclusive_Language_Analysis_Test
@@ -89,11 +85,11 @@ final class Inclusive_Language_Analysis_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_is_enabled
 	 *
-	 * @param $inclusive_language_analysis_active bool If the `inclusive_language_analysis_active` option is enabled.
-	 * @param $author_meta                        bool If the `wpseo_keyword_analysis_disable` option is disabled for the current user.
-	 * @param $expected                           bool The expected outcome.
-	 * @param $premium_version                           string The premium version.
-	 * @param $has_inclusive_language_support                           bool If inclusive language support is there.
+	 * @param bool   $inclusive_language_analysis_active If the `inclusive_language_analysis_active` option is enabled.
+	 * @param bool   $author_meta                        If the `wpseo_keyword_analysis_disable` option is disabled for the current user.
+	 * @param bool   $expected                           The expected outcome.
+	 * @param string $premium_version                    The premium version.
+	 * @param bool   $has_inclusive_language_support     If inclusive language support is there.
 	 *
 	 * @return void
 	 */
@@ -141,7 +137,7 @@ final class Inclusive_Language_Analysis_Test extends TestCase {
 	/**
 	 * Data provider for test_is_enabled.
 	 *
-	 * @return array
+	 * @return array<array<string|bool,string>>
 	 */
 	public static function data_provider_is_enabled() {
 		return [
@@ -169,7 +165,7 @@ final class Inclusive_Language_Analysis_Test extends TestCase {
 				'has_inclusive_language_support'     => true,
 			],
 
-			'outdated premium'     => [
+			'outdated premium' => [
 				'inclusive_language_analysis_active' => true,
 				'author_meta'                        => false,
 				'expected'                           => false,

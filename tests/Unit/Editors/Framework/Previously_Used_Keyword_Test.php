@@ -2,16 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Editors\Framework;
 
-
-use Mockery;
-use Brain\Monkey;
 use Brain\Monkey\Functions;
-use Yoast\WP\SEO\Editors\Framework\Content_Analysis;
-use Yoast\WP\SEO\Editors\Framework\Cornerstone;
 use Yoast\WP\SEO\Editors\Framework\Previously_Used_Keyword;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature;
 
 /**
  * Class Previously_Used_Keyword_Test
@@ -62,13 +55,12 @@ final class Previously_Used_Keyword_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_is_enabled
 	 *
-	 * @param $enable_previously_used_keyword bool Return value of the `wpseo_previously_used_keyword_active` filter.
-	 * @param $expected                   bool The expected outcome.
+	 * @param bool $enable_previously_used_keyword Return value of the `wpseo_previously_used_keyword_active` filter.
+	 * @param bool $expected                       The expected outcome.
 	 *
 	 * @return void
 	 */
 	public function test_is_enabled( $enable_previously_used_keyword, $expected ) {
-
 
 		Functions\expect( 'apply_filters' )
 			->once()
@@ -80,7 +72,7 @@ final class Previously_Used_Keyword_Test extends TestCase {
 	/**
 	 * Data provider for test_is_enabled.
 	 *
-	 * @return array
+	 * @return array<array<string|bool>>
 	 */
 	public static function data_provider_is_enabled() {
 		return [

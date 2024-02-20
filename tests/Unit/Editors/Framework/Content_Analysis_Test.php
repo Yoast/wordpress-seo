@@ -2,13 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Editors\Framework;
 
-
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Editors\Framework\Content_Analysis;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature;
 
 /**
  * Class Content_Analysis_Test
@@ -69,9 +67,9 @@ final class Content_Analysis_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_is_enabled
 	 *
-	 * @param $content_analysis_active bool If the `content_analysis_active` option is enabled.
-	 * @param $author_meta bool If the `wpseo_content_analysis_disable` option is disabled for the current user.
-	 * @param $expected bool The expected outcome.
+	 * @param bool $content_analysis_active If the `content_analysis_active` option is enabled.
+	 * @param bool $author_meta             If the `wpseo_content_analysis_disable` option is disabled for the current user.
+	 * @param bool $expected                The expected outcome.
 	 *
 	 * @return void
 	 */
@@ -93,7 +91,7 @@ final class Content_Analysis_Test extends TestCase {
 	/**
 	 * Data provider for test_is_enabled.
 	 *
-	 * @return array
+	 * @return array<array<string|bool>>
 	 */
 	public static function data_provider_is_enabled() {
 		return [

@@ -2,14 +2,10 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Editors\Framework;
 
-
 use Mockery;
-use Brain\Monkey;
-use Yoast\WP\SEO\Editors\Framework\Content_Analysis;
 use Yoast\WP\SEO\Editors\Framework\Cornerstone;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature;
 
 /**
  * Class Cornerstone_Test
@@ -68,12 +64,12 @@ final class Cornerstone_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_is_enabled
 	 *
-	 * @param $enable_cornerstone_content bool If the `enable_cornerstone_content` option is enabled.
-	 * @param $expected bool The expected outcome.
+	 * @param bool $enable_cornerstone_content If the `enable_cornerstone_content` option is enabled.
+	 * @param bool $expected                   The expected outcome.
 	 *
 	 * @return void
 	 */
-	public function test_is_enabled( $enable_cornerstone_content,  $expected ) {
+	public function test_is_enabled( $enable_cornerstone_content, $expected ) {
 		$this->options
 			->expects( 'get' )
 			->with( 'enable_cornerstone_content', false )
@@ -85,17 +81,17 @@ final class Cornerstone_Test extends TestCase {
 	/**
 	 * Data provider for test_is_enabled.
 	 *
-	 * @return array
+	 * @return array<array<string|bool>>
 	 */
 	public static function data_provider_is_enabled() {
 		return [
 			'Enabled' => [
 				'enable_cornerstone_content' => true,
-				'expected'                => true,
+				'expected'                   => true,
 			],
 			'Disabled' => [
 				'enable_cornerstone_content' => false,
-				'expected'                => false,
+				'expected'                   => false,
 			],
 		];
 	}

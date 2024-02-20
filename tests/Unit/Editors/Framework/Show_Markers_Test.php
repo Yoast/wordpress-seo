@@ -2,17 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Editors\Framework;
 
-
-use Mockery;
-use Brain\Monkey;
 use Brain\Monkey\Functions;
-use Yoast\WP\SEO\Editors\Framework\Content_Analysis;
-use Yoast\WP\SEO\Editors\Framework\Cornerstone;
-use Yoast\WP\SEO\Editors\Framework\Previously_Used_Keyword;
 use Yoast\WP\SEO\Editors\Framework\Show_Markers;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature;
 
 /**
  * Class Show_Markers_Test
@@ -63,13 +55,12 @@ final class Show_Markers_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_is_enabled
 	 *
-	 * @param $enable_assessment_markers bool Return value of the `wpseo_enable_assessment_markers` filter.
-	 * @param $expected                   bool The expected outcome.
+	 * @param bool $enable_assessment_markers Return value of the `wpseo_enable_assessment_markers` filter.
+	 * @param bool $expected                  The expected outcome.
 	 *
 	 * @return void
 	 */
 	public function test_is_enabled( $enable_assessment_markers, $expected ) {
-
 
 		Functions\expect( 'apply_filters' )
 			->once()
@@ -81,17 +72,17 @@ final class Show_Markers_Test extends TestCase {
 	/**
 	 * Data provider for test_is_enabled.
 	 *
-	 * @return array
+	 * @return array<array<string|bool>>
 	 */
 	public static function data_provider_is_enabled() {
 		return [
 			'Enabled'  => [
 				'enable_assessment_markers' => true,
-				'expected'                       => true,
+				'expected'                  => true,
 			],
 			'Disabled' => [
 				'enable_assessment_markers' => false,
-				'expected'                       => false,
+				'expected'                  => false,
 			],
 		];
 	}
