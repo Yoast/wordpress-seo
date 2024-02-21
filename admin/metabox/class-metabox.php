@@ -9,7 +9,6 @@ use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Active_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
-use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Features_Repository;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
@@ -297,13 +296,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			new WPSEO_Post_Metabox_Formatter( $this->get_metabox_post(), [], $permalink )
 		);
 
-		$values                = $post_formatter->get_values();
-		$enabled_features_repo = YoastSEO()->classes->get( Enabled_Features_Repository::class );
-
-		$enabled_features = $enabled_features_repo->get_enabled_features()->parse_to_legacy_array();
-
-		$values = array_merge( $values, $enabled_features );
-
+		$values = $post_formatter->get_values();
 		/** This filter is documented in admin/filters/class-cornerstone-filter.php. */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
 		if ( $values['cornerstoneActive'] && ! in_array( $this->get_metabox_post()->post_type, $post_types, true ) ) {

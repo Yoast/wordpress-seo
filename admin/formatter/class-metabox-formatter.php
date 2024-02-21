@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Conditionals\Third_Party\TranslatePress_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\WPML_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Config\SEMrush_Client;
+use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Features_Repository;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
@@ -57,7 +58,7 @@ class WPSEO_Metabox_Formatter {
 		$is_wincher_active = YoastSEO()->helpers->wincher->is_active();
 		$host              = YoastSEO()->helpers->url->get_url_host( get_site_url() );
 
-		return [
+		$defaults = [
 			'author_name'                        => get_the_author_meta( 'display_name' ),
 			'site_name'                          => YoastSEO()->meta->for_current_page()->site_name,
 			'sitewide_social_image'              => WPSEO_Options::get( 'og_default_image' ),
@@ -184,6 +185,12 @@ class WPSEO_Metabox_Formatter {
 					],
 				],
 			],
+			/**
+			 * Filter to determine if the markers should be enabled or not.
+			 *
+			 * @param bool $showMarkers Should the markers being enabled. Default = true.
+			 */
+			'show_markers'                       => apply_filters( 'wpseo_enable_assessment_markers', true ),
 			'markdownEnabled'                    => $this->is_markdown_enabled(),
 			'analysisHeadingTitle'               => __( 'Analysis', 'wordpress-seo' ),
 			'zapierIntegrationActive'            => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
@@ -199,6 +206,12 @@ class WPSEO_Metabox_Formatter {
 			'woocommerceUpsellSchemaLink'        => WPSEO_Shortlinker::get( 'https://yoa.st/product-schema-metabox' ),
 			'woocommerceUpsellGooglePreviewLink' => WPSEO_Shortlinker::get( 'https://yoa.st/product-google-preview-metabox' ),
 		];
+
+		$enabled_features_repo = YoastSEO()->classes->get( Enabled_Features_Repository::class );
+
+		$enabled_features = $enabled_features_repo->get_enabled_features()->parse_to_legacy_array();
+
+		return array_merge( $defaults, $enabled_features );
 	}
 
 	/**

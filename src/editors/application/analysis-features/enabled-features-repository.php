@@ -44,7 +44,7 @@ class Enabled_Features_Repository {
 	 * @return Analysis_Features_List The analysis list.
 	 */
 	public function get_enabled_features(): Analysis_Features_List {
-		if ( \count( $this->enabled_analysis_features ) === 0 ) {
+		if ( \count( $this->enabled_analysis_features->parse_to_legacy_array() ) === 0 ) {
 			foreach ( $this->plugin_features as $plugin_feature ) {
 				$analysis_feature = new Analysis_Feature( $plugin_feature->is_enabled(), $plugin_feature->get_name(), $plugin_feature->get_legacy_key() );
 				$this->enabled_analysis_features->add_feature( $analysis_feature );
