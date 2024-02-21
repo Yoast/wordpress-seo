@@ -434,7 +434,7 @@ PostDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
 		updateAdminBar( indicator );
 	}
 
-	$( "#yoast_wpseo_inclusive_language_score" ).val( score );
+	dispatch( STORE ).setOverallInclusiveLanguageScore( score );
 };
 
 

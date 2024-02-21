@@ -14,7 +14,9 @@ export const METADATA_IDS = {
 	pageType: "_yoast_wpseo_schema_page_type",
 	articleType: "_yoast_wpseo_schema_article_type",
 	isCornerstone: "_yoast_wpseo_is_cornerstone",
-	contentScore: "_yoast_wpseo_content_score",
+	readabilityScore: "_yoast_wpseo_content_score",
+	seoScore: "_yoast_wpseo_linkdex",
+	inclusiveLanguageScore: "_yoast_wpseo_inclusive_language_score",
 
 };
 

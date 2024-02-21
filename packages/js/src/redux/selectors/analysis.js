@@ -72,11 +72,3 @@ export const getAnalysisData = ( state ) => {
 		permalink: getBaseUrlFromSettings( state ) + slug,
 	};
 };
-
-/**
- * Get content score.
- *
- * @param {Object} state The state.
- * @returns {integer} The content score.
- */
-export const getContentScore = ( state ) => get( state, "overallScore", "0" );

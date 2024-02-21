@@ -15,8 +15,22 @@ export const getFocusKeyphrase = () => select( STORE )?.getFocusKeyphrase();
 export const isCornerstoneContent = () => select( STORE )?.isCornerstoneContent() ? "1" : "0";
 
 /**
- * Retrieves the content score.
+ * Retrieves the readability score.
  *
  * @returns {string} The content score.
  */
-export const getContentScore = () => String( select( STORE )?.getContentScore() );
+export const getReadabilityScore = () => String( select( STORE )?.getReadabilityResults()?.overallScore );
+
+/**
+ * Retrieves the inclusive language score.
+ *
+ * @returns {string} The content score.
+ */
+export const getInclusiveLanguageScore = () => String( select( STORE )?.getInclusiveLanguageResults()?.overallScore );
+
+/**
+ * Retrieves the seo score.
+ *
+ * @returns {string} The content score.
+ */
+export const getSeoScore = () => String( select( STORE )?.getSeoResults().overallScore );
