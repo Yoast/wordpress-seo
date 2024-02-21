@@ -88,7 +88,7 @@ function cartesian( ...arrays ) {
 /**
  * Finds the exact match of the keyphrase in the SEO title for languages that have prefixed function words.
  *
- * @param {array} matches The array of matched words of the keyphrase in SEO title.
+ * @param {object} matchesObject The object that contains an array of matched words of the keyphrase in SEO title and the position of the match.
  * @param {string} keyphrase The keyphrase to find in the SEO title.
  * @param {object} result The result object to store the results in.
  * @param {RegExp} prefixedFunctionWordsRegex The function to stem the prefixed function words.
@@ -97,13 +97,13 @@ function cartesian( ...arrays ) {
  *
  * @returns {object} The new result object containing the results of the analysis.
  */
-function findExactMatch( matches, keyphrase, result, prefixedFunctionWordsRegex, title, locale ) {
+function findExactMatch( matchesObject, keyphrase, result, prefixedFunctionWordsRegex, title, locale ) {
 	let matchedPrefixedFunctionWords = [];
 	/*
 	For each matched word of the keyphrase, get the prefixed function word.
 	For example, for the matches array [ "القطط" ,"والوسيمة" ], the `matchedPrefixedFunctionWords` array will be [ "ال", "وال" ].
 	 */
-	matches.forEach( match => {
+	matchesObject.matches.forEach( match => {
 		const { prefix: prefixedFunctionWord  } = stemPrefixedFunctionWords( match, prefixedFunctionWordsRegex );
 		matchedPrefixedFunctionWords.push( prefixedFunctionWord );
 	} );
@@ -140,6 +140,13 @@ function findExactMatch( matches, keyphrase, result, prefixedFunctionWordsRegex,
 			result.position = adjustPosition( title, foundMatch.position );
 		}
 	} );
+	/*
+	This check if to account for the case where an exact match of the keyphrase is not found in the SEO title,
+	but it's found in the position is 0.
+	 */
+	if ( matchesObject.position === 0 ) {
+		result.position = 0;
+	}
 	return result;
 }
 
@@ -190,7 +197,7 @@ function checkIfAllWordsAreFound( paper, researcher, keyword, result, prefixedFu
 			const {
 				exactMatchFound,
 				position,
-			} = findExactMatch( separateWordsMatched.matches, keyword, result, prefixedFunctionWordsRegex, title, locale );
+			} = findExactMatch( separateWordsMatched, keyword, result, prefixedFunctionWordsRegex, title, locale );
 			result = {
 				...result,
 				exactMatchFound: exactMatchFound,
