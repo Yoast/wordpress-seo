@@ -7,11 +7,12 @@
  */
 
 /**
- * Strips basic prefixes from a word.
+ * Strips function word prefixes from the word.
  *
  * @param {string} word The word to strip the basic prefixes from.
- * @param {RegExp} regex The regular expression to match the basic prefixes.
- * @returns {StemAndPrefixPair} The word without the basic prefixes and the prefix that was stripped.
+ * @param {RegExp} regex The regular expression to match the function word prefixes.
+ * @returns {StemAndPrefixPair} The word without the function word prefixes that was stripped,
+ * or the original word if the word is not prefixed.
  */
 export function stemPrefixedFunctionWords( word, regex ) {
 	/*
