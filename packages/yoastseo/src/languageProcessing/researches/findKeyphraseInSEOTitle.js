@@ -130,12 +130,13 @@ function findExactMatch( matches, keyphrase, result, prefixedFunctionWordsRegex,
 	 */
 	keyphraseVariations = cartesian( ...arrays );
 	// Turn the keyphrase combination array into strings. For example, [ "والقطط", "والوسيمة" ] will be turned into "والقطط والوسيمة".
-	keyphraseVariations = keyphraseVariations.map( variation => variation.join( " " ) );
+	keyphraseVariations = keyphraseVariations.map( variation => Array.isArray( variation ) ? variation.join( " " ) : variation );
 	keyphraseVariations.forEach( variation => {
 		// Check if the exact match of the keyphrase combination is found in the SEO title.
 		const foundMatch = wordMatch( title, variation, locale, false );
 		if ( foundMatch.count > 0 ) {
 			result.exactMatchFound = true;
+			// Adjust the position of the matched keyphrase if it's preceded by non-prefixed function words.
 			result.position = adjustPosition( title, foundMatch.position );
 		}
 	} );
@@ -155,14 +156,16 @@ function findExactMatch( matches, keyphrase, result, prefixedFunctionWordsRegex,
 /**
  * Checks if all content words from the keyphrase are found in the SEO title.
  *
- * @param {string} title The SEO title of the paper.
- * @param {string} keyword The keyphrase of the paper.
- * @param {string} locale The locale of the paper.
+ * @param {Paper} paper The Paper object that contains analysis data.
+ * @param {Researcher} researcher The language researcher.
+ * @param {string} keyword The keyword to find in the SEO title.
  * @param {object} result The result object to store the results in.
  * @param {Researcher} researcher The researcher to use for analysis.
  * @returns {object} The new result object containing the results of the analysis.
  */
-function checkIfAllWordsAreFound( title, keyword, locale, result, researcher ) {
+function checkIfAllWordsAreFound( paper, researcher, keyword, result, prefixedFunctionWordsRegex ) {
+	const title = paper.getTitle();
+	const locale = paper.getLocale();
 	const topicForms = researcher.getResearch( "morphology" );
 
 	// Use only keyphrase (not the synonyms) to match topic words in the SEO title.
@@ -171,7 +174,6 @@ function checkIfAllWordsAreFound( title, keyword, locale, result, researcher ) {
 	const separateWordsMatched = findTopicFormsInString( topicForms, title, useSynonyms, locale, false );
 
 	if ( separateWordsMatched.percentWordMatches === 100 ) {
-		const prefixedFunctionWordsRegex = researcher.getConfig( "prefixedFunctionWordsRegex" );
 		/*
 		If all words are found and the position of the found words is 0, we further check if the exact match is found
 		for languages with a helper to stem prefixed function words, e.g. definite article.
@@ -239,7 +241,7 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 		return result;
 	}
 
-	result = checkIfAllWordsAreFound( title, keyword, locale, result, researcher );
+	result = checkIfAllWordsAreFound( paper, researcher, keyword, result, prefixedFunctionWordsRegex );
 
 	return result;
 };
