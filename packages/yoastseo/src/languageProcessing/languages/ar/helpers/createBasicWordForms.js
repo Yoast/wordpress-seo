@@ -1,4 +1,3 @@
-import { flattenDeep } from "lodash-es";
 import { stemPrefixedFunctionWords } from "../../../helpers/morphology/stemPrefixedFunctionWords.js";
 import { PREFIXED_FUNCTION_WORDS, PREFIXED_FUNCTION_WORDS_REGEX } from "../config/prefixedFunctionWords.js";
 
@@ -29,5 +28,5 @@ export function createBasicWordForms( word ) {
 		forms.push( ...PREFIXED_FUNCTION_WORDS.map( basicPrefix => basicPrefix + stem ) );
 	}
 
-	return flattenDeep( forms );
+	return forms;
 }
