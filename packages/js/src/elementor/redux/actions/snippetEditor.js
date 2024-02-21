@@ -1,5 +1,5 @@
 import { get } from "lodash";
-import MetaboxFieldSync from "../../../helpers/fields/MetaboxFieldSync";
+import SearchMetadataFields from "../../../helpers/fields/SearchMetadataFields";
 import { actions } from "@yoast/externals/redux";
 
 const { UPDATE_DATA, LOAD_SNIPPET_EDITOR_DATA } = actions;
@@ -25,18 +25,19 @@ export function updateData( data ) {
 		if ( data.title === get( window, "wpseoScriptData.metabox.title_template", "" ) ) {
 			titleToBeSaved = "";
 		}
-		MetaboxFieldSync.setFieldValue( "metadesc", titleToBeSaved );
+
+		SearchMetadataFields.title = titleToBeSaved;
 	}
 	if ( data.hasOwnProperty( "description" ) ) {
-		const metaDescToBeSaved = data.description;
+		let metaDescToBeSaved = data.description;
 		// Test whether this is actually the template, which we don't want to save.
 		if ( data.description === get( window, "wpseoScriptData.metabox.metadesc_template", "" ) ) {
-			MetaboxFieldSync.setFieldValue( "metadesc", "" );
+			metaDescToBeSaved = "";
 		}
-		MetaboxFieldSync.setFieldValue( "metadesc", metaDescToBeSaved );
+		SearchMetadataFields.description = metaDescToBeSaved;
 	}
 	if ( data.hasOwnProperty( "slug" ) ) {
-		MetaboxFieldSync.setFieldValue( "slug", data.slug );
+		SearchMetadataFields.slug = data.slug;
 	}
 
 	return {
@@ -57,9 +58,9 @@ export const loadSnippetEditorData = () => {
 	return {
 		type: LOAD_SNIPPET_EDITOR_DATA,
 		data: {
-			title: MetaboxFieldSync.getInitialValue( "title" ) || titleTemplate,
-			description: MetaboxFieldSync.getInitialValue( "metadesc" ) || descriptionTemplate,
-			slug: MetaboxFieldSync.getInitialValue( "slug" ),
+			title: SearchMetadataFields.title || titleTemplate,
+			description: SearchMetadataFields.description || descriptionTemplate,
+			slug: SearchMetadataFields.slug,
 		},
 		templates: {
 			title: titleTemplate,
