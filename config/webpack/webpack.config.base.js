@@ -3,13 +3,14 @@ const DependencyExtractionWebpackPlugin = require( "@wordpress/dependency-extrac
 const defaultConfig = require( "@wordpress/scripts/config/webpack.config" );
 const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
 const { BundleAnalyzerPlugin } = require( "webpack-bundle-analyzer" );
+const { camelCase, kebabCase } = require( "lodash" );
 
 // Internal dependencies
 const { yoastExternals } = require( "./externals" );
 
 let analyzerPort = 8888;
 
-module.exports = function( { entry, output, combinedOutputFile, cssExtractFileName } ) {
+module.exports = function( { entry, output, combinedOutputFile, cssExtractFileName, plugins = [] } ) {
 	const exclude = /node_modules[/\\](?!(yoast-components|gutenberg|yoastseo|@wordpress|@yoast|parse5|chart.js)[/\\]).*/;
 	// The index of the babel-loader rule.
 	let ruleIndex = 0;
@@ -65,6 +66,9 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 					if ( request.startsWith( "@yoast/externals/" ) ) {
 						return [ "yoast", "externals", request.substr( 17 ) ];
 					}
+					if ( request.startsWith( "@woocommerce/" ) ) {
+						return [ "wc", camelCase( request.substring( 13 ) ) ];
+					}
 				},
 				/**
 				 * Handles requests to externals.
@@ -87,12 +91,16 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 					if ( request.startsWith( "@yoast/externals/" ) ) {
 						return "yoast-seo-externals-" + request.substr( 17 );
 					}
+					if ( request.startsWith( "@woocommerce/" ) ) {
+						return "wc-" + kebabCase( request.substring( 13 ) );
+					}
 				},
 			} ),
 			new MiniCssExtractPlugin( { filename: cssExtractFileName } ),
 			process.env.WP_BUNDLE_ANALYZER && new BundleAnalyzerPlugin( {
 				analyzerPort: analyzerPort++,
 			} ),
+			...plugins,
 		].filter( Boolean ),
 	};
 };

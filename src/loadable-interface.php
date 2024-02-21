@@ -10,7 +10,7 @@ interface Loadable_Interface {
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public static function get_conditionals();
 }
