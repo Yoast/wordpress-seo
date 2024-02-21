@@ -550,7 +550,7 @@ describe( "Matches keyphrase in SEO title for Arabic", () => {
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
-	it( "should find an exact match at position 0, when the words of the keyphrase are separated by a different word", () => {
+	it( "should NOT find an exact match at position 0, when the words of the keyphrase are separated by a different word", () => {
 		const mockPaper = new Paper( "", {
 			keyword: "باندا حمراء",
 			title: "الباندا اللواتي حمراء يمكن تلطيفهن",
@@ -561,7 +561,7 @@ describe( "Matches keyphrase in SEO title for Arabic", () => {
 
 		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
-		expect( result.position ).toBe( -1 );
+		expect( result.position ).toBe( 0 );
 	} );
 	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
 		"at the beginning of the SEO title and it's preceded by a definite article (function word)", () => {
@@ -660,7 +660,7 @@ describe( "Matches keyphrase in SEO title for Arabic", () => {
 
 		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
-		expect( result.position ).toBe( -1 );
+		expect( result.position ).toBe( 0 );
 		expect( result.allWordsFound ).toBe( true );
 	} );
 } );
@@ -748,7 +748,7 @@ describe( "Matches keyphrase in SEO title for Hebrew", () => {
 
 		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
-		expect( result.position ).toBe( -1 );
+		expect( result.position ).toBe( 0 );
 	} );
 	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
 		"at the beginning of the SEO title and it's preceded by a definite article (function word)", () => {
