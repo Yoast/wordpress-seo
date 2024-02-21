@@ -1,0 +1,52 @@
+import { select } from "@wordpress/data";
+import { STORE } from "../../constants";
+
+/**
+ * Retrieves the no index value.
+ *
+ * @returns {integer} The no index value.
+ */
+export const getNoIndex = () => String( select( STORE )?.getNoIndex() );
+
+/**
+ * Retrieves the no follow value.
+ *
+ * @returns {integer} The no follow value.
+ */
+export const getNoFollow = () => String( select( STORE )?.getNoFollow() );
+
+/**
+ * Gets the twitter image URL from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String} Twitter image URL.
+ */
+export const getAdvanced = () => select( STORE )?.getAdvanced();
+
+/**
+ * Gets the twitter image type from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String} Twitter image type.
+ */
+export const getBreadcrumbsTitle = () => select( STORE )?.getBreadcrumbsTitle();
+
+/**
+ * Gets the Twitter image src from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String} Twitter image src.
+ */
+export const getCanonical = () => select( STORE )?.getCanonical();
+
+/**
+ * Gets the WordProof timestamp value.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {Boolean} WordProof timestamp value.
+ */
+export const getWordProofTimestamp = () => select( STORE )?.getWordProofTimestamp();

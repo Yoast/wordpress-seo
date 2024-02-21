@@ -17,7 +17,10 @@ export const METADATA_IDS = {
 	readabilityScore: "_yoast_wpseo_content_score",
 	seoScore: "_yoast_wpseo_linkdex",
 	inclusiveLanguageScore: "_yoast_wpseo_inclusive_language_score",
-
+	advanced: "_yoast_wpseo_meta-robots-adv",
+	breadcrumbsTitle: "_yoast_wpseo_bctitle",
+	canonical: "_yoast_wpseo_canonical",
+	wordProofTimestamp: "_yoast_wpseo_wordproof_timestamp",
 };
 
 export const SYNC_TIME = {

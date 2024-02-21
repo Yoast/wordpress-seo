@@ -7,20 +7,7 @@ import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebo
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
 import { getPageType, getArticleType } from "./schemaFieldsStore";
 import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoScore, getInclusiveLanguageScore } from "./analysisFieldsStore";
-
-/**
- * Retrieves the no index value.
- *
- * @returns {integer} The no index value.
- */
-const getNoIndex = () => String( select( STORE )?.getNoIndex() );
-
-/**
- * Retrieves the no follow value.
- *
- * @returns {integer} The no follow value.
- */
-const getNoFollow = () => String( select( STORE )?.getNoFollow() );
+import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical, getWordProofTimestamp } from "./advancedFieldsStore";
 
 /**
  * Retrieves the no index value.
@@ -93,6 +80,10 @@ export const blockEditorSync = () => {
 			readabilityScore: getReadabilityScore,
 			seoScore: getSeoScore,
 			inclusiveLanguageScore: getInclusiveLanguageScore,
+			advanced: getAdvanced,
+			breadcrumbsTitle: getBreadcrumbsTitle,
+			canonical: getCanonical,
+			wordProofTimestamp: getWordProofTimestamp,
 
 		} ),
 		createUpdater()
