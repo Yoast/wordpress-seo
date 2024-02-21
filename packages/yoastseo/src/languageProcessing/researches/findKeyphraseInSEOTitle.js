@@ -160,7 +160,7 @@ function findExactMatch( matches, keyphrase, result, prefixedFunctionWordsRegex,
  * @param {Researcher} researcher The language researcher.
  * @param {string} keyword The keyword to find in the SEO title.
  * @param {object} result The result object to store the results in.
- * @param {Researcher} researcher The researcher to use for analysis.
+ * @param {RegExp} prefixedFunctionWordsRegex The researcher to use for analysis.
  * @returns {object} The new result object containing the results of the analysis.
  */
 function checkIfAllWordsAreFound( paper, researcher, keyword, result, prefixedFunctionWordsRegex ) {
@@ -231,9 +231,10 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 	}
 
 	// Check if the exact match of the keyphrase is found in the SEO title.
+	const prefixedFunctionWordsRegex = researcher.getConfig( "prefixedFunctionWordsRegex" );
 	const keywordMatched = wordMatch( title, keyword, locale, false );
 
-	if ( keywordMatched.count > 0 ) {
+	if ( keywordMatched.count > 0 && ! prefixedFunctionWordsRegex ) {
 		result.exactMatchFound = true;
 		result.allWordsFound = true;
 		result.position = adjustPosition( title, keywordMatched.position );
