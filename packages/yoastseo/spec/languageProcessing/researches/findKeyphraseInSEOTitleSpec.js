@@ -635,6 +635,34 @@ describe( "Matches keyphrase in SEO title for Arabic", () => {
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
+	it( "should return the earliest match if there are multiple matches", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "قطط وسيمة",
+			title: "والقطط الوسيمة: أفضل مواء ستسمعه على الإطلاق قطط وسيمة",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should NOT return an exact match if the keyphrase uses function word prefix but its occurrence in the SEO title doesn't:" +
+		"This is inline with the behaviour in other languages", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "القطط الوسيمة",
+			title: "قطط وسيمة: أفضل مواء ستسمعه على الإطلاق قطط وسيمة",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( false );
+		expect( result.position ).toBe( -1 );
+		expect( result.allWordsFound ).toBe( true );
+	} );
 } );
 
 describe( "Matches keyphrase in SEO title for Hebrew", () => {
