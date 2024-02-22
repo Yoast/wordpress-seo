@@ -626,11 +626,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		if ( $this->request_helper->is_rest_request() ) {
-			$url = $this->get_main_image_url_for_rest_request();
-			if ( $url === '' ) {
-				return null;
-			}
-			return $url;
+			return $this->get_main_image_url_for_rest_request();
 		}
 
 		if ( ! \is_singular() ) {
@@ -762,7 +758,11 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		switch ( $this->page_type ) {
 			case 'Post_Type':
 				if ( $this->post instanceof WP_Post ) {
-					return $this->image->get_post_content_image( $this->post->ID );
+					$url = $this->image->get_post_content_image( $this->post->ID );
+					if ( $url === '' ) {
+						return null;
+					}
+					return $url;
 				}
 				return null;
 			default:
