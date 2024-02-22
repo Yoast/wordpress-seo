@@ -24,9 +24,15 @@ export default {
 	parameters: { docs: { description: { component } } },
 };
 
-export const Factory = ( { children, ...args } ) => (
-	<StoryComponent { ...args }>{ children }</StoryComponent>
-);
+export const Factory = ( { children, ...args } ) => {
+	if ( args.as === "a" ) {
+		// Add the href attribute, so focus styles can be tested too.
+		args.href = "#!";
+	}
+	return (
+		<StoryComponent { ...args }>{ children }</StoryComponent>
+	);
+};
 Factory.parameters = {
 	controls: { disable: false },
 };
