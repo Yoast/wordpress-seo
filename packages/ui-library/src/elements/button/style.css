@@ -28,10 +28,6 @@
 		/* Special styling for buttons rendered `as` "a" (to override anchor defaults). */
 		a.yst-button {
 			@apply focus:yst-rounded-md;
-
-			&:not(.yst-button--tertiary) {
-				@apply focus:yst-ring-offset-white;
-			}
 		}
 
 		/* Variants */
