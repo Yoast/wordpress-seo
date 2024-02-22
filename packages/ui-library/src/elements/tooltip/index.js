@@ -47,9 +47,7 @@ const propTypes = {
 	id: PropTypes.string.isRequired,
 	children: PropTypes.string,
 	className: PropTypes.string,
-	// needs to be checked if this is the correct prop type
 	position: PropTypes.oneOf( Object.keys( classNameMap.position ) ),
-	isVisible: PropTypes.bool.isRequired,
 };
 
 Tooltip.propTypes = propTypes;

@@ -18,13 +18,12 @@ export const Factory = ( args ) => {
 	const handleMouseLeave = useCallback( () => setIsVisible( false ), [ setIsVisible ] );
 
 	return (
-		// It gives more space within the Storybook container for the tooltip to be visible.
-		// Applying flex classes only for positioning test.
-		<div className="yst-my-4 yst-flex yst-justify-center">
+		// The yst-my-6 class gives more space within the Storybook container, allowing the tooltip to be visible.
+		// The flex classes are to position the trigger element in the center of the container.
+		<div className="yst-my-6 yst-flex yst-justify-center">
 			<Badge
 				as="button"
 				variant="plain"
-				// Add aria-describedby attribute with the ID of the tooltip content
 				aria-describedby={ args.id }
 				onMouseEnter={ handleMouseEnter }
 				onMouseLeave={ handleMouseLeave }

@@ -7,47 +7,50 @@
 			yst-z-10
 			yst-px-2
 			yst-p-2
-			yst-border-none
 			yst-bg-gray-800
 			yst-text-white
 			yst-text-xs
-			yst-rounded-lg
-			yst-left-1/2;
+			yst-rounded-lg;
+		}
 
+		.yst-tooltip--top {
+            @apply
+            yst--translate-x-1/2
+            yst--translate-y-full
+			yst-left-1/2
+			yst-mb-1;
+
+			/* Style properties for the tooltip arrow */	
 			&::before {
 				@apply
 				yst-content-['']
 				yst-absolute
-				yst-z-10
 				yst-left-1/2
-				yst-top-[98%]
+				yst-top-full /* Arrow positioned at the bottom of the tooltip */
 				yst--translate-x-1/2
+				yst-translate-y-0
 				yst-border-8
 				yst-border-x-transparent
 				yst-border-b-transparent
 				yst-border-t-gray-800;
 			}
-		}
-
-		.yst-tooltip--top {
-			 @apply
-			 yst--translate-x-1/2
-			 yst--translate-y-[110%];
-		 }
+        }
 
 		.yst-tooltip--bottom {
-			@apply
-			yst--translate-x-1/2
-			yst--translate-y-[-110%];
+            @apply
+            yst--translate-x-1/2
+            yst--translate-y-0
+			yst-left-1/2
+			yst-top-full
+			yst-mt-2;
 
-			/* Adjust the ::before pseudo-element to match the tooltip position */
+			/* Style properties for the tooltip arrow */	
 			&::before {
 				@apply
 				yst-content-['']
 				yst-absolute
-				yst-z-10
 				yst-left-1/2
-				yst-bottom-[98%]
+				yst-bottom-full /* Arrow positioned at the top of the tooltip */
 				yst--translate-x-1/2
 				yst-border-8
 				yst-border-x-transparent
@@ -56,26 +59,48 @@
 			}
 		}
 
-		/* Right and left tooltips need adjustments to the ::before pseudo-element */
 		.yst-tooltip--right {
-			@apply
-			yst--translate-x-[-110%]
-			yst--translate-y-1/2;
-		}
+            @apply
+            yst--translate-x-0 
+            yst--translate-y-1/2
+			yst-left-full
+			yst-top-1/2
+			yst-ml-2;
+	
+			/* Style properties for the tooltip arrow */
+			&::before {
+				@apply
+				yst-content-['']
+				yst-absolute
+				yst-right-full /* Arrow positioned at the left of the tooltip */
+				yst-top-1/2
+				yst--translate-y-1/2
+				yst-border-8
+				yst-border-l-transparent
+				yst-border-t-transparent
+				yst-border-b-transparent
+				yst-border-r-gray-800;
+			}
+        }
 
 		.yst-tooltip--left {
 			@apply
-			yst--translate-x-[110%]
-			yst--translate-y-1/2;
+			yst--translate-y-0
+			yst-right-full
+			yst-mr-2;
 
+			/* Style properties for the tooltip arrow */
 			&::before {
 				@apply
-				yst-left-auto
-				yst-top-[50%]
-				yst--translate-x-0
-				yst--translate-y-[-50%]
+				yst-content-['']
+				yst-absolute
+				yst-left-full /* Arrow positioned at the right of the tooltip */
+				yst-top-1/2
+				yst--translate-y-1/2
 				yst-border-8
-				yst-border-y-transparent
+				yst-border-r-transparent
+				yst-border-t-transparent
+				yst-border-b-transparent
 				yst-border-l-gray-800;
 			}
 		}
