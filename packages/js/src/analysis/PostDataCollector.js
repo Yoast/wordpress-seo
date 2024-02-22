@@ -381,8 +381,6 @@ PostDataCollector.prototype.saveScores = function( score, keyword ) {
 
 	publishBox.updateScore( "content", indicator.className );
 
-	document.getElementById( "yoast_wpseo_linkdex" ).value = score;
-
 	if ( "" === keyword ) {
 		indicator.className = "na";
 		indicator.screenReaderText = __(
@@ -414,8 +412,6 @@ PostDataCollector.prototype.saveContentScore = function( score ) {
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 	}
-
-	dispatch( STORE ).setOverallReadabilityScore( score );
 };
 
 /**
@@ -433,8 +429,6 @@ PostDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 	}
-
-	dispatch( STORE ).setOverallInclusiveLanguageScore( score );
 };
 
 
