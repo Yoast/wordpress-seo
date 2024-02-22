@@ -37,13 +37,6 @@ const populateStore = store => {
 		store.dispatch( actions.setPrimaryTaxonomyId( taxonomy, value ) );
 	} );
 
-	// store.dispatch( actions.setNoIndex( metaData[ "meta-robots-noindex" ] ) );
-	// store.dispatch( actions.setNoFollow( metaData[ "meta-robots-nofollow" ] ) );
-	// store.dispatch( actions.setAdvanced( metaData[ "meta-robots-adv" ]?.split( "," ) ) );
-	store.dispatch( actions.setBreadcrumbsTitle( metaData.bctitle ) );
-	store.dispatch( actions.setCanonical( metaData.canonical ) );
-	// store.dispatch( actions.setWordProofTimestamp( metaData.wordproof_timestamp ) === "1" );
-
 	store.dispatch( actions.setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode ) );
 	store.dispatch( actions.setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus ) );
 	store.dispatch( actions.setWincherLoginStatus( window.wpseoScriptData.metabox.wincherLoginStatus, false ) );

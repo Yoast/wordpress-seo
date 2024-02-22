@@ -4,7 +4,7 @@
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import { markers } from "yoastseo";
-import { select, dispatch } from "@wordpress/data";
+import { select } from "@wordpress/data";
 
 /* Internal dependencies */
 import measureTextWidth from "../helpers/measureTextWidth";
