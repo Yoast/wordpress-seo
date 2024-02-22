@@ -1,3 +1,5 @@
+/* eslint-disable max-statements */
+/* eslint-disable complexity */
 /* global wpseoScriptData */
 
 // External dependencies.
@@ -521,7 +523,7 @@ export default function initPostScraper( $, store, editorData ) {
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
-		store.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "1" ) );
+		store.dispatch( setCornerstoneContent( get( window, "wpseoScriptData.metabox.metaData.is_cornerstone", 0 ) === "1" ) );
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = store.getState().focusKeyword;
@@ -564,7 +566,8 @@ export default function initPostScraper( $, store, editorData ) {
 
 			if ( previousCornerstoneValue !== currentState.isCornerstone ) {
 				previousCornerstoneValue = currentState.isCornerstone;
-				document.getElementById( "yoast_wpseo_is_cornerstone" ).value = currentState.isCornerstone;
+
+				store.dispatch( setCornerstoneContent( currentState.isCornerstone ) );
 
 				app.changeAssessorOptions( {
 					useCornerstone: currentState.isCornerstone,

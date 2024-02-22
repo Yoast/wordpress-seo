@@ -22,7 +22,7 @@ export const getNoFollow = () => String( select( STORE )?.getNoFollow() );
  *
  * @returns {String} Twitter image URL.
  */
-export const getAdvanced = () => select( STORE )?.getAdvanced();
+export const getAdvanced = () => select( STORE )?.getAdvanced().join( "," );
 
 /**
  * Gets the twitter image type from the state.
@@ -49,4 +49,4 @@ export const getCanonical = () => select( STORE )?.getCanonical();
  *
  * @returns {Boolean} WordProof timestamp value.
  */
-export const getWordProofTimestamp = () => select( STORE )?.getWordProofTimestamp();
+export const getWordProofTimestamp = () => select( STORE )?.getWordProofTimestamp() ? "1" : "0";

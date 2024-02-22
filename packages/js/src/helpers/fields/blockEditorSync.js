@@ -1,4 +1,3 @@
-
 import { dispatch, select, subscribe } from "@wordpress/data";
 import { debounce, forEach, pickBy } from "lodash";
 import createWatcher, { createCollectorFromObject } from "../../helpers/create-watcher";
@@ -45,7 +44,7 @@ const createUpdater = () => {
 		if ( changedData ) {
 			const newMetadata = {};
 			forEach( changedData, ( value, key ) => {
-				newMetadata[ METADATA_IDS[ key ] ] = String( value );
+				newMetadata[ METADATA_IDS[ key ] ] = value;
 			} );
 
 			editPost( {

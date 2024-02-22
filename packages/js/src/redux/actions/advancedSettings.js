@@ -1,4 +1,5 @@
 import MetaboxFieldSync from "../../helpers/fields/MetaboxFieldSync";
+import { get } from "lodash";
 
 export const SET_NO_INDEX = "SET_NO_INDEX";
 export const SET_NO_FOLLOW = "SET_NO_FOLLOW";
@@ -86,17 +87,18 @@ export const setWordProofTimestamp = ( value ) => {
  * @returns {object} The action object.
  */
 export const loadAdvancedSettingsData = () => {
-	const advancedValue = MetaboxFieldSync.getInitialValue( "meta-robots-adv" );
+	const metaData = get( window, "wpseoScriptData.metabox.metaData", [] );
+	const advancedValue = metaData[ "meta-robots-adv" ];
 	const advancedList = typeof advancedValue === "string" ? advancedValue.split( "," ) : [];
 	return {
 		type: LOAD_ADVANCED_SETTINGS,
 		settings: {
 			noIndex: MetaboxFieldSync.getNoIndex(),
-			noFollow: MetaboxFieldSync.getInitialValue( "meta-robots-nofollow" ),
+			noFollow: metaData[ "meta-robots-nofollow" ],
 			advanced: advancedList,
-			breadcrumbsTitle: MetaboxFieldSync.getInitialValue( "bctitle" ),
-			canonical: MetaboxFieldSync.getInitialValue( "canonical" ),
-			wordproofTimestamp: MetaboxFieldSync.getInitialValue( "wordproof_timestamp" ) === "1",
+			breadcrumbsTitle: metaData.bctitle,
+			canonical: metaData.canonical,
+			wordproofTimestamp: metaData.wordproof_timestamp === "1",
 			isLoading: false,
 		},
 	};

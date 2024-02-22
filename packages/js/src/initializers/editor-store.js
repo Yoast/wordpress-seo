@@ -31,15 +31,18 @@ const populateStore = store => {
 	const metaData = get( window, "wpseoScriptData.metabox.metaData", [] );
 	store.dispatch( actions.setFocusKeyword( metaData.focuskw ) );
 
-	store.dispatch( actions.setTwitterPreviewTitle( metaData[ "twitter-title" ] ) );
-	store.dispatch( actions.setTwitterPreviewDescription( metaData[ "twitter-description" ] ) );
-	store.dispatch( actions.setTwitterPreviewImage( { url: metaData[ "twitter-image" ], id: metaData[ "twitter-image-id" ] } ) );
-
 	const primaryTerms = pickBy( metaData, ( value, key ) => key.startsWith( "primary_" ) && value );
 	forEach( primaryTerms, ( value, key ) => {
 		const taxonomy = key.replace( "primary_", "" );
 		store.dispatch( actions.setPrimaryTaxonomyId( taxonomy, value ) );
 	} );
+
+	// store.dispatch( actions.setNoIndex( metaData[ "meta-robots-noindex" ] ) );
+	// store.dispatch( actions.setNoFollow( metaData[ "meta-robots-nofollow" ] ) );
+	// store.dispatch( actions.setAdvanced( metaData[ "meta-robots-adv" ]?.split( "," ) ) );
+	store.dispatch( actions.setBreadcrumbsTitle( metaData.bctitle ) );
+	store.dispatch( actions.setCanonical( metaData.canonical ) );
+	// store.dispatch( actions.setWordProofTimestamp( metaData.wordproof_timestamp ) === "1" );
 
 	store.dispatch( actions.setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode ) );
 	store.dispatch( actions.setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus ) );

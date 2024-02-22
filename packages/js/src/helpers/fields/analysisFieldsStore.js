@@ -19,18 +19,18 @@ export const isCornerstoneContent = () => select( STORE )?.isCornerstoneContent(
  *
  * @returns {string} The content score.
  */
-export const getReadabilityScore = () => String( select( STORE )?.getReadabilityResults()?.overallScore );
+export const getReadabilityScore = () => select( STORE )?.getReadabilityResults()?.overallScore ? String( select( STORE )?.getReadabilityResults()?.overallScore ) : "0";
 
 /**
  * Retrieves the inclusive language score.
  *
  * @returns {string} The content score.
  */
-export const getInclusiveLanguageScore = () => String( select( STORE )?.getInclusiveLanguageResults()?.overallScore );
+export const getInclusiveLanguageScore = () => select( STORE )?.getInclusiveLanguageResults()?.overallScore ? String( select( STORE )?.getInclusiveLanguageResults()?.overallScore ) : "0";
 
 /**
  * Retrieves the seo score.
  *
  * @returns {string} The content score.
  */
-export const getSeoScore = () => String( select( STORE )?.getSeoResults().overallScore );
+export const getSeoScore = () => select( STORE )?.getSeoResults().overallScore ? String( select( STORE )?.getSeoResults().overallScore ) : "0";
