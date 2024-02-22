@@ -626,7 +626,11 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		if ( $this->request_helper->is_rest_request() ) {
-			return $this->get_main_image_url_for_rest_request();
+			$url = $this->get_main_image_url_for_rest_request();
+			if ( $url === '' ) {
+				return null;
+			}
+			return $url;
 		}
 
 		if ( ! \is_singular() ) {
