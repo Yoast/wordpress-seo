@@ -766,8 +766,8 @@ describe( "Matches keyphrase in SEO title for Hebrew", () => {
 	} );
 	it( "should NOT find an exact match when matched word forms of the keyphrase are different from the focus keyphrase", () => {
 		const mockPaper = new Paper( "", {
-			keyword: "החתול החמוד",
-			title: "החתולים החמודים גנבו את לבם של האנשים",
+			keyword: "בית החוף",
+			title: " בתי החוף יקרים",
 			locale: "he_IL",
 		} );
 		const researcher = new HebrewResearcher( mockPaper );
