@@ -348,10 +348,10 @@ Release date: 2024-03-05
 
 #### Enhancements
 
-* Adds single-word transition words to the function words list for Arabic and Hebrew.
-* Improves keyphrase detection by ignoring hyphens and en-dashes. For example, if the keyphrase is 'dog-training tips', a keyphrase occurrence will be recognized as long as the words 'dog', 'training', and 'tips' are found in the same sentence.
-* Improves the highlighting of keyphrase occurrences that are part of a phrase containing hyphens or dashes. For example, if the keyphrase is 'Cold War era', it will be correctly highlighted in the phrase 'post-Cold War era'. Previously, the word 'post' would also be highlighted.
-* Improves the _inclusive language analysis_ by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies. Specifically, this includes the following changes:
+* Improves recognition of single-word function words for Arabic and Hebrew.
+* Improves keyphrase detection by treating hyphens as word boundaries. For example, if the keyphrase is 'dog-training tips', a keyphrase occurrence will be recognized as long as the words 'dog', 'training', and 'tips' are found in the same sentence.
+* Improves the highlighting of keyphrases that contain hyphens or em-dashes. For example, if the keyphrase is 'Cold War era', it will be correctly highlighted in the phrase 'post-Cold War era'. Previously, the word 'post' would also be highlighted.
+* Improves the _inclusive language analysis_ by refining feedback strings and excluding false positives for phrases related to mental health.
 
 #### Bugfixes
 
