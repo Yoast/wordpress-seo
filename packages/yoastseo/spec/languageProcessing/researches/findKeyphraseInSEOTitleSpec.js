@@ -18,8 +18,8 @@ const morphologyDataFR = getMorphologyData( "fr" ).fr;
 const morphologyDataRU = getMorphologyData( "ru" ).ru;
 const morphologyDataTR = getMorphologyData( "tr" ).tr;
 const morphologyDataID = getMorphologyData( "id" ).id;
-const morphologyDataAR = getMorphologyData( "ar" ).ar;
-const morphologyDataHE = getMorphologyData( "he" ).he;
+const morphologyDataAR = getMorphologyData( "ar" );
+const morphologyDataHE = getMorphologyData( "he" );
 
 let result;
 
@@ -663,6 +663,20 @@ describe( "Matches keyphrase in SEO title for Arabic", () => {
 		expect( result.position ).toBe( 0 );
 		expect( result.allWordsFound ).toBe( true );
 	} );
+	it( "should NOT return an exact match if the matched keyphrase has different word forms", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "الجدول مسؤول",
+			title: "الجدولان مسؤولان تقول لا للإنسان",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( false );
+		expect( result.position ).toBe( 0 );
+		expect( result.allWordsFound ).toBe( true );
+	} );
 } );
 
 describe( "Matches keyphrase in SEO title for Hebrew", () => {
@@ -741,6 +755,19 @@ describe( "Matches keyphrase in SEO title for Hebrew", () => {
 		const mockPaper = new Paper( "", {
 			keyword: "פנדות אדומות",
 			title: "הפנדות שהן אדומות חמודות",
+			locale: "he_IL",
+		} );
+		const researcher = new HebrewResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataHE );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( false );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should NOT find an exact match when matched word forms of the keyphrase are different from the focus keyphrase", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "החתול החמוד",
+			title: "החתולים החמודים גנבו את לבם של האנשים",
 			locale: "he_IL",
 		} );
 		const researcher = new HebrewResearcher( mockPaper );
