@@ -4,15 +4,11 @@
  * @returns {boolean} True if the element has hidden fields.
  */
 export const hasHiddenFields = () => {
-	var element = document.getElementById( "wpseo_meta" );
-	console.log( element );
-	if ( element ) {
-		var inputs = element.getElementsByTagName( "input" );
-		for ( var i = 0; i < inputs.length; i++ ) {
-			if ( inputs[ i ].type === "hidden" ) {
-				return true;
-			}
-		}
+	const element = document.getElementById( "wpseo_meta" );
+	const inside = element?.querySelector( ".inside" );
+	const hiddenFields = inside?.querySelectorAll( "input[type=hidden]" );
+	if ( hiddenFields && hiddenFields.length ) {
+		return true;
 	}
 	return false;
 };
