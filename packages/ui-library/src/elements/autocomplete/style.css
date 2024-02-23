@@ -33,14 +33,14 @@
 			yst-h-full
 			yst-rounded-md
 			yst-shadow-sm
-			yst-border
-			yst-border-slate-300
+			yst-border-0
+			yst-ring-1
+			yst-ring-slate-300
 			yst-flex
 			yst-items-center
 			yst-px-3
 			focus-within:yst-border-primary-500
 			focus-within:yst-outline-none
-			focus-within:yst-ring-1
 			focus-within:yst-ring-primary-500;
 		}
 
