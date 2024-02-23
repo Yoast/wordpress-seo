@@ -1,5 +1,5 @@
 /* global wpseoAdminL10n */
-import { Fragment, useEffect } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, MultiSelect, RadioButtonGroup, Select, TextInput } from "@yoast/components";
 import { join } from "@yoast/helpers";
