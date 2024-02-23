@@ -1007,15 +1007,15 @@ final class Upgrade_Test extends TestCase {
 		$users_query = $instance->get_indexable_deduplication_query_for_type( 'user', $duplicates, $wpdb );
 
 		$this->assertStringContainsString( 'object_type = \'post\'', $posts_query );
-		$this->assertStringContainsString( 'object_id IN ( 1, 3 )', $posts_query );
+		$this->assertStringContainsString( '`object_id` IN ( 1, 3 )', $posts_query );
 		$this->assertStringContainsString( 'AND id NOT IN ( ' . \implode( ', ', $posts_ids ) . ' )', $posts_query );
 
 		$this->assertStringContainsString( 'object_type = \'term\'', $terms_query );
-		$this->assertStringContainsString( 'object_id IN ( 1 )', $terms_query );
+		$this->assertStringContainsString( '`object_id` IN ( 1 )', $terms_query );
 		$this->assertStringContainsString( 'AND id NOT IN ( ' . \implode( ', ', $terms_ids ) . ' )', $terms_query );
 
 		$this->assertStringContainsString( 'object_type = \'user\'', $users_query );
-		$this->assertStringContainsString( 'object_id IN ( 1 )', $users_query );
+		$this->assertStringContainsString( '`object_id` IN ( 1 )', $users_query );
 		$this->assertStringContainsString( 'AND id NOT IN ( ' . \implode( ', ', $users_ids ) . ' )', $users_query );
 	}
 
