@@ -29,8 +29,8 @@ export const setNoIndex = ( value ) => {
  * @returns {Object} The action object.
  */
 export const setNoFollow = ( value ) => {
-	MetaboxFieldSync.setFieldValueBySingleId( "yoast_wpseo_meta-robots-nofollow", value );
-	return { type: SET_NO_FOLLOW, value: String( value ) };
+	MetaboxFieldSync.setFieldValue( "meta-robots-nofollow", value );
+	return { type: SET_NO_FOLLOW, value };
 };
 
 /**
@@ -41,7 +41,7 @@ export const setNoFollow = ( value ) => {
  * @returns {Object} The action object.
  */
 export const setAdvanced = ( value ) => {
-	MetaboxFieldSync.setFieldValueBySingleId( "yoast_wpseo_meta-robots-adv", value.join( "," ) );
+	MetaboxFieldSync.setFieldValue( "meta-robots-adv", value.join( "," ) );
 	return { type: SET_ADVANCED, value };
 };
 
@@ -87,18 +87,17 @@ export const setWordProofTimestamp = ( value ) => {
  * @returns {object} The action object.
  */
 export const loadAdvancedSettingsData = () => {
-	const metaData = get( window, "wpseoScriptData.metabox.metaData", [] );
-	const advancedValue = metaData[ "meta-robots-adv" ];
+	const advancedValue = get( window, "wpseoScriptData.metabox.metaData.meta-robots-adv", "" );
 	const advancedList = typeof advancedValue === "string" ? advancedValue.split( "," ) : [];
 	return {
 		type: LOAD_ADVANCED_SETTINGS,
 		settings: {
-			noIndex: MetaboxFieldSync.getNoIndex(),
-			noFollow: metaData[ "meta-robots-nofollow" ],
+			noIndex: get( window, "wpseoScriptData.metabox.metaData.meta-robots-noindex", "" ),
+			noFollow: get( window, "wpseoScriptData.metabox.metaData.meta-robots-nofollow", "0" ),
 			advanced: advancedList,
-			breadcrumbsTitle: metaData.bctitle,
-			canonical: metaData.canonical,
-			wordproofTimestamp: metaData.wordproof_timestamp === "1",
+			breadcrumbsTitle: get( window, "wpseoScriptData.metabox.metaData.bctitle", "" ),
+			canonical: get( window, "wpseoScriptData.metabox.metaData.canonical", "" ),
+			wordproofTimestamp: get( window, "wpseoScriptData.metabox.metaData.wordproof_timestamp", "" ) === "1",
 			isLoading: false,
 		},
 	};
