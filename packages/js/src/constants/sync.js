@@ -20,6 +20,8 @@ export const METADATA_IDS = {
 	breadcrumbsTitle: "_yoast_wpseo_bctitle",
 	canonical: "_yoast_wpseo_canonical",
 	wordProofTimestamp: "_yoast_wpseo_wordproof_timestamp",
+	seoTitle: "_yoast_wpseo_title",
+	seoDescription: "_yoast_wpseo_metadesc",
 };
 
 export const SYNC_TIME = {

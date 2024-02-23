@@ -7,6 +7,7 @@ import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterIm
 import { getPageType, getArticleType } from "./schemaFieldsStore";
 import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoScore, getInclusiveLanguageScore } from "./analysisFieldsStore";
 import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical, getWordProofTimestamp } from "./advancedFieldsStore";
+import { getSeoTitle, getSeoDescription } from "./snippetEditorFieldsStore";
 
 /**
  * Retrieves primary terms from store methods.
@@ -38,20 +39,13 @@ const createUpdater = () => {
 	 * @returns {void}
 	 */
 	return ( data ) => {
-		// Unfortunately, we need to pass the full metadata to update a part of it.
 		const metadata = select( CORE_EDITOR_STORE ).getCurrentPost().meta;
 
 		if ( ! metadata || ! data ) {
 			return;
 		}
 
-		console.log( { data } );
-		console.log( { metadata } );
-
 		const changedData = pickBy( data, ( value, key ) => value !== metadata[ METADATA_IDS[ key ] ] );
-
-		console.log( { changedData } );
-
 
 		if ( changedData ) {
 			const newMetadata = {};
@@ -94,6 +88,8 @@ export const blockEditorSync = () => {
 			breadcrumbsTitle: getBreadcrumbsTitle,
 			canonical: getCanonical,
 			wordProofTimestamp: getWordProofTimestamp,
+			seoTitle: getSeoTitle,
+			seoDescription: getSeoDescription,
 			...getPrimaryTerms(),
 
 		} ),

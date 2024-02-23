@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* global wpseoScriptData */
 
 /* External dependencies */
@@ -172,7 +173,7 @@ PostDataCollector.prototype.getExcerpt = function() {
  * @returns {string} The snippet title.
  */
 PostDataCollector.prototype.getSnippetTitle = function() {
-	return document.getElementById( "yoast_wpseo_title" ) && document.getElementById( "yoast_wpseo_title" ).value || "";
+	return get( window, "wpseoScriptData.metabox.metaData.title", "" );
 };
 
 /**
@@ -181,7 +182,7 @@ PostDataCollector.prototype.getSnippetTitle = function() {
  * @returns {string} The snippet meta.
  */
 PostDataCollector.prototype.getSnippetMeta = function() {
-	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
+	return get( window, "wpseoScriptData.metabox.metaData.metadesc", "" );
 };
 
 /**
@@ -275,7 +276,9 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
 PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 	switch ( type ) {
 		case "snippet_meta":
-			document.getElementById( "yoast_wpseo_metadesc" ).value = value;
+			if ( document.getElementById( "yoast_wpseo_metadesc" ) ) {
+				document.getElementById( "yoast_wpseo_metadesc" ).value = value;
+			}
 			break;
 		case "snippet_cite":
 
@@ -299,7 +302,9 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 			}
 			break;
 		case "snippet_title":
-			document.getElementById( "yoast_wpseo_title" ).value = value;
+			if ( document.getElementById( "yoast_wpseo_title" ) ) {
+				document.getElementById( "yoast_wpseo_title" ).value = value;
+			}
 			break;
 		default:
 			break;
