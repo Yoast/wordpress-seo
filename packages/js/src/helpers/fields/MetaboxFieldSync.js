@@ -1,8 +1,9 @@
+import { get } from "lodash";
 /**
  * This class is responsible for syncing hidden fields with store.
  */
 export default class MetaboxFieldSync {
-	static isPost = window.wpseoScriptData?.isPost;
+	static isPost =  get( window, "wpseoScriptData.isPost", false );
 	static metaPrefix = "_yoast_wpseo_";
 
     // Whether we are handling a post or a term.
@@ -36,8 +37,10 @@ export default class MetaboxFieldSync {
 	 * @returns {void}
 	 */
 	static getNoIndex() {
-		const fieldKey = this.isPost ? "meta-robots-noindex" : "noindex";
-		return window.wpseoScriptData.metabox.metaData[ fieldKey ];
+		if ( this.isPost ) {
+			return get( window, "wpseoScriptData.metabox.metaData.meta-robots-noindex", "" );
+		}
+		return get( window, "wpseoScriptData.metabox.metaData.noindex", "" );
 	}
 
 	/**
