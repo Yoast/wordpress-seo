@@ -297,6 +297,7 @@ class WPSEO_Meta {
 			self::$meta_fields = self::array_merge_recursive_distinct( $extra_fields, self::$meta_fields );
 		}
 		// register meta data for taxonomies.
+		$primay_terms                  = [];
 		$primay_terms['primary_terms'] = [];
 
 		$taxonomies = get_taxonomies( [ 'hierarchical' => true ], 'names' );
