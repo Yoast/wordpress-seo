@@ -1,5 +1,5 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
-import { debounce, forEach, pickBy } from "lodash";
+import { debounce, forEach, pickBy, get } from "lodash";
 import createWatcher, { createCollectorFromObject } from "../../helpers/create-watcher";
 import { STORE, CORE_EDITOR_STORE, SYNC_TIME, METADATA_IDS } from "../../constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
@@ -9,12 +9,21 @@ import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoSco
 import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical, getWordProofTimestamp } from "./advancedFieldsStore";
 
 /**
- * Retrieves the no index value.
+ * Retrieves primary terms from store methods.
  *
  * @returns {integer} The no index value.
  */
-const getPrimaryCategoryId = () => String( select( STORE )?.getPrimaryTaxonomyId( "category" ) );
-
+const getPrimaryTerms = () => {
+	const wpseoScriptDataMetaData = get( window, "wpseoScriptData.metabox.metaData", [] );
+	const getPrimaryTermsStore = {};
+	const primaryTerms = pickBy( wpseoScriptDataMetaData, ( value, key ) => key.startsWith( "primary_" ) && value );
+	forEach( primaryTerms, ( value, key ) => {
+		const taxonomy = key.replace( "primary_", "" );
+		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => String( select( STORE )?.getPrimaryTaxonomyId( taxonomy ) );
+		METADATA_IDS[ `primary_${taxonomy}` ] = `_yoast_wpseo_primary_${taxonomy}`;
+	} );
+	return getPrimaryTermsStore;
+};
 
 /**
  * Creates an updater.
@@ -35,11 +44,14 @@ const createUpdater = () => {
 		if ( ! metadata || ! data ) {
 			return;
 		}
+
 		console.log( { data } );
 		console.log( { metadata } );
 
 		const changedData = pickBy( data, ( value, key ) => value !== metadata[ METADATA_IDS[ key ] ] );
+
 		console.log( { changedData } );
+
 
 		if ( changedData ) {
 			const newMetadata = {};
@@ -64,7 +76,6 @@ export const blockEditorSync = () => {
 			focusKeyphrase: getFocusKeyphrase,
 			noIndex: getNoIndex,
 			noFollow: getNoFollow,
-			primaryCategory: getPrimaryCategoryId,
 			facebookTitle: getFacebookTitle,
 			facebookDescription: getFacebookDescription,
 			facebookImageUrl: getFacebookImageUrl,
@@ -83,6 +94,7 @@ export const blockEditorSync = () => {
 			breadcrumbsTitle: getBreadcrumbsTitle,
 			canonical: getCanonical,
 			wordProofTimestamp: getWordProofTimestamp,
+			...getPrimaryTerms(),
 
 		} ),
 		createUpdater()
