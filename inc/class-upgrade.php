@@ -314,8 +314,8 @@ class WPSEO_Upgrade {
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		$wpdb->query(
 			$wpdb->prepare(
-				'DELETE FROM %i WHERE option_name LIKE %s AND autoload = "yes"',
-				[ $wpdb->options, 'wpseo_sitemap_%' ]
+				'DELETE FROM %i WHERE %i LIKE %s AND autoload = "yes"',
+				[ $wpdb->options,'option_name', 'wpseo_sitemap_%' ]
 			)
 		);
 	}
@@ -387,11 +387,11 @@ class WPSEO_Upgrade {
 		$usermetas = $wpdb->get_results(
 			$wpdb->prepare(
 				'
-				SELECT user_id, meta_value
+				SELECT %i, %i
 				FROM %i
-				WHERE meta_key = %s AND meta_value LIKE %s
+				WHERE %i = %s AND %i LIKE %s
 				',
-				[ $wpdb->usermeta, $meta_key, '%wpseo-dismiss-about%' ]
+				[ 'user_id','meta_value',$wpdb->usermeta,'meta_key', $meta_key,'meta_value','%wpseo-dismiss-about%' ]
 			),
 			ARRAY_A
 		);
@@ -444,8 +444,8 @@ class WPSEO_Upgrade {
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM %i
-				WHERE meta_key = '_yst_content_links_processed'",
-				[ $wpdb->postmeta ]
+				WHERE %i = '_yst_content_links_processed'",
+				[ $wpdb->postmeta,'meta_key' ]
 			)
 		);
 	}
@@ -650,8 +650,8 @@ class WPSEO_Upgrade {
 		$wpdb->query(
 			$wpdb->prepare(
 				'DELETE FROM %i
-				WHERE option_name LIKE %s',
-				[ $wpdb->options, 'wpseo_sitemap_%' ]
+				WHERE %i LIKE %s',
+				[ $wpdb->options,'option_name', 'wpseo_sitemap_%' ]
 			)
 		);
 	}
@@ -735,8 +735,8 @@ class WPSEO_Upgrade {
 		$wpdb->query(
 			$wpdb->prepare(
 				'DELETE FROM %i
-				WHERE meta_key = %s',
-				[ $wpdb->usermeta, 'wp_yoast_promo_hide_premium_upsell_admin_block' ]
+				WHERE %i = %s',
+				[ $wpdb->usermeta,'meta_key', 'wp_yoast_promo_hide_premium_upsell_admin_block' ]
 			)
 		);
 
@@ -1190,15 +1190,15 @@ class WPSEO_Upgrade {
 			return;
 		}
 
-		$replacements = array_merge( [ Model::get_table_name( 'Indexable' ) ], $private_taxonomies );
+		$replacements = array_merge( [ Model::get_table_name( 'Indexable' ),'object_type','object_sub_type' ], $private_taxonomies );
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM %i
-				WHERE object_type = 'term'
-				AND object_sub_type IN ("
+				WHERE %i = 'term'
+				AND %i IN ("
 					. implode( ', ', array_fill( 0, count( $private_taxonomies ), '%s' ) )
 					. ')',
 				$replacements
@@ -1225,8 +1225,8 @@ class WPSEO_Upgrade {
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		$wpdb->query(
 			$wpdb->prepare(
-				"UPDATE %i SET permalink = NULL WHERE object_type = 'post' AND object_sub_type = 'attachment'",
-				[ Model::get_table_name( 'Indexable' ) ]
+				"UPDATE %i SET %i = NULL WHERE %i = 'post' AND %i = 'attachment'",
+				[ Model::get_table_name( 'Indexable' ),'permalink','object_type','object_sub_type' ]
 			)
 		);
 
@@ -1304,8 +1304,8 @@ class WPSEO_Upgrade {
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		$wpdb->query(
 			$wpdb->prepare(
-				'DELETE FROM %i WHERE option_name LIKE %s',
-				[ $wpdb->options, 'wpseo_sitemap%validator%' ]
+				'DELETE FROM %i WHERE %i LIKE %s',
+				[ $wpdb->options,'option_name' ,'wpseo_sitemap%validator%' ]
 			)
 		);
 	}
@@ -1325,8 +1325,8 @@ class WPSEO_Upgrade {
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT option_value FROM %i WHERE option_name = %s',
-				[ $wpdb->options, $option_name ]
+				'SELECT %i FROM %i WHERE %i = %s',
+				[ 'option_value',$wpdb->options,'option_name', $option_name ]
 			),
 			ARRAY_A
 		);
@@ -1580,9 +1580,9 @@ class WPSEO_Upgrade {
 			$wpdb->query(
 				$wpdb->prepare(
 					"DELETE FROM %i
-					WHERE object_type = 'post'
-					AND object_sub_type IS NOT NULL",
-					[ $indexable_table ]
+					WHERE %i = 'post'
+					AND %i IS NOT NULL",
+					[ $indexable_table,'object_type','object_sub_type' ]
 				)
 			);
 		}
@@ -1592,10 +1592,10 @@ class WPSEO_Upgrade {
 			$wpdb->query(
 				$wpdb->prepare(
 					"DELETE FROM %i
-					WHERE object_type = 'post'
-					AND object_sub_type IS NOT NULL
-					AND object_sub_type NOT IN ( " . implode( ', ', array_fill( 0, count( $included_post_types ), '%s' ) ) . ' )',
-					array_merge( [ $indexable_table ], $included_post_types )
+					WHERE %i = 'post'
+					AND %i IS NOT NULL
+					AND %i NOT IN ( " . implode( ', ', array_fill( 0, count( $included_post_types ), '%s' ) ) . ' )',
+					array_merge( [ $indexable_table,'object_type','object_sub_type','object_sub_type' ], $included_post_types )
 				)
 			);
 		}
@@ -1626,9 +1626,9 @@ class WPSEO_Upgrade {
 			$wpdb->query(
 				$wpdb->prepare(
 					"DELETE FROM %i
-					WHERE object_type = 'term'
-					AND object_sub_type IS NOT NULL",
-					[ $indexable_table ]
+					WHERE %i = 'term'
+					AND %i IS NOT NULL",
+					[ $indexable_table,'object_type','object_sub_type' ]
 				)
 			);
 		}
@@ -1638,10 +1638,10 @@ class WPSEO_Upgrade {
 			$wpdb->query(
 				$wpdb->prepare(
 					"DELETE FROM %i
-					WHERE object_type = 'term'
-					AND object_sub_type IS NOT NULL
-					AND object_sub_type NOT IN ( " . implode( ', ', array_fill( 0, count( $included_taxonomies ), '%s' ) ) . ' )',
-					array_merge( [ $indexable_table ], $included_taxonomies )
+					WHERE %i = 'term'
+					AND %i IS NOT NULL
+					AND %i NOT IN ( " . implode( ', ', array_fill( 0, count( $included_taxonomies ), '%s' ) ) . ' )',
+					array_merge( [ $indexable_table,'object_type','object_sub_type','object_sub_type' ], $included_taxonomies )
 				)
 			);
 		}
@@ -1728,10 +1728,10 @@ class WPSEO_Upgrade {
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM %i
-				WHERE post_status = 'unindexed'
-				AND object_type NOT IN ( 'home-page', 'date-archive', 'post-type-archive', 'system-page' )
-				AND object_id IS NULL",
-				[ Model::get_table_name( 'Indexable' ) ]
+				WHERE %i = 'unindexed'
+				AND %i NOT IN ( 'home-page', 'date-archive', 'post-type-archive', 'system-page' )
+				AND %i IS NULL",
+				[ Model::get_table_name( 'Indexable' ),'post_status','object_type','object_id' ]
 			)
 		);
 
@@ -1758,8 +1758,8 @@ class WPSEO_Upgrade {
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		$wpdb->query(
 			$wpdb->prepare(
-				"DELETE FROM %i WHERE object_type = 'user'",
-				[ Model::get_table_name( 'Indexable' ) ]
+				"DELETE FROM %i WHERE %i = 'user'",
+				[ Model::get_table_name( 'Indexable' ),'object_type' ]
 			)
 		);
 
@@ -1790,7 +1790,7 @@ class WPSEO_Upgrade {
 		$object_ids           = wp_list_pluck( $filtered_duplicates, 'object_id' );
 		$newest_indexable_ids = wp_list_pluck( $filtered_duplicates, 'newest_id' );
 
-		$replacements   = array_merge( [ Model::get_table_name( 'Indexable' ) ], array_values( $object_ids ), array_values( $newest_indexable_ids ) );
+		$replacements   = array_merge( [ Model::get_table_name( 'Indexable' ),'object_id' ], array_values( $object_ids ), array_values( $newest_indexable_ids ) );
 		$replacements[] = $object_type;
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
@@ -1799,7 +1799,7 @@ class WPSEO_Upgrade {
 			'DELETE FROM
 				%i
 			WHERE
-				object_id IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
+				%i IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
 				AND id NOT IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
 				AND object_type = %s',
 			$replacements
