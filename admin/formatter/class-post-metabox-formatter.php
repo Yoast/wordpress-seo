@@ -34,9 +34,9 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Constructor.
 	 *
-	 * @param WP_Post|array $post      Post object.
-	 * @param array         $options   Title options to use.
-	 * @param string        $structure The permalink to follow.
+	 * @param WP_Post				 $post      Post object.
+	 * @param array<string,int,bool> $options   Title options to use.
+	 * @param string				 $structure The permalink to follow.
 	 */
 	public function __construct( $post, array $options, $structure ) {
 		$this->post      = $post;
@@ -57,7 +57,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Returns the translated values.
 	 *
-	 * @return array
+	 * @return array<string,int,array<string>,array<int>>
 	 */
 	public function get_values() {
 
@@ -156,7 +156,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Counts the number of given keywords used for other posts other than the given post_id.
 	 *
-	 * @return array The keyword and the associated posts that use it.
+	 * @return array<string,array<int>> The keyword and the associated posts that use it.
 	 */
 	private function get_focus_keyword_usage() {
 		$keyword = WPSEO_Meta::get_value( 'focuskw', $this->post->ID );
@@ -174,8 +174,8 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves the post types for the given post IDs.
 	 *
-	 * @param array $post_ids_per_keyword An associative array with keywords as keys and an array of post ids where those keywords are used.
-	 * @return array The post types for the given post IDs.
+	 * @param array<string,array<int>> $post_ids_per_keyword An associative array with keywords as keys and an array of post ids where those keywords are used.
+	 * @return array<string> The post types for the given post IDs.
 	 */
 	private function get_post_types_for_all_ids( $post_ids_per_keyword ) {
 
@@ -192,7 +192,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 *
 	 * @param string $keyword The keyword to check the usage of.
 	 *
-	 * @return array The post IDs which use the passed keyword.
+	 * @return array<int> The post IDs which use the passed keyword.
 	 */
 	protected function get_keyword_usage_for_current_post( $keyword ) {
 		return WPSEO_Meta::keyword_usage( $keyword, $this->post->ID );
@@ -319,7 +319,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Get post meta data.
 	 *
-	 * @return void
+	 * @return array<string>
 	 */
 	protected function get_post_meta_data() {
 		$post_type = $this->post->post_type;
@@ -342,7 +342,6 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		}
 
 		foreach ( $fields as $key => $meta_field ) {
-			$form_key   = esc_attr( WPSEO_Meta::$form_prefix . $key );
 			$meta_value = WPSEO_Meta::get_value( $key, $this->post->ID );
 
 			$default = '';
