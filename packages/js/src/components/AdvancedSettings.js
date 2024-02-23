@@ -282,21 +282,12 @@ const AdvancedSettings = ( props ) => {
 		onBreadcrumbsTitleChange,
 		onCanonicalChange,
 		onWordProofTimestampChange,
-		onLoad,
 		isLoading,
 		editorContext,
 		isBreadcrumbsDisabled,
 		isPrivateBlog,
 		isWordProofIntegrationActive,
 	} = props;
-
-	useEffect( () => {
-		setTimeout( () => {
-			if ( isLoading ) {
-				onLoad();
-			}
-		} );
-	} );
 
 	const noIndexProps = {
 		noIndex,
@@ -355,7 +346,6 @@ AdvancedSettings.propTypes = {
 	onNoIndexChange: PropTypes.func.isRequired,
 	onCanonicalChange: PropTypes.func.isRequired,
 	onWordProofTimestampChange: PropTypes.func,
-	onLoad: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	editorContext: PropTypes.object.isRequired,
 	isBreadcrumbsDisabled: PropTypes.bool.isRequired,

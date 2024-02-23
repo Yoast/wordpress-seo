@@ -44,7 +44,6 @@ export default compose( [
 			setBreadcrumbsTitle,
 			setCanonical,
 			setWordProofTimestamp,
-			loadAdvancedSettingsData,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -54,7 +53,6 @@ export default compose( [
 			onBreadcrumbsTitleChange: setBreadcrumbsTitle,
 			onCanonicalChange: setCanonical,
 			onWordProofTimestampChange: setWordProofTimestamp,
-			onLoad: loadAdvancedSettingsData,
 		};
 	} ),
 ] )( AdvancedSettings );
