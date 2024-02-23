@@ -262,10 +262,10 @@ class WPSEO_Meta {
 	 * @var array
 	 */
 	private static $social_fields = [
-		'title'       => [ 'type' => 'hidden' ],
-		'description' => [ 'type' => 'hidden' ],
-		'image'       => [ 'type' => 'hidden' ],
-		'image-id'    => [ 'type' => 'hidden' ],
+		'title'       => 'hidden',
+		'description' => 'hidden',
+		'image'       => 'hidden',
+		'image-id'    => 'hidden',
 	];
 
 	/**
@@ -276,9 +276,9 @@ class WPSEO_Meta {
 	public static function init() {
 		foreach ( self::$social_networks as $option => $network ) {
 			if ( WPSEO_Options::get( $option, false ) === true ) {
-				foreach ( self::$social_fields as $box => $field_def ) {
+				foreach ( self::$social_fields as $box => $type ) {
 					self::$meta_fields['social'][ $network . '-' . $box ] = [
-						'type'          => $field_def['type'],
+						'type'          => $type,
 						'title'         => '', // Translation added later.
 						'default_value' => '',
 						'description'   => '', // Translation added later.
