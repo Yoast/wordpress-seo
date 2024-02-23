@@ -1,7 +1,7 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
 import { debounce, forEach, pickBy, get } from "lodash";
 import createWatcher, { createCollectorFromObject } from "../../helpers/create-watcher";
-import { STORE, CORE_EDITOR_STORE, SYNC_TIME, METADATA_IDS } from "../../constants";
+import { STORE, CORE_EDITOR_STORE, SYNC_TIME, METADATA_KEYS } from "../../constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
 import { getPageType, getArticleType } from "./schemaFieldsStore";
@@ -21,7 +21,7 @@ const getPrimaryTerms = () => {
 	forEach( primaryTerms, ( value, key ) => {
 		const taxonomy = key.replace( "primary_", "" );
 		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => String( select( STORE )?.getPrimaryTaxonomyId( taxonomy ) );
-		METADATA_IDS[ `primary_${taxonomy}` ] = `_yoast_wpseo_primary_${taxonomy}`;
+		METADATA_KEYS[ `primary_${taxonomy}` ] = `_yoast_wpseo_primary_${taxonomy}`;
 	} );
 	return getPrimaryTermsStore;
 };
@@ -44,14 +44,18 @@ const createUpdater = () => {
 		if ( ! metadata || ! data ) {
 			return;
 		}
-
-		const changedData = pickBy( data, ( value, key ) => value !== metadata[ METADATA_IDS[ key ] ] );
+		console.log( { data } );
+		console.log( { metadata } );
+		const changedData = pickBy( data, ( value, key ) => value !== metadata[ METADATA_KEYS[ key ] ] );
+		console.log( { changedData } );
 
 		if ( changedData ) {
 			const newMetadata = {};
 			forEach( changedData, ( value, key ) => {
-				newMetadata[ METADATA_IDS[ key ] ] = value;
+				newMetadata[ METADATA_KEYS[ key ] ] = value;
 			} );
+
+			console.log( { newMetadata } );
 
 			editPost( {
 				meta: newMetadata,
