@@ -16,7 +16,7 @@
 			yst-bg-white
 			focus:yst-outline-none
 			focus:yst-ring-primary-500
-			focus:yst-border-primary-500;
+			focus:yst-ring-2;
 		}
 
 		.yst-text-input--disabled {

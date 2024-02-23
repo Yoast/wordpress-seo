@@ -18,9 +18,8 @@
 			yst-text-slate-800
 			yst-placeholder-slate-500
 			yst-leading-6
-			focus-within:yst-ring-1
-			focus-within:yst-ring-primary-500
-			focus-within:yst-border-primary-500;
+			focus-within:yst-ring-2
+			focus-within:yst-ring-primary-500;
 		}
 
 		.yst-tag-input--disabled {
