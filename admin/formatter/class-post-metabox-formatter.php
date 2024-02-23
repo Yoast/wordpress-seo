@@ -346,9 +346,9 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 			$meta_value = WPSEO_Meta::get_value( $key, $this->post->ID );
 
 			$default = '';
-			if ( isset( $meta_field['default'] ) ) {
-				$default = $meta_field['default'];
-				$meta_data[ $key.'_default' ] = $default;
+			if ( isset( $meta_field['default_value'] ) ) {
+				$default                        = $meta_field['default_value'];
+				$meta_data[ $key . '_default' ] = $default;
 			}
 
 			$meta_data[ $key ] = esc_attr( $meta_value ) ? esc_attr( $meta_value ) : $default;
