@@ -304,7 +304,8 @@ class Image_Helper {
 	 */
 	public function get_attachment_by_url( $url, $use_link_table = true ) {
 		// Don't try to do this for external URLs.
-		if ( $this->url_helper->get_link_type( $url ) === SEO_Links::TYPE_EXTERNAL ) {
+		$parsed_url = \wp_parse_url( $url );
+		if ( $this->url_helper->get_link_type( $parsed_url ) === SEO_Links::TYPE_EXTERNAL ) {
 			return 0;
 		}
 

@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
+
 use Mockery;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -522,12 +523,41 @@ final class Image_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the get_attachment_by_url function with an external image url.
+	 *
+	 * @covers ::get_attachment_by_url
+	 * @return void
+	 */
+	public function test_get_attachment_by_url_with_external_url_image() {
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( 'https://example.com/image.jpg' )
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
+		$this->url_helper->expects( 'get_link_type' )->andReturn( SEO_Links::TYPE_EXTERNAL );
+		$this->assertEquals( 0, $this->actual_instance->get_attachment_by_url( 'https://example.com/image.jpg' ) );
+	}
+
+	/**
 	 * Tests the get_attachment_by_url function with an external image.
 	 *
 	 * @covers ::get_attachment_by_url
 	 * @return void
 	 */
 	public function test_get_attachment_by_url_with_external_image() {
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( '' )
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
 		$this->url_helper->expects( 'get_link_type' )->andReturn( SEO_Links::TYPE_EXTERNAL );
 		$this->assertEquals( 0, $this->actual_instance->get_attachment_by_url( '' ) );
 	}
@@ -539,7 +569,15 @@ final class Image_Helper_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_attachment_by_url_with_existing_indexable() {
-
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( '' )
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
 		$indexable                  = new Indexable_Mock();
 		$indexable->object_type     = 'post';
 		$indexable->object_sub_type = 'attachment';
@@ -557,6 +595,15 @@ final class Image_Helper_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_attachment_by_url_with_existing_link() {
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( 'a_dir/something' )
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
 		$link                 = new SEO_Links_Mock();
 		$link->target_post_id = 17;
 		$this->url_helper->expects( 'get_link_type' )->andReturn( SEO_Links::TYPE_INTERNAL );
