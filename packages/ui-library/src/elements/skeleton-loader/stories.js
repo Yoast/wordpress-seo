@@ -31,7 +31,7 @@ Factory.args = {
 };
 
 export const Profile = ( args ) => (
-	<div { ...args } className="yst-w-full yst-max-w-sm yst-p-4 yst-border yst-rounded-md yst-shadow">
+	<div { ...args } className="yst-w-full yst-max-w-sm yst-p-4 yst-border yst-bg-white yst-rounded-md yst-shadow">
 		<div className="yst-flex yst-space-x-4">
 			<SkeletonLoader className="yst-h-10 yst-w-10 yst-rounded-full" />
 			<div className="yst-flex-1 yst-space-y-6 yst-py-1">
