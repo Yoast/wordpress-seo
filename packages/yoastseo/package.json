@@ -8,7 +8,7 @@
     "readability",
     "inclusive language"
   ],
-  "main": "build/index.js",
+  "main": "src/index.js",
   "license": "GPL-3.0",
   "version": "1.91.2",
   "repository": {
