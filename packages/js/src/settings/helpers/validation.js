@@ -40,7 +40,7 @@ addMethod( string, "isValidTwitterUrlOrHandle", function() {
 			}
 
 			const TWITTER_HANDLE_REGEXP = /^[A-Za-z0-9_]{1,25}$/;
-			const TWITTER_URL_REGEXP = /^https?:\/\/(?:www\.)?twitter\.com\/(?<handle>[A-Za-z0-9_]{1,25})\/?$/;
+			const TWITTER_URL_REGEXP = /^https?:\/\/(?:www\.)?(?:twitter|x)\.com\/(?<handle>[A-Za-z0-9_]{1,25})\/?$/;
 
 			return TWITTER_HANDLE_REGEXP.test( input ) || TWITTER_URL_REGEXP.test( input );
 		}

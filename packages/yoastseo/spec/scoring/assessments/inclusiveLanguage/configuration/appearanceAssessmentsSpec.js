@@ -121,7 +121,7 @@ describe( "A test for Appearance assessments", function() {
 	it( "should not target other grammatical forms of the phrases", function() {
 		const mockPaper = new Paper( "This ad is aimed at harelips." );
 		const mockResearcher = new EnglishResearcher( mockPaper );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "harelip" )  );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "harelip" ) );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 

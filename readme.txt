@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.4
-Stable tag: 21.9.1
+Stable tag: 22.1
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -342,50 +342,51 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 22.0 =
+= 22.2 =
 
-Release date: 2024-02-06
-
-#### Bugfixes
-
-* Fixes a bug where the `get_head` REST route would return a `rest_invalid_param` if the URL contains a multiple words search string. Props to @lucymtc.
-* Fixes a bug where using a `blog` prefix in the permalink structure with _Strip category base_ enabled would prevent the blog page from being accessible.
-
-= 21.9.1 =
-
-Release date: 2024-01-25
-
-#### Bugfixes
-
-* Fixes a bug where a fatal error would occur when upgrading Yoast SEO on certain setups.
-* Fixes a bug where the image tag would be missing in the home page entry of the XML sitemap when using a static front page.
-
-= 21.9 =
-
-Release date: 2024-01-23
-
-We've just released Yoast SEO 21.9. This release comes with many behind-the-scenes improvements and general enhancements. Find out more about what's new in Yoast SEO 21.9 in [our release post](https://yoa.st/release-23-1-24)!
+Release date: 2024-03-05
 
 #### Enhancements
 
-* Adds a filter to add images to the front page in sitemaps.
-* Adds a filter to allow adding images to terms in sitemaps.
-* Clears rewrite rules only for the strip category base option.
-* Removes the clearing of rewrite rules on every option update.
-* Replaces the sitemap rewrite rules mechanism, props to [felixarntz](https://github.com/felixarntz).
+* Adds single-word transition words to the function words list for Arabic and Hebrew.
+* Improves keyphrase detection by ignoring hyphens. For example, if the keyphrase is 'dog-training tips', a keyphrase occurrence will be recognized as long as the words 'dog', 'training', and 'tips' are found in the same sentence.
+* Improves the highlighting of keyphrase occurrences that are part of a phrase containing hyphens or em-dashes. For example, if the keyphrase is 'Cold War era', it will be correctly highlighted in the phrase 'post-Cold War era'. Previously, the word 'post' would also be highlighted.
+* Improves the _inclusive language analysis_ by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies. Specifically, this includes the following changes:
 
 #### Bugfixes
 
-* Fixes a bug where a post would be saved when trying to dismiss a notification while editing.
-* Fixes a bug where editing a product would either crash or be slow when there is a high number of registered attributes.
-* Fixes a bug where the Yoast plugin icon in the block editor would not have any horizontal spacing anymore when rendered in "compact" mode.
+* Adds `x.com` as possible domain for the Twitter validation in our site representation settings.
+* Fixes a bug where sitemap.xml would redirect to 404 when response from server of  HTTPS property value would be \"On\".
+* Fixes a bug where the _keyphrase in slug_ assessment would crash when the site language was Indonesian, the keyphrase contained a reduplicated word (e.g. 'buku-buku'), and a form of that word also occurred in the slug.
+* Fixes a bug where the \"organization description\" field would still be focusable via tabbing.
+* Fixes a bug where the schema of a post requested through a REST request doesn't include the primary image.
+* Fixes a bug where upsell message for Woo SEO would appear when using the AI feature on product post that is not from WooCommerce.
+
+= 22.1 =
+
+Release date: 2024-02-20
+
+Yoast SEO 22.1 is out today. In this release, you'll find various fixes and improvements, including better Schema support and a new XML sitemap filter. Find out more about what's new in Yoast SEO 22.1 in [our release post](https://yoa.st/release-20-2-24)!
+
+#### Enhancements
+
+* Adds the filter `wpseo_sitemap_urlset` to easily filter `<urlset>` for all XML sitemaps. Props to @jdevalk.
+* Encodes possible spaces in URLs used in `@id` and `url` `WebPage` Schema piece properties when the Schema represents a search results page.
+* Lowers the minimum amount of characters needed to use the search functionality on the settings page.
+* Makes the section headings stand out visually in the _SEO_, _readability_ and _inclusive language_ analysis tabs.
+
+#### Bugfixes
+
+* Fixes a bug where ending a _How-To_ or _FAQ_ block element with a backslash would generate errors when re-opening a saved post.
+* Fixes a bug where next and prev links in query loop would be wrong when disabling `Inherit query from template`.
+* Fixes a bug where some custom post types such as Divi layouts would experience problems after activation or deactivation of Yoast SEO.
+* Fixes a bug where the `ProfilePage` schema node would not be valid when it was manually chosen for a page.
+* Fixes a bug where using a plugin that hooks into `views_edit-{$post_type}` would generate fatal errors when the plugin returned an unexpected array.
 
 #### Other
 
-* Be explicit about required PHP extensions.
-* Improves PHP 8.2 compatibility.
-* Sets the minimum supported WordPress version to 6.3.
-* Removes the `WEBPAGE_HASH` constant that had been deprecated in Yoast SEO 19.3 (July 2022).
+* Adds more information about Yoast SEO Premium price to the sidebar ad.
+* Adds price and saving information to the `Cover all your SEO bases` card in the `Premium` page.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

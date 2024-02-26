@@ -10,7 +10,7 @@ export const singleWords = [ "fakat", "halbuki", "hatta", "üstelik", "ancak", "
 	"gayesiyle", "velhasıl", "ezcümle", "özetlersek", "etraflıca", "tafsilatlı", "genişçe", "bilfiil", "filhakika", "evvela", "i̇lkin", "en önce",
 	"birincisi", "i̇kincisi", "üçüncüsü", "sonuncusu", "tıpkı", "topyekun", "hem", "ne", "kah", "ister", "ya", "gerek", "ha" ];
 
-export const multipleWords =  [ "o halde", "bundan böyle", "demek ki", "ne yazık ki", "görüldüğü gibi", "i̇lk olarak", "son olarak", "ne var ki",
+export const multipleWords = [ "o halde", "bundan böyle", "demek ki", "ne yazık ki", "görüldüğü gibi", "i̇lk olarak", "son olarak", "ne var ki",
 	"buna rağmen", "yine de", "başka bir deyişle", "açıklamak gerekirse", "özetlemek gerekirse", "kısaca söylemek gerekirse", "görüldüğü gibi",
 	"ve bunun gibi", "halbu ki", "buna göre", "ona göre", "ek olarak", "her ne kadar", "velev ki", "olmakla beraber", "bile olsa", "i̇le beaber",
 	"i̇le birlikte", "her şeye rağmen", "bütün yanlarıyla", "bütün yönleriyle", "ele alacak olursak", "baştan sona", "diğer bir", "başka bir",

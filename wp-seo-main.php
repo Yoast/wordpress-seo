@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '22.0-RC3' );
+define( 'WPSEO_VERSION', '22.2-RC3' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -35,7 +35,7 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '7.2.5' );
-define( 'YOAST_SEO_WP_TESTED', '6.4.2' );
+define( 'YOAST_SEO_WP_TESTED', '6.4.3' );
 define( 'YOAST_SEO_WP_REQUIRED', '6.3' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
@@ -226,7 +226,7 @@ function _wpseo_activate() {
 			$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
 		}
 	}
-	add_action( 'shutdown', 'flush_rewrite_rules' );
+	add_action( 'shutdown', [ 'WPSEO_Utils', 'clear_rewrites' ] );
 
 	WPSEO_Options::set( 'indexing_reason', 'first_install' );
 	WPSEO_Options::set( 'first_time_install', true );
@@ -261,7 +261,7 @@ function _wpseo_activate() {
 function _wpseo_deactivate() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
 
-	add_action( 'shutdown', 'flush_rewrite_rules' );
+	add_action( 'shutdown', [ 'WPSEO_Utils', 'clear_rewrites' ] );
 
 	// Register capabilities, to make sure they are cleaned up.
 	do_action( 'wpseo_register_roles' );

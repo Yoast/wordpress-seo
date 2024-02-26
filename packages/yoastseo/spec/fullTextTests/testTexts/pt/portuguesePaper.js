@@ -55,9 +55,8 @@ const expectedResults = {
 	},
 	textCompetingLinks: {
 		isApplicable: true,
-		score: 2,
-		resultText: "<a href='https://yoa.st/34l' target='_blank'>Link keyphrase</a>: You're linking to another page with the words you want this " +
-			"page to rank for. <a href='https://yoa.st/34m' target='_blank'>Don't do that</a>!",
+		score: 0,
+		resultText: "",
 	},
 	textLength: {
 		isApplicable: true,

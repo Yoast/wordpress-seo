@@ -518,7 +518,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains pow-wow.</yoastmark>",
 			original: "This sentence contains pow-wow." } } ]
@@ -540,7 +540,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains first-world.</yoastmark>",
 			original: "This sentence contains first-world." } } ]
@@ -562,7 +562,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>first world countries</yoastmark>",
 			original: "first world countries" } } ]
@@ -585,7 +585,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains third-world country.</yoastmark>",
 			original: "This sentence contains third-world country." } } ]

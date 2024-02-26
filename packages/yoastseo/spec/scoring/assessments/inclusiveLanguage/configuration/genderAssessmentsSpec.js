@@ -173,7 +173,7 @@ describe( "Tests for exclusionary and potentially exclusionary phrases", functio
 } );
 
 describe( "Tests for phrases that are exclusionary UNLESS there is a condition when they're acceptable", function() {
-	it( "targets  versions of the phrases 'men and women' and 'girls and boys'", () => {
+	it( "targets versions of the phrases 'men and women' and 'girls and boys'", () => {
 		const testData = [
 			{
 				identifier: "menAndWomen",
@@ -448,7 +448,7 @@ describe( "A test for Gender assessments", function() {
 	it( "should not target inclusive phrases", function() {
 		const mockPaper = new Paper( "Look at those firefighters! They're putting out the fire." );
 		const mockResearcher = Factory.buildMockResearcher( [ "Look at those firefighters!", "They're putting out the fire." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "firemen" )  );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "firemen" ) );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 

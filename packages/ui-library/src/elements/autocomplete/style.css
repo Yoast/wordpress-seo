@@ -32,6 +32,7 @@
 			yst-w-full
 			yst-h-full
 			yst-rounded-md
+			yst-bg-white
 			yst-shadow-sm
 			yst-border
 			yst-border-slate-300
@@ -52,7 +53,6 @@
 			@apply
 			yst-w-full
 			yst-border-0
-			yst-bg-white
 			yst-py-2
 			yst-pl-0
 			yst-pr-10

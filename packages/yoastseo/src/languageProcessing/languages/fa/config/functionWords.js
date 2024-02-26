@@ -1,4 +1,6 @@
 import { singleWords as singleWordTransitionWords } from "./transitionWords";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
+
 /**
  * Returns an array with function words.
  *
@@ -61,7 +63,7 @@ const conjunctions = [ "اگر", "اما", "پس", "تا", "چون", "چه", "خ
 	"در صورتی که", "در نتیجه", "زیرا که", "وانگهی", "وقتی که", "وگرنه", "هرچند", "هر گاه که", "هر وقت که", "همانطور که" ];
 
 const interviewVerbs = [ "گفتن", "توضیح دادن", "اظهار کردن", "پرسیدن", "درخواست کردن", "بحث کردن", "اعلام کردن", "گفتگو کردن",
-	"فهمیدن", "درک کردن", "پیشنهاد کردن", "بیان کردن", "فکر کردن", "عقیده داشتن", "مکالمه داشتن", "ابراز کردن", "مبادله کردن"  ];
+	"فهمیدن", "درک کردن", "پیشنهاد کردن", "بیان کردن", "فکر کردن", "عقیده داشتن", "مکالمه داشتن", "ابراز کردن", "مبادله کردن" ];
 
 const intensifiers = [ "خیلی", "زیاد", "کاملا زیاد", "تقریباً", "انصافاً", "به طرز حیرت انگیزی", "به طور عظیمی", "بیش ازحد",
 	"بخصوص", "فوق العاده", "وحشتناک", "به طور شگفت آوری", "به معنای واقعی کلمه", "نسبتا", "واقعاً", "بسیار", "به طور فوق العاده" ];
@@ -111,10 +113,10 @@ const transitionWords = [ "دوباره", "قطعاً", "حتماً", "اصلا�
 	"هم", "مانند", "مثل", "شبیه به", "ولی", "اما", "امّا", "لیکن", "ولو", "در ضمن", "در کنار", "ترجیحاً", "وگرنه", "پس", "سپس",
 	"وقتی", "زمانی که", "به خاطر", "مخصوصاً", "مشخصاً", "در کل", "بعد", "قبل", "تا" ];
 
-export const all = [].concat( cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
+export const all = transformWordsWithHyphens( [].concat( cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
 	quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
 	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
 	timeWords, vagueNouns, titles, transitionWords, postposition, reciprocalNouns, possessivePronouns, fractions,
-	articles, singleWordTransitionWords );
+	articles, singleWordTransitionWords ) );
 
 export default all;
