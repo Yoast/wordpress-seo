@@ -37,19 +37,17 @@ const TermDataCollector = function( args ) {
  */
 TermDataCollector.prototype.getData = function() {
 	const otherData = {
-		title: this.getTitle(),
+		title: this.getSnippetTitle(),
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 		text: this.getText(),
-		meta: this.getMeta(),
-		url: this.getUrl(),
 		permalink: this.getPermalink(),
 		snippetCite: this.getSnippetCite(),
 		snippetTitle: this.getSnippetTitle(),
 		snippetMeta: this.getSnippetMeta(),
 		name: this.getName(),
 		baseUrl: this.getBaseUrl(),
-		pageTitle: this.getPageTitle(),
-		titleWidth: measureTextWidth( this.getTitle() ),
+		pageTitle: this.getSnippetTitle(),
+		titleWidth: measureTextWidth( this.getSnippetTitle() ),
 	};
 
 	const state = this._store.getState();
@@ -63,15 +61,6 @@ TermDataCollector.prototype.getData = function() {
 		...otherData,
 		...snippetData,
 	};
-};
-
-/**
- * Returns the title from the DOM.
- *
- * @returns {string} The title.
- */
-TermDataCollector.prototype.getTitle = function() {
-	return document.getElementById( "hidden_wpseo_title" ).value;
 };
 
 /**
@@ -95,22 +84,11 @@ TermDataCollector.prototype.getText = function() {
 };
 
 /**
- * Returns the meta description from the DOM.
- *
- * @returns {string} The meta description.
- */
-TermDataCollector.prototype.getMeta = function() {
-	const element = document.getElementById( "hidden_wpseo_desc" );
-
-	return element ? element.value : "";
-};
-
-/**
  * Returns the slug from the DOM.
  *
  * @returns {string} The slug.
  */
-TermDataCollector.prototype.getSlug = function() {
+TermDataCollector.prototype.getUrl = function() {
 	return document.getElementById( "slug" ).value;
 };
 
@@ -169,15 +147,6 @@ TermDataCollector.prototype.getName = function() {
  */
 TermDataCollector.prototype.getBaseUrl = function() {
 	return wpseoScriptData.metabox.base_url;
-};
-
-/**
- * Returns the page title from the DOM.
- *
- * @returns {string} The page title.
- */
-TermDataCollector.prototype.getPageTitle = function() {
-	return document.getElementById( "hidden_wpseo_title" ).value;
 };
 
 /**
