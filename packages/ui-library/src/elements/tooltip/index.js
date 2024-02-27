@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 
 const positionClassNameMap = {
-		top: "yst-tooltip--top",
-		right: "yst-tooltip--right",
-		bottom: "yst-tooltip--bottom",
-		left: "yst-tooltip--left",
-	};
+	top: "yst-tooltip--top",
+	right: "yst-tooltip--right",
+	bottom: "yst-tooltip--bottom",
+	left: "yst-tooltip--left",
+};
 
 /**
  * @param {string} id ID.
