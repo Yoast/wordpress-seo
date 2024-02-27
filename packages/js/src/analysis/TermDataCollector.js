@@ -102,7 +102,7 @@ TermDataCollector.prototype.getText = function() {
 TermDataCollector.prototype.getMeta = function() {
 	const element = document.getElementById( "hidden_wpseo_desc" );
 
-	return element !== null ? element.value : "";
+	return element ? element.value : "";
 };
 
 /**
@@ -149,14 +149,8 @@ TermDataCollector.prototype.getSnippetTitle = function() {
  * @returns {string} The snippet meta description.
  */
 TermDataCollector.prototype.getSnippetMeta = function() {
-	let value = "";
-
 	const element = document.getElementById( "hidden_wpseo_desc" );
-	if ( element !== null ) {
-		value = element.value;
-	}
-
-	return value;
+	return element ? element.value : "";
 };
 
 /**
