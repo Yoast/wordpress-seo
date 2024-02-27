@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Editors\Framework;
 
 use Mockery;
-use Yoast\WP\SEO\Editors\Framework\Cornerstone;
+use Yoast\WP\SEO\Editors\Framework\Cornerstone_Content;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -12,9 +12,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group editors
  *
- * @coversDefaultClass \Yoast\WP\SEO\Editors\Framework\Cornerstone
+ * @coversDefaultClass \Yoast\WP\SEO\Editors\Framework\Cornerstone_Content
  */
-final class Cornerstone_Test extends TestCase {
+final class Cornerstone_Content_Test extends TestCase {
 
 	/**
 	 * Holds the Options_Helper instance.
@@ -24,9 +24,9 @@ final class Cornerstone_Test extends TestCase {
 	private $options;
 
 	/**
-	 * The Content_Analysis.
+	 * The Cornerstone_Content feature.
 	 *
-	 * @var Cornerstone
+	 * @var Cornerstone_Content
 	 */
 	private $instance;
 
@@ -39,7 +39,7 @@ final class Cornerstone_Test extends TestCase {
 		parent::set_up();
 		$this->options = Mockery::mock( Options_Helper::class );
 
-		$this->instance = new Cornerstone( $this->options );
+		$this->instance = new Cornerstone_Content( $this->options );
 	}
 
 	/**
@@ -53,7 +53,7 @@ final class Cornerstone_Test extends TestCase {
 	 */
 	public function test_getters() {
 
-		$this->assertSame( 'cornerstone', $this->instance->get_name() );
+		$this->assertSame( 'cornerstoneContent', $this->instance->get_name() );
 		$this->assertSame( 'cornerstoneActive', $this->instance->get_legacy_key() );
 	}
 
@@ -69,7 +69,7 @@ final class Cornerstone_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_is_enabled( $enable_cornerstone_content, $expected ) {
+	public function test_is_enabled( bool $enable_cornerstone_content, bool $expected ) {
 		$this->options
 			->expects( 'get' )
 			->with( 'enable_cornerstone_content', false )

@@ -50,9 +50,9 @@ class Inclusive_Language_Analysis implements Analysis_Feature_Interface {
 	}
 
 	/**
-	 * Whether this analysis is enabled.
+	 * If this analysis is enabled.
 	 *
-	 * @return bool Whether this analysis is enabled.
+	 * @return bool If this analysis is enabled.
 	 */
 	public function is_enabled(): bool {
 		return $this->is_globally_enabled() && $this->is_user_enabled() && $this->is_current_version_supported()
@@ -60,31 +60,31 @@ class Inclusive_Language_Analysis implements Analysis_Feature_Interface {
 	}
 
 	/**
-	 * Whether this analysis is enabled by the user.
+	 * If this analysis is enabled by the user.
 	 *
-	 * @return bool Whether this analysis is enabled by the user.
+	 * @return bool If this analysis is enabled by the user.
 	 */
-	public function is_user_enabled(): bool {
+	private function is_user_enabled(): bool {
 		return ! \get_the_author_meta( 'wpseo_inclusive_language_analysis_disable', \get_current_user_id() );
 	}
 
 	/**
-	 * Whether this analysis is enabled globally.
+	 * If this analysis is enabled globally.
 	 *
-	 * @return bool Whether this analysis is enabled globally.
+	 * @return bool If this analysis is enabled globally.
 	 */
-	public function is_globally_enabled(): bool {
+	private function is_globally_enabled(): bool {
 		return (bool) $this->options_helper->get( 'inclusive_language_analysis_active', false );
 	}
 
 	/**
-	 * Whether the inclusive language analysis should be loaded in Free.
+	 * If the inclusive language analysis should be loaded in Free.
 	 *
 	 * It should always be loaded when Premium is not active. If Premium is active, it depends on the version. Some
 	 * Premium versions also have inclusive language code (when it was still a Premium only feature) which would result
 	 * in rendering the analysis twice. In those cases, the analysis should be only loaded from the Premium side.
 	 *
-	 * @return bool Whether the inclusive language analysis should be loaded.
+	 * @return bool If the inclusive language analysis should be loaded.
 	 */
 	private function is_current_version_supported(): bool {
 		$is_premium      = $this->product_helper->is_premium();

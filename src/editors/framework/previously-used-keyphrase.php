@@ -5,18 +5,18 @@ namespace Yoast\WP\SEO\Editors\Framework;
 /**
  * Describes if the previously used keyword feature should be enabled.
  */
-class Previously_Used_Keyword implements Analysis_Feature_Interface {
+class Previously_Used_Keyphrase implements Analysis_Feature_Interface {
 
 	/**
-	 * Whether this analysis is enabled.
+	 * If this analysis is enabled.
 	 *
-	 * @return bool Whether this analysis is enabled.
+	 * @return bool If this analysis is enabled.
 	 */
 	public function is_enabled(): bool {
 		/**
-		 * Filter to determine whether the PreviouslyUsedKeyword assessment should run.
+		 * Filter to determine If the PreviouslyUsedKeyphrase assessment should run.
 		 *
-		 * @param bool $previouslyUsedKeywordActive Whether the PreviouslyUsedKeyword assessment should run.
+		 * @param bool $previouslyUsedKeyphraseActive If the PreviouslyUsedKeyphrase assessment should run.
 		 */
 		return (bool) \apply_filters( 'wpseo_previously_used_keyword_active', true );
 	}
@@ -27,7 +27,7 @@ class Previously_Used_Keyword implements Analysis_Feature_Interface {
 	 * @return string
 	 */
 	public function get_name(): string {
-		return 'previouslyUsedKeyword';
+		return 'previouslyUsedKeyphrase';
 	}
 
 	/**

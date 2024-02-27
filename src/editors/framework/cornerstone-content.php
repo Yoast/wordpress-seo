@@ -5,9 +5,9 @@ namespace Yoast\WP\SEO\Editors\Framework;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Describes if the Cornerstone features is enabled.
+ * Describes if the Cornerstone content features is enabled.
  */
-class Cornerstone implements Analysis_Feature_Interface {
+class Cornerstone_Content implements Analysis_Feature_Interface {
 
 	/**
 	 * The options helper.
@@ -26,9 +26,9 @@ class Cornerstone implements Analysis_Feature_Interface {
 	}
 
 	/**
-	 * Whether cornerstone is enabled.
+	 * If cornerstone is enabled.
 	 *
-	 * @return bool Whether cornerstone is enabled.
+	 * @return bool If cornerstone is enabled.
 	 */
 	public function is_enabled(): bool {
 		return (bool) $this->options_helper->get( 'enable_cornerstone_content', false );
@@ -40,7 +40,7 @@ class Cornerstone implements Analysis_Feature_Interface {
 	 * @return string The name.
 	 */
 	public function get_name(): string {
-		return 'cornerstone';
+		return 'cornerstoneContent';
 	}
 
 	/**

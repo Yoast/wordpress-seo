@@ -26,9 +26,9 @@ class Word_Form_Recognition implements Analysis_Feature_Interface {
 	}
 
 	/**
-	 * Whether this analysis is enabled.
+	 * If this analysis is enabled.
 	 *
-	 * @return bool Whether this analysis is enabled.
+	 * @return bool If this analysis is enabled.
 	 */
 	public function is_enabled(): bool {
 		return $this->language_helper->is_word_form_recognition_active( $this->language_helper->get_language() );

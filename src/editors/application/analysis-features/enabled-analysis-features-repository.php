@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Editors\Framework\Analysis_Feature_Interface;
  *
  * @makePublic
  */
-class Enabled_Features_Repository {
+class Enabled_Analysis_Features_Repository {
 
 	/**
 	 * All plugin features.

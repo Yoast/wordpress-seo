@@ -282,7 +282,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Passes variables to js for use with the post-scraper.
 	 *
-	 * @return array<string|string,array<string,int,bool>,bool,int>
+	 * @return array<string,string|array<string|int|bool>|bool|int>
 	 */
 	public function get_metabox_script_data() {
 		$permalink = '';
@@ -966,7 +966,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns post in metabox context.
 	 *
-	 * @return WP_Post|array<string,int,bool>
+	 * @return WP_Post|array<string|int|bool>
 	 */
 	protected function get_metabox_post() {
 		if ( $this->post !== null ) {

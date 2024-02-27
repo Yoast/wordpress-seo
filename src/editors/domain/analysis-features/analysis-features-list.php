@@ -15,7 +15,7 @@ class Analysis_Features_List {
 	private $features = [];
 
 	/**
-	 * Adds a analysis feature to the list.
+	 * Adds an analysis feature to the list.
 	 *
 	 * @param Analysis_Feature $feature The analysis feature to add.
 	 *

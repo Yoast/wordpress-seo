@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Conditionals\Third_Party\TranslatePress_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\WPML_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Config\SEMrush_Client;
-use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Features_Repository;
+use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
@@ -39,7 +39,7 @@ class WPSEO_Metabox_Formatter {
 	/**
 	 * Returns the values.
 	 *
-	 * @return array<string|string,array<string,int,bool>,bool,int>
+	 * @return array<string,string|array<string|int|bool>|bool|int>
 	 */
 	public function get_values() {
 		$defaults = $this->get_defaults();
@@ -51,7 +51,7 @@ class WPSEO_Metabox_Formatter {
 	/**
 	 * Returns array with all the values always needed by a scraper object.
 	 *
-	 * @return array<string|string,array<string,int,bool>,bool,int> Default settings for the metabox.
+	 * @return array<string,string|array<string|int|bool>|bool|int> Default settings for the metabox.
 	 */
 	private function get_defaults() {
 		$schema_types      = new Schema_Types();
@@ -207,7 +207,7 @@ class WPSEO_Metabox_Formatter {
 			'woocommerceUpsellGooglePreviewLink' => WPSEO_Shortlinker::get( 'https://yoa.st/product-google-preview-metabox' ),
 		];
 
-		$enabled_features_repo = YoastSEO()->classes->get( Enabled_Features_Repository::class );
+		$enabled_features_repo = YoastSEO()->classes->get( Enabled_Analysis_Features_Repository::class );
 
 		$enabled_features = $enabled_features_repo->get_enabled_features()->parse_to_legacy_array();
 

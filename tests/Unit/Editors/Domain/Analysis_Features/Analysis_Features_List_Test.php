@@ -27,7 +27,7 @@ final class Analysis_Features_List_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function set_up() {
+	protected function set_up(): void {
 		parent::set_up();
 		$this->instance = new Analysis_Features_List();
 	}
@@ -40,8 +40,7 @@ final class Analysis_Features_List_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_parse_to_legacy_array() {
-
+	public function test_parse_to_legacy_array(): void {
 		$this->instance->add_feature( new Analysis_Feature( false, 'name', 'legacy-key-false' ) );
 		$this->instance->add_feature( new Analysis_Feature( true, 'name', 'legacy-key-true' ) );
 		$this->assertSame(

@@ -8,7 +8,7 @@ namespace Yoast\WP\SEO\Editors\Framework;
 interface Analysis_Feature_Interface {
 
 	/**
-	 * Returns if the analysis is enabled.
+	 * Returns If the analysis is enabled.
 	 *
 	 * @return bool
 	 */

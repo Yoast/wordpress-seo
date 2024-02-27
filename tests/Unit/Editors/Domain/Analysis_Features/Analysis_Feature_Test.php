@@ -26,7 +26,7 @@ final class Analysis_Feature_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function set_up() {
+	protected function set_up(): void {
 		parent::set_up();
 		$this->instance = new Analysis_Feature( true, 'name', 'legacy-name' );
 	}
@@ -40,8 +40,7 @@ final class Analysis_Feature_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_getters() {
-
+	public function test_getters(): void {
 		$this->assertTrue( $this->instance->is_enabled() );
 		$this->assertSame( 'name', $this->instance->get_name() );
 	}
@@ -53,20 +52,18 @@ final class Analysis_Feature_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_to_array() {
-
+	public function test_to_array(): void {
 		$this->assertSame( [ 'name' => true ], $this->instance->to_array() );
 	}
 
 	/**
 	 * Tests the to_legacy_method method.
 	 *
-	 * @covers ::to_array
+	 * @covers ::to_legacy_array
 	 *
 	 * @return void
 	 */
-	public function test_to_legacy_array() {
-
+	public function test_to_legacy_array(): void {
 		$this->assertSame( [ 'legacy-name' => true ], $this->instance->to_legacy_array() );
 	}
 }

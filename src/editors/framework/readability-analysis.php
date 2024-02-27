@@ -5,9 +5,9 @@ namespace Yoast\WP\SEO\Editors\Framework;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Describes how it is determined if the Keyword analysis is turned on.
+ * This class describes the Readability analysis feature.
  */
-class Keyword_Analysis implements Analysis_Feature_Interface {
+class Readability_Analysis implements Analysis_Feature_Interface {
 
 	/**
 	 * The options helper.
@@ -26,30 +26,30 @@ class Keyword_Analysis implements Analysis_Feature_Interface {
 	}
 
 	/**
-	 * Whether this analysis is enabled.
+	 * If this analysis is enabled.
 	 *
-	 * @return bool Whether this analysis is enabled.
+	 * @return bool If this analysis is enabled.
 	 */
 	public function is_enabled(): bool {
 		return $this->is_globally_enabled() && $this->is_user_enabled();
 	}
 
 	/**
-	 * Whether this analysis is enabled by the user.
+	 * If this analysis is enabled by the user.
 	 *
-	 * @return bool Whether this analysis is enabled by the user.
+	 * @return bool If this analysis is enabled by the user.
 	 */
-	public function is_user_enabled(): bool {
-		return ! \get_the_author_meta( 'wpseo_keyword_analysis_disable', \get_current_user_id() );
+	private function is_user_enabled(): bool {
+		return ! \get_the_author_meta( 'wpseo_content_analysis_disable', \get_current_user_id() );
 	}
 
 	/**
-	 * Whether this analysis is enabled globally.
+	 * If this analysis is enabled globally.
 	 *
-	 * @return bool Whether this analysis is enabled globally.
+	 * @return bool If this analysis is enabled globally.
 	 */
-	public function is_globally_enabled(): bool {
-		return (bool) $this->options_helper->get( 'keyword_analysis_active', true );
+	private function is_globally_enabled(): bool {
+		return (bool) $this->options_helper->get( 'content_analysis_active', true );
 	}
 
 	/**
@@ -58,7 +58,7 @@ class Keyword_Analysis implements Analysis_Feature_Interface {
 	 * @return string The name.
 	 */
 	public function get_name(): string {
-		return 'keywordAnalysis';
+		return 'readabilityAnalysis';
 	}
 
 	/**
@@ -67,6 +67,6 @@ class Keyword_Analysis implements Analysis_Feature_Interface {
 	 * @return string The legacy key.
 	 */
 	public function get_legacy_key(): string {
-		return 'keywordAnalysisActive';
+		return 'contentAnalysisActive';
 	}
 }

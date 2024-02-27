@@ -35,7 +35,7 @@ final class Word_Form_Recognition_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function set_up() {
+	protected function set_up(): void {
 		parent::set_up();
 		$this->language = Mockery::mock( Language_Helper::class );
 
@@ -51,8 +51,7 @@ final class Word_Form_Recognition_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_getters() {
-
+	public function test_getters(): void {
 		$this->assertSame( 'wordFormRecognition', $this->instance->get_name() );
 		$this->assertSame( 'wordFormRecognitionActive', $this->instance->get_legacy_key() );
 	}
@@ -69,7 +68,7 @@ final class Word_Form_Recognition_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_is_enabled( $is_word_form_recognition_active, $expected ) {
+	public function test_is_enabled( bool $is_word_form_recognition_active, bool $expected ): void {
 		$this->language
 			->expects( 'is_word_form_recognition_active' )
 			->with( 'language' )
@@ -86,7 +85,7 @@ final class Word_Form_Recognition_Test extends TestCase {
 	 *
 	 * @return array<array<string|bool>>
 	 */
-	public static function data_provider_is_enabled() {
+	public static function data_provider_is_enabled(): array {
 		return [
 			'Enabled' => [
 				'is_word_form_recognition_active' => true,

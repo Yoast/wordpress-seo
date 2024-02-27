@@ -52,7 +52,7 @@ final class Inclusive_Language_Analysis_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function set_up() {
+	protected function set_up(): void {
 		parent::set_up();
 		$this->options  = Mockery::mock( Options_Helper::class );
 		$this->language = Mockery::mock( Language_Helper::class );
@@ -70,8 +70,7 @@ final class Inclusive_Language_Analysis_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_getters() {
-
+	public function test_getters(): void {
 		$this->assertSame( 'inclusiveLanguageAnalysis', $this->instance->get_name() );
 		$this->assertSame( 'inclusiveLanguageAnalysisActive', $this->instance->get_legacy_key() );
 	}
@@ -82,6 +81,7 @@ final class Inclusive_Language_Analysis_Test extends TestCase {
 	 * @covers ::is_enabled
 	 * @covers ::is_user_enabled
 	 * @covers ::is_globally_enabled
+	 * @covers ::is_current_version_supported
 	 *
 	 * @dataProvider data_provider_is_enabled
 	 *
@@ -94,12 +94,12 @@ final class Inclusive_Language_Analysis_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_is_enabled(
-		$inclusive_language_analysis_active,
-		$author_meta,
-		$expected,
-		$premium_version,
-		$has_inclusive_language_support
-	) {
+		bool $inclusive_language_analysis_active,
+		bool $author_meta,
+		bool $expected,
+		string $premium_version,
+		bool $has_inclusive_language_support
+	): void {
 		$this->options
 			->expects( 'get' )
 			->with( 'inclusive_language_analysis_active', false )
@@ -139,7 +139,7 @@ final class Inclusive_Language_Analysis_Test extends TestCase {
 	 *
 	 * @return array<array<string|bool,string>>
 	 */
-	public static function data_provider_is_enabled() {
+	public static function data_provider_is_enabled(): array {
 		return [
 			'Is globally enabled'                       => [
 				'inclusive_language_analysis_active' => true,
@@ -155,7 +155,6 @@ final class Inclusive_Language_Analysis_Test extends TestCase {
 				'expected'                           => false,
 				'premium_version'                    => '20',
 				'has_inclusive_language_support'     => true,
-
 			],
 			'Is disabled'                               => [
 				'inclusive_language_analysis_active' => false,
@@ -164,12 +163,18 @@ final class Inclusive_Language_Analysis_Test extends TestCase {
 				'premium_version'                    => '20',
 				'has_inclusive_language_support'     => true,
 			],
-
 			'outdated premium' => [
 				'inclusive_language_analysis_active' => true,
 				'author_meta'                        => false,
 				'expected'                           => false,
 				'premium_version'                    => '10',
+				'has_inclusive_language_support'     => false,
+			],
+			'19.2 premium' => [
+				'inclusive_language_analysis_active' => true,
+				'author_meta'                        => false,
+				'expected'                           => true,
+				'premium_version'                    => '19.2',
 				'has_inclusive_language_support'     => true,
 			],
 			'unsupported language' => [
