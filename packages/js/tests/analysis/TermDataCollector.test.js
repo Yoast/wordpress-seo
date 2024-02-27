@@ -26,6 +26,7 @@ describe( "a test for collecting data from a term", () => {
 	it( "gets the base URL from wpseoScriptData", () => {
 		window.wpseoScriptData = {
 			metabox: {
+				// eslint-disable-next-line camelcase
 				base_url: "http://example.com",
 			},
 		};
