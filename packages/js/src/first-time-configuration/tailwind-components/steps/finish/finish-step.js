@@ -7,9 +7,12 @@ import { Button, Link } from "@yoast/ui-library";
 /**
  * Goes to the Dashboard tab by clicking the tab button.
  *
+ * @param {Event} event The event object.
+ *
  * @returns {void}
  */
-function goToSEODashboard() {
+function goToSEODashboard( event ) {
+	event.preventDefault();
 	window.location.href = "admin.php?page=wpseo_dashboard";
 }
 
@@ -38,6 +41,7 @@ export default function FinishStep() {
 				</p>
 				<Button
 					as="a"
+					variant="primary"
 					id="button-webinar-seo-dashboard"
 					href={ webinarIntroFirstTimeConfigUrl }
 					target="_blank"
@@ -53,6 +57,7 @@ export default function FinishStep() {
 				<p className="yst-mt-4">
 					<Link
 						id="link-webinar-register"
+						href="#"
 						onClick={ goToSEODashboard }
 						data-hiive-event-name="clicked_seo_dashboard"
 					>
