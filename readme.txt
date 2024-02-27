@@ -356,7 +356,7 @@ Release date: 2024-03-05
 #### Bugfixes
 
 * Adds `x.com` as a possible domain for the Twitter validation in our site representation settings.
-* Fixes a bug where sitemap.xml would redirect to 404 when response from server of  HTTPS property value would be \"On\".
+* Fixes a bug where `sitemap.xml` would redirect to a 404 when the HTTPS server value of the response would be \"On\" instead of \"on\".
 * Fixes a bug where the _keyphrase in slug_ assessment would crash when the site language was Indonesian, the keyphrase contained a reduplicated word (e.g. 'buku-buku'), and a form of that word also occurred in the slug.
 * Fixes a bug where the \"organization description\" field would still be focusable via tabbing.
 * Fixes a bug where the schema of a post requested through a REST request wouldn't include the primary image.
