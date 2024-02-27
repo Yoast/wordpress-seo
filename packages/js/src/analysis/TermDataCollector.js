@@ -80,16 +80,9 @@ TermDataCollector.prototype.getTitle = function() {
  * @returns {string} The keyword.
  */
 TermDataCollector.prototype.getKeyword = function() {
-	var elem, val;
+	const elem = document.getElementById( "hidden_wpseo_focuskw" );
 
-	elem = document.getElementById( "hidden_wpseo_focuskw" );
-	val = elem.value;
-	if ( val === "" ) {
-		val = document.getElementById( "name" ).value;
-		elem.placeholder = val;
-	}
-
-	return val;
+	return elem.value;
 };
 
 /**
@@ -104,25 +97,20 @@ TermDataCollector.prototype.getText = function() {
 /**
  * Returns the meta description from the DOM.
  *
- * @returns {string} The meta.
+ * @returns {string} The meta description.
  */
 TermDataCollector.prototype.getMeta = function() {
-	var  val = "";
+	const element = document.getElementById( "hidden_wpseo_desc" );
 
-	var elem = document.getElementById( "hidden_wpseo_desc" );
-	if ( elem !== null ) {
-		val = elem.value;
-	}
-
-	return val;
+	return element !== null ? element.value : "";
 };
 
 /**
- * Returns the url from the DOM.
+ * Returns the slug from the DOM.
  *
- * @returns {string} The url.
+ * @returns {string} The slug.
  */
-TermDataCollector.prototype.getUrl = function() {
+TermDataCollector.prototype.getSlug = function() {
 	return document.getElementById( "slug" ).value;
 };
 
