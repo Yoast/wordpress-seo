@@ -16,13 +16,13 @@ import measureTextWidth from "../helpers/measureTextWidth";
 const $ = jQuery;
 
 /**
- * Show warning in console when the unsupported CkEditor is used.
+ * Shows warning in console when the unsupported CkEditor is used.
  *
  * @param {Object} args The arguments for the post scraper.
  *
  * @constructor
  */
-var TermDataCollector = function( args ) {
+const TermDataCollector = function( args ) {
 	if ( typeof CKEDITOR === "object" ) {
 		console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 	}
@@ -120,7 +120,7 @@ TermDataCollector.prototype.getSlug = function() {
  * @returns {string} The permalink.
  */
 TermDataCollector.prototype.getPermalink = function() {
-	var url = this.getUrl();
+	const url = this.getUrl();
 
 	return this.getBaseUrl() + url + "/";
 };
@@ -144,19 +144,19 @@ TermDataCollector.prototype.getSnippetTitle = function() {
 };
 
 /**
- * Returns the snippet meta from the DOM.
+ * Returns the snippet meta description from the DOM.
  *
- * @returns {string} The snippet meta.
+ * @returns {string} The snippet meta description.
  */
 TermDataCollector.prototype.getSnippetMeta = function() {
-	var val = "";
+	let value = "";
 
-	var elem = document.getElementById( "hidden_wpseo_desc" );
-	if ( elem !== null ) {
-		val = elem.value;
+	const element = document.getElementById( "hidden_wpseo_desc" );
+	if ( element !== null ) {
+		value = element.value;
 	}
 
-	return val;
+	return value;
 };
 
 /**
@@ -187,7 +187,7 @@ TermDataCollector.prototype.getPageTitle = function() {
 };
 
 /**
- * When the snippet is updated, update the (hidden) fields on the page.
+ * Updates the (hidden) fields on the page when the snippet is updated.
  *
  * @param {Object} value Value for the data to set.
  * @param {String} type The field(type) that the data is set for.
@@ -211,7 +211,7 @@ TermDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 };
 
 /**
- * The data passed from the snippet editor.
+ * Saves the data passed from the snippet editor.
  *
  * @param {Object} data          Object with data value.
  * @param {string} data.title    The title.
@@ -238,18 +238,18 @@ TermDataCollector.prototype.bindElementEvents = function( refreshAnalysis ) {
 };
 
 /**
- * Binds the renewData function on the change of inputelements.
+ * Binds the renewData function on the change of input elements.
  *
  * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
  *
  * @returns {void}
  */
 TermDataCollector.prototype.inputElementEventBinder = function( refreshAnalysis ) {
-	var elems = [ "name", tmceId, "slug", "wpseo_focuskw" ];
-	for ( var i = 0; i < elems.length; i++ ) {
-		var elem = document.getElementById( elems[ i ] );
-		if ( elem !== null ) {
-			document.getElementById( elems[ i ] ).addEventListener( "input", refreshAnalysis );
+	const elements = [ "name", tmceId, "slug", "wpseo_focuskw" ];
+	for ( let i = 0; i < elements.length; i++ ) {
+		const element = document.getElementById( elements[ i ] );
+		if ( element !== null ) {
+			document.getElementById( elements[ i ] ).addEventListener( "input", refreshAnalysis );
 		}
 	}
 	tmceHelper.tinyMceEventBinder( refreshAnalysis, tmceId );
@@ -263,7 +263,7 @@ TermDataCollector.prototype.inputElementEventBinder = function( refreshAnalysis 
  * @returns {void}
  */
 TermDataCollector.prototype.saveScores = function( score ) {
-	var indicator = getIndicatorForScore( score );
+	const indicator = getIndicatorForScore( score );
 
 	document.getElementById( "hidden_wpseo_linkdex" ).value = score;
 	jQuery( window ).trigger( "YoastSEO:numericScore", score );
@@ -280,7 +280,7 @@ TermDataCollector.prototype.saveScores = function( score ) {
  * @returns {void}
  */
 TermDataCollector.prototype.saveContentScore = function( score ) {
-	var indicator = getIndicatorForScore( score );
+	const indicator = getIndicatorForScore( score );
 
 	if ( ! isKeywordAnalysisActive() ) {
 		updateTrafficLight( indicator );
