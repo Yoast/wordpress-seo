@@ -2,14 +2,12 @@ import { forwardRef } from "@wordpress/element";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
-const classNameMap = {
-	position: {
+const positionClassNameMap = {
 		top: "yst-tooltip--top",
 		right: "yst-tooltip--right",
 		bottom: "yst-tooltip--bottom",
 		left: "yst-tooltip--left",
-	},
-};
+	};
 
 /**
  * @param {string} id ID.
@@ -28,7 +26,7 @@ const Tooltip = forwardRef( ( { id, children, as: Component, className, isVisibl
 				<Component
 					ref={ ref }
 					className={ classNames( "yst-tooltip",
-						classNameMap.position[ position ],
+						positionClassNameMap[ position ],
 						className,
 					) }
 					role="tooltip"
@@ -47,7 +45,7 @@ const propTypes = {
 	id: PropTypes.string.isRequired,
 	children: PropTypes.string,
 	className: PropTypes.string,
-	position: PropTypes.oneOf( Object.keys( classNameMap.position ) ),
+	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ),
 };
 
 Tooltip.propTypes = propTypes;
