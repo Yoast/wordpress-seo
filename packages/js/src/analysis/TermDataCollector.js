@@ -18,7 +18,7 @@ const $ = jQuery;
 /**
  * Shows warning in console when the unsupported CkEditor is used.
  *
- * @param {Object} args The arguments for the post scraper.
+ * @param {Object} args The arguments for the Term Data Collector.
  *
  * @constructor
  */
@@ -53,7 +53,7 @@ TermDataCollector.prototype.getData = function() {
 	const state = this._store.getState();
 	const snippetData = {
 		metaTitle: get( state, [ "analysisData", "snippet", "title" ], this.getSnippetTitle() ),
-		url: get( state, [ "snippetEditor", "data", "slug" ], this.getUrl() ),
+		url: get( state, [ "snippetEditor", "data", "slug" ], this.getSlug() ),
 		meta: get( state, [ "analysisData", "snippet", "description" ], this.getSnippetMeta() ),
 	};
 
@@ -88,28 +88,30 @@ TermDataCollector.prototype.getText = function() {
  *
  * @returns {string} The slug.
  */
-TermDataCollector.prototype.getUrl = function() {
+TermDataCollector.prototype.getSlug = function() {
 	return document.getElementById( "slug" ).value;
 };
 
 /**
  * Returns the permalink from the DOM.
+ * The permalink is the base URL plus the slug.
  *
  * @returns {string} The permalink.
  */
 TermDataCollector.prototype.getPermalink = function() {
-	const url = this.getUrl();
+	const slug = this.getSlug();
 
-	return this.getBaseUrl() + url + "/";
+	return this.getBaseUrl() + slug + "/";
 };
 
 /**
  * Returns the snippet cite from the DOM.
+ * The snippet cite is the slug retrieved from the DOM to be used in the snippet editor.
  *
  * @returns {string} The snippet cite.
  */
 TermDataCollector.prototype.getSnippetCite = function() {
-	return this.getUrl();
+	return this.getSlug();
 };
 
 /**
