@@ -100,6 +100,7 @@ function getEditorData( editorDocument ) {
 		title: window.elementor.settings.page.model.get( "post_title" ),
 		excerpt: window.elementor.settings.page.model.get( "post_excerpt" ) || "",
 		imageUrl: getImageUrl( content ),
+		status: window.elementor.settings.page.model.get( "post_status" ),
 	};
 }
 
@@ -133,6 +134,22 @@ function handleEditorChange() {
 	if ( data.title !== editorData.title ) {
 		editorData.title = data.title;
 		dispatch( "yoast-seo/editor" ).setEditorDataTitle( editorData.title );
+
+		if ( data.status === "draft" || data.status === "auto-draft" ) {
+
+			// Source of this way of making the slug: https://byby.dev/js-slugify-string reason not to use Lodash is that they add a - between digits
+			// and characters, and WordPress does not do this.
+			const slug = String( editorData.title )
+				.normalize( "NFKD" )
+				.replace( /[\u0300-\u036f]/g, "" )
+				.trim()
+				.toLowerCase()
+				.replace( /[^a-z0-9 -]/g, "" )
+				.replace( /\s+/g, "-" )
+				.replace( /-+/g, "-" );
+
+			dispatch( "yoast-seo/editor" ).updateData( { slug: slug } );
+		}
 	}
 
 	if ( data.excerpt !== editorData.excerpt ) {
@@ -145,6 +162,7 @@ function handleEditorChange() {
 		dispatch( "yoast-seo/editor" ).setEditorDataImageUrl( editorData.imageUrl );
 	}
 }
+
 /* eslint-enable complexity */
 
 /**
