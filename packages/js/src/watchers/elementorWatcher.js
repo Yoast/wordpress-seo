@@ -104,6 +104,25 @@ function getEditorData( editorDocument ) {
 	};
 }
 
+/**
+ * Source of this way of making the slug: https://byby.dev/js-slugify-string reason not to use Lodash is that they add a - between digits
+ * and characters, and WordPress does not do this.
+ *
+ * @param {string} postTitle The current post title.
+ *
+ * @returns {string} The generated slug value.
+ */
+function createSlug( postTitle ) {
+	return String( postTitle )
+		.normalize( "NFKD" )
+		.replace( /[\u0300-\u036f]/g, "" )
+		.trim()
+		.toLowerCase()
+		.replace( /[^a-z0-9 -]/g, "" )
+		.replace( /\s+/g, "-" )
+		.replace( /-+/g, "-" );
+}
+
 /* eslint-disable complexity */
 /**
  * Dispatches new data when the editor is dirty.
@@ -136,19 +155,7 @@ function handleEditorChange() {
 		dispatch( "yoast-seo/editor" ).setEditorDataTitle( editorData.title );
 
 		if ( data.status === "draft" || data.status === "auto-draft" ) {
-
-			// Source of this way of making the slug: https://byby.dev/js-slugify-string reason not to use Lodash is that they add a - between digits
-			// and characters, and WordPress does not do this.
-			const slug = String( editorData.title )
-				.normalize( "NFKD" )
-				.replace( /[\u0300-\u036f]/g, "" )
-				.trim()
-				.toLowerCase()
-				.replace( /[^a-z0-9 -]/g, "" )
-				.replace( /\s+/g, "-" )
-				.replace( /-+/g, "-" );
-
-			dispatch( "yoast-seo/editor" ).updateData( { slug: slug } );
+			dispatch( "yoast-seo/editor" ).updateData( { slug: createSlug( editorData.title ) } );
 		}
 	}
 
@@ -164,6 +171,7 @@ function handleEditorChange() {
 }
 
 /* eslint-enable complexity */
+
 
 /**
  * Removes highlighting from Elementor widgets and reset the highlighting button.
