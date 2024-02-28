@@ -10,9 +10,10 @@ import twoPartTransitionWords from "./config/twoPartTransitionWords";
 // All helpers
 import getStemmer from "./helpers/getStemmer";
 import isPassiveSentence from "./helpers/isPassiveSentence";
+import splitIntoTokensCustom from "./helpers/splitIntoTokensCustom";
 
 /**
- * The researches contains all the researches
+ * The researcher contains all the researches, helpers, data, and config.
  */
 export default class Researcher extends AbstractResearcher {
 	/**
@@ -33,11 +34,13 @@ export default class Researcher extends AbstractResearcher {
 			functionWords,
 			transitionWords,
 			twoPartTransitionWords,
+			areHyphensWordBoundaries: false,
 		} );
 
 		Object.assign( this.helpers, {
 			getStemmer,
 			isPassiveSentence,
+			splitIntoTokensCustom,
 		} );
 	}
 }

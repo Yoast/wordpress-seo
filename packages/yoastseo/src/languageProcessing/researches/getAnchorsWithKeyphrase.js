@@ -6,6 +6,7 @@ import matchTextWithArray from "../helpers/match/matchTextWithArray";
 import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
 import urlHelper from "../helpers/url/url.js";
+import { WORD_BOUNDARY_WITH_HYPHEN, WORD_BOUNDARY_WITHOUT_HYPHEN } from "../../config/wordBoundariesWithoutPunctuation";
 
 let functionWords = [];
 
@@ -63,15 +64,17 @@ function getAnchorsContainingTopic( anchors, topicForms, locale, matchWordCustom
 /**
  * Gets the anchors with text that has the same content words as the keyphrase or synonyms.
  *
- * @param {Array}       anchors             An array with all anchors from the paper.
- * @param {Object}      topicForms          The object with topicForms. It contains all forms of the keyphrase and synonyms.
- * @param {String}      locale              The locale of the paper.
- * @param {Object}      customHelpers       An object containing custom helpers.
- * @param {Object[]}    exactMatchRequest   An array of objects containing the keyphrase and information whether the exact match has been requested.
+ * @param {Array}       anchors             		An array with all anchors from the paper.
+ * @param {Object}      topicForms          		The object with topicForms. It contains all forms of the keyphrase and synonyms.
+ * @param {string}      locale              		The locale of the paper.
+ * @param {Object}      customHelpers       		An object containing custom helpers.
+ * @param {Object[]}    exactMatchRequest   		An array of objects containing the keyphrase and information on whether
+ * 													the exact match has been requested.
+ * @param {boolean}	 	areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
  * @returns {Array} The array of all anchors with text that has the same content words as the keyphrase/synonyms.
  */
-function getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpers, exactMatchRequest  ) {
+function getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpers, exactMatchRequest, areHyphensWordBoundaries  ) {
 	const matchWordCustomHelper = customHelpers.matchWordCustomHelper;
 	const getWordsCustomHelper = customHelpers.getWordsCustomHelper;
 
@@ -85,8 +88,24 @@ function getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpe
 
 	anchors.forEach( function( currentAnchor ) {
 		const currentAnchorText = currentAnchor.innerText();
-		// Get the words from the anchor text, with the duplicates removed.
-		let anchorWords = uniq( getWordsCustomHelper ? getWordsCustomHelper( currentAnchorText ) : getWords( currentAnchorText ) );
+
+		/*
+        * For keyphrase matching, we want to split words on hyphens and en-dashes, except for languages where hyphens shouldn't
+        * be treated as word boundaries. Currently, the latter only applies to Indonesian, where hyphens are used to create plural forms of nouns,
+        * such as "buku-buku" being a plural form of "buku". We want to treat forms like "buku-buku" as one word, so we shouldn't
+        * split words on hyphens in Indonesian.
+        * For languages where hyphens are treated as word boundaries we pass a custom word boundary regex string to the getWords helper
+        * that includes whitespaces, hyphens (u002d), and en-dashes (u2013). Otherwise, we pass a word boundary regex that only includes
+        * whitespaces and en-dashes.
+        */
+		let anchorWords;
+		if ( getWordsCustomHelper ) {
+			anchorWords = uniq( getWordsCustomHelper( currentAnchorText ) );
+		} else if ( areHyphensWordBoundaries ) {
+			anchorWords = uniq( getWords( currentAnchorText, WORD_BOUNDARY_WITH_HYPHEN ) );
+		} else {
+			anchorWords = uniq( getWords( currentAnchorText, WORD_BOUNDARY_WITHOUT_HYPHEN ) );
+		}
 
 		/*
 		 * Filter function words out of the anchor text.
@@ -133,6 +152,9 @@ function getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpe
  */
 export default function( paper, researcher ) {
 	functionWords = researcher.getConfig( "functionWords" );
+
+	const areHyphensWordBoundaries = researcher.getConfig( "areHyphensWordBoundaries" );
+
 	const result = {
 		anchorsWithKeyphrase: [],
 		anchorsWithKeyphraseCount: 0,
@@ -195,7 +217,7 @@ export default function( paper, researcher ) {
 	// Check if exact match is requested for every topic (keyphrase or synonym).
 	const isExactMatchRequested = originalTopics.map( originalTopic => processExactMatchRequest( originalTopic ) );
 	// Get the anchors with text that has the same content words as the keyphrase/synonyms.
-	anchors = getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpers, isExactMatchRequested );
+	anchors = getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpers, isExactMatchRequested, areHyphensWordBoundaries );
 
 	return {
 		anchorsWithKeyphrase: anchors,

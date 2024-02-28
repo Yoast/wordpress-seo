@@ -164,6 +164,37 @@ class SocialMetadataPreviewForm extends Component {
 	}
 
 	/**
+	 * Returns the titles for the fields based on the social medium name.
+	 *
+	 * @param {String} socialMediumName The name of the social medium.
+	 *
+	 * @returns {Object} The titles for the fields.
+	 */
+	getFieldsTitles( socialMediumName ) {
+		if ( socialMediumName === "Twitter" ) {
+			return {
+				imageSelectTitle: __( "Twitter image", "wordpress-seo" ),
+				titleEditorTitle: __( "Twitter title", "wordpress-seo" ),
+				descEditorTitle: __( "Twitter description", "wordpress-seo" ),
+			};
+		}
+
+		if ( socialMediumName === "X" ) {
+			return {
+				imageSelectTitle: __( "X image", "wordpress-seo" ),
+				titleEditorTitle: __( "X title", "wordpress-seo" ),
+				descEditorTitle: __( "X description", "wordpress-seo" ),
+			};
+		}
+
+		return {
+			imageSelectTitle: __( "Social image", "wordpress-seo" ),
+			titleEditorTitle: __( "Social title", "wordpress-seo" ),
+			descEditorTitle: __( "Social description", "wordpress-seo" ),
+		};
+	}
+
+	/**
 	 * Renders the component.
 	 *
 	 * @returns {React.Element} The rend
@@ -191,12 +222,11 @@ class SocialMetadataPreviewForm extends Component {
 			idSuffix,
 		} = this.props;
 
+		const titles = this.getFieldsTitles( socialMediumName );
 		const imageSelected = !! imageUrl;
-		const imageSelectTitle = socialMediumName === "Twitter" ? __( "Twitter image", "wordpress-seo" ) : __( "Social image", "wordpress-seo" );
-		const titleEditorTitle = socialMediumName === "Twitter" ? __( "Twitter title", "wordpress-seo" ) : __( "Social title", "wordpress-seo" );
-		const descEditorTitle = socialMediumName === "Twitter"
-			? __( "Twitter description", "wordpress-seo" )
-			: __( "Social description", "wordpress-seo" );
+		const imageSelectTitle = titles.imageSelectTitle;
+		const titleEditorTitle = titles.titleEditorTitle;
+		const descEditorTitle = titles.descEditorTitle;
 
 		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
 
@@ -265,7 +295,7 @@ class SocialMetadataPreviewForm extends Component {
 }
 
 SocialMetadataPreviewForm.propTypes = {
-	socialMediumName: PropTypes.oneOf( [ "Twitter", "Social" ] ).isRequired,
+	socialMediumName: PropTypes.oneOf( [ "Twitter", "X", "Social" ] ).isRequired,
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,
