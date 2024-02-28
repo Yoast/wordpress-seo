@@ -127,8 +127,8 @@ final class Inclusive_Language_Analysis_Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_current_user_id' )
 			->andReturn( 1 );
-		Monkey\Functions\expect( 'get_the_author_meta' )
-			->with( 'wpseo_inclusive_language_analysis_disable', 1 )
+		Monkey\Functions\expect( 'get_user_meta' )
+			->with( 1, 'wpseo_inclusive_language_analysis_disable', true )
 			->andReturn( $author_meta );
 
 		$this->assertSame( $expected, $this->instance->is_enabled() );

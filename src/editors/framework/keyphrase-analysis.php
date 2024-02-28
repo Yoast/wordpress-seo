@@ -40,7 +40,7 @@ class Keyphrase_Analysis implements Analysis_Feature_Interface {
 	 * @return bool If this analysis is enabled by the user.
 	 */
 	public function is_user_enabled(): bool {
-		return ! \get_the_author_meta( 'wpseo_keyword_analysis_disable', \get_current_user_id() );
+		return ! \get_user_meta( \get_current_user_id(), 'wpseo_keyword_analysis_disable', true );
 	}
 
 	/**
