@@ -379,7 +379,7 @@ const SiteRepresentation = () => {
 									/>
 									<FormikWithErrorFieldWithDummy
 										as={ TextField }
-										className="yst-w-1/2"
+										className="yst-w-3/5"
 										name="wpseo_titles.org-founding-date"
 										id="input-wpseo_titles-org-founding-date"
 										label={ __( "Organization's founding date", "wordpress-seo" ) }
