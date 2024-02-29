@@ -2,9 +2,10 @@ import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
 import Factory from "../../specHelpers/factory";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 import Sentence from "../../../src/parse/structure/Sentence";
-import splitIntoTokensCustom from "../../../src/languageProcessing/languages/ja/helpers/splitIntoTokensCustom";
+import splitIntoTokensCustomJA from "../../../src/languageProcessing/languages/ja/helpers/splitIntoTokensCustom";
+import splitIntoTokensCustomID from "../../../src/languageProcessing/languages/id/helpers/splitIntoTokensCustom";
 
-const researcher = Factory.buildMockResearcher( {}, true, false, false,
+const researcher = Factory.buildMockResearcher( {}, true, false, { areHyphensWordBoundaries: true },
 	{ memoizedTokenizer: memoizedSentenceTokenizer } );
 
 describe( "A test for the LanguageProcessor object", () => {
@@ -112,13 +113,15 @@ const splitIntoTokensTestCases = [
 		],
 	},
 	{
-		description: "should correctly tokenize a sentence with a word containing a dash",
+		description: "should split words on hyphens",
 		sentence: "Hello, world-wide!",
 		expectedTokens: [
 			{ text: "Hello", sourceCodeRange: {} },
 			{ text: ",", sourceCodeRange: {} },
 			{ text: " ", sourceCodeRange: {} },
-			{ text: "world-wide", sourceCodeRange: {} },
+			{ text: "world", sourceCodeRange: {} },
+			{ text: "-", sourceCodeRange: {} },
+			{ text: "wide", sourceCodeRange: {} },
 			{ text: "!", sourceCodeRange: {} },
 		],
 	},
@@ -437,7 +440,7 @@ describe.each( splitIntoTokensTestCases )( "A test for the tokenize method", ( {
 describe( "A test for the splitIntoTokens method in Japanese", () => {
 	it( "should return an array of tokens", function() {
 		const japaneseResearcher = Factory.buildMockResearcher( {}, true, false, false,
-			{ splitIntoTokensCustom: splitIntoTokensCustom } );
+			{ splitIntoTokensCustom: splitIntoTokensCustomJA } );
 		const languageProcessor = new LanguageProcessor( japaneseResearcher );
 		const tokens = languageProcessor.splitIntoTokens( new Sentence( "ウクライナは、東ヨーロッパに位置する国家。" ) );
 		expect( tokens ).toEqual( [
@@ -453,3 +456,25 @@ describe( "A test for the splitIntoTokens method in Japanese", () => {
 		] );
 	} );
 } );
+
+describe( "A test for the splitIntoTokens method in Indonesian", () => {
+	it( "should not split the sentence on hyphens", function() {
+		const indonesianResearcher = Factory.buildMockResearcher( {}, true, false, { areHyphensWordBoundaries: false },
+			{ memoizedTokenizer: memoizedSentenceTokenizer, splitIntoTokensCustom: splitIntoTokensCustomID } );
+		const languageProcessor = new LanguageProcessor( indonesianResearcher );
+		const tokens = languageProcessor.splitIntoTokens( new Sentence( "Halo, Dunia! Buku-buku kucing." ) );
+		expect( tokens ).toEqual( [
+			{ text: "Halo", sourceCodeRange: {} },
+			{ text: ",", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "Dunia", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "Buku-buku", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "kucing", sourceCodeRange: {} },
+			{ text: ".", sourceCodeRange: {} },
+		] );
+	} );
+} );
+

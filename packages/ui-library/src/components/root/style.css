@@ -428,11 +428,9 @@
 
 			hover:yst-text-indigo-500
 			focus:yst-text-indigo-500
-			focus:yst-outline-none
-			focus:yst-ring-1
-			focus:yst-ring-offset-1
-			focus:yst-ring-offset-transparent
-			focus:yst-ring-indigo-600
+			focus:yst-outline
+			focus:yst-outline-offset-1
+			focus:yst-outline-indigo-600
 			focus:yst-rounded-sm
 			visited:yst-text-primary-500
 			visited:hover:yst-text-primary-400;

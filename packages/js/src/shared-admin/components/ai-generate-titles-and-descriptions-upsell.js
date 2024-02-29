@@ -95,7 +95,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 				<Button
 					as="a"
 					className="yst-grow"
-					size="large"
+					size="extra-large"
 					variant="upsell"
 					href={ upsellLink }
 					target="_blank"
