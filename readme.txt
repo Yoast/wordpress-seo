@@ -348,19 +348,20 @@ Release date: 2024-03-05
 
 #### Enhancements
 
-* Adds single-word transition words to the function words list for Arabic and Hebrew.
-* Improves keyphrase detection by ignoring hyphens. For example, if the keyphrase is 'dog-training tips', a keyphrase occurrence will be recognized as long as the words 'dog', 'training', and 'tips' are found in the same sentence.
-* Improves the highlighting of keyphrase occurrences that are part of a phrase containing hyphens or em-dashes. For example, if the keyphrase is 'Cold War era', it will be correctly highlighted in the phrase 'post-Cold War era'. Previously, the word 'post' would also be highlighted.
-* Improves the _inclusive language analysis_ by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies. Specifically, this includes the following changes:
+* Improves keyphrase detection by treating hyphens as word boundaries. For example, if the keyphrase is 'dog-training tips', a keyphrase occurrence will be recognized as long as the words 'dog', 'training', and 'tips' are found in the same sentence.
+* Improves recognition of single-word function words for Arabic and Hebrew.
+* Improves the highlighting of keyphrases that contain hyphens or em-dashes. For example, if the keyphrase is 'Cold War era', it will be correctly highlighted in the phrase 'post-Cold War era'. Previously, the word 'post' would also be highlighted.
+* Improves the _inclusive language analysis_ by refining feedback strings and excluding false positives for phrases related to mental health.
 
 #### Bugfixes
 
-* Adds `x.com` as possible domain for the Twitter validation in our site representation settings.
-* Fixes a bug where sitemap.xml would redirect to 404 when response from server of  HTTPS property value would be \"On\".
+* Adds `x.com` as a possible domain for the Twitter validation in our site representation settings.
+* Fixes a bug where `sitemap.xml` would redirect to a 404 when the HTTPS server value of the response would be \"On\" instead of \"on\".
 * Fixes a bug where the _keyphrase in slug_ assessment would crash when the site language was Indonesian, the keyphrase contained a reduplicated word (e.g. 'buku-buku'), and a form of that word also occurred in the slug.
 * Fixes a bug where the \"organization description\" field would still be focusable via tabbing.
-* Fixes a bug where the schema of a post requested through a REST request doesn't include the primary image.
-* Fixes a bug where upsell message for Woo SEO would appear when using the AI feature on product post that is not from WooCommerce.
+* Fixes a bug where the Organization's Site founding date would span 2 lines in Chrome, by removing our placeholder.
+* Fixes a bug where the schema of a post requested through a REST request wouldn't include the primary image.
+* Fixes a bug where the upsell message for Yoast WooCommerce SEO would appear when using the AI feature on a non-WooCommerce product page.
 
 = 22.1 =
 
