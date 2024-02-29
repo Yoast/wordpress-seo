@@ -53,6 +53,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"wordproof-uikit": `${ sourceDirectory }/wordproof-uikit.js`,
 	"frontend-inspector-resources": `${ sourceDirectory }/frontend-inspector-resources.js`,
 	"woocommerce-editor-seo-block": `${ sourceDirectory }/woocommerce-editor/blocks/seo/index.js`,
+	"woocommerce-editor": `${ sourceDirectory }/woocommerce-editor/initialize.js`,
 } );
 
 /**
