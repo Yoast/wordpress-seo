@@ -383,7 +383,6 @@ const SiteRepresentation = () => {
 										name="wpseo_titles.org-founding-date"
 										id="input-wpseo_titles-org-founding-date"
 										label={ __( "Organization's founding date", "wordpress-seo" ) }
-										placeholder={ __( "Select a date...", "wordpress-seo" ) }
 										type="date"
 										isDummy={ ! isPremium }
 									/>
