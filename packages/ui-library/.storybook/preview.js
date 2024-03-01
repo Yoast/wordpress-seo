@@ -20,6 +20,9 @@ export const globalTypes = {
 
 export const parameters = {
 	viewMode: "docs",
+	jsx: {
+		functionValue: (fn) => fn.name ? `function ${fn.name}` : fn,
+	},
 	options: {
 		storySort: {
 			order: [
