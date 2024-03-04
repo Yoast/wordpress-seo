@@ -157,7 +157,6 @@ class Workouts_Integration implements Integration_Interface {
 				'usersPageUrl'              => \esc_url( \admin_url( 'users.php' ) ),
 				'firstTimeConfigurationUrl' => \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ),
 				'isPremium'                 => $this->product_helper->is_premium(),
-				'shouldUpdatePremium'       => $this->should_update_premium(),
 				'upsellText'                => $this->get_upsell_text(),
 				'upsellLink'                => $this->get_upsell_link(),
 			]

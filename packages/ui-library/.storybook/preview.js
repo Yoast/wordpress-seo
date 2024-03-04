@@ -47,9 +47,9 @@ export const parameters = {
 				value: "#1f2124"
 			},
 			{
-				name: "medium",
-				value: "#eee",
-			}
+				name: "slate",
+				value: "#f1f5f9",
+			},
 		],
 	},
 	controls: {
