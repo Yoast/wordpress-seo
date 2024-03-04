@@ -1,6 +1,14 @@
 import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, HomeIcon, NewspaperIcon, UserIcon } from "@heroicons/react/outline";
 import SidebarNavigation from ".";
 import Table from "../../elements/table";
+import {
+	combinedMenu,
+	component,
+	menuItem,
+	mobile, navigationContext,
+	sidebar,
+	submenuItem,
+} from "./docs";
 
 export default {
 	title: "2) Components/Sidebar navigation",
@@ -62,7 +70,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A sidebar navigation component. Contains the subcomponents `Sidebar`, `Mobile`, `MenuItem` and `SubmenuItem` and contains the hook `useNavigationContext`.",
+				component,
 			},
 		},
 	},
@@ -121,7 +129,7 @@ Factory.args = {
 
 export const Sidebar = Template.bind( {} );
 
-Sidebar.parameters = { docs: { description: { story: "The subcomponent `SidebarNavigation.Sidebar` is a `<nav>` wrapper component. It's props are `className` and `children` (`MenuItem` subcomponents)." } } };
+Sidebar.parameters = { docs: { description: { story: sidebar } } };
 
 Sidebar.args = {
 	children: (
@@ -154,7 +162,7 @@ Sidebar.args = {
 
 export const MenuItem = Template.bind( {} );
 MenuItem.storyName = "Menu item";
-MenuItem.parameters = { docs: { description: { story: "The subcomponent `SidebarNavigation.MenuItem` accepts the subcomponents `SidebarNavigation.SubmenuItem` as children." } } };
+MenuItem.parameters = { docs: { description: { story: menuItem } } };
 
 MenuItem.args = {
 	children: (
@@ -182,7 +190,7 @@ function ItemWithSettingsIcon( { children, ...props } ) {
 
 export const SubmenuItem = Template.bind( {} );
 SubmenuItem.storyName = "Sidebar with submenu item";
-SubmenuItem.parameters = { docs: { description: { story: "The `SidebarNavigation.Sidebar` can also contain the `SubmenuItem` directly." } } };
+SubmenuItem.parameters = { docs: { description: { story: submenuItem } } };
 
 SubmenuItem.args = {
 	children: (
@@ -197,7 +205,7 @@ SubmenuItem.args = {
 
 export const CombinedMenu = Template.bind( {} );
 CombinedMenu.storyName = "Sidebar with both items";
-CombinedMenu.parameters = { docs: { description: { story: "The `MenuItem` and `SubmenuItem` can also be combined inside the `SidebarNavigation.Sidebar`." } } };
+CombinedMenu.parameters = { docs: { description: { story: combinedMenu } } };
 
 CombinedMenu.args = {
 	children: (
@@ -223,7 +231,7 @@ CombinedMenu.args = {
 
 export const Mobile = Template.bind( {} );
 
-Mobile.parameters = { docs: { description: { story: "The subcomponent `SidebarNavigation.Mobile` is a wrapper component over the `MenuItem` subcomponents for mobile view." } } };
+Mobile.parameters = { docs: { description: { story: mobile } } };
 
 Mobile.args = {
 	children: ( <SidebarNavigation.Mobile
@@ -251,7 +259,7 @@ NavigationContext.storyName = "Navigation context";
 NavigationContext.parameters = {
 	docs: {
 		description: {
-			story: "The `useNavigationContext` hook is exported. The context contains: `activePath`, `isMobileMenuOpen` and `setMobileMenuOpen` for if you need more control or create your own `SubmenuItem`.",
+			story: navigationContext,
 		},
 		transformSource: () => "import { useNavigationContext } from \"@yoast/ui-library\";\n\n" +
 			"const { activePath, isMobileMenuOpen, setMobileMenuOpen } = useNavigationContext();",
