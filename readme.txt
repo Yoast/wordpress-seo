@@ -350,9 +350,9 @@ Yoast SEO 22.2 is out today. In this release, you’ll find language analysis en
 
 #### Enhancements
 
-* Improves keyphrase detection by treating hyphens as word boundaries. For example, if the keyphrase is 'dog-training tips', a keyphrase occurrence will be recognized as long as the words 'dog', 'training', and 'tips' are found in the same sentence.
+* Improves keyphrase detection by treating hyphens and en-dashes as word boundaries. For example, if the keyphrase is 'dog-training tips', a keyphrase occurrence will be recognized as long as the words 'dog', 'training', and 'tips' are found in the same sentence.
 * Improves recognition of single-word function words for Arabic and Hebrew.
-* Improves the highlighting of keyphrases that contain hyphens or em-dashes. For example, if the keyphrase is 'Cold War era', it will be correctly highlighted in the phrase 'post-Cold War era'. Previously, the word 'post' would also be highlighted.
+* Improves the highlighting of keyphrases that contain hyphens or dashes. For example, if the keyphrase is 'Cold War era', it will be correctly highlighted in the phrase 'post-Cold War era'. Previously, the word 'post' would also be highlighted.
 * Improves the _inclusive language analysis_ by refining feedback strings and excluding false positives for phrases related to mental health.
 
 #### Bugfixes
