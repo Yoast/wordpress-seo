@@ -240,7 +240,7 @@ class Social_Profiles_Helper {
 				 */
 				if ( $field_name === 'twitter_site' ) {
 					$current_option = $this->options_helper->get( $field_name );
-					if ( ! \strpos( $social_profiles[ $field_name ], 'twitter.com/' . $current_option ) ) {
+					if ( ! \strpos( $social_profiles[ $field_name ], 'twitter.com/' . $current_option ) && ! \strpos( $social_profiles[ $field_name ], 'x.com/' . $current_option ) ) {
 						$failures[] = $field_name;
 					}
 				}
