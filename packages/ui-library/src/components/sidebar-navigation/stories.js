@@ -121,7 +121,7 @@ Factory.args = {
 
 export const Sidebar = Template.bind( {} );
 
-Sidebar.parameters = { docs: { description: { story: "The subcomponent `SidebarNavigation.Sidebar` is a `<nav>` wrapper component. It's props are `className` and `children` (`MenuItem` subomponents)." } } };
+Sidebar.parameters = { docs: { description: { story: "The subcomponent `SidebarNavigation.Sidebar` is a `<nav>` wrapper component. It's props are `className` and `children` (`MenuItem` subcomponents)." } } };
 
 Sidebar.args = {
 	children: (
