@@ -1,4 +1,5 @@
 import { dispatch, select } from "@wordpress/data";
+import { cleanForSlug } from "@wordpress/url";
 import { debounce, get } from "lodash";
 import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
 import { registerElementorUIHookAfter, registerElementorUIHookBefore } from "../helpers/elementorHook";
@@ -104,25 +105,6 @@ function getEditorData( editorDocument ) {
 	};
 }
 
-/**
- * Source of this way of making the slug: https://byby.dev/js-slugify-string reason not to use Lodash is that they add a - between digits
- * and characters, and WordPress does not do this.
- *
- * @param {string} postTitle The current post title.
- *
- * @returns {string} The generated slug value.
- */
-function createSlug( postTitle ) {
-	return String( postTitle )
-		.normalize( "NFKD" )
-		.replace( /[\u0300-\u036f]/g, "" )
-		.trim()
-		.toLowerCase()
-		.replace( /[^a-z0-9 -]/g, "" )
-		.replace( /\s+/g, "-" )
-		.replace( /-+/g, "-" );
-}
-
 /* eslint-disable complexity */
 /**
  * Dispatches new data when the editor is dirty.
@@ -155,7 +137,7 @@ function handleEditorChange() {
 		dispatch( "yoast-seo/editor" ).setEditorDataTitle( editorData.title );
 
 		if ( data.status === "draft" || data.status === "auto-draft" ) {
-			dispatch( "yoast-seo/editor" ).updateData( { slug: createSlug( editorData.title ) } );
+			dispatch( "yoast-seo/editor" ).updateData( { slug: cleanForSlug( editorData.title ) } );
 		}
 	}
 
