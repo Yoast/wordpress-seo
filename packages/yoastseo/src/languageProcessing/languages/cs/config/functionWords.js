@@ -1,4 +1,5 @@
 import { singleWords as transitionWords } from "./transitionWords";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
 
 /**
  * Returns an object with function words.
@@ -105,16 +106,16 @@ const recipeWords = [];
 const timeWords = [ "den", "dnes", "čas", "ráno", "zítra", "dneska", "minut", "včera", "času", "dní", "dni", "dny",
 	"hodinu", "hodin", "týdny", "měsíce", "roku", "měsíců" ];
 
-const vagueNouns = [ "věc", "věci", "můžeš", "člověk", "lidi", "člověka", "člověku", "člověče", "člověku",  "člověkovi",
+const vagueNouns = [ "věc", "věci", "můžeš", "člověk", "lidi", "člověka", "člověku", "člověče", "člověku", "člověkovi",
 	"lidech", "lidem", "lidé", "lidí", "člověkem", "lidmi", "chlap", "místa" ];
 
 const miscellaneous = [ "atd.", "bůhvíkdo", "bůhvíjaký", "bůhvíčí", "nevímco", "nevímkdo a podobně", "si", "ne", "ně",
 	"pan", "pane", "pana", "paní", "prosím", "pořádku", "líto", "chlape", "slečno", "mimochodem" ];
 
 
-export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
+export const all = transformWordsWithHyphens( [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
 	quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
 	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
-	timeWords, vagueNouns, miscellaneous, transitionWords );
+	timeWords, vagueNouns, miscellaneous, transitionWords ) );
 
 export default all;

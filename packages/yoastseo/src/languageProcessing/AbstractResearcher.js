@@ -41,7 +41,7 @@ import wordCountInText from "./researches/wordCountInText.js";
 import memoizedTokenizer from "./helpers/sentence/memoizedSentenceTokenizer";
 
 /**
- * The researcher contains all the researches.
+ * The researcher contains all the researches, helpers, data, and config.
  */
 export default class AbstractResearcher {
 	/**
@@ -100,7 +100,9 @@ export default class AbstractResearcher {
 			memoizedTokenizer,
 		};
 
-		this.config = {};
+		this.config = {
+			areHyphensWordBoundaries: true,
+		};
 	}
 
 	/**
@@ -177,7 +179,7 @@ export default class AbstractResearcher {
 			throw new MissingArgument( "Failed to add the custom researcher config. Config name cannot be empty." );
 		}
 
-		if ( isUndefined( config ) || isEmpty( config ) ) {
+		if ( isUndefined( config ) || ( isEmpty( config ) && config === Object( config ) ) ) {
 			throw new MissingArgument( "Failed to add the custom researcher config. Config cannot be empty." );
 		}
 
