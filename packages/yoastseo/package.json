@@ -7,7 +7,7 @@
     "SEO",
     "text analysis"
   ],
-  "main": "index.js",
+  "main": "build/index.js",
   "license": "GPL-3.0",
   "version": "1.91.2",
   "repository": {
@@ -17,7 +17,9 @@
   },
   "scripts": {
     "start": "npm start --prefix examples/webpack",
-    "build": "grunt publish",
+    "build": "yarn clean && yarn build:js",
+    "build:js": "babel index.js --out-dir build && babel src --out-dir build/src && babel spec/specHelpers/factory.js --out-dir build/spec/specHelpers",
+    "clean": "rm -rf build",
     "lint": "grunt check",
     "pretest": "yarn install-ci",
     "test": "jest",
@@ -28,6 +30,9 @@
     "node": ">=8.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.16.11",
     "@lodder/grunt-postcss": "^3.1.1",
     "@yoast/browserslist-config": "^1.2.2",
     "blob-polyfill": "^7.0.20220408",
@@ -37,7 +42,7 @@
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-eslint": "^21.0.0",
+    "grunt-eslint": "^23.0.0",
     "grunt-po2json": "git+https://github.com/atimmer/grunt-po2json.git#f26c05653af89ef0f7a72456dbe141eb56bf5471",
     "grunt-shell": "^2.0.0",
     "js-yaml": "^3.12.1",

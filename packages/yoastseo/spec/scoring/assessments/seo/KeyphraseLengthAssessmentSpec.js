@@ -11,6 +11,7 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 
 import { primeLanguageSpecificData } from "../../../../src/languageProcessing/helpers/morphology/buildTopicStems";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
 
 describe( "the keyphrase length assessment for product pages", function() {
 	const productConfig = {
@@ -100,6 +101,8 @@ describe( "the keyphrase length assessment for product pages", function() {
 } );
 
 describe( "the keyphrase length assessment for languages with custom configuration", function() {
+	const morphologyData = getMorphologyData( "de" );
+
 	it( "should clear the memoized data", function() {
 		primeLanguageSpecificData.cache.clear();
 		const mockPaper = new Paper( "", { keyword: "ein Test" } );
@@ -110,7 +113,9 @@ describe( "the keyphrase length assessment for languages with custom configurati
 
 	it( "should assess a German product page with one-word keyphrase as bad ", function() {
 		const paper = new Paper( "", { keyword: "ein Test" } );
-		const result = new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, new GermanResearcher( paper ) );
+		const researcher = new GermanResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const result =  new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, researcher );
 
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
@@ -120,7 +125,9 @@ describe( "the keyphrase length assessment for languages with custom configurati
 
 	it( "should assess a German product page with a slightly too short keyphrase as okay", function() {
 		const paper = new Paper( "", { keyword: "ein Test ".repeat( 2 ) } );
-		const result = new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, new GermanResearcher( paper ) );
+		const researcher = new GermanResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const result =  new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, researcher );
 
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
@@ -130,7 +137,9 @@ describe( "the keyphrase length assessment for languages with custom configurati
 
 	it( "should assess a German product page with a keyphrase that's the correct length", function() {
 		const paper = new Paper( "", { keyword: "ein Test ".repeat( 3 ) } );
-		const result = new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, new GermanResearcher( paper ) );
+		const researcher = new GermanResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const result =  new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, researcher );
 
 		expect( result.getScore() ).toEqual( 9 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!" );
@@ -138,7 +147,9 @@ describe( "the keyphrase length assessment for languages with custom configurati
 
 	it( "should assess a German product page with a keyphrase that's slightly too long as okay", function() {
 		const paper = new Paper( "", { keyword: "ein Test ".repeat( 7 ) } );
-		const result = new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, new GermanResearcher( paper ) );
+		const researcher = new GermanResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const result =  new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, researcher );
 
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
@@ -148,7 +159,9 @@ describe( "the keyphrase length assessment for languages with custom configurati
 
 	it( "should assess a German product page with a keyphrase that's too long as bad", function() {
 		const paper = new Paper( "", { keyword: "ein Test ".repeat( 9 ) } );
-		const result = new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, new GermanResearcher( paper ) );
+		const researcher = new GermanResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const result =  new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, researcher );
 
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
