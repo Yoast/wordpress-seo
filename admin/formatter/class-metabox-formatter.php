@@ -265,56 +265,9 @@ class WPSEO_Metabox_Formatter {
 		return [];
 	}
 
-	/**
-	 * Checks if Jetpack's markdown module is enabled.
-	 * Can be extended to work with other plugins that parse markdown in the content.
-	 *
-	 * @return bool
-	 */
-	private function is_markdown_enabled() {
-		$is_markdown = false;
 
-		if ( class_exists( 'Jetpack' ) && method_exists( 'Jetpack', 'get_active_modules' ) ) {
-			$active_modules = Jetpack::get_active_modules();
 
-			// First at all, check if Jetpack's markdown module is active.
-			$is_markdown = in_array( 'markdown', $active_modules, true );
-		}
 
-		/**
-		 * Filters whether markdown support is active in the readability- and seo-analysis.
-		 *
-		 * @since 11.3
-		 *
-		 * @param array $is_markdown Is markdown support for Yoast SEO active.
-		 */
-		return apply_filters( 'wpseo_is_markdown_enabled', $is_markdown );
-	}
-
-	/**
-	 * Checks if the user is logged in to SEMrush.
-	 *
-	 * @return bool The SEMrush login status.
-	 */
-	private function get_semrush_login_status() {
-		try {
-			$semrush_client = YoastSEO()->classes->get( SEMrush_Client::class );
-		} catch ( Empty_Property_Exception $e ) {
-			// Return false if token is malformed (empty property).
-			return false;
-		}
-
-		// Get token (and refresh it if it's expired).
-		try {
-			$semrush_client->get_tokens();
-		} catch ( Authentication_Failed_Exception $e ) {
-			return false;
-		} catch ( Empty_Token_Exception $e ) {
-			return false;
-		}
-
-		return $semrush_client->has_valid_tokens();
-	}
 
 	/**
 	 * Checks whether a multilingual plugin is currently active. Currently, we only check the following plugins: WPML, Polylang, and TranslatePress.
