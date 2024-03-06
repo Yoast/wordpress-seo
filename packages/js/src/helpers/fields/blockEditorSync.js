@@ -8,6 +8,7 @@ import { getPageType, getArticleType } from "./schemaFieldsStore";
 import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoScore, getInclusiveLanguageScore } from "./analysisFieldsStore";
 import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical, getWordProofTimestamp } from "./advancedFieldsStore";
 import { getSeoTitle, getSeoDescription } from "./snippetEditorFieldsStore";
+import { getEstimatedReadingTime } from "./additionalFieldsStore";
 
 /**
  * Retrieves primary terms from store methods.
@@ -15,7 +16,7 @@ import { getSeoTitle, getSeoDescription } from "./snippetEditorFieldsStore";
  * @returns {integer} The no index value.
  */
 const getPrimaryTerms = () => {
-	const wpseoScriptDataMetaData = get( window, "wpseoScriptData.metabox.metadata", [] );
+	const wpseoScriptDataMetaData = get( window, "wpseoScriptData.metabox.metadata", {} );
 	const getPrimaryTermsStore = {};
 	const primaryTerms = pickBy( wpseoScriptDataMetaData, ( value, key ) => key.startsWith( "primary_" ) && value );
 	forEach( primaryTerms, ( value, key ) => {
@@ -94,6 +95,7 @@ export const blockEditorSync = () => {
 			wordProofTimestamp: getWordProofTimestamp,
 			seoTitle: getSeoTitle,
 			seoDescription: getSeoDescription,
+			readingTime: getEstimatedReadingTime,
 			...getPrimaryTerms(),
 
 		} ),

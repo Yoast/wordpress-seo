@@ -22,6 +22,7 @@ export const METADATA_KEYS = {
 	wordProofTimestamp: "_yoast_wpseo_wordproof_timestamp",
 	seoTitle: "_yoast_wpseo_title",
 	seoDescription: "_yoast_wpseo_metadesc",
+	readingTime: "_yoast_wpseo_estimated-reading-time-minutes",
 };
 
 export const SYNC_TIME = {

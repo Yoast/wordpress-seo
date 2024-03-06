@@ -1,5 +1,4 @@
-import { toSafeInteger } from "lodash";
-import MetaboxFieldSync from "../../helpers/fields/MetaboxFieldSync";
+import { toSafeInteger, get } from "lodash";
 
 export const SET_ESTIMATED_READING_TIME = "SET_ESTIMATED_READING_TIME";
 export const LOAD_ESTIMATED_READING_TIME = "LOAD_ESTIMATED_READING_TIME";
@@ -15,7 +14,6 @@ export const SET_TEXT_LENGTH = "SET_TEXT_LENGTH";
  * @returns {Object} The SET_ESTIMATED_READING_TIME action.
  */
 export const setEstimatedReadingTime = estimatedReadingTime => {
-	MetaboxFieldSync.setFieldValueBySingleId( "yoast_wpseo_estimated-reading-time-minutes", estimatedReadingTime.toString() );
 	return {
 		type: SET_ESTIMATED_READING_TIME,
 		payload: estimatedReadingTime,
@@ -29,7 +27,7 @@ export const setEstimatedReadingTime = estimatedReadingTime => {
  */
 export const loadEstimatedReadingTime = () => ( {
 	type: LOAD_ESTIMATED_READING_TIME,
-	payload: toSafeInteger( MetaboxFieldSync.getInitialValue( "estimated-reading-time-minutes" ) ),
+	payload: toSafeInteger( get( window, "wpseoScriptData.metabox.metadata.estimated-reading-time-minutes", 0 ) ),
 } );
 
 /**

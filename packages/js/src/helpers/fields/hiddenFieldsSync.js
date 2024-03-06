@@ -9,13 +9,7 @@ import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterIm
 import { getPageType, getArticleType } from "./schemaFieldsStore";
 import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoScore, getInclusiveLanguageScore } from "./analysisFieldsStore";
 import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical, getWordProofTimestamp } from "./advancedFieldsStore";
-
-/**
- * Retrieves the no index value.
- *
- * @returns {integer} The no index value.
- */
-const getPrimaryCategoryId = () => String( select( STORE )?.getPrimaryTaxonomyId( "category" ) );
+import { getEstimatedReadingTime } from "./additionalFieldsStore";
 
 /**
  * Prepare twitter title to be saved in hidden field.
@@ -138,6 +132,7 @@ export const hiddenFieldsrSync = () => {
 			content_score: getReadabilityScore,
 			linkdex: getSeoScore,
 			inclusive_language_score: getInclusiveLanguageScore,
+			"estimated-reading-time-minutes": getEstimatedReadingTime,
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE );
