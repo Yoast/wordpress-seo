@@ -42,7 +42,7 @@ const Tooltip = forwardRef( ( { id, children, as: Component, className, isVisibl
 
 const propTypes = {
 	as: PropTypes.elementType,
-	id: PropTypes.string.isRequired,
+	id: PropTypes.string,
 	children: PropTypes.string,
 	className: PropTypes.string,
 	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ),

@@ -20,9 +20,8 @@ export const Factory = ( args ) => {
 	return (
 		// The yst-my-6 class gives more space within the Storybook container, allowing the tooltip to be visible.
 		// The flex classes are to position the trigger element in the center of the container.
-		<div className="yst-my-6 yst-flex yst-justify-center">
+		<div className="yst-my-6 yst-flex yst-justify-center yst-cursor-pointer">
 			<Badge
-				as="button"
 				variant="plain"
 				aria-describedby={ args.id }
 				onMouseEnter={ handleMouseEnter }

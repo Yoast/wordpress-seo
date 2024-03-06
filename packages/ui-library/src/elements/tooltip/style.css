@@ -10,7 +10,9 @@
 			yst-bg-gray-800
 			yst-text-white
 			yst-text-xs
-			yst-rounded-lg;
+			yst-rounded-lg
+			yst-max-w-md /* Set the maximum width of the tooltip */
+			
 		}
 
 		.yst-tooltip--top {
