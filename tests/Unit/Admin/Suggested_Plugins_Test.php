@@ -66,7 +66,7 @@ final class Suggested_Plugins_Test extends TestCase {
 			10,
 			has_action(
 				'admin_init',
-				[ $this->availability_checker, 'register' ],
+				[ $this->availability_checker, 'register' ]
 			)
 		);
 
@@ -74,7 +74,7 @@ final class Suggested_Plugins_Test extends TestCase {
 			10,
 			has_action(
 				'admin_init',
-				[ $this->instance, 'add_notifications' ],
+				[ $this->instance, 'add_notifications' ]
 			)
 		);
 	}
