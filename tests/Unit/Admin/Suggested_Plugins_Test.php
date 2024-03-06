@@ -90,15 +90,13 @@ final class Suggested_Plugins_Test extends TestCase {
 	 * @param int         $times_current_user_can    The amount of times if the current user can install plugins is checked.
 	 * @param int         $times_check_installed     The amount of times if the installed plugins are checked.
 	 * @param array<bool> $is_installed              Whether each plugin is installed.
-	 * @param int         $times_check_is_active     The amount of times if the plugin is active is checked.
-	 * @param array<bool> $is_active                 Whether each plugin is active.
 	 * @param int         $times_get_current_user_id The amount of times the current user ID is retrieved.
 	 * @param int         $times_add_notification    The amount of times a notification is added.
 	 * @param int         $times_remove_notification The amount of times a notification is removed.
 	 *
 	 * @return void
 	 */
-	public function test_add_notifications( $plugins_with_dependencies, $satisfied_dependencies, $times_current_user_can, $times_check_installed, $is_installed, $times_check_is_active, $is_active, $times_get_current_user_id, $times_add_notification, $times_remove_notification ) {
+	public function test_add_notifications( $plugins_with_dependencies, $satisfied_dependencies, $times_current_user_can, $times_check_installed, $is_installed, $times_get_current_user_id, $times_add_notification, $times_remove_notification ) {
 
 		$this->availability_checker->expects( 'get_plugins_with_dependencies' )
 			->once()
@@ -118,10 +116,6 @@ final class Suggested_Plugins_Test extends TestCase {
 			->times( $times_check_installed )
 			->andReturn( ...$is_installed );
 
-		$this->availability_checker->expects( 'is_active' )
-			->times( $times_check_is_active )
-			->andReturn( ...$is_active );
-
 		Monkey\Functions\expect( 'get_current_user_id' )
 			->times( $times_get_current_user_id )
 			->andReturn( 1 );
@@ -129,7 +123,7 @@ final class Suggested_Plugins_Test extends TestCase {
 		$this->notification_center->expects( 'add_notification' )
 			->times( $times_add_notification );
 
-		$this->notification_center->expects( 'remove_notification' )
+		$this->notification_center->expects( 'remove_notification_by_id' )
 			->times( $times_remove_notification );
 
 		$this->instance->add_notifications();
@@ -182,8 +176,6 @@ final class Suggested_Plugins_Test extends TestCase {
 				'times_current_user_can'    => 0,
 				'times_check_installed'     => 0,
 				'is_installed'              => [],
-				'times_check_is_active'     => 0,
-				'is_active'                 => [],
 				'times_get_current_user_id' => 0,
 				'times_add_notification'    => 0,
 				'times_remove_notification' => 0,
@@ -191,12 +183,10 @@ final class Suggested_Plugins_Test extends TestCase {
 			'One installed and active plugin with dependency and the dependency is satisfied' => [
 				'plugins_with_dependencies' => $installed_woo_plugin_with_dependency,
 				'satisfied_dependencies'    => [ true ],
-				'times_current_user_can'    => 1,
+				'times_current_user_can'    => 0,
 				'times_check_installed'     => 1,
 				'is_installed'              => [ true ],
-				'times_check_is_active'     => 0,
-				'is_active'                 => [],
-				'times_get_current_user_id' => 1,
+				'times_get_current_user_id' => 0,
 				'times_add_notification'    => 0,
 				'times_remove_notification' => 1,
 			],
@@ -206,8 +196,6 @@ final class Suggested_Plugins_Test extends TestCase {
 				'times_current_user_can'    => 1,
 				'times_check_installed'     => 1,
 				'is_installed'              => [ false ],
-				'times_check_is_active'     => 1,
-				'is_active'                 => [ false ],
 				'times_get_current_user_id' => 1,
 				'times_add_notification'    => 1,
 				'times_remove_notification' => 0,
@@ -218,21 +206,17 @@ final class Suggested_Plugins_Test extends TestCase {
 				'times_current_user_can'    => 0,
 				'times_check_installed'     => 0,
 				'is_installed'              => [],
-				'times_check_is_active'     => 0,
-				'is_active'                 => [],
 				'times_get_current_user_id' => 0,
 				'times_add_notification'    => 0,
-				'times_remove_notification' => 0,
+				'times_remove_notification' => 1,
 			],
 			'Two installed plugins with dependencies and both dependencies are satisfied' => [
 				'plugins_with_dependencies' => array_merge( $installed_woo_plugin_with_dependency, $installed_random_plugin_with_dependency ),
 				'satisfied_dependencies'    => [ true ],
-				'times_current_user_can'    => 2,
+				'times_current_user_can'    => 0,
 				'times_check_installed'     => 2,
 				'is_installed'              => [ true ],
-				'times_check_is_active'     => 0,
-				'is_active'                 => [],
-				'times_get_current_user_id' => 2,
+				'times_get_current_user_id' => 0,
 				'times_add_notification'    => 0,
 				'times_remove_notification' => 2,
 			],
@@ -242,8 +226,6 @@ final class Suggested_Plugins_Test extends TestCase {
 				'times_current_user_can'    => 2,
 				'times_check_installed'     => 2,
 				'is_installed'              => [ false ],
-				'times_check_is_active'     => 2,
-				'is_active'                 => [ false ],
 				'times_get_current_user_id' => 2,
 				'times_add_notification'    => 2,
 				'times_remove_notification' => 0,
@@ -254,11 +236,9 @@ final class Suggested_Plugins_Test extends TestCase {
 				'times_current_user_can'    => 0,
 				'times_check_installed'     => 0,
 				'is_installed'              => [],
-				'times_check_is_active'     => 0,
-				'is_active'                 => [],
 				'times_get_current_user_id' => 0,
 				'times_add_notification'    => 0,
-				'times_remove_notification' => 0,
+				'times_remove_notification' => 2,
 			],
 		];
 	}
