@@ -101,7 +101,6 @@ const createUpdater = () => {
 
 		if ( changedData ) {
 			forEach( changedData, ( value, key ) => {
-				console.log( typeof prepareValue( key, value ), prepareValue( key, value ) );
 				document.getElementById( prefix + key ).value = prepareValue( key, value );
 			} );
 		}
@@ -136,9 +135,9 @@ export const hiddenFieldsrSync = () => {
 			schema_page_type: getPageType,
 			schema_article_type: getArticleType,
 			is_cornerstone: isCornerstoneContent,
-			// content_score: getReadabilityScore,
-			// linkdex: getSeoScore,
-			// inclusive_language_score: getInclusiveLanguageScore,
+			content_score: getReadabilityScore,
+			linkdex: getSeoScore,
+			inclusive_language_score: getInclusiveLanguageScore,
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE );
