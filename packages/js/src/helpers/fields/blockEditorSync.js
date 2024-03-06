@@ -45,18 +45,14 @@ const createUpdater = () => {
 		if ( ! metadata || ! data ) {
 			return;
 		}
-		console.log( { data } );
-		console.log( { metadata } );
+
 		const changedData = pickBy( data, ( value, key ) => value !== metadata[ METADATA_KEYS[ key ] ] );
-		console.log( { changedData } );
 
 		if ( changedData ) {
 			const newMetadata = {};
 			forEach( changedData, ( value, key ) => {
 				newMetadata[ METADATA_KEYS[ key ] ] = value;
 			} );
-
-			console.log( { newMetadata } );
 
 			editPost( {
 				meta: newMetadata,
