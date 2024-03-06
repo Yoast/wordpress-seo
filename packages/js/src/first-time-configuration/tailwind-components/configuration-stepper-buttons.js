@@ -17,7 +17,8 @@ import { HIIVE_STEPS_NAMES } from "../constants";
 export function ContinueButton( { stepId, beforeGo, children, additionalClasses, ...restProps } ) {
 	return ( <Step.GoButton
 		id={ `button-${ stepId }-continue` }
-		className={ `yst-button yst-button--primary ${ additionalClasses }` }
+		variant="primary"
+		className={ additionalClasses }
 		destination={ 1 }
 		beforeGo={ beforeGo }
 		data-hiive-event-name={ `clicked_continue | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
@@ -56,11 +57,9 @@ export function EditButton( { stepId, beforeGo, isVisible, children, additionalC
 
 	return ( <Step.GoButton
 		id={ `button-${ stepId }-edit` }
-		className={ classNames(
-			"yst-button yst-button--secondary yst-button--small",
-			transitionClasses,
-			additionalClasses
-		) }
+		variant="secondary"
+		size="small"
+		className={ classNames( transitionClasses, additionalClasses ) }
 		destination={ 0 }
 		beforeGo={ beforeGo }
 		data-hiive-event-name={ `clicked_edit | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
@@ -96,7 +95,8 @@ EditButton.defaultProps = {
 export function BackButton( { stepId, beforeGo, children, additionalClasses, ...restProps } ) {
 	return ( <Step.GoButton
 		id={ `button-${ stepId }-back` }
-		className={ `yst-button yst-button--secondary ${ additionalClasses }` }
+		variant="secondary"
+		className={ additionalClasses }
 		destination={ -1 }
 		beforeGo={ beforeGo }
 		data-hiive-event-name={ `clicked_go_back | ${ HIIVE_STEPS_NAMES[ stepId ] }` }
@@ -188,7 +188,8 @@ export function ConfigurationStepButtons( { stepId, stepperFinishedOnce, saveFun
 	if ( stepperFinishedOnce ) {
 		return <Step.GoButton
 			id={ `button-${ stepId }-go` }
-			className="yst-button yst-button--primary yst-mt-12"
+			variant="primary"
+			className="yst-mt-12"
 			destination="last"
 			beforeGo={ onSaveClick }
 			data-hiive-event-name={ `clicked_save_changes | ${ HIIVE_STEPS_NAMES[ stepId ] }` }

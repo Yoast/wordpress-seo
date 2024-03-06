@@ -44,8 +44,6 @@ export const potentiallyHarmfulCareful = [ harmfulPotentiallyNonInclusive, alter
  * explicitly wants to be referred to with this term."
  */
 export const potentiallyHarmfulUnless = [ harmfulPotentiallyNonInclusive, alternativeUnless ].join( " " );
-// A string that's currently only used for the phrase 'aging dependants'. We have an issue to change it.
-export const potentiallyHarmfulUnlessNonInclusive = [ harmfulNonInclusive, alternativeUnless ].join( " " );
 
 /*
  * An additional string for offering alternatives for some terms that receive an orange traffic light, such as 'fat' or 'obese'.

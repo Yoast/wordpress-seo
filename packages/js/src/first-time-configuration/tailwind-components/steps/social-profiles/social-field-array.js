@@ -2,7 +2,8 @@ import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { PropTypes } from "prop-types";
+import { Button } from "@yoast/ui-library";
+import PropTypes from "prop-types";
 
 /**
  * The FieldArray component.
@@ -27,9 +28,9 @@ const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfi
 		<div>
 			{ items.map( ( item, index ) => (
 				<div key={ `url-${ index }` }>
-					<div className="yst-flex yst-flex-row yst-items-start yst-mt-4">
+					<div className="yst-w-full yst-flex yst-items-start yst-mt-4">
 						<Component
-							className="yst-w-full"
+							className="yst-grow"
 							label={ __( "Other social profile", "wordpress-seo" ) }
 							id={ `social-input-other-url-${index}` }
 							value={ item }
@@ -56,21 +57,21 @@ const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfi
 									__( "Delete item", "wordpress-seo" )
 								}
 							</span>
-							<TrashIcon className="yst-relative yst--top-0.5 yst-w-5 yst-h-5" />
+							<TrashIcon className="yst-w-5 yst-h-5" />
 						</button>
 					</div>
 				</div>
 			) ) }
-			<button
-				type="button"
+			<Button
 				id="add-profile"
-				className="yst-button yst-button--secondary yst-items-center yst-mt-8"
+				variant="secondary"
+				className="yst-items-center yst-mt-8"
 				onClick={ onAddProfile }
 				data-hiive-event-name="clicked_add_profile"
 			>
 				<PlusIcon className="yst-w-5 yst-h-5 yst-mr-1 yst-text-slate-400" />
 				{ addButtonChildren }
-			</button>
+			</Button>
 		</div>
 	);
 };

@@ -7,6 +7,7 @@ import matchWordsHelper from "../../../src/languageProcessing/languages/ja/helpe
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 import japaneseMemoizedSentenceTokenizer from "../../../src/languageProcessing/languages/ja/helpers/memoizedSentenceTokenizer";
 import buildTree from "../../specHelpers/parse/buildTree";
+import splitIntoTokensCustom from "../../../src/languageProcessing/languages/id/helpers/splitIntoTokensCustom";
 
 /**
  * Adds morphological forms to the mock researcher.
@@ -20,7 +21,7 @@ const buildMorphologyMockResearcher = function( keyphraseForms ) {
 		morphology: {
 			keyphraseForms: keyphraseForms,
 		},
-	}, true, false, false, { memoizedTokenizer: memoizedSentenceTokenizer } );
+	}, true, false, { areHyphensWordBoundaries: true }, { memoizedTokenizer: memoizedSentenceTokenizer } );
 };
 
 const testCases = [
@@ -243,53 +244,15 @@ const testCases = [
 		skip: false,
 	},
 	{
-		description: "matches both singular and reduplicated plural form of the keyphrase in Indonesian, " +
-			"the plural should be counted as one occurrence",
-		paper: new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.</p>",
-			{ locale: "id_ID", keyword: "keyword" } ),
-		keyphraseForms: [ [ "keyword", "keyword-keyword" ] ],
-		expectedCount: 2,
-		expectedMarkings: [
-			new Mark( {
-				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>," +
-					" <yoastmark class='yoast-text-mark'>keyword</yoastmark> adipiscing elit.",
-				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.",
-				position: {
-					endOffset: 58,
-					startOffset: 43,
-					startOffsetBlock: 40,
-					endOffsetBlock: 55,
-					attributeId: "",
-					clientId: "",
-					isFirstSection: false,
-				},
-			} ),
-			new Mark( {
-				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>," +
-					" <yoastmark class='yoast-text-mark'>keyword</yoastmark> adipiscing elit.",
-				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.",
-				position: {
-					startOffset: 60,
-					endOffset: 67,
-					startOffsetBlock: 57,
-					endOffsetBlock: 64,
-					attributeId: "",
-					clientId: "",
-					isFirstSection: false,
-				},
-			} ),
-		],
-		skip: false,
-	},
-	{
-		description: "matches both reduplicated keyphrase separated by '-' as two occurrence in English",
+		description: "matches reduplicated keyphrase separated by '-' as two occurrences in English",
 		paper: new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword-keyword, adipiscing elit.</p>",
 			{ locale: "en_US", keyword: "keyword" } ),
 		keyphraseForms: [ [ "keyword", "keyword-keyword" ] ],
 		expectedCount: 2,
 		expectedMarkings: [
 			new Mark( {
-				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>, adipiscing elit.",
+				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword</yoastmark>-" +
+					"<yoastmark class='yoast-text-mark'>keyword</yoastmark>, adipiscing elit.",
 				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, adipiscing elit.",
 				position: {
 					endOffset: 58,
@@ -303,7 +266,7 @@ const testCases = [
 		skip: false,
 	},
 	{
-		description: "counts one occurrence of reduplicated keyphrase separated by '-' as two occurrence in English " +
+		description: "counts one occurrence of reduplicated keyphrase separated by '-' as one occurrence in English " +
 			"when the keyphrase is enclosed in double quotes",
 		paper: new Paper( "<p>Lorem ipsum dolor sit amet, consectetur kupu-kupu, adipiscing elit.</p>",
 			{ locale: "en_US", keyword: "\"kupu-kupu\"" } ),
@@ -516,6 +479,52 @@ const testCases = [
 				} } ) ],
 		skip: false,
 	},
+	{
+		description: "matches a keyphrase with a hyphen if exact matching is used",
+		paper: new Paper( "<p>A sentence about a red-panda.</p>", { keyword: "\"red-panda\"", locale: "en_US" } ),
+		keyphraseForms: [ [ "red-panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( { marked: "A sentence about a <yoastmark class='yoast-text-mark'>red-panda</yoastmark>.",
+				original: "A sentence about a red-panda.",
+				position: {
+					endOffset: 31,
+					startOffset: 22,
+					startOffsetBlock: 19,
+					endOffsetBlock: 28,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				} } ) ],
+		skip: false,
+	},
+	{
+		description: "doesn't match an occurrence of the keyphrase with a hyphen if exact matching is used and the keyphrase" +
+			"doesn't contain a hyphen",
+		paper: new Paper( "<p>A sentence about a red-panda.</p>", { keyword: "\"red panda\"", locale: "en_US" } ),
+		keyphraseForms: [ [ "red panda" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+		skip: false,
+	},
+	{
+		description: "doesn't match an occurrence of the keyphrase without a hyphen if exact matching is used and the keyphrase" +
+			"contains a hyphen",
+		paper: new Paper( "<p>A sentence about a red panda.</p>", { keyword: "\"red-panda\"", locale: "en_US" } ),
+		keyphraseForms: [ [ "red-panda" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+		skip: false,
+	},
+	{
+		description: "doesn't match an occurrence of the keyphrase with an en-dash if exact matching is used and the keyphrase" +
+			"contains a hyphen",
+		paper: new Paper( "<p>A sentence about a red-panda.</p>", { keyword: "\"red–panda\"", locale: "en_US" } ),
+		keyphraseForms: [ [ "red–panda" ] ],
+		expectedCount: 0,
+		expectedMarkings: [],
+		skip: false,
+	},
 ];
 
 describe.each( testCases )( "Test for counting the keyphrase in a text in english", function( {
@@ -571,30 +580,31 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "counts a string with a keyphrase occurrence with a '-' in it",
+		description: "counts an occurrence of a hyphenated keyphrase",
 		paper: new Paper( "<p>A string with a key-word.</p>", { keyword: "key-word" } ),
-		keyphraseForms: [ [ "key-word", "key-words" ] ],
+		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
 		expectedCount: 1,
-		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key-word</yoastmark>.",
-			original: "A string with a key-word.",
-			position: {
-				endOffset: 27,
-				startOffset: 19,
-				startOffsetBlock: 16,
-				endOffsetBlock: 24,
-				attributeId: "",
-				clientId: "",
-				isFirstSection: false,
-			} } ) ],
+		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key</yoastmark>-" +
+				"<yoastmark class='yoast-text-mark'>word</yoastmark>.",
+		original: "A string with a key-word.",
+		position: {
+			endOffset: 27,
+			startOffset: 19,
+			startOffsetBlock: 16,
+			endOffsetBlock: 24,
+			attributeId: "",
+			clientId: "",
+			isFirstSection: false,
+		} } ) ],
 		skip: false,
 	},
 	{
-		description: "counts occurrence with dash only when the keyphrase contains dash",
-		paper: new Paper( "<p>A string with a key-phrase and key phrase.</p>", { keyword: "key-phrase" } ),
-		keyphraseForms: [ [ "key-phrase", "key-phrases" ] ],
+		description: "counts an occurrence of a hyphenated keyphrase also when it's not hyphenated in the text",
+		paper: new Paper( "<p>A string with a key phrase.</p>", { keyword: "key-phrase" } ),
+		keyphraseForms: [ [ "key", "keys" ], [ "phrase", "phrases" ] ],
 		expectedCount: 1,
-		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key-phrase</yoastmark> and key phrase.",
-			original: "A string with a key-phrase and key phrase.",
+		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key phrase</yoastmark>.",
+			original: "A string with a key phrase.",
 			position: {
 				endOffset: 29,
 				startOffset: 19,
@@ -607,23 +617,34 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "should be no match when the sentence contains the keyphrase with a dash but in the wrong order",
+		description: "counts an occurrence of a hyphenated keyphrase also when the words are in a different order",
 		paper: new Paper( "<p>A string with a panda-red.</p>", { keyword: "red-panda" } ),
-		keyphraseForms: [ [ "red-panda" ] ],
-		expectedCount: 0,
-		expectedMarkings: [],
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>panda</yoastmark>-" +
+				"<yoastmark class='yoast-text-mark'>red</yoastmark>.",
+		original: "A string with a panda-red.",
+		position: {
+			endOffset: 28,
+			startOffset: 19,
+			startOffsetBlock: 16,
+			endOffsetBlock: 25,
+			attributeId: "",
+			clientId: "",
+			isFirstSection: false,
+		} } ) ],
 		skip: false,
 	},
 	{
-		description: "should find a match when the sentence contains the keyphrase with a dash but in the wrong order " +
-			"and the keyphrase doesn't contain a dash",
+		description: "should find a match when the sentence contains the keyphrase with a hyphen but in the wrong order " +
+			"and the keyphrase doesn't contain a hyphen",
 		paper: new Paper( "<p>A string with a panda-red.</p>", { keyword: "red panda" } ),
 		keyphraseForms: [ [ "red" ], [ "panda" ] ],
 		expectedCount: 1,
 		expectedMarkings: [
 			new Mark( {
 				original: "A string with a panda-red.",
-				marked: "A string with a <yoastmark class='yoast-text-mark'>panda-red</yoastmark>.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>panda</yoastmark>-<yoastmark class='yoast-text-mark'>red</yoastmark>.",
 				position: {
 					startOffset: 19,
 					endOffset: 28,
@@ -638,15 +659,15 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "should find a match when the sentence contains the keyphrase with a dash with the same order " +
-			"and the keyphrase doesn't contain a dash",
+		description: "should find a match when the sentence contains the keyphrase with a hyphen with the same order " +
+			"and the keyphrase doesn't contain a hyphen",
 		paper: new Paper( "<p>A string with a key-word.</p>", { keyword: "key word" } ),
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
 		expectedCount: 1,
 		expectedMarkings: [
 			new Mark( {
 				original: "A string with a key-word.",
-				marked: "A string with a <yoastmark class='yoast-text-mark'>key-word</yoastmark>.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>key</yoastmark>-<yoastmark class='yoast-text-mark'>word</yoastmark>.",
 				position: {
 					endOffset: 27,
 					startOffset: 19,
@@ -661,7 +682,7 @@ const testCasesWithSpecialCharacters = [
 		skip: false,
 	},
 	{
-		description: "should find a match when the word of the keyphrase occurs in the sentence hyphenated with a non-keyphrase word." +
+		description: "should find a match when the word of the keyphrase occurs in the sentence hyphenated with a non-keyphrase word. " +
 		"For example 'key' in 'key-phrase'.",
 		paper: new Paper( "<p>A string with a word of key-phrase.</p>", { keyword: "key word" } ),
 		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
@@ -670,7 +691,7 @@ const testCasesWithSpecialCharacters = [
 			new Mark( {
 				original: "A string with a word of key-phrase.",
 				marked: "A string with a <yoastmark class='yoast-text-mark'>word</yoastmark> of" +
-					" <yoastmark class='yoast-text-mark'>key-phrase</yoastmark>.",
+					" <yoastmark class='yoast-text-mark'>key</yoastmark>-phrase.",
 				position: {
 					endOffset: 23,
 					startOffset: 19,
@@ -684,19 +705,541 @@ const testCasesWithSpecialCharacters = [
 			new Mark( {
 				original: "A string with a word of key-phrase.",
 				marked: "A string with a <yoastmark class='yoast-text-mark'>word</yoastmark> of" +
-					" <yoastmark class='yoast-text-mark'>key-phrase</yoastmark>.",
+					" <yoastmark class='yoast-text-mark'>key</yoastmark>-phrase.",
 				position: {
-					endOffset: 37,
+					endOffset: 30,
 					startOffset: 27,
 					startOffsetBlock: 24,
-					endOffsetBlock: 34,
+					endOffsetBlock: 27,
 					attributeId: "",
 					clientId: "",
 					isFirstSection: false,
 				},
 			} ),
-			// Note that in this case, we'll highlight 'key-phrase' even though technically we only match "key" in "key-phrase".
-			// This is the consequence of tokenizing "key-phrase" into one token instead of three.
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match when the sentence contains the keyphrase and one of the words from the keyphrase " +
+			"is part of a hyphenated phrase",
+		paper: new Paper( "<p>A string with a post-Cold War era.</p>", { keyword: "Cold War era" } ),
+		keyphraseForms: [ [ "Cold" ], [ "War" ], [ "era" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a post-Cold War era.",
+				marked: "A string with a post-<yoastmark class='yoast-text-mark'>Cold War era</yoastmark>.",
+				position: {
+					endOffset: 36,
+					startOffset: 24,
+					startOffsetBlock: 21,
+					endOffsetBlock: 33,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match for a keyphrase containing an en-dash",
+		paper: new Paper( "<p>A string with a red–panda.</p>", { keyword: "red–panda" } ),
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a red–panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>–<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 28,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 25,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "counts an occurrence of a keyphrase with an en-dash also when it doesn't have an en-dash in the text",
+		paper: new Paper( "<p>A string with a key phrase.</p>", { keyword: "key–phrase" } ),
+		keyphraseForms: [ [ "key", "keys" ], [ "phrase", "phrases" ] ],
+		expectedCount: 1,
+		expectedMarkings: [ new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key phrase</yoastmark>.",
+			original: "A string with a key phrase.",
+			position: {
+				endOffset: 29,
+				startOffset: 19,
+				startOffsetBlock: 16,
+				endOffsetBlock: 26,
+				attributeId: "",
+				clientId: "",
+				isFirstSection: false,
+			} } ) ],
+		skip: false,
+	},
+	{
+		description: "should find a match when the sentence contains the keyphrase and the keyphrase doesn't contain an en-dash",
+		paper: new Paper( "<p>A string with a key–word.</p>", { keyword: "key word" } ),
+		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a key–word.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>key</yoastmark>–<yoastmark class='yoast-text-mark'>word</yoastmark>.",
+				position: {
+					endOffset: 27,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 24,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match when the word of the keyphrase occurs in the sentence with an en-dash with a" +
+			" non-keyphrase word. For example 'key' in 'key–phrase'.",
+		paper: new Paper( "<p>A string with a word of key–phrase.</p>", { keyword: "key word" } ),
+		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a word of key–phrase.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>word</yoastmark> of" +
+					" <yoastmark class='yoast-text-mark'>key</yoastmark>–phrase.",
+				position: {
+					endOffset: 23,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 20,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+			new Mark( {
+				original: "A string with a word of key–phrase.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>word</yoastmark> of" +
+					" <yoastmark class='yoast-text-mark'>key</yoastmark>–phrase.",
+				position: {
+					endOffset: 30,
+					startOffset: 27,
+					startOffsetBlock: 24,
+					endOffsetBlock: 27,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match for a keyphrase containing an em-dash",
+		paper: new Paper( "<p>A string with a red—panda.</p>", { keyword: "red—panda" } ),
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a red—panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>—<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 28,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 25,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match when the sentence contains the keyphrase and one of the words from the keyphrase" +
+			"is preceded by an em-dash and a word not from the keyphrase. Also should only highlight the keyphrase, " +
+			"not the em-dash nor the word preceding it.",
+		paper: new Paper( "<p>A string with a post—Cold War era.</p>", { keyword: "Cold War era" } ),
+		keyphraseForms: [ [ "Cold" ], [ "War" ], [ "era" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a post—Cold War era.",
+				marked: "A string with a post—<yoastmark class='yoast-text-mark'>Cold War era</yoastmark>.",
+				position: {
+					endOffset: 36,
+					startOffset: 24,
+					startOffsetBlock: 21,
+					endOffsetBlock: 33,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match if the keyphrase uses a hyphen and the occurrence in the text uses an en-dash",
+		paper: new Paper( "<p>A string with a red–panda.</p>", { keyword: "red-panda" } ),
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a red–panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>–<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 28,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 25,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match if the keyphrase uses an en-dash and the occurrence in the text uses a hyphen",
+		paper: new Paper( "<p>A string with a red-panda.</p>", { keyword: "red–panda" } ),
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a red-panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>-<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 28,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 25,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match if the keyphrase uses an en-dash and the occurrence in the text uses an em-dash",
+		paper: new Paper( "<p>A string with a red—panda.</p>", { keyword: "red–panda" } ),
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a red—panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>—<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 28,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 25,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match if the keyphrase uses a hyphen and the occurrence in the text uses an em-dash",
+		paper: new Paper( "<p>A string with a red—panda.</p>", { keyword: "red-panda" } ),
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a red—panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>—<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 28,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 25,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match if both the keyphrase and the occurrence in the text contain a double hyphen" +
+			"(which is sometimes used in place of an em-dash)",
+		paper: new Paper( "<p>A string with a red--panda.</p>", { keyword: "red--panda" } ),
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a red--panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>--<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 22,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 19,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+			new Mark( {
+				original: "A string with a red--panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>--<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 29,
+					startOffset: 24,
+					startOffsetBlock: 21,
+					endOffsetBlock: 26,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match if the keyphrase has a double hyphen, and the occurrence in the text doesn't",
+		paper: new Paper( "<p>A string with a red panda.</p>", { keyword: "red--panda" } ),
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a red panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red panda</yoastmark>.",
+				position: {
+					endOffset: 28,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 25,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match if the occurrence in the text has a double hyphen, and the keyphrase doesn't",
+		paper: new Paper( "<p>A string with a red--panda.</p>", { keyword: "red panda" } ),
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a red--panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>--<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 22,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 19,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+			new Mark( {
+				original: "A string with a red--panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>--<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 29,
+					startOffset: 24,
+					startOffsetBlock: 21,
+					endOffsetBlock: 26,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match when the word of the keyphrase occurs in the sentence with a double hyphen with a" +
+			" non-keyphrase word. For example 'key' in 'key–-phrase'.",
+		paper: new Paper( "<p>A string with a word of key--phrase.</p>", { keyword: "key word" } ),
+		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a word of key--phrase.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>word</yoastmark> of" +
+					" <yoastmark class='yoast-text-mark'>key</yoastmark>--phrase.",
+				position: {
+					endOffset: 23,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 20,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+			new Mark( {
+				original: "A string with a word of key--phrase.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>word</yoastmark> of" +
+					" <yoastmark class='yoast-text-mark'>key</yoastmark>--phrase.",
+				position: {
+					endOffset: 30,
+					startOffset: 27,
+					startOffsetBlock: 24,
+					endOffsetBlock: 27,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match if the keyphrase uses a double hyphen and the occurrence in the text uses an en-dash",
+		paper: new Paper( "<p>A string with a red–panda.</p>", { keyword: "red--panda" } ),
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a red–panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>–<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 28,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 25,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match if the keyphrase uses a double hyphen and the occurrence in the text uses a single hyphen",
+		paper: new Paper( "<p>A string with a red-panda.</p>", { keyword: "red--panda" } ),
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a red-panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>-<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 28,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 25,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match if the keyphrase uses a double hyphen and the occurrence in the text uses an em-dash",
+		paper: new Paper( "<p>A string with a red—panda.</p>", { keyword: "red--panda" } ),
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a red—panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>—<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 28,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 25,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match if the keyphrase uses a hyphen and the occurrence in the text uses a double hyphen",
+		paper: new Paper( "<p>A string with a red--panda.</p>", { keyword: "red-panda" } ),
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a red--panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>--<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 22,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 19,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+			new Mark( {
+				original: "A string with a red--panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>--<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 29,
+					startOffset: 24,
+					startOffsetBlock: 21,
+					endOffsetBlock: 26,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		],
+		skip: false,
+	},
+	{
+		description: "should find a match if the keyphrase uses an en-dash and the occurrence in the text uses a double hyphen",
+		paper: new Paper( "<p>A string with a red--panda.</p>", { keyword: "red–panda" } ),
+		keyphraseForms: [ [ "red" ], [ "panda" ] ],
+		expectedCount: 1,
+		expectedMarkings: [
+			new Mark( {
+				original: "A string with a red--panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>--<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 22,
+					startOffset: 19,
+					startOffsetBlock: 16,
+					endOffsetBlock: 19,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+			new Mark( {
+				original: "A string with a red--panda.",
+				marked: "A string with a <yoastmark class='yoast-text-mark'>red</yoastmark>--<yoastmark class='yoast-text-mark'>panda</yoastmark>.",
+				position: {
+					endOffset: 29,
+					startOffset: 24,
+					startOffsetBlock: 21,
+					endOffsetBlock: 26,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
 		],
 		skip: false,
 	},
@@ -1870,6 +2413,162 @@ describe.each( testDataForHTMLTags )( "Test for counting the keyphrase in a text
 			expect( keyphraseCountResult.markings ).toEqual( expectedMarkings );
 		} );
 	} );
+
+/**
+ * Mocks Indonesian Researcher.
+ * @param {Array} keyphraseForms    The morphological forms to be added to the researcher.
+ *
+ * @returns {Researcher} The mock researcher with added morphological forms and custom helper.
+ */
+const buildIndonesianMockResearcher = function( keyphraseForms ) {
+	return factory.buildMockResearcher( {
+		morphology: {
+			keyphraseForms: keyphraseForms,
+		},
+	},
+	true,
+	false,
+	{ areHyphensWordBoundaries: false },
+	{
+		memoizedTokenizer: memoizedSentenceTokenizer,
+		splitIntoTokensCustom: splitIntoTokensCustom,
+	} );
+};
+
+describe( "Test for counting the keyphrase in a text for Indonesian", () => {
+	it( "matches both singular and reduplicated plural form of the keyphrase in Indonesian, " +
+		"the plural should be counted as one occurrence", function() {
+		const mockPaper = new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.</p>",
+			{ keyword: "keyword", locale: "id_ID" } );
+		const researcher = buildIndonesianMockResearcher( [ [ "keyword", "keyword-keyword" ] ] );
+		buildTree( mockPaper, researcher );
+
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 2 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
+			new Mark( {
+				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>," +
+					" <yoastmark class='yoast-text-mark'>keyword</yoastmark> adipiscing elit.",
+				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.",
+				position: {
+					endOffset: 58,
+					startOffset: 43,
+					startOffsetBlock: 40,
+					endOffsetBlock: 55,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+			new Mark( {
+				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>," +
+					" <yoastmark class='yoast-text-mark'>keyword</yoastmark> adipiscing elit.",
+				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.",
+				position: {
+					startOffset: 60,
+					endOffset: 67,
+					startOffsetBlock: 57,
+					endOffsetBlock: 64,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		] );
+	} );
+	it( "counts keyphrase occurrences separated by an en-dash as two occurrences", function() {
+		const mockPaper = new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword–keyword, adipiscing elit.</p>",
+			{ keyword: "keyword", locale: "id_ID" } );
+		const researcher = buildIndonesianMockResearcher( [ [ "keyword" ] ] );
+		buildTree( mockPaper, researcher );
+
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 2 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
+			new Mark( {
+				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword</yoastmark>–" +
+					"<yoastmark class='yoast-text-mark'>keyword</yoastmark>," +
+					" adipiscing elit.",
+				original: "Lorem ipsum dolor sit amet, consectetur keyword–keyword, adipiscing elit.",
+				position: {
+					endOffset: 58,
+					startOffset: 43,
+					startOffsetBlock: 40,
+					endOffsetBlock: 55,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		] );
+	} );
+	it( "counts keyphrase occurrences separated by an em-dash as two occurrences", function() {
+		const mockPaper = new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword—keyword, adipiscing elit.</p>",
+			{ keyword: "keyword", locale: "id_ID" } );
+		const researcher = buildIndonesianMockResearcher( [ [ "keyword" ] ] );
+		buildTree( mockPaper, researcher );
+
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 2 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
+			new Mark( {
+				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword</yoastmark>—" +
+					"<yoastmark class='yoast-text-mark'>keyword</yoastmark>," +
+					" adipiscing elit.",
+				original: "Lorem ipsum dolor sit amet, consectetur keyword—keyword, adipiscing elit.",
+				position: {
+					endOffset: 58,
+					startOffset: 43,
+					startOffsetBlock: 40,
+					endOffsetBlock: 55,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		] );
+	} );
+	it( "counts keyphrase occurrences with hyphens when using exact matching", function() {
+		const mockPaper = new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword-keyword, adipiscing elit.</p>",
+			{ keyword: "\"keyword-keyword\"", locale: "id_ID" } );
+		const researcher = buildIndonesianMockResearcher( [ [ "keyword-keyword" ] ] );
+		buildTree( mockPaper, researcher );
+
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
+			new Mark( {
+				marked: "Lorem ipsum dolor sit amet, consectetur <yoastmark class='yoast-text-mark'>keyword-keyword</yoastmark>, adipiscing elit.",
+				original: "Lorem ipsum dolor sit amet, consectetur keyword-keyword, adipiscing elit.",
+				position: {
+					endOffset: 58,
+					startOffset: 43,
+					startOffsetBlock: 40,
+					endOffsetBlock: 55,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		] );
+	} );
+	it( "doesn't count keyphrase occurrences containing hyphens when using exact matching, and when the keyphrase doesn't" +
+		"contain a hyphen", function() {
+		const mockPaper = new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword-keyword, adipiscing elit.</p>",
+			{ keyword: "\"keyword keyword\"", locale: "id_ID" } );
+		const researcher = buildIndonesianMockResearcher( [ [ "keyword keyword" ] ] );
+		buildTree( mockPaper, researcher );
+
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 0 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [] );
+	} );
+	it( "doesn't count keyphrase occurrences without hyphens when using exact matching, and when the keyphrase" +
+		"contains a hyphen", function() {
+		const mockPaper = new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword keyword, adipiscing elit.</p>",
+			{ keyword: "\"keyword-keyword\"", locale: "id_ID" } );
+		const researcher = buildIndonesianMockResearcher( [ [ "keyword-keyword" ] ] );
+		buildTree( mockPaper, researcher );
+
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 0 );
+		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [] );
+	} );
+} );
 
 /**
  * Mocks Japanese Researcher.

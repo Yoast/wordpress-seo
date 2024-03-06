@@ -265,3 +265,4 @@ rules:
 
   # Import rules (https://github.com/import-js/eslint-plugin-import)
   import/no-extraneous-dependencies: 2
+  import/no-unresolved: 2

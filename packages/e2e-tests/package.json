@@ -13,8 +13,8 @@
     "@wordpress/e2e-test-utils": "^5.1.2",
     "@wordpress/url": "^2.22.2",
     "babel-jest": "^26.6.3",
-    "jest": "^26.6.3",
-    "jest-puppeteer": "^5.0.3",
+    "jest": "^27.5.1",
+    "jest-puppeteer": "^6.2.0",
     "puppeteer": "^9.0.0"
   }
 }
