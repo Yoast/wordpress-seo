@@ -304,7 +304,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade_36() {
+	protected function upgrade_36() {
 		global $wpdb;
 
 		// Between 3.2 and 3.4 the sitemap options were saved with autoloading enabled.
@@ -358,7 +358,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade_49() {
+	protected function upgrade_49() {
 		global $wpdb;
 
 		/*
@@ -423,7 +423,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade_50() {
+	protected function upgrade_50() {
 		global $wpdb;
 
 		// Deletes the post meta value, which might created in the RC.
@@ -560,7 +560,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade_74() {
+	protected function upgrade_74() {
 		$this->remove_sitemap_validators();
 	}
 
@@ -612,7 +612,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade_90() {
+	protected function upgrade_90() {
 		global $wpdb;
 
 		// Invalidate all sitemap cache transients.
@@ -1588,7 +1588,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function deduplicate_unindexed_indexable_rows() {
+	protected function deduplicate_unindexed_indexable_rows() {
 		global $wpdb;
 
 		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
@@ -1650,7 +1650,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function clean_unindexed_indexable_rows_with_no_object_id() {
+	protected function clean_unindexed_indexable_rows_with_no_object_id() {
 		global $wpdb;
 
 		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
@@ -1678,7 +1678,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function remove_indexable_rows_for_disabled_authors_archive() {
+	protected function remove_indexable_rows_for_disabled_authors_archive() {
 		global $wpdb;
 
 		if ( ! YoastSEO()->helpers->author_archive->are_disabled() ) {
@@ -1712,7 +1712,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return string The query that removes all but one duplicate for each object of the object type.
 	 */
-	private function get_indexable_deduplication_query_for_type( $object_type, $duplicates, $wpdb ) {
+	protected function get_indexable_deduplication_query_for_type( $object_type, $duplicates, $wpdb ) {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
 		$filtered_duplicates = array_filter(
