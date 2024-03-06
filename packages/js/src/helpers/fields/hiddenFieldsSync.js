@@ -71,6 +71,9 @@ const prepareValue = ( key, value ) => {
 		case "opengraph-description":
 			return prepareSocialDescription( value );
 		default:
+			if ( /^primary_/.test( key ) ) {
+				return value === -1 ? "" : String( value );
+			}
 			return value;
 	}
 };
