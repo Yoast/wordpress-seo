@@ -46,7 +46,7 @@ const populateStore = store => {
 		store.dispatch( actions.loadTwitterPreviewData() );
 	}
 
-	const metadata = get( window, "wpseoScriptData.metabox.metadata", [] );
+	const metadata = get( window, "wpseoScriptData.metabox.metadata", {} );
 	store.dispatch( actions.setFocusKeyword( metadata.focuskw ) );
 
 	const primaryTerms = pickBy( metadata, ( value, key ) => key.startsWith( "primary_" ) && value );
