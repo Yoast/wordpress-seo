@@ -39,7 +39,6 @@ const Tooltip = forwardRef( ( { id, children, as: Component, className, position
 
 const propTypes = {
 	as: PropTypes.elementType,
-	// isVisible: PropTypes.bool,
 	id: PropTypes.string,
 	children: PropTypes.string,
 	className: PropTypes.string,
@@ -50,7 +49,6 @@ Tooltip.propTypes = propTypes;
 
 Tooltip.defaultProps = {
 	as: "div",
-	// isVisible: false,
 	children: "",
 	className: "",
 	position: "top",
