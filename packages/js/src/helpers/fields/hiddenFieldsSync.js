@@ -12,6 +12,22 @@ import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical
 import { getEstimatedReadingTime } from "./additionalFieldsStore";
 
 /**
+ * Retrieves primary terms from store methods.
+ *
+ * @returns {integer} The no index value.
+ */
+const getPrimaryTerms = () => {
+	const wpseoScriptDataMetaData = get( window, "wpseoScriptData.metabox.metadata", {} );
+	const getPrimaryTermsStore = {};
+	const primaryTerms = pickBy( wpseoScriptDataMetaData, ( value, key ) => key.startsWith( "primary_" ) && value );
+	forEach( primaryTerms, ( value, key ) => {
+		const taxonomy = key.replace( "primary_", "" );
+		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => String( select( STORE )?.getPrimaryTaxonomyId( taxonomy ) );
+	} );
+	return getPrimaryTermsStore;
+};
+
+/**
  * Prepare twitter title to be saved in hidden field.
  * @param {string} value The value to be saved.
  * @returns {string} The value to be saved.
@@ -84,14 +100,13 @@ const createUpdater = () => {
 		if ( ! hiddenFieldsData || ! data ) {
 			return;
 		}
-		console.log( { data } );
 		console.log( { hiddenFieldsData } );
 
 		const isPost = get( window, "wpseoScriptData.isPost", false );
 		const prefix = isPost ? "yoast_wpseo_" : "hidden_wpseo_";
 
 		const changedData = pickBy( data, ( value, key ) => ( prefix + key ) in hiddenFieldsData && value !== hiddenFieldsData[ prefix + key ] );
-		console.log( { changedData } );
+		console.log( changedData );
 
 		if ( changedData ) {
 			forEach( changedData, ( value, key ) => {
@@ -133,6 +148,8 @@ export const hiddenFieldsrSync = () => {
 			linkdex: getSeoScore,
 			inclusive_language_score: getInclusiveLanguageScore,
 			"estimated-reading-time-minutes": getEstimatedReadingTime,
+			primary_category: () => String( select( STORE )?.getPrimaryTaxonomyId( "category" ) ),
+			...getPrimaryTerms(),
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE );
