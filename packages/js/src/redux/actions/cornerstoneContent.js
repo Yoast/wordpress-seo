@@ -1,4 +1,4 @@
-import MetaboxFieldSync from "../../helpers/fields/MetaboxFieldSync";
+import { get } from "lodash";
 
 const PREFIX = "WPSEO_";
 
@@ -14,7 +14,7 @@ export const SET_CORNERSTONE_CONTENT = `${ PREFIX }SET_CORNERSTONE_CONTENT`;
 export const loadCornerstoneContent = () => {
 	return {
 		type: SET_CORNERSTONE_CONTENT,
-		isCornerstone: MetaboxFieldSync.getInitialValue( "is_cornerstone" ) === "1",
+		isCornerstone: get( window, "wpseoScriptData.metabox.metadata.is_cornerstone", "0" ) === "1",
 	};
 };
 
@@ -26,7 +26,6 @@ export const loadCornerstoneContent = () => {
  * @returns {Object} The set cornerstone content action.
  */
 export const setCornerstoneContent = ( isCornerstone ) => {
-	MetaboxFieldSync.setBooleanFieldValue( "is_cornerstone", isCornerstone );
 	return {
 		type: SET_CORNERSTONE_CONTENT,
 		isCornerstone,
@@ -39,7 +38,6 @@ export const setCornerstoneContent = ( isCornerstone ) => {
  * @returns {Object} The toggle cornerstone content action.
  */
 export const toggleCornerstoneContent = () => {
-	MetaboxFieldSync.toggleFieldValue( "is_cornerstone" );
 	return {
 		type: TOGGLE_CORNERSTONE_CONTENT,
 	};
