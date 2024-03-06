@@ -46,10 +46,10 @@ const populateStore = store => {
 		store.dispatch( actions.loadTwitterPreviewData() );
 	}
 
-	const metaData = get( window, "wpseoScriptData.metabox.metaData", [] );
-	store.dispatch( actions.setFocusKeyword( metaData.focuskw ) );
+	const metadata = get( window, "wpseoScriptData.metabox.metadata", [] );
+	store.dispatch( actions.setFocusKeyword( metadata.focuskw ) );
 
-	const primaryTerms = pickBy( metaData, ( value, key ) => key.startsWith( "primary_" ) && value );
+	const primaryTerms = pickBy( metadata, ( value, key ) => key.startsWith( "primary_" ) && value );
 	forEach( primaryTerms, ( value, key ) => {
 		const taxonomy = key.replace( "primary_", "" );
 		store.dispatch( actions.setPrimaryTaxonomyId( taxonomy, value ) );

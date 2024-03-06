@@ -83,7 +83,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'social_description_template' => $this->get_social_description_template(),
 				'social_image_template'       => $this->get_social_image_template(),
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
-				'metaData'                    => $this->get_post_meta_data(),
+				'metadata'                    => $this->get_post_meta_data(),
 			];
 
 			$values = ( $values_to_set + $values );

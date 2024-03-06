@@ -87,17 +87,17 @@ export const setWordProofTimestamp = ( value ) => {
  * @returns {object} The action object.
  */
 export const loadAdvancedSettingsData = () => {
-	const advancedValue = get( window, "wpseoScriptData.metabox.metaData.meta-robots-adv", "" );
+	const advancedValue = get( window, "wpseoScriptData.metabox.metadata.meta-robots-adv", "" );
 	const advancedList = typeof advancedValue === "string" ? advancedValue.split( "," ) : [];
 	return {
 		type: LOAD_ADVANCED_SETTINGS,
 		settings: {
-			noIndex: get( window, "wpseoScriptData.metabox.metaData.meta-robots-noindex", "" ),
-			noFollow: get( window, "wpseoScriptData.metabox.metaData.meta-robots-nofollow", "0" ),
+			noIndex: get( window, "wpseoScriptData.metabox.metadata.meta-robots-noindex", "" ),
+			noFollow: get( window, "wpseoScriptData.metabox.metadata.meta-robots-nofollow", "0" ),
 			advanced: advancedList,
-			breadcrumbsTitle: get( window, "wpseoScriptData.metabox.metaData.bctitle", "" ),
-			canonical: get( window, "wpseoScriptData.metabox.metaData.canonical", "" ),
-			wordproofTimestamp: get( window, "wpseoScriptData.metabox.metaData.wordproof_timestamp", "" ) === "1",
+			breadcrumbsTitle: get( window, "wpseoScriptData.metabox.metadata.bctitle", "" ),
+			canonical: get( window, "wpseoScriptData.metabox.metadata.canonical", "" ),
+			wordproofTimestamp: get( window, "wpseoScriptData.metabox.metadata.wordproof_timestamp", "" ) === "1",
 			isLoading: false,
 		},
 	};

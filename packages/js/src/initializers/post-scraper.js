@@ -135,7 +135,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeKeywordAnalysis( activePublishBox ) {
-		const savedKeywordScore = get( window, "wpseoScriptData.metabox.metaData.linkdex", 0 );
+		const savedKeywordScore = get( window, "wpseoScriptData.metabox.metadata.linkdex", 0 );
 
 		const indicator = getIndicatorForScore( savedKeywordScore );
 
@@ -153,7 +153,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeContentAnalysis( activePublishBox ) {
-		const savedContentScore = get( window, "wpseoScriptData.metabox.metaData.content_score", 0 );
+		const savedContentScore = get( window, "wpseoScriptData.metabox.metadata.content_score", 0 );
 
 		const indicator = getIndicatorForScore( savedContentScore );
 
@@ -170,7 +170,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeInclusiveLanguageAnalysis( activePublishBox ) {
-		const savedContentScore = get( window, "wpseoScriptData.metabox.metaData.inclusive_language_score", 0 );
+		const savedContentScore = get( window, "wpseoScriptData.metabox.metadata.inclusive_language_score", 0 );
 
 		const indicator = getIndicatorForScore( savedContentScore );
 
@@ -257,8 +257,8 @@ export default function initPostScraper( $, store, editorData ) {
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			const metaData = get( window, "wpseoScriptData.metabox.metaData", [] );
-			store.dispatch( setFocusKeyword( metaData.focuskw ) );
+			const focusKeyPhrase = get( window, "wpseoScriptData.metabox.metadata.focuskw", "" );
+			store.dispatch( setFocusKeyword( focusKeyPhrase ) );
 
 
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
@@ -410,10 +410,10 @@ export default function initPostScraper( $, store, editorData ) {
 
 		handlePageBuilderCompatibility();
 
-		const metaData = get( window, "wpseoScriptData.metabox.metaData", [] );
+		const metadata = get( window, "wpseoScriptData.metabox.metadata", [] );
 
 		// Avoid error when snippet metabox is not rendered.
-		if ( metaboxContainer.length === 0 && metaData.length === 0 ) {
+		if ( metaboxContainer.length === 0 && metadata.length === 0 ) {
 			return;
 		}
 
@@ -523,7 +523,7 @@ export default function initPostScraper( $, store, editorData ) {
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
-		store.dispatch( setCornerstoneContent( get( window, "wpseoScriptData.metabox.metaData.is_cornerstone", 0 ) === "1" ) );
+		store.dispatch( setCornerstoneContent( get( window, "wpseoScriptData.metabox.metadata.is_cornerstone", 0 ) === "1" ) );
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = store.getState().focusKeyword;

@@ -86,7 +86,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'social_image_template'       => $this->get_social_image_template(),
 				'wincherIntegrationActive'    => 0,
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
-				'metaData'                    => $this->get_metadata(),
+				'metadata'                    => $this->get_metadata(),
 			];
 		}
 

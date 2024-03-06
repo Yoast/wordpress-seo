@@ -173,7 +173,7 @@ PostDataCollector.prototype.getExcerpt = function() {
  * @returns {string} The snippet title.
  */
 PostDataCollector.prototype.getSnippetTitle = function() {
-	return get( window, "wpseoScriptData.metabox.metaData.title", "" );
+	return get( window, "wpseoScriptData.metabox.metadata.title", "" );
 };
 
 /**
@@ -182,7 +182,7 @@ PostDataCollector.prototype.getSnippetTitle = function() {
  * @returns {string} The snippet meta.
  */
 PostDataCollector.prototype.getSnippetMeta = function() {
-	return get( window, "wpseoScriptData.metabox.metaData.metadesc", "" );
+	return get( window, "wpseoScriptData.metabox.metadata.metadesc", "" );
 };
 
 /**

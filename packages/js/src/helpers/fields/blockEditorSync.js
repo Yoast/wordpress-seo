@@ -15,7 +15,7 @@ import { getSeoTitle, getSeoDescription } from "./snippetEditorFieldsStore";
  * @returns {integer} The no index value.
  */
 const getPrimaryTerms = () => {
-	const wpseoScriptDataMetaData = get( window, "wpseoScriptData.metabox.metaData", [] );
+	const wpseoScriptDataMetaData = get( window, "wpseoScriptData.metabox.metadata", [] );
 	const getPrimaryTermsStore = {};
 	const primaryTerms = pickBy( wpseoScriptDataMetaData, ( value, key ) => key.startsWith( "primary_" ) && value );
 	forEach( primaryTerms, ( value, key ) => {
