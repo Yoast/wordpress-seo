@@ -54,10 +54,4 @@ Tooltip.defaultProps = {
 	position: "top",
 };
 
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Tooltip { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Tooltip.defaultProps;
-StoryComponent.displayName = "Tooltip";
-
 export default Tooltip;

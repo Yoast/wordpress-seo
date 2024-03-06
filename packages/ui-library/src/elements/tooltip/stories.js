@@ -1,11 +1,11 @@
-import { StoryComponent } from ".";
-import { component } from "./docs";
 import React, { useCallback, useState } from "react";
+import Tooltip from ".";
 import Badge from "../badge";
+import { component } from "./docs";
 
 export default {
 	title: "1) Elements/Tooltip",
-	component: StoryComponent,
+	component: Tooltip,
 	argTypes: {
 		as: { options: [ "div", "span" ] },
 	},
@@ -29,8 +29,8 @@ export const Factory = ( args ) => {
 				onMouseLeave={ handleMouseLeave }
 				// The parent element nesting the tooltip should have a relative position.
 				className="yst-relative"
-			> Hover me
-				<StoryComponent { ...args } isVisible={ isVisible }  />
+			>Hover me
+				<Tooltip { ...args } isVisible={ isVisible } />
 			</Badge>
 		</div>
 	);
