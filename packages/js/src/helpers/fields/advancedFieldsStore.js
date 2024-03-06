@@ -4,14 +4,14 @@ import { STORE } from "../../constants";
 /**
  * Retrieves the no index value.
  *
- * @returns {integer} The no index value.
+ * @returns {string} The no index value.
  */
 export const getNoIndex = () => String( select( STORE )?.getNoIndex() );
 
 /**
  * Retrieves the no follow value.
  *
- * @returns {integer} The no follow value.
+ * @returns {string} The no follow value.
  */
 export const getNoFollow = () => String( select( STORE )?.getNoFollow() );
 
@@ -20,7 +20,7 @@ export const getNoFollow = () => String( select( STORE )?.getNoFollow() );
  *
  * @param {Object} state The state.
  *
- * @returns {String} Twitter image URL.
+ * @returns {string} Twitter image URL.
  */
 export const getAdvanced = () => select( STORE )?.getAdvanced().join( "," );
 
@@ -29,7 +29,7 @@ export const getAdvanced = () => select( STORE )?.getAdvanced().join( "," );
  *
  * @param {Object} state The state.
  *
- * @returns {String} Twitter image type.
+ * @returns {string} Twitter image type.
  */
 export const getBreadcrumbsTitle = () => select( STORE )?.getBreadcrumbsTitle();
 
@@ -47,6 +47,6 @@ export const getCanonical = () => select( STORE )?.getCanonical();
  *
  * @param {Object} state The state.
  *
- * @returns {Boolean} WordProof timestamp value.
+ * @returns {string} WordProof timestamp value.
  */
 export const getWordProofTimestamp = () => select( STORE )?.getWordProofTimestamp() ? "1" : "0";
