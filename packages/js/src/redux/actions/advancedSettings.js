@@ -1,4 +1,3 @@
-import MetaboxFieldSync from "../../helpers/fields/MetaboxFieldSync";
 import { get } from "lodash";
 
 export const SET_NO_INDEX = "SET_NO_INDEX";
@@ -17,7 +16,6 @@ export const LOAD_ADVANCED_SETTINGS = "LOAD_ADVANCED_SETTINGS";
  * @returns {Object} The action object.
  */
 export const setNoIndex = ( value ) => {
-	MetaboxFieldSync.setNoIndex( value );
 	return { type: SET_NO_INDEX, value };
 };
 
@@ -29,7 +27,6 @@ export const setNoIndex = ( value ) => {
  * @returns {Object} The action object.
  */
 export const setNoFollow = ( value ) => {
-	MetaboxFieldSync.setFieldValue( "meta-robots-nofollow", value );
 	return { type: SET_NO_FOLLOW, value };
 };
 
@@ -41,7 +38,6 @@ export const setNoFollow = ( value ) => {
  * @returns {Object} The action object.
  */
 export const setAdvanced = ( value ) => {
-	MetaboxFieldSync.setFieldValue( "meta-robots-adv", value.join( "," ) );
 	return { type: SET_ADVANCED, value };
 };
 
@@ -53,7 +49,6 @@ export const setAdvanced = ( value ) => {
  * @returns {Object} The action object.
  */
 export const setBreadcrumbsTitle = ( value ) => {
-	MetaboxFieldSync.setFieldValue( "bctitle", value );
 	return { type: SET_BREADCRUMBS_TITLE, value };
 };
 
@@ -65,7 +60,6 @@ export const setBreadcrumbsTitle = ( value ) => {
  * @returns {Object} The action object.
  */
 export const setCanonical = ( value ) => {
-	MetaboxFieldSync.setFieldValue( "canonical", value );
 	return { type: SET_CANONICAL_URL, value };
 };
 
@@ -77,7 +71,6 @@ export const setCanonical = ( value ) => {
  * @returns {Object} The action object.
  */
 export const setWordProofTimestamp = ( value ) => {
-	MetaboxFieldSync.setBooleanFieldValue( "wordproof_timestamp", value );
 	return { type: SET_WORDPROOF_TIMESTAMP, value };
 };
 
