@@ -1,5 +1,3 @@
-import MetaboxFieldSync from "../../helpers/fields/MetaboxFieldSync";
-
 /*
  * Action types
  */
@@ -148,7 +146,6 @@ export function updateInclusiveLanguageResult( result ) {
  * @returns {Object} A set overall score action.
  */
 export function setOverallReadabilityScore( overallScore ) {
-	MetaboxFieldSync.setFieldValue( "content_score", overallScore );
 	return {
 		type: SET_OVERALL_READABILITY_SCORE,
 		overallScore: overallScore,
@@ -164,7 +161,6 @@ export function setOverallReadabilityScore( overallScore ) {
  * @returns {Object} A set overall score action.
  */
 export function setOverallSeoScore( overallScore, keyword ) {
-	MetaboxFieldSync.setFieldValue( "linkdex", overallScore );
 	return {
 		type: SET_OVERALL_SEO_SCORE,
 		keyword: keyword,
@@ -180,7 +176,6 @@ export function setOverallSeoScore( overallScore, keyword ) {
  * @returns {Object} A set overall score action.
  */
 export function setOverallInclusiveLanguageScore( overallScore ) {
-	MetaboxFieldSync.setFieldValue( "inclusive_language_score", overallScore );
 	return {
 		type: SET_OVERALL_INCLUSIVE_LANGUAGE_SCORE,
 		overallScore: overallScore,
