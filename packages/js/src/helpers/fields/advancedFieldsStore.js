@@ -6,14 +6,22 @@ import { STORE } from "../../constants";
  *
  * @returns {string} The no index value.
  */
-export const getNoIndex = () => String( select( STORE )?.getNoIndex() );
+export const getNoIndex = () => select( STORE )?.getNoIndex() ? String( select( STORE ).getNoIndex() ) : "0";
 
 /**
  * Retrieves the no follow value.
  *
  * @returns {string} The no follow value.
  */
-export const getNoFollow = () => String( select( STORE )?.getNoFollow() );
+export const getNoFollow = () => {
+	const noFollow = select( STORE )?.getNoFollow();
+	if ( noFollow && typeof noFollow === "string" ) {
+		return noFollow;
+	} else if ( typeof noFollow === "number" ) {
+		return String( noFollow );
+	}
+	return "0";
+};
 
 /**
  * Gets the twitter image URL from the state.
@@ -22,7 +30,15 @@ export const getNoFollow = () => String( select( STORE )?.getNoFollow() );
  *
  * @returns {string} Twitter image URL.
  */
-export const getAdvanced = () => select( STORE )?.getAdvanced().join( "," );
+export const getAdvanced = () => {
+	const advanced = select( STORE )?.getAdvanced();
+	if ( Array.isArray( advanced ) ) {
+		return advanced.join( "," );
+	} else if ( typeof advanced === "string" ) {
+		return advanced;
+	}
+	return "";
+};
 
 /**
  * Gets the twitter image type from the state.
