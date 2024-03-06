@@ -191,7 +191,7 @@ const PremiumUpsellList = () => {
 				<Button
 					as="a"
 					variant="upsell"
-					size="large"
+					size="extra-large"
 					href={ premiumLink }
 					className="yst-gap-2 yst-mt-4"
 					target="_blank"

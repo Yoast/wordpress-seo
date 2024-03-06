@@ -8,6 +8,9 @@ settings:
   react:
     version: "18.2"
 
+ignorePatterns:
+  - "packages/*/build/*"
+
 rules:
   no-prototype-builtins: 0
   comma-dangle:
@@ -36,6 +39,15 @@ overrides:
       react/default-props-match-prop-types: 1
       react/no-unused-prop-types: 1
       require-jsdoc: 1
+      import/no-unresolved: [ "error", { ignore: [ "^@yoast/(helpers|style-guide)" ] } ]
+  - files:
+      - "packages/social-metadata-forms/**/*.js"
+    rules:
+      import/no-unresolved: [ "error", { ignore: [ "^@yoast/(components|helpers|replacement-variable-editor|style-guide)" ] } ]
+  - files:
+      - "packages/social-metadata-previews/**/*.js"
+    rules:
+      import/no-unresolved: [ "error", { ignore: [ "^@yoast/(components|replacement-variable-editor|social-metadata-forms|style-guide)" ] } ]
   - files:
       - "packages/yoastseo/**/*.js"
     settings:
@@ -47,7 +59,7 @@ overrides:
       require-jsdoc: [ 1, { "require": { "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } } ]
       no-useless-escape: 1
       import/no-named-as-default: 0
-      import/no-unresolved: [ "error", { ignore: [ "premium-configuration/data/morphologyData" ] } ]
+      import/no-unresolved: [ "error", { ignore: [ "premium-configuration/data/morphologyData", "@yoast/feature-flag" ] } ]
   - files:
       - "packages/yoast-components/**/*.js"
     rules:
@@ -67,6 +79,7 @@ overrides:
       import/no-duplicates: 0
       import/named: 0
       import/no-extraneous-dependencies: 0
+      import/no-unresolved: [ "error", { ignore: [ "^@yoast/(analysis-report|components|helpers|replacement-variable-editor|search-metadata-previews|style-guide)" ] } ]
     env:
       jest: true
   - files:

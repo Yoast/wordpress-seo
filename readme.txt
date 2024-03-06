@@ -342,6 +342,23 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 22.3 =
+
+Release date: 2024-03-19
+
+#### Enhancements
+
+* Removes an unnecessary query relating to breadcrumb generation on the homepage.
+
+#### Bugfixes
+
+* Adds `x.com` as a possible domain for the Twitter validation in our FTC social profiles settings.
+* Fixes a bug where the `Or go to your SEO dashboard` link in the final step of our first time configuration would not be focusable using tab.
+
+#### Other
+
+* Removes the autofill for taxonomy keyphrases.
+
 = 22.2 =
 
 Release date: 2024-03-05
@@ -364,32 +381,6 @@ Yoast SEO 22.2 is out today. In this release, you’ll find language analysis en
 * Fixes a bug where the Organization's Site founding date would span 2 lines in Chrome, by removing our placeholder.
 * Fixes a bug where the schema of a post requested through a REST request wouldn't include the primary image.
 * Fixes a bug where the upsell message for Yoast WooCommerce SEO would appear when using the AI feature on a non-WooCommerce product page.
-
-= 22.1 =
-
-Release date: 2024-02-20
-
-Yoast SEO 22.1 is out today. In this release, you'll find various fixes and improvements, including better Schema support and a new XML sitemap filter. Find out more about what's new in Yoast SEO 22.1 in [our release post](https://yoa.st/release-20-2-24)!
-
-#### Enhancements
-
-* Adds the filter `wpseo_sitemap_urlset` to easily filter `<urlset>` for all XML sitemaps. Props to @jdevalk.
-* Encodes possible spaces in URLs used in `@id` and `url` `WebPage` Schema piece properties when the Schema represents a search results page.
-* Lowers the minimum amount of characters needed to use the search functionality on the settings page.
-* Makes the section headings stand out visually in the _SEO_, _readability_ and _inclusive language_ analysis tabs.
-
-#### Bugfixes
-
-* Fixes a bug where ending a _How-To_ or _FAQ_ block element with a backslash would generate errors when re-opening a saved post.
-* Fixes a bug where next and prev links in query loop would be wrong when disabling `Inherit query from template`.
-* Fixes a bug where some custom post types such as Divi layouts would experience problems after activation or deactivation of Yoast SEO.
-* Fixes a bug where the `ProfilePage` schema node would not be valid when it was manually chosen for a page.
-* Fixes a bug where using a plugin that hooks into `views_edit-{$post_type}` would generate fatal errors when the plugin returned an unexpected array.
-
-#### Other
-
-* Adds more information about Yoast SEO Premium price to the sidebar ad.
-* Adds price and saving information to the `Cover all your SEO bases` card in the `Premium` page.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

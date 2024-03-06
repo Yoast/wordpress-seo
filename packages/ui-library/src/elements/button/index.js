@@ -16,6 +16,7 @@ export const classNameMap = {
 		"default": "",
 		small: "yst-button--small",
 		large: "yst-button--large",
+		"extra-large": "yst-button--extra-large",
 	},
 };
 
