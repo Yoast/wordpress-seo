@@ -1,4 +1,5 @@
 import { dispatch, select } from "@wordpress/data";
+import { cleanForSlug } from "@wordpress/url";
 import { debounce, get } from "lodash";
 import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
 import { registerElementorUIHookAfter, registerElementorUIHookBefore } from "../helpers/elementorHook";
@@ -100,6 +101,7 @@ function getEditorData( editorDocument ) {
 		title: window.elementor.settings.page.model.get( "post_title" ),
 		excerpt: window.elementor.settings.page.model.get( "post_excerpt" ) || "",
 		imageUrl: getImageUrl( content ),
+		status: window.elementor.settings.page.model.get( "post_status" ),
 	};
 }
 
@@ -133,6 +135,10 @@ function handleEditorChange() {
 	if ( data.title !== editorData.title ) {
 		editorData.title = data.title;
 		dispatch( "yoast-seo/editor" ).setEditorDataTitle( editorData.title );
+
+		if ( data.status === "draft" || data.status === "auto-draft" ) {
+			dispatch( "yoast-seo/editor" ).updateData( { slug: cleanForSlug( editorData.title ) } );
+		}
 	}
 
 	if ( data.excerpt !== editorData.excerpt ) {
@@ -145,7 +151,9 @@ function handleEditorChange() {
 		dispatch( "yoast-seo/editor" ).setEditorDataImageUrl( editorData.imageUrl );
 	}
 }
+
 /* eslint-enable complexity */
+
 
 /**
  * Removes highlighting from Elementor widgets and reset the highlighting button.
