@@ -37,7 +37,7 @@ const facebookReducer = ( state = initialState, action ) => {
 				...state,
 				title: action.title,
 				description: action.description,
-				image: { id: action.id, url: action.imageUrl },
+				image: { id: action.imageId, url: action.imageUrl },
 			};
 		case SET_FACEBOOK_TITLE:
 			return { ...state, title: action.title };

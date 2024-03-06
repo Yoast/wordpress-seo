@@ -1,9 +1,6 @@
 /* External dependencies */
 import { select } from "@wordpress/data";
-
-/* Internal dependencies */
-import MetaboxFieldSync from "../../helpers/fields/MetaboxFieldSync";
-
+import { get } from "lodash";
 
 export const SET_FACEBOOK_TITLE = "SET_FACEBOOK_TITLE";
 export const SET_FACEBOOK_DESCRIPTION = "SET_FACEBOOK_DESCRIPTION";
@@ -19,12 +16,6 @@ export const LOAD_FACEBOOK_PREVIEW = "LOAD_FACEBOOK_PREVIEW";
  * @returns {object} The action object.
  */
 export const setFacebookPreviewTitle = ( title ) => {
-	if ( title.trim() === select( "yoast-seo/editor" ).getSocialTitleTemplate().trim() ) {
-		MetaboxFieldSync.setFieldValue( "opengraph-title", "" );
-	} else {
-		MetaboxFieldSync.setFieldValue( "opengraph-title", title );
-	}
-
 	return { type: SET_FACEBOOK_TITLE, title };
 };
 
@@ -36,12 +27,6 @@ export const setFacebookPreviewTitle = ( title ) => {
  * @returns {object} The action object.
  */
 export const setFacebookPreviewDescription = ( description ) => {
-	if ( description.trim() === select( "yoast-seo/editor" ).getSocialDescriptionTemplate().trim() ) {
-		MetaboxFieldSync.setFieldValue( "opengraph-description", "" );
-	} else {
-		MetaboxFieldSync.setFieldValue( "opengraph-description", description );
-	}
-
 	return { type: SET_FACEBOOK_DESCRIPTION, description };
 };
 
@@ -53,8 +38,6 @@ export const setFacebookPreviewDescription = ( description ) => {
  * @returns {object} The action object.
  */
 export const setFacebookPreviewImage = ( image ) => {
-	MetaboxFieldSync.setFieldValue( "opengraph-image", image.url );
-	MetaboxFieldSync.setFieldValue( "opengraph-image-id", image.id );
 	return { type: SET_FACEBOOK_IMAGE, image };
 };
 
@@ -64,8 +47,6 @@ export const setFacebookPreviewImage = ( image ) => {
  * @returns {object} The action object.
  */
 export const clearFacebookPreviewImage = () => {
-	MetaboxFieldSync.setFieldValue( "opengraph-image", "" );
-	MetaboxFieldSync.setFieldValue( "opengraph-image-id", "" );
 	return { type: CLEAR_FACEBOOK_IMAGE };
 };
 
@@ -82,9 +63,9 @@ export const loadFacebookPreviewData = () => {
 
 	return {
 		type: LOAD_FACEBOOK_PREVIEW,
-		imageId: Number( MetaboxFieldSync.getInitialValue( "opengraph-image-id" ) ),
-		imageUrl: MetaboxFieldSync.getInitialValue( "opengraph-image" ),
-		description: MetaboxFieldSync.getInitialValue( "opengraph-description" ) || getSocialDescriptionTemplate(),
-		title: MetaboxFieldSync.getInitialValue( "opengraph-title" ) || getSocialTitleTemplate(),
+		imageId: get( window, "wpseoScriptData.metabox.metadata.opengraph-image-id", "" ),
+		imageUrl: get( window, "wpseoScriptData.metabox.metadata.opengraph-image", "" ),
+		description: get( window, "wpseoScriptData.metabox.metadata.opengraph-description", "" ) || getSocialDescriptionTemplate(),
+		title: get( window, "wpseoScriptData.metabox.metadata.opengraph-title", "" ) || getSocialTitleTemplate(),
 	};
 };

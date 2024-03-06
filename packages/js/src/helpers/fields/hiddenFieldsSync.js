@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable camelcase */
 import { select, subscribe } from "@wordpress/data";
 import { debounce, forEach, pickBy, get } from "lodash";
@@ -17,6 +18,30 @@ import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical
 const getPrimaryCategoryId = () => String( select( STORE )?.getPrimaryTaxonomyId( "category" ) );
 
 /**
+ * Prepare twitter title to be saved in hidden field.
+ * @param {string} value The value to be saved.
+ * @returns {string} The value to be saved.
+ */
+const prepareSocialTitle = ( value ) => {
+	if ( value.trim() === select( STORE ).getSocialTitleTemplate().trim() ) {
+		return "";
+	}
+	return value;
+};
+
+/**
+ * Prepare twitter and facebook description to be saved in hidden field.
+ * @param {string} value The value to be saved.
+ * @returns {string} The value to be saved.
+ */
+const prepareSocialDescription = ( value ) => {
+	if ( value.trim() === select( STORE ).getSocialDescriptionTemplate().trim() ) {
+		return "";
+	}
+	return value;
+};
+
+/**
  * Prepare value to be saved in hidden field.
  *
  * @param {string} key The key of the value.
@@ -29,6 +54,12 @@ const prepareValue = ( key, value ) => {
 		case "wordproof_timestamp":
 		case "is_cornerstone":
 			return value ? "1" : "0";
+		case "twitter-title":
+		case "opengraph-title":
+			return prepareSocialTitle( value );
+		case "twitter-description":
+		case "opengraph-description":
+			return prepareSocialDescription( value );
 		default:
 			return value;
 	}
@@ -70,7 +101,7 @@ const createUpdater = () => {
 
 		if ( changedData ) {
 			forEach( changedData, ( value, key ) => {
-				console.log( prepareValue( key, value ) );
+				console.log( typeof prepareValue( key, value ), prepareValue( key, value ) );
 				document.getElementById( prefix + key ).value = prepareValue( key, value );
 			} );
 		}
@@ -93,7 +124,7 @@ export const hiddenFieldsrSync = () => {
 			bctitle: getBreadcrumbsTitle,
 			canonical: getCanonical,
 			wordproof_timestamp: getWordProofTimestamp,
-			primary_category_term: getPrimaryCategoryId,
+			// primary_category_term: getPrimaryCategoryId,
 			"opengraph-title": getFacebookTitle,
 			"opengraph-description": getFacebookDescription,
 			"opengraph-image": getFacebookImageUrl,
@@ -102,12 +133,12 @@ export const hiddenFieldsrSync = () => {
 			"twitter-description": getTwitterDescription,
 			"twitter-image": getTwitterImageUrl,
 			"twitter-image-id": getTwitterImageId,
-			schema_page_type: getPageType,
-			schema_article_type: getArticleType,
+			// schema_page_type: getPageType,
+			// schema_article_type: getArticleType,
 			is_cornerstone: isCornerstoneContent,
-			content_score: getReadabilityScore,
-			linkdex: getSeoScore,
-			inclusive_language_score: getInclusiveLanguageScore,
+			// content_score: getReadabilityScore,
+			// linkdex: getSeoScore,
+			// inclusive_language_score: getInclusiveLanguageScore,
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE );

@@ -28,7 +28,7 @@ const populateStore = store => {
 		} )
 	);
 
-	const metadata = get( window, "wpseoScriptData.metabox.metadata", [] );
+	const metadata = get( window, "wpseoScriptData.metabox.metadata", {} );
 	store.dispatch( actions.setFocusKeyword( metadata.focuskw ) );
 
 	const primaryTerms = pickBy( metadata, ( value, key ) => key.startsWith( "primary_" ) && value );
@@ -36,6 +36,10 @@ const populateStore = store => {
 		const taxonomy = key.replace( "primary_", "" );
 		store.dispatch( actions.setPrimaryTaxonomyId( taxonomy, value ) );
 	} );
+
+	// Set intial values for social preview.
+	store.dispatch( actions.loadTwitterPreviewData() );
+	store.dispatch( actions.loadFacebookPreviewData() );
 
 	store.dispatch( actions.loadAdvancedSettingsData() );
 
