@@ -45,7 +45,7 @@ export default function initPrimaryCategory( $ ) {
 	function getPrimaryTerm( taxonomyName ) {
 		var primaryTermInput;
 
-		primaryTermInput = $( "#yoast-wpseo-primary-" + taxonomyName );
+		primaryTermInput = $( "#yoast_wpseo_primary_" + taxonomyName );
 		return primaryTermInput.val();
 	}
 
@@ -76,7 +76,7 @@ export default function initPrimaryCategory( $ ) {
 	 * @returns {void}
 	 */
 	function setPrimaryTerm( taxonomyName, termId ) {
-		const primaryTermInput = $( "#yoast-wpseo-primary-" + taxonomyName );
+		const primaryTermInput = $( "#yoast_wpseo_primary_" + taxonomyName );
 		primaryTermInput.val( termId ).trigger( "change" );
 
 		const yoastEditor = dispatch( "yoast-seo/editor" );

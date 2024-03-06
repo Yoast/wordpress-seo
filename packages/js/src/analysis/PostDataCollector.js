@@ -347,7 +347,7 @@ PostDataCollector.prototype.bindElementEvents = function( refreshAnalysis ) {
  * @returns {void}
  */
 PostDataCollector.prototype.changeElementEventBinder = function( refreshAnalysis ) {
-	var elems = [ "#yoast-wpseo-primary-category", '.categorychecklist input[name="post_category[]"]' ];
+	var elems = [ "#yoast_wpseo_primary_category", '.categorychecklist input[name="post_category[]"]' ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		$( elems[ i ] ).on( "change", refreshAnalysis );
 	}

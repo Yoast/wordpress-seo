@@ -80,7 +80,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 * @return string The field id.
 	 */
 	protected function generate_field_id( $taxonomy_name ) {
-		return 'yoast-wpseo-primary-' . $taxonomy_name;
+		return 'yoast_wpseo_primary_' . $taxonomy_name;
 	}
 
 	/**
