@@ -87,7 +87,7 @@ jobs:
       - name: Set up node and enable caching of dependencies
         uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version-file: './.nvmrc'
           cache: 'yarn'
 
       - name: Yarn install
@@ -100,6 +100,9 @@ jobs:
           yarn --version
           grunt --version
           yarn run jest --version
+
+      - name: Build all packages
+        run: yarn run build --ignore "@yoast/wordpress-seo"
 
       - name: Show Jest version
         run: yarn run jest --version
@@ -146,7 +149,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Checks for changes
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # dorny/paths-filter@v3.0.2
         id: changes
         with:
           filters: |
@@ -178,7 +181,7 @@ jobs:
         if: ${{ steps.checks-run.outputs.should == 'true' }}
         uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version-file: './.nvmrc'
           cache: 'yarn'
 
       - name: Yarn install
@@ -193,6 +196,10 @@ jobs:
           yarn --version
           grunt --version
           yarn run jest --version
+
+      - name: Build all packages
+        if: ${{ steps.checks-run.outputs.should == 'true' }}
+        run: yarn run build --ignore "@yoast/wordpress-seo"
 
       - name: Show Jest version
         if: ${{ steps.checks-run.outputs.should == 'true' }}

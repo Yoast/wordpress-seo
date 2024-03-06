@@ -61,7 +61,7 @@ class WPSEO_Sitemaps_Renderer {
 	/**
 	 * Builds the sitemap index.
 	 *
-	 * @param array $links Set of sitemaps index links.
+	 * @param array<string> $links Set of sitemaps index links.
 	 *
 	 * @return string
 	 */
@@ -87,18 +87,25 @@ class WPSEO_Sitemaps_Renderer {
 	/**
 	 * Builds the sitemap.
 	 *
-	 * @param array  $links        Set of sitemap links.
-	 * @param string $type         Sitemap type.
-	 * @param int    $current_page Current sitemap page number.
+	 * @param array<string> $links        Set of sitemap links.
+	 * @param string        $type         Sitemap type.
+	 * @param int           $current_page Current sitemap page number.
 	 *
 	 * @return string
 	 */
 	public function get_sitemap( $links, $type, $current_page ) {
 
 		$urlset = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" '
-			. 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd '
-			. 'http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" '
-			. 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+					. 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd '
+					. 'http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" '
+					. 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+
+		/**
+		 * Filters the `urlset` for all sitemaps.
+		 *
+		 * @param string $urlset The output for the sitemap's `urlset`.
+		 */
+		$urlset = apply_filters( 'wpseo_sitemap_urlset', $urlset );
 
 		/**
 		 * Filters the `urlset` for a sitemap by type.
@@ -176,7 +183,7 @@ class WPSEO_Sitemaps_Renderer {
 	/**
 	 * Build the `<sitemap>` tag for a given URL.
 	 *
-	 * @param array $url Array of parts that make up this entry.
+	 * @param array<string> $url Array of parts that make up this entry.
 	 *
 	 * @return string
 	 */
@@ -203,7 +210,7 @@ class WPSEO_Sitemaps_Renderer {
 	 *
 	 * Public access for backwards compatibility reasons.
 	 *
-	 * @param array $url Array of parts that make up this entry.
+	 * @param array<string> $url Array of parts that make up this entry.
 	 *
 	 * @return string
 	 */

@@ -122,7 +122,7 @@ exports[`Search modal should open 1`] = `
             <p
               class="yst-text-slate-500"
             >
-              Please enter a search term with at least 3 characters.
+              Please enter a search term with at least 2 characters.
             </p>
           </div>
         </div>

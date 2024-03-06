@@ -1,12 +1,13 @@
 import { includesWordsAtPosition } from "./includesWordsAtPosition";
 
 /**
- * Checks whether the given list of words contains another list of words in the given order.
+ * Checks whether a list of words contains a sequence of words in the given order.
+ * For example, whether [ "the", "cat", "is", "sleeping" ] contains the words ["is", "sleeping"] in that order.
  *
  * @param {string[]} words The list of words.
- * @param {string[]} consecutiveWords The list of words to find.
+ * @param {string[]} consecutiveWords The sequence of words in the given order to find in the list.
  *
- * @returns {number[]} The indices where the given list of words is contained in another list of words in the given order.
+ * @returns {number[]} The indices where the sequence of words can be found in the list of words.
  */
 export function includesConsecutiveWords( words, consecutiveWords ) {
 	const foundIndices = [];

@@ -308,7 +308,7 @@ class Front_End_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Returns correct adjacent pages when QUery loop block does not inherit query from template.
+	 * Returns correct adjacent pages when Query loop block does not inherit query from template.
 	 *
 	 * @param string                      $link         The current link.
 	 * @param string                      $rel          Link relationship, prev or next.
@@ -322,24 +322,14 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		if ( $rel === 'next' || $rel === 'prev' ) {
-
-			// WP_HTML_Tag_Processor was introduced in WordPress 6.2.
+			// Reconstruct url if it's relative.
 			if ( \class_exists( WP_HTML_Tag_Processor::class ) ) {
 				$processor = new WP_HTML_Tag_Processor( $this->$rel );
 				while ( $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
 					$href = $processor->get_attribute( 'href' );
-					if ( $href ) {
+					if ( $href && \strpos( $href, '/' ) === 0 ) {
 						return $presentation->permalink . \substr( $href, 1 );
 					}
-				}
-			}
-			// Remove else when dropping support for WordPress 6.1 and lower.
-			else {
-				$pattern = '/"(.*?)"/';
-				// Find all matches of the pattern in the HTML string.
-				\preg_match_all( $pattern, $this->$rel, $matches );
-				if ( isset( $matches[1] ) && isset( $matches[1][0] ) && $matches[1][0] ) {
-					return $presentation->permalink . \substr( $matches[1][0], 1 );
 				}
 			}
 		}

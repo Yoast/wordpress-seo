@@ -1,0 +1,108 @@
+@layer components {
+	.yst-root {
+		.yst-tooltip {
+			@apply
+			yst-absolute
+			yst-inline-block
+			yst-z-10
+			yst-px-2
+			yst-p-2
+			yst-bg-gray-800
+			yst-text-white
+			yst-text-xs
+			yst-rounded-lg;
+		}
+
+		.yst-tooltip--top {
+            @apply
+            yst--translate-x-1/2
+            yst--translate-y-full
+			yst-left-1/2
+			yst-mb-1;
+
+			/* Style properties for the tooltip arrow */	
+			&::before {
+				@apply
+				yst-content-['']
+				yst-absolute
+				yst-left-1/2
+				yst-top-full /* Arrow positioned at the bottom of the tooltip */
+				yst--translate-x-1/2
+				yst-translate-y-0
+				yst-border-8
+				yst-border-x-transparent
+				yst-border-b-transparent
+				yst-border-t-gray-800;
+			}
+        }
+
+		.yst-tooltip--bottom {
+            @apply
+            yst--translate-x-1/2
+            yst--translate-y-0
+			yst-left-1/2
+			yst-top-full
+			yst-mt-2;
+
+			/* Style properties for the tooltip arrow */	
+			&::before {
+				@apply
+				yst-content-['']
+				yst-absolute
+				yst-left-1/2
+				yst-bottom-full /* Arrow positioned at the top of the tooltip */
+				yst--translate-x-1/2
+				yst-border-8
+				yst-border-x-transparent
+				yst-border-t-transparent
+				yst-border-b-gray-800;
+			}
+		}
+
+		.yst-tooltip--right {
+            @apply
+            yst--translate-x-0 
+            yst--translate-y-1/2
+			yst-left-full
+			yst-top-1/2
+			yst-ml-2;
+	
+			/* Style properties for the tooltip arrow */
+			&::before {
+				@apply
+				yst-content-['']
+				yst-absolute
+				yst-right-full /* Arrow positioned at the left of the tooltip */
+				yst-top-1/2
+				yst--translate-y-1/2
+				yst-border-8
+				yst-border-l-transparent
+				yst-border-t-transparent
+				yst-border-b-transparent
+				yst-border-r-gray-800;
+			}
+        }
+
+		.yst-tooltip--left {
+			@apply
+			yst--translate-y-0
+			yst-right-full
+			yst-mr-2;
+
+			/* Style properties for the tooltip arrow */
+			&::before {
+				@apply
+				yst-content-['']
+				yst-absolute
+				yst-left-full /* Arrow positioned at the right of the tooltip */
+				yst-top-1/2
+				yst--translate-y-1/2
+				yst-border-8
+				yst-border-r-transparent
+				yst-border-t-transparent
+				yst-border-b-transparent
+				yst-border-l-gray-800;
+			}
+		}
+	}
+}

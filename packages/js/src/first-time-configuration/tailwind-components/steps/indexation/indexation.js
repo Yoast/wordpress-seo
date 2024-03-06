@@ -2,6 +2,7 @@
 import { Component, flushSync, Fragment } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
 import { __ } from "@wordpress/i18n";
+import { Button } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import AnimateHeight from "react-animate-height";
 
@@ -283,15 +284,14 @@ class Indexation extends Component {
 	 * @returns {JSX.Element|null} The start button.
 	 */
 	renderStartButton() {
-		return <button
-			type="button"
-			className="yst-button yst-button--secondary"
+		return <Button
+			variant="secondary"
 			onClick={ this.startIndexing }
 			id="indexation-data-optimization"
 			data-hiive-event-name="clicked_start_data_optimization"
 		>
 			{ __( "Start SEO data optimization", "wordpress-seo" ) }
-		</button>;
+		</Button>;
 	}
 
 	/**
@@ -300,13 +300,12 @@ class Indexation extends Component {
 	 * @returns {JSX.Element|null} The stop button.
 	 */
 	renderStopButton() {
-		return <button
-			type="button"
-			className="yst-button yst-button--secondary"
+		return <Button
+			variant="secondary"
 			onClick={ this.stopIndexing }
 		>
 			{ __( "Stop SEO data optimization", "wordpress-seo" ) }
-		</button>;
+		</Button>;
 	}
 
 	/**
@@ -317,14 +316,13 @@ class Indexation extends Component {
 	renderDisabledTool() {
 		return <Fragment>
 			<p>
-				<button
-					type="button"
-					className="yst-button yst-button--secondary yst-button--disabled"
+				<Button
+					variant="secondary"
 					disabled={ true }
 					id="indexation-data-optimization"
 				>
 					{ __( "Start SEO data optimization", "wordpress-seo" ) }
-				</button>
+				</Button>
 			</p>
 			<Alert type={ "info" } className="yst-mt-6">
 				{ __( "SEO data optimization is disabled for non-production environments.", "wordpress-seo" ) }

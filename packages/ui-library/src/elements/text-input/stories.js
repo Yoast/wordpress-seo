@@ -20,3 +20,15 @@ export const Factory = {
 		controls: { disable: false },
 	},
 };
+
+export const DatePicker = StoryComponent.bind( {} );
+
+DatePicker.parameters = {
+	controls: { disable: false },
+};
+
+DatePicker.args = {
+	type: "date",
+};
+
+DatePicker.storyName = "Date picker input";

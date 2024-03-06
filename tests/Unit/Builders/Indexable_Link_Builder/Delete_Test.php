@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder;
 
+use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
@@ -83,6 +84,9 @@ final class Delete_Test extends Abstract_Indexable_Link_Builder_TestCase {
 			->expects( 'update_incoming_link_count' )
 			->with( 3, 7 )
 			->once();
+
+		Functions\expect( 'wp_cache_supports' )->once()->andReturnTrue();
+		Functions\expect( 'wp_cache_flush_group' )->once()->andReturnTrue();
 
 		$this->instance->delete( $indexable );
 	}

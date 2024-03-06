@@ -19,10 +19,10 @@ import {
 	RouteLayout,
 } from "../../components";
 import { safeToLocaleLower } from "../../helpers";
-import { withFormikDummyField } from "../../hocs";
+import { withFormikDummyField, withFormikDummyTagField } from "../../hocs";
 import { useSelectSettings, useDispatchSettings } from "../../hooks";
 
-const FormikTagFieldWithDummy = withFormikDummyField( FormikTagField );
+const FormikTagFieldWithDummy = withFormikDummyTagField( FormikTagField );
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
 /**

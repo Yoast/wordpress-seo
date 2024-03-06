@@ -1,5 +1,6 @@
 import { Fragment, useCallback, useState, useEffect, useContext, createContext } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { Button } from "@yoast/ui-library";
 import AnimateHeight from "react-animate-height";
 import PropTypes from "prop-types";
 import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
@@ -64,13 +65,12 @@ function GoButton( { beforeGo, children, destination, ...restProps } ) {
 		}
 	}, [ goToDestination, beforeGo ] );
 
-	return <button
-		type="button"
+	return <Button
 		onClick={ goFunction }
 		{ ...restProps }
 	>
 		{ children }
-	</button>;
+	</Button>;
 }
 
 GoButton.propTypes = {
@@ -102,14 +102,14 @@ function EditButton( { children, ...restProps } ) {
 		setActiveStepIndex( stepIndex );
 	}, [ setActiveStepIndex, stepIndex ] );
 
-	return <button
-		type="button"
+	return <Button
 		onClick={ editFunction }
-		className="yst-button yst-button--secondary yst-button--small"
+		variant="secondary"
+		size="small"
 		{ ...restProps }
 	>
 		{ children }
-	</button>;
+	</Button>;
 }
 
 EditButton.propTypes = {
@@ -166,8 +166,8 @@ export function StepError( { id, message, className } ) {
 		className={ className }
 	>
 		{
-			/* translators: %1$s expands to the error message returned by the server */
 			sprintf(
+				/* translators: %1$s expands to the error message returned by the server */
 				__(
 					"An error has occurred: %1$s",
 					"wordpress-seo"

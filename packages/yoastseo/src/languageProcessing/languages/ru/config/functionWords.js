@@ -1,4 +1,5 @@
 import { singleWords as transitionWords } from "./transitionWords.js";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
 
 /**
  * Returns an object with exceptions for the prominent words researcher
@@ -31,7 +32,7 @@ const copula = [
 	"прийти", "пришел", "пришёл", "пришла", "пришло", "пришли", "приду", "придешь", "придёшь", "придет", "придёт", "придем",
 	"придём", "придете", "придёте", "придут",
 	"приходить", "приходил", "приходила", "приходило", "приходили", "прихожу", "приходишь", "приходит", "приходим", "приходите",
-	"происходить", "происходил", "происходила", "происходило", "происходили",  "происходит", "происходят",
+	"происходить", "происходил", "происходила", "происходило", "происходили", "происходит", "происходят",
 	"держать", "держал", "держала", "держало", "держали", "держу", "держишь", "держит", "держим", "держите", "держут",
 	"содержать", "содержал", "содержала", "содержало", "содержали", "содержу", "содержишь", "содержит", "содержим", "содержите",
 	"содержут",
@@ -237,7 +238,7 @@ const indefinitePronouns = [
 	"какой", "какого", "какому", "каким", "каком", "какая", "какую", "какое", "какие", "каких", "какими",
 	"какой-то", "какого-то", "какому-то", "каким-то", "каком-то", "какая-то", "какую-то", "какое-то", "какие-то", "каких-то", "какими-то",
 ];
-const indefinitePronounsPossessive  = [
+const indefinitePronounsPossessive = [
 	"чей-то", "чьего-то", "чьему-то", "чьим-то", "чьем-то", "чьём-то", "чья-то", "чьей-то", "чье-то", "чьё-то", "чьи-то",
 	"чьих-то", "чьими-то",
 	"ничей", "чьего", "чьему", "чьим", "чьем", "чьём", "чья", "чьей", "чье", "чьё", "чьи", "чьих", "чьими",
@@ -488,26 +489,27 @@ const titlesPreceding = [ "г-н", "г-жа", "тов", "гр-н", "гр-а", "�
 const titlesFollowing = [ "мл" ];
 
 // These word categories are filtered at the ending of word combinations.
-export const filteredAtEnding = [].concat( ordinalNumerals, generalAdjectivesAdverbs );
+export const filteredAtEnding = transformWordsWithHyphens( [].concat( ordinalNumerals, generalAdjectivesAdverbs ) );
 
 // These word categories are filtered at the beginning and ending of word combinations.
-export const filteredAtBeginningAndEnding = [].concat( prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
-	quantifiers, possessivePronouns );
+export const filteredAtBeginningAndEnding = transformWordsWithHyphens( [].concat( prepositions, coordinatingConjunctions, demonstrativePronouns,
+	intensifiers,
+	quantifiers, possessivePronouns ) );
 
 // These word categories are filtered everywhere within word combinations.
-export const filteredAnywhere = [].concat( transitionWords, adverbialGenitives, personalPronouns,
+export const filteredAnywhere = transformWordsWithHyphens( [].concat( transitionWords, adverbialGenitives, personalPronouns,
 	reflexivePronouns, interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs,
 	delexicalizedVerbs, indefinitePronouns, subordinatingConjunctions, interrogativeDeterminers,
-	interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, recipeWords, timeWords, vagueNouns );
+	interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, recipeWords, timeWords, vagueNouns ) );
 
 // This export contains all of the above words.
-export const all = [].concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
-	personalPronouns, quantifiers, indefinitePronouns, indefinitePronounsPossessive, interrogativeDeterminers,
+export const all = transformWordsWithHyphens( [].concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
+	reflexivePronouns, personalPronouns, quantifiers, indefinitePronouns, indefinitePronounsPossessive, interrogativeDeterminers,
 	interrogativePronouns, interrogativeProAdverbs,
 	locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries,
 	otherAuxiliaries, copula, prepositions, coordinatingConjunctions, subordinatingConjunctions, interviewVerbs,
 	transitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
-	recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing, timeWords );
+	recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing, timeWords ) );
 
 export default {
 	filteredAtEnding,

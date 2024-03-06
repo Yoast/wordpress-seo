@@ -1,5 +1,4 @@
-import getWordsForHTMLParser from "../../../../src/languageProcessing/helpers/word/getWordsForHTMLParser";
-
+import splitIntoTokens from "../../../../src/languageProcessing/helpers/word/splitIntoTokens";
 
 const testCases = [
 	{
@@ -25,7 +24,7 @@ const testCases = [
 	{
 		description: "correctly tokenizes a phrase with a hyphen",
 		text: "a-hyphenated-phrase",
-		expectedResult: [ "a-hyphenated-phrase" ],
+		expectedResult: [ "a", "-", "hyphenated", "-", "phrase" ],
 	},
 	{
 		description: "correctly tokenizes a phrase with an apostrophe",
@@ -56,7 +55,7 @@ const testCases = [
 		description: "correctly tokenizes a phrase that is separated by non-breaking spaces",
 		text: "a\u00a0phrase#nbsp;that\u00a0is#nbsp;separated\u00a0by#nbsp;non-breaking\u00a0spaces",
 		expectedResult: [ "a", "\u00a0", "phrase", "#nbsp;", "that", "\u00a0", "is", "#nbsp;", "separated", "\u00a0", "by", "#nbsp;",
-			"non-breaking", "\u00a0", "spaces" ],
+			"non", "-", "breaking", "\u00a0", "spaces" ],
 	},
 	{
 		description: "correctly tokenizes a phrase that is separated by tabs",
@@ -80,8 +79,8 @@ const testCases = [
 	},
 ];
 
-describe.each( testCases )( "getWordsForHTMLParser", ( { description, text, expectedResult } ) => {
+describe.each( testCases )( "splitIntoTokens", ( { description, text, expectedResult } ) => {
 	it( description, () => {
-		expect( getWordsForHTMLParser( text ) ).toEqual( expectedResult );
+		expect( splitIntoTokens( text ) ).toEqual( expectedResult );
 	} );
 } );
