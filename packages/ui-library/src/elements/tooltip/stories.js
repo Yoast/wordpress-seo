@@ -1,6 +1,6 @@
 import { StoryComponent } from ".";
 import { component } from "./docs";
-import { useState, useCallback } from "@wordpress/element";
+import React, { useCallback, useState } from "react";
 import Badge from "../badge";
 
 export default {

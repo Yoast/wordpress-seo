@@ -1,4 +1,4 @@
-import { forwardRef } from "@wordpress/element";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
@@ -18,7 +18,6 @@ const positionClassNameMap = {
  * @param {boolean} isVisible Default state.
  * @returns {JSX.Element} Tooltip component.
  */
-
 const Tooltip = forwardRef( ( { id, children, as: Component, className, isVisible, position, ...props }, ref ) => {
 	return (
 		<>
@@ -40,16 +39,14 @@ const Tooltip = forwardRef( ( { id, children, as: Component, className, isVisibl
 	);
 } );
 
-const propTypes = {
+Tooltip.displayName = "Tooltip";
+Tooltip.propTypes = {
 	as: PropTypes.elementType,
 	id: PropTypes.string.isRequired,
 	children: PropTypes.string,
 	className: PropTypes.string,
 	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ),
 };
-
-Tooltip.propTypes = propTypes;
-
 Tooltip.defaultProps = {
 	as: "div",
 	children: "",
