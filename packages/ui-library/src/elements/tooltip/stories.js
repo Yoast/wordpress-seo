@@ -13,9 +13,6 @@ export default {
 };
 
 export const Factory = ( args ) => {
-	const [ isVisible, setIsVisible ] = useState( false );
-	const handleMouseEnter = useCallback( () => setIsVisible( true ), [ setIsVisible ] );
-	const handleMouseLeave = useCallback( () => setIsVisible( false ), [ setIsVisible ] );
 
 	return (
 		// The yst-my-6 class gives more space within the Storybook container, allowing the tooltip to be visible.
@@ -24,12 +21,10 @@ export const Factory = ( args ) => {
 			<Badge
 				variant="plain"
 				aria-describedby={ args.id }
-				onMouseEnter={ handleMouseEnter }
-				onMouseLeave={ handleMouseLeave }
 				// The parent element nesting the tooltip should have a relative position.
 				className="yst-relative"
-			> Hover me
-				<StoryComponent { ...args } isVisible={ isVisible }  />
+			>Hover me
+				<StoryComponent { ...args } />
 			</Badge>
 		</div>
 	);
@@ -37,5 +32,40 @@ export const Factory = ( args ) => {
 
 Factory.args = {
 	id: "id-1",
-	children: "I'm a tooltip",
+	children: "I am a tooltip",
+}
+
+export const badgeShowsATooltipOnHover = (args) => {
+	const [isVisible, setIsVisible] = useState(false);
+	const handleMouseEnter = useCallback(
+		() => setIsVisible(true),
+		[setIsVisible],
+	);
+	const handleMouseLeave = useCallback(
+		() => setIsVisible(false),
+		[setIsVisible],
+	);
+
+	return (
+		<div className="yst-my-6 yst-flex yst-justify-center yst-cursor-pointer">
+			<Badge
+				variant="plain"
+				aria-describedby={args.id}
+				onMouseEnter={handleMouseEnter}
+				onMouseLeave={handleMouseLeave}
+				// The parent element nesting the tooltip should have a relative position.
+				className="yst-relative"
+			>
+				Hover me
+				{ isVisible && (
+					<StoryComponent {...args} />
+				)}
+			</Badge>
+		</div>
+	);
+};
+
+badgeShowsATooltipOnHover.args = {
+	id: "id-2",
+	children: "I am also a tooltip",
 };

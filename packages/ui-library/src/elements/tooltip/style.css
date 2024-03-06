@@ -11,8 +11,8 @@
 			yst-text-white
 			yst-text-xs
 			yst-rounded-lg
-			yst-max-w-md /* Set the maximum width of the tooltip */
-			
+			yst-max-w-lg; /* Set the maximum width of the tooltip */
+			text-wrap: wrap; /* Wrap the text in the tooltip */
 		}
 
 		.yst-tooltip--top {
