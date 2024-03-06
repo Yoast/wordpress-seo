@@ -63,7 +63,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 
 			$notification = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin );
 
-			if ( ! $checker->is_installed( $plugin ) ) {
+			if ( ! $checker->is_installed( $plugin ) && ! $checker->is_active( $plugin['slug'] ) ) {
 				$this->notification_center->add_notification( $notification );
 
 				continue;
@@ -83,10 +83,6 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 	 */
 	protected function get_yoast_seo_suggested_plugins_notification( $name, $plugin ) {
 		$message = $this->create_install_suggested_plugin_message( $plugin );
-
-		if ( $this->availability_checker->is_installed( $plugin ) && ! $this->availability_checker->is_active( $plugin['slug'] ) ) {
-			$message = '';
-		}
 
 		return new Yoast_Notification(
 			$message,
