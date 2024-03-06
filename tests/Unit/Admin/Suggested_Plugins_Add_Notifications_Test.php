@@ -3,87 +3,16 @@
 namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
 use Brain\Monkey;
-use Mockery;
-use WPSEO_Plugin_Availability;
-use Yoast_Notification_Center;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-use WPSEO_Suggested_Plugins;
 
 /**
- * Suggested plugins tests.
- *
- * @coversDefaultClass WPSEO_Suggested_Plugins
+ * @coversDefaultClass WPSEO_Suggested_Plugins::add_notifications
  */
-final class Suggested_Plugins_Test extends TestCase {
-
-	/**
-	 * Represents the instance we are testing.
-	 *
-	 * @var WPSEO_Suggested_Plugins
-	 */
-	protected $instance;
-
-	/**
-	 * Holds the availability checker.
-	 *
-	 * @var Mockery\MockInterface|WPSEO_Plugin_Availability
-	 */
-	protected $availability_checker;
-
-	/**
-	 * Holds the notification center.
-	 *
-	 * @var Mockery\MockInterface|Yoast_Notification_Center
-	 */
-	protected $notification_center;
-
-	/**
-	 * Set up the class which will be tested.
-	 *
-	 * @return void
-	 */
-	protected function set_up() {
-		parent::set_up();
-
-		$this->stubTranslationFunctions();
-
-		$this->availability_checker = Mockery::mock( WPSEO_Plugin_Availability::class );
-		$this->notification_center  = Mockery::mock( Yoast_Notification_Center::class );
-		$this->instance             = new WPSEO_Suggested_Plugins( $this->availability_checker, $this->notification_center );
-	}
-
-	/**
-	 * Tests the registration of the hooks.
-	 *
-	 * @covers ::register_hooks
-	 *
-	 * @return void
-	 */
-	public function test_register_hooks() {
-		$this->instance->register_hooks();
-
-		$this->assertEquals(
-			10,
-			has_action(
-				'admin_init',
-				[ $this->availability_checker, 'register' ]
-			)
-		);
-
-		$this->assertEquals(
-			10,
-			has_action(
-				'admin_init',
-				[ $this->instance, 'add_notifications' ]
-			)
-		);
-	}
+final class Suggested_Plugins_Add_Notifications_Test extends Suggested_Plugins_TestCase {
 
 	/**
 	 * Tests the adding of notifications.
 	 *
 	 * @dataProvider data_add_notifications
-	 * @covers ::add_notifications
 	 *
 	 * @param array       $plugins_with_dependencies The data of plugins with dependencies.
 	 * @param array<bool> $satisfied_dependencies    Whether each plugin has their dependencies satisfied.
