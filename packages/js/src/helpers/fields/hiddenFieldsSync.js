@@ -3,7 +3,7 @@
 import { select, subscribe } from "@wordpress/data";
 import { debounce, forEach, pickBy, get } from "lodash";
 import createWatcher, { createCollectorFromObject } from "../../helpers/create-watcher";
-import { STORE, SYNC_TIME } from "../../constants";
+import { STORE, SYNC_TIME } from "../../shared-admin/constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
 import { getPageType, getArticleType } from "./schemaFieldsStore";

@@ -1,5 +1,5 @@
 import { select } from "@wordpress/data";
-import { STORE } from "../../constants";
+import { STORE } from "../../shared-admin/constants";
 
 /**
  * Retrieve facebook image id.
