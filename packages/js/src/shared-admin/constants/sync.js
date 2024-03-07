@@ -1,4 +1,4 @@
-export const METADATA_KEYS = {
+export const POST_METADATA_KEYS = {
 	focusKeyphrase: "_yoast_wpseo_focuskw",
 	noIndex: "_yoast_wpseo_meta-robots-noindex",
 	noFollow: "_yoast_wpseo_meta-robots-nofollow",
