@@ -57,7 +57,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Returns the translated values.
 	 *
-	 * @return array<string,int,array<string>,array<int>>
+	 * @return array<string|int|array<string>|array<int>>
 	 */
 	public function get_values() {
 
@@ -92,8 +92,8 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		/**
 		 * Filter: 'wpseo_post_edit_values' - Allows changing the values Yoast SEO uses inside the post editor.
 		 *
-		 * @param array   $values The key-value map Yoast SEO uses inside the post editor.
-		 * @param WP_Post $post   The post opened in the editor.
+		 * @param array<string|array<string>> $values The key-value map Yoast SEO uses inside the post editor.
+		 * @param WP_Post $post                 The post opened in the editor.
 		 */
 		return apply_filters( 'wpseo_post_edit_values', $values, $this->post );
 	}
@@ -156,7 +156,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Counts the number of given keywords used for other posts other than the given post_id.
 	 *
-	 * @return array<string,array<int>> The keyword and the associated posts that use it.
+	 * @return array<string|array<int>> The keyword and the associated posts that use it.
 	 */
 	private function get_focus_keyword_usage() {
 		$keyword = WPSEO_Meta::get_value( 'focuskw', $this->post->ID );
@@ -174,7 +174,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves the post types for the given post IDs.
 	 *
-	 * @param array<string,array<int>> $post_ids_per_keyword An associative array with keywords as keys and an array of post ids where those keywords are used.
+	 * @param array<string|array<int>> $post_ids_per_keyword An associative array with keywords as keys and an array of post ids where those keywords are used.
 	 * @return array<string> The post types for the given post IDs.
 	 */
 	private function get_post_types_for_all_ids( $post_ids_per_keyword ) {
