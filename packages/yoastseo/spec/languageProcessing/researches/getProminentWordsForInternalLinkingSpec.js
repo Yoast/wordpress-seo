@@ -5,6 +5,7 @@ import CatalanResearcher from "../../../src/languageProcessing/languages/ca/Rese
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import ProminentWord from "../../../src/languageProcessing/values/ProminentWord";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
+import baseStemmer from "../../../src/languageProcessing/helpers/morphology/baseStemmer";
 
 
 const morphologyData = getMorphologyData( "en" );
@@ -171,6 +172,10 @@ describe( "relevantWords research", function() {
 								   "Romeo and Juliet. " ) );
 
 		const researcher = new Researcher( paper );
+
+		// Use the base stemmer so the research will return prominent words with less than 4 hits.
+		// eslint-disable-next-line no-unused-vars
+		researcher.addHelper( "customGetStemmer", dummy => baseStemmer );
 
 		const expected = {
 			prominentWords: [
@@ -366,6 +371,10 @@ describe( "test for prominent words research for languages that have custom help
 		const paper = new Paper( "私の美しい猫" + "の美しい猫".repeat( 180 ), { title: "題名" } );
 
 		const researcher = new JapaneseResearcher( paper );
+
+		// Use the base stemmer so the research will return prominent words with less than 4 hits.
+		// eslint-disable-next-line no-unused-vars
+		researcher.addHelper( "customGetStemmer", dummy => baseStemmer );
 
 		const expected = {
 			prominentWords: [

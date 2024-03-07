@@ -44,9 +44,9 @@ class WPSEO_Sitemaps_Router {
 	/**
 	 * Adds query variables for sitemaps.
 	 *
-	 * @param array $query_vars List of query variables to filter.
+	 * @param  array<string> $query_vars List of query variables to filter.
 	 *
-	 * @return array Filtered query variables.
+	 * @return array<string> Filtered query variables.
 	 */
 	public function add_query_vars( $query_vars ) {
 		$query_vars[] = 'sitemap';
@@ -108,7 +108,8 @@ class WPSEO_Sitemaps_Router {
 		global $wp_query;
 
 		$protocol = 'http://';
-		if ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		if ( ! empty( $_SERVER['HTTPS'] ) && strtolower( $_SERVER['HTTPS'] ) === 'on' ) {
 			$protocol = 'https://';
 		}
 

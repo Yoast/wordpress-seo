@@ -19,7 +19,7 @@
 
 # Compile the JavaScript packages that need it.
 'build:packages':
-  - 'shell:build-ui-library'
+  - 'shell:build-packages'
 
 # Build JavaScript from assets to development
 'build:js':
@@ -104,7 +104,7 @@ release:
   - 'release:css'
 # Compile the JavaScript packages that need it.
 'release:packages':
-  - 'shell:build-ui-library'
+  - 'shell:build-packages-prod'
 'release:js':
   - 'shell:webpack-prod'
 

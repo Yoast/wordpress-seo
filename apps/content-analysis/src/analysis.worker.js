@@ -1,6 +1,6 @@
 import "babel-polyfill";
-import AnalysisWebWorker from "../../../packages/yoastseo/src/worker/AnalysisWebWorker";
-import getResearcher from "../../../packages/yoastseo/spec/specHelpers/getResearcher";
+import AnalysisWebWorker from "yoastseo/src/worker/AnalysisWebWorker";
+import getResearcher from "yoastspec/specHelpers/getResearcher";
 // Product page assessors.
 import productSEOAssessor from "yoastseo/src/scoring/productPages/seoAssessor";
 import productCornerstoneSEOAssessor from "yoastseo/src/scoring/productPages/cornerstone/seoAssessor";

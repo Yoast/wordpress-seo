@@ -417,4 +417,242 @@ final class Settings_Integration_Test extends TestCase {
 
 		$this->assertSame( $expected, $result );
 	}
+
+	/**
+	 * Data provider for test_get_defaults_from_local_seo.
+	 *
+	 * @return array<string,array<string,bool,int>>
+	 */
+	public static function data_provider_get_defaults_from_local_seo() {
+		$shared_info_expected = [
+			'wpseo_titles' => [
+				'org-email'  => 'example@location.con',
+				'org-phone'  => '+91 1234567890',
+				'org-vat-id' => '123456',
+				'org-tax-id' => '654321',
+			],
+		];
+		return [
+			'Should return shared business info for multiple locations' => [
+				'should_local_get_options' => 1,
+				'multiple_locations'       => 'on',
+				'same_organization'        => 'on',
+				'primary_location'         => '',
+				'shared_info'              => 'on',
+				'has_primary_location'     => false,
+				'expected'                 => $shared_info_expected,
+			],
+			'Should return business info with no multiple locations' => [
+				'should_local_get_options' => 1,
+				'multiple_locations'       => '',
+				'same_organization'        => 'on',
+				'primary_location'         => '',
+				'shared_info'              => 'on',
+				'has_primary_location'     => false,
+				'expected'                 => $shared_info_expected,
+			],
+		];
+	}
+
+	/**
+	 * Tests get_defaults_from_local_seo method.
+	 *
+	 * @covers ::get_defaults_from_local_seo
+	 *
+	 * @dataProvider data_provider_get_defaults_from_local_seo
+	 *
+	 * @param int           $should_local_get_options Whether local seo should get options.
+	 * @param string        $multiple_locations       Whether multiple locations are enabled.
+	 * @param string        $same_organization        Whether same organization is enabled.
+	 * @param string        $primary_location         The primary location.
+	 * @param string        $shared_info              Whether shared info is enabled.
+	 * @param bool          $has_primary_location     Whether a primary location is set.
+	 * @param array<string> $expected                 The expected result.
+	 *
+	 * @return void
+	 */
+	public function test_get_defaults_from_local_seo( $should_local_get_options, $multiple_locations, $same_organization, $primary_location, $shared_info, $has_primary_location, $expected ) {
+		$defaults = [
+			'wpseo_titles' => [
+				'org-email'                        => '',
+				'org-phone'                        => '',
+				'org-vat-id'                       => '',
+				'org-tax-id'                       => '',
+			],
+		];
+
+		Monkey\Functions\expect( 'get_option' )
+			->times( $should_local_get_options )
+			->with( 'wpseo_local' )
+			->andReturn(
+				[
+					'use_multiple_locations'                     => $multiple_locations,
+					'multiple_locations_same_organization'       => $same_organization,
+					'multiple_locations_primary_location'        => '',
+					'multiple_locations_shared_business_info'    => $shared_info,
+					'location_phone'                             => '+91 1234567890',
+					'location_email'                             => 'example@location.con',
+					'location_vat_id'                            => '123456',
+					'location_tax_id'                            => '654321',
+				]
+			);
+
+		Monkey\Functions\expect( 'wpseo_has_primary_location' )
+			->once()
+			->andReturn( $has_primary_location );
+
+		$defaults = $this->instance_double->get_defaults_from_local_seo( $defaults );
+
+		$this->assertSame( $expected, $defaults );
+	}
+
+	/**
+	 * Tests get_defaults_from_local_seo when there is primary location.
+	 *
+	 * @covers ::get_defaults_from_local_seo
+	 * @return void
+	 */
+	public function test_get_defaults_from_local_seo_when_there_is_primary_location() {
+		$defaults = [
+			'wpseo_titles' => [
+				'org-email'  => 'organization@mail.test',
+				'org-phone'  => '',
+				'org-vat-id' => '',
+				'org-tax-id' => '',
+			],
+		];
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'wpseo_local' )
+			->andReturn(
+				[
+					'use_multiple_locations'                     => 'on',
+					'multiple_locations_same_organization'       => 'on',
+					'multiple_locations_primary_location'        => 1,
+					'multiple_locations_shared_business_info'    => '',
+					'location_phone'                             => '+91 1234567890',
+					'location_email'                             => 'example@location.con',
+					'location_vat_id'                            => '123456',
+					'location_tax_id'                            => '654321',
+				]
+			);
+
+		Monkey\Functions\expect( 'wpseo_has_primary_location' )
+			->once()
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->with( 1, '_wpseo_business_phone', true )
+			->once()
+			->andReturn( '+91 108108108' );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->with( 1, '_wpseo_business_email', true )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->with( 1, '_wpseo_business_tax_id', true )
+			->once()
+			->andReturn( '1111' );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->with( 1, '_wpseo_business_vat_id', true )
+			->once()
+			->andReturn( '2222' );
+
+		$result = $this->instance_double->get_defaults_from_local_seo( $defaults );
+
+		$expected = [
+			'wpseo_titles' => [
+				'org-email'  => '',
+				'org-phone'  => '+91 108108108',
+				'org-vat-id' => '2222',
+				'org-tax-id' => '1111',
+			],
+		];
+
+		$this->assertSame( $expected, $result );
+	}
+
+	/**
+	 * Tetst get_defaults_from_local_seo with shared business info and primary location.
+	 *
+	 * @covers ::get_defaults_from_local_seo
+	 * @return void
+	 */
+	public function test_get_defaults_from_local_seo_with_shared_business_info_and_primary_location() {
+		$defaults = [
+			'wpseo_titles' => [
+				'org-email'  => 'organization@mail.test',
+				'org-phone'  => '',
+				'org-tax-id' => '',
+				'org-vat-id' => '8888',
+			],
+		];
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'wpseo_local' )
+			->andReturn(
+				[
+					'use_multiple_locations'                     => 'on',
+					'multiple_locations_same_organization'       => 'on',
+					'multiple_locations_primary_location'        => 1,
+					'multiple_locations_shared_business_info'    => 'on',
+					'location_phone'                             => '+91 1234567890',
+					'location_email'                             => 'example@location.con',
+					'location_vat_id'                            => '123456',
+					'location_tax_id'                            => '654321',
+				]
+			);
+
+		Monkey\Functions\expect( 'wpseo_has_primary_location' )
+			->once()
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->with( 1, '_wpseo_is_overridden_business_phone', true )
+			->once()
+			->andReturn( 'on' );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->with( 1, '_wpseo_business_phone', true )
+			->once()
+			->andReturn( '+91 108108108' );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->with( 1, '_wpseo_is_overridden_business_email', true )
+			->once()
+			->andReturn( 'off' );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->with( 1, '_wpseo_is_overridden_business_tax_id', true )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->with( 1, '_wpseo_is_overridden_business_vat_id', true )
+			->once()
+			->andReturn( 'on' );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->with( 1, '_wpseo_business_vat_id', true )
+			->once()
+			->andReturn( false );
+
+		$result = $this->instance_double->get_defaults_from_local_seo( $defaults );
+
+		$expected = [
+			'wpseo_titles' => [
+				'org-email'  => 'example@location.con', // Shared.
+				'org-phone'  => '+91 108108108', // Overridden.
+				'org-tax-id' => '654321', // Shared.
+				'org-vat-id' => '', // Overridden but empty.
+			],
+		];
+
+		$this->assertSame( $expected, $result );
+	}
 }

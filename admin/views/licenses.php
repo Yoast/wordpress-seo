@@ -373,7 +373,11 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 								echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 								?>
 							</a>
-
+							<?php if ( $slug === 'yoast-seo-plugin-subscription' ) : ?>
+								<p class="yoast-subscription-discount">
+									<?php esc_html_e( 'Only $/€/£229 per year (ex VAT). Save over 40% with this subscription!', 'wordpress-seo' ); ?>
+								</p>
+							<?php endif; ?>
 							<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $extension['infoUrl'] ); ?>">
 								<?php
 								esc_html_e( 'Explore now', 'wordpress-seo' );

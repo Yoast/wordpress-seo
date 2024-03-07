@@ -90,9 +90,6 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 	// Determines the minimum characters to start a search, based on the user locale.
 	const queryMinChars = useMemo( () => {
 		switch ( userLocale ) {
-			// Japanese.
-			case "ja":
-				return 2;
 			// Korean, Chinese, Chinese (Hong Kong), Chinese (Taiwan).
 			case "ko-KR":
 			case "zh-CN":
@@ -100,7 +97,7 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 			case "zh-TW":
 				return 1;
 			default:
-				return 3;
+				return 2;
 		}
 	}, [ userLocale ] );
 
@@ -297,7 +294,14 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 					) }
 					{ query.length < queryMinChars && (
 						<SearchNoResultsContent title={ __( "Search", "wordpress-seo" ) }>
-							<p className="yst-text-slate-500">{ __( "Please enter a search term with at least 3 characters.", "wordpress-seo" ) }</p>
+
+							<p className="yst-text-slate-500">{
+								sprintf(
+									/* translators: %d expands to the minimum number of characters needed (numerical). */
+									__( "Please enter a search term with at least %d characters.", "wordpress-seo" ),
+									queryMinChars
+								)
+							}</p>
 						</SearchNoResultsContent>
 					) }
 					{ query.length >= queryMinChars && isEmpty( results ) && (

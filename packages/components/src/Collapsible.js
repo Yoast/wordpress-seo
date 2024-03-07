@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import IconsButton from "./buttons/IconsButton";
-import { SectionTitle } from "./SectionTitle";
+import { SectionTitle, StyledTitle } from "./SectionTitle";
 
 const Content = styled.div`
 	padding: 0 16px;
@@ -70,6 +70,12 @@ export function wrapInHeading( Component, props ) {
 		padding: 0 !important;
 		font-size: ${ props.fontSize } !important;
 		font-weight: ${ props.fontWeight } !important;
+		color: ${ props.color } !important;
+
+		${StyledTitle} {
+			font-weight: ${ props.fontWeight };
+			color: ${ props.color };
+		}
 	`;
 
 	return function Wrapped( componentProps ) {
@@ -255,7 +261,8 @@ export class Collapsible extends React.Component {
 		if (
 			props.headingProps.level !== state.headingProps.level ||
 			props.headingProps.fontSize !== state.headingProps.fontSize ||
-			props.headingProps.fontWeight !== state.headingProps.fontWeight
+			props.headingProps.fontWeight !== state.headingProps.fontWeight ||
+			props.headingProps.color !== state.headingProps.color
 		) {
 			return {
 				...state,
@@ -342,6 +349,7 @@ Collapsible.propTypes = {
 		level: PropTypes.number,
 		fontSize: PropTypes.string,
 		fontWeight: PropTypes.string,
+		color: PropTypes.string,
 	} ),
 	onToggle: PropTypes.func,
 };
@@ -370,6 +378,7 @@ Collapsible.defaultProps = {
 		level: 2,
 		fontSize: "1rem",
 		fontWeight: "normal",
+		color: colors.$color_headings,
 	},
 	onToggle: null,
 };

@@ -71,7 +71,7 @@ jobs:
           coverage: none
 
       - name: Install Composer dependencies, generate vendor_prefixed directory and run dependency injection
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
         with:
           # Bust the cache at least once a week - output format: YYYY-MM-DD.
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
@@ -101,7 +101,7 @@ jobs:
       #   for the PHP version on which the tests will be run.
       # @link https://github.com/marketplace/actions/install-php-dependencies-with-composer
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
         with:
           # Force a `composer update` run.
           dependency-versions: "highest"
@@ -121,6 +121,8 @@ jobs:
       - name: Upload coverage results to Coveralls
         if: ${{ success() && matrix.coverage == true }}
         uses: coverallsapp/github-action@v2
+        env:
+          COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
           format: clover
           file: build/logs/clover.xml
@@ -197,7 +199,7 @@ jobs:
           coverage: none
 
       - name: Install Composer dependencies, generate vendor_prefixed directory and run dependency injection
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
         with:
           # Bust the cache at least once a week - output format: YYYY-MM-DD.
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
@@ -223,7 +225,7 @@ jobs:
         run: composer config --unset platform.php
 
       - name: "Install Composer dependencies"
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
         with:
           # Force a `composer update` run.
           dependency-versions: "highest"
@@ -259,6 +261,8 @@ jobs:
       - name: Upload coverage results to Coveralls - single site
         if: ${{ success() && matrix.coverage == true }}
         uses: coverallsapp/github-action@v2
+        env:
+          COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
           format: clover
           file: build/logs/clover-wp.xml
@@ -268,6 +272,8 @@ jobs:
       - name: Upload coverage results to Coveralls - multisite
         if: ${{ success() && matrix.multisite == true && matrix.coverage == true }}
         uses: coverallsapp/github-action@v2
+        env:
+          COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
           format: clover
           file: build/logs/clover-wp-ms.xml

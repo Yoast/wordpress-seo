@@ -162,7 +162,8 @@ class Indexable_Link_Builder {
 	}
 
 	/**
-	 * Fixes existing SEO links that are supposed to have a target indexable but don't, because of prior indexable cleanup.
+	 * Fixes existing SEO links that are supposed to have a target indexable but don't, because of prior indexable
+	 * cleanup.
 	 *
 	 * @param Indexable $indexable The indexable to be the target of SEO Links.
 	 *
@@ -214,7 +215,8 @@ class Indexable_Link_Builder {
 	}
 
 	/**
-	 * Gathers all images from content with WP's WP_HTML_Tag_Processor() and returns them along with their IDs, if possible.
+	 * Gathers all images from content with WP's WP_HTML_Tag_Processor() and returns them along with their IDs, if
+	 * possible.
 	 *
 	 * @param string $content The content.
 	 *
@@ -483,9 +485,9 @@ class Indexable_Link_Builder {
 						$model->size = null;
 					}
 
-					list( , $width, $height ) = \wp_get_attachment_image_src( $model->target_post_id, 'full' );
-					$model->width             = $width;
-					$model->height            = $height;
+					[ , $width, $height ] = \wp_get_attachment_image_src( $model->target_post_id, 'full' );
+					$model->width         = $width;
+					$model->height        = $height;
 				}
 				else {
 					$model->width  = 0;
@@ -704,8 +706,11 @@ class Indexable_Link_Builder {
 		}
 
 		$counts = $this->seo_links_repository->get_incoming_link_counts_for_indexable_ids( $related_indexable_ids );
-		foreach ( $counts as $count ) {
+		if ( \wp_cache_supports( 'flush_group' ) ) {
+			\wp_cache_flush_group( 'orphaned_counts' );
+		}
 
+		foreach ( $counts as $count ) {
 			$this->indexable_repository->update_incoming_link_count( $count['target_indexable_id'], $count['incoming'] );
 		}
 	}

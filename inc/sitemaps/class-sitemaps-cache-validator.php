@@ -180,17 +180,24 @@ class WPSEO_Sitemaps_Cache_Validator {
 		}
 
 		/*
-		 * Add slashes to the LIKE "_" single character wildcard.
-		 *
-		 * We can't use `esc_like` here because we need the % in the query.
-		 */
+		* Add slashes to the LIKE "_" single character wildcard.
+		*
+		* We can't use `esc_like` here because we need the % in the query.
+		*/
 		$where   = [];
 		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_' . $like, '_' ) );
 		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_timeout_' . $like, '_' ) );
 
 		// Delete transients.
-		$query = sprintf( 'DELETE FROM %1$s WHERE %2$s', $wpdb->options, implode( ' OR ', $where ) );
-		$wpdb->query( $query );
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		$wpdb->query(
+			$wpdb->prepare(
+			//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+				'DELETE FROM %i WHERE ' . implode( ' OR ', array_fill( 0, count( $where ), '%s' ) ),
+				array_merge( [ $wpdb->options ], $where )
+			)
+		);
 
 		wp_cache_delete( 'alloptions', 'options' );
 	}
