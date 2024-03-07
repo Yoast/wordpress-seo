@@ -1,5 +1,5 @@
-import getMorphologyData from "yoastseo/spec/specHelpers/getMorphologyData";
-import getResearcher from "yoastseo/spec/specHelpers/getResearcher";
+import getMorphologyData from "yoastspec/specHelpers/getMorphologyData";
+import getResearcher from "yoastspec/specHelpers/getResearcher";
 import getLanguage from "yoastseo/src/languageProcessing/helpers/language/getLanguage";
 import { build } from "yoastseo/src/parse/build";
 import LanguageProcessor from "yoastseo/src/parse/language/LanguageProcessor";

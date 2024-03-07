@@ -2,7 +2,7 @@
 import "./index.css";
 
 // External dependencies.
-import AnalysisWorkerWrapper from "../../../packages/yoastseo/src/worker/AnalysisWorkerWrapper";
+import AnalysisWorkerWrapper from "yoastseo/src/worker/AnalysisWorkerWrapper";
 
 // Internal dependencies.
 const AnalysisWebWorker = require( "./analysis.worker" );
