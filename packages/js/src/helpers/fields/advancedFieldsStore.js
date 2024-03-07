@@ -1,12 +1,12 @@
 import { select } from "@wordpress/data";
-import { STORE } from "../../shared-admin/constants";
+import { EDITOR_STORE } from "../../shared-admin/constants";
 
 /**
  * Retrieves the no index value.
  *
  * @returns {string} The no index value.
  */
-export const getNoIndex = () => select( STORE )?.getNoIndex() ? String( select( STORE ).getNoIndex() ) : "0";
+export const getNoIndex = () => select( EDITOR_STORE )?.getNoIndex() ? String( select( EDITOR_STORE ).getNoIndex() ) : "0";
 
 /**
  * Retrieves the no follow value.
@@ -14,7 +14,7 @@ export const getNoIndex = () => select( STORE )?.getNoIndex() ? String( select( 
  * @returns {string} The no follow value.
  */
 export const getNoFollow = () => {
-	const noFollow = select( STORE )?.getNoFollow();
+	const noFollow = select( EDITOR_STORE )?.getNoFollow();
 	if ( noFollow && typeof noFollow === "string" ) {
 		return noFollow;
 	} else if ( typeof noFollow === "number" ) {
@@ -31,7 +31,7 @@ export const getNoFollow = () => {
  * @returns {string} Twitter image URL.
  */
 export const getAdvanced = () => {
-	const advanced = select( STORE )?.getAdvanced();
+	const advanced = select( EDITOR_STORE )?.getAdvanced();
 	if ( Array.isArray( advanced ) ) {
 		return advanced.join( "," );
 	} else if ( typeof advanced === "string" ) {
@@ -47,7 +47,7 @@ export const getAdvanced = () => {
  *
  * @returns {string} Twitter image type.
  */
-export const getBreadcrumbsTitle = () => select( STORE )?.getBreadcrumbsTitle();
+export const getBreadcrumbsTitle = () => select( EDITOR_STORE )?.getBreadcrumbsTitle();
 
 /**
  * Gets the Twitter image src from the state.
@@ -56,7 +56,7 @@ export const getBreadcrumbsTitle = () => select( STORE )?.getBreadcrumbsTitle();
  *
  * @returns {String} Twitter image src.
  */
-export const getCanonical = () => select( STORE )?.getCanonical();
+export const getCanonical = () => select( EDITOR_STORE )?.getCanonical();
 
 /**
  * Gets the WordProof timestamp value.
@@ -65,4 +65,4 @@ export const getCanonical = () => select( STORE )?.getCanonical();
  *
  * @returns {string} WordProof timestamp value.
  */
-export const getWordProofTimestamp = () => select( STORE )?.getWordProofTimestamp() ? "1" : "0";
+export const getWordProofTimestamp = () => select( EDITOR_STORE )?.getWordProofTimestamp() ? "1" : "0";

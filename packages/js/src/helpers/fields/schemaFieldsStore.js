@@ -1,5 +1,5 @@
 import { select } from "@wordpress/data";
-import { STORE } from "../../shared-admin/constants";
+import { EDITOR_STORE } from "../../shared-admin/constants";
 
 /**
  * Gets the pageType from the state.
@@ -8,7 +8,7 @@ import { STORE } from "../../shared-admin/constants";
  *
  * @returns {String} Page type.
  */
-export const getPageType = () => select( STORE )?.getPageType();
+export const getPageType = () => select( EDITOR_STORE )?.getPageType();
 
 /**
  * Gets the articleType from the state.
@@ -17,4 +17,4 @@ export const getPageType = () => select( STORE )?.getPageType();
  *
  * @returns {String} Article type.
  */
-export const getArticleType = () => select( STORE )?.getArticleType();
+export const getArticleType = () => select( EDITOR_STORE )?.getArticleType();

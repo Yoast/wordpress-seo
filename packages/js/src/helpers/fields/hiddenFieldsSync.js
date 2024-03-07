@@ -3,7 +3,7 @@
 import { select, subscribe } from "@wordpress/data";
 import { debounce, forEach, pickBy, get } from "lodash";
 import createWatcher, { createCollectorFromObject } from "../../helpers/create-watcher";
-import { STORE, SYNC_TIME } from "../../shared-admin/constants";
+import { EDITOR_STORE, SYNC_TIME } from "../../shared-admin/constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
 import { getPageType, getArticleType } from "./schemaFieldsStore";
@@ -22,7 +22,7 @@ const getPrimaryTerms = () => {
 	const primaryTerms = pickBy( wpseoScriptDataMetaData, ( value, key ) => key.startsWith( "primary_" ) && value );
 	forEach( primaryTerms, ( value, key ) => {
 		const taxonomy = key.replace( "primary_", "" );
-		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => String( select( STORE )?.getPrimaryTaxonomyId( taxonomy ) );
+		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => String( select( EDITOR_STORE )?.getPrimaryTaxonomyId( taxonomy ) );
 	} );
 	return getPrimaryTermsStore;
 };
@@ -33,7 +33,7 @@ const getPrimaryTerms = () => {
  * @returns {string} The value to be saved.
  */
 const prepareSocialTitle = ( value ) => {
-	if ( value.trim() === select( STORE ).getSocialTitleTemplate().trim() ) {
+	if ( value.trim() === select( EDITOR_STORE ).getSocialTitleTemplate().trim() ) {
 		return "";
 	}
 	return value;
@@ -45,7 +45,7 @@ const prepareSocialTitle = ( value ) => {
  * @returns {string} The value to be saved.
  */
 const prepareSocialDescription = ( value ) => {
-	if ( value.trim() === select( STORE ).getSocialDescriptionTemplate().trim() ) {
+	if ( value.trim() === select( EDITOR_STORE ).getSocialDescriptionTemplate().trim() ) {
 		return "";
 	}
 	return value;
@@ -151,9 +151,9 @@ export const hiddenFieldsrSync = () => {
 			linkdex: getSeoScore,
 			inclusive_language_score: getInclusiveLanguageScore,
 			"estimated-reading-time-minutes": getEstimatedReadingTime,
-			primary_category: () => String( select( STORE )?.getPrimaryTaxonomyId( "category" ) ),
+			primary_category: () => String( select( EDITOR_STORE )?.getPrimaryTaxonomyId( "category" ) ),
 			...getPrimaryTerms(),
 		} ),
 		createUpdater()
-	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE );
+	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), EDITOR_STORE );
 };
