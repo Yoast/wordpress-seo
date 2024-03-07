@@ -11,7 +11,7 @@ import initTabs from "./initializers/metabox-tabs";
 import initPostScraper from "./initializers/post-scraper";
 import initPrimaryCategory from "./initializers/primary-category";
 import initializeInsights from "./insights/initializer";
-import { hiddenFieldsrSync } from "./helpers/fields/hiddenFieldsSync";
+import { hiddenFieldsSync } from "./helpers/fields/hiddenFieldsSync";
 
 // Backwards compatibility globals.
 window.wpseoPostScraperL10n = window.wpseoScriptData.metabox;
@@ -32,7 +32,7 @@ domReady( () => {
 	const store = initEditorStore();
 
 	// Initialize the hidden fields sync.
-	hiddenFieldsrSync();
+	hiddenFieldsSync();
 
 	// Initialize the editor integration
 	window.yoast.initEditorIntegration( store );
