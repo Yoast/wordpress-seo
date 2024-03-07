@@ -1,6 +1,6 @@
-import React, { forwardRef } from "react";
-import PropTypes from "prop-types";
 import classNames from "classnames";
+import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 
 const positionClassNameMap = {
 	top: "yst-tooltip--top",
@@ -18,6 +18,7 @@ const positionClassNameMap = {
  * @param {boolean} isVisible Default state.
  * @returns {JSX.Element} Tooltip component.
  */
+// eslint-disable-next-line react/prop-types
 const Tooltip = forwardRef( ( { id, children, as: Component, className, isVisible, position, ...props }, ref ) => {
 	return (
 		<>
