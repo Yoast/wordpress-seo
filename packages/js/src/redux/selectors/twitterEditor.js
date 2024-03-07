@@ -64,7 +64,7 @@ export const getTwitterImageSrc = state => get( state, "twitterEditor.image.src"
  *
  * @returns {integer} Twitter image id.
  */
-export const getTwitterImageId = state => get( state, "twitterEditor.image.id", "" ).toString();
+export const getTwitterImageId = state => get( state, "twitterEditor.image.id", "" );
 
 /**
  * Gets the Twitter alt text from the state.
