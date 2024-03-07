@@ -35,3 +35,10 @@ export const getInclusiveLanguageScore = () => String( defaultTo( select( EDITOR
  * @returns {string} The content score.
  */
 export const getSeoScore = () => String( defaultTo( select( EDITOR_STORE ).getSeoResults().overallScore, "0" ) );
+
+/**
+ * Retrieves the estimated reading time from the store.
+ * @returns {string} The estimated reading time.
+ */
+export const getEstimatedReadingTime = () => String( defaultTo( select( EDITOR_STORE ).getEstimatedReadingTime(), "0" ) );
+

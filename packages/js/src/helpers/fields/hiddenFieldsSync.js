@@ -7,9 +7,8 @@ import { EDITOR_STORE, SYNC_TIME } from "../../shared-admin/constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
 import { getPageType, getArticleType } from "./schemaFieldsStore";
-import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoScore, getInclusiveLanguageScore } from "./analysisFieldsStore";
+import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoScore, getInclusiveLanguageScore, getEstimatedReadingTime } from "./analysisFieldsStore";
 import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical, getWordProofTimestamp } from "./advancedFieldsStore";
-import { getEstimatedReadingTime } from "./additionalFieldsStore";
 
 /**
  * Retrieves an object with taxonomies keys and their primary term id.
@@ -131,7 +130,7 @@ const createUpdater = () => {
  * Initializes the sync: from Yoast editor store to product metadata.
  * @returns {function} The un-subscriber.
  */
-export const hiddenFieldsrSync = () => {
+export const hiddenFieldsSync = () => {
 	return subscribe( debounce( createWatcher(
 		createCollectorFromObject( {
 			focuskw: getFocusKeyphrase,

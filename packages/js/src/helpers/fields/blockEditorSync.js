@@ -5,10 +5,9 @@ import { EDITOR_STORE, CORE_EDITOR_STORE, SYNC_TIME, POST_METADATA_KEYS } from "
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
 import { getPageType, getArticleType } from "./schemaFieldsStore";
-import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoScore, getInclusiveLanguageScore } from "./analysisFieldsStore";
+import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoScore, getInclusiveLanguageScore, getEstimatedReadingTime } from "./analysisFieldsStore";
 import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical, getWordProofTimestamp } from "./advancedFieldsStore";
 import { getSeoTitle, getSeoDescription } from "./snippetEditorFieldsStore";
-import { getEstimatedReadingTime } from "./additionalFieldsStore";
 
 /**
  * Retrieves primary terms from store methods.
