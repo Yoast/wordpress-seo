@@ -1,11 +1,12 @@
 import { select } from "@wordpress/data";
 import { EDITOR_STORE } from "../../shared-admin/constants";
+import { defaultTo } from "lodash";
 
 /**
  * Retrieves the focus keyphrase.
  * @returns {string} The focus keyphrase.
  */
-export const getFocusKeyphrase = () => select( EDITOR_STORE )?.getFocusKeyphrase();
+export const getFocusKeyphrase = () => defaultTo( select( EDITOR_STORE ).getFocusKeyphrase(), "" );
 
 /**
  * Returns whether the current content is cornerstone content.
@@ -33,4 +34,4 @@ export const getInclusiveLanguageScore = () => select( EDITOR_STORE )?.getInclus
  *
  * @returns {string} The content score.
  */
-export const getSeoScore = () => select( EDITOR_STORE )?.getSeoResults().overallScore ? String( select( EDITOR_STORE )?.getSeoResults().overallScore ) : "";
+export const getSeoScore = () => String( select( EDITOR_STORE ).getSeoResults().overallScore );
