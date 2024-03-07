@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 /* eslint-disable camelcase */
 import { select, subscribe } from "@wordpress/data";
-import { debounce, forEach, pickBy, get } from "lodash";
+import { debounce, forEach, pickBy, get, defaultTo } from "lodash";
 import createWatcher, { createCollectorFromObject } from "../../helpers/create-watcher";
 import { EDITOR_STORE, SYNC_TIME } from "../../shared-admin/constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
@@ -21,15 +21,7 @@ const getPrimaryTerms = () => {
 	const primaryTerms = pickBy( wpseoScriptDataMetaData, ( value, key ) => key.startsWith( "primary_" ) && value );
 	forEach( primaryTerms, ( value, key ) => {
 		const taxonomy = key.replace( "primary_", "" );
-		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => {
-			const termId = select( EDITOR_STORE )?.getPrimaryTaxonomyId( taxonomy );
-			if ( ! termId || termId === -1 ) {
-				return "";
-			} else if ( typeof termId === "number" ) {
-				return termId.toString();
-			}
-			return termId;
-		};
+		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => String( defaultTo( select( EDITOR_STORE ).getPrimaryTaxonomyId( taxonomy ), "" ) );
 	} );
 	return getPrimaryTermsStore;
 };
