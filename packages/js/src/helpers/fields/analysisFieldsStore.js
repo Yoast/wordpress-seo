@@ -20,18 +20,18 @@ export const isCornerstoneContent = () => select( EDITOR_STORE )?.isCornerstoneC
  *
  * @returns {string} The content score.
  */
-export const getReadabilityScore = () => select( EDITOR_STORE )?.getReadabilityResults()?.overallScore ? String( select( EDITOR_STORE )?.getReadabilityResults()?.overallScore ) : "";
+export const getReadabilityScore = () => String( defaultTo( select( EDITOR_STORE ).getReadabilityResults().overallScore, "0" ) );
 
 /**
  * Retrieves the inclusive language score.
  *
  * @returns {string} The content score.
  */
-export const getInclusiveLanguageScore = () => select( EDITOR_STORE )?.getInclusiveLanguageResults()?.overallScore ? String( select( EDITOR_STORE )?.getInclusiveLanguageResults()?.overallScore ) : "";
+export const getInclusiveLanguageScore = () => String( defaultTo( select( EDITOR_STORE ).getInclusiveLanguageResults().overallScore, "0" ) );
 
 /**
  * Retrieves the seo score.
  *
  * @returns {string} The content score.
  */
-export const getSeoScore = () => String( select( EDITOR_STORE ).getSeoResults().overallScore );
+export const getSeoScore = () => String( defaultTo( select( EDITOR_STORE ).getSeoResults().overallScore, "0" ) );
