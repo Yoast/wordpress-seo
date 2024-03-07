@@ -1,7 +1,7 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
 import { debounce, forEach, pickBy, get } from "lodash";
 import createWatcher, { createCollectorFromObject } from "../../helpers/create-watcher";
-import { EDITOR_STORE, CORE_EDITOR_STORE, SYNC_TIME, METADATA_KEYS } from "../../shared-admin/constants";
+import { EDITOR_STORE, CORE_EDITOR_STORE, SYNC_TIME, POST_METADATA_KEYS } from "../../shared-admin/constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
 import { getPageType, getArticleType } from "./schemaFieldsStore";
@@ -13,7 +13,7 @@ import { getEstimatedReadingTime } from "./additionalFieldsStore";
 /**
  * Retrieves primary terms from store methods.
  *
- * @returns {integer} The no index value.
+ * @returns {object} An object with taxonomies keys and their primary term id.
  */
 const getPrimaryTerms = () => {
 	const wpseoScriptDataMetaData = get( window, "wpseoScriptData.metabox.metadata", {} );
@@ -21,8 +21,16 @@ const getPrimaryTerms = () => {
 	const primaryTerms = pickBy( wpseoScriptDataMetaData, ( value, key ) => key.startsWith( "primary_" ) && value );
 	forEach( primaryTerms, ( value, key ) => {
 		const taxonomy = key.replace( "primary_", "" );
-		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => String( select( EDITOR_STORE )?.getPrimaryTaxonomyId( taxonomy ) );
-		METADATA_KEYS[ `primary_${taxonomy}` ] = `_yoast_wpseo_primary_${taxonomy}`;
+		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => {
+			const termId = select( EDITOR_STORE )?.getPrimaryTaxonomyId( taxonomy );
+			if ( ! termId || termId === -1 ) {
+				return "";
+			} else if ( typeof termId === "number" ) {
+				return termId.toString();
+			}
+			return termId;
+		};
+		POST_METADATA_KEYS[ `primary_${taxonomy}` ] = `_yoast_wpseo_primary_${taxonomy}`;
 	} );
 	return getPrimaryTermsStore;
 };
@@ -46,12 +54,12 @@ const createUpdater = () => {
 			return;
 		}
 
-		const changedData = pickBy( data, ( value, key ) => value !== metadata[ METADATA_KEYS[ key ] ] );
+		const changedData = pickBy( data, ( value, key ) => value !== metadata[ POST_METADATA_KEYS[ key ] ] );
 
 		if ( changedData ) {
 			const newMetadata = {};
 			forEach( changedData, ( value, key ) => {
-				newMetadata[ METADATA_KEYS[ key ] ] = value;
+				newMetadata[ POST_METADATA_KEYS[ key ] ] = value;
 			} );
 
 			editPost( {

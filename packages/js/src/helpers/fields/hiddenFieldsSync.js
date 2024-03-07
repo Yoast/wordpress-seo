@@ -12,9 +12,9 @@ import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical
 import { getEstimatedReadingTime } from "./additionalFieldsStore";
 
 /**
- * Retrieves primary terms from store methods.
+ * Retrieves an object with taxonomies keys and their primary term id.
  *
- * @returns {integer} The no index value.
+ * @returns {object} An object with primary taxonomies keys and it's primary term id.
  */
 const getPrimaryTerms = () => {
 	const wpseoScriptDataMetaData = get( window, "wpseoScriptData.metabox.metadata", {} );
@@ -22,7 +22,15 @@ const getPrimaryTerms = () => {
 	const primaryTerms = pickBy( wpseoScriptDataMetaData, ( value, key ) => key.startsWith( "primary_" ) && value );
 	forEach( primaryTerms, ( value, key ) => {
 		const taxonomy = key.replace( "primary_", "" );
-		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => String( select( EDITOR_STORE )?.getPrimaryTaxonomyId( taxonomy ) );
+		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => {
+			const termId = select( EDITOR_STORE )?.getPrimaryTaxonomyId( taxonomy );
+			if ( ! termId || termId === -1 ) {
+				return "";
+			} else if ( typeof termId === "number" ) {
+				return termId.toString();
+			}
+			return termId;
+		};
 	} );
 	return getPrimaryTermsStore;
 };
@@ -151,7 +159,6 @@ export const hiddenFieldsrSync = () => {
 			linkdex: getSeoScore,
 			inclusive_language_score: getInclusiveLanguageScore,
 			"estimated-reading-time-minutes": getEstimatedReadingTime,
-			primary_category: () => String( select( EDITOR_STORE )?.getPrimaryTaxonomyId( "category" ) ),
 			...getPrimaryTerms(),
 		} ),
 		createUpdater()
