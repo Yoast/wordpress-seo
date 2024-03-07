@@ -34,7 +34,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Array with the WPSEO_Titles options.
 	 *
-	 * @var array<string,int,bool>
+	 * @var array<string|int|bool>
 	 */
 	protected $options;
 
@@ -63,7 +63,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Returns the translated values.
 	 *
-	 * @return array<string,int,array<string>,array<int>>
+	 * @return array<string|int|array<string>|array<int>>
 	 */
 	public function get_values() {
 		$values = [];
