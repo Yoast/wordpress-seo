@@ -17,7 +17,7 @@ import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import isContentAnalysisActive from "./isContentAnalysisActive";
 
-import { STORE } from "../constants";
+import { EDITOR_STORE } from "../shared-admin/constants";
 
 const { tmceId } = tmceHelper;
 const $ = jQuery;
@@ -83,7 +83,7 @@ PostDataCollector.prototype.getData = function() {
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	const keyword = select( STORE ).getFocusKeyphrase();
+	const keyword = select( EDITOR_STORE ).getFocusKeyphrase();
 	return keyword;
 };
 
@@ -108,7 +108,7 @@ PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
  * @returns {string} The meta description.
  */
 PostDataCollector.prototype.getMeta = function() {
-	return select( STORE ).getDescription();
+	return select( EDITOR_STORE ).getDescription();
 };
 
 /**
