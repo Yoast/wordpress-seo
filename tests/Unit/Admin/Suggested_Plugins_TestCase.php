@@ -4,9 +4,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
 use Mockery;
 use WPSEO_Plugin_Availability;
-use Yoast_Notification_Center;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use WPSEO_Suggested_Plugins;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * Suggested_Plugins_TestCase class for all Suggested_Plugins tests.

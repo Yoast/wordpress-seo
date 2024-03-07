@@ -5,7 +5,7 @@
  * @package WPSEO\Plugin_Availability
  */
 
- use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 
 /**
  * Class WPSEO_Plugin_Availability

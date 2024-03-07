@@ -2,15 +2,17 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
-use Brain\Monkey;
-
 /**
- * @coversDefaultClass WPSEO_Suggested_Plugins::register_hooks
+ * Test class for WPSEO_Suggested_Plugins::register_hooks.
+ *
+ * @covers WPSEO_Suggested_Plugins::register_hooks
  */
 final class Suggested_Plugins_Register_Hooks_Test extends Suggested_Plugins_TestCase {
 
 	/**
 	 * Tests the registration of the hooks.
+	 *
+	 * @covers WPSEO_Suggested_Plugins::register_hooks
 	 *
 	 * @return void
 	 */
@@ -19,7 +21,7 @@ final class Suggested_Plugins_Register_Hooks_Test extends Suggested_Plugins_Test
 
 		$this->assertEquals(
 			10,
-			has_action(
+			\has_action(
 				'admin_init',
 				[ $this->availability_checker, 'register' ]
 			)
@@ -27,7 +29,7 @@ final class Suggested_Plugins_Register_Hooks_Test extends Suggested_Plugins_Test
 
 		$this->assertEquals(
 			10,
-			has_action(
+			\has_action(
 				'admin_init',
 				[ $this->instance, 'add_notifications' ]
 			)
