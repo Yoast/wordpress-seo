@@ -302,25 +302,20 @@ class WPSEO_Meta {
 		if ( is_array( $extra_fields ) ) {
 			self::$meta_fields = self::array_merge_recursive_distinct( $extra_fields, self::$meta_fields );
 		}
+		unset( $extra_fields );
+
 		// register meta data for taxonomies.
-		$primay_terms                  = [];
-		$primay_terms['primary_terms'] = [];
+		self::$meta_fields['primary_terms'] = [];
 
 		$taxonomies = get_taxonomies( [ 'hierarchical' => true ], 'names' );
 		foreach ( $taxonomies as $taxonomy_name ) {
-			$primay_terms['primary_terms'][ 'primary_' . $taxonomy_name ] = [
+			self::$meta_fields['primary_terms'][ 'primary_' . $taxonomy_name ] = [
 				'type'          => 'hidden',
 				'title'         => '',
 				'default_value' => '',
 				'description'   => '',
 			];
 		}
-
-		if ( $primay_terms && is_array( $primay_terms ) ) {
-			self::$meta_fields = self::array_merge_recursive_distinct( $primay_terms, self::$meta_fields );
-		}
-
-		unset( $extra_fields );
 
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
@@ -333,6 +328,7 @@ class WPSEO_Meta {
 						'show_in_rest'      => true,
 						'type'              => 'string',
 						'single'            => true,
+						'default'			=> $field_def['default_value'] ?? '',
 					]
 				);
 
