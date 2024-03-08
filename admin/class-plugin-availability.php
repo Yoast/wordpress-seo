@@ -90,7 +90,7 @@ class WPSEO_Plugin_Availability {
 				),
 				'_dependencies' => [
 					'WooCommerce' => [
-						'slug'        => 'woocommerce/woocommerce.php', // kept for backwards compatibility, in case external code uses get_dependencies().
+						'slug'        => 'woocommerce/woocommerce.php', // kept for backwards compatibility, in case external code uses get_dependencies(). Deprecated in 22.4.
 						'conditional' => new WooCommerce_Conditional(),
 					],
 				],
