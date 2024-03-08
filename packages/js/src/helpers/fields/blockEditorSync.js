@@ -17,7 +17,7 @@ import { getSeoTitle, getSeoDescription } from "./snippetEditorFieldsStore";
 const getPrimaryTerms = () => {
 	const wpseoScriptDataMetaData = get( window, "wpseoScriptData.metabox.metadata", {} );
 	const getPrimaryTermsStore = {};
-	const primaryTerms = pickBy( wpseoScriptDataMetaData, ( value, key ) => key.startsWith( "primary_" ) && value );
+	const primaryTerms = pickBy( wpseoScriptDataMetaData, ( value, key ) => key.startsWith( "primary_" ) );
 	forEach( primaryTerms, ( value, key ) => {
 		const taxonomy = key.replace( "primary_", "" );
 		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => String( defaultTo( select( EDITOR_STORE ).getPrimaryTaxonomyId( taxonomy ), "" ) );
