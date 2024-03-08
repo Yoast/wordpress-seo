@@ -357,7 +357,8 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		foreach ( $taxonomies as $taxonomy ) {
 			if ( $taxonomy->hierarchical ) {
 				$primary_term_object                       = new WPSEO_Primary_Term( $taxonomy->name, $this->post->ID );
-				$meta_data[ 'primary_' . $taxonomy->name ] = $primary_term_object->get_primary_term();
+				$primary_term = $primary_term_object->get_primary_term();
+				$meta_data[ 'primary_' . $taxonomy->name ] = $primary_term ?? "";
 			}
 		}
 
