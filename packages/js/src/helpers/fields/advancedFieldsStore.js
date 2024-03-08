@@ -56,4 +56,4 @@ export const getCanonical = () => defaultTo( select( EDITOR_STORE ).getCanonical
  *
  * @returns {string} WordProof timestamp value.
  */
-export const getWordProofTimestamp = () => select( EDITOR_STORE ).getWordProofTimestamp() ? "1" : "0";
+export const getWordProofTimestamp = () => select( EDITOR_STORE ).getWordProofTimestamp() ? "1" : "";
