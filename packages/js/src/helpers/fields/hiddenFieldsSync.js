@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 /* eslint-disable camelcase */
 import { select, subscribe } from "@wordpress/data";
-import { debounce, forEach, pickBy, get, defaultTo } from "lodash";
+import { debounce, forEach, pickBy, get } from "lodash";
 import createWatcher, { createCollectorFromObject } from "../../helpers/create-watcher";
 import { EDITOR_STORE, SYNC_TIME } from "../../shared-admin/constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
@@ -10,21 +10,6 @@ import { getPageType, getArticleType } from "./schemaFieldsStore";
 import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoScore, getInclusiveLanguageScore, getEstimatedReadingTime } from "./analysisFieldsStore";
 import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical, getWordProofTimestamp } from "./advancedFieldsStore";
 
-/**
- * Retrieves an object with taxonomies keys and their primary term id.
- *
- * @returns {object} An object with primary taxonomies keys and it's primary term id.
- */
-const getPrimaryTerms = () => {
-	const wpseoScriptDataMetaData = get( window, "wpseoScriptData.metabox.metadata", {} );
-	const getPrimaryTermsStore = {};
-	const primaryTerms = pickBy( wpseoScriptDataMetaData, ( value, key ) => key.startsWith( "primary_" ) && value );
-	forEach( primaryTerms, ( value, key ) => {
-		const taxonomy = key.replace( "primary_", "" );
-		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => String( defaultTo( select( EDITOR_STORE ).getPrimaryTaxonomyId( taxonomy ), "" ) );
-	} );
-	return getPrimaryTermsStore;
-};
 
 /**
  * Prepare twitter title to be saved in hidden field.
@@ -70,9 +55,6 @@ const prepareValue = ( key, value ) => {
 		case "opengraph-description":
 			return prepareSocialDescription( value );
 		default:
-			if ( /^primary_/.test( key ) ) {
-				return value === -1 ? "" : String( value );
-			}
 			return value;
 	}
 };
@@ -102,13 +84,11 @@ const createUpdater = () => {
 		if ( ! hiddenFieldsData || ! data ) {
 			return;
 		}
-		console.log( { hiddenFieldsData } );
 
 		const isPost = get( window, "wpseoScriptData.isPost", false );
 		const prefix = isPost ? "yoast_wpseo_" : "hidden_wpseo_";
 
 		const changedData = pickBy( data, ( value, key ) => ( prefix + key ) in hiddenFieldsData && value !== hiddenFieldsData[ prefix + key ] );
-		console.log( changedData );
 
 		if ( changedData ) {
 			forEach( changedData, ( value, key ) => {
@@ -134,7 +114,6 @@ export const hiddenFieldsSync = () => {
 			bctitle: getBreadcrumbsTitle,
 			canonical: getCanonical,
 			wordproof_timestamp: getWordProofTimestamp,
-			// primary_category_term: getPrimaryCategoryId,
 			"opengraph-title": getFacebookTitle,
 			"opengraph-description": getFacebookDescription,
 			"opengraph-image": getFacebookImageUrl,
@@ -150,7 +129,6 @@ export const hiddenFieldsSync = () => {
 			linkdex: getSeoScore,
 			inclusive_language_score: getInclusiveLanguageScore,
 			"estimated-reading-time-minutes": getEstimatedReadingTime,
-			...getPrimaryTerms(),
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), EDITOR_STORE );
