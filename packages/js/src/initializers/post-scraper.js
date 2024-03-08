@@ -4,7 +4,7 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import { debounce, isUndefined, get } from "lodash";
+import { debounce, isUndefined, get, isEmpty } from "lodash";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
 
@@ -79,7 +79,7 @@ export default function initPostScraper( $, store, editorData ) {
 	if ( typeof wpseoScriptData === "undefined" ) {
 		return;
 	}
-	let metaboxContainer;
+
 	let titleElement;
 	let app;
 	let postDataCollector;
@@ -403,17 +403,15 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializePostAnalysis() {
-		metaboxContainer = $( "#wpseo_meta" );
-
 		tinyMCEHelper.setStore( store );
 		tinyMCEHelper.wpTextViewOnInitCheck();
 
 		handlePageBuilderCompatibility();
 
-		const metadata = get( window, "wpseoScriptData.metabox.metadata", [] );
+		const metadata = get( window, "wpseoScriptData.metabox.metadata", {} );
 
 		// Avoid error when snippet metabox is not rendered.
-		if ( metaboxContainer.length === 0 && metadata.length === 0 ) {
+		if ( isEmpty( metadata ) ) {
 			return;
 		}
 
