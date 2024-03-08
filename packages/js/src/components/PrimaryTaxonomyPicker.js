@@ -190,6 +190,10 @@ class PrimaryTaxonomyPicker extends Component {
 		this.updateReplacementVariable( termId );
 
 		this.props.setPrimaryTaxonomyId( name, termId );
+
+		if ( this.input ) {
+			this.input.value = termId === -1 ? "" : termId;
+		}
 	}
 
 	/**
