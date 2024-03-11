@@ -8,7 +8,7 @@
     "readability",
     "inclusive language"
   ],
-  "main": "src/index.js",
+  "main": "build/index.js",
   "license": "GPL-3.0",
   "version": "1.91.2",
   "repository": {
@@ -23,6 +23,7 @@
   ],
   "sideEffects": false,
   "scripts": {
+    "start": "npm start --prefix examples/webpack",
     "build": "yarn clean && yarn build:js",
     "build:js": "babel src --copy-files --source-maps --out-dir build",
     "clean": "rm -rf build",

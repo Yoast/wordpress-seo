@@ -60,7 +60,7 @@ const adjustPosition = function( title, position ) {
 	}
 
 	// Strip all function words from the beginning of the SEO title.
-	const titleBeforeKeyword = title.substr( 0, position );
+	const titleBeforeKeyword = title.substring( 0, position );
 	if ( stripFunctionWordsFromStart( titleBeforeKeyword ) ) {
 		/*
 		 * Return position 0 if there are no words left in the SEO title before the keyword after filtering

@@ -47,7 +47,7 @@ export function handlePrefixes( name ) {
 	const prefixes = [ "ct_", "cf_", "pt_" ];
 
 	// If there are no prefixes, replace underscores by spaces and return.
-	if ( ! prefixes.includes( name.substr( 0, 3 ) ) ) {
+	if ( ! prefixes.includes( name.substring( 0, 3 ) ) ) {
 		return name.replace( /_/g, " " );
 	}
 

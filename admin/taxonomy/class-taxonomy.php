@@ -5,6 +5,7 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 
 /**
@@ -149,7 +150,7 @@ class WPSEO_Taxonomy {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
 			$asset_manager->enqueue_style( 'metabox-css' );
-			$asset_manager->enqueue_style( 'scoring' );
+			$asset_manager->enqueue_style( 'ai-generator' );
 			$asset_manager->enqueue_script( 'term-edit' );
 
 			/**
@@ -161,7 +162,7 @@ class WPSEO_Taxonomy {
 			$asset_manager->localize_script( 'term-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 
 			$script_data = [
-				'analysis'          => [
+				'analysis'              => [
 					'plugins' => [
 						'replaceVars' => [
 							'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
@@ -181,16 +182,19 @@ class WPSEO_Taxonomy {
 						'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 					],
 				],
-				'media'             => [
+				'media'                 => [
 					// @todo replace this translation with JavaScript translations.
 					'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 				],
-				'metabox'           => $this->localize_term_scraper_script( $tag_id ),
-				'userLanguageCode'  => WPSEO_Language_Utils::get_language( get_user_locale() ),
-				'isTerm'            => true,
-				'postId'            => $tag_id,
-				'usedKeywordsNonce' => wp_create_nonce( 'wpseo-keyword-usage' ),
-				'linkParams'        => WPSEO_Shortlinker::get_query_params(),
+				'metabox'               => $this->localize_term_scraper_script( $tag_id ),
+				'userLanguageCode'      => WPSEO_Language_Utils::get_language( get_user_locale() ),
+				'isTerm'                => true,
+				'postId'                => $tag_id,
+				'termType'              => $this->get_taxonomy(),
+				'usedKeywordsNonce'     => wp_create_nonce( 'wpseo-keyword-usage' ),
+				'linkParams'            => WPSEO_Shortlinker::get_query_params(),
+				'pluginUrl'             => plugins_url( '', WPSEO_FILE ),
+				'wistiaEmbedPermission' => YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( get_current_user_id() ),
 			];
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
 			$asset_manager->enqueue_user_language_script();
@@ -413,7 +417,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Prepares the replace vars for localization.
 	 *
-	 * @return array The replacement variables.
+	 * @return array<string, string> The replacement variables.
 	 */
 	private function get_replace_vars() {
 		$term_id = $this::get_tag_id();
@@ -447,7 +451,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Prepares the recommended replace vars for localization.
 	 *
-	 * @return array The recommended replacement variables.
+	 * @return array<string> The recommended replacement variables.
 	 */
 	private function get_recommended_replace_vars() {
 		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
@@ -466,7 +470,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Returns an array with shortcode tags for all registered shortcodes.
 	 *
-	 * @return array
+	 * @return array<string> Array with shortcode tags.
 	 */
 	private function get_valid_shortcode_tags() {
 		$shortcode_tags = [];

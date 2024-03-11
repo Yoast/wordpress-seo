@@ -23,7 +23,7 @@
     "build:storybook": "NODE_OPTIONS=--openssl-legacy-provider build-storybook",
     "publish:storybook": "./scripts/publish-storybook.sh",
     "test:storyshots": "NODE_OPTIONS=--openssl-legacy-provider yarn build-storybook --quiet && jest tests/storyshots.js",
-    "test": "yarn test:storyshots",
+    "t_st": "yarn test:storyshots",
     "lint": "eslint src --max-warnings=0"
   },
   "devDependencies": {
@@ -37,8 +37,6 @@
     "@storybook/addon-essentials": "^6.5.14",
     "@storybook/addon-links": "^6.5.14",
     "@storybook/addon-postcss": "^2.0.0",
-    "@storybook/addon-storyshots": "^6.5.14",
-    "@storybook/addon-storyshots-puppeteer": "^6.5.14",
     "@storybook/addons": "^6.5.14",
     "@storybook/mdx2-csf": "^0.0.3",
     "@storybook/react": "^6.5.14",

@@ -467,8 +467,15 @@ describe( "AnalysisWebWorker", () => {
 				const spy = jest.spyOn( worker, "analyze" );
 
 				worker.analyzeDone = () => {
-					expect( spy ).toHaveBeenCalledTimes( 1 );
-					expect( spy ).toHaveBeenCalledWith( 0, { paper } );
+					try {
+						expect( spy ).toHaveBeenCalledTimes( 1 );
+						// eslint-disable-next-line no-unused-vars -- Pulling the _tree out of the paper because it will be filled in the worker.
+						const { _tree, ...expectedPaper } = paper;
+						expect( spy ).toHaveBeenCalledWith( 0, { paper: expect.objectContaining( expectedPaper ) } );
+						done();
+					} catch ( e ) {
+						done( e );
+					}
 				};
 
 				scope.onmessage( createMessage( "initialize" ) );
@@ -734,8 +741,15 @@ describe( "AnalysisWebWorker", () => {
 				const spy = jest.spyOn( worker, "analyzeRelatedKeywords" );
 
 				worker.analyzeRelatedKeywordsDone = () => {
-					expect( spy ).toHaveBeenCalledTimes( 1 );
-					expect( spy ).toHaveBeenCalledWith( 0, { paper, relatedKeywords } );
+					try {
+						expect( spy ).toHaveBeenCalledTimes( 1 );
+						// eslint-disable-next-line no-unused-vars -- Pulling the _tree out of the paper because it will be filled in the worker.
+						const { _tree, ...expectedPaper } = paper;
+						expect( spy ).toHaveBeenCalledWith( 0, { paper: expect.objectContaining( expectedPaper ), relatedKeywords } );
+						done();
+					} catch ( e ) {
+						done( e );
+					}
 				};
 
 				scope.onmessage( createMessage( "initialize" ) );

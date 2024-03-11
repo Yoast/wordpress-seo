@@ -64,9 +64,9 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 					{ isProductCopy
 						? createInterpolateElement(
 							sprintf(
-								/* translators: %1$s and %2$s are anchor tag; %3$s is the arrow icon. */
+								/* translators: %1$s and %2$s are anchor tags; %3$s is the arrow icon. */
 								__(
-									"Let AI do some of the thinking for you and help you save time. Get high-quality suggestions for product titles and meta descriptions to make your pages rank high and make you look good on social media. %1$sLearn more%2$s%3$s",
+									"Let AI do some of the thinking for you and help you save time. Get high-quality suggestions for product titles and meta descriptions to make your content rank high and look good on social media. %1$sLearn more%2$s%3$s",
 									"wordpress-seo"
 								),
 								"<a>",
@@ -77,9 +77,9 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 						)
 						: createInterpolateElement(
 							sprintf(
-								/* translators: %1$s and %2$s are anchor tag; %3$s is the arrow icon. */
+								/* translators: %1$s and %2$s are anchor tags; %3$s is the arrow icon. */
 								__(
-									"Let AI do some of the thinking for you and help you save time. Get high-quality suggestions for titles and meta descriptions to make your pages rank high and make you look good on social media. %1$sLearn more%2$s%3$s",
+									"Let AI do some of the thinking for you and help you save time. Get high-quality suggestions for titles and meta descriptions to make your content rank high and look good on social media. %1$sLearn more%2$s%3$s",
 									"wordpress-seo"
 								),
 								"<a>",
@@ -95,7 +95,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 				<Button
 					as="a"
 					className="yst-grow"
-					size="large"
+					size="extra-large"
 					variant="upsell"
 					href={ upsellLink }
 					target="_blank"

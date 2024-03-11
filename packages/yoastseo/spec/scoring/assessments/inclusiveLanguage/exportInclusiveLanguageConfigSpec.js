@@ -95,7 +95,7 @@ describe( "Export of the inclusive language configuration", () => {
 		}
 	} );
 
-	xit( "should retrieve rules in a more pretty format", () => {
+	it.skip( "should retrieve rules in a more pretty format", () => {
 		let assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "firemen" ) );
 		expect( retrieveRule( assessment.rule.toString() ) ).toEqual( "" );
 
@@ -110,7 +110,7 @@ describe( "Export of the inclusive language configuration", () => {
 			" and NotFollowedBy: \"in high school\", \"in college\", \"who are graduating\"" );
 	} );
 
-	xit( "should retrieve the href value for an anchor", () => {
+	it( "should retrieve the href value for an anchor", () => {
 		const assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "firemen" ) );
 		expect( retrieveAnchor( assessment.learnMoreUrl ) ).toEqual( "https://yoa.st/inclusive-language-gender" );
 	} );
