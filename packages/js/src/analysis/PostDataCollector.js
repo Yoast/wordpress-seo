@@ -386,6 +386,8 @@ PostDataCollector.prototype.saveScores = function( score, keyword ) {
 
 	publishBox.updateScore( "content", indicator.className );
 
+	// Score is updated to the hidden field though the sync function.
+
 	if ( "" === keyword ) {
 		indicator.className = "na";
 		indicator.screenReaderText = __(
@@ -417,6 +419,8 @@ PostDataCollector.prototype.saveContentScore = function( score ) {
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 	}
+
+	// Score is updated to the hidden field though the sync function.
 };
 
 /**
@@ -434,6 +438,8 @@ PostDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 	}
+
+	// Score is updated to the hidden field though the sync function.
 };
 
 
