@@ -154,7 +154,7 @@ class WPSEO_Meta {
 				'title'         => 'estimated-reading-time-minutes',
 				'default_value' => '0',
 				'description'   => '',
-			]
+			],
 		],
 		'advanced' => [
 			'meta-robots-noindex'  => [
@@ -338,7 +338,7 @@ class WPSEO_Meta {
 						'show_in_rest'      => true,
 						'type'              => 'string',
 						'single'            => true,
-						'default'			=> $field_def['default_value'] ?? '',
+						'default'           => ( $field_def['default_value'] ?? '' ),
 					]
 				);
 
