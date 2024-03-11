@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
 use Brain\Monkey;
+use Yoast\WP\SEO\Conditionals\Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 
@@ -19,12 +20,12 @@ final class Suggested_Plugins_Add_Notifications_Test extends Suggested_Plugins_T
 	 * @covers WPSEO_Suggested_Plugins::add_notifications
 	 * @dataProvider data_add_notifications
 	 *
-	 * @param array<string, array<string, bool>> $plugins_with_dependencies The data of plugins with dependencies.
-	 * @param array<bool>                        $satisfied_dependencies    Whether each plugin has their dependencies satisfied.
-	 * @param int                                $times_check_installed     The amount of times if the installed plugins are checked.
-	 * @param array<bool>                        $is_installed              Whether each plugin is installed.
-	 * @param int                                $times_add_notification    The amount of times a notification is added.
-	 * @param int                                $times_remove_notification The amount of times a notification is removed.
+	 * @param array<string, array<string, string|bool|array<string, Conditional>>> $plugins_with_dependencies The data of plugins with dependencies.
+	 * @param array<bool>                                                          $satisfied_dependencies    Whether each plugin has their dependencies satisfied.
+	 * @param int                                                                  $times_check_installed     The amount of times if the installed plugins are checked.
+	 * @param array<bool>                                                          $is_installed              Whether each plugin is installed.
+	 * @param int                                                                  $times_add_notification    The amount of times a notification is added.
+	 * @param int                                                                  $times_remove_notification The amount of times a notification is removed.
 	 *
 	 * @return void
 	 */

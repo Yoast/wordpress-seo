@@ -5,6 +5,8 @@
  * @package WPSEO\Suggested_Plugins
  */
 
+use Yoast\WP\SEO\Conditionals\Conditional;
+
 /**
  * Class WPSEO_Suggested_Plugins
  */
@@ -79,8 +81,8 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 	/**
 	 * Build Yoast SEO suggested plugins notification.
 	 *
-	 * @param string                                          $notification_id The id of the notification to be created.
-	 * @param array<string, bool, array<string, Conditional>> $plugin          The plugin to retrieve the data from.
+	 * @param string                                                $notification_id The id of the notification to be created.
+	 * @param array<string, string|bool|array<string, Conditional>> $plugin          The plugin to retrieve the data from.
 	 *
 	 * @return Yoast_Notification The notification containing the suggested plugin.
 	 */
