@@ -46,14 +46,23 @@ const populateStore = store => {
 		store.dispatch( actions.loadTwitterPreviewData() );
 	}
 
-	const metadata = get( window, "wpseoScriptData.metabox.metadata", {} );
-	store.dispatch( actions.setFocusKeyword( metadata.focuskw ) );
+	// Set initial value for focus keyphrase.
+	store.dispatch( actions.setFocusKeyword( get( window, "wpseoScriptData.metabox.metadata.focuskw", "" ) ) );
 
+	// Set initial value for primary terms.
+	const metadata = get( window, "wpseoScriptData.metabox.metadata", {} );
 	const primaryTerms = pickBy( metadata, ( value, key ) => key.startsWith( "primary_" ) && value );
 	forEach( primaryTerms, ( value, key ) => {
 		const taxonomy = key.replace( "primary_", "" );
 		store.dispatch( actions.setPrimaryTaxonomyId( taxonomy, value ) );
 	} );
+
+	// Set intial values for social preview.
+	store.dispatch( actions.loadTwitterPreviewData() );
+	store.dispatch( actions.loadFacebookPreviewData() );
+
+	// Set initial values for the advanced settings.
+	store.dispatch( actions.loadAdvancedSettingsData() );
 
 	store.dispatch( actions.setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode ) );
 	store.dispatch( actions.setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus ) );
