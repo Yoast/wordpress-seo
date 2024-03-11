@@ -76,9 +76,6 @@ export default function initPrimaryCategory( $ ) {
 	 * @returns {void}
 	 */
 	function setPrimaryTerm( taxonomyName, termId ) {
-		const primaryTermInput = $( "#yoast_wpseo_primary_" + taxonomyName );
-		primaryTermInput.val( termId ).trigger( "change" );
-
 		const yoastEditor = dispatch( "yoast-seo/editor" );
 		if ( yoastEditor ) {
 			const termIdInt = parseInt( termId, 10 );
