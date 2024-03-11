@@ -205,6 +205,16 @@ class WPSEO_Meta {
 				'default_value' => '',
 				'description'   => '', // Translation added later.
 			],
+			'wordproof_timestamp' => [
+				'type'          => 'hidden',
+				'title'         => '', // Translation added later.
+				'default_value' => '0',
+				'description'   => '', // Translation added later.
+				'options'       => [
+					'0' => '', // Off - translation added later.
+					'1' => '', // On - translation added later.
+				],
+			],
 		],
 		'social'   => [],
 		'schema'   => [
