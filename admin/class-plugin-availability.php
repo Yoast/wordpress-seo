@@ -263,7 +263,7 @@ class WPSEO_Plugin_Availability {
 	/**
 	 * Checks whether a dependency is active.
 	 *
-	 * @param array $dependency The information about the dependency to look for.
+	 * @param array<string, array<string, array<string, bool, array<string, Conditional>>>> $dependency The information about the dependency to look for.
 	 *
 	 * @return bool Whether or not the dependency is active.
 	 */
