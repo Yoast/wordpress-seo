@@ -111,7 +111,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		}
 		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
 			foreach ( $field_definitions->get( 'settings' ) as $key => $field ) {
-				$metadata[ $key ] = $fields_presenter->get_field_value( $meta_prefix . $key );
+				$metadata[ $key ] = WPSEO_Taxonomy_Meta::get_term_meta( $meta_prefix . $key );
 			}
 		}
 
