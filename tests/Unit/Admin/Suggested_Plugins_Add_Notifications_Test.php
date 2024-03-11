@@ -3,6 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
 use Brain\Monkey;
+use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 
 /**
  * Test class for WPSEO_Suggested_Plugins::add_notifications.
@@ -73,7 +75,7 @@ final class Suggested_Plugins_Add_Notifications_Test extends Suggested_Plugins_T
 				'title'         => 'Yoast WooCommerce SEO',
 				'_dependencies' => [
 					'WooCommerce' => [
-						'slug' => 'woocommerce/woocommerce.php',
+						'conditional' => new WooCommerce_Conditional(),
 					],
 				],
 				'installed'     => true,
@@ -89,8 +91,8 @@ final class Suggested_Plugins_Add_Notifications_Test extends Suggested_Plugins_T
 				'url'           => 'https://yoa.st/rNd',
 				'title'         => 'Yoast Random SEO',
 				'_dependencies' => [
-					'Random Dependency' => [
-						'slug' => 'random/dependency.php',
+					'Random Dependency (eg. Elementor)' => [
+						'conditional' => new Elementor_Activated_Conditional(),
 					],
 				],
 				'installed'     => true,
