@@ -163,7 +163,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 *
 	 * @return string
 	 */
-	private function get_field_value( $field_name ) {
+	public function get_field_value( $field_name ) {
 		if ( isset( $this->tax_meta[ $field_name ] ) && $this->tax_meta[ $field_name ] !== '' ) {
 			return $this->tax_meta[ $field_name ];
 		}

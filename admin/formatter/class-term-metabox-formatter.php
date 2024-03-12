@@ -107,17 +107,17 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		$meta_prefix       = 'wpseo_';
 
 		foreach ( $field_definitions->get( 'content' ) as $key => $field ) {
-			$metadata[ $key ] = WPSEO_Taxonomy_Meta::get_term_meta( $meta_prefix . $key );
+			$metadata[ $key ] = $fields_presenter->get_field_value( $meta_prefix . $key );
 		}
 		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
 			foreach ( $field_definitions->get( 'settings' ) as $key => $field ) {
-				$metadata[ $key ] = WPSEO_Taxonomy_Meta::get_term_meta( $meta_prefix . $key );
+				$metadata[ $key ] = $fields_presenter->get_field_value( $meta_prefix . $key );
 			}
 		}
 
 		if ( $is_social_enabled ) {
 			foreach ( $field_definitions->get( 'social' ) as $key => $field ) {
-				$metadata[ $key ] = WPSEO_Taxonomy_Meta::get_term_meta( $meta_prefix . $key );
+				$metadata[ $key ] = $fields_presenter->get_field_value( $meta_prefix . $key );
 			}
 		}
 
