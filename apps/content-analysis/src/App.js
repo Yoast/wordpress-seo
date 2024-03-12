@@ -3,9 +3,9 @@ import { setLocaleData } from "@wordpress/i18n";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { Suite } from "benchmark";
-import testPapers from "../../../packages/yoastseo/spec/fullTextTests/testTexts";
+import testPapers from "yoastspec/fullTextTests/testTexts";
 import { Paper } from "yoastseo";
-import getMorphologyData from "../../../packages/yoastseo/spec/specHelpers/getMorphologyData";
+import getMorphologyData from "yoastspec/specHelpers/getMorphologyData";
 import getLanguage from "yoastseo/src/languageProcessing/helpers/language/getLanguage";
 
 
@@ -16,6 +16,7 @@ import { Container } from "./components/Container";
 import Controls from "./components/Controls";
 import Inputs from "./components/Inputs";
 import Markings from "./components/Markings";
+import Performance from "./components/Performance";
 import ProminentWordsForInternalLinking from "./components/ProminentWordsForInternalLinking";
 import ProminentWordsForInsights from "./components/ProminentWordsForInsights";
 import Results from "./components/Results";
@@ -241,6 +242,12 @@ class App extends React.Component {
 			</Container>
 
 			<Container>
+				<Collapsible title="Performance">
+					<Performance />
+				</Collapsible>
+			</Container>
+
+			<Container>
 				<Collapsible title="Tree" initialIsOpen={ false }>
 					<TreeView />
 				</Collapsible>
@@ -275,6 +282,7 @@ export default connect(
 			useKeywordDistribution: state.configuration.useKeywordDistribution,
 			isRelatedKeyphrase: state.options.isRelatedKeyphrase,
 			useMorphology: state.options.useMorphology,
+			performance: state.performance,
 		};
 	},
 	( dispatch ) => {

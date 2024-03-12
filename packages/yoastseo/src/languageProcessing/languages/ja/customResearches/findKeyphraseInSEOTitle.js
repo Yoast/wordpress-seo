@@ -22,7 +22,7 @@ function adjustPosition( title, position ) {
 	}
 
 	// Retrieve the SEO title words before the keyphrase.
-	let titleBeforeKeyword = title.substr( 0, position );
+	let titleBeforeKeyword = title.substring( 0, position );
 	titleBeforeKeyword = getWords( titleBeforeKeyword );
 	// Retrieve the non-function words.
 	titleBeforeKeyword = titleBeforeKeyword.filter( word => ! functionWords.includes( word ) );

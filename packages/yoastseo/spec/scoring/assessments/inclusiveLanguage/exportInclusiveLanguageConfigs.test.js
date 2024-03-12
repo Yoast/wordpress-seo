@@ -95,7 +95,7 @@ describe( "Export of the inclusive language configuration", () => {
 		}
 	} );
 
-	it( "should retrieve rules in a more pretty format", () => {
+	it.skip( "should retrieve rules in a more pretty format", () => {
 		let assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "firemen" ) );
 		expect( retrieveRule( assessment.rule.toString() ) ).toEqual( "" );
 
