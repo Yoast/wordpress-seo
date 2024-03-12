@@ -653,7 +653,6 @@ final class Addon_Manager_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_convert_subscription_to_plugin( $subscription, $expected_result ) {
-		$this->stubTranslationFunctions();
 
 		$result = $this->instance->convert_subscription_to_plugin( $subscription );
 		$this->assertEquals( $expected_result, $result );
