@@ -23,7 +23,6 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "start": "npm start --prefix examples/webpack",
     "build": "yarn clean && yarn build:js",
     "build:js": "babel src --copy-files --source-maps --out-dir build",
     "clean": "rm -rf build",
