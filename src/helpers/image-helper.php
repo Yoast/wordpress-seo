@@ -333,8 +333,13 @@ class Image_Helper {
 		if ( ! $use_link_table ) {
 			return WPSEO_Image_Utils::get_attachment_by_url( $url );
 		}
+		$cache_key = 'attachment_seo_link_object_' . $url;
+		$link      = \wp_cache_get( $cache_key, 'yoast-seo-attachment-link' );
 
-		$link = $this->seo_links_repository->find_one_by_url( $url );
+		if ( $link === false ) {
+			$link = $this->seo_links_repository->find_one_by_url( $url );
+			\wp_cache_set( $cache_key, $link, 'yoast-seo-attachment-link', \MINUTE_IN_SECONDS );
+		}
 		if ( ! \is_a( $link, SEO_Links::class ) ) {
 			return WPSEO_Image_Utils::get_attachment_by_url( $url );
 		}
