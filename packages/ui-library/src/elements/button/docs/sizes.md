@@ -9,4 +9,4 @@ The default button size is used for the vast majority of actions in our user int
 3. **Small**<br>
 The small button size is very useful for fitting more actions in a smaller space, like in tables. This approach ensures that the user interface remains tidy and uncluttered.
 
-<font size="2">_**Note:** When choosing a button size for a particular situation other than those previously mentioned, it's important to consider the context, hierarchy, proximity, screen size and resolution. The goal should be to choose a size that is appropriate for the information being conveyed, while also maintaining visual balance in the user interface._</font>
+_**Note:** When choosing a button size for a particular situation other than those previously mentioned, it's important to consider the context, hierarchy, proximity, screen size and resolution. The goal should be to choose a size that is appropriate for the information being conveyed, while also maintaining visual balance in the user interface._

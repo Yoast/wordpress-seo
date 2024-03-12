@@ -6,6 +6,4 @@ The loading state is used when a button click triggers a process that takes some
 2. **Disabled state**<br>
 The disabled state, represented by a transparent button, is used when the button cannot be clicked due to a certain condition. The disabled state should be used when the user is not eligible to perform the action due to reasons such as insufficient permissions, lack of connectivity, or a disabled setting.
 
-<div className="alert" style="background-color:#DBEAFE; color:#1E40AF; padding:16px; border-radius:6px; display:flex; align-items:center;">
-  <span style="font-size: small; ">**Note:** The disabled state does not remove pointer-events. If you want to remove pointer-events, do it manually using a `className`.</span>
-</div>
+_**Note:** The disabled state does not remove pointer-events. If you want to remove pointer-events, do it manually using a `className`._
