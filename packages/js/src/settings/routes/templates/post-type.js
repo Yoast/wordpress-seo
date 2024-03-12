@@ -275,12 +275,8 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							options={ shouldDisablePageTypeSelect ? pageTypes.filter( ( { value } ) => value === "ItemPage" ) : pageTypes }
 							disabled={ shouldDisablePageTypeSelect }
 							className="yst-max-w-sm"
+							description={ shouldDisablePageTypeSelect ? disabledPageTypeSelectorDescription : null }
 						/>
-						{ shouldDisablePageTypeSelect && (
-							<span className="yst-relative yst-top-2 yst-text-gray-400">
-								{ disabledPageTypeSelectorDescription }
-							</span>
-						) }
 						{ hasSchemaArticleType && (
 							<div>
 								<FormikValueChangeField
