@@ -1,3 +1,6 @@
+import { singleWords } from "./transitionWords";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
+
 /**
  * Returns an object with exceptions for the prominent words researcher
  * @returns {Object} The object filled with exception arrays.
@@ -46,7 +49,7 @@ const intensifiers = [ "جدا", "حقا", "للغاية", "تماما", "فعل
 
 const interrogativeDeterminers = [ "ماذا", "لمن", "ما", "أي", "أى", "وماذا", "وما", "بماذا", "ماهو", "ماهذا" ];
 const interrogativePronouns = [ "من", "ومن" ];
-const interrogativeProAdverbs = [ "اين", "كيف", "لماذا", "لم", "سواء", "أينما", "كيفما", "مـتى", "كم", "هل", "أين", "أهذا", "وكيف", "وهل"  ];
+const interrogativeProAdverbs = [ "اين", "كيف", "لماذا", "لم", "سواء", "أينما", "كيفما", "مـتى", "كم", "هل", "أين", "أهذا", "وكيف", "وهل" ];
 
 const locativeAdverbs = [ "هنا", "هناك", "هنالك" ];
 const adverbialGenitives = [ "دائما", "مرة", "مرتين" ];
@@ -273,8 +276,8 @@ const generalAdjectivesAdverbs = [ "جيد", "آخر", "رائع", "أفضل", "
 const interjections = [ "واو", "هيا", "آه", "هيه", "هاى", "أوه", "أخخ", "هووه", "صه", "أوبس", "أها", "آخ", "أح", "شو", "ههههه" ];
 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
-const recipeWords = [ "كلغ", "ملغ",  "الكوارت",  "جرام",  "جالون",  "ربع ",  "كوارتات",  "لتر",  "سنتيلتر",  "مليمتر",
-	"دزينة",  "ملاعق",  "ذراع",  "قبضة",  "عربية",  "قصبة",  "بريد",  "قدم",  "ربع" ];
+const recipeWords = [ "كلغ", "ملغ", "الكوارت", "جرام", "جالون", "ربع ", "كوارتات", "لتر", "سنتيلتر", "مليمتر",
+	"دزينة", "ملاعق", "ذراع", "قبضة", "عربية", "قصبة", "بريد", "قدم", "ربع" ];
 
 const timeWords = [ "اليوم", "يوم", "ليلة", "دقيقة", "ساعة", "عام", "دقائق", "سنة", "الساعة", "أيام", "العام", "الأسبوع",
 	"غدا", "ساعات", "أمس", "أشهر", "الأيام", "شهر", "السنة", "الغد", "يوما", "ثانية", "ثوان", "أسبوع", "أسابيع", "أسبوعا",
@@ -297,26 +300,26 @@ const transitionWords = [ "عندما", "مثل", "بالطبع", "لأن", "إ�
 	"إلا", "الا" ];
 
 // These word categories are filtered at the ending of word combinations.
-export const filteredAtEnding = [].concat( ordinalNumerals, generalAdjectivesAdverbs );
+export const filteredAtEnding = transformWordsWithHyphens( [].concat( ordinalNumerals, generalAdjectivesAdverbs ) );
 
 // These word categories are filtered at the beginning and ending of word combinations.
-export const filteredAtBeginningAndEnding = [].concat( articles, prepositions, prepositionPrecedingPronouns, coordinatingConjunctions,
-	demonstrativePronouns, intensifiers, quantifiers );
+export const filteredAtBeginningAndEnding = transformWordsWithHyphens( [].concat( articles, prepositions, prepositionPrecedingPronouns,
+	coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers ) );
 
 // These word categories are filtered everywhere within word combinations.
-export const filteredAnywhere = [].concat( transitionWords, adverbialGenitives, personalPronounsNominative, personalPronounsAccusative,
-	reflexivePronouns, interjections, cardinalNumerals, otherAuxiliaries, copula, interviewVerbs,
-	delexicalizedVerbs, indefinitePronouns, subordinatingConjunctions, interrogativeDeterminers,
+export const filteredAnywhere = transformWordsWithHyphens( [].concat( transitionWords, singleWords, adverbialGenitives,
+	personalPronounsNominative, personalPronounsAccusative, reflexivePronouns, interjections, cardinalNumerals,
+	otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, subordinatingConjunctions, interrogativeDeterminers,
 	interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs,
-	recipeWords, timeWords, vagueNouns, vocativeParticles, relativePronouns );
+	recipeWords, timeWords, vagueNouns, vocativeParticles, relativePronouns ) );
 
 // This export contains all of the above words.
-export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, reflexivePronouns,
+export const all = transformWordsWithHyphens( [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, reflexivePronouns,
 	personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers,
 	interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs,
 	otherAuxiliaries, copula, prepositions, coordinatingConjunctions, subordinatingConjunctions, interviewVerbs,
-	transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
-	recipeWords, vagueNouns, miscellaneous, titlesPreceding, vocativeParticles, relativePronouns, prepositionPrecedingPronouns );
+	transitionWords, singleWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
+	recipeWords, vagueNouns, miscellaneous, titlesPreceding, vocativeParticles, relativePronouns, prepositionPrecedingPronouns ) );
 
 export default {
 	filteredAtEnding,

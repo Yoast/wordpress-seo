@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Place a comment on the PR
-        uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308 # v2.4.3
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
         with:
           message: |
             @${{ github.actor }} Please be aware that following packages have been abandoned and are not actively maintained anymore:

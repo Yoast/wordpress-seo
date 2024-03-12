@@ -70,12 +70,12 @@ export default class InclusiveLanguageAssessment {
 		this.foundPhrases = [];
 
 		sentences.forEach( sentence => {
-			let words = getWords( sentence, false );
+			let words = getWords( sentence, "\\s", false );
 			if ( ! this.caseSensitive ) {
 				words = words.map( word => word.toLocaleLowerCase() );
 			}
 
-			const foundPhrase = this.nonInclusivePhrases.find( phrase => this.rule( words, getWords( phrase, false ) ).length >= 1 );
+			const foundPhrase = this.nonInclusivePhrases.find( phrase => this.rule( words, getWords( phrase, "\\s", false ) ).length >= 1 );
 
 			if ( foundPhrase ) {
 				this.foundPhrases.push( {

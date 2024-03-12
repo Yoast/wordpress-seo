@@ -24,9 +24,15 @@ export default {
 	parameters: { docs: { description: { component } } },
 };
 
-export const Factory = ( { children, ...args } ) => (
-	<StoryComponent { ...args }>{ children }</StoryComponent>
-);
+export const Factory = ( { children, ...args } ) => {
+	if ( args.as === "a" ) {
+		// Add the href attribute, so focus styles can be tested too.
+		args.href = "#!";
+	}
+	return (
+		<StoryComponent { ...args }>{ children }</StoryComponent>
+	);
+};
 Factory.parameters = {
 	controls: { disable: false },
 };
@@ -47,6 +53,7 @@ Variants.parameters = { docs: { description: { story: variants } } };
 
 export const Sizes = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
+		<StoryComponent size="extra-large">Extra large</StoryComponent>
 		<StoryComponent size="large">Large</StoryComponent>
 		<StoryComponent size="default">Default</StoryComponent>
 		<StoryComponent size="small">Small</StoryComponent>

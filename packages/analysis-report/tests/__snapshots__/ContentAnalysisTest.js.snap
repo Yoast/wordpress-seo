@@ -139,20 +139,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
   margin-left: 8px;
 }
 
-.c3 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c3 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
-.c20 {
+.c21 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -176,11 +163,11 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
   height: 24px;
 }
 
-.c20:hover {
+.c21:hover {
   border-color: #fff;
 }
 
-.c20:disabled {
+.c21:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -236,6 +223,71 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
 .c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c3 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c20 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c20 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c22 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c22 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c23 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c23 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c24 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c24 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -326,7 +378,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c20"
     >
       <button
         aria-expanded={true}
@@ -395,7 +447,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c20"
+          className="c21"
           disabled={false}
           id="1Mark"
           onClick={[Function]}
@@ -423,7 +475,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c22"
     >
       <button
         aria-expanded={true}
@@ -496,7 +548,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c23"
     >
       <button
         aria-expanded={true}
@@ -569,7 +621,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c24"
     >
       <button
         aria-expanded={true}
@@ -667,7 +719,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c20"
+          className="c21"
           disabled={false}
           id="3Mark"
           onClick={[Function]}
@@ -833,20 +885,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   margin-left: 8px;
 }
 
-.c3 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c3 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
-.c20 {
+.c21 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -870,11 +909,11 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   height: 24px;
 }
 
-.c20:hover {
+.c21:hover {
   border-color: #fff;
 }
 
-.c20:disabled {
+.c21:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -930,6 +969,71 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 .c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c3 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c20 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c20 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c22 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c22 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c23 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c23 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c24 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c24 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -1020,7 +1124,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c20"
     >
       <button
         aria-expanded={true}
@@ -1089,7 +1193,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         <button
           aria-label="Marks are disabled in current view"
           aria-pressed={false}
-          className="c20"
+          className="c21"
           disabled={true}
           id="1Mark"
           onClick={[Function]}
@@ -1117,7 +1221,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c22"
     >
       <button
         aria-expanded={true}
@@ -1190,7 +1294,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c23"
     >
       <button
         aria-expanded={true}
@@ -1263,7 +1367,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c24"
     >
       <button
         aria-expanded={true}
@@ -1361,7 +1465,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         <button
           aria-label="Marks are disabled in current view"
           aria-pressed={false}
-          className="c20"
+          className="c21"
           disabled={true}
           id="3Mark"
           onClick={[Function]}
@@ -1527,19 +1631,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   margin-left: 8px;
 }
 
-.c3 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c3 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
 .c16 {
   min-height: 24px;
   padding: 0;
@@ -1589,6 +1680,71 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 .c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c3 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c20 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c20 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c21 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c21 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c22 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c22 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c23 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c23 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -1679,7 +1835,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c20"
     >
       <button
         aria-expanded={true}
@@ -1752,7 +1908,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c21"
     >
       <button
         aria-expanded={true}
@@ -1825,7 +1981,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c22"
     >
       <button
         aria-expanded={true}
@@ -1898,7 +2054,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c23"
     >
       <button
         aria-expanded={true}
@@ -2138,20 +2294,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   margin-left: 8px;
 }
 
-.c3 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c3 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
-.c20 {
+.c21 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -2175,11 +2318,11 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   height: 24px;
 }
 
-.c20:hover {
+.c21:hover {
   border-color: #fff;
 }
 
-.c20:disabled {
+.c21:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -2235,6 +2378,71 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 .c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c3 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c20 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c20 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c22 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c22 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c23 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c23 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c24 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c24 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -2325,7 +2533,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
     className="c1 c2"
   >
     <h3
-      className="c3"
+      className="c20"
     >
       <button
         aria-expanded={true}
@@ -2394,7 +2602,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c20"
+          className="c21"
           disabled={false}
           id="1Mark"
           onClick={[Function]}
@@ -2422,7 +2630,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
     className="c1 c2"
   >
     <h3
-      className="c3"
+      className="c22"
     >
       <button
         aria-expanded={true}
@@ -2495,7 +2703,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
     className="c1 c2"
   >
     <h3
-      className="c3"
+      className="c23"
     >
       <button
         aria-expanded={true}
@@ -2568,7 +2776,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
     className="c1 c2"
   >
     <h3
-      className="c3"
+      className="c24"
     >
       <button
         aria-expanded={true}
@@ -2666,7 +2874,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c20"
+          className="c21"
           disabled={false}
           id="3Mark"
           onClick={[Function]}
@@ -2832,20 +3040,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
   margin-left: 8px;
 }
 
-.c3 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c3 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
-.c21 {
+.c22 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -2869,11 +3064,11 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
   height: 24px;
 }
 
-.c21:hover {
+.c22:hover {
   border-color: #fff;
 }
 
-.c21:disabled {
+.c22:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -2906,7 +3101,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
   color: inherit;
 }
 
-.c20 {
+.c21 {
   margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
@@ -2937,6 +3132,71 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
 .c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c3 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c20 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c20 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c23 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c23 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c24 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c24 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c25 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c25 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -3027,7 +3287,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c20"
     >
       <button
         aria-expanded={true}
@@ -3083,7 +3343,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
           />
         </svg>
         <p
-          className="c20"
+          className="c21"
         >
           <span
             dangerouslySetInnerHTML={
@@ -3125,7 +3385,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c21"
+          className="c22"
           disabled={false}
           id="1Mark"
           onClick={[Function]}
@@ -3153,7 +3413,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c23"
     >
       <button
         aria-expanded={true}
@@ -3226,7 +3486,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c24"
     >
       <button
         aria-expanded={true}
@@ -3299,7 +3559,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c25"
     >
       <button
         aria-expanded={true}
@@ -3397,7 +3657,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c21"
+          className="c22"
           disabled={false}
           id="3Mark"
           onClick={[Function]}
@@ -3563,20 +3823,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   margin-left: 8px;
 }
 
-.c3 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c3 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
-.c20 {
+.c21 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -3600,11 +3847,11 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   height: 24px;
 }
 
-.c20:hover {
+.c21:hover {
   border-color: #fff;
 }
 
-.c20:disabled {
+.c21:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -3660,6 +3907,71 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 .c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c3 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c20 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c20 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c22 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c22 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c23 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c23 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c24 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c24 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -3750,7 +4062,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c20"
     >
       <button
         aria-expanded={true}
@@ -3819,7 +4131,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c20"
+          className="c21"
           disabled={false}
           id="1Mark"
           onClick={[Function]}
@@ -3847,7 +4159,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c22"
     >
       <button
         aria-expanded={true}
@@ -3920,7 +4232,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c23"
     >
       <button
         aria-expanded={true}
@@ -3993,7 +4305,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c24"
     >
       <button
         aria-expanded={true}
@@ -4091,7 +4403,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c20"
+          className="c21"
           disabled={false}
           id="3Mark"
           onClick={[Function]}
@@ -4257,20 +4569,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   margin-left: 8px;
 }
 
-.c3 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c3 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
-.c20 {
+.c22 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -4294,11 +4593,11 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   height: 24px;
 }
 
-.c20:hover {
+.c22:hover {
   border-color: #fff;
 }
 
-.c20:disabled {
+.c22:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -4354,6 +4653,45 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 .c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c3 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c20 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c20 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c21 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c21 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -4444,7 +4782,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c20"
     >
       <button
         aria-expanded={true}
@@ -4517,7 +4855,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c21"
     >
       <button
         aria-expanded={true}
@@ -4615,7 +4953,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c20"
+          className="c22"
           disabled={false}
           id="3Mark"
           onClick={[Function]}
@@ -4781,20 +5119,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   margin-left: 8px;
 }
 
-.c3 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c3 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
-.c20 {
+.c22 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -4818,11 +5143,11 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   height: 24px;
 }
 
-.c20:hover {
+.c22:hover {
   border-color: #fff;
 }
 
-.c20:disabled {
+.c22:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -4878,6 +5203,45 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 .c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c3 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c20 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c20 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c21 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c21 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -4968,7 +5332,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c20"
     >
       <button
         aria-expanded={true}
@@ -5041,7 +5405,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c21"
     >
       <button
         aria-expanded={true}
@@ -5139,7 +5503,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c20"
+          className="c22"
           disabled={false}
           id="3Mark"
           onClick={[Function]}
@@ -5305,20 +5669,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   margin-left: 8px;
 }
 
-.c3 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c3 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
-.c20 {
+.c23 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -5342,11 +5693,11 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   height: 24px;
 }
 
-.c20:hover {
+.c23:hover {
   border-color: #fff;
 }
 
-.c20:disabled {
+.c23:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -5402,6 +5753,58 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 .c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c3 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c20 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c20 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c21 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c21 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c22 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c22 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -5492,7 +5895,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c20"
     >
       <button
         aria-expanded={true}
@@ -5565,7 +5968,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c21"
     >
       <button
         aria-expanded={true}
@@ -5638,7 +6041,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c22"
     >
       <button
         aria-expanded={true}
@@ -5736,7 +6139,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c20"
+          className="c23"
           disabled={false}
           id="3Mark"
           onClick={[Function]}
@@ -5902,20 +6305,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   margin-left: 8px;
 }
 
-.c3 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c3 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
-.c20 {
+.c21 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -5939,11 +6329,11 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   height: 24px;
 }
 
-.c20:hover {
+.c21:hover {
   border-color: #fff;
 }
 
-.c20:disabled {
+.c21:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -5999,6 +6389,32 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 .c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c3 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.c20 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c20 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -6089,7 +6505,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
     className="c1 c2"
   >
     <h4
-      className="c3"
+      className="c20"
     >
       <button
         aria-expanded={true}
@@ -6187,7 +6603,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c20"
+          className="c21"
           disabled={false}
           id="3Mark"
           onClick={[Function]}

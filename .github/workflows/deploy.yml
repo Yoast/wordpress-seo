@@ -88,7 +88,7 @@ jobs:
       # and available across runs of the same workflow.
       # @link https://github.com/marketplace/actions/install-php-dependencies-with-composer
       - name: Install Composer dependencies and run the prefixing script
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
         with:
           # Bust the cache at least once a week - output format: YYYY-MM-DD.
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
