@@ -462,7 +462,7 @@ describe( "AnalysisWebWorker", () => {
 				} );
 			} );
 
-			test( "calls analyze", () => {
+			test( "calls analyze", done => {
 				const paper = new Paper( "This is the content." );
 				const spy = jest.spyOn( worker, "analyze" );
 
@@ -735,7 +735,7 @@ describe( "AnalysisWebWorker", () => {
 				} );
 			} );
 
-			test( "calls analyzeRelatedKeywords", () => {
+			test( "calls analyzeRelatedKeywords", done => {
 				const paper = new Paper( "This is the content." );
 				const relatedKeywords = { a: { keyword: "content", synonyms: "" } };
 				const spy = jest.spyOn( worker, "analyzeRelatedKeywords" );
