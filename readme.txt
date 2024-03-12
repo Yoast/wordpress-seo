@@ -348,11 +348,11 @@ Release date: 2024-03-19
 
 #### Enhancements
 
-* Removes an unnecessary query relating to breadcrumb generation on the homepage.
+* Removes an unnecessary query relating to breadcrumb schema generation on the homepage.
 
 #### Bugfixes
 
-* Adds `x.com` as a possible domain for the Twitter validation in our FTC social profiles settings.
+* Adds `x.com` as a possible domain for the Twitter validation in our first time configuration social profiles settings.
 * Fixes a bug where the `Or go to your SEO dashboard` link in the final step of our first time configuration would not be focusable using tab.
 
 #### Other
