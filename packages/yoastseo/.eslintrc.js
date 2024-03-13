@@ -23,6 +23,7 @@ module.exports = {
 		react: {
 			version: "detect",
 		},
+		"import/core-modules": [ "yoastseo" ],
 	},
 	rules: {
 		complexity: [ "warn", 10 ],
@@ -68,5 +69,6 @@ module.exports = {
 		"import/no-named-as-default": "off",
 		"import/no-named-as-default-member": "off",
 		"import/no-extraneous-dependencies": "off",
+		"import/no-unresolved": [ "error", { ignore: [ "premium-configuration/data/morphologyData", "@yoast/feature-flag", "yoastseo" ] } ],
 	},
 };

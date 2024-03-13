@@ -32,7 +32,7 @@ module.exports = {
 		"import/no-unresolved": [
 			"error",
 			{
-				ignore: [ "^@yoast/(components|helpers|replacement-variable-editor|style-guide)" ],
+				ignore: [ "^@yoast/(components|helpers|replacement-variable-editor|style-guide)", "yoastseo" ],
 			},
 		],
 	},
