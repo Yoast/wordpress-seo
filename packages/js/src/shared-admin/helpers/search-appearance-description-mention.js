@@ -19,15 +19,17 @@ const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 			name={ `yoast.replacementVariableEditor.additionalMentions.${fieldId}` }
 		>
 			<Root context={ { isRtl } }>
-				<Badge variant="plain" className="yst-text-slate-500">
+				<Badge variant="plain" className="yst-text-slate-500" isVisible="true">
 					Date
-					<StoryComponent id={ fieldId }>
-						I am the date tooltip
+					<StoryComponent id={ fieldId } isVisible="true">
+						I am the date tooltip with a long text like
+						A grasshopper spent the summer hopping about in the sun and singing to his
+						heart's content. One day, an ant went hurrying by, looking very hot and weary.
 					</StoryComponent>
 				</Badge>
 				<Badge variant="plain" className="yst-text-slate-500">
 					Separator
-					<StoryComponent id={ fieldId }>
+					<StoryComponent id={ fieldId } position="left">
 						I am the separator tooltip
 					</StoryComponent>
 				</Badge>
