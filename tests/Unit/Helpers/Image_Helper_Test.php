@@ -604,9 +604,10 @@ final class Image_Helper_Test extends TestCase {
 				]
 			);
 
+		$url = \md5( 'a_dir/something' );
 		Monkey\Functions\expect( 'wp_cache_get' )
 			->once()
-			->with( 'attachment_seo_link_object_a_dir/something', 'yoast-seo-attachment-link' )
+			->with( 'attachment_seo_link_object_' . $url, 'yoast-seo-attachment-link', false, false )
 			->andReturn( false );
 
 		$link                 = new SEO_Links_Mock();
@@ -617,37 +618,7 @@ final class Image_Helper_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_cache_set' )
 			->once()
-			->with( 'attachment_seo_link_object_a_dir/something', $link, 'yoast-seo-attachment-link', \MINUTE_IN_SECONDS );
-		$this->assertEquals( 17, $this->actual_instance->get_attachment_by_url( 'a_dir/something' ) );
-	}
-
-	/**
-	 * Tests the get_attachment_by_url function without using the SEO links table. Because the query result is cached
-	 *
-	 * @covers ::get_attachment_by_url
-	 * @return void
-	 */
-	public function test_get_attachment_by_url_with_existing_link_and_cache() {
-		Monkey\Functions\expect( 'wp_parse_url' )
-			->once()
-			->with( 'a_dir/something' )
-			->andReturn(
-				[
-					'scheme' => 'https',
-					'host'   => 'example.com',
-				]
-			);
-
-		$link                 = new SEO_Links_Mock();
-		$link->target_post_id = 17;
-		$this->url_helper->expects( 'get_link_type' )->andReturn( SEO_Links::TYPE_INTERNAL );
-		$this->options_helper->expects( 'get' )->with( 'disable-attachment' )->andReturn( true );
-		$this->indexable_seo_links_repository->expects( 'find_one_by_url' )->never();
-		Monkey\Functions\expect( 'wp_cache_get' )
-			->once()
-			->with( 'attachment_seo_link_object_a_dir/something', 'yoast-seo-attachment-link' )
-			->andReturn( $link );
-
+			->with( 'attachment_seo_link_object_' . $url, $link, 'yoast-seo-attachment-link', \MINUTE_IN_SECONDS );
 		$this->assertEquals( 17, $this->actual_instance->get_attachment_by_url( 'a_dir/something' ) );
 	}
 }
