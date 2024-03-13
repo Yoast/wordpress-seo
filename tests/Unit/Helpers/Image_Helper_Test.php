@@ -522,12 +522,41 @@ final class Image_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the get_attachment_by_url function with an external image url.
+	 *
+	 * @covers ::get_attachment_by_url
+	 * @return void
+	 */
+	public function test_get_attachment_by_url_with_external_url_image() {
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( 'https://example.com/image.jpg' )
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
+		$this->url_helper->expects( 'get_link_type' )->andReturn( SEO_Links::TYPE_EXTERNAL );
+		$this->assertEquals( 0, $this->actual_instance->get_attachment_by_url( 'https://example.com/image.jpg' ) );
+	}
+
+	/**
 	 * Tests the get_attachment_by_url function with an external image.
 	 *
 	 * @covers ::get_attachment_by_url
 	 * @return void
 	 */
 	public function test_get_attachment_by_url_with_external_image() {
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( '' )
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
 		$this->url_helper->expects( 'get_link_type' )->andReturn( SEO_Links::TYPE_EXTERNAL );
 		$this->assertEquals( 0, $this->actual_instance->get_attachment_by_url( '' ) );
 	}
@@ -539,7 +568,15 @@ final class Image_Helper_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_attachment_by_url_with_existing_indexable() {
-
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( '' )
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
 		$indexable                  = new Indexable_Mock();
 		$indexable->object_type     = 'post';
 		$indexable->object_sub_type = 'attachment';
@@ -557,12 +594,31 @@ final class Image_Helper_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_attachment_by_url_with_existing_link() {
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( 'a_dir/something' )
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
+
+		$url = \md5( 'a_dir/something' );
+		Monkey\Functions\expect( 'wp_cache_get' )
+			->once()
+			->with( 'attachment_seo_link_object_' . $url, 'yoast-seo-attachment-link', false, false )
+			->andReturn( false );
+
 		$link                 = new SEO_Links_Mock();
 		$link->target_post_id = 17;
 		$this->url_helper->expects( 'get_link_type' )->andReturn( SEO_Links::TYPE_INTERNAL );
 		$this->options_helper->expects( 'get' )->with( 'disable-attachment' )->andReturn( true );
 		$this->indexable_seo_links_repository->expects( 'find_one_by_url' )->andReturn( $link );
 
+		Monkey\Functions\expect( 'wp_cache_set' )
+			->once()
+			->with( 'attachment_seo_link_object_' . $url, $link, 'yoast-seo-attachment-link', \MINUTE_IN_SECONDS );
 		$this->assertEquals( 17, $this->actual_instance->get_attachment_by_url( 'a_dir/something' ) );
 	}
 }
