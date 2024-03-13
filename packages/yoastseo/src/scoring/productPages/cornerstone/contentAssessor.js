@@ -1,7 +1,6 @@
 import { inherits } from "util";
 
 import { Assessor, ContentAssessor, assessments, helpers } from "yoastseo";
-import ListsPresenceAssessment  from "../../assessments/readability/ListAssessment";
 const { createAnchorOpeningTag } = helpers;
 
 const {
@@ -11,6 +10,7 @@ const {
 	TransitionWordsAssessment,
 	PassiveVoiceAssessment,
 	TextPresenceAssessment,
+	ListAssessment,
 } = assessments.readability;
 
 /**
@@ -64,7 +64,7 @@ const ProductCornerstoneContentAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.textPresenceUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.textPresenceCTAUrl ),
 		} ),
-		new ListsPresenceAssessment( {
+		new ListAssessment( {
 			urlTitle: createAnchorOpeningTag( options.listsUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.listsCTAUrl ),
 		} ),
