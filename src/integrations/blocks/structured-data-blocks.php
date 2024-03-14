@@ -98,7 +98,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 			]
 		);
 		\register_block_type(
-			'yoast/how-to-block',
+			\WPSEO_PATH . 'blocks/structured-data-blocks/how-to/block.json',
 			[
 				'render_callback' => [ $this, 'optimize_how_to_images' ],
 				'attributes'      => [
