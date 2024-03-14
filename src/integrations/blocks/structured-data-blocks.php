@@ -69,7 +69,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
+		\add_action( 'enqueue_block_assets', [ $this, 'enqueue_block_editor_assets' ] );
 		$this->register_blocks();
 	}
 
@@ -148,6 +148,11 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_block_editor_assets() {
+		// Bail if not in the admin.
+		if ( ! \is_admin() ) {
+			return;
+		}
+
 		/**
 		 * Filter: 'wpseo_enable_structured_data_blocks' - Allows disabling Yoast's schema blocks entirely.
 		 *
