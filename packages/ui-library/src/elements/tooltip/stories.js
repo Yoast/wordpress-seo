@@ -1,6 +1,6 @@
 import { StoryComponent } from ".";
 import { component } from "./docs";
-import { useState, useCallback } from "@wordpress/element";
+import { useRef, useState, useEffect, useCallback } from "@wordpress/element";
 import Badge from "../badge";
 
 export default {
@@ -13,18 +13,28 @@ export default {
 };
 
 export const Factory = (args) => {
+	const ref = useRef();
+	// const onClick = useCallback( () => {
+	// 	ref.current.togglePopover();
+	// }, [ ref ] );
+
+	useEffect( () => {
+		ref.current.showPopover();
+	}, [] );
+
 	return (
 		// The yst-my-24 class gives more space within the Storybook container, allowing the tooltip to be visible.
 		// The flex classes are to position the trigger element in the center of the container.
 		<div className="yst-m-16 yst-flex yst-justify-center">
 			<div
+				// onClick={onClick}
 				// The parent element nesting the tooltip should have a relative position.
 				className="yst-relative yst-cursor-pointer"
 				// The aria-describedby attribute is used to associate the tooltip with the trigger element.
 				aria-describedby={args.id}
 			>
 				Element containing a tooltip.
-				<StoryComponent {...args} />
+				<StoryComponent ref={ref} {...args} />
 			</div>
 		</div>
 	);
@@ -33,18 +43,18 @@ export const Factory = (args) => {
 Factory.args = {
 	id: "id-1",
 	children:
-		"I am a tooltip with long text. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+		"I am a tooltip.",
 };
 
 export const badgeShowsATooltipOnHover = (args) => {
-	const [isVisible, setIsVisible] = useState(false);
+	const ref = useRef();
 	const handleMouseEnter = useCallback(
-		() => setIsVisible(true),
-		[setIsVisible],
+		() => ref.current.showPopover(),
+		[ref],
 	);
 	const handleMouseLeave = useCallback(
-		() => setIsVisible(false),
-		[setIsVisible],
+		() => ref.current.hidePopover(),
+		[ref],
 	);
 
 	return (
@@ -59,7 +69,7 @@ export const badgeShowsATooltipOnHover = (args) => {
 				className="yst-relative yst-cursor-pointer"
 			>
 				Hover me
-				{isVisible && <StoryComponent {...args} />}
+				<StoryComponent ref={ref} {...args} />
 			</Badge>
 		</div>
 	);
