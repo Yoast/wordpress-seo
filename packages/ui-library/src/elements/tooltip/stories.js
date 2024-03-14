@@ -19,7 +19,7 @@ export const Factory = (args) => {
 	// }, [ ref ] );
 
 	useEffect( () => {
-		ref.current.showPopover();
+		ref.current.togglePopover();
 	}, [] );
 
 	return (
@@ -32,9 +32,10 @@ export const Factory = (args) => {
 				className="yst-relative yst-cursor-pointer"
 				// The aria-describedby attribute is used to associate the tooltip with the trigger element.
 				aria-describedby={args.id}
+				id="story-anchor"
 			>
 				Element containing a tooltip.
-				<StoryComponent ref={ref} {...args} />
+				<StoryComponent ref={ref} {...args} anchor="story-anchor" />
 			</div>
 		</div>
 	);

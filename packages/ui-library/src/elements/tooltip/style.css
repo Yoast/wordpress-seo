@@ -6,25 +6,33 @@
 			yst-absolute
 			/* yst-inline-block */
 			yst-z-10
-			yst-px-2
+			/*yst-px-2*/
 			yst-p-2
 			yst-bg-gray-800
 			yst-text-white
 			yst-text-xs
 			yst-rounded-lg;
-		 	max-width: 448px; /* Set the maximum width of the tooltip. The value in pixels is equivalent to the maw-w-md class*/
-			white-space: normal; /* Wrap the text in the tooltip */
+		 	/*max-width: 448px; !* Set the maximum width of the tooltip. The value in pixels is equivalent to the maw-w-md class*!*/
+			/*white-space: normal; !* Wrap the text in the tooltip *!*/
 			inset: unset;
+
+
 		}
 
 		.yst-tooltip--top {
-            @apply
-            yst--translate-x-1/2
-            yst--translate-y-full
+
+			bottom: calc(anchor(top) + 1rem);
+			left: anchor(center);
+			translate: -50% 0;
+
+
+            /*@apply*/
+            /*yst--translate-x-1/2*/
+            /*yst--translate-y-full*/
 			/* yst-right-1/2;  */
-			yst-left-1/2
-			yst-top-0;
-			margin-top: -0.5rem; /* Adjust the margin to align the tooltip with the trigger element */
+			/*yst-left-1/2*/
+			/*yst-top-0;*/
+			/*margin-top: -0.5rem; !* Adjust the margin to align the tooltip with the trigger element *!*/
 
 			/* Style properties for the tooltip arrow */
 			&::before {
@@ -43,7 +51,11 @@
         }
 
 		.yst-tooltip--bottom {
-            @apply
+			bottom: calc(anchor(top) + 1rem);
+			left: anchor(center);
+			translate: -50% 0;
+
+			@apply
             yst--translate-x-1/2
             yst--translate-y-0
 			yst-left-1/2
