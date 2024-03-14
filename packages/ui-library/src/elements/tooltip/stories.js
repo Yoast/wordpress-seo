@@ -7,35 +7,39 @@ export default {
 	title: "1) Elements/Tooltip",
 	component: StoryComponent,
 	argTypes: {
-		as: { options: ["div", "span"] },
+		as: { control: "select", options: [ "div", "span" ] },
+		position: {
+			control: "select",
+			options: [ "top", "right", "bottom", "left" ],
+		},
 	},
 	parameters: { docs: { description: { component } } },
 };
 
-export const Factory = (args) => {
+export const Factory = ( args ) => {
 	const ref = useRef();
 	// const onClick = useCallback( () => {
 	// 	ref.current.togglePopover();
 	// }, [ ref ] );
 
 	useEffect( () => {
-		ref.current.togglePopover();
+		ref.current.showPopover();
 	}, [] );
 
 	return (
-		// The yst-my-24 class gives more space within the Storybook container, allowing the tooltip to be visible.
+		// The yst-my-16 class gives more space within the Storybook container, allowing the tooltip to be visible.
 		// The flex classes are to position the trigger element in the center of the container.
 		<div className="yst-m-16 yst-flex yst-justify-center">
 			<div
 				// onClick={onClick}
 				// The parent element nesting the tooltip should have a relative position.
-				className="yst-relative yst-cursor-pointer"
+				className="yst-cursor-pointer"
 				// The aria-describedby attribute is used to associate the tooltip with the trigger element.
-				aria-describedby={args.id}
+				aria-describedby={ args.id }
 				id="story-anchor"
 			>
 				Element containing a tooltip.
-				<StoryComponent ref={ref} {...args} anchor="story-anchor" />
+				<StoryComponent ref={ ref } { ...args } anchor="story-anchor" />
 			</div>
 		</div>
 	);
@@ -43,34 +47,34 @@ export const Factory = (args) => {
 
 Factory.args = {
 	id: "id-1",
-	children:
-		"I am a tooltip.",
+	children: "I am a tooltip",
 };
 
-export const badgeShowsATooltipOnHover = (args) => {
+export const badgeShowsATooltipOnHover = ( args ) => {
 	const ref = useRef();
 	const handleMouseEnter = useCallback(
 		() => ref.current.showPopover(),
-		[ref],
+		[ ref ],
 	);
 	const handleMouseLeave = useCallback(
 		() => ref.current.hidePopover(),
-		[ref],
+		[ ref ],
 	);
 
 	return (
 		<div className="yst-my-6 yst-flex yst-justify-center">
 			<Badge
 				variant="plain"
-				aria-describedby={args.id}
-				onMouseEnter={handleMouseEnter}
-				onMouseLeave={handleMouseLeave}
+				aria-describedby={ args.id }
+				onMouseEnter={ handleMouseEnter }
+				onMouseLeave={ handleMouseLeave }
 				// The parent element nesting the tooltip should have a relative position.
 				// className="yst-relative"
+				id="story-anchor2"
 				className="yst-relative yst-cursor-pointer"
 			>
 				Hover me
-				<StoryComponent ref={ref} {...args} />
+				<StoryComponent ref={ ref } { ...args } anchor="story-anchor2" />
 			</Badge>
 		</div>
 	);
@@ -78,5 +82,5 @@ export const badgeShowsATooltipOnHover = (args) => {
 
 badgeShowsATooltipOnHover.args = {
 	id: "id-2",
-	children: "I am also a tooltip",
+	children: "I am the Badge tooltip",
 };

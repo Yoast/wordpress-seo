@@ -1,34 +1,29 @@
 @layer components {
 	.yst-root {
 		.yst-tooltip {
-			@apply
-				yst-overflow-visible
+			@apply yst-overflow-visible
 			yst-absolute
 			/* yst-inline-block */
-			yst-z-10
+			/* yst-z-10 */
 			/*yst-px-2*/
 			yst-p-2
 			yst-bg-gray-800
 			yst-text-white
 			yst-text-xs
 			yst-rounded-lg;
-		 	/*max-width: 448px; !* Set the maximum width of the tooltip. The value in pixels is equivalent to the maw-w-md class*!*/
-			/*white-space: normal; !* Wrap the text in the tooltip *!*/
-			inset: unset;
-
-
+			 max-width: 250px;  /*Set the maximum width of the tooltip. The value in pixels is equivalent to the maw-w-md class */
+			/* white-space: normal; /* Wrap the text in the tooltip */
+			/* inset: unset; */
 		}
 
 		.yst-tooltip--top {
-
-			bottom: calc(anchor(top) + 1rem);
+			bottom: calc(anchor(top) + 0.7rem);
 			left: anchor(center);
 			translate: -50% 0;
 
-
-            /*@apply*/
-            /*yst--translate-x-1/2*/
-            /*yst--translate-y-full*/
+			/*@apply*/
+			/*yst--translate-x-1/2*/
+			/*yst--translate-y-full*/
 			/* yst-right-1/2;  */
 			/*yst-left-1/2*/
 			/*yst-top-0;*/
@@ -36,8 +31,7 @@
 
 			/* Style properties for the tooltip arrow */
 			&::before {
-				@apply
-				yst-content-['']
+				@apply yst-content-['']
 				yst-absolute
 				yst-left-1/2
 				yst-top-full /* Arrow positioned at the bottom of the tooltip */
@@ -48,24 +42,23 @@
 				yst-border-b-transparent
 				yst-border-t-gray-800;
 			}
-        }
+		}
 
 		.yst-tooltip--bottom {
-			bottom: calc(anchor(top) + 1rem);
+			top: calc(anchor(bottom) + 0.7rem);
 			left: anchor(center);
 			translate: -50% 0;
 
-			@apply
+			/* @apply
             yst--translate-x-1/2
             yst--translate-y-0
 			yst-left-1/2
 			yst-top-full
-			yst-mt-2;
+			yst-mt-2; */
 
 			/* Style properties for the tooltip arrow */
 			&::before {
-				@apply
-				yst-content-['']
+				@apply yst-content-['']
 				yst-absolute
 				yst-left-1/2
 				yst-bottom-full /* Arrow positioned at the top of the tooltip */
@@ -78,17 +71,20 @@
 		}
 
 		.yst-tooltip--right {
-            @apply
+			left: calc(anchor(right) + 0.7rem);
+			top: anchor(center);
+			translate: 0% -50%;
+
+			/* @apply
             yst--translate-x-0
             yst--translate-y-1/2
 			yst-left-full
 			yst-top-1/2
-			yst-ml-2;
+			yst-ml-2; */
 
 			/* Style properties for the tooltip arrow */
 			&::before {
-				@apply
-				yst-content-['']
+				@apply yst-content-['']
 				yst-absolute
 				yst-right-full /* Arrow positioned at the left of the tooltip */
 				yst-top-1/2
@@ -99,19 +95,22 @@
 				yst-border-b-transparent
 				yst-border-r-gray-800;
 			}
-        }
+		}
 
 		.yst-tooltip--left {
-			@apply
+			right: calc(anchor(left) + 0.7rem);
+			top: anchor(center);
+			translate: 0% -50%;
+
+			/* @apply
 			yst--translate-y-1/2
 			yst-right-full
 			yst-top-1/2
-			yst-mr-2;
+			yst-mr-2; */
 
 			/* Style properties for the tooltip arrow */
 			&::before {
-				@apply
-				yst-content-['']
+				@apply yst-content-['']
 				yst-absolute
 				yst-left-full /* Arrow positioned at the right of the tooltip */
 				yst-top-1/2

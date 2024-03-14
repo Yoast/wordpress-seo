@@ -21,17 +21,17 @@ const positionClassNameMap = {
 const Tooltip = forwardRef( ( { id, children, as: Component, className, position, ...props }, ref ) => {
 	return (
 		<Component
-			ref={ref}
-			className={classNames("yst-tooltip",
-				positionClassNameMap[position],
-				className
-			)}
+			ref={ ref }
+			className={ classNames( "yst-tooltip",
+				positionClassNameMap[ position ],
+				className,
+			) }
 			role="tooltip"
-			id={id}
+			id={ id }
 			popover="manual"
-			{...props}
-			>
-			{children || null}
+			{ ...props }
+		>
+			{ children || null }
 		</Component>
 	);
 } );
@@ -54,7 +54,7 @@ Tooltip.defaultProps = {
 };
 
 // eslint-disable-next-line require-jsdoc
-export const StoryComponent = forwardRef( (props, ref ) => <Tooltip ref={ref} { ...props } /> );
+export const StoryComponent = forwardRef( ( props, ref ) => <Tooltip ref={ ref } { ...props } /> );
 StoryComponent.propTypes = propTypes;
 StoryComponent.defaultProps = Tooltip.defaultProps;
 StoryComponent.displayName = "Tooltip";
