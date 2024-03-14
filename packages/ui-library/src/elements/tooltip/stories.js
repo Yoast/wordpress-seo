@@ -70,11 +70,11 @@ export const badgeShowsATooltipOnHover = ( args ) => {
 				onMouseLeave={ handleMouseLeave }
 				// The parent element nesting the tooltip should have a relative position.
 				// className="yst-relative"
-				id="story-anchor2"
+				id="story-anchor-2"
 				className="yst-relative yst-cursor-pointer"
 			>
 				Hover me
-				<StoryComponent ref={ ref } { ...args } anchor="story-anchor2" />
+				<StoryComponent ref={ ref } { ...args } anchor="story-anchor-2" />
 			</Badge>
 		</div>
 	);
