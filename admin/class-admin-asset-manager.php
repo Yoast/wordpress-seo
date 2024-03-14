@@ -635,7 +635,11 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'structured-data-blocks',
 				'src'  => 'structured-data-blocks-' . $flat_version,
-				'deps' => [ 'wp-edit-blocks' ],
+				'deps' => [
+					'dashicons',
+					'forms',
+					'wp-edit-blocks',
+				],
 			],
 			[
 				'name' => 'elementor',
