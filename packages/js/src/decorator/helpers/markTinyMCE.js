@@ -82,6 +82,54 @@ function markOutOfBounds( mark, html ) {
 		mark._properties.position.endOffset > html.length;
 }
 
+function markTinyMCEPositionBased() {
+	const documentWindow = document.getElementById( "content_ifr" ).contentWindow;
+	const element = documentWindow.document.getElementById( "tinymce" );
+	if ( ! element ) {
+		console.error( "Element not found." );
+		return;
+	}
+	console.log( element, "ELEMENT" );
+	element.insertAdjacentHTML( "beforeend", "<style>::highlight(my-custom-highlight) { background-color: yellow; }</style>" );
+	// Assuming 'marks' is an array of objects with text properties to highlight
+	// For demonstration, let's highlight the text "cat" as an example
+	const str = "cat".toLowerCase(); // The text to highlight
+	// Check if the CSS Custom Highlight API is supported
+	if ( ! CSS.highlights ) {
+		console.error( "CSS Custom Highlight API not supported." );
+		return;
+	}
+	// Clear the HighlightRegistry to remove previous search results
+	CSS.highlights.clear();
+	// Find all text nodes
+	const treeWalker = document.createTreeWalker( element, NodeFilter.SHOW_TEXT );
+	let currentNode = treeWalker.nextNode();
+	const ranges = [];
+	while ( currentNode ) {
+		const textContent = currentNode.textContent.toLowerCase();
+		let startIndex = 0;
+		// Find occurrences of 'str' in the text node
+		while ( ( startIndex = textContent.indexOf( str, startIndex ) ) !== -1 ) {
+			const range = new Range();
+			range.setStart( currentNode, startIndex );
+			range.setEnd( currentNode, startIndex + str.length );
+			/* const yoastmark = document.createElement( "yoastmark" );
+			yoastmark.classList.add( "yoast-text-mark" );
+			range.surroundContents( yoastmark );*/
+			ranges.push( range );
+			startIndex += str.length;
+		}
+		currentNode = treeWalker.nextNode();
+	}
+	// Create a Highlight object for the found ranges and add it to the highlights
+	if ( ranges.length > 0 ) {
+		console.log( ranges, "RANGES" );
+		const searchResultsHighlight = new Highlight( ...ranges );
+		console.log( searchResultsHighlight, "HIGHLIGHT" );
+		documentWindow.CSS.highlights.set( "my-custom-highlight", searchResultsHighlight );
+	}
+}
+
 /**
  * Applies a list of mark objects to an html string.
  *
@@ -90,7 +138,7 @@ function markOutOfBounds( mark, html ) {
  *
  * @returns {string} The html with the marks applied.
  */
-function markTinyMCEPositionBased( marks, html, dom ) {
+/* function markTinyMCEPositionBased( marks, html, dom ) {
 	// If html is empty. Return an empty string.
 	// This behaviour is set as default with no deliberate thoughts. Feel free to change this if needed.
 	if ( ! html ) {
@@ -103,84 +151,82 @@ function markTinyMCEPositionBased( marks, html, dom ) {
 	marks = orderBy( marks, mark => mark._properties.position.startOffset, [ "asc" ] );
 
 	for ( let index = marks.length - 1; index >= 0; index-- ) {
+		// Loop over the marks array and get the block start offset and end offset.
+
+
 		const mark = marks[ index ];
 		if ( markOutOfBounds( mark, html ) ) {
 			continue;
 		}
-		// html = mark.applyWithPosition( html );
+		const treeWalker = document.createTreeWalker( element, NodeFilter.SHOW_TEXT );
+		console.log( "TREEWALKER", treeWalker );
+		const allTextNodes = [];
+		let currentNode = treeWalker.nextNode();
+		while ( currentNode ) {
+			allTextNodes.push( currentNode );
+			currentNode = treeWalker.nextNode();
+		}
+		const ranges = allTextNodes
+			.map( ( el ) => {
+				return { el, text: el.textContent.toLowerCase() };
+			} )
+			.map( ( { text, el } ) => {
+				const indices = [];
+				let startPos = 0;
+				while ( startPos < text.length ) {
+					startPos = index + mark.getEndOffset() - mark.getStartOffset();
+				}
+				console.log( "INDICES", indices );
+				// Create a range object for each instance of
+				// str we found in the text node.
+				return indices.map( ( index ) => {
+					console.log( "INDEX", index );
+					console.log( { el, text } );
+
+					const range = new Range();
+					range.setStart( el, index );
+					range.setEnd( el, index + mark.getEndOffset() - mark.getStartOffset() );
+					console.log( "RANGE", range );
+					range.surroundContents( document.createElement( "em" ) );
+					return range;
+				} );
+			} );
+		console.log( "RANGES", ranges );
+
+		if ( ! CSS.highlights ) {
+			element.textContent = "CSS Custom Highlight API not supported.";
+			return;
+		}
 	}
 
 	// Find all text nodes in the article. We'll search within
 	// these text nodes.
-	const treeWalker = document.createTreeWalker( element, NodeFilter.SHOW_TEXT );
-	console.log( "TREEWALKER", treeWalker );
-	const allTextNodes = [];
-	let currentNode = treeWalker.nextNode();
-	while ( currentNode ) {
-		allTextNodes.push( currentNode );
-		currentNode = treeWalker.nextNode();
-	}
+
 
 	// If the CSS Custom Highlight API is not supported,
 	// display a message and bail-out.
-	if ( ! CSS.highlights ) {
-		element.textContent = "CSS Custom Highlight API not supported.";
-		return;
-	}
+
 
 	// Clear the HighlightRegistry to remove the
 	// previous search results.
-	CSS.highlights.clear();
+	// CSS.highlights.clear();
 
 	// Clean-up the search query and bail-out if
 	// if it's empty.
-	const str = "cat";
-	if ( ! str ) {
-		return;
-	}
+
 
 	// Iterate over all text nodes and find matches.
-	const ranges = allTextNodes
-		.map( ( el ) => {
-			return { el, text: el.textContent.toLowerCase() };
-		} )
-		.map( ( { text, el } ) => {
-			const indices = [];
-			let startPos = 0;
-			while ( startPos < text.length ) {
-				const index = text.indexOf( str, startPos );
-				if ( index === -1 ) {
-					break;
-				}
-				indices.push( index );
-				startPos = index + str.length;
-			}
-			console.log( "INDICES", indices );
-			// Create a range object for each instance of
-			// str we found in the text node.
-			return indices.map( ( index ) => {
-				console.log( "INDEX", index );
-				console.log( { el, text } );
-
-				const range = new Range();
-				range.setStart( el, index );
-				range.setEnd( el, index + str.length );
-				console.log( "RANGE", range );
-				range.surroundContents( document.createElement( "em" ) );
-				return range;
-			} );
-		} );
-	console.log( "RANGES", ranges );
 
 	// Create a Highlight object for the ranges.
 	const searchResultsHighlight = new Highlight( ...ranges.flat() );
 
 	// Register the Highlight object in the registry.
 	CSS.highlights.set( "my-custom-highlight", searchResultsHighlight );
+	console.log( "HIGHLIGHTS", CSS.highlights );
 
 
 	return html;
-}
+}*/
 
 /**
  * Puts a list of marks into the given tinyMCE editor.

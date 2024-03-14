@@ -8,7 +8,7 @@
 }
 
 ::highlight(my-custom-highlight) {
-	background-color: #e1bee7;
+	background-color: #e1bee7 !important;
 }
 
 /*# sourceMappingURL=inside-editor.css.map */
