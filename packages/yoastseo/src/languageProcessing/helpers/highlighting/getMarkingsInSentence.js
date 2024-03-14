@@ -116,6 +116,7 @@ function getMarkingsInSentence( sentence, matchesInSentence ) {
 			},
 			marked: markedSentence,
 			original: sentence.text,
+			node: token.parentNode,
 		} );
 	} );
 

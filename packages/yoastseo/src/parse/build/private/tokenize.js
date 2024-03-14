@@ -12,7 +12,7 @@ import { hashedHtmlEntities } from "../../../helpers/htmlEntities";
  * @returns {Sentence} The sentence, with tokens.
  */
 function getTokens( node, sentence, languageProcessor ) {
-	sentence.tokens = languageProcessor.splitIntoTokens( sentence );
+	sentence.tokens = languageProcessor.splitIntoTokens( sentence, node );
 	sentence.tokens = getTextElementPositions( node, sentence.tokens, sentence.sourceCodeRange.startOffset );
 	return sentence;
 }

@@ -90,12 +90,15 @@ function markOutOfBounds( mark, html ) {
  *
  * @returns {string} The html with the marks applied.
  */
-function markTinyMCEPositionBased( marks, html ) {
+function markTinyMCEPositionBased( marks, html, dom ) {
 	// If html is empty. Return an empty string.
 	// This behaviour is set as default with no deliberate thoughts. Feel free to change this if needed.
 	if ( ! html ) {
 		return "";
 	}
+
+	const element = document.getElementById( "content_ifr" ).contentWindow.document.getElementById( "tinymce" );
+	console.log( "ELEMENt", element );
 
 	marks = orderBy( marks, mark => mark._properties.position.startOffset, [ "asc" ] );
 
@@ -104,8 +107,77 @@ function markTinyMCEPositionBased( marks, html ) {
 		if ( markOutOfBounds( mark, html ) ) {
 			continue;
 		}
-		html = mark.applyWithPosition( html );
+		// html = mark.applyWithPosition( html );
 	}
+
+	// Find all text nodes in the article. We'll search within
+	// these text nodes.
+	const treeWalker = document.createTreeWalker( element, NodeFilter.SHOW_TEXT );
+	console.log( "TREEWALKER", treeWalker );
+	const allTextNodes = [];
+	let currentNode = treeWalker.nextNode();
+	while ( currentNode ) {
+		allTextNodes.push( currentNode );
+		currentNode = treeWalker.nextNode();
+	}
+
+	// If the CSS Custom Highlight API is not supported,
+	// display a message and bail-out.
+	if ( ! CSS.highlights ) {
+		element.textContent = "CSS Custom Highlight API not supported.";
+		return;
+	}
+
+	// Clear the HighlightRegistry to remove the
+	// previous search results.
+	CSS.highlights.clear();
+
+	// Clean-up the search query and bail-out if
+	// if it's empty.
+	const str = "cat";
+	if ( ! str ) {
+		return;
+	}
+
+	// Iterate over all text nodes and find matches.
+	const ranges = allTextNodes
+		.map( ( el ) => {
+			return { el, text: el.textContent.toLowerCase() };
+		} )
+		.map( ( { text, el } ) => {
+			const indices = [];
+			let startPos = 0;
+			while ( startPos < text.length ) {
+				const index = text.indexOf( str, startPos );
+				if ( index === -1 ) {
+					break;
+				}
+				indices.push( index );
+				startPos = index + str.length;
+			}
+			console.log( "INDICES", indices );
+			// Create a range object for each instance of
+			// str we found in the text node.
+			return indices.map( ( index ) => {
+				console.log( "INDEX", index );
+				console.log( { el, text } );
+
+				const range = new Range();
+				range.setStart( el, index );
+				range.setEnd( el, index + str.length );
+				console.log( "RANGE", range );
+				range.surroundContents( document.createElement( "em" ) );
+				return range;
+			} );
+		} );
+	console.log( "RANGES", ranges );
+
+	// Create a Highlight object for the ranges.
+	const searchResultsHighlight = new Highlight( ...ranges.flat() );
+
+	// Register the Highlight object in the registry.
+	CSS.highlights.set( "my-custom-highlight", searchResultsHighlight );
+
 
 	return html;
 }
@@ -128,15 +200,14 @@ export default function markTinyMCE( editor, paper, marks ) {
 		editor.setContent( html );
 		return;
 	}
-
 	if ( marks[ 0 ].hasPosition() ) {
-		html = markTinyMCEPositionBased( marks, html );
+		html = markTinyMCEPositionBased( marks, html, dom );
 	} else {
 		html = markTinyMCESearchBased( editor, paper, marks, html );
 	}
 
 	// Replace the contents in the editor with the marked HTML.
-	editor.setContent( html );
+	// editor.setContent( html );
 
 	removeInvalidMarks( editor );
 

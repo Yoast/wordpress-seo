@@ -26,6 +26,24 @@ function Mark( properties ) {
 /**
  * Returns the original text.
  *
+ * @returns {Node} The original text.
+ */
+Mark.prototype.getNode = function() {
+	return this._properties.node;
+};
+
+/**
+ * Returns the original text.
+ *
+ * @returns {string} The original text.
+ */
+Mark.prototype.setNode = function( node ) {
+	this._properties.node = node;
+};
+
+/**
+ * Returns the original text.
+ *
  * @returns {string} The original text.
  */
 Mark.prototype.getOriginal = function() {

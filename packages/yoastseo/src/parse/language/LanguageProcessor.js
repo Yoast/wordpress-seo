@@ -55,7 +55,7 @@ class LanguageProcessor {
 	 *
 	 * @returns {Token[]} The tokens.
 	 */
-	splitIntoTokens( sentence ) {
+	splitIntoTokens( sentence, node ) {
 		// Retrieve sentence from sentence class
 		const sentenceText = sentence.text;
 
@@ -63,12 +63,12 @@ class LanguageProcessor {
 		const tokenTextsCustom = this.researcher.getHelper( "splitIntoTokensCustom" );
 		if ( tokenTextsCustom ) {
 			const tokensCustom = tokenTextsCustom( sentenceText );
-			return tokensCustom.map( tokenText => new Token( tokenText ) );
+			return tokensCustom.map( tokenText => new Token( tokenText, node ) );
 		}
 
-		const tokenTexts = splitIntoTokens( sentenceText );
+		const tokenTexts = splitIntoTokens( sentenceText, node );
 
-		return tokenTexts.map( tokenText => new Token( tokenText ) );
+		return tokenTexts.map( tokenText => new Token( tokenText, node ) );
 	}
 }
 export default LanguageProcessor;
