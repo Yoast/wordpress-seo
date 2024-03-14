@@ -59,13 +59,13 @@ class First_Time_Configuration_Command implements Command_Interface {
 		WP_CLI::line( \__( "SEO data optimization completed successfully", 'wordpress-seo' ) );
 
 		/// Site representation
-		$options=['organization', 'person'];
+		$options=['o', 'p'];
 
 		$chosen_option = $this->ask( \__( 'Does your site represent an Organization or a Person?', 'wordpress-seo' ) , $options );
 
 		$representation_values                 = [];
 		$representation_values['website_name'] = $this->ask( \__( 'What is your website name?', 'wordpress-seo' ) );
-		if ( $chosen_option === 'organization' ) {
+		if ( $chosen_option === 'o' ) {
 			$representation_values['company_or_person'] = 'company';
 			$representation_values['company_name']      = $this->ask( \__( 'What is your organization name?', 'wordpress-seo' ) );
 		} else {
@@ -143,6 +143,8 @@ class First_Time_Configuration_Command implements Command_Interface {
 		$tracking = $choice === 'y' ? true : false;
 		
 		$this->first_time_configuration_action->set_enable_tracking( ['tracking' => $tracking ] );
+
+		WP_CLI::line( \__( "Great work! Thanks to the details you've provided, Yoast has enhanced your site for search engines, giving them a clearer picture of what your site is all about.", "wordpress-seo" ) );
 	}
 	/**
 	 * Gets the namespace.
@@ -155,7 +157,7 @@ class First_Time_Configuration_Command implements Command_Interface {
 	
 	private function ask( $question, $options = [] ) {
 		if ( ! empty( $options ) ) {
-			fwrite( STDOUT, $question . ' [' . implode( ',', $options ) . '] ' . \PHP_EOL );
+			fwrite( STDOUT, $question . ' [' . implode( '/', $options ) . '] ' . \PHP_EOL );
 
 			$answer = strtolower( trim( fgets( STDIN ) ) );
 
