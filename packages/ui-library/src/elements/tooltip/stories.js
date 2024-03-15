@@ -1,6 +1,6 @@
 import { StoryComponent } from ".";
 import { component } from "./docs";
-import { useRef, useState, useEffect, useCallback } from "@wordpress/element";
+import { useRef, useEffect, useCallback } from "@wordpress/element";
 import Badge from "../badge";
 
 export default {
@@ -18,10 +18,8 @@ export default {
 
 export const Factory = ( args ) => {
 	const ref = useRef();
-	// const onClick = useCallback( () => {
-	// 	ref.current.togglePopover();
-	// }, [ ref ] );
 
+	// The useEffect hook is used to show the tooltip on mount.
 	useEffect( () => {
 		ref.current.showPopover();
 	}, [] );
@@ -31,15 +29,18 @@ export const Factory = ( args ) => {
 		// The flex classes are to position the trigger element in the center of the container.
 		<div className="yst-m-16 yst-flex yst-justify-center">
 			<div
-				// onClick={onClick}
-				// The parent element nesting the tooltip should have a relative position.
 				className="yst-cursor-pointer"
 				// The aria-describedby attribute is used to associate the tooltip with the trigger element.
 				aria-describedby={ args.id }
 				id="story-anchor"
 			>
-				Element containing a tooltip.
-				<StoryComponent ref={ ref } { ...args } anchor="story-anchor" />
+				Element containing a tooltip
+				<StoryComponent
+					ref={ ref }
+					{ ...args }
+					anchor="story-anchor"
+				// the anchor prop is used to attach the tooltip with the trigger element.
+				/>
 			</div>
 		</div>
 	);
@@ -68,10 +69,8 @@ export const badgeShowsATooltipOnHover = ( args ) => {
 				aria-describedby={ args.id }
 				onMouseEnter={ handleMouseEnter }
 				onMouseLeave={ handleMouseLeave }
-				// The parent element nesting the tooltip should have a relative position.
-				// className="yst-relative"
 				id="story-anchor-2"
-				className="yst-relative yst-cursor-pointer"
+				className="yst-cursor-pointer"
 			>
 				Hover me
 				<StoryComponent ref={ ref } { ...args } anchor="story-anchor-2" />

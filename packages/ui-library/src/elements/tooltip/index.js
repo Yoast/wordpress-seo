@@ -21,6 +21,7 @@ const positionClassNameMap = {
 const Tooltip = forwardRef( ( { id, children, as: Component, className, position, ...props }, ref ) => {
 	return (
 		<Component
+			// the ref is used to show the tooltip on mount.
 			ref={ ref }
 			className={ classNames( "yst-tooltip",
 				positionClassNameMap[ position ],
@@ -28,6 +29,7 @@ const Tooltip = forwardRef( ( { id, children, as: Component, className, position
 			) }
 			role="tooltip"
 			id={ id }
+			// This is the HTML popover API attribute used to create the tooltip.
 			popover="manual"
 			{ ...props }
 		>
@@ -53,7 +55,6 @@ Tooltip.defaultProps = {
 	position: "top",
 };
 
-// eslint-disable-next-line require-jsdoc
 export const StoryComponent = forwardRef( ( props, ref ) => <Tooltip ref={ ref } { ...props } /> );
 StoryComponent.propTypes = propTypes;
 StoryComponent.defaultProps = Tooltip.defaultProps;
