@@ -359,8 +359,8 @@ Yoast SEO 22.3 is out today. In this release, you’ll find various fixes and im
 
 #### Other
 
-* Sets the WordPress tested up to version to 6.5.
 * Removes the autofill for taxonomy keyphrases.
+* Sets the WordPress tested up to version to 6.5.
 
 = 22.2 =
 
