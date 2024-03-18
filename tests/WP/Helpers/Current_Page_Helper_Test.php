@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\WP\Helpers;
 
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
@@ -15,25 +14,11 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 final class Current_Page_Helper_Test extends TestCase {
 
 	/**
-	 * The options' helper.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options_helper;
-
-	/**
 	 * The query wrapper.
 	 *
 	 * @var WP_Query_Wrapper
 	 */
 	private $query_wrapper;
-
-	/**
-	 * Whether we show the alternate message.
-	 *
-	 * @var bool
-	 */
-	private $show_alternate_message;
 
 	/**
 	 * The instance.
@@ -49,52 +34,73 @@ final class Current_Page_Helper_Test extends TestCase {
 	 */
 	public function set_up(): void {
 		parent::set_up();
-		$this->options_helper         = new Options_Helper();
-		$this->query_wrapper          = new WP_Query_Wrapper();
-		$this->show_alternate_message = false;
 
-		$this->instance = new Current_Page_Helper( $this->query_wrapper );
+		$this->query_wrapper = new WP_Query_Wrapper();
+		$this->instance      = new Current_Page_Helper( $this->query_wrapper );
 	}
 
-	public function test_get_term_id() {
-		\register_taxonomy( 'test_tax_cat', 'post' );
+	/**
+	 * Tests if the id of a custom taxonomy is correctly retrieved.
+	 *
+	 * @covers ::get_term_id
+	 * @return void
+	 */
+	public function test_get_term_id_for_custom_taxonomy() {
+		\register_taxonomy( 'custom_taxonomy', 'post' );
 
-		\wp_insert_term( 'test1', 'test_tax_cat' );
-		$id = \get_term_by( 'name', 'test1', 'test_tax_cat' );
+		\wp_insert_term( 'test', 'custom_taxonomy' );
+		$term = \get_term_by( 'name', 'test', 'custom_taxonomy' );
 
-		// Set queried object to the newly created post.
 		global $wp_the_query;
 		$wp_the_query->queried_object = (object) [
-			'term_id'  => $id,
+			'term_id'  => $term->term_id,
 		];
 
-		$this->assertEquals( $id, $this->instance->get_term_id() );
+		$this->assertEquals( $term->term_id, $this->instance->get_term_id() );
+	}
+
+	/**
+	 * Tests if the id of a category is correctly retrieved.
+	 *
+	 * @covers ::get_term_id
+	 * @return void
+	 */
+	public function test_get_term_id_for_category() {
+		global $wp_the_query;
 
 		\wp_insert_term( 'test_cat', 'category' );
-		$id2 = \get_term_by( 'name', 'test_cat', 'category' );
+		$category = \get_term_by( 'name', 'test_cat', 'category' );
 
 		$wp_the_query->queried_object = (object) [
-			'term_id'  => $id2,
+			'term_id'  => $category->term_id,
 		];
 
-		$this->assertEquals( $id2, $this->instance->get_term_id() );
+		$this->assertEquals( $category->term_id, $this->instance->get_term_id() );
 
-		\wp_insert_term( 'test_tag', 'tag' );
-		$id3 = \get_term_by( 'name', 'test_tag', 'tag' );
+		\wp_insert_term( 'test_tag', 'post_tag' );
+		$tag = \get_term_by( 'name', 'test_tag', 'post_tag' );
 
 		$wp_the_query->queried_object = (object) [
-			'term_id'  => $id3,
+			'term_id'  => $tag->term_id,
 		];
+	}
 
-		$this->assertEquals( $id3, $this->instance->get_term_id() );
+	/**
+	 * Tests if the id of a post tag is correctly retrieved.
+	 *
+	 * @covers ::get_term_id
+	 * @return void
+	 */
+	public function test_get_term_id_for_post_tag() {
+		global $wp_the_query;
 
-		\wp_insert_term( 'test_tag', 'tagss' );
-		$id3 = \get_term_by( 'name', 'test_tag', 'tagss' );
+		\wp_insert_term( 'test_tag', 'post_tag' );
+		$tag = \get_term_by( 'name', 'test_tag', 'post_tag' );
 
 		$wp_the_query->queried_object = (object) [
-			'term_id'  => $id3,
+			'term_id'  => $tag->term_id,
 		];
 
-		$this->assertEquals( $id3, $this->instance->get_term_id() );
+		$this->assertEquals( $tag->term_id, $this->instance->get_term_id() );
 	}
 }
