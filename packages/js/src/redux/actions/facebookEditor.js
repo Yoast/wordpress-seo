@@ -63,7 +63,7 @@ export const loadFacebookPreviewData = () => {
 
 	return {
 		type: LOAD_FACEBOOK_PREVIEW,
-		imageId: get( window, "wpseoScriptData.metabox.metadata.opengraph-image-id", "" ),
+		id: get( window, "wpseoScriptData.metabox.metadata.opengraph-image-id", "" ),
 		imageUrl: get( window, "wpseoScriptData.metabox.metadata.opengraph-image", "" ),
 		description: get( window, "wpseoScriptData.metabox.metadata.opengraph-description", "" ) || getSocialDescriptionTemplate(),
 		title: get( window, "wpseoScriptData.metabox.metadata.opengraph-title", "" ) || getSocialTitleTemplate(),
