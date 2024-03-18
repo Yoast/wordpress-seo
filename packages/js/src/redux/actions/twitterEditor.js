@@ -63,7 +63,7 @@ export const loadTwitterPreviewData = () => {
 
 	return {
 		type: LOAD_TWITTER_PREVIEW,
-		imageId: get( window, "wpseoScriptData.metabox.metadata.twitter-image-id", "" ),
+		id: get( window, "wpseoScriptData.metabox.metadata.twitter-image-id", "" ),
 		imageUrl: get( window, "wpseoScriptData.metabox.metadata.twitter-image", "" ),
 		description: get( window, "wpseoScriptData.metabox.metadata.twitter-description", "" ) || getSocialDescriptionTemplate(),
 		title: get( window, "wpseoScriptData.metabox.metadata.twitter-title", "" ) || getSocialTitleTemplate(),
