@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 
 import domReady from "@wordpress/dom-ready";
 import jQuery from "jquery";
@@ -11,7 +12,7 @@ import initTabs from "./initializers/metabox-tabs";
 import initPostScraper from "./initializers/post-scraper";
 import initPrimaryCategory from "./initializers/primary-category";
 import initializeInsights from "./insights/initializer";
-import { hiddenFieldsSync } from "./helpers/fields/hiddenFieldsSync";
+import { hiddenFieldsSync, hasHiddenFields } from "./helpers/fields";
 
 // Backwards compatibility globals.
 window.wpseoPostScraperL10n = window.wpseoScriptData.metabox;
@@ -32,7 +33,9 @@ domReady( () => {
 	const store = initEditorStore();
 
 	// Initialize the hidden fields sync.
-	hiddenFieldsSync();
+	if ( hasHiddenFields() ) {
+		hiddenFieldsSync();
+	}
 
 	// Initialize the editor integration
 	window.yoast.initEditorIntegration( store );
