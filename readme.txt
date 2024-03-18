@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 6.4
+Tested up to: 6.5
 Stable tag: 22.2
 Requires PHP: 7.2.5
 
@@ -346,18 +346,21 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-03-19
 
+Yoast SEO 22.3 is out today. In this release, you’ll find various fixes and improvements for a better user experience. Find out more about what's new in Yoast SEO 22.3 in [our release post](https://yoa.st/release-19-3-24)!
+
 #### Enhancements
 
-* Removes an unnecessary query relating to breadcrumb generation on the homepage.
+* Removes an unnecessary query relating to breadcrumb schema generation on the homepage.
 
 #### Bugfixes
 
-* Adds `x.com` as a possible domain for the Twitter validation in our FTC social profiles settings.
+* Adds `x.com` as a possible domain for the Twitter validation in our first time configuration social profiles settings.
 * Fixes a bug where the `Or go to your SEO dashboard` link in the final step of our first time configuration would not be focusable using tab.
 
 #### Other
 
 * Removes the autofill for taxonomy keyphrases.
+* Sets the WordPress tested up to version to 6.5.
 
 = 22.2 =
 

@@ -39,7 +39,7 @@ final class Plugin_Suggestions_Test extends TestCase {
 		$plugin_availability = new Plugin_Availability_Double();
 
 		$notification_center_mock = $this->getMockBuilder( Yoast_Notification_Center_Double::class )
-			->setMethods( [ 'add_notification', 'remove_notification' ] )
+			->setMethods( [ 'add_notification', 'remove_notification_by_id' ] )
 			->getMock();
 
 		$this->class_instance = new Suggested_Plugins_Double( $plugin_availability, $notification_center_mock );
@@ -68,7 +68,7 @@ final class Plugin_Suggestions_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_remove_notification_for_suggested_plugin() {
-		$this->notification_center->expects( $this->once() )->method( 'remove_notification' );
+		$this->notification_center->expects( $this->once() )->method( 'remove_notification_by_id' );
 
 		$this->class_instance->add_notifications();
 	}

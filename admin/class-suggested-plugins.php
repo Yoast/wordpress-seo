@@ -5,6 +5,8 @@
  * @package WPSEO\Suggested_Plugins
  */
 
+use Yoast\WP\SEO\Conditionals\Conditional;
+
 /**
  * Class WPSEO_Suggested_Plugins
  */
@@ -57,41 +59,40 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 		$plugins = $checker->get_plugins_with_dependencies();
 
 		foreach ( $plugins as $plugin_name => $plugin ) {
+			$notification_id = 'wpseo-suggested-plugin-' . $plugin_name;
+
 			if ( ! $checker->dependencies_are_satisfied( $plugin ) ) {
+				$this->notification_center->remove_notification_by_id( $notification_id );
+
 				continue;
 			}
 
-			$notification = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin );
-
 			if ( ! $checker->is_installed( $plugin ) ) {
+				$notification = $this->get_yoast_seo_suggested_plugins_notification( $notification_id, $plugin );
 				$this->notification_center->add_notification( $notification );
 
 				continue;
 			}
 
-			$this->notification_center->remove_notification( $notification );
+			$this->notification_center->remove_notification_by_id( $notification_id );
 		}
 	}
 
 	/**
 	 * Build Yoast SEO suggested plugins notification.
 	 *
-	 * @param string $name   The plugin name to use for the unique ID.
-	 * @param array  $plugin The plugin to retrieve the data from.
+	 * @param string                                                $notification_id The id of the notification to be created.
+	 * @param array<string, string|bool|array<string, Conditional>> $plugin          The plugin to retrieve the data from.
 	 *
 	 * @return Yoast_Notification The notification containing the suggested plugin.
 	 */
-	protected function get_yoast_seo_suggested_plugins_notification( $name, $plugin ) {
+	protected function get_yoast_seo_suggested_plugins_notification( $notification_id, $plugin ) {
 		$message = $this->create_install_suggested_plugin_message( $plugin );
-
-		if ( $this->availability_checker->is_installed( $plugin ) && ! $this->availability_checker->is_active( $plugin['slug'] ) ) {
-			$message = '';
-		}
 
 		return new Yoast_Notification(
 			$message,
 			[
-				'id'           => 'wpseo-suggested-plugin-' . $name,
+				'id'           => $notification_id,
 				'type'         => Yoast_Notification::WARNING,
 				'capabilities' => [ 'install_plugins' ],
 			]
