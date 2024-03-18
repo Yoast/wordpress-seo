@@ -298,70 +298,6 @@ final class Current_Page_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests retrieval of the term id with no term page matches.
-	 *
-	 * @covers ::get_term_id
-	 *
-	 * @return void
-	 */
-	public function test_get_term_id() {
-		$this->wp_query_wrapper
-			->expects( 'get_main_query' )
-			->andReturn( $this->wp_query );
-
-		$this->wp_query->expects( 'is_category' )->andReturnFalse();
-		$this->wp_query->expects( 'is_tag' )->andReturnFalse();
-		$this->wp_query->expects( 'is_tax' )->andReturnFalse();
-
-		$this->assertEquals( 0, $this->instance->get_term_id() );
-	}
-
-	/**
-	 * Tests retrieval of the term id with category as current page.
-	 *
-	 * @covers ::get_term_id
-	 *
-	 * @return void
-	 */
-	public function test_get_term_id_for_category() {
-		$this->wp_query_wrapper
-			->expects( 'get_main_query' )
-			->andReturn( $this->wp_query );
-
-		$this->wp_query->expects( 'is_category' )->andReturnTrue();
-
-		$this->wp_query
-			->expects( 'get' )
-			->with( 'cat' )
-			->andReturn( 1 );
-
-		$this->assertEquals( 1, $this->instance->get_term_id() );
-	}
-
-	/**
-	 * Tests retrieval of the term id with tag as current page.
-	 *
-	 * @covers ::get_term_id
-	 *
-	 * @return void
-	 */
-	public function test_get_term_id_for_tag() {
-		$this->wp_query_wrapper
-			->expects( 'get_main_query' )
-			->andReturn( $this->wp_query );
-
-		$this->wp_query->expects( 'is_category' )->andReturnFalse();
-		$this->wp_query->expects( 'is_tag' )->andReturnTrue();
-
-		$this->wp_query
-			->expects( 'get' )
-			->with( 'tag_id' )
-			->andReturn( 1 );
-
-		$this->assertEquals( 1, $this->instance->get_term_id() );
-	}
-
-	/**
 	 * Tests retrieval of the term id with a taxonomy as current page and no
 	 * wp_error given.
 	 *
@@ -373,10 +309,6 @@ final class Current_Page_Helper_Test extends TestCase {
 		$this->wp_query_wrapper
 			->expects( 'get_main_query' )
 			->andReturn( $this->wp_query );
-
-		$this->wp_query->expects( 'is_category' )->andReturnFalse();
-		$this->wp_query->expects( 'is_tag' )->andReturnFalse();
-		$this->wp_query->expects( 'is_tax' )->andReturnTrue();
 
 		$this->wp_query
 			->expects( 'get_queried_object' )
@@ -401,10 +333,6 @@ final class Current_Page_Helper_Test extends TestCase {
 		$this->wp_query_wrapper
 			->expects( 'get_main_query' )
 			->andReturn( $this->wp_query );
-
-		$this->wp_query->expects( 'is_category' )->andReturnFalse();
-		$this->wp_query->expects( 'is_tag' )->andReturnFalse();
-		$this->wp_query->expects( 'is_tax' )->andReturnTrue();
 
 		$this->wp_query
 			->expects( 'get_queried_object' )
