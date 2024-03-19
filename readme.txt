@@ -359,9 +359,9 @@ Release date: 2024-04-02
 
 * Deprecates the slug of the `_dependencies` property of the private `$plugins` property in the `WPSEO_Plugin_Availability` class
 * Fixes the width of the `Page type` dropdown field in the `Settings` page.
-* Replacs `.substr()` with `.substring()` in JS files since it's deprecated.
+* Replaces `.substr()` with `.substring()` in JS files since it's deprecated.
 * Stops showing deprecation warnings when retrieving data for paid add-ons goes wrong.
-* Stops showing notifications about incompatibility with the WooCommerce's new beta product editor, after WooCommerce is deactivated
+* Stops showing notifications about incompatibility with the WooCommerce's new beta product editor, after WooCommerce is deactivated.
 * Stops showing notifications prompting to install Yoast Woo SEO, after WooCommerce is deactivated.
 
 = 22.3 =
