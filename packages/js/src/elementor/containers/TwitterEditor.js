@@ -85,7 +85,6 @@ export default compose( [
 			setTwitterPreviewTitle,
 			setTwitterPreviewDescription,
 			clearTwitterPreviewImage,
-			loadTwitterPreviewData,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -93,7 +92,6 @@ export default compose( [
 			onRemoveImageClick:	clearTwitterPreviewImage,
 			onDescriptionChange: setTwitterPreviewDescription,
 			onTitleChange: setTwitterPreviewTitle,
-			onLoad: loadTwitterPreviewData,
 		};
 	} ),
 

@@ -1,12 +1,7 @@
-/* External dependencies */
-import { select } from "@wordpress/data";
-import { get } from "lodash";
-
 export const SET_FACEBOOK_TITLE = "SET_FACEBOOK_TITLE";
 export const SET_FACEBOOK_DESCRIPTION = "SET_FACEBOOK_DESCRIPTION";
 export const SET_FACEBOOK_IMAGE = "SET_FACEBOOK_IMAGE";
 export const CLEAR_FACEBOOK_IMAGE = "CLEAR_FACEBOOK_IMAGE";
-export const LOAD_FACEBOOK_PREVIEW = "LOAD_FACEBOOK_PREVIEW";
 
 /**
  * An action creator for setting the socialPreview title.
@@ -50,22 +45,3 @@ export const clearFacebookPreviewImage = () => {
 	return { type: CLEAR_FACEBOOK_IMAGE };
 };
 
-/**
- * An action creator for loading all Facebook preview data.
- *
- * @returns {object} The action object.
- */
-export const loadFacebookPreviewData = () => {
-	const {
-		getSocialDescriptionTemplate,
-		getSocialTitleTemplate,
-	} = select( "yoast-seo/editor" );
-
-	return {
-		type: LOAD_FACEBOOK_PREVIEW,
-		id: get( window, "wpseoScriptData.metabox.metadata.opengraph-image-id", "" ),
-		imageUrl: get( window, "wpseoScriptData.metabox.metadata.opengraph-image", "" ),
-		description: get( window, "wpseoScriptData.metabox.metadata.opengraph-description", "" ) || getSocialDescriptionTemplate(),
-		title: get( window, "wpseoScriptData.metabox.metadata.opengraph-title", "" ) || getSocialTitleTemplate(),
-	};
-};

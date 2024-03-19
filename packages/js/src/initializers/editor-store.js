@@ -2,6 +2,7 @@ import { combineReducers, registerStore } from "@wordpress/data";
 import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { get, pickBy, forEach } from "lodash";
 import * as controls from "../redux/controls";
+import initialState from "../redux/initialState";
 
 /**
  * Populates the store.
@@ -39,10 +40,6 @@ const populateStore = store => {
 		store.dispatch( actions.setPrimaryTaxonomyId( taxonomy, value ) );
 	} );
 
-	// Set intial values for social preview.
-	store.dispatch( actions.loadTwitterPreviewData() );
-	store.dispatch( actions.loadFacebookPreviewData() );
-
 	// Set initial values for the advanced settings.
 	store.dispatch( actions.loadAdvancedSettingsData() );
 
@@ -73,6 +70,7 @@ export default function initEditorStore() {
 		selectors,
 		actions: pickBy( actions, x => typeof x === "function" ),
 		controls,
+		initialState,
 	} );
 
 	populateStore( store );
