@@ -56,6 +56,8 @@ final class Current_Page_Helper_Test extends TestCase {
 			'term_id'  => $term->term_id,
 		];
 
+		$wp_the_query->is_tax = true;
+
 		$this->assertEquals( $term->term_id, $this->instance->get_term_id() );
 	}
 
@@ -75,14 +77,10 @@ final class Current_Page_Helper_Test extends TestCase {
 			'term_id'  => $category->term_id,
 		];
 
+		$wp_the_query->is_category       = true;
+		$wp_the_query->query_vars['cat'] = $category->term_id;
+
 		$this->assertEquals( $category->term_id, $this->instance->get_term_id() );
-
-		\wp_insert_term( 'test_tag', 'post_tag' );
-		$tag = \get_term_by( 'name', 'test_tag', 'post_tag' );
-
-		$wp_the_query->queried_object = (object) [
-			'term_id'  => $tag->term_id,
-		];
 	}
 
 	/**
@@ -100,6 +98,9 @@ final class Current_Page_Helper_Test extends TestCase {
 		$wp_the_query->queried_object = (object) [
 			'term_id'  => $tag->term_id,
 		];
+
+		$wp_the_query->is_tag               = true;
+		$wp_the_query->query_vars['tag_id'] = $tag->term_id;
 
 		$this->assertEquals( $tag->term_id, $this->instance->get_term_id() );
 	}
