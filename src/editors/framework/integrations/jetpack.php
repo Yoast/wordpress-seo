@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Editors\Framework\Integrations;
 
-use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
 
 class Jetpack implements Integration_Data_Provider_Interface {
@@ -26,7 +25,7 @@ class Jetpack implements Integration_Data_Provider_Interface {
 	 */
 	public function to_legacy_array(): array {
 		return [
-		 'markdownEnabled'                    =>$this->is_enabled() ,
+			'markdownEnabled'                    => $this->is_enabled(),
 		];
 	}
 
@@ -39,11 +38,11 @@ class Jetpack implements Integration_Data_Provider_Interface {
 	private function is_markdown_enabled() {
 		$is_markdown = false;
 
-		if ( class_exists( 'Jetpack' ) && method_exists( 'Jetpack', 'get_active_modules' ) ) {
-			$active_modules = Jetpack::get_active_modules();
+		if ( \class_exists( 'Jetpack' ) && \method_exists( 'Jetpack', 'get_active_modules' ) ) {
+			$active_modules = self::get_active_modules();
 
 			// First at all, check if Jetpack's markdown module is active.
-			$is_markdown = in_array( 'markdown', $active_modules, true );
+			$is_markdown = \in_array( 'markdown', $active_modules, true );
 		}
 
 		/**
@@ -53,6 +52,6 @@ class Jetpack implements Integration_Data_Provider_Interface {
 		 *
 		 * @param array $is_markdown Is markdown support for Yoast SEO active.
 		 */
-		return apply_filters( 'wpseo_is_markdown_enabled', $is_markdown );
+		return \apply_filters( 'wpseo_is_markdown_enabled', $is_markdown );
 	}
 }

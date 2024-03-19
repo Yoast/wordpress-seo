@@ -2,15 +2,13 @@
 
 namespace Yoast\WP\SEO\Editors\Framework\Integrations;
 
-use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
-use function get_post_type;
 
 class Woo implements Integration_Data_Provider_Interface {
 
 	/**
-	 * @var \Yoast\WP\SEO\Conditionals\WooCommerce_Conditional
+	 * @var WooCommerce_Conditional
 	 */
 	protected $woo_conditional;
 
@@ -39,6 +37,5 @@ class Woo implements Integration_Data_Provider_Interface {
 		return [
 			'isWooCommerceActive' => $this->is_enabled(),
 		];
-
 	}
 }

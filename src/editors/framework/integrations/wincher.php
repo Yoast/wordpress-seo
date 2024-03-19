@@ -2,19 +2,17 @@
 
 namespace Yoast\WP\SEO\Editors\Framework\Integrations;
 
-use WPSEO_Options;
 use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wincher_Helper;
-use function YoastSEO;
 
 class Wincher implements Integration_Data_Provider_Interface {
-
 
 	/**
 	 * @var Wincher_Helper
 	 */
 	private $wincher_helper;
+
 	/**
 	 * @var Options_Helper
 	 */

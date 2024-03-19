@@ -9,11 +9,8 @@ use Yoast\WP\SEO\Conditionals\Third_Party\Polylang_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\TranslatePress_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\WPML_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
-use Yoast\WP\SEO\Config\SEMrush_Client;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
-use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
-use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
+use Yoast\WP\SEO\Editors\Application\Integrations\Enabled_Integrations_Repository;
 
 /**
  * This class forces needed methods for the metabox localization.
@@ -80,7 +77,6 @@ class WPSEO_Metabox_Formatter {
 			'isPremium'                          => YoastSEO()->helpers->product->is_premium(),
 			'siteIconUrl'                        => get_site_icon_url(),
 			'countryCode'                        => WPSEO_Options::get( 'semrush_country_code', false ),
-			'SEMrushLoginStatus'                 => WPSEO_Options::get( 'semrush_integration_active', true ) ? $this->get_semrush_login_status() : false,
 			'showSocial'                         => [
 				'facebook' => WPSEO_Options::get( 'opengraph', false ),
 				'twitter'  => WPSEO_Options::get( 'twitter', false ),
@@ -191,7 +187,6 @@ class WPSEO_Metabox_Formatter {
 			 * @param bool $showMarkers Should the markers being enabled. Default = true.
 			 */
 			'show_markers'                       => apply_filters( 'wpseo_enable_assessment_markers', true ),
-			'markdownEnabled'                    => $this->is_markdown_enabled(),
 			'analysisHeadingTitle'               => __( 'Analysis', 'wordpress-seo' ),
 			'zapierIntegrationActive'            => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
 			'zapierConnectedStatus'              => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
@@ -207,6 +202,10 @@ class WPSEO_Metabox_Formatter {
 			'woocommerceUpsellGooglePreviewLink' => WPSEO_Shortlinker::get( 'https://yoa.st/product-google-preview-metabox' ),
 		];
 
+		$enabled_integrations_repo = YoastSEO()->classes->get( Enabled_Integrations_Repository::class );
+
+		$enabled_integrations= $enabled_integrations_repo->get_enabled_integrations()->parse_to_legacy_array();
+		$defaults = array_merge( $defaults, $enabled_integrations );
 		$enabled_features_repo = YoastSEO()->classes->get( Enabled_Analysis_Features_Repository::class );
 
 		$enabled_features = $enabled_features_repo->get_enabled_features()->parse_to_legacy_array();
@@ -255,10 +254,6 @@ class WPSEO_Metabox_Formatter {
 
 		return [];
 	}
-
-
-
-
 
 	/**
 	 * Checks whether a multilingual plugin is currently active. Currently, we only check the following plugins: WPML, Polylang, and TranslatePress.

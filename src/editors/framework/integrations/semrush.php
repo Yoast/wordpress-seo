@@ -2,14 +2,12 @@
 
 namespace Yoast\WP\SEO\Editors\Framework\Integrations;
 
-use WPSEO_Options;
 use Yoast\WP\SEO\Config\SEMrush_Client;
 use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use function YoastSEO;
 
 class Semrush implements Integration_Data_Provider_Interface {
 
@@ -61,8 +59,8 @@ class Semrush implements Integration_Data_Provider_Interface {
 	 */
 	private function get_semrush_login_status() {
 		try {
-			//Do this just in time to handle constructor exception.
-			$semrush_client = YoastSEO()->classes->get( SEMrush_Client::class );
+			// Do this just in time to handle constructor exception.
+			$semrush_client = \YoastSEO()->classes->get( SEMrush_Client::class );
 		} catch ( Empty_Property_Exception $e ) {
 			// Return false if token is malformed (empty property).
 			return false;
@@ -70,7 +68,7 @@ class Semrush implements Integration_Data_Provider_Interface {
 		// Get token (and refresh it if it's expired).
 		try {
 			$semrush_client->get_tokens();
-		} catch ( Authentication_Failed_Exception|Empty_Token_Exception $e ) {
+		} catch ( Authentication_Failed_Exception | Empty_Token_Exception $e ) {
 			return false;
 		}
 
