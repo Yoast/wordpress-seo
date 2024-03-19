@@ -87,7 +87,7 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 				.max( 50, __( "The number you've entered is not between 1 and 50.", "wordpress-seo" ) ),
 		} ),
 		wpseo_social: object().shape( {
-			og_default_image_id: number().isMediaTypeImage().isMediaMimeTypeAllowed(),
+			og_default_image_id: number().isMediaTypeImage(),
 			facebook_site: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
 			mastodon_url: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
 			twitter_site: string().isValidTwitterUrlOrHandle(),
@@ -98,7 +98,7 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
 		} ),
 		wpseo_titles: object().shape( {
-			open_graph_frontpage_image_id: number().isMediaTypeImage().isMediaMimeTypeAllowed(),
+			open_graph_frontpage_image_id: number().isMediaTypeImage(),
 			company_logo_id: number().isMediaTypeImage(),
 			person_logo_id: number().isMediaTypeImage(),
 			// Media type image validation for all post type & taxonomy images.
