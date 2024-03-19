@@ -21,16 +21,16 @@ const positionClassNameMap = {
 const Tooltip = forwardRef( ( { id, children, as: Component, className, position, ...props }, ref ) => {
 	return (
 		<Component
-			ref={ref}
-			className={classNames("yst-tooltip",
-				positionClassNameMap[position],
-				className
-			)}
+			ref={ ref }
+			className={ classNames( "yst-tooltip",
+				positionClassNameMap[ position ],
+				className,
+			) }
 			role="tooltip"
-			id={id}
-			{...props}
-			>
-			{children || null}
+			id={ id }
+			{ ...props }
+		>
+			{ children || null }
 		</Component>
 	);
 } );
