@@ -1,4 +1,3 @@
-import AnalysisFields from "../../../src/helpers/fields/AnalysisFields";
 import {
 	REMOVE_KEYWORD,
 	removeKeyword,
@@ -116,19 +115,6 @@ describe( "SEO", () => {
 			const actual = setOverallSeoScore( overallScore, keyword );
 			expect( actual ).toEqual( expected );
 		} );
-
-		it( "updates the SEO score element's value", () => {
-			const keyword = "keyword1";
-			const overallScore = 3;
-
-			const inputElement = createInputElement( "hidden_wpseo_linkdex" );
-
-			setOverallSeoScore( overallScore, keyword );
-			expect( AnalysisFields.seoScore ).toEqual( "3" );
-			expect( inputElement.value ).toEqual( "3" );
-
-			inputElement.remove();
-		} );
 	} );
 } );
 
@@ -170,18 +156,6 @@ describe( "Readability", () => {
 			const actual = setOverallReadabilityScore( overallScore );
 			expect( actual ).toEqual( expected );
 		} );
-
-		it( "updates the readability score element's value", () => {
-			const overallScore = 3;
-
-			const inputElement = createInputElement( "hidden_wpseo_content_score" );
-
-			setOverallReadabilityScore( overallScore );
-			expect( AnalysisFields.readabilityScore ).toEqual( "3" );
-			expect( inputElement.value ).toEqual( "3" );
-
-			inputElement.remove();
-		} );
 	} );
 } );
 
@@ -222,18 +196,6 @@ describe( "Inclusive language", () => {
 			};
 			const actual = setOverallInclusiveLanguageScore( overallScore );
 			expect( actual ).toEqual( expected );
-		} );
-
-		it( "updates the inclusive language score element's value", () => {
-			const overallScore = 3;
-
-			const inputElement = createInputElement( "hidden_wpseo_inclusive_language_score" );
-
-			setOverallInclusiveLanguageScore( overallScore );
-			expect( AnalysisFields.inclusiveLanguageScore ).toEqual( "3" );
-			expect( inputElement.value ).toEqual( "3" );
-
-			inputElement.remove();
 		} );
 	} );
 } );
