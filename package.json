@@ -27,8 +27,8 @@
   "scripts": {
     "lint": "lerna run lint --no-sort --",
     "test": "lerna run test --no-sort --stream --",
-    "build": "wp-scripts build --config config/webpack/webpack.config.js",
-    "build:dev": "cross-env NODE_ENV=development wp-scripts build --config config/webpack/webpack.config.js",
+    "build": "lerna run build",
+    "build:dev": "cross-env NODE_ENV=development lerna run build",
     "build:css": "cross-env NODE_ENV=production postcss css/dist/*.css --verbose --replace",
     "build:css:dev": "cross-env NODE_ENV=development postcss css/dist/*.css --verbose --replace",
     "webpack-analyze-bundle": "wp-scripts build --config config/webpack/webpack.config.js --webpack-bundle-analyzer",
@@ -69,7 +69,7 @@
     "grunt-shell": "^3.0.1",
     "grunt-webpack": "^3.1.3",
     "i18n-calypso": "^1.8.4",
-    "jest": "^23.6.0",
+    "jest": "^27.5.1",
     "jest-styled-components": "^7.0.3",
     "lerna": "^6.4.1",
     "node-fetch": "^2.6.1",
@@ -81,7 +81,7 @@
     "typescript": "^4.2.4"
   },
   "yoast": {
-    "pluginVersion": "22.2-RC3"
+    "pluginVersion": "22.4-RC1"
   },
   "version": "0.0.0"
 }

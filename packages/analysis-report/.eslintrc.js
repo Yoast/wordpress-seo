@@ -27,6 +27,12 @@ module.exports = {
 				functions: "never",
 			},
 		],
+		"import/no-unresolved": [
+			"error",
+			{
+				ignore: [ "^@yoast/(components|helpers|style-guide)" ],
+			},
+		],
 	},
 	overrides: [
 		{

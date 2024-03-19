@@ -6,7 +6,7 @@
  * @returns {string} A unique ID.
  */
 const generateId = () => {
-	return Math.random().toString( 36 ).substr( 2, 6 );
+	return Math.random().toString( 36 ).substring( 2, 6 );
 };
 
 /**

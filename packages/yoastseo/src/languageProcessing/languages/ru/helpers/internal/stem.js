@@ -85,8 +85,8 @@ const findRvRegion = function( word, morphologyData ) {
  * @returns {string|null}	The word if the stemming rule could be applied or null otherwise.
  */
 const removeEndings = function( word, regex, region ) {
-	const prefix = word.substr( 0, region );
-	const ending = word.substr( prefix.length );
+	const prefix = word.substring( 0, region );
+	const ending = word.substring( prefix.length );
 
 	let currentRegex;
 
@@ -120,8 +120,8 @@ const removeEndings = function( word, regex, region ) {
  * @returns {string}	The stemmed word if the word has perfective prefix an verb suffix, otherwise the original word.
  */
 const removePerfectivePrefix = function( word, morphologyData, rv ) {
-	const prefix = word.substr( 0, rv );
-	const ending = word.substr( prefix.length );
+	const prefix = word.substring( 0, rv );
+	const ending = word.substring( prefix.length );
 
 	const perfectiveEndingsRegex = new RegExp( morphologyData.externalStemmer.regexPerfectiveEndings, "i" );
 
@@ -263,7 +263,7 @@ export default function stem( word, morphologyData ) {
 	// Step 4: There can be one of three options:
 	// 1. If the word ends in нн, remove the last letter.
 	if ( word.endsWith( morphologyData.externalStemmer.doubleN ) ) {
-		word = word.substr( 0, word.length - 1 );
+		word = word.substring( 0, word.length - 1 );
 	}
 
 	// 2. If the word ends in a SUPERLATIVE ending, remove it and then again the last letter if the word ends in "нн".

@@ -643,54 +643,85 @@ final class Addon_Manager_Test extends TestCase {
 	/**
 	 * Tests the conversion from a subscription to a plugin array.
 	 *
+	 * @dataProvider convert_subscription_to_plugin_dataprovider
+	 *
 	 * @covers ::convert_subscription_to_plugin
+	 *
+	 * @param object $subscription    The subscription to convert.
+	 * @param object $expected_result The expected result.
 	 *
 	 * @return void
 	 */
-	public function test_convert_subscription_to_plugin() {
-		$this->stubTranslationFunctions();
+	public function test_convert_subscription_to_plugin( $subscription, $expected_result ) {
 
-		$this->assertEquals(
-			(object) [
-				'new_version'      => '10.0',
-				'name'             => 'Extension',
-				'slug'             => 'yoast-seo-wordpress-premium',
-				'plugin'           => '',
-				'url'              => 'https://example.org/store',
-				'last_update'      => 'yesterday',
-				'homepage'         => 'https://example.org/store',
-				'download_link'    => 'https://example.org/extension.zip',
-				'package'          => 'https://example.org/extension.zip',
-				'sections'         => [
-					'changelog' => 'changelog',
-					'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
-				],
-				'icons'            => [
-					'2x' => 'https://yoa.st/yoast-seo-icon',
-				],
-				'update_supported' => true,
-				'banners'          => [
-					'high' => 'https://yoa.st/yoast-seo-banner-premium',
-					'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
-				],
-				'tested'           => \YOAST_SEO_WP_TESTED,
-				'requires_php'     => \YOAST_SEO_PHP_REQUIRED,
-				'requires'         => null,
+		$result = $this->instance->convert_subscription_to_plugin( $subscription );
+		$this->assertEquals( $expected_result, $result );
+	}
+
+	/**
+	 * Data provider for test_convert_subscription_to_plugin.
+	 *
+	 * @return array<string, array<string, object>> The data for test_convert_subscription_to_plugin.
+	 */
+	public static function convert_subscription_to_plugin_dataprovider() {
+		$full_subscription    = [
+			'version'      => '10.0',
+			'name'         => 'Extension',
+			'slug'         => 'yoast-seo-wordpress-premium',
+			'last_updated' => 'yesterday',
+			'store_url'    => 'https://example.org/store',
+			'download'     => 'https://example.org/extension.zip',
+			'changelog'    => 'changelog',
+		];
+		$partial_subscription = $full_subscription;
+		unset( $partial_subscription['changelog'] );
+		unset( $partial_subscription['version'] );
+
+		$expected_plugin_conversion_with_proper_subscription_data  = [
+			'new_version'      => '10.0',
+			'name'             => 'Extension',
+			'slug'             => 'yoast-seo-wordpress-premium',
+			'plugin'           => '',
+			'url'              => 'https://example.org/store',
+			'last_update'      => 'yesterday',
+			'homepage'         => 'https://example.org/store',
+			'download_link'    => 'https://example.org/extension.zip',
+			'package'          => 'https://example.org/extension.zip',
+			'sections'         => [
+				'changelog' => 'changelog',
+				'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
 			],
-			$this->instance->convert_subscription_to_plugin(
-				(object) [
-					'product' => (object) [
-						'version'      => '10.0',
-						'name'         => 'Extension',
-						'slug'         => 'yoast-seo-wordpress-premium',
-						'last_updated' => 'yesterday',
-						'store_url'    => 'https://example.org/store',
-						'download'     => 'https://example.org/extension.zip',
-						'changelog'    => 'changelog',
-					],
-				]
-			)
-		);
+			'icons'            => [
+				'2x' => 'https://yoa.st/yoast-seo-icon',
+			],
+			'update_supported' => true,
+			'banners'          => [
+				'high' => 'https://yoa.st/yoast-seo-banner-premium',
+				'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
+			],
+			'tested'           => \YOAST_SEO_WP_TESTED,
+			'requires_php'     => \YOAST_SEO_PHP_REQUIRED,
+			'requires'         => null,
+		];
+		$expected_plugin_conversion_with_partial_subscription_data = $expected_plugin_conversion_with_proper_subscription_data;
+
+		$expected_plugin_conversion_with_partial_subscription_data['sections']['changelog'] = '';
+		$expected_plugin_conversion_with_partial_subscription_data['new_version']           = '';
+
+		return [
+			'Converting a subscription with full data'    => [
+				'subscription'    => (object) [
+					'product' => (object) $full_subscription,
+				],
+				'expected_result' => (object) $expected_plugin_conversion_with_proper_subscription_data,
+			],
+			'Converting a subscription with partial data' => [
+				'subscription'    => (object) [
+					'product' => (object) $partial_subscription,
+				],
+				'expected_result' => (object) $expected_plugin_conversion_with_partial_subscription_data,
+			],
+		];
 	}
 
 	/**
