@@ -11,7 +11,7 @@ const ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP = /^[A-Fa-f0-9_-]+$/;
 addMethod( number, "isMediaTypeImage", function() {
 	return this.test(
 		"isMediaTypeImage",
-		__( "The selected media type is not valid. Supported types are: JPG, PNG, WEBP and GIF.", "wordpress-seo" ),
+		__( "The selected file is not an image.", "wordpress-seo" ),
 		input => {
 			// Not required.
 			if ( ! input ) {
@@ -25,6 +25,24 @@ addMethod( number, "isMediaTypeImage", function() {
 			}
 
 			return media?.type === "image";
+		}
+	);
+} );
+
+addMethod( number, "isMediaMimeTypeAllowed", function() {
+	return this.test(
+		"isMediaMimeTypeAllowed",
+		__( "The selected media type is not valid. Supported types are: JPG, PNG, WEBP and GIF.", "wordpress-seo" ),
+		input => {
+			const media = select( STORE_NAME ).selectMediaById( input );
+			const allowedTypes = [ "image/jpeg", "image/png", "image/webp", "image/gif" ];
+
+			// No metadata to validate: default to valid.
+			if ( ! media ) {
+				return true;
+			}
+
+			return allowedTypes.includes( media.mime_type );
 		}
 	);
 } );
@@ -69,7 +87,7 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 				.max( 50, __( "The number you've entered is not between 1 and 50.", "wordpress-seo" ) ),
 		} ),
 		wpseo_social: object().shape( {
-			og_default_image_id: number().isMediaTypeImage(),
+			og_default_image_id: number().isMediaTypeImage().isMediaMimeTypeAllowed(),
 			facebook_site: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
 			mastodon_url: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
 			twitter_site: string().isValidTwitterUrlOrHandle(),
@@ -80,26 +98,26 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
 		} ),
 		wpseo_titles: object().shape( {
-			open_graph_frontpage_image_id: number().isMediaTypeImage(),
+			open_graph_frontpage_image_id: number().isMediaTypeImage().isMediaMimeTypeAllowed(),
 			company_logo_id: number().isMediaTypeImage(),
 			person_logo_id: number().isMediaTypeImage(),
 			// Media type image validation for all post type & taxonomy images.
 			...reduce( postTypes, ( acc, { name, hasArchive } ) => ( {
 				...acc,
 				...( name !== "attachment" && {
-					[ `social-image-id-${ name }` ]: number().isMediaTypeImage(),
+					[ `social-image-id-${ name }` ]: number().isMediaTypeImage().isMediaMimeTypeAllowed(),
 				} ),
 				...( hasArchive && {
-					[ `social-image-id-ptarchive-${ name }` ]: number().isMediaTypeImage(),
+					[ `social-image-id-ptarchive-${ name }` ]: number().isMediaTypeImage().isMediaMimeTypeAllowed(),
 				} ),
 			} ), {} ),
 			...reduce( taxonomies, ( acc, { name } ) => ( {
 				...acc,
-				[ `social-image-id-tax-${ name }` ]: number().isMediaTypeImage(),
+				[ `social-image-id-tax-${ name }` ]: number().isMediaTypeImage().isMediaMimeTypeAllowed(),
 			} ), {} ),
-			"social-image-id-author-wpseo": number().isMediaTypeImage(),
-			"social-image-id-archive-wpseo": number().isMediaTypeImage(),
-			"social-image-id-tax-post_format": number().isMediaTypeImage(),
+			"social-image-id-author-wpseo": number().isMediaTypeImage().isMediaMimeTypeAllowed(),
+			"social-image-id-archive-wpseo": number().isMediaTypeImage().isMediaMimeTypeAllowed(),
+			"social-image-id-tax-post_format": number().isMediaTypeImage().isMediaMimeTypeAllowed(),
 		} ),
 	} );
 };
