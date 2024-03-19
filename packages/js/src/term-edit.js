@@ -8,6 +8,7 @@ import initTabs from "./initializers/metabox-tabs";
 import initTermScraper from "./initializers/term-scraper";
 import initializeInsights from "./insights/initializer";
 import { termsTmceId } from "./lib/tinymce";
+import initializeAiGenerator from "./ai-generator/initialize";
 
 domReady( () => {
 	// Backwards compatibility globals.
@@ -35,4 +36,12 @@ domReady( () => {
 
 	// Initialize the insights.
 	initializeInsights();
+
+	// Don't initialize the AI generator for WooCommerce categories and tags.
+	const AI_IGNORED_TAXONOMIES = [ "product_cat", "product_tag" ];
+
+	if ( window.wpseoScriptData.termType && ! AI_IGNORED_TAXONOMIES.includes( window.wpseoScriptData.termType ) ) {
+		// Initialize the AI Generator upsell.
+		initializeAiGenerator();
+	}
 } );

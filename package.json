@@ -48,12 +48,12 @@
     "@typescript-eslint/parser": "^4.24.0",
     "@wordpress/dependency-extraction-webpack-plugin": "^4.28.0",
     "@wordpress/scripts": "^26.16.0",
-    "@yoast/babel-preset": "^1.1.0",
+    "@yoast/babel-preset": "^1.1.1",
     "@yoast/browserslist-config": "^1.2.2",
     "@yoast/grunt-plugin-tasks": "^2.4",
     "@yoast/postcss-preset": "^1.2.0",
     "@yoast/tailwindcss-preset": "^2.3.0",
-    "@yoast/ui-library": "^3.2.0",
+    "@yoast/ui-library": "^3.3.0",
     "autoprefixer": "^10.4.7",
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
     "colors": "1.4.0",
@@ -81,7 +81,7 @@
     "typescript": "^4.2.4"
   },
   "yoast": {
-    "pluginVersion": "22.2"
+    "pluginVersion": "22.3"
   },
   "version": "0.0.0"
 }
