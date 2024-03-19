@@ -1,4 +1,3 @@
-import React, { useCallback, useState } from "react";
 import TextInput from ".";
 import { component } from "./docs";
 
@@ -27,6 +26,5 @@ export const DatePicker = {
 	},
 	args: {
 		type: "date",
-		placeholder: "Add a date here...",
 	},
 };
