@@ -4,6 +4,7 @@ import { get, pickBy, forEach } from "lodash";
 import * as controls from "../../redux/controls";
 import * as snippetEditorActions from "../redux/actions/snippetEditor";
 import * as analysisSelectors from "../redux/selectors/analysis";
+import initialState from "../../redux/initialState";
 
 /**
  * Populates the store.
@@ -99,6 +100,7 @@ export default function initEditorStore() {
 			...snippetEditorActions,
 		}, x => typeof x === "function" ),
 		controls,
+		initialState,
 	} );
 
 	populateStore( store );
