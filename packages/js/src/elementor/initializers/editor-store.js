@@ -40,11 +40,11 @@ const populateStore = store => {
 
 	// Initialize the Social Preview data depending on which platform should be present
 	const { facebook: showFacebook, twitter: showTwitter } = window.wpseoScriptData.metabox.showSocial;
-	if ( showFacebook ) {
-		store.dispatch( actions.loadFacebookPreviewData() );
+	if ( ! showFacebook ) {
+		delete initialState.facebookEditor;
 	}
-	if ( showTwitter ) {
-		store.dispatch( actions.loadTwitterPreviewData() );
+	if ( ! showTwitter ) {
+		delete initialState.twitterEditor;
 	}
 
 	// Set initial value for focus keyphrase.
@@ -57,10 +57,6 @@ const populateStore = store => {
 		const taxonomy = key.replace( "primary_", "" );
 		store.dispatch( actions.setPrimaryTaxonomyId( taxonomy, value ) );
 	} );
-
-	// Set intial values for social preview.
-	store.dispatch( actions.loadTwitterPreviewData() );
-	store.dispatch( actions.loadFacebookPreviewData() );
 
 	// Set initial values for the advanced settings.
 	store.dispatch( actions.loadAdvancedSettingsData() );

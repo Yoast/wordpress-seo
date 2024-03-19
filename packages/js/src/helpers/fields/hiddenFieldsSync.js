@@ -73,13 +73,18 @@ const createUpdater = () => {
 	return ( data ) => {
 		// Get the values from hidden fields.
 		const hiddenFieldsData = {};
-		const wpseoMetaElement = document.getElementById( "wpseo_meta" );
-		const hiddenFields = wpseoMetaElement?.querySelectorAll( "input[type=hidden]" );
-		forEach( hiddenFields, ( field ) => {
-			if ( field.id ) {
-				hiddenFieldsData[ field.id ] = field.value;
+		const yoastFormElement = document.getElementById( "yoast-form" ) || document.getElementById( "wpseo_meta" );
+
+		if ( yoastFormElement ) {
+			const hiddenFields = yoastFormElement?.querySelectorAll( "input[type=hidden]" );
+			if ( hiddenFields ) {
+				forEach( hiddenFields, ( field ) => {
+					if ( field.id ) {
+						hiddenFieldsData[ field.id ] = field.value;
+					}
+				} );
 			}
-		} );
+		}
 
 		if ( ! hiddenFieldsData || ! data ) {
 			return;
