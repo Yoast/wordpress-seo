@@ -1,13 +1,5 @@
 import * as actions from "../../../src/redux/actions/advancedSettings";
 
-const populatedFields = {
-	noIndex: "testNoIndex",
-	noFollow: "testNoFollow",
-	advanced: "testAdvanced1,testAdvanced2",
-	breadcrumbsTitle: "testBcTitle",
-	canonical: "www.testCanonicalUrl.com",
-};
-
 describe( "setNoIndex", () => {
 	it( "Returns a setNoIndex action and populates the advanced hidden fields", () => {
 		const expected = {
