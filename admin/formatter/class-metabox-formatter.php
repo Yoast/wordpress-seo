@@ -52,7 +52,6 @@ class WPSEO_Metabox_Formatter {
 	 */
 	private function get_defaults() {
 		$schema_types      = new Schema_Types();
-		$is_wincher_active = YoastSEO()->helpers->wincher->is_active();
 		$host              = YoastSEO()->helpers->url->get_url_host( get_site_url() );
 
 		$defaults = [
@@ -190,10 +189,6 @@ class WPSEO_Metabox_Formatter {
 			'analysisHeadingTitle'               => __( 'Analysis', 'wordpress-seo' ),
 			'zapierIntegrationActive'            => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
 			'zapierConnectedStatus'              => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
-			'wincherIntegrationActive'           => ( $is_wincher_active ) ? 1 : 0,
-			'wincherLoginStatus'                 => ( $is_wincher_active ) ? YoastSEO()->helpers->wincher->login_status() : false,
-			'wincherWebsiteId'                   => WPSEO_Options::get( 'wincher_website_id', '' ),
-			'wincherAutoAddKeyphrases'           => WPSEO_Options::get( 'wincher_automatically_add_keyphrases', false ),
 			'wordproofIntegrationActive'         => YoastSEO()->helpers->wordproof->is_active() ? 1 : 0,
 			'multilingualPluginActive'           => $this->multilingual_plugin_active(),
 			'getJetpackBoostPrePublishLink'      => WPSEO_Shortlinker::get( 'https://yoa.st/jetpack-boost-get-prepublish?domain=' . $host ),
@@ -204,7 +199,8 @@ class WPSEO_Metabox_Formatter {
 
 		$enabled_integrations_repo = YoastSEO()->classes->get( Enabled_Integrations_Repository::class );
 
-		$enabled_integrations= $enabled_integrations_repo->get_enabled_integrations()->parse_to_legacy_array();
+
+		$enabled_integrations= $enabled_integrations_repo->get_enabled_integrations();
 		$defaults = array_merge( $defaults, $enabled_integrations );
 		$enabled_features_repo = YoastSEO()->classes->get( Enabled_Analysis_Features_Repository::class );
 
