@@ -1,28 +1,25 @@
 @layer components {
 	.yst-root {
 		.yst-tooltip {
-			@apply
+			@apply 
+			yst-overflow-visible
 			yst-absolute
-			yst-inline-block
-			yst-z-10
-			yst-px-2
 			yst-p-2
 			yst-bg-gray-800
 			yst-text-white
 			yst-text-xs
 			yst-rounded-lg;
+			max-width: 320px;  /*Set the maximum width of the tooltip. The value in pixels is equivalent to the maw-w-xs class in Tailwind */
 		}
 
 		.yst-tooltip--top {
-            @apply
-            yst--translate-x-1/2
-            yst--translate-y-full
-			yst-left-1/2
-			yst-mb-1;
+			bottom: calc(anchor(top) + 0.7rem);
+			left: anchor(center);
+			translate: -50% 0;
 
-			/* Style properties for the tooltip arrow */	
+			/* Style properties for the tooltip arrow */
 			&::before {
-				@apply
+				@apply 
 				yst-content-['']
 				yst-absolute
 				yst-left-1/2
@@ -34,19 +31,16 @@
 				yst-border-b-transparent
 				yst-border-t-gray-800;
 			}
-        }
+		}
 
 		.yst-tooltip--bottom {
-            @apply
-            yst--translate-x-1/2
-            yst--translate-y-0
-			yst-left-1/2
-			yst-top-full
-			yst-mt-2;
+			top: calc(anchor(bottom) + 0.7rem);
+			left: anchor(center);
+			translate: -50% 0;
 
-			/* Style properties for the tooltip arrow */	
+			/* Style properties for the tooltip arrow */
 			&::before {
-				@apply
+				@apply 
 				yst-content-['']
 				yst-absolute
 				yst-left-1/2
@@ -60,16 +54,13 @@
 		}
 
 		.yst-tooltip--right {
-            @apply
-            yst--translate-x-0 
-            yst--translate-y-1/2
-			yst-left-full
-			yst-top-1/2
-			yst-ml-2;
-	
+			left: calc(anchor(right) + 0.7rem);
+			top: anchor(center);
+			translate: 0% -50%;
+
 			/* Style properties for the tooltip arrow */
 			&::before {
-				@apply
+				@apply 
 				yst-content-['']
 				yst-absolute
 				yst-right-full /* Arrow positioned at the left of the tooltip */
@@ -81,17 +72,16 @@
 				yst-border-b-transparent
 				yst-border-r-gray-800;
 			}
-        }
+		}
 
 		.yst-tooltip--left {
-			@apply
-			yst--translate-y-0
-			yst-right-full
-			yst-mr-2;
+			right: calc(anchor(left) + 0.7rem);
+			top: anchor(center);
+			translate: 0% -50%;
 
 			/* Style properties for the tooltip arrow */
 			&::before {
-				@apply
+				@apply 
 				yst-content-['']
 				yst-absolute
 				yst-left-full /* Arrow positioned at the right of the tooltip */
