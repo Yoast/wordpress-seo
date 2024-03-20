@@ -66,15 +66,18 @@ final class Image_Helper_Test extends TestCase {
 	 * @covers ::get_by_id
 	 * @dataProvider get_by_id_data_provider
 	 *
+	 * @param bool   $is_valid Whether the attachment is valid.
+	 * @param string $expected The expected result.
+	 * @param int    $times    The number of times get_attachment_image_source should be called.
+	 *
 	 * @return void
-	 
 	 */
-	public function test_get_by_id( $return, $expected, $times ) {
+	public function test_get_by_id( $is_valid, $expected, $times ) {
 		$this->image
 			->expects( 'is_valid_attachment' )
 			->with( 1337 )
 			->once()
-			->andReturn( $return );
+			->andReturn( $is_valid );
 
 		$this->image
 			->expects( 'get_attachment_image_source' )
@@ -87,7 +90,7 @@ final class Image_Helper_Test extends TestCase {
 	/**
 	 * Data provider for the test_get_by_id test.
 	 *
-	 * @return array The data for the test.
+	 * @return array<bool,string,int> The data for the test.
 	 */
 	public function get_by_id_data_provider() {
 			yield 'invalid attachment' => [ false, '', 0 ];
