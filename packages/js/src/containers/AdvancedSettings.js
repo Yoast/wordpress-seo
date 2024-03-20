@@ -14,7 +14,6 @@ export default compose( [
 			getBreadcrumbsTitle,
 			getCanonical,
 			getWordProofTimestamp,
-			getIsLoading,
 			getEditorContext,
 			getPreferences,
 		} = select( "yoast-seo/editor" );
@@ -28,7 +27,6 @@ export default compose( [
 			breadcrumbsTitle: getBreadcrumbsTitle(),
 			canonical: getCanonical(),
 			wordproofTimestamp: getWordProofTimestamp(),
-			isLoading: getIsLoading(),
 			editorContext: getEditorContext(),
 			isBreadcrumbsDisabled,
 			isPrivateBlog,

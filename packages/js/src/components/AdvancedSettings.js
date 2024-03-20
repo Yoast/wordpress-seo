@@ -282,7 +282,6 @@ const AdvancedSettings = ( props ) => {
 		onBreadcrumbsTitleChange,
 		onCanonicalChange,
 		onWordProofTimestampChange,
-		isLoading,
 		editorContext,
 		isBreadcrumbsDisabled,
 		isPrivateBlog,
@@ -321,10 +320,6 @@ const AdvancedSettings = ( props ) => {
 		postTypeName: editorContext.postTypeNameSingular,
 	};
 
-	if ( isLoading ) {
-		return null;
-	}
-
 	return (
 		<Fragment>
 			<MetaRobotsNoIndex { ...noIndexProps } />
@@ -346,7 +341,6 @@ AdvancedSettings.propTypes = {
 	onNoIndexChange: PropTypes.func.isRequired,
 	onCanonicalChange: PropTypes.func.isRequired,
 	onWordProofTimestampChange: PropTypes.func,
-	isLoading: PropTypes.bool.isRequired,
 	editorContext: PropTypes.object.isRequired,
 	isBreadcrumbsDisabled: PropTypes.bool.isRequired,
 	isPrivateBlog: PropTypes.bool,

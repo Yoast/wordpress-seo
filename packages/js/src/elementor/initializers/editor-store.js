@@ -58,9 +58,6 @@ const populateStore = store => {
 		store.dispatch( actions.setPrimaryTaxonomyId( taxonomy, value ) );
 	} );
 
-	// Set initial values for the advanced settings.
-	store.dispatch( actions.loadAdvancedSettingsData() );
-
 	store.dispatch( actions.setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode ) );
 	store.dispatch( actions.setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus ) );
 	store.dispatch( actions.setWincherLoginStatus( window.wpseoScriptData.metabox.wincherLoginStatus, false ) );

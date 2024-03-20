@@ -1,5 +1,19 @@
-import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "../../../src/helpers/fields/facebookFieldsStore";
-import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "../../../src/helpers/fields/twitterFieldsStore";
+import {
+	getFacebookImageId,
+	getFacebookTitle,
+	getFacebookDescription,
+	getFacebookImageUrl,
+	getTwitterImageId,
+	getTwitterTitle,
+	getTwitterDescription,
+	getTwitterImageUrl,
+	getNoIndex,
+	getNoFollow,
+	getAdvanced,
+	getBreadcrumbsTitle,
+	getCanonical,
+	getWordProofTimestamp,
+} from "../../../src/helpers/fields";
 import { EDITOR_STORE } from "../../../src/shared-admin/constants";
 import { select } from "@wordpress/data";
 
@@ -12,6 +26,8 @@ jest.mock( "@wordpress/data", () => ( {
 const testCasesInteger = [
 	{ method: "getFacebookImageId", getFunction: getFacebookImageId  },
 	{ method: "getTwitterImageId", getFunction: getTwitterImageId },
+	{ method: "getNoIndex", getFunction: getNoIndex  },
+	{ method: "getNoFollow", getFunction: getNoFollow },
 ];
 
 describe.each( testCasesInteger )( "$method", ( { method, getFunction } ) => {
@@ -39,6 +55,9 @@ const testCases = [
 	{ method: "getTwitterTitle", getFunction: getTwitterTitle },
 	{ method: "getTwitterDescription", getFunction: getTwitterDescription },
 	{ method: "getTwitterImageUrl", getFunction: getTwitterImageUrl },
+	{ method: "getAdvanced", getFunction: getAdvanced  },
+	{ method: "getBreadcrumbsTitle", getFunction: getBreadcrumbsTitle },
+	{ method: "getCanonical", getFunction: getCanonical },
 ];
 
 describe.each( testCases )( "$method", ( { method, getFunction } ) => {
@@ -86,3 +105,75 @@ describe.each( testCases )( "$method", ( { method, getFunction } ) => {
 		expect( result ).toBe( "" );
 	} );
 } );
+
+const testCasesWithDefaultZero = [
+	{ method: "getNoIndex", getFunction: getNoIndex  },
+	{ method: "getNoFollow", getFunction: getNoFollow },
+];
+
+describe.each( testCasesWithDefaultZero )( "$method", ( { method, getFunction } ) => {
+	it( `should return zero string from ${method} when null`, () => {
+	  select.mockImplementation( ( store ) => {
+			if ( store === EDITOR_STORE ) {
+				return {
+					[ method ]: () => null,
+				};
+			}
+		} );
+
+		const result = getFunction();
+		expect( result ).toBe( "0" );
+	} );
+} );
+
+describe.each( testCasesWithDefaultZero )( "$method", ( { method, getFunction } ) => {
+	it( `should return zero string from ${method} when null`, () => {
+	  select.mockImplementation( ( store ) => {
+			if ( store === EDITOR_STORE ) {
+				return {
+					[ method ]: () => undefined,
+				};
+			}
+		} );
+
+		const result = getFunction();
+		expect( result ).toBe( "0" );
+	} );
+} );
+
+describe( "getWordProofTimestamp", () => {
+	it( "should return '1' when true", () => {
+		select.mockImplementation( ( store ) => {
+			if ( store === EDITOR_STORE ) {
+				return {
+					getWordProofTimestamp: () => true,
+				};
+			}
+		} );
+
+		const result = getWordProofTimestamp();
+		expect( result ).toBe( "1" );
+	} );
+} );
+
+const getWordProofTimestampTestCases = [
+	{ value: true, expected: "1" },
+	{ value: false, expected: "" },
+	{ value: null, expected: "" },
+	{ value: undefined, expected: "" },
+];
+describe.each( getWordProofTimestampTestCases )( "$method", ( { value, expected } ) => {
+	it( `should return ${expected} from getWordProofTimestamp when value is ${value}`, () => {
+	  select.mockImplementation( ( store ) => {
+			if ( store === EDITOR_STORE ) {
+				return {
+					getWordProofTimestamp: () => value,
+				};
+			}
+		} );
+
+		const result = getWordProofTimestamp();
+		expect( result ).toBe( expected );
+	} );
+} );
+
