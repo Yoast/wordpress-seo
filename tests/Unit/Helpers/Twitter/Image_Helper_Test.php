@@ -25,6 +25,13 @@ final class Image_Helper_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * Represents the base image helper.
+	 *
+	 * @var Base_Image_Helper
+	 */
+	protected $image;
+
+	/**
 	 * Setup.
 	 *
 	 * @return void
@@ -32,7 +39,9 @@ final class Image_Helper_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Image_Helper( Mockery::mock( Base_Image_Helper::class ) );
+		$this->image = Mockery::mock( Base_Image_Helper::class )->makePartial();
+
+		$this->instance = new Image_Helper( $this->image );
 	}
 
 	/**
@@ -49,5 +58,39 @@ final class Image_Helper_Test extends TestCase {
 			->andReturn( 'full' );
 
 		$this->assertEquals( 'full', $this->instance->get_image_size() );
+	}
+
+	/**
+	 * Tests retrieval of an image by its id.
+	 *
+	 * @covers ::get_by_id
+	 * @dataProvider get_by_id_data_provider
+	 *
+	 * @return void
+	 
+	 */
+	public function test_get_by_id( $return, $expected, $times ) {
+		$this->image
+			->expects( 'is_valid_attachment' )
+			->with( 1337 )
+			->once()
+			->andReturn( $return );
+
+		$this->image
+			->expects( 'get_attachment_image_source' )
+			->times( $times )
+			->andReturn( $expected );
+
+		$this->assertEquals( $expected, $this->instance->get_by_id( 1337 ) );
+	}
+
+	/**
+	 * Data provider for the test_get_by_id test.
+	 *
+	 * @return array The data for the test.
+	 */
+	public function get_by_id_data_provider() {
+			yield 'invalid attachment' => [ false, '', 0 ];
+			yield 'valid attachment' => [ true, 'image.jpg', 1 ];
 	}
 }
