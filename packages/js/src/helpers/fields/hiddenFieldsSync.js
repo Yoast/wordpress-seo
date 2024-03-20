@@ -64,7 +64,7 @@ const prepareValue = ( key, value ) => {
  * Creates an updater.
  * @returns {function} The updater.
  */
-const createUpdater = () => {
+export const createUpdater = () => {
 	/**
 	 * Syncs the data to the WP entity record.
 	 * @param {Object} data The collected data.
@@ -94,7 +94,9 @@ const createUpdater = () => {
 		const prefix = isPost ? "yoast_wpseo_" : "hidden_wpseo_";
 
 		const changedData = pickBy( data, ( value, key ) => ( prefix + key ) in hiddenFieldsData && value !== hiddenFieldsData[ prefix + key ] );
-
+		console.log( { hiddenFieldsData } );
+		console.log( { data } );
+		console.log( { changedData } );
 		if ( changedData ) {
 			forEach( changedData, ( value, key ) => {
 				document.getElementById( prefix + key ).value = prepareValue( key, value );
@@ -104,37 +106,44 @@ const createUpdater = () => {
 };
 
 /**
+ * The values to sync.
+ *
+ * Add values to sync from Yoast editor store to hidden fields.
+ */
+export const valuesToSync = {
+	focuskw: getFocusKeyphrase,
+	"meta-robots-noindex": getNoIndex,
+	// Same as meta-robots-noindex for term metabox.
+	noindex: getNoIndex,
+	"meta-robots-nofollow": getNoFollow,
+	"meta-robots-adv": getAdvanced,
+	bctitle: getBreadcrumbsTitle,
+	canonical: getCanonical,
+	wordproof_timestamp: getWordProofTimestamp,
+	"opengraph-title": getFacebookTitle,
+	"opengraph-description": getFacebookDescription,
+	"opengraph-image": getFacebookImageUrl,
+	"opengraph-image-id": getFacebookImageId,
+	"twitter-title": getTwitterTitle,
+	"twitter-description": getTwitterDescription,
+	"twitter-image": getTwitterImageUrl,
+	"twitter-image-id": getTwitterImageId,
+	schema_page_type: getPageType,
+	schema_article_type: getArticleType,
+	is_cornerstone: isCornerstoneContent,
+	content_score: getReadabilityScore,
+	linkdex: getSeoScore,
+	inclusive_language_score: getInclusiveLanguageScore,
+	"estimated-reading-time-minutes": getEstimatedReadingTime,
+};
+
+/**
  * Initializes the sync: from Yoast editor store to product metadata.
  * @returns {function} The un-subscriber.
  */
 export const hiddenFieldsSync = () => {
 	return subscribe( debounce( createWatcher(
-		createCollectorFromObject( {
-			focuskw: getFocusKeyphrase,
-			"meta-robots-noindex": getNoIndex,
-			// Same as meta-robots-noindex for term metabox.
-			noindex: getNoIndex,
-			"meta-robots-nofollow": getNoFollow,
-			"meta-robots-adv": getAdvanced,
-			bctitle: getBreadcrumbsTitle,
-			canonical: getCanonical,
-			wordproof_timestamp: getWordProofTimestamp,
-			"opengraph-title": getFacebookTitle,
-			"opengraph-description": getFacebookDescription,
-			"opengraph-image": getFacebookImageUrl,
-			"opengraph-image-id": getFacebookImageId,
-			"twitter-title": getTwitterTitle,
-			"twitter-description": getTwitterDescription,
-			"twitter-image": getTwitterImageUrl,
-			"twitter-image-id": getTwitterImageId,
-			schema_page_type: getPageType,
-			schema_article_type: getArticleType,
-			is_cornerstone: isCornerstoneContent,
-			content_score: getReadabilityScore,
-			linkdex: getSeoScore,
-			inclusive_language_score: getInclusiveLanguageScore,
-			"estimated-reading-time-minutes": getEstimatedReadingTime,
-		} ),
+		createCollectorFromObject( valuesToSync ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), EDITOR_STORE );
 };
