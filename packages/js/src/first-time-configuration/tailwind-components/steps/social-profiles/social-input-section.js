@@ -89,7 +89,7 @@ function SocialInputSection(	{
 				value={ socialProfiles.facebookUrl }
 				socialMedium="facebookUrl"
 				onChange={ onChangeHandler }
-				placeholder={ __( "E.g. https://www.facebook.com/yoast", "wordpress-seo" ) }
+				placeholder={ __( "E.g. https://facebook.com/yoast", "wordpress-seo" ) }
 				feedback={ {
 					message: [ __( "Could not save this value. Please check the URL.", "wordpress-seo" ) ],
 					isVisible: errorFields.includes( "facebook_site" ),
@@ -98,12 +98,12 @@ function SocialInputSection(	{
 			/>
 			<SocialInput
 				className="yst-mt-4"
-				label={ __( "Twitter", "wordpress-seo" ) }
+				label={ __( "X", "wordpress-seo" ) }
 				id="social-input-twitter-url"
 				value={ socialProfiles.twitterUsername }
 				socialMedium="twitterUsername"
 				onChange={ onChangeHandler }
-				placeholder={ __( "E.g. https://www.twitter.com/yoast", "wordpress-seo" ) }
+				placeholder={ __( "E.g. https://x.com/yoast", "wordpress-seo" ) }
 				feedback={ {
 					message: [ __( "Could not save this value. Please check the URL or username.", "wordpress-seo" ) ],
 					isVisible: errorFields.includes( "twitter_site" ),

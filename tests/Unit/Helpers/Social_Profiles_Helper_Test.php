@@ -336,4 +336,101 @@ final class Social_Profiles_Helper_Test extends TestCase {
 			'Failed set with not valid other social urls' => $failure_other_social,
 		];
 	}
+
+	/**
+	 * Checks getting the values for the organization's social profiles.
+	 *
+	 * @covers ::get_organization_social_profiles
+	 * @covers ::get_organization_social_profile_fields
+	 *
+	 * @dataProvider get_organization_social_profiles
+	 *
+	 * @param array<string, string|array<string, string>> $social_profiles The array of the organization's social profiles to be set.
+	 * @param array<string, string|array<int, string>>    $default_value   The default values for the social profiles.
+	 * @param array<string, string|array<string, string>> $expected        The expected field names which failed to be saved in the db.
+	 *
+	 * @return void
+	 */
+	public function test_get_organization_social_profiles( $social_profiles, $default_value, $expected ) {
+		$fields = [
+			'facebook_site',
+			'twitter_site',
+			'other_social_urls',
+		];
+
+		$organization_social_profile_fields = [
+			'facebook_site'     => 'get_non_valid_url',
+			'twitter_site'      => 'get_non_valid_twitter',
+			'other_social_urls' => 'get_non_valid_url_array',
+		];
+
+		Monkey\Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'wpseo_organization_social_profile_fields', $organization_social_profile_fields )
+			->andReturn( $organization_social_profile_fields );
+
+		foreach ( $fields as $field ) {
+			$this->options_helper
+				->expects( 'get' )
+				->with( $field, $default_value[ $field ] )
+				->andReturn( $social_profiles[ $field ] );
+		}
+
+		$actual = $this->instance->get_organization_social_profiles();
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Dataprovider for test_get_organization_social_profiles function.
+	 *
+	 * @return array<string, array<string, string|array<string, string>>> Data for test_get_organization_social_profiles function.
+	 */
+	public static function get_organization_social_profiles() {
+		$success_all = [
+			'social_profiles' => [
+				'facebook_site'     => 'https://facebook.com/janedoe',
+				'twitter_site'      => 'janedoe',
+				'other_social_urls' => [
+					'https://youtube.com/janedoe',
+					'https://instagram.com/janedoe',
+				],
+			],
+			'default_value' => [
+				'facebook_site'     => '',
+				'twitter_site'      => '',
+				'other_social_urls' => [],
+			],
+			'expected'        => [
+				'facebook_site'     => 'https://facebook.com/janedoe',
+				'twitter_site'      => 'https://x.com/janedoe',
+				'other_social_urls' => [
+					'https://youtube.com/janedoe',
+					'https://instagram.com/janedoe',
+				],
+			],
+		];
+
+		$empty_all = [
+			'social_profiles' => [
+				'facebook_site'     => '',
+				'twitter_site'      => '',
+				'other_social_urls' => [],
+			],
+			'default_value' => [
+				'facebook_site'     => '',
+				'twitter_site'      => '',
+				'other_social_urls' => [],
+			],
+			'expected'        => [
+				'facebook_site'     => '',
+				'twitter_site'      => '',
+				'other_social_urls' => [],
+			],
+		];
+
+		return [
+			'Successful get with all valid values' => $success_all,
+			'Empty get with all empty values'      => $empty_all,
+		];
+	}
 }
