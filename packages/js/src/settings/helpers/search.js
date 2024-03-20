@@ -1287,11 +1287,12 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			route: "/site-features",
 			routeLabel: __( "Site features", "wordpress-seo" ),
 			fieldId: "card-wpseo_social-twitter",
-			fieldLabel: __( "Twitter card data", "wordpress-seo" ),
+			fieldLabel: __( "X card data", "wordpress-seo" ),
 			keywords: [
 				__( "Social", "wordpress-seo" ),
 				__( "Share", "wordpress-seo" ),
 				__( "Tweet", "wordpress-seo" ),
+				__( "Twitter", "wordpress-seo" ),
 			],
 		},
 		og_default_image_id: {
@@ -1326,11 +1327,12 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-wpseo_social-twitter_site",
-			fieldLabel: __( "Organization Twitter", "wordpress-seo" ),
+			fieldLabel: __( "Organization X", "wordpress-seo" ),
 			keywords: [
 				__( "Social", "wordpress-seo" ),
 				__( "Share", "wordpress-seo" ),
 				__( "Tweet", "wordpress-seo" ),
+				__( "Twitter", "wordpress-seo" ),
 			],
 		},
 		mastodon_url: {
