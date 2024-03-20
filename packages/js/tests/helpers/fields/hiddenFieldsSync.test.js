@@ -24,8 +24,8 @@ import {
 	getInclusiveLanguageScore,
 	getEstimatedReadingTime } from "../../../src/helpers/fields";
 
-describe( "hiddenFieldsSync", () => {
-	it( "should call createCollectorFromObject with the correct parameters", () => {
+describe( "should sync the right values", () => {
+	it( "valuesToSync should include the correct parameters", () => {
 		expect( valuesToSync ).toMatchObject( {
 			focuskw: getFocusKeyphrase,
 			"meta-robots-noindex": getNoIndex,
