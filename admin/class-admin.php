@@ -316,7 +316,7 @@ class WPSEO_Admin {
 		$contactmethods['pinterest']  = __( 'Pinterest profile URL', 'wordpress-seo' );
 		$contactmethods['soundcloud'] = __( 'SoundCloud profile URL', 'wordpress-seo' );
 		$contactmethods['tumblr']     = __( 'Tumblr profile URL', 'wordpress-seo' );
-		$contactmethods['twitter']    = __( 'X username (without @)', 'wordpress-seo' );
+		$contactmethods['twitter']    = __( 'Twitter username (without @)', 'wordpress-seo' );
 		$contactmethods['youtube']    = __( 'YouTube profile URL', 'wordpress-seo' );
 		$contactmethods['wikipedia']  = __( 'Wikipedia page about you', 'wordpress-seo' ) . '<br/><small>' . __( '(if one exists)', 'wordpress-seo' ) . '</small>';
 

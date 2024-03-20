@@ -252,7 +252,7 @@ class Person extends Abstract_Schema_Piece {
 		$url = \get_the_author_meta( $social_site, $user_id );
 
 		if ( ! empty( $url ) && $social_site === 'twitter' ) {
-			$url = 'https://x.com/' . $url;
+			$url = 'https://twitter.com/' . $url;
 		}
 
 		return $url;
