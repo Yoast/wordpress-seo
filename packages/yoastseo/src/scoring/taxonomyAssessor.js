@@ -22,10 +22,9 @@ import { createAnchorOpeningTag } from "../helpers";
 export const getTextLengthAssessment = function() {
 	// Export so it can be used in tests.
 	return new TextLengthAssessment( {
-		recommendedMinimum: 250,
-		slightlyBelowMinimum: 200,
-		belowMinimum: 100,
-		veryFarBelowMinimum: 50,
+		recommendedMinimum: 30,
+		belowMinimum: 10,
+		veryFarBelowMinimum: 1,
 		urlTitle: createAnchorOpeningTag( "https://yoa.st/34j" ),
 		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34k" ),
 		customContentType: "taxonomyAssessor",
