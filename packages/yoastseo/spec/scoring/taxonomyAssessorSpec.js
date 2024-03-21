@@ -16,10 +16,9 @@ describe( "has the correct configuration overrides", () => {
 
 		expect( assessment ).toBeDefined();
 		expect( assessment._config ).toBeDefined();
-		expect( assessment._config.recommendedMinimum ).toBe( 250 );
-		expect( assessment._config.slightlyBelowMinimum ).toBe( 200 );
-		expect( assessment._config.belowMinimum ).toBe( 100 );
-		expect( assessment._config.veryFarBelowMinimum ).toBe( 50 );
+		expect( assessment._config.recommendedMinimum ).toBe( 30 );
+		expect( assessment._config.belowMinimum ).toBe( 10 );
+		expect( assessment._config.veryFarBelowMinimum ).toBe( 1 );
 		expect( assessment._config.customContentType ).toBe( "taxonomyAssessor" );
 	} );
 } );
