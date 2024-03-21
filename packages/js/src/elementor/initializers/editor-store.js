@@ -47,9 +47,6 @@ const populateStore = store => {
 		delete initialState.twitterEditor;
 	}
 
-	// Set initial value for focus keyphrase.
-	store.dispatch( actions.setFocusKeyword( get( window, "wpseoScriptData.metabox.metadata.focuskw", "" ) ) );
-
 	// Set initial value for primary terms.
 	const metadata = get( window, "wpseoScriptData.metabox.metadata", {} );
 	const primaryTerms = pickBy( metadata, ( value, key ) => key.startsWith( "primary_" ) && value );
