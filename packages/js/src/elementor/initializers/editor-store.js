@@ -14,10 +14,6 @@ import initialState from "../../redux/initialState";
  * @returns {void}
  */
 const populateStore = store => {
-	// Initialize the cornerstone content.
-	store.dispatch( actions.loadCornerstoneContent() );
-	// Initialize the focus keyphrase.
-	store.dispatch( actions.loadFocusKeyword() );
 	// Show marker buttons.
 	store.dispatch( actions.setMarkerStatus( window.wpseoScriptData.metabox.elementorMarkerStatus ) );
 

@@ -1,21 +1,7 @@
-import { get } from "lodash";
-
 const PREFIX = "WPSEO_";
 
 export const LOAD_FOCUS_KEYWORD = `${ PREFIX }LOAD_FOCUS_KEYWORD`;
 export const SET_FOCUS_KEYWORD = `${ PREFIX }SET_FOCUS_KEYWORD`;
-
-/**
- * Loads the focus keyphrase.
- *
- * @returns {object} The action object.
- */
-export const loadFocusKeyword = () => {
-	return {
-		type: LOAD_FOCUS_KEYWORD,
-		keyword: get( window, "wpseoScriptData.metabox.metadata.focuskw", "" ),
-	};
-};
 
 /**
  * An action creator for setting the focus keyword.

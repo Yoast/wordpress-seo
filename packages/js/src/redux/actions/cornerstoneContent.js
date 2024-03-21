@@ -1,22 +1,8 @@
-import { get } from "lodash";
-
 const PREFIX = "WPSEO_";
 
 export const LOAD_CORNERSTONE_CONTENT = `${ PREFIX }LOAD_CORNERSTONE_CONTENT`;
 export const TOGGLE_CORNERSTONE_CONTENT = `${ PREFIX }TOGGLE_CORNERSTONE_CONTENT`;
 export const SET_CORNERSTONE_CONTENT = `${ PREFIX }SET_CORNERSTONE_CONTENT`;
-
-/**
- * An action creator for loading the cornerstone content.
- *
- * @returns {Object} The load cornerstone content action.
- */
-export const loadCornerstoneContent = () => {
-	return {
-		type: SET_CORNERSTONE_CONTENT,
-		isCornerstone: get( window, "wpseoScriptData.metabox.metadata.is_cornerstone", "0" ) === "1",
-	};
-};
 
 /**
  * An action creator for setting the cornerstone content toggle.
