@@ -230,8 +230,9 @@ describe( "a test for the inclusive language assessor when run in Shopify", () =
 		const assessor = new InclusiveLanguageAssessor( researcher, options );
 		assessor._assessments.forEach( assessment => {
 			if ( assessment.isApplicable( mockPaper, researcher ) ) {
-				// eslint-disable-next-line max-len
-				expect( assessment.learnMoreUrl ).toEqual( `<a href='https://yoa.st/inclusive-language-${ assessment.category }-shopify' target='_blank'>` );
+				expect( assessment.learnMoreUrl ).toEqual(
+					`<a href='https://yoa.st/inclusive-language-${ assessment.category }-shopify' target='_blank'>`
+				);
 			}
 		} );
 	} );

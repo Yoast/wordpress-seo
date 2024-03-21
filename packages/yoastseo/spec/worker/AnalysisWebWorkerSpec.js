@@ -8,7 +8,7 @@ import { createShortlink } from "../../src/helpers/shortlinker";
 import Assessment from "../../src/scoring/assessments/assessment";
 import SEOAssessor from "../../src/scoring/seoAssessor";
 import contentAssessor from "../../src/scoring/contentAssessor";
-import { SEOScoreAggregator } from "../../src/parsedPaper/assess/scoreAggregators";
+import { SEOScoreAggregator } from "../../src/scoring/scoreAggregators";
 import { TreeResearcher } from "../../src/parsedPaper/research";
 import AssessmentResult from "../../src/values/AssessmentResult";
 import Paper from "../../src/values/Paper";

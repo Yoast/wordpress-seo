@@ -1,5 +1,5 @@
-import { languageProcessing } from "yoastseo";
-const { buildFormRule, createRulesFromArrays } = languageProcessing;
+import buildFormRule from "../../../helpers/morphology/buildFormRule";
+import createRulesFromArrays from "../../../helpers/morphology/createRulesFromArrays";
 
 /**
  * Checks if a word is complex.

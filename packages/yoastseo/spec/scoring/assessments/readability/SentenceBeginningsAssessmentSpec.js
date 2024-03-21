@@ -2,7 +2,7 @@ import DefaultResearcher from "../../../../src/languageProcessing/languages/_def
 import ItalianResearcher from "../../../../src/languageProcessing/languages/it/Researcher";
 import SentenceBeginningsAssessment from "../../../../src/scoring/assessments/readability/SentenceBeginningsAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 

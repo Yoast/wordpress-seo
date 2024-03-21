@@ -73,9 +73,7 @@ export default class SentenceBeginningsAssessment extends Assessment {
 					%3$d expands to the number of consecutive sentences starting with the same word,
 					%4$d expands to the number of instances where 3 or more consecutive sentences start with the same word. */
 					_n(
-						// eslint-disable-next-line max-len
 						"%1$sConsecutive sentences%2$s: The text contains %3$d consecutive sentences starting with the same word. %5$sTry to mix things up%2$s!",
-						// eslint-disable-next-line max-len
 						"%1$sConsecutive sentences%2$s: The text contains %4$d instances where %3$d or more consecutive sentences start with the same word. %5$sTry to mix things up%2$s!",
 						groupedSentenceBeginnings.total,
 						"wordpress-seo"

@@ -46,6 +46,7 @@ module.exports = {
 					"vendor_prefixed/wordproof",
 					"^@wordpress/(annotations|api|edit-post|sanitize)$",
 					"^jquery$",
+					"yoastseo",
 				],
 			},
 		],

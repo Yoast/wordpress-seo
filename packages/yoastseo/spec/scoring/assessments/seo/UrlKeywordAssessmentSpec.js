@@ -2,7 +2,7 @@ import { SlugKeywordAssessment, UrlKeywordAssessment } from "../../../../src/sco
 import Paper from "../../../../src/values/Paper.js";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
 
 const keywordCountInSlug = new SlugKeywordAssessment();
 

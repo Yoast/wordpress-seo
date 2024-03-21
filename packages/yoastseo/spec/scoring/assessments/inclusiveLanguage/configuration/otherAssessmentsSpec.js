@@ -2,7 +2,7 @@ import Paper from "../../../../../src/values/Paper";
 import EnglishResearcher from "../../../../../src/languageProcessing/languages/en/Researcher";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/otherAssessments";
-import Factory from "../../../../specHelpers/factory";
+import Factory from "../../../../../src/helpers/factory";
 import Mark from "../../../../../src/values/Mark";
 import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 

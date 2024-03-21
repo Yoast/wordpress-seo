@@ -1,6 +1,6 @@
 import ImageAltTagsAssessment from "../../../../src/scoring/assessments/seo/ImageAltTagsAssessment";
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
 
 const imageAltTagsAssessment = new ImageAltTagsAssessment();
 

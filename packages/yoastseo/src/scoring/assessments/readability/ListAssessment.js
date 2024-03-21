@@ -1,9 +1,10 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import { Assessment, AssessmentResult, helpers, languageProcessing } from "yoastseo";
-const { createAnchorOpeningTag } = helpers;
-const { helpers: languageProcessingHelpers } = languageProcessing;
+import Assessment from "../assessment";
+import AssessmentResult from "../../../values/AssessmentResult";
+import { createAnchorOpeningTag } from "../../../helpers";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 /**
  * Represents the assessment that will look if the text has a list (only applicable for product pages).
@@ -44,7 +45,7 @@ export default class ListAssessment extends Assessment {
 		const regex = /<[uo]l.*>[\s\S]*<\/[uo]l>/;
 		let text = paper.getText();
 
-		text = languageProcessingHelpers.removeHtmlBlocks( text );
+		text = removeHtmlBlocks( text );
 
 		return regex.test( text );
 	}

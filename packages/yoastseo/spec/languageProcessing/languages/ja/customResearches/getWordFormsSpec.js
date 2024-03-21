@@ -1,5 +1,5 @@
 import getWordForms from "../../../../../src/languageProcessing/languages/ja/customResearches/getWordForms";
-import { Paper } from "../../../../../index";
+import { Paper } from "../../../../../src";
 import Researcher from "../../../../../src/languageProcessing/languages/ja/Researcher";
 import getMorphologyData from "../../../../specHelpers/getMorphologyData";
 

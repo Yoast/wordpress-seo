@@ -2,7 +2,7 @@ import KeyphraseDistributionAssessment from "../../../../src/scoring/assessments
 import keyphraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 
 const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();

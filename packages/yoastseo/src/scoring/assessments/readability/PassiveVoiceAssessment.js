@@ -89,7 +89,6 @@ export default class PassiveVoiceAssessment extends Assessment {
 				/* translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
 				%3$s expands to the percentage of sentences in passive voice, %4$s expands to the recommended value. */
 				__(
-					// eslint-disable-next-line max-len
 					"%1$sPassive voice%2$s: %3$s of the sentences contain passive voice, which is more than the recommended maximum of %4$s. %5$sTry to use their active counterparts%2$s.",
 					"wordpress-seo"
 				),

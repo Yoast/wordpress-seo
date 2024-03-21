@@ -1,6 +1,6 @@
 import PageTitleLengthAssessment from "../../../../src/scoring/assessments/seo/PageTitleWidthAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
-import factory from "../../../specHelpers/factory.js";
+import factory from "../../../../src/helpers/factory.js";
 const pageTitleLengthAssessment = new PageTitleLengthAssessment();
 
 describe( "the SEO title length assessment", function() {

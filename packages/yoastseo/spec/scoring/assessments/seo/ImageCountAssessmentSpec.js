@@ -1,6 +1,6 @@
 import ImageCountAssessment from "../../../../src/scoring/assessments/seo/ImageCountAssessment";
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
 
 const imageCountAssessment = new ImageCountAssessment();
 

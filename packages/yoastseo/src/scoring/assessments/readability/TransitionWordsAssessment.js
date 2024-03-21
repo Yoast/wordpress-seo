@@ -113,7 +113,6 @@ export default class TransitionWordsAssessment extends Assessment {
 					/* translators: %1$s and %4$s expand to a link to yoast.com, %2$s expands to the anchor end tag,
 					%3$s expands to the percentage of sentences containing transition words */
 					__(
-						// eslint-disable-next-line max-len
 						"%1$sTransition words%2$s: Only %3$s of the sentences contain transition words, which is not enough. %4$sUse more of them%2$s.",
 						"wordpress-seo"
 					),

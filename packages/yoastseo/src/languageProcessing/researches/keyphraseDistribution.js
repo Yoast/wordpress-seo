@@ -1,7 +1,11 @@
 import { flattenDeep, max, uniq as unique, zipWith } from "lodash-es";
-import { languageProcessing } from "yoastseo";
-
-const { parseSynonyms, getSentences, mergeListItems, findWordFormsInString, markWordsInSentences, helpers } = languageProcessing;
+import { findWordFormsInString } from "../helpers/match/findKeywordFormsInString";
+import { markWordsInSentences } from "../helpers/word/markWordsInSentences";
+import getSentences from "../helpers/sentence/getSentences";
+import parseSynonyms from "../helpers/sanitize/parseSynonyms";
+import { mergeListItems } from "../helpers/sanitize/mergeListItems";
+import removeHtmlBlocks from "../helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../helpers/sanitize/filterShortcodesFromTree";
 
 /**
  * Checks whether at least half of the content words from the topic are found within the sentence.
@@ -203,8 +207,8 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const topicLengthCriteria = researcher.getConfig( "topicLength" ).lengthCriteria;
 
 	let text = paper.getText();
-	text = helpers.removeHtmlBlocks( text );
-	text = helpers.filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
+	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	text = mergeListItems( text );
 	const sentences = getSentences( text, memoizedTokenizer );
 	const topicForms = researcher.getResearch( "morphology" );

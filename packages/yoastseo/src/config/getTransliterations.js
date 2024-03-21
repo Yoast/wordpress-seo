@@ -1,8 +1,7 @@
 import getLanguage from "../languageProcessing/helpers/language/getLanguage.js";
 import { isUndefined } from "lodash-es";
 
-const transliterations = {
-
+export const transliterations = {
 	// Language: Spanish.
 	// Source: https://en.wikipedia.org/wiki/Spanish_orthography
 	es: [
@@ -236,7 +235,7 @@ const transliterations = {
 	// Source:  Machine Readable Travel Documents, Doc 9303, Part 1, Volume 1 (PDF) (Sixth ed.).
 	// ICAO. 2006. p. IV-50—IV-52. http://www.icao.int/publications/Documents/9303_p3_cons_en.pdf
 	// ‘ь’ is the so-called soft sign, indicating a sound change (palatalization) of the preceding consonant.
-	// In text it is transliterated to a character similar to an apostroph: ′.
+	// In a text, it is transliterated to a character similar to an apostrophe: ′.
 	// I recommend omittance in slugs. (https://en.wikipedia.org/wiki/Romanization_of_Russian)
 	ru: [
 		{ letter: /[\u0430]/g, alternative: "a" },
@@ -473,8 +472,8 @@ const transliterations = {
 	],
 	// Language: Ukrainian.
 	// Source: Resolution no. 55 of the Cabinet of Ministers of Ukraine, January 27, 2010 http://zakon2.rada.gov.ua/laws/show/55-2010-%D0%BF
-	// ‘ь’ is the so-called soft sign, indicating a sound change (palatalization) of the preceding consonant. In text it is sometimes transliterated
-	// To a character similar to an apostroph: ′. Omittance is recommended in slugs (https://en.wikipedia.org/wiki/Romanization_of_Ukrainian).
+	// ‘ь’ is the so-called soft sign, indicating a sound change (palatalization) of the preceding consonant. In a text, it is sometimes transliterated
+	// To a character similar to an apostrophe: ′. Omittance is recommended in slugs (https://en.wikipedia.org/wiki/Romanization_of_Ukrainian).
 	uk: [
 		{ letter: /[\u0431]/g, alternative: "b" },
 		{ letter: /[\u0411]/g, alternative: "B" },
@@ -1426,165 +1425,23 @@ const transliterations = {
 };
 
 /**
- * The function returning an array containing transliteration objects, based on the given locale.
+ * Returns an array containing transliteration objects, based on the given locale.
  *
  * @param {string} locale The locale.
- * @returns {Array} An array containing transliteration objects.
+ *
+ * @returns {Object[]} An array containing transliteration objects.
  */
 export default function( locale ) {
 	if ( isUndefined( locale ) ) {
 		return [];
 	}
-	switch ( getLanguage( locale ) ) {
-		case "es":
-			return transliterations.es;
-		case "pl":
-			return transliterations.pl;
-		case "de":
-			return transliterations.de;
-		case "nb":
-		case "nn":
-			return transliterations.nbnn;
-		case "sv":
-			return transliterations.sv;
-		case "fi":
-			return transliterations.fi;
-		case "da":
-			return transliterations.da;
-		case "tr":
-			return transliterations.tr;
-		case "lv":
-			return transliterations.lv;
-		case "is":
-			return transliterations.is;
-		case "fa":
-			return transliterations.fa;
-		case "cs":
-			return transliterations.cs;
-		case "ru":
-			return transliterations.ru;
-		case "eo":
-			return transliterations.eo;
-		case "af":
-			return transliterations.af;
-		case "bal":
-		case "ca":
-			return transliterations.ca;
-		case "ast":
-			return transliterations.ast;
-		case "an":
-			return transliterations.an;
-		case "ay":
-			return transliterations.ay;
-		case "en":
-			return transliterations.en;
-		case "fr":
-			return transliterations.fr;
-		case "it":
-			return transliterations.it;
-		case "nl":
-			return transliterations.nl;
-		case "bm":
-			return transliterations.bm;
-		case "uk":
-			return transliterations.uk;
-		case "br":
-			return transliterations.br;
-		case "ch":
-			return transliterations.ch;
-		case "csb":
-			return transliterations.csb;
-		case "cy":
-			return transliterations.cy;
-		case "ee":
-			return transliterations.ee;
-		case "et":
-			return transliterations.et;
-		case "eu":
-			return transliterations.eu;
-		case "fuc":
-			return transliterations.fuc;
-		case "fj":
-			return transliterations.fj;
-		case "frp":
-			return transliterations.frp;
-		case "fur":
-			return transliterations.fur;
-		case "fy":
-			return transliterations.fy;
-		case "ga":
-			return transliterations.ga;
-		case "gd":
-			return transliterations.gd;
-		case "gl":
-			return transliterations.gl;
-		case "gn":
-			return transliterations.gn;
-		case "gsw":
-			return transliterations.gsw;
-		case "hat":
-			return transliterations.hat;
-		case "haw":
-			return transliterations.haw;
-		case "hr":
-			return transliterations.hr;
-		case "ka":
-			return transliterations.ka;
-		case "kal":
-			return transliterations.kal;
-		case "kin":
-			return transliterations.kin;
-		case "lb":
-			return transliterations.lb;
-		case "li":
-			return transliterations.li;
-		case "lin":
-			return transliterations.lin;
-		case "lt":
-			return transliterations.lt;
-		case "mg":
-			return transliterations.mg;
-		case "mk":
-			return transliterations.mk;
-		case "mri":
-			return transliterations.mri;
-		case "mwl":
-			return transliterations.mwl;
-		case "oci":
-			return transliterations.oci;
-		case "orm":
-			return transliterations.orm;
-		case "pt":
-			return transliterations.pt;
-		case "roh":
-			return transliterations.roh;
-		case "rup":
-			return transliterations.rup;
-		case "ro":
-			return transliterations.ro;
-		case "tlh":
-			return transliterations.tlh;
-		case "sk":
-			return transliterations.sk;
-		case "sl":
-			return transliterations.sl;
-		case "sq":
-			return transliterations.sq;
-		case "hu":
-			return transliterations.hu;
-		case "srd":
-			return transliterations.srd;
-		case "szl":
-			return transliterations.szl;
-		case "tah":
-			return transliterations.tah;
-		case "vec":
-			return transliterations.vec;
-		case "wa":
-			return transliterations.wa;
-		case "yor":
-			return transliterations.yor;
-		default:
-			return [];
+	const language = getLanguage( locale );
+
+	if ( language === "nb" || language === "nn" ) {
+		return transliterations.nbnn;
 	}
+	if ( language === "bal" || language === "ca" ) {
+		return transliterations.ca;
+	}
+	return transliterations[ language ] || [];
 }

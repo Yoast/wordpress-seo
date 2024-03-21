@@ -104,7 +104,6 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 			/* translators: %1$s and %2$s expand to an admin link where the keyword is already used. %3$s and %4$s
 			expand to links on yoast.com, %4$s expands to the anchor end tag. */
 			text: sprintf( __(
-				// eslint-disable-next-line max-len
 				"%3$sPreviously used keyphrase%5$s: You've used this keyphrase %1$sonce before%2$s. %4$sDo not use your keyphrase more than once%5$s.",
 				"wordpress-seo"
 			),
@@ -120,7 +119,6 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 
 	if ( count > 1 ) {
 		if ( postTypeToDisplay ) {
-			// eslint-disable-next-line max-len
 			url = `<a href='${this.searchUrl.replace( "{keyword}", encodeURIComponent( paper.getKeyword() ) )}&post_type=${postTypeToDisplay}' target='_blank'>`;
 		} else {
 			url = `<a href='${this.searchUrl.replace( "{keyword}", encodeURIComponent( paper.getKeyword() ) )}' target='_blank'>`;
@@ -131,7 +129,6 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 			of times this keyword has been used before, %4$s and %5$s expand to links to yoast.com, %6$s expands to
 			the anchor end tag */
 			text: sprintf( __(
-				// eslint-disable-next-line max-len
 				"%4$sPreviously used keyphrase%6$s: You've used this keyphrase %1$s multiple times before%3$s. %5$sDo not use your keyphrase more than once%6$s.",
 				"wordpress-seo"
 			),

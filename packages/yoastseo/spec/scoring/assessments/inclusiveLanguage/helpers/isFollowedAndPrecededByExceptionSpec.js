@@ -1,5 +1,7 @@
-// eslint-disable-next-line max-len
-import { isFollowedAndPrecededByException, isNotFollowedAndPrecededByException } from "../../../../../src/scoring/assessments/inclusiveLanguage/helpers/isFollowedAndPrecededByException";
+import {
+	isFollowedAndPrecededByException,
+	isNotFollowedAndPrecededByException,
+} from "../../../../../src/scoring/assessments/inclusiveLanguage/helpers/isFollowedAndPrecededByException";
 
 describe( "Test isFollowedAndPrecededByException", () => {
 	it( "returns true when a term is both followed and preceded by an exception", () => {

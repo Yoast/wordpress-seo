@@ -1,11 +1,12 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import { languageProcessing, AssessmentResult, Assessment, helpers } from "yoastseo";
+import Assessment from "../assessment";
+import AssessmentResult from "../../../values/AssessmentResult";
+import { createAnchorOpeningTag } from "../../../helpers";
+import getSentences from "../../../languageProcessing/helpers/sentence/getSentences";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
-
-const { getSentences, helpers: languageProcessingHelpers } = languageProcessing;
-const { createAnchorOpeningTag } = helpers;
 
 /**
  * Represents an assessment that returns a score based on the largest percentage of text in which no keyword occurs.
@@ -93,7 +94,6 @@ class KeyphraseDistributionAssessment extends Assessment {
 					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
 					__(
-						// eslint-disable-next-line max-len
 						"%1$sKeyphrase distribution%3$s: %2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s.",
 						"wordpress-seo-premium"
 					),
@@ -112,7 +112,6 @@ class KeyphraseDistributionAssessment extends Assessment {
 					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
 					__(
-						// eslint-disable-next-line max-len
 						"%1$sKeyphrase distribution%3$s: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
 						"wordpress-seo-premium"
 					),
@@ -133,7 +132,6 @@ class KeyphraseDistributionAssessment extends Assessment {
 					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
 					__(
-						// eslint-disable-next-line max-len
 						"%1$sKeyphrase distribution%3$s: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
 						"wordpress-seo-premium"
 					),
@@ -181,7 +179,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 	isApplicable( paper, researcher ) {
 		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 		let text = paper.getText();
-		text = languageProcessingHelpers.removeHtmlBlocks( text );
+		text = removeHtmlBlocks( text );
 		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 		const sentences = getSentences( text, memoizedTokenizer );
 

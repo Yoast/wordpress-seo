@@ -49,22 +49,10 @@ overrides:
     rules:
       import/no-unresolved: [ "error", { ignore: [ "^@yoast/(components|replacement-variable-editor|social-metadata-forms|style-guide)" ] } ]
   - files:
-      - "packages/yoastseo/**/*.js"
-    settings:
-      import/core-modules: [ "yoastseo" ]
-    rules:
-      complexity: 1
-      # Longer grace period for Yoast config.
-      no-shadow: [ 1, { "builtinGlobals": false, "hoist": "all", "allow": [ ] } ]
-      require-jsdoc: [ 1, { "require": { "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } } ]
-      no-useless-escape: 1
-      import/no-named-as-default: 0
-      import/no-unresolved: [ "error", { ignore: [ "premium-configuration/data/morphologyData", "@yoast/feature-flag" ] } ]
-  - files:
       - "packages/yoast-components/**/*.js"
     rules:
       complexity: [ 1, 6 ]
-      // A wrapping label is not necessary when there already is an htmlFor attribute.
+      # A wrapping label is not necessary when there already is an htmlFor attribute.
       jsx-a11y/label-has-for: [ "error", { required: "id" } ]
       require-jsdoc: 1
       react/button-has-type: 1

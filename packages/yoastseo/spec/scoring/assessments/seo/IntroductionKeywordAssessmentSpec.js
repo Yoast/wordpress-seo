@@ -1,7 +1,7 @@
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
-import Factory from "../../../specHelpers/factory";
+import Factory from "../../../../src/helpers/factory";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import buildTree from "../../../specHelpers/parse/buildTree";
 

@@ -1,7 +1,7 @@
 import InclusiveLanguageAssessment
 	from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import Paper from "../../../../../src/values/Paper";
-import Factory from "../../../../specHelpers/factory";
+import Factory from "../../../../../src/helpers/factory";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration";
 
 /**

@@ -1,6 +1,6 @@
 import FunctionWordsInKeyphraseAssessment from "../../../../src/scoring/assessments/seo/FunctionWordsInKeyphraseAssessment";
 import Paper from "../../../../src/values/Paper";
-import Factory from "../../../specHelpers/factory";
+import Factory from "../../../../src/helpers/factory";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 
@@ -8,7 +8,7 @@ describe( "An assessment for checking if the keyphrase contains function words o
 	it( "returns a consideration feedback if there are only function words in the keyphrase", function() {
 		const assessment = new FunctionWordsInKeyphraseAssessment().getResult(
 			new Paper( "", { keyword: "someone was here" } ),
-			Factory.buildMockResearcher( true ),
+			Factory.buildMockResearcher( true )
 		);
 		expect( assessment.getScore() ).toBe( 0 );
 		expect( assessment.getText() ).toBe(

@@ -251,7 +251,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 							 * %5$s expands to the word 'words' or 'characters'.
 							 */
 							__(
-								// eslint-disable-next-line max-len
 								"%1$sSubheading distribution%2$s: The beginning of your text is longer than %4$s %5$s and is not separated by any subheadings. %3$sAdd subheadings to improve readability.%2$s",
 								"wordpress-seo"
 							),
@@ -277,7 +276,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 							 * %5$s expands to the word 'words' or 'characters'.
 							 */
 							__(
-								// eslint-disable-next-line max-len
 								"%1$sSubheading distribution%2$s: The beginning of your text is longer than %4$s %5$s and is not separated by any subheadings. %3$sAdd subheadings to improve readability.%2$s",
 								"wordpress-seo"
 							),
@@ -318,9 +316,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 							not separated by subheadings, %4$d expands to the recommended number of words or characters following a
 							subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag. */
 							_n(
-								// eslint-disable-next-line max-len
 								"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d %6$s and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
-								// eslint-disable-next-line max-len
 								"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d %6$s and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 								this._tooLongTextsNumber,
 								"wordpress-seo"
@@ -344,9 +340,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 						not separated by subheadings, %4$d expands to the recommended number of words or characters following a
 						subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag. */
 						_n(
-							// eslint-disable-next-line max-len
 							"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d %6$s and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
-							// eslint-disable-next-line max-len
 							"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d %6$s and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 							this._tooLongTextsNumber,
 							"wordpress-seo"
@@ -367,7 +361,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 				resultText: sprintf(
 					/* translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 					__(
-						// eslint-disable-next-line max-len
 						"%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long. %3$sTry and add some subheadings%2$s.",
 						"wordpress-seo"
 					),
@@ -400,7 +393,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 			resultText: sprintf(
 				/* translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 				__(
-					// eslint-disable-next-line max-len
 					"%1$sSubheading distribution%2$s: You are not using any subheadings, but your text is short enough and probably doesn't need them.",
 					"wordpress-seo"
 				),

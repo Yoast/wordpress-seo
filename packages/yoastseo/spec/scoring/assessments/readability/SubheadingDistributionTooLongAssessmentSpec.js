@@ -1,7 +1,7 @@
 /* eslint-disable capitalized-comments, spaced-comment */
 import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import CornerStoneContentAssessor from "../../../../src/scoring/cornerstone/contentAssessor";
 import ProductCornerstoneContentAssessor from "../../../../src/scoring/productPages/cornerstone/contentAssessor";

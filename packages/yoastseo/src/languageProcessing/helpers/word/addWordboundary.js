@@ -1,6 +1,3 @@
-/** @module stringProcessing/addWordboundary */
-/* eslint-disable no-useless-escape */
-
 /**
  * Returns a string that can be used in a regex to match a matchString with word boundaries.
  *
@@ -16,7 +13,7 @@ export default function( matchString, positiveLookAhead = false, extraWordBounda
 	let wordBoundary, wordBoundaryEnd;
 
 	if ( locale === "id_ID" ) {
-		wordBoundary = "[ \\u00a0\\n\\r\\t\.,\(\)”“〝〞〟‟„\"\+;!¡\?¿:\/»«‹›" + extraWordBoundary + "<>";
+		wordBoundary = "[ \\u00a0\\n\\r\\t.,()”“〝〞〟‟„\"+;!¡?¿:/»«‹›" + extraWordBoundary + "<>";
 	} else {
 		/*
 		 * \u00a0 - no-break space
@@ -26,7 +23,7 @@ export default function( matchString, positiveLookAhead = false, extraWordBounda
          * \u060C - Arabic comma
          * \u061B - Arabic semicolon
          */
-		wordBoundary = "[ \\u00a0\\u2014\\u06d4\\u061f\\u060C\\u061B\\n\\r\\t\.,\(\)”“〝〞〟‟„\"\+\\-;!¡\?¿:\/»«‹›" + extraWordBoundary + "<>";
+		wordBoundary = "[ \\u00a0\\u2014\\u06d4\\u061f\\u060C\\u061B\\n\\r\\t.,()”“〝〞〟‟„\"+\\-;!¡?¿:/»«‹›" + extraWordBoundary + "<>";
 	}
 
 	const wordBoundaryStart = "(^|" + wordBoundary + "'‘’‛`])";

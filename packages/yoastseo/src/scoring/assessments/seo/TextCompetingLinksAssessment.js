@@ -86,7 +86,6 @@ class TextCompetingLinksAssessment extends Assessment {
 				resultText: sprintf(
 					/* translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
-						// eslint-disable-next-line max-len
 						"%1$sLink keyphrase%3$s: You're linking to another page with the words you want this page to rank for. %2$sDon't do that%3$s!",
 						"wordpress-seo"
 					),

@@ -3,7 +3,7 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import TransitionWordsAssessment from "../../../../src/scoring/assessments/readability/TransitionWordsAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 
 const shortTextJapanese = "熱".repeat( 399 );

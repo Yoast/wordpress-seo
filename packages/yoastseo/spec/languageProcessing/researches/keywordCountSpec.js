@@ -1,6 +1,6 @@
 import getKeyphraseCount from "../../../src/languageProcessing/researches/keywordCount";
 import Paper from "../../../src/values/Paper.js";
-import factory from "../../specHelpers/factory";
+import factory from "../../../src/helpers/factory";
 import Mark from "../../../src/values/Mark";
 import wordsCountHelper from "../../../src/languageProcessing/languages/ja/helpers/wordsCharacterCount";
 import matchWordsHelper from "../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";

@@ -1,5 +1,7 @@
-// eslint-disable-next-line max-len
-import { isParticiple, isFollowedByParticiple } from "../../../../../src/scoring/assessments/inclusiveLanguage/helpers/isFollowedByParticiple";
+import {
+	isParticiple,
+	isFollowedByParticiple,
+} from "../../../../../src/scoring/assessments/inclusiveLanguage/helpers/isFollowedByParticiple";
 
 describe( "test the isParticiple function", () => {
 	it( "returns true if a word is a regular participle", () => {
