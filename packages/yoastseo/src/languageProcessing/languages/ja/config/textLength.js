@@ -15,10 +15,9 @@ export default {
 		},
 	},
 	taxonomyAssessor: {
-		recommendedMinimum: 500,
-		slightlyBelowMinimum: 400,
-		belowMinimum: 200,
-		veryFarBelowMinimum: 100,
+		recommendedMinimum: 60,
+		belowMinimum: 20,
+		veryFarBelowMinimum: 1,
 	},
 	productSEOAssessor: {
 		recommendedMinimum: 400,
