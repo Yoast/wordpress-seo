@@ -44,20 +44,15 @@ class Image_Helper {
 	/**
 	 * Retrieves an image url by its id.
 	 *
-	 * @param int $attachment_id The image id.
+	 * @param int $image_id The image id.
 	 *
-	 * @return string The image url. false if the attachment is not valid.
+	 * @return string The image url. Empty string if the attachment is not valid.
 	 */
-	public function get_by_id( $attachment_id ) {
-		if ( ! $this->image->is_valid_attachment( $attachment_id ) ) {
+	public function get_by_id( $image_id ) {
+		if ( ! $this->image->is_valid_attachment( $image_id ) ) {
 			return '';
 		}
 
-		$override_image_size = $this->get_image_size();
-		if ( $override_image_size ) {
-			return $this->image->get_image( $attachment_id, $override_image_size );
-		}
-
-		return $this->image->get_best_attachment_variation( $attachment_id );
+		return $this->image->get_attachment_image_source( $image_id, $this->get_image_size() );
 	}
 }
