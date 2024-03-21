@@ -63,6 +63,16 @@ describe( "A TextLengthAssessment for a taxonomy page: English", function() {
 	beforeEach( () => {
 		assessment = getTextLengthAssessment();
 	} );
+	it( "should use custom configuration for taxonomy pages", function() {
+		const paper = new Paper( "Get all of our latest global human rights news, blogs and analysis, updated daily.\n" );
+		const englishResearcher = new EnglishResearcher( paper );
+		// Running getResult will apply language-specific configuration.
+		assessment.getResult( paper, englishResearcher );
+
+		expect( assessment._config.recommendedMinimum ).toEqual( 30 );
+		expect( assessment._config.belowMinimum ).toEqual( 10 );
+		expect( assessment._config.veryFarBelowMinimum ).toEqual( 1 );
+	} );
 	it( "should return a good result for taxonomy pages in English when the text is more than 30 words", function() {
 		const paper = new Paper( "You know what they say: It's always Happy Hour somewhere. " +
 			"Whether you're perfecting your favorite at-home cocktail, enjoying brunch with friends, " +
