@@ -151,7 +151,7 @@ describe( validatesBytes, () => {
 
 		const actual = validatesBytes( testImage );
 
-		const expected = "The file size of the uploaded image is too large for Twitter. File size must be less than 5MB.";
+		const expected = "The file size of the uploaded image is too large for X. File size must be less than 5MB.";
 
 		expect( actual ).toEqual( expected );
 	} );
