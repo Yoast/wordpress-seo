@@ -30,7 +30,7 @@ export default function PostPublish( { permalink } ) {
 				</a>
 			</li>
 			<li>
-				<a href={ "https://twitter.com/share?url=" + encodedUrl } target="_blank" rel="noopener noreferrer" class="x-share">
+				<a href={ "https://twitter.com/share?url=" + encodedUrl } target="_blank" rel="noopener noreferrer" className="x-share">
 					<TwitterIcon />
 					{ __( "X", "wordpress-seo" ) }
 					<span className="screen-reader-text">
