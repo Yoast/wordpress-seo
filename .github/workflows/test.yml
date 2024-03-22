@@ -106,7 +106,7 @@ jobs:
           # Force a `composer update` run.
           dependency-versions: "highest"
           # But make it selective.
-          composer-options: "yoast/wp-test-utils --with-dependencies --no-scripts"
+          composer-options: "yoast/wp-test-utils mockery/mockery --with-dependencies --no-scripts"
           # Bust the cache at least once a week - output format: YYYY-MM-DD.
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
 
@@ -230,7 +230,7 @@ jobs:
           # Force a `composer update` run.
           dependency-versions: "highest"
           # But make it selective.
-          composer-options: "yoast/wp-test-utils --with-dependencies --no-scripts"
+          composer-options: "yoast/wp-test-utils mockery/mockery --with-dependencies --no-scripts"
           # Bust the cache at least once a week - output format: YYYY-MM-DD.
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
 

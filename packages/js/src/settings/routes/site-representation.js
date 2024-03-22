@@ -463,7 +463,7 @@ const SiteRepresentation = () => {
 										as={ TextField }
 										name="wpseo_titles.org-leicode"
 										id="input-wpseo_titles-org-leicode"
-										label={ __( "leiCode", "wordpress-seo" ) }
+										label={ __( "LEI code", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
 									<FormikWithErrorFieldWithDummy
