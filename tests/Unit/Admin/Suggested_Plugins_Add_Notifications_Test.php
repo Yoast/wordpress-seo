@@ -18,6 +18,9 @@ final class Suggested_Plugins_Add_Notifications_Test extends Suggested_Plugins_T
 	 * Tests the adding of notifications.
 	 *
 	 * @covers WPSEO_Suggested_Plugins::add_notifications
+	 * @covers WPSEO_Suggested_Plugins::get_yoast_seo_suggested_plugins_notification
+	 * @covers WPSEO_Suggested_Plugins::create_install_suggested_plugin_message
+	 * @covers WPSEO_Suggested_Plugins::create_more_information_link
 	 * @dataProvider data_add_notifications
 	 *
 	 * @param array<string, array<string, string|bool|array<string, Conditional>>> $plugins_with_dependencies The data of plugins with dependencies.
