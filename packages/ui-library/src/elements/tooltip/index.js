@@ -15,34 +15,29 @@ const positionClassNameMap = {
  * @param {string|JSX.Element} [as] Base component.
  * @param {string} [className] CSS class.
  * @param {string} [position] Position of the tooltip.
- * @param {boolean} isVisible Default state.
  * @returns {JSX.Element} Tooltip component.
  */
 
-const Tooltip = forwardRef( ( { id, children, as: Component, className, isVisible, position, ...props }, ref ) => {
+const Tooltip = forwardRef( ( { id, children, as: Component, className, position, ...props }, ref ) => {
 	return (
-		<>
-			{ isVisible && (
-				<Component
-					ref={ ref }
-					className={ classNames( "yst-tooltip",
-						positionClassNameMap[ position ],
-						className,
-					) }
-					role="tooltip"
-					id={ id }
-					{ ...props }
-				>
-					{ children || null }
-				</Component>
+		<Component
+			ref={ ref }
+			className={ classNames( "yst-tooltip",
+				positionClassNameMap[ position ],
+				className,
 			) }
-		</>
+			role="tooltip"
+			id={ id }
+			{ ...props }
+		>
+			{ children || null }
+		</Component>
 	);
 } );
 
 const propTypes = {
 	as: PropTypes.elementType,
-	id: PropTypes.string.isRequired,
+	id: PropTypes.string,
 	children: PropTypes.string,
 	className: PropTypes.string,
 	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ),
