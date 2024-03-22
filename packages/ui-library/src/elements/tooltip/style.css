@@ -11,6 +11,7 @@
 			yst-text-white
 			yst-text-xs
 			yst-rounded-lg;
+			white-space: normal; /* Wrap the text in the tooltip */
 			width: max-content;
 			max-width: 448px; /* Set the maximum width of the tooltip. The value in pixels is equivalent to the maw-w-md class*/
 		}
