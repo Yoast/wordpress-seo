@@ -70,7 +70,7 @@ const SocialUpsell = ( props ) => {
 };
 
 SocialUpsell.propTypes = {
-	socialMediumName: PropTypes.oneOf( [ "Social", "Twitter" ] ).isRequired,
+	socialMediumName: PropTypes.oneOf( [ "Social", "Twitter", "X" ] ).isRequired,
 };
 
 export default SocialUpsell;
