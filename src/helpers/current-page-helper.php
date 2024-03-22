@@ -129,17 +129,9 @@ class Current_Page_Helper {
 	public function get_term_id() {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
-		if ( $wp_query->is_category() ) {
-			return $wp_query->get( 'cat' );
-		}
-		if ( $wp_query->is_tag() ) {
-			return $wp_query->get( 'tag_id' );
-		}
-		if ( $wp_query->is_tax() ) {
-			$queried_object = $wp_query->get_queried_object();
-			if ( $queried_object && ! \is_wp_error( $queried_object ) ) {
-				return $queried_object->term_id;
-			}
+		$queried_object = $wp_query->get_queried_object();
+		if ( $queried_object && ! \is_wp_error( $queried_object ) ) {
+			return $queried_object->term_id;
 		}
 
 		return 0;
