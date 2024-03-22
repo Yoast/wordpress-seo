@@ -24,8 +24,8 @@ const SocialUpsell = ( props ) => {
 		"data-ctb-id": "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 	};
 
-	const labelText = props.socialMediumName === "Twitter"
-		? __( "Twitter share preview", "wordpress-seo" )
+	const labelText = props.socialMediumName === "X"
+		? __( "X share preview", "wordpress-seo" )
 		: __( "Social share preview", "wordpress-seo" );
 
 	const { locationContext } = useRootContext();
