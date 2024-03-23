@@ -1,24 +1,27 @@
 import { useArgs } from "@storybook/preview-api";
-import { map, noop } from "lodash";
+import { find, map, noop } from "lodash";
 import React, { useCallback } from "react";
 import SelectField from ".";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { VALIDATION_VARIANTS } from "../../constants";
 import { Badge } from "../../index";
 
-const options = [
-	{ value: "1", label: "Option 1" },
-	{ value: "2", label: "Option 2" },
-	{ value: "3", label: "Option 3" },
-	{ value: "4", label: "Option 4" },
-];
-
 const Template = ( args ) => {
-	const [ { value }, updateArgs ] = useArgs();
-	const handleChange = useCallback( newValue => updateArgs( { value: newValue } ), [ updateArgs ] );
+	const [ , updateArgs ] = useArgs();
+	const handleChange = useCallback( value => {
+		const newArgs = { value };
+		if ( args.children ) {
+			// If children are used, update the selected label.
+			newArgs.selectedLabel = find( args.children, [ "props.value", value ] )?.props?.label || "";
+		}
+		updateArgs( newArgs );
+	}, [ updateArgs, args.options, args.children ] );
 
 	return (
-		<SelectField { ...args } value={ value || "" } onChange={ handleChange } />
+		<SelectField
+			{ ...args }
+			onChange={ handleChange }
+		/>
 	);
 };
 
@@ -30,8 +33,13 @@ export const Factory = {
 	args: {
 		id: "select-field-0",
 		name: "name-0",
+		options: [
+			{ value: "1", label: "Option 1" },
+			{ value: "2", label: "Option 2" },
+			{ value: "3", label: "Option 3" },
+			{ value: "4", label: "Option 4" },
+		],
 		value: "1",
-		children: options.map( option => <SelectField.Option key={ option.value } { ...option } /> ),
 		label: "A select field",
 	},
 };
@@ -45,10 +53,10 @@ export const WithLabelAndDescription = {
 	args: {
 		id: "select-field-1",
 		name: "name-1",
-		value: "3",
+		options: Factory.args.options,
+		value: Factory.args.options[ 2 ].value,
 		label: "Select field with a label",
 		description: "Select field with a description.",
-		children: options.map( option => <SelectField.Option key={ option.value } { ...option } /> ),
 	},
 };
 
@@ -61,9 +69,13 @@ export const WithError = {
 	args: {
 		id: "select-field-2",
 		name: "name-2",
-		value: "2",
+		options: Factory.args.options,
+		value: Factory.args.options[ 1 ].value,
 		label: "Select field with a label",
-		error: "Select field with an error.",
+		validation: {
+			variant: "error",
+			message: "Select field with an error.",
+		},
 	},
 };
 
@@ -76,7 +88,8 @@ export const WithLabelSuffix = {
 	args: {
 		id: "select-field-3",
 		name: "name-3",
-		value: "3",
+		options: Factory.args.options,
+		value: Factory.args.options[ 2 ].value,
 		label: "Select field with a label suffix",
 		labelSuffix: <Badge className="yst-ml-1.5" size="small">Beta</Badge>,
 	},
@@ -92,47 +105,44 @@ export const OptionsProp = {
 	args: {
 		id: "select-field-4",
 		name: "name-4",
-		value: "3",
+		options: Factory.args.options,
+		value: Factory.args.options[ 2 ].value,
 		label: "Select field with a options as array",
 	},
 };
 
-export const SelectFieldOption = {
+export const ChildrenProp = {
 	render: Template.bind( {} ),
-	name: "Select field option",
+	name: "Children prop",
 	parameters: {
 		controls: { disable: false },
 		docs: {
 			description: {
-				story: "Add options as an array of React components with `children` prop, using the exposed option component `SelectField.Option`. In this case changing the `selectedLabel` should be done manually in the handleChange function.",
+				story: "Add options as an array of React components with `children` prop, using the exposed option component `SelectField.Option`. In this case changing the `selectedLabel` should be updated in the handleChange function. See the value updating in the code.",
 			},
 		},
 	},
 	args: {
 		id: "select-field-5",
 		name: "name-5",
-		value: "3",
+		children: Factory.args.options.map( option => <SelectField.Option key={ option.value } { ...option } /> ),
+		value: Factory.args.options[ 2 ].value,
+		selectedLabel: Factory.args.options[ 2 ].label,
 		label: "Select field with options as exposed React components",
-		children: options.map( option => <SelectField.Option key={ option.value } { ...option } /> ),
 	},
 };
 
 export const Validation = () => (
 	<div className="yst-space-y-8">
-		{ map( VALIDATION_VARIANTS, variant => (
+		{ map( VALIDATION_VARIANTS, ( variant ) => (
 			<SelectField
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }
+				options={ Factory.args.options }
+				value={ Factory.args.options[ 0 ].value }
 				label={ `With validation of variant ${ variant }` }
-				value="The quick brown fox jumps over the lazy dog"
 				onChange={ noop }
-				options={ [
-					{ value: "1", label: "Option 1" },
-					{ value: "2", label: "Option 2" },
-					{ value: "3", label: "Option 3" },
-					{ value: "4", label: "Option 4" },
-				] }
 				validation={ {
 					variant,
 					message: {
@@ -155,9 +165,6 @@ export default {
 		children: { description: "Alternative to options.", control: "text" },
 		labelSuffix: { control: "text" },
 	},
-	args: {
-		options,
-	},
 	parameters: {
 		docs: {
 			description: {
@@ -165,15 +172,15 @@ export default {
 			},
 			page: () => (
 				<InteractiveDocsPage
-					stories={ [ WithLabelAndDescription, WithError, WithLabelSuffix, OptionsProp, SelectFieldOption, Validation ] }
+					stories={ [ WithLabelAndDescription, WithError, WithLabelSuffix, OptionsProp, ChildrenProp, Validation ] }
 				/>
 			),
 		},
 	},
 	decorators: [
 		( Story ) => (
-			// Min height to make room for options dropdown.
-			<div style={ { minHeight: 200 } }>
+			// Make room for options dropdown, preventing the scrollbar.
+			<div className="yst-pb-32">
 				<Story />
 			</div>
 		),

@@ -7,19 +7,19 @@ import { VALIDATION_VARIANTS } from "../validation/constants";
 import { childrenProp, component, optionsProp, validation } from "./docs";
 
 const Template = ( args ) => {
-	const [ { value, query }, updateArgs ] = useArgs();
-	const selectedOption = useMemo( () => {
-		return args?.options
-			? find( args.options, [ "value", value ] )
-			: find( args.children, [ "props.value", value ] )?.props;
-	}, [ value ] );
-	const handleChange = useCallback( newValue => updateArgs( { value: newValue } ), [ updateArgs ] );
+	const [ , updateArgs ] = useArgs();
+	const handleChange = useCallback( value => {
+		const newArgs = { value };
+		if ( args.children ) {
+			// If children are used, update the selected label.
+			newArgs.selectedLabel = find( args.children, [ "props.value", value ] )?.props?.label || "";
+		}
+		updateArgs( newArgs );
+	}, [ updateArgs, args.options, args.children ] );
 
 	return (
 		<Select
 			{ ...args }
-			selectedLabel={ args?.selectedLabel || selectedOption?.label || "" }
-			value={ value }
 			onChange={ handleChange }
 		/>
 	);
@@ -81,14 +81,9 @@ export const Validation = {
 					key={ variant }
 					id={ `validation-${ variant }` }
 					label={ `With validation of variant ${ variant }` }
-					value="1"
+					options={ Factory.args.options }
+					value={ Factory.args.options[ 0 ].value }
 					onChange={ noop }
-					options={ [
-						{ value: "1", label: "Option 1" },
-						{ value: "2", label: "Option 2" },
-						{ value: "3", label: "Option 3" },
-						{ value: "4", label: "Option 4" },
-					] }
 					validation={ {
 						variant,
 						message: {
