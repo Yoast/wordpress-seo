@@ -1,36 +1,29 @@
 import React from "react";
 import Link from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { anchor, button, component, customComponent } from "./docs";
 
-export default {
-	title: "1) Elements/Link",
-	component: Link,
-	argTypes: {
-		children: { control: "text" },
-		as: { options: [ "a", "button" ] },
-		className: { control: "text" },
+export const Factory = {
+	render: ( { children, ...args } ) => {
+		if ( args.as === "a" || typeof args.as === "undefined" ) {
+			args.href = "#!";
+		}
+
+		return (
+			<Link { ...args }>{ children }</Link>
+		);
 	},
-	parameters: { docs: { description: { component } } },
-};
-
-export const Factory = ( { children, ...args } ) => {
-	if ( args.as === "a" || typeof args.as === "undefined" ) {
-		args.href = "#!";
-	}
-
-	return (
-		<Link { ...args }>{ children }</Link>
-	);
-};
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	children: "Link factory",
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		children: "Link factory",
+	},
 };
 
 export const Anchor = {
 	parameters: {
+		controls: { disable: false },
 		docs: {
 			description: {
 				story: anchor,
@@ -47,6 +40,7 @@ export const Anchor = {
 
 export const Button = {
 	parameters: {
+		controls: { disable: false },
 		docs: {
 			description: {
 				story: button,
@@ -94,5 +88,21 @@ export const CustomComponent = {
 	args: {
 		as: ( { className, children } ) => <span className={ className }>Custom { children }</span>,
 		children: "component",
+	},
+};
+
+export default {
+	title: "1) Elements/Link",
+	component: Link,
+	argTypes: {
+		children: { control: "text" },
+		as: { options: [ "a", "button" ] },
+		className: { control: "text" },
+	},
+	parameters: {
+		docs: {
+			description: { component },
+			page: () => <InteractiveDocsPage stories={ [ Anchor, Button, CustomComponent ] } />,
+		},
 	},
 };

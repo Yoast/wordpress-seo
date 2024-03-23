@@ -67,7 +67,7 @@ const preview = {
 					} catch ( e ) {
 						return null;
 					}
-				}
+				},
 			},
 		},
 	},

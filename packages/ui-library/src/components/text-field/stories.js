@@ -1,28 +1,8 @@
 import { map, noop } from "lodash";
 import React from "react";
 import TextField from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { VALIDATION_VARIANTS } from "../../constants";
-
-export default {
-	title: "2) Components/Text field",
-	component: TextField,
-	argTypes: {
-		description: { control: "text" },
-		labelSuffix: { control: "text" },
-	},
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple input field component.",
-			},
-		},
-	},
-	args: {
-		id: "input-field",
-		onChange: noop,
-		label: "A text field",
-	},
-};
 
 export const Factory = {
 	parameters: {
@@ -65,3 +45,25 @@ export const Validation = () => (
 		) ) }
 	</div>
 );
+
+export default {
+	title: "2) Components/Text field",
+	component: TextField,
+	argTypes: {
+		description: { control: "text" },
+		labelSuffix: { control: "text" },
+	},
+	parameters: {
+		docs: {
+			description: {
+				component: "A simple input field component.",
+			},
+			page: () => <InteractiveDocsPage stories={ [ WithLabelAndDescription, Validation ] } />,
+		},
+	},
+	args: {
+		id: "input-field",
+		onChange: noop,
+		label: "A text field",
+	},
+};

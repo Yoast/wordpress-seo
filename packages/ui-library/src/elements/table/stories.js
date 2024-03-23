@@ -1,17 +1,7 @@
 import React from "react";
 import Table from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component, tableBody, tableCell, tableHead, tableHeader, tableRow } from "./docs";
-
-export default {
-	title: "1) Elements/Table",
-	component: Table,
-	argTypes: {
-		children: { control: false },
-	},
-	parameters: {
-		docs: { description: { component } },
-	},
-};
 
 export const Factory = {
 	parameters: {
@@ -206,5 +196,19 @@ export const TableCell = {
 				</Table.Body>
 			</>
 		),
+	},
+};
+
+export default {
+	title: "1) Elements/Table",
+	component: Table,
+	argTypes: {
+		children: { control: false },
+	},
+	parameters: {
+		docs: {
+			description: { component },
+			page: () => <InteractiveDocsPage stories={ [ TableHead, TableRow, TableHeader, TableBody, TableCell ] } />,
+		},
 	},
 };

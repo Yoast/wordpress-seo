@@ -1,30 +1,9 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useArgs } from "@storybook/preview-api";
 import { map, noop } from "lodash";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import TagField from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { VALIDATION_VARIANTS } from "../../constants";
-
-export default {
-	title: "2) Components/Tag field",
-	component: TagField,
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple tag field component.",
-			},
-		},
-	},
-	argTypes: {
-		labelSuffix: { control: "text" },
-		description: { control: "text" },
-	},
-	args: {
-		id: "tag-field",
-		label: "A tag field",
-		tags: [ "Here", "are", "some", "tags" ],
-	},
-};
 
 const Template = args => {
 	const [ { tags }, updateArgs ] = useArgs();
@@ -83,3 +62,25 @@ export const Validation = () => (
 		) ) }
 	</div>
 );
+
+export default {
+	title: "2) Components/Tag field",
+	component: TagField,
+	parameters: {
+		docs: {
+			description: {
+				component: "A simple tag field component.",
+			},
+			page: () => <InteractiveDocsPage stories={ [ WithLabelAndDescription, Validation ] } />,
+		},
+	},
+	argTypes: {
+		labelSuffix: { control: "text" },
+		description: { control: "text" },
+	},
+	args: {
+		id: "tag-field",
+		label: "A tag field",
+		tags: [ "Here", "are", "some", "tags" ],
+	},
+};

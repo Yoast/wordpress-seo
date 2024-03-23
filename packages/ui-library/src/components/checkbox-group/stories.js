@@ -1,23 +1,8 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useArgs } from "@storybook/preview-api";
 import React, { useCallback } from "react";
 import CheckboxGroup from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { childrenProp, component, disabled, withLabelAndDescription, withValues } from "./docs";
-
-export default {
-	title: "2) Components/Checkbox group",
-	component: CheckboxGroup,
-	argTypes: {
-		children: { control: "text" },
-	},
-	parameters: {
-		docs: {
-			description: {
-				component,
-			},
-		},
-	},
-};
 
 const Template = ( args ) => {
 	const [ { values }, updateArgs ] = useArgs();
@@ -36,14 +21,13 @@ export const Factory = {
 	args: {
 		id: "checkbox-group",
 		name: "name",
-		values: [ "1" ],
+		label: "A checkbox group",
 		options: [
 			{ value: "1", label: "Option 1" },
 			{ value: "2", label: "Option 2" },
 			{ value: "3", label: "Option 3" },
 			{ value: "4", label: "Option 4" },
 		],
-		label: "A checkbox group",
 	},
 };
 
@@ -58,13 +42,8 @@ export const WithLabelAndDescription = {
 		id: "checkbox-group-1",
 		name: "name-1",
 		label: "Checkbox group with a label",
-		options: [
-			{ value: "1", label: "Option 1" },
-			{ value: "2", label: "Option 2" },
-			{ value: "3", label: "Option 3" },
-			{ value: "4", label: "Option 4" },
-		],
 		description: "Checkbox group with a description.",
+		options: Factory.args.options,
 	},
 };
 
@@ -79,13 +58,7 @@ export const WithValues = {
 		id: "checkbox-group-2",
 		name: "name-2",
 		values: [ "2", "3" ],
-		label: "Checkbox group with a label",
-		options: [
-			{ value: "1", label: "Option 1" },
-			{ value: "2", label: "Option 2" },
-			{ value: "3", label: "Option 3" },
-			{ value: "4", label: "Option 4" },
-		],
+		options: Factory.args.options,
 	},
 };
 
@@ -99,7 +72,6 @@ export const ChildrenProp = {
 	args: {
 		id: "checkbox-group-3",
 		name: "name-3",
-		label: "Checkbox group label.",
 		children: <>
 			<CheckboxGroup.Checkbox defaultChecked={ true } value="child 1" label="Option 1" id="option-1" name="name-3" />
 			<CheckboxGroup.Checkbox value="child 2" label="Option 2" id="option-2" name="name-3" />
@@ -121,11 +93,22 @@ export const Disabled = {
 		label: "Checkbox group with a label",
 		description: "Checkbox group with a description.",
 		disabled: true,
-		options: [
-			{ value: "1", label: "Option 1" },
-			{ value: "2", label: "Option 2" },
-			{ value: "3", label: "Option 3" },
-			{ value: "4", label: "Option 4" },
-		],
+		options: Factory.args.options,
+	},
+};
+
+export default {
+	title: "2) Components/Checkbox group",
+	component: CheckboxGroup,
+	argTypes: {
+		children: { control: "text" },
+	},
+	parameters: {
+		docs: {
+			description: {
+				component,
+			},
+			page: () => <InteractiveDocsPage stories={ [ WithLabelAndDescription, WithValues, ChildrenProp, Disabled ] } />,
+		},
 	},
 };

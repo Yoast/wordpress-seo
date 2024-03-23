@@ -1,6 +1,7 @@
 import { keys } from "lodash";
 import React from "react";
 import Spinner, { classNameMap } from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component, sizes, variants } from "./docs";
 
 const WithBlackBackground = ( { withBlackBackground = true, children } ) => (
@@ -9,6 +10,40 @@ const WithBlackBackground = ( { withBlackBackground = true, children } ) => (
 		{ children }
 	</div>
 );
+
+export const Factory = {
+	parameters: {
+		controls: { disable: false },
+	},
+};
+
+export const Variants = {
+	render: ( args ) => (
+		<div className="yst-flex yst-gap-5">
+			<Spinner variant="default" />
+			<Spinner variant="primary" />
+			<WithBlackBackground>
+				<Spinner variant="white" />
+			</WithBlackBackground>
+		</div>
+	),
+	parameters: {
+		docs: { description: { story: variants } },
+	},
+};
+
+export const Sizes = {
+	render: ( args ) => (
+		<div className="yst-flex yst-gap-5">
+			<Spinner size="3" />
+			<Spinner size="4" />
+			<Spinner size="8" />
+		</div>
+	),
+	parameters: {
+		docs: { description: { story: sizes } },
+	},
+};
 
 export default {
 	title: "1) Elements/Spinner",
@@ -33,9 +68,8 @@ export default {
 	},
 	parameters: {
 		docs: {
-			description: {
-				component,
-			},
+			description: { component },
+			page: () => <InteractiveDocsPage stories={ [ Variants, Sizes ] } />,
 		},
 	},
 	decorators: [
@@ -45,34 +79,4 @@ export default {
 			</WithBlackBackground>
 		),
 	],
-};
-
-export const Factory = {
-	parameters: {
-		controls: { disable: false },
-	},
-};
-
-export const Variants = ( args ) => (
-	<div className="yst-flex yst-gap-5">
-		<Spinner variant="default" />
-		<Spinner variant="primary" />
-		<WithBlackBackground>
-			<Spinner variant="white" />
-		</WithBlackBackground>
-	</div>
-);
-Variants.parameters = {
-	docs: { description: { story: variants } },
-};
-
-export const Sizes = ( args ) => (
-	<div className="yst-flex yst-gap-5">
-		<Spinner size="3" />
-		<Spinner size="4" />
-		<Spinner size="8" />
-	</div>
-);
-Sizes.parameters = {
-	docs: { description: { story: sizes } },
 };

@@ -1,24 +1,13 @@
+import { useArgs } from "@storybook/preview-api";
 import { noop } from "lodash";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import Toggle from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component } from "./docs";
 
-export default {
-	title: "1) Elements/Toggle",
-	component: Toggle,
-	argTypes: {
-		as: { options: [ "button", "div", "span" ] },
-		type: {
-			control: "string",
-			description: "When `as` is `button`, the type is forced to `button` for proper behavior in HTML forms.",
-		},
-	},
-	parameters: { docs: { description: { component } } },
-};
-
 const Template = ( args ) => {
-	const [ checked, setChecked ] = useState( args.checked || false );
-	const handleChange = useCallback( setChecked, [ setChecked ] );
+	const [ { checked }, updateArgs ] = useArgs();
+	const handleChange = useCallback( newChecked => updateArgs( { checked: newChecked } ), [ updateArgs ] );
 
 	return (
 		<Toggle { ...args } checked={ checked } onChange={ handleChange } />
@@ -35,5 +24,23 @@ export const Factory = {
 		screenReaderLabel: "Toggle",
 		checked: false,
 		onChange: noop,
+	},
+};
+
+export default {
+	title: "1) Elements/Toggle",
+	component: Toggle,
+	argTypes: {
+		as: { options: [ "button", "div", "span" ] },
+		type: {
+			control: "string",
+			description: "When `as` is `button`, the type is forced to `button` for proper behavior in HTML forms.",
+		},
+	},
+	parameters: {
+		docs: {
+			description: { component },
+			page: InteractiveDocsPage,
+		},
 	},
 };

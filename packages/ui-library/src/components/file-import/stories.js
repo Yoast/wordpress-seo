@@ -1,30 +1,10 @@
 import { noop, values } from "lodash";
 import React, { useCallback, useState } from "react";
 import FileImport, { FILE_IMPORT_STATUS } from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import Alert from "../../elements/alert";
 import { success } from "../notifications/docs";
 import { aborted, component, error, loading, selected } from "./docs";
-
-export default {
-	title: "2) Components/File import",
-	component: FileImport,
-	argTypes: {
-		children: { control: "text" },
-		status: { options: values( FILE_IMPORT_STATUS ) },
-		endStatus: {
-			options: values( FILE_IMPORT_STATUS ),
-			type: "select",
-			description: "The status to end the import with (only for testing).",
-		},
-	},
-	parameters: {
-		docs: {
-			description: {
-				component,
-			},
-		},
-	},
-};
 
 const defaultArgs = {
 	selectLabel: "Select a file",
@@ -218,5 +198,27 @@ export const Error = {
 		...defaultArgs,
 		progress: 60,
 		status: FILE_IMPORT_STATUS.error,
+	},
+};
+
+export default {
+	title: "2) Components/File import",
+	component: FileImport,
+	argTypes: {
+		children: { control: "text" },
+		status: { options: values( FILE_IMPORT_STATUS ) },
+		endStatus: {
+			options: values( FILE_IMPORT_STATUS ),
+			type: "select",
+			description: "The status to end the import with (only for testing).",
+		},
+	},
+	parameters: {
+		docs: {
+			description: {
+				component,
+			},
+			page: () => <InteractiveDocsPage stories={ [ Selected, Loading, Aborted, Success, Error ] } />,
+		},
 	},
 };

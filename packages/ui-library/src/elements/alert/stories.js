@@ -1,6 +1,31 @@
 import React from "react";
 import Alert, { classNameMap, roleMap } from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component, variants } from "./docs";
+
+export const Factory = {
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		children: "Alert factory",
+	},
+};
+
+export const Variants = {
+	render: ( args ) => {
+		const Link = <a href="https://yoast.com">with a link</a>;
+		return (
+			<div className="yst-flex yst-flex-col yst-gap-2">
+				<Alert variant="info">This is an information alert { Link }. (default)</Alert>
+				<Alert variant="warning">This is a warning alert { Link }.</Alert>
+				<Alert variant="success" role="alert">This is a success alert { Link }.</Alert>
+				<Alert variant="error" role="alert">This is an error alert { Link }.</Alert>
+			</div>
+		);
+	},
+	parameters: { docs: { description: { story: variants } } },
+};
 
 export default {
 	title: "1) Elements/Alert",
@@ -28,30 +53,7 @@ export default {
 			description: {
 				component,
 			},
+			page: () => <InteractiveDocsPage stories={ [ Variants ] } />,
 		},
 	},
-};
-
-export const Factory = {
-	parameters: {
-		controls: { disable: false },
-	},
-	args: {
-		children: "Alert factory",
-	},
-};
-
-export const Variants = {
-	render: ( args ) => {
-		const Link = <a href="https://yoast.com">with a link</a>;
-		return (
-			<div className="yst-flex yst-flex-col yst-gap-2">
-				<Alert variant="info">This is an information alert { Link }. (default)</Alert>
-				<Alert variant="warning">This is a warning alert { Link }.</Alert>
-				<Alert variant="success" role="alert">This is a success alert { Link }.</Alert>
-				<Alert variant="error" role="alert">This is an error alert { Link }.</Alert>
-			</div>
-		);
-	},
-	parameters: { docs: { description: { story: variants } } },
 };

@@ -1,33 +1,10 @@
+import { useArgs } from "@storybook/preview-api";
 import { filter, find, includes, map, noop, toLower } from "lodash";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import Autocomplete from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { VALIDATION_VARIANTS } from "../../constants";
 import { component, validation, withLabel, withNullable, withPlaceholder, withSelectedLabel } from "./docs";
-
-export default {
-	title: "1) Elements/Autocomplete",
-	component: Autocomplete,
-	argTypes: {
-		children: { control: "text" },
-		labelSuffix: { control: "text" },
-		nullable: { control: "boolean" },
-	},
-	parameters: {
-		docs: {
-			description: {
-				component,
-			},
-		},
-	},
-	decorators: [
-		Story => (
-			// Min height to make room for options dropdown.
-			<div style={ { minHeight: 200 } }>
-				<Story />
-			</div>
-		),
-	],
-};
 
 const dummyOptions = [
 	{
@@ -43,20 +20,19 @@ const dummyOptions = [
 ];
 
 const Template = ( args ) => {
-	const [ value, setValue ] = useState( "" );
-	const [ query, setQuery ] = useState( "" );
+	const [ { value, query }, updateArgs ] = useArgs();
 	const selectedOption = useMemo( () => find( dummyOptions, [ "value", value ] ), [ value ] );
 	const filteredOptions = useMemo( () => filter( dummyOptions, option => query
 		? includes( toLower( option.label ), toLower( query ) )
 		: true ), [ query ] );
 
-	const handleChange = useCallback( setValue, [ setValue ] );
-	const handleQueryChange = useCallback( event => setQuery( event.target.value ), [ setQuery ] );
+	const handleChange = useCallback( newValue => updateArgs( { value: newValue } ), [ updateArgs ] );
+	const handleQueryChange = useCallback( event => updateArgs( { query: event.target.value } ), [ updateArgs ] );
 
 	return (
 		<Autocomplete
-			selectedLabel={ selectedOption?.label || "" }
 			{ ...args }
+			selectedLabel={ args?.selectedLabel || selectedOption?.label || "" }
 			value={ value }
 			onChange={ handleChange }
 			onQueryChange={ handleQueryChange }
@@ -91,7 +67,6 @@ export const WithLabel = {
 	},
 	args: {
 		id: "with-label",
-		value: "",
 		label: "Example label",
 	},
 };
@@ -104,7 +79,7 @@ export const Nullable = {
 	},
 	args: {
 		id: "nullable",
-		value: "",
+		value: dummyOptions[ 0 ].value,
 		placeholder: "Type to autocomplete options",
 		nullable: true,
 	},
@@ -138,35 +113,61 @@ export const WithSelectedLabel = {
 	},
 };
 
-export const Validation = () => (
-	<div className="yst-space-y-8">
-		{ map( VALIDATION_VARIANTS, variant => (
-			<Autocomplete
-				key={ variant }
-				id={ `validation-${ variant }` }
-				name={ `validation-${ variant }` }
-				label={ `With validation of variant ${ variant }` }
-				value="1"
-				selectedLabel="The quick brown fox jumps over the lazy dog"
-				onChange={ noop }
-				onQueryChange={ noop }
-				options={ [
-					{ value: "1", label: "Option 1" },
-					{ value: "2", label: "Option 2" },
-					{ value: "3", label: "Option 3" },
-					{ value: "4", label: "Option 4" },
-				] }
-				validation={ {
-					variant,
-					message: {
-						success: "Looks like you are nailing it!",
-						warning: "Looks like you could do better!",
-						info: <>Looks like you could use some <a href="https://yoast.com" target="_blank" rel="noreferrer">more info</a>!</>,
-						error: "Looks like you are doing it wrong!",
-					}[ variant ],
-				} }
-			/>
-		) ) }
-	</div>
-);
-Validation.parameters = { docs: { description: { story: validation } } };
+export const Validation = {
+	render: () => (
+		<div className="yst-space-y-8">
+			{ map( VALIDATION_VARIANTS, variant => (
+				<Autocomplete
+					key={ variant }
+					id={ `validation-${ variant }` }
+					name={ `validation-${ variant }` }
+					label={ `With validation of variant ${ variant }` }
+					value="1"
+					selectedLabel="The quick brown fox jumps over the lazy dog"
+					onChange={ noop }
+					onQueryChange={ noop }
+					options={ [
+						{ value: "1", label: "Option 1" },
+						{ value: "2", label: "Option 2" },
+						{ value: "3", label: "Option 3" },
+						{ value: "4", label: "Option 4" },
+					] }
+					validation={ {
+						variant,
+						message: {
+							success: "Looks like you are nailing it!",
+							warning: "Looks like you could do better!",
+							info: <>Looks like you could use some <a href="https://yoast.com" target="_blank" rel="noreferrer">more info</a>!</>,
+							error: "Looks like you are doing it wrong!",
+						}[ variant ],
+					} }
+				/>
+			) ) }
+		</div>
+	),
+	parameters: { docs: { description: { story: validation } } },
+};
+
+export default {
+	title: "1) Elements/Autocomplete",
+	component: Autocomplete,
+	argTypes: {
+		children: { control: "text" },
+		labelSuffix: { control: "text" },
+		value: { control: "text" },
+	},
+	parameters: {
+		docs: {
+			description: { component },
+			page: () => <InteractiveDocsPage stories={ [ WithLabel, Nullable, WithPlaceholder, WithSelectedLabel, Validation ] } />,
+		},
+	},
+	decorators: [
+		Story => (
+			// Min height to make room for options dropdown.
+			<div style={ { minHeight: 200 } }>
+				<Story />
+			</div>
+		),
+	],
+};

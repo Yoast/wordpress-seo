@@ -1,11 +1,6 @@
 import ProgressBar from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component } from "./docs";
-
-export default {
-	title: "1) Elements/Progress bar",
-	component: ProgressBar,
-	parameters: { docs: { description: { component } } },
-};
 
 export const Factory = {
 	parameters: {
@@ -15,5 +10,16 @@ export const Factory = {
 		min: 0,
 		max: 100,
 		progress: 50,
+	},
+};
+
+export default {
+	title: "1) Elements/Progress bar",
+	component: ProgressBar,
+	parameters: {
+		docs: {
+			description: { component },
+			page: InteractiveDocsPage,
+		},
 	},
 };

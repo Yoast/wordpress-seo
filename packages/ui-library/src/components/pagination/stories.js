@@ -1,23 +1,7 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useArgs } from "@storybook/preview-api";
 import React, { useCallback } from "react";
 import Pagination from ".";
-
-export default {
-	title: "2) Components/Pagination",
-	component: Pagination,
-	argTypes: {
-		current: { control: { type: "number", min: 1 } },
-		total: { control: { type: "number", min: 1 } },
-	},
-	parameters: {
-		docs: {
-			description: {
-				component: "The Pagination component offers navigation controls for one or more pages.",
-			},
-		},
-	},
-};
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 
 const Template = ( args ) => {
 	const [ , updateArgs ] = useArgs();
@@ -51,5 +35,22 @@ export const VariantText = {
 		screenReaderTextPrevious: "Previous",
 		screenReaderTextNext: "Next",
 		variant: "text",
+	},
+};
+
+export default {
+	title: "2) Components/Pagination",
+	component: Pagination,
+	argTypes: {
+		current: { control: { type: "number", min: 1 } },
+		total: { control: { type: "number", min: 1 } },
+	},
+	parameters: {
+		docs: {
+			description: {
+				component: "The Pagination component offers navigation controls for one or more pages.",
+			},
+			page: () => <InteractiveDocsPage stories={ [ VariantText ] } />,
+		},
 	},
 };

@@ -1,26 +1,9 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useArgs } from "@storybook/preview-api";
 import React, { useCallback } from "react";
 import ToggleField from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import Badge from "../../elements/badge";
 import { checked, component, withLabelAndDescription, withLabelSuffix } from "./docs";
-
-export default {
-	title: "2) Components/Toggle field",
-	component: ToggleField,
-	argTypes: {
-		children: { control: "text" },
-		description: { control: "text" },
-		labelSuffix: { control: "text" },
-	},
-	parameters: {
-		docs: {
-			description: {
-				component,
-			},
-		},
-	},
-};
 
 const Template = ( args ) => {
 	const [ { checked: isChecked }, updateArgs ] = useArgs();
@@ -84,5 +67,23 @@ export const WithLabelSuffix = {
 		checked: true,
 		label: "Label suffix toggle field",
 		labelSuffix: <Badge className="yst-ml-1.5" variant="upsell">Premium</Badge>,
+	},
+};
+
+export default {
+	title: "2) Components/Toggle field",
+	component: ToggleField,
+	argTypes: {
+		children: { control: "text" },
+		description: { control: "text" },
+		labelSuffix: { control: "text" },
+	},
+	parameters: {
+		docs: {
+			description: {
+				component,
+			},
+			page: () => <InteractiveDocsPage stories={ [ WithLabelAndDescription, Checked, WithLabelSuffix ] } />,
+		},
 	},
 };

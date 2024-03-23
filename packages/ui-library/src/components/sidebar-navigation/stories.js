@@ -1,76 +1,8 @@
 import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import React from "react";
 import SidebarNavigation from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import Table from "../../elements/table";
-
-export default {
-	title: "2) Components/Sidebar navigation",
-	component: SidebarNavigation,
-	argTypes: {
-		children: { control: "text" },
-		activePath: { control: "text" },
-		to: {
-			control: "text",
-			description: "Path, url for `SubmenuItem`",
-			table: {
-				type: { summary: "string" },
-			},
-		},
-		label: {
-			control: "text",
-			description: "Available for `MenuItem` and `SubmenuItem`",
-			table: {
-				type: { summary: "string" },
-			},
-		},
-		defaultOpen: {
-			control: "boolean",
-			description: "Available for `MenuItem`",
-			table: {
-				type: { summary: "boolean" },
-			},
-		},
-		icon: {
-			control: "object",
-			description: "Available for `MenuItem`",
-			table: {
-				type: { summary: "JSX Element" },
-			},
-		},
-		id: {
-			control: "text",
-			description: "Available for `MenuItem`",
-			table: {
-				type: { summary: "string" },
-			},
-		},
-		openButtonScreenReaderText: {
-			control: "text",
-			description: "Accessibility for `Mobile`",
-			table: {
-				type: { summary: "string" },
-			},
-		},
-		closeButtonScreenReaderText: {
-			control: "text",
-			description: "Accessibility for `Mobile`",
-			table: {
-				type: { summary: "string" },
-			},
-		},
-
-	},
-	parameters: {
-		docs: {
-			description: {
-				component: "A sidebar navigation component. Contains the subcomponents `Sidebar`, `Mobile`, `MenuItem` and `SubmenuItem` and contains the hook `useNavigationContext`.",
-			},
-		},
-	},
-	args: {
-		children: "test",
-	},
-};
 
 const Template = ( { children, activePath } ) => {
 	return (
@@ -253,5 +185,72 @@ export const NavigationContext = {
 				</Table.Row>
 			</Table.Body>
 		</Table>,
+	},
+};
+
+export default {
+	title: "2) Components/Sidebar navigation",
+	component: SidebarNavigation,
+	argTypes: {
+		children: { control: { disable: true } },
+		activePath: { control: "text" },
+		to: {
+			control: "text",
+			description: "Path, url for `SubmenuItem`",
+			table: {
+				type: { summary: "string" },
+			},
+		},
+		label: {
+			control: "text",
+			description: "Available for `MenuItem` and `SubmenuItem`",
+			table: {
+				type: { summary: "string" },
+			},
+		},
+		defaultOpen: {
+			control: "boolean",
+			description: "Available for `MenuItem`",
+			table: {
+				type: { summary: "boolean" },
+			},
+		},
+		icon: {
+			control: "object",
+			description: "Available for `MenuItem`",
+			table: {
+				type: { summary: "JSX Element" },
+			},
+		},
+		id: {
+			control: "text",
+			description: "Available for `MenuItem`",
+			table: {
+				type: { summary: "string" },
+			},
+		},
+		openButtonScreenReaderText: {
+			control: "text",
+			description: "Accessibility for `Mobile`",
+			table: {
+				type: { summary: "string" },
+			},
+		},
+		closeButtonScreenReaderText: {
+			control: "text",
+			description: "Accessibility for `Mobile`",
+			table: {
+				type: { summary: "string" },
+			},
+		},
+
+	},
+	parameters: {
+		docs: {
+			description: {
+				component: "A sidebar navigation component. Contains the subcomponents `Sidebar`, `Mobile`, `MenuItem` and `SubmenuItem` and contains the hook `useNavigationContext`.",
+			},
+			page: () => <InteractiveDocsPage stories={ [ MenuItem, Sidebar, Mobile, NavigationContext ] } />,
+		},
 	},
 };

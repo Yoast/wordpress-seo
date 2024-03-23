@@ -1,17 +1,37 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useArgs } from "@storybook/preview-api";
 import React, { useCallback } from "react";
 import TagInput from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component } from "./docs";
+
+const Template = args => {
+	const [ { tags }, updateArgs ] = useArgs();
+	const addTag = useCallback( tag => {
+		updateArgs( { tags: [ ...tags, tag ] } );
+	}, [ tags, updateArgs ] );
+	const removeTag = useCallback( index => {
+		updateArgs( { tags: [ ...tags.slice( 0, index ), ...tags.slice( index + 1 ) ] } );
+	}, [ tags, updateArgs ] );
+
+	return (
+		<TagInput { ...args } tags={ tags || [] } onAddTag={ addTag } onRemoveTag={ removeTag } />
+	);
+};
+
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+	},
+};
 
 export default {
 	title: "1) Elements/Tag input",
 	component: TagInput,
 	parameters: {
 		docs: {
-			description: {
-				component,
-			},
+			description: { component },
+			page: InteractiveDocsPage,
 		},
 	},
 	argTypes: {
@@ -78,26 +98,5 @@ export default {
 			"on the next line.",
 			"This is a longer tag that includes spaces!",
 		],
-	},
-};
-
-const Template = args => {
-	const [ { tags }, updateArgs ] = useArgs();
-	const addTag = useCallback( tag => {
-		updateArgs( { tags: [ ...tags, tag ] } );
-	}, [ tags, updateArgs ] );
-	const removeTag = useCallback( index => {
-		updateArgs( { tags: [ ...tags.slice( 0, index ), ...tags.slice( index + 1 ) ] } );
-	}, [ tags, updateArgs ] );
-
-	return (
-		<TagInput { ...args } tags={ tags || [] } onAddTag={ addTag } onRemoveTag={ removeTag } />
-	);
-};
-
-export const Factory = {
-	render: Template.bind( {} ),
-	parameters: {
-		controls: { disable: false },
 	},
 };

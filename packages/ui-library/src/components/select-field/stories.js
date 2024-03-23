@@ -1,8 +1,8 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useArgs } from "@storybook/preview-api";
 import { map, noop } from "lodash";
 import React, { useCallback } from "react";
 import SelectField from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { VALIDATION_VARIANTS } from "../../constants";
 import { Badge } from "../../index";
 
@@ -12,34 +12,6 @@ const options = [
 	{ value: "3", label: "Option 3" },
 	{ value: "4", label: "Option 4" },
 ];
-
-export default {
-	title: "2) Components/Select field",
-	component: SelectField,
-	argTypes: {
-		description: { control: "text" },
-		children: { description: "Alternative to options.", control: "text" },
-		labelSuffix: { control: "text" },
-	},
-	args: {
-		options,
-	},
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple select field component that extends select element.",
-			},
-		},
-	},
-	decorators: [
-		( Story ) => (
-			// Min height to make room for options dropdown.
-			<div style={ { minHeight: 200 } }>
-				<Story />
-			</div>
-		),
-	],
-};
 
 const Template = ( args ) => {
 	const [ { value }, updateArgs ] = useArgs();
@@ -174,3 +146,36 @@ export const Validation = () => (
 		) ) }
 	</div>
 );
+
+export default {
+	title: "2) Components/Select field",
+	component: SelectField,
+	argTypes: {
+		description: { control: "text" },
+		children: { description: "Alternative to options.", control: "text" },
+		labelSuffix: { control: "text" },
+	},
+	args: {
+		options,
+	},
+	parameters: {
+		docs: {
+			description: {
+				component: "A simple select field component that extends select element.",
+			},
+			page: () => (
+				<InteractiveDocsPage
+					stories={ [ WithLabelAndDescription, WithError, WithLabelSuffix, OptionsProp, SelectFieldOption, Validation ] }
+				/>
+			),
+		},
+	},
+	decorators: [
+		( Story ) => (
+			// Min height to make room for options dropdown.
+			<div style={ { minHeight: 200 } }>
+				<Story />
+			</div>
+		),
+	],
+};

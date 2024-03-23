@@ -1,24 +1,9 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useArgs } from "@storybook/preview-api";
 import { noop } from "lodash";
 import React, { useCallback } from "react";
 import RadioGroup from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { childrenProp, component, variants, withLabelAndDescription, withValue } from "./docs";
-
-export default {
-	title: "2) Components/Radio group",
-	component: RadioGroup,
-	argTypes: {
-		children: { control: "text" },
-	},
-	parameters: {
-		docs: {
-			description: {
-				component,
-			},
-		},
-	},
-};
 
 const Template = ( args ) => {
 	const [ { value }, updateArgs ] = useArgs();
@@ -55,12 +40,7 @@ export const Variants = {
 				id="radio-group-1"
 				name="name-1"
 				value="2"
-				options={ [
-					{ value: "1", label: "1", screenReaderLabel: "Option #1" },
-					{ value: "2", label: "2", screenReaderLabel: "Option #2" },
-					{ value: "3", label: "3", screenReaderLabel: "Option #3" },
-					{ value: "4", label: "4", screenReaderLabel: "Option #4" },
-				] }
+				options={ Factory.args.options }
 				label="Default radio group"
 				onChange={ noop }
 			/>
@@ -71,12 +51,7 @@ export const Variants = {
 				value="2"
 				label="Inline-block radio group"
 				description="Radio group with a description."
-				options={ [
-					{ value: "1", label: "1", screenReaderLabel: "Option #1" },
-					{ value: "2", label: "2", screenReaderLabel: "Option #2" },
-					{ value: "3", label: "3", screenReaderLabel: "Option #3" },
-					{ value: "4", label: "4", screenReaderLabel: "Option #4" },
-				] }
+				options={ Factory.args.options }
 				onChange={ noop }
 				variant="inline-block"
 			/>
@@ -96,12 +71,7 @@ export const WithLabelAndDescription = {
 		id: "radio-group-3",
 		name: "name-3",
 		label: "Radio group with a label",
-		options: [
-			{ value: "1", label: "1", screenReaderLabel: "Option #1" },
-			{ value: "2", label: "2", screenReaderLabel: "Option #2" },
-			{ value: "3", label: "3", screenReaderLabel: "Option #3" },
-			{ value: "4", label: "4", screenReaderLabel: "Option #4" },
-		],
+		options: Factory.args.options,
 		description: "Radio group with a description.",
 	},
 };
@@ -117,13 +87,8 @@ export const WithValue = {
 		id: "radio-group-4",
 		name: "name-4",
 		value: "2",
-		label: "Radio group with a label",
-		options: [
-			{ value: "1", label: "1", screenReaderLabel: "Option #1" },
-			{ value: "2", label: "2", screenReaderLabel: "Option #2" },
-			{ value: "3", label: "3", screenReaderLabel: "Option #3" },
-			{ value: "4", label: "4", screenReaderLabel: "Option #4" },
-		],
+		label: "Radio Group with a value",
+		options: Factory.args.options,
 	},
 };
 
@@ -137,11 +102,27 @@ export const ChildrenProp = {
 	args: {
 		id: "radio-group-5",
 		name: "name-5",
-		label: "Radio group label.",
+		label: "Radio Group with children",
 		children: <>
 			<RadioGroup.Radio defaultChecked={ true } value="child 1" label="Option 1" id="radio-1" name="name-5" />
 			<RadioGroup.Radio value="child 2" label="Option 2" id="radio-2" name="name-5" />
 			<RadioGroup.Radio value="child 3" label="Option 3" id="radio-3" name="name-5" />
 		</>,
+	},
+};
+
+export default {
+	title: "2) Components/Radio group",
+	component: RadioGroup,
+	argTypes: {
+		children: { control: { disable: true } },
+	},
+	parameters: {
+		docs: {
+			description: {
+				component,
+			},
+			page: () => <InteractiveDocsPage stories={ [ Variants, WithLabelAndDescription, WithValue, ChildrenProp ] } />,
+		},
 	},
 };

@@ -1,4 +1,15 @@
 import Root from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
+
+export const Factory = {
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		children: "Start of your React tree",
+		context: { isRtl: false },
+	},
+};
 
 export default {
 	title: "2) Components/Root",
@@ -16,16 +27,7 @@ export default {
 					"2. Disables the Tailwind `preflight` styles (as they are included in the `Root` component's CSS).\n" +
 					"3. Configures `@tailwindcss/forms` to use the `class` strategy (they are included in the `Root` component's CSS).\n",
 			},
+			page: InteractiveDocsPage,
 		},
-	},
-};
-
-export const Factory = {
-	parameters: {
-		controls: { disable: false },
-	},
-	args: {
-		children: "Start of your React tree",
-		context: { isRtl: false },
 	},
 };

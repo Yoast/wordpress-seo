@@ -1,24 +1,8 @@
 import React from "react";
 import Paper from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import Title from "../title";
 import { component, withHeaderAndContent } from "./docs";
-
-export default {
-	title: "1) Elements/Paper",
-	component: Paper,
-	argTypes: {
-		children: { control: "text" },
-		as: { options: [ "div", "main", "section" ] },
-	},
-	parameters: {
-		backgrounds: {
-			"default": "medium",
-		},
-		docs: {
-			description: { component },
-		},
-	},
-};
 
 export const Factory = {
 	parameters: {
@@ -51,5 +35,23 @@ export const WithHeaderAndContent = {
 				</Paper.Content>
 			</>
 		),
+	},
+};
+
+export default {
+	title: "1) Elements/Paper",
+	component: Paper,
+	argTypes: {
+		children: { control: "text" },
+		as: { options: [ "div", "main", "section" ] },
+	},
+	parameters: {
+		backgrounds: {
+			"default": "medium",
+		},
+		docs: {
+			description: { component },
+			page: () => <InteractiveDocsPage stories={ [ WithHeaderAndContent ] } />,
+		},
 	},
 };

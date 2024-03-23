@@ -1,25 +1,7 @@
 import React from "react";
 import SkeletonLoader from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { circular, color, component, fontSize, profile, size } from "./docs";
-
-export default {
-	title: "1) Elements/Skeleton loader",
-	component: SkeletonLoader,
-	argTypes: {
-		children: { control: "text" },
-		as: {
-			control: { type: "select" },
-			options: [ "span", "div" ],
-		},
-	},
-	parameters: {
-		docs: {
-			description: {
-				component,
-			},
-		},
-	},
-};
 
 export const Factory = {
 	parameters: {
@@ -32,7 +14,7 @@ export const Factory = {
 
 export const Profile = {
 	render: ( args ) => (
-		<div { ...args } className="yst-w-full yst-max-w-sm yst-p-4 yst-border yst-bg-white yst-rounded-md yst-shadow">
+		<div className="yst-w-full yst-max-w-sm yst-p-4 yst-border yst-bg-white yst-rounded-md yst-shadow">
 			<div className="yst-flex yst-space-x-4">
 				<SkeletonLoader className="yst-h-10 yst-w-10 yst-rounded-full" />
 				<div className="yst-flex-1 yst-space-y-6 yst-py-1">
@@ -114,5 +96,23 @@ export const FontSize = {
 	args: {
 		className: "yst-text-3xl",
 		children: "Some other content",
+	},
+};
+
+export default {
+	title: "1) Elements/Skeleton loader",
+	component: SkeletonLoader,
+	argTypes: {
+		children: { control: "text" },
+		as: {
+			control: { type: "select" },
+			options: [ "span", "div" ],
+		},
+	},
+	parameters: {
+		docs: {
+			description: { component },
+			page: () => <InteractiveDocsPage stories={ [ Profile, Circular, Size, Color, FontSize ] } />,
+		},
 	},
 };

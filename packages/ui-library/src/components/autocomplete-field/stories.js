@@ -1,30 +1,9 @@
+import { useArgs } from "@storybook/preview-api";
 import { filter, find, includes, map, noop, toLower } from "lodash";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import AutocompleteField from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { VALIDATION_VARIANTS } from "../../constants";
-
-export default {
-	title: "2) Components/Autocomplete field",
-	component: AutocompleteField,
-	argTypes: {
-		description: { control: "text" },
-	},
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple autocomplete select component with error message and description message.",
-			},
-		},
-	},
-	decorators: [
-		( Story ) => (
-			// Min height to make room for options dropdown.
-			<div style={ { minHeight: 200 } }>
-				<Story />
-			</div>
-		),
-	],
-};
 
 const dummyOptions = [
 	{
@@ -39,21 +18,20 @@ const dummyOptions = [
 	},
 ];
 
-const Template = ( { ...args } ) => {
-	const [ value, setValue ] = useState( "" );
-	const [ query, setQuery ] = useState( "" );
+const Template = ( args ) => {
+	const [ { value, query }, updateArgs ] = useArgs();
 	const selectedOption = useMemo( () => find( dummyOptions, [ "value", value ] ), [ value ] );
 	const filteredOptions = useMemo( () => filter( dummyOptions, option => query
 		? includes( toLower( option.label ), toLower( query ) )
 		: true ), [ query ] );
 
-	const handleChange = useCallback( setValue, [ setValue ] );
-	const handleQueryChange = useCallback( event => setQuery( event.target.value ), [ setQuery ] );
+	const handleChange = useCallback( newValue => updateArgs( { value: newValue } ), [ updateArgs ] );
+	const handleQueryChange = useCallback( event => updateArgs( { query: event.target.value } ), [ updateArgs ] );
 
 	return (
 		<AutocompleteField
-			selectedLabel={ selectedOption?.label || "" }
 			{ ...args }
+			selectedLabel={ args?.selectedLabel || selectedOption?.label || "" }
 			value={ value }
 			onChange={ handleChange }
 			onQueryChange={ handleQueryChange }
@@ -86,7 +64,7 @@ export const WithDescription = {
 	name: "With description",
 	parameters: {
 		controls: { disable: false },
-		docs: { description: { story: "An exampe with description message using `description`." } },
+		docs: { description: { story: "An example with description message using `description`." } },
 	},
 	args: {
 		id: "with-description",
@@ -189,3 +167,27 @@ export const Validation = () => (
 		) ) }
 	</div>
 );
+
+export default {
+	title: "2) Components/Autocomplete field",
+	component: AutocompleteField,
+	argTypes: {
+		description: { control: "text" },
+	},
+	parameters: {
+		docs: {
+			description: {
+				component: "A simple autocomplete select component with error message and description message.",
+			},
+			page: () => <InteractiveDocsPage stories={ [ WithDescription, WithSelectedLabel, WithPlaceholder, ChildrenProp, Validation ] } />,
+		},
+	},
+	decorators: [
+		( Story ) => (
+			// Min height to make room for options dropdown.
+			<div style={ { minHeight: 200 } }>
+				<Story />
+			</div>
+		),
+	],
+};

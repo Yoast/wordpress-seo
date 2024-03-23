@@ -1,17 +1,7 @@
+import React from "react";
 import TextInput from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component } from "./docs";
-
-export default {
-	title: "1) Elements/Text input",
-	component: TextInput,
-	parameters: {
-		docs: {
-			description: {
-				component,
-			},
-		},
-	},
-};
 
 export const Factory = {
 	parameters: {
@@ -26,5 +16,16 @@ export const DatePicker = {
 	},
 	args: {
 		type: "date",
+	},
+};
+
+export default {
+	title: "1) Elements/Text input",
+	component: TextInput,
+	parameters: {
+		docs: {
+			description: { component },
+			page: () => <InteractiveDocsPage stories={ [ DatePicker ] } />,
+		},
 	},
 };

@@ -1,17 +1,9 @@
 import React from "react";
 import ErrorBoundary from ".";
 import { Alert, Button } from "../../";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { useToggleState } from "../../hooks";
 import { component } from "./docs";
-
-export default {
-	title: "1) Elements/Error boundary",
-	component: ErrorBoundary,
-	argTypes: {
-		children: { control: "text" },
-	},
-	parameters: { docs: { description: { component } } },
-};
 
 const ShowError = ( { error, resetErrorBoundary } ) => (
 	<Alert variant="error">
@@ -25,10 +17,10 @@ const Bomb = () => {
 	throw new Error( "💥 KABOOM 💥" );
 };
 
-const Template = args => {
+const Template = ( args ) => {
 	const [ hasError, , , setErrored, setNotErrored ] = useToggleState( false );
 	return (
-		<div>
+		<>
 			<Button className="yst-mb-2" onClick={ setErrored }>Cause error</Button>
 			<ErrorBoundary
 				FallbackComponent={ ShowError }
@@ -36,7 +28,7 @@ const Template = args => {
 			>
 				{ hasError ? <Bomb /> : <p>{ args?.children }</p> }
 			</ErrorBoundary>
-		</div>
+		</>
 	);
 };
 
@@ -47,5 +39,19 @@ export const Factory = {
 	},
 	args: {
 		children: "Everything is fine!",
+	},
+};
+
+export default {
+	title: "1) Elements/Error boundary",
+	component: ErrorBoundary,
+	argTypes: {
+		children: { control: "text" },
+	},
+	parameters: {
+		docs: {
+			description: { component },
+			page: InteractiveDocsPage,
+		},
 	},
 };

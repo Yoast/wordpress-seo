@@ -1,7 +1,101 @@
 import { keys } from "lodash";
 import React from "react";
 import Notifications, { notificationClassNameMap } from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { childrenNotification, component, descriptionList, error, info, success, warning } from "./docs";
+
+const Template = ( { position, ...args } ) => (
+	<Notifications position={ position }>
+		<Notifications.Notification { ...args } />
+	</Notifications>
+);
+
+export const Factory = {
+	render: Template.bind( {} ),
+	args: {
+		id: "notification-factory",
+	},
+	parameters: { controls: { disable: false } },
+};
+
+export const Info = {
+	render: Template.bind( {} ),
+	args: {
+		variant: "info",
+		id: "notification-info",
+	},
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: info } },
+	},
+};
+
+export const Warning = {
+	render: Template.bind( {} ),
+	args: {
+		variant: "warning",
+		id: "notification-warning",
+	},
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: warning } },
+	},
+};
+
+export const Success = {
+	render: Template.bind( {} ),
+	args: {
+		variant: "success",
+		id: "notification-success",
+	},
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: success } },
+	},
+};
+
+export const Error = {
+	render: Template.bind( {} ),
+	args: {
+		variant: "error",
+		id: "notification-error",
+	},
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: error } },
+	},
+};
+
+export const DescriptionList = {
+	render: Template.bind( {} ),
+	name: "Description list",
+	argTypes: {
+		description: { control: "array" },
+	},
+	args: {
+		variant: "info",
+		id: "notification-info",
+		description: [ "Description 1", "Description 2", "Description 3" ],
+	},
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: descriptionList } },
+	},
+};
+
+export const ChildrenNotification = {
+	render: Template.bind( {} ),
+	mame: "Children notification",
+	args: {
+		variant: "info",
+		id: "notification-info",
+		children: <b>Notification description as a component.</b>,
+	},
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: childrenNotification } },
+	},
+};
 
 export default {
 	title: "2) Components/Notifications",
@@ -13,7 +107,7 @@ export default {
 			type: "select",
 			description: "The position of the notification. Notifications prop.",
 			table: {
-				defaultValue: { summary: "bottom-center" },
+				defaultValue: { summary: "bottom-left" },
 			},
 		},
 		id: { control: "text" },
@@ -47,79 +141,14 @@ export default {
 			description: {
 				component,
 			},
+			page: () => <InteractiveDocsPage stories={ [ Info, Warning, Success, Error, DescriptionList, ChildrenNotification ] } />,
 		},
 	},
 	decorators: [
 		( Story ) => (
-			<div className="yst-h-48 yst-bg-slate-100">
+			<div className="yst-min-h-[12rem]">
 				<Story />
 			</div>
 		),
 	],
 };
-
-const Template = ( { position, ...args } ) => (
-	<Notifications position={ position }>
-		<Notifications.Notification { ...args } />
-	</Notifications>
-);
-
-export const Factory = {
-	render: Template.bind( {} ),
-	args: {
-		id: "notification-factory",
-	},
-};
-
-export const Info = Template.bind( {} );
-Info.args = {
-	variant: "info",
-	id: "notification-info",
-};
-Info.parameters = { docs: { description: { story: info } } };
-
-export const Warning = Template.bind( {} );
-Warning.args = {
-	variant: "warning",
-	id: "notification-warning",
-};
-Warning.parameters = { docs: { description: { story: warning } } };
-
-export const Success = Template.bind( {} );
-Success.args = {
-	variant: "success",
-	id: "notification-success",
-};
-Success.parameters = { docs: { description: { story: success } } };
-
-export const Error = Template.bind( {} );
-Error.args = {
-	variant: "error",
-	id: "notification-error",
-
-};
-Error.parameters = { docs: { description: { story: error } } };
-
-export const DescriptionList = Template.bind( {} );
-DescriptionList.storyName = "Description list";
-DescriptionList.args = {
-	variant: "info",
-	id: "notification-info",
-	description: [ "Description 1", "Description 2", "Description 3" ],
-};
-
-DescriptionList.parameters = { docs: { description: { story: descriptionList } } };
-
-export const ChildrenNotification = Template.bind( {} );
-ChildrenNotification.storyName = "Children notification";
-const DescriptionChild = () => <b>Notification description as a component.</b>;
-
-ChildrenNotification.args = {
-	variant: "info",
-	id: "notification-info",
-	children: <DescriptionChild />,
-};
-
-ChildrenNotification.parameters = { docs: { description: { story: childrenNotification } } };
-
-

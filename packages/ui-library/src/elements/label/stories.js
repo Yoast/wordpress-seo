@@ -1,14 +1,6 @@
 import Label from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component } from "./docs";
-
-export default {
-	title: "1) Elements/Label",
-	component: Label,
-	argTypes: {
-		as: { options: [ "label", "span", "div" ] },
-	},
-	parameters: { docs: { description: { component } } },
-};
 
 export const Factory = {
 	parameters: {
@@ -16,5 +8,19 @@ export const Factory = {
 	},
 	args: {
 		label: "Label factory",
+	},
+};
+
+export default {
+	title: "1) Elements/Label",
+	component: Label,
+	argTypes: {
+		as: { options: [ "label", "span", "div" ] },
+	},
+	parameters: {
+		docs: {
+			description: { component },
+			page: InteractiveDocsPage,
+		},
 	},
 };

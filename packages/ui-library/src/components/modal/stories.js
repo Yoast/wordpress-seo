@@ -2,6 +2,7 @@ import { noop, times } from "lodash";
 import PropTypes from "prop-types";
 import React, { createRef, useCallback, useState } from "react";
 import Modal, { classNameMap } from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import Button from "../../elements/button";
 import TextInput from "../../elements/text-input";
 
@@ -26,63 +27,6 @@ Template.propTypes = {
 	isOpen: PropTypes.bool,
 	onClose: PropTypes.func,
 	children: PropTypes.node.isRequired,
-};
-
-export default {
-	title: "2) Components/Modal",
-	component: Template,
-	argTypes: {
-		children: {
-			control: "text",
-			type: { required: true },
-			table: { type: { summary: "node" } },
-		},
-		isOpen: {
-			control: { disable: true },
-			type: { required: true },
-			table: { type: { summary: "bool" } },
-		},
-		onClose: {
-			control: { disable: true },
-			type: { required: true },
-			table: { type: { summary: "func" } },
-		},
-		className: {
-			control: "text",
-			table: {
-				type: { summary: "string" },
-				defaultValue: { summary: "" },
-			},
-		},
-		position: {
-			control: "radio",
-			table: {
-				type: { summary: Object.keys( classNameMap.position ).map( position => `"${ position }"` ).join( " " ) },
-				defaultValue: { summary: "center" },
-			},
-			options: Object.keys( classNameMap.position ),
-		},
-		initialFocus: {
-			control: { disable: true },
-			table: {
-				type: { summary: "ref" },
-				defaultValue: { summary: null },
-			},
-		},
-	},
-	parameters: {
-		docs: {
-			description: {
-				component: "An uncontrolled modal component. For the purpose of this story, the `children`, `isOpen` and `onClose` are wrapped. So be aware that in the `Show code`, these are not reflected!",
-			},
-		},
-	},
-	args: {
-		isOpen: false,
-		onClose: noop,
-		children: "Hello everyone!",
-		position: "center",
-	},
 };
 
 export const Factory = {
@@ -181,5 +125,63 @@ export const InitialFocus = {
 				<TextInput placeholder="This is where the focus should be." ref={ centerElementRef } />
 			</>
 		),
+	},
+};
+
+export default {
+	title: "2) Components/Modal",
+	component: Template,
+	argTypes: {
+		children: {
+			control: "text",
+			type: { required: true },
+			table: { type: { summary: "node" } },
+		},
+		isOpen: {
+			control: { disable: true },
+			type: { required: true },
+			table: { type: { summary: "bool" } },
+		},
+		onClose: {
+			control: { disable: true },
+			type: { required: true },
+			table: { type: { summary: "func" } },
+		},
+		className: {
+			control: "text",
+			table: {
+				type: { summary: "string" },
+				defaultValue: { summary: "" },
+			},
+		},
+		position: {
+			control: "radio",
+			table: {
+				type: { summary: Object.keys( classNameMap.position ).map( position => `"${ position }"` ).join( " " ) },
+				defaultValue: { summary: "center" },
+			},
+			options: Object.keys( classNameMap.position ),
+		},
+		initialFocus: {
+			control: { disable: true },
+			table: {
+				type: { summary: "ref" },
+				defaultValue: { summary: null },
+			},
+		},
+	},
+	parameters: {
+		docs: {
+			description: {
+				component: "An uncontrolled modal component. For the purpose of this story, the `children`, `isOpen` and `onClose` are wrapped. So be aware that in the `Show code`, these are not reflected!",
+			},
+			page: () => <InteractiveDocsPage stories={ [ WithPanel, WithTitleAndDescription, WithContainer, InitialFocus ] } />,
+		},
+	},
+	args: {
+		isOpen: false,
+		onClose: noop,
+		children: "Hello everyone!",
+		position: "center",
 	},
 };

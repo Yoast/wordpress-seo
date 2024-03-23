@@ -1,35 +1,7 @@
 import React from "react";
 import Card from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { Button } from "../../index";
-
-export default {
-	title: "2) Components/Card",
-	component: Card,
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple card component. It has subcomponents for header, content and footer that has `as` and `className` props.",
-			},
-		},
-	},
-	argTypes: {
-		children: { control: "text" },
-		as: {
-			control: { type: "select" },
-			options: [ "div", "main", "section" ],
-			table: { type: { summary: "div | main | section" }, defaultValue: { summary: "div" } },
-		},
-	},
-	decorators: [
-		( Story ) => (
-			<div className="yst-flex yst-gap-5 yst-justify-center">
-				<div className="yst-w-1/3">
-					<Story />
-				</div>
-			</div>
-		),
-	],
-};
 
 export const Factory = {
 	args: {
@@ -57,4 +29,34 @@ export const WithoutHeader = {
 			</>
 		),
 	},
+};
+
+export default {
+	title: "2) Components/Card",
+	component: Card,
+	parameters: {
+		docs: {
+			description: {
+				component: "A simple card component. It has subcomponents for header, content and footer that has `as` and `className` props.",
+			},
+			page: () => <InteractiveDocsPage stories={ [ WithoutHeader ] } />,
+		},
+	},
+	argTypes: {
+		children: { control: "text" },
+		as: {
+			control: { type: "select" },
+			options: [ "div", "main", "section" ],
+			table: { type: { summary: "div | main | section" }, defaultValue: { summary: "div" } },
+		},
+	},
+	decorators: [
+		( Story ) => (
+			<div className="yst-flex yst-gap-5 yst-justify-center">
+				<div className="yst-w-1/3">
+					<Story />
+				</div>
+			</div>
+		),
+	],
 };
