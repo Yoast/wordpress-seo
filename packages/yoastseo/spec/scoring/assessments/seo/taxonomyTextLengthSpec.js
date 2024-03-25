@@ -16,7 +16,7 @@ describe( "A TextLengthAssessment for a taxonomy page: Japanese", function() {
 		assessment.getResult( paper, japaneseResearcher );
 
 		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.recommendedMinimum );
-		expect( assessment._config.belowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.belowMinimum );
+		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.slightlyBelowMinimum );
 		expect( assessment._config.veryFarBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.veryFarBelowMinimum );
 	} );
 	it( "should return a good result for taxonomy pages in Japanese when the text is 60 characters", function() {
@@ -70,7 +70,7 @@ describe( "A TextLengthAssessment for a taxonomy page: English", function() {
 		assessment.getResult( paper, englishResearcher );
 
 		expect( assessment._config.recommendedMinimum ).toEqual( 30 );
-		expect( assessment._config.belowMinimum ).toEqual( 10 );
+		expect( assessment._config.slightlyBelowMinimum ).toEqual( 10 );
 		expect( assessment._config.veryFarBelowMinimum ).toEqual( 1 );
 	} );
 	it( "should return a good result for taxonomy pages in English when the text is more than 30 words", function() {

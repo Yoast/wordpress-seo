@@ -287,7 +287,8 @@ describe( "A text length assessment", function() {
 	} );
 } );
 
-describe( "In Japanese, the text length assessment should give a score based on character length and use language-specific boundaries", function() {
+describe( "In Japanese, the text length assessment should give a score based on character length " +
+	"and use language-specific boundaries: regular post content type", function() {
 	const character = "あ";
 	const textVeryFarBelowMinimum = character.repeat( 199 );
 	const textFarBelowMinimum = character.repeat( 399 );
@@ -386,6 +387,63 @@ describe( "In Japanese, the text length assessment should give a score based on 
 	} );
 } );
 
+describe( "In Japanese, the text length assessment should give a score based on character length " +
+	"and use language-specific boundaries: taxonomy and collection post content type", function() {
+	const character = "あ";
+	const textBelowMinimum = character.repeat( 15 );
+	const textSlightlyBelowMinimum = character.repeat( 50 );
+	const textRecommendedMinimum = character.repeat( 60 );
+
+	it( "should assess a 0-character text in the veryFarBelowMinimum category: taxonomy page", function() {
+		const paper = new Paper( "" );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		const assessment = new TextLengthAssessment( { customContentType: "taxonomyAssessor" } );
+
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( results.getScore() ).toEqual( -20 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text doesn't contain any characters. <a href='https://yoa.st/34o' target='_blank'>Please add some content</a>" );
+	} );
+
+	it( "should assess a 15-character text in the belowMinimum category: taxonomy page", function() {
+		const paper = new Paper( textBelowMinimum );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		const assessment = new TextLengthAssessment( { customContentType: "taxonomyAssessor" } );
+
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( results.getScore() ).toEqual( 3 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 15 characters." +
+			" This is below the recommended minimum of 60 characters. <a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
+	} );
+
+	it( "should assess a 50-character text in the slightlyBelowMinimum category: collection page", function() {
+		const paper = new Paper( textSlightlyBelowMinimum );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		const assessment = new TextLengthAssessment( { customContentType: "collectionSEOAssessor" } );
+
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( results.getScore() ).toEqual( 6 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 50 characters. " +
+			"This is slightly below the recommended minimum of 60 characters. <a href='https://yoa.st/34o'" +
+			" target='_blank'>Add a bit more copy</a>." );
+	} );
+
+	it( "should assess a 60-character text as to have a recommended minimum length: cornerstone collection page", function() {
+		const paper = new Paper( textRecommendedMinimum );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		const assessment = new TextLengthAssessment( { customContentType: "collectionCornerstoneSEOAssessor" } );
+
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( results.getScore() ).toEqual( 9 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 60 characters. Good job!"  );
+	} );
+} );
+
 describe( "Language-specific configuration for specific types of content is used", function() {
 	const paper = new Paper( "こんにちは。" );
 	const japaneseResearcher = new JapaneseResearcher( paper );
@@ -408,7 +466,17 @@ describe( "Language-specific configuration for specific types of content is used
 		assessment.getResult( paper, japaneseResearcher );
 
 		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.recommendedMinimum );
-		expect( assessment._config.belowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.belowMinimum );
+		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.slightlyBelowMinimum );
+		expect( assessment._config.veryFarBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.veryFarBelowMinimum );
+	} );
+
+	it( "should use language-specific configuration for a custom content type (example: collection page)", function() {
+		const assessment = new TextLengthAssessment( { customContentType: "collectionSEOAssessor" } );
+		// Running getResult will apply language-specific configuration.
+		assessment.getResult( paper, japaneseResearcher );
+
+		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.recommendedMinimum );
+		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.slightlyBelowMinimum );
 		expect( assessment._config.veryFarBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.veryFarBelowMinimum );
 	} );
 
