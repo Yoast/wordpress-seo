@@ -95,6 +95,7 @@ class ReplacementVariableEditor extends React.Component {
 		const InputContainer = this.InputContainer;
 
 		const buttons = applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId, type } );
+		const mentions = applyFilters( "yoast.replacementVariableEditor.additionalMentions", [], { fieldId, type } );
 
 		return (
 			<FormSection
@@ -136,6 +137,12 @@ class ReplacementVariableEditor extends React.Component {
 					isActive={ isActive && ! isDisabled }
 					isHovered={ isHovered }
 				>
+					<Slot name={ `yoast.replacementVariableEditor.additionalMentions.${ fieldId }` } />
+					{ mentions.map( ( mention, index ) => (
+						<Fragment key={ `additional-mention-${ index }-${ fieldId }` }>
+							{ mention }
+						</Fragment>
+					) ) }
 					<ReplacementVariableEditorStandalone
 						fieldId={ fieldId }
 						placeholder={ placeholder }
