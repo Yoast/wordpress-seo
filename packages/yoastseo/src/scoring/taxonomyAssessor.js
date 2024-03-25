@@ -23,7 +23,7 @@ export const getTextLengthAssessment = function() {
 	// Export so it can be used in tests.
 	return new TextLengthAssessment( {
 		recommendedMinimum: 30,
-		belowMinimum: 10,
+		slightlyBelowMinimum: 10,
 		veryFarBelowMinimum: 1,
 		urlTitle: createAnchorOpeningTag( "https://yoa.st/34j" ),
 		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34k" ),

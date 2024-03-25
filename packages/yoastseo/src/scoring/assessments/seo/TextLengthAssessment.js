@@ -6,7 +6,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
- * Assessment that will test if the text is long enough.
+ * Represents an assessment that checks the length of the text and gives feedback accordingly.
  */
 export default class TextLengthAssessment extends Assessment {
 	/**
@@ -104,7 +104,8 @@ export default class TextLengthAssessment extends Assessment {
 	}
 
 	/**
-	 * Returns the score and the appropriate feedback string based on the current word count for taxonomies.
+	 * Returns the score and the appropriate feedback string based on the current word count
+	 * for taxonomies (in WordPress) and collections (in Shopify).
 	 *
 	 * @param {number} wordCount	The amount of words to be checked against.
 	 * @returns {Object} The score and the feedback string.
@@ -128,7 +129,7 @@ export default class TextLengthAssessment extends Assessment {
 				),
 			};
 		}
-		if ( inRange( wordCount, this._config.belowMinimum, this._config.recommendedMinimum ) ) {
+		if ( inRange( wordCount, this._config.slightlyBelowMinimum, this._config.recommendedMinimum ) ) {
 			return {
 				score: this._config.scores.slightlyBelowMinimum,
 				resultText: sprintf(
@@ -150,7 +151,7 @@ export default class TextLengthAssessment extends Assessment {
 				),
 			};
 		}
-		if ( inRange( wordCount, this._config.veryFarBelowMinimum, this._config.belowMinimum ) ) {
+		if ( inRange( wordCount, this._config.veryFarBelowMinimum, this._config.slightlyBelowMinimum ) ) {
 			return {
 				score: this._config.scores.belowMinimum,
 				resultText: sprintf(
@@ -198,7 +199,8 @@ export default class TextLengthAssessment extends Assessment {
 	 * @returns {Object} The score and the feedback string.
 	 */
 	calculateResult( wordCount ) {
-		if ( this._config.customContentType === "taxonomyAssessor" ) {
+		const customContentTypes = [ "taxonomyAssessor", "collectionSEOAssessor", "collectionCornerstoneSEOAssessor" ];
+		if ( customContentTypes.includes( this._config.customContentType ) ) {
 			return this.calculateTaxonomyResult( wordCount );
 		}
 		if ( wordCount >= this._config.recommendedMinimum ) {

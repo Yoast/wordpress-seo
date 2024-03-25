@@ -55,10 +55,9 @@ const CollectionCornerstoneSEOAssessor = function( researcher, options ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify47" ),
 		} ),
 		new TextLengthAssessment( {
-			recommendedMinimum: 100,
-			slightlyBelowMinimum: 80,
-			belowMinimum: 50,
-			veryFarBelowMinimum: 20,
+			recommendedMinimum: 30,
+			slightlyBelowMinimum: 10,
+			veryFarBelowMinimum: 1,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
 			cornerstoneContent: true,
