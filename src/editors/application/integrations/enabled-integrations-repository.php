@@ -3,8 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Editors\Application\Integrations;
 
-use Yoast\WP\SEO\Editors\Domain\Editor_Data\Editor_Data;
-use Yoast\WP\SEO\Editors\Domain\Editor_Data\Editor_Data_List;
 use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
 use Yoast\WP\SEO\Editors\Framework\Analysis_Feature_Interface;
 
@@ -28,7 +26,7 @@ class Enabled_Integrations_Repository {
 	 * @param Integration_Data_Provider_Interface ...$plugin_integrations All integrations.
 	 */
 	public function __construct( Integration_Data_Provider_Interface ...$plugin_integrations ) {
-		$this->plugin_integrations           = $plugin_integrations;
+		$this->plugin_integrations = $plugin_integrations;
 	}
 
 	/**

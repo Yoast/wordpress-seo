@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Editors\Framework\Integrations;
 
 use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
 
-class Jetpack implements Integration_Data_Provider_Interface {
+class Jetpack_Markdown implements Integration_Data_Provider_Interface {
 
 	/**
 	 * @inheritDoc
@@ -39,7 +39,7 @@ class Jetpack implements Integration_Data_Provider_Interface {
 		$is_markdown = false;
 
 		if ( \class_exists( 'Jetpack' ) && \method_exists( 'Jetpack', 'get_active_modules' ) ) {
-			$active_modules = self::get_active_modules();
+			$active_modules = Jetpack::get_active_modules();
 
 			// First at all, check if Jetpack's markdown module is active.
 			$is_markdown = \in_array( 'markdown', $active_modules, true );

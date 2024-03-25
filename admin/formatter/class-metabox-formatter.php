@@ -51,8 +51,8 @@ class WPSEO_Metabox_Formatter {
 	 * @return array<string,string|array<string|int|bool>|bool|int> Default settings for the metabox.
 	 */
 	private function get_defaults() {
-		$schema_types      = new Schema_Types();
-		$host              = YoastSEO()->helpers->url->get_url_host( get_site_url() );
+		$schema_types = new Schema_Types();
+		$host         = YoastSEO()->helpers->url->get_url_host( get_site_url() );
 
 		$defaults = [
 			'author_name'                        => get_the_author_meta( 'display_name' ),
@@ -196,9 +196,8 @@ class WPSEO_Metabox_Formatter {
 
 		$enabled_integrations_repo = YoastSEO()->classes->get( Enabled_Integrations_Repository::class );
 
-
-		$enabled_integrations= $enabled_integrations_repo->get_enabled_integrations();
-		$defaults = array_merge( $defaults, $enabled_integrations );
+		$enabled_integrations  = $enabled_integrations_repo->get_enabled_integrations();
+		$defaults              = array_merge( $defaults, $enabled_integrations );
 		$enabled_features_repo = YoastSEO()->classes->get( Enabled_Analysis_Features_Repository::class );
 
 		$enabled_features = $enabled_features_repo->get_enabled_features()->parse_to_legacy_array();
