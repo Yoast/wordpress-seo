@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { isUndefined, merge } from "lodash-es";
+import { isUndefined, merge } from "lodash";
 
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers";

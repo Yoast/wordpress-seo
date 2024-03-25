@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { difference, forEach, isNumber, isObject, isUndefined } from "lodash-es";
+import { difference, forEach, isNumber, isObject, isUndefined } from "lodash";
 import { assessmentPresenterResult as template } from "../../snippetPreview/templates.js";
 import scoreToRating from "../interpreters/scoreToRating.js";
 import createConfig from "../../config/presenter.js";

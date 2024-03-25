@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { isUndefined } from "lodash-es";
+import { isUndefined } from "lodash";
 
 import MissingArgument from "../errors/missingArgument";
 import { createAnchorOpeningTag } from "../helpers/shortlinker";

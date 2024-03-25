@@ -2,7 +2,7 @@
 
 import getAnchors from "../helpers/link/getAnchorsFromText.js";
 
-import { map } from "lodash-es";
+import { map } from "lodash";
 import url from "../helpers/url/url.js";
 
 /**

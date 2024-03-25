@@ -1,4 +1,4 @@
-import { merge, isUndefined, isEmpty } from "lodash-es";
+import { merge, isUndefined, isEmpty } from "lodash";
 
 import InvalidTypeError from "../errors/invalidType";
 import MissingArgument from "../errors/missingArgument";

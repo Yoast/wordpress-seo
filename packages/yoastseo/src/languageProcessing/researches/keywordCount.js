@@ -1,4 +1,4 @@
-import { flatten, flattenDeep } from "lodash-es";
+import { flatten, flattenDeep } from "lodash";
 import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
 import { normalizeSingle } from "../helpers/sanitize/quotes";
 import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";

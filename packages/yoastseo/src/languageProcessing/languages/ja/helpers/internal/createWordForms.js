@@ -1,4 +1,4 @@
-import { flatten, uniq } from "lodash-es";
+import { flatten, uniq } from "lodash";
 
 /**
  * Checks if the word matches any paradigm and creates the forms from the matched paradigm(s).

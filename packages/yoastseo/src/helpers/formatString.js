@@ -1,4 +1,4 @@
-import { escapeRegExp } from "lodash-es";
+import { escapeRegExp } from "lodash";
 
 /**
  * Formats a string with named parameters as defined in the given parameter mapping.

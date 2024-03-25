@@ -2,7 +2,7 @@
 import wordMatch from "../helpers/match/matchTextWithWord.js";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
 
-import { escapeRegExp, filter, includes, isEmpty } from "lodash-es";
+import { escapeRegExp, filter, includes, isEmpty } from "lodash";
 import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
 import getWords from "../helpers/word/getWords";
 import { WORD_BOUNDARY_WITH_HYPHEN } from "../../config/wordBoundariesWithoutPunctuation";

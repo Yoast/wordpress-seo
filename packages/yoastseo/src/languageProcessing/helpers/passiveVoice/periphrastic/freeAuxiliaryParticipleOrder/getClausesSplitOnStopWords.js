@@ -1,4 +1,4 @@
-import { forEach, isEmpty, map } from "lodash-es";
+import { forEach, isEmpty, map } from "lodash";
 
 import stripSpaces from "../../../sanitize/stripSpaces.js";
 
