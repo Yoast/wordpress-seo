@@ -1,6 +1,14 @@
-import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
+import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, HomeIcon, NewspaperIcon, UserIcon } from "@heroicons/react/outline";
 import SidebarNavigation from ".";
 import Table from "../../elements/table";
+import {
+	combinedMenu,
+	component,
+	menuItem,
+	mobile, navigationContext,
+	sidebar,
+	submenuItem,
+} from "./docs";
 
 export default {
 	title: "2) Components/Sidebar navigation",
@@ -62,7 +70,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A sidebar navigation component. Contains the subcomponents `Sidebar`, `Mobile`, `MenuItem` and `SubmenuItem` and contains the hook `useNavigationContext`.",
+				component,
 			},
 		},
 	},
@@ -119,30 +127,9 @@ Factory.args = {
 	</SidebarNavigation.Sidebar>,
 };
 
-export const MenuItem = Template.bind( {} );
-MenuItem.storyName = "Menu item";
-MenuItem.parameters = { docs: { description: { story: "The subcomponent `SidebarNavigation.MenuItem` accepts the subcomponents `SidebarNavigation.SubmenuItem` as children." } } };
-
-MenuItem.args = {
-	children: (
-		<SidebarNavigation.MenuItem
-			id={ "menuitem" }
-			icon={ ColorSwatchIcon }
-			label="MenuItem label"
-			defaultOpen={ true }
-		>
-			<SidebarNavigation.SubmenuItem to="#1" label="SubmenuItem 1" />
-			<SidebarNavigation.SubmenuItem to="#2" label="SubmenuItem 2" />
-			<SidebarNavigation.SubmenuItem to="#3" label="SubmenuItem 3" />
-
-		</SidebarNavigation.MenuItem>
-	),
-};
-
-
 export const Sidebar = Template.bind( {} );
 
-Sidebar.parameters = { docs: { description: { story: "The subcomponent `SidebarNavigation.Sidebar` is a `<nav>` wrapper component. It's props are `className` and `children` (`MenuItem` subomponents)." } } };
+Sidebar.parameters = { docs: { description: { story: sidebar } } };
 
 Sidebar.args = {
 	children: (
@@ -173,10 +160,78 @@ Sidebar.args = {
 	),
 };
 
+export const MenuItem = Template.bind( {} );
+MenuItem.storyName = "Menu item";
+MenuItem.parameters = { docs: { description: { story: menuItem } } };
+
+MenuItem.args = {
+	children: (
+		<SidebarNavigation.MenuItem
+			id={ "menuitem" }
+			icon={ ColorSwatchIcon }
+			label="MenuItem label"
+			defaultOpen={ true }
+		>
+			<SidebarNavigation.SubmenuItem to="#1" label="SubmenuItem 1" />
+			<SidebarNavigation.SubmenuItem to="#2" label="SubmenuItem 2" />
+			<SidebarNavigation.SubmenuItem to="#3" label="SubmenuItem 3" />
+
+		</SidebarNavigation.MenuItem>
+	),
+};
+
+const iconClassName = "yst-flex-shrink-0 yst--ml-1 yst-mr-3 yst-h-6 yst-w-6 yst-text-slate-400 group-hover:yst-text-slate-500";
+function ItemWithHomeIcon( { children, ...props } ) {
+	return ( <a { ...props }><HomeIcon className={ iconClassName } />{ children }</a> );
+}
+function ItemWithSettingsIcon( { children, ...props } ) {
+	return ( <a { ...props }><AdjustmentsIcon className={ iconClassName } />{ children }</a> );
+}
+
+export const SubmenuItem = Template.bind( {} );
+SubmenuItem.storyName = "Sidebar with submenu item";
+SubmenuItem.parameters = { docs: { description: { story: submenuItem } } };
+
+SubmenuItem.args = {
+	children: (
+		<SidebarNavigation.Sidebar className="yst-w-1/3">
+			<ul>
+				<SidebarNavigation.SubmenuItem as={ ItemWithHomeIcon } href="#_home" label="Home" />
+				<SidebarNavigation.SubmenuItem as={ ItemWithSettingsIcon } href="#_settings" label="Settings" />
+			</ul>
+		</SidebarNavigation.Sidebar>
+	),
+};
+
+export const CombinedMenu = Template.bind( {} );
+CombinedMenu.storyName = "Sidebar with both items";
+CombinedMenu.parameters = { docs: { description: { story: combinedMenu } } };
+
+CombinedMenu.args = {
+	children: (
+		<SidebarNavigation.Sidebar className="yst-w-1/3">
+			<ul>
+				<SidebarNavigation.SubmenuItem as={ ItemWithHomeIcon } href="#_home" label="Home" />
+				<SidebarNavigation.SubmenuItem as={ ItemWithSettingsIcon } href="#_settings" label="Settings" />
+				<li>
+					<SidebarNavigation.MenuItem
+						id="submenuitem-sidebar-2"
+						icon={ UserIcon }
+						label="Profile"
+					>
+						<SidebarNavigation.SubmenuItem href="#_subscriptions" label="Subscriptions" />
+						<SidebarNavigation.SubmenuItem href="#_logout" label="Log out" />
+					</SidebarNavigation.MenuItem>
+				</li>
+			</ul>
+		</SidebarNavigation.Sidebar>
+	),
+};
+
 
 export const Mobile = Template.bind( {} );
 
-Mobile.parameters = { docs: { description: { story: "The subcomponent `SidebarNavigation.Mobile` is a wrapper component over the `MenuItem` subcomponents for mobile view." } } };
+Mobile.parameters = { docs: { description: { story: mobile } } };
 
 Mobile.args = {
 	children: ( <SidebarNavigation.Mobile
@@ -204,7 +259,7 @@ NavigationContext.storyName = "Navigation context";
 NavigationContext.parameters = {
 	docs: {
 		description: {
-			story: "The `useNavigationContext` hook is exported. The context contains: `activePath`, `isMobileMenuOpen` and `setMobileMenuOpen` for if you need more control or create your own `SubmenuItem`.",
+			story: navigationContext,
 		},
 		transformSource: () => "import { useNavigationContext } from \"@yoast/ui-library\";\n\n" +
 			"const { activePath, isMobileMenuOpen, setMobileMenuOpen } = useNavigationContext();",
