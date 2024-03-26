@@ -68,7 +68,6 @@ final class Wincher_Test extends TestCase {
 	public function test_is_enabled() {
 		$this->wincher_helper
 			->expects( 'is_active' )
-			->with( 'semrush_integration_active', true )
 			->andReturnTrue();
 
 		$this->assertSame( true, $this->instance->is_enabled() );
@@ -85,21 +84,19 @@ final class Wincher_Test extends TestCase {
 		$this->wincher_helper
 			->expects( 'is_active' )
 			->twice()
-			->with( 'semrush_integration_active', true )
 			->andReturnTrue();
 		$this->wincher_helper
 			->expects( 'login_status' )
 			->andReturnTrue();
 		$this->options
 			->expects( 'get' )
-			->twice()
 			->with( 'wincher_website_id', '' )
 			->andReturn( 'some-id' );
 
 		$this->options
 			->expects( 'get' )
 			->with( 'wincher_automatically_add_keyphrases', false )
-			->andReturnTrue;
+			->andReturnTrue();
 
 		$this->assertSame(
 			[
