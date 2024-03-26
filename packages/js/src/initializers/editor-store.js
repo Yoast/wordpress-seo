@@ -1,6 +1,6 @@
 import { combineReducers, registerStore } from "@wordpress/data";
 import { actions, reducers, selectors } from "@yoast/externals/redux";
-import { get, pickBy, forEach } from "lodash";
+import { get, pickBy } from "lodash";
 import * as controls from "../redux/controls";
 import initialState from "../redux/initial-state";
 
@@ -28,14 +28,6 @@ const populateStore = store => {
 			},
 		} )
 	);
-
-	// Set initial value for primary terms.
-	const metadata = get( window, "wpseoScriptData.metabox.metadata", {} );
-	const primaryTerms = pickBy( metadata, ( value, key ) => key.startsWith( "primary_" ) && value );
-	forEach( primaryTerms, ( value, key ) => {
-		const taxonomy = key.replace( "primary_", "" );
-		store.dispatch( actions.setPrimaryTaxonomyId( taxonomy, value ) );
-	} );
 
 	store.dispatch( actions.setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode ) );
 	store.dispatch( actions.setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus ) );
