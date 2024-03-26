@@ -343,7 +343,7 @@ final class Social_Profiles_Helper_Test extends TestCase {
 	 * @covers ::get_organization_social_profiles
 	 * @covers ::get_organization_social_profile_fields
 	 *
-	 * @dataProvider get_organization_social_profiles
+	 * @dataProvider get_organization_social_profiles_provider
 	 *
 	 * @param array<string, string|array<string, string>> $social_profiles The array of the organization's social profiles to be set.
 	 * @param array<string, string|array<int, string>>    $default_value   The default values for the social profiles.
@@ -385,8 +385,8 @@ final class Social_Profiles_Helper_Test extends TestCase {
 	 *
 	 * @return array<string, array<string, string|array<string, string>>> Data for test_get_organization_social_profiles function.
 	 */
-	public static function get_organization_social_profiles() {
-		$success_all = [
+	public static function get_organization_social_profiles_provider() {
+		yield 'Successful get with all valid values' => [
 			'social_profiles' => [
 				'facebook_site'     => 'https://facebook.com/janedoe',
 				'twitter_site'      => 'janedoe',
@@ -410,7 +410,7 @@ final class Social_Profiles_Helper_Test extends TestCase {
 			],
 		];
 
-		$empty_all = [
+		yield 'Empty get with all empty values' => [
 			'social_profiles' => [
 				'facebook_site'     => '',
 				'twitter_site'      => '',
@@ -426,11 +426,6 @@ final class Social_Profiles_Helper_Test extends TestCase {
 				'twitter_site'      => '',
 				'other_social_urls' => [],
 			],
-		];
-
-		return [
-			'Successful get with all valid values' => $success_all,
-			'Empty get with all empty values'      => $empty_all,
 		];
 	}
 }
