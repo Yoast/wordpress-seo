@@ -2,7 +2,7 @@ import { combineReducers, registerStore } from "@wordpress/data";
 import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { get, pickBy, forEach } from "lodash";
 import * as controls from "../redux/controls";
-import initialState from "../redux/initialState";
+import initialState from "../redux/initial-state";
 
 /**
  * Populates the store.

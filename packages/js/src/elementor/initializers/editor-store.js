@@ -4,7 +4,7 @@ import { get, pickBy, forEach } from "lodash";
 import * as controls from "../../redux/controls";
 import * as snippetEditorActions from "../redux/actions/snippetEditor";
 import * as analysisSelectors from "../redux/selectors/analysis";
-import initialState from "../../redux/initialState";
+import initialState from "../../redux/initial-state";
 
 /**
  * Populates the store.

@@ -46,7 +46,6 @@ const prepareSocialDescription = ( value ) => {
 const prepareValue = ( key, value ) => {
 	switch ( key ) {
 		case "wordproof_timestamp":
-		case "is_cornerstone":
 			return value ? "1" : "0";
 		case "twitter-title":
 		case "opengraph-title":
