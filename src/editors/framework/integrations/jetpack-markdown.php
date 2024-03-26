@@ -1,27 +1,40 @@
 <?php
 
+// @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Editors\Framework\Integrations;
 
+use Jetpack;
 use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
 
+/**
+ * Describes if the Jetpack markdown integration is enabled.
+ */
 class Jetpack_Markdown implements Integration_Data_Provider_Interface {
 
 	/**
-	 * @inheritDoc
+	 * If the integration is activated.
+	 *
+	 * @return bool If the integration is activated.
 	 */
 	public function is_enabled(): bool {
 		return $this->is_markdown_enabled();
 	}
 
 	/**
-	 * @inheritDoc
+	 * Return this object represented by a key value array.
+	 *
+	 * @return array<string,bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
-		// TODO: Implement to_array() method.
+		return [
+			'markdownEnabled'                    => $this->is_enabled(),
+		];
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns this object represented by a key value structure that is compliant with the script data array.
+	 *
+	 * @return array<string,bool> Returns the legacy key and if the feature is enabled.
 	 */
 	public function to_legacy_array(): array {
 		return [

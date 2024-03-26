@@ -32,7 +32,7 @@ class Enabled_Integrations_Repository {
 	/**
 	 * Returns the analysis list.
 	 *
-	 * @return array The parsed list.
+	 * @return array<array<string,bool>> The parsed list.
 	 */
 	public function get_enabled_integrations(): array {
 		$array = [];

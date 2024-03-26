@@ -1,5 +1,5 @@
 <?php
-
+// @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Editors\Framework\Integrations;
 
 use Yoast\WP\SEO\Config\SEMrush_Client;
@@ -9,6 +9,9 @@ use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
+/**
+ * Describes if the Semrush integration is enabled.
+ */
 class Semrush implements Integration_Data_Provider_Interface {
 
 	/**
@@ -28,21 +31,31 @@ class Semrush implements Integration_Data_Provider_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * If the integration is activated.
+	 *
+	 * @return bool If the integration is activated.
 	 */
 	public function is_enabled(): bool {
 		return (bool) $this->options_helper->get( 'semrush_integration_active', true );
 	}
 
 	/**
-	 * @inheritDoc
+	 * Return this object represented by a key value array.
+	 *
+	 * @return array<string,bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
-		// TODO: Implement to_array() method.
+		return [
+			'active'      => $this->is_enabled(),
+			'countryCode' => $this->options_helper->get( 'semrush_country_code', false ),
+			'loginStatus' => $this->options_helper->get( 'semrush_integration_active', true ) && $this->get_semrush_login_status(),
+		];
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns this object represented by a key value structure that is compliant with the script data array.
+	 *
+	 * @return array<string,bool> Returns the legacy key and if the feature is enabled.
 	 */
 	public function to_legacy_array(): array {
 		return [
@@ -55,7 +68,7 @@ class Semrush implements Integration_Data_Provider_Interface {
 	/**
 	 * Checks if the user is logged in to SEMrush.
 	 *
-	 * @return mixed|bool The SEMrush login status.
+	 * @return bool The SEMrush login status.
 	 */
 	private function get_semrush_login_status() {
 		try {

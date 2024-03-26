@@ -1,5 +1,5 @@
 <?php
-
+// @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Editors\Framework\Integrations;
 
 use Yoast\WP\SEO\Conditionals\Third_Party\Polylang_Conditional;
@@ -7,23 +7,39 @@ use Yoast\WP\SEO\Conditionals\Third_Party\TranslatePress_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\WPML_Conditional;
 use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
 
+/**
+ * Describes if the Multilingual integration is enabled.
+ */
 class Multilingual implements Integration_Data_Provider_Interface {
 
 	/**
-	 * @var WPML_Conditional
+	 * The WPML conditional.
+	 *
+	 * @var WPML_Conditional $wpml_conditional
 	 */
 	private $wpml_conditional;
 
 	/**
-	 * @var Polylang_Conditional
+	 * The Polylang conditional.
+	 *
+	 * @var Polylang_Conditional $polylang_conditional
 	 */
 	private $polylang_conditional;
 
 	/**
-	 * @var TranslatePress_Conditional
+	 * The TranslatePress conditional.
+	 *
+	 * @var TranslatePress_Conditional $translate_press_conditional
 	 */
 	private $translate_press_conditional;
 
+	/**
+	 * The constructor.
+	 *
+	 * @param WPML_Conditional           $wpml_conditional            The wpml conditional.
+	 * @param Polylang_Conditional       $polylang_conditional        The polylang conditional.
+	 * @param TranslatePress_Conditional $translate_press_conditional The translate press conditional.
+	 */
 	public function __construct( WPML_Conditional $wpml_conditional, Polylang_Conditional $polylang_conditional, TranslatePress_Conditional $translate_press_conditional ) {
 		$this->wpml_conditional            = $wpml_conditional;
 		$this->polylang_conditional        = $polylang_conditional;
@@ -31,21 +47,27 @@ class Multilingual implements Integration_Data_Provider_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * If the integration is activated.
+	 *
+	 * @return bool If the integration is activated.
 	 */
 	public function is_enabled(): bool {
 		return $this->multilingual_plugin_active();
 	}
 
 	/**
-	 * @inheritDoc
+	 * Return this object represented by a key value array.
+	 *
+	 * @return array<string,bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
-		// TODO: Implement to_array() method.
+		return [ 'multilingualPluginActive' => $this->is_enabled() ];
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns this object represented by a key value structure that is compliant with the script data array.
+	 *
+	 * @return array<string,bool> Returns the legacy key and if the feature is enabled.
 	 */
 	public function to_legacy_array(): array {
 		return [ 'multilingualPluginActive' => $this->is_enabled() ];
