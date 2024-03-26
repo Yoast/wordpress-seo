@@ -2,6 +2,7 @@ import get from "lodash/get";
 import { facebookInitialState, twitterInitialState } from "./socialAppearance";
 import { advancedSettingsInitialState } from "./advancedSettings";
 export * from "./socialAppearance";
+import analysis from "./analysis";
 
 const initialState = {
 	facebookEditor: facebookInitialState,
