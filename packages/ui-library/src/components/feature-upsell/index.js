@@ -1,6 +1,7 @@
 import { LockOpenIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React from "react";
 import Button from "../../elements/button";
 import { useSvgAria } from "../../hooks";
 
