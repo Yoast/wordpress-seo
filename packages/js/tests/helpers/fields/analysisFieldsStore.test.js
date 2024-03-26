@@ -93,7 +93,7 @@ const boolenaTestCases = [
 	{ value: null, expected: "0" },
 	{ value: undefined, expected: "0" },
 ];
-describe.each( boolenaTestCases )( "$method", ( { value, expected } ) => {
+describe.each( boolenaTestCases )( "isCornerstoneContent", ( { value, expected } ) => {
 	it( `should return ${expected} from isCornerstoneContent when value is ${value}`, () => {
 	  select.mockImplementation( ( store ) => {
 			if ( store === EDITOR_STORE ) {
@@ -114,7 +114,7 @@ const focusKeyphraseTestCases = [
 	{ value: undefined, expected: "" },
 ];
 
-describe.each( focusKeyphraseTestCases )( "$value", ( { value, expected } ) => {
+describe.each( focusKeyphraseTestCases )( "getFocusKeyphrase", ( { value, expected } ) => {
 	it( `should return ${expected} from getFocusKeyphrase when value is ${value}`, () => {
 	  select.mockImplementation( ( store ) => {
 			if ( store === EDITOR_STORE ) {

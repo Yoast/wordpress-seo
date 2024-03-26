@@ -17,7 +17,7 @@ import {
 import { EDITOR_STORE } from "../../../src/shared-admin/constants";
 import { select } from "@wordpress/data";
 
-// Tests for the facebookFieldsStore.js and twitterFieldsStore.js files.
+// Tests for the facebookFieldsStore.js, twitterFieldsStore.js and adnacedSettingsFieldsStore.js files.
 
 jest.mock( "@wordpress/data", () => ( {
 	select: jest.fn(),
@@ -31,7 +31,7 @@ const testCasesInteger = [
 ];
 
 describe.each( testCasesInteger )( "$method", ( { method, getFunction } ) => {
-	it( `should return string from ${method} when the id is an integer`, () => {
+	it( `should return string from ${method} when the value is an integer`, () => {
 		select.mockImplementation( ( store ) => {
 			if ( store === EDITOR_STORE ) {
 				return {
@@ -58,10 +58,11 @@ const testCases = [
 	{ method: "getAdvanced", getFunction: getAdvanced  },
 	{ method: "getBreadcrumbsTitle", getFunction: getBreadcrumbsTitle },
 	{ method: "getCanonical", getFunction: getCanonical },
+
 ];
 
 describe.each( testCases )( "$method", ( { method, getFunction } ) => {
-	it( `should return empty string from ${method} when null`, () => {
+	it( `should return string from ${method} when value is string`, () => {
 		select.mockImplementation( ( store ) => {
 			  if ( store === EDITOR_STORE ) {
 				  return {
@@ -162,7 +163,7 @@ const getWordProofTimestampTestCases = [
 	{ value: null, expected: "" },
 	{ value: undefined, expected: "" },
 ];
-describe.each( getWordProofTimestampTestCases )( "$method", ( { value, expected } ) => {
+describe.each( getWordProofTimestampTestCases )( "getWordProofTimestamp", ( { value, expected } ) => {
 	it( `should return ${expected} from getWordProofTimestamp when value is ${value}`, () => {
 	  select.mockImplementation( ( store ) => {
 			if ( store === EDITOR_STORE ) {
@@ -176,4 +177,5 @@ describe.each( getWordProofTimestampTestCases )( "$method", ( { value, expected 
 		expect( result ).toBe( expected );
 	} );
 } );
+
 

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { valuesToSync } from "../../../src/helpers/fields/hiddenFieldsSync";
 
 import {
@@ -25,7 +26,7 @@ import {
 	getEstimatedReadingTime } from "../../../src/helpers/fields";
 
 describe( "should sync the right values", () => {
-	it( "valuesToSync should include the correct parameters", () => {
+	it( "valuesToSync should include the correct properties", () => {
 		expect( valuesToSync ).toMatchObject( {
 			focuskw: getFocusKeyphrase,
 			"meta-robots-noindex": getNoIndex,
