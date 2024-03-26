@@ -1,4 +1,4 @@
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback, useState } from "react";
 
 /**
  * Creates a toggle state.

@@ -3,10 +3,10 @@ import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree";
 /**
  * Calculates the keyphrase density.
  *
- * @param {Paper} paper        The paper containing keyphrase and text.
- * @param {Researcher} researcher   The researcher.
+ * @param {Paper} paper The paper containing keyphrase and text.
+ * @param {Researcher} researcher The researcher.
  *
- * @returns {Object} The keyphrase density.
+ * @returns {number} The keyphrase density.
  */
 export default function getKeyphraseDensity( paper, researcher ) {
 	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
@@ -33,12 +33,12 @@ export default function getKeyphraseDensity( paper, researcher ) {
  *
  * @deprecated Use getKeyphraseDensity instead.
  *
- * @param {Object} paper        The paper containing keyphrase and text.
- * @param {Object} researcher   The researcher.
+ * @param {Paper} paper The paper containing keyphrase and text.
+ * @param {Researcher} researcher The researcher.
  *
- * @returns {Object} The keyphrase density.
+ * @returns {number} The keyphrase density.
  */
 export function getKeywordDensity( paper, researcher ) {
 	console.warn( "This function is deprecated, use getKeyphraseDensity instead." );
-	return getKeywordDensity( paper, researcher );
+	return getKeyphraseDensity( paper, researcher );
 }

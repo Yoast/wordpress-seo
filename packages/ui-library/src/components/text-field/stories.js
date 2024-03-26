@@ -1,47 +1,20 @@
-// eslint-disable react/display-name
-import { useCallback, useState } from "@wordpress/element";
-import { noop, map } from "lodash";
+import { map, noop } from "lodash";
+import React from "react";
+import TextField from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { VALIDATION_VARIANTS } from "../../constants";
-import { StoryComponent } from ".";
-
-export default {
-	title: "2) Components/Text field",
-	component: StoryComponent,
-	argTypes: {
-		description: { control: "text" },
-		labelSuffix: { control: "text" },
-	},
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple input field component.",
-			},
-		},
-	},
-	args: {
-		id: "input-field",
-		onChange: noop,
-		label: "A text field",
-	},
-};
 
 export const Factory = {
-	component: args => {
-		const [ value, setValue ] = useState( args.value || "" );
-		const handleChange = useCallback( setValue, [ setValue ] );
-
-		return (
-			<StoryComponent { ...args } value={ value } onChange={ handleChange } />
-		);
-	},
 	parameters: {
 		controls: { disable: false },
 	},
 };
 
 export const WithLabelAndDescription = {
-	storyName: "With label and description",
-	component: Factory.component.bind( {} ),
+	name: "With label and description",
+	parameters: {
+		controls: { disable: false },
+	},
 	args: {
 		id: "input-field-1",
 		label: "Input field with a label",
@@ -52,7 +25,7 @@ export const WithLabelAndDescription = {
 export const Validation = () => (
 	<div className="yst-space-y-8">
 		{ map( VALIDATION_VARIANTS, variant => (
-			<StoryComponent
+			<TextField
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }
@@ -72,3 +45,25 @@ export const Validation = () => (
 		) ) }
 	</div>
 );
+
+export default {
+	title: "2) Components/Text field",
+	component: TextField,
+	argTypes: {
+		description: { control: "text" },
+		labelSuffix: { control: "text" },
+	},
+	parameters: {
+		docs: {
+			description: {
+				component: "A simple input field component.",
+			},
+			page: () => <InteractiveDocsPage stories={ [ WithLabelAndDescription, Validation ] } />,
+		},
+	},
+	args: {
+		id: "input-field",
+		onChange: noop,
+		label: "A text field",
+	},
+};

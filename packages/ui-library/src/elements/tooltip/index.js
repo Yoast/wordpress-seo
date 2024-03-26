@@ -1,6 +1,6 @@
-import { forwardRef } from "@wordpress/element";
-import PropTypes from "prop-types";
 import classNames from "classnames";
+import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 
 const positionClassNameMap = {
 	top: "yst-tooltip--top",
@@ -35,27 +35,19 @@ const Tooltip = forwardRef( ( { id, children, as: Component, className, position
 	);
 } );
 
-const propTypes = {
+Tooltip.displayName = "Tooltip";
+Tooltip.propTypes = {
 	as: PropTypes.elementType,
 	id: PropTypes.string,
 	children: PropTypes.string,
 	className: PropTypes.string,
 	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ),
 };
-
-Tooltip.propTypes = propTypes;
-
 Tooltip.defaultProps = {
 	as: "div",
 	children: "",
 	className: "",
 	position: "top",
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Tooltip { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Tooltip.defaultProps;
-StoryComponent.displayName = "Tooltip";
 
 export default Tooltip;

@@ -845,8 +845,10 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-org-leicode",
-			fieldLabel: __( "leiCode", "wordpress-seo" ),
-			keywords: [],
+			fieldLabel: __( "LEI code", "wordpress-seo" ),
+			keywords: [
+				__( "leicode", "wordpress-seo" ),
+			],
 		},
 		organization_naics: {
 			route: "/site-representation",

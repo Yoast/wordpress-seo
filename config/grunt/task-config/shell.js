@@ -70,10 +70,10 @@ module.exports = function( grunt ) {
 
 		// Build all monorepo packages except the plugin JS, following the dependency tree upwards.
 		"build-packages": {
-			command: "NODE_ENV=development yarn run lerna run build --ignore '@yoast/wordpress-seo'",
+			command: "cross-env NODE_ENV=development yarn run lerna run build --ignore '@yoast/wordpress-seo'",
 		},
 		"build-packages-prod": {
-			command: "NODE_ENV=production yarn run lerna run build --ignore '@yoast/wordpress-seo'",
+			command: "cross-env NODE_ENV=production yarn run lerna run build --ignore '@yoast/wordpress-seo'",
 		},
 		// Deprecated. Use the "build-packages" command instead.
 		"build-ui-library": {
