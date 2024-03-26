@@ -80,7 +80,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 */
 	public function register_blocks() {
 		\register_block_type(
-			'yoast/faq-block',
+			\WPSEO_PATH . 'blocks/structured-data-blocks/faq/block.json',
 			[
 				'render_callback' => [ $this, 'optimize_faq_images' ],
 				'attributes'      => [
