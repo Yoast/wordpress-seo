@@ -345,9 +345,9 @@ final class Social_Profiles_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider get_organization_social_profiles_provider
 	 *
-	 * @param array<string, string|array<string, string>> $social_profiles The array of the organization's social profiles to be set.
-	 * @param array<string, string|array<int, string>>    $default_value   The default values for the social profiles.
-	 * @param array<string, string|array<string, string>> $expected        The expected field names which failed to be saved in the db.
+	 * @param array<string, string|array<string>>      $social_profiles The array of the organization's social profiles to be set.
+	 * @param array<string, string|array<int, string>> $default_value   The default values for the social profiles.
+	 * @param array<string, string|array<string>>      $expected        The expected field names which failed to be saved in the db.
 	 *
 	 * @return void
 	 */
