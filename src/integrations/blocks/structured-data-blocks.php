@@ -83,61 +83,12 @@ class Structured_Data_Blocks implements Integration_Interface {
 			\WPSEO_PATH . 'blocks/structured-data-blocks/faq/block.json',
 			[
 				'render_callback' => [ $this, 'optimize_faq_images' ],
-				'attributes'      => [
-					'className' => [
-						'default' => '',
-						'type'    => 'string',
-					],
-					'questions' => [
-						'type' => 'array',
-					],
-					'additionalListCssClasses' => [
-						'type' => 'string',
-					],
-				],
 			]
 		);
 		\register_block_type(
 			\WPSEO_PATH . 'blocks/structured-data-blocks/how-to/block.json',
 			[
 				'render_callback' => [ $this, 'optimize_how_to_images' ],
-				'attributes'      => [
-					'hasDuration' => [
-						'type' => 'boolean',
-					],
-					'days' => [
-						'type' => 'string',
-					],
-					'hours' => [
-						'type' => 'string',
-					],
-					'minutes' => [
-						'type' => 'string',
-					],
-					'description' => [
-						'type'     => 'array',
-						'source'   => 'children',
-						'selector' => '.schema-how-to-description',
-					],
-					'jsonDescription' => [
-						'type' => 'string',
-					],
-					'steps' => [
-						'type' => 'array',
-					],
-					'additionalListCssClasses' => [
-						'type' => 'string',
-					],
-					'unorderedList' => [
-						'type' => 'boolean',
-					],
-					'durationText' => [
-						'type' => 'string',
-					],
-					'defaultDurationText' => [
-						'type' => 'string',
-					],
-				],
 			]
 		);
 	}
