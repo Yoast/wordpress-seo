@@ -321,8 +321,8 @@ Release date: 2024-04-02
 
 #### Enhancements
 
-* Removes a duplicated query on author pages with internal images.
-* Removes two unnecessary queries on pages where external images are of SEO interest, like author pages with Gravatar author images.
+* Removes a duplicated database query on author pages with internal images.
+* Removes two unnecessary database queries on pages where external images are of SEO interest, like author pages with Gravatar author images.
 
 #### Bugfixes
 
@@ -335,7 +335,7 @@ Release date: 2024-04-02
 * Replaces `.substr()` with `.substring()` in JS files since it's deprecated.
 * Stops showing deprecation warnings when retrieving data for paid add-ons goes wrong.
 * Stops showing notifications about incompatibility with the WooCommerce's new beta product editor, after WooCommerce is deactivated.
-* Stops showing notifications prompting to install Yoast Woo SEO, after WooCommerce is deactivated.
+* Stops showing a notification prompting to install Yoast Woo SEO, after WooCommerce is deactivated.
 
 = 22.3 =
 
