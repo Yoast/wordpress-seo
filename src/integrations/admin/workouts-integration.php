@@ -142,6 +142,7 @@ class Workouts_Integration implements Integration_Interface {
 		}
 
 		$this->admin_asset_manager->enqueue_style( 'workouts' );
+		$this->admin_asset_manager->enqueue_style( 'tailwind' );
 
 		$workouts_option = $this->get_workouts_option();
 
