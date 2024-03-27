@@ -90,7 +90,7 @@ final class Image_Helper_Test extends TestCase {
 	/**
 	 * Data provider for the test_get_by_id test.
 	 *
-	 * @return array<bool,string,int> The data for the test.
+	 * @return array<string,bool|string|int> The data for the test.
 	 */
 	public function get_by_id_data_provider() {
 			yield 'invalid attachment' => [ false, '', 0 ];
