@@ -1,5 +1,5 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
-import { debounce, forEach, pickBy, get, defaultTo } from "lodash";
+import { debounce, forEach, pickBy, map } from "lodash";
 import createWatcher, { createCollectorFromObject } from "../../helpers/create-watcher";
 import { EDITOR_STORE, CORE_EDITOR_STORE, SYNC_TIME, POST_METADATA_KEYS } from "../../shared-admin/constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
@@ -8,24 +8,14 @@ import { getPageType, getArticleType } from "./schemaFieldsStore";
 import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoScore, getInclusiveLanguageScore, getEstimatedReadingTime } from "./analysisFieldsStore";
 import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical, getWordProofTimestamp } from "./advancedFieldsStore";
 import { getSeoTitle, getSeoDescription } from "./snippetEditorFieldsStore";
+import getPrimaryTerms from "./primaryTaxonomiesFieldsStore";
 
-/**
- * Retrieves primary terms from store methods.
- *
- * @returns {object} An object with taxonomies keys and their primary term id.
- */
-const getPrimaryTerms = () => {
-	const wpseoScriptDataMetaData = get( window, "wpseoScriptData.metabox.metadata", {} );
-	const getPrimaryTermsStore = {};
-	const primaryTerms = pickBy( wpseoScriptDataMetaData, ( value, key ) => key.startsWith( "primary_" ) );
-	forEach( primaryTerms, ( value, key ) => {
-		const taxonomy = key.replace( "primary_", "" );
-		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => String( defaultTo( select( EDITOR_STORE ).getPrimaryTaxonomyId( taxonomy ), "" ) );
-		POST_METADATA_KEYS[ `primary_${taxonomy}` ] = `_yoast_wpseo_primary_${taxonomy}`;
-	} );
-	return getPrimaryTermsStore;
-};
 
+const taxonomiesKeys = map( getPrimaryTerms(), ( value, key ) => {
+	return { [ key ]: `_yoast_wpseo_${key}` };
+} );
+
+const METADATA_KEYS = { ...POST_METADATA_KEYS, ...taxonomiesKeys };
 /**
  * Creates an updater.
  * @returns {function} The updater.
@@ -45,12 +35,12 @@ const createUpdater = () => {
 			return;
 		}
 
-		const changedData = pickBy( data, ( value, key ) => value !== metadata[ POST_METADATA_KEYS[ key ] ] );
+		const changedData = pickBy( data, ( value, key ) => value !== metadata[ METADATA_KEYS[ key ] ] );
 
 		if ( changedData ) {
 			const newMetadata = {};
 			forEach( changedData, ( value, key ) => {
-				newMetadata[ POST_METADATA_KEYS[ key ] ] = value;
+				newMetadata[ METADATA_KEYS[ key ] ] = value;
 			} );
 
 			editPost( {

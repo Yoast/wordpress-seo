@@ -9,7 +9,7 @@ import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterIm
 import { getPageType, getArticleType } from "./schemaFieldsStore";
 import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoScore, getInclusiveLanguageScore, getEstimatedReadingTime } from "./analysisFieldsStore";
 import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical, getWordProofTimestamp } from "./advancedFieldsStore";
-
+import getPrimaryTerms from "./primaryTaxonomiesFieldsStore";
 
 /**
  * Prepare twitter title to be saved in hidden field.
@@ -93,9 +93,7 @@ export const createUpdater = () => {
 		const prefix = isPost ? "yoast_wpseo_" : "hidden_wpseo_";
 
 		const changedData = pickBy( data, ( value, key ) => ( prefix + key ) in hiddenFieldsData && value !== hiddenFieldsData[ prefix + key ] );
-		console.log( { hiddenFieldsData } );
-		console.log( { data } );
-		console.log( { changedData } );
+
 		if ( changedData ) {
 			forEach( changedData, ( value, key ) => {
 				document.getElementById( prefix + key ).value = prepareValue( key, value );
@@ -134,6 +132,7 @@ export const valuesToSync = {
 	linkdex: getSeoScore,
 	inclusive_language_score: getInclusiveLanguageScore,
 	"estimated-reading-time-minutes": getEstimatedReadingTime,
+	...getPrimaryTerms(),
 };
 
 /**
