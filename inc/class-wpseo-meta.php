@@ -418,7 +418,7 @@ class WPSEO_Meta {
 					return [];
 				}
 
-				$field_defs['schema_page_type']['default'] = WPSEO_Options::get( 'schema-page-type-' . $post_type );
+				$field_defs['schema_page_type']['default_value'] = WPSEO_Options::get( 'schema-page-type-' . $post_type );
 
 				$article_helper = new Article_Helper();
 				if ( $article_helper->is_article_post_type( $post_type ) ) {
@@ -430,7 +430,7 @@ class WPSEO_Meta {
 					if ( ! array_key_exists( $default_schema_article_type, $allowed_article_types ) ) {
 						$default_schema_article_type = WPSEO_Options::get_default( 'wpseo_titles', 'schema-article-type-' . $post_type );
 					}
-					$field_defs['schema_article_type']['default'] = $default_schema_article_type;
+					$field_defs['schema_article_type']['default_value'] = $default_schema_article_type;
 				}
 				else {
 					unset( $field_defs['schema_article_type'] );

@@ -1,11 +1,9 @@
 /* global wpseoAdminL10n */
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
-import { useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import SchemaTab from "../components/SchemaTab";
-import SchemaFields from "../helpers/SchemaFields";
 import withLocation from "../helpers/withLocation";
 
 /**
@@ -39,15 +37,6 @@ const getLocationBasedProps = ( location ) => {
  * @returns {JSX.Element} The SchemaTab.
  */
 const SchemaTabContainer = ( props ) => {
-	const showArticleTypeInput = SchemaFields.articleTypeInput !== null;
-
-	useEffect( () => {
-		props.loadSchemaPageData();
-		if ( showArticleTypeInput ) {
-			props.loadSchemaArticleData();
-		}
-	}, [] );
-
 	const { pageTypeOptions, articleTypeOptions } = window.wpseoScriptData.metabox.schema;
 
 	const baseProps = {
@@ -59,7 +48,6 @@ const SchemaTabContainer = ( props ) => {
 			"This helps search engines understand your website and your content. You can change some of your settings for this page below.",
 			"wordpress-seo"
 		),
-		showArticleTypeInput,
 		pageTypeOptions,
 		articleTypeOptions,
 	};
@@ -79,8 +67,6 @@ SchemaTabContainer.propTypes = {
 	schemaArticleTypeSelected: PropTypes.string.isRequired,
 	defaultArticleType: PropTypes.string.isRequired,
 	defaultPageType: PropTypes.string.isRequired,
-	loadSchemaPageData: PropTypes.func.isRequired,
-	loadSchemaArticleData: PropTypes.func.isRequired,
 	schemaPageTypeChange: PropTypes.func.isRequired,
 	schemaArticleTypeChange: PropTypes.func.isRequired,
 	location: PropTypes.string.isRequired,
@@ -111,13 +97,9 @@ export default compose( [
 		const {
 			setPageType,
 			setArticleType,
-			getSchemaPageData,
-			getSchemaArticleData,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
-			loadSchemaPageData: getSchemaPageData,
-			loadSchemaArticleData: getSchemaArticleData,
 			schemaPageTypeChange: setPageType,
 			schemaArticleTypeChange: setArticleType,
 		};
