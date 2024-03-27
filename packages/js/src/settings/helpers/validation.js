@@ -45,7 +45,7 @@ addMethod( number, "isMediaMimeTypeAllowed", function() {
 				return true;
 			}
 
-			return allowedMediaTypes.includes( media.mime_type );
+			return allowedMediaTypes.includes( media.mime );
 		}
 	);
 } );
