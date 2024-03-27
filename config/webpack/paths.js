@@ -45,7 +45,6 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"new-settings": `${ sourceDirectory }/settings/initialize.js`,
 	academy: `${ sourceDirectory }/academy/initialize.js`,
 	support: `${ sourceDirectory }/support/initialize.js`,
-	"structured-data-blocks": `${ sourceDirectory }/structured-data-blocks.js`,
 	"how-to-block": `${ sourceDirectory }/structured-data-blocks/how-to/block.js`,
 	"faq-block": `${ sourceDirectory }/structured-data-blocks/faq/block.js`,
 	"term-edit": `${ sourceDirectory }/term-edit.js`,

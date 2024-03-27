@@ -162,7 +162,6 @@ class Structured_Data_Blocks implements Integration_Interface {
 			return;
 		}
 
-		$this->asset_manager->enqueue_script( 'structured-data-blocks' );
 		$this->asset_manager->enqueue_style( 'structured-data-blocks' );
 	}
 
