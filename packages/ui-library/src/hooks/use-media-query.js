@@ -1,7 +1,10 @@
-import { useMemo, useCallback, useEffect, useState } from "@wordpress/element";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 /**
  * Creates a media query and returns a boolean that informs whether the query is met.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/MediaQueryList
  *
  * @param {string} [mediaQueryString] The media query to check against.
  *
