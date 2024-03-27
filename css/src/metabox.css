@@ -596,7 +596,13 @@
 
 ul.yoast-seo-social-share-buttons li {
 	display: inline-block;
-	margin-right: 16px;
+	margin-right: 24px;
+}
+
+ul.yoast-seo-social-share-buttons li .x-share svg{
+	width: 30px;
+	height: 30px;
+	fill: #000000;
 }
 
 ul.yoast-seo-social-share-buttons svg {
