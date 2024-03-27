@@ -10,7 +10,6 @@ const positionClassNameMap = {
 };
 
 /**
- * @param {string} id ID.
  * @param {string} children Content of the tooltip.
  * @param {string|JSX.Element} [as] Base component.
  * @param {string} [className] CSS class.
@@ -18,7 +17,7 @@ const positionClassNameMap = {
  * @returns {JSX.Element} Tooltip component.
  */
 
-const Tooltip = forwardRef( ( { id, children, as: Component, className, position, ...props }, ref ) => {
+const Tooltip = forwardRef( ( { children, as: Component, className, position, ...props }, ref ) => {
 	return (
 		<Component
 			ref={ ref }
@@ -27,7 +26,6 @@ const Tooltip = forwardRef( ( { id, children, as: Component, className, position
 				className,
 			) }
 			role="tooltip"
-			id={ id }
 			{ ...props }
 		>
 			{ children || null }
