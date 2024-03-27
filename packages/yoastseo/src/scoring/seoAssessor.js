@@ -1,5 +1,3 @@
-import { inherits } from "util";
-
 import IntroductionKeywordAssessment from "./assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./assessments/seo/KeyphraseLengthAssessment";
 import KeyphraseDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
@@ -28,35 +26,35 @@ import SingleH1Assessment from "./assessments/seo/SingleH1Assessment";
  *
  * @constructor
  */
-const SEOAssessor = function( researcher,  options ) {
-	Assessor.call( this, researcher, options );
-	this.type = "SEOAssessor";
+export default class SEOAssessor extends Assessor {
+	constructor( researcher, options ) {
+		super(researcher, options );
+		this.type = "SEOAssessor";
 
-	this._assessments = [
-		new IntroductionKeywordAssessment(),
-		new KeyphraseLengthAssessment(),
-		new KeyphraseDensityAssessment(),
-		new MetaDescriptionKeywordAssessment(),
-		new MetaDescriptionLength(),
-		new SubheadingsKeyword(),
-		new TextCompetingLinksAssessment(),
-		new ImageKeyphrase(),
-		new ImageCount(),
-		new TextLength(),
-		new OutboundLinks(),
-		new KeyphraseInSEOTitleAssessment(),
-		new InternalLinksAssessment(),
-		new TitleWidth( {
-			scores: {
-				widthTooShort: 9,
-			},
-		}, true ),
-		new SlugKeywordAssessment(),
-		new FunctionWordsInKeyphrase(),
-		new SingleH1Assessment(),
-	];
-};
+		this._assessments = [
+			new IntroductionKeywordAssessment(),
+			new KeyphraseLengthAssessment(),
+			new KeyphraseDensityAssessment(),
+			new MetaDescriptionKeywordAssessment(),
+			new MetaDescriptionLength(),
+			new SubheadingsKeyword(),
+			new TextCompetingLinksAssessment(),
+			new ImageKeyphrase(),
+			new ImageCount(),
+			new TextLength(),
+			new OutboundLinks(),
+			new KeyphraseInSEOTitleAssessment(),
+			new InternalLinksAssessment(),
+			new TitleWidth( {
+				scores: {
+					widthTooShort: 9,
+				},
+			}, true ),
+			new SlugKeywordAssessment(),
+			new FunctionWordsInKeyphrase(),
+			new SingleH1Assessment(),
+		];
+	}
+}
 
-inherits( SEOAssessor, Assessor );
 
-export default SEOAssessor;

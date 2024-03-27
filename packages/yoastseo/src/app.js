@@ -234,726 +234,728 @@ function verifyArguments( args ) {
  *
  * @constructor
  */
-var App = function( args ) {
-	if ( ! isObject( args ) ) {
-		args = {};
-	}
-
-	defaultsDeep( args, defaults );
-
-	verifyArguments( args );
-
-	this.config = args;
-
-	if ( args.debouncedRefresh === true ) {
-		this.refresh = debounce( this.refresh.bind( this ), inputDebounceDelay );
-	}
-	this._pureRefresh = throttle( this._pureRefresh.bind( this ), this.config.typeDelay );
-
-	this.callbacks = this.config.callbacks;
-
-	setLocaleData( this.config.translations.locale_data[ "wordpress-seo" ], "wordpress-seo" );
-
-	this.initializeAssessors( args );
-
-	this.pluggable = new Pluggable( this );
-
-	this.getData();
-
-	this.defaultOutputElement = this.getDefaultOutputElement( args );
-
-	if ( this.defaultOutputElement !== "" ) {
-		this.showLoadingDialog();
-	}
-
-	if ( isValidSnippetPreview( args.snippetPreview ) ) {
-		this.snippetPreview = args.snippetPreview;
-
-		/* Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
-		dependency issue. In the future this should be solved by the snippet preview not having a reference to the
-		app.*/
-		if ( this.snippetPreview.refObj !== this ) {
-			this.snippetPreview.refObj = this;
+class App {
+	constructor( args ) {
+		if ( ! isObject( args ) ) {
+			args = {};
 		}
-	} else if ( args.hasSnippetPreview ) {
-		this.snippetPreview = createDefaultSnippetPreview.call( this );
+
+		defaultsDeep( args, defaults );
+
+		verifyArguments( args );
+
+		this.config = args;
+
+		if ( args.debouncedRefresh === true ) {
+			this.refresh = debounce( this.refresh.bind( this ), inputDebounceDelay );
+		}
+		this._pureRefresh = throttle( this._pureRefresh.bind( this ), this.config.typeDelay );
+
+		this.callbacks = this.config.callbacks;
+
+		setLocaleData( this.config.translations.locale_data[ "wordpress-seo" ], "wordpress-seo" );
+
+		this.initializeAssessors( args );
+
+		this.pluggable = new Pluggable( this );
+
+		this.getData();
+
+		this.defaultOutputElement = this.getDefaultOutputElement( args );
+
+		if ( this.defaultOutputElement !== "" ) {
+			this.showLoadingDialog();
+		}
+
+		if ( isValidSnippetPreview( args.snippetPreview ) ) {
+			this.snippetPreview = args.snippetPreview;
+
+			/* Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
+			 dependency issue. In the future this should be solved by the snippet preview not having a reference to the
+			 app.*/
+			if ( this.snippetPreview.refObj !== this ) {
+				this.snippetPreview.refObj = this;
+			}
+		} else if ( args.hasSnippetPreview ) {
+			this.snippetPreview = createDefaultSnippetPreview.call( this );
+		}
+
+		this._assessorOptions = {
+			useCornerStone: false,
+		};
+
+		this.initSnippetPreview();
+		this.initAssessorPresenters();
 	}
 
-	this._assessorOptions = {
-		useCornerStone: false,
-	};
+	/**
+	 * Returns the default output element based on which analyses are active.
+	 *
+	 * @param {Object} args The arguments passed to the App.
+	 * @returns {string} The ID of the target that is active.
+	 */
+	getDefaultOutputElement( args ) {
+		if ( args.keywordAnalysisActive ) {
+			return args.targets.output;
+		}
 
-	this.initSnippetPreview();
-	this.initAssessorPresenters();
-};
+		if ( args.contentAnalysisActive ) {
+			return args.targets.contentOutput;
+		}
 
-/**
- * Returns the default output element based on which analyses are active.
- *
- * @param {Object} args The arguments passed to the App.
- * @returns {string} The ID of the target that is active.
- */
-App.prototype.getDefaultOutputElement = function( args ) {
-	if ( args.keywordAnalysisActive ) {
-		return args.targets.output;
+		return "";
 	}
 
-	if ( args.contentAnalysisActive ) {
-		return args.targets.contentOutput;
+	/**
+	 * Sets the assessors based on the assessor options and refreshes them.
+	 *
+	 * @param {Object} assessorOptions The specific options.
+	 * @returns {void}
+	 */
+	changeAssessorOptions( assessorOptions ) {
+		this._assessorOptions = merge( this._assessorOptions, assessorOptions );
+
+		// Set the assessors based on the new assessor options.
+		this.seoAssessor = this.getSeoAssessor();
+		this.contentAssessor = this.getContentAssessor();
+
+		// Refresh everything so the user sees the changes.
+		this.initAssessorPresenters();
+		this.refresh();
 	}
 
-	return "";
-};
+	/**
+	 * Returns an instance of the seo assessor to use.
+	 *
+	 * @returns {Assessor} The assessor instance.
+	 */
+	getSeoAssessor() {
+		const { useCornerStone } = this._assessorOptions;
 
-/**
- * Sets the assessors based on the assessor options and refreshes them.
- *
- * @param {Object} assessorOptions The specific options.
- * @returns {void}
- */
-App.prototype.changeAssessorOptions = function( assessorOptions ) {
-	this._assessorOptions = merge( this._assessorOptions, assessorOptions );
+		const assessor = useCornerStone ? this.cornerStoneSeoAssessor : this.defaultSeoAssessor;
 
-	// Set the assessors based on the new assessor options.
-	this.seoAssessor = this.getSeoAssessor();
-	this.contentAssessor = this.getContentAssessor();
-
-	// Refresh everything so the user sees the changes.
-	this.initAssessorPresenters();
-	this.refresh();
-};
-
-/**
- * Returns an instance of the seo assessor to use.
- *
- * @returns {Assessor} The assessor instance.
- */
-App.prototype.getSeoAssessor = function() {
-	const { useCornerStone } = this._assessorOptions;
-
-	const assessor = useCornerStone ? this.cornerStoneSeoAssessor : this.defaultSeoAssessor;
-
-	return assessor;
-};
-
-/**
- * Returns an instance of the content assessor to use.
- *
- * @returns {Assessor} The assessor instance.
- */
-App.prototype.getContentAssessor = function() {
-	const { useCornerStone } = this._assessorOptions;
-	return useCornerStone ? this.cornerStoneContentAssessor : this.defaultContentAssessor;
-};
-
-/**
- * Initializes assessors based on if the respective analysis is active.
- *
- * @param {Object} args The arguments passed to the App.
- * @returns {void}
- */
-App.prototype.initializeAssessors = function( args ) {
-	this.initializeSEOAssessor( args );
-	this.initializeContentAssessor( args );
-};
-
-/**
- * Initializes the SEO assessor.
- *
- * @param {Object} args The arguments passed to the App.
- * @returns {void}
- */
-App.prototype.initializeSEOAssessor = function( args ) {
-	if ( ! args.keywordAnalysisActive ) {
-		return;
+		return assessor;
 	}
 
-	this.defaultSeoAssessor = new SEOAssessor( { marker: this.config.marker } );
-	this.cornerStoneSeoAssessor = new CornerstoneSEOAssessor( { marker: this.config.marker } );
-
-	// Set the assessor
-	if ( isUndefined( args.seoAssessor ) ) {
-		this.seoAssessor = this.defaultSeoAssessor;
-	} else {
-		this.seoAssessor = args.seoAssessor;
-	}
-};
-
-/**
- * Initializes the content assessor.
- *
- * @param {Object} args The arguments passed to the App.
- * @returns {void}
- */
-App.prototype.initializeContentAssessor = function( args ) {
-	if ( ! args.contentAnalysisActive ) {
-		return;
+	/**
+	 * Returns an instance of the content assessor to use.
+	 *
+	 * @returns {Assessor} The assessor instance.
+	 */
+	getContentAssessor() {
+		const { useCornerStone } = this._assessorOptions;
+		return useCornerStone ? this.cornerStoneContentAssessor : this.defaultContentAssessor;
 	}
 
-	this.defaultContentAssessor = new ContentAssessor( { marker: this.config.marker, locale: this.config.locale }  );
-	this.cornerStoneContentAssessor = new CornerstoneContentAssessor( { marker: this.config.marker, locale: this.config.locale } );
-
-	// Set the content assessor
-	if ( isUndefined( args._contentAssessor ) ) {
-		this.contentAssessor = this.defaultContentAssessor;
-	} else {
-		this.contentAssessor = args._contentAssessor;
-	}
-};
-
-/**
- * Extend the config with defaults.
- *
- * @param   {Object}    args    The arguments to be extended.
- * @returns {Object}    args    The extended arguments.
- */
-App.prototype.extendConfig = function( args ) {
-	args.sampleText = this.extendSampleText( args.sampleText );
-	args.locale = args.locale || "en_US";
-
-	return args;
-};
-
-/**
- * Extend sample text config with defaults.
- *
- * @param   {Object}    sampleText  The sample text to be extended.
- * @returns {Object}    sampleText  The extended sample text.
- */
-App.prototype.extendSampleText = function( sampleText ) {
-	var defaultSampleText = defaults.sampleText;
-
-	if ( isUndefined( sampleText ) ) {
-		return defaultSampleText;
+	/**
+	 * Initializes assessors based on if the respective analysis is active.
+	 *
+	 * @param {Object} args The arguments passed to the App.
+	 * @returns {void}
+	 */
+	initializeAssessors( args ) {
+		this.initializeSEOAssessor( args );
+		this.initializeContentAssessor( args );
 	}
 
-	for ( var key in sampleText ) {
-		if ( isUndefined( sampleText[ key ] ) ) {
-			sampleText[ key ] = defaultSampleText[ key ];
+	/**
+	 * Initializes the SEO assessor.
+	 *
+	 * @param {Object} args The arguments passed to the App.
+	 * @returns {void}
+	 */
+	initializeSEOAssessor( args ) {
+		if ( ! args.keywordAnalysisActive ) {
+			return;
+		}
+
+		this.defaultSeoAssessor = new SEOAssessor( { marker: this.config.marker } );
+		this.cornerStoneSeoAssessor = new CornerstoneSEOAssessor( { marker: this.config.marker } );
+
+		// Set the assessor
+		if ( isUndefined( args.seoAssessor ) ) {
+			this.seoAssessor = this.defaultSeoAssessor;
+		} else {
+			this.seoAssessor = args.seoAssessor;
 		}
 	}
 
-	return sampleText;
-};
+	/**
+	 * Initializes the content assessor.
+	 *
+	 * @param {Object} args The arguments passed to the App.
+	 * @returns {void}
+	 */
+	initializeContentAssessor( args ) {
+		if ( ! args.contentAnalysisActive ) {
+			return;
+		}
 
-/**
- * Registers a custom data callback.
- *
- * @param {Function} callback The callback to register.
- *
- * @returns {void}
- */
-App.prototype.registerCustomDataCallback = function( callback ) {
-	if ( ! this.callbacks.custom ) {
-		this.callbacks.custom = [];
+		this.defaultContentAssessor = new ContentAssessor( { marker: this.config.marker, locale: this.config.locale } );
+		this.cornerStoneContentAssessor = new CornerstoneContentAssessor( { marker: this.config.marker, locale: this.config.locale } );
+
+		// Set the content assessor
+		if ( isUndefined( args._contentAssessor ) ) {
+			this.contentAssessor = this.defaultContentAssessor;
+		} else {
+			this.contentAssessor = args._contentAssessor;
+		}
 	}
 
-	if ( isFunction( callback ) ) {
-		this.callbacks.custom.push( callback );
-	}
-};
+	/**
+	 * Extend the config with defaults.
+	 *
+	 * @param   {Object}    args    The arguments to be extended.
+	 * @returns {Object}    args    The extended arguments.
+	 */
+	extendConfig( args ) {
+		args.sampleText = this.extendSampleText( args.sampleText );
+		args.locale = args.locale || "en_US";
 
-/**
- * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
- *
- * @returns {void}
- */
-App.prototype.getData = function() {
-	this.rawData = this.callbacks.getData();
-
-	// Add the custom data to the raw data.
-	if ( isArray( this.callbacks.custom ) ) {
-		this.callbacks.custom.forEach( ( customCallback ) => {
-			const customData = customCallback();
-
-			this.rawData = merge( this.rawData, customData );
-		} );
+		return args;
 	}
 
-	if ( this.hasSnippetPreview() ) {
-		// Gets the data FOR the analyzer
-		var data = this.snippetPreview.getAnalyzerData();
+	/**
+	 * Extend sample text config with defaults.
+	 *
+	 * @param   {Object}    sampleText  The sample text to be extended.
+	 * @returns {Object}    sampleText  The extended sample text.
+	 */
+	extendSampleText( sampleText ) {
+		var defaultSampleText = defaults.sampleText;
 
-		this.rawData.metaTitle = data.title;
-		this.rawData.url = data.url;
-		this.rawData.meta = data.metaDesc;
+		if ( isUndefined( sampleText ) ) {
+			return defaultSampleText;
+		}
+
+		for ( var key in sampleText ) {
+			if ( isUndefined( sampleText[ key ] ) ) {
+				sampleText[ key ] = defaultSampleText[ key ];
+			}
+		}
+
+		return sampleText;
 	}
 
-	if ( this.pluggable.loaded ) {
-		this.rawData.metaTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.metaTitle );
-		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
+	/**
+	 * Registers a custom data callback.
+	 *
+	 * @param {Function} callback The callback to register.
+	 *
+	 * @returns {void}
+	 */
+	registerCustomDataCallback( callback ) {
+		if ( ! this.callbacks.custom ) {
+			this.callbacks.custom = [];
+		}
+
+		if ( isFunction( callback ) ) {
+			this.callbacks.custom.push( callback );
+		}
 	}
 
-	this.rawData.titleWidth = measureTextWidth( this.rawData.metaTitle );
+	/**
+	 * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
+	 *
+	 * @returns {void}
+	 */
+	getData() {
+		this.rawData = this.callbacks.getData();
 
-	this.rawData.locale = this.config.locale;
-};
+		// Add the custom data to the raw data.
+		if ( isArray( this.callbacks.custom ) ) {
+			this.callbacks.custom.forEach( ( customCallback ) => {
+				const customData = customCallback();
 
-/**
- * Refreshes the analyzer and output of the analyzer, is debounced for a better experience.
- *
- * @returns {void}
- */
-App.prototype.refresh = function() {
-	// Until all plugins are loaded, do not trigger a refresh.
-	if ( ! this.pluggable.loaded ) {
-		return;
+				this.rawData = merge( this.rawData, customData );
+			} );
+		}
+
+		if ( this.hasSnippetPreview() ) {
+			// Gets the data FOR the analyzer
+			var data = this.snippetPreview.getAnalyzerData();
+
+			this.rawData.metaTitle = data.title;
+			this.rawData.url = data.url;
+			this.rawData.meta = data.metaDesc;
+		}
+
+		if ( this.pluggable.loaded ) {
+			this.rawData.metaTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.metaTitle );
+			this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
+		}
+
+		this.rawData.titleWidth = measureTextWidth( this.rawData.metaTitle );
+
+		this.rawData.locale = this.config.locale;
 	}
 
-	this._pureRefresh();
-};
+	/**
+	 * Refreshes the analyzer and output of the analyzer, is debounced for a better experience.
+	 *
+	 * @returns {void}
+	 */
+	refresh() {
+		// Until all plugins are loaded, do not trigger a refresh.
+		if ( ! this.pluggable.loaded ) {
+			return;
+		}
 
-/**
- * Refreshes the analyzer and output of the analyzer, is throttled to prevent performance issues.
- *
- * @returns {void}
- *
- * @private
- */
-App.prototype._pureRefresh = function() {
-	this.getData();
-	this.runAnalyzer();
-};
-
-/**
- * Determines whether or not this app has a snippet preview.
- *
- * @returns {boolean} Whether or not this app has a snippet preview.
- */
-App.prototype.hasSnippetPreview = function() {
-	return this.snippetPreview !== null && ! isUndefined( this.snippetPreview );
-};
-
-/**
- * Initializes the snippet preview for this App.
- *
- * @returns {void}
- */
-App.prototype.initSnippetPreview = function() {
-	if ( this.hasSnippetPreview() ) {
-		this.snippetPreview.renderTemplate();
-		this.snippetPreview.callRegisteredEventBinder();
-		this.snippetPreview.bindEvents();
-		this.snippetPreview.init();
-	}
-};
-
-/**
- * Initializes the assessor presenters for content and SEO.
- *
- * @returns {void}
- */
-App.prototype.initAssessorPresenters = function() {
-	// Pass the assessor result through to the formatter
-	if ( ! isUndefined( this.config.targets.output ) ) {
-		this.seoAssessorPresenter = new AssessorPresenter( {
-			targets: {
-				output: this.config.targets.output,
-			},
-			assessor: this.seoAssessor,
-		} );
+		this._pureRefresh();
 	}
 
-	if ( ! isUndefined( this.config.targets.contentOutput ) ) {
+	/**
+	 * Refreshes the analyzer and output of the analyzer, is throttled to prevent performance issues.
+	 *
+	 * @returns {void}
+	 *
+	 * @private
+	 */
+	_pureRefresh() {
+		this.getData();
+		this.runAnalyzer();
+	}
+
+	/**
+	 * Determines whether or not this app has a snippet preview.
+	 *
+	 * @returns {boolean} Whether or not this app has a snippet preview.
+	 */
+	hasSnippetPreview() {
+		return this.snippetPreview !== null && ! isUndefined( this.snippetPreview );
+	}
+
+	/**
+	 * Initializes the snippet preview for this App.
+	 *
+	 * @returns {void}
+	 */
+	initSnippetPreview() {
+		if ( this.hasSnippetPreview() ) {
+			this.snippetPreview.renderTemplate();
+			this.snippetPreview.callRegisteredEventBinder();
+			this.snippetPreview.bindEvents();
+			this.snippetPreview.init();
+		}
+	}
+
+	/**
+	 * Initializes the assessor presenters for content and SEO.
+	 *
+	 * @returns {void}
+	 */
+	initAssessorPresenters() {
 		// Pass the assessor result through to the formatter
-		this.contentAssessorPresenter = new AssessorPresenter( {
-			targets: {
-				output: this.config.targets.contentOutput,
-			},
-			assessor: this.contentAssessor,
+		if ( ! isUndefined( this.config.targets.output ) ) {
+			this.seoAssessorPresenter = new AssessorPresenter( {
+				targets: {
+					output: this.config.targets.output,
+				},
+				assessor: this.seoAssessor,
+			} );
+		}
+
+		if ( ! isUndefined( this.config.targets.contentOutput ) ) {
+			// Pass the assessor result through to the formatter
+			this.contentAssessorPresenter = new AssessorPresenter( {
+				targets: {
+					output: this.config.targets.contentOutput,
+				},
+				assessor: this.contentAssessor,
+			} );
+		}
+	}
+
+	/**
+	 * Binds the refresh function to the input of the targetElement on the page.
+	 *
+	 * @returns {void}
+	 */
+	bindInputEvent() {
+		for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
+			var elem = document.getElementById( this.config.elementTarget[ i ] );
+			elem.addEventListener( "input", this.refresh.bind( this ) );
+		}
+	}
+
+	/**
+	 * Runs the rerender function of the snippetPreview if that object is defined.
+	 *
+	 * @returns {void}
+	 */
+	reloadSnippetText() {
+		if ( this.hasSnippetPreview() ) {
+			this.snippetPreview.reRender();
+		}
+	}
+
+	/**
+	 * Sets the startTime timestamp.
+	 *
+	 * @returns {void}
+	 */
+	startTime() {
+		this.startTimestamp = new Date().getTime();
+	}
+
+	/**
+	 * Sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
+	 *
+	 * @returns {void}
+	 */
+	endTime() {
+		this.endTimestamp = new Date().getTime();
+		if ( this.endTimestamp - this.startTimestamp > this.config.typeDelay ) {
+			if ( this.config.typeDelay < ( this.config.maxTypeDelay - this.config.typeDelayStep ) ) {
+				this.config.typeDelay += this.config.typeDelayStep;
+			}
+		}
+	}
+
+	/**
+	 * Inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
+	 * to format outputs.
+	 *
+	 * @returns {void}
+	 */
+	runAnalyzer() {
+		if ( this.pluggable.loaded === false ) {
+			return;
+		}
+
+		if ( this.config.dynamicDelay ) {
+			this.startTime();
+		}
+
+		this.analyzerData = this.modifyData( this.rawData );
+
+		if ( this.hasSnippetPreview() ) {
+			this.snippetPreview.refresh();
+		}
+
+		let text = this.analyzerData.text;
+
+		// Insert HTML stripping code
+		text = removeHtmlBlocks( text );
+
+		let titleWidth = this.analyzerData.titleWidth;
+		if ( this.hasSnippetPreview() ) {
+			titleWidth = this.snippetPreview.getTitleWidth();
+		}
+
+		// Create a paper object for the Researcher
+		this.paper = new Paper( text, {
+			keyword: this.analyzerData.keyword,
+			synonyms: this.analyzerData.synonyms,
+			description: this.analyzerData.meta,
+			slug: this.analyzerData.slug,
+			title: this.analyzerData.metaTitle,
+			titleWidth: titleWidth,
+			locale: this.config.locale,
+			permalink: this.analyzerData.permalink,
+		} );
+
+		this.config.researcher.setPaper( this.paper );
+
+		this.runKeywordAnalysis();
+
+		this.runContentAnalysis();
+
+		this._renderAnalysisResults();
+
+		if ( this.config.dynamicDelay ) {
+			this.endTime();
+		}
+
+		if ( this.hasSnippetPreview() ) {
+			this.snippetPreview.reRender();
+		}
+	}
+
+	/**
+	 * Runs the keyword analysis and calls the appropriate callbacks.
+	 *
+	 * @returns {void}
+	 */
+	runKeywordAnalysis() {
+		if ( this.config.keywordAnalysisActive ) {
+			this.seoAssessor.assess( this.paper );
+			const overallSeoScore = this.seoAssessor.calculateOverallScore();
+
+			if ( ! isUndefined( this.callbacks.updatedKeywordsResults ) ) {
+				this.callbacks.updatedKeywordsResults( this.seoAssessor.results, overallSeoScore );
+			}
+
+			if ( ! isUndefined( this.callbacks.saveScores ) ) {
+				this.callbacks.saveScores( overallSeoScore, this.seoAssessorPresenter );
+			}
+		}
+	}
+
+	/**
+	 * Runs the content analysis and calls the appropriate callbacks.
+	 *
+	 * @returns {void}
+	 */
+	runContentAnalysis() {
+		if ( this.config.contentAnalysisActive ) {
+			this.contentAssessor.assess( this.paper );
+			const overallContentScore = this.contentAssessor.calculateOverallScore();
+
+			if ( ! isUndefined( this.callbacks.updatedContentResults ) ) {
+				this.callbacks.updatedContentResults( this.contentAssessor.results, overallContentScore );
+			}
+
+			if ( ! isUndefined( this.callbacks.saveContentScore ) ) {
+				this.callbacks.saveContentScore( overallContentScore, this.contentAssessorPresenter );
+			}
+		}
+	}
+
+	/**
+	 * Modifies the data with plugins before it is sent to the analyzer.
+	 *
+	 * @param   {Object}  data      The data to be modified.
+	 * @returns {Object}            The data with the applied modifications.
+	 */
+	modifyData( data ) {
+		// Copy rawdata to lose object reference.
+		data = JSON.parse( JSON.stringify( data ) );
+
+		data.text = this.pluggable._applyModifications( "content", data.text );
+		data.metaTitle = this.pluggable._applyModifications( "title", data.metaTitle );
+
+		return data;
+	}
+
+	/**
+	 * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
+	 *
+	 * @returns {void}
+	 */
+	pluginsLoaded() {
+		this.removeLoadingDialog();
+		this.refresh();
+	}
+
+	/**
+	 * Shows the loading dialog which shows the loading of the plugins.
+	 *
+	 * @returns {void}
+	 */
+	showLoadingDialog() {
+		var outputElement = document.getElementById( this.defaultOutputElement );
+
+		if ( this.defaultOutputElement !== "" && ! isEmpty( outputElement ) ) {
+			var dialogDiv = document.createElement( "div" );
+			dialogDiv.className = "YoastSEO_msg";
+			dialogDiv.id = "YoastSEO-plugin-loading";
+			document.getElementById( this.defaultOutputElement ).appendChild( dialogDiv );
+		}
+	}
+
+	/**
+	 * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading.
+	 *
+	 * @param   {Object}  plugins   The plugins to be parsed into the dialog.
+	 * @returns {void}
+	 */
+	updateLoadingDialog( plugins ) {
+		var outputElement = document.getElementById( this.defaultOutputElement );
+
+		if ( this.defaultOutputElement === "" || isEmpty( outputElement ) ) {
+			return;
+		}
+
+		var dialog = document.getElementById( "YoastSEO-plugin-loading" );
+		dialog.textContent = "";
+
+		forEach( plugins, function( plugin, pluginName ) {
+			dialog.innerHTML += "<span class=left>" + pluginName + "</span><span class=right " +
+				plugin.status + ">" + plugin.status + "</span><br />";
+		} );
+
+		dialog.innerHTML += "<span class=bufferbar></span>";
+	}
+
+	/**
+	 * Removes the pluging load dialog.
+	 *
+	 * @returns {void}
+	 */
+	removeLoadingDialog() {
+		var outputElement = document.getElementById( this.defaultOutputElement );
+		var loadingDialog = document.getElementById( "YoastSEO-plugin-loading" );
+
+		if ( ( this.defaultOutputElement !== "" && ! isEmpty( outputElement ) ) && ! isEmpty( loadingDialog ) ) {
+			document.getElementById( this.defaultOutputElement ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
+		}
+	}
+
+	// ***** PLUGGABLE PUBLIC DSL ***** //
+	/**
+	 * Delegates to `YoastSEO.app.pluggable.registerPlugin`
+	 *
+	 * @param {string}  pluginName      The name of the plugin to be registered.
+	 * @param {object}  options         The options object.
+	 * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
+	 * @returns {boolean}               Whether or not it was successfully registered.
+	 */
+	registerPlugin( pluginName, options ) {
+		return this.pluggable._registerPlugin( pluginName, options );
+	}
+
+	/**
+	 * Delegates to `YoastSEO.app.pluggable.ready`
+	 *
+	 * @param {string}  pluginName  The name of the plugin to check.
+	 * @returns {boolean}           Whether or not the plugin is ready.
+	 */
+	pluginReady( pluginName ) {
+		return this.pluggable._ready( pluginName );
+	}
+
+	/**
+	 * Delegates to `YoastSEO.app.pluggable.reloaded`
+	 *
+	 * @param {string} pluginName   The name of the plugin to reload
+	 * @returns {boolean}           Whether or not the plugin was reloaded.
+	 */
+	pluginReloaded( pluginName ) {
+		return this.pluggable._reloaded( pluginName );
+	}
+
+	/**
+	 * Delegates to `YoastSEO.app.pluggable.registerModification`.
+	 *
+	 * @param {string}   modification   The name of the filter
+	 * @param {function} callable       The callable function
+	 * @param {string}   pluginName     The plugin that is registering the modification.
+	 * @param {number}   [priority]     Used to specify the order in which the callables associated with a particular filter are called.
+	 *                                  Lower numbers correspond with earlier execution.
+	 *
+	 * @returns {boolean} Whether or not the modification was successfully registered.
+	 */
+	registerModification( modification, callable, pluginName, priority ) {
+		return this.pluggable._registerModification( modification, callable, pluginName, priority );
+	}
+
+	/**
+	 * Registers a custom assessment for use in the analyzer, this will result in a new line in the analyzer results.
+	 * The function needs to use the assessmentresult to return an result  based on the contents of the page/posts.
+	 *
+	 * Score 0 results in a grey circle if it is not explicitly set by using setscore
+	 * Scores 0, 1, 2, 3 and 4 result in a red circle
+	 * Scores 6 and 7 result in a yellow circle
+	 * Scores 8, 9 and 10 result in a green circle
+	 *
+	 * @param {string} name Name of the test.
+	 * @param {function} assessment The assessment to run
+	 * @param {string}   pluginName The plugin that is registering the test.
+	 * @returns {boolean} Whether or not the test was successfully registered.
+	 */
+	registerAssessment( name, assessment, pluginName ) {
+		if ( ! isUndefined( this.seoAssessor ) ) {
+			return this.pluggable._registerAssessment( this.defaultSeoAssessor, name, assessment, pluginName ) &&
+				this.pluggable._registerAssessment( this.cornerStoneSeoAssessor, name, assessment, pluginName );
+		}
+	}
+
+	/**
+	 * Disables markers visually in the UI.
+	 *
+	 * @returns {void}
+	 */
+	disableMarkers() {
+		if ( ! isUndefined( this.seoAssessorPresenter ) ) {
+			this.seoAssessorPresenter.disableMarker();
+		}
+
+		if ( ! isUndefined( this.contentAssessorPresenter ) ) {
+			this.contentAssessorPresenter.disableMarker();
+		}
+	}
+
+	/**
+	 * Renders the content and keyword analysis results.
+	 *
+	 * @returns {void}
+	 */
+	_renderAnalysisResults() {
+		if ( this.config.contentAnalysisActive && ! isUndefined( this.contentAssessorPresenter ) ) {
+			this.contentAssessorPresenter.renderIndividualRatings();
+		}
+		if ( this.config.keywordAnalysisActive && ! isUndefined( this.seoAssessorPresenter ) ) {
+			this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
+			this.seoAssessorPresenter.render();
+		}
+	}
+
+	// Deprecated functions
+	/**
+	 * The analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
+	 * at every keystroke checks the reference object, so this function can be called from anywhere,
+	 * without problems with different scopes.
+	 *
+	 * @deprecated: 1.3 - Use this.refresh() instead.
+	 *
+	 * @returns {void}
+	 */
+	analyzeTimer() {
+		this.refresh();
+	}
+
+	/**
+	 * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
+	 * has to return a result based on the contents of the page/posts.
+	 *
+	 * The scoring object is a special object with definitions about how to translate a result from your analysis function
+	 * to a SEO score.
+	 *
+	 * Negative scores result in a red circle
+	 * Scores 1, 2, 3, 4 and 5 result in a orange circle
+	 * Scores 6 and 7 result in a yellow circle
+	 * Scores 8, 9 and 10 result in a red circle
+	 *
+	 * @returns {void}
+	 *
+	 * @deprecated since version 1.2
+	 */
+	registerTest() {
+		console.error( "This function is deprecated, please use registerAssessment" );
+	}
+
+	/**
+	 * Creates the elements for the snippetPreview
+	 *
+	 * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
+	 * an argument instead.
+	 *
+	 * @returns {void}
+	 */
+	createSnippetPreview() {
+		this.snippetPreview = createDefaultSnippetPreview.call( this );
+		this.initSnippetPreview();
+	}
+
+	/**
+	 * Switches between the cornerstone and default assessors.
+	 *
+	 * @deprecated 1.35.0 - Use changeAssessorOption instead.
+	 *
+	 * @param {boolean} useCornerStone True when cornerstone should be used.
+	 *
+	 * @returns {void}
+	 */
+	switchAssessors( useCornerStone ) {
+		// eslint-disable-next-line no-console
+		console.warn( "Switch assessor is deprecated since YoastSEO.js version 1.35.0" );
+
+		this.changeAssessorOptions( {
+			useCornerStone,
 		} );
 	}
-};
+}
 
-/**
- * Binds the refresh function to the input of the targetElement on the page.
- *
- * @returns {void}
- */
-App.prototype.bindInputEvent = function() {
-	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
-		var elem = document.getElementById( this.config.elementTarget[ i ] );
-		elem.addEventListener( "input", this.refresh.bind( this ) );
-	}
-};
-
-/**
- * Runs the rerender function of the snippetPreview if that object is defined.
- *
- * @returns {void}
- */
-App.prototype.reloadSnippetText = function() {
-	if ( this.hasSnippetPreview() ) {
-		this.snippetPreview.reRender();
-	}
-};
-
-/**
- * Sets the startTime timestamp.
- *
- * @returns {void}
- */
-App.prototype.startTime = function() {
-	this.startTimestamp = new Date().getTime();
-};
-
-/**
- * Sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
- *
- * @returns {void}
- */
-App.prototype.endTime = function() {
-	this.endTimestamp = new Date().getTime();
-	if ( this.endTimestamp - this.startTimestamp > this.config.typeDelay ) {
-		if ( this.config.typeDelay < ( this.config.maxTypeDelay - this.config.typeDelayStep ) ) {
-			this.config.typeDelay += this.config.typeDelayStep;
-		}
-	}
-};
-
-/**
- * Inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
- * to format outputs.
- *
- * @returns {void}
- */
-App.prototype.runAnalyzer = function() {
-	if ( this.pluggable.loaded === false ) {
-		return;
-	}
-
-	if ( this.config.dynamicDelay ) {
-		this.startTime();
-	}
-
-	this.analyzerData = this.modifyData( this.rawData );
-
-	if ( this.hasSnippetPreview() ) {
-		this.snippetPreview.refresh();
-	}
-
-	let text = this.analyzerData.text;
-
-	// Insert HTML stripping code
-	text = removeHtmlBlocks( text );
-
-	let titleWidth = this.analyzerData.titleWidth;
-	if ( this.hasSnippetPreview() ) {
-		titleWidth = this.snippetPreview.getTitleWidth();
-	}
-
-	// Create a paper object for the Researcher
-	this.paper = new Paper( text, {
-		keyword: this.analyzerData.keyword,
-		synonyms: this.analyzerData.synonyms,
-		description: this.analyzerData.meta,
-		slug: this.analyzerData.slug,
-		title: this.analyzerData.metaTitle,
-		titleWidth: titleWidth,
-		locale: this.config.locale,
-		permalink: this.analyzerData.permalink,
-	} );
-
-	this.config.researcher.setPaper( this.paper );
-
-	this.runKeywordAnalysis();
-
-	this.runContentAnalysis();
-
-	this._renderAnalysisResults();
-
-	if ( this.config.dynamicDelay ) {
-		this.endTime();
-	}
-
-	if ( this.hasSnippetPreview() ) {
-		this.snippetPreview.reRender();
-	}
-};
-
-/**
- * Runs the keyword analysis and calls the appropriate callbacks.
- *
- * @returns {void}
- */
-App.prototype.runKeywordAnalysis = function() {
-	if ( this.config.keywordAnalysisActive ) {
-		this.seoAssessor.assess( this.paper );
-		const overallSeoScore = this.seoAssessor.calculateOverallScore();
-
-		if ( ! isUndefined( this.callbacks.updatedKeywordsResults ) ) {
-			this.callbacks.updatedKeywordsResults( this.seoAssessor.results, overallSeoScore );
-		}
-
-		if ( ! isUndefined( this.callbacks.saveScores ) ) {
-			this.callbacks.saveScores( overallSeoScore, this.seoAssessorPresenter );
-		}
-	}
-};
-
-/**
- * Runs the content analysis and calls the appropriate callbacks.
- *
- * @returns {void}
- */
-App.prototype.runContentAnalysis = function() {
-	if ( this.config.contentAnalysisActive ) {
-		this.contentAssessor.assess( this.paper );
-		const overallContentScore = this.contentAssessor.calculateOverallScore();
-
-		if ( ! isUndefined( this.callbacks.updatedContentResults ) ) {
-			this.callbacks.updatedContentResults( this.contentAssessor.results, overallContentScore );
-		}
-
-		if ( ! isUndefined( this.callbacks.saveContentScore ) ) {
-			this.callbacks.saveContentScore( overallContentScore, this.contentAssessorPresenter );
-		}
-	}
-};
-
-/**
- * Modifies the data with plugins before it is sent to the analyzer.
- *
- * @param   {Object}  data      The data to be modified.
- * @returns {Object}            The data with the applied modifications.
- */
-App.prototype.modifyData = function( data ) {
-	// Copy rawdata to lose object reference.
-	data = JSON.parse( JSON.stringify( data ) );
-
-	data.text      = this.pluggable._applyModifications( "content", data.text );
-	data.metaTitle = this.pluggable._applyModifications( "title", data.metaTitle );
-
-	return data;
-};
-
-/**
- * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
- *
- * @returns {void}
- */
-App.prototype.pluginsLoaded = function() {
-	this.removeLoadingDialog();
-	this.refresh();
-};
-
-/**
- * Shows the loading dialog which shows the loading of the plugins.
- *
- * @returns {void}
- */
-App.prototype.showLoadingDialog = function() {
-	var outputElement = document.getElementById( this.defaultOutputElement );
-
-	if ( this.defaultOutputElement !== "" && ! isEmpty( outputElement ) ) {
-		var dialogDiv = document.createElement( "div" );
-		dialogDiv.className = "YoastSEO_msg";
-		dialogDiv.id = "YoastSEO-plugin-loading";
-		document.getElementById( this.defaultOutputElement ).appendChild( dialogDiv );
-	}
-};
-
-/**
- * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading.
- *
- * @param   {Object}  plugins   The plugins to be parsed into the dialog.
- * @returns {void}
- */
-App.prototype.updateLoadingDialog = function( plugins ) {
-	var outputElement = document.getElementById( this.defaultOutputElement );
-
-	if ( this.defaultOutputElement === "" || isEmpty( outputElement ) ) {
-		return;
-	}
-
-	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
-	dialog.textContent = "";
-
-	forEach( plugins, function( plugin, pluginName ) {
-		dialog.innerHTML += "<span class=left>" + pluginName + "</span><span class=right " +
-							plugin.status + ">" + plugin.status + "</span><br />";
-	} );
-
-	dialog.innerHTML += "<span class=bufferbar></span>";
-};
-
-/**
- * Removes the pluging load dialog.
- *
- * @returns {void}
- */
-App.prototype.removeLoadingDialog = function() {
-	var outputElement = document.getElementById( this.defaultOutputElement );
-	var loadingDialog = document.getElementById( "YoastSEO-plugin-loading" );
-
-	if ( ( this.defaultOutputElement !== "" && ! isEmpty( outputElement ) ) && ! isEmpty( loadingDialog ) ) {
-		document.getElementById( this.defaultOutputElement ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
-	}
-};
-
-// ***** PLUGGABLE PUBLIC DSL ***** //
-
-/**
- * Delegates to `YoastSEO.app.pluggable.registerPlugin`
- *
- * @param {string}  pluginName      The name of the plugin to be registered.
- * @param {object}  options         The options object.
- * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
- * @returns {boolean}               Whether or not it was successfully registered.
- */
-App.prototype.registerPlugin = function( pluginName, options ) {
-	return this.pluggable._registerPlugin( pluginName, options );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.ready`
- *
- * @param {string}  pluginName  The name of the plugin to check.
- * @returns {boolean}           Whether or not the plugin is ready.
- */
-App.prototype.pluginReady = function( pluginName ) {
-	return this.pluggable._ready( pluginName );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.reloaded`
- *
- * @param {string} pluginName   The name of the plugin to reload
- * @returns {boolean}           Whether or not the plugin was reloaded.
- */
-App.prototype.pluginReloaded = function( pluginName ) {
-	return this.pluggable._reloaded( pluginName );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.registerModification`.
- *
- * @param {string}   modification   The name of the filter
- * @param {function} callable       The callable function
- * @param {string}   pluginName     The plugin that is registering the modification.
- * @param {number}   [priority]     Used to specify the order in which the callables associated with a particular filter are called.
- *                                  Lower numbers correspond with earlier execution.
- *
- * @returns {boolean} Whether or not the modification was successfully registered.
- */
-App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
-	return this.pluggable._registerModification( modification, callable, pluginName, priority );
-};
-
-/**
- * Registers a custom assessment for use in the analyzer, this will result in a new line in the analyzer results.
- * The function needs to use the assessmentresult to return an result  based on the contents of the page/posts.
- *
- * Score 0 results in a grey circle if it is not explicitly set by using setscore
- * Scores 0, 1, 2, 3 and 4 result in a red circle
- * Scores 6 and 7 result in a yellow circle
- * Scores 8, 9 and 10 result in a green circle
- *
- * @param {string} name Name of the test.
- * @param {function} assessment The assessment to run
- * @param {string}   pluginName The plugin that is registering the test.
- * @returns {boolean} Whether or not the test was successfully registered.
- */
-App.prototype.registerAssessment = function( name, assessment, pluginName ) {
-	if ( ! isUndefined( this.seoAssessor ) ) {
-		return this.pluggable._registerAssessment( this.defaultSeoAssessor, name, assessment, pluginName ) &&
-		this.pluggable._registerAssessment( this.cornerStoneSeoAssessor, name, assessment, pluginName );
-	}
-};
-
-/**
- * Disables markers visually in the UI.
- *
- * @returns {void}
- */
-App.prototype.disableMarkers = function() {
-	if ( ! isUndefined( this.seoAssessorPresenter ) ) {
-		this.seoAssessorPresenter.disableMarker();
-	}
-
-	if ( ! isUndefined( this.contentAssessorPresenter ) ) {
-		this.contentAssessorPresenter.disableMarker();
-	}
-};
-
-/**
- * Renders the content and keyword analysis results.
- *
- * @returns {void}
- */
-App.prototype._renderAnalysisResults = function() {
-	if ( this.config.contentAnalysisActive && ! isUndefined( this.contentAssessorPresenter ) ) {
-		this.contentAssessorPresenter.renderIndividualRatings();
-	}
-	if ( this.config.keywordAnalysisActive && ! isUndefined( this.seoAssessorPresenter ) ) {
-		this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
-		this.seoAssessorPresenter.render();
-	}
-};
-
-// Deprecated functions
-/**
- * The analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
- * at every keystroke checks the reference object, so this function can be called from anywhere,
- * without problems with different scopes.
- *
- * @deprecated: 1.3 - Use this.refresh() instead.
- *
- * @returns {void}
- */
-App.prototype.analyzeTimer = function() {
-	this.refresh();
-};
-
-/**
- * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
- * has to return a result based on the contents of the page/posts.
- *
- * The scoring object is a special object with definitions about how to translate a result from your analysis function
- * to a SEO score.
- *
- * Negative scores result in a red circle
- * Scores 1, 2, 3, 4 and 5 result in a orange circle
- * Scores 6 and 7 result in a yellow circle
- * Scores 8, 9 and 10 result in a red circle
- *
- * @returns {void}
- *
- * @deprecated since version 1.2
- */
-App.prototype.registerTest = function() {
-	console.error( "This function is deprecated, please use registerAssessment" );
-};
-
-/**
- * Creates the elements for the snippetPreview
- *
- * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
- * an argument instead.
- *
- * @returns {void}
- */
-App.prototype.createSnippetPreview = function() {
-	this.snippetPreview = createDefaultSnippetPreview.call( this );
-	this.initSnippetPreview();
-};
-
-/**
- * Switches between the cornerstone and default assessors.
- *
- * @deprecated 1.35.0 - Use changeAssessorOption instead.
- *
- * @param {boolean} useCornerStone True when cornerstone should be used.
- *
- * @returns {void}
- */
-App.prototype.switchAssessors = function( useCornerStone ) {
-	// eslint-disable-next-line no-console
-	console.warn( "Switch assessor is deprecated since YoastSEO.js version 1.35.0" );
-
-	this.changeAssessorOptions( {
-		useCornerStone,
-	} );
-};
 
 export default App;

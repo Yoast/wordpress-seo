@@ -9,6 +9,7 @@
     "inclusive language"
   ],
   "main": "build/index.js",
+  "types": "types",
   "license": "GPL-3.0",
   "version": "1.91.2",
   "repository": {
@@ -23,8 +24,9 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "yarn clean && yarn build:js",
+    "build": "yarn clean && yarn build:js && yarn build:types",
     "build:js": "babel src --copy-files --source-maps --out-dir build",
+    "build:types": "tsc || echo 'expected to fail for now'",
     "clean": "rm -rf build",
     "pretest": "grunt get-premium-configuration",
     "test": "jest",
@@ -52,7 +54,8 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-html-loader": "^1.0.0",
     "js-yaml": "^4.1.0",
-    "load-grunt-config": "^1.0.0"
+    "load-grunt-config": "^1.0.0",
+    "typescript": "^5.4.3"
   },
   "bugs": {
     "url": "https://github.com/Yoast/wordpress-seo/issues"
