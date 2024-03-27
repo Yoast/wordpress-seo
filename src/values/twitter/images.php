@@ -32,14 +32,6 @@ class Images extends Base_Images {
 		$this->twitter_image = $twitter_image;
 	}
 
-	/**
-	 * Outputs the images.
-	 *
-	 * @codeCoverageIgnore - The method is empty, nothing to test.
-	 *
-	 * @return void
-	 */
-	public function show() {}
 
 	/**
 	 * Adds an image to the list by image ID.
