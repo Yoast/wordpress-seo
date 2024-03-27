@@ -13,6 +13,8 @@ import {
 	getBreadcrumbsTitle,
 	getCanonical,
 	getWordProofTimestamp,
+	getPageType,
+	getArticleType,
 } from "../../../src/helpers/fields";
 import { EDITOR_STORE } from "../../../src/shared-admin/constants";
 import { select } from "@wordpress/data";
@@ -58,7 +60,8 @@ const testCases = [
 	{ method: "getAdvanced", getFunction: getAdvanced  },
 	{ method: "getBreadcrumbsTitle", getFunction: getBreadcrumbsTitle },
 	{ method: "getCanonical", getFunction: getCanonical },
-
+	{ method: "getPageType", getFunction: getPageType },
+	{ method: "getArticleType", getFunction: getArticleType },
 ];
 
 describe.each( testCases )( "$method", ( { method, getFunction } ) => {
@@ -164,7 +167,7 @@ const getWordProofTimestampTestCases = [
 	{ value: undefined, expected: "" },
 ];
 describe.each( getWordProofTimestampTestCases )( "getWordProofTimestamp", ( { value, expected } ) => {
-	it( `should return ${expected} from getWordProofTimestamp when value is ${value}`, () => {
+	it( `should return ${expected ? expected : "empty string" } from getWordProofTimestamp when value is ${value}`, () => {
 	  select.mockImplementation( ( store ) => {
 			if ( store === EDITOR_STORE ) {
 				return {
