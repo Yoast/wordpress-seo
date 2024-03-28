@@ -103,45 +103,38 @@ export const createUpdater = () => {
 };
 
 /**
- * The values to sync.
- *
- * Add values to sync from Yoast editor store to hidden fields.
- */
-export const valuesToSync = {
-	focuskw: getFocusKeyphrase,
-	"meta-robots-noindex": getNoIndex,
-	// Same as meta-robots-noindex for term metabox.
-	noindex: getNoIndex,
-	"meta-robots-nofollow": getNoFollow,
-	"meta-robots-adv": getAdvanced,
-	bctitle: getBreadcrumbsTitle,
-	canonical: getCanonical,
-	wordproof_timestamp: getWordProofTimestamp,
-	"opengraph-title": getFacebookTitle,
-	"opengraph-description": getFacebookDescription,
-	"opengraph-image": getFacebookImageUrl,
-	"opengraph-image-id": getFacebookImageId,
-	"twitter-title": getTwitterTitle,
-	"twitter-description": getTwitterDescription,
-	"twitter-image": getTwitterImageUrl,
-	"twitter-image-id": getTwitterImageId,
-	schema_page_type: getPageType,
-	schema_article_type: getArticleType,
-	is_cornerstone: isCornerstoneContent,
-	content_score: getReadabilityScore,
-	linkdex: getSeoScore,
-	inclusive_language_score: getInclusiveLanguageScore,
-	"estimated-reading-time-minutes": getEstimatedReadingTime,
-	...getPrimaryTerms(),
-};
-
-/**
  * Initializes the sync: from Yoast editor store to product metadata.
  * @returns {function} The un-subscriber.
  */
 export const hiddenFieldsSync = () => {
 	return subscribe( debounce( createWatcher(
-		createCollectorFromObject( valuesToSync ),
+		createCollectorFromObject( {
+			focuskw: getFocusKeyphrase,
+			"meta-robots-noindex": getNoIndex,
+			// Same as meta-robots-noindex for term metabox.
+			noindex: getNoIndex,
+			"meta-robots-nofollow": getNoFollow,
+			"meta-robots-adv": getAdvanced,
+			bctitle: getBreadcrumbsTitle,
+			canonical: getCanonical,
+			wordproof_timestamp: getWordProofTimestamp,
+			"opengraph-title": getFacebookTitle,
+			"opengraph-description": getFacebookDescription,
+			"opengraph-image": getFacebookImageUrl,
+			"opengraph-image-id": getFacebookImageId,
+			"twitter-title": getTwitterTitle,
+			"twitter-description": getTwitterDescription,
+			"twitter-image": getTwitterImageUrl,
+			"twitter-image-id": getTwitterImageId,
+			schema_page_type: getPageType,
+			schema_article_type: getArticleType,
+			is_cornerstone: isCornerstoneContent,
+			content_score: getReadabilityScore,
+			linkdex: getSeoScore,
+			inclusive_language_score: getInclusiveLanguageScore,
+			"estimated-reading-time-minutes": getEstimatedReadingTime,
+			...getPrimaryTerms(),
+		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), EDITOR_STORE );
 };
