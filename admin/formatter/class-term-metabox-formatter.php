@@ -34,7 +34,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Array with the WPSEO_Titles options.
 	 *
-	 * @var array
+	 * @var array<string|int|bool>
 	 */
 	protected $options;
 
@@ -63,7 +63,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Returns the translated values.
 	 *
-	 * @return array
+	 * @return array<string|int|array<string>|array<int>>
 	 */
 	public function get_values() {
 		$values = [];
@@ -86,10 +86,42 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'social_image_template'       => $this->get_social_image_template(),
 				'wincherIntegrationActive'    => 0,
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
+				'metadata'                    => $this->get_metadata(),
 			];
 		}
 
 		return $values;
+	}
+
+	/**
+	 * Returns the metadata for the term.
+	 *
+	 * @return array<string>
+	 */
+	protected function get_metadata() {
+		$metadata = [];
+
+		$fields_presenter  = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
+		$field_definitions = new WPSEO_Taxonomy_Fields();
+		$is_social_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
+		$meta_prefix       = 'wpseo_';
+
+		foreach ( $field_definitions->get( 'content' ) as $key => $field ) {
+			$metadata[ $key ] = $fields_presenter->get_field_value( $meta_prefix . $key );
+		}
+		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
+			foreach ( $field_definitions->get( 'settings' ) as $key => $field ) {
+				$metadata[ $key ] = $fields_presenter->get_field_value( $meta_prefix . $key );
+			}
+		}
+
+		if ( $is_social_enabled ) {
+			foreach ( $field_definitions->get( 'social' ) as $key => $field ) {
+				$metadata[ $key ] = $fields_presenter->get_field_value( $meta_prefix . $key );
+			}
+		}
+
+		return $metadata;
 	}
 
 	/**
@@ -139,7 +171,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Counting the number of given keyword used for other term than given term_id.
 	 *
-	 * @return array
+	 * @return array<int>
 	 */
 	private function get_focus_keyword_usage() {
 		$focuskw = WPSEO_Taxonomy_Meta::get_term_meta( $this->term, $this->term->taxonomy, 'focuskw' );

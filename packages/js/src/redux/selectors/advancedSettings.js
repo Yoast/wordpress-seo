@@ -7,7 +7,7 @@ import { get } from "lodash";
  *
  * @returns {String} Twitter title.
  */
-export const getNoIndex = state => get( state, "advancedSettings.noIndex", "" );
+export const getNoIndex = state => get( state, "advancedSettings.noIndex", "0" );
 
 /**
  * Gets the twitter description from the state.
@@ -16,7 +16,7 @@ export const getNoIndex = state => get( state, "advancedSettings.noIndex", "" );
  *
  * @returns {String} Twitter description.
  */
-export const getNoFollow = state => get( state, "advancedSettings.noFollow", "" );
+export const getNoFollow = state => get( state, "advancedSettings.noFollow", "0" );
 
 /**
  * Gets the twitter image URL from the state.
@@ -53,11 +53,3 @@ export const getCanonical = state => get( state, "advancedSettings.canonical", "
  * @returns {Boolean} WordProof timestamp value.
  */
 export const getWordProofTimestamp = state => get( state, "advancedSettings.wordproofTimestamp", false );
-
-/** Gets the Twitter image src from the state.
- *
- * @param {Object} state The state.
- *
- * @returns {String} Twitter image src.
- */
-export const getIsLoading = state => get( state, "advancedSettings.isLoading", true );

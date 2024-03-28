@@ -28,6 +28,7 @@ import WincherPostPublish from "../containers/WincherPostPublish";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
 import { isWordProofIntegrationActive } from "../helpers/wordproof";
 import { link } from "../inline-links/edit-link";
+import { hasHiddenFields, blockEditorSync } from "../helpers/fields";
 
 /**
  * Registers the Yoast inline link format.
@@ -225,5 +226,9 @@ export default function initBlockEditorIntegration( store ) {
 
 	if ( isWordProofIntegrationActive() ) {
 		initializeWordProofForBlockEditor();
+	}
+
+	if ( ! hasHiddenFields() ) {
+		blockEditorSync();
 	}
 }

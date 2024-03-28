@@ -1,8 +1,10 @@
+/* eslint-disable max-statements */
+/* eslint-disable complexity */
 /* global wpseoScriptData */
 
 // External dependencies.
 import { App } from "yoastseo";
-import { debounce, isUndefined } from "lodash";
+import { debounce, isUndefined, get, isEmpty } from "lodash";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
 
@@ -77,7 +79,7 @@ export default function initPostScraper( $, store, editorData ) {
 	if ( typeof wpseoScriptData === "undefined" ) {
 		return;
 	}
-	let metaboxContainer;
+
 	let titleElement;
 	let app;
 	let postDataCollector;
@@ -133,7 +135,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeKeywordAnalysis( activePublishBox ) {
-		const savedKeywordScore = $( "#yoast_wpseo_linkdex" ).val();
+		const savedKeywordScore = get( window, "wpseoScriptData.metabox.metadata.linkdex", 0 );
 
 		const indicator = getIndicatorForScore( savedKeywordScore );
 
@@ -151,7 +153,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeContentAnalysis( activePublishBox ) {
-		const savedContentScore = $( "#yoast_wpseo_content_score" ).val();
+		const savedContentScore = get( window, "wpseoScriptData.metabox.metadata.content_score", 0 );
 
 		const indicator = getIndicatorForScore( savedContentScore );
 
@@ -168,7 +170,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeInclusiveLanguageAnalysis( activePublishBox ) {
-		const savedContentScore = $( "#yoast_wpseo_inclusive_language_score" ).val();
+		const savedContentScore = get( window, "wpseoScriptData.metabox.metadata.inclusive_language_score", 0 );
 
 		const indicator = getIndicatorForScore( savedContentScore );
 
@@ -235,7 +237,6 @@ export default function initPostScraper( $, store, editorData ) {
 			elementTarget: [
 				tinyMCEHelper.tmceId,
 				"yoast_wpseo_focuskw_text_input",
-				"yoast_wpseo_metadesc",
 				"excerpt",
 				"editable-post-name",
 				"editable-post-name-full",
@@ -255,7 +256,9 @@ export default function initPostScraper( $, store, editorData ) {
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			store.dispatch( setFocusKeyword( $( "#yoast_wpseo_focuskw" ).val() ) );
+			const focusKeyPhrase = get( window, "wpseoScriptData.metabox.metadata.focuskw", "" );
+			store.dispatch( setFocusKeyword( focusKeyPhrase ) );
+
 
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
@@ -399,15 +402,15 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializePostAnalysis() {
-		metaboxContainer = $( "#wpseo_meta" );
-
 		tinyMCEHelper.setStore( store );
 		tinyMCEHelper.wpTextViewOnInitCheck();
 
 		handlePageBuilderCompatibility();
 
+		const metadata = get( window, "wpseoScriptData.metabox.metadata", {} );
+
 		// Avoid error when snippet metabox is not rendered.
-		if ( metaboxContainer.length === 0 ) {
+		if ( isEmpty( metadata ) ) {
 			return;
 		}
 
@@ -517,12 +520,12 @@ export default function initPostScraper( $, store, editorData ) {
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
-		store.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "1" ) );
+		store.dispatch( setCornerstoneContent( get( window, "wpseoScriptData.metabox.metadata.is_cornerstone", 0 ) === "1" ) );
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = store.getState().focusKeyword;
 		requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
-		const refreshAfterFocusKeywordChange = debounce( () => {
+		const refreshApp = debounce( () => {
 			app.refresh();
 		}, 50 );
 
@@ -535,8 +538,9 @@ export default function initPostScraper( $, store, editorData ) {
 				focusKeyword = newFocusKeyword;
 				requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
 
-				$( "#yoast_wpseo_focuskw" ).val( focusKeyword );
-				refreshAfterFocusKeywordChange();
+				setFocusKeyword( focusKeyword );
+
+				refreshApp();
 			}
 
 			const data = getDataFromStore( store );
@@ -553,13 +557,15 @@ export default function initPostScraper( $, store, editorData ) {
 
 			if ( snippetEditorData.description !== data.description ) {
 				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
+				refreshApp();
 			}
 
 			const currentState = store.getState();
 
 			if ( previousCornerstoneValue !== currentState.isCornerstone ) {
 				previousCornerstoneValue = currentState.isCornerstone;
-				document.getElementById( "yoast_wpseo_is_cornerstone" ).value = currentState.isCornerstone;
+
+				store.dispatch( setCornerstoneContent( currentState.isCornerstone ) );
 
 				app.changeAssessorOptions( {
 					useCornerstone: currentState.isCornerstone,

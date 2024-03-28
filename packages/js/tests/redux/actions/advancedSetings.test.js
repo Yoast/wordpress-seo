@@ -1,17 +1,4 @@
 import * as actions from "../../../src/redux/actions/advancedSettings";
-import AdvancedFields from "../../../src/helpers/fields/AdvancedFields.js";
-
-jest.mock( "../../../src/helpers/fields/AdvancedFields.js", () => {
-	return {};
-} );
-
-const populatedFields = {
-	noIndex: "testNoIndex",
-	noFollow: "testNoFollow",
-	advanced: "testAdvanced1,testAdvanced2",
-	breadcrumbsTitle: "testBcTitle",
-	canonical: "www.testCanonicalUrl.com",
-};
 
 describe( "setNoIndex", () => {
 	it( "Returns a setNoIndex action and populates the advanced hidden fields", () => {
@@ -22,7 +9,6 @@ describe( "setNoIndex", () => {
 		};
 		const actual = actions.setNoIndex( "testNoIndex" );
 
-		expect( AdvancedFields.noIndex ).toEqual( "testNoIndex" );
 		expect( actual ).toEqual( expected );
 	} );
 } );
@@ -35,7 +21,6 @@ describe( "setNoFollow", () => {
 		};
 		const actual = actions.setNoFollow( "testNoFollow" );
 
-		expect( AdvancedFields.noFollow ).toEqual( "testNoFollow" );
 		expect( actual ).toEqual( expected );
 	} );
 } );
@@ -52,7 +37,6 @@ describe( "setAdvanced", () => {
 	} );
 	it( "Joins the passed array into a comma separated string", () => {
 		actions.setAdvanced( [ "testAdvanced1", "testAdvanced2" ] );
-		expect( AdvancedFields.advanced ).toEqual( "testAdvanced1,testAdvanced2" );
 	} );
 } );
 describe( "setBreadcrumbsTitle", () => {
@@ -64,7 +48,6 @@ describe( "setBreadcrumbsTitle", () => {
 		};
 
 		const actual = actions.setBreadcrumbsTitle( "testBcTitle" );
-		expect( AdvancedFields.breadcrumbsTitle ).toEqual( "testBcTitle" );
 		expect( actual ).toEqual( expected );
 	} );
 } );
@@ -77,29 +60,7 @@ describe( "setCanonical", () => {
 		};
 
 		const actual = actions.setCanonical( "www.testCanonicalUrl.com" );
-		expect( AdvancedFields.canonical ).toEqual( "www.testCanonicalUrl.com" );
 		expect( actual ).toEqual( expected );
-	} );
-} );
-describe( "loadAdvancedSettingsData", () => {
-	it( "Returns a loadAdvancedSettings action and populates the advanced hidden fields", () => {
-		const expected = {
-			type: "LOAD_ADVANCED_SETTINGS",
-			settings: {
-				...populatedFields,
-				isLoading: false,
-				advanced: populatedFields.advanced.split( "," ),
-			},
-
-		};
-
-		const actual = actions.loadAdvancedSettingsData();
-		expect( actual ).toEqual( expected );
-	} );
-	it( "Retrieves the advanced settings string, and splits it into an array", () => {
-		const actual = actions.loadAdvancedSettingsData().settings.advanced;
-		expect( typeof AdvancedFields.advanced ).toEqual( "string" );
-		expect( Array.isArray( actual ) ).toBeTruthy();
 	} );
 } );
 

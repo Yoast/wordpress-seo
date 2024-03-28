@@ -8,7 +8,6 @@ describe( "Analysis data reducer", () => {
 		advanced: [],
 		breadcrumbsTitle: "",
 		canonical: "",
-		isLoading: true,
 	};
 
 	it( "has a default state", () => {

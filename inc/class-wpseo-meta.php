@@ -149,6 +149,12 @@ class WPSEO_Meta {
 				'default_value' => 'false',
 				'description'   => '',
 			],
+			'estimated-reading-time-minutes' => [
+				'type'          => 'hidden',
+				'title'         => 'estimated-reading-time-minutes',
+				'default_value' => '0',
+				'description'   => '',
+			],
 		],
 		'advanced' => [
 			'meta-robots-noindex'  => [
@@ -275,7 +281,7 @@ class WPSEO_Meta {
 	 */
 	public static function init() {
 		foreach ( self::$social_networks as $option => $network ) {
-			if ( WPSEO_Options::get( $option, false ) === true ) {
+			if ( WPSEO_Options::get( $option, true ) === true ) {
 				foreach ( self::$social_fields as $box => $type ) {
 					self::$meta_fields['social'][ $network . '-' . $box ] = [
 						'type'          => $type,
@@ -298,13 +304,32 @@ class WPSEO_Meta {
 		}
 		unset( $extra_fields );
 
+		// register meta data for taxonomies.
+		self::$meta_fields['primary_terms'] = [];
+
+		$taxonomies = get_taxonomies( [ 'hierarchical' => true ], 'names' );
+		foreach ( $taxonomies as $taxonomy_name ) {
+			self::$meta_fields['primary_terms'][ 'primary_' . $taxonomy_name ] = [
+				'type'          => 'hidden',
+				'title'         => '',
+				'default_value' => '',
+				'description'   => '',
+			];
+		}
+
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
-					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ]
+					[
+						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
+						'show_in_rest'      => true,
+						'type'              => 'string',
+						'single'            => true,
+						'default'           => ( $field_def['default_value'] ?? '' ),
+					]
 				);
 
 				// Set the $fields_index property for efficiency.
@@ -393,7 +418,7 @@ class WPSEO_Meta {
 					return [];
 				}
 
-				$field_defs['schema_page_type']['default'] = WPSEO_Options::get( 'schema-page-type-' . $post_type );
+				$field_defs['schema_page_type']['default_value'] = WPSEO_Options::get( 'schema-page-type-' . $post_type );
 
 				$article_helper = new Article_Helper();
 				if ( $article_helper->is_article_post_type( $post_type ) ) {
@@ -405,7 +430,7 @@ class WPSEO_Meta {
 					if ( ! array_key_exists( $default_schema_article_type, $allowed_article_types ) ) {
 						$default_schema_article_type = WPSEO_Options::get_default( 'wpseo_titles', 'schema-article-type-' . $post_type );
 					}
-					$field_defs['schema_article_type']['default'] = $default_schema_article_type;
+					$field_defs['schema_article_type']['default_value'] = $default_schema_article_type;
 				}
 				else {
 					unset( $field_defs['schema_article_type'] );

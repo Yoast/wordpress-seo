@@ -5,7 +5,6 @@ import {
 	SET_ADVANCED,
 	SET_BREADCRUMBS_TITLE,
 	SET_CANONICAL_URL,
-	LOAD_ADVANCED_SETTINGS,
 	SET_WORDPROOF_TIMESTAMP,
 } from "../actions/advancedSettings";
 
@@ -19,7 +18,6 @@ const initialState = {
 	breadcrumbsTitle: "",
 	canonical: "",
 	wordproofTimestamp: false,
-	isLoading: true,
 };
 
 /**
@@ -32,11 +30,6 @@ const initialState = {
  */
 const advancedSettingsReducer = ( state = initialState, action ) => {
 	switch ( action.type ) {
-		case LOAD_ADVANCED_SETTINGS:
-			return {
-				...state,
-				...action.settings,
-			};
 		case SET_NO_INDEX:
 			return { ...state, noIndex: action.value };
 		case SET_NO_FOLLOW:

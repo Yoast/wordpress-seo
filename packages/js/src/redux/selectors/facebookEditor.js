@@ -48,6 +48,15 @@ export const getFacebookImageUrl = state => get( state, "facebookEditor.image.ur
 export const getFacebookImageSrc = state => get( state, "facebookEditor.image.src", "" );
 
 /**
+ * Gets the facebook image id from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {integer} Facebook image id.
+ */
+export const getFacebookImageId = state => get( state, "facebookEditor.image.id", "" );
+
+/**
  * Gets the facebook alt text from the state.
  *
  * @param {Object} state The state.

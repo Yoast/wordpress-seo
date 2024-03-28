@@ -34,9 +34,9 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Constructor.
 	 *
-	 * @param WP_Post|array $post      Post object.
-	 * @param array         $options   Title options to use.
-	 * @param string        $structure The permalink to follow.
+	 * @param WP_Post                $post      Post object.
+	 * @param array<string|int|bool> $options   Title options to use.
+	 * @param string                 $structure The permalink to follow.
 	 */
 	public function __construct( $post, array $options, $structure ) {
 		$this->post      = $post;
@@ -57,7 +57,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Returns the translated values.
 	 *
-	 * @return array
+	 * @return array<string|int|array<string>|array<int>>
 	 */
 	public function get_values() {
 
@@ -83,6 +83,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'social_description_template' => $this->get_social_description_template(),
 				'social_image_template'       => $this->get_social_image_template(),
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
+				'metadata'                    => $this->get_post_meta_data(),
 			];
 
 			$values = ( $values_to_set + $values );
@@ -91,8 +92,8 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		/**
 		 * Filter: 'wpseo_post_edit_values' - Allows changing the values Yoast SEO uses inside the post editor.
 		 *
-		 * @param array   $values The key-value map Yoast SEO uses inside the post editor.
-		 * @param WP_Post $post   The post opened in the editor.
+		 * @param array<string|array<string>> $values The key-value map Yoast SEO uses inside the post editor.
+		 * @param WP_Post $post                 The post opened in the editor.
 		 */
 		return apply_filters( 'wpseo_post_edit_values', $values, $this->post );
 	}
@@ -155,7 +156,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Counts the number of given keywords used for other posts other than the given post_id.
 	 *
-	 * @return array The keyword and the associated posts that use it.
+	 * @return array<string|array<int>> The keyword and the associated posts that use it.
 	 */
 	private function get_focus_keyword_usage() {
 		$keyword = WPSEO_Meta::get_value( 'focuskw', $this->post->ID );
@@ -173,8 +174,8 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves the post types for the given post IDs.
 	 *
-	 * @param array $post_ids_per_keyword An associative array with keywords as keys and an array of post ids where those keywords are used.
-	 * @return array The post types for the given post IDs.
+	 * @param array<string|array<int>> $post_ids_per_keyword An associative array with keywords as keys and an array of post ids where those keywords are used.
+	 * @return array<string> The post types for the given post IDs.
 	 */
 	private function get_post_types_for_all_ids( $post_ids_per_keyword ) {
 
@@ -191,7 +192,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 *
 	 * @param string $keyword The keyword to check the usage of.
 	 *
-	 * @return array The post IDs which use the passed keyword.
+	 * @return array<int> The post IDs which use the passed keyword.
 	 */
 	protected function get_keyword_usage_for_current_post( $keyword ) {
 		return WPSEO_Meta::keyword_usage( $keyword, $this->post->ID );
@@ -313,5 +314,54 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	protected function is_insights_enabled() {
 		return WPSEO_Options::get( 'enable_metabox_insights', false );
+	}
+
+	/**
+	 * Get post meta data.
+	 *
+	 * @return array<string>
+	 */
+	protected function get_post_meta_data() {
+		$post_type = $this->post->post_type;
+		$meta_data = [];
+		$fields    = [];
+
+		$social_is_enabled            = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
+		$is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false;
+
+		$fields = array_merge( $fields, WPSEO_Meta::get_meta_field_defs( 'general', $post_type ) );
+
+		if ( $is_advanced_metadata_enabled ) {
+			$fields = array_merge( $fields, WPSEO_Meta::get_meta_field_defs( 'advanced', $post_type ) );
+		}
+
+		$fields = array_merge( $fields, WPSEO_Meta::get_meta_field_defs( 'schema', $post_type ) );
+
+		if ( $social_is_enabled ) {
+			$fields = array_merge( $fields, WPSEO_Meta::get_meta_field_defs( 'social', $post_type ) );
+		}
+
+		foreach ( $fields as $key => $meta_field ) {
+			$meta_value = WPSEO_Meta::get_value( $key, $this->post->ID );
+
+			$default = '';
+			if ( isset( $meta_field['default_value'] ) ) {
+				$default                        = $meta_field['default_value'];
+				$meta_data[ $key . '_default' ] = $default;
+			}
+
+			$meta_data[ $key ] = esc_attr( $meta_value ) ? esc_attr( $meta_value ) : $default;
+		}
+
+		$taxonomies = get_object_taxonomies( $post_type, 'objects' );
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( $taxonomy->hierarchical ) {
+				$primary_term_object                       = new WPSEO_Primary_Term( $taxonomy->name, $this->post->ID );
+				$primary_term                              = $primary_term_object->get_primary_term();
+				$meta_data[ 'primary_' . $taxonomy->name ] = ( $primary_term ?? '' );
+			}
+		}
+
+		return $meta_data;
 	}
 }
