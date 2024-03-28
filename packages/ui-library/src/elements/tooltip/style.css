@@ -1,29 +1,30 @@
 @layer components {
 	.yst-root {
 		.yst-tooltip {
-			@apply
-			yst-absolute
+			@apply yst-absolute
 			yst-inline-block
 			yst-z-10
-			yst-px-2
-			yst-p-2
+			yst-px-2.5
+			yst-py-2
 			yst-bg-gray-800
 			yst-text-white
 			yst-text-xs
-			yst-rounded-lg;
+			yst-rounded-lg
+			yst-whitespace-normal
+			yst-w-max
+			yst-max-w-sm;
 		}
 
 		.yst-tooltip--top {
-            @apply
-            yst--translate-x-1/2
-            yst--translate-y-full
+			@apply yst--translate-x-1/2
+			yst--translate-y-full
 			yst-left-1/2
-			yst-mb-1;
+			yst-top-0
+			yst--mt-3; /* Negative margin to move the tooltip up */
 
-			/* Style properties for the tooltip arrow */	
+			/* Style properties for the tooltip arrow */
 			&::before {
-				@apply
-				yst-content-['']
+				@apply yst-content-['']
 				yst-absolute
 				yst-left-1/2
 				yst-top-full /* Arrow positioned at the bottom of the tooltip */
@@ -34,20 +35,18 @@
 				yst-border-b-transparent
 				yst-border-t-gray-800;
 			}
-        }
+		}
 
 		.yst-tooltip--bottom {
-            @apply
-            yst--translate-x-1/2
-            yst--translate-y-0
+			@apply yst--translate-x-1/2
+			yst--translate-y-0
 			yst-left-1/2
 			yst-top-full
-			yst-mt-2;
+			yst-mt-3;
 
-			/* Style properties for the tooltip arrow */	
+			/* Style properties for the tooltip arrow */
 			&::before {
-				@apply
-				yst-content-['']
+				@apply yst-content-['']
 				yst-absolute
 				yst-left-1/2
 				yst-bottom-full /* Arrow positioned at the top of the tooltip */
@@ -60,17 +59,15 @@
 		}
 
 		.yst-tooltip--right {
-            @apply
-            yst--translate-x-0 
-            yst--translate-y-1/2
+			@apply yst--translate-x-0 
+			yst--translate-y-1/2
 			yst-left-full
 			yst-top-1/2
-			yst-ml-2;
-	
+			yst-ml-3;
+
 			/* Style properties for the tooltip arrow */
 			&::before {
-				@apply
-				yst-content-['']
+				@apply yst-content-['']
 				yst-absolute
 				yst-right-full /* Arrow positioned at the left of the tooltip */
 				yst-top-1/2
@@ -81,18 +78,17 @@
 				yst-border-b-transparent
 				yst-border-r-gray-800;
 			}
-        }
+		}
 
 		.yst-tooltip--left {
-			@apply
-			yst--translate-y-0
+			@apply yst--translate-y-1/2
 			yst-right-full
-			yst-mr-2;
+			yst-top-1/2
+			yst-mr-3;
 
 			/* Style properties for the tooltip arrow */
 			&::before {
-				@apply
-				yst-content-['']
+				@apply yst-content-['']
 				yst-absolute
 				yst-left-full /* Arrow positioned at the right of the tooltip */
 				yst-top-1/2
