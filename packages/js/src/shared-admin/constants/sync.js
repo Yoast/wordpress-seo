@@ -26,6 +26,6 @@ export const POST_METADATA_KEYS = {
 };
 
 export const SYNC_TIME = {
-	wait: 1500,
-	max: 3000,
+	wait: 500,
+	max: 1500,
 };
