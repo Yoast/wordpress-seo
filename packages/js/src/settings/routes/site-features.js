@@ -322,10 +322,10 @@ const SiteFeatures = () => {
 								cardId="card-wpseo_social-twitter"
 								inputId="input-wpseo_social-twitter"
 								imageSrc="/images/twitter_card.png"
-								title={ __( "Twitter card data", "wordpress-seo" ) }
+								title={ __( "X card data", "wordpress-seo" ) }
 							>
-								<p>{ __( "Allows for Twitter to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-twitter-card-data" link="https://yoa.st/site-features-twitter-card-data" ariaLabel={ __( "Twitter card data", "wordpress-seo" ) } />
+								<p>{ __( "Allows for X to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-twitter-card-data" link="https://yoa.st/site-features-twitter-card-data" ariaLabel={ __( "X card data", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo.enable_enhanced_slack_sharing"

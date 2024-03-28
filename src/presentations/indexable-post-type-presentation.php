@@ -385,7 +385,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		$twitter_creator = \ltrim( \trim( \get_the_author_meta( 'twitter', $this->source->post_author ) ), '@' );
 
 		/**
-		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by Yoast SEO.
+		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the X account as output in the X card by Yoast SEO.
 		 *
 		 * @param string $twitter The twitter account name string.
 		 */

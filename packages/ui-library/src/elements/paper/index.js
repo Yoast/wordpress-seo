@@ -1,6 +1,6 @@
-import { forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Content from "./content";
 import Header from "./header";
 
@@ -19,13 +19,12 @@ const Paper = forwardRef( ( { as: Component = "div", className = "", children },
 	</Component>
 ) );
 
-const propTypes = {
+Paper.displayName = "Paper";
+Paper.propTypes = {
 	as: PropTypes.node,
 	className: PropTypes.string,
 	children: PropTypes.node.isRequired,
 };
-Paper.propTypes = propTypes;
-
 Paper.defaultProps = {
 	as: "div",
 	className: "",
@@ -36,11 +35,5 @@ Paper.Header.displayName = "Paper.Header";
 
 Paper.Content = Content;
 Paper.Content.displayName = "Paper.Content";
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Paper { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Paper.defaultProps;
-StoryComponent.displayName = "Paper";
 
 export default Paper;

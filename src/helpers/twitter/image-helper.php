@@ -44,13 +44,15 @@ class Image_Helper {
 	/**
 	 * Retrieves an image url by its id.
 	 *
-	 * @codeCoverageIgnore It is a wrapper method.
-	 *
 	 * @param int $image_id The image id.
 	 *
-	 * @return string The image url.
+	 * @return string The image url. Empty string if the attachment is not valid.
 	 */
 	public function get_by_id( $image_id ) {
+		if ( ! $this->image->is_valid_attachment( $image_id ) ) {
+			return '';
+		}
+
 		return $this->image->get_attachment_image_source( $image_id, $this->get_image_size() );
 	}
 }

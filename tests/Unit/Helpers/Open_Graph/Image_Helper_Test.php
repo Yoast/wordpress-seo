@@ -54,46 +54,6 @@ final class Image_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the case where the url was missing in the given param.
-	 *
-	 * @covers ::is_image_url_valid
-	 *
-	 * @return void
-	 */
-	public function test_is_image_url_valid_with_missing_url() {
-		$this->assertFalse( $this->instance->is_image_url_valid( [] ) );
-	}
-
-	/**
-	 * Tests the case where the image is validated the right way (Happy path).
-	 *
-	 * @covers ::is_image_url_valid
-	 *
-	 * @return void
-	 */
-	public function test_is_image_url_valid() {
-		$this->url
-			->expects( 'get_extension_from_url' )
-			->once()
-			->with( 'image.jpg' )
-			->andReturn( 'jpg' );
-
-		$this->image
-			->expects( 'is_extension_valid' )
-			->once()
-			->with( 'jpg' )
-			->andReturnTrue();
-
-		$this->assertTrue(
-			$this->instance->is_image_url_valid(
-				[
-					'url' => 'image.jpg',
-				]
-			)
-		);
-	}
-
-	/**
 	 * Tests retrieval of the overridden image size.
 	 *
 	 * @covers ::get_override_image_size

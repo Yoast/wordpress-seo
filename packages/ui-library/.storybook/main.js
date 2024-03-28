@@ -1,4 +1,10 @@
-module.exports = {
+import { dirname, join } from "path";
+
+function getAbsolutePath( value ) {
+	return dirname( require.resolve( join( value, "package.json" ) ) );
+}
+
+const config = {
 	stories: [
 		"../src/introduction.stories.mdx",
 		"../src/installation.stories.mdx",
@@ -8,23 +14,46 @@ module.exports = {
 		"../src/**/stories.@(js|mdx)",
 	],
 	addons: [
-		"@storybook/addon-links",
-		"@storybook/addon-essentials",
-		"@storybook/addon-a11y",
+		getAbsolutePath( "@storybook/addon-links" ),
+		getAbsolutePath( "@storybook/addon-essentials" ),
+		getAbsolutePath( "@storybook/addon-a11y" ),
 		{
-			name: "@storybook/addon-postcss",
+			name: getAbsolutePath( "@storybook/addon-styling-webpack" ),
 			options: {
-				postcssLoaderOptions: {
-					// Provide our own copy of PostCSS.
-					implementation: require( "postcss" ),
-				},
+				rules: [
+					{
+						test: /\.css$/,
+						sideEffects: true,
+						use: [
+							getAbsolutePath( "style-loader" ),
+							{
+								loader: getAbsolutePath( "css-loader" ),
+								options: { importLoaders: 1 },
+							},
+							{
+								loader: getAbsolutePath( "postcss-loader" ),
+								options: { implementation: getAbsolutePath( "postcss" ) },
+							},
+						],
+					},
+				],
 			},
 		},
 	],
 	core: {
 		disableTelemetry: true,
+		disableWhatsNewNotifications: true,
 	},
 	features: {
 		previewMdx2: true,
 	},
+	framework: {
+		name: getAbsolutePath( "@storybook/react-webpack5" ),
+		options: {},
+	},
+	docs: {
+		autodocs: true,
+	},
 };
+
+export default config;
