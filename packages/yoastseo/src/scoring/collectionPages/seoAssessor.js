@@ -50,10 +50,9 @@ const CollectionSEOAssessor = function( researcher, options ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify47" ),
 		} ),
 		new TextLengthAssessment( {
-			recommendedMinimum: 80,
-			slightlyBelowMinimum: 50,
-			belowMinimum: 20,
-			veryFarBelowMinimum: 10,
+			recommendedMinimum: 30,
+			slightlyBelowMinimum: 10,
+			veryFarBelowMinimum: 1,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
 			customContentType: this.type,

@@ -26,13 +26,12 @@ describe( "has the correct configuration overrides", () => {
 
 		expect( assessment ).toBeDefined();
 		expect( assessment._config ).toBeDefined();
-		expect( assessment._config.recommendedMinimum ).toBe( 100 );
-		expect( assessment._config.slightlyBelowMinimum ).toBe( 80 );
-		expect( assessment._config.belowMinimum ).toBe( 50 );
-		expect( assessment._config.veryFarBelowMinimum ).toBe( 20 );
+		expect( assessment._config.recommendedMinimum ).toBe( 30 );
+		expect( assessment._config.slightlyBelowMinimum ).toBe( 10 );
+		expect( assessment._config.veryFarBelowMinimum ).toBe( 1 );
 		expect( assessment._config.scores ).toBeDefined();
 		expect( assessment._config.scores.belowMinimum ).toBe( 3 );
-		expect( assessment._config.scores.farBelowMinimum ).toBe( -10 );
+		expect( assessment._config.scores.veryFarBelowMinimum ).toBe( -20 );
 		expect( assessment._config.cornerstoneContent ).toBeDefined();
 		expect( assessment._config.cornerstoneContent ).toBeTruthy();
 	} );
