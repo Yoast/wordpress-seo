@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Values\Images;
+use Yoast\WP\SEO\Values\Twitter\Images;
 
 /**
  * Class Twitter_Image_Generator_Test

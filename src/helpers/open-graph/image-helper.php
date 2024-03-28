@@ -40,11 +40,16 @@ class Image_Helper {
 	/**
 	 * Determines whether the passed URL is considered valid.
 	 *
-	 * @param array $image The image array.
+	 * @deprecated 22.4
+	 * @codeCoverageIgnore
+	 *
+	 * @param array<array<string,string|int>> $image The image array.
 	 *
 	 * @return bool Whether or not the URL is a valid image.
 	 */
 	public function is_image_url_valid( array $image ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 22.4' );
+
 		if ( empty( $image['url'] ) || ! \is_string( $image['url'] ) ) {
 			return false;
 		}
@@ -89,7 +94,7 @@ class Image_Helper {
 	 *
 	 * @param int $attachment_id The attachment id.
 	 *
-	 * @return array|false The image data when found, `false` when not.
+	 * @return array<string,string|int>|false The image data when found, `false` when not.
 	 */
 	public function get_image_by_id( $attachment_id ) {
 		if ( ! $this->image->is_valid_attachment( $attachment_id ) ) {
