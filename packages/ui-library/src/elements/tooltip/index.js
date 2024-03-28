@@ -10,13 +10,12 @@ const positionClassNameMap = {
 };
 
 /**
- * @param {string} children Content of the tooltip.
+ * @param {JSX.node} children Content of the tooltip.
  * @param {string|JSX.Element} [as] Base component.
  * @param {string} [className] CSS class.
  * @param {string} [position] Position of the tooltip.
  * @returns {JSX.Element} Tooltip component.
  */
-
 const Tooltip = forwardRef( ( { children, as: Component, className, position, ...props }, ref ) => {
 	return (
 		<Component
@@ -28,7 +27,7 @@ const Tooltip = forwardRef( ( { children, as: Component, className, position, ..
 			role="tooltip"
 			{ ...props }
 		>
-			{ children || null }
+			{ children }
 		</Component>
 	);
 } );
@@ -36,14 +35,13 @@ const Tooltip = forwardRef( ( { children, as: Component, className, position, ..
 Tooltip.displayName = "Tooltip";
 Tooltip.propTypes = {
 	as: PropTypes.elementType,
-	id: PropTypes.string,
-	children: PropTypes.string,
+	children: PropTypes.node,
 	className: PropTypes.string,
 	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ),
 };
 Tooltip.defaultProps = {
 	as: "div",
-	children: "",
+	children: null,
 	className: "",
 	position: "top",
 };

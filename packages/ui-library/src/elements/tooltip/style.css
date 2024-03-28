@@ -4,15 +4,15 @@
 			@apply yst-absolute
 			yst-inline-block
 			yst-z-10
-			yst-px-2
-			yst-p-2
+			yst-px-2.5
+			yst-py-2
 			yst-bg-gray-800
 			yst-text-white
 			yst-text-xs
 			yst-rounded-lg
 			yst-whitespace-normal
 			yst-w-max
-			yst-max-w-md;
+			yst-max-w-sm;
 		}
 
 		.yst-tooltip--top {
@@ -20,7 +20,7 @@
 			yst--translate-y-full
 			yst-left-1/2
 			yst-top-0
-			yst--mt-2; /* Negative margin to move the tooltip up */
+			yst--mt-3; /* Negative margin to move the tooltip up */
 
 			/* Style properties for the tooltip arrow */
 			&::before {
@@ -42,7 +42,7 @@
 			yst--translate-y-0
 			yst-left-1/2
 			yst-top-full
-			yst-mt-2;
+			yst-mt-3;
 
 			/* Style properties for the tooltip arrow */
 			&::before {
@@ -63,7 +63,7 @@
 			yst--translate-y-1/2
 			yst-left-full
 			yst-top-1/2
-			yst-ml-2;
+			yst-ml-3;
 
 			/* Style properties for the tooltip arrow */
 			&::before {
@@ -84,7 +84,7 @@
 			@apply yst--translate-y-1/2
 			yst-right-full
 			yst-top-1/2
-			yst-mr-2;
+			yst-mr-3;
 
 			/* Style properties for the tooltip arrow */
 			&::before {

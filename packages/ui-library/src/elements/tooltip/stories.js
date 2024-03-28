@@ -5,11 +5,11 @@ import Badge from "../badge";
 import { component, badgeWithATooltip } from "./docs";
 
 export const Factory = {
-	render: (args) => {
+	render: ( args ) => {
 		return (
-			<div className="yst-relative" aria-describedby={args.id}>
+			<div className="yst-relative" aria-describedby={ args.id }>
 				Element containing a tooltip.
-				<Tooltip {...args} />
+				<Tooltip { ...args } />
 			</div>
 		);
 	},
@@ -23,27 +23,27 @@ export const Factory = {
 };
 
 export const BadgeShowsATooltipOnHover = {
-	render: (args) => {
-		const [isVisible, setIsVisible] = useState(false);
+	render: ( args ) => {
+		const [ isVisible, setIsVisible ] = useState( false );
 		const handleMouseEnter = useCallback(
-			() => setIsVisible(true),
-			[setIsVisible],
+			() => setIsVisible( true ),
+			[ setIsVisible ],
 		);
 		const handleMouseLeave = useCallback(
-			() => setIsVisible(false),
-			[setIsVisible],
+			() => setIsVisible( false ),
+			[ setIsVisible ],
 		);
 
 		return (
 			<Badge
 				variant="plain"
-				aria-describedby={args.id}
-				onMouseEnter={handleMouseEnter}
-				onMouseLeave={handleMouseLeave}
+				aria-describedby={ args.id }
+				onMouseEnter={ handleMouseEnter }
+				onMouseLeave={ handleMouseLeave }
 				className="yst-relative yst-cursor-pointer"
 			>
 				Hover me
-				{isVisible && <Tooltip {...args} />}
+				{ isVisible && <Tooltip { ...args } /> }
 			</Badge>
 		);
 	},
@@ -58,30 +58,30 @@ export const BadgeShowsATooltipOnHover = {
 		docs: {
 			description: { story: badgeWithATooltip },
 			source: {
-				transform: (string, storyContext) => {
-					return ` 
-				const [isVisible, setIsVisible] = useState(false);
+				transform: ( string, storyContext ) => {
+					return `
+				const [ isVisible, setIsVisible ] = useState( false );
 const handleMouseEnter = useCallback(
-	() => setIsVisible(true),
-	[setIsVisible],
+	() => setIsVisible( true ),
+	[ setIsVisible ],
 );
 const handleMouseLeave = useCallback(
-	() => setIsVisible(false),
-	[setIsVisible],
+	() => setIsVisible( false ),
+	[ setIsVisible ],
 );
 
 return (
 	<Badge
 		variant="plain"
-		aria-describedby="id-2"
-		onMouseEnter={handleMouseEnter}
-		onMouseLeave={handleMouseLeave}
+		aria-describedby="${ storyContext.args.id }"
+		onMouseEnter={ handleMouseEnter }
+		onMouseLeave={ handleMouseLeave }
 		className="yst-relative yst-cursor-pointer"
 	>
-	Hover me
-		{isVisible && <Tooltip id="id-2" children="${storyContext.args.children}"/>}
+		Hover me
+		{ isVisible && <Tooltip id="${ storyContext.args.id }" children="${ storyContext.args.children }"/> }
 	</Badge>
-); 
+);
 `;
 				},
 			},
@@ -93,18 +93,18 @@ export default {
 	title: "1) Elements/Tooltip",
 	component: Tooltip,
 	argTypes: {
-		as: { options: ["div", "span"] },
+		as: { options: [ "div", "span" ] },
 	},
 	parameters: {
 		docs: {
 			description: { component },
 			page: () => (
-				<InteractiveDocsPage stories={[BadgeShowsATooltipOnHover]} />
+				<InteractiveDocsPage stories={ [ BadgeShowsATooltipOnHover ] } />
 			),
 		},
 	},
 	decorators: [
-		(Story) => (
+		( Story ) => (
 			<div className="yst-m-20 yst-flex yst-justify-center">
 				<Story />
 			</div>
