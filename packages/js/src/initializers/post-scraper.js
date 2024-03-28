@@ -237,7 +237,6 @@ export default function initPostScraper( $, store, editorData ) {
 			elementTarget: [
 				tinyMCEHelper.tmceId,
 				"yoast_wpseo_focuskw_text_input",
-				"yoast_wpseo_metadesc",
 				"excerpt",
 				"editable-post-name",
 				"editable-post-name-full",
@@ -526,7 +525,7 @@ export default function initPostScraper( $, store, editorData ) {
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = store.getState().focusKeyword;
 		requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
-		const refreshAfterFocusKeywordChange = debounce( () => {
+		const refreshApp = debounce( () => {
 			app.refresh();
 		}, 50 );
 
@@ -541,7 +540,7 @@ export default function initPostScraper( $, store, editorData ) {
 
 				setFocusKeyword( focusKeyword );
 
-				refreshAfterFocusKeywordChange();
+				refreshApp();
 			}
 
 			const data = getDataFromStore( store );
@@ -558,6 +557,7 @@ export default function initPostScraper( $, store, editorData ) {
 
 			if ( snippetEditorData.description !== data.description ) {
 				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
+				refreshApp();
 			}
 
 			const currentState = store.getState();

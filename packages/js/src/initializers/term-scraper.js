@@ -281,7 +281,7 @@ export default function initTermScraper( $, store, editorData ) {
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [ termsTmceId, "yoast_wpseo_focuskw", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
+			elementTarget: [ termsTmceId, "excerpt", "editable-post-name", "editable-post-name-full" ],
 			targets: retrieveTargets(),
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
@@ -427,7 +427,7 @@ export default function initTermScraper( $, store, editorData ) {
 		let focusKeyword = store.getState().focusKeyword;
 		requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, window.YoastSEO.store, focusKeyword );
 
-		const refreshAfterFocusKeywordChange = debounce( () => {
+		const refreshApp = debounce( () => {
 			app.refresh();
 		}, 50 );
 
@@ -442,7 +442,7 @@ export default function initTermScraper( $, store, editorData ) {
 				requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, window.YoastSEO.store, focusKeyword );
 
 				document.getElementById( "hidden_wpseo_focuskw" ).value = focusKeyword;
-				refreshAfterFocusKeywordChange();
+				refreshApp();
 			}
 
 			const data = getDataFromStore( store );
@@ -458,6 +458,7 @@ export default function initTermScraper( $, store, editorData ) {
 
 			if ( snippetEditorData.description !== data.description ) {
 				termScraper.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
+				refreshApp();
 			}
 
 			snippetEditorData.title = data.title;
