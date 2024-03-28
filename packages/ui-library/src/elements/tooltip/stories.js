@@ -47,45 +47,42 @@ export const BadgeShowsATooltipOnHover = {
 			</Badge>
 		);
 	},
+	name: "Badge shows a tooltip on hover",
 	args: {
 		id: "id-2",
 		children:
-			"I am also a tooltip with long text. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+			"I am also a tooltip with a long text. Lorem ipsum dolor sit amet. Rem in odit doloribus quo soluta voluptates a atque minus!",
 	},
 	parameters: {
 		controls: { disable: false },
 		docs: {
 			description: { story: badgeWithATooltip },
 			source: {
-				transform: (argument1, argument2) => {
-					console.log({
-						argument1,
-						argument2: argument2.args.children,
-					});
+				transform: (string, storyContext) => {
 					return ` 
-			const [isVisible, setIsVisible] = useState(false);
-			const handleMouseEnter = useCallback(
-				() => setIsVisible(true),
-				[setIsVisible],
-			);
-			const handleMouseLeave = useCallback(
-				() => setIsVisible(false),
-				[setIsVisible],
-			);
+				const [isVisible, setIsVisible] = useState(false);
+const handleMouseEnter = useCallback(
+	() => setIsVisible(true),
+	[setIsVisible],
+);
+const handleMouseLeave = useCallback(
+	() => setIsVisible(false),
+	[setIsVisible],
+);
 
-			return (
-				<Badge
-				variant="plain"
-				aria-describedby="id-2"
-				onMouseEnter={handleMouseEnter}
-				onMouseLeave={handleMouseLeave}
-				className="yst-relative yst-cursor-pointer"
-			>
-				Hover me
-				{isVisible && <Tooltip id="id-2"/>}
-			</Badge>
-				);
-	`;
+return (
+	<Badge
+		variant="plain"
+		aria-describedby="id-2"
+		onMouseEnter={handleMouseEnter}
+		onMouseLeave={handleMouseLeave}
+		className="yst-relative yst-cursor-pointer"
+	>
+	Hover me
+		{isVisible && <Tooltip id="id-2" children="${storyContext.args.children}"/>}
+	</Badge>
+); 
+`;
 				},
 			},
 		},
