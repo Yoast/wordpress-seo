@@ -69,7 +69,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
+		\add_action( 'enqueue_block_assets', [ $this, 'enqueue_block_editor_assets' ] );
 		$this->register_blocks();
 	}
 
@@ -80,64 +80,15 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 */
 	public function register_blocks() {
 		\register_block_type(
-			'yoast/faq-block',
+			\WPSEO_PATH . 'blocks/structured-data-blocks/faq/block.json',
 			[
 				'render_callback' => [ $this, 'optimize_faq_images' ],
-				'attributes'      => [
-					'className' => [
-						'default' => '',
-						'type'    => 'string',
-					],
-					'questions' => [
-						'type' => 'array',
-					],
-					'additionalListCssClasses' => [
-						'type' => 'string',
-					],
-				],
 			]
 		);
 		\register_block_type(
-			'yoast/how-to-block',
+			\WPSEO_PATH . 'blocks/structured-data-blocks/how-to/block.json',
 			[
 				'render_callback' => [ $this, 'optimize_how_to_images' ],
-				'attributes'      => [
-					'hasDuration' => [
-						'type' => 'boolean',
-					],
-					'days' => [
-						'type' => 'string',
-					],
-					'hours' => [
-						'type' => 'string',
-					],
-					'minutes' => [
-						'type' => 'string',
-					],
-					'description' => [
-						'type'     => 'array',
-						'source'   => 'children',
-						'selector' => '.schema-how-to-description',
-					],
-					'jsonDescription' => [
-						'type' => 'string',
-					],
-					'steps' => [
-						'type' => 'array',
-					],
-					'additionalListCssClasses' => [
-						'type' => 'string',
-					],
-					'unorderedList' => [
-						'type' => 'boolean',
-					],
-					'durationText' => [
-						'type' => 'string',
-					],
-					'defaultDurationText' => [
-						'type' => 'string',
-					],
-				],
 			]
 		);
 	}
@@ -148,6 +99,11 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_block_editor_assets() {
+		// Bail if not in the admin.
+		if ( ! \is_admin() ) {
+			return;
+		}
+
 		/**
 		 * Filter: 'wpseo_enable_structured_data_blocks' - Allows disabling Yoast's schema blocks entirely.
 		 *
@@ -157,7 +113,6 @@ class Structured_Data_Blocks implements Integration_Interface {
 			return;
 		}
 
-		$this->asset_manager->enqueue_script( 'structured-data-blocks' );
 		$this->asset_manager->enqueue_style( 'structured-data-blocks' );
 	}
 
