@@ -7,11 +7,15 @@ import { STORE_NAME } from "../constants";
 
 const ALPHA_NUMERIC_VERIFY_REGEXP = /^[A-Za-z0-9_-]+$/;
 const ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP = /^[A-Fa-f0-9_-]+$/;
+const TWITTER_HANDLE_REGEXP = /^[A-Za-z0-9_]{1,25}$/;
+const TWITTER_URL_REGEXP = /^https?:\/\/(?:www\.)?(?:twitter|x)\.com\/(?<handle>[A-Za-z0-9_]{1,25})\/?$/;
+
+const allowedMediaTypes = [ "image/jpeg", "image/png", "image/webp", "image/gif" ];
 
 addMethod( number, "isMediaTypeImage", function() {
 	return this.test(
 		"isMediaTypeImage",
-		__( "The selected media type is not valid. Supported types are: JPG, PNG, WEBP and GIF.", "wordpress-seo" ),
+		__( "The selected file is not an image.", "wordpress-seo" ),
 		input => {
 			// Not required.
 			if ( ! input ) {
@@ -29,6 +33,23 @@ addMethod( number, "isMediaTypeImage", function() {
 	);
 } );
 
+addMethod( number, "isMediaMimeTypeAllowed", function() {
+	return this.test(
+		"isMediaMimeTypeAllowed",
+		__( "The selected media type is not valid. Supported types are: JPG, PNG, WEBP and GIF.", "wordpress-seo" ),
+		input => {
+			const media = select( STORE_NAME ).selectMediaById( input );
+
+			// No metadata to validate: default to valid.
+			if ( ! media ) {
+				return true;
+			}
+
+			return allowedMediaTypes.includes( media.mime );
+		}
+	);
+} );
+
 addMethod( string, "isValidTwitterUrlOrHandle", function() {
 	return this.test(
 		"isValidTwitterUrlOrHandle",
@@ -38,9 +59,6 @@ addMethod( string, "isValidTwitterUrlOrHandle", function() {
 			if ( ! input ) {
 				return true;
 			}
-
-			const TWITTER_HANDLE_REGEXP = /^[A-Za-z0-9_]{1,25}$/;
-			const TWITTER_URL_REGEXP = /^https?:\/\/(?:www\.)?(?:twitter|x)\.com\/(?<handle>[A-Za-z0-9_]{1,25})\/?$/;
 
 			return TWITTER_HANDLE_REGEXP.test( input ) || TWITTER_URL_REGEXP.test( input );
 		}
@@ -87,19 +105,19 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 			...reduce( postTypes, ( acc, { name, hasArchive } ) => ( {
 				...acc,
 				...( name !== "attachment" && {
-					[ `social-image-id-${ name }` ]: number().isMediaTypeImage(),
+					[ `social-image-id-${ name }` ]: number().isMediaTypeImage().isMediaMimeTypeAllowed(),
 				} ),
 				...( hasArchive && {
-					[ `social-image-id-ptarchive-${ name }` ]: number().isMediaTypeImage(),
+					[ `social-image-id-ptarchive-${ name }` ]: number().isMediaTypeImage().isMediaMimeTypeAllowed(),
 				} ),
 			} ), {} ),
 			...reduce( taxonomies, ( acc, { name } ) => ( {
 				...acc,
-				[ `social-image-id-tax-${ name }` ]: number().isMediaTypeImage(),
+				[ `social-image-id-tax-${ name }` ]: number().isMediaTypeImage().isMediaMimeTypeAllowed(),
 			} ), {} ),
-			"social-image-id-author-wpseo": number().isMediaTypeImage(),
-			"social-image-id-archive-wpseo": number().isMediaTypeImage(),
-			"social-image-id-tax-post_format": number().isMediaTypeImage(),
+			"social-image-id-author-wpseo": number().isMediaTypeImage().isMediaMimeTypeAllowed(),
+			"social-image-id-archive-wpseo": number().isMediaTypeImage().isMediaMimeTypeAllowed(),
+			"social-image-id-tax-post_format": number().isMediaTypeImage().isMediaMimeTypeAllowed(),
 		} ),
 	} );
 };
