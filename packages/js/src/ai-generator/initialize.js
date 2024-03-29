@@ -6,7 +6,6 @@ import { __ } from "@wordpress/i18n";
 import { Modal, useToggleState } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { ModalContent } from "./components/modal-content";
-import ErrorBoundaryWithDefaultFallback from "../components/ErrorBoundaryWithDefaultFallback";
 
 /**
  * The AI Generator upsell button and modal.
@@ -66,9 +65,7 @@ const initializeAiGenerator = () => {
 			if ( shouldShowAiGeneratorUpsell ) {
 				buttons.push(
 					<Fill name={ `yoast.replacementVariableEditor.additionalButtons.${ fieldId }` }>
-						<ErrorBoundaryWithDefaultFallback key={ `${ fieldId }` }>
-							<AiGeneratorUpsell fieldId={ fieldId } />
-						</ErrorBoundaryWithDefaultFallback>
+						<AiGeneratorUpsell fieldId={ fieldId } />
 					</Fill>
 				);
 			}
