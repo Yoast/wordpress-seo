@@ -36,7 +36,7 @@ const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( B
 /**
  * Creates the Metabox component.
  *
- * @param {Object} settings 				The feature toggles.
+ * @param {Object} settings The feature toggles.
  *
  * @returns {wp.Element} The Metabox component.
  */
