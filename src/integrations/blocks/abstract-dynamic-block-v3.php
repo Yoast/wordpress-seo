@@ -24,6 +24,13 @@ abstract class Dynamic_Block_V3 implements Integration_Interface {
 	protected $script;
 
 	/**
+	 * The base path for the block.
+	 *
+	 * @var string
+	 */
+	protected $base_path;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -44,7 +51,7 @@ abstract class Dynamic_Block_V3 implements Integration_Interface {
 	 */
 	public function register_block() {
 		\register_block_type(
-			\WPSEO_PATH . 'blocks/dynamic-blocks/' . $this->block_name . '/block.json',
+			 $this->base_path . $this->block_name . '/block.json',
 			[
 				'editor_script'   => $this->script,
 				'render_callback' => [ $this, 'present' ],

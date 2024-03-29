@@ -84,6 +84,8 @@ class Breadcrumbs_Block extends Dynamic_Block_V3 {
 		$this->helpers              = $helpers;
 		$this->indexable_repository = $indexable_repository;
 		$this->request_helper       = $request_helper;
+
+		$this->base_path = \WPSEO_PATH . 'blocks/dynamic-blocks/';
 	}
 
 	/**
