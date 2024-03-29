@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import Tooltip from ".";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import Badge from "../badge";
-import { component, badgeWithATooltip } from "./docs";
+import { component, badgeShowsATooltipOnHover } from "./docs";
 
 export const Factory = {
 	render: ( args ) => {
@@ -56,7 +56,7 @@ export const BadgeShowsATooltipOnHover = {
 	parameters: {
 		controls: { disable: false },
 		docs: {
-			description: { story: badgeWithATooltip },
+			description: { story: badgeShowsATooltipOnHover },
 			source: {
 				transform: ( string, storyContext ) => {
 					return `
