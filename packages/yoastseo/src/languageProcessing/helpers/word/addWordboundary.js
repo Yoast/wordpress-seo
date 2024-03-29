@@ -5,14 +5,14 @@
  * @param {boolean} [positiveLookAhead=false]   Boolean indicating whether or not to include a positive look ahead
  * for the word boundaries at the end.
  * @param {string} [extraWordBoundary=""]       Extra characters to match a word boundary on.
- * @param {string} [locale=""]                  The locale used to determine the word boundary.
+ * @param {string} [language=""]                The language used to determine the word boundary.
  *
  * @returns {string} A regex string that matches the matchString with word boundaries.
  */
-export default function( matchString, positiveLookAhead = false, extraWordBoundary = "", locale = "" ) {
+export default function( matchString, positiveLookAhead = false, extraWordBoundary = "", language = "" ) {
 	let wordBoundary, wordBoundaryEnd;
 
-	if ( locale === "id_ID" ) {
+	if ( language === "id" ) {
 		wordBoundary = "[ \\u00a0\\n\\r\\t.,()”“〝〞〟‟„\"+;!¡?¿:/»«‹›" + extraWordBoundary + "<>";
 	} else {
 		/*

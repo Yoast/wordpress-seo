@@ -3,7 +3,7 @@ To install the Yoast UI library, start with installing the package and its peer 
 
 ```shell
 # Add dependencies with Yarn
-yarn add @yoast/ui-library @wordpress/element
+yarn add @yoast/ui-library
 ```
 
 ## Setup

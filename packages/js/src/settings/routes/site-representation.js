@@ -242,8 +242,8 @@ const SiteRepresentation = () => {
 									as={ TextField }
 									name="wpseo_social.twitter_site"
 									id="input-wpseo_social-twitter_site"
-									label={ __( "Twitter", "wordpress-seo" ) }
-									placeholder={ __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
+									label={ __( "X", "wordpress-seo" ) }
+									placeholder={ __( "E.g. https://x.com/yoast", "wordpress-seo" ) }
 								/>
 								<FeatureUpsell
 									shouldUpsell={ ! isPremium }
@@ -463,7 +463,7 @@ const SiteRepresentation = () => {
 										as={ TextField }
 										name="wpseo_titles.org-leicode"
 										id="input-wpseo_titles-org-leicode"
-										label={ __( "leiCode", "wordpress-seo" ) }
+										label={ __( "LEI code", "wordpress-seo" ) }
 										isDummy={ ! isPremium }
 									/>
 									<FormikWithErrorFieldWithDummy

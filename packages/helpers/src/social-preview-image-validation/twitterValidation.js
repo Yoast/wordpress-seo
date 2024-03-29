@@ -92,12 +92,12 @@ export const validatesBytes = ( image ) => {
 	const { bytes } = image;
 
 	const warningMessage = sprintf(
-		/* Translators: %s expands to Twitter, %s expands to the 5MB size. */
+		/* translators: %s expands to X, %s expands to the 5MB size. */
 		__(
 			"The file size of the uploaded image is too large for %s. File size must be less than %s.",
 			"wordpress-seo"
 		),
-		"Twitter", "5MB"
+		"X", "5MB"
 	);
 
 	if ( bytes >= 5 ) {

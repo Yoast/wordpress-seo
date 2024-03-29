@@ -1,7 +1,7 @@
-import { useCallback } from "@wordpress/element";
 import classNames from "classnames";
-import { includes, without, noop } from "lodash";
+import { includes, noop, without } from "lodash";
 import PropTypes from "prop-types";
+import React, { useCallback } from "react";
 import Checkbox from "../../elements/checkbox";
 import Label from "../../elements/label";
 
@@ -85,7 +85,6 @@ CheckboxGroup.propTypes = {
 };
 
 CheckboxGroup.Checkbox = Checkbox;
-
 CheckboxGroup.Checkbox.displayName = "CheckboxGroup.Checkbox";
 
 export default CheckboxGroup;
