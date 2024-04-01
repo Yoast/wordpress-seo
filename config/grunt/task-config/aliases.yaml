@@ -30,7 +30,7 @@
 'build:css':
   - 'clean:build-assets-css'
   - 'copy:css-files'
-  - 'shell:postcss-dev'
+  - 'shell:yarn:build:css'
   - 'rtlcss:build'
 
 clean:build-assets:
@@ -112,7 +112,7 @@ release:
 'release:css':
   - 'clean:build-assets-css'
   - 'copy:css-files'
-  - 'shell:postcss-release'
+  - 'shell:yarn-prod:build:css'
   - 'rtlcss:build'
 
 'deploy:master':

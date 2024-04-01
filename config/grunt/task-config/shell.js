@@ -95,11 +95,11 @@ module.exports = function( grunt ) {
 			},
 		},
 
-		"postcss-dev": {
-			command: "yarn build:css:dev",
+		yarn: {
+			command: ( ...args ) =>  `cross-env NODE_ENV=development yarn ${ args.join( ":" ) }`,
 		},
-		"postcss-release": {
-			command: "yarn build:css",
+		"yarn-prod": {
+			command: ( ...args ) =>  `cross-env NODE_ENV=production yarn ${ args.join( ":" ) }`,
 		},
 	};
 	/* eslint-enable require-jsdoc */
