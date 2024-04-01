@@ -20,18 +20,6 @@ module.exports = function( grunt ) {
 	}
 
 	return {
-		webpack: {
-			command: "cross-env NODE_ENV=development yarn run wp-scripts build --config config/webpack/webpack.config.js",
-		},
-
-		"webpack-prod": {
-			command: "yarn run wp-scripts build --config config/webpack/webpack.config.js",
-		},
-
-		"webpack-watch": {
-			command: "yarn run wp-scripts start --config config/webpack/webpack.config.js",
-		},
-
 		"composer-install-production": {
 			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts",
 		},

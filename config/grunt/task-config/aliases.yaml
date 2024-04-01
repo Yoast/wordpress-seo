@@ -24,7 +24,7 @@
 # Build JavaScript from assets to development
 'build:js':
   - 'clean:build-assets-js'
-  - 'shell:webpack'
+  - 'shell:yarn:build --scope @yoast/wordpress-seo'
 
 # Build CSS for development
 'build:css':
@@ -106,7 +106,7 @@ release:
 'release:packages':
   - 'shell:yarn-prod:build --ignore @yoast/wordpress-seo'
 'release:js':
-  - 'shell:webpack-prod'
+  - 'shell:yarn-prod:build --scope @yoast/wordpress-seo'
 
 # Build CSS for production
 'release:css':
