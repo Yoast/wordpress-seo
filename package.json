@@ -25,7 +25,9 @@
     ]
   },
   "scripts": {
-    "lint": "lerna run lint --no-sort --",
+    "lint": "yarn lint:packages && yarn lint:tooling",
+    "lint:packages": "lerna run lint --no-sort --",
+    "lint:tooling": "eslint . --max-warnings=0",
     "test": "lerna run test --no-sort --stream --",
     "build": "lerna run build",
     "build:dev": "cross-env NODE_ENV=development lerna run build",
