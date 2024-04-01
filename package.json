@@ -26,9 +26,9 @@
   },
   "scripts": {
     "lint": "yarn lint:packages && yarn lint:tooling",
-    "lint:packages": "lerna run lint --no-sort --",
+    "lint:packages": "lerna run lint",
     "lint:tooling": "eslint . --max-warnings=0",
-    "test": "lerna run test --no-sort --stream --",
+    "test": "lerna run test",
     "build": "lerna run build",
     "build:css": "postcss css/dist/*.css --verbose --replace",
     "webpack-analyze-bundle": "wp-scripts build --config config/webpack/webpack.config.js --webpack-bundle-analyzer",
