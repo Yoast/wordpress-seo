@@ -73,13 +73,17 @@
     "jest": "^27.5.1",
     "jest-styled-components": "^7.0.3",
     "lerna": "^6.4.1",
+    "lodash": "^4.17.21",
+    "mini-css-extract-plugin": "^2.5.1",
     "node-fetch": "^2.6.1",
     "postcss": "^8.4.14",
     "postcss-cli": "^9.1.0",
     "readline-sync": "^1.4.9",
     "shusher": "^0.1.1",
     "tmp": "^0.1.0",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "webpack": "^5.88.2",
+    "webpack-bundle-analyzer": "^4.9.1"
   },
   "yoast": {
     "pluginVersion": "22.5-RC2"
