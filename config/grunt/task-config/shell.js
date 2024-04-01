@@ -48,14 +48,6 @@ module.exports = function( grunt ) {
 			command: "composer check-branch-cs",
 		},
 
-		"unlink-monorepo": {
-			command: "yarn unlink-monorepo",
-		},
-
-		"get-monorepo-versions": {
-			command: "yarn list --pattern 'yoastseo|yoast-components' --depth=0",
-		},
-
 		"check-for-uncommitted-changes": {
 			// --porcelain gives the output in an easy-to-parse format for scripts.
 			command: "git status --porcelain",
@@ -78,5 +70,4 @@ module.exports = function( grunt ) {
 			command: ( ...args ) =>  `cross-env NODE_ENV=production yarn ${ args.join( ":" ) }`,
 		},
 	};
-	/* eslint-enable require-jsdoc */
 };
