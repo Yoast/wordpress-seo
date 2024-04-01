@@ -37,6 +37,9 @@ clean:build-assets:
   - 'clean:build-assets-js'
   - 'clean:build-assets-css'
 
+'eslint':
+  - 'shell:yarn:lint'
+
 # Update all versions except the stable tag
 'update-version-trunk':
   - 'update-version:pluginFile'
