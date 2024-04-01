@@ -11,7 +11,7 @@ const { yoastExternals } = require( "./externals" );
 let analyzerPort = 8888;
 
 module.exports = function( { entry, output, combinedOutputFile, cssExtractFileName } ) {
-	const exclude = /node_modules[/\\](?!(yoast-components|gutenberg|yoastseo|@wordpress|@yoast|parse5|chart.js)[/\\]).*/;
+	const exclude = /node_modules[/\\](?!(parse5|chart.js)[/\\]).*/;
 	// The index of the babel-loader rule.
 	let ruleIndex = 0;
 	if ( process.env.NODE_ENV !== "production" ) {
