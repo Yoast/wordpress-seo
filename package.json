@@ -37,10 +37,7 @@
     "start": "wp-scripts start --config config/webpack/webpack.config.js --webpack-src-dir=packages/**/src",
     "sync:wp-deps": "node config/scripts/sync-wp-dependencies.js"
   },
-  "dependencies": {
-    "@draft-js-plugins/mention": "^5.0.0",
-    "draft-js": "^0.11.7"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.18.5",
     "@slack/webhook": "^5.0.2",
