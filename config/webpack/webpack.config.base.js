@@ -37,7 +37,6 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 
 	return {
 		...defaultConfig,
-		devtool: process.env.environment === "development" ? "cheap-module-eval-source-map" : false,
 		optimization: {
 			usedExports: process.env.NODE_ENV === "production",
 		},
