@@ -19,7 +19,7 @@
 
 # Compile the JavaScript packages that need it.
 'build:packages':
-  - 'shell:build-packages'
+  - 'shell:yarn:build --ignore @yoast/wordpress-seo'
 
 # Build JavaScript from assets to development
 'build:js':
@@ -104,7 +104,7 @@ release:
   - 'release:css'
 # Compile the JavaScript packages that need it.
 'release:packages':
-  - 'shell:build-packages-prod'
+  - 'shell:yarn-prod:build --ignore @yoast/wordpress-seo'
 'release:js':
   - 'shell:webpack-prod'
 
