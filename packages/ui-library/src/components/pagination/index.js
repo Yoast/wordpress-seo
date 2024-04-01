@@ -1,8 +1,8 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
-import { useCallback } from "@wordpress/element";
 import classNames from "classnames";
 import { parseInt } from "lodash";
 import PropTypes from "prop-types";
+import React, { useCallback } from "react";
 import { useSvgAria } from "../../hooks";
 import Button from "./button";
 import DisplayButtons from "./display-buttons";

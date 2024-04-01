@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { createContext } from "@wordpress/element";
+import React, { createContext } from "react";
 
 const defaultRootContext = {
 	isRtl: false,

@@ -1,6 +1,6 @@
-import { createContext, useContext, useState } from "@wordpress/element";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
+import React, { createContext, useContext, useState } from "react";
 import MenuItem from "./menu-item";
 import Mobile from "./mobile";
 import Sidebar from "./sidebar";

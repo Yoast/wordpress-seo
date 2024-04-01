@@ -1,7 +1,7 @@
 /* eslint-disable no-undefined */
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { forwardRef } from "@wordpress/element";
+import React, { forwardRef } from "react";
 import Label from "../label";
 
 /**
@@ -42,7 +42,8 @@ const Checkbox = forwardRef( ( {
 	</div>
 ) );
 
-const propTypes = {
+Checkbox.displayName = "Checkbox";
+Checkbox.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
@@ -50,16 +51,9 @@ const propTypes = {
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
 };
-Checkbox.propTypes = propTypes;
-
 Checkbox.defaultProps = {
 	className: "",
+	disabled: false,
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Checkbox { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Checkbox.defaultProps;
-StoryComponent.displayName = "Checkbox";
 
 export default Checkbox;
