@@ -287,8 +287,8 @@ describe( "A text length assessment", function() {
 	} );
 } );
 
-describe( "In Japanese, the text length assessment should give a score based on character length " +
-	"and use language-specific boundaries: regular post content type", function() {
+describe( "Tests regular post content type in Japanese. " +
+	"The score should use language-specific boundaries and should be based on character length.", function() {
 	const character = "あ";
 	const textVeryFarBelowMinimum = character.repeat( 199 );
 	const textFarBelowMinimum = character.repeat( 399 );
@@ -387,8 +387,8 @@ describe( "In Japanese, the text length assessment should give a score based on 
 	} );
 } );
 
-describe( "In Japanese, the text length assessment should give a score based on character length " +
-	"and use language-specific boundaries: taxonomy and collection post content type", function() {
+describe( "Tests taxonomies and collections in Japanese. " +
+	"The score should use language-specific boundaries and should be based on character length.", function() {
 	const character = "あ";
 	const textBelowMinimum = character.repeat( 15 );
 	const textSlightlyBelowMinimum = character.repeat( 50 );
@@ -403,7 +403,7 @@ describe( "In Japanese, the text length assessment should give a score based on 
 
 		expect( results.getScore() ).toEqual( -20 );
 		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
-			"The text doesn't contain any characters. <a href='https://yoa.st/34o' target='_blank'>Please add some content</a>" );
+			"The text doesn't contain any characters. <a href='https://yoa.st/34o' target='_blank'>Please add some content</a>." );
 	} );
 
 	it( "should assess a 15-character text in the belowMinimum category: taxonomy page", function() {

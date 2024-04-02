@@ -4,7 +4,7 @@ import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/
 import assessmentConfigJapanese from "../../../../src/languageProcessing/languages/ja/config/textLength";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
-describe( "A TextLengthAssessment for a taxonomy page: Japanese", function() {
+describe( "A TextLengthAssessment for a taxonomy page in Japanese", function() {
 	let assessment;
 	beforeEach( () => {
 		assessment = getTextLengthAssessment();
@@ -19,7 +19,7 @@ describe( "A TextLengthAssessment for a taxonomy page: Japanese", function() {
 		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.slightlyBelowMinimum );
 		expect( assessment._config.veryFarBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.veryFarBelowMinimum );
 	} );
-	it( "should return a good result for taxonomy pages in Japanese when the text is 60 characters", function() {
+	it( "should return a good result for taxonomy pages in Japanese when the text is 60 characters or more", function() {
 		const paper = new Paper( "欧米では、かつては不吉の象徴とする迷信があり、魔女狩りなどによって黒猫が殺されることがあった。たとえばベルギー・ウェス。" );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const result = assessment.getResult( paper, japaneseResearcher );
@@ -54,11 +54,11 @@ describe( "A TextLengthAssessment for a taxonomy page: Japanese", function() {
 
 		expect( result.getScore() ).toEqual( -20 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text doesn't contain any characters." +
-			" <a href='https://yoa.st/34k' target='_blank'>Please add some content</a>" );
+			" <a href='https://yoa.st/34k' target='_blank'>Please add some content</a>." );
 	} );
 } );
 
-describe( "A TextLengthAssessment for a taxonomy page: English", function() {
+describe( "A TextLengthAssessment for a taxonomy page in English", function() {
 	let assessment;
 	beforeEach( () => {
 		assessment = getTextLengthAssessment();
@@ -110,7 +110,7 @@ describe( "A TextLengthAssessment for a taxonomy page: English", function() {
 
 		expect( result.getScore() ).toEqual( -20 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text doesn't contain any words." +
-			" <a href='https://yoa.st/34k' target='_blank'>Please add some content</a>" );
+			" <a href='https://yoa.st/34k' target='_blank'>Please add some content</a>." );
 	} );
 } );
 

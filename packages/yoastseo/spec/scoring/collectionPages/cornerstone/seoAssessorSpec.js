@@ -30,6 +30,8 @@ describe( "has the correct configuration overrides", () => {
 		expect( assessment._config.slightlyBelowMinimum ).toBe( 10 );
 		expect( assessment._config.veryFarBelowMinimum ).toBe( 1 );
 		expect( assessment._config.scores ).toBeDefined();
+		expect( assessment._config.scores.recommendedMinimum ).toBe( 9 );
+		expect( assessment._config.scores.slightlyBelowMinimum ).toBe( 6 );
 		expect( assessment._config.scores.belowMinimum ).toBe( 3 );
 		expect( assessment._config.scores.veryFarBelowMinimum ).toBe( -20 );
 		expect( assessment._config.cornerstoneContent ).toBeDefined();

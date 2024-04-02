@@ -48,7 +48,7 @@ export default class TextLengthAssessment extends Assessment {
 	}
 
 	/**
-	 * Execute the Assessment and return a result.
+	 * Executes the Assessment and returns a result.
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
 	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
@@ -78,7 +78,7 @@ export default class TextLengthAssessment extends Assessment {
 	}
 
 	/**
-	 * Check if there is language-specific config, and if so, overwrite the current config with it.
+	 * Checks if there is language-specific config, and if so, overwrites the current config with it.
 	 *
 	 * @param {Researcher} researcher The researcher to use.
 	 *
@@ -88,18 +88,18 @@ export default class TextLengthAssessment extends Assessment {
 		const currentConfig = this._config;
 		const languageSpecificConfig = researcher.getConfig( "textLength" );
 
-		// Check if a language has configuration for custom content types.
+		// Checks if a language has configuration for custom content types.
 		if ( languageSpecificConfig.hasOwnProperty( currentConfig.customContentType ) ) {
 			return merge( currentConfig, languageSpecificConfig[ currentConfig.customContentType ] );
 		}
 
-		// Check if a language has a default cornerstone configuration.
+		// Checks if a language has a default cornerstone configuration.
 		if ( currentConfig.cornerstoneContent === true && currentConfig.customContentType === "" &&
 			languageSpecificConfig.hasOwnProperty( "defaultCornerstone" ) ) {
 			return merge( currentConfig, languageSpecificConfig.defaultCornerstone );
 		}
 
-		// Use the default language-specific config for posts and pages.
+		// Uses the default language-specific config for posts and pages.
 		return merge( currentConfig, languageSpecificConfig.defaultAnalysis );
 	}
 
@@ -180,7 +180,7 @@ export default class TextLengthAssessment extends Assessment {
 				%2$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
 				%4$s expands to the word 'words' or 'characters'. */
 				__(
-					"%1$sText length%3$s: The text doesn't contain any %4$s. %2$sPlease add some content%3$s",
+					"%1$sText length%3$s: The text doesn't contain any %4$s. %2$sPlease add some content%3$s.",
 					"wordpress-seo"
 				),
 				this._config.urlTitle,
@@ -192,7 +192,8 @@ export default class TextLengthAssessment extends Assessment {
 	}
 
 	/**
-	 * Returns the score and the appropriate feedback string based on the current word count.
+	 * Returns the score and the appropriate feedback string based on the current word count for every type of content,
+	 * apart from taxonomies (in WordPress) and collections (in Shopify).
 	 *
 	 * @param {number}  wordCount   The amount of words to be checked against.
 	 *
