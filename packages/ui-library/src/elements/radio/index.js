@@ -1,9 +1,9 @@
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import { useSvgAria } from "../../hooks";
 import Label from "../label";
-import { forwardRef } from "@wordpress/element";
 
 const classNameMap = {
 	variant: {
@@ -99,7 +99,8 @@ const Radio = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+Radio.displayName = "Radio";
+Radio.propTypes = {
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
@@ -110,9 +111,6 @@ const propTypes = {
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
-
-Radio.propTypes = propTypes;
-
 Radio.defaultProps = {
 	screenReaderLabel: "",
 	variant: "default",
@@ -120,11 +118,5 @@ Radio.defaultProps = {
 	className: "",
 	isLabelDangerousHtml: false,
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Radio { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Radio.defaultProps;
-StoryComponent.displayName = "Radio";
 
 export default Radio;

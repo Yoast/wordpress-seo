@@ -29,7 +29,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.snippet_preview_info'                           => 'https://yoa.st/snippet-preview',
 		'shortlinks.cornerstone_content_info'                       => 'https://yoa.st/1i9',
 		'shortlinks.upsell.social_preview.social'                   => 'https://yoa.st/social-preview-facebook',
-		'shortlinks.upsell.social_preview.twitter'                  => 'https://yoa.st/social-preview-twitter',
+		'shortlinks.upsell.social_preview.x'                        => 'https://yoa.st/social-preview-twitter',
 		'shortlinks.upsell.sidebar.news'                            => 'https://yoa.st/get-news-sidebar',
 		'shortlinks.upsell.sidebar.focus_keyword_synonyms_button'   => 'https://yoa.st/keyword-synonyms-popup-sidebar',
 		'shortlinks.upsell.sidebar.premium_seo_analysis_button'     => 'https://yoa.st/premium-seo-analysis-sidebar',

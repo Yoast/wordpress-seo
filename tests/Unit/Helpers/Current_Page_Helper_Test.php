@@ -306,13 +306,21 @@ final class Current_Page_Helper_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_term_id_for_taxonomy() {
-		$this->wp_query_wrapper
-			->expects( 'get_main_query' )
-			->andReturn( $this->wp_query );
+		$wp_query = Mockery::mock( WP_Query::class );
 
-		$this->wp_query
+		$wp_query
+			->expects( 'is_tax' )
+			->once()
+			->andReturnTrue();
+
+		$wp_query
 			->expects( 'get_queried_object' )
 			->andReturn( (object) [ 'term_id' => 1 ] );
+
+		$this->wp_query_wrapper
+			->expects( 'get_main_query' )
+			->once()
+			->andReturn( $wp_query );
 
 		Monkey\Functions\expect( 'is_wp_error' )
 			->once()
@@ -330,13 +338,22 @@ final class Current_Page_Helper_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_term_id_for_taxonomy_that_gives_wp_error() {
-		$this->wp_query_wrapper
-			->expects( 'get_main_query' )
-			->andReturn( $this->wp_query );
 
-		$this->wp_query
+		$wp_query = Mockery::mock( WP_Query::class );
+
+		$wp_query
+			->expects( 'is_tax' )
+			->once()
+			->andReturnTrue();
+
+		$wp_query
 			->expects( 'get_queried_object' )
 			->andReturnTrue();
+
+		$this->wp_query_wrapper
+			->expects( 'get_main_query' )
+			->once()
+			->andReturn( $wp_query );
 
 		Monkey\Functions\expect( 'is_wp_error' )
 			->once()

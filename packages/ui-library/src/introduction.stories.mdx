@@ -1,7 +1,7 @@
-import { Description, Meta } from "@storybook/addon-docs";
-import introduction from "./introduction.md";
+import { Markdown, Meta } from "@storybook/addon-docs";
+import introduction from "./introduction.md?raw";
 
-<Meta title="Introduction" parameters={ { storyshots: { disable: true } } } />
+<Meta title="Introduction" />
 
-<Description markdown={ introduction } />
+<Markdown>{ introduction }</Markdown>
 

@@ -1,6 +1,6 @@
-import { forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 
 /**
  * @param {JSX.node} children The content.

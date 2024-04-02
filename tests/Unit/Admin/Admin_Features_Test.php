@@ -155,7 +155,7 @@ final class Admin_Features_Test extends TestCase {
 				'pinterest'  => 'Pinterest profile URL',
 				'soundcloud' => 'SoundCloud profile URL',
 				'tumblr'     => 'Tumblr profile URL',
-				'twitter'    => 'Twitter username (without @)',
+				'twitter'    => 'X username (without @)',
 				'wikipedia'  => 'Wikipedia page about you<br/><small>(if one exists)</small>',
 				'youtube'    => 'YouTube profile URL',
 			],
