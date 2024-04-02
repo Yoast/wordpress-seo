@@ -2,11 +2,6 @@ import { inherits } from "util";
 
 import { Assessor, SeoAssessor, assessments, helpers } from "yoastseo";
 
-// Product-specific assessments.
-import ImageAltTagsAssessment from "../../assessments/seo/ImageAltTagsAssessment";
-import ProductIdentifiersAssessment from "../../assessments/seo/ProductIdentifiersAssessment";
-import ProductSKUAssessment from "../../assessments/seo/ProductSKUAssessment";
-
 const { createAnchorOpeningTag } = helpers;
 
 const {
@@ -19,12 +14,15 @@ const {
 	SlugKeywordAssessment,
 	MetaDescriptionLengthAssessment,
 	SubheadingsKeywordAssessment,
+	ImageAltTagsAssessment,
 	ImageKeyphraseAssessment,
 	ImageCountAssessment,
 	TextLengthAssessment,
 	PageTitleWidthAssessment,
 	FunctionWordsInKeyphraseAssessment,
 	SingleH1Assessment,
+	ProductIdentifiersAssessment,
+	ProductSKUAssessment,
 } = assessments.seo;
 
 /**

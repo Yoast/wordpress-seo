@@ -207,7 +207,6 @@ describe( "Paper", function() {
 			expect( paper.hasText() ).toBeTruthy();
 		} );
 		it( "should return true if contains only html tag", function() {
-			// eslint-disable-next-line max-len
 			const paper = new Paper( "<img src=\"https://yoast.com/cdn-cgi/image/width=466%2Cheight=244%2Cfit=crop%2Cf=auto%2Conerror=redirect//app/uploads/2017/12/Focus_keyword_FI.jpg\">" );
 			expect( paper.hasText() ).toBeTruthy();
 		} );

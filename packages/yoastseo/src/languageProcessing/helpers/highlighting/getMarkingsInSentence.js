@@ -1,4 +1,4 @@
-import Mark from "../../../../src/values/Mark";
+import Mark from "../../../values/Mark";
 
 const markStart = "<yoastmark class='yoast-text-mark'>";
 const markEnd = "</yoastmark>";

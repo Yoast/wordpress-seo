@@ -1,28 +1,22 @@
-[![Build Status](https://travis-ci.org/Yoast/YoastSEO.js.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
-[![Build Status](https://travis-ci.org/Yoast/YoastSEO.js.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
-[![Code Climate](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/gpa.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/feed)
-[![Test Coverage](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/coverage.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/coverage)
-[![Inline docs](http://inch-ci.org/github/yoast/yoastseo.js.svg?branch=master)](http://inch-ci.org/github/yoast/yoastseo.js)
-
 # YoastSEO.js
 
 Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 
-![Screenshot of the assessment of the given text](/packages/yoastseo/images/assessments.png)
+![Screenshot of the assessment of the given text](images/assessments.png)
 
 Also included is a preview of the Google search results which can be assessed using the library.
 
 ## Documentation
-* A list of all the [assessors](src/scoring/ASSESSORS%20OVERVIEW.md)
-* Information on the [scoring system of the assessments](src/scoring/assessments/README.md)
-  * [SEO analysis scoring](src/scoring/assessments/SCORING%20SEO.md)
-  * [Readability analysis scoring](src/scoring/assessments/SCORING%20READABILITY.md)
-  * [Inclusive language analysis scoring](src/scoring/assessments/SCORING%20INCLUSIVE%20LANGUAGE.md)
-  * [How keyphrase matching works](src/scoring/assessments/KEYPHRASE%20MATCHING.md)
-  * [Scoring on taxonomy pages](src/scoring/assessments/SCORING%20TAXONOMY.md)
-* The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
-* Information on the design decisions within the package can be found [here](DESIGN%20DECISIONS.md).
-* Information on how morphology works in `yoastseo` package can be found [here](MORPHOLOGY.md).
+* A list of all the [assessors](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/ASSESSORS%20OVERVIEW.md)
+* Information on the [scoring system of the assessments](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/README.md)
+  * [SEO analysis scoring](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20SEO.md)
+  * [Readability analysis scoring](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20READABILITY.md)
+  * [Inclusive language analysis scoring](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20INCLUSIVE%20LANGUAGE.md)
+  * [How keyphrase matching works](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/KEYPHRASE%20MATCHING.md)
+  * [Scoring on taxonomy pages](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20TAXONOMY.md)
+* The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/docs/Customization.md).
+* Information on the design decisions within the package can be found [here](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/DESIGN%20DECISIONS.md).
+* Information on how morphology works in `yoastseo` package can be found [here](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/MORPHOLOGY.md).
 
 
 ## Installation
@@ -86,7 +80,7 @@ worker.initialize( {
 
 ### Usage of internal components
 
-If you want to have a more barebones API, or are in an environment without access to Web Worker you can use the internal objects:
+If you want to have a more bare-bones API, or are in an environment without access to Web Worker you can use the internal objects:
 
 ```js
 import { AbstractResearcher, Paper } from "yoastseo";
@@ -148,6 +142,7 @@ The following readability assessments are available for all languages:
 - sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )
 - paragraph length
 - subheading distribution
+- text presence
 
 ### Inclusive language analysis
 
@@ -163,6 +158,12 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 npm test
 ```
 
+Or using yarn:
+
+```bash
+yarn test
+```
+
 Generate coverage using the `--coverage` flag.
 
 ## Code style
@@ -170,7 +171,7 @@ Generate coverage using the `--coverage` flag.
 To test your code style:
 
 ```bash
-grunt check
+yarn lint
 ```
 
 ## Testing with Yoast SEO
@@ -181,16 +182,32 @@ In the YoastSEO.js directory, run:
 npm link
 ```
 
-Then, in the [Yoast SEO](https://github.com/Yoast/wordpress-seo) directory, assuming you have a complete development version, run:
+Or using yarn:
+
+```bash
+yarn link
+```
+
+Then, in the project directory where you want to test the package, assuming you have a complete development version, run:
 
 ```bash
 npm link yoastseo
+```
+Or using yarn:
+
+```bash
+yarn link yoastseo
 ```
 
 If you want to unlink, simply do:
 
 ```bash
 npm unlink yoastseo
+```
+Or using yarn:
+
+```bash
+yarn unlink yoastseo
 ```
 
 ## Contributing
@@ -204,7 +221,7 @@ If you discover any security related issues, please email security [at] yoast.co
 ## Credits
 
 - [Team Yoast](https://github.com/orgs/Yoast/people)
-- [All Contributors](https://github.com/Yoast/YoastSEO.js/graphs/contributors)
+- [All Contributors](https://github.com/Yoast/wordpress-seo/graphs/contributors)
 
 ## License
 
