@@ -317,7 +317,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 22.4 =
 
-Release date: 2024-04-02
+Release date: 2024-04-03
+
+Yoast SEO 22.4 brings optimizations and bug fixes. Our customers who use Elementor can wave goodbye to that unnecessary redirect when saving a post for the first time. Find more about Yoast SEO 22.4 in [our release post](https://yoa.st/release-3-4-24)!
 
 #### Enhancements
 
