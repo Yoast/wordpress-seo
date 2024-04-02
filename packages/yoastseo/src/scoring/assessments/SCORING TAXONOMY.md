@@ -15,7 +15,7 @@ The taxonomy analysis has the same SEO, Readability, and Inclusive language scor
 
 | Traffic light	 | Score	| Criterion	           | Feedback                                                                                                           |
 |----------------|------------------	|----------------------|-----------------------------------------------------------------------------------------------------------------|
-| Red	           | -20	| 0 words	             | Text length: The text doesn't contain any words. Please add some content.                                          |
+| Red	           | -20	| 0 words	             | Text length: Please add some content.                                          |
 | Red	           | 3	| From 1 to 9 words	   | Text length: The text contains X words. This is below the recommended minimum of 30 words. Add more content.       |
 | Orange         | 6	| From 10 to 29 words	 | Text length: The text contains X words. This is slightly below the recommended minimum of 30 words. Add a bit more copy. |
 | Green	         | 9	| 30 words or more	    | Text length: The text contains X words. Good job!                                                                  |

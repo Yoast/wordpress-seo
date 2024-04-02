@@ -53,8 +53,8 @@ describe( "A TextLengthAssessment for a taxonomy page in Japanese", function() {
 		const result = assessment.getResult( paper, japaneseResearcher );
 
 		expect( result.getScore() ).toEqual( -20 );
-		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text doesn't contain any characters." +
-			" <a href='https://yoa.st/34k' target='_blank'>Please add some content</a>." );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: " +
+			"<a href='https://yoa.st/34k' target='_blank'>Please add some content</a>." );
 	} );
 } );
 
@@ -109,8 +109,8 @@ describe( "A TextLengthAssessment for a taxonomy page in English", function() {
 		const result = assessment.getResult( paper, englishResearcher );
 
 		expect( result.getScore() ).toEqual( -20 );
-		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text doesn't contain any words." +
-			" <a href='https://yoa.st/34k' target='_blank'>Please add some content</a>." );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: " +
+			"<a href='https://yoa.st/34k' target='_blank'>Please add some content</a>." );
 	} );
 } );
 

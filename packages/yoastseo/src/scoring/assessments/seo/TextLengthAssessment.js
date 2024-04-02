@@ -176,24 +176,20 @@ export default class TextLengthAssessment extends Assessment {
 		return {
 			score: this._config.scores.veryFarBelowMinimum,
 			resultText: sprintf(
-				/* translators: %1$d expands to the number of words / characters in the text,
-				%2$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
-				%4$s expands to the word 'words' or 'characters'. */
+				/* translators: %1$s expands to a link on yoast.com, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 				__(
-					"%1$sText length%3$s: The text doesn't contain any %4$s. %2$sPlease add some content%3$s.",
+					"%1$sText length%3$s: %2$sPlease add some content%3$s.",
 					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
-				"</a>",
-				this._config.countTextIn.plural
+				"</a>"
 			),
 		};
 	}
 
 	/**
-	 * Returns the score and the appropriate feedback string based on the current word count for every type of content,
-	 * apart from taxonomies (in WordPress) and collections (in Shopify).
+	 * Returns the score and the appropriate feedback string based on the current word count for every type of content.
 	 *
 	 * @param {number}  wordCount   The amount of words to be checked against.
 	 *

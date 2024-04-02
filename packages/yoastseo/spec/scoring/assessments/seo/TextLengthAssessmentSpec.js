@@ -403,7 +403,7 @@ describe( "Tests taxonomies and collections in Japanese. " +
 
 		expect( results.getScore() ).toEqual( -20 );
 		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
-			"The text doesn't contain any characters. <a href='https://yoa.st/34o' target='_blank'>Please add some content</a>." );
+			"<a href='https://yoa.st/34o' target='_blank'>Please add some content</a>." );
 	} );
 
 	it( "should assess a 15-character text in the belowMinimum category: taxonomy page", function() {
