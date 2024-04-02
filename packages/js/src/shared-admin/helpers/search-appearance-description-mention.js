@@ -1,47 +1,61 @@
-import { Root, Badge } from "@yoast/ui-library";
+// import { useCallback, useState } from "@wordpress/element";
+import { Root, Badge, Tooltip } from "@yoast/ui-library";
 import { Fill } from "@wordpress/components";
-// import { useState, useCallback } from "@wordpress/element";
 import { get } from "lodash";
 import { addFilter } from "@wordpress/hooks";
-import { StoryComponent } from "@yoast/ui-library/build/elements/tooltip";
+import styled from "styled-components";
 
 /**
  * Adds the mentions.
- *
  * @param {JSX.node[]} mentions The current mentions.
  * @param {string} fieldId The replacement variable editor's field ID.
- *
  * @returns {JSX.node[]} The mentions.
  */
-const filterReplacementVariableEditorMentions = (mentions, { fieldId }) => {
-	const isRtl = get(window, "wpseoScriptData.metabox.isRtl", false);
-	// const [isVisible, setIsVisible] = useState(false);
+const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
+	const isRtl = get( window, "wpseoScriptData.metabox.isRtl", false );
+	const StyledTooltip = styled( Tooltip )`{
+	&::before {
+		transform: translateX(-14.8rem);
+	  }
+	`;
+
+	// const [ isVisible, setIsVisible ] = useState( false );
 	// const handleMouseEnter = useCallback(
-	// 	() => setIsVisible(true),
-	// 	[setIsVisible],
+	// 	() => setIsVisible( true ),
+	// 	[ setIsVisible ]
 	// );
 	// const handleMouseLeave = useCallback(
-	// 	() => setIsVisible(false),
-	// 	[setIsVisible],
+	// 	() => setIsVisible( false ),
+	// 	[ setIsVisible ]
 	// );
-	mentions.push(
-		<Fill
-			name={`yoast.replacementVariableEditor.additionalMentions.${fieldId}`}
-		>
-			<Root context={{ isRtl }}>
-				<Badge
-					variant="plain"
-					className="yst-text-slate-500 yst-relative yst-cursor-pointer"
-					aria-describedby={id}
-					isVisible="true"
-				>
-					Date
-					<StoryComponent id={fieldId} isVisible="true" /*NOTES: the css properties of the toolpip component should be adjusted for this user case as follow: 
-					max-width: 576px; .yst-tooltip--top {yst--translate-x-11} &::before {transform: translateX(-14.8rem);} */>
-						The 'Date' variable is fixed and adds 14 chararacters to the length of your meta description.
-					</StoryComponent>
-				</Badge>
-				{/* <Badge
+
+	if ( fieldId === "yoast-google-preview-description-metabox" ) {
+		mentions.push(
+			<Fill
+				name={ `yoast.replacementVariableEditor.additionalMentions.${fieldId}` }
+			>
+				<Root context={ { isRtl } }>
+
+					<Badge
+						variant="plain"
+						className="yst-text-slate-500 yst-relative yst-cursor-pointer"
+						aria-describedby={ StyledTooltip.id }
+						// onMouseEnter={ handleMouseEnter }
+						// onMouseLeave={ handleMouseLeave }
+					>
+						Date
+						{/* { isVisible && ( */}
+							<StyledTooltip
+								id={ fieldId }
+								isVisible="true"
+								className="yst--translate-x-11"
+							>
+								The 'Date' variable is fixed and adds 14 chararacters to
+								the length of your meta description.
+							</StyledTooltip>
+						{/* ) } */}
+					</Badge>
+					{ /* <Badge
 					variant="plain"
 					className="yst-text-slate-500"
 					aria-describedby={ id }
@@ -54,10 +68,11 @@ const filterReplacementVariableEditorMentions = (mentions, { fieldId }) => {
 							I am the separator tooltip
 						</StoryComponent>
 					)}
-				</Badge> */}
-			</Root>
-		</Fill>,
-	);
+				</Badge> */ }
+				</Root>
+			</Fill>
+		);
+	}
 
 	return mentions;
 };
@@ -66,6 +81,6 @@ export const registerSearchAppearanceDescriptionMention = () => {
 	addFilter(
 		"yoast.replacementVariableEditor.additionalMentions",
 		"yoast/yoast-seo/Mentions",
-		filterReplacementVariableEditorMentions,
+		filterReplacementVariableEditorMentions
 	);
 };
