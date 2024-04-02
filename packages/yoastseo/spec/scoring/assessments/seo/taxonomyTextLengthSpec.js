@@ -103,6 +103,15 @@ describe( "A TextLengthAssessment for a taxonomy page in English", function() {
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text contains 6 words. " +
 			"This is below the recommended minimum of 30 words. <a href='https://yoa.st/34k' target='_blank'>Add more content</a>." );
 	} );
+	it( "should return a bad result for taxonomy pages in English when the text consists of 1 word", function() {
+		const paper = new Paper( "Tips" );
+		const englishResearcher = new EnglishResearcher( paper );
+		const result = assessment.getResult( paper, englishResearcher );
+
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text contains 1 word. " +
+			"This is below the recommended minimum of 30 words. <a href='https://yoa.st/34k' target='_blank'>Add more content</a>." );
+	} );
 	it( "should return a really bad result for taxonomy pages in English when the text is 0 characters", function() {
 		const paper = new Paper( "" );
 		const englishResearcher = new EnglishResearcher( paper );
