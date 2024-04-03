@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group editors
  *
- * @coversDefaultClass \Yoast\WP\SEO\Editors\Framework\Integrations\Semrush
+ * @covers \Yoast\WP\SEO\Editors\Framework\Integrations\Semrush
  */
 final class Semrush_Test extends TestCase {
 
@@ -54,8 +54,6 @@ final class Semrush_Test extends TestCase {
 	/**
 	 * Tests the is_enabled method.
 	 *
-	 * @covers ::is_enabled
-	 *
 	 * @dataProvider data_provider_is_enabled
 	 *
 	 * @param bool $semrush_enabled If the `semrush_integration_active` option is enabled.
@@ -78,8 +76,6 @@ final class Semrush_Test extends TestCase {
 
 	/**
 	 * Tests the to_legacy_array method.
-	 *
-	 * @covers ::to_legacy_array
 	 *
 	 * @return void
 	 */

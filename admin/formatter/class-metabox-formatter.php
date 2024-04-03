@@ -7,7 +7,6 @@
 
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
-use Yoast\WP\SEO\Editors\Application\Integrations\Enabled_Integrations_Repository;
 use Yoast\WP\SEO\Editors\Application\Integrations\Integration_Information_Repository;
 
 /**

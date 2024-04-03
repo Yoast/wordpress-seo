@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group editors
  *
- * @coversDefaultClass \Yoast\WP\SEO\Editors\Framework\Integrations\Jetpack_Markdown
+ * @covers \Yoast\WP\SEO\Editors\Framework\Integrations\Jetpack_Markdown
  */
 final class Jetpack_Markdown_Test extends TestCase {
 
@@ -35,9 +35,6 @@ final class Jetpack_Markdown_Test extends TestCase {
 
 	/**
 	 * Tests the is_enabled method.
-	 *
-	 * @covers ::is_enabled
-	 * @covers ::to_legacy_array
 	 *
 	 * @dataProvider data_provider_is_enabled
 	 * @param bool $filter_return If the `wpseo_is_markdown_enabled` filter returns true.

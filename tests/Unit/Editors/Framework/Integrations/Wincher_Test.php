@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group editors
  *
- * @coversDefaultClass \Yoast\WP\SEO\Editors\Framework\Integrations\Wincher
+ * @covers \Yoast\WP\SEO\Editors\Framework\Integrations\Wincher
  */
 final class Wincher_Test extends TestCase {
 
@@ -61,8 +61,6 @@ final class Wincher_Test extends TestCase {
 	/**
 	 * Tests the is_enabled method.
 	 *
-	 * @covers ::is_enabled
-	 *
 	 * @return void
 	 */
 	public function test_is_enabled() {
@@ -75,8 +73,6 @@ final class Wincher_Test extends TestCase {
 
 	/**
 	 * Tests the to_legacy_array method.
-	 *
-	 * @covers ::to_legacy_array
 	 *
 	 * @return void
 	 */

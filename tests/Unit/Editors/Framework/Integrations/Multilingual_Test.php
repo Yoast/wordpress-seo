@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group editors
  *
- * @coversDefaultClass \Yoast\WP\SEO\Editors\Framework\Integrations\Multilingual
+ * @covers \Yoast\WP\SEO\Editors\Framework\Integrations\Multilingual
  */
 final class Multilingual_Test extends TestCase {
 
@@ -61,9 +61,6 @@ final class Multilingual_Test extends TestCase {
 
 	/**
 	 * Tests the is_enabled method.
-	 *
-	 * @covers ::is_enabled
-	 * @covers ::to_legacy_array
 	 *
 	 * @dataProvider data_provider_is_enabled
 	 *
