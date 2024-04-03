@@ -1,4 +1,4 @@
-const { SeoAssessor, Paper, ContentAssessor, App } = require( "yoastseo" );
+const { SeoAssessor, Paper, ContentAssessor, App, interpreters } = require( "yoastseo" );
 const express = require( "express" );
 const { "default": Researcher } = require( "yoastseo/build/languageProcessing/languages/en/Researcher" );
 const { "default": RelatedKeywordAssessor } = require( "yoastseo/build/scoring/relatedKeywordAssessor" );
@@ -17,7 +17,7 @@ const inclusiveLanguageAssessor = new InclusiveLanguageAssessor( new Researcher(
  */
 const resultToVM = ( result ) => {
 	const { score, text, marks, editFieldName } = result;
-	return { score, text, marks, editFieldName };
+	return { score, text, marks, editFieldName, rating: interpreters.scoreToRating( score )};
 };
 
 const app = express();
