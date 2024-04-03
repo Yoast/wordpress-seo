@@ -21,7 +21,7 @@ export const DefaultErrorFallback = ( { error } ) => {
 	const handleRefreshClick = useCallback( () => window?.location?.reload(), [] );
 	const linkParams = get( window, "wpseoScriptData.linkParams", [] );
 
-	const supportLink = addQueryArgs( "https://yoa.st/settings-error-support", linkParams );
+	const supportLink = addQueryArgs( "https://yoa.st/metabox-sidebar-error-support", linkParams );
 	const isRtl = get( window, "wpseoAdminGlobalL10n.isRtl", "" );
 	const { locationContext } = useRootContext();
 
@@ -55,11 +55,11 @@ export const DefaultErrorFallback = ( { error } ) => {
 			</div>
 			<ScoreIconPortal
 				target="wpseo-readability-score-icon"
-				scoreIndicator={ "noindex" }
+				scoreIndicator={ "not-set" }
 			/>
 			<ScoreIconPortal
 				target="wpseo-seo-score-icon"
-				scoreIndicator={ "noindex" }
+				scoreIndicator={ "not-set" }
 			/>
 		</Root>
 	);
