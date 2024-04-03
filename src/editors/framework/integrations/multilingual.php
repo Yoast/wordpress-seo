@@ -74,8 +74,8 @@ class Multilingual implements Integration_Data_Provider_Interface {
 	}
 
 	/**
-	 * Checks whether a multilingual plugin is currently active. Currently, we only check the following plugins: WPML,
-	 * Polylang, and TranslatePress.
+	 * Checks whether a multilingual plugin is currently active. Currently, we only check the following plugins:
+	 * WPML, Polylang, and TranslatePress.
 	 *
 	 * @return bool Whether a multilingual plugin is currently active.
 	 */

@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Editors\Framework\Analysis_Feature_Interface;
  *
  * @makePublic
  */
-class Enabled_Integrations_Repository {
+class Integration_Information_Repository {
 
 	/**
 	 * All plugin integrations.
@@ -34,7 +34,7 @@ class Enabled_Integrations_Repository {
 	 *
 	 * @return array<array<string,bool>> The parsed list.
 	 */
-	public function get_enabled_integrations(): array {
+	public function get_integration_information(): array {
 		$array = [];
 		foreach ( $this->plugin_integrations as $feature ) {
 			$array = \array_merge( $array, $feature->to_legacy_array() );

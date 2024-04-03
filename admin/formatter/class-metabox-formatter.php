@@ -5,12 +5,10 @@
  * @package WPSEO\Admin\Formatter
  */
 
-use Yoast\WP\SEO\Conditionals\Third_Party\Polylang_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\TranslatePress_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\WPML_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
 use Yoast\WP\SEO\Editors\Application\Integrations\Enabled_Integrations_Repository;
+use Yoast\WP\SEO\Editors\Application\Integrations\Integration_Information_Repository;
 
 /**
  * This class forces needed methods for the metabox localization.
@@ -194,14 +192,13 @@ class WPSEO_Metabox_Formatter {
 			'woocommerceUpsellGooglePreviewLink' => WPSEO_Shortlinker::get( 'https://yoa.st/product-google-preview-metabox' ),
 		];
 
-		$enabled_integrations_repo = YoastSEO()->classes->get( Enabled_Integrations_Repository::class );
+		$integration_information_repo = YoastSEO()->classes->get( Integration_Information_Repository::class );
 
-		$enabled_integrations  = $enabled_integrations_repo->get_enabled_integrations();
+		$enabled_integrations  = $integration_information_repo->get_integration_information();
 		$defaults              = array_merge( $defaults, $enabled_integrations );
 		$enabled_features_repo = YoastSEO()->classes->get( Enabled_Analysis_Features_Repository::class );
 
 		$enabled_features = $enabled_features_repo->get_enabled_features()->parse_to_legacy_array();
-
 		return array_merge( $defaults, $enabled_features );
 	}
 
@@ -245,18 +242,5 @@ class WPSEO_Metabox_Formatter {
 		}
 
 		return [];
-	}
-
-	/**
-	 * Checks whether a multilingual plugin is currently active. Currently, we only check the following plugins: WPML, Polylang, and TranslatePress.
-	 *
-	 * @return bool Whether a multilingual plugin is currently active.
-	 */
-	private function multilingual_plugin_active() {
-		$wpml_active           = YoastSEO()->classes->get( WPML_Conditional::class )->is_met();
-		$polylang_active       = YoastSEO()->classes->get( Polylang_Conditional::class )->is_met();
-		$translatepress_active = YoastSEO()->classes->get( TranslatePress_Conditional::class )->is_met();
-
-		return ( $wpml_active || $polylang_active || $translatepress_active );
 	}
 }

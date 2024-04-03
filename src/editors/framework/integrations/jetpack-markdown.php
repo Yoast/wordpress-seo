@@ -27,7 +27,7 @@ class Jetpack_Markdown implements Integration_Data_Provider_Interface {
 	 */
 	public function to_array(): array {
 		return [
-			'markdownEnabled'                    => $this->is_enabled(),
+			'markdownEnabled' => $this->is_enabled(),
 		];
 	}
 
@@ -38,7 +38,7 @@ class Jetpack_Markdown implements Integration_Data_Provider_Interface {
 	 */
 	public function to_legacy_array(): array {
 		return [
-			'markdownEnabled'                    => $this->is_enabled(),
+			'markdownEnabled' => $this->is_enabled(),
 		];
 	}
 

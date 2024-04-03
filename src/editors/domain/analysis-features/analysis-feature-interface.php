@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Editors\Framework;
+namespace Yoast\WP\SEO\Editors\Domain\Analysis_Features;
 
 /**
  * This interface describes an Analysis feature implementation.
