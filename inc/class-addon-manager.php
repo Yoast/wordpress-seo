@@ -552,9 +552,13 @@ class WPSEO_Addon_Manager {
 	 * @return stdClass The converted subscription.
 	 */
 	protected function convert_subscription_to_plugin( $subscription, $yoast_free_data = null, $plugin_info = false, $plugin_file = '' ) {
-		// We need to replace h2's and h3's with h4's because the styling expects that.
-		$changelog = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
-		$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
+		$changelog = '';
+		if ( isset( $subscription->product->changelog ) ) {
+			// We need to replace h2's and h3's with h4's because the styling expects that.
+			$changelog = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
+			$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
+
+		}
 
 		// If we're running this because we want to just show the plugin info in the version details modal, we can fallback to the Yoast Free constants, since that modal will not be accessible anyway in the event that the new Free version increases those constants.
 		$defaults = [
@@ -563,7 +567,7 @@ class WPSEO_Addon_Manager {
 		];
 
 		return (object) [
-			'new_version'      => $subscription->product->version,
+			'new_version'      => ( $subscription->product->version ?? '' ),
 			'name'             => $subscription->product->name,
 			'slug'             => $subscription->product->slug,
 			'plugin'           => $plugin_file,

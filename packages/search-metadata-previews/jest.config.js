@@ -4,7 +4,7 @@ const config = {
 		"**/*Test.[jt]s",
 	],
 	testURL: "http://localhost",
-	setupTestFrameworkScriptFile: "<rootDir>/tests/setupTests.js",
+	setupFilesAfterEnv: [ "<rootDir>/tests/setupTests.js" ],
 	moduleNameMapper: {
 		"^lodash-es$": "lodash",
 		"^lodash-es/(.*)$": "lodash/$1",
@@ -20,6 +20,7 @@ const config = {
 		"clover",
 		"text-summary",
 	],
+	testEnvironment: "jsdom",
 };
 
 module.exports = config;

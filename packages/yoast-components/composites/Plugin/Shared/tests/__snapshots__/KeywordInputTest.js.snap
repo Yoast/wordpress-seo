@@ -9,18 +9,6 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
   flex: none;
 }
 
-.c9::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c9:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: transparent;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
 .c5.c5.c5 {
   padding: 0 8px;
   min-height: 34px;
@@ -88,6 +76,18 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
   max-width: 32px;
   padding: 0;
   cursor: pointer;
+}
+
+.c9::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c9:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: transparent;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c11 {

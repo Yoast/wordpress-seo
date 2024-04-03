@@ -20,6 +20,9 @@ module.exports = {
 	moduleNameMapper: {
 		"^lodash-es$": "lodash",
 		"^lodash-es/(.*)$": "lodash/$1",
+		// Without the next line, `import .. from "yoastseo"` statements would load from the build directory. In the
+		// tests we always want to test the source.
+		"^yoastseo$": "<rootDir>/index.js",
 	},
 	testPathIgnorePatterns: [
 		"/spec/specHelpers/*",

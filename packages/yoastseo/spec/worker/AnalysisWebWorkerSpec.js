@@ -167,7 +167,7 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "calls logger debug", () => {
 				const logger = getLogger( "yoast-analysis-worker" );
-				const spy = spyOn( logger, "debug" );
+				const spy = jest.spyOn( logger, "debug" );
 
 				scope.onmessage( createMessage( "initialize" ) );
 				expect( spy ).toHaveBeenCalledTimes( 2 );
@@ -464,12 +464,18 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "calls analyze", done => {
 				const paper = new Paper( "This is the content." );
-				const spy = spyOn( worker, "analyze" );
+				const spy = jest.spyOn( worker, "analyze" );
 
 				worker.analyzeDone = () => {
-					expect( spy ).toHaveBeenCalledTimes( 1 );
-					expect( spy ).toHaveBeenCalledWith( 0, { paper } );
-					done();
+					try {
+						expect( spy ).toHaveBeenCalledTimes( 1 );
+						// eslint-disable-next-line no-unused-vars -- Pulling the _tree out of the paper because it will be filled in the worker.
+						const { _tree, ...expectedPaper } = paper;
+						expect( spy ).toHaveBeenCalledWith( 0, { paper: expect.objectContaining( expectedPaper ) } );
+						done();
+					} catch ( e ) {
+						done( e );
+					}
 				};
 
 				scope.onmessage( createMessage( "initialize" ) );
@@ -732,12 +738,18 @@ describe( "AnalysisWebWorker", () => {
 			test( "calls analyzeRelatedKeywords", done => {
 				const paper = new Paper( "This is the content." );
 				const relatedKeywords = { a: { keyword: "content", synonyms: "" } };
-				const spy = spyOn( worker, "analyzeRelatedKeywords" );
+				const spy = jest.spyOn( worker, "analyzeRelatedKeywords" );
 
 				worker.analyzeRelatedKeywordsDone = () => {
-					expect( spy ).toHaveBeenCalledTimes( 1 );
-					expect( spy ).toHaveBeenCalledWith( 0, { paper, relatedKeywords } );
-					done();
+					try {
+						expect( spy ).toHaveBeenCalledTimes( 1 );
+						// eslint-disable-next-line no-unused-vars -- Pulling the _tree out of the paper because it will be filled in the worker.
+						const { _tree, ...expectedPaper } = paper;
+						expect( spy ).toHaveBeenCalledWith( 0, { paper: expect.objectContaining( expectedPaper ), relatedKeywords } );
+						done();
+					} catch ( e ) {
+						done( e );
+					}
 				};
 
 				scope.onmessage( createMessage( "initialize" ) );
@@ -858,7 +870,7 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "calls loadScript", done => {
 				const payload = { url: "http://example.com" };
-				const spy = spyOn( worker, "loadScript" );
+				const spy = jest.spyOn( worker, "loadScript" );
 
 				worker.loadScriptDone = () => {
 					expect( spy ).toHaveBeenCalledTimes( 1 );
@@ -958,7 +970,7 @@ describe( "AnalysisWebWorker", () => {
 			test( "calls customMessage", done => {
 				const name = "test";
 				const payload = { name, data: { test: true } };
-				const spy = spyOn( worker, "customMessage" );
+				const spy = jest.spyOn( worker, "customMessage" );
 
 				worker._registeredMessageHandlers[ name ] = ( data ) => data;
 				worker.customMessageDone = () => {
@@ -1070,7 +1082,7 @@ describe( "AnalysisWebWorker", () => {
 			test( "calls runResearch", done => {
 				const name = "test";
 				const payload = { name };
-				const spy = spyOn( worker, "runResearch" );
+				const spy = jest.spyOn( worker, "runResearch" );
 
 				worker.runResearchDone = () => {
 					expect( spy ).toHaveBeenCalledTimes( 1 );

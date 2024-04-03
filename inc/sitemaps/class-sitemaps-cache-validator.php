@@ -180,10 +180,10 @@ class WPSEO_Sitemaps_Cache_Validator {
 		}
 
 		/*
-		 * Add slashes to the LIKE "_" single character wildcard.
-		 *
-		 * We can't use `esc_like` here because we need the % in the query.
-		 */
+		* Add slashes to the LIKE "_" single character wildcard.
+		*
+		* We can't use `esc_like` here because we need the % in the query.
+		*/
 		$where   = [];
 		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_' . $like, '_' ) );
 		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_timeout_' . $like, '_' ) );
@@ -194,7 +194,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 		$wpdb->query(
 			$wpdb->prepare(
 			//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
-				'DELETE FROM %i WHERE ' . implode( ' OR', array_fill( 0, count( $where ), '%s' ) ),
+				'DELETE FROM %i WHERE ' . implode( ' OR ', array_fill( 0, count( $where ), '%s' ) ),
 				array_merge( [ $wpdb->options ], $where )
 			)
 		);

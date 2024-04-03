@@ -70,10 +70,10 @@ export default function WorkoutsPage( props ) {
 		if ( loading === true ) {
 			initWorkouts( workoutsSetting );
 			if ( window.location.hash && window.location.hash.length > 1 ) {
-				if ( window.location.hash.substr( 1 ) === "configuration" ) {
+				if ( window.location.hash.substring( 1 ) === "configuration" ) {
 					window.location.href = window.wpseoWorkoutsData.firstTimeConfigurationUrl;
 				} else {
-					openWorkout( window.location.hash.substr( 1 ) );
+					openWorkout( window.location.hash.substring( 1 ) );
 				}
 			}
 			return;

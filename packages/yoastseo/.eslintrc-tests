@@ -1,8 +1,10 @@
 extends: yoast
 
+parserOptions:
+  ecmaVersion: 2018
+
 env:
   jest: true # make sure describe, it, etc are known.
-  jasmine: true # make sure spyOn is known.
 
 rules:
   complexity: [1, 6]
@@ -10,6 +12,7 @@ rules:
   max-len: 0
   max-statements: 0
   new-cap: 0
+  comma-dangle: 0
   no-redeclare: 0
   # Longer grace period for Yoast config.
   no-shadow: [ 1, { "builtinGlobals": false, "hoist": "all", "allow": [] } ]
@@ -19,3 +22,4 @@ rules:
   import/namespace: 0
   import/no-named-as-default: 0
   import/no-named-as-default-member: 0
+  import/no-unresolved: [ "error", { ignore: [ "premium-configuration/data/morphologyData" ] } ]

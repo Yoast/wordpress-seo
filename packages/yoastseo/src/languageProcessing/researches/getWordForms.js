@@ -1,7 +1,7 @@
 import { normalizeSingle } from "../helpers/sanitize/quotes";
 import { collectStems, StemOriginalPair } from "../helpers/morphology/buildTopicStems";
 
-import { escapeRegExp, uniq, flattenDeep } from "lodash-es";
+import { escapeRegExp, flattenDeep } from "lodash-es";
 import getAllWordsFromPaper from "../helpers/morphology/getAllWordsFromPaper";
 import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 
@@ -57,7 +57,7 @@ function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, creat
 	 * Return original and found or created forms.
 	 * Only return original if no matching forms were found in the text and no forms could be created.
 	 */
-	return uniq( forms );
+	return [ ... new Set( forms ) ];
 }
 
 /**
@@ -141,13 +141,13 @@ function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, st
 	}
 
 	// Get all stems from the keyphrase and synonyms.
-	const topicStemsFlat = uniq( extractStems( keyphraseStemmed, synonymsStemmed ) );
+	const topicStemsFlat = [ ... new Set( extractStems( keyphraseStemmed, synonymsStemmed ) ) ];
 
 	/*
 	 * Get all words from the paper text, title, meta description and slug.
 	 * Filter duplicates and function words.
 	 */
-	const paperWords = uniq( allWordsFromPaper.filter( word => ! functionWords.includes( word ) ) );
+	const paperWords = [ ... new Set( allWordsFromPaper.filter( word => ! functionWords.includes( word ) ) ) ];
 
 	// Add stems to words from the paper, filter out all forms that aren't in the keyphrase or synonyms and order alphabetically.
 	const paperWordsWithStems = paperWords

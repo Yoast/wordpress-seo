@@ -98,11 +98,8 @@ function createWorker( url ) {
 	try {
 		worker = new Worker( url );
 	} catch ( e ) {
-		try {
-			worker = createWorkerFallback( url );
-		} catch ( e2 ) {
-			throw e2;
-		}
+		// This will either: succeed and provide a worker, or throw an error.
+		worker = createWorkerFallback( url );
 	}
 	return worker;
 }

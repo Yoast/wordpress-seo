@@ -14,7 +14,7 @@ const envPublicUrl = process.env.PUBLIC_URL;
 function ensureSlash( inputPath, needsSlash ) {
 	const hasSlash = inputPath.endsWith( "/" );
 	if ( hasSlash && ! needsSlash ) {
-		return inputPath.substr( 0, inputPath.length - 1 );
+		return inputPath.substring( 0, inputPath.length - 1 );
 	} else if ( ! hasSlash && needsSlash ) {
 		return `${inputPath}/`;
 	}

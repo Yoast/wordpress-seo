@@ -3,18 +3,12 @@
 namespace Yoast\WP\SEO\Tests\WP\Doubles\Admin;
 
 use WPSEO_Plugin_Availability;
+use Yoast\WP\SEO\Tests\WP\Doubles\Conditionals\True_Conditional_Double;
 
 /**
  * Class Plugin_Availability_Double.
  */
 final class Plugin_Availability_Double extends WPSEO_Plugin_Availability {
-
-	/**
-	 * Array containing fake dependency slugs.
-	 *
-	 * @var array
-	 */
-	private $available_dependencies = [ 'test-plugin/test-plugin.php' ];
 
 	/**
 	 * Registers a variety of fake plugins to test against.
@@ -41,7 +35,7 @@ final class Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'installed'     => false,
 				'_dependencies' => [
 					'test-plugin' => [
-						'slug' => 'test-plugin/test-plugin.php',
+						'conditional' => new True_Conditional_Double(),
 					],
 				],
 				'slug'          => 'test-plugin-with-dependency/test-plugin-with-dependency.php',
@@ -55,7 +49,7 @@ final class Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'installed'     => false,
 				'_dependencies' => [
 					'test-plugin' => [
-						'slug' => 'test-plugin/test-plugin.php',
+						'conditional' => new True_Conditional_Double(),
 					],
 				],
 				'slug'          => 'test-plugin-with-dependency-2/test-plugin-with-dependency-2.php',
@@ -129,17 +123,6 @@ final class Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 		$this->plugins['test-plugin']['installed']                 = true;
 		$this->plugins['test-plugin-dependency']['installed']      = true;
 		$this->plugins['test-plugin-invalid-version']['installed'] = true;
-	}
-
-	/**
-	 * Checks whether a dependency is available.
-	 *
-	 * @param string $dependency The dependency to look for.
-	 *
-	 * @return bool Whether or not the dependency is available.
-	 */
-	public function is_dependency_available( $dependency ) {
-		return \in_array( $dependency['slug'], $this->available_dependencies, true );
 	}
 
 	/**

@@ -29,6 +29,12 @@ module.exports = {
 				functions: "never",
 			},
 		],
+		"import/no-unresolved": [
+			"error",
+			{
+				ignore: [ "^@yoast/(components|helpers|replacement-variable-editor|style-guide)" ],
+			},
+		],
 	},
 	overrides: [
 		{

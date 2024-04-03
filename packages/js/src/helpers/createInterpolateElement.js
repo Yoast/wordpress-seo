@@ -110,7 +110,7 @@ function addText() {
 	if ( 0 === length ) {
 		return;
 	}
-	output.push( indoc.substr( offset, length ) );
+	output.push( indoc.substring( offset, offset + length ) );
 }
 
 /**
@@ -127,10 +127,7 @@ function addText() {
 function addChild( frame ) {
 	const { element, tokenStart, tokenLength, prevOffset, children } = frame;
 	const parent = stack[ stack.length - 1 ];
-	const text = indoc.substr(
-		parent.prevOffset,
-		tokenStart - parent.prevOffset
-	);
+	const text = indoc.substring( parent.prevOffset, tokenStart );
 
 	if ( text ) {
 		parent.children.push( text );
@@ -164,8 +161,8 @@ function closeOuterElement( endOffset ) {
 	} = stack.pop();
 
 	const text = endOffset
-		? indoc.substr( prevOffset, endOffset - prevOffset )
-		: indoc.substr( prevOffset );
+		? indoc.substring( prevOffset, endOffset )
+		: indoc.substring( prevOffset );
 
 	if ( text ) {
 		children.push( text );
@@ -173,7 +170,7 @@ function closeOuterElement( endOffset ) {
 
 	if ( null !== leadingTextStart ) {
 		output.push(
-			indoc.substr( leadingTextStart, tokenStart - leadingTextStart )
+			indoc.substring( leadingTextStart, tokenStart )
 		);
 	}
 
@@ -228,7 +225,7 @@ function proceed( conversionMap ) {
 					leadingTextStart: stackLeadingText,
 					tokenStart,
 				} = stack.pop();
-				output.push( indoc.substr( stackLeadingText, tokenStart ) );
+				output.push( indoc.substring( stackLeadingText, stackLeadingText + tokenStart ) );
 			}
 			addText();
 			return false;
@@ -237,9 +234,9 @@ function proceed( conversionMap ) {
 			if ( 0 === stackDepth ) {
 				if ( null !== leadingTextStart ) {
 					output.push(
-						indoc.substr(
+						indoc.substring(
 							leadingTextStart,
-							startOffset - leadingTextStart
+							startOffset
 						)
 					);
 				}
@@ -280,10 +277,7 @@ function proceed( conversionMap ) {
 			// Otherwise we're nested and we have to close out the current
 			// Block and add it as a innerBlock to the parent
 			const stackTop = stack.pop();
-			const text = indoc.substr(
-				stackTop.prevOffset,
-				startOffset - stackTop.prevOffset
-			);
+			const text = indoc.substring( stackTop.prevOffset, startOffset );
 			stackTop.children.push( text );
 			stackTop.prevOffset = startOffset + tokenLength;
 			const frame = createFrame(

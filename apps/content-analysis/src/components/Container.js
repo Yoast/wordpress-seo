@@ -17,14 +17,14 @@ export const ButtonContainer = styled.div`
 	align-content: space-between;
 	margin-top: ${ props => props.marginTop ? props.marginTop : "16px" };
 
-	button {
+	> * {
 		flex: 1;
-		
-		&:not(:first-of-type) {
+
+		&:not(:first-child) {
 			border-top-left-radius: 0;
 			border-bottom-left-radius: 0;
 		}
-		&:not(:last-of-type) {
+		&:not(:last-child) {
 			border-top-right-radius: 0;
 			border-bottom-right-radius: 0;
 		}
@@ -40,7 +40,7 @@ export const HorizontalContainer = styled.div`
 
 	> * {
 		flex: 1;
-		
+
 		&:not(:first-of-type) {
 			border-top-left-radius: 0;
 			border-bottom-left-radius: 0;

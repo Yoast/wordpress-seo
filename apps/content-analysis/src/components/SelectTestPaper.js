@@ -36,7 +36,7 @@ function SelectTestPaper( {
 			<H3>{ label }</H3>
 		</label>
 		<Select
-			id={ id }
+			inputId={ id }
 			value={ null }
 			options={ papers }
 			onChange={ ( { value } ) => {

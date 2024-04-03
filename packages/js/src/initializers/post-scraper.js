@@ -106,7 +106,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 */
 	jQuery( document ).on( "ajaxComplete", function( ev, response, ajaxOptions ) {
 		const ajaxEndPoint = "/admin-ajax.php";
-		if ( ajaxEndPoint !== ajaxOptions.url.substr( 0 - ajaxEndPoint.length ) ) {
+		if ( ajaxEndPoint !== ajaxOptions.url.substring( ajaxOptions.url.length - ajaxEndPoint.length ) ) {
 			return;
 		}
 
@@ -124,30 +124,6 @@ export default function initPostScraper( $, store, editorData ) {
 			store.dispatch( updateData( snippetEditorData ) );
 		}
 	} );
-
-	/**
-	 * Determines if markers should be shown.
-	 *
-	 * @returns {boolean} True when markers should be shown.
-	 */
-	function displayMarkers() {
-		return ! isBlockEditor() && wpseoScriptData.metabox.show_markers;
-	}
-
-	/**
-	 * Updates the store to indicate if the markers should be hidden.
-	 *
-	 * @param {Object} store The store.
-	 *
-	 * @returns {void}
-	 */
-	function updateMarkerStatus( store ) {
-		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
-		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
-		if ( typeof window.tinyMCE === "undefined" || ! displayMarkers() ) {
-			store.dispatch( setMarkerStatus( "disabled" ) );
-		}
-	}
 
 	/**
 	 * Initializes keyword analysis.
@@ -254,7 +230,6 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {Object} The arguments to initialize the app
 	 */
 	function getAppArgs( store ) {
-		updateMarkerStatus( store );
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [

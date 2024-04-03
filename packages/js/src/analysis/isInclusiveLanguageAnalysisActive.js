@@ -10,5 +10,5 @@ import { get } from "lodash";
 export default function isInclusiveLanguageAnalysisActive() {
 	const l10nObject = getL10nObject();
 
-	return get( l10nObject, "inclusiveLanguageAnalysisActive", 0 ) === 1;
+	return get( l10nObject, "inclusiveLanguageAnalysisActive", false ) === true;
 }

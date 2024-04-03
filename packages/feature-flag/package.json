@@ -1,7 +1,7 @@
 {
   "name": "@yoast/feature-flag",
   "version": "0.5.2",
-  "main": "src/index.js",
+  "main": "build/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/yoast/javascript",
@@ -11,12 +11,20 @@
   "license": "GPL-3.0",
   "private": false,
   "scripts": {
+    "build": "yarn clean && yarn build:js",
+    "build:js": "babel src --out-dir build",
+    "clean": "rm -rf build",
     "test": "jest",
     "lint": "eslint ./src ./tests --max-warnings=0",
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
+    "prepublishOnly": "yarn build"
   },
   "devDependencies": {
-    "@yoast/browserslist-config": "^1.2.2"
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/plugin-transform-react-jsx": "^7.17.3",
+    "@babel/preset-env": "^7.16.11",
+    "@yoast/browserslist-config": "^1.2.2",
+    "babel-plugin-styled-components": "^2.0.6"
   },
   "publishConfig": {
     "access": "public"
