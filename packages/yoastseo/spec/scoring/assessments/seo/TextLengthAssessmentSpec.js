@@ -435,7 +435,7 @@ describe( "Tests taxonomies and collections in English. The score should be base
 		expect( results.getScore() ).toEqual( 6 );
 		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 16 words. " +
 			"This is slightly below the recommended minimum of 30 words. <a href='https://yoa.st/34o'" +
-			" target='_blank'>Add a bit more copy</a>." );
+			" target='_blank'>Add more content</a>." );
 	} );
 
 	it( "should assess a 30-word text as to have a recommended minimum length: cornerstone collection page", function() {
@@ -497,7 +497,7 @@ describe( "Tests taxonomies and collections in Japanese. " +
 		expect( results.getScore() ).toEqual( 6 );
 		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 50 characters. " +
 			"This is slightly below the recommended minimum of 60 characters. <a href='https://yoa.st/34o'" +
-			" target='_blank'>Add a bit more copy</a>." );
+			" target='_blank'>Add more content</a>." );
 	} );
 
 	it( "should assess a 60-character text as to have a recommended minimum length: cornerstone collection page", function() {

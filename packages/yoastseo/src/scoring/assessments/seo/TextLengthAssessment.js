@@ -139,7 +139,7 @@ export default class TextLengthAssessment extends Assessment {
 					%6$s expands to the word 'words' or 'characters'. */
 					__(
 						// eslint-disable-next-line max-len
-						"%2$sText length%4$s: The text contains %1$d %6$s. This is slightly below the recommended minimum of %5$d %6$s. %3$sAdd a bit more copy%4$s.",
+						"%2$sText length%4$s: The text contains %1$d %6$s. This is slightly below the recommended minimum of %5$d %6$s. %3$sAdd more content%4$s.",
 						"wordpress-seo"
 					),
 					wordCount,

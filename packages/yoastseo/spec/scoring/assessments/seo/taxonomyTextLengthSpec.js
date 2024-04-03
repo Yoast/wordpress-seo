@@ -36,7 +36,7 @@ describe( "A TextLengthAssessment for a taxonomy page in Japanese", function() {
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: " +
 			"The text contains 47 characters. This is slightly below the recommended minimum of 60 characters." +
-			" <a href='https://yoa.st/34k' target='_blank'>Add a bit more copy</a>." );
+			" <a href='https://yoa.st/34k' target='_blank'>Add more content</a>." );
 	} );
 	it( "should return a bad result for taxonomy pages in Japanese when the text is between 1-20 characters", function() {
 		const paper = new Paper( "欧米では、かつては不吉の象徴とする迷。" );
@@ -92,7 +92,7 @@ describe( "A TextLengthAssessment for a taxonomy page in English", function() {
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: " +
 			"The text contains 27 words. This is slightly below the recommended minimum of 30 words." +
-			" <a href='https://yoa.st/34k' target='_blank'>Add a bit more copy</a>." );
+			" <a href='https://yoa.st/34k' target='_blank'>Add more content</a>." );
 	} );
 	it( "should return a bad result for taxonomy pages in English when the text is between 1-10 words", function() {
 		const paper = new Paper( "Tips and techniques from your colleagues" );
