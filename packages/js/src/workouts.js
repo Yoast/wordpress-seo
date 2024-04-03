@@ -8,7 +8,6 @@ import * as actions from "./workouts/redux/actions";
 import * as selectors from "./workouts/redux/selectors";
 import workoutsReducer from "./workouts/redux/reducer";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
-import ErrorBoundaryWithDefaultFallback from "./components/ErrorBoundaryWithDefaultFallback";
 
 if ( window.wp.data.createReduxStore ) {
 	const store = createReduxStore( "yoast-seo/workouts", {
@@ -42,11 +41,7 @@ if ( window.wp.data.createReduxStore ) {
 function registerWorkout( key, priority, Component ) {
 	dispatch( "yoast-seo/workouts" ).registerWorkout( key, priority );
 	registerReactComponent( key, () => {
-		return <Fill name={ `${ key }` }>
-			<ErrorBoundaryWithDefaultFallback key={ `${ key }` }>
-				<Component />
-			</ErrorBoundaryWithDefaultFallback>
-		</Fill>;
+		return <Fill name={ `${ key }` }><Component /></Fill>;
 	} );
 }
 
