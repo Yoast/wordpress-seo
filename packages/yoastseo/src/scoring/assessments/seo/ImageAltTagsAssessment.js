@@ -1,9 +1,9 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import { Assessment, AssessmentResult, helpers } from "yoastseo";
-
-const { createAnchorOpeningTag } = helpers;
+import Assessment from "../assessment";
+import AssessmentResult from "../../../values/AssessmentResult";
+import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
  * Represents the assessment that checks if all images have alt tags (only applicable for product pages).

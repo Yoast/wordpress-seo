@@ -48,7 +48,7 @@ const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 							<StyledTooltip
 								id={ fieldId }
 								isVisible="true"
-								className="yst--translate-x-11"
+								className="yst--translate-x-11 yst-max-w-lg yst-text-xs"
 							>
 								The 'Date' variable is fixed and adds 14 chararacters to
 								the length of your meta description.

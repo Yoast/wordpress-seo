@@ -1,4 +1,4 @@
-import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../../../src/parsedPaper/assess/scoreAggregators";
+import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../../../src/scoring/scoreAggregators";
 import { TreeResearcher } from "../../../src/parsedPaper/research";
 
 import {

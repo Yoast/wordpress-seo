@@ -40,7 +40,6 @@ describe( "The createWorker module", () => {
 		} );
 
 		it( "checks if two URLS of different posts on the same site have the same origin (hostname, port, protocol)", () => {
-			// eslint-disable-next-line max-len
 			const sameURL = isSameOrigin( "https://stackoverflow.com/questions/52968969/jest-url-createobjecturl-is-not-a-function",
 				"https://stackoverflow.com/questions/41885841/how-can-i-mock-the-javascript-window-object-using-jest" );
 			expect( sameURL ).toBeTruthy();
