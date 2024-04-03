@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.5
-Stable tag: 22.3
+Stable tag: 22.4
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -317,12 +317,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 22.4 =
 
-Release date: 2024-04-02
+Release date: 2024-04-03
+
+Yoast SEO 22.4 brings optimizations and bug fixes. Our customers who use Elementor can wave goodbye to that unnecessary redirect when saving a post for the first time. Find more about Yoast SEO 22.4 in [our release post](https://yoa.st/release-3-4-24)!
 
 #### Enhancements
 
-* Removes a duplicated query on author pages with internal images.
-* Removes two unnecessary queries on pages where external images are of SEO interest, like author pages with Gravatar author images.
+* Removes a duplicated database query on author pages with internal images.
+* Removes two unnecessary database queries on pages where external images are of SEO interest, like author pages with Gravatar author images.
 
 #### Bugfixes
 
@@ -335,7 +337,7 @@ Release date: 2024-04-02
 * Replaces `.substr()` with `.substring()` in JS files since it's deprecated.
 * Stops showing deprecation warnings when retrieving data for paid add-ons goes wrong.
 * Stops showing notifications about incompatibility with the WooCommerce's new beta product editor, after WooCommerce is deactivated.
-* Stops showing notifications prompting to install Yoast Woo SEO, after WooCommerce is deactivated.
+* Stops showing a notification prompting to install Yoast Woo SEO, after WooCommerce is deactivated.
 
 = 22.3 =
 
