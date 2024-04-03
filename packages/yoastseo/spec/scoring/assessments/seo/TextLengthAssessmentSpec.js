@@ -392,7 +392,11 @@ describe( "Tests taxonomies and collections in English. The score should be base
 	it( "should assess a 0-word text in the veryFarBelowMinimum score category: taxonomy page", function() {
 		const paper = new Paper( "" );
 		const englishResearcher = new EnglishResearcher( paper );
-		const assessment = new TextLengthAssessment( { customContentType: "taxonomyAssessor" } );
+		const assessment = new TextLengthAssessment( {
+			recommendedMinimum: 30,
+			slightlyBelowMinimum: 10,
+			veryFarBelowMinimum: 1,
+			customContentType: "taxonomyAssessor" } );
 
 		const results = assessment.getResult( paper, englishResearcher );
 
@@ -404,7 +408,11 @@ describe( "Tests taxonomies and collections in English. The score should be base
 	it( "should assess a 1-word text in the belowMinimum score category: taxonomy page", function() {
 		const paper = new Paper( "boink" );
 		const englishResearcher = new EnglishResearcher( paper );
-		const assessment = new TextLengthAssessment( { customContentType: "taxonomyAssessor" } );
+		const assessment = new TextLengthAssessment( {
+			recommendedMinimum: 30,
+			slightlyBelowMinimum: 10,
+			veryFarBelowMinimum: 1,
+			customContentType: "taxonomyAssessor" } );
 
 		const results = assessment.getResult( paper, englishResearcher );
 
@@ -416,13 +424,17 @@ describe( "Tests taxonomies and collections in English. The score should be base
 	it( "should assess a 15-word text in the slightlyBelowMinimum category: collection page", function() {
 		const paper = new Paper( "Adults and kids will love these easy, healthy vegetarian recipes, ready in 30 minutes or less!" );
 		const englishResearcher = new EnglishResearcher( paper );
-		const assessment = new TextLengthAssessment( { customContentType: "collectionSEOAssessor" } );
+		const assessment = new TextLengthAssessment( {
+			recommendedMinimum: 30,
+			slightlyBelowMinimum: 10,
+			veryFarBelowMinimum: 1,
+			customContentType: "collectionSEOAssessor" } );
 
 		const results = assessment.getResult( paper, englishResearcher );
 
 		expect( results.getScore() ).toEqual( 6 );
 		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 16 words. " +
-			"This is slightly below the recommended minimum of 60 characters. <a href='https://yoa.st/34o'" +
+			"This is slightly below the recommended minimum of 30 words. <a href='https://yoa.st/34o'" +
 			" target='_blank'>Add a bit more copy</a>." );
 	} );
 
@@ -430,7 +442,11 @@ describe( "Tests taxonomies and collections in English. The score should be base
 		const paper = new Paper( "Sometimes he slips out and in this way he has got more education than Pooh, but Pooh doesn't mind. " +
 			"Some have brains, and some haven't, he says, and there it is." );
 		const englishResearcher = new EnglishResearcher( paper );
-		const assessment = new TextLengthAssessment( { customContentType: "collectionCornerstoneSEOAssessor" } );
+		const assessment = new TextLengthAssessment( {
+			recommendedMinimum: 30,
+			slightlyBelowMinimum: 10,
+			veryFarBelowMinimum: 1,
+			customContentType: "collectionCornerstoneSEOAssessor" } );
 
 		const results = assessment.getResult( paper, englishResearcher );
 
