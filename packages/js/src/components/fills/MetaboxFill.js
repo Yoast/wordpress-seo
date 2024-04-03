@@ -46,7 +46,6 @@ export default function MetaboxFill( { settings } ) {
 
 	const shouldShowWooCommerceChecklistPromo = isProduct && isWooCommerceActive();
 
-
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
