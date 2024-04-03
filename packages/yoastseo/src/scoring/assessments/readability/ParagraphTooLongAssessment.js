@@ -133,9 +133,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 			%3$d expands to the number of paragraphs over the recommended word / character limit, %4$d expands to the word / character limit,
 			%6$s expands to the word 'words' or 'characters'. */
 				_n(
-					// eslint-disable-next-line max-len
 					"%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum of %4$d %6$s. %5$sShorten your paragraphs%2$s!",
-					// eslint-disable-next-line max-len
 					"%1$sParagraph length%2$s: %3$d of the paragraphs contain more than the recommended maximum of %4$d %6$s. %5$sShorten your paragraphs%2$s!",
 					tooLongParagraphs.length,
 					"wordpress-seo"

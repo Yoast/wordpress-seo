@@ -1,5 +1,5 @@
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
-import Factory from "../../specHelpers/factory";
+import Factory from "../../../src/helpers/factory";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 import Sentence from "../../../src/parse/structure/Sentence";
 import splitIntoTokensCustomJA from "../../../src/languageProcessing/languages/ja/helpers/splitIntoTokensCustom";

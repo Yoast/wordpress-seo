@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import { keys } from "lodash";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Spinner from "../spinner";
-import { forwardRef } from "@wordpress/element";
 
 export const classNameMap = {
 	variant: {
@@ -62,7 +62,8 @@ const Button = forwardRef( ( {
 	</Component>
 ) );
 
-const propTypes = {
+Button.displayName = "Button";
+Button.propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
 	type: PropTypes.oneOf( [ "button", "submit" ] ),
@@ -72,9 +73,6 @@ const propTypes = {
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
-
-Button.propTypes = propTypes;
-
 Button.defaultProps = {
 	as: "button",
 	// eslint-disable-next-line no-undefined
@@ -87,9 +85,3 @@ Button.defaultProps = {
 };
 
 export default Button;
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Button { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Button.defaultProps;
-StoryComponent.displayName = "Button";

@@ -10,7 +10,7 @@ const STORE = "yoast-seo/editor";
  * @returns {JSX.Element} The element.
  */
 export const ModalContent = () => {
-	const learnMoreLink = useSelect( select => select( STORE ).selectLink( "https://www.yoa.st/ai-generator-learn-more" ), [] );
+	const learnMoreLink = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-learn-more" ), [] );
 	const upsellLinkPremium = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell" ), [] );
 	const upsellLinkWooPremiumBundle = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo-premium-bundle" ), [] );
 	const upsellLinkWoo = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo" ), [] );

@@ -71,6 +71,20 @@ describe( "matches a string to it's transliterated value", function() {
 		expect( matchTextWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "ıstanbul", "tr_TR" ).length ).toBe( 4 );
 	} );
 
+	it( "matches strings with İ and ı in Turkish with different locale variations", function() {
+		expect( matchTextWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr" ) ).toContain( "İstanbul" );
+		expect( matchTextWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr" ) ).toContain( "Istanbul" );
+		expect( matchTextWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr" ) ).toContain( "istanbul" );
+		expect( matchTextWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr" ) ).toContain( "ıstanbul" );
+		expect( matchTextWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr" ).length ).toBe( 4 );
+
+		expect( matchTextWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr_CY" ) ).toContain( "İstanbul" );
+		expect( matchTextWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr_CY" ) ).toContain( "Istanbul" );
+		expect( matchTextWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr_CY" ) ).toContain( "istanbul" );
+		expect( matchTextWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr_CY" ) ).toContain( "ıstanbul" );
+		expect( matchTextWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr_CY" ).length ).toBe( 4 );
+	} );
+
 	it( "returns empty array in case the regular and WP transliterations are different and the keyword is not found in the text.", function() {
 		expect( matchTextWithTransliteration( "sentence without keyword", "ceŀla", "ca_ES" ) ).toEqual( [ ] );
 	} );

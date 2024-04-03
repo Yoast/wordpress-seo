@@ -49,20 +49,20 @@ const SocialAppearanceModal = ( props ) => {
 			{ useOpenGraphData &&
 				<Fragment>
 					<StyledDescriptionTop>{
-						__( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
+						__( "Determine how your post should look on social media like Facebook, X, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
 							"wordpress-seo" )
 					}</StyledDescriptionTop>
 					<FacebookEditor />
 					{ useTwitterData && <StyledDescription>
-						{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
-						"the 'Twitter appearance' settings below. If you leave these settings untouched, the 'Social media appearance' settings " +
-						"mentioned above will also be applied for sharing on Twitter.", "wordpress-seo" ) }
+						{ __( "To customize the appearance of your post specifically for X, please fill out " +
+						"the 'X appearance' settings below. If you leave these settings untouched, the 'Social media appearance' settings " +
+						"mentioned above will also be applied for sharing on X.", "wordpress-seo" ) }
 					</StyledDescription> }
 				</Fragment>
 			}
 			{ ( useOpenGraphData && useTwitterData ) && <ModalCollapsible
-				title={ __( "Twitter appearance", "wordpress-seo" ) }
-				// Always preview with separator when Twitter appearance is displayed as a collapsible.
+				title={ __( "X appearance", "wordpress-seo" ) }
+				// Always preview with separator when X appearance is displayed as a collapsible.
 				hasSeparator={ true }
 				initialIsOpen={ false }
 			>
@@ -70,11 +70,11 @@ const SocialAppearanceModal = ( props ) => {
 			</ModalCollapsible>
 			}
 			{ ( ! useOpenGraphData && useTwitterData ) &&
-				// If Open Graph is not enabled, don't display Twitter editor as a collapsible.
+				// If Open Graph is not enabled, don't display X editor as a collapsible.
 				<Fragment>
 					<StyledDescriptionTop>
-						{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
-						"the 'Twitter appearance' settings below.", "wordpress-seo" ) }
+						{ __( "To customize the appearance of your post specifically for X, please fill out " +
+						"the 'X appearance' settings below.", "wordpress-seo" ) }
 					</StyledDescriptionTop>
 					<TwitterEditor />
 				</Fragment>

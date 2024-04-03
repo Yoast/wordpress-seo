@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import React from "react";
 
 /**
  * @param {JSX.node} children The menu items.

@@ -1,6 +1,6 @@
-import { Description, Meta } from "@storybook/addon-docs";
-import contributing from "../contributing.md";
+import { Markdown, Meta } from "@storybook/addon-docs";
+import contributing from "../contributing.md?raw";
 
-<Meta title="Contributing" parameters={ { storyshots: { disable: true } } } />
+<Meta title="Contributing" />
 
-<Description markdown={ contributing } />
+<Markdown>{ contributing }</Markdown>

@@ -95,7 +95,6 @@ class IntroductionKeywordAssessment extends Assessment {
 				resultText: sprintf(
 					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
 					__(
-						// eslint-disable-next-line max-len
 						"%1$sKeyphrase in introduction%3$s: Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. %2$sFix that%3$s!",
 						"wordpress-seo"
 					),
@@ -111,7 +110,6 @@ class IntroductionKeywordAssessment extends Assessment {
 			resultText: sprintf(
 				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
 				__(
-					// eslint-disable-next-line max-len
 					"%1$sKeyphrase in introduction%3$s: Your keyphrase or its synonyms do not appear in the first paragraph. %2$sMake sure the topic is clear immediately%3$s.",
 					"wordpress-seo"
 				),

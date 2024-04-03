@@ -1,15 +1,16 @@
-import PropTypes from "prop-types";
-import { forwardRef, Fragment, useCallback } from "@wordpress/element";
 import { Combobox, Transition } from "@headlessui/react";
-import { SelectorIcon, CheckIcon } from "@heroicons/react/solid";
 import { XIcon } from "@heroicons/react/outline";
+import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import { constant } from "lodash";
+import PropTypes from "prop-types";
+import React, { forwardRef, Fragment, useCallback } from "react";
 import { useSvgAria } from "../../hooks";
 import { ValidationInput } from "../validation";
 
 // Render Combobox.Button as a div always.
 const AutocompleteButton = forwardRef( ( props, ref ) => <Combobox.Button as="div" ref={ ref } { ...props } /> );
+AutocompleteButton.displayName = "AutocompleteButton";
 
 /**
  * @param {JSX.node} children The children.
@@ -55,10 +56,10 @@ Option.propTypes = optionPropType;
  * @param {Function} onChange Change callback.
  * @param {Object} svgAriaProps SVG aria props.
  * @param {string} screenReaderText Screen reader text.
-* @returns {JSX.Element} Select component.
+ * @returns {JSX.Element} Select component.
  */
 const ClearSelection = ( { onChange, svgAriaProps, screenReaderText } ) => {
-	const clear = useCallback( ( e )=> {
+	const clear = useCallback( ( e ) => {
 		e.preventDefault();
 		onChange( null );
 	}, [ onChange ] );
@@ -176,10 +177,6 @@ const Autocomplete = forwardRef( ( {
 	);
 } );
 
-
-Autocomplete.Option = Option;
-Autocomplete.Option.displayName = "Autocomplete.Option";
-
 const propTypes = {
 	id: PropTypes.string.isRequired,
 	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ),
@@ -198,10 +195,12 @@ const propTypes = {
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
 	clearButtonScreenReaderText: PropTypes.string,
+	nullable: PropTypes.bool,
 	disabled: PropTypes.bool,
 };
-Autocomplete.propTypes = propTypes;
 
+Autocomplete.displayName = "Autocomplete";
+Autocomplete.propTypes = propTypes;
 Autocomplete.defaultProps = {
 	children: null,
 	value: null,
@@ -214,13 +213,11 @@ Autocomplete.defaultProps = {
 	className: "",
 	buttonProps: {},
 	clearButtonScreenReaderText: "Clear",
+	nullable: false,
 	disabled: false,
 };
 
-export default Autocomplete;
+Autocomplete.Option = Option;
+Autocomplete.Option.displayName = "Autocomplete.Option";
 
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Autocomplete { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Autocomplete.defaultProps;
-StoryComponent.displayName = "Autocomplete";
+export default Autocomplete;
