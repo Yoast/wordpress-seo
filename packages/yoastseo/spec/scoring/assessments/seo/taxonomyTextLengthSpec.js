@@ -1,5 +1,4 @@
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../../src/helpers/factory.js";
 import { getTextLengthAssessment } from "../../../../src/scoring/taxonomyAssessor";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import assessmentConfigJapanese from "../../../../src/languageProcessing/languages/ja/config/textLength";
