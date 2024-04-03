@@ -31,7 +31,7 @@ class Enabled_Analysis_Features_Repository {
 	/**
 	 * The constructor.
 	 *
-	 * @param Analysis_Feature_Interface ...$plugin_features
+	 * @param Analysis_Feature_Interface ...$plugin_features All analysis objects.
 	 */
 	public function __construct( Analysis_Feature_Interface ...$plugin_features ) {
 		$this->enabled_analysis_features = new Analysis_Features_List();
