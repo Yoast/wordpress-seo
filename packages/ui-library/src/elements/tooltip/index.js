@@ -10,47 +10,38 @@ const positionClassNameMap = {
 };
 
 /**
- * @param {string} id ID.
- * @param {string} children Content of the tooltip.
+ * @param {JSX.node} children Content of the tooltip.
  * @param {string|JSX.Element} [as] Base component.
  * @param {string} [className] CSS class.
  * @param {string} [position] Position of the tooltip.
- * @param {boolean} isVisible Default state.
  * @returns {JSX.Element} Tooltip component.
  */
-// eslint-disable-next-line react/prop-types
-const Tooltip = forwardRef( ( { id, children, as: Component, className, isVisible, position, ...props }, ref ) => {
+const Tooltip = forwardRef( ( { children, as: Component, className, position, ...props }, ref ) => {
 	return (
-		<>
-			{ isVisible && (
-				<Component
-					ref={ ref }
-					className={ classNames( "yst-tooltip",
-						positionClassNameMap[ position ],
-						className,
-					) }
-					role="tooltip"
-					id={ id }
-					{ ...props }
-				>
-					{ children || null }
-				</Component>
+		<Component
+			ref={ ref }
+			className={ classNames( "yst-tooltip",
+				positionClassNameMap[ position ],
+				className,
 			) }
-		</>
+			role="tooltip"
+			{ ...props }
+		>
+			{ children }
+		</Component>
 	);
 } );
 
 Tooltip.displayName = "Tooltip";
 Tooltip.propTypes = {
 	as: PropTypes.elementType,
-	id: PropTypes.string.isRequired,
-	children: PropTypes.string,
+	children: PropTypes.node,
 	className: PropTypes.string,
 	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ),
 };
 Tooltip.defaultProps = {
 	as: "div",
-	children: "",
+	children: null,
 	className: "",
 	position: "top",
 };

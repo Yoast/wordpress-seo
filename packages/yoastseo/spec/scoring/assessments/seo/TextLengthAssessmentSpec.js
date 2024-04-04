@@ -1,7 +1,8 @@
 import TextLengthAssessment from "../../../../src/scoring/assessments/seo/TextLengthAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import assessmentConfigJapanese from "../../../../src/languageProcessing/languages/ja/config/textLength";
 
 const textLengthAssessment = new TextLengthAssessment();
@@ -287,7 +288,8 @@ describe( "A text length assessment", function() {
 	} );
 } );
 
-describe( "In Japanese, the text length assessment should give a score based on character length and use language-specific boundaries", function() {
+describe( "Tests regular post content type in Japanese. " +
+	"The score should use language-specific boundaries and should be based on character length.", function() {
 	const character = "あ";
 	const textVeryFarBelowMinimum = character.repeat( 199 );
 	const textFarBelowMinimum = character.repeat( 399 );
@@ -386,6 +388,131 @@ describe( "In Japanese, the text length assessment should give a score based on 
 	} );
 } );
 
+describe( "Tests taxonomies and collections in English. The score should be based on word length.", function() {
+	it( "should assess a 0-word text in the veryFarBelowMinimum score category: taxonomy page", function() {
+		const paper = new Paper( "" );
+		const englishResearcher = new EnglishResearcher( paper );
+		const assessment = new TextLengthAssessment( {
+			recommendedMinimum: 30,
+			slightlyBelowMinimum: 10,
+			veryFarBelowMinimum: 1,
+			customContentType: "taxonomyAssessor" } );
+
+		const results = assessment.getResult( paper, englishResearcher );
+
+		expect( results.getScore() ).toEqual( -20 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"<a href='https://yoa.st/34o' target='_blank'>Please add some content</a>." );
+	} );
+
+	it( "should assess a 1-word text in the belowMinimum score category: taxonomy page", function() {
+		const paper = new Paper( "boink" );
+		const englishResearcher = new EnglishResearcher( paper );
+		const assessment = new TextLengthAssessment( {
+			recommendedMinimum: 30,
+			slightlyBelowMinimum: 10,
+			veryFarBelowMinimum: 1,
+			customContentType: "taxonomyAssessor" } );
+
+		const results = assessment.getResult( paper, englishResearcher );
+
+		expect( results.getScore() ).toEqual( 3 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 1 word." +
+			" This is below the recommended minimum of 30 words. <a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
+	} );
+
+	it( "should assess a 15-word text in the slightlyBelowMinimum category: collection page", function() {
+		const paper = new Paper( "Adults and kids will love these easy, healthy vegetarian recipes, ready in 30 minutes or less!" );
+		const englishResearcher = new EnglishResearcher( paper );
+		const assessment = new TextLengthAssessment( {
+			recommendedMinimum: 30,
+			slightlyBelowMinimum: 10,
+			veryFarBelowMinimum: 1,
+			customContentType: "collectionSEOAssessor" } );
+
+		const results = assessment.getResult( paper, englishResearcher );
+
+		expect( results.getScore() ).toEqual( 6 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 16 words. " +
+			"This is slightly below the recommended minimum of 30 words. <a href='https://yoa.st/34o'" +
+			" target='_blank'>Add more content</a>." );
+	} );
+
+	it( "should assess a 30-word text as to have a recommended minimum length: cornerstone collection page", function() {
+		const paper = new Paper( "Sometimes he slips out and in this way he has got more education than Pooh, but Pooh doesn't mind. " +
+			"Some have brains, and some haven't, he says, and there it is." );
+		const englishResearcher = new EnglishResearcher( paper );
+		const assessment = new TextLengthAssessment( {
+			recommendedMinimum: 30,
+			slightlyBelowMinimum: 10,
+			veryFarBelowMinimum: 1,
+			customContentType: "collectionCornerstoneSEOAssessor" } );
+
+		const results = assessment.getResult( paper, englishResearcher );
+
+		expect( results.getScore() ).toEqual( 9 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 31 words. Good job!"  );
+	} );
+} );
+
+describe( "Tests taxonomies and collections in Japanese. " +
+	"The score should use language-specific boundaries and should be based on character length.", function() {
+	const character = "あ";
+	const textBelowMinimum = character.repeat( 15 );
+	const textSlightlyBelowMinimum = character.repeat( 50 );
+	const textRecommendedMinimum = character.repeat( 60 );
+
+	it( "should assess a 0-character text in the veryFarBelowMinimum category: taxonomy page", function() {
+		const paper = new Paper( "" );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		const assessment = new TextLengthAssessment( { customContentType: "taxonomyAssessor" } );
+
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( results.getScore() ).toEqual( -20 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"<a href='https://yoa.st/34o' target='_blank'>Please add some content</a>." );
+	} );
+
+	it( "should assess a 15-character text in the belowMinimum category: taxonomy page", function() {
+		const paper = new Paper( textBelowMinimum );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		const assessment = new TextLengthAssessment( { customContentType: "taxonomyAssessor" } );
+
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( results.getScore() ).toEqual( 3 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 15 characters." +
+			" This is below the recommended minimum of 60 characters. <a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
+	} );
+
+	it( "should assess a 50-character text in the slightlyBelowMinimum category: collection page", function() {
+		const paper = new Paper( textSlightlyBelowMinimum );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		const assessment = new TextLengthAssessment( { customContentType: "collectionSEOAssessor" } );
+
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( results.getScore() ).toEqual( 6 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 50 characters. " +
+			"This is slightly below the recommended minimum of 60 characters. <a href='https://yoa.st/34o'" +
+			" target='_blank'>Add more content</a>." );
+	} );
+
+	it( "should assess a 60-character text as to have a recommended minimum length: cornerstone collection page", function() {
+		const paper = new Paper( textRecommendedMinimum );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		const assessment = new TextLengthAssessment( { customContentType: "collectionCornerstoneSEOAssessor" } );
+
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( results.getScore() ).toEqual( 9 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 60 characters. Good job!"  );
+	} );
+} );
+
 describe( "Language-specific configuration for specific types of content is used", function() {
 	const paper = new Paper( "こんにちは。" );
 	const japaneseResearcher = new JapaneseResearcher( paper );
@@ -409,7 +536,16 @@ describe( "Language-specific configuration for specific types of content is used
 
 		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.recommendedMinimum );
 		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.slightlyBelowMinimum );
-		expect( assessment._config.belowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.belowMinimum );
+		expect( assessment._config.veryFarBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.veryFarBelowMinimum );
+	} );
+
+	it( "should use language-specific configuration for a custom content type (example: collection page)", function() {
+		const assessment = new TextLengthAssessment( { customContentType: "collectionSEOAssessor" } );
+		// Running getResult will apply language-specific configuration.
+		assessment.getResult( paper, japaneseResearcher );
+
+		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.recommendedMinimum );
+		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.slightlyBelowMinimum );
 		expect( assessment._config.veryFarBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.veryFarBelowMinimum );
 	} );
 

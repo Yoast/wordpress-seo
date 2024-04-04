@@ -1,5 +1,5 @@
-import { SEOScoreAggregator } from "../../../../src/parsedPaper/assess/scoreAggregators";
-import AssessmentResult from "../../../../src/values/AssessmentResult";
+import { SEOScoreAggregator } from "../../../src/scoring/scoreAggregators";
+import AssessmentResult from "../../../src/values/AssessmentResult";
 
 describe( "SEOScoreAggregator", () => {
 	let aggregator;

@@ -6,7 +6,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
- * Assessment that will test if the text is long enough.
+ * Represents an assessment that checks the length of the text and gives feedback accordingly.
  */
 export default class TextLengthAssessment extends Assessment {
 	/**
@@ -48,7 +48,7 @@ export default class TextLengthAssessment extends Assessment {
 	}
 
 	/**
-	 * Execute the Assessment and return a result.
+	 * Executes the Assessment and returns a result.
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
 	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
@@ -78,7 +78,7 @@ export default class TextLengthAssessment extends Assessment {
 	}
 
 	/**
-	 * Check if there is language-specific config, and if so, overwrite the current config with it.
+	 * Checks if there is language-specific config, and if so, overwrites the current config with it.
 	 *
 	 * @param {Researcher} researcher The researcher to use.
 	 *
@@ -88,29 +88,122 @@ export default class TextLengthAssessment extends Assessment {
 		const currentConfig = this._config;
 		const languageSpecificConfig = researcher.getConfig( "textLength" );
 
-		// Check if a language has configuration for custom content types.
+		// Checks if a language has configuration for custom content types.
 		if ( languageSpecificConfig.hasOwnProperty( currentConfig.customContentType ) ) {
 			return merge( currentConfig, languageSpecificConfig[ currentConfig.customContentType ] );
 		}
 
-		// Check if a language has a default cornerstone configuration.
+		// Checks if a language has a default cornerstone configuration.
 		if ( currentConfig.cornerstoneContent === true && currentConfig.customContentType === "" &&
 			languageSpecificConfig.hasOwnProperty( "defaultCornerstone" ) ) {
 			return merge( currentConfig, languageSpecificConfig.defaultCornerstone );
 		}
 
-		// Use the default language-specific config for posts and pages.
+		// Uses the default language-specific config for posts and pages.
 		return merge( currentConfig, languageSpecificConfig.defaultAnalysis );
 	}
 
 	/**
-	 * Returns the score and the appropriate feedback string based on the current word count.
+	 * Returns the score and the appropriate feedback string based on the current word count
+	 * for taxonomies (in WordPress) and collections (in Shopify).
+	 *
+	 * @param {number} wordCount	The amount of words to be checked against.
+	 * @returns {Object} The score and the feedback string.
+	 */
+	calculateTaxonomyResult( wordCount ) {
+		if ( wordCount >= this._config.recommendedMinimum ) {
+			return {
+				score: this._config.scores.recommendedMinimum,
+				resultText: sprintf(
+					/* translators: %1$d expands to the number of words / characters in the text,
+					%2$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
+					%4$s expands to the word 'words' or 'characters'. */
+					__(
+						"%2$sText length%3$s: The text contains %1$d %4$s. Good job!",
+						"wordpress-seo"
+					),
+					wordCount,
+					this._config.urlTitle,
+					"</a>",
+					this._config.countTextIn.plural
+				),
+			};
+		}
+		if ( inRange( wordCount, this._config.slightlyBelowMinimum, this._config.recommendedMinimum ) ) {
+			return {
+				score: this._config.scores.slightlyBelowMinimum,
+				resultText: sprintf(
+					/* translators: %1$d expands to the number of words / characters in the text,
+					%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
+					%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
+					%6$s expands to the word 'words' or 'characters'. */
+					__(
+						// eslint-disable-next-line max-len
+						"%2$sText length%4$s: The text contains %1$d %6$s. This is slightly below the recommended minimum of %5$d %6$s. %3$sAdd more content%4$s.",
+						"wordpress-seo"
+					),
+					wordCount,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>",
+					this._config.recommendedMinimum,
+					this._config.countTextIn.plural
+				),
+			};
+		}
+		if ( inRange( wordCount, this._config.veryFarBelowMinimum, this._config.slightlyBelowMinimum ) ) {
+			return {
+				score: this._config.scores.belowMinimum,
+				resultText: sprintf(
+					/* translators: %1$d expands to the number of words / characters in the text,
+							%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
+							%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
+							%6$s expands to the word 'word' or 'character', %7$s expands to the word 'words' or 'characters'. */
+					_n(
+						// eslint-disable-next-line max-len
+						"%2$sText length%4$s: The text contains %1$d %6$s. This is below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s.",
+						// eslint-disable-next-line max-len
+						"%2$sText length%4$s: The text contains %1$d %7$s. This is below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s.",
+						wordCount,
+						"wordpress-seo"
+					),
+					wordCount,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>",
+					this._config.recommendedMinimum,
+					this._config.countTextIn.singular,
+					this._config.countTextIn.plural
+				),
+			};
+		}
+		return {
+			score: this._config.scores.veryFarBelowMinimum,
+			resultText: sprintf(
+				/* translators: %1$s expands to a link on yoast.com, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+				__(
+					"%1$sText length%3$s: %2$sPlease add some content%3$s.",
+					"wordpress-seo"
+				),
+				this._config.urlTitle,
+				this._config.urlCallToAction,
+				"</a>"
+			),
+		};
+	}
+
+	/**
+	 * Returns the score and the appropriate feedback string based on the current word count for every type of content.
 	 *
 	 * @param {number}  wordCount   The amount of words to be checked against.
 	 *
 	 * @returns {Object} The score and the feedback string.
 	 */
 	calculateResult( wordCount ) {
+		const customContentTypes = [ "taxonomyAssessor", "collectionSEOAssessor", "collectionCornerstoneSEOAssessor" ];
+		if ( customContentTypes.includes( this._config.customContentType ) ) {
+			return this.calculateTaxonomyResult( wordCount );
+		}
 		if ( wordCount >= this._config.recommendedMinimum ) {
 			return {
 				score: this._config.scores.recommendedMinimum,
@@ -145,9 +238,7 @@ export default class TextLengthAssessment extends Assessment {
 					%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
 					%6$s expands to the word 'word' or 'character', %7$s expands to the word 'words' or 'characters'. */
 					_n(
-						// eslint-disable-next-line max-len
 						"%2$sText length%4$s: The text contains %1$d %6$s. This is far below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s.",
-						// eslint-disable-next-line max-len
 						"%2$sText length%4$s: The text contains %1$d %7$s. This is far below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s.",
 						wordCount,
 						"wordpress-seo"
@@ -173,7 +264,6 @@ export default class TextLengthAssessment extends Assessment {
 						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
 						%6$s expands to the word 'words' or 'characters'. */
 						__(
-							// eslint-disable-next-line max-len
 							"%2$sText length%4$s: The text contains %1$d %6$s. This is slightly below the recommended minimum of %5$d %6$s. %3$sAdd a bit more copy%4$s.",
 							"wordpress-seo"
 						),
@@ -195,7 +285,6 @@ export default class TextLengthAssessment extends Assessment {
 						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
 						%6$s expands to the word 'words' or 'characters'. */
 					__(
-						// eslint-disable-next-line max-len
 						"%2$sText length%4$s: The text contains %1$d %6$s. This is below the recommended minimum of %5$d %6$s. %3$sAdd more content%4$s.",
 						"wordpress-seo"
 					),
@@ -217,7 +306,6 @@ export default class TextLengthAssessment extends Assessment {
 						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
 						%6$s expands to the word 'words' or 'characters'. */
 				__(
-					// eslint-disable-next-line max-len
 					"%2$sText length%4$s: The text contains %1$d %6$s. This is below the recommended minimum of %5$d %6$s. %3$sAdd more content%4$s.",
 					"wordpress-seo"
 				),

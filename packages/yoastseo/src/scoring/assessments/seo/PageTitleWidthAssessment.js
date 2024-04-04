@@ -121,7 +121,6 @@ export default class PageTitleWidthAssessment extends Assessment {
 			return sprintf(
 				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				__(
-					// eslint-disable-next-line max-len
 					"%1$sSEO title width%3$s: The SEO title is too short. %2$sUse the space to add keyphrase variations or create compelling call-to-action copy%3$s.",
 					"wordpress-seo"
 				),

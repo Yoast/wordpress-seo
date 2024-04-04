@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.5
-Stable tag: 22.3
+Stable tag: 22.4
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -315,14 +315,35 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 22.4 =
+= 22.5 =
 
-Release date: 2024-04-02
+Release date: 2024-04-16
 
 #### Enhancements
 
-* Removes a duplicated query on author pages with internal images.
-* Removes two unnecessary queries on pages where external images are of SEO interest, like author pages with Gravatar author images.
+* Deprecates unused method `is_image_url_valid`.
+* Fixes an incompatibility with `ES_WP_Query` library used by WordPress VIP Enterprise Search.
+* Introduces a check for allowed MIME types when uploading social templates images.
+* Prevents image formats other than JPG, GIF, PNG and WEBP to be used for the `twitter:image` meta tag.
+* Recalibrates the recommended length of the text on taxonomy pages for the _text length_ assessment.
+
+#### Other
+
+* Removes the link to the now-retired Google Mobile-Friendly Test from the admin bar menu.
+* Renames all user-facing `Twitter` references to `X`, including the X profile's `sameAs` schema output URL.
+* Renames the `leiCode` fields to `LEI code` in the plugin's settings
+* Resolves a typo in the list of German transition words. Props to [magnusmartin85](https://github.com/magnusmartin85).
+
+= 22.4 =
+
+Release date: 2024-04-03
+
+Yoast SEO 22.4 brings optimizations and bug fixes. Our customers who use Elementor can wave goodbye to that unnecessary redirect when saving a post for the first time. Find more about Yoast SEO 22.4 in [our release post](https://yoa.st/release-3-4-24)!
+
+#### Enhancements
+
+* Removes a duplicated database query on author pages with internal images.
+* Removes two unnecessary database queries on pages where external images are of SEO interest, like author pages with Gravatar author images.
 
 #### Bugfixes
 
@@ -335,27 +356,7 @@ Release date: 2024-04-02
 * Replaces `.substr()` with `.substring()` in JS files since it's deprecated.
 * Stops showing deprecation warnings when retrieving data for paid add-ons goes wrong.
 * Stops showing notifications about incompatibility with the WooCommerce's new beta product editor, after WooCommerce is deactivated.
-* Stops showing notifications prompting to install Yoast Woo SEO, after WooCommerce is deactivated.
-
-= 22.3 =
-
-Release date: 2024-03-19
-
-Yoast SEO 22.3 is out today. In this release, you’ll find various fixes and improvements for a better user experience. Find out more about what's new in Yoast SEO 22.3 in [our release post](https://yoa.st/release-19-3-24)!
-
-#### Enhancements
-
-* Removes an unnecessary query relating to breadcrumb schema generation on the homepage.
-
-#### Bugfixes
-
-* Adds `x.com` as a possible domain for the Twitter validation in our first time configuration social profiles settings.
-* Fixes a bug where the `Or go to your SEO dashboard` link in the final step of our first time configuration would not be focusable using tab.
-
-#### Other
-
-* Removes the autofill for taxonomy keyphrases.
-* Sets the WordPress tested up to version to 6.5.
+* Stops showing a notification prompting to install Yoast Woo SEO, after WooCommerce is deactivated.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

@@ -50,6 +50,7 @@ module.exports = {
 					// This is a temporary exception, and should be removed once the packages are compatible.
 					"^@woocommerce/(block-templates|product-editor)",
 					"^jquery$",
+					"yoastseo",
 				],
 			},
 		],
