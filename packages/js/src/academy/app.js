@@ -52,7 +52,7 @@ const App = () => {
 			title: "AI for SEO",
 			description: __( "Join the Yoast team to learn how to harness the power of AI to revolutionize your SEO approach. Gain a competitive edge, future-proof your keyword strategies, and soar to the top of search rankings – all designed to empower busy small business owners.", "wordpress-seo" ),
 			image: `${ pluginUrl }/images/academy/ai_for_seo_icon_my_yoast.png`,
-			startLink: addQueryArgs( "https://yoa.st/ai-for-seo-training", linkParams ),
+			startLink: addQueryArgs( "https://yoa.st/ai-for-seo-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/ai-for-seo-unlock", linkParams ),
 			dependencies: { PREMIUM: isPremium },
 			hasTrial: true,
