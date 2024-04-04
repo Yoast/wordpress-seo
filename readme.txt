@@ -321,6 +321,7 @@ Release date: 2024-04-16
 
 #### Enhancements
 
+* Adds an AI for SEO academy card to the Academy page.
 * Deprecates unused method `is_image_url_valid`.
 * Fixes an incompatibility with `ES_WP_Query` library used by WordPress VIP Enterprise Search.
 * Introduces a check for allowed MIME types when uploading social templates images.
