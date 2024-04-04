@@ -321,12 +321,10 @@ Release date: 2024-04-16
 
 #### Enhancements
 
-* Adds an AI for SEO academy card to the Academy page.
-* Deprecates unused method `is_image_url_valid`.
-* Fixes an incompatibility with `ES_WP_Query` library used by WordPress VIP Enterprise Search.
-* Introduces a check for allowed MIME types when uploading social templates images.
 * Prevents image formats other than JPG, GIF, PNG and WEBP to be used for the `twitter:image` meta tag.
+* Introduces a check for allowed MIME types when uploading social templates images.
 * Recalibrates the recommended length of the text on taxonomy pages for the _text length_ assessment.
+* Fixes an incompatibility with `ES_WP_Query` library used by WordPress VIP Enterprise Search.
 
 #### Other
 
@@ -334,6 +332,8 @@ Release date: 2024-04-16
 * Renames all user-facing `Twitter` references to `X`, including the X profile's `sameAs` schema output URL.
 * Renames the `leiCode` fields to `LEI code` in the plugin's settings
 * Resolves a typo in the list of German transition words. Props to [magnusmartin85](https://github.com/magnusmartin85).
+* Adds an "AI for SEO" course card to the Academy page.
+* Deprecates unused method `is_image_url_valid`.
 
 = 22.4 =
 
