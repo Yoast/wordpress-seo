@@ -1,0 +1,6 @@
+/* Add custom CSS for the mentions */
+.yst-root {
+    .yst-tooltip.yst-tooltip--top::before {
+        @apply yst--translate-x-56;
+    }
+}
