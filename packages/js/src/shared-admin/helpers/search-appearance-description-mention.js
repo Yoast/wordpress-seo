@@ -6,10 +6,11 @@ import { addFilter } from "@wordpress/hooks";
 
 /**
  * Renders a badge with tooltip for mentions.
- * @param {JSX.node} children The children of the tooltip.
+ * @param {JSX.node[]} mentionsName The name of the mentions.
+ * @param {JSX.node[]} children The children of the tooltip.
  * @returns {JSX.Element} The badge with tooltip.
  */
-const MentionsWithTooltip = ( { children } ) => {
+const MentionsWithTooltip = ( { mentionsName, children } ) => {
 	const [ isVisible, setIsVisible ] = useState( false );
 	const handleMouseEnter = useCallback(
 		() => setIsVisible( true ),
@@ -28,7 +29,7 @@ const MentionsWithTooltip = ( { children } ) => {
 				onMouseEnter={ handleMouseEnter }
 				onMouseLeave={ handleMouseLeave }
 			>
-				Date
+				<span>{ mentionsName }</span>
 				{ isVisible && (
 					<Tooltip
 						id="date-tooltip"
@@ -56,12 +57,13 @@ const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 				name={ `yoast.replacementVariableEditor.additionalMentions.${fieldId}` }
 			>
 				<Root context={ { isRtl } }>
-					<MentionsWithTooltip>
-						The 'Date' variable is fixed and adds 14 chararacters to
+					<MentionsWithTooltip mentionsName="Date">
+						The 'Date' variable is fixed and adds 10 chararacters to
 						the length of your meta description.
 					</MentionsWithTooltip>
-					<MentionsWithTooltip>
-						The 'Separator' variable is fixed and adds 14 chararacters to
+					<span className="yst-p-1" />
+					<MentionsWithTooltip mentionsName="Separator">
+						The 'Separator' variable is fixed and adds 3 chararacters to
 						the length of your meta description.
 					</MentionsWithTooltip>
 				</Root>
