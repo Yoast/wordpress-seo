@@ -320,12 +320,13 @@ class WPSEO_Meta {
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 
+				
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
 					[
 						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
-						'show_in_rest'      => true,
+						'show_in_rest'      => $field_def['type'] ? true : false,
 						'type'              => 'string',
 						'single'            => true,
 						'default'           => ( $field_def['default_value'] ?? '' ),
