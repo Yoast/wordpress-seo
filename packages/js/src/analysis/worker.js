@@ -81,7 +81,7 @@ export function getAnalysisConfiguration( customConfiguration = {} ) {
 		keywordAnalysisActive: isKeywordAnalysisActive(),
 		inclusiveLanguageAnalysisActive: isInclusiveLanguageAnalysisActive(),
 		defaultQueryParams: getDefaultQueryParams(),
-		logLevel: get( window, [ "wpseoScriptData", "analysis", "worker", "log_level" ], "ERROR" ),
+		logLevel: get( window, "wpseoScriptData.analysis.worker.log_level", "ERROR" ),
 		enabledFeatures: enabledFeatures(),
 	};
 
