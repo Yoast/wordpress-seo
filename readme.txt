@@ -334,7 +334,7 @@ Release date: 2024-04-16
 * Renames all user-facing `Twitter` references to `X`, including the X profile's `sameAs` schema output URL.
 * Adds an "AI for SEO" course card to the Academy page.
 * Removes the link to the now-retired Google Mobile-Friendly Test from the admin bar menu.
-* Renames the `leiCode` fields to `LEI code` in the plugin's settings
+* Renames the `leiCode` fields to `LEI code` in the plugin's settings.
 * Resolves a typo in the list of German transition words. Props to [magnusmartin85](https://github.com/magnusmartin85).
 * Deprecates unused method `is_image_url_valid`.
 
