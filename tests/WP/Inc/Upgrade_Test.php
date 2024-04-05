@@ -258,7 +258,7 @@ final class Upgrade_Test extends TestCase {
 				"SELECT *
 				FROM %i
 				WHERE option_name LIKE %s
-				AND autoload = 'yes'",
+				AND autoload IN ('on', 'yes')",
 				[ $wpdb->options, 'wpseo_sitemap_%' ]
 			)
 		);
@@ -268,7 +268,7 @@ final class Upgrade_Test extends TestCase {
 				"SELECT *
 				FROM %i
 				WHERE option_name LIKE %s
-				AND autoload = 'no'",
+				AND autoload IN ('off', 'no')",
 				[ $wpdb->options, 'wpseo_sitemap_%' ]
 			)
 		);
@@ -397,8 +397,7 @@ final class Upgrade_Test extends TestCase {
 			$wpdb->prepare(
 				'SELECT *
 				FROM %i
-				WHERE option_name LIKE %s
-				AND autoload = "yes"',
+				WHERE option_name LIKE %s',
 				[ $wpdb->options, 'wpseo_sitemap_%' ]
 			)
 		);
