@@ -131,7 +131,6 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 			return sprintf(
 				/* translators:  %1$s and %2$s expand to a links on yoast.com, %3$s expands to the anchor end tag */
 				__(
-					// eslint-disable-next-line max-len
 					"%1$sMeta description length%3$s:  No meta description has been specified. Search engines will display copy from the page instead. %2$sMake sure to write one%3$s!",
 					"wordpress-seo"
 				),
@@ -147,7 +146,6 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 				%4$d expands to the number of characters in the meta description, %5$d expands to
 				the total available number of characters in the meta description */
 				__(
-					// eslint-disable-next-line max-len
 					"%1$sMeta description length%3$s: The meta description is too short (under %4$d characters). Up to %5$d characters are available. %2$sUse the space%3$s!",
 					"wordpress-seo"
 				),
@@ -164,7 +162,6 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 				%4$d expands to	the total available number of characters in the meta description */
 				__(
-					// eslint-disable-next-line max-len
 					"%1$sMeta description length%3$s: The meta description is over %4$d characters. To ensure the entire description will be visible, %2$syou should reduce the length%3$s!",
 					"wordpress-seo"
 				),

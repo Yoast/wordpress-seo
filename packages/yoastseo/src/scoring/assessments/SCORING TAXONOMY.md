@@ -13,13 +13,12 @@ The taxonomy analysis has the same SEO, Readability, and Inclusive language scor
 
 **Call to action URL**: https://yoa.st/34k (link placement is in bold in the feedback strings)
 
-| Traffic light	 | Score	| Criterion	| Feedback |
-|----------------|------------------	|---------------------	|---------------	|
-| Red	           | -20	| Between 0 and 49 words	| Text length: the text contains X words. This is far below the recommended minimum of 250 words. Add more content. |
-| Red	           | -10	| Between 50 and 99 words	| Text length: the text contains X words. This is far below the recommended minimum of 250 words. Add more content. |
-| Red	           | 3	| Between 100 and and 199 words	| Text length: the text contains X words. This is below the recommended minimum of 250 words. Add more content. |
-| Orange         | 6	| Between 200 and 249 words	| Text length: the text contains X words. This is slightly below the recommended minimum of 250 words. Add a bit more copy. |
-| Green	         | 9	| More than 250 words	| Text length: the text contains X words. Good job! |
+| Traffic light	 | Score	| Criterion	           | Feedback                                                                                                           |
+|----------------|------------------	|----------------------|-----------------------------------------------------------------------------------------------------------------|
+| Red	           | -20	| 0 words	             | Text length: Please add some content.                                          |
+| Red	           | 3	| From 1 to 9 words	   | Text length: The text contains X words. This is below the recommended minimum of 30 words. Add more content.       |
+| Orange         | 6	| From 10 to 29 words	 | Text length: The text contains X words. This is slightly below the recommended minimum of 30 words. Add more content. |
+| Green	         | 9	| 30 words or more	    | Text length: The text contains X words. Good job!                                                                  |
 
 ## 2) Meta description length assessment
 **What it does**: Checks if the meta description has a good length. In a taxonomy page, the date is not displayed or included in the meta description. Hence, the date length is not included in the calculation for this assessment.
