@@ -13,7 +13,7 @@ class Additional_Contactmethods_Integration implements Integration_Interface {
 	use No_Conditionals;
 
 	/**
-	 * Registers action hook to maybe save an option.
+	 * Registers action hook.
 	 *
 	 * @return void
 	 */
