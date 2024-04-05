@@ -3,6 +3,7 @@ import { Root, Badge, Tooltip } from "@yoast/ui-library";
 import { Fill } from "@wordpress/components";
 import { get } from "lodash";
 import { addFilter } from "@wordpress/hooks";
+import { __, sprintf, _n } from "@wordpress/i18n";
 
 /**
  * Renders a badge with tooltip for mentions.
@@ -57,14 +58,17 @@ const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 				name={ `yoast.replacementVariableEditor.additionalMentions.${fieldId}` }
 			>
 				<Root context={ { isRtl } }>
-					<MentionsWithTooltip mentionsName="Date">
-						The 'Date' variable is fixed and adds 10 chararacters to
-						the length of your meta description.
+					<MentionsWithTooltip mentionsName={ __( "Date", "wordpress-seo" ) }>
+						{// sprintf(
+						/* translators:
+						%s expands to the amount of chararacters */
+						//_n( "The 'Date' variable is fixed and adds %s characters to the length of your meta description.", $characters, "wordpress-seo" ), $characters ) 
+						}
+						{ __( "The 'Date' variable is fixed and adds 3 characters to the length of your meta description.", "wordpress-seo" ) }
 					</MentionsWithTooltip>
 					<span className="yst-p-1" />
-					<MentionsWithTooltip mentionsName="Separator">
-						The 'Separator' variable is fixed and adds 3 chararacters to
-						the length of your meta description.
+					<MentionsWithTooltip mentionsName={ __( "Separator", "wordpress-seo" ) }>
+						{ __( "The 'Separator' variable is fixed and adds 3 characters to the length of your meta description.", "wordpress-seo" ) }
 					</MentionsWithTooltip>
 				</Root>
 			</Fill>
