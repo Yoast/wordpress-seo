@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Analytics\User_Interface;
+namespace Yoast\WP\SEO\User_Meta\User_Interface;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -18,7 +18,7 @@ class Additional_Contactmethods_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks(): void {
-		\add_filter( 'user_contactmethods', [ $this, 'update_contactmethods'] );
+		\add_filter( 'user_contactmethods', [ $this, 'update_contactmethods' ] );
 	}
 
 	/**
@@ -31,16 +31,16 @@ class Additional_Contactmethods_Integration implements Integration_Interface {
 	 * @return array<string, string> Contactmethods with added contactmethods.
 	 */
 	public function update_contactmethods( $contactmethods ) {
-		$contactmethods['facebook']   = __( 'Facebook profile URL', 'wordpress-seo' );
-		$contactmethods['instagram']  = __( 'Instagram profile URL', 'wordpress-seo' );
-		$contactmethods['linkedin']   = __( 'LinkedIn profile URL', 'wordpress-seo' );
-		$contactmethods['myspace']    = __( 'MySpace profile URL', 'wordpress-seo' );
-		$contactmethods['pinterest']  = __( 'Pinterest profile URL', 'wordpress-seo' );
-		$contactmethods['soundcloud'] = __( 'SoundCloud profile URL', 'wordpress-seo' );
-		$contactmethods['tumblr']     = __( 'Tumblr profile URL', 'wordpress-seo' );
-		$contactmethods['twitter']    = __( 'X username (without @)', 'wordpress-seo' );
-		$contactmethods['youtube']    = __( 'YouTube profile URL', 'wordpress-seo' );
-		$contactmethods['wikipedia']  = __( 'Wikipedia page about you', 'wordpress-seo' ) . '<br/><small>' . __( '(if one exists)', 'wordpress-seo' ) . '</small>';
+		$contactmethods['facebook']   = \__( 'Facebook profile URL', 'wordpress-seo' );
+		$contactmethods['instagram']  = \__( 'Instagram profile URL', 'wordpress-seo' );
+		$contactmethods['linkedin']   = \__( 'LinkedIn profile URL', 'wordpress-seo' );
+		$contactmethods['myspace']    = \__( 'MySpace profile URL', 'wordpress-seo' );
+		$contactmethods['pinterest']  = \__( 'Pinterest profile URL', 'wordpress-seo' );
+		$contactmethods['soundcloud'] = \__( 'SoundCloud profile URL', 'wordpress-seo' );
+		$contactmethods['tumblr']     = \__( 'Tumblr profile URL', 'wordpress-seo' );
+		$contactmethods['twitter']    = \__( 'X username (without @)', 'wordpress-seo' );
+		$contactmethods['youtube']    = \__( 'YouTube profile URL', 'wordpress-seo' );
+		$contactmethods['wikipedia']  = \__( 'Wikipedia page about you', 'wordpress-seo' ) . '<br/><small>' . \__( '(if one exists)', 'wordpress-seo' ) . '</small>';
 
 		return $contactmethods;
 	}
