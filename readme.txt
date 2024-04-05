@@ -324,15 +324,18 @@ Release date: 2024-04-16
 * Prevents image formats other than JPG, GIF, PNG and WEBP to be used for the `twitter:image` meta tag.
 * Introduces a check for allowed MIME types when uploading social templates images.
 * Recalibrates the recommended length of the text on taxonomy pages for the _text length_ assessment.
+
+#### Bugfixes
+
 * Fixes an incompatibility with `ES_WP_Query` library used by WordPress VIP Enterprise Search.
 
 #### Other
 
-* Removes the link to the now-retired Google Mobile-Friendly Test from the admin bar menu.
 * Renames all user-facing `Twitter` references to `X`, including the X profile's `sameAs` schema output URL.
-* Renames the `leiCode` fields to `LEI code` in the plugin's settings
-* Resolves a typo in the list of German transition words. Props to [magnusmartin85](https://github.com/magnusmartin85).
 * Adds an "AI for SEO" course card to the Academy page.
+* Removes the link to the now-retired Google Mobile-Friendly Test from the admin bar menu.
+* Renames the `leiCode` fields to `LEI code` in the plugin's settings.
+* Resolves a typo in the list of German transition words. Props to [magnusmartin85](https://github.com/magnusmartin85).
 * Deprecates unused method `is_image_url_valid`.
 
 = 22.4 =
