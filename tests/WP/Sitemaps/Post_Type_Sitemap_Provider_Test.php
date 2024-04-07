@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  * Class Post_Type_Sitemap_Provider_Test.
  *
  * @group sitemaps
- * @coversDefaultClass \Yoast\WP\SEO\Models\SEO_Links\WPSEO_Post_Type_Sitemap_Provider
+ * @coversDefaultClass \WPSEO_Post_Type_Sitemap_Provider
  */
 final class Post_Type_Sitemap_Provider_Test extends TestCase {
 

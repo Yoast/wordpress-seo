@@ -156,7 +156,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			}
 		);
 
-		$crumbs = \array_map( [ $this,'get_post_type_crumb' ], $indexables );
+		$crumbs = \array_map( [ $this, 'get_post_type_crumb' ], $indexables );
 
 		if ( $breadcrumbs_home !== '' ) {
 			$crumbs[0]['text'] = $breadcrumbs_home;

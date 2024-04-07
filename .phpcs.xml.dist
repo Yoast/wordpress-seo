@@ -159,6 +159,21 @@
 		</properties>
 	</rule>
 
+	<!-- Excluded in WPCS, but the exclusion does not work well with a code base using short arrays.
+		 This may lead to some duplicate notices, but rather that, than these issues not being flagged.
+		 Note: this change will be included in YoastCS 3.1.1 and this tweak can be removed after that.
+	-->
+	<rule ref="Universal.WhiteSpace.CommaSpacing.SpaceBeforeInFunctionCall">
+		<severity>5</severity>
+	</rule>
+	<rule ref="Universal.WhiteSpace.CommaSpacing.TooMuchSpaceAfterInFunctionCall">
+		<severity>5</severity>
+	</rule>
+	<rule ref="Universal.WhiteSpace.CommaSpacing.NoSpaceAfterInFunctionCall">
+		<severity>5</severity>
+	</rule>
+
+
 	<!--
 	##########################################################################
 	SELECTIVE EXCLUSIONS

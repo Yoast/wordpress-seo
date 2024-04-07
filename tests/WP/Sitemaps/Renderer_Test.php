@@ -196,7 +196,7 @@ final class Renderer_Test extends TestCase {
 	/**
 	 * Tests getting the fallback url if the plugin is loaded from a different domain.
 	 *
-	 * @covers Sitemaps_Renderer_Double::get_xsl_url
+	 * @covers WPSEO_Sitemaps_Renderer::get_xsl_url
 	 *
 	 * @return void
 	 */
