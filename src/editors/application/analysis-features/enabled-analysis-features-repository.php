@@ -17,14 +17,14 @@ class Enabled_Analysis_Features_Repository {
 	/**
 	 * All plugin features.
 	 *
-	 * @var Analysis_Feature_Interface[] $plugin_features
+	 * @var Analysis_Feature_Interface[]
 	 */
 	private $plugin_features;
 
 	/**
 	 * The list of analysis features.
 	 *
-	 * @var Analysis_Features_List $enabled_analysis_features
+	 * @var Analysis_Features_List
 	 */
 	private $enabled_analysis_features;
 
