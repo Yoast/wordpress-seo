@@ -26,9 +26,10 @@ function disable( tabId ) {
  * @returns {void}
  */
 export function disableMetaboxTabs() {
-	disable( "wpseo-meta-tab-content" );
-	disable( "wpseo-meta-tab-readability" );
-	disable( "wpseo-meta-tab-schema" );
-	disable( "wpseo-meta-tab-social" );
+	const tabs = Array.from( document.querySelectorAll( '[id^="wpseo-meta-tab-"]' ) );
+
+	tabs.map( ( tab ) => {
+		disable( tab.id );
+	} );
 }
 
