@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
 use WPSEO_Plugin_Availability;
 use Yoast_Notification_Center;
+
 /**
  * Test class for WPSEO_Suggested_Plugins::__construct.
  *

@@ -651,7 +651,7 @@ final class Upgrade_Test extends TestCase {
 	/**
 	 * Tests the remove_indexable_rows_for_non_public_taxonomies method.
 	 *
-	 * @covers WPSEO_Upgrade::remove_indexable_rows_for_non_public_post_taxonomies
+	 * @covers WPSEO_Upgrade::remove_indexable_rows_for_non_public_taxonomies
 	 *
 	 * @return void
 	 */
@@ -713,7 +713,7 @@ final class Upgrade_Test extends TestCase {
 	/**
 	 * Tests the remove_indexable_rows_for_non_public_taxonomies method in case no public taxonomies are present.
 	 *
-	 * @covers WPSEO_Upgrade::remove_indexable_rows_for_non_public_post_taxonomies
+	 * @covers WPSEO_Upgrade::remove_indexable_rows_for_non_public_taxonomies
 	 *
 	 * @return void
 	 */
@@ -884,7 +884,7 @@ final class Upgrade_Test extends TestCase {
 	/**
 	 * Tests the test_remove_indexable_rows_for_disabled_authors_archive method.
 	 *
-	 * @covers WPSEO_Upgrade::test_remove_indexable_rows_for_disabled_authors_archive
+	 * @covers WPSEO_Upgrade::remove_indexable_rows_for_disabled_authors_archive
 	 *
 	 * @return void
 	 */
