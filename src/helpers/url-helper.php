@@ -106,8 +106,7 @@ class Url_Helper {
 	 */
 	public function get_url_path( $url ) {
 		if ( \is_string( $url ) === false
-			&& \is_object( $url ) === false
-			|| ( \is_object( $url ) === true && \method_exists( $url, '__toString' ) === false )
+			&& ( \is_object( $url ) === false || \method_exists( $url, '__toString' ) === false )
 		) {
 			return '';
 		}
@@ -124,8 +123,7 @@ class Url_Helper {
 	 */
 	public function get_url_host( $url ) {
 		if ( \is_string( $url ) === false
-			&& \is_object( $url ) === false
-			|| ( \is_object( $url ) === true && \method_exists( $url, '__toString' ) === false )
+			&& ( \is_object( $url ) === false || \method_exists( $url, '__toString' ) === false )
 		) {
 			return '';
 		}

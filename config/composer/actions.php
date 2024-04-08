@@ -373,6 +373,11 @@ TPL;
 			$above_threshold = false;
 		}
 
+		$threshold_exact = true;
+		if ( \strpos( $phpcs_output, ' than the threshold, great job!' ) !== false ) {
+			$threshold_exact = false;
+		}
+
 		/*
 		 * Don't run the branch check in CI/GH Actions as it prevents the errors from being shown inline.
 		 * The GH Actions script will run this via a separate script step.
@@ -387,7 +392,15 @@ TPL;
 			@\passthru( 'composer check-branch-cs' );
 		}
 
-		exit( ( $above_threshold === true || $return > 2 ) ? $return : 0 );
+		$exit_code = 0;
+		if ( $above_threshold === true || $return > 2 ) {
+			$exit_code = $return;
+		}
+		elseif ( $threshold_exact === false ) {
+			$exit_code = 128;
+		}
+
+		exit( $exit_code );
 	}
 
 	/**

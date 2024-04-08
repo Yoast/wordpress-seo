@@ -10,7 +10,7 @@ class Analysis_Feature {
 	/**
 	 * If the feature is enabled.
 	 *
-	 * @var bool $is_enabled
+	 * @var bool
 	 */
 	private $is_enabled;
 
