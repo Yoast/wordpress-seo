@@ -4,7 +4,6 @@ import { get } from "lodash";
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
-
 import { disableMetaboxTabs } from "../helpers/disableMetaboxTabs";
 import ScoreIconPortal from "./portals/ScoreIconPortal";
 import { Root, Title, Alert, Button } from "@yoast/ui-library";
