@@ -36,6 +36,7 @@ class Additional_Contactmethods_Integration implements Integration_Interface {
 	 */
 	public function register_hooks(): void {
 		\add_filter( 'user_contactmethods', [ $this, 'update_contactmethods' ] );
+		\add_filter( 'update_user_metadata', [ $this, 'stop_storing_empty_metadata' ], 10, 4 );
 	}
 
 	/**
@@ -51,5 +52,26 @@ class Additional_Contactmethods_Integration implements Integration_Interface {
 		$additional_contactmethods = $this->additional_contactmethods_repository->get_additional_contactmethods();
 
 		return \array_merge( $contactmethods, $additional_contactmethods );
+	}
+
+	/**
+	 * Returns a check value, which will stop empty contactmethods from going into the database.
+	 *
+	 * @param bool|null $check      Whether to allow updating metadata for the given type.
+	 * @param int       $object_id  ID of the object metadata is for.
+	 * @param string    $meta_key   Metadata key.
+	 * @param mixed     $meta_value Metadata value. Must be serializable if non-scalar.
+	 *
+	 * @return false|null False for when we are to filter out empty metadata, null for no filtering.
+	 */
+	public function stop_storing_empty_metadata( $check, $object_id, $meta_key, $meta_value ) {
+		$additional_contactmethods = $this->additional_contactmethods_repository->get_additional_contactmethods_keys();
+
+		if ( \in_array( $meta_key, $additional_contactmethods, true ) && $meta_value === '' ) {
+			\delete_user_meta( $object_id, $meta_key );
+			return false;
+		}
+
+		return $check;
 	}
 }
