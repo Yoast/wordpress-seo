@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\User_Meta\User_Interface;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\User_Meta\Application\Additional_Contactmethods_Repository;
 
 /**
  * Handles filtering empty user meta before adding them in the database.
@@ -13,22 +14,20 @@ class Empty_Metadata_Filtering_Integration implements Integration_Interface {
 	use No_Conditionals;
 
 	/**
-	 * What metadata to filter.
+	 * The additional contactmethods repository.
 	 *
-	 * @var array<string>
+	 * @var Additional_Contactmethods_Repository $additional_contactmethods_repository The additional contactmethods repository.
 	 */
-	private $filtered_metadata = [
-		'facebook',
-		'instagram',
-		'linkedin',
-		'myspace',
-		'pinterest',
-		'soundcloud',
-		'tumblr',
-		'twitter',
-		'youtube',
-		'wikipedia',
-	];
+	private $additional_contactmethods_repository;
+
+	/**
+	 * The constructor.
+	 *
+	 * @param Additional_Contactmethods_Repository $additional_contactmethods_repository The additional contactmethods repository.
+	 */
+	public function __construct( Additional_Contactmethods_Repository $additional_contactmethods_repository ) {
+		$this->additional_contactmethods_repository = $additional_contactmethods_repository;
+	}
 
 	/**
 	 * Registers action hook.
@@ -50,7 +49,9 @@ class Empty_Metadata_Filtering_Integration implements Integration_Interface {
 	 * @return false|null False for when we are to filter out empty metadata, null for no filtering.
 	 */
 	public function stop_storing_empty_metadata( $check, $object_id, $meta_key, $meta_value ) {
-		if ( \in_array( $meta_key, $this->filtered_metadata, true ) && $meta_value === '' ) {
+		$additional_contactmethods = $this->additional_contactmethods_repository->get_additional_contactmethods_keys();
+
+		if ( \in_array( $meta_key, $additional_contactmethods, true ) && $meta_value === '' ) {
 			return false;
 		}
 

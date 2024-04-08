@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\User_Meta\User_Interface;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\User_Meta\Application\Additional_Contactmethods_Repository;
 
 /**
  * Handles registering and saving additional contactmethods for users.
@@ -11,6 +12,22 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Additional_Contactmethods_Integration implements Integration_Interface {
 
 	use No_Conditionals;
+
+	/**
+	 * The additional contactmethods repository.
+	 *
+	 * @var Additional_Contactmethods_Repository $additional_contactmethods_repository The additional contactmethods repository.
+	 */
+	private $additional_contactmethods_repository;
+
+	/**
+	 * The constructor.
+	 *
+	 * @param Additional_Contactmethods_Repository $additional_contactmethods_repository The additional contactmethods repository.
+	 */
+	public function __construct( Additional_Contactmethods_Repository $additional_contactmethods_repository ) {
+		$this->additional_contactmethods_repository = $additional_contactmethods_repository;
+	}
 
 	/**
 	 * Registers action hook.
@@ -31,17 +48,8 @@ class Additional_Contactmethods_Integration implements Integration_Interface {
 	 * @return array<string, string> Contactmethods with added contactmethods.
 	 */
 	public function update_contactmethods( $contactmethods ) {
-		$contactmethods['facebook']   = \__( 'Facebook profile URL', 'wordpress-seo' );
-		$contactmethods['instagram']  = \__( 'Instagram profile URL', 'wordpress-seo' );
-		$contactmethods['linkedin']   = \__( 'LinkedIn profile URL', 'wordpress-seo' );
-		$contactmethods['myspace']    = \__( 'MySpace profile URL', 'wordpress-seo' );
-		$contactmethods['pinterest']  = \__( 'Pinterest profile URL', 'wordpress-seo' );
-		$contactmethods['soundcloud'] = \__( 'SoundCloud profile URL', 'wordpress-seo' );
-		$contactmethods['tumblr']     = \__( 'Tumblr profile URL', 'wordpress-seo' );
-		$contactmethods['twitter']    = \__( 'X username (without @)', 'wordpress-seo' );
-		$contactmethods['youtube']    = \__( 'YouTube profile URL', 'wordpress-seo' );
-		$contactmethods['wikipedia']  = \__( 'Wikipedia page about you', 'wordpress-seo' ) . '<br/><small>' . \__( '(if one exists)', 'wordpress-seo' ) . '</small>';
+		$additional_contactmethods = $this->additional_contactmethods_repository->get_additional_contactmethods();
 
-		return $contactmethods;
+		return \array_merge( $contactmethods, $additional_contactmethods );
 	}
 }
