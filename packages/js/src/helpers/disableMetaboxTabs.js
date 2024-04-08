@@ -6,7 +6,7 @@
  * @returns {void}
  */
 function disable( tabId ) {
-	const tab = document.querySelector( `#${tabId}` );
+	const tab = document.querySelector( `#${ tabId }` );
 	if ( tab === null ) {
 		return;
 	}
