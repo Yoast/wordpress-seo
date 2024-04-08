@@ -52,7 +52,7 @@ class Empty_Metadata_Filtering_Integration implements Integration_Interface {
 		$additional_contactmethods = $this->additional_contactmethods_repository->get_additional_contactmethods_keys();
 
 		if ( \in_array( $meta_key, $additional_contactmethods, true ) && $meta_value === '' ) {
-			\delete_user_meta( $object_id, $meta_key);
+			\delete_user_meta( $object_id, $meta_key );
 			return false;
 		}
 
