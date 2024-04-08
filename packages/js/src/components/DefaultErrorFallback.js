@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { get } from "lodash";
-import { useCallback } from "@wordpress/element";
+import { useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { disableMetaboxTabs } from "../helpers/disableMetaboxTabs";
@@ -24,7 +24,11 @@ export const DefaultErrorFallback = ( { error } ) => {
 	const isRtl = get( window, "wpseoAdminGlobalL10n.isRtl", "" );
 	const { locationContext } = useRootContext();
 
-	disableMetaboxTabs();
+	useEffect( () => {
+		if ( locationContext.includes( "metabox" ) ) {
+			disableMetaboxTabs();
+		}
+	}, [ locationContext, disableMetaboxTabs ] );
 
 	return (
 		<Root context={ { isRtl } }>
@@ -52,14 +56,16 @@ export const DefaultErrorFallback = ( { error } ) => {
 					</Button>
 				</div>
 			</div>
-			<ScoreIconPortal
-				target="wpseo-readability-score-icon"
-				scoreIndicator={ "not-set" }
-			/>
-			<ScoreIconPortal
-				target="wpseo-seo-score-icon"
-				scoreIndicator={ "not-set" }
-			/>
+			{ locationContext.includes( "metabox" ) && <>
+				<ScoreIconPortal
+					target="wpseo-readability-score-icon"
+					scoreIndicator={ "not-set" }
+				/>
+				<ScoreIconPortal
+					target="wpseo-seo-score-icon"
+					scoreIndicator={ "not-set" }
+				/>
+			</> }
 		</Root>
 	);
 };
