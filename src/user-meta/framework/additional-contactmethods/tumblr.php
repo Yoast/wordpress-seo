@@ -25,6 +25,6 @@ class Tumblr implements Additional_Contactmethod_Interface {
 	 * @return string The label of the Tumblr field.
 	 */
 	public function get_label(): string {
-		return \__( 'Facebook profile URL', 'wordpress-seo' );
+		return \__( 'Tumblr profile URL', 'wordpress-seo' );
 	}
 }
