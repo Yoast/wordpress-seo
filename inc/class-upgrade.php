@@ -315,7 +315,7 @@ class WPSEO_Upgrade {
 		$wpdb->query(
 			$wpdb->prepare(
 				'DELETE FROM %i WHERE %i LIKE %s AND autoload IN ("on", "yes")',
-				[ $wpdb->options,'option_name', 'wpseo_sitemap_%' ]
+				[ $wpdb->options, 'option_name', 'wpseo_sitemap_%' ]
 			)
 		);
 	}
