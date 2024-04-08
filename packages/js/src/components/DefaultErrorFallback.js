@@ -38,7 +38,7 @@ export const DefaultErrorFallback = ( { error } ) => {
 					className={ classNames(
 						locationContext.includes( "metabox" ) && "yst-flex yst-gap-2",
 						locationContext.includes( "sidebar" ) && "yst-grid yst-grid-cols-1 yst-gap-y-2"
-					 ) }
+					) }
 				>
 					<Button
 						className={ classNames(
