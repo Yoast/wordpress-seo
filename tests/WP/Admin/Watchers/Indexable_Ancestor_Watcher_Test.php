@@ -118,13 +118,13 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->assertSame( [ (string) $post1->ID, (string) $post2->ID ], $this->instance->get_object_ids_for_term( $term_id, $child_indexables ) );
 	}
 
-		/**
-		 * Gets all indexable records for a post.
-		 *
-		 * @param WP_Post $post The post to get indexables for.
-		 *
-		 * @return Indexable[] The indexbales for hte post.
-		 */
+	/**
+	 * Gets all indexable records for a post.
+	 *
+	 * @param WP_Post $post The post to get indexables for.
+	 *
+	 * @return Indexable[] The indexbales for hte post.
+	 */
 	protected function get_indexables_for( WP_Post $post ) {
 		$orm = Model::of_type( 'Indexable' );
 
