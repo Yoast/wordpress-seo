@@ -327,6 +327,9 @@ class WPSEO_Meta {
 					[
 						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
 						'show_in_rest'      => $field_def['type'] ? true : false,
+						'auth_callback'     => function() {
+							return current_user_can('edit_posts');
+						},
 						'type'              => 'string',
 						'single'            => true,
 						'default'           => ( $field_def['default_value'] ?? '' ),
