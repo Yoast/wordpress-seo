@@ -1,13 +1,13 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
 import { applyFilters, doAction } from "@wordpress/hooks";
-import { debounce, isEqual } from "lodash";
+import { debounce, isEqual, set } from "lodash";
 import { Paper } from "yoastseo";
 import { refreshDelay } from "../analysis/constants";
+import getApplyMarks from "../analysis/getApplyMarks";
 import handleWorkerError from "../analysis/handleWorkerError";
 import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
 import { applyModifications } from "./pluggable";
-import getApplyMarks from "../analysis/getApplyMarks";
 
 /**
  * Runs the analysis.
@@ -96,13 +96,18 @@ function applyAnalysisModifications( analysisData ) {
  */
 export function collectData() {
 	const { getAnalysisData, getEditorDataTitle } = select( "yoast-seo/editor" );
-	let data = getAnalysisData();
-	data = {
-		...data,
-		textTitle: getEditorDataTitle(),
-	};
 
-	const analysisData = applyAnalysisModifications( data );
+	/**
+	 * Workaround to preserve the `rawData` object.
+	 * Needed because it is used in the YoastReplaceVarPlugin when the source is set as `app`.
+	 * This needs to be there before using the `applyAnalysisModifications` function, as that triggers the YoastReplaceVarPlugin.
+	 */
+	set( window, "YoastSEO.app.rawData", {
+		...getAnalysisData(),
+		textTitle: getEditorDataTitle(),
+	} );
+
+	const analysisData = applyAnalysisModifications( window.YoastSEO.app.rawData );
 
 	return applyFilters( "yoast.analysis.data", analysisData );
 }
