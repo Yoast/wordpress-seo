@@ -48,7 +48,7 @@ class Meta_Fields_Presenter extends Abstract_Presenter {
 		$output = '';
 
 		foreach ( $this->meta_fields as $key => $meta_field ) {
-			$form_key   = \esc_attr( WPSEO_Meta::$form_prefix . $key );
+			$form_key = \esc_attr( WPSEO_Meta::$form_prefix . $key );
 
 			$output .= '<input type="hidden" id="' . $form_key . '" name="' . $form_key . '"/>' . "\n";
 		}
