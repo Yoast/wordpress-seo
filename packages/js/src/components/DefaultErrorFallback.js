@@ -1,9 +1,8 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { get } from "lodash";
+import { useSelect } from "@wordpress/data";
 import { useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { addQueryArgs } from "@wordpress/url";
 import { disableMetaboxTabs } from "../helpers/disableMetaboxTabs";
 import ScoreIconPortal from "./portals/ScoreIconPortal";
 import { Root, Title, Alert, Button } from "@yoast/ui-library";
@@ -18,10 +17,8 @@ import { useRootContext } from "@yoast/externals/contexts";
  */
 export const DefaultErrorFallback = ( { error } ) => {
 	const handleRefreshClick = useCallback( () => window?.location?.reload(), [] );
-	const linkParams = get( window, "wpseoScriptData.linkParams", [] );
-
-	const supportLink = addQueryArgs( "https://yoa.st/metabox-sidebar-error-support", linkParams );
-	const isRtl = get( window, "wpseoAdminGlobalL10n.isRtl", "" );
+	const supportLink = useSelect( select => select( "yoast-seo/editor" ).selectLink( "https://yoa.st/metabox-sidebar-error-support" ) );
+	const isRtl = useSelect( select => select( "yoast-seo/editor" ).getPreference( "isRtl", false ) );
 	const { locationContext } = useRootContext();
 
 	useEffect( () => {
