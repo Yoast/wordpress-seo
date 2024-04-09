@@ -156,7 +156,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 * Returns all the taxonomies for which the primary term selection is enabled.
 	 *
 	 * @param int|null $post_id Default current post ID.
-	 * @return array
+	 * @return array<WP_Taxonomy> The primary term taxonomies.
 	 */
 	protected function get_primary_term_taxonomies( $post_id = null ) {
 		if ( $post_id === null ) {
@@ -189,7 +189,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 *
 	 * @param int $post_id ID of the post.
 	 *
-	 * @return array
+	 * @return array<WP_Taxonomy> The primary term taxonomies.
 	 */
 	protected function generate_primary_term_taxonomies( $post_id ) {
 		$post_type      = get_post_type( $post_id );
@@ -212,9 +212,9 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	/**
 	 * Creates a map of taxonomies for localization.
 	 *
-	 * @param array $taxonomies The taxononmies that should be mapped.
+	 * @param array<WP_Taxonomy> $taxonomies The taxononmies that should be mapped.
 	 *
-	 * @return array The mapped taxonomies.
+	 * @return array<string> The mapped taxonomies.
 	 */
 	protected function get_mapped_taxonomies_for_js( $taxonomies ) {
 		return array_map( [ $this, 'map_taxonomies_for_js' ], $taxonomies );
@@ -225,7 +225,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 *
 	 * @param stdClass $taxonomy The taxonomy to map.
 	 *
-	 * @return array The mapped taxonomy.
+	 * @return array<string> The mapped taxonomy.
 	 */
 	private function map_taxonomies_for_js( $taxonomy ) {
 		$primary_term = $this->get_primary_term( $taxonomy->name );
