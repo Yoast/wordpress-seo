@@ -50,7 +50,7 @@ final class User_Can_Edit_Users_Conditional_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the conditional is  met when user can edit users.
+	 * Tests that the conditional is met when user can edit users.
 	 *
 	 * @covers ::is_met
 	 *
