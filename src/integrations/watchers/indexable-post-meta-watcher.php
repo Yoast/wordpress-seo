@@ -78,9 +78,9 @@ class Indexable_Post_Meta_Watcher implements Integration_Interface {
 	 */
 	public function add_post_id( $meta_id, $post_id, $meta_key ) {
 		// Only register changes to our own meta.
-		if ( \strpos( $meta_key, WPSEO_Meta::$meta_prefix ) !== 0 ) {
-			return;
-		}
+	    if ( is_string( $meta_key ) && strpos( $meta_key, WPSEO_Meta::$meta_prefix ) !== 0 ) {
+	        return;
+	    }
 
 		if ( ! \in_array( $post_id, $this->post_ids_to_update, true ) ) {
 			$this->post_ids_to_update[] = (int) $post_id;
