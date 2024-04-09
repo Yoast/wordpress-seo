@@ -1115,26 +1115,4 @@ class WPSEO_Meta {
 		/** This filter is documented in inc/options/class-wpseo-option-titles.php */
 		self::$meta_fields['schema']['schema_article_type']['options'] = apply_filters( 'wpseo_schema_article_types', self::$meta_fields['schema']['schema_article_type']['options'] );
 	}
-
-	/**
-	 * Hide data in rest API for users who can't edit posts.
-	 *
-	 * @param WP_REST_Response $response The response object.
-	 * @param WP_Post          $post     The post object.
-	 * @param WP_REST_Request  $request  The request object.
-	 *
-	 * @return WP_REST_Response
-	 */
-	public function view_metadata_permission_check( $response, $post, $request ) {
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			$data = $response->get_data();
-			foreach ( self::$meta_fields as $subset => $field_group ) {
-				foreach ( $field_group as $key => $field_def ) {
-					unset( $data['meta'][ self::$meta_prefix . $key ] );
-				}
-			}
-			$response->set_data( $data );
-		}
-		return $response;
-	}
 }
