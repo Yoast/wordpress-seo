@@ -75,7 +75,7 @@ class Unsupported_PHP_Version_Notice implements Integration_Interface, Message {
 			\sprintf(
 				/* translators: 1: Yoast SEO, 2: Yoast SEO Premium */
 				\__(
-					'By July 1st, 2024, we’ll update the minimum PHP requirement for %1$s, %2$s and all our add-ons to PHP 7.4. This, to ensure we can keep delivering state of the art features.',
+					'By November 1st, 2024, we’ll update the minimum PHP requirement for %1$s, %2$s and all our add-ons to PHP 7.4. This, to ensure we can keep delivering state of the art features.',
 					'wordpress-seo'
 				),
 				'Yoast SEO',
