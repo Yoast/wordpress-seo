@@ -24,7 +24,7 @@ import Results from "./containers/Results";
 import SEMrushRelatedKeyphrases from "./containers/SEMrushRelatedKeyphrases";
 import WincherSEOPerformance from "./containers/WincherSEOPerformance";
 import * as ajaxHelper from "./helpers/ajaxHelper";
-import createWatcher from "./helpers/create-watcher";
+import { createWatcher } from "./helpers/create-watcher";
 import createInterpolateElement from "./helpers/createInterpolateElement";
 import * as i18n from "./helpers/i18n";
 import isBlockEditor from "./helpers/isBlockEditor";

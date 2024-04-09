@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 import { select, subscribe } from "@wordpress/data";
 import { debounce, forEach, pickBy, get } from "lodash";
-import createWatcher, { createCollectorFromObject } from "../../helpers/create-watcher";
+import { createWatcher, createCollectorFromObject } from "../../helpers/create-watcher";
 import { EDITOR_STORE, SYNC_TIME } from "../../shared-admin/constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";

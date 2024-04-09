@@ -1,6 +1,6 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
 import { debounce, forEach, pickBy, map } from "lodash";
-import createWatcher, { createCollectorFromObject } from "../../helpers/create-watcher";
+import { createWatcher, createCollectorFromObject } from "../../helpers/create-watcher";
 import { EDITOR_STORE, CORE_EDITOR_STORE, SYNC_TIME, POST_METADATA_KEYS } from "../../shared-admin/constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";

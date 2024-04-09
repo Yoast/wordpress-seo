@@ -20,7 +20,7 @@ export const createCollector = ( ...getters ) => () => getters.map( getData => g
  *
  * @returns {function} The watcher.
  */
-const createWatcher = ( getData, onChange ) => {
+export const createWatcher = ( getData, onChange ) => {
 	// Save the current data for comparison.
 	let previous = getData();
 
@@ -57,4 +57,4 @@ export const createCollectorFromObject = ( getters ) => () => reduce(
 	{}
 );
 
-export default createWatcher;
+
