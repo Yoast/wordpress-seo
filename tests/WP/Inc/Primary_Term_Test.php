@@ -30,7 +30,7 @@ final class Primary_Term_Test extends TestCase {
 	 *
 	 * @var int
 	 */
-	private $primary_term_id = 54;
+	private $primary_term_id = '54';
 
 	/**
 	 * Return the correct primary term when primary term already exists.
