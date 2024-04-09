@@ -171,7 +171,7 @@ const Content = ( props ) => {
 	const woocommerceUpsellText = __( "Want your products stand out in search results with rich results like price, reviews and more?", "wordpress-seo" );
 	const isProduct = useSelect( ( select ) => select( EDITOR_STORE ).getIsProduct(), [] );
 	const isWooSeoActive = useSelect( select => select( EDITOR_STORE ).getIsWooSeoActive(), [] );
-
+	const showArticleTypeInput = useSelect( select => select( EDITOR_STORE ).getShowArticleTypeInput(), [] );
 	const disablePageTypeSelect = isProduct && isWooSeoActive;
 
 	const handleOptionChange = useCallback(
@@ -204,7 +204,7 @@ const Content = ( props ) => {
 				selected={ disablePageTypeSelect ? "ItemPage" : props.schemaPageTypeSelected }
 				disabled={ disablePageTypeSelect }
 			/>
-			{ props.postTypeName !== "Pages" && <Select
+			{ showArticleTypeInput && <Select
 				id={ join( [ "yoast-schema-article-type", props.location ] ) }
 				options={ schemaArticleTypeOptions }
 				label={ __( "Article type", "wordpress-seo" ) }
@@ -227,7 +227,7 @@ const Content = ( props ) => {
 		</Fragment>
 	);
 };
-/* eslint-enable complexity */
+
 
 const schemaTypeOptionsPropType = PropTypes.arrayOf( PropTypes.shape( {
 	name: PropTypes.string,

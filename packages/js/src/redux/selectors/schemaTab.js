@@ -35,3 +35,12 @@ export const getDefaultArticleType = state => get( state, "schemaTab.defaultArti
  * @returns {String} Article type.
  */
 export const getArticleType = state => get( state, "schemaTab.articleType", "" );
+
+/**
+ * Check if we should hide the Article Type input.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether the Article Type input should be hidden.
+ */
+export const getShowArticleTypeInput = state => get( state, "schemaTab.showArticleTypeInput", false );

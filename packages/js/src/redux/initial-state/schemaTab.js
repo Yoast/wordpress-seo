@@ -5,6 +5,7 @@ const schemaTab = {
 	defaultPageType: get( window, "wpseoScriptData.metabox.metadata.schema_page_type_default", "" ),
 	articleType: get( window, "wpseoScriptData.metabox.metadata.schema_article_type", "" ),
 	defaultArticleType: get( window, "wpseoScriptData.metabox.metadata.schema_article_type_default", "" ),
+	showArticleTypeInput: get( window, "wpseoScriptData.metabox.metadata.schema_article_type", false ) !== false,
 };
 
 export default schemaTab;
