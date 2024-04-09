@@ -1,5 +1,4 @@
 /* External dependencies */
-
 import { SearchIcon } from "@heroicons/react/solid";
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
@@ -16,7 +15,6 @@ const StyledHeroIcon = styled( SearchIcon )`
 	height: 18px;
 	margin: 3px;
 `;
-
 
 /**
  * The Search Appearance Modal.
@@ -36,7 +34,6 @@ const SearchAppearanceModal = () => {
 		>
 			{ isElementorEditor === true && <ElementorSnippetEditor showCloseButton={ false } hasPaperStyle={ false } /> }
 			{ isElementorEditor === false && <BlockEditorSnippetEditor showCloseButton={ false } hasPaperStyle={ false } /> }
-
 		</EditorModal>
 	);
 };
