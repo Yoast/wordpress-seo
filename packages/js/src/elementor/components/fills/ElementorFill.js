@@ -24,7 +24,7 @@ import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanc
 import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import KeywordUpsell from "../../../components/modals/KeywordUpsell";
-import ErrorBoundaryWithDefaultFallback from "../../../components/ErrorBoundaryWithDefaultFallback";
+import { ErrorBoundaryWithDefaultFallback } from "../../../components/ErrorBoundaryWithDefaultFallback";
 
 /* eslint-disable complexity */
 /**

@@ -10,7 +10,7 @@ import { ErrorBoundary } from "@yoast/ui-library";
  *
  * @returns {JSX.Element} The rendered component
  */
-const ErrorBoundaryWithDefaultFallback = ( { fallback = DefaultErrorFallback, children } ) => {
+export const ErrorBoundaryWithDefaultFallback = ( { fallback, children } ) => {
 	return (
 		<ErrorBoundary FallbackComponent={ fallback }>
 			{ children }
@@ -26,5 +26,3 @@ ErrorBoundaryWithDefaultFallback.propTypes = {
 ErrorBoundaryWithDefaultFallback.defaultProps = {
 	fallback: DefaultErrorFallback,
 };
-
-export default ErrorBoundaryWithDefaultFallback;
