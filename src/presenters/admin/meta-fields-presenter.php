@@ -56,7 +56,7 @@ class Meta_Fields_Presenter extends Abstract_Presenter {
 				$default = \sprintf( ' data-default="%s"', \esc_attr( $meta_field['default'] ) );
 			}
 
-			$output .= '<input type="hidden" id="' . $form_key . '" name="' . $form_key . '" value="' . \esc_attr( $meta_value ) . '"' . $default . '/>' . "\n";
+			$output .= '<input type="hidden" id="' . $form_key . '" name="' . $form_key . '"/>' . "\n";
 		}
 
 		return $output;
