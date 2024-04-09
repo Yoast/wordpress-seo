@@ -1,4 +1,4 @@
-import { clone, isEqual } from "lodash";
+import { clone, isEqual, reduce } from "lodash";
 
 /**
  * Creates a getter for an array of getters.
@@ -39,5 +39,22 @@ const createWatcher = ( getData, onChange ) => {
 		onChange( clone( data ) );
 	};
 };
+
+/**
+ * Creates a getter for an object of getters.
+ *
+ * Use this if you want to combine getData functions.
+ *
+ * @param {Object<string, function>} getters The getters.
+ * @returns {function} The combined getter.
+ */
+export const createCollectorFromObject = ( getters ) => () => reduce(
+	getters,
+	( result, getData, key ) => {
+		result[ key ] = getData();
+		return result;
+	},
+	{}
+);
 
 export default createWatcher;
