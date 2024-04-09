@@ -149,7 +149,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 				}
 				break;
 			case 'hidden':
-				$field .= '<input name="' . $field_name . '" id="hidden_' . $field_name . '" type="hidden" value="' . esc_attr( $field_value ) . '" />';
+				$field .= '<input name="' . $field_name . '" id="hidden_' . $field_name . '" type="hidden" />';
 				break;
 		}
 
