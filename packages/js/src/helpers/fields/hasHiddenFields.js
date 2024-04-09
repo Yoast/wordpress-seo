@@ -4,7 +4,7 @@
  * @returns {boolean} True if the element has hidden fields.
  */
 export const hasHiddenFields = () => {
-	const element = document.getElementById( "wpseo_meta" );
+	const element = document.getElementById( "wpseo_meta" ) || document.getElementById( "yoast-form" );
 	const inside = element?.querySelector( ".inside" );
 	const hiddenFields = inside?.querySelectorAll( "input[type=hidden]" );
 	if ( hiddenFields && hiddenFields.length ) {
