@@ -35,4 +35,20 @@ class Custom_Meta_Repository {
 	public function get_custom_meta(): array {
 		return $this->custom_meta;
 	}
+
+	/**
+	 * Returns the custom meta that can't be empty.
+	 *
+	 * @return array<string> The custom meta that can't be empty.
+	 */
+	public function get_non_empty_custom_meta(): array {
+		$non_empty_custom_meta = [];
+		foreach ( $this->custom_meta as $custom_meta ) {
+			if ( ! $custom_meta->is_empty_allowed() ) {
+				$non_empty_custom_meta[] = $custom_meta->get_key();
+			}
+		}
+
+		return $non_empty_custom_meta;
+	}
 }
