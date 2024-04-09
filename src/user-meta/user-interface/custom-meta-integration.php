@@ -2,7 +2,9 @@
 
 namespace Yoast\WP\SEO\User_Meta\User_Interface;
 
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\User_Can_Edit_Users_Conditional;
+use Yoast\WP\SEO\Conditionals\User_Edit_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\User_Meta\Application\Custom_Meta_Repository;
 
@@ -10,8 +12,6 @@ use Yoast\WP\SEO\User_Meta\Application\Custom_Meta_Repository;
  * Handles custom meta for users.
  */
 class Custom_Meta_Integration implements Integration_Interface {
-
-	use No_Conditionals;
 
 	/**
 	 * The custom meta repository.
@@ -27,6 +27,19 @@ class Custom_Meta_Integration implements Integration_Interface {
 	 */
 	public function __construct( Custom_Meta_Repository $custom_meta_repository ) {
 		$this->custom_meta_repository = $custom_meta_repository;
+	}
+
+	/**
+	 * Retrieves the conditionals for the integration.
+	 *
+	 * @return array<Yoast\WP\SEO\Conditionals> The conditionals.
+	 */
+	public static function get_conditionals() {
+		return [
+			Admin_Conditional::class,
+			User_Can_Edit_Users_Conditional::class,
+			User_Edit_Conditional::class,
+		];
 	}
 
 	/**
