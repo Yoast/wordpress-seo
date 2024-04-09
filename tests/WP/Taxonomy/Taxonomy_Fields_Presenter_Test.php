@@ -186,7 +186,7 @@ final class Taxonomy_Fields_Presenter_Test extends TestCase {
 		);
 
 		$this->assertStringContainsString(
-			'<input name="wpseo_fieldname" id="hidden_wpseo_fieldname" type="hidden" value="" />',
+			'<input name="wpseo_fieldname" id="hidden_wpseo_fieldname" type="hidden" />',
 			$output
 		);
 	}
