@@ -72,7 +72,7 @@ export const createUpdater = () => {
 	return ( data ) => {
 		// Get the values from hidden fields.
 		const hiddenFieldsData = {};
-		const yoastFormElement = document.getElementById( "yoast-form" ) || document.getElementById( "wpseo_meta" );
+		const yoastFormElement = document.getElementById( "wpseo_meta" ) || document.getElementById( "yoast-form" );
 
 		if ( yoastFormElement ) {
 			const hiddenFields = yoastFormElement?.querySelectorAll( "input[type=hidden]" );
