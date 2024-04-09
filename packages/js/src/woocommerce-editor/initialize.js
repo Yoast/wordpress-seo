@@ -17,9 +17,9 @@ import { collectData } from "../initializers/analysis";
 import initEditorStore from "../initializers/editor-store";
 import { pluginReady, pluginReloaded, registerModification, registerPlugin as registerPluggablePlugin } from "../initializers/pluggable";
 import initializeUsedKeywords from "../initializers/used-keywords-assessment";
+import { STORES } from "../shared-admin/constants";
 
 const PLUGIN_NAME = "yoast-seo-for-woocommerce-products";
-const STORE_NAME = "yoast-seo/editor";
 
 const customAnalysisData = new CustomAnalysisData();
 
@@ -77,7 +77,7 @@ domReady( () => {
 
 	// Start the analysis worker.
 	window.YoastSEO.analysis.worker.initialize( getAnalysisConfiguration( {
-		useCornerstone: select( STORE_NAME ).isCornerstoneContent(),
+		useCornerstone: select( STORES.editor ).isCornerstoneContent(),
 	} ) )
 		.then( () => {
 			jQuery( window ).trigger( "YoastSEO:ready" );
