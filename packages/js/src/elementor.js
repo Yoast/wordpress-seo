@@ -26,7 +26,7 @@ function initialize() {
 	window.YoastSEO = window.YoastSEO || {};
 	window.YoastSEO.store = initEditorStore();
 
-	// Initialize the hidden fields sync if there are hidden fiels.
+	// Initialize the hidden fields sync if there are hidden fields.
 	hiddenFieldsSync();
 
 	// Initialize the editor data watcher.
