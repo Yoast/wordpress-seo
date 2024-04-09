@@ -28,7 +28,9 @@ import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
 
-import { ErrorBoundaryWithDefaultFallback } from "../ErrorBoundaryWithDefaultFallback";
+import { MetaboxErrorFallback } from "../../shared-admin/components/ErrorFallbacks";
+
+import { ErrorBoundary } from "@yoast/ui-library";
 const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 
@@ -50,7 +52,7 @@ export default function MetaboxFill( { settings } ) {
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
 			<Fill name="YoastMetabox">
-				<ErrorBoundaryWithDefaultFallback key="metabox">
+				<ErrorBoundary FallbackComponent={ MetaboxErrorFallback }>
 					<SidebarItem
 						key="warning"
 						renderPriority={ 1 }
@@ -128,7 +130,7 @@ export default function MetaboxFill( { settings } ) {
 					{ settings.isInsightsEnabled && <SidebarItem key="insights" renderPriority={ 52 }>
 						<InsightsCollapsible location="metabox" />
 					</SidebarItem> }
-				</ErrorBoundaryWithDefaultFallback>
+				</ErrorBoundary>
 			</Fill>
 		</>
 	);

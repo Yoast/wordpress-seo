@@ -21,7 +21,8 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import KeywordUpsell from "../modals/KeywordUpsell";
-import { ErrorBoundaryWithDefaultFallback } from "../ErrorBoundaryWithDefaultFallback";
+import { ErrorBoundary } from "@yoast/ui-library";
+import { SidebarErrorFallback } from "../../shared-admin/components/ErrorFallbacks";
 
 /* eslint-disable complexity */
 /**
@@ -42,7 +43,7 @@ export default function SidebarFill( { settings } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
-				<ErrorBoundaryWithDefaultFallback key="sidebar">
+				<ErrorBoundary FallbackComponent={ SidebarErrorFallback }>
 					<SidebarItem key="warning" renderPriority={ 1 }>
 						<Warning />
 						<div style={ { margin: "0 16px" } }>
@@ -111,7 +112,7 @@ export default function SidebarFill( { settings } ) {
 					{ settings.isInsightsEnabled && <SidebarItem renderPriority={ 32 }>
 						<InsightsModal location="sidebar" />
 					</SidebarItem> }
-				</ErrorBoundaryWithDefaultFallback>
+				</ErrorBoundary>
 			</Fill>
 		</Fragment>
 	);

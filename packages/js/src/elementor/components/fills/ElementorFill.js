@@ -24,7 +24,8 @@ import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanc
 import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import KeywordUpsell from "../../../components/modals/KeywordUpsell";
-import { ErrorBoundaryWithDefaultFallback } from "../../../components/ErrorBoundaryWithDefaultFallback";
+import { ErrorBoundary } from "@yoast/ui-library";
+import { ElementorErrorFallback } from "../../../shared-admin/components/ErrorFallbacks";
 
 /* eslint-disable complexity */
 /**
@@ -56,7 +57,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
 			<Fill name="YoastElementor">
-				<ErrorBoundaryWithDefaultFallback key="elementor">
+				<ErrorBoundary FallbackComponent={ ElementorErrorFallback }>
 					<SidebarItem renderPriority={ 1 }>
 						<Alert />
 						{ FirstEligibleNotification && <FirstEligibleNotification /> }
@@ -130,7 +131,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					{ settings.isInsightsEnabled && <SidebarItem renderPriority={ 32 }>
 						<InsightsModal location="elementor" />
 					</SidebarItem> }
-				</ErrorBoundaryWithDefaultFallback>
+				</ErrorBoundary>
 			</Fill>
 		</>
 	);
