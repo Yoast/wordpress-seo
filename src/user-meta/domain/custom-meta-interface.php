@@ -27,11 +27,4 @@ interface Custom_Meta_Interface {
 	 * @return bool
 	 */
 	public function is_empty_allowed(): bool;
-
-	/**
-	 * Returns whether the custom meta is based on user input.
-	 *
-	 * @return bool
-	 */
-	public function is_user_input(): bool;
 }

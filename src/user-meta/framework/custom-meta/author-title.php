@@ -36,13 +36,4 @@ class Author_Title implements Custom_Meta_Interface {
 	public function is_empty_allowed(): bool {
 		return true;
 	}
-
-	/**
-	 * Returns whether the custom meta is based on user input.
-	 *
-	 * @return bool Whether the custom meta is based on user input.
-	 */
-	public function is_user_input(): bool {
-		return true;
-	}
 }
