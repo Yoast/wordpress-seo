@@ -1,7 +1,7 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
 import { debounce, get, noop } from "lodash";
 import { Paper } from "yoastseo";
-import createWatcher, { createCollector } from "../helpers/create-watcher";
+import { createWatcher, createCollector } from "../helpers/create-watcher";
 import { collectData } from "../initializers/analysis";
 
 /**
