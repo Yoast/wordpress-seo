@@ -5,10 +5,16 @@
  */
 export const hasHiddenFields = () => {
 	const element = document.getElementById( "wpseo_meta" ) || document.getElementById( "yoast-form" );
-	const inside = element?.querySelector( ".inside" );
-	const hiddenFields = inside?.querySelectorAll( "input[type=hidden]" );
+
+	if ( ! element ) {
+		return false;
+	}
+
+	const hiddenFields = element.querySelectorAll( "input[type=hidden]" );
+
 	if ( hiddenFields && hiddenFields.length ) {
 		return true;
 	}
+
 	return false;
 };
