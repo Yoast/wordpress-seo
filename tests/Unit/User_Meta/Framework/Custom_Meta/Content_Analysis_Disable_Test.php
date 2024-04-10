@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Content_Analysis_Disable;
 final class Content_Analysis_Disable_Test extends TestCase {
 
 	/**
+	 * The Content_Analysis_Disable instance.
+	 *
+	 * @var Content_Analysis_Disable
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void

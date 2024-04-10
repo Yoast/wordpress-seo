@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Author_Title;
 final class Author_Title_Test extends TestCase {
 
 	/**
+	 * The Author_Title instance.
+	 *
+	 * @var Author_Title
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void

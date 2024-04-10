@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Inclusive_Language_Analysis_Dis
 final class Inclusive_Language_Analysis_Disable_Test extends TestCase {
 
 	/**
+	 * The Inclusive_Language_Analysis_Disable instance.
+	 *
+	 * @var Inclusive_Language_Analysis_Disable
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void

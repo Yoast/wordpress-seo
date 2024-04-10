@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\Wikipedia;
 final class Wikipedia_Test extends TestCase {
 
 	/**
+	 * The Wikipedia instance.
+	 *
+	 * @var Wikipedia
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void

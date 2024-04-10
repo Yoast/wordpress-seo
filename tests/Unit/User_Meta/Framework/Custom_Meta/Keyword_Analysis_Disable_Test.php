@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Keyword_Analysis_Disable;
 final class Keyword_Analysis_Disable_Test extends TestCase {
 
 	/**
+	 * The Keyword_Analysis_Disable instance.
+	 *
+	 * @var Keyword_Analysis_Disable
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void

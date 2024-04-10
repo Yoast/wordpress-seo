@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Author_Metadesc;
 final class Author_Metadesc_Test extends TestCase {
 
 	/**
+	 * The Author_Metadesc instance.
+	 *
+	 * @var Author_Metadesc
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void

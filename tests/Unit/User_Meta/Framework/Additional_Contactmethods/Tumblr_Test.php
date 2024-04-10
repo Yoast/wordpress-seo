@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\Tumblr;
 final class Tumblr_Test extends TestCase {
 
 	/**
+	 * The Tumblr instance.
+	 *
+	 * @var Tumblr
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void

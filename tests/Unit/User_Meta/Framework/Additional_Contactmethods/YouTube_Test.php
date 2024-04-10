@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\YouTube;
 final class YouTube_Test extends TestCase {
 
 	/**
+	 * The YouTube instance.
+	 *
+	 * @var YouTube
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void

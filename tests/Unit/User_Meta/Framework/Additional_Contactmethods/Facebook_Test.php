@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\Facebook;
 final class Facebook_Test extends TestCase {
 
 	/**
+	 * The Facebook instance.
+	 *
+	 * @var Facebook
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void

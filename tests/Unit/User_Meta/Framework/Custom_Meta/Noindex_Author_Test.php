@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Noindex_Author;
 final class Noindex_Author_Test extends TestCase {
 
 	/**
+	 * The Noindex_Author instance.
+	 *
+	 * @var Noindex_Author
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void

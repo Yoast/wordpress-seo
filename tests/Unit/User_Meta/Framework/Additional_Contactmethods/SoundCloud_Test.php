@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\SoundCloud;
 final class SoundCloud_Test extends TestCase {
 
 	/**
+	 * The SoundCloud instance.
+	 *
+	 * @var SoundCloud
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void

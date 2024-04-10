@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\X;
 final class X_Test extends TestCase {
 
 	/**
+	 * The X instance.
+	 *
+	 * @var X
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void

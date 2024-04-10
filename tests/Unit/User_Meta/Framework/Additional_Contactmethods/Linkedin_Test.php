@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\Linkedin;
 final class Linkedin_Test extends TestCase {
 
 	/**
+	 * The Linkedin instance.
+	 *
+	 * @var Linkedin
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void

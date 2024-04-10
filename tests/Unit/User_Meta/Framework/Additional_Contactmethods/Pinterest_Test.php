@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\Pinterest;
 final class Pinterest_Test extends TestCase {
 
 	/**
+	 * The Pinterest instance.
+	 *
+	 * @var Pinterest
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void

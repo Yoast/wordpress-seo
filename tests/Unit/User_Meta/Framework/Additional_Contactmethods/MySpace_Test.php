@@ -15,6 +15,13 @@ use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\MySpace;
 final class MySpace_Test extends TestCase {
 
 	/**
+	 * The MySpace instance.
+	 *
+	 * @var MySpace
+	 */
+	private $instance;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void
