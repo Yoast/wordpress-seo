@@ -49,7 +49,7 @@ class Additional_Contactmethods_Integration implements Integration_Interface {
 	 * @return array<string, string> Contactmethods with added contactmethods.
 	 */
 	public function update_contactmethods( $contactmethods ) {
-		$additional_contactmethods = $this->additional_contactmethods_repository->get_additional_contactmethods();
+		$additional_contactmethods = $this->additional_contactmethods_repository->get_additional_contactmethods_objects();
 
 		return \array_merge( $contactmethods, $additional_contactmethods );
 	}

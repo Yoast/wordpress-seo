@@ -104,7 +104,7 @@ final class Additional_Contactmethods_Integration_Test extends TestCase {
 	 */
 	public function test_update_contactmethods( $additional_contactmethods, $existing_contactmethods, $expected_contactmethods ) {
 		$this->additional_contactmethods_repository
-			->expects( 'get_additional_contactmethods' )
+			->expects( 'get_additional_contactmethods_objects' )
 			->once()
 			->andReturn( $additional_contactmethods );
 
