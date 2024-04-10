@@ -103,7 +103,7 @@ export const createUpdater = () => {
 };
 
 /**
- * Initializes the sync: from Yoast editor store to product metadata.
+ * Initializes the sync: from Yoast editor store to the hidden fields.
  * @returns {function} The un-subscriber.
  */
 export const hiddenFieldsSync = () => {

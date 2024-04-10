@@ -51,7 +51,7 @@ const createUpdater = () => {
 };
 
 /**
- * Initializes the sync: from Yoast editor store to product metadata.
+ * Initializes the sync: from Yoast editor store to core editor store.
  * @returns {function} The un-subscriber.
  */
 export const blockEditorSync = () => {
