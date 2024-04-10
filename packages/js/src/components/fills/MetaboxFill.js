@@ -28,7 +28,7 @@ import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
 
-import { MetaboxErrorFallback } from "../../shared-admin/components/ErrorFallbacks";
+import { MetaboxErrorFallback } from "../metabox-error-fallback";
 
 import { ErrorBoundary } from "@yoast/ui-library";
 const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );

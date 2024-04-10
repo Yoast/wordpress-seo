@@ -22,7 +22,7 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import KeywordUpsell from "../modals/KeywordUpsell";
 import { ErrorBoundary } from "@yoast/ui-library";
-import { SidebarErrorFallback } from "../../shared-admin/components/ErrorFallbacks";
+import { SidebarErrorFallback } from "../sidebar-error-fallback";
 
 /* eslint-disable complexity */
 /**
