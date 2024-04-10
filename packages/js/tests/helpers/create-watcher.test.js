@@ -1,4 +1,4 @@
-import createWatcher, { createCollectorFromObject, createCollector } from "../../src/helpers/create-watcher";
+import { createWatcher, createCollectorFromObject, createCollector } from "../../src/helpers/create-watcher";
 
 
 describe( "createCollectorFromObject", () => {
