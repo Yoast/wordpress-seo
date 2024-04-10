@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use WPSEO_Meta;
-use Yoast\WP\SEO\Conditionals\Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
