@@ -4,7 +4,8 @@ import { Fill } from "@wordpress/components";
 import { get } from "lodash";
 import { addFilter } from "@wordpress/hooks";
 import { __, sprintf, _n } from "@wordpress/i18n";
-import { getDateFromSettings } from "../../redux/selectors/settings";
+
+let date;
 
 /**
  * Renders a badge with tooltip for mentions.
@@ -53,8 +54,8 @@ const MentionsWithTooltip = ( { mentionsName, children } ) => {
  */
 const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 	const isRtl = get( window, "wpseoScriptData.metabox.isRtl", false );
-	const characters = getDateFromSettings.length;
-	const separatorCharacters = get( window, "wpseoScriptData.metabox.separatorCharacters", 0 );
+	const dateCharacters = date().length;
+	const separatorCharacters = 3;
 	if ( fieldId === "yoast-google-preview-description-metabox"  || fieldId === "yoast-google-preview-description-modal" ) {
 		mentions.push(
 			<Fill
@@ -65,7 +66,7 @@ const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 						{ sprintf(
 						/* translators:
 						%s expands to the amount of chararacters */
-							_n( "The 'Date' variable is fixed and adds %s character to the length of your meta description.", "The 'Date' variable is fixed and adds %s characters to the length of your meta description.", characters, "wordpress-seo" ), characters ) }
+							_n( "The 'Date' variable is fixed and adds %s character to the length of your meta description.", "The 'Date' variable is fixed and adds %s characters to the length of your meta description.", dateCharacters, "wordpress-seo" ), dateCharacters ) }
 					</MentionsWithTooltip>
 					<span className="yst-p-1" />
 					<MentionsWithTooltip mentionsName={ __( "Separator", "wordpress-seo" ) }>
@@ -84,9 +85,11 @@ const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 /**
  * /**
  * Registers the search appearance description mention.
+ * @param {Function} getDate The function to get the date.
  * @returns {void}
  */
-export const registerSearchAppearanceDescriptionMention = () => {
+export const registerSearchAppearanceDescriptionMention = ( getDate ) => {
+	date = getDate;
 	addFilter(
 		"yoast.replacementVariableEditor.additionalMentions",
 		"yoast/yoast-seo/Mentions",

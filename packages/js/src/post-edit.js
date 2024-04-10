@@ -12,6 +12,7 @@ import initPostScraper from "./initializers/post-scraper";
 import initPrimaryCategory from "./initializers/primary-category";
 import initializeInsights from "./insights/initializer";
 import { registerSearchAppearanceDescriptionMention } from "./shared-admin/helpers/search-appearance-description-mention";
+import { select } from "@wordpress/data";
 
 // Backwards compatibility globals.
 window.wpseoPostScraperL10n = window.wpseoScriptData.metabox;
@@ -65,5 +66,5 @@ domReady( () => {
 	}
 
 	// Initialize the mentions.
-	registerSearchAppearanceDescriptionMention();
+	registerSearchAppearanceDescriptionMention( select( "yoast-seo/editor" ).getDateFromSettings );
 } );
