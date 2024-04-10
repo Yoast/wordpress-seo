@@ -24,11 +24,11 @@ export const getNoFollow = () => String( defaultTo( select( EDITOR_STORE ).getNo
  * @returns {string} Twitter image URL.
  */
 export const getAdvanced = () => {
-	const advanced = select( EDITOR_STORE ).getAdvanced();
+	const advanced = defaultTo( select( EDITOR_STORE ).getAdvanced(), "" );
 	if ( Array.isArray( advanced ) ) {
 		return advanced.join( "," );
 	}
-	return defaultTo( advanced, "" );
+	return advanced;
 };
 
 /**
