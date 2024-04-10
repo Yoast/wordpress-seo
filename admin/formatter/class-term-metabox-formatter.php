@@ -86,7 +86,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'social_image_template'       => $this->get_social_image_template(),
 				'wincherIntegrationActive'    => 0,
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
-				'metadata'                    => $this->get_metadata(),
+				'metadata'                    => $this->get_term_metadata(),
 			];
 		}
 
@@ -98,7 +98,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 *
 	 * @return array<string>
 	 */
-	protected function get_metadata() {
+	protected function get_term_metadata() {
 		$metadata = [];
 
 		$fields_presenter  = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
