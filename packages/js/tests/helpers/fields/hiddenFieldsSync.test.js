@@ -1,9 +1,8 @@
 /* eslint-disable camelcase */
 import { hiddenFieldsSync } from "../../../src/helpers/fields/hiddenFieldsSync";
-import { createWatcher, createCollectorFromObject } from "../../../src/helpers/create-watcher";
-import { EDITOR_STORE, SYNC_TIME } from "../../../src/shared-admin/constants";
-import { select, subscribe } from "@wordpress/data";
-import { debounce } from "lodash";
+import { createCollectorFromObject } from "../../../src/helpers/create-watcher";
+import { EDITOR_STORE } from "../../../src/shared-admin/constants";
+import { select } from "@wordpress/data";
 import {
 	getFocusKeyphrase,
 	getNoIndex,
@@ -87,14 +86,9 @@ describe( "hiddenFieldsSync", () => {
 			}
 		} );
 
-		// Call the hiddenFieldsSync function
+		// Call the hiddenFieldsSync function.
 		hiddenFieldsSync();
 
-		// Assertions
-		// expect( subscribe ).toHaveBeenCalledWith( expect.any( Function ), EDITOR_STORE );
-		// expect( debounce ).toHaveBeenCalledWith( expect.any( Function ), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } );
-		// expect( select ).toHaveBeenCalledWith( EDITOR_STORE );
-		// expect( createWatcher ).toHaveBeenCalledWith( expect.any( Function ), expect.any( Function ) );
 		expect( createCollectorFromObject ).toHaveBeenCalledWith( {
 			focuskw: getFocusKeyphrase,
 			"meta-robots-noindex": getNoIndex,
