@@ -22,6 +22,7 @@ const METADATA_KEYS = { ...POST_METADATA_KEYS, ...taxonomiesKeys };
  */
 const createUpdater = () => {
 	const { editPost } = dispatch( CORE_EDITOR_STORE );
+	const { getCurrentPost } = select( CORE_EDITOR_STORE );
 
 	/**
 	 * Syncs the data to the WP entity record.
@@ -29,11 +30,13 @@ const createUpdater = () => {
 	 * @returns {void}
 	 */
 	return ( data ) => {
-		const metadata = select( CORE_EDITOR_STORE ).getCurrentPost().meta;
+		const currentPost = getCurrentPost();
 
-		if ( ! metadata || ! data ) {
+		if ( ! currentPost.hasOwnProperty( "meta" ) || ! data ) {
 			return;
 		}
+
+		const metadata = currentPost.meta;
 
 		const changedData = pickBy( data, ( value, key ) => value !== metadata[ METADATA_KEYS[ key ] ] );
 
