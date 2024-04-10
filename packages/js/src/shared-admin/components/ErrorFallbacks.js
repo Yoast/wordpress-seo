@@ -7,12 +7,9 @@ import ScoreIconPortal from "../../components/portals/ScoreIconPortal";
 import { Root, Title, Alert, Button } from "@yoast/ui-library";
 
 /**
- * asd
- *
- * @param {Function} handleRefreshClick f
- * @param {String} supportLink f
- * 
- * @returns {JSX.Element} asd
+ * @param {Function} handleRefreshClick The function to be called when the "Refresh this page" button is clicked.
+ * @param {String} supportLink The link to be used in the "Contact support" button.
+ * @returns {JSX.Element} The vertical buttons element.
  */
 const HorizontalButtons = ( { handleRefreshClick, supportLink } ) => {
 	return (
@@ -29,12 +26,15 @@ const HorizontalButtons = ( { handleRefreshClick, supportLink } ) => {
 	);
 };
 
+HorizontalButtons.propTypes = {
+	handleRefreshClick: PropTypes.func.isRequired,
+	supportLink: PropTypes.string.isRequired,
+};
+
 /**
- * 
- * @param {Function} handleRefreshClick f
- * @param {String} supportLink f
- * 
- * @returns {JSX.Element} asd
+ * @param {Function} handleRefreshClick The function to be called when the "Refresh this page" button is clicked.
+ * @param {String} supportLink The link to be used in the "Contact support" button.
+ * @returns {JSX.Element} The vertical buttons element.
  */
 const VerticalButtons = ( { handleRefreshClick, supportLink } ) => {
 	return (
@@ -52,12 +52,14 @@ const VerticalButtons = ( { handleRefreshClick, supportLink } ) => {
 	);
 };
 
+VerticalButtons.propTypes = {
+	handleRefreshClick: PropTypes.func.isRequired,
+	supportLink: PropTypes.string.isRequired,
+};
+
 /**
- * 
- * sdf
- * @param {String} error f
- * 
- * @returns {JSX.Element} asd
+ * @param {Object} error The error instance.
+ * @returns {JSX.Element} The error fallback element.
  */
 export const MetaboxErrorFallback = ( { error } ) => {
 	const handleRefreshClick = useCallback( () => window?.location?.reload(), [] );
@@ -88,10 +90,13 @@ export const MetaboxErrorFallback = ( { error } ) => {
 	);
 };
 
+MetaboxErrorFallback.propTypes = {
+	error: PropTypes.object.isRequired,
+};
+
 /**
- * 
- * @param {*} param0 
- * @returns 
+ * @param {Object} error The error instance.
+ * @returns {JSX.Element} The error fallback element.
  */
 export const SidebarErrorFallback = ( { error } ) => {
 	const handleRefreshClick = useCallback( () => window?.location?.reload(), [] );
@@ -110,10 +115,13 @@ export const SidebarErrorFallback = ( { error } ) => {
 	);
 };
 
+SidebarErrorFallback.propTypes = {
+	error: PropTypes.object.isRequired,
+};
+
 /**
- * 
- * @param {*} param0 
- * @returns 
+ * @param {Object} error The error instance.
+ * @returns {JSX.Element} The error fallback element.
  */
 export const ElementorErrorFallback = ( { error } ) => {
 	const handleRefreshClick = useCallback( () => window?.location?.reload(), [] );
@@ -132,11 +140,13 @@ export const ElementorErrorFallback = ( { error } ) => {
 	);
 };
 
-	/**
- * The default error fallback component.
- *
+ElementorErrorFallback.propTypes = {
+	error: PropTypes.object.isRequired,
+};
+
+/**
  * @param {Object} error The error instance.
- *
+ * @param {JSX.node} children The children to render.
  * @returns {JSX.Element} The error fallback element.
  */
 export const ErrorFallback = ( { error, children } ) => {
