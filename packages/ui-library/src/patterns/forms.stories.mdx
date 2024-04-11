@@ -1,0 +1,107 @@
+import { noop } from "lodash";
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
+import { AutocompleteField, Autocomplete, Button, Checkbox, Code, SelectField, TagField, TextField, Title } from "..";
+
+<Meta title="3) Patterns/Forms" />
+
+# Forms
+
+A form is a group of related input controls that enables users to input data. Forms are built from multiple elements
+and can be adapted for various purposes, appearing within a paper or a modal.
+
+<Canvas>
+	<Story name="Basic form">
+		<Title className="yst-mb-3">Basic form</Title>
+
+		<p>A form will usually start with a header + description first, between which we maintain a 12px vertical spacing (<Code>yst-mb-3</Code>).</p>
+
+		<div className="yst-space-y-8 yst-mt-4">
+			<TextField id="story1-1" label="Text field 1" onChange={ noop } />
+			<TextField id="story1-2" label="Text field 2" onChange={ noop } />
+			<Checkbox id="story1-3" label="I am a checkbox." name="name" value="value" />
+
+			<Button type="button">Submit</Button>
+		</div>
+	</Story>
+</Canvas>
+
+## Form layouts
+
+### Spacing
+
+To prevent confusion, it's important to maintain appropriate spacing between form elements. We typically
+maintain a vertical spacing of 32px (`yst-space-y-8`) and a horizontal spacing of
+24px (`yst-gap-x-6`) between different input elements in a form. When placing a button next to a text input
+or select field, and it's related to that field, we typically maintain a horizontal spacing of 8 pixels (`yst-gap-x-2`).
+When placing two (or more) buttons next to each other, we typically maintain a horizontal spacing of 12px
+(`yst-gap-x-3`) between the buttons.
+
+<Canvas>
+	<Story name="Aligning fields">
+		<Title size="2" className="yst-mb-3">Aligning text fields</Title>
+		<div className="yst-space-y-8 yst-mt-4">
+			<div className="yst-flex yst-gap-x-6">
+				<TextField className="yst-grow" id="story2-1" label="First name" onChange={ noop } />
+				<TextField className="yst-grow" id="story2-2" label="Last name" onChange={ noop } />
+			</div>
+			<div className="yst-flex yst-gap-x-6">
+				<TextField className="yst-grow" id="story2-3" label="Street" onChange={ noop } />
+				<TextField id="story2-4" label="Number" onChange={ noop } />
+			</div>
+			<div className="yst-flex yst-items-end yst-mt-2 yst-gap-x-2">
+				<TextField className="yst-grow" id="story3-1" label="Email address" onChange={ noop } />
+				<Button type="button" size="large">Sign up</Button>
+			</div>
+			<div className="yst-flex yst-mt-2 yst-gap-x-3">
+				<Button type="button">Save changes</Button>
+				<Button type="button" variant="secondary">Discard changes</Button>
+			</div>
+		</div>
+	</Story>
+</Canvas>
+
+### Buttons
+
+When placing a button next to a form element like a text input, we typically choose the ‘Large’ variant and maintain a spacing
+of 8 pixels (`yst-gap-x-2`). The ‘Large’ button shares the same height (40px) as other form elements. This ensures
+uniformity in height, aligning seamlessly next to each other.
+
+<Canvas>
+	<Story name="Aligning with buttons">
+		<Title size="2" className="yst-mb-3">Aligning fields with buttons</Title>
+
+		<div className="yst-space-y-8 yst-mt-4">
+			<div className="yst-flex yst-items-end yst-mt-2 yst-gap-2">
+				<TextField className="yst-grow" id="story3-1" label="A text input next to a button" onChange={ noop } />
+				<Button type="button" size="large">Submit text</Button>
+			</div>
+
+			<div>
+				<div className="yst-flex yst-items-end yst-gap-2 yst-mt-2">
+					<SelectField label="A select next to a button" id="story3-2" className="yst-grow" selectedLabel="Option 1" value="1" onChange={ noop }>
+						<SelectField.Option label="Option 1" value="1" />
+						<SelectField.Option label="Option 2" value="2" />
+					</SelectField>
+					<Button type="button" size="large">Submit selected</Button>
+				</div>
+			</div>
+
+			<div>
+				<div className="yst-flex yst-items-end yst-gap-2 yst-mt-2">
+					<AutocompleteField id="story3-3" className="yst-grow" label="An autocomplete next to a button" placeholder="Type to complete" value="1" onQueryChange={ noop } onChange={ noop }>
+						<Autocomplete.Option value="1">Option 1</Autocomplete.Option>
+						<Autocomplete.Option value="2">Option 2</Autocomplete.Option>
+					</AutocompleteField>
+					<Button type="button" size="large">Submit completed</Button>
+				</div>
+			</div>
+
+			<div>
+				<div className="yst-flex yst-items-end yst-gap-2 yst-mt-2">
+					<TagField id="story3-4" className="yst-grow" label="A tag input next to a button" onAddTag={ noop } onRemoveTag={ noop } onSetTags={ noop } tags={["Apple", "Banana", "Pineapple"]} />
+					<Button type="button" size="large">Submit tags</Button>
+				</div>
+			</div>
+		</div>
+	</Story>
+</Canvas>

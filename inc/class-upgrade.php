@@ -314,7 +314,7 @@ class WPSEO_Upgrade {
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		$wpdb->query(
 			$wpdb->prepare(
-				'DELETE FROM %i WHERE %i LIKE %s AND autoload = "yes"',
+				'DELETE FROM %i WHERE %i LIKE %s AND autoload IN ("on", "yes")',
 				[ $wpdb->options, 'option_name', 'wpseo_sitemap_%' ]
 			)
 		);

@@ -21,14 +21,14 @@ class Indexable_Post_Meta_Watcher implements Integration_Interface {
 	/**
 	 * An array of post IDs that need to be updated.
 	 *
-	 * @var array
+	 * @var array<int>
 	 */
 	protected $post_ids_to_update = [];
 
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -78,7 +78,7 @@ class Indexable_Post_Meta_Watcher implements Integration_Interface {
 	 */
 	public function add_post_id( $meta_id, $post_id, $meta_key ) {
 		// Only register changes to our own meta.
-		if ( \strpos( $meta_key, WPSEO_Meta::$meta_prefix ) !== 0 ) {
+		if ( \is_string( $meta_key ) && \strpos( $meta_key, WPSEO_Meta::$meta_prefix ) !== 0 ) {
 			return;
 		}
 
