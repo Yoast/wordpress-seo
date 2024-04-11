@@ -26,9 +26,7 @@ function disable( tabId ) {
  * @returns {void}
  */
 export function disableMetaboxTabs() {
-	const tabs = Array.from( document.querySelectorAll( '[id^="wpseo-meta-tab-"]' ) );
-
-	tabs.map( ( tab ) => {
+	document.querySelectorAll( '[id^="wpseo-meta-tab-"]' ).forEach( ( tab ) => {
 		disable( tab.id );
 	} );
 }
