@@ -25,7 +25,8 @@
 	"require": {
 		"php": "^7.2.5 || ^8.0",
 		"ext-filter": "*",
-		"composer/installers": "^1.12 || ^2.0"
+		"composer/installers": "^1.12 || ^2.0",
+		"yoast/whip": "^2.0"
 	},
 	"require-dev": {
 		"guzzlehttp/guzzle": "7.8.1",
@@ -91,7 +92,7 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=2561",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=2559",
 			"@putenv YOASTCS_THRESHOLD_WARNINGS=267",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
