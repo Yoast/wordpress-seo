@@ -3,21 +3,21 @@
 namespace Yoast\WP\SEO\Tests\Unit\User_Meta\Framework\Additional_Contactmethods;
 
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\SoundCloud;
+use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\Soundcloud;
 
 /**
- * Class SoundCloud_Test
+ * Class Soundcloud_Test
  *
  * @group user-meta
  *
- * @coversDefaultClass \Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\SoundCloud
+ * @coversDefaultClass \Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\Soundcloud
  */
-final class SoundCloud_Test extends TestCase {
+final class Soundcloud_Test extends TestCase {
 
 	/**
-	 * The SoundCloud instance.
+	 * The Soundcloud instance.
 	 *
-	 * @var SoundCloud
+	 * @var Soundcloud
 	 */
 	private $instance;
 
@@ -28,7 +28,7 @@ final class SoundCloud_Test extends TestCase {
 	 */
 	protected function set_up(): void {
 		parent::set_up();
-		$this->instance = new SoundCloud();
+		$this->instance = new Soundcloud();
 	}
 
 	/**

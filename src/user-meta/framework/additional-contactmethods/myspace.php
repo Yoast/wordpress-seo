@@ -6,9 +6,9 @@ namespace Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods;
 use Yoast\WP\SEO\User_Meta\Domain\Additional_Contactmethod_Interface;
 
 /**
- * The MySpace contactmethod.
+ * The Myspace contactmethod.
  */
-class MySpace implements Additional_Contactmethod_Interface {
+class Myspace implements Additional_Contactmethod_Interface {
 
 	/**
 	 * Returns the key of the MySpace contactmethod.

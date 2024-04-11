@@ -6,9 +6,9 @@ namespace Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods;
 use Yoast\WP\SEO\User_Meta\Domain\Additional_Contactmethod_Interface;
 
 /**
- * The SoundCloud contactmethod.
+ * The Soundcloud contactmethod.
  */
-class SoundCloud implements Additional_Contactmethod_Interface {
+class Soundcloud implements Additional_Contactmethod_Interface {
 
 	/**
 	 * Returns the key of the SoundCloud contactmethod.

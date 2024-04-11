@@ -62,7 +62,7 @@ class Additional_Contactmethods_Repository {
 	/**
 	 * Returns the additional contactmethods keys.
 	 *
-	 * @return array<string> The additional contactmethods.
+	 * @return array<string> The additional contactmethods keys.
 	 */
 	public function get_additional_contactmethods_keys(): array {
 		$additional_contactmethods_keys = [];

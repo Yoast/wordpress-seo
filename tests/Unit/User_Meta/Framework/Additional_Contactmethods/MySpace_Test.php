@@ -3,21 +3,21 @@
 namespace Yoast\WP\SEO\Tests\Unit\User_Meta\Framework\Additional_Contactmethods;
 
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\MySpace;
+use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\Myspace;
 
 /**
- * Class MySpace_Test
+ * Class Myspace_Test
  *
  * @group user-meta
  *
- * @coversDefaultClass \Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\MySpace
+ * @coversDefaultClass \Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\Myspace
  */
-final class MySpace_Test extends TestCase {
+final class Myspace_Test extends TestCase {
 
 	/**
-	 * The MySpace instance.
+	 * The Myspace instance.
 	 *
-	 * @var MySpace
+	 * @var Myspace
 	 */
 	private $instance;
 
@@ -28,7 +28,7 @@ final class MySpace_Test extends TestCase {
 	 */
 	protected function set_up(): void {
 		parent::set_up();
-		$this->instance = new MySpace();
+		$this->instance = new Myspace();
 	}
 
 	/**

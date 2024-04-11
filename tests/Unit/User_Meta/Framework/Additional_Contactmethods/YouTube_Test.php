@@ -3,21 +3,21 @@
 namespace Yoast\WP\SEO\Tests\Unit\User_Meta\Framework\Additional_Contactmethods;
 
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\YouTube;
+use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\Youtube;
 
 /**
- * Class YouTube_Test
+ * Class Youtube_Test
  *
  * @group user-meta
  *
- * @coversDefaultClass \Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\YouTube
+ * @coversDefaultClass \Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\Youtube
  */
-final class YouTube_Test extends TestCase {
+final class Youtube_Test extends TestCase {
 
 	/**
-	 * The YouTube instance.
+	 * The Youtube instance.
 	 *
-	 * @var YouTube
+	 * @var Youtube
 	 */
 	private $instance;
 
@@ -28,7 +28,7 @@ final class YouTube_Test extends TestCase {
 	 */
 	protected function set_up(): void {
 		parent::set_up();
-		$this->instance = new YouTube();
+		$this->instance = new Youtube();
 	}
 
 	/**

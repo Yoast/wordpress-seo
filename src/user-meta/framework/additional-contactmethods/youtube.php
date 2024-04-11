@@ -6,9 +6,9 @@ namespace Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods;
 use Yoast\WP\SEO\User_Meta\Domain\Additional_Contactmethod_Interface;
 
 /**
- * The YouTube contactmethod.
+ * The Youtube contactmethod.
  */
-class YouTube implements Additional_Contactmethod_Interface {
+class Youtube implements Additional_Contactmethod_Interface {
 
 	/**
 	 * Returns the key of the YouTube contactmethod.
