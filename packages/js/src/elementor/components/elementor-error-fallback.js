@@ -10,8 +10,8 @@ import { ErrorFallback } from "../../shared-admin/components/error-fallback";
  */
 export const ElementorErrorFallback = ( { error } ) => {
 	const handleRefreshClick = useCallback( () => window?.location?.reload(), [] );
-	const supportLink = useSelect( select => select( "yoast-seo/editor" ).selectLink( "https://yoa.st/elementor-error-support" ) );
-	const isRtl = useSelect( select => select( "yoast-seo/editor" ).getPreference( "isRtl", false ) );
+	const supportLink = useSelect( select => select( "yoast-seo/editor" ).selectLink( "https://yoa.st/elementor-error-support" ), [] );
+	const isRtl = useSelect( select => select( "yoast-seo/editor" ).getPreference( "isRtl", false ), [] );
 
 	return (
 		<Root context={ { isRtl } }>
