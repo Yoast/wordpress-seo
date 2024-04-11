@@ -3,6 +3,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { noop } from "lodash";
+import { select, dispatch } from "@wordpress/data";
+import { getBlockContent } from "@wordpress/blocks";
 
 import { SvgIcon, IconButtonToggle, IconCTAEditButton, BetaBadge } from "@yoast/components";
 import { strings } from "@yoast/helpers";
@@ -114,6 +116,20 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 		props.onResultChange( id, marker, hasMarksButton );
 	}, [ id, marker, hasMarksButton ] );
 
+	const useAI = () => {
+		console.log( "AI" );
+		const blocks = select( "core/block-editor" ).getBlocks();
+		let blockId = "";
+		blocks.forEach( block => {
+			console.log( block.clientId, getBlockContent( block ) );
+			if ( block.name === "core/heading" ) {
+				blockId = block.clientId;
+			}
+		} );
+		dispatch( "core/block-editor" ).updateBlock( blockId, { attributes: { content: "More testing" } } );
+		console.log( "done" );
+	};
+
 	return (
 		<AnalysisResultBase>
 			<ScoreIcon
@@ -137,6 +153,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 					ariaLabel={ props.ariaLabelEdit }
 				/>
 			}
+			{ <button onClick={ useAI }>Sparkles</button> }
 		</AnalysisResultBase>
 	);
 };
