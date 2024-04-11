@@ -1,5 +1,9 @@
 /* Add custom CSS for the mentions */
+.yst-replacevar__editor--description {
+    @apply yst-inline-block;
+}
 .yst-root {
+	@apply yst-inline-block;
     .yst-tooltip.yst-tooltip--top::before {
         @apply yst--translate-x-56;
     }
