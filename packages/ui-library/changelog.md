@@ -8,10 +8,10 @@ Enhancements:
 * Now compatible with the latest two stable versions of actively maintained browsers, through the usage of browserslist config. [#20944](https://github.com/Yoast/wordpress-seo/pull/20944)
 * Adds a new "extra-large" value for the `Button` property `size`, re-aligning the entire sizing scale. [#21121](https://github.com/Yoast/wordpress-seo/pull/21121)
 * Changes focus styles to use outline styling for anchors, buttons and inputs. [#21121](https://github.com/Yoast/wordpress-seo/pull/21121)
-* Change border styles to use box-shadow styling for buttons and inputs. [#21121](https://github.com/Yoast/wordpress-seo/pull/21121)
+* Changes border styles to use box-shadow styling for buttons and inputs. [#21121](https://github.com/Yoast/wordpress-seo/pull/21121)
 * Adds support for disabled styling in `Autocomplete` component. [#21129](https://github.com/Yoast/wordpress-seo/pull/21129)
 * Adds a `Tooltip` element.  [#21197](https://github.com/Yoast/wordpress-seo/pull/21197)
-* Added `reset` as valid value of `type`, in the `Button` element. [#21309](https://github.com/Yoast/wordpress-seo/pull/21309)
+* Adds `reset` as valid value of `type`, in the `Button` element. [#21309](https://github.com/Yoast/wordpress-seo/pull/21309)
 
 Bugfixes:
 
