@@ -1,9 +1,8 @@
 /* eslint-disable complexity */
-/* eslint-disable camelcase */
 import { select, subscribe } from "@wordpress/data";
-import { debounce, forEach, pickBy, get } from "lodash";
+import { debounce, forEach, pickBy, get, mapKeys } from "lodash";
 import { createWatcher, createCollectorFromObject } from "../../helpers/create-watcher";
-import { EDITOR_STORE, SYNC_TIME } from "../../shared-admin/constants";
+import { EDITOR_STORE, SYNC_TIME, META_KEYS, POST_FORM_IDS_PREFIX, TERM_FORM_IDS_PREFIX } from "../../shared-admin/constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
 import { getPageType, getArticleType } from "./schemaFieldsStore";
@@ -89,18 +88,45 @@ export const createUpdater = () => {
 			return;
 		}
 
-		const isPost = get( window, "wpseoScriptData.isPost", false );
-		const prefix = isPost ? "yoast_wpseo_" : "hidden_wpseo_";
-
-		const changedData = pickBy( data, ( value, key ) => ( prefix + key ) in hiddenFieldsData && value !== hiddenFieldsData[ prefix + key ] );
+		const changedData = pickBy( data, ( value, key ) => ( key ) in hiddenFieldsData && value !== hiddenFieldsData[ key ] );
 
 		if ( changedData ) {
 			forEach( changedData, ( value, key ) => {
-				document.getElementById( prefix + key ).value = prepareValue( key, value );
+				document.getElementById( key ).value = prepareValue( key, value );
 			} );
 		}
 	};
 };
+
+const isPost = get( window, "wpseoScriptData.isPost", false );
+const prefix = isPost ? POST_FORM_IDS_PREFIX : TERM_FORM_IDS_PREFIX;
+
+const primaryTaxonomiesGetters = mapKeys( getPrimaryTerms(), ( value, key ) => prefix + key );
+
+const getters = mapKeys( {
+	focusKeyphrase: getFocusKeyphrase,
+	robotsNoIndex: getNoIndex,
+	robotsNoFollow: getNoFollow,
+	robotsAdvanced: getAdvanced,
+	facebookTitle: getFacebookTitle,
+	facebookDescription: getFacebookDescription,
+	facebookImageUrl: getFacebookImageUrl,
+	facebookImageId: getFacebookImageId,
+	twitterTitle: getTwitterTitle,
+	twitterDescription: getTwitterDescription,
+	twitterImageUrl: getTwitterImageUrl,
+	twitterImageId: getTwitterImageId,
+	schemaPageType: getPageType,
+	schemaArticleType: getArticleType,
+	isCornerstone: isCornerstoneContent,
+	readabilityScore: getReadabilityScore,
+	seoScore: getSeoScore,
+	inclusiveLanguageScore: getInclusiveLanguageScore,
+	breadcrumbsTitle: getBreadcrumbsTitle,
+	canonical: getCanonical,
+	wordProofTimestamp: getWordProofTimestamp,
+	readingTime: getEstimatedReadingTime,
+}, ( value, key ) => prefix + META_KEYS[ key ] );
 
 /**
  * Initializes the sync: from Yoast editor store to the hidden fields.
@@ -109,31 +135,8 @@ export const createUpdater = () => {
 export const hiddenFieldsSync = () => {
 	return subscribe( debounce( createWatcher(
 		createCollectorFromObject( {
-			focuskw: getFocusKeyphrase,
-			"meta-robots-noindex": getNoIndex,
-			// Same as meta-robots-noindex for term metabox.
-			noindex: getNoIndex,
-			"meta-robots-nofollow": getNoFollow,
-			"meta-robots-adv": getAdvanced,
-			bctitle: getBreadcrumbsTitle,
-			canonical: getCanonical,
-			wordproof_timestamp: getWordProofTimestamp,
-			"opengraph-title": getFacebookTitle,
-			"opengraph-description": getFacebookDescription,
-			"opengraph-image": getFacebookImageUrl,
-			"opengraph-image-id": getFacebookImageId,
-			"twitter-title": getTwitterTitle,
-			"twitter-description": getTwitterDescription,
-			"twitter-image": getTwitterImageUrl,
-			"twitter-image-id": getTwitterImageId,
-			schema_page_type: getPageType,
-			schema_article_type: getArticleType,
-			is_cornerstone: isCornerstoneContent,
-			content_score: getReadabilityScore,
-			linkdex: getSeoScore,
-			inclusive_language_score: getInclusiveLanguageScore,
-			"estimated-reading-time-minutes": getEstimatedReadingTime,
-			...getPrimaryTerms(),
+			...getters,
+			...primaryTaxonomiesGetters,
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), EDITOR_STORE );

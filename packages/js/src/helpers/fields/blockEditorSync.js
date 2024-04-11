@@ -1,7 +1,7 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
-import { debounce, forEach, pickBy, map } from "lodash";
+import { debounce, pickBy, mapKeys } from "lodash";
 import { createWatcher, createCollectorFromObject } from "../../helpers/create-watcher";
-import { EDITOR_STORE, CORE_EDITOR_STORE, SYNC_TIME, POST_METADATA_KEYS } from "../../shared-admin/constants";
+import { EDITOR_STORE, CORE_EDITOR_STORE, SYNC_TIME, META_KEYS, POST_META_KEY_PREFIX } from "../../shared-admin/constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
 import { getPageType, getArticleType } from "./schemaFieldsStore";
@@ -10,12 +10,6 @@ import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical
 import { getSeoTitle, getSeoDescription } from "./snippetEditorFieldsStore";
 import getPrimaryTerms from "./primaryTaxonomiesFieldsStore";
 
-
-const taxonomiesKeys = map( getPrimaryTerms(), ( value, key ) => {
-	return { [ key ]: `_yoast_wpseo_${key}` };
-} );
-
-const METADATA_KEYS = { ...POST_METADATA_KEYS, ...taxonomiesKeys };
 /**
  * Creates an updater.
  * @returns {function} The updater.
@@ -38,20 +32,44 @@ const createUpdater = () => {
 
 		const metadata = currentPost.meta;
 
-		const changedData = pickBy( data, ( value, key ) => value !== metadata[ METADATA_KEYS[ key ] ] );
+		const changedData = pickBy( data, ( value, key ) => value !== metadata[ key ] );
 
 		if ( changedData ) {
-			const newMetadata = {};
-			forEach( changedData, ( value, key ) => {
-				newMetadata[ METADATA_KEYS[ key ] ] = value;
-			} );
-
 			editPost( {
-				meta: newMetadata,
+				meta: changedData,
 			} );
 		}
 	};
 };
+
+const primaryTaxonomiesGetters = mapKeys( getPrimaryTerms(), ( value, key ) => POST_META_KEY_PREFIX + key );
+
+const getters = mapKeys( {
+	focusKeyphrase: getFocusKeyphrase,
+	robotsNoIndex: getNoIndex,
+	robotsNoFollow: getNoFollow,
+	robotsAdvanced: getAdvanced,
+	facebookTitle: getFacebookTitle,
+	facebookDescription: getFacebookDescription,
+	facebookImageUrl: getFacebookImageUrl,
+	facebookImageId: getFacebookImageId,
+	twitterTitle: getTwitterTitle,
+	twitterDescription: getTwitterDescription,
+	twitterImageUrl: getTwitterImageUrl,
+	twitterImageId: getTwitterImageId,
+	schemaPageType: getPageType,
+	schemaArticleType: getArticleType,
+	isCornerstone: isCornerstoneContent,
+	readabilityScore: getReadabilityScore,
+	seoScore: getSeoScore,
+	inclusiveLanguageScore: getInclusiveLanguageScore,
+	breadcrumbsTitle: getBreadcrumbsTitle,
+	canonical: getCanonical,
+	wordProofTimestamp: getWordProofTimestamp,
+	seoTitle: getSeoTitle,
+	seoDescription: getSeoDescription,
+	readingTime: getEstimatedReadingTime,
+}, ( value, key ) => POST_META_KEY_PREFIX + META_KEYS[ key ] );
 
 /**
  * Initializes the sync: from Yoast editor store to core editor store.
@@ -60,32 +78,8 @@ const createUpdater = () => {
 export const blockEditorSync = () => {
 	return subscribe( debounce( createWatcher(
 		createCollectorFromObject( {
-			focusKeyphrase: getFocusKeyphrase,
-			noIndex: getNoIndex,
-			noFollow: getNoFollow,
-			facebookTitle: getFacebookTitle,
-			facebookDescription: getFacebookDescription,
-			facebookImageUrl: getFacebookImageUrl,
-			facebookImageId: getFacebookImageId,
-			twitterTitle: getTwitterTitle,
-			twitterDescription: getTwitterDescription,
-			twitterImageUrl: getTwitterImageUrl,
-			twitterImageId: getTwitterImageId,
-			pageType: getPageType,
-			articleType: getArticleType,
-			isCornerstone: isCornerstoneContent,
-			readabilityScore: getReadabilityScore,
-			seoScore: getSeoScore,
-			inclusiveLanguageScore: getInclusiveLanguageScore,
-			advanced: getAdvanced,
-			breadcrumbsTitle: getBreadcrumbsTitle,
-			canonical: getCanonical,
-			wordProofTimestamp: getWordProofTimestamp,
-			seoTitle: getSeoTitle,
-			seoDescription: getSeoDescription,
-			readingTime: getEstimatedReadingTime,
-			...getPrimaryTerms(),
-
+			...getters,
+			...primaryTaxonomiesGetters,
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), EDITOR_STORE );

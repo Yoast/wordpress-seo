@@ -1,29 +1,35 @@
-export const POST_METADATA_KEYS = {
-	focusKeyphrase: "_yoast_wpseo_focuskw",
-	noIndex: "_yoast_wpseo_meta-robots-noindex",
-	noFollow: "_yoast_wpseo_meta-robots-nofollow",
-	facebookTitle: "_yoast_wpseo_opengraph-title",
-	facebookDescription: "_yoast_wpseo_opengraph-description",
-	facebookImageUrl: "_yoast_wpseo_opengraph-image",
-	facebookImageId: "_yoast_wpseo_opengraph-image-id",
-	twitterTitle: "_yoast_wpseo_twitter-title",
-	twitterDescription: "_yoast_wpseo_twitter-description",
-	twitterImageUrl: "_yoast_wpseo_twitter-image",
-	twitterImageId: "_yoast_wpseo_twitter-image-id",
-	pageType: "_yoast_wpseo_schema_page_type",
-	articleType: "_yoast_wpseo_schema_article_type",
-	isCornerstone: "_yoast_wpseo_is_cornerstone",
-	readabilityScore: "_yoast_wpseo_content_score",
-	seoScore: "_yoast_wpseo_linkdex",
-	inclusiveLanguageScore: "_yoast_wpseo_inclusive_language_score",
-	advanced: "_yoast_wpseo_meta-robots-adv",
-	breadcrumbsTitle: "_yoast_wpseo_bctitle",
-	canonical: "_yoast_wpseo_canonical",
-	wordProofTimestamp: "_yoast_wpseo_wordproof_timestamp",
-	seoTitle: "_yoast_wpseo_title",
-	seoDescription: "_yoast_wpseo_metadesc",
-	readingTime: "_yoast_wpseo_estimated-reading-time-minutes",
+export const META_KEYS = {
+	focusKeyphrase: "focuskw",
+	robotsNoIndex: "meta-robots-noindex",
+	robotsNoFollow: "meta-robots-nofollow",
+	robotsAdvanced: "meta-robots-adv",
+	facebookTitle: "opengraph-title",
+	facebookDescription: "opengraph-description",
+	facebookImageUrl: "opengraph-image",
+	facebookImageId: "opengraph-image-id",
+	twitterTitle: "twitter-title",
+	twitterDescription: "twitter-description",
+	twitterImageUrl: "twitter-image",
+	twitterImageId: "twitter-image-id",
+	schemaPageType: "schema_page_type",
+	schemaArticleType: "schema_article_type",
+	isCornerstone: "is_cornerstone",
+	readabilityScore: "content_score",
+	seoScore: "linkdex",
+	inclusiveLanguageScore: "inclusive_language_score",
+	breadcrumbsTitle: "bctitle",
+	canonical: "canonical",
+	wordProofTimestamp: "wordproof_timestamp",
+	seoTitle: "title",
+	seoDescription: "metadesc",
+	readingTime: "estimated-reading-time-minutes",
 };
+
+export const POST_META_KEY_PREFIX = "_yoast_wpseo_";
+
+export const POST_FORM_IDS_PREFIX = "yoast_wpseo_";
+
+export const TERM_FORM_IDS_PREFIX = "yoast_wpseo_";
 
 export const SYNC_TIME = {
 	wait: 500,
