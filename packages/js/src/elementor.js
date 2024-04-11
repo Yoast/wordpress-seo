@@ -1,5 +1,6 @@
 import { dispatch } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
+import { select } from "@wordpress/data";
 import initializeWordProofForElementorEditor from "../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/elementorEditor";
 import initializeAiGenerator from "./ai-generator/initialize";
 import initEditorStore from "./elementor/initializers/editor-store";
@@ -13,6 +14,7 @@ import initAnalysis, { collectData } from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 import initializeInsights from "./insights/initializer";
 import initElementorWatcher from "./watchers/elementorWatcher";
+import { registerSearchAppearanceDescriptionMention } from "./shared-admin/helpers/search-appearance-description-mention";
 
 /* eslint-disable complexity */
 /**
@@ -65,6 +67,9 @@ function initialize() {
 
 	// Initialize the introduction.
 	initializeIntroduction();
+
+	// Initialize the mentions.
+	registerSearchAppearanceDescriptionMention( select( "yoast-seo/editor" ).getDateFromSettings );
 
 	// Initialize the editor integration.
 	initElementorEditorIntegration();

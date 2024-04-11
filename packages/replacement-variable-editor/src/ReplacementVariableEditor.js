@@ -132,7 +132,7 @@ class ReplacementVariableEditor extends React.Component {
 				</ButtonsContainer>
 
 				<InputContainer
-					className="yst-replacevar__editor yst-replacevar__editor--{ type }"
+					className={ `yst-replacevar__editor yst-replacevar__editor--${ type }` }
 					onClick={ onFocus }
 					isActive={ isActive && ! isDisabled }
 					isHovered={ isHovered }
