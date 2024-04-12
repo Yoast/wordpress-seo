@@ -648,9 +648,10 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'new-settings',
 				'src'  => 'new-settings-' . $flat_version,
-				'deps' => [ self::PREFIX . 'tailwind',
-				self::PREFIX . 'additional-mentions',
-			 	],
+				'deps' => [
+					self::PREFIX . 'tailwind',
+					self::PREFIX . 'additional-mentions',
+				],
 			],
 			[
 				'name' => 'black-friday-banner',
