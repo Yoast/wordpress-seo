@@ -319,6 +319,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-04-16
 
+Yoast SEO 22.5 brings general maintenance updates across the plugin, improved guidance around best practice for taxonomies and a more effortless user experience overall. For more details about the release check out [the release post for 22.5](https://yoa.st/release-16-4-24).
+
 #### Enhancements
 
 * Prevents image formats other than JPG, GIF, PNG and WEBP to be used for the `twitter:image` meta tag.
