@@ -1071,7 +1071,7 @@ class WPSEO_Meta {
 	 * @param string $keyword The keyword to be counted.
 	 * @param int    $post_id The id of the post to which the keyword belongs.
 	 *
-	 * @return array
+	 * @return array<int>
 	 */
 	public static function keyword_usage( $keyword, $post_id ) {
 
@@ -1121,9 +1121,9 @@ class WPSEO_Meta {
 	/**
 	 * Returns the post types for the given post ids.
 	 *
-	 * @param array $post_ids The post ids to get the post types for.
+	 * @param array<int> $post_ids The post ids to get the post types for.
 	 *
-	 * @return array The post types.
+	 * @return array<string> The post types.
 	 */
 	public static function post_types_for_ids( $post_ids ) {
 
