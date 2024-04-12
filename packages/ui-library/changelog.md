@@ -1,5 +1,24 @@
 # Changelog
 
+## 4.0.0
+
+Enhancements:
+
+* Replaces peer dependency `@wordpress/element:^4.1.1` (containing `react:^17.0.2`) with `react:^18.2.0`. [#20944](https://github.com/Yoast/wordpress-seo/pull/20944)
+* Now compatible with the latest two stable versions of actively maintained browsers, through the usage of browserslist config. [#20944](https://github.com/Yoast/wordpress-seo/pull/20944)
+* Adds a new "extra-large" value for the `Button` property `size`, re-aligning the entire sizing scale. [#21121](https://github.com/Yoast/wordpress-seo/pull/21121)
+* Changes focus styles to use outline styling for anchors, buttons and inputs. [#21121](https://github.com/Yoast/wordpress-seo/pull/21121)
+* Changes border styles to use box-shadow styling for buttons and inputs. [#21121](https://github.com/Yoast/wordpress-seo/pull/21121)
+* Adds support for disabled styling in `Autocomplete` component. [#21129](https://github.com/Yoast/wordpress-seo/pull/21129)
+* Adds a `Tooltip` element.  [#21197](https://github.com/Yoast/wordpress-seo/pull/21197)
+* Adds `reset` as valid value of `type`, in the `Button` element. [#21309](https://github.com/Yoast/wordpress-seo/pull/21309)
+
+Bugfixes:
+
+* Fixes a bug where the `Textarea` element did not use the `cols` default. [#20944](https://github.com/Yoast/wordpress-seo/pull/20944)
+* Fixes a bug where the `TextInput` with type `date` would span 2 lines in Chrome, by removing our placeholder and icon overrides. [#21187](https://github.com/Yoast/wordpress-seo/pull/21187)
+* Fixes a bug where the background of the `Autocomplete` element would not be applied to the full width of the element. [#21173](https://github.com/Yoast/wordpress-seo/pull/21173)
+
 ## 3.3.0
 
 Enhancements:
