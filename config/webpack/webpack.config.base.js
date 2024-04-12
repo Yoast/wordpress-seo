@@ -11,7 +11,7 @@ const { yoastExternals } = require( "./externals" );
 let analyzerPort = 8888;
 
 module.exports = function( { entry, output, combinedOutputFile, cssExtractFileName } ) {
-	const exclude = /node_modules[/\\](?!(parse5|chart.js)[/\\]).*/;
+	const exclude = /node_modules[/\\](?!(chart.js)[/\\]).*/;
 	// The index of the babel-loader rule.
 	let ruleIndex = 0;
 	if ( process.env.NODE_ENV !== "production" ) {
@@ -19,21 +19,6 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 		defaultConfig.module.rules[ 0 ].exclude = [ exclude ];
 	}
 	defaultConfig.module.rules[ ruleIndex ].exclude = exclude;
-	// Parse5 currently has problem with parsing source map: https://github.com/inikulin/parse5/issues/831.
-	defaultConfig.module.rules.push( {
-		enforce: "pre",
-		test: /\.js$/,
-		use: [
-			{
-				loader: "source-map-loader",
-				options: {
-					filterSourceMappingUrl: ( url, resourcePath ) => {
-						return ! /parse5/i.test( resourcePath );
-					},
-				},
-			},
-		],
-	} );
 
 	return {
 		...defaultConfig,
