@@ -16,8 +16,8 @@ const inclusiveLanguageAssessor = new InclusiveLanguageAssessor( new Researcher(
  * @returns {{score, editFieldName, text, marks}} The view model.
  */
 const resultToVM = ( result ) => {
-	const { score, text, marks, editFieldName } = result;
-	return { score, text, marks, editFieldName, rating: interpreters.scoreToRating( score )};
+	const { _identifier, score, text, marks, editFieldName } = result;
+	return { _identifier, score, text, marks, editFieldName, rating: interpreters.scoreToRating( score ) };
 };
 
 const app = express();
