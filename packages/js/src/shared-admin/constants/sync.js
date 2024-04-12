@@ -29,7 +29,7 @@ export const POST_META_KEY_PREFIX = "_yoast_wpseo_";
 
 export const POST_FORM_IDS_PREFIX = "yoast_wpseo_";
 
-export const TERM_FORM_IDS_PREFIX = "yoast_wpseo_";
+export const TERM_FORM_IDS_PREFIX = "hidden_wpseo_";
 
 export const SYNC_TIME = {
 	wait: 500,
