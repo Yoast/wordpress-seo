@@ -38,6 +38,7 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 	return {
 		...defaultConfig,
 		optimization: {
+			...defaultConfig.optimization,
 			usedExports: process.env.NODE_ENV === "production",
 		},
 		entry,
