@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Not_Admin_Ajax_Conditional;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -43,6 +44,13 @@ class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 	protected $notification_helper;
 
 	/**
+	 * The WooCommerce conditional.
+	 *
+	 * @var WooCommerce_Conditional
+	 */
+	protected $woocommerce_conditional;
+
+	/**
 	 * The Woocommerce beta editor presenter.
 	 *
 	 * @var Woocommerce_Beta_Editor_Presenter
@@ -52,19 +60,22 @@ class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 	/**
 	 * Woocommerce_Beta_Editor_Watcher constructor.
 	 *
-	 * @param Yoast_Notification_Center $notification_center The notification center.
-	 * @param Notification_Helper       $notification_helper The notification helper.
-	 * @param Short_Link_Helper         $short_link_helper   The short link helper.
+	 * @param Yoast_Notification_Center $notification_center     The notification center.
+	 * @param Notification_Helper       $notification_helper     The notification helper.
+	 * @param Short_Link_Helper         $short_link_helper       The short link helper.
+	 * @param WooCommerce_Conditional   $woocommerce_conditional The WooCommerce conditional.
 	 */
 	public function __construct(
 		Yoast_Notification_Center $notification_center,
 		Notification_Helper $notification_helper,
-		Short_Link_Helper $short_link_helper
+		Short_Link_Helper $short_link_helper,
+		WooCommerce_Conditional $woocommerce_conditional
 	) {
-		$this->notification_center = $notification_center;
-		$this->notification_helper = $notification_helper;
-		$this->short_link_helper   = $short_link_helper;
-		$this->presenter           = new Woocommerce_Beta_Editor_Presenter( $this->short_link_helper );
+		$this->notification_center     = $notification_center;
+		$this->notification_helper     = $notification_helper;
+		$this->short_link_helper       = $short_link_helper;
+		$this->woocommerce_conditional = $woocommerce_conditional;
+		$this->presenter               = new Woocommerce_Beta_Editor_Presenter( $this->short_link_helper );
 	}
 
 	/**
@@ -95,7 +106,7 @@ class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function manage_woocommerce_beta_editor_notification() {
-		if ( \get_option( 'woocommerce_feature_product_block_editor_enabled' ) === 'yes' ) {
+		if ( \get_option( 'woocommerce_feature_product_block_editor_enabled' ) === 'yes' && $this->woocommerce_conditional->is_met() ) {
 			$this->maybe_add_woocommerce_beta_editor_notification();
 		}
 		else {

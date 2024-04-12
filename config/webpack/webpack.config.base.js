@@ -3,6 +3,7 @@ const DependencyExtractionWebpackPlugin = require( "@wordpress/dependency-extrac
 const defaultConfig = require( "@wordpress/scripts/config/webpack.config" );
 const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
 const { BundleAnalyzerPlugin } = require( "webpack-bundle-analyzer" );
+const { DefinePlugin } = require( "webpack" );
 
 // Internal dependencies
 const { yoastExternals } = require( "./externals" );
@@ -18,10 +19,28 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 		defaultConfig.module.rules[ 0 ].exclude = [ exclude ];
 	}
 	defaultConfig.module.rules[ ruleIndex ].exclude = exclude;
+	// Parse5 currently has problem with parsing source map: https://github.com/inikulin/parse5/issues/831.
+	defaultConfig.module.rules.push( {
+		enforce: "pre",
+		test: /\.js$/,
+		use: [
+			{
+				loader: "source-map-loader",
+				options: {
+					filterSourceMappingUrl: ( url, resourcePath ) => {
+						return ! /parse5/i.test( resourcePath );
+					},
+				},
+			},
+		],
+	} );
 
 	return {
 		...defaultConfig,
 		devtool: process.env.environment === "development" ? "cheap-module-eval-source-map" : false,
+		optimization: {
+			usedExports: process.env.NODE_ENV === "production",
+		},
 		entry,
 		output: {
 			...defaultConfig.output,
@@ -33,7 +52,8 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 					plugin.constructor.name !== "DependencyExtractionWebpackPlugin" &&
 					plugin.constructor.name !== "MiniCssExtractPlugin" &&
 					plugin.constructor.name !== "CleanWebpackPlugin" &&
-					plugin.constructor.name !== "BundleAnalyzerPlugin"
+					plugin.constructor.name !== "BundleAnalyzerPlugin" &&
+					plugin.constructor.name !== "DefinePlugin"
 			),
 			new DependencyExtractionWebpackPlugin( {
 				injectPolyfill: true,
@@ -51,10 +71,10 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 						return [ "yoast", yoastExternals[ request ] ];
 					}
 					if ( request.startsWith( "lodash/" ) ) {
-						return [ "lodash", request.substr( 7 ) ];
+						return [ "lodash", request.substring( 7 ) ];
 					}
 					if ( request.startsWith( "lodash-es/" ) ) {
-						return [ "lodash", request.substr( 10 ) ];
+						return [ "lodash", request.substring( 10 ) ];
 					}
 					if ( request === "react-select" ) {
 						return [ "yoast", "reactSelect" ];
@@ -63,7 +83,7 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 						return [ "yoast", "reactSelectAsync" ];
 					}
 					if ( request.startsWith( "@yoast/externals/" ) ) {
-						return [ "yoast", "externals", request.substr( 17 ) ];
+						return [ "yoast", "externals", request.substring( 17 ) ];
 					}
 				},
 				/**
@@ -85,13 +105,19 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 						return "yoast-seo-react-select";
 					}
 					if ( request.startsWith( "@yoast/externals/" ) ) {
-						return "yoast-seo-externals-" + request.substr( 17 );
+						return "yoast-seo-externals-" + request.substring( 17 );
 					}
 				},
 			} ),
 			new MiniCssExtractPlugin( { filename: cssExtractFileName } ),
 			process.env.WP_BUNDLE_ANALYZER && new BundleAnalyzerPlugin( {
 				analyzerPort: analyzerPort++,
+			} ),
+			new DefinePlugin( {
+				// Inject the `process.env.NODE_DEBUG` global, used for development features flagging inside the `yoastseo` package.
+				"process.env.NODE_DEBUG": JSON.stringify( process.env.NODE_DEBUG ),
+				// Copied from WP config: Inject the `SCRIPT_DEBUG` global, used for development features flagging.
+				SCRIPT_DEBUG: process.env.NODE_ENV !== "production",
 			} ),
 		].filter( Boolean ),
 	};

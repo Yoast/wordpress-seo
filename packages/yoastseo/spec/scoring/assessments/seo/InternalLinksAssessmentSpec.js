@@ -1,7 +1,7 @@
 import InternalLinksAssessment from "../../../../src/scoring/assessments/seo/InternalLinksAssessment";
 
 import Paper from "../../../../src/values/Paper.js";
-import factory from "../../../specHelpers/factory.js";
+import factory from "../../../../src/helpers/factory.js";
 
 describe( "An assessor running the linkStatistics for internal links", function() {
 	it( "A paper with one internal link, which is do-follow", function() {

@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Autocomplete from "../../elements/autocomplete";
 import { ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
-import { forwardRef } from "@wordpress/element";
 
 /**
  * @param {string} id Identifier.
@@ -40,16 +40,20 @@ const AutocompleteField = forwardRef( ( {
 				{ ...props }
 			/>
 			{ validation?.message && (
-				<ValidationMessage variant={ validation?.variant } id={ ids.validation } className="yst-autocomplete-field__validation">{ validation.message }</ValidationMessage>
+				<ValidationMessage
+					variant={ validation?.variant }
+					id={ ids.validation }
+					className="yst-autocomplete-field__validation"
+				>{ validation.message }</ValidationMessage>
 			) }
 			{ description && <div id={ ids.description } className="yst-autocomplete-field__description">{ description }</div> }
 		</div>
 	);
 } );
 
-const propTypes = {
+AutocompleteField.displayName = "AutocompleteField";
+AutocompleteField.propTypes = {
 	id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	description: PropTypes.node,
 	validation: PropTypes.shape( {
@@ -58,10 +62,8 @@ const propTypes = {
 	} ),
 	className: PropTypes.string,
 };
-
-AutocompleteField.propTypes = propTypes;
-
 AutocompleteField.defaultProps = {
+	description: null,
 	validation: {},
 	className: "",
 };
@@ -69,11 +71,5 @@ AutocompleteField.defaultProps = {
 AutocompleteField.Option = Autocomplete.Option;
 
 AutocompleteField.Option.displayName = "AutocompleteField.Option";
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <AutocompleteField { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = AutocompleteField.defaultProps;
-StoryComponent.displayName = "AutocompleteField";
 
 export default AutocompleteField;

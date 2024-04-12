@@ -1,10 +1,10 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import { AssessmentResult, helpers, languageProcessing, Assessment } from "yoastseo";
-
-const { createAnchorOpeningTag } = helpers;
-const { unifyAllSpaces } = languageProcessing;
+import Assessment from "../assessment";
+import AssessmentResult from "../../../values/AssessmentResult";
+import { createAnchorOpeningTag } from "../../../helpers";
+import { unifyAllSpaces } from "../../../languageProcessing/helpers/sanitize/unifyWhitespace";
 
 /**
  * Represents the assessment that checks whether a text has a title.
@@ -35,7 +35,7 @@ export default class TextTitleAssessment extends Assessment {
 	/**
 	 * Checks whether the paper has a text title.
 	 *
-	 * @param {paper} 	paper		The paper to use for the assessment.
+	 * @param {Paper} 	paper		The paper to use for the assessment.
 	 *
 	 * @returns {boolean}	 Whether the paper has a text title.
 	 */
@@ -97,7 +97,6 @@ export default class TextTitleAssessment extends Assessment {
 				 * %1$s and %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag.
 				 */
 				__(
-					// eslint-disable-next-line max-len
 					"%1$sTitle%3$s: Your page does not have a title yet. %2$sAdd one%3$s!",
 					"wordpress-seo-premium"
 				),

@@ -450,11 +450,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'title' => __( 'Google Page Speed Test', 'wordpress-seo' ),
 				'href'  => '//developers.google.com/speed/pagespeed/insights/?url=' . $encoded_url,
 			],
-			[
-				'id'    => 'wpseo-google-mobile-friendly',
-				'title' => __( 'Mobile-Friendly Test', 'wordpress-seo' ),
-				'href'  => 'https://www.google.com/webmasters/tools/mobile-friendly/?url=' . $encoded_url,
-			],
 		];
 
 		$this->add_submenu_items( $submenu_items, $wp_admin_bar, self::ANALYSIS_SUBMENU_IDENTIFIER );
@@ -903,7 +898,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return bool True if capabilities are sufficient, false otherwise.
 	 */
 	protected function can_manage_options() {
-		return is_network_admin() && current_user_can( 'wpseo_manage_network_options' ) || ! is_network_admin() && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' );
+		return ( is_network_admin() && current_user_can( 'wpseo_manage_network_options' ) )
+			|| ( ! is_network_admin() && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) );
 	}
 
 	/**

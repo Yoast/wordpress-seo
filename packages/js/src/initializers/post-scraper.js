@@ -106,7 +106,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 */
 	jQuery( document ).on( "ajaxComplete", function( ev, response, ajaxOptions ) {
 		const ajaxEndPoint = "/admin-ajax.php";
-		if ( ajaxEndPoint !== ajaxOptions.url.substr( 0 - ajaxEndPoint.length ) ) {
+		if ( ajaxEndPoint !== ajaxOptions.url.substring( ajaxOptions.url.length - ajaxEndPoint.length ) ) {
 			return;
 		}
 
