@@ -1,9 +1,11 @@
 .yst-replacevar__editor--description div {
 	@apply yst-inline;
 }
+
 .yst-replacevar__editor--description .yst-root {
 	@apply yst-mr-1;
-    .yst-tooltip.yst-tooltip--top::before {
-        @apply yst--translate-x-56;
-    }
+
+	.yst-tooltip.yst-tooltip--top::before {
+		@apply yst--translate-x-56;
+	}
 }

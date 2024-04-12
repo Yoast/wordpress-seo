@@ -1,6 +1,5 @@
-import { dispatch } from "@wordpress/data";
+import { dispatch, select } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
-import { select } from "@wordpress/data";
 import initializeWordProofForElementorEditor from "../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/elementorEditor";
 import initializeAiGenerator from "./ai-generator/initialize";
 import initEditorStore from "./elementor/initializers/editor-store";
@@ -68,9 +67,6 @@ function initialize() {
 	// Initialize the introduction.
 	initializeIntroduction();
 
-	// Initialize the mentions.
-	registerSearchAppearanceDescriptionMention( select( "yoast-seo/editor" ).getDateFromSettings );
-
 	// Initialize the editor integration.
 	initElementorEditorIntegration();
 
@@ -84,6 +80,9 @@ function initialize() {
 		// Initialize the AI Generator upsell.
 		initializeAiGenerator();
 	}
+
+	// Initialize the mentions.
+	registerSearchAppearanceDescriptionMention( select( "yoast-seo/editor" ).getDateFromSettings );
 
 	// Offer an action after our load.
 	doAction( "yoast.elementor.loaded" );

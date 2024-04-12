@@ -1,4 +1,5 @@
 import { useCallback, useState } from "@wordpress/element";
+import PropTypes from "prop-types";
 import { Root, Badge, Tooltip } from "@yoast/ui-library";
 import { Fill } from "@wordpress/components";
 import { get } from "lodash";
@@ -11,7 +12,7 @@ let date;
  * Renders a badge with tooltip for mentions.
  * @param {JSX.node[]} mentionsName The name of the mentions.
  * @param {JSX.node[]} children The children of the tooltip.
- * @returns {JSX.Element} The badge with tooltip.
+ * @returns {JSX.Element} The badge with a tooltip.
  */
 const MentionsWithTooltip = ( { mentionsName, children } ) => {
 	const [ isVisible, setIsVisible ] = useState( false );
@@ -35,7 +36,7 @@ const MentionsWithTooltip = ( { mentionsName, children } ) => {
 				<span>{ mentionsName }</span>
 				{ isVisible && (
 					<Tooltip
-						id="date-tooltip"
+						id={ Tooltip.id }
 						className="yst--translate-x-10 yst-max-w-lg yst-text-xs"
 					>
 						{ children }
@@ -44,6 +45,14 @@ const MentionsWithTooltip = ( { mentionsName, children } ) => {
 			</Badge>
 		</>
 	);
+};
+
+/**
+ * Define the component prop types.
+*/
+MentionsWithTooltip.propTypes = {
+	mentionsName: PropTypes.node.isRequired,
+	children: PropTypes.node.isRequired,
 };
 
 /**
@@ -83,7 +92,6 @@ const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 };
 
 /**
- * /**
  * Registers the search appearance description mention.
  * @param {Function} getDate The function to get the date.
  * @returns {void}
