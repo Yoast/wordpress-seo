@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\User_Meta\User_Interface;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\User_Meta\Application\Cleanup_Repository;
+use Yoast\WP\SEO\User_Meta\Application\Cleanup_Service;
 
 /**
  * Handles the cleanup for user meta.
@@ -14,19 +14,19 @@ class Cleanup_Integration implements Integration_Interface {
 	use No_Conditionals;
 
 	/**
-	 * The cleanup repository.
+	 * The cleanup service.
 	 *
-	 * @var Cleanup_Repository $cleanup_repository The cleanup repository.
+	 * @var Cleanup_Service $cleanup_service The cleanup service.
 	 */
-	private $cleanup_repository;
+	private $cleanup_service;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param Cleanup_Repository $cleanup_repository The cleanup repository.
+	 * @param Cleanup_Service $cleanup_service The cleanup service.
 	 */
-	public function __construct( Cleanup_Repository $cleanup_repository ) {
-		$this->cleanup_repository = $cleanup_repository;
+	public function __construct( Cleanup_Service $cleanup_service ) {
+		$this->cleanup_service = $cleanup_service;
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Cleanup_Integration implements Integration_Interface {
 			$tasks,
 			[
 				'clean_selected_empty_usermeta' => function ( $limit ) {
-					return $this->cleanup_repository->cleanup_selected_empty_usermeta( $limit );
+					return $this->cleanup_service->cleanup_selected_empty_usermeta( $limit );
 				},
 			]
 		);

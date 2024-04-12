@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Can_Edit_Users_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Edit_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\User_Meta\Application\Custom_Meta_Repository;
+use Yoast\WP\SEO\User_Meta\Application\Custom_Meta_Collector;
 use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Author_Metadesc;
 use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Noindex_Author;
 use Yoast\WP\SEO\User_Meta\User_Interface\Custom_Meta_Integration;
@@ -30,11 +30,11 @@ final class Custom_Meta_Integration_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * Holds the custom meta repository.
+	 * Holds the custom meta collector.
 	 *
-	 * @var Mockery\MockInterface|Custom_Meta_Repository
+	 * @var Mockery\MockInterface|Custom_Meta_Collector
 	 */
-	private $custom_meta_repository;
+	private $custom_meta_collector;
 
 	/**
 	 * Sets up the test fixtures.
@@ -44,10 +44,10 @@ final class Custom_Meta_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->custom_meta_repository = Mockery::mock( Custom_Meta_Repository::class );
+		$this->custom_meta_collector = Mockery::mock( Custom_Meta_Collector::class );
 
 		$this->instance = new Custom_Meta_Integration(
-			$this->custom_meta_repository
+			$this->custom_meta_collector
 		);
 	}
 
@@ -77,8 +77,8 @@ final class Custom_Meta_Integration_Test extends TestCase {
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
-			Custom_Meta_Repository::class,
-			$this->getPropertyValue( $this->instance, 'custom_meta_repository' )
+			Custom_Meta_Collector::class,
+			$this->getPropertyValue( $this->instance, 'custom_meta_collector' )
 		);
 	}
 
@@ -124,7 +124,7 @@ final class Custom_Meta_Integration_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$this->custom_meta_repository
+		$this->custom_meta_collector
 			->expects( 'get_custom_meta' )
 			->once()
 			->andReturn( $custom_meta );

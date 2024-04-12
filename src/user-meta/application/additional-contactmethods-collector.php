@@ -5,11 +5,11 @@ namespace Yoast\WP\SEO\User_Meta\Application;
 use Yoast\WP\SEO\User_Meta\Domain\Additional_Contactmethod_Interface;
 
 /**
- * The repository to get additional contactmethods.
+ * The collector to get additional contactmethods.
  *
  * @makePublic
  */
-class Additional_Contactmethods_Repository {
+class Additional_Contactmethods_Collector {
 
 	/**
 	 * All additional contactmethods.

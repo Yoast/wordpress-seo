@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\User_Meta\User_Interface;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\User_Meta\Application\Cleanup_Repository;
+use Yoast\WP\SEO\User_Meta\Application\Cleanup_Service;
 use Yoast\WP\SEO\User_Meta\User_Interface\Cleanup_Integration;
 
 /**
@@ -25,11 +25,11 @@ final class Cleanup_Integration_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * Holds the cleanup repository.
+	 * Holds the cleanup service.
 	 *
-	 * @var Mockery\MockInterface|Cleanup_Repository
+	 * @var Mockery\MockInterface|Cleanup_Service
 	 */
-	private $cleanup_repository;
+	private $cleanup_service;
 
 	/**
 	 * Sets up the test fixtures.
@@ -39,10 +39,10 @@ final class Cleanup_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->cleanup_repository = Mockery::mock( Cleanup_Repository::class );
+		$this->cleanup_service = Mockery::mock( Cleanup_Service::class );
 
 		$this->instance = new Cleanup_Integration(
-			$this->cleanup_repository
+			$this->cleanup_service
 		);
 	}
 
@@ -66,8 +66,8 @@ final class Cleanup_Integration_Test extends TestCase {
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
-			Cleanup_Repository::class,
-			$this->getPropertyValue( $this->instance, 'cleanup_repository' )
+			Cleanup_Service::class,
+			$this->getPropertyValue( $this->instance, 'cleanup_service' )
 		);
 	}
 

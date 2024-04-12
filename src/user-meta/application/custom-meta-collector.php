@@ -5,11 +5,11 @@ namespace Yoast\WP\SEO\User_Meta\Application;
 use Yoast\WP\SEO\User_Meta\Domain\Custom_Meta_Interface;
 
 /**
- * The repository to get custom user meta.
+ * The collector to get custom user meta.
  *
  * @makePublic
  */
-class Custom_Meta_Repository {
+class Custom_Meta_Collector {
 
 	/**
 	 * All custom meta.

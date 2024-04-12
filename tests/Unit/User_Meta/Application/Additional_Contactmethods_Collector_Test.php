@@ -5,23 +5,23 @@ namespace Yoast\WP\SEO\Tests\Unit\User_Meta\Application;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\User_Meta\Application\Additional_Contactmethods_Repository;
+use Yoast\WP\SEO\User_Meta\Application\Additional_Contactmethods_Collector;
 use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\Facebook;
-use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\YouTube;
+use Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods\Youtube;
 
 /**
- * Tests the additional contactmethods repository.
+ * Tests the additional contactmethods collector.
  *
  * @group user-meta
  *
- * @coversDefaultClass \Yoast\WP\SEO\User_Meta\Application\Additional_Contactmethods_Repository
+ * @coversDefaultClass \Yoast\WP\SEO\User_Meta\Application\Additional_Contactmethods_Collector
  */
-final class Additional_Contactmethods_Repository_Test extends TestCase {
+final class Additional_Contactmethods_Collector_Test extends TestCase {
 
 	/**
 	 * Holds the instance.
 	 *
-	 * @var Additional_Contactmethods_Repository
+	 * @var Additional_Contactmethods_Collector
 	 */
 	private $instance;
 
@@ -35,7 +35,7 @@ final class Additional_Contactmethods_Repository_Test extends TestCase {
 	/**
 	 * Holds mocked YouTube class.
 	 *
-	 * @var Mockery\MockInterface|YouTube
+	 * @var Mockery\MockInterface|Youtube
 	 */
 	private $youtube;
 
@@ -48,9 +48,9 @@ final class Additional_Contactmethods_Repository_Test extends TestCase {
 		parent::set_up();
 
 		$this->facebook = Mockery::mock( Facebook::class );
-		$this->youtube  = Mockery::mock( YouTube::class );
+		$this->youtube  = Mockery::mock( Youtube::class );
 
-		$this->instance = new Additional_Contactmethods_Repository(
+		$this->instance = new Additional_Contactmethods_Collector(
 			$this->facebook,
 			$this->youtube
 		);

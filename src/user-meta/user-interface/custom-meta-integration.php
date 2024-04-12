@@ -6,7 +6,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Can_Edit_Users_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Edit_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\User_Meta\Application\Custom_Meta_Repository;
+use Yoast\WP\SEO\User_Meta\Application\Custom_Meta_Collector;
 
 /**
  * Handles custom meta for users.
@@ -14,19 +14,19 @@ use Yoast\WP\SEO\User_Meta\Application\Custom_Meta_Repository;
 class Custom_Meta_Integration implements Integration_Interface {
 
 	/**
-	 * The custom meta repository.
+	 * The custom meta collector.
 	 *
-	 * @var Custom_Meta_Repository $custom_meta_repository The custom meta repository.
+	 * @var Custom_Meta_Collector $custom_meta_collector The custom meta collector.
 	 */
-	private $custom_meta_repository;
+	private $custom_meta_collector;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param Custom_Meta_Repository $custom_meta_repository The custom meta repository.
+	 * @param Custom_Meta_Collector $custom_meta_collector The custom meta collector.
 	 */
-	public function __construct( Custom_Meta_Repository $custom_meta_repository ) {
-		$this->custom_meta_repository = $custom_meta_repository;
+	public function __construct( Custom_Meta_Collector $custom_meta_collector ) {
+		$this->custom_meta_collector = $custom_meta_collector;
 	}
 
 	/**
@@ -66,7 +66,7 @@ class Custom_Meta_Integration implements Integration_Interface {
 			return;
 		}
 
-		foreach ( $this->custom_meta_repository->get_custom_meta() as $meta ) {
+		foreach ( $this->custom_meta_collector->get_custom_meta() as $meta ) {
 			$meta_field_id = $meta->get_field_id();
 
 			$user_input_to_store = isset( $_POST[ $meta_field_id ] ) ? \sanitize_text_field( \wp_unslash( $_POST[ $meta_field_id ] ) ) : '';

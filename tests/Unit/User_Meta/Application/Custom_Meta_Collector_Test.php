@@ -4,23 +4,23 @@ namespace Yoast\WP\SEO\Tests\Unit\User_Meta\Application;
 
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\User_Meta\Application\Custom_Meta_Repository;
+use Yoast\WP\SEO\User_Meta\Application\Custom_Meta_Collector;
 use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Author_Metadesc;
 use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Noindex_Author;
 
 /**
- * Tests the custom meta repository.
+ * Tests the custom meta collector.
  *
  * @group user-meta
  *
- * @coversDefaultClass \Yoast\WP\SEO\User_Meta\Application\Custom_Meta_Repository
+ * @coversDefaultClass \Yoast\WP\SEO\User_Meta\Application\Custom_Meta_Collector
  */
-final class Custom_Meta_Repository_Test extends TestCase {
+final class Custom_Meta_Collector_Test extends TestCase {
 
 	/**
 	 * Holds the instance.
 	 *
-	 * @var Custom_Meta_Repository
+	 * @var Custom_Meta_Collector
 	 */
 	private $instance;
 
@@ -49,7 +49,7 @@ final class Custom_Meta_Repository_Test extends TestCase {
 		$this->author_metadesc = Mockery::mock( Author_Metadesc::class );
 		$this->noindex_author  = Mockery::mock( Noindex_Author::class );
 
-		$this->instance = new Custom_Meta_Repository(
+		$this->instance = new Custom_Meta_Collector(
 			$this->author_metadesc,
 			$this->noindex_author
 		);

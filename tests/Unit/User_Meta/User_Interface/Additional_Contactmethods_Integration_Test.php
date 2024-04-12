@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\User_Meta\User_Interface;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\User_Meta\Application\Additional_Contactmethods_Repository;
+use Yoast\WP\SEO\User_Meta\Application\Additional_Contactmethods_Collector;
 use Yoast\WP\SEO\User_Meta\User_Interface\Additional_Contactmethods_Integration;
 
 /**
@@ -25,11 +25,11 @@ final class Additional_Contactmethods_Integration_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * Holds the additional contactmethods repository.
+	 * Holds the additional contactmethods collector.
 	 *
-	 * @var Mockery\MockInterface|Additional_Contactmethods_Repository
+	 * @var Mockery\MockInterface|Additional_Contactmethods_Collector
 	 */
-	private $additional_contactmethods_repository;
+	private $additional_contactmethods_collector;
 
 	/**
 	 * Sets up the test fixtures.
@@ -39,10 +39,10 @@ final class Additional_Contactmethods_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->additional_contactmethods_repository = Mockery::mock( Additional_Contactmethods_Repository::class );
+		$this->additional_contactmethods_collector = Mockery::mock( Additional_Contactmethods_Collector::class );
 
 		$this->instance = new Additional_Contactmethods_Integration(
-			$this->additional_contactmethods_repository
+			$this->additional_contactmethods_collector
 		);
 	}
 
@@ -66,8 +66,8 @@ final class Additional_Contactmethods_Integration_Test extends TestCase {
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
-			Additional_Contactmethods_Repository::class,
-			$this->getPropertyValue( $this->instance, 'additional_contactmethods_repository' )
+			Additional_Contactmethods_Collector::class,
+			$this->getPropertyValue( $this->instance, 'additional_contactmethods_collector' )
 		);
 	}
 
@@ -103,7 +103,7 @@ final class Additional_Contactmethods_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_contactmethods( $additional_contactmethods, $existing_contactmethods, $expected_contactmethods ) {
-		$this->additional_contactmethods_repository
+		$this->additional_contactmethods_collector
 			->expects( 'get_additional_contactmethods_objects' )
 			->once()
 			->andReturn( $additional_contactmethods );
@@ -128,7 +128,7 @@ final class Additional_Contactmethods_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_stop_storing_empty_metadata( $additional_contactmethods, $meta_to_be_saved, $value_to_be_saved, $check, $delete_times, $expected_result ) {
-		$this->additional_contactmethods_repository
+		$this->additional_contactmethods_collector
 			->expects( 'get_additional_contactmethods_keys' )
 			->once()
 			->andReturn( $additional_contactmethods );
