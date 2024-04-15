@@ -243,14 +243,15 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * Starts the cleanup cron job.
 	 *
-	 * @param string $task_name The task name of the next cleanup task to run.
+	 * @param string $task_name     The task name of the next cleanup task to run.
+	 * @param int    $schedule_time The time in seconds to wait before running the first cron job. Default is 1 hour.
 	 *
 	 * @return void
 	 */
-	public function start_cron_job( $task_name ) {
+	public function start_cron_job( $task_name, $schedule_time = 3600 ) {
 		\update_option( self::CURRENT_TASK_OPTION, $task_name );
 		\wp_schedule_event(
-			( \time() + \HOUR_IN_SECONDS ),
+			( \time() + $schedule_time ),
 			'hourly',
 			self::CRON_HOOK
 		);
