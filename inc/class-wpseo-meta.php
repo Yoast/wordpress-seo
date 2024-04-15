@@ -362,47 +362,18 @@ class WPSEO_Meta {
 	 * Get show_in_rest args for a meta field.
 	 *
 	 * @param string|null $type The type of the field.
-	 * @return bool|array<array<string>|callable|int> $args The show_in_rest args.
+	 * @return bool|array<array<string>|string> $args The show_in_rest args.
 	 */
 	public static function get_show_in_rest_args( $type ) {
 		if ( ! $type ) {
 			return false;
 		}
 		return [
-			'schema'           => [
-				'type' => 'string',
+			'schema' => [
+				'type'    => 'string',
+				'context' => [ 'edit' ],
 			],
-			'prepare_callback' => [ self::class, 'prepare_value_for_rest_request' ],
-			'user_id'          => get_current_user_id(),
 		];
-	}
-
-	/**
-	 * Prepare value for rest api. Replaces the default `prepare_value` mathod in core file wp-includes/rest-api/fields/class-wp-rest-meta-fields.php.
-	 *
-	 * @param string                                   $value   The value.
-	 * @param WP_REST_Request                          $request The request object.
-	 * @param array<string|int|array<string|callable>> $args    The show_in_rest args.
-	 *
-	 * @return string The metadata value.
-	 */
-	public static function prepare_value_for_rest_request( $value, $request, $args ) {
-		if ( ! $args['user_id'] ) {
-			return null;
-		}
-
-		$current_user = get_userdata( $args['user_id'] );
-
-		if ( ! $current_user || ! $current_user->allcaps['edit_posts'] ) {
-			return null;
-		}
-		$schema = $args['schema'];
-
-		if ( is_wp_error( rest_validate_value_from_schema( $value, $schema ) ) ) {
-			return null;
-		}
-
-		return rest_sanitize_value_from_schema( $value, $schema );
 	}
 
 	/**
