@@ -84,6 +84,10 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'social_image_template'       => $this->get_social_image_template(),
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
 				'metadata'                    => $this->get_post_meta_data(),
+				'schemaDefaults'              => [
+					'defaultPageType'    => WPSEO_Options::get( 'schema-page-type-' . $this->post->post_type ),
+					'defaultArticleType' => WPSEO_Options::get( 'schema-article-type-' . $this->post->post_type ),
+				],
 			];
 
 			$values = ( $values_to_set + $values );
@@ -342,15 +346,8 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		}
 
 		foreach ( $fields as $key => $meta_field ) {
-			$meta_value = WPSEO_Meta::get_value( $key, $this->post->ID );
-
-			$default = '';
-			if ( isset( $meta_field['default_value'] ) ) {
-				$default                        = $meta_field['default_value'];
-				$meta_data[ $key . '_default' ] = $default;
-			}
-
-			$meta_data[ $key ] = esc_attr( $meta_value ) ? esc_attr( $meta_value ) : $default;
+			$meta_value        = WPSEO_Meta::get_value( $key, $this->post->ID );
+			$meta_data[ $key ] = $meta_value;
 		}
 
 		$taxonomies = get_object_taxonomies( $post_type, 'objects' );
