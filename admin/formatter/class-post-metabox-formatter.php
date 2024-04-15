@@ -346,8 +346,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		}
 
 		foreach ( $fields as $key => $meta_field ) {
-			$meta_value        = WPSEO_Meta::get_value( $key, $this->post->ID );
-			$meta_data[ $key ] = $meta_value;
+			$meta_data[ $key ] = WPSEO_Meta::get_value( $key, $this->post->ID );
 		}
 
 		$taxonomies = get_object_taxonomies( $post_type, 'objects' );
