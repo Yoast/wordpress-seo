@@ -5,6 +5,7 @@ import { disableMetaboxTabs } from "../helpers/disableMetaboxTabs";
 import ScoreIconPortal from "./portals/ScoreIconPortal";
 import { Root } from "@yoast/ui-library";
 import { ErrorFallback } from "../shared-admin/components/error-fallback";
+import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
 
 /**
  * @param {Object} error The error instance.
@@ -34,6 +35,10 @@ export const MetaboxErrorFallback = ( { error } ) => {
 					target="wpseo-seo-score-icon"
 					scoreIndicator={ "not-set" }
 				/>
+				{ isInclusiveLanguageAnalysisActive && <ScoreIconPortal
+					target="wpseo-inclusive-language-score-icon"
+					scoreIndicator={ "not-set" }
+				/> }
 			</ErrorFallback>
 		</Root>
 	);
