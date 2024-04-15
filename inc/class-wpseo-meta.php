@@ -437,25 +437,10 @@ class WPSEO_Meta {
 				if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && WPSEO_Options::get( 'disableadvanced_meta' ) ) {
 					return [];
 				}
-
-				$field_defs['schema_page_type']['default_value'] = WPSEO_Options::get( 'schema-page-type-' . $post_type );
-
 				$article_helper = new Article_Helper();
-				if ( $article_helper->is_article_post_type( $post_type ) ) {
-					$default_schema_article_type = WPSEO_Options::get( 'schema-article-type-' . $post_type );
-
-					/** This filter is documented in inc/options/class-wpseo-option-titles.php */
-					$allowed_article_types = apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES );
-
-					if ( ! array_key_exists( $default_schema_article_type, $allowed_article_types ) ) {
-						$default_schema_article_type = WPSEO_Options::get_default( 'wpseo_titles', 'schema-article-type-' . $post_type );
-					}
-					$field_defs['schema_article_type']['default_value'] = $default_schema_article_type;
-				}
-				else {
+				if ( ! $article_helper->is_article_post_type( $post_type ) ) {
 					unset( $field_defs['schema_article_type'] );
 				}
-
 				break;
 		}
 

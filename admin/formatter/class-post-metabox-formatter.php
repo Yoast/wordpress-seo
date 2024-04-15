@@ -5,6 +5,8 @@
  * @package WPSEO\Admin\Formatter
  */
 
+use Yoast\WP\SEO\Config\Schema_Types;
+use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 /**
  * This class provides data for the post metabox by return its values for localization.
  */
@@ -84,10 +86,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'social_image_template'       => $this->get_social_image_template(),
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
 				'metadata'                    => $this->get_post_meta_data(),
-				'schemaDefaults'              => [
-					'defaultPageType'    => WPSEO_Options::get( 'schema-page-type-' . $this->post->post_type ),
-					'defaultArticleType' => WPSEO_Options::get( 'schema-article-type-' . $this->post->post_type ),
-				],
+				'schemaDefaults'              => $this->get_schema_defaults( $this->post->post_type ),
 			];
 
 			$values = ( $values_to_set + $values );
@@ -359,5 +358,35 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		}
 
 		return $meta_data;
+	}
+
+	/**
+	 * Get schema defaults.
+	 *
+	 * @param string $post_type The post type.
+	 * @return array<string> The schema defaults.
+	 */
+	public function get_schema_defaults( $post_type ) {
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && WPSEO_Options::get( 'disableadvanced_meta' ) ) {
+			return [];
+		}
+		$schema_defaults = [];
+
+		$schema_defaults['pageType'] = WPSEO_Options::get( 'schema-page-type-' . $post_type );
+
+		$article_helper = new Article_Helper();
+		if ( $article_helper->is_article_post_type( $post_type ) ) {
+			$default_schema_article_type = WPSEO_Options::get( 'schema-article-type-' . $post_type );
+
+			/** This filter is documented in inc/options/class-wpseo-option-titles.php */
+			$allowed_article_types = apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES );
+
+			if ( ! array_key_exists( $default_schema_article_type, $allowed_article_types ) ) {
+				$default_schema_article_type = WPSEO_Options::get_default( 'wpseo_titles', 'schema-article-type-' . $post_type );
+			}
+
+			$schema_defaults['articleType'] = $default_schema_article_type;
+		}
+		return $schema_defaults;
 	}
 }
