@@ -324,12 +324,11 @@ Yoast SEO 22.5 brings general maintenance updates across the plugin, improved gu
 #### Enhancements
 
 * Prevents image formats other than JPG, GIF, PNG and WEBP to be used for the `twitter:image` meta tag.
-* Introduces a check for allowed MIME types when uploading social templates images.
 * Recalibrates the recommended length of the text on taxonomy pages for the _text length_ assessment.
 
 #### Bugfixes
 
-* Fixes an incompatibility with `ES_WP_Query` library used by WordPress VIP Enterprise Search.
+* Fixes an incompatibility with `ES_WP_Query` library used by the WordPress VIP Enterprise Search.
 
 #### Other
 
