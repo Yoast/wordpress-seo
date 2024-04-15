@@ -67,13 +67,12 @@ class Custom_Meta_Integration implements Integration_Interface {
 		}
 
 		foreach ( $this->custom_meta_collector->get_custom_meta() as $meta ) {
-			$meta_field_id = $meta->get_field_id();
-
-			if ( ! isset( $_POST[ $meta_field_id ] ) ) {
+			if ( ! $meta->is_setting_enabled() ) {
 				continue;
 			}
 
-			$user_input_to_store = \sanitize_text_field( \wp_unslash( $_POST[ $meta_field_id ] ) );
+			$meta_field_id       = $meta->get_field_id();
+			$user_input_to_store = isset( $_POST[ $meta_field_id ] ) ? \sanitize_text_field( \wp_unslash( $_POST[ $meta_field_id ] ) ) : '';
 
 			if ( $meta->is_empty_allowed() || $user_input_to_store !== '' ) {
 				\update_user_meta( $user_id, $meta->get_key(), $user_input_to_store );
