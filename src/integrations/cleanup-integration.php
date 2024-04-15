@@ -248,7 +248,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function start_cron_job( $task_name, $schedule_time = \HOUR_IN_SECONDS ) {
+	public function start_cron_job( $task_name, $schedule_time = 3600 ) {
 		\update_option( self::CURRENT_TASK_OPTION, $task_name );
 		\wp_schedule_event(
 			( \time() + $schedule_time ),
