@@ -23,7 +23,7 @@
     "@babel/core": "^7.17.10",
     "@babel/plugin-transform-react-jsx": "^7.17.3",
     "@babel/preset-env": "^7.16.11",
-    "@yoast/browserslist-config": "^1.2.2",
+    "@yoast/browserslist-config": "^1.2.3",
     "babel-plugin-styled-components": "^2.0.6"
   },
   "publishConfig": {
