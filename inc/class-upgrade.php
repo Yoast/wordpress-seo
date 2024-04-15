@@ -1146,7 +1146,7 @@ class WPSEO_Upgrade {
 	private function upgrade_226() {
 		if ( get_option( Cleanup_Integration::CURRENT_TASK_OPTION ) === false ) {
 			$cleanup_integration = YoastSEO()->classes->get( Cleanup_Integration::class );
-			$cleanup_integration->start_cron_job( 'clean_selected_empty_usermeta' );
+			$cleanup_integration->start_cron_job( 'clean_selected_empty_usermeta', DAY_IN_SECONDS );
 		}
 	}
 
