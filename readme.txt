@@ -328,7 +328,7 @@ Release date: 2024-04-30
 #### Bugfixes
 
 * Fixes a bug where the inserted variables in the search appearance would not show correctly when using Elementor.
-* Fixes a bug where there would be a fatal error when deleting post meta in php 8.1 and higher. props to @izzygld
+* Fixes a bug where there would be a fatal error when deleting post meta in PHP 8.1 and higher. Props to @izzygld.
 
 #### Other
 
