@@ -25,6 +25,21 @@
 			yst-opacity-50
 			yst-cursor-not-allowed
 			focus:yst-ring-0;
+
+			.yst-autocomplete__input {
+				@apply
+				yst-cursor-not-allowed
+				focus:yst-ring-0;
+			}
+
+			.yst-autocomplete__button {
+				@apply
+				yst-opacity-50
+				yst-cursor-not-allowed
+				focus-within:yst-border-slate-200
+				focus-within:yst-outline-none
+				focus-within:yst-ring-slate-200;
+			}
 		}
 
 		.yst-autocomplete__button {
