@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Editors\Framework;
 
+use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature_Interface;
 use Yoast\WP\SEO\Helpers\Language_Helper;
 
 /**
