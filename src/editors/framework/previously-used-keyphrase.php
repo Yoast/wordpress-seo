@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Editors\Framework;
 
+use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature_Interface;
+
 /**
  * Describes if the previously used keyword feature should be enabled.
  */
