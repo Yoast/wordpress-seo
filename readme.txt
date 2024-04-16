@@ -315,6 +315,30 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 22.5 =
+
+Release date: 2024-04-16
+
+Yoast SEO 22.5 brings general maintenance updates across the plugin, improved guidance around best practice for taxonomies and a more effortless user experience overall. For more details about the release check out [the release post for 22.5](https://yoa.st/release-16-4-24).
+
+#### Enhancements
+
+* Prevents image formats other than JPG, GIF, PNG and WEBP to be used for the `twitter:image` meta tag.
+* Recalibrates the recommended length of the text on taxonomy pages for the _text length_ assessment.
+
+#### Bugfixes
+
+* Fixes an incompatibility with `ES_WP_Query` library used by the WordPress VIP Enterprise Search.
+
+#### Other
+
+* Renames all user-facing `Twitter` references to `X`, including the X profile's `sameAs` schema output URL.
+* Adds an "AI for SEO" course card to the Academy page.
+* Removes the link to the now-retired Google Mobile-Friendly Test from the admin bar menu.
+* Renames the `leiCode` fields to `LEI code` in the plugin's settings.
+* Resolves a typo in the list of German transition words. Props to [magnusmartin85](https://github.com/magnusmartin85).
+* Deprecates unused method `is_image_url_valid`.
+
 = 22.4 =
 
 Release date: 2024-04-03
@@ -338,26 +362,6 @@ Yoast SEO 22.4 brings optimizations and bug fixes. Our customers who use Element
 * Stops showing deprecation warnings when retrieving data for paid add-ons goes wrong.
 * Stops showing notifications about incompatibility with the WooCommerce's new beta product editor, after WooCommerce is deactivated.
 * Stops showing a notification prompting to install Yoast Woo SEO, after WooCommerce is deactivated.
-
-= 22.3 =
-
-Release date: 2024-03-19
-
-Yoast SEO 22.3 is out today. In this release, you’ll find various fixes and improvements for a better user experience. Find out more about what's new in Yoast SEO 22.3 in [our release post](https://yoa.st/release-19-3-24)!
-
-#### Enhancements
-
-* Removes an unnecessary query relating to breadcrumb schema generation on the homepage.
-
-#### Bugfixes
-
-* Adds `x.com` as a possible domain for the Twitter validation in our first time configuration social profiles settings.
-* Fixes a bug where the `Or go to your SEO dashboard` link in the final step of our first time configuration would not be focusable using tab.
-
-#### Other
-
-* Removes the autofill for taxonomy keyphrases.
-* Sets the WordPress tested up to version to 6.5.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

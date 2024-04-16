@@ -1,7 +1,7 @@
 import { nanoid } from "@reduxjs/toolkit";
-import { useMemo } from "@wordpress/element";
 import { flatten, slice } from "lodash";
 import PropTypes from "prop-types";
+import React, { useMemo } from "react";
 import AnimateHeight from "react-animate-height";
 import { useToggleState } from "../../hooks";
 

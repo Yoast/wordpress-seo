@@ -1,33 +1,46 @@
-import { useCallback, useState } from "@wordpress/element";
+import { useArgs } from "@storybook/preview-api";
 import { noop } from "lodash";
-import { StoryComponent } from ".";
+import React, { useCallback } from "react";
+import Toggle from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component } from "./docs";
 
-export default {
-	title: "1) Elements/Toggle",
-	component: StoryComponent,
-	argTypes: {
-		as: { options: [ "button", "div", "span" ] },
-	},
-	parameters: { docs: { description: { component } } },
-};
-
-export const Factory = ( args ) => {
-	const [ checked, setChecked ] = useState( args.checked || false );
-	const handleChange = useCallback( setChecked, [ setChecked ] );
+const Template = ( args ) => {
+	const [ { checked }, updateArgs ] = useArgs();
+	const handleChange = useCallback( newChecked => updateArgs( { checked: newChecked } ), [ updateArgs ] );
 
 	return (
-		<StoryComponent { ...args } checked={ checked } onChange={ handleChange } />
+		<Toggle { ...args } checked={ checked } onChange={ handleChange } />
 	);
 };
 
-Factory.parameters = {
-	controls: { disable: false },
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		id: "id-1",
+		screenReaderLabel: "Toggle",
+		checked: false,
+		onChange: noop,
+	},
 };
 
-Factory.args = {
-	id: "id-1",
-	screenReaderLabel: "Toggle",
-	checked: false,
-	onChange: noop,
+export default {
+	title: "1) Elements/Toggle",
+	component: Toggle,
+	argTypes: {
+		as: { options: [ "button", "div", "span" ] },
+		type: {
+			control: "string",
+			description: "When `as` is `button`, the type is forced to `button` for proper behavior in HTML forms.",
+		},
+	},
+	parameters: {
+		docs: {
+			description: { component },
+			page: InteractiveDocsPage,
+		},
+	},
 };

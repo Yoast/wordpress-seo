@@ -1,20 +1,25 @@
-import { StoryComponent } from ".";
+import ProgressBar from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component } from "./docs";
+
+export const Factory = {
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		min: 0,
+		max: 100,
+		progress: 50,
+	},
+};
 
 export default {
 	title: "1) Elements/Progress bar",
-	component: StoryComponent,
-	parameters: { docs: { description: { component } } },
-};
-
-export const Factory = ( { children, ...args } ) => (
-	<StoryComponent { ...args } />
-);
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	min: 0,
-	max: 100,
-	progress: 50,
+	component: ProgressBar,
+	parameters: {
+		docs: {
+			description: { component },
+			page: InteractiveDocsPage,
+		},
+	},
 };
