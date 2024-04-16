@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.5
-Stable tag: 22.4
+Stable tag: 22.5
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -319,15 +319,16 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-04-16
 
+Yoast SEO 22.5 brings general maintenance updates across the plugin, improved guidance around best practice for taxonomies and a more effortless user experience overall. For more details about the release check out [the release post for 22.5](https://yoa.st/release-16-4-24).
+
 #### Enhancements
 
 * Prevents image formats other than JPG, GIF, PNG and WEBP to be used for the `twitter:image` meta tag.
-* Introduces a check for allowed MIME types when uploading social templates images.
 * Recalibrates the recommended length of the text on taxonomy pages for the _text length_ assessment.
 
 #### Bugfixes
 
-* Fixes an incompatibility with `ES_WP_Query` library used by WordPress VIP Enterprise Search.
+* Fixes an incompatibility with `ES_WP_Query` library used by the WordPress VIP Enterprise Search.
 
 #### Other
 
