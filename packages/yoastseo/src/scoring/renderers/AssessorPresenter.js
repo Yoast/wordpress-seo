@@ -1,4 +1,3 @@
-/* eslint-disable tree-shaking/no-side-effects-in-initialization */
 import { __ } from "@wordpress/i18n";
 import { difference, forEach, isNumber, isObject, isUndefined } from "lodash-es";
 import { assessmentPresenterResult as template } from "../../snippetPreview/templates.js";
@@ -158,7 +157,7 @@ class AssessorPresenter {
 	}
 
 	/**
-	 * Excludes items from the results that are present in the exclude array.
+	 * Excludes items from the results that are present in the `exclude` array.
 	 *
 	 * @param {Array} results Array containing the items to filter through.
 	 * @param {Array} exclude Array of results to exclude.
@@ -169,20 +168,20 @@ class AssessorPresenter {
 	}
 
 	/**
-	 * Sorts results based on their score property and always places items considered to be unsortable, at the top.
+	 * Sorts results based on their score property and always places items considered to be non-sortable, at the top.
 	 *
 	 * @param {Array} results Array containing the results that need to be sorted.
 	 * @returns {Array} Array containing the sorted results.
 	 */
 	sort( results ) {
-		const unsortables = this.getUndefinedScores( results );
-		const sortables = this.excludeFromResults( results, unsortables );
+		const nonSortables = this.getUndefinedScores( results );
+		const sortables = this.excludeFromResults( results, nonSortables );
 
 		sortables.sort( function( a, b ) {
 			return a.score - b.score;
 		} );
 
-		return unsortables.concat( sortables );
+		return nonSortables.concat( sortables );
 	}
 
 	/**
@@ -200,7 +199,7 @@ class AssessorPresenter {
 	/**
 	 * Creates a rating object based on the item that is being passed.
 	 *
-	 * @param {AssessmentResult} item The item to check and create a rating object from.
+	 * @param {Object} item The item to check and create a rating object from.
 	 * @returns {Object} Object containing a parsed item, including a colored indicator.
 	 */
 	addRating( item ) {
@@ -311,7 +310,7 @@ class AssessorPresenter {
 	/**
 	 * Adds event handlers to the mark buttons
 	 *
-	 * @param {Array} scores The list of rendered scores.
+	 * @param {Object} scores The list of rendered scores.
 	 *
 	 * @returns {void}
 	 */

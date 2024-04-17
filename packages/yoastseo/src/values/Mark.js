@@ -56,7 +56,7 @@ class Mark {
 	/**
 	 * Returns the position information.
 	 *
-	 * @returns {number} The position information.
+	 * @returns {Object} The position information.
 	 */
 	getPosition() {
 		return this._properties.position;

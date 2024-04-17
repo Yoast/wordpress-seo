@@ -7,9 +7,7 @@ import Mark from "./Mark";
  *
  * @returns {Array} A list of empty marks.
  */
-const emptyMarker = function() {
-	return [];
-};
+const emptyMarker = () => [];
 
 /**
  * Represents the assessment result.
@@ -172,12 +170,12 @@ class AssessmentResult {
 	}
 
 	/**
-	 * Returns whether or not this result has a marker that can be used to mark for a given Paper
+	 * Returns whether this result has a marker that can be used to mark for a given Paper.
 	 *
-	 * @returns {boolean} Whether or this result has a marker.
+	 * @returns {boolean} Whether this result has a marker.
 	 */
 	hasMarker() {
-		return this._hasMarks && this._marker !== this.emptyMarker;
+		return this._hasMarks && this._marker !== emptyMarker;
 	}
 
 	/**

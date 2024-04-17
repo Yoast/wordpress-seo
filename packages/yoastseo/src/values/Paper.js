@@ -61,7 +61,7 @@ class Paper {
 			attributes.slug = attributes.url || attributes.slug;
 		}
 
-		const onlyLetters = attributes.keyword.replace( /[‘’“”"'.?!:;,¿¡«»&*@#±^%|~`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\u002b\u0026\s]/g, "" );
+		const onlyLetters = attributes.keyword.replace( /[‘’“”"'.?!:;,¿¡«»&*@#±^%|~`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\u002b\s]/g, "" );
 
 		if ( isEmpty( onlyLetters ) ) {
 			attributes.keyword = defaultAttributes.keyword;
@@ -181,7 +181,7 @@ class Paper {
 
 	/**
 	 * Returns the title width in pixels, or an empty string of no title width in pixels is available.
-	 * @returns {string} Returns the title
+	 * @returns {number} Returns the title
 	 */
 	getTitleWidth() {
 		return this._attributes.titleWidth;
