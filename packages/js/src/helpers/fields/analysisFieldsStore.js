@@ -7,14 +7,14 @@ import { defaultTo } from "lodash";
  *
  * @returns {string} The focus keyphrase.
  */
-export const getFocusKeyphrase = () => defaultTo( select( STORE_NAME_EDITOR.free ).getFocusKeyphrase(), "" );
+export const getFocusKeyphrase = () => select( STORE_NAME_EDITOR.free ).getFocusKeyphrase();
 
 /**
  * Returns whether the current content is cornerstone content.
  *
  * @returns {string} Whether the current content is cornerstone content.
  */
-export const isCornerstoneContent = () => select( STORE_NAME_EDITOR.free )?.isCornerstoneContent() ? "1" : "0";
+export const isCornerstoneContent = () => select( STORE_NAME_EDITOR.free ).isCornerstoneContent() ? "1" : "0";
 
 /**
  * Retrieves the readability score from the store.
