@@ -2,7 +2,7 @@
 import { select, subscribe } from "@wordpress/data";
 import { debounce, forEach, pickBy, get, mapKeys } from "lodash";
 import { createWatcher, createCollectorFromObject } from "../../helpers/create-watcher";
-import { EDITOR_STORE, SYNC_TIME, META_KEYS, POST_FORM_IDS_PREFIX, TERM_FORM_IDS_PREFIX } from "../../shared-admin/constants";
+import { STORE_NAME_EDITOR, SYNC_TIME, META_KEYS, POST_INPUT_ID_PREFIX, TERM_INPUT_ID_PREFIX } from "../../shared-admin/constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
 import { getPageType, getArticleType } from "./schemaFieldsStore";
@@ -16,7 +16,7 @@ import getPrimaryTerms from "./primaryTaxonomiesFieldsStore";
  * @returns {string} The value to be saved.
  */
 const prepareSocialTitle = ( value ) => {
-	if ( value.trim() === select( EDITOR_STORE ).getSocialTitleTemplate().trim() ) {
+	if ( value.trim() === select( STORE_NAME_EDITOR.free ).getSocialTitleTemplate().trim() ) {
 		return "";
 	}
 	return value;
@@ -28,7 +28,7 @@ const prepareSocialTitle = ( value ) => {
  * @returns {string} The value to be saved.
  */
 const prepareSocialDescription = ( value ) => {
-	if ( value.trim() === select( EDITOR_STORE ).getSocialDescriptionTemplate().trim() ) {
+	if ( value.trim() === select( STORE_NAME_EDITOR.free ).getSocialDescriptionTemplate().trim() ) {
 		return "";
 	}
 	return value;
@@ -99,7 +99,7 @@ export const createUpdater = () => {
 };
 
 const isPost = get( window, "wpseoScriptData.isPost", false );
-const prefix = isPost ? POST_FORM_IDS_PREFIX : TERM_FORM_IDS_PREFIX;
+const prefix = isPost ? POST_INPUT_ID_PREFIX : TERM_INPUT_ID_PREFIX;
 
 const primaryTaxonomiesGetters = mapKeys( getPrimaryTerms(), ( value, key ) => prefix + key );
 
@@ -139,5 +139,5 @@ export const hiddenFieldsSync = () => {
 			...primaryTaxonomiesGetters,
 		} ),
 		createUpdater()
-	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), EDITOR_STORE );
+	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE_NAME_EDITOR.free );
 };

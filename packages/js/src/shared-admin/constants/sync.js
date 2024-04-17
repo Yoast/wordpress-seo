@@ -25,11 +25,11 @@ export const META_KEYS = {
 	readingTime: "estimated-reading-time-minutes",
 };
 
-export const POST_META_KEY_PREFIX = "_yoast_wpseo_";
+export const POST_INPUT_ID_PREFIX = "yoast_wpseo_";
 
-export const POST_FORM_IDS_PREFIX = "yoast_wpseo_";
+export const POST_META_KEY_PREFIX = `_${ POST_INPUT_ID_PREFIX }`;
 
-export const TERM_FORM_IDS_PREFIX = "hidden_wpseo_";
+export const TERM_INPUT_ID_PREFIX = "hidden_wpseo_";
 
 export const SYNC_TIME = {
 	wait: 500,

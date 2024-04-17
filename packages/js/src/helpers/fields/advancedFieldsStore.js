@@ -1,5 +1,5 @@
 import { select } from "@wordpress/data";
-import { EDITOR_STORE } from "../../shared-admin/constants";
+import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
 import { defaultTo } from "lodash";
 
 /**
@@ -7,14 +7,14 @@ import { defaultTo } from "lodash";
  *
  * @returns {string} The no index value.
  */
-export const getNoIndex = () => String( defaultTo( select( EDITOR_STORE ).getNoIndex(), "0" ) );
+export const getNoIndex = () => String( defaultTo( select( STORE_NAME_EDITOR.free ).getNoIndex(), "0" ) );
 
 /**
  * Retrieves the no follow value.
  *
  * @returns {string} The no follow value.
  */
-export const getNoFollow = () => String( defaultTo( select( EDITOR_STORE ).getNoFollow(), "0" ) );
+export const getNoFollow = () => String( defaultTo( select( STORE_NAME_EDITOR.free ).getNoFollow(), "0" ) );
 
 /**
  * Gets the twitter image URL from the state.
@@ -24,7 +24,7 @@ export const getNoFollow = () => String( defaultTo( select( EDITOR_STORE ).getNo
  * @returns {string} Twitter image URL.
  */
 export const getAdvanced = () => {
-	const advanced = defaultTo( select( EDITOR_STORE ).getAdvanced(), "" );
+	const advanced = defaultTo( select( STORE_NAME_EDITOR.free ).getAdvanced(), "" );
 	if ( Array.isArray( advanced ) ) {
 		return advanced.join( "," );
 	}
@@ -38,7 +38,7 @@ export const getAdvanced = () => {
  *
  * @returns {string} Twitter image type.
  */
-export const getBreadcrumbsTitle = () => defaultTo( select( EDITOR_STORE ).getBreadcrumbsTitle(), "" );
+export const getBreadcrumbsTitle = () => defaultTo( select( STORE_NAME_EDITOR.free ).getBreadcrumbsTitle(), "" );
 
 /**
  * Gets the Twitter image src from the state.
@@ -47,7 +47,7 @@ export const getBreadcrumbsTitle = () => defaultTo( select( EDITOR_STORE ).getBr
  *
  * @returns {String} Twitter image src.
  */
-export const getCanonical = () => defaultTo( select( EDITOR_STORE ).getCanonical(), "" );
+export const getCanonical = () => defaultTo( select( STORE_NAME_EDITOR.free ).getCanonical(), "" );
 
 /**
  * Gets the WordProof timestamp value.
@@ -56,4 +56,4 @@ export const getCanonical = () => defaultTo( select( EDITOR_STORE ).getCanonical
  *
  * @returns {string} WordProof timestamp value.
  */
-export const getWordProofTimestamp = () => select( EDITOR_STORE ).getWordProofTimestamp() ? "1" : "";
+export const getWordProofTimestamp = () => select( STORE_NAME_EDITOR.free ).getWordProofTimestamp() ? "1" : "";

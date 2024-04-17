@@ -1,6 +1,6 @@
 import { get, pickBy, forEach, defaultTo } from "lodash";
 import { select } from "@wordpress/data";
-import { EDITOR_STORE } from "../../shared-admin/constants";
+import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
 
 /**
  * Retrieves primary terms from store methods.
@@ -14,7 +14,7 @@ const getPrimaryTerms = () => {
 	forEach( primaryTerms, ( value, key ) => {
 		const taxonomy = key.replace( "primary_", "" );
 		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => {
-			const termId = String( defaultTo( select( EDITOR_STORE ).getPrimaryTaxonomyId( taxonomy ), "" ) );
+			const termId = String( defaultTo( select( STORE_NAME_EDITOR.free ).getPrimaryTaxonomyId( taxonomy ), "" ) );
 			if ( termId === "0" || termId === "-1" ) {
 				return "";
 			}

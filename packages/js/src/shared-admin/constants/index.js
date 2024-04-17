@@ -20,5 +20,9 @@ export const VIDEO_FLOW = {
 	isPlaying: "isPlaying",
 };
 
-export * from "./stores";
+export const STORE_NAME_EDITOR = {
+	free: "yoast-seo/editor",
+	core: "core/editor",
+};
+
 export * from "./sync";

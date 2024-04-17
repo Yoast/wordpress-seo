@@ -16,7 +16,7 @@ import {
 	getPageType,
 	getArticleType,
 } from "../../../src/helpers/fields";
-import { EDITOR_STORE } from "../../../src/shared-admin/constants";
+import { STORE_NAME_EDITOR } from "../../../src/shared-admin/constants";
 import { select } from "@wordpress/data";
 
 // Tests for the facebookFieldsStore.js, twitterFieldsStore.js and adnacedSettingsFieldsStore.js files.
@@ -35,7 +35,7 @@ const testCasesInteger = [
 describe.each( testCasesInteger )( "$method", ( { method, getFunction } ) => {
 	it( `should return string from ${method} when the value is an integer`, () => {
 		select.mockImplementation( ( store ) => {
-			if ( store === EDITOR_STORE ) {
+			if ( store === STORE_NAME_EDITOR.free ) {
 				return {
 					[ method ]: () => 5,
 				};
@@ -67,7 +67,7 @@ const testCases = [
 describe.each( testCases )( "$method", ( { method, getFunction } ) => {
 	it( `should return string from ${method} when value is string`, () => {
 		select.mockImplementation( ( store ) => {
-			  if ( store === EDITOR_STORE ) {
+			  if ( store === STORE_NAME_EDITOR.free ) {
 				  return {
 					  [ method ]: () => "string_result",
 				  };
@@ -83,7 +83,7 @@ describe.each( testCases )( "$method", ( { method, getFunction } ) => {
 describe.each( testCases )( "$method", ( { method, getFunction } ) => {
 	it( `should return empty string from ${method} when null`, () => {
 	  select.mockImplementation( ( store ) => {
-			if ( store === EDITOR_STORE ) {
+			if ( store === STORE_NAME_EDITOR.free ) {
 				return {
 					[ method ]: () => null,
 				};
@@ -98,7 +98,7 @@ describe.each( testCases )( "$method", ( { method, getFunction } ) => {
 describe.each( testCases )( "$method", ( { method, getFunction } ) => {
 	it( `should return empty string from ${method} when undefined`, () => {
 	  select.mockImplementation( ( store ) => {
-			if ( store === EDITOR_STORE ) {
+			if ( store === STORE_NAME_EDITOR.free ) {
 				return {
 					[ method ]: () => undefined,
 				};
@@ -118,7 +118,7 @@ const testCasesWithDefaultZero = [
 describe.each( testCasesWithDefaultZero )( "$method", ( { method, getFunction } ) => {
 	it( `should return zero string from ${method} when null`, () => {
 	  select.mockImplementation( ( store ) => {
-			if ( store === EDITOR_STORE ) {
+			if ( store === STORE_NAME_EDITOR.free ) {
 				return {
 					[ method ]: () => null,
 				};
@@ -133,7 +133,7 @@ describe.each( testCasesWithDefaultZero )( "$method", ( { method, getFunction } 
 describe.each( testCasesWithDefaultZero )( "$method", ( { method, getFunction } ) => {
 	it( `should return zero string from ${method} when null`, () => {
 	  select.mockImplementation( ( store ) => {
-			if ( store === EDITOR_STORE ) {
+			if ( store === STORE_NAME_EDITOR.free ) {
 				return {
 					[ method ]: () => undefined,
 				};
@@ -148,7 +148,7 @@ describe.each( testCasesWithDefaultZero )( "$method", ( { method, getFunction } 
 describe( "getWordProofTimestamp", () => {
 	it( "should return '1' when true", () => {
 		select.mockImplementation( ( store ) => {
-			if ( store === EDITOR_STORE ) {
+			if ( store === STORE_NAME_EDITOR.free ) {
 				return {
 					getWordProofTimestamp: () => true,
 				};
@@ -169,7 +169,7 @@ const getWordProofTimestampTestCases = [
 describe.each( getWordProofTimestampTestCases )( "getWordProofTimestamp", ( { value, expected } ) => {
 	it( `should return ${expected ? expected : "empty string" } from getWordProofTimestamp when value is ${value}`, () => {
 	  select.mockImplementation( ( store ) => {
-			if ( store === EDITOR_STORE ) {
+			if ( store === STORE_NAME_EDITOR.free ) {
 				return {
 					getWordProofTimestamp: () => value,
 				};

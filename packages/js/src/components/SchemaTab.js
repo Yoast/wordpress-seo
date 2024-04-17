@@ -8,7 +8,7 @@ import styled from "styled-components";
 import WooCommerceUpsell from "./WooCommerceUpsell";
 import { get } from "lodash";
 import { useSelect } from "@wordpress/data";
-import { EDITOR_STORE } from "../shared-admin/constants";
+import { STORE_NAME_EDITOR } from "../shared-admin/constants";
 
 const NewsLandingPageLink = makeOutboundLink();
 
@@ -68,8 +68,8 @@ NewsAlert.propTypes = {
  * @returns {Object[]} A copy of the schema type options.
  */
 const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) => {
-	const isProduct = useSelect( ( select ) => select( EDITOR_STORE ).getIsProduct(), [] );
-	const isWooSeoActive = useSelect( select => select( EDITOR_STORE ).getIsWooSeoActive(), [] );
+	const isProduct = useSelect( ( select ) => select( STORE_NAME_EDITOR.free ).getIsProduct(), [] );
+	const isWooSeoActive = useSelect( select => select( STORE_NAME_EDITOR.free ).getIsWooSeoActive(), [] );
 	const disablePageTypeSelect = isProduct && isWooSeoActive;
 	const schemaOption = disablePageTypeSelect ? { name: __( "Item Page", "wordpress-seo" ), value: "ItemPage" } : schemaTypeOptions.find( option => option.value === defaultType );
 	return [
@@ -169,9 +169,9 @@ const Content = ( props ) => {
 	const woocommerceUpsell = get( window, "wpseoScriptData.woocommerceUpsell", "" );
 	const [ focusedArticleType, setFocusedArticleType ] = useState( props.schemaArticleTypeSelected );
 	const woocommerceUpsellText = __( "Want your products stand out in search results with rich results like price, reviews and more?", "wordpress-seo" );
-	const isProduct = useSelect( ( select ) => select( EDITOR_STORE ).getIsProduct(), [] );
-	const isWooSeoActive = useSelect( select => select( EDITOR_STORE ).getIsWooSeoActive(), [] );
-	const showArticleTypeInput = useSelect( select => select( EDITOR_STORE ).getShowArticleTypeInput(), [] );
+	const isProduct = useSelect( ( select ) => select( STORE_NAME_EDITOR.free ).getIsProduct(), [] );
+	const isWooSeoActive = useSelect( select => select( STORE_NAME_EDITOR.free ).getIsWooSeoActive(), [] );
+	const showArticleTypeInput = useSelect( select => select( STORE_NAME_EDITOR.free ).getShowArticleTypeInput(), [] );
 	const disablePageTypeSelect = isProduct && isWooSeoActive;
 
 	const handleOptionChange = useCallback(

@@ -1,5 +1,5 @@
 import getPrimaryTerms from "../../../src/helpers/fields/primaryTaxonomiesFieldsStore";
-import { EDITOR_STORE } from "../../../src/shared-admin/constants";
+import { STORE_NAME_EDITOR } from "../../../src/shared-admin/constants";
 import { select } from "@wordpress/data";
 
 jest.mock( "@wordpress/data", () => ( {
@@ -41,7 +41,7 @@ describe.each( testCases )( "getPrimaryTerm - should returns an object with taxo
 		getPrimaryTaxonomyId.mockReturnValue( termId );
 
 		select.mockImplementation( ( store ) => {
-			if ( store === EDITOR_STORE ) {
+			if ( store === STORE_NAME_EDITOR.free ) {
 				return {
 					getPrimaryTaxonomyId,
 				};

@@ -6,7 +6,7 @@ import {
 	getEstimatedReadingTime,
 	isCornerstoneContent,
 } from "../../../src/helpers/fields";
-import { EDITOR_STORE } from "../../../src/shared-admin/constants";
+import { STORE_NAME_EDITOR } from "../../../src/shared-admin/constants";
 import { select } from "@wordpress/data";
 
 jest.mock( "@wordpress/data", () => ( {
@@ -24,7 +24,7 @@ const testCasesScoresInteger = [
 describe.each( testCasesScoresInteger )( "$method", ( { method, getFunction, returnValueSelect } ) => {
 	it( `should return string from ${method} when the score is an integer`, () => {
 		select.mockImplementation( ( store ) => {
-			if ( store === EDITOR_STORE ) {
+			if ( store === STORE_NAME_EDITOR.free ) {
 				return {
 					[ method ]: () => {
 						return returnValueSelect;
@@ -48,7 +48,7 @@ const testCasesScoresNull = [
 describe.each( testCasesScoresNull )( "$method", ( { method, getFunction, returnValueSelect } ) => {
 	it( `should return zero string from ${method} when null`, () => {
 	  select.mockImplementation( ( store ) => {
-			if ( store === EDITOR_STORE ) {
+			if ( store === STORE_NAME_EDITOR.free ) {
 				return {
 					[ method ]: () => {
 						return returnValueSelect;
@@ -72,7 +72,7 @@ const testCasesScoresUndefined = [
 describe.each( testCasesScoresUndefined )( "$method", ( { method, getFunction, returnValueSelect } ) => {
 	it( `should return zero string from ${method} when undefined`, () => {
 	  select.mockImplementation( ( store ) => {
-			if ( store === EDITOR_STORE ) {
+			if ( store === STORE_NAME_EDITOR.free ) {
 				return {
 					[ method ]: () => {
 						return returnValueSelect;
@@ -96,7 +96,7 @@ const boolenaTestCases = [
 describe.each( boolenaTestCases )( "isCornerstoneContent", ( { value, expected } ) => {
 	it( `should return ${expected} from isCornerstoneContent when value is ${value}`, () => {
 	  select.mockImplementation( ( store ) => {
-			if ( store === EDITOR_STORE ) {
+			if ( store === STORE_NAME_EDITOR.free ) {
 				return {
 					isCornerstoneContent: () => value,
 				};
@@ -117,7 +117,7 @@ const focusKeyphraseTestCases = [
 describe.each( focusKeyphraseTestCases )( "getFocusKeyphrase", ( { value, expected } ) => {
 	it( `should return ${expected} from getFocusKeyphrase when value is ${value}`, () => {
 	  select.mockImplementation( ( store ) => {
-			if ( store === EDITOR_STORE ) {
+			if ( store === STORE_NAME_EDITOR.free ) {
 				return {
 					getFocusKeyphrase: () => value,
 				};

@@ -1,5 +1,5 @@
 import { select } from "@wordpress/data";
-import { EDITOR_STORE } from "../../shared-admin/constants";
+import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
 import { defaultTo } from "lodash";
 
 /**
@@ -7,11 +7,11 @@ import { defaultTo } from "lodash";
  *
  * @returns {String} Page type.
  */
-export const getPageType = () => defaultTo( select( EDITOR_STORE ).getPageType(), "" );
+export const getPageType = () => defaultTo( select( STORE_NAME_EDITOR.free ).getPageType(), "" );
 
 /**
  * Gets the articleType from the store.
  *
  * @returns {String} Article type.
  */
-export const getArticleType = () => defaultTo( select( EDITOR_STORE ).getArticleType(), "" );
+export const getArticleType = () => defaultTo( select( STORE_NAME_EDITOR.free ).getArticleType(), "" );

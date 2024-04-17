@@ -1,7 +1,7 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
 import { debounce, pickBy, mapKeys } from "lodash";
 import { createWatcher, createCollectorFromObject } from "../../helpers/create-watcher";
-import { EDITOR_STORE, CORE_EDITOR_STORE, SYNC_TIME, META_KEYS, POST_META_KEY_PREFIX } from "../../shared-admin/constants";
+import { STORE_NAME_EDITOR, SYNC_TIME, META_KEYS, POST_META_KEY_PREFIX } from "../../shared-admin/constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
 import { getPageType, getArticleType } from "./schemaFieldsStore";
@@ -15,8 +15,8 @@ import getPrimaryTerms from "./primaryTaxonomiesFieldsStore";
  * @returns {function} The updater.
  */
 const createUpdater = () => {
-	const { editPost } = dispatch( CORE_EDITOR_STORE );
-	const { getCurrentPost } = select( CORE_EDITOR_STORE );
+	const { editPost } = dispatch( STORE_NAME_EDITOR.core );
+	const { getCurrentPost } = select( STORE_NAME_EDITOR.core );
 
 	/**
 	 * Syncs the data to the WP entity record.
@@ -82,5 +82,5 @@ export const blockEditorSync = () => {
 			...primaryTaxonomiesGetters,
 		} ),
 		createUpdater()
-	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), EDITOR_STORE );
+	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE_NAME_EDITOR.free );
 };
