@@ -1,10 +1,10 @@
+import Assessor from "./assessor";
 import IntroductionKeywordAssessment from "./assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./assessments/seo/KeyphraseLengthAssessment";
 import KeyphraseDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./assessments/seo/MetaDescriptionKeywordAssessment";
 import KeyphraseInSEOTitleAssessment from "./assessments/seo/KeyphraseInSEOTitleAssessment";
 import SlugKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
-import Assessor from "./assessor";
 import MetaDescriptionLengthAssessment from "./assessments/seo/MetaDescriptionLengthAssessment";
 import TextLengthAssessment from "./assessments/seo/TextLengthAssessment";
 import PageTitleWidthAssessment from "./assessments/seo/PageTitleWidthAssessment";
@@ -17,7 +17,7 @@ import { createAnchorOpeningTag } from "../helpers";
  *
  * @returns {TextLengthAssessment} The text length assessment (with taxonomy configuration) to use.
  */
-export const getTextLengthAssessment = function() {
+export const getTextLengthAssessment = () => {
 	// Export so it can be used in tests.
 	return new TextLengthAssessment( {
 		recommendedMinimum: 30,
@@ -30,18 +30,16 @@ export const getTextLengthAssessment = function() {
 };
 
 /**
- * Creates the Assessor used for taxonomy pages.
+ * The TaxonomyAssessor is used for the assessment of terms.
  */
-class TaxonomyAssessor extends Assessor {
+export default class TaxonomyAssessor extends Assessor {
 	/**
-	 * Creates a new taxonomy assessor.
-	 *
+	 * Creates a new TaxonomyAssessor instance.
 	 * @param {Researcher}	researcher	The researcher to use.
-	 * @param {Object}		options		The assessor options.
+	 * @param {Object}		[options]	The assessor options.
 	 */
 	constructor( researcher, options ) {
 		super( researcher, options );
-
 		this.type = "taxonomyAssessor";
 
 		this._assessments = [
@@ -65,5 +63,3 @@ class TaxonomyAssessor extends Assessor {
 		];
 	}
 }
-
-export default TaxonomyAssessor;

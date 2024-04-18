@@ -1,6 +1,4 @@
-import { inherits } from "util";
-
-import { Assessor, ContentAssessor, assessments, helpers } from "yoastseo";
+import { ContentAssessor, assessments, helpers } from "yoastseo";
 const { createAnchorOpeningTag } = helpers;
 
 const {
@@ -27,53 +25,59 @@ const {
  *
  * @constructor
  */
-const StorePostsAndPagesCornerstoneContentAssessor = function( researcher, options = {} ) {
-	Assessor.call( this, researcher, options );
-	this.type = "storePostsAndPagesCornerstoneContentAssessor";
+class StorePostsAndPagesCornerstoneContentAssessor extends ContentAssessor {
+	/**
+	 * Creates a new assessor.
+	 *
+	 * @param {Researcher}	researcher	The researcher to use.
+	 * @param {Object}		options		The assessor options.
+	 */
+	constructor( researcher, options ) {
+		super( researcher, options );
 
-	this._assessments = [
+		this.type = "storePostsAndPagesCornerstoneContentAssessor";
 
-		new SubheadingDistributionTooLongAssessment( {
-			parameters:	{
-				slightlyTooMany: 250,
-				farTooMany: 300,
-				recommendedMaximumLength: 250,
-			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
-			cornerstoneContent: true,
-		} ),
-		new ParagraphTooLongAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify66" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify67" ),
-		} ),
-		new SentenceLengthInTextAssessment( {
-			slightlyTooMany: 20,
-			farTooMany: 25,
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify48" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify49" ),
-		}, true ),
-		new TransitionWordsAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify45" ),
-		} ),
-		new PassiveVoiceAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify42" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify43" ),
-		} ),
-		new TextPresenceAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
-		} ),
-		new SentenceBeginningsAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify5" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
-		} ),
-	];
-};
+		this._assessments = [
 
-inherits( StorePostsAndPagesCornerstoneContentAssessor, ContentAssessor );
-
+			new SubheadingDistributionTooLongAssessment( {
+				parameters:	{
+					slightlyTooMany: 250,
+					farTooMany: 300,
+					recommendedMaximumLength: 250,
+				},
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
+				cornerstoneContent: true,
+			} ),
+			new ParagraphTooLongAssessment( {
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify66" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify67" ),
+			} ),
+			new SentenceLengthInTextAssessment( {
+				slightlyTooMany: 20,
+				farTooMany: 25,
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify48" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify49" ),
+			}, true ),
+			new TransitionWordsAssessment( {
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify45" ),
+			} ),
+			new PassiveVoiceAssessment( {
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify42" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify43" ),
+			} ),
+			new TextPresenceAssessment( {
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
+			} ),
+			new SentenceBeginningsAssessment( {
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify5" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
+			} ),
+		];
+	}
+}
 
 export default StorePostsAndPagesCornerstoneContentAssessor;
 

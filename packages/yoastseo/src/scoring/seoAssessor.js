@@ -1,5 +1,4 @@
-import { inherits } from "util";
-
+import Assessor from "./assessor";
 import IntroductionKeywordAssessment from "./assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./assessments/seo/KeyphraseLengthAssessment";
 import KeyphraseDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
@@ -8,7 +7,6 @@ import TextCompetingLinksAssessment from "./assessments/seo/TextCompetingLinksAs
 import InternalLinksAssessment from "./assessments/seo/InternalLinksAssessment";
 import KeyphraseInSEOTitleAssessment from "./assessments/seo/KeyphraseInSEOTitleAssessment";
 import SlugKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
-import Assessor from "./assessor";
 import MetaDescriptionLength from "./assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeyword from "./assessments/seo/SubHeadingsKeywordAssessment";
 import ImageKeyphrase from "./assessments/seo/KeyphraseInImageTextAssessment";
@@ -20,43 +18,40 @@ import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphrase
 import SingleH1Assessment from "./assessments/seo/SingleH1Assessment";
 
 /**
- * Creates the Assessor
- *
- * @param {Researcher}  researcher      The researcher to use for the analysis.
- * @param {Object?}     options         The options for this assessor.
- * @param {Function}    options.marker  The marker to pass the list of marks to.
- *
- * @constructor
+ * The SEOAssessor class is used for the general SEO analysis.
  */
-const SEOAssessor = function( researcher,  options ) {
-	Assessor.call( this, researcher, options );
-	this.type = "SEOAssessor";
+export default class SEOAssessor extends Assessor {
+	/**
+	 * Creates a new SEOAssessor instance.
+	 * @param {Researcher}	researcher	The researcher to use.
+	 * @param {Object}		[options]	The assessor options.
+	 */
+	constructor( researcher, options ) {
+		super( researcher, options );
+		this.type = "SEOAssessor";
 
-	this._assessments = [
-		new IntroductionKeywordAssessment(),
-		new KeyphraseLengthAssessment(),
-		new KeyphraseDensityAssessment(),
-		new MetaDescriptionKeywordAssessment(),
-		new MetaDescriptionLength(),
-		new SubheadingsKeyword(),
-		new TextCompetingLinksAssessment(),
-		new ImageKeyphrase(),
-		new ImageCount(),
-		new TextLength(),
-		new OutboundLinks(),
-		new KeyphraseInSEOTitleAssessment(),
-		new InternalLinksAssessment(),
-		new TitleWidth( {
-			scores: {
-				widthTooShort: 9,
-			},
-		}, true ),
-		new SlugKeywordAssessment(),
-		new FunctionWordsInKeyphrase(),
-		new SingleH1Assessment(),
-	];
-};
-
-inherits( SEOAssessor, Assessor );
-
-export default SEOAssessor;
+		this._assessments = [
+			new IntroductionKeywordAssessment(),
+			new KeyphraseLengthAssessment(),
+			new KeyphraseDensityAssessment(),
+			new MetaDescriptionKeywordAssessment(),
+			new MetaDescriptionLength(),
+			new SubheadingsKeyword(),
+			new TextCompetingLinksAssessment(),
+			new ImageKeyphrase(),
+			new ImageCount(),
+			new TextLength(),
+			new OutboundLinks(),
+			new KeyphraseInSEOTitleAssessment(),
+			new InternalLinksAssessment(),
+			new TitleWidth( {
+				scores: {
+					widthTooShort: 9,
+				},
+			}, true ),
+			new SlugKeywordAssessment(),
+			new FunctionWordsInKeyphrase(),
+			new SingleH1Assessment(),
+		];
+	}
+}

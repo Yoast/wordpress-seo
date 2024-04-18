@@ -1,6 +1,4 @@
-import { inherits } from "util";
 import Assessor from "../assessor.js";
-
 import IntroductionKeyword from "../assessments/seo/IntroductionKeywordAssessment.js";
 import KeyphraseLength from "../assessments/seo/KeyphraseLengthAssessment.js";
 import KeyphraseDensityAssessment from "../assessments/seo/KeywordDensityAssessment.js";
@@ -10,35 +8,32 @@ import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphras
 import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
 
 /**
- * Creates the Assessor
- *
- * @param {Researcher} researcher    The researcher used for the analysis.
- * @param {Object?} options          The options for this assessor.
- * @param {Function} options.marker  The marker to pass the list of marks to.
- *
- * @constructor
+ * The relatedKeywordAssessor class is used for the related keyword analysis for cornerstone content.
  */
-const relatedKeywordAssessor = function( researcher, options ) {
-	Assessor.call( this, researcher, options );
-	this.type = "cornerstoneRelatedKeywordAssessor";
+export default class relatedKeywordAssessor extends Assessor {
+	/**
+	 * Creates a new relatedKeywordAssessor instance.
+	 * @param {Researcher}	researcher	The researcher to use.
+	 * @param {Object}		[options]	The assessor options.
+	 */
+	constructor( researcher, options ) {
+		super( researcher, options );
+		this.type = "cornerstoneRelatedKeywordAssessor";
 
-	this._assessments = [
-		new IntroductionKeyword(),
-		new KeyphraseLength( { isRelatedKeyphrase: true } ),
-		new KeyphraseDensityAssessment(),
-		new MetaDescriptionKeyword(),
-		new TextCompetingLinks(),
-		new FunctionWordsInKeyphrase(),
-		new ImageKeyphrase( {
-			scores: {
-				withAltNonKeyword: 3,
-				withAlt: 3,
-				noAlt: 3,
-			},
-		} ),
-	];
-};
-
-inherits( relatedKeywordAssessor, Assessor );
-
-export default relatedKeywordAssessor;
+		this._assessments = [
+			new IntroductionKeyword(),
+			new KeyphraseLength( { isRelatedKeyphrase: true } ),
+			new KeyphraseDensityAssessment(),
+			new MetaDescriptionKeyword(),
+			new TextCompetingLinks(),
+			new FunctionWordsInKeyphrase(),
+			new ImageKeyphrase( {
+				scores: {
+					withAltNonKeyword: 3,
+					withAlt: 3,
+					noAlt: 3,
+				},
+			} ),
+		];
+	}
+}

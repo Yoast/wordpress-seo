@@ -1,5 +1,4 @@
-import { inherits } from "util";
-
+import SEOAssessor from "../seoAssessor";
 import IntroductionKeywordAssessment from "../assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
 import KeyphraseDensityAssessment from "../assessments/seo/KeywordDensityAssessment";
@@ -8,8 +7,6 @@ import TextCompetingLinksAssessment from "../assessments/seo/TextCompetingLinksA
 import InternalLinksAssessment from "../assessments/seo/InternalLinksAssessment";
 import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitleAssessment";
 import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
-import Assessor from "../assessor";
-import SEOAssessor from "../seoAssessor";
 import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment";
 import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
@@ -21,78 +18,75 @@ import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphras
 import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
 
 /**
- * Creates the Assessor
- *
- * @param {Researcher} researcher    The researcher used for the analysis.
- * @param {Object?} options          The options for this assessor.
- * @param {Function} options.marker  The marker to pass the list of marks to.
- *
- * @constructor
+ * The CornerstoneSEOAssessor class is used for the SEO analysis for cornerstone content.
  */
-const CornerstoneSEOAssessor = function( researcher, options ) {
-	Assessor.call( this, researcher, options );
-	this.type = "cornerstoneSEOAssessor";
+export default class CornerstoneSEOAssessor extends SEOAssessor {
+	/**
+	 * Creates a new CornerstoneSEOAssessor instance.
+	 * @param {Researcher}	researcher	The researcher to use.
+	 * @param {Object}		[options]	The assessor options.
+	 */
+	constructor( researcher, options ) {
+		super( researcher, options );
+		this.type = "cornerstoneSEOAssessor";
 
-	this._assessments = [
-		new IntroductionKeywordAssessment(),
-		new KeyphraseLengthAssessment(),
-		new KeyphraseDensityAssessment(),
-		new MetaDescriptionKeywordAssessment(),
-		new MetaDescriptionLength( {
-			scores:	{
-				tooLong: 3,
-				tooShort: 3,
-			},
-		} ),
-		new SubheadingsKeyword(),
-		new TextCompetingLinksAssessment(),
-		new ImageKeyphrase( {
-			scores: {
-				withAltNonKeyword: 3,
-				withAlt: 3,
-				noAlt: 3,
-			},
-		} ),
-		new ImageCount(),
-		new TextLength( {
-			recommendedMinimum: 900,
-			slightlyBelowMinimum: 400,
-			belowMinimum: 300,
-
-			scores: {
-				belowMinimum: -20,
-				farBelowMinimum: -20,
-			},
-
-			cornerstoneContent: true,
-		} ),
-		new OutboundLinks( {
-			scores: {
-				noLinks: 3,
-			},
-		} ),
-		new KeyphraseInSEOTitleAssessment(),
-		new InternalLinksAssessment(),
-		new TitleWidth(
-			{
+		this._assessments = [
+			new IntroductionKeywordAssessment(),
+			new KeyphraseLengthAssessment(),
+			new KeyphraseDensityAssessment(),
+			new MetaDescriptionKeywordAssessment(),
+			new MetaDescriptionLength( {
 				scores: {
-					widthTooShort: 9,
+					tooLong: 3,
+					tooShort: 3,
 				},
-			},
-			true
-		),
-		new SlugKeywordAssessment(
-			{
+			} ),
+			new SubheadingsKeyword(),
+			new TextCompetingLinksAssessment(),
+			new ImageKeyphrase( {
 				scores: {
-					okay: 3,
+					withAltNonKeyword: 3,
+					withAlt: 3,
+					noAlt: 3,
 				},
-			}
-		),
-		new FunctionWordsInKeyphrase(),
-		new SingleH1Assessment(),
-	];
-};
+			} ),
+			new ImageCount(),
+			new TextLength( {
+				recommendedMinimum: 900,
+				slightlyBelowMinimum: 400,
+				belowMinimum: 300,
 
-inherits( CornerstoneSEOAssessor, SEOAssessor );
+				scores: {
+					belowMinimum: -20,
+					farBelowMinimum: -20,
+				},
 
-export default CornerstoneSEOAssessor;
+				cornerstoneContent: true,
+			} ),
+			new OutboundLinks( {
+				scores: {
+					noLinks: 3,
+				},
+			} ),
+			new KeyphraseInSEOTitleAssessment(),
+			new InternalLinksAssessment(),
+			new TitleWidth(
+				{
+					scores: {
+						widthTooShort: 9,
+					},
+				},
+				true
+			),
+			new SlugKeywordAssessment(
+				{
+					scores: {
+						okay: 3,
+					},
+				}
+			),
+			new FunctionWordsInKeyphrase(),
+			new SingleH1Assessment(),
+		];
+	}
+}
