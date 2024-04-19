@@ -159,7 +159,7 @@ class ReplacementVariableEditor extends React.Component {
 						} }
 						ariaLabelledBy={ this.uniqueId }
 						isDisabled={ isDisabled }
-						wrapperClassName={ `yst-replacevar__editor-wrapper--${ type }`}
+						wrapperClassName={ `yst-replacevar__editor-wrapper--${ type }` }
 					/>
 				</InputContainer>
 			</FormSection>

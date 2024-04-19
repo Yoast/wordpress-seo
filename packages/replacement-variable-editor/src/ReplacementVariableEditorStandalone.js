@@ -650,7 +650,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					fieldId
 				) }
 
-				<MentionSuggestionsStyleWrapper className={wrapperClassName}>
+				<MentionSuggestionsStyleWrapper className={ wrapperClassName }>
 					<MentionSuggestions
 						onSearchChange={ this.onSearchChange }
 						suggestions={ suggestions }
@@ -676,7 +676,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 	placeholder: PropTypes.string,
 	fieldId: PropTypes.string.isRequired,
 	isDisabled: PropTypes.bool,
-	wrapperClassName: PropTypes.string
+	wrapperClassName: PropTypes.string.isRequired,
 };
 
 ReplacementVariableEditorStandalone.defaultProps = {
