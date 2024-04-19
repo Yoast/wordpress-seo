@@ -1,14 +1,29 @@
 const { SeoAssessor, Paper, ContentAssessor, App, interpreters } = require( "yoastseo" );
 const express = require( "express" );
-const { "default": Researcher } = require( "yoastseo/build/languageProcessing/languages/en/Researcher" );
 const { "default": RelatedKeywordAssessor } = require( "yoastseo/build/scoring/relatedKeywordAssessor" );
 const { "default": InclusiveLanguageAssessor } = require( "yoastseo/build/scoring/InclusiveLanguageAssessor" );
 
-const seoAssessor = new SeoAssessor( new Researcher() );
-const contentAssessor = new ContentAssessor( new Researcher() );
-const relatedKeywordAssessor = new RelatedKeywordAssessor( new Researcher() );
-const inclusiveLanguageAssessor = new InclusiveLanguageAssessor( new Researcher() );
-
+const MORPHOLOGY_VERSIONS = {
+	en: "v5",
+	de: "v10",
+	es: "v10",
+	fr: "v11",
+	it: "v10",
+	nl: "v9",
+	ru: "v10",
+	id: "v9",
+	pt: "v9",
+	pl: "v9",
+	ar: "v9",
+	sv: "v1",
+	he: "v1",
+	hu: "v2",
+	nb: "v1",
+	tr: "v1",
+	cs: "v1",
+	sk: "v1",
+	ja: "v1",
+};
 
 /**
  * Maps the result to a view model, ready to be sent to the client.
@@ -24,6 +39,23 @@ const app = express();
 app.use( express.json() );
 
 app.get( "/analyze", ( request, response ) => {
+	// Fetch the Researcher and set the morphology data for the given language (yes, this is a bit hacky)
+	const language = request.body.locale || "en";
+	const dataVersion = MORPHOLOGY_VERSIONS[ language ];
+	// eslint-disable-next-line global-require
+	const { "default": Researcher } = require( `yoastseo/build/languageProcessing/languages/${language}/Researcher` );
+	// eslint-disable-next-line global-require
+	const premiumData = require( `yoastseo/premium-configuration/data/morphologyData-${language}-${dataVersion}.json` );
+
+	const researcher = new Researcher();
+	researcher.addResearchData( "morphology", premiumData );
+	// Add other researches here, cf. packages/yoastseo/spec/fullTextTests/runFullTextTests.js
+
+	const seoAssessor = new SeoAssessor( researcher );
+	const contentAssessor = new ContentAssessor( researcher );
+	const relatedKeywordAssessor = new RelatedKeywordAssessor( researcher );
+	const inclusiveLanguageAssessor = new InclusiveLanguageAssessor( researcher );
+
 	const paper = new Paper(
 		request.body.text || "",
 		request.body || {}
