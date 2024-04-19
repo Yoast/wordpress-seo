@@ -24,5 +24,3 @@ export const STORE_NAME_EDITOR = {
 	free: "yoast-seo/editor",
 	core: "core/editor",
 };
-
-export * from "./sync";

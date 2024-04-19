@@ -1,8 +1,9 @@
 /* eslint-disable complexity */
 import { select, subscribe } from "@wordpress/data";
-import { debounce, forEach, pickBy, get, mapKeys } from "lodash";
+import { debounce, forEach, mapKeys } from "lodash";
 import { createWatcher, createCollectorFromObject } from "../../helpers/create-watcher";
-import { STORE_NAME_EDITOR, SYNC_TIME, META_KEYS, POST_INPUT_ID_PREFIX, TERM_INPUT_ID_PREFIX } from "../../shared-admin/constants";
+import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
+import { HIDDEN_INPUT_ID_PREFIX, SYNC_TIME, META_KEYS } from "./constants";
 import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
 import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
 import { getPageType, getArticleType } from "./schemaFieldsStore";
@@ -57,7 +58,6 @@ const prepareValue = ( key, value ) => {
 	}
 };
 
-
 /**
  * Creates an updater.
  * @returns {function} The updater.
@@ -69,70 +69,49 @@ export const createUpdater = () => {
 	 * @returns {void}
 	 */
 	return ( data ) => {
-		// Get the values from hidden fields.
-		const hiddenFieldsData = {};
-		const yoastFormElement = document.getElementById( "wpseo_meta" ) || document.getElementById( "yoast-form" );
-
-		if ( yoastFormElement ) {
-			const hiddenFields = yoastFormElement?.querySelectorAll( "input[type=hidden]" );
-			if ( hiddenFields ) {
-				forEach( hiddenFields, ( field ) => {
-					if ( field.id ) {
-						hiddenFieldsData[ field.id ] = field.value;
-					}
-				} );
+		forEach( data, ( value, key ) => {
+			const field = document.getElementById( key );
+			if ( field && field.value !== value ) {
+				field.value = prepareValue( key, value );
 			}
-		}
-
-		if ( ! hiddenFieldsData || ! data ) {
-			return;
-		}
-
-		const changedData = pickBy( data, ( value, key ) => ( key ) in hiddenFieldsData && value !== hiddenFieldsData[ key ] );
-
-		if ( changedData ) {
-			forEach( changedData, ( value, key ) => {
-				document.getElementById( key ).value = prepareValue( key, value );
-			} );
-		}
+		} );
 	};
 };
-
-const isPost = get( window, "wpseoScriptData.isPost", false );
-const prefix = isPost ? POST_INPUT_ID_PREFIX : TERM_INPUT_ID_PREFIX;
-
-const primaryTaxonomiesGetters = mapKeys( getPrimaryTerms(), ( value, key ) => prefix + key );
-
-const getters = mapKeys( {
-	focusKeyphrase: getFocusKeyphrase,
-	robotsNoIndex: getNoIndex,
-	robotsNoFollow: getNoFollow,
-	robotsAdvanced: getAdvanced,
-	facebookTitle: getFacebookTitle,
-	facebookDescription: getFacebookDescription,
-	facebookImageUrl: getFacebookImageUrl,
-	facebookImageId: getFacebookImageId,
-	twitterTitle: getTwitterTitle,
-	twitterDescription: getTwitterDescription,
-	twitterImageUrl: getTwitterImageUrl,
-	twitterImageId: getTwitterImageId,
-	schemaPageType: getPageType,
-	schemaArticleType: getArticleType,
-	isCornerstone: isCornerstoneContent,
-	readabilityScore: getReadabilityScore,
-	seoScore: getSeoScore,
-	inclusiveLanguageScore: getInclusiveLanguageScore,
-	breadcrumbsTitle: getBreadcrumbsTitle,
-	canonical: getCanonical,
-	wordProofTimestamp: getWordProofTimestamp,
-	readingTime: getEstimatedReadingTime,
-}, ( value, key ) => prefix + META_KEYS[ key ] );
 
 /**
  * Initializes the sync: from Yoast editor store to the hidden fields.
  * @returns {function} The un-subscriber.
  */
 export const hiddenFieldsSync = () => {
+	const isPost = select( STORE_NAME_EDITOR.free ).getIsPost();
+	const prefix = isPost ? HIDDEN_INPUT_ID_PREFIX.post : HIDDEN_INPUT_ID_PREFIX.term;
+	const primaryTaxonomiesGetters = mapKeys( getPrimaryTerms(), ( value, key ) => prefix + key );
+
+	const getters = mapKeys( {
+		focusKeyphrase: getFocusKeyphrase,
+		robotsNoIndex: getNoIndex,
+		robotsNoFollow: getNoFollow,
+		robotsAdvanced: getAdvanced,
+		facebookTitle: getFacebookTitle,
+		facebookDescription: getFacebookDescription,
+		facebookImageUrl: getFacebookImageUrl,
+		facebookImageId: getFacebookImageId,
+		twitterTitle: getTwitterTitle,
+		twitterDescription: getTwitterDescription,
+		twitterImageUrl: getTwitterImageUrl,
+		twitterImageId: getTwitterImageId,
+		schemaPageType: getPageType,
+		schemaArticleType: getArticleType,
+		isCornerstone: isCornerstoneContent,
+		readabilityScore: getReadabilityScore,
+		seoScore: getSeoScore,
+		inclusiveLanguageScore: getInclusiveLanguageScore,
+		breadcrumbsTitle: getBreadcrumbsTitle,
+		canonical: getCanonical,
+		wordProofTimestamp: getWordProofTimestamp,
+		readingTime: getEstimatedReadingTime,
+	}, ( value, key ) => prefix + META_KEYS[ key ] );
+
 	return subscribe( debounce( createWatcher(
 		createCollectorFromObject( {
 			...getters,

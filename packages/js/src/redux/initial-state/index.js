@@ -13,6 +13,10 @@ const initialState = {
 	isCornerstone: get( window, "wpseoScriptData.metabox.metadata.is_cornerstone", 0 ) === "1",
 	primaryTaxonomies,
 	schemaTab,
+	post: {
+		isPost: get( window, "wpseoScriptData.isPost", false ),
+		id: Number( get( window, "wpseoScriptData.postId", null ) ),
+	},
 };
 
 export default initialState;
