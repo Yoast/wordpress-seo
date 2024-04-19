@@ -2,6 +2,11 @@
 	@apply yst-inline;
 }
 
+.yst-replacevar__editor--description .yst-replacevar__editor-wrapper--description div {
+	@apply yst-block;
+}
+
+
 .yst-replacevar__editor--description .yst-root {
 	@apply yst-mr-1;
 
