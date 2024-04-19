@@ -187,17 +187,6 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	}
 
 	/**
-	 * Gets the keyword usage for the current post and the specified keyword.
-	 *
-	 * @param string $keyword The keyword to check the usage of.
-	 *
-	 * @return array The post IDs which use the passed keyword.
-	 */
-	protected function get_keyword_usage_for_current_post( $keyword ) {
-		return WPSEO_Meta::keyword_usage( $keyword, $this->post->ID );
-	}
-
-	/**
 	 * Retrieves the title template.
 	 *
 	 * @param bool $fallback Whether to return the hardcoded fallback if the template value is empty.

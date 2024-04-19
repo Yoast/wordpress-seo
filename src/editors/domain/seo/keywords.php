@@ -23,7 +23,6 @@ class Keywords implements Seo_Plugin_Data_Interface {
 		$this->keyword_usage_per_type = $keyword_usage_per_type;
 	}
 
-
 	public function to_array(): array {
 		return [
 			'keyword_usage'          => $this->keyword_usage_count,
