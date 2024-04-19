@@ -30,7 +30,6 @@
 		.yst-autocomplete__button {
 			@apply
 			yst-w-full
-			yst-h-full
 			yst-rounded-md
 			yst-bg-white
 			yst-shadow-sm
