@@ -4,8 +4,8 @@
 namespace Yoast\WP\SEO\Editors\Application\Analysis_Features;
 
 use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature;
+use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature_Interface;
 use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Features_List;
-use Yoast\WP\SEO\Editors\Framework\Analysis_Feature_Interface;
 
 /**
  * The repository to get all enabled features.
@@ -17,14 +17,14 @@ class Enabled_Analysis_Features_Repository {
 	/**
 	 * All plugin features.
 	 *
-	 * @var Analysis_Feature_Interface[] $plugin_features
+	 * @var Analysis_Feature_Interface[]
 	 */
 	private $plugin_features;
 
 	/**
 	 * The list of analysis features.
 	 *
-	 * @var Analysis_Features_List $enabled_analysis_features
+	 * @var Analysis_Features_List
 	 */
 	private $enabled_analysis_features;
 

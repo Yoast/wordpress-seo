@@ -83,7 +83,7 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/plugin-transform-react-jsx": "^7.17.3",
     "@lodder/grunt-postcss": "^3.1.1",
-    "@yoast/browserslist-config": "^1.2.2",
+    "@yoast/browserslist-config": "^1.2.3",
     "autoprefixer": "^6.4.0",
     "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.1",

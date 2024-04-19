@@ -557,7 +557,6 @@ class WPSEO_Addon_Manager {
 			// We need to replace h2's and h3's with h4's because the styling expects that.
 			$changelog = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
 			$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
-
 		}
 
 		// If we're running this because we want to just show the plugin info in the version details modal, we can fallback to the Yoast Free constants, since that modal will not be accessible anyway in the event that the new Free version increases those constants.

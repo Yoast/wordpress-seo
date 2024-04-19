@@ -898,7 +898,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return bool True if capabilities are sufficient, false otherwise.
 	 */
 	protected function can_manage_options() {
-		return is_network_admin() && current_user_can( 'wpseo_manage_network_options' ) || ! is_network_admin() && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' );
+		return ( is_network_admin() && current_user_can( 'wpseo_manage_network_options' ) )
+			|| ( ! is_network_admin() && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) );
 	}
 
 	/**

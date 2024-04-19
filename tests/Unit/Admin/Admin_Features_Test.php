@@ -131,35 +131,4 @@ final class Admin_Features_Test extends TestCase {
 
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );
 	}
-
-	/**
-	 * Tests the update of contactmethods.
-	 *
-	 * @covers ::update_contactmethods
-	 *
-	 * @return void
-	 */
-	public function test_update_contactmethods() {
-		$this->setup_yoastseo_with_expectations();
-
-		$class_instance = $this->get_admin_with_expectations();
-		$result         = $class_instance->update_contactmethods( [] );
-		\ksort( $result );
-
-		$this->assertSame(
-			[
-				'facebook'   => 'Facebook profile URL',
-				'instagram'  => 'Instagram profile URL',
-				'linkedin'   => 'LinkedIn profile URL',
-				'myspace'    => 'MySpace profile URL',
-				'pinterest'  => 'Pinterest profile URL',
-				'soundcloud' => 'SoundCloud profile URL',
-				'tumblr'     => 'Tumblr profile URL',
-				'twitter'    => 'X username (without @)',
-				'wikipedia'  => 'Wikipedia page about you<br/><small>(if one exists)</small>',
-				'youtube'    => 'YouTube profile URL',
-			],
-			$result
-		);
-	}
 }

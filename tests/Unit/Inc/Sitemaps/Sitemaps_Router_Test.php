@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_Sitemaps_Router
  */
-final class WPSEO_Sitemaps_Router_Test extends TestCase {
+final class Sitemaps_Router_Test extends TestCase {
 
 	/**
 	 * Mock of the deactivating Yoast SEO conditional.
@@ -57,18 +57,16 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 		$this->deactivating_yoast_conditional = Mockery::mock( Deactivating_Yoast_Seo_Conditional::class );
 		$this->container                      = $this->create_container_with(
 			[
-				Deactivating_Yoast_Seo_Conditional::class => $this->deacrivating_yoast_conditional,
+				Deactivating_Yoast_Seo_Conditional::class => $this->deactivating_yoast_conditional,
 			]
 		);
-		$this->deacrivating_yoast_conditional->expects( 'is_met' )
+		$this->deactivating_yoast_conditional->expects( 'is_met' )
 			->once()
 			->andReturnFalse();
 
 		Functions\expect( 'YoastSEO' )
 			->once()
 			->andReturn( (object) [ 'classes' => $this->create_classes_surface( $this->container ) ] );
-
-		$_SERVER = [];
 
 		$this->instance = new WPSEO_Sitemaps_Router();
 	}
@@ -168,7 +166,7 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	/**
 	 * Data provider for test_redirect_canonical.
 	 *
-	 * @return array
+	 * @return array<array<bool>>
 	 */
 	public static function redirect_canonical_data_provider() {
 		return [
@@ -258,7 +256,7 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	/**
 	 * Data provider for test_needs_sitemap_index_redirect.
 	 *
-	 * @return array
+	 * @return array<array<bool|string>>
 	 */
 	public static function needs_sitemap_index_redirect_data_provider() {
 		return [
@@ -343,7 +341,7 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 	/**
 	 * Data provider for test_get_base_url.
 	 *
-	 * @return array
+	 * @return array<array<bool|string>>
 	 */
 	public static function get_base_url_data_provider() {
 		return [
@@ -377,7 +375,7 @@ final class WPSEO_Sitemaps_Router_Test extends TestCase {
 
 		Functions\expect( 'home_url' )
 			->with( '/sitemap.xml' )
-			->once()
+			->times( 2 )
 			->andReturn( 'http://example.com/sitemap.xml' );
 
 		$this->redirect_helper = Mockery::mock( Redirect_Helper::class );

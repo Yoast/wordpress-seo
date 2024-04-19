@@ -75,15 +75,23 @@ jobs:
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
 
       # Check the codestyle of the files against a threshold of expected errors and warnings.
+      # Keep track of the exit code as it determines whether to run the branch check or not.
+      # Exit code 128 means the thresholds needs to be lowered. Other exit codes imply CS errors.
       - name: Check PHP code style against the thresholds
-        run: composer check-cs-thresholds
+        id: thresholds
+        run: |
+          set +e
+          composer check-cs-thresholds
+          exitcode="$?"
+          echo "EXITCODE=$exitcode" >> $GITHUB_OUTPUT
+          exit "$exitcode"
 
       # Check the codestyle only of the files which were changed in the current branch.
       # This step will only be executed if the threshold check exited with a failure status.
       # The results of this CS check will be shown inline in the PR via the CS2PR tool.
       # @link https://github.com/staabm/annotate-pull-request-from-checkstyle/
       - name: Check PHP code style for the changes made in the branch only
-        if: ${{ failure() }}
+        if: ${{ failure() && steps.thresholds.outputs.EXITCODE != 128 }}
         id: phpcs
         run: composer check-branch-cs -- ${{ steps.base_branch.outputs.REF }}
 
