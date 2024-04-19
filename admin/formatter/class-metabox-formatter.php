@@ -5,15 +5,9 @@
  * @package WPSEO\Admin\Formatter
  */
 
-use Yoast\WP\SEO\Conditionals\Third_Party\Polylang_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\TranslatePress_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\WPML_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
-use Yoast\WP\SEO\Config\SEMrush_Client;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
-use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
-use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
+use Yoast\WP\SEO\Editors\Application\Integrations\Integration_Information_Repository;
 
 /**
  * This class forces needed methods for the metabox localization.
@@ -54,9 +48,8 @@ class WPSEO_Metabox_Formatter {
 	 * @return array<string,string|array<string|int|bool>|bool|int> Default settings for the metabox.
 	 */
 	private function get_defaults() {
-		$schema_types      = new Schema_Types();
-		$is_wincher_active = YoastSEO()->helpers->wincher->is_active();
-		$host              = YoastSEO()->helpers->url->get_url_host( get_site_url() );
+		$schema_types = new Schema_Types();
+		$host         = YoastSEO()->helpers->url->get_url_host( get_site_url() );
 
 		$defaults = [
 			'author_name'                        => get_the_author_meta( 'display_name' ),
@@ -74,13 +67,10 @@ class WPSEO_Metabox_Formatter {
 			'keyword_usage'                      => [],
 			'title_template'                     => '',
 			'metadesc_template'                  => '',
-			'semrushIntegrationActive'           => WPSEO_Options::get( 'semrush_integration_active', true ) ? 1 : 0,
 			'intl'                               => $this->get_content_analysis_component_translations(),
 			'isRtl'                              => is_rtl(),
 			'isPremium'                          => YoastSEO()->helpers->product->is_premium(),
 			'siteIconUrl'                        => get_site_icon_url(),
-			'countryCode'                        => WPSEO_Options::get( 'semrush_country_code', false ),
-			'SEMrushLoginStatus'                 => WPSEO_Options::get( 'semrush_integration_active', true ) ? $this->get_semrush_login_status() : false,
 			'showSocial'                         => [
 				'facebook' => WPSEO_Options::get( 'opengraph', false ),
 				'twitter'  => WPSEO_Options::get( 'twitter', false ),
@@ -191,26 +181,23 @@ class WPSEO_Metabox_Formatter {
 			 * @param bool $showMarkers Should the markers being enabled. Default = true.
 			 */
 			'show_markers'                       => apply_filters( 'wpseo_enable_assessment_markers', true ),
-			'markdownEnabled'                    => $this->is_markdown_enabled(),
 			'analysisHeadingTitle'               => __( 'Analysis', 'wordpress-seo' ),
 			'zapierIntegrationActive'            => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
 			'zapierConnectedStatus'              => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
-			'wincherIntegrationActive'           => ( $is_wincher_active ) ? 1 : 0,
-			'wincherLoginStatus'                 => ( $is_wincher_active ) ? YoastSEO()->helpers->wincher->login_status() : false,
-			'wincherWebsiteId'                   => WPSEO_Options::get( 'wincher_website_id', '' ),
-			'wincherAutoAddKeyphrases'           => WPSEO_Options::get( 'wincher_automatically_add_keyphrases', false ),
 			'wordproofIntegrationActive'         => YoastSEO()->helpers->wordproof->is_active() ? 1 : 0,
-			'multilingualPluginActive'           => $this->multilingual_plugin_active(),
 			'getJetpackBoostPrePublishLink'      => WPSEO_Shortlinker::get( 'https://yoa.st/jetpack-boost-get-prepublish?domain=' . $host ),
 			'upgradeJetpackBoostPrePublishLink'  => WPSEO_Shortlinker::get( 'https://yoa.st/jetpack-boost-upgrade-prepublish?domain=' . $host ),
 			'woocommerceUpsellSchemaLink'        => WPSEO_Shortlinker::get( 'https://yoa.st/product-schema-metabox' ),
 			'woocommerceUpsellGooglePreviewLink' => WPSEO_Shortlinker::get( 'https://yoa.st/product-google-preview-metabox' ),
 		];
 
+		$integration_information_repo = YoastSEO()->classes->get( Integration_Information_Repository::class );
+
+		$enabled_integrations  = $integration_information_repo->get_integration_information();
+		$defaults              = array_merge( $defaults, $enabled_integrations );
 		$enabled_features_repo = YoastSEO()->classes->get( Enabled_Analysis_Features_Repository::class );
 
 		$enabled_features = $enabled_features_repo->get_enabled_features()->parse_to_legacy_array();
-
 		return array_merge( $defaults, $enabled_features );
 	}
 
@@ -254,69 +241,5 @@ class WPSEO_Metabox_Formatter {
 		}
 
 		return [];
-	}
-
-	/**
-	 * Checks if Jetpack's markdown module is enabled.
-	 * Can be extended to work with other plugins that parse markdown in the content.
-	 *
-	 * @return bool
-	 */
-	private function is_markdown_enabled() {
-		$is_markdown = false;
-
-		if ( class_exists( 'Jetpack' ) && method_exists( 'Jetpack', 'get_active_modules' ) ) {
-			$active_modules = Jetpack::get_active_modules();
-
-			// First at all, check if Jetpack's markdown module is active.
-			$is_markdown = in_array( 'markdown', $active_modules, true );
-		}
-
-		/**
-		 * Filters whether markdown support is active in the readability- and seo-analysis.
-		 *
-		 * @since 11.3
-		 *
-		 * @param array $is_markdown Is markdown support for Yoast SEO active.
-		 */
-		return apply_filters( 'wpseo_is_markdown_enabled', $is_markdown );
-	}
-
-	/**
-	 * Checks if the user is logged in to SEMrush.
-	 *
-	 * @return bool The SEMrush login status.
-	 */
-	private function get_semrush_login_status() {
-		try {
-			$semrush_client = YoastSEO()->classes->get( SEMrush_Client::class );
-		} catch ( Empty_Property_Exception $e ) {
-			// Return false if token is malformed (empty property).
-			return false;
-		}
-
-		// Get token (and refresh it if it's expired).
-		try {
-			$semrush_client->get_tokens();
-		} catch ( Authentication_Failed_Exception $e ) {
-			return false;
-		} catch ( Empty_Token_Exception $e ) {
-			return false;
-		}
-
-		return $semrush_client->has_valid_tokens();
-	}
-
-	/**
-	 * Checks whether a multilingual plugin is currently active. Currently, we only check the following plugins: WPML, Polylang, and TranslatePress.
-	 *
-	 * @return bool Whether a multilingual plugin is currently active.
-	 */
-	private function multilingual_plugin_active() {
-		$wpml_active           = YoastSEO()->classes->get( WPML_Conditional::class )->is_met();
-		$polylang_active       = YoastSEO()->classes->get( Polylang_Conditional::class )->is_met();
-		$translatepress_active = YoastSEO()->classes->get( TranslatePress_Conditional::class )->is_met();
-
-		return ( $wpml_active || $polylang_active || $translatepress_active );
 	}
 }
