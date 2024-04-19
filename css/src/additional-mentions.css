@@ -11,7 +11,7 @@
 	@apply yst-mr-1;
 
 	.yst-badge {
-		@apply yst-mb-1;
+		@apply yst-mb-0.5;
 	}
 
 	.yst-tooltip.yst-tooltip--top::before {
