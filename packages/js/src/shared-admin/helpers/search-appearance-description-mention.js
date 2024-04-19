@@ -5,8 +5,7 @@ import { Fill } from "@wordpress/components";
 import { get } from "lodash";
 import { addFilter } from "@wordpress/hooks";
 import { __, sprintf, _n } from "@wordpress/i18n";
-
-let date;
+import { select } from "@wordpress/data";
 
 /**
  * Renders a badge with tooltip for mentions.
@@ -63,10 +62,12 @@ MentionsWithTooltip.propTypes = {
  */
 const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 	const isRtl = get( window, "wpseoScriptData.metabox.isRtl", false );
-	const dateCharacters = date().length;
+	const getDate = select( "yoast-seo/editor" ).getDateFromSettings;
+	const dateCharacters = getDate().length;
 	const separatorCharacters = 3;
+	const newMentions = [];
 	if ( fieldId === "yoast-google-preview-description-metabox"  || fieldId === "yoast-google-preview-description-modal" ) {
-		mentions.push(
+		newMentions.push(
 			<Fill
 				name={ `yoast.replacementVariableEditor.additionalMentions.${fieldId}` }
 			>
@@ -88,16 +89,14 @@ const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 			</Fill>
 		);
 	}
-	return mentions;
+	return [ ...mentions, ...newMentions ];
 };
 
 /**
  * Registers the search appearance description mention.
- * @param {Function} getDate The function to get the date.
  * @returns {void}
  */
-export const registerSearchAppearanceDescriptionMention = ( getDate ) => {
-	date = getDate;
+export const registerSearchAppearanceDescriptionMention = () => {
 	addFilter(
 		"yoast.replacementVariableEditor.additionalMentions",
 		"yoast/yoast-seo/Mentions",
