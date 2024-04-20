@@ -32,6 +32,7 @@ import {
 	SpecialPages,
 	Taxonomy,
 } from "./routes";
+import { Test } from "./test";
 
 /**
  * @param {Object[]} postTypes The post types to present.
@@ -247,7 +248,8 @@ const App = () => {
 													/>
 												) ) }
 											</Route>
-											<Route path="*" element={ <Navigate to="/site-features" replace={ true } /> } />
+											<Route path="test" element={ <Test /> } />
+											<Route path="*" element={ <Navigate to="/test" replace={ true } /> } />
 										</Routes>
 									</Transition>
 								</ErrorBoundary>
