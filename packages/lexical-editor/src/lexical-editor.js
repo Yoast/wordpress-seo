@@ -20,7 +20,7 @@ import { NoFormattingPlugin, NoIndentingPlugin, OnTextContentChangePlugin, Singl
  * @param {boolean} [isSingleLine] Whether the editor should be single line. Defaults to false.
  * @param {boolean} [shouldAutoFocus] Whether to focus the editor on mount. Defaults to false.
  * @param {boolean} [ignoreSelectionChange] Whether to ignore selection changes. Defaults to true.
- * @param {Object} [mentionItems] The mention items to use in the editor.
+ * @param {Object} [mentionsProps] The mentions props for the BeautifulMentionsPlugin.
  * @param {string} [className] Additional class name for the editor. Defaults to "yst-lexical-editor".
  * @param {Object} [props] Additional props for the RichTextPlugin.
  * @returns {JSX.Element} The lexical editor.
@@ -35,7 +35,7 @@ export const LexicalEditor = ( {
 	hasFormatting,
 	hasIndenting,
 	shouldAutoFocus,
-	mentionItems,
+	mentionsProps,
 	className,
 	...props
 } ) => {
@@ -53,7 +53,7 @@ export const LexicalEditor = ( {
 			{ hasIndenting && <NoIndentingPlugin /> }
 			{ isSingleLine && <SingleLinePlugin /> }
 			{ shouldAutoFocus && <AutoFocusPlugin /> }
-			<BeautifulMentionsPlugin items={ mentionItems } />
+			<BeautifulMentionsPlugin { ...mentionsProps } />
 			{ children }
 		</LexicalComposer>
 	);
@@ -69,7 +69,7 @@ LexicalEditor.propTypes = {
 	hasIndenting: PropTypes.bool,
 	isSingleLine: PropTypes.bool,
 	shouldAutoFocus: PropTypes.bool,
-	mentionItems: PropTypes.object,
+	mentionsProps: PropTypes.object,
 	className: PropTypes.string,
 };
 LexicalEditor.defaultProps = {
@@ -85,6 +85,6 @@ LexicalEditor.defaultProps = {
 	hasIndenting: false,
 	isSingleLine: false,
 	shouldAutoFocus: false,
-	mentionItems: null,
+	mentionsProps: null,
 	className: "yst-lexical-editor",
 };
