@@ -5,7 +5,7 @@
  * @package WPSEO\Admin
  */
 
- use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
+use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 /**
  * Adds the UI to change the primary term for a post.
  */
@@ -169,7 +169,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		}
 
 		$primary_term_helper = new Primary_Term_Helper();
-		$taxonomies = $primary_term_helper->get_primary_term_taxonomies( $post_id );
+		$taxonomies          = $primary_term_helper->get_primary_term_taxonomies( $post_id );
 
 		wp_cache_set( 'primary_term_taxonomies_' . $post_id, $taxonomies, 'wpseo' );
 
