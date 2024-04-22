@@ -5,7 +5,7 @@ const primaryTaxonomies = {};
 const primaryTerms = get( window, "wpseoPrimaryCategoryL10n.taxonomies", {} );
 
 forEach( primaryTerms, ( value, key ) => {
-	primaryTaxonomies[ key ] = value.primary;
+	primaryTaxonomies[ key ] = value.primary || -1;
 } );
 
 export default primaryTaxonomies;

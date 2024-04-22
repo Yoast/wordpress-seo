@@ -8,5 +8,5 @@ import { get } from "lodash";
  * @returns {number} Primary taxonomy term id.
  */
 export function getPrimaryTaxonomyId( state, taxonomy ) {
-	return get( state, `primaryTaxonomies.${taxonomy}`, "" );
+	return get( state, `primaryTaxonomies.${taxonomy}`, -1 );
 }
