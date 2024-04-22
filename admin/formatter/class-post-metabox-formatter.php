@@ -357,7 +357,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @param string $post_type The post type.
 	 * @return array<string> The schema defaults.
 	 */
-	public function get_schema_defaults( $post_type ) {
+	private function get_schema_defaults( $post_type ) {
 		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && WPSEO_Options::get( 'disableadvanced_meta' ) ) {
 			return [];
 		}
