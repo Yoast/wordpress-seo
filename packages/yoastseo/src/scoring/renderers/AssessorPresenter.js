@@ -1,4 +1,3 @@
-import { __ } from "@wordpress/i18n";
 import { difference, forEach, isNumber, isObject, isUndefined } from "lodash-es";
 import scoreToRating from "../interpreters/scoreToRating.js";
 import createConfig from "../../config/presenter.js";
