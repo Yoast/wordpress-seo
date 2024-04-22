@@ -29,7 +29,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	/**
 	 * Displaying the form fields.
 	 *
-	 * @param array<array<string>> $fields Array with the fields that will be displayed.
+	 * @param array<array<string|bool>> $fields Array with the fields that will be displayed.
 	 *
 	 * @return string
 	 */
