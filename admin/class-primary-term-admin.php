@@ -225,7 +225,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 *
 	 * @param stdClass $taxonomy The taxonomy to map.
 	 *
-	 * @return array<string> The mapped taxonomy.
+	 * @return array<string|int|bool|array<int|string>> The mapped taxonomy.
 	 */
 	private function map_taxonomies_for_js( $taxonomy ) {
 		$primary_term = $this->get_primary_term( $taxonomy->name );
