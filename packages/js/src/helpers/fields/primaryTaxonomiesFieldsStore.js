@@ -1,4 +1,4 @@
-import { get, pickBy, forEach, defaultTo } from "lodash";
+import { get, forEach } from "lodash";
 import { select } from "@wordpress/data";
 import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
 
@@ -8,19 +8,18 @@ import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
  * @returns {object} An object with taxonomies keys and their primary term id.
  */
 const getPrimaryTerms = () => {
-	const wpseoScriptDataMetaData = get( window, "wpseoScriptData.metabox.metadata", {} );
+	const primaryTerms = get( window, "wpseoPrimaryCategoryL10n.taxonomies", {} );
 	const getPrimaryTermsStore = {};
-	const primaryTerms = pickBy( wpseoScriptDataMetaData, ( value, key ) => key.startsWith( "primary_" ) );
 	forEach( primaryTerms, ( value, key ) => {
-		const taxonomy = key.replace( "primary_", "" );
-		getPrimaryTermsStore[ `primary_${taxonomy}` ] = () => {
-			const termId = String( defaultTo( select( STORE_NAME_EDITOR.free ).getPrimaryTaxonomyId( taxonomy ), "" ) );
+		getPrimaryTermsStore[ `primary_${key}` ] = () => {
+			const termId = select( STORE_NAME_EDITOR.free ).getPrimaryTaxonomyId( key );
 			if ( termId === "0" || termId === "-1" ) {
 				return "";
 			}
 			return termId;
 		};
 	} );
+
 	return getPrimaryTermsStore;
 };
 

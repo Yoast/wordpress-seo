@@ -1,3 +1,4 @@
+import { get } from "lodash";
 /**
  * Gets the primary taxonomy term id for the give taxonomy.
  *
@@ -7,5 +8,5 @@
  * @returns {number} Primary taxonomy term id.
  */
 export function getPrimaryTaxonomyId( state, taxonomy ) {
-	return state.primaryTaxonomies[ taxonomy ];
+	return get( state, `primaryTaxonomies.${taxonomy}`, "" );
 }
