@@ -5,13 +5,14 @@
  * @package WPSEO\Admin
  */
 
+ use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 /**
  * Adds the UI to change the primary term for a post.
  */
 class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 
 	/**
-	 * Constructor.
+	 * Register hooks.
 	 *
 	 * @return void
 	 */
@@ -167,7 +168,8 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 			return $taxonomies;
 		}
 
-		$taxonomies = $this->generate_primary_term_taxonomies( $post_id );
+		$primary_term_helper = new Primary_Term_Helper();
+		$taxonomies = $primary_term_helper->get_primary_term_taxonomies( $post_id );
 
 		wp_cache_set( 'primary_term_taxonomies_' . $post_id, $taxonomies, 'wpseo' );
 
@@ -181,31 +183,6 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 */
 	protected function include_js_templates() {
 		include_once WPSEO_PATH . 'admin/views/js-templates-primary-term.php';
-	}
-
-	/**
-	 * Generates the primary term taxonomies.
-	 *
-	 * @param int $post_id ID of the post.
-	 *
-	 * @return array<WP_Taxonomy> The primary term taxonomies.
-	 */
-	protected function generate_primary_term_taxonomies( $post_id ) {
-		$post_type      = get_post_type( $post_id );
-		$all_taxonomies = get_object_taxonomies( $post_type, 'objects' );
-		$all_taxonomies = array_filter( $all_taxonomies, [ $this, 'filter_hierarchical_taxonomies' ] );
-
-		/**
-		 * Filters which taxonomies for which the user can choose the primary term.
-		 *
-		 * @param array  $taxonomies     An array of taxonomy objects that are primary_term enabled.
-		 * @param string $post_type      The post type for which to filter the taxonomies.
-		 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
-		 *                               enabled.
-		 */
-		$taxonomies = (array) apply_filters( 'wpseo_primary_term_taxonomies', $all_taxonomies, $post_type, $all_taxonomies );
-
-		return $taxonomies;
 	}
 
 	/**
