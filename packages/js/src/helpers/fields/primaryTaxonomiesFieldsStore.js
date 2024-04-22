@@ -12,7 +12,7 @@ const getPrimaryTerms = () => {
 	const getPrimaryTermsStore = {};
 	forEach( primaryTerms, ( value, key ) => {
 		getPrimaryTermsStore[ `primary_${key}` ] = () => {
-			const termId = select( STORE_NAME_EDITOR.free ).getPrimaryTaxonomyId( key );
+			const termId = String( select( STORE_NAME_EDITOR.free ).getPrimaryTaxonomyId( key ) );
 			if ( termId === "0" || termId === "-1" ) {
 				return "";
 			}
