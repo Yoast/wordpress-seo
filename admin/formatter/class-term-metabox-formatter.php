@@ -63,7 +63,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Returns the translated values.
 	 *
-	 * @return array<string|int|array<string>|array<int>>
+	 * @return array<string|int|array<string|int>>
 	 */
 	public function get_values() {
 		$values = [];
