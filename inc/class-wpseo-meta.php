@@ -73,7 +73,7 @@ class WPSEO_Meta {
 	 *   in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin) as they are only needed there.
 	 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!}}
 	 *
-	 * @var array<string,array<string,array<string,mixed>>>
+	 * @var array<string,array<string,array<string|bool>>>
 	 *            Array format:
 	 *                (required)       'type'          => (string) field type. i.e. text / textarea / checkbox /
 	 *                                                    radio / select / multiselect / upload etc.
@@ -240,7 +240,7 @@ class WPSEO_Meta {
 	 *         ['subset']    => (string) primary index
 	 *         ['key']       => (string) internal key
 	 *
-	 * @var array<string,array<string,string>>
+	 * @var array<string,array<string>>
 	 */
 	public static $fields_index = [];
 
