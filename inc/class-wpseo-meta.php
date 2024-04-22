@@ -296,7 +296,7 @@ class WPSEO_Meta {
 
 		/**
 		 * Allow add-on plugins to register their meta fields for management by this class.
-		 * Calls to add_filter() must be made before plugins_loaded prio 14, use in an initialzer class.
+		 * Calls to add_filter() must be made before plugins_loaded priority 14. You could implement the Initializer_Interface (but the Integration_Interface is too late).
 		 */
 		$extra_fields = apply_filters( 'add_extra_wpseo_meta_fields', [] );
 		if ( is_array( $extra_fields ) ) {
