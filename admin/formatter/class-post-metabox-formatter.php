@@ -348,15 +348,6 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 			$meta_data[ $key ] = WPSEO_Meta::get_value( $key, $this->post->ID );
 		}
 
-		$taxonomies = get_object_taxonomies( $post_type, 'objects' );
-		foreach ( $taxonomies as $taxonomy ) {
-			if ( $taxonomy->hierarchical ) {
-				$primary_term_object                       = new WPSEO_Primary_Term( $taxonomy->name, $this->post->ID );
-				$primary_term                              = $primary_term_object->get_primary_term();
-				$meta_data[ 'primary_' . $taxonomy->name ] = ( $primary_term ?? '' );
-			}
-		}
-
 		return $meta_data;
 	}
 

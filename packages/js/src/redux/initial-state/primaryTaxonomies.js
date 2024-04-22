@@ -1,12 +1,11 @@
-import { get, pickBy, forEach } from "lodash";
+import { get, forEach } from "lodash";
 
 const primaryTaxonomies = {};
 
-const metadata = get( window, "wpseoScriptData.metabox.metadata", {} );
-const primaryTerms = pickBy( metadata, ( value, key ) => key.startsWith( "primary_" ) && value );
+const primaryTerms = get( window, "wpseoPrimaryCategoryL10n.taxonomies", {} );
+
 forEach( primaryTerms, ( value, key ) => {
-	const taxonomy = key.replace( "primary_", "" );
-	primaryTaxonomies[ taxonomy ] = value;
+	primaryTaxonomies[ key ] = value.primary;
 } );
 
 export default primaryTaxonomies;
