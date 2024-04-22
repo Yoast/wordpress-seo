@@ -8,12 +8,12 @@ import { SET_POST_ID } from "../actions/postId";
  *
  * @returns {boolean} The state.
  */
-const postId = ( state = false, action ) => {
+const post = ( state = false, action ) => {
 	switch ( action.type ) {
 		case SET_POST_ID:
-			return action.payload;
+			return { id: action.payload };
 		default: return state;
 	}
 };
 
-export default postId;
+export default post;
