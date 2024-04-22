@@ -171,7 +171,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Counting the number of given keyword used for other term than given term_id.
 	 *
-	 * @return array<int>
+	 * @return array<string|array<int>>
 	 */
 	private function get_focus_keyword_usage() {
 		$focuskw = WPSEO_Taxonomy_Meta::get_term_meta( $this->term, $this->term->taxonomy, 'focuskw' );

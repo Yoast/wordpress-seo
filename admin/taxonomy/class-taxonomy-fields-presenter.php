@@ -13,7 +13,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	/**
 	 * The taxonomy meta data for the current term.
 	 *
-	 * @var array<string>
+	 * @var array<bool|array<string>>
 	 */
 	private $tax_meta;
 
