@@ -237,6 +237,7 @@ export default function initPostScraper( $, store, editorData ) {
 			elementTarget: [
 				tinyMCEHelper.tmceId,
 				"yoast_wpseo_focuskw_text_input",
+				"yoast_wpseo_metadesc",
 				"excerpt",
 				"editable-post-name",
 				"editable-post-name-full",
@@ -519,8 +520,6 @@ export default function initPostScraper( $, store, editorData ) {
 
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
-		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
-		store.dispatch( setCornerstoneContent( get( window, "wpseoScriptData.metabox.metadata.is_cornerstone", 0 ) === "1" ) );
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = store.getState().focusKeyword;

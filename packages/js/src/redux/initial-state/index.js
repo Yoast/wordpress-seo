@@ -10,6 +10,7 @@ const initialState = {
 	twitterEditor: twitterInitialState,
 	advancedSettings: advancedSettingsInitialState,
 	focusKeyword: get( window, "wpseoScriptData.metabox.metadata.focuskw", "" ),
+	// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
 	isCornerstone: get( window, "wpseoScriptData.metabox.metadata.is_cornerstone", 0 ) === "1",
 	primaryTaxonomies,
 	schemaTab,
