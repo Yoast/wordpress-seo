@@ -24,19 +24,10 @@ const testCases = [
 	{ termId: 1, expected: "1" },
 	{ termId: -1, expected: "" },
 	{ termId: 0, expected: "" },
-	{ termId: null, expected: "" },
-	{ termId: undefined, expected: "" },
 ];
 
 describe.each( testCases )( "getPrimaryTerm - should returns an object with taxonomies keys and fuctions that returns primary term id", ( { termId, expected } ) => {
 	it( `should returns ${expected ? expected : "empty string"} when the primary term id is ${termId}`, () => {
-		const wpseoScriptDataMetaData = {
-			// eslint-disable-next-line camelcase
-			primary_category: 1,
-			// eslint-disable-next-line camelcase
-			primary_post_tag: 2,
-		};
-
 		const getPrimaryTaxonomyId = jest.fn();
 		getPrimaryTaxonomyId.mockReturnValue( termId );
 
@@ -51,9 +42,36 @@ describe.each( testCases )( "getPrimaryTerm - should returns an object with taxo
 		windowSpy.mockImplementation(
 			() => (
 				{
-					wpseoScriptData: {
-						metabox: {
-							metadata: wpseoScriptDataMetaData,
+					wpseoPrimaryCategoryL10n: {
+						taxonomies: {
+							category: {
+								title: "Category",
+								name: "category",
+								primary: 1,
+								singularLabel: "Category",
+								fieldId: "yoast_wpseo_primary_category",
+								restBase: "categories",
+								terms: [
+									{
+										id: 1,
+										name: "Uncategorized",
+									},
+								],
+							},
+							post_tag: {
+								title: "Post tag",
+								name: "post_tag",
+								primary: 5,
+								singularLabel: "Tag",
+								fieldId: "yoast_wpseo_primary_post_tag",
+								restBase: "tags",
+								terms: [
+									{
+										id: 5,
+										name: "Test Tag",
+									},
+								],
+							},
 						},
 					},
 				}

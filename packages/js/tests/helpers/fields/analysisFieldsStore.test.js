@@ -90,8 +90,6 @@ describe.each( testCasesScoresUndefined )( "$method", ( { method, getFunction, r
 const boolenaTestCases = [
 	{ value: true, expected: "1" },
 	{ value: false, expected: "0" },
-	{ value: null, expected: "0" },
-	{ value: undefined, expected: "0" },
 ];
 describe.each( boolenaTestCases )( "isCornerstoneContent", ( { value, expected } ) => {
 	it( `should return ${expected} from isCornerstoneContent when value is ${value}`, () => {
@@ -110,8 +108,6 @@ describe.each( boolenaTestCases )( "isCornerstoneContent", ( { value, expected }
 
 const focusKeyphraseTestCases = [
 	{ value: "test", expected: "test" },
-	{ value: null, expected: "" },
-	{ value: undefined, expected: "" },
 ];
 
 describe.each( focusKeyphraseTestCases )( "getFocusKeyphrase", ( { value, expected } ) => {

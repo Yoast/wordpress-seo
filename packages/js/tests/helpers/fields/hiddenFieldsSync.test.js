@@ -1,7 +1,7 @@
 import { hiddenFieldsSync } from "../../../src/helpers/fields/hiddenFieldsSync";
 import { createCollectorFromObject, createWatcher } from "../../../src/helpers/create-watcher";
 import { mapKeys, debounce } from "lodash";
-import { subscribe } from "@wordpress/data";
+import { subscribe, select } from "@wordpress/data";
 
 jest.mock( "@wordpress/data", () => ( {
 	select: jest.fn(),
@@ -25,6 +25,10 @@ jest.mock( "../../../src/helpers/create-watcher", () => ( {
 
 describe( "hiddenFieldsSync", () => {
 	it( "should subscribe to changes, debounce, create watcher and createCollectorFromObject", () => {
+		select.mockImplementation( () => ( {
+			getIsPost: jest.fn( () => "1" ),
+		} ) );
+
 		hiddenFieldsSync();
 
 		expect( subscribe ).toHaveBeenCalled();
