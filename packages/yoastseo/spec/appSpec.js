@@ -50,34 +50,6 @@ describe( "Creating an App", function() {
 		} ).toThrowError( MissingArgument );
 	} );
 
-	it( "throws on a missing snippet preview", function() {
-		expect( function() {
-			new App( {
-				targets: {
-					output: "outputID",
-				},
-				callbacks: {
-					getData: () => {
-						return {};
-					},
-				},
-			} );
-		} ).toThrowError( MissingArgument );
-	} );
-
-	it( "accepts a Snippet Preview object", function() {
-		new App( {
-			targets: {
-				output: "outputID",
-			},
-			callbacks: {
-				getData: () => {
-					return {};
-				},
-			},
-		} );
-	} );
-
 	it( "should work without an output ID", function() {
 		new App( {
 			targets: {
