@@ -69,7 +69,6 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'enqueue_block_assets', [ $this, 'enqueue_block_editor_assets' ] );
 		$this->register_blocks();
 	}
 
@@ -79,6 +78,15 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_blocks() {
+		/**
+		 * Filter: 'wpseo_enable_structured_data_blocks' - Allows disabling Yoast's schema blocks entirely.
+		 *
+		 * @param bool $enable If false, our structured data blocks won't show.
+		 */
+		if ( ! \apply_filters( 'wpseo_enable_structured_data_blocks', true ) ) {
+			return;
+		}
+
 		\register_block_type(
 			\WPSEO_PATH . 'blocks/structured-data-blocks/faq/block.json',
 			[
@@ -96,24 +104,13 @@ class Structured_Data_Blocks implements Integration_Interface {
 	/**
 	 * Enqueue Gutenberg block assets for backend editor.
 	 *
+	 * @deprecated 22.8
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function enqueue_block_editor_assets() {
-		// Bail if not in the admin.
-		if ( ! \is_admin() ) {
-			return;
-		}
-
-		/**
-		 * Filter: 'wpseo_enable_structured_data_blocks' - Allows disabling Yoast's schema blocks entirely.
-		 *
-		 * @param bool $enable If false, our structured data blocks won't show.
-		 */
-		if ( ! \apply_filters( 'wpseo_enable_structured_data_blocks', true ) ) {
-			return;
-		}
-
-		$this->asset_manager->enqueue_style( 'structured-data-blocks' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 22.8' );
 	}
 
 	/**

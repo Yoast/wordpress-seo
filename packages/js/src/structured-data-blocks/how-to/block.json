@@ -71,5 +71,6 @@
       ]
     }
   },
-  "editorScript": "yoast-seo-how-to-block"
+  "editorScript": "yoast-seo-how-to-block",
+  "editorStyle": "yoast-seo-structured-data-blocks"
 }

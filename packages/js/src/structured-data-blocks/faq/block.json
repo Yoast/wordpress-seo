@@ -42,5 +42,6 @@
       ]
     }
   },
-  "editorScript": "yoast-seo-faq-block"
+  "editorScript": "yoast-seo-faq-block",
+  "editorStyle": "yoast-seo-structured-data-blocks"
 }
