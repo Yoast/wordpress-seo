@@ -1,5 +1,5 @@
 import { setLocaleData } from "@wordpress/i18n";
-import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject, isString, isUndefined, merge, noop, throttle } from "lodash-es";
+import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject, isUndefined, merge, noop, throttle } from "lodash-es";
 import MissingArgument from "./errors/missingArgument";
 import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
@@ -523,7 +523,7 @@ App.prototype.runAnalyzer = function() {
 	// Insert HTML stripping code
 	text = removeHtmlBlocks( text );
 
-	let titleWidth = this.analyzerData.titleWidth;
+	const titleWidth = this.analyzerData.titleWidth;
 
 	// Create a paper object for the Researcher
 	this.paper = new Paper( text, {
