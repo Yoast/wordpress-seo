@@ -10,6 +10,7 @@ import { getPageType, getArticleType } from "./schemaFieldsStore";
 import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoScore, getInclusiveLanguageScore, getEstimatedReadingTime } from "./analysisFieldsStore";
 import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical, getWordProofTimestamp } from "./advancedFieldsStore";
 import getPrimaryTerms from "./primaryTaxonomiesFieldsStore";
+import { getSeoTitle, getSeoDescription } from "./snippetEditorFieldsStore";
 
 /**
  * Prepare twitter title to be saved in hidden field.
@@ -110,6 +111,8 @@ export const hiddenFieldsSync = () => {
 		canonical: getCanonical,
 		wordProofTimestamp: getWordProofTimestamp,
 		readingTime: getEstimatedReadingTime,
+		seoTitle: getSeoTitle,
+		seoDescription: getSeoDescription,
 	}, ( value, key ) => prefix + META_KEYS[ key ] );
 
 	return subscribe( debounce( createWatcher(
