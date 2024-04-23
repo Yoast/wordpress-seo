@@ -29,10 +29,6 @@ class PrimaryTaxonomyPicker extends Component {
 		this.onChange = this.onChange.bind( this );
 		this.updateReplacementVariable = this.updateReplacementVariable.bind( this );
 
-		const { fieldId } = props.taxonomy;
-
-		this.input = document.getElementById( fieldId );
-
 		this.state = {
 			selectedTerms: [],
 			terms: [],
@@ -187,10 +183,6 @@ class PrimaryTaxonomyPicker extends Component {
 		this.updateReplacementVariable( termId );
 
 		this.props.setPrimaryTaxonomyId( name, termId );
-
-		if ( this.input ) {
-			this.input.value = termId === -1 ? "" : String( termId );
-		}
 	}
 
 	/**
