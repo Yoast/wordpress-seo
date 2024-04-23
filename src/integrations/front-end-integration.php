@@ -317,7 +317,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return string The correct link.
 	 */
 	public function adjacent_rel_url( $link, $rel, $presentation = null ) {
-		if ( $link === \home_url( '/' ) ) {
+		if ( $link === \home_url( '/' ) || is_null( $this->$rel ) ) {
 			return $link;
 		}
 
