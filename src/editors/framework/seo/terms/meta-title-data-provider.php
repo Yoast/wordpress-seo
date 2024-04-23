@@ -1,0 +1,41 @@
+<?php
+
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Editors\Framework\Seo\Terms;
+
+use Yoast\WP\SEO\Editors\Domain\Seo\Meta_Title;
+use Yoast\WP\SEO\Editors\Domain\Seo\Seo_Plugin_Data_Interface;
+use Yoast\WP\SEO\Editors\Framework\Seo\Meta_Title_Data_Provider_Interface;
+/**
+ * Describes if the meta title SEO data.
+ */
+class Meta_Title_Data_Provider extends Abstract_Term_Seo_Data_Provider implements Meta_Title_Data_Provider_Interface {
+
+	/**
+	 * Retrieves the title template.
+	 *
+	 * @param bool $fallback Whether to return the hardcoded fallback if the template value is empty.
+	 *
+	 * @return string The title template.
+	 */
+	public function get_title_template( $fallback = true ): string {
+		$title = $this->get_template( 'title' );
+
+		if ( $title === '' && $fallback === true ) {
+			/* translators: %s expands to the variable used for term title. */
+			$archives = \sprintf( \__( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
+			return $archives . ' %%page%% %%sep%% %%sitename%%';
+		}
+
+		return $title;
+	}
+
+	/**
+	 * Method to return the Meta_Title domain object with SEO data.
+	 *
+	 * @return Seo_Plugin_Data_Interface The specific seo data.
+	 */
+	public function get_data(): Seo_Plugin_Data_Interface {
+		return new Meta_Title( $this->get_title_template(), $this->get_title_template( false ) );
+	}
+}
