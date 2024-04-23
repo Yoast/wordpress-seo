@@ -48,6 +48,16 @@ const App = () => {
 
 	const courses = useMemo( () => ( [
 		{
+			id: "ai_for_seo",
+			title: "AI for SEO",
+			description: __( "Join the Yoast team to learn how to harness the power of AI to revolutionize your SEO approach. Gain a competitive edge, future-proof your keyword strategies, and soar to the top of search rankings – all designed to empower busy small business owners.", "wordpress-seo" ),
+			image: `${ pluginUrl }/images/academy/ai_for_seo_icon_my_yoast.png`,
+			startLink: addQueryArgs( "https://yoa.st/ai-for-seo-start", linkParams ),
+			upsellLink: addQueryArgs( "https://yoa.st/ai-for-seo-unlock", linkParams ),
+			dependencies: { PREMIUM: isPremium },
+			hasTrial: true,
+		},
+		{
 			id: "seo_for_beginners",
 			title: "SEO for beginners",
 			description: __( "In this free course, you'll get quick wins to make your site rank higher in Google, Bing, and Yahoo.", "wordpress-seo" ),

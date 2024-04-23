@@ -258,7 +258,7 @@ final class Upgrade_Test extends TestCase {
 				"SELECT *
 				FROM %i
 				WHERE option_name LIKE %s
-				AND autoload = 'yes'",
+				AND autoload IN ('on', 'yes')",
 				[ $wpdb->options, 'wpseo_sitemap_%' ]
 			)
 		);
@@ -268,7 +268,7 @@ final class Upgrade_Test extends TestCase {
 				"SELECT *
 				FROM %i
 				WHERE option_name LIKE %s
-				AND autoload = 'no'",
+				AND autoload IN ('off', 'no')",
 				[ $wpdb->options, 'wpseo_sitemap_%' ]
 			)
 		);
@@ -397,8 +397,7 @@ final class Upgrade_Test extends TestCase {
 			$wpdb->prepare(
 				'SELECT *
 				FROM %i
-				WHERE option_name LIKE %s
-				AND autoload = "yes"',
+				WHERE option_name LIKE %s',
 				[ $wpdb->options, 'wpseo_sitemap_%' ]
 			)
 		);
@@ -652,7 +651,7 @@ final class Upgrade_Test extends TestCase {
 	/**
 	 * Tests the remove_indexable_rows_for_non_public_taxonomies method.
 	 *
-	 * @covers WPSEO_Upgrade::remove_indexable_rows_for_non_public_post_taxonomies
+	 * @covers WPSEO_Upgrade::remove_indexable_rows_for_non_public_taxonomies
 	 *
 	 * @return void
 	 */
@@ -714,7 +713,7 @@ final class Upgrade_Test extends TestCase {
 	/**
 	 * Tests the remove_indexable_rows_for_non_public_taxonomies method in case no public taxonomies are present.
 	 *
-	 * @covers WPSEO_Upgrade::remove_indexable_rows_for_non_public_post_taxonomies
+	 * @covers WPSEO_Upgrade::remove_indexable_rows_for_non_public_taxonomies
 	 *
 	 * @return void
 	 */
@@ -885,7 +884,7 @@ final class Upgrade_Test extends TestCase {
 	/**
 	 * Tests the test_remove_indexable_rows_for_disabled_authors_archive method.
 	 *
-	 * @covers WPSEO_Upgrade::test_remove_indexable_rows_for_disabled_authors_archive
+	 * @covers WPSEO_Upgrade::remove_indexable_rows_for_disabled_authors_archive
 	 *
 	 * @return void
 	 */

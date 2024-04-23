@@ -32,7 +32,6 @@ class Images extends Base_Images {
 		$this->twitter_image = $twitter_image;
 	}
 
-
 	/**
 	 * Adds an image to the list by image ID.
 	 *

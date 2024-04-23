@@ -10,7 +10,7 @@ class Analysis_Features_List {
 	/**
 	 * The features.
 	 *
-	 * @var array<Analysis_Feature> $features
+	 * @var array<Analysis_Feature>
 	 */
 	private $features = [];
 

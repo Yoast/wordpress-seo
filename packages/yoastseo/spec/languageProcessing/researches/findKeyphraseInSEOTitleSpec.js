@@ -18,11 +18,13 @@ const morphologyDataFR = getMorphologyData( "fr" ).fr;
 const morphologyDataRU = getMorphologyData( "ru" ).ru;
 const morphologyDataTR = getMorphologyData( "tr" ).tr;
 const morphologyDataID = getMorphologyData( "id" ).id;
+const morphologyDataAR = getMorphologyData( "ar" );
+const morphologyDataHE = getMorphologyData( "he" );
 
 let result;
 
 // eslint-disable-next-line max-statements
-describe( "Matches keywords in string", function() {
+describe( "Matches keyphrase in SEO title", function() {
 	it( "returns the exact match and its position", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "keyword",
@@ -489,3 +491,334 @@ describe( "Matches keywords in string", function() {
 	} );
 } );
 
+describe( "Matches keyphrase in SEO title for Arabic", () => {
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "استعمارية أمريكية",
+			title: "استعمارية أمريكية: التوسع السياسي والاقتصادي أمريكي والثقافي",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title and it's preceded by a definite article (function word)", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "استعمارية أمريكية",
+			title: "الاستعمارية الأمريكية: التوسع السياسي والاقتصادي أمريكي والثقافي",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title and it's preceded by a definite article (function word)" +
+		"and a non-prefixed function word", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "استعمارية أمريكية",
+			title: "ألفا الاستعمارية الأمريكية: التوسع السياسي والاقتصادي أمريكي والثقافي",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "should find an exact match at position 0, when each word of the keyphrase is found preceded with prefix" +
+		"at the beginning of the SEO title but the prefixes are not the same", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "استعمارية أمريكية",
+			title: "الاستعمارية والأمريكية: التوسع السياسي والاقتصادي أمريكي والثقافي",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should NOT find an exact match at position 0, when the words of the keyphrase are separated by a different word", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "باندا حمراء",
+			title: "الباندا اللواتي حمراء يمكن تلطيفهن",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( false );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title and it's preceded by a definite article (function word)", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "قط ينطق",
+			title: "القط ينطق: التوسع السياسي والاقتصادي أمريكي والثقافي",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title and it's preceded by a definite article (function word)", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "قطط وسيمة",
+			title: "والقطط الوسيمة: أفضل مواء ستسمعه على الإطلاق",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title: keyphrase enclosed in double quotes", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "\"قط ينطق\"",
+			title: "قط ينطق: التوسع السياسي والاقتصادي أمريكي والثقافي",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title and preceded by a non-prefixed function word: keyphrase enclosed in double quotes", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "\"قطط وسيمة\"",
+			title: "ألفا قطط وسيمة: أفضل مواء ستسمعه على الإطلاق",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title: long keyphrase", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "قطة تطير عبر مجرة",
+			title: "قطة تطير عبر المجرة: الواحة المخفية في قطر: اكتشاف جديد",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should return the earliest match if there are multiple matches", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "قطط وسيمة",
+			title: "والقطط الوسيمة: أفضل مواء ستسمعه على الإطلاق قطط وسيمة",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should NOT return an exact match if the keyphrase uses function word prefix but its occurrence in the SEO title doesn't:" +
+		"This is inline with the behaviour in other languages", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "القطط الوسيمة",
+			title: "قطط وسيمة: أفضل مواء ستسمعه على الإطلاق قطط وسيمة",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( false );
+		expect( result.position ).toBe( 0 );
+		expect( result.allWordsFound ).toBe( true );
+	} );
+	it( "should NOT return an exact match if the matched keyphrase has different word forms", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "الجدول مسؤول",
+			title: "الجدولان مسؤولان تقول لا للإنسان",
+			locale: "ar_AR",
+		} );
+		const researcher = new ArabicResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( false );
+		expect( result.position ).toBe( 0 );
+		expect( result.allWordsFound ).toBe( true );
+	} );
+} );
+
+describe( "Matches keyphrase in SEO title for Hebrew", () => {
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "חתולים חמודים",
+			title: "חתולים חמודים: הכנסת חתולים חמודים לבית",
+			locale: "he_IL",
+		} );
+		const researcher = new HebrewResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataHE );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title and it's preceded by a definite article (function word)", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "פנדות אדומות",
+			title: "הפנדות האדומות: מוצא ובית גידול",
+			locale: "he_IL",
+		} );
+		const researcher = new HebrewResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataHE );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title and it's preceded by a definite article (function word)" +
+		"and a non-prefixed function word", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "פנדות אדומות",
+			title: "עשרים הפנדות האדומות: מוצא ובית גידול",
+			locale: "he_IL",
+		} );
+		const researcher = new HebrewResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataHE );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when both the keyphrase and its occurrence are preceded" +
+		" by a definite article (function word) and it's found at the beginning of the SEO title", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "הפנדות האדומות",
+			title: "הפנדות האדומות: מוצא ובית גידול",
+			locale: "he_IL",
+		} );
+		const researcher = new HebrewResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataHE );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when each word of the keyphrase is found preceded with prefix" +
+		"at the beginning of the SEO title but the prefixes are not the same", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "פנדות אדומות",
+			title: "הפנדות שאדומות: סיפור המעילים שלהם",
+			locale: "he_IL",
+		} );
+		const researcher = new HebrewResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataAR );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should NOT find an exact match at position 0, when the words of the keyphrase are separated by a different word", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "פנדות אדומות",
+			title: "הפנדות שהן אדומות חמודות",
+			locale: "he_IL",
+		} );
+		const researcher = new HebrewResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataHE );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( false );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should NOT find an exact match when matched word forms of the keyphrase are different from the focus keyphrase", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "בית החוף",
+			title: " בתי החוף יקרים",
+			locale: "he_IL",
+		} );
+		const researcher = new HebrewResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataHE );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( false );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title and it's preceded by a definite article (function word)", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "חתול מיאו",
+			title: "החתול מיאו: המיאו הכי טוב שתשמעו אי פעם",
+			locale: "he_IL",
+		} );
+		const researcher = new HebrewResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataHE );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title: keyphrase enclosed in double quotes", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "\"החתול מיאו\"",
+			title: "החתול מיאו: המיאו הכי טוב שתשמעו אי פעם",
+			locale: "he_IL",
+		} );
+		const researcher = new HebrewResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataHE );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+	it( "should find an exact match at position 0, when the exact match of the keyphrase is found" +
+		"at the beginning of the SEO title and preceded by a function word: keyphrase enclosed in double quotes", () => {
+		const mockPaper = new Paper( "", {
+			keyword: "\"החתול מיאו\"",
+			title: "עשרים החתול מיאו: המיאו הכי טוב שתשמעו אי פעם",
+			locale: "he_IL",
+		} );
+		const researcher = new HebrewResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataHE );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+} );
