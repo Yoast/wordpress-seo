@@ -1,13 +1,10 @@
 import MissingArgument from "../src/errors/missingArgument.js";
-import SnippetPreview from "../src/snippetPreview/snippetPreview.js";
 import App from "../src/app.js";
 
 // Mock these function to prevent us from needing an actual DOM in the tests.
-App.prototype.createSnippetPreview = function() {};
 App.prototype.showLoadingDialog = function() {};
 App.prototype.updateLoadingDialog = function() {};
 App.prototype.removeLoadingDialog = function() {};
-App.prototype.initSnippetPreview = function() {};
 App.prototype.runAnalyzer = function() {};
 
 // Makes lodash think this is a valid HTML element
@@ -77,10 +74,7 @@ describe( "Creating an App", function() {
 				getData: () => {
 					return {};
 				},
-			},
-			snippetPreview: new SnippetPreview( {
-				targetElement: mockElement,
-			} ),
+			}
 		} );
 	} );
 
