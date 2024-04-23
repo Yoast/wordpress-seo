@@ -74,7 +74,7 @@ describe( "Creating an App", function() {
 				getData: () => {
 					return {};
 				},
-			}
+			},
 		} );
 	} );
 
