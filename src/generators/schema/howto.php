@@ -46,9 +46,9 @@ class HowTo extends Abstract_Schema_Piece {
 			return;
 		}
 
-		$days    = ! is_numeric( $attributes['days'] ) ? 0 : floatval( $attributes['days'] );
-		$hours   = ! is_numeric( $attributes['hours'] ) ? 0 : floatval( $attributes['hours'] );
-		$minutes = ! is_numeric( $attributes['minutes'] ) ? 0 : floatval( $attributes['minutes'] );
+		$days    = ! is_numeric( $attributes['days'] ) ? 0 : intval( $attributes['days'] );
+		$hours   = ! is_numeric( $attributes['hours'] ) ? 0 : intval( $attributes['hours'] );
+		$minutes = ! is_numeric( $attributes['minutes'] ) ? 0 : intval( $attributes['minutes'] );
 
 		if ( ( $days + $hours + $minutes ) > 0 ) {
 			$data['totalTime'] = \esc_attr( 'P' . $days . 'DT' . $hours . 'H' . $minutes . 'M' );
