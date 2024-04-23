@@ -1,6 +1,6 @@
 // External dependencies
 const CopyWebpackPlugin = require( "copy-webpack-plugin" );
-const { existsSync, readdirSync } = require( "fs" );
+const { readdirSync } = require( "fs" );
 const { join, resolve } = require( "path" );
 
 // Variables
@@ -46,10 +46,6 @@ module.exports = [
 	baseConfig(
 		{
 			entry: yoastPackages.reduce( ( memo, packageName ) => {
-				if ( existsSync( "./packages/" + packageName ) ) {
-					memo[ yoastExternals[ packageName ] ] = "./packages/" + packageName;
-					return memo;
-				}
 				memo[ yoastExternals[ packageName ] ] = "./node_modules/" + packageName;
 				return memo;
 			}, {} ),
