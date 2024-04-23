@@ -1,5 +1,5 @@
 // External dependencies
-const { existsSync, readdirSync } = require( "fs" );
+const { readdirSync } = require( "fs" );
 const { join } = require( "path" );
 
 // Variables
@@ -34,10 +34,6 @@ module.exports = [
 	baseConfig(
 		{
 			entry: yoastPackages.reduce( ( memo, packageName ) => {
-				if ( existsSync( "./packages/" + packageName ) ) {
-					memo[ yoastExternals[ packageName ] ] = "./packages/" + packageName;
-					return memo;
-				}
 				memo[ yoastExternals[ packageName ] ] = "./node_modules/" + packageName;
 				return memo;
 			}, {} ),
