@@ -237,7 +237,6 @@ export default function initPostScraper( $, store, editorData ) {
 			elementTarget: [
 				tinyMCEHelper.tmceId,
 				"yoast_wpseo_focuskw_text_input",
-				"yoast_wpseo_metadesc",
 				"excerpt",
 				"editable-post-name",
 				"editable-post-name-full",
