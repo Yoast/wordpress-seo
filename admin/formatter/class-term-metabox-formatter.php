@@ -4,7 +4,7 @@
  *
  * @package WPSEO\Admin\Formatter
  */
-
+use Yoast\WP\SEO\Editors\Framework\Metadata_Groups;
 /**
  * This class provides data for the term metabox by return its values for localization.
  */
@@ -99,24 +99,17 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return array<string>
 	 */
 	protected function get_term_metadata() {
-		$metadata = [];
-
+		$metadata          = [];
 		$fields_presenter  = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
 		$field_definitions = new WPSEO_Taxonomy_Fields();
-		$is_social_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 		$meta_prefix       = 'wpseo_';
 
-		foreach ( $field_definitions->get( 'content' ) as $key => $field ) {
-			$metadata[ $key ] = $fields_presenter->get_field_value( $meta_prefix . $key );
-		}
-		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
-			foreach ( $field_definitions->get( 'settings' ) as $key => $field ) {
-				$metadata[ $key ] = $fields_presenter->get_field_value( $meta_prefix . $key );
-			}
-		}
+		$metadata_groups = YoastSEO()->classes->get( Metadata_Groups::class );
 
-		if ( $is_social_enabled ) {
-			foreach ( $field_definitions->get( 'social' ) as $key => $field ) {
+		$groups = $metadata_groups->get_term_metadata_groups();
+
+		foreach ( $groups as $group ) {
+			foreach ( $field_definitions->get( $group ) as $key => $field ) {
 				$metadata[ $key ] = $fields_presenter->get_field_value( $meta_prefix . $key );
 			}
 		}

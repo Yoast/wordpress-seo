@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Config\Schema_Types;
+use Yoast\WP\SEO\Editors\Framework\Metadata_Groups;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 /**
  * This class provides data for the post metabox by return its values for localization.
@@ -38,6 +39,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 *
 	 * @param WP_Post                $post      Post object.
 	 * @param array<string|int|bool> $options   Title options to use.
+	 *
 	 * @param string                 $structure The permalink to follow.
 	 */
 	public function __construct( $post, array $options, $structure ) {
@@ -327,25 +329,16 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	protected function get_post_meta_data() {
 		$post_type = $this->post->post_type;
 		$meta_data = [];
-		$fields    = [];
 
-		$social_is_enabled            = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
-		$is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false;
+		$metadata_groups = YoastSEO()->classes->get( Metadata_Groups::class );
 
-		$fields = array_merge( $fields, WPSEO_Meta::get_meta_field_defs( 'general', $post_type ) );
+		$groups = $metadata_groups->get_post_metadata_groups();
 
-		if ( $is_advanced_metadata_enabled ) {
-			$fields = array_merge( $fields, WPSEO_Meta::get_meta_field_defs( 'advanced', $post_type ) );
-		}
-
-		$fields = array_merge( $fields, WPSEO_Meta::get_meta_field_defs( 'schema', $post_type ) );
-
-		if ( $social_is_enabled ) {
-			$fields = array_merge( $fields, WPSEO_Meta::get_meta_field_defs( 'social', $post_type ) );
-		}
-
-		foreach ( $fields as $key => $meta_field ) {
-			$meta_data[ $key ] = WPSEO_Meta::get_value( $key, $this->post->ID );
+		foreach ( $groups as $group ) {
+			$fields = WPSEO_Meta::get_meta_field_defs( $group, $post_type );
+			foreach ( $fields as $key => $meta_field ) {
+				$meta_data[ $key ] = WPSEO_Meta::get_value( $key, $this->post->ID );
+			}
 		}
 
 		return $meta_data;
