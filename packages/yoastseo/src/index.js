@@ -7,6 +7,7 @@ import * as interpreters from "./scoring/interpreters";
 import * as config from "./config";
 import * as languageProcessing from "./languageProcessing";
 import * as values from "./values";
+import * as assessors from "./scoring/assessors";
 import App from "./app";
 import Assessor from "./scoring/assessors/assessor";
 import ContentAssessor from "./scoring/assessors/contentAssessor";
@@ -42,6 +43,7 @@ export {
 	createWorker,
 
 	assessments,
+	assessors,
 	bundledPlugins,
 	config,
 	helpers,

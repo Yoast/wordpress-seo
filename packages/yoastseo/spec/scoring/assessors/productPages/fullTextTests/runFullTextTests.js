@@ -1,6 +1,6 @@
 import { createAnchorOpeningTag, getLanguagesWithWordComplexity } from "../../../../../src/helpers";
 import getLanguage from "../../../../../src/languageProcessing/helpers/language/getLanguage";
-import getResearcher from "../../../../../src/helpers/getResearcher";
+import getResearcher from "../../../../specHelpers/getResearcher";
 import getMorphologyData from "../../../../specHelpers/getMorphologyData";
 import wordComplexity from "../../../../../src/languageProcessing/researches/wordComplexity";
 import getWordComplexityConfig from "../../../../../src/helpers/getWordComplexityConfig";

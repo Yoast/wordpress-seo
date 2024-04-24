@@ -1,5 +1,5 @@
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
-import getResearcher from "../../src/helpers/getResearcher";
+import getResearcher from "../specHelpers/getResearcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
 import getWordComplexityConfig from "../../src/helpers/getWordComplexityConfig";
 import getWordComplexityHelper from "../../src/helpers/getWordComplexityHelper";
