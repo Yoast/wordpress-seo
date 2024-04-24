@@ -241,7 +241,6 @@ class Assessor {
 	 * @param {string} name The name of the assessment.
 	 * @param {object} assessment The object containing function to run as an assessment and it's requirements.
 	 * @returns {boolean} Whether registering the assessment was successful.
-	 * @private
 	 */
 	addAssessment( name, assessment ) {
 		if ( ! assessment.hasOwnProperty( "identifier" ) ) {
