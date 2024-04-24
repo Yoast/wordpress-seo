@@ -6,22 +6,22 @@ import { forEach, has, includes, isEmpty, isNull, isObject, isString, isUndefine
 import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
-import SEOAssessor from "yoastseo/src/scoring/assessors/seoAssessor";
-import ContentAssessor from "yoastseo/src/scoring/assessors/contentAssessor";
-import TaxonomyAssessor from "yoastseo/src/scoring/assessors/taxonomyAssessor";
+import SEOAssessor from "../scoring/assessors/seoAssessor";
+import ContentAssessor from "../scoring/assessors/contentAssessor";
+import TaxonomyAssessor from "../scoring/assessors/taxonomyAssessor";
 
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
-import RelatedKeywordAssessor from "yoastseo/src/scoring/assessors/relatedKeywordAssessor";
-import InclusiveLanguageAssessor from "yoastseo/src/scoring/assessors/inclusiveLanguageAssessor";
+import RelatedKeywordAssessor from "../scoring/assessors/relatedKeywordAssessor";
+import InclusiveLanguageAssessor from "../scoring/assessors/inclusiveLanguageAssessor";
 
 import { build } from "../parse/build";
 import LanguageProcessor from "../parse/language/LanguageProcessor";
 
 // Internal dependencies.
-import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
-import CornerstoneRelatedKeywordAssessor from "../scoring/cornerstone/relatedKeywordAssessor";
-import CornerstoneSEOAssessor from "../scoring/cornerstone/seoAssessor";
+import CornerstoneContentAssessor from "../scoring/assessors/cornerstone/contentAssessor";
+import CornerstoneRelatedKeywordAssessor from "../scoring/assessors/cornerstone/relatedKeywordAssessor";
+import CornerstoneSEOAssessor from "../scoring/assessors/cornerstone/seoAssessor";
 import InvalidTypeError from "../errors/invalidType";
 import MissingArgumentError from "../errors/missingArgument";
 import includesAny from "../helpers/includesAny";

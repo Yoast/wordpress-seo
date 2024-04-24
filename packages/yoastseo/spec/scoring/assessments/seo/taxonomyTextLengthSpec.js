@@ -1,5 +1,5 @@
 import Paper from "../../../../src/values/Paper.js";
-import { getTextLengthAssessment } from "../../../../src/scoring/taxonomyAssessor";
+import { getTextLengthAssessment } from "../../../../src/scoring/assessors/taxonomyAssessor";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import assessmentConfigJapanese from "../../../../src/languageProcessing/languages/ja/config/textLength";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
