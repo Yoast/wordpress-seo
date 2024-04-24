@@ -42,9 +42,9 @@ class Social_Data_Provider extends Abstract_Term_Seo_Data_Provider implements So
 	 * @param Image_Helper   $image_helper   The image helper.
 	 */
 	public function __construct( Options_Helper $options_helper, Image_Helper $image_helper ) {
-		$this->use_social_templates = $this->use_social_templates();
 		$this->options_helper       = $options_helper;
 		$this->image_helper         = $image_helper;
+		$this->use_social_templates = $this->use_social_templates();
 	}
 
 	/**
