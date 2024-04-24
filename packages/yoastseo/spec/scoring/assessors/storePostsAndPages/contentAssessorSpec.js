@@ -9,8 +9,8 @@ import DefaultResearcher from "../../../../src/languageProcessing/languages/_def
 import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
 import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
 
-import getWordComplexityConfig from "../../../specHelpers/getWordComplexityConfig";
-import getWordComplexityHelper from "../../../specHelpers/getWordComplexityHelper";
+import getWordComplexityConfig from "../../../../src/helpers/getWordComplexityConfig";
+import getWordComplexityHelper from "../../../../src/helpers/getWordComplexityHelper";
 
 describe( "A content assessor for English", function() {
 	let results, contentAssessor, researcher, paper;

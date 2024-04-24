@@ -8,8 +8,8 @@ import WordComplexityAssessment from "../../../../../src/scoring/assessments/rea
 import ContentAssessor from "../../../../../src/scoring/assessors/storePostsAndPages/cornerstone/contentAssessor";
 import AssessmentResult from "../../../../../src/values/AssessmentResult";
 import Paper from "../../../../../src/values/Paper";
-import getWordComplexityConfig from "../../../../specHelpers/getWordComplexityConfig";
-import getWordComplexityHelper from "../../../../specHelpers/getWordComplexityHelper";
+import getWordComplexityConfig from "../../../../../src/helpers/getWordComplexityConfig";
+import getWordComplexityHelper from "../../../../../src/helpers/getWordComplexityHelper";
 
 describe( "A test for content assessor for English", function() {
 	let contentAssessor, results, researcher, paper;
