@@ -1,27 +1,25 @@
 import { inherits } from "util";
 
-import { Assessor, assessments, helpers } from "packages/yoastseo/build";
-const { createAnchorOpeningTag } = helpers;
+import Assessor from "../assessor";
+import IntroductionKeywordAssessment from "../../assessments/seo/IntroductionKeywordAssessment";
+import KeyphraseLengthAssessment from "../../assessments/seo/KeyphraseLengthAssessment";
+import KeyphraseDensityAssessment from "../../assessments/seo/KeywordDensityAssessment";
+import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment";
+import MetaDescriptionLengthAssessment from "../../assessments/seo/MetaDescriptionLengthAssessment";
+import SubheadingsKeywordAssessment from "../../assessments/seo/SubHeadingsKeywordAssessment";
+import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment";
+import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import ImageKeyphraseAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment";
+import ImageCountAssessment from "../../assessments/seo/ImageCountAssessment";
+import TextLengthAssessment from "../../assessments/seo/TextLengthAssessment";
+import OutboundLinksAssessment from "../../assessments/seo/OutboundLinksAssessment";
+import KeyphraseInSEOTitleAssessment from "../../assessments/seo/KeyphraseInSEOTitleAssessment";
+import InternalLinksAssessment from "../../assessments/seo/InternalLinksAssessment";
+import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssessment";
+import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
+import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment";
 
-const {
-	IntroductionKeywordAssessment,
-	KeyphraseLengthAssessment,
-	KeyphraseDensityAssessment,
-	MetaDescriptionKeywordAssessment,
-	KeyphraseInSEOTitleAssessment,
-	SlugKeywordAssessment,
-	MetaDescriptionLengthAssessment,
-	TextLengthAssessment,
-	PageTitleWidthAssessment,
-	FunctionWordsInKeyphraseAssessment,
-	SingleH1Assessment,
-	OutboundLinksAssessment,
-	InternalLinksAssessment,
-	ImageCountAssessment,
-	ImageKeyphraseAssessment,
-	TextCompetingLinksAssessment,
-	SubheadingsKeywordAssessment,
-} = assessments.seo;
+import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
  * Creates the Assessor

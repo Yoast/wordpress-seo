@@ -1,17 +1,14 @@
 import { inherits } from "util";
 
-import { Assessor, assessments, helpers } from "packages/yoastseo/build";
-const { createAnchorOpeningTag } = helpers;
-
-const {
-	IntroductionKeywordAssessment,
-	KeyphraseLengthAssessment,
-	KeyphraseDensityAssessment,
-	MetaDescriptionKeywordAssessment,
-	TextCompetingLinksAssessment,
-	ImageKeyphraseAssessment,
-	FunctionWordsInKeyphraseAssessment,
-} = assessments.seo;
+import Assessor from "../assessor";
+import IntroductionKeywordAssessment from "../../assessments/seo/IntroductionKeywordAssessment";
+import KeyphraseLengthAssessment from "../../assessments/seo/KeyphraseLengthAssessment";
+import KeyphraseDensityAssessment from "../../assessments/seo/KeywordDensityAssessment";
+import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment";
+import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment";
+import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import ImageKeyphraseAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment";
+import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
  * Creates the Assessor

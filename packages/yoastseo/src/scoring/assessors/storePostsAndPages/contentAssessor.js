@@ -1,22 +1,15 @@
 import { inherits } from "util";
 
-import { Assessor, ContentAssessor, assessments, helpers } from "packages/yoastseo/build";
-const { createAnchorOpeningTag } = helpers;
-
-const {
-	ParagraphTooLongAssessment,
-	SentenceLengthInTextAssessment,
-	SubheadingDistributionTooLongAssessment,
-	TransitionWordsAssessment,
-	PassiveVoiceAssessment,
-	TextPresenceAssessment,
-	SentenceBeginningsAssessment,
-} = assessments.readability;
-
-/*
-	Temporarily disabled:
-	var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
- */
+import Assessor from "../assessor";
+import ContentAssessor from "../contentAssessor";
+import SubheadingDistributionTooLongAssessment from "../../assessments/readability/SubheadingDistributionTooLongAssessment";
+import ParagraphTooLongAssessment from "../../assessments/readability/ParagraphTooLongAssessment";
+import SentenceLengthInTextAssessment from "../../assessments/readability/SentenceLengthInTextAssessment";
+import TransitionWordsAssessment from "../../assessments/readability/TransitionWordsAssessment";
+import PassiveVoiceAssessment from "../../assessments/readability/PassiveVoiceAssessment";
+import TextPresenceAssessment from "../../assessments/readability/TextPresenceAssessment";
+import SentenceBeginningsAssessment from "../../assessments/readability/SentenceBeginningsAssessment";
+import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
  * Creates the Assessor for e-commerce posts and pages content types.
