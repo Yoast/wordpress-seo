@@ -27,30 +27,14 @@ class Metadata_Groups {
 	protected $capability_helper;
 
 	/**
-	 * Social is enabled.
-	 *
-	 * @var bool
-	 */
-	protected $is_social_enabled;
-
-	/**
-	 * Should show advanced settings.
-	 *
-	 * @var bool
-	 */
-	protected $is_advanced_enabled;
-
-	/**
 	 * Integrations_Action constructor.
 	 *
 	 * @param Options_Helper    $options_helper    The WPSEO options helper.
 	 * @param Capability_Helper $capability_helper The capability helper.
 	 */
 	public function __construct( Options_Helper $options_helper, Capability_Helper $capability_helper ) {
-		$this->options_helper      = $options_helper;
-		$this->capability_helper   = $capability_helper;
-		$this->is_social_enabled   = $this->options_helper->get( 'opengraph', false ) || $this->options_helper->get( 'twitter', false );
-		$this->is_advanced_enabled = $this->capability_helper->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options_helper->get( 'disableadvanced_meta' ) === false;
+		$this->options_helper    = $options_helper;
+		$this->capability_helper = $capability_helper;
 	}
 
 	/**
@@ -61,11 +45,11 @@ class Metadata_Groups {
 	public function get_post_metadata_groups(): array {
 		$groups = [ 'general', 'schema' ];
 
-		if ( $this->is_advanced_enabled ) {
+		if ( $this->is_advanced_enabled() ) {
 			$groups[] = 'advanced';
 		}
 
-		if ( $this->is_social_enabled ) {
+		if ( $this->is_social_enabled() ) {
 			$groups[] = 'social';
 		}
 
@@ -80,14 +64,32 @@ class Metadata_Groups {
 	public function get_term_metadata_groups(): array {
 		$groups = [ 'content' ];
 
-		if ( $this->is_advanced_enabled ) {
+		if ( $this->is_advanced_enabled() ) {
 			$groups[] = 'settings';
 		}
 
-		if ( $this->is_social_enabled ) {
+		if ( $this->is_social_enabled() ) {
 			$groups[] = 'social';
 		}
 
 		return $groups;
+	}
+
+	/**
+	 * Get is social enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_social_enabled(): bool {
+		return $this->options_helper->get( 'opengraph', false ) || $this->options_helper->get( 'twitter', false );
+	}
+
+	/**
+	 * Get is advanced enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_advanced_enabled(): bool {
+		return $this->capability_helper->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options_helper->get( 'disableadvanced_meta' ) === false;
 	}
 }

@@ -105,6 +105,9 @@ final class Metadata_Groups_Test extends TestCase {
 		 * Tests the get_post_metadata_groups method.
 		 *
 		 * @covers ::get_post_metadata_groups
+		 * @covers ::is_advanced_enabled
+		 * @covers ::is_social_enabled
+		 *
 		 * @dataProvider data_provider_get_post_metadata_groups
 		 *
 		 * @param bool          $opengraph_enabled Whether opengraph is enabled.
@@ -199,6 +202,8 @@ final class Metadata_Groups_Test extends TestCase {
 	 * Tests the get_term_metadata_groups method.
 	 *
 	 * @covers ::get_term_metadata_groups
+	 * @covers ::is_advanced_enabled
+	 * @covers ::is_social_enabled
 	 *
 	 * @dataProvider data_provider_get_term_metadata_groups
 	 *
