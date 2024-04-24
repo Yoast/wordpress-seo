@@ -469,6 +469,8 @@ class WPSEO_Meta {
 		$clean     = self::$defaults[ $meta_key ];
 
 		switch ( true ) {
+			case ( $meta_key === self::$meta_prefix . 'inclusive_language_score' ):
+			case ( $meta_key === self::$meta_prefix . 'content_score' ):
 			case ( $meta_key === self::$meta_prefix . 'estimated-reading-time-minutes' ):
 			case ( $meta_key === self::$meta_prefix . 'linkdex' ):
 				$int = WPSEO_Utils::validate_int( $meta_value );
@@ -476,18 +478,12 @@ class WPSEO_Meta {
 					$clean = strval( $int ); // Convert to string to make sure default check works.
 				}
 				break;
-			// Primary term ids are always integers.
+			// Ids are always integers that are greater then 0.
+			case ( strpos( $meta_key, 'image-id' ) !== false ):
 			case ( strpos( $meta_key, self::$meta_prefix . 'primary' ) === 0 ):
 				$int = WPSEO_Utils::validate_int( $meta_value );
 				if ( $int !== false && $int > 0 ) {
 					$clean = strval( $int );
-				}
-				break;
-
-			case ( $meta_key === self::$meta_prefix . 'wordproof_timestamp' ):
-				$sanitized_timestamp = filter_var( $meta_value, FILTER_SANITIZE_NUMBER_INT );
-				if ( $sanitized_timestamp !== false && $sanitized_timestamp > 0 ) {
-					$clean = $meta_value;
 				}
 				break;
 
