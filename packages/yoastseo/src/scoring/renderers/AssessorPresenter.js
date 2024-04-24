@@ -37,7 +37,7 @@ AssessorPresenter.prototype.setKeyword = function( keyword ) {
 };
 
 /**
- * Checks whether or not a specific property exists in the presenter configuration.
+ * Checks whether a specific property exists in the presenter configuration.
  *
  * @param {string} property The property name to search for.
  * @returns {boolean} Whether or not the property exists.
@@ -330,10 +330,11 @@ AssessorPresenter.prototype.removeAllMarks = function() {
 
 /**
  * Renders out the individual ratings.
+ * Here, this method is set to noop. In `post-scraper.js` and `term-scraper.js` where this method is called, it is overridden with noop as well.
  *
  * @returns {void}
  */
-AssessorPresenter.prototype.renderIndividualRatings = function() { };
+AssessorPresenter.prototype.renderIndividualRatings = function() {};
 
 /**
  * Renders out the overall rating.
