@@ -1,6 +1,4 @@
-import { __ } from "@wordpress/i18n";
 import { difference, forEach, isNumber, isObject, isUndefined } from "lodash-es";
-import { assessmentPresenterResult as template } from "../../snippetPreview/templates.js";
 import scoreToRating from "../interpreters/scoreToRating.js";
 import createConfig from "../../config/presenter.js";
 
@@ -39,7 +37,7 @@ AssessorPresenter.prototype.setKeyword = function( keyword ) {
 };
 
 /**
- * Checks whether or not a specific property exists in the presenter configuration.
+ * Checks whether a specific property exists in the presenter configuration.
  *
  * @param {string} property The property name to search for.
  * @returns {boolean} Whether or not the property exists.
@@ -332,26 +330,11 @@ AssessorPresenter.prototype.removeAllMarks = function() {
 
 /**
  * Renders out the individual ratings.
+ * Here, this method is set to noop. In `post-scraper.js` and `term-scraper.js` where this method is called, it is overridden with noop as well.
  *
  * @returns {void}
  */
-AssessorPresenter.prototype.renderIndividualRatings = function() {
-	var outputTarget = document.getElementById( this.output );
-	var scores = this.getIndividualRatings();
-
-	outputTarget.innerHTML = template( {
-		scores: scores,
-		i18n: {
-			disabledMarkText: __( "Marks are disabled in current view", "wordpress-seo" ),
-			markInText: __( "Mark this result in the text", "wordpress-seo" ),
-			removeMarksInText: __( "Remove marks in the text", "wordpress-seo" ),
-		},
-		activeMarker: this._activeMarker,
-		markerButtonsDisabled: this._disableMarkerButtons,
-	} );
-
-	this.bindMarkButtons( scores );
-};
+AssessorPresenter.prototype.renderIndividualRatings = function() {};
 
 /**
  * Renders out the overall rating.
