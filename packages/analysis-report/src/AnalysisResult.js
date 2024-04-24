@@ -26,6 +26,11 @@ const ATTRIBUTE_FOR_ANALYSIS = {
 			key: "content",
 		},
 	],
+	// "core/quote": [
+	// 	{
+	// 		key: "content",
+	// 	},
+	// ],
 	"core/audio": [
 		{
 			key: "caption",
@@ -148,6 +153,12 @@ const createMarkButton = ( {
 	/>;
 };
 
+/**
+ * Retrieves the inner blocks from columns recursively.
+ *
+ * @param {Array} innerBlocks The inner blocks of a column or columns block.
+ * @returns {Array} The inner blocks from columns.
+ */
 const getInnerBlocksFromColumns = ( innerBlocks ) => {
 	const innerBlocksArray = [];
 	innerBlocks.forEach( block => {
@@ -202,6 +213,11 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 		props.onResultChange( id, marker, hasMarksButton );
 	}, [ id, marker, hasMarksButton ] );
 
+	/**
+	 * Use AI function.
+	 *
+	 * @returns {void}
+	 */
 	const useAI = () => {
 		// Get all blocks from the page
 		const blocks = select( "core/block-editor" ).getBlocks();
@@ -211,7 +227,6 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 		blocks.forEach( block => {
 			const innerHtml = getBlockContent( block );
 			const blockClientId = block.clientId;
-
 			textsForAIInput.push( { blockName: block.name, clientId: blockClientId, content: innerHtml } );
 
 			if ( block.innerBlocks.length > 0 ) {
@@ -229,9 +244,10 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 		const attributesToUpdate = {};
 		// Assume that the AI to return with an array of strings with the same format as the input: see `innerHtml`. I think we have to enforce this
 		const textsFromAIOutput = [
-			{ blockName: "core/paragraph", clientId: "01660b6f-016e-42c0-b694-9740ff7377b0", content: "<p>If you were to ask any <a href=\"https://www.womansday.com/life/g26913463/gifts-for-dog-lovers/\" target=\"_blank\" rel=\"noreferrer noopener\">dog person</a> why they prefer canines to felines, they’d probably tell you, “Because dogs are more <strong>affectionate</strong> than <em>cats</em>.” But contrary to popular belief, there are plenty of affectionate cat breeds that are just as attentive and cuddly as pups. Some of these devoted cats are content to sit in your lap while you pet them for hours. Others will actually run to greet you at the door. From the snuggly to the seriously sentimental, we’ve rounded up the cute <em>cats</em> out there, and they’ll provide just as many cuddles as any dog.</p>" },
+			{ blockName: "core/paragraph", clientId: "01660b6f-016e-42c0-b694-9740ff7377b0", content: "<p>If you were to ask any <a href=\"https://www.womansday.com/life/g26913463/gifts-for-dog-lovers/\" target=\"_blank\" rel=\"noreferrer noopener\">dog person</a> why they prefer canines to felines, they’d probably tell you, “Because dogs are more <strong>affectionate</strong> than <em>cats</em>.” But contrary to popular belief, there are plenty of affectionate cat breeds that are just as attentive and cuddly as pups. Some of these devoted cats are content to sit in your lap while you pet them for hours. Others will actually run to greet you at the door. From the snuggly to the seriously sentimental, we’ve rounded up the cute <em>cats</em> out there, and they’ll provide just as many cuddles as any dog.</p>" },
 			{ blockName: "core/list", clientId: "01660b6f-016e-42c0-b694-9740ff7377b0", content: "<li>Scottish fold <strong>affectionate</strong> cats</li>" },
-			{ blockName: "core/heading", clientId: "01660b6f-016e-42c0-b694-9740ff7377b0", content: "<h2 class=\"wp-block-heading\">Ragdoll</h2>" },
+			{ blockName: "core/heading", clientId: "01660b6f-016e-42c0-b694-9740ff7377b0", content: "<h2 class=\"wp-block-heading\">Ragdoll: your best friend</h2>" },
+			// { blockName: "core/quote", clientId: "01660b6f-016e-42c0-b694-9740ff7377b0", content: "<blockquote>“<strong>affectionate</strong> cats”</blockquote>" },
 		];
 
 		// Parse the AI output to get the clientId and the innerHtml string
@@ -244,13 +260,23 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 				const innerHtmlFromAIOutput = output.content;
 				const blockName = block.name;
 				const blockClientId = block.clientId;
-				if ( blockClientId === clientIdFromAIOutput ) {
-					// Get block attributes from the innerHtmlFromAIOutput
-					const outputAttr = getBlockAttributes( blockName, innerHtmlFromAIOutput );
-					// Get relevant attributes based on the block name
-					const getRelevantAttributes = ATTRIBUTE_FOR_ANALYSIS[ block.name ];
-					// Using the retrieved relevant attribute's key, retrieve the value from the attributes output by the AI
-					// Add this new attribute to the `attributesToUpdate` object
+				// If the block has inner blocks, get the inner blocks and add them to the array
+				if ( block.innerBlocks.length > 0 ) {
+					const innerBlocks = getInnerBlocksFromColumns( block.innerBlocks );
+					innerBlocks.forEach( innerBlock => {
+						const innerblockHtml = getBlockContent( innerBlock );
+						textsFromAIOutput.push( { blockName: innerBlock.name, clientId: innerBlock.clientId, content: innerblockHtml } );
+					} );
+				}
+
+				// if ( blockClientId === clientIdFromAIOutput ) {
+				// Get block attributes from the innerHtmlFromAIOutput
+				const outputAttr = getBlockAttributes( blockName, innerHtmlFromAIOutput );
+				// Get relevant attributes based on the block name
+				const getRelevantAttributes = ATTRIBUTE_FOR_ANALYSIS[ block.name ];
+				// Using the retrieved relevant attribute's key, retrieve the value from the attributes output by the AI
+				// Add this new attribute to the `attributesToUpdate` object
+				if ( getRelevantAttributes ) {
 					getRelevantAttributes.forEach( attr => {
 						attributesToUpdate[ blockClientId ] = {
 							[ attr.key ]: outputAttr[ attr.key ],
@@ -259,6 +285,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 					// Add the blockClientId to clientIdsToUpdate list
 					clientIdsToUpdate.push( blockClientId );
 				}
+				// }
 			} );
 		} );
 
