@@ -1,7 +1,32 @@
-const { SeoAssessor, Paper, ContentAssessor, App, interpreters } = require( "yoastseo" );
+const { SeoAssessor, Paper, ContentAssessor, App, interpreters, languageProcessing, assessments, helpers } = require( "yoastseo" );
 const express = require( "express" );
 const { "default": RelatedKeywordAssessor } = require( "yoastseo/build/scoring/relatedKeywordAssessor" );
-const { "default": InclusiveLanguageAssessor } = require( "yoastseo/build/scoring/InclusiveLanguageAssessor" );
+const { "default": InclusiveLanguageAssessor } = require( "yoastseo/build/scoring/InclusiveLanguageAssessor" )
+
+// Premium assessments
+const keyphraseDistribution = languageProcessing.researches.keyphraseDistribution;
+const KeyphraseDistributionAssessment = assessments.seo.KeyphraseDistributionAssessment;
+
+const TextTitleAssessment = assessments.seo.TextTitleAssessment;
+
+const getLanguagesWithWordComplexity = helpers.getLanguagesWithWordComplexity;
+const wordComplexity = languageProcessing.researches.wordComplexity;
+const wordComplexityHelpers = {
+	de: languageProcessing.languageHelpers.wordComplexityHelperGerman,
+	en: languageProcessing.languageHelpers.wordComplexityHelperEnglish,
+	es: languageProcessing.languageHelpers.wordComplexityHelperSpanish,
+	fr: languageProcessing.languageHelpers.wordComplexityHelperFrench,
+};
+const wordComplexityConfigs = {
+	de: languageProcessing.languageConfigs.wordComplexityConfigGerman,
+	en: languageProcessing.languageConfigs.wordComplexityConfigEnglish,
+	es: languageProcessing.languageConfigs.wordComplexityConfigSpanish,
+	fr: languageProcessing.languageConfigs.wordComplexityConfigFrench,
+};
+const WordComplexityAssessment = assessments.readability.WordComplexityAssessment;
+
+const getLongCenterAlignedTexts = languageProcessing.researches.getLongCenterAlignedTexts;
+const TextAlignmentAssessment = assessments.readability.TextAlignmentAssessment;
 
 const MORPHOLOGY_VERSIONS = {
 	en: "v5",
@@ -49,10 +74,20 @@ app.get( "/analyze", ( request, response ) => {
 
 	const researcher = new Researcher();
 	researcher.addResearchData( "morphology", premiumData );
-	// Add other researches here, cf. packages/yoastseo/spec/fullTextTests/runFullTextTests.js
+	researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
+	if ( getLanguagesWithWordComplexity().includes( language ) ) {
+		researcher.addResearch( "wordComplexity", wordComplexity );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelpers[ language ] );
+		researcher.addConfig( "wordComplexity", wordComplexityConfigs[ language ] );
+	}
+	researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
 
 	const seoAssessor = new SeoAssessor( researcher );
+	seoAssessor.addAssessment("keyphraseDistribution", new KeyphraseDistributionAssessment());
+	seoAssessor.addAssessment("TextTitleAssessment", new TextTitleAssessment());
 	const contentAssessor = new ContentAssessor( researcher );
+	contentAssessor.addAssessment("wordComplexity", new WordComplexityAssessment());
+	contentAssessor.addAssessment("textAlignment", new TextAlignmentAssessment());
 	const relatedKeywordAssessor = new RelatedKeywordAssessor( researcher );
 	const inclusiveLanguageAssessor = new InclusiveLanguageAssessor( researcher );
 
