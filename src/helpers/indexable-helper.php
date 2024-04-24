@@ -262,4 +262,49 @@ class Indexable_Helper {
 
 		return false;
 	}
+
+	/**
+	 * Saves and returns an indexable (on production environments only).
+	 *
+	 * Moved from Yoast\WP\SEO\Builders\Indexable_Builder.
+	 *
+	 * @param Indexable      $indexable        The indexable.
+	 * @param Indexable|null $indexable_before The indexable before possible changes.
+	 *
+	 * @return bool True if default value.
+	 */
+	public function save_indexable( $indexable, $indexable_before ) {
+		$intend_to_save = $this->should_index_indexables();
+
+		/**
+		 * Filter: 'wpseo_should_save_indexable' - Allow developers to enable / disable
+		 * saving the indexable when the indexable is updated. Warning: overriding
+		 * the intended action may cause problems when moving from a staging to a
+		 * production environment because indexable permalinks may get set incorrectly.
+		 *
+		 * @param bool      $intend_to_save True if YoastSEO intends to save the indexable.
+		 * @param Indexable $indexable      The indexable to be saved.
+		 */
+		$intend_to_save = \apply_filters( 'wpseo_should_save_indexable', $intend_to_save, $indexable );
+
+		if ( ! $intend_to_save ) {
+			return $indexable;
+		}
+
+		// Save the indexable before running the WordPress hook.
+		$indexable->save();
+
+		if ( $indexable_before ) {
+			/**
+			 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
+			 * when the indexable is updated.
+			 *
+			 * @param Indexable $indexable        The saved indexable.
+			 * @param Indexable $indexable_before The indexable before saving.
+			 */
+			\do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
+		}
+
+		return $indexable;
+	}
 }
