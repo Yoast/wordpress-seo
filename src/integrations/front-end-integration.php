@@ -317,11 +317,11 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return string The correct link.
 	 */
 	public function adjacent_rel_url( $link, $rel, $presentation = null ) {
-		if ( $link === \home_url( '/' ) || \is_null( $this->$rel ) ) {
+		if ( $link === \home_url( '/' ) ) {
 			return $link;
 		}
 
-		if ( $rel === 'next' || $rel === 'prev' ) {
+		if ( ( $rel === 'next' || $rel === 'prev' ) && ( ! \is_null( $this->$rel ) ) ){
 			// Reconstruct url if it's relative.
 			if ( \class_exists( WP_HTML_Tag_Processor::class ) ) {
 				$processor = new WP_HTML_Tag_Processor( $this->$rel );
