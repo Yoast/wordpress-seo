@@ -123,7 +123,7 @@ final class Front_End_Integration_Test extends TestCase {
 	/**
 	 * Data provider for the test_adjacent_rel_url test.
 	 *
-	 * @return array
+	 * @return array<array<string>>
 	 */
 	public static function data_provider_adjacent_rel_url() {
 		return [

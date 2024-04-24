@@ -321,7 +321,7 @@ class Front_End_Integration implements Integration_Interface {
 			return $link;
 		}
 
-		if ( ( $rel === 'next' || $rel === 'prev' ) && ( ! \is_null( $this->$rel ) ) ){
+		if ( ( $rel === 'next' || $rel === 'prev' ) && ( ! \is_null( $this->$rel ) ) ) {
 			// Reconstruct url if it's relative.
 			if ( \class_exists( WP_HTML_Tag_Processor::class ) ) {
 				$processor = new WP_HTML_Tag_Processor( $this->$rel );
