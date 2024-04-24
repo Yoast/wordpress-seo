@@ -6,14 +6,14 @@ import { forEach, has, includes, isEmpty, isNull, isObject, isString, isUndefine
 import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
-import SEOAssessor from "../scoring/seoAssessor";
-import ContentAssessor from "../scoring/contentAssessor";
-import TaxonomyAssessor from "../scoring/taxonomyAssessor";
+import SEOAssessor from "yoastseo/src/scoring/assessors/seoAssessor";
+import ContentAssessor from "yoastseo/src/scoring/assessors/contentAssessor";
+import TaxonomyAssessor from "yoastseo/src/scoring/assessors/taxonomyAssessor";
 
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
-import RelatedKeywordAssessor from "../scoring/relatedKeywordAssessor";
-import InclusiveLanguageAssessor from "../scoring/inclusiveLanguageAssessor";
+import RelatedKeywordAssessor from "yoastseo/src/scoring/assessors/relatedKeywordAssessor";
+import InclusiveLanguageAssessor from "yoastseo/src/scoring/assessors/inclusiveLanguageAssessor";
 
 import { build } from "../parse/build";
 import LanguageProcessor from "../parse/language/LanguageProcessor";
@@ -26,7 +26,7 @@ import InvalidTypeError from "../errors/invalidType";
 import MissingArgumentError from "../errors/missingArgument";
 import includesAny from "../helpers/includesAny";
 import { configureShortlinker } from "../helpers/shortlinker";
-import RelatedKeywordTaxonomyAssessor from "../scoring/relatedKeywordTaxonomyAssessor";
+import RelatedKeywordTaxonomyAssessor from "yoastseo/src/scoring/assessors/relatedKeywordTaxonomyAssessor";
 import Scheduler from "./scheduler";
 import Transporter from "./transporter";
 import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";

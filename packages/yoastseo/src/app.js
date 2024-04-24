@@ -5,12 +5,12 @@ import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
 import removeHtmlBlocks from "./languageProcessing/helpers/html/htmlParser.js";
 import Pluggable from "./pluggable.js";
-import ContentAssessor from "./scoring/contentAssessor.js";
-import CornerstoneContentAssessor from "./scoring/cornerstone/contentAssessor.js";
-import CornerstoneSEOAssessor from "./scoring/cornerstone/seoAssessor.js";
+import ContentAssessor from "./scoring/assessors/contentAssessor.js";
+import CornerstoneContentAssessor from "./scoring/assessors/cornerstone/contentAssessor.js";
+import CornerstoneSEOAssessor from "./scoring/assessors/cornerstone/seoAssessor.js";
 import AssessorPresenter from "./scoring/renderers/AssessorPresenter.js";
 
-import SEOAssessor from "./scoring/seoAssessor.js";
+import SEOAssessor from "./scoring/assessors/seoAssessor.js";
 import SnippetPreview from "./snippetPreview/snippetPreview.js";
 import Paper from "./values/Paper.js";
 
