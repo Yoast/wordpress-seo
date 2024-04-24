@@ -21,6 +21,7 @@ use WPSEO_Utils;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
+use Yoast\WP\SEO\Editors\Framework\Metadata_Groups;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -507,20 +508,14 @@ class Elementor implements Integration_Interface {
 		);
 
 		\wp_nonce_field( 'wpseo_elementor_save', '_wpseo_elementor_nonce' );
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
-		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
 
-		if ( $this->is_advanced_metadata_enabled ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'advanced' );
-		}
+		$metadata_groups = \YoastSEO()->classes->get( Metadata_Groups::class );
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
-		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema', $this->get_metabox_post()->post_type );
+		$groups = $metadata_groups->get_post_metadata_groups();
 
-		if ( $this->social_is_enabled ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
+		foreach ( $groups as $group ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
+			echo new Meta_Fields_Presenter( $this->get_metabox_post(), $group, $this->get_metabox_post()->post_type );
 		}
 
 		\printf(
