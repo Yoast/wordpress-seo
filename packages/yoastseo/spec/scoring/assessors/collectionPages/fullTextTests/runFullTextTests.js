@@ -1,45 +1,36 @@
-import { createAnchorOpeningTag, getLanguagesWithWordComplexity } from "../../../../src/helpers";
-import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
-import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
-import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
-import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
-import getWordComplexityConfig from "../../../specHelpers/getWordComplexityConfig";
-import getWordComplexityHelper from "../../../specHelpers/getWordComplexityHelper";
-import keyphraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
-import buildTree from "../../../../../yoastseo/spec/specHelpers/parse/buildTree";
+import { createAnchorOpeningTag, getLanguagesWithWordComplexity } from "../../../../../src/helpers";
+import getLanguage from "../../../../../src/languageProcessing/helpers/language/getLanguage";
+import getResearcher from "../../../../../src/helpers/getResearcher";
+import getMorphologyData from "../../../../specHelpers/getMorphologyData";
+import wordComplexity from "../../../../../src/languageProcessing/researches/wordComplexity";
+import getWordComplexityConfig from "../../../../../src/helpers/getWordComplexityConfig";
+import getWordComplexityHelper from "../../../../../src/helpers/getWordComplexityHelper";
+import keyphraseDistribution from "../../../../../src/languageProcessing/researches/keyphraseDistribution";
+import buildTree from "../../../../specHelpers/parse/buildTree";
 
 // Import SEO assessments.
-import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "../../../../src/scoring/assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "../../../../src/scoring/assessments/seo/MetaDescriptionKeywordAssessment";
-import MetaDescriptionLengthAssessment from "../../../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment";
-import SubHeadingsKeywordAssessment from "../../../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment";
-import TextCompetingLinksAssessment from "../../../../src/scoring/assessments/seo/TextCompetingLinksAssessment";
-import TextLengthAssessment from "../../../../src/scoring/assessments/seo/TextLengthAssessment";
-import KeyphraseInSEOTitleAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInSEOTitleAssessment";
-import TitleWidthAssessment from "../../../../src/scoring/assessments/seo/PageTitleWidthAssessment";
-import SlugKeywordAssessment from "../../../../src/scoring/assessments/seo/UrlKeywordAssessment";
-import FunctionWordsInKeyphrase from "../../../../src/scoring/assessments/seo/FunctionWordsInKeyphraseAssessment";
-import SingleH1Assessment from "../../../../src/scoring/assessments/seo/SingleH1Assessment";
-import ImageKeyphraseAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
-import ImageCountAssessment from "../../../../src/scoring/assessments/seo/ImageCountAssessment";
-import ImageAltTags from "../../../../src/scoring/assessments/seo/ImageAltTagsAssessment";
-import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
-import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
-import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
+import IntroductionKeywordAssessment from "../../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
+import KeyphraseLengthAssessment from "../../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
+import KeyphraseDensityAssessment from "../../../../../src/scoring/assessments/seo/KeywordDensityAssessment";
+import MetaDescriptionKeywordAssessment from "../../../../../src/scoring/assessments/seo/MetaDescriptionKeywordAssessment";
+import MetaDescriptionLengthAssessment from "../../../../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment";
+import TextLengthAssessment from "../../../../../src/scoring/assessments/seo/TextLengthAssessment";
+import KeyphraseInSEOTitleAssessment from "../../../../../src/scoring/assessments/seo/KeyphraseInSEOTitleAssessment";
+import TitleWidthAssessment from "../../../../../src/scoring/assessments/seo/PageTitleWidthAssessment";
+import SlugKeywordAssessment from "../../../../../src/scoring/assessments/seo/UrlKeywordAssessment";
+import FunctionWordsInKeyphrase from "../../../../../src/scoring/assessments/seo/FunctionWordsInKeyphraseAssessment";
+import SingleH1Assessment from "../../../../../src/scoring/assessments/seo/SingleH1Assessment";
+import KeyphraseDistribution from "../../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 
 // Import Readability assessments
-import SubheadingDistributionTooLongAssessment
-	from "../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
-import ParagraphTooLongAssessment from "../../../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
-import SentenceLengthInTextAssessment
-	from "../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
-import TransitionWordsAssessment from "../../../../src/scoring/assessments/readability/TransitionWordsAssessment";
-import PassiveVoiceAssessment from "../../../../src/scoring/assessments/readability/PassiveVoiceAssessment";
-import TextPresenceAssessment from "../../../../src/scoring/assessments/readability/TextPresenceAssessment";
-import ListAssessment from "../../../../src/scoring/assessments/readability/ListAssessment";
-import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
+import SubheadingDistributionTooLongAssessment from "../../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
+import ParagraphTooLongAssessment from "../../../../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
+import SentenceLengthInTextAssessment from "../../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
+import TransitionWordsAssessment from "../../../../../src/scoring/assessments/readability/TransitionWordsAssessment";
+import PassiveVoiceAssessment from "../../../../../src/scoring/assessments/readability/PassiveVoiceAssessment";
+import TextPresenceAssessment from "../../../../../src/scoring/assessments/readability/TextPresenceAssessment";
+import SentenceBeginningsAssessment from "../../../../../src/scoring/assessments/readability/SentenceBeginningsAssessment";
+import WordComplexityAssessment from "../../../../../src/scoring/assessments/readability/WordComplexityAssessment";
 
 // Import test papers.
 import testPapers from "./testTexts";
@@ -73,16 +64,10 @@ testPapers.forEach( function( testPaper ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify9" ),
 		} );
 		const keyphraseLengthAssessment = new KeyphraseLengthAssessment( {
-			parameters: {
-				recommendedMinimum: 4,
-				recommendedMaximum: 6,
-				acceptableMaximum: 8,
-				acceptableMinimum: 2,
-			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
-		}, true );
-		const keywordDensityAssessment = new KeywordDensityAssessment( {
+		} );
+		const keyphraseDensityAssessment = new KeyphraseDensityAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
 		} );
@@ -94,19 +79,11 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify46" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify47" ),
 		} );
-		const subheadingsKeywordAssessment = new SubHeadingsKeywordAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify16" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify17" ),
-		} );
-		const textCompetingLinksAssessment = new TextCompetingLinksAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify18" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
-		} );
 		const textLengthAssessment = new TextLengthAssessment( {
-			recommendedMinimum: 200,
-			slightlyBelowMinimum: 150,
-			belowMinimum: 100,
-			veryFarBelowMinimum: 50,
+			recommendedMinimum: 80,
+			slightlyBelowMinimum: 50,
+			belowMinimum: 20,
+			veryFarBelowMinimum: 10,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
 		} );
@@ -115,12 +92,9 @@ testPapers.forEach( function( testPaper ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
 		} );
 		const titleWidthAssessment = new TitleWidthAssessment( {
-			scores: {
-				widthTooShort: 9,
-			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify52" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify53" ),
-		}, true );
+		} );
 		const slugKeywordAssessment = new SlugKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
@@ -133,34 +107,6 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify54" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
 		} );
-		const productIdentifiersAssessment = new ProductIdentifiersAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
-			assessVariants: true,
-		} );
-		const productSKUAssessment = new ProductSKUAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
-			assessVariants: true,
-			productType: "simple",
-			addSKULocation: true,
-		} );
-		const imageKeyphraseAssessment = new ImageKeyphraseAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
-		} );
-		const imageCountAssessment = new ImageCountAssessment( {
-			scores: {
-				okay: 6,
-			},
-			recommendedCount: 4,
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify20" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify21" ),
-		}, true );
-		const imageAltTagsAsessment = new ImageAltTags( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify40" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify41" ),
-		} );
 		const keyphraseDistributionAssessment = new KeyphraseDistribution( {
 			urlTitle: "https://yoa.st/shopify30",
 			urlCallToAction: "https://yoa.st/shopify31",
@@ -171,16 +117,10 @@ testPapers.forEach( function( testPaper ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
 		} );
 		const sentenceLengthInTextAssessment = new SentenceLengthInTextAssessment( {
-			slightlyTooMany: 20,
-			farTooMany: 25,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify48" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify49" ),
-		}, false, true );
+		} );
 		const paragraphTooLongAssessment = new ParagraphTooLongAssessment( {
-			parameters: {
-				recommendedLength: 70,
-				maximumRecommendedLength: 100,
-			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify66" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify67" ),
 		} );
@@ -196,9 +136,9 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
 		} );
-		const listPresenceAssessment = new ListAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify38" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify39" ),
+		const sentenceBeginningAssessment = new SentenceBeginningsAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify5" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
 		} );
 		const wordComplexityAssessment = new WordComplexityAssessment( {
 			urlTitle: "https://yoa.st/shopify77",
@@ -229,11 +169,11 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the keywordDensity assessment", function() {
-			const isApplicable = keywordDensityAssessment.isApplicable( paper, researcher );
+			const isApplicable = keyphraseDensityAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.keywordDensity.isApplicable );
 
 			if ( isApplicable ) {
-				result.keywordDensity = keywordDensityAssessment.getResult(
+				result.keywordDensity = keyphraseDensityAssessment.getResult(
 					paper,
 					researcher
 				);
@@ -261,28 +201,6 @@ testPapers.forEach( function( testPaper ) {
 				result.metaDescriptionLength = metaDescriptionLengthAssessment.getResult( paper, researcher );
 				expect( result.metaDescriptionLength.getScore() ).toBe( expectedResults.metaDescriptionLength.score );
 				expect( result.metaDescriptionLength.getText() ).toBe( expectedResults.metaDescriptionLength.resultText );
-			}
-		} );
-
-		it( "returns a score and the associated feedback text for the subheadingsKeyword assessment", function() {
-			const isApplicable = subheadingsKeywordAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.subheadingsKeyword.isApplicable );
-
-			if ( isApplicable ) {
-				result.subheadingsKeyword = subheadingsKeywordAssessment.getResult( paper, researcher );
-				expect( result.subheadingsKeyword.getScore() ).toBe( expectedResults.subheadingsKeyword.score );
-				expect( result.subheadingsKeyword.getText() ).toBe( expectedResults.subheadingsKeyword.resultText );
-			}
-		} );
-
-		it( "returns a score and the associated feedback text for the textCompetingLinks assessment", function() {
-			const isApplicable = textCompetingLinksAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.textCompetingLinks.isApplicable );
-
-			if ( isApplicable ) {
-				result.textCompetingLinks = textCompetingLinksAssessment.getResult( paper, researcher );
-				expect( result.textCompetingLinks.getScore() ).toBe( expectedResults.textCompetingLinks.score );
-				expect( result.textCompetingLinks.getText() ).toBe( expectedResults.textCompetingLinks.resultText );
 			}
 		} );
 
@@ -349,62 +267,6 @@ testPapers.forEach( function( testPaper ) {
 				result.singleH1 = singleH1Assessment.getResult( paper, researcher );
 				expect( result.singleH1.getScore() ).toBe( expectedResults.singleH1.score );
 				expect( result.singleH1.getText() ).toBe( expectedResults.singleH1.resultText );
-			}
-		} );
-
-		it( "returns a score and the associated feedback text for the product identifiers assessment", function() {
-			const isApplicable = productIdentifiersAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.productIdentifiers.isApplicable );
-
-			if ( isApplicable ) {
-				result.productIdentifiers = productIdentifiersAssessment.getResult( paper, researcher );
-				expect( result.productIdentifiers.getScore() ).toBe( expectedResults.productIdentifiers.score );
-				expect( result.productIdentifiers.getText() ).toBe( expectedResults.productIdentifiers.resultText );
-			}
-		} );
-
-		it( "returns a score and the associated feedback text for the SKU assessment", function() {
-			const isApplicable = productSKUAssessment.isApplicable( paper, researcher );
-			expect( isApplicable ).toBe( expectedResults.productSKU.isApplicable );
-
-			if ( isApplicable ) {
-				result.productSKU = productSKUAssessment.getResult( paper, researcher );
-				expect( result.productSKU.getScore() ).toBe( expectedResults.productSKU.score );
-				expect( result.productSKU.getText() ).toBe( expectedResults.productSKU.resultText );
-			}
-		} );
-
-		// Images-related assessments
-		it( "returns a score and the associated feedback text for the imageKeyphrase assessment", function() {
-			const isApplicable = imageKeyphraseAssessment.isApplicable( paper, researcher );
-			expect( isApplicable ).toBe( expectedResults.imageKeyphrase.isApplicable );
-
-			if ( isApplicable ) {
-				result.imageKeyphrase = imageKeyphraseAssessment.getResult( paper, researcher );
-				expect( result.imageKeyphrase.getScore() ).toBe( expectedResults.imageKeyphrase.score );
-				expect( result.imageKeyphrase.getText() ).toBe( expectedResults.imageKeyphrase.resultText );
-			}
-		} );
-
-		it( "returns a score and the associated feedback text for the imageCount assessment", function() {
-			const isApplicable = imageCountAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.imageCount.isApplicable );
-
-			if ( isApplicable ) {
-				result.imageCount = imageCountAssessment.getResult( paper, researcher );
-				expect( result.imageCount.getScore() ).toBe( expectedResults.imageCount.score );
-				expect( result.imageCount.getText() ).toBe( expectedResults.imageCount.resultText );
-			}
-		} );
-
-		it( "returns a score and the associated feedback text for the imageAltTags assessment", function() {
-			const isApplicable = imageAltTagsAsessment.isApplicable( paper, researcher );
-			expect( isApplicable ).toBe( expectedResults.imageAltTags.isApplicable );
-
-			if ( isApplicable ) {
-				result.imageAltTags = imageAltTagsAsessment.getResult( paper, researcher );
-				expect( result.imageAltTags.getScore() ).toBe( expectedResults.imageAltTags.score );
-				expect( result.imageAltTags.getText() ).toBe( expectedResults.imageAltTags.resultText );
 			}
 		} );
 
@@ -481,16 +343,17 @@ testPapers.forEach( function( testPaper ) {
 			expect( result.textPresence.getText() ).toBe( expectedResults.textPresence.resultText );
 		} );
 
-		it( "returns a score and the associated feedback text for the listPresence assessment", function() {
-			const isApplicable = listPresenceAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.listPresence.isApplicable );
+		it( "returns a score and the associated feedback text for the sentenceBeginnings assessment", function() {
+			const isApplicable = sentenceBeginningAssessment.isApplicable( paper, researcher );
+			expect( isApplicable ).toBe( expectedResults.sentenceBeginnings.isApplicable );
 
 			if ( isApplicable ) {
-				result.listPresence = listPresenceAssessment.getResult( paper, researcher );
-				expect( result.listPresence.getScore() ).toBe( expectedResults.listPresence.score );
-				expect( result.listPresence.getText() ).toBe( expectedResults.listPresence.resultText );
+				result.sentenceBeginnings = sentenceBeginningAssessment.getResult( paper, researcher );
+				expect( result.sentenceBeginnings.getScore() ).toBe( expectedResults.sentenceBeginnings.score );
+				expect( result.sentenceBeginnings.getText() ).toBe( expectedResults.sentenceBeginnings.resultText );
 			}
 		} );
+
 		it( "returns a score and the associated feedback text for the wordComplexity assessment", function() {
 			const isApplicable = wordComplexityAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.wordComplexity.isApplicable );
