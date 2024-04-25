@@ -18,6 +18,7 @@ import { pluginReady, pluginReloaded, registerModification, registerPlugin as re
 import initializeUsedKeywords from "../initializers/used-keywords-assessment";
 import { STORES } from "../shared-admin/constants";
 import { initializeStore } from "./store";
+import { initializeSync } from "./sync";
 
 const PLUGIN_NAME = "yoast-seo-for-woocommerce-products";
 
@@ -29,6 +30,10 @@ domReady( () => {
 
 	// Initialize the editor store.
 	window.YoastSEO.store = initializeStore();
+
+	// Keep our store in sync with the post metadata.
+	const productId = select( STORES.editor ).getPostId();
+	initializeSync( productId );
 
 	// Initialize the analysis.
 	window.YoastSEO.app = window.YoastSEO.app || {};
