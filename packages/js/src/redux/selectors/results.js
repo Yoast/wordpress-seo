@@ -44,6 +44,15 @@ export function getReadabilityResults( state ) {
 }
 
 /**
+ * Gets the overall readability score.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {number} The overall score for the readability analysis.
+ */
+export const getReadabilityScore = ( state ) => get( state, "analysis.readability.overallScore", 0 );
+
+/**
  * Gets the inclusive language results.
  *
  * @param {object} state The state.
@@ -55,6 +64,15 @@ export function getInclusiveLanguageResults( state ) {
 }
 
 /**
+ * Gets the overall inclusive language score.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {number} The overall score for the inclusive language analysis.
+ */
+export const getInclusiveLanguageScore = ( state ) => get( state, "analysis.inclusiveLanguage.overallScore", 0 );
+
+/**
  * Gets the SEO results for the focus keyword.
  *
  * @param {object} state The state.
@@ -64,6 +82,15 @@ export function getInclusiveLanguageResults( state ) {
 export function getResultsForFocusKeyword( state ) {
 	return getResultsForKeyword( state, state.focusKeyword );
 }
+
+/**
+ * Gets the overall SEO score for the focus keyword.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {number} The overall score for the focus keyword.
+ */
+export const getScoreForFocusKeyword = ( state ) => get( getResultsForKeyword( state, state.focusKeyword ), "overallScore", 0 );
 
 /**
  * Get a result by id from both the focus keyword and readability analysis.
