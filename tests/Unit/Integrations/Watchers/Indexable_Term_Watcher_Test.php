@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher;
 use Yoast\WP\SEO\Models\Indexable;
@@ -47,6 +48,13 @@ final class Indexable_Term_Watcher_Test extends TestCase {
 	protected $link_builder;
 
 	/**
+	 * Represents the indexable helper.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Represents the site helper.
 	 *
 	 * @var Mockery\MockInterface|Site_Helper
@@ -68,15 +76,17 @@ final class Indexable_Term_Watcher_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->repository   = Mockery::mock( Indexable_Repository::class );
-		$this->builder      = Mockery::mock( Indexable_Builder::class );
-		$this->link_builder = Mockery::mock( Indexable_Link_Builder::class );
-		$this->site         = Mockery::mock( Site_Helper::class );
+		$this->repository       = Mockery::mock( Indexable_Repository::class );
+		$this->builder          = Mockery::mock( Indexable_Builder::class );
+		$this->link_builder     = Mockery::mock( Indexable_Link_Builder::class );
+		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
+		$this->site             = Mockery::mock( Site_Helper::class );
 
 		$this->instance = new Indexable_Term_Watcher(
 			$this->repository,
 			$this->builder,
 			$this->link_builder,
+			$this->indexable_helper,
 			$this->site
 		);
 	}
@@ -205,8 +215,8 @@ final class Indexable_Term_Watcher_Test extends TestCase {
 				'This is a term description, with a <a href="https://example.org/target">link</a>.'
 			);
 
-		$indexable
-			->expects( 'save' )
+		$this->indexable_helper
+			->expects( 'save_indexable' )
 			->once();
 
 		$this->instance->build_indexable( 1 );
@@ -369,8 +379,8 @@ final class Indexable_Term_Watcher_Test extends TestCase {
 				'This is a term description, with a <a href="https://example.org/target">link</a>.'
 			);
 
-		$indexable
-			->expects( 'save' )
+		$this->indexable_helper
+			->expects( 'save_indexable' )
 			->once();
 
 		$this->instance->build_indexable( 1 );
