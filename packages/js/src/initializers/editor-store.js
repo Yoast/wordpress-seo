@@ -2,6 +2,7 @@ import { combineReducers, registerStore } from "@wordpress/data";
 import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { get, pickBy } from "lodash";
 import * as controls from "../redux/controls";
+import { STORES } from "../shared-admin/constants";
 
 /**
  * Populates the store.
@@ -46,15 +47,17 @@ const populateStore = store => {
 
 /**
  * Initializes the Yoast SEO editor store.
- *
+ * @param {Object} [extra] Additional store configuration.
  * @returns {object} The Yoast SEO editor store.
  */
-export default function initEditorStore() {
-	const store = registerStore( "yoast-seo/editor", {
-		reducer: combineReducers( reducers ),
-		selectors,
-		actions: pickBy( actions, x => typeof x === "function" ),
-		controls,
+export default function initEditorStore( extra = {} ) {
+	const store = registerStore( STORES.editor, {
+		reducer: combineReducers( { ...reducers, ...extra.reducers } ),
+		initialState: { ...extra.initialState },
+		actions: pickBy( { ...actions, ...extra.actions }, x => typeof x === "function" ),
+		selectors: { ...selectors, ...extra.selectors },
+		controls: { ...controls, ...extra.controls },
+		resolvers: { ...extra.resolvers },
 	} );
 
 	populateStore( store );

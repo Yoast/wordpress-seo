@@ -14,10 +14,10 @@ import { initShortcodePlugin } from "../analysis/plugins/shortcode-plugin";
 import refreshAnalysis, { initializationDone } from "../analysis/refreshAnalysis";
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
 import { collectData } from "../initializers/analysis";
-import initEditorStore from "../initializers/editor-store";
 import { pluginReady, pluginReloaded, registerModification, registerPlugin as registerPluggablePlugin } from "../initializers/pluggable";
 import initializeUsedKeywords from "../initializers/used-keywords-assessment";
 import { STORES } from "../shared-admin/constants";
+import { initializeStore } from "./store";
 
 const PLUGIN_NAME = "yoast-seo-for-woocommerce-products";
 
@@ -28,7 +28,7 @@ domReady( () => {
 	window.YoastSEO = window.YoastSEO || {};
 
 	// Initialize the editor store.
-	window.YoastSEO.store = initEditorStore();
+	window.YoastSEO.store = initializeStore();
 
 	// Initialize the analysis.
 	window.YoastSEO.app = window.YoastSEO.app || {};
