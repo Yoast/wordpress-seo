@@ -1,47 +1,47 @@
 import { get } from "lodash";
 
 /**
- * Gets the twitter title from the state.
+ * Gets the robots no-index from the state.
  *
  * @param {Object} state The state.
  *
- * @returns {String} Twitter title.
+ * @returns {string} The robots no-index.
  */
-export const getNoIndex = state => get( state, "advancedSettings.noIndex", "" );
+export const getNoIndex = state => get( state, "advancedSettings.noIndex", "0" );
 
 /**
- * Gets the twitter description from the state.
+ * Gets the robots no-follow from the state.
  *
  * @param {Object} state The state.
  *
- * @returns {String} Twitter description.
+ * @returns {string} The robots no-follow.
  */
-export const getNoFollow = state => get( state, "advancedSettings.noFollow", "" );
+export const getNoFollow = state => get( state, "advancedSettings.noFollow", "0" );
 
 /**
- * Gets the twitter image URL from the state.
+ * Gets the robots advanced settings from the state.
  *
  * @param {Object} state The state.
  *
- * @returns {String} Twitter image URL.
+ * @returns {string[]} The robots advanced settings.
  */
-export const getAdvanced = state => get( state, "advancedSettings.advanced", "" );
+export const getAdvanced = state => get( state, "advancedSettings.advanced", [] );
 
 /**
- * Gets the twitter image type from the state.
+ * Gets the breadcrumbs title from the state.
  *
  * @param {Object} state The state.
  *
- * @returns {String} Twitter image type.
+ * @returns {string} The breadcrumbs title
  */
 export const getBreadcrumbsTitle = state => get( state, "advancedSettings.breadcrumbsTitle", "summary" );
 
 /**
- * Gets the Twitter image src from the state.
+ * Gets the canonical from the state.
  *
  * @param {Object} state The state.
  *
- * @returns {String} Twitter image src.
+ * @returns {string} The canonical.
  */
 export const getCanonical = state => get( state, "advancedSettings.canonical", "" );
 
@@ -54,10 +54,10 @@ export const getCanonical = state => get( state, "advancedSettings.canonical", "
  */
 export const getWordProofTimestamp = state => get( state, "advancedSettings.wordproofTimestamp", false );
 
-/** Gets the Twitter image src from the state.
+/** Gets whether the advanced settings is loading from the state.
  *
  * @param {Object} state The state.
  *
- * @returns {String} Twitter image src.
+ * @returns {boolean} Whether the advanced settings is loading.
  */
 export const getIsLoading = state => get( state, "advancedSettings.isLoading", true );
