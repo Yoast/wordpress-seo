@@ -7,6 +7,7 @@ use WP_Post;
 use WP_Screen;
 use WPSEO_Admin_Recommended_Replace_Vars;
 use WPSEO_Language_Utils;
+use WPSEO_Meta;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Plugin_Availability;
 use WPSEO_Post_Metabox_Formatter;
@@ -192,6 +193,19 @@ class WooCommerce_Editor_Script_Data {
 			'linkParams'             => $this->shortlink_helper->get_query_params(),
 			'pluginUrl'              => \plugins_url( '', \WPSEO_FILE ),
 			'wistiaEmbedPermission'  => $wistia_embed_permission,
+			/**
+			 * Used to filter out the default metadata values when updating the Core store' metadata.
+			 * Because the `wc/v3/products` endpoint only provides the metadata that is retrieved from the database,
+			 * and we filter out the default values, the default values are not present in the Core store.
+			 * Therefore, we need to prevent the default values syncing to the Core store, so the user does not get
+			 * presented with the update option when there is actually no change.
+			 */
+			'defaultMetadata'        => \array_merge(
+				WPSEO_Meta::$defaults,
+				[
+					WPSEO_Meta::$meta_prefix . 'primary_product_cat' => '',
+				]
+			),
 		];
 	}
 
