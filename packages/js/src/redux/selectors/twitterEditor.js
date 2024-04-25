@@ -40,6 +40,15 @@ export const getTwitterDescription = state => get( state, "twitterEditor.descrip
 export const getTwitterImageUrl = state => get( state, "twitterEditor.image.url", "" );
 
 /**
+ * Gets the twitter image ID from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {?number} Twitter image ID.
+ */
+export const getTwitterImageId = state => get( state, "twitterEditor.image.id", null );
+
+/**
  * Gets the twitter image type from the state.
  *
  * @param {Object} state The state.

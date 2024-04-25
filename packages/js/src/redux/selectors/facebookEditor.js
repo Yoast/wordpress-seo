@@ -30,13 +30,22 @@ export const getFacebookTitle = state => get( state, "facebookEditor.title", "" 
 export const getFacebookDescription = state => get( state, "facebookEditor.description", "" );
 
 /**
+ * Gets the facebook image ID from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {?number} Facebook image ID.
+ */
+export const getFacebookImageId = state => get( state, "facebookEditor.image.id", null );
+
+/**
  * Gets the facebook image URL from the state.
  *
  * @param {Object} state The state.
  *
  * @returns {String} Facebook image URL.
  */
-export const getFacebookImageUrl = state => get( state, "facebookEditor.image.url" );
+export const getFacebookImageUrl = state => get( state, "facebookEditor.image.url", "" );
 
 /**
  * Gets the facebook image src from the state.
