@@ -183,8 +183,6 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		}
 
 		$this->update_relations( $post );
-
-		$this->indexable_helper->save_indexable( $indexable );
 	}
 
 	/**
