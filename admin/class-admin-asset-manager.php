@@ -8,7 +8,6 @@
 /**
  * This class registers all the necessary styles and scripts.
  *
- * Also has methods for the enqueing of scripts and styles.
  * It automatically adds a prefix to the handle.
  */
 class WPSEO_Admin_Asset_Manager {
@@ -572,6 +571,14 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'admin-css',
 					self::PREFIX . 'tailwind',
 					'wp-components',
+					self::PREFIX . 'additional-mentions',
+				],
+			],
+			[
+				'name' => 'additional-mentions',
+				'src'  => 'additional-mentions-' . $flat_version,
+				'deps' => [
+					self::PREFIX . 'tailwind',
 				],
 			],
 			[
@@ -641,7 +648,10 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'new-settings',
 				'src'  => 'new-settings-' . $flat_version,
-				'deps' => [ self::PREFIX . 'tailwind' ],
+				'deps' => [
+					self::PREFIX . 'tailwind',
+					self::PREFIX . 'additional-mentions',
+				],
 			],
 			[
 				'name' => 'black-friday-banner',

@@ -15,11 +15,7 @@ module.exports = {
 	},
 	plugins: [
 		"@babel",
-		"jest",
 	],
-	env: {
-		"jest/globals": true,
-	},
 	rules: {
 		"no-prototype-builtins": 0,
 		"comma-dangle": [
@@ -100,6 +96,9 @@ module.exports = {
 		},
 		{
 			files: [ "tests/**/*.js" ],
+			env: {
+				jest: true,
+			},
 			rules: {
 				"no-restricted-imports": 0,
 				"no-undefined": 0,
