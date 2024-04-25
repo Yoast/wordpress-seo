@@ -1,5 +1,5 @@
 import passiveAuxiliaries from "../../../../languageProcessing/languages/en/config/internal/passiveVoiceAuxiliaries";
-import { flatMap } from "lodash-es";
+import { flatMap } from "lodash";
 
 const intensifiersAndAdverbs = [ "so", "very", "a bit", "really", "pretty", "kind of", "that", "too", "totally", "completely", "absolutely", "even",
 	"also", "as" ];

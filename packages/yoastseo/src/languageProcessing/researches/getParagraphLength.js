@@ -2,7 +2,7 @@ import { imageRegex } from "../helpers/image/imageInText";
 import sanitizeLineBreakTag from "../helpers/sanitize/sanitizeLineBreakTag";
 import countWords from "../helpers/word/countWords.js";
 import matchParagraphs from "../helpers/html/matchParagraphs.js";
-import { filter } from "lodash-es";
+import { filter } from "lodash";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
 import { filterShortcodesFromHTML } from "../helpers";
 

@@ -1,4 +1,4 @@
-import { filter } from "lodash-es";
+import { filter } from "lodash";
 
 /**
  * Checks for too long sentences.

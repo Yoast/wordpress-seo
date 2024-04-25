@@ -1,4 +1,4 @@
-import { isNaN, isUndefined, map } from "lodash-es";
+import { isNaN, isUndefined, map } from "lodash";
 
 import core from "tokenizer2/core";
 

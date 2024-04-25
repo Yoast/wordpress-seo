@@ -1,4 +1,4 @@
-import { escapeRegExp } from "lodash-es";
+import { escapeRegExp } from "lodash";
 import getAltAttribute from "../image/getAltAttribute";
 import { normalizeSingle } from "../sanitize/quotes";
 import parseSlug from "../url/parseSlug";

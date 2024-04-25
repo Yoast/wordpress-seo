@@ -1,5 +1,5 @@
 /* eslint-disable capitalized-comments, spaced-comment */
-import { merge } from "lodash-es";
+import { merge } from "lodash";
 
 import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
 import Paper from "../../../../src/values/Paper.js";

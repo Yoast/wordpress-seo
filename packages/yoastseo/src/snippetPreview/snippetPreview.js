@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { clone, debounce, defaultsDeep, forEach, isElement, isEmpty, isUndefined } from "lodash-es";
+import { clone, debounce, defaultsDeep, forEach, isElement, isEmpty, isUndefined } from "lodash";
 
 import createWordRegex from "../languageProcessing/helpers/regex/createWordRegex";
 import { stripFullTags as stripHTMLTags } from "../languageProcessing/helpers/sanitize/stripHTMLTags";
