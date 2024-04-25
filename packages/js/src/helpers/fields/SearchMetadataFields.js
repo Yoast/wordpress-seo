@@ -46,7 +46,9 @@ export default class SearchMetadataFields {
 	 * @returns {void}
 	 */
 	static set title( value ) {
-		SearchMetadataFields.titleElement.value = value;
+		if ( SearchMetadataFields.titleElement ) {
+			SearchMetadataFields.titleElement.value = value;
+		}
 	}
 
 	/**
@@ -66,7 +68,9 @@ export default class SearchMetadataFields {
 	 * @returns {void}
 	 */
 	static set description( value ) {
-		SearchMetadataFields.descriptionElement.value = value;
+		if ( SearchMetadataFields.descriptionElement ) {
+			SearchMetadataFields.descriptionElement.value = value;
+		}
 	}
 
 	/**
@@ -86,6 +90,8 @@ export default class SearchMetadataFields {
 	 * @returns {void}
 	 */
 	static set slug( value ) {
-		SearchMetadataFields.slugElement.value = value;
+		if ( SearchMetadataFields.slugElement ) {
+			SearchMetadataFields.slugElement.value = value;
+		}
 	}
 }

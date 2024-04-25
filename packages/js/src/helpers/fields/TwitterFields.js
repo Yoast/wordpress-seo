@@ -55,7 +55,9 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set title( value ) {
-		TwitterFields.titleElement.value = value;
+		if ( TwitterFields.titleElement ) {
+			TwitterFields.titleElement.value = value;
+		}
 	}
 
 	/**
@@ -66,7 +68,9 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set description( value ) {
-		TwitterFields.descriptionElement.value = value;
+		if ( TwitterFields.descriptionElement ) {
+			TwitterFields.descriptionElement.value = value;
+		}
 	}
 
 	/**
@@ -86,7 +90,9 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set imageId( value ) {
-		TwitterFields.imageIdElement.value = value;
+		if ( TwitterFields.imageIdElement ) {
+			TwitterFields.imageIdElement.value = value;
+		}
 	}
 
 	/**
@@ -106,7 +112,9 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set imageUrl( value ) {
-		TwitterFields.imageUrlElement.value = value;
+		if ( TwitterFields.imageUrlElement ) {
+			TwitterFields.imageUrlElement.value = value;
+		}
 	}
 
 	/**
