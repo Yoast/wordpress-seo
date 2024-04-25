@@ -7,10 +7,6 @@ import stripSpaces from "../languageProcessing/helpers/sanitize/stripSpaces";
 import replaceDiacritics from "../languageProcessing/helpers/transliterate/replaceDiacritics";
 import transliterate from "../languageProcessing/helpers/transliterate/transliterate";
 
-import templates from "./templates.js";
-var snippetEditorTemplate = templates.snippetEditor;
-var hiddenElement = templates.hiddenSpan;
-
 import SnippetPreviewToggler from "./snippetPreviewToggler";
 import domManipulation from "../helpers/domManipulation.js";
 
@@ -348,40 +344,6 @@ var SnippetPreview = function( opts ) {
  */
 SnippetPreview.prototype.renderTemplate = function() {
 	var targetElement = this.opts.targetElement;
-
-	targetElement.innerHTML = snippetEditorTemplate( {
-		raw: {
-			title: this.data.title,
-			snippetCite: this.data.urlPath,
-			meta: this.data.metaDesc,
-		},
-		rendered: {
-			title: this.formatTitle(),
-			baseUrl: this.formatUrl(),
-			snippetCite: this.formatCite(),
-			meta: this.formatMeta(),
-		},
-		metaDescriptionDate: this.opts.metaDescriptionDate,
-		placeholder: this.opts.placeholder,
-		i18n: {
-			edit: __( "Edit snippet", "wordpress-seo" ),
-			title: __( "SEO title", "wordpress-seo" ),
-			slug: __( "Slug", "wordpress-seo" ),
-			metaDescription: __( "Meta description", "wordpress-seo" ),
-			save: __( "Close snippet editor", "wordpress-seo" ),
-			snippetPreview: __( "Search appearance", "wordpress-seo" ),
-			titleLabel: __( "SEO title preview:", "wordpress-seo" ),
-			slugLabel: __( "Slug preview:", "wordpress-seo" ),
-			metaDescriptionLabel: __( "Meta description preview:", "wordpress-seo" ),
-			snippetPreviewDescription: __(
-				"You can click on each element in the preview to jump to the Snippet Editor.",
-				"wordpress-seo"
-			),
-			desktopPreviewMode: __( "Desktop preview", "wordpress-seo" ),
-			mobilePreviewMode: __( "Mobile preview", "wordpress-seo" ),
-			isScrollableHint: __( "Scroll to see the preview content.", "wordpress-seo" ),
-		},
-	} );
 
 	this.element = {
 		measurers: {
@@ -1216,18 +1178,10 @@ SnippetPreview.prototype.setMetaDescription = function( metaDesc ) {
  * @returns {void}
  */
 SnippetPreview.prototype.createMeasurementElements = function() {
-	var metaDescriptionElement, spanHolder;
-	metaDescriptionElement = hiddenElement(
-		{
-			width: document.getElementById( "meta_container" ).offsetWidth + "px",
-			whiteSpace: "",
-		}
-	);
+	var spanHolder;
 
 	spanHolder = document.createElement( "div" );
 	spanHolder.className = "yoast-measurement-elements-holder";
-
-	spanHolder.innerHTML = metaDescriptionElement;
 
 	document.body.appendChild( spanHolder );
 
