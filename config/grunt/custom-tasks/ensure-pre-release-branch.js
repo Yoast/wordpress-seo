@@ -10,6 +10,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask(
 		"ensure-pre-release-branch",
 		"Ensures that the release or hotfix branch is checked out",
+		// eslint-disable-next-line max-statements
 		function() {
 			const version = grunt.option( "plugin-version" );
 			const type = grunt.option( "type" );
