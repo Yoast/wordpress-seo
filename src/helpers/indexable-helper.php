@@ -273,7 +273,7 @@ class Indexable_Helper {
 	 *
 	 * @return bool True if default value.
 	 */
-	public function save_indexable( $indexable, $indexable_before ) {
+	public function save_indexable( $indexable, $indexable_before = null ) {
 		$intend_to_save = $this->should_index_indexables();
 
 		/**
