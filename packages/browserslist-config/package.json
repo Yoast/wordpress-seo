@@ -10,7 +10,6 @@
   "author": "Team Yoast",
   "homepage": "https://github.com/Yoast/javascript#readme",
   "license": "GPL-3.0",
-  "private": false,
   "main": "index.js",
   "files": [
     "index.js"

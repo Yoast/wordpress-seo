@@ -10,7 +10,6 @@
   ],
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
-  "private": false,
   "sideEffects": false,
   "scripts": {
     "clean:build": "rm -rf build",

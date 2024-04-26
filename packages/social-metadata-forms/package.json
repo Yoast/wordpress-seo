@@ -13,7 +13,6 @@
   },
   "author": "Team Yoast",
   "license": "GPL-3.0",
-  "private": false,
   "scripts": {
     "build": "yarn clean && yarn build:js",
     "build:js": "babel src --out-dir build",

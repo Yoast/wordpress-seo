@@ -1,7 +1,6 @@
 {
   "name": "@yoast/replacement-variable-editor",
   "version": "2.0.0-alpha.0",
-  "private": false,
   "main": "build/index.js",
   "files": [
     "build",

@@ -5,7 +5,6 @@
   "main": "index.js",
   "author": "Team Yoast",
   "license": "GPL-3.0",
-  "private": false,
   "scripts": {
     "test:e2e": "node run-tests.js"
   },

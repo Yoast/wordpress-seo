@@ -21,7 +21,6 @@
   },
   "author": "Yoast",
   "license": "GPL-3.0",
-  "private": false,
   "dependencies": {
     "@wordpress/i18n": "^1.2.3",
     "lodash": "^4.17.21",

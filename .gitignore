@@ -68,6 +68,18 @@ temp/
 /vendor_prefixed/
 
 ############
+## Yarn
+############
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+yarn-error.log
+
+############
 ## WPSEO
 ############
 wp-seo-premium.php

@@ -30,7 +30,7 @@
     },
     "yarn": {
       "name": "yarn",
-      "comment": "We use the version set in .yarnrc (line yarn-path), this is the method used by Yarn itself"
+      "comment": "We use the version set in .yarnrc.yml (line yarn-path), this is the method used by Yarn itself"
     }
   }
 }

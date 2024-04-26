@@ -19,9 +19,6 @@
   "workspaces": {
     "packages": [
       "packages/*"
-    ],
-    "nohoist": [
-      "**/sassdash"
     ]
   },
   "scripts": {
@@ -35,7 +32,6 @@
     "start": "wp-scripts start --config config/webpack/webpack.config.js --webpack-src-dir=packages/js/src",
     "sync:wp-deps": "node config/scripts/sync-wp-dependencies.js"
   },
-  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.18.5",
     "@slack/webhook": "^5.0.2",
@@ -78,5 +74,6 @@
   "yoast": {
     "pluginVersion": "23.8-RC2"
   },
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "packageManager": "yarn@4.1.1"
 }
