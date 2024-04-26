@@ -66,9 +66,10 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 */
 	protected function primary_term_field( $taxonomy_name ) {
 		return sprintf(
-			'<input class="yoast-wpseo-primary-term" type="hidden" id="%1$s" name="%2$s"/>',
+			'<input class="yoast-wpseo-primary-term" type="hidden" id="%1$s" name="%2$s" value="%3$s" />',
 			esc_attr( $this->generate_field_id( $taxonomy_name ) ),
-			esc_attr( $this->generate_field_name( $taxonomy_name ) )
+			esc_attr( $this->generate_field_name( $taxonomy_name ) ),
+			esc_attr( $this->get_primary_term( $taxonomy_name ) )
 		);
 	}
 
