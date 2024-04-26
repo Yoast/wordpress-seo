@@ -6,6 +6,7 @@ use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Home_Page_Watcher;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -31,6 +32,13 @@ final class Indexable_Home_Page_Watcher_Test extends TestCase {
 	private $repository;
 
 	/**
+	 * Represents the indexable helper.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Represents the indexable builder.
 	 *
 	 * @var Mockery\MockInterface|Indexable_Builder
@@ -52,9 +60,14 @@ final class Indexable_Home_Page_Watcher_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->repository = Mockery::mock( Indexable_Repository::class );
-		$this->builder    = Mockery::mock( Indexable_Builder::class );
-		$this->instance   = new Indexable_Home_Page_Watcher( $this->repository, $this->builder );
+		$this->repository       = Mockery::mock( Indexable_Repository::class );
+		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
+		$this->builder          = Mockery::mock( Indexable_Builder::class );
+		$this->instance         = new Indexable_Home_Page_Watcher(
+			$this->repository,
+			$this->indexable_helper,
+			$this->builder
+		);
 	}
 
 	/**
@@ -204,6 +217,11 @@ final class Indexable_Home_Page_Watcher_Test extends TestCase {
 			->once()
 			->with( false )
 			->andReturn( false );
+
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->andReturn( true );
 
 		$this->builder
 			->expects( 'build_for_home_page' )
