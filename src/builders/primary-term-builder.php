@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
@@ -21,6 +22,13 @@ class Primary_Term_Builder {
 	protected $repository;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * The primary term helper.
 	 *
 	 * @var Primary_Term_Helper
@@ -37,18 +45,21 @@ class Primary_Term_Builder {
 	/**
 	 * Primary_Term_Builder constructor.
 	 *
-	 * @param Primary_Term_Repository $repository   The primary term repository.
-	 * @param Primary_Term_Helper     $primary_term The primary term helper.
-	 * @param Meta_Helper             $meta         The meta helper.
+	 * @param Primary_Term_Repository $repository       The primary term repository.
+	 * @param Indexable_Helper        $indexable_helper The indexable helper.
+	 * @param Primary_Term_Helper     $primary_term     The primary term helper.
+	 * @param Meta_Helper             $meta             The meta helper.
 	 */
 	public function __construct(
 		Primary_Term_Repository $repository,
+		Indexable_Helper $indexable_helper,
 		Primary_Term_Helper $primary_term,
 		Meta_Helper $meta
 	) {
-		$this->repository   = $repository;
-		$this->primary_term = $primary_term;
-		$this->meta         = $meta;
+		$this->repository       = $repository;
+		$this->indexable_helper = $indexable_helper;
+		$this->primary_term     = $primary_term;
+		$this->meta             = $meta;
 	}
 
 	/**
@@ -75,8 +86,8 @@ class Primary_Term_Builder {
 	protected function save_primary_term( $post_id, $taxonomy ) {
 		$term_id = $this->meta->get_value( 'primary_' . $taxonomy, $post_id );
 
-		$term_selected = ! empty( $term_id );
-		$primary_term_indexable  = $this->repository->find_by_post_id_and_taxonomy( $post_id, $taxonomy, $term_selected );
+		$term_selected          = ! empty( $term_id );
+		$primary_term_indexable = $this->repository->find_by_post_id_and_taxonomy( $post_id, $taxonomy, $term_selected );
 
 		// Removes the indexable when no term found.
 		if ( ! $term_selected ) {
@@ -91,6 +102,6 @@ class Primary_Term_Builder {
 		$primary_term_indexable->post_id  = $post_id;
 		$primary_term_indexable->taxonomy = $taxonomy;
 		$primary_term_indexable->blog_id  = \get_current_blog_id();
-		$primary_term_indexable->save();
+		$this->indexable_helper->save_indexable( $primary_term_indexable );
 	}
 }
