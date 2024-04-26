@@ -11206,6 +11206,13 @@ __metadata:
     "@babel/preset-env": "npm:^7.16.11"
     "@yoast/browserslist-config": "npm:^1.2.3"
     babel-plugin-styled-components: "npm:^2.0.6"
+    eslint: "npm:^8.57.0"
+    eslint-config-yoast: "npm:^6.0.0"
+    eslint-plugin-import: "npm:^2.29.1"
+    eslint-plugin-jsx-a11y: "npm:^6.8.0"
+    eslint-plugin-react: "npm:^7.34.1"
+    jest: "npm:^29.7.0"
+    jest-environment-jsdom: "npm:^29.7.0"
   languageName: unknown
   linkType: soft
 
