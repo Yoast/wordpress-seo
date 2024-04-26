@@ -12,6 +12,30 @@ import {
 } from "./fallbacks";
 
 /**
+ * Prepare twitter title to be saved in hidden field.
+ * @param {string} value The value to be saved.
+ * @returns {string} The value to be saved.
+ */
+export const getSocialTitleWithoutTemplate = ( value ) => {
+	if ( value.trim() === getSocialTitleTemplate().trim() ) {
+		return "";
+	}
+	return value;
+};
+
+/**
+ * Prepare twitter and facebook description to be saved in hidden field.
+ * @param {string} value The value to be saved.
+ * @returns {string} The value to be saved.
+ */
+export const getSocialDescriptionWithoutTemplate = ( value ) => {
+	if ( value.trim() === getSocialDescriptionTemplate().trim() ) {
+		return "";
+	}
+	return value;
+};
+
+/**
  * Gets the facebook title from the state.
  *
  * @param {Object} state The state.
@@ -21,6 +45,18 @@ import {
 export const getFacebookTitle = state => get( state, "facebookEditor.title", "" );
 
 /**
+ * Gets the facebook title from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String} Facebook title.
+ */
+export const getFacebookTitleWithoutTemplate = state => {
+	const title = getFacebookTitle( state );
+	return getSocialTitleWithoutTemplate( title );
+};
+
+/**
  * Gets the facebook description from the state.
  *
  * @param {Object} state The state.
@@ -28,6 +64,19 @@ export const getFacebookTitle = state => get( state, "facebookEditor.title", "" 
  * @returns {String} Facebook description.
  */
 export const getFacebookDescription = state => get( state, "facebookEditor.description", "" );
+
+/**
+ * Gets the facebook description from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String} Facebook description.
+ */
+export const getFacebookDescriptionWithoutTemplate = state => {
+	const description = getFacebookDescription( state );
+	return getSocialDescriptionWithoutTemplate( description );
+};
+
 
 /**
  * Gets the facebook image URL from the state.

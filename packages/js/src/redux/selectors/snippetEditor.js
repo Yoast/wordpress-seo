@@ -100,15 +100,6 @@ export const getSnippetEditorData = state => get( state, "snippetEditor.data", {
 export const getSnippetEditorWordsToHighlight = state => get( state, "snippetEditor.wordsToHighlight", [] );
 
 /**
- * Gets the snippet editor is loading.
- *
- * @param {Object} state The state.
- *
- * @returns {String} Whether the snippet editor is loading.
- */
-export const getSnippetEditorIsLoading = state => get( state, "snippetEditor.isLoading", true );
-
-/**
  * Gets the snippet editor preview image URL.
  *
  * @param {Object} state The state object.

@@ -44,6 +44,17 @@ export function getReadabilityResults( state ) {
 }
 
 /**
+ * Get readability score.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {Number} The readability score.
+ */
+export function getReadabilityScore( state ) {
+	return get( getReadabilityResults( state ), "overallScore", 0 );
+}
+
+/**
  * Gets the inclusive language results.
  *
  * @param {object} state The state.
@@ -96,4 +107,26 @@ export function getResultById( state, id ) {
  */
 export function getMarkButtonStatus( state ) {
 	return state.marksButtonStatus;
+}
+
+
+/**
+ * Get seo score.
+ *
+ * @param {object} state The state.
+ *
+ * @returns {number} The seo score.
+ */
+export function getScoreForFocusKeyword( state ) {
+	return get( getSeoResults( state ), "overallScore", 0 );
+}
+
+/**
+ * Get inclusive language score.
+ *
+ * @param {object} state The state.
+ * @returns {number} The inclusive language score.
+ */
+export function getInclusiveLanguageScore( state ) {
+	return get( getInclusiveLanguageResults( state ), "overallScore", 0 );
 }

@@ -1,5 +1,5 @@
-import getPrimaryTerms from "../../../src/helpers/fields/primaryTaxonomiesFieldsStore";
-import { STORE_NAME_EDITOR } from "../../../src/shared-admin/constants";
+import { getPrimaryTerms } from "../../../src/helpers/fields/primaryTaxonomiesFieldsStore";
+import { STORES } from "../../../src/shared-admin/constants";
 import { select } from "@wordpress/data";
 
 jest.mock( "@wordpress/data", () => ( {
@@ -21,9 +21,9 @@ afterEach(
 );
 
 const testCases = [
-	{ termId: 1, expected: "1" },
-	{ termId: -1, expected: "" },
-	{ termId: 0, expected: "" },
+	{ termId: 1, expected: 1 },
+	{ termId: -1, expected: -1 },
+	{ termId: 0, expected: 0 },
 ];
 
 describe.each( testCases )( "getPrimaryTerm - should returns an object with taxonomies keys and fuctions that returns primary term id", ( { termId, expected } ) => {
@@ -32,7 +32,7 @@ describe.each( testCases )( "getPrimaryTerm - should returns an object with taxo
 		getPrimaryTaxonomyId.mockReturnValue( termId );
 
 		select.mockImplementation( ( store ) => {
-			if ( store === STORE_NAME_EDITOR.free ) {
+			if ( store === STORES.editor ) {
 				return {
 					getPrimaryTaxonomyId,
 				};

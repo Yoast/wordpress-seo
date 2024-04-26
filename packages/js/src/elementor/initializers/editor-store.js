@@ -2,7 +2,6 @@ import { combineReducers, registerStore } from "@wordpress/data";
 import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { get, pickBy } from "lodash";
 import * as controls from "../../redux/controls";
-import * as snippetEditorActions from "../redux/actions/snippetEditor";
 import * as analysisSelectors from "../redux/selectors/analysis";
 import initialState from "../../redux/initial-state";
 
@@ -74,8 +73,6 @@ export default function initEditorStore() {
 		},
 		actions: pickBy( {
 			...actions,
-			// Add or override actions that are specific for Elementor.
-			...snippetEditorActions,
 		}, x => typeof x === "function" ),
 		controls,
 		initialState,

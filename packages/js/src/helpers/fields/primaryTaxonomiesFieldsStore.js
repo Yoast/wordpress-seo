@@ -1,26 +1,17 @@
-import { get, forEach } from "lodash";
+import { get, reduce } from "lodash";
 import { select } from "@wordpress/data";
-import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
+import { STORES } from "../../shared-admin/constants";
 
 /**
  * Retrieves primary terms from store methods.
  *
  * @returns {object} An object with taxonomies keys and their primary term id.
  */
-const getPrimaryTerms = () => {
+export const getPrimaryTerms = () => {
 	const primaryTerms = get( window, "wpseoPrimaryCategoryL10n.taxonomies", {} );
-	const getPrimaryTermsStore = {};
-	forEach( primaryTerms, ( value, key ) => {
-		getPrimaryTermsStore[ `primary_${key}` ] = () => {
-			const termId = String( select( STORE_NAME_EDITOR.free ).getPrimaryTaxonomyId( key ) );
-			if ( termId === "0" || termId === "-1" ) {
-				return "";
-			}
-			return termId;
+	return reduce( primaryTerms, ( primaryTermGetters, value, key ) => {
+		primaryTermGetters[ `primary_${key}` ] = () => {
+			return select( STORES.editor ).getPrimaryTaxonomyId( key );
 		};
-	} );
-
-	return getPrimaryTermsStore;
+	}, {} );
 };
-
-export default getPrimaryTerms;

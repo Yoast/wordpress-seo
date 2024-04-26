@@ -1,23 +1,18 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
-import { debounce, pickBy, mapKeys } from "lodash";
+import { debounce, pickBy, mapKeys, reduce } from "lodash";
 import { createWatcher, createCollectorFromObject } from "../../helpers/create-watcher";
-import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
-import { SYNC_TIME, META_KEYS, POST_META_KEY_PREFIX } from "./constants";
-import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
-import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
-import { getPageType, getArticleType } from "./schemaFieldsStore";
-import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoScore, getInclusiveLanguageScore, getEstimatedReadingTime } from "./analysisFieldsStore";
-import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical, getWordProofTimestamp } from "./advancedFieldsStore";
-import { getSeoTitle, getSeoDescription } from "./snippetEditorFieldsStore";
-import getPrimaryTerms from "./primaryTaxonomiesFieldsStore";
+import { STORES, META_FIELDS, SYNC_TIME, POST_META_KEY_PREFIX } from "../../shared-admin/constants";
+import { getPrimaryTerms } from "./primaryTaxonomiesFieldsStore";
+import { transformMetaValue } from "./transform-meta-value";
 
 /**
  * Creates an updater.
  * @returns {function} The updater.
  */
 const createUpdater = () => {
-	const { editPost } = dispatch( STORE_NAME_EDITOR.core );
-	const { getCurrentPost } = select( STORE_NAME_EDITOR.core );
+	const { editPost } = dispatch( STORES.wp.editor );
+	const { getCurrentPost } = select( STORES.wp.core );
+	const { getEditedEntityRecord } = select( "core" );
 
 	/**
 	 * Syncs the data to the WP entity record.
@@ -27,13 +22,14 @@ const createUpdater = () => {
 	return ( data ) => {
 		const currentPost = getCurrentPost();
 
-		if ( ! currentPost.hasOwnProperty( "meta" ) || ! data ) {
+		if ( ! ( "meta" in currentPost ) || ! data ) {
 			return;
 		}
 
-		const metadata = currentPost.meta;
-
-		const changedData = pickBy( data, ( value, key ) => value !== metadata[ key ] );
+		const metadata = getEditedEntityRecord( "postType", currentPost.type, currentPost.id ).meta;
+		console.log( metadata );
+		const changedData = pickBy( data, ( value, key ) => transformMetaValue( key, value ) !== metadata[ POST_META_KEY_PREFIX + key ] );
+		console.log( { changedData } );
 
 		if ( changedData ) {
 			editPost( {
@@ -48,34 +44,12 @@ const createUpdater = () => {
  * @returns {function} The un-subscriber.
  */
 export const blockEditorSync = () => {
-	const primaryTaxonomiesGetters = mapKeys( getPrimaryTerms(), ( value, key ) => POST_META_KEY_PREFIX + key );
+	const primaryTaxonomiesGetters = getPrimaryTerms();
 
-	const getters = mapKeys( {
-		focusKeyphrase: getFocusKeyphrase,
-		robotsNoIndex: getNoIndex,
-		robotsNoFollow: getNoFollow,
-		robotsAdvanced: getAdvanced,
-		facebookTitle: getFacebookTitle,
-		facebookDescription: getFacebookDescription,
-		facebookImageUrl: getFacebookImageUrl,
-		facebookImageId: getFacebookImageId,
-		twitterTitle: getTwitterTitle,
-		twitterDescription: getTwitterDescription,
-		twitterImageUrl: getTwitterImageUrl,
-		twitterImageId: getTwitterImageId,
-		schemaPageType: getPageType,
-		schemaArticleType: getArticleType,
-		isCornerstone: isCornerstoneContent,
-		readabilityScore: getReadabilityScore,
-		seoScore: getSeoScore,
-		inclusiveLanguageScore: getInclusiveLanguageScore,
-		breadcrumbsTitle: getBreadcrumbsTitle,
-		canonical: getCanonical,
-		wordProofTimestamp: getWordProofTimestamp,
-		seoTitle: getSeoTitle,
-		seoDescription: getSeoDescription,
-		readingTime: getEstimatedReadingTime,
-	}, ( value, key ) => POST_META_KEY_PREFIX + META_KEYS[ key ] );
+	const getters = reduce( META_FIELDS, ( acc, value ) => {
+		acc[ value.key ] = select( STORES.editor )[ value.get ];
+		return acc;
+	}, {} );
 
 	return subscribe( debounce( createWatcher(
 		createCollectorFromObject( {
@@ -83,5 +57,5 @@ export const blockEditorSync = () => {
 			...primaryTaxonomiesGetters,
 		} ),
 		createUpdater()
-	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE_NAME_EDITOR.free );
+	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORES.editor );
 };

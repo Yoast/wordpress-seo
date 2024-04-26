@@ -2,7 +2,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { get } from "lodash";
 import { getDescription, getSeoTitle } from "./analysis";
 import { getEditorDataExcerptWithFallback } from "./editorData";
-import { getFacebookDescription, getFacebookTitle } from "./facebookEditor";
+import { getFacebookDescription, getFacebookTitle, getSocialDescriptionWithoutTemplate, getSocialTitleWithoutTemplate } from "./facebookEditor";
 import {
 	getReplacedExcerpt,
 	getSeoDescriptionTemplate,
@@ -22,6 +22,18 @@ import {
 export const getTwitterTitle = state => get( state, "twitterEditor.title", "" );
 
 /**
+ * Gets the X title from the state.
+ *
+ * @param {object} state The state.
+ *
+ * @returns {string} X title.
+ */
+export const getTwitterTitleWithoutTemplate = state => {
+	const title = getTwitterTitle( state );
+	return getSocialTitleWithoutTemplate( title );
+};
+
+/**
  * Gets the twitter description from the state.
  *
  * @param {Object} state The state.
@@ -29,6 +41,19 @@ export const getTwitterTitle = state => get( state, "twitterEditor.title", "" );
  * @returns {String} Twitter description.
  */
 export const getTwitterDescription = state => get( state, "twitterEditor.description", "" );
+
+
+/**
+ * Gets the X description from the state.
+ *
+ * @param {object} state The state.
+ *
+ * @returns {string} X description.
+ */
+export const getTwitterDescriptionWithoutTemplate = state => {
+	const description = getTwitterDescription( state );
+	return getSocialDescriptionWithoutTemplate( description );
+};
 
 /**
  * Gets the twitter image URL from the state.

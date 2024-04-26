@@ -1,63 +1,10 @@
 /* eslint-disable complexity */
 import { select, subscribe } from "@wordpress/data";
-import { debounce, forEach, mapKeys } from "lodash";
+import { debounce, forEach, reduce } from "lodash";
 import { createWatcher, createCollectorFromObject } from "../../helpers/create-watcher";
-import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
-import { HIDDEN_INPUT_ID_PREFIX, SYNC_TIME, META_KEYS } from "./constants";
-import { getFacebookImageId, getFacebookTitle, getFacebookDescription, getFacebookImageUrl } from "./facebookFieldsStore";
-import { getTwitterImageId, getTwitterTitle, getTwitterDescription, getTwitterImageUrl } from "./twitterFieldsStore";
-import { getPageType, getArticleType } from "./schemaFieldsStore";
-import { getFocusKeyphrase, isCornerstoneContent, getReadabilityScore, getSeoScore, getInclusiveLanguageScore, getEstimatedReadingTime } from "./analysisFieldsStore";
-import { getNoIndex, getNoFollow, getAdvanced, getBreadcrumbsTitle, getCanonical, getWordProofTimestamp } from "./advancedFieldsStore";
-import getPrimaryTerms from "./primaryTaxonomiesFieldsStore";
-import { getSeoTitle, getSeoDescription } from "./snippetEditorFieldsStore";
-
-/**
- * Prepare twitter title to be saved in hidden field.
- * @param {string} value The value to be saved.
- * @returns {string} The value to be saved.
- */
-const prepareSocialTitle = ( value ) => {
-	if ( value.trim() === select( STORE_NAME_EDITOR.free ).getSocialTitleTemplate().trim() ) {
-		return "";
-	}
-	return value;
-};
-
-/**
- * Prepare twitter and facebook description to be saved in hidden field.
- * @param {string} value The value to be saved.
- * @returns {string} The value to be saved.
- */
-const prepareSocialDescription = ( value ) => {
-	if ( value.trim() === select( STORE_NAME_EDITOR.free ).getSocialDescriptionTemplate().trim() ) {
-		return "";
-	}
-	return value;
-};
-
-/**
- * Prepare value to be saved in hidden field.
- *
- * @param {string} key The key of the value.
- * @param {string} value The value to be saved.
- *
- * @returns {string} The value to be saved.
- */
-const prepareValue = ( key, value ) => {
-	switch ( key ) {
-		case "wordproof_timestamp":
-			return value ? "1" : "0";
-		case "twitter-title":
-		case "opengraph-title":
-			return prepareSocialTitle( value );
-		case "twitter-description":
-		case "opengraph-description":
-			return prepareSocialDescription( value );
-		default:
-			return value;
-	}
-};
+import { STORES, HIDDEN_INPUT_ID_PREFIX, SYNC_TIME, META_FIELDS } from "../../shared-admin/constants";
+import { getPrimaryTerms } from "./primaryTaxonomiesFieldsStore";
+import { transformMetaValue } from "./transform-meta-value";
 
 /**
  * Creates an updater.
@@ -70,10 +17,15 @@ export const createUpdater = () => {
 	 * @returns {void}
 	 */
 	return ( data ) => {
+		const isPost = select( STORES.editor ).getIsPost();
+		const prefix = isPost ? HIDDEN_INPUT_ID_PREFIX.post : HIDDEN_INPUT_ID_PREFIX.term;
+
 		forEach( data, ( value, key ) => {
-			const field = document.getElementById( key );
-			if ( field && field.value !== value ) {
-				field.value = prepareValue( key, value );
+			const field = document.getElementById( prefix + key );
+			const tranformedValue = transformMetaValue( key, value );
+			if ( field && field.value !== tranformedValue ) {
+				console.log( field.value, value, key, tranformedValue )
+				field.value = tranformedValue;
 			}
 		} );
 	};
@@ -84,42 +36,23 @@ export const createUpdater = () => {
  * @returns {function} The un-subscriber.
  */
 export const hiddenFieldsSync = () => {
-	const isPost = select( STORE_NAME_EDITOR.free ).getIsPost();
-	const prefix = isPost ? HIDDEN_INPUT_ID_PREFIX.post : HIDDEN_INPUT_ID_PREFIX.term;
-	const primaryTaxonomiesGetters = mapKeys( getPrimaryTerms(), ( value, key ) => prefix + key );
+	const primaryTaxonomiesGetters = getPrimaryTerms();
 
-	const getters = mapKeys( {
-		focusKeyphrase: getFocusKeyphrase,
-		robotsNoIndex: getNoIndex,
-		robotsNoFollow: getNoFollow,
-		robotsAdvanced: getAdvanced,
-		facebookTitle: getFacebookTitle,
-		facebookDescription: getFacebookDescription,
-		facebookImageUrl: getFacebookImageUrl,
-		facebookImageId: getFacebookImageId,
-		twitterTitle: getTwitterTitle,
-		twitterDescription: getTwitterDescription,
-		twitterImageUrl: getTwitterImageUrl,
-		twitterImageId: getTwitterImageId,
-		schemaPageType: getPageType,
-		schemaArticleType: getArticleType,
-		isCornerstone: isCornerstoneContent,
-		readabilityScore: getReadabilityScore,
-		seoScore: getSeoScore,
-		inclusiveLanguageScore: getInclusiveLanguageScore,
-		breadcrumbsTitle: getBreadcrumbsTitle,
-		canonical: getCanonical,
-		wordProofTimestamp: getWordProofTimestamp,
-		readingTime: getEstimatedReadingTime,
-		seoTitle: getSeoTitle,
-		seoDescription: getSeoDescription,
-	}, ( value, key ) => prefix + META_KEYS[ key ] );
+	const getters = reduce( META_FIELDS, ( acc, value ) => {
+		// check if value.get is a function in select( STORES.editor ) store 
+		if ( typeof select( STORES.editor )[ value.get ] === "function" ) {
+			acc[ value.key ] = select( STORES.editor )[ value.get ];
+		}
+		return acc;
+	}, {} );
 
 	return subscribe( debounce( createWatcher(
 		createCollectorFromObject( {
 			...getters,
 			...primaryTaxonomiesGetters,
+			// Slug is added for elementor editor.
+			slug: select( STORES.editor ).getSnippetEditorSlug
 		} ),
 		createUpdater()
-	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORE_NAME_EDITOR.free );
+	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORES.editor );
 };
