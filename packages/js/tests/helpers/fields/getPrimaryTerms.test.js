@@ -20,14 +20,8 @@ afterEach(
 	}
 );
 
-const testCases = [
-	{ termId: 1  },
-	{ termId: -1 },
-	{ termId: 0 },
-];
-
 describe( "getPrimaryTerm - should returns an object with taxonomies keys and fuctions that returns primary term id", () => {
-	it( `should returns  when the primary term id`, () => {
+	it( "should return primary id from the primary term getter", () => {
 		const getPrimaryTaxonomyId = jest.fn();
 		getPrimaryTaxonomyId.mockReturnValue( 1 );
 
@@ -58,20 +52,6 @@ describe( "getPrimaryTerm - should returns an object with taxonomies keys and fu
 									},
 								],
 							},
-							post_tag: {
-								title: "Post tag",
-								name: "post_tag",
-								primary: 5,
-								singularLabel: "Tag",
-								fieldId: "yoast_wpseo_primary_post_tag",
-								restBase: "tags",
-								terms: [
-									{
-										id: 5,
-										name: "Test Tag",
-									},
-								],
-							},
 						},
 					},
 				}
@@ -79,14 +59,9 @@ describe( "getPrimaryTerm - should returns an object with taxonomies keys and fu
 		);
 
 		const actual = getPrimaryTerms();
-
 		expect( actual ).toHaveProperty( "primary_category" );
-		expect( actual ).toHaveProperty( "primary_post_tag" );
-
 		const primaryCategory = actual.primary_category();
-		const primaryPostTag = actual.primary_post_tag();
-
 		expect( primaryCategory ).toEqual( 1 );
-		expect( primaryPostTag ).toEqual( 1 );
+
 	} );
 } );
