@@ -4,9 +4,9 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
-    "build": "cd ../.. && wp-scripts build --config config/webpack/webpack.config.js",
+    "build": "cd ../.. && yarn wp-scripts build --config config/webpack/webpack.config.js",
     "test": "jest",
-    "lint": "eslint src tests --max-warnings=59"
+    "lint": "eslint . --max-warnings=59"
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
@@ -30,7 +30,7 @@
     "@wordpress/rich-text": "^7.0.2",
     "@wordpress/server-side-render": "^1.21.1",
     "@wordpress/url": "^3.17.0",
-    "@yoast/analysis-report": "^1.21.0",
+    "@yoast/analysis-report": "^2.0.0-alpha.0",
     "@yoast/components": "^3.0.0-alpha.0",
     "@yoast/feature-flag": "^0.6.0-alpha.0",
     "@yoast/helpers": "^0.17.0-alpha.0",
@@ -90,6 +90,7 @@
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.34.1",
     "jest": "^27.5.1",
+    "jest-environment-jsdom": "^27.5.1",
     "jest-styled-components": "^7.0.3",
     "raf": "^3.4.1",
     "react": "^18.2.0",
