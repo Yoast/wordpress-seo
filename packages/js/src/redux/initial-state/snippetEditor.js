@@ -22,19 +22,17 @@ const getSlug = () => {
 		return editorSelectors.getCurrentPostAttribute( "slug" );
 	}
 
-	var url = "";
-  
-	var newPostSlug = document.getElementById( "new-post-slug" );
-	if ( newPostSlug ) {
-		url = newPostSlug.val();
-	} else if ( document.getElementById( "editable-post-name-full" ) !== null ) {
-		url = document.getElementById( "editable-post-name-full" ).textContent;
-	}else if ( document.getElementById( "yoast_wpseo_slug" ) !== null ) {
-		// Get the slug from hidden fields in elementor editor.
-		url = document.getElementById( "yoast_wpseo_slug" ).value;
-	}
+	const newPostSlug = document.getElementById( "new-post-slug" );
+	const postSlug = document.getElementById( "editable-post-name-full" );
+	const elementorSlugInput = document.getElementById( "yoast_wpseo_slug" );
 
-	return url;
+	if ( newPostSlug ) {
+		return newPostSlug.val();
+	} else if ( postSlug !== null ) {
+		return postSlug.textContent;
+	} else if ( elementorSlugInput ) {
+		return elementorSlugInput.value;
+	}
 };
 
 export const snippetEditorInitialState = {

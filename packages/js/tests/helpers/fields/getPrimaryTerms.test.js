@@ -62,6 +62,5 @@ describe( "getPrimaryTerm - should returns an object with taxonomies keys and fu
 		expect( actual ).toHaveProperty( "primary_category" );
 		const primaryCategory = actual.primary_category();
 		expect( primaryCategory ).toEqual( 1 );
-
 	} );
 } );

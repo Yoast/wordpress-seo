@@ -24,7 +24,7 @@ const initialState = {
 	insights: {
 		estimatedReadingTime: Number( get( window, "wpseoScriptData.metabox.metadata.estimated-reading-time-minutes", 0 ) ),
 		textLength: {},
-	}
+	},
 };
 
 export default initialState;

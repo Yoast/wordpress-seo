@@ -9,8 +9,8 @@ import { STORES } from "../../shared-admin/constants";
  */
 export const getPrimaryTerms = () => {
 	const primaryTerms = get( window, "wpseoPrimaryCategoryL10n.taxonomies", {} );
-	return reduce(primaryTerms, (acc, value, key) => {
-		acc[`primary_${key}`] = () => select(STORES.editor).getPrimaryTaxonomyId(key);
+	return reduce( primaryTerms, ( acc, value, key ) => {
+		acc[ `primary_${key}` ] = () => select( STORES.editor ).getPrimaryTaxonomyId( key );
 		return acc;
-	  }, {});
+	  }, {} );
 };
