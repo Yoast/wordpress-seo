@@ -1,4 +1,4 @@
-import { flatten, isUndefined, uniq } from "lodash-es";
+import { flatten, isUndefined, uniq } from "lodash";
 import { getSubheadings } from "./getSubheadings";
 
 /**

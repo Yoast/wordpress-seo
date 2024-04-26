@@ -3,7 +3,7 @@ import getSentences from "../helpers/sentence/getSentences";
 import stripSpaces from "../helpers/sanitize/stripSpaces.js";
 import { stripFullTags as stripTags } from "../helpers/sanitize/stripHTMLTags.js";
 
-import { filter, forEach, isEmpty } from "lodash-es";
+import { filter, forEach, isEmpty } from "lodash";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
 import { filterShortcodesFromHTML } from "../helpers";
 

@@ -1,5 +1,5 @@
 // Lodash imports.
-import { filter, flatMap, isEmpty, negate } from "lodash-es";
+import { filter, flatMap, isEmpty, negate } from "lodash";
 
 // Internal dependencies.
 import { getBlocks } from "../html/html.js";

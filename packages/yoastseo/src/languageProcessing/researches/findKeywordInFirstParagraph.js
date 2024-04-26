@@ -2,7 +2,7 @@
 
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
 
-import { isEmpty } from "lodash-es";
+import { isEmpty } from "lodash";
 
 /**
  * Checks if the introductory paragraph contains keyphrase or synonyms.

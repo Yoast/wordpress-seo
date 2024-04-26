@@ -60,6 +60,7 @@ overrides:
       react/no-unused-prop-types: 1
       react/no-access-state-in-setstate: 1
       react/no-unused-state: 1
+      react/no-deprecated: 0
       react/jsx-no-bind: 1
       react/jsx-no-target-blank: 1
       react/require-default-props: 1

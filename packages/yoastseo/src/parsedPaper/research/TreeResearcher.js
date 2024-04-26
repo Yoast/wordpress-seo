@@ -1,4 +1,4 @@
-import { get, has } from "lodash-es";
+import { get, has } from "lodash";
 
 /**
  * This contains all possible, default researches

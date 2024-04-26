@@ -1,4 +1,4 @@
-import { forEach } from "lodash-es";
+import { forEach } from "lodash";
 import ContentAssessor from "../../../../src/scoring/assessors/storePostsAndPages/contentAssessor.js";
 import AssessmentResult from "../../../../src/values/AssessmentResult.js";
 import Paper from "../../../../src/values/Paper.js";

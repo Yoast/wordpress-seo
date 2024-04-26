@@ -1,4 +1,4 @@
-import { isNaN } from "lodash-es";
+import { isNaN } from "lodash";
 
 import { normalize as normalizeQuotes } from "../../../../helpers/sanitize/quotes.js";
 import SentenceTokenizer from "../../../../helpers/sentence/SentenceTokenizer";

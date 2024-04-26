@@ -14,7 +14,7 @@ import TextPresence from "../assessments/readability/TextPresenceAssessment.js";
 
 import scoreToRating from "../interpreters/scoreToRating";
 
-import { map, sum } from "lodash-es";
+import { map, sum } from "lodash";
 
 /**
  * Creates the Assessor
